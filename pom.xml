@@ -193,7 +193,7 @@
 
     <jgit-last-release-version>4.2.0.201601211800-r</jgit-last-release-version>
     <jsch-version>0.1.53</jsch-version>
-    <javaewah-version>0.7.9</javaewah-version>
+    <javaewah-version>1.1.6</javaewah-version>
     <junit-version>4.12</junit-version>
     <test-fork-count>1C</test-fork-count>
     <args4j-version>2.0.15</args4j-version>

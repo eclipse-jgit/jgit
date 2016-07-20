@@ -2,6 +2,7 @@ target "jgit-4.5" with source configurePhase
 
 include "projects/jetty-9.2.13.tpd"
 include "orbit/R20160221192158-Mars.tpd"
+include "orbit/S20161021172207-Oxygen.tpd"
 
 location "http://download.eclipse.org/releases/mars/" {
 	org.eclipse.osgi lazy

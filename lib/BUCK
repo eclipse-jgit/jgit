@@ -9,11 +9,11 @@ maven_jar(
 
 maven_jar(
   name = 'javaewah',
-  bin_sha1 = 'eceaf316a8faf0e794296ebe158ae110c7d72a5a',
-  src_sha1 = 'a50d78eb630e05439461f3130b94b3bcd1ea6f03',
+  bin_sha1 = '94ad16d728b374d65bd897625f3fbb3da223a2b6',
+  src_sha1 = 'ca2745e91c6a51f8e6809d1579bda36ad83f1f58',
   group = 'com.googlecode.javaewah',
   artifact = 'JavaEWAH',
-  version = '0.7.9',
+  version = '1.1.6',
 )
 
 maven_jar(
