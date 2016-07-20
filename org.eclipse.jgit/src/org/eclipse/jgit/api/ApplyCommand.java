@@ -42,6 +42,10 @@
  */
 package org.eclipse.jgit.api;
 
+import static org.eclipse.jgit.internal.storage.zlib.ZlibSupport.inflate;
+import static org.eclipse.jgit.util.Base85.decode85;
+import static org.eclipse.jgit.util.RawParseUtils.nextLF;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
@@ -60,6 +64,7 @@ import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.patch.BinaryHunk;
 import org.eclipse.jgit.patch.FileHeader;
 import org.eclipse.jgit.patch.HunkHeader;
 import org.eclipse.jgit.patch.Patch;
@@ -109,8 +114,7 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 	 * @throws PatchFormatException
 	 * @throws PatchApplyException
 	 */
-	public ApplyResult call() throws GitAPIException, PatchFormatException,
-			PatchApplyException {
+	public ApplyResult call() throws GitAPIException, PatchFormatException, PatchApplyException {
 		checkCallable();
 		ApplyResult r = new ApplyResult();
 		try {
@@ -137,26 +141,22 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 				case DELETE:
 					f = getFile(fh.getOldPath(), false);
 					if (!f.delete())
-						throw new PatchApplyException(MessageFormat.format(
-								JGitText.get().cannotDeleteFile, f));
+						throw new PatchApplyException(MessageFormat.format(JGitText.get().cannotDeleteFile, f));
 					break;
 				case RENAME:
 					f = getFile(fh.getOldPath(), false);
 					File dest = getFile(fh.getNewPath(), false);
 					try {
-						FileUtils.rename(f, dest,
-								StandardCopyOption.ATOMIC_MOVE);
+						FileUtils.rename(f, dest, StandardCopyOption.ATOMIC_MOVE);
 					} catch (IOException e) {
-						throw new PatchApplyException(MessageFormat.format(
-								JGitText.get().renameFileFailed, f, dest), e);
+						throw new PatchApplyException(MessageFormat.format(JGitText.get().renameFileFailed, f, dest),
+								e);
 					}
 					break;
 				case COPY:
 					f = getFile(fh.getOldPath(), false);
 					byte[] bs = IO.readFully(f);
-					FileOutputStream fos = new FileOutputStream(getFile(
-							fh.getNewPath(),
-							true));
+					FileOutputStream fos = new FileOutputStream(getFile(fh.getNewPath(), true));
 					try {
 						fos.write(bs);
 					} finally {
@@ -166,15 +166,13 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 				r.addUpdatedFile(f);
 			}
 		} catch (IOException e) {
-			throw new PatchApplyException(MessageFormat.format(
-					JGitText.get().patchApplyException, e.getMessage()), e);
+			throw new PatchApplyException(MessageFormat.format(JGitText.get().patchApplyException, e.getMessage()), e);
 		}
 		setCallable(false);
 		return r;
 	}
 
-	private File getFile(String path, boolean create)
-			throws PatchApplyException {
+	private File getFile(String path, boolean create) throws PatchApplyException {
 		File f = new File(getRepository().getWorkTree(), path);
 		if (create)
 			try {
@@ -182,20 +180,65 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 				FileUtils.mkdirs(parent, true);
 				FileUtils.createNewFile(f);
 			} catch (IOException e) {
-				throw new PatchApplyException(MessageFormat.format(
-						JGitText.get().createNewFileFailed, f), e);
+				throw new PatchApplyException(MessageFormat.format(JGitText.get().createNewFileFailed, f), e);
 			}
 		return f;
 	}
 
-	/**
-	 * @param f
-	 * @param fh
-	 * @throws IOException
-	 * @throws PatchApplyException
-	 */
-	private void apply(File f, FileHeader fh)
-			throws IOException, PatchApplyException {
+	private int resolveDecodedLength(int lengthByte) throws PatchApplyException {
+		if (lengthByte <= 122 && lengthByte >= 97) {
+			return lengthByte - 70;
+		} else if (lengthByte <= 90 && lengthByte >= 65) {
+			return lengthByte - 64;
+		} else {
+			throw new PatchApplyException("Invalid length found: " + lengthByte); //$NON-NLS-1$
+		}
+	}
+
+	private int calcTotalBinaryDecodedLength(byte[] buf, int ptr) throws PatchApplyException {
+		int total = 0;
+		while (buf[ptr] != '\n') {
+			int sizeChar = buf[ptr++];
+			total += resolveDecodedLength(sizeChar);
+			ptr = nextLF(buf, ptr);
+		}
+		return total;
+	}
+
+	private void applyBinaryPatch(File f, FileHeader fh) throws PatchApplyException {
+		if (fh.getChangeType() != ChangeType.ADD) {
+			throw new PatchApplyException("Only addition of new binary files is implemented"); //$NON-NLS-1$
+		}
+
+		BinaryHunk forwardBinaryHunk = fh.getForwardBinaryHunk();
+		byte[] buf = forwardBinaryHunk.getBuffer();
+		int bufPos = forwardBinaryHunk.getStartOffset();
+
+		int totalDecodedSize = calcTotalBinaryDecodedLength(buf, bufPos);
+		byte[] allDecodedBytes = new byte[totalDecodedSize];
+		int decPos = 0;
+
+		// jump to data
+		bufPos = nextLF(buf, bufPos);
+		while (buf[bufPos] != '\n') {
+			int decodedLineLength = resolveDecodedLength(buf[bufPos++]);
+			int nextLF = nextLF(buf, bufPos);
+			byte[] decodedLine = decode85(buf, bufPos, nextLF - bufPos - 1, decodedLineLength);
+			System.arraycopy(decodedLine, 0, allDecodedBytes, decPos, decodedLineLength);
+			decPos += decodedLineLength;
+			bufPos = nextLF;
+		}
+
+		byte[] inflated = inflate(allDecodedBytes, forwardBinaryHunk.getSize());
+
+		try (FileOutputStream fos = new FileOutputStream(f)) {
+			fos.write(inflated);
+		} catch (IOException ioe) {
+			throw new PatchApplyException("Unable to write data to file", ioe); //$NON-NLS-1$
+		}
+	}
+
+	private void applyTextPatch(File f, FileHeader fh) throws IOException, PatchApplyException {
 		RawText rt = new RawText(f);
 		List<String> oldLines = new ArrayList<String>(rt.size());
 		for (int i = 0; i < rt.size(); i++)
@@ -204,8 +247,7 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 		for (HunkHeader hh : fh.getHunks()) {
 
 			byte[] b = new byte[hh.getEndOffset() - hh.getStartOffset()];
-			System.arraycopy(hh.getBuffer(), hh.getStartOffset(), b, 0,
-					b.length);
+			System.arraycopy(hh.getBuffer(), hh.getStartOffset(), b, 0, b.length);
 			RawText hrt = new RawText(b);
 
 			List<String> hunkLines = new ArrayList<String>(hrt.size());
@@ -216,10 +258,8 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 				String hunkLine = hunkLines.get(j);
 				switch (hunkLine.charAt(0)) {
 				case ' ':
-					if (!newLines.get(hh.getNewStartLine() - 1 + pos).equals(
-							hunkLine.substring(1))) {
-						throw new PatchApplyException(MessageFormat.format(
-								JGitText.get().patchApplyException, hh));
+					if (!newLines.get(hh.getNewStartLine() - 1 + pos).equals(hunkLine.substring(1))) {
+						throw new PatchApplyException(MessageFormat.format(JGitText.get().patchApplyException, hh));
 					}
 					pos++;
 					break;
@@ -227,17 +267,14 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 					if (hh.getNewStartLine() == 0) {
 						newLines.clear();
 					} else {
-						if (!newLines.get(hh.getNewStartLine() - 1 + pos)
-								.equals(hunkLine.substring(1))) {
-							throw new PatchApplyException(MessageFormat.format(
-									JGitText.get().patchApplyException, hh));
+						if (!newLines.get(hh.getNewStartLine() - 1 + pos).equals(hunkLine.substring(1))) {
+							throw new PatchApplyException(MessageFormat.format(JGitText.get().patchApplyException, hh));
 						}
 						newLines.remove(hh.getNewStartLine() - 1 + pos);
 					}
 					break;
 				case '+':
-					newLines.add(hh.getNewStartLine() - 1 + pos,
-							hunkLine.substring(1));
+					newLines.add(hh.getNewStartLine() - 1 + pos, hunkLine.substring(1));
 					pos++;
 					break;
 				}
@@ -251,7 +288,8 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 			return; // don't touch the file
 		StringBuilder sb = new StringBuilder();
 		for (String l : newLines) {
-			// don't bother handling line endings - if it was windows, the \r is
+			// don't bother handling line endings - if it was windows, the
+			// \r is
 			// still there!
 			sb.append(l).append('\n');
 		}
@@ -261,6 +299,14 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 		FileWriter fw = new FileWriter(f);
 		fw.write(sb.toString());
 		fw.close();
+	}
+
+	private void apply(File f, FileHeader fh) throws IOException, PatchApplyException {
+		if (fh.getPatchType() == FileHeader.PatchType.GIT_BINARY) {
+			applyBinaryPatch(f, fh);
+		} else {
+			applyTextPatch(f, fh);
+		}
 
 		getRepository().getFS().setExecute(f, fh.getNewMode() == FileMode.EXECUTABLE_FILE);
 	}
@@ -277,7 +323,6 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 	private boolean isNoNewlineAtEndOfFile(FileHeader fh) {
 		HunkHeader lastHunk = fh.getHunks().get(fh.getHunks().size() - 1);
 		RawText lhrt = new RawText(lastHunk.getBuffer());
-		return lhrt.getString(lhrt.size() - 1).equals(
-				"\\ No newline at end of file"); //$NON-NLS-1$
+		return lhrt.getString(lhrt.size() - 1).equals("\\ No newline at end of file"); //$NON-NLS-1$
 	}
 }
