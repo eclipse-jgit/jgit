@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_5bd9509b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushOptionsTest.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-07-21T16:26:16Z",
+      "side": 1,
+      "message": "\"updates\" is unused, here and in other tests.",
+      "range": {
+        "startLine": 149,
+        "startChar": 0,
+        "endLine": 152,
+        "endChar": 4
+      },
+      "revId": "7030ca49d634908faee16a88964f1ef9b5583b27",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_de88ee30",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushOptionsTest.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-07-21T16:26:16Z",
+      "side": 1,
+      "message": "Is the RemoteConfig being set up the same way in every test? If so please factor that out into a helper function so it is clear that this isn\u0027t one of the parameters under test.",
+      "range": {
+        "startLine": 246,
+        "startChar": 0,
+        "endLine": 252,
+        "endChar": 17
+      },
+      "revId": "7030ca49d634908faee16a88964f1ef9b5583b27",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_3e31eaf0",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushOptionsTest.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-07-21T16:26:16Z",
+      "side": 1,
+      "message": "This can also be factored out to a helper since it isn\u0027t one of the parameters under test.",
+      "range": {
+        "startLine": 258,
+        "startChar": 0,
+        "endLine": 260,
+        "endChar": 65
+      },
+      "revId": "7030ca49d634908faee16a88964f1ef9b5583b27",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_5ea5beb4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushOptionsTest.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-07-21T16:26:16Z",
+      "side": 1,
+      "message": "If this command is expected to throw an exception then the following lines are a bit misleading. Maybe drop them and append this line with \"// expect TransportException here\"",
+      "range": {
+        "startLine": 388,
+        "startChar": 0,
+        "endLine": 388,
+        "endChar": 22
+      },
+      "revId": "7030ca49d634908faee16a88964f1ef9b5583b27",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
