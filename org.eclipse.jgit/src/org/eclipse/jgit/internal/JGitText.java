@@ -404,6 +404,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String invalidLineInConfigFile;
 	/***/ public String invalidModeFor;
 	/***/ public String invalidModeForPath;
+	/***/ public String invalidNameExpandWildcard;
 	/***/ public String invalidObject;
 	/***/ public String invalidOldIdSent;
 	/***/ public String invalidPacketLineHeader;
