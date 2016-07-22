@@ -45,6 +45,7 @@ package org.eclipse.jgit.lfs.server.fs;
 import static org.junit.Assert.assertEquals;
 
 import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -186,8 +187,21 @@ public abstract class LfsServerTest {
 		StatusLine statusLine = response.getStatusLine();
 		int status = statusLine.getStatusCode();
 		if (statusLine.getStatusCode() >= 400) {
-			throw new RuntimeException("Status: " + status + " "
-					+ statusLine.getReasonPhrase());
+			String error;
+			try {
+				BufferedInputStream bis = new BufferedInputStream(
+						response.getEntity().getContent());
+				ByteArrayOutputStream buf = new ByteArrayOutputStream();
+				int result = bis.read();
+				while (result != -1) {
+					buf.write((byte) result);
+					result = bis.read();
+				}
+				error = buf.toString();
+			} catch (IOException e) {
+				error = statusLine.getReasonPhrase();
+			}
+			throw new RuntimeException("Status: " + status + " " + error);
 		}
 		assertEquals(200, status);
 	}
