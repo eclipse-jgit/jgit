@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_a52085a4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushOptionsTest.java",
+        "patchSetId": 47
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 81548
+      },
+      "writtenOn": "2016-07-22T22:21:12Z",
+      "side": 1,
+      "message": "I think we\u0027re a bit out of sync now. If you refer to patch set 48 (the latest one), is that what you\u0027re looking for?",
+      "parentUuid": "27af2791_4a76d84a",
+      "range": {
+        "startLine": 250,
+        "startChar": 0,
+        "endLine": 253,
+        "endChar": 17
+      },
+      "revId": "5aca84f209ddacaabd92ea002b1aab7d8d42ed98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_4abc18b2",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushOptionsTest.java",
         "patchSetId": 47
