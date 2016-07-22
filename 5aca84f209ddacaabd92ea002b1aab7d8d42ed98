@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_4a76d84a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushOptionsTest.java",
+        "patchSetId": 47
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-07-22T19:40:27Z",
+      "side": 1,
+      "message": "The \"Git git\" variable -\u003e \"Git local\" and \"Git git2\" -\u003e \"Git remote\".  That makes the following lines read:\n\nconnectLocalToRemote(local, remote);\nRevCommit commit \u003d addCommit(local);\nPushCommand pushCommand local.push()...\nassertEquals(commit.getId(), remote.getRepository()...",
+      "parentUuid": "27af2791_0a230066",
+      "range": {
+        "startLine": 250,
+        "startChar": 0,
+        "endLine": 253,
+        "endChar": 17
+      },
+      "revId": "5aca84f209ddacaabd92ea002b1aab7d8d42ed98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_4abc18b2",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushOptionsTest.java",
         "patchSetId": 47
