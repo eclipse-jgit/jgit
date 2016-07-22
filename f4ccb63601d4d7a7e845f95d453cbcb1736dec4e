@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_d498cdfe",
+        "filename": "org.eclipse.jgit.lfs.server.test/tst/org/eclipse/jgit/lfs/server/fs/DownloadTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-07-22T08:15:54Z",
+      "side": 1,
+      "message": "This doesn\u0027t look correct to me, but that\u0027s what it returns and the test passes.",
+      "range": {
+        "startLine": 97,
+        "startChar": 43,
+        "endLine": 97,
+        "endChar": 47
+      },
+      "revId": "f4ccb63601d4d7a7e845f95d453cbcb1736dec4e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
