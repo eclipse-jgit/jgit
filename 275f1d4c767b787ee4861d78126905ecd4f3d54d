@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_0a02207d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-07-22T18:38:10Z",
+      "side": 1,
+      "message": "does not require matching",
+      "range": {
+        "startLine": 408,
+        "startChar": 16,
+        "endLine": 408,
+        "endChar": 36
+      },
+      "revId": "275f1d4c767b787ee4861d78126905ecd4f3d54d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_2af60403",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-07-22T18:38:10Z",
+      "side": 1,
+      "message": "likewise",
+      "range": {
+        "startLine": 440,
+        "startChar": 16,
+        "endLine": 440,
+        "endChar": 36
+      },
+      "revId": "275f1d4c767b787ee4861d78126905ecd4f3d54d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_4af33811",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-07-22T18:38:10Z",
+      "side": 1,
+      "message": "likewise",
+      "range": {
+        "startLine": 460,
+        "startChar": 16,
+        "endLine": 460,
+        "endChar": 36
+      },
+      "revId": "275f1d4c767b787ee4861d78126905ecd4f3d54d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_6af0fc03",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-07-22T18:38:10Z",
+      "side": 1,
+      "message": "likewise",
+      "range": {
+        "startLine": 491,
+        "startChar": 16,
+        "endLine": 491,
+        "endChar": 36
+      },
+      "revId": "275f1d4c767b787ee4861d78126905ecd4f3d54d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
