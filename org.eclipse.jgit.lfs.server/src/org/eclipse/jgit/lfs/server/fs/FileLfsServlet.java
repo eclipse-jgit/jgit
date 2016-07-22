@@ -43,6 +43,7 @@
 package org.eclipse.jgit.lfs.server.fs;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.MessageFormat;
 
 import javax.servlet.AsyncContext;
@@ -58,6 +59,10 @@ import org.eclipse.jgit.lfs.lib.AnyLongObjectId;
 import org.eclipse.jgit.lfs.lib.Constants;
 import org.eclipse.jgit.lfs.lib.LongObjectId;
 import org.eclipse.jgit.lfs.server.internal.LfsServerText;
+
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 /**
  * Servlet supporting upload and download of large objects as defined by the
@@ -75,6 +80,8 @@ public class FileLfsServlet extends HttpServlet {
 	private final FileLfsRepository repository;
 
 	private final long timeout;
+
+	private static Gson gson = createGson();
 
 	/**
 	 * @param repository
@@ -106,7 +113,8 @@ public class FileLfsServlet extends HttpServlet {
 		if (obj != null) {
 			if (repository.getSize(obj) == -1) {
 				sendError(rsp, HttpStatus.SC_NOT_FOUND, MessageFormat
-						.format(LfsServerText.get().objectNotFound, obj));
+						.format(LfsServerText.get().objectNotFound,
+								obj.getName()));
 				return;
 			}
 			AsyncContext context = req.startAsync();
@@ -157,11 +165,29 @@ public class FileLfsServlet extends HttpServlet {
 		}
 	}
 
+	static class Error {
+		String message;
+
+		Error(String m) {
+			this.message = m;
+		}
+	}
+
 	static void sendError(HttpServletResponse rsp, int status, String message)
 			throws IOException {
 		rsp.setStatus(status);
-		// TODO return message in response body in json format as specified in
-		// https://github.com/github/git-lfs/blob/master/docs/api/v1/http-v1-batch.md
+		PrintWriter writer = rsp.getWriter();
+		gson.toJson(new Error(message), writer);
+		writer.flush();
+		writer.close();
 		rsp.flushBuffer();
+	}
+
+	private static Gson createGson() {
+		GsonBuilder gb = new GsonBuilder()
+				.setFieldNamingPolicy(
+						FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+				.setPrettyPrinting().disableHtmlEscaping();
+		return gb.create();
 	}
 }
