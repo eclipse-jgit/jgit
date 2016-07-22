@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_b45a7954",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-07-22T00:33:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_14f7a5c7",
+      "range": {
+        "startLine": 119,
+        "startChar": 12,
+        "endLine": 119,
+        "endChar": 19
+      },
+      "revId": "16fcb7497f0dad183d03503b22ad13b40d4988e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_34f4a9c0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2016-07-22T00:16:24Z",
       "side": 1,
       "message": "nit: extra s",
+      "range": {
+        "startLine": 127,
+        "startChar": 18,
+        "endLine": 127,
+        "endChar": 20
+      },
+      "revId": "16fcb7497f0dad183d03503b22ad13b40d4988e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_d45fed43",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-07-22T00:33:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_34f4a9c0",
       "range": {
         "startLine": 127,
         "startChar": 18,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_f464f116",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-07-22T00:33:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_54011d3c",
+      "range": {
+        "startLine": 128,
+        "startChar": 52,
+        "endLine": 128,
+        "endChar": 75
+      },
+      "revId": "16fcb7497f0dad183d03503b22ad13b40d4988e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_74fe21a2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
         "patchSetId": 2
@@ -82,6 +154,30 @@
       "writtenOn": "2016-07-22T00:16:24Z",
       "side": 1,
       "message": "extra s",
+      "range": {
+        "startLine": 134,
+        "startChar": 50,
+        "endLine": 134,
+        "endChar": 52
+      },
+      "revId": "16fcb7497f0dad183d03503b22ad13b40d4988e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_146965ec",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-07-22T00:33:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_74fe21a2",
       "range": {
         "startLine": 134,
         "startChar": 50,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_7470e1ca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-07-22T00:33:32Z",
+      "side": 1,
+      "message": "deleted the comment.\n\nI think checking again for (!isWildcard(src) || !isWildcard(dst))) is redundant, as we only end up here if one of both is true (or false).\nbecause of the condition above with the \u0026\u0026.",
+      "parentUuid": "27af2791_942ad5b3",
+      "range": {
+        "startLine": 159,
+        "startChar": 0,
+        "endLine": 160,
+        "endChar": 25
+      },
+      "revId": "16fcb7497f0dad183d03503b22ad13b40d4988e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_d4244de8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
         "patchSetId": 2
@@ -128,6 +248,24 @@
       "writtenOn": "2016-07-22T00:16:24Z",
       "side": 1,
       "message": "Can decrease nesting by reversing the \u0027if\u0027:\n\n  if (!allowMismatch) {\n    throw ...;\n  }\n  wildcard \u003d true;",
+      "revId": "16fcb7497f0dad183d03503b22ad13b40d4988e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_943c95f0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-07-22T00:33:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_d4244de8",
       "revId": "16fcb7497f0dad183d03503b22ad13b40d4988e3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -168,6 +306,24 @@
     },
     {
       "key": {
+        "uuid": "27af2791_b4419964",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-07-22T00:33:32Z",
+      "side": 1,
+      "message": "This is implemented due to your prior comment: \n expandFromSource and expandFromDestination don\u0027t make sense in this mode. Perhaps they need a checkState.\n\nThis is what we do as it allows to be precise in case allowMismatchedWildcards is true but we are still holding it right for this?",
+      "parentUuid": "27af2791_141ec597",
+      "revId": "16fcb7497f0dad183d03503b22ad13b40d4988e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_341bc9a7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
         "patchSetId": 2
@@ -179,6 +335,24 @@
       "writtenOn": "2016-07-22T00:16:24Z",
       "side": 1,
       "message": "Unrelated change?",
+      "revId": "16fcb7497f0dad183d03503b22ad13b40d4988e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_d4360d0c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-07-22T00:33:32Z",
+      "side": 1,
+      "message": "see above.",
+      "parentUuid": "27af2791_341bc9a7",
       "revId": "16fcb7497f0dad183d03503b22ad13b40d4988e3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
