@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "27af2791_94f9f590",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 4
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-07-22T01:15:13Z",
+      "side": 1,
+      "message": "Please also add a note about this to the javadocs of the relevant methods (e.g. a @throws).",
+      "parentUuid": "27af2791_f48dd13e",
+      "revId": "92263f5d1f0e509d97e0753bb012415b81cc760e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_1482450c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
         "patchSetId": 4
