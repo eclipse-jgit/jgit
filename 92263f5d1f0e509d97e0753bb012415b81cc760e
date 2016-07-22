@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_f48dd13e",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 4
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-07-22T01:12:20Z",
+      "side": 1,
+      "message": "This can probably be phrased more strongly. For example,\n\n ExpandFromSource on a refspec that can have mismatched wildcards does not make sense\n\nBTW, I never understood why jgit marks this kind of internal exception for translation.",
+      "revId": "92263f5d1f0e509d97e0753bb012415b81cc760e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_1482450c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-07-22T01:12:20Z",
+      "side": 1,
+      "message": "effective java sayeth:\n\n Prefer two-element enum types to boolean parameters. It\n makes your code easier to read and to write, especially\n if you’re using an IDE that supports autocompletion. Also,\n it makes it easy to add more options later.\n\nSo I suppose we should do that.",
+      "revId": "92263f5d1f0e509d97e0753bb012415b81cc760e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_547cbd90",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-07-22T01:12:20Z",
+      "side": 1,
+      "message": "This would be equally convenient when !allowMismatchedWildcards, but alas it would be an API change.\n\nSo I think it would be more consistent for the caller to be responsible for handling this. (Or in a followup change to have a method that sets the destination from src if unset, to make this more convenient.)",
+      "range": {
+        "startLine": 373,
+        "startChar": 0,
+        "endLine": 375,
+        "endChar": 3
+      },
+      "revId": "92263f5d1f0e509d97e0753bb012415b81cc760e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
