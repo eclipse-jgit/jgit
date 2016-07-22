@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_d40d2d78",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/RefSpecTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-07-22T00:07:25Z",
+      "side": 1,
+      "message": "This is invalid before the change because LHS has a wildcard and RHS does not.",
+      "revId": "d2e30a37da6cca074ffd675555fcf492ac408190",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
