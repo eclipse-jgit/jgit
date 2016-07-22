@@ -94,7 +94,7 @@ class TransportBundleFile extends Transport implements TransportBundle {
 		public Transport open(URIish uri, Repository local, String remoteName)
 				throws NotSupportedException, TransportException {
 			if ("bundle".equals(uri.getScheme())) { //$NON-NLS-1$
-				File path = local.getFS().resolve(new File("."), uri.getPath()); //$NON-NLS-1$
+				File path = FS.DETECTED.resolve(new File("."), uri.getPath()); //$NON-NLS-1$
 				return new TransportBundleFile(local, uri, path);
 			}
 
