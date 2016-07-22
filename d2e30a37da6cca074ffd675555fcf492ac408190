@@ -16,6 +16,24 @@
       "revId": "d2e30a37da6cca074ffd675555fcf492ac408190",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_7415416e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/RefSpecTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-07-22T00:25:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_d40d2d78",
+      "revId": "d2e30a37da6cca074ffd675555fcf492ac408190",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
