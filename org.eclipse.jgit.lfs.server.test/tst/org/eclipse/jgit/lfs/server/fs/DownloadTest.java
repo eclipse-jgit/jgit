@@ -80,7 +80,7 @@ public class DownloadTest extends LfsServerTest {
 		} catch (RuntimeException e) {
 			String error = String.format(
 					"Invalid pathInfo '/%s' does not match '/{SHA-256}'", id);
-			assertEquals(formatErrorMessage(400, error), e.getMessage());
+			assertEquals(formatErrorMessage(422, error), e.getMessage());
 		}
 	}
 
@@ -95,7 +95,7 @@ public class DownloadTest extends LfsServerTest {
 			fail("expected RuntimeException");
 		} catch (RuntimeException e) {
 			String error = String.format("Invalid id: : %s", id);
-			assertEquals(formatErrorMessage(400, error), e.getMessage());
+			assertEquals(formatErrorMessage(422, error), e.getMessage());
 		}
 	}
 
