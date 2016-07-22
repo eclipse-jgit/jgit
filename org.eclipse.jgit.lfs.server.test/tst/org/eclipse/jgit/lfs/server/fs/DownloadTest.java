@@ -78,7 +78,7 @@ public class DownloadTest extends LfsServerTest {
 			getContent(id.name().substring(0, 60), f);
 			fail("expected RuntimeException");
 		} catch (RuntimeException e) {
-			assertEquals("Status: 400 Bad Request",
+			assertEquals("Status: 422 Unprocessable Entity",
 					e.getMessage());
 		}
 	}
@@ -93,7 +93,7 @@ public class DownloadTest extends LfsServerTest {
 			getContent(id.name().replace('f', 'z'), f);
 			fail("expected RuntimeException");
 		} catch (RuntimeException e) {
-			assertEquals("Status: 400 Bad Request",
+			assertEquals("Status: 422 Unprocessable Entity",
 					e.getMessage());
 		}
 	}

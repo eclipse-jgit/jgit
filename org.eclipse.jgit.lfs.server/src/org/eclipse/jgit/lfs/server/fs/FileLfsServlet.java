@@ -121,14 +121,14 @@ public class FileLfsServlet extends HttpServlet {
 			HttpServletResponse rsp) throws IOException {
 		String info = req.getPathInfo();
 		if (info.length() != 1 + Constants.LONG_OBJECT_ID_STRING_LENGTH) {
-			sendError(rsp, HttpStatus.SC_BAD_REQUEST, MessageFormat
+			sendError(rsp, HttpStatus.SC_UNPROCESSABLE_ENTITY, MessageFormat
 					.format(LfsServerText.get().invalidPathInfo, info));
 			return null;
 		}
 		try {
 			return LongObjectId.fromString(info.substring(1, 65));
 		} catch (InvalidLongObjectIdException e) {
-			sendError(rsp, HttpStatus.SC_BAD_REQUEST, e.getMessage());
+			sendError(rsp, HttpStatus.SC_UNPROCESSABLE_ENTITY, e.getMessage());
 			return null;
 		}
 	}
