@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_b407d98e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-07-22T08:34:27Z",
+      "side": 1,
+      "message": "Gerrit\u0027s",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 7
+      },
+      "revId": "02d4a1bc06f906528d4719e3df7c67ee5262a929",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_d4fc4de7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-07-22T08:34:27Z",
+      "side": 1,
+      "message": "\"Specifically\"?",
+      "range": {
+        "startLine": 13,
+        "startChar": 45,
+        "endLine": 13,
+        "endChar": 54
+      },
+      "revId": "02d4a1bc06f906528d4719e3df7c67ee5262a929",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_f4015179",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-07-22T08:34:27Z",
+      "side": 1,
+      "message": "\"ref specs\" or \"RefSpecs\"?",
+      "range": {
+        "startLine": 19,
+        "startChar": 60,
+        "endLine": 19,
+        "endChar": 70
+      },
+      "revId": "02d4a1bc06f906528d4719e3df7c67ee5262a929",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
