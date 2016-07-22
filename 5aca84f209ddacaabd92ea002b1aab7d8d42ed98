@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_2abfe4a8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushOptionsTest.java",
+        "patchSetId": 47
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-07-22T16:20:17Z",
+      "side": 1,
+      "message": "\"constructConfig\" doesn\u0027t convey much meaning. The returned value also isn\u0027t used after config.save(), so I\u0027d suggest a single \"void connectLocalToRemote(Git local, Git remote)\" helper function (which can be static).\n\nAlso s/git/local/ and s/git2/remote/ would improve readability.",
+      "range": {
+        "startLine": 250,
+        "startChar": 0,
+        "endLine": 253,
+        "endChar": 17
+      },
+      "revId": "5aca84f209ddacaabd92ea002b1aab7d8d42ed98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_4abc18b2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushOptionsTest.java",
+        "patchSetId": 47
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-07-22T16:20:17Z",
+      "side": 1,
+      "message": "nit: This method is actually adding the commit to the repo, so \"addCommit\" is more descriptive.",
+      "range": {
+        "startLine": 259,
+        "startChar": 22,
+        "endLine": 259,
+        "endChar": 33
+      },
+      "revId": "5aca84f209ddacaabd92ea002b1aab7d8d42ed98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
