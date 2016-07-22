@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_aa9e94e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-07-22T18:11:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_b407d98e",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 7
+      },
+      "revId": "02d4a1bc06f906528d4719e3df7c67ee5262a929",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_d4fc4de7",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -36,6 +60,30 @@
       "writtenOn": "2016-07-22T08:34:27Z",
       "side": 1,
       "message": "\"Specifically\"?",
+      "range": {
+        "startLine": 13,
+        "startChar": 45,
+        "endLine": 13,
+        "endChar": 54
+      },
+      "revId": "02d4a1bc06f906528d4719e3df7c67ee5262a929",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_ea988cfe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-07-22T18:11:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_d4fc4de7",
       "range": {
         "startLine": 13,
         "startChar": 45,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_0a9ea0e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-07-22T18:11:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_f4015179",
+      "range": {
+        "startLine": 19,
+        "startChar": 60,
+        "endLine": 19,
+        "endChar": 70
+      },
+      "revId": "02d4a1bc06f906528d4719e3df7c67ee5262a929",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_4a2b3834",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
         "patchSetId": 7
@@ -88,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "27af2791_6ab55c63",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-07-22T18:11:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_4a2b3834",
+      "revId": "02d4a1bc06f906528d4719e3df7c67ee5262a929",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_6a28fc36",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
         "patchSetId": 7
@@ -99,6 +189,24 @@
       "writtenOn": "2016-07-22T17:44:01Z",
       "side": 1,
       "message": "This is scoped to the enum, so something like REQUIRE_MATCHING, ALLOW_MISMATCH would work fine.",
+      "revId": "02d4a1bc06f906528d4719e3df7c67ee5262a929",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_8ab2b079",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-07-22T18:11:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_6a28fc36",
       "revId": "02d4a1bc06f906528d4719e3df7c67ee5262a929",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
