@@ -55,6 +55,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.transport.RefSpec.WildcardMode;
 import org.junit.Test;
 
 public class RefSpecTest {
@@ -473,5 +474,29 @@ public class RefSpecTest {
 	public void invalidSetDestination() {
 		RefSpec a = new RefSpec("refs/heads/*:refs/remotes/origin/*");
 		a.setDestination("refs/remotes/origin/*/*");
+	}
+
+	@Test
+	public void sourceOnlywithWildcard() {
+		RefSpec a = new RefSpec("refs/heads/*",
+				WildcardMode.ALLOW_MISMATCH);
+		assertTrue(a.matchSource("refs/heads/master"));
+		assertNull(a.getDestination());
+	}
+
+	@Test
+	public void destinationWithWildcard() {
+		RefSpec a = new RefSpec("refs/heads/master:refs/heads/*",
+				WildcardMode.ALLOW_MISMATCH);
+		assertTrue(a.matchSource("refs/heads/master"));
+		assertTrue(a.matchDestination("refs/heads/master"));
+		assertTrue(a.matchDestination("refs/heads/foo"));
+	}
+
+	@Test
+	public void onlyWildCard() {
+		RefSpec a = new RefSpec("*", WildcardMode.ALLOW_MISMATCH);
+		assertTrue(a.matchSource("refs/heads/master"));
+		assertNull(a.getDestination());
 	}
 }
