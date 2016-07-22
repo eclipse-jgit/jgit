@@ -42,6 +42,7 @@
  */
 package org.eclipse.jgit.lfs.server.fs;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 
 import java.io.BufferedInputStream;
@@ -79,6 +80,7 @@ import org.eclipse.jgit.lfs.lib.Constants;
 import org.eclipse.jgit.lfs.lib.LongObjectId;
 import org.eclipse.jgit.lfs.test.LongObjectIdTestUtils;
 import org.eclipse.jgit.util.FileUtils;
+import org.eclipse.jgit.util.IO;
 import org.junit.After;
 import org.junit.Before;
 
@@ -186,8 +188,15 @@ public abstract class LfsServerTest {
 		StatusLine statusLine = response.getStatusLine();
 		int status = statusLine.getStatusCode();
 		if (statusLine.getStatusCode() >= 400) {
-			throw new RuntimeException("Status: " + status + " "
-					+ statusLine.getReasonPhrase());
+			String error;
+			try {
+				ByteBuffer buf = IO.readWholeStream(new BufferedInputStream(
+						response.getEntity().getContent()), 1024);
+				error = new String(buf.array(), UTF_8);
+			} catch (IOException e) {
+				error = statusLine.getReasonPhrase();
+			}
+			throw new RuntimeException("Status: " + status + " " + error);
 		}
 		assertEquals(200, status);
 	}
