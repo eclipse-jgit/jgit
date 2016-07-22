@@ -1,0 +1,187 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_14f7a5c7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-07-22T00:16:24Z",
+      "side": 1,
+      "message": "Mismatched?",
+      "range": {
+        "startLine": 119,
+        "startChar": 12,
+        "endLine": 119,
+        "endChar": 19
+      },
+      "revId": "16fcb7497f0dad183d03503b22ad13b40d4988e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_34f4a9c0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-07-22T00:16:24Z",
+      "side": 1,
+      "message": "nit: extra s",
+      "range": {
+        "startLine": 127,
+        "startChar": 18,
+        "endLine": 127,
+        "endChar": 20
+      },
+      "revId": "16fcb7497f0dad183d03503b22ad13b40d4988e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_54011d3c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-07-22T00:16:24Z",
+      "side": 1,
+      "message": "can be more precise:\n\n @param allowMismatchedWildcards\n    whether to allow a wildcard on one side without a\n    wildcard on the other",
+      "range": {
+        "startLine": 128,
+        "startChar": 52,
+        "endLine": 128,
+        "endChar": 75
+      },
+      "revId": "16fcb7497f0dad183d03503b22ad13b40d4988e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_74fe21a2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-07-22T00:16:24Z",
+      "side": 1,
+      "message": "extra s",
+      "range": {
+        "startLine": 134,
+        "startChar": 50,
+        "endLine": 134,
+        "endChar": 52
+      },
+      "revId": "16fcb7497f0dad183d03503b22ad13b40d4988e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_942ad5b3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-07-22T00:16:24Z",
+      "side": 1,
+      "message": "This comment isn\u0027t true unless !allowMismatch. Should it go in the \u0027if\u0027 body?\n\nCan simplify a little:\n\n  if (isWildcard(src) || isWildcard(dst)) {\n    if (!allowMismatch \u0026\u0026\n        (!isWildcard(src) || !isWildcard(dst))) {\n      throw ...;\n    }\n    wildcard \u003d true;\n  }",
+      "range": {
+        "startLine": 159,
+        "startChar": 0,
+        "endLine": 160,
+        "endChar": 25
+      },
+      "revId": "16fcb7497f0dad183d03503b22ad13b40d4988e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_d4244de8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-07-22T00:16:24Z",
+      "side": 1,
+      "message": "Can decrease nesting by reversing the \u0027if\u0027:\n\n  if (!allowMismatch) {\n    throw ...;\n  }\n  wildcard \u003d true;",
+      "revId": "16fcb7497f0dad183d03503b22ad13b40d4988e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_f42951be",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-07-22T00:16:24Z",
+      "side": 1,
+      "message": "Should this happen in the !isWildcard case, too? It seems odd to have it be conditional --- maybe we could keep dstName \u003d\u003d null and handle that case in other methods?",
+      "revId": "16fcb7497f0dad183d03503b22ad13b40d4988e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_141ec597",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-07-22T00:16:24Z",
+      "side": 1,
+      "message": "Unrelated change?",
+      "revId": "16fcb7497f0dad183d03503b22ad13b40d4988e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_341bc9a7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-07-22T00:16:24Z",
+      "side": 1,
+      "message": "Unrelated change?",
+      "revId": "16fcb7497f0dad183d03503b22ad13b40d4988e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
