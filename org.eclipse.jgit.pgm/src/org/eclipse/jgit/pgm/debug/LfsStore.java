@@ -253,10 +253,10 @@ class LfsStore extends TextBuiltin {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected LargeFileRepository getLargeFileRepository() {
+			protected LargeFileRepository getLargeFileRepository(
+					LfsRequest request, String path) {
 				return repository;
 			}
-
 		};
 		app.addServlet(new ServletHolder(protocol), PROTOCOL_PATH);
 
