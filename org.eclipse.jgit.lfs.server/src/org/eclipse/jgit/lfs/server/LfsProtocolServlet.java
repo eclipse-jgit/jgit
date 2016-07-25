@@ -86,17 +86,47 @@ public abstract class LfsProtocolServlet extends HttpServlet {
 	 */
 	protected abstract LargeFileRepository getLargeFileRepository();
 
+	/**
+	 * Decide whether the servlet accepts a specific LFS request.
+	 *
+	 * @param request
+	 *            the request
+	 * @param path
+	 *            the path
+	 * @return true if accepted, otherwise false
+	 */
+	protected abstract boolean accept(LfsRequest request, String path);
+
+	/** LFS request. */
+	protected static class LfsRequest {
+		private String operation;
+
+		private List<LfsObject> objects;
+
+		/**
+		 * Get the LFS operation.
+		 *
+		 * @return the operation
+		 */
+		public String getOperation() {
+			return operation;
+		}
+	}
+
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
-		res.setStatus(SC_OK);
-		res.setContentType(CONTENTTYPE_VND_GIT_LFS_JSON);
-
 		Writer w = new BufferedWriter(
 				new OutputStreamWriter(res.getOutputStream(), UTF_8));
 
 		Reader r = new BufferedReader(new InputStreamReader(req.getInputStream(), UTF_8));
 		LfsRequest request = gson.fromJson(r, LfsRequest.class);
+		String path = req.getPathInfo();
+
+		if (!accept(request, path)) {
+			res.setStatus(SC_SERVICE_UNAVAILABLE);
+			return;
+		}
 
 		LargeFileRepository repo = getLargeFileRepository();
 		if (repo == null) {
@@ -104,16 +134,12 @@ public abstract class LfsProtocolServlet extends HttpServlet {
 			return;
 		}
 
+		res.setStatus(SC_OK);
+		res.setContentType(CONTENTTYPE_VND_GIT_LFS_JSON);
 		TransferHandler handler = TransferHandler
 				.forOperation(request.operation, repo, request.objects);
 		gson.toJson(handler.process(), w);
 		w.flush();
-	}
-
-	private static class LfsRequest {
-		String operation;
-
-		List<LfsObject> objects;
 	}
 
 	private static Gson createGson() {
