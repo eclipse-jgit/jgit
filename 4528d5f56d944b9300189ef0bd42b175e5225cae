@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_2f428f67",
+        "filename": "org.eclipse.jgit.lfs.server.test/tst/org/eclipse/jgit/lfs/server/fs/LfsServerTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2016-07-26T09:13:10Z",
+      "side": 0,
+      "message": "Without this Eclipse gives me warnings in the lines 140, 147:\n\nDiscouraged access: The type \u0027CloseableHttpClient\u0027 is not API ...\nDiscouraged access: The type \u0027HttpClientBuilder\u0027 is not API ...\nDiscouraged access: The method \u0027CloseableHttpClient.execute(HttpUriRequest)\u0027 is not API  ...",
+      "revId": "4528d5f56d944b9300189ef0bd42b175e5225cae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
