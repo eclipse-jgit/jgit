@@ -34,6 +34,24 @@
       "revId": "f1ee3c2abfbaf3b0ed8d5ea4eb25a52c3a2d2505",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_5a65bf0f",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/LfsProtocolServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2016-07-26T13:51:55Z",
+      "side": 1,
+      "message": "I am not really sure how to proceed. Matthias would be the right person to answer these question but he is on vacation these days.\n\nOn the other hand we are likely the only users of this API.\nI am in favor of changing the existing method :-)",
+      "parentUuid": "27af2791_cfd9139e",
+      "revId": "f1ee3c2abfbaf3b0ed8d5ea4eb25a52c3a2d2505",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
