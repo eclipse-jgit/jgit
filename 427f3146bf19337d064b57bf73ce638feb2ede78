@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_2f528fb5",
+        "filename": "org.eclipse.jgit.lfs.server.test/tst/org/eclipse/jgit/lfs/server/fs/LfsServerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2016-07-26T12:06:09Z",
+      "side": 1,
+      "message": "This could all be replaced by something like:\n\n  ByteBuffer buf \u003d IO.readWholeStream(bis, 1024);",
+      "range": {
+        "startLine": 194,
+        "startChar": 0,
+        "endLine": 199,
+        "endChar": 5
+      },
+      "revId": "427f3146bf19337d064b57bf73ce638feb2ede78",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_8f60fb78",
+        "filename": "org.eclipse.jgit.lfs.server.test/tst/org/eclipse/jgit/lfs/server/fs/LfsServerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2016-07-26T12:06:09Z",
+      "side": 1,
+      "message": "This decodes the byte array using platform default character set which could cause unexpected failures on some platforms. Can we provide a fixed character set for decoding?",
+      "range": {
+        "startLine": 200,
+        "startChar": 16,
+        "endLine": 200,
+        "endChar": 26
+      },
+      "revId": "427f3146bf19337d064b57bf73ce638feb2ede78",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
