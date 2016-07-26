@@ -16,6 +16,24 @@
       "revId": "f1ee3c2abfbaf3b0ed8d5ea4eb25a52c3a2d2505",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_cfd9139e",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/LfsProtocolServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-07-26T12:59:37Z",
+      "side": 1,
+      "message": "Is it OK to change the API?\n\nShould we better add a new method and deprecate the existing one?",
+      "parentUuid": "27af2791_ef57b79d",
+      "revId": "f1ee3c2abfbaf3b0ed8d5ea4eb25a52c3a2d2505",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
