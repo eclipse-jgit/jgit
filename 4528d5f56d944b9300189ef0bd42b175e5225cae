@@ -34,6 +34,24 @@
       "revId": "4528d5f56d944b9300189ef0bd42b175e5225cae",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_af7f7f85",
+        "filename": "org.eclipse.jgit.lfs.server.test/tst/org/eclipse/jgit/lfs/server/fs/LfsServerTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2016-07-26T09:38:15Z",
+      "side": 0,
+      "message": "I am still using Mars 4.5.1.",
+      "parentUuid": "27af2791_4f898331",
+      "revId": "4528d5f56d944b9300189ef0bd42b175e5225cae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
