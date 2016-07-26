@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_ef57b79d",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/LfsProtocolServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2016-07-26T12:11:01Z",
+      "side": 1,
+      "message": "Don\u0027t we want to return here a LargeFileRepository in order to support multiple LFS backends. Since we already have a getLargeFileRepository method (line 87) I propose to change its signature into:\n\n  protected abstract LargeFileRepository getLargeFileRepository(LfsRequest request, String path);\n\nand pass the two parameters at the calling place (line 131). Line 132 already handles returned null value properly.",
+      "revId": "f1ee3c2abfbaf3b0ed8d5ea4eb25a52c3a2d2505",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
