@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_5bc781dd",
+        "filename": "org.eclipse.jgit.lfs.server.test/tst/org/eclipse/jgit/lfs/server/fs/LfsServerTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-07-27T12:52:12Z",
+      "side": 1,
+      "message": "Changing this per the comments in PS4 causes the tests to fail, although the expected and actual content of the exception message looks the same in the console output.  I suspect something related to UTF-8 encoding, but couldn\u0027t find a solution.\n\nCan we merge this as-is and fix later, or rebase it above the getLargeFileRepository changes so at least that one can go in?",
+      "range": {
+        "startLine": 191,
+        "startChar": 3,
+        "endLine": 200,
+        "endChar": 27
+      },
+      "revId": "e27eab26e2027baba7e96a972b90b17f18843467",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
