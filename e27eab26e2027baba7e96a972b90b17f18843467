@@ -22,6 +22,30 @@
       "revId": "e27eab26e2027baba7e96a972b90b17f18843467",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_edadfcf5",
+        "filename": "org.eclipse.jgit.lfs.server.test/tst/org/eclipse/jgit/lfs/server/fs/LfsServerTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2016-07-27T16:27:22Z",
+      "side": 1,
+      "message": "Using ByteBuffer is not as intuitive as it seemed. The problem is that using the ByteBuffer.array() method returns the whole array and not only the bytes we wrote into it. I debugged the PS5 and found out that the tests are failing because of a different string length.\n\nWe should make use of the position(), limit(), etc.. methods of the ByteArray in order to get only the bytes we wrote into. I didn\u0027t have time to provide a fix.\n\nYes, we can merge this as-is and then later find a solution with ByteBuffer.",
+      "parentUuid": "27af2791_5bc781dd",
+      "range": {
+        "startLine": 191,
+        "startChar": 3,
+        "endLine": 200,
+        "endChar": 27
+      },
+      "revId": "e27eab26e2027baba7e96a972b90b17f18843467",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
