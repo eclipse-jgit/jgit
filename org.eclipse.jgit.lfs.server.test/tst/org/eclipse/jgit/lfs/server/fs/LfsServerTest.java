@@ -42,10 +42,10 @@
  */
 package org.eclipse.jgit.lfs.server.fs;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 
 import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -80,6 +80,7 @@ import org.eclipse.jgit.lfs.lib.Constants;
 import org.eclipse.jgit.lfs.lib.LongObjectId;
 import org.eclipse.jgit.lfs.test.LongObjectIdTestUtils;
 import org.eclipse.jgit.util.FileUtils;
+import org.eclipse.jgit.util.IO;
 import org.junit.After;
 import org.junit.Before;
 
@@ -189,15 +190,17 @@ public abstract class LfsServerTest {
 		if (statusLine.getStatusCode() >= 400) {
 			String error;
 			try {
-				BufferedInputStream bis = new BufferedInputStream(
-						response.getEntity().getContent());
-				ByteArrayOutputStream buf = new ByteArrayOutputStream();
-				int result = bis.read();
-				while (result != -1) {
-					buf.write((byte) result);
-					result = bis.read();
+				ByteBuffer buf = IO.readWholeStream(new BufferedInputStream(
+						response.getEntity().getContent()), 1024);
+				if (buf.hasArray()) {
+					error = new String(buf.array(),
+							buf.arrayOffset() + buf.position(), buf.remaining(),
+							UTF_8);
+				} else {
+					final byte[] b = new byte[buf.remaining()];
+					buf.duplicate().get(b);
+					error = new String(b, UTF_8);
 				}
-				error = buf.toString();
 			} catch (IOException e) {
 				error = statusLine.getReasonPhrase();
 			}
