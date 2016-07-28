@@ -82,8 +82,22 @@ public class RefSpec implements Serializable {
 	/** Is this specification actually a wildcard match? */
 	private boolean wildcard;
 
-	enum WildcardMode {
-		REQUIRE_MATCH, ALLOW_MISMATCH
+	/**
+	 * Determines how to deal with wildcards.
+	 *
+	 * @since 4.5
+	 */
+	public enum WildcardMode {
+		/**
+		 * The same number of wildcards must be present on the left side of the
+		 * colong as on the right side of a RefSpec.
+		 */
+		REQUIRE_MATCH,
+		/**
+		 * Allow to have a different number of wildcards on the left side of the
+		 * colon as on the right side of a RefSpec.
+		 */
+		ALLOW_MISMATCH
 	}
 	/** Whether a wildcard is allowed on one side but not the other. */
 	private WildcardMode allowMismatchedWildcards;
