@@ -46,6 +46,30 @@
       "revId": "e27eab26e2027baba7e96a972b90b17f18843467",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_23c2a3ce",
+        "filename": "org.eclipse.jgit.lfs.server.test/tst/org/eclipse/jgit/lfs/server/fs/LfsServerTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-07-28T03:35:32Z",
+      "side": 1,
+      "message": "Thanks for the hint.  I was able to find a solution.  Please see:\n\nhttps://git.eclipse.org/r/78031",
+      "parentUuid": "27af2791_edadfcf5",
+      "range": {
+        "startLine": 191,
+        "startChar": 3,
+        "endLine": 200,
+        "endChar": 27
+      },
+      "revId": "e27eab26e2027baba7e96a972b90b17f18843467",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
