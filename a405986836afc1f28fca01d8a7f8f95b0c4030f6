@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_bcf3305e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-07-28T18:03:05Z",
+      "side": 1,
+      "message": "Or, better, can use the imperative:\n\n RefSpec: Make WildcardMode public",
+      "parentUuid": "27af2791_fceda884",
+      "range": {
+        "startLine": 7,
+        "startChar": 22,
+        "endLine": 7,
+        "endChar": 26
+      },
+      "revId": "a405986836afc1f28fca01d8a7f8f95b0c4030f6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_5cfcd432",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
