@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "27af2791_dc9e24eb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-07-28T18:29:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_bc0ed0ec",
+      "revId": "94761915bbb3bb0c0c865b3b144c05a90df71664",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_7c0438cf",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
         "patchSetId": 2
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_9cb58c66",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-07-28T18:29:29Z",
+      "side": 1,
+      "message": "Done, originally I thought this is ok as in the future we may allow multiple wildcards, but then we can still adapt this text. I just took your suggestions now.",
+      "parentUuid": "27af2791_7c0438cf",
+      "range": {
+        "startLine": 92,
+        "startChar": 9,
+        "endLine": 92,
+        "endChar": 33
+      },
+      "revId": "94761915bbb3bb0c0c865b3b144c05a90df71664",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_5c0774d4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
         "patchSetId": 2
@@ -53,6 +95,30 @@
       "writtenOn": "2016-07-28T18:14:49Z",
       "side": 1,
       "message": "colon",
+      "range": {
+        "startLine": 93,
+        "startChar": 5,
+        "endLine": 93,
+        "endChar": 11
+      },
+      "revId": "94761915bbb3bb0c0c865b3b144c05a90df71664",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_bcb25079",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-07-28T18:29:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_5c0774d4",
       "range": {
         "startLine": 93,
         "startChar": 5,
