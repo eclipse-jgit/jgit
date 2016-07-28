@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_bc0ed0ec",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-07-28T18:14:49Z",
+      "side": 1,
+      "message": "This is vague --- can it be made more precise? I don\u0027t have a better idea than\n\n /**\n  * How strict to be about wildcards.\n  *\n  * @since 4.5\n  */",
+      "revId": "94761915bbb3bb0c0c865b3b144c05a90df71664",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_7c0438cf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-07-28T18:14:49Z",
+      "side": 1,
+      "message": "This makes it sound like I can use multiple wildcards. Can it be made clearer by focusing on the use case?\n\n /**\n  * Reject refspecs with an asterisk on the source side and\n  * not the destination side or vice versa.  This is the mode\n  * used by FetchCommand and PushCommand to create a one-to-one\n  * mapping between source and destination refs.\n  */\n REQUIRE_MATCH,\n\n  /**\n   * Allow refspecs with an asterisk on only one side. This\n   * can create a many-to-one mapping between source and\n   * destination refs, so expandFromSource and\n   * expandFromDestination are not usable in this mode.\n   */\n  ALLOW_MISMATCH",
+      "range": {
+        "startLine": 92,
+        "startChar": 9,
+        "endLine": 92,
+        "endChar": 33
+      },
+      "revId": "94761915bbb3bb0c0c865b3b144c05a90df71664",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_5c0774d4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-07-28T18:14:49Z",
+      "side": 1,
+      "message": "colon",
+      "range": {
+        "startLine": 93,
+        "startChar": 5,
+        "endLine": 93,
+        "endChar": 11
+      },
+      "revId": "94761915bbb3bb0c0c865b3b144c05a90df71664",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
