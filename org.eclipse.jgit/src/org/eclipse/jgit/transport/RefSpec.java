@@ -82,8 +82,26 @@ public class RefSpec implements Serializable {
 	/** Is this specification actually a wildcard match? */
 	private boolean wildcard;
 
-	enum WildcardMode {
-		REQUIRE_MATCH, ALLOW_MISMATCH
+	/**
+	 * How strict to be about wildcards.
+	 *
+	 * @since 4.5
+	 */
+	public enum WildcardMode {
+		/**
+		 * Reject refspecs with an asterisk on the source side and not the
+		 * destination side or vice versa. This is the mode used by FetchCommand
+		 * and PushCommand to create a one-to-one mapping between source and
+		 * destination refs.
+		 */
+		REQUIRE_MATCH,
+		/**
+		 * Allow refspecs with an asterisk on only one side. This can create a
+		 * many-to-one mapping between source and destination refs, so
+		 * expandFromSource and expandFromDestination are not usable in this
+		 * mode.
+		 */
+		ALLOW_MISMATCH
 	}
 	/** Whether a wildcard is allowed on one side but not the other. */
 	private WildcardMode allowMismatchedWildcards;
