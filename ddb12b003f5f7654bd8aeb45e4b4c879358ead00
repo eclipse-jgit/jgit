@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_63abbb0d",
+        "filename": "org.eclipse.jgit.lfs.server.test/tst/org/eclipse/jgit/lfs/server/fs/LfsServerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-07-28T05:04:38Z",
+      "side": 1,
+      "message": "This solution is based on [1] with added character encoding.\n\n[1] http://stackoverflow.com/a/33902841/381622",
+      "range": {
+        "startLine": 195,
+        "startChar": 4,
+        "endLine": 203,
+        "endChar": 5
+      },
+      "revId": "ddb12b003f5f7654bd8aeb45e4b4c879358ead00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
