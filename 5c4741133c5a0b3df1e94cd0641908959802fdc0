@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_72bc5fb2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 921,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-07-29T07:36:00Z",
+      "side": 1,
+      "message": "Have you seen this failing? Maybe a test would be nice. If e.g. while inspecting file mode you see in the workingtree a GITLINK and in the index you see a FILE then we would reach this block. In this case we do not have to do a contentCheck anymore, or? Can you imagine differences in the Metadata where you say a contentcheck is needed?",
+      "revId": "5c4741133c5a0b3df1e94cd0641908959802fdc0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
