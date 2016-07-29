@@ -154,7 +154,7 @@ public class IndexDiffFilter extends TreeFilter {
 			// contain only untracked files and add it to
 			// untrackedParentFolders. If we later find tracked files we will
 			// remove it from this list
-			if (FileMode.TREE.equals(wm)
+			if ((FileMode.TREE.equals(wm) || FileMode.GITLINK.equals((wm)))
 					&& !(honorIgnores && wi.isEntryIgnored())) {
 				// Clean untrackedParentFolders. This potentially moves entries
 				// from untrackedParentFolders to untrackedFolders

@@ -266,6 +266,8 @@ public class IndexDiff {
 
 	private Set<String> untracked = new HashSet<String>();
 
+    private Set<String> submodules = new HashSet<String>();
+
 	private Map<String, StageState> conflicts = new HashMap<String, StageState>();
 
 	private Set<String> ignored;
@@ -484,7 +486,8 @@ public class IndexDiff {
 					} else {
 						// not in repo, not in index => untracked
 						if (workingTreeIterator != null
-								&& !workingTreeIterator.isEntryIgnored()) {
+								&& !workingTreeIterator.isEntryIgnored()
+                                && !FileMode.GITLINK.equals(treeWalk.getFileMode())) {
 							untracked.add(treeWalk.getPathString());
 						}
 					}
@@ -528,6 +531,7 @@ public class IndexDiff {
 			SubmoduleWalk smw = SubmoduleWalk.forIndex(repository);
 			while (smw.next()) {
 				try {
+                    submodules.add(smw.getPath());
 					if (localIgnoreSubmoduleMode == null)
 						localIgnoreSubmoduleMode = smw.getModulesIgnore();
 					if (IgnoreSubmoduleMode.ALL
@@ -697,9 +701,14 @@ public class IndexDiff {
 	 * @return list of folders containing only untracked files/folders
 	 */
 	public Set<String> getUntrackedFolders() {
-		return ((indexDiffFilter == null) ? Collections.<String> emptySet()
-				: new HashSet<String>(indexDiffFilter.getUntrackedFolders()));
-	}
+        if (indexDiffFilter == null) {
+            return Collections.<String> emptySet();
+        } else {
+            HashSet<String> retVal = new HashSet<String>(indexDiffFilter.getUntrackedFolders());
+            retVal.removeAll(submodules);
+            return retVal;
+        }
+    }
 
 	/**
 	 * Get the file mode of the given path in the index
