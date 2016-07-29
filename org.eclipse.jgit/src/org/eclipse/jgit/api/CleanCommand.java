@@ -43,6 +43,8 @@
  */
 package org.eclipse.jgit.api;
 
+import static org.eclipse.jgit.lib.Constants.DOT_GIT;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
@@ -72,6 +74,8 @@ public class CleanCommand extends GitCommand<Set<String>> {
 	private boolean directories;
 
 	private boolean ignore = true;
+
+    private boolean force = false;
 
 	/**
 	 * @param repo
@@ -121,24 +125,49 @@ public class CleanCommand extends GitCommand<Set<String>> {
 
 			for (String file : notIgnoredFiles)
 				if (paths.isEmpty() || paths.contains(file)) {
-					if (!dryRun)
-						FileUtils.delete(new File(repo.getWorkTree(), file));
-					files.add(file);
+                    files = cleanPath(file, false, files);
 				}
 
 			if (directories)
 				for (String dir : notIgnoredDirs)
-					if (paths.isEmpty() || paths.contains(dir)) {
-						if (!dryRun)
-							FileUtils.delete(new File(repo.getWorkTree(), dir),
-									FileUtils.RECURSIVE);
-						files.add(dir + "/"); //$NON-NLS-1$
-					}
+                    if (paths.isEmpty() || paths.contains(dir)) {
+                        files = cleanPath(dir, true, files);
+                    }
 		} catch (IOException e) {
 			throw new JGitInternalException(e.getMessage(), e);
 		}
 		return files;
 	}
+
+    private Set<String> cleanPath(String path, boolean recurse, Set<String> inFiles) throws IOException {
+        int mode;
+        String tail;
+        File curFile = new File(repo.getWorkTree(), path);
+        Boolean isGitRepo = (curFile.isDirectory() && new File(curFile, DOT_GIT).exists());
+        if (recurse || isGitRepo) {
+            mode = FileUtils.RECURSIVE;
+            tail = "/"; //$NON-NLS-1$
+        } else {
+            mode = FileUtils.NONE;
+            tail = "";
+        }
+
+        if (isGitRepo) {
+            if (force) {
+                if (!dryRun) {
+                    FileUtils.delete(curFile, mode);
+                }
+                inFiles.add(path + tail);
+            }
+        } else {
+            if (!dryRun) {
+                FileUtils.delete(curFile, mode);
+            }
+            inFiles.add(path + tail);
+        }
+
+        return inFiles;
+    }
 
 	private Set<String> filterIgnorePaths(Set<String> inputPaths,
 			Set<String> ignoredNotInIndex, boolean exact) {
@@ -194,6 +223,19 @@ public class CleanCommand extends GitCommand<Set<String>> {
 		this.dryRun = dryRun;
 		return this;
 	}
+
+	/**
+     * If force is set, directories that are git repositories will also be
+     * deleted.
+     *
+     * @param force
+     *            whether or not to delete git repositories
+     * @return {@code this}
+     */
+    public CleanCommand setForce(boolean force) {
+        this.force = force;
+        return this;
+    }
 
 	/**
 	 * If dirs is set, in addition to files, also clean directories.
