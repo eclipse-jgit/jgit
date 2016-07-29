@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_924ad379",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/errors/LfsException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-07-29T03:58:07Z",
+      "side": 1,
+      "message": "copyright/license header needs to be added on all newly added files.",
+      "revId": "34d1bbf9117813273a4f6077e47eaccff118c10a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
