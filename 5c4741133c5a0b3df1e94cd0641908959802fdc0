@@ -16,6 +16,24 @@
       "revId": "5c4741133c5a0b3df1e94cd0641908959802fdc0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_3284a7e8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 921,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2016-07-29T07:53:39Z",
+      "side": 1,
+      "message": "I saw in debugger in compareMetadata() that we had a case where entry.getLength() !\u003d (int) getEntryLength() \n\nIt was 100 in one case and 150 in other. I have no idea where it comes from, but adding the GITLINK condition above resulted in right status.\n\nI think the differences are coming if I modify submodule directory content, e.g. if I do\n\ngit clone -b master --recursive\n\nI don\u0027t see that submodules are \"modified\". Once I touch something in submodules, OR do not clone them together with the parent repo, I see that jgit reports this \"modified\" status while git doesn\u0027t.\n\nSo this can probably be something related to timestamps of the directory/subtree?",
+      "parentUuid": "27af2791_72bc5fb2",
+      "revId": "5c4741133c5a0b3df1e94cd0641908959802fdc0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
