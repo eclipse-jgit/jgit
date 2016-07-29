@@ -73,6 +73,8 @@ public class CleanCommand extends GitCommand<Set<String>> {
 
 	private boolean ignore = true;
 
+    private boolean force = false;
+
 	/**
 	 * @param repo
 	 */
@@ -194,6 +196,19 @@ public class CleanCommand extends GitCommand<Set<String>> {
 		this.dryRun = dryRun;
 		return this;
 	}
+
+	/**
+     * If force is set, directories that are git repositories will also be
+     * deleted.
+     *
+     * @param force
+     *            whether or not to delete git repositories
+     * @return {@code this}
+     */
+    public CleanCommand setForce(boolean force) {
+        this.force = force;
+        return this;
+    }
 
 	/**
 	 * If dirs is set, in addition to files, also clean directories.
