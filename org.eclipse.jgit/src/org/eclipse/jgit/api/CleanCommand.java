@@ -126,40 +126,45 @@ public class CleanCommand extends GitCommand<Set<String>> {
 
 			for (String file : notIgnoredFiles)
 				if (paths.isEmpty() || paths.contains(file)) {
-					if (!dryRun)
-						FileUtils.delete(new File(repo.getWorkTree(), file));
-					files.add(file);
+                    files = cleanPath(file, false, files);
 				}
 
 			if (directories)
 				for (String dir : notIgnoredDirs)
-					if (paths.isEmpty() || paths.contains(dir)) {
+                    if (paths.isEmpty() || paths.contains(dir)) {
                         File curDir = new File(repo.getWorkTree(), dir);
-                        if (!dryRun) {
-                            if (RepositoryCache.FileKey.isGitRepository(new File(curDir, DOT_GIT), fs)) {
-                                if (force) {
-                                    FileUtils.delete(curDir, FileUtils.RECURSIVE);
-                                    files.add(dir + "/"); //$NON-NLS-1$
-                                }
-                            } else {
-                                FileUtils.delete(curDir, FileUtils.RECURSIVE);
-                                files.add(dir + "/"); //$NON-NLS-1$
+                        if (RepositoryCache.FileKey.isGitRepository(new File(curDir, DOT_GIT), fs)) {
+                            if (force) {
+                                files = cleanPath(dir, true, files);
                             }
                         } else {
-                            if (RepositoryCache.FileKey.isGitRepository(new File(curDir, DOT_GIT), fs)) {
-                                if (force) {
-                                    files.add(dir + "/"); //$NON-NLS-1$
-                                }
-                            } else {
-                                files.add(dir + "/"); //$NON-NLS-1$
-                            }
+                            files = cleanPath(dir, true, files);
                         }
-					}
+                    }
 		} catch (IOException e) {
 			throw new JGitInternalException(e.getMessage(), e);
 		}
 		return files;
 	}
+
+    private Set<String> cleanPath(String path, boolean recurse, Set<String> inFiles) throws IOException {
+        int mode;
+        String tail;
+        if (recurse) {
+            mode = FileUtils.RECURSIVE;
+            tail = "/"; //$NON-NLS-1$
+        } else {
+            mode = FileUtils.NONE;
+            tail = "";
+        }
+
+        if (!dryRun) {
+            FileUtils.delete(new File(repo.getWorkTree(), path), mode);
+        }
+
+        inFiles.add(path + tail);
+        return inFiles;
+    }
 
 	private Set<String> filterIgnorePaths(Set<String> inputPaths,
 			Set<String> ignoredNotInIndex, boolean exact) {
