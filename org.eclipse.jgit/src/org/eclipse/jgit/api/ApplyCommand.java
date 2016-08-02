@@ -301,12 +301,6 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 		fw.close();
 	}
 
-	/**
-	 * @param f
-	 * @param fh
-	 * @throws IOException
-	 * @throws PatchApplyException
-	 */
 	private void apply(File f, FileHeader fh) throws IOException, PatchApplyException {
 		if (fh.getPatchType() == FileHeader.PatchType.GIT_BINARY) {
 			applyBinaryPatch(f, fh);

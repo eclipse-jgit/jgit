@@ -48,68 +48,70 @@ package org.eclipse.jgit.util;
  */
 public class Base85 {
 
-    static char enc85[] = {
-            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', //00-09
-            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', //10-19
-            'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', //20-29
-            'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', //30-39
-            'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', //40-49
-            'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', //50-59
-            'y', 'z', '!', '#', '$', '%', '&', '(', ')', '*', //60-69
-            '+', '-', ';', '<', '=', '>', '?', '@', '^', '_', //70-79
-            '`', '{', '|', '}', '~'                           //80-84
-    };
+	static char enc85[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', // 00-09
+			'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', // 10-19
+			'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', // 20-29
+			'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', // 30-39
+			'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', // 40-49
+			'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', // 50-59
+			'y', 'z', '!', '#', '$', '%', '&', '(', ')', '*', // 60-69
+			'+', '-', ';', '<', '=', '>', '?', '@', '^', '_', // 70-79
+			'`', '{', '|', '}', '~' // 80-84
+	};
 
-    static int dec85[] = new int[256];
+	static int dec85[] = new int[256];
 
-    static {
-        // initialize decode table
-        for (int i = 0; i < dec85.length; i++) {
-            dec85[i] = -1;
-        }
-        // and populate with valid decode keys
-        for (int i = 0; i < enc85.length; i++) {
-            char c = enc85[i];
+	static {
+		// initialize decode table
+		for (int i = 0; i < dec85.length; i++) {
+			dec85[i] = -1;
+		}
+		// and populate with valid decode keys
+		for (int i = 0; i < enc85.length; i++) {
+			char c = enc85[i];
 			dec85[c] = i;
-        }
-    }
+		}
+	}
 
-    /**
-     * Encodes a binary array into its base85 notation. Resulting
-     * length is expected to be in multiples of 5
-     *
-     * @param buffer source array
-     * @param start  index to encode from
-     * @param length number of bytes to encode
-     * @return encoded byte array
-     */
-    public static byte[] encode85(byte[] buffer, int start, int length) {
-        int srcPtr = start;
-        int tgtPtr = 0;
+	/**
+	 * Encodes a binary array into its base85 notation. Resulting length is
+	 * expected to be in multiples of 5
+	 *
+	 * @param buffer
+	 *            source array
+	 * @param start
+	 *            index to encode from
+	 * @param length
+	 *            number of bytes to encode
+	 * @return encoded byte array
+	 */
+	public static byte[] encode85(byte[] buffer, int start, int length) {
+		int srcPtr = start;
+		int tgtPtr = 0;
 
-        byte[] result = new byte[(int) Math.ceil(length / 4D) * 5];
-        while (length > 0) {
-            long acc = 0;
-            for (int bitsToShift = 24; bitsToShift >= 0; bitsToShift -= 8) {
-                byte ch = buffer[srcPtr++];
-                acc |= ((ch & 0xff) << bitsToShift);
-                if (--length == 0)
-                    break;
-            }
+		byte[] result = new byte[(int) Math.ceil(length / 4D) * 5];
+		while (length > 0) {
+			long acc = 0;
+			for (int bitsToShift = 24; bitsToShift >= 0; bitsToShift -= 8) {
+				byte ch = buffer[srcPtr++];
+				acc |= ((ch & 0xff) << bitsToShift);
+				if (--length == 0)
+					break;
+			}
 
-            acc = acc & 0xFFFFFFFFL;
-            for (int i = 4; i >= 0; i--) {
-                int val = (int) (acc % 85);
-                acc /= 85;
-                result[tgtPtr + i] = (byte) enc85[val];
-            }
-            tgtPtr += 5;
-        }
+			acc = acc & 0xFFFFFFFFL;
+			for (int i = 4; i >= 0; i--) {
+				int val = (int) (acc % 85);
+				acc /= 85;
+				result[tgtPtr + i] = (byte) enc85[val];
+			}
+			tgtPtr += 5;
+		}
 
-        return result;
-    }
+		return result;
+	}
 
-    /**
+	/**
 	 * Decodes a subset of the byte array into Base85 notation. Length is
 	 * expected to be a multiple of 5.
 	 *
@@ -119,40 +121,42 @@ public class Base85 {
 	 *            start index to decode from
 	 * @param length
 	 *            number of bytes to decode
-	 * @param expectedDecodedSize
+	 * @param expectedDecodedSize expected size of decoded array
 	 * @return decoded base85 representation of buffer
 	 */
-    public static byte[] decode85(byte[] buffer, int start, int length, int expectedDecodedSize) {
-        if (length % 5 != 0) {
+	public static byte[] decode85(byte[] buffer, int start, int length,
+			int expectedDecodedSize) {
+		if (length % 5 != 0) {
 			throw new IllegalArgumentException(
 					"Length must be in multiples of 5"); //$NON-NLS-1$
-        }
+		}
 
-        byte[] result = new byte[expectedDecodedSize];
-        int resultPtr = 0;
+		byte[] result = new byte[expectedDecodedSize];
+		int resultPtr = 0;
 
-        int pos = start;
-        while (resultPtr < expectedDecodedSize) {
-            long acc = 0;
+		int pos = start;
+		while (resultPtr < expectedDecodedSize) {
+			long acc = 0;
 
-            // convert 5 bytes to 32 bit representation
-            for (int i = 0; i < 5; i++) {
+			// convert 5 bytes to 32 bit representation
+			for (int i = 0; i < 5; i++) {
 				int c = buffer[pos++];
-                int decoded = dec85[c];
-                if (decoded == -1) {
+				int decoded = dec85[c];
+				if (decoded == -1) {
 					throw new IllegalArgumentException(
 							"Invalid base85 character detected"); //$NON-NLS-1$
-                }
-                acc = acc * 85 + decoded;
-            }
+				}
+				acc = acc * 85 + decoded;
+			}
 
-            // output 4 bytes from most significant to least significant
-            for (int i = 24; i >= 0 && resultPtr < expectedDecodedSize; i -= 8) {
-                result[resultPtr++] = (byte) ((acc >>> i) & 0xFF);
-            }
-        }
+			// output 4 bytes from most significant to least significant
+			for (int i = 24; i >= 0
+					&& resultPtr < expectedDecodedSize; i -= 8) {
+				result[resultPtr++] = (byte) ((acc >>> i) & 0xFF);
+			}
+		}
 
-        return result;
-    }
+		return result;
+	}
 
 }
