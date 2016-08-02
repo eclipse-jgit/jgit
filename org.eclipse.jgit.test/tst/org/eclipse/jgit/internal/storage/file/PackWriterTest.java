@@ -95,6 +95,9 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	private static final List<RevObject> EMPTY_LIST_REVS = Collections
 			.<RevObject> emptyList();
 
+	private static final Set<ObjectIdSet> EMPTY_ID_SET = Collections
+			.<ObjectIdSet> emptySet();
+
 	private PackConfig config;
 
 	private PackWriter writer;
@@ -205,8 +208,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		final ObjectId nonExisting = ObjectId
 				.fromString("0000000000000000000000000000000000000001");
 		try {
-			createVerifyOpenPack(NONE, Collections.singleton(nonExisting),
-					false, false);
+			createVerifyOpenPack(NONE, haves(nonExisting), false, false);
 			fail("Should have thrown MissingObjectException");
 		} catch (MissingObjectException x) {
 			// expected
@@ -222,8 +224,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	public void testIgnoreNonExistingObjects() throws IOException {
 		final ObjectId nonExisting = ObjectId
 				.fromString("0000000000000000000000000000000000000001");
-		createVerifyOpenPack(NONE, Collections.singleton(nonExisting),
-				false, true);
+		createVerifyOpenPack(NONE, haves(nonExisting), false, true);
 		// shouldn't throw anything
 	}
 
@@ -241,8 +242,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		final ObjectId nonExisting = ObjectId
 				.fromString("0000000000000000000000000000000000000001");
 		new GC(db).gc();
-		createVerifyOpenPack(NONE, Collections.singleton(nonExisting), false,
-				true, true);
+		createVerifyOpenPack(NONE, haves(nonExisting), false, true, true);
 		// shouldn't throw anything
 	}
 
@@ -519,8 +519,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		RevBlob contentA = testRepo.blob("A");
 		RevCommit c1 = bb.commit().add("f", contentA).create();
 		testRepo.getRevWalk().parseHeaders(c1);
-		PackIndex pf1 = writePack(repo, Collections.singleton(c1),
-				Collections.<ObjectIdSet> emptySet());
+		PackIndex pf1 = writePack(repo, wants(c1), EMPTY_ID_SET);
 		assertContent(
 				pf1,
 				Arrays.asList(c1.getId(), c1.getTree().getId(),
@@ -528,8 +527,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		RevBlob contentB = testRepo.blob("B");
 		RevCommit c2 = bb.commit().add("f", contentB).create();
 		testRepo.getRevWalk().parseHeaders(c2);
-		PackIndex pf2 = writePack(repo, Collections.singleton(c2),
-				Collections.<ObjectIdSet> singleton(pf1));
+		PackIndex pf2 = writePack(repo, wants(c2), asSet((ObjectIdSet) pf1));
 		assertContent(
 				pf2,
 				Arrays.asList(c2.getId(), c2.getTree().getId(),
@@ -567,8 +565,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		r.getRevWalk().parseHeaders(c4);
 		r.getRevWalk().parseHeaders(c5);
 
-		PackIndex idx = writeShallowPack(repo, 1, Collections.singleton(c2),
-				NONE, NONE);
+		PackIndex idx = writeShallowPack(repo, 1, wants(c2), NONE, NONE);
 		assertContent(idx,
 				Arrays.asList(c1.getId(), c2.getId(), c1.getTree().getId(),
 						c2.getTree().getId(), contentA.getId(),
@@ -577,8 +574,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		Set<ObjectId> haves = new HashSet<>();
 		haves.add(c1);
 		haves.add(c2);
-		idx = writeShallowPack(repo, 1, Collections.singleton(c5), haves,
-				Collections.singleton(c1));
+		idx = writeShallowPack(repo, 1, wants(c5), haves(c1, c2), shallows(c1));
 		assertContent(idx,
 				Arrays.asList(c4.getId(), c5.getId(), c4.getTree().getId(),
 						c5.getTree().getId(), contentC.getId(),
@@ -606,8 +602,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		r.getRevWalk().parseHeaders(c4);
 		r.getRevWalk().parseHeaders(c5);
 
-		PackIndex idx = writeShallowPack(repo, 1, Collections.singleton(c5),
-				NONE, NONE);
+		PackIndex idx = writeShallowPack(repo, 1, wants(c5), NONE, NONE);
 		assertContent(idx,
 				Arrays.asList(c4.getId(), c5.getId(), c4.getTree().getId(),
 						c5.getTree().getId(), contentA.getId(),
@@ -617,8 +612,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		Set<ObjectId> haves = new HashSet<>();
 		haves.add(c4);
 		haves.add(c5);
-		idx = writeShallowPack(repo, 1, Collections.singleton(c2), haves,
-				Collections.singleton(c4));
+		idx = writeShallowPack(repo, 1, wants(c2), haves(c4, c5), shallows(c4));
 		assertContent(idx, Arrays.asList(c1.getId(), c2.getId(),
 				c1.getTree().getId(), c2.getTree().getId()));
 	}
@@ -637,8 +631,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		// marked the client's "shallow" commits. Emulate that here.
 		DepthWalk.RevWalk walk = new DepthWalk.RevWalk(repo, depth);
 		walk.assumeShallow(shallow);
-		return writePack(repo, walk, depth, want, have,
-				Collections.<ObjectIdSet> emptySet());
+		return writePack(repo, walk, depth, want, have, EMPTY_ID_SET);
 	}
 
 	private static PackIndex writePack(FileRepository repo, RevWalk walk,
@@ -834,5 +827,26 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		for (MutableEntry me : entries) {
 			assertEquals(objectsOrder[i++].toObjectId(), me.toObjectId());
 		}
+	}
+
+	private static Set<ObjectId> haves(ObjectId... objects) {
+		return asSet(objects);
+	}
+
+	private static Set<ObjectId> wants(ObjectId... objects) {
+		return asSet(objects);
+	}
+
+	private static Set<ObjectId> shallows(ObjectId... objects) {
+		return asSet(objects);
+	}
+
+	private static <T> Set<T> asSet(
+			@SuppressWarnings("unchecked") T... objects) {
+		Set<T> set = new HashSet<>();
+		for (T o : objects) {
+			set.add(o);
+		}
+		return set;
 	}
 }
