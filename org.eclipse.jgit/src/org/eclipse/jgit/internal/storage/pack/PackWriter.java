@@ -1653,6 +1653,8 @@ public class PackWriter implements AutoCloseable {
 		List<RevObject> haveObjs = new ArrayList<RevObject>(haveEst);
 		List<RevTag> wantTags = new ArrayList<RevTag>(want.size());
 
+		// Retrieve the RevWalk's versions of "want" and "have" objects to
+		// maintain any flags previously set in the RevWalk.
 		AsyncRevObjectQueue q = walker.parseAny(all, true);
 		try {
 			for (;;) {
@@ -1695,11 +1697,25 @@ public class PackWriter implements AutoCloseable {
 
 		if (walker instanceof DepthWalk.ObjectWalk) {
 			DepthWalk.ObjectWalk depthWalk = (DepthWalk.ObjectWalk) walker;
-			for (RevObject obj : wantObjs)
+			for (RevObject obj : wantObjs) {
 				depthWalk.markRoot(obj);
+			}
+			// Mark the tree objects associated with "have" commits as
+			// uninteresting to avoid writing redundant blobs. A normal RevWalk
+			// lazily propagates the "uninteresting" state from a commit to its
+			// tree during the walk, but DepthWalks can terminate early so
+			// preemptively propagate that state here.
+			for (RevObject obj : haveObjs) {
+				if (obj instanceof RevCommit) {
+					RevTree t = ((RevCommit) obj).getTree();
+					depthWalk.markUninteresting(t);
+				}
+			}
+
 			if (unshallowObjects != null) {
-				for (ObjectId id : unshallowObjects)
+				for (ObjectId id : unshallowObjects) {
 					depthWalk.markUnshallow(walker.parseAny(id));
+				}
 			}
 		} else {
 			for (RevObject obj : wantObjs)
