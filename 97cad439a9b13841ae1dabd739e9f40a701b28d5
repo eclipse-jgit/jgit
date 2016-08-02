@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_8acc5466",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/ApplyCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-08-02T21:02:36Z",
+      "side": 1,
+      "message": "below this we only have white space changes?",
+      "range": {
+        "startLine": 147,
+        "startChar": 1,
+        "endLine": 147,
+        "endChar": 2
+      },
+      "revId": "97cad439a9b13841ae1dabd739e9f40a701b28d5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_aacf5857",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/Base85Test.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-08-02T21:02:36Z",
+      "side": 1,
+      "message": "Please add a copyright/license header",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 30
+      },
+      "revId": "97cad439a9b13841ae1dabd739e9f40a701b28d5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_cad64cf0",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/Base85Test.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-08-02T21:02:36Z",
+      "side": 1,
+      "message": "(codingstyle) I think we avoid an empty line after last test?",
+      "revId": "97cad439a9b13841ae1dabd739e9f40a701b28d5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_8af37495",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-08-02T21:02:36Z",
+      "side": 1,
+      "message": "As it is a private method, I\u0027d leave this out.\n\nOtherwise please fill in some documentation.",
+      "range": {
+        "startLine": 304,
+        "startChar": 0,
+        "endLine": 309,
+        "endChar": 4
+      },
+      "revId": "97cad439a9b13841ae1dabd739e9f40a701b28d5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_caed6cb4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/Base85.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-08-02T21:02:36Z",
+      "side": 1,
+      "message": "This file seems to have mixed tabs and white spaces;\n\nPlease use tabs consistently.",
+      "range": {
+        "startLine": 72,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 16
+      },
+      "revId": "97cad439a9b13841ae1dabd739e9f40a701b28d5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
