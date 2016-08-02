@@ -75,6 +75,9 @@ import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdSet;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.DepthWalk;
+import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -543,15 +546,117 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 					expected.contains(pi.getObjectId(i)));
 	}
 
+	@Test
+	public void testShallowIsMinimal() throws Exception {
+		FileRepository repo = createBareRepository();
+		TestRepository<Repository> r = new TestRepository<Repository>(repo);
+		BranchBuilder bb = r.branch("refs/heads/master");
+		RevBlob contentA = r.blob("A");
+		RevBlob contentB = r.blob("B");
+		RevBlob contentC = r.blob("C");
+		RevBlob contentD = r.blob("D");
+		RevBlob contentE = r.blob("E");
+		RevCommit c1 = bb.commit().add("a", contentA).create();
+		RevCommit c2 = bb.commit().add("b", contentB).create();
+		RevCommit c3 = bb.commit().add("c", contentC).create();
+		RevCommit c4 = bb.commit().add("d", contentD).create();
+		RevCommit c5 = bb.commit().add("e", contentE).create();
+		r.getRevWalk().parseHeaders(c1);
+		r.getRevWalk().parseHeaders(c2);
+		r.getRevWalk().parseHeaders(c3);
+		r.getRevWalk().parseHeaders(c4);
+		r.getRevWalk().parseHeaders(c5);
+
+		PackIndex idx = writeShallowPack(repo, 1, Collections.singleton(c2),
+				NONE, NONE);
+		assertContent(idx,
+				Arrays.asList(c1.getId(), c2.getId(), c1.getTree().getId(),
+						c2.getTree().getId(), contentA.getId(),
+						contentB.getId()));
+
+		Set<ObjectId> haves = new HashSet<>();
+		haves.add(c1);
+		haves.add(c2);
+		idx = writeShallowPack(repo, 1, Collections.singleton(c5), haves,
+				Collections.singleton(c1));
+		assertContent(idx,
+				Arrays.asList(c4.getId(), c5.getId(), c4.getTree().getId(),
+						c5.getTree().getId(), contentC.getId(),
+						contentD.getId(), contentE.getId()));
+	}
+
+	@Test
+	public void testShallowFetchOlderHistory() throws Exception {
+		FileRepository repo = createBareRepository();
+		TestRepository<Repository> r = new TestRepository<Repository>(repo);
+		BranchBuilder bb = r.branch("refs/heads/master");
+		RevBlob contentA = r.blob("A");
+		RevBlob contentB = r.blob("B");
+		RevBlob contentC = r.blob("C");
+		RevBlob contentD = r.blob("D");
+		RevBlob contentE = r.blob("E");
+		RevCommit c1 = bb.commit().add("a", contentA).create();
+		RevCommit c2 = bb.commit().add("b", contentB).create();
+		RevCommit c3 = bb.commit().add("c", contentC).create();
+		RevCommit c4 = bb.commit().add("d", contentD).create();
+		RevCommit c5 = bb.commit().add("e", contentE).create();
+		r.getRevWalk().parseHeaders(c1);
+		r.getRevWalk().parseHeaders(c2);
+		r.getRevWalk().parseHeaders(c3);
+		r.getRevWalk().parseHeaders(c4);
+		r.getRevWalk().parseHeaders(c5);
+
+		PackIndex idx = writeShallowPack(repo, 1, Collections.singleton(c5),
+				NONE, NONE);
+		assertContent(idx,
+				Arrays.asList(c4.getId(), c5.getId(), c4.getTree().getId(),
+						c5.getTree().getId(), contentA.getId(),
+						contentB.getId(), contentC.getId(), contentD.getId(),
+						contentE.getId()));
+
+		Set<ObjectId> haves = new HashSet<>();
+		haves.add(c4);
+		haves.add(c5);
+		idx = writeShallowPack(repo, 1, Collections.singleton(c2), haves,
+				Collections.singleton(c4));
+		assertContent(idx, Arrays.asList(c1.getId(), c2.getId(),
+				c1.getTree().getId(), c2.getTree().getId()));
+	}
+
 	private static PackIndex writePack(FileRepository repo,
 			Set<? extends ObjectId> want, Set<ObjectIdSet> excludeObjects)
-			throws IOException {
+					throws IOException {
+		RevWalk walk = new RevWalk(repo);
+		return writePack(repo, walk, 0, want, NONE, excludeObjects);
+	}
+
+	private static PackIndex writeShallowPack(FileRepository repo, int depth,
+			Set<? extends ObjectId> want, Set<? extends ObjectId> have,
+			Set<? extends ObjectId> shallow) throws IOException {
+		// During negotiation, UploadPack would have set up a DepthWalk and
+		// marked the client's "shallow" commits. Emulate that here.
+		DepthWalk.RevWalk walk = new DepthWalk.RevWalk(repo, depth);
+		walk.assumeShallow(shallow);
+		return writePack(repo, walk, depth, want, have,
+				Collections.<ObjectIdSet> emptySet());
+	}
+
+	private static PackIndex writePack(FileRepository repo, RevWalk walk,
+			int depth, Set<? extends ObjectId> want,
+			Set<? extends ObjectId> have, Set<ObjectIdSet> excludeObjects)
+					throws IOException {
 		try (PackWriter pw = new PackWriter(repo)) {
 			pw.setDeltaBaseAsOffset(true);
 			pw.setReuseDeltaCommits(false);
-			for (ObjectIdSet idx : excludeObjects)
+			for (ObjectIdSet idx : excludeObjects) {
 				pw.excludeObjects(idx);
-			pw.preparePack(NullProgressMonitor.INSTANCE, want, NONE);
+			}
+			if (depth > 0) {
+				pw.setShallowPack(depth, null);
+			}
+			ObjectWalk ow = walk.toObjectWalkWithSameObjects();
+
+			pw.preparePack(NullProgressMonitor.INSTANCE, ow, want, have);
 			String id = pw.computeName().getName();
 			File packdir = new File(repo.getObjectsDirectory(), "pack");
 			File packFile = new File(packdir, "pack-" + id + ".pack");
