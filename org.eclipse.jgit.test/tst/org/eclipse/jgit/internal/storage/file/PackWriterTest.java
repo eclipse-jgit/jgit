@@ -75,6 +75,7 @@ import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdSet;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.Sets;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -91,6 +92,9 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 
 	private static final List<RevObject> EMPTY_LIST_REVS = Collections
 			.<RevObject> emptyList();
+
+	private static final Set<ObjectIdSet> EMPTY_ID_SET = Collections
+			.<ObjectIdSet> emptySet();
 
 	private PackConfig config;
 
@@ -202,8 +206,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		final ObjectId nonExisting = ObjectId
 				.fromString("0000000000000000000000000000000000000001");
 		try {
-			createVerifyOpenPack(NONE, Collections.singleton(nonExisting),
-					false, false);
+			createVerifyOpenPack(NONE, haves(nonExisting), false, false);
 			fail("Should have thrown MissingObjectException");
 		} catch (MissingObjectException x) {
 			// expected
@@ -219,8 +222,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	public void testIgnoreNonExistingObjects() throws IOException {
 		final ObjectId nonExisting = ObjectId
 				.fromString("0000000000000000000000000000000000000001");
-		createVerifyOpenPack(NONE, Collections.singleton(nonExisting),
-				false, true);
+		createVerifyOpenPack(NONE, haves(nonExisting), false, true);
 		// shouldn't throw anything
 	}
 
@@ -238,8 +240,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		final ObjectId nonExisting = ObjectId
 				.fromString("0000000000000000000000000000000000000001");
 		new GC(db).gc();
-		createVerifyOpenPack(NONE, Collections.singleton(nonExisting), false,
-				true, true);
+		createVerifyOpenPack(NONE, haves(nonExisting), false, true, true);
 		// shouldn't throw anything
 	}
 
@@ -516,8 +517,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		RevBlob contentA = testRepo.blob("A");
 		RevCommit c1 = bb.commit().add("f", contentA).create();
 		testRepo.getRevWalk().parseHeaders(c1);
-		PackIndex pf1 = writePack(repo, Collections.singleton(c1),
-				Collections.<ObjectIdSet> emptySet());
+		PackIndex pf1 = writePack(repo, wants(c1), EMPTY_ID_SET);
 		assertContent(
 				pf1,
 				Arrays.asList(c1.getId(), c1.getTree().getId(),
@@ -525,8 +525,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		RevBlob contentB = testRepo.blob("B");
 		RevCommit c2 = bb.commit().add("f", contentB).create();
 		testRepo.getRevWalk().parseHeaders(c2);
-		PackIndex pf2 = writePack(repo, Collections.singleton(c2),
-				Collections.<ObjectIdSet> singleton(pf1));
+		PackIndex pf2 = writePack(repo, wants(c2), Sets.of((ObjectIdSet) pf1));
 		assertContent(
 				pf2,
 				Arrays.asList(c2.getId(), c2.getTree().getId(),
@@ -729,5 +728,13 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		for (MutableEntry me : entries) {
 			assertEquals(objectsOrder[i++].toObjectId(), me.toObjectId());
 		}
+	}
+
+	private static Set<ObjectId> haves(ObjectId... objects) {
+		return Sets.of(objects);
+	}
+
+	private static Set<ObjectId> wants(ObjectId... objects) {
+		return Sets.of(objects);
 	}
 }
