@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_9680f950",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackWriterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-08-03T21:10:16Z",
+      "side": 1,
+      "message": "Why are these needed?",
+      "range": {
+        "startLine": 562,
+        "startChar": 0,
+        "endLine": 566,
+        "endChar": 34
+      },
+      "revId": "c86367280d7e01692431c5c328b694107e77b67a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_1674e9f0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1657,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-08-03T21:10:16Z",
+      "side": 1,
+      "message": "I don\u0027t understand this comment. Is it related to this change?",
+      "range": {
+        "startLine": 1656,
+        "startChar": 0,
+        "endLine": 1657,
+        "endChar": 54
+      },
+      "revId": "c86367280d7e01692431c5c328b694107e77b67a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_366f2d22",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1711,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-08-03T21:10:16Z",
+      "side": 1,
+      "message": "Can this be null? What does it mean if it is null?",
+      "revId": "c86367280d7e01692431c5c328b694107e77b67a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
