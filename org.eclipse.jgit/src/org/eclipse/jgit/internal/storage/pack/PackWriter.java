@@ -751,8 +751,6 @@ public class PackWriter implements AutoCloseable {
 			throws IOException {
 		if (countingMonitor == null)
 			countingMonitor = NullProgressMonitor.INSTANCE;
-		if (shallowPack && !(walk instanceof DepthWalk.ObjectWalk))
-			walk = new DepthWalk.ObjectWalk(reader, depth);
 		findObjectsToPack(countingMonitor, walk, interestingObjects,
 				uninterestingObjects);
 	}
