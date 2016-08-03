@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_765605a5",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2016-08-03T20:25:19Z",
+      "side": 1,
+      "message": "readerIsRequired, done.",
+      "range": {
+        "startLine": 504,
+        "startChar": 0,
+        "endLine": 504,
+        "endChar": 20
+      },
+      "revId": "4a8d930d1717b2da00f76256e7527286459987e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
