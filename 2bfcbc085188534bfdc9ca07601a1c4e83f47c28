@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_5de2040e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackWriterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-08-03T06:02:11Z",
+      "side": 1,
+      "message": "This is added here but removed in the following change.\n\nReorder the change so that the refactoring of the file is done first, then this churn is not necessary?",
+      "range": {
+        "startLine": 577,
+        "startChar": 2,
+        "endLine": 579,
+        "endChar": 16
+      },
+      "revId": "2bfcbc085188534bfdc9ca07601a1c4e83f47c28",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
