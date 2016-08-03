@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_31f3b7da",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 754,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-08-03T21:33:41Z",
+      "side": 0,
+      "message": "Should we keep this sanity check? E.g.\n\n if (shallowPack \u0026\u0026 !(walk instanceof DepthWalk.ObjectWalk))\n   throw new IllegalArgumentException();",
+      "revId": "704920ed6f7f5636d0c5a0a329f3bd42ca64642d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}

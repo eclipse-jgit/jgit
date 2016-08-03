@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_11f873b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-08-03T21:33:41Z",
+      "side": 1,
+      "message": "It\u0027s hard for me to understand from this subject line what the commit fixes. How about something like the following?\n\n Shallow fetch: Respect \"shallow\" lines when processing client \"have\"s\n\n When fetching from a shallow clone, the client sends \"have\" lines\n to tell the server about objects it already has and \"shallow\" lines\n to tell where its local history terminates. In UploadPack, we pass\n the \"have\" lines to the PackWriter so it can assume the client has\n those objects and omit them from the generated pack. We process\n \"shallow\" lines by calling assumeShallow for each named commit to\n clear out its parents in the RevWalk passed to the PackWriter.\n That way, walks correctly terminate at the shallow commits instead\n of assuming the client had history going back behind them.\n\n Unfortunately, to support shallow fetches the PackWriter does the\n following:\n\n  if (shallowPack \u0026\u0026 !(walk instanceof DepthWalk.ObjectWalk))\n    walk \u003d new DepthWalk.ObjectWalk(reader, depth);\n\n That is, when the client sends a \"deepen\" line (fetch --depth\u003d\u003cn\u003e)\n and the caller has not passed in a DepthWalk.ObjectWalk, we throw\n away the RevWalk that was passed in and make a new one. The\n cleared parent lists prepared by assumeShallow are lost.\n\n Fortunately UploadPack intends to pass in a DepthWalk.ObjectWalk.\n It tries to create it by calling toObjectWalkWithSameObjects on\n a DepthWalk.RevWalk. But it doesn\u0027t work: because\n DepthWalk.RevWalk does not override the standard\n RevWalk#toObjectWalkWithSameObjects implementation, the result\n is a plain ObjectWalk instead of an instance of DepthWalk.ObjectWalk\n and the \"shallow\" information is thrown away.\n\n The result is that objects reachable from the \"shallow\" commit can\n be omitted from the pack sent when fetching with --depth from a\n shallow clone:\n\n  $ git fetch --depth\u003d1 origin master\n  fatal: bad object f572d396fae9206628714fb2ce00f72e94f2258f\n  error: https://example.com/repo did not send all necessary objects\n\n This is easiest to reproduce by fetching an ancestor of a\n previously fetched commit in a shallow clone. For example:\n\n  git clone --depth\u003d1 https://kernel.googlesource.com/pub/scm/git/git\n  cd git\n  git fetch --depth\u003d1 origin v1.5.0\n\n Because the server does not respect the \"shallow\" information\n sent by the client, it assumes the client already has all objects\n requested and sends an empty pack.",
+      "revId": "2bfded0484e4803aafd7092b9689690d3f375dda",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_d661912e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-08-03T21:33:41Z",
+      "side": 1,
+      "message": "nit: trailing whitespace (and likewise below)",
+      "range": {
+        "startLine": 9,
+        "startChar": 67,
+        "endLine": 9,
+        "endChar": 68
+      },
+      "revId": "2bfded0484e4803aafd7092b9689690d3f375dda",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
