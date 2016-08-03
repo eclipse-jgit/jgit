@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_1d8eccb8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CleanCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-08-03T09:56:24Z",
+      "side": 1,
+      "message": "Maybe we should be more careful here. The git clean command doc says it will not clean folders which contain a file or folder named \".git\". That\u0027s different from what we do here with \"...isGitRepository()\". Maybe we should do the same and check for the existance of .git only.\n\nCould this detection of git repos also go into cleanPath()? A cleanPath(path,recurse,force,inFiles) could do all this.",
+      "revId": "a670a667604822ae98338219e5cb429ae86774b6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_fd92f8d8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 703,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-08-03T09:56:24Z",
+      "side": 1,
+      "message": "Hmm, this is a change in our public API. We have been reporting untracked submodules always in getUntracked and I don\u0027t think we can change the API in a minor release. Other projects may rely on seeing submodules in getUntracked. GITLINKS (submodule) objects are tricky in this context: When GITLINKS are stored in the index or in trees then they are always leaves in the object hierarchy. There are no children of GITLINK objects when you look into index or trees. Only when looking at persistence in the filesystem we see them as trees. And therefore it would make sense to report untracked GITLINKS (untracked means they only exist in the filesystem) as directories, I agree. But since this would change the behaviour I would suggest to do fix this just in CleanCommand. If getUntracked reports a folder then check whether its a GITLINK and act accordingly.",
+      "revId": "a670a667604822ae98338219e5cb429ae86774b6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
