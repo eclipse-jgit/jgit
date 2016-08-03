@@ -845,7 +845,7 @@ public abstract class BaseReceivePack {
 	}
 
 	/**
-	 * Gets the list of string options associated with this push.
+	 * Gets an unmodifiable view of the option strings associated with the push.
 	 *
 	 * @return pushOptions
 	 * @throws RequestNotYetReadException
@@ -856,9 +856,6 @@ public abstract class BaseReceivePack {
 	 * @since 4.5
 	 */
 	public List<String> getPushOptions() throws RequestNotYetReadException {
-		if (enabledCapabilities == null) {
-			throw new RequestNotYetReadException();
-		}
 		return Collections.unmodifiableList(pushOptions);
 	}
 
