@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_5bccccce",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackWriterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-08-03T17:40:50Z",
+      "side": 1,
+      "message": "Removed in the reordered commits.",
+      "parentUuid": "27af2791_fdecb806",
+      "range": {
+        "startLine": 574,
+        "startChar": 2,
+        "endLine": 576,
+        "endChar": 16
+      },
+      "revId": "5eb59610c2cc40f0ee8d2289e27281d4597d2643",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_1de88cee",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackWriterTest.java",
         "patchSetId": 1
