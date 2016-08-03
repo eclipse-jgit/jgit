@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_5ba3ecf9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-08-03T17:49:50Z",
+      "side": 1,
+      "message": "This becomes new API, since anyone can create a subclass of RevWalk.\n\nCould it be package-private instead?",
+      "revId": "598de7743bf8cd7def55a5c6b526313adc190501",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
