@@ -616,6 +616,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String serviceNotEnabledNoName;
 	/***/ public String serviceNotPermitted;
 	/***/ public String shallowCommitsAlreadyInitialized;
+	/***/ public String shallowPacksRequireDepthWalk;
 	/***/ public String shortCompressedStreamAt;
 	/***/ public String shortReadOfBlock;
 	/***/ public String shortReadOfOptionalDIRCExtensionExpectedAnotherBytes;
