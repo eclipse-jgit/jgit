@@ -22,6 +22,30 @@
       "revId": "2bfcbc085188534bfdc9ca07601a1c4e83f47c28",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_db8ffc85",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackWriterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-08-03T17:42:19Z",
+      "side": 1,
+      "message": "Good idea. Reordered.",
+      "parentUuid": "27af2791_5de2040e",
+      "range": {
+        "startLine": 577,
+        "startChar": 2,
+        "endLine": 579,
+        "endChar": 16
+      },
+      "revId": "2bfcbc085188534bfdc9ca07601a1c4e83f47c28",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
