@@ -845,20 +845,16 @@ public abstract class BaseReceivePack {
 	}
 
 	/**
-	 * Gets the list of string options associated with this push.
+	 * Gets an unmodifiable view of the option strings associated with the push.
 	 *
 	 * @return pushOptions
-	 * @throws RequestNotYetReadException
-	 *             if the client's request has not yet been read from the wire,
-	 *             so we do not know if they expect push options. Note that the
-	 *             client may have already written the request, it just has not
-	 *             been read.
 	 * @since 4.5
 	 */
-	public List<String> getPushOptions() throws RequestNotYetReadException {
-		if (enabledCapabilities == null) {
-			throw new RequestNotYetReadException();
+	public List<String> getPushOptions() {
+		if (pushOptions == null) {
+			return null;
 		}
+
 		return Collections.unmodifiableList(pushOptions);
 	}
 
