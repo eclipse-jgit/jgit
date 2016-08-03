@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_9d5adcfc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-08-03T08:28:50Z",
+      "side": 1,
+      "message": "Why is it only \"possibly\" extraneous?",
+      "range": {
+        "startLine": 7,
+        "startChar": 28,
+        "endLine": 7,
+        "endChar": 47
+      },
+      "revId": "224132e47361b1c9e700147d1d3471862d6d9b20",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_7d57c8d6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 855,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-08-03T08:28:50Z",
+      "side": 1,
+      "message": "This javadoc is no longer correct.",
+      "range": {
+        "startLine": 851,
+        "startChar": 4,
+        "endLine": 855,
+        "endChar": 26
+      },
+      "revId": "224132e47361b1c9e700147d1d3471862d6d9b20",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
