@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_9d073c57",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CleanCommandTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-08-03T06:04:22Z",
+      "side": 1,
+      "message": "Import this as static?",
+      "range": {
+        "startLine": 243,
+        "startChar": 57,
+        "endLine": 243,
+        "endChar": 82
+      },
+      "revId": "63222c84f7de06dac9b322193b02e80ced9a6566",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
