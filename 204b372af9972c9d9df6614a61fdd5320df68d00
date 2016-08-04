@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_15785c9a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-08-04T19:01:29Z",
+      "side": 1,
+      "message": "nit: trailing whitespace",
+      "range": {
+        "startLine": 19,
+        "startChar": 62,
+        "endLine": 19,
+        "endChar": 63
+      },
+      "revId": "204b372af9972c9d9df6614a61fdd5320df68d00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_b50df046",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-08-04T19:01:29Z",
+      "side": 1,
+      "message": "I don\u0027t think this is true.\n\nFor a shallow fetch from a shallow repo, PackWriter always loses the shallow information. This is partially mitigated because DepthGenerator is bad at propagating the UNINTERESTING information to ancestry of \"have\"s.\n\nA \"have\" that is not an ancestor of a root gets depth -1. We don\u0027t do anything special to handle this, so its parents get depth 0 (oops), just as though they were roots. Then we keep enqueueing parents and walking until we hit the maximum depth. What makes the loss of shallow information hard to reproduce is that that maximum depth can be pretty low, so e.g. trying\n\n  git clone --depth\u003d1 https://kernel.googlesource.com/pub/scm/git/git\n  git -C git fetch --depth\u003d1 origin v1.5.0\n\ndoesn\u0027t reproduce this bug, while\n\n  git clone https://kernel.googlesource.com/pub/scm/git/git\n  git clone --depth\u003d1 https://kernel.googlesource.com/pub/scm/git/git repro\n  git -C repro fetch --depth\u003d100 origin $(git -C git rev-parse HEAD~10)\n\ndoes.",
+      "range": {
+        "startLine": 45,
+        "startChar": 23,
+        "endLine": 47,
+        "endChar": 9
+      },
+      "revId": "204b372af9972c9d9df6614a61fdd5320df68d00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
