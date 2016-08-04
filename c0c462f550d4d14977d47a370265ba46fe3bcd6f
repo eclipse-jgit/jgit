@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "27af2791_f5a5a8b6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CleanCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 74427
+      },
+      "writtenOn": "2016-08-04T20:46:31Z",
+      "side": 1,
+      "message": "I\u0027ve pushed a change that I think should resolve these concerns. I added javadoc that explains the method and moved some directory checking into the method.\n\nThe recurse parameter was removed, as it basically mirrored the directories field on the class. An isDirectory() call was added to the method to gate recursively deleting.\n\nIn the new version of the method, we will only recursively delete if the directories field is true and if the path is a directory (or a git repository). The same conditions are used to add a trailing \"/\" to the path.",
+      "parentUuid": "27af2791_314017ba",
+      "revId": "c0c462f550d4d14977d47a370265ba46fe3bcd6f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_ec5408d1",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CleanCommand.java",
         "patchSetId": 3
