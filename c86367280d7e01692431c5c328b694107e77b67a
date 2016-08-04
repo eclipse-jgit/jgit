@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_111f9394",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackWriterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-08-04T01:19:13Z",
+      "side": 1,
+      "message": "The RevCommit objects are not fully initialized. In these tests, the tree objects are not all initialized so calling RevCommit.getTree().getId() causes an NPE.\n\nIt might be good to push down this parseHeaders() into the TestRepository.create() function, but I\u0027d rather leave that in a separate cleanup pass.",
+      "parentUuid": "27af2791_9680f950",
+      "range": {
+        "startLine": 562,
+        "startChar": 0,
+        "endLine": 566,
+        "endChar": 34
+      },
+      "revId": "c86367280d7e01692431c5c328b694107e77b67a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_1674e9f0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_3165770f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1657,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-08-04T01:19:13Z",
+      "side": 1,
+      "message": "This is where the state set by RevWalk.assumeShallow() is retrieved. We need to retrieve that state rather than recreating the RevCommit objects in order for shallow fetches of parent commits to not get lost.\n\nChanged \"flags\" to \"state\".",
+      "parentUuid": "27af2791_1674e9f0",
+      "range": {
+        "startLine": 1656,
+        "startChar": 0,
+        "endLine": 1657,
+        "endChar": 54
+      },
+      "revId": "c86367280d7e01692431c5c328b694107e77b67a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_366f2d22",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
         "patchSetId": 2
@@ -59,6 +107,24 @@
       "writtenOn": "2016-08-03T21:10:16Z",
       "side": 1,
       "message": "Can this be null? What does it mean if it is null?",
+      "revId": "c86367280d7e01692431c5c328b694107e77b67a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_b1598763",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1711,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-08-04T01:19:13Z",
+      "side": 1,
+      "message": "This is defensive programming to avoid an NPE. IIRC Ketch can have a commit with no tree object. We shouldn\u0027t see that here but I erred on the side of caution. I saw another place in the JGit code with a check like this so maybe it is also possible to have a commit with no tree object outside of Ketch?",
+      "parentUuid": "27af2791_366f2d22",
       "revId": "c86367280d7e01692431c5c328b694107e77b67a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
