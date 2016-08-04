@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_cc5104e1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CleanCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-08-04T12:21:23Z",
+      "side": 1,
+      "message": "style nit: we use tabs for indention. That\u0027s also true for the other lines you added/modified.",
+      "revId": "c0c462f550d4d14977d47a370265ba46fe3bcd6f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_314017ba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CleanCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-08-04T12:21:23Z",
+      "side": 1,
+      "message": "What should happen if recurse\u003d\u003dfalse but curFile.isDirectory() is true? I would guess that if you have specified recurse\u003d\u003dfalse we should never go into folders, or? Maybe a test for that would be good. And if recurse\u003d\u003dtrue and curFile.isDirectory()\u003d\u003dfalse do we really want to add a \"/\"? Adding a slash behind a path we know that he is no folder? A javadoc explaining the semantics of this method is needed.",
+      "revId": "c0c462f550d4d14977d47a370265ba46fe3bcd6f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_ec5408d1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CleanCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-08-04T12:21:23Z",
+      "side": 1,
+      "message": "we need a @since tag here since this a a new method",
+      "revId": "c0c462f550d4d14977d47a370265ba46fe3bcd6f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
