@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_98bf43f8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackWriterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-08-04T21:11:46Z",
+      "side": 1,
+      "message": "Other methods in this test call parseHeaders() on every BranchBuilder-created RevCommit, and I thought that was the pattern to follow. I tested which RevCommits are not fully initialized, and when you are adding multiple commits to the same BranchBuilder it is only the last one (c5) that needs to be parsed.\n\nThat said, the Eclipse project setup is set to report unused variables as errors so if I remove the parseHeaders(c3) there is an error. One workaround that is to remove the \"RevCommit c3 \u003d \" above, which looks awkward.  Another is to make the RecCommits class members, which I do in https://git.eclipse.org/r/#/c/78398. So my plan is to  just remove the parseHeaders() calls for all but c5 in that patch.\n\nI\u0027ll also need to update the commit message in the initial patch in this set, since it experienced a Hudson test flake failure. *sigh*",
+      "parentUuid": "27af2791_358560e8",
+      "range": {
+        "startLine": 562,
+        "startChar": 0,
+        "endLine": 566,
+        "endChar": 34
+      },
+      "revId": "c86367280d7e01692431c5c328b694107e77b67a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_1674e9f0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
         "patchSetId": 2
