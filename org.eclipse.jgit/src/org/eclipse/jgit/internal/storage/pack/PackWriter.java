@@ -564,7 +564,8 @@ public class PackWriter implements AutoCloseable {
 	 * Configure this pack for a shallow clone.
 	 *
 	 * @param depth
-	 *            maximum depth to traverse the commit graph
+	 *            maximum depth of history to return. 1 means return only the
+	 *            "wants".
 	 * @param unshallow
 	 *            objects which used to be shallow on the client, but are being
 	 *            extended as part of this fetch
@@ -711,7 +712,7 @@ public class PackWriter implements AutoCloseable {
 			@NonNull Set<? extends ObjectId> have) throws IOException {
 		ObjectWalk ow;
 		if (shallowPack)
-			ow = new DepthWalk.ObjectWalk(reader, depth);
+			ow = new DepthWalk.ObjectWalk(reader, depth - 1);
 		else
 			ow = new ObjectWalk(reader);
 		preparePack(countingMonitor, ow, want, have);

@@ -790,8 +790,9 @@ public class UploadPack {
 	}
 
 	private void processShallow() throws IOException {
+		int walkDepth = depth - 1;
 		try (DepthWalk.RevWalk depthWalk = new DepthWalk.RevWalk(
-				walk.getObjectReader(), depth)) {
+				walk.getObjectReader(), walkDepth)) {
 
 			// Find all the commits which will be shallow
 			for (ObjectId o : wantIds) {
@@ -808,12 +809,14 @@ public class UploadPack {
 
 				// Commits at the boundary which aren't already shallow in
 				// the client need to be marked as such
-				if (c.getDepth() == depth && !clientShallowCommits.contains(c))
+				if (c.getDepth() == walkDepth
+						&& !clientShallowCommits.contains(c))
 					pckOut.writeString("shallow " + o.name()); //$NON-NLS-1$
 
 				// Commits not on the boundary which are shallow in the client
 				// need to become unshallowed
-				if (c.getDepth() < depth && clientShallowCommits.remove(c)) {
+				if (c.getDepth() < walkDepth
+						&& clientShallowCommits.remove(c)) {
 					unshallowCommits.add(c.copy());
 					pckOut.writeString("unshallow " + c.name()); //$NON-NLS-1$
 				}
@@ -948,6 +951,11 @@ public class UploadPack {
 
 			if (line.startsWith("deepen ")) { //$NON-NLS-1$
 				depth = Integer.parseInt(line.substring(7));
+				if (depth <= 0) {
+					throw new PackProtocolException(
+							MessageFormat.format(JGitText.get().invalidDepth,
+									Integer.valueOf(depth)));
+				}
 				continue;
 			}
 
@@ -974,7 +982,8 @@ public class UploadPack {
 	}
 
 	/**
-	 * Returns the clone/fetch depth. Valid only after calling recvWants().
+	 * Returns the clone/fetch depth. Valid only after calling recvWants(). A
+	 * depth of 1 means return only the wants.
 	 *
 	 * @return the depth requested by the client, or 0 if unbounded.
 	 * @since 4.0

@@ -566,17 +566,31 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testShallowIsMinimal() throws Exception {
+	public void testShallowIsMinimalDepth1() throws Exception {
 		FileRepository repo = setupRepoForShallowFetch();
 
 		PackIndex idx = writeShallowPack(repo, 1, wants(c2), NONE, NONE);
+		assertContent(idx, Arrays.asList(c2.getId(), c2.getTree().getId(),
+				contentA.getId(), contentB.getId()));
+
+		// Client already has blobs A and B, verify those are not packed.
+		idx = writeShallowPack(repo, 1, wants(c5), haves(c2), shallows(c2));
+		assertContent(idx, Arrays.asList(c5.getId(), c5.getTree().getId(),
+				contentC.getId(), contentD.getId(), contentE.getId()));
+	}
+
+	@Test
+	public void testShallowIsMinimalDepth2() throws Exception {
+		FileRepository repo = setupRepoForShallowFetch();
+
+		PackIndex idx = writeShallowPack(repo, 2, wants(c2), NONE, NONE);
 		assertContent(idx,
 				Arrays.asList(c1.getId(), c2.getId(), c1.getTree().getId(),
 						c2.getTree().getId(), contentA.getId(),
 						contentB.getId()));
 
 		// Client already has blobs A and B, verify those are not packed.
-		idx = writeShallowPack(repo, 1, wants(c5), haves(c1, c2), shallows(c1));
+		idx = writeShallowPack(repo, 2, wants(c5), haves(c1, c2), shallows(c1));
 		assertContent(idx,
 				Arrays.asList(c4.getId(), c5.getId(), c4.getTree().getId(),
 						c5.getTree().getId(), contentC.getId(),
@@ -584,33 +598,61 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testShallowFetchShallowParent() throws Exception {
+	public void testShallowFetchShallowParentDepth1() throws Exception {
 		FileRepository repo = setupRepoForShallowFetch();
 
 		PackIndex idx = writeShallowPack(repo, 1, wants(c5), NONE, NONE);
+		assertContent(idx,
+				Arrays.asList(c5.getId(), c5.getTree().getId(),
+						contentA.getId(), contentB.getId(), contentC.getId(),
+						contentD.getId(), contentE.getId()));
+
+		idx = writeShallowPack(repo, 1, wants(c4), haves(c5), shallows(c5));
+		assertContent(idx, Arrays.asList(c4.getId(), c4.getTree().getId()));
+	}
+
+	@Test
+	public void testShallowFetchShallowParentDepth2() throws Exception {
+		FileRepository repo = setupRepoForShallowFetch();
+
+		PackIndex idx = writeShallowPack(repo, 2, wants(c5), NONE, NONE);
 		assertContent(idx,
 				Arrays.asList(c4.getId(), c5.getId(), c4.getTree().getId(),
 						c5.getTree().getId(), contentA.getId(),
 						contentB.getId(), contentC.getId(), contentD.getId(),
 						contentE.getId()));
 
-		idx = writeShallowPack(repo, 1, wants(c3), haves(c4, c5), shallows(c4));
+		idx = writeShallowPack(repo, 2, wants(c3), haves(c4, c5), shallows(c4));
 		assertContent(idx, Arrays.asList(c2.getId(), c3.getId(),
 				c2.getTree().getId(), c3.getTree().getId()));
 	}
 
 	@Test
-	public void testShallowFetchShallowAncestor() throws Exception {
+	public void testShallowFetchShallowAncestorDepth1() throws Exception {
 		FileRepository repo = setupRepoForShallowFetch();
 
 		PackIndex idx = writeShallowPack(repo, 1, wants(c5), NONE, NONE);
+		assertContent(idx,
+				Arrays.asList(c5.getId(), c5.getTree().getId(),
+						contentA.getId(), contentB.getId(), contentC.getId(),
+						contentD.getId(), contentE.getId()));
+
+		idx = writeShallowPack(repo, 1, wants(c3), haves(c5), shallows(c5));
+		assertContent(idx, Arrays.asList(c3.getId(), c3.getTree().getId()));
+	}
+
+	@Test
+	public void testShallowFetchShallowAncestorDepth2() throws Exception {
+		FileRepository repo = setupRepoForShallowFetch();
+
+		PackIndex idx = writeShallowPack(repo, 2, wants(c5), NONE, NONE);
 		assertContent(idx,
 				Arrays.asList(c4.getId(), c5.getId(), c4.getTree().getId(),
 						c5.getTree().getId(), contentA.getId(),
 						contentB.getId(), contentC.getId(), contentD.getId(),
 						contentE.getId()));
 
-		idx = writeShallowPack(repo, 1, wants(c2), haves(c4, c5), shallows(c4));
+		idx = writeShallowPack(repo, 2, wants(c2), haves(c4, c5), shallows(c4));
 		assertContent(idx, Arrays.asList(c1.getId(), c2.getId(),
 				c1.getTree().getId(), c2.getTree().getId()));
 	}
@@ -645,7 +687,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 			Set<? extends ObjectId> shallow) throws IOException {
 		// During negotiation, UploadPack would have set up a DepthWalk and
 		// marked the client's "shallow" commits. Emulate that here.
-		DepthWalk.RevWalk walk = new DepthWalk.RevWalk(repo, depth);
+		DepthWalk.RevWalk walk = new DepthWalk.RevWalk(repo, depth - 1);
 		walk.assumeShallow(shallow);
 		return writePack(repo, walk, depth, want, have, EMPTY_ID_SET);
 	}
