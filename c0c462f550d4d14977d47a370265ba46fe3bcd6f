@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "27af2791_0c7a1c2f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CleanCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-08-04T12:22:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_cc5104e1",
+      "revId": "c0c462f550d4d14977d47a370265ba46fe3bcd6f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_314017ba",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CleanCommand.java",
         "patchSetId": 3
@@ -47,6 +65,24 @@
       "writtenOn": "2016-08-04T12:21:23Z",
       "side": 1,
       "message": "we need a @since tag here since this a a new method",
+      "revId": "c0c462f550d4d14977d47a370265ba46fe3bcd6f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_2c75203d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CleanCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-08-04T12:22:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_ec5408d1",
       "revId": "c0c462f550d4d14977d47a370265ba46fe3bcd6f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
