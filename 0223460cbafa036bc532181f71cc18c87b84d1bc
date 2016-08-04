@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_15dcdc02",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 793,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-08-04T19:17:45Z",
+      "side": 1,
+      "message": "optional: \u0027walkDepth\u0027, maybe?\n\nSince both depths represent the depth of ancestry, but this one is the one used in the walk.",
+      "range": {
+        "startLine": 793,
+        "startChar": 6,
+        "endLine": 793,
+        "endChar": 15
+      },
+      "revId": "0223460cbafa036bc532181f71cc18c87b84d1bc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_d5e184bb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 953,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-08-04T19:17:45Z",
+      "side": 1,
+      "message": "Can we forbid negative depth?",
+      "revId": "0223460cbafa036bc532181f71cc18c87b84d1bc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
