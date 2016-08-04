@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "27af2791_51182b80",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-08-04T01:17:06Z",
+      "side": 1,
+      "message": "Some of your text was better so I incorporated it.\n\nI left out the sample git clone/git fetch commands because I haven\u0027t yet found an example that exactly reproduces this bug in a public repo.",
+      "parentUuid": "27af2791_11f873b5",
+      "revId": "2bfded0484e4803aafd7092b9689690d3f375dda",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_d661912e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_d1b27bff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-08-04T01:17:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_d661912e",
+      "range": {
+        "startLine": 9,
+        "startChar": 67,
+        "endLine": 9,
+        "endChar": 68
+      },
+      "revId": "2bfded0484e4803aafd7092b9689690d3f375dda",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_913d63ed",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -53,6 +95,30 @@
       "writtenOn": "2016-08-03T22:17:26Z",
       "side": 1,
       "message": "I didn\u0027t understand this part but I ran into it. IIUC my \"git fetch --depth\u003d1 origin v1.5.0\" doesn\u0027t run into the problem fixed by this change because the DepthWalk stops limits walks from both starts and uninteresting commits to the depth. (I don\u0027t think that\u0027s intentional, but it\u0027s an unrelated problem.)\n\nCorrecting my experiment for that by using a larger depth allowed me to reproduce the problem.\n\n $ git clone --depth\u003d1 https://kernel.googlesource.com/pub/scm/git/git\n Cloning into \u0027git\u0027...\n remote: Counting objects: 3312, done\n remote: Finding sources: 100% (3312/3312)\n remote: Total 3312 (delta 308), reused 1949 (delta 308)\n Receiving objects: 100% (3312/3312), 7.40 MiB | 10.29 MiB/s, done.\n Resolving deltas: 100% (308/308), done.\n Checking connectivity... done.\n $ cd git\n $ git fetch --depth\u003d100 origin c97268c822077ba414f90f6ba357fab170bb3986\n fatal: git fetch_pack: expected ACK/NAK, got \u0027ERR want c97268c822077ba414f90f6ba357fab170bb3986 not valid\u0027\n fatal: The remote end hung up unexpectedly\n\nDifferent error than I expected, but close.",
+      "range": {
+        "startLine": 33,
+        "startChar": 9,
+        "endLine": 33,
+        "endChar": 65
+      },
+      "revId": "2bfded0484e4803aafd7092b9689690d3f375dda",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_b12427b8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-08-04T01:17:06Z",
+      "side": 1,
+      "message": "This may be a different bug rather than a different manifestation of the bug. I will need to investigate further. I\u0027m not sure how well supported changing the --depth parameter is. cgit recently introduces a --deepen parameter to better deal with expanding or shrinking history. I\u0027ll need to study up on that.\n\nNeither of our understandings of why the bug doesn\u0027t always manifest itself when the want is a more distant ancestor of the have was correct. I had to spend a bunch of time in the debugger to figure out what DepthWalk is doing. I updated this commit message with my findings.",
+      "parentUuid": "27af2791_913d63ed",
       "range": {
         "startLine": 33,
         "startChar": 9,
