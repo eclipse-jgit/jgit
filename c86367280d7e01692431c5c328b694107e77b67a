@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_d5ac2476",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1657,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-08-04T19:21:02Z",
+      "side": 1,
+      "message": "It still says flags.\n\nIs the purpose of this comment to warn people against creating a new RevWalk? In a single RevWalk I don\u0027t know of any way to recreate a RevCommit --- any methods that produce a RevCommit reuse an existing one if available.\n\nOr is the purpose of this comment to explain some confusing line in the code below? Please forgive my denseness.",
+      "parentUuid": "27af2791_3165770f",
+      "range": {
+        "startLine": 1656,
+        "startChar": 0,
+        "endLine": 1657,
+        "endChar": 54
+      },
+      "revId": "c86367280d7e01692431c5c328b694107e77b67a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_366f2d22",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
         "patchSetId": 2
