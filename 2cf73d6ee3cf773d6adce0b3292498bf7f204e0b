@@ -16,6 +16,24 @@
       "revId": "2cf73d6ee3cf773d6adce0b3292498bf7f204e0b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_cc358491",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CleanCommandTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-08-04T12:19:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_ec21685d",
+      "revId": "2cf73d6ee3cf773d6adce0b3292498bf7f204e0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
