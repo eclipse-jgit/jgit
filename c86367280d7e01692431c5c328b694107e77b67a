@@ -176,6 +176,24 @@
       "revId": "c86367280d7e01692431c5c328b694107e77b67a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_b56330bb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1711,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-08-04T19:30:09Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s possible to have a commit without a tree. It is possible to have an unparsed RevCommit, in which case I am not sure whether getTree will return null.\n\nI\u0027d rather this throw an exception when t \u003d\u003d null. Otherwise it\u0027s too easy to silently lose this improvement with some other code change.",
+      "parentUuid": "27af2791_b1598763",
+      "revId": "c86367280d7e01692431c5c328b694107e77b67a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
