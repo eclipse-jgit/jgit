@@ -168,6 +168,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_f8275f3c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1657,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-08-05T00:27:58Z",
+      "side": 1,
+      "message": "It is the assumeShallow state that is important to retrieve.\n\nI added a comment her because I didn\u0027t understand the role it played in maintaining any previous state set up by the RevWalk. I guess my question to you is, prior to my attempt to comment this loop, what did you understand it to do? Based on your answer we can either drop or adapt the comment.",
+      "parentUuid": "27af2791_d5ac2476",
+      "range": {
+        "startLine": 1656,
+        "startChar": 0,
+        "endLine": 1657,
+        "endChar": 54
+      },
+      "revId": "c86367280d7e01692431c5c328b694107e77b67a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_366f2d22",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
         "patchSetId": 2
@@ -215,6 +239,24 @@
       "side": 1,
       "message": "I don\u0027t think it\u0027s possible to have a commit without a tree. It is possible to have an unparsed RevCommit, in which case I am not sure whether getTree will return null.\n\nI\u0027d rather this throw an exception when t \u003d\u003d null. Otherwise it\u0027s too easy to silently lose this improvement with some other code change.",
       "parentUuid": "27af2791_b1598763",
+      "revId": "c86367280d7e01692431c5c328b694107e77b67a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_989ca3f1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1711,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-08-05T00:27:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_b56330bb",
       "revId": "c86367280d7e01692431c5c328b694107e77b67a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
