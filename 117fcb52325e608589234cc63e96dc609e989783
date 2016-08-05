@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_d818db03",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/zlib/ZlibSupport.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-08-05T00:29:22Z",
+      "side": 1,
+      "message": "Inflate can be tricky. If its not done yet, you need to call it again. Otherwise it may fully populate the output buffer but not verify the zlib crc at the trailer and we may have corrupt data inflated.\n\nSomething like this:\n\n\t\tfor (int dstoff \u003d 0;;) {\n\t\t\tint n \u003d inf.inflate(dstbuf, dstoff, dstbuf.length - dstoff);\n\t\t\tdstoff +\u003d n;\n\t\t\tif (inf.finished()) {\n\t\t\t\treturn dstbuf;\n\t\t\t} else if (inf.needsInput()) {\n\t\t\t\tposition +\u003d inf.setInput(bytes, position, bytes.length - position);\n\t\t\t} else if (n \u003d\u003d 0) {\n\t\t\t\tthrow new DataFormatException();\n\t\t\t}\n\t\t}",
+      "revId": "117fcb52325e608589234cc63e96dc609e989783",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_b89247d8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/zlib/ZlibSupport.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-08-05T00:29:22Z",
+      "side": 1,
+      "message": "Throw the DataFormatException, not a RuntimeException.",
+      "revId": "117fcb52325e608589234cc63e96dc609e989783",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}

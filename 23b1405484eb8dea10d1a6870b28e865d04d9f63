@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_5834cb64",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-08-05T00:29:22Z",
+      "side": 0,
+      "message": "Unfortunately our line length convention is 80 columns. Can you revert these line edits where it is just a line wrapping change?",
+      "range": {
+        "startLine": 207,
+        "startChar": 0,
+        "endLine": 208,
+        "endChar": 15
+      },
+      "revId": "23b1405484eb8dea10d1a6870b28e865d04d9f63",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
