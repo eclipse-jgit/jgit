@@ -108,6 +108,36 @@
           <argLine>-Xmx256m -Dfile.encoding=UTF-8 -Djava.io.tmpdir=${project.build.directory}</argLine>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>run</goal>
+            </goals><phase>verify</phase>
+            <configuration>
+              <target>
+                <taskdef name="git-info" classname="org.eclipse.jgit.ant.tasks.GitInfoTask"
+                  classpathref="maven.plugin.classpath"/>
+                <git-info path="${basedir}" prefix="project"/>
+                <echo message="project.state: ${project.state}"/>
+                <echo message="project.isClean: ${project.isClean}"/>
+                <echo message="project.branch: ${project.branch}"/>
+                <echo message="project.commitId: ${project.commitId}"/>
+                <git-info path="/some/random/path" prefix="nofail" failonmissing="false"/>
+              </target>
+            </configuration>
+          </execution>
+        </executions>
+        <dependencies>
+          <dependency>
+            <groupId>org.eclipse.jgit</groupId>
+            <artifactId>org.eclipse.jgit.ant</artifactId>
+            <version>${project.version}</version>
+          </dependency>
+        </dependencies>
+      </plugin>
     </plugins>
   </build>
 </project>
