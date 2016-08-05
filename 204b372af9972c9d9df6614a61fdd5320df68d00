@@ -189,6 +189,30 @@
       "revId": "204b372af9972c9d9df6614a61fdd5320df68d00",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_a1fcd233",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-08-05T18:04:24Z",
+      "side": 1,
+      "message": "Sorry to be so dense. Now I finally understand. Multiple factors collude to make this especially hard to reproduce:\n\n1. As you noticed, commits with depth !\u003d 0 don\u0027t enter DepthGenerator\u0027s pending queue. That means a \"have\" cannot have any effect on DepthGenerator unless it is also a \"want\".\n2. DepthGenerator#next() doesn\u0027t call carryFlagsImpl, so the uninteresting flag is not propagated to ancestors there even if a \"have\" is also a \"want\".\n3. JGit treats a depth of 1 as \"1 past the wants\", ruling out another reproduction case (see below).\n\nBecause of (2), the only place the UNINTERESTING flag can leak to a shallow commit\u0027s parents is in the carryFlags call from markUninteresting. carryFlags only traverses commits that have already been parsed: commits yet to be parsed are supposed to inherit correct flags from their parent in PendingGenerator#next (which doesn\u0027t happen here --- that is (2)). So the list of commits that have already been parsed becomes relevant.\n\nWhen we hit the markUninteresting call, all \"want\"s, \"have\"s, and commits to be unshallowed have been parsed. The bug only affects us if there is a path from a \"have\" to an ancestor of \"want\" that\n\n* passes through a \"shallow\" commit\n* only involves \"want\"s, \"have\"s, and commits to be unshallowed\n\nSo reproducing the bug requires a \"shallow\" commit that is either a \"want\" or a \"have\".\n\nBecause of (3), a \"shallow\" can\u0027t be a \"want\". We are walking at least 1 past the wants, so any shallow that is also a want becomes unshallow. The fix https://git.eclipse.org/r/78481 changes that --- then it becomes possible to have a reproduction case (time flowing left to right, arrows pointing to parents):\n\n  A \u003c-- B \u003c-- C \u003c-- D\n\nI first do\n\n  git clone --depth 2 \u003crepo\u003e\n\nwhich gives me D as a \"have\" and C as a \"shallow\" commit. Then if I try\n\n  git fetch --depth 1 \u003crepo\u003e B:refs/heads/B C:refs/heads/C\n\nI am not sent the objects for B and C is considered uninteresting. (have D, shallow C, want C, want B)",
+      "parentUuid": "27af2791_98c583d7",
+      "range": {
+        "startLine": 45,
+        "startChar": 23,
+        "endLine": 47,
+        "endChar": 9
+      },
+      "revId": "204b372af9972c9d9df6614a61fdd5320df68d00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
