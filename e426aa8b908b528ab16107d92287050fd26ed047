@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_6c60f101",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 954,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-08-06T00:31:59Z",
+      "side": 1,
+      "message": "Yup, this matches what git checks. (I was surprised because it accepts --depth\u003d0. I shouldn\u0027t have been surprised: --depth\u003d0 means to send no deepen line over the wire.)",
+      "range": {
+        "startLine": 954,
+        "startChar": 8,
+        "endLine": 954,
+        "endChar": 18
+      },
+      "revId": "e426aa8b908b528ab16107d92287050fd26ed047",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
