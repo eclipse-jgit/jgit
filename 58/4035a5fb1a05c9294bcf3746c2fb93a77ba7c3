@@ -1,0 +1,7 @@
+Verified+1: Hudson CI
+Code-Review+2: Jonathan Nieder <jrn@google.com>
+Submitted-by: Jonathan Nieder <jrn@google.com>
+Submitted-at: Fri, 05 Aug 2016 20:35:56 -0400
+Reviewed-on: https://git.eclipse.org/r/78236
+Project: jgit/jgit
+Branch: refs/heads/master
