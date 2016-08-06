@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_cc19fdae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 793,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-08-06T00:28:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_15dcdc02",
+      "range": {
+        "startLine": 793,
+        "startChar": 6,
+        "endLine": 793,
+        "endChar": 15
+      },
+      "revId": "0223460cbafa036bc532181f71cc18c87b84d1bc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_d5e184bb",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2016-08-04T19:17:45Z",
       "side": 1,
       "message": "Can we forbid negative depth?",
+      "revId": "0223460cbafa036bc532181f71cc18c87b84d1bc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_ec1881aa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 953,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-08-06T00:28:23Z",
+      "side": 1,
+      "message": "cgit forbids depth \u003c\u003d0. Done.",
+      "parentUuid": "27af2791_d5e184bb",
       "revId": "0223460cbafa036bc532181f71cc18c87b84d1bc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
