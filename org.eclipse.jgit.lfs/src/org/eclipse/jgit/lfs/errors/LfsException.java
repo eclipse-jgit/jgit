@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Sasa Zivkov <sasa.zivkov@sap.com>
+ * Copyright (C) 2016, David Pursehouse <david.pursehouse@gmail.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -40,27 +40,21 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.eclipse.jgit.lfs.server;
+
+package org.eclipse.jgit.lfs.errors;
 
 /**
- * LFS object.
+ * Thrown when an error occurs during LFS operation.
  *
+ * @since 4.5
  */
-public class LfsObject {
-	String oid;
-	long size;
+public class LfsException extends Exception {
+	private static final long serialVersionUID = 1L;
 
 	/**
-	 * @return the object ID.
+	 * @param message
 	 */
-	public String getOid() {
-		return oid;
-	}
-
-	/**
-	 * @return the object size.
-	 */
-	public long getSize() {
-		return size;
+	public LfsException(String message) {
+		super(message);
 	}
 }
