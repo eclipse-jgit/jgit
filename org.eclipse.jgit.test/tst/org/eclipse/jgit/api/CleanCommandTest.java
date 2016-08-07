@@ -45,6 +45,7 @@ package org.eclipse.jgit.api;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.eclipse.jgit.lib.Constants.DOT_GIT_MODULES;
 
 import java.util.Set;
 import java.util.TreeSet;
@@ -52,6 +53,7 @@ import java.util.TreeSet;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.lib.Repository;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -227,4 +229,30 @@ public class CleanCommandTest extends RepositoryTestCase {
 		assertTrue(cleanedFiles.contains("ignored-dir/"));
 	}
 
+	@Test
+	public void testCleanDirsWithSubmodule() throws Exception {
+		SubmoduleAddCommand command = new SubmoduleAddCommand(db);
+		String path = "sub";
+		command.setPath(path);
+		String uri = db.getDirectory().toURI().toString();
+		command.setURI(uri);
+		Repository repo = command.call();
+		repo.close();
+
+		Status beforeCleanStatus = git.status().call();
+		assertTrue(beforeCleanStatus.getAdded().contains(DOT_GIT_MODULES));
+		assertTrue(beforeCleanStatus.getAdded().contains(path));
+
+		Set<String> cleanedFiles = git.clean().setCleanDirectories(true).call();
+
+		// The submodule should not be cleaned.
+		assertTrue(!cleanedFiles.contains(path + "/"));
+
+		assertTrue(cleanedFiles.contains("File2.txt"));
+		assertTrue(cleanedFiles.contains("File3.txt"));
+		assertTrue(!cleanedFiles.contains("sub-noclean/File1.txt"));
+		assertTrue(cleanedFiles.contains("sub-noclean/File2.txt"));
+		assertTrue(cleanedFiles.contains("sub-clean/"));
+		assertTrue(cleanedFiles.size() == 4);
+	}
 }
