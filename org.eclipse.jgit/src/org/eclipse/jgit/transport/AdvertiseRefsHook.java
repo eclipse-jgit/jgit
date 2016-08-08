@@ -53,7 +53,7 @@ public interface AdvertiseRefsHook {
 	 * <p>
 	 * The method implementations do nothing to preserve the default behavior; see
 	 * {@link UploadPack#setAdvertisedRefs(java.util.Map)} and
-	 * {@link BaseReceivePack#setAdvertisedRefs(java.util.Map,java.util.Set)}.
+	 * {@link ReceivePack#setAdvertisedRefs(java.util.Map,java.util.Set)}.
 	 */
 	public static final AdvertiseRefsHook DEFAULT = new AdvertiseRefsHook() {
 		public void advertiseRefs(UploadPack uploadPack) {
@@ -81,7 +81,7 @@ public interface AdvertiseRefsHook {
 	 * Advertise refs for receive-pack.
 	 *
 	 * @param receivePack instance on which to call
-	 *            {@link BaseReceivePack#setAdvertisedRefs(java.util.Map,java.util.Set)}
+	 *            {@link ReceivePack#setAdvertisedRefs(java.util.Map,java.util.Set)}
 	 *            if necessary.
 	 * @throws ServiceMayNotContinueException
 	 *             abort; the message will be sent to the user.
