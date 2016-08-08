@@ -62,7 +62,7 @@ import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
- * A command being processed by {@link BaseReceivePack}.
+ * A command being processed by {@link ReceivePack}.
  * <p>
  * This command instance roughly translates to the server side representation of
  * the {@link RemoteRefUpdate} created by the client.
@@ -207,7 +207,7 @@ public class ReceiveCommand {
 	private boolean typeIsCorrect;
 
 	/**
-	 * Create a new command for {@link BaseReceivePack}.
+	 * Create a new command for {@link ReceivePack}.
 	 *
 	 * @param oldId
 	 *            the old object id; must not be null. Use
@@ -232,7 +232,7 @@ public class ReceiveCommand {
 	}
 
 	/**
-	 * Create a new command for {@link BaseReceivePack}.
+	 * Create a new command for {@link ReceivePack}.
 	 *
 	 * @param oldId
 	 *            the old object id; must not be null. Use
