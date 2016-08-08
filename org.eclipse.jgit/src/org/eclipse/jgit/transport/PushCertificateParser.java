@@ -43,7 +43,7 @@
 
 package org.eclipse.jgit.transport;
 
-import static org.eclipse.jgit.transport.BaseReceivePack.parseCommand;
+import static org.eclipse.jgit.transport.ReceivePack.parseCommand;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_PUSH_CERT;
 
 import java.io.EOFException;
