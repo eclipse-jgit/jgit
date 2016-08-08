@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_bc8dd487",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2016-08-08T21:07:15Z",
+      "side": 1,
+      "message": "IMO it\u0027s well known enough, and the top search results for it are correct.",
+      "parentUuid": "27af2791_9c8f3087",
+      "range": {
+        "startLine": 7,
+        "startChar": 52,
+        "endLine": 7,
+        "endChar": 57
+      },
+      "revId": "243b9005ea7cff163464630d13c2f431a4689eb7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_dcc1a898",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
         "patchSetId": 2
