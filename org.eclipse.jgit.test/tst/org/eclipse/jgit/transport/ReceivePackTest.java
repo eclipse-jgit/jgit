@@ -49,14 +49,14 @@ import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
-/** Tests for base receive-pack utilities. */
-public class BaseReceivePackTest {
+/** Tests for receive-pack utilities. */
+public class ReceivePackTest {
 	@Test
 	public void parseCommand() throws Exception {
 		String o = "0000000000000000000000000000000000000000";
 		String n = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
 		String r = "refs/heads/master";
-		ReceiveCommand cmd = BaseReceivePack.parseCommand(o + " " + n + " " + r);
+		ReceiveCommand cmd = ReceivePack.parseCommand(o + " " + n + " " + r);
 		assertEquals(ObjectId.zeroId(), cmd.getOldId());
 		assertEquals("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef",
 				cmd.getNewId().name());
@@ -76,7 +76,7 @@ public class BaseReceivePackTest {
 
 	private void assertParseCommandFails(String input) {
 		try {
-			BaseReceivePack.parseCommand(input);
+			ReceivePack.parseCommand(input);
 			fail();
 		} catch (PackProtocolException e) {
 			// Expected.
