@@ -99,11 +99,16 @@ public abstract class LfsProtocolServlet extends HttpServlet {
 	 * @return the large file repository storing large files or null if the
 	 *         request is not supported.
 	 * @throws LfsException
+	 * @since 4.5
 	 */
 	protected abstract LargeFileRepository getLargeFileRepository(
 			LfsRequest request, String path) throws LfsException;
 
-	/** LFS request. */
+	/**
+	 * LFS request.
+	 *
+	 * @since 4.5
+	 */
 	protected static class LfsRequest {
 		private String operation;
 
