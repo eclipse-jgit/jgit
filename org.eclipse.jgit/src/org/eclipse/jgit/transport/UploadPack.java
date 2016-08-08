@@ -1493,16 +1493,19 @@ public class UploadPack {
 				pw.setTagTargets(tagTargets);
 			}
 
-			if (depth > 0)
-				pw.setShallowPack(depth, unshallowCommits);
-
 			RevWalk rw = walk;
+			if (depth > 0) {
+				pw.setShallowPack(depth, unshallowCommits);
+				rw = new DepthWalk.RevWalk(walk.getObjectReader(), depth - 1);
+				rw.assumeShallow(clientShallowCommits);
+			}
+
 			if (wantAll.isEmpty()) {
-				pw.preparePack(pm, wantIds, commonBase);
+				pw.preparePack(pm, wantIds, commonBase, clientShallowCommits);
 			} else {
 				walk.reset();
 
-				ObjectWalk ow = walk.toObjectWalkWithSameObjects();
+				ObjectWalk ow = rw.toObjectWalkWithSameObjects();
 				pw.preparePack(pm, ow, wantAll, commonBase);
 				rw = ow;
 			}
