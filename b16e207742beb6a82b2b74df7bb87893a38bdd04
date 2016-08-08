@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_8fa8d463",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 727,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-08-08T23:05:49Z",
+      "side": 1,
+      "message": "please document parameters of this new method in javadoc",
+      "revId": "b16e207742beb6a82b2b74df7bb87893a38bdd04",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
