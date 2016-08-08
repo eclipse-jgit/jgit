@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_f9083e35",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-08-08T14:56:14Z",
+      "side": 1,
+      "message": "the bundle com.jcraft.jsch is available in Eclipse Orbit, see my comment in bug 359288. If it would not be available as a bundle it couldn\u0027t be installed in Eclipse. I think it\u0027s ok to replace RequireBundle by package import but the commit message should be changed.\n\nstyle nit: we link to the bug in the commit message footer (last paragraph of the commit message like this:\n\n Bug: 359288",
+      "revId": "a22b305d580be7be3e4d1389794663eb32d9a183",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
