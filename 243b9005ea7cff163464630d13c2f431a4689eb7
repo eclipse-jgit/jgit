@@ -93,6 +93,30 @@
       "revId": "243b9005ea7cff163464630d13c2f431a4689eb7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_7c833c5b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1930,
+      "author": {
+        "id": 81548
+      },
+      "writtenOn": "2016-08-08T21:17:54Z",
+      "side": 1,
+      "message": "Sorry, I think the Eclipse auto-formatter did that. Done",
+      "parentUuid": "27af2791_dcc1a898",
+      "range": {
+        "startLine": 1929,
+        "startChar": 4,
+        "endLine": 1930,
+        "endChar": 44
+      },
+      "revId": "243b9005ea7cff163464630d13c2f431a4689eb7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
