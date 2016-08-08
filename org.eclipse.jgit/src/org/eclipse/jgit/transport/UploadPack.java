@@ -1492,7 +1492,7 @@ public class UploadPack {
 			}
 
 			if (wantAll.isEmpty()) {
-				pw.preparePack(pm, wantIds, commonBase);
+				pw.preparePack(pm, wantIds, commonBase, clientShallowCommits);
 			} else {
 				walk.reset();
 
