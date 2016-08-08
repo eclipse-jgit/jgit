@@ -16,6 +16,24 @@
       "revId": "b16e207742beb6a82b2b74df7bb87893a38bdd04",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_8fe37495",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 727,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-08-08T23:39:31Z",
+      "side": 1,
+      "message": "Good idea. Done: https://git.eclipse.org/r/78655",
+      "parentUuid": "27af2791_8fa8d463",
+      "revId": "b16e207742beb6a82b2b74df7bb87893a38bdd04",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
