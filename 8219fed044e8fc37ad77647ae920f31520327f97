@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_2f88a8a8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 854,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-08-09T01:28:50Z",
+      "side": 1,
+      "message": "There are three interesting cases here.\n\nIf the caller didn\u0027t call setAllowPushOptions(true), then we don\u0027t advertise that we can get push options and pushOptions is null. We can detect this case by checking the allowPushOptions variable directly. The caller was responsible for setting it to true, so if they didn\u0027t and they then turn around and call getPushOptions(), they are very confused. That makes it a good time to throw IllegalStateException().\n\nIf the caller did call setAllowPushOptions but the client doesn\u0027t support push options, then pushOptions is null. This is analogous to C git hooks --- Git sets the GIT_PUSH_OPTION_COUNT envvar to 0 when the client supported push options and sent none and doesn\u0027t set the envvar when the client didn\u0027t support push options.\n\nThis method can behave similarly by being @Nullable, like you do here.\n\nIf I called setAllowPushOptions(true) but haven\u0027t called receive() yet, then enabledCapabilities will be null. This is another case where the client is very confused. That makes it a good time to throw RequestNotYetReadException.",
+      "revId": "8219fed044e8fc37ad77647ae920f31520327f97",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
