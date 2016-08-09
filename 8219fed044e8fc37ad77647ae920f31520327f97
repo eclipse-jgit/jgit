@@ -16,6 +16,24 @@
       "revId": "8219fed044e8fc37ad77647ae920f31520327f97",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_483b1287",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 854,
+      "author": {
+        "id": 81548
+      },
+      "writtenOn": "2016-08-09T18:21:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_2f88a8a8",
+      "revId": "8219fed044e8fc37ad77647ae920f31520327f97",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
