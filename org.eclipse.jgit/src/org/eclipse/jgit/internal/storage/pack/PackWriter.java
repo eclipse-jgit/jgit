@@ -740,7 +740,7 @@ public class PackWriter implements AutoCloseable {
 	 *            Parents of {@code shallow} commits and earlier generations
 	 *            will be included in the pack if requested by {@code want}.
 	 *            Must not be {@code null}.
-	 * @param IOException
+	 * @throws IOException
 	 *            an I/O problem occured while reading objects.
 	 *
 	 * @since 4.5
