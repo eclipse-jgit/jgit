@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_2f56e8a3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/BaseReceivePackTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-08-09T01:10:06Z",
+      "side": 1,
+      "message": "optional: these can move to ReceivePackTest.",
+      "revId": "c0b3357e8d3b9876d7ff0419f00b71aeabbe142e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_4fb87c62",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AbstractAdvertiseRefsHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-08-09T01:10:06Z",
+      "side": 1,
+      "message": "This one should probably be deferred to a separate change.",
+      "revId": "c0b3357e8d3b9876d7ff0419f00b71aeabbe142e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_6fbb805e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AdvertiseRefsHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-08-09T01:10:06Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "c0b3357e8d3b9876d7ff0419f00b71aeabbe142e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_8fc294cc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AdvertiseRefsHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-08-09T01:10:06Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "c0b3357e8d3b9876d7ff0419f00b71aeabbe142e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_afc598d6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AdvertiseRefsHookChain.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-08-09T01:10:06Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "c0b3357e8d3b9876d7ff0419f00b71aeabbe142e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_4f4ddc17",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-08-09T01:10:06Z",
+      "side": 1,
+      "message": "Please add a @deprecated comment. E.g.\n\n /**\n  * Obsolete base class for {@link ReceivePack}.\n  *\n  * @deprecated Please use {@link ReceivePack} instead.\n  */",
+      "revId": "c0b3357e8d3b9876d7ff0419f00b71aeabbe142e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_6f50e0ac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-08-09T01:10:06Z",
+      "side": 1,
+      "message": "This needs a @deprecated annotation, too. Maybe\n\n /**\n  * Data in the first line of a request: the line itself plus capabilities.\n  *\n  * @deprecated\n  *    implementation detail --- use {@link receive(InputStream,\n  *    OutputStream, OutputStream} instead\n  */\n\nOr if we want to keep it public, we can do\n\n  * @deprecated use {@link ReceivePack#FirstLine} instead",
+      "revId": "c0b3357e8d3b9876d7ff0419f00b71aeabbe142e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_cfabac0b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-08-09T01:10:06Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "c0b3357e8d3b9876d7ff0419f00b71aeabbe142e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
