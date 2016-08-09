@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_0f8da4ba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 743,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-08-09T01:28:57Z",
+      "side": 1,
+      "message": "throws\n\nFixed in https://git.eclipse.org/r/78657",
+      "range": {
+        "startLine": 743,
+        "startChar": 5,
+        "endLine": 743,
+        "endChar": 10
+      },
+      "revId": "f28de24fa80046969d490f33fc6ec05a59c3d8c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
