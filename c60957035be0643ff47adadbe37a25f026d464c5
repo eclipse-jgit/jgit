@@ -22,6 +22,30 @@
       "revId": "c60957035be0643ff47adadbe37a25f026d464c5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_2fec2831",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 645,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-08-09T01:56:31Z",
+      "side": 1,
+      "message": "My reasoning was that they have different types so in most cases the compiler will tell us if we\u0027re using the wrong one.\n\nBut yes, fixing it is better than suppressing it, so I will abandon this in favour of yours.",
+      "parentUuid": "27af2791_8ffd34e3",
+      "range": {
+        "startLine": 645,
+        "startChar": 29,
+        "endLine": 645,
+        "endChar": 56
+      },
+      "revId": "c60957035be0643ff47adadbe37a25f026d464c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
