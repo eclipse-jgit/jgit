@@ -642,8 +642,8 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	}
 
 	private void addSubmodule(String url, String name, String revision,
-			List<CopyFile> copyfiles, Set<String> groups, String recommendShallow)
-			throws GitAPIException, IOException {
+			List<CopyFile> copyfiles, @SuppressWarnings("hiding") Set<String> groups,
+			String recommendShallow) throws GitAPIException, IOException {
 		if (repo.isBare()) {
 			RepoProject proj = new RepoProject(url, name, revision, null, groups, recommendShallow);
 			proj.addCopyFiles(copyfiles);
