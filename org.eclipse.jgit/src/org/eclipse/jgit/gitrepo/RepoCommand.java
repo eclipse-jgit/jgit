@@ -107,7 +107,7 @@ import org.eclipse.jgit.util.FileUtils;
 public class RepoCommand extends GitCommand<RevCommit> {
 	private String path;
 	private String uri;
-	private String groups;
+	private String groupsParam;
 	private String branch;
 	private String targetBranch = Constants.HEAD;
 	private boolean recordRemoteBranch = false;
@@ -286,7 +286,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	 * @return this command
 	 */
 	public RepoCommand setGroups(String groups) {
-		this.groups = groups;
+		this.groupsParam = groups;
 		return this;
 	}
 
@@ -478,7 +478,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 				git = new Git(repo);
 
 			ManifestParser parser = new ManifestParser(
-					includedReader, path, branch, uri, groups, repo);
+					includedReader, path, branch, uri, groupsParam, repo);
 			try {
 				parser.read(inputStream);
 				for (RepoProject proj : parser.getFilteredProjects()) {
