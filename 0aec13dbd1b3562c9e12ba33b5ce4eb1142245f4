@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "27af2791_96e700d0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-08-11T22:26:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_d07ee0d0",
+      "revId": "0aec13dbd1b3562c9e12ba33b5ce4eb1142245f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_0bb3cd36",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
         "patchSetId": 1
