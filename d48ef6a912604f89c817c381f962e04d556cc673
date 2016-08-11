@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "27af2791_c219baad",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 851,
+      "author": {
+        "id": 81548
+      },
+      "writtenOn": "2016-08-11T18:49:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_c879e23b",
+      "revId": "d48ef6a912604f89c817c381f962e04d556cc673",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_8870ca50",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2016-08-09T18:31:42Z",
       "side": 1,
       "message": "Can simplify by dealing with the exceptional case first:\n\n  if (!allowPushOptions) {\n    // Reading push options without a prior setAllowPushOptions(true)\n    // call doesn\u0027t make sense.\n    throw new IllegalStateException();\n  }\n  if (enabledCapabilities \u003d\u003d null) {\n    // Push options are not available until receive() has been called.\n    throw new RequestNotYetReadException();\n  }\n  if (pushOptions \u003d\u003d null) {\n    // The client doesn\u0027t support push options. Return null to distinguish\n    // this from the case where the client declared support for push\n    // options and sent an empty list of them.\n    return null;\n  }\n  return Collections.unmodifiableList(pushOptions);",
+      "revId": "d48ef6a912604f89c817c381f962e04d556cc673",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_e214fe74",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 856,
+      "author": {
+        "id": 81548
+      },
+      "writtenOn": "2016-08-11T18:49:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_8870ca50",
       "revId": "d48ef6a912604f89c817c381f962e04d556cc673",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
