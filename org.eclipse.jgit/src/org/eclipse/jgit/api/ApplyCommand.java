@@ -42,6 +42,10 @@
  */
 package org.eclipse.jgit.api;
 
+import static org.eclipse.jgit.internal.storage.zlib.ZlibSupport.inflate;
+import static org.eclipse.jgit.util.Base85.decode85;
+import static org.eclipse.jgit.util.RawParseUtils.nextLF;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
@@ -51,6 +55,7 @@ import java.nio.file.StandardCopyOption;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.DataFormatException;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.PatchApplyException;
@@ -60,6 +65,7 @@ import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.patch.BinaryHunk;
 import org.eclipse.jgit.patch.FileHeader;
 import org.eclipse.jgit.patch.HunkHeader;
 import org.eclipse.jgit.patch.Patch;
@@ -109,8 +115,8 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 	 * @throws PatchFormatException
 	 * @throws PatchApplyException
 	 */
-	public ApplyResult call() throws GitAPIException, PatchFormatException,
-			PatchApplyException {
+	public ApplyResult call()
+			throws GitAPIException, PatchFormatException, PatchApplyException {
 		checkCallable();
 		ApplyResult r = new ApplyResult();
 		try {
@@ -188,13 +194,72 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 		return f;
 	}
 
-	/**
-	 * @param f
-	 * @param fh
-	 * @throws IOException
-	 * @throws PatchApplyException
-	 */
-	private void apply(File f, FileHeader fh)
+	private int resolveDecodedLength(int lengthByte)
+			throws PatchApplyException {
+		if (lengthByte <= 122 && lengthByte >= 97) {
+			return lengthByte - 70;
+		} else if (lengthByte <= 90 && lengthByte >= 65) {
+			return lengthByte - 64;
+		} else {
+			throw new PatchApplyException(
+					"Invalid length found: " + lengthByte); //$NON-NLS-1$
+		}
+	}
+
+	private int calcTotalBinaryDecodedLength(byte[] buf, int ptr)
+			throws PatchApplyException {
+		int total = 0;
+		while (buf[ptr] != '\n') {
+			int sizeChar = buf[ptr++];
+			total += resolveDecodedLength(sizeChar);
+			ptr = nextLF(buf, ptr);
+		}
+		return total;
+	}
+
+	private void applyBinaryPatch(File f, FileHeader fh)
+			throws PatchApplyException {
+		if (fh.getChangeType() != ChangeType.ADD) {
+			throw new PatchApplyException(
+					"Only addition of new binary files is implemented"); //$NON-NLS-1$
+		}
+
+		BinaryHunk forwardBinaryHunk = fh.getForwardBinaryHunk();
+		byte[] buf = forwardBinaryHunk.getBuffer();
+		int bufPos = forwardBinaryHunk.getStartOffset();
+
+		int totalDecodedSize = calcTotalBinaryDecodedLength(buf, bufPos);
+		byte[] allDecodedBytes = new byte[totalDecodedSize];
+		int decPos = 0;
+
+		// jump to data
+		bufPos = nextLF(buf, bufPos);
+		while (buf[bufPos] != '\n') {
+			int decodedLineLength = resolveDecodedLength(buf[bufPos++]);
+			int nextLF = nextLF(buf, bufPos);
+			byte[] decodedLine = decode85(buf, bufPos, nextLF - bufPos - 1,
+					decodedLineLength);
+			System.arraycopy(decodedLine, 0, allDecodedBytes, decPos,
+					decodedLineLength);
+			decPos += decodedLineLength;
+			bufPos = nextLF;
+		}
+
+		byte[] inflated = new byte[0];
+		try {
+			inflated = inflate(allDecodedBytes, forwardBinaryHunk.getSize());
+		} catch (DataFormatException dfe) {
+			throw new PatchApplyException("Unable to inflate compressed data", dfe); //$NON-NLS-1$
+		}
+
+		try (FileOutputStream fos = new FileOutputStream(f)) {
+			fos.write(inflated);
+		} catch (IOException ioe) {
+			throw new PatchApplyException("Unable to write data to file", ioe); //$NON-NLS-1$
+		}
+	}
+
+	private void applyTextPatch(File f, FileHeader fh)
 			throws IOException, PatchApplyException {
 		RawText rt = new RawText(f);
 		List<String> oldLines = new ArrayList<String>(rt.size());
@@ -261,8 +326,18 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 		FileWriter fw = new FileWriter(f);
 		fw.write(sb.toString());
 		fw.close();
+	}
 
-		getRepository().getFS().setExecute(f, fh.getNewMode() == FileMode.EXECUTABLE_FILE);
+	private void apply(File f, FileHeader fh)
+			throws IOException, PatchApplyException {
+		if (fh.getPatchType() == FileHeader.PatchType.GIT_BINARY) {
+			applyBinaryPatch(f, fh);
+		} else {
+			applyTextPatch(f, fh);
+		}
+
+		getRepository().getFS().setExecute(f,
+				fh.getNewMode() == FileMode.EXECUTABLE_FILE);
 	}
 
 	private static boolean isChanged(List<String> ol, List<String> nl) {
