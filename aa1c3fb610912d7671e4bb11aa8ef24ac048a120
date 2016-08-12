@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_b1e88ef0",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/ObjectUploadListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-08-12T07:38:08Z",
+      "side": 1,
+      "message": "According to RFC 2616 [1]:\n\n either the 200 (OK) or 204 (No Content) response codes SHOULD\n be sent to indicate successful completion of the request\n\nso to me it looks like either is acceptable.\n\nWhat about this part though?\n\n If a new resource is created, the origin server MUST inform the user\n agent via the 201 (Created) response.\n\nIs this code path called on new object uploads?\n\n[1] https://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html#sec9.6",
+      "range": {
+        "startLine": 147,
+        "startChar": 3,
+        "endLine": 148,
+        "endChar": 46
+      },
+      "revId": "aa1c3fb610912d7671e4bb11aa8ef24ac048a120",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
