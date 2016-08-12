@@ -43,6 +43,8 @@
 
 package org.eclipse.jgit.http.server;
 
+import static org.apache.http.HttpStatus.SC_NOT_ACCEPTABLE;
+
 import java.io.File;
 import java.text.MessageFormat;
 import java.util.LinkedList;
@@ -52,7 +54,6 @@ import javax.servlet.Filter;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jgit.http.server.glue.ErrorServlet;
 import org.eclipse.jgit.http.server.glue.MetaFilter;
@@ -225,7 +226,7 @@ public class GitFilter extends MetaFilter {
 			refs = refs.through(new AsIsFileFilter(asIs));
 			refs.with(new InfoRefsServlet());
 		} else
-			refs.with(new ErrorServlet(HttpServletResponse.SC_NOT_ACCEPTABLE));
+			refs.with(new ErrorServlet(SC_NOT_ACCEPTABLE));
 
 		if (asIs != AsIsFileService.DISABLED) {
 			final IsLocalFilter mustBeLocal = new IsLocalFilter();

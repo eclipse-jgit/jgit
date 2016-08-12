@@ -43,7 +43,7 @@
 
 package org.eclipse.jgit.http.server;
 
-import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
+import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 import static org.eclipse.jgit.http.server.ServletUtils.getRepository;
 import static org.eclipse.jgit.http.server.ServletUtils.send;
 

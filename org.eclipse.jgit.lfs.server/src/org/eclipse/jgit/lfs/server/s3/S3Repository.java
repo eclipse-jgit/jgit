@@ -43,7 +43,7 @@
  */
 package org.eclipse.jgit.lfs.server.s3;
 
-import static javax.servlet.http.HttpServletResponse.SC_OK;
+import static org.apache.http.HttpStatus.SC_OK;
 import static org.eclipse.jgit.lfs.server.s3.SignerV4.UNSIGNED_PAYLOAD;
 import static org.eclipse.jgit.lfs.server.s3.SignerV4.X_AMZ_CONTENT_SHA256;
 import static org.eclipse.jgit.lfs.server.s3.SignerV4.X_AMZ_EXPIRES;
