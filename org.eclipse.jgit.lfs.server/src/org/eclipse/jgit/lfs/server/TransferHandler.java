@@ -43,7 +43,7 @@
 
 package org.eclipse.jgit.lfs.server;
 
-import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
+import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 
 import java.io.IOException;
 import java.text.MessageFormat;

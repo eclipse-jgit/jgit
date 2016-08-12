@@ -50,7 +50,7 @@ import org.eclipse.jgit.internal.JGitText;
  * the current user has not provided.
  * <p>
  * This corresponds to response code
- * {@code HttpServletResponse.SC_UNAUTHORIZED}.
+ * {@code HttpServletResponse.SC_UNAUTHORIZED} / {@code HttpStatus.SC_UNAUTHORIZED}.
  */
 public class ServiceNotAuthorizedException extends Exception {
 	private static final long serialVersionUID = 1L;

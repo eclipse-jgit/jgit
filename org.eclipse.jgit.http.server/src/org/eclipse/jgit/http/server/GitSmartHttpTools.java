@@ -43,15 +43,16 @@
 
 package org.eclipse.jgit.http.server;
 
+import static org.apache.http.HttpStatus.SC_FORBIDDEN;
+import static org.apache.http.HttpStatus.SC_INTERNAL_SERVER_ERROR;
+import static org.apache.http.HttpStatus.SC_NOT_FOUND;
+import static org.apache.http.HttpStatus.SC_OK;
 import static org.eclipse.jgit.http.server.ServletUtils.ATTRIBUTE_HANDLER;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDE_BAND;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDE_BAND_64K;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_SIDE_BAND_64K;
 import static org.eclipse.jgit.transport.SideBandOutputStream.CH_ERROR;
 import static org.eclipse.jgit.transport.SideBandOutputStream.SMALL_BUF;
-import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
-import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
-import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -311,7 +312,7 @@ public class GitSmartHttpTools {
 	private static void send(HttpServletRequest req, HttpServletResponse res,
 			String type, byte[] buf) throws IOException {
 		ServletUtils.consumeRequestBody(req);
-		res.setStatus(HttpServletResponse.SC_OK);
+		res.setStatus(SC_OK);
 		res.setContentType(type);
 		res.setContentLength(buf.length);
 		OutputStream os = res.getOutputStream();
