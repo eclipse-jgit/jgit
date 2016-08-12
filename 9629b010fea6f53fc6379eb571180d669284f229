@@ -1,0 +1,170 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_f9074c55",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/Base85Test.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-08-12T21:59:32Z",
+      "side": 1,
+      "message": "please trim trailing whitespace at end of line (both lines)",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 44
+      },
+      "revId": "9629b010fea6f53fc6379eb571180d669284f229",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_190fa070",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/Base85Test.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-08-12T21:59:32Z",
+      "side": 1,
+      "message": "nit: unnecessary blank line at end of method",
+      "revId": "9629b010fea6f53fc6379eb571180d669284f229",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_3912a493",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-08-12T21:59:32Z",
+      "side": 1,
+      "message": "Should use a MessageFormat with JGitText.",
+      "range": {
+        "startLine": 205,
+        "startChar": 5,
+        "endLine": 205,
+        "endChar": 42
+      },
+      "revId": "9629b010fea6f53fc6379eb571180d669284f229",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_9902d040",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-08-12T21:59:32Z",
+      "side": 1,
+      "message": "should we also do ptr \u003c buf.length \u0026\u0026 buf[ptr] !\u003d \u0027\\n\u0027\n\nso that we don\u0027t ArrayIndexOutOfBoundsException here if nextLF walks off the end of the array? Or is that malformed enough that we should be throwing something like PatchApplyException?",
+      "revId": "9629b010fea6f53fc6379eb571180d669284f229",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_59f838b6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-08-12T21:59:32Z",
+      "side": 1,
+      "message": "Should be in JGitText.\n\nIn general these messages in exceptions should go into a constants like JGitText.",
+      "range": {
+        "startLine": 224,
+        "startChar": 5,
+        "endLine": 224,
+        "endChar": 55
+      },
+      "revId": "9629b010fea6f53fc6379eb571180d669284f229",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_b9fdd4a5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-08-12T21:59:32Z",
+      "side": 1,
+      "message": "it is not necessary to initialize inflated",
+      "range": {
+        "startLine": 248,
+        "startChar": 17,
+        "endLine": 248,
+        "endChar": 31
+      },
+      "revId": "9629b010fea6f53fc6379eb571180d669284f229",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_3929c4bd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/zlib/ZlibSupport.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-08-12T21:59:32Z",
+      "side": 1,
+      "message": "use try-with-resources to ensure this is closed so the Inflater can be released.",
+      "revId": "9629b010fea6f53fc6379eb571180d669284f229",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_591f5893",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/zlib/ZlibSupport.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-08-12T21:59:32Z",
+      "side": 1,
+      "message": "IOException? We try not to just catch Exception.",
+      "range": {
+        "startLine": 72,
+        "startChar": 11,
+        "endLine": 72,
+        "endChar": 20
+      },
+      "revId": "9629b010fea6f53fc6379eb571180d669284f229",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
