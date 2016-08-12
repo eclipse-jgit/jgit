@@ -274,7 +274,6 @@ class SignerV4 {
 	}
 
 	private static String dateStamp(Date now) {
-		// TODO(ms) cache and reuse DateFormat instances
 		SimpleDateFormat dateStampFormat = new SimpleDateFormat(
 				DATE_STRING_FORMAT);
 		dateStampFormat.setTimeZone(new SimpleTimeZone(0, UTC));
@@ -283,7 +282,6 @@ class SignerV4 {
 	}
 
 	private static String dateTimeStampISO8601(Date now) {
-		// TODO(ms) cache and reuse DateFormat instances
 		SimpleDateFormat dateTimeFormat = new SimpleDateFormat(
 				ISO8601_BASIC_FORMAT);
 		dateTimeFormat.setTimeZone(new SimpleTimeZone(0, UTC));
