@@ -46,6 +46,30 @@
       "revId": "aa1c3fb610912d7671e4bb11aa8ef24ac048a120",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_113cda7d",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/ObjectUploadListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-08-12T12:09:22Z",
+      "side": 1,
+      "message": "On the other hand the git-lfs transfer API doc [2] only shows the PUT returning \"200 OK\".\n\n[2] https://github.com/github/git-lfs/tree/master/docs/api#transfer-api",
+      "parentUuid": "27af2791_518ad227",
+      "range": {
+        "startLine": 147,
+        "startChar": 3,
+        "endLine": 148,
+        "endChar": 46
+      },
+      "revId": "aa1c3fb610912d7671e4bb11aa8ef24ac048a120",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
