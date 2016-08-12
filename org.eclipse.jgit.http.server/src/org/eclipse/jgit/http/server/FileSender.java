@@ -43,8 +43,8 @@
 
 package org.eclipse.jgit.http.server;
 
-import static javax.servlet.http.HttpServletResponse.SC_PARTIAL_CONTENT;
-import static javax.servlet.http.HttpServletResponse.SC_REQUESTED_RANGE_NOT_SATISFIABLE;
+import static org.apache.http.HttpStatus.SC_PARTIAL_CONTENT;
+import static org.apache.http.HttpStatus.SC_REQUESTED_RANGE_NOT_SATISFIABLE;
 import static org.eclipse.jgit.util.HttpSupport.HDR_ACCEPT_RANGES;
 import static org.eclipse.jgit.util.HttpSupport.HDR_CONTENT_LENGTH;
 import static org.eclipse.jgit.util.HttpSupport.HDR_CONTENT_RANGE;

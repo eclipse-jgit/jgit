@@ -43,12 +43,13 @@
 
 package org.eclipse.jgit.http.server.glue;
 
+import static org.apache.http.HttpStatus.SC_NOT_FOUND;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.Filter;
 import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jgit.http.server.HttpServerText;
 
@@ -81,7 +82,7 @@ abstract class ServletBinderImpl implements ServletBinder {
 		if (httpServlet != null)
 			return httpServlet;
 		else
-			return new ErrorServlet(HttpServletResponse.SC_NOT_FOUND);
+			return new ErrorServlet(SC_NOT_FOUND);
 	}
 
 	/** @return the configured filters; zero-length array if none. */
