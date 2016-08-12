@@ -22,6 +22,30 @@
       "revId": "aa1c3fb610912d7671e4bb11aa8ef24ac048a120",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_518ad227",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/ObjectUploadListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-08-12T08:32:39Z",
+      "side": 1,
+      "message": "yes, it\u0027s called on new object uploads, the FileLfsServlet.doPut() creates an ObjectUploadListener which is used to asynchronously process the incoming data",
+      "parentUuid": "27af2791_b1e88ef0",
+      "range": {
+        "startLine": 147,
+        "startChar": 3,
+        "endLine": 148,
+        "endChar": 46
+      },
+      "revId": "aa1c3fb610912d7671e4bb11aa8ef24ac048a120",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
