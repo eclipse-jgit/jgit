@@ -65,6 +65,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_599cb876",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 79495
+      },
+      "writtenOn": "2016-08-13T01:30:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_3912a493",
+      "range": {
+        "startLine": 205,
+        "startChar": 5,
+        "endLine": 205,
+        "endChar": 42
+      },
+      "revId": "9629b010fea6f53fc6379eb571180d669284f229",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_9902d040",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
         "patchSetId": 3
@@ -82,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "27af2791_393b84f5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 79495
+      },
+      "writtenOn": "2016-08-13T01:30:17Z",
+      "side": 1,
+      "message": "If we end up with ptr \u003e\u003d buf.length before we reach two newlines, it means we\u0027re either missing the reverse binary hunk or possibly with the wrong number of newline characters to separate them. C git fails on both instances with an error like:\n\nerror: corrupt binary patch at line 593: literal 0\nfatal: unrecognized input  \n\n---\nI\u0027ll add a check and throw an exception with a clearer explanation. It\u0027s always better than an IndexOutOfBounds.",
+      "parentUuid": "27af2791_9902d040",
+      "revId": "9629b010fea6f53fc6379eb571180d669284f229",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_59f838b6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
         "patchSetId": 3
@@ -93,6 +135,30 @@
       "writtenOn": "2016-08-12T21:59:32Z",
       "side": 1,
       "message": "Should be in JGitText.\n\nIn general these messages in exceptions should go into a constants like JGitText.",
+      "range": {
+        "startLine": 224,
+        "startChar": 5,
+        "endLine": 224,
+        "endChar": 55
+      },
+      "revId": "9629b010fea6f53fc6379eb571180d669284f229",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_39b624f4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 79495
+      },
+      "writtenOn": "2016-08-13T01:30:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_59f838b6",
       "range": {
         "startLine": 224,
         "startChar": 5,
@@ -128,6 +194,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_19b32005",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 79495
+      },
+      "writtenOn": "2016-08-13T01:30:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_b9fdd4a5",
+      "range": {
+        "startLine": 248,
+        "startChar": 17,
+        "endLine": 248,
+        "endChar": 31
+      },
+      "revId": "9629b010fea6f53fc6379eb571180d669284f229",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_3929c4bd",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/zlib/ZlibSupport.java",
         "patchSetId": 3
@@ -145,6 +235,24 @@
     },
     {
       "key": {
+        "uuid": "27af2791_7997bc51",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/zlib/ZlibSupport.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 79495
+      },
+      "writtenOn": "2016-08-13T01:30:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_3929c4bd",
+      "revId": "9629b010fea6f53fc6379eb571180d669284f229",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_591f5893",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/zlib/ZlibSupport.java",
         "patchSetId": 3
@@ -156,6 +264,30 @@
       "writtenOn": "2016-08-12T21:59:32Z",
       "side": 1,
       "message": "IOException? We try not to just catch Exception.",
+      "range": {
+        "startLine": 72,
+        "startChar": 11,
+        "endLine": 72,
+        "endChar": 20
+      },
+      "revId": "9629b010fea6f53fc6379eb571180d669284f229",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_99a650c1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/zlib/ZlibSupport.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 79495
+      },
+      "writtenOn": "2016-08-13T01:30:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_591f5893",
       "range": {
         "startLine": 72,
         "startChar": 11,
