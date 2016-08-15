@@ -55,6 +55,39 @@ import org.eclipse.jgit.transport.RemoteConfig;
 public class BranchConfig {
 
 	/**
+	 * Config values for branch.[name].rebase (and pull.rebase).
+	 *
+	 * @since 4.5
+	 */
+	public enum BranchRebaseMode implements Config.ConfigEnum {
+
+		/** Value for rebasing */
+		REBASE("true"), //$NON-NLS-1$
+		/** Value for rebasing preserving local merge commits */
+		PRESERVE("preserve"), //$NON-NLS-1$
+		/** Value for rebasing interactively */
+		INTERACTIVE("interactive"), //$NON-NLS-1$
+		/** Value for not rebasing at all but merging */
+		NONE("false"); //$NON-NLS-1$
+
+		private final String configValue;
+
+		private BranchRebaseMode(String configValue) {
+			this.configValue = configValue;
+		}
+
+		@Override
+		public String toConfigValue() {
+			return configValue;
+		}
+
+		@Override
+		public boolean matchConfigValue(String s) {
+			return configValue.equals(s);
+		}
+	}
+
+	/**
 	 * The value that means "local repository" for {@link #getRemote()}:
 	 * {@value}
 	 *
@@ -143,8 +176,19 @@ public class BranchConfig {
 	 * @since 3.5
 	 */
 	public boolean isRebase() {
-		return config.getBoolean(ConfigConstants.CONFIG_BRANCH_SECTION,
-				branchName, ConfigConstants.CONFIG_KEY_REBASE, false);
+		return getRebaseMode() != BranchRebaseMode.NONE;
+	}
+
+	/**
+	 * Retrieves the config value of branch.[name].rebase.
+	 *
+	 * @return the {@link BranchRebaseMode}
+	 * @since 4.5
+	 */
+	public BranchRebaseMode getRebaseMode() {
+		return config.getEnum(BranchRebaseMode.values(),
+				ConfigConstants.CONFIG_BRANCH_SECTION, branchName,
+				ConfigConstants.CONFIG_KEY_REBASE, BranchRebaseMode.NONE);
 	}
 
 	/**
