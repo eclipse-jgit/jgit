@@ -69,6 +69,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.PackProtocolException;
@@ -845,9 +846,11 @@ public abstract class BaseReceivePack {
 	}
 
 	/**
-	 * Gets the list of string options associated with this push.
+	 * Gets an unmodifiable view of the option strings associated with the push.
 	 *
-	 * @return pushOptions
+	 * @return an unmodifiable view of pushOptions, or null (if pushOptions is).
+	 * @throws IllegalStateException
+	 *             if allowPushOptions has not been set to true.
 	 * @throws RequestNotYetReadException
 	 *             if the client's request has not yet been read from the wire,
 	 *             so we do not know if they expect push options. Note that the
@@ -855,9 +858,22 @@ public abstract class BaseReceivePack {
 	 *             been read.
 	 * @since 4.5
 	 */
-	public List<String> getPushOptions() throws RequestNotYetReadException {
+	@Nullable
+	public List<String> getPushOptions() {
+		if (!allowPushOptions) {
+			// Reading push options without a prior setAllowPushOptions(true)
+			// call doesn't make sense.
+			throw new IllegalStateException();
+		}
 		if (enabledCapabilities == null) {
+			// Push options are not available until receive() has been called.
 			throw new RequestNotYetReadException();
+		}
+		if (pushOptions == null) {
+			// The client doesn't support push options. Return null to
+			// distinguish this from the case where the client declared support
+			// for push options and sent an empty list of them.
+			return null;
 		}
 		return Collections.unmodifiableList(pushOptions);
 	}
