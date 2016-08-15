@@ -43,11 +43,13 @@
 package org.eclipse.jgit.api;
 
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.lib.BranchConfig.BranchRebaseMode;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.StoredConfig;
@@ -98,32 +100,44 @@ public class RenameBranchCommandTest extends RepositoryTestCase {
 	@Test
 	public void renameBranchSingleConfigValue() throws Exception {
 		StoredConfig config = git.getRepository().getConfig();
-		config.setBoolean(ConfigConstants.CONFIG_BRANCH_SECTION,
-				Constants.MASTER, ConfigConstants.CONFIG_KEY_REBASE, true);
+		config.setEnum(ConfigConstants.CONFIG_BRANCH_SECTION, Constants.MASTER,
+				ConfigConstants.CONFIG_KEY_REBASE, BranchRebaseMode.REBASE);
 		config.save();
 
 		String branch = "b1";
 
-		assertTrue(config.getBoolean(ConfigConstants.CONFIG_BRANCH_SECTION,
-				Constants.MASTER, ConfigConstants.CONFIG_KEY_REBASE, true));
-		assertFalse(config.getBoolean(ConfigConstants.CONFIG_BRANCH_SECTION,
-				branch, ConfigConstants.CONFIG_KEY_REBASE, false));
+		assertEquals(BranchRebaseMode.REBASE,
+				config.getEnum(BranchRebaseMode.values(),
+						ConfigConstants.CONFIG_BRANCH_SECTION, Constants.MASTER,
+						ConfigConstants.CONFIG_KEY_REBASE,
+						BranchRebaseMode.NONE));
+		assertEquals(BranchRebaseMode.NONE,
+				config.getEnum(BranchRebaseMode.values(),
+						ConfigConstants.CONFIG_BRANCH_SECTION, branch,
+						ConfigConstants.CONFIG_KEY_REBASE,
+						BranchRebaseMode.NONE));
 
 		assertNotNull(git.branchRename().setNewName(branch).call());
 
 		config = git.getRepository().getConfig();
-		assertFalse(config.getBoolean(ConfigConstants.CONFIG_BRANCH_SECTION,
-				Constants.MASTER, ConfigConstants.CONFIG_KEY_REBASE, false));
-		assertTrue(config.getBoolean(ConfigConstants.CONFIG_BRANCH_SECTION,
-				branch, ConfigConstants.CONFIG_KEY_REBASE, false));
+		assertEquals(BranchRebaseMode.NONE,
+				config.getEnum(BranchRebaseMode.values(),
+						ConfigConstants.CONFIG_BRANCH_SECTION, Constants.MASTER,
+						ConfigConstants.CONFIG_KEY_REBASE,
+						BranchRebaseMode.NONE));
+		assertEquals(BranchRebaseMode.REBASE,
+				config.getEnum(BranchRebaseMode.values(),
+						ConfigConstants.CONFIG_BRANCH_SECTION, branch,
+						ConfigConstants.CONFIG_KEY_REBASE,
+						BranchRebaseMode.NONE));
 	}
 
 	@Test
 	public void renameBranchExistingSection() throws Exception {
 		String branch = "b1";
 		StoredConfig config = git.getRepository().getConfig();
-		config.setBoolean(ConfigConstants.CONFIG_BRANCH_SECTION,
-				Constants.MASTER, ConfigConstants.CONFIG_KEY_REBASE, true);
+		config.setEnum(ConfigConstants.CONFIG_BRANCH_SECTION, Constants.MASTER,
+				ConfigConstants.CONFIG_KEY_REBASE, BranchRebaseMode.REBASE);
 		config.setString(ConfigConstants.CONFIG_BRANCH_SECTION,
 				Constants.MASTER, "a", "a");
 		config.setString(ConfigConstants.CONFIG_BRANCH_SECTION, branch, "a",
@@ -140,18 +154,24 @@ public class RenameBranchCommandTest extends RepositoryTestCase {
 	@Test
 	public void renameBranchMultipleConfigValues() throws Exception {
 		StoredConfig config = git.getRepository().getConfig();
-		config.setBoolean(ConfigConstants.CONFIG_BRANCH_SECTION,
-				Constants.MASTER, ConfigConstants.CONFIG_KEY_REBASE, true);
+		config.setEnum(ConfigConstants.CONFIG_BRANCH_SECTION, Constants.MASTER,
+				ConfigConstants.CONFIG_KEY_REBASE, BranchRebaseMode.REBASE);
 		config.setBoolean(ConfigConstants.CONFIG_BRANCH_SECTION,
 				Constants.MASTER, ConfigConstants.CONFIG_KEY_MERGE, true);
 		config.save();
 
 		String branch = "b1";
 
-		assertTrue(config.getBoolean(ConfigConstants.CONFIG_BRANCH_SECTION,
-				Constants.MASTER, ConfigConstants.CONFIG_KEY_REBASE, true));
-		assertFalse(config.getBoolean(ConfigConstants.CONFIG_BRANCH_SECTION,
-				branch, ConfigConstants.CONFIG_KEY_REBASE, false));
+		assertEquals(BranchRebaseMode.REBASE,
+				config.getEnum(BranchRebaseMode.values(),
+						ConfigConstants.CONFIG_BRANCH_SECTION, Constants.MASTER,
+						ConfigConstants.CONFIG_KEY_REBASE,
+						BranchRebaseMode.NONE));
+		assertEquals(BranchRebaseMode.NONE,
+				config.getEnum(BranchRebaseMode.values(),
+						ConfigConstants.CONFIG_BRANCH_SECTION, branch,
+						ConfigConstants.CONFIG_KEY_REBASE,
+						BranchRebaseMode.NONE));
 		assertTrue(config.getBoolean(ConfigConstants.CONFIG_BRANCH_SECTION,
 				Constants.MASTER, ConfigConstants.CONFIG_KEY_MERGE, true));
 		assertFalse(config.getBoolean(ConfigConstants.CONFIG_BRANCH_SECTION,
@@ -160,10 +180,16 @@ public class RenameBranchCommandTest extends RepositoryTestCase {
 		assertNotNull(git.branchRename().setNewName(branch).call());
 
 		config = git.getRepository().getConfig();
-		assertFalse(config.getBoolean(ConfigConstants.CONFIG_BRANCH_SECTION,
-				Constants.MASTER, ConfigConstants.CONFIG_KEY_REBASE, false));
-		assertTrue(config.getBoolean(ConfigConstants.CONFIG_BRANCH_SECTION,
-				branch, ConfigConstants.CONFIG_KEY_REBASE, false));
+		assertEquals(BranchRebaseMode.NONE,
+				config.getEnum(BranchRebaseMode.values(),
+						ConfigConstants.CONFIG_BRANCH_SECTION, Constants.MASTER,
+						ConfigConstants.CONFIG_KEY_REBASE,
+						BranchRebaseMode.NONE));
+		assertEquals(BranchRebaseMode.REBASE,
+				config.getEnum(BranchRebaseMode.values(),
+						ConfigConstants.CONFIG_BRANCH_SECTION, branch,
+						ConfigConstants.CONFIG_KEY_REBASE,
+						BranchRebaseMode.NONE));
 		assertFalse(config.getBoolean(ConfigConstants.CONFIG_BRANCH_SECTION,
 				Constants.MASTER, ConfigConstants.CONFIG_KEY_MERGE, false));
 		assertTrue(config.getBoolean(ConfigConstants.CONFIG_BRANCH_SECTION,
