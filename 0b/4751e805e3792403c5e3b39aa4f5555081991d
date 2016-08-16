@@ -1,0 +1,8 @@
+Verified+1: Hudson CI
+Code-Review+1: Jacek Centkowski <geminica.programs@gmail.com>
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-by: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-at: Tue, 16 Aug 2016 17:16:07 -0400
+Reviewed-on: https://git.eclipse.org/r/79009
+Project: jgit/jgit
+Branch: refs/heads/master
