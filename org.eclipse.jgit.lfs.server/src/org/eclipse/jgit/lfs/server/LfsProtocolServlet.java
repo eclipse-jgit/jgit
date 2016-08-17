@@ -149,7 +149,8 @@ public abstract class LfsProtocolServlet extends HttpServlet {
 		try {
 			repo = getLargeFileRepository(request, path);
 			if (repo == null) {
-				res.setStatus(SC_SERVICE_UNAVAILABLE);
+				sendError(res, w, SC_SERVICE_UNAVAILABLE,
+						"LFS is not available"); //$NON-NLS-1$
 			} else {
 				res.setStatus(SC_OK);
 				TransferHandler handler = TransferHandler
