@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_5d2ad930",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 81548
+      },
+      "writtenOn": "2016-08-17T20:55:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_228344e2",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 12
+      },
+      "revId": "c3dbe219df85d69753222ab4e12356a609224045",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_514568ca",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushOptionsTest.java",
         "patchSetId": 13
