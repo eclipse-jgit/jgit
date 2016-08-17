@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_119050a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 81548
+      },
+      "writtenOn": "2016-08-17T00:51:58Z",
+      "side": 1,
+      "message": "Well, BaseReceivePack becoming abstract doesn\u0027t break things to the extent that it\u0027s used in classes such as AdvertiseRefsHookChain.java. But there are other cases that I imagine will require replacement.",
+      "parentUuid": "27af2791_31eab422",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 12
+      },
+      "revId": "c3dbe219df85d69753222ab4e12356a609224045",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_514568ca",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushOptionsTest.java",
         "patchSetId": 13
@@ -36,6 +60,24 @@
       "writtenOn": "2016-08-16T23:33:20Z",
       "side": 1,
       "message": "nit: remove extra line",
+      "revId": "c3dbe219df85d69753222ab4e12356a609224045",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_51c2c89c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushOptionsTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 81548
+      },
+      "writtenOn": "2016-08-17T00:51:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_514568ca",
       "revId": "c3dbe219df85d69753222ab4e12356a609224045",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
