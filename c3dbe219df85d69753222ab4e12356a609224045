@@ -39,6 +39,29 @@
       "revId": "c3dbe219df85d69753222ab4e12356a609224045",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_51f728fe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-08-17T00:06:34Z",
+      "side": 1,
+      "message": "I wonder if these need to be bumped.\n\nSince 3.6 you could ask BaseReceivePack for this, but ReceivePack itself only understands it after 4.5 ?\n\nI think we can keep the 3.6 though as it indicates since when JGit can understand such a helper?",
+      "range": {
+        "startLine": 627,
+        "startChar": 4,
+        "endLine": 627,
+        "endChar": 14
+      },
+      "revId": "c3dbe219df85d69753222ab4e12356a609224045",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
