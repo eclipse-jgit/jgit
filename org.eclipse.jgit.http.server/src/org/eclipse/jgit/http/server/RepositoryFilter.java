@@ -143,7 +143,7 @@ public class RepositoryFilter implements Filter {
 			res.sendError(SC_UNAUTHORIZED, e.getMessage());
 			return;
 		} catch (ServiceMayNotContinueException e) {
-			sendError(req, res, SC_FORBIDDEN, e.getMessage());
+			sendError(req, res, e.getStatusCode(), e.getMessage());
 			return;
 		}
 		try {
