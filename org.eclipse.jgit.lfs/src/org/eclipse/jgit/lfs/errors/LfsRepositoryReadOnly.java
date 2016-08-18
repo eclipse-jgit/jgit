@@ -56,6 +56,6 @@ public class LfsRepositoryReadOnly extends LfsException {
 	 * @param name
 	 */
 	public LfsRepositoryReadOnly(String name) {
-		super("repository " + name + "is read-only"); //$NON-NLS-1$ //$NON-NLS-2$
+		super("repository " + name + " is read-only"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 }
