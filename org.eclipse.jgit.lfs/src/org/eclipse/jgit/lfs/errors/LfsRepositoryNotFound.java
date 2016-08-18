@@ -43,6 +43,10 @@
 
 package org.eclipse.jgit.lfs.errors;
 
+import java.text.MessageFormat;
+
+import org.eclipse.jgit.lfs.internal.LfsText;
+
 /**
  * Thrown when the repository does not exist for the user.
  *
@@ -56,6 +60,6 @@ public class LfsRepositoryNotFound extends LfsException {
 	 *
 	 */
 	public LfsRepositoryNotFound(String name) {
-		super("repository " + name + " not found"); //$NON-NLS-1$ //$NON-NLS-2$
+		super(MessageFormat.format(LfsText.get().repositoryNotFound, name));
 	}
 }
