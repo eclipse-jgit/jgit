@@ -44,6 +44,7 @@ package org.eclipse.jgit.lfs.server;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.apache.http.HttpStatus.SC_FORBIDDEN;
+import static org.apache.http.HttpStatus.SC_INSUFFICIENT_STORAGE;
 import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.apache.http.HttpStatus.SC_SERVICE_UNAVAILABLE;
@@ -65,6 +66,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jgit.lfs.errors.LfsBandwidthLimitExceeded;
 import org.eclipse.jgit.lfs.errors.LfsException;
+import org.eclipse.jgit.lfs.errors.LfsInsufficientStorage;
 import org.eclipse.jgit.lfs.errors.LfsRateLimitExceeded;
 import org.eclipse.jgit.lfs.errors.LfsRepositoryNotFound;
 import org.eclipse.jgit.lfs.errors.LfsRepositoryReadOnly;
@@ -173,6 +175,8 @@ public abstract class LfsProtocolServlet extends HttpServlet {
 			sendError(res, w, SC_RATE_LIMIT_EXCEEDED, e.getMessage());
 		} catch (LfsBandwidthLimitExceeded e) {
 			sendError(res, w, SC_BANDWIDTH_LIMIT_EXCEEDED, e.getMessage());
+		} catch (LfsInsufficientStorage e) {
+			sendError(res, w, SC_INSUFFICIENT_STORAGE, e.getMessage());
 		} catch (LfsException e) {
 			sendError(res, w, SC_SERVICE_UNAVAILABLE, e.getMessage());
 		} finally {
