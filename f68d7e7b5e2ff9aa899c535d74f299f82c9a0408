@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_a90ad4ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-08-19T23:18:14Z",
+      "side": 1,
+      "message": "as soon as we upgrade the minimum Java version to 8 we could use DateTimeFormatter [1] which is thread-safe\n\n[1] https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html",
+      "revId": "f68d7e7b5e2ff9aa899c535d74f299f82c9a0408",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
