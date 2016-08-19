@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_6928bc0e",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/errors/LfsRepositoryReadOnly.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-08-19T23:23:56Z",
+      "side": 1,
+      "message": "looks good, the message should be externalized and use e.g. MessageFormat in order to enable translation to other languages",
+      "revId": "4ee3b21f70c3756bff7a7e10a027da9ba5ec2c40",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
