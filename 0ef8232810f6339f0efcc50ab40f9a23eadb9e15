@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_296a44e1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2016-08-19T18:59:11Z",
+      "side": 1,
+      "message": "Why is this second condition necessary?",
+      "revId": "0ef8232810f6339f0efcc50ab40f9a23eadb9e15",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_69743cc0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2016-08-19T18:59:11Z",
+      "side": 1,
+      "message": "I would kind of rather make this an abstract method on PackList than downcast. Unless you think it would be too surprising if dirty() immediately after markDirty(false) returns true when you have NO_PACKS.",
+      "revId": "0ef8232810f6339f0efcc50ab40f9a23eadb9e15",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
