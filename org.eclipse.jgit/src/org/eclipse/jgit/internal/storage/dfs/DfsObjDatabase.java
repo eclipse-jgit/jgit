@@ -443,8 +443,12 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 			p.close();
 		if (list.isEmpty())
 			return new PackListImpl(NO_PACKS.packs);
-		if (!foundNew)
+		if (!foundNew && list.size() == old.packs.length) {
+			if (old instanceof PackListImpl) {
+				((PackListImpl) old).dirty = false;
+			}
 			return old;
+		}
 		return new PackListImpl(list.toArray(new DfsPackFile[list.size()]));
 	}
 
