@@ -16,6 +16,24 @@
       "revId": "4ee3b21f70c3756bff7a7e10a027da9ba5ec2c40",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_09bca022",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/errors/LfsRepositoryReadOnly.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-08-19T23:56:15Z",
+      "side": 1,
+      "message": "The same should be done for the other Lfs error messages.  Is it OK to merge this as-is and do the externalization for all of them in a separate commit?",
+      "parentUuid": "27af2791_6928bc0e",
+      "revId": "4ee3b21f70c3756bff7a7e10a027da9ba5ec2c40",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
