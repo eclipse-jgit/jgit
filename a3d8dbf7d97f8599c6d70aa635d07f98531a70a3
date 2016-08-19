@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_299324df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-08-19T23:09:04Z",
+      "side": 1,
+      "message": "I think this doesn\u0027t justify adding a new dependency, we try to keep dependencies of the core jgit bundles minimal since they are used by many applications.\n\nSo far only the optional bundles org.eclipse.jgit.http.apache and org.eclipse.jgit.lfs.server use apache.http and they use more than a few constants.",
+      "revId": "a3d8dbf7d97f8599c6d70aa635d07f98531a70a3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
