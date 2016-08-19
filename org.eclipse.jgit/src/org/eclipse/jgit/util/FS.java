@@ -990,7 +990,16 @@ public abstract class FS {
 				new StreamGobbler(inRedirect, outputStream)
 						.call();
 			}
-			outputStream.close();
+			try {
+				outputStream.close();
+			} catch (IOException e) {
+				// When the process exits before consuming the input, the OutputStream
+				// is replaced with the null output stream. This null output stream
+				// throws IOException for all write calls. When StreamGobbler fails to
+				// flush the buffer because of this, this close call tries to flush it
+				// again. This causes another IOException. Since we ignore the
+				// IOException in StreamGobbler, we also ignore the exception here.
+			}
 			return process.waitFor();
 		} catch (IOException e) {
 			ioException = e;
