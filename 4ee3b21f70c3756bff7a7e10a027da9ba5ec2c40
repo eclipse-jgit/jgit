@@ -34,6 +34,24 @@
       "revId": "4ee3b21f70c3756bff7a7e10a027da9ba5ec2c40",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_64d0e13f",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/errors/LfsRepositoryReadOnly.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-08-20T02:27:38Z",
+      "side": 1,
+      "message": "Actually there\u0027s only one other that has a hard-coded message like this, so I\u0027ve fixed them both in this commit.  PTAL.",
+      "parentUuid": "27af2791_09bca022",
+      "revId": "4ee3b21f70c3756bff7a7e10a027da9ba5ec2c40",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
