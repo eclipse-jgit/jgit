@@ -195,7 +195,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		assertEquals(FileMode.REGULAR_FILE.getBits(), top.mode);
 		assertEquals(paths[0], nameOf(top));
 		assertEquals(paths[0].length(), top.getEntryLength());
-		assertEquals(mtime[0], top.getEntryLastModified());
+		assertTimestamp(mtime[0], top.getEntryLastModified());
 
 		top.next(1);
 		assertFalse(top.first());
@@ -203,7 +203,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		assertEquals(FileMode.REGULAR_FILE.getBits(), top.mode);
 		assertEquals(paths[1], nameOf(top));
 		assertEquals(paths[1].length(), top.getEntryLength());
-		assertEquals(mtime[1], top.getEntryLastModified());
+		assertTimestamp(mtime[1], top.getEntryLastModified());
 
 		top.next(1);
 		assertFalse(top.first());
@@ -218,7 +218,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		assertFalse(sub.eof());
 		assertEquals(paths[2], nameOf(sub));
 		assertEquals(paths[2].length(), subfti.getEntryLength());
-		assertEquals(mtime[2], subfti.getEntryLastModified());
+		assertTimestamp(mtime[2], subfti.getEntryLastModified());
 
 		sub.next(1);
 		assertTrue(sub.eof());
@@ -229,7 +229,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		assertEquals(FileMode.REGULAR_FILE.getBits(), top.mode);
 		assertEquals(paths[3], nameOf(top));
 		assertEquals(paths[3].length(), top.getEntryLength());
-		assertEquals(mtime[3], top.getEntryLastModified());
+		assertTimestamp(mtime[3], top.getEntryLastModified());
 
 		top.next(1);
 		assertTrue(top.eof());
@@ -653,6 +653,13 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		}
 	}
 
+	private static void assertTimestamp(long expected, long actual) {
+		// File and Java7 PosixFileAttributes are using second precision values. Java8
+		// PosixFileAttributes starts using a nanosecond precision. Because of this,
+		// timestamp assertions fail in Java8. This assetion compares timestamps in a second
+		// precision for backward compatibility.
+		assertEquals(expected, (actual / 1000) * 1000);
+	}
 
 	private static void assertEntry(String sha1string, String path, TreeWalk tw)
 			throws MissingObjectException, IncorrectObjectTypeException,
