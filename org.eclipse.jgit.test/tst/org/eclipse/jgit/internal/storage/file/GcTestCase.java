@@ -105,8 +105,9 @@ public abstract class GcTestCase extends LocalDiskRepositoryTestCase {
 		return tip;
 	}
 
-	protected long lastModified(AnyObjectId objectId) {
-		return repo.getObjectDatabase().fileFor(objectId).lastModified();
+	protected long lastModified(AnyObjectId objectId) throws IOException {
+		return repo.getFS().lastModified(
+				repo.getObjectDatabase().fileFor(objectId));
 	}
 
 	protected static void fsTick() throws InterruptedException, IOException {
