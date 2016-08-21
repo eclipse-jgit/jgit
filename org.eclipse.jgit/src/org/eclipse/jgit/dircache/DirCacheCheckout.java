@@ -1189,7 +1189,7 @@ public class DirCacheCheckout {
 					JGitText.get().renameFileFailed, tmpFile.getPath(),
 					f.getPath()));
 		}
-		entry.setLastModified(f.lastModified());
+		entry.setLastModified(fs.lastModified(f));
 	}
 
 	@SuppressWarnings("deprecation")

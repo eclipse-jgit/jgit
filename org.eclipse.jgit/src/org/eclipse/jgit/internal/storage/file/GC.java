@@ -182,9 +182,10 @@ public class GC {
 	 * @param oldPacks
 	 * @param newPacks
 	 * @throws ParseException
+	 * @throws IOException
 	 */
 	private void deleteOldPacks(Collection<PackFile> oldPacks,
-			Collection<PackFile> newPacks) throws ParseException {
+			Collection<PackFile> newPacks) throws ParseException, IOException {
 		long expireDate = getExpireDate();
 		oldPackLoop: for (PackFile oldPack : oldPacks) {
 			String oldName = oldPack.getPackName();
@@ -195,7 +196,8 @@ public class GC {
 					continue oldPackLoop;
 
 			if (!oldPack.shouldBeKept()
-					&& oldPack.getPackFile().lastModified() < expireDate) {
+					&& repo.getFS().lastModified(
+							oldPack.getPackFile()) < expireDate) {
 				oldPack.close();
 				prunePack(oldName);
 			}
@@ -331,7 +333,7 @@ public class GC {
 						String fName = f.getName();
 						if (fName.length() != Constants.OBJECT_ID_STRING_LENGTH - 2)
 							continue;
-						if (f.lastModified() >= expireDate)
+						if (repo.getFS().lastModified(f) >= expireDate)
 							continue;
 						try {
 							ObjectId id = ObjectId.fromString(d + fName);

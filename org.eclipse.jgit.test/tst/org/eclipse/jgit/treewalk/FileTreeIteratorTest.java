@@ -71,6 +71,7 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator.MetadataDiff;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
+import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.junit.Before;
@@ -95,7 +96,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		for (int i = paths.length - 1; i >= 0; i--) {
 			final String s = paths[i];
 			writeTrashFile(s, s);
-			mtime[i] = new File(trash, s).lastModified();
+			mtime[i] = FS.DETECTED.lastModified(new File(trash, s));
 		}
 	}
 

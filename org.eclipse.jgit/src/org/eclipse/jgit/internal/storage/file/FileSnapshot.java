@@ -44,6 +44,7 @@
 package org.eclipse.jgit.internal.storage.file;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -102,8 +103,13 @@ public class FileSnapshot {
 	 * @return the snapshot.
 	 */
 	public static FileSnapshot save(File path) {
-		final long read = System.currentTimeMillis();
-		final long modified = path.lastModified();
+		long read = System.currentTimeMillis();
+		long modified;
+		try {
+			modified = FS.DETECTED.lastModified(path);
+		} catch (IOException e) {
+			modified = path.lastModified();
+		}
 		return new FileSnapshot(read, modified);
 	}
 
@@ -153,7 +159,13 @@ public class FileSnapshot {
 	 * @return true if the path needs to be read again.
 	 */
 	public boolean isModified(File path) {
-		return isModified(path.lastModified());
+		long currLastModified;
+		try {
+			currLastModified = FS.DETECTED.lastModified(path);
+		} catch (IOException e) {
+			currLastModified = path.lastModified();
+		}
+		return isModified(currLastModified);
 	}
 
 	/**
