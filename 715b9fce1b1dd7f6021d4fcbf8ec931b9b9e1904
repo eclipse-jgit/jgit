@@ -22,6 +22,30 @@
       "revId": "715b9fce1b1dd7f6021d4fcbf8ec931b9b9e1904",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_e435d190",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Clean.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 39869
+      },
+      "writtenOn": "2016-08-21T23:00:17Z",
+      "side": 1,
+      "message": "That\u0027s a good point.  I\u0027ll resubmit to require -f.  A great integration test would be if we ran the \"jgit pgm\" testsuite against both jgit and cgit to find any behavior discrepancies.  I don\u0027t think 100% accuracy with the pgm accuracy is that important in itself, but it\u0027s useful API for verifying underlying behavior.",
+      "parentUuid": "27af2791_a4c2f9fd",
+      "range": {
+        "startLine": 55,
+        "startChar": 1,
+        "endLine": 56,
+        "endChar": 30
+      },
+      "revId": "715b9fce1b1dd7f6021d4fcbf8ec931b9b9e1904",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
