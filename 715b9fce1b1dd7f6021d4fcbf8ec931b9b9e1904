@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_a4c2f9fd",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Clean.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-08-21T15:27:00Z",
+      "side": 1,
+      "message": "Is there any convention about making jgit\u0027s commands mimic the behaviour of equivalent cgit commands?\n\nIn cgit if we do `git clean -d` it will return an error:\n\n fatal: clean.requireForce defaults to true and neither -i, -n, nor -f given; refusing to clean\n\nShould this also support those options and behave the same way?  JGit\u0027s CleanCommand already supports at least -n and -f.",
+      "range": {
+        "startLine": 55,
+        "startChar": 1,
+        "endLine": 56,
+        "endChar": 30
+      },
+      "revId": "715b9fce1b1dd7f6021d4fcbf8ec931b9b9e1904",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
