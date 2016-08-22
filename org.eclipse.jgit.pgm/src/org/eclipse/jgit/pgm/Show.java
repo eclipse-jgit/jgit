@@ -87,7 +87,7 @@ class Show extends TextBuiltin {
 	@Argument(index = 0, metaVar = "metaVar_object")
 	private String objectName;
 
-	@Option(name = "--", metaVar = "metaVar_path", multiValued = true, handler = PathTreeFilterHandler.class)
+	@Option(name = "--", metaVar = "metaVar_path", handler = PathTreeFilterHandler.class)
 	protected TreeFilter pathFilter = TreeFilter.ALL;
 
 	// BEGIN -- Options shared with Diff
