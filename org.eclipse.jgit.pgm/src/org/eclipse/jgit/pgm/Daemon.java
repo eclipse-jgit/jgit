@@ -86,16 +86,16 @@ class Daemon extends TextBuiltin {
 	@Option(name = "--timeout", metaVar = "metaVar_seconds", usage = "usage_abortConnectionIfNoActivity")
 	int timeout = -1;
 
-	@Option(name = "--enable", metaVar = "metaVar_service", usage = "usage_enableTheServiceInAllRepositories", multiValued = true)
+	@Option(name = "--enable", metaVar = "metaVar_service", usage = "usage_enableTheServiceInAllRepositories")
 	final List<String> enable = new ArrayList<>();
 
-	@Option(name = "--disable", metaVar = "metaVar_service", usage = "usage_disableTheServiceInAllRepositories", multiValued = true)
+	@Option(name = "--disable", metaVar = "metaVar_service", usage = "usage_disableTheServiceInAllRepositories")
 	final List<String> disable = new ArrayList<>();
 
-	@Option(name = "--allow-override", metaVar = "metaVar_service", usage = "usage_configureTheServiceInDaemonServicename", multiValued = true)
+	@Option(name = "--allow-override", metaVar = "metaVar_service", usage = "usage_configureTheServiceInDaemonServicename")
 	final List<String> canOverride = new ArrayList<>();
 
-	@Option(name = "--forbid-override", metaVar = "metaVar_service", usage = "usage_configureTheServiceInDaemonServicename", multiValued = true)
+	@Option(name = "--forbid-override", metaVar = "metaVar_service", usage = "usage_configureTheServiceInDaemonServicename")
 	final List<String> forbidOverride = new ArrayList<>();
 
 	@Option(name = "--export-all", usage = "usage_exportWithoutGitDaemonExportOk")

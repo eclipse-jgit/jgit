@@ -124,9 +124,9 @@ abstract class RevWalkTextBuiltin extends TextBuiltin {
 	private String followPath;
 
 	@Argument(index = 0, metaVar = "metaVar_commitish")
-	private final List<RevCommit> commits = new ArrayList<>();
+	private List<RevCommit> commits = new ArrayList<>();
 
-	@Option(name = "--", metaVar = "metaVar_path", multiValued = true, handler = PathTreeFilterHandler.class)
+	@Option(name = "--", metaVar = "metaVar_path", handler = PathTreeFilterHandler.class)
 	protected TreeFilter pathFilter = TreeFilter.ALL;
 
 	private final List<RevFilter> revLimiter = new ArrayList<>();

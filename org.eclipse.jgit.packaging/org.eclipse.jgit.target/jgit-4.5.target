@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/mbarbero/fr.obeo.releng.targetplatform -->
-<target name="jgit-4.5" sequenceNumber="1485388880">
+<target name="jgit-4.5" sequenceNumber="1485388881">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.jetty.client" version="9.4.1.v20170120"/>
@@ -73,8 +73,8 @@
       <unit id="org.apache.httpcomponents.httpclient.source" version="4.3.6.v201511171540"/>
       <unit id="org.apache.log4j" version="1.2.15.v201012070815"/>
       <unit id="org.apache.log4j.source" version="1.2.15.v201012070815"/>
-      <unit id="org.kohsuke.args4j" version="2.0.21.v201301150030"/>
-      <unit id="org.kohsuke.args4j.source" version="2.0.21.v201301150030"/>
+      <unit id="org.kohsuke.args4j" version="2.33.0.v20160323-2218"/>
+      <unit id="org.kohsuke.args4j.source" version="2.33.0.v20160323-2218"/>
       <unit id="org.hamcrest.core" version="1.3.0.v201303031735"/>
       <unit id="org.hamcrest.core.source" version="1.3.0.v201303031735"/>
       <unit id="org.hamcrest.library" version="1.3.0.v201505072020"/>

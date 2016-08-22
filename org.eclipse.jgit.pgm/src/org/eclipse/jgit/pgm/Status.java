@@ -83,7 +83,7 @@ class Status extends TextBuiltin {
 	protected String untrackedFilesMode = "all"; // default value //$NON-NLS-1$
 
 	@Argument(required = false, index = 0, metaVar = "metaVar_paths")
-	@Option(name = "--", metaVar = "metaVar_paths", multiValued = true, handler = RestOfArgumentsHandler.class)
+	@Option(name = "--", metaVar = "metaVar_paths", handler = RestOfArgumentsHandler.class)
 	protected List<String> filterPaths;
 
 	@Override
