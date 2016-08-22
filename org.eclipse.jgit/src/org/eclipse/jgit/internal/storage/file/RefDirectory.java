@@ -843,6 +843,11 @@ public class RefDirectory extends RefDatabase {
 			}
 
 			int sp = p.indexOf(' ');
+			if (sp < 0) {
+				throw new IOException(MessageFormat.format(
+						JGitText.get().packedRefsCorruptionDetected,
+						packedRefsFile.getAbsolutePath()));
+			}
 			ObjectId id = ObjectId.fromString(p.substring(0, sp));
 			String name = copy(p, sp + 1, p.length());
 			ObjectIdRef cur;
