@@ -69,7 +69,7 @@ class Reset extends TextBuiltin {
 	private String commit;
 
 	@Argument(required = false, index = 1, metaVar = "metaVar_paths")
-	@Option(name = "--", metaVar = "metaVar_paths", multiValued = true, handler = RestOfArgumentsHandler.class)
+	@Option(name = "--", metaVar = "metaVar_paths", handler = RestOfArgumentsHandler.class)
 	private List<String> paths = new ArrayList<>();
 
 	@Override
