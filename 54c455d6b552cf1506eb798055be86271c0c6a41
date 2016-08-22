@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_bf884200",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/FileTreeIteratorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2016-08-22T12:22:47Z",
+      "side": 1,
+      "message": "But this can make test think that the time stamps are equal even if they aren\u0027t and should not be equal.",
+      "revId": "54c455d6b552cf1506eb798055be86271c0c6a41",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
