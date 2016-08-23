@@ -62,6 +62,30 @@
       "revId": "84f3ef5d86f28b908fe9bd27d00114013d92f2df",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_d7d316fe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineIn.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-08-23T19:06:29Z",
+      "side": 1,
+      "message": "Never mind --- I can\u0027t read.",
+      "parentUuid": "27af2791_97cd1e63",
+      "range": {
+        "startLine": 165,
+        "startChar": 0,
+        "endLine": 166,
+        "endChar": 57
+      },
+      "revId": "84f3ef5d86f28b908fe9bd27d00114013d92f2df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
