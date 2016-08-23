@@ -49,6 +49,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import org.eclipse.jgit.lib.Constants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Write Git style pkt-line formatting to an output stream.
@@ -61,6 +63,8 @@ import org.eclipse.jgit.lib.Constants;
  * against the underlying OutputStream.
  */
 public class PacketLineOut {
+	private static final Logger log = LoggerFactory.getLogger(PacketLineOut.class);
+
 	private final OutputStream out;
 
 	private final byte[] lenbuffer;
@@ -100,6 +104,7 @@ public class PacketLineOut {
 	 *             the packet may have been only partially written.
 	 */
 	public void writeString(final String s) throws IOException {
+		log.debug("git> " + s); //$NON-NLS-1$
 		writePacket(Constants.encode(s));
 	}
 
