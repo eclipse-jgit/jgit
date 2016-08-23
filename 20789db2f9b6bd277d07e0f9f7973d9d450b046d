@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_6efc3ba8",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-08-23T07:13:23Z",
+      "side": 1,
+      "message": "Same comment as before. The command added in this commit does not have the -i option.",
+      "range": {
+        "startLine": 49,
+        "startChar": 66,
+        "endLine": 49,
+        "endChar": 69
+      },
+      "revId": "20789db2f9b6bd277d07e0f9f7973d9d450b046d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
