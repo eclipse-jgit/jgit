@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_37a7f208",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineIn.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-08-23T21:47:25Z",
+      "side": 1,
+      "message": "spurious white space change?",
+      "range": {
+        "startLine": 221,
+        "startChar": 5,
+        "endLine": 221,
+        "endChar": 7
+      },
+      "revId": "605f60b3fdf6705db3ac4c91d86d937a95856f1a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_b79b02c9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineOut.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-08-23T21:47:25Z",
+      "side": 1,
+      "message": "this only captures parts of the actual transmission.",
+      "range": {
+        "startLine": 107,
+        "startChar": 2,
+        "endLine": 107,
+        "endChar": 39
+      },
+      "revId": "605f60b3fdf6705db3ac4c91d86d937a95856f1a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_d78cf694",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineOut.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-08-23T21:47:25Z",
+      "side": 1,
+      "message": "I think we\u0027d rather put the debugging output here.",
+      "range": {
+        "startLine": 141,
+        "startChar": 2,
+        "endLine": 142,
+        "endChar": 27
+      },
+      "revId": "605f60b3fdf6705db3ac4c91d86d937a95856f1a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_f791faa6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineOut.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-08-23T21:47:25Z",
+      "side": 1,
+      "message": "and here",
+      "range": {
+        "startLine": 160,
+        "startChar": 2,
+        "endLine": 160,
+        "endChar": 29
+      },
+      "revId": "605f60b3fdf6705db3ac4c91d86d937a95856f1a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
