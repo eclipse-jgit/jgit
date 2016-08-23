@@ -16,6 +16,24 @@
       "revId": "a4a823bf0f265d41f8e29b2b6d88830744c7be17",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_b7b4e23d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineOut.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 81548
+      },
+      "writtenOn": "2016-08-23T21:39:58Z",
+      "side": 1,
+      "message": "Huh, that\u0027s odd. I\u0027ve uploaded the complete change, anyways.",
+      "parentUuid": "27af2791_f72d7a1a",
+      "revId": "a4a823bf0f265d41f8e29b2b6d88830744c7be17",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
