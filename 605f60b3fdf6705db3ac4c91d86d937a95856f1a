@@ -48,6 +48,23 @@
     },
     {
       "key": {
+        "uuid": "27af2791_57a0e6ec",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineOut.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-08-23T21:47:35Z",
+      "side": 1,
+      "message": "I would have expected the tracing to happen at the writePacket(buf, pos, len) level, since that captures all packets sent (not just packets sent as strings).\n\nend() is where flush-pkts happen.",
+      "revId": "605f60b3fdf6705db3ac4c91d86d937a95856f1a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_d78cf694",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineOut.java",
         "patchSetId": 6
