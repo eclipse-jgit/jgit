@@ -45,6 +45,30 @@
       "revId": "28b5aafb24aff440974d3fd8f276b24e009e4436",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_22f972ba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineIn.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 81548
+      },
+      "writtenOn": "2016-08-23T22:15:41Z",
+      "side": 0,
+      "message": "Sorry, the Eclipse auto-formatter keeps catching and trying to fix it.",
+      "parentUuid": "27af2791_17aaeed0",
+      "range": {
+        "startLine": 71,
+        "startChar": 67,
+        "endLine": 71,
+        "endChar": 68
+      },
+      "revId": "28b5aafb24aff440974d3fd8f276b24e009e4436",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
