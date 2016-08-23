@@ -22,6 +22,30 @@
       "revId": "20789db2f9b6bd277d07e0f9f7973d9d450b046d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_1cfe952b",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 39869
+      },
+      "writtenOn": "2016-08-23T15:48:36Z",
+      "side": 1,
+      "message": "If I remove the \u0027-i\u0027 in this message, would that resolve your concern?  Or do you only want to merge commands if they\u0027re 100% with CGit?\n\nThe other issue needed for 100% with CGit here would be for -f -f (two dash f\u0027s) to delete submodule .git directories.",
+      "parentUuid": "27af2791_6efc3ba8",
+      "range": {
+        "startLine": 49,
+        "startChar": 66,
+        "endLine": 49,
+        "endChar": 69
+      },
+      "revId": "20789db2f9b6bd277d07e0f9f7973d9d450b046d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
