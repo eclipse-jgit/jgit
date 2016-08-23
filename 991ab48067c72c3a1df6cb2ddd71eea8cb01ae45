@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_91a9ae9a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2016-08-23T12:04:33Z",
+      "side": 1,
+      "message": "Style nit: we require the \"Bug: \u003cnumber\u003e\" line without extra words after, so please remove \". This fixes ...\" from this line and begin the commit message with \"This fixes ...\".",
+      "revId": "991ab48067c72c3a1df6cb2ddd71eea8cb01ae45",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
