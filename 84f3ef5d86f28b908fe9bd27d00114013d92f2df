@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_b700620f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineIn.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-08-23T18:57:17Z",
+      "side": 1,
+      "message": "I\u0027d go with \"0000\" to be consistent with git core.\n\n(i.e. I\u0027d try getting close to the additional output of \"GIT_TRACE_PACKET\u003d1 git ls-remote\")",
+      "range": {
+        "startLine": 145,
+        "startChar": 14,
+        "endLine": 145,
+        "endChar": 24
+      },
+      "revId": "84f3ef5d86f28b908fe9bd27d00114013d92f2df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
