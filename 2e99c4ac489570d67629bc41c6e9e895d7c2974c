@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_cbbff947",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-08-23T01:34:20Z",
+      "side": 1,
+      "message": "There is no -i option on this implementation.",
+      "range": {
+        "startLine": 49,
+        "startChar": 65,
+        "endLine": 49,
+        "endChar": 68
+      },
+      "revId": "2e99c4ac489570d67629bc41c6e9e895d7c2974c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
