@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_6bd42d63",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineIn.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-08-23T05:24:29Z",
+      "side": 1,
+      "message": "Shouldn\u0027t private static be declared before public static?",
+      "revId": "1200d470670feec9bdb3ed548e66eea1c6a6edad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_cbfa99e8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineIn.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-08-23T05:24:29Z",
+      "side": 1,
+      "message": "How often does this get output?  If it\u0027s very frequently it might be better to use debug level otherwise it\u0027s going to spam the console.\n\nSame for the other log.info calls added in this file.",
+      "range": {
+        "startLine": 144,
+        "startChar": 7,
+        "endLine": 144,
+        "endChar": 11
+      },
+      "revId": "1200d470670feec9bdb3ed548e66eea1c6a6edad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
