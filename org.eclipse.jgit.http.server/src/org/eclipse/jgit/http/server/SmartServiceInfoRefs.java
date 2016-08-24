@@ -139,7 +139,7 @@ abstract class SmartServiceInfoRefs implements Filter {
 			if (e.isOutput())
 				buf.close();
 			else
-				sendError(req, res, SC_FORBIDDEN, e.getMessage());
+				sendError(req, res, e.getStatusCode(), e.getMessage());
 		}
 	}
 

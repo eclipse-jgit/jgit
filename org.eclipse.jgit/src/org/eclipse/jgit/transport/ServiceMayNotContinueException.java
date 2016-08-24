@@ -44,6 +44,7 @@
 package org.eclipse.jgit.transport;
 
 import java.io.IOException;
+import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jgit.internal.JGitText;
 
@@ -55,11 +56,13 @@ import org.eclipse.jgit.internal.JGitText;
 public class ServiceMayNotContinueException extends IOException {
 	private static final long serialVersionUID = 1L;
 
+	private final int statusCode;
 	private boolean output;
 
 	/** Initialize with no message. */
 	public ServiceMayNotContinueException() {
 		// Do not set a message.
+		statusCode = HttpServletResponse.SC_FORBIDDEN;
 	}
 
 	/**
@@ -69,6 +72,20 @@ public class ServiceMayNotContinueException extends IOException {
 	 */
 	public ServiceMayNotContinueException(String msg) {
 		super(msg);
+		statusCode = HttpServletResponse.SC_FORBIDDEN;
+	}
+
+	/**
+	 * @param msg
+	 *            a message explaining why it cannot continue. This message may
+	 *            be shown to an end-user.
+	 * @param statusCode
+	 *            the HTTP status code.
+	 * @since 4.5
+	 */
+	public ServiceMayNotContinueException(String msg, int statusCode) {
+		super(msg);
+		this.statusCode = statusCode;
 	}
 
 	/**
@@ -80,8 +97,24 @@ public class ServiceMayNotContinueException extends IOException {
 	 * @since 3.2
 	 */
 	public ServiceMayNotContinueException(String msg, Throwable cause) {
-		super(msg);
-		initCause(cause);
+		super(msg, cause);
+		statusCode = HttpServletResponse.SC_FORBIDDEN;
+	}
+
+	/**
+	 * @param msg
+	 *            a message explaining why it cannot continue. This message may
+	 *            be shown to an end-user.
+	 * @param cause
+	 *            the cause of the exception.
+	 * @param statusCode
+	 *            the HTTP status code.
+	 * @since 4.5
+	 */
+	public ServiceMayNotContinueException(
+			String msg, Throwable cause, int statusCode) {
+		super(msg, cause);
+		this.statusCode = statusCode;
 	}
 
 	/**
@@ -103,5 +136,13 @@ public class ServiceMayNotContinueException extends IOException {
 	/** Mark this message has being sent to the client. */
 	public void setOutput() {
 		output = true;
+	}
+
+	/**
+	 * @return true if the message was already output to the client.
+	 * @since 4.5
+	 */
+	public int getStatusCode() {
+		return statusCode;
 	}
 }
