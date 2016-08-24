@@ -51,6 +51,24 @@
       "revId": "9136bf67a587a122a3e29b8faa09828cdbd45154",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_4f720e06",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 848,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-08-24T13:39:01Z",
+      "side": 1,
+      "message": "We changed the formatting guideline to use braces for 1 line blocks some time back, that\u0027s mentioned in the EGit contributor guide (can\u0027t access it currently due to network issues). Since then we use braces for oneline blocks for newly added or modified code. We don\u0027t want to apply the new rule globally in order to avoid unnecessary conflicts",
+      "parentUuid": "27af2791_4bee892c",
+      "revId": "9136bf67a587a122a3e29b8faa09828cdbd45154",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
