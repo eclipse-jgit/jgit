@@ -226,17 +226,25 @@ public class HttpClientConnection implements HttpConnection {
 	}
 
 	private void execute() throws IOException, ClientProtocolException {
-		if (resp == null)
-			if (entity != null) {
-				if (req instanceof HttpEntityEnclosingRequest) {
-					HttpEntityEnclosingRequest eReq = (HttpEntityEnclosingRequest) req;
-					eReq.setEntity(entity);
-				}
-				resp = getClient().execute(req);
-				entity.getBuffer().close();
-				entity = null;
-			} else
-				resp = getClient().execute(req);
+		if (resp != null) {
+			return;
+		}
+
+		if (entity == null) {
+			resp = getClient().execute(req);
+			return;
+		}
+
+		try {
+			if (req instanceof HttpEntityEnclosingRequest) {
+				HttpEntityEnclosingRequest eReq = (HttpEntityEnclosingRequest) req;
+				eReq.setEntity(entity);
+			}
+			resp = getClient().execute(req);
+		} finally {
+			entity.close();
+			entity = null;
+		}
 	}
 
 	public Map<String, List<String>> getHeaderFields() {
