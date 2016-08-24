@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_42a74607",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2016-08-24T06:34:42Z",
+      "side": 1,
+      "message": "Christian, this reminds me about https://git.eclipse.org/r/78060/ and https://git.eclipse.org/r/78586/, which are still pending. This and other patches are doing similar things in different places in WorkingTreeIterator. Shouldn\u0027t we came up with the combined version?",
+      "revId": "77ab2a8bdfe133f61776fefb97ea1e1e6e1f992e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
