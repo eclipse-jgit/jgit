@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_e5878164",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineIn.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-08-24T23:02:28Z",
+      "side": 1,
+      "message": "spurious white space ;)",
+      "range": {
+        "startLine": 78,
+        "startChar": 12,
+        "endLine": 78,
+        "endChar": 13
+      },
+      "revId": "3b666699b14f0c49fd4079479339e69ac72ae3d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_4572ed05",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineOut.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-08-24T23:02:28Z",
+      "side": 1,
+      "message": "As Jonathan noted on the in side:\n\n\u003e We can skip this step when debug logging is disabled:\n\n     if (log.isDebugEnabled()) {\n     ...\n\nI think it is relevant here as we are constructing the string before passing it to the logger. On the input side we constructed / called decode anyway, but here we only do it for the purpose of logging. So we should check if logging is on.",
+      "range": {
+        "startLine": 143,
+        "startChar": 2,
+        "endLine": 143,
+        "endChar": 22
+      },
+      "revId": "3b666699b14f0c49fd4079479339e69ac72ae3d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_657b71e1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineOut.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-08-24T23:02:28Z",
+      "side": 1,
+      "message": "here we would not need to check before as the string is fixed?",
+      "range": {
+        "startLine": 162,
+        "startChar": 2,
+        "endLine": 162,
+        "endChar": 39
+      },
+      "revId": "3b666699b14f0c49fd4079479339e69ac72ae3d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
