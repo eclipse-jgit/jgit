@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "27af2791_72525561",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-08-24T17:56:16Z",
+      "side": 1,
+      "message": "This is true whether or not the server supports them. ;-) I.e., this makes the behavior more consistent with C Git.",
+      "revId": "feffea7e1100e0ec39f19874aee6f54463747811",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_5259d183",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-08-24T17:56:16Z",
+      "side": 1,
+      "message": "jgit style seems to be\n\n Bug: 500149\n Change-Id: ...\n\nThat way, it gets hyperlinked.",
+      "revId": "feffea7e1100e0ec39f19874aee6f54463747811",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_1264b93b",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Push.java",
         "patchSetId": 1
