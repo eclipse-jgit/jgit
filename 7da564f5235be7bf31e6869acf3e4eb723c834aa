@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_42e586c5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ServiceMayNotContinueException.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-08-24T01:05:10Z",
+      "side": 1,
+      "message": "side note: This dependency isn\u0027t really necessary --- we could avoid it by hard-coding 403. But I don\u0027t mind it. (Just commenting to remind myself what to do in case it comes up later.)",
+      "revId": "7da564f5235be7bf31e6869acf3e4eb723c834aa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_02f0ee84",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ServiceMayNotContinueException.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-08-24T01:05:10Z",
+      "side": 1,
+      "message": "Please add a @since comment (@since 4.5).",
+      "revId": "7da564f5235be7bf31e6869acf3e4eb723c834aa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_22e8929f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ServiceMayNotContinueException.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-08-24T01:05:10Z",
+      "side": 1,
+      "message": "Likewise.",
+      "revId": "7da564f5235be7bf31e6869acf3e4eb723c834aa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
