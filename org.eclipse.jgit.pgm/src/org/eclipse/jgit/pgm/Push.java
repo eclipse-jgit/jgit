@@ -130,7 +130,11 @@ class Push extends TextBuiltin {
 			push.setThin(thin);
 			push.setAtomic(atomic);
 			push.setTimeout(timeout);
-			push.setPushOptions(pushOptions);
+			if (pushOptions.isEmpty()) {
+				push.setPushOptions(null);
+			} else {
+				push.setPushOptions(pushOptions);
+			}
 			Iterable<PushResult> results = push.call();
 			for (PushResult result : results) {
 				try (ObjectReader reader = db.newObjectReader()) {
