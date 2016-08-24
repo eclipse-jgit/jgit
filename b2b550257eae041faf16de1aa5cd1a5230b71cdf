@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_d2c88121",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefUpdate.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-08-24T15:16:17Z",
+      "side": 1,
+      "message": "line wrap breaking before ? and : as written its too long.",
+      "revId": "b2b550257eae041faf16de1aa5cd1a5230b71cdf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
