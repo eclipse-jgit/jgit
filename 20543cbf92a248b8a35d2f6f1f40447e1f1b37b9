@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_62c7ea3a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ServiceMayNotContinueException.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2016-08-24T01:00:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_c227d6b9",
+      "range": {
+        "startLine": 60,
+        "startChar": 1,
+        "endLine": 60,
+        "endChar": 24
+      },
+      "revId": "20543cbf92a248b8a35d2f6f1f40447e1f1b37b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_e2185a7e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ServiceMayNotContinueException.java",
         "patchSetId": 3
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "27af2791_82c4fe35",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ServiceMayNotContinueException.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2016-08-24T01:00:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_e2185a7e",
+      "revId": "20543cbf92a248b8a35d2f6f1f40447e1f1b37b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_021e2e68",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ServiceMayNotContinueException.java",
         "patchSetId": 3
@@ -53,6 +95,24 @@
       "writtenOn": "2016-08-24T00:29:35Z",
       "side": 1,
       "message": "unrelated: this can do \u0027super(msg, cause)\u0027 now that we require Java 7.",
+      "revId": "20543cbf92a248b8a35d2f6f1f40447e1f1b37b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_a2f4a27e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ServiceMayNotContinueException.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2016-08-24T01:00:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_021e2e68",
       "revId": "20543cbf92a248b8a35d2f6f1f40447e1f1b37b9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
