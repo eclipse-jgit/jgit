@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_1264b93b",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Push.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-08-24T17:54:39Z",
+      "side": 1,
+      "message": "optional: can skip this line since it is the default:\n\n  if (!pushOptions.isEmpty()) {\n    push.setPushOptions(pushOptions);\n  }",
+      "revId": "feffea7e1100e0ec39f19874aee6f54463747811",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
