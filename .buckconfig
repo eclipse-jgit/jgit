@@ -12,6 +12,8 @@
 
 [java]
   src_roots = src, resources, tst
+  source_level = 8
+  target_level = 8
 
 [project]
   ignore = .git
