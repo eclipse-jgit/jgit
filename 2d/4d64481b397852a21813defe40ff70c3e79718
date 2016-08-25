@@ -1,0 +1,7 @@
+Code-Review+2: Andrey Loskutov <loskutov@gmx.de>
+Verified+1: Hudson CI
+Submitted-by: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-at: Thu, 25 Aug 2016 18:08:07 -0400
+Reviewed-on: https://git.eclipse.org/r/79731
+Project: jgit/jgit
+Branch: refs/heads/master
