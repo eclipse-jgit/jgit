@@ -16,6 +16,24 @@
       "revId": "b2b550257eae041faf16de1aa5cd1a5230b71cdf",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_f432cda6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefUpdate.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2016-08-25T21:22:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_d2c88121",
+      "revId": "b2b550257eae041faf16de1aa5cd1a5230b71cdf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
