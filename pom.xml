@@ -263,8 +263,8 @@
           <version>3.5.1</version>
           <configuration>
             <encoding>UTF-8</encoding>
-            <source>1.7</source>
-            <target>1.7</target>
+            <source>1.8</source>
+            <target>1.8</target>
             <compilerArguments>
               <bootclasspath>${JDK_HOME}${file.separator}jre${file.separator}lib${file.separator}rt.jar${path.separator}${JDK_HOME}${file.separator}jre${file.separator}lib${file.separator}jsse.jar${path.separator}${JDK_HOME}${file.separator}jre${file.separator}lib${file.separator}jce.jar</bootclasspath>
             </compilerArguments>
@@ -346,7 +346,7 @@
           <configuration>
             <sourceEncoding>utf-8</sourceEncoding>
             <minimumTokens>100</minimumTokens>
-            <targetJdk>1.7</targetJdk>
+            <targetJdk>1.8</targetJdk>
             <format>xml</format>
             <failOnViolation>false</failOnViolation>
           </configuration>
@@ -667,12 +667,6 @@
   </distributionManagement>
 
   <profiles>
-    <profile>
-      <id>jgit.java7</id>
-      <activation>
-        <jdk>[1.7,)</jdk>
-      </activation>
-    </profile>
     <profile>
       <id>jgit.java8</id>
       <activation>
