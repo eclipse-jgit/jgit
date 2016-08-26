@@ -44,12 +44,17 @@
 package org.eclipse.jgit.transport;
 
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_ATOMIC;
+import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_PUSH_OPTIONS;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_REPORT_STATUS;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.UnpackException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
@@ -71,6 +76,10 @@ public class ReceivePack extends BaseReceivePack {
 
 	private boolean echoCommandFailures;
 
+	/** Whether the client intends to use push options. */
+	private boolean usePushOptions;
+	private List<String> pushOptions;
+
 	/**
 	 * Create a new pack receive for an open repository.
 	 *
@@ -81,6 +90,36 @@ public class ReceivePack extends BaseReceivePack {
 		super(into);
 		preReceive = PreReceiveHook.NULL;
 		postReceive = PostReceiveHook.NULL;
+	}
+
+	/**
+	 * Gets an unmodifiable view of the option strings associated with the push.
+	 *
+	 * @return an unmodifiable view of pushOptions, or null (if pushOptions is).
+	 * @throws IllegalStateException
+	 *             if allowPushOptions has not been set to true.
+	 * @throws RequestNotYetReadException
+	 *             if the client's request has not yet been read from the wire,
+	 *             so we do not know if they expect push options. Note that the
+	 *             client may have already written the request, it just has not
+	 *             been read.
+	 * @since 4.5
+	 */
+	@Nullable
+	public List<String> getPushOptions() {
+		if (!isAllowPushOptions()) {
+			// Reading push options without a prior setAllowPushOptions(true)
+			// call doesn't make sense.
+			throw new IllegalStateException();
+		}
+		checkRequestWasRead();
+		if (!usePushOptions) {
+			// The client doesn't support push options. Return null to
+			// distinguish this from the case where the client declared support
+			// for push options and sent an empty list of them.
+			return null;
+		}
+		return Collections.unmodifiableList(pushOptions);
 	}
 
 	/** @return the hook invoked before updates occur. */
@@ -171,15 +210,18 @@ public class ReceivePack extends BaseReceivePack {
 	@Override
 	protected void enableCapabilities() {
 		reportStatus = isCapabilityEnabled(CAPABILITY_REPORT_STATUS);
+		usePushOptions = isCapabilityEnabled(CAPABILITY_PUSH_OPTIONS);
 		super.enableCapabilities();
 	}
 
 	private void readPushOptions() throws IOException {
-		String pushOption = pckIn.readString();
-
-		while (pushOption != PacketLineIn.END) {
-			pushOptions.add(pushOption);
-			pushOption = pckIn.readString();
+		pushOptions = new ArrayList<>(4);
+		for (;;) {
+			String option = pckIn.readString();
+			if (option == PacketLineIn.END) {
+				break;
+			}
+			pushOptions.add(option);
 		}
 	}
 
