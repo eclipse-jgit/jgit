@@ -1,0 +1,8 @@
+Code-Review+1: Stefan Beller <sbeller@google.com>
+Verified+1: Hudson CI
+Code-Review+2: Jonathan Nieder <jrn@google.com>
+Submitted-by: Jonathan Nieder <jrn@google.com>
+Submitted-at: Fri, 26 Aug 2016 18:15:06 -0400
+Reviewed-on: https://git.eclipse.org/r/79887
+Project: jgit/jgit
+Branch: refs/heads/master
