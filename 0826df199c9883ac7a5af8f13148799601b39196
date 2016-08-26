@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_ee5d99f6",
+        "filename": ".buckconfig",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-08-26T23:02:58Z",
+      "side": 1,
+      "message": "Was the intent for source_level to be 8, too, or only target_level?",
+      "revId": "0826df199c9883ac7a5af8f13148799601b39196",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_0e4f2d40",
+        "filename": "org.eclipse.jgit.ant.test/.settings/org.eclipse.jdt.core.prefs",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-08-26T23:02:58Z",
+      "side": 1,
+      "message": "Same question here.",
+      "revId": "0826df199c9883ac7a5af8f13148799601b39196",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
