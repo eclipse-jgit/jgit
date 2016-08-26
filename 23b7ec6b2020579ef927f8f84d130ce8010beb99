@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_9a71bbd1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsRefDatabase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2016-08-26T02:13:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_da2c13d3",
+      "range": {
+        "startLine": 315,
+        "startChar": 65,
+        "endLine": 315,
+        "endChar": 66
+      },
+      "revId": "23b7ec6b2020579ef927f8f84d130ce8010beb99",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_fa31d724",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsRefDatabase.java",
         "patchSetId": 3
@@ -36,6 +60,24 @@
       "writtenOn": "2016-08-26T02:03:50Z",
       "side": 1,
       "message": "Close the list with \u003c/ul\u003e",
+      "revId": "23b7ec6b2020579ef927f8f84d130ce8010beb99",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_7a6867e7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsRefDatabase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2016-08-26T02:13:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_fa31d724",
       "revId": "23b7ec6b2020579ef927f8f84d130ce8010beb99",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
