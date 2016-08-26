@@ -311,6 +311,15 @@ public abstract class DfsRefDatabase extends RefDatabase {
 
 	/**
 	 * Compare a reference, and put if it matches.
+	 * <p>
+	 * Two reference match if and only if they satisfy the following:
+	 *
+	 * <ul>
+	 * <li>If one reference is a symbolic ref, the other one should be a symbolic
+	 * ref.
+	 * <li>If both are symbolic refs, the target names should be same.
+	 * <li>If both are object ID refs, the object IDs should be same.
+	 * </ul>
 	 *
 	 * @param oldRef
 	 *            old value to compare to. If the reference is expected to not
