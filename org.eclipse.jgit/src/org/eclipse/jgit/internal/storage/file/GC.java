@@ -891,7 +891,7 @@ public class GC {
 	 * A class holding statistical data for a FileRepository regarding how many
 	 * objects are stored as loose or packed objects
 	 */
-	public class RepoStatistics {
+	public static class RepoStatistics {
 		/**
 		 * The number of objects stored in pack files. If the same object is
 		 * stored in multiple pack files then it is counted as often as it
