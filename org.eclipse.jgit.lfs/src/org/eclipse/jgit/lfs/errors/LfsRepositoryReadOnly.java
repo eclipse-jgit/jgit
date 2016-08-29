@@ -58,6 +58,7 @@ public class LfsRepositoryReadOnly extends LfsException {
 
 	/**
 	 * @param name
+	 *            the repository name.
 	 */
 	public LfsRepositoryReadOnly(String name) {
 		super(MessageFormat.format(LfsText.get().repositoryReadOnly, name));
