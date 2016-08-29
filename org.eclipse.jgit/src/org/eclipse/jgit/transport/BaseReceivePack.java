@@ -1171,6 +1171,9 @@ public abstract class BaseReceivePack {
 				}
 			}
 			pushCert = certParser.build();
+			if (hasCommands()) {
+				readPostCommands(pckIn);
+			}
 		} catch (PackProtocolException e) {
 			if (sideBand) {
 				try {
@@ -1215,6 +1218,16 @@ public abstract class BaseReceivePack {
 					JGitText.get().errorInvalidProtocolWantedOldNewRef);
 		}
 		return new ReceiveCommand(oldId, newId, name);
+	}
+
+	/**
+	 * @param in
+	 *            request stream.
+	 * @throws IOException
+	 *             request line cannot be read.
+	 */
+	void readPostCommands(PacketLineIn in) throws IOException {
+		// Do nothing by default.
 	}
 
 	/** Enable capabilities based on a previously read capabilities line. */
