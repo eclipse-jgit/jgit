@@ -112,7 +112,6 @@ public class ReceivePack extends BaseReceivePack {
 			// call doesn't make sense.
 			throw new IllegalStateException();
 		}
-		checkRequestWasRead();
 		if (!usePushOptions) {
 			// The client doesn't support push options. Return null to
 			// distinguish this from the case where the client declared support
@@ -120,6 +119,21 @@ public class ReceivePack extends BaseReceivePack {
 			return null;
 		}
 		return Collections.unmodifiableList(pushOptions);
+	}
+
+	/**
+	 * Set the push options supplied by the client.
+	 * <p>
+	 * Should only be called if reconstructing an instance without going through
+	 * the normal {@link #recvCommands()} flow.
+	 *
+	 * @param options
+	 *            the list of options supplied by the client.
+	 * @since 4.5
+	 */
+	public void setPushOptions(List<String> options) {
+		usePushOptions = options != null;
+		pushOptions = options;
 	}
 
 	/** @return the hook invoked before updates occur. */
