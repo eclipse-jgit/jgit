@@ -96,24 +96,18 @@ public class ReceivePack extends BaseReceivePack {
 	 * Gets an unmodifiable view of the option strings associated with the push.
 	 *
 	 * @return an unmodifiable view of pushOptions, or null (if pushOptions is).
-	 * @throws IllegalStateException
-	 *             if allowPushOptions has not been set to true.
 	 * @since 4.5
 	 */
 	@Nullable
 	public List<String> getPushOptions() {
-		if (!isAllowPushOptions()) {
-			// Reading push options without a prior setAllowPushOptions(true)
-			// call doesn't make sense.
-			throw new IllegalStateException();
+		if (isAllowPushOptions() && usePushOptions) {
+			return Collections.unmodifiableList(pushOptions);
 		}
-		if (!usePushOptions) {
-			// The client doesn't support push options. Return null to
-			// distinguish this from the case where the client declared support
-			// for push options and sent an empty list of them.
-			return null;
-		}
-		return Collections.unmodifiableList(pushOptions);
+
+		// The client doesn't support push options. Return null to
+		// distinguish this from the case where the client declared support
+		// for push options and sent an empty list of them.
+		return null;
 	}
 
 	/**
