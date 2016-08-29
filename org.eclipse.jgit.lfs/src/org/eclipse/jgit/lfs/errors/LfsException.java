@@ -53,6 +53,7 @@ public class LfsException extends Exception {
 
 	/**
 	 * @param message
+	 *            error message, which may be shown to an end-user.
 	 */
 	public LfsException(String message) {
 		super(message);

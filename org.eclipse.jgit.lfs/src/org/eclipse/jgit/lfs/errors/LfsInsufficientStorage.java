@@ -54,6 +54,7 @@ public class LfsInsufficientStorage extends LfsException {
 
 	/**
 	 * @param message
+	 *            error message, which may be shown to an end-user.
 	 */
 	public LfsInsufficientStorage(String message) {
 		super(message);

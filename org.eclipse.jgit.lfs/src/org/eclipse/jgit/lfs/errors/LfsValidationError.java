@@ -54,6 +54,7 @@ public class LfsValidationError extends LfsException {
 
 	/**
 	 * @param message
+	 *            error message, which may be shown to an end-user.
 	 */
 	public LfsValidationError(String message) {
 		super(message);
