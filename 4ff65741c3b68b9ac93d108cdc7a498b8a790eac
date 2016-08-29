@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_54c7f28b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2016-08-29T12:46:30Z",
+      "side": 1,
+      "message": "The logic here is unchanged from before. Previous code also succeeded if\n\n* branch.test.rebase was not set at all\n* branch.test.rebase \u003d false\n\nBut I can tighten that to succeed only if not set at all by using null as default and assertNull.",
+      "parentUuid": "27af2791_69c0a392",
+      "range": {
+        "startLine": 614,
+        "startChar": 6,
+        "endLine": 614,
+        "endChar": 27
+      },
+      "revId": "4ff65741c3b68b9ac93d108cdc7a498b8a790eac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_89c977c0",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RenameBranchCommandTest.java",
         "patchSetId": 1
@@ -128,6 +152,24 @@
       "writtenOn": "2016-08-29T12:21:14Z",
       "side": 1,
       "message": "When looking at code using this method (e.g. PullWizardPage#hasDifferentUpstreamConfiguration) I am not sure whether it is ok. I am not sure but I guess for such users it would better to return true in all modes which do a rebase. Maybe returning getRebaseMode() !\u003d BranchRebaseMode.NONE would be better.",
+      "revId": "4ff65741c3b68b9ac93d108cdc7a498b8a790eac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_69598384",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BranchConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2016-08-29T12:46:30Z",
+      "side": 1,
+      "message": "But that\u0027s what this is doing?",
+      "parentUuid": "27af2791_298dcb85",
       "revId": "4ff65741c3b68b9ac93d108cdc7a498b8a790eac",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
