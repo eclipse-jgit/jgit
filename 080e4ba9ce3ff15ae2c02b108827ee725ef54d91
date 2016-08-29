@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_ef4113f3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-08-29T19:31:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_6f6263b8",
+      "range": {
+        "startLine": 134,
+        "startChar": 28,
+        "endLine": 134,
+        "endChar": 48
+      },
+      "revId": "080e4ba9ce3ff15ae2c02b108827ee725ef54d91",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_af68fb95",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2016-08-29T18:58:24Z",
       "side": 1,
       "message": "In guava, this would be\n\n  public void setPushOptions(@Nullable Iterable\u003cString\u003e options) {\n    ...\n    pushOptions \u003d options \u003d\u003d null ? null : ImmutableList.copyOf(options)\n  }\n\nIs there a non-guava equivalent or should we just mention in the javadoc that this takes ownership of its argument and the caller is responsible for not mutating it?",
+      "revId": "080e4ba9ce3ff15ae2c02b108827ee725ef54d91",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_0f33a7ac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-08-29T19:31:10Z",
+      "side": 1,
+      "message": "Expanded Javadoc to document it takes ownership of the list.",
+      "parentUuid": "27af2791_af68fb95",
       "revId": "080e4ba9ce3ff15ae2c02b108827ee725ef54d91",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
