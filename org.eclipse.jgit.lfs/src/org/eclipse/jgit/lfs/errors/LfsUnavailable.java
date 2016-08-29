@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Matthias Sohn <matthias.sohn@sap.com>
+ * Copyright (C) 2016, David Pursehouse <david.pursehouse@gmail.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -40,29 +40,26 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.eclipse.jgit.lfs.internal;
 
-import org.eclipse.jgit.nls.NLS;
-import org.eclipse.jgit.nls.TranslationBundle;
+package org.eclipse.jgit.lfs.errors;
+
+import java.text.MessageFormat;
+
+import org.eclipse.jgit.lfs.internal.LfsText;
 
 /**
- * Translation bundle for JGit LFS server
+ * Thrown when LFS is not available.
+ *
+ * @since 4.5
  */
-public class LfsText extends TranslationBundle {
+public class LfsUnavailable extends LfsException {
+	private static final long serialVersionUID = 1L;
 
 	/**
-	 * @return an instance of this translation bundle
+	 * @param name
+	 *            the repository name.
 	 */
-	public static LfsText get() {
-		return NLS.getBundleFor(LfsText.class);
+	public LfsUnavailable(String name) {
+		super(MessageFormat.format(LfsText.get().lfsUnavailable, name));
 	}
-
-	// @formatter:off
-	/***/ public String incorrectLONG_OBJECT_ID_LENGTH;
-	/***/ public String invalidLongId;
-	/***/ public String invalidLongIdLength;
-	/***/ public String requiredHashFunctionNotAvailable;
-	/***/ public String repositoryNotFound;
-	/***/ public String repositoryReadOnly;
-	/***/ public String lfsUnavailable;
 }
