@@ -98,11 +98,6 @@ public class ReceivePack extends BaseReceivePack {
 	 * @return an unmodifiable view of pushOptions, or null (if pushOptions is).
 	 * @throws IllegalStateException
 	 *             if allowPushOptions has not been set to true.
-	 * @throws RequestNotYetReadException
-	 *             if the client's request has not yet been read from the wire,
-	 *             so we do not know if they expect push options. Note that the
-	 *             client may have already written the request, it just has not
-	 *             been read.
 	 * @since 4.5
 	 */
 	@Nullable
@@ -112,7 +107,6 @@ public class ReceivePack extends BaseReceivePack {
 			// call doesn't make sense.
 			throw new IllegalStateException();
 		}
-		checkRequestWasRead();
 		if (!usePushOptions) {
 			// The client doesn't support push options. Return null to
 			// distinguish this from the case where the client declared support
@@ -120,6 +114,24 @@ public class ReceivePack extends BaseReceivePack {
 			return null;
 		}
 		return Collections.unmodifiableList(pushOptions);
+	}
+
+	/**
+	 * Set the push options supplied by the client.
+	 * <p>
+	 * Should only be called if reconstructing an instance without going through
+	 * the normal {@link #recvCommands()} flow.
+	 *
+	 * @param options
+	 *            the list of options supplied by the client. The
+	 *            {@code ReceivePack} instance takes ownership of this list.
+	 *            Callers are encouraged to first create a copy if the list may
+	 *            be modified later.
+	 * @since 4.5
+	 */
+	public void setPushOptions(@Nullable List<String> options) {
+		usePushOptions = options != null;
+		pushOptions = options;
 	}
 
 	/** @return the hook invoked before updates occur. */
