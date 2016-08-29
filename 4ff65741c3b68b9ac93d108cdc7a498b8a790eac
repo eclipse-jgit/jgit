@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_69c0a392",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-08-29T12:21:14Z",
+      "side": 1,
+      "message": "Because you are specifying BranchRebaseMode.NONE as the default for Config#getEnum(...) this test could succeed accidentally. I would choose a different default value (e.g. null or BranchRebaseMode.REBASE)",
+      "range": {
+        "startLine": 614,
+        "startChar": 6,
+        "endLine": 614,
+        "endChar": 27
+      },
+      "revId": "4ff65741c3b68b9ac93d108cdc7a498b8a790eac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_89c977c0",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RenameBranchCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-08-29T12:21:14Z",
+      "side": 1,
+      "message": "I would use null as default value",
+      "range": {
+        "startLine": 118,
+        "startChar": 6,
+        "endLine": 118,
+        "endChar": 27
+      },
+      "revId": "4ff65741c3b68b9ac93d108cdc7a498b8a790eac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_a9c63bab",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RenameBranchCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-08-29T12:21:14Z",
+      "side": 1,
+      "message": "I would use null as default value",
+      "range": {
+        "startLine": 127,
+        "startChar": 6,
+        "endLine": 127,
+        "endChar": 27
+      },
+      "revId": "4ff65741c3b68b9ac93d108cdc7a498b8a790eac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_c9960fa2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RenameBranchCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-08-29T12:21:14Z",
+      "side": 1,
+      "message": "I would use null as default value",
+      "range": {
+        "startLine": 174,
+        "startChar": 6,
+        "endLine": 174,
+        "endChar": 27
+      },
+      "revId": "4ff65741c3b68b9ac93d108cdc7a498b8a790eac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_e99bd3c7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RenameBranchCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-08-29T12:21:14Z",
+      "side": 1,
+      "message": "I would use null as default value",
+      "range": {
+        "startLine": 187,
+        "startChar": 6,
+        "endLine": 187,
+        "endChar": 27
+      },
+      "revId": "4ff65741c3b68b9ac93d108cdc7a498b8a790eac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_298dcb85",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BranchConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-08-29T12:21:14Z",
+      "side": 1,
+      "message": "When looking at code using this method (e.g. PullWizardPage#hasDifferentUpstreamConfiguration) I am not sure whether it is ok. I am not sure but I guess for such users it would better to return true in all modes which do a rebase. Maybe returning getRebaseMode() !\u003d BranchRebaseMode.NONE would be better.",
+      "revId": "4ff65741c3b68b9ac93d108cdc7a498b8a790eac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
