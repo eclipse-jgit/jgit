@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_4f0f5f3d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2016-08-29T17:32:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_54c7f28b",
+      "range": {
+        "startLine": 614,
+        "startChar": 6,
+        "endLine": 614,
+        "endChar": 27
+      },
+      "revId": "4ff65741c3b68b9ac93d108cdc7a498b8a790eac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_89c977c0",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RenameBranchCommandTest.java",
         "patchSetId": 1
@@ -60,6 +84,30 @@
       "writtenOn": "2016-08-29T12:21:14Z",
       "side": 1,
       "message": "I would use null as default value",
+      "range": {
+        "startLine": 118,
+        "startChar": 6,
+        "endLine": 118,
+        "endChar": 27
+      },
+      "revId": "4ff65741c3b68b9ac93d108cdc7a498b8a790eac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_2f078b26",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RenameBranchCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2016-08-29T17:32:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_89c977c0",
       "range": {
         "startLine": 118,
         "startChar": 6,
@@ -95,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_0f02c715",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RenameBranchCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2016-08-29T17:32:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_a9c63bab",
+      "range": {
+        "startLine": 127,
+        "startChar": 6,
+        "endLine": 127,
+        "endChar": 27
+      },
+      "revId": "4ff65741c3b68b9ac93d108cdc7a498b8a790eac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_c9960fa2",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RenameBranchCommandTest.java",
         "patchSetId": 1
@@ -118,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_cffb6f85",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RenameBranchCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2016-08-29T17:32:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_c9960fa2",
+      "range": {
+        "startLine": 174,
+        "startChar": 6,
+        "endLine": 174,
+        "endChar": 27
+      },
+      "revId": "4ff65741c3b68b9ac93d108cdc7a498b8a790eac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_e99bd3c7",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RenameBranchCommandTest.java",
         "patchSetId": 1
@@ -129,6 +225,30 @@
       "writtenOn": "2016-08-29T12:21:14Z",
       "side": 1,
       "message": "I would use null as default value",
+      "range": {
+        "startLine": 187,
+        "startChar": 6,
+        "endLine": 187,
+        "endChar": 27
+      },
+      "revId": "4ff65741c3b68b9ac93d108cdc7a498b8a790eac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_ef003310",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RenameBranchCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2016-08-29T17:32:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_e99bd3c7",
       "range": {
         "startLine": 187,
         "startChar": 6,
