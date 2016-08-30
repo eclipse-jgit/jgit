@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_75d78dba",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/UpdateRef.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-08-30T21:42:10Z",
+      "side": 1,
+      "message": "use metaVar and usage attributes of the @Argument annotation to document the arguments of the new command\n\ncurrently the help text is\n\n jgit update-ref [VAL] [VAL] [--help (-h)] [-m VAL]\n\n  --help (-h) : display this help text\n  -m VAL      : reason of the update\n\nthis show 3 times VAL without documentation which renders this help text pretty useless",
+      "revId": "77e2261a76918576a759fa302b880bd4f81dfffc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_d5f13957",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/UpdateRef.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-08-30T21:42:10Z",
+      "side": 1,
+      "message": "remove unnecessary comments, also below",
+      "revId": "77e2261a76918576a759fa302b880bd4f81dfffc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_f5155dfe",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/UpdateRef.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-08-30T21:42:10Z",
+      "side": 1,
+      "message": "inline unnecessary local variable",
+      "revId": "77e2261a76918576a759fa302b880bd4f81dfffc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_351c3528",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/UpdateRef.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-08-30T21:42:10Z",
+      "side": 1,
+      "message": "inline unnecessary local variable",
+      "revId": "77e2261a76918576a759fa302b880bd4f81dfffc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
