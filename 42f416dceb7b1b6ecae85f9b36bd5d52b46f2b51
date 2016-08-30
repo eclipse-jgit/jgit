@@ -70,6 +70,30 @@
       "revId": "42f416dceb7b1b6ecae85f9b36bd5d52b46f2b51",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_d5393958",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Checkout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-08-30T22:21:34Z",
+      "side": 1,
+      "message": "see https://wiki.eclipse.org/EGit/Contributor_Guide#Braces_for_one-line_statements\n\nwe changed style a while back to use braces around single line blocks for new or modified code, but refrain from applying the new style globally to avoid unnecessary conflicts",
+      "parentUuid": "27af2791_351275e4",
+      "range": {
+        "startLine": 98,
+        "startChar": 5,
+        "endLine": 99,
+        "endChar": 28
+      },
+      "revId": "42f416dceb7b1b6ecae85f9b36bd5d52b46f2b51",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
