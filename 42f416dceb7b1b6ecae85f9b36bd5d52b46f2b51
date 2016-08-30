@@ -22,6 +22,30 @@
       "revId": "42f416dceb7b1b6ecae85f9b36bd5d52b46f2b51",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_97f509f7",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Checkout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 39869
+      },
+      "writtenOn": "2016-08-30T15:58:22Z",
+      "side": 1,
+      "message": "I prefer the \"braces everywhere\" style.  This source file doesn\u0027t have any optional braces, so I\u0027m just matching the existing style (these lines didn\u0027t have braces before this patch).\n\nI\u0027m happy to submit another patch which adds all missing optional braces.",
+      "parentUuid": "27af2791_010c5bcb",
+      "range": {
+        "startLine": 98,
+        "startChar": 5,
+        "endLine": 99,
+        "endChar": 28
+      },
+      "revId": "42f416dceb7b1b6ecae85f9b36bd5d52b46f2b51",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
