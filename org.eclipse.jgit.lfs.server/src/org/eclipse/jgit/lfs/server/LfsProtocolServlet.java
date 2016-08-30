@@ -108,6 +108,29 @@ public abstract class LfsProtocolServlet extends HttpServlet {
 	 *
 	 * @return the large file repository storing large files.
 	 * @throws LfsException
+	 *             implementations should throw more specific exceptions to
+	 *             signal which type of error occurred:
+	 *             <dl>
+	 *             <dt>{@link LfsValidationError}</dt>
+	 *             <dd>when there is a validation error with one or more of the
+	 *             objects in the request</dd>
+	 *             <dt>{@link LfsRepositoryNotFound}</dt>
+	 *             <dd>when the repository does not exist for the user</dd>
+	 *             <dt>{@link LfsRepositoryReadOnly}</dt>
+	 *             <dd>when the user has read, but not write access. Only
+	 *             applicable when the operation in the request is "upload"</dd>
+	 *             <dt>{@link LfsRateLimitExceeded}</dt>
+	 *             <dd>when the user has hit a rate limit with the server</dd>
+	 *             <dt>{@link LfsBandwidthLimitExceeded}</dt>
+	 *             <dd>when the bandwidth limit for the user or repository has
+	 *             been exceeded</dd>
+	 *             <dt>{@link LfsInsufficientStorage}</dt>
+	 *             <dd>when there is insufficient storage on the server</dd>
+	 *             <dt>{@link LfsUnavailable}</dt>
+	 *             <dd>when LFS is not available</dd>
+	 *             <dt>{@link LfsException}</dt>
+	 *             <dd>when an unexpected internal server error occurred</dd>
+	 *             </dl>
 	 * @since 4.5
 	 */
 	protected abstract LargeFileRepository getLargeFileRepository(
