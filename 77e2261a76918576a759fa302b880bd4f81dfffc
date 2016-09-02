@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "27af2791_130ca2f4",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-09-02T03:23:53Z",
+      "side": 1,
+      "message": "\"for\"?",
+      "range": {
+        "startLine": 388,
+        "startChar": 29,
+        "endLine": 388,
+        "endChar": 31
+      },
+      "revId": "77e2261a76918576a759fa302b880bd4f81dfffc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_75d78dba",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/UpdateRef.java",
         "patchSetId": 1
@@ -64,6 +87,29 @@
       "writtenOn": "2016-08-30T21:42:10Z",
       "side": 1,
       "message": "inline unnecessary local variable",
+      "revId": "77e2261a76918576a759fa302b880bd4f81dfffc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_5341baf0",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/UpdateRef.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-09-02T03:23:53Z",
+      "side": 1,
+      "message": "For the majority of \"throw die\" calls in the pgm package, externalized strings are used.",
+      "range": {
+        "startLine": 85,
+        "startChar": 13,
+        "endLine": 85,
+        "endChar": 33
+      },
       "revId": "77e2261a76918576a759fa302b880bd4f81dfffc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
