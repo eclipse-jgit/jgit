@@ -61,7 +61,7 @@ import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 
-public class FSJava7Test {
+public class FSTest {
 	private File trash;
 
 	@Before
