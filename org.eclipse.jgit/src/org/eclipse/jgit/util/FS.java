@@ -64,9 +64,11 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.errors.CommandFailedException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
@@ -453,9 +455,12 @@ public abstract class FS {
 	 *            to be used to parse the command's output
 	 * @return the one-line output of the command or {@code null} if there is
 	 *         none
+	 * @throws CommandFailedException
+	 *             thrown when the command failed (return code was non-zero)
 	 */
 	@Nullable
-	protected static String readPipe(File dir, String[] command, String encoding) {
+	protected static String readPipe(File dir, String[] command,
+			String encoding) throws CommandFailedException {
 		return readPipe(dir, command, encoding, null);
 	}
 
@@ -473,10 +478,14 @@ public abstract class FS {
 	 *            current process
 	 * @return the one-line output of the command or {@code null} if there is
 	 *         none
+	 * @throws CommandFailedException
+	 *             thrown when the command failed (return code was non-zero)
 	 * @since 4.0
 	 */
 	@Nullable
-	protected static String readPipe(File dir, String[] command, String encoding, Map<String, String> env) {
+	protected static String readPipe(File dir, String[] command,
+			String encoding, Map<String, String> env)
+			throws CommandFailedException {
 		final boolean debug = LOG.isDebugEnabled();
 		try {
 			if (debug) {
@@ -512,11 +521,14 @@ public abstract class FS {
 					gobbler.join();
 					if (rc == 0 && !gobbler.fail.get()) {
 						return r;
+					} else {
+						if (debug) {
+							LOG.debug("readpipe rc=" + rc); //$NON-NLS-1$
+						}
+						throw new CommandFailedException(rc,
+								gobbler.errorMessage.get(),
+								gobbler.exception.get());
 					}
-					if (debug) {
-						LOG.debug("readpipe rc=" + rc); //$NON-NLS-1$
-					}
-					break;
 				} catch (InterruptedException ie) {
 					// Stop bothering me, I have a zombie to reap.
 				}
@@ -535,6 +547,8 @@ public abstract class FS {
 		private final String desc;
 		private final String dir;
 		final AtomicBoolean fail = new AtomicBoolean();
+		final AtomicReference<String> errorMessage = new AtomicReference<>();
+		final AtomicReference<Throwable> exception = new AtomicReference<>();
 
 		GobblerThread(Process p, String[] command, File dir) {
 			this.p = p;
@@ -542,6 +556,7 @@ public abstract class FS {
 			this.dir = Objects.toString(dir);
 		}
 
+		@Override
 		public void run() {
 			StringBuilder err = new StringBuilder();
 			try (InputStream is = p.getErrorStream()) {
@@ -551,22 +566,26 @@ public abstract class FS {
 				}
 			} catch (IOException e) {
 				if (p.exitValue() != 0) {
-					logError(e);
+					setError(e, e.getMessage());
 					fail.set(true);
 				} else {
-					// ignore. git terminated faster and stream was just closed
+					// ignore. command terminated faster and stream was just closed
 				}
 			} finally {
 				if (err.length() > 0) {
-					LOG.error(err.toString());
+					setError(null, err.toString());
+					if (p.exitValue() != 0) {
+						fail.set(true);
+					}
 				}
 			}
 		}
 
-		private void logError(Throwable t) {
-			String msg = MessageFormat.format(
-					JGitText.get().exceptionCaughtDuringExcecutionOfCommand, desc, dir);
-			LOG.error(msg, t);
+		private void setError(IOException e, String message) {
+			exception.set(e);
+			errorMessage.set(MessageFormat.format(
+					JGitText.get().exceptionCaughtDuringExcecutionOfCommand,
+					desc, dir, Integer.valueOf(p.exitValue()), message));
 		}
 	}
 
@@ -589,10 +608,17 @@ public abstract class FS {
 		}
 
 		// Bug 480782: Check if the discovered git executable is JGit CLI
-		String v = readPipe(gitExe.getParentFile(),
+		String v;
+		try {
+			v = readPipe(gitExe.getParentFile(),
 				new String[] { "git", "--version" }, //$NON-NLS-1$ //$NON-NLS-2$
 				Charset.defaultCharset().name());
-		if (v != null && v.startsWith("jgit")) { //$NON-NLS-1$
+		} catch (CommandFailedException e) {
+			LOG.warn(e.getMessage());
+			return null;
+		}
+		if (StringUtils.isEmptyOrNull(v)
+				|| (v != null && v.startsWith("jgit"))) { //$NON-NLS-1$
 			return null;
 		}
 
@@ -601,9 +627,15 @@ public abstract class FS {
 		Map<String, String> env = new HashMap<>();
 		env.put("GIT_EDITOR", "echo"); //$NON-NLS-1$ //$NON-NLS-2$
 
-		String w = readPipe(gitExe.getParentFile(),
+		String w;
+		try {
+			w = readPipe(gitExe.getParentFile(),
 				new String[] { "git", "config", "--system", "--edit" }, //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 				Charset.defaultCharset().name(), env);
+		} catch (CommandFailedException e) {
+			LOG.warn(e.getMessage());
+			return null;
+		}
 		if (StringUtils.isEmptyOrNull(w)) {
 			return null;
 		}
