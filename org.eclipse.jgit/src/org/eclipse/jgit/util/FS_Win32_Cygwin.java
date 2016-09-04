@@ -54,8 +54,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.errors.CommandFailedException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * FS implementation for Cygwin on Windows
@@ -63,6 +66,9 @@ import org.eclipse.jgit.lib.Repository;
  * @since 3.0
  */
 public class FS_Win32_Cygwin extends FS_Win32 {
+	private final static Logger LOG = LoggerFactory
+			.getLogger(FS_Win32_Cygwin.class);
+
 	private static String cygpath;
 
 	/**
@@ -107,11 +113,18 @@ public class FS_Win32_Cygwin extends FS_Win32 {
 	public File resolve(final File dir, final String pn) {
 		String useCygPath = System.getProperty("jgit.usecygpath"); //$NON-NLS-1$
 		if (useCygPath != null && useCygPath.equals("true")) { //$NON-NLS-1$
-			String w = readPipe(dir, //
+			String w;
+			try {
+				w = readPipe(dir, //
 					new String[] { cygpath, "--windows", "--absolute", pn }, // //$NON-NLS-1$ //$NON-NLS-2$
 					"UTF-8"); //$NON-NLS-1$
-			if (w != null)
+			} catch (CommandFailedException e) {
+				LOG.warn(e.getMessage());
+				return null;
+			}
+			if (!StringUtils.isEmptyOrNull(w)) {
 				return new File(w);
+			}
 		}
 		return super.resolve(dir, pn);
 	}
