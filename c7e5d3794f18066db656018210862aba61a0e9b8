@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07b223f6_40898402",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/FileLfsRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-07T23:22:39Z",
+      "side": 1,
+      "message": "declare org.eclipse.jgit.lfs.server as a x-friend of org.eclipse.jgit.lfs in manifest of org.eclipse.jgit.lfs to fix this",
+      "revId": "c7e5d3794f18066db656018210862aba61a0e9b8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
