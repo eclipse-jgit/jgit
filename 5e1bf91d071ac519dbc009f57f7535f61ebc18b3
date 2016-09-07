@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_1ce587c6",
+        "filename": "org.eclipse.jgit.lfs/resources/org/eclipse/jgit/lfs/internal/LfsText.properties",
+        "patchSetId": 5
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-07T11:50:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_d9724156",
+      "range": {
+        "startLine": 2,
+        "startChar": 63,
+        "endLine": 2,
+        "endChar": 64
+      },
+      "revId": "5e1bf91d071ac519dbc009f57f7535f61ebc18b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_597e3121",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/CleanFilter.java",
         "patchSetId": 5
@@ -71,6 +95,54 @@
     },
     {
       "key": {
+        "uuid": "27af2791_fcb293cc",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/CleanFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-07T11:50:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_19783934",
+      "range": {
+        "startLine": 66,
+        "startChar": 29,
+        "endLine": 66,
+        "endChar": 38
+      },
+      "revId": "5e1bf91d071ac519dbc009f57f7535f61ebc18b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_fc99b34e",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/CleanFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-07T11:50:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_597e3121",
+      "range": {
+        "startLine": 66,
+        "startChar": 39,
+        "endLine": 66,
+        "endChar": 55
+      },
+      "revId": "5e1bf91d071ac519dbc009f57f7535f61ebc18b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_39817d9d",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/CleanFilter.java",
         "patchSetId": 5
@@ -82,6 +154,30 @@
       "writtenOn": "2016-09-07T02:05:37Z",
       "side": 1,
       "message": "so-called",
+      "range": {
+        "startLine": 68,
+        "startChar": 36,
+        "endLine": 68,
+        "endChar": 45
+      },
+      "revId": "5e1bf91d071ac519dbc009f57f7535f61ebc18b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_1cb027c3",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/CleanFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-07T11:50:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_39817d9d",
       "range": {
         "startLine": 68,
         "startChar": 36,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_1c97471a",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/CleanFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-07T11:50:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_f97aa52d",
+      "range": {
+        "startLine": 76,
+        "startChar": 4,
+        "endLine": 76,
+        "endChar": 5
+      },
+      "revId": "5e1bf91d071ac519dbc009f57f7535f61ebc18b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_794e9516",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/CleanFilter.java",
         "patchSetId": 5
@@ -128,6 +248,30 @@
       "writtenOn": "2016-09-07T02:05:37Z",
       "side": 1,
       "message": "an",
+      "range": {
+        "startLine": 117,
+        "startChar": 15,
+        "endLine": 117,
+        "endChar": 16
+      },
+      "revId": "5e1bf91d071ac519dbc009f57f7535f61ebc18b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_3c908b1e",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/CleanFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-07T11:50:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_794e9516",
       "range": {
         "startLine": 117,
         "startChar": 15,
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_5c8d3f08",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/CleanFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-07T11:50:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_995369b8",
+      "range": {
+        "startLine": 120,
+        "startChar": 72,
+        "endLine": 120,
+        "endChar": 75
+      },
+      "revId": "5e1bf91d071ac519dbc009f57f7535f61ebc18b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_b944adf2",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPointer.java",
         "patchSetId": 5
@@ -174,6 +342,30 @@
       "writtenOn": "2016-09-07T02:05:37Z",
       "side": 1,
       "message": "an",
+      "range": {
+        "startLine": 52,
+        "startChar": 14,
+        "endLine": 52,
+        "endChar": 15
+      },
+      "revId": "5e1bf91d071ac519dbc009f57f7535f61ebc18b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_bc773b77",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPointer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-07T11:50:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_b944adf2",
       "range": {
         "startLine": 52,
         "startChar": 14,
@@ -209,6 +401,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_1c62e7b6",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-07T11:50:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_d949610a",
+      "range": {
+        "startLine": 116,
+        "startChar": 40,
+        "endLine": 116,
+        "endChar": 43
+      },
+      "revId": "5e1bf91d071ac519dbc009f57f7535f61ebc18b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_f961c57b",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsUtil.java",
         "patchSetId": 5
@@ -220,6 +436,24 @@
       "writtenOn": "2016-09-07T02:05:37Z",
       "side": 1,
       "message": "\"when the temp file could not be created\"?",
+      "revId": "5e1bf91d071ac519dbc009f57f7535f61ebc18b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_5c68df94",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-07T11:50:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_f961c57b",
       "revId": "5e1bf91d071ac519dbc009f57f7535f61ebc18b3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -249,6 +483,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_bc4e5b41",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/errors/CorruptMediaFile.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-07T11:50:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_195f59bb",
+      "range": {
+        "startLine": 52,
+        "startChar": 15,
+        "endLine": 52,
+        "endChar": 20
+      },
+      "revId": "5e1bf91d071ac519dbc009f57f7535f61ebc18b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_39589dcf",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AddCommandTest.java",
         "patchSetId": 5
@@ -260,6 +518,30 @@
       "writtenOn": "2016-09-07T02:05:37Z",
       "side": 1,
       "message": "Should this be \"version\" or is the misspelling what was meant by \"strange content\" in the comment at L178-179?",
+      "range": {
+        "startLine": 181,
+        "startChar": 6,
+        "endLine": 181,
+        "endChar": 13
+      },
+      "revId": "5e1bf91d071ac519dbc009f57f7535f61ebc18b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_5cda9fe0",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AddCommandTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-07T11:50:47Z",
+      "side": 1,
+      "message": "Thats really by purpose. We have configured a strange setup where the clean filter converts from real content to pointer file content. But the smudge filter is just replacing \u0027o\u0027 by \u0027e\u0027. So after one round of clean filter \u0026 smudge filter you end up with a pointer file where \u0027o\u0027s are replaced by \u0027e\u0027s resulting in \"versien\" instead of \"version\". That\u0027s an artificial setup which I guess no end user wants to have ... but it\u0027s a nice stress test.\n\nBu I\u0027ll add comment clarifying that.\n\nDone",
+      "parentUuid": "27af2791_39589dcf",
       "range": {
         "startLine": 181,
         "startChar": 6,
