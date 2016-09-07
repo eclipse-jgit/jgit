@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_b9966dce",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/FileLfsRepository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-09-07T02:10:43Z",
+      "side": 1,
+      "message": "what warning?",
+      "revId": "75c71bda6ed7457391478273b684bc806f985902",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
