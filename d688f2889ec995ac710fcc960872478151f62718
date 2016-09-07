@@ -1,0 +1,158 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07b223f6_6088482f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-07T23:06:20Z",
+      "side": 1,
+      "message": "bad line wrapping",
+      "revId": "d688f2889ec995ac710fcc960872478151f62718",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_40934461",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-07T23:06:20Z",
+      "side": 1,
+      "message": "bad line wrapping",
+      "revId": "d688f2889ec995ac710fcc960872478151f62718",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_808d5c40",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-07T23:06:20Z",
+      "side": 1,
+      "message": "filter command",
+      "range": {
+        "startLine": 36,
+        "startChar": 40,
+        "endLine": 36,
+        "endChar": 47
+      },
+      "revId": "d688f2889ec995ac710fcc960872478151f62718",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_a0818009",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-07T23:06:20Z",
+      "side": 1,
+      "message": "resolve this unresolved conflict",
+      "revId": "d688f2889ec995ac710fcc960872478151f62718",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_e07b7897",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-07T23:06:20Z",
+      "side": 1,
+      "message": "this javadoc seems wrong, this method returns as set of registered filter commands",
+      "revId": "d688f2889ec995ac710fcc960872478151f62718",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_c07e748a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-07T23:06:20Z",
+      "side": 1,
+      "message": "getRegisteredFilterCommands or getFilterCommandNames ?",
+      "range": {
+        "startLine": 192,
+        "startChar": 27,
+        "endLine": 192,
+        "endChar": 48
+      },
+      "revId": "d688f2889ec995ac710fcc960872478151f62718",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_20f9f08e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-07T23:06:20Z",
+      "side": 1,
+      "message": "filterCommands ?",
+      "range": {
+        "startLine": 316,
+        "startChar": 21,
+        "endLine": 316,
+        "endChar": 39
+      },
+      "revId": "d688f2889ec995ac710fcc960872478151f62718",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_40fee477",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1375,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-07T23:06:20Z",
+      "side": 1,
+      "message": "inline or introduce a FilterConfig class encapsulating handling of filter related config options ?",
+      "revId": "d688f2889ec995ac710fcc960872478151f62718",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
