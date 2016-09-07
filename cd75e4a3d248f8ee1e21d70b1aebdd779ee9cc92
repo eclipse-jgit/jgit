@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_3ca32bb3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-07T11:50:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_19fbd93a",
+      "range": {
+        "startLine": 395,
+        "startChar": 28,
+        "endLine": 395,
+        "endChar": 45
+      },
+      "revId": "cd75e4a3d248f8ee1e21d70b1aebdd779ee9cc92",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_59f1d154",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 7
@@ -36,6 +60,30 @@
       "writtenOn": "2016-09-07T01:51:33Z",
       "side": 1,
       "message": "unnecessary apostrope",
+      "range": {
+        "startLine": 146,
+        "startChar": 25,
+        "endLine": 146,
+        "endChar": 27
+      },
+      "revId": "cd75e4a3d248f8ee1e21d70b1aebdd779ee9cc92",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_bc865b20",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-07T11:50:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_59f1d154",
       "range": {
         "startLine": 146,
         "startChar": 25,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_1c810706",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-07T11:50:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_7915b5fc",
+      "range": {
+        "startLine": 154,
+        "startChar": 39,
+        "endLine": 154,
+        "endChar": 48
+      },
+      "revId": "cd75e4a3d248f8ee1e21d70b1aebdd779ee9cc92",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_991a892c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 7
@@ -82,6 +154,30 @@
       "writtenOn": "2016-09-07T01:51:33Z",
       "side": 1,
       "message": "\"any\" or \"a\"?",
+      "range": {
+        "startLine": 170,
+        "startChar": 19,
+        "endLine": 170,
+        "endChar": 23
+      },
+      "revId": "cd75e4a3d248f8ee1e21d70b1aebdd779ee9cc92",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_7cfbe386",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-07T11:50:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_991a892c",
       "range": {
         "startLine": 170,
         "startChar": 19,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_9c00b70f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-07T11:50:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_b91bcd2f",
+      "range": {
+        "startLine": 175,
+        "startChar": 33,
+        "endLine": 175,
+        "endChar": 37
+      },
+      "revId": "cd75e4a3d248f8ee1e21d70b1aebdd779ee9cc92",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_d920815a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 7
@@ -128,6 +248,30 @@
       "writtenOn": "2016-09-07T01:51:33Z",
       "side": 1,
       "message": "\"must be\" or \"must have been\"?",
+      "range": {
+        "startLine": 183,
+        "startChar": 70,
+        "endLine": 183,
+        "endChar": 76
+      },
+      "revId": "cd75e4a3d248f8ee1e21d70b1aebdd779ee9cc92",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_bc01fb12",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-07T11:50:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_d920815a",
       "range": {
         "startLine": 183,
         "startChar": 70,
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_1c0ca746",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-07T11:50:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_190679d7",
+      "range": {
+        "startLine": 472,
+        "startChar": 4,
+        "endLine": 473,
+        "endChar": 6
+      },
+      "revId": "cd75e4a3d248f8ee1e21d70b1aebdd779ee9cc92",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_f908e5e5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 7
@@ -174,6 +342,30 @@
       "writtenOn": "2016-09-07T01:51:33Z",
       "side": 1,
       "message": "This else-block is not necessary since the method will return at line 474 if it enters the if-condition at line 467.",
+      "range": {
+        "startLine": 475,
+        "startChar": 5,
+        "endLine": 475,
+        "endChar": 11
+      },
+      "revId": "cd75e4a3d248f8ee1e21d70b1aebdd779ee9cc92",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_7c2203ad",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-07T11:50:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_f908e5e5",
       "range": {
         "startLine": 475,
         "startChar": 5,
@@ -209,6 +401,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_bc181b7d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FilterCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-07T11:50:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_390fbdec",
+      "range": {
+        "startLine": 50,
+        "startChar": 22,
+        "endLine": 50,
+        "endChar": 27
+      },
+      "revId": "cd75e4a3d248f8ee1e21d70b1aebdd779ee9cc92",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_590c71f5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FilterCommand.java",
         "patchSetId": 7
@@ -220,6 +436,30 @@
       "writtenOn": "2016-09-07T01:51:33Z",
       "side": 1,
       "message": "commands",
+      "range": {
+        "startLine": 52,
+        "startChar": 43,
+        "endLine": 52,
+        "endChar": 51
+      },
+      "revId": "cd75e4a3d248f8ee1e21d70b1aebdd779ee9cc92",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_dc1dcf6c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FilterCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-07T11:50:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_590c71f5",
       "range": {
         "startLine": 52,
         "startChar": 43,
@@ -255,6 +495,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_3c2c0b9a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FilterCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-07T11:50:26Z",
+      "side": 1,
+      "message": "What do you suggest? Duplicate the comments so we have the same on the fields than on the constructor parameters? I\u0027ll suggest that.",
+      "parentUuid": "27af2791_793cd57e",
+      "range": {
+        "startLine": 69,
+        "startChar": 4,
+        "endLine": 70,
+        "endChar": 14
+      },
+      "revId": "cd75e4a3d248f8ee1e21d70b1aebdd779ee9cc92",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_9941a9f4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FilterCommandFactory.java",
         "patchSetId": 7
@@ -278,6 +542,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_fcc0d324",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FilterCommandFactory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-07T11:50:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_9941a9f4",
+      "range": {
+        "startLine": 66,
+        "startChar": 16,
+        "endLine": 66,
+        "endChar": 22
+      },
+      "revId": "cd75e4a3d248f8ee1e21d70b1aebdd779ee9cc92",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_b932eda5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FilterCommandFactory.java",
         "patchSetId": 7
@@ -289,6 +577,30 @@
       "writtenOn": "2016-09-07T01:51:33Z",
       "side": 1,
       "message": "an",
+      "range": {
+        "startLine": 68,
+        "startChar": 59,
+        "endLine": 68,
+        "endChar": 60
+      },
+      "revId": "cd75e4a3d248f8ee1e21d70b1aebdd779ee9cc92",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_1cbe67aa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FilterCommandFactory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-07T11:50:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_b932eda5",
       "range": {
         "startLine": 68,
         "startChar": 59,
