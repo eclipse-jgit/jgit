@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_59239158",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-09-07T01:53:57Z",
+      "side": 1,
+      "message": "JGit\u0027s",
+      "range": {
+        "startLine": 395,
+        "startChar": 19,
+        "endLine": 395,
+        "endChar": 24
+      },
+      "revId": "ba1a1b31724d54640001d6d46ce0bc27fd8fb3d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_7967759c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-09-07T01:53:57Z",
+      "side": 1,
+      "message": "W",
+      "range": {
+        "startLine": 395,
+        "startChar": 4,
+        "endLine": 395,
+        "endChar": 5
+      },
+      "revId": "ba1a1b31724d54640001d6d46ce0bc27fd8fb3d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
