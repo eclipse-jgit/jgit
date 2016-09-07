@@ -1,0 +1,209 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07b223f6_601a0877",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/CleanFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-07T23:06:50Z",
+      "side": 1,
+      "message": "this is implemented in the method below so why do we need to mention this here ?",
+      "revId": "d09877792996547150443680e512ddbd1f728943",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_6003e81a",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/CleanFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-07T23:06:50Z",
+      "side": 1,
+      "message": "add blank line before first method of anonymous class",
+      "revId": "d09877792996547150443680e512ddbd1f728943",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_8008fc36",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/CleanFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-07T23:06:50Z",
+      "side": 1,
+      "message": "no need to set to 0, default for long is 0",
+      "revId": "d09877792996547150443680e512ddbd1f728943",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_402504b2",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/CleanFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-07T23:06:50Z",
+      "side": 1,
+      "message": "could we use LockFile for this ?",
+      "revId": "d09877792996547150443680e512ddbd1f728943",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_c03034ef",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/CleanFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-07T23:06:50Z",
+      "side": 1,
+      "message": "this is leaking tmpFile if an exception occurs",
+      "revId": "d09877792996547150443680e512ddbd1f728943",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_e02d3898",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPointer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-07T23:06:50Z",
+      "side": 1,
+      "message": "add toString() method to facilitate debugging ?",
+      "revId": "d09877792996547150443680e512ddbd1f728943",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_80dabc12",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-07T23:06:50Z",
+      "side": 1,
+      "message": "strange javadoc",
+      "revId": "d09877792996547150443680e512ddbd1f728943",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_a0bee0a9",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-07T23:06:50Z",
+      "side": 1,
+      "message": "maybe just call this Lfs ?",
+      "range": {
+        "startLine": 56,
+        "startChar": 13,
+        "endLine": 56,
+        "endChar": 20
+      },
+      "revId": "d09877792996547150443680e512ddbd1f728943",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_c0bbd4b8",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/errors/CorruptMediaFile.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-07T23:06:50Z",
+      "side": 1,
+      "message": "s/an/a/",
+      "range": {
+        "startLine": 52,
+        "startChar": 15,
+        "endLine": 52,
+        "endChar": 17
+      },
+      "revId": "d09877792996547150443680e512ddbd1f728943",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_00c6ac3d",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/errors/CorruptMediaFile.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-07T23:06:50Z",
+      "side": 1,
+      "message": "getSize ?",
+      "range": {
+        "startLine": 97,
+        "startChar": 13,
+        "endLine": 97,
+        "endChar": 28
+      },
+      "revId": "d09877792996547150443680e512ddbd1f728943",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_20f2d092",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/Constants.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-07T23:06:50Z",
+      "side": 1,
+      "message": "missing @since 4.5 tqg",
+      "revId": "d09877792996547150443680e512ddbd1f728943",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
