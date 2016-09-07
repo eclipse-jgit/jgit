@@ -16,6 +16,24 @@
       "revId": "75c71bda6ed7457391478273b684bc806f985902",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_f7e2600c",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/FileLfsRepository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-07T11:50:58Z",
+      "side": 1,
+      "message": "I still get in eclipse the warning: \n\nDiscouraged access: The type \u0027AtomicObjectOutputStream\u0027 is not API (restriction on required project \u0027org.eclipse.jgit.lfs\u0027)",
+      "parentUuid": "27af2791_b9966dce",
+      "revId": "75c71bda6ed7457391478273b684bc806f985902",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
