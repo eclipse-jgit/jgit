@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07b223f6_00a22cad",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/FilterCommandsTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-07T23:04:03Z",
+      "side": 1,
+      "message": "I think we add a blank line before the first method of anonymous classes",
+      "revId": "7fdc1b7b96195ba945311850d62c33f1a8dea981",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_c04cb49a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-07T23:04:03Z",
+      "side": 1,
+      "message": "filterCommandRegistry ?",
+      "range": {
+        "startLine": 142,
+        "startChar": 64,
+        "endLine": 142,
+        "endChar": 79
+      },
+      "revId": "7fdc1b7b96195ba945311850d62c33f1a8dea981",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_a04fc08c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-07T23:04:03Z",
+      "side": 1,
+      "message": "registerCommand is pretty generic, I suggest to rename this to registerFilterCommand ?",
+      "range": {
+        "startLine": 161,
+        "startChar": 36,
+        "endLine": 161,
+        "endChar": 51
+      },
+      "revId": "7fdc1b7b96195ba945311850d62c33f1a8dea981",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_803b9cf3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-07T23:04:03Z",
+      "side": 1,
+      "message": "why not \u0027factory\u0027 ?",
+      "range": {
+        "startLine": 162,
+        "startChar": 24,
+        "endLine": 162,
+        "endChar": 28
+      },
+      "revId": "7fdc1b7b96195ba945311850d62c33f1a8dea981",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_e049b887",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-07T23:04:03Z",
+      "side": 1,
+      "message": "filterCommandName ?",
+      "range": {
+        "startLine": 178,
+        "startChar": 43,
+        "endLine": 178,
+        "endChar": 54
+      },
+      "revId": "7fdc1b7b96195ba945311850d62c33f1a8dea981",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_00478c72",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-07T23:04:03Z",
+      "side": 1,
+      "message": "getFilterCommand",
+      "range": {
+        "startLine": 202,
+        "startChar": 29,
+        "endLine": 202,
+        "endChar": 39
+      },
+      "revId": "7fdc1b7b96195ba945311850d62c33f1a8dea981",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_c0975450",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-07T23:04:03Z",
+      "side": 1,
+      "message": "why do we need this loop ?",
+      "revId": "7fdc1b7b96195ba945311850d62c33f1a8dea981",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
