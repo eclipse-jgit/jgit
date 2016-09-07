@@ -1,0 +1,274 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_d9724156",
+        "filename": "org.eclipse.jgit.lfs/resources/org/eclipse/jgit/lfs/internal/LfsText.properties",
+        "patchSetId": 5
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-09-07T02:05:37Z",
+      "side": 1,
+      "message": "use a semicolon for consistency with the one at line 4?",
+      "range": {
+        "startLine": 2,
+        "startChar": 63,
+        "endLine": 2,
+        "endChar": 64
+      },
+      "revId": "5e1bf91d071ac519dbc009f57f7535f61ebc18b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_597e3121",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/CleanFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-09-07T02:05:37Z",
+      "side": 1,
+      "message": "Add a reference to the pointer file specification?",
+      "range": {
+        "startLine": 66,
+        "startChar": 39,
+        "endLine": 66,
+        "endChar": 55
+      },
+      "revId": "5e1bf91d071ac519dbc009f57f7535f61ebc18b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_19783934",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/CleanFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-09-07T02:05:37Z",
+      "side": 1,
+      "message": "so-called",
+      "range": {
+        "startLine": 66,
+        "startChar": 29,
+        "endLine": 66,
+        "endChar": 38
+      },
+      "revId": "5e1bf91d071ac519dbc009f57f7535f61ebc18b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_39817d9d",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/CleanFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-09-07T02:05:37Z",
+      "side": 1,
+      "message": "so-called",
+      "range": {
+        "startLine": 68,
+        "startChar": 36,
+        "endLine": 68,
+        "endChar": 45
+      },
+      "revId": "5e1bf91d071ac519dbc009f57f7535f61ebc18b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_f97aa52d",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/CleanFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-09-07T02:05:37Z",
+      "side": 1,
+      "message": "Why is the trailing period wrapped to the next line?",
+      "range": {
+        "startLine": 76,
+        "startChar": 4,
+        "endLine": 76,
+        "endChar": 5
+      },
+      "revId": "5e1bf91d071ac519dbc009f57f7535f61ebc18b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_794e9516",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/CleanFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-09-07T02:05:37Z",
+      "side": 1,
+      "message": "an",
+      "range": {
+        "startLine": 117,
+        "startChar": 15,
+        "endLine": 117,
+        "endChar": 16
+      },
+      "revId": "5e1bf91d071ac519dbc009f57f7535f61ebc18b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_995369b8",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/CleanFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-09-07T02:05:37Z",
+      "side": 1,
+      "message": "added",
+      "range": {
+        "startLine": 120,
+        "startChar": 72,
+        "endLine": 120,
+        "endChar": 75
+      },
+      "revId": "5e1bf91d071ac519dbc009f57f7535f61ebc18b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_b944adf2",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPointer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-09-07T02:05:37Z",
+      "side": 1,
+      "message": "an",
+      "range": {
+        "startLine": 52,
+        "startChar": 14,
+        "endLine": 52,
+        "endChar": 15
+      },
+      "revId": "5e1bf91d071ac519dbc009f57f7535f61ebc18b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_d949610a",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-09-07T02:05:37Z",
+      "side": 1,
+      "message": "LFS",
+      "range": {
+        "startLine": 116,
+        "startChar": 40,
+        "endLine": 116,
+        "endChar": 43
+      },
+      "revId": "5e1bf91d071ac519dbc009f57f7535f61ebc18b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_f961c57b",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-09-07T02:05:37Z",
+      "side": 1,
+      "message": "\"when the temp file could not be created\"?",
+      "revId": "5e1bf91d071ac519dbc009f57f7535f61ebc18b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_195f59bb",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/errors/CorruptMediaFile.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-09-07T02:05:37Z",
+      "side": 1,
+      "message": "an LFS",
+      "range": {
+        "startLine": 52,
+        "startChar": 15,
+        "endLine": 52,
+        "endChar": 20
+      },
+      "revId": "5e1bf91d071ac519dbc009f57f7535f61ebc18b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_39589dcf",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AddCommandTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-09-07T02:05:37Z",
+      "side": 1,
+      "message": "Should this be \"version\" or is the misspelling what was meant by \"strange content\" in the comment at L178-179?",
+      "range": {
+        "startLine": 181,
+        "startChar": 6,
+        "endLine": 181,
+        "endChar": 13
+      },
+      "revId": "5e1bf91d071ac519dbc009f57f7535f61ebc18b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
