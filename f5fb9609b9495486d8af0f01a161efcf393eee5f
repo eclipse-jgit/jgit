@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_f92f053f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1359,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-09-07T01:52:34Z",
+      "side": 1,
+      "message": "an",
+      "range": {
+        "startLine": 1359,
+        "startChar": 8,
+        "endLine": 1359,
+        "endChar": 9
+      },
+      "revId": "f5fb9609b9495486d8af0f01a161efcf393eee5f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
