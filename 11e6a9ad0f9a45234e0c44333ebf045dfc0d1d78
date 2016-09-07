@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07b223f6_e0dff8f7",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPointer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-07T23:16:36Z",
+      "side": 1,
+      "message": "strange variable name, n or sz ?",
+      "range": {
+        "startLine": 149,
+        "startChar": 5,
+        "endLine": 149,
+        "endChar": 7
+      },
+      "revId": "11e6a9ad0f9a45234e0c44333ebf045dfc0d1d78",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_209d7047",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-07T23:16:36Z",
+      "side": 1,
+      "message": "registration is implemented in the method below so this sentence seems to be unnecessary",
+      "range": {
+        "startLine": 72,
+        "startChar": 26,
+        "endLine": 73,
+        "endChar": 68
+      },
+      "revId": "11e6a9ad0f9a45234e0c44333ebf045dfc0d1d78",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_60a76893",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-07T23:16:36Z",
+      "side": 1,
+      "message": "s/to/in/",
+      "range": {
+        "startLine": 84,
+        "startChar": 26,
+        "endLine": 84,
+        "endChar": 28
+      },
+      "revId": "11e6a9ad0f9a45234e0c44333ebf045dfc0d1d78",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_40a26484",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-07T23:16:36Z",
+      "side": 1,
+      "message": "that\u0027s obvious from the implementation",
+      "range": {
+        "startLine": 84,
+        "startChar": 34,
+        "endLine": 85,
+        "endChar": 68
+      },
+      "revId": "11e6a9ad0f9a45234e0c44333ebf045dfc0d1d78",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_80ac7c77",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-07T23:16:36Z",
+      "side": 1,
+      "message": "private ?",
+      "revId": "11e6a9ad0f9a45234e0c44333ebf045dfc0d1d78",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_a0b0a0c6",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-07T23:16:36Z",
+      "side": 1,
+      "message": "define a constant for this folder name ?",
+      "range": {
+        "startLine": 109,
+        "startChar": 60,
+        "endLine": 109,
+        "endChar": 63
+      },
+      "revId": "11e6a9ad0f9a45234e0c44333ebf045dfc0d1d78",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
