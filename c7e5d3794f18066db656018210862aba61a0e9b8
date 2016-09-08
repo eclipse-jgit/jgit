@@ -16,6 +16,24 @@
       "revId": "c7e5d3794f18066db656018210862aba61a0e9b8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_2c9d6747",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/FileLfsRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-08T16:34:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07b223f6_40898402",
+      "revId": "c7e5d3794f18066db656018210862aba61a0e9b8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
