@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "07b223f6_1170bcc9",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/CleanFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-08T16:34:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07b223f6_601a0877",
+      "revId": "d09877792996547150443680e512ddbd1f728943",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07b223f6_6003e81a",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/CleanFilter.java",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2016-09-07T23:06:50Z",
       "side": 1,
       "message": "add blank line before first method of anonymous class",
+      "revId": "d09877792996547150443680e512ddbd1f728943",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_313ce0ee",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/CleanFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-08T16:34:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07b223f6_6003e81a",
       "revId": "d09877792996547150443680e512ddbd1f728943",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "07b223f6_51415461",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/CleanFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-08T16:34:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07b223f6_8008fc36",
+      "revId": "d09877792996547150443680e512ddbd1f728943",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07b223f6_402504b2",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/CleanFilter.java",
         "patchSetId": 6
@@ -64,6 +118,24 @@
       "writtenOn": "2016-09-07T23:06:50Z",
       "side": 1,
       "message": "could we use LockFile for this ?",
+      "revId": "d09877792996547150443680e512ddbd1f728943",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_b162b0b6",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/CleanFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-08T16:34:03Z",
+      "side": 1,
+      "message": "Nice idea. I tried - but in the end it doesn\u0027t fit so well. Lockfile assumes that the file which is locked and the  lockfile (the file which paths ends on .lock) are in the same directory. That\u0027s important to be able to check easily whether a file is locked or not. Another problem: Lockfile would already have the code which copies content from original file to lockfile. But: we can\u0027t reuse that because we want to compute the oid for the content while copying from original file to lockfile.",
+      "parentUuid": "07b223f6_402504b2",
       "revId": "d09877792996547150443680e512ddbd1f728943",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "07b223f6_f1b4286a",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/CleanFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-08T16:34:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07b223f6_c03034ef",
+      "revId": "d09877792996547150443680e512ddbd1f728943",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07b223f6_e02d3898",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPointer.java",
         "patchSetId": 6
@@ -98,6 +188,24 @@
       "writtenOn": "2016-09-07T23:06:50Z",
       "side": 1,
       "message": "add toString() method to facilitate debugging ?",
+      "revId": "d09877792996547150443680e512ddbd1f728943",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_91012c7b",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPointer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-08T16:34:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07b223f6_e02d3898",
       "revId": "d09877792996547150443680e512ddbd1f728943",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "07b223f6_f1ca68b2",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-08T16:34:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07b223f6_80dabc12",
+      "revId": "d09877792996547150443680e512ddbd1f728943",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07b223f6_a0bee0a9",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsUtil.java",
         "patchSetId": 6
@@ -132,6 +258,30 @@
       "writtenOn": "2016-09-07T23:06:50Z",
       "side": 1,
       "message": "maybe just call this Lfs ?",
+      "range": {
+        "startLine": 56,
+        "startChar": 13,
+        "endLine": 56,
+        "endChar": 20
+      },
+      "revId": "d09877792996547150443680e512ddbd1f728943",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_f1a188f2",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-08T16:34:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07b223f6_a0bee0a9",
       "range": {
         "startLine": 56,
         "startChar": 13,
@@ -167,6 +317,30 @@
     },
     {
       "key": {
+        "uuid": "07b223f6_119fdcb1",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/errors/CorruptMediaFile.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-08T16:34:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07b223f6_c0bbd4b8",
+      "range": {
+        "startLine": 52,
+        "startChar": 15,
+        "endLine": 52,
+        "endChar": 17
+      },
+      "revId": "d09877792996547150443680e512ddbd1f728943",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07b223f6_00c6ac3d",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/errors/CorruptMediaFile.java",
         "patchSetId": 6
@@ -190,6 +364,30 @@
     },
     {
       "key": {
+        "uuid": "07b223f6_317f80d5",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/errors/CorruptMediaFile.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-08T16:34:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07b223f6_00c6ac3d",
+      "range": {
+        "startLine": 97,
+        "startChar": 13,
+        "endLine": 97,
+        "endChar": 28
+      },
+      "revId": "d09877792996547150443680e512ddbd1f728943",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07b223f6_20f2d092",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/Constants.java",
         "patchSetId": 6
@@ -201,6 +399,24 @@
       "writtenOn": "2016-09-07T23:06:50Z",
       "side": 1,
       "message": "missing @since 4.5 tqg",
+      "revId": "d09877792996547150443680e512ddbd1f728943",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_f1534862",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/Constants.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-08T16:34:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07b223f6_20f2d092",
       "revId": "d09877792996547150443680e512ddbd1f728943",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
