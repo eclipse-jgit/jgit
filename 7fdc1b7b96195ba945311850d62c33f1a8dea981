@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "07b223f6_c6304cef",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/FilterCommandsTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-08T16:33:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07b223f6_00a22cad",
+      "revId": "7fdc1b7b96195ba945311850d62c33f1a8dea981",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07b223f6_c04cb49a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 8
@@ -30,6 +48,30 @@
       "writtenOn": "2016-09-07T23:04:03Z",
       "side": 1,
       "message": "filterCommandRegistry ?",
+      "range": {
+        "startLine": 142,
+        "startChar": 64,
+        "endLine": 142,
+        "endChar": 79
+      },
+      "revId": "7fdc1b7b96195ba945311850d62c33f1a8dea981",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_46d0bcf4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-08T16:33:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07b223f6_c04cb49a",
       "range": {
         "startLine": 142,
         "startChar": 64,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "07b223f6_66d5c0e3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-08T16:33:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07b223f6_a04fc08c",
+      "range": {
+        "startLine": 161,
+        "startChar": 36,
+        "endLine": 161,
+        "endChar": 51
+      },
+      "revId": "7fdc1b7b96195ba945311850d62c33f1a8dea981",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07b223f6_803b9cf3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 8
@@ -76,6 +142,30 @@
       "writtenOn": "2016-09-07T23:04:03Z",
       "side": 1,
       "message": "why not \u0027factory\u0027 ?",
+      "range": {
+        "startLine": 162,
+        "startChar": 24,
+        "endLine": 162,
+        "endChar": 28
+      },
+      "revId": "7fdc1b7b96195ba945311850d62c33f1a8dea981",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_e6c8f04c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-08T16:33:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07b223f6_803b9cf3",
       "range": {
         "startLine": 162,
         "startChar": 24,
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "07b223f6_06c6c43d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-08T16:33:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07b223f6_e049b887",
+      "range": {
+        "startLine": 178,
+        "startChar": 43,
+        "endLine": 178,
+        "endChar": 54
+      },
+      "revId": "7fdc1b7b96195ba945311850d62c33f1a8dea981",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07b223f6_00478c72",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 8
@@ -134,6 +248,30 @@
     },
     {
       "key": {
+        "uuid": "07b223f6_26f2e892",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-08T16:33:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07b223f6_00478c72",
+      "range": {
+        "startLine": 202,
+        "startChar": 29,
+        "endLine": 202,
+        "endChar": 39
+      },
+      "revId": "7fdc1b7b96195ba945311850d62c33f1a8dea981",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07b223f6_c0975450",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 8
@@ -145,6 +283,24 @@
       "writtenOn": "2016-09-07T23:04:03Z",
       "side": 1,
       "message": "why do we need this loop ?",
+      "revId": "7fdc1b7b96195ba945311850d62c33f1a8dea981",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_865574cd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-08T16:33:40Z",
+      "side": 1,
+      "message": "Because implementors of FilterCommand.run() should not be forced to do all the filtering in one call to run(). Instead they can do filtering on chunks of data (e.g. they can do filtering by only on one line of data). They report that they have consumed all data by returning -1. This allows to implements chains of filters running over huge amount of data without big buffers or multiple threads.",
+      "parentUuid": "07b223f6_c0975450",
       "revId": "7fdc1b7b96195ba945311850d62c33f1a8dea981",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
