@@ -315,6 +315,24 @@
       "revId": "d688f2889ec995ac710fcc960872478151f62718",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_a3da6512",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1375,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-09-09T01:01:45Z",
+      "side": 1,
+      "message": "I think he means to put the config.getBoolean(...) call in the if-condition instead of assigning to a variable.",
+      "parentUuid": "07b223f6_515a3457",
+      "revId": "d688f2889ec995ac710fcc960872478151f62718",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
