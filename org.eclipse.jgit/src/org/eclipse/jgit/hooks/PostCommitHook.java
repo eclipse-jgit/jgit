@@ -42,59 +42,43 @@
  */
 package org.eclipse.jgit.hooks;
 
+import java.io.IOException;
 import java.io.PrintStream;
 
+import org.eclipse.jgit.api.errors.AbortedByHookException;
 import org.eclipse.jgit.lib.Repository;
 
 /**
- * Factory class for instantiating supported hooks.
+ * The <code>post-commit</code> hook implementation. This hook is run after the
+ * commit was successfully executed.
  *
- * @since 4.0
+ * @since 4.5
  */
-public class Hooks {
+public class PostCommitHook extends GitHook<Void> {
+
+	/** The post-commit hook name. */
+	public static final String NAME = "post-commit"; //$NON-NLS-1$
 
 	/**
 	 * @param repo
+	 *            The repository
 	 * @param outputStream
-	 *            The output stream, or {@code null} to use {@code System.out}
-	 * @return The pre-commit hook for the given repository.
+	 *            The output stream the hook must use. {@code null} is allowed,
+	 *            in which case the hook will use {@code System.out}.
 	 */
-	public static PreCommitHook preCommit(Repository repo,
-			PrintStream outputStream) {
-		return new PreCommitHook(repo, outputStream);
+	protected PostCommitHook(Repository repo, PrintStream outputStream) {
+		super(repo, outputStream);
 	}
 
-	/**
-	 * @param repo
-	 * @param outputStream
-	 *            The output stream, or {@code null} to use {@code System.out}
-	 * @return The post-commit hook for the given repository.
-	 * @since 4.5
-	 */
-	public static PostCommitHook postCommit(Repository repo,
-			PrintStream outputStream) {
-		return new PostCommitHook(repo, outputStream);
+	@Override
+	public Void call() throws IOException, AbortedByHookException {
+		doRun();
+		return null;
 	}
 
-	/**
-	 * @param repo
-	 * @param outputStream
-	 *            The output stream, or {@code null} to use {@code System.out}
-	 * @return The commit-msg hook for the given repository.
-	 */
-	public static CommitMsgHook commitMsg(Repository repo,
-			PrintStream outputStream) {
-		return new CommitMsgHook(repo, outputStream);
+	@Override
+	public String getHookName() {
+		return NAME;
 	}
 
-	/**
-	 * @param repo
-	 * @param outputStream
-	 *            The output stream, or {@code null} to use {@code System.out}
-	 * @return The pre-push hook for the given repository.
-	 * @since 4.2
-	 */
-	public static PrePushHook prePush(Repository repo, PrintStream outputStream) {
-		return new PrePushHook(repo, outputStream);
-	}
 }
