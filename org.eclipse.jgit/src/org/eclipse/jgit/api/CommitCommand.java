@@ -292,6 +292,10 @@ public class CommitCommand extends GitCommand<RevCommit> {
 						repo.writeMergeCommitMsg(null);
 						repo.writeRevertHead(null);
 					}
+                                        if (!noVerify) {
+                                            Hooks.postCommit(repo, hookOutRedirect).call();
+                                        }
+
 					return revCommit;
 				}
 				case REJECTED:
