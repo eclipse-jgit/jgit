@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07b223f6_ca5f66ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-12T11:49:28Z",
+      "side": 1,
+      "message": "that\u0027s ok but this sentence doesn\u0027t add value to the history",
+      "revId": "3242dd66f8bcdbdce3eb1da04f8085a50b85d8f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_6a51faaf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-12T11:49:28Z",
+      "side": 1,
+      "message": "* according to [1] the post-commit hook doesn\u0027t respect the --no-verify option\n* style nit: bad indentation\n\n[1] https://git-scm.com/docs/githooks",
+      "revId": "3242dd66f8bcdbdce3eb1da04f8085a50b85d8f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_8a464ef9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/Hooks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-12T11:49:28Z",
+      "side": 1,
+      "message": "missing @since annotation to mark new API",
+      "revId": "3242dd66f8bcdbdce3eb1da04f8085a50b85d8f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_aa4b1201",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/PostCommitHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-12T11:49:28Z",
+      "side": 1,
+      "message": "wrong version, we are now aiming for 4.5",
+      "revId": "3242dd66f8bcdbdce3eb1da04f8085a50b85d8f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
