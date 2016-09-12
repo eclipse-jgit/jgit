@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07b223f6_25f3b560",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-12T09:36:39Z",
+      "side": 1,
+      "message": "I am wondering if we should move these filter related methods to another class e.g. FilterRegistry\nin order to not add too many filter related methods to the generic Repository class, this class could be exposed from Repository. Then method names for handling filter command registration could be shortened, e.g. instead of registerFilterCommand() we could then use FilterRegistry.register()",
+      "revId": "074fb9e73060fe60dd07b648fc7545a25cb930fd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_05f6b150",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-12T09:36:39Z",
+      "side": 1,
+      "message": "in other parts of the JGit API we instead have an explicit unregister method",
+      "range": {
+        "startLine": 155,
+        "startChar": 39,
+        "endLine": 156,
+        "endChar": 35
+      },
+      "revId": "074fb9e73060fe60dd07b648fc7545a25cb930fd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_59089667",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-12T09:36:39Z",
+      "side": 1,
+      "message": "isFilterCommandRegistered",
+      "range": {
+        "startLine": 178,
+        "startChar": 23,
+        "endLine": 178,
+        "endChar": 35
+      },
+      "revId": "074fb9e73060fe60dd07b648fc7545a25cb930fd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
