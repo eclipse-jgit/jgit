@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "07b223f6_fdadcd70",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/HookTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-13T15:17:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07b223f6_e978b738",
+      "range": {
+        "startLine": 87,
+        "startChar": 33,
+        "endLine": 87,
+        "endChar": 43
+      },
+      "revId": "a43c0e170be25bd2c469ca5b438afaade5332375",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07b223f6_0976cb49",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/HookTest.java",
         "patchSetId": 2
@@ -36,6 +60,24 @@
       "writtenOn": "2016-09-12T14:51:00Z",
       "side": 1,
       "message": "you are adding code to CommitCommand which is not tested here, or? Maybe we should add at least one test which has preCommitHook and postCommitHook and which uses CommitCommand.",
+      "revId": "a43c0e170be25bd2c469ca5b438afaade5332375",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_d8f657ca",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/HookTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-13T15:17:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07b223f6_0976cb49",
       "revId": "a43c0e170be25bd2c469ca5b438afaade5332375",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "07b223f6_b8128391",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-13T15:17:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07b223f6_69658793",
+      "revId": "a43c0e170be25bd2c469ca5b438afaade5332375",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07b223f6_a946bff8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/Hooks.java",
         "patchSetId": 2
@@ -70,6 +130,30 @@
       "writtenOn": "2016-09-12T14:51:00Z",
       "side": 1,
       "message": "s/pre/post/",
+      "range": {
+        "startLine": 71,
+        "startChar": 16,
+        "endLine": 71,
+        "endChar": 19
+      },
+      "revId": "a43c0e170be25bd2c469ca5b438afaade5332375",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_ddb009c8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/Hooks.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-13T15:17:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07b223f6_a946bff8",
       "range": {
         "startLine": 71,
         "startChar": 16,
