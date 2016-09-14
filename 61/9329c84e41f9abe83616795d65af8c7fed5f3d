@@ -1,0 +1,8 @@
+Verified+1: Hudson CI
+Code-Review+1: Krzysztof Kosmatka <krzysztof.kosmatka+eclipse@gmail.com>
+Code-Review+2: Andrey Loskutov <loskutov@gmx.de>
+Submitted-by: Andrey Loskutov <loskutov@gmx.de>
+Submitted-at: Wed, 14 Sep 2016 08:27:28 -0400
+Reviewed-on: https://git.eclipse.org/r/81058
+Project: jgit/jgit
+Branch: refs/heads/master
