@@ -123,6 +123,17 @@ public class FastIgnoreRuleTest {
 	}
 
 	@Test
+	public void testTrailingSpaces() {
+		assertMatched("a ", "a");
+		assertMatched("a/ ", "a/");
+		assertMatched("a/ ", "a/b");
+		assertMatched("a/\\ ", "a/ ");
+		assertNotMatched("a/\\ ", "a/");
+		assertNotMatched("a/\\ ", "a/b");
+		assertNotMatched("/ ", "a");
+	}
+
+	@Test
 	public void testAsteriskDot() {
 		assertMatched("*.a", ".a");
 		assertMatched("*.a", "/.a");

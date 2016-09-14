@@ -47,6 +47,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
+import org.eclipse.jgit.ignore.internal.Strings;
 import org.junit.Test;
 
 public class BasicRuleTest {
@@ -73,4 +74,31 @@ public class BasicRuleTest {
 		assertNotEquals(rule1.toString(), rule3.toString());
 	}
 
+	@Test
+	public void testDirectoryPattern() {
+		assertTrue(Strings.isDirectoryPattern("/"));
+		assertTrue(Strings.isDirectoryPattern("/ "));
+		assertTrue(Strings.isDirectoryPattern("/     "));
+		assertFalse(Strings.isDirectoryPattern("     "));
+		assertFalse(Strings.isDirectoryPattern(""));
+	}
+
+	@Test
+	public void testStripTrailingChar() {
+		assertEquals("", Strings.stripTrailing("/", '/'));
+		assertEquals("", Strings.stripTrailing("///", '/'));
+		assertEquals("a", Strings.stripTrailing("a/", '/'));
+		assertEquals("a", Strings.stripTrailing("a///", '/'));
+		assertEquals("a/ ", Strings.stripTrailing("a/ ", '/'));
+	}
+
+	@Test
+	public void testStripTrailingWhitespace() {
+		assertEquals("", Strings.stripTrailingWhitespace(""));
+		assertEquals("", Strings.stripTrailingWhitespace("   "));
+		assertEquals("a", Strings.stripTrailingWhitespace("a"));
+		assertEquals("a", Strings.stripTrailingWhitespace("a "));
+		assertEquals("a", Strings.stripTrailingWhitespace("a  "));
+		assertEquals("a", Strings.stripTrailingWhitespace("a \t"));
+	}
 }

@@ -76,10 +76,50 @@ public class Strings {
 	 * @return new string with all trailing characters removed
 	 */
 	public static String stripTrailing(String pattern, char c) {
-		while (pattern.length() > 0
-				&& pattern.charAt(pattern.length() - 1) == c)
-			pattern = pattern.substring(0, pattern.length() - 1);
-		return pattern;
+		for (int i = pattern.length() - 1; i >= 0; i--) {
+			char charAt = pattern.charAt(i);
+			if (charAt != c) {
+				if (i == pattern.length() - 1) {
+					return pattern;
+				}
+				return pattern.substring(0, i + 1);
+			}
+		}
+		return ""; //$NON-NLS-1$
+	}
+
+	/**
+	 * @param pattern
+	 *            non null
+	 * @return new string with all trailing whitespace removed
+	 */
+	public static String stripTrailingWhitespace(String pattern) {
+		for (int i = pattern.length() - 1; i >= 0; i--) {
+			char charAt = pattern.charAt(i);
+			if (!Character.isWhitespace(charAt)) {
+				if (i == pattern.length() - 1) {
+					return pattern;
+				}
+				return pattern.substring(0, i + 1);
+			}
+		}
+		return ""; //$NON-NLS-1$
+	}
+
+	/**
+	 * @param pattern
+	 *            non null
+	 * @return true if the last character, which is not whitespace, is a path
+	 *         separator
+	 */
+	public static boolean isDirectoryPattern(String pattern) {
+		for (int i = pattern.length() - 1; i >= 0; i--) {
+			char charAt = pattern.charAt(i);
+			if (!Character.isWhitespace(charAt)) {
+				return charAt == FastIgnoreRule.PATH_SEPARATOR;
+			}
+		}
+		return false;
 	}
 
 	static int count(String s, char c, boolean ignoreFirstLast) {
