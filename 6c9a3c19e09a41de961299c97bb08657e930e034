@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07b223f6_92b11b30",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-09-14T09:58:33Z",
+      "side": 1,
+      "message": "nit: add a blank line before @return",
+      "revId": "6c9a3c19e09a41de961299c97bb08657e930e034",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
