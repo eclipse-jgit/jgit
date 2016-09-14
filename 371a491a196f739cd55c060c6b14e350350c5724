@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07b223f6_f2b6d7f2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/BasicRuleTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 85185
+      },
+      "writtenOn": "2016-09-14T11:40:27Z",
+      "side": 1,
+      "message": "This method doesn\u0027t test trimming witespaces, but it tests directory pattern recognition. I suggest changing name of this method.",
+      "revId": "371a491a196f739cd55c060c6b14e350350c5724",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
