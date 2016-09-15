@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "07b223f6_a6742176",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2016-09-15T20:11:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07b223f6_92b11b30",
+      "revId": "6c9a3c19e09a41de961299c97bb08657e930e034",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07b223f6_e68379df",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-09-15T19:46:07Z",
       "side": 1,
       "message": "You can use streamPosition() here, its the length of the file when endInput is invoked. Or do that assignment inside the method above in onPackFooter after the trailer hash is read.\n\nThat lets you avoid the CountingInputStream altogether.",
+      "revId": "6c9a3c19e09a41de961299c97bb08657e930e034",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_266011ae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 938,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2016-09-15T20:11:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07b223f6_e68379df",
       "revId": "6c9a3c19e09a41de961299c97bb08657e930e034",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "07b223f6_064a2d2d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivedPackStatistics.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2016-09-15T20:11:44Z",
+      "side": 1,
+      "message": "Most of the methods provided in PackStatistics make sense only to upload-pack. (This is partly because PackStatistics describes not only the statistics of pack files, but also the stats of upload-pack process.) Most of them I have to throw UnsupportedOperationException. So, I couldn\u0027t see the value of reusing it just because both upload-pack and receive-pack are doing something with pack files.",
+      "parentUuid": "07b223f6_c67e755d",
+      "revId": "6c9a3c19e09a41de961299c97bb08657e930e034",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07b223f6_a6898105",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivedPackStatistics.java",
         "patchSetId": 2
@@ -64,6 +118,30 @@
       "writtenOn": "2016-09-15T19:46:07Z",
       "side": 1,
       "message": "This should be in a constants class like JGitText and JGitText.properties and formatted with MessageFormat.format().",
+      "range": {
+        "startLine": 208,
+        "startChar": 40,
+        "endLine": 210,
+        "endChar": 41
+      },
+      "revId": "6c9a3c19e09a41de961299c97bb08657e930e034",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_6641290c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivedPackStatistics.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2016-09-15T20:11:44Z",
+      "side": 1,
+      "message": "I don\u0027t think this will be shown to users. (This default condition is an impossible condition.) Should we translate this?",
+      "parentUuid": "07b223f6_a6898105",
       "range": {
         "startLine": 208,
         "startChar": 40,
