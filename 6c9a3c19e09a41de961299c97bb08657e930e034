@@ -16,6 +16,63 @@
       "revId": "6c9a3c19e09a41de961299c97bb08657e930e034",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_e68379df",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 938,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-09-15T19:46:07Z",
+      "side": 1,
+      "message": "You can use streamPosition() here, its the length of the file when endInput is invoked. Or do that assignment inside the method above in onPackFooter after the trailer hash is read.\n\nThat lets you avoid the CountingInputStream altogether.",
+      "revId": "6c9a3c19e09a41de961299c97bb08657e930e034",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_c67e755d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivedPackStatistics.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-09-15T19:46:07Z",
+      "side": 1,
+      "message": "Why can\u0027t PackParser use the existing PackStatistics?",
+      "revId": "6c9a3c19e09a41de961299c97bb08657e930e034",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_a6898105",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivedPackStatistics.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-09-15T19:46:07Z",
+      "side": 1,
+      "message": "This should be in a constants class like JGitText and JGitText.properties and formatted with MessageFormat.format().",
+      "range": {
+        "startLine": 208,
+        "startChar": 40,
+        "endLine": 210,
+        "endChar": 41
+      },
+      "revId": "6c9a3c19e09a41de961299c97bb08657e930e034",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
