@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "07b223f6_8609ddbe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-15T22:17:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07b223f6_25f3b560",
+      "revId": "074fb9e73060fe60dd07b648fc7545a25cb930fd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07b223f6_05f6b150",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 9
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "07b223f6_a60ee1c2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-15T22:17:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07b223f6_05f6b150",
+      "range": {
+        "startLine": 155,
+        "startChar": 39,
+        "endLine": 156,
+        "endChar": 35
+      },
+      "revId": "074fb9e73060fe60dd07b648fc7545a25cb930fd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07b223f6_59089667",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 9
@@ -53,6 +95,30 @@
       "writtenOn": "2016-09-12T09:36:39Z",
       "side": 1,
       "message": "isFilterCommandRegistered",
+      "range": {
+        "startLine": 178,
+        "startChar": 23,
+        "endLine": 178,
+        "endChar": 35
+      },
+      "revId": "074fb9e73060fe60dd07b648fc7545a25cb930fd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_c613d5e6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-15T22:17:13Z",
+      "side": 1,
+      "message": "moved to another class",
+      "parentUuid": "07b223f6_59089667",
       "range": {
         "startLine": 178,
         "startChar": 23,
