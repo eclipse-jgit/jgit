@@ -48,6 +48,8 @@ import java.io.IOException;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Delays commits to be at least {@link PendingGenerator#OVER_SCAN} late.
@@ -61,6 +63,9 @@ import org.eclipse.jgit.errors.MissingObjectException;
  * lower level {@link #pending} isn't already fully buffered.
  */
 final class DelayRevQueue extends Generator {
+	private static final Logger log = LoggerFactory
+			.getLogger(DelayRevQueue.class);
+
 	private static final int OVER_SCAN = PendingGenerator.OVER_SCAN;
 
 	private final Generator pending;
@@ -82,17 +87,25 @@ final class DelayRevQueue extends Generator {
 	@Override
 	RevCommit next() throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
+		if (log.isDebugEnabled())
+			log.debug("entering next(). size={}, outputType={}, delay queue={}",
+					size, Generator.describeOutputType(outputType()), delay);
+
 		while (size < OVER_SCAN) {
 			final RevCommit c = pending.next();
 			if (c == null)
 				break;
+			log.debug("next(): will add commit {}", c);
 			delay.add(c);
 			size++;
 		}
 
 		final RevCommit c = delay.next();
-		if (c == null)
+		log.debug("leaving next(). return={}, size={}, delay queue={}", c,
+				(c == null) ? size : size - 1, delay);
+		if (c == null) {
 			return null;
+		}
 		size--;
 		return c;
 	}

@@ -51,6 +51,8 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.StopWalkException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Default (and first pass) RevCommit Generator implementation for RevWalk.
@@ -62,6 +64,9 @@ import org.eclipse.jgit.revwalk.filter.RevFilter;
  * of the commits and return them to the caller.
  */
 class PendingGenerator extends Generator {
+	private static final Logger log = LoggerFactory
+			.getLogger(PendingGenerator.class);
+
 	private static final int PARSED = RevWalk.PARSED;
 
 	private static final int SEEN = RevWalk.SEEN;
@@ -125,8 +130,14 @@ class PendingGenerator extends Generator {
 	RevCommit next() throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
 		try {
+			if (log.isDebugEnabled())
+				log.debug(
+						"entering next(). walker={}, outputType={}, overScan={}, filter={}, canDispose={}, last={}, pending={}",
+						walker, Generator.describeOutputType(outputType()),
+						overScan, filter, canDispose, last, pending);
 			for (;;) {
 				final RevCommit c = pending.next();
+				log.debug("next(): inspecting c={}", c);
 				if (c == null) {
 					return null;
 				}
@@ -141,6 +152,7 @@ class PendingGenerator extends Generator {
 				}
 
 				for (final RevCommit p : c.parents) {
+					log.debug("next(): inspecting parent={}", p);
 					if ((p.flags & SEEN) != 0)
 						continue;
 					if ((p.flags & PARSED) == 0)
@@ -149,6 +161,8 @@ class PendingGenerator extends Generator {
 					pending.add(p);
 				}
 				walker.carryFlagsImpl(c);
+				log.debug("next(): after carryFlagsImpl() pending=\n{}",
+						pending);
 
 				if ((c.flags & UNINTERESTING) != 0) {
 					if (pending.everbodyHasFlag(UNINTERESTING)) {
@@ -170,12 +184,17 @@ class PendingGenerator extends Generator {
 					continue;
 				}
 
+				if (log.isDebugEnabled())
+					log.debug(
+							"next(): After setting overscan. produce={}, overScan={}, canDispose={}, pending={}, rc={}",
+							produce, overScan, canDispose, pending, produce ? c : null);
 				if (produce)
 					return last = c;
 				else if (canDispose)
 					c.disposeBody();
 			}
 		} catch (StopWalkException swe) {
+			log.debug("next(): StopWalkException occured={}", swe);
 			pending.clear();
 			return null;
 		}
