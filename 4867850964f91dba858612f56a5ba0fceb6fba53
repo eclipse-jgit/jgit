@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "07b223f6_67f3de11",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1325,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2016-09-19T22:55:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07b223f6_46a265f7",
+      "revId": "4867850964f91dba858612f56a5ba0fceb6fba53",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07b223f6_669f69b1",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "07b223f6_47f6da03",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1353,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2016-09-19T22:55:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07b223f6_669f69b1",
+      "revId": "4867850964f91dba858612f56a5ba0fceb6fba53",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07b223f6_26a571ff",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
         "patchSetId": 3
@@ -47,6 +83,30 @@
       "writtenOn": "2016-09-16T02:22:39Z",
       "side": 1,
       "message": "s/this.//",
+      "range": {
+        "startLine": 938,
+        "startChar": 24,
+        "endLine": 938,
+        "endChar": 29
+      },
+      "revId": "4867850964f91dba858612f56a5ba0fceb6fba53",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_67be7e1c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 938,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2016-09-19T22:55:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07b223f6_26a571ff",
       "range": {
         "startLine": 938,
         "startChar": 24,
