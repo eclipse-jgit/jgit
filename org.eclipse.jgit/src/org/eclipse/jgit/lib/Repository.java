@@ -897,7 +897,7 @@ public abstract class Repository implements AutoCloseable {
 	 * <p>
 	 * The default implementation closes the object and ref databases.
 	 */
-	protected void doClose() {
+	public void doClose() {
 		getObjectDatabase().close();
 		getRefDatabase().close();
 	}
