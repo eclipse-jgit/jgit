@@ -70,6 +70,8 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Walks a commit graph and produces the matching commits in order.
@@ -96,6 +98,8 @@ import org.eclipse.jgit.treewalk.filter.TreeFilter;
  * {@link #next()} does not.
  */
 public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
+	private static final Logger log = LoggerFactory.getLogger(RevWalk.class);
+
 	private static final int MB = 1 << 20;
 
 	/**
@@ -230,6 +234,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		roots = new ArrayList<RevCommit>();
 		queue = new DateRevQueue();
 		pending = new StartGenerator(this);
+		log.debug("Constructor: queue: <>, pending: <>");
 		sorting = EnumSet.of(RevSort.NONE);
 		filter = RevFilter.ALL;
 		treeFilter = TreeFilter.ALL;
@@ -287,13 +292,18 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 */
 	public void markStart(final RevCommit c) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
-		if ((c.flags & SEEN) != 0)
+		if ((c.flags & SEEN) != 0) {
+			log.debug(
+					"markStart: don't added commit because it was already seen",
+					c);
 			return;
+		}
 		if ((c.flags & PARSED) == 0)
 			c.parseHeaders(this);
 		c.flags |= SEEN;
 		roots.add(c);
 		queue.add(c);
+		log.debug("markStart: Added to queue and roots:{} ", c);
 	}
 
 	/**
@@ -432,7 +442,10 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 */
 	public RevCommit next() throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
-		return pending.next();
+		RevCommit rc = pending.next();
+		log.debug("next(): will return rc={}. Afterwards pending={}", rc,
+				pending);
+		return rc;
 	}
 
 	/**
@@ -1278,6 +1291,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		roots.clear();
 		queue = new DateRevQueue();
 		pending = new StartGenerator(this);
+		log.debug("reset(): queue: <>, pending: <>");
 	}
 
 	/**
@@ -1299,6 +1313,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		queue = new DateRevQueue();
 		pending = new StartGenerator(this);
 		shallowCommitsInitialized = false;
+		log.debug("dispose(): queue: <>, pending: <>");
 	}
 
 	/**

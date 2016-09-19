@@ -65,9 +65,13 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** A commit reference to a commit in the DAG. */
 public class RevCommit extends RevObject {
+	private static final Logger log = LoggerFactory.getLogger(RevCommit.class);
+
 	private static final int STACK_DEPTH = 500;
 
 	/**
@@ -232,26 +236,47 @@ public class RevCommit extends RevObject {
 	}
 
 	private static FIFORevQueue carryFlags1(RevCommit c, int carry, int depth) {
+		if (log.isDebugEnabled())
+			log.debug("entering carryFlags1(c={}, carry={}, depth={})", c,
+					RevObject.describeCoreFlags(carry), depth);
 		for(;;) {
 			RevCommit[] pList = c.parents;
 			if (pList == null || pList.length == 0)
 				return null;
+			log.debug("carryFlags1(): found non-empty list of parents");
+
 			if (pList.length != 1) {
-				if (depth == STACK_DEPTH)
-					return defer(c);
+				log.debug("carryFlags1(): found more than one parent");
+				if (depth == STACK_DEPTH) {
+					FIFORevQueue rc = defer(c);
+					log.debug(
+							"carryFlags1(): depth reached maximum={}. Will return FIFORevQueue={}",
+							STACK_DEPTH, rc);
+					return rc;
+				}
 				for (int i = 1; i < pList.length; i++) {
 					RevCommit p = pList[i];
+					log.debug("carryFlags1(): inspecting parent={}", p);
 					if ((p.flags & carry) == carry)
 						continue;
 					p.flags |= carry;
 					FIFORevQueue q = carryFlags1(c, carry, depth + 1);
-					if (q != null)
-						return defer(q, carry, pList, i + 1);
+					if (q != null) {
+						FIFORevQueue rc = defer(q, carry, pList, i + 1);
+						log.debug("carryFlags1(): will return FIFOReqvQueue={}",
+								rc);
+						return rc;
+					}
 				}
+
 			}
 
 			c = pList[0];
-			if ((c.flags & carry) == carry)
+			boolean carrySet = (c.flags & carry) == carry;
+			log.debug(
+					"carryFlags1(): inspecting first parent={}. ((c.flags & carry)==carry)={} ",
+					c, carrySet);
+			if (carrySet)
 				return null;
 			c.flags |= carry;
 		}

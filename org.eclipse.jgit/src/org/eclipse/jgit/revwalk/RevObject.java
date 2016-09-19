@@ -179,6 +179,26 @@ public abstract class RevObject extends ObjectIdOwnerMap.Entry {
 	 *            buffer to append a debug description of core RevFlags onto.
 	 */
 	protected void appendCoreFlags(final StringBuilder s) {
+		appendCoreFlags(flags, s);
+	}
+
+	/**
+	 * @param flags
+	 *            the flags to describe
+	 * @return a debug description of core RevFlags
+	 */
+	static String describeCoreFlags(int flags) {
+		StringBuilder ret = new StringBuilder();
+		appendCoreFlags(flags, ret);
+		return (ret.toString());
+	}
+
+	/**
+	 * @param flags
+	 * @param s
+	 *            buffer to append a debug description of core RevFlags onto.
+	 */
+	static void appendCoreFlags(int flags, final StringBuilder s) {
 		s.append((flags & RevWalk.TOPO_DELAY) != 0 ? 'o' : '-');
 		s.append((flags & RevWalk.TEMP_MARK) != 0 ? 't' : '-');
 		s.append((flags & RevWalk.REWRITE) != 0 ? 'r' : '-');
