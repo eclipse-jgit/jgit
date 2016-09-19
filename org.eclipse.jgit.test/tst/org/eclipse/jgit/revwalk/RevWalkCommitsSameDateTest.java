@@ -66,6 +66,11 @@ public class RevWalkCommitsSameDateTest extends RevWalkTestCase {
 		final RevCommit d = commit(delta, c);
 		final RevCommit e = commit(delta, b, d);
 
+		System.out.println("a:" + a.getId().abbreviate(6) + ", b:"
+				+ b.getId().abbreviate(6) + ", c:" + c.getId().abbreviate(6)
+				+ ", d:" + d.getId().abbreviate(6) + ", e:"
+				+ e.getId().abbreviate(6));
+
 		markStart(d);
 		markUninteresting(e);
 		assertNull("Found an unexpected commit. Delta between commits was "

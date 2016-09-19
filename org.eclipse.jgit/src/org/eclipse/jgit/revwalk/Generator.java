@@ -103,4 +103,38 @@ abstract class Generator {
 	 */
 	abstract RevCommit next() throws MissingObjectException,
 			IncorrectObjectTypeException, IOException;
+
+	/**
+	 * @param type
+	 * @return a human readable presentation of a outputType
+	 */
+	public static String describeOutputType(int type) {
+		StringBuffer b=new StringBuffer();
+		if ((type & SORT_COMMIT_TIME_DESC) != 0) {
+			if (b.length()>0)
+				b.append('|');
+			b.append("SORT_COMMIT_TIME_DESC"); //$NON-NLS-1$
+		}
+		if ((type & HAS_REWRITE) != 0) {
+			if (b.length() > 0)
+				b.append('|');
+			b.append("HAS_REWRITE"); //$NON-NLS-1$
+		}
+		if ((type & NEEDS_REWRITE) != 0) {
+			if (b.length() > 0)
+				b.append('|');
+			b.append("NEEDS_REWRITE"); //$NON-NLS-1$
+		}
+		if ((type & SORT_TOPO) != 0) {
+			if (b.length() > 0)
+				b.append('|');
+			b.append("SORT_TOPO"); //$NON-NLS-1$
+		}
+		if ((type & HAS_UNINTERESTING) != 0) {
+			if (b.length() > 0)
+				b.append('|');
+			b.append("HAS_UNINTERESTING"); //$NON-NLS-1$
+		}
+		return (b.toString());
+	}
 }
