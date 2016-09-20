@@ -80,19 +80,20 @@ import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpHead;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.client.params.ClientPNames;
-import org.apache.http.conn.params.ConnRoutePNames;
-import org.apache.http.conn.scheme.Scheme;
-import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.apache.http.config.Registry;
+import org.apache.http.config.RegistryBuilder;
+import org.apache.http.conn.socket.ConnectionSocketFactory;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.X509HostnameVerifier;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.CoreConnectionPNames;
-import org.apache.http.params.HttpParams;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.conn.BasicHttpClientConnectionManager;
 import org.eclipse.jgit.transport.http.HttpConnection;
 import org.eclipse.jgit.transport.http.apache.internal.HttpApacheText;
 import org.eclipse.jgit.util.TemporaryBuffer;
@@ -131,29 +132,37 @@ public class HttpClientConnection implements HttpConnection {
 	SSLContext ctx;
 
 	private HttpClient getClient() {
-		if (client == null)
-			client = new DefaultHttpClient();
-		HttpParams params = client.getParams();
-		if (proxy != null && !Proxy.NO_PROXY.equals(proxy)) {
-			isUsingProxy = true;
-			InetSocketAddress adr = (InetSocketAddress) proxy.address();
-			params.setParameter(ConnRoutePNames.DEFAULT_PROXY,
-					new HttpHost(adr.getHostName(), adr.getPort()));
-		}
-		if (timeout != null)
-			params.setIntParameter(CoreConnectionPNames.CONNECTION_TIMEOUT,
-					timeout.intValue());
-		if (readTimeout != null)
-			params.setIntParameter(CoreConnectionPNames.SO_TIMEOUT,
-					readTimeout.intValue());
-		if (followRedirects != null)
-			params.setBooleanParameter(ClientPNames.HANDLE_REDIRECTS,
-					followRedirects.booleanValue());
-		if (hostnameverifier != null) {
-			SSLSocketFactory sf;
-			sf = new SSLSocketFactory(getSSLContext(), hostnameverifier);
-			Scheme https = new Scheme("https", 443, sf); //$NON-NLS-1$
-			client.getConnectionManager().getSchemeRegistry().register(https);
+		if (client == null) {
+			HttpClientBuilder clientBuilder = HttpClients.custom();
+			RequestConfig.Builder configBuilder = RequestConfig.custom();
+			if (proxy != null && !Proxy.NO_PROXY.equals(proxy)) {
+				isUsingProxy = true;
+				InetSocketAddress adr = (InetSocketAddress) proxy.address();
+				clientBuilder.setProxy(
+						new HttpHost(adr.getHostName(), adr.getPort()));
+			}
+			if (timeout != null) {
+				configBuilder.setConnectTimeout(timeout.intValue());
+			}
+			if (readTimeout != null) {
+				configBuilder.setSocketTimeout(readTimeout.intValue());
+			}
+			if (followRedirects != null) {
+				configBuilder
+						.setRedirectsEnabled(followRedirects.booleanValue());
+			}
+			if (hostnameverifier != null) {
+				SSLConnectionSocketFactory sslConnectionFactory = new SSLConnectionSocketFactory(
+						getSSLContext(), hostnameverifier);
+				clientBuilder.setSSLSocketFactory(sslConnectionFactory);
+				Registry<ConnectionSocketFactory> registry = RegistryBuilder
+						.<ConnectionSocketFactory> create()
+						.register("https", sslConnectionFactory).build();
+				clientBuilder.setConnectionManager(
+						new BasicHttpClientConnectionManager(registry));
+			}
+			clientBuilder.setDefaultRequestConfig(configBuilder.build());
+			client = clientBuilder.build();
 		}
 
 		return client;
