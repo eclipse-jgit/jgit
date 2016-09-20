@@ -69,6 +69,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.PackProtocolException;
@@ -268,6 +269,7 @@ public abstract class BaseReceivePack {
 	private PushCertificateParser pushCertificateParser;
 	private SignedPushConfig signedPushConfig;
 	private PushCertificate pushCert;
+	private ReceivedPackStatistics stats;
 
 	/**
 	 * Get the push certificate used to verify the pusher's identity.
@@ -1115,6 +1117,18 @@ public abstract class BaseReceivePack {
 	}
 
 	/**
+	 * Returns the statistics on the received pack if available. This should be
+	 * called after {@link #receivePack} is called.
+	 *
+	 * @return ReceivedPackStatistics
+	 * @since 4.5
+	 */
+	@Nullable
+	public ReceivedPackStatistics getReceivedPackStatistics() {
+		return stats;
+	}
+
+	/**
 	 * Receive a list of commands from the input.
 	 *
 	 * @throws IOException
@@ -1307,6 +1321,7 @@ public abstract class BaseReceivePack {
 			parser.setMaxObjectSizeLimit(maxObjectSizeLimit);
 			packLock = parser.parse(receiving, resolving);
 			packSize = Long.valueOf(parser.getPackSize());
+			stats = parser.getReceivedPackStatistics();
 			ins.flush();
 		}
 
