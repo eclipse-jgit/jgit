@@ -22,6 +22,30 @@
       "revId": "7edcb68c69573c44c179bc36144e71519781f73e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_cd6f69a4",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/errors/LfsTransportException.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-20T08:57:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07b223f6_1c3c35eb",
+      "range": {
+        "startLine": 50,
+        "startChar": 10,
+        "endLine": 50,
+        "endChar": 13
+      },
+      "revId": "7edcb68c69573c44c179bc36144e71519781f73e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
