@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "07b223f6_2dad4572",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/CleanFilter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-20T08:54:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07b223f6_fc24e1e7",
+      "range": {
+        "startLine": 74,
+        "startChar": 10,
+        "endLine": 74,
+        "endChar": 13
+      },
+      "revId": "695975b635fc5c5823dc7dbcb1e8b7696fd53cae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07b223f6_1c2a75b2",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/Lfs.java",
         "patchSetId": 8
@@ -36,6 +60,30 @@
       "writtenOn": "2016-09-19T15:58:44Z",
       "side": 1,
       "message": "4.6",
+      "range": {
+        "startLine": 54,
+        "startChar": 10,
+        "endLine": 54,
+        "endChar": 13
+      },
+      "revId": "695975b635fc5c5823dc7dbcb1e8b7696fd53cae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_4db199c8",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/Lfs.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-20T08:54:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07b223f6_1c2a75b2",
       "range": {
         "startLine": 54,
         "startChar": 10,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "07b223f6_6dae5d6e",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPointer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-20T08:54:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07b223f6_3c1e5998",
+      "range": {
+        "startLine": 54,
+        "startChar": 10,
+        "endLine": 54,
+        "endChar": 13
+      },
+      "revId": "695975b635fc5c5823dc7dbcb1e8b7696fd53cae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07b223f6_9c15a571",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/errors/CorruptMediaFile.java",
         "patchSetId": 8
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "07b223f6_8dbbb1a8",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/errors/CorruptMediaFile.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-20T08:54:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07b223f6_9c15a571",
+      "range": {
+        "startLine": 54,
+        "startChar": 10,
+        "endLine": 54,
+        "endChar": 13
+      },
+      "revId": "695975b635fc5c5823dc7dbcb1e8b7696fd53cae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07b223f6_bc550928",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/Constants.java",
         "patchSetId": 8
@@ -105,6 +201,30 @@
       "writtenOn": "2016-09-19T15:58:44Z",
       "side": 1,
       "message": "4.6",
+      "range": {
+        "startLine": 61,
+        "startChar": 11,
+        "endLine": 61,
+        "endChar": 14
+      },
+      "revId": "695975b635fc5c5823dc7dbcb1e8b7696fd53cae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_adb875ac",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/Constants.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-20T08:54:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07b223f6_bc550928",
       "range": {
         "startLine": 61,
         "startChar": 11,
