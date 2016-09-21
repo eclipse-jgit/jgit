@@ -308,7 +308,7 @@ public class RepositoryCache {
 			if (isExpired(db)) {
 				Repository oldDb = unregisterRepository(location);
 				if (oldDb != null) {
-					oldDb.close();
+					oldDb.doClose();
 				}
 			}
 		}
