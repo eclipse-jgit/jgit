@@ -185,13 +185,11 @@ public class AppServer {
 			putUser(username, new Password(password), new String[] { role });
 		}
 
-		protected String[] loadRoleInfo(
-				@SuppressWarnings("unused") KnownUser user) {
+		protected String[] loadRoleInfo(KnownUser user) {
 			return null;
 		}
 
-		protected KnownUser loadUserInfo(
-				@SuppressWarnings("unused") String usrname) {
+		protected KnownUser loadUserInfo(String usrname) {
 			return null;
 		}
 	}
