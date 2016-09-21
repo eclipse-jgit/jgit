@@ -1121,7 +1121,7 @@ public abstract class BaseReceivePack {
 	 * called after {@link #receivePack} is called.
 	 *
 	 * @return ReceivedPackStatistics
-	 * @since 4.5
+	 * @since 4.6
 	 */
 	@Nullable
 	public ReceivedPackStatistics getReceivedPackStatistics() {

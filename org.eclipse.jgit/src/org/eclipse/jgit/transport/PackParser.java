@@ -477,7 +477,7 @@ public abstract class PackParser {
 	 * This should only be called after pack parsing is finished.
 	 *
 	 * @return {@link ReceivedPackStatistics}
-	 * @since 4.5
+	 * @since 4.6
 	 */
 	public ReceivedPackStatistics getReceivedPackStatistics() {
 		return stats.build();

@@ -48,7 +48,7 @@ import org.eclipse.jgit.lib.Constants;
 /**
  * Statistics about {@link PackParser}.
  *
- * @since 4.5
+ * @since 4.6
  */
 public class ReceivedPackStatistics {
 	private long numBytesRead;
