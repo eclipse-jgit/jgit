@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07b223f6_f52f8f10",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 94520
+      },
+      "writtenOn": "2016-09-21T11:12:03Z",
+      "side": 1,
+      "message": "This is not enough. The problem is the isExpired check above, that always will return false unless useCnt is zero and the timeout has passed.",
+      "revId": "e3aea38d742bbb897fb8cc9e9bf8a926a5614dc7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
