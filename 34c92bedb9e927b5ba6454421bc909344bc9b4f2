@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "07b223f6_b22fedc3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/GarbageCollectCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-21T08:33:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07b223f6_fc93fcac",
+      "revId": "34c92bedb9e927b5ba6454421bc909344bc9b4f2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07b223f6_3cf9f441",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-09-20T15:46:12Z",
       "side": 1,
       "message": "This method has changed behaviour and we should document that. Before it was nearly always creating new packfiles and returning them. But now this method is more lazy and  will not create new packs whenever there are loose objects. We should mention the effect of \"automatic\" on this method, especially because the the default for \"automatic\" is \"true\"",
+      "revId": "34c92bedb9e927b5ba6454421bc909344bc9b4f2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_521851a8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-21T08:33:40Z",
+      "side": 1,
+      "message": "done, changed default to false in order to prevent we change behavior for existing code",
+      "parentUuid": "07b223f6_3cf9f441",
       "revId": "34c92bedb9e927b5ba6454421bc909344bc9b4f2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "07b223f6_92558928",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1104,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-21T08:33:40Z",
+      "side": 1,
+      "message": "isn\u0027t that clear from the documentation of param auto ?",
+      "parentUuid": "07b223f6_dc6f1872",
+      "revId": "34c92bedb9e927b5ba6454421bc909344bc9b4f2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07b223f6_1c2ef045",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
         "patchSetId": 2
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "07b223f6_b25a8d54",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1107,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-21T08:33:40Z",
+      "side": 1,
+      "message": "this implementation of setAuto(true) doesn\u0027t consider number of loose refs, do you think we should add this ?",
+      "parentUuid": "07b223f6_1c2ef045",
+      "revId": "34c92bedb9e927b5ba6454421bc909344bc9b4f2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07b223f6_3c5d74c2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
         "patchSetId": 2
@@ -81,6 +153,24 @@
       "writtenOn": "2016-09-20T15:46:12Z",
       "side": 1,
       "message": "I think JGit does -d always. We delete old packs and prune loose objects after creating the new pack.\n\n-l is an option which we indeed don\u0027t support although we support alternate objects stores.",
+      "revId": "34c92bedb9e927b5ba6454421bc909344bc9b4f2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_126979ec",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1138,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-21T08:33:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07b223f6_3c5d74c2",
       "revId": "34c92bedb9e927b5ba6454421bc909344bc9b4f2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -110,6 +200,30 @@
     },
     {
       "key": {
+        "uuid": "07b223f6_b241ad64",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1147,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-21T08:33:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07b223f6_9cb76072",
+      "range": {
+        "startLine": 1147,
+        "startChar": 46,
+        "endLine": 1147,
+        "endChar": 48
+      },
+      "revId": "34c92bedb9e927b5ba6454421bc909344bc9b4f2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07b223f6_7cb28c7c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
         "patchSetId": 2
@@ -121,6 +235,24 @@
       "writtenOn": "2016-09-20T15:46:12Z",
       "side": 1,
       "message": "maybe we need a special case here. Imagine somebody with native git experience configures autopacklimit\u003d\u003d1 do have always one single pack. But JGit behaves differently when doing GC by producing more than one packfile by default. One for the objects reachable from branches and the other for the rest. Maybe for JGit it doesn\u0027t make sense to configure autopacklimit\u003d\u003d1.",
+      "revId": "34c92bedb9e927b5ba6454421bc909344bc9b4f2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_923ca9f0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1150,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-21T08:33:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07b223f6_7cb28c7c",
       "revId": "34c92bedb9e927b5ba6454421bc909344bc9b4f2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -150,6 +282,30 @@
     },
     {
       "key": {
+        "uuid": "07b223f6_d236210c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1162,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-21T08:33:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07b223f6_9c9e80ea",
+      "range": {
+        "startLine": 1162,
+        "startChar": 37,
+        "endLine": 1162,
+        "endChar": 41
+      },
+      "revId": "34c92bedb9e927b5ba6454421bc909344bc9b4f2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07b223f6_5cd9489b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
         "patchSetId": 2
@@ -161,6 +317,24 @@
       "writtenOn": "2016-09-20T15:46:12Z",
       "side": 1,
       "message": "should we really start import org.eclipse.jgit.api.* and wrapping repositories just to call gc? The api command will additionally deal with returning statistics which is unneeded here. The only thing where we benefit is that the api GarbageCollectCommand does the instanceof magic to instantiate the right gc class. We should have a single factory method producing the right GC class for a repository and then we can skip the need to wrap repository classes",
+      "revId": "34c92bedb9e927b5ba6454421bc909344bc9b4f2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_321afdfa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-21T08:33:40Z",
+      "side": 1,
+      "message": "currently GC and DfsGarbageCollector don\u0027t have a common abstraction and method names aren\u0027t compatible so this factory method could only return Object and the caller would still need to cast to the implementation class in order to call gc :-(\n\nLooks like something we should cleanup in 5.0 ?",
+      "parentUuid": "07b223f6_5cd9489b",
       "revId": "34c92bedb9e927b5ba6454421bc909344bc9b4f2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
