@@ -313,6 +313,7 @@ public class UploadPack {
 
 	private PackStatistics statistics;
 
+	@SuppressWarnings("deprecation")
 	private UploadPackLogger logger = UploadPackLogger.NULL;
 
 	/**
@@ -1428,6 +1429,7 @@ public class UploadPack {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	private void sendPack(final boolean sideband) throws IOException {
 		ProgressMonitor pm = NullProgressMonitor.INSTANCE;
 		OutputStream packOut = rawOut;
