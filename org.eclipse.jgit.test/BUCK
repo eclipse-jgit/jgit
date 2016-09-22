@@ -60,6 +60,7 @@ for src in TESTS:
       ':tst_rsrc',
       '//org.eclipse.jgit:jgit',
       '//org.eclipse.jgit.junit:junit',
+      '//org.eclipse.jgit.lfs:jgit-lfs',
       '//lib:hamcrest-core',
       '//lib:hamcrest-library',
       '//lib:javaewah',
