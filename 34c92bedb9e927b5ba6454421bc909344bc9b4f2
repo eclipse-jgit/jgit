@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "07b223f6_41987d81",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1104,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-22T07:54:39Z",
+      "side": 1,
+      "message": "I only see explanations what happens if auto\u003d\u003dtrue. I was expecting something like \"if auto\u003d\u003dfalse gc() will always do a full garbage collection ...\"",
+      "parentUuid": "07b223f6_92558928",
+      "revId": "34c92bedb9e927b5ba6454421bc909344bc9b4f2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07b223f6_1c2ef045",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
         "patchSetId": 2
@@ -136,6 +154,24 @@
       "side": 1,
       "message": "this implementation of setAuto(true) doesn\u0027t consider number of loose refs, do you think we should add this ?",
       "parentUuid": "07b223f6_1c2ef045",
+      "revId": "34c92bedb9e927b5ba6454421bc909344bc9b4f2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_219b8980",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1107,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-22T07:54:39Z",
+      "side": 1,
+      "message": "right, we don\u0027t have to mention that here",
+      "parentUuid": "07b223f6_b25a8d54",
       "revId": "34c92bedb9e927b5ba6454421bc909344bc9b4f2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -335,6 +371,24 @@
       "side": 1,
       "message": "currently GC and DfsGarbageCollector don\u0027t have a common abstraction and method names aren\u0027t compatible so this factory method could only return Object and the caller would still need to cast to the implementation class in order to call gc :-(\n\nLooks like something we should cleanup in 5.0 ?",
       "parentUuid": "07b223f6_5cd9489b",
+      "revId": "34c92bedb9e927b5ba6454421bc909344bc9b4f2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_21bf09a9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-22T07:54:39Z",
+      "side": 1,
+      "message": "Thought again about that. If we would have \"void Repository#autoGC()\" then the different implementations of Repository could do what they need to do for autogc, right?",
+      "parentUuid": "07b223f6_321afdfa",
       "revId": "34c92bedb9e927b5ba6454421bc909344bc9b4f2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
