@@ -21,7 +21,6 @@ for t in TESTS:
       '//lib:commons-compress',
       '//lib:tukaani-xz',
     ],
-    source_under_test = ['//org.eclipse.jgit.pgm:pgm'],
     vm_args = ['-Xmx256m', '-Dfile.encoding=UTF-8'],
   )
 
