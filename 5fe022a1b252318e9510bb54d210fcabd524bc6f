@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07b223f6_414ddd92",
+        "filename": "org.eclipse.jgit.http.apache/META-INF/MANIFEST.MF",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-22T07:34:41Z",
+      "side": 1,
+      "message": "we use range up to next major version [4.3.0,5.0.0)",
+      "revId": "5fe022a1b252318e9510bb54d210fcabd524bc6f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_e1b191fc",
+        "filename": "org.eclipse.jgit.http.apache/META-INF/MANIFEST.MF",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-22T07:34:41Z",
+      "side": 1,
+      "message": "uses clause needs to be recomputed",
+      "revId": "5fe022a1b252318e9510bb54d210fcabd524bc6f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
