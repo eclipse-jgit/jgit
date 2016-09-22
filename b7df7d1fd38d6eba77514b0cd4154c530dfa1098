@@ -22,6 +22,30 @@
       "revId": "b7df7d1fd38d6eba77514b0cd4154c530dfa1098",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_a895b912",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-09-22T15:00:43Z",
+      "side": 1,
+      "message": "Removed in https://git.eclipse.org/r/#/c/81707/",
+      "parentUuid": "07b223f6_8882b50a",
+      "range": {
+        "startLine": 306,
+        "startChar": 3,
+        "endLine": 306,
+        "endChar": 16
+      },
+      "revId": "b7df7d1fd38d6eba77514b0cd4154c530dfa1098",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
