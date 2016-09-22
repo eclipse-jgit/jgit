@@ -25,7 +25,6 @@ for t in TESTS:
       '//lib/jetty:util',
       '//lib:commons-logging',
     ],
-    source_under_test = ['//org.eclipse.jgit.http.server:jgit-servlet'],
   )
 
 java_library(
