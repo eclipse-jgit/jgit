@@ -25,7 +25,7 @@ for t in TESTS:
       '//lib/jetty:util',
       '//lib:commons-logging',
     ],
-    source_under_test = ['//org.eclipse.jgit.http.server:jgit-servlet'],
+    vm_args = ['-Djava.io.tmpdir=buck-out'],
   )
 
 java_library(
