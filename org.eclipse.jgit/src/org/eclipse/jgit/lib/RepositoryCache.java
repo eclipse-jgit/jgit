@@ -150,7 +150,7 @@ public class RepositoryCache {
 	public static void close(@NonNull final Repository db) {
 		if (db.getDirectory() != null) {
 			FileKey key = FileKey.exact(db.getDirectory(), db.getFS());
-			cache.unregisterAndCloseRepository(key, db);
+			cache.unregisterAndCloseRepository(key);
 		}
 	}
 
@@ -302,8 +302,7 @@ public class RepositoryCache {
 			&& (System.currentTimeMillis() - db.closedAt.get() > expireAfter);
 	}
 
-	private void unregisterAndCloseRepository(final Key location,
-			Repository db) {
+	private void unregisterAndCloseRepository(final Key location) {
 		synchronized (lockFor(location)) {
 			Repository oldDb = unregisterRepository(location);
 			if (oldDb != null) {
