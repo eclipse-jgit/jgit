@@ -395,6 +395,24 @@
     },
     {
       "key": {
+        "uuid": "07b223f6_a184f9ec",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-22T08:14:56Z",
+      "side": 1,
+      "message": "yes, but then we have autoGC() on Repository but not gc(), and what about all the other commands ?",
+      "parentUuid": "07b223f6_21bf09a9",
+      "revId": "34c92bedb9e927b5ba6454421bc909344bc9b4f2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07b223f6_dcb7183f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
         "patchSetId": 2
