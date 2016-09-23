@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "07b223f6_39049921",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-23T09:16:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07b223f6_8e447dd1",
+      "range": {
+        "startLine": 20,
+        "startChar": 14,
+        "endLine": 20,
+        "endChar": 59
+      },
+      "revId": "ef4e908431a00cfd0a0670a65ed9f92c4bf69695",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07b223f6_ce3e7541",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitsSameDateTest.java",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2016-09-23T07:41:47Z",
       "side": 1,
       "message": "Maybe add another test case for a custom flag in addition to UNINTERESTING? I would not be surprised if there are separate codepaths that get exercised there. (Although this probably just shows that I am not really all that familiar with this code :)",
+      "revId": "ef4e908431a00cfd0a0670a65ed9f92c4bf69695",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_990a052b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitsSameDateTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-09-23T09:16:04Z",
+      "side": 1,
+      "message": "I can also imagine that different code paths are executed. But I added a test for a custom flag and that shows the same bug.",
+      "parentUuid": "07b223f6_ce3e7541",
       "revId": "ef4e908431a00cfd0a0670a65ed9f92c4bf69695",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
