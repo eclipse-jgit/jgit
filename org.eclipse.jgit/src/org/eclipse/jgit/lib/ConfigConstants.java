@@ -374,4 +374,10 @@ public class ConfigConstants {
 	 * @since 4.6
 	 */
 	public static final String CONFIG_KEY_USEJGITBUILTIN = "useJGitBuiltin";
+	
+	/**
+	 * The "fetchRecurseSubmodules" key
+	 * @since 4.7
+	 */
+	public static final String CONFIG_KEY_FETCH_RECURSE_SUBMODULES = "fetchRecurseSubmodules";
 }

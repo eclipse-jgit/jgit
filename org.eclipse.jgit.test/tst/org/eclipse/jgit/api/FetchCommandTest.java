@@ -66,8 +66,8 @@ import org.junit.Test;
 
 public class FetchCommandTest extends RepositoryTestCase {
 
-	private Git git;
-	private Git remoteGit;
+	protected Git git;
+	protected Git remoteGit;
 
 	@Before
 	public void setupRemoteRepository() throws Exception {
