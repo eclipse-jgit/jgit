@@ -330,4 +330,10 @@ public class ConfigConstants {
 	 * @since 4.0
 	 */
 	public static final String CONFIG_KEY_STREAM_RATIO = "streamRatio";
+
+	/**
+	 * The "fetchRecurseSubmodules" key
+	 * @since 4.6
+	 */
+	public static final String CONFIG_KEY_RECURSE_SUBMODULES = "fetchRecurseSubmodules";
 }
