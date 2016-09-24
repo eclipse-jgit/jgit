@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07b223f6_ae6dbca8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/SubmoduleConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-24T22:43:51Z",
+      "side": 1,
+      "message": "move the since tag to the class, then we don\u0027t need more of these tags if you add more public methods in 4.6 to the same class",
+      "revId": "164df7c13a77d427a95966aef8be67b3eb282523",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
