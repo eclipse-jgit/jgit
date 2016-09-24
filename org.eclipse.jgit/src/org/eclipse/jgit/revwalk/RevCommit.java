@@ -244,7 +244,7 @@ public class RevCommit extends RevObject {
 					if ((p.flags & carry) == carry)
 						continue;
 					p.flags |= carry;
-					FIFORevQueue q = carryFlags1(c, carry, depth + 1);
+					FIFORevQueue q = carryFlags1(p, carry, depth + 1);
 					if (q != null)
 						return defer(q, carry, pList, i + 1);
 				}
