@@ -16,6 +16,24 @@
       "revId": "76352e30b669a872d872eceb1cbb7c772534d05f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_4e02607e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/SubmoduleConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-25T10:44:59Z",
+      "side": 1,
+      "message": "looks like\n\n Config.getEnum(final T[] all, final String section, final String subsection, final String name, final T defaultValue)\n\nwill handle this automatically if you use \"true\" and \"false\" instead of \"yes\" and \"no\"",
+      "parentUuid": "07b223f6_0e08689e",
+      "revId": "76352e30b669a872d872eceb1cbb7c772534d05f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
