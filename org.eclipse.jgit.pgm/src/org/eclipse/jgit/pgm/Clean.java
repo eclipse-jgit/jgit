@@ -50,7 +50,7 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.pgm.internal.CLIText;
 import org.kohsuke.args4j.Option;
 
-@Command(common = true, usage = "usage_clean")
+@Command(common = true, usage = "usage_Clean")
 class Clean extends TextBuiltin {
 	@Option(name = "-d", usage = "usage_removeUntrackedDirectories")
 	private boolean dirs = false;
