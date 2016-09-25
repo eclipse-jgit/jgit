@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07b223f6_0e08689e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/SubmoduleConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-09-25T10:34:54Z",
+      "side": 1,
+      "message": "* in cgit boolean config values are case insensitive\n* in cgit \"yes\" is equivalent to \"1\",\"true\",\"on\" and \"no\" is equivalent to \"0\",\"false\",\"off\", StringUtils.toBoolean(String) implements this logic",
+      "revId": "76352e30b669a872d872eceb1cbb7c772534d05f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
