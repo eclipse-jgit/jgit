@@ -193,6 +193,8 @@ public class TreeFormatter {
 	 */
 	public void append(byte[] nameBuf, int namePos, int nameLen, FileMode mode,
 			AnyObjectId id) {
+		if (nameLen == 0)
+			throw new IllegalArgumentException("Can't append a tree entry with zero-length name");
 		if (fmtBuf(nameBuf, namePos, nameLen, mode)) {
 			id.copyRawTo(buf, ptr);
 			ptr += OBJECT_ID_LENGTH;
