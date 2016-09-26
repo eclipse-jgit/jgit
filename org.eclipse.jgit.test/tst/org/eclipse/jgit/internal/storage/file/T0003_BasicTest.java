@@ -82,7 +82,9 @@ import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
 import org.eclipse.jgit.util.FileUtils;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 
@@ -323,6 +325,20 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 				new File(db.getDirectory(), "objects"), "4b"),
 				"825dc642cb6eb9a060e54bf8d69288fbee4904");
 		assertFalse("Exists " + o, o.isFile());
+	}
+
+	@Rule
+	public ExpectedException expectedException = ExpectedException.none();
+
+	@Test()
+	public void test002_CreateBadTree() throws IOException {
+		// We won't create a tree entry with an empty filename
+		//
+		expectedException.expect(IllegalArgumentException.class);
+		expectedException.expectMessage("Can't append a tree entry with zero-length name");
+		final TreeFormatter formatter = new TreeFormatter();
+		formatter.append("", FileMode.TREE,
+				ObjectId.fromString("4b825dc642cb6eb9a060e54bf8d69288fbee4904"));
 	}
 
 	@Test
