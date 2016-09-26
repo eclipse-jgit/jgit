@@ -193,6 +193,32 @@ public class TreeFormatter {
 	 */
 	public void append(byte[] nameBuf, int namePos, int nameLen, FileMode mode,
 			AnyObjectId id) {
+		append(nameBuf, namePos, nameLen, mode, id, false);
+	}
+
+	/**
+	 * Append any entry to the tree.
+	 *
+	 * @param nameBuf
+	 *            buffer holding the name of the entry. The name should be UTF-8
+	 *            encoded, but file name encoding is not a well defined concept
+	 *            in Git.
+	 * @param namePos
+	 *            first position within {@code nameBuf} of the name data.
+	 * @param nameLen
+	 *            number of bytes from {@code nameBuf} to use as the name.
+	 * @param mode
+	 *            mode describing the treatment of {@code id}.
+	 * @param id
+	 *            the ObjectId to store in this entry.
+	 * @param allowEmptyName
+	 *            allow an empty filename (creating a corrupt tree)
+	 * @since 4.6
+	 */
+	public void append(byte[] nameBuf, int namePos, int nameLen, FileMode mode,
+			AnyObjectId id, boolean allowEmptyName) {
+		if (nameLen == 0 && !allowEmptyName)
+			throw new IllegalArgumentException("Can't append a tree entry with zero-length name");
 		if (fmtBuf(nameBuf, namePos, nameLen, mode)) {
 			id.copyRawTo(buf, ptr);
 			ptr += OBJECT_ID_LENGTH;
