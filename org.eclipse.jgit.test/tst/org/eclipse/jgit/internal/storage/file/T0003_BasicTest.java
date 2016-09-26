@@ -325,6 +325,15 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		assertFalse("Exists " + o, o.isFile());
 	}
 
+	@Test(expected=IllegalArgumentException.class)
+	public void test002_CreateBadTree() throws IOException {
+		// We won't create a tree entry with an empty filename
+		//
+		final TreeFormatter formatter = new TreeFormatter();
+		formatter.append("", FileMode.TREE,
+				ObjectId.fromString("4b825dc642cb6eb9a060e54bf8d69288fbee4904"));
+	}
+
 	@Test
 	public void test006_ReadUglyConfig() throws IOException,
 			ConfigInvalidException {
