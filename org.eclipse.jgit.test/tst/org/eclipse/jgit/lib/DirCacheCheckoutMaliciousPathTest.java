@@ -366,7 +366,9 @@ public class DirCacheCheckoutMaliciousPathTest extends RepositoryTestCase {
 			insertId = blobId;
 			for (int i = path.length - 1; i >= 0; --i) {
 				TreeFormatter treeFormatter = new TreeFormatter();
-				treeFormatter.append(path[i], mode, insertId);
+				treeFormatter.append(path[i].getBytes(), 0,
+							path[i].getBytes().length,
+							mode, insertId, true);
 				insertId = newObjectInserter.insert(treeFormatter);
 				mode = FileMode.TREE;
 			}
