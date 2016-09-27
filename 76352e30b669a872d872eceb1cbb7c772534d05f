@@ -52,6 +52,24 @@
       "revId": "76352e30b669a872d872eceb1cbb7c772534d05f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_fd5a0455",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/SubmoduleConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-09-27T02:57:59Z",
+      "side": 1,
+      "message": "Hmm.  Looking at the documentation in the git source repository (rather than the online documentation) it seems that\n\n- The setting can be boolean *or* a text value (on-demand, check)\n\n- It\u0027s configurable globally for fetch, pull and push, but on on a submodule level only for fetch and pull.",
+      "parentUuid": "07b223f6_5df770c6",
+      "revId": "76352e30b669a872d872eceb1cbb7c772534d05f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
