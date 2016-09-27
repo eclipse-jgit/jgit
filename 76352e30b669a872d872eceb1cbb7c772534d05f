@@ -34,6 +34,24 @@
       "revId": "76352e30b669a872d872eceb1cbb7c772534d05f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_5df770c6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/SubmoduleConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-09-27T01:03:06Z",
+      "side": 1,
+      "message": "As far as I understand from the documentation for example in git-fetch [1] this isn\u0027t a boolean on/off setting, but has specific values \"yes\", \"no\" and \"on-demand\" (and \"check\" for git-push per the comment from Stefan).\n\nThe implementation here is based on BranchConfig.BranchRebaseMode.\n\nIf case specific handing is needed, then I guess it also needs to be done in BranchRebaseMode.\n\n[1] https://git-scm.com/docs/git-fetch",
+      "parentUuid": "07b223f6_4e02607e",
+      "revId": "76352e30b669a872d872eceb1cbb7c772534d05f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
