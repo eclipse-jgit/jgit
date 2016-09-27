@@ -89,6 +89,7 @@ import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.util.FileUtils;
+import org.eclipse.jgit.util.SystemReader;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -788,6 +789,38 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 					"[.gitattributes, mode:100644, content:filterTest.txt filter=lfs][Test.txt, mode:100644, content:Some change][filterTest.txt, mode:100644, content:version https://git-lfs.github.com/spec/v1\noid sha256:087148cccf53b0049c56475c1595113c9da4b638997c3489af8ac7108d51ef13\nsize 21\n]",
 					indexState(CONTENT));
 			assertEquals("bon giorno world, V1\n", read("filterTest.txt"));
+		}
+	}
+
+	@Test
+	public void testNonDeletableFilesOnWindows()
+			throws GitAPIException, IOException {
+		// Only on windows a FileInputStream blocks us from deleting a file
+		org.junit.Assume.assumeTrue(SystemReader.getInstance().isWindows());
+		writeTrashFile("toBeModified.txt", "a");
+		writeTrashFile("toBeDeleted.txt", "a");
+		git.add().addFilepattern(".").call();
+		RevCommit addFiles = git.commit().setMessage("add more files").call();
+
+		git.rm().setCached(false).addFilepattern("Test.txt")
+				.addFilepattern("toBeDeleted.txt").call();
+		writeTrashFile("toBeModified.txt", "b");
+		writeTrashFile("toBeCreated.txt", "a");
+		git.add().addFilepattern(".").call();
+		RevCommit crudCommit = git.commit().setMessage("delete, modify, add")
+				.call();
+		git.checkout().setName(addFiles.getName()).call();
+		try ( FileInputStream fis=new FileInputStream(new File(db.getWorkTree(), "Test.txt")) ) {
+			CheckoutCommand coCommand = git.checkout();
+			coCommand.setName(crudCommit.getName()).call();
+			CheckoutResult result = coCommand.getResult();
+			assertEquals(Status.NONDELETED, result.getStatus());
+			assertEquals("[Test.txt, toBeDeleted.txt]",
+					result.getRemovedList().toString());
+			assertEquals("[toBeCreated.txt, toBeModified.txt]",
+					result.getModifiedList().toString());
+			assertEquals("[Test.txt]", result.getUndeletedList().toString());
+			assertTrue(result.getConflictList().isEmpty());
 		}
 	}
 
