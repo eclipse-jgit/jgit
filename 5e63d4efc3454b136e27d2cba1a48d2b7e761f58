@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07b223f6_68b1ca75",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutMaliciousPathTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-09-29T22:22:43Z",
+      "side": 1,
+      "message": "I think you\u0027d want to split the line here.",
+      "range": {
+        "startLine": 369,
+        "startChar": 67,
+        "endLine": 369,
+        "endChar": 78
+      },
+      "revId": "5e63d4efc3454b136e27d2cba1a48d2b7e761f58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_889ffee6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/TreeFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-09-29T22:22:43Z",
+      "side": 1,
+      "message": "please add an \"@since 4.6\" here (that is done for newer stuff, there might be old stuff around that doesn\u0027t follow this convention)",
+      "range": {
+        "startLine": 216,
+        "startChar": 1,
+        "endLine": 216,
+        "endChar": 4
+      },
+      "revId": "5e63d4efc3454b136e27d2cba1a48d2b7e761f58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
