@@ -45,6 +45,29 @@
       "revId": "5e63d4efc3454b136e27d2cba1a48d2b7e761f58",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_0893eede",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/TreeFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-09-29T22:31:03Z",
+      "side": 1,
+      "message": "whitespace nit: there shouldn\u0027t be a space here",
+      "range": {
+        "startLine": 217,
+        "startChar": 1,
+        "endLine": 217,
+        "endChar": 2
+      },
+      "revId": "5e63d4efc3454b136e27d2cba1a48d2b7e761f58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
