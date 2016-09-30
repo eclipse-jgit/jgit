@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07b223f6_28cb52c9",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/T0003_BasicTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-09-30T00:39:09Z",
+      "side": 1,
+      "message": "Is it possible to also specify the expected message?",
+      "revId": "965733c9fcfaaea20492ef561be2ae75c3879d43",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_88dc5e94",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutMaliciousPathTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-09-30T00:39:09Z",
+      "side": 1,
+      "message": "nit: use tabs instead of spaces.  same on the next line",
+      "range": {
+        "startLine": 370,
+        "startChar": 6,
+        "endLine": 370,
+        "endChar": 11
+      },
+      "revId": "965733c9fcfaaea20492ef561be2ae75c3879d43",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_08d04e70",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/TreeFormatter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-09-30T00:39:09Z",
+      "side": 1,
+      "message": "Why would we want to allow it?",
+      "range": {
+        "startLine": 214,
+        "startChar": 4,
+        "endLine": 215,
+        "endChar": 64
+      },
+      "revId": "965733c9fcfaaea20492ef561be2ae75c3879d43",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_c8e6565e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/TreeFormatter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-09-30T00:39:09Z",
+      "side": 1,
+      "message": "nit: use tabs",
+      "range": {
+        "startLine": 219,
+        "startChar": 2,
+        "endLine": 219,
+        "endChar": 9
+      },
+      "revId": "965733c9fcfaaea20492ef561be2ae75c3879d43",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_48da4692",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/TreeFormatter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-09-30T00:39:09Z",
+      "side": 1,
+      "message": "What if the name is something like \"    \"?  Does it get trimmed somewhere or is it considered a non-empty name?",
+      "revId": "965733c9fcfaaea20492ef561be2ae75c3879d43",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
