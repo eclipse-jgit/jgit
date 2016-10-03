@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07b223f6_17a947dc",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/T0003_BasicTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-10-03T03:17:05Z",
+      "side": 1,
+      "message": "This should be moved to the top of the class.",
+      "range": {
+        "startLine": 330,
+        "startChar": 1,
+        "endLine": 331,
+        "endChar": 71
+      },
+      "revId": "a68adc531856de22871dbcd1af0e7356bcf33177",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_37a48b02",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/TreeFormatter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-10-03T03:17:05Z",
+      "side": 1,
+      "message": "nit: use tabs",
+      "range": {
+        "startLine": 219,
+        "startChar": 2,
+        "endLine": 219,
+        "endChar": 9
+      },
+      "revId": "a68adc531856de22871dbcd1af0e7356bcf33177",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
