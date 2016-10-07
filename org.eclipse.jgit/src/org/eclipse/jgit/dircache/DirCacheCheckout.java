@@ -88,6 +88,7 @@ import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FS.ExecutionResult;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IntList;
+import org.eclipse.jgit.util.QuotedString;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.SystemReader;
 import org.eclipse.jgit.util.io.EolStreamTypeUtil;
@@ -112,20 +113,36 @@ public class DirCacheCheckout {
 		public final EolStreamType eolStreamType;
 
 		/** filter command to apply */
-		public final String smudgeFilterCommand;
+		public final String rawSmudgeFilterCommand;
+
+		/** the path being checked out. used to construct filter command */
+		private final String path;
 
 		/**
 		 * @param eolStreamType
 		 * @param smudgeFilterCommand
+		 * @param path
 		 */
 		public CheckoutMetadata(EolStreamType eolStreamType,
-				String smudgeFilterCommand) {
+				String smudgeFilterCommand, String path) {
 			this.eolStreamType = eolStreamType;
-			this.smudgeFilterCommand = smudgeFilterCommand;
+			this.rawSmudgeFilterCommand = smudgeFilterCommand;
+			this.path = path;
+		}
+
+		/**
+		 * @return the filter command with expanded %f occurences.
+		 */
+		public String getSmudgeFilterCommand() {
+			if (rawSmudgeFilterCommand == null) {
+				return null;
+			}
+			return rawSmudgeFilterCommand.replaceAll("%f", //$NON-NLS-1$
+					QuotedString.BOURNE.quote(path));
 		}
 
 		static CheckoutMetadata EMPTY = new CheckoutMetadata(
-				EolStreamType.DIRECT, null);
+				EolStreamType.DIRECT, null, null);
 	}
 
 	private Repository repo;
@@ -1149,7 +1166,8 @@ public class DirCacheCheckout {
 			throws IOException {
 		if (!FileMode.TREE.equals(mode)) {
 			updated.put(path, new CheckoutMetadata(walk.getEolStreamType(),
-					walk.getFilterCommand(Constants.ATTR_FILTER_TYPE_SMUDGE)));
+					walk.getFilterCommand(Constants.ATTR_FILTER_TYPE_SMUDGE),
+					path));
 
 			DirCacheEntry entry = new DirCacheEntry(path, DirCacheEntry.STAGE_0);
 			entry.setObjectId(mId);
@@ -1386,9 +1404,10 @@ public class DirCacheCheckout {
 		}
 		try (OutputStream channel = EolStreamTypeUtil.wrapOutputStream(
 				new FileOutputStream(tmpFile), nonNullEolStreamType)) {
-			if (checkoutMetadata.smudgeFilterCommand != null) {
+			if (checkoutMetadata.rawSmudgeFilterCommand != null) {
 				if (FilterCommandRegistry
-						.isRegistered(checkoutMetadata.smudgeFilterCommand)) {
+						.isRegistered(
+								checkoutMetadata.rawSmudgeFilterCommand)) {
 					runBuiltinFilterCommand(repo, checkoutMetadata, ol,
 							channel);
 				} else {
@@ -1404,7 +1423,7 @@ public class DirCacheCheckout {
 		// filesystem again for the length. Otherwise the objectloader knows the
 		// size
 		if (checkoutMetadata.eolStreamType == EolStreamType.DIRECT
-				&& checkoutMetadata.smudgeFilterCommand == null) {
+				&& checkoutMetadata.rawSmudgeFilterCommand == null) {
 			entry.setLength(ol.getSize());
 		} else {
 			entry.setLength(tmpFile.length());
@@ -1443,7 +1462,7 @@ public class DirCacheCheckout {
 			CheckoutMetadata checkoutMetadata, ObjectLoader ol, FS fs,
 			OutputStream channel) throws IOException {
 		ProcessBuilder filterProcessBuilder = fs.runInShell(
-				checkoutMetadata.smudgeFilterCommand, new String[0]);
+				checkoutMetadata.getSmudgeFilterCommand(), new String[0]);
 		filterProcessBuilder.directory(repo.getWorkTree());
 		filterProcessBuilder.environment().put(Constants.GIT_DIR_KEY,
 				repo.getDirectory().getAbsolutePath());
@@ -1459,12 +1478,12 @@ public class DirCacheCheckout {
 			}
 		} catch (IOException | InterruptedException e) {
 			throw new IOException(new FilterFailedException(e,
-					checkoutMetadata.smudgeFilterCommand,
+					checkoutMetadata.getSmudgeFilterCommand(),
 					entry.getPathString()));
 		}
 		if (rc != 0) {
 			throw new IOException(new FilterFailedException(rc,
-					checkoutMetadata.smudgeFilterCommand,
+					checkoutMetadata.getSmudgeFilterCommand(),
 					entry.getPathString(),
 					result.getStdout().toByteArray(MAX_EXCEPTION_TEXT_SIZE),
 					RawParseUtils.decode(result.getStderr()
@@ -1479,7 +1498,8 @@ public class DirCacheCheckout {
 		FilterCommand command = null;
 		try {
 			command = FilterCommandRegistry.createFilterCommand(
-					checkoutMetadata.smudgeFilterCommand, repo, ol.openStream(),
+					checkoutMetadata.rawSmudgeFilterCommand, repo,
+					ol.openStream(),
 					channel);
 		} catch (IOException e) {
 			LOG.error(JGitText.get().failedToDetermineFilterDefinition, e);
