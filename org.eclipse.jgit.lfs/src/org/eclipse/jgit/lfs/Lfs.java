@@ -47,6 +47,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import org.eclipse.jgit.lfs.lib.AnyLongObjectId;
+import org.eclipse.jgit.lfs.lib.Constants;
+import org.eclipse.jgit.lib.Repository;
 
 /**
  * Class which represents the lfs folder hierarchy inside a {@code .git} folder
@@ -66,9 +68,23 @@ public class Lfs {
 	 * @param root
 	 *            the path to the LFS media directory. Will be
 	 *            {@code "<repo>/.git/lfs"}
+	 * @deprecated use {@link #Lfs(Repository)} instead.
 	 */
+	@Deprecated
 	public Lfs(Path root) {
 		this.root = root;
+	}
+
+	/**
+	 * Constructor for Lfs.
+	 *
+	 * @param db
+	 *            the associated repo
+	 *
+	 * @since 4.11
+	 */
+	public Lfs(Repository db) {
+		this.root = db.getDirectory().toPath().resolve(Constants.LFS);
 	}
 
 	/**
@@ -118,7 +134,7 @@ public class Lfs {
 	public Path getMediaFile(AnyLongObjectId id) {
 		String idStr = id.name();
 		return getLfsObjDir().resolve(idStr.substring(0, 2))
-				.resolve(idStr.substring(2));
+				.resolve(idStr.substring(2, 4)).resolve(idStr);
 	}
 
 	/**

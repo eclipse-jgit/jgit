@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Matthias Sohn <matthias.sohn@sap.com>
+ * Copyright (C) 2016, Christian Halstrick <christian.halstrick@sap.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -40,40 +40,27 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.eclipse.jgit.lfs.internal;
+package org.eclipse.jgit.lfs.errors;
 
-import org.eclipse.jgit.nls.NLS;
-import org.eclipse.jgit.nls.TranslationBundle;
+import java.io.IOException;
 
 /**
- * Translation bundle for JGit LFS server
+ * Thrown when a LFS configuration problem has been detected (i.e. unable to
+ * find the remote LFS repository URL).
+ *
+ * @since 4.11
  */
-public class LfsText extends TranslationBundle {
+public class LfsConfigInvalidException extends IOException {
+	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Get an instance of this translation bundle.
+	 * Constructor for LfsConfigInvalidException.
 	 *
-	 * @return an instance of this translation bundle
+	 * @param msg
+	 *            the error description
 	 */
-	public static LfsText get() {
-		return NLS.getBundleFor(LfsText.class);
+	public LfsConfigInvalidException(String msg) {
+		super(msg);
 	}
 
-	// @formatter:off
-	/***/ public String corruptLongObject;
-	/***/ public String inconsistentMediafileLength;
-	/***/ public String inconsistentContentLength;
-	/***/ public String incorrectLONG_OBJECT_ID_LENGTH;
-	/***/ public String invalidLongId;
-	/***/ public String invalidLongIdLength;
-	/***/ public String lfsUnavailable;
-	/***/ public String requiredHashFunctionNotAvailable;
-	/***/ public String repositoryNotFound;
-	/***/ public String repositoryReadOnly;
-	/***/ public String lfsUnathorized;
-	/***/ public String lfsFailedToGetRepository;
-	/***/ public String lfsNoDownloadUrl;
-	/***/ public String serverFailure;
-	/***/ public String wrongAmoutOfDataReceived;
-	/***/ public String userConfigInvalid;
 }

@@ -67,7 +67,7 @@ import org.eclipse.jgit.lfs.server.Response.Action;
  */
 public class FileLfsRepository implements LargeFileRepository {
 
-	private final String url;
+	private String url;
 	private final Path dir;
 
 	/**
@@ -178,5 +178,22 @@ public class FileLfsRepository implements LargeFileRepository {
 		}
 		while (o >= p)
 			dst[o--] = '0';
+	}
+
+	/**
+	 * @return the url of the content server
+	 * @since 4.11
+	 */
+	public String getUrl() {
+		return url;
+	}
+
+	/**
+	 * @param url
+	 *            the url of the content server
+	 * @since 4.11
+	 */
+	public void setUrl(String url) {
+		this.url = url;
 	}
 }
