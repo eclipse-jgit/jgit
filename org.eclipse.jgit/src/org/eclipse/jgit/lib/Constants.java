@@ -378,6 +378,13 @@ public final class Constants {
 	public static final String ATTR_FILTER = "filter";
 
 	/**
+	 * Prefix for all LFS related filters.
+	 *
+	 * @since 4.2
+	 */
+	public static final String ATTR_FILTER_DRIVER_PREFIX = "lfs/";
+
+	/**
 	 * clean command name, used to call filter driver
 	 *
 	 * @since 4.2
