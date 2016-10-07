@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2016, Christian Halstrick <christian.halstrick@sap.com>
+ * Copyright (C) 2015, Sasa Zivkov <sasa.zivkov@sap.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -42,85 +43,89 @@
  */
 package org.eclipse.jgit.lfs;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-
-import org.eclipse.jgit.lfs.lib.AnyLongObjectId;
-import org.eclipse.jgit.lfs.lib.Constants;
-import org.eclipse.jgit.lib.Repository;
+import java.util.List;
+import java.util.Map;
 
 /**
- * Class which represents the lfs folder hierarchy inside a .git folder
+ * This interface describes the network protocol used between lfs client and lfs
+ * server
  *
  * @since 4.6
  */
-public class Lfs {
-	private Path root;
+public interface Protocol {
+	/** A request sent to an LFS server */
+	class Request {
+		/** The operation of this request */
+		public String operation;
 
-	private Path objDir;
+		/** The objects of this request */
+		public List<ObjectSpec> objects;
+	}
 
-	private Path tmpDir;
-
-	/**
-	 * @param db
-	 *            the associated repo
-	 */
-	public Lfs(Repository db) {
-		this.root = db.getDirectory().toPath().resolve(Constants.LFS);
+	/** A response received from an LFS server */
+	class Response {
+		public List<ObjectInfo> objects;
 	}
 
 	/**
-	 * @return the path to the LFS directory
+	 * MetaData of an LFS object. Needs to be specified when requesting objects
+	 * from the LFS server and is also returned in the response
 	 */
-	public Path getLfsRoot() {
-		return root;
+	class ObjectSpec {
+		public String oid; // the objectid
+
+		public long size; // the size of the object
 	}
 
 	/**
-	 * @return the path to the temp directory used by LFS. Will be
-	 *         "<repo>/.git/lfs/tmp"
+	 * Describes in a response all actions the LFS server offers for a single
+	 * object
 	 */
-	public Path getLfsTmpDir() {
-		if (tmpDir == null) {
-			tmpDir = root.resolve("tmp"); //$NON-NLS-1$
-		}
-		return tmpDir;
+	class ObjectInfo extends ObjectSpec {
+		public Map<String, Action> actions; // Maps operation to action
+
+		public Error error;
 	}
 
 	/**
-	 * @return the path to the object directory used by LFS. Will be
-	 *         "<repo>/.git/lfs/objects"
+	 * Describes in a Response a single action the client can execute on a
+	 * single object
 	 */
-	public Path getLfsObjDir() {
-		if (objDir == null) {
-			objDir = root.resolve("objects"); //$NON-NLS-1$
-		}
-		return objDir;
+	class Action {
+		public String href;
+
+		public Map<String, String> header;
+	}
+
+	/** Describes an error to be returned by the LFS batch API */
+	class Error {
+		public int code;
+
+		public String message;
 	}
 
 	/**
-	 * @param id
-	 *            the id of the mediafile
-	 * @return the file which stores the original content. This will be files
-	 *         underneath
-	 *         "<repo>/.git/lfs/objects/<firstTwoLettersOfID>/<nextTwoLettersOfID>/<fullID>"
+	 * The "download" operation
 	 */
-	public Path getMediaFile(AnyLongObjectId id) {
-		String idStr = id.name();
-		return getLfsObjDir().resolve(idStr.substring(0, 2))
-				.resolve(idStr.substring(2, 4)).resolve(idStr);
-	}
+	String OPERATION_DOWNLOAD = "download"; //$NON-NLS-1$
 
 	/**
-	 * Create a new temp file in the LFS directory
-	 *
-	 * @return a new temporary file in the LFS directory
-	 * @throws IOException
-	 *             when the temp file could not be created
+	 * The "upload" operation
 	 */
-	public Path createTmpFile() throws IOException {
-		return Files.createTempFile(getLfsTmpDir(), null, null);
-	}
+	String OPERATION_UPLOAD = "upload"; //$NON-NLS-1$
 
+	/**
+	 * The contenttype used in LFS requests
+	 */
+	String CONTENTTYPE_VND_GIT_LFS_JSON = "application/vnd.git-lfs+json; charset=utf-8"; //$NON-NLS-1$
+
+	/**
+	 * Authorization header when auto-discovering via SSH.
+	 */
+	String HDR_AUTH = "Authorization"; //$NON-NLS-1$
+
+	/**
+	 * Prefix of authentication token obtained through SSH.
+	 */
+	String HDR_AUTH_SSH_PREFIX = "Ssh: "; //$NON-NLS-1$
 }
