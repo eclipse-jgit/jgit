@@ -11,6 +11,10 @@ Export-Package: org.eclipse.jgit.lfs;version="4.10.0",
  org.eclipse.jgit.lfs.lib;version="4.10.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: org.eclipse.jgit.annotations;version="[4.10.0,4.11.0)";resolution:=optional,
+ com.google.gson;version="[2.2.4,3.0.0)",
+ com.google.gson.stream;version="[2.2.4,3.0.0)",
+ org.apache.http.impl.client;version="[4.2.6,5.0.0)",
+ org.apache.http.impl.conn;version="[4.2.6,5.0.0)",
  org.eclipse.jgit.attributes;version="[4.10.0,4.11.0)",
  org.eclipse.jgit.errors;version="[4.10.0,4.11.0)",
  org.eclipse.jgit.internal.storage.file;version="[4.10.0,4.11.0)",
@@ -18,4 +22,6 @@ Import-Package: org.eclipse.jgit.annotations;version="[4.10.0,4.11.0)";resolutio
  org.eclipse.jgit.nls;version="[4.10.0,4.11.0)",
  org.eclipse.jgit.treewalk;version="[4.10.0,4.11.0)",
  org.eclipse.jgit.treewalk.filter;version="[4.10.0,4.11.0)",
+ org.eclipse.jgit.transport;version="[4.10.0,4.11.0)",
+ org.eclipse.jgit.transport.http;version="[4.10.0,4.11.0)",
  org.eclipse.jgit.util;version="[4.10.0,4.11.0)"
