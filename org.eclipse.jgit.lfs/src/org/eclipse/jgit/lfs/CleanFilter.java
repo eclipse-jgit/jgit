@@ -55,6 +55,7 @@ import org.eclipse.jgit.attributes.FilterCommandRegistry;
 import org.eclipse.jgit.lfs.errors.CorruptMediaFile;
 import org.eclipse.jgit.lfs.internal.AtomicObjectOutputStream;
 import org.eclipse.jgit.lfs.lib.AnyLongObjectId;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.FileUtils;
 
@@ -90,10 +91,10 @@ public class CleanFilter extends FilterCommand {
 	 * {@link FilterCommandRegistry#register(String, FilterCommandFactory)}
 	 */
 	public final static void register() {
-		FilterCommandRegistry.register(
-				org.eclipse.jgit.lib.Constants.BUILTIN_FILTER_PREFIX
-						+ "lfs/clean", //$NON-NLS-1$
-				FACTORY);
+		FilterCommandRegistry
+				.register(org.eclipse.jgit.lib.Constants.BUILTIN_FILTER_PREFIX
+						+ Constants.ATTR_FILTER_DRIVER_PREFIX
+						+ Constants.ATTR_FILTER_TYPE_CLEAN, FACTORY);
 	}
 
 	// Used to compute the hash for the original content
@@ -124,7 +125,7 @@ public class CleanFilter extends FilterCommand {
 	public CleanFilter(Repository db, InputStream in, OutputStream out)
 			throws IOException {
 		super(in, out);
-		lfsUtil = new Lfs(db.getDirectory().toPath().resolve("lfs")); //$NON-NLS-1$
+		lfsUtil = new Lfs(db);
 		Files.createDirectories(lfsUtil.getLfsTmpDir());
 		tmpFile = lfsUtil.createTmpFile();
 		this.aOut = new AtomicObjectOutputStream(tmpFile.toAbsolutePath());
