@@ -150,6 +150,8 @@ Import-Package: com.googlecode.javaewah;version="[1.1.6,2.0.0)",
  com.jcraft.jsch;version="[0.1.37,0.2.0)",
  javax.crypto,
  javax.net.ssl,
+ javax.servlet.http;version="[2.5.0,3.2.0)",
+ org.apache.commons.logging;version="[1.1.1,2.0.0)",
  org.slf4j;version="[1.7.0,2.0.0)",
  org.xml.sax,
  org.xml.sax.helpers
