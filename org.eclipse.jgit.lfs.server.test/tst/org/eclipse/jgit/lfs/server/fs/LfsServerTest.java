@@ -75,9 +75,12 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jgit.junit.http.AppServer;
+import org.eclipse.jgit.lfs.errors.LfsException;
 import org.eclipse.jgit.lfs.lib.AnyLongObjectId;
 import org.eclipse.jgit.lfs.lib.Constants;
 import org.eclipse.jgit.lfs.lib.LongObjectId;
+import org.eclipse.jgit.lfs.server.LargeFileRepository;
+import org.eclipse.jgit.lfs.server.LfsProtocolServlet;
 import org.eclipse.jgit.lfs.test.LongObjectIdTestUtils;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
@@ -122,7 +125,27 @@ public abstract class LfsServerTest {
 		this.repository = new FileLfsRepository(null, dir);
 		servlet = new FileLfsServlet(repository, timeout);
 		app.addServlet(new ServletHolder(servlet), "/objects/*");
+
+		LfsProtocolServlet protocol = new LfsProtocolServlet() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected LargeFileRepository getLargeFileRepository(
+					LfsRequest request, String path) {
+				return repository;
+			}
+
+			@Override
+			protected LargeFileRepository getLargeFileRepository(
+					LfsRequest request, String path, String auth)
+					throws LfsException {
+				return repository;
+			}
+		};
+		app.addServlet(new ServletHolder(protocol), "/objects/batch");
+
 		server.setUp();
+		this.repository.setUrl(server.getURI() + "/lfs/objects/");
 	}
 
 	@After
