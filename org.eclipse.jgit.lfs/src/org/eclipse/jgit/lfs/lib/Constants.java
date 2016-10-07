@@ -108,6 +108,13 @@ public final class Constants {
 	public static final String VERIFY = "verify";
 
 	/**
+	 * Prefix for all LFS related filters.
+	 *
+	 * @since 4.11
+	 */
+	public static final String ATTR_FILTER_DRIVER_PREFIX = "lfs/";
+
+	/**
 	 * Create a new digest function for objects.
 	 *
 	 * @return a new digest object.
