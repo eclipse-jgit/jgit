@@ -1424,7 +1424,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 
 	/**
 	 * Inspect config and attributes to return a filtercommand applicable for
-	 * the current path
+	 * the current path, but without expanding %f occurences
 	 *
 	 * @param filterCommandType
 	 *            which type of filterCommand should be executed. E.g. "clean",
