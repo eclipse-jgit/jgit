@@ -420,4 +420,10 @@ public class ConfigConstants {
 	 * @since 4.7
 	 */
 	public static final String CONFIG_KEY_RECURSE_SUBMODULES = "recurseSubmodules";
+
+	/**
+	 * The "required" key
+	 * @since 4.11
+	 */
+	public static final String CONFIG_KEY_REQUIRED = "required";
 }
