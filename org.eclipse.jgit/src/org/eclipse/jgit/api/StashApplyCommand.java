@@ -371,7 +371,8 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 				}
 
 				checkoutPath(entry, reader,
-						new CheckoutMetadata(eolStreamType, null));
+						new CheckoutMetadata(eolStreamType, null,
+								entry.getPathString()));
 				actuallyModifiedPaths.add(entry.getPathString());
 			}
 		} finally {
