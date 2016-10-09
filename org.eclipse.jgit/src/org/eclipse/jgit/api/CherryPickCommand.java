@@ -330,4 +330,15 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 		String headName = Repository.shortenRefName(targetRefName);
 		return headName;
 	}
+
+	@SuppressWarnings("nls")
+	@Override
+	public String toString() {
+		return "CherryPickCommand [repo=" + repo + ",\ncommits=" + commits
+				+ ",\nmainlineParentNumber=" + mainlineParentNumber
+				+ ", noCommit=" + noCommit + ", ourCommitName=" + ourCommitName
+				+ ", reflogPrefix=" + reflogPrefix + ", strategy=" + strategy
+				+ "]";
+	}
+
 }
