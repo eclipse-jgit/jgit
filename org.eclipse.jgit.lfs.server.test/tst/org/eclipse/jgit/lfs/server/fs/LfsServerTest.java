@@ -78,13 +78,13 @@ import org.eclipse.jgit.junit.http.AppServer;
 import org.eclipse.jgit.lfs.lib.AnyLongObjectId;
 import org.eclipse.jgit.lfs.lib.Constants;
 import org.eclipse.jgit.lfs.lib.LongObjectId;
+import org.eclipse.jgit.lfs.server.fs.FileLfsTransferDescriptor.DefaultFileLfsTransferDescriptor;
 import org.eclipse.jgit.lfs.test.LongObjectIdTestUtils;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
 import org.junit.After;
 import org.junit.Before;
 
-@SuppressWarnings("restriction")
 public abstract class LfsServerTest {
 
 	private static final long timeout = /* 10 sec */ 10 * 1000;
@@ -121,7 +121,8 @@ public abstract class LfsServerTest {
 		ServletContextHandler app = server.addContext("/lfs");
 		dir = Paths.get(tmp.toString(), "lfs");
 		this.repository = new FileLfsRepository(null, dir);
-		servlet = new FileLfsServlet(repository, timeout);
+		servlet = new FileLfsServlet(
+				new DefaultFileLfsTransferDescriptor(repository), timeout);
 		app.addServlet(new ServletHolder(servlet), "/objects/*");
 		server.setUp();
 	}
