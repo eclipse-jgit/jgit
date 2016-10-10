@@ -113,6 +113,28 @@ public class CheckoutResult {
 	 *            {@link Status#CONFLICTS} or {@link Status#NONDELETED}.
 	 */
 	CheckoutResult(Status status, List<String> fileList) {
+		this(status, fileList, null, null);
+	}
+
+	/**
+	 * Create a new fail result. If status is {@link Status#CONFLICTS},
+	 * <code>fileList</code> is a list of conflicting files, if status is
+	 * {@link Status#NONDELETED}, <code>fileList</code> is a list of not deleted
+	 * files. All other values ignore <code>fileList</code>. To create a result
+	 * for {@link Status#OK}, see {@link #CheckoutResult(List, List)}.
+	 *
+	 * @param status
+	 *            the failure status
+	 * @param fileList
+	 *            the list of files to store, status has to be either
+	 *            {@link Status#CONFLICTS} or {@link Status#NONDELETED}.
+	 * @param modified
+	 *            the modified files
+	 * @param removed
+	 *            the removed files.
+	 */
+	CheckoutResult(Status status, List<String> fileList, List<String> modified,
+			List<String> removed) {
 		myStatus = status;
 		if (status == Status.CONFLICTS)
 			this.conflictList = fileList;
@@ -123,8 +145,8 @@ public class CheckoutResult {
 		else
 			this.undeletedList = new ArrayList<String>(0);
 
-		this.modifiedList = new ArrayList<String>(0);
-		this.removedList = new ArrayList<String>(0);
+		this.modifiedList = modified;
+		this.removedList = removed;
 	}
 
 	/**
