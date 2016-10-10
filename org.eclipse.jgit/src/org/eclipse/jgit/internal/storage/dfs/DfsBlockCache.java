@@ -182,7 +182,7 @@ public final class DfsBlockCache {
 			throw new IllegalArgumentException(JGitText.get().tSizeMustBeGreaterOrEqual1);
 
 		table = new AtomicReferenceArray<HashEntry>(tableSize);
-		loadLocks = new ReentrantLock[32];
+		loadLocks = new ReentrantLock[cfg.getConcurrencyLevel()];
 		for (int i = 0; i < loadLocks.length; i++)
 			loadLocks[i] = new ReentrantLock(true /* fair */);
 
