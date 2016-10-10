@@ -145,6 +145,13 @@ public class ConfigConstants {
 	/** The "blockSize" key */
 	public static final String CONFIG_KEY_BLOCK_SIZE = "blockSize";
 
+	/**
+	 * The "concurrencyLevel" key
+	 *
+	 * @since 4.6
+	 */
+	public static final String CONFIG_KEY_CONCURRENCY_LEVEL = "concurrencyLevel";
+
 	/** The "deltaBaseCacheLimit" key */
 	public static final String CONFIG_KEY_DELTA_BASE_CACHE_LIMIT = "deltaBaseCacheLimit";
 
