@@ -64,8 +64,9 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lfs.server.LargeFileRepository;
 import org.eclipse.jgit.lfs.server.LfsProtocolServlet;
-import org.eclipse.jgit.lfs.server.fs.FileLfsServlet;
 import org.eclipse.jgit.lfs.server.fs.FileLfsRepository;
+import org.eclipse.jgit.lfs.server.fs.FileLfsServlet;
+import org.eclipse.jgit.lfs.server.fs.FileLfsTransferDescriptor.DefaultFileLfsTransferDescriptor;
 import org.eclipse.jgit.lfs.server.s3.S3Config;
 import org.eclipse.jgit.lfs.server.s3.S3Repository;
 import org.eclipse.jgit.pgm.Command;
@@ -230,7 +231,8 @@ class LfsStore extends TextBuiltin {
 			Path dir = Paths.get(directory);
 			FileLfsRepository fsRepo = new FileLfsRepository(
 					getStoreUrl(baseURI), dir);
-			FileLfsServlet content = new FileLfsServlet(fsRepo, 30000);
+			FileLfsServlet content = new FileLfsServlet(
+					new DefaultFileLfsTransferDescriptor(fsRepo), 30000);
 			app.addServlet(new ServletHolder(content), STORE_PATH);
 			repository = fsRepo;
 			break;

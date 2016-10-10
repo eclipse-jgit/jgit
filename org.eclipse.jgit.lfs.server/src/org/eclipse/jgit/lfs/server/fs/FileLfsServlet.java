@@ -54,10 +54,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpStatus;
-import org.eclipse.jgit.lfs.errors.InvalidLongObjectIdException;
-import org.eclipse.jgit.lfs.lib.AnyLongObjectId;
-import org.eclipse.jgit.lfs.lib.Constants;
-import org.eclipse.jgit.lfs.lib.LongObjectId;
+import org.eclipse.jgit.lfs.server.fs.FileLfsTransferDescriptor.TransferData;
 import org.eclipse.jgit.lfs.server.internal.LfsServerText;
 
 import com.google.gson.FieldNamingPolicy;
@@ -77,20 +74,20 @@ public class FileLfsServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	private final FileLfsRepository repository;
+	private final FileLfsTransferDescriptor descriptor;
 
 	private final long timeout;
 
 	private static Gson gson = createGson();
 
 	/**
-	 * @param repository
-	 *            the repository storing the large objects
+	 * @param descriptor
+	 *            to provide repository and object depending on request
 	 * @param timeout
 	 *            timeout for object upload / download in milliseconds
 	 */
-	public FileLfsServlet(FileLfsRepository repository, long timeout) {
-		this.repository = repository;
+	public FileLfsServlet(FileLfsTransferDescriptor descriptor, long timeout) {
+		this.descriptor = descriptor;
 		this.timeout = timeout;
 	}
 
@@ -109,33 +106,27 @@ public class FileLfsServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req,
 			HttpServletResponse rsp) throws ServletException, IOException {
-		AnyLongObjectId obj = getObjectToTransfer(req, rsp);
-		if (obj != null) {
-			if (repository.getSize(obj) == -1) {
+		TransferData data = getTransferData(req, rsp);
+		if (data != null) {
+			if (data.repository.getSize(data.obj) == -1) {
 				sendError(rsp, HttpStatus.SC_NOT_FOUND, MessageFormat
 						.format(LfsServerText.get().objectNotFound,
-								obj.getName()));
+								data.obj.getName()));
 				return;
 			}
 			AsyncContext context = req.startAsync();
 			context.setTimeout(timeout);
 			rsp.getOutputStream()
-					.setWriteListener(new ObjectDownloadListener(repository,
-							context, rsp, obj));
+					.setWriteListener(new ObjectDownloadListener(
+							data.repository, context, rsp, data.obj));
 		}
 	}
 
-	private AnyLongObjectId getObjectToTransfer(HttpServletRequest req,
+	private TransferData getTransferData(HttpServletRequest req,
 			HttpServletResponse rsp) throws IOException {
-		String info = req.getPathInfo();
-		if (info.length() != 1 + Constants.LONG_OBJECT_ID_STRING_LENGTH) {
-			sendError(rsp, HttpStatus.SC_UNPROCESSABLE_ENTITY, MessageFormat
-					.format(LfsServerText.get().invalidPathInfo, info));
-			return null;
-		}
 		try {
-			return LongObjectId.fromString(info.substring(1, 65));
-		} catch (InvalidLongObjectIdException e) {
+			return descriptor.getTransferData(req);
+		} catch (IllegalArgumentException e) {
 			sendError(rsp, HttpStatus.SC_UNPROCESSABLE_ENTITY, e.getMessage());
 			return null;
 		}
@@ -156,12 +147,12 @@ public class FileLfsServlet extends HttpServlet {
 	@Override
 	protected void doPut(HttpServletRequest req,
 			HttpServletResponse rsp) throws ServletException, IOException {
-		AnyLongObjectId id = getObjectToTransfer(req, rsp);
-		if (id != null) {
+		TransferData data = getTransferData(req, rsp);
+		if (data != null) {
 			AsyncContext context = req.startAsync();
 			context.setTimeout(timeout);
 			req.getInputStream().setReadListener(new ObjectUploadListener(
-					repository, context, req, rsp, id));
+					data.repository, context, req, rsp, data.obj));
 		}
 	}
 
