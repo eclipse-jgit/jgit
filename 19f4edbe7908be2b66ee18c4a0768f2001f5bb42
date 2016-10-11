@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07b223f6_6761d97a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-10-11T00:29:27Z",
+      "side": 1,
+      "message": "preserves",
+      "range": {
+        "startLine": 19,
+        "startChar": 58,
+        "endLine": 19,
+        "endChar": 66
+      },
+      "revId": "19f4edbe7908be2b66ee18c4a0768f2001f5bb42",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_875c2dc7",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/FileLfsTransferDescriptor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-10-11T00:29:27Z",
+      "side": 1,
+      "message": "This email address should probably match the one used to author the commit and sign off.",
+      "range": {
+        "startLine": 2,
+        "startChar": 41,
+        "endLine": 2,
+        "endChar": 63
+      },
+      "revId": "19f4edbe7908be2b66ee18c4a0768f2001f5bb42",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_2748c105",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/FileLfsTransferDescriptor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-10-11T00:29:27Z",
+      "side": 1,
+      "message": "couldn\u0027t be",
+      "range": {
+        "startLine": 63,
+        "startChar": 30,
+        "endLine": 63,
+        "endChar": 48
+      },
+      "revId": "19f4edbe7908be2b66ee18c4a0768f2001f5bb42",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_474bf501",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/FileLfsTransferDescriptor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-10-11T00:29:27Z",
+      "side": 1,
+      "message": "retrieved",
+      "range": {
+        "startLine": 78,
+        "startChar": 38,
+        "endLine": 78,
+        "endChar": 46
+      },
+      "revId": "19f4edbe7908be2b66ee18c4a0768f2001f5bb42",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}

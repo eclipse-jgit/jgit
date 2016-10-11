@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07b223f6_c77f051b",
+        "filename": "org.eclipse.jgit.lfs.server.test/tst/org/eclipse/jgit/lfs/server/fs/LfsServerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-10-11T00:29:27Z",
+      "side": 0,
+      "message": "Removal of this suppression is an unrelated change.  It was already done with [1] on master so if we want it on the stable branch let\u0027s cherry pick it.\n\n[1] https://git.eclipse.org/r/#/c/81542/",
+      "revId": "15341ce5777c25dd41a52cf4b633ba363e3bf7a2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
