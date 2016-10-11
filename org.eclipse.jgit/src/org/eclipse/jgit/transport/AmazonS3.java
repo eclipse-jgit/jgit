@@ -524,26 +524,34 @@ public class AmazonS3 {
 
 	IOException error(final String action, final String key,
 			final HttpURLConnection c) throws IOException {
-		final IOException err = new IOException(MessageFormat.format(
-				JGitText.get().amazonS3ActionFailed, action, key,
-				Integer.valueOf(HttpSupport.response(c)),
-				c.getResponseMessage()));
+		final IOException err = new IOException(
+				MessageFormat.format(JGitText.get().amazonS3ActionFailed,
+						action, key, Integer.valueOf(HttpSupport.response(c)),
+						c.getResponseMessage()));
 		final InputStream errorStream = c.getErrorStream();
-		if (errorStream == null)
+		if (errorStream == null) {
 			return err;
-
-		final ByteArrayOutputStream b = new ByteArrayOutputStream();
-		byte[] buf = new byte[2048];
-		for (;;) {
-			final int n = errorStream.read(buf);
-			if (n < 0)
-				break;
-			if (n > 0)
-				b.write(buf, 0, n);
 		}
-		buf = b.toByteArray();
-		if (buf.length > 0)
-			err.initCause(new IOException("\n" + new String(buf))); //$NON-NLS-1$
+
+		try {
+			final ByteArrayOutputStream b = new ByteArrayOutputStream();
+			byte[] buf = new byte[2048];
+			for (;;) {
+				final int n = errorStream.read(buf);
+				if (n < 0) {
+					break;
+				}
+				if (n > 0) {
+					b.write(buf, 0, n);
+				}
+			}
+			buf = b.toByteArray();
+			if (buf.length > 0) {
+				err.initCause(new IOException("\n" + new String(buf))); //$NON-NLS-1$
+			}
+		} finally {
+			errorStream.close();
+		}
 		return err;
 	}
 
