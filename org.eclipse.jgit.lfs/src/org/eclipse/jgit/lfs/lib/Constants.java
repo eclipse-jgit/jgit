@@ -115,11 +115,11 @@ public final class Constants {
 	 * Content type used by LFS REST API as defined in
 	 * {@link "https://github.com/github/git-lfs/blob/master/docs/api/v1/http-v1-batch.md"}
 	 */
-	public static String CONTENT_TYPE_GIT_LFS_JSON = "application/vnd.git-lfs+json";
+	public static final String CONTENT_TYPE_GIT_LFS_JSON = "application/vnd.git-lfs+json";
 
 	/**
 	 * "arbitrary binary data" as defined in RFC 2046
 	 * {@link "https://www.ietf.org/rfc/rfc2046.txt"}
 	 */
-	public static String HDR_APPLICATION_OCTET_STREAM = "application/octet-stream";
+	public static final String HDR_APPLICATION_OCTET_STREAM = "application/octet-stream";
 }
