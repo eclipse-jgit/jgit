@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "07b223f6_cd563f32",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2016-10-12T11:27:09Z",
+      "side": 1,
+      "message": "Now that we no longer leak usage count on purpose and the usage count is now ignored anyway, I think we can get rid of this.",
+      "range": {
+        "startLine": 329,
+        "startChar": 2,
+        "endLine": 329,
+        "endChar": 43
+      },
+      "revId": "eb7b05b0e9a65d27e332fc52f9163c37d403948c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07b223f6_3861bc05",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java",
         "patchSetId": 2
