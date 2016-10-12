@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "07b223f6_8d45271c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-10-12T12:35:08Z",
+      "side": 1,
+      "message": "This loop predates the move of JGit to Eclipse so we have to dig in the old repository for explanations. This loop was introduced with the change introducing the RepositoryCache [1]. Though this commit doesn\u0027t explain why this loop is needed, I guess it was used to workaround the refcount problems in Repository which were fixed recently. I\u0027ll add Shawn as a reviewer, he wrote that code, maybe he can remember.\n\n[1] http://repo.or.cz/jgit/spearce.git/commit/02cca37fc880b86313345ebbabda43f0f93e32c9",
+      "parentUuid": "07b223f6_ed24e3b8",
+      "range": {
+        "startLine": 329,
+        "startChar": 2,
+        "endLine": 329,
+        "endChar": 43
+      },
+      "revId": "eb7b05b0e9a65d27e332fc52f9163c37d403948c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07b223f6_3861bc05",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java",
         "patchSetId": 2
