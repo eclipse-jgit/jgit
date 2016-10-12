@@ -16,6 +16,24 @@
       "revId": "96edfe5de1a9e654a66819a2c526213bfd001c99",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_cd3b9f85",
+        "filename": "org.eclipse.jgit.lfs/.settings/.api_filters",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-10-12T12:46:10Z",
+      "side": 1,
+      "message": "it\u0027s silencing the Eclipse API checks complaining that making these constants final is an incompatible change, I think we should make them final anyway",
+      "parentUuid": "07b223f6_4d086fe4",
+      "revId": "96edfe5de1a9e654a66819a2c526213bfd001c99",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
