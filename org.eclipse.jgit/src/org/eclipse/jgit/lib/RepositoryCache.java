@@ -298,7 +298,7 @@ public class RepositoryCache {
 	}
 
 	private boolean isExpired(Repository db) {
-		return db != null && db.useCnt.get() == 0
+		return db != null && db.useCnt.get() <= 0
 			&& (System.currentTimeMillis() - db.closedAt.get() > expireAfter);
 	}
 
