@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "07b223f6_0dee77af",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2016-10-12T12:19:01Z",
+      "side": 1,
+      "message": "I will try to make a long story short. Before the time based eviction mechanism, the cache used to leak one usage count on purpose to prevent repositories from being evicted from the cache and rely on soft reference and JVM gc to evict repositories when running out of memory.\n\nThis loop was closing repositories twice to bring back usage count to 0 and evict all repositories. This was not even working because it was only evicting unused repositories or repositories used by only one thread. All the repositories concurrently used by more than one thread were not cleared because usage count was greater than 2.\n\nThere are many changes to understand the transition from the usage counter leak to the time based eviction:\n\nhttps://git.eclipse.org/r/#/c/55898/\nhttps://git.eclipse.org/r/#/c/55902/\nhttps://git.eclipse.org/r/#/c/56281/\nhttps://git.eclipse.org/r/#/c/74903/\nhttps://git.eclipse.org/r/#/c/74904/\nhttps://git.eclipse.org/r/#/c/81563/",
+      "parentUuid": "07b223f6_ed24e3b8",
+      "range": {
+        "startLine": 329,
+        "startChar": 2,
+        "endLine": 329,
+        "endChar": 43
+      },
+      "revId": "eb7b05b0e9a65d27e332fc52f9163c37d403948c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07b223f6_3861bc05",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java",
         "patchSetId": 2
@@ -120,6 +144,24 @@
       "side": 1,
       "message": "unregister() still removes the repository from the cache without closing it. Should behave differently then clear()?",
       "parentUuid": "07b223f6_b3840faf",
+      "revId": "eb7b05b0e9a65d27e332fc52f9163c37d403948c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_6de293c0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2016-10-12T12:19:01Z",
+      "side": 1,
+      "message": "Unregister allows users of the cache to unregister a repository without closing it.",
+      "parentUuid": "07b223f6_0d1cb76f",
       "revId": "eb7b05b0e9a65d27e332fc52f9163c37d403948c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
