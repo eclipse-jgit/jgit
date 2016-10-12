@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07b223f6_ad0d8bf3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2016-10-12T12:46:36Z",
+      "side": 1,
+      "message": "Is this reformatting intentional, is doesn\u0027t seem to be required by this change?",
+      "range": {
+        "startLine": 527,
+        "startChar": 0,
+        "endLine": 530,
+        "endChar": 31
+      },
+      "revId": "6abb05645c803f9d996288df74a02aa4d03f241e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
