@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07b223f6_96e0d48e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-10-13T04:22:00Z",
+      "side": 1,
+      "message": "\"concurrent threads accessing\" or \"threads concurrently accessing\".\n\nsame at L127.",
+      "range": {
+        "startLine": 117,
+        "startChar": 36,
+        "endLine": 117,
+        "endChar": 66
+      },
+      "revId": "8156eb1f4e8b909e017d90b093440f691f0294ed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
