@@ -114,7 +114,7 @@ public class DfsBlockCacheConfig {
 	}
 
 	/**
-	 * @return the estimated number of concurrently threads accessing the cache.
+	 * @return the estimated number of threads concurrently accessing the cache.
 	 *         <b>Default is 32.</b>
 	 * @since 4.6
 	 */
@@ -124,7 +124,7 @@ public class DfsBlockCacheConfig {
 
 	/**
 	 * @param newConcurrencyLevel
-	 *            the estimated number of concurrently threads accessing the
+	 *            the estimated number of threads concurrently accessing the
 	 *            cache.
 	 * @return {@code this}
 	 * @since 4.6
