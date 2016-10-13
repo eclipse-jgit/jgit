@@ -210,6 +210,27 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testRepositoryUnregisteringWhenExpiredAndUsageCountNegative()
+			throws Exception {
+		Repository repoA = createBareRepository();
+		RepositoryCache.register(repoA);
+
+		assertEquals(1, RepositoryCache.getRegisteredKeys().size());
+		assertTrue(RepositoryCache.isCached(repoA));
+
+		// close the repo twice to make usage count negative
+		repoA.close();
+		repoA.close();
+		// fake that repoA was closed more than 1 hour ago (default expiration
+		// time)
+		repoA.closedAt.set(System.currentTimeMillis() - 65 * 60 * 1000);
+
+		RepositoryCache.clearExpired();
+
+		assertEquals(0, RepositoryCache.getRegisteredKeys().size());
+	}
+
+	@Test
 	public void testRepositoryUnregisteringWhenExpired() throws Exception {
 		Repository repoA = createBareRepository();
 		Repository repoB = createBareRepository();
