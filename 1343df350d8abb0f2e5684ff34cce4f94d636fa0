@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07b223f6_59f2e80d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-10-14T12:53:28Z",
+      "side": 1,
+      "message": "interprets",
+      "range": {
+        "startLine": 9,
+        "startChar": 33,
+        "endLine": 9,
+        "endChar": 43
+      },
+      "revId": "1343df350d8abb0f2e5684ff34cce4f94d636fa0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_d9b1984d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-10-14T12:53:28Z",
+      "side": 1,
+      "message": "L",
+      "range": {
+        "startLine": 12,
+        "startChar": 16,
+        "endLine": 12,
+        "endChar": 17
+      },
+      "revId": "1343df350d8abb0f2e5684ff34cce4f94d636fa0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_f9b81c32",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-10-14T12:53:28Z",
+      "side": 1,
+      "message": "interpret",
+      "range": {
+        "startLine": 15,
+        "startChar": 31,
+        "endLine": 15,
+        "endChar": 41
+      },
+      "revId": "1343df350d8abb0f2e5684ff34cce4f94d636fa0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_19bcf022",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/ProxyConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-10-14T12:53:28Z",
+      "side": 1,
+      "message": "Are wildcard imports OK in this project?",
+      "range": {
+        "startLine": 40,
+        "startChar": 30,
+        "endLine": 40,
+        "endChar": 32
+      },
+      "revId": "1343df350d8abb0f2e5684ff34cce4f94d636fa0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_f98f3c85",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/ProxyConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-10-14T12:53:28Z",
+      "side": 1,
+      "message": "Isn\u0027t it enough to declare Exception here?  An exception will fail the test, regardless of the specific type.",
+      "range": {
+        "startLine": 79,
+        "startChar": 36,
+        "endLine": 79,
+        "endChar": 69
+      },
+      "revId": "1343df350d8abb0f2e5684ff34cce4f94d636fa0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_b995c497",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/ProxyConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-10-14T12:53:28Z",
+      "side": 1,
+      "message": "Maybe write this in normal case, but suffix the method name with \"UpperCase\"?\n\nSame in others below.",
+      "range": {
+        "startLine": 98,
+        "startChar": 17,
+        "endLine": 98,
+        "endChar": 26
+      },
+      "revId": "1343df350d8abb0f2e5684ff34cce4f94d636fa0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_199310b0",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Main.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-10-14T12:53:28Z",
+      "side": 1,
+      "message": "takes",
+      "range": {
+        "startLine": 350,
+        "startChar": 42,
+        "endLine": 350,
+        "endChar": 46
+      },
+      "revId": "1343df350d8abb0f2e5684ff34cce4f94d636fa0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_59a4a802",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Main.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-10-14T12:53:28Z",
+      "side": 1,
+      "message": "nit: add braces even around 1-liners",
+      "range": {
+        "startLine": 359,
+        "startChar": 3,
+        "endLine": 360,
+        "endChar": 13
+      },
+      "revId": "1343df350d8abb0f2e5684ff34cce4f94d636fa0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_79a32cfa",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Main.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-10-14T12:53:28Z",
+      "side": 1,
+      "message": "nit: missing braces",
+      "range": {
+        "startLine": 365,
+        "startChar": 3,
+        "endLine": 366,
+        "endChar": 13
+      },
+      "revId": "1343df350d8abb0f2e5684ff34cce4f94d636fa0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
