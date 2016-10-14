@@ -835,11 +835,11 @@ public class Config {
 		final String s;
 
 		if (value >= GiB && (value % GiB) == 0)
-			s = String.valueOf(value / GiB) + " g"; //$NON-NLS-1$
+			s = String.valueOf(value / GiB) + "g"; //$NON-NLS-1$
 		else if (value >= MiB && (value % MiB) == 0)
-			s = String.valueOf(value / MiB) + " m"; //$NON-NLS-1$
+			s = String.valueOf(value / MiB) + "m"; //$NON-NLS-1$
 		else if (value >= KiB && (value % KiB) == 0)
-			s = String.valueOf(value / KiB) + " k"; //$NON-NLS-1$
+			s = String.valueOf(value / KiB) + "k"; //$NON-NLS-1$
 		else
 			s = String.valueOf(value);
 
