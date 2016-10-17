@@ -70,8 +70,6 @@ import org.eclipse.jgit.pgm.opt.UntrackedFilesHandler;
 @Command(usage = "usage_Status", common = true)
 class Status extends TextBuiltin {
 
-	protected final String lineFormat = CLIText.get().lineFormat;
-
 	protected final String statusFileListFormat = CLIText.get().statusFileListFormat;
 
 	protected final String statusFileListFormatWithPrefix = CLIText.get().statusFileListFormatWithPrefix;
