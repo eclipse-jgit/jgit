@@ -343,17 +343,28 @@ public class Main {
 	 * <code>https_proxy</code> environment variables as a means of specifying
 	 * an HTTP/S proxy for requests made behind a firewall. This is not natively
 	 * recognized by the JRE, so this method can be used by command line
-	 * utilities to configure the JRE before the first request is sent.
+	 * utilities to configure the JRE before the first request is sent. The
+	 * information found in the environment variables is copied to the
+	 * associated system properties. This is not done when the system properties
+	 * are already set. The default way of telling java programs about proxies
+	 * (the system properties) takes precedence over environment variables.
 	 *
 	 * @throws MalformedURLException
 	 *             the value in <code>http_proxy</code> or
 	 *             <code>https_proxy</code> is unsupportable.
 	 */
-	private static void configureHttpProxy() throws MalformedURLException {
+	static void configureHttpProxy() throws MalformedURLException {
 		for (String protocol : new String[] { "http", "https" }) { //$NON-NLS-1$ //$NON-NLS-2$
-			final String s = System.getenv(protocol + "_proxy"); //$NON-NLS-1$
-			if (s == null || s.equals("")) //$NON-NLS-1$
-				return;
+			if (System.getProperty(protocol + ".proxyHost") != null) { //$NON-NLS-1$
+				continue;
+			}
+			String s = System.getenv(protocol + "_proxy"); //$NON-NLS-1$
+			if (s == null && protocol.equals("https")) {
+				s = System.getenv("HTTPS_PROXY"); //$NON-NLS-1$
+			}
+			if (s == null || s.equals("")) { //$NON-NLS-1$
+				continue;
+			}
 
 			final URL u = new URL(
 					(s.indexOf("://") == -1) ? protocol + "://" + s : s); //$NON-NLS-1$ //$NON-NLS-2$
