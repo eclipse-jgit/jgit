@@ -1,0 +1,8 @@
+Code-Review+1: David Pursehouse <david.pursehouse@gmail.com>
+Verified+1: Hudson CI
+Code-Review+2: Christian Halstrick <christian.halstrick@sap.com>
+Submitted-by: Christian Halstrick <christian.halstrick@sap.com>
+Submitted-at: Mon, 17 Oct 2016 02:41:17 -0400
+Reviewed-on: https://git.eclipse.org/r/83216
+Project: jgit/jgit
+Branch: refs/heads/master
