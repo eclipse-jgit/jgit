@@ -238,7 +238,7 @@ class LfsStore extends TextBuiltin {
 		case S3:
 			readAWSKeys();
 			checkOptions();
-			S3Config config = new S3Config(region.toString(), bucket,
+			S3Config config = new S3Config(region, bucket,
 					storageClass.toString(), accessKey, secretKey,
 					expirationSeconds, disableSslVerify);
 			repository = new S3Repository(config);
