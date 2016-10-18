@@ -16,6 +16,24 @@
       "revId": "c61b6399cea056729a4830d2b59d34fec3c074cb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_5081d29b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackOutputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-10-18T04:46:25Z",
+      "side": 1,
+      "message": "I was just about to do the same \"fix\" until I found this change.\n\nI think it\u0027s debatable whether such a micro optimization is preferable to readability, but we can at least add a comment here to stop people trying to fix it again.\n\nhttps://git.eclipse.org/r/83409",
+      "parentUuid": "27d6470d_b220c1a4",
+      "revId": "c61b6399cea056729a4830d2b59d34fec3c074cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
