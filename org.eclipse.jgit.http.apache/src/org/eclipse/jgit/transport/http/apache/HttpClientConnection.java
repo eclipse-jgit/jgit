@@ -295,11 +295,11 @@ public class HttpClientConnection implements HttpConnection {
 	}
 
 	public void setConnectTimeout(int timeout) {
-		this.timeout = new Integer(timeout);
+		this.timeout = Integer.valueOf(timeout);
 	}
 
 	public void setReadTimeout(int readTimeout) {
-		this.readTimeout = new Integer(readTimeout);
+		this.readTimeout = Integer.valueOf(readTimeout);
 	}
 
 	public String getContentType() {
@@ -328,7 +328,7 @@ public class HttpClientConnection implements HttpConnection {
 	}
 
 	public void setInstanceFollowRedirects(boolean followRedirects) {
-		this.followRedirects = new Boolean(followRedirects);
+		this.followRedirects = Boolean.valueOf(followRedirects);
 	}
 
 	public void setDoOutput(boolean dooutput) {

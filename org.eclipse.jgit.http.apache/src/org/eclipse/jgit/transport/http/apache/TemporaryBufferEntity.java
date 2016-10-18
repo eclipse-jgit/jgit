@@ -105,7 +105,7 @@ public class TemporaryBufferEntity extends AbstractHttpEntity
 	 * @param contentLength
 	 */
 	public void setContentLength(int contentLength) {
-		this.contentLength = new Integer(contentLength);
+		this.contentLength = Integer.valueOf(contentLength);
 	}
 
 	/**
