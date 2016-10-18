@@ -164,7 +164,7 @@ public abstract class FS {
 	/** The auto-detected implementation selected for this operating system and JRE. */
 	public static final FS DETECTED = detect();
 
-	private static FSFactory factory;
+	private volatile static FSFactory factory;
 
 	/**
 	 * Auto-detect the appropriate file system abstraction.
