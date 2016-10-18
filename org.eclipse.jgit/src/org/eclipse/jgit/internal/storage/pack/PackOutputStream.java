@@ -183,7 +183,7 @@ public final class PackOutputStream extends OutputStream {
 	public final void writeHeader(ObjectToPack otp, long rawLength)
 			throws IOException {
 		ObjectToPack b = otp.getDeltaBase();
-		if (b != null && (b.isWritten() & ofsDelta)) {
+		if (b != null && (b.isWritten() & ofsDelta)) { // Non-short-circuit logic is intentional
 			int n = objectHeader(rawLength, OBJ_OFS_DELTA, headerBuffer);
 			n = ofsDelta(count - b.getOffset(), headerBuffer, n);
 			write(headerBuffer, 0, n);
