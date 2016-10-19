@@ -49,6 +49,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.UnsupportedOperationException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +68,7 @@ import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.gitrepo.ManifestParser.IncludedFileReader;
 import org.eclipse.jgit.gitrepo.RepoProject.CopyFile;
+import org.eclipse.jgit.gitrepo.RepoProject.LinkFile;
 import org.eclipse.jgit.gitrepo.internal.RepoText;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -486,6 +488,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 							proj.getPath(),
 							proj.getRevision(),
 							proj.getCopyFiles(),
+							proj.getLinkFiles(),
 							proj.getGroups(),
 							proj.getRecommendShallow());
 				}
@@ -568,6 +571,15 @@ public class RepoCommand extends GitCommand<RevCommit> {
 						dcEntry.setFileMode(FileMode.REGULAR_FILE);
 						builder.add(dcEntry);
 					}
+					for (LinkFile linkfile : proj.getLinkFiles()) {
+						byte[] src = callback.readFile(
+								nameUri, proj.getRevision(), linkfile.src);
+						objectId = inserter.insert(Constants.OBJ_BLOB, src);
+						dcEntry = new DirCacheEntry(linkfile.dest);
+						dcEntry.setObjectId(objectId);
+						dcEntry.setFileMode(FileMode.REGULAR_FILE);
+						builder.add(dcEntry);
+					}
 				}
 				String content = cfg.toText();
 
@@ -642,11 +654,13 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	}
 
 	private void addSubmodule(String url, String name, String revision,
-			List<CopyFile> copyfiles, Set<String> groups, String recommendShallow)
+			List<CopyFile> copyfiles, List<LinkFile> linkfiles,
+			Set<String> groups, String recommendShallow)
 			throws GitAPIException, IOException {
 		if (repo.isBare()) {
 			RepoProject proj = new RepoProject(url, name, revision, null, groups, recommendShallow);
 			proj.addCopyFiles(copyfiles);
+			proj.addLinkFiles(linkfiles);
 			bareProjects.add(proj);
 		} else {
 			SubmoduleAddCommand add = git
@@ -668,6 +682,10 @@ public class RepoCommand extends GitCommand<RevCommit> {
 			for (CopyFile copyfile : copyfiles) {
 				copyfile.copy();
 				git.add().addFilepattern(copyfile.dest).call();
+			}
+			if (!linkfiles.isEmpty()) {
+				throw new UnsupportedOperationException(
+					"Link files supported not nonbare repos");
 			}
 		}
 	}
