@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "07b223f6_d0b87d13",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/ArchiveTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-10-19T06:10:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07b223f6_1caa11d1",
+      "range": {
+        "startLine": 531,
+        "startChar": 27,
+        "endLine": 531,
+        "endChar": 48
+      },
+      "revId": "6dcfb02e01239b67eb071a4db0c0e8727cce24aa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07b223f6_3ca7d508",
         "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/ArchiveTest.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-10-19T05:43:18Z",
       "side": 1,
       "message": "likewise",
+      "range": {
+        "startLine": 551,
+        "startChar": 27,
+        "endLine": 551,
+        "endChar": 48
+      },
+      "revId": "6dcfb02e01239b67eb071a4db0c0e8727cce24aa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_f0b90115",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/ArchiveTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 551,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-10-19T06:10:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07b223f6_3ca7d508",
       "range": {
         "startLine": 551,
         "startChar": 27,
