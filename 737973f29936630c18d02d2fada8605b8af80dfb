@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07b223f6_70b33180",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/Proposal.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2016-10-19T11:09:21Z",
+      "side": 1,
+      "message": "Why is this an AtomicReference at all? Reference assignments are atomic anyway in Java, and I don\u0027t see any call to getAndSet or compareAndSet...",
+      "revId": "737973f29936630c18d02d2fada8605b8af80dfb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_d0531db7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/Proposal.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2016-10-19T11:09:21Z",
+      "side": 1,
+      "message": "I wouldn\u0027t run callbacks inside a synchronized block.",
+      "revId": "737973f29936630c18d02d2fada8605b8af80dfb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_90b0c573",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/Proposal.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2016-10-19T11:09:21Z",
+      "side": 1,
+      "message": "I would have thought this would throw IllegalMonitorStateException since now the current thread is not holding the monitor of state but the one of \u0027this\u0027. (More occurrences below, also for notifyAll()). Do the tests not exercise this code?",
+      "range": {
+        "startLine": 287,
+        "startChar": 9,
+        "endLine": 287,
+        "endChar": 15
+      },
+      "revId": "737973f29936630c18d02d2fada8605b8af80dfb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
