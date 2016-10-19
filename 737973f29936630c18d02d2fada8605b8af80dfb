@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "07b223f6_30c379a1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/Proposal.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2016-10-19T12:45:49Z",
+      "side": 1,
+      "message": "Line 243/244... also in notifyState below.",
+      "parentUuid": "07b223f6_f0fae1e7",
+      "revId": "737973f29936630c18d02d2fada8605b8af80dfb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07b223f6_90b0c573",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/Proposal.java",
         "patchSetId": 2
