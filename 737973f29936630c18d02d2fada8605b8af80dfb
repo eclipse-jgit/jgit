@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "07b223f6_f0fae1e7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/Proposal.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-10-19T12:43:19Z",
+      "side": 1,
+      "message": "It\u0027s not actually running the callback in this method, just adding it to the list.",
+      "parentUuid": "07b223f6_d0531db7",
+      "revId": "737973f29936630c18d02d2fada8605b8af80dfb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07b223f6_90b0c573",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/Proposal.java",
         "patchSetId": 2
@@ -47,6 +65,30 @@
       "writtenOn": "2016-10-19T11:09:21Z",
       "side": 1,
       "message": "I would have thought this would throw IllegalMonitorStateException since now the current thread is not holding the monitor of state but the one of \u0027this\u0027. (More occurrences below, also for notifyAll()). Do the tests not exercise this code?",
+      "range": {
+        "startLine": 287,
+        "startChar": 9,
+        "endLine": 287,
+        "endChar": 15
+      },
+      "revId": "737973f29936630c18d02d2fada8605b8af80dfb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_10003573",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/Proposal.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-10-19T12:43:19Z",
+      "side": 1,
+      "message": "\u003e Do the tests not exercise this code?\n\nPossibly not :/\n\nAnd I don\u0027t think any clients are using it either, yet.",
+      "parentUuid": "07b223f6_90b0c573",
       "range": {
         "startLine": 287,
         "startChar": 9,
