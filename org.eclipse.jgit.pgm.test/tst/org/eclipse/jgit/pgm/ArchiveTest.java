@@ -528,15 +528,15 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 
 	@Test
 	public void testArchiveWithLongFilename() throws Exception {
-		String filename = "";
+		StringBuilder filename = new StringBuilder();
 		List<String> l = new ArrayList<String>();
 		for (int i = 0; i < 20; i++) {
-			filename = filename + "1234567890/";
-			l.add(filename);
+			filename.append("1234567890/");
+			l.add(filename.toString());
 		}
-		filename = filename + "1234567890";
-		l.add(filename);
-		writeTrashFile(filename, "file with long path");
+		filename.append("1234567890");
+		l.add(filename.toString());
+		writeTrashFile(filename.toString(), "file with long path");
 		git.add().addFilepattern("1234567890").call();
 		git.commit().setMessage("file with long name").call();
 
@@ -548,15 +548,15 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 
 	@Test
 	public void testTarWithLongFilename() throws Exception {
-		String filename = "";
+		StringBuilder filename = new StringBuilder();
 		List<String> l = new ArrayList<String>();
 		for (int i = 0; i < 20; i++) {
-			filename = filename + "1234567890/";
-			l.add(filename);
+			filename.append("1234567890/");
+			l.add(filename.toString());
 		}
-		filename = filename + "1234567890";
-		l.add(filename);
-		writeTrashFile(filename, "file with long path");
+		filename.append("1234567890");
+		l.add(filename.toString());
+		writeTrashFile(filename.toString(), "file with long path");
 		git.add().addFilepattern("1234567890").call();
 		git.commit().setMessage("file with long name").call();
 
