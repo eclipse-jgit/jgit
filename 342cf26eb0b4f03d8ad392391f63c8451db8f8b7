@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07b223f6_dcb5f938",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-10-19T05:34:29Z",
+      "side": 1,
+      "message": "RFC because I\u0027m not really sure if this is any better/different.  It does get rid of the FindBugs warnings though.",
+      "revId": "342cf26eb0b4f03d8ad392391f63c8451db8f8b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
