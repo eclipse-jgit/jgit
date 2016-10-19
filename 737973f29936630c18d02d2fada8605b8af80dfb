@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "07b223f6_d09b1dc8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/Proposal.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-10-19T12:47:06Z",
+      "side": 1,
+      "message": "Doh.  Sorry, of course.",
+      "parentUuid": "07b223f6_30c379a1",
+      "revId": "737973f29936630c18d02d2fada8605b8af80dfb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07b223f6_90b0c573",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/Proposal.java",
         "patchSetId": 2
