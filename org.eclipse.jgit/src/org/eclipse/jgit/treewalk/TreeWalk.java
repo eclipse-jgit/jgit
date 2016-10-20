@@ -65,6 +65,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.StopWalkException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig.EolStreamType;
 import org.eclipse.jgit.lib.FileMode;
@@ -1372,10 +1373,11 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 		String filterCommand = filterCommandsByNameDotType.get(key);
 		if (filterCommand != null)
 			return filterCommand;
-		filterCommand = config.getString(Constants.ATTR_FILTER,
+		filterCommand = config.getString(ConfigConstants.CONFIG_FILTER_SECTION,
 				filterDriverName, filterCommandType);
-		boolean useBuiltin = config.getBoolean(Constants.ATTR_FILTER,
-				filterDriverName, Constants.ATTR_FILTER_USE_BUILTIN, false);
+		boolean useBuiltin = config.getBoolean(
+				ConfigConstants.CONFIG_FILTER_SECTION,
+				filterDriverName, ConfigConstants.CONFIG_KEY_USEJGITBUILTIN, false);
 		if (useBuiltin) {
 			String builtinFilterCommand = Constants.BUILTIN_FILTER_PREFIX
 					+ filterDriverName + '/' + filterCommandType;

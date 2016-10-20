@@ -107,6 +107,12 @@ public class ConfigConstants {
 	 */
 	public static final String CONFIG_PULL_SECTION = "pull";
 
+	/**
+	 * The "filter" section
+	 * @since 4.6
+	 */
+	public static final String CONFIG_FILTER_SECTION = "filter";
+
 	/** The "algorithm" key */
 	public static final String CONFIG_KEY_ALGORITHM = "algorithm";
 
@@ -361,4 +367,11 @@ public class ConfigConstants {
 	 * @since 4.0
 	 */
 	public static final String CONFIG_KEY_STREAM_RATIO = "streamRatio";
+
+	/**
+	 * Flag in the filter section whether to use JGit's implementations of
+	 * filters and hooks
+	 * @since 4.6
+	 */
+	public static final String CONFIG_KEY_USEJGITBUILTIN = "useJGitBuiltin";
 }
