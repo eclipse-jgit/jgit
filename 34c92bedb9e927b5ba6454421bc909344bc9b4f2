@@ -413,6 +413,24 @@
     },
     {
       "key": {
+        "uuid": "07b223f6_041c7727",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-10-20T13:08:41Z",
+      "side": 1,
+      "message": "ok, If you don\u0027t like \"void Repository#autoGC()\" then the proposed solution seems to be the best one. +1",
+      "parentUuid": "07b223f6_a184f9ec",
+      "revId": "34c92bedb9e927b5ba6454421bc909344bc9b4f2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07b223f6_dcb7183f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
         "patchSetId": 2
