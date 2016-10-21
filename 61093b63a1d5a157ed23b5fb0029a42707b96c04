@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "07b223f6_f55e4b70",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 848,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-10-21T09:12:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_0bf811ed",
+      "revId": "61093b63a1d5a157ed23b5fb0029a42707b96c04",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_2bf5d5f4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 2
@@ -30,6 +48,30 @@
       "writtenOn": "2016-08-23T05:29:23Z",
       "side": 1,
       "message": "This line wrapping seems a bit odd to me, although maybe I\u0027m just not familiar with this project\u0027s conventions.",
+      "range": {
+        "startLine": 849,
+        "startChar": 47,
+        "endLine": 850,
+        "endChar": 10
+      },
+      "revId": "61093b63a1d5a157ed23b5fb0029a42707b96c04",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_15649f3b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 850,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-10-21T09:12:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_2bf5d5f4",
       "range": {
         "startLine": 849,
         "startChar": 47,
