@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07b223f6_9f8a89a1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-10-22T01:16:20Z",
+      "side": 1,
+      "message": "note to reviewers: this is named only \u0027p\u0027, rather than \u0027paths\u0027, to avoid shadowing of the member variable with the same name.",
+      "range": {
+        "startLine": 377,
+        "startChar": 11,
+        "endLine": 377,
+        "endChar": 12
+      },
+      "revId": "03046d0f60810ec01d830e6efb3291e4a161512a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
