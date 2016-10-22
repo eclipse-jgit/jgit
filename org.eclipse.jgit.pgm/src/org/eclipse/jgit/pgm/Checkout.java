@@ -95,9 +95,7 @@ class Checkout extends TextBuiltin {
 				if (paths.size() == 1 && paths.get(0).equals(".")) { //$NON-NLS-1$
 					command.setAllPaths(true);
 				} else {
-					for (String path : paths) {
-						command.addPath(path);
-					}
+					command.addPaths(paths);
 				}
 			} else {
 				command.setCreateBranch(createBranch);

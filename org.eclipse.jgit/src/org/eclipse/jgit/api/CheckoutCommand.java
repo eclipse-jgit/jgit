@@ -367,6 +367,26 @@ public class CheckoutCommand extends GitCommand<Ref> {
 	}
 
 	/**
+	 * Add multiple slash-separated paths to the list of paths to check out. To
+	 * check out all paths, use {@link #setAllPaths(boolean)}.
+	 * <p>
+	 * If this option is set, neither the {@link #setCreateBranch(boolean)} nor
+	 * {@link #setName(String)} option is considered. In other words, these
+	 * options are exclusive.
+	 *
+	 * @param p
+	 *            paths to update in the working tree and index (with
+	 *            <code>/</code> as separator)
+	 * @return {@code this}
+	 * @since 4.6
+	 */
+	public CheckoutCommand addPaths(List<String> p) {
+		checkCallable();
+		this.paths.addAll(p);
+		return this;
+	}
+
+	/**
 	 * Set whether to checkout all paths.
 	 * <p>
 	 * This options should be used when you want to do a path checkout on the
