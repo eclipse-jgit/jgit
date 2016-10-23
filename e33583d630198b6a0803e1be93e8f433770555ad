@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07b223f6_026d427b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-10-23T23:34:34Z",
+      "side": 1,
+      "message": "4.6",
+      "range": {
+        "startLine": 458,
+        "startChar": 11,
+        "endLine": 458,
+        "endChar": 14
+      },
+      "revId": "e33583d630198b6a0803e1be93e8f433770555ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_226ec677",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-10-23T23:34:34Z",
+      "side": 1,
+      "message": "4.6",
+      "range": {
+        "startLine": 469,
+        "startChar": 11,
+        "endLine": 469,
+        "endChar": 14
+      },
+      "revId": "e33583d630198b6a0803e1be93e8f433770555ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
