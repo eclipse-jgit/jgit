@@ -142,6 +142,30 @@
       "revId": "42f416dceb7b1b6ecae85f9b36bd5d52b46f2b51",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_42001a74",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Checkout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 39869
+      },
+      "writtenOn": "2016-10-24T05:05:30Z",
+      "side": 1,
+      "message": "Great, thanks!",
+      "parentUuid": "07b223f6_dfa08125",
+      "range": {
+        "startLine": 98,
+        "startChar": 5,
+        "endLine": 99,
+        "endChar": 28
+      },
+      "revId": "42f416dceb7b1b6ecae85f9b36bd5d52b46f2b51",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
