@@ -141,11 +141,12 @@ public class CleanFilter extends FilterCommand {
 
 	public int run() throws IOException {
 		try {
-			int b = in.read();
-			if (b != -1) {
-				dOut.write(b);
-				size++;
-				return 1;
+			byte[] buf = new byte[8192];
+			int length = in.read(buf);
+			if (length != -1) {
+				dOut.write(buf, 0, length);
+				size += length;
+				return length;
 			} else {
 				dOut.close();
 				tmpOut.close();
