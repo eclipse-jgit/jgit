@@ -46,8 +46,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import org.eclipse.jgit.lfs.lib.AnyLongObjectId;
 import org.eclipse.jgit.lfs.lib.Constants;
-import org.eclipse.jgit.lfs.lib.LongObjectId;
 import org.eclipse.jgit.lib.Repository;
 
 /**
@@ -106,8 +106,8 @@ public class Lfs {
 	 *         underneath
 	 *         "<repo>/.git/lfs/objects/<firstTwoLettersOfID>/<nextTwoLettersOfID>/<fullID>"
 	 */
-	public Path getMediaFile(LongObjectId id) {
-		String idStr = LongObjectId.toString(id);
+	public Path getMediaFile(AnyLongObjectId id) {
+		String idStr = id.name();
 		return getLfsObjDir().resolve(idStr.substring(0, 2))
 				.resolve(idStr.substring(2, 4)).resolve(idStr);
 	}

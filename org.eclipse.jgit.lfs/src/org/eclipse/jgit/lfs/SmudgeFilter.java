@@ -67,7 +67,7 @@ import org.eclipse.jgit.attributes.FilterCommand;
 import org.eclipse.jgit.attributes.FilterCommandFactory;
 import org.eclipse.jgit.attributes.FilterCommandRegistry;
 import org.eclipse.jgit.lfs.internal.LfsText;
-import org.eclipse.jgit.lfs.lib.LongObjectId;
+import org.eclipse.jgit.lfs.lib.AnyLongObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
@@ -135,7 +135,7 @@ public class SmudgeFilter extends FilterCommand {
 		lfs = new Lfs(db);
 		LfsPointer res = LfsPointer.parseLfsPointer(in);
 		if (res != null) {
-			LongObjectId oid = res.getOid();
+			AnyLongObjectId oid = res.getOid();
 			Path mediaFile = lfs.getMediaFile(oid);
 			if (!Files.exists(mediaFile)) {
 				downloadLfsResource(db, res);
