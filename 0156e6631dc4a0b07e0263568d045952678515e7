@@ -69,6 +69,30 @@
       "revId": "0156e6631dc4a0b07e0263568d045952678515e7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_4ec3e19f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-10-25T06:45:15Z",
+      "side": 1,
+      "message": "Shouldn\u0027t the null-check also be done on pathToName itself?\n\nAnd since this ternary expression is repeated in three places it might be better to put it in utility method.",
+      "parentUuid": "27d6470d_72572ba0",
+      "range": {
+        "startLine": 612,
+        "startChar": 5,
+        "endLine": 612,
+        "endChar": 15
+      },
+      "revId": "0156e6631dc4a0b07e0263568d045952678515e7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
