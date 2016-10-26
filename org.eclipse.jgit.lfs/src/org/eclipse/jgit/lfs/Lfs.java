@@ -46,7 +46,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import org.eclipse.jgit.lfs.lib.LongObjectId;
+import org.eclipse.jgit.lfs.lib.AnyLongObjectId;
 
 /**
  * Class which represents the lfs folder hierarchy inside a .git folder
@@ -104,8 +104,8 @@ public class Lfs {
 	 *         underneath
 	 *         "<repo>/.git/lfs/objects/<firstTwoLettersOfID>/<remainingLettersOfID>"
 	 */
-	public Path getMediaFile(LongObjectId id) {
-		String idStr = LongObjectId.toString(id);
+	public Path getMediaFile(AnyLongObjectId id) {
+		String idStr = id.name();
 		return getLfsObjDir().resolve(idStr.substring(0, 2))
 				.resolve(idStr.substring(2));
 	}

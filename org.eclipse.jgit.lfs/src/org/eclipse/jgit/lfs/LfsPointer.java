@@ -50,6 +50,7 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 
 import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.lfs.lib.AnyLongObjectId;
 import org.eclipse.jgit.lfs.lib.Constants;
 import org.eclipse.jgit.lfs.lib.LongObjectId;
 
@@ -71,7 +72,7 @@ public class LfsPointer {
 	public static final String HASH_FUNCTION_NAME = Constants.LONG_HASH_FUNCTION
 			.toLowerCase().replace("-", ""); //$NON-NLS-1$ //$NON-NLS-2$
 
-	private LongObjectId oid;
+	private AnyLongObjectId oid;
 
 	private long size;
 
@@ -81,7 +82,7 @@ public class LfsPointer {
 	 * @param size
 	 *            the size of the content
 	 */
-	public LfsPointer(LongObjectId oid, long size) {
+	public LfsPointer(AnyLongObjectId oid, long size) {
 		this.oid = oid;
 		this.size = size;
 	}
@@ -89,7 +90,7 @@ public class LfsPointer {
 	/**
 	 * @return the id of the content
 	 */
-	public LongObjectId getOid() {
+	public AnyLongObjectId getOid() {
 		return oid;
 	}
 
@@ -112,7 +113,7 @@ public class LfsPointer {
 			ps.print("version "); //$NON-NLS-1$
 			ps.println(VERSION);
 			ps.print("oid " + HASH_FUNCTION_NAME + ":"); //$NON-NLS-1$ //$NON-NLS-2$
-			ps.println(LongObjectId.toString(oid));
+			ps.println(oid.name());
 			ps.print("size "); //$NON-NLS-1$
 			ps.println(size);
 		}
@@ -160,7 +161,7 @@ public class LfsPointer {
 
 	@Override
 	public String toString() {
-		return "LfsPointer: oid=" + LongObjectId.toString(oid) + ", size=" //$NON-NLS-1$ //$NON-NLS-2$
+		return "LfsPointer: oid=" + oid.name() + ", size=" //$NON-NLS-1$ //$NON-NLS-2$
 				+ size;
 	}
 }
