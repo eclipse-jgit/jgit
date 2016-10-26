@@ -47,6 +47,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.nio.file.StandardOpenOption;
 import java.security.DigestOutputStream;
 
@@ -162,7 +163,8 @@ public class CleanFilter extends FilterCommand {
 					}
 				} else {
 					FileUtils.mkdirs(mediaFile.getParent().toFile(), true);
-					FileUtils.rename(tmpFile.toFile(), mediaFile.toFile());
+					FileUtils.rename(tmpFile.toFile(), mediaFile.toFile(),
+							StandardCopyOption.ATOMIC_MOVE);
 				}
 				LfsPointer lfsPointer = new LfsPointer(loid, size);
 				lfsPointer.encode(out);
