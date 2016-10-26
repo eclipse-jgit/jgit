@@ -157,6 +157,8 @@ public class CleanFilter extends FilterCommand {
 					long fsSize = Files.size(mediaFile);
 					if (fsSize != size) {
 						throw new CorruptMediaFile(mediaFile, size, fsSize);
+					} else {
+						FileUtils.delete(tmpFile.toFile());
 					}
 				} else {
 					FileUtils.mkdirs(mediaFile.getParent().toFile(), true);
