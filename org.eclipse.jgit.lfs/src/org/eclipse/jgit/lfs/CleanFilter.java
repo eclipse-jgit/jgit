@@ -48,15 +48,13 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.nio.file.StandardOpenOption;
-import java.security.DigestOutputStream;
 
 import org.eclipse.jgit.attributes.FilterCommand;
 import org.eclipse.jgit.attributes.FilterCommandFactory;
 import org.eclipse.jgit.attributes.FilterCommandRegistry;
 import org.eclipse.jgit.lfs.errors.CorruptMediaFile;
-import org.eclipse.jgit.lfs.lib.Constants;
-import org.eclipse.jgit.lfs.lib.LongObjectId;
+import org.eclipse.jgit.lfs.internal.AtomicObjectOutputStream;
+import org.eclipse.jgit.lfs.lib.AnyLongObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.FileUtils;
 
@@ -98,12 +96,8 @@ public class CleanFilter extends FilterCommand {
 				FACTORY);
 	}
 
-	// The OutputStream to a temporary file which will be renamed to mediafile
-	// when the operation succeeds
-	private OutputStream tmpOut;
-
 	// Used to compute the hash for the original content
-	private DigestOutputStream dOut;
+	private AtomicObjectOutputStream aOut;
 
 	private Lfs lfsUtil;
 
@@ -133,11 +127,7 @@ public class CleanFilter extends FilterCommand {
 		lfsUtil = new Lfs(db.getDirectory().toPath().resolve("lfs")); //$NON-NLS-1$
 		Files.createDirectories(lfsUtil.getLfsTmpDir());
 		tmpFile = lfsUtil.createTmpFile();
-		tmpOut = Files.newOutputStream(tmpFile,
-				StandardOpenOption.CREATE);
-		this.dOut = new DigestOutputStream(
-				tmpOut,
-				Constants.newMessageDigest());
+		this.aOut = new AtomicObjectOutputStream(tmpFile.toAbsolutePath());
 	}
 
 	public int run() throws IOException {
@@ -145,14 +135,13 @@ public class CleanFilter extends FilterCommand {
 			byte[] buf = new byte[8192];
 			int length = in.read(buf);
 			if (length != -1) {
-				dOut.write(buf, 0, length);
+				aOut.write(buf, 0, length);
 				size += length;
 				return length;
 			} else {
-				dOut.close();
-				tmpOut.close();
-				LongObjectId loid = LongObjectId
-						.fromRaw(dOut.getMessageDigest().digest());
+				aOut.close();
+				AnyLongObjectId loid = aOut.getId();
+				aOut = null;
 				Path mediaFile = lfsUtil.getMediaFile(loid);
 				if (Files.isRegularFile(mediaFile)) {
 					long fsSize = Files.size(mediaFile);
@@ -172,9 +161,10 @@ public class CleanFilter extends FilterCommand {
 				return -1;
 			}
 		} catch (IOException e) {
+			if (aOut != null) {
+				aOut.abort();
+			}
 			out.close();
-			dOut.close();
-			tmpOut.close();
 			throw e;
 		}
 	}
