@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07b223f6_070aa797",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/CleanFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-10-27T14:48:46Z",
+      "side": 1,
+      "message": "I am not sure whether the atomic move is needed. But i definitly doesn\u0027t hurt.",
+      "revId": "0e947da72fa6b55b90922df740958b4244bb2fc3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
