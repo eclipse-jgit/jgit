@@ -16,6 +16,24 @@
       "revId": "6a15707997a735135294703ca6129fbae45bf2af",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07b223f6_92ffced7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2016-10-29T09:41:35Z",
+      "side": 1,
+      "message": "Done.\n\nGot me :-) That\u0027s where I discovered that (actually, in the Gitblit plugin for Gerrit). But this change here alone would not solve the problems there.\n\nIMO ObjectId should simply not be serializable. As a JGit user, one has no control over what exactly is going to be written. Alas, undoing that would be  major interface breaking change. So this change here fixes a clear bug if one has serializable ObjectIds. It\u0027s only marginally related to the Gitblit bug. The real bug there is not just relying on commits being serializable, but additionally serializing inner anonymous classes that access way too much.",
+      "parentUuid": "07b223f6_32fb6288",
+      "revId": "6a15707997a735135294703ca6129fbae45bf2af",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
