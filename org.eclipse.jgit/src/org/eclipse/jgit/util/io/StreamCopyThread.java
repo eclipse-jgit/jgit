@@ -118,7 +118,13 @@ public class StreamCopyThread extends Thread {
 			for (;;) {
 				try {
 					if (readInterrupted) {
-						dst.flush();
+						try {
+							dst.flush();
+						} catch (InterruptedIOException e) {
+							// There was a new flush() call during flush previous bytes
+							// need continue read/write/flush for the new bytes
+							continue;
+						}
 						readInterrupted = false;
 						if (!flushCount.compareAndSet(flushCountBeforeRead, 0)) {
 							// There was a flush() call since last blocked read.
