@@ -45,6 +45,29 @@
       "revId": "73c5f4df0f70181ec4bae7ab387adbd1e7c8a874",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_68a74b93",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/StreamCopyThread.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-11-04T19:23:38Z",
+      "side": 1,
+      "message": "Thread.isInterrupted() doesn\u0027t clear the interrupt state, it just returns its value, so you can save a line here.",
+      "range": {
+        "startLine": 158,
+        "startChar": 0,
+        "endLine": 159,
+        "endChar": 19
+      },
+      "revId": "73c5f4df0f70181ec4bae7ab387adbd1e7c8a874",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
