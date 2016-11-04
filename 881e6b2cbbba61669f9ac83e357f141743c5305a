@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_432fd0c4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/StreamCopyThread.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-11-04T23:48:13Z",
+      "side": 1,
+      "message": "The fix below fixes the case where the thread is interrupted while an active read is here, and assumes that that read fully completes without throwing an InterruptedIOException. In that case, the interrupted flag is set and we use it to know we should complete the copy before flushing.\nI\u0027m not sure we can always rely on the \"src\" input stream behaving that way, nothing I see in the InputStream contract says it can\u0027t chunk up the data to be read back. But I think this fix is sufficient.",
+      "range": {
+        "startLine": 149,
+        "startChar": 6,
+        "endLine": 149,
+        "endChar": 24
+      },
+      "revId": "881e6b2cbbba61669f9ac83e357f141743c5305a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
