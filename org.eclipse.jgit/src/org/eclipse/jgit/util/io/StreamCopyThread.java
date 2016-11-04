@@ -155,11 +155,7 @@ public class StreamCopyThread extends Thread {
 						break;
 
 					synchronized (writeLock) {
-						if (isInterrupted()) {
-							continue;
-						}
-
-						boolean writeInterrupted = false;
+						boolean writeInterrupted = Thread.interrupted();
 						for (;;) {
 							try {
 								dst.write(buf, 0, n);
