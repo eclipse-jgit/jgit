@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_88aca777",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/StreamCopyThread.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 79788
+      },
+      "writtenOn": "2016-11-04T19:14:57Z",
+      "side": 1,
+      "message": "flushLock?",
+      "range": {
+        "startLine": 65,
+        "startChar": 22,
+        "endLine": 65,
+        "endChar": 32
+      },
+      "revId": "73c5f4df0f70181ec4bae7ab387adbd1e7c8a874",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_a8b083c6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/StreamCopyThread.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 79788
+      },
+      "writtenOn": "2016-11-04T19:14:57Z",
+      "side": 1,
+      "message": "why this is need?\n\nwhat is the difference with (!flushCount.compareAndSet(flushCountBeforeRead, 0)) interrupt() below?",
+      "range": {
+        "startLine": 130,
+        "startChar": 7,
+        "endLine": 132,
+        "endChar": 8
+      },
+      "revId": "73c5f4df0f70181ec4bae7ab387adbd1e7c8a874",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
