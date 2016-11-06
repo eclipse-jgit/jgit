@@ -114,7 +114,7 @@ public abstract class Transport implements AutoCloseable {
 		// Registration goes backwards in order of priority.
 		register(TransportLocal.PROTO_LOCAL);
 		register(TransportBundleFile.PROTO_BUNDLE);
-		register(TransportAmazonS3.PROTO_S3);
+		//register(TransportAmazonS3.PROTO_S3);
 		register(TransportGitAnon.PROTO_GIT);
 		register(TransportSftp.PROTO_SFTP);
 		register(TransportHttp.PROTO_FTP);

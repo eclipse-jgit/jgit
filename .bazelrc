@@ -1,0 +1,4 @@
+# TODO(davido): Fix absolute path when Bazel support generic references to user home
+# https://github.com/bazelbuild/bazel/issues/1752
+build --experimental_repository_cache=/home/davido/.gerritcodereview/bazel_repository_cache --strategy=Javac=worker
+fetch --experimental_repository_cache=/home/davido/.gerritcodereview/bazel_repository_cache
