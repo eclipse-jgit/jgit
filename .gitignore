@@ -4,3 +4,9 @@
 /buck-out
 /target
 infer-out
+bazel-bin
+bazel-genfiles
+bazel-jgit
+bazel-out
+bazel-testlogs
+*~
