@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_4efe1778",
+        "filename": ".bazelrc",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-11-06T23:53:01Z",
+      "side": 1,
+      "message": "this path isn\u0027t portable to another machine\nwhy does it contain .gerritcodereview ?\n\nI installed latest Bazel 0.4.0 using homebrew on Mac, the build fails due to this option\n\n$ bazel build all\nINFO: Reading options for \u0027build\u0027 from /Users/d029788/src/git/jgit/.bazelrc:\n  \u0027build\u0027 options: --experimental_repository_cache\u003d/Users/msohn/.gerritcodereview/bazel_repository_cache --strategy\u003dJavac\u003dworker\nUnrecognized option: --experimental_repository_cache\u003d/Users/msohn/.gerritcodereview/bazel_repository_cache\n\nwhen commenting out this option I hit the following error\n\n$ bazel build all\nERROR: couldn\u0027t determine target from filename \u0027all\u0027.",
+      "revId": "ba2e364b56a1317d8efede658a1ccff029bde810",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
