@@ -16,6 +16,24 @@
       "revId": "ba2e364b56a1317d8efede658a1ccff029bde810",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_0e6a5f8e",
+        "filename": ".bazelrc",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2016-11-07T06:16:08Z",
+      "side": 1,
+      "message": "Removed and fixed the commit message. Try with:\n\n  $ bazel build :all\n\nor\n  $ bazel build //...",
+      "parentUuid": "a7c23755_4efe1778",
+      "revId": "ba2e364b56a1317d8efede658a1ccff029bde810",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
