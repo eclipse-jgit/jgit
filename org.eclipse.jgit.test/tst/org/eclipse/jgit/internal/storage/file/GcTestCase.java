@@ -105,6 +105,46 @@ public abstract class GcTestCase extends LocalDiskRepositoryTestCase {
 		return tip;
 	}
 
+	/**
+	 * Create a chain of commits of given depth with given number of added files
+	 * per commit.
+	 * <p>
+	 * Each commit contains {@code files} files as its content. The created
+	 * commit chain is referenced from any ref.
+	 * <p>
+	 * A chain will create {@code (2 + files) * depth} objects in Gits object
+	 * database. For each depth level the following objects are created: the
+	 * commit object, the top-level tree object and @code files} blobs for the
+	 * content of the file "a".
+	 *
+	 * @param depth
+	 *            the depth of the commit chain.
+	 * @param width
+	 *            number of files added per commit
+	 * @return the commit that is the tip of the commit chain
+	 * @throws Exception
+	 */
+	protected RevCommit commitChain(int depth, int width) throws Exception {
+		if (depth <= 0) {
+			throw new IllegalArgumentException("Chain depth must be > 0");
+		}
+		if (width <= 0) {
+			throw new IllegalArgumentException("Number of files per commit must be > 0");
+		}
+		CommitBuilder cb = tr.commit();
+		RevCommit tip = null;
+		do {
+			--depth;
+			for (int i=0; i < width; i++) {
+				String id = depth + "-" + i;
+				cb.add("a" + id, id).message(id);
+			}
+			tip = cb.create();
+			cb = cb.child();
+		} while (depth > 0);
+		return tip;
+	}
+
 	protected long lastModified(AnyObjectId objectId) throws IOException {
 		return repo.getFS().lastModified(
 				repo.getObjectDatabase().fileFor(objectId));
