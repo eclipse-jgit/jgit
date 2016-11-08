@@ -139,6 +139,7 @@ public class CleanFilter extends FilterCommand {
 				size += length;
 				return length;
 			} else {
+				in.close();
 				aOut.close();
 				AnyLongObjectId loid = aOut.getId();
 				aOut = null;
@@ -161,10 +162,11 @@ public class CleanFilter extends FilterCommand {
 				return -1;
 			}
 		} catch (IOException e) {
+			in.close();
+			out.close();
 			if (aOut != null) {
 				aOut.abort();
 			}
-			out.close();
 			throw e;
 		}
 	}
