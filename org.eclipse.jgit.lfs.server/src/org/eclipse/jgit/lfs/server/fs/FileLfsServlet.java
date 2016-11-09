@@ -173,7 +173,7 @@ public class FileLfsServlet extends HttpServlet {
 		}
 	}
 
-	static void sendError(HttpServletResponse rsp, int status, String message)
+	protected static void sendError(HttpServletResponse rsp, int status, String message)
 			throws IOException {
 		rsp.setStatus(status);
 		PrintWriter writer = rsp.getWriter();
