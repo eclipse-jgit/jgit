@@ -173,7 +173,19 @@ public class FileLfsServlet extends HttpServlet {
 		}
 	}
 
-	static void sendError(HttpServletResponse rsp, int status, String message)
+	/**
+	 * Send an error response.
+	 *
+	 * @param rsp
+	 *            the servlet response
+	 * @param status
+	 *            HTTP status code
+	 * @param message
+	 *            error message
+	 * @throws IOException
+	 *             on failure to send the response
+	 */
+	protected static void sendError(HttpServletResponse rsp, int status, String message)
 			throws IOException {
 		rsp.setStatus(status);
 		PrintWriter writer = rsp.getWriter();
