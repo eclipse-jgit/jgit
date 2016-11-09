@@ -65,7 +65,7 @@ import org.eclipse.jgit.lfs.lib.Constants;
 /**
  * Handle asynchronous object upload
  */
-class ObjectUploadListener implements ReadListener {
+public class ObjectUploadListener implements ReadListener {
 
 	private static Logger LOG = Logger
 			.getLogger(ObjectUploadListener.class.getName());
