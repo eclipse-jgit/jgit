@@ -96,6 +96,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String bitmapMissingObject;
 	/***/ public String bitmapsMustBePrepared;
 	/***/ public String blameNotCommittedYet;
+	/***/ public String blockSizeNotPowerOf2;
 	/***/ public String blobNotFound;
 	/***/ public String blobNotFoundForPath;
 	/***/ public String branchNameInvalid;

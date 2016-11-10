@@ -106,6 +106,7 @@ public class DfsBlockCacheConfig {
 	/**
 	 * @param newSize
 	 *            size in bytes of a single window read in from the pack file.
+	 *            The value must be a power of 2.
 	 * @return {@code this}
 	 */
 	public DfsBlockCacheConfig setBlockSize(final int newSize) {
