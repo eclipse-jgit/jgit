@@ -145,6 +145,8 @@ public final class DfsBlockCache {
 	 * <p>
 	 * If a pack file has a native size, a whole multiple of the native size
 	 * will be used until it matches this size.
+	 * <p>
+	 * The value for blockSize must be a power of 2.
 	 */
 	private final int blockSize;
 
@@ -189,6 +191,9 @@ public final class DfsBlockCache {
 		maxBytes = cfg.getBlockLimit();
 		maxStreamThroughCache = (long) (maxBytes * cfg.getStreamRatio());
 		blockSize = cfg.getBlockSize();
+		if ((blockSize & (blockSize - 1)) != 0) {
+			throw new IllegalArgumentException(JGitText.get().blockSizeNotPowerOf2);
+		}
 		blockSizeShift = Integer.numberOfTrailingZeros(blockSize);
 
 		clockLock = new ReentrantLock(true /* fair */);
