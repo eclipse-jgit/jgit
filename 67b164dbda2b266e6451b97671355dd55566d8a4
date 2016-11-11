@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_3a51075b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-11-11T08:09:29Z",
+      "side": 1,
+      "message": "* fail earlier by moving this check to DfsBlockCacheConfig.setBlockSize() ?\n* I think we should also prevent blockSize \u003d\u003d 0",
+      "revId": "67b164dbda2b266e6451b97671355dd55566d8a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
