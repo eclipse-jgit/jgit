@@ -263,20 +263,22 @@ public final class DfsBlockCache {
 		// TODO This table grows without bound. It needs to clean up
 		// entries that aren't in cache anymore, and aren't being used
 		// by a live DfsObjDatabase reference.
-		synchronized (packCache) {
-			DfsPackFile pack = packCache.get(dsc);
-			if (pack != null && pack.invalid()) {
-				packCache.remove(dsc);
-				pack = null;
-			}
-			if (pack == null) {
-				if (key == null)
-					key = new DfsPackKey();
-				pack = new DfsPackFile(this, dsc, key);
-				packCache.put(dsc, pack);
-			}
+
+		DfsPackFile pack = packCache.get(dsc);
+		if (pack != null && !pack.invalid()) {
 			return pack;
 		}
+
+		// 'pack' either didn't exist or was invalid. Compute a new
+		// entry atomically (guaranteed by ConcurrentHashMap).
+		return packCache.compute(dsc, (k, v) -> {
+			if (v != null && !v.invalid()) { // valid value added by
+				return v;                    // another thread
+			} else {
+				return new DfsPackFile(
+						this, dsc, key != null ? key : new DfsPackKey());
+			}
+		});
 	}
 
 	private int hash(int packHash, long off) {
@@ -504,9 +506,7 @@ public final class DfsBlockCache {
 	}
 
 	void remove(DfsPackFile pack) {
-		synchronized (packCache) {
-			packCache.remove(pack.getPackDescription());
-		}
+		packCache.remove(pack.getPackDescription());
 	}
 
 	private int slot(DfsPackKey pack, long position) {
