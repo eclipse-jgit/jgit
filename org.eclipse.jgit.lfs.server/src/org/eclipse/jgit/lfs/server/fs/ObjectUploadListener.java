@@ -64,9 +64,11 @@ import org.eclipse.jgit.lfs.lib.AnyLongObjectId;
 import org.eclipse.jgit.lfs.lib.Constants;
 
 /**
- * Handle asynchronous object upload
+ * Handle asynchronous object upload.
+ *
+ * @since 4.6
  */
-class ObjectUploadListener implements ReadListener {
+public class ObjectUploadListener implements ReadListener {
 
 	private static Logger LOG = Logger
 			.getLogger(ObjectUploadListener.class.getName());
@@ -139,6 +141,9 @@ class ObjectUploadListener implements ReadListener {
 		close();
 	}
 
+	/**
+	 * @throws IOException
+	 */
 	protected void close() throws IOException {
 		try {
 			inChannel.close();
