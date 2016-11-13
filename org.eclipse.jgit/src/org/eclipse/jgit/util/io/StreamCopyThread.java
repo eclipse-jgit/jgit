@@ -59,8 +59,6 @@ public class StreamCopyThread extends Thread {
 
 	private volatile boolean done;
 
-	private final AtomicInteger flushCount = new AtomicInteger(0);
-
 	/** Lock held by flush to avoid interrupting a write. */
 	private final Object writeLock;
 
@@ -90,7 +88,6 @@ public class StreamCopyThread extends Thread {
 	 */
 	@Deprecated
 	public void flush() {
-		flushCount.incrementAndGet();
 		synchronized (writeLock) {
 			interrupt();
 		}
@@ -120,7 +117,6 @@ public class StreamCopyThread extends Thread {
 	public void run() {
 		try {
 			final byte[] buf = new byte[BUFFER_SIZE];
-			int flushCountBeforeRead = 0;
 			boolean readInterrupted = false;
 			for (;;) {
 				try {
@@ -133,18 +129,11 @@ public class StreamCopyThread extends Thread {
 							}
 						}
 						readInterrupted = false;
-						if (!flushCount.compareAndSet(flushCountBeforeRead, 0)) {
-							// There was a flush() call since last blocked read.
-							// Set interrupt status, so next blocked read will throw
-							// an InterruptedIOException and we will flush again.
-							interrupt();
-						}
 					}
 
 					if (done)
 						break;
 
-					flushCountBeforeRead = flushCount.get();
 					final int n;
 					try {
 						n = src.read(buf);
@@ -167,7 +156,7 @@ public class StreamCopyThread extends Thread {
 
 							// set interrupt status, which will be checked
 							// when we block in src.read
-							if (writeInterrupted || flushCount.get() > 0)
+							if (writeInterrupted)
 								interrupt();
 							break;
 						}
