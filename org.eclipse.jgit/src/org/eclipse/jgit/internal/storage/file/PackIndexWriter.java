@@ -56,7 +56,6 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.transport.PackedObjectInfo;
 import org.eclipse.jgit.util.NB;
-import org.eclipse.jgit.util.io.SafeBufferedOutputStream;
 
 /**
  * Creates a table of contents to support random access by {@link PackFile}.
@@ -183,7 +182,7 @@ public abstract class PackIndexWriter {
 	 */
 	protected PackIndexWriter(final OutputStream dst) {
 		out = new DigestOutputStream(dst instanceof BufferedOutputStream ? dst
-				: new SafeBufferedOutputStream(dst),
+				: new BufferedOutputStream(dst),
 				Constants.newMessageDigest());
 		tmp = new byte[4 + Constants.OBJECT_ID_LENGTH];
 	}

@@ -50,12 +50,11 @@ import java.io.OutputStream;
 import java.security.DigestOutputStream;
 import java.text.MessageFormat;
 
-import com.googlecode.javaewah.EWAHCompressedBitmap;
-
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndexBuilder.StoredEntry;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.util.io.SafeBufferedOutputStream;
+
+import com.googlecode.javaewah.EWAHCompressedBitmap;
 
 /**
  * Creates the version 1 pack bitmap index files.
@@ -74,7 +73,7 @@ public class PackBitmapIndexWriterV1 {
 	 */
 	public PackBitmapIndexWriterV1(final OutputStream dst) {
 		out = new DigestOutputStream(dst instanceof BufferedOutputStream ? dst
-				: new SafeBufferedOutputStream(dst),
+				: new BufferedOutputStream(dst),
 				Constants.newMessageDigest());
 		dataOutput = new SimpleDataOutput(out);
 	}

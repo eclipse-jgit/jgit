@@ -45,6 +45,7 @@ package org.eclipse.jgit.diff;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 
@@ -65,7 +66,6 @@ import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
-import org.eclipse.jgit.util.io.SafeBufferedOutputStream;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -381,7 +381,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 		write(new File(folder, "folder.txt"), "folder");
 		try (Git git = new Git(db);
 				ByteArrayOutputStream os = new ByteArrayOutputStream();
-				DiffFormatter dfmt = new DiffFormatter(new SafeBufferedOutputStream(os))) {
+				DiffFormatter dfmt = new DiffFormatter(new BufferedOutputStream(os))) {
 			git.add().addFilepattern(".").call();
 			git.commit().setMessage("Initial commit").call();
 			write(new File(folder, "folder.txt"), "folder change");
@@ -414,7 +414,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 		write(new File(folder, "folder.txt"), "folder");
 		try (Git git = new Git(db);
 				ByteArrayOutputStream os = new ByteArrayOutputStream();
-				DiffFormatter dfmt = new DiffFormatter(new SafeBufferedOutputStream(os))) {
+				DiffFormatter dfmt = new DiffFormatter(new BufferedOutputStream(os))) {
 			git.add().addFilepattern(".").call();
 			RevCommit commit = git.commit().setMessage("Initial commit").call();
 			write(new File(folder, "folder.txt"), "folder change");
@@ -446,7 +446,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 		write(new File(folder, "folder.txt"), "folder");
 		try (Git git = new Git(db);
 				ByteArrayOutputStream os = new ByteArrayOutputStream();
-				DiffFormatter dfmt = new DiffFormatter(new SafeBufferedOutputStream(os));) {
+				DiffFormatter dfmt = new DiffFormatter(new BufferedOutputStream(os));) {
 			git.add().addFilepattern(".").call();
 			RevCommit commit = git.commit().setMessage("Initial commit").call();
 			write(new File(folder, "folder.txt"), "folder change");
@@ -473,7 +473,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 	@Test
 	public void testDiffNullToNull() throws Exception {
 		try (ByteArrayOutputStream os = new ByteArrayOutputStream();
-				DiffFormatter dfmt = new DiffFormatter(new SafeBufferedOutputStream(os))) {
+				DiffFormatter dfmt = new DiffFormatter(new BufferedOutputStream(os))) {
 			dfmt.setRepository(db);
 			dfmt.format((AnyObjectId) null, null);
 			dfmt.flush();
