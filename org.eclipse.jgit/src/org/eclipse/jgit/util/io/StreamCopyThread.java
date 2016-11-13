@@ -88,6 +88,7 @@ public class StreamCopyThread extends Thread {
 	 * happen at some future point in time, when the thread wakes up to process
 	 * the request.
 	 */
+	@Deprecated
 	public void flush() {
 		flushCount.incrementAndGet();
 		synchronized (writeLock) {
