@@ -45,6 +45,7 @@ package org.eclipse.jgit.transport;
 
 import static org.eclipse.jgit.transport.WalkRemoteObjectDatabase.ROOT_DIR;
 
+import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -69,7 +70,6 @@ import org.eclipse.jgit.lib.Ref.Storage;
 import org.eclipse.jgit.lib.RefWriter;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
-import org.eclipse.jgit.util.io.SafeBufferedOutputStream;
 
 /**
  * Generic push support for dumb transport protocols.
@@ -262,21 +262,15 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 			// Write the pack file, then the index, as readers look the
 			// other direction (index, then pack file).
 			//
-			final String wt = "Put " + base.substring(0, 12); //$NON-NLS-1$
-			OutputStream os = dest.writeFile(pathPack, monitor, wt + "..pack"); //$NON-NLS-1$
-			try {
-				os = new SafeBufferedOutputStream(os);
+			String wt = "Put " + base.substring(0, 12); //$NON-NLS-1$
+			try (OutputStream os = new BufferedOutputStream(
+					dest.writeFile(pathPack, monitor, wt + "..pack"))) { //$NON-NLS-1$
 				writer.writePack(monitor, monitor, os);
-			} finally {
-				os.close();
 			}
 
-			os = dest.writeFile(pathIdx, monitor, wt + "..idx"); //$NON-NLS-1$
-			try {
-				os = new SafeBufferedOutputStream(os);
+			try (OutputStream os = new BufferedOutputStream(
+					dest.writeFile(pathIdx, monitor, wt + "..idx"))) { //$NON-NLS-1$
 				writer.writeIndex(os);
-			} finally {
-				os.close();
 			}
 
 			// Record the pack at the start of the pack info list. This

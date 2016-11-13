@@ -50,6 +50,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -69,7 +70,6 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.transport.PackedObjectInfo;
 import org.eclipse.jgit.util.FileUtils;
-import org.eclipse.jgit.util.io.SafeBufferedOutputStream;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -180,13 +180,10 @@ public class AbbreviationTest extends LocalDiskRepositoryTestCase {
 		File idxFile = new File(packDir, packName + ".idx");
 		File packFile = new File(packDir, packName + ".pack");
 		FileUtils.mkdir(packDir, true);
-		OutputStream dst = new SafeBufferedOutputStream(new FileOutputStream(
-				idxFile));
-		try {
+		try (OutputStream dst = new BufferedOutputStream(
+				new FileOutputStream(idxFile))) {
 			PackIndexWriter writer = new PackIndexWriterV2(dst);
 			writer.write(objects, new byte[OBJECT_ID_LENGTH]);
-		} finally {
-			dst.close();
 		}
 		new FileOutputStream(packFile).close();
 
