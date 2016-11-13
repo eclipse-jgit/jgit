@@ -51,6 +51,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.fail;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -71,7 +72,6 @@ import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.WindowCacheConfig;
 import org.eclipse.jgit.util.FileUtils;
-import org.eclipse.jgit.util.io.SafeBufferedOutputStream;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -235,20 +235,15 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 			throws IOException {
 		final long begin = files[0].getParentFile().lastModified();
 		NullProgressMonitor m = NullProgressMonitor.INSTANCE;
-		OutputStream out;
 
-		out = new SafeBufferedOutputStream(new FileOutputStream(files[0]));
-		try {
+		try (OutputStream out = new BufferedOutputStream(
+				new FileOutputStream(files[0]))) {
 			pw.writePack(m, m, out);
-		} finally {
-			out.close();
 		}
 
-		out = new SafeBufferedOutputStream(new FileOutputStream(files[1]));
-		try {
+		try (OutputStream out = new BufferedOutputStream(
+				new FileOutputStream(files[1]))) {
 			pw.writeIndex(out);
-		} finally {
-			out.close();
 		}
 
 		touch(begin, files[0].getParentFile());
