@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "a7c23755_4d7c4c91",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/IsolatedOutputStream.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-11-13T04:09:00Z",
+      "side": 1,
+      "message": "nit: should be package-private instead of private to avoid synthetic accessor.",
+      "revId": "943094c0abf64e2149818676adcc39136fb67040",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_0d82540c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/IsolatedOutputStream.java",
         "patchSetId": 2
@@ -13,6 +30,24 @@
       "writtenOn": "2016-11-13T04:03:50Z",
       "side": 1,
       "message": "I don\u0027t understand this. Wouldn\u0027t it cause operations like IsolatedOutputStream#write to hang instead of doing anything because the lock is already held?",
+      "revId": "943094c0abf64e2149818676adcc39136fb67040",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_8df90491",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/IsolatedOutputStream.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-11-13T04:09:00Z",
+      "side": 1,
+      "message": "Ah, the condvar releases lock. Sorry for the confusion.",
+      "parentUuid": "a7c23755_0d82540c",
       "revId": "943094c0abf64e2149818676adcc39136fb67040",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
