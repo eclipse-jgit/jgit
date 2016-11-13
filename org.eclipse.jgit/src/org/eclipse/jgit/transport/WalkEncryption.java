@@ -143,35 +143,6 @@ abstract class WalkEncryption {
 		}
 	}
 
-	// PBEParameterSpec factory for Java (version <= 7).
-	// Does not support AlgorithmParameterSpec.
-	static PBEParameterSpec java7PBEParameterSpec(byte[] salt,
-			int iterationCount) {
-		return new PBEParameterSpec(salt, iterationCount);
-	}
-
-	// PBEParameterSpec factory for Java (version >= 8).
-	// Adds support for AlgorithmParameterSpec.
-	static PBEParameterSpec java8PBEParameterSpec(byte[] salt,
-			int iterationCount, AlgorithmParameterSpec paramSpec) {
-		try {
-			@SuppressWarnings("boxing")
-			PBEParameterSpec instance = PBEParameterSpec.class
-					.getConstructor(byte[].class, int.class,
-							AlgorithmParameterSpec.class)
-					.newInstance(salt, iterationCount, paramSpec);
-			return instance;
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	// Current runtime version.
-	// https://docs.oracle.com/javase/7/docs/technotes/guides/versioning/spec/versioning2.html
-	static double javaVersion() {
-		return Double.parseDouble(System.getProperty("java.specification.version")); //$NON-NLS-1$
-	}
-
 	/**
 	 * JetS3t compatibility reference: <a href=
 	 * "https://bitbucket.org/jmurty/jets3t/src/156c00eb160598c2e9937fd6873f00d3190e28ca/src/org/jets3t/service/security/EncryptionUtil.java">
@@ -233,9 +204,7 @@ abstract class WalkEncryption {
 			boolean useIV = cryptoName.contains("AES"); //$NON-NLS-1$
 
 			// PBEParameterSpec algorithm parameters are supported from Java 8.
-			boolean isJava8 = javaVersion() >= 1.8;
-
-			if (useIV && isJava8) {
+			if (useIV) {
 				// Support IV where possible:
 				// * since JCE provider uses random IV for PBE/AES
 				// * and there is no place to store dynamic IV in JetS3t V2
@@ -245,16 +214,15 @@ abstract class WalkEncryption {
 				// https://bitbucket.org/jmurty/jets3t/raw/156c00eb160598c2e9937fd6873f00d3190e28ca/src/org/jets3t/service/security/EncryptionUtil.java
 				// http://cr.openjdk.java.net/~mullan/webrevs/ascarpin/webrev.00/raw_files/new/src/share/classes/com/sun/crypto/provider/PBES2Core.java
 				IvParameterSpec paramIV = new IvParameterSpec(ZERO_AES_IV);
-				paramSpec = java8PBEParameterSpec(SALT, ITERATIONS, paramIV);
+				paramSpec = new PBEParameterSpec(SALT, ITERATIONS, paramIV);
 			} else {
 				// Strict legacy JetS3t V2 compatibility, with no IV support.
-				paramSpec = java7PBEParameterSpec(SALT, ITERATIONS);
+				paramSpec = new PBEParameterSpec(SALT, ITERATIONS);
 			}
 
 			// Verify if cipher + key are allowed by policy.
 			cipher.init(Cipher.ENCRYPT_MODE, secretKey, paramSpec);
 			cipher.doFinal();
-
 		}
 
 		@Override
