@@ -53,8 +53,8 @@ public class RepositoryCacheConfig {
 
 	/**
 	 * Set cleanupDelayMillis to this value in order to switch off time-based
-	 * cache eviction. The JVM can still expire cache entries when heap memory
-	 * runs low.
+	 * cache eviction. Expired cache entries will only be evicted when
+	 * RepositoryCache.clearExpired or RepositoryCache.clear are called.
 	 */
 	public static final long NO_CLEANUP = 0;
 
