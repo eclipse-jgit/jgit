@@ -56,6 +56,30 @@
       "revId": "e97b9610e5a0a85ed14aecbdc5c9af5e4dd3a0ae",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_4df60c52",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/IsolatedOutputStream.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-11-13T18:39:21Z",
+      "side": 1,
+      "message": "Nevermind, I see it is the Future.get() that throws the InterruptedException.",
+      "parentUuid": "a7c23755_0dfc1432",
+      "range": {
+        "startLine": 150,
+        "startChar": 10,
+        "endLine": 150,
+        "endChar": 22
+      },
+      "revId": "e97b9610e5a0a85ed14aecbdc5c9af5e4dd3a0ae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
