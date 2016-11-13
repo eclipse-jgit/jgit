@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_cd03fc18",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/IsolatedOutputStream.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-11-13T04:18:37Z",
+      "side": 1,
+      "message": "What happens to dst and copier in this case? try-with-resources style wouldn\u0027t try the close() again, so should we retry the close to prevent them from leaking?",
+      "revId": "943094c0abf64e2149818676adcc39136fb67040",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_0d82540c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/IsolatedOutputStream.java",
         "patchSetId": 2
