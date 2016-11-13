@@ -56,7 +56,6 @@ import java.util.ArrayList;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ProgressMonitor;
-import org.eclipse.jgit.util.io.SafeBufferedOutputStream;
 
 /**
  * A fully buffered output stream.
@@ -360,7 +359,7 @@ public abstract class TemporaryBuffer extends OutputStream {
 			overflow.write(b.buffer, 0, b.count);
 		blocks = null;
 
-		overflow = new SafeBufferedOutputStream(overflow, Block.SZ);
+		overflow = new BufferedOutputStream(overflow, Block.SZ);
 		overflow.write(last.buffer, 0, last.count);
 	}
 
