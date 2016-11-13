@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_adc6c011",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-11-13T17:47:37Z",
+      "side": 1,
+      "message": "nit: the commit message is stale now",
+      "revId": "e97b9610e5a0a85ed14aecbdc5c9af5e4dd3a0ae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_8dc104fe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/IsolatedOutputStream.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-11-13T17:47:37Z",
+      "side": 1,
+      "message": "Would it be simpler to copier.awaitTermination and close dst ourselves, or does that run into problems in case the current thread is interrupted?",
+      "revId": "e97b9610e5a0a85ed14aecbdc5c9af5e4dd3a0ae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
