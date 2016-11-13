@@ -51,12 +51,10 @@ package org.eclipse.jgit.transport;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
 
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.util.io.StreamCopyThread;
+import org.eclipse.jgit.util.io.IsolatedOutputStream;
 
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelExec;
@@ -178,33 +176,11 @@ public class JschSession implements RemoteSession {
 			// that we spawn a background thread to shuttle data through a pipe,
 			// as we can issue an interrupted write out of that. Its slower, so
 			// we only use this route if there is a timeout.
-			final OutputStream out = channel.getOutputStream();
+			OutputStream out = channel.getOutputStream();
 			if (timeout <= 0) {
 				outputStream = out;
 			} else {
-				final PipedInputStream pipeIn = new PipedInputStream();
-				final StreamCopyThread copier = new StreamCopyThread(pipeIn,
-						out);
-				final PipedOutputStream pipeOut = new PipedOutputStream(pipeIn) {
-					@Override
-					public void flush() throws IOException {
-						super.flush();
-						copier.flush();
-					}
-
-					@Override
-					public void close() throws IOException {
-						super.close();
-						try {
-							copier.join(timeout * 1000);
-						} catch (InterruptedException e) {
-							// Just wake early, the thread will terminate
-							// anyway.
-						}
-					}
-				};
-				copier.start();
-				outputStream = pipeOut;
+				outputStream = new IsolatedOutputStream(out);
 			}
 
 			errStream = channel.getErrStream();
