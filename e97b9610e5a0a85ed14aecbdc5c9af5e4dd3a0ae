@@ -33,6 +33,29 @@
       "revId": "e97b9610e5a0a85ed14aecbdc5c9af5e4dd3a0ae",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_0dfc1432",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/IsolatedOutputStream.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-11-13T18:35:02Z",
+      "side": 1,
+      "message": "submit() isn\u0027t documented as throwing an InterruptedException. Does it? If not then I don\u0027t see how this scheme works to allow timeouts.",
+      "range": {
+        "startLine": 150,
+        "startChar": 10,
+        "endLine": 150,
+        "endChar": 22
+      },
+      "revId": "e97b9610e5a0a85ed14aecbdc5c9af5e4dd3a0ae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
