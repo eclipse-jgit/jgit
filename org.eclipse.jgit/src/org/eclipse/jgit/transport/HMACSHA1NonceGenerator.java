@@ -52,7 +52,6 @@ import javax.crypto.spec.SecretKeySpec;
 
 import org.eclipse.jgit.internal.storage.dfs.DfsRepository;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.transport.NonceGenerator;
 import org.eclipse.jgit.transport.PushCertificate.NonceStatus;
 
 /**

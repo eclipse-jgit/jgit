@@ -46,22 +46,20 @@ package org.eclipse.jgit.revwalk;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import java.io.IOException;
+import java.util.Set;
 
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Sets;
-import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.filter.MessageRevFilter;
 import org.eclipse.jgit.revwalk.filter.NotRevFilter;
 import org.eclipse.jgit.revwalk.filter.ObjectFilter;
-
-import java.io.IOException;
-import java.util.Set;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 public class ObjectWalkFilterTest {
 	private TestRepository<InMemoryRepository> tr;

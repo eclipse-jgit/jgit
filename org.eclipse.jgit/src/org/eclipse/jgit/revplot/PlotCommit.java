@@ -44,8 +44,8 @@
 package org.eclipse.jgit.revplot;
 
 import org.eclipse.jgit.lib.AnyObjectId;
-import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.revwalk.RevCommit;
 
 /**
  * A commit reference to a commit in the DAG.

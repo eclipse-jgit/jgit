@@ -42,10 +42,11 @@
  */
 package org.eclipse.jgit.ignore;
 
+import static org.eclipse.jgit.ignore.internal.IMatcher.NO_MATCH;
+import static org.eclipse.jgit.ignore.internal.Strings.isDirectoryPattern;
 import static org.eclipse.jgit.ignore.internal.Strings.stripTrailing;
 import static org.eclipse.jgit.ignore.internal.Strings.stripTrailingWhitespace;
-import static org.eclipse.jgit.ignore.internal.Strings.isDirectoryPattern;
-import static org.eclipse.jgit.ignore.internal.IMatcher.NO_MATCH;
+
 import org.eclipse.jgit.errors.InvalidPatternException;
 import org.eclipse.jgit.ignore.internal.IMatcher;
 import org.eclipse.jgit.ignore.internal.PathMatcher;

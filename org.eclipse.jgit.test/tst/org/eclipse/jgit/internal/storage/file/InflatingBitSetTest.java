@@ -46,10 +46,9 @@ package org.eclipse.jgit.internal.storage.file;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import com.googlecode.javaewah.EWAHCompressedBitmap;
-
-import org.eclipse.jgit.internal.storage.file.InflatingBitSet;
 import org.junit.Test;
+
+import com.googlecode.javaewah.EWAHCompressedBitmap;
 
 public class InflatingBitSetTest {
 

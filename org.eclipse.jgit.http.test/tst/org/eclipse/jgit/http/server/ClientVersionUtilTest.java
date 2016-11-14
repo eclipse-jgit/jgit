@@ -43,11 +43,11 @@
 
 package org.eclipse.jgit.http.server;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.eclipse.jgit.http.server.ClientVersionUtil.hasPushStatusBug;
 import static org.eclipse.jgit.http.server.ClientVersionUtil.invalidVersion;
 import static org.eclipse.jgit.http.server.ClientVersionUtil.parseVersion;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Assert;
 import org.junit.Test;

@@ -45,8 +45,8 @@ package org.eclipse.jgit.transport;
 
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_AGENT;
-import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_ALLOW_TIP_SHA1_IN_WANT;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_ALLOW_REACHABLE_SHA1_IN_WANT;
+import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_ALLOW_TIP_SHA1_IN_WANT;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_INCLUDE_TAG;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_MULTI_ACK;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_MULTI_ACK_DETAILED;

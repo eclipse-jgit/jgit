@@ -43,13 +43,13 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
+import static org.eclipse.jgit.internal.storage.pack.PackWriter.NONE;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static org.eclipse.jgit.internal.storage.pack.PackWriter.NONE;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -75,8 +75,8 @@ import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdSet;
 import org.eclipse.jgit.lib.ObjectInserter;
-import org.eclipse.jgit.lib.Sets;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.Sets;
 import org.eclipse.jgit.revwalk.DepthWalk;
 import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevBlob;

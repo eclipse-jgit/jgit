@@ -43,7 +43,6 @@
 
 package org.eclipse.jgit.internal.storage.reftree;
 
-import static org.eclipse.jgit.lib.RefDatabase.MAX_SYMBOLIC_REF_DEPTH;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.eclipse.jgit.lib.Constants.R_REFS;
 import static org.eclipse.jgit.lib.Constants.encode;
@@ -52,6 +51,7 @@ import static org.eclipse.jgit.lib.FileMode.TYPE_SYMLINK;
 import static org.eclipse.jgit.lib.FileMode.TYPE_TREE;
 import static org.eclipse.jgit.lib.Ref.Storage.NEW;
 import static org.eclipse.jgit.lib.Ref.Storage.PACKED;
+import static org.eclipse.jgit.lib.RefDatabase.MAX_SYMBOLIC_REF_DEPTH;
 
 import java.io.IOException;
 

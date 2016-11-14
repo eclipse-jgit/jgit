@@ -44,7 +44,6 @@
 package org.eclipse.jgit.transport;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-
 import static org.eclipse.jgit.util.RawParseUtils.lastIndexOfTrim;
 
 import java.text.SimpleDateFormat;

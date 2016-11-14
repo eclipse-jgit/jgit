@@ -50,8 +50,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import com.googlecode.javaewah.EWAHCompressedBitmap;
-
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.BitmapIndexImpl.CompressedBitmap;
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
@@ -62,6 +60,8 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdOwnerMap;
 import org.eclipse.jgit.util.BlockList;
+
+import com.googlecode.javaewah.EWAHCompressedBitmap;
 
 /**
  * Helper for constructing {@link PackBitmapIndex}es.

@@ -49,9 +49,8 @@ import java.net.Authenticator;
 import java.net.PasswordAuthentication;
 import java.text.MessageFormat;
 
-import org.eclipse.jgit.util.CachedAuthenticator;
-
 import org.eclipse.jgit.pgm.internal.CLIText;
+import org.eclipse.jgit.util.CachedAuthenticator;
 
 /**
  * Basic network prompt for username/password when using the console.

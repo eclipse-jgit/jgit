@@ -56,10 +56,10 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectChecker;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
 
 /**
  * Interface to read values from the system.

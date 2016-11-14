@@ -42,10 +42,10 @@
  */
 package org.eclipse.jgit.api;
 
+import static org.eclipse.jgit.lib.Constants.DOT_GIT_MODULES;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.eclipse.jgit.lib.Constants.DOT_GIT_MODULES;
 
 import java.io.File;
 import java.util.Set;

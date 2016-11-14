@@ -44,13 +44,13 @@
 package org.eclipse.jgit.internal.ketch;
 
 import static org.eclipse.jgit.internal.ketch.KetchReplica.CommitMethod.ALL_REFS;
+import static org.eclipse.jgit.lib.Ref.Storage.NETWORK;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.LOCK_FAILURE;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.NOT_ATTEMPTED;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.OK;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_NODELETE;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_NONFASTFORWARD;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_REASON;
-import static org.eclipse.jgit.lib.Ref.Storage.NETWORK;
 
 import java.io.IOException;
 import java.util.ArrayList;

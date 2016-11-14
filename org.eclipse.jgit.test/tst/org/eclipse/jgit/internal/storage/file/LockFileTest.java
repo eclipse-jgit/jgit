@@ -49,7 +49,6 @@ import static org.junit.Assert.fail;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.errors.LockFailedException;
-import org.eclipse.jgit.internal.storage.file.LockFile;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;

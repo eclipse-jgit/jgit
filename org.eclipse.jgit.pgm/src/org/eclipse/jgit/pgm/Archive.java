@@ -52,7 +52,6 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.archive.ArchiveFormats;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.pgm.TextBuiltin;
 import org.eclipse.jgit.pgm.internal.CLIText;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;

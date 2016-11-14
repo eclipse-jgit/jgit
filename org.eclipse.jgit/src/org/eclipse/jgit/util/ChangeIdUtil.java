@@ -45,8 +45,8 @@ package org.eclipse.jgit.util;
 import java.util.regex.Pattern;
 
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 
 /**

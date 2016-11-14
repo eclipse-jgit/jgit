@@ -60,9 +60,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.jgit.errors.AmbiguousObjectException;
-import org.eclipse.jgit.internal.storage.file.FileRepository;
-import org.eclipse.jgit.internal.storage.file.PackIndexWriter;
-import org.eclipse.jgit.internal.storage.file.PackIndexWriterV2;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;

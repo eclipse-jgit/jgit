@@ -46,8 +46,8 @@ package org.eclipse.jgit.http.server.resolver;
 import javax.servlet.http.HttpServletRequest;
 
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.Config.SectionParser;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.UploadPack;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;

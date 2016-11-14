@@ -1,7 +1,5 @@
 package org.eclipse.jgit.api.errors;
 
-import org.eclipse.jgit.api.errors.GitAPIException;
-
 /**
  * Thrown from StashApplyCommand when stash apply fails
  */

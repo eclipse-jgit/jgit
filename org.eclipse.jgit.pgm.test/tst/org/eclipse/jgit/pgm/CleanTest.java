@@ -42,13 +42,14 @@
  */
 package org.eclipse.jgit.pgm;
 
+import static org.eclipse.jgit.junit.JGitTestUtil.check;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.CLIRepositoryTestCase;
 import org.junit.Test;
-import static org.eclipse.jgit.junit.JGitTestUtil.check;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
 
 public class CleanTest extends CLIRepositoryTestCase {
 	@Test

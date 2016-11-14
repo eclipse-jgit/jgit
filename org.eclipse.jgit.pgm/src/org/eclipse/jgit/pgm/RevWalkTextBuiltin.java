@@ -49,8 +49,6 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 
-import org.kohsuke.args4j.Argument;
-import org.kohsuke.args4j.Option;
 import org.eclipse.jgit.diff.DiffConfig;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.lib.Constants;
@@ -73,6 +71,8 @@ import org.eclipse.jgit.revwalk.filter.MessageRevFilter;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.treewalk.filter.AndTreeFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
+import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.Option;
 
 abstract class RevWalkTextBuiltin extends TextBuiltin {
 	RevWalk walk;

@@ -54,8 +54,8 @@ import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.TreeWalk;
-import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk.OperationType;
+import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 
 /**
  * The attributes handler knows how to retrieve, parse and merge attributes from

@@ -44,7 +44,6 @@
 package org.eclipse.jgit.patch;
 
 import static java.lang.Integer.valueOf;
-import static java.lang.Long.valueOf;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;

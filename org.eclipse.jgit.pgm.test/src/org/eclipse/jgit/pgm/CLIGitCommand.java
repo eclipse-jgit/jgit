@@ -46,7 +46,6 @@ import static org.junit.Assert.assertNull;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;

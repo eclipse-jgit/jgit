@@ -44,7 +44,6 @@
 package org.eclipse.jgit.transport;
 
 import static java.lang.Integer.valueOf;
-import static java.lang.Long.valueOf;
 import static org.eclipse.jgit.transport.SideBandOutputStream.CH_DATA;
 import static org.eclipse.jgit.transport.SideBandOutputStream.CH_ERROR;
 import static org.eclipse.jgit.transport.SideBandOutputStream.CH_PROGRESS;

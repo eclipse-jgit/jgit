@@ -50,7 +50,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.jgit.errors.InvalidObjectIdException;
-
 import org.junit.Test;
 
 public class ObjectIdTest {

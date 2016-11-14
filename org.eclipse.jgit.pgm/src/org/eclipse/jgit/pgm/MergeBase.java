@@ -47,10 +47,10 @@ package org.eclipse.jgit.pgm;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kohsuke.args4j.Argument;
-import org.kohsuke.args4j.Option;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
+import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.Option;
 
 @Command(usage = "usage_MergeBase")
 class MergeBase extends TextBuiltin {

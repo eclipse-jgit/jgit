@@ -64,11 +64,11 @@ import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.QuotedString;
 import org.eclipse.jgit.util.SystemReader;
 import org.eclipse.jgit.util.io.MessageWriter;
 import org.eclipse.jgit.util.io.StreamCopyThread;
-import org.eclipse.jgit.util.FS;
 
 /**
  * Transport through an SSH tunnel.

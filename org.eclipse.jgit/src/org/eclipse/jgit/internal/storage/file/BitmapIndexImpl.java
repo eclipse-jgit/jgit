@@ -47,9 +47,6 @@ import java.text.MessageFormat;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import com.googlecode.javaewah.EWAHCompressedBitmap;
-import com.googlecode.javaewah.IntIterator;
-
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.BitmapIndex;
@@ -58,6 +55,9 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdOwnerMap;
 import org.eclipse.jgit.util.BlockList;
+
+import com.googlecode.javaewah.EWAHCompressedBitmap;
+import com.googlecode.javaewah.IntIterator;
 
 /** A compressed bitmap representation of the entire object graph. */
 public class BitmapIndexImpl implements BitmapIndex {

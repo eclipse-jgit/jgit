@@ -42,9 +42,6 @@
  */
 package org.eclipse.jgit.lib;
 
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.PersonIdent;
-
 /**
  * Parsed reflog entry
  *

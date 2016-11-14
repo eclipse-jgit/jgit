@@ -42,8 +42,8 @@
  */
 package org.eclipse.jgit.gitrepo;
 
-import static org.junit.Assert.assertTrue;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.util.HashSet;

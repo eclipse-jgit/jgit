@@ -59,10 +59,10 @@ import org.eclipse.jgit.lib.IndexDiff.StageState;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.pgm.internal.CLIText;
+import org.eclipse.jgit.pgm.opt.UntrackedFilesHandler;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.spi.RestOfArgumentsHandler;
-import org.eclipse.jgit.pgm.opt.UntrackedFilesHandler;
 
 /**
  * Status command
