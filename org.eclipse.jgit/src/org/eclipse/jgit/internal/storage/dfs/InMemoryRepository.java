@@ -54,6 +54,7 @@ public class InMemoryRepository extends DfsRepository {
 
 	private final DfsObjDatabase objdb;
 	private final RefDatabase refdb;
+	private String gitwebDescription;
 	private boolean performsAtomicTransactions = true;
 
 	/**
@@ -92,6 +93,16 @@ public class InMemoryRepository extends DfsRepository {
 	 */
 	public void setPerformsAtomicTransactions(boolean atomic) {
 		performsAtomicTransactions = atomic;
+	}
+
+	@Override
+	public String getGitwebDescription() {
+		return gitwebDescription;
+	}
+
+	@Override
+	public void setGitwebDescription(String d) {
+		gitwebDescription = d;
 	}
 
 	private class MemObjDatabase extends DfsObjDatabase {
