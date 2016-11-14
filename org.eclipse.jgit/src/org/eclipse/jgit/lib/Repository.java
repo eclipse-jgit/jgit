@@ -107,8 +107,7 @@ import org.slf4j.LoggerFactory;
  * This class is thread-safe.
  */
 public abstract class Repository implements AutoCloseable {
-	private static Logger LOG = LoggerFactory.getLogger(Repository.class);
-
+	private static final Logger LOG = LoggerFactory.getLogger(Repository.class);
 	private static final ListenerList globalListeners = new ListenerList();
 
 	/** @return the global listener list observing all events in this JVM. */
@@ -869,6 +868,7 @@ public abstract class Repository implements AutoCloseable {
 	}
 
 	/** Decrement the use count, and maybe close resources. */
+	@Override
 	public void close() {
 		int newCount = useCnt.decrementAndGet();
 		if (newCount == 0) {
@@ -902,8 +902,9 @@ public abstract class Repository implements AutoCloseable {
 		getRefDatabase().close();
 	}
 
-	@NonNull
 	@SuppressWarnings("nls")
+	@Override
+	@NonNull
 	public String toString() {
 		String desc;
 		File directory = getDirectory();
@@ -1175,7 +1176,7 @@ public abstract class Repository implements AutoCloseable {
 		// we want DirCache to inform us so that we can inform registered
 		// listeners about index changes
 		IndexChangedListener l = new IndexChangedListener() {
-
+			@Override
 			public void onIndexChanged(IndexChangedEvent event) {
 				notifyIndexChanged();
 			}
