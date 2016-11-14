@@ -175,7 +175,7 @@ abstract class WalkEncryption {
 		// Size 16, see com.sun.crypto.provider.AESConstants.AES_BLOCK_SIZE
 		static final byte[] ZERO_AES_IV = new byte[16];
 
-		private static final String cryptoVer = VERSION;
+		private static final String CRYPTO_VER = VERSION;
 
 		private final String cryptoAlg;
 
@@ -227,14 +227,14 @@ abstract class WalkEncryption {
 
 		@Override
 		void request(final HttpURLConnection u, final String prefix) {
-			u.setRequestProperty(prefix + JETS3T_CRYPTO_VER, cryptoVer);
+			u.setRequestProperty(prefix + JETS3T_CRYPTO_VER, CRYPTO_VER);
 			u.setRequestProperty(prefix + JETS3T_CRYPTO_ALG, cryptoAlg);
 		}
 
 		@Override
 		void validate(final HttpURLConnection u, final String prefix)
 				throws IOException {
-			validateImpl(u, prefix, cryptoVer, cryptoAlg);
+			validateImpl(u, prefix, CRYPTO_VER, cryptoAlg);
 		}
 
 		@Override
