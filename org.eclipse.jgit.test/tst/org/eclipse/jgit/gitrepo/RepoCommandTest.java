@@ -86,9 +86,6 @@ public class RepoCommandTest extends RepositoryTestCase {
 		try (Git git = new Git(defaultDb)) {
 			JGitTestUtil.writeTrashFile(defaultDb, "hello.txt", "branch world");
 			git.add().addFilepattern("hello.txt").call();
-			JGitTestUtil.writeTrashFile(defaultDb, "Linkedhello.txt",
-				"Content doesn't matter to a nihilist!");
-			git.add().addFilepattern("Linkedhello.txt").call();
 			oldCommitId = git.commit().setMessage("Initial commit").call().getId();
 			git.checkout().setName(BRANCH).setCreateBranch(true).call();
 			git.checkout().setName("master").call();
@@ -404,7 +401,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCopyAndLinkFileBare() throws Exception {
+	public void testCopyFileBare() throws Exception {
 		try (
 				Repository remoteDb = createBareRepository();
 				Repository tempDb = createWorkRepository()) {
@@ -418,8 +415,6 @@ public class RepoCommandTest extends RepositoryTestCase {
 					.append("\" revision=\"").append(BRANCH).append("\" >")
 					.append("<copyfile src=\"hello.txt\" dest=\"Hello\" />")
 					.append("<copyfile src=\"hello.txt\" dest=\"foo/Hello\" />")
-					.append("<linkfile src=\"Linkedhello.txt\" dest=\"LinkedHello\" />")
-					.append("<linkfile src=\"Linkedhello.txt\" dest=\"foo/LinkedHello\" />")
 					.append("</project>").append("</manifest>");
 			JGitTestUtil.writeTrashFile(tempDb, "manifest.xml",
 					xmlContent.toString());
@@ -432,20 +427,13 @@ public class RepoCommandTest extends RepositoryTestCase {
 			Repository localDb = Git.cloneRepository().setDirectory(directory)
 					.setURI(remoteDb.getDirectory().toURI().toString()).call()
 					.getRepository();
-
 			// The Hello file should exist
 			File hello = new File(localDb.getWorkTree(), "Hello");
 			assertTrue("The Hello file should exist", hello.exists());
 			// The foo/Hello file should be skipped.
 			File foohello = new File(localDb.getWorkTree(), "foo/Hello");
-			assertFalse("The foo/Hello file should be skipped", foohello.exists());
-
-			// The Linkedhello file should exist
-			File linkedhello = new File(localDb.getWorkTree(), "LinkedHello");
-			assertTrue("The LinkedHello file should exist", linkedhello.exists());
-			// The foo/LinkedHello file should be skipped.
-			File linkedfoohello = new File(localDb.getWorkTree(), "foo/LinkedHello");
-			assertFalse("The foo/LinkedHello file should be skipped", linkedfoohello.exists());
+			assertFalse(
+					"The foo/Hello file should be skipped", foohello.exists());
 			localDb.close();
 
 			// The content of Hello file should be expected
@@ -454,13 +442,6 @@ public class RepoCommandTest extends RepositoryTestCase {
 			reader.close();
 			assertEquals("The Hello file should have expected content",
 					"branch world", content);
-
-			// The content of LinkedHello file should be expected
-			BufferedReader reader1 = new BufferedReader(new FileReader(linkedhello));
-			String content1 = reader1.readLine();
-			reader1.close();
-			assertEquals("The LinkedHello file should have expected content",
-					"Content doesn't matter to a nihilist!", content1);
 		}
 	}
 
