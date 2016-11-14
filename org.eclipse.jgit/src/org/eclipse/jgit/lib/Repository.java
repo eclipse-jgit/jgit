@@ -246,7 +246,6 @@ public abstract class Repository implements AutoCloseable {
 	@NonNull
 	public abstract AttributesNodeProvider createAttributesNodeProvider();
 
-
 	/**
 	 * @return the used file system abstraction, or or {@code null} if
 	 *         repository isn't local.
@@ -1434,6 +1433,33 @@ public abstract class Repository implements AutoCloseable {
 				return remote;
 		}
 		return null;
+	}
+
+	/**
+	 * Read the {@code GIT_DIR/description} file for gitweb.
+	 *
+	 * @return description text; null if no description has been configured.
+	 * @throws IOException
+	 *             description cannot be accessed.
+	 * @since 4.6
+	 */
+	@Nullable
+	public String getDescription() throws IOException {
+		return null;
+	}
+
+	/**
+	 * Set the {@code GIT_DIR/description} file for gitweb.
+	 *
+	 * @param description
+	 *            new description; null to clear the description.
+	 * @throws IOException
+	 *             description cannot be persisted.
+	 * @since 4.6
+	 */
+	public void setDescription(@Nullable String description)
+			throws IOException {
+		throw new IOException(JGitText.get().unsupportedRepositoryDescription);
 	}
 
 	/**
