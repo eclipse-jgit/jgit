@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_660e85f0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexWriterV1.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-11-14T23:33:08Z",
+      "side": 1,
+      "message": "Duplicate import",
+      "revId": "8bb44f02d96d29c33f6123bdb99a6e752e08f0e0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
