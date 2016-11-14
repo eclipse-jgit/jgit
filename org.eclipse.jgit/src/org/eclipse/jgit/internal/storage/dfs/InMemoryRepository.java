@@ -16,6 +16,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectId;
@@ -54,6 +55,7 @@ public class InMemoryRepository extends DfsRepository {
 
 	private final DfsObjDatabase objdb;
 	private final RefDatabase refdb;
+	private String gitwebDescription;
 	private boolean performsAtomicTransactions = true;
 
 	/**
@@ -92,6 +94,17 @@ public class InMemoryRepository extends DfsRepository {
 	 */
 	public void setPerformsAtomicTransactions(boolean atomic) {
 		performsAtomicTransactions = atomic;
+	}
+
+	@Override
+	@Nullable
+	public String getGitwebDescription() {
+		return gitwebDescription;
+	}
+
+	@Override
+	public void setGitwebDescription(@Nullable String d) {
+		gitwebDescription = d;
 	}
 
 	private class MemObjDatabase extends DfsObjDatabase {
