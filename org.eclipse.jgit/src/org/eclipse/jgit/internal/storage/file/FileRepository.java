@@ -55,8 +55,10 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.attributes.AttributesNode;
 import org.eclipse.jgit.attributes.AttributesNodeProvider;
@@ -85,6 +87,8 @@ import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
+import org.eclipse.jgit.util.IO;
+import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.StringUtils;
 import org.eclipse.jgit.util.SystemReader;
 
@@ -114,16 +118,13 @@ import org.eclipse.jgit.util.SystemReader;
  *
  */
 public class FileRepository extends Repository {
+	private static final String UNNAMED = "Unnamed repository; edit this file to name it for gitweb."; //$NON-NLS-1$
+
 	private final FileBasedConfig systemConfig;
-
 	private final FileBasedConfig userConfig;
-
 	private final FileBasedConfig repoConfig;
-
 	private final RefDatabase refs;
-
 	private final ObjectDirectory objectDatabase;
-
 	private FileSnapshot snapshot;
 
 	/**
@@ -418,6 +419,59 @@ public class FileRepository extends Repository {
 				}
 		}
 		return repoConfig;
+	}
+
+	@Override
+	@Nullable
+	public String getGitwebDescription() throws IOException {
+		String d;
+		try {
+			d = RawParseUtils.decode(IO.readFully(descriptionFile()));
+		} catch (FileNotFoundException err) {
+			return null;
+		}
+		if (d != null) {
+			d = d.trim();
+			if (d.isEmpty() || UNNAMED.equals(d)) {
+				return null;
+			}
+		}
+		return d;
+	}
+
+	@Override
+	public void setGitwebDescription(@Nullable String description)
+			throws IOException {
+		String old = getGitwebDescription();
+		if (Objects.equals(old, description)) {
+			return;
+		}
+
+		File path = descriptionFile();
+		LockFile lock = new LockFile(path);
+		if (!lock.lock()) {
+			throw new IOException(MessageFormat.format(JGitText.get().lockError,
+					path.getAbsolutePath()));
+		}
+		try {
+			String d = description;
+			if (d != null) {
+				d = d.trim();
+				if (!d.isEmpty()) {
+					d += '\n';
+				}
+			} else {
+				d = ""; //$NON-NLS-1$
+			}
+			lock.write(Constants.encode(d));
+			lock.commit();
+		} finally {
+			lock.unlock();
+		}
+	}
+
+	private File descriptionFile() {
+		return new File(getDirectory(), "description"); //$NON-NLS-1$
 	}
 
 	/**
