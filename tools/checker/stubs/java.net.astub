@@ -1,0 +1,8 @@
+import org.checkerframework.checker.nullness.qual.Nullable;
+
+package java.net;
+
+class Authenticator {
+  @Nullable
+  protected PasswordAuthentication getPasswordAuthentication();
+}

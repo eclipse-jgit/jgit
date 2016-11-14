@@ -1,0 +1,10 @@
+import org.checkerframework.checker.nullness.qual.EnsuresNonNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
+
+package java.util;
+
+class Objects {
+  @EnsuresNonNull("#1")
+  @NonNull
+  static <T> T requireNonNull(T obj);
+}

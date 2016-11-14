@@ -56,6 +56,7 @@ public class Holder<T> {
 	 * @param value
 	 *            is the initial value that is {@link #set(Object)}
 	 */
+	@SuppressWarnings("method.invocation.invalid")
 	public Holder(T value) {
 		set(value);
 	}

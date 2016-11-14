@@ -49,6 +49,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefComparator;
 
@@ -181,6 +182,7 @@ public class RefList<T extends Ref> implements Iterable<Ref> {
 	 *            the name of the reference.
 	 * @return the reference object; null if it does not exist in this list.
 	 */
+	@Nullable
 	public final T get(String name) {
 		int idx = find(name);
 		return 0 <= idx ? get(idx) : null;

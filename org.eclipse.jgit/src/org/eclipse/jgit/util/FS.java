@@ -43,6 +43,8 @@
 
 package org.eclipse.jgit.util;
 
+import static java.util.Objects.requireNonNull;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -98,7 +100,7 @@ public abstract class FS {
 		 * @param cygwinUsed
 		 * @return FS instance
 		 */
-		public FS detect(Boolean cygwinUsed) {
+		public FS detect(@Nullable Boolean cygwinUsed) {
 			if (SystemReader.getInstance().isWindows()) {
 				if (cygwinUsed == null)
 					cygwinUsed = Boolean.valueOf(FS_Win32_Cygwin.isCygwin());
@@ -196,16 +198,18 @@ public abstract class FS {
 	 *
 	 * @return detected file system abstraction
 	 */
-	public static FS detect(Boolean cygwinUsed) {
+	public static FS detect(@Nullable Boolean cygwinUsed) {
 		if (factory == null) {
 			factory = new FS.FSFactory();
 		}
 		return factory.detect(cygwinUsed);
 	}
 
-	private volatile Holder<File> userHome;
+	@Nullable
+	private volatile Holder<@Nullable File> userHome;
 
-	private volatile Holder<File> gitSystemConfig;
+	@Nullable
+	private volatile Holder<@Nullable File> gitSystemConfig;
 
 	/**
 	 * Constructs a file system abstraction.
@@ -355,7 +359,7 @@ public abstract class FS {
 	 * @return the translated path. <code>new File(dir,name)</code> if this
 	 *         platform does not require path name translation.
 	 */
-	public File resolve(final File dir, final String name) {
+	public File resolve(final @Nullable File dir, final String name) {
 		final File abspn = new File(name);
 		if (abspn.isAbsolute())
 			return abspn;
@@ -373,10 +377,11 @@ public abstract class FS {
 	 *
 	 * @return the user's home directory; null if the user does not have one.
 	 */
+	@Nullable
 	public File userHome() {
-		Holder<File> p = userHome;
+		Holder<@Nullable File> p = userHome;
 		if (p == null) {
-			p = new Holder<File>(userHomeImpl());
+			p = new Holder<>(userHomeImpl());
 			userHome = p;
 		}
 		return p.value;
@@ -391,7 +396,7 @@ public abstract class FS {
 	 * @return {@code this}.
 	 */
 	public FS setUserHome(File path) {
-		userHome = new Holder<File>(path);
+		userHome = new Holder<>(path);
 		return this;
 	}
 
@@ -407,6 +412,7 @@ public abstract class FS {
 	 *
 	 * @return the user's home directory; null if the user does not have one.
 	 */
+	@Nullable
 	protected File userHomeImpl() {
 		final String home = AccessController
 				.doPrivileged(new PrivilegedAction<String>() {
@@ -430,7 +436,9 @@ public abstract class FS {
 	 * @return the first match found, or null
 	 * @since 3.0
 	 **/
-	protected static File searchPath(final String path, final String... lookFor) {
+	@Nullable
+	protected static File searchPath(
+			final @Nullable String path, final String... lookFor) {
 		if (path == null)
 			return null;
 
@@ -459,7 +467,7 @@ public abstract class FS {
 	 *             thrown when the command failed (return code was non-zero)
 	 */
 	@Nullable
-	protected static String readPipe(File dir, String[] command,
+	protected static String readPipe(@Nullable File dir, String[] command,
 			String encoding) throws CommandFailedException {
 		return readPipe(dir, command, encoding, null);
 	}
@@ -483,8 +491,8 @@ public abstract class FS {
 	 * @since 4.0
 	 */
 	@Nullable
-	protected static String readPipe(File dir, String[] command,
-			String encoding, Map<String, String> env)
+	protected static String readPipe(@Nullable File dir, String[] command,
+			String encoding, @Nullable Map<String, String> env)
 			throws CommandFailedException {
 		final boolean debug = LOG.isDebugEnabled();
 		try {
@@ -548,9 +556,9 @@ public abstract class FS {
 		private final String dir;
 		final AtomicBoolean fail = new AtomicBoolean();
 		final AtomicReference<String> errorMessage = new AtomicReference<>();
-		final AtomicReference<Throwable> exception = new AtomicReference<>();
+		final AtomicReference<@Nullable Throwable> exception = new AtomicReference<>();
 
-		GobblerThread(Process p, String[] command, File dir) {
+		GobblerThread(Process p, String[] command, @Nullable File dir) {
 			this.p = p;
 			this.desc = Arrays.toString(command);
 			this.dir = Objects.toString(dir);
@@ -581,11 +589,12 @@ public abstract class FS {
 			}
 		}
 
-		private void setError(IOException e, String message) {
+		private void setError(@Nullable IOException e, @Nullable String message) {
 			exception.set(e);
 			errorMessage.set(MessageFormat.format(
 					JGitText.get().exceptionCaughtDuringExcecutionOfCommand,
-					desc, dir, Integer.valueOf(p.exitValue()), message));
+					desc, dir, Integer.valueOf(p.exitValue()),
+					Objects.toString(message)));
 		}
 	}
 
@@ -594,6 +603,7 @@ public abstract class FS {
 	 *         determined.
 	 * @since 4.0
 	 */
+	@Nullable
 	protected abstract File discoverGitExe();
 
 	/**
@@ -601,6 +611,7 @@ public abstract class FS {
 	 *         {@code null} if it cannot be determined.
 	 * @since 4.0
 	 */
+	@Nullable
 	protected File discoverGitSystemConfig() {
 		File gitExe = discoverGitExe();
 		if (gitExe == null) {
@@ -648,9 +659,10 @@ public abstract class FS {
 	 *         file or {@code null} if none has been set.
 	 * @since 4.0
 	 */
+	@Nullable
 	public File getGitSystemConfig() {
 		if (gitSystemConfig == null) {
-			gitSystemConfig = new Holder<File>(discoverGitSystemConfig());
+			gitSystemConfig = new Holder<>(discoverGitSystemConfig());
 		}
 		return gitSystemConfig.value;
 	}
@@ -664,7 +676,7 @@ public abstract class FS {
 	 * @since 4.0
 	 */
 	public FS setGitSystemConfig(File configFile) {
-		gitSystemConfig = new Holder<File>(configFile);
+		gitSystemConfig = new Holder<>(configFile);
 		return this;
 	}
 
@@ -674,6 +686,7 @@ public abstract class FS {
 	 *         {@code null} in case there's no grandparent directory
 	 * @since 4.0
 	 */
+	@Nullable
 	protected static File resolveGrandparentFile(File grandchild) {
 		if (grandchild != null) {
 			File parent = grandchild.getParentFile();
@@ -852,8 +865,8 @@ public abstract class FS {
 	 */
 	public ProcessResult runHookIfPresent(Repository repository,
 			final String hookName,
-			String[] args, PrintStream outRedirect, PrintStream errRedirect,
-			String stdinArgs) throws JGitInternalException {
+			String[] args, @Nullable PrintStream outRedirect, @Nullable PrintStream errRedirect,
+			@Nullable String stdinArgs) throws JGitInternalException {
 		return new ProcessResult(Status.NOT_SUPPORTED);
 	}
 
@@ -887,8 +900,8 @@ public abstract class FS {
 	 * @since 4.0
 	 */
 	protected ProcessResult internalRunHookIfPresent(Repository repository,
-			final String hookName, String[] args, PrintStream outRedirect,
-			PrintStream errRedirect, String stdinArgs)
+			final String hookName, String[] args, @Nullable PrintStream outRedirect,
+			@Nullable PrintStream errRedirect, @Nullable String stdinArgs)
 			throws JGitInternalException {
 		final File hookFile = findHook(repository, hookName);
 		if (hookFile == null)
@@ -930,6 +943,7 @@ public abstract class FS {
 	 *         the given repository, <code>null</code> otherwise.
 	 * @since 4.0
 	 */
+	@Nullable
 	public File findHook(Repository repository, final String hookName) {
 		File gitDir = repository.getDirectory();
 		if (gitDir == null)
@@ -965,7 +979,8 @@ public abstract class FS {
 	 * @since 4.2
 	 */
 	public int runProcess(ProcessBuilder processBuilder,
-			OutputStream outRedirect, OutputStream errRedirect, String stdinArgs)
+			@Nullable OutputStream outRedirect, @Nullable OutputStream errRedirect,
+			@Nullable String stdinArgs)
 			throws IOException, InterruptedException {
 		InputStream in = (stdinArgs == null) ? null : new ByteArrayInputStream(
 				stdinArgs.getBytes(Constants.CHARACTER_ENCODING));
@@ -1001,8 +1016,8 @@ public abstract class FS {
 	 * @since 4.2
 	 */
 	public int runProcess(ProcessBuilder processBuilder,
-			OutputStream outRedirect, OutputStream errRedirect,
-			InputStream inRedirect) throws IOException,
+			@Nullable OutputStream outRedirect, @Nullable OutputStream errRedirect,
+			@Nullable InputStream inRedirect) throws IOException,
 			InterruptedException {
 		final ExecutorService executor = Executors.newFixedThreadPool(2);
 		Process process = null;
@@ -1072,7 +1087,7 @@ public abstract class FS {
 			}
 		}
 		// We can only be here if the outer try threw an IOException.
-		throw ioException;
+		throw requireNonNull(ioException);
 	}
 
 	/**
@@ -1339,9 +1354,10 @@ public abstract class FS {
 	private static class StreamGobbler implements Callable<Void> {
 		private InputStream in;
 
+		@Nullable
 		private OutputStream out;
 
-		public StreamGobbler(InputStream stream, OutputStream output) {
+		public StreamGobbler(InputStream stream, @Nullable OutputStream output) {
 			this.in = stream;
 			this.out = output;
 		}

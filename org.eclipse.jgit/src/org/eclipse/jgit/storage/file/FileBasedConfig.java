@@ -49,14 +49,17 @@
 
 package org.eclipse.jgit.storage.file;
 
+import static java.util.Objects.requireNonNull;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.MessageFormat;
 
-import org.eclipse.jgit.errors.LockFailedException;
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.LockFailedException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 import org.eclipse.jgit.internal.storage.file.LockFile;
@@ -72,6 +75,7 @@ import org.eclipse.jgit.util.RawParseUtils;
  * The configuration file that is stored in the file of the file system.
  */
 public class FileBasedConfig extends StoredConfig {
+	@Nullable
 	private final File configFile;
 
 	private boolean utf8Bom;
@@ -89,7 +93,7 @@ public class FileBasedConfig extends StoredConfig {
 	 *            the file system abstraction which will be necessary to perform
 	 *            certain file system operations.
 	 */
-	public FileBasedConfig(File cfgLocation, FS fs) {
+	public FileBasedConfig(@Nullable File cfgLocation, FS fs) {
 		this(null, cfgLocation, fs);
 	}
 
@@ -104,7 +108,7 @@ public class FileBasedConfig extends StoredConfig {
 	 *            the file system abstraction which will be necessary to perform
 	 *            certain file system operations.
 	 */
-	public FileBasedConfig(Config base, File cfgLocation, FS fs) {
+	public FileBasedConfig(@Nullable Config base, @Nullable File cfgLocation, FS fs) {
 		super(base);
 		configFile = cfgLocation;
 		this.snapshot = FileSnapshot.DIRTY;
@@ -118,6 +122,7 @@ public class FileBasedConfig extends StoredConfig {
 	}
 
 	/** @return location of the configuration file on disk */
+	@Nullable
 	public final File getFile() {
 		return configFile;
 	}
@@ -159,7 +164,7 @@ public class FileBasedConfig extends StoredConfig {
 				hash = newHash;
 			}
 		} catch (FileNotFoundException noFile) {
-			if (configFile.exists()) {
+			if (requireNonNull(configFile).exists()) {
 				throw noFile;
 			}
 			clear();

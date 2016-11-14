@@ -1,0 +1,15 @@
+-Xbootclasspath/p:%{jdk}
+-Xmaxerrs
+10000
+-encoding utf8
+-proc:only
+-processor
+org.checkerframework.checker.nullness.NullnessChecker
+-processorpath
+%{processorpath}
+-cp
+%{classpath}
+-AprintErrorStack
+-AsuppressWarnings=keyfor,initialization.fields.uninitialized
+-Astubs=%{stub}
+%{srcs}

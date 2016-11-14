@@ -56,6 +56,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.errors.CommandFailedException;
 import org.eclipse.jgit.lib.Constants;
@@ -139,6 +140,7 @@ public class FS_POSIX extends FS {
 	}
 
 	@Override
+	@Nullable
 	protected File discoverGitExe() {
 		String path = SystemReader.getInstance().getenv("PATH"); //$NON-NLS-1$
 		File gitExe = searchPath(path, "git"); //$NON-NLS-1$
@@ -241,8 +243,8 @@ public class FS_POSIX extends FS {
 	 */
 	@Override
 	public ProcessResult runHookIfPresent(Repository repository, String hookName,
-			String[] args, PrintStream outRedirect, PrintStream errRedirect,
-			String stdinArgs) throws JGitInternalException {
+			String[] args, @Nullable PrintStream outRedirect, @Nullable PrintStream errRedirect,
+			@Nullable String stdinArgs) throws JGitInternalException {
 		return internalRunHookIfPresent(repository, hookName, args, outRedirect,
 				errRedirect, stdinArgs);
 	}
@@ -290,6 +292,7 @@ public class FS_POSIX extends FS {
 	 * @since 3.7
 	 */
 	@Override
+	@Nullable
 	public File findHook(Repository repository, String hookName) {
 		final File gitdir = repository.getDirectory();
 		if (gitdir == null) {

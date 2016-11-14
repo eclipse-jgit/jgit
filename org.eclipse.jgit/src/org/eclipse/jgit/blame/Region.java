@@ -43,6 +43,8 @@
 
 package org.eclipse.jgit.blame;
 
+import org.eclipse.jgit.annotations.Nullable;
+
 /**
  * Region of the result that still needs to be computed.
  * <p>
@@ -52,6 +54,7 @@ package org.eclipse.jgit.blame;
  */
 class Region {
 	/** Next entry in the region linked list. */
+	@Nullable
 	Region next;
 
 	/** First position of this region in the result file blame is computing. */
