@@ -2,6 +2,75 @@
   "comments": [
     {
       "key": {
+        "uuid": "a7c23755_8302b37e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/DescriptionTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-11-14T19:12:28Z",
+      "side": 1,
+      "message": "private static final?",
+      "range": {
+        "startLine": 58,
+        "startChar": 1,
+        "endLine": 58,
+        "endChar": 8
+      },
+      "revId": "28746d9f52766ca78a15deb46b005e4c38a3f38c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_c3fcabe7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/DescriptionTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-11-14T19:12:28Z",
+      "side": 1,
+      "message": "upper case?",
+      "range": {
+        "startLine": 58,
+        "startChar": 16,
+        "endLine": 58,
+        "endChar": 28
+      },
+      "revId": "28746d9f52766ca78a15deb46b005e4c38a3f38c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_e301a779",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 678,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-11-14T19:12:28Z",
+      "side": 1,
+      "message": "R",
+      "range": {
+        "startLine": 678,
+        "startChar": 33,
+        "endLine": 678,
+        "endChar": 34
+      },
+      "revId": "28746d9f52766ca78a15deb46b005e4c38a3f38c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_a307af8e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
         "patchSetId": 2
