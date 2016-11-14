@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_e3bc4726",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/DescriptionTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-11-14T19:14:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_8302b37e",
+      "range": {
+        "startLine": 58,
+        "startChar": 1,
+        "endLine": 58,
+        "endChar": 8
+      },
+      "revId": "28746d9f52766ca78a15deb46b005e4c38a3f38c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_c3b74b3f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/DescriptionTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-11-14T19:14:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_c3fcabe7",
+      "range": {
+        "startLine": 58,
+        "startChar": 16,
+        "endLine": 58,
+        "endChar": 28
+      },
+      "revId": "28746d9f52766ca78a15deb46b005e4c38a3f38c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_e301a779",
         "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
         "patchSetId": 2
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_03c14397",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 678,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-11-14T19:14:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_e301a779",
+      "range": {
+        "startLine": 678,
+        "startChar": 33,
+        "endLine": 678,
+        "endChar": 34
+      },
+      "revId": "28746d9f52766ca78a15deb46b005e4c38a3f38c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_a307af8e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
         "patchSetId": 2
@@ -82,6 +154,24 @@
       "writtenOn": "2016-11-14T19:12:23Z",
       "side": 1,
       "message": "Can simplify using ternary:\n\n  if (old \u003d\u003d null ? description \u003d\u003d null : old.equals(description))\n\nOr, better, java.util.Objects.equals:\n\n  if (Objects.equals(old, description))",
+      "revId": "28746d9f52766ca78a15deb46b005e4c38a3f38c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_a3b24f4f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-11-14T19:14:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_a307af8e",
       "revId": "28746d9f52766ca78a15deb46b005e4c38a3f38c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
