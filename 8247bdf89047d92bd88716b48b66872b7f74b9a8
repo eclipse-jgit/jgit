@@ -16,6 +16,24 @@
       "revId": "8247bdf89047d92bd88716b48b66872b7f74b9a8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_a36b2f0f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexWriterV1.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-11-14T19:33:49Z",
+      "side": 1,
+      "message": "Gah. Looks like my Eclipse JGit workspace is ordering imports differently than the last author of this file.",
+      "parentUuid": "a7c23755_437dfbd3",
+      "revId": "8247bdf89047d92bd88716b48b66872b7f74b9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
