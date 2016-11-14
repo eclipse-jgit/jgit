@@ -71,6 +71,8 @@ import org.eclipse.jgit.internal.JGitText;
  * Every write (or flush) requires a context switch to another thread. Callers
  * should wrap this stream with {@code BufferedOutputStream} using a suitable
  * buffer size to amortize the cost of context switches.
+ *
+ * @since 4.6
  */
 public class IsolatedOutputStream extends OutputStream {
 	private final OutputStream dst;
