@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_a307af8e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-11-14T19:12:23Z",
+      "side": 1,
+      "message": "Can simplify using ternary:\n\n  if (old \u003d\u003d null ? description \u003d\u003d null : old.equals(description))\n\nOr, better, java.util.Objects.equals:\n\n  if (Objects.equals(old, description))",
+      "revId": "28746d9f52766ca78a15deb46b005e4c38a3f38c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
