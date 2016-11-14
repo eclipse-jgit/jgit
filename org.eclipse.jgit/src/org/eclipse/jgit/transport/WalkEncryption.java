@@ -188,7 +188,7 @@ abstract class WalkEncryption {
 			cryptoAlg = algo;
 
 			// Verify if cipher is present.
-			Cipher cipher = Cipher.getInstance(cryptoAlg);
+			Cipher cipher = InsecureCipherFactory.create(cryptoAlg);
 
 			// Standard names are not case-sensitive.
 			// http://docs.oracle.com/javase/8/docs/technotes/guides/security/StandardNames.html
@@ -240,7 +240,7 @@ abstract class WalkEncryption {
 		@Override
 		OutputStream encrypt(final OutputStream os) throws IOException {
 			try {
-				final Cipher cipher = Cipher.getInstance(cryptoAlg);
+				final Cipher cipher = InsecureCipherFactory.create(cryptoAlg);
 				cipher.init(Cipher.ENCRYPT_MODE, secretKey, paramSpec);
 				return new CipherOutputStream(os, cipher);
 			} catch (GeneralSecurityException e) {
@@ -251,7 +251,7 @@ abstract class WalkEncryption {
 		@Override
 		InputStream decrypt(final InputStream in) throws IOException {
 			try {
-				final Cipher cipher = Cipher.getInstance(cryptoAlg);
+				final Cipher cipher = InsecureCipherFactory.create(cryptoAlg);
 				cipher.init(Cipher.DECRYPT_MODE, secretKey, paramSpec);
 				return new CipherInputStream(in, cipher);
 			} catch (GeneralSecurityException e) {
@@ -342,7 +342,7 @@ abstract class WalkEncryption {
 			String keySalt = props.getProperty(profile + X_KEY_SALT, DEFAULT_KEY_SALT);
 
 			// Verify if cipher is present.
-			Cipher cipher = Cipher.getInstance(cipherAlgo);
+			Cipher cipher = InsecureCipherFactory.create(cipherAlgo);
 
 			// Verify if key factory is present.
 			SecretKeyFactory factory = SecretKeyFactory.getInstance(keyAlgo);
@@ -400,7 +400,7 @@ abstract class WalkEncryption {
 		@Override
 		OutputStream encrypt(OutputStream output) throws IOException {
 			try {
-				Cipher cipher = Cipher.getInstance(cipherAlgo);
+				Cipher cipher = InsecureCipherFactory.create(cipherAlgo);
 				cipher.init(Cipher.ENCRYPT_MODE, secretKey);
 				AlgorithmParameters params = cipher.getParameters();
 				if (params == null) {
@@ -457,7 +457,7 @@ abstract class WalkEncryption {
 						JGitText.get().unsupportedEncryptionVersion, vers));
 			}
 			try {
-				decryptCipher = Cipher.getInstance(cipherAlgo);
+				decryptCipher = InsecureCipherFactory.create(cipherAlgo);
 				if (cont.isEmpty()) {
 					decryptCipher.init(Cipher.DECRYPT_MODE, secretKey);
 				} else {
