@@ -47,6 +47,8 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.LOCAL_VARIABLE;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.PARAMETER;
+import static java.lang.annotation.ElementType.TYPE_USE;
+import static java.lang.annotation.ElementType.TYPE_PARAMETER;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -75,10 +77,6 @@ import java.lang.annotation.Target;
  * {@code NullPointerException}.
  * </ul>
  * <p>
- * To avoid a dependency on Java 8, this annotation does not use
- * {@link Target @Target} {@code TYPE_USE}. That may change when JGit starts
- * requiring Java 8.
- * <p>
  * <b>Warning:</b> Please do not use this annotation on arrays. Different
  * annotation processors treat {@code @Nullable Object[]} differently: some
  * treat it as an array of nullable objects, for consistency with versions of
@@ -94,7 +92,7 @@ import java.lang.annotation.Target;
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ FIELD, METHOD, PARAMETER, LOCAL_VARIABLE })
+@Target({ FIELD, METHOD, PARAMETER, LOCAL_VARIABLE, TYPE_USE, TYPE_PARAMETER })
 public @interface Nullable {
 	// marker annotation with no members
 }

@@ -46,6 +46,7 @@ package org.eclipse.jgit.util;
 import java.text.MessageFormat;
 import java.util.Collection;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.internal.JGitText;
 
 /** Miscellaneous string comparison utility methods. */
@@ -112,7 +113,8 @@ public final class StringUtils {
 	 * @return the capitalized String, <code>null</code> if null String input
 	 * @since 4.0
 	 */
-	public static String capitalize(String str) {
+	@Nullable
+	public static String capitalize(@Nullable String str) {
 		int strLen;
 		if (str == null || (strLen = str.length()) == 0) {
 			return str;
@@ -230,7 +232,8 @@ public final class StringUtils {
 	 * @return the boolean interpretation of {@code value} or null in case the
 	 *         string does not represent a boolean value
 	 */
-	public static Boolean toBooleanOrNull(final String stringValue) {
+	@Nullable
+	public static Boolean toBooleanOrNull(final @Nullable String stringValue) {
 		if (stringValue == null)
 			return null;
 
@@ -302,7 +305,7 @@ public final class StringUtils {
 	 *            the string to check
 	 * @return <code>true</code> if the string is <code>null</code> or empty
 	 */
-	public static boolean isEmptyOrNull(String stringValue) {
+	public static boolean isEmptyOrNull(@Nullable String stringValue) {
 		return stringValue == null || stringValue.length() == 0;
 	}
 

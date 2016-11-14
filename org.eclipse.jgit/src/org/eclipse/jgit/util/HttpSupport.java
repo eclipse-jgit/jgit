@@ -58,6 +58,7 @@ import java.security.cert.X509Certificate;
 import java.text.MessageFormat;
 
 import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.KeyManager;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
@@ -264,7 +265,7 @@ public class HttpSupport {
 		final TrustManager[] trustAllCerts = new TrustManager[] {
 				new DummyX509TrustManager() };
 		try {
-			conn.configure(null, trustAllCerts, null);
+			conn.configure(new KeyManager[0], trustAllCerts, null);
 			conn.setHostnameVerifier(new DummyHostnameVerifier());
 		} catch (KeyManagementException e) {
 			throw new IOException(e.getMessage());
@@ -275,7 +276,7 @@ public class HttpSupport {
 
 	private static class DummyX509TrustManager implements X509TrustManager {
 		public X509Certificate[] getAcceptedIssuers() {
-			return null;
+			return new X509Certificate[0];
 		}
 
 		public void checkClientTrusted(X509Certificate[] certs,

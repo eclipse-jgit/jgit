@@ -42,6 +42,8 @@
  */
 package org.eclipse.jgit.errors;
 
+import org.eclipse.jgit.annotations.Nullable;
+
 /**
  * Thrown when an external command failed
  *
@@ -59,7 +61,7 @@ public class CommandFailedException extends Exception {
 	 * @param message
 	 *            error message
 	 */
-	public CommandFailedException(int returnCode, String message) {
+	public CommandFailedException(int returnCode, @Nullable String message) {
 		super(message);
 		this.returnCode = returnCode;
 	}
@@ -72,8 +74,8 @@ public class CommandFailedException extends Exception {
 	 * @param cause
 	 *            exception causing this exception
 	 */
-	public CommandFailedException(int returnCode, String message,
-			Throwable cause) {
+	public CommandFailedException(int returnCode, @Nullable String message,
+			@Nullable Throwable cause) {
 		super(message, cause);
 		this.returnCode = returnCode;
 	}

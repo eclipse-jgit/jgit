@@ -49,6 +49,8 @@ import java.net.PasswordAuthentication;
 import java.util.Collection;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import org.eclipse.jgit.annotations.Nullable;
+
 /** Abstract authenticator which remembers prior authentications. */
 public abstract class CachedAuthenticator extends Authenticator {
 	private static final Collection<CachedAuthentication> cached = new CopyOnWriteArrayList<CachedAuthentication>();
@@ -64,6 +66,7 @@ public abstract class CachedAuthenticator extends Authenticator {
 	}
 
 	@Override
+	@Nullable
 	protected final PasswordAuthentication getPasswordAuthentication() {
 		final String host = getRequestingHost();
 		final int port = getRequestingPort();

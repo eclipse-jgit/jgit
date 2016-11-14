@@ -47,6 +47,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.util.FS.Attributes;
 
 /**

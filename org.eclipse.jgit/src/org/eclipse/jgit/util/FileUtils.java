@@ -67,6 +67,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.util.FS.Attributes;
@@ -734,7 +735,7 @@ public class FileUtils {
 	public static String normalize(String name) {
 		if (SystemReader.getInstance().isMacOS()) {
 			if (name == null)
-				return null;
+				return name;
 			return Normalizer.normalize(name, Normalizer.Form.NFC);
 		}
 		return name;
@@ -753,6 +754,7 @@ public class FileUtils {
 	 *             if {@link File#getCanonicalFile()} throws one
 	 * @since 4.2
 	 */
+	@Nullable
 	public static File canonicalize(File file) {
 		if (file == null) {
 			return null;

@@ -53,6 +53,7 @@ import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.LargeObjectException;
@@ -430,6 +431,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @throws IOException
 	 *             a pack file or loose object could not be read.
 	 */
+	@Nullable
 	public RevCommit next() throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
 		return pending.next();

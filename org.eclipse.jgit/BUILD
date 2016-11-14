@@ -1,3 +1,5 @@
+load("//tools/checker:checker.bzl", "java_library_with_nullness_test")
+
 package(default_visibility = ['//visibility:public'])
 
 INSECURE_CIPHER_FACTORY = [
@@ -7,7 +9,7 @@ INSECURE_CIPHER_FACTORY = [
 SRCS = glob(['src/**'], exclude=INSECURE_CIPHER_FACTORY)
 RESOURCES = glob(['resources/**'])
 
-java_library(
+java_library_with_nullness_test(
   name = 'jgit',
   srcs = SRCS,
   resources = RESOURCES,
@@ -22,7 +24,7 @@ java_library(
   ],
 )
 
-java_library(
+java_library_with_nullness_test(
   name = 'insecure_cipher_factory',
   srcs = INSECURE_CIPHER_FACTORY,
   javacopts = ['-Xep:InsecureCipherMode:OFF'],

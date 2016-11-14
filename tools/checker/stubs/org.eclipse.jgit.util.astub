@@ -1,0 +1,30 @@
+import org.checkerframework.checker.nullness.qual.EnsuresNonNull;
+import org.checkerframework.checker.nullness.qual.EnsuresNonNullIf;
+import org.checkerframework.checker.nullness.qual.PolyNull;
+
+package org.eclipse.jgit.util;
+
+class StringUtils {
+  @EnsuresNonNullIf(expression="#1", result=false)
+  boolean isEmptyOrNull(@Nullable String obj);
+}
+
+class TemporaryBuffer {
+  @EnsuresNonNull("blocks")
+  void last();
+
+  @EnsuresNonNull("blocks")
+  void inCoreLength();
+
+  @EnsuresNonNull("overflow")
+  void switchToOverflow();
+
+  @EnsuresNonNullIf(expression="overflow", result=true)
+  @EnsuresNonNullIf(expression="blocks", result=false)
+  boolean reachedInCoreLimit();
+}
+
+class FileUtils {
+  @PolyNull
+  String normalize(String obj);
+}

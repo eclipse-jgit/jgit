@@ -45,6 +45,7 @@ package org.eclipse.jgit.blame;
 
 import java.io.IOException;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -58,6 +59,7 @@ final class ReverseWalk extends RevWalk {
 	}
 
 	@Override
+	@Nullable
 	public ReverseCommit next() throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
 		ReverseCommit c = (ReverseCommit) super.next();

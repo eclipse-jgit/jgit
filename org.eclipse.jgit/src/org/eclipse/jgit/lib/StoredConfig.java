@@ -45,6 +45,7 @@ package org.eclipse.jgit.lib;
 
 import java.io.IOException;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 /**
@@ -63,7 +64,7 @@ public abstract class StoredConfig extends Config {
 	 *            the base configuration to be consulted when a key is missing
 	 *            from this configuration instance.
 	 */
-	public StoredConfig(Config defaultConfig) {
+	public StoredConfig(@Nullable Config defaultConfig) {
 		super(defaultConfig);
 	}
 

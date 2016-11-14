@@ -205,7 +205,7 @@ public final class RawParseUtils {
 	 *         numeric.
 	 */
 	public static final int parseBase10(final byte[] b, int ptr,
-			final MutableInteger ptrResult) {
+			final @Nullable MutableInteger ptrResult) {
 		int r = 0;
 		int sign = 0;
 		try {
@@ -259,7 +259,7 @@ public final class RawParseUtils {
 	 *         numeric.
 	 */
 	public static final long parseLongBase10(final byte[] b, int ptr,
-			final MutableInteger ptrResult) {
+			final @Nullable MutableInteger ptrResult) {
 		long r = 0;
 		int sign = 0;
 		try {
@@ -480,7 +480,7 @@ public final class RawParseUtils {
 	 * @since 4.1
 	 */
 	public static final int parseTimeZoneOffset(final byte[] b, int ptr,
-			MutableInteger ptrResult) {
+			@Nullable MutableInteger ptrResult) {
 		final int v = parseBase10(b, ptr, ptrResult);
 		final int tzMins = v % 100;
 		final int tzHours = v / 100;
@@ -810,6 +810,7 @@ public final class RawParseUtils {
 	 * @return the parsed identity or null in case the identity could not be
 	 *         parsed.
 	 */
+	@Nullable
 	public static PersonIdent parsePersonIdent(final String in) {
 		return parsePersonIdent(Constants.encode(in), 0);
 	}
@@ -832,6 +833,7 @@ public final class RawParseUtils {
 	 * @return the parsed identity or null in case the identity could not be
 	 *         parsed.
 	 */
+	@Nullable
 	public static PersonIdent parsePersonIdent(final byte[] raw, final int nameB) {
 		Charset cs;
 		try {
@@ -1222,6 +1224,7 @@ public final class RawParseUtils {
 		return pos;
 	}
 
+	@Nullable
 	private static Charset charsetForAlias(String name) {
 		return encodingAliases.get(StringUtils.toLowerCase(name));
 	}

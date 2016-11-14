@@ -46,6 +46,8 @@
 
 package org.eclipse.jgit.util;
 
+import static java.util.Objects.requireNonNull;
+
 import java.io.File;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -56,10 +58,11 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectChecker;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
 
 /**
  * Interface to read values from the system.
@@ -72,8 +75,10 @@ import org.eclipse.jgit.lib.ObjectChecker;
 public abstract class SystemReader {
 	private static final SystemReader DEFAULT;
 
+	@Nullable
 	private static Boolean isMacOS;
 
+	@Nullable
 	private static Boolean isWindows;
 
 	static {
@@ -83,12 +88,15 @@ public abstract class SystemReader {
 	}
 
 	private static class Default extends SystemReader {
+		@Nullable
 		private volatile String hostname;
 
+		@Nullable
 		public String getenv(String variable) {
 			return System.getenv(variable);
 		}
 
+		@Nullable
 		public String getProperty(String key) {
 			return System.getProperty(key);
 		}
@@ -163,6 +171,7 @@ public abstract class SystemReader {
 		}
 	}
 
+	@Nullable
 	private ObjectChecker platformChecker;
 
 	private void init() {
@@ -195,12 +204,14 @@ public abstract class SystemReader {
 	 * @param variable system variable to read
 	 * @return value of the system variable
 	 */
+	@Nullable
 	public abstract String getenv(String variable);
 
 	/**
 	 * @param key of the system property to read
 	 * @return value of the system property
 	 */
+	@Nullable
 	public abstract String getProperty(String key);
 
 	/**
@@ -322,7 +333,7 @@ public abstract class SystemReader {
 	private String getOsName() {
 		return AccessController.doPrivileged(new PrivilegedAction<String>() {
 			public String run() {
-				return getProperty("os.name"); //$NON-NLS-1$
+				return requireNonNull(getProperty("os.name")); //$NON-NLS-1$
 			}
 		});
 	}
@@ -337,7 +348,7 @@ public abstract class SystemReader {
 	 * @since 3.6
 	 */
 	public void checkPath(String path) throws CorruptObjectException {
-		platformChecker.checkPath(path);
+		requireNonNull(platformChecker).checkPath(path);
 	}
 
 	/**
@@ -352,6 +363,6 @@ public abstract class SystemReader {
 	 * @since 4.2
 	 */
 	public void checkPath(byte[] path) throws CorruptObjectException {
-		platformChecker.checkPath(path, 0, path.length);
+		requireNonNull(platformChecker).checkPath(path, 0, path.length);
 	}
 }

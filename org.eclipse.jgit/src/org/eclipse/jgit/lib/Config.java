@@ -64,6 +64,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.events.ConfigChangedEvent;
 import org.eclipse.jgit.events.ConfigChangedListener;
@@ -96,6 +97,7 @@ public class Config {
 	 */
 	private final AtomicReference<ConfigSnapshot> state;
 
+	@Nullable
 	private final Config baseConfig;
 
 	/**
@@ -119,7 +121,7 @@ public class Config {
 	 *            the base configuration to be consulted when a key is missing
 	 *            from this configuration instance.
 	 */
-	public Config(Config defaultConfig) {
+	public Config(@Nullable Config defaultConfig) {
 		baseConfig = defaultConfig;
 		state = new AtomicReference<ConfigSnapshot>(newState());
 	}

@@ -44,9 +44,10 @@ package org.eclipse.jgit.util;
 
 import java.util.regex.Pattern;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 
 /**
@@ -90,6 +91,7 @@ public class ChangeIdUtil {
 	 * @return the change id SHA1 string (without the 'I') or null if the
 	 *         message is not complete enough
 	 */
+	@Nullable
 	public static ObjectId computeChangeId(final ObjectId treeId,
 			final ObjectId firstParentId, final PersonIdent author,
 			final PersonIdent committer, final String message) {

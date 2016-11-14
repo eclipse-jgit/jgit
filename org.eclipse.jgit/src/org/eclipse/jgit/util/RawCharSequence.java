@@ -50,7 +50,7 @@ package org.eclipse.jgit.util;
  */
 public final class RawCharSequence implements CharSequence {
 	/** A zero-length character sequence. */
-	public static final RawCharSequence EMPTY = new RawCharSequence(null, 0, 0);
+	public static final RawCharSequence EMPTY = new RawCharSequence(new byte[0], 0, 0);
 
 	final byte[] buffer;
 
