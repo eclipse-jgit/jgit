@@ -465,12 +465,12 @@ public class FileUtilsTest {
 
 	@Test
 	public void testRelativize_doc() {
-		// This is the javadoc example
+		// This is the example from the javadoc
 		String base = toOSPathString("c:\\Users\\jdoe\\eclipse\\git\\project");
 		String other = toOSPathString("c:\\Users\\jdoe\\eclipse\\git\\another_project\\pom.xml");
 		String expected = toOSPathString("..\\another_project\\pom.xml");
 
-		String actual = FileUtils.relativize(base, other);
+		String actual = FileUtils.relativizeNativePath(base, other);
 		assertEquals(expected, actual);
 	}
 
@@ -483,13 +483,13 @@ public class FileUtilsTest {
 		String expectedCaseSensitive = toOSPathString("..\\..\\Git\\test\\d\\f.txt");
 
 		if (systemReader.isWindows()) {
-			String actual = FileUtils.relativize(base, other);
+			String actual = FileUtils.relativizeNativePath(base, other);
 			assertEquals(expectedCaseInsensitive, actual);
 		} else if (systemReader.isMacOS()) {
-			String actual = FileUtils.relativize(base, other);
+			String actual = FileUtils.relativizeNativePath(base, other);
 			assertEquals(expectedCaseInsensitive, actual);
 		} else {
-			String actual = FileUtils.relativize(base, other);
+			String actual = FileUtils.relativizeNativePath(base, other);
 			assertEquals(expectedCaseSensitive, actual);
 		}
 	}
@@ -501,7 +501,7 @@ public class FileUtilsTest {
 		// 'file.java' is treated as a folder
 		String expected = toOSPathString("../../project");
 
-		String actual = FileUtils.relativize(base, other);
+		String actual = FileUtils.relativizeNativePath(base, other);
 		assertEquals(expected, actual);
 	}
 
@@ -511,7 +511,7 @@ public class FileUtilsTest {
 		String other = toOSPathString("file:/home/eclipse/runtime-New_configuration/project_1");
 		String expected = "";
 
-		String actual = FileUtils.relativize(base, other);
+		String actual = FileUtils.relativizeNativePath(base, other);
 		assertEquals(expected, actual);
 	}
 
@@ -521,7 +521,7 @@ public class FileUtilsTest {
 		String other = toOSPathString("/home/eclipse 3.4/runtime New_configuration/project_1/file");
 		String expected = "file";
 
-		String actual = FileUtils.relativize(base, other);
+		String actual = FileUtils.relativizeNativePath(base, other);
 		assertEquals(expected, actual);
 	}
 

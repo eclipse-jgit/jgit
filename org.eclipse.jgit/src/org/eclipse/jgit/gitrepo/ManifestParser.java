@@ -60,6 +60,8 @@ import java.util.Set;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.gitrepo.RepoProject.CopyFile;
+import org.eclipse.jgit.gitrepo.RepoProject.LinkFile;
+import org.eclipse.jgit.gitrepo.RepoProject.ReferenceFile;
 import org.eclipse.jgit.gitrepo.internal.RepoText;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Repository;
@@ -205,6 +207,15 @@ public class ManifestParser extends DefaultHandler {
 			if (currentProject == null)
 				throw new SAXException(RepoText.get().invalidManifest);
 			currentProject.addCopyFile(new CopyFile(
+						rootRepo,
+						currentProject.getPath(),
+						attributes.getValue("src"), //$NON-NLS-1$
+						attributes.getValue("dest"))); //$NON-NLS-1$
+		} else if ("linkfile".equals(qName)) { //$NON-NLS-1$
+			if (currentProject == null) {
+				throw new SAXException(RepoText.get().invalidManifest);
+			}
+			currentProject.addLinkFile(new LinkFile(
 						rootRepo,
 						currentProject.getPath(),
 						attributes.getValue("src"), //$NON-NLS-1$
@@ -359,17 +370,23 @@ public class ManifestParser extends DefaultHandler {
 			else
 				last = p;
 		}
-		removeNestedCopyfiles();
+		removeNestedCopyAndLinkfiles();
 	}
 
-	/** Remove copyfiles that sit in a subdirectory of any other project. */
-	void removeNestedCopyfiles() {
+	private void removeNestedCopyAndLinkfiles() {
 		for (RepoProject proj : filteredProjects) {
 			List<CopyFile> copyfiles = new ArrayList<>(proj.getCopyFiles());
 			proj.clearCopyFiles();
 			for (CopyFile copyfile : copyfiles) {
-				if (!isNestedCopyfile(copyfile)) {
+				if (!isNestedReferencefile(copyfile)) {
 					proj.addCopyFile(copyfile);
+				}
+			}
+			List<LinkFile> linkfiles = new ArrayList<>(proj.getLinkFiles());
+			proj.clearLinkFiles();
+			for (LinkFile linkfile : linkfiles) {
+				if (!isNestedReferencefile(linkfile)) {
+					proj.addLinkFile(linkfile);
 				}
 			}
 		}
@@ -393,18 +410,18 @@ public class ManifestParser extends DefaultHandler {
 		return false;
 	}
 
-	private boolean isNestedCopyfile(CopyFile copyfile) {
-		if (copyfile.dest.indexOf('/') == -1) {
-			// If the copyfile is at root level then it won't be nested.
+	private boolean isNestedReferencefile(ReferenceFile referencefile) {
+		if (referencefile.dest.indexOf('/') == -1) {
+			// If the referencefile is at root level then it won't be nested.
 			return false;
 		}
 		for (RepoProject proj : filteredProjects) {
-			if (proj.getPath().compareTo(copyfile.dest) > 0) {
+			if (proj.getPath().compareTo(referencefile.dest) > 0) {
 				// Early return as remaining projects can't be ancestor of this
-				// copyfile config (filteredProjects is sorted).
+				// referencefile config (filteredProjects is sorted).
 				return false;
 			}
-			if (proj.isAncestorOf(copyfile.dest)) {
+			if (proj.isAncestorOf(referencefile.dest)) {
 				return true;
 			}
 		}
