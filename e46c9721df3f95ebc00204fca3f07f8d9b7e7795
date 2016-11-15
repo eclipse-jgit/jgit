@@ -22,6 +22,30 @@
       "revId": "e46c9721df3f95ebc00204fca3f07f8d9b7e7795",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_124d0794",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandSymlinkTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 98297
+      },
+      "writtenOn": "2016-11-15T23:19:23Z",
+      "side": 1,
+      "message": "Done. That\u0027s what happens when I copy-paste :)",
+      "parentUuid": "a7c23755_92411765",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 22
+      },
+      "revId": "e46c9721df3f95ebc00204fca3f07f8d9b7e7795",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
