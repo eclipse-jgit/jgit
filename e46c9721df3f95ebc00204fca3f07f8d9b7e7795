@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "a7c23755_b2b1b3fd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-11-15T23:23:31Z",
+      "side": 1,
+      "message": "Oh I just realize you based your change on top of mines, which I just abandoned. Please feel free to take ownership of that commit and make it one change (rebase -i ;)\n\nNo need to mention this inter-commit communication issue in the commit message either then. :)",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 30
+      },
+      "revId": "e46c9721df3f95ebc00204fca3f07f8d9b7e7795",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_92411765",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandSymlinkTest.java",
         "patchSetId": 1
@@ -42,6 +65,29 @@
         "startChar": 17,
         "endLine": 2,
         "endChar": 22
+      },
+      "revId": "e46c9721df3f95ebc00204fca3f07f8d9b7e7795",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_52a21fae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-11-15T23:23:31Z",
+      "side": 1,
+      "message": "Not sure how much we care about portability here, but \u0027/\u0027 is not the only dir separator, but maybe it is sufficient to assume this is sufficient for any platform that is\n\n    org.junit.Assume.assumeTrue(FS.DETECTED.supportsSymlinks());",
+      "range": {
+        "startLine": 577,
+        "startChar": 32,
+        "endLine": 577,
+        "endChar": 37
       },
       "revId": "e46c9721df3f95ebc00204fca3f07f8d9b7e7795",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
