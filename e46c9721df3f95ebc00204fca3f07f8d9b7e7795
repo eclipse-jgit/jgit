@@ -92,6 +92,30 @@
       "revId": "e46c9721df3f95ebc00204fca3f07f8d9b7e7795",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_327cc390",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 98297
+      },
+      "writtenOn": "2016-11-15T23:47:46Z",
+      "side": 1,
+      "message": "This gets tough, since linkfiles.dest is from the manifest, which usually uses unix-style paths and relativize uses File.SEPARATOR. It\u0027s not fully defined which path separators should be used, but it appears that repo expects \u0027/\u0027, but has some normalization code to replace \\ with /.\n\nI had originally had a copy of relativize that always operated using \"/\", but it appears that either separator works when we\u0027re writing the symlink blob. So I simplified this, but then this extra code broke the compatibility (and that\u0027s assuming the manifest agrees with the local separator to start with)",
+      "parentUuid": "a7c23755_52a21fae",
+      "range": {
+        "startLine": 577,
+        "startChar": 32,
+        "endLine": 577,
+        "endChar": 37
+      },
+      "revId": "e46c9721df3f95ebc00204fca3f07f8d9b7e7795",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
