@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_1e235166",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/time/ProposedTimestamp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-11-16T23:57:23Z",
+      "side": 1,
+      "message": "Would java.time.Instant work here? java.sql.Timestamp is a wrapper around java.util.Date, which has some problems \u003chttps://dzone.com/articles/game-over-jdks-date-and-time-c\u003e.",
+      "revId": "6fbc9fd640ce7d0cf635cdf710ae7cc2e3f5bb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
