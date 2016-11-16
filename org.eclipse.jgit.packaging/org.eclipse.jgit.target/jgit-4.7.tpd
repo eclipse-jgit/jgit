@@ -1,0 +1,8 @@
+target "jgit-4.7" with source configurePhase
+
+include "projects/jetty-9.2.13.tpd"
+include "orbit/S20161021172207-Oxygen.tpd"
+
+location "http://download.eclipse.org/releases/oxygen/" {
+	org.eclipse.osgi lazy
+}

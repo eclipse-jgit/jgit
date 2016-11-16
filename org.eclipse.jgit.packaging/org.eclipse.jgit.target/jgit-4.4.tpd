@@ -1,8 +1,0 @@
-target "jgit-4.4" with source configurePhase
-
-include "projects/jetty-9.2.13.tpd"
-include "orbit/R20150124073747-Luna-SR2.tpd"
-
-location "http://download.eclipse.org/releases/luna/" {
-	org.eclipse.osgi lazy
-}
