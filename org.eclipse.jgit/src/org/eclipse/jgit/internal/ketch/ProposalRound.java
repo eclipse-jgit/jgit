@@ -46,12 +46,16 @@ package org.eclipse.jgit.internal.ketch;
 import static org.eclipse.jgit.internal.ketch.Proposal.State.RUNNING;
 
 import java.io.IOException;
+import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeoutException;
+import java.util.stream.Collectors;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.internal.storage.reftree.Command;
@@ -65,6 +69,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
+import org.eclipse.jgit.util.time.ProposedTimestamp;
 
 /** A {@link Round} that aggregates and sends user {@link Proposal}s. */
 class ProposalRound extends Round {
@@ -123,8 +128,10 @@ class ProposalRound extends Round {
 		}
 		try {
 			ObjectId id;
-			try (Repository git = leader.openRepository()) {
-				id = insertProposals(git);
+			try (Repository git = leader.openRepository();
+					ProposedTimestamp ts = getSystem().getClock().propose()) {
+				id = insertProposals(git, ts);
+				blockUntil(ts);
 			}
 			runAsync(id);
 		} catch (NoOp e) {
@@ -143,16 +150,16 @@ class ProposalRound extends Round {
 		}
 	}
 
-	private ObjectId insertProposals(Repository git)
+	private ObjectId insertProposals(Repository git, ProposedTimestamp ts)
 			throws IOException, NoOp {
 		ObjectId id;
 		try (ObjectInserter inserter = git.newObjectInserter()) {
 			// TODO(sop) Process signed push certificates.
 
 			if (queuedTree != null) {
-				id = insertSingleProposal(git, inserter);
+				id = insertSingleProposal(git, ts, inserter);
 			} else {
-				id = insertMultiProposal(git, inserter);
+				id = insertMultiProposal(git, ts, inserter);
 			}
 
 			stageCommands = makeStageList(git, inserter);
@@ -161,7 +168,7 @@ class ProposalRound extends Round {
 		return id;
 	}
 
-	private ObjectId insertSingleProposal(Repository git,
+	private ObjectId insertSingleProposal(Repository git, ProposedTimestamp ts,
 			ObjectInserter inserter) throws IOException, NoOp {
 		// Fast path: tree is passed in with all proposals applied.
 		ObjectId treeId = queuedTree.writeTree(inserter);
@@ -183,13 +190,13 @@ class ProposalRound extends Round {
 		if (!ObjectId.zeroId().equals(acceptedOldIndex)) {
 			b.setParentId(acceptedOldIndex);
 		}
-		b.setCommitter(leader.getSystem().newCommitter());
+		b.setCommitter(leader.getSystem().newCommitter(ts));
 		b.setAuthor(p.getAuthor() != null ? p.getAuthor() : b.getCommitter());
 		b.setMessage(message(p));
 		return inserter.insert(b);
 	}
 
-	private ObjectId insertMultiProposal(Repository git,
+	private ObjectId insertMultiProposal(Repository git, ProposedTimestamp ts,
 			ObjectInserter inserter) throws IOException, NoOp {
 		// The tree was not passed in, or there are multiple proposals
 		// each needing their own commit. Reset the tree and replay each
@@ -208,7 +215,7 @@ class ProposalRound extends Round {
 			}
 		}
 
-		PersonIdent committer = leader.getSystem().newCommitter();
+		PersonIdent committer = leader.getSystem().newCommitter(ts);
 		for (Proposal p : todo) {
 			if (!tree.apply(p.getCommands())) {
 				// This should not occur, previously during queuing the
@@ -292,6 +299,20 @@ class ProposalRound extends Round {
 		return b.makeStageList(newObjs, git, inserter);
 	}
 
+	private void blockUntil(ProposedTimestamp ts)
+			throws TimeIsUncertainException {
+		List<ProposedTimestamp> times = todo.stream()
+				.flatMap(p -> p.getProposedTimestamps().stream())
+				.collect(Collectors.toCollection(ArrayList::new));
+		times.add(ts);
+
+		try {
+			Duration maxWait = getSystem().getMaxWaitForMonotonicClock();
+			ProposedTimestamp.blockUntil(times, maxWait);
+		} catch (InterruptedException | TimeoutException e) {
+			throw new TimeIsUncertainException(e);
+		}
+	}
 
 	private static class NoOp extends Exception {
 		private static final long serialVersionUID = 1L;

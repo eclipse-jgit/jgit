@@ -75,6 +75,10 @@ abstract class Round {
 		this.acceptedOldIndex = head;
 	}
 
+	KetchSystem getSystem() {
+		return leader.getSystem();
+	}
+
 	/**
 	 * Creates a commit for {@code refs/txn/accepted} and calls
 	 * {@link #runAsync(AnyObjectId)} to begin execution of the round across

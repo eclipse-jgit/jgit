@@ -49,18 +49,21 @@ import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_RE
 
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushCertificate;
 import org.eclipse.jgit.transport.ReceiveCommand;
+import org.eclipse.jgit.util.time.ProposedTimestamp;
 
 /**
  * Batch of reference updates to be applied to a repository.
@@ -69,6 +72,17 @@ import org.eclipse.jgit.transport.ReceiveCommand;
  * server is making changes to more than one reference at a time.
  */
 public class BatchRefUpdate {
+	/**
+	 * Maximum delay the calling thread will tolerate while waiting for a
+	 * {@code MonotonicClock} to resolve associated {@link ProposedTimestamp}s.
+	 * <p>
+	 * A default of 5 seconds was chosen by guessing. A common assumption is
+	 * clock skew between machines on the same LAN using an NTP server also on
+	 * the same LAN should be under 5 seconds. 5 seconds is also not that long
+	 * for a large `git push` operation to complete.
+	 */
+	private static final Duration MAX_WAIT = Duration.ofSeconds(5);
+
 	private final RefDatabase refdb;
 
 	/** Commands to apply during this batch. */
@@ -94,6 +108,9 @@ public class BatchRefUpdate {
 
 	/** Push options associated with this update. */
 	private List<String> pushOptions;
+
+	/** Associated timestamps that should be blocked on before update. */
+	private List<ProposedTimestamp> timestamps;
 
 	/**
 	 * Initialize a new batch update.
@@ -314,6 +331,32 @@ public class BatchRefUpdate {
 	}
 
 	/**
+	 * @return list of timestamps the batch must wait for.
+	 * @since 4.6
+	 */
+	public List<ProposedTimestamp> getProposedTimestamps() {
+		if (timestamps != null) {
+			return Collections.unmodifiableList(timestamps);
+		}
+		return Collections.emptyList();
+	}
+
+	/**
+	 * Request the batch to wait for the affected timestamps to resolve.
+	 *
+	 * @param ts
+	 * @return {@code this}.
+	 * @since 4.6
+	 */
+	public BatchRefUpdate addProposedTimestamp(ProposedTimestamp ts) {
+		if (timestamps == null) {
+			timestamps = new ArrayList<>(4);
+		}
+		timestamps.add(ts);
+		return this;
+	}
+
+	/**
 	 * Execute this batch update.
 	 * <p>
 	 * The default implementation of this method performs a sequential reference
@@ -346,6 +389,9 @@ public class BatchRefUpdate {
 							JGitText.get().atomicRefUpdatesNotSupported);
 				}
 			}
+			return;
+		}
+		if (!blockUntilTimestamps(MAX_WAIT)) {
 			return;
 		}
 
@@ -430,6 +476,33 @@ public class BatchRefUpdate {
 			}
 		}
 		monitor.endTask();
+	}
+
+	/**
+	 * Wait for timestamps to be in the past, aborting commands on timeout.
+	 *
+	 * @param maxWait
+	 *            maximum amount of time to wait for timestamps to resolve.
+	 * @return true if timestamps were successfully waited for; false if
+	 *         commands were aborted.
+	 * @since 4.6
+	 */
+	protected boolean blockUntilTimestamps(Duration maxWait) {
+		if (timestamps == null) {
+			return true;
+		}
+		try {
+			ProposedTimestamp.blockUntil(timestamps, maxWait);
+			return true;
+		} catch (TimeoutException | InterruptedException e) {
+			String msg = JGitText.get().timeIsUncertain;
+			for (ReceiveCommand c : commands) {
+				if (c.getResult() == NOT_ATTEMPTED) {
+					c.setResult(REJECTED_OTHER_REASON, msg);
+				}
+			}
+			return false;
+		}
 	}
 
 	/**

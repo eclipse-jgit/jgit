@@ -67,6 +67,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushCertificate;
 import org.eclipse.jgit.transport.ReceiveCommand;
+import org.eclipse.jgit.util.time.ProposedTimestamp;
 
 /**
  * A proposal to be applied in a Ketch system.
@@ -123,6 +124,8 @@ public class Proposal {
 	private PersonIdent author;
 	private String message;
 	private PushCertificate pushCert;
+
+	private List<ProposedTimestamp> timestamps;
 	private final List<Runnable> listeners = new CopyOnWriteArrayList<>();
 	private final AtomicReference<State> state = new AtomicReference<>(NEW);
 
@@ -219,6 +222,31 @@ public class Proposal {
 	 */
 	public Proposal setPushCertificate(@Nullable PushCertificate cert) {
 		pushCert = cert;
+		return this;
+	}
+
+	/**
+	 * @return timestamps that Ketch must block for. These may have been used as
+	 *         commit times inside the objects involved in the proposal.
+	 */
+	public List<ProposedTimestamp> getProposedTimestamps() {
+		if (timestamps != null) {
+			return timestamps;
+		}
+		return Collections.emptyList();
+	}
+
+	/**
+	 * Request the proposal to wait for the affected timestamps to resolve.
+	 *
+	 * @param ts
+	 * @return {@code this}.
+	 */
+	public Proposal addProposedTimestamp(ProposedTimestamp ts) {
+		if (timestamps == null) {
+			timestamps = new ArrayList<>(4);
+		}
+		timestamps.add(ts);
 		return this;
 	}
 

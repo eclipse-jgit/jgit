@@ -666,6 +666,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String tagOnRepoWithoutHEADCurrentlyNotSupported;
 	/***/ public String transactionAborted;
 	/***/ public String theFactoryMustNotBeNull;
+	/***/ public String timeIsUncertain;
 	/***/ public String timerAlreadyTerminated;
 	/***/ public String tooManyIncludeRecursions;
 	/***/ public String topologicalSortRequired;
