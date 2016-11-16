@@ -55,12 +55,15 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushCertificate;
 import org.eclipse.jgit.transport.ReceiveCommand;
+import org.eclipse.jgit.util.time.ProposedTimestamp;
 
 /**
  * Batch of reference updates to be applied to a repository.
@@ -94,6 +97,9 @@ public class BatchRefUpdate {
 
 	/** Push options associated with this update. */
 	private List<String> pushOptions;
+
+	/** Associated timestamps that should be blocked on before update. */
+	private List<ProposedTimestamp> timestamps;
 
 	/**
 	 * Initialize a new batch update.
@@ -314,6 +320,32 @@ public class BatchRefUpdate {
 	}
 
 	/**
+	 * @return list of timestamps the batch must wait for.
+	 * @since 4.6
+	 */
+	public List<ProposedTimestamp> getProposedTimestamps() {
+		if (timestamps != null) {
+			return Collections.unmodifiableList(timestamps);
+		}
+		return Collections.emptyList();
+	}
+
+	/**
+	 * Request the batch to wait for the affected timestamps to resolve.
+	 *
+	 * @param ts
+	 * @return {@code this}.
+	 * @since 4.6
+	 */
+	public BatchRefUpdate addProposedTimestamp(ProposedTimestamp ts) {
+		if (timestamps == null) {
+			timestamps = new ArrayList<>(4);
+		}
+		timestamps.add(ts);
+		return this;
+	}
+
+	/**
 	 * Execute this batch update.
 	 * <p>
 	 * The default implementation of this method performs a sequential reference
@@ -346,6 +378,9 @@ public class BatchRefUpdate {
 							JGitText.get().atomicRefUpdatesNotSupported);
 				}
 			}
+			return;
+		}
+		if (!blockUntilTimestamps(5, TimeUnit.SECONDS)) {
 			return;
 		}
 
@@ -430,6 +465,42 @@ public class BatchRefUpdate {
 			}
 		}
 		monitor.endTask();
+	}
+
+	/**
+	 * Wait for timestamps to be in the past, aborting commands on timeout.
+	 *
+	 * @param maxWait
+	 *            maximum amount of time to wait for timestamps to resolve.
+	 * @param unit
+	 *            unit of {@code maxWait}.
+	 * @return true if timestamps were successfully waited for; false if
+	 *         commands were aborted.
+	 * @since 4.6
+	 */
+	protected boolean blockUntilTimestamps(long maxWait, TimeUnit unit) {
+		if (timestamps == null || timestamps.isEmpty()) {
+			return true;
+		}
+		try {
+			long deadline = System.nanoTime() + unit.toNanos(maxWait);
+			for (ProposedTimestamp ts : getProposedTimestamps()) {
+				long w = deadline - System.nanoTime();
+				if (w < 0) {
+					throw new TimeoutException();
+				}
+				ts.blockUntil(w, TimeUnit.NANOSECONDS);
+			}
+			return true;
+		} catch (TimeoutException | InterruptedException e) {
+			String msg = JGitText.get().timeIsUncertain;
+			for (ReceiveCommand c : commands) {
+				if (c.getResult() == NOT_ATTEMPTED) {
+					c.setResult(REJECTED_OTHER_REASON, msg);
+				}
+			}
+			return false;
+		}
 	}
 
 	/**
