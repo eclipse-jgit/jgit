@@ -53,6 +53,7 @@ import java.util.TimeZone;
 
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.util.SystemReader;
+import org.eclipse.jgit.util.time.ProposedTimestamp;
 
 /**
  * A combination of a person identity and time in Git.
@@ -186,6 +187,18 @@ public class PersonIdent implements Serializable {
 	 */
 	public PersonIdent(final String aName, final String aEmailAddress) {
 		this(aName, aEmailAddress, SystemReader.getInstance().getCurrentTime());
+	}
+
+	/**
+	 * Construct a new {@link PersonIdent} with current time.
+	 *
+	 * @param aName
+	 * @param aEmailAddress
+	 * @param when
+	 */
+	public PersonIdent(String aName, String aEmailAddress,
+			ProposedTimestamp when) {
+		this(aName, aEmailAddress, when.getMillis());
 	}
 
 	/**

@@ -67,6 +67,9 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.URIish;
+import org.eclipse.jgit.util.time.Clock;
+import org.eclipse.jgit.util.time.ProposedTimestamp;
+import org.eclipse.jgit.util.time.SystemClock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -88,6 +91,7 @@ public class KetchSystem {
 	}
 
 	private final ScheduledExecutorService executor;
+	private final Clock clock;
 	private final String txnNamespace;
 	private final String txnAccepted;
 	private final String txnCommitted;
@@ -95,7 +99,7 @@ public class KetchSystem {
 
 	/** Create a default system with a thread pool of 1 thread per CPU. */
 	public KetchSystem() {
-		this(defaultExecutor(), DEFAULT_TXN_NAMESPACE);
+		this(defaultExecutor(), new SystemClock(), DEFAULT_TXN_NAMESPACE);
 	}
 
 	/**
@@ -103,13 +107,17 @@ public class KetchSystem {
 	 *
 	 * @param executor
 	 *            thread pool to run background operations.
+	 * @param clock
+	 *            clock to create timestamps.
 	 * @param txnNamespace
 	 *            reference namespace for the RefTree graph and associated
 	 *            transaction state. Must begin with {@code "refs/"} and end
 	 *            with {@code '/'}, for example {@code "refs/txn/"}.
 	 */
-	public KetchSystem(ScheduledExecutorService executor, String txnNamespace) {
+	public KetchSystem(ScheduledExecutorService executor, Clock clock,
+			String txnNamespace) {
 		this.executor = executor;
+		this.clock = clock;
 		this.txnNamespace = txnNamespace;
 		this.txnAccepted = txnNamespace + ACCEPTED;
 		this.txnCommitted = txnNamespace + COMMITTED;
@@ -119,6 +127,11 @@ public class KetchSystem {
 	/** @return executor to perform background operations. */
 	public ScheduledExecutorService getExecutor() {
 		return executor;
+	}
+
+	/** @return clock to obtain timestamps from. */
+	public Clock getClock() {
+		return clock;
 	}
 
 	/**
@@ -145,27 +158,32 @@ public class KetchSystem {
 		return txnStage;
 	}
 
-	/** @return identity line for the committer header of a RefTreeGraph. */
-	public PersonIdent newCommitter() {
+	/**
+	 * @param time
+	 *            timestamp for the committer.
+	 * @return identity line for the committer header of a RefTreeGraph.
+	 */
+	public PersonIdent newCommitter(ProposedTimestamp time) {
 		String name = "ketch"; //$NON-NLS-1$
 		String email = "ketch@system"; //$NON-NLS-1$
-		return new PersonIdent(name, email);
+		return new PersonIdent(name, email, time);
 	}
 
 	/**
 	 * Construct a random tag to identify a candidate during leader election.
 	 * <p>
 	 * Multiple processes trying to elect themselves leaders at exactly the same
-	 * time (rounded to seconds) using the same {@link #newCommitter()} identity
-	 * strings, for the same term, may generate the same ObjectId for the
-	 * election commit and falsely assume they have both won.
+	 * time (rounded to seconds) using the same
+	 * {@link #newCommitter(ProposedTimestamp)} identity strings, for the same
+	 * term, may generate the same ObjectId for the election commit and falsely
+	 * assume they have both won.
 	 * <p>
 	 * Candidates add this tag to their election ballot commit to disambiguate
 	 * the election. The tag only needs to be unique for a given triplet of
-	 * {@link #newCommitter()}, system time (rounded to seconds), and term. If
-	 * every replica in the system uses a unique {@code newCommitter} (such as
-	 * including the host name after the {@code "@"} in the email address) the
-	 * tag could be the empty string.
+	 * {@link #newCommitter(ProposedTimestamp)}, system time (rounded to
+	 * seconds), and term. If every replica in the system uses a unique
+	 * {@code newCommitter} (such as including the host name after the
+	 * {@code "@"} in the email address) the tag could be the empty string.
 	 * <p>
 	 * The default implementation generates a few bytes of random data.
 	 *
