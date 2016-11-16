@@ -122,13 +122,8 @@ public abstract class LocalDiskRepositoryTestCase {
 		ceilTestDirectories(getCeilings());
 		SystemReader.setInstance(mockSystemReader);
 
-		final long now = mockSystemReader.getCurrentTime();
-		final int tz = mockSystemReader.getTimezone(now);
 		author = new PersonIdent("J. Author", "jauthor@example.com");
-		author = new PersonIdent(author, now, tz);
-
 		committer = new PersonIdent("J. Committer", "jcommitter@example.com");
-		committer = new PersonIdent(committer, now, tz);
 
 		final WindowCacheConfig c = new WindowCacheConfig();
 		c.setPackedGitLimit(128 * WindowCacheConfig.KB);
