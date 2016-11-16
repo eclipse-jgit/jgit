@@ -47,7 +47,10 @@ import static org.eclipse.jgit.internal.ketch.KetchConstants.TERM;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -55,6 +58,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TreeFormatter;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.util.time.ProposedTimestamp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -75,9 +79,15 @@ class ElectionRound extends Round {
 	void start() throws IOException {
 		ObjectId id;
 		try (Repository git = leader.openRepository();
+				ProposedTimestamp ts = leader.getSystem().getClock().propose();
 				ObjectInserter inserter = git.newObjectInserter()) {
-			id = bumpTerm(git, inserter);
+			id = bumpTerm(git, ts, inserter);
 			inserter.flush();
+			try {
+				ts.blockUntil(5, TimeUnit.SECONDS);
+			} catch (InterruptedException | TimeoutException e) {
+				throw new IOException(JGitText.get().timeIsUncertain, e);
+			}
 		}
 		runAsync(id);
 	}
@@ -91,8 +101,8 @@ class ElectionRound extends Round {
 		return term;
 	}
 
-	private ObjectId bumpTerm(Repository git, ObjectInserter inserter)
-			throws IOException {
+	private ObjectId bumpTerm(Repository git, ProposedTimestamp ts,
+			ObjectInserter inserter) throws IOException {
 		CommitBuilder b = new CommitBuilder();
 		if (!ObjectId.zeroId().equals(acceptedOldIndex)) {
 			try (RevWalk rw = new RevWalk(git)) {
@@ -116,7 +126,7 @@ class ElectionRound extends Round {
 			msg.append(' ').append(tag);
 		}
 
-		b.setAuthor(leader.getSystem().newCommitter());
+		b.setAuthor(leader.getSystem().newCommitter(ts));
 		b.setCommitter(b.getAuthor());
 		b.setMessage(msg.toString());
 

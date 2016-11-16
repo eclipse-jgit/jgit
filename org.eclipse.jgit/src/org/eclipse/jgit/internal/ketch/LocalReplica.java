@@ -64,6 +64,8 @@ import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
+import org.eclipse.jgit.util.time.Clock;
+import org.eclipse.jgit.util.time.ProposedTimestamp;
 
 /** Ketch replica running on the same system as the {@link KetchLeader}. */
 public class LocalReplica extends KetchReplica {
@@ -119,9 +121,11 @@ public class LocalReplica extends KetchReplica {
 		getSystem().getExecutor().execute(new Runnable() {
 			@Override
 			public void run() {
-				try (Repository git = getLeader().openRepository()) {
+				Clock clk = getSystem().getClock();
+				try (Repository git = getLeader().openRepository();
+						ProposedTimestamp ts = clk.propose()) {
 					try {
-						update(git, req);
+						update(git, req, ts);
 						req.done(git);
 					} catch (Throwable err) {
 						req.setException(git, err);
@@ -139,8 +143,8 @@ public class LocalReplica extends KetchReplica {
 		throw new IOException(KetchText.get().cannotFetchFromLocalReplica);
 	}
 
-	private void update(Repository git, ReplicaPushRequest req)
-			throws IOException {
+	private void update(Repository git, ReplicaPushRequest req,
+			ProposedTimestamp ts) throws IOException {
 		RefDatabase refdb = git.getRefDatabase();
 		CommitMethod method = getCommitMethod();
 
@@ -156,7 +160,8 @@ public class LocalReplica extends KetchReplica {
 		}
 
 		BatchRefUpdate batch = refdb.newBatchUpdate();
-		batch.setRefLogIdent(getSystem().newCommitter());
+		batch.addProposedTimestamp(ts);
+		batch.setRefLogIdent(getSystem().newCommitter(ts));
 		batch.setRefLogMessage("ketch", false); //$NON-NLS-1$
 		batch.setAllowNonFastForwards(true);
 
