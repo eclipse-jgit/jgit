@@ -55,12 +55,15 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushCertificate;
 import org.eclipse.jgit.transport.ReceiveCommand;
+import org.eclipse.jgit.util.time.ProposedTimestamp;
 
 /**
  * Batch of reference updates to be applied to a repository.
@@ -94,6 +97,8 @@ public class BatchRefUpdate {
 
 	/** Push options associated with this update. */
 	private List<String> pushOptions;
+
+	private List<ProposedTimestamp> timestamps;
 
 	/**
 	 * Initialize a new batch update.
@@ -314,6 +319,32 @@ public class BatchRefUpdate {
 	}
 
 	/**
+	 * @return list of timestamps the batch must wait for.
+	 * @since 4.6
+	 */
+	public List<ProposedTimestamp> getProposedTimestamps() {
+		if (timestamps != null) {
+			return Collections.unmodifiableList(timestamps);
+		}
+		return Collections.emptyList();
+	}
+
+	/**
+	 * Request the batch to wait for the affected timestamps to resolve.
+	 *
+	 * @param ts
+	 * @return {@code this}.
+	 * @since 4.6
+	 */
+	public BatchRefUpdate addProposedTimestamp(ProposedTimestamp ts) {
+		if (timestamps == null) {
+			timestamps = new ArrayList<>(4);
+		}
+		timestamps.add(ts);
+		return this;
+	}
+
+	/**
 	 * Execute this batch update.
 	 * <p>
 	 * The default implementation of this method performs a sequential reference
@@ -354,6 +385,10 @@ public class BatchRefUpdate {
 		}
 
 		monitor.beginTask(JGitText.get().updatingReferences, commands.size());
+		if (!resolveTimestamps()) {
+			return;
+		}
+
 		List<ReceiveCommand> commands2 = new ArrayList<ReceiveCommand>(
 				commands.size());
 		// First delete refs. This may free the name space for some of the
@@ -430,6 +465,25 @@ public class BatchRefUpdate {
 			}
 		}
 		monitor.endTask();
+	}
+
+	private boolean resolveTimestamps() {
+		try {
+			long deadline = System.currentTimeMillis() + 5000;
+			for (ProposedTimestamp ts : getProposedTimestamps()) {
+				long wait = deadline - System.currentTimeMillis();
+				ts.blockUntil(wait, TimeUnit.MILLISECONDS);
+			}
+			return true;
+		} catch (TimeoutException | InterruptedException e) {
+			String msg = JGitText.get().timeIsUncertain;
+			for (ReceiveCommand c : commands) {
+				if (c.getResult() == NOT_ATTEMPTED) {
+					c.setResult(REJECTED_OTHER_REASON, msg);
+				}
+			}
+			return false;
+		}
 	}
 
 	/**
