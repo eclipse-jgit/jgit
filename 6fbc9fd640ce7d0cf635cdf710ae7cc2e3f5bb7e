@@ -16,6 +16,24 @@
       "revId": "6fbc9fd640ce7d0cf635cdf710ae7cc2e3f5bb7e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_be7fbdd2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/time/ProposedTimestamp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-11-17T05:16:18Z",
+      "side": 1,
+      "message": "Probably, but I really wanted java.sql.Timestamp for the ReviewDb objects in Gerrit.",
+      "parentUuid": "a7c23755_1e235166",
+      "revId": "6fbc9fd640ce7d0cf635cdf710ae7cc2e3f5bb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
