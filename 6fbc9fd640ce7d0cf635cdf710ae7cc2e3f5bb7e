@@ -34,6 +34,24 @@
       "revId": "6fbc9fd640ce7d0cf635cdf710ae7cc2e3f5bb7e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_6ccc9fe0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/time/ProposedTimestamp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-11-17T17:48:16Z",
+      "side": 1,
+      "message": "Reworked to use Instant and the converter function to create a Timestamp from Instant.",
+      "parentUuid": "a7c23755_be7fbdd2",
+      "revId": "6fbc9fd640ce7d0cf635cdf710ae7cc2e3f5bb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
