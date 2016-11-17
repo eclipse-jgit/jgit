@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_41696ceb",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandSymlinkTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-11-17T09:14:16Z",
+      "side": 1,
+      "message": "Why do we need to create this tag?",
+      "range": {
+        "startLine": 84,
+        "startChar": 3,
+        "endLine": 84,
+        "endChar": 33
+      },
+      "revId": "dc2ecf6fe280aa7aafeb6f82b61be24d72fb001b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_6166681d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/ManifestParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-11-17T09:14:16Z",
+      "side": 1,
+      "message": "nit: in new code one-line if blocks should have braces.",
+      "range": {
+        "startLine": 219,
+        "startChar": 3,
+        "endLine": 220,
+        "endChar": 59
+      },
+      "revId": "dc2ecf6fe280aa7aafeb6f82b61be24d72fb001b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_a17080cb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 700,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-11-17T09:14:16Z",
+      "side": 1,
+      "message": "Can this be moved up before the other stuff in this block?",
+      "range": {
+        "startLine": 697,
+        "startChar": 3,
+        "endLine": 700,
+        "endChar": 4
+      },
+      "revId": "dc2ecf6fe280aa7aafeb6f82b61be24d72fb001b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
