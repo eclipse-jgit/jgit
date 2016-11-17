@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_01b21400",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandSymlinkTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 98297
+      },
+      "writtenOn": "2016-11-17T09:31:14Z",
+      "side": 1,
+      "message": "We didn\u0027t -- it was left over from when I took this from RepoCommandTest.java. I\u0027ve removed it and the second branch.",
+      "parentUuid": "a7c23755_41696ceb",
+      "range": {
+        "startLine": 84,
+        "startChar": 3,
+        "endLine": 84,
+        "endChar": 33
+      },
+      "revId": "dc2ecf6fe280aa7aafeb6f82b61be24d72fb001b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_6166681d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/ManifestParser.java",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_21b710f1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/ManifestParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 98297
+      },
+      "writtenOn": "2016-11-17T09:31:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_6166681d",
+      "range": {
+        "startLine": 219,
+        "startChar": 3,
+        "endLine": 220,
+        "endChar": 59
+      },
+      "revId": "dc2ecf6fe280aa7aafeb6f82b61be24d72fb001b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_a17080cb",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 3
@@ -59,6 +107,30 @@
       "writtenOn": "2016-11-17T09:14:16Z",
       "side": 1,
       "message": "Can this be moved up before the other stuff in this block?",
+      "range": {
+        "startLine": 697,
+        "startChar": 3,
+        "endLine": 700,
+        "endChar": 4
+      },
+      "revId": "dc2ecf6fe280aa7aafeb6f82b61be24d72fb001b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_419b2c7f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 700,
+      "author": {
+        "id": 98297
+      },
+      "writtenOn": "2016-11-17T09:31:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_a17080cb",
       "range": {
         "startLine": 697,
         "startChar": 3,
