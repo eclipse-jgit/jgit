@@ -22,6 +22,30 @@
       "revId": "9df75b755fbe1d8034413e522ede4e08238761cb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_c2357762",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-11-18T18:02:32Z",
+      "side": 1,
+      "message": "This sort of thing is virtually impossible in Maven. You need to make a new module in a new directory with a new pom.xml that hosts this single source file, and then depend on that in the jgit module.\n\nYou may be able to convince maven to use a pattern that only matches this single source file for the new module and excludes it in the jgit module, but that could be difficult.",
+      "parentUuid": "a7c23755_32e83c71",
+      "range": {
+        "startLine": 15,
+        "startChar": 51,
+        "endLine": 16,
+        "endChar": 45
+      },
+      "revId": "9df75b755fbe1d8034413e522ede4e08238761cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
