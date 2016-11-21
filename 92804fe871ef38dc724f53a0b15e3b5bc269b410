@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_18f6fe02",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-11-21T03:07:18Z",
+      "side": 1,
+      "message": "Why this version?\n\nThe previous attempt to upgrade to this version was rejected [1], but it looks like version 2.33.0 is now available [2].\n\n[1] https://git.eclipse.org/r/#/c/18776/\n[2] https://git.eclipse.org/r/#/c/69205/",
+      "range": {
+        "startLine": 7,
+        "startChar": 15,
+        "endLine": 7,
+        "endChar": 21
+      },
+      "revId": "92804fe871ef38dc724f53a0b15e3b5bc269b410",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
