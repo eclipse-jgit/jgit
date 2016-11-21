@@ -46,6 +46,30 @@
       "revId": "92804fe871ef38dc724f53a0b15e3b5bc269b410",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_58a236f7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-11-21T07:27:48Z",
+      "side": 1,
+      "message": "Since 2.33.0 is approved, and 2.0.26 is not, it might be easier to upgrade JGit to 2.33.0 and then sync Gerrit with JGit.",
+      "parentUuid": "a7c23755_9894ce9b",
+      "range": {
+        "startLine": 7,
+        "startChar": 15,
+        "endLine": 7,
+        "endChar": 21
+      },
+      "revId": "92804fe871ef38dc724f53a0b15e3b5bc269b410",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
