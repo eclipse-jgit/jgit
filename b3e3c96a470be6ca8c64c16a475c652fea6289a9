@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_69280637",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/time/MonotonicFakeClock.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-11-21T18:09:31Z",
+      "side": 1,
+      "message": "My first thought on reading this was \"Should this increase t?\". Could fix by rephrasing:\n\n  // Nothing to do, since fake time does not go backwards.",
+      "revId": "b3e3c96a470be6ca8c64c16a475c652fea6289a9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_c96afa63",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchSystem.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-11-21T18:09:31Z",
+      "side": 1,
+      "message": "Without further explanation this is confusing. Why is max wait the amount that ketch should wait? What guarantee does the getMaxWait function provide (e.g. will the other wait function truncate waits to this cap)?",
+      "revId": "b3e3c96a470be6ca8c64c16a475c652fea6289a9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_e96fb671",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-11-21T18:09:31Z",
+      "side": 1,
+      "message": "Where does this number come from? A comment might help.",
+      "revId": "b3e3c96a470be6ca8c64c16a475c652fea6289a9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_4976ea4a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/time/ProposedTimestamp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-11-21T18:09:31Z",
+      "side": 1,
+      "message": "becoming",
+      "range": {
+        "startLine": 132,
+        "startChar": 71,
+        "endLine": 132,
+        "endChar": 77
+      },
+      "revId": "b3e3c96a470be6ca8c64c16a475c652fea6289a9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
