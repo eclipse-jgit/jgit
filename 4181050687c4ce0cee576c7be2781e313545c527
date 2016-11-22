@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_2de1b746",
+        "filename": "WORKSPACE",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2016-11-22T15:44:55Z",
+      "side": 1,
+      "message": "I get \n\nhanwen@hanwen:~/vc/jgit$ bazel build :all\nINFO: Found 1 target...\nERROR: /home/hanwen/vc/jgit/org.eclipse.jgit/BUILD:10:1: Java compilation in rule \u0027//org.eclipse.jgit:jgit\u0027 failed: Worker process sent response with exit code: 1.\norg.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/BitmapIndexImpl.java:507: error: cannot find symbol\n\t\t\t\ttrue, sizeInBits / EWAHCompressedBitmap.WORD_IN_BITS);\n\t\t\t\t                                       ^\n  symbol:   variable WORD_IN_BITS\n  location: class EWAHCompressedBitmap\n\nlib/BUCK says \n\n  version \u003d \u00271.1.6\u0027,",
+      "range": {
+        "startLine": 11,
+        "startChar": 47,
+        "endLine": 11,
+        "endChar": 48
+      },
+      "revId": "4181050687c4ce0cee576c7be2781e313545c527",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
