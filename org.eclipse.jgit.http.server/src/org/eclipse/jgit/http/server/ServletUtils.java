@@ -44,6 +44,7 @@
 package org.eclipse.jgit.http.server;
 
 import static org.eclipse.jgit.util.HttpSupport.ENCODING_GZIP;
+import static org.eclipse.jgit.util.HttpSupport.ENCODING_X_GZIP;
 import static org.eclipse.jgit.util.HttpSupport.HDR_ACCEPT_ENCODING;
 import static org.eclipse.jgit.util.HttpSupport.HDR_CONTENT_ENCODING;
 import static org.eclipse.jgit.util.HttpSupport.HDR_ETAG;
@@ -111,7 +112,7 @@ public final class ServletUtils {
 			throws IOException {
 		InputStream in = req.getInputStream();
 		final String enc = req.getHeader(HDR_CONTENT_ENCODING);
-		if (ENCODING_GZIP.equals(enc) || "x-gzip".equals(enc)) //$NON-NLS-1$
+		if (ENCODING_GZIP.equals(enc) || ENCODING_X_GZIP.equals(enc)) //$NON-NLS-1$
 			in = new GZIPInputStream(in);
 		else if (enc != null)
 			throw new IOException(MessageFormat.format(HttpServerText.get().encodingNotSupportedByThisLibrary
