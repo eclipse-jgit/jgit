@@ -46,6 +46,7 @@
 package org.eclipse.jgit.transport;
 
 import static org.eclipse.jgit.util.HttpSupport.ENCODING_GZIP;
+import static org.eclipse.jgit.util.HttpSupport.ENCODING_X_GZIP;
 import static org.eclipse.jgit.util.HttpSupport.HDR_ACCEPT;
 import static org.eclipse.jgit.util.HttpSupport.HDR_ACCEPT_ENCODING;
 import static org.eclipse.jgit.util.HttpSupport.HDR_CONTENT_ENCODING;
@@ -575,7 +576,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	final InputStream openInputStream(HttpConnection conn)
 			throws IOException {
 		InputStream input = conn.getInputStream();
-		if (ENCODING_GZIP.equals(conn.getHeaderField(HDR_CONTENT_ENCODING)))
+		if (isGzipContent(conn))
 			input = new GZIPInputStream(input);
 		return input;
 	}
@@ -589,6 +590,11 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		final String expType = "application/x-" + service + "-advertisement"; //$NON-NLS-1$ //$NON-NLS-2$
 		final String actType = c.getContentType();
 		return expType.equals(actType);
+	}
+
+	private boolean isGzipContent(final HttpConnection c) {
+		return ENCODING_GZIP.equals(c.getHeaderField(HDR_CONTENT_ENCODING))
+				|| ENCODING_X_GZIP.equals(c.getHeaderField(HDR_CONTENT_ENCODING));
 	}
 
 	private void readSmartHeaders(final InputStream in, final String service)
@@ -685,8 +691,14 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			switch (HttpSupport.response(c)) {
 			case HttpConnection.HTTP_OK:
 				final InputStream in = openInputStream(c);
-				final int len = c.getContentLength();
-				return new FileStream(in, len);
+				// If content is being gzipped and then transferred, the content
+				// length in the header is the zipped content length, not the
+				// actual content length.
+				if (!isGzipContent(c)) {
+					final int len = c.getContentLength();
+					return new FileStream(in, len);
+				}
+				return new FileStream(in);
 			case HttpConnection.HTTP_NOT_FOUND:
 				throw new FileNotFoundException(u.toString());
 			default:
