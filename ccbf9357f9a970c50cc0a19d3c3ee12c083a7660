@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_10808e4e",
+        "filename": "org.eclipse.jgit.http.apache/src/org/eclipse/jgit/transport/http/apache/HttpClientConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 79788
+      },
+      "writtenOn": "2016-11-22T20:08:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_d03e1641",
+      "revId": "ccbf9357f9a970c50cc0a19d3c3ee12c083a7660",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_30082a9f",
         "filename": "org.eclipse.jgit.http.apache/src/org/eclipse/jgit/transport/http/apache/HttpClientConnection.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-11-22T19:51:27Z",
       "side": 1,
       "message": "parseLong can throw NumberFormatException, e.g. for very large numbers. Should we handle that?\n\nThat might simplify the code a little, since Integer.parseInt is guaranteed to produce an int:\n\n  private static final Pattern DIGITS \u003d Pattern.compile(\"[0-9]+\");\n\n  String s \u003d getHeaderField(\"content-length\"); //$NON-NLS-1$\n  if (s \u003d\u003d null) {\n    return -1;\n  }\n  if (!DIGITS.matcher(s).matches()) {\n    ... handle invalid content-length ...\n  }\n  try {\n    int l \u003d Integer.parseInt(contentLength.getValue());\n    return l \u003c 0 ? -1 : l;\n  } catch (NumberFormatException e) {\n    return -1;\n  }",
+      "revId": "ccbf9357f9a970c50cc0a19d3c3ee12c083a7660",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_30858a5f",
+        "filename": "org.eclipse.jgit.http.apache/src/org/eclipse/jgit/transport/http/apache/HttpClientConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 79788
+      },
+      "writtenOn": "2016-11-22T20:08:06Z",
+      "side": 1,
+      "message": "Catch the exception.\n\nLong.parseLong is the JDK standard way to parse the content length.",
+      "parentUuid": "a7c23755_30082a9f",
       "revId": "ccbf9357f9a970c50cc0a19d3c3ee12c083a7660",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
