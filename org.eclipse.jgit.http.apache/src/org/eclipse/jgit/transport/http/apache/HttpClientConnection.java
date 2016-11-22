@@ -323,8 +323,17 @@ public class HttpClientConnection implements HttpConnection {
 	}
 
 	public int getContentLength() {
-		return Integer.parseInt(resp.getFirstHeader("content-length") //$NON-NLS-1$
-				.getValue());
+		Header contentLength = resp.getFirstHeader("content-length"); //$NON-NLS-1$
+		if (contentLength == null) {
+			return -1;
+		}
+
+		try {
+			int l = Integer.parseInt(contentLength.getValue());
+			return l < 0 ? -1 : l;
+		} catch (NumberFormatException e) {
+			return -1;
+		}
 	}
 
 	public void setInstanceFollowRedirects(boolean followRedirects) {
