@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_1067ae45",
+        "filename": "org.eclipse.jgit.http.apache/src/org/eclipse/jgit/transport/http/apache/HttpClientConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-11-22T20:12:32Z",
+      "side": 1,
+      "message": "I\u0027m still confused. Why are we parsing as a long and then checking whether it\u0027s \u003e Integer.MAX_VALUE instead of parsing as an integer?",
+      "revId": "25baa7a686b03d25e2d53c586dc7d719c4857397",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_306caa27",
+        "filename": "org.eclipse.jgit.http.apache/src/org/eclipse/jgit/transport/http/apache/HttpClientConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-11-22T20:12:32Z",
+      "side": 1,
+      "message": "What happens if l is negative?",
+      "revId": "25baa7a686b03d25e2d53c586dc7d719c4857397",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
