@@ -116,6 +116,30 @@
       "revId": "e46c9721df3f95ebc00204fca3f07f8d9b7e7795",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_b3760448",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-11-23T01:06:42Z",
+      "side": 1,
+      "message": "Symlink blobs in git should use \u0027/\u0027, not \u0027\\\u0027. Should relativize take the separator character as a parameter?",
+      "parentUuid": "a7c23755_327cc390",
+      "range": {
+        "startLine": 577,
+        "startChar": 32,
+        "endLine": 577,
+        "endChar": 37
+      },
+      "revId": "e46c9721df3f95ebc00204fca3f07f8d9b7e7795",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
