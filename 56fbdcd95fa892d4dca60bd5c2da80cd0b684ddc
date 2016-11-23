@@ -16,6 +16,24 @@
       "revId": "56fbdcd95fa892d4dca60bd5c2da80cd0b684ddc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_5335b08e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/ManifestParser.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 98297
+      },
+      "writtenOn": "2016-11-23T00:56:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_531e9022",
+      "revId": "56fbdcd95fa892d4dca60bd5c2da80cd0b684ddc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
