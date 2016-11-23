@@ -146,4 +146,32 @@ public class RevWalkMergeBaseTest extends RevWalkTestCase {
 		assertCommit(b, rw.next());
 		assertNull(rw.next());
 	}
+
+	@Test
+	public void testInconsistentCommitTimes() throws Exception {
+		// See https://bugs.eclipse.org/bugs/show_bug.cgi?id=507584
+		//
+		// When commit times are inconsistent (a parent is younger than a child)
+		// make sure that not both, parent and child, are reported as merge
+		// base. In the following repo the merge base between C,D should be B.
+		// But when A is younger than B the MergeBaseGenerator used to generate
+		// A before he detected that B is also a merge base that when B is a
+		// merge base A should not be generated.
+		//
+		//   +---C
+		//  /   /
+		// A---B---D
+
+		final RevCommit a = commit(2);
+		final RevCommit b = commit(-1, a);
+		final RevCommit c = commit(2, b, a);
+		final RevCommit d = commit(1, b);
+
+		rw.setRevFilter(RevFilter.MERGE_BASE);
+		markStart(d);
+		markStart(c);
+		assertCommit(b, rw.next());
+		assertNull(rw.next());
+	}
+
 }
