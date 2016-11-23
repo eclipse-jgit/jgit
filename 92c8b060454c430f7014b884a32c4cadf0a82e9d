@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_53e3f095",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 690,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-11-23T00:40:35Z",
+      "side": 1,
+      "message": "Can this check be factored out into a separate function? That way there\u0027s no risk of openInputStream and open getting out of sync.",
+      "revId": "92c8b060454c430f7014b884a32c4cadf0a82e9d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
