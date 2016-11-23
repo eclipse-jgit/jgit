@@ -652,7 +652,10 @@ public abstract class Repository implements AutoCloseable {
 							// detached
 							name = Constants.HEAD;
 						if (!Repository.isValidRefName("x/" + name)) //$NON-NLS-1$
-							throw new RevisionSyntaxException(revstr);
+							throw new RevisionSyntaxException(MessageFormat
+									.format(JGitText.get().invalidRefName,
+											name),
+									revstr);
 						Ref ref = getRef(name);
 						name = null;
 						if (ref == null)
@@ -702,7 +705,10 @@ public abstract class Repository implements AutoCloseable {
 						if (name.equals("")) //$NON-NLS-1$
 							name = Constants.HEAD;
 						if (!Repository.isValidRefName("x/" + name)) //$NON-NLS-1$
-							throw new RevisionSyntaxException(revstr);
+							throw new RevisionSyntaxException(MessageFormat
+									.format(JGitText.get().invalidRefName,
+											name),
+									revstr);
 						Ref ref = getRef(name);
 						name = null;
 						if (ref == null)
@@ -751,7 +757,9 @@ public abstract class Repository implements AutoCloseable {
 			return null;
 		name = revstr.substring(done);
 		if (!Repository.isValidRefName("x/" + name)) //$NON-NLS-1$
-			throw new RevisionSyntaxException(revstr);
+			throw new RevisionSyntaxException(
+					MessageFormat.format(JGitText.get().invalidRefName, name),
+					revstr);
 		if (getRef(name) != null)
 			return name;
 		return resolveSimple(name);
