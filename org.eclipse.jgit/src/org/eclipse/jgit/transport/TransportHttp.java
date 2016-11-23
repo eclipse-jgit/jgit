@@ -45,6 +45,7 @@
 
 package org.eclipse.jgit.transport;
 
+import static org.eclipse.jgit.transport.WalkRemoteObjectDatabase.ROOT_DIR;
 import static org.eclipse.jgit.util.HttpSupport.ENCODING_GZIP;
 import static org.eclipse.jgit.util.HttpSupport.ENCODING_X_GZIP;
 import static org.eclipse.jgit.util.HttpSupport.HDR_ACCEPT;
@@ -331,6 +332,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			// the resolution by hand.
 			//
 			HttpConnection conn = httpOpen(new URL(baseUrl, Constants.HEAD));
+			conn.setRequestProperty(HDR_ACCEPT_ENCODING, ENCODING_GZIP);
 			int status = HttpSupport.response(conn);
 			switch (status) {
 			case HttpConnection.HTTP_OK: {
@@ -457,6 +459,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		for (;;) {
 			try {
 				final HttpConnection conn = httpOpen(u);
+				conn.setRequestProperty(HDR_ACCEPT_ENCODING, ENCODING_GZIP);
 				if (useSmartHttp) {
 					String exp = "application/x-" + service + "-advertisement"; //$NON-NLS-1$ //$NON-NLS-2$
 					conn.setRequestProperty(HDR_ACCEPT, exp + ", */*"); //$NON-NLS-1$
@@ -554,7 +557,6 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 		conn.setRequestMethod(method);
 		conn.setUseCaches(false);
-		conn.setRequestProperty(HDR_ACCEPT_ENCODING, ENCODING_GZIP);
 		conn.setRequestProperty(HDR_PRAGMA, "no-cache"); //$NON-NLS-1$
 		if (UserAgent.get() != null) {
 			conn.setRequestProperty(HDR_USER_AGENT, UserAgent.get());
@@ -595,6 +597,10 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	private boolean isGzipContent(final HttpConnection c) {
 		return ENCODING_GZIP.equals(c.getHeaderField(HDR_CONTENT_ENCODING))
 				|| ENCODING_X_GZIP.equals(c.getHeaderField(HDR_CONTENT_ENCODING));
+	}
+
+	private boolean wantCompressedContent(String path) {
+		return path.startsWith("info/") || path.startsWith(ROOT_DIR);
 	}
 
 	private void readSmartHeaders(final InputStream in, final String service)
@@ -688,6 +694,9 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			final URL base = httpObjectsUrl;
 			final URL u = new URL(base, path);
 			final HttpConnection c = httpOpen(u);
+			if (wantCompressedContent(path)) {
+				c.setRequestProperty(HDR_ACCEPT_ENCODING, ENCODING_GZIP);
+			}
 			switch (HttpSupport.response(c)) {
 			case HttpConnection.HTTP_OK:
 				final InputStream in = openInputStream(c);
