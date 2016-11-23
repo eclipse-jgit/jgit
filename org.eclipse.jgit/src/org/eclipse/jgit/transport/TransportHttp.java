@@ -330,7 +330,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			// is not there) download HEAD by itself as a loose file and do
 			// the resolution by hand.
 			//
-			HttpConnection conn = httpOpen(new URL(baseUrl, Constants.HEAD));
+			HttpConnection conn = httpOpen(METHOD_GET, new URL(baseUrl, Constants.HEAD), true);
 			int status = HttpSupport.response(conn);
 			switch (status) {
 			case HttpConnection.HTTP_OK: {
@@ -456,7 +456,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		Collection<Type> ignoreTypes = null;
 		for (;;) {
 			try {
-				final HttpConnection conn = httpOpen(u);
+				final HttpConnection conn = httpOpen(METHOD_GET, u, true);
 				if (useSmartHttp) {
 					String exp = "application/x-" + service + "-advertisement"; //$NON-NLS-1$ //$NON-NLS-2$
 					conn.setRequestProperty(HDR_ACCEPT, exp + ", */*"); //$NON-NLS-1$
@@ -530,10 +530,6 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		}
 	}
 
-	final HttpConnection httpOpen(URL u) throws IOException {
-		return httpOpen(METHOD_GET, u);
-	}
-
 	/**
 	 * Open an HTTP connection.
 	 *
@@ -543,7 +539,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	 * @throws IOException
 	 * @since 3.3
 	 */
-	protected HttpConnection httpOpen(String method, URL u)
+	protected HttpConnection httpOpen(String method, URL u, boolean setAcceptEncodingHdr)
 			throws IOException {
 		final Proxy proxy = HttpSupport.proxyFor(proxySelector, u);
 		HttpConnection conn = connectionFactory.create(u, proxy);
@@ -554,7 +550,9 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 		conn.setRequestMethod(method);
 		conn.setUseCaches(false);
-		conn.setRequestProperty(HDR_ACCEPT_ENCODING, ENCODING_GZIP);
+		if (setAcceptEncodingHdr) {
+			conn.setRequestProperty(HDR_ACCEPT_ENCODING, ENCODING_GZIP);
+		}
 		conn.setRequestProperty(HDR_PRAGMA, "no-cache"); //$NON-NLS-1$
 		if (UserAgent.get() != null) {
 			conn.setRequestProperty(HDR_USER_AGENT, UserAgent.get());
@@ -661,6 +659,12 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		}
 
 		@Override
+		BufferedReader openReader(final String path) throws IOException {
+			final InputStream is = open(path, true).in;
+			return new BufferedReader(new InputStreamReader(is, Constants.CHARSET));
+		}
+
+		@Override
 		Collection<String> getPackNames() throws IOException {
 			final Collection<String> packs = new ArrayList<String>();
 			try {
@@ -685,9 +689,13 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 		@Override
 		FileStream open(final String path) throws IOException {
+			return open(path, false);
+		}
+
+		FileStream open(final String path, boolean setAcceptGzipHeader) throws IOException {
 			final URL base = httpObjectsUrl;
 			final URL u = new URL(base, path);
-			final HttpConnection c = httpOpen(u);
+			final HttpConnection c = httpOpen(METHOD_GET, u, setAcceptGzipHeader);
 			switch (HttpSupport.response(c)) {
 			case HttpConnection.HTTP_OK:
 				final InputStream in = openInputStream(c);
@@ -844,7 +852,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		}
 
 		void openStream() throws IOException {
-			conn = httpOpen(METHOD_POST, new URL(baseUrl, serviceName));
+			conn = httpOpen(METHOD_POST, new URL(baseUrl, serviceName), false);
 			conn.setInstanceFollowRedirects(false);
 			conn.setDoOutput(true);
 			conn.setRequestProperty(HDR_CONTENT_TYPE, requestType);
