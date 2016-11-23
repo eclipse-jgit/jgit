@@ -84,8 +84,6 @@ abstract class WalkRemoteObjectDatabase {
 
 	static final String INFO_HTTP_ALTERNATES = "info/http-alternates"; //$NON-NLS-1$
 
-	static final String INFO_REFS = ROOT_DIR + Constants.INFO_REFS;
-
 	abstract URIish getURI();
 
 	/**
