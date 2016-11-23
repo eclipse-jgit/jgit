@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_531e9022",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/ManifestParser.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-11-23T00:43:14Z",
+      "side": 1,
+      "message": "It\u0027s package-private. We can delete it now.",
+      "revId": "56fbdcd95fa892d4dca60bd5c2da80cd0b684ddc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
