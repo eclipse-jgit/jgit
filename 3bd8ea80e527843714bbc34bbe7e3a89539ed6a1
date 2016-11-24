@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_517f6550",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-11-24T10:20:15Z",
+      "side": 1,
+      "message": "This should be done as a separate commit, possibly on the stable branch.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 31
+      },
+      "revId": "3bd8ea80e527843714bbc34bbe7e3a89539ed6a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_317ae961",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/FileLfsServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-11-24T10:20:15Z",
+      "side": 1,
+      "message": "\"object id, or \u003ccode\u003enull\u003c/code\u003e if the object id could not be retrieved\"",
+      "range": {
+        "startLine": 135,
+        "startChar": 12,
+        "endLine": 136,
+        "endChar": 21
+      },
+      "revId": "3bd8ea80e527843714bbc34bbe7e3a89539ed6a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
