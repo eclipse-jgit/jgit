@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_b4dfc7d0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/MergeBaseGenerator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2016-11-24T14:50:03Z",
+      "side": 1,
+      "message": "mini-typo - Anchestor -\u003e Ancestor",
+      "range": {
+        "startLine": 89,
+        "startChar": 22,
+        "endLine": 89,
+        "endChar": 31
+      },
+      "revId": "6a75bd9626450eaab34bda416d8cd7093a0dfe13",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
