@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_b111990d",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/FileLfsServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-11-24T10:49:21Z",
+      "side": 1,
+      "message": "Need to add:\n\n @since 4.6",
+      "revId": "b3f7158e33e457d15e05a768759802f7ef2f8a57",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
