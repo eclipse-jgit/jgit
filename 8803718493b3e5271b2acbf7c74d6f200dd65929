@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_bfdfa5d0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/WalkRemoteObjectDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-11-24T00:30:09Z",
+      "side": 0,
+      "message": "unrelated change?",
+      "revId": "8803718493b3e5271b2acbf7c74d6f200dd65929",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
