@@ -125,7 +125,20 @@ public class FileLfsServlet extends HttpServlet {
 		}
 	}
 
-	private AnyLongObjectId getObjectToTransfer(HttpServletRequest req,
+	/**
+	 * Retrieve object id from request
+	 *
+	 * @param req
+	 *            servlet request
+	 * @param rsp
+	 *            servlet response
+	 * @return object id, or <code>null</code> if the object id could not be
+	 *         retrieved
+	 * @throws IOException
+	 *             if an I/O error occurs
+         * @since 4.6
+	 */
+	protected AnyLongObjectId getObjectToTransfer(HttpServletRequest req,
 			HttpServletResponse rsp) throws IOException {
 		String info = req.getPathInfo();
 		int length = 1 + Constants.LONG_OBJECT_ID_STRING_LENGTH;
