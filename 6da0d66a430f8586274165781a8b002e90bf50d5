@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_9814a0d1",
+        "filename": "tools/BUILD",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-12-03T23:48:20Z",
+      "side": 1,
+      "message": "what is the purpose of an empty BUILD file ?",
+      "revId": "6da0d66a430f8586274165781a8b002e90bf50d5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
