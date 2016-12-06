@@ -1,0 +1,152 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_295b3903",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-12-06T22:06:43Z",
+      "side": 1,
+      "message": "nit: missing space around initializer list (https://google.github.io/styleguide/javaguide.html#s4.8.1-enum-classes)\n\nSince this is new API, needs a javadoc comment with a @since tag.\n\nThe name AcceptEncoding.NONE is a little confusing --- if I don\u0027t specify the Accept-Encoding header, that means the data is transferred raw, not that there is no encoding (that it is not transferred at all). Would a name like RAW make sense?",
+      "revId": "38ec92f86239656eb86efff15cbd938dc0e83dde",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_c96e45a3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-12-06T22:06:43Z",
+      "side": 1,
+      "message": "nit: can break at the higher syntactic level (https://google.github.io/styleguide/javaguide.html#s4.5.1-line-wrapping-where-to-break):\n\n HttpConnection conn \u003d\n   httpOpen(METHOD_GET, new URL(baseUrl, HEAD), AcceptEncoding.GZIP);",
+      "revId": "38ec92f86239656eb86efff15cbd938dc0e83dde",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_c945651b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-12-06T22:06:43Z",
+      "side": 1,
+      "message": "Please add some brief documentation of the new acceptEncoding parameter.",
+      "revId": "38ec92f86239656eb86efff15cbd938dc0e83dde",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_09c3dd04",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-12-06T22:06:43Z",
+      "side": 1,
+      "message": "This is an API change, so it needs an updated @since value.\n\nWhat should happen to the existing httpOpen method? Would we need to keep it for one point release as a @Deprecated and unused method or is it okay to remove it without that?",
+      "revId": "38ec92f86239656eb86efff15cbd938dc0e83dde",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_894b6d30",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-12-06T22:06:43Z",
+      "side": 1,
+      "message": "nit: simpler to require that the parameter not be null:\n\n protected HttpConnection httpOpen(...) throws IOException {\n   if (method \u003d\u003d null || u \u003d\u003d null || acceptEncoding \u003d\u003d null) {\n     throw new NullPointerException();\n   }\n   ...",
+      "revId": "38ec92f86239656eb86efff15cbd938dc0e83dde",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_29c6d913",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 665,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-12-06T22:06:43Z",
+      "side": 1,
+      "message": "unnecessary \u0027final\u0027",
+      "range": {
+        "startLine": 665,
+        "startChar": 28,
+        "endLine": 665,
+        "endChar": 34
+      },
+      "revId": "38ec92f86239656eb86efff15cbd938dc0e83dde",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_49cdd52d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 666,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-12-06T22:06:43Z",
+      "side": 1,
+      "message": "likewise\n\nAlso probably worth a comment about why this uses GZIP encoding:\n\n // Line-oriented content is likely to compress well. Request gzip encoding.",
+      "range": {
+        "startLine": 666,
+        "startChar": 3,
+        "endLine": 666,
+        "endChar": 8
+      },
+      "revId": "38ec92f86239656eb86efff15cbd938dc0e83dde",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_29edf983",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 694,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-12-06T22:06:43Z",
+      "side": 1,
+      "message": "This means defaulting to no compression. Is that needed? Since WalkRemoteObjectDatabase is package-private, we know there are only internal callers, so we could update them all to pass an explicit AcceptEncoding parameter.\n\nAlternatively, should the javadoc for open and openReader be clarified to specify that openReader should always be used for text files and open should only be used for binary, already-compressed files?",
+      "revId": "38ec92f86239656eb86efff15cbd938dc0e83dde",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
