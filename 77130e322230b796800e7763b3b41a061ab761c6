@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_9fc562d7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 542,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-12-06T01:46:14Z",
+      "side": 1,
+      "message": "Could this boolean argument be an enum instead? See effective java 2nd ed item 40 \"Prefer two-element enum types to boolean parameters\".",
+      "revId": "77130e322230b796800e7763b3b41a061ab761c6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
