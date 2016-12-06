@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_1f507255",
+        "filename": "org.eclipse.jgit.test/META-INF/MANIFEST.MF",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-12-06T07:11:48Z",
+      "side": 1,
+      "message": "In Eclipse I\u0027m getting the error \"Unsatisfied constraint\" here.",
+      "revId": "5bb434e01fd38bd31bdf1beaa8f608ad395b44dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
