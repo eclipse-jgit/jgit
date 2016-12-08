@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_b63f993c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-12-08T23:59:59Z",
+      "side": 1,
+      "message": "Needs javadoc with @since tag",
+      "revId": "51a7813ec6e0b9870cea1019c66a08d787fbebcc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
