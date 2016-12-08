@@ -16,6 +16,24 @@
       "revId": "5bb434e01fd38bd31bdf1beaa8f608ad395b44dd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_2a616405",
+        "filename": "org.eclipse.jgit.test/META-INF/MANIFEST.MF",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-12-08T01:43:58Z",
+      "side": 1,
+      "message": "Not entirely sure what the problem was, but it went away after updating Eclipse.",
+      "parentUuid": "a7c23755_1f507255",
+      "revId": "5bb434e01fd38bd31bdf1beaa8f608ad395b44dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
