@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_dd80b851",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileSnapshot.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-12-08T16:20:36Z",
+      "side": 1,
+      "message": "A comment on a change accepted 6 years ago!\n\nI think this is a bug. Imagine you have a FileSnapshot on file f. lastmodified and lastread are both t0. Now time is t1 and you \n1) modify the file\n2) Update the FileSnapshot of the file (lastModified\u003dt1, lastRead\u003dt1)\n3) modify the file again\n4) wait 3 seconds\n5) Ask the Filesnapshot whether the file is dirty or not. It will answer it\u0027s clean because of these lines\n\nWithout these lines Filesnapshot will report that the file is dirty unless it has been re-read at a point in time after t1. Only when we have read the file once after t1 we know it has not been modified during t1 multiple times.\n\nI would like to remove this lines. Objections?\n\nThis bug causes gerrit to sometimes miss newly created packfiles created by a external process doing native git gc.\n\nSee my test and fix here: https://git.eclipse.org/r/86738",
+      "range": {
+        "startLine": 204,
+        "startChar": 0,
+        "endLine": 208,
+        "endChar": 3
+      },
+      "revId": "c3f52c62a8b8b1fbed77954c8fa2353a35d05236",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
