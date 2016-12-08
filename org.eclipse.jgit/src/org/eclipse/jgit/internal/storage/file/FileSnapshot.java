@@ -264,12 +264,6 @@ public class FileSnapshot {
 			return false;
 		}
 
-		// Our lastRead flag may be old, refresh and retry
-		lastRead = System.currentTimeMillis();
-		if (notRacyClean(lastRead)) {
-			return false;
-		}
-
 		// We last read this path too close to its last observed
 		// modification time. We may have missed a modification.
 		// Scan again, to ensure we still see the same state.
