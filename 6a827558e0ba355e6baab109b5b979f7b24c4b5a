@@ -1,0 +1,297 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_96f8dd3e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-12-08T23:19:03Z",
+      "side": 1,
+      "message": "s/beeing/being/",
+      "range": {
+        "startLine": 9,
+        "startChar": 42,
+        "endLine": 9,
+        "endChar": 48
+      },
+      "revId": "6a827558e0ba355e6baab109b5b979f7b24c4b5a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_d6f2555a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-12-08T23:19:03Z",
+      "side": 1,
+      "message": "s/is/it is/",
+      "range": {
+        "startLine": 9,
+        "startChar": 64,
+        "endLine": 9,
+        "endChar": 66
+      },
+      "revId": "6a827558e0ba355e6baab109b5b979f7b24c4b5a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_f614b103",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-12-08T23:19:03Z",
+      "side": 1,
+      "message": "s/acutally/actually/",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 8
+      },
+      "revId": "6a827558e0ba355e6baab109b5b979f7b24c4b5a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_16184d34",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-12-08T23:19:03Z",
+      "side": 1,
+      "message": "s/Ask/ask/",
+      "range": {
+        "startLine": 18,
+        "startChar": 3,
+        "endLine": 18,
+        "endChar": 6
+      },
+      "revId": "6a827558e0ba355e6baab109b5b979f7b24c4b5a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_7608a1e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-12-08T23:19:03Z",
+      "side": 1,
+      "message": "simultaneously",
+      "range": {
+        "startLine": 26,
+        "startChar": 15,
+        "endLine": 26,
+        "endChar": 29
+      },
+      "revId": "6a827558e0ba355e6baab109b5b979f7b24c4b5a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_96037dc6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-12-08T23:19:03Z",
+      "side": 1,
+      "message": "setting the mtime of the pack folder to t1",
+      "range": {
+        "startLine": 28,
+        "startChar": 7,
+        "endLine": 28,
+        "endChar": 59
+      },
+      "revId": "6a827558e0ba355e6baab109b5b979f7b24c4b5a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_f63bd184",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-12-08T23:19:03Z",
+      "side": 1,
+      "message": "GC writes a new packfile and deletes the old packfile.",
+      "range": {
+        "startLine": 32,
+        "startChar": 45,
+        "endLine": 33,
+        "endChar": 59
+      },
+      "revId": "6a827558e0ba355e6baab109b5b979f7b24c4b5a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_5639e589",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-12-08T23:19:03Z",
+      "side": 1,
+      "message": "know",
+      "range": {
+        "startLine": 35,
+        "startChar": 55,
+        "endLine": 35,
+        "endChar": 58
+      },
+      "revId": "6a827558e0ba355e6baab109b5b979f7b24c4b5a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_3636299d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-12-08T23:19:03Z",
+      "side": 1,
+      "message": "request arrives",
+      "range": {
+        "startLine": 35,
+        "startChar": 30,
+        "endLine": 35,
+        "endChar": 35
+      },
+      "revId": "6a827558e0ba355e6baab109b5b979f7b24c4b5a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_762fc141",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-12-08T23:19:03Z",
+      "side": 1,
+      "message": "it",
+      "range": {
+        "startLine": 36,
+        "startChar": 60,
+        "endLine": 36,
+        "endChar": 62
+      },
+      "revId": "6a827558e0ba355e6baab109b5b979f7b24c4b5a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_b629593c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-12-08T23:19:03Z",
+      "side": 1,
+      "message": "cached that the last scan happened at time t1",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 38
+      },
+      "revId": "6a827558e0ba355e6baab109b5b979f7b24c4b5a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_d6241563",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-12-08T23:19:03Z",
+      "side": 1,
+      "message": "its",
+      "range": {
+        "startLine": 40,
+        "startChar": 68,
+        "endLine": 40,
+        "endChar": 72
+      },
+      "revId": "6a827558e0ba355e6baab109b5b979f7b24c4b5a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_76fd012e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ObjectDirectoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-12-08T23:19:03Z",
+      "side": 1,
+      "message": "I think we don\u0027t need to handle exceptions in this test",
+      "revId": "6a827558e0ba355e6baab109b5b979f7b24c4b5a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
