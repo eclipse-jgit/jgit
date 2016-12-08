@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "a7c23755_1db31005",
+        "filename": "org.eclipse.jgit.lfs.test/tst/org/eclipse/jgit/lfs/lib/LargeObjectPointerFilterTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 88043
+      },
+      "writtenOn": "2016-12-08T10:32:48Z",
+      "side": 1,
+      "message": "test should be extended to handle multiple version headers",
+      "revId": "22eda3b03cf02d02c61db9c108415d04d2cca071",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_fd073455",
         "filename": "org.eclipse.jgit.lfs.test/tst/org/eclipse/jgit/lfs/lib/LargeObjectPointerTest.java",
         "patchSetId": 5
