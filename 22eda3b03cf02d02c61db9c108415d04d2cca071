@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_fd073455",
+        "filename": "org.eclipse.jgit.lfs.test/tst/org/eclipse/jgit/lfs/lib/LargeObjectPointerTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 88043
+      },
+      "writtenOn": "2016-12-08T10:18:22Z",
+      "side": 1,
+      "message": "s/size id/different size/",
+      "range": {
+        "startLine": 70,
+        "startChar": 32,
+        "endLine": 70,
+        "endChar": 39
+      },
+      "revId": "22eda3b03cf02d02c61db9c108415d04d2cca071",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_dd2b58b7",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LargeObjectPointerFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 88043
+      },
+      "writtenOn": "2016-12-08T10:18:22Z",
+      "side": 1,
+      "message": "according to [1] two version urls should be supported for reading (and this is the case):\nhttps://hawser.github.com/spec/v1\nhttps://git-lfs.github.com/spec/v1\n\n[1] https://github.com/git-lfs/git-lfs/blob/master/docs/spec.md",
+      "range": {
+        "startLine": 68,
+        "startChar": 45,
+        "endLine": 68,
+        "endChar": 88
+      },
+      "revId": "22eda3b03cf02d02c61db9c108415d04d2cca071",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_fd2e54c7",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LargeObjectPointerFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 88043
+      },
+      "writtenOn": "2016-12-08T10:18:22Z",
+      "side": 1,
+      "message": "this needs to be rewritten to handle 2 types of version headers",
+      "range": {
+        "startLine": 103,
+        "startChar": 2,
+        "endLine": 111,
+        "endChar": 3
+      },
+      "revId": "22eda3b03cf02d02c61db9c108415d04d2cca071",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_1d3870f7",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LargeObjectPointerFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 88043
+      },
+      "writtenOn": "2016-12-08T10:18:22Z",
+      "side": 1,
+      "message": "AFAICT the algorithm here is to go over content as many times as REQUIRED_KEYS.length is? wouldn\u0027t that make more sense to walk content once and extract whatever is still to be extracted? one could break the loop if all keys were already found...",
+      "range": {
+        "startLine": 120,
+        "startChar": 2,
+        "endLine": 133,
+        "endChar": 3
+      },
+      "revId": "22eda3b03cf02d02c61db9c108415d04d2cca071",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
