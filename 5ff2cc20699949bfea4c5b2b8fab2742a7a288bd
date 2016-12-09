@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_95cc50d0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-12-09T19:52:16Z",
+      "side": 1,
+      "message": "s/ which set/, setting/",
+      "range": {
+        "startLine": 555,
+        "startChar": 27,
+        "endLine": 555,
+        "endChar": 37
+      },
+      "revId": "5ff2cc20699949bfea4c5b2b8fab2742a7a288bd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_75bdf41c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 898,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-12-09T19:52:16Z",
+      "side": 1,
+      "message": "Thanks for drawing my attention to this one. This is used for most steps of smart HTTP, both fetch and push. There is a lot of text sent by smart HTTP so accepting a Content-Encoding of gzip can improve bandwidth use. So I think we should continue to use AcceptEncoding.GZIP here.",
+      "revId": "5ff2cc20699949bfea4c5b2b8fab2742a7a288bd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_b5c78ca8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/WalkRemoteObjectDatabase.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-12-09T19:52:16Z",
+      "side": 1,
+      "message": "files",
+      "range": {
+        "startLine": 137,
+        "startChar": 54,
+        "endLine": 137,
+        "endChar": 58
+      },
+      "revId": "5ff2cc20699949bfea4c5b2b8fab2742a7a288bd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_d595e896",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/WalkRemoteObjectDatabase.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-12-09T19:52:16Z",
+      "side": 1,
+      "message": "objects and",
+      "range": {
+        "startLine": 137,
+        "startChar": 70,
+        "endLine": 137,
+        "endChar": 77
+      },
+      "revId": "5ff2cc20699949bfea4c5b2b8fab2742a7a288bd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_159040a2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/WalkRemoteObjectDatabase.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-12-09T19:52:16Z",
+      "side": 1,
+      "message": "text files",
+      "range": {
+        "startLine": 138,
+        "startChar": 19,
+        "endLine": 138,
+        "endChar": 36
+      },
+      "revId": "5ff2cc20699949bfea4c5b2b8fab2742a7a288bd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_f59824cf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/WalkRemoteObjectDatabase.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-12-09T19:52:16Z",
+      "side": 1,
+      "message": "files",
+      "range": {
+        "startLine": 138,
+        "startChar": 9,
+        "endLine": 138,
+        "endChar": 13
+      },
+      "revId": "5ff2cc20699949bfea4c5b2b8fab2742a7a288bd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_55a9d8da",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/WalkRemoteObjectDatabase.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-12-09T19:52:16Z",
+      "side": 1,
+      "message": "This method is suitable for reading line-oriented resources\nlike \u003ccode\u003einfo/packs\u003c/code\u003e, \u003ccode\u003einfo/refs\u003c/code\u003e, and the\nalternates list.",
+      "revId": "5ff2cc20699949bfea4c5b2b8fab2742a7a288bd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
