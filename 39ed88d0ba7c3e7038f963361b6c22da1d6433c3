@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_92cc66d0",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ObjectDirectoryTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-12-09T16:18:28Z",
+      "side": 1,
+      "message": "nit: \"as\"",
+      "range": {
+        "startLine": 130,
+        "startChar": 56,
+        "endLine": 130,
+        "endChar": 58
+      },
+      "revId": "39ed88d0ba7c3e7038f963361b6c22da1d6433c3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_b2c7a2a8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ObjectDirectoryTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-12-09T16:18:28Z",
+      "side": 1,
+      "message": "nit: \"lets\"",
+      "range": {
+        "startLine": 135,
+        "startChar": 29,
+        "endLine": 135,
+        "endChar": 34
+      },
+      "revId": "39ed88d0ba7c3e7038f963361b6c22da1d6433c3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_d295fe96",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ObjectDirectoryTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-12-09T16:18:28Z",
+      "side": 1,
+      "message": "nit: \", but\"",
+      "range": {
+        "startLine": 137,
+        "startChar": 60,
+        "endLine": 137,
+        "endChar": 65
+      },
+      "revId": "39ed88d0ba7c3e7038f963361b6c22da1d6433c3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
