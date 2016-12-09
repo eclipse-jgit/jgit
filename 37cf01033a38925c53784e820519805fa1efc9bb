@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "a7c23755_d1241f63",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LargeObjectPointerFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 88043
+      },
+      "writtenOn": "2016-12-09T09:11:48Z",
+      "side": 1,
+      "message": "I don\u0027t understand this condition - AFAICT in the source of org.eclipse.jgit.util.RawParseUtils.match(byte[], int, byte[]) returns -1 when either line is longer than version or content doesn\u0027t match so rather quite opposite that we want to achieve from it...",
+      "range": {
+        "startLine": 99,
+        "startChar": 8,
+        "endLine": 99,
+        "endChar": 49
+      },
+      "revId": "37cf01033a38925c53784e820519805fa1efc9bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_d10dfff2",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LargeObjectPointerFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 88043
+      },
+      "writtenOn": "2016-12-09T09:11:48Z",
+      "side": 1,
+      "message": "I am not sure if this is going to work - imagine that file contains current version string - it is one character longer than old version string IOW it cannot match to the buffer content as buffer content is to small... I would say that we should read the line not just the bytes...",
+      "range": {
+        "startLine": 120,
+        "startChar": 2,
+        "endLine": 127,
+        "endChar": 3
+      },
+      "revId": "37cf01033a38925c53784e820519805fa1efc9bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_1125b7b2",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LargeObjectPointerFilter.java",
         "patchSetId": 6
