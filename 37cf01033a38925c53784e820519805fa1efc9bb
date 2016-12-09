@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_1125b7b2",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LargeObjectPointerFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-12-09T07:19:15Z",
+      "side": 1,
+      "message": "Jacek\u0027s comment on previous PS was not addressed yet.",
+      "range": {
+        "startLine": 136,
+        "startChar": 2,
+        "endLine": 149,
+        "endChar": 3
+      },
+      "revId": "37cf01033a38925c53784e820519805fa1efc9bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
