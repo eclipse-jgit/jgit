@@ -1,0 +1,8 @@
+Code-Review+2: Jonathan Nieder <jrn@google.com>
+Code-Review+1: Zhen Chen <czhen@google.com>
+Verified+1: Jonathan Nieder <jrn@google.com>
+Submitted-by: Jonathan Nieder <jrn@google.com>
+Submitted-at: Fri, 09 Dec 2016 19:29:28 -0500
+Reviewed-on: https://git.eclipse.org/r/85647
+Project: jgit/jgit
+Branch: refs/heads/master
