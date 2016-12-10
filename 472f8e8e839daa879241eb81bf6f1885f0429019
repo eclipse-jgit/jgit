@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_f85adbfc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 738,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-12-10T00:08:27Z",
+      "side": 1,
+      "message": "nit: \u0027final\u0027 isn\u0027t needed. That also might make it easier to avoid wrapping the line",
+      "revId": "472f8e8e839daa879241eb81bf6f1885f0429019",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_d857dfd4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 899,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-12-10T00:08:27Z",
+      "side": 1,
+      "message": "nit: break at the higher syntactic level (meaning right after the \u0027\u003d\u0027).\n\nActually, is this line break needed?",
+      "revId": "472f8e8e839daa879241eb81bf6f1885f0429019",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
