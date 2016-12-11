@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "a7c23755_9b7481c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-12-11T18:30:17Z",
+      "side": 1,
+      "message": "why do you want to expose this method to subclasses ?",
+      "revId": "d87bb6ff31c6cbdbcf260bd814ae0ace2763b561",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_18623732",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
         "patchSetId": 1
