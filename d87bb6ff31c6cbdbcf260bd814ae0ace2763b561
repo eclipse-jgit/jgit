@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_bb469d73",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 100940
+      },
+      "writtenOn": "2016-12-11T18:56:17Z",
+      "side": 1,
+      "message": "Thanks for the review, Matthias. I was upgrading jgit from 3.4 to 4.5. All I need is to get an `EditList` from a `DiffEntry`. I just found that in 4.5, `toFileList` is exactly what I am looking for. So this CL is not necessary any more.",
+      "parentUuid": "a7c23755_9b7481c1",
+      "revId": "d87bb6ff31c6cbdbcf260bd814ae0ace2763b561",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_18623732",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-12-11T09:50:00Z",
       "side": 1,
       "message": "I think this method now needs to have a Javadoc with @since 4.7 tag.",
+      "revId": "d87bb6ff31c6cbdbcf260bd814ae0ace2763b561",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_9b4ba17e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 944,
+      "author": {
+        "id": 100940
+      },
+      "writtenOn": "2016-12-11T18:56:17Z",
+      "side": 1,
+      "message": "Thanks David for the review. Actually, I found that `toFileHeader` is the method which I am looking for. So, this CL is not necessary anymore. :)",
+      "parentUuid": "a7c23755_18623732",
       "revId": "d87bb6ff31c6cbdbcf260bd814ae0ace2763b561",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
