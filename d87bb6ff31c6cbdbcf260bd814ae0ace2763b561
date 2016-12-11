@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_18623732",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 944,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-12-11T09:50:00Z",
+      "side": 1,
+      "message": "I think this method now needs to have a Javadoc with @since 4.7 tag.",
+      "revId": "d87bb6ff31c6cbdbcf260bd814ae0ace2763b561",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
