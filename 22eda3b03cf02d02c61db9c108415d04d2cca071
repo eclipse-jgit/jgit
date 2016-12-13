@@ -198,6 +198,30 @@
       "revId": "22eda3b03cf02d02c61db9c108415d04d2cca071",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_19acf674",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LargeObjectPointerFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-12-13T08:10:37Z",
+      "side": 1,
+      "message": "Done, but I think it can still be improved.",
+      "parentUuid": "a7c23755_1d3870f7",
+      "range": {
+        "startLine": 120,
+        "startChar": 2,
+        "endLine": 133,
+        "endChar": 3
+      },
+      "revId": "22eda3b03cf02d02c61db9c108415d04d2cca071",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
