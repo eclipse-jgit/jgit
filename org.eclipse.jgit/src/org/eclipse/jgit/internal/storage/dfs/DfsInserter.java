@@ -312,8 +312,7 @@ public class DfsInserter extends ObjectInserter {
 		}
 
 		DfsOutputStream os = db.writeFile(pack, INDEX);
-		try {
-			CountingOutputStream cnt = new CountingOutputStream(os);
+		try (CountingOutputStream cnt = new CountingOutputStream(os)) {
 			if (buf != null)
 				buf.writeTo(cnt, null);
 			else
@@ -321,7 +320,9 @@ public class DfsInserter extends ObjectInserter {
 			pack.addFileExt(INDEX);
 			pack.setFileSize(INDEX, cnt.getCount());
 		} finally {
-			os.close();
+			if (buf != null) {
+				buf.close();
+			}
 		}
 		return packIndex;
 	}
