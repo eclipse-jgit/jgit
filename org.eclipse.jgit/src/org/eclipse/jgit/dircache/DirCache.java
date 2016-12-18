@@ -634,9 +634,8 @@ public class DirCache {
 	public void write() throws IOException {
 		final LockFile tmp = myLock;
 		requireLocked(tmp);
-		try {
-			writeTo(liveFile.getParentFile(),
-					new BufferedOutputStream(tmp.getOutputStream()));
+		try (OutputStream o = new BufferedOutputStream(tmp.getOutputStream())) {
+			writeTo(liveFile.getParentFile(), o);
 		} catch (IOException err) {
 			tmp.unlock();
 			throw err;
