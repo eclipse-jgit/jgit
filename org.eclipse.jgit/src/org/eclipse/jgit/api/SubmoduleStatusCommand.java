@@ -94,8 +94,7 @@ public class SubmoduleStatusCommand extends
 	public Map<String, SubmoduleStatus> call() throws GitAPIException {
 		checkCallable();
 
-		try {
-			SubmoduleWalk generator = SubmoduleWalk.forIndex(repo);
+		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(repo)) {
 			if (!paths.isEmpty())
 				generator.setFilter(PathFilterGroup.createFromStrings(paths));
 			Map<String, SubmoduleStatus> statuses = new HashMap<String, SubmoduleStatus>();
