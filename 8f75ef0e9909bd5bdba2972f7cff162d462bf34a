@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_ce09c4a4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/ManifestParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2016-12-18T08:27:31Z",
+      "side": 1,
+      "message": "Can\u0027t this logic be simplified: if both includedReader and filename then earlier return with exception, and then use try-with-resources?",
+      "revId": "8f75ef0e9909bd5bdba2972f7cff162d462bf34a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
