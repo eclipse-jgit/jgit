@@ -180,17 +180,11 @@ public class RepoCommand extends GitCommand<RevCommit> {
 		public byte[] readFile(String uri, String ref, String path)
 				throws GitAPIException, IOException {
 			File dir = FileUtils.createTempDir("jgit_", ".git", null); //$NON-NLS-1$ //$NON-NLS-2$
-			Repository repo = Git
-					.cloneRepository()
-					.setBare(true)
-					.setDirectory(dir)
-					.setURI(uri)
-					.call()
-					.getRepository();
-			try {
+			try (Git git = Git.cloneRepository().setBare(true).setDirectory(dir)
+					.setURI(uri).call();
+					Repository repo = git.getRepository()) {
 				return readFileFromRepo(repo, ref, path);
 			} finally {
-				repo.close();
 				FileUtils.delete(dir, FileUtils.RECURSIVE);
 			}
 		}
