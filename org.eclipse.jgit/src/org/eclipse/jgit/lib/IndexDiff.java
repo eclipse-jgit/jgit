@@ -311,10 +311,13 @@ public class IndexDiff {
 	public IndexDiff(Repository repository, ObjectId objectId,
 			WorkingTreeIterator workingTreeIterator) throws IOException {
 		this.repository = repository;
-		if (objectId != null)
-			tree = new RevWalk(repository).parseTree(objectId);
-		else
+		if (objectId != null) {
+			try (RevWalk rw = new RevWalk(repository)) {
+				tree = rw.parseTree(objectId);
+			}
+		} else {
 			tree = null;
+		}
 		this.initialWorkingTreeIterator = workingTreeIterator;
 	}
 
