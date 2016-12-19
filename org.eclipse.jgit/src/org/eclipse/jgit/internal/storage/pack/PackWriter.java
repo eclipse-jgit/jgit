@@ -1597,14 +1597,15 @@ public class PackWriter implements AutoCloseable {
 			}
 		}
 
-		TemporaryBuffer.Heap delta = delta(otp);
-		out.writeHeader(otp, delta.length());
+		try (TemporaryBuffer.Heap delta = delta(otp)) {
+			out.writeHeader(otp, delta.length());
 
-		Deflater deflater = deflater();
-		deflater.reset();
-		DeflaterOutputStream dst = new DeflaterOutputStream(out, deflater);
-		delta.writeTo(dst, null);
-		dst.finish();
+			Deflater deflater = deflater();
+			deflater.reset();
+			DeflaterOutputStream dst = new DeflaterOutputStream(out, deflater);
+			delta.writeTo(dst, null);
+			dst.finish();
+		}
 		typeStats.cntDeltas++;
 		typeStats.deltaBytes += out.length() - otp.getOffset();
 	}
