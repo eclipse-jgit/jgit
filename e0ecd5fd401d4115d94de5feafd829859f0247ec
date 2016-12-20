@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_1acf7227",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-12-20T00:52:41Z",
+      "side": 1,
+      "message": "This code is strange both before and after. A RevTree is only supposed to be used in the scope of the RevWalk that produced it.\n\nMaybe this class should keep a RevWalk and close it when finished?",
+      "revId": "e0ecd5fd401d4115d94de5feafd829859f0247ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
