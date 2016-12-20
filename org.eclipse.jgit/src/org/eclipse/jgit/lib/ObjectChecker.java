@@ -709,11 +709,12 @@ public class ObjectChecker {
 		return ptr;
 	}
 
-	@SuppressWarnings("resource")
 	@Nullable
 	private ObjectId idFor(int objType, byte[] raw) {
 		if (skipList != null) {
-			return new ObjectInserter.Formatter().idFor(objType, raw);
+			try (ObjectInserter.Formatter fmt = new ObjectInserter.Formatter()) {
+				return fmt.idFor(objType, raw);
+			}
 		}
 		return null;
 	}
