@@ -22,6 +22,30 @@
       "revId": "e4ad38bdffe351d2d1f44ef6a026d7dea9947f63",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_ebae639f",
+        "filename": "org.eclipse.jgit.lfs.server.test/tst/org/eclipse/jgit/lfs/server/fs/CheckoutTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-12-22T22:50:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07b223f6_e3dcc6de",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 36
+      },
+      "revId": "e4ad38bdffe351d2d1f44ef6a026d7dea9947f63",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
