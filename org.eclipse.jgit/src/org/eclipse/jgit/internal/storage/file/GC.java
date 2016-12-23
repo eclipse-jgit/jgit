@@ -459,9 +459,14 @@ public class GC {
 			return;
 
 		// delete all candidates which have survived: these are unreferenced
-		// loose objects
-		for (File f : deletionCandidates.values())
-			f.delete();
+		// loose objects. Make a last check, though, to avoid deleting objects
+		// that could have been referenced while the candidates list was being
+		// built (by an incoming push, for example).
+		for (File f : deletionCandidates.values()) {
+			if (f.lastModified() < expireDate) {
+				f.delete();
+			}
+		}
 
 		repo.getObjectDatabase().close();
 	}
