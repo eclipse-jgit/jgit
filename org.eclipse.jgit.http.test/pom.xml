@@ -60,7 +60,9 @@
   <description>
     Tests for the HTTP transport.
   </description>
-
+  <properties>
+      <maven.javadoc.skip>true</maven.javadoc.skip>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
