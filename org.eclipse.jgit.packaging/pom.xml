@@ -53,13 +53,13 @@
 
   <groupId>org.eclipse.jgit</groupId>
   <artifactId>jgit.tycho.parent</artifactId>
-  <version>4.6.0-SNAPSHOT</version>
+  <version>4.6.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>JGit Tycho Parent</name>
 
   <properties>
-    <tycho-version>0.25.0</tycho-version>
+    <tycho-version>0.26.0</tycho-version>
     <tycho-extras-version>${tycho-version}</tycho-extras-version>
     <target-platform>jgit-4.6</target-platform>
   </properties>
@@ -149,7 +149,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-resources-plugin</artifactId>
-          <version>2.7</version>
+          <version>3.0.2</version>
           <configuration>
             <encoding>ISO-8859-1</encoding>
           </configuration>
@@ -221,7 +221,7 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>build-helper-maven-plugin</artifactId>
-          <version>1.10</version>
+          <version>1.12</version>
         </plugin>
       </plugins>
     </pluginManagement>
