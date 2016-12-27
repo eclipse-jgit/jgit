@@ -53,6 +53,9 @@ public class PackExt {
 	/** A pack index file extension. */
 	public static final PackExt INDEX = newPackExt("idx"); //$NON-NLS-1$
 
+	/** A keep pack file extension. */
+	public static final PackExt KEEP = newPackExt("keep"); //$NON-NLS-1$
+
 	/** A pack bitmap index file extension. */
 	public static final PackExt BITMAP_INDEX = newPackExt("bitmap"); //$NON-NLS-1$
 
