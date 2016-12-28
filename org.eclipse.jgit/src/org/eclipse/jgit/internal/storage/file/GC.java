@@ -1204,9 +1204,10 @@ public class GC {
 				new DirectoryStream.Filter<Path>() {
 
 					public boolean accept(Path file) throws IOException {
-						return Files.isRegularFile(file) && PATTERN_LOOSE_OBJECT
-								.matcher(file.getFileName().toString())
-								.matches();
+						Path fileName = file.getFileName();
+						return Files.isRegularFile(file) && fileName != null
+								&& PATTERN_LOOSE_OBJECT
+										.matcher(fileName.toString()).matches();
 					}
 				})) {
 			for (Iterator<Path> iter = stream.iterator(); iter.hasNext();
