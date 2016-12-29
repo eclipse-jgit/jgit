@@ -46,6 +46,7 @@ package org.eclipse.jgit.internal.storage.file;
 import static java.lang.Integer.valueOf;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 
@@ -89,7 +90,7 @@ public class GcPackRefsTest extends GcTestCase {
 		tr.branch(ref).commit().create();
 		String name = repo.findRef(ref).getName();
 		Path dir = repo.getDirectory().toPath().resolve(name).getParent();
-
+		assertNotNull(dir);
 		gc.packRefs();
 		assertFalse(Files.exists(dir));
 	}
