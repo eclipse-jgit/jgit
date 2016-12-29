@@ -7,6 +7,7 @@
 package org.eclipse.jgit.util;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 import java.util.Arrays;
 
@@ -184,11 +185,7 @@ public class Base64 {
 			e += 4;
 		}
 
-		try {
-			return new String(outBuff, 0, e, UTF_8);
-		} catch (UnsupportedEncodingException uue) {
-			return new String(outBuff, 0, e);
-		}
+		return new String(outBuff, 0, e, StandardCharsets.UTF_8);
 	}
 
 	/**
@@ -304,12 +301,7 @@ public class Base64 {
 	 * @return the decoded data
 	 */
 	public static byte[] decode(String s) {
-		byte[] bytes;
-		try {
-			bytes = s.getBytes(UTF_8);
-		} catch (UnsupportedEncodingException uee) {
-			bytes = s.getBytes();
-		}
+		byte[] bytes = s.getBytes(StandardCharsets.UTF_8);
 		return decode(bytes, 0, bytes.length);
 	}
 }
