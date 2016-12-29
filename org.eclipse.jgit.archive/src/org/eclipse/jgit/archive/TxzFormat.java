@@ -53,6 +53,7 @@ import org.apache.commons.compress.archivers.ArchiveOutputStream;
 import org.apache.commons.compress.compressors.xz.XZCompressorOutputStream;
 import org.eclipse.jgit.api.ArchiveCommand;
 import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 
 /**
@@ -80,10 +81,19 @@ public final class TxzFormat extends BaseFormat implements
 		return tarFormat.createArchiveOutputStream(out, o);
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public void putEntry(ArchiveOutputStream out,
 			String path, FileMode mode, ObjectLoader loader)
 			throws IOException {
-		tarFormat.putEntry(out, path, mode, loader);
+		putEntry(out, null, path, mode,loader);
+	}
+
+	public void putEntry(ArchiveOutputStream out,
+			ObjectId tree, String path, FileMode mode, ObjectLoader loader)
+			throws IOException {
+		tarFormat.putEntry(out, tree, path, mode, loader);
 	}
 
 	public Iterable<String> suffixes() {
