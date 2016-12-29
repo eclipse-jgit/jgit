@@ -162,7 +162,7 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 					return name.endsWith(".pack");
 				}
 			});
-			assertTrue(ret.length == 1);
+			assertTrue(ret != null && ret.length == 1);
 			Assume.assumeTrue(tmpFile.lastModified() == ret[0].lastModified());
 
 			// all objects are in a new packfile but we will not detect it
