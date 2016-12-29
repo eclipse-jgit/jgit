@@ -57,6 +57,7 @@ import org.apache.commons.compress.archivers.tar.TarConstants;
 import org.eclipse.jgit.api.ArchiveCommand;
 import org.eclipse.jgit.archive.internal.ArchiveText;
 import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 
 /**
@@ -85,7 +86,7 @@ public final class TarFormat extends BaseFormat implements
 	}
 
 	public void putEntry(ArchiveOutputStream out,
-			String path, FileMode mode, ObjectLoader loader)
+			ObjectId tree, String path, FileMode mode, ObjectLoader loader)
 			throws IOException {
 		if (mode == FileMode.SYMLINK) {
 			final TarArchiveEntry entry = new TarArchiveEntry(

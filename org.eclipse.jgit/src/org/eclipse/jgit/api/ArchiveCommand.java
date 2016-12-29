@@ -161,6 +161,8 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 		 *
 		 * @param out
 		 *            archive object from createArchiveOutputStream
+		 * @param tree
+		 *            the tag, commit, or tree object to produce an archive for
 		 * @param path
 		 *            full filename relative to the root of the archive
 		 *            (with trailing '/' for directories)
@@ -173,7 +175,7 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 		 * @throws IOException
 		 *            thrown by the underlying output stream for I/O errors
 		 */
-		void putEntry(T out, String path, FileMode mode,
+		void putEntry(T out, ObjectId tree, String path, FileMode mode,
 				ObjectLoader loader) throws IOException;
 
 		/**
@@ -389,11 +391,11 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 						mode = FileMode.TREE;
 
 					if (mode == FileMode.TREE) {
-						fmt.putEntry(outa, name + "/", mode, null); //$NON-NLS-1$
+						fmt.putEntry(outa, tree, name + "/", mode, null); //$NON-NLS-1$
 						continue;
 					}
 					walk.getObjectId(idBuf, 0);
-					fmt.putEntry(outa, name, mode, reader.open(idBuf));
+					fmt.putEntry(outa, tree, name, mode, reader.open(idBuf));
 				}
 				outa.close();
 				return out;
