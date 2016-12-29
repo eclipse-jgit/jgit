@@ -162,8 +162,8 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 		 * @param out
 		 *            archive object from createArchiveOutputStream
 		 * @param path
-		 *            full filename relative to the root of the archive
-		 *            (with trailing '/' for directories)
+		 *            full filename relative to the root of the archive (with
+		 *            trailing '/' for directories)
 		 * @param mode
 		 *            mode (for example FileMode.REGULAR_FILE or
 		 *            FileMode.SYMLINK)
@@ -171,9 +171,36 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 		 *            blob object with data for this entry (null for
 		 *            directories)
 		 * @throws IOException
-		 *            thrown by the underlying output stream for I/O errors
+		 *             thrown by the underlying output stream for I/O errors
+		 * @deprecated use
+		 *             {@link #putEntry(Closeable, ObjectId, String, FileMode, ObjectLoader)}
+		 *             instead
 		 */
+		@Deprecated
 		void putEntry(T out, String path, FileMode mode,
+					  ObjectLoader loader) throws IOException;
+
+		/**
+		 * Write an entry to an archive.
+		 *
+		 * @param out
+		 *            archive object from createArchiveOutputStream
+		 * @param tree
+		 *            the tag, commit, or tree object to produce an archive for
+		 * @param path
+		 *            full filename relative to the root of the archive (with
+		 *            trailing '/' for directories)
+		 * @param mode
+		 *            mode (for example FileMode.REGULAR_FILE or
+		 *            FileMode.SYMLINK)
+		 * @param loader
+		 *            blob object with data for this entry (null for
+		 *            directories)
+		 * @throws IOException
+		 *             thrown by the underlying output stream for I/O errors
+		 * @since 4.7
+		 */
+		void putEntry(T out, ObjectId tree, String path, FileMode mode,
 				ObjectLoader loader) throws IOException;
 
 		/**
@@ -389,11 +416,11 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 						mode = FileMode.TREE;
 
 					if (mode == FileMode.TREE) {
-						fmt.putEntry(outa, name + "/", mode, null); //$NON-NLS-1$
+						fmt.putEntry(outa, tree, name + "/", mode, null); //$NON-NLS-1$
 						continue;
 					}
 					walk.getObjectId(idBuf, 0);
-					fmt.putEntry(outa, name, mode, reader.open(idBuf));
+					fmt.putEntry(outa, tree, name, mode, reader.open(idBuf));
 				}
 				outa.close();
 				return out;
