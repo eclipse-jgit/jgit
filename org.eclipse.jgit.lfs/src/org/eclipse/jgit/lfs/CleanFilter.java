@@ -151,7 +151,10 @@ public class CleanFilter extends FilterCommand {
 						FileUtils.delete(tmpFile.toFile());
 					}
 				} else {
-					FileUtils.mkdirs(mediaFile.getParent().toFile(), true);
+					Path parent = mediaFile.getParent();
+					if (parent != null) {
+						FileUtils.mkdirs(parent.toFile(), true);
+					}
 					FileUtils.rename(tmpFile.toFile(), mediaFile.toFile(),
 							StandardCopyOption.ATOMIC_MOVE);
 				}
