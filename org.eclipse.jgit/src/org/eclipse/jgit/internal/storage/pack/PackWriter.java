@@ -164,7 +164,7 @@ public class PackWriter implements AutoCloseable {
 	private static final int PACK_VERSION_GENERATED = 2;
 
 	/** Empty set of objects for {@code preparePack()}. */
-	public static Set<ObjectId> NONE = Collections.emptySet();
+	public static final Set<ObjectId> NONE = Collections.emptySet();
 
 	private static final Map<WeakReference<PackWriter>, Boolean> instances =
 			new ConcurrentHashMap<WeakReference<PackWriter>, Boolean>();
