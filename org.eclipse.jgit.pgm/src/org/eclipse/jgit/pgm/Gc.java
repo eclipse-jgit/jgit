@@ -52,10 +52,18 @@ class Gc extends TextBuiltin {
 	@Option(name = "--aggressive", usage = "usage_Aggressive")
 	private boolean aggressive;
 
+	@Option(name = "--preserve-oldpacks", usage = "usage_PreserveOldPacks")
+	private boolean preserveOldPacks;
+
+	@Option(name = "--prune-preserved", usage = "usage_PrunePreserved")
+	private boolean prunePreserved;
+
 	@Override
 	protected void run() throws Exception {
 		Git git = Git.wrap(db);
 		git.gc().setAggressive(aggressive)
+				.setPreserveOldPacks(preserveOldPacks)
+				.setPrunePreserved(prunePreserved)
 				.setProgressMonitor(new TextProgressMonitor(errw)).call();
 	}
 }

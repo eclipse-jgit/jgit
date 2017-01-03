@@ -159,6 +159,38 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 		return this;
 	}
 
+	/**
+	 * Whether to preserve old pack files instead of deleting them.
+	 *
+	 * @since 4.7
+	 * @param preserveOldPacks
+	 *            whether to preserve old pack files
+	 * @return this instance
+	 */
+	public GarbageCollectCommand setPreserveOldPacks(boolean preserveOldPacks) {
+		if (pconfig == null)
+			pconfig = new PackConfig(repo);
+
+		pconfig.setPreserveOldPacks(preserveOldPacks);
+		return this;
+	}
+
+	/**
+	 * Whether to prune preserved pack files in the preserved directory.
+	 *
+	 * @since 4.7
+	 * @param prunePreserved
+	 *            whether to prune preserved pack files
+	 * @return this instance
+	 */
+	public GarbageCollectCommand setPrunePreserved(boolean prunePreserved) {
+		if (pconfig == null)
+			pconfig = new PackConfig(repo);
+
+		pconfig.setPrunePreserved(prunePreserved);
+		return this;
+	}
+
 	@Override
 	public Properties call() throws GitAPIException {
 		checkCallable();
