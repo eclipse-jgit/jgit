@@ -1,0 +1,9 @@
+Verified+1: Hudson CI
+Code-Review+1: Marc Strapetz <marc.strapetz@syntevo.com>
+Code-Review+1: Masaya Suzuki <masayasuzuki@google.com>
+Code-Review+2: Andrey Loskutov <loskutov@gmx.de>
+Submitted-by: Andrey Loskutov <loskutov@gmx.de>
+Submitted-at: Tue, 03 Jan 2017 13:35:32 -0500
+Reviewed-on: https://git.eclipse.org/r/87957
+Project: jgit/jgit
+Branch: refs/heads/master
