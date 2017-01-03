@@ -211,9 +211,14 @@ public class GC {
 	/**
 	 * Delete old pack files. What is 'old' is defined by specifying a set of
 	 * old pack files and a set of new pack files. Each pack file contained in
-	 * old pack files but not contained in new pack files will be deleted. If an
-	 * expirationDate is set then pack files which are younger than the
-	 * expirationDate will not be deleted.
+	 * old pack files but not contained in new pack files will be deleted. If
+	 * preserveOldPacks is set, keep a copy of the pack file in the preserve
+	 * directory. If an expirationDate is set then pack files which are younger
+<<<<<<< HEAD
+	 * than the expirationDate will not be deleted.
+=======
+	 * than the expirationDate will not be deleted nor preserved.
+>>>>>>> ac399bd... gc: Add options to preserve and prune old pack files
 	 *
 	 * @param oldPacks
 	 * @param newPacks
@@ -222,6 +227,7 @@ public class GC {
 	 */
 	private void deleteOldPacks(Collection<PackFile> oldPacks,
 			Collection<PackFile> newPacks) throws ParseException, IOException {
+		prunePreserved();
 		long packExpireDate = getPackExpireDate();
 		oldPackLoop: for (PackFile oldPack : oldPacks) {
 			String oldName = oldPack.getPackName();
@@ -238,9 +244,49 @@ public class GC {
 				prunePack(oldName);
 			}
 		}
-		// close the complete object database. Thats my only chance to force
+		// close the complete object database. That's my only chance to force
 		// rescanning and to detect that certain pack files are now deleted.
 		repo.getObjectDatabase().close();
+	}
+
+	/**
+	 * Deletes old pack file, unless 'preserve-oldpacks' is set, in which case it
+	 * moves the pack file to the preserved directory
+	 *
+	 * @param packFile
+	 * @param packName
+	 * @param ext
+	 * @param deleteOptions
+	 * @throws IOException
+	 */
+	private void removeOldPack(File packFile, String packName, PackExt ext,
+			int deleteOptions) throws IOException {
+		if (pconfig != null && pconfig.isPreserveOldPacks()) {
+			File oldPackDir = repo.getObjectDatabase().getPreservedDirectory();
+			FileUtils.mkdir(oldPackDir, true);
+			
+			String oldPackName = "pack-" + packName + ".old-" + ext.getExtension();  //$NON-NLS-1$
+			File oldPackFile = new File(oldPackDir, oldPackName);
+			FileUtils.rename(packFile, oldPackFile);
+		} else {
+			FileUtils.delete(packFile, deleteOptions);
+		}
+	}
+
+	/**
+	 * Prunes all pack files in the preserved directory
+	 *
+	 * @throws IOException
+	 */
+	private void prunePreserved() {
+		if (pconfig != null && pconfig.isPrunePreserved()) {
+			try {
+				FileUtils.delete(repo.getObjectDatabase().getPreservedDirectory(),
+						FileUtils.RECURSIVE | FileUtils.RETRY | FileUtils.SKIP_MISSING);
+			} catch (IOException e) {
+				// Deletion of the preserved pack files failed. Silently return.
+			}
+		}
 	}
 
 	/**
@@ -262,7 +308,7 @@ public class GC {
 			for (PackExt ext : extensions)
 				if (PackExt.PACK.equals(ext)) {
 					File f = nameFor(packName, "." + ext.getExtension()); //$NON-NLS-1$
-					FileUtils.delete(f, deleteOptions);
+					removeOldPack(f, packName, ext, deleteOptions);
 					break;
 				}
 			// The .pack file has been deleted. Delete as many as the other
@@ -271,7 +317,7 @@ public class GC {
 			for (PackExt ext : extensions) {
 				if (!PackExt.PACK.equals(ext)) {
 					File f = nameFor(packName, "." + ext.getExtension()); //$NON-NLS-1$
-					FileUtils.delete(f, deleteOptions);
+					removeOldPack(f, packName, ext, deleteOptions);
 				}
 			}
 		} catch (IOException e) {

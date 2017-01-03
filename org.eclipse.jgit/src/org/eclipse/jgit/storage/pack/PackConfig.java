@@ -75,6 +75,20 @@ public class PackConfig {
 	public static final boolean DEFAULT_REUSE_OBJECTS = true;
 
 	/**
+	 * Default value of keep old packs option: {@value}
+	 *
+	 * @see #setPreserveOldPacks(boolean)
+	 */
+	public static final boolean DEFAULT_PRESERVE_OLD_PACKS = false;
+
+	/**
+	 * Default value of prune old packs option: {@value}
+	 *
+	 * @see #setPrunePreserved(boolean)
+	 */
+	public static final boolean DEFAULT_PRUNE_PRESERVED = false;
+
+	/**
 	 * Default value of delta compress option: {@value}
 	 *
 	 * @see #setDeltaCompress(boolean)
@@ -204,6 +218,10 @@ public class PackConfig {
 
 	private boolean reuseObjects = DEFAULT_REUSE_OBJECTS;
 
+	private boolean preserveOldPacks = DEFAULT_PRESERVE_OLD_PACKS;
+
+	private boolean prunePreserved = DEFAULT_PRUNE_PRESERVED;
+
 	private boolean deltaBaseAsOffset = DEFAULT_DELTA_BASE_AS_OFFSET;
 
 	private boolean deltaCompress = DEFAULT_DELTA_COMPRESS;
@@ -281,6 +299,8 @@ public class PackConfig {
 		this.compressionLevel = cfg.compressionLevel;
 		this.reuseDeltas = cfg.reuseDeltas;
 		this.reuseObjects = cfg.reuseObjects;
+		this.preserveOldPacks = cfg.preserveOldPacks;
+		this.prunePreserved = cfg.prunePreserved;
 		this.deltaBaseAsOffset = cfg.deltaBaseAsOffset;
 		this.deltaCompress = cfg.deltaCompress;
 		this.maxDeltaDepth = cfg.maxDeltaDepth;
@@ -361,6 +381,57 @@ public class PackConfig {
 	 */
 	public void setReuseObjects(boolean reuseObjects) {
 		this.reuseObjects = reuseObjects;
+	}
+
+	/**
+	 * Checks whether to preserve old packs in a preserved directory
+	 *
+	 * Default setting: {@value #DEFAULT_PRESERVE_OLD_PACKS}
+	 *
+	 * @return true if repacking will preserve old pack files.
+	 */
+	public boolean isPreserveOldPacks() {
+		return preserveOldPacks;
+	}
+
+	/**
+	 * Set preserve old packs configuration option for repacking.
+	 *
+	 * If enabled, old pack files are moved into a preserved subdirectory instead
+	 * of being deleted
+	 *
+	 * Default setting: {@value #DEFAULT_PRESERVE_OLD_PACKS}
+	 *
+	 * @param preserveOldPacks
+	 *            boolean indicating whether or not preserve old pack files
+	 */
+	public void setPreserveOldPacks(boolean preserveOldPacks) {
+		this.preserveOldPacks = preserveOldPacks;
+	}
+
+	/**
+	 * Checks whether to remove preserved pack files in a preserved directory
+	 *
+	 * Default setting: {@value #DEFAULT_PRUNE_PRESERVED}
+	 *
+	 * @return true if repacking will remove preserved pack files.
+	 */
+	public boolean isPrunePreserved() {
+		return prunePreserved;
+	}
+
+	/**
+	 * Set prune preserved configuration option for repacking.
+	 *
+	 * If enabled, preserved pack files are removed from a preserved subdirectory
+	 *
+	 * Default setting: {@value #DEFAULT_PRESERVE_OLD_PACKS}
+	 *
+	 * @param prunePreserved
+	 *            boolean indicating whether or not preserve old pack files
+	 */
+	public void setPrunePreserved(boolean prunePreserved) {
+		this.prunePreserved = prunePreserved;
 	}
 
 	/**

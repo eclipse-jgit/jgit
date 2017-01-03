@@ -233,7 +233,45 @@ public class GcBasicPackingTest extends GcTestCase {
 
 	}
 
-	private void configureGc(GC myGc, boolean aggressive) {
+	@Test
+	public void testPreserveAndPruneOldPacks() throws Exception {
+		testPreserveOldPacks();
+		configureGc(gc, false).setPrunePreserved(true);
+		gc.gc();
+
+		assertEquals(false, repo.getObjectDatabase().getPreservedDirectory().exists());
+	}
+
+	private void testPreserveOldPacks() throws Exception {
+		BranchBuilder bb = tr.branch("refs/heads/master");
+		bb.commit().message("P").add("P", "P").create();
+
+		// pack loose object into packfile
+		gc.setExpireAgeMillis(0);
+		gc.gc();
+		File oldPackfile = tr.getRepository().getObjectDatabase().getPacks()
+				.iterator().next().getPackFile();
+		assertEquals(true, oldPackfile.exists());
+
+		fsTick();
+		bb.commit().message("B").add("B", "Q").create();
+
+		// repack again but now without a grace period for packfiles. We should
+		// end up with a new packfile and the old one should be placed in the
+		// preserved directory
+		gc.setPackExpireAgeMillis(0);
+		configureGc(gc, false).setPreserveOldPacks(true);
+		gc.gc();
+
+		File oldPackDir = repo.getObjectDatabase().getPreservedDirectory();
+		String oldPackFileName = oldPackfile.getName();
+		String oldPackName = oldPackFileName.substring(0,
+				oldPackFileName.lastIndexOf('.')) + ".old-pack";  //$NON-NLS-1$
+		File preservePackFile = new File(oldPackDir, oldPackName);
+		assertEquals(true, preservePackFile.exists());
+	}
+
+	private PackConfig configureGc(GC myGc, boolean aggressive) {
 		PackConfig pconfig = new PackConfig(repo);
 		if (aggressive) {
 			pconfig.setDeltaSearchWindowSize(250);
@@ -242,5 +280,6 @@ public class GcBasicPackingTest extends GcTestCase {
 		} else
 			pconfig = new PackConfig(repo);
 		myGc.setPackConfig(pconfig);
+		return pconfig;
 	}
 }
