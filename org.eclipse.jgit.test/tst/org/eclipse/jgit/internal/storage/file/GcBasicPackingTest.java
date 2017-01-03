@@ -47,9 +47,10 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.jgit.junit.TestRepository.BranchBuilder;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -175,14 +176,9 @@ public class GcBasicPackingTest extends GcTestCase {
 		stats = gc.getStatistics();
 		assertEquals(0, stats.numberOfLooseObjects);
 
-		Iterator<PackFile> pIt = repo.getObjectDatabase().getPacks().iterator();
-		long c = pIt.next().getObjectCount();
-		if (c == 9)
-			assertEquals(2, pIt.next().getObjectCount());
-		else {
-			assertEquals(2, c);
-			assertEquals(9, pIt.next().getObjectCount());
-		}
+		List<PackFile> packs = new ArrayList<>(
+				repo.getObjectDatabase().getPacks());
+		assertEquals(11, packs.get(0).getObjectCount());
 	}
 
 	@Test
