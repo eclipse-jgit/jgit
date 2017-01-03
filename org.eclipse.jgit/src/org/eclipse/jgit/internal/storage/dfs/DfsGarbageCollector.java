@@ -253,7 +253,7 @@ public class DfsGarbageCollector {
 			for (Ref ref : refsBefore) {
 				if (ref.isSymbolic() || ref.getObjectId() == null)
 					continue;
-				if (isHead(ref))
+				if (isHead(ref) || isTag(ref))
 					allHeads.add(ref.getObjectId());
 				else if (RefTreeNames.isRefTree(refdb, ref.getName()))
 					txnHeads.add(ref.getObjectId());
@@ -459,6 +459,10 @@ public class DfsGarbageCollector {
 
 	private static boolean isHead(Ref ref) {
 		return ref.getName().startsWith(Constants.R_HEADS);
+	}
+
+	private static boolean isTag(Ref ref) {
+		return ref.getName().startsWith(Constants.R_TAGS);
 	}
 
 	private int objectsBefore() {
