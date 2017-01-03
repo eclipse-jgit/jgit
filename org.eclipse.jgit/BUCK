@@ -9,7 +9,6 @@ java_library(
     '//lib:javaewah',
     '//lib:jsch',
     '//lib:httpcomponents',
-    '//lib:servlet-api',
     '//lib:slf4j-api',
   ],
   visibility = ['PUBLIC'],
