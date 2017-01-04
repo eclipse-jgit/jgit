@@ -66,8 +66,10 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.PushResult;
+import org.eclipse.jgit.transport.RefLeaseSpec;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
+import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.TrackingRefUpdate;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.util.FS;
@@ -377,6 +379,58 @@ public class PushCommandTest extends RepositoryTestCase {
 					db2.resolve(commit2.getId().getName() + "^{commit}"));
 			assertEquals(commit3.getId(),
 					db2.resolve(commit3.getId().getName() + "^{commit}"));
+		}
+	}
+
+	@Test
+	public void testPushWithLease() throws JGitInternalException, IOException,
+			GitAPIException, URISyntaxException {
+
+		// create other repository
+		Repository db2 = createWorkRepository();
+
+		// setup the first repository
+		final StoredConfig config = db.getConfig();
+		RemoteConfig remoteConfig = new RemoteConfig(config, "test");
+		URIish uri = new URIish(db2.getDirectory().toURI().toURL());
+		remoteConfig.addURI(uri);
+		remoteConfig.update(config);
+		config.save();
+
+		try (Git git1 = new Git(db)) {
+			// create one commit and push it
+			RevCommit commit = git1.commit().setMessage("initial commit").call();
+			Ref branchRef = git1.branchCreate().setName("initial").call();
+
+			RefSpec spec = new RefSpec("refs/heads/master:refs/heads/x");
+			git1.push().setRemote("test").setRefSpecs(spec)
+					.call();
+
+			assertEquals(commit.getId(),
+					db2.resolve(commit.getId().getName() + "^{commit}"));
+			//now try to force-push a new commit, with a good lease
+
+			RevCommit commit2 = git1.commit().setMessage("second commit").call();
+			Iterable<PushResult> results =
+					git1.push().setRemote("test").setRefSpecs(spec)
+							.setRefLeaseSpecs(new RefLeaseSpec("refs/heads/x", "initial"))
+							.call();
+			for (PushResult result : results) {
+				RemoteRefUpdate update = result.getRemoteUpdate("refs/heads/x");
+				assertEquals(update.getStatus(), RemoteRefUpdate.Status.OK);
+			}
+
+			RevCommit commit3 = git1.commit().setMessage("third commit").call();
+			//now try to force-push a new commit, with a bad lease
+
+			results =
+					git1.push().setRemote("test").setRefSpecs(spec)
+							.setRefLeaseSpecs(new RefLeaseSpec("refs/heads/x", "initial"))
+							.call();
+			for (PushResult result : results) {
+				RemoteRefUpdate update = result.getRemoteUpdate("refs/heads/x");
+				assertEquals(update.getStatus(), RemoteRefUpdate.Status.REJECTED_REMOTE_CHANGED);
+			}
 		}
 	}
 }

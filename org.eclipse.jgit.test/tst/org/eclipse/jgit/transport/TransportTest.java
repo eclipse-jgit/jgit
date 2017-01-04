@@ -53,7 +53,9 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
@@ -207,6 +209,45 @@ public class TransportTest extends SampleDataRepositoryTestCase {
 		assertEquals("refs/heads/a", tru.getRemoteName());
 		assertEquals(db.resolve("refs/heads/a"), tru.getNewObjectId());
 		assertEquals(ObjectId.zeroId(), tru.getOldObjectId());
+	}
+
+	/**
+	 * Test RefSpec to RemoteRefUpdate conversion with leases.
+	 *
+	 * @throws IOException
+	 */
+	@Test
+	public void testFindRemoteRefUpdatesWithLeases() throws IOException {
+		final RefSpec specA = new RefSpec("+refs/heads/a:refs/heads/b");
+		final RefSpec specC = new RefSpec("+refs/heads/c:refs/heads/d");
+		final Collection<RefSpec> specs = Arrays.asList(specA, specC);
+		final Map<String, RefLeaseSpec> leases = new HashMap<>();
+		leases.put("refs/heads/b",
+				new RefLeaseSpec("refs/heads/b", "refs/heads/c"));
+
+		Collection<RemoteRefUpdate> result;
+		try (Transport transport = Transport.open(db, remoteConfig)) {
+			result = transport.findRemoteRefUpdatesFor(specs, leases);
+		}
+
+		assertEquals(2, result.size());
+		boolean foundA = false;
+		boolean foundC = false;
+		for (final RemoteRefUpdate rru : result) {
+			if ("refs/heads/a".equals(rru.getSrcRef())
+					&& "refs/heads/b".equals(rru.getRemoteName())) {
+				foundA = true;
+				assertEquals(db.exactRef("refs/heads/c").getObjectId(),
+						rru.getExpectedOldObjectId());
+			}
+			if ("refs/heads/c".equals(rru.getSrcRef())
+					&& "refs/heads/d".equals(rru.getRemoteName())) {
+				foundC = true;
+				assertNull(rru.getExpectedOldObjectId());
+			}
+		}
+		assertTrue(foundA);
+		assertTrue(foundC);
 	}
 
 	@Test

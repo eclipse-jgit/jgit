@@ -47,9 +47,12 @@ import java.io.OutputStream;
 import java.net.URISyntaxException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
@@ -65,6 +68,7 @@ import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.PushResult;
+import org.eclipse.jgit.transport.RefLeaseSpec;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
@@ -85,6 +89,8 @@ public class PushCommand extends
 
 	private final List<RefSpec> refSpecs;
 
+	private final Map<String, RefLeaseSpec> refLeaseSpecs;
+
 	private ProgressMonitor monitor = NullProgressMonitor.INSTANCE;
 
 	private String receivePack = RemoteConfig.DEFAULT_RECEIVE_PACK;
@@ -104,6 +110,7 @@ public class PushCommand extends
 	protected PushCommand(Repository repo) {
 		super(repo);
 		refSpecs = new ArrayList<RefSpec>(3);
+		refLeaseSpecs = new HashMap<>();
 	}
 
 	/**
@@ -155,7 +162,7 @@ public class PushCommand extends
 				configure(transport);
 
 				final Collection<RemoteRefUpdate> toPush = transport
-						.findRemoteRefUpdatesFor(refSpecs);
+						.findRemoteRefUpdatesFor(refSpecs, refLeaseSpecs);
 
 				try {
 					PushResult result = transport.push(monitor, toPush, out);
@@ -267,6 +274,40 @@ public class PushCommand extends
 			monitor = NullProgressMonitor.INSTANCE;
 		}
 		this.monitor = monitor;
+		return this;
+	}
+
+	/**
+	 * @return the ref lease specs
+	 */
+	public List<RefLeaseSpec> getRefLeaseSpecs() {
+		return new ArrayList<RefLeaseSpec>(refLeaseSpecs.values());
+	}
+
+	/**
+	 * The ref lease specs to be used in the push operation,
+	 * for a force-with-lease push operation.
+	 *
+	 * @param specs
+	 * @return {@code this}
+	 */
+	public PushCommand setRefLeaseSpecs(RefLeaseSpec... specs) {
+		return setRefLeaseSpecs(Arrays.asList(specs));
+	}
+
+	/**
+	 * The ref lease specs to be used in the push operation,
+	 * for a force-with-lease push operation.
+	 *
+	 * @param specs
+	 * @return {@code this}
+	 */
+	public PushCommand setRefLeaseSpecs(List<RefLeaseSpec> specs) {
+		checkCallable();
+		this.refLeaseSpecs.clear();
+		for (RefLeaseSpec spec : specs) {
+			refLeaseSpecs.put(spec.getRef(), spec);
+		}
 		return this;
 	}
 
