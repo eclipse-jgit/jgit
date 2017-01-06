@@ -1887,4 +1887,25 @@ public abstract class Repository implements AutoCloseable {
 	public void autoGC(ProgressMonitor monitor) {
 		// default does nothing
 	}
+
+	/**
+	 * Normalizes the passed branch name into a possible valid branch name.
+	 *
+	 * @param name
+	 *            the name to normalize
+	 * @param trim
+	 *            Trim (effectively right of String) before normalizing
+	 * @return the normalized String
+	 */
+	public static String normalizeBranchName(String name, boolean trim) {
+		if (trim) {
+			name = name.trim();
+		}
+		return name.replaceAll("\\s+([_:-])\\s+", "$1") //$NON-NLS-1$//$NON-NLS-2$
+				.replaceAll(":", "-") //$NON-NLS-1$//$NON-NLS-2$
+				.replaceAll("\\s+", "_") //$NON-NLS-1$//$NON-NLS-2$
+				.replaceAll("_{2,}", "_") //$NON-NLS-1$//$NON-NLS-2$
+				.replaceAll("^_", "") //$NON-NLS-1$//$NON-NLS-2$
+				.replaceAll("[^\\w-]", ""); //$NON-NLS-1$ //$NON-NLS-2$
+	}
 }
