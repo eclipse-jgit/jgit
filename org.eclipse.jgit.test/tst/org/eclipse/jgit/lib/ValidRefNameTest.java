@@ -247,4 +247,23 @@ public class ValidRefNameTest {
 		assertValid(true, "refs/heads/conx");
 		assertValid(true, "refs/heads/xcon");
 	}
+
+	@Test
+	public void testNormalizeBranchName() {
+		assertValid(true,"refs/heads/master" + Repository.normalizeBranchName("master@{1}", true));
+		assertValid(true,"refs/heads/master" + Repository.normalizeBranchName("master@{1.hour.ago}", true));
+		assertValid(true,"refs/heads/master" + Repository.normalizeBranchName("\u00e5ngstr\u00f6m", true));
+		
+		assertValid(true, "refs/heads/master" + Repository.normalizeBranchName("?",true));
+		assertValid(true,"refs/heads/master" + Repository.normalizeBranchName("?master",true));
+		assertValid(true,"refs/heads/master" + Repository.normalizeBranchName("master",true));
+
+		assertValid(true,"refs/heads/master" + Repository.normalizeBranchName("master[",true));
+		assertValid(true,"refs/heads/master" + Repository.normalizeBranchName("[master",true));
+		assertValid(true,"refs/heads/master" + Repository.normalizeBranchName("[refs/heads/master",true));
+
+		assertValid(true,"refs/heads/master" + Repository.normalizeBranchName("master*", true));
+		assertValid(true,"refs/heads/master" + Repository.normalizeBranchName("*master", true));
+		assertValid(true,"refs/heads/master" + Repository.normalizeBranchName("*refs/heads/master", true));
+	}
 }
