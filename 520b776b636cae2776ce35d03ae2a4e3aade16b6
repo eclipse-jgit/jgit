@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_4281ea51",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LfsPointerFilter.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-01-06T05:25:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_c2617a7c",
+      "revId": "520b776b636cae2776ce35d03ae2a4e3aade16b6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_c27a5a2e",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LfsPointerFilter.java",
         "patchSetId": 10
@@ -30,6 +48,24 @@
       "writtenOn": "2017-01-06T01:57:14Z",
       "side": 1,
       "message": "Parsing an LFS pointer file is already implemented in LfsPointer.parseLfsPointer(InputStream)",
+      "revId": "520b776b636cae2776ce35d03ae2a4e3aade16b6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_6286e66c",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LfsPointerFilter.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-01-06T05:25:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_c27a5a2e",
       "revId": "520b776b636cae2776ce35d03ae2a4e3aade16b6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
