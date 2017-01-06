@@ -247,4 +247,53 @@ public class ValidRefNameTest {
 		assertValid(true, "refs/heads/conx");
 		assertValid(true, "refs/heads/xcon");
 	}
+
+	@Test
+	public void testNormalizeBranchName() {
+
+		assertEquals(true,
+				Repository.normalizeBranchName("Bug 12345 - Hello World!", true)
+						.equals("Bug_12345-Hello_World"));
+
+		assertEquals(true,
+				Repository.normalizeBranchName("Bug 12345 : Hello World!", true)
+						.equals("Bug_12345-Hello_World"));
+
+		assertEquals(true,
+				Repository.normalizeBranchName("Bug 12345 _ Hello World!", true)
+						.equals("Bug_12345_Hello_World"));
+
+		assertEquals(true, Repository
+				.normalizeBranchName("Bug 12345   -       Hello World!", true)
+				.equals("Bug_12345-Hello_World"));
+
+		assertEquals(true, Repository
+				.normalizeBranchName(" Bug 12345   -   Hello World! ", false)
+				.equals("Bug_12345-Hello_World_"));
+
+		assertEquals(true, Repository
+				.normalizeBranchName(" Bug 12345   -   Hello World!   ", false)
+				.equals("Bug_12345-Hello_World_"));
+
+		assertEquals(true,
+				Repository
+						.normalizeBranchName(
+								"Bug 12345   -   Hello______ World!", false)
+						.equals("Bug_12345-Hello_World"));
+
+		assertEquals(true,
+				Repository
+						.normalizeBranchName("_Bug 12345 - Hello World!", true)
+						.equals("Bug_12345-Hello_World"));
+
+		assertEquals(true,
+				Repository
+						.normalizeBranchName(
+								"Bug 12345 - Hello Wo!@#$%^&*(rld {@", true)
+						.equals("Bug_12345-Hello_World_"));
+
+		assertEquals(true, Repository
+				.normalizeBranchName("Bug 1#$  2345 - Hello World", true)
+				.equals("Bug_1_2345-Hello_World"));
+	}
 }
