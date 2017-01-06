@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_c2617a7c",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LfsPointerFilter.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-01-06T01:57:14Z",
+      "side": 1,
+      "message": "object.isLarge() has a default threshold of 50MB. WIth a 50MB threshold we will parse almost all files a git repository typically contains (especially when using lfs to store large files ;-).\n\ngit-lfs does not consider files larger than 1024byte when looking for lfs pointers (see https://github.com/git-lfs/git-lfs/blob/master/lfs/scanner.go#L8). So we should add another check here and skip all files where ObjectLoader.getSize() returns more than 1024 to avoid wasting time on parsing larger files.",
+      "revId": "520b776b636cae2776ce35d03ae2a4e3aade16b6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_c27a5a2e",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LfsPointerFilter.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-01-06T01:57:14Z",
+      "side": 1,
+      "message": "Parsing an LFS pointer file is already implemented in LfsPointer.parseLfsPointer(InputStream)",
+      "revId": "520b776b636cae2776ce35d03ae2a4e3aade16b6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
