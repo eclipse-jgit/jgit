@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_af99c686",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1899,
+      "author": {
+        "id": 879
+      },
+      "writtenOn": "2017-01-06T13:00:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_cf152271",
+      "revId": "8157cc5ad7ac19e04eec26d45e7a3b566433dcfb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_af1c669e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 3
@@ -30,6 +48,30 @@
       "writtenOn": "2017-01-06T12:43:16Z",
       "side": 1,
       "message": "I know it\u0027s done in plenty of other places in the code base, but I would prefer not to use parameter assignment.",
+      "range": {
+        "startLine": 1902,
+        "startChar": 3,
+        "endLine": 1902,
+        "endChar": 7
+      },
+      "revId": "8157cc5ad7ac19e04eec26d45e7a3b566433dcfb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_cfa282ad",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1902,
+      "author": {
+        "id": 879
+      },
+      "writtenOn": "2017-01-06T13:00:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_af1c669e",
       "range": {
         "startLine": 1902,
         "startChar": 3,
