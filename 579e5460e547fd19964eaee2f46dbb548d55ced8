@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_af670616",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PushCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-01-06T12:51:37Z",
+      "side": 1,
+      "message": "Add @since tags on the javadoc for new public methods.",
+      "revId": "579e5460e547fd19964eaee2f46dbb548d55ced8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_cf70c2cd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefLeaseSpec.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-01-06T12:51:37Z",
+      "side": 1,
+      "message": "2017",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "579e5460e547fd19964eaee2f46dbb548d55ced8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_ef6d7ef6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefLeaseSpec.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-01-06T12:51:37Z",
+      "side": 1,
+      "message": "Add a @since tag",
+      "revId": "579e5460e547fd19964eaee2f46dbb548d55ced8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_0f3e3ae7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 688,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-01-06T12:51:37Z",
+      "side": 1,
+      "message": "Add @since tag",
+      "revId": "579e5460e547fd19964eaee2f46dbb548d55ced8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
