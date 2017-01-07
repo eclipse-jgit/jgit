@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_856a29df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-01-07T00:47:55Z",
+      "side": 1,
+      "message": "style nit: we put the link to the bug as a commit message footer in the last paragraph of the commit message, see [1].\n\nIf you want this method in JGit so that it can be reused by other applications than EGit the title of this commit message should be more generic, e.g. \"Normalizer creating a valid branch name from a string\"\n\n[1] https://wiki.eclipse.org/EGit/Contributor_Guide#Commit_message_guidelines",
+      "revId": "f06a0be956d545092303fa54b1a2a240f6ae47a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_a5672516",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-01-07T00:47:55Z",
+      "side": 1,
+      "message": "style nit: remove trailing whitespace",
+      "revId": "f06a0be956d545092303fa54b1a2a240f6ae47a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_053e19e7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1902,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-01-07T00:47:55Z",
+      "side": 1,
+      "message": "why not always trim ?",
+      "range": {
+        "startLine": 1902,
+        "startChar": 55,
+        "endLine": 1902,
+        "endChar": 67
+      },
+      "revId": "f06a0be956d545092303fa54b1a2a240f6ae47a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
