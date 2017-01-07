@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_8561497d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 879
+      },
+      "writtenOn": "2017-01-07T19:29:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_856a29df",
+      "revId": "f06a0be956d545092303fa54b1a2a240f6ae47a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_a5672516",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_a55e45bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 879
+      },
+      "writtenOn": "2017-01-07T19:29:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_a5672516",
+      "revId": "f06a0be956d545092303fa54b1a2a240f6ae47a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_053e19e7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 5
@@ -47,6 +83,30 @@
       "writtenOn": "2017-01-07T00:47:55Z",
       "side": 1,
       "message": "why not always trim ?",
+      "range": {
+        "startLine": 1902,
+        "startChar": 55,
+        "endLine": 1902,
+        "endChar": 67
+      },
+      "revId": "f06a0be956d545092303fa54b1a2a240f6ae47a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_c557c19e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1902,
+      "author": {
+        "id": 879
+      },
+      "writtenOn": "2017-01-07T19:29:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_053e19e7",
       "range": {
         "startLine": 1902,
         "startChar": 55,
