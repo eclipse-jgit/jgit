@@ -22,6 +22,30 @@
       "revId": "2d02af6a1a199f66b484f6f626f8dc19604ef1c6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_636d057a",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LfsPointerFilter.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-01-09T12:57:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_a51c859e",
+      "range": {
+        "startLine": 87,
+        "startChar": 39,
+        "endLine": 87,
+        "endChar": 58
+      },
+      "revId": "2d02af6a1a199f66b484f6f626f8dc19604ef1c6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
