@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_b4af5167",
+        "filename": "org.eclipse.jgit.lfs.test/tst/org/eclipse/jgit/lfs/lib/LfsPointerFilterTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-01-09T23:14:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_74ef79aa",
+      "range": {
+        "startLine": 142,
+        "startChar": 43,
+        "endLine": 142,
+        "endChar": 52
+      },
+      "revId": "3adeb7477db0e5411bb598d1f410efe346ddecd6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_f4daa906",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPointer.java",
         "patchSetId": 13
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_94b255cc",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPointer.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-01-09T23:14:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_f4daa906",
+      "revId": "3adeb7477db0e5411bb598d1f410efe346ddecd6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_d4ddad01",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LfsPointerFilter.java",
         "patchSetId": 13
@@ -53,6 +95,30 @@
       "writtenOn": "2017-01-09T23:13:49Z",
       "side": 1,
       "message": "walk",
+      "range": {
+        "startLine": 76,
+        "startChar": 33,
+        "endLine": 76,
+        "endChar": 39
+      },
+      "revId": "3adeb7477db0e5411bb598d1f410efe346ddecd6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_74aa195b",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LfsPointerFilter.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-01-09T23:14:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_d4ddad01",
       "range": {
         "startLine": 76,
         "startChar": 33,
