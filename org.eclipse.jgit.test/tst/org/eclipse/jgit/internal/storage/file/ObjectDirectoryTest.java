@@ -47,8 +47,11 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -60,6 +63,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Test;
 
@@ -168,6 +172,33 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 			// all objects are in a new packfile but we will not detect it
 			assertFalse(receivingDB.hasObject(unknownID));
 			assertTrue(receivingDB.hasObject(id2));
+		}
+	}
+
+	@Test
+	public void testShallowFile()
+			throws Exception {
+		FileRepository repository = createBareRepository();
+		ObjectDirectory dir = repository.getObjectDatabase();
+
+		String commit = "d3148f9410b071edd4a4c85d2a43d1fa2574b0d2";
+		try (PrintWriter writer = new PrintWriter(
+				new File(repository.getDirectory(), Constants.SHALLOW))) {
+			writer.println(commit);
+		}
+		Set<ObjectId> shallowCommits = dir.getShallowCommits();
+		assertTrue(shallowCommits.remove(ObjectId.fromString(commit)));
+		assertTrue(shallowCommits.isEmpty());
+
+		try (PrintWriter writer = new PrintWriter(
+				new File(repository.getDirectory(), Constants.SHALLOW))) {
+			writer.println("X3148f9410b071edd4a4c85d2a43d1fa2574b0d2");
+		}
+		try {
+			dir.getShallowCommits();
+			Assert.fail();
+		} catch (IOException ex) {
+			// expected
 		}
 	}
 
