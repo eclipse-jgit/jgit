@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_a0d2acfa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-01-10T16:08:53Z",
+      "side": 1,
+      "message": "In my eyes this comment does not clarify enough the combination of expirationDate and preserveOldPacks. If preserveOldPacks is true but a packfile is a is younger than expirationDate what will happen? Will the packfile be moved to preserve directory or not?",
+      "revId": "adbfec327a5828302fa4a99e67efb5208e99eb2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_205f7cbb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-01-10T16:08:53Z",
+      "side": 1,
+      "message": "Theoretically we need something similar also when we delete loose objects. But chances are not so high that we have a problem here: jgit doesn\u0027t keep loose objects open as it does with packfiles. Very likely we can always delete them. Additionally we will not have too many loose when this repo is a server side repo managed by gerrit.",
+      "revId": "adbfec327a5828302fa4a99e67efb5208e99eb2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
