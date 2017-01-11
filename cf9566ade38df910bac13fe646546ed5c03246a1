@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_2eb3ed80",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-01-11T00:47:50Z",
+      "side": 1,
+      "message": "Should this be an external string resource?",
+      "range": {
+        "startLine": 697,
+        "startChar": 28,
+        "endLine": 697,
+        "endChar": 48
+      },
+      "revId": "cf9566ade38df910bac13fe646546ed5c03246a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
