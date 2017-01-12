@@ -42,6 +42,48 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_751049dc",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcBasicPackingTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 102376
+      },
+      "writtenOn": "2017-01-12T17:50:13Z",
+      "side": 1,
+      "message": "I\u0027ve now added that information to the usage of PrunePreserved and updated the prunePreserved() javadoc",
+      "parentUuid": "a7c23755_5705154e",
+      "revId": "13d9756aba66ae94cffd985c27d0c1907e63f864",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_35b09171",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcBasicPackingTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 102376
+      },
+      "writtenOn": "2017-01-12T17:50:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_d7c04525",
+      "range": {
+        "startLine": 242,
+        "startChar": 2,
+        "endLine": 242,
+        "endChar": 81
+      },
+      "revId": "13d9756aba66ae94cffd985c27d0c1907e63f864",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_77f93174",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcBasicPackingTest.java",
         "patchSetId": 2
@@ -53,6 +95,24 @@
       "writtenOn": "2017-01-12T09:37:56Z",
       "side": 1,
       "message": "similar as above. I would use assertTrue(...)",
+      "revId": "13d9756aba66ae94cffd985c27d0c1907e63f864",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_951165e1",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcBasicPackingTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 102376
+      },
+      "writtenOn": "2017-01-12T17:50:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_77f93174",
       "revId": "13d9756aba66ae94cffd985c27d0c1907e63f864",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_d5083de6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/GarbageCollectCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 102376
+      },
+      "writtenOn": "2017-01-12T17:50:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_17ff1d9e",
+      "revId": "13d9756aba66ae94cffd985c27d0c1907e63f864",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_37fc19a7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/GarbageCollectCommand.java",
         "patchSetId": 2
@@ -87,6 +165,24 @@
       "writtenOn": "2017-01-12T09:37:56Z",
       "side": 1,
       "message": "same here",
+      "revId": "13d9756aba66ae94cffd985c27d0c1907e63f864",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_350c11f5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/GarbageCollectCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 102376
+      },
+      "writtenOn": "2017-01-12T17:50:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_37fc19a7",
       "revId": "13d9756aba66ae94cffd985c27d0c1907e63f864",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -110,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_754129f1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 102376
+      },
+      "writtenOn": "2017-01-12T17:50:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_770a1161",
+      "revId": "13d9756aba66ae94cffd985c27d0c1907e63f864",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_b710298b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
         "patchSetId": 2
@@ -121,6 +235,24 @@
       "writtenOn": "2017-01-12T09:37:56Z",
       "side": 1,
       "message": "nit: please remove trailing whitespace",
+      "revId": "13d9756aba66ae94cffd985c27d0c1907e63f864",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_956de57c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 102376
+      },
+      "writtenOn": "2017-01-12T17:50:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_b710298b",
       "revId": "13d9756aba66ae94cffd985c27d0c1907e63f864",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -144,6 +276,24 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_b572e154",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 102376
+      },
+      "writtenOn": "2017-01-12T17:50:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_975ded4e",
+      "revId": "13d9756aba66ae94cffd985c27d0c1907e63f864",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_d71f6591",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
         "patchSetId": 2
@@ -161,6 +311,24 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_7553e9b8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 102376
+      },
+      "writtenOn": "2017-01-12T17:50:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_d71f6591",
+      "revId": "13d9756aba66ae94cffd985c27d0c1907e63f864",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_f7e461cc",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
         "patchSetId": 2
@@ -172,6 +340,24 @@
       "writtenOn": "2017-01-12T09:37:56Z",
       "side": 1,
       "message": "@since tags would be nice for the new methods",
+      "revId": "13d9756aba66ae94cffd985c27d0c1907e63f864",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_1558f5ce",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 102376
+      },
+      "writtenOn": "2017-01-12T17:50:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_f7e461cc",
       "revId": "13d9756aba66ae94cffd985c27d0c1907e63f864",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
