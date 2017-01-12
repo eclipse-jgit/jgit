@@ -1,0 +1,180 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_5705154e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcBasicPackingTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-01-12T09:37:56Z",
+      "side": 1,
+      "message": "ah, that\u0027s a feature I was not aware of. You really delete the whole preserved directory when there is no old pack in it anymore. I thought you only delete the pack files themselve",
+      "revId": "13d9756aba66ae94cffd985c27d0c1907e63f864",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_d7c04525",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcBasicPackingTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-01-12T09:37:56Z",
+      "side": 1,
+      "message": "This line gives a warnings in Eclipse because implicit boxing between false and Boolean.FALSE is used. Better import \n\n  import static org.junit.Assert.assertFalse;\n\nand use\n\n  assertFalse(repo.getObjectDatabase().getPreservedDirectory().exists());",
+      "range": {
+        "startLine": 242,
+        "startChar": 2,
+        "endLine": 242,
+        "endChar": 81
+      },
+      "revId": "13d9756aba66ae94cffd985c27d0c1907e63f864",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_77f93174",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcBasicPackingTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-01-12T09:37:56Z",
+      "side": 1,
+      "message": "similar as above. I would use assertTrue(...)",
+      "revId": "13d9756aba66ae94cffd985c27d0c1907e63f864",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_17ff1d9e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/GarbageCollectCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-01-12T09:37:56Z",
+      "side": 1,
+      "message": "4.1 ? Shouldn\u0027it it be 4.7 ?",
+      "revId": "13d9756aba66ae94cffd985c27d0c1907e63f864",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_37fc19a7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/GarbageCollectCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-01-12T09:37:56Z",
+      "side": 1,
+      "message": "same here",
+      "revId": "13d9756aba66ae94cffd985c27d0c1907e63f864",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_770a1161",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-01-12T09:37:56Z",
+      "side": 1,
+      "message": "Here are some conflict markers which need to be cleaned up",
+      "revId": "13d9756aba66ae94cffd985c27d0c1907e63f864",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_b710298b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-01-12T09:37:56Z",
+      "side": 1,
+      "message": "nit: please remove trailing whitespace",
+      "revId": "13d9756aba66ae94cffd985c27d0c1907e63f864",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_975ded4e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-01-12T09:37:56Z",
+      "side": 1,
+      "message": "Need a second $NON-NLS comment for the second string",
+      "revId": "13d9756aba66ae94cffd985c27d0c1907e63f864",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_d71f6591",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-01-12T09:37:56Z",
+      "side": 1,
+      "message": "IOException is not thrown",
+      "revId": "13d9756aba66ae94cffd985c27d0c1907e63f864",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_f7e461cc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-01-12T09:37:56Z",
+      "side": 1,
+      "message": "@since tags would be nice for the new methods",
+      "revId": "13d9756aba66ae94cffd985c27d0c1907e63f864",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
