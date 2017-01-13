@@ -93,6 +93,30 @@
       "revId": "cf9566ade38df910bac13fe646546ed5c03246a1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_cb51802e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-01-13T08:14:53Z",
+      "side": 1,
+      "message": "yes, we externalize error messages",
+      "parentUuid": "a7c23755_d045abcc",
+      "range": {
+        "startLine": 697,
+        "startChar": 28,
+        "endLine": 697,
+        "endChar": 48
+      },
+      "revId": "cf9566ade38df910bac13fe646546ed5c03246a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
