@@ -33,4 +33,5 @@ Import-Package: com.google.gson;version="[2.2.4,3.0.0)",
  org.eclipse.jgit.nls;version="[4.7.0,4.8.0)",
  org.eclipse.jgit.transport.http;version="[4.7.0,4.8.0)",
  org.eclipse.jgit.transport.http.apache;version="[4.7.0,4.8.0)",
- org.eclipse.jgit.util;version="[4.7.0,4.8.0)"
+ org.eclipse.jgit.util;version="[4.7.0,4.8.0)",
+ org.slf4j;version="1.7.2"
