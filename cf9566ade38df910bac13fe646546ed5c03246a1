@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "a7c23755_f042a7c1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-01-13T02:17:43Z",
+      "side": 1,
+      "message": "Here.",
+      "range": {
+        "startLine": 257,
+        "startChar": 3,
+        "endLine": 257,
+        "endChar": 83
+      },
+      "revId": "cf9566ade38df910bac13fe646546ed5c03246a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_2eb3ed80",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
         "patchSetId": 1
@@ -37,6 +60,30 @@
       "side": 1,
       "message": "At least, it\u0027s a non-localizable String in shallow.c as well.\n\nWhat are jgit rules on external string resources?",
       "parentUuid": "a7c23755_2eb3ed80",
+      "range": {
+        "startLine": 697,
+        "startChar": 28,
+        "endLine": 697,
+        "endChar": 48
+      },
+      "revId": "cf9566ade38df910bac13fe646546ed5c03246a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_d045abcc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-01-13T02:17:43Z",
+      "side": 1,
+      "message": "Results of\n\n  git grep \"new IOException\"\n\nshow that the majority of them are externalised (including one in this file, see above).\n\nThose that are not are in test files or are passing in a variable, for example\n\n  u.toString() + \": \"\n\nSo I would say that this one should also be externalized.",
+      "parentUuid": "a7c23755_a9a5378b",
       "range": {
         "startLine": 697,
         "startChar": 28,
