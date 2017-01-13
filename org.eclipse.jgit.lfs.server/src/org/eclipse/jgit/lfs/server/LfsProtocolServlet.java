@@ -49,6 +49,7 @@ import static org.apache.http.HttpStatus.SC_INTERNAL_SERVER_ERROR;
 import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.apache.http.HttpStatus.SC_SERVICE_UNAVAILABLE;
+import static org.apache.http.HttpStatus.SC_UNAUTHORIZED;
 import static org.apache.http.HttpStatus.SC_UNPROCESSABLE_ENTITY;
 
 import java.io.BufferedReader;
@@ -71,6 +72,7 @@ import org.eclipse.jgit.lfs.errors.LfsInsufficientStorage;
 import org.eclipse.jgit.lfs.errors.LfsRateLimitExceeded;
 import org.eclipse.jgit.lfs.errors.LfsRepositoryNotFound;
 import org.eclipse.jgit.lfs.errors.LfsRepositoryReadOnly;
+import org.eclipse.jgit.lfs.errors.LfsUnauthorized;
 import org.eclipse.jgit.lfs.errors.LfsUnavailable;
 import org.eclipse.jgit.lfs.errors.LfsValidationError;
 
@@ -201,6 +203,8 @@ public abstract class LfsProtocolServlet extends HttpServlet {
 			sendError(res, w, SC_INSUFFICIENT_STORAGE, e.getMessage());
 		} catch (LfsUnavailable e) {
 			sendError(res, w, SC_SERVICE_UNAVAILABLE, e.getMessage());
+		} catch (LfsUnauthorized e) {
+			sendError(res, w, SC_UNAUTHORIZED, e.getMessage());
 		} catch (LfsException e) {
 			sendError(res, w, SC_INTERNAL_SERVER_ERROR, e.getMessage());
 		} finally {

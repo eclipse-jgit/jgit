@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Matthias Sohn <matthias.sohn@sap.com>
+ * Copyright (C) 2017, David Pursehouse <david.pursehouse@gmail.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -40,32 +40,29 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.eclipse.jgit.lfs.internal;
 
-import org.eclipse.jgit.nls.NLS;
-import org.eclipse.jgit.nls.TranslationBundle;
+package org.eclipse.jgit.lfs.errors;
+
+import java.text.MessageFormat;
+
+import org.eclipse.jgit.lfs.internal.LfsText;
 
 /**
- * Translation bundle for JGit LFS server
+ * Thrown when authorization was refused for an LFS operation.
+ *
+ * @since 4.7
  */
-public class LfsText extends TranslationBundle {
+public class LfsUnauthorized extends LfsException {
+	private static final long serialVersionUID = 1L;
 
 	/**
-	 * @return an instance of this translation bundle
+	 * @param operation
+	 *            the operation that was attempted.
+	 * @param name
+	 *            the repository name.
 	 */
-	public static LfsText get() {
-		return NLS.getBundleFor(LfsText.class);
+	public LfsUnauthorized(String operation, String name) {
+		super(MessageFormat.format(LfsText.get().lfsUnathorized, operation,
+				name));
 	}
-
-	// @formatter:off
-	/***/ public String corruptLongObject;
-	/***/ public String inconsistentMediafileLength;
-	/***/ public String incorrectLONG_OBJECT_ID_LENGTH;
-	/***/ public String invalidLongId;
-	/***/ public String invalidLongIdLength;
-	/***/ public String requiredHashFunctionNotAvailable;
-	/***/ public String repositoryNotFound;
-	/***/ public String repositoryReadOnly;
-	/***/ public String lfsUnavailable;
-	/***/ public String lfsUnathorized;
 }
