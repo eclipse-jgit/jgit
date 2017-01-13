@@ -51,6 +51,9 @@ import static org.apache.http.HttpStatus.SC_OK;
 import static org.apache.http.HttpStatus.SC_SERVICE_UNAVAILABLE;
 import static org.apache.http.HttpStatus.SC_UNAUTHORIZED;
 import static org.apache.http.HttpStatus.SC_UNPROCESSABLE_ENTITY;
+import static org.eclipse.jgit.lfs.lib.Constants.DOWNLOAD;
+import static org.eclipse.jgit.lfs.lib.Constants.UPLOAD;
+import static org.eclipse.jgit.lfs.lib.Constants.VERIFY;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -170,6 +173,30 @@ public abstract class LfsProtocolServlet extends HttpServlet {
 		 */
 		public List<LfsObject> getObjects() {
 			return objects;
+		}
+
+		/**
+		 * @return true if the operation is upload.
+		 * @since 4.7
+		 */
+		public boolean isUpload() {
+			return operation.equals(UPLOAD);
+		}
+
+		/**
+		 * @return true if the operation is download.
+		 * @since 4.7
+		 */
+		public boolean isDownload() {
+			return operation.equals(DOWNLOAD);
+		}
+
+		/**
+		 * @return true if the operation is verify.
+		 * @since 4.7
+		 */
+		public boolean isVerify() {
+			return operation.equals(VERIFY);
 		}
 	}
 
