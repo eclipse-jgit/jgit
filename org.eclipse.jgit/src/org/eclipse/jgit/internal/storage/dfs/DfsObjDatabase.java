@@ -293,6 +293,13 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	protected void commitPack(Collection<DfsPackDescription> desc,
 			Collection<DfsPackDescription> replaces) throws IOException {
 		commitPackImpl(desc, replaces);
+		if (replaces != null) {
+			DfsBlockCache cache = DfsBlockCache.getInstance();
+			for (DfsPackDescription replace : replaces) {
+				DfsPackFile packFile = cache.getOrCreate(replace, null);
+				packFile.close();
+			}
+		}
 		getRepository().fireEvent(new DfsPacksChangedEvent());
 	}
 
