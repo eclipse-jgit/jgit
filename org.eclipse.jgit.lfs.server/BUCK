@@ -11,7 +11,8 @@ java_library(
     '//org.eclipse.jgit.lfs:jgit-lfs',
     '//lib:gson',
     '//lib:httpcore',
-    '//lib:servlet-api'
+    '//lib:servlet-api',
+    '//lib:slf4j-api'
   ],
   visibility = ['PUBLIC'],
 )
