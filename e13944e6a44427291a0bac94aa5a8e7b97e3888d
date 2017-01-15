@@ -45,6 +45,54 @@
       "revId": "e13944e6a44427291a0bac94aa5a8e7b97e3888d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_55850612",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ObjectDirectoryTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2017-01-15T14:08:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_2fbafd27",
+      "range": {
+        "startLine": 193,
+        "startChar": 2,
+        "endLine": 202,
+        "endChar": 3
+      },
+      "revId": "e13944e6a44427291a0bac94aa5a8e7b97e3888d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_b5765aad",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ObjectDirectoryTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2017-01-15T14:08:34Z",
+      "side": 1,
+      "message": "I didn\u0027t know ExpectedException -- nice. I\u0027m using JGitText.get().badShallowLine so we won\u0027t test for possible textual changes.",
+      "parentUuid": "a7c23755_4fc499a7",
+      "range": {
+        "startLine": 197,
+        "startChar": 2,
+        "endLine": 202,
+        "endChar": 3
+      },
+      "revId": "e13944e6a44427291a0bac94aa5a8e7b97e3888d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
