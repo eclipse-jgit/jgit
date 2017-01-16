@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_15c1cec8",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-01-16T01:56:44Z",
+      "side": 1,
+      "message": "Missing closing quote here?\n\nAlso to keep the entries in alphabetical order, this should be moved after invalidPathReservedOnWindows",
+      "range": {
+        "startLine": 353,
+        "startChar": 59,
+        "endLine": 353,
+        "endChar": 65
+      },
+      "revId": "b1cd3fde38efa889fda7ea1c2ffabe6bc548cc5a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_35c40ad8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/JGitText.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-01-16T01:56:44Z",
+      "side": 1,
+      "message": "The other entries here are in alphabetical order, so this should go after invalidPathReservedOnWindows.",
+      "revId": "b1cd3fde38efa889fda7ea1c2ffabe6bc548cc5a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_55aee61d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-01-16T01:56:44Z",
+      "side": 1,
+      "message": "debug?",
+      "range": {
+        "startLine": 520,
+        "startChar": 10,
+        "endLine": 520,
+        "endChar": 14
+      },
+      "revId": "b1cd3fde38efa889fda7ea1c2ffabe6bc548cc5a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
