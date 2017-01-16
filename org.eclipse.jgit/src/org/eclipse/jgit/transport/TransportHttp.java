@@ -52,6 +52,7 @@ import static org.eclipse.jgit.util.HttpSupport.HDR_ACCEPT;
 import static org.eclipse.jgit.util.HttpSupport.HDR_ACCEPT_ENCODING;
 import static org.eclipse.jgit.util.HttpSupport.HDR_CONTENT_ENCODING;
 import static org.eclipse.jgit.util.HttpSupport.HDR_CONTENT_TYPE;
+import static org.eclipse.jgit.util.HttpSupport.HDR_LOCATION;
 import static org.eclipse.jgit.util.HttpSupport.HDR_PRAGMA;
 import static org.eclipse.jgit.util.HttpSupport.HDR_USER_AGENT;
 import static org.eclipse.jgit.util.HttpSupport.HDR_WWW_AUTHENTICATE;
@@ -898,9 +899,13 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		}
 
 		void openStream() throws IOException {
+			openStream(null);
+		}
+
+		void openStream(final String redirectUrl) throws IOException {
 			conn = httpOpen(
 					METHOD_POST,
-					new URL(baseUrl, serviceName),
+					redirectUrl == null ? new URL(baseUrl, serviceName) : new URL(redirectUrl),
 					AcceptEncoding.GZIP);
 			conn.setInstanceFollowRedirects(false);
 			conn.setDoOutput(true);
@@ -909,6 +914,10 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		}
 
 		void sendRequest() throws IOException {
+			sendRequest(null);
+		}
+
+		void sendRequest(final String redirectUrl) throws IOException {
 			// Try to compress the content, but only if that is smaller.
 			TemporaryBuffer buf = new TemporaryBuffer.Heap(http.postBuffer);
 			try {
@@ -923,7 +932,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 				buf = out;
 			}
 
-			openStream();
+			openStream(redirectUrl);
 			if (buf != out)
 				conn.setRequestProperty(HDR_CONTENT_ENCODING, ENCODING_GZIP);
 			conn.setFixedLengthStreamingMode((int) buf.length());
@@ -932,6 +941,12 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 				buf.writeTo(httpOut, null);
 			} finally {
 				httpOut.close();
+			}
+
+			final int status = HttpSupport.response(conn);
+			if (status == HttpConnection.HTTP_MOVED_PERM) {
+				String locationHeader = HttpSupport.responseHeader(conn, HDR_LOCATION);
+				sendRequest(locationHeader);
 			}
 		}
 
