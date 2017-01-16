@@ -116,6 +116,7 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 	 * @throws NoMessageException
 	 * @throws NoHeadException
 	 */
+	@Override
 	public CherryPickResult call() throws GitAPIException, NoMessageException,
 			UnmergedPathsException, ConcurrentRefUpdateException,
 			WrongRepositoryStateException, NoHeadException {

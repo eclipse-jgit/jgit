@@ -64,6 +64,7 @@ import org.eclipse.jgit.util.HttpSupport;
 class InfoRefsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	@Override
 	public void doGet(final HttpServletRequest req,
 			final HttpServletResponse rsp) throws IOException {
 		// Assume a dumb client and send back the dumb client

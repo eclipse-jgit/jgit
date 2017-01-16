@@ -944,14 +944,17 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		final Iterator<RevObject> objItr = have.iterator();
 		if (need.isEmpty()) {
 			return new AsyncRevObjectQueue() {
+				@Override
 				public RevObject next() {
 					return objItr.hasNext() ? objItr.next() : null;
 				}
 
+				@Override
 				public boolean cancel(boolean mayInterruptIfRunning) {
 					return true;
 				}
 
+				@Override
 				public void release() {
 					// In-memory only, no action required.
 				}
@@ -960,6 +963,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 
 		final AsyncObjectLoaderQueue<T> lItr = reader.open(need, reportMissing);
 		return new AsyncRevObjectQueue() {
+			@Override
 			public RevObject next() throws MissingObjectException,
 					IncorrectObjectTypeException, IOException {
 				if (objItr.hasNext())
@@ -983,10 +987,12 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 				return r;
 			}
 
+			@Override
 			public boolean cancel(boolean mayInterruptIfRunning) {
 				return lItr.cancel(mayInterruptIfRunning);
 			}
 
+			@Override
 			public void release() {
 				lItr.release();
 			}
@@ -1316,6 +1322,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @return an iterator over this walker's commits.
 	 * @see RevWalkException
 	 */
+	@Override
 	public Iterator<RevCommit> iterator() {
 		final RevCommit first;
 		try {
@@ -1331,10 +1338,12 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		return new Iterator<RevCommit>() {
 			RevCommit next = first;
 
+			@Override
 			public boolean hasNext() {
 				return next != null;
 			}
 
+			@Override
 			public RevCommit next() {
 				try {
 					final RevCommit r = next;
@@ -1349,6 +1358,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 				}
 			}
 
+			@Override
 			public void remove() {
 				throw new UnsupportedOperationException();
 			}

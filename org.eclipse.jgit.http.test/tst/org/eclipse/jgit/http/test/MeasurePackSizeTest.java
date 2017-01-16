@@ -83,6 +83,7 @@ public class MeasurePackSizeTest extends HttpTestCase {
 
 	long packSize = -1;
 
+	@Override
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
@@ -93,6 +94,7 @@ public class MeasurePackSizeTest extends HttpTestCase {
 		ServletContextHandler app = server.addContext("/git");
 		GitServlet gs = new GitServlet();
 		gs.setRepositoryResolver(new RepositoryResolver<HttpServletRequest>() {
+			@Override
 			public Repository open(HttpServletRequest req, String name)
 					throws RepositoryNotFoundException,
 					ServiceNotEnabledException {
@@ -105,12 +107,14 @@ public class MeasurePackSizeTest extends HttpTestCase {
 			}
 		});
 		gs.setReceivePackFactory(new DefaultReceivePackFactory() {
+			@Override
 			public ReceivePack create(HttpServletRequest req, Repository db)
 					throws ServiceNotEnabledException,
 					ServiceNotAuthorizedException {
 				ReceivePack recv = super.create(req, db);
 				recv.setPostReceiveHook(new PostReceiveHook() {
 
+					@Override
 					public void onPostReceive(ReceivePack rp,
 							Collection<ReceiveCommand> commands) {
 						packSize = rp.getPackSize();

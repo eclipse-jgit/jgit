@@ -140,6 +140,7 @@ public class PushCertificateStore implements AutoCloseable {
 	 * If {@link #get(String)} was called, closes the cached object reader created
 	 * by that method. Does not close the underlying repository.
 	 */
+	@Override
 	public void close() {
 		if (reader != null) {
 			reader.close();

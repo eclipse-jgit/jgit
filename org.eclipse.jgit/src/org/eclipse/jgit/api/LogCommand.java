@@ -132,6 +132,7 @@ public class LogCommand extends GitCommand<Iterable<RevCommit>> {
 	 * @throws NoHeadException
 	 *             of the references ref cannot be resolved
 	 */
+	@Override
 	public Iterable<RevCommit> call() throws GitAPIException, NoHeadException {
 		checkCallable();
 		if (pathFilters.size() > 0)

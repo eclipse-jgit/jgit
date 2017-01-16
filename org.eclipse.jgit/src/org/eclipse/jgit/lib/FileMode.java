@@ -86,6 +86,7 @@ public abstract class FileMode {
 	@SuppressWarnings("synthetic-access")
 	public static final FileMode TREE = new FileMode(TYPE_TREE,
 			Constants.OBJ_TREE) {
+		@Override
 		public boolean equals(final int modeBits) {
 			return (modeBits & TYPE_MASK) == TYPE_TREE;
 		}
@@ -95,6 +96,7 @@ public abstract class FileMode {
 	@SuppressWarnings("synthetic-access")
 	public static final FileMode SYMLINK = new FileMode(TYPE_SYMLINK,
 			Constants.OBJ_BLOB) {
+		@Override
 		public boolean equals(final int modeBits) {
 			return (modeBits & TYPE_MASK) == TYPE_SYMLINK;
 		}
@@ -104,6 +106,7 @@ public abstract class FileMode {
 	@SuppressWarnings("synthetic-access")
 	public static final FileMode REGULAR_FILE = new FileMode(0100644,
 			Constants.OBJ_BLOB) {
+		@Override
 		public boolean equals(final int modeBits) {
 			return (modeBits & TYPE_MASK) == TYPE_FILE && (modeBits & 0111) == 0;
 		}
@@ -113,6 +116,7 @@ public abstract class FileMode {
 	@SuppressWarnings("synthetic-access")
 	public static final FileMode EXECUTABLE_FILE = new FileMode(0100755,
 			Constants.OBJ_BLOB) {
+		@Override
 		public boolean equals(final int modeBits) {
 			return (modeBits & TYPE_MASK) == TYPE_FILE && (modeBits & 0111) != 0;
 		}
@@ -122,6 +126,7 @@ public abstract class FileMode {
 	@SuppressWarnings("synthetic-access")
 	public static final FileMode GITLINK = new FileMode(TYPE_GITLINK,
 			Constants.OBJ_COMMIT) {
+		@Override
 		public boolean equals(final int modeBits) {
 			return (modeBits & TYPE_MASK) == TYPE_GITLINK;
 		}
@@ -131,6 +136,7 @@ public abstract class FileMode {
 	@SuppressWarnings("synthetic-access")
 	public static final FileMode MISSING = new FileMode(TYPE_MISSING,
 			Constants.OBJ_BAD) {
+		@Override
 		public boolean equals(final int modeBits) {
 			return modeBits == 0;
 		}
@@ -258,6 +264,7 @@ public abstract class FileMode {
 	}
 
 	/** Format this mode as an octal string (for debugging only). */
+	@Override
 	public String toString() {
 		return Integer.toOctalString(modeBits);
 	}

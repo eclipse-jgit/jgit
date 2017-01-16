@@ -70,15 +70,18 @@ public class SymbolicRef implements Ref {
 		this.target = target;
 	}
 
+	@Override
 	@NonNull
 	public String getName() {
 		return name;
 	}
 
+	@Override
 	public boolean isSymbolic() {
 		return true;
 	}
 
+	@Override
 	@NonNull
 	public Ref getLeaf() {
 		Ref dst = getTarget();
@@ -87,26 +90,31 @@ public class SymbolicRef implements Ref {
 		return dst;
 	}
 
+	@Override
 	@NonNull
 	public Ref getTarget() {
 		return target;
 	}
 
+	@Override
 	@Nullable
 	public ObjectId getObjectId() {
 		return getLeaf().getObjectId();
 	}
 
+	@Override
 	@NonNull
 	public Storage getStorage() {
 		return Storage.LOOSE;
 	}
 
+	@Override
 	@Nullable
 	public ObjectId getPeeledObjectId() {
 		return getLeaf().getPeeledObjectId();
 	}
 
+	@Override
 	public boolean isPeeled() {
 		return getLeaf().isPeeled();
 	}

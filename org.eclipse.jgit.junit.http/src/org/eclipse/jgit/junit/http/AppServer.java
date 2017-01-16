@@ -185,10 +185,13 @@ public class AppServer {
 			putUser(username, new Password(password), new String[] { role });
 		}
 
+		// @Override TODO: Adding this fixes the warning in Eclipse, but causes
+		// an error when building with mvn. Why?
 		protected String[] loadRoleInfo(KnownUser user) {
 			return null;
 		}
 
+		// @Override TODO: See comment above.
 		protected KnownUser loadUserInfo(String usrname) {
 			return null;
 		}

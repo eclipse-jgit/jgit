@@ -70,6 +70,7 @@ abstract class AbstractHead implements Head {
 		this.newHeads = newHeads;
 	}
 
+	@Override
 	public List<Head> getNextHeads(char c) {
 		if (matches(c))
 			return newHeads;

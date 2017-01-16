@@ -706,6 +706,7 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 		ExecutorService executor = Executors.newSingleThreadExecutor();
 
 		return executor.submit(new Callable<Object>() {
+			@Override
 			public Object call() throws IOException {
 				try {
 					stream.write(data);

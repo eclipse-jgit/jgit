@@ -87,6 +87,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 
 	private long[] mtime;
 
+	@Override
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
@@ -383,6 +384,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 			DirCacheEditor editor = cache.editor();
 			editor.add(new PathEdit(path) {
 
+				@Override
 				public void apply(DirCacheEntry ent) {
 					ent.setFileMode(FileMode.GITLINK);
 					ent.setObjectId(id);
@@ -417,6 +419,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 			DirCacheEditor editor = cache.editor();
 			editor.add(new PathEdit(path) {
 
+				@Override
 				public void apply(DirCacheEntry ent) {
 					ent.setFileMode(FileMode.GITLINK);
 					ent.setObjectId(id);
@@ -452,6 +455,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 			DirCacheEditor editor = cache.editor();
 			editor.add(new PathEdit(path) {
 
+				@Override
 				public void apply(DirCacheEntry ent) {
 					ent.setFileMode(FileMode.GITLINK);
 					ent.setObjectId(id);
@@ -486,6 +490,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 			DirCacheEditor editor = cache.editor();
 			editor.add(new PathEdit(path) {
 
+				@Override
 				public void apply(DirCacheEntry ent) {
 					ent.setFileMode(FileMode.GITLINK);
 					ent.setObjectId(id);
@@ -521,6 +526,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 			DirCacheEditor editor = cache.editor();
 			editor.add(new PathEdit(path) {
 
+				@Override
 				public void apply(DirCacheEntry ent) {
 					ent.setFileMode(FileMode.GITLINK);
 					ent.setObjectId(id);

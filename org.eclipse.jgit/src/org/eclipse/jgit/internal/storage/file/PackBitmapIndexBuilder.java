@@ -133,6 +133,7 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 			positionEntries.add(new PositionEntry(entries.get(i), i));
 		}
 		Collections.sort(entries, new Comparator<ObjectToPack>() {
+			@Override
 			public int compare(ObjectToPack a, ObjectToPack b) {
 				return Long.signum(a.getOffset() - b.getOffset());
 			}
@@ -274,14 +275,17 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		// Add order is from oldest to newest. The reverse add order is the
 		// output order.
 		return new Iterable<StoredEntry>() {
+			@Override
 			public Iterator<StoredEntry> iterator() {
 				return new Iterator<StoredEntry>() {
 					private int index = byAddOrder.size() - 1;
 
+					@Override
 					public boolean hasNext() {
 						return index >= 0;
 					}
 
+					@Override
 					public StoredEntry next() {
 						if (!hasNext())
 							throw new NoSuchElementException();
@@ -315,6 +319,7 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 								bestXorOffset, item.getFlags());
 					}
 
+					@Override
 					public void remove() {
 						throw new UnsupportedOperationException();
 					}

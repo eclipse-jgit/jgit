@@ -157,61 +157,74 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 				.unmodifiableSet(new LinkedHashSet<String>(Arrays
 						.asList(schemeNames)));
 
+		@Override
 		public String getName() {
 			return JGitText.get().transportProtoHTTP;
 		}
 
+		@Override
 		public Set<String> getSchemes() {
 			return schemeSet;
 		}
 
+		@Override
 		public Set<URIishField> getRequiredFields() {
 			return Collections.unmodifiableSet(EnumSet.of(URIishField.HOST,
 					URIishField.PATH));
 		}
 
+		@Override
 		public Set<URIishField> getOptionalFields() {
 			return Collections.unmodifiableSet(EnumSet.of(URIishField.USER,
 					URIishField.PASS, URIishField.PORT));
 		}
 
+		@Override
 		public int getDefaultPort() {
 			return 80;
 		}
 
+		@Override
 		public Transport open(URIish uri, Repository local, String remoteName)
 				throws NotSupportedException {
 			return new TransportHttp(local, uri);
 		}
 
+		@Override
 		public Transport open(URIish uri) throws NotSupportedException {
 			return new TransportHttp(uri);
 		}
 	};
 
 	static final TransportProtocol PROTO_FTP = new TransportProtocol() {
+		@Override
 		public String getName() {
 			return JGitText.get().transportProtoFTP;
 		}
 
+		@Override
 		public Set<String> getSchemes() {
 			return Collections.singleton("ftp"); //$NON-NLS-1$
 		}
 
+		@Override
 		public Set<URIishField> getRequiredFields() {
 			return Collections.unmodifiableSet(EnumSet.of(URIishField.HOST,
 					URIishField.PATH));
 		}
 
+		@Override
 		public Set<URIishField> getOptionalFields() {
 			return Collections.unmodifiableSet(EnumSet.of(URIishField.USER,
 					URIishField.PASS, URIishField.PORT));
 		}
 
+		@Override
 		public int getDefaultPort() {
 			return 21;
 		}
 
+		@Override
 		public Transport open(URIish uri, Repository local, String remoteName)
 				throws NotSupportedException {
 			return new TransportHttp(local, uri);
@@ -219,6 +232,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	};
 
 	private static final Config.SectionParser<HttpConfig> HTTP_KEY = new SectionParser<HttpConfig>() {
+		@Override
 		public HttpConfig parse(final Config cfg) {
 			return new HttpConfig(cfg);
 		}
@@ -863,6 +877,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			readAdvertisedRefs();
 		}
 
+		@Override
 		protected void doPush(final ProgressMonitor monitor,
 				final Map<String, RemoteRefUpdate> refUpdates,
 				OutputStream outputStream) throws TransportException {
@@ -975,16 +990,19 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		abstract void execute() throws IOException;
 
 		class HttpExecuteStream extends InputStream {
+			@Override
 			public int read() throws IOException {
 				execute();
 				return -1;
 			}
 
+			@Override
 			public int read(byte[] b, int off, int len) throws IOException {
 				execute();
 				return -1;
 			}
 
+			@Override
 			public long skip(long n) throws IOException {
 				execute();
 				return 0;

@@ -240,6 +240,7 @@ public class RemoteGitReplica extends KetchReplica {
 		ReceiveCommand.abort(tmp);
 	}
 
+	@Override
 	protected void blockingFetch(Repository repo, ReplicaFetchRequest req)
 			throws NotSupportedException, TransportException {
 		try (Transport transport = Transport.open(repo, uri)) {

@@ -167,6 +167,7 @@ public class MergeConfig {
 			this.branch = branch;
 		}
 
+		@Override
 		public MergeConfig parse(Config cfg) {
 			return new MergeConfig(branch, cfg);
 		}
