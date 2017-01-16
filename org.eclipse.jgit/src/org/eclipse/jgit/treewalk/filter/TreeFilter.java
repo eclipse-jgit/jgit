@@ -220,6 +220,7 @@ public abstract class TreeFilter {
 	 *
 	 * @return another copy of this filter, suitable for another thread.
 	 */
+	@Override
 	public abstract TreeFilter clone();
 
 	@Override

@@ -87,12 +87,14 @@ public class ThreadSafeProgressMonitor implements ProgressMonitor {
 		this.process = new Semaphore(0);
 	}
 
+	@Override
 	public void start(int totalTasks) {
 		if (!isMainThread())
 			throw new IllegalStateException();
 		pm.start(totalTasks);
 	}
 
+	@Override
 	public void beginTask(String title, int totalWork) {
 		if (!isMainThread())
 			throw new IllegalStateException();
@@ -156,11 +158,13 @@ public class ThreadSafeProgressMonitor implements ProgressMonitor {
 			pm.update(cnt);
 	}
 
+	@Override
 	public void update(int completed) {
 		if (0 == pendingUpdates.getAndAdd(completed))
 			process.release();
 	}
 
+	@Override
 	public boolean isCancelled() {
 		lock.lock();
 		try {
@@ -170,6 +174,7 @@ public class ThreadSafeProgressMonitor implements ProgressMonitor {
 		}
 	}
 
+	@Override
 	public void endTask() {
 		if (!isMainThread())
 			throw new IllegalStateException();

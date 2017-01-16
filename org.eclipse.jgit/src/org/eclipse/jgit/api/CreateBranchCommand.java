@@ -120,6 +120,7 @@ public class CreateBranchCommand extends GitCommand<Ref> {
 	 *             invalid
 	 * @return the newly created branch
 	 */
+	@Override
 	public Ref call() throws GitAPIException, RefAlreadyExistsException,
 			RefNotFoundException, InvalidRefNameException {
 		checkCallable();

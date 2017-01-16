@@ -94,6 +94,7 @@ public class CleanCommand extends GitCommand<Set<String>> {
 	 * @throws GitAPIException
 	 * @throws NoWorkTreeException
 	 */
+	@Override
 	public Set<String> call() throws NoWorkTreeException, GitAPIException {
 		Set<String> files = new TreeSet<String>();
 		try {

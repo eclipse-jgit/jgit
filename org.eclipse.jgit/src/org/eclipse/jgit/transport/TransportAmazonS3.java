@@ -101,23 +101,28 @@ public class TransportAmazonS3 extends HttpTransport implements WalkTransport {
 	static final String S3_SCHEME = "amazon-s3"; //$NON-NLS-1$
 
 	static final TransportProtocol PROTO_S3 = new TransportProtocol() {
+		@Override
 		public String getName() {
 			return "Amazon S3"; //$NON-NLS-1$
 		}
 
+		@Override
 		public Set<String> getSchemes() {
 			return Collections.singleton(S3_SCHEME);
 		}
 
+		@Override
 		public Set<URIishField> getRequiredFields() {
 			return Collections.unmodifiableSet(EnumSet.of(URIishField.USER,
 					URIishField.HOST, URIishField.PATH));
 		}
 
+		@Override
 		public Set<URIishField> getOptionalFields() {
 			return Collections.unmodifiableSet(EnumSet.of(URIishField.PASS));
 		}
 
+		@Override
 		public Transport open(URIish uri, Repository local, String remoteName)
 				throws NotSupportedException {
 			return new TransportAmazonS3(local, uri);

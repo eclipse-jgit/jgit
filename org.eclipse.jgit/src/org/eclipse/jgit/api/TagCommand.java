@@ -121,6 +121,7 @@ public class TagCommand extends GitCommand<Ref> {
 	 *             when called on a git repo without a HEAD reference
 	 * @since 2.0
 	 */
+	@Override
 	public Ref call() throws GitAPIException, ConcurrentRefUpdateException,
 			InvalidTagNameException, NoHeadException {
 		checkCallable();

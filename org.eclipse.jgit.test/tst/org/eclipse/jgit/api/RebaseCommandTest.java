@@ -2269,11 +2269,13 @@ public class RebaseCommandTest extends RepositoryTestCase {
 
 		RebaseResult res = git.rebase().setUpstream("HEAD~2")
 				.runInteractively(new InteractiveHandler() {
+					@Override
 					public void prepareSteps(List<RebaseTodoLine> steps) {
 						steps.add(0, new RebaseTodoLine(
 								"# Comment that should not be processed"));
 					}
 
+					@Override
 					public String modifyCommitMessage(String commit) {
 						fail("modifyCommitMessage() was not expected to be called");
 						return commit;
@@ -2284,6 +2286,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 
 		RebaseResult res2 = git.rebase().setUpstream("HEAD~2")
 				.runInteractively(new InteractiveHandler() {
+					@Override
 					public void prepareSteps(List<RebaseTodoLine> steps) {
 						try {
 							// delete RevCommit c4
@@ -2293,6 +2296,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 						}
 					}
 
+					@Override
 					public String modifyCommitMessage(String commit) {
 						fail("modifyCommitMessage() was not expected to be called");
 						return commit;
@@ -2514,6 +2518,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		RebaseResult res = git.rebase().setUpstream("HEAD~2")
 				.runInteractively(new InteractiveHandler() {
 
+					@Override
 					public void prepareSteps(List<RebaseTodoLine> steps) {
 						try {
 							steps.get(0).setAction(Action.REWORD);
@@ -2522,6 +2527,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 						}
 					}
 
+					@Override
 					public String modifyCommitMessage(String commit) {
 						return "rewritten commit message";
 					}
@@ -2560,6 +2566,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 
 		RebaseResult res = git.rebase().setUpstream("HEAD~2")
 				.runInteractively(new InteractiveHandler() {
+					@Override
 					public void prepareSteps(List<RebaseTodoLine> steps) {
 						try {
 							steps.get(0).setAction(Action.EDIT);
@@ -2568,6 +2575,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 						}
 					}
 
+					@Override
 					public String modifyCommitMessage(String commit) {
 						return ""; // not used
 					}
@@ -2624,6 +2632,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		git.rebase().setUpstream("HEAD~3")
 				.runInteractively(new InteractiveHandler() {
 
+					@Override
 					public void prepareSteps(List<RebaseTodoLine> steps) {
 						try {
 							steps.get(1).setAction(Action.SQUASH);
@@ -2632,6 +2641,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 						}
 					}
 
+					@Override
 					public String modifyCommitMessage(String commit) {
 						final File messageSquashFile = new File(db
 								.getDirectory(), "rebase-merge/message-squash");
@@ -2704,6 +2714,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		git.rebase().setUpstream("HEAD~4")
 				.runInteractively(new InteractiveHandler() {
 
+					@Override
 					public void prepareSteps(List<RebaseTodoLine> steps) {
 						try {
 							steps.get(1).setAction(Action.SQUASH);
@@ -2713,6 +2724,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 						}
 					}
 
+					@Override
 					public String modifyCommitMessage(String commit) {
 						final File messageSquashFile = new File(db.getDirectory(),
 								"rebase-merge/message-squash");
@@ -2786,6 +2798,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		git.rebase().setUpstream("HEAD~4")
 				.runInteractively(new InteractiveHandler() {
 
+					@Override
 					public void prepareSteps(List<RebaseTodoLine> steps) {
 						try {
 							steps.get(1).setAction(Action.FIXUP);
@@ -2795,6 +2808,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 						}
 					}
 
+					@Override
 					public String modifyCommitMessage(String commit) {
 						final File messageSquashFile = new File(db
 								.getDirectory(), "rebase-merge/message-squash");
@@ -2861,6 +2875,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		git.rebase().setUpstream("HEAD~3")
 				.runInteractively(new InteractiveHandler() {
 
+					@Override
 					public void prepareSteps(List<RebaseTodoLine> steps) {
 						try {
 							steps.get(1).setAction(Action.FIXUP);
@@ -2869,6 +2884,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 						}
 					}
 
+					@Override
 					public String modifyCommitMessage(String commit) {
 						fail("No callback to modify commit message expected for single fixup");
 						return commit;
@@ -2910,6 +2926,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		git.rebase().setUpstream("HEAD~2")
 				.runInteractively(new InteractiveHandler() {
 
+					@Override
 					public void prepareSteps(List<RebaseTodoLine> steps) {
 						try {
 							steps.get(1).setAction(Action.FIXUP);
@@ -2918,6 +2935,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 						}
 					}
 
+					@Override
 					public String modifyCommitMessage(String commit) {
 						fail("No callback to modify commit message expected for single fixup");
 						return commit;
@@ -2950,6 +2968,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		git.rebase().setUpstream("HEAD~1")
 				.runInteractively(new InteractiveHandler() {
 
+					@Override
 					public void prepareSteps(List<RebaseTodoLine> steps) {
 						try {
 							steps.get(0).setAction(Action.FIXUP);
@@ -2958,6 +2977,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 						}
 					}
 
+					@Override
 					public String modifyCommitMessage(String commit) {
 						return commit;
 					}
@@ -2982,6 +3002,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		git.rebase().setUpstream("HEAD~1")
 				.runInteractively(new InteractiveHandler() {
 
+					@Override
 					public void prepareSteps(List<RebaseTodoLine> steps) {
 						try {
 							steps.get(0).setAction(Action.SQUASH);
@@ -2990,6 +3011,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 						}
 					}
 
+					@Override
 					public String modifyCommitMessage(String commit) {
 						return commit;
 					}
@@ -3013,6 +3035,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		git.rebase().setUpstream("HEAD~1")
 				.runInteractively(new InteractiveHandler() {
 
+					@Override
 					public void prepareSteps(List<RebaseTodoLine> steps) {
 						try {
 							steps.get(0).setAction(Action.EDIT);
@@ -3021,6 +3044,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 						}
 					}
 
+					@Override
 					public String modifyCommitMessage(String commit) {
 						return commit;
 					}
@@ -3055,6 +3079,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		RebaseResult result = git.rebase().setUpstream("HEAD~2")
 				.runInteractively(new InteractiveHandler() {
 
+					@Override
 					public void prepareSteps(List<RebaseTodoLine> steps) {
 						steps.remove(0);
 						try {
@@ -3064,6 +3089,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 						}
 					}
 
+					@Override
 					public String modifyCommitMessage(String commit) {
 						return commit;
 					}
@@ -3097,6 +3123,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		RebaseResult result = git.rebase().setUpstream("HEAD~2")
 				.runInteractively(new InteractiveHandler() {
 
+					@Override
 					public void prepareSteps(List<RebaseTodoLine> steps) {
 						steps.remove(0);
 						try {
@@ -3106,6 +3133,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 						}
 					}
 
+					@Override
 					public String modifyCommitMessage(String commit) {
 						return "rewritten commit message";
 					}
@@ -3114,6 +3142,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		git.add().addFilepattern(FILE1).call();
 		result = git.rebase().runInteractively(new InteractiveHandler() {
 
+			@Override
 			public void prepareSteps(List<RebaseTodoLine> steps) {
 				steps.remove(0);
 				try {
@@ -3123,6 +3152,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 				}
 			}
 
+			@Override
 			public String modifyCommitMessage(String commit) {
 				return "rewritten commit message";
 			}
@@ -3160,6 +3190,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		RebaseResult result = git.rebase().setUpstream("HEAD~3")
 				.runInteractively(new InteractiveHandler() {
 
+					@Override
 					public void prepareSteps(List<RebaseTodoLine> steps) {
 						try {
 							steps.get(0).setAction(Action.PICK);
@@ -3170,6 +3201,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 						}
 					}
 
+					@Override
 					public String modifyCommitMessage(String commit) {
 						return "squashed message";
 					}
@@ -3178,6 +3210,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		git.add().addFilepattern(FILE1).call();
 		result = git.rebase().runInteractively(new InteractiveHandler() {
 
+			@Override
 			public void prepareSteps(List<RebaseTodoLine> steps) {
 				try {
 					steps.get(0).setAction(Action.PICK);
@@ -3188,6 +3221,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 				}
 			}
 
+			@Override
 			public String modifyCommitMessage(String commit) {
 				return "squashed message";
 			}
@@ -3226,6 +3260,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		RebaseResult result = git.rebase().setUpstream("HEAD~3")
 				.runInteractively(new InteractiveHandler() {
 
+					@Override
 					public void prepareSteps(List<RebaseTodoLine> steps) {
 						try {
 							steps.get(0).setAction(Action.PICK);
@@ -3236,6 +3271,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 						}
 					}
 
+					@Override
 					public String modifyCommitMessage(String commit) {
 						return commit;
 					}
@@ -3244,6 +3280,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		git.add().addFilepattern(FILE1).call();
 		result = git.rebase().runInteractively(new InteractiveHandler() {
 
+			@Override
 			public void prepareSteps(List<RebaseTodoLine> steps) {
 				try {
 					steps.get(0).setAction(Action.PICK);
@@ -3254,6 +3291,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 				}
 			}
 
+			@Override
 			public String modifyCommitMessage(String commit) {
 				return "commit";
 			}
@@ -3297,6 +3335,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		RebaseResult result = git.rebase().setUpstream("HEAD~2")
 				.runInteractively(new InteractiveHandler() {
 
+					@Override
 					public void prepareSteps(List<RebaseTodoLine> steps) {
 						try {
 							steps.get(0).setAction(Action.EDIT);
@@ -3306,6 +3345,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 						}
 					}
 
+					@Override
 					public String modifyCommitMessage(String commit) {
 						return commit;
 					}

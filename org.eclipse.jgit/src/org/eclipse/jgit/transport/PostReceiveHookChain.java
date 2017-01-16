@@ -77,6 +77,7 @@ public class PostReceiveHookChain implements PostReceiveHook {
 			return new PostReceiveHookChain(newHooks, i);
 	}
 
+	@Override
 	public void onPostReceive(ReceivePack rp,
 			Collection<ReceiveCommand> commands) {
 		for (int i = 0; i < count; i++)

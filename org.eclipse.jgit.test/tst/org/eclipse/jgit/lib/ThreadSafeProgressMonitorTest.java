@@ -62,6 +62,7 @@ public class ThreadSafeProgressMonitorTest {
 		final ThreadSafeProgressMonitor pm = new ThreadSafeProgressMonitor(mock);
 
 		runOnThread(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					pm.start(1);
@@ -128,6 +129,7 @@ public class ThreadSafeProgressMonitorTest {
 		final CountDownLatch doEndWorker = new CountDownLatch(1);
 
 		final Thread bg = new Thread() {
+			@Override
 			public void run() {
 				assertFalse(pm.isCancelled());
 
@@ -175,24 +177,29 @@ public class ThreadSafeProgressMonitorTest {
 
 		int value;
 
+		@Override
 		public void update(int completed) {
 			value += completed;
 		}
 
+		@Override
 		public void start(int totalTasks) {
 			value = totalTasks;
 		}
 
+		@Override
 		public void beginTask(String title, int totalWork) {
 			taskTitle = title;
 			value = totalWork;
 		}
 
+		@Override
 		public void endTask() {
 			taskTitle = null;
 			value = 0;
 		}
 
+		@Override
 		public boolean isCancelled() {
 			return false;
 		}

@@ -64,14 +64,17 @@ public class SpiTransport extends Transport {
 	 */
 	public static final TransportProtocol PROTO = new TransportProtocol() {
 
+		@Override
 		public String getName() {
 			return "Test SPI Transport Protocol";
 		}
 
+		@Override
 		public Set<String> getSchemes() {
 			return Collections.singleton(SCHEME);
 		}
 
+		@Override
 		public Transport open(URIish uri, Repository local, String remoteName)
 				throws NotSupportedException, TransportException {
 			throw new NotSupportedException("not supported");
@@ -82,16 +85,19 @@ public class SpiTransport extends Transport {
 		super(local, uri);
 	}
 
+	@Override
 	public FetchConnection openFetch() throws NotSupportedException,
 			TransportException {
 		throw new NotSupportedException("not supported");
 	}
 
+	@Override
 	public PushConnection openPush() throws NotSupportedException,
 			TransportException {
 		throw new NotSupportedException("not supported");
 	}
 
+	@Override
 	public void close() {
 		// Intentionally left blank
 	}

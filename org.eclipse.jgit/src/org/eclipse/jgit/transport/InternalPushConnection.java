@@ -79,6 +79,7 @@ class InternalPushConnection<C> extends BasePackPushConnection {
 		}
 
 		worker = new Thread("JGit-Receive-Pack") { //$NON-NLS-1$
+			@Override
 			public void run() {
 				try {
 					final ReceivePack rp = receivePackFactory.create(req, remote);

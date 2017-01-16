@@ -111,6 +111,7 @@ public class Daemon {
 		repositoryResolver = (RepositoryResolver<DaemonClient>) RepositoryResolver.NONE;
 
 		uploadPackFactory = new UploadPackFactory<DaemonClient>() {
+			@Override
 			public UploadPack create(DaemonClient req, Repository db)
 					throws ServiceNotEnabledException,
 					ServiceNotAuthorizedException {
@@ -122,6 +123,7 @@ public class Daemon {
 		};
 
 		receivePackFactory = new ReceivePackFactory<DaemonClient>() {
+			@Override
 			public ReceivePack create(DaemonClient req, Repository db)
 					throws ServiceNotEnabledException,
 					ServiceNotAuthorizedException {
@@ -298,6 +300,7 @@ public class Daemon {
 
 		run = true;
 		acceptThread = new Thread(processors, "Git-Daemon-Accept") { //$NON-NLS-1$
+			@Override
 			public void run() {
 				while (isRunning()) {
 					try {
@@ -344,6 +347,7 @@ public class Daemon {
 			dc.setRemoteAddress(((InetSocketAddress) peer).getAddress());
 
 		new Thread(processors, "Git-Daemon-Client " + peer.toString()) { //$NON-NLS-1$
+			@Override
 			public void run() {
 				try {
 					dc.execute(s);

@@ -303,15 +303,18 @@ public class HttpSupport {
 	}
 
 	private static class DummyX509TrustManager implements X509TrustManager {
+		@Override
 		public X509Certificate[] getAcceptedIssuers() {
 			return null;
 		}
 
+		@Override
 		public void checkClientTrusted(X509Certificate[] certs,
 				String authType) {
 			// no check
 		}
 
+		@Override
 		public void checkServerTrusted(X509Certificate[] certs,
 				String authType) {
 			// no check
@@ -319,6 +322,7 @@ public class HttpSupport {
 	}
 
 	private static class DummyHostnameVerifier implements HostnameVerifier {
+		@Override
 		public boolean verify(String hostname, SSLSession session) {
 			// always accept
 			return true;

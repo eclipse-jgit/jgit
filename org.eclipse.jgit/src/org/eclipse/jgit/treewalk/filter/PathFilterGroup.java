@@ -173,6 +173,7 @@ public class PathFilterGroup {
 			return this;
 		}
 
+		@Override
 		public String toString() {
 			return "FAST_" + path.toString(); //$NON-NLS-1$
 		}
@@ -267,6 +268,7 @@ public class PathFilterGroup {
 			return this;
 		}
 
+		@Override
 		public String toString() {
 			final StringBuilder r = new StringBuilder();
 			r.append("FAST("); //$NON-NLS-1$

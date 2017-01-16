@@ -185,6 +185,7 @@ public class MergeResult {
 		 * @since 3.0
 		 **/
 		MERGED_NOT_COMMITTED {
+			@Override
 			public String toString() {
 				return "Merged-not-committed"; //$NON-NLS-1$
 			}
@@ -212,6 +213,7 @@ public class MergeResult {
 		 * files (i.e. local modifications prevent checkout of files).
 		 */
 		CHECKOUT_CONFLICT {
+			@Override
 			public String toString() {
 				return "Checkout Conflict"; //$NON-NLS-1$
 			}

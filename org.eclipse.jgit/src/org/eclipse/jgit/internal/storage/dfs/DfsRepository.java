@@ -143,10 +143,12 @@ public abstract class DfsRepository extends Repository {
 			AttributesNodeProvider {
 		private EmptyAttributesNode emptyAttributesNode = new EmptyAttributesNode();
 
+		@Override
 		public AttributesNode getInfoAttributesNode() throws IOException {
 			return emptyAttributesNode;
 		}
 
+		@Override
 		public AttributesNode getGlobalAttributesNode() throws IOException {
 			return emptyAttributesNode;
 		}

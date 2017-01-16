@@ -127,6 +127,7 @@ public class CLIRepositoryTestCase extends LocalDiskRepositoryTestCase {
 		return JGitTestUtil.writeTrashFile(db, name, data);
 	}
 
+	@Override
 	protected String read(final File file) throws IOException {
 		return JGitTestUtil.read(file);
 	}

@@ -123,6 +123,7 @@ public class MetaServlet extends HttpServlet {
 		filter.init(new NoParameterFilterConfig(name, ctx));
 	}
 
+	@Override
 	public void destroy() {
 		filter.destroy();
 	}
@@ -131,6 +132,7 @@ public class MetaServlet extends HttpServlet {
 	protected void service(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
 		filter.doFilter(req, res, new FilterChain() {
+			@Override
 			public void doFilter(ServletRequest request,
 					ServletResponse response) throws IOException,
 					ServletException {

@@ -201,6 +201,7 @@ public class NoteMap implements Iterable<Note> {
 	 * @return an iterator that iterates over notes of this NoteMap. Non note
 	 *         entries are ignored by this iterator.
 	 */
+	@Override
 	public Iterator<Note> iterator() {
 		try {
 			return root.iterator(new MutableObjectId(), reader);

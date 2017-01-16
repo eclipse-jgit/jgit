@@ -107,6 +107,7 @@ public class GitServletResponseTests extends HttpTestCase {
 	 * configure the maximum pack file size, the object checker and custom hooks
 	 * just before they talk to the server.
 	 */
+	@Override
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
@@ -117,6 +118,7 @@ public class GitServletResponseTests extends HttpTestCase {
 		ServletContextHandler app = server.addContext("/git");
 		gs = new GitServlet();
 		gs.setRepositoryResolver(new RepositoryResolver<HttpServletRequest>() {
+			@Override
 			public Repository open(HttpServletRequest req, String name)
 					throws RepositoryNotFoundException,
 					ServiceNotEnabledException {
@@ -129,6 +131,7 @@ public class GitServletResponseTests extends HttpTestCase {
 			}
 		});
 		gs.setReceivePackFactory(new DefaultReceivePackFactory() {
+			@Override
 			public ReceivePack create(HttpServletRequest req, Repository db)
 					throws ServiceNotEnabledException,
 					ServiceNotAuthorizedException {
@@ -270,6 +273,7 @@ public class GitServletResponseTests extends HttpTestCase {
 		// this PostReceiveHook when called after an unsuccesfull unpack will
 		// lead to an IllegalStateException
 		postHook = new PostReceiveHook() {
+			@Override
 			public void onPostReceive(ReceivePack rp,
 					Collection<ReceiveCommand> commands) {
 				// the maxPackSize setting caused that the packfile couldn't be

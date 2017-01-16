@@ -66,14 +66,17 @@ import org.eclipse.jgit.lib.Repository;
  * downstream servlet can directly access its contents on disk.
  */
 class IsLocalFilter implements Filter {
+	@Override
 	public void init(FilterConfig config) throws ServletException {
 		// Do nothing.
 	}
 
+	@Override
 	public void destroy() {
 		// Do nothing.
 	}
 
+	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
 		if (isLocal(getRepository(request)))
