@@ -76,6 +76,7 @@ public class PreReceiveHookChain implements PreReceiveHook {
 			return new PreReceiveHookChain(newHooks, i);
 	}
 
+	@Override
 	public void onPreReceive(ReceivePack rp,
 			Collection<ReceiveCommand> commands) {
 		for (int i = 0; i < count; i++)

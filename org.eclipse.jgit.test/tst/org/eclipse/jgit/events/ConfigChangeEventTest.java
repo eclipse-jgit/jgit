@@ -56,6 +56,7 @@ public class ConfigChangeEventTest extends RepositoryTestCase {
 		final ConfigChangedEvent[] events = new ConfigChangedEvent[1];
 		db.getListenerList().addConfigChangedListener(
 				new ConfigChangedListener() {
+					@Override
 					public void onConfigChanged(ConfigChangedEvent event) {
 						events[0] = event;
 					}

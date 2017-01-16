@@ -171,6 +171,7 @@ public abstract class AnyLongObjectId implements Comparable<AnyLongObjectId> {
 	 * @return &lt; 0 if this id comes before other; 0 if this id is equal to
 	 *         other; &gt; 0 if this id comes after other.
 	 */
+	@Override
 	public final int compareTo(final AnyLongObjectId other) {
 		if (this == other)
 			return 0;
@@ -262,6 +263,7 @@ public abstract class AnyLongObjectId implements Comparable<AnyLongObjectId> {
 		return abbr.prefixCompare(this) == 0;
 	}
 
+	@Override
 	public final int hashCode() {
 		return (int) (w1 >> 32);
 	}
@@ -277,6 +279,7 @@ public abstract class AnyLongObjectId implements Comparable<AnyLongObjectId> {
 		return other != null ? equals(this, other) : false;
 	}
 
+	@Override
 	public final boolean equals(final Object o) {
 		if (o instanceof AnyLongObjectId)
 			return equals((AnyLongObjectId) o);

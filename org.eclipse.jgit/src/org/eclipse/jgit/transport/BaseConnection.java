@@ -71,18 +71,22 @@ public abstract class BaseConnection implements Connection {
 
 	private Writer messageWriter;
 
+	@Override
 	public Map<String, Ref> getRefsMap() {
 		return advertisedRefs;
 	}
 
+	@Override
 	public final Collection<Ref> getRefs() {
 		return advertisedRefs.values();
 	}
 
+	@Override
 	public final Ref getRef(final String name) {
 		return advertisedRefs.get(name);
 	}
 
+	@Override
 	public String getMessages() {
 		return messageWriter != null ? messageWriter.toString() : ""; //$NON-NLS-1$
 	}
@@ -94,6 +98,7 @@ public abstract class BaseConnection implements Connection {
 	 *         server does not advertise this version.
 	 * @since 4.0
 	 */
+	@Override
 	public String getPeerUserAgent() {
 		return peerUserAgent;
 	}
@@ -109,6 +114,7 @@ public abstract class BaseConnection implements Connection {
 		peerUserAgent = agent;
 	}
 
+	@Override
 	public abstract void close();
 
 	/**

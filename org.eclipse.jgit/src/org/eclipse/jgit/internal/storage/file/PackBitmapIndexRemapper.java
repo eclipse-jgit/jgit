@@ -137,6 +137,7 @@ public class PackBitmapIndexRemapper extends PackBitmapIndex
 		return newPackIndex.ofObjectType(bitmap, type);
 	}
 
+	@Override
 	public Iterator<Entry> iterator() {
 		if (oldPackIndex == null)
 			return Collections.<Entry> emptyList().iterator();
@@ -145,6 +146,7 @@ public class PackBitmapIndexRemapper extends PackBitmapIndex
 		return new Iterator<Entry>() {
 			private Entry entry;
 
+			@Override
 			public boolean hasNext() {
 				while (entry == null && it.hasNext()) {
 					StoredBitmap sb = it.next();
@@ -154,6 +156,7 @@ public class PackBitmapIndexRemapper extends PackBitmapIndex
 				return entry != null;
 			}
 
+			@Override
 			public Entry next() {
 				if (!hasNext())
 					throw new NoSuchElementException();
@@ -163,6 +166,7 @@ public class PackBitmapIndexRemapper extends PackBitmapIndex
 				return res;
 			}
 
+			@Override
 			public void remove() {
 				throw new UnsupportedOperationException();
 			}

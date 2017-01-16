@@ -79,12 +79,14 @@ public class AdvertiseRefsHookChain implements AdvertiseRefsHook {
 			return new AdvertiseRefsHookChain(newHooks, i);
 	}
 
+	@Override
 	public void advertiseRefs(BaseReceivePack rp)
 			throws ServiceMayNotContinueException {
 		for (int i = 0; i < count; i++)
 			hooks[i].advertiseRefs(rp);
 	}
 
+	@Override
 	public void advertiseRefs(UploadPack rp)
 			throws ServiceMayNotContinueException {
 		for (int i = 0; i < count; i++)

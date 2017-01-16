@@ -109,6 +109,7 @@ public class DiffCommand extends GitCommand<List<DiffEntry>> {
 	 *
 	 * @return a DiffEntry for each path which is different
 	 */
+	@Override
 	public List<DiffEntry> call() throws GitAPIException {
 		final DiffFormatter diffFmt;
 		if (out != null && !showNameAndStatusOnly)

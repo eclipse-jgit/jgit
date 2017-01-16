@@ -95,6 +95,7 @@ abstract class GitHook<T> implements Callable<T> {
 	 *             If the hook has been run and a returned an exit code
 	 *             different from zero.
 	 */
+	@Override
 	public abstract T call() throws IOException, AbortedByHookException;
 
 	/**

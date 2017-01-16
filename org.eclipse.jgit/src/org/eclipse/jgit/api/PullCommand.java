@@ -197,6 +197,7 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 	 * @throws org.eclipse.jgit.api.errors.TransportException
 	 * @throws GitAPIException
 	 */
+	@Override
 	public PullResult call() throws GitAPIException,
 			WrongRepositoryStateException, InvalidConfigurationException,
 			DetachedHeadException, InvalidRemoteException, CanceledException,

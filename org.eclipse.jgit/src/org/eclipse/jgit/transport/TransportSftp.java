@@ -99,28 +99,34 @@ import com.jcraft.jsch.SftpException;
  */
 public class TransportSftp extends SshTransport implements WalkTransport {
 	static final TransportProtocol PROTO_SFTP = new TransportProtocol() {
+		@Override
 		public String getName() {
 			return JGitText.get().transportProtoSFTP;
 		}
 
+		@Override
 		public Set<String> getSchemes() {
 			return Collections.singleton("sftp"); //$NON-NLS-1$
 		}
 
+		@Override
 		public Set<URIishField> getRequiredFields() {
 			return Collections.unmodifiableSet(EnumSet.of(URIishField.HOST,
 					URIishField.PATH));
 		}
 
+		@Override
 		public Set<URIishField> getOptionalFields() {
 			return Collections.unmodifiableSet(EnumSet.of(URIishField.USER,
 					URIishField.PASS, URIishField.PORT));
 		}
 
+		@Override
 		public int getDefaultPort() {
 			return 22;
 		}
 
+		@Override
 		public Transport open(URIish uri, Repository local, String remoteName)
 				throws NotSupportedException {
 			return new TransportSftp(local, uri);
@@ -251,6 +257,7 @@ public class TransportSftp extends SshTransport implements WalkTransport {
 				}
 
 				Collections.sort(packs, new Comparator<String>() {
+					@Override
 					public int compare(final String o1, final String o2) {
 						return mtimes.get(o2).intValue()
 								- mtimes.get(o1).intValue();

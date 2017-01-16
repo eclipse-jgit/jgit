@@ -74,11 +74,13 @@ public abstract class HttpTestCase extends LocalDiskRepositoryTestCase {
 	/** In-memory application server; subclass must start. */
 	protected AppServer server;
 
+	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 		server = new AppServer();
 	}
 
+	@Override
 	public void tearDown() throws Exception {
 		server.tearDown();
 		super.tearDown();

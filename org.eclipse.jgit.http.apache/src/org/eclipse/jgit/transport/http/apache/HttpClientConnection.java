@@ -223,15 +223,18 @@ public class HttpClientConnection implements HttpConnection {
 		this.proxy = proxy;
 	}
 
+	@Override
 	public int getResponseCode() throws IOException {
 		execute();
 		return resp.getStatusLine().getStatusCode();
 	}
 
+	@Override
 	public URL getURL() {
 		return url;
 	}
 
+	@Override
 	public String getResponseMessage() throws IOException {
 		execute();
 		return resp.getStatusLine().getReasonPhrase();
@@ -259,6 +262,7 @@ public class HttpClientConnection implements HttpConnection {
 		}
 	}
 
+	@Override
 	public Map<String, List<String>> getHeaderFields() {
 		Map<String, List<String>> ret = new HashMap<String, List<String>>();
 		for (Header hdr : resp.getAllHeaders()) {
@@ -270,10 +274,12 @@ public class HttpClientConnection implements HttpConnection {
 		return ret;
 	}
 
+	@Override
 	public void setRequestProperty(String name, String value) {
 		req.addHeader(name, value);
 	}
 
+	@Override
 	public void setRequestMethod(String method) throws ProtocolException {
 		this.method = method;
 		if (METHOD_GET.equalsIgnoreCase(method)) {
@@ -290,18 +296,22 @@ public class HttpClientConnection implements HttpConnection {
 		}
 	}
 
+	@Override
 	public void setUseCaches(boolean usecaches) {
 		// not needed
 	}
 
+	@Override
 	public void setConnectTimeout(int timeout) {
 		this.timeout = Integer.valueOf(timeout);
 	}
 
+	@Override
 	public void setReadTimeout(int readTimeout) {
 		this.readTimeout = Integer.valueOf(readTimeout);
 	}
 
+	@Override
 	public String getContentType() {
 		HttpEntity responseEntity = resp.getEntity();
 		if (responseEntity != null) {
@@ -312,16 +322,19 @@ public class HttpClientConnection implements HttpConnection {
 		return null;
 	}
 
+	@Override
 	public InputStream getInputStream() throws IOException {
 		return resp.getEntity().getContent();
 	}
 
 	// will return only the first field
+	@Override
 	public String getHeaderField(String name) {
 		Header header = resp.getFirstHeader(name);
 		return (header == null) ? null : header.getValue();
 	}
 
+	@Override
 	public int getContentLength() {
 		Header contentLength = resp.getFirstHeader("content-length"); //$NON-NLS-1$
 		if (contentLength == null) {
@@ -336,14 +349,17 @@ public class HttpClientConnection implements HttpConnection {
 		}
 	}
 
+	@Override
 	public void setInstanceFollowRedirects(boolean followRedirects) {
 		this.followRedirects = Boolean.valueOf(followRedirects);
 	}
 
+	@Override
 	public void setDoOutput(boolean dooutput) {
 		// TODO: check whether we can really ignore this.
 	}
 
+	@Override
 	public void setFixedLengthStreamingMode(int contentLength) {
 		if (entity != null)
 			throw new IllegalArgumentException();
@@ -351,52 +367,63 @@ public class HttpClientConnection implements HttpConnection {
 		entity.setContentLength(contentLength);
 	}
 
+	@Override
 	public OutputStream getOutputStream() throws IOException {
 		if (entity == null)
 			entity = new TemporaryBufferEntity(new LocalFile(null));
 		return entity.getBuffer();
 	}
 
+	@Override
 	public void setChunkedStreamingMode(int chunklen) {
 		if (entity == null)
 			entity = new TemporaryBufferEntity(new LocalFile(null));
 		entity.setChunked(true);
 	}
 
+	@Override
 	public String getRequestMethod() {
 		return method;
 	}
 
+	@Override
 	public boolean usingProxy() {
 		return isUsingProxy;
 	}
 
+	@Override
 	public void connect() throws IOException {
 		execute();
 	}
 
+	@Override
 	public void setHostnameVerifier(final HostnameVerifier hostnameverifier) {
 		this.hostnameverifier = new X509HostnameVerifier() {
+			@Override
 			public boolean verify(String hostname, SSLSession session) {
 				return hostnameverifier.verify(hostname, session);
 			}
 
+			@Override
 			public void verify(String host, String[] cns, String[] subjectAlts)
 					throws SSLException {
 				throw new UnsupportedOperationException(); // TODO message
 			}
 
+			@Override
 			public void verify(String host, X509Certificate cert)
 					throws SSLException {
 				throw new UnsupportedOperationException(); // TODO message
 			}
 
+			@Override
 			public void verify(String host, SSLSocket ssl) throws IOException {
 				hostnameverifier.verify(host, ssl.getSession());
 			}
 		};
 	}
 
+	@Override
 	public void configure(KeyManager[] km, TrustManager[] tm,
 			SecureRandom random) throws KeyManagementException {
 		getSSLContext().init(km, tm, random);

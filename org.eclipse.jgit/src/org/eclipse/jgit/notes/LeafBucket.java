@@ -122,10 +122,12 @@ class LeafBucket extends InMemoryNoteBucket {
 		return new Iterator<Note>() {
 			private int idx;
 
+			@Override
 			public boolean hasNext() {
 				return idx < cnt;
 			}
 
+			@Override
 			public Note next() {
 				if (hasNext())
 					return notes[idx++];
@@ -133,6 +135,7 @@ class LeafBucket extends InMemoryNoteBucket {
 					throw new NoSuchElementException();
 			}
 
+			@Override
 			public void remove() {
 				throw new UnsupportedOperationException();
 			}
@@ -144,6 +147,7 @@ class LeafBucket extends InMemoryNoteBucket {
 		return cnt;
 	}
 
+	@Override
 	InMemoryNoteBucket set(AnyObjectId noteOn, AnyObjectId noteData,
 			ObjectReader or) throws IOException {
 		int p = search(noteOn);

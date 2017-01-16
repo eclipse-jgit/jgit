@@ -52,10 +52,12 @@ import java.net.URL;
  * @since 3.3
  */
 public class JDKHttpConnectionFactory implements HttpConnectionFactory {
+	@Override
 	public HttpConnection create(URL url) throws IOException {
 		return new JDKHttpConnection(url);
 	}
 
+	@Override
 	public HttpConnection create(URL url, Proxy proxy)
 			throws IOException {
 		return new JDKHttpConnection(url, proxy);

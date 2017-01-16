@@ -120,6 +120,7 @@ public class RevertCommand extends GitCommand<RevCommit> {
 	 * @throws UnmergedPathsException
 	 * @throws NoMessageException
 	 */
+	@Override
 	public RevCommit call() throws NoMessageException, UnmergedPathsException,
 			ConcurrentRefUpdateException, WrongRepositoryStateException,
 			GitAPIException {

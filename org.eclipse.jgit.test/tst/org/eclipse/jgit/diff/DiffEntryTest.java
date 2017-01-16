@@ -395,6 +395,7 @@ public class DiffEntryTest extends RepositoryTestCase {
 			assertTrue(walk.next());
 
 			editor.add(new PathEdit("a.txt") {
+				@Override
 				public void apply(DirCacheEntry ent) {
 					ent.setFileMode(FileMode.EXECUTABLE_FILE);
 					ent.setObjectId(walk.getObjectId(0));

@@ -52,10 +52,12 @@ import java.util.ArrayList;
 import org.junit.Test;
 
 public class FIFORevQueueTest extends RevQueueTestCase<FIFORevQueue> {
+	@Override
 	protected FIFORevQueue create() {
 		return new FIFORevQueue();
 	}
 
+	@Override
 	@Test
 	public void testEmpty() throws Exception {
 		super.testEmpty();

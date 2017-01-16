@@ -100,14 +100,17 @@ public class RepositoryFilter implements Filter {
 		this.resolver = resolver;
 	}
 
+	@Override
 	public void init(final FilterConfig config) throws ServletException {
 		context = config.getServletContext();
 	}
 
+	@Override
 	public void destroy() {
 		context = null;
 	}
 
+	@Override
 	public void doFilter(final ServletRequest request,
 			final ServletResponse response, final FilterChain chain)
 			throws IOException, ServletException {

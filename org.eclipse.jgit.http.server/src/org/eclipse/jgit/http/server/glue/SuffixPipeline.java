@@ -71,6 +71,7 @@ class SuffixPipeline extends UrlPipeline {
 			this.suffix = suffix;
 		}
 
+		@Override
 		UrlPipeline create() {
 			return new SuffixPipeline(suffix, getFilters(), getServlet());
 		}
@@ -87,6 +88,7 @@ class SuffixPipeline extends UrlPipeline {
 		this.suffixLen = suffix.length();
 	}
 
+	@Override
 	boolean match(final HttpServletRequest req) {
 		final String pathInfo = req.getPathInfo();
 		return pathInfo != null && pathInfo.endsWith(suffix);

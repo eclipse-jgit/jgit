@@ -88,6 +88,7 @@ public class HookMessageTest extends HttpTestCase {
 
 	private URIish remoteURI;
 
+	@Override
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
@@ -98,6 +99,7 @@ public class HookMessageTest extends HttpTestCase {
 		ServletContextHandler app = server.addContext("/git");
 		GitServlet gs = new GitServlet();
 		gs.setRepositoryResolver(new RepositoryResolver<HttpServletRequest>() {
+			@Override
 			public Repository open(HttpServletRequest req, String name)
 					throws RepositoryNotFoundException,
 					ServiceNotEnabledException {
@@ -110,11 +112,13 @@ public class HookMessageTest extends HttpTestCase {
 			}
 		});
 		gs.setReceivePackFactory(new DefaultReceivePackFactory() {
+			@Override
 			public ReceivePack create(HttpServletRequest req, Repository db)
 					throws ServiceNotEnabledException,
 					ServiceNotAuthorizedException {
 				ReceivePack recv = super.create(req, db);
 				recv.setPreReceiveHook(new PreReceiveHook() {
+					@Override
 					public void onPreReceive(ReceivePack rp,
 							Collection<ReceiveCommand> commands) {
 						rp.sendMessage("message line 1");

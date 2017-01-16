@@ -68,6 +68,7 @@ public class GcConcurrentTest extends GcTestCase {
 		class DoRepack extends EmptyProgressMonitor implements
 				Callable<Integer> {
 
+			@Override
 			public void beginTask(String title, int totalWork) {
 				if (title.equals(JGitText.get().writingObjects)) {
 					try {
@@ -81,6 +82,7 @@ public class GcConcurrentTest extends GcTestCase {
 			}
 
 			/** @return 0 for success, 1 in case of error when writing pack */
+			@Override
 			public Integer call() throws Exception {
 				try {
 					gc.setProgressMonitor(this);

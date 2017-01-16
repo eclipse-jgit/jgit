@@ -74,6 +74,7 @@ import org.eclipse.jgit.util.Paths;
  */
 public class DirCacheEditor extends BaseDirCacheEditor {
 	private static final Comparator<PathEdit> EDIT_CMP = new Comparator<PathEdit>() {
+		@Override
 		public int compare(final PathEdit o1, final PathEdit o2) {
 			final byte[] a = o1.path;
 			final byte[] b = o2.path;
@@ -123,6 +124,7 @@ public class DirCacheEditor extends BaseDirCacheEditor {
 		return super.commit();
 	}
 
+	@Override
 	public void finish() {
 		if (!edits.isEmpty()) {
 			applyEdits();
@@ -383,6 +385,7 @@ public class DirCacheEditor extends BaseDirCacheEditor {
 			super(ent);
 		}
 
+		@Override
 		public void apply(final DirCacheEntry ent) {
 			throw new UnsupportedOperationException(JGitText.get().noApplyInDelete);
 		}
@@ -432,6 +435,7 @@ public class DirCacheEditor extends BaseDirCacheEditor {
 			return path;
 		}
 
+		@Override
 		public void apply(final DirCacheEntry ent) {
 			throw new UnsupportedOperationException(JGitText.get().noApplyInDelete);
 		}
