@@ -321,6 +321,7 @@ public class SubmoduleInitTest extends RepositoryTestCase {
 		DirCacheEditor editor = cache.editor();
 		editor.add(new PathEdit(path) {
 
+			@Override
 			public void apply(DirCacheEntry ent) {
 				ent.setFileMode(FileMode.GITLINK);
 				ent.setObjectId(id);

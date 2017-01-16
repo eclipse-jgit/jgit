@@ -112,6 +112,7 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 	 * @throws org.eclipse.jgit.api.errors.TransportException
 	 *             when an error occurs during transport
 	 */
+	@Override
 	public FetchResult call() throws GitAPIException, InvalidRemoteException,
 			org.eclipse.jgit.api.errors.TransportException {
 		checkCallable();

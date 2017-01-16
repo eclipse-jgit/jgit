@@ -74,14 +74,17 @@ public final class RawCharSequence implements CharSequence {
 		endPtr = end;
 	}
 
+	@Override
 	public char charAt(final int index) {
 		return (char) (buffer[startPtr + index] & 0xff);
 	}
 
+	@Override
 	public int length() {
 		return endPtr - startPtr;
 	}
 
+	@Override
 	public CharSequence subSequence(final int start, final int end) {
 		return new RawCharSequence(buffer, startPtr + start, startPtr + end);
 	}

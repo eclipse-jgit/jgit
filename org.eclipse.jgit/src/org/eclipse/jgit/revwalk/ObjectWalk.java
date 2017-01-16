@@ -243,6 +243,7 @@ public class ObjectWalk extends RevWalk {
 			addObject(o);
 	}
 
+	@Override
 	public void sort(RevSort s) {
 		super.sort(s);
 		boundary = hasRevSort(RevSort.BOUNDARY);

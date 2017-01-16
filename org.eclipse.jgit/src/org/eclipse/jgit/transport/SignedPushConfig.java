@@ -55,6 +55,7 @@ public class SignedPushConfig {
 	/** Key for {@link Config#get(SectionParser)}. */
 	public static final SectionParser<SignedPushConfig> KEY =
 			new SectionParser<SignedPushConfig>() {
+		@Override
 		public SignedPushConfig parse(Config cfg) {
 			return new SignedPushConfig(cfg);
 		}

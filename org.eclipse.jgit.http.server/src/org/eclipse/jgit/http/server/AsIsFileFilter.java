@@ -70,14 +70,17 @@ class AsIsFileFilter implements Filter {
 		this.asIs = getAnyFile;
 	}
 
+	@Override
 	public void init(FilterConfig config) throws ServletException {
 		// Do nothing.
 	}
 
+	@Override
 	public void destroy() {
 		// Do nothing.
 	}
 
+	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) request;

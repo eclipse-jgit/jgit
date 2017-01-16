@@ -59,6 +59,7 @@ import org.eclipse.jgit.internal.storage.pack.PackWriter;
 public interface UploadPackLogger { // TODO remove in JGit 5.0
 	/** A simple no-op logger. */
 	public static final UploadPackLogger NULL = new UploadPackLogger() {
+		@Override
 		public void onPackStatistics(PackWriter.Statistics stats) {
 			// Do nothing.
 		}

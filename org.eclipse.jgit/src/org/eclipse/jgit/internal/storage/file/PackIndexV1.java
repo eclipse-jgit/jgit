@@ -240,6 +240,7 @@ class PackIndexV1 extends PackIndex {
 		@Override
 		protected MutableEntry initEntry() {
 			return new MutableEntry() {
+				@Override
 				protected void ensureId() {
 					idBuffer.fromRaw(idxdata[levelOne], levelTwo
 							- Constants.OBJECT_ID_LENGTH);
@@ -247,6 +248,7 @@ class PackIndexV1 extends PackIndex {
 			};
 		}
 
+		@Override
 		public MutableEntry next() {
 			for (; levelOne < idxdata.length; levelOne++) {
 				if (idxdata[levelOne] == null)

@@ -134,6 +134,7 @@ public class StatusCommand extends GitCommand<Status> {
 	 * @return a {@link Status} object telling about each path where working
 	 *         tree, index or HEAD differ from each other.
 	 */
+	@Override
 	public Status call() throws GitAPIException, NoWorkTreeException {
 		if (workingTreeIt == null)
 			workingTreeIt = new FileTreeIterator(repo);

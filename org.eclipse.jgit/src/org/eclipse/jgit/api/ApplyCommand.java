@@ -109,6 +109,7 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 	 * @throws PatchFormatException
 	 * @throws PatchApplyException
 	 */
+	@Override
 	public ApplyResult call() throws GitAPIException, PatchFormatException,
 			PatchApplyException {
 		checkCallable();

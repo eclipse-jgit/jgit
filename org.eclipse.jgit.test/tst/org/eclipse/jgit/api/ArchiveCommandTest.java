@@ -79,6 +79,7 @@ public class ArchiveCommandTest extends RepositoryTestCase {
 		ArchiveCommand.registerFormat(format.SUFFIXES.get(0), format);
 	}
 
+	@Override
 	@After
 	public void tearDown() {
 		ArchiveCommand.unregisterFormat(format.SUFFIXES.get(0));

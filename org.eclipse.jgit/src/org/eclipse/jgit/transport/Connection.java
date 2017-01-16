@@ -112,6 +112,7 @@ public interface Connection extends AutoCloseable {
 	 * Implementers shouldn't throw checked exceptions. This override narrows
 	 * the signature to prevent them from doing so.
 	 */
+	@Override
 	public void close();
 
 	/**

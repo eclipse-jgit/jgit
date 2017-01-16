@@ -90,24 +90,29 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 				.unmodifiableSet(new LinkedHashSet<String>(Arrays
 						.asList(schemeNames)));
 
+		@Override
 		public String getName() {
 			return JGitText.get().transportProtoSSH;
 		}
 
+		@Override
 		public Set<String> getSchemes() {
 			return schemeSet;
 		}
 
+		@Override
 		public Set<URIishField> getRequiredFields() {
 			return Collections.unmodifiableSet(EnumSet.of(URIishField.HOST,
 					URIishField.PATH));
 		}
 
+		@Override
 		public Set<URIishField> getOptionalFields() {
 			return Collections.unmodifiableSet(EnumSet.of(URIishField.USER,
 					URIishField.PASS, URIishField.PORT));
 		}
 
+		@Override
 		public int getDefaultPort() {
 			return 22;
 		}
@@ -124,6 +129,7 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 			return super.canHandle(uri, local, remoteName);
 		}
 
+		@Override
 		public Transport open(URIish uri, Repository local, String remoteName)
 				throws NotSupportedException {
 			return new TransportGitSsh(local, uri);
@@ -215,6 +221,7 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 	}
 
 	private class ExtSession implements RemoteSession {
+		@Override
 		public Process exec(String command, int timeout)
 				throws TransportException {
 			String ssh = SystemReader.getInstance().getenv("GIT_SSH"); //$NON-NLS-1$
@@ -250,6 +257,7 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 			}
 		}
 
+		@Override
 		public void disconnect() {
 			// Nothing to do
 		}

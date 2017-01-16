@@ -370,6 +370,7 @@ public class BitmapIndexImpl implements BitmapIndex {
 				private int type;
 				private IntIterator cached = dynamic;
 
+				@Override
 				public boolean hasNext() {
 					if (!cached.hasNext()) {
 						if (commits.hasNext()) {
@@ -391,6 +392,7 @@ public class BitmapIndexImpl implements BitmapIndex {
 					return true;
 				}
 
+				@Override
 				public BitmapObject next() {
 					if (!hasNext())
 						throw new NoSuchElementException();
@@ -408,6 +410,7 @@ public class BitmapIndexImpl implements BitmapIndex {
 					return out;
 				}
 
+				@Override
 				public void remove() {
 					throw new UnsupportedOperationException();
 				}

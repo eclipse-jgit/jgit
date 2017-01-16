@@ -217,6 +217,7 @@ class ConfigSnapshot {
 	}
 
 	private static class LineComparator implements Comparator<ConfigLine> {
+		@Override
 		public int compare(ConfigLine a, ConfigLine b) {
 			return compare2(
 					a.section, a.subsection, a.name,
@@ -286,14 +287,17 @@ class ConfigSnapshot {
 		public Iterator<String> iterator() {
 			final Iterator<String> i = names.values().iterator();
 			return new Iterator<String>() {
+				@Override
 				public boolean hasNext() {
 					return i.hasNext();
 				}
 
+				@Override
 				public String next() {
 					return i.next();
 				}
 
+				@Override
 				public void remove() {
 					throw new UnsupportedOperationException();
 				}

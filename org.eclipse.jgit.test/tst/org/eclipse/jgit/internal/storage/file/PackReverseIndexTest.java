@@ -65,6 +65,7 @@ public class PackReverseIndexTest extends RepositoryTestCase {
 	/**
 	 * Set up tested class instance, test constructor by the way.
 	 */
+	@Override
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();

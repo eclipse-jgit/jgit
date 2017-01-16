@@ -560,6 +560,7 @@ public class URIish implements Serializable {
 		return r;
 	}
 
+	@Override
 	public int hashCode() {
 		int hc = 0;
 		if (getScheme() != null)
@@ -577,6 +578,7 @@ public class URIish implements Serializable {
 		return hc;
 	}
 
+	@Override
 	public boolean equals(final Object obj) {
 		if (!(obj instanceof URIish))
 			return false;
@@ -615,6 +617,7 @@ public class URIish implements Serializable {
 		return format(true, false);
 	}
 
+	@Override
 	public String toString() {
 		return format(false, false);
 	}

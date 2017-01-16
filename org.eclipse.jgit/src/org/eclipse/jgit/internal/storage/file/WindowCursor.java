@@ -125,6 +125,7 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 		return null;
 	}
 
+	@Override
 	public Collection<CachedPack> getCachedPacksAndUpdate(
 			BitmapBuilder needBitmap) throws IOException {
 		for (PackFile pack : db.getPacks()) {
@@ -146,10 +147,12 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 		return matches;
 	}
 
+	@Override
 	public boolean has(AnyObjectId objectId) throws IOException {
 		return db.has(objectId);
 	}
 
+	@Override
 	public ObjectLoader open(AnyObjectId objectId, int typeHint)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
@@ -170,6 +173,7 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 		return db.getShallowCommits();
 	}
 
+	@Override
 	public long getObjectSize(AnyObjectId objectId, int typeHint)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
@@ -183,10 +187,12 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 		return sz;
 	}
 
+	@Override
 	public LocalObjectToPack newObjectToPack(AnyObjectId objectId, int type) {
 		return new LocalObjectToPack(objectId, type);
 	}
 
+	@Override
 	public void selectObjectRepresentation(PackWriter packer,
 			ProgressMonitor monitor, Iterable<ObjectToPack> objects)
 			throws IOException, MissingObjectException {
@@ -196,6 +202,7 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 		}
 	}
 
+	@Override
 	public void copyObjectAsIs(PackOutputStream out, ObjectToPack otp,
 			boolean validate) throws IOException,
 			StoredObjectRepresentationNotAvailableException {
@@ -203,6 +210,7 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 		src.pack.copyAsIs(out, src, validate, this);
 	}
 
+	@Override
 	public void writeObjects(PackOutputStream out, List<ObjectToPack> list)
 			throws IOException {
 		for (ObjectToPack otp : list)
@@ -245,6 +253,7 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 		return cnt - need;
 	}
 
+	@Override
 	public void copyPackAsIs(PackOutputStream out, CachedPack pack)
 			throws IOException {
 		((LocalCachedPack) pack).copyAsIs(out, this);

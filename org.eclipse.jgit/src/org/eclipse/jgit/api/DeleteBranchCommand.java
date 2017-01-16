@@ -97,6 +97,7 @@ public class DeleteBranchCommand extends GitCommand<List<String>> {
 	 * @throws CannotDeleteCurrentBranchException
 	 * @return the list with the (full) names of the deleted branches
 	 */
+	@Override
 	public List<String> call() throws GitAPIException,
 			NotMergedException, CannotDeleteCurrentBranchException {
 		checkCallable();

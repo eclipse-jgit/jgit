@@ -91,6 +91,7 @@ class PackWriterBitmapPreparer {
 	private static final int DAY_IN_SECONDS = 24 * 60 * 60;
 
 	private static final Comparator<BitmapBuilderEntry> ORDER_BY_CARDINALITY = new Comparator<BitmapBuilderEntry>() {
+		@Override
 		public int compare(BitmapBuilderEntry a, BitmapBuilderEntry b) {
 			return Integer.signum(a.getBuilder().cardinality()
 					- b.getBuilder().cardinality());
@@ -579,20 +580,24 @@ class PackWriterBitmapPreparer {
 			this.reusedCommits = reuse;
 		}
 
+		@Override
 		public Iterator<RevCommit> iterator() {
 			// Member variables referenced by this iterator will have synthetic
 			// accessors generated for them if they are made private.
 			return new Iterator<RevCommit>() {
 				int pos = commitStartPos;
 
+				@Override
 				public boolean hasNext() {
 					return pos < commitsByOldest.length;
 				}
 
+				@Override
 				public RevCommit next() {
 					return commitsByOldest[pos++];
 				}
 
+				@Override
 				public void remove() {
 					throw new UnsupportedOperationException();
 				}
