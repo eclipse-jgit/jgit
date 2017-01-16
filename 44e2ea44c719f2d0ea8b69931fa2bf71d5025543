@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_759042d0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/FilterCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-01-16T05:33:18Z",
+      "side": 1,
+      "message": "nit: missing period",
+      "revId": "44e2ea44c719f2d0ea8b69931fa2bf71d5025543",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_958b1ea6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/FilterCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-01-16T05:33:18Z",
+      "side": 1,
+      "message": "and here",
+      "revId": "44e2ea44c719f2d0ea8b69931fa2bf71d5025543",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
