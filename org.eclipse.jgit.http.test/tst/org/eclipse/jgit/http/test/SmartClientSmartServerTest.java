@@ -112,6 +112,7 @@ import org.eclipse.jgit.transport.http.JDKHttpConnectionFactory;
 import org.eclipse.jgit.transport.http.apache.HttpClientConnectionFactory;
 import org.eclipse.jgit.transport.resolver.RepositoryResolver;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
+import org.eclipse.jgit.util.HttpSupport;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -127,6 +128,8 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 	private URIish remoteURI;
 
 	private URIish brokenURI;
+
+	private URIish redirectURI;
 
 	private RevBlob A_txt;
 
@@ -155,13 +158,41 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 				.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
 						ConfigConstants.CONFIG_KEY_LOGALLREFUPDATES, true);
 
-		ServletContextHandler app = server.addContext("/git");
 		GitServlet gs = new GitServlet();
+
+		ServletContextHandler app = addNormalContext(gs, src, srcName);
+
+		ServletContextHandler broken = addBrokenContext(gs, src, srcName);
+
+		ServletContextHandler redirect = addRedirectContext(gs, src, srcName);
+
+		server.setUp();
+
+		remoteRepository = src.getRepository();
+		remoteURI = toURIish(app, srcName);
+		brokenURI = toURIish(broken, srcName);
+		redirectURI = toURIish(redirect, srcName);
+
+		A_txt = src.blob("A");
+		A = src.commit().add("A_txt", A_txt).create();
+		B = src.commit().parent(A).add("A_txt", "C").add("B", "B").create();
+		src.update(master, B);
+
+		src.update("refs/garbage/a/very/long/ref/name/to/compress", B);
+	}
+
+	private ServletContextHandler addNormalContext(GitServlet gs, TestRepository<Repository> src, String srcName) {
+		ServletContextHandler app = server.addContext("/git");
 		gs.setRepositoryResolver(new TestRepoResolver(src, srcName));
 		app.addServlet(new ServletHolder(gs), "/*");
+		return app;
+	}
 
+	@SuppressWarnings("unused")
+	private ServletContextHandler addBrokenContext(GitServlet gs, TestRepository<Repository> src, String srcName) {
 		ServletContextHandler broken = server.addContext("/bad");
 		broken.addFilter(new FilterHolder(new Filter() {
+
 			public void doFilter(ServletRequest request,
 					ServletResponse response, FilterChain chain)
 					throws IOException, ServletException {
@@ -173,29 +204,56 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 				w.close();
 			}
 
-			public void init(FilterConfig filterConfig) throws ServletException {
-				//
+			public void init(FilterConfig filterConfig)
+					throws ServletException {
+				// empty
 			}
 
 			public void destroy() {
-				//
+				// empty
 			}
 		}), "/" + srcName + "/git-upload-pack",
 				EnumSet.of(DispatcherType.REQUEST));
 		broken.addServlet(new ServletHolder(gs), "/*");
+		return broken;
+	}
 
-		server.setUp();
+	@SuppressWarnings("unused")
+	private ServletContextHandler addRedirectContext(GitServlet gs,
+			TestRepository<Repository> src, String srcName) {
+		ServletContextHandler redirect = server.addContext("/redirect");
+		redirect.addFilter(new FilterHolder(new Filter() {
 
-		remoteRepository = src.getRepository();
-		remoteURI = toURIish(app, srcName);
-		brokenURI = toURIish(broken, srcName);
+			@Override
+			public void init(FilterConfig filterConfig)
+					throws ServletException {
+				// empty
+			}
 
-		A_txt = src.blob("A");
-		A = src.commit().add("A_txt", A_txt).create();
-		B = src.commit().parent(A).add("A_txt", "C").add("B", "B").create();
-		src.update(master, B);
+			@Override
+			public void doFilter(ServletRequest request,
+					ServletResponse response, FilterChain chain)
+					throws IOException, ServletException {
+				final HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+				final HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+				final StringBuffer fullUrl = httpServletRequest.getRequestURL();
+				if (httpServletRequest.getQueryString() != null) {
+					fullUrl.append("?")
+							.append(httpServletRequest.getQueryString());
+				}
+				httpServletResponse
+						.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+				httpServletResponse.setHeader(HttpSupport.HDR_LOCATION,
+						fullUrl.toString().replace("/redirect", "/git"));
+			}
 
-		src.update("refs/garbage/a/very/long/ref/name/to/compress", B);
+			@Override
+			public void destroy() {
+				// empty
+			}
+		}), "/*", EnumSet.of(DispatcherType.REQUEST));
+		redirect.addServlet(new ServletHolder(gs), "/*");
+		return redirect;
 	}
 
 	@Test
@@ -309,6 +367,52 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		assertEquals(200, service.getStatus());
 		assertEquals("application/x-git-upload-pack-result", service
 				.getResponseHeader(HDR_CONTENT_TYPE));
+	}
+
+	@Test
+	public void testInitialClone_RedirectSmall() throws Exception {
+		Repository dst = createBareRepository();
+		assertFalse(dst.hasObject(A_txt));
+
+		try (Transport t = Transport.open(dst, redirectURI)) {
+			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
+		}
+
+		assertTrue(dst.hasObject(A_txt));
+		assertEquals(B, dst.exactRef(master).getObjectId());
+		fsck(dst, B);
+
+		List<AccessEvent> requests = getRequests();
+		assertEquals(4, requests.size());
+
+		AccessEvent firstRedirect = requests.get(0);
+		assertEquals(301, firstRedirect.getStatus());
+
+		AccessEvent info = requests.get(1);
+		assertEquals("GET", info.getMethod());
+		assertEquals(join(remoteURI, "info/refs"), info.getPath());
+		assertEquals(1, info.getParameters().size());
+		assertEquals("git-upload-pack", info.getParameter("service"));
+		assertEquals(200, info.getStatus());
+		assertEquals("application/x-git-upload-pack-advertisement",
+				info.getResponseHeader(HDR_CONTENT_TYPE));
+		assertEquals("gzip", info.getResponseHeader(HDR_CONTENT_ENCODING));
+
+		AccessEvent secondRedirect = requests.get(2);
+		assertEquals(301, secondRedirect.getStatus());
+
+		AccessEvent service = requests.get(3);
+		assertEquals("POST", service.getMethod());
+		assertEquals(join(remoteURI, "git-upload-pack"), service.getPath());
+		assertEquals(0, service.getParameters().size());
+		assertNotNull("has content-length",
+				service.getRequestHeader(HDR_CONTENT_LENGTH));
+		assertNull("not chunked",
+				service.getRequestHeader(HDR_TRANSFER_ENCODING));
+
+		assertEquals(200, service.getStatus());
+		assertEquals("application/x-git-upload-pack-result",
+				service.getResponseHeader(HDR_CONTENT_TYPE));
 	}
 
 	@Test
