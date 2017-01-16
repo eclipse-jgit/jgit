@@ -100,20 +100,24 @@ public class RefList<T extends Ref> implements Iterable<Ref> {
 		this.cnt = src.cnt;
 	}
 
+	@Override
 	public Iterator<Ref> iterator() {
 		return new Iterator<Ref>() {
 			private int idx;
 
+			@Override
 			public boolean hasNext() {
 				return idx < cnt;
 			}
 
+			@Override
 			public Ref next() {
 				if (idx < cnt)
 					return list[idx++];
 				throw new NoSuchElementException();
 			}
 
+			@Override
 			public void remove() {
 				throw new UnsupportedOperationException();
 			}

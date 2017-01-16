@@ -68,6 +68,7 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 
 	private OpenSshConfig osc;
 
+	@Override
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();

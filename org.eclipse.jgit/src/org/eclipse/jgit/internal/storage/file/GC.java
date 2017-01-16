@@ -785,6 +785,7 @@ public class GC {
 		File tmpPack = null;
 		Map<PackExt, File> tmpExts = new TreeMap<PackExt, File>(
 				new Comparator<PackExt>() {
+					@Override
 					public int compare(PackExt o1, PackExt o2) {
 						// INDEX entries must be returned last, so the pack
 						// scanner does pick up the new pack until all the
@@ -976,6 +977,7 @@ public class GC {
 		 */
 		public long numberOfBitmaps;
 
+		@Override
 		public String toString() {
 			final StringBuilder b = new StringBuilder();
 			b.append("numberOfPackedObjects=").append(numberOfPackedObjects); //$NON-NLS-1$
@@ -1211,6 +1213,7 @@ public class GC {
 		try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir,
 				new DirectoryStream.Filter<Path>() {
 
+					@Override
 					public boolean accept(Path file) throws IOException {
 						Path fileName = file.getFileName();
 						return Files.isRegularFile(file) && fileName != null

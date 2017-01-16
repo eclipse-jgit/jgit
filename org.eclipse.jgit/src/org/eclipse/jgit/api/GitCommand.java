@@ -126,5 +126,6 @@ public abstract class GitCommand<T> implements Callable<T> {
 	 * @throws GitAPIException
 	 *             or subclass thereof when an error occurs
 	 */
+	@Override
 	public abstract T call() throws GitAPIException;
 }

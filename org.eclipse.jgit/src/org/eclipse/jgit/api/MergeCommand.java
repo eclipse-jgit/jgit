@@ -133,10 +133,12 @@ public class MergeCommand extends GitCommand<MergeResult> {
 		 */
 		FF_ONLY;
 
+		@Override
 		public String toConfigValue() {
 			return "--" + name().toLowerCase().replace('_', '-'); //$NON-NLS-1$
 		}
 
+		@Override
 		public boolean matchConfigValue(String in) {
 			if (StringUtils.isEmptyOrNull(in))
 				return false;
@@ -220,6 +222,7 @@ public class MergeCommand extends GitCommand<MergeResult> {
 	 *
 	 * @return the result of the merge
 	 */
+	@Override
 	@SuppressWarnings("boxing")
 	public MergeResult call() throws GitAPIException, NoHeadException,
 			ConcurrentRefUpdateException, CheckoutConflictException,

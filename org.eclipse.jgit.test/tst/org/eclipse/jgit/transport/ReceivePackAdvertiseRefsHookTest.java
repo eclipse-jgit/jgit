@@ -556,6 +556,7 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 	}
 
 	private static final class HidePrivateHook extends AbstractAdvertiseRefsHook {
+		@Override
 		public Map<String, Ref> getAdvertisedRefs(Repository r, RevWalk revWalk) {
 			Map<String, Ref> refs = new HashMap<String, Ref>(r.getAllRefs());
 			assertNotNull(refs.remove(R_PRIVATE));

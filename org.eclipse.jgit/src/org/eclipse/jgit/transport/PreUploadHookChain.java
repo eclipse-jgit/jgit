@@ -79,6 +79,7 @@ public class PreUploadHookChain implements PreUploadHook {
 			return new PreUploadHookChain(newHooks, i);
 	}
 
+	@Override
 	public void onBeginNegotiateRound(UploadPack up,
 			Collection<? extends ObjectId> wants, int cntOffered)
 			throws ServiceMayNotContinueException {
@@ -86,6 +87,7 @@ public class PreUploadHookChain implements PreUploadHook {
 			hooks[i].onBeginNegotiateRound(up, wants, cntOffered);
 	}
 
+	@Override
 	public void onEndNegotiateRound(UploadPack up,
 			Collection<? extends ObjectId> wants, int cntCommon,
 			int cntNotFound, boolean ready)
@@ -94,6 +96,7 @@ public class PreUploadHookChain implements PreUploadHook {
 			hooks[i].onEndNegotiateRound(up, wants, cntCommon, cntNotFound, ready);
 	}
 
+	@Override
 	public void onSendPack(UploadPack up,
 			Collection<? extends ObjectId> wants,
 			Collection<? extends ObjectId> haves)

@@ -59,6 +59,7 @@ import org.eclipse.jgit.lib.Ref;
 public interface RefFilter {
 	/** The default filter, allows all refs to be shown. */
 	public static final RefFilter DEFAULT = new RefFilter() {
+		@Override
 		public Map<String, Ref> filter (final Map<String, Ref> refs) {
 			return refs;
 		}

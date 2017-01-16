@@ -74,6 +74,7 @@ public class ShowNoteCommand extends GitCommand<Note> {
 		super(repo);
 	}
 
+	@Override
 	public Note call() throws GitAPIException {
 		checkCallable();
 		NoteMap map = NoteMap.newEmptyMap();

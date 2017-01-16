@@ -194,6 +194,7 @@ public class RefDirectory extends RefDatabase {
 		return logWriter;
 	}
 
+	@Override
 	public void create() throws IOException {
 		FileUtils.mkdir(refsDir);
 		FileUtils.mkdir(new File(refsDir, R_HEADS.substring(R_REFS.length())));
@@ -534,6 +535,7 @@ public class RefDirectory extends RefDatabase {
 		fireRefsChanged();
 	}
 
+	@Override
 	public RefDirectoryUpdate newUpdate(String name, boolean detach)
 			throws IOException {
 		boolean detachingSymbolicRef = false;
@@ -1125,10 +1127,12 @@ public class RefDirectory extends RefDatabase {
 			this.snapShot = snapshot;
 		}
 
+		@Override
 		public FileSnapshot getSnapShot() {
 			return snapShot;
 		}
 
+		@Override
 		public LooseRef peel(ObjectIdRef newLeaf) {
 			return this;
 		}
@@ -1144,10 +1148,12 @@ public class RefDirectory extends RefDatabase {
 			this.snapShot = snapshot;
 		}
 
+		@Override
 		public FileSnapshot getSnapShot() {
 			return snapShot;
 		}
 
+		@Override
 		public LooseRef peel(ObjectIdRef newLeaf) {
 			return this;
 		}
@@ -1163,6 +1169,7 @@ public class RefDirectory extends RefDatabase {
 			this.snapShot = snapShot;
 		}
 
+		@Override
 		public FileSnapshot getSnapShot() {
 			return snapShot;
 		}
@@ -1175,6 +1182,7 @@ public class RefDirectory extends RefDatabase {
 			return id;
 		}
 
+		@Override
 		public LooseRef peel(ObjectIdRef newLeaf) {
 			ObjectId peeledObjectId = newLeaf.getPeeledObjectId();
 			ObjectId objectId = getObjectId();
@@ -1198,10 +1206,12 @@ public class RefDirectory extends RefDatabase {
 			this.snapShot = snapshot;
 		}
 
+		@Override
 		public FileSnapshot getSnapShot() {
 			return snapShot;
 		}
 
+		@Override
 		public LooseRef peel(ObjectIdRef newLeaf) {
 			// We should never try to peel the symbolic references.
 			throw new UnsupportedOperationException();

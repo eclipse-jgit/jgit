@@ -74,6 +74,7 @@ class TransportBundleFile extends Transport implements TransportBundle {
 			return JGitText.get().transportProtoBundleFile;
 		}
 
+		@Override
 		public Set<String> getSchemes() {
 			return schemeSet;
 		}
@@ -106,6 +107,7 @@ class TransportBundleFile extends Transport implements TransportBundle {
 			return TransportLocal.PROTO_LOCAL.open(uri, local, remoteName);
 		}
 
+		@Override
 		public Transport open(URIish uri) throws NotSupportedException,
 				TransportException {
 			if ("bundle".equals(uri.getScheme())) { //$NON-NLS-1$

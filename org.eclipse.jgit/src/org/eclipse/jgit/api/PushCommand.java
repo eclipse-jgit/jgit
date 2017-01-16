@@ -119,6 +119,7 @@ public class PushCommand extends
 	 *             when an error occurs with the transport
 	 * @throws GitAPIException
 	 */
+	@Override
 	public Iterable<PushResult> call() throws GitAPIException,
 			InvalidRemoteException,
 			org.eclipse.jgit.api.errors.TransportException {

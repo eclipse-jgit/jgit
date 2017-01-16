@@ -66,6 +66,7 @@ public class InterIndexDiffFilterTest extends LocalDiskRepositoryTestCase {
 
 	private Repository db;
 
+	@Override
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();

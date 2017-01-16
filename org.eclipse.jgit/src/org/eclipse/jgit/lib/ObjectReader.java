@@ -286,6 +286,7 @@ public abstract class ObjectReader implements AutoCloseable {
 		return new AsyncObjectLoaderQueue<T>() {
 			private T cur;
 
+			@Override
 			public boolean next() throws MissingObjectException, IOException {
 				if (idItr.hasNext()) {
 					cur = idItr.next();
@@ -295,22 +296,27 @@ public abstract class ObjectReader implements AutoCloseable {
 				}
 			}
 
+			@Override
 			public T getCurrent() {
 				return cur;
 			}
 
+			@Override
 			public ObjectId getObjectId() {
 				return cur;
 			}
 
+			@Override
 			public ObjectLoader open() throws IOException {
 				return ObjectReader.this.open(cur, OBJ_ANY);
 			}
 
+			@Override
 			public boolean cancel(boolean mayInterruptIfRunning) {
 				return true;
 			}
 
+			@Override
 			public void release() {
 				// Since we are sequential by default, we don't
 				// have any state to clean up if we terminate early.
@@ -370,6 +376,7 @@ public abstract class ObjectReader implements AutoCloseable {
 
 			private long sz;
 
+			@Override
 			public boolean next() throws MissingObjectException, IOException {
 				if (idItr.hasNext()) {
 					cur = idItr.next();
@@ -380,22 +387,27 @@ public abstract class ObjectReader implements AutoCloseable {
 				}
 			}
 
+			@Override
 			public T getCurrent() {
 				return cur;
 			}
 
+			@Override
 			public ObjectId getObjectId() {
 				return cur;
 			}
 
+			@Override
 			public long getSize() {
 				return sz;
 			}
 
+			@Override
 			public boolean cancel(boolean mayInterruptIfRunning) {
 				return true;
 			}
 
+			@Override
 			public void release() {
 				// Since we are sequential by default, we don't
 				// have any state to clean up if we terminate early.

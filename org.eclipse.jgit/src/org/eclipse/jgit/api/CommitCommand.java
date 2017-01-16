@@ -168,6 +168,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	 *             if there are either pre-commit or commit-msg hooks present in
 	 *             the repository and one of them rejects the commit.
 	 */
+	@Override
 	public RevCommit call() throws GitAPIException, NoHeadException,
 			NoMessageException, UnmergedPathsException,
 			ConcurrentRefUpdateException, WrongRepositoryStateException,

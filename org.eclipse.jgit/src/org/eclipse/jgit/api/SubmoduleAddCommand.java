@@ -149,6 +149,7 @@ public class SubmoduleAddCommand extends
 	 * @return the newly created {@link Repository}
 	 * @throws GitAPIException
 	 */
+	@Override
 	public Repository call() throws GitAPIException {
 		checkCallable();
 		if (path == null || path.length() == 0)

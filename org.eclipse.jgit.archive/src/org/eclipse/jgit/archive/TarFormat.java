@@ -67,6 +67,7 @@ public final class TarFormat extends BaseFormat implements
 	private static final List<String> SUFFIXES = Collections
 			.unmodifiableList(Arrays.asList(".tar")); //$NON-NLS-1$
 
+	@Override
 	public ArchiveOutputStream createArchiveOutputStream(OutputStream s)
 			throws IOException {
 		return createArchiveOutputStream(s,
@@ -76,6 +77,7 @@ public final class TarFormat extends BaseFormat implements
 	/**
 	 * @since 4.0
 	 */
+	@Override
 	public ArchiveOutputStream createArchiveOutputStream(OutputStream s,
 			Map<String, Object> o) throws IOException {
 		TarArchiveOutputStream out = new TarArchiveOutputStream(s, "UTF-8"); //$NON-NLS-1$
@@ -84,6 +86,7 @@ public final class TarFormat extends BaseFormat implements
 		return applyFormatOptions(out, o);
 	}
 
+	@Override
 	public void putEntry(ArchiveOutputStream out,
 			String path, FileMode mode, ObjectLoader loader)
 			throws IOException {
@@ -127,6 +130,7 @@ public final class TarFormat extends BaseFormat implements
 		out.closeArchiveEntry();
 	}
 
+	@Override
 	public Iterable<String> suffixes() {
 		return SUFFIXES;
 	}

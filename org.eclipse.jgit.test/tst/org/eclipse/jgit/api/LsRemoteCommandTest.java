@@ -58,6 +58,7 @@ public class LsRemoteCommandTest extends RepositoryTestCase {
 
 	private Git git;
 
+	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 		git = new Git(db);

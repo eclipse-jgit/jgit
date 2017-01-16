@@ -421,6 +421,7 @@ public class DeltaIndex {
 		return start - resPtr;
 	}
 
+	@Override
 	@SuppressWarnings("nls")
 	public String toString() {
 		String[] units = { "bytes", "KiB", "MiB", "GiB" };

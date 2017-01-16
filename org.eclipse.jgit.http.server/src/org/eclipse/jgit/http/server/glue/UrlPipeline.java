@@ -121,26 +121,32 @@ abstract class UrlPipeline {
 			throws ServletException {
 		if (!inited.contains(ref)) {
 			ref.init(new ServletConfig() {
+				@Override
 				public String getInitParameter(String name) {
 					return null;
 				}
 
+				@Override
 				public Enumeration<String> getInitParameterNames() {
 					return new Enumeration<String>() {
+						@Override
 						public boolean hasMoreElements() {
 							return false;
 						}
 
+						@Override
 						public String nextElement() {
 							throw new NoSuchElementException();
 						}
 					};
 				}
 
+				@Override
 				public ServletContext getServletContext() {
 					return context;
 				}
 
+				@Override
 				public String getServletName() {
 					return ref.getClass().getName();
 				}
@@ -229,6 +235,7 @@ abstract class UrlPipeline {
 			this.servlet = servlet;
 		}
 
+		@Override
 		public void doFilter(ServletRequest req, ServletResponse rsp)
 				throws IOException, ServletException {
 			if (filterIdx < filters.length)

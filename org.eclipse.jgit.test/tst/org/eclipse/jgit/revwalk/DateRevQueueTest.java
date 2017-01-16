@@ -50,10 +50,12 @@ import static org.junit.Assert.assertNull;
 import org.junit.Test;
 
 public class DateRevQueueTest extends RevQueueTestCase<DateRevQueue> {
+	@Override
 	protected DateRevQueue create() {
 		return new DateRevQueue();
 	}
 
+	@Override
 	@Test
 	public void testEmpty() throws Exception {
 		super.testEmpty();

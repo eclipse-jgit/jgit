@@ -196,6 +196,7 @@ public class CheckoutCommand extends GitCommand<Ref> {
 	 *             if the checkout results in a conflict
 	 * @return the newly created branch
 	 */
+	@Override
 	public Ref call() throws GitAPIException, RefAlreadyExistsException,
 			RefNotFoundException, InvalidRefNameException,
 			CheckoutConflictException {
@@ -455,6 +456,7 @@ public class CheckoutCommand extends GitCommand<Ref> {
 			final String filterCommand = treeWalk
 					.getFilterCommand(Constants.ATTR_FILTER_TYPE_SMUDGE);
 			editor.add(new PathEdit(path) {
+				@Override
 				public void apply(DirCacheEntry ent) {
 					int stage = ent.getStage();
 					if (stage > DirCacheEntry.STAGE_0) {
@@ -491,6 +493,7 @@ public class CheckoutCommand extends GitCommand<Ref> {
 			final String filterCommand = treeWalk
 					.getFilterCommand(Constants.ATTR_FILTER_TYPE_SMUDGE);
 			editor.add(new PathEdit(treeWalk.getPathString()) {
+				@Override
 				public void apply(DirCacheEntry ent) {
 					ent.setObjectId(blobId);
 					ent.setFileMode(mode);

@@ -57,12 +57,14 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * @since 2.0
  */
 public abstract class AbstractAdvertiseRefsHook implements AdvertiseRefsHook {
+	@Override
 	public void advertiseRefs(UploadPack uploadPack)
 			throws ServiceMayNotContinueException {
 		uploadPack.setAdvertisedRefs(getAdvertisedRefs(
 				uploadPack.getRepository(), uploadPack.getRevWalk()));
 	}
 
+	@Override
 	public void advertiseRefs(BaseReceivePack receivePack)
 			throws ServiceMayNotContinueException {
 		Map<String, Ref> refs = getAdvertisedRefs(receivePack.getRepository(),

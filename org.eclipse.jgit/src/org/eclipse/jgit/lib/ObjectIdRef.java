@@ -67,11 +67,13 @@ public abstract class ObjectIdRef implements Ref {
 			super(st, name, id);
 		}
 
+		@Override
 		@Nullable
 		public ObjectId getPeeledObjectId() {
 			return null;
 		}
 
+		@Override
 		public boolean isPeeled() {
 			return false;
 		}
@@ -99,11 +101,13 @@ public abstract class ObjectIdRef implements Ref {
 			peeledObjectId = p;
 		}
 
+		@Override
 		@NonNull
 		public ObjectId getPeeledObjectId() {
 			return peeledObjectId;
 		}
 
+		@Override
 		public boolean isPeeled() {
 			return true;
 		}
@@ -127,11 +131,13 @@ public abstract class ObjectIdRef implements Ref {
 			super(st, name, id);
 		}
 
+		@Override
 		@Nullable
 		public ObjectId getPeeledObjectId() {
 			return null;
 		}
 
+		@Override
 		public boolean isPeeled() {
 			return true;
 		}
@@ -161,30 +167,36 @@ public abstract class ObjectIdRef implements Ref {
 		this.objectId = id;
 	}
 
+	@Override
 	@NonNull
 	public String getName() {
 		return name;
 	}
 
+	@Override
 	public boolean isSymbolic() {
 		return false;
 	}
 
+	@Override
 	@NonNull
 	public Ref getLeaf() {
 		return this;
 	}
 
+	@Override
 	@NonNull
 	public Ref getTarget() {
 		return this;
 	}
 
+	@Override
 	@Nullable
 	public ObjectId getObjectId() {
 		return objectId;
 	}
 
+	@Override
 	@NonNull
 	public Storage getStorage() {
 		return storage;

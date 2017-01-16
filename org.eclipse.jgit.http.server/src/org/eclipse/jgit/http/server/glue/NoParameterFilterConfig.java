@@ -59,26 +59,32 @@ final class NoParameterFilterConfig implements FilterConfig {
 		this.context = context;
 	}
 
+	@Override
 	public String getInitParameter(String name) {
 		return null;
 	}
 
+	@Override
 	public Enumeration<String> getInitParameterNames() {
 		return new Enumeration<String>() {
+			@Override
 			public boolean hasMoreElements() {
 				return false;
 			}
 
+			@Override
 			public String nextElement() {
 				throw new NoSuchElementException();
 			}
 		};
 	}
 
+	@Override
 	public ServletContext getServletContext() {
 		return context;
 	}
 
+	@Override
 	public String getFilterName() {
 		return filterName;
 	}

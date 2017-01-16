@@ -80,6 +80,7 @@ public class DeleteTagCommand extends GitCommand<List<String>> {
 	/**
 	 * @return the list with the full names of the deleted tags
 	 */
+	@Override
 	public List<String> call() throws GitAPIException {
 		checkCallable();
 		List<String> result = new ArrayList<String>();

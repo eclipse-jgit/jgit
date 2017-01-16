@@ -72,6 +72,7 @@ public class NLS {
 	public static final Locale ROOT_LOCALE = new Locale("", "", ""); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 	private static final InheritableThreadLocal<NLS> local = new InheritableThreadLocal<NLS>() {
+		@Override
 		protected NLS initialValue() {
 			return new NLS(Locale.getDefault());
 		}

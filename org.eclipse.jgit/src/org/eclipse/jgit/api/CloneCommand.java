@@ -127,6 +127,7 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	 * @throws org.eclipse.jgit.api.errors.TransportException
 	 * @throws GitAPIException
 	 */
+	@Override
 	public Git call() throws GitAPIException, InvalidRemoteException,
 			org.eclipse.jgit.api.errors.TransportException {
 		Repository repository = null;

@@ -78,6 +78,7 @@ public class ArchiveCommandTest extends RepositoryTestCase {
 		ArchiveCommand.registerFormat(format.SUFFIXES.get(0), format);
 	}
 
+	@Override
 	@After
 	public void tearDown() {
 		ArchiveCommand.unregisterFormat(format.SUFFIXES.get(0));
@@ -203,12 +204,14 @@ public class ArchiveCommandTest extends RepositoryTestCase {
 		private final List<String> SUFFIXES = Collections
 				.unmodifiableList(Arrays.asList(".mck"));
 
+		@Override
 		public MockOutputStream createArchiveOutputStream(OutputStream s)
 				throws IOException {
 			return createArchiveOutputStream(s,
 					Collections.<String, Object> emptyMap());
 		}
 
+		@Override
 		public MockOutputStream createArchiveOutputStream(OutputStream s,
 				Map<String, Object> o) throws IOException {
 			for (Map.Entry<String, Object> p : o.entrySet()) {
@@ -224,11 +227,13 @@ public class ArchiveCommandTest extends RepositoryTestCase {
 			return new MockOutputStream();
 		}
 
+		@Override
 		public void putEntry(MockOutputStream out, String path, FileMode mode, ObjectLoader loader) {
 			String content = mode != FileMode.TREE ? new String(loader.getBytes()) : null;
 			entries.put(path, content);
 		}
 
+		@Override
 		public Iterable<String> suffixes() {
 			return SUFFIXES;
 		}

@@ -131,6 +131,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 
 	private RevCommit c5;
 
+	@Override
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
@@ -143,6 +144,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		write(alt, db.getObjectDatabase().getDirectory().getAbsolutePath() + "\n");
 	}
 
+	@Override
 	@After
 	public void tearDown() throws Exception {
 		if (writer != null) {
@@ -876,6 +878,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 			entries.add(me.cloneEntry());
 		}
 		Collections.sort(entries, new Comparator<PackIndex.MutableEntry>() {
+			@Override
 			public int compare(MutableEntry o1, MutableEntry o2) {
 				return Long.signum(o1.getOffset() - o2.getOffset());
 			}

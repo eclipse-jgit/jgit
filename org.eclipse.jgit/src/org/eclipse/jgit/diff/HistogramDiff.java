@@ -130,6 +130,7 @@ public class HistogramDiff extends LowLevelDiffAlgorithm {
 		maxChainLength = maxLen;
 	}
 
+	@Override
 	public <S extends Sequence> void diffNonCommon(EditList edits,
 			HashedSequenceComparator<S> cmp, HashedSequence<S> a,
 			HashedSequence<S> b, Edit region) {
