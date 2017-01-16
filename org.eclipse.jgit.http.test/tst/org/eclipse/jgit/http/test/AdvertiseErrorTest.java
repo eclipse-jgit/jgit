@@ -80,6 +80,7 @@ public class AdvertiseErrorTest extends HttpTestCase {
 
 	private URIish remoteURI;
 
+	@Override
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
@@ -90,6 +91,7 @@ public class AdvertiseErrorTest extends HttpTestCase {
 		ServletContextHandler app = server.addContext("/git");
 		GitServlet gs = new GitServlet();
 		gs.setRepositoryResolver(new RepositoryResolver<HttpServletRequest>() {
+			@Override
 			public Repository open(HttpServletRequest req, String name)
 					throws RepositoryNotFoundException,
 					ServiceNotEnabledException {
@@ -102,6 +104,7 @@ public class AdvertiseErrorTest extends HttpTestCase {
 			}
 		});
 		gs.setReceivePackFactory(new DefaultReceivePackFactory() {
+			@Override
 			public ReceivePack create(HttpServletRequest req, Repository db)
 					throws ServiceNotEnabledException,
 					ServiceNotAuthorizedException {

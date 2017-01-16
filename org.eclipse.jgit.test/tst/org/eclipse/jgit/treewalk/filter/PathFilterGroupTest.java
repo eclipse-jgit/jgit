@@ -259,6 +259,7 @@ public class PathFilterGroupTest {
 		DirCacheEditor dce = dc.editor();
 		dce.add(new DirCacheEditor.PathEdit(path) {
 
+			@Override
 			public void apply(DirCacheEntry ent) {
 				ent.setFileMode(FileMode.REGULAR_FILE);
 			}
@@ -277,6 +278,7 @@ public class PathFilterGroupTest {
 		DirCache dc = DirCache.newInCore();
 		DirCacheEditor dce = dc.editor();
 		dce.add(new DirCacheEditor.PathEdit(path + "/README") {
+			@Override
 			public void apply(DirCacheEntry ent) {
 				ent.setFileMode(FileMode.REGULAR_FILE);
 			}

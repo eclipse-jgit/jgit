@@ -84,6 +84,7 @@ public class ProtocolErrorTest extends HttpTestCase {
 
 	private RevBlob a_blob;
 
+	@Override
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
@@ -94,6 +95,7 @@ public class ProtocolErrorTest extends HttpTestCase {
 		ServletContextHandler app = server.addContext("/git");
 		GitServlet gs = new GitServlet();
 		gs.setRepositoryResolver(new RepositoryResolver<HttpServletRequest>() {
+			@Override
 			public Repository open(HttpServletRequest req, String name)
 					throws RepositoryNotFoundException,
 					ServiceNotEnabledException {

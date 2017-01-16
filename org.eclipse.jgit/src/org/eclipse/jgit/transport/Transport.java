@@ -1447,5 +1447,6 @@ public abstract class Transport implements AutoCloseable {
 	 * Implementers shouldn't throw checked exceptions. This override narrows
 	 * the signature to prevent them from doing so.
 	 */
+	@Override
 	public abstract void close();
 }

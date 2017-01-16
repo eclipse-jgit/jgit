@@ -55,6 +55,7 @@ import org.eclipse.jgit.transport.ReceivePack;
 public interface ReceivePackFactory<C> {
 	/** A factory disabling the ReceivePack service for all repositories */
 	public static final ReceivePackFactory<?> DISABLED = new ReceivePackFactory<Object>() {
+		@Override
 		public ReceivePack create(Object req, Repository db)
 				throws ServiceNotEnabledException {
 			throw new ServiceNotEnabledException();

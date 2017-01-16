@@ -94,95 +94,118 @@ public class JDKHttpConnection implements HttpConnection {
 				.openConnection(proxy);
 	}
 
+	@Override
 	public int getResponseCode() throws IOException {
 		return wrappedUrlConnection.getResponseCode();
 	}
 
+	@Override
 	public URL getURL() {
 		return wrappedUrlConnection.getURL();
 	}
 
+	@Override
 	public String getResponseMessage() throws IOException {
 		return wrappedUrlConnection.getResponseMessage();
 	}
 
+	@Override
 	public Map<String, List<String>> getHeaderFields() {
 		return wrappedUrlConnection.getHeaderFields();
 	}
 
+	@Override
 	public void setRequestProperty(String key, String value) {
 		wrappedUrlConnection.setRequestProperty(key, value);
 	}
 
+	@Override
 	public void setRequestMethod(String method) throws ProtocolException {
 		wrappedUrlConnection.setRequestMethod(method);
 	}
 
+	@Override
 	public void setUseCaches(boolean usecaches) {
 		wrappedUrlConnection.setUseCaches(usecaches);
 	}
 
+	@Override
 	public void setConnectTimeout(int timeout) {
 		wrappedUrlConnection.setConnectTimeout(timeout);
 	}
 
+	@Override
 	public void setReadTimeout(int timeout) {
 		wrappedUrlConnection.setReadTimeout(timeout);
 	}
 
+	@Override
 	public String getContentType() {
 		return wrappedUrlConnection.getContentType();
 	}
 
+	@Override
 	public InputStream getInputStream() throws IOException {
 		return wrappedUrlConnection.getInputStream();
 	}
 
+	@Override
 	public String getHeaderField(String name) {
 		return wrappedUrlConnection.getHeaderField(name);
 	}
 
+	@Override
 	public int getContentLength() {
 		return wrappedUrlConnection.getContentLength();
 	}
 
+	@Override
 	public void setInstanceFollowRedirects(boolean followRedirects) {
 		wrappedUrlConnection.setInstanceFollowRedirects(followRedirects);
 	}
 
+	@Override
 	public void setDoOutput(boolean dooutput) {
 		wrappedUrlConnection.setDoOutput(dooutput);
 	}
 
+	@Override
 	public void setFixedLengthStreamingMode(int contentLength) {
 		wrappedUrlConnection.setFixedLengthStreamingMode(contentLength);
 	}
 
+	@Override
 	public OutputStream getOutputStream() throws IOException {
 		return wrappedUrlConnection.getOutputStream();
 	}
 
+	@Override
 	public void setChunkedStreamingMode(int chunklen) {
 		wrappedUrlConnection.setChunkedStreamingMode(chunklen);
 	}
 
+	@Override
 	public String getRequestMethod() {
 		return wrappedUrlConnection.getRequestMethod();
 	}
 
+	@Override
 	public boolean usingProxy() {
 		return wrappedUrlConnection.usingProxy();
 	}
 
+	@Override
 	public void connect() throws IOException {
 		wrappedUrlConnection.connect();
 	}
 
+	@Override
 	public void setHostnameVerifier(HostnameVerifier hostnameverifier) {
 		((HttpsURLConnection) wrappedUrlConnection)
 				.setHostnameVerifier(hostnameverifier);
 	}
 
+	@Override
 	public void configure(KeyManager[] km, TrustManager[] tm,
 			SecureRandom random) throws NoSuchAlgorithmException,
 			KeyManagementException {

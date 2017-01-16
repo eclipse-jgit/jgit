@@ -1215,6 +1215,7 @@ public class UploadPack {
 	 */
 	public static final class AdvertisedRequestValidator
 			implements RequestValidator {
+		@Override
 		public void checkWants(UploadPack up, List<ObjectId> wants)
 				throws PackProtocolException, IOException {
 			if (!up.isBiDirectionalPipe())
@@ -1231,6 +1232,7 @@ public class UploadPack {
 	 */
 	public static final class ReachableCommitRequestValidator
 			implements RequestValidator {
+		@Override
 		public void checkWants(UploadPack up, List<ObjectId> wants)
 				throws PackProtocolException, IOException {
 			checkNotAdvertisedWants(up.getRevWalk(), wants,
@@ -1244,6 +1246,7 @@ public class UploadPack {
 	 * @since 3.1
 	 */
 	public static final class TipRequestValidator implements RequestValidator {
+		@Override
 		public void checkWants(UploadPack up, List<ObjectId> wants)
 				throws PackProtocolException, IOException {
 			if (!up.isBiDirectionalPipe())
@@ -1266,6 +1269,7 @@ public class UploadPack {
 	 */
 	public static final class ReachableCommitTipRequestValidator
 			implements RequestValidator {
+		@Override
 		public void checkWants(UploadPack up, List<ObjectId> wants)
 				throws PackProtocolException, IOException {
 			checkNotAdvertisedWants(up.getRevWalk(), wants,
@@ -1279,6 +1283,7 @@ public class UploadPack {
 	 * @since 3.1
 	 */
 	public static final class AnyRequestValidator implements RequestValidator {
+		@Override
 		public void checkWants(UploadPack up, List<ObjectId> wants)
 				throws PackProtocolException, IOException {
 			// All requests are valid.

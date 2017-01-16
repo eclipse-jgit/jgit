@@ -95,6 +95,7 @@ class RegexPipeline extends UrlPipeline {
 			pattern = p;
 		}
 
+		@Override
 		UrlPipeline create() {
 			return new RegexPipeline(pattern, getFilters(), getServlet());
 		}
@@ -108,6 +109,7 @@ class RegexPipeline extends UrlPipeline {
 		this.pattern = pattern;
 	}
 
+	@Override
 	boolean match(final HttpServletRequest req) {
 		final String pathInfo = req.getPathInfo();
 		return pathInfo != null && pattern.matcher(pathInfo).matches();

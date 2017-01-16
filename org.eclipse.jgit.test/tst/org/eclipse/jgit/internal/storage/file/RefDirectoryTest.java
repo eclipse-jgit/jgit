@@ -100,6 +100,7 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 
 	private RevTag v1_0;
 
+	@Override
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
@@ -547,6 +548,7 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		ListenerHandle listener = Repository.getGlobalListenerList()
 				.addRefsChangedListener(new RefsChangedListener() {
 
+					@Override
 					public void onRefsChanged(RefsChangedEvent event) {
 						count[0]++;
 					}
@@ -1271,6 +1273,7 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		newRepo.getListenerList().addRefsChangedListener(
 				new RefsChangedListener() {
 
+					@Override
 					public void onRefsChanged(RefsChangedEvent event) {
 						try {
 							refDb.getRefs("ref");
@@ -1440,23 +1443,28 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	private static final class StrictWorkMonitor implements ProgressMonitor {
 		private int lastWork, totalWork;
 
+		@Override
 		public void start(int totalTasks) {
 			// empty
 		}
 
+		@Override
 		public void beginTask(String title, int total) {
 			this.totalWork = total;
 			lastWork = 0;
 		}
 
+		@Override
 		public void update(int completed) {
 			lastWork += completed;
 		}
 
+		@Override
 		public void endTask() {
 			assertEquals("Units of work recorded", totalWork, lastWork);
 		}
 
+		@Override
 		public boolean isCancelled() {
 			return false;
 		}

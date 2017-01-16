@@ -87,6 +87,7 @@ class InternalFetchConnection<C> extends BasePackFetchConnection {
 		}
 
 		worker = new Thread("JGit-Upload-Pack") { //$NON-NLS-1$
+			@Override
 			public void run() {
 				try {
 					final UploadPack rp = uploadPackFactory.create(req, remote);

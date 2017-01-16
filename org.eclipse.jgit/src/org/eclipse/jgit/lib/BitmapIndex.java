@@ -108,6 +108,7 @@ public interface BitmapIndex {
 		 *
 		 * @return an Iterator.
 		 */
+		@Override
 		Iterator<BitmapObject> iterator();
 	}
 
@@ -166,6 +167,7 @@ public interface BitmapIndex {
 		 *            the other bitmap
 		 * @return the current builder.
 		 */
+		@Override
 		BitmapBuilder or(Bitmap other);
 
 		/**
@@ -176,6 +178,7 @@ public interface BitmapIndex {
 		 *            the other bitmap
 		 * @return the current builder.
 		 */
+		@Override
 		BitmapBuilder andNot(Bitmap other);
 
 		/**
@@ -185,6 +188,7 @@ public interface BitmapIndex {
 		 *            the other bitmap
 		 * @return the current builder.
 		 */
+		@Override
 		BitmapBuilder xor(Bitmap other);
 
 		/** @return the fully built immutable bitmap */

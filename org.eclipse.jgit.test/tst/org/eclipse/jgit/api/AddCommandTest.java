@@ -1074,30 +1074,37 @@ public class AddCommandTest extends RepositoryTestCase {
 
 		FS executableFs = new FS() {
 
+			@Override
 			public boolean supportsExecute() {
 				return true;
 			}
 
+			@Override
 			public boolean setExecute(File f, boolean canExec) {
 				return true;
 			}
 
+			@Override
 			public ProcessBuilder runInShell(String cmd, String[] args) {
 				return null;
 			}
 
+			@Override
 			public boolean retryFailedLockFileCommit() {
 				return false;
 			}
 
+			@Override
 			public FS newInstance() {
 				return this;
 			}
 
+			@Override
 			protected File discoverGitExe() {
 				return null;
 			}
 
+			@Override
 			public boolean canExecute(File f) {
 				try {
 					return read(f).startsWith("binary:");

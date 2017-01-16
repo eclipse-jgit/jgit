@@ -79,6 +79,7 @@ public class RemoveNoteCommand extends GitCommand<Note> {
 		super(repo);
 	}
 
+	@Override
 	public Note call() throws GitAPIException {
 		checkCallable();
 		try (RevWalk walk = new RevWalk(repo);

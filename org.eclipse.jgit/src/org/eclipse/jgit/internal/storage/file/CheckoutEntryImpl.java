@@ -65,10 +65,12 @@ public class CheckoutEntryImpl implements CheckoutEntry {
 		to = comment.substring(p2 + " to ".length(), p3); //$NON-NLS-1$
 	}
 
+	@Override
 	public String getFromBranch() {
 		return from;
 	}
 
+	@Override
 	public String getToBranch() {
 		return to;
 	}

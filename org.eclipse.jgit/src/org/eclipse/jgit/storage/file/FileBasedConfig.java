@@ -185,6 +185,7 @@ public class FileBasedConfig extends StoredConfig {
 	 * @throws IOException
 	 *             the file could not be written.
 	 */
+	@Override
 	public void save() throws IOException {
 		final byte[] out;
 		final String text = toText();

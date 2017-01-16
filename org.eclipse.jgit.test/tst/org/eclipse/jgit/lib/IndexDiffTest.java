@@ -86,6 +86,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 		final ObjectId id = inserter.insert(Constants.OBJ_BLOB,
 				IO.readFully(f));
 		return new PathEdit(path) {
+			@Override
 			public void apply(DirCacheEntry ent) {
 				ent.setFileMode(FileMode.REGULAR_FILE);
 				ent.setLength(f.length());

@@ -109,6 +109,7 @@ public class DumbClientDumbServerTest extends HttpTestCase {
 		HttpTransport.setConnectionFactory(cf);
 	}
 
+	@Override
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();

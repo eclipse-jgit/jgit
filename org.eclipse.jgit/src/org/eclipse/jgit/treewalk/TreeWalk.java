@@ -559,6 +559,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 * @return a {@link Set} of {@link Attribute}s that match the current entry.
 	 * @since 4.2
 	 */
+	@Override
 	public Attributes getAttributes() {
 		if (attrs != null)
 			return attrs;

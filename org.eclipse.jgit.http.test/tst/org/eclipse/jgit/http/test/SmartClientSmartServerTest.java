@@ -147,6 +147,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		HttpTransport.setConnectionFactory(cf);
 	}
 
+	@Override
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
@@ -193,6 +194,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		ServletContextHandler broken = server.addContext("/bad");
 		broken.addFilter(new FilterHolder(new Filter() {
 
+			@Override
 			public void doFilter(ServletRequest request,
 					ServletResponse response, FilterChain chain)
 					throws IOException, ServletException {
@@ -204,11 +206,13 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 				w.close();
 			}
 
+			@Override
 			public void init(FilterConfig filterConfig)
 					throws ServletException {
 				// empty
 			}
 
+			@Override
 			public void destroy() {
 				// empty
 			}
@@ -831,6 +835,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 			this.repoName = repoName;
 		}
 
+		@Override
 		public Repository open(HttpServletRequest req, String name)
 				throws RepositoryNotFoundException, ServiceNotEnabledException {
 			if (!name.equals(repoName))

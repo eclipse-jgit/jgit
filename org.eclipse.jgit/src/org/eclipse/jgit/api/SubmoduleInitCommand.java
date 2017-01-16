@@ -91,6 +91,7 @@ public class SubmoduleInitCommand extends GitCommand<Collection<String>> {
 		return this;
 	}
 
+	@Override
 	public Collection<String> call() throws GitAPIException {
 		checkCallable();
 

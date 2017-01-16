@@ -184,7 +184,6 @@ public class AppServer {
 			return new UserPrincipal(username,
 					Credential.getCredential(Crypt.crypt(username, password)));
 		}
-
 	}
 
 	private void auth(ServletContextHandler ctx, Authenticator authType) {

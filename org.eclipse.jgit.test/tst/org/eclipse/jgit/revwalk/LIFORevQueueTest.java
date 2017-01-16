@@ -53,10 +53,12 @@ import java.util.Collections;
 import org.junit.Test;
 
 public class LIFORevQueueTest extends RevQueueTestCase<LIFORevQueue> {
+	@Override
 	protected LIFORevQueue create() {
 		return new LIFORevQueue();
 	}
 
+	@Override
 	@Test
 	public void testEmpty() throws Exception {
 		super.testEmpty();

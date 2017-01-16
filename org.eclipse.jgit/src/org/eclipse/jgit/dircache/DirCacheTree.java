@@ -80,6 +80,7 @@ public class DirCacheTree {
 	private static final DirCacheTree[] NO_CHILDREN = {};
 
 	private static final Comparator<DirCacheTree> TREE_CMP = new Comparator<DirCacheTree>() {
+		@Override
 		public int compare(final DirCacheTree o1, final DirCacheTree o2) {
 			final byte[] a = o1.encodedName;
 			final byte[] b = o2.encodedName;
