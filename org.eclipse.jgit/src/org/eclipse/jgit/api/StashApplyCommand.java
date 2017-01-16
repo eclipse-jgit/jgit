@@ -232,19 +232,19 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 					untrackedMerger.setBase(null);
 					boolean ok = untrackedMerger.merge(headCommit,
 							untrackedCommit);
-					if (ok)
+					if (ok) {
 						try {
 							RevTree untrackedTree = revWalk
-									.parseTree(untrackedMerger
-											.getResultTreeId());
+									.parseTree(untrackedCommit);
 							resetUntracked(untrackedTree);
 						} catch (CheckoutConflictException e) {
 							throw new StashApplyFailureException(
-									JGitText.get().stashApplyConflict);
+									JGitText.get().stashApplyConflict, e);
 						}
-					else
+					} else {
 						throw new StashApplyFailureException(
 								JGitText.get().stashApplyConflict);
+					}
 				}
 			} else {
 				throw new StashApplyFailureException(
