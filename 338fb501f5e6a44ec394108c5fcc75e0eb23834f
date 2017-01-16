@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_b5d3ba79",
+        "filename": "org.eclipse.jgit.junit.http/src/org/eclipse/jgit/junit/http/AppServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-01-16T06:50:20Z",
+      "side": 1,
+      "message": "This fails when building on the command line:\n\n error: method does not override or implement a method from a supertype\n\nbut if @Override is removed, Eclipse gives a warning.",
+      "range": {
+        "startLine": 188,
+        "startChar": 2,
+        "endLine": 191,
+        "endChar": 3
+      },
+      "revId": "338fb501f5e6a44ec394108c5fcc75e0eb23834f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_d5059688",
+        "filename": "org.eclipse.jgit.junit.http/src/org/eclipse/jgit/junit/http/AppServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-01-16T06:50:20Z",
+      "side": 1,
+      "message": "Same here",
+      "range": {
+        "startLine": 193,
+        "startChar": 2,
+        "endLine": 196,
+        "endChar": 3
+      },
+      "revId": "338fb501f5e6a44ec394108c5fcc75e0eb23834f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
