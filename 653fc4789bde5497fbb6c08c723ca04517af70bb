@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_75f4c2f8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-01-16T06:53:26Z",
+      "side": 1,
+      "message": "Same as previous PS.  Is this comment still needed?",
+      "range": {
+        "startLine": 263,
+        "startChar": 0,
+        "endLine": 265,
+        "endChar": 40
+      },
+      "revId": "653fc4789bde5497fbb6c08c723ca04517af70bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
