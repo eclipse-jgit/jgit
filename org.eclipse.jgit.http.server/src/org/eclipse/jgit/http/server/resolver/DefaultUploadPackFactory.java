@@ -62,6 +62,7 @@ import org.eclipse.jgit.transport.resolver.UploadPackFactory;
 public class DefaultUploadPackFactory implements
 		UploadPackFactory<HttpServletRequest> {
 	private static final SectionParser<ServiceConfig> CONFIG = new SectionParser<ServiceConfig>() {
+		@Override
 		public ServiceConfig parse(final Config cfg) {
 			return new ServiceConfig(cfg);
 		}
@@ -75,6 +76,7 @@ public class DefaultUploadPackFactory implements
 		}
 	}
 
+	@Override
 	public UploadPack create(final HttpServletRequest req, final Repository db)
 			throws ServiceNotEnabledException, ServiceNotAuthorizedException {
 		if (db.getConfig().get(CONFIG).enabled)

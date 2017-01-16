@@ -92,30 +92,37 @@ public class CommitCommandTest extends RepositoryTestCase {
 
 		FS executableFs = new FS() {
 
+			@Override
 			public boolean supportsExecute() {
 				return true;
 			}
 
+			@Override
 			public boolean setExecute(File f, boolean canExec) {
 				return true;
 			}
 
+			@Override
 			public ProcessBuilder runInShell(String cmd, String[] args) {
 				return null;
 			}
 
+			@Override
 			public boolean retryFailedLockFileCommit() {
 				return false;
 			}
 
+			@Override
 			public FS newInstance() {
 				return this;
 			}
 
+			@Override
 			protected File discoverGitExe() {
 				return null;
 			}
 
+			@Override
 			public boolean canExecute(File f) {
 				return true;
 			}
@@ -137,30 +144,37 @@ public class CommitCommandTest extends RepositoryTestCase {
 
 		FS nonExecutableFs = new FS() {
 
+			@Override
 			public boolean supportsExecute() {
 				return false;
 			}
 
+			@Override
 			public boolean setExecute(File f, boolean canExec) {
 				return false;
 			}
 
+			@Override
 			public ProcessBuilder runInShell(String cmd, String[] args) {
 				return null;
 			}
 
+			@Override
 			public boolean retryFailedLockFileCommit() {
 				return false;
 			}
 
+			@Override
 			public FS newInstance() {
 				return this;
 			}
 
+			@Override
 			protected File discoverGitExe() {
 				return null;
 			}
 
+			@Override
 			public boolean canExecute(File f) {
 				return false;
 			}

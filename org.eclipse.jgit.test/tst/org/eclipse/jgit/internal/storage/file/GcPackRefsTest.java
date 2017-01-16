@@ -105,6 +105,7 @@ public class GcPackRefsTest extends GcTestCase {
 		Callable<Integer> packRefs = new Callable<Integer>() {
 
 			/** @return 0 for success, 1 in case of error when writing pack */
+			@Override
 			public Integer call() throws Exception {
 				syncPoint.await();
 				try {
@@ -158,6 +159,7 @@ public class GcPackRefsTest extends GcTestCase {
 		try {
 			Future<Result> result = pool.submit(new Callable<Result>() {
 
+				@Override
 				public Result call() throws Exception {
 					RefUpdate update = new RefDirectoryUpdate(
 							(RefDirectory) repo.getRefDatabase(),
@@ -182,6 +184,7 @@ public class GcPackRefsTest extends GcTestCase {
 			});
 
 			pool.submit(new Callable<Void>() {
+				@Override
 				public Void call() throws Exception {
 					refUpdateLockedRef.await();
 					gc.packRefs();

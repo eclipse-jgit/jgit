@@ -180,6 +180,7 @@ class BundleFetchConnection extends BaseFetchConnection {
 		return line.toString();
 	}
 
+	@Override
 	public boolean didFetchTestConnectivity() {
 		return false;
 	}
@@ -207,10 +208,12 @@ class BundleFetchConnection extends BaseFetchConnection {
 		}
 	}
 
+	@Override
 	public void setPackLockMessage(final String message) {
 		lockMessage = message;
 	}
 
+	@Override
 	public Collection<PackLock> getPackLocks() {
 		if (packLock != null)
 			return Collections.singleton(packLock);

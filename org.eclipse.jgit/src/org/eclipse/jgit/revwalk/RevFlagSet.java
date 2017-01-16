@@ -132,14 +132,17 @@ public class RevFlagSet extends AbstractSet<RevFlag> {
 		return new Iterator<RevFlag>() {
 			private RevFlag current;
 
+			@Override
 			public boolean hasNext() {
 				return i.hasNext();
 			}
 
+			@Override
 			public RevFlag next() {
 				return current = i.next();
 			}
 
+			@Override
 			public void remove() {
 				mask &= ~current.mask;
 				i.remove();

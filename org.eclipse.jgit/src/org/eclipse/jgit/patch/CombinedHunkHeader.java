@@ -266,6 +266,7 @@ public class CombinedHunkHeader extends HunkHeader {
 		}
 	}
 
+	@Override
 	void extractFileLines(final StringBuilder sb, final String[] text,
 			final int[] offsets) {
 		final byte[] buf = file.buf;

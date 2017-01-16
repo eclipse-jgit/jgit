@@ -83,18 +83,22 @@ public class FS_Win32 extends FS {
 		super(src);
 	}
 
+	@Override
 	public FS newInstance() {
 		return new FS_Win32(this);
 	}
 
+	@Override
 	public boolean supportsExecute() {
 		return false;
 	}
 
+	@Override
 	public boolean canExecute(final File f) {
 		return false;
 	}
 
+	@Override
 	public boolean setExecute(final File f, final boolean canExec) {
 		return false;
 	}

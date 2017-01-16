@@ -258,6 +258,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	 * @throws NoHeadException
 	 * @throws RefNotFoundException
 	 */
+	@Override
 	public RebaseResult call() throws GitAPIException, NoHeadException,
 			RefNotFoundException, WrongRepositoryStateException {
 		newHead = null;

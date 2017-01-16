@@ -55,10 +55,12 @@ import org.eclipse.jgit.transport.http.HttpConnectionFactory;
  * @since 3.3
  */
 public class HttpClientConnectionFactory implements HttpConnectionFactory {
+	@Override
 	public HttpConnection create(URL url) throws IOException {
 		return new HttpClientConnection(url.toString());
 	}
 
+	@Override
 	public HttpConnection create(URL url, Proxy proxy)
 			throws IOException {
 		return new HttpClientConnection(url.toString(), proxy);

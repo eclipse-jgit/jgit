@@ -107,41 +107,50 @@ public abstract class ObjectInserter implements AutoCloseable {
 			return delegate().buffer();
 		}
 
+		@Override
 		public ObjectId idFor(int type, byte[] data) {
 			return delegate().idFor(type, data);
 		}
 
+		@Override
 		public ObjectId idFor(int type, byte[] data, int off, int len) {
 			return delegate().idFor(type, data, off, len);
 		}
 
+		@Override
 		public ObjectId idFor(int objectType, long length, InputStream in)
 				throws IOException {
 			return delegate().idFor(objectType, length, in);
 		}
 
+		@Override
 		public ObjectId idFor(TreeFormatter formatter) {
 			return delegate().idFor(formatter);
 		}
 
+		@Override
 		public ObjectId insert(int type, byte[] data) throws IOException {
 			return delegate().insert(type, data);
 		}
 
+		@Override
 		public ObjectId insert(int type, byte[] data, int off, int len)
 				throws IOException {
 			return delegate().insert(type, data, off, len);
 		}
 
+		@Override
 		public ObjectId insert(int objectType, long length, InputStream in)
 				throws IOException {
 			return delegate().insert(objectType, length, in);
 		}
 
+		@Override
 		public PackParser newPackParser(InputStream in) throws IOException {
 			return delegate().newPackParser(in);
 		}
 
+		@Override
 		public ObjectReader newReader() {
 			final ObjectReader dr = delegate().newReader();
 			return new ObjectReader.Filter() {
@@ -157,10 +166,12 @@ public abstract class ObjectInserter implements AutoCloseable {
 			};
 		}
 
+		@Override
 		public void flush() throws IOException {
 			delegate().flush();
 		}
 
+		@Override
 		public void close() {
 			delegate().close();
 		}

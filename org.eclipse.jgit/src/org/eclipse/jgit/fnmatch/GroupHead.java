@@ -159,6 +159,7 @@ final class GroupHead extends AbstractHead {
 			this.end = end;
 		}
 
+		@Override
 		public final boolean matches(char c) {
 			return start <= c && c <= end;
 		}
@@ -167,6 +168,7 @@ final class GroupHead extends AbstractHead {
 	private static final class DigitPattern implements CharacterPattern {
 		static final GroupHead.DigitPattern INSTANCE = new DigitPattern();
 
+		@Override
 		public final boolean matches(char c) {
 			return Character.isDigit(c);
 		}
@@ -175,6 +177,7 @@ final class GroupHead extends AbstractHead {
 	private static final class LetterPattern implements CharacterPattern {
 		static final GroupHead.LetterPattern INSTANCE = new LetterPattern();
 
+		@Override
 		public final boolean matches(char c) {
 			return Character.isLetter(c);
 		}
@@ -183,6 +186,7 @@ final class GroupHead extends AbstractHead {
 	private static final class LowerPattern implements CharacterPattern {
 		static final GroupHead.LowerPattern INSTANCE = new LowerPattern();
 
+		@Override
 		public final boolean matches(char c) {
 			return Character.isLowerCase(c);
 		}
@@ -191,6 +195,7 @@ final class GroupHead extends AbstractHead {
 	private static final class UpperPattern implements CharacterPattern {
 		static final GroupHead.UpperPattern INSTANCE = new UpperPattern();
 
+		@Override
 		public final boolean matches(char c) {
 			return Character.isUpperCase(c);
 		}
@@ -199,6 +204,7 @@ final class GroupHead extends AbstractHead {
 	private static final class WhitespacePattern implements CharacterPattern {
 		static final GroupHead.WhitespacePattern INSTANCE = new WhitespacePattern();
 
+		@Override
 		public final boolean matches(char c) {
 			return Character.isWhitespace(c);
 		}
@@ -211,6 +217,7 @@ final class GroupHead extends AbstractHead {
 			this.expectedCharacter = c;
 		}
 
+		@Override
 		public final boolean matches(char c) {
 			return this.expectedCharacter == c;
 		}
@@ -221,6 +228,7 @@ final class GroupHead extends AbstractHead {
 
 		private static String punctCharacters = "-!\"#$%&'()*+,./:;<=>?@[\\]_`{|}~"; //$NON-NLS-1$
 
+		@Override
 		public boolean matches(char c) {
 			return punctCharacters.indexOf(c) != -1;
 		}

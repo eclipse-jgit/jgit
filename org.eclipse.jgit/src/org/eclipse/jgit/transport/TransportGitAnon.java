@@ -75,27 +75,33 @@ class TransportGitAnon extends TcpTransport implements PackTransport {
 	static final int GIT_PORT = Daemon.DEFAULT_PORT;
 
 	static final TransportProtocol PROTO_GIT = new TransportProtocol() {
+		@Override
 		public String getName() {
 			return JGitText.get().transportProtoGitAnon;
 		}
 
+		@Override
 		public Set<String> getSchemes() {
 			return Collections.singleton("git"); //$NON-NLS-1$
 		}
 
+		@Override
 		public Set<URIishField> getRequiredFields() {
 			return Collections.unmodifiableSet(EnumSet.of(URIishField.HOST,
 					URIishField.PATH));
 		}
 
+		@Override
 		public Set<URIishField> getOptionalFields() {
 			return Collections.unmodifiableSet(EnumSet.of(URIishField.PORT));
 		}
 
+		@Override
 		public int getDefaultPort() {
 			return GIT_PORT;
 		}
 
+		@Override
 		public Transport open(URIish uri, Repository local, String remoteName)
 				throws NotSupportedException {
 			return new TransportGitAnon(local, uri);
