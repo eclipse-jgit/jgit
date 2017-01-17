@@ -42,6 +42,23 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_dba0677d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 103940
+      },
+      "writtenOn": "2017-01-17T02:20:56Z",
+      "side": 1,
+      "message": "Response code 301 and 302 of a HTTP GET was checked for redirection here, which was unnecessary. By default, both `HttpURLConnection` and `HttpClient` will handle redirection of GET automatically.",
+      "revId": "b1cd3fde38efa889fda7ea1c2ffabe6bc548cc5a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_55aee61d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
         "patchSetId": 3
@@ -59,6 +76,23 @@
         "endLine": 520,
         "endChar": 14
       },
+      "revId": "b1cd3fde38efa889fda7ea1c2ffabe6bc548cc5a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_61efa4f9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 969,
+      "author": {
+        "id": 103940
+      },
+      "writtenOn": "2017-01-17T02:20:56Z",
+      "side": 1,
+      "message": "More work should be done here since conn is a POST request opened in TransportHttp$Service.openStream() method, whose response will not be handled by TransportHttp.connect() method above.",
       "revId": "b1cd3fde38efa889fda7ea1c2ffabe6bc548cc5a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
