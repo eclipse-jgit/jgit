@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_73e937a3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/HttpConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-01-17T09:58:11Z",
+      "side": 1,
+      "message": "style nit: add a blank line before this line",
+      "revId": "1539392cb918cbecf3b18fedc5b5f7df0d40b387",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_93e413cc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/HttpConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-01-17T09:58:11Z",
+      "side": 1,
+      "message": "missing @since 4.7 tag for new API constant",
+      "revId": "1539392cb918cbecf3b18fedc5b5f7df0d40b387",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_b3df4ff8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/HttpSupport.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-01-17T09:58:11Z",
+      "side": 1,
+      "message": "missing @since 4.7 tag for new API constant",
+      "revId": "1539392cb918cbecf3b18fedc5b5f7df0d40b387",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_f3a0e77c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/HttpSupport.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-01-17T09:58:11Z",
+      "side": 1,
+      "message": "maybe more explicit \"headerName\" ?",
+      "range": {
+        "startLine": 243,
+        "startChar": 11,
+        "endLine": 243,
+        "endChar": 22
+      },
+      "revId": "1539392cb918cbecf3b18fedc5b5f7df0d40b387",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_d3da0b07",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/HttpSupport.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-01-17T09:58:11Z",
+      "side": 1,
+      "message": "missing @since 4.7 tag for new API method",
+      "revId": "1539392cb918cbecf3b18fedc5b5f7df0d40b387",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
