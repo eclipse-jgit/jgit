@@ -70,6 +70,24 @@
       "revId": "79dac013a6e6882ab4d4545ce0ec2a01f8ea940b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_07a27d2b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/HttpConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 103940
+      },
+      "writtenOn": "2017-01-18T08:48:41Z",
+      "side": 1,
+      "message": "Yes, but it seems that this config doesn\u0027t take effect in  TransportHttp.httpOpen () method since HttpConnection.setInstanceFollowRedirects(boolean followRedirects) is not called, isn\u0027t it?",
+      "parentUuid": "a7c23755_474635fb",
+      "revId": "79dac013a6e6882ab4d4545ce0ec2a01f8ea940b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
