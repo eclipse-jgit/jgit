@@ -113,6 +113,12 @@ public class ConfigConstants {
 	 */
 	public static final String CONFIG_FILTER_SECTION = "filter";
 
+	/**
+	 * The "http" seciont
+	 * @since 4.7
+	 */
+	public static final String CONFIG_HTTP_SECTION = "http";
+
 	/** The "algorithm" key */
 	public static final String CONFIG_KEY_ALGORITHM = "algorithm";
 
@@ -374,4 +380,22 @@ public class ConfigConstants {
 	 * @since 4.6
 	 */
 	public static final String CONFIG_KEY_USEJGITBUILTIN = "useJGitBuiltin";
+
+	/**
+	 * The "followRedirects" key
+	 * @since 4.7
+	 */
+	public static final String CONFIG_KEY_FOLLOWREDIRECTS = "followRedirects";
+
+	/**
+	 * The "postbuffer" key
+	 * @since 4.7
+	 */
+	public static final String CONFIG_KEY_POSTBUFFER = "postbuffer";
+
+	/**
+	 * The "sslVerify" key
+	 * @since 4.7
+	 */
+	public static final String CONFIG_KEY_SSLVERIFY = "sslVerify";
 }
