@@ -72,6 +72,53 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_4c7c9c5b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-01-18T03:06:59Z",
+      "side": 1,
+      "message": "We do see a huge benefit from doing affinity routing of requests for the same repository to the server which last served that repository. Clearing the cache on repository close would defeat that, so that behavior needs to be directed from a higher level.\n\nI think this comment can go away, but it has been in this file for 5+ years (since the original check in) so I\u0027ll check with Shawn when he is back in the office. It can stay in here until we hear back from him.",
+      "parentUuid": "a7c23755_352dea19",
+      "range": {
+        "startLine": 263,
+        "startChar": 2,
+        "endLine": 265,
+        "endChar": 40
+      },
+      "revId": "587e4be06e569267c15a38950174e0e96ed02a8d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_6cc4f8a7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-01-18T03:06:59Z",
+      "side": 1,
+      "message": "IIUC, table writes should be protected by lockFor(key, position);",
+      "range": {
+        "startLine": 409,
+        "startChar": 0,
+        "endLine": 409,
+        "endChar": 47
+      },
+      "revId": "587e4be06e569267c15a38950174e0e96ed02a8d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_0fe54151",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
         "patchSetId": 1
