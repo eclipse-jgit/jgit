@@ -52,6 +52,24 @@
       "revId": "79dac013a6e6882ab4d4545ce0ec2a01f8ea940b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_474635fb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/HttpConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-01-18T08:27:53Z",
+      "side": 1,
+      "message": "I am not sure what you are missing here.\n\nTransportHttp\u0027s constructors create a HttpConfig object either from the repository\u0027s configuration (in constructor TransportHttp(final Repository local, final URIish uri)) or a default configuration (in constructor TransportHttp(final URIish uri)). In HttpConfig\u0027s constructor the default configuration is set to INITIAL.",
+      "parentUuid": "a7c23755_e76741c3",
+      "revId": "79dac013a6e6882ab4d4545ce0ec2a01f8ea940b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
