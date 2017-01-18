@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_07f6fd85",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/HttpConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 103940
+      },
+      "writtenOn": "2017-01-18T02:01:21Z",
+      "side": 1,
+      "message": "I have a little doubt about it...why do we need \"INITIAL\"? In which scenario is \"INITIAL\" required?",
+      "revId": "79dac013a6e6882ab4d4545ce0ec2a01f8ea940b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
