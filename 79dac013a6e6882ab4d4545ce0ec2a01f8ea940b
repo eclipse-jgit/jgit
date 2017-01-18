@@ -34,6 +34,24 @@
       "revId": "79dac013a6e6882ab4d4545ce0ec2a01f8ea940b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_e76741c3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/HttpConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 103940
+      },
+      "writtenOn": "2017-01-18T04:02:05Z",
+      "side": 1,
+      "message": "I see. Thanks. But in this scenario, the initial request is always a GET request whose 301 and 302 will be handled automatically by default, is it?\n\nIf so, it seems that this config should also be set in TransportHttp.httpOpen() or TransportHttp.connect() methods.",
+      "parentUuid": "a7c23755_4779d56a",
+      "revId": "79dac013a6e6882ab4d4545ce0ec2a01f8ea940b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
