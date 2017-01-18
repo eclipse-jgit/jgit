@@ -100,6 +100,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.SymbolicRef;
 import org.eclipse.jgit.transport.HttpAuthMethod.Type;
+import org.eclipse.jgit.transport.http.HttpConfig;
 import org.eclipse.jgit.transport.http.HttpConnection;
 import org.eclipse.jgit.util.HttpSupport;
 import org.eclipse.jgit.util.IO;
@@ -223,21 +224,6 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			return new HttpConfig(cfg);
 		}
 	};
-
-	private static class HttpConfig {
-		final int postBuffer;
-
-		final boolean sslVerify;
-
-		HttpConfig(final Config rc) {
-			postBuffer = rc.getInt("http", "postbuffer", 1 * 1024 * 1024); //$NON-NLS-1$  //$NON-NLS-2$
-			sslVerify = rc.getBoolean("http", "sslVerify", true); //$NON-NLS-1$ //$NON-NLS-2$
-		}
-
-		HttpConfig() {
-			this(new Config());
-		}
-	}
 
 	final URL baseUrl;
 
@@ -588,7 +574,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		final Proxy proxy = HttpSupport.proxyFor(proxySelector, u);
 		HttpConnection conn = connectionFactory.create(u, proxy);
 
-		if (!http.sslVerify && "https".equals(u.getProtocol())) { //$NON-NLS-1$
+		if (!http.isSslVerify() && "https".equals(u.getProtocol())) { //$NON-NLS-1$
 			HttpSupport.disableSslVerify(conn);
 		}
 
@@ -919,7 +905,8 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 		void sendRequest(final String redirectUrl) throws IOException {
 			// Try to compress the content, but only if that is smaller.
-			TemporaryBuffer buf = new TemporaryBuffer.Heap(http.postBuffer);
+			TemporaryBuffer buf = new TemporaryBuffer.Heap(
+					http.getPostBuffer());
 			try {
 				GZIPOutputStream gzip = new GZIPOutputStream(buf);
 				out.writeTo(gzip, null);
@@ -945,8 +932,18 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 			final int status = HttpSupport.response(conn);
 			if (status == HttpConnection.HTTP_MOVED_PERM) {
-				String locationHeader = HttpSupport.responseHeader(conn, HDR_LOCATION);
-				sendRequest(locationHeader);
+				String locationHeader = HttpSupport.responseHeader(conn,
+						HDR_LOCATION);
+				switch (http.getRedirect()) {
+				case INITIAL: // TODO how to detect this is an initial request ?
+				case TRUE:
+					sendRequest(locationHeader);
+					break;
+				case FALSE:
+					throw new RedirectForbiddenException(MessageFormat.format(
+							JGitText.get().redirectForbidden, locationHeader,
+							http.getRedirect().name()));
+				}
 			}
 		}
 
@@ -993,7 +990,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 		class HttpOutputStream extends TemporaryBuffer {
 			HttpOutputStream() {
-				super(http.postBuffer);
+				super(http.getPostBuffer());
 			}
 
 			@Override

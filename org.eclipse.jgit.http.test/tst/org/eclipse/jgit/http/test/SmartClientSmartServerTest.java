@@ -88,6 +88,7 @@ import org.eclipse.jgit.junit.TestRng;
 import org.eclipse.jgit.junit.http.AccessEvent;
 import org.eclipse.jgit.junit.http.AppServer;
 import org.eclipse.jgit.junit.http.HttpTestCase;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -109,6 +110,7 @@ import org.eclipse.jgit.transport.TransportHttp;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.transport.http.HttpConnectionFactory;
 import org.eclipse.jgit.transport.http.JDKHttpConnectionFactory;
+import org.eclipse.jgit.transport.http.HttpConfig.HttpRedirectEnum;
 import org.eclipse.jgit.transport.http.apache.HttpClientConnectionFactory;
 import org.eclipse.jgit.transport.resolver.RepositoryResolver;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
@@ -413,6 +415,21 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		assertEquals(200, service.getStatus());
 		assertEquals("application/x-git-upload-pack-result",
 				service.getResponseHeader(HDR_CONTENT_TYPE));
+	}
+
+	@Test(expected = TransportException.class)
+	public void testInitialClone_RedirectSmallRedirectForbidden()
+			throws Exception {
+		Repository dst = createBareRepository();
+		Config c = dst.getConfig();
+		c.setEnum(ConfigConstants.CONFIG_HTTP_SECTION, null,
+				ConfigConstants.CONFIG_KEY_FOLLOWREDIRECTS,
+				HttpRedirectEnum.FALSE);
+		assertFalse(dst.hasObject(A_txt));
+
+		try (Transport t = Transport.open(dst, redirectURI)) {
+			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
+		}
 	}
 
 	@Test
