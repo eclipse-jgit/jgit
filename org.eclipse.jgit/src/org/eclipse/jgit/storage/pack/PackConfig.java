@@ -76,15 +76,15 @@ public class PackConfig {
 
 	/**
 	 * Default value of keep old packs option: {@value}
-	 *
 	 * @see #setPreserveOldPacks(boolean)
+	 * @since 4.7
 	 */
 	public static final boolean DEFAULT_PRESERVE_OLD_PACKS = false;
 
 	/**
 	 * Default value of prune old packs option: {@value}
-	 *
 	 * @see #setPrunePreserved(boolean)
+	 * @since 4.7
 	 */
 	public static final boolean DEFAULT_PRUNE_PRESERVED = false;
 
