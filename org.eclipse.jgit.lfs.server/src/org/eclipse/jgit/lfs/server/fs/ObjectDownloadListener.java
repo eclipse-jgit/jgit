@@ -61,9 +61,11 @@ import org.eclipse.jgit.lfs.lib.Constants;
 import org.eclipse.jgit.util.HttpSupport;
 
 /**
- * Handle asynchronous large object download
+ * Handle asynchronous large object download.
+ *
+ * @since 4.7
  */
-class ObjectDownloadListener implements WriteListener {
+public class ObjectDownloadListener implements WriteListener {
 
 	private static Logger LOG = Logger
 			.getLogger(ObjectDownloadListener.class.getName());
