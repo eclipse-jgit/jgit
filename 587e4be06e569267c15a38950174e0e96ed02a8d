@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_e1b64a43",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 74655
+      },
+      "writtenOn": "2017-01-19T11:26:56Z",
+      "side": 1,
+      "message": "I already thought that you would do something like this. My use case is a little different, so what I would really like to do is, to be able to create a DfsBlock-cache implementation which suite the current needs, i.e.\n\n- make the DfsBlock cache an interface/abstract\n- let the cache be resolved not via a singleton but rather through the DfsRepository or DfsObjDatabase\n- Clients could then implement a cache which matches their needs, i.e. having a singleton or a per-request-cache or per repository-life-time-cache, etc.\n\nIt doesn\u0027t seem too easy though to extract the interface since there are a lot of classes which interact on the pack-private methods. But if you think that would be doable I am happy to give it a try.",
+      "parentUuid": "a7c23755_4c7c9c5b",
+      "range": {
+        "startLine": 263,
+        "startChar": 2,
+        "endLine": 265,
+        "endChar": 40
+      },
+      "revId": "587e4be06e569267c15a38950174e0e96ed02a8d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_6cc4f8a7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
         "patchSetId": 1
