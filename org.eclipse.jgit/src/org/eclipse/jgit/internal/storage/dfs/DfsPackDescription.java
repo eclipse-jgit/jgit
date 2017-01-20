@@ -81,6 +81,8 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 
 	private int indexVersion;
 
+	private long estimatedPackSize;
+
 	/**
 	 * Initialize a description by pack name and repository.
 	 * <p>
@@ -187,6 +189,25 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 	public long getFileSize(PackExt ext) {
 		Long size = sizeMap.get(ext);
 		return size == null ? 0 : size.longValue();
+	}
+
+	/**
+	 * @param estimatedPackSize
+	 *            estimated size of the .pack file in bytes. If 0 the the pack
+	 *            file size is unknown.
+	 * @return {@code this}
+	 */
+	public DfsPackDescription setEstimatedPackSize(long estimatedPackSize) {
+		this.estimatedPackSize = Math.max(0, estimatedPackSize);
+		return this;
+	}
+
+	/**
+	 * @return estimated size of the .pack file in bytes. If 0 the pack file
+	 *         size is unknown.
+	 */
+	public long getEstimatedPackSize() {
+		return estimatedPackSize;
 	}
 
 	/** @return number of objects in the pack. */
