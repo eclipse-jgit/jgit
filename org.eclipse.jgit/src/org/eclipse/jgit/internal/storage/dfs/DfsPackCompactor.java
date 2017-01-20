@@ -224,7 +224,8 @@ public class DfsPackCompactor {
 				}
 
 				boolean rollback = true;
-				DfsPackDescription pack = objdb.newPack(COMPACT);
+				DfsPackDescription pack = objdb.newPack(COMPACT,
+						estimatePackSize());
 				try {
 					writePack(objdb, pack, pw, pm);
 					writeIndex(objdb, pack, pw);
@@ -249,6 +250,17 @@ public class DfsPackCompactor {
 		} finally {
 			rw = null;
 		}
+	}
+
+	private long estimatePackSize() {
+		// Every pack file contains 12 bytes of header and 20 bytes of trailer.
+		// Include the final pack file header and trailer size here and ignore
+		// the same from individual pack files.
+		long size = 32;
+		for (DfsPackFile pack : srcPacks) {
+			size += pack.getPackDescription().getFileSize(PACK) - 32;
+		}
+		return size;
 	}
 
 	/** @return all of the source packs that fed into this compaction. */
