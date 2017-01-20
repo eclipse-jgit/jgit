@@ -224,7 +224,8 @@ public class DfsPackCompactor {
 				}
 
 				boolean rollback = true;
-				DfsPackDescription pack = objdb.newPack(COMPACT);
+				DfsPackDescription pack = objdb.newPack(COMPACT,
+						estimatePackSize());
 				try {
 					writePack(objdb, pack, pw, pm);
 					writeIndex(objdb, pack, pw);
@@ -249,6 +250,14 @@ public class DfsPackCompactor {
 		} finally {
 			rw = null;
 		}
+	}
+
+	private long estimatePackSize() {
+		long size = 0;
+		for (DfsPackFile pack : srcPacks) {
+			size += pack.getPackDescription().getFileSize(PACK);
+		}
+		return size;
 	}
 
 	/** @return all of the source packs that fed into this compaction. */

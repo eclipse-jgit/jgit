@@ -1,8 +1,10 @@
 package org.eclipse.jgit.internal.storage.dfs;
 
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC;
+import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC_REST;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.INSERT;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.UNREACHABLE_GARBAGE;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
@@ -167,6 +169,199 @@ public class DfsGarbageCollectorTest {
 			run(gc);
 			assertEquals(1 + i, countPacks(UNREACHABLE_GARBAGE));
 		}
+	}
+
+	@Test
+	public void testEstimateGcPackSizeInNewRepo() throws Exception {
+		RevCommit commit0 = commit().message("0").create();
+		RevCommit commit1 = commit().message("1").parent(commit0).create();
+		git.update("master", commit1);
+
+		// Packs start out as INSERT.
+		long inputPacksSize = 0;
+		assertEquals(2, odb.getPacks().length);
+		for (DfsPackFile pack : odb.getPacks()) {
+			assertEquals(INSERT, pack.getPackDescription().getPackSource());
+			inputPacksSize += pack.getPackDescription().getFileSize(PACK);
+		}
+
+		gcNoTtl();
+
+		// INSERT packs are combined into a single GC pack.
+		assertEquals(1, odb.getPacks().length);
+		DfsPackFile pack = odb.getPacks()[0];
+		assertEquals(GC, pack.getPackDescription().getPackSource());
+		assertEquals(inputPacksSize,
+				pack.getPackDescription().getEstimatedPackSize());
+	}
+
+	@Test
+	public void testEstimateGcPackSizeWithAnExistingGcPack() throws Exception {
+		RevCommit commit0 = commit().message("0").create();
+		RevCommit commit1 = commit().message("1").parent(commit0).create();
+		git.update("master", commit1);
+
+		gcNoTtl();
+
+		RevCommit commit2 = commit().message("2").parent(commit1).create();
+		git.update("master", commit2);
+
+		// There will be one INSERT pack and one GC pack.
+		assertEquals(2, odb.getPacks().length);
+		boolean gcPackFound = false;
+		boolean insertPackFound = false;
+		long inputPacksSize = 0;
+		for (DfsPackFile pack : odb.getPacks()) {
+			DfsPackDescription d = pack.getPackDescription();
+			if (d.getPackSource() == GC) {
+				gcPackFound = true;
+			} else if (d.getPackSource() == INSERT) {
+				insertPackFound = true;
+			} else {
+				fail("unexpected " + d.getPackSource());
+			}
+			inputPacksSize += d.getFileSize(PACK);
+		}
+		assertTrue(gcPackFound);
+		assertTrue(insertPackFound);
+
+		gcNoTtl();
+
+		// INSERT pack is combined into the GC pack.
+		DfsPackFile pack = odb.getPacks()[0];
+		assertEquals(GC, pack.getPackDescription().getPackSource());
+		assertEquals(inputPacksSize,
+				pack.getPackDescription().getEstimatedPackSize());
+	}
+
+	@Test
+	public void testEstimateGcRestPackSizeInNewRepo() throws Exception {
+		RevCommit commit0 = commit().message("0").create();
+		RevCommit commit1 = commit().message("1").parent(commit0).create();
+		git.update("refs/notes/note1", commit1);
+
+		// Packs start out as INSERT.
+		long inputPacksSize = 0;
+		assertEquals(2, odb.getPacks().length);
+		for (DfsPackFile pack : odb.getPacks()) {
+			assertEquals(INSERT, pack.getPackDescription().getPackSource());
+			inputPacksSize += pack.getPackDescription().getFileSize(PACK);
+		}
+
+		gcNoTtl();
+
+		// INSERT packs are combined into a single GC_REST pack.
+		assertEquals(1, odb.getPacks().length);
+		DfsPackFile pack = odb.getPacks()[0];
+		assertEquals(GC_REST, pack.getPackDescription().getPackSource());
+		assertEquals(inputPacksSize,
+				pack.getPackDescription().getEstimatedPackSize());
+	}
+
+	@Test
+	public void testEstimateGcRestPackSizeWithAnExistingGcPack()
+			throws Exception {
+		RevCommit commit0 = commit().message("0").create();
+		RevCommit commit1 = commit().message("1").parent(commit0).create();
+		git.update("refs/notes/note1", commit1);
+
+		gcNoTtl();
+
+		RevCommit commit2 = commit().message("2").parent(commit1).create();
+		git.update("refs/notes/note2", commit2);
+
+		// There will be one INSERT pack and one GC_REST pack.
+		assertEquals(2, odb.getPacks().length);
+		boolean gcRestPackFound = false;
+		boolean insertPackFound = false;
+		long inputPacksSize = 0;
+		for (DfsPackFile pack : odb.getPacks()) {
+			DfsPackDescription d = pack.getPackDescription();
+			if (d.getPackSource() == GC_REST) {
+				gcRestPackFound = true;
+			} else if (d.getPackSource() == INSERT) {
+				insertPackFound = true;
+			} else {
+				fail("unexpected " + d.getPackSource());
+			}
+			inputPacksSize += d.getFileSize(PACK);
+		}
+		assertTrue(gcRestPackFound);
+		assertTrue(insertPackFound);
+
+		gcNoTtl();
+
+		// INSERT pack is combined into the GC_REST pack.
+		DfsPackFile pack = odb.getPacks()[0];
+		assertEquals(GC_REST, pack.getPackDescription().getPackSource());
+		assertEquals(inputPacksSize,
+				pack.getPackDescription().getEstimatedPackSize());
+	}
+
+	@Test
+	public void testEstimateGcPackSizesWithGcAndGcRestPAcks() throws Exception {
+		RevCommit commit0 = commit().message("0").create();
+		git.update("head", commit0);
+		RevCommit commit1 = commit().message("1").parent(commit0).create();
+		git.update("refs/notes/note1", commit1);
+
+		gcNoTtl();
+
+		RevCommit commit2 = commit().message("2").parent(commit1).create();
+		git.update("refs/notes/note2", commit2);
+
+		// There will be one INSERT, one GC and one GC_REST packs.
+		assertEquals(3, odb.getPacks().length);
+		boolean gcPackFound = false;
+		boolean gcRestPackFound = false;
+		boolean insertPackFound = false;
+		long gcPackSize = 0;
+		long gcRestPackSize = 0;
+		long insertPackSize = 0;
+		for (DfsPackFile pack : odb.getPacks()) {
+			DfsPackDescription d = pack.getPackDescription();
+			if (d.getPackSource() == GC) {
+				gcPackFound = true;
+				gcPackSize = d.getFileSize(PACK);
+			} else if (d.getPackSource() == GC_REST) {
+				gcRestPackFound = true;
+				gcRestPackSize = d.getFileSize(PACK);
+			} else if (d.getPackSource() == INSERT) {
+				insertPackFound = true;
+				insertPackSize = d.getFileSize(PACK);
+			} else {
+				fail("unexpected " + d.getPackSource());
+			}
+		}
+		assertTrue(gcPackFound);
+		assertTrue(gcRestPackFound);
+		assertTrue(insertPackFound);
+
+		gcNoTtl();
+
+		// In this test INSERT pack would be combined into the GC_REST pack.
+		// But, as there is no good heuristic to know whether the new packs will
+		// be combined into a GC pack or GC_REST packs, the new pick size is
+		// considered while estimating both the GC and GC_REST packs.
+		assertEquals(2, odb.getPacks().length);
+		gcPackFound = false;
+		gcRestPackFound = false;
+		for (DfsPackFile pack : odb.getPacks()) {
+			DfsPackDescription d = pack.getPackDescription();
+			if (d.getPackSource() == GC) {
+				gcPackFound = true;
+				assertEquals(gcPackSize + insertPackSize,
+						pack.getPackDescription().getEstimatedPackSize());
+			} else if (d.getPackSource() == GC_REST) {
+				gcRestPackFound = true;
+				assertEquals(gcRestPackSize + insertPackSize,
+						pack.getPackDescription().getEstimatedPackSize());
+			} else {
+				fail("unexpected " + d.getPackSource());
+			}
+		}
+		assertTrue(gcPackFound);
+		assertTrue(gcRestPackFound);
 	}
 
 	private TestRepository<InMemoryRepository>.CommitBuilder commit() {
