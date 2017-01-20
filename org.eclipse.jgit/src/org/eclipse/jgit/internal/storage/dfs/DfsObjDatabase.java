@@ -266,6 +266,32 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 			throws IOException;
 
 	/**
+	 * Generate a new unique name for a pack file.
+	 *
+	 * <p>
+	 * Default implementation of this method would be equivalent to
+	 * {@code newPack(source).setEstimatedPackSize(estimatedPackSize)}. But the
+	 * clients can override this method to use the given
+	 * {@code estomatedPackSize} value more efficiently in the process of
+	 * creating a new {@link DfsPackDescription} object.
+	 *
+	 * @param source
+	 *            where the pack stream is created.
+	 * @param estimatedPackSize
+	 *            the estimated size of the pack.
+	 * @return a unique name for the pack file. Must not collide with any other
+	 *         pack file name in the same DFS.
+	 * @throws IOException
+	 *             a new unique pack description cannot be generated.
+	 */
+	protected DfsPackDescription newPack(PackSource source,
+			long estimatedPackSize) throws IOException {
+		DfsPackDescription pack = newPack(source);
+		pack.setEstimatedPackSize(estimatedPackSize);
+		return pack;
+	}
+
+	/**
 	 * Commit a pack and index pair that was written to the DFS.
 	 * <p>
 	 * Committing the pack/index pair makes them visible to readers. The JGit
