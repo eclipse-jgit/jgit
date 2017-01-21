@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_5bf522bb",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-01-21T01:59:48Z",
+      "side": 1,
+      "message": "Why -10?",
+      "range": {
+        "startLine": 111,
+        "startChar": 21,
+        "endLine": 111,
+        "endChar": 25
+      },
+      "revId": "587e4be06e569267c15a38950174e0e96ed02a8d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_cfdee98a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
         "patchSetId": 1
@@ -120,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_7b53be63",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-01-21T01:59:48Z",
+      "side": 1,
+      "message": "I like the idea of being able to experiment with retention policies. If we were going to do something to enable that, we would probably define an internal RetentionPolicy interface, refactor the code to use it, and change reconfigure() to take a new policy, without disturbing the rest of the public API.\n\nThe fact that the cache is accessed via the singleton pattern means you can actually swap in different implementations of the entire class without disturbing clients (you make me dredge up old history here, search for \"a-flexible-framework-for-error-reporting\"). The cache is highly optimized though, so implementing a RetentionPolicy that only gets involved when allocating and freeing pack slices seems like it may be a better way to go.",
+      "parentUuid": "a7c23755_e1b64a43",
+      "range": {
+        "startLine": 263,
+        "startChar": 2,
+        "endLine": 265,
+        "endChar": 40
+      },
+      "revId": "587e4be06e569267c15a38950174e0e96ed02a8d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_6cc4f8a7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
         "patchSetId": 1
@@ -136,6 +183,29 @@
         "startChar": 0,
         "endLine": 409,
         "endChar": 47
+      },
+      "revId": "587e4be06e569267c15a38950174e0e96ed02a8d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_1bff2ad9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-01-21T01:59:48Z",
+      "side": 1,
+      "message": "This potentially evicts the slots too early for outstanding requests. For example if we receive a fetch request for a hot repository right before a gc completes, the gc will update the pack list, but the in-flight fetch will have an outstanding reference to a DfsPackFile that is being evicted here.",
+      "range": {
+        "startLine": 520,
+        "startChar": 2,
+        "endLine": 520,
+        "endChar": 22
       },
       "revId": "587e4be06e569267c15a38950174e0e96ed02a8d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
