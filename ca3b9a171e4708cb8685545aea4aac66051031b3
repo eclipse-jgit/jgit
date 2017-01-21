@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_3bab06d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-01-21T01:59:21Z",
+      "side": 1,
+      "message": "This isn\u0027t precisely true, the time-based eviction will eventually dereference the packfile slices held by the table slots and make them available to the JVM\u0027s GC. This CL proposes to dereference them as soon as the DfsPackFile.close() is called.\n\nThe problem with this approach is that DfsBlockCache.getOrCreate() will return an existing DfsPackFile instance, but it doesn\u0027t reference count them, so evicting the slots on the first call to DfsPackFile.close() strands the other in-flight requests that still hold references to the DfsPackFile (e.g., some of the ObjectInserters hold DfsPackFile references). In a server environment where there can be dozens of inflight requests I\u0027d expect cache hits to go down.",
+      "range": {
+        "startLine": 11,
+        "startChar": 8,
+        "endLine": 12,
+        "endChar": 6
+      },
+      "revId": "ca3b9a171e4708cb8685545aea4aac66051031b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_9b9c1abd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-01-21T01:59:21Z",
+      "side": 1,
+      "message": "This part of this change is valuable--commitPack is moving the snapshot of current pack files forward, and this change is more quickly evicting stale values from the packCache map. There is a race condition where another thread reads the previous snapshot and then accesses the packCache map with those stale values. DfsPackFile creation is cheap so I think it is a net win.",
+      "range": {
+        "startLine": 296,
+        "startChar": 0,
+        "endLine": 302,
+        "endChar": 3
+      },
+      "revId": "ca3b9a171e4708cb8685545aea4aac66051031b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
