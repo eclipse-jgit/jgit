@@ -55,6 +55,7 @@ import java.nio.channels.FileChannel;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.text.MessageFormat;
 import java.text.ParseException;
@@ -73,6 +74,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.dircache.DirCacheIterator;
@@ -125,6 +128,13 @@ public class GC {
 
 	private static final Pattern PATTERN_LOOSE_OBJECT = Pattern
 			.compile("[0-9a-fA-F]{38}"); //$NON-NLS-1$
+
+	private static final String PACK_EXT = "." + PackExt.PACK.getExtension();//$NON-NLS-1$
+
+	private static final String BITMAP_EXT = "." //$NON-NLS-1$
+			+ PackExt.BITMAP_INDEX.getExtension();
+
+	private static final String INDEX_EXT = "." + PackExt.INDEX.getExtension(); //$NON-NLS-1$
 
 	private static final int DEFAULT_AUTOPACKLIMIT = 50;
 
@@ -654,10 +664,53 @@ public class GC {
 			throw new IOException(e);
 		}
 		prunePacked();
+		deleteOrphans();
 
 		lastPackedRefs = refsBefore;
 		lastRepackTime = time;
 		return ret;
+	}
+
+	/**
+	 * Deletes orphans
+	 * <p>
+	 * A file is considered an orphan if it is either a "bitmap" or an index
+	 * file, and its corresponding pack file is missing in the list.
+	 * </p>
+	 */
+	private void deleteOrphans() {
+		Path packDir = Paths.get(repo.getObjectsDirectory().getAbsolutePath(),
+				"pack"); //$NON-NLS-1$
+		List<String> fileNames = null;
+		try (Stream<Path> files = Files.list(packDir)) {
+			fileNames = files.map(path -> path.getFileName().toString())
+					.filter(name -> {
+						return (name.endsWith(PACK_EXT)
+								|| name.endsWith(BITMAP_EXT)
+								|| name.endsWith(INDEX_EXT));
+					}).sorted(Collections.reverseOrder())
+					.collect(Collectors.toList());
+		} catch (IOException e1) {
+			// ignore
+		}
+		if (fileNames == null) {
+			return;
+		}
+
+		String base = null;
+		for (String n : fileNames) {
+			if (n.endsWith(PACK_EXT)) {
+				base = n.substring(0, n.lastIndexOf('.'));
+			} else {
+				if (base == null || !n.startsWith(base)) {
+					try {
+						Files.delete(new File(packDir.toFile(), n).toPath());
+					} catch (IOException e) {
+						LOG.error(e.getMessage(), e);
+					}
+				}
+			}
+		}
 	}
 
 	/**
