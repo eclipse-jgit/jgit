@@ -55,6 +55,7 @@ import java.nio.channels.FileChannel;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.text.MessageFormat;
 import java.text.ParseException;
@@ -73,6 +74,9 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.dircache.DirCacheIterator;
@@ -654,10 +658,72 @@ public class GC {
 			throw new IOException(e);
 		}
 		prunePacked();
+		deleteOrphans();
 
 		lastPackedRefs = refsBefore;
 		lastRepackTime = time;
 		return ret;
+	}
+
+	private void deleteOrphans() {
+		Path packDir = Paths.get(repo.getObjectsDirectory().getAbsolutePath(),
+				"pack"); //$NON-NLS-1$
+
+		DirectoryStream.Filter<Path> filter = new DirectoryStream.Filter<Path>() {
+			public boolean accept(Path file) throws IOException {
+				String name = file.toFile().getName();
+
+				return name != null && name.startsWith("pack") //$NON-NLS-1$
+						&& (name.endsWith("." + PackExt.PACK.getExtension()) //$NON-NLS-1$
+								|| name.endsWith("." //$NON-NLS-1$
+										+ PackExt.BITMAP_INDEX.getExtension())
+								|| name.endsWith(
+										"." + PackExt.INDEX.getExtension())); //$NON-NLS-1$
+			}
+		};
+
+		try {
+			Stream<Path> pathStream = StreamSupport.stream(
+					Files.newDirectoryStream(packDir, filter).spliterator(),
+					false);
+			List<String> names = pathStream
+					.map(path -> path.toFile().getName())
+					.collect(Collectors.toList());
+
+			names.stream().filter(name -> isOrphan(name, names))
+					.forEach(name -> deleteQuietly(packDir.resolve(name)));
+		} catch (IOException e) {
+			LOG.error(e.getMessage(), e);
+		}
+
+	}
+
+	private void deleteQuietly(Path path) {
+		try {
+			Files.delete(path);
+		} catch (IOException e) {
+			LOG.error(e.getMessage(), e);
+		}
+	}
+
+	/**
+	 * Checks if a file name is an orphan
+	 * <p>
+	 * A file name is considered an orphan if it does not end with "pack", and
+	 * its corresponding pack is missing in the list.
+	 * </p>
+	 *
+	 * @param fileName
+	 *            the condidate file name
+	 * @param fileNames
+	 *            the list of file names
+	 * @return true if and only if the given file name is an orphan
+	 */
+	private boolean isOrphan(String fileName, List<String> fileNames) {
+		return !fileName.endsWith("." + PackExt.PACK.getExtension()) //$NON-NLS-1$
+				&& !fileNames.contains(
+						fileName.substring(0, fileName.lastIndexOf(".") + 1) //$NON-NLS-1$
+								+ PackExt.PACK.getExtension());
 	}
 
 	/**
