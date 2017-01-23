@@ -654,10 +654,46 @@ public class GC {
 			throw new IOException(e);
 		}
 		prunePacked();
+		deleteOrphans();
 
 		lastPackedRefs = refsBefore;
 		lastRepackTime = time;
 		return ret;
+	}
+
+	private void deleteOrphans() {
+		File[] files = new File(repo.getObjectsDirectory(), "pack").listFiles(); //$NON-NLS-1$
+		if (files == null) {
+			return;
+		}
+		for (File file : files) {
+			if (file.isFile() && isOrphan(file)) {
+				file.delete();
+			}
+		}
+	}
+
+	/**
+	 * Checks if a file is an orphan
+	 * <p>
+	 * A file is considered an orphan if it is either a bitmap or an idx file in
+	 * pack folder, and its corresponding pack file is missing.
+	 * </p>
+	 *
+	 * @param file
+	 *            the condidate file
+	 * @return true if and only if the given file is an orphan
+	 */
+	private boolean isOrphan(File file) {
+		String fileName = file.getName();
+
+		return fileName.startsWith("pack") && //$NON-NLS-1$
+				(fileName.endsWith("." + PackExt.BITMAP_INDEX.getExtension()) //$NON-NLS-1$
+						|| fileName
+								.endsWith("." + PackExt.INDEX.getExtension())) //$NON-NLS-1$
+				&& !new File(file.getParentFile(),
+						fileName.substring(0, fileName.lastIndexOf(".") + 1) //$NON-NLS-1$
+								+ PackExt.PACK.getExtension()).exists();
 	}
 
 	/**
