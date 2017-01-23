@@ -31,8 +31,8 @@
          version="0.0.0"/>
 
    <requires>
-      <import feature="org.eclipse.jgit" version="4.6.0" match="equivalent"/>
-      <import feature="org.eclipse.jgit.lfs" version="4.6.0" match="equivalent"/>
+      <import feature="org.eclipse.jgit" version="4.6.1" match="equivalent"/>
+      <import feature="org.eclipse.jgit.lfs" version="4.6.1" match="equivalent"/>
    </requires>
 
    <plugin
