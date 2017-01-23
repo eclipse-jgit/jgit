@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_33d88697",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/ManifestParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2017-01-23T20:46:43Z",
+      "side": 1,
+      "message": "JGit uses java 8, right? Why not using the java NonNull annotation?",
+      "range": {
+        "startLine": 60,
+        "startChar": 7,
+        "endLine": 60,
+        "endChar": 43
+      },
+      "revId": "d3c4c0622f1f007e481112613acd9935d999b358",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
