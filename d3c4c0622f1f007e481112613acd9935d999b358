@@ -22,6 +22,30 @@
       "revId": "d3c4c0622f1f007e481112613acd9935d999b358",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_76dbcc62",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/ManifestParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-01-23T21:45:15Z",
+      "side": 1,
+      "message": "We started using these annotations when JGit used Java 7 so we created our own annotations. We could switch to Java 8 annotations (is this a breaking change ?), but I think this should be done in another change.",
+      "parentUuid": "a7c23755_33d88697",
+      "range": {
+        "startLine": 60,
+        "startChar": 7,
+        "endLine": 60,
+        "endChar": 43
+      },
+      "revId": "d3c4c0622f1f007e481112613acd9935d999b358",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
