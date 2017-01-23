@@ -46,6 +46,30 @@
       "revId": "d3c4c0622f1f007e481112613acd9935d999b358",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_163298f4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/ManifestParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2017-01-23T23:30:54Z",
+      "side": 1,
+      "message": "Sure, I was curious to know the reason, that\u0027s all.",
+      "parentUuid": "a7c23755_76dbcc62",
+      "range": {
+        "startLine": 60,
+        "startChar": 7,
+        "endLine": 60,
+        "endChar": 43
+      },
+      "revId": "d3c4c0622f1f007e481112613acd9935d999b358",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
