@@ -55,10 +55,12 @@ import java.nio.channels.FileChannel;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -654,10 +656,46 @@ public class GC {
 			throw new IOException(e);
 		}
 		prunePacked();
+		deleteOrphans();
 
 		lastPackedRefs = refsBefore;
 		lastRepackTime = time;
 		return ret;
+	}
+
+	/**
+	 * Deletes orphans
+	 * <p>
+	 * A file is considered an orphan if it is either a "bitmap" or an index
+	 * file, and its corresponding pack file is missing in the list.
+	 * </p>
+	 */
+	private void deleteOrphans() {
+		Path packDir = Paths.get(repo.getObjectsDirectory().getAbsolutePath(),
+				"pack"); //$NON-NLS-1$
+		String base = null;
+
+		String[] list = packDir.toFile().list((file, name) -> {
+			return (name.endsWith("." + PackExt.PACK.getExtension()) //$NON-NLS-1$
+					|| name.endsWith("." + PackExt.BITMAP_INDEX.getExtension()) //$NON-NLS-1$
+					|| name.endsWith("." + PackExt.INDEX.getExtension())); //$NON-NLS-1$
+		});
+		Arrays.sort(list);
+		for (int i = list.length - 1; i >= 0; i--) {
+			if (list[i].endsWith(PackExt.PACK.getExtension())) {
+				base = list[i].substring(0, list[i].lastIndexOf('.'));
+			} else {
+				if (base == null || !list[i].startsWith(base)) {
+					try {
+						Files.delete(
+								new File(packDir.toFile(), list[i]).toPath());
+					} catch (IOException e) {
+						LOG.error(e.getMessage(), e);
+					}
+				}
+			}
+		}
+
 	}
 
 	/**
