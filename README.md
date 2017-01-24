@@ -29,7 +29,7 @@ there, but the automated builds use Maven.
 - org.eclipse.jgit.http.apache
 
     Apache httpclient support
-
+ 
 - org.eclipse.jgit.http.server
 
     Server for the smart and dumb Git HTTP protocol.
