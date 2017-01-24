@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_36c87449",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 710
+      },
+      "writtenOn": "2017-01-24T02:59:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_9b217a2a",
+      "range": {
+        "startLine": 9,
+        "startChar": 48,
+        "endLine": 9,
+        "endChar": 55
+      },
+      "revId": "0eec731c06c5e4a59b31a28c6abe9e3b44b7d1a6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_bb33967c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-01-21T00:02:50Z",
       "side": 1,
       "message": "trailing whitespace",
+      "range": {
+        "startLine": 12,
+        "startChar": 59,
+        "endLine": 12,
+        "endChar": 65
+      },
+      "revId": "0eec731c06c5e4a59b31a28c6abe9e3b44b7d1a6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_56c3302c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 710
+      },
+      "writtenOn": "2017-01-24T02:59:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_bb33967c",
       "range": {
         "startLine": 12,
         "startChar": 59,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_96f86872",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 710
+      },
+      "writtenOn": "2017-01-24T02:59:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_3bd2267a",
+      "revId": "0eec731c06c5e4a59b31a28c6abe9e3b44b7d1a6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_5bcd22da",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
         "patchSetId": 1
@@ -76,6 +142,30 @@
       "writtenOn": "2017-01-21T00:02:50Z",
       "side": 1,
       "message": "This is basically the same method as above. Maybe combine the implementations by making a helper that takes a varags of PackSource enum, copies to an EnumSet\u003cPackSource\u003e, and then iterates the source packs.\n\nThe cost of that varags and EnumSet is nothing compared to the cost of the actual packing work, so there is no need to micro-optimize this filter loop.",
+      "range": {
+        "startLine": 428,
+        "startChar": 39,
+        "endLine": 428,
+        "endChar": 40
+      },
+      "revId": "0eec731c06c5e4a59b31a28c6abe9e3b44b7d1a6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_b6eba49d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 710
+      },
+      "writtenOn": "2017-01-24T02:59:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_5bcd22da",
       "range": {
         "startLine": 428,
         "startChar": 39,
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_f6e8bca1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 710
+      },
+      "writtenOn": "2017-01-24T02:59:01Z",
+      "side": 1,
+      "message": "Are you suggesting that, we can use the the existing GC_TXN pack size as an estimate?",
+      "parentUuid": "a7c23755_7bd81e98",
+      "range": {
+        "startLine": 456,
+        "startChar": 30,
+        "endLine": 456,
+        "endChar": 55
+      },
+      "revId": "0eec731c06c5e4a59b31a28c6abe9e3b44b7d1a6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_db0852a1",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
         "patchSetId": 1
@@ -122,6 +236,24 @@
       "writtenOn": "2017-01-21T00:02:50Z",
       "side": 1,
       "message": "I think you can ask the PackRevIdx for the offset of this object and the next object in the pack, subtract them to compute the length of this object, and accumulate that for a size estimate.\n\nHold the PackRevIdx up above alongside the PackIndex as its not free on a per-object basis.",
+      "revId": "0eec731c06c5e4a59b31a28c6abe9e3b44b7d1a6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_16e458c9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 710
+      },
+      "writtenOn": "2017-01-24T02:59:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_db0852a1",
       "revId": "0eec731c06c5e4a59b31a28c6abe9e3b44b7d1a6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -151,6 +283,30 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_96a30886",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 710
+      },
+      "writtenOn": "2017-01-24T02:59:01Z",
+      "side": 1,
+      "message": "The purpose of this method is for the subclasses to override it if they need take estimatedPackSize into consideration while creating the pack description. I just added this default implementation, so that all the existing sub classes won\u0027t be forced to implement this method. I updated the javadoc to add more context.",
+      "parentUuid": "a7c23755_1be80a28",
+      "range": {
+        "startLine": 284,
+        "startChar": 0,
+        "endLine": 285,
+        "endChar": 47
+      },
+      "revId": "0eec731c06c5e4a59b31a28c6abe9e3b44b7d1a6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_3b4786d5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackCompactor.java",
         "patchSetId": 1
@@ -168,6 +324,24 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_b6a64494",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackCompactor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 710
+      },
+      "writtenOn": "2017-01-24T02:59:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_3b4786d5",
+      "revId": "0eec731c06c5e4a59b31a28c6abe9e3b44b7d1a6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_1b2d6a19",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackDescription.java",
         "patchSetId": 1
@@ -179,6 +353,30 @@
       "writtenOn": "2017-01-21T00:02:50Z",
       "side": 1,
       "message": "double the",
+      "range": {
+        "startLine": 196,
+        "startChar": 63,
+        "endLine": 196,
+        "endChar": 70
+      },
+      "revId": "0eec731c06c5e4a59b31a28c6abe9e3b44b7d1a6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_d6a90066",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackDescription.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 710
+      },
+      "writtenOn": "2017-01-24T02:59:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_1b2d6a19",
       "range": {
         "startLine": 196,
         "startChar": 63,
