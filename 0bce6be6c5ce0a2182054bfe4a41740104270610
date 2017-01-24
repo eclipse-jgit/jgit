@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_df05931d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-01-24T17:12:29Z",
+      "side": 1,
+      "message": "nit: newer jgit code tends to avoid \u0027final\u0027 for locals where it\u0027s not needed",
+      "range": {
+        "startLine": 222,
+        "startChar": 3,
+        "endLine": 222,
+        "endChar": 9
+      },
+      "revId": "0bce6be6c5ce0a2182054bfe4a41740104270610",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_ff36cfe8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-01-24T17:12:29Z",
+      "side": 1,
+      "message": "optional: can decrease nesting by reversing the test:\n\n  if (existing.contains(oid)) {\n    continue;\n  }\n  existing.add(oid);\n  ...",
+      "revId": "0bce6be6c5ce0a2182054bfe4a41740104270610",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_7ffc7f7e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-01-24T17:12:29Z",
+      "side": 1,
+      "message": "optional nit: this could be a two-element enum to make the behavior more obvious (see Effective Java second edition item 40, p190)",
+      "revId": "0bce6be6c5ce0a2182054bfe4a41740104270610",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_9fff9b71",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-01-24T17:12:29Z",
+      "side": 1,
+      "message": "Why is this catch/throw needed? MissingObjectException is an IOException",
+      "revId": "0bce6be6c5ce0a2182054bfe4a41740104270610",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_5f118358",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-01-24T17:12:29Z",
+      "side": 1,
+      "message": "same nit about \u0027final\u0027 (and likewise below)",
+      "range": {
+        "startLine": 256,
+        "startChar": 2,
+        "endLine": 256,
+        "endChar": 8
+      },
+      "revId": "0bce6be6c5ce0a2182054bfe4a41740104270610",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
