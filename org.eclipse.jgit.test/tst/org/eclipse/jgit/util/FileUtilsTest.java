@@ -52,7 +52,11 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.io.UnsupportedEncodingException;
+import java.rmi.RemoteException;
 import java.util.regex.Matcher;
+
+import javax.management.remote.JMXProviderException;
 
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.junit.After;
@@ -61,6 +65,17 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class FileUtilsTest {
+	private static final String MSG = "Stale file handle";
+
+	private static final String SOME_ERROR_MSG = "some error message";
+
+	private static final IOException IO_EXCEPTION = new UnsupportedEncodingException(
+			MSG);
+
+	private static final IOException IO_EXCEPTION_WITH_CAUSE = new RemoteException(
+			SOME_ERROR_MSG,
+			new JMXProviderException(SOME_ERROR_MSG, IO_EXCEPTION));
+
 	private File trash;
 
 	@Before
@@ -540,5 +555,34 @@ public class FileUtilsTest {
 	private String toOSPathString(String path) {
 		return path.replaceAll("/|\\\\",
 				Matcher.quoteReplacement(File.separator));
+	}
+
+	@Test
+	public void testIsStaleFileHandleWithDirectCause() throws Exception {
+		assertTrue(FileUtils.isStaleFileHandle(IO_EXCEPTION));
+
+	}
+
+	@Test
+	public void testIsStaleFileHandleWithIndirectCause() throws Exception {
+		assertFalse(
+				FileUtils.isStaleFileHandle(IO_EXCEPTION_WITH_CAUSE));
+
+	}
+
+	@Test
+	public void testIsStaleFileHandleInCausalChainWithDirectCause()
+			throws Exception {
+		assertTrue(
+				FileUtils.isStaleFileHandleInCausalChain(IO_EXCEPTION));
+
+	}
+
+	@Test
+	public void testIsStaleFileHandleInCausalChainWithIndirectCause()
+			throws Exception {
+		assertTrue(FileUtils
+				.isStaleFileHandleInCausalChain(IO_EXCEPTION_WITH_CAUSE));
+
 	}
 }

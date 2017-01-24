@@ -548,6 +548,26 @@ public class FileUtils {
 	}
 
 	/**
+	 * Determine if a throwable or a cause in its causal chain is a Stale NFS
+	 * File Handle
+	 *
+	 * @param throwable
+	 * @return a boolean true if the throwable or a cause in its causal chain is
+	 *         a Stale NFS FIle Handle
+	 * @since 4.7
+	 */
+	public static boolean isStaleFileHandleInCausalChain(Throwable throwable) {
+		while (throwable != null) {
+			if (throwable instanceof IOException
+					&& isStaleFileHandle((IOException) throwable)) {
+				return true;
+			}
+			throwable = throwable.getCause();
+		}
+		return false;
+	}
+
+	/**
 	 * @param file
 	 * @return {@code true} if the passed file is a symbolic link
 	 */
