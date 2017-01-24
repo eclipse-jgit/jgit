@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_36ca34b3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 694,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-01-24T08:42:07Z",
+      "side": 1,
+      "message": "What happens when we have a file named \"pack-1234idx\" in that directory. No \u0027.\u0027 but ending in a well known extension. Such files would be deleted, or?",
+      "revId": "d1e8e7165ed390c3554661045124baa369e94dfd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
