@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_964068ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 710
+      },
+      "writtenOn": "2017-01-24T02:59:21Z",
+      "side": 1,
+      "message": "The main purpose of this method is to give an option to the sub classes of DfsObjDatabase to make use of the estimated pack size while creating the PackDescription object. I see that the Google internal implementation of ObjDatabse would need to know about the estimated pack size while creating the pack description. If we remove this method, and directly call description.setEstimatedFileSize from compactor and garbage collector, the implementations of DfsObjDatabase.newPack(PackSource packSource) does not have any way to know estimated size of the new pack.",
+      "parentUuid": "a7c23755_1661b8b1",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 29
+      },
+      "revId": "ab350e330d3824a8f95e5f532e07d7e85112417f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_366cf4a9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackDescription.java",
         "patchSetId": 3
@@ -36,6 +60,24 @@
       "writtenOn": "2017-01-24T00:31:25Z",
       "side": 1,
       "message": "Crazy idea, what if we just stored the estimated size here with setFileSize(PackExt.PACK, size)?\n\nThat way we don\u0027t even need a new field here. We just fill in an estimate and allow the implementation get it (or 0 if not filled in), and replace it with the accurate number later.",
+      "revId": "ab350e330d3824a8f95e5f532e07d7e85112417f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_b633a4aa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackDescription.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 710
+      },
+      "writtenOn": "2017-01-24T02:59:21Z",
+      "side": 1,
+      "message": "I thought about it, but I saw two problems with it.\n\n* If we call setFileSize(PACK, size) from Dfs classes, it may override any pack file size already initialized with the real implementations of DsfObjDatabase.newPack(PackSource).\n\n* It would be little difficult to write tests about verifying the estimated file size, as the real file size will override the estimated file size.",
+      "parentUuid": "a7c23755_366cf4a9",
       "revId": "ab350e330d3824a8f95e5f532e07d7e85112417f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
