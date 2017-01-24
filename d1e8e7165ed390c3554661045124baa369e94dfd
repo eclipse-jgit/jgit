@@ -16,6 +16,24 @@
       "revId": "d1e8e7165ed390c3554661045124baa369e94dfd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_e41f261a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 694,
+      "author": {
+        "id": 104680
+      },
+      "writtenOn": "2017-01-24T15:46:27Z",
+      "side": 1,
+      "message": "Done.\nYes. Such a file would have been deleted (PS1).\nNo. It is kept (PS2).",
+      "parentUuid": "a7c23755_36ca34b3",
+      "revId": "d1e8e7165ed390c3554661045124baa369e94dfd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
