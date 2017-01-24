@@ -19,6 +19,29 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_ff308f9e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectoryInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-01-24T18:09:09Z",
+      "side": 1,
+      "message": "Does this need to be public? I think the only caller is in the same package.",
+      "range": {
+        "startLine": 99,
+        "startChar": 1,
+        "endLine": 99,
+        "endChar": 7
+      },
+      "revId": "d5daafe7ec991e9287aed2806dfba6715cbe9c95",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_9f407bef",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectoryInserter.java",
         "patchSetId": 1
@@ -30,6 +53,29 @@
       "writtenOn": "2017-01-24T18:08:09Z",
       "side": 1,
       "message": "Likewise.",
+      "revId": "d5daafe7ec991e9287aed2806dfba6715cbe9c95",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_1f2c6b4a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectoryInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-01-24T18:09:09Z",
+      "side": 1,
+      "message": "Likewise.",
+      "range": {
+        "startLine": 123,
+        "startChar": 1,
+        "endLine": 123,
+        "endChar": 7
+      },
       "revId": "d5daafe7ec991e9287aed2806dfba6715cbe9c95",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
