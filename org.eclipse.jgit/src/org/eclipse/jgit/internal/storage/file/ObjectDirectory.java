@@ -563,7 +563,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		} else if (e instanceof FileNotFoundException) {
 			warnTmpl = JGitText.get().packWasDeleted;
 			removePack(p);
-		} else if (FileUtils.isStaleFileHandle(e)) {
+		} else if (FileUtils.isStaleFileHandleInCausalChain(e)) {
 			warnTmpl = JGitText.get().packHandleIsStale;
 			removePack(p);
 		}
