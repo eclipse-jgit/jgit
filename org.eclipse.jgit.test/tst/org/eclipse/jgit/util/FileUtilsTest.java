@@ -50,6 +50,8 @@ import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.regex.Matcher;
 
 import org.eclipse.jgit.junit.JGitTestUtil;
@@ -58,7 +60,7 @@ import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 
-public class FileUtilTest {
+public class FileUtilsTest {
 	private File trash;
 
 	@Before
@@ -506,6 +508,33 @@ public class FileUtilTest {
 
 		String actual = FileUtils.relativize(base, other);
 		assertEquals(expected, actual);
+	}
+
+	@Test
+	public void testDeleteSymlinkToDirectoryDoesNotDeleteTarget()
+			throws IOException {
+		org.junit.Assume.assumeTrue(FS.DETECTED.supportsSymlinks());
+		FS fs = FS.DETECTED;
+		File dir = new File(trash, "dir");
+		File file = new File(dir, "file");
+		File link = new File(trash, "link");
+		FileUtils.mkdirs(dir);
+		FileUtils.createNewFile(file);
+		fs.createSymLink(link, "dir");
+		FileUtils.delete(link, FileUtils.RECURSIVE);
+		assertFalse(link.exists());
+		assertTrue(dir.exists());
+		assertTrue(file.exists());
+	}
+
+	@Test
+	public void testAtomicMove() throws IOException {
+		File src = new File(trash, "src");
+		Files.createFile(src.toPath());
+		File dst = new File(trash, "dst");
+		FileUtils.rename(src, dst, StandardCopyOption.ATOMIC_MOVE);
+		assertFalse(Files.exists(src.toPath()));
+		assertTrue(Files.exists(dst.toPath()));
 	}
 
 	private String toOSPathString(String path) {
