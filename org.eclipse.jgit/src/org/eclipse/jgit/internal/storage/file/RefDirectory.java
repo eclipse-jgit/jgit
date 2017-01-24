@@ -798,7 +798,8 @@ public class RefDirectory extends RefDatabase {
 				return new PackedRefList(parsePackedRefs(br), snapshot,
 						ObjectId.fromRaw(digest.digest()));
 			} catch (IOException e) {
-				if (FileUtils.isStaleFileHandle(e) && retries < maxStaleRetries) {
+				if (FileUtils.isStaleFileHandleInCausalChain(e)
+						&& retries < maxStaleRetries) {
 					if (LOG.isDebugEnabled()) {
 						LOG.debug(MessageFormat.format(
 								JGitText.get().packedRefsHandleIsStale,
