@@ -47,8 +47,6 @@ import static org.eclipse.jgit.ignore.internal.Strings.getPathSeparator;
 /**
  * Matcher built from patterns for file names (single path segments). This class
  * is immutable and thread safe.
- *
- * @since 3.6
  */
 public class NameMatcher extends AbstractMatcher {
 

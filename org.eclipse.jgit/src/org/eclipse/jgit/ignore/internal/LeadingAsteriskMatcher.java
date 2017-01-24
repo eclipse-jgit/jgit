@@ -44,8 +44,6 @@ package org.eclipse.jgit.ignore.internal;
 
 /**
  * Matcher for simple regex patterns starting with an asterisk, e.g. "*.tmp"
- *
- * @since 3.6
  */
 public class LeadingAsteriskMatcher extends NameMatcher {
 

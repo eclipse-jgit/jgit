@@ -44,8 +44,6 @@ package org.eclipse.jgit.ignore.internal;
 
 /**
  * Generic string matcher
- *
- * @since 3.6
  */
 public interface IMatcher {
 

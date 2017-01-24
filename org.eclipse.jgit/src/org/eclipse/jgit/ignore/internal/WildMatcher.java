@@ -47,8 +47,6 @@ package org.eclipse.jgit.ignore.internal;
  * matcher matches any path.
  * <p>
  * This class is immutable and thread safe.
- *
- * @since 3.6
  */
 public final class WildMatcher extends AbstractMatcher {
 
