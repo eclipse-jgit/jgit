@@ -53,8 +53,6 @@ import org.eclipse.jgit.errors.InvalidPatternException;
  * glob wildcards to Java {@link Pattern}'s.
  * <p>
  * This class is immutable and thread safe.
- *
- * @since 3.6
  */
 public class WildCardMatcher extends NameMatcher {
 

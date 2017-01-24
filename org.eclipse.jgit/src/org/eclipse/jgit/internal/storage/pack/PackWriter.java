@@ -369,7 +369,6 @@ public class PackWriter implements AutoCloseable {
 	 *            the callback to set
 	 *
 	 * @return this object for chaining.
-	 * @since 4.1
 	 */
 	public PackWriter setObjectCountCallback(ObjectCountCallback callback) {
 		this.callback = callback;
@@ -381,7 +380,6 @@ public class PackWriter implements AutoCloseable {
 	 *
 	 * @param clientShallowCommits
 	 *            the shallow commits in the client
-	 * @since 4.1
 	 */
 	public void setClientShallowCommits(Set<ObjectId> clientShallowCommits) {
 		stats.clientShallowCommits = Collections
@@ -742,8 +740,6 @@ public class PackWriter implements AutoCloseable {
 	 *            Must not be {@code null}.
 	 * @throws IOException
 	 *            an I/O problem occured while reading objects.
-	 *
-	 * @since 4.5
 	 */
 	public void preparePack(ProgressMonitor countingMonitor,
 			@NonNull Set<? extends ObjectId> want,
@@ -1089,8 +1085,6 @@ public class PackWriter implements AutoCloseable {
 
 	/**
 	 * Release all resources used by this writer.
-	 *
-	 * @since 4.0
 	 */
 	@Override
 	public void close() {
@@ -2258,8 +2252,6 @@ public class PackWriter implements AutoCloseable {
 		 * @return the count of objects that needed to be discovered through an
 		 *         object walk because they were not found in bitmap indices.
 		 *         Returns -1 if no bitmap indices were found.
-		 *
-		 * @since 4.0
 		 */
 		public long getBitmapIndexMisses() {
 			return statistics.getBitmapIndexMisses();

@@ -46,8 +46,6 @@ package org.eclipse.jgit.ignore.internal;
  * Base class for default methods as {@link #toString()} and such.
  * <p>
  * This class is immutable and thread safe.
- *
- * @since 3.6
  */
 public abstract class AbstractMatcher implements IMatcher {
 
