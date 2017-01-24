@@ -81,6 +81,8 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.file.ObjectDirectory;
+import org.eclipse.jgit.internal.storage.file.ObjectDirectoryInserter;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.internal.storage.reftree.RefTreeNames;
@@ -90,6 +92,8 @@ import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdSet;
+import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Ref.Storage;
@@ -209,12 +213,35 @@ public class GC {
 	}
 
 	/**
+	 * Loosen objects in a pack file which are not also in the newly-created
+	 * pack files.
+	 */
+	private void loosen(ObjectDirectoryInserter inserter, ObjectReader reader, PackFile pack, HashSet<ObjectId> existing)
+			throws IOException {
+		for (PackIndex.MutableEntry entry : pack) {
+			ObjectId oid = entry.toObjectId();
+			if (existing.contains(oid)) {
+				continue;
+			}
+			existing.add(oid);
+			ObjectLoader loader = reader.open(oid);
+			inserter.insert(loader.getType(),
+					loader.getSize(),
+					loader.openStream(),
+					true /* create this object even though it's a duplicate */);
+		}
+	}
+
+	/**
 	 * Delete old pack files. What is 'old' is defined by specifying a set of
 	 * old pack files and a set of new pack files. Each pack file contained in
 	 * old pack files but not contained in new pack files will be deleted. If
 	 * preserveOldPacks is set, keep a copy of the pack file in the preserve
 	 * directory. If an expirationDate is set then pack files which are younger
 	 * than the expirationDate will not be deleted nor preserved.
+	 * <p>
+	 * If we're not immediately expiring loose objects, loosen any objects
+	 * in the old pack files which aren't in the new pack files.
 	 *
 	 * @param oldPacks
 	 * @param newPacks
@@ -223,6 +250,17 @@ public class GC {
 	 */
 	private void deleteOldPacks(Collection<PackFile> oldPacks,
 			Collection<PackFile> newPacks) throws ParseException, IOException {
+		HashSet<ObjectId> ids = new HashSet<>();
+		for (PackFile pack : newPacks) {
+			for (PackIndex.MutableEntry entry : pack) {
+				ids.add(entry.toObjectId());
+			}
+		}
+		ObjectReader reader = repo.newObjectReader();
+		ObjectDirectory dir = repo.getObjectDatabase();
+		ObjectDirectoryInserter inserter = dir.newInserter();
+		boolean shouldLoosen = getExpireDate() < Long.MAX_VALUE;
+
 		prunePreserved();
 		long packExpireDate = getPackExpireDate();
 		oldPackLoop: for (PackFile oldPack : oldPacks) {
@@ -237,6 +275,9 @@ public class GC {
 					&& repo.getFS().lastModified(
 							oldPack.getPackFile()) < packExpireDate) {
 				oldPack.close();
+				if (shouldLoosen) {
+					loosen(inserter, reader, oldPack, ids);
+				}
 				prunePack(oldName);
 			}
 		}
