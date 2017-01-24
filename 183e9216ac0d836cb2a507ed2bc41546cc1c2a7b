@@ -22,6 +22,30 @@
       "revId": "183e9216ac0d836cb2a507ed2bc41546cc1c2a7b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_4a82a3a2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ReflogWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-01-24T22:14:04Z",
+      "side": 1,
+      "message": "It\u0027s the opposite --- there was no newline at the end of the file, but this change added one. Removing it.",
+      "parentUuid": "a7c23755_5f4ee3be",
+      "range": {
+        "startLine": 290,
+        "startChar": 0,
+        "endLine": 290,
+        "endChar": 1
+      },
+      "revId": "183e9216ac0d836cb2a507ed2bc41546cc1c2a7b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
