@@ -68,7 +68,6 @@ public class CLIText extends TranslationBundle {
 	 * @param line
 	 *            the line to format
 	 * @return the formatted line
-	 * @since 2.2
 	 */
 	public static String formatLine(String line) {
 		return MessageFormat.format(get().lineFormat, line);
@@ -81,7 +80,6 @@ public class CLIText extends TranslationBundle {
 	 * @param message
 	 *            the message to format
 	 * @return the formatted line
-	 * @since 4.2
 	 */
 	public static String fatalError(String message) {
 		return MessageFormat.format(get().fatalError, message);

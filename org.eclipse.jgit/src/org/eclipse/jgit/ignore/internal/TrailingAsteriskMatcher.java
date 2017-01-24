@@ -44,8 +44,6 @@ package org.eclipse.jgit.ignore.internal;
 
 /**
  * Matcher for simple patterns ending with an asterisk, e.g. "Makefile.*"
- *
- * @since 3.6
  */
 public class TrailingAsteriskMatcher extends NameMatcher {
 

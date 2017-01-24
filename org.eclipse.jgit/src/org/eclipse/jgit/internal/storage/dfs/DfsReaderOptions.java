@@ -109,7 +109,6 @@ public class DfsReaderOptions {
 	/**
 	 * @return number of bytes to use for buffering when streaming a pack file
 	 *         during copying. If 0 the block size of the pack is used.
-	 * @since 4.0
 	 */
 	public int getStreamPackBufferSize() {
 		return streamPackBufferSize;
@@ -120,7 +119,6 @@ public class DfsReaderOptions {
 	 *            new buffer size in bytes for buffers used when streaming pack
 	 *            files during copying.
 	 * @return {@code this}
-	 * @since 4.0
 	 */
 	public DfsReaderOptions setStreamPackBufferSize(int bufsz) {
 		streamPackBufferSize = Math.max(0, bufsz);
