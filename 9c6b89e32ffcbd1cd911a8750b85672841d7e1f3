@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_cd46cad7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/FileUtilsJava7Test.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-01-25T23:11:10Z",
+      "side": 1,
+      "message": "we require Java 8 nowadays so why not merge these two classes into a single one, no need to mention Java 7 anymore",
+      "revId": "9c6b89e32ffcbd1cd911a8750b85672841d7e1f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
