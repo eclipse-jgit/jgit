@@ -215,6 +215,12 @@ public class GC {
 	/**
 	 * Loosen objects in a pack file which are not also in the newly-created
 	 * pack files.
+	 * 
+	 * @param inserter
+	 * @param reader
+	 * @param pack
+	 * @param existing
+	 * @throws IOException
 	 */
 	private void loosen(ObjectDirectoryInserter inserter, ObjectReader reader, PackFile pack, HashSet<ObjectId> existing)
 			throws IOException {
