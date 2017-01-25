@@ -25,6 +25,80 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_85ce6c5b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-01-25T04:29:43Z",
+      "side": 1,
+      "message": "Yes, the cache leaks the entry in the hash table, but this is only the HashEntry chain handle and its child Ref node. The actual byte[] was nulled out above by dead.value \u003d null on line 405. So the byte[] can be immediately reclaimed by the Java GC.\n\nI previously didn\u0027t bother to clean the hash table chain during the clock eviction because I assumed we would touch all hash table chains soon enough under other accesses that we would eventually clean these orphaned nodes out of the buckets.",
+      "revId": "ca3b9a171e4708cb8685545aea4aac66051031b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_65287085",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-01-25T04:29:43Z",
+      "side": 1,
+      "message": "We can\u0027t take the regionLock while we hold the clockLock. Elsewhere we take regionLock -\u003e clockLock, which will eventually lead to deadlock.",
+      "revId": "ca3b9a171e4708cb8685545aea4aac66051031b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_a5d1a8f9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-01-25T04:29:43Z",
+      "side": 1,
+      "message": "This would fail on the 2nd node in the bucket because entry has advanced and is not pointing at the root of the bucket. You need to use the original value you got for table.get(slot) at the start of the loop, even if you are on the 5th node in the chain.",
+      "revId": "ca3b9a171e4708cb8685545aea4aac66051031b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_e5d720e9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-01-25T04:29:43Z",
+      "side": 1,
+      "message": "Removing all blocks associated with this pack isn\u0027t a bad idea. When the system calls remove(DsfPackFile) we have a pretty good notion the pack file is no longer part of the repository, so the memory its sitting on is now useless.\n\nI just didn\u0027t bother with this \"optimization\", because the cache eviction algorithm should eventually kill those blocks anyway, as they are not being accessed.\n\nIf there is no pressure on the cache to evict (because its at/under target size), then there is no pressure to spend CPU time to evict this dead pack\u0027s blocks. The cache has \"up to\" its target size of memory promised to it, and the rest of the system should be hands off that part of the heap.",
+      "range": {
+        "startLine": 525,
+        "startChar": 0,
+        "endLine": 527,
+        "endChar": 22
+      },
+      "revId": "ca3b9a171e4708cb8685545aea4aac66051031b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_9b9c1abd",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
         "patchSetId": 3
