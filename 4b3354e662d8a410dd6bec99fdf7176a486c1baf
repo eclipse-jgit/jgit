@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_a6352b01",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1049,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2017-01-26T19:12:08Z",
+      "side": 1,
+      "message": "Not related to this change but this should be spelled \"Cancelled\" to be consistent with method \"isCancelled\" of ProgressMonitor.",
+      "range": {
+        "startLine": 1049,
+        "startChar": 49,
+        "endLine": 1049,
+        "endChar": 57
+      },
+      "revId": "4b3354e662d8a410dd6bec99fdf7176a486c1baf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
