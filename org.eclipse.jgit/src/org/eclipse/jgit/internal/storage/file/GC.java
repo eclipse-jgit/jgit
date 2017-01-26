@@ -270,6 +270,7 @@ public class GC {
 		prunePreserved();
 		long packExpireDate = getPackExpireDate();
 		oldPackLoop: for (PackFile oldPack : oldPacks) {
+			checkCancelled();
 			String oldName = oldPack.getPackName();
 			// check whether an old pack file is also among the list of new
 			// pack files. Then we must not delete it.
@@ -383,6 +384,7 @@ public class GC {
 			pm.beginTask(JGitText.get().pruneLoosePackedObjects, fanout.length);
 			try {
 				for (String d : fanout) {
+					checkCancelled();
 					pm.update(1);
 					if (d.length() != 2)
 						continue;
@@ -390,6 +392,7 @@ public class GC {
 					if (entries == null)
 						continue;
 					for (String e : entries) {
+						checkCancelled();
 						if (e.length() != Constants.OBJECT_ID_STRING_LENGTH - 2)
 							continue;
 						ObjectId id;
@@ -401,11 +404,13 @@ public class GC {
 							continue;
 						}
 						boolean found = false;
-						for (PackFile p : packs)
+						for (PackFile p : packs) {
+							checkCancelled();
 							if (p.hasObject(id)) {
 								found = true;
 								break;
 							}
+						}
 						if (found)
 							FileUtils.delete(objdb.fileFor(id), FileUtils.RETRY
 									| FileUtils.SKIP_MISSING
@@ -446,6 +451,7 @@ public class GC {
 					fanout.length);
 			try {
 				for (String d : fanout) {
+					checkCancelled();
 					pm.update(1);
 					if (d.length() != 2)
 						continue;
@@ -453,6 +459,7 @@ public class GC {
 					if (entries == null)
 						continue;
 					for (File f : entries) {
+						checkCancelled();
 						String fName = f.getName();
 						if (fName.length() != Constants.OBJECT_ID_STRING_LENGTH - 2)
 							continue;
@@ -480,6 +487,8 @@ public class GC {
 		}
 		if (deletionCandidates.isEmpty())
 			return;
+
+		checkCancelled();
 
 		// From the set of current refs remove all those which have been handled
 		// during last repack(). Only those refs will survive which have been
@@ -510,11 +519,14 @@ public class GC {
 			// leave this method.
 			ObjectWalk w = new ObjectWalk(repo);
 			try {
-				for (Ref cr : newRefs)
+				for (Ref cr : newRefs) {
+					checkCancelled();
 					w.markStart(w.parseAny(cr.getObjectId()));
+				}
 				if (lastPackedRefs != null)
-					for (Ref lpr : lastPackedRefs)
+					for (Ref lpr : lastPackedRefs) {
 						w.markUninteresting(w.parseAny(lpr.getObjectId()));
+					}
 				removeReferenced(deletionCandidates, w);
 			} finally {
 				w.dispose();
@@ -532,11 +544,15 @@ public class GC {
 		ObjectWalk w = new ObjectWalk(repo);
 		try {
 			for (Ref ar : getAllRefs())
-				for (ObjectId id : listRefLogObjects(ar, lastRepackTime))
+				for (ObjectId id : listRefLogObjects(ar, lastRepackTime)) {
+					checkCancelled();
 					w.markStart(w.parseAny(id));
+				}
 			if (lastPackedRefs != null)
-				for (Ref lpr : lastPackedRefs)
+				for (Ref lpr : lastPackedRefs) {
+					checkCancelled();
 					w.markUninteresting(w.parseAny(lpr.getObjectId()));
+				}
 			removeReferenced(deletionCandidates, w);
 		} finally {
 			w.dispose();
@@ -544,6 +560,8 @@ public class GC {
 
 		if (deletionCandidates.isEmpty())
 			return;
+
+		checkCancelled();
 
 		// delete all candidates which have survived: these are unreferenced
 		// loose objects. Make a last check, though, to avoid deleting objects
@@ -613,6 +631,7 @@ public class GC {
 			IncorrectObjectTypeException, IOException {
 		RevObject ro = w.next();
 		while (ro != null) {
+			checkCancelled();
 			if (id2File.remove(ro.getId()) != null)
 				if (id2File.isEmpty())
 					return;
@@ -620,6 +639,7 @@ public class GC {
 		}
 		ro = w.nextObject();
 		while (ro != null) {
+			checkCancelled();
 			if (id2File.remove(ro.getId()) != null)
 				if (id2File.isEmpty())
 					return;
@@ -653,6 +673,7 @@ public class GC {
 		pm.beginTask(JGitText.get().packRefs, refs.size());
 		try {
 			for (Ref ref : refs) {
+				checkCancelled();
 				if (!ref.isSymbolic() && ref.getStorage().isLoose())
 					refsToBePacked.add(ref.getName());
 				pm.update(1);
@@ -691,6 +712,7 @@ public class GC {
 		RefDatabase refdb = repo.getRefDatabase();
 
 		for (Ref ref : refsBefore) {
+			checkCancelled();
 			nonHeads.addAll(listRefLogObjects(ref, 0));
 			if (ref.isSymbolic() || ref.getObjectId() == null)
 				continue;
@@ -705,9 +727,11 @@ public class GC {
 		}
 
 		List<ObjectIdSet> excluded = new LinkedList<ObjectIdSet>();
-		for (final PackFile f : repo.getObjectDatabase().getPacks())
+		for (final PackFile f : repo.getObjectDatabase().getPacks()) {
+			checkCancelled();
 			if (f.shouldBeKept())
 				excluded.add(f.getIndex());
+		}
 
 		tagTargets.addAll(allHeads);
 		nonHeads.addAll(indexObjects);
@@ -805,6 +829,7 @@ public class GC {
 			all.addAll(refs);
 			// add additional refs which start with refs/
 			for (Ref r : addl) {
+				checkCancelled();
 				if (r.getName().startsWith(Constants.R_REFS)) {
 					all.add(r);
 				}
@@ -842,6 +867,7 @@ public class GC {
 			Set<ObjectId> ret = new HashSet<ObjectId>();
 
 			while (treeWalk.next()) {
+				checkCancelled();
 				ObjectId objectId = treeWalk.getObjectId(0);
 				switch (treeWalk.getRawMode(0) & FileMode.TYPE_MASK) {
 				case FileMode.TYPE_MISSING:
@@ -869,6 +895,7 @@ public class GC {
 	private PackFile writePack(@NonNull Set<? extends ObjectId> want,
 			@NonNull Set<? extends ObjectId> have, Set<ObjectId> tagTargets,
 			List<ObjectIdSet> excludeObjects) throws IOException {
+		checkCancelled();
 		File tmpPack = null;
 		Map<PackExt, File> tmpExts = new TreeMap<PackExt, File>(
 				new Comparator<PackExt>() {
@@ -900,6 +927,7 @@ public class GC {
 			pw.preparePack(pm, want, have);
 			if (pw.getObjectCount() == 0)
 				return null;
+			checkCancelled();
 
 			// create temporary files
 			String id = pw.computeName().getName();
@@ -1014,6 +1042,12 @@ public class GC {
 	private File nameFor(String name, String ext) {
 		File packdir = new File(repo.getObjectsDirectory(), "pack"); //$NON-NLS-1$
 		return new File(packdir, "pack-" + name + ext); //$NON-NLS-1$
+	}
+
+	private void checkCancelled() throws IOException {
+		if (pm.isCancelled()) {
+			throw new IOException(JGitText.get().operationCanceled);
+		}
 	}
 
 	/**
