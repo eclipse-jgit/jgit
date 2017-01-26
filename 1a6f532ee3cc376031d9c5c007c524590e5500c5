@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_502dedca",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/FileTreeIteratorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 669,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-01-26T04:46:21Z",
+      "side": 1,
+      "message": "This was added here, and in the subsequent tests, to ensure that we\u0027re looking at the correct file.  In the other class there was no @Before method creating other content.\n\nThere are ways to prevent the @Before method from running (aside from just leaving the tests in a separate class) as described here [1] but I thought that might just add unnecessary complexity.\n\n[1] http://stackoverflow.com/questions/13017097/exclude-individual-test-from-before-method-in-junit/13017452#13017452",
+      "range": {
+        "startLine": 667,
+        "startChar": 2,
+        "endLine": 669,
+        "endChar": 3
+      },
+      "revId": "1a6f532ee3cc376031d9c5c007c524590e5500c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
