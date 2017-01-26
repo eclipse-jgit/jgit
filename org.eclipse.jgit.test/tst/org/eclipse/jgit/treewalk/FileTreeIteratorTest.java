@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008, Google Inc.
+ * Copyright (C) 2008, 2017, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -53,6 +53,7 @@ import java.io.IOException;
 import java.security.MessageDigest;
 
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.ResetCommand.ResetType;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.dircache.DirCacheEditor;
@@ -68,6 +69,7 @@ import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -653,6 +655,157 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		}
 	}
 
+	@Test
+	public void testFileModeSymLinkIsNotATree() throws IOException {
+		org.junit.Assume.assumeTrue(FS.DETECTED.supportsSymlinks());
+		FS fs = db.getFS();
+		// mål = target in swedish, just to get som unicode in here
+		writeTrashFile("mål/data", "targetdata");
+		fs.createSymLink(new File(trash, "länk"), "mål");
+		FileTreeIterator fti = new FileTreeIterator(db);
+		assertFalse(fti.eof());
+		while (!fti.getEntryPathString().equals("länk")) {
+			fti.next(1);
+		}
+		assertEquals("länk", fti.getEntryPathString());
+		assertEquals(FileMode.SYMLINK, fti.getEntryFileMode());
+		fti.next(1);
+		assertFalse(fti.eof());
+		assertEquals("mål", fti.getEntryPathString());
+		assertEquals(FileMode.TREE, fti.getEntryFileMode());
+		fti.next(1);
+		assertTrue(fti.eof());
+	}
+
+	@Test
+	public void testSymlinkNotModifiedThoughNormalized() throws Exception {
+		DirCache dc = db.lockDirCache();
+		DirCacheEditor dce = dc.editor();
+		final String UNNORMALIZED = "target/";
+		final byte[] UNNORMALIZED_BYTES = Constants.encode(UNNORMALIZED);
+		try (ObjectInserter oi = db.newObjectInserter()) {
+			final ObjectId linkid = oi.insert(Constants.OBJ_BLOB,
+					UNNORMALIZED_BYTES, 0, UNNORMALIZED_BYTES.length);
+			dce.add(new DirCacheEditor.PathEdit("link") {
+				@Override
+				public void apply(DirCacheEntry ent) {
+					ent.setFileMode(FileMode.SYMLINK);
+					ent.setObjectId(linkid);
+					ent.setLength(UNNORMALIZED_BYTES.length);
+				}
+			});
+			assertTrue(dce.commit());
+		}
+		try (Git git = new Git(db)) {
+			git.commit().setMessage("Adding link").call();
+			git.reset().setMode(ResetType.HARD).call();
+			DirCacheIterator dci = new DirCacheIterator(db.readDirCache());
+			FileTreeIterator fti = new FileTreeIterator(db);
+
+			// self-check
+			while (!fti.getEntryPathString().equals("link")) {
+				fti.next(1);
+			}
+			assertEquals("link", fti.getEntryPathString());
+			assertEquals("link", dci.getEntryPathString());
+
+			// test
+			assertFalse(fti.isModified(dci.getDirCacheEntry(), true,
+					db.newObjectReader()));
+		}
+	}
+
+	/**
+	 * Like #testSymlinkNotModifiedThoughNormalized but there is no
+	 * normalization being done.
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testSymlinkModifiedNotNormalized() throws Exception {
+		DirCache dc = db.lockDirCache();
+		DirCacheEditor dce = dc.editor();
+		final String NORMALIZED = "target";
+		final byte[] NORMALIZED_BYTES = Constants.encode(NORMALIZED);
+		try (ObjectInserter oi = db.newObjectInserter()) {
+			final ObjectId linkid = oi.insert(Constants.OBJ_BLOB,
+					NORMALIZED_BYTES, 0, NORMALIZED_BYTES.length);
+			dce.add(new DirCacheEditor.PathEdit("link") {
+				@Override
+				public void apply(DirCacheEntry ent) {
+					ent.setFileMode(FileMode.SYMLINK);
+					ent.setObjectId(linkid);
+					ent.setLength(NORMALIZED_BYTES.length);
+				}
+			});
+			assertTrue(dce.commit());
+		}
+		try (Git git = new Git(db)) {
+			git.commit().setMessage("Adding link").call();
+			git.reset().setMode(ResetType.HARD).call();
+			DirCacheIterator dci = new DirCacheIterator(db.readDirCache());
+			FileTreeIterator fti = new FileTreeIterator(db);
+
+			// self-check
+			while (!fti.getEntryPathString().equals("link")) {
+				fti.next(1);
+			}
+			assertEquals("link", fti.getEntryPathString());
+			assertEquals("link", dci.getEntryPathString());
+
+			// test
+			assertFalse(fti.isModified(dci.getDirCacheEntry(), true,
+					db.newObjectReader()));
+		}
+	}
+
+	/**
+	 * Like #testSymlinkNotModifiedThoughNormalized but here the link is
+	 * modified.
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testSymlinkActuallyModified() throws Exception {
+		org.junit.Assume.assumeTrue(FS.DETECTED.supportsSymlinks());
+		final String NORMALIZED = "target";
+		final byte[] NORMALIZED_BYTES = Constants.encode(NORMALIZED);
+		try (ObjectInserter oi = db.newObjectInserter()) {
+			final ObjectId linkid = oi.insert(Constants.OBJ_BLOB,
+					NORMALIZED_BYTES, 0, NORMALIZED_BYTES.length);
+			DirCache dc = db.lockDirCache();
+			DirCacheEditor dce = dc.editor();
+			dce.add(new DirCacheEditor.PathEdit("link") {
+				@Override
+				public void apply(DirCacheEntry ent) {
+					ent.setFileMode(FileMode.SYMLINK);
+					ent.setObjectId(linkid);
+					ent.setLength(NORMALIZED_BYTES.length);
+				}
+			});
+			assertTrue(dce.commit());
+		}
+		try (Git git = new Git(db)) {
+			git.commit().setMessage("Adding link").call();
+			git.reset().setMode(ResetType.HARD).call();
+
+			FileUtils.delete(new File(trash, "link"), FileUtils.NONE);
+			FS.DETECTED.createSymLink(new File(trash, "link"), "newtarget");
+			DirCacheIterator dci = new DirCacheIterator(db.readDirCache());
+			FileTreeIterator fti = new FileTreeIterator(db);
+
+			// self-check
+			while (!fti.getEntryPathString().equals("link")) {
+				fti.next(1);
+			}
+			assertEquals("link", fti.getEntryPathString());
+			assertEquals("link", dci.getEntryPathString());
+
+			// test
+			assertTrue(fti.isModified(dci.getDirCacheEntry(), true,
+					db.newObjectReader()));
+		}
+	}
 
 	private static void assertEntry(String sha1string, String path, TreeWalk tw)
 			throws MissingObjectException, IncorrectObjectTypeException,
