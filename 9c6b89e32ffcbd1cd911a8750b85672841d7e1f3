@@ -39,6 +39,30 @@
       "revId": "9c6b89e32ffcbd1cd911a8750b85672841d7e1f3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_b0d4812f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/FileUtilsTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-01-26T04:15:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_30c9519d",
+      "range": {
+        "startLine": 61,
+        "startChar": 13,
+        "endLine": 61,
+        "endChar": 25
+      },
+      "revId": "9c6b89e32ffcbd1cd911a8750b85672841d7e1f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
