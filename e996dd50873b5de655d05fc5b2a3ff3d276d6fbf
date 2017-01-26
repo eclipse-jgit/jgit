@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_06a6df0a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcOrphanFilesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 104680
+      },
+      "writtenOn": "2017-01-26T22:11:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_ed5d46c2",
+      "revId": "e996dd50873b5de655d05fc5b2a3ff3d276d6fbf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_cd624a7f",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcOrphanFilesTest.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_469c57bb",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcOrphanFilesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 104680
+      },
+      "writtenOn": "2017-01-26T22:11:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_cd624a7f",
+      "revId": "e996dd50873b5de655d05fc5b2a3ff3d276d6fbf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_ad48ae05",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcOrphanFilesTest.java",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2017-01-25T22:39:58Z",
       "side": 1,
       "message": "style nit: remove unnecessary blank line",
+      "revId": "e996dd50873b5de655d05fc5b2a3ff3d276d6fbf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_66823359",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcOrphanFilesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 104680
+      },
+      "writtenOn": "2017-01-26T22:11:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_ad48ae05",
       "revId": "e996dd50873b5de655d05fc5b2a3ff3d276d6fbf",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -81,6 +135,42 @@
       "writtenOn": "2017-01-26T13:56:25Z",
       "side": 1,
       "message": "I think your change works. Great.\n\nBut there are optimisations I would suggest. If you have the array files in hand you have already all information in hand to detect orphans. No need to do again the expensive filesystem calls (the .exists() calls) in the isOrphan method.\n\nI would:\n- I would use the DirectoryStream with a filter for  .pack,.index,.bitmap files as Matthias suggested\n- I would sort the stream to ensure packs come directly before corresponding bitmap/index files. Then it is easy to detect orphan index,bitmap files (if they don\u0027t follow directly a corresponding .pack file)",
+      "revId": "e996dd50873b5de655d05fc5b2a3ff3d276d6fbf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_06717fff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 665,
+      "author": {
+        "id": 104680
+      },
+      "writtenOn": "2017-01-26T22:11:33Z",
+      "side": 1,
+      "message": "I met problems when trying to achieve point 2 here.\nSuppose we have an ordered stream.\nI do not know how to access to other items in stream when looping.\n\nFor now, no io operations after listing, except deletion.",
+      "parentUuid": "a7c23755_f03199f0",
+      "revId": "e996dd50873b5de655d05fc5b2a3ff3d276d6fbf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_a688cb76",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 665,
+      "author": {
+        "id": 104680
+      },
+      "writtenOn": "2017-01-26T22:11:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_4d4f1a11",
       "revId": "e996dd50873b5de655d05fc5b2a3ff3d276d6fbf",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
