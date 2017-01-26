@@ -46,6 +46,30 @@
       "revId": "4b3354e662d8a410dd6bec99fdf7176a486c1baf",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_a678cb68",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1049,
+      "author": {
+        "id": 24046
+      },
+      "writtenOn": "2017-01-26T20:31:36Z",
+      "side": 1,
+      "message": "We thought about this and decided to use the same exception in order to avoid an API change. However, we agree adding a new exception is clearer and simplifies the caller\u0027s task. If you are OK with this API change, I\u0027ll add a new exception, CancelledGcException? Any suggestion of a better name?",
+      "parentUuid": "a7c23755_86ff4f71",
+      "range": {
+        "startLine": 1049,
+        "startChar": 49,
+        "endLine": 1049,
+        "endChar": 57
+      },
+      "revId": "4b3354e662d8a410dd6bec99fdf7176a486c1baf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
