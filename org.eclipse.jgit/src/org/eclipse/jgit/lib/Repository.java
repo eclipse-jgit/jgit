@@ -889,11 +889,12 @@ public abstract class Repository implements AutoCloseable {
 		} else if (newCount == -1) {
 			// should not happen, only log when useCnt became negative to
 			// minimize number of log entries
+			String message = MessageFormat.format(JGitText.get().corruptUseCnt,
+					toString());
 			if (LOG.isDebugEnabled()) {
-				IllegalStateException e = new IllegalStateException();
-				LOG.debug(JGitText.get().corruptUseCnt, e);
+				LOG.debug(message, new IllegalStateException());
 			} else {
-				LOG.warn(JGitText.get().corruptUseCnt);
+				LOG.warn(message);
 			}
 			if (RepositoryCache.isCached(this)) {
 				closedAt.set(System.currentTimeMillis());
