@@ -239,14 +239,14 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 
 	@Test
 	public void testDeleteHeadInBareRepo() throws IOException {
-		try (Repository bareRepo = createBareRepository()) {
-			RefUpdate ref = bareRepo.updateRef(Constants.HEAD);
-			ref.setNewObjectId(ObjectId.fromString("0123456789012345678901234567890123456789"));
-			// Create the HEAD ref so we can delete it.
-			assertEquals(Result.NEW, ref.update());
-			ref = bareRepo.updateRef(Constants.HEAD);
-			delete(bareRepo, ref, Result.NO_CHANGE, true, true);
-		}
+		Repository bareRepo = createBareRepository();
+		RefUpdate ref = bareRepo.updateRef(Constants.HEAD);
+		ref.setNewObjectId(ObjectId
+				.fromString("0123456789012345678901234567890123456789"));
+		// Create the HEAD ref so we can delete it.
+		assertEquals(Result.NEW, ref.update());
+		ref = bareRepo.updateRef(Constants.HEAD);
+		delete(bareRepo, ref, Result.NO_CHANGE, true, true);
 	}
 	/**
 	 * Delete a loose ref and make sure the directory in refs is deleted too,
