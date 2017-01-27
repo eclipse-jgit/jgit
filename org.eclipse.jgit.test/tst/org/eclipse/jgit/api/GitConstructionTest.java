@@ -55,7 +55,6 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.FileUtils;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -78,14 +77,6 @@ public class GitConstructionTest extends RepositoryTestCase {
 				.setDirectory(createUniqueTestGitDir(true)).call()
 				.getRepository();
 		addRepoToClose(bareRepo);
-	}
-
-	@Override
-	@After
-	public void tearDown() throws Exception {
-		db.close();
-		bareRepo.close();
-		super.tearDown();
 	}
 
 	@Test
@@ -141,7 +132,6 @@ public class GitConstructionTest extends RepositoryTestCase {
 	public void testClose() throws IOException, JGitInternalException,
 			GitAPIException {
 		File workTree = db.getWorkTree();
-		db.close();
 		Git git = Git.open(workTree);
 		git.gc().setExpire(null).call();
 		git.checkout().setName(git.getRepository().resolve("HEAD^").getName())
