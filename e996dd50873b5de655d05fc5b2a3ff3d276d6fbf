@@ -192,6 +192,24 @@
       "revId": "e996dd50873b5de655d05fc5b2a3ff3d276d6fbf",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_eb31a7f0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 665,
+      "author": {
+        "id": 104680
+      },
+      "writtenOn": "2017-01-28T04:29:23Z",
+      "side": 1,
+      "message": "Done\n\nIt is indeed a very succinct FilenameFilter API (which I did not know before) to get file names as a string list, although it is DirectoryStream.Filter suggested by Matthias. Many thanks for your implementation.",
+      "parentUuid": "a7c23755_c2c7708a",
+      "revId": "e996dd50873b5de655d05fc5b2a3ff3d276d6fbf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
