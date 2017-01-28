@@ -109,7 +109,7 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 
 	@Test
 	public void testFileKeyOpenNew() throws IOException {
-		final Repository n = createBareRepository();
+		final Repository n = createRepository(true, false);
 		final File gitdir = n.getDirectory();
 		n.close();
 		recursiveDelete(gitdir);
@@ -187,12 +187,14 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRepositoryUsageCountWithRegisteredRepository() {
-		assertEquals(1, ((Repository) db).useCnt.get());
-		RepositoryCache.register(db);
-		assertEquals(1, ((Repository) db).useCnt.get());
-		db.close();
-		assertEquals(0, ((Repository) db).useCnt.get());
+	public void testRepositoryUsageCountWithRegisteredRepository()
+			throws IOException {
+		Repository repo = createRepository(false, false);
+		assertEquals(1, repo.useCnt.get());
+		RepositoryCache.register(repo);
+		assertEquals(1, repo.useCnt.get());
+		repo.close();
+		assertEquals(0, repo.useCnt.get());
 	}
 
 	@Test
@@ -232,8 +234,8 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 
 	@Test
 	public void testRepositoryUnregisteringWhenExpired() throws Exception {
-		Repository repoA = createBareRepository();
-		Repository repoB = createBareRepository();
+		Repository repoA = createRepository(true, false);
+		Repository repoB = createRepository(true, false);
 		Repository repoC = createBareRepository();
 		RepositoryCache.register(repoA);
 		RepositoryCache.register(repoB);
@@ -265,11 +267,12 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testReconfigure() throws InterruptedException {
-		RepositoryCache.register(db);
-		assertTrue(RepositoryCache.isCached(db));
-		db.close();
-		assertTrue(RepositoryCache.isCached(db));
+	public void testReconfigure() throws InterruptedException, IOException {
+		Repository repo = createRepository(false, false);
+		RepositoryCache.register(repo);
+		assertTrue(RepositoryCache.isCached(repo));
+		repo.close();
+		assertTrue(RepositoryCache.isCached(repo));
 
 		// Actually, we would only need to validate that
 		// WorkQueue.getExecutor().scheduleWithFixedDelay is called with proper
@@ -287,7 +290,7 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 		// This wait will time out after 2048 ms
 		for (int i = 0; i <= 10; i++) {
 			Thread.sleep(1 << i);
-			if (!RepositoryCache.isCached(db)) {
+			if (!RepositoryCache.isCached(repo)) {
 				return;
 			}
 		}
