@@ -65,6 +65,7 @@ import java.text.Normalizer;
 import java.text.Normalizer.Form;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 import org.eclipse.jgit.internal.JGitText;
@@ -542,7 +543,8 @@ public class FileUtils {
 	public static boolean isStaleFileHandle(IOException ioe) {
 		String msg = ioe.getMessage();
 		return msg != null
-				&& msg.toLowerCase().matches("stale .*file .*handle"); //$NON-NLS-1$
+				&& msg.toLowerCase(Locale.ROOT)
+						.matches("stale .*file .*handle"); //$NON-NLS-1$
 	}
 
 	/**

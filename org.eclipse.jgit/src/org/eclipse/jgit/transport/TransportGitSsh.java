@@ -56,6 +56,7 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import org.eclipse.jgit.errors.NoRemoteRepositoryException;
@@ -217,11 +218,12 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 		public Process exec(String command, int timeout)
 				throws TransportException {
 			String ssh = SystemReader.getInstance().getenv("GIT_SSH"); //$NON-NLS-1$
-			boolean putty = ssh.toLowerCase().contains("plink"); //$NON-NLS-1$
+			boolean putty = ssh.toLowerCase(Locale.ROOT).contains("plink"); //$NON-NLS-1$
 
 			List<String> args = new ArrayList<String>();
 			args.add(ssh);
-			if (putty && !ssh.toLowerCase().contains("tortoiseplink")) //$NON-NLS-1$
+			if (putty
+					&& !ssh.toLowerCase(Locale.ROOT).contains("tortoiseplink")) //$NON-NLS-1$
 				args.add("-batch"); //$NON-NLS-1$
 			if (0 < getURI().getPort()) {
 				args.add(putty ? "-P" : "-p"); //$NON-NLS-1$ //$NON-NLS-2$

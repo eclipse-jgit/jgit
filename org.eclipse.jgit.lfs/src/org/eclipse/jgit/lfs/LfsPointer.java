@@ -51,6 +51,7 @@ import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.nio.charset.UnsupportedCharsetException;
+import java.util.Locale;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.lfs.lib.AnyLongObjectId;
@@ -79,7 +80,7 @@ public class LfsPointer {
 	 * evaluate to "sha256"
 	 */
 	public static final String HASH_FUNCTION_NAME = Constants.LONG_HASH_FUNCTION
-			.toLowerCase().replace("-", ""); //$NON-NLS-1$ //$NON-NLS-2$
+			.toLowerCase(Locale.ROOT).replace("-", ""); //$NON-NLS-1$ //$NON-NLS-2$
 
 	private AnyLongObjectId oid;
 
