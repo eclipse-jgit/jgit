@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_f62c2a9c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/CancelledException.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-01-28T21:00:41Z",
+      "side": 1,
+      "message": "missing @since 4.7 tag for new API",
+      "revId": "67c202a73cae19dba1ee93b7cf4ca273e58af6a2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
