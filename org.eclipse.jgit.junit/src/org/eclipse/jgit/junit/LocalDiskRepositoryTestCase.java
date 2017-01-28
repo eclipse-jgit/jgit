@@ -53,8 +53,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeSet;
 
 import org.eclipse.jgit.dircache.DirCache;
@@ -106,7 +108,7 @@ public abstract class LocalDiskRepositoryTestCase {
 	 */
 	protected MockSystemReader mockSystemReader;
 
-	private final List<Repository> toClose = new ArrayList<Repository>();
+	private final Set<Repository> toClose = new HashSet<>();
 	private File tmp;
 
 	@Before
