@@ -22,6 +22,30 @@
       "revId": "07719e2e4ed016993dfd047c90863bdbee0404fc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_96d4d62f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-01-28T18:15:05Z",
+      "side": 1,
+      "message": "such side effects seem bad to me",
+      "parentUuid": "a7c23755_1c162e54",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 47
+      },
+      "revId": "07719e2e4ed016993dfd047c90863bdbee0404fc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
