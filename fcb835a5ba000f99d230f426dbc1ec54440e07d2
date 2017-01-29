@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_16c526a0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 703,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-01-29T23:33:54Z",
+      "side": 1,
+      "message": "how about this:\n\n\tprivate static final String PACK_EXT \u003d \".\" + PackExt.PACK.getExtension();//$NON-NLS-1$\n\tprivate static final String BITMAP_EXT \u003d \".\" + PackExt.BITMAP_INDEX.getExtension(); //$NON-NLS-1$\n\tprivate static final String INDEX_EXT \u003d \".\" + PackExt.INDEX.getExtension(); //$NON-NLS-1$\n\n\t/**\n\t * Delete orphans\n\t * \u003cp\u003e\n\t * A file is considered an orphan if it is either a \"bitmap\" or an index\n\t * file, and its corresponding pack file is missing in the list.\n\t * \u003c/p\u003e\n\t */\n\tprivate void deleteOrphans() {\n\t\tPath packDir \u003d Paths.get(repo.getObjectsDirectory().getAbsolutePath(),\n\t\t\t\t\"pack\"); //$NON-NLS-1$\n\t\tList\u003cString\u003e fileNames \u003d null;\n\t\ttry {\n\t\t\tfileNames \u003d Files.list(packDir)\n\t\t\t\t\t.map(path -\u003e path.getFileName().toString()).filter(name -\u003e {\n\t\t\t\t\t\treturn (name.endsWith(PACK_EXT)\n\t\t\t\t\t\t\t\t|| name.endsWith(BITMAP_EXT)\n\t\t\t\t\t\t\t\t|| name.endsWith(INDEX_EXT));\n\t\t\t\t\t}).sorted(Collections.reverseOrder())\n\t\t\t\t\t.collect(Collectors.toList());\n\t\t} catch (IOException e1) {\n\t\t\t// ignore\n\t\t}\n\t\tif (fileNames \u003d\u003d null) {\n\t\t\treturn;\n\t\t}\n\n\t\tString base \u003d null;\n\t\tfor (String n : fileNames) {\n\t\t\tif (n.endsWith(PACK_EXT)) {\n\t\t\t\tbase \u003d n.substring(0, n.lastIndexOf(\u0027.\u0027));\n\t\t\t} else {\n\t\t\t\tif (base \u003d\u003d null || !n.startsWith(base)) {\n\t\t\t\t\ttry {\n\t\t\t\t\t\tFiles.delete(new File(packDir.toFile(), n).toPath());\n\t\t\t\t\t} catch (IOException e) {\n\t\t\t\t\t\tLOG.error(e.getMessage(), e);\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}",
+      "range": {
+        "startLine": 666,
+        "startChar": 0,
+        "endLine": 703,
+        "endChar": 2
+      },
+      "revId": "fcb835a5ba000f99d230f426dbc1ec54440e07d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
