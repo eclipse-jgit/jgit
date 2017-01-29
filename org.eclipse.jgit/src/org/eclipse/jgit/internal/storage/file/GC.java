@@ -364,45 +364,48 @@ public class GC {
 		Set<ObjectId> indexObjects = null;
 		File objects = repo.getObjectsDirectory();
 		String[] fanout = objects.list();
-		if (fanout != null && fanout.length > 0) {
-			pm.beginTask(JGitText.get().pruneLooseUnreferencedObjects,
-					fanout.length);
-			try {
-				for (String d : fanout) {
-					pm.update(1);
-					if (d.length() != 2)
+		if (fanout == null || fanout.length == 0) {
+			return;
+		}
+		pm.beginTask(JGitText.get().pruneLooseUnreferencedObjects,
+				fanout.length);
+		try {
+			for (String d : fanout) {
+				pm.update(1);
+				if (d.length() != 2)
+					continue;
+				File[] entries = new File(objects, d).listFiles();
+				if (entries == null)
+					continue;
+				for (File f : entries) {
+					String fName = f.getName();
+					if (fName.length() != Constants.OBJECT_ID_STRING_LENGTH - 2)
 						continue;
-					File[] entries = new File(objects, d).listFiles();
-					if (entries == null)
+					if (repo.getFS().lastModified(f) >= expireDate)
 						continue;
-					for (File f : entries) {
-						String fName = f.getName();
-						if (fName.length() != Constants.OBJECT_ID_STRING_LENGTH - 2)
+					try {
+						ObjectId id = ObjectId.fromString(d + fName);
+						if (objectsToKeep.contains(id))
 							continue;
-						if (repo.getFS().lastModified(f) >= expireDate)
+						if (indexObjects == null)
+							indexObjects = listNonHEADIndexObjects();
+						if (indexObjects.contains(id))
 							continue;
-						try {
-							ObjectId id = ObjectId.fromString(d + fName);
-							if (objectsToKeep.contains(id))
-								continue;
-							if (indexObjects == null)
-								indexObjects = listNonHEADIndexObjects();
-							if (indexObjects.contains(id))
-								continue;
-							deletionCandidates.put(id, f);
-						} catch (IllegalArgumentException notAnObject) {
-							// ignoring the file that does not represent loose
-							// object
-							continue;
-						}
+						deletionCandidates.put(id, f);
+					} catch (IllegalArgumentException notAnObject) {
+						// ignoring the file that does not represent loose
+						// object
+						continue;
 					}
 				}
-			} finally {
-				pm.endTask();
 			}
+		} finally {
+			pm.endTask();
 		}
-		if (deletionCandidates.isEmpty())
+
+		if (deletionCandidates.isEmpty()) {
 			return;
+		}
 
 		// From the set of current refs remove all those which have been handled
 		// during last repack(). Only those refs will survive which have been
