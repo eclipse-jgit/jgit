@@ -55,6 +55,7 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 
@@ -342,7 +343,7 @@ public class FileRepository extends Repository {
 		if (symLinks != null)
 			cfg.setString(ConfigConstants.CONFIG_CORE_SECTION, null,
 					ConfigConstants.CONFIG_KEY_SYMLINKS, symLinks.name()
-							.toLowerCase());
+							.toLowerCase(Locale.ROOT));
 		cfg.setInt(ConfigConstants.CONFIG_CORE_SECTION, null,
 				ConfigConstants.CONFIG_KEY_REPO_FORMAT_VERSION, 0);
 		cfg.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,

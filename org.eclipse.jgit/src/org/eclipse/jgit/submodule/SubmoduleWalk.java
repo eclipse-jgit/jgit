@@ -45,6 +45,7 @@ package org.eclipse.jgit.submodule;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.Locale;
 
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheIterator;
@@ -663,7 +664,8 @@ public class SubmoduleWalk implements AutoCloseable {
 				ConfigConstants.CONFIG_KEY_IGNORE);
 		if (name == null)
 			return null;
-		return IgnoreSubmoduleMode.valueOf(name.trim().toUpperCase());
+		return IgnoreSubmoduleMode
+				.valueOf(name.trim().toUpperCase(Locale.ROOT));
 	}
 
 	/**

@@ -57,6 +57,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Locale;
 
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.lfs.errors.InvalidLongObjectIdException;
@@ -152,7 +153,7 @@ public class LongObjectIdTest {
 	public void test011_toString() {
 		final String x = "0123456789ABCDEFabcdef01234567890123456789ABCDEFabcdef0123456789";
 		final LongObjectId oid = LongObjectId.fromString(x);
-		assertEquals(x.toLowerCase(), oid.name());
+		assertEquals(x.toLowerCase(Locale.ROOT), oid.name());
 	}
 
 	@Test

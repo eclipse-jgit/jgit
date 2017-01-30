@@ -48,6 +48,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
@@ -230,7 +231,7 @@ public class NetRC {
 
 				matcher.reset(line);
 				while (matcher.find()) {
-					String command = matcher.group().toLowerCase();
+					String command = matcher.group().toLowerCase(Locale.ROOT);
 					if (command.startsWith("#")) { //$NON-NLS-1$
 						matcher.reset(""); //$NON-NLS-1$
 						continue;
