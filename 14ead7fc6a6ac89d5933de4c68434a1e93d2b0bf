@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_e990cc20",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/FileUtilsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-01-31T00:24:10Z",
+      "side": 1,
+      "message": "nit: this should be before java.nio.file.Files",
+      "revId": "14ead7fc6a6ac89d5933de4c68434a1e93d2b0bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_098c280c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/FileUtilsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-01-31T00:24:10Z",
+      "side": 1,
+      "message": "nit: unnecessary blank line\n\nalso below",
+      "revId": "14ead7fc6a6ac89d5933de4c68434a1e93d2b0bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_2972c489",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-01-31T00:24:10Z",
+      "side": 1,
+      "message": "i",
+      "range": {
+        "startLine": 556,
+        "startChar": 25,
+        "endLine": 556,
+        "endChar": 26
+      },
+      "revId": "14ead7fc6a6ac89d5933de4c68434a1e93d2b0bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
