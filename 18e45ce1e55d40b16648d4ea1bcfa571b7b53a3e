@@ -34,6 +34,24 @@
       "revId": "18e45ce1e55d40b16648d4ea1bcfa571b7b53a3e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_330f89c1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-02-01T10:26:00Z",
+      "side": 1,
+      "message": "yes, that\u0027s not solved. Can be done by manual cleanup operations or by waiting until the next object in that folder is created \u0026 purged again. If you wait long enough these folders will be deleted.",
+      "parentUuid": "a7c23755_731f411c",
+      "revId": "18e45ce1e55d40b16648d4ea1bcfa571b7b53a3e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
