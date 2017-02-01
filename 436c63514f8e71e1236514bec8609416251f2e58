@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_745488cf",
+        "filename": "README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2017-02-01T16:33:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_e5a9e065",
+      "revId": "436c63514f8e71e1236514bec8609416251f2e58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_05b41cb8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/CachedObjectDirectory.java",
         "patchSetId": 3
@@ -30,6 +48,30 @@
       "writtenOn": "2017-02-01T01:02:29Z",
       "side": 1,
       "message": "nit: add braces",
+      "range": {
+        "startLine": 167,
+        "startChar": 2,
+        "endLine": 168,
+        "endChar": 24
+      },
+      "revId": "436c63514f8e71e1236514bec8609416251f2e58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_d4155c49",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/CachedObjectDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2017-02-01T16:33:32Z",
+      "side": 1,
+      "message": "That doesn\u0027t seem to match the style in these classes for single line blocks.",
+      "parentUuid": "a7c23755_05b41cb8",
       "range": {
         "startLine": 167,
         "startChar": 2,
