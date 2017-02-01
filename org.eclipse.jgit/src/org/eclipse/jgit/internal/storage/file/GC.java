@@ -85,8 +85,6 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.internal.storage.file.ObjectDirectory;
-import org.eclipse.jgit.internal.storage.file.ObjectDirectoryInserter;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.internal.storage.reftree.RefTreeNames;
