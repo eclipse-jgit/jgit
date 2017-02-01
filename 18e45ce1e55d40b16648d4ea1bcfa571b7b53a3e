@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_335ce9f8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-02-01T09:26:11Z",
+      "side": 1,
+      "message": "Here we are trying to delete all files inside and subfolders of .../objects. That could be a lot of subfolders. We could also remember all the folders in which we deleted files. And then try to delete (non recursively) all these folders only.",
+      "revId": "18e45ce1e55d40b16648d4ea1bcfa571b7b53a3e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
