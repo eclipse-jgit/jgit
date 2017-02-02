@@ -455,47 +455,50 @@ public class GC {
 		Set<ObjectId> indexObjects = null;
 		File objects = repo.getObjectsDirectory();
 		String[] fanout = objects.list();
-		if (fanout != null && fanout.length > 0) {
-			pm.beginTask(JGitText.get().pruneLooseUnreferencedObjects,
-					fanout.length);
-			try {
-				for (String d : fanout) {
+		if (fanout == null || fanout.length == 0) {
+			return;
+		}
+		pm.beginTask(JGitText.get().pruneLooseUnreferencedObjects,
+				fanout.length);
+		try {
+			for (String d : fanout) {
+				checkCancelled();
+				pm.update(1);
+				if (d.length() != 2)
+					continue;
+				File[] entries = new File(objects, d).listFiles();
+				if (entries == null)
+					continue;
+				for (File f : entries) {
 					checkCancelled();
-					pm.update(1);
-					if (d.length() != 2)
+					String fName = f.getName();
+					if (fName.length() != Constants.OBJECT_ID_STRING_LENGTH - 2)
 						continue;
-					File[] entries = new File(objects, d).listFiles();
-					if (entries == null)
+					if (repo.getFS().lastModified(f) >= expireDate)
 						continue;
-					for (File f : entries) {
-						checkCancelled();
-						String fName = f.getName();
-						if (fName.length() != Constants.OBJECT_ID_STRING_LENGTH - 2)
+					try {
+						ObjectId id = ObjectId.fromString(d + fName);
+						if (objectsToKeep.contains(id))
 							continue;
-						if (repo.getFS().lastModified(f) >= expireDate)
+						if (indexObjects == null)
+							indexObjects = listNonHEADIndexObjects();
+						if (indexObjects.contains(id))
 							continue;
-						try {
-							ObjectId id = ObjectId.fromString(d + fName);
-							if (objectsToKeep.contains(id))
-								continue;
-							if (indexObjects == null)
-								indexObjects = listNonHEADIndexObjects();
-							if (indexObjects.contains(id))
-								continue;
-							deletionCandidates.put(id, f);
-						} catch (IllegalArgumentException notAnObject) {
-							// ignoring the file that does not represent loose
-							// object
-							continue;
-						}
+						deletionCandidates.put(id, f);
+					} catch (IllegalArgumentException notAnObject) {
+						// ignoring the file that does not represent loose
+						// object
+						continue;
 					}
 				}
-			} finally {
-				pm.endTask();
 			}
+		} finally {
+			pm.endTask();
 		}
-		if (deletionCandidates.isEmpty())
+
+		if (deletionCandidates.isEmpty()) {
 			return;
+		}
 
 		checkCancelled();
 
@@ -576,10 +579,17 @@ public class GC {
 		// loose objects. Make a last check, though, to avoid deleting objects
 		// that could have been referenced while the candidates list was being
 		// built (by an incoming push, for example).
+		Set<File> touchedFanout = new HashSet<>();
 		for (File f : deletionCandidates.values()) {
 			if (f.lastModified() < expireDate) {
 				f.delete();
+				touchedFanout.add(f.getParentFile());
 			}
+		}
+
+		for (File f : touchedFanout) {
+			FileUtils.delete(f,
+					FileUtils.EMPTY_DIRECTORIES_ONLY | FileUtils.IGNORE_ERRORS);
 		}
 
 		repo.getObjectDatabase().close();
