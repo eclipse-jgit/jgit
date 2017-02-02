@@ -745,14 +745,15 @@ public class PackWriter implements AutoCloseable {
 			@NonNull Set<? extends ObjectId> want,
 			@NonNull Set<? extends ObjectId> have,
 			@NonNull Set<? extends ObjectId> shallow) throws IOException {
-		ObjectWalk ow;
-		if (shallowPack) {
-			ow = new DepthWalk.ObjectWalk(reader, depth - 1);
-		} else {
-			ow = new ObjectWalk(reader);
+		try (ObjectWalk ow = getObjectWalk()) {
+			ow.assumeShallow(shallow);
+			preparePack(countingMonitor, ow, want, have);
 		}
-		ow.assumeShallow(shallow);
-		preparePack(countingMonitor, ow, want, have);
+	}
+
+	private ObjectWalk getObjectWalk() {
+		return shallowPack ? new DepthWalk.ObjectWalk(reader, depth - 1)
+				: new ObjectWalk(reader);
 	}
 
 	/**
