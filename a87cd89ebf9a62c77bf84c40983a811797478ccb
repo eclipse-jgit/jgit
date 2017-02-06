@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_ccd6a537",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-02-06T23:30:04Z",
+      "side": 1,
+      "message": "within",
+      "range": {
+        "startLine": 10,
+        "startChar": 41,
+        "endLine": 10,
+        "endChar": 48
+      },
+      "revId": "a87cd89ebf9a62c77bf84c40983a811797478ccb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_2ce55916",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-02-06T23:30:04Z",
+      "side": 1,
+      "message": "within",
+      "range": {
+        "startLine": 13,
+        "startChar": 46,
+        "endLine": 13,
+        "endChar": 53
+      },
+      "revId": "a87cd89ebf9a62c77bf84c40983a811797478ccb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_ecea81e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-02-06T23:30:04Z",
+      "side": 1,
+      "message": "s/the //",
+      "range": {
+        "startLine": 13,
+        "startChar": 11,
+        "endLine": 13,
+        "endChar": 15
+      },
+      "revId": "a87cd89ebf9a62c77bf84c40983a811797478ccb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_8c074d57",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-02-06T23:30:04Z",
+      "side": 1,
+      "message": "within",
+      "range": {
+        "startLine": 361,
+        "startChar": 13,
+        "endLine": 361,
+        "endChar": 20
+      },
+      "revId": "a87cd89ebf9a62c77bf84c40983a811797478ccb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_ac0c097c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-02-06T23:30:04Z",
+      "side": 1,
+      "message": "This is covered by your commit message and doesn\u0027t improve clarity of understanding this logic at some random time in the future when we\u0027ve forgotten this history. I think its more straightforward to omit it. `git blame` can find it.",
+      "range": {
+        "startLine": 363,
+        "startChar": 0,
+        "endLine": 367,
+        "endChar": 4
+      },
+      "revId": "a87cd89ebf9a62c77bf84c40983a811797478ccb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_cc114590",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-02-06T23:30:04Z",
+      "side": 1,
+      "message": "a large",
+      "range": {
+        "startLine": 368,
+        "startChar": 14,
+        "endLine": 368,
+        "endChar": 24
+      },
+      "revId": "a87cd89ebf9a62c77bf84c40983a811797478ccb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_0cf33dda",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-02-06T23:30:04Z",
+      "side": 1,
+      "message": "within",
+      "range": {
+        "startLine": 369,
+        "startChar": 51,
+        "endLine": 369,
+        "endChar": 58
+      },
+      "revId": "a87cd89ebf9a62c77bf84c40983a811797478ccb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
