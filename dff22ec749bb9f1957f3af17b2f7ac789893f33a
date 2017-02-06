@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_65592961",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 754,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-02-06T07:07:10Z",
+      "side": 1,
+      "message": "If this part is factored out to a method, it can be invoked in a try-with-resource block. i.e.:\n\n\tprivate ObjectWalk getObjectWalk() {\n\t\treturn shallowPack ? new DepthWalk.ObjectWalk(reader, depth - 1)\n\t\t\t\t: new ObjectWalk(reader);\n\t}\n\nand\n\n\tpublic void preparePack(ProgressMonitor countingMonitor,\n\t\t\t@NonNull Set\u003c? extends ObjectId\u003e want,\n\t\t\t@NonNull Set\u003c? extends ObjectId\u003e have,\n\t\t\t@NonNull Set\u003c? extends ObjectId\u003e shallow) throws IOException {\n\t\ttry (ObjectWalk ow \u003d getObjectWalk()) {\n\t\t\tow.assumeShallow(shallow);\n\t\t\tpreparePack(countingMonitor, ow, want, have);\n\t\t}\n\t}",
+      "range": {
+        "startLine": 750,
+        "startChar": 3,
+        "endLine": 754,
+        "endChar": 4
+      },
+      "revId": "dff22ec749bb9f1957f3af17b2f7ac789893f33a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
