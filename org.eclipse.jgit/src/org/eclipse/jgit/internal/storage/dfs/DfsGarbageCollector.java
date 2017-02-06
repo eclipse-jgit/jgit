@@ -100,7 +100,8 @@ public class DfsGarbageCollector {
 
 	private PackConfig packConfig;
 
-	// See pack(), below, for how these two variables interact.
+	// See packIsCoalesceableGarbage(), below, for how these two variables
+	// interact.
 	private long coalesceGarbageLimit = 50 << 20;
 	private long garbageTtlMillis = TimeUnit.DAYS.toMillis(1);
 
@@ -228,12 +229,6 @@ public class DfsGarbageCollector {
 		if (packConfig.getIndexVersion() != 2)
 			throw new IllegalStateException(
 					JGitText.get().supportOnlyPackIndexVersion2);
-		if (garbageTtlMillis > 0) {
-			// We disable coalescing because the coalescing step will keep
-			// refreshing the UNREACHABLE_GARBAGE pack and we wouldn't
-			// actually prune anything.
-			coalesceGarbageLimit = 0;
-		}
 
 		startTimeMillis = System.currentTimeMillis();
 		ctx = (DfsReader) objdb.newReader();
@@ -317,7 +312,7 @@ public class DfsGarbageCollector {
 				packsBefore.add(p);
 			} else if (packIsExpiredGarbage(d, mostRecentGC, now)) {
 				expiredGarbagePacks.add(p);
-			} else if (d.getFileSize(PackExt.PACK) < coalesceGarbageLimit) {
+			} else if (packIsCoalesceableGarbage(d, now)) {
 				packsBefore.add(p);
 			}
 		}
@@ -358,6 +353,31 @@ public class DfsGarbageCollector {
 				&& d.getLastModified() < mostRecentGC
 				&& garbageTtlMillis > 0
 				&& now - d.getLastModified() >= garbageTtlMillis;
+	}
+
+	private boolean packIsCoalesceableGarbage(DfsPackDescription d, long now) {
+		// An UNREACHABLE_GARBAGE pack can coalesced if its size is less than
+		// the coalesceGarbageLimit and either garbageTtl is zero or the pack is
+		// created with in the last one third of the garbageTtl time.
+		//
+		// Previously the garbage packs were not used to be coalesced when the
+		// garbageTtl is greater than zero. That disabled the garbage pack
+		// coalescing when garbageTtl is configured and resulted in lot of
+		// garbage packs if they are created with in the garbageTtl time.
+		//
+		// To avoid the larger number of garbage packs, we will be continuing
+		// coalescing the garbage packs that are created with in the last 1/3rd
+		// duration of garbageTtl. i.e if the garbageTtl is 24 hours, we will
+		// coalesce the garbage packs that are created in last 8 hours. This may
+		// move the date of the garbage pack that was originally created at 0:00
+		// forward to 7:59, making the ttl on the garbage take effect at
+		// 24h+7:59, but that should be fine as it would limit the number of
+		// garbage packs in the system to a maximum number of 4 (assuming all of
+		// them are less than the size of coalesceGarbageLimit).
+		return d.getPackSource() == UNREACHABLE_GARBAGE
+				&& d.getFileSize(PackExt.PACK) < coalesceGarbageLimit
+				&& (garbageTtlMillis == 0
+						|| now - d.getLastModified() < garbageTtlMillis / 3);
 	}
 
 	/** @return all of the source packs that fed into this compaction. */
