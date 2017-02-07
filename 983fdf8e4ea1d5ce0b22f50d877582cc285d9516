@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_9bba1d08",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackDescription.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-02-07T18:30:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_2cc8f949",
+      "range": {
+        "startLine": 326,
+        "startChar": 22,
+        "endLine": 326,
+        "endChar": 30
+      },
+      "revId": "983fdf8e4ea1d5ce0b22f50d877582cc285d9516",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_2c271968",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_7bdc615a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-02-07T18:30:16Z",
+      "side": 1,
+      "message": "Its quite difficult to change the behavior of PackWriter. We can either do this, or punt on fixing this bug for about 6-8 months.",
+      "parentUuid": "a7c23755_2c271968",
+      "range": {
+        "startLine": 543,
+        "startChar": 26,
+        "endLine": 543,
+        "endChar": 60
+      },
+      "revId": "983fdf8e4ea1d5ce0b22f50d877582cc285d9516",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_4cc53530",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2017-02-07T05:05:14Z",
       "side": 1,
       "message": "same here.",
+      "range": {
+        "startLine": 569,
+        "startChar": 23,
+        "endLine": 569,
+        "endChar": 31
+      },
+      "revId": "983fdf8e4ea1d5ce0b22f50d877582cc285d9516",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_bbbfd9f7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-02-07T18:30:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_4cc53530",
       "range": {
         "startLine": 569,
         "startChar": 23,
