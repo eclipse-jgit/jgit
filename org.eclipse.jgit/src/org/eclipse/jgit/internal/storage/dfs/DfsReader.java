@@ -44,10 +44,12 @@
 
 package org.eclipse.jgit.internal.storage.dfs;
 
+import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_LENGTH;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -64,6 +66,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackList;
+import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
 import org.eclipse.jgit.internal.storage.file.BitmapIndexImpl;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
 import org.eclipse.jgit.internal.storage.file.PackIndex;
@@ -537,7 +540,7 @@ public final class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 			throws IOException, MissingObjectException {
 		// Don't check dirty bit on PackList; assume ObjectToPacks all came from the
 		// current list.
-		for (DfsPackFile pack : db.getPacks()) {
+		for (DfsPackFile pack : sortPacksForSelectRepresentation()) {
 			List<DfsObjectToPack> tmp = findAllFromPack(pack, objects);
 			if (tmp.isEmpty())
 				continue;
@@ -554,6 +557,35 @@ public final class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 				}
 			}
 		}
+	}
+
+	private static final Comparator<DfsPackFile> PACK_SORT_FOR_REUSE = new Comparator<DfsPackFile>() {
+		public int compare(DfsPackFile af, DfsPackFile bf) {
+			DfsPackDescription ad = af.getPackDescription();
+			DfsPackDescription bd = bf.getPackDescription();
+			PackSource as = ad.getPackSource();
+			PackSource bs = bd.getPackSource();
+
+			if (as != null && as.equals(bs) && DfsPackDescription.isGC(as)) {
+				// Push smaller GC files last; these likely have higher quality
+				// delta compression and the contained representation should be
+				// favored over other files.
+				return Long.signum(bd.getFileSize(PACK) - ad.getFileSize(PACK));
+			}
+
+			// DfsPackDescription.compareTo already did a reasonable sort.
+			// Rely on Arrays.sort being stable, leaving equal elements.
+			return 0;
+		}
+	};
+
+	private DfsPackFile[] sortPacksForSelectRepresentation()
+			throws IOException {
+		DfsPackFile[] packs = db.getPacks();
+		DfsPackFile[] sorted = new DfsPackFile[packs.length];
+		System.arraycopy(packs, 0, sorted, 0, packs.length);
+		Arrays.sort(sorted, PACK_SORT_FOR_REUSE);
+		return sorted;
 	}
 
 	private List<DfsObjectToPack> findAllFromPack(DfsPackFile pack,
