@@ -1,0 +1,8 @@
+Verified+1: Hudson CI
+Code-Review+1: Wim Jongman <wim.jongman@remainsoftware.com>
+Code-Review+2: David Pursehouse <david.pursehouse@gmail.com>
+Submitted-by: David Pursehouse <david.pursehouse@gmail.com>
+Submitted-at: Tue, 07 Feb 2017 07:31:03 -0500
+Reviewed-on: https://git.eclipse.org/r/90474
+Project: jgit/jgit
+Branch: refs/heads/master
