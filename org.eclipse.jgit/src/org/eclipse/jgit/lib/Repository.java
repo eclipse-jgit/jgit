@@ -1898,11 +1898,12 @@ public abstract class Repository implements AutoCloseable {
 	 * Future implementations of this method could be more restrictive or more
 	 * lenient about the validity of specific characters in the returned name.
 	 * <p/>
-	 * The current implementation returns a trimmed string only containing word
-	 * characters ([a-zA-Z_0-9]) and hyphens ('-'). Colons are replaced by
-	 * hyphens. Repeating underscores and hyphens are replaced by a single
-	 * occurrence. Underscores and hyphens at the beginning of the string are
-	 * removed.
+	 * The current implementation returns the trimmed input string if this is
+	 * already a valid branch name. Otherwise it returns a trimmed string only
+	 * containing word characters ([a-zA-Z_0-9]) and hyphens ('-'). Colons are
+	 * replaced by hyphens. Repeating underscores and hyphens are replaced by a
+	 * single occurrence. Underscores and hyphens at the beginning of the string
+	 * are removed.
 	 *
 	 * @param name
 	 *            The name to normalize.
@@ -1916,6 +1917,11 @@ public abstract class Repository implements AutoCloseable {
 			return name;
 		}
 		String result = name.trim();
+		String fullName = result.startsWith(Constants.R_HEADS) ? result
+				: Constants.R_HEADS + result;
+		if (isValidRefName(fullName)) {
+			return result;
+		}
 		return result.replaceAll("\\s+([_:-])*?\\s+", "$1") //$NON-NLS-1$//$NON-NLS-2$
 				.replaceAll(":", "-") //$NON-NLS-1$//$NON-NLS-2$
 				.replaceAll("\\s+", "_") //$NON-NLS-1$//$NON-NLS-2$
