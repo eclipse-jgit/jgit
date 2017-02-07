@@ -319,6 +319,17 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 				return cmp;
 		}
 
+		// Tie break GC type packs by smallest first. There should be at most
+		// one of each source, but when multiple exist concurrent GCs may have
+		// run. Preferring the smaller file selects higher quality delta
+		// compression, placing less demand on the DfsBlockCache.
+		if (as != null && as == bs && isGC(as)) {
+			int cmp = Long.signum(getFileSize(PACK) - b.getFileSize(PACK));
+			if (cmp != 0) {
+				return cmp;
+			}
+		}
+
 		// Newer packs should sort first.
 		int cmp = Long.signum(b.getLastModified() - getLastModified());
 		if (cmp != 0)
@@ -328,6 +339,17 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 		// the object they care about in the smaller index. This also pushes
 		// big historical packs to the end of the list, due to more objects.
 		return Long.signum(getObjectCount() - b.getObjectCount());
+	}
+
+	static boolean isGC(PackSource s) {
+		switch (s) {
+		case GC:
+		case GC_REST:
+		case GC_TXN:
+			return true;
+		default:
+			return false;
+		}
 	}
 
 	@Override

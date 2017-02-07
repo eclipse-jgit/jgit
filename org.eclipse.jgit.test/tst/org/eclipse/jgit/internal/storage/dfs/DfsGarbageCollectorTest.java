@@ -9,10 +9,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
@@ -21,8 +23,10 @@ import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.util.SystemReader;
 import org.junit.After;
 import org.junit.Before;
@@ -72,6 +76,70 @@ public class DfsGarbageCollectorTest {
 		assertEquals(GC, pack.getPackDescription().getPackSource());
 		assertTrue("commit0 in pack", isObjectInPack(commit0, pack));
 		assertTrue("commit1 in pack", isObjectInPack(commit1, pack));
+	}
+
+	@Test
+	public void testRacyNoReusePrefersSmaller() throws Exception {
+		StringBuilder msg = new StringBuilder();
+		for (int i = 0; i < 100; i++) {
+			msg.append(i).append(": i am a teapot\n");
+		}
+		RevBlob a = git.blob(msg.toString());
+		RevCommit c0 = git.commit()
+				.add("tea", a)
+				.message("0")
+				.create();
+
+		msg.append("short and stout\n");
+		RevBlob b = git.blob(msg.toString());
+		RevCommit c1 = git.commit().parent(c0).tick(1)
+				.add("tea", b)
+				.message("1")
+				.create();
+		git.update("master", c1);
+
+		PackConfig cfg = new PackConfig();
+		cfg.setReuseObjects(false);
+		cfg.setReuseDeltas(false);
+		cfg.setDeltaCompress(false);
+		cfg.setThreads(1);
+		DfsGarbageCollector gc = new DfsGarbageCollector(repo);
+		gc.setGarbageTtl(0, TimeUnit.MILLISECONDS); // disable TTL
+		gc.setPackConfig(cfg);
+		run(gc);
+
+		assertEquals(1, odb.getPacks().length);
+		DfsPackDescription large = odb.getPacks()[0].getPackDescription();
+		assertSame(PackSource.GC, large.getPackSource());
+
+		cfg.setDeltaCompress(true);
+		gc = new DfsGarbageCollector(repo);
+		gc.setGarbageTtl(0, TimeUnit.MILLISECONDS); // disable TTL
+		gc.setPackConfig(cfg);
+		run(gc);
+
+		assertEquals(1, odb.getPacks().length);
+		DfsPackDescription small = odb.getPacks()[0].getPackDescription();
+		assertSame(PackSource.GC, small.getPackSource());
+		assertTrue(
+				"delta compression pack is smaller",
+				small.getFileSize(PACK) < large.getFileSize(PACK));
+		assertTrue(
+				"large pack is older",
+				large.getLastModified() < small.getLastModified());
+
+		// Forcefully reinsert the older larger GC pack.
+		odb.commitPack(Collections.singleton(large), null);
+		odb.clearCache();
+		assertEquals(2, odb.getPacks().length);
+
+		gc = new DfsGarbageCollector(repo);
+		gc.setGarbageTtl(0, TimeUnit.MILLISECONDS); // disable TTL
+		run(gc);
+
+		assertEquals(1, odb.getPacks().length);
+		DfsPackDescription rebuilt = odb.getPacks()[0].getPackDescription();
+		assertEquals(small.getFileSize(PACK), rebuilt.getFileSize(PACK));
 	}
 
 	@Test
