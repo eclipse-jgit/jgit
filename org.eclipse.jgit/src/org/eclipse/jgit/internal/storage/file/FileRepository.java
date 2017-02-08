@@ -52,6 +52,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.HashSet;
@@ -76,6 +79,7 @@ import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig.HideDotFiles;
 import org.eclipse.jgit.lib.CoreConfig.SymLinks;
+import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
@@ -92,6 +96,8 @@ import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.StringUtils;
 import org.eclipse.jgit.util.SystemReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Represents a Git repository. A repository holds all objects and refs used for
@@ -119,6 +125,8 @@ import org.eclipse.jgit.util.SystemReader;
  *
  */
 public class FileRepository extends Repository {
+	private final static Logger LOG = LoggerFactory
+			.getLogger(FileRepository.class);
 	private static final String UNNAMED = "Unnamed repository; edit this file to name it for gitweb."; //$NON-NLS-1$
 
 	private final FileBasedConfig systemConfig;
@@ -619,16 +627,57 @@ public class FileRepository extends Repository {
 
 	}
 
+	private boolean shouldAutoDetach() {
+		return getConfig().getBoolean(ConfigConstants.CONFIG_GC_SECTION,
+				ConfigConstants.CONFIG_KEY_AUTODETACH, true);
+	}
+
 	@Override
 	public void autoGC(ProgressMonitor monitor) {
-		GC gc = new GC(this);
-		gc.setPackConfig(new PackConfig(this));
-		gc.setProgressMonitor(monitor);
-		gc.setAuto(true);
-		try {
-			gc.gc();
-		} catch (ParseException | IOException e) {
-			throw new JGitInternalException(JGitText.get().gcFailed, e);
+		// Since we don't care about tracking progress, it is OK to run the
+		// gc in the background.
+		GcLog gcLog = new GcLog(this);
+
+		boolean background = monitor instanceof NullProgressMonitor && shouldAutoDetach();
+
+		if (gcLog.lock(background)) {
+			return;
+		}
+
+		Runnable gcTask = () -> {
+			try {
+					GC gc = new GC(this);
+					gc.setPackConfig(new PackConfig(this));
+					gc.setProgressMonitor(monitor);
+					gc.setAuto(true);
+					gc.gc();
+					// On success, clear out any old gc.log files.
+					gcLog.cleanUp();
+			} catch (IOException | ParseException e) {
+				if (background) {
+					try {
+						gcLog.write(e.getMessage().getBytes());
+						StringWriter sw = new StringWriter();
+						PrintWriter pw = new PrintWriter(sw);
+						e.printStackTrace(pw);
+						gcLog.write(sw.toString().getBytes(StandardCharsets.UTF_8));
+						gcLog.commit();
+					} catch (IOException e2) {
+						e2.addSuppressed(e);
+						LOG.error(e2.getMessage(), e2);
+					}
+				} else {
+					throw new JGitInternalException(e.getMessage(), e);
+				}
+			} finally {
+				gcLog.unlock();
+			}
+		};
+		if (background) {
+			Thread thread = new Thread(gcTask);
+			thread.start();
+		} else {
+			gcTask.run();
 		}
 	}
 }
