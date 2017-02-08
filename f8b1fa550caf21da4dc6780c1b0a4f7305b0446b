@@ -37,6 +37,42 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_10e507c8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollectorTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 710
+      },
+      "writtenOn": "2017-02-08T04:53:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_50c85f4a",
+      "revId": "f8b1fa550caf21da4dc6780c1b0a4f7305b0446b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_f0f08b88",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollectorTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 710
+      },
+      "writtenOn": "2017-02-08T04:53:20Z",
+      "side": 1,
+      "message": "I looked at how TestRespository is using it\u0027s mockSystemReader and how it\u0027s advancing the clock. I agree it\u0027s not required to move the time forward with every call to getCurrentTime() and it\u0027s sufficient to move it forward once for every gc operation here. I removed the ticks here and and moving the time forward in run(gc) method below.\n\nBased on my understanding, I think it may not be a good idea to use the same mock for both TestRepository and GCCollector, as the TestRepository is using it\u0027s mock to move the commit times to move forward in controlled manner. And here we will be using the mock to move the pack last modified times forward. If we share the same mock between these two instances, the tests may loose ability of updating the times in a controlled manner (ex: tests in this class does not have any idea about how the time got updating in TestRepository).",
+      "parentUuid": "a7c23755_cd8dbc90",
+      "revId": "f8b1fa550caf21da4dc6780c1b0a4f7305b0446b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_0da7b409",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollectorTest.java",
         "patchSetId": 3
