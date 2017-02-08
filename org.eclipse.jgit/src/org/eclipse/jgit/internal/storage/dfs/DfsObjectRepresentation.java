@@ -43,8 +43,6 @@
 
 package org.eclipse.jgit.internal.storage.dfs;
 
-import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC;
-
 import org.eclipse.jgit.internal.storage.pack.StoredObjectRepresentation;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -76,6 +74,13 @@ class DfsObjectRepresentation extends StoredObjectRepresentation {
 
 	@Override
 	public boolean wasDeltaAttempted() {
-		return pack.getPackDescription().getPackSource() == GC;
+		switch (pack.getPackDescription().getPackSource()) {
+		case GC:
+		case GC_REST:
+		case GC_TXN:
+			return true;
+		default:
+			return false;
+		}
 	}
 }
