@@ -76,6 +76,7 @@ import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig.HideDotFiles;
 import org.eclipse.jgit.lib.CoreConfig.SymLinks;
+import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
@@ -92,6 +93,8 @@ import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.StringUtils;
 import org.eclipse.jgit.util.SystemReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Represents a Git repository. A repository holds all objects and refs used for
@@ -119,6 +122,8 @@ import org.eclipse.jgit.util.SystemReader;
  *
  */
 public class FileRepository extends Repository {
+	private final static Logger LOG = LoggerFactory
+			.getLogger(FileRepository.class);
 	private static final String UNNAMED = "Unnamed repository; edit this file to name it for gitweb."; //$NON-NLS-1$
 
 	private final FileBasedConfig systemConfig;
@@ -127,6 +132,7 @@ public class FileRepository extends Repository {
 	private final RefDatabase refs;
 	private final ObjectDirectory objectDatabase;
 	private FileSnapshot snapshot;
+	private GC gc;
 
 	/**
 	 * Construct a representation of a Git repository.
@@ -621,14 +627,33 @@ public class FileRepository extends Repository {
 
 	@Override
 	public void autoGC(ProgressMonitor monitor) {
-		GC gc = new GC(this);
-		gc.setPackConfig(new PackConfig(this));
-		gc.setProgressMonitor(monitor);
-		gc.setAuto(true);
-		try {
-			gc.gc();
-		} catch (ParseException | IOException e) {
-			throw new JGitInternalException(JGitText.get().gcFailed, e);
+		synchronized(this) {
+			if (gc != null) {
+				return;
+			}
+			gc = new GC(this);
+		}
+		Runnable gcTask = () -> {
+			try {
+				gc.setPackConfig(new PackConfig(this));
+				gc.setProgressMonitor(monitor);
+				gc.setAuto(true);
+				gc.gc();
+			} catch (IOException | ParseException e) {
+				LOG.error(e.getMessage(), e);
+			} finally {
+				synchronized (FileRepository.this) {
+					gc = null;
+				}
+			}
+		};
+		if (monitor instanceof NullProgressMonitor) {
+			//Since we don't care about tracking progress, it is OK to run the
+			//gc in the background.
+			Thread thread = new Thread(gcTask);
+			thread.start();
+		} else {
+			gcTask.run();
 		}
 	}
 }
