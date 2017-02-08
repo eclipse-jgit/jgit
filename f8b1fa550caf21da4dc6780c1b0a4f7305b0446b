@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_cd8dbc90",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollectorTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-02-08T00:32:39Z",
+      "side": 1,
+      "message": "You can use tick() for this:\n\n tick(1);\n return super.getCurrentTime();\n\nMost TestRepository operations call tick on its mockSystemReader, which is a little more resilient (since it makes behavior change less based on the number of times getCurrentTime gets called). Can the TestRepository use this as their MockSystemReader?\n\n Repository db \u003d new InMemoryRepository(desc);\n git \u003d new TestRepository\u003c\u003e(db, new RevWalk(db), mockSystemReader);",
+      "revId": "f8b1fa550caf21da4dc6780c1b0a4f7305b0446b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_0da7b409",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollectorTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-02-08T00:32:39Z",
+      "side": 1,
+      "message": "Thanks for this.",
+      "revId": "f8b1fa550caf21da4dc6780c1b0a4f7305b0446b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
