@@ -16,12 +16,15 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
+import org.eclipse.jgit.junit.MockSystemReader;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.util.SystemReader;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -29,6 +32,7 @@ public class DfsGarbageCollectorTest {
 	private TestRepository<InMemoryRepository> git;
 	private InMemoryRepository repo;
 	private DfsObjDatabase odb;
+	private MockSystemReader mockSystemReader;
 
 	@Before
 	public void setUp() throws IOException {
@@ -36,6 +40,13 @@ public class DfsGarbageCollectorTest {
 		git = new TestRepository<>(new InMemoryRepository(desc));
 		repo = git.getRepository();
 		odb = repo.getObjectDatabase();
+		mockSystemReader = new MockSystemReader();
+		SystemReader.setInstance(mockSystemReader);
+	}
+
+	@After
+	public void tearDown() {
+		SystemReader.setInstance(null);
 	}
 
 	@Test
@@ -168,6 +179,58 @@ public class DfsGarbageCollectorTest {
 			gc.setGarbageTtl(0, TimeUnit.MILLISECONDS);
 			run(gc);
 			assertEquals(1 + i, countPacks(UNREACHABLE_GARBAGE));
+		}
+	}
+
+	@Test
+	public void testCollectionWithGarbageCoalescenceWithShortTtl()
+			throws Exception {
+		RevCommit commit0 = commit().message("0").create();
+		RevCommit commit1 = commit().message("1").parent(commit0).create();
+		git.update("master", commit0);
+
+		// Create commits at 1 minute intervals with 1 hour ttl.
+		for (int i = 0; i < 100; i++) {
+			mockSystemReader.tick(60);
+			commit1 = commit().message("g" + i).parent(commit1).create();
+
+			DfsGarbageCollector gc = new DfsGarbageCollector(repo);
+			gc.setGarbageTtl(1, TimeUnit.HOURS);
+			run(gc);
+
+			// Make sure we don't have more than 4 UNREACHABLE_GARBAGE packs
+			// because all the packs that are created in a 20 minutes interval
+			// should be coalesced and the packs older than 60 minutes should be
+			// removed due to ttl.
+			int count = countPacks(UNREACHABLE_GARBAGE);
+			assertTrue("Garbage pack count should not exceed 4, but found "
+					+ count, count <= 4);
+		}
+	}
+
+	@Test
+	public void testCollectionWithGarbageCoalescenceWithLongTtl()
+			throws Exception {
+		RevCommit commit0 = commit().message("0").create();
+		RevCommit commit1 = commit().message("1").parent(commit0).create();
+		git.update("master", commit0);
+
+		// Create commits at 1 hour intervals with 2 days ttl.
+		for (int i = 0; i < 100; i++) {
+			mockSystemReader.tick(3600);
+			commit1 = commit().message("g" + i).parent(commit1).create();
+
+			DfsGarbageCollector gc = new DfsGarbageCollector(repo);
+			gc.setGarbageTtl(2, TimeUnit.DAYS);
+			run(gc);
+
+			// Make sure we don't have more than 3 UNREACHABLE_GARBAGE packs
+			// because all the packs that are created in a single day should
+			// be coalesced and the packs older than 2 days should be
+			// removed due to ttl.
+			int count = countPacks(UNREACHABLE_GARBAGE);
+			assertTrue("Garbage pack count should not exceed 3, but found "
+					+ count, count <= 3);
 		}
 	}
 
@@ -420,20 +483,17 @@ public class DfsGarbageCollectorTest {
 		run(gc);
 	}
 
-	private void gcWithTtl() throws InterruptedException, IOException {
-		// Wait for the system clock to move by at least 1 millisecond.
-		// This allows the DfsGarbageCollector to recognize the boundary.
-		long start = System.currentTimeMillis();
-		do {
-			Thread.sleep(10);
-		} while (System.currentTimeMillis() <= start);
-
+	private void gcWithTtl() throws IOException {
+		// Move the clock forward by 1 minute and use the same as ttl.
+		mockSystemReader.tick(60);
 		DfsGarbageCollector gc = new DfsGarbageCollector(repo);
-		gc.setGarbageTtl(1, TimeUnit.MILLISECONDS);
+		gc.setGarbageTtl(1, TimeUnit.MINUTES);
 		run(gc);
 	}
 
 	private void run(DfsGarbageCollector gc) throws IOException {
+		// adjust the current time that will be used by the gc operation.
+		mockSystemReader.tick(1);
 		assertTrue("gc repacked", gc.pack(null));
 		odb.clearCache();
 	}
