@@ -160,6 +160,7 @@ final class DeltaWindow {
 						clear(n);
 				}
 				res.set(next);
+				clearWindowOnTypeSwitch();
 
 				if (res.object.isEdge() || res.object.doNotAttemptDelta()) {
 					// We don't actually want to make a delta for
@@ -192,6 +193,15 @@ final class DeltaWindow {
 
 		int len = ent.buffer.length;
 		return DeltaIndex.estimateIndexSize(len) - len;
+	}
+
+	private void clearWindowOnTypeSwitch() {
+		DeltaWindowEntry p = res.prev;
+		if (!p.empty() && res.type() != p.type()) {
+			for (; p != res; p = p.prev) {
+				clear(p);
+			}
+		}
 	}
 
 	private void clear(DeltaWindowEntry ent) {
@@ -258,12 +268,6 @@ final class DeltaWindow {
 
 	private boolean delta(final DeltaWindowEntry src)
 			throws IOException {
-		// Objects must use only the same type as their delta base.
-		if (src.type() != res.type()) {
-			keepInWindow();
-			return NEXT_RES;
-		}
-
 		// If the sizes are radically different, this is a bad pairing.
 		if (res.size() < src.size() >>> 4)
 			return NEXT_SRC;
