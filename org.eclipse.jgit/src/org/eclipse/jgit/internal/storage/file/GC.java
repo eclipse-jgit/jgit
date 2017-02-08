@@ -50,8 +50,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -78,6 +81,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.CancelledException;
 import org.eclipse.jgit.errors.CorruptObjectException;
@@ -176,6 +180,8 @@ public class GC {
 	 * Whether gc should do automatic housekeeping
 	 */
 	private boolean automatic;
+	private GcLog gcLog;
+	private boolean background;
 
 	/**
 	 * Creates a new garbage collector with default values. An expirationTime of
@@ -207,11 +213,13 @@ public class GC {
 	 * @throws ParseException
 	 *             If the configuration parameter "gc.pruneexpire" couldn't be
 	 *             parsed
+	 * @deprecated use collectGarbage() instead.
 	 */
 	public Collection<PackFile> gc() throws IOException, ParseException {
 		if (automatic && !needGc()) {
 			return Collections.emptyList();
 		}
+
 		pm.start(6 /* tasks */);
 		packRefs();
 		// TODO: implement reflog_expire(pm, repo);
@@ -219,6 +227,75 @@ public class GC {
 		prune(Collections.<ObjectId> emptySet());
 		// TODO: implement rerere_gc(pm);
 		return newPacks;
+	}
+
+	/**
+	 * Runs a garbage collector on a {@link FileRepository}. It will
+	 * <ul>
+	 * <li>pack loose references into packed-refs</li>
+	 * <li>repack all reachable objects into new pack files and delete the old
+	 * pack files</li>
+	 * <li>prune all loose objects which are now reachable by packs</li>
+	 * </ul>
+	 *
+	 * If {@link #setAuto(boolean)} was set to {@code true} {@code gc} will
+	 * first check whether any housekeeping is required; if not, it exits
+	 * without performing any work.
+	 *
+	 * If {@link #setBackground(boolean)} was set to {@code true}
+	 * {@code gc} will start the gc in the background ,and then
+	 * return immediately.  In this case, errors will not be
+	 * reported except in gc.log.
+	 *
+	 * @return the collection of {@link PackFile}'s which are newly created
+	 * @throws IOException
+	 * @throws ParseException
+	 *             If the configuration parameter "gc.pruneexpire" couldn't be
+	 *             parsed
+	 */
+	public void collectGarbage() throws IOException, ParseException {
+		if (gcLog != null && gcLog.lock(background)) {
+			return;
+		}
+		Runnable gcTask = () -> {
+			try {
+				gc();
+				if (automatic && tooManyLooseObjects() && gcLog != null) {
+					String message = JGitText.get().gcTooManyUnpruned;
+					gcLog.write(message.getBytes(StandardCharsets.UTF_8));
+				}
+			} catch (IOException | ParseException e) {
+				if (background) {
+					if (gcLog == null) {
+						// Lacking a log, there's no way to report this.
+						return;
+					}
+					try {
+						gcLog.write(e.getMessage().getBytes());
+						StringWriter sw = new StringWriter();
+						PrintWriter pw = new PrintWriter(sw);
+						e.printStackTrace(pw);
+						gcLog.write(sw.toString().getBytes(StandardCharsets.UTF_8));
+						gcLog.commit();
+					} catch (IOException e2) {
+						e2.addSuppressed(e);
+						LOG.error(e2.getMessage(), e2);
+					}
+				} else {
+					throw new JGitInternalException(e.getMessage(), e);
+				}
+			} finally {
+				if (gcLog != null) {
+					gcLog.unlock();
+				}
+			}
+		};
+		if (background) {
+			Thread thread = new Thread(gcTask);
+			thread.start();
+		} else {
+			gcTask.run();
+		}
 	}
 
 	/**
@@ -1120,6 +1197,23 @@ public class GC {
 	}
 
 	/**
+	 * Set the GcLog object used to store errors during background processing
+	 * @param gcLog
+	 * @since 4.7
+	 */
+	public void setLog(GcLog gcLog) {
+		this.gcLog = gcLog;
+	}
+
+	/**
+	 * @param background whether to run the gc in a background thread.
+	 * @since 4.7
+	 */
+	public void setBackground(boolean background) {
+		this.background = background;
+	}
+
+	/**
 	 * A class holding statistical data for a FileRepository regarding how many
 	 * objects are stored as loose or packed objects
 	 */
@@ -1386,8 +1480,7 @@ public class GC {
 	 * @return {@code true} if number of loose objects > gc.auto (default 6700)
 	 */
 	boolean tooManyLooseObjects() {
-		int auto = repo.getConfig().getInt(ConfigConstants.CONFIG_GC_SECTION,
-				ConfigConstants.CONFIG_KEY_AUTO, DEFAULT_AUTOLIMIT);
+		int auto = getLooseObjectLimit();
 		if (auto <= 0) {
 			return false;
 		}
@@ -1418,5 +1511,10 @@ public class GC {
 			LOG.error(e.getMessage(), e);
 		}
 		return false;
+	}
+
+	private int getLooseObjectLimit() {
+		return repo.getConfig().getInt(ConfigConstants.CONFIG_GC_SECTION,
+				ConfigConstants.CONFIG_KEY_AUTO, DEFAULT_AUTOLIMIT);
 	}
 }

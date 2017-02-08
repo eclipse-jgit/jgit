@@ -76,6 +76,7 @@ import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig.HideDotFiles;
 import org.eclipse.jgit.lib.CoreConfig.SymLinks;
+import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
@@ -619,16 +620,30 @@ public class FileRepository extends Repository {
 
 	}
 
+	private boolean shouldAutoDetach() {
+		return getConfig().getBoolean(ConfigConstants.CONFIG_GC_SECTION,
+				ConfigConstants.CONFIG_KEY_AUTODETACH, true);
+	}
+
 	@Override
 	public void autoGC(ProgressMonitor monitor) {
+		// Since we don't care about tracking progress, it is OK to run the
+		// gc in the background.
+		GcLog gcLog = new GcLog(this);
+
+		boolean background = monitor instanceof NullProgressMonitor && shouldAutoDetach();
+
 		GC gc = new GC(this);
 		gc.setPackConfig(new PackConfig(this));
 		gc.setProgressMonitor(monitor);
 		gc.setAuto(true);
+		gc.setLog(gcLog);
+		gc.setBackground(shouldAutoDetach());
 		try {
-			gc.gc();
+			gc.collectGarbage();
 		} catch (ParseException | IOException e) {
 			throw new JGitInternalException(JGitText.get().gcFailed, e);
 		}
+
 	}
 }
