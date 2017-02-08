@@ -52,8 +52,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.attribute.FileTime;
 import java.text.MessageFormat;
 import java.text.ParseException;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Objects;
@@ -76,6 +80,7 @@ import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig.HideDotFiles;
 import org.eclipse.jgit.lib.CoreConfig.SymLinks;
+import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
@@ -86,12 +91,9 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.storage.pack.PackConfig;
-import org.eclipse.jgit.util.FS;
-import org.eclipse.jgit.util.FileUtils;
-import org.eclipse.jgit.util.IO;
-import org.eclipse.jgit.util.RawParseUtils;
-import org.eclipse.jgit.util.StringUtils;
-import org.eclipse.jgit.util.SystemReader;
+import org.eclipse.jgit.util.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Represents a Git repository. A repository holds all objects and refs used for
@@ -119,7 +121,10 @@ import org.eclipse.jgit.util.SystemReader;
  *
  */
 public class FileRepository extends Repository {
+	private final static Logger LOG = LoggerFactory
+			.getLogger(FileRepository.class);
 	private static final String UNNAMED = "Unnamed repository; edit this file to name it for gitweb."; //$NON-NLS-1$
+	private static final String LOG_EXPIRY_DEFAULT = "1.day";
 
 	private final FileBasedConfig systemConfig;
 	private final FileBasedConfig userConfig;
@@ -127,6 +132,7 @@ public class FileRepository extends Repository {
 	private final RefDatabase refs;
 	private final ObjectDirectory objectDatabase;
 	private FileSnapshot snapshot;
+	private Instant gcLogExpire;
 
 	/**
 	 * Construct a representation of a Git repository.
@@ -619,16 +625,94 @@ public class FileRepository extends Repository {
 
 	}
 
+	private Instant getLogExpiry() throws ParseException {
+		if (gcLogExpire == null) {
+			String logExpiryStr = getConfig().getString(
+					ConfigConstants.CONFIG_GC_SECTION, null,
+					ConfigConstants.CONFIG_KEY_LOGEXPIRY);
+			if (logExpiryStr == null)
+				logExpiryStr = LOG_EXPIRY_DEFAULT;
+			gcLogExpire = GitDateParser.parse(logExpiryStr, null, SystemReader
+					.getInstance().getLocale()).toInstant();
+		}
+		return gcLogExpire;
+	}
+
+	public boolean gcAutoDetach() {
+		return getConfig().getBoolean(ConfigConstants.CONFIG_GC_SECTION,
+				ConfigConstants.CONFIG_KEY_AUTODETACH, true);
+	}
+
 	@Override
 	public void autoGC(ProgressMonitor monitor) {
-		GC gc = new GC(this);
-		gc.setPackConfig(new PackConfig(this));
-		gc.setProgressMonitor(monitor);
-		gc.setAuto(true);
+		// Since we don't care about tracking progress, it is OK to run the
+		// gc in the background.
+		boolean background = monitor instanceof NullProgressMonitor && gcAutoDetach();
+
+		File gcLog = new File(getDirectory(), "gc.log"); //$NON-NLS-1$
+		final LockFile lck = new LockFile(gcLog);
 		try {
-			gc.gc();
-		} catch (ParseException | IOException e) {
-			throw new JGitInternalException(JGitText.get().gcFailed, e);
+			if (!lck.lock()) {
+				// There is already a background gc running, so nothing to do.
+				return;
+			}
+		} catch (IOException e) {
+			throw new JGitInternalException(e.getMessage(), e);
+		}
+
+		try {
+			FileTime lastModified = Files.getLastModifiedTime(gcLog.toPath());
+			if (lastModified.toInstant().compareTo(getLogExpiry()) < 0) {
+				// There is an existing log file, which is too recent to ignore
+				try {
+					if (!background) {
+						String oldError = new String(Files.readAllBytes(gcLog.toPath()));
+						throw new JGitInternalException("A previous GC run reported an error: " +
+								oldError +
+								"\nAutomatic gc will fail until the file " + gcLog + " is removed");
+					}
+				} finally {
+					lck.unlock();
+				}
+				return;
+			}
+		} catch (NoSuchFileException e) {
+			// No existing log file, OK.
+		} catch (IOException | ParseException e) {
+			throw new JGitInternalException(e.getMessage(), e);
+		}
+
+		Runnable gcTask = () -> {
+			try {
+					GC gc = new GC(this);
+					gc.setPackConfig(new PackConfig(this));
+					gc.setProgressMonitor(monitor);
+					gc.setAuto(true);
+					gc.gc();
+					lck.unlock();
+					// On success, clear out any old gc.log files.
+					gcLog.delete();
+
+			} catch (IOException | ParseException e) {
+				if (background) {
+					try {
+						lck.write(e.getMessage().getBytes());
+						lck.commit();
+					} catch (IOException e2) {
+						e2.addSuppressed(e);
+						LOG.error(e2.getMessage(), e);
+						lck.unlock();
+					}
+				} else {
+					throw new JGitInternalException(e.getMessage(), e);
+				}
+			}
+		};
+		if (background) {
+			Thread thread = new Thread(gcTask);
+			thread.start();
+		} else {
+			gcTask.run();
 		}
 	}
 }

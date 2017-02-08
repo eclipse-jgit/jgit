@@ -62,11 +62,7 @@ import java.util.TreeSet;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.RepositoryCache;
+import org.eclipse.jgit.lib.*;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.storage.file.WindowCacheConfig;
 import org.eclipse.jgit.util.FS;
@@ -121,6 +117,12 @@ public abstract class LocalDiskRepositoryTestCase {
 		mockSystemReader = new MockSystemReader();
 		mockSystemReader.userGitConfig = new FileBasedConfig(new File(tmp,
 				"usergitconfig"), FS.DETECTED);
+		// We have to set autoDetach to false for tests, because tests expect to be able
+		// to clean up by recursively removing the repository, and background GC might be
+		// in the middle of writing or deleting files, which would disrupt this.
+		mockSystemReader.userGitConfig.setBoolean(ConfigConstants.CONFIG_GC_SECTION,
+				null, ConfigConstants.CONFIG_KEY_AUTODETACH, false);
+		mockSystemReader.userGitConfig.save();
 		ceilTestDirectories(getCeilings());
 		SystemReader.setInstance(mockSystemReader);
 
