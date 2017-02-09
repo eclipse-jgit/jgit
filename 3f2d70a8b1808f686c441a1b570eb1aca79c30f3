@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_5b5cfbc5",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 4
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2017-02-09T19:26:45Z",
+      "side": 1,
+      "message": "nit:  s/too/Too/ ?  (to match below)",
+      "range": {
+        "startLine": 606,
+        "startChar": 16,
+        "endLine": 606,
+        "endChar": 19
+      },
+      "revId": "3f2d70a8b1808f686c441a1b570eb1aca79c30f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_bbb6ef74",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1067,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2017-02-09T19:26:45Z",
+      "side": 1,
+      "message": "nit: Unrelated?  I think jgit doesn\u0027t not use them normally for single command blocks?  Same other places in this change?",
+      "range": {
+        "startLine": 1067,
+        "startChar": 2,
+        "endLine": 1067,
+        "endChar": 3
+      },
+      "revId": "3f2d70a8b1808f686c441a1b570eb1aca79c30f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_5ba4fb02",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineIn.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2017-02-09T19:26:45Z",
+      "side": 1,
+      "message": "style: bracketing style seems to not match the rest of file.",
+      "range": {
+        "startLine": 233,
+        "startChar": 16,
+        "endLine": 233,
+        "endChar": 17
+      },
+      "revId": "3f2d70a8b1808f686c441a1b570eb1aca79c30f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
