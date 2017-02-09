@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_9eb761bb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2017-02-09T21:38:53Z",
+      "side": 1,
+      "message": "syle: no wildcards in imports?",
+      "range": {
+        "startLine": 94,
+        "startChar": 28,
+        "endLine": 94,
+        "endChar": 31
+      },
+      "revId": "f725b6c09430a281ce34b890b8289e1bd08c8abd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_5e94e914",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 652,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2017-02-09T21:38:53Z",
+      "side": 1,
+      "message": "It would probably be nice to encapsulate anything to do with this log file into a class, GcLog?",
+      "range": {
+        "startLine": 652,
+        "startChar": 39,
+        "endLine": 652,
+        "endChar": 40
+      },
+      "revId": "f725b6c09430a281ce34b890b8289e1bd08c8abd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
