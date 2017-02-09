@@ -46,6 +46,30 @@
       "revId": "8e751493f3ef3bccd3d635fc4198ec1ad0157314",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_db500baf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2017-02-09T18:11:11Z",
+      "side": 1,
+      "message": "I don\u0027t think it is likely to prevent that either. :(  The current implementation only limits this from happening per instance of the jgit FileRepository.  I suspect that many servers use one instance of FileRepository per request (even for requests to the same repo on disk), so other requests will likely not be blocked by this.  And, of course, requests in other servers will also not be blocked.",
+      "parentUuid": "a7c23755_bb398f90",
+      "range": {
+        "startLine": 28,
+        "startChar": 64,
+        "endLine": 30,
+        "endChar": 39
+      },
+      "revId": "8e751493f3ef3bccd3d635fc4198ec1ad0157314",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
