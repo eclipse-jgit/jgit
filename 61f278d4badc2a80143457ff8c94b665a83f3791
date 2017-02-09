@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_779d4dee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefLeaseSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-02-09T00:36:53Z",
+      "side": 1,
+      "message": "The fields should be final as they are never modified.",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 25
+      },
+      "revId": "61f278d4badc2a80143457ff8c94b665a83f3791",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_17a7b940",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1398,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-02-09T00:36:53Z",
+      "side": 1,
+      "message": "weird blank line in the middle of javadoc. Please either delete the line or include the * like on 1393 above.",
+      "revId": "61f278d4badc2a80143457ff8c94b665a83f3791",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_57b13175",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1404,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-02-09T00:36:53Z",
+      "side": 1,
+      "message": "Looks like this method is missing its @since 4.7 annotation.",
+      "revId": "61f278d4badc2a80143457ff8c94b665a83f3791",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
