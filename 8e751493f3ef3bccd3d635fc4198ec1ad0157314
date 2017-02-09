@@ -70,6 +70,30 @@
       "revId": "8e751493f3ef3bccd3d635fc4198ec1ad0157314",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_1b9d23ec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 93425
+      },
+      "writtenOn": "2017-02-09T18:33:58Z",
+      "side": 1,
+      "message": "To the extent that that was possible before, it\u0027s still possible now, yes.  I guess the difference is that previously, a client would probably have blocked while the server was GCing, while now it might make a second request, causing a second auto GC.  This won\u0027t hurt correctness (unless it would have done so prior to this patch), but it will cause additional server load.\n\nOn reflection, I think regular git takes a lock before a background auto gc (\"gc.log.lock\"). I guess I\u0027ll change the code to do that.",
+      "parentUuid": "a7c23755_db500baf",
+      "range": {
+        "startLine": 28,
+        "startChar": 64,
+        "endLine": 30,
+        "endChar": 39
+      },
+      "revId": "8e751493f3ef3bccd3d635fc4198ec1ad0157314",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
