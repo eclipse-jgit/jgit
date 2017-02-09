@@ -400,7 +400,7 @@ public class PushCommandTest extends RepositoryTestCase {
 		try (Git git1 = new Git(db)) {
 			// create one commit and push it
 			RevCommit commit = git1.commit().setMessage("initial commit").call();
-			Ref branchRef = git1.branchCreate().setName("initial").call();
+			git1.branchCreate().setName("initial").call();
 
 			RefSpec spec = new RefSpec("refs/heads/master:refs/heads/x");
 			git1.push().setRemote("test").setRefSpecs(spec)
@@ -410,7 +410,7 @@ public class PushCommandTest extends RepositoryTestCase {
 					db2.resolve(commit.getId().getName() + "^{commit}"));
 			//now try to force-push a new commit, with a good lease
 
-			RevCommit commit2 = git1.commit().setMessage("second commit").call();
+			git1.commit().setMessage("second commit").call();
 			Iterable<PushResult> results =
 					git1.push().setRemote("test").setRefSpecs(spec)
 							.setRefLeaseSpecs(new RefLeaseSpec("refs/heads/x", "initial"))
@@ -420,7 +420,7 @@ public class PushCommandTest extends RepositoryTestCase {
 				assertEquals(update.getStatus(), RemoteRefUpdate.Status.OK);
 			}
 
-			RevCommit commit3 = git1.commit().setMessage("third commit").call();
+			git1.commit().setMessage("third commit").call();
 			//now try to force-push a new commit, with a bad lease
 
 			results =
