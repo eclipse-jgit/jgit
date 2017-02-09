@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_3ec48d87",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Add.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2017-02-09T19:38:48Z",
+      "side": 1,
+      "message": "Is this the kind of string we want //$NON-NLS-1$ to prevent?  If not, why do we use //$NON-NLS-1$?  (I don\u0027t know the policy, I am just trying to learn)",
+      "range": {
+        "startLine": 70,
+        "startChar": 47,
+        "endLine": 70,
+        "endChar": 60
+      },
+      "revId": "9569568a6bc75103a4ed1596681fd02801daea66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
