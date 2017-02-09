@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_9bdbf3e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2017-02-09T18:01:46Z",
+      "side": 1,
+      "message": "Is this really important?  If so, it appears that the implementation in this change is unlikely to actually prevent this.",
+      "range": {
+        "startLine": 28,
+        "startChar": 64,
+        "endLine": 30,
+        "endChar": 39
+      },
+      "revId": "8e751493f3ef3bccd3d635fc4198ec1ad0157314",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
