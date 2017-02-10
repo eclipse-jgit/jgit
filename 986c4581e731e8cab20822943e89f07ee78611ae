@@ -22,6 +22,30 @@
       "revId": "986c4581e731e8cab20822943e89f07ee78611ae",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_6d8e59ba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineIn.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-02-10T23:21:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_eda2692a",
+      "range": {
+        "startLine": 111,
+        "startChar": 11,
+        "endLine": 111,
+        "endChar": 14
+      },
+      "revId": "986c4581e731e8cab20822943e89f07ee78611ae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
