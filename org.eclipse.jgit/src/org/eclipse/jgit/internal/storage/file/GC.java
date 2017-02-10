@@ -52,6 +52,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -176,6 +177,7 @@ public class GC {
 	 * Whether gc should do automatic housekeeping
 	 */
 	private boolean automatic;
+	private GcLog gcLog;
 
 	/**
 	 * Creates a new garbage collector with default values. An expirationTime of
@@ -216,7 +218,12 @@ public class GC {
 		packRefs();
 		// TODO: implement reflog_expire(pm, repo);
 		Collection<PackFile> newPacks = repack();
-		prune(Collections.<ObjectId> emptySet());
+		final long unpruned = prune(Collections.<ObjectId> emptySet());
+		if (automatic && unpruned > getLooseObjectLimit() && gcLog != null) {
+			gcLog.write(("Even after repacking, there are still " +
+					unpruned +
+					"unpruneable loose objects").getBytes(StandardCharsets.UTF_8));
+		}
 		// TODO: implement rerere_gc(pm);
 		return newPacks;
 	}
@@ -440,14 +447,16 @@ public class GC {
 	 * @param objectsToKeep
 	 *            a set of objects which should explicitly not be pruned
 	 *
+	 * @return the number of unpruned loose objects
 	 * @throws IOException
 	 * @throws ParseException
 	 *             If the configuration parameter "gc.pruneexpire" couldn't be
 	 *             parsed
 	 */
-	public void prune(Set<ObjectId> objectsToKeep) throws IOException,
+	public long prune(Set<ObjectId> objectsToKeep) throws IOException,
 			ParseException {
 		long expireDate = getExpireDate();
+		long unpruned = 0;
 
 		// Collect all loose objects which are old enough, not referenced from
 		// the index and not in objectsToKeep
@@ -456,7 +465,7 @@ public class GC {
 		File objects = repo.getObjectsDirectory();
 		String[] fanout = objects.list();
 		if (fanout == null || fanout.length == 0) {
-			return;
+			return 0;
 		}
 		pm.beginTask(JGitText.get().pruneLooseUnreferencedObjects,
 				fanout.length);
@@ -474,16 +483,22 @@ public class GC {
 					String fName = f.getName();
 					if (fName.length() != Constants.OBJECT_ID_STRING_LENGTH - 2)
 						continue;
-					if (repo.getFS().lastModified(f) >= expireDate)
+					if (repo.getFS().lastModified(f) >= expireDate) {
+						unpruned += 1;
 						continue;
+					}
 					try {
 						ObjectId id = ObjectId.fromString(d + fName);
-						if (objectsToKeep.contains(id))
+						if (objectsToKeep.contains(id)) {
+							unpruned += 1;
 							continue;
+						}
 						if (indexObjects == null)
 							indexObjects = listNonHEADIndexObjects();
-						if (indexObjects.contains(id))
+						if (indexObjects.contains(id)) {
+							unpruned += 1;
 							continue;
+						}
 						deletionCandidates.put(id, f);
 					} catch (IllegalArgumentException notAnObject) {
 						// ignoring the file that does not represent loose
@@ -497,7 +512,7 @@ public class GC {
 		}
 
 		if (deletionCandidates.isEmpty()) {
-			return;
+			return unpruned;
 		}
 
 		checkCancelled();
@@ -546,7 +561,7 @@ public class GC {
 		}
 
 		if (deletionCandidates.isEmpty())
-			return;
+			return unpruned;
 
 		// Since we have not left the method yet there are still
 		// deletionCandidates. Last chance for these objects not to be pruned is
@@ -571,7 +586,7 @@ public class GC {
 		}
 
 		if (deletionCandidates.isEmpty())
-			return;
+			return unpruned;
 
 		checkCancelled();
 
@@ -593,6 +608,8 @@ public class GC {
 		}
 
 		repo.getObjectDatabase().close();
+
+		return unpruned;
 	}
 
 	private long getExpireDate() throws ParseException {
@@ -1112,6 +1129,10 @@ public class GC {
 		}
 	}
 
+	public void setLog(GcLog gcLog) {
+		this.gcLog = gcLog;
+	}
+
 	/**
 	 * A class holding statistical data for a FileRepository regarding how many
 	 * objects are stored as loose or packed objects
@@ -1378,8 +1399,7 @@ public class GC {
 	 * @return {@code true} if number of loose objects > gc.auto (default 6700)
 	 */
 	boolean tooManyLooseObjects() {
-		int auto = repo.getConfig().getInt(ConfigConstants.CONFIG_GC_SECTION,
-				ConfigConstants.CONFIG_KEY_AUTO, DEFAULT_AUTOLIMIT);
+		int auto = getLooseObjectLimit();
 		if (auto <= 0) {
 			return false;
 		}
@@ -1409,5 +1429,10 @@ public class GC {
 			LOG.error(e.getMessage(), e);
 		}
 		return false;
+	}
+
+	private int getLooseObjectLimit() {
+		return repo.getConfig().getInt(ConfigConstants.CONFIG_GC_SECTION,
+				ConfigConstants.CONFIG_KEY_AUTO, DEFAULT_AUTOLIMIT);
 	}
 }
