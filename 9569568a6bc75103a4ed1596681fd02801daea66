@@ -22,6 +22,23 @@
       "revId": "9569568a6bc75103a4ed1596681fd02801daea66",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_61e2e8c0",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Add.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-02-10T08:32:51Z",
+      "side": 1,
+      "message": "This comment is regarding whether we are doing the right thing in AddCommand.java:\n\nIs this really what native git does? If you are not in the root of the working tree and you say \"git add .\" then this will add only files in that folder (or subfolders). But \"git add --all\" would also add files above your current directory.\n\n  \u003e git init\n  Initialized empty Git repository in ...\n  \u003e touch a\n  \u003e mkdir d\n  \u003e touch d/b\n  \u003e git add .\n  \u003e git commit -m initial\n  [master (root-commit) 8f03333] initial\n   2 files changed, 0 insertions(+), 0 deletions(-)\n   create mode 100644 a\n   create mode 100644 d/b\n  \u003e echo x \u003ea\n  \u003e echo y \u003ed/b\n  \u003e cd d\n  \u003e git add .\n  \u003e git status\n  On branch master\n  Changes to be committed:\n    (use \"git reset HEAD \u003cfile\u003e...\" to unstage)\n  \n  \tmodified:   b\n  \n  Changes not staged for commit:\n    (use \"git add \u003cfile\u003e...\" to update what will be committed)\n    (use \"git checkout -- \u003cfile\u003e...\" to discard changes in working directory)\n  \n  \tmodified:   ../a\n  \n  \u003e git add --all\n  \u003e git status\n  On branch master\n  Changes to be committed:\n    (use \"git reset HEAD \u003cfile\u003e...\" to unstage)\n  \n  \tmodified:   ../a\n  \tmodified:   b\n  \n  \u003e",
+      "revId": "9569568a6bc75103a4ed1596681fd02801daea66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
