@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_4daa7d0a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-02-10T23:14:14Z",
+      "side": 1,
+      "message": "remove unused imports",
+      "revId": "b5b0a8d25be7e2fd4e23cce285c2d976406babc2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_cd4bed03",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GcLog.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-02-10T23:14:14Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "b5b0a8d25be7e2fd4e23cce285c2d976406babc2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_0dc165c9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GcLog.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-02-10T23:14:14Z",
+      "side": 1,
+      "message": "This class could be kept package private or do you envision any reuse outside this package ? If you agree, then also its methods can be declared package private and remove the @since tag.",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 6
+      },
+      "revId": "b5b0a8d25be7e2fd4e23cce285c2d976406babc2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_adb15178",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GcLog.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-02-10T23:14:14Z",
+      "side": 1,
+      "message": "remove duplicate semicolon",
+      "range": {
+        "startLine": 96,
+        "startChar": 26,
+        "endLine": 96,
+        "endChar": 27
+      },
+      "revId": "b5b0a8d25be7e2fd4e23cce285c2d976406babc2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
