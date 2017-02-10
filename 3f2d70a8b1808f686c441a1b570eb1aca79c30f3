@@ -92,6 +92,30 @@
       "revId": "3f2d70a8b1808f686c441a1b570eb1aca79c30f3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_9eb12179",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineIn.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-02-10T00:04:46Z",
+      "side": 1,
+      "message": "it\u0027s not consistent in the file anyway; see L217 for example.\n\nfor new code we should use brackets, according to recent reviews.",
+      "parentUuid": "a7c23755_5ba4fb02",
+      "range": {
+        "startLine": 233,
+        "startChar": 16,
+        "endLine": 233,
+        "endChar": 17
+      },
+      "revId": "3f2d70a8b1808f686c441a1b570eb1aca79c30f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
