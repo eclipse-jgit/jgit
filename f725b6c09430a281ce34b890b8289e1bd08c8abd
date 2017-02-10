@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "a7c23755_a1a160aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-02-10T07:51:36Z",
+      "side": 1,
+      "message": "Don\u0027t we have a different problem here? If we are in a situation where every fetch leads to autogc then we should fix this. To decide whether to do an autogc we could count only those loose objects which not also persisted in a pack file. Then the first fetch would pack the loose objects inside a pack but also keeps the objects as loose objects because they are too young. The next fetch triggering an autogc would not count objetcs which are loose and inside packs and therefore not triggering a new gc. Sounds good? Then I would propse a change.",
+      "revId": "f725b6c09430a281ce34b890b8289e1bd08c8abd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_9eb761bb",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
         "patchSetId": 4
@@ -41,6 +58,63 @@
         "startChar": 39,
         "endLine": 652,
         "endChar": 40
+      },
+      "revId": "f725b6c09430a281ce34b890b8289e1bd08c8abd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_41816c06",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 672,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-02-10T07:51:36Z",
+      "side": 1,
+      "message": "shouldn\u0027t we limit the amount of bytes we are reporting here? Otherwise one could crash our server by putting a huge gc.log file.",
+      "revId": "f725b6c09430a281ce34b890b8289e1bd08c8abd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_0103f41a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 678,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-02-10T07:51:36Z",
+      "side": 1,
+      "message": "we are potentially not unlocking lck anymore if we have reached this line. Shouldn\u0027t there be a lck.unlock() in the finally of the try block which starts at line 663 ?",
+      "revId": "f725b6c09430a281ce34b890b8289e1bd08c8abd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_2108f034",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 692,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-02-10T07:51:36Z",
+      "side": 1,
+      "message": "imagine background\u003d\u003dfalse and we don\u0027t reach this line because of exceptions between 687 and 691. We would not unlock the file.",
+      "range": {
+        "startLine": 692,
+        "startChar": 5,
+        "endLine": 692,
+        "endChar": 18
       },
       "revId": "f725b6c09430a281ce34b890b8289e1bd08c8abd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
