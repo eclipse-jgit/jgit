@@ -208,6 +208,7 @@
     <maven-javadoc-plugin-version>2.10.4</maven-javadoc-plugin-version>
     <tycho-extras-version>0.26.0</tycho-extras-version>
     <gson-version>2.2.4</gson-version>
+    <findbugs-maven-plugin-version>3.0.4</findbugs-maven-plugin-version>
 
     <!-- Properties to enable jacoco code coverage analysis -->
     <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
@@ -367,7 +368,7 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>findbugs-maven-plugin</artifactId>
-          <version>3.0.4</version>
+          <version>${findbugs-maven-plugin-version}</version>
           <configuration>
             <findbugsXmlOutput>true</findbugsXmlOutput>
             <failOnError>false</failOnError>
@@ -572,7 +573,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>findbugs-maven-plugin</artifactId>
-        <version>3.0.3</version>
+        <version>${findbugs-maven-plugin-version}</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
