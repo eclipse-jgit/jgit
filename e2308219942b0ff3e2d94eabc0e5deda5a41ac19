@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_21d0f0c1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-02-10T09:00:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_e1a1987f",
+      "range": {
+        "startLine": 748,
+        "startChar": 4,
+        "endLine": 748,
+        "endChar": 14
+      },
+      "revId": "e2308219942b0ff3e2d94eabc0e5deda5a41ac19",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_01a77493",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2017-02-10T08:34:47Z",
       "side": 1,
       "message": "@since 4.7",
+      "range": {
+        "startLine": 769,
+        "startChar": 4,
+        "endLine": 769,
+        "endChar": 14
+      },
+      "revId": "e2308219942b0ff3e2d94eabc0e5deda5a41ac19",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_41d40cb6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 769,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-02-10T09:00:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_01a77493",
       "range": {
         "startLine": 769,
         "startChar": 4,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_61d108c4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineIn.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-02-10T09:00:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_61ad886f",
+      "range": {
+        "startLine": 111,
+        "startChar": 4,
+        "endLine": 111,
+        "endChar": 14
+      },
+      "revId": "e2308219942b0ff3e2d94eabc0e5deda5a41ac19",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_c183bce2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineIn.java",
         "patchSetId": 5
@@ -82,6 +154,30 @@
       "writtenOn": "2017-02-10T08:34:47Z",
       "side": 1,
       "message": "@since 4.7",
+      "range": {
+        "startLine": 265,
+        "startChar": 4,
+        "endLine": 265,
+        "endChar": 14
+      },
+      "revId": "e2308219942b0ff3e2d94eabc0e5deda5a41ac19",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_81de24d4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineIn.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-02-10T09:00:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_c183bce2",
       "range": {
         "startLine": 265,
         "startChar": 4,
