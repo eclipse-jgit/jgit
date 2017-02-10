@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "a7c23755_cc1f7366",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-02-10T11:29:28Z",
+      "side": 1,
+      "message": "In the rest of the code the properties prefixed with \"_usage\" seem to only be used for strings that are passed as the \u0027usage\u0027 argument to @Option\n\nI think the ones added here should probably just be named \"addAll\" and \"nothingSpecified\" or something like that.",
+      "range": {
+        "startLine": 275,
+        "startChar": 0,
+        "endLine": 275,
+        "endChar": 6
+      },
+      "revId": "9569568a6bc75103a4ed1596681fd02801daea66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_3ec48d87",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Add.java",
         "patchSetId": 1
@@ -13,6 +36,30 @@
       "writtenOn": "2017-02-09T19:38:48Z",
       "side": 1,
       "message": "Is this the kind of string we want //$NON-NLS-1$ to prevent?  If not, why do we use //$NON-NLS-1$?  (I don\u0027t know the policy, I am just trying to learn)",
+      "range": {
+        "startLine": 70,
+        "startChar": 47,
+        "endLine": 70,
+        "endChar": 60
+      },
+      "revId": "9569568a6bc75103a4ed1596681fd02801daea66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_4c0c4349",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Add.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-02-10T11:29:28Z",
+      "side": 1,
+      "message": "No, I think this is wrong.  There should be a corresponding \"public String usage_addNothingSpecified\" added in CLIText.java, and then this line should be:\n\n CLIText.get().usage_addNothingSpecified\n\n(although also note the comment in the .properties file)",
+      "parentUuid": "a7c23755_3ec48d87",
       "range": {
         "startLine": 70,
         "startChar": 47,
