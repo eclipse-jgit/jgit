@@ -241,6 +241,24 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_6d2ad931",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 670,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-02-10T22:58:38Z",
+      "side": 1,
+      "message": "JGit has its own tiny translation bundle implementation, see class JGitText and JGitTest.properties. And yes for combining translatable texts and parameters use MessageFormat. If you look for examples search for \"JGitText.get()\"",
+      "parentUuid": "a7c23755_cd55adcf",
+      "revId": "f725b6c09430a281ce34b890b8289e1bd08c8abd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_41816c06",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
         "patchSetId": 4
