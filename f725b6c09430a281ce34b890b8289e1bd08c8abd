@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_72cb94c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 93425
+      },
+      "writtenOn": "2017-02-10T20:07:01Z",
+      "side": 1,
+      "message": "We never pack unreferenced loose objects, because they might be garbage (maybe they end up in a pack anyway, because at the time the pack was referenced, they were referenced, or because we received them in a fetch).  Having the same objects both packed and loose is a waste of space -- especially if we\u0027re just doing this for bookkeeping purposes.  We do eventually want to delete these objects (after two weeks: see https://git.eclipse.org/r/#/c/89455 ), so they have to remain loose so that we can use the filesystem for the two-week timer.    \n\nIn regular git, the gc.log file \"fixes\" the repeated-gc problem by sending the \"too many loose objects\" message into gc.log, which blocks gc (for a day, once my patch is merged).  Here, we don\u0027t yet write that message to gc.log, but we could do so if we wanted to.  Do you think I should add a patch to do that?",
+      "parentUuid": "a7c23755_a1a160aa",
+      "revId": "f725b6c09430a281ce34b890b8289e1bd08c8abd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_9eb761bb",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
         "patchSetId": 4
@@ -82,6 +100,24 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_12b7c041",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 672,
+      "author": {
+        "id": 93425
+      },
+      "writtenOn": "2017-02-10T20:07:01Z",
+      "side": 1,
+      "message": "But you control who writes to gc.log.  I guess we might as well limit it, even though that\u0027s kind of a hassle.",
+      "parentUuid": "a7c23755_41816c06",
+      "revId": "f725b6c09430a281ce34b890b8289e1bd08c8abd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_0103f41a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
         "patchSetId": 4
@@ -93,6 +129,24 @@
       "writtenOn": "2017-02-10T07:51:36Z",
       "side": 1,
       "message": "we are potentially not unlocking lck anymore if we have reached this line. Shouldn\u0027t there be a lck.unlock() in the finally of the try block which starts at line 663 ?",
+      "revId": "f725b6c09430a281ce34b890b8289e1bd08c8abd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_f29884cf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 678,
+      "author": {
+        "id": 93425
+      },
+      "writtenOn": "2017-02-10T20:07:01Z",
+      "side": 1,
+      "message": "No.  We only want to unlock it once the gc completes.  There are, I think, two cases I missed; one you mentioned below, and the other is line 682.",
+      "parentUuid": "a7c23755_0103f41a",
       "revId": "f725b6c09430a281ce34b890b8289e1bd08c8abd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
