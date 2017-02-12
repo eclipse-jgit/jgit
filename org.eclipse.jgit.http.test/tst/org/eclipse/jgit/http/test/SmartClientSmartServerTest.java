@@ -77,7 +77,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import org.eclipse.jgit.errors.RemoteRepositoryException;
+import org.eclipse.jgit.errors.NoRemoteRepositoryException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.http.server.GitServlet;
@@ -310,9 +310,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 			try {
 				t.openFetch();
 				fail("fetch connection opened");
-			} catch (RemoteRepositoryException notFound) {
-				assertEquals(uri + ": Git repository not found",
-						notFound.getMessage());
+			} catch (NoRemoteRepositoryException notFound) {
 			}
 		}
 
@@ -324,8 +322,8 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		assertEquals(join(uri, "info/refs"), info.getPath());
 		assertEquals(1, info.getParameters().size());
 		assertEquals("git-upload-pack", info.getParameter("service"));
-		assertEquals(200, info.getStatus());
-		assertEquals("application/x-git-upload-pack-advertisement",
+		assertEquals(404, info.getStatus());
+		assertEquals("text/plain; charset=UTF-8",
 				info.getResponseHeader(HDR_CONTENT_TYPE));
 	}
 

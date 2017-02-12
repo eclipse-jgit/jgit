@@ -56,6 +56,7 @@ import static org.eclipse.jgit.transport.SideBandOutputStream.SMALL_BUF;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.Writer;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -193,7 +194,7 @@ public class GitSmartHttpTools {
 		}
 
 		if (isInfoRefs(req)) {
-			sendInfoRefsError(req, res, textForGit);
+			sendInfoRefsError(req, res, httpStatus, textForGit);
 		} else if (isUploadPack(req)) {
 			sendUploadPackError(req, res, textForGit);
 		} else if (isReceivePack(req)) {
@@ -206,14 +207,19 @@ public class GitSmartHttpTools {
 	}
 
 	private static void sendInfoRefsError(HttpServletRequest req,
-			HttpServletResponse res, String textForGit) throws IOException {
-		ByteArrayOutputStream buf = new ByteArrayOutputStream(128);
-		PacketLineOut pck = new PacketLineOut(buf);
-		String svc = req.getParameter("service");
-		pck.writeString("# service=" + svc + "\n");
-		pck.end();
-		pck.writeString("ERR " + textForGit);
-		send(req, res, infoRefsResultType(svc), buf.toByteArray());
+			HttpServletResponse res, int httpStatus, String textForGit)
+			throws IOException {
+		// The /info/refs endpoint doesn't support sideband. Send the text/plain
+		// error message as the cgit client shows it.
+		if (httpStatus < 400) {
+			ServletUtils.consumeRequestBody(req);
+		}
+		res.setStatus(httpStatus);
+		res.setContentType("text/plain");
+		res.setCharacterEncoding("UTF-8");
+		Writer writer = res.getWriter();
+		writer.write(textForGit);
+		writer.flush();
 	}
 
 	private static void sendUploadPackError(HttpServletRequest req,
