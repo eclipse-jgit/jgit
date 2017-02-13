@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_c2dc975c",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitSmartHttpTools.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-02-13T01:18:37Z",
+      "side": 0,
+      "message": "I think I am a little confused about the problem you are trying to fix here.\n\nIf the client sent a service parameter its a smart-HTTP client and it is supposed to accept an error message like this.",
+      "range": {
+        "startLine": 212,
+        "startChar": 0,
+        "endLine": 215,
+        "endChar": 39
+      },
+      "revId": "0bff481d45db74db81a3b1b86f7401443a60d970",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
