@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_42c16775",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-02-13T01:13:51Z",
+      "side": 1,
+      "message": "missing space before this word\n\n(it might be better to use String.format(...) here?)",
+      "range": {
+        "startLine": 225,
+        "startChar": 6,
+        "endLine": 225,
+        "endChar": 17
+      },
+      "revId": "77d34b7bd718f1578d85a308b1729ce626eed692",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
