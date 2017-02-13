@@ -22,6 +22,30 @@
       "revId": "0bff481d45db74db81a3b1b86f7401443a60d970",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_e20c337d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitSmartHttpTools.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2017-02-13T02:22:43Z",
+      "side": 0,
+      "message": "Ah! I think I was trying to solve a totally different problem in a wrong way... Yes, this should be working...",
+      "parentUuid": "a7c23755_c2dc975c",
+      "range": {
+        "startLine": 212,
+        "startChar": 0,
+        "endLine": 215,
+        "endChar": 39
+      },
+      "revId": "0bff481d45db74db81a3b1b86f7401443a60d970",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
