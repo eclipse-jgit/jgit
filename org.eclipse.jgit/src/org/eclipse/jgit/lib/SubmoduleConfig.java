@@ -1,8 +1,5 @@
 /*
- * Copyright (C) 2009, Google Inc.
- * Copyright (C) 2008, Marek Zawirski <marek.zawirski@gmail.com>
- * Copyright (C) 2007, Robin Rosenberg <robin.rosenberg@dewire.com>
- * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
+ * Copyright (C) 2017, David Pursehouse <david.pursehouse@gmail.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -44,56 +41,46 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.transport;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+package org.eclipse.jgit.lib;
 
 /**
- * Final status after a successful fetch from a remote repository.
+ * Submodule section of a Git configuration file.
  *
- * @see Transport#fetch(org.eclipse.jgit.lib.ProgressMonitor, Collection)
+ * @since 4.7
  */
-public class FetchResult extends OperationResult {
-	private final List<FetchHeadRecord> forMerge;
-
-	private final Map<String, FetchResult> submodules;
-
-	FetchResult() {
-		forMerge = new ArrayList<>();
-		submodules = new HashMap<>();
-	}
-
-	void add(final FetchHeadRecord r) {
-		if (!r.notForMerge)
-			forMerge.add(r);
-	}
+public class SubmoduleConfig {
 
 	/**
-	 * Add fetch results for a submodule.
-	 *
-	 * @param path
-	 *            the submodule path
-	 * @param result
-	 *            the fetch result
-	 * @since 4.7
+	 * Config values for submodule.[name].fetchRecurseSubmodules.
 	 */
-	public void addSubmodule(String path, FetchResult result) {
-		submodules.put(path, result);
-	}
+	public enum FetchRecurseSubmodulesMode implements Config.ConfigEnum {
+		/** Unconditionally recurse into all populated submodules. */
+		YES("true"), //$NON-NLS-1$
 
-	/**
-	 * Get fetch results for submodules.
-	 *
-	 * @return Fetch results for submodules as a map of submodule paths to fetch
-	 *         results.
-	 * @since 4.7
-	 */
-	public Map<String, FetchResult> submoduleResults() {
-		return Collections.unmodifiableMap(submodules);
+		/**
+		 * Only recurse into a populated submodule when the superproject
+		 * retrieves a commit that updates the submodule's reference to a commit
+		 * that isn't already in the local submodule clone.
+		 */
+		ON_DEMAND("on-demand"), //$NON-NLS-1$
+
+		/** Completely disable recursion. */
+		NO("false"); //$NON-NLS-1$
+
+		private final String configValue;
+
+		private FetchRecurseSubmodulesMode(String configValue) {
+			this.configValue = configValue;
+		}
+
+		@Override
+		public String toConfigValue() {
+			return configValue;
+		}
+
+		@Override
+		public boolean matchConfigValue(String s) {
+			return configValue.equals(s);
+		}
 	}
 }
