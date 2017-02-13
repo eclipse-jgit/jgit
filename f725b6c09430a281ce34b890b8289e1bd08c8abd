@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_4297a751",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-02-13T07:16:07Z",
+      "side": 1,
+      "message": "Yes, you are right. We can differentiate between referenced loose objects and loose objects which are unreferenced but which were too young to be deleted during last gc too late (after the expensive repack()). Loose objects which exist at the start of the gc and which are (from file creation date) older than the last gc run are good candidates - but they could have become referenced again between now and the last gc run. If we don\u0027t somehow persist which loose objects survive just because they are too young (and I agree: packing them just for bookkeeping reasons is too expensive) then we would have to go for the gc.log trick. Yes, please send a patch",
+      "parentUuid": "a7c23755_72cb94c8",
+      "revId": "f725b6c09430a281ce34b890b8289e1bd08c8abd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_9eb761bb",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
         "patchSetId": 4
