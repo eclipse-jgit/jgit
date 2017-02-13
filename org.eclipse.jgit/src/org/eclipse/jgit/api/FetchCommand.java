@@ -42,28 +42,37 @@
  */
 package org.eclipse.jgit.api;
 
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.InvalidConfigurationException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.NoRemoteRepositoryException;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.IndexDiff;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
+import org.eclipse.jgit.lib.SubmoduleConfig.FetchRecurseSubmodulesMode;
+import org.eclipse.jgit.submodule.SubmoduleWalk;
 import org.eclipse.jgit.transport.FetchResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.TagOpt;
 import org.eclipse.jgit.transport.Transport;
+import org.eclipse.jgit.treewalk.FileTreeIterator;
+import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 
 /**
  * A class used to execute a {@code Fetch} command. It has setters for all
@@ -74,7 +83,6 @@ import org.eclipse.jgit.transport.Transport;
  *      >Git documentation about Fetch</a>
  */
 public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
-
 	private String remote = Constants.DEFAULT_REMOTE_NAME;
 
 	private List<RefSpec> refSpecs;
@@ -91,12 +99,88 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 
 	private TagOpt tagOption;
 
+	private FetchRecurseSubmodulesMode submoduleRecurseMode = null;
+
 	/**
 	 * @param repo
 	 */
 	protected FetchCommand(Repository repo) {
 		super(repo);
 		refSpecs = new ArrayList<>(3);
+	}
+
+	private FetchRecurseSubmodulesMode getRecurseMode(String path,
+			Config config) {
+		// Use the caller-specified mode, if set
+		if (submoduleRecurseMode != null) {
+			return submoduleRecurseMode;
+		}
+
+		// Fall back to submodule config, if set
+		FetchRecurseSubmodulesMode mode = config.getEnum(
+				FetchRecurseSubmodulesMode.values(),
+				ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
+				ConfigConstants.CONFIG_KEY_FETCH_RECURSE_SUBMODULES, null);
+		if (mode != null) {
+			return mode;
+		}
+
+		// Default to on-demand mode
+		return FetchRecurseSubmodulesMode.ON_DEMAND;
+	}
+
+	private boolean isRecurseSubmodules() {
+		return submoduleRecurseMode != null
+				&& submoduleRecurseMode != FetchRecurseSubmodulesMode.NO;
+	}
+
+	private void fetchSubmodules(FetchResult results)
+			throws org.eclipse.jgit.api.errors.TransportException,
+			GitAPIException, InvalidConfigurationException {
+		try (SubmoduleWalk walk = SubmoduleWalk.forIndex(repo)) {
+			while (walk.next()) {
+				Repository submoduleRepo = walk.getRepository();
+
+				// Skip submodules that don't exist locally (have not been
+				// cloned), are not registered in the .gitmodules file, or not
+				// registered in the parent repository's config.
+				if (submoduleRepo == null || walk.getModulesPath() == null
+						|| walk.getConfigUrl() == null) {
+					continue;
+				}
+
+				FetchRecurseSubmodulesMode recurseMode = getRecurseMode(
+						walk.getPath(), submoduleRepo.getConfig());
+				boolean recurse = false;
+				if (recurseMode == FetchRecurseSubmodulesMode.YES) {
+					recurse = true;
+				} else if (recurseMode == FetchRecurseSubmodulesMode.ON_DEMAND) {
+					IndexDiff indexDiff = new IndexDiff(repo,
+							Constants.FETCH_HEAD, new FileTreeIterator(repo));
+					indexDiff.setFilter(
+							PathFilterGroup.createFromStrings(walk.getPath()));
+					indexDiff.diff();
+					recurse = indexDiff.getChanged().contains(walk.getPath());
+				}
+
+				if (recurse) {
+					FetchCommand f = new FetchCommand(submoduleRepo)
+							.setProgressMonitor(monitor)
+							.setTagOpt(tagOption)
+							.setCheckFetchedObjects(checkFetchedObjects)
+							.setRemoveDeletedRefs(isRemoveDeletedRefs())
+							.setThin(thin)
+							.setRefSpecs(refSpecs)
+							.setDryRun(dryRun)
+							.setRecurseSubmodules(recurseMode);
+					results.addSubmodule(walk.getPath(), f.call());
+				}
+			}
+		} catch (IOException e) {
+			throw new JGitInternalException(e.getMessage(), e);
+		} catch (ConfigInvalidException e) {
+			throw new InvalidConfigurationException(e.getMessage(), e);
+		}
 	}
 
 	/**
@@ -127,6 +211,11 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 			configure(transport);
 
 			FetchResult result = transport.fetch(monitor, refSpecs);
+			if (!repo.isBare() && (!result.getTrackingRefUpdates().isEmpty()
+					|| isRecurseSubmodules())) {
+				fetchSubmodules(result);
+			}
+
 			return result;
 		} catch (NoRemoteRepositoryException e) {
 			throw new InvalidRemoteException(MessageFormat.format(
@@ -143,6 +232,20 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 					e);
 		}
 
+	}
+
+	/**
+	 * Set the mode to be used for recursing into submodules.
+	 *
+	 * @param recurse
+	 * @return {@code this}
+	 * @since 4.7
+	 */
+	public FetchCommand setRecurseSubmodules(
+			FetchRecurseSubmodulesMode recurse) {
+		checkCallable();
+		submoduleRecurseMode = recurse;
+		return this;
 	}
 
 	/**
