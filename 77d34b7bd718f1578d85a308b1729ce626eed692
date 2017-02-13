@@ -22,6 +22,30 @@
       "revId": "77d34b7bd718f1578d85a308b1729ce626eed692",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_b8a18a80",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 93425
+      },
+      "writtenOn": "2017-02-13T16:07:59Z",
+      "side": 1,
+      "message": "Actually, I\u0027m totally confused about how this gerrit revision exists in the first place.  I had been working on https://git.eclipse.org/r/#/c/90675 and I added another commit and re-pushed.  I understand that I screwed up by not editing the change-id item.  But the commit I added wasn\u0027t this one.  Anyway, I\u0027m going to close this one and try to make 90675 update.",
+      "parentUuid": "a7c23755_42c16775",
+      "range": {
+        "startLine": 225,
+        "startChar": 6,
+        "endLine": 225,
+        "endChar": 17
+      },
+      "revId": "77d34b7bd718f1578d85a308b1729ce626eed692",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
