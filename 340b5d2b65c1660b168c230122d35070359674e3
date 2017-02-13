@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_2e81b407",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-02-13T22:06:04Z",
+      "side": 1,
+      "message": "If your new conditional above on 339 evaluates to false we can\u0027t skip lastIdx here.",
+      "range": {
+        "startLine": 353,
+        "startChar": 0,
+        "endLine": 354,
+        "endChar": 14
+      },
+      "revId": "340b5d2b65c1660b168c230122d35070359674e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
