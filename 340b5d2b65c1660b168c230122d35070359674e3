@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "a7c23755_cef68085",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 79788
+      },
+      "writtenOn": "2017-02-13T22:25:20Z",
+      "side": 1,
+      "message": "When trying to refactoring the condition, I found out whenever you use the avoidUnreachable flag, you assign it to a local variable. Is this necessary? There is no public method that take noGarbage as a param, only private methods.",
+      "range": {
+        "startLine": 335,
+        "startChar": 2,
+        "endLine": 335,
+        "endChar": 39
+      },
+      "revId": "340b5d2b65c1660b168c230122d35070359674e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_2e81b407",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
         "patchSetId": 1
