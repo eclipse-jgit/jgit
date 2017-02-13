@@ -22,6 +22,30 @@
       "revId": "340b5d2b65c1660b168c230122d35070359674e3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_ce24c0b9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 79788
+      },
+      "writtenOn": "2017-02-13T22:13:20Z",
+      "side": 1,
+      "message": "We will skip the pack anyway because of the line below which use the same condition.\n\nMaybe refactor the condition check to a function will be helpful.",
+      "parentUuid": "a7c23755_2e81b407",
+      "range": {
+        "startLine": 353,
+        "startChar": 0,
+        "endLine": 354,
+        "endChar": 14
+      },
+      "revId": "340b5d2b65c1660b168c230122d35070359674e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
