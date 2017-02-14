@@ -16,6 +16,24 @@
       "revId": "3d8ce05b97d11624005d4f7cd294e1a4dc4554ee",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_ee297c0f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 79788
+      },
+      "writtenOn": "2017-02-14T00:45:58Z",
+      "side": 0,
+      "message": "Thanks for the explanation. That makes some sense to me now.\n\nBefore making this change, I did look at your initial change (https://git.eclipse.org/r/#/c/11005/), I realized the local variable was introduced on purpose, but I didn\u0027t realize the JIT part neither from myself nor the commit message.\n\nI will keep an eye on the performance impact of the change. If thing gets noticable worse, I will revert the change.",
+      "parentUuid": "a7c23755_6e8baca7",
+      "revId": "3d8ce05b97d11624005d4f7cd294e1a4dc4554ee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
