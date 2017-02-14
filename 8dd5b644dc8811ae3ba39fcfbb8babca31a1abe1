@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_2e91b4d5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-02-14T00:11:02Z",
+      "side": 0,
+      "message": "I just explained to Terry, one of the reasons for this coding idiom is we have been bitten before by double nested loops in JGit where a break or continue attempt on the inner loop didn\u0027t implement the intention due to code following the inner loop in the outer loop.\n\nSo we have been somewhat explicit about intent in a double nested loop by naming the outer loop and explicitly writing our intent is to continue the outer loop rather than break the inner loop.\n\nThis is even worse when we have switch statements inside the inner loop and we want to abort the inner loop and run the next iteration of the outer loop. The break of course applies to the switch, not the inner loop. :)\n\nPersonally, I\u0027d keep the \"continue OBJECT_SCAN\" part.",
+      "revId": "8dd5b644dc8811ae3ba39fcfbb8babca31a1abe1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
