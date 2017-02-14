@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_6e8baca7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-02-14T00:17:22Z",
+      "side": 0,
+      "message": "I did it this way before to make it very obvious to the JIT that the noGarbage value can be allocated in a register and assumed to never change during execution of this loop, which is heavily used by PackWriter for many phases of its execution across a large number of objects.\n\nWhen its moved to a helper method accessing a field its virtually impossible for the JIT to prove the avoidUnreachable field cannot be changed during execution of the loop. There is a setter method visible to the world outside of this class and the amount of method calls made by this loop is high enough that following the data flow to prove the setter cannot be invoked is nearly impossible. So the JIT must constantly load the current value of the field from the object into register to test it in the conditional. Even though its never changing.\n\nI\u0027m curious if packing, especially the finding sizes and searching for reuse phases, is slower because of this change.",
+      "revId": "3d8ce05b97d11624005d4f7cd294e1a4dc4554ee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
