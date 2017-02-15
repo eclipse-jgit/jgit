@@ -86,56 +86,34 @@ class ObjectDirectoryInserter extends ObjectInserter {
 	@Override
 	public ObjectId insert(int type, byte[] data, int off, int len)
 			throws IOException {
-		return insert(type, data, off, len, false);
-	}
-
-	/**
-	 * Insert a loose object into the database.  If createDuplicate is
-	 * true, write the loose object even if we already have it in the
-	 * loose or packed ODB.
-	 */
-	private ObjectId insert(
-			int type, byte[] data, int off, int len, boolean createDuplicate)
-			throws IOException {
 		ObjectId id = idFor(type, data, off, len);
-		if (!createDuplicate && db.has(id)) {
+		if (db.has(id)) {
 			return id;
 		} else {
 			File tmp = toTemp(type, data, off, len);
-			return insertOneObject(tmp, id, createDuplicate);
+			return insertOneObject(tmp, id);
 		}
 	}
 
 	@Override
 	public ObjectId insert(final int type, long len, final InputStream is)
 			throws IOException {
-		return insert(type, len, is, false);
-	}
-
-	/**
-	 * Insert a loose object into the database.  If createDuplicate is
-	 * true, write the loose object even if we already have it in the
-	 * loose or packed ODB.
-	 */
-	ObjectId insert(int type, long len, InputStream is, boolean createDuplicate)
-			throws IOException {
 		if (len <= buffer().length) {
 			byte[] buf = buffer();
 			int actLen = IO.readFully(is, buf, 0);
-			return insert(type, buf, 0, actLen, createDuplicate);
+			return insert(type, buf, 0, actLen);
 
 		} else {
 			MessageDigest md = digest();
 			File tmp = toTemp(md, type, len, is);
 			ObjectId id = ObjectId.fromRaw(md.digest());
-			return insertOneObject(tmp, id, createDuplicate);
+			return insertOneObject(tmp, id);
 		}
 	}
 
-	private ObjectId insertOneObject(
-			File tmp, ObjectId id, boolean createDuplicate)
+	private ObjectId insertOneObject(final File tmp, final ObjectId id)
 			throws IOException, ObjectWritingException {
-		switch (db.insertUnpackedObject(tmp, id, createDuplicate)) {
+		switch (db.insertUnpackedObject(tmp, id, false /* no duplicate */)) {
 		case INSERTED:
 		case EXISTS_PACKED:
 		case EXISTS_LOOSE:
