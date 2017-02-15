@@ -189,7 +189,9 @@ public final class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 
 	@Override
 	public boolean has(AnyObjectId objectId) throws IOException {
-		if (last != null && last.hasObject(this, objectId))
+		if (last != null
+				&& !skipGarbagePack(last)
+				&& last.hasObject(this, objectId))
 			return true;
 		PackList packList = db.getPackList();
 		if (hasImpl(packList, objectId)) {
@@ -218,7 +220,7 @@ public final class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
 		ObjectLoader ldr;
-		if (last != null) {
+		if (last != null && !skipGarbagePack(last)) {
 			ldr = last.get(this, objectId);
 			if (ldr != null) {
 				return checkType(ldr, objectId, typeHint);
@@ -486,7 +488,7 @@ public final class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 	public long getObjectSize(AnyObjectId objectId, int typeHint)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
-		if (last != null) {
+		if (last != null && !skipGarbagePack(last)) {
 			long sz = last.getObjectSize(this, objectId);
 			if (0 <= sz) {
 				return sz;
@@ -515,7 +517,7 @@ public final class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 	private long getObjectSizeImpl(PackList packList, AnyObjectId objectId)
 			throws IOException {
 		for (DfsPackFile pack : packList.packs) {
-			if (pack == last) {
+			if (pack == last || skipGarbagePack(pack)) {
 				continue;
 			}
 			long sz = pack.getObjectSize(this, objectId);
