@@ -274,7 +274,8 @@ public class GC {
 		ObjectReader reader = repo.newObjectReader();
 		ObjectDirectory dir = repo.getObjectDatabase();
 		ObjectDirectoryInserter inserter = dir.newInserter();
-		boolean shouldLoosen = getExpireDate() < Long.MAX_VALUE;
+		boolean shouldLoosen = !"now".equals(getPruneExpireStr()) && //$NON-NLS-1$
+			getExpireDate() < Long.MAX_VALUE;
 
 		prunePreserved();
 		long packExpireDate = getPackExpireDate();
@@ -297,6 +298,7 @@ public class GC {
 				prunePack(oldName);
 			}
 		}
+
 		// close the complete object database. That's my only chance to force
 		// rescanning and to detect that certain pack files are now deleted.
 		repo.getObjectDatabase().close();
@@ -599,9 +601,7 @@ public class GC {
 		long expireDate = Long.MAX_VALUE;
 
 		if (expire == null && expireAgeMillis == -1) {
-			String pruneExpireStr = repo.getConfig().getString(
-					ConfigConstants.CONFIG_GC_SECTION, null,
-					ConfigConstants.CONFIG_KEY_PRUNEEXPIRE);
+			String pruneExpireStr = getPruneExpireStr();
 			if (pruneExpireStr == null)
 				pruneExpireStr = PRUNE_EXPIRE_DEFAULT;
 			expire = GitDateParser.parse(pruneExpireStr, null, SystemReader
@@ -613,6 +613,12 @@ public class GC {
 		if (expireAgeMillis != -1)
 			expireDate = System.currentTimeMillis() - expireAgeMillis;
 		return expireDate;
+	}
+
+	private String getPruneExpireStr() {
+		return repo.getConfig().getString(
+                        ConfigConstants.CONFIG_GC_SECTION, null,
+                        ConfigConstants.CONFIG_KEY_PRUNEEXPIRE);
 	}
 
 	private long getPackExpireDate() throws ParseException {
