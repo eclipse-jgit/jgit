@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_b47b4798",
+        "filename": "org.eclipse.jgit.archive/src/org/eclipse/jgit/archive/ZipFormat.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-02-16T10:19:39Z",
+      "side": 1,
+      "message": "This import is unused.",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 40
+      },
+      "revId": "4d85f76ca677d056afe474f97f9bbb1135790e10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_d478c39d",
+        "filename": "org.eclipse.jgit.archive/src/org/eclipse/jgit/archive/ZipFormat.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-02-16T10:19:39Z",
+      "side": 1,
+      "message": "This causes an error in Eclipse:\n\n Access restriction: The type \u0027RevCommit\u0027 is not API (restriction on required project \u0027org.eclipse.jgit\u0027)",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 42
+      },
+      "revId": "4d85f76ca677d056afe474f97f9bbb1135790e10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
