@@ -55,8 +55,10 @@ import java.util.Date;
 import java.util.List;
 
 import org.eclipse.jgit.junit.TestRepository.BranchBuilder;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.storage.pack.PackConfig;
 import org.junit.Test;
 import org.junit.experimental.theories.DataPoints;
@@ -247,7 +249,45 @@ public class GcBasicPackingTest extends GcTestCase {
 		// times
 		assertEquals(6, stats.numberOfPackedObjects);
 		assertEquals(1, stats.numberOfPackFiles);
+	}
 
+	@Test
+	public void testImmediatePruning() throws Exception {
+		BranchBuilder bb = tr.branch("refs/heads/master");
+		bb.commit().message("M").add("M", "M").create();
+
+		String tempRef = "refs/heads/soon-to-be-unreferenced";
+		BranchBuilder bb2 = tr.branch(tempRef);
+		bb2.commit().message("M").add("M", "M").create();
+
+		gc.setExpireAgeMillis(0);
+		gc.gc();
+		stats = gc.getStatistics();
+
+		fsTick();
+
+		// delete the temp ref, orphaning its commit
+		RefUpdate update = tr.getRepository().getRefDatabase().newUpdate(tempRef, false);
+		update.setForceUpdate(true);
+		update.delete();
+
+		bb.commit().message("B").add("B", "Q").create();
+
+		// We want to immediately prune deleted objects
+		FileBasedConfig config = repo.getConfig();
+		config.setString(ConfigConstants.CONFIG_GC_SECTION, null,
+			ConfigConstants.CONFIG_KEY_PRUNEEXPIRE, "now");
+		config.save();
+
+		//And we don't want to keep packs full of dead objects
+		gc.setPackExpireAgeMillis(0);
+
+		gc.gc();
+		stats = gc.getStatistics();
+		assertEquals(0, stats.numberOfLooseObjects);
+		assertEquals(6, stats.numberOfPackedObjects);
+		assertEquals(1, stats.numberOfPackFiles);
+		assertEquals(0, stats.numberOfLooseObjects);
 	}
 
 	@Test
