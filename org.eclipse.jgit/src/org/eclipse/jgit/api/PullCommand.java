@@ -69,6 +69,7 @@ import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryState;
+import org.eclipse.jgit.lib.SubmoduleConfig.FetchRecurseSubmodulesMode;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.transport.FetchResult;
 
@@ -91,6 +92,8 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 	private String remoteBranchName;
 
 	private MergeStrategy strategy = MergeStrategy.RECURSIVE;
+
+	private FetchRecurseSubmodulesMode submoduleRecurseMode = null;
 
 	/**
 	 * @param repo
@@ -272,9 +275,9 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 						JGitText.get().operationCanceled,
 						JGitText.get().pullTaskName));
 
-			FetchCommand fetch = new FetchCommand(repo);
-			fetch.setRemote(remote);
-			fetch.setProgressMonitor(monitor);
+			FetchCommand fetch = new FetchCommand(repo).setRemote(remote)
+					.setProgressMonitor(monitor)
+					.setRecurseSubmodules(submoduleRecurseMode);
 			configure(fetch);
 
 			fetchRes = fetch.call();
@@ -408,6 +411,19 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 	 */
 	public PullCommand setStrategy(MergeStrategy strategy) {
 		this.strategy = strategy;
+		return this;
+	}
+
+	/**
+	 * Set the mode to be used for recursing into submodules.
+	 *
+	 * @param recurse
+	 * @return {@code this}
+	 * @since 4.7
+	 */
+	public PullCommand setRecurseSubmodules(
+			FetchRecurseSubmodulesMode recurse) {
+		this.submoduleRecurseMode = recurse;
 		return this;
 	}
 
