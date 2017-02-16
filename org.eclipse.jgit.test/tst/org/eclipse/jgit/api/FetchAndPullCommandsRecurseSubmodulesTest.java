@@ -64,9 +64,16 @@ import org.eclipse.jgit.submodule.SubmoduleWalk;
 import org.eclipse.jgit.transport.FetchResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.junit.Before;
-import org.junit.Test;
+import org.junit.experimental.theories.DataPoints;
+import org.junit.experimental.theories.Theories;
+import org.junit.experimental.theories.Theory;
+import org.junit.runner.RunWith;
 
-public class FetchCommandRecurseSubmodulesTest extends RepositoryTestCase {
+@RunWith(Theories.class)
+public class FetchAndPullCommandsRecurseSubmodulesTest extends RepositoryTestCase {
+	@DataPoints
+	public static boolean[] useFetch = { true, false };
+
 	private Git git;
 
 	private Git git2;
@@ -90,8 +97,7 @@ public class FetchCommandRecurseSubmodulesTest extends RepositoryTestCase {
 	private final String PATH = "sub";
 
 	@Before
-	public void setUpSubmodules()
-			throws Exception {
+	public void setUpSubmodules() throws Exception {
 		git = new Git(db);
 
 		// Create submodule 1
@@ -177,27 +183,28 @@ public class FetchCommandRecurseSubmodulesTest extends RepositoryTestCase {
 		commit2 = sub2Git.commit().setMessage("new commit").call();
 	}
 
-	@Test
-	public void shouldNotFetchSubmodulesWhenNo() throws Exception {
-		FetchResult result = fetch(FetchRecurseSubmodulesMode.NO);
+	@Theory
+	public void shouldNotFetchSubmodulesWhenNo(boolean fetch) throws Exception {
+		FetchResult result = execute(FetchRecurseSubmodulesMode.NO, fetch);
 		assertTrue(result.submoduleResults().isEmpty());
 		assertSubmoduleFetchHeads(submodule1Head, submodule2Head);
 	}
 
-	@Test
-	public void shouldFetchSubmodulesWhenYes() throws Exception {
-		FetchResult result = fetch(FetchRecurseSubmodulesMode.YES);
+	@Theory
+	public void shouldFetchSubmodulesWhenYes(boolean fetch) throws Exception {
+		FetchResult result = execute(FetchRecurseSubmodulesMode.YES, fetch);
 		assertTrue(result.submoduleResults().containsKey("sub"));
 		FetchResult subResult = result.submoduleResults().get("sub");
 		assertTrue(subResult.submoduleResults().containsKey("sub"));
 		assertSubmoduleFetchHeads(commit1, commit2);
 	}
 
-	@Test
-	public void shouldFetchSubmodulesWhenOnDemandAndRevisionChanged()
-			throws Exception {
+	@Theory
+	public void shouldFetchSubmodulesWhenOnDemandAndRevisionChanged(
+			boolean fetch) throws Exception {
 		RevCommit update = updateSubmoduleRevision();
-		FetchResult result = fetch(FetchRecurseSubmodulesMode.ON_DEMAND);
+		FetchResult result = execute(FetchRecurseSubmodulesMode.ON_DEMAND,
+				fetch);
 
 		// The first submodule should have been updated
 		assertTrue(result.submoduleResults().containsKey("sub"));
@@ -213,66 +220,67 @@ public class FetchCommandRecurseSubmodulesTest extends RepositoryTestCase {
 				git2.getRepository().resolve(Constants.FETCH_HEAD));
 	}
 
-	@Test
-	public void shouldNotFetchSubmodulesWhenOnDemandAndRevisionNotChanged()
-			throws Exception {
-		FetchResult result = fetch(FetchRecurseSubmodulesMode.ON_DEMAND);
+	@Theory
+	public void shouldNotFetchSubmodulesWhenOnDemandAndRevisionNotChanged(
+			boolean fetch) throws Exception {
+		FetchResult result = execute(FetchRecurseSubmodulesMode.ON_DEMAND,
+				fetch);
 		assertTrue(result.submoduleResults().isEmpty());
 		assertSubmoduleFetchHeads(submodule1Head, submodule2Head);
 	}
 
-	@Test
-	public void shouldNotFetchSubmodulesWhenSubmoduleConfigurationSetToNo()
-			throws Exception {
+	@Theory
+	public void shouldNotFetchSubmodulesWhenSubmoduleConfigurationSetToNo(
+			boolean fetch) throws Exception {
 		StoredConfig config = git2.getRepository().getConfig();
 		config.setEnum(ConfigConstants.CONFIG_SUBMODULE_SECTION, PATH,
 				ConfigConstants.CONFIG_KEY_FETCH_RECURSE_SUBMODULES,
 				FetchRecurseSubmodulesMode.NO);
 		config.save();
 		updateSubmoduleRevision();
-		FetchResult result = fetch(null);
+		FetchResult result = execute(null, fetch);
 		assertTrue(result.submoduleResults().isEmpty());
 		assertSubmoduleFetchHeads(submodule1Head, submodule2Head);
 	}
 
-	@Test
-	public void shouldFetchSubmodulesWhenSubmoduleConfigurationSetToYes()
-			throws Exception {
+	@Theory
+	public void shouldFetchSubmodulesWhenSubmoduleConfigurationSetToYes(
+			boolean fetch) throws Exception {
 		StoredConfig config = git2.getRepository().getConfig();
 		config.setEnum(ConfigConstants.CONFIG_SUBMODULE_SECTION, PATH,
 				ConfigConstants.CONFIG_KEY_FETCH_RECURSE_SUBMODULES,
 				FetchRecurseSubmodulesMode.YES);
 		config.save();
-		FetchResult result = fetch(null);
+		FetchResult result = execute(null, fetch);
 		assertTrue(result.submoduleResults().containsKey("sub"));
 		FetchResult subResult = result.submoduleResults().get("sub");
 		assertTrue(subResult.submoduleResults().containsKey("sub"));
 		assertSubmoduleFetchHeads(commit1, commit2);
 	}
 
-	@Test
-	public void shouldNotFetchSubmodulesWhenFetchConfigurationSetToNo()
-			throws Exception {
+	@Theory
+	public void shouldNotFetchSubmodulesWhenFetchConfigurationSetToNo(
+			boolean fetch) throws Exception {
 		StoredConfig config = git2.getRepository().getConfig();
 		config.setEnum(ConfigConstants.CONFIG_FETCH_SECTION, null,
 				ConfigConstants.CONFIG_KEY_RECURSE_SUBMODULES,
 				FetchRecurseSubmodulesMode.NO);
 		config.save();
 		updateSubmoduleRevision();
-		FetchResult result = fetch(null);
+		FetchResult result = execute(null, fetch);
 		assertTrue(result.submoduleResults().isEmpty());
 		assertSubmoduleFetchHeads(submodule1Head, submodule2Head);
 	}
 
-	@Test
-	public void shouldFetchSubmodulesWhenFetchConfigurationSetToYes()
-			throws Exception {
+	@Theory
+	public void shouldFetchSubmodulesWhenFetchConfigurationSetToYes(
+			boolean fetch) throws Exception {
 		StoredConfig config = git2.getRepository().getConfig();
 		config.setEnum(ConfigConstants.CONFIG_FETCH_SECTION, null,
 				ConfigConstants.CONFIG_KEY_RECURSE_SUBMODULES,
 				FetchRecurseSubmodulesMode.YES);
 		config.save();
-		FetchResult result = fetch(null);
+		FetchResult result = execute(null, fetch);
 		assertTrue(result.submoduleResults().containsKey("sub"));
 		FetchResult subResult = result.submoduleResults().get("sub");
 		assertTrue(subResult.submoduleResults().containsKey("sub"));
@@ -311,10 +319,24 @@ public class FetchCommandRecurseSubmodulesTest extends RepositoryTestCase {
 		return update;
 	}
 
-	private FetchResult fetch(FetchRecurseSubmodulesMode mode)
+	private FetchResult execute(FetchRecurseSubmodulesMode mode, boolean fetch)
 			throws Exception {
-		FetchResult result = git2.fetch().setRemote(REMOTE).setRefSpecs(REFSPEC)
-				.setRecurseSubmodules(mode).call();
+		FetchResult result;
+
+		if (fetch) {
+			result = git2.fetch().setRemote(REMOTE).setRefSpecs(REFSPEC)
+					.setRecurseSubmodules(mode).call();
+		} else {
+			// For the purposes of this test we don't need to care about the
+			// pull result, or the result of pull with merge. We are only
+			// interested in checking whether or not the submodules were updated
+			// as expected. Setting to rebase makes it easier to assert about
+			// the state of the parent repository head, i.e. we know it should
+			// be at the submodule update commit, and don't need to consider a
+			// merge commit created by the pull.
+			result = git2.pull().setRemote(REMOTE).setRebase(true)
+					.setRecurseSubmodules(mode).call().getFetchResult();
+		}
 		assertNotNull(result);
 		return result;
 	}
