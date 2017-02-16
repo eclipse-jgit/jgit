@@ -29,5 +29,5 @@ java_library(
 java_library(
     name = "insecure_cipher_factory",
     srcs = INSECURE_CIPHER_FACTORY,
-    javacopts = ["-Xep:InsecureCipherMode:OFF"],
+    javacopts = ["-Xep:InsecureCryptoUsage:OFF"],
 )
