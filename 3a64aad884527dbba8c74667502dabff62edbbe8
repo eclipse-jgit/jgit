@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_5c55b524",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ArchiveCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-02-17T22:02:10Z",
+      "side": 1,
+      "message": "don\u0027t break API in minor releases, you could deprecate the old method and add a new one with the additional parameter, we could then remove the deprecated method after 4.7 was released (5.0 is planned for end of June)",
+      "revId": "3a64aad884527dbba8c74667502dabff62edbbe8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
