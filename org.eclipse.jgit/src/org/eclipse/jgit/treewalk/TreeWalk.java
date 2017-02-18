@@ -826,7 +826,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 				}
 
 				currentHead = t;
-				if (!filter.include(this)) {
+				if (filter.matchFilter(this) == 1) {
 					skipEntriesEqual();
 					continue;
 				}
@@ -1057,6 +1057,60 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 */
 	public int getPathLength() {
 		return currentHead.pathLen;
+	}
+
+	/**
+	 * Test if the supplied path matches the current entry's path.
+	 * <p>
+	 * This method detects if the supplied path is equal to, a subtree of, or
+	 * not similar at all to the current entry. It is faster to use this
+	 * method than to use {@link #getPathString()} to first create a String
+	 * object, then test <code>startsWith</code> or some other type of string
+	 * match function.
+	 * <p>
+	 * If the current entry is a subtree, then all paths within the subtree
+	 * are considered to match it.
+	 *
+	 * @param p
+	 *            path buffer to test. Callers should ensure the path does not
+	 *            end with '/' prior to invocation.
+	 * @param pLen
+	 *            number of bytes from <code>buf</code> to test.
+	 * @return -1 if the current path is a parent to p; 0 if p matches the current
+	 *         path; 1 if the current path is different and will never match
+	 *         again on this tree walk.
+	 * @since 4.7
+	 */
+	public int isPathMatch(final byte[] p, final int pLen) {
+		final AbstractTreeIterator t = currentHead;
+		final byte[] c = t.path;
+		final int cLen = t.pathLen;
+		int ci;
+
+		for (ci = 0; ci < cLen && ci < pLen; ci++) {
+			final int c_value = (c[ci] & 0xff) - (p[ci] & 0xff);
+			if (c_value != 0) {
+				// Paths do not and will never match
+				return 1;
+			}
+		}
+
+		if (ci < cLen) {
+			// Ran out of pattern but we still had current data.
+			// If c[ci] == '/' then pattern matches the subtree.
+			// Otherwise it is a partial match == miss
+			return c[ci] == '/' ? 0 : 1;
+		}
+
+		if (ci < pLen) {
+			// Ran out of current, but we still have pattern data.
+			// If p[ci] == '/' then this subtree is a parent in the pattern,
+			// otherwise it's a miss.
+			return p[ci] == '/' && FileMode.TREE.equals(t.mode) ? -1 : 1;
+		}
+
+		// Both strings are identical.
+		return 0;
 	}
 
 	/**

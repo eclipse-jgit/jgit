@@ -78,7 +78,23 @@ public class NotTreeFilter extends TreeFilter {
 	public boolean include(final TreeWalk walker)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
-		return !a.include(walker);
+		return matchFilter(walker) == 0;
+	}
+
+	@Override
+	public int matchFilter(TreeWalk walker)
+			throws MissingObjectException, IncorrectObjectTypeException,
+			IOException {
+		final int r = a.matchFilter(walker);
+		// switch 0 and 1, keep -1 as that defines a subpath that must be
+		// traversed before a final verdict can be made.
+		if (r == 0) {
+			return 1;
+		}
+		if (r == 1) {
+			return 0;
+		}
+		return -1;
 	}
 
 	@Override
