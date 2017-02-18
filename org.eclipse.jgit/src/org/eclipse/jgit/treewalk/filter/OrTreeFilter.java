@@ -126,7 +126,25 @@ public abstract class OrTreeFilter extends TreeFilter {
 		public boolean include(final TreeWalk walker)
 				throws MissingObjectException, IncorrectObjectTypeException,
 				IOException {
-			return a.include(walker) || b.include(walker);
+			return matchFilter(walker) <= 0;
+		}
+
+		@Override
+		public int matchFilter(TreeWalk walker)
+				throws MissingObjectException, IncorrectObjectTypeException,
+				IOException {
+			final int ra = a.matchFilter(walker);
+			if (ra == 0) {
+				return 0;
+			}
+			final int rb = b.matchFilter(walker);
+			if (rb == 0) {
+				return 0;
+			}
+			if (ra == -1 || rb == -1) {
+				return -1;
+			}
+			return 1;
 		}
 
 		@Override
@@ -157,11 +175,24 @@ public abstract class OrTreeFilter extends TreeFilter {
 		public boolean include(final TreeWalk walker)
 				throws MissingObjectException, IncorrectObjectTypeException,
 				IOException {
+			return matchFilter(walker) <= 0;
+		}
+
+		@Override
+		public int matchFilter(TreeWalk walker)
+				throws MissingObjectException, IncorrectObjectTypeException,
+				IOException {
+			int m = 1;
 			for (final TreeFilter f : subfilters) {
-				if (f.include(walker))
-					return true;
+				int r = f.matchFilter(walker);
+				if (r == 0) {
+					return 0;
+				}
+				if (r == -1) {
+					m = -1;
+				}
 			}
-			return false;
+			return m;
 		}
 
 		@Override

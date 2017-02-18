@@ -199,6 +199,34 @@ public abstract class TreeFilter {
 			IOException;
 
 	/**
+	 * Determine if the current entry is a parent, a match, or no match.
+	 * <p>
+	 * This method extends the result returned by {@link #include(TreeWalk)}
+	 * with a third option (-1), splitting the value true. This gives the
+	 * application a possibility to distinguish between an exact match
+	 * and the case when a subtree to the current entry might be a match.
+	 *
+	 * @param walker
+	 *            the walker the filter needs to examine.
+	 * @return -1 if the current entry is a parent of the filter but no
+	 *         exact match has been made; 0 if the current entry should
+	 *         be seen by the application; 1 if it should be hidden.
+	 * @throws MissingObjectException
+	 *             as thrown by {@link #include(TreeWalk)}
+	 * @throws IncorrectObjectTypeException
+	 *             as thrown by {@link #include(TreeWalk)}
+	 * @throws IOException
+	 *             as thrown by {@link #include(TreeWalk)}
+	 * @since 4.7
+	 */
+	public int matchFilter(final TreeWalk walker)
+			throws MissingObjectException, IncorrectObjectTypeException,
+			IOException
+	{
+		return include(walker) ? 0 : 1;
+	}
+
+	/**
 	 * Does this tree filter require a recursive walk to match everything?
 	 * <p>
 	 * If this tree filter is matching on full entry path names and its pattern
