@@ -97,7 +97,12 @@ public class PathFilter extends TreeFilter {
 
 	@Override
 	public boolean include(final TreeWalk walker) {
-		return walker.isPathPrefix(pathRaw, pathRaw.length) == 0;
+		return matchFilter(walker) <= 0;
+	}
+
+	@Override
+	public int matchFilter(final TreeWalk walker) {
+		return walker.isPathMatch(pathRaw, pathRaw.length);
 	}
 
 	@Override
