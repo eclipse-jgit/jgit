@@ -66,6 +66,7 @@ public final class TgzFormat extends BaseFormat implements
 
 	private final ArchiveCommand.Format<ArchiveOutputStream> tarFormat = new TarFormat();
 
+	@Override
 	public ArchiveOutputStream createArchiveOutputStream(OutputStream s)
 			throws IOException {
 		return createArchiveOutputStream(s,
@@ -75,6 +76,7 @@ public final class TgzFormat extends BaseFormat implements
 	/**
 	 * @since 4.0
 	 */
+	@Override
 	public ArchiveOutputStream createArchiveOutputStream(OutputStream s,
 			Map<String, Object> o) throws IOException {
 		GzipCompressorOutputStream out = new GzipCompressorOutputStream(s);
@@ -99,6 +101,7 @@ public final class TgzFormat extends BaseFormat implements
 		tarFormat.putEntry(out, tree, path, mode, loader);
 	}
 
+	@Override
 	public Iterable<String> suffixes() {
 		return SUFFIXES;
 	}
