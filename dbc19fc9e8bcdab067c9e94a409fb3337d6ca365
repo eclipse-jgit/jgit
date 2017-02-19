@@ -16,6 +16,24 @@
       "revId": "dbc19fc9e8bcdab067c9e94a409fb3337d6ca365",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_1fdfafd2",
+        "filename": "org.eclipse.jgit.junit.http/src/org/eclipse/jgit/junit/http/AppServer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-02-19T23:37:31Z",
+      "side": 1,
+      "message": "fixed by updating to Jetty 9.4.1 and implementing another LoginService for testing which is based on AbstractLoginService",
+      "parentUuid": "a7c23755_3f29cb89",
+      "revId": "dbc19fc9e8bcdab067c9e94a409fb3337d6ca365",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
