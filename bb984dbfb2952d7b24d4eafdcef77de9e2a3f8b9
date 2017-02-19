@@ -16,6 +16,24 @@
       "revId": "bb984dbfb2952d7b24d4eafdcef77de9e2a3f8b9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_7f3fc3e2",
+        "filename": "org.eclipse.jgit.junit.http/src/org/eclipse/jgit/junit/http/AppServer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-02-19T17:32:23Z",
+      "side": 1,
+      "message": "it seems there are more Jetty modules missing on Maven classpath, we need to ensure Maven classpath matches package dependencies defined in Manifest.mf",
+      "parentUuid": "a7c23755_df68d7ea",
+      "revId": "bb984dbfb2952d7b24d4eafdcef77de9e2a3f8b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
