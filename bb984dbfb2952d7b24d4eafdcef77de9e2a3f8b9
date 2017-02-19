@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_df68d7ea",
+        "filename": "org.eclipse.jgit.junit.http/src/org/eclipse/jgit/junit/http/AppServer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-02-19T17:20:08Z",
+      "side": 1,
+      "message": "caused by missing Maven dependency to\n\n    \u003cdependency\u003e\n      \u003cgroupId\u003eorg.eclipse.jetty\u003c/groupId\u003e\n      \u003cartifactId\u003ejetty-security\u003c/artifactId\u003e\n    \u003c/dependency\u003e\n\nhence the compiler doesn\u0027t see the superclass and complains about wrong @Override annotation",
+      "revId": "bb984dbfb2952d7b24d4eafdcef77de9e2a3f8b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
