@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_3f29cb89",
+        "filename": "org.eclipse.jgit.junit.http/src/org/eclipse/jgit/junit/http/AppServer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-02-19T21:49:08Z",
+      "side": 1,
+      "message": "these 2 methods simply do not exist in Jetty 9.2.13:\nhttps://github.com/eclipse/jetty.project/blob/798fc8118b4eec94bb96122b4242233dae9b5e5a/jetty-security/src/main/java/org/eclipse/jetty/security/MappedLoginService.java#L45\nbut they exist in 9.3.9:\nhttps://github.com/eclipse/jetty.project/blob/0bbebec1e0981eaca2d2110f8322e4a953b1b066/jetty-security/src/main/java/org/eclipse/jetty/security/MappedLoginService.java#L273",
+      "revId": "dbc19fc9e8bcdab067c9e94a409fb3337d6ca365",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
