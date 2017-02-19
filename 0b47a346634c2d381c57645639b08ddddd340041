@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_1ca25df6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/FetchCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-02-19T10:46:17Z",
+      "side": 1,
+      "message": "I tried using native git and found that\n\n $ git fetch origin --recurse-submodules\u003dyes\n\ndoes not clone missing repositories, but only\n\n $ git submodule update",
+      "revId": "0b47a346634c2d381c57645639b08ddddd340041",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_fca201f6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/FetchCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-02-19T10:46:17Z",
+      "side": 1,
+      "message": "I think we should return a map of theFetchResults, and use walk.getPath() as key. And we need a way to return these FetchResults, maybe we could enhance FetchResult to enable recursion for results of nested submodules",
+      "revId": "0b47a346634c2d381c57645639b08ddddd340041",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_3c9d59b8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/FetchCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-02-19T10:46:17Z",
+      "side": 1,
+      "message": "do we really need two ways to specify yes/no ?",
+      "revId": "0b47a346634c2d381c57645639b08ddddd340041",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
