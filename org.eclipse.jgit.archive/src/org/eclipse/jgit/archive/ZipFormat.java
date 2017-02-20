@@ -109,9 +109,9 @@ public final class ZipFormat extends BaseFormat implements
 
 		final ZipArchiveEntry entry = new ZipArchiveEntry(path);
 
-		if(tree instanceof RevCommit){
-			long commitTime = ((RevCommit) tree).getCommitTime();
-			entry.setTime(commitTime);
+		if (tree instanceof RevCommit) {
+			long t = ((RevCommit) tree).getCommitTime() * 1000L;
+			entry.setTime(t);
 		}
 
 		if (mode == FileMode.TREE) {
