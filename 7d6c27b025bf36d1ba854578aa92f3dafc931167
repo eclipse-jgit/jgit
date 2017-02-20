@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_bfe5db9a",
+        "filename": "org.eclipse.jgit.junit.http/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-02-20T00:04:26Z",
+      "side": 1,
+      "message": "nit: whitespace",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 4
+      },
+      "revId": "7d6c27b025bf36d1ba854578aa92f3dafc931167",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
