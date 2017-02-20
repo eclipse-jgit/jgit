@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<component id="org.eclipse.jgit.junit" version="2">
+    <resource path="src/org/eclipse/jgit/junit/LocalDiskRepositoryTestCase.java" type="org.eclipse.jgit.junit.LocalDiskRepositoryTestCase">
+        <filter comment="OK to use internal implementation in tests" id="643842064">
+            <message_arguments>
+                <message_argument value="FileRepository"/>
+                <message_argument value="LocalDiskRepositoryTestCase"/>
+                <message_argument value="createBareRepository()"/>
+            </message_arguments>
+        </filter>
+        <filter comment="OK to use internal implementation in tests" id="643842064">
+            <message_arguments>
+                <message_argument value="FileRepository"/>
+                <message_argument value="LocalDiskRepositoryTestCase"/>
+                <message_argument value="createRepository(boolean, boolean)"/>
+            </message_arguments>
+        </filter>
+        <filter comment="OK to use internal implementation in tests" id="643842064">
+            <message_arguments>
+                <message_argument value="FileRepository"/>
+                <message_argument value="LocalDiskRepositoryTestCase"/>
+                <message_argument value="createWorkRepository()"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/junit/RepositoryTestCase.java" type="org.eclipse.jgit.junit.RepositoryTestCase">
+        <filter comment="OK to use internal implementation in tests" id="627060751">
+            <message_arguments>
+                <message_argument value="FileRepository"/>
+                <message_argument value="RepositoryTestCase"/>
+                <message_argument value="db"/>
+            </message_arguments>
+        </filter>
+    </resource>
+</component>
