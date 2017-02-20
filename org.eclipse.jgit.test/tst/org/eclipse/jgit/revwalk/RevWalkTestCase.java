@@ -62,7 +62,7 @@ public abstract class RevWalkTestCase extends RepositoryTestCase {
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		util = new TestRepository<Repository>(db, createRevWalk());
+		util = new TestRepository<>(db, createRevWalk());
 		rw = util.getRevWalk();
 	}
 

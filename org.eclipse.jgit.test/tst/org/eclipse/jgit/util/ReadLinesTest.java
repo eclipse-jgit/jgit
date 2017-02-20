@@ -51,7 +51,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class ReadLinesTest {
-	List<String> l = new ArrayList<String>();
+	List<String> l = new ArrayList<>();
 
 	@Before
 	public void clearList() {

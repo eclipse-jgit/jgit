@@ -87,7 +87,7 @@ class MergeBaseGenerator extends Generator {
 	private int recarryMask;
 
 	private int mergeBaseAncestor = -1;
-	private LinkedList<RevCommit> ret = new LinkedList<RevCommit>();
+	private LinkedList<RevCommit> ret = new LinkedList<>();
 
 	MergeBaseGenerator(final RevWalk w) {
 		walker = w;

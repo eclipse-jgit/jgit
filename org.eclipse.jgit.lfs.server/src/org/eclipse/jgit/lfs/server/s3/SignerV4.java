@@ -240,7 +240,7 @@ class SignerV4 {
 
 	private static String canonicalizeHeaderNames(
 			Map<String, String> headers) {
-		List<String> sortedHeaders = new ArrayList<String>();
+		List<String> sortedHeaders = new ArrayList<>();
 		sortedHeaders.addAll(headers.keySet());
 		Collections.sort(sortedHeaders, String.CASE_INSENSITIVE_ORDER);
 
@@ -260,7 +260,7 @@ class SignerV4 {
 			return ""; //$NON-NLS-1$
 		}
 
-		List<String> sortedHeaders = new ArrayList<String>();
+		List<String> sortedHeaders = new ArrayList<>();
 		sortedHeaders.addAll(headers.keySet());
 		Collections.sort(sortedHeaders, String.CASE_INSENSITIVE_ORDER);
 
@@ -305,7 +305,7 @@ class SignerV4 {
 			return ""; //$NON-NLS-1$
 		}
 
-		SortedMap<String, String> sorted = new TreeMap<String, String>();
+		SortedMap<String, String> sorted = new TreeMap<>();
 
 		Iterator<Map.Entry<String, String>> pairs = parameters.entrySet()
 				.iterator();

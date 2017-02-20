@@ -118,7 +118,7 @@ public class PathSuffixFilterTest extends RepositoryTestCase {
 			tw.setRecursive(recursiveWalk);
 			tw.addTree(treeId);
 
-			List<String> paths = new ArrayList<String>();
+			List<String> paths = new ArrayList<>();
 			while (tw.next())
 				paths.add(tw.getPathString());
 			return paths;

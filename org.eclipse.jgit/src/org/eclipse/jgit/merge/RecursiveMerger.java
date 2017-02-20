@@ -147,7 +147,7 @@ public class RecursiveMerger extends ResolveMerger {
 	 */
 	protected RevCommit getBaseCommit(RevCommit a, RevCommit b, int callDepth)
 			throws IOException {
-		ArrayList<RevCommit> baseCommits = new ArrayList<RevCommit>();
+		ArrayList<RevCommit> baseCommits = new ArrayList<>();
 		walk.reset();
 		walk.setRevFilter(RevFilter.MERGE_BASE);
 		walk.markStart(a);
@@ -181,7 +181,7 @@ public class RecursiveMerger extends ResolveMerger {
 			dircache = DirCache.read(reader, currentBase.getTree());
 			inCore = true;
 
-			List<RevCommit> parents = new ArrayList<RevCommit>();
+			List<RevCommit> parents = new ArrayList<>();
 			parents.add(currentBase);
 			for (int commitIdx = 1; commitIdx < baseCommits.size(); commitIdx++) {
 				RevCommit nextBase = baseCommits.get(commitIdx);

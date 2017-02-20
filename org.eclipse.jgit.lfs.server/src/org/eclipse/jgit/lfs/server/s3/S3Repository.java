@@ -94,10 +94,10 @@ public class S3Repository implements LargeFileRepository {
 	@Override
 	public Response.Action getDownloadAction(AnyLongObjectId oid) {
 		URL endpointUrl = getObjectUrl(oid);
-		Map<String, String> queryParams = new HashMap<String, String>();
+		Map<String, String> queryParams = new HashMap<>();
 		queryParams.put(X_AMZ_EXPIRES,
 				Integer.toString(s3Config.getExpirationSeconds()));
-		Map<String, String> headers = new HashMap<String, String>();
+		Map<String, String> headers = new HashMap<>();
 		String authorizationQueryParameters = SignerV4.createAuthorizationQuery(
 				s3Config, endpointUrl, METHOD_GET, headers, queryParams,
 				UNSIGNED_PAYLOAD);
@@ -111,7 +111,7 @@ public class S3Repository implements LargeFileRepository {
 	public Response.Action getUploadAction(AnyLongObjectId oid, long size) {
 		cacheObjectMetaData(oid, size);
 		URL objectUrl = getObjectUrl(oid);
-		Map<String, String> headers = new HashMap<String, String>();
+		Map<String, String> headers = new HashMap<>();
 		headers.put(X_AMZ_CONTENT_SHA256, oid.getName());
 		headers.put(HDR_CONTENT_LENGTH, Long.toString(size));
 		headers.put(X_AMZ_STORAGE_CLASS, s3Config.getStorageClass());
@@ -134,10 +134,10 @@ public class S3Repository implements LargeFileRepository {
 	@Override
 	public long getSize(AnyLongObjectId oid) throws IOException {
 		URL endpointUrl = getObjectUrl(oid);
-		Map<String, String> queryParams = new HashMap<String, String>();
+		Map<String, String> queryParams = new HashMap<>();
 		queryParams.put(X_AMZ_EXPIRES,
 				Integer.toString(s3Config.getExpirationSeconds()));
-		Map<String, String> headers = new HashMap<String, String>();
+		Map<String, String> headers = new HashMap<>();
 
 		String authorizationQueryParameters = SignerV4.createAuthorizationQuery(
 				s3Config, endpointUrl, METHOD_HEAD, headers, queryParams,

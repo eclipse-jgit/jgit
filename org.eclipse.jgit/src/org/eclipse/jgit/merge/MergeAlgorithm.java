@@ -98,11 +98,11 @@ public final class MergeAlgorithm {
 	 */
 	public <S extends Sequence> MergeResult<S> merge(
 			SequenceComparator<S> cmp, S base, S ours, S theirs) {
-		List<S> sequences = new ArrayList<S>(3);
+		List<S> sequences = new ArrayList<>(3);
 		sequences.add(base);
 		sequences.add(ours);
 		sequences.add(theirs);
-		MergeResult<S> result = new MergeResult<S>(sequences);
+		MergeResult<S> result = new MergeResult<>(sequences);
 
 		if (ours.size() == 0) {
 			if (theirs.size() != 0) {

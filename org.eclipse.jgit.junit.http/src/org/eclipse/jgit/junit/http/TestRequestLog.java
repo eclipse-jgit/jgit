@@ -61,7 +61,7 @@ import org.eclipse.jetty.server.handler.HandlerWrapper;
 class TestRequestLog extends HandlerWrapper {
   private static final int MAX = 16;
 
-  private final List<AccessEvent> events = new ArrayList<AccessEvent>();
+  private final List<AccessEvent> events = new ArrayList<>();
 
   private final Semaphore active = new Semaphore(MAX);
 

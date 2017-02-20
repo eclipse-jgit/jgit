@@ -210,7 +210,7 @@ public class TransferConfig {
 		return new RefFilter() {
 			@Override
 			public Map<String, Ref> filter(Map<String, Ref> refs) {
-				Map<String, Ref> result = new HashMap<String, Ref>();
+				Map<String, Ref> result = new HashMap<>();
 				for (Map.Entry<String, Ref> e : refs.entrySet()) {
 					boolean add = true;
 					for (String hide : hideRefs) {

@@ -99,7 +99,7 @@ public class RmCommand extends GitCommand<DirCache> {
 	 */
 	public RmCommand(Repository repo) {
 		super(repo);
-		filepatterns = new LinkedList<String>();
+		filepatterns = new LinkedList<>();
 	}
 
 	/**

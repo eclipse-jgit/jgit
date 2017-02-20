@@ -105,7 +105,7 @@ public class MergeFormatter {
 	@SuppressWarnings("unchecked")
 	public void formatMerge(OutputStream out, MergeResult res, String baseName,
 			String oursName, String theirsName, String charsetName) throws IOException {
-		List<String> names = new ArrayList<String>(3);
+		List<String> names = new ArrayList<>(3);
 		names.add(baseName);
 		names.add(oursName);
 		names.add(theirsName);

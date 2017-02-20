@@ -481,7 +481,7 @@ public class RefMapTest {
 	}
 
 	private static RefList<Ref> toList(Ref... refs) {
-		RefList.Builder<Ref> b = new RefList.Builder<Ref>(refs.length);
+		RefList.Builder<Ref> b = new RefList.Builder<>(refs.length);
 		b.addAll(refs, 0, refs.length);
 		return b.toRefList();
 	}

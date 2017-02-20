@@ -179,7 +179,7 @@ public class DiffEntry {
 		else
 			treeFilterMarker = null;
 
-		List<DiffEntry> r = new ArrayList<DiffEntry>();
+		List<DiffEntry> r = new ArrayList<>();
 		MutableObjectId idBuf = new MutableObjectId();
 		while (walk.next()) {
 			DiffEntry entry = new DiffEntry();

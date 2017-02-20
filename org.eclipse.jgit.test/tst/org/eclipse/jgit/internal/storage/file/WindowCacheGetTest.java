@@ -73,7 +73,7 @@ public class WindowCacheGetTest extends SampleDataRepositoryTestCase {
 	public void setUp() throws Exception {
 		super.setUp();
 
-		toLoad = new ArrayList<TestObject>();
+		toLoad = new ArrayList<>();
 		final BufferedReader br = new BufferedReader(new InputStreamReader(
 				new FileInputStream(JGitTestUtil
 						.getTestResourceFile("all_packed_objects.txt")),

@@ -68,7 +68,7 @@ class LsTree extends TextBuiltin {
 
 	@Argument(index = 1)
 	@Option(name = "--", metaVar = "metaVar_paths", multiValued = true, handler = StopOptionHandler.class)
-	private List<String> paths = new ArrayList<String>();
+	private List<String> paths = new ArrayList<>();
 
 	@Override
 	protected void run() throws Exception {

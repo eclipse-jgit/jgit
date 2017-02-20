@@ -160,7 +160,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	protected DfsObjDatabase(DfsRepository repository,
 			DfsReaderOptions options) {
 		this.repository = repository;
-		this.packList = new AtomicReference<PackList>(NO_PACKS);
+		this.packList = new AtomicReference<>(NO_PACKS);
 		this.readerOptions = options;
 	}
 
@@ -458,7 +458,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		List<DfsPackDescription> scanned = listPacks();
 		Collections.sort(scanned);
 
-		List<DfsPackFile> list = new ArrayList<DfsPackFile>(scanned.size());
+		List<DfsPackFile> list = new ArrayList<>(scanned.size());
 		boolean foundNew = false;
 		for (DfsPackDescription dsc : scanned) {
 			DfsPackFile oldPack = forReuse.remove(dsc);
@@ -483,7 +483,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 
 	private static Map<DfsPackDescription, DfsPackFile> reuseMap(PackList old) {
 		Map<DfsPackDescription, DfsPackFile> forReuse
-			= new HashMap<DfsPackDescription, DfsPackFile>();
+			= new HashMap<>();
 		for (DfsPackFile p : old.packs) {
 			if (p.invalid()) {
 				// The pack instance is corrupted, and cannot be safely used

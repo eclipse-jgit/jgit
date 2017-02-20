@@ -80,7 +80,7 @@ import com.jcraft.jsch.UserInfo;
  * to supply appropriate {@link UserInfo} to the session.
  */
 public abstract class JschConfigSessionFactory extends SshSessionFactory {
-	private final Map<String, JSch> byIdentityFile = new HashMap<String, JSch>();
+	private final Map<String, JSch> byIdentityFile = new HashMap<>();
 
 	private JSch defaultJSch;
 

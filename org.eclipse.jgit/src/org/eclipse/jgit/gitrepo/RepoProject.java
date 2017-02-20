@@ -155,7 +155,7 @@ public class RepoProject implements Comparable<RepoProject> {
 		this.remote = remote;
 		this.groups = groups;
 		this.recommendShallow = recommendShallow;
-		copyfiles = new ArrayList<CopyFile>();
+		copyfiles = new ArrayList<>();
 	}
 
 	/**

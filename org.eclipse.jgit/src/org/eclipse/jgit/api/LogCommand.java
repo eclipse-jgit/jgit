@@ -107,7 +107,7 @@ public class LogCommand extends GitCommand<Iterable<RevCommit>> {
 
 	private RevFilter revFilter;
 
-	private final List<PathFilter> pathFilters = new ArrayList<PathFilter>();
+	private final List<PathFilter> pathFilters = new ArrayList<>();
 
 	private int maxCount = -1;
 

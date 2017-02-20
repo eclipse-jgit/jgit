@@ -87,7 +87,7 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 		private final String[] schemeNames = { "ssh", "ssh+git", "git+ssh" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 		private final Set<String> schemeSet = Collections
-				.unmodifiableSet(new LinkedHashSet<String>(Arrays
+				.unmodifiableSet(new LinkedHashSet<>(Arrays
 						.asList(schemeNames)));
 
 		@Override
@@ -227,7 +227,7 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 			String ssh = SystemReader.getInstance().getenv("GIT_SSH"); //$NON-NLS-1$
 			boolean putty = ssh.toLowerCase(Locale.ROOT).contains("plink"); //$NON-NLS-1$
 
-			List<String> args = new ArrayList<String>();
+			List<String> args = new ArrayList<>();
 			args.add(ssh);
 			if (putty
 					&& !ssh.toLowerCase(Locale.ROOT).contains("tortoiseplink")) //$NON-NLS-1$

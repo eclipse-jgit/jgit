@@ -180,14 +180,14 @@ public class ResolveMerger extends ThreeWayMerger {
 	 *
 	 * @since 3.4
 	 */
-	protected List<String> unmergedPaths = new ArrayList<String>();
+	protected List<String> unmergedPaths = new ArrayList<>();
 
 	/**
 	 * Files modified during this merge operation.
 	 *
 	 * @since 3.4
 	 */
-	protected List<String> modifiedFiles = new LinkedList<String>();
+	protected List<String> modifiedFiles = new LinkedList<>();
 
 	/**
 	 * If the merger has nothing to do for a file but check it out at the end of
@@ -195,7 +195,7 @@ public class ResolveMerger extends ThreeWayMerger {
 	 *
 	 * @since 3.4
 	 */
-	protected Map<String, DirCacheEntry> toBeCheckedOut = new HashMap<String, DirCacheEntry>();
+	protected Map<String, DirCacheEntry> toBeCheckedOut = new HashMap<>();
 
 	/**
 	 * Paths in this list will be deleted from the local copy at the end of the
@@ -203,7 +203,7 @@ public class ResolveMerger extends ThreeWayMerger {
 	 *
 	 * @since 3.4
 	 */
-	protected List<String> toBeDeleted = new ArrayList<String>();
+	protected List<String> toBeDeleted = new ArrayList<>();
 
 	/**
 	 * Low-level textual merge results. Will be passed on to the callers in case
@@ -211,14 +211,14 @@ public class ResolveMerger extends ThreeWayMerger {
 	 *
 	 * @since 3.4
 	 */
-	protected Map<String, MergeResult<? extends Sequence>> mergeResults = new HashMap<String, MergeResult<? extends Sequence>>();
+	protected Map<String, MergeResult<? extends Sequence>> mergeResults = new HashMap<>();
 
 	/**
 	 * Paths for which the merge failed altogether.
 	 *
 	 * @since 3.4
 	 */
-	protected Map<String, MergeFailureReason> failingPaths = new HashMap<String, MergeFailureReason>();
+	protected Map<String, MergeFailureReason> failingPaths = new HashMap<>();
 
 	/**
 	 * Updated as we merge entries of the tree walk. Tells us whether we should
@@ -518,7 +518,7 @@ public class ResolveMerger extends ThreeWayMerger {
 					unmergedPaths.add(tw.getPathString());
 					mergeResults.put(
 							tw.getPathString(),
-							new MergeResult<RawText>(Collections
+							new MergeResult<>(Collections
 									.<RawText> emptyList()));
 				}
 				return true;

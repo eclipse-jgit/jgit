@@ -192,7 +192,7 @@ public class ArchiveCommandTest extends RepositoryTestCase {
 
 	private class MockFormat implements ArchiveCommand.Format<MockOutputStream> {
 
-		private Map<String, String> entries = new HashMap<String, String>();
+		private Map<String, String> entries = new HashMap<>();
 
 		private int size() {
 			return entries.size();

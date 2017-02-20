@@ -464,7 +464,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 			}
 
 			if (repo.isBare()) {
-				bareProjects = new ArrayList<RepoProject>();
+				bareProjects = new ArrayList<>();
 				if (author == null)
 					author = new PersonIdent(repo);
 				if (callback == null)

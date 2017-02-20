@@ -121,7 +121,7 @@ public class ResetCommand extends GitCommand<Ref> {
 
 	private ResetType mode;
 
-	private Collection<String> filepaths = new LinkedList<String>();
+	private Collection<String> filepaths = new LinkedList<>();
 
 	private boolean isReflogDisabled;
 

@@ -124,7 +124,7 @@ public abstract class BaseReceivePack {
 		 *            line from the client.
 		 */
 		public FirstLine(String line) {
-			final HashSet<String> caps = new HashSet<String>();
+			final HashSet<String> caps = new HashSet<>();
 			final int nul = line.indexOf('\0');
 			if (nul >= 0) {
 				for (String c : line.substring(nul + 1).split(" ")) //$NON-NLS-1$
@@ -325,8 +325,8 @@ public abstract class BaseReceivePack {
 		maxDiscardBytes = rc.maxDiscardBytes;
 		advertiseRefsHook = AdvertiseRefsHook.DEFAULT;
 		refFilter = RefFilter.DEFAULT;
-		advertisedHaves = new HashSet<ObjectId>();
-		clientShallowCommits = new HashSet<ObjectId>();
+		advertisedHaves = new HashSet<>();
+		clientShallowCommits = new HashSet<>();
 		signedPushConfig = rc.signedPush;
 	}
 
@@ -1070,8 +1070,8 @@ public abstract class BaseReceivePack {
 		pckOut = new PacketLineOut(rawOut);
 		pckOut.setFlushOnEnd(false);
 
-		enabledCapabilities = new HashSet<String>();
-		commands = new ArrayList<ReceiveCommand>();
+		enabledCapabilities = new HashSet<>();
+		commands = new ArrayList<>();
 	}
 
 	/** @return advertised refs, or the default if not explicitly advertised. */

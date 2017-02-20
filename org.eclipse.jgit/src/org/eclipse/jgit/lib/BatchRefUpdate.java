@@ -120,7 +120,7 @@ public class BatchRefUpdate {
 	 */
 	protected BatchRefUpdate(RefDatabase refdb) {
 		this.refdb = refdb;
-		this.commands = new ArrayList<ReceiveCommand>();
+		this.commands = new ArrayList<>();
 		this.atomic = refdb.performsAtomicTransactions();
 	}
 
@@ -400,7 +400,7 @@ public class BatchRefUpdate {
 		}
 
 		monitor.beginTask(JGitText.get().updatingReferences, commands.size());
-		List<ReceiveCommand> commands2 = new ArrayList<ReceiveCommand>(
+		List<ReceiveCommand> commands2 = new ArrayList<>(
 				commands.size());
 		// First delete refs. This may free the name space for some of the
 		// updates.
@@ -431,7 +431,7 @@ public class BatchRefUpdate {
 		}
 		if (!commands2.isEmpty()) {
 			// What part of the name space is already taken
-			Collection<String> takenNames = new HashSet<String>(refdb.getRefs(
+			Collection<String> takenNames = new HashSet<>(refdb.getRefs(
 					RefDatabase.ALL).keySet());
 			Collection<String> takenPrefixes = getTakenPrefixes(takenNames);
 
@@ -525,7 +525,7 @@ public class BatchRefUpdate {
 
 	private static Collection<String> getTakenPrefixes(
 			final Collection<String> names) {
-		Collection<String> ref = new HashSet<String>();
+		Collection<String> ref = new HashSet<>();
 		for (String name : names)
 			ref.addAll(getPrefixes(name));
 		return ref;
@@ -539,7 +539,7 @@ public class BatchRefUpdate {
 	}
 
 	static Collection<String> getPrefixes(String s) {
-		Collection<String> ret = new HashSet<String>();
+		Collection<String> ret = new HashSet<>();
 		int p1 = s.indexOf('/');
 		while (p1 > 0) {
 			ret.add(s.substring(0, p1));

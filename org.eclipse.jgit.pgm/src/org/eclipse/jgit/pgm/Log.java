@@ -94,7 +94,7 @@ class Log extends RevWalkTextBuiltin {
 	@Option(name = "--no-standard-notes", usage = "usage_noShowStandardNotes")
 	private boolean noStandardNotes;
 
-	private List<String> additionalNoteRefs = new ArrayList<String>();
+	private List<String> additionalNoteRefs = new ArrayList<>();
 
 	@Option(name = "--show-notes", usage = "usage_showNotes", metaVar = "metaVar_ref")
 	void addAdditionalNoteRef(String notesRef) {
@@ -204,7 +204,7 @@ class Log extends RevWalkTextBuiltin {
 
 			if (!noStandardNotes || !additionalNoteRefs.isEmpty()) {
 				createWalk();
-				noteMaps = new LinkedHashMap<String, NoteMap>();
+				noteMaps = new LinkedHashMap<>();
 				if (!noStandardNotes) {
 					addNoteMap(Constants.R_NOTES_COMMITS);
 				}

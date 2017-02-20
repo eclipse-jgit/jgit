@@ -109,7 +109,7 @@ public class StatusCommand extends GitCommand<Status> {
 	 */
 	public StatusCommand addPath(String path) {
 		if (paths == null)
-			paths = new LinkedList<String>();
+			paths = new LinkedList<>();
 		paths.add(path);
 		return this;
 	}

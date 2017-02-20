@@ -136,7 +136,7 @@ class SimilarityRenameDetector {
 				2 * srcs.size() * dsts.size());
 
 		int mNext = buildMatrix(pm);
-		out = new ArrayList<DiffEntry>(Math.min(mNext, dsts.size()));
+		out = new ArrayList<>(Math.min(mNext, dsts.size()));
 
 		// Match rename pairs on a first come, first serve basis until
 		// we have looked at everything that is above our minimum score.
@@ -192,7 +192,7 @@ class SimilarityRenameDetector {
 	}
 
 	private static List<DiffEntry> compactSrcList(List<DiffEntry> in) {
-		ArrayList<DiffEntry> r = new ArrayList<DiffEntry>(in.size());
+		ArrayList<DiffEntry> r = new ArrayList<>(in.size());
 		for (DiffEntry e : in) {
 			if (e.changeType == ChangeType.DELETE)
 				r.add(e);
@@ -201,7 +201,7 @@ class SimilarityRenameDetector {
 	}
 
 	private static List<DiffEntry> compactDstList(List<DiffEntry> in) {
-		ArrayList<DiffEntry> r = new ArrayList<DiffEntry>(in.size());
+		ArrayList<DiffEntry> r = new ArrayList<>(in.size());
 		for (DiffEntry e : in) {
 			if (e != null)
 				r.add(e);

@@ -112,7 +112,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 
 	private boolean all;
 
-	private List<String> only = new ArrayList<String>();
+	private List<String> only = new ArrayList<>();
 
 	private boolean[] onlyProcessed;
 
@@ -124,7 +124,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	 * parents this commit should have. The current HEAD will be in this list
 	 * and also all commits mentioned in .git/MERGE_HEAD
 	 */
-	private List<ObjectId> parents = new LinkedList<ObjectId>();
+	private List<ObjectId> parents = new LinkedList<>();
 
 	private String reflogComment;
 

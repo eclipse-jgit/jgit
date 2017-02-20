@@ -1368,7 +1368,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 				cmd = state.walk
 						.getFilterCommand(Constants.ATTR_FILTER_TYPE_CLEAN);
 			}
-			cleanFilterCommandHolder = new Holder<String>(cmd);
+			cleanFilterCommandHolder = new Holder<>(cmd);
 		}
 		return cleanFilterCommandHolder.get();
 	}
@@ -1415,7 +1415,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 					break;
 				}
 			}
-			eolStreamTypeHolder = new Holder<EolStreamType>(type);
+			eolStreamTypeHolder = new Holder<>(type);
 		}
 		return eolStreamTypeHolder.get();
 	}

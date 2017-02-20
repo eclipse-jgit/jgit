@@ -67,7 +67,7 @@ class DiffTree extends TextBuiltin {
 	}
 
 	@Argument(index = 1, metaVar = "metaVar_treeish", required = true)
-	private final List<AbstractTreeIterator> trees = new ArrayList<AbstractTreeIterator>();
+	private final List<AbstractTreeIterator> trees = new ArrayList<>();
 
 	@Option(name = "--", metaVar = "metaVar_path", multiValued = true, handler = PathTreeFilterHandler.class)
 	private TreeFilter pathFilter = TreeFilter.ALL;

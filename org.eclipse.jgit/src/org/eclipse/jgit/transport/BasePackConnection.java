@@ -117,10 +117,10 @@ abstract class BasePackConnection extends BaseConnection {
 	protected boolean statelessRPC;
 
 	/** Capability tokens advertised by the remote side. */
-	private final Set<String> remoteCapablities = new HashSet<String>();
+	private final Set<String> remoteCapablities = new HashSet<>();
 
 	/** Extra objects the remote has, but which aren't offered as refs. */
-	protected final Set<ObjectId> additionalHaves = new HashSet<ObjectId>();
+	protected final Set<ObjectId> additionalHaves = new HashSet<>();
 
 	BasePackConnection(final PackTransport packTransport) {
 		transport = (Transport) packTransport;
@@ -191,7 +191,7 @@ abstract class BasePackConnection extends BaseConnection {
 	}
 
 	private void readAdvertisedRefsImpl() throws IOException {
-		final LinkedHashMap<String, Ref> avail = new LinkedHashMap<String, Ref>();
+		final LinkedHashMap<String, Ref> avail = new LinkedHashMap<>();
 		for (;;) {
 			String line;
 

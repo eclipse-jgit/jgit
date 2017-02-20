@@ -1053,7 +1053,7 @@ public abstract class Repository implements AutoCloseable {
 		try {
 			return getRefDatabase().getRefs(RefDatabase.ALL);
 		} catch (IOException e) {
-			return new HashMap<String, Ref>();
+			return new HashMap<>();
 		}
 	}
 
@@ -1067,7 +1067,7 @@ public abstract class Repository implements AutoCloseable {
 		try {
 			return getRefDatabase().getRefs(Constants.R_TAGS);
 		} catch (IOException e) {
-			return new HashMap<String, Ref>();
+			return new HashMap<>();
 		}
 	}
 
@@ -1102,7 +1102,7 @@ public abstract class Repository implements AutoCloseable {
 	@NonNull
 	public Map<AnyObjectId, Set<Ref>> getAllRefsByPeeledObjectId() {
 		Map<String, Ref> allRefs = getAllRefs();
-		Map<AnyObjectId, Set<Ref>> ret = new HashMap<AnyObjectId, Set<Ref>>(allRefs.size());
+		Map<AnyObjectId, Set<Ref>> ret = new HashMap<>(allRefs.size());
 		for (Ref ref : allRefs.values()) {
 			ref = peel(ref);
 			AnyObjectId target = ref.getPeeledObjectId();
@@ -1114,7 +1114,7 @@ public abstract class Repository implements AutoCloseable {
 				// that was not the case (rare)
 				if (oset.size() == 1) {
 					// Was a read-only singleton, we must copy to a new Set
-					oset = new HashSet<Ref>(oset);
+					oset = new HashSet<>(oset);
 				}
 				ret.put(target, oset);
 				oset.add(ref);
@@ -1576,7 +1576,7 @@ public abstract class Repository implements AutoCloseable {
 		if (raw == null)
 			return null;
 
-		LinkedList<ObjectId> heads = new LinkedList<ObjectId>();
+		LinkedList<ObjectId> heads = new LinkedList<>();
 		for (int p = 0; p < raw.length;) {
 			heads.add(ObjectId.fromString(raw, p));
 			p = RawParseUtils

@@ -96,14 +96,14 @@ public class CleanCommand extends GitCommand<Set<String>> {
 	 */
 	@Override
 	public Set<String> call() throws NoWorkTreeException, GitAPIException {
-		Set<String> files = new TreeSet<String>();
+		Set<String> files = new TreeSet<>();
 		try {
 			StatusCommand command = new StatusCommand(repo);
 			Status status = command.call();
 
-			Set<String> untrackedAndIgnoredFiles = new TreeSet<String>(
+			Set<String> untrackedAndIgnoredFiles = new TreeSet<>(
 					status.getUntracked());
-			Set<String> untrackedAndIgnoredDirs = new TreeSet<String>(
+			Set<String> untrackedAndIgnoredDirs = new TreeSet<>(
 					status.getUntrackedFolders());
 
 			FS fs = getRepository().getFS();
@@ -192,7 +192,7 @@ public class CleanCommand extends GitCommand<Set<String>> {
 	private Set<String> filterIgnorePaths(Set<String> inputPaths,
 			Set<String> ignoredNotInIndex, boolean exact) {
 		if (ignore) {
-			Set<String> filtered = new TreeSet<String>(inputPaths);
+			Set<String> filtered = new TreeSet<>(inputPaths);
 			for (String path : inputPaths)
 				for (String ignored : ignoredNotInIndex)
 					if ((exact && path.equals(ignored))
@@ -208,7 +208,7 @@ public class CleanCommand extends GitCommand<Set<String>> {
 
 	private Set<String> filterFolders(Set<String> untracked,
 			Set<String> untrackedFolders) {
-		Set<String> filtered = new TreeSet<String>(untracked);
+		Set<String> filtered = new TreeSet<>(untracked);
 		for (String file : untracked)
 			for (String folder : untrackedFolders)
 				if (file.startsWith(folder)) {

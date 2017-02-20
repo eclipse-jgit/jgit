@@ -529,7 +529,7 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 	@Test
 	public void testArchiveWithLongFilename() throws Exception {
 		StringBuilder filename = new StringBuilder();
-		List<String> l = new ArrayList<String>();
+		List<String> l = new ArrayList<>();
 		for (int i = 0; i < 20; i++) {
 			filename.append("1234567890/");
 			l.add(filename.toString());
@@ -549,7 +549,7 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 	@Test
 	public void testTarWithLongFilename() throws Exception {
 		StringBuilder filename = new StringBuilder();
-		List<String> l = new ArrayList<String>();
+		List<String> l = new ArrayList<>();
 		for (int i = 0; i < 20; i++) {
 			filename.append("1234567890/");
 			l.add(filename.toString());
@@ -691,7 +691,7 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 	}
 
 	private static String[] listZipEntries(byte[] zipData) throws IOException {
-		List<String> l = new ArrayList<String>();
+		List<String> l = new ArrayList<>();
 		ZipInputStream in = new ZipInputStream(
 				new ByteArrayInputStream(zipData));
 
@@ -719,7 +719,7 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 	}
 
 	private String[] listTarEntries(byte[] tarData) throws Exception {
-		List<String> l = new ArrayList<String>();
+		List<String> l = new ArrayList<>();
 		Process proc = spawnAssumingCommandPresent("tar", "tf", "-");
 		BufferedReader reader = readFromProcess(proc);
 		OutputStream out = proc.getOutputStream();
@@ -750,7 +750,7 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 				continue;
 
 			// found!
-			List<String> l = new ArrayList<String>();
+			List<String> l = new ArrayList<>();
 			BufferedReader reader = new BufferedReader(
 					new InputStreamReader(in, "UTF-8"));
 			String line;
@@ -765,7 +765,7 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 
 	private String[] tarEntryContent(byte[] tarData, String path)
 			throws Exception {
-		List<String> l = new ArrayList<String>();
+		List<String> l = new ArrayList<>();
 		Process proc = spawnAssumingCommandPresent("tar", "Oxf", "-", path);
 		BufferedReader reader = readFromProcess(proc);
 		OutputStream out = proc.getOutputStream();

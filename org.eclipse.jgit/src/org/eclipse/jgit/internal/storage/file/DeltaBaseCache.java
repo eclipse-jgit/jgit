@@ -69,7 +69,7 @@ class DeltaBaseCache {
 	private int openByteCount;
 
 	static {
-		DEAD = new SoftReference<Entry>(null);
+		DEAD = new SoftReference<>(null);
 		reconfigure(new WindowCacheConfig());
 	}
 
@@ -115,7 +115,7 @@ class DeltaBaseCache {
 		e.provider = pack;
 		e.position = position;
 		e.sz = data.length;
-		e.data = new SoftReference<Entry>(new Entry(data, objectType));
+		e.data = new SoftReference<>(new Entry(data, objectType));
 		moveToHead(e);
 	}
 

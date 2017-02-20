@@ -102,9 +102,9 @@ public class BundleWriter {
 	 */
 	public BundleWriter(final Repository repo) {
 		db = repo;
-		include = new TreeMap<String, ObjectId>();
-		assume = new HashSet<RevCommit>();
-		tagTargets = new HashSet<ObjectId>();
+		include = new TreeMap<>();
+		assume = new HashSet<>();
+		tagTargets = new HashSet<>();
 	}
 
 	/**
@@ -202,8 +202,8 @@ public class BundleWriter {
 		try (PackWriter packWriter = new PackWriter(pc, db.newObjectReader())) {
 			packWriter.setObjectCountCallback(callback);
 
-			final HashSet<ObjectId> inc = new HashSet<ObjectId>();
-			final HashSet<ObjectId> exc = new HashSet<ObjectId>();
+			final HashSet<ObjectId> inc = new HashSet<>();
+			final HashSet<ObjectId> exc = new HashSet<>();
 			inc.addAll(include.values());
 			for (final RevCommit r : assume)
 				exc.add(r.getId());

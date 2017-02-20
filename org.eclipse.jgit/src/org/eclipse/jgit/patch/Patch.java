@@ -83,8 +83,8 @@ public class Patch {
 
 	/** Create an empty patch. */
 	public Patch() {
-		files = new ArrayList<FileHeader>();
-		errors = new ArrayList<FormatError>(0);
+		files = new ArrayList<>();
+		errors = new ArrayList<>(0);
 	}
 
 	/**

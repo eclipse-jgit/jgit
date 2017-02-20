@@ -57,7 +57,7 @@ public class LongMapTest {
 
 	@Before
 	public void setUp() throws Exception {
-		map = new LongMap<Long>();
+		map = new LongMap<>();
 	}
 
 	@Test

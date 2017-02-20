@@ -162,7 +162,7 @@ public class FS_Win32 extends FS {
 
 	@Override
 	public ProcessBuilder runInShell(String cmd, String[] args) {
-		List<String> argv = new ArrayList<String>(3 + args.length);
+		List<String> argv = new ArrayList<>(3 + args.length);
 		argv.add("cmd.exe"); //$NON-NLS-1$
 		argv.add("/c"); //$NON-NLS-1$
 		argv.add(cmd);

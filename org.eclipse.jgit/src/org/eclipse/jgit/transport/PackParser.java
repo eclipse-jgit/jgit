@@ -275,7 +275,7 @@ public abstract class PackParser {
 	 */
 	public void setNeedNewObjectIds(boolean b) {
 		if (b)
-			newObjectIds = new ObjectIdSubclassMap<ObjectId>();
+			newObjectIds = new ObjectIdSubclassMap<>();
 		else
 			newObjectIds = null;
 	}
@@ -333,14 +333,14 @@ public abstract class PackParser {
 	public ObjectIdSubclassMap<ObjectId> getNewObjectIds() {
 		if (newObjectIds != null)
 			return newObjectIds;
-		return new ObjectIdSubclassMap<ObjectId>();
+		return new ObjectIdSubclassMap<>();
 	}
 
 	/** @return set of objects the incoming pack assumed for delta purposes */
 	public ObjectIdSubclassMap<ObjectId> getBaseObjectIds() {
 		if (baseObjectIds != null)
 			return baseObjectIds;
-		return new ObjectIdSubclassMap<ObjectId>();
+		return new ObjectIdSubclassMap<>();
 	}
 
 	/**
@@ -527,9 +527,9 @@ public abstract class PackParser {
 			readPackHeader();
 
 			entries = new PackedObjectInfo[(int) objectCount];
-			baseById = new ObjectIdOwnerMap<DeltaChain>();
-			baseByPos = new LongMap<UnresolvedDelta>();
-			deferredCheckBlobs = new BlockList<PackedObjectInfo>();
+			baseById = new ObjectIdOwnerMap<>();
+			baseByPos = new LongMap<>();
+			deferredCheckBlobs = new BlockList<>();
 
 			receiving.beginTask(JGitText.get().receivingObjects,
 					(int) objectCount);
@@ -826,9 +826,9 @@ public abstract class PackParser {
 		growEntries(baseById.size());
 
 		if (needBaseObjectIds)
-			baseObjectIds = new ObjectIdSubclassMap<ObjectId>();
+			baseObjectIds = new ObjectIdSubclassMap<>();
 
-		final List<DeltaChain> missing = new ArrayList<DeltaChain>(64);
+		final List<DeltaChain> missing = new ArrayList<>(64);
 		for (final DeltaChain baseId : baseById) {
 			if (baseId.head == null)
 				continue;

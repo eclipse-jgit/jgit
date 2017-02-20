@@ -206,7 +206,7 @@ public class DfsInserterTest {
 		// Verify that we have a foo in both packs, and 1 of them is garbage.
 		DfsReader reader = new DfsReader(db.getObjectDatabase());
 		DfsPackFile packs[] = db.getObjectDatabase().getPacks();
-		Set<PackSource> pack_sources = new HashSet<PackSource>();
+		Set<PackSource> pack_sources = new HashSet<>();
 
 		assertEquals(2, packs.length);
 

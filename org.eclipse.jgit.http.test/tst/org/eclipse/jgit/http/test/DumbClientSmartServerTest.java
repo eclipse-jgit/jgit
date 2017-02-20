@@ -241,7 +241,7 @@ public class DumbClientSmartServerTest extends HttpTestCase {
 
 	@Test
 	public void testInitialClone_Packed() throws Exception {
-		new TestRepository<Repository>(remoteRepository).packAndPrune();
+		new TestRepository<>(remoteRepository).packAndPrune();
 
 		Repository dst = createBareRepository();
 		assertFalse(dst.hasObject(A_txt));

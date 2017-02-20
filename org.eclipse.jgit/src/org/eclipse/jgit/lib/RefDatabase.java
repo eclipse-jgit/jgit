@@ -150,7 +150,7 @@ public abstract class RefDatabase {
 			lastSlash = name.lastIndexOf('/', lastSlash - 1);
 		}
 
-		List<String> conflicting = new ArrayList<String>();
+		List<String> conflicting = new ArrayList<>();
 		// Cannot be the container of an existing reference.
 		String prefix = name + '/';
 		for (String existing : allRefs.keySet())

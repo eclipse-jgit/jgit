@@ -169,12 +169,12 @@ public class ObjectDirectory extends FileObjectDatabase {
 		packDirectory = new File(objects, "pack"); //$NON-NLS-1$
 		preservedDirectory = new File(packDirectory, "preserved"); //$NON-NLS-1$
 		alternatesFile = new File(infoDirectory, "alternates"); //$NON-NLS-1$
-		packList = new AtomicReference<PackList>(NO_PACKS);
+		packList = new AtomicReference<>(NO_PACKS);
 		unpackedObjectCache = new UnpackedObjectCache();
 		this.fs = fs;
 		this.shallowFile = shallowFile;
 
-		alternates = new AtomicReference<AlternateHandle[]>();
+		alternates = new AtomicReference<>();
 		if (alternatePaths != null) {
 			AlternateHandle[] alt;
 
@@ -700,7 +700,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 		if (shallowFileSnapshot == null
 				|| shallowFileSnapshot.isModified(shallowFile)) {
-			shallowCommitsIds = new HashSet<ObjectId>();
+			shallowCommitsIds = new HashSet<>();
 
 			final BufferedReader reader = open(shallowFile);
 			try {
@@ -797,7 +797,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		final Map<String, PackFile> forReuse = reuseMap(old);
 		final FileSnapshot snapshot = FileSnapshot.save(packDirectory);
 		final Set<String> names = listPackDirectory();
-		final List<PackFile> list = new ArrayList<PackFile>(names.size() >> 2);
+		final List<PackFile> list = new ArrayList<>(names.size() >> 2);
 		boolean foundNew = false;
 		for (final String indexName : names) {
 			// Must match "pack-[0-9a-f]{40}.idx" to be an index.
@@ -855,7 +855,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 	}
 
 	private static Map<String, PackFile> reuseMap(final PackList old) {
-		final Map<String, PackFile> forReuse = new HashMap<String, PackFile>();
+		final Map<String, PackFile> forReuse = new HashMap<>();
 		for (final PackFile p : old.packs) {
 			if (p.invalid()) {
 				// The pack instance is corrupted, and cannot be safely used
@@ -884,7 +884,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		final String[] nameList = packDirectory.list();
 		if (nameList == null)
 			return Collections.emptySet();
-		final Set<String> nameSet = new HashSet<String>(nameList.length << 1);
+		final Set<String> nameSet = new HashSet<>(nameList.length << 1);
 		for (final String name : nameList) {
 			if (name.startsWith("pack-")) //$NON-NLS-1$
 				nameSet.add(name);
@@ -911,7 +911,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 	}
 
 	private AlternateHandle[] loadAlternates() throws IOException {
-		final List<AlternateHandle> l = new ArrayList<AlternateHandle>(4);
+		final List<AlternateHandle> l = new ArrayList<>(4);
 		final BufferedReader br = open(alternatesFile);
 		try {
 			String line;

@@ -64,7 +64,7 @@ public abstract class OperationResult {
 
 	URIish uri;
 
-	final SortedMap<String, TrackingRefUpdate> updates = new TreeMap<String, TrackingRefUpdate>();
+	final SortedMap<String, TrackingRefUpdate> updates = new TreeMap<>();
 
 	StringBuilder messageBuffer;
 

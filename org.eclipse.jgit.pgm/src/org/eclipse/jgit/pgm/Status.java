@@ -117,7 +117,7 @@ class Status extends TextBuiltin {
 		Map<String, StageState> conflicting = status.getConflictingStageState();
 
 		// build a sorted list of all paths except untracked and ignored
-		TreeSet<String> sorted = new TreeSet<String>();
+		TreeSet<String> sorted = new TreeSet<>();
 		sorted.addAll(added);
 		sorted.addAll(changed);
 		sorted.addAll(removed);
@@ -185,7 +185,7 @@ class Status extends TextBuiltin {
 
 		// untracked are always at the end of the list
 		if ("all".equals(untrackedFilesMode)) { //$NON-NLS-1$
-			TreeSet<String> untracked = new TreeSet<String>(
+			TreeSet<String> untracked = new TreeSet<>(
 					status.getUntracked());
 			for (String path : untracked)
 				printPorcelainLine('?', '?', path);
@@ -221,7 +221,7 @@ class Status extends TextBuiltin {
 		Collection<String> untracked = status.getUntracked();
 		Map<String, StageState> unmergedStates = status
 				.getConflictingStageState();
-		Collection<String> toBeCommitted = new ArrayList<String>(added);
+		Collection<String> toBeCommitted = new ArrayList<>(added);
 		toBeCommitted.addAll(changed);
 		toBeCommitted.addAll(removed);
 		int nbToBeCommitted = toBeCommitted.size();
@@ -232,7 +232,7 @@ class Status extends TextBuiltin {
 					toBeCommitted, added, changed, removed);
 			firstHeader = false;
 		}
-		Collection<String> notStagedForCommit = new ArrayList<String>(modified);
+		Collection<String> notStagedForCommit = new ArrayList<>(modified);
 		notStagedForCommit.addAll(missing);
 		int nbNotStagedForCommit = notStagedForCommit.size();
 		if (nbNotStagedForCommit > 0) {
@@ -274,7 +274,7 @@ class Status extends TextBuiltin {
 
 	protected int printList(Collection<String> list) throws IOException {
 		if (!list.isEmpty()) {
-			List<String> sortedList = new ArrayList<String>(list);
+			List<String> sortedList = new ArrayList<>(list);
 			java.util.Collections.sort(sortedList);
 			for (String filename : sortedList) {
 				outw.println(CLIText.formatLine(String.format(
@@ -291,7 +291,7 @@ class Status extends TextBuiltin {
 			Collection<String> set2,
 			@SuppressWarnings("unused") Collection<String> set3)
 			throws IOException {
-		List<String> sortedList = new ArrayList<String>(list);
+		List<String> sortedList = new ArrayList<>(list);
 		java.util.Collections.sort(sortedList);
 		for (String filename : sortedList) {
 			String prefix;
@@ -311,7 +311,7 @@ class Status extends TextBuiltin {
 
 	private void printUnmerged(Map<String, StageState> unmergedStates)
 			throws IOException {
-		List<String> paths = new ArrayList<String>(unmergedStates.keySet());
+		List<String> paths = new ArrayList<>(unmergedStates.keySet());
 		Collections.sort(paths);
 		for (String path : paths) {
 			StageState state = unmergedStates.get(path);

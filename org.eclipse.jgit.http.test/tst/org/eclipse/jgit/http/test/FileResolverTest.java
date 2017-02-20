@@ -83,7 +83,7 @@ public class FileResolverTest extends LocalDiskRepositoryTestCase {
 
 	private static void assertUnreasonable(String name)
 			throws ServiceNotEnabledException {
-		FileResolver<RepositoryResolver> r = new FileResolver<RepositoryResolver>(
+		FileResolver<RepositoryResolver> r = new FileResolver<>(
 				new File("."), false);
 		try {
 			r.open(null, name);
@@ -103,7 +103,7 @@ public class FileResolverTest extends LocalDiskRepositoryTestCase {
 		FileResolver<RepositoryResolver> resolver;
 
 		assertFalse("no git-daemon-export-ok", export.exists());
-		resolver = new FileResolver<RepositoryResolver>(base, false /*
+		resolver = new FileResolver<>(base, false /*
 																	 * require
 																	 * flag
 																	 */);
@@ -114,7 +114,7 @@ public class FileResolverTest extends LocalDiskRepositoryTestCase {
 			assertEquals("Service not enabled", e.getMessage());
 		}
 
-		resolver = new FileResolver<RepositoryResolver>(base, true /*
+		resolver = new FileResolver<>(base, true /*
 																	 * export
 																	 * all
 																	 */);
@@ -125,7 +125,7 @@ public class FileResolverTest extends LocalDiskRepositoryTestCase {
 		}
 
 		FileUtils.createNewFile(export);
-		resolver = new FileResolver<RepositoryResolver>(base, false /*
+		resolver = new FileResolver<>(base, false /*
 																	 * require
 																	 * flag
 																	 */);
@@ -142,7 +142,7 @@ public class FileResolverTest extends LocalDiskRepositoryTestCase {
 		final Repository a = createBareRepository();
 		final String name = a.getDirectory().getName() + "-not-a-git";
 		final File base = a.getDirectory().getParentFile();
-		FileResolver<RepositoryResolver> resolver = new FileResolver<RepositoryResolver>(
+		FileResolver<RepositoryResolver> resolver = new FileResolver<>(
 				base, false);
 
 		try {

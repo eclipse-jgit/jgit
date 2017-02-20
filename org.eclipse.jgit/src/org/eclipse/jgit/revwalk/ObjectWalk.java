@@ -133,7 +133,7 @@ public class ObjectWalk extends RevWalk {
 	public ObjectWalk(ObjectReader or) {
 		super(or);
 		setRetainBody(false);
-		rootObjects = new ArrayList<RevObject>();
+		rootObjects = new ArrayList<>();
 		pendingObjects = new BlockObjQueue();
 		objectFilter = ObjectFilter.ALL;
 		pathBuf = new byte[256];
@@ -682,7 +682,7 @@ public class ObjectWalk extends RevWalk {
 		for (RevObject obj : rootObjects)
 			obj.flags &= ~IN_PENDING;
 
-		rootObjects = new ArrayList<RevObject>();
+		rootObjects = new ArrayList<>();
 		pendingObjects = new BlockObjQueue();
 		currVisit = null;
 		freeVisit = null;

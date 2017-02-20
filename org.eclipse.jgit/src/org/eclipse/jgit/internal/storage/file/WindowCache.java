@@ -235,9 +235,9 @@ public class WindowCache {
 		if (lockCount < 1)
 			throw new IllegalArgumentException(JGitText.get().lockCountMustBeGreaterOrEqual1);
 
-		queue = new ReferenceQueue<ByteWindow>();
+		queue = new ReferenceQueue<>();
 		clock = new AtomicLong(1);
-		table = new AtomicReferenceArray<Entry>(tableSize);
+		table = new AtomicReferenceArray<>(tableSize);
 		locks = new Lock[lockCount];
 		for (int i = 0; i < locks.length; i++)
 			locks[i] = new Lock();

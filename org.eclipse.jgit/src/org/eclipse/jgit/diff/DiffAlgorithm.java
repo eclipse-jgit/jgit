@@ -117,7 +117,7 @@ public abstract class DiffAlgorithm {
 			if (region.getLengthA() == 1 && region.getLengthB() == 1)
 				return EditList.singleton(region);
 
-			SubsequenceComparator<S> cs = new SubsequenceComparator<S>(cmp);
+			SubsequenceComparator<S> cs = new SubsequenceComparator<>(cmp);
 			Subsequence<S> as = Subsequence.a(a, region);
 			Subsequence<S> bs = Subsequence.b(b, region);
 			EditList e = Subsequence.toBase(diffNonCommon(cs, as, bs), as, bs);

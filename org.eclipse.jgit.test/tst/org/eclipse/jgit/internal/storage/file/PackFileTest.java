@@ -117,7 +117,7 @@ public class PackFileTest extends LocalDiskRepositoryTestCase {
 		cfg.install();
 
 		repo = createBareRepository();
-		tr = new TestRepository<Repository>(repo);
+		tr = new TestRepository<>(repo);
 		wc = (WindowCursor) repo.newObjectReader();
 	}
 
@@ -291,7 +291,7 @@ public class PackFileTest extends LocalDiskRepositoryTestCase {
 
 			f = new FileOutputStream(idxName);
 			try {
-				List<PackedObjectInfo> list = new ArrayList<PackedObjectInfo>();
+				List<PackedObjectInfo> list = new ArrayList<>();
 				list.add(a);
 				list.add(b);
 				Collections.sort(list);

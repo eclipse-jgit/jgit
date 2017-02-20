@@ -48,7 +48,7 @@ public abstract class LowLevelDiffAlgorithm extends DiffAlgorithm {
 	@Override
 	public <S extends Sequence> EditList diffNonCommon(
 			SequenceComparator<? super S> cmp, S a, S b) {
-		HashedSequencePair<S> p = new HashedSequencePair<S>(cmp, a, b);
+		HashedSequencePair<S> p = new HashedSequencePair<>(cmp, a, b);
 		HashedSequenceComparator<S> hc = p.getComparator();
 		HashedSequence<S> ha = p.getA();
 		HashedSequence<S> hb = p.getB();

@@ -68,7 +68,7 @@ import org.eclipse.jgit.lib.RefComparator;
  *            the type of reference being stored in the collection.
  */
 public class RefList<T extends Ref> implements Iterable<Ref> {
-	private static final RefList<Ref> EMPTY = new RefList<Ref>(new Ref[0], 0);
+	private static final RefList<Ref> EMPTY = new RefList<>(new Ref[0], 0);
 
 	/**
 	 * @return an empty unmodifiable reference list.
@@ -213,7 +213,7 @@ public class RefList<T extends Ref> implements Iterable<Ref> {
 	 * @return a new builder with the first {@code n} elements already added.
 	 */
 	public final Builder<T> copy(int n) {
-		Builder<T> r = new Builder<T>(Math.max(16, n));
+		Builder<T> r = new Builder<>(Math.max(16, n));
 		r.addAll(list, 0, n);
 		return r;
 	}
@@ -234,7 +234,7 @@ public class RefList<T extends Ref> implements Iterable<Ref> {
 		Ref[] newList = new Ref[cnt];
 		System.arraycopy(list, 0, newList, 0, cnt);
 		newList[idx] = ref;
-		return new RefList<T>(newList, cnt);
+		return new RefList<>(newList, cnt);
 	}
 
 	/**
@@ -261,7 +261,7 @@ public class RefList<T extends Ref> implements Iterable<Ref> {
 		newList[idx] = ref;
 		if (idx < cnt)
 			System.arraycopy(list, idx, newList, idx + 1, cnt - idx);
-		return new RefList<T>(newList, cnt + 1);
+		return new RefList<>(newList, cnt + 1);
 	}
 
 	/**
@@ -282,7 +282,7 @@ public class RefList<T extends Ref> implements Iterable<Ref> {
 			System.arraycopy(list, 0, newList, 0, idx);
 		if (idx + 1 < cnt)
 			System.arraycopy(list, idx + 1, newList, idx, cnt - (idx + 1));
-		return new RefList<T>(newList, cnt - 1);
+		return new RefList<>(newList, cnt - 1);
 	}
 
 	/**
@@ -431,7 +431,7 @@ public class RefList<T extends Ref> implements Iterable<Ref> {
 
 		/** @return an unmodifiable list using this collection's backing array. */
 		public RefList<T> toRefList() {
-			return new RefList<T>(list, size);
+			return new RefList<>(list, size);
 		}
 
 		@Override
