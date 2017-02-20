@@ -1927,7 +1927,7 @@ public abstract class Repository implements AutoCloseable {
 				.replaceAll("\\s+", "_") //$NON-NLS-1$//$NON-NLS-2$
 				.replaceAll("_{2,}", "_") //$NON-NLS-1$//$NON-NLS-2$
 				.replaceAll("-{2,}", "-") //$NON-NLS-1$//$NON-NLS-2$
-				.replaceAll("[^\\w-]", "") //$NON-NLS-1$ //$NON-NLS-2$
+				.replaceAll("[^\\w-/]", "") //$NON-NLS-1$ //$NON-NLS-2$
 				.replaceAll("^_+", "") //$NON-NLS-1$//$NON-NLS-2$
 				.replaceAll("^-+", ""); //$NON-NLS-1$//$NON-NLS-2$
 	}
