@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_82aa868a",
+        "filename": "org.eclipse.jgit.ant.test/META-INF/MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-02-20T09:54:04Z",
+      "side": 1,
+      "message": "this dependency is unused and can be removed",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 64
+      },
+      "revId": "30fea7ca4bed930ab9edca9887162abef5fc1369",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_e29a5a7a",
+        "filename": "org.eclipse.jgit.ant.test/META-INF/MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-02-20T09:54:04Z",
+      "side": 1,
+      "message": "which problem does this fix ? With the old package import for org.hamcrest I can still run the tests from Eclipse (tried with Oxygen)",
+      "revId": "30fea7ca4bed930ab9edca9887162abef5fc1369",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
