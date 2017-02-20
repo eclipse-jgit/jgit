@@ -57,7 +57,7 @@ public class ManifestParserTest {
 	public void testManifestParser() throws Exception {
 		String baseUrl = "https://git.google.com/";
 		StringBuilder xmlContent = new StringBuilder();
-		Set<String> results = new HashSet<String>();
+		Set<String> results = new HashSet<>();
 		xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
 			.append("<manifest>")
 			.append("<remote name=\"remote1\" fetch=\".\" />")

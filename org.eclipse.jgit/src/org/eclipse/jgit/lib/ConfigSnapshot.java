@@ -78,7 +78,7 @@ class ConfigSnapshot {
 
 	ConfigSnapshot(List<ConfigLine> entries, ConfigSnapshot base) {
 		entryList = entries;
-		cache = new ConcurrentHashMap<Object, Object>(16, 0.75f, 1);
+		cache = new ConcurrentHashMap<>(16, 0.75f, 1);
 		baseState = base;
 	}
 
@@ -112,7 +112,7 @@ class ConfigSnapshot {
 		if (idx < 0)
 			idx = -(idx + 1);
 
-		Map<String, String> m = new LinkedHashMap<String, String>();
+		Map<String, String> m = new LinkedHashMap<>();
 		while (idx < s.size()) {
 			ConfigLine e = s.get(idx++);
 			if (!e.match(section, subsection))
@@ -187,7 +187,7 @@ class ConfigSnapshot {
 	}
 
 	private static List<ConfigLine> sort(List<ConfigLine> in) {
-		List<ConfigLine> sorted = new ArrayList<ConfigLine>(in.size());
+		List<ConfigLine> sorted = new ArrayList<>(in.size());
 		for (ConfigLine line : in) {
 			if (line.section != null && line.name != null)
 				sorted.add(line);
@@ -237,8 +237,8 @@ class ConfigSnapshot {
 		final Map<String, Set<String>> subsections;
 
 		SectionNames(ConfigSnapshot cfg) {
-			Map<String, String> sec = new LinkedHashMap<String, String>();
-			Map<String, Set<String>> sub = new HashMap<String, Set<String>>();
+			Map<String, String> sec = new LinkedHashMap<>();
+			Map<String, Set<String>> sub = new HashMap<>();
 			while (cfg != null) {
 				for (ConfigLine e : cfg.entryList) {
 					if (e.section == null)
@@ -253,7 +253,7 @@ class ConfigSnapshot {
 
 					Set<String> m = sub.get(l1);
 					if (m == null) {
-						m = new LinkedHashSet<String>();
+						m = new LinkedHashSet<>();
 						sub.put(l1, m);
 					}
 					m.add(e.subsection);

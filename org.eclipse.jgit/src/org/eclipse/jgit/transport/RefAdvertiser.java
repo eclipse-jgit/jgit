@@ -163,9 +163,9 @@ public abstract class RefAdvertiser {
 
 	private final char[] tmpId = new char[Constants.OBJECT_ID_STRING_LENGTH];
 
-	final Set<String> capablities = new LinkedHashSet<String>();
+	final Set<String> capablities = new LinkedHashSet<>();
 
-	private final Set<ObjectId> sent = new HashSet<ObjectId>();
+	private final Set<ObjectId> sent = new HashSet<>();
 
 	private Repository repository;
 

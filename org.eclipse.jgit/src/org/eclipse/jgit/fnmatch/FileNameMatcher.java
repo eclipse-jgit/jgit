@@ -120,9 +120,9 @@ public class FileNameMatcher {
 	private FileNameMatcher(final List<Head> headsStartValue,
 			final List<Head> heads) {
 		this.headsStartValue = headsStartValue;
-		this.heads = new ArrayList<Head>(heads.size());
+		this.heads = new ArrayList<>(heads.size());
 		this.heads.addAll(heads);
-		this.listForLocalUseage = new ArrayList<Head>(heads.size());
+		this.listForLocalUseage = new ArrayList<>(heads.size());
 	}
 
 	/**
@@ -158,7 +158,7 @@ public class FileNameMatcher {
 		final List<AbstractHead> allHeads = parseHeads(patternString,
 				invalidWildgetCharacter);
 
-		List<Head> nextHeadsSuggestion = new ArrayList<Head>(2);
+		List<Head> nextHeadsSuggestion = new ArrayList<>(2);
 		nextHeadsSuggestion.add(LastHead.INSTANCE);
 		for (int i = allHeads.size() - 1; i >= 0; i--) {
 			final AbstractHead head = allHeads.get(i);
@@ -172,7 +172,7 @@ public class FileNameMatcher {
 				head.setNewHeads(nextHeadsSuggestion);
 			} else {
 				head.setNewHeads(nextHeadsSuggestion);
-				nextHeadsSuggestion = new ArrayList<Head>(2);
+				nextHeadsSuggestion = new ArrayList<>(2);
 				nextHeadsSuggestion.add(head);
 			}
 		}
@@ -236,7 +236,7 @@ public class FileNameMatcher {
 			throws InvalidPatternException {
 
 		int currentIndex = 0;
-		List<AbstractHead> heads = new ArrayList<AbstractHead>();
+		List<AbstractHead> heads = new ArrayList<>();
 		while (currentIndex < pattern.length()) {
 			final int groupStart = indexOfUnescaped(pattern, '[', currentIndex);
 			if (groupStart == -1) {
@@ -262,7 +262,7 @@ public class FileNameMatcher {
 
 	private static List<AbstractHead> createSimpleHeads(
 			final String patternPart, final Character invalidWildgetCharacter) {
-		final List<AbstractHead> heads = new ArrayList<AbstractHead>(
+		final List<AbstractHead> heads = new ArrayList<>(
 				patternPart.length());
 
 		boolean escaped = false;
@@ -375,7 +375,7 @@ public class FileNameMatcher {
 	 *         reset and start point.
 	 */
 	public FileNameMatcher createMatcherForSuffix() {
-		final List<Head> copyOfHeads = new ArrayList<Head>(heads.size());
+		final List<Head> copyOfHeads = new ArrayList<>(heads.size());
 		copyOfHeads.addAll(heads);
 		return new FileNameMatcher(copyOfHeads);
 	}

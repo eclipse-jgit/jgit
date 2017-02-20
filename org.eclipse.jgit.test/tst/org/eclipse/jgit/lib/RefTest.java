@@ -99,7 +99,7 @@ public class RefTest extends SampleDataRepositoryTestCase {
 				"ab/c", "dummy", true);
 		config.save();
 		assertEquals("[ab/c, origin]",
-				new TreeSet<String>(db.getRemoteNames()).toString());
+				new TreeSet<>(db.getRemoteNames()).toString());
 
 		// one-level deep remote branch
 		assertEquals("master",

@@ -57,22 +57,22 @@ public class BlockListTest {
 	public void testEmptyList() {
 		BlockList<String> empty;
 
-		empty = new BlockList<String>();
+		empty = new BlockList<>();
 		assertEquals(0, empty.size());
 		assertTrue(empty.isEmpty());
 		assertFalse(empty.iterator().hasNext());
 
-		empty = new BlockList<String>(0);
+		empty = new BlockList<>(0);
 		assertEquals(0, empty.size());
 		assertTrue(empty.isEmpty());
 		assertFalse(empty.iterator().hasNext());
 
-		empty = new BlockList<String>(1);
+		empty = new BlockList<>(1);
 		assertEquals(0, empty.size());
 		assertTrue(empty.isEmpty());
 		assertFalse(empty.iterator().hasNext());
 
-		empty = new BlockList<String>(64);
+		empty = new BlockList<>(64);
 		assertEquals(0, empty.size());
 		assertTrue(empty.isEmpty());
 		assertFalse(empty.iterator().hasNext());
@@ -80,7 +80,7 @@ public class BlockListTest {
 
 	@Test
 	public void testGet() {
-		BlockList<String> list = new BlockList<String>(4);
+		BlockList<String> list = new BlockList<>(4);
 
 		try {
 			list.get(-1);
@@ -121,7 +121,7 @@ public class BlockListTest {
 
 	@Test
 	public void testSet() {
-		BlockList<String> list = new BlockList<String>(4);
+		BlockList<String> list = new BlockList<>(4);
 
 		try {
 			list.set(-1, "foo");
@@ -168,7 +168,7 @@ public class BlockListTest {
 
 	@Test
 	public void testAddToEnd() {
-		BlockList<Integer> list = new BlockList<Integer>(4);
+		BlockList<Integer> list = new BlockList<>(4);
 		int cnt = BlockList.BLOCK_SIZE * 3;
 
 		for (int i = 0; i < cnt; i++)
@@ -192,7 +192,7 @@ public class BlockListTest {
 
 	@Test
 	public void testAddSlowPath() {
-		BlockList<String> list = new BlockList<String>(4);
+		BlockList<String> list = new BlockList<>(4);
 
 		String fooStr = "foo";
 		String barStr = "bar";
@@ -223,7 +223,7 @@ public class BlockListTest {
 
 	@Test
 	public void testRemoveFromEnd() {
-		BlockList<String> list = new BlockList<String>(4);
+		BlockList<String> list = new BlockList<>(4);
 
 		String fooStr = "foo";
 		String barStr = "bar";
@@ -245,7 +245,7 @@ public class BlockListTest {
 
 	@Test
 	public void testRemoveSlowPath() {
-		BlockList<String> list = new BlockList<String>(4);
+		BlockList<String> list = new BlockList<>(4);
 
 		String fooStr = "foo";
 		String barStr = "bar";
@@ -270,7 +270,7 @@ public class BlockListTest {
 
 	@Test
 	public void testAddRemoveAdd() {
-		BlockList<Integer> list = new BlockList<Integer>();
+		BlockList<Integer> list = new BlockList<>();
 		for (int i = 0; i < BlockList.BLOCK_SIZE + 1; i++)
 			list.add(Integer.valueOf(i));
 		assertEquals(Integer.valueOf(BlockList.BLOCK_SIZE),
@@ -283,14 +283,14 @@ public class BlockListTest {
 
 	@Test
 	public void testAddAllFromOtherList() {
-		BlockList<Integer> src = new BlockList<Integer>(4);
+		BlockList<Integer> src = new BlockList<>(4);
 		int cnt = BlockList.BLOCK_SIZE * 2;
 
 		for (int i = 0; i < cnt; i++)
 			src.add(Integer.valueOf(42 + i));
 		src.add(Integer.valueOf(1));
 
-		BlockList<Integer> dst = new BlockList<Integer>(4);
+		BlockList<Integer> dst = new BlockList<>(4);
 		dst.add(Integer.valueOf(255));
 		dst.addAll(src);
 		assertEquals(cnt + 2, dst.size());
@@ -301,7 +301,7 @@ public class BlockListTest {
 
 	@Test
 	public void testFastIterator() {
-		BlockList<Integer> list = new BlockList<Integer>(4);
+		BlockList<Integer> list = new BlockList<>(4);
 		int cnt = BlockList.BLOCK_SIZE * 3;
 
 		for (int i = 0; i < cnt; i++)
@@ -318,7 +318,7 @@ public class BlockListTest {
 
 	@Test
 	public void testAddRejectsBadIndexes() {
-		BlockList<Integer> list = new BlockList<Integer>(4);
+		BlockList<Integer> list = new BlockList<>(4);
 		list.add(Integer.valueOf(41));
 
 		try {
@@ -336,7 +336,7 @@ public class BlockListTest {
 
 	@Test
 	public void testRemoveRejectsBadIndexes() {
-		BlockList<Integer> list = new BlockList<Integer>(4);
+		BlockList<Integer> list = new BlockList<>(4);
 		list.add(Integer.valueOf(41));
 
 		try {

@@ -460,14 +460,14 @@ public class WalkEncryptionTest {
 
 		static List<String> cryptoCipherList(String regex) {
 			Set<String> source = Security.getAlgorithms("Cipher");
-			Set<String> target = new TreeSet<String>();
+			Set<String> target = new TreeSet<>();
 			for (String algo : source) {
 				algo = algo.toUpperCase(Locale.ROOT);
 				if (algo.matches(regex)) {
 					target.add(algo);
 				}
 			}
-			return new ArrayList<String>(target);
+			return new ArrayList<>(target);
 		}
 
 		/**
@@ -599,7 +599,7 @@ public class WalkEncryptionTest {
 		}
 
 		static List<Object[]> product(List<String> one, List<String> two) {
-			List<Object[]> result = new ArrayList<Object[]>();
+			List<Object[]> result = new ArrayList<>();
 			for (String s1 : one) {
 				for (String s2 : two) {
 					result.add(new Object[] { s1, s2 });
@@ -1241,10 +1241,10 @@ public class WalkEncryptionTest {
 
 		@Parameters(name = "Profile: {0}   Version: {1}")
 		public static Collection<Object[]> argsList() {
-			List<String> algorithmList = new ArrayList<String>();
+			List<String> algorithmList = new ArrayList<>();
 			algorithmList.addAll(cryptoCipherListPBE());
 
-			List<String> versionList = new ArrayList<String>();
+			List<String> versionList = new ArrayList<>();
 			versionList.add("0");
 			versionList.add("1");
 
@@ -1284,10 +1284,10 @@ public class WalkEncryptionTest {
 
 		@Parameters(name = "Profile: {0}   Version: {1}")
 		public static Collection<Object[]> argsList() {
-			List<String> algorithmList = new ArrayList<String>();
+			List<String> algorithmList = new ArrayList<>();
 			algorithmList.addAll(cryptoCipherListTrans());
 
-			List<String> versionList = new ArrayList<String>();
+			List<String> versionList = new ArrayList<>();
 			versionList.add("1");
 
 			return product(algorithmList, versionList);

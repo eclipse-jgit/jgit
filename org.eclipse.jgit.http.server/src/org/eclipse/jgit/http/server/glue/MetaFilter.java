@@ -89,7 +89,7 @@ public class MetaFilter implements Filter {
 
 	/** Empty filter with no bindings. */
 	public MetaFilter() {
-		this.bindings = new ArrayList<ServletBinderImpl>();
+		this.bindings = new ArrayList<>();
 	}
 
 	/**
@@ -144,7 +144,7 @@ public class MetaFilter implements Filter {
 	}
 
 	private static Set<Object> newIdentitySet() {
-		final Map<Object, Object> m = new IdentityHashMap<Object, Object>();
+		final Map<Object, Object> m = new IdentityHashMap<>();
 		return new AbstractSet<Object>() {
 			@Override
 			public boolean add(Object o) {

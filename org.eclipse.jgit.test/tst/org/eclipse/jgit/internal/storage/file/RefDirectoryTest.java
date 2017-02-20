@@ -108,7 +108,7 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		diskRepo = createBareRepository();
 		refdir = (RefDirectory) diskRepo.getRefDatabase();
 
-		repo = new TestRepository<Repository>(diskRepo);
+		repo = new TestRepository<>(diskRepo);
 		A = repo.commit().create();
 		B = repo.commit(repo.getRevWalk().parseCommit(A));
 		v1_0 = repo.tag("v1_0", B);
@@ -1023,7 +1023,7 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		assertEquals(v0_1.getId(), all.get("refs/tags/v0.1").getObjectId());
 
 		all = refdir.getRefs(RefDatabase.ALL);
-		refdir.pack(new ArrayList<String>(all.keySet()));
+		refdir.pack(new ArrayList<>(all.keySet()));
 
 		all = refdir.getRefs(RefDatabase.ALL);
 		assertEquals(5, all.size());
@@ -1267,8 +1267,8 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		final RefDatabase refDb = newRepo.getRefDatabase();
 		File packedRefs = new File(newRepo.getDirectory(), "packed-refs");
 		assertTrue(packedRefs.createNewFile());
-		final AtomicReference<StackOverflowError> error = new AtomicReference<StackOverflowError>();
-		final AtomicReference<IOException> exception = new AtomicReference<IOException>();
+		final AtomicReference<StackOverflowError> error = new AtomicReference<>();
+		final AtomicReference<IOException> exception = new AtomicReference<>();
 		final AtomicInteger changeCount = new AtomicInteger();
 		newRepo.getListenerList().addRefsChangedListener(
 				new RefsChangedListener() {

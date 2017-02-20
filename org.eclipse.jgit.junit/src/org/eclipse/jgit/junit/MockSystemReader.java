@@ -88,7 +88,7 @@ public class MockSystemReader extends SystemReader {
 
 	long now = 1250379778668L; // Sat Aug 15 20:12:58 GMT-03:30 2009
 
-	final Map<String, String> values = new HashMap<String, String>();
+	final Map<String, String> values = new HashMap<>();
 
 	FileBasedConfig userGitConfig;
 

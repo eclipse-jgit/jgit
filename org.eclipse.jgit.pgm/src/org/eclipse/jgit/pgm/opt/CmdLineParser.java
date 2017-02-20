@@ -141,7 +141,7 @@ public class CmdLineParser extends org.kohsuke.args4j.CmdLineParser {
 
 	@Override
 	public void parseArgument(final String... args) throws CmdLineException {
-		final ArrayList<String> tmp = new ArrayList<String>(args.length);
+		final ArrayList<String> tmp = new ArrayList<>(args.length);
 		for (int argi = 0; argi < args.length; argi++) {
 			final String str = args[argi];
 			if (str.equals("--")) { //$NON-NLS-1$

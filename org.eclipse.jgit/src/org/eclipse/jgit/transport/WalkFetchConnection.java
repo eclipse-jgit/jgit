@@ -197,20 +197,20 @@ class WalkFetchConnection extends BaseFetchConnection {
 		inserter = local.newObjectInserter();
 		reader = inserter.newReader();
 
-		remotes = new ArrayList<WalkRemoteObjectDatabase>();
+		remotes = new ArrayList<>();
 		remotes.add(w);
 
-		unfetchedPacks = new LinkedList<RemotePack>();
-		packsConsidered = new HashSet<String>();
+		unfetchedPacks = new LinkedList<>();
+		packsConsidered = new HashSet<>();
 
-		noPacksYet = new LinkedList<WalkRemoteObjectDatabase>();
+		noPacksYet = new LinkedList<>();
 		noPacksYet.add(w);
 
-		noAlternatesYet = new LinkedList<WalkRemoteObjectDatabase>();
+		noAlternatesYet = new LinkedList<>();
 		noAlternatesYet.add(w);
 
-		fetchErrors = new HashMap<ObjectId, List<Throwable>>();
-		packLocks = new ArrayList<PackLock>(4);
+		fetchErrors = new HashMap<>();
+		packLocks = new ArrayList<>(4);
 
 		revWalk = new RevWalk(reader);
 		revWalk.setRetainBody(false);
@@ -220,7 +220,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 		LOCALLY_SEEN = revWalk.newFlag("LOCALLY_SEEN"); //$NON-NLS-1$
 
 		localCommitQueue = new DateRevQueue();
-		workQueue = new LinkedList<ObjectId>();
+		workQueue = new LinkedList<>();
 	}
 
 	@Override
@@ -273,7 +273,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 
 	private void queueWants(final Collection<Ref> want)
 			throws TransportException {
-		final HashSet<ObjectId> inWorkQueue = new HashSet<ObjectId>();
+		final HashSet<ObjectId> inWorkQueue = new HashSet<>();
 		for (final Ref r : want) {
 			final ObjectId id = r.getObjectId();
 			if (id == null) {
@@ -597,7 +597,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 
 	private Iterator<ObjectId> swapFetchQueue() {
 		final Iterator<ObjectId> r = workQueue.iterator();
-		workQueue = new LinkedList<ObjectId>();
+		workQueue = new LinkedList<>();
 		return r;
 	}
 
@@ -794,7 +794,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 		final ObjectId objId = id.copy();
 		List<Throwable> errors = fetchErrors.get(objId);
 		if (errors == null) {
-			errors = new ArrayList<Throwable>(2);
+			errors = new ArrayList<>(2);
 			fetchErrors.put(objId, errors);
 		}
 		errors.add(what);

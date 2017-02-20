@@ -611,7 +611,7 @@ public class ObjectChecker {
 		int ptr = 0;
 		int lastNameB = 0, lastNameE = 0, lastMode = 0;
 		Set<String> normalized = windows || macosx
-				? new HashSet<String>()
+				? new HashSet<>()
 				: null;
 
 		while (ptr < sz) {

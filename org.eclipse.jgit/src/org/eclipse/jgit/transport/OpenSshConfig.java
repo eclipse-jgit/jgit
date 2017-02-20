@@ -175,9 +175,9 @@ public class OpenSshConfig {
 	}
 
 	private Map<String, Host> parse(final InputStream in) throws IOException {
-		final Map<String, Host> m = new LinkedHashMap<String, Host>();
+		final Map<String, Host> m = new LinkedHashMap<>();
 		final BufferedReader br = new BufferedReader(new InputStreamReader(in));
-		final List<Host> current = new ArrayList<Host>(4);
+		final List<Host> current = new ArrayList<>(4);
 		String line;
 
 		while ((line = br.readLine()) != null) {

@@ -151,8 +151,8 @@ public class FileUtils {
 		if ((options & RECURSIVE) != 0 && fs.isDirectory(f)) {
 			final File[] items = f.listFiles();
 			if (items != null) {
-				List<File> files = new ArrayList<File>();
-				List<File> dirs = new ArrayList<File>();
+				List<File> files = new ArrayList<>();
+				List<File> dirs = new ArrayList<>();
 				for (File c : items)
 					if (c.isFile())
 						files.add(c);

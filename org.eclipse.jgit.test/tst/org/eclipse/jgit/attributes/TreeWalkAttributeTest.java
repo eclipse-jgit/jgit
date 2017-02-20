@@ -204,7 +204,7 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 	@Test
 	public void testIndexOnly() throws IOException, NoFilepatternException,
 			GitAPIException {
-		List<File> attrFiles = new ArrayList<File>();
+		List<File> attrFiles = new ArrayList<>();
 		attrFiles.add(writeGlobalAttributeFile("globalAttributesFile",
 				"*.txt -custom2"));
 		attrFiles.add(writeAttributesFile(".git/info/attributes",
@@ -813,7 +813,7 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 	}
 
 	private static Set<Attribute> asSet(Collection<Attribute> attributes) {
-		Set<Attribute> ret = new HashSet<Attribute>();
+		Set<Attribute> ret = new HashSet<>();
 		for (Attribute a : attributes) {
 			ret.add(a);
 		}
@@ -853,7 +853,7 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 	}
 
 	static Set<Attribute> asSet(Attribute... attrs) {
-		HashSet<Attribute> result = new HashSet<Attribute>();
+		HashSet<Attribute> result = new HashSet<>();
 		for (Attribute attr : attrs)
 			result.add(attr);
 		return result;

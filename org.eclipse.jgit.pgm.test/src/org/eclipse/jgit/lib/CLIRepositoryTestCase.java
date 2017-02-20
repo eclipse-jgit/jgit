@@ -79,7 +79,7 @@ public class CLIRepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 * @throws Exception
 	 */
 	protected String[] executeUnchecked(String... cmds) throws Exception {
-		List<String> result = new ArrayList<String>(cmds.length);
+		List<String> result = new ArrayList<>(cmds.length);
 		for (String cmd : cmds) {
 			result.addAll(CLIGitCommand.executeUnchecked(cmd, db));
 		}
@@ -97,7 +97,7 @@ public class CLIRepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 * @throws Exception
 	 */
 	protected String[] execute(String... cmds) throws Exception {
-		List<String> result = new ArrayList<String>(cmds.length);
+		List<String> result = new ArrayList<>(cmds.length);
 		for (String cmd : cmds) {
 			Result r = CLIGitCommand.executeRaw(cmd, db);
 			if (r.ex instanceof TerminatedByHelpException) {

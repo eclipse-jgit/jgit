@@ -134,7 +134,7 @@ public abstract class ObjectReader implements AutoCloseable {
 		Collection<ObjectId> matches = resolve(abbrev);
 		while (1 < matches.size() && len < Constants.OBJECT_ID_STRING_LENGTH) {
 			abbrev = objectId.abbreviate(++len);
-			List<ObjectId> n = new ArrayList<ObjectId>(8);
+			List<ObjectId> n = new ArrayList<>(8);
 			for (ObjectId candidate : matches) {
 				if (abbrev.prefixCompare(candidate) == 0)
 					n.add(candidate);

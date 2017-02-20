@@ -53,7 +53,7 @@ class SwingCommitList extends PlotCommitList<SwingCommitList.SwingLane> {
 	final LinkedList<Color> colors;
 
 	SwingCommitList() {
-		colors = new LinkedList<Color>();
+		colors = new LinkedList<>();
 		repackColors();
 	}
 

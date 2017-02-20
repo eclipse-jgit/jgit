@@ -102,7 +102,7 @@ public class MergeCommand extends GitCommand<MergeResult> {
 
 	private MergeStrategy mergeStrategy = MergeStrategy.RECURSIVE;
 
-	private List<Ref> commits = new LinkedList<Ref>();
+	private List<Ref> commits = new LinkedList<>();
 
 	private Boolean squash;
 

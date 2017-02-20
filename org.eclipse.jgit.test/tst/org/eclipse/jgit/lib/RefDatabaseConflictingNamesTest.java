@@ -63,7 +63,7 @@ public class RefDatabaseConflictingNamesTest {
 		@Override
 		public Map<String, Ref> getRefs(String prefix) throws IOException {
 			if (ALL.equals(prefix)) {
-				Map<String, Ref> existing = new HashMap<String, Ref>();
+				Map<String, Ref> existing = new HashMap<>();
 				existing.put("refs/heads/a/b", null /* not used */);
 				existing.put("refs/heads/q", null /* not used */);
 				return existing;
@@ -141,8 +141,8 @@ public class RefDatabaseConflictingNamesTest {
 
 	private void assertConflictingNames(String proposed, String... conflicts)
 			throws IOException {
-		Set<String> expected = new HashSet<String>(Arrays.asList(conflicts));
+		Set<String> expected = new HashSet<>(Arrays.asList(conflicts));
 		assertEquals(expected,
-				new HashSet<String>(refDatabase.getConflictingNames(proposed)));
+				new HashSet<>(refDatabase.getConflictingNames(proposed)));
 	}
 }

@@ -191,7 +191,7 @@ class TransportLocal extends Transport implements PackTransport {
 				return createUploadPack(db);
 			}
 		};
-		return new InternalFetchConnection<Void>(this, upf, null, openRepo());
+		return new InternalFetchConnection<>(this, upf, null, openRepo());
 	}
 
 	@Override
@@ -207,7 +207,7 @@ class TransportLocal extends Transport implements PackTransport {
 				return createReceivePack(db);
 			}
 		};
-		return new InternalPushConnection<Void>(this, rpf, null, openRepo());
+		return new InternalPushConnection<>(this, rpf, null, openRepo());
 	}
 
 	@Override

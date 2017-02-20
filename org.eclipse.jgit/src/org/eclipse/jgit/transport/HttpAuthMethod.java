@@ -348,7 +348,7 @@ abstract class HttpAuthMethod {
 		@SuppressWarnings("boxing")
 		@Override
 		void configureRequest(final HttpConnection conn) throws IOException {
-			final Map<String, String> r = new LinkedHashMap<String, String>();
+			final Map<String, String> r = new LinkedHashMap<>();
 
 			final String realm = params.get("realm"); //$NON-NLS-1$
 			final String nonce = params.get("nonce"); //$NON-NLS-1$
@@ -467,7 +467,7 @@ abstract class HttpAuthMethod {
 		}
 
 		private static Map<String, String> parse(String auth) {
-			Map<String, String> p = new HashMap<String, String>();
+			Map<String, String> p = new HashMap<>();
 			int next = 0;
 			while (next < auth.length()) {
 				if (next < auth.length() && auth.charAt(next) == ',') {

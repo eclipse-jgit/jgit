@@ -274,8 +274,8 @@ public class DfsInserter extends ObjectInserter {
 	}
 
 	private void beginPack() throws IOException {
-		objectList = new BlockList<PackedObjectInfo>();
-		objectMap = new ObjectIdOwnerMap<PackedObjectInfo>();
+		objectList = new BlockList<>();
+		objectMap = new ObjectIdOwnerMap<>();
 		cache = DfsBlockCache.getInstance();
 
 		rollback = true;
@@ -543,7 +543,7 @@ public class DfsInserter extends ObjectInserter {
 			if (objectList == null)
 				return stored;
 
-			Set<ObjectId> r = new HashSet<ObjectId>(stored.size() + 2);
+			Set<ObjectId> r = new HashSet<>(stored.size() + 2);
 			r.addAll(stored);
 			for (PackedObjectInfo obj : objectList) {
 				if (id.prefixCompare(obj) == 0)

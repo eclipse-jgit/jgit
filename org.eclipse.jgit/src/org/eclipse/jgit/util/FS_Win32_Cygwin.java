@@ -148,7 +148,7 @@ public class FS_Win32_Cygwin extends FS_Win32 {
 
 	@Override
 	public ProcessBuilder runInShell(String cmd, String[] args) {
-		List<String> argv = new ArrayList<String>(4 + args.length);
+		List<String> argv = new ArrayList<>(4 + args.length);
 		argv.add("sh.exe"); //$NON-NLS-1$
 		argv.add("-c"); //$NON-NLS-1$
 		argv.add(cmd + " \"$@\""); //$NON-NLS-1$

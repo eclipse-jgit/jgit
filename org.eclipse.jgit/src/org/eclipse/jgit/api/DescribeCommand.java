@@ -189,7 +189,7 @@ public class DescribeCommand extends GitCommand<String> {
 			if (target == null)
 				setTarget(Constants.HEAD);
 
-			Map<ObjectId, Ref> tags = new HashMap<ObjectId, Ref>();
+			Map<ObjectId, Ref> tags = new HashMap<>();
 
 			for (Ref r : repo.getRefDatabase().getRefs(R_TAGS).values()) {
 				ObjectId key = repo.peel(r).getPeeledObjectId();
@@ -240,7 +240,7 @@ public class DescribeCommand extends GitCommand<String> {
 				}
 
 			}
-			List<Candidate> candidates = new ArrayList<Candidate>();    // all the candidates we find
+			List<Candidate> candidates = new ArrayList<>();    // all the candidates we find
 
 			// is the target already pointing to a tag? if so, we are done!
 			Ref lucky = tags.get(target);

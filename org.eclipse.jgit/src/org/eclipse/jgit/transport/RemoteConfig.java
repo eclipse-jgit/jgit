@@ -114,11 +114,11 @@ public class RemoteConfig implements Serializable {
 	 */
 	public static List<RemoteConfig> getAllRemoteConfigs(final Config rc)
 			throws URISyntaxException {
-		final List<String> names = new ArrayList<String>(rc
+		final List<String> names = new ArrayList<>(rc
 				.getSubsections(SECTION));
 		Collections.sort(names);
 
-		final List<RemoteConfig> result = new ArrayList<RemoteConfig>(names
+		final List<RemoteConfig> result = new ArrayList<>(names
 				.size());
 		for (final String name : names)
 			result.add(new RemoteConfig(rc, name));
@@ -169,24 +169,24 @@ public class RemoteConfig implements Serializable {
 
 		vlst = rc.getStringList(SECTION, name, KEY_URL);
 		Map<String, String> insteadOf = getReplacements(rc, KEY_INSTEADOF);
-		uris = new ArrayList<URIish>(vlst.length);
+		uris = new ArrayList<>(vlst.length);
 		for (final String s : vlst)
 			uris.add(new URIish(replaceUri(s, insteadOf)));
 
 		Map<String, String> pushInsteadOf = getReplacements(rc,
 				KEY_PUSHINSTEADOF);
 		vlst = rc.getStringList(SECTION, name, KEY_PUSHURL);
-		pushURIs = new ArrayList<URIish>(vlst.length);
+		pushURIs = new ArrayList<>(vlst.length);
 		for (final String s : vlst)
 			pushURIs.add(new URIish(replaceUri(s, pushInsteadOf)));
 
 		vlst = rc.getStringList(SECTION, name, KEY_FETCH);
-		fetch = new ArrayList<RefSpec>(vlst.length);
+		fetch = new ArrayList<>(vlst.length);
 		for (final String s : vlst)
 			fetch.add(new RefSpec(s));
 
 		vlst = rc.getStringList(SECTION, name, KEY_PUSH);
-		push = new ArrayList<RefSpec>(vlst.length);
+		push = new ArrayList<>(vlst.length);
 		for (final String s : vlst)
 			push.add(new RefSpec(s));
 
@@ -213,7 +213,7 @@ public class RemoteConfig implements Serializable {
 	 *            the configuration file to store ourselves into.
 	 */
 	public void update(final Config rc) {
-		final List<String> vlst = new ArrayList<String>();
+		final List<String> vlst = new ArrayList<>();
 
 		vlst.clear();
 		for (final URIish u : getURIs())
@@ -272,7 +272,7 @@ public class RemoteConfig implements Serializable {
 
 	private Map<String, String> getReplacements(final Config config,
 			final String keyName) {
-		final Map<String, String> replacements = new HashMap<String, String>();
+		final Map<String, String> replacements = new HashMap<>();
 		for (String url : config.getSubsections(KEY_URL))
 			for (String insteadOf : config.getStringList(KEY_URL, url, keyName))
 				replacements.put(insteadOf, url);

@@ -60,7 +60,7 @@ class DeltaCache {
 	DeltaCache(PackConfig pc) {
 		size = pc.getDeltaCacheSize();
 		entryLimit = pc.getDeltaCacheLimit();
-		queue = new ReferenceQueue<byte[]>();
+		queue = new ReferenceQueue<>();
 	}
 
 	boolean canCache(int length, ObjectToPack src, ObjectToPack res) {

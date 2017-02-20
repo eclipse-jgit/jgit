@@ -178,7 +178,7 @@ public class DirCacheCGitCompatabilityTest extends LocalDiskRepositoryTestCase {
 				.getObjectId());
 		assertEquals(cList.size(), jTree.getEntrySpan());
 
-		final ArrayList<CGitLsTreeRecord> subtrees = new ArrayList<CGitLsTreeRecord>();
+		final ArrayList<CGitLsTreeRecord> subtrees = new ArrayList<>();
 		for (final CGitLsTreeRecord r : cTree.values()) {
 			if (FileMode.TREE.equals(r.mode))
 				subtrees.add(r);
@@ -233,7 +233,7 @@ public class DirCacheCGitCompatabilityTest extends LocalDiskRepositoryTestCase {
 	}
 
 	private static Map<String, CGitIndexRecord> readLsFiles() throws Exception {
-		final LinkedHashMap<String, CGitIndexRecord> r = new LinkedHashMap<String, CGitIndexRecord>();
+		final LinkedHashMap<String, CGitIndexRecord> r = new LinkedHashMap<>();
 		final BufferedReader br = new BufferedReader(new InputStreamReader(
 				new FileInputStream(pathOf("gitgit.lsfiles")), "UTF-8"));
 		try {
@@ -249,7 +249,7 @@ public class DirCacheCGitCompatabilityTest extends LocalDiskRepositoryTestCase {
 	}
 
 	private static Map<String, CGitLsTreeRecord> readLsTree() throws Exception {
-		final LinkedHashMap<String, CGitLsTreeRecord> r = new LinkedHashMap<String, CGitLsTreeRecord>();
+		final LinkedHashMap<String, CGitLsTreeRecord> r = new LinkedHashMap<>();
 		final BufferedReader br = new BufferedReader(new InputStreamReader(
 				new FileInputStream(pathOf("gitgit.lstree")), "UTF-8"));
 		try {

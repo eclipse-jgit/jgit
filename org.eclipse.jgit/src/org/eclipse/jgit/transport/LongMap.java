@@ -106,7 +106,7 @@ final class LongMap<V> {
 
 		if (++size == growAt)
 			grow();
-		insert(new Node<V>(key, value));
+		insert(new Node<>(key, value));
 		return null;
 	}
 

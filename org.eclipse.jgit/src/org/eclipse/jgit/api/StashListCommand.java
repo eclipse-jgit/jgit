@@ -95,7 +95,7 @@ public class StashListCommand extends GitCommand<Collection<RevCommit>> {
 		if (stashEntries.isEmpty())
 			return Collections.emptyList();
 
-		final List<RevCommit> stashCommits = new ArrayList<RevCommit>(
+		final List<RevCommit> stashCommits = new ArrayList<>(
 				stashEntries.size());
 		try (RevWalk walk = new RevWalk(repo)) {
 			for (ReflogEntry entry : stashEntries) {

@@ -147,14 +147,14 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 			throws TransportException {
 		markStartedOperation();
 		packNames = null;
-		newRefs = new TreeMap<String, Ref>(getRefsMap());
-		packedRefUpdates = new ArrayList<RemoteRefUpdate>(refUpdates.size());
+		newRefs = new TreeMap<>(getRefsMap());
+		packedRefUpdates = new ArrayList<>(refUpdates.size());
 
 		// Filter the commands and issue all deletes first. This way we
 		// can correctly handle a directory being cleared out and a new
 		// ref using the directory name being created.
 		//
-		final List<RemoteRefUpdate> updates = new ArrayList<RemoteRefUpdate>();
+		final List<RemoteRefUpdate> updates = new ArrayList<>();
 		for (final RemoteRefUpdate u : refUpdates.values()) {
 			final String n = u.getRemoteName();
 			if (!n.startsWith("refs/") || !Repository.isValidRefName(n)) { //$NON-NLS-1$
@@ -225,8 +225,8 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 		try (final PackWriter writer = new PackWriter(transport.getPackConfig(),
 				local.newObjectReader())) {
 
-			final Set<ObjectId> need = new HashSet<ObjectId>();
-			final Set<ObjectId> have = new HashSet<ObjectId>();
+			final Set<ObjectId> need = new HashSet<>();
+			final Set<ObjectId> have = new HashSet<>();
 			for (final RemoteRefUpdate r : updates)
 				need.add(r.getNewObjectId());
 			for (final Ref r : getRefs()) {
@@ -243,7 +243,7 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 			if (writer.getObjectCount() == 0)
 				return;
 
-			packNames = new LinkedHashMap<String, String>();
+			packNames = new LinkedHashMap<>();
 			for (final String n : dest.getPackNames())
 				packNames.put(n, n);
 
@@ -279,7 +279,7 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 			// way clients are likely to consult the newest pack first,
 			// and discover the most recent objects there.
 			//
-			final ArrayList<String> infoPacks = new ArrayList<String>();
+			final ArrayList<String> infoPacks = new ArrayList<>();
 			infoPacks.add(packName);
 			infoPacks.addAll(packNames.keySet());
 			dest.writeInfoPacks(infoPacks);

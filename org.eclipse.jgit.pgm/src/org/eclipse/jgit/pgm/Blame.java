@@ -114,7 +114,7 @@ class Blame extends TextBuiltin {
 	private String rangeString;
 
 	@Option(name = "--reverse", metaVar = "metaVar_blameReverse", usage = "usage_blameReverse")
-	private List<RevCommit> reverseRange = new ArrayList<RevCommit>(2);
+	private List<RevCommit> reverseRange = new ArrayList<>(2);
 
 	@Argument(index = 0, required = false, metaVar = "metaVar_revision")
 	private String revision;
@@ -124,7 +124,7 @@ class Blame extends TextBuiltin {
 
 	private ObjectReader reader;
 
-	private final Map<RevCommit, String> abbreviatedCommits = new HashMap<RevCommit, String>();
+	private final Map<RevCommit, String> abbreviatedCommits = new HashMap<>();
 
 	private SimpleDateFormat dateFmt;
 
@@ -163,7 +163,7 @@ class Blame extends TextBuiltin {
 
 			if (!reverseRange.isEmpty()) {
 				RevCommit rangeStart = null;
-				List<RevCommit> rangeEnd = new ArrayList<RevCommit>(2);
+				List<RevCommit> rangeEnd = new ArrayList<>(2);
 				for (RevCommit c : reverseRange) {
 					if (c.has(RevFlag.UNINTERESTING))
 						rangeStart = c;

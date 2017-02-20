@@ -110,7 +110,7 @@ public class RecursiveMergerTest extends RepositoryTestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		db_t = new TestRepository<FileRepository>(db);
+		db_t = new TestRepository<>(db);
 	}
 
 	@Theory
@@ -778,7 +778,7 @@ public class RecursiveMergerTest extends RepositoryTestCase {
 			db.close();
 			file.delete();
 			db = new FileRepository(db.getDirectory());
-			db_t = new TestRepository<FileRepository>(db);
+			db_t = new TestRepository<>(db);
 			break;
 		}
 	}
@@ -846,7 +846,7 @@ public class RecursiveMergerTest extends RepositoryTestCase {
 				db.getConfig().setBoolean("core", null, "bare", true);
 				db.getDirectory().renameTo(new File(workTreeFile, "test.git"));
 				db = new FileRepository(new File(workTreeFile, "test.git"));
-				db_t = new TestRepository<FileRepository>(db);
+				db_t = new TestRepository<>(db);
 			}
 		} finally {
 			if (fos != null)

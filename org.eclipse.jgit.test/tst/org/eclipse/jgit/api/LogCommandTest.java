@@ -62,7 +62,7 @@ public class LogCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void logAllCommits() throws Exception {
-		List<RevCommit> commits = new ArrayList<RevCommit>();
+		List<RevCommit> commits = new ArrayList<>();
 		Git git = Git.wrap(db);
 
 		writeTrashFile("Test.txt", "Hello world");
@@ -94,7 +94,7 @@ public class LogCommandTest extends RepositoryTestCase {
 
     @Test
     public void logAllCommitsWithTag() throws Exception {
-		List<RevCommit> commits = new ArrayList<RevCommit>();
+		List<RevCommit> commits = new ArrayList<>();
 		Git git = Git.wrap(db);
 
 		writeTrashFile("Test.txt", "Hello world");
@@ -123,7 +123,7 @@ public class LogCommandTest extends RepositoryTestCase {
 	}
 
 	private List<RevCommit> createCommits(Git git) throws Exception {
-		List<RevCommit> commits = new ArrayList<RevCommit>();
+		List<RevCommit> commits = new ArrayList<>();
 		writeTrashFile("Test.txt", "Hello world");
 		git.add().addFilepattern("Test.txt").call();
 		commits.add(git.commit().setMessage("commit#1").call());

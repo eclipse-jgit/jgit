@@ -96,7 +96,7 @@ class BaseSearch {
 		edgeObjects = edges;
 
 		alreadyProcessed = new IntSet();
-		treeCache = new ObjectIdOwnerMap<TreeWithData>();
+		treeCache = new ObjectIdOwnerMap<>();
 		parser = new CanonicalTreeParser();
 		idBuf = new MutableObjectId();
 	}

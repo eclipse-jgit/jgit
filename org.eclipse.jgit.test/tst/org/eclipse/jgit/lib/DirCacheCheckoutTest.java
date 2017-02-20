@@ -130,7 +130,7 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 		if ((args.length % 2) > 0)
 			throw new IllegalArgumentException("needs to be pairs");
 
-		HashMap<String, String> map = new HashMap<String, String>();
+		HashMap<String, String> map = new HashMap<>();
 		for (int i = 0; i < args.length; i += 2) {
 			map.put(args[i], args[i + 1]);
 		}
@@ -228,7 +228,7 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 	@Test
 	public void testInitialCheckout() throws Exception {
 		try (Git git = new Git(db)) {
-			TestRepository<Repository> db_t = new TestRepository<Repository>(db);
+			TestRepository<Repository> db_t = new TestRepository<>(db);
 			BranchBuilder master = db_t.branch("master");
 			master.commit().add("f", "1").message("m0").create();
 			assertFalse(new File(db.getWorkTree(), "f").exists());
@@ -377,7 +377,7 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 		// rules 4 and 5
 		HashMap<String, String> idxMap;
 
-		idxMap = new HashMap<String, String>();
+		idxMap = new HashMap<>();
 		idxMap.put("foo", "foo");
 		setupCase(null, null, idxMap);
 		go();
@@ -387,7 +387,7 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 		assertTrue(getConflicts().isEmpty());
 
 		// rules 6 and 7
-		idxMap = new HashMap<String, String>();
+		idxMap = new HashMap<>();
 		idxMap.put("foo", "foo");
 		setupCase(null, idxMap, idxMap);
 		go();
@@ -396,7 +396,7 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 
 		// rules 8 and 9
 		HashMap<String, String> mergeMap;
-		mergeMap = new HashMap<String, String>();
+		mergeMap = new HashMap<>();
 
 		mergeMap.put("foo", "merge");
 		setupCase(null, mergeMap, idxMap);
@@ -408,7 +408,7 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 
 		// rule 10
 
-		HashMap<String, String> headMap = new HashMap<String, String>();
+		HashMap<String, String> headMap = new HashMap<>();
 		headMap.put("foo", "foo");
 		setupCase(headMap, null, idxMap);
 		go();

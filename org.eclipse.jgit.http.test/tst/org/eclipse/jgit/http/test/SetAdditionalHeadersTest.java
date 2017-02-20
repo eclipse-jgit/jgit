@@ -112,7 +112,7 @@ public class SetAdditionalHeadersTest extends HttpTestCase {
 			assertTrue("isa TransportHttp", t instanceof TransportHttp);
 			assertTrue("isa HttpTransport", t instanceof HttpTransport);
 
-			HashMap<String, String> headers = new HashMap<String, String>();
+			HashMap<String, String> headers = new HashMap<>();
 			headers.put("Cookie", "someTokenValue=23gBog34");
 			headers.put("AnotherKey", "someValue");
 			((TransportHttp) t).setAdditionalHeaders(headers);

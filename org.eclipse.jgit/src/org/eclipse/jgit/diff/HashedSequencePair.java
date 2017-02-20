@@ -81,7 +81,7 @@ public class HashedSequencePair<S extends Sequence> {
 
 	/** @return obtain a comparator that uses the cached hash codes. */
 	public HashedSequenceComparator<S> getComparator() {
-		return new HashedSequenceComparator<S>(cmp);
+		return new HashedSequenceComparator<>(cmp);
 	}
 
 	/** @return wrapper around A that includes cached hash codes. */
@@ -103,6 +103,6 @@ public class HashedSequencePair<S extends Sequence> {
 		final int[] hashes = new int[end];
 		for (int ptr = 0; ptr < end; ptr++)
 			hashes[ptr] = cmp.hash(base, ptr);
-		return new HashedSequence<S>(base, hashes);
+		return new HashedSequence<>(base, hashes);
 	}
 }

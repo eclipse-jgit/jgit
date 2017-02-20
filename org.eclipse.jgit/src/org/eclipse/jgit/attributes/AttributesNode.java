@@ -65,7 +65,7 @@ public class AttributesNode {
 
 	/** Create an empty ignore node with no rules. */
 	public AttributesNode() {
-		rules = new ArrayList<AttributesRule>();
+		rules = new ArrayList<>();
 	}
 
 	/**

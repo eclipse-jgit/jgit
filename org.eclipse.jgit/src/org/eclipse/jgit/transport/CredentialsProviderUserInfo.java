@@ -141,7 +141,7 @@ public class CredentialsProviderUserInfo implements UserInfo,
 		for (int i = 0; i < prompt.length; i++)
 			v[i] = new CredentialItem.StringType(prompt[i], !echo[i]);
 
-		List<CredentialItem> items = new ArrayList<CredentialItem>();
+		List<CredentialItem> items = new ArrayList<>();
 		if (instruction != null && instruction.length() > 0)
 			items.add(new CredentialItem.InformationalMessage(instruction));
 		items.addAll(Arrays.asList(v));

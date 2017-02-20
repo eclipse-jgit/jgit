@@ -142,7 +142,7 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 			throws IOException {
 		if (id.isComplete())
 			return Collections.singleton(id.toObjectId());
-		HashSet<ObjectId> matches = new HashSet<ObjectId>(4);
+		HashSet<ObjectId> matches = new HashSet<>(4);
 		db.resolve(matches, id);
 		return matches;
 	}

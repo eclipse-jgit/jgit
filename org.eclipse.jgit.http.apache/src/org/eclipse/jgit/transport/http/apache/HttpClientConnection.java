@@ -264,9 +264,9 @@ public class HttpClientConnection implements HttpConnection {
 
 	@Override
 	public Map<String, List<String>> getHeaderFields() {
-		Map<String, List<String>> ret = new HashMap<String, List<String>>();
+		Map<String, List<String>> ret = new HashMap<>();
 		for (Header hdr : resp.getAllHeaders()) {
-			List<String> list = new LinkedList<String>();
+			List<String> list = new LinkedList<>();
 			for (HeaderElement hdrElem : hdr.getElements())
 				list.add(hdrElem.toString());
 			ret.put(hdr.getName(), list);

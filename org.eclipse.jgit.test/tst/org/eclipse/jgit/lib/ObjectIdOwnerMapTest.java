@@ -73,7 +73,7 @@ public class ObjectIdOwnerMapTest {
 
 	@Test
 	public void testEmptyMap() {
-		ObjectIdOwnerMap<SubId> m = new ObjectIdOwnerMap<SubId>();
+		ObjectIdOwnerMap<SubId> m = new ObjectIdOwnerMap<>();
 		assertTrue(m.isEmpty());
 		assertEquals(0, m.size());
 
@@ -86,7 +86,7 @@ public class ObjectIdOwnerMapTest {
 
 	@Test
 	public void testAddGetAndContains() {
-		ObjectIdOwnerMap<SubId> m = new ObjectIdOwnerMap<SubId>();
+		ObjectIdOwnerMap<SubId> m = new ObjectIdOwnerMap<>();
 		m.add(id_1);
 		m.add(id_2);
 		m.add(id_3);
@@ -108,7 +108,7 @@ public class ObjectIdOwnerMapTest {
 
 	@Test
 	public void testClear() {
-		ObjectIdOwnerMap<SubId> m = new ObjectIdOwnerMap<SubId>();
+		ObjectIdOwnerMap<SubId> m = new ObjectIdOwnerMap<>();
 
 		m.add(id_1);
 		assertSame(id_1, m.get(id_1));
@@ -126,7 +126,7 @@ public class ObjectIdOwnerMapTest {
 
 	@Test
 	public void testAddIfAbsent() {
-		ObjectIdOwnerMap<SubId> m = new ObjectIdOwnerMap<SubId>();
+		ObjectIdOwnerMap<SubId> m = new ObjectIdOwnerMap<>();
 		m.add(id_1);
 
 		assertSame(id_1, m.addIfAbsent(new SubId(id_1)));
@@ -145,7 +145,7 @@ public class ObjectIdOwnerMapTest {
 	@Test
 	public void testAddGrowsWithObjects() {
 		int n = 16384;
-		ObjectIdOwnerMap<SubId> m = new ObjectIdOwnerMap<SubId>();
+		ObjectIdOwnerMap<SubId> m = new ObjectIdOwnerMap<>();
 		m.add(id_1);
 		for (int i = 32; i < n; i++)
 			m.add(new SubId(id(i)));
@@ -159,7 +159,7 @@ public class ObjectIdOwnerMapTest {
 	@Test
 	public void testAddIfAbsentGrowsWithObjects() {
 		int n = 16384;
-		ObjectIdOwnerMap<SubId> m = new ObjectIdOwnerMap<SubId>();
+		ObjectIdOwnerMap<SubId> m = new ObjectIdOwnerMap<>();
 		m.add(id_1);
 		for (int i = 32; i < n; i++)
 			m.addIfAbsent(new SubId(id(i)));
@@ -172,7 +172,7 @@ public class ObjectIdOwnerMapTest {
 
 	@Test
 	public void testIterator() {
-		ObjectIdOwnerMap<SubId> m = new ObjectIdOwnerMap<SubId>();
+		ObjectIdOwnerMap<SubId> m = new ObjectIdOwnerMap<>();
 		m.add(id_1);
 		m.add(id_2);
 		m.add(id_3);

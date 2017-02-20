@@ -299,7 +299,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 					org.eclipse.jgit.api.Status status = Git.wrap(repo)
 							.status().setIgnoreSubmodules(IgnoreSubmoduleMode.ALL).call();
 					if (status.hasUncommittedChanges()) {
-						List<String> list = new ArrayList<String>();
+						List<String> list = new ArrayList<>();
 						list.addAll(status.getUncommittedChanges());
 						return RebaseResult.uncommittedChanges(list);
 					}
@@ -650,7 +650,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	// Get the rewritten equivalents for the parents of the given commit
 	private List<RevCommit> getNewParents(RevCommit commitToPick)
 			throws IOException {
-		List<RevCommit> newParents = new ArrayList<RevCommit>();
+		List<RevCommit> newParents = new ArrayList<>();
 		for (int p = 0; p < commitToPick.getParentCount(); p++) {
 			String parentHash = commitToPick.getParent(p).getName();
 			if (!new File(rebaseState.getRewrittenDir(), parentHash).exists())
@@ -1056,8 +1056,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	private void popSteps(int numSteps) throws IOException {
 		if (numSteps == 0)
 			return;
-		List<RebaseTodoLine> todoLines = new LinkedList<RebaseTodoLine>();
-		List<RebaseTodoLine> poppedLines = new LinkedList<RebaseTodoLine>();
+		List<RebaseTodoLine> todoLines = new LinkedList<>();
+		List<RebaseTodoLine> poppedLines = new LinkedList<>();
 
 		for (RebaseTodoLine line : repo.readRebaseTodo(
 				rebaseState.getPath(GIT_REBASE_TODO), true)) {
@@ -1122,7 +1122,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		}
 		rebaseState.createFile(QUIET, ""); //$NON-NLS-1$
 
-		ArrayList<RebaseTodoLine> toDoSteps = new ArrayList<RebaseTodoLine>();
+		ArrayList<RebaseTodoLine> toDoSteps = new ArrayList<>();
 		toDoSteps.add(new RebaseTodoLine("# Created by EGit: rebasing " + headId.name() //$NON-NLS-1$
 						+ " onto " + upstreamCommit.name())); //$NON-NLS-1$
 		// determine the commits to be applied
@@ -1158,7 +1158,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			LogCommand cmd = git.log().addRange(upstreamCommit, headCommit);
 			commitsToUse = cmd.call();
 		}
-		List<RevCommit> cherryPickList = new ArrayList<RevCommit>();
+		List<RevCommit> cherryPickList = new ArrayList<>();
 		for (RevCommit commit : commitsToUse) {
 			if (preserveMerges || commit.getParentCount() == 1)
 				cherryPickList.add(commit);
@@ -1605,7 +1605,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		if (raw.length == 0)
 			return null;
 
-		Map<String, String> keyValueMap = new HashMap<String, String>();
+		Map<String, String> keyValueMap = new HashMap<>();
 		for (int p = 0; p < raw.length;) {
 			int end = RawParseUtils.nextLF(raw, p);
 			if (end == p)

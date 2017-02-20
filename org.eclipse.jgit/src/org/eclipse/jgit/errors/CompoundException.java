@@ -75,7 +75,7 @@ public class CompoundException extends Exception {
 	 */
 	public CompoundException(final Collection<Throwable> why) {
 		super(format(why));
-		causeList = Collections.unmodifiableList(new ArrayList<Throwable>(why));
+		causeList = Collections.unmodifiableList(new ArrayList<>(why));
 	}
 
 	/**

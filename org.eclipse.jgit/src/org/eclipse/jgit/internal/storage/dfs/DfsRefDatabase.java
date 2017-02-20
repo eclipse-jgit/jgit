@@ -78,7 +78,7 @@ public abstract class DfsRefDatabase extends RefDatabase {
 	 */
 	protected DfsRefDatabase(DfsRepository repository) {
 		this.repository = repository;
-		this.cache = new AtomicReference<RefCache>();
+		this.cache = new AtomicReference<>();
 	}
 
 	/** @return the repository the database holds the references of. */
@@ -120,7 +120,7 @@ public abstract class DfsRefDatabase extends RefDatabase {
 		RefCache curr = read();
 		RefList<Ref> packed = RefList.emptyList();
 		RefList<Ref> loose = curr.ids;
-		RefList.Builder<Ref> sym = new RefList.Builder<Ref>(curr.sym.size());
+		RefList.Builder<Ref> sym = new RefList.Builder<>(curr.sym.size());
 
 		for (int idx = 0; idx < curr.sym.size(); idx++) {
 			Ref ref = curr.sym.get(idx);

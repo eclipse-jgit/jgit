@@ -112,7 +112,7 @@ class RebuildCommitGraph extends TextBuiltin {
 
 	private final ProgressMonitor pm = new TextProgressMonitor(errw);
 
-	private Map<ObjectId, ObjectId> rewrites = new HashMap<ObjectId, ObjectId>();
+	private Map<ObjectId, ObjectId> rewrites = new HashMap<>();
 
 	@Override
 	protected void run() throws Exception {
@@ -137,8 +137,8 @@ class RebuildCommitGraph extends TextBuiltin {
 	}
 
 	private void recreateCommitGraph() throws IOException {
-		final Map<ObjectId, ToRewrite> toRewrite = new HashMap<ObjectId, ToRewrite>();
-		List<ToRewrite> queue = new ArrayList<ToRewrite>();
+		final Map<ObjectId, ToRewrite> toRewrite = new HashMap<>();
+		List<ToRewrite> queue = new ArrayList<>();
 		try (RevWalk rw = new RevWalk(db);
 				final BufferedReader br = new BufferedReader(
 						new InputStreamReader(new FileInputStream(graph),
@@ -176,7 +176,7 @@ class RebuildCommitGraph extends TextBuiltin {
 			while (!queue.isEmpty()) {
 				final ListIterator<ToRewrite> itr = queue
 						.listIterator(queue.size());
-				queue = new ArrayList<ToRewrite>();
+				queue = new ArrayList<>();
 				REWRITE: while (itr.hasPrevious()) {
 					final ToRewrite t = itr.previous();
 					final ObjectId[] newParents = new ObjectId[t.oldParents.length];
@@ -278,7 +278,7 @@ class RebuildCommitGraph extends TextBuiltin {
 	}
 
 	private Map<String, Ref> computeNewRefs() throws IOException {
-		final Map<String, Ref> refs = new HashMap<String, Ref>();
+		final Map<String, Ref> refs = new HashMap<>();
 		try (RevWalk rw = new RevWalk(db);
 				BufferedReader br = new BufferedReader(
 						new InputStreamReader(new FileInputStream(refList),
