@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_ab7e7d5b",
+        "filename": "org.eclipse.jgit.ant.test/META-INF/MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-02-20T23:47:23Z",
+      "side": 1,
+      "message": "Done in https://git.eclipse.org/r/91510",
+      "parentUuid": "a7c23755_027d968d",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 64
+      },
+      "revId": "30fea7ca4bed930ab9edca9887162abef5fc1369",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_e29a5a7a",
         "filename": "org.eclipse.jgit.ant.test/META-INF/MANIFEST.MF",
         "patchSetId": 1
