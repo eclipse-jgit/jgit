@@ -98,10 +98,10 @@ public class TestProtocolTest {
 
   @Before
 	public void setUp() throws Exception {
-		protos = new ArrayList<TransportProtocol>();
-		local = new TestRepository<InMemoryRepository>(
+		protos = new ArrayList<>();
+		local = new TestRepository<>(
 				new InMemoryRepository(new DfsRepositoryDescription("local")));
-		remote = new TestRepository<InMemoryRepository>(
+		remote = new TestRepository<>(
 				new InMemoryRepository(new DfsRepositoryDescription("remote")));
   }
 
@@ -240,7 +240,7 @@ public class TestProtocolTest {
 
 	private TestProtocol<User> registerProto(UploadPackFactory<User> upf,
 			ReceivePackFactory<User> rpf) {
-		TestProtocol<User> proto = new TestProtocol<User>(upf, rpf);
+		TestProtocol<User> proto = new TestProtocol<>(upf, rpf);
 		protos.add(proto);
 		Transport.register(proto);
 		return proto;

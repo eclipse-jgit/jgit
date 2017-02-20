@@ -113,7 +113,7 @@ public class HttpAuthTest {
 	}
 
 	private static class AuthHeadersResponse extends JDKHttpConnection {
-		Map<String, List<String>> headerFields = new HashMap<String, List<String>>();
+		Map<String, List<String>> headerFields = new HashMap<>();
 
 		public AuthHeadersResponse(String[] authHeaders)
 				throws MalformedURLException, IOException {

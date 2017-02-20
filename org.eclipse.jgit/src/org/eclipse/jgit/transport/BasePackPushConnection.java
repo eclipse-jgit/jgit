@@ -328,8 +328,8 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 
 	private void writePack(final Map<String, RemoteRefUpdate> refUpdates,
 			final ProgressMonitor monitor) throws IOException {
-		Set<ObjectId> remoteObjects = new HashSet<ObjectId>();
-		Set<ObjectId> newObjects = new HashSet<ObjectId>();
+		Set<ObjectId> remoteObjects = new HashSet<>();
+		Set<ObjectId> newObjects = new HashSet<>();
 
 		try (final PackWriter writer = new PackWriter(transport.getPackConfig(),
 				local.newObjectReader())) {

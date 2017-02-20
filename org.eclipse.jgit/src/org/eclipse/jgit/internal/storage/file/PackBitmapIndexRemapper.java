@@ -107,7 +107,7 @@ public class PackBitmapIndexRemapper extends PackBitmapIndex
 			BasePackBitmapIndex oldPackIndex, PackBitmapIndex newPackIndex) {
 		this.oldPackIndex = oldPackIndex;
 		this.newPackIndex = newPackIndex;
-		convertedBitmaps = new ObjectIdOwnerMap<StoredBitmap>();
+		convertedBitmaps = new ObjectIdOwnerMap<>();
 		inflated = new BitSet(newPackIndex.getObjectCount());
 
 		prevToNewMapping = new int[oldPackIndex.getObjectCount()];

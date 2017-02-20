@@ -226,8 +226,8 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	private RevWalk(ObjectReader or, boolean closeReader) {
 		reader = or;
 		idBuffer = new MutableObjectId();
-		objects = new ObjectIdOwnerMap<RevObject>();
-		roots = new ArrayList<RevCommit>();
+		objects = new ObjectIdOwnerMap<>();
+		roots = new ArrayList<>();
 		queue = new DateRevQueue();
 		pending = new StartGenerator(this);
 		sorting = EnumSet.of(RevSort.NONE);
@@ -931,8 +931,8 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 */
 	public <T extends ObjectId> AsyncRevObjectQueue parseAny(
 			Iterable<T> objectIds, boolean reportMissing) {
-		List<T> need = new ArrayList<T>();
-		List<RevObject> have = new ArrayList<RevObject>();
+		List<T> need = new ArrayList<>();
+		List<RevObject> have = new ArrayList<>();
 		for (T id : objectIds) {
 			RevObject r = objects.get(id);
 			if (r != null && (r.flags & PARSED) != 0)

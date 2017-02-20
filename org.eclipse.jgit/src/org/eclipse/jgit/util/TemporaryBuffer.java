@@ -325,7 +325,7 @@ public abstract class TemporaryBuffer extends OutputStream {
 		if (blocks != null)
 			blocks.clear();
 		else
-			blocks = new ArrayList<Block>(initialBlocks);
+			blocks = new ArrayList<>(initialBlocks);
 		blocks.add(new Block(Math.min(inCoreLimit, Block.SZ)));
 	}
 

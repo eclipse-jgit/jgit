@@ -188,14 +188,14 @@ public class LsRemoteCommand extends
 				: Transport.open(new URIish(remote))) {
 			transport.setOptionUploadPack(uploadPack);
 			configure(transport);
-			Collection<RefSpec> refSpecs = new ArrayList<RefSpec>(1);
+			Collection<RefSpec> refSpecs = new ArrayList<>(1);
 			if (tags)
 				refSpecs.add(new RefSpec(
 						"refs/tags/*:refs/remotes/origin/tags/*")); //$NON-NLS-1$
 			if (heads)
 				refSpecs.add(new RefSpec("refs/heads/*:refs/remotes/origin/*")); //$NON-NLS-1$
 			Collection<Ref> refs;
-			Map<String, Ref> refmap = new HashMap<String, Ref>();
+			Map<String, Ref> refmap = new HashMap<>();
 			try (FetchConnection fc = transport.openFetch()) {
 				refs = fc.getRefs();
 				if (refSpecs.isEmpty())

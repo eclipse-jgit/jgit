@@ -66,7 +66,7 @@ public final class Subsequence<S extends Sequence> extends Sequence {
 	 * @return subsequence of {@code base} as described by A in {@code region}.
 	 */
 	public static <S extends Sequence> Subsequence<S> a(S a, Edit region) {
-		return new Subsequence<S>(a, region.beginA, region.endA);
+		return new Subsequence<>(a, region.beginA, region.endA);
 	}
 
 	/**
@@ -81,7 +81,7 @@ public final class Subsequence<S extends Sequence> extends Sequence {
 	 * @return subsequence of {@code base} as described by B in {@code region}.
 	 */
 	public static <S extends Sequence> Subsequence<S> b(S b, Edit region) {
-		return new Subsequence<S>(b, region.beginB, region.endB);
+		return new Subsequence<>(b, region.beginB, region.endB);
 	}
 
 	/**

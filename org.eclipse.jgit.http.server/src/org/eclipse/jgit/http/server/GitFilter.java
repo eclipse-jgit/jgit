@@ -95,9 +95,9 @@ public class GitFilter extends MetaFilter {
 
 	private ReceivePackFactory<HttpServletRequest> receivePackFactory = new DefaultReceivePackFactory();
 
-	private final List<Filter> uploadPackFilters = new LinkedList<Filter>();
+	private final List<Filter> uploadPackFilters = new LinkedList<>();
 
-	private final List<Filter> receivePackFilters = new LinkedList<Filter>();
+	private final List<Filter> receivePackFilters = new LinkedList<>();
 
 	/**
 	 * New servlet that will load its base directory from {@code web.xml}.

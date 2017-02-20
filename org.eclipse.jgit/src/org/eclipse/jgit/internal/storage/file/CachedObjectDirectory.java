@@ -90,7 +90,7 @@ class CachedObjectDirectory extends FileObjectDatabase {
 	}
 
 	private ObjectIdOwnerMap<UnpackedObjectId> scanLoose() {
-		ObjectIdOwnerMap<UnpackedObjectId> m = new ObjectIdOwnerMap<UnpackedObjectId>();
+		ObjectIdOwnerMap<UnpackedObjectId> m = new ObjectIdOwnerMap<>();
 		File objects = wrapped.getDirectory();
 		String[] fanout = objects.list();
 		if (fanout == null)

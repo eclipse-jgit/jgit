@@ -51,7 +51,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 /** Abstract authenticator which remembers prior authentications. */
 public abstract class CachedAuthenticator extends Authenticator {
-	private static final Collection<CachedAuthentication> cached = new CopyOnWriteArrayList<CachedAuthentication>();
+	private static final Collection<CachedAuthentication> cached = new CopyOnWriteArrayList<>();
 
 	/**
 	 * Add a cached authentication for future use.

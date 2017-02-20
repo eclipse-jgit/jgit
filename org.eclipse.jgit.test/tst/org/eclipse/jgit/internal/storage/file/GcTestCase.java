@@ -67,7 +67,7 @@ public abstract class GcTestCase extends LocalDiskRepositoryTestCase {
 	public void setUp() throws Exception {
 		super.setUp();
 		repo = createWorkRepository();
-		tr = new TestRepository<FileRepository>(repo, new RevWalk(repo),
+		tr = new TestRepository<>(repo, new RevWalk(repo),
 				mockSystemReader);
 		gc = new GC(repo);
 	}

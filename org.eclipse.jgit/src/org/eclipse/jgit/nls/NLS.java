@@ -120,7 +120,7 @@ public class NLS {
 	}
 
 	final private Locale locale;
-	final private ConcurrentHashMap<Class, TranslationBundle> map = new ConcurrentHashMap<Class, TranslationBundle>();
+	final private ConcurrentHashMap<Class, TranslationBundle> map = new ConcurrentHashMap<>();
 
 	private NLS(Locale locale) {
 		this.locale = locale;

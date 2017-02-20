@@ -125,7 +125,7 @@ public class NetRC {
 
 	private long lastModified;
 
-	private Map<String, NetRCEntry> hosts = new HashMap<String, NetRCEntry>();
+	private Map<String, NetRCEntry> hosts = new HashMap<>();
 
 	private static final TreeMap<String, State> STATE = new TreeMap<String, NetRC.State>() {
 		private static final long serialVersionUID = -4285910831814853334L;

@@ -132,8 +132,8 @@ public class ManifestParser extends DefaultHandler {
 			lastIndex--;
 		this.baseUrl = baseUrl.substring(0, lastIndex + 1);
 
-		plusGroups = new HashSet<String>();
-		minusGroups = new HashSet<String>();
+		plusGroups = new HashSet<>();
+		minusGroups = new HashSet<>();
 		if (groups == null || groups.length() == 0
 				|| groups.equals("default")) { //$NON-NLS-1$
 			// default means "all,-notdefault"
@@ -147,9 +147,9 @@ public class ManifestParser extends DefaultHandler {
 			}
 		}
 
-		remotes = new HashMap<String, Remote>();
-		projects = new ArrayList<RepoProject>();
-		filteredProjects = new ArrayList<RepoProject>();
+		remotes = new HashMap<>();
+		projects = new ArrayList<>();
+		filteredProjects = new ArrayList<>();
 	}
 
 	/**
@@ -258,7 +258,7 @@ public class ManifestParser extends DefaultHandler {
 			return;
 
 		// Only do the following after we finished reading everything.
-		Map<String, String> remoteUrls = new HashMap<String, String>();
+		Map<String, String> remoteUrls = new HashMap<>();
 		URI baseUri;
 		try {
 			baseUri = new URI(baseUrl);

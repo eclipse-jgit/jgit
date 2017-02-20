@@ -180,7 +180,7 @@ public class CheckoutCommand extends GitCommand<Ref> {
 	 */
 	protected CheckoutCommand(Repository repo) {
 		super(repo);
-		this.paths = new LinkedList<String>();
+		this.paths = new LinkedList<>();
 	}
 
 	/**
@@ -320,10 +320,10 @@ public class CheckoutCommand extends GitCommand<Ref> {
 			if (!dco.getToBeDeleted().isEmpty()) {
 				status = new CheckoutResult(Status.NONDELETED,
 						dco.getToBeDeleted(),
-						new ArrayList<String>(dco.getUpdated().keySet()),
+						new ArrayList<>(dco.getUpdated().keySet()),
 						dco.getRemoved());
 			} else
-				status = new CheckoutResult(new ArrayList<String>(dco
+				status = new CheckoutResult(new ArrayList<>(dco
 						.getUpdated().keySet()), dco.getRemoved());
 
 			return ref;

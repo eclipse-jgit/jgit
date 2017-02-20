@@ -55,7 +55,7 @@ import org.eclipse.jgit.api.ArchiveCommand;
  * that performs the same registration automatically.
  */
 public class ArchiveFormats {
-	private static final List<String> myFormats = new ArrayList<String>();
+	private static final List<String> myFormats = new ArrayList<>();
 
 	private static final void register(String name, ArchiveCommand.Format<?> fmt) {
 		myFormats.add(name);

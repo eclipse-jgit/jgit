@@ -122,7 +122,7 @@ public class Config {
 	 */
 	public Config(Config defaultConfig) {
 		baseConfig = defaultConfig;
-		state = new AtomicReference<ConfigSnapshot>(newState());
+		state = new AtomicReference<>(newState());
 	}
 
 	/**
@@ -960,7 +960,7 @@ public class Config {
 			final String section,
 			final String subsection) {
 		final int max = srcState.entryList.size();
-		final ArrayList<ConfigLine> r = new ArrayList<ConfigLine>(max);
+		final ArrayList<ConfigLine> r = new ArrayList<>(max);
 
 		boolean lastWasMatch = false;
 		for (ConfigLine e : srcState.entryList) {
@@ -1075,7 +1075,7 @@ public class Config {
 		// for a new section header. Assume that and allocate the space.
 		//
 		final int max = src.entryList.size() + values.size() + 1;
-		final ArrayList<ConfigLine> r = new ArrayList<ConfigLine>(max);
+		final ArrayList<ConfigLine> r = new ArrayList<>(max);
 		r.addAll(src.entryList);
 		return r;
 	}
@@ -1163,7 +1163,7 @@ public class Config {
 			throw new ConfigInvalidException(
 					JGitText.get().tooManyIncludeRecursions);
 		}
-		final List<ConfigLine> newEntries = new ArrayList<ConfigLine>();
+		final List<ConfigLine> newEntries = new ArrayList<>();
 		final StringReader in = new StringReader(text);
 		ConfigLine last = null;
 		ConfigLine e = new ConfigLine();

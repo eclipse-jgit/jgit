@@ -123,7 +123,7 @@ public class PlotCommitListTest extends RevWalkTestCase {
 	}
 
 	private static Set<Integer> asSet(int... numbers) {
-		Set<Integer> result = new HashSet<Integer>();
+		Set<Integer> result = new HashSet<>();
 		for (int n : numbers)
 			result.add(Integer.valueOf(n));
 		return result;
@@ -138,7 +138,7 @@ public class PlotCommitListTest extends RevWalkTestCase {
 		PlotWalk pw = new PlotWalk(db);
 		pw.markStart(pw.lookupCommit(c.getId()));
 
-		PlotCommitList<PlotLane> pcl = new PlotCommitList<PlotLane>();
+		PlotCommitList<PlotLane> pcl = new PlotCommitList<>();
 		pcl.source(pw);
 		pcl.fillTo(Integer.MAX_VALUE);
 
@@ -159,7 +159,7 @@ public class PlotCommitListTest extends RevWalkTestCase {
 		PlotWalk pw = new PlotWalk(db);
 		pw.markStart(pw.lookupCommit(d.getId()));
 
-		PlotCommitList<PlotLane> pcl = new PlotCommitList<PlotLane>();
+		PlotCommitList<PlotLane> pcl = new PlotCommitList<>();
 		pcl.source(pw);
 		pcl.fillTo(Integer.MAX_VALUE);
 
@@ -181,7 +181,7 @@ public class PlotCommitListTest extends RevWalkTestCase {
 		pw.markStart(pw.lookupCommit(b.getId()));
 		pw.markStart(pw.lookupCommit(c.getId()));
 
-		PlotCommitList<PlotLane> pcl = new PlotCommitList<PlotLane>();
+		PlotCommitList<PlotLane> pcl = new PlotCommitList<>();
 		pcl.source(pw);
 		pcl.fillTo(Integer.MAX_VALUE);
 
@@ -205,7 +205,7 @@ public class PlotCommitListTest extends RevWalkTestCase {
 		pw.markStart(pw.lookupCommit(c.getId()));
 		pw.markStart(pw.lookupCommit(d.getId()));
 
-		PlotCommitList<PlotLane> pcl = new PlotCommitList<PlotLane>();
+		PlotCommitList<PlotLane> pcl = new PlotCommitList<>();
 		pcl.source(pw);
 		pcl.fillTo(Integer.MAX_VALUE);
 
@@ -240,7 +240,7 @@ public class PlotCommitListTest extends RevWalkTestCase {
 		// pw.markStart(pw.lookupCommit(f.getId()));
 		pw.markStart(pw.lookupCommit(g.getId()));
 
-		PlotCommitList<PlotLane> pcl = new PlotCommitList<PlotLane>();
+		PlotCommitList<PlotLane> pcl = new PlotCommitList<>();
 		pcl.source(pw);
 		pcl.fillTo(Integer.MAX_VALUE);
 
@@ -274,7 +274,7 @@ public class PlotCommitListTest extends RevWalkTestCase {
 		pw.markStart(pw.lookupCommit(i.getId()));
 		pw.markStart(pw.lookupCommit(g.getId()));
 
-		PlotCommitList<PlotLane> pcl = new PlotCommitList<PlotLane>();
+		PlotCommitList<PlotLane> pcl = new PlotCommitList<>();
 		pcl.source(pw);
 		pcl.fillTo(Integer.MAX_VALUE);
 		Set<Integer> childPositions = asSet(0, 1);
@@ -333,7 +333,7 @@ public class PlotCommitListTest extends RevWalkTestCase {
 		PlotWalk pw = new PlotWalk(db);
 		pw.markStart(pw.lookupCommit(merge_fixed_logged_npe.getId()));
 
-		PlotCommitList<PlotLane> pcl = new PlotCommitList<PlotLane>();
+		PlotCommitList<PlotLane> pcl = new PlotCommitList<>();
 		pcl.source(pw);
 		pcl.fillTo(Integer.MAX_VALUE);
 
@@ -406,7 +406,7 @@ public class PlotCommitListTest extends RevWalkTestCase {
 		PlotWalk pw = new PlotWalk(db);
 		pw.markStart(pw.lookupCommit(m3));
 		pw.markStart(pw.lookupCommit(s2));
-		PlotCommitList<PlotLane> pcl = new PlotCommitList<PlotLane>();
+		PlotCommitList<PlotLane> pcl = new PlotCommitList<>();
 		pcl.source(pw);
 		pcl.fillTo(Integer.MAX_VALUE);
 
@@ -471,7 +471,7 @@ public class PlotCommitListTest extends RevWalkTestCase {
 		pw.markStart(pw.lookupCommit(e.getId()));
 		pw.markStart(pw.lookupCommit(a5.getId()));
 
-		PlotCommitList<PlotLane> pcl = new PlotCommitList<PlotLane>();
+		PlotCommitList<PlotLane> pcl = new PlotCommitList<>();
 		pcl.source(pw);
 		pcl.fillTo(Integer.MAX_VALUE);
 
@@ -520,7 +520,7 @@ public class PlotCommitListTest extends RevWalkTestCase {
 		PlotWalk pw = new PlotWalk(db);
 		pw.markStart(pw.lookupCommit(a4));
 		pw.markStart(pw.lookupCommit(b3));
-		PlotCommitList<PlotLane> pcl = new PlotCommitList<PlotLane>();
+		PlotCommitList<PlotLane> pcl = new PlotCommitList<>();
 		pcl.source(pw);
 		pcl.fillTo(Integer.MAX_VALUE);
 
@@ -565,7 +565,7 @@ public class PlotCommitListTest extends RevWalkTestCase {
 		PlotWalk pw = new PlotWalk(db);
 		pw.markStart(pw.lookupCommit(a4));
 		pw.markStart(pw.lookupCommit(b3));
-		PlotCommitList<PlotLane> pcl = new PlotCommitList<PlotLane>();
+		PlotCommitList<PlotLane> pcl = new PlotCommitList<>();
 		pcl.source(pw);
 		pcl.fillTo(Integer.MAX_VALUE);
 
@@ -615,7 +615,7 @@ public class PlotCommitListTest extends RevWalkTestCase {
 		pw.markStart(pw.lookupCommit(a4));
 		pw.markStart(pw.lookupCommit(b2));
 		pw.markStart(pw.lookupCommit(c));
-		PlotCommitList<PlotLane> pcl = new PlotCommitList<PlotLane>();
+		PlotCommitList<PlotLane> pcl = new PlotCommitList<>();
 		pcl.source(pw);
 		pcl.fillTo(Integer.MAX_VALUE);
 
@@ -654,7 +654,7 @@ public class PlotCommitListTest extends RevWalkTestCase {
 		PlotWalk pw = new PlotWalk(db);
 		pw.markStart(pw.lookupCommit(a3));
 		pw.markStart(pw.lookupCommit(b1));
-		PlotCommitList<PlotLane> pcl = new PlotCommitList<PlotLane>();
+		PlotCommitList<PlotLane> pcl = new PlotCommitList<>();
 		pcl.source(pw);
 		pcl.fillTo(2); // don't process a1
 
@@ -677,7 +677,7 @@ public class PlotCommitListTest extends RevWalkTestCase {
 		PlotWalk pw = new PlotWalk(db);
 		pw.markStart(pw.lookupCommit(a));
 		pw.markStart(pw.lookupCommit(b));
-		PlotCommitList<PlotLane> pcl = new PlotCommitList<PlotLane>();
+		PlotCommitList<PlotLane> pcl = new PlotCommitList<>();
 		pcl.source(pw);
 		pcl.fillTo(Integer.MAX_VALUE);
 
@@ -696,7 +696,7 @@ public class PlotCommitListTest extends RevWalkTestCase {
 		PlotWalk pw = new PlotWalk(db);
 		pw.markStart(pw.lookupCommit(a));
 		pw.markStart(pw.lookupCommit(b2));
-		PlotCommitList<PlotLane> pcl = new PlotCommitList<PlotLane>();
+		PlotCommitList<PlotLane> pcl = new PlotCommitList<>();
 		pcl.source(pw);
 		pcl.fillTo(Integer.MAX_VALUE);
 

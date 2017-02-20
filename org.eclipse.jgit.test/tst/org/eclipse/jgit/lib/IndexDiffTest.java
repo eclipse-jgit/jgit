@@ -210,7 +210,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 		diff.diff();
 
 		assertEquals("[b]",
-				new TreeSet<String>(diff.getChanged()).toString());
+				new TreeSet<>(diff.getChanged()).toString());
 		assertEquals("[]", diff.getAdded().toString());
 		assertEquals("[]", diff.getRemoved().toString());
 		assertEquals("[]", diff.getMissing().toString());
@@ -251,7 +251,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 		IndexDiff diff = new IndexDiff(db, Constants.HEAD, iterator);
 		diff.diff();
 
-		assertEquals("[]", new TreeSet<String>(diff.getChanged()).toString());
+		assertEquals("[]", new TreeSet<>(diff.getChanged()).toString());
 		assertEquals("[]", diff.getAdded().toString());
 		assertEquals("[]", diff.getRemoved().toString());
 		assertEquals("[]", diff.getMissing().toString());
@@ -291,7 +291,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 		IndexDiff diff = new IndexDiff(db, Constants.HEAD, iterator);
 		diff.diff();
 
-		assertEquals("[]", new TreeSet<String>(diff.getChanged()).toString());
+		assertEquals("[]", new TreeSet<>(diff.getChanged()).toString());
 		assertEquals("[]", diff.getAdded().toString());
 		assertEquals("[]", diff.getRemoved().toString());
 		assertEquals("[]", diff.getMissing().toString());
@@ -444,7 +444,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 			diff = new IndexDiff(db, Constants.HEAD,
 					new FileTreeIterator(db));
 			diff.diff();
-			assertEquals(new HashSet<String>(Arrays.asList("target")),
+			assertEquals(new HashSet<>(Arrays.asList("target")),
 					diff.getUntrackedFolders());
 
 			writeTrashFile("src/tst/A.java", "");
@@ -452,7 +452,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 
 			diff = new IndexDiff(db, Constants.HEAD, new FileTreeIterator(db));
 			diff.diff();
-			assertEquals(new HashSet<String>(Arrays.asList("target", "src/tst")),
+			assertEquals(new HashSet<>(Arrays.asList("target", "src/tst")),
 					diff.getUntrackedFolders());
 
 			git.rm().addFilepattern("src/com/B.java").addFilepattern("src/org")
@@ -463,7 +463,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 			diff = new IndexDiff(db, Constants.HEAD, new FileTreeIterator(db));
 			diff.diff();
 			assertEquals(
-					new HashSet<String>(Arrays.asList("src/org", "src/tst",
+					new HashSet<>(Arrays.asList("src/org", "src/tst",
 							"target")),
 					diff.getUntrackedFolders());
 		}
@@ -497,7 +497,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 
 			diff = new IndexDiff(db, Constants.HEAD, new FileTreeIterator(db));
 			diff.diff();
-			assertEquals(new HashSet<String>(Arrays.asList("src")),
+			assertEquals(new HashSet<>(Arrays.asList("src")),
 					diff.getUntrackedFolders());
 
 			git.add().addFilepattern("src").call();
@@ -510,7 +510,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 			diff = new IndexDiff(db, Constants.HEAD, new FileTreeIterator(db));
 			diff.diff();
 			assertEquals(
-					new HashSet<String>(Arrays.asList("srcs/com", "sr", "src/tst",
+					new HashSet<>(Arrays.asList("srcs/com", "sr", "src/tst",
 							"target")),
 					diff.getUntrackedFolders());
 		}

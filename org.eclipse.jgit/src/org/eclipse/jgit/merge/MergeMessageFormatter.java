@@ -71,11 +71,11 @@ public class MergeMessageFormatter {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Merge "); //$NON-NLS-1$
 
-		List<String> branches = new ArrayList<String>();
-		List<String> remoteBranches = new ArrayList<String>();
-		List<String> tags = new ArrayList<String>();
-		List<String> commits = new ArrayList<String>();
-		List<String> others = new ArrayList<String>();
+		List<String> branches = new ArrayList<>();
+		List<String> remoteBranches = new ArrayList<>();
+		List<String> tags = new ArrayList<>();
+		List<String> commits = new ArrayList<>();
+		List<String> others = new ArrayList<>();
 		for (Ref ref : refsToMerge) {
 			if (ref.getName().startsWith(Constants.R_HEADS)) {
 				branches.add("'" + Repository.shortenRefName(ref.getName()) //$NON-NLS-1$
@@ -95,7 +95,7 @@ public class MergeMessageFormatter {
 			}
 		}
 
-		List<String> listings = new ArrayList<String>();
+		List<String> listings = new ArrayList<>();
 
 		if (!branches.isEmpty())
 			listings.add(joinNames(branches, "branch", "branches")); //$NON-NLS-1$//$NON-NLS-2$

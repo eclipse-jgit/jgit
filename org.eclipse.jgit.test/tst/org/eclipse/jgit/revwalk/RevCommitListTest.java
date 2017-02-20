@@ -62,7 +62,7 @@ public class RevCommitListTest extends RepositoryTestCase {
 			for (int i = 0; i < count; i++)
 				git.commit().setCommitter(committer).setAuthor(author)
 						.setMessage("commit " + i).call();
-			list = new RevCommitList<RevCommit>();
+			list = new RevCommitList<>();
 			w.markStart(w.lookupCommit(db.resolve(Constants.HEAD)));
 			list.source(w);
 		}

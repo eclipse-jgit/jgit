@@ -139,11 +139,11 @@ public class CheckoutResult {
 		if (status == Status.CONFLICTS)
 			this.conflictList = fileList;
 		else
-			this.conflictList = new ArrayList<String>(0);
+			this.conflictList = new ArrayList<>(0);
 		if (status == Status.NONDELETED)
 			this.undeletedList = fileList;
 		else
-			this.undeletedList = new ArrayList<String>(0);
+			this.undeletedList = new ArrayList<>(0);
 
 		this.modifiedList = modified;
 		this.removedList = removed;
@@ -160,8 +160,8 @@ public class CheckoutResult {
 	CheckoutResult(List<String> modified, List<String> removed) {
 		myStatus = Status.OK;
 
-		this.conflictList = new ArrayList<String>(0);
-		this.undeletedList = new ArrayList<String>(0);
+		this.conflictList = new ArrayList<>(0);
+		this.undeletedList = new ArrayList<>(0);
 
 		this.modifiedList = modified;
 		this.removedList = removed;

@@ -96,7 +96,7 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 	 */
 	protected FetchCommand(Repository repo) {
 		super(repo);
-		refSpecs = new ArrayList<RefSpec>(3);
+		refSpecs = new ArrayList<>(3);
 	}
 
 	/**

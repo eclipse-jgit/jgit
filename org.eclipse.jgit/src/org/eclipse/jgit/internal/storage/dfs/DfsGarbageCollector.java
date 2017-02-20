@@ -127,9 +127,9 @@ public class DfsGarbageCollector {
 		repo = repository;
 		refdb = repo.getRefDatabase();
 		objdb = repo.getObjectDatabase();
-		newPackDesc = new ArrayList<DfsPackDescription>(4);
-		newPackStats = new ArrayList<PackStatistics>(4);
-		newPackObj = new ArrayList<ObjectIdSet>(4);
+		newPackDesc = new ArrayList<>(4);
+		newPackStats = new ArrayList<>(4);
+		newPackObj = new ArrayList<>(4);
 
 		packConfig = new PackConfig(repo);
 		packConfig.setIndexVersion(2);
@@ -249,10 +249,10 @@ public class DfsGarbageCollector {
 				return true;
 			}
 
-			allHeads = new HashSet<ObjectId>();
-			nonHeads = new HashSet<ObjectId>();
-			txnHeads = new HashSet<ObjectId>();
-			tagTargets = new HashSet<ObjectId>();
+			allHeads = new HashSet<>();
+			nonHeads = new HashSet<>();
+			txnHeads = new HashSet<>();
+			tagTargets = new HashSet<>();
 			for (Ref ref : refsBefore) {
 				if (ref.isSymbolic() || ref.getObjectId() == null)
 					continue;
@@ -304,8 +304,8 @@ public class DfsGarbageCollector {
 
 	private void readPacksBefore() throws IOException {
 		DfsPackFile[] packs = objdb.getPacks();
-		packsBefore = new ArrayList<DfsPackFile>(packs.length);
-		expiredGarbagePacks = new ArrayList<DfsPackFile>(packs.length);
+		packsBefore = new ArrayList<>(packs.length);
+		expiredGarbagePacks = new ArrayList<>(packs.length);
 
 		long mostRecentGC = mostRecentGC(packs);
 		long now = SystemReader.getInstance().getCurrentTime();
@@ -437,7 +437,7 @@ public class DfsGarbageCollector {
 
 	private List<DfsPackDescription> toPrune() {
 		int cnt = packsBefore.size();
-		List<DfsPackDescription> all = new ArrayList<DfsPackDescription>(cnt);
+		List<DfsPackDescription> all = new ArrayList<>(cnt);
 		for (DfsPackFile pack : packsBefore) {
 			all.add(pack.getPackDescription());
 		}

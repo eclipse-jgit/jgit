@@ -132,7 +132,7 @@ class ReflogReaderImpl implements ReflogReader {
 		}
 
 		int rs = RawParseUtils.prevLF(log, log.length);
-		List<ReflogEntry> ret = new ArrayList<ReflogEntry>();
+		List<ReflogEntry> ret = new ArrayList<>();
 		while (rs >= 0 && max-- > 0) {
 			rs = RawParseUtils.prevLF(log, rs);
 			ReflogEntry entry = new ReflogEntryImpl(log, rs < 0 ? 0 : rs + 2);

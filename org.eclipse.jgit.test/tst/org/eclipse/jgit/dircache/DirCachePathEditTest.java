@@ -72,7 +72,7 @@ public class DirCachePathEditTest {
 	}
 
 	private static final class RecordingEdit extends PathEdit {
-		final List<DirCacheEntry> entries = new ArrayList<DirCacheEntry>();
+		final List<DirCacheEntry> entries = new ArrayList<>();
 
 		public RecordingEdit(String entryPath) {
 			super(entryPath);

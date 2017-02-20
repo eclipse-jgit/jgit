@@ -80,7 +80,7 @@ public abstract class MergeStrategy {
 	 */
 	public static final ThreeWayMergeStrategy RECURSIVE = new StrategyRecursive();
 
-	private static final HashMap<String, MergeStrategy> STRATEGIES = new HashMap<String, MergeStrategy>();
+	private static final HashMap<String, MergeStrategy> STRATEGIES = new HashMap<>();
 
 	static {
 		register(OURS);

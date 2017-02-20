@@ -100,7 +100,7 @@ class UnpackedObjectCache {
 		final int bits;
 
 		Table(int bits) {
-			this.ids = new AtomicReferenceArray<ObjectId>(1 << bits);
+			this.ids = new AtomicReferenceArray<>(1 << bits);
 			this.shift = 32 - bits;
 			this.bits = bits;
 		}

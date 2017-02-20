@@ -58,7 +58,7 @@ class Add extends TextBuiltin {
 	private boolean update = false;
 
 	@Argument(required = true, metaVar = "metaVar_filepattern", usage = "usage_filesToAddContentFrom")
-	private List<String> filepatterns = new ArrayList<String>();
+	private List<String> filepatterns = new ArrayList<>();
 
 	@Override
 	protected void run() throws Exception {

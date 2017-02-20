@@ -86,11 +86,11 @@ public class IndexDiffFilter extends TreeFilter {
 
 	private final boolean honorIgnores;
 
-	private final Set<String> ignoredPaths = new HashSet<String>();
+	private final Set<String> ignoredPaths = new HashSet<>();
 
-	private final LinkedList<String> untrackedParentFolders = new LinkedList<String>();
+	private final LinkedList<String> untrackedParentFolders = new LinkedList<>();
 
-	private final LinkedList<String> untrackedFolders = new LinkedList<String>();
+	private final LinkedList<String> untrackedFolders = new LinkedList<>();
 
 	/**
 	 * Creates a new instance of this filter. Do not use an instance of this
@@ -292,7 +292,7 @@ public class IndexDiffFilter extends TreeFilter {
 	 *         empty list will be returned.
 	 */
 	public List<String> getUntrackedFolders() {
-		LinkedList<String> ret = new LinkedList<String>(untrackedFolders);
+		LinkedList<String> ret = new LinkedList<>(untrackedFolders);
 		if (!untrackedParentFolders.isEmpty()) {
 			String toBeAdded = untrackedParentFolders.getLast();
 			while (!ret.isEmpty() && ret.getLast().startsWith(toBeAdded))

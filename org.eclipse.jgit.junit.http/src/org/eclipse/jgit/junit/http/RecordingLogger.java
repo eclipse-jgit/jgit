@@ -53,7 +53,7 @@ import org.slf4j.helpers.MessageFormatter;
 
 /** Logs warnings into an array for later inspection. */
 public class RecordingLogger implements Logger {
-	private static List<Warning> warnings = new ArrayList<Warning>();
+	private static List<Warning> warnings = new ArrayList<>();
 
 	/** Clear the warnings, automatically done by {@link AppServer#setUp()} */
 	public static void clear() {
@@ -65,7 +65,7 @@ public class RecordingLogger implements Logger {
 	/** @return the warnings (if any) from the last execution */
 	public static List<Warning> getWarnings() {
 		synchronized (warnings) {
-			ArrayList<Warning> copy = new ArrayList<Warning>(warnings);
+			ArrayList<Warning> copy = new ArrayList<>(warnings);
 			return Collections.unmodifiableList(copy);
 		}
 	}

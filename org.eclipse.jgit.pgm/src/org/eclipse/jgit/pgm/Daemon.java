@@ -87,16 +87,16 @@ class Daemon extends TextBuiltin {
 	int timeout = -1;
 
 	@Option(name = "--enable", metaVar = "metaVar_service", usage = "usage_enableTheServiceInAllRepositories", multiValued = true)
-	final List<String> enable = new ArrayList<String>();
+	final List<String> enable = new ArrayList<>();
 
 	@Option(name = "--disable", metaVar = "metaVar_service", usage = "usage_disableTheServiceInAllRepositories", multiValued = true)
-	final List<String> disable = new ArrayList<String>();
+	final List<String> disable = new ArrayList<>();
 
 	@Option(name = "--allow-override", metaVar = "metaVar_service", usage = "usage_configureTheServiceInDaemonServicename", multiValued = true)
-	final List<String> canOverride = new ArrayList<String>();
+	final List<String> canOverride = new ArrayList<>();
 
 	@Option(name = "--forbid-override", metaVar = "metaVar_service", usage = "usage_configureTheServiceInDaemonServicename", multiValued = true)
-	final List<String> forbidOverride = new ArrayList<String>();
+	final List<String> forbidOverride = new ArrayList<>();
 
 	@Option(name = "--export-all", usage = "usage_exportWithoutGitDaemonExportOk")
 	boolean exportAll;
@@ -109,7 +109,7 @@ class Daemon extends TextBuiltin {
 	}
 
 	@Argument(required = true, metaVar = "metaVar_directory", usage = "usage_directoriesToExport")
-	final List<File> directory = new ArrayList<File>();
+	final List<File> directory = new ArrayList<>();
 
 	@Override
 	protected boolean requiresRepository() {
@@ -139,7 +139,7 @@ class Daemon extends TextBuiltin {
 		if (1 < threads)
 			packConfig.setExecutor(Executors.newFixedThreadPool(threads));
 
-		final FileResolver<DaemonClient> resolver = new FileResolver<DaemonClient>();
+		final FileResolver<DaemonClient> resolver = new FileResolver<>();
 		for (final File f : directory) {
 			outw.println(MessageFormat.format(CLIText.get().exporting, f.getAbsolutePath()));
 			resolver.exportDirectory(f);

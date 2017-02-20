@@ -80,7 +80,7 @@ public class ListNotesCommand extends GitCommand<List<Note>> {
 	@Override
 	public List<Note> call() throws GitAPIException {
 		checkCallable();
-		List<Note> notes = new ArrayList<Note>();
+		List<Note> notes = new ArrayList<>();
 		NoteMap map = NoteMap.newEmptyMap();
 		try (RevWalk walk = new RevWalk(repo)) {
 			Ref ref = repo.findRef(notesRef);

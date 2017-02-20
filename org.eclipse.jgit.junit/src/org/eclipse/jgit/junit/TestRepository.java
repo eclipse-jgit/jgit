@@ -876,7 +876,7 @@ public class TestRepository<R extends Repository> {
 
 			final File pack, idx;
 			try (PackWriter pw = new PackWriter(db)) {
-				Set<ObjectId> all = new HashSet<ObjectId>();
+				Set<ObjectId> all = new HashSet<>();
 				for (Ref r : db.getAllRefs().values())
 					all.add(r.getObjectId());
 				pw.preparePack(m, all, PackWriter.NONE);
@@ -992,7 +992,7 @@ public class TestRepository<R extends Repository> {
 
 		private ObjectId topLevelTree;
 
-		private final List<RevCommit> parents = new ArrayList<RevCommit>(2);
+		private final List<RevCommit> parents = new ArrayList<>(2);
 
 		private int tick = 1;
 

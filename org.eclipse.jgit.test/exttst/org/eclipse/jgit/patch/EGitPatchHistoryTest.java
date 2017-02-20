@@ -89,7 +89,7 @@ public class EGitPatchHistoryTest {
 			super(new String[] { "-p" });
 			stats = s;
 
-			offBy1 = new HashSet<String>();
+			offBy1 = new HashSet<>();
 			offBy1.add("9bda5ece6806cd797416eaa47c7b927cc6e9c3b2");
 		}
 
@@ -158,7 +158,7 @@ public class EGitPatchHistoryTest {
 	}
 
 	static class NumStatReader extends CommitReader {
-		final HashMap<String, HashMap<String, StatInfo>> stats = new HashMap<String, HashMap<String, StatInfo>>();
+		final HashMap<String, HashMap<String, StatInfo>> stats = new HashMap<>();
 
 		NumStatReader() throws IOException {
 			super(new String[] { "--numstat" });
@@ -166,7 +166,7 @@ public class EGitPatchHistoryTest {
 
 		@Override
 		void onCommit(String commitId, byte[] buf) {
-			final HashMap<String, StatInfo> files = new HashMap<String, StatInfo>();
+			final HashMap<String, StatInfo> files = new HashMap<>();
 			final MutableInteger ptr = new MutableInteger();
 			while (ptr.value < buf.length) {
 				if (buf[ptr.value] == '\n')

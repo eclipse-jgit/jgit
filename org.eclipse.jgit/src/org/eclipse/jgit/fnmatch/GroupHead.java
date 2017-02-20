@@ -64,7 +64,7 @@ final class GroupHead extends AbstractHead {
 	GroupHead(String pattern, final String wholePattern)
 			throws InvalidPatternException {
 		super(false);
-		this.characterClasses = new ArrayList<CharacterPattern>();
+		this.characterClasses = new ArrayList<>();
 		this.inverse = pattern.startsWith("!"); //$NON-NLS-1$
 		if (inverse) {
 			pattern = pattern.substring(1);

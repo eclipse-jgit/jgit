@@ -124,7 +124,7 @@ class PushProcess {
 			throws TransportException {
 		this.walker = new RevWalk(transport.local);
 		this.transport = transport;
-		this.toPush = new HashMap<String, RemoteRefUpdate>();
+		this.toPush = new HashMap<>();
 		this.out = out;
 		this.pushOptions = transport.getPushOptions();
 		for (final RemoteRefUpdate rru : toPush) {
@@ -190,7 +190,7 @@ class PushProcess {
 	private Map<String, RemoteRefUpdate> prepareRemoteUpdates()
 			throws TransportException {
 		boolean atomic = transport.isPushAtomic();
-		final Map<String, RemoteRefUpdate> result = new HashMap<String, RemoteRefUpdate>();
+		final Map<String, RemoteRefUpdate> result = new HashMap<>();
 		for (final RemoteRefUpdate rru : toPush.values()) {
 			final Ref advertisedRef = connection.getRef(rru.getRemoteName());
 			ObjectId advertisedOld = null;

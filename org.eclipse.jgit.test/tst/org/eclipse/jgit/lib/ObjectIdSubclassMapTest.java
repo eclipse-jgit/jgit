@@ -73,7 +73,7 @@ public class ObjectIdSubclassMapTest {
 
 	@Test
 	public void testEmptyMap() {
-		ObjectIdSubclassMap<SubId> m = new ObjectIdSubclassMap<SubId>();
+		ObjectIdSubclassMap<SubId> m = new ObjectIdSubclassMap<>();
 		assertTrue(m.isEmpty());
 		assertEquals(0, m.size());
 
@@ -86,7 +86,7 @@ public class ObjectIdSubclassMapTest {
 
 	@Test
 	public void testAddGetAndContains() {
-		ObjectIdSubclassMap<SubId> m = new ObjectIdSubclassMap<SubId>();
+		ObjectIdSubclassMap<SubId> m = new ObjectIdSubclassMap<>();
 		m.add(id_1);
 		m.add(id_2);
 		m.add(id_3);
@@ -108,7 +108,7 @@ public class ObjectIdSubclassMapTest {
 
 	@Test
 	public void testClear() {
-		ObjectIdSubclassMap<SubId> m = new ObjectIdSubclassMap<SubId>();
+		ObjectIdSubclassMap<SubId> m = new ObjectIdSubclassMap<>();
 
 		m.add(id_1);
 		assertSame(id_1, m.get(id_1));
@@ -126,7 +126,7 @@ public class ObjectIdSubclassMapTest {
 
 	@Test
 	public void testAddIfAbsent() {
-		ObjectIdSubclassMap<SubId> m = new ObjectIdSubclassMap<SubId>();
+		ObjectIdSubclassMap<SubId> m = new ObjectIdSubclassMap<>();
 		m.add(id_1);
 
 		assertSame(id_1, m.addIfAbsent(new SubId(id_1)));
@@ -144,7 +144,7 @@ public class ObjectIdSubclassMapTest {
 
 	@Test
 	public void testAddGrowsWithObjects() {
-		ObjectIdSubclassMap<SubId> m = new ObjectIdSubclassMap<SubId>();
+		ObjectIdSubclassMap<SubId> m = new ObjectIdSubclassMap<>();
 		m.add(id_1);
 		for (int i = 32; i < 8000; i++)
 			m.add(new SubId(id(i)));
@@ -157,7 +157,7 @@ public class ObjectIdSubclassMapTest {
 
 	@Test
 	public void testAddIfAbsentGrowsWithObjects() {
-		ObjectIdSubclassMap<SubId> m = new ObjectIdSubclassMap<SubId>();
+		ObjectIdSubclassMap<SubId> m = new ObjectIdSubclassMap<>();
 		m.add(id_1);
 		for (int i = 32; i < 8000; i++)
 			m.addIfAbsent(new SubId(id(i)));
@@ -170,7 +170,7 @@ public class ObjectIdSubclassMapTest {
 
 	@Test
 	public void testIterator() {
-		ObjectIdSubclassMap<SubId> m = new ObjectIdSubclassMap<SubId>();
+		ObjectIdSubclassMap<SubId> m = new ObjectIdSubclassMap<>();
 		m.add(id_1);
 		m.add(id_2);
 		m.add(id_3);

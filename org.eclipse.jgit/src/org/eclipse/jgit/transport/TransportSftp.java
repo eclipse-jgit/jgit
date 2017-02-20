@@ -231,15 +231,15 @@ public class TransportSftp extends SshTransport implements WalkTransport {
 
 		@Override
 		Collection<String> getPackNames() throws IOException {
-			final List<String> packs = new ArrayList<String>();
+			final List<String> packs = new ArrayList<>();
 			try {
 				@SuppressWarnings("unchecked")
 				final Collection<ChannelSftp.LsEntry> list = ftp.ls("pack"); //$NON-NLS-1$
 				final HashMap<String, ChannelSftp.LsEntry> files;
 				final HashMap<String, Integer> mtimes;
 
-				files = new HashMap<String, ChannelSftp.LsEntry>();
-				mtimes = new HashMap<String, Integer>();
+				files = new HashMap<>();
+				mtimes = new HashMap<>();
 
 				for (final ChannelSftp.LsEntry ent : list)
 					files.put(ent.getFilename(), ent);
@@ -388,7 +388,7 @@ public class TransportSftp extends SshTransport implements WalkTransport {
 		}
 
 		Map<String, Ref> readAdvertisedRefs() throws TransportException {
-			final TreeMap<String, Ref> avail = new TreeMap<String, Ref>();
+			final TreeMap<String, Ref> avail = new TreeMap<>();
 			readPackedRefs(avail);
 			readRef(avail, ROOT_DIR + Constants.HEAD, Constants.HEAD);
 			readLooseRefs(avail, ROOT_DIR + "refs", "refs/"); //$NON-NLS-1$ //$NON-NLS-2$

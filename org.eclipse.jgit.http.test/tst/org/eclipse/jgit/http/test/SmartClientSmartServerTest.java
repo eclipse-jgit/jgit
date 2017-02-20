@@ -437,7 +437,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 
 		// Create a new commit on the remote.
 		//
-		b = new TestRepository<Repository>(remoteRepository).branch(master);
+		b = new TestRepository<>(remoteRepository).branch(master);
 		RevCommit Z = b.commit().message("Z").create();
 
 		// Now incrementally update.
@@ -497,7 +497,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 
 		// Create a new commit on the remote.
 		//
-		b = new TestRepository<Repository>(remoteRepository).branch(master);
+		b = new TestRepository<>(remoteRepository).branch(master);
 		RevCommit Z = b.commit().message("Z").create();
 
 		// Now incrementally update.
@@ -614,7 +614,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 			final String repoName = "refs-unreadable";
 			RefsUnreadableInMemoryRepository badRefsRepo = new RefsUnreadableInMemoryRepository(
 					new DfsRepositoryDescription(repoName));
-			final TestRepository<Repository> repo = new TestRepository<Repository>(
+			final TestRepository<Repository> repo = new TestRepository<>(
 					badRefsRepo);
 
 			ServletContextHandler app = noRefServer.addContext("/git");

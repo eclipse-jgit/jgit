@@ -166,7 +166,7 @@ public final class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 			throws IOException {
 		if (id.isComplete())
 			return Collections.singleton(id.toObjectId());
-		HashSet<ObjectId> matches = new HashSet<ObjectId>(4);
+		HashSet<ObjectId> matches = new HashSet<>(4);
 		PackList packList = db.getPackList();
 		resolveImpl(packList, id, matches);
 		if (matches.size() < MAX_RESOLVE_MATCHES && packList.dirty()) {
@@ -319,7 +319,7 @@ public final class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 			findAllImpl(db.scanPacks(packList), pending, r);
 		}
 		for (T t : pending) {
-			r.add(new FoundObject<T>(t));
+			r.add(new FoundObject<>(t));
 		}
 		Collections.sort(r, FOUND_OBJECT_SORT);
 		return r;
@@ -340,7 +340,7 @@ public final class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 				try {
 					long p = lastPack.findOffset(this, t);
 					if (0 < p) {
-						r.add(new FoundObject<T>(t, lastIdx, lastPack, p));
+						r.add(new FoundObject<>(t, lastIdx, lastPack, p));
 						it.remove();
 						continue;
 					}
@@ -358,7 +358,7 @@ public final class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 				try {
 					long p = pack.findOffset(this, t);
 					if (0 < p) {
-						r.add(new FoundObject<T>(t, i, pack, p));
+						r.add(new FoundObject<>(t, i, pack, p));
 						it.remove();
 						lastIdx = i;
 						lastPack = pack;
@@ -612,7 +612,7 @@ public final class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 
 	private List<DfsObjectToPack> findAllFromPack(DfsPackFile pack,
 			Iterable<ObjectToPack> objects) throws IOException {
-		List<DfsObjectToPack> tmp = new BlockList<DfsObjectToPack>();
+		List<DfsObjectToPack> tmp = new BlockList<>();
 		PackIndex idx = pack.getPackIndex(this);
 		for (ObjectToPack otp : objects) {
 			long p = idx.findOffset(otp);

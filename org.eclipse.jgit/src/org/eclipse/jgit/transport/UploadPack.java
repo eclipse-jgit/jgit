@@ -177,7 +177,7 @@ public class UploadPack {
 		 */
 		public FirstLine(String line) {
 			if (line.length() > 45) {
-				final HashSet<String> opts = new HashSet<String>();
+				final HashSet<String> opts = new HashSet<>();
 				String opt = line.substring(45);
 				if (opt.startsWith(" ")) //$NON-NLS-1$
 					opt = opt.substring(1);
@@ -263,19 +263,19 @@ public class UploadPack {
 	String userAgent;
 
 	/** Raw ObjectIds the client has asked for, before validating them. */
-	private final Set<ObjectId> wantIds = new HashSet<ObjectId>();
+	private final Set<ObjectId> wantIds = new HashSet<>();
 
 	/** Objects the client wants to obtain. */
-	private final Set<RevObject> wantAll = new HashSet<RevObject>();
+	private final Set<RevObject> wantAll = new HashSet<>();
 
 	/** Objects on both sides, these don't have to be sent. */
-	private final Set<RevObject> commonBase = new HashSet<RevObject>();
+	private final Set<RevObject> commonBase = new HashSet<>();
 
 	/** Shallow commits the client already has. */
-	private final Set<ObjectId> clientShallowCommits = new HashSet<ObjectId>();
+	private final Set<ObjectId> clientShallowCommits = new HashSet<>();
 
 	/** Shallow commits on the client which are now becoming unshallow */
-	private final List<ObjectId> unshallowCommits = new ArrayList<ObjectId>();
+	private final List<ObjectId> unshallowCommits = new ArrayList<>();
 
 	/** Desired depth from the client on a shallow request. */
 	private int depth;
@@ -776,7 +776,7 @@ public class UploadPack {
 	}
 
 	private static Set<ObjectId> refIdSet(Collection<Ref> refs) {
-		Set<ObjectId> ids = new HashSet<ObjectId>(refs.size());
+		Set<ObjectId> ids = new HashSet<>(refs.size());
 		for (Ref ref : refs) {
 			ObjectId id = ref.getObjectId();
 			if (id != null) {
@@ -1018,7 +1018,7 @@ public class UploadPack {
 		okToGiveUp = Boolean.FALSE;
 
 		ObjectId last = ObjectId.zeroId();
-		List<ObjectId> peerHas = new ArrayList<ObjectId>(64);
+		List<ObjectId> peerHas = new ArrayList<>(64);
 		for (;;) {
 			String line;
 			try {
@@ -1172,7 +1172,7 @@ public class UploadPack {
 		for (ObjectId obj : wantIds) {
 			if (!advertised.contains(obj)) {
 				if (notAdvertisedWants == null)
-					notAdvertisedWants = new ArrayList<ObjectId>();
+					notAdvertisedWants = new ArrayList<>();
 				notAdvertisedWants.add(obj);
 			}
 		}
@@ -1488,7 +1488,7 @@ public class UploadPack {
 			pw.setReuseValidatingObjects(false);
 
 			if (commonBase.isEmpty() && refs != null) {
-				Set<ObjectId> tagTargets = new HashSet<ObjectId>();
+				Set<ObjectId> tagTargets = new HashSet<>();
 				for (Ref ref : refs.values()) {
 					if (ref.getPeeledObjectId() != null)
 						tagTargets.add(ref.getPeeledObjectId());

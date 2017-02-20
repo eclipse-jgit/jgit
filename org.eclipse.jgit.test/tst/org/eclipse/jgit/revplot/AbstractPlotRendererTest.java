@@ -96,7 +96,7 @@ public class AbstractPlotRendererTest extends RepositoryTestCase {
 			throws IOException {
 		TestPlotWalk walk = new TestPlotWalk(db);
 		walk.markStart(walk.parseCommit(start));
-		PlotCommitList<PlotLane> commitList = new PlotCommitList<PlotLane>();
+		PlotCommitList<PlotLane> commitList = new PlotCommitList<>();
 		commitList.source(walk);
 		commitList.fillTo(1000);
 		return commitList;
@@ -116,7 +116,7 @@ public class AbstractPlotRendererTest extends RepositoryTestCase {
 	private static class TestPlotRenderer extends
 			AbstractPlotRenderer<PlotLane, Object> {
 
-		List<Integer> indentations = new LinkedList<Integer>();
+		List<Integer> indentations = new LinkedList<>();
 
 		@Override
 		protected int drawLabel(int x, int y, Ref ref) {

@@ -52,7 +52,7 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 
 public class MockServletConfig implements ServletConfig {
-	private final Map<String, String> parameters = new HashMap<String, String>();
+	private final Map<String, String> parameters = new HashMap<>();
 
 	public void setInitParameter(String name, String value) {
 		parameters.put(name, value);

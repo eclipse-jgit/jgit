@@ -396,7 +396,7 @@ abstract class WalkRemoteObjectDatabase {
 			throws IOException {
 		final BufferedReader br = openReader(listPath);
 		try {
-			final Collection<WalkRemoteObjectDatabase> alts = new ArrayList<WalkRemoteObjectDatabase>();
+			final Collection<WalkRemoteObjectDatabase> alts = new ArrayList<>();
 			for (;;) {
 				String line = br.readLine();
 				if (line == null)

@@ -109,7 +109,7 @@ public abstract class Transport implements AutoCloseable {
 	}
 
 	private static final List<WeakReference<TransportProtocol>> protocols =
-		new CopyOnWriteArrayList<WeakReference<TransportProtocol>>();
+		new CopyOnWriteArrayList<>();
 
 	static {
 		// Registration goes backwards in order of priority.
@@ -226,7 +226,7 @@ public abstract class Transport implements AutoCloseable {
 	 *            the protocol definition. Must not be null.
 	 */
 	public static void register(TransportProtocol proto) {
-		protocols.add(0, new WeakReference<TransportProtocol>(proto));
+		protocols.add(0, new WeakReference<>(proto));
 	}
 
 	/**
@@ -256,7 +256,7 @@ public abstract class Transport implements AutoCloseable {
 	 */
 	public static List<TransportProtocol> getTransportProtocols() {
 		int cnt = protocols.size();
-		List<TransportProtocol> res = new ArrayList<TransportProtocol>(cnt);
+		List<TransportProtocol> res = new ArrayList<>(cnt);
 		for (WeakReference<TransportProtocol> ref : protocols) {
 			TransportProtocol proto = ref.get();
 			if (proto != null)
@@ -380,7 +380,7 @@ public abstract class Transport implements AutoCloseable {
 			TransportException {
 		final RemoteConfig cfg = new RemoteConfig(local.getConfig(), remote);
 		if (doesNotExist(cfg)) {
-			final ArrayList<Transport> transports = new ArrayList<Transport>(1);
+			final ArrayList<Transport> transports = new ArrayList<>(1);
 			transports.add(open(local, new URIish(remote), null));
 			return transports;
 		}
@@ -490,7 +490,7 @@ public abstract class Transport implements AutoCloseable {
 			final RemoteConfig cfg, final Operation op)
 			throws NotSupportedException, TransportException {
 		final List<URIish> uris = getURIs(cfg, op);
-		final List<Transport> transports = new ArrayList<Transport>(uris.size());
+		final List<Transport> transports = new ArrayList<>(uris.size());
 		for (final URIish uri : uris) {
 			final Transport tn = open(local, uri, cfg.getName());
 			tn.applyConfig(cfg);
@@ -629,7 +629,7 @@ public abstract class Transport implements AutoCloseable {
 			Collection<RefSpec> fetchSpecs) throws IOException {
 		if (fetchSpecs == null)
 			fetchSpecs = Collections.emptyList();
-		final List<RemoteRefUpdate> result = new LinkedList<RemoteRefUpdate>();
+		final List<RemoteRefUpdate> result = new LinkedList<>();
 		final Collection<RefSpec> procRefs = expandPushWildcardsFor(db, specs);
 
 		for (final RefSpec spec : procRefs) {
@@ -698,7 +698,7 @@ public abstract class Transport implements AutoCloseable {
 			final Repository db, final Collection<RefSpec> specs)
 			throws IOException {
 		final Map<String, Ref> localRefs = db.getRefDatabase().getRefs(ALL);
-		final Collection<RefSpec> procRefs = new HashSet<RefSpec>();
+		final Collection<RefSpec> procRefs = new HashSet<>();
 
 		for (final RefSpec spec : specs) {
 			if (spec.isWildcard()) {
@@ -1217,7 +1217,7 @@ public abstract class Transport implements AutoCloseable {
 			// the local tracking branches without incurring additional
 			// object transfer overheads.
 			//
-			final Collection<RefSpec> tmp = new ArrayList<RefSpec>(toFetch);
+			final Collection<RefSpec> tmp = new ArrayList<>(toFetch);
 			for (final RefSpec requested : toFetch) {
 				final String reqSrc = requested.getSource();
 				for (final RefSpec configured : fetch) {

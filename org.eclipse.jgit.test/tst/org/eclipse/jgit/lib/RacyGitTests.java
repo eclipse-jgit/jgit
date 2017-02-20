@@ -60,7 +60,7 @@ import org.eclipse.jgit.util.FileUtils;
 public class RacyGitTests extends RepositoryTestCase {
 	public void testIterator() throws IllegalStateException, IOException,
 			InterruptedException {
-		TreeSet<Long> modTimes = new TreeSet<Long>();
+		TreeSet<Long> modTimes = new TreeSet<>();
 		File lastFile = null;
 		for (int i = 0; i < 10; i++) {
 			lastFile = new File(db.getWorkTree(), "0." + i);
@@ -123,7 +123,7 @@ public class RacyGitTests extends RepositoryTestCase {
 
 	public void testRacyGitDetection() throws IOException,
 			IllegalStateException, InterruptedException {
-		TreeSet<Long> modTimes = new TreeSet<Long>();
+		TreeSet<Long> modTimes = new TreeSet<>();
 		File lastFile;
 
 		// wait to ensure that modtimes of the file doesn't match last index

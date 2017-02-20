@@ -75,7 +75,7 @@ class Commit extends TextBuiltin {
 	private boolean amend;
 
 	@Argument(metaVar = "metaVar_commitPaths", usage = "usage_CommitPaths")
-	private List<String> paths = new ArrayList<String>();
+	private List<String> paths = new ArrayList<>();
 
 	@Override
 	protected void run() throws NoHeadException, NoMessageException,

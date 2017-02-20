@@ -72,7 +72,7 @@ public class FIFORevQueueTest extends RevQueueTestCase<FIFORevQueue> {
 
 	@Test
 	public void testAddLargeBlocks() throws Exception {
-		final ArrayList<RevCommit> lst = new ArrayList<RevCommit>();
+		final ArrayList<RevCommit> lst = new ArrayList<>();
 		for (int i = 0; i < 3 * BlockRevQueue.Block.BLOCK_SIZE; i++) {
 			final RevCommit c = commit();
 			lst.add(c);

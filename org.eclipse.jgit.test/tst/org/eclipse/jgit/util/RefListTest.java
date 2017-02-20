@@ -89,7 +89,7 @@ public class RefListTest {
 
 	@Test
 	public void testEmptyBuilder() {
-		RefList<Ref> list = new RefList.Builder<Ref>().toRefList();
+		RefList<Ref> list = new RefList.Builder<>().toRefList();
 		assertEquals(0, list.size());
 		assertFalse(list.iterator().hasNext());
 		assertEquals(-1, list.find("a"));
@@ -111,7 +111,7 @@ public class RefListTest {
 
 	@Test
 	public void testBuilder_AddThenSort() {
-		RefList.Builder<Ref> builder = new RefList.Builder<Ref>(1);
+		RefList.Builder<Ref> builder = new RefList.Builder<>(1);
 		builder.add(REF_B);
 		builder.add(REF_A);
 
@@ -129,7 +129,7 @@ public class RefListTest {
 
 	@Test
 	public void testBuilder_AddAll() {
-		RefList.Builder<Ref> builder = new RefList.Builder<Ref>(1);
+		RefList.Builder<Ref> builder = new RefList.Builder<>(1);
 		Ref[] src = { REF_A, REF_B, REF_c, REF_A };
 		builder.addAll(src, 1, 2);
 
@@ -141,7 +141,7 @@ public class RefListTest {
 
 	@Test
 	public void testBuilder_Set() {
-		RefList.Builder<Ref> builder = new RefList.Builder<Ref>();
+		RefList.Builder<Ref> builder = new RefList.Builder<>();
 		builder.add(REF_A);
 		builder.add(REF_A);
 
@@ -163,7 +163,7 @@ public class RefListTest {
 
 	@Test
 	public void testBuilder_Remove() {
-		RefList.Builder<Ref> builder = new RefList.Builder<Ref>();
+		RefList.Builder<Ref> builder = new RefList.Builder<>();
 		builder.add(REF_A);
 		builder.add(REF_B);
 		builder.remove(0);
@@ -364,7 +364,7 @@ public class RefListTest {
 		exp.append(REF_B);
 		exp.append("]");
 
-		RefList.Builder<Ref> list = new RefList.Builder<Ref>();
+		RefList.Builder<Ref> list = new RefList.Builder<>();
 		list.add(REF_A);
 		list.add(REF_B);
 		assertEquals(exp.toString(), list.toString());
@@ -442,16 +442,16 @@ public class RefListTest {
 
 	@Test
 	public void testCopyConstructorReusesArray() {
-		RefList.Builder<Ref> one = new RefList.Builder<Ref>();
+		RefList.Builder<Ref> one = new RefList.Builder<>();
 		one.add(REF_A);
 
-		RefList<Ref> two = new RefList<Ref>(one.toRefList());
+		RefList<Ref> two = new RefList<>(one.toRefList());
 		one.set(0, REF_B);
 		assertSame(REF_B, two.get(0));
 	}
 
 	private static RefList<Ref> toList(Ref... refs) {
-		RefList.Builder<Ref> b = new RefList.Builder<Ref>(refs.length);
+		RefList.Builder<Ref> b = new RefList.Builder<>(refs.length);
 		b.addAll(refs, 0, refs.length);
 		return b.toRefList();
 	}

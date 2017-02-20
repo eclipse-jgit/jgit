@@ -96,7 +96,7 @@ public class DirCacheEditor extends BaseDirCacheEditor {
 	 */
 	protected DirCacheEditor(final DirCache dc, final int ecnt) {
 		super(dc, ecnt);
-		edits = new ArrayList<PathEdit>();
+		edits = new ArrayList<>();
 	}
 
 	/**

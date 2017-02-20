@@ -198,10 +198,10 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 	private void apply(File f, FileHeader fh)
 			throws IOException, PatchApplyException {
 		RawText rt = new RawText(f);
-		List<String> oldLines = new ArrayList<String>(rt.size());
+		List<String> oldLines = new ArrayList<>(rt.size());
 		for (int i = 0; i < rt.size(); i++)
 			oldLines.add(rt.getString(i));
-		List<String> newLines = new ArrayList<String>(oldLines);
+		List<String> newLines = new ArrayList<>(oldLines);
 		for (HunkHeader hh : fh.getHunks()) {
 
 			byte[] b = new byte[hh.getEndOffset() - hh.getStartOffset()];
@@ -209,7 +209,7 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 					b.length);
 			RawText hrt = new RawText(b);
 
-			List<String> hunkLines = new ArrayList<String>(hrt.size());
+			List<String> hunkLines = new ArrayList<>(hrt.size());
 			for (int i = 0; i < hrt.size(); i++)
 				hunkLines.add(hrt.getString(i));
 			int pos = 0;

@@ -78,7 +78,7 @@ public class ListTagCommand extends GitCommand<List<Ref>> {
 	public List<Ref> call() throws GitAPIException {
 		checkCallable();
 		Map<String, Ref> refList;
-		List<Ref> tags = new ArrayList<Ref>();
+		List<Ref> tags = new ArrayList<>();
 		try (RevWalk revWalk = new RevWalk(repo)) {
 			refList = repo.getRefDatabase().getRefs(Constants.R_TAGS);
 			for (Ref ref : refList.values()) {

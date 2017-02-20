@@ -344,7 +344,7 @@ public class IO {
 	 * @since 2.0
 	 */
 	public static List<String> readLines(final String s) {
-		List<String> l = new ArrayList<String>();
+		List<String> l = new ArrayList<>();
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < s.length(); i++) {
 			char c = s.charAt(i);

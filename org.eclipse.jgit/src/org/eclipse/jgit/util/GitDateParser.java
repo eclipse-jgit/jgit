@@ -77,7 +77,7 @@ public class GitDateParser {
 
 		@Override
 		protected Map<Locale, Map<ParseableSimpleDateFormat, SimpleDateFormat>> initialValue() {
-			return new HashMap<Locale, Map<ParseableSimpleDateFormat, SimpleDateFormat>>();
+			return new HashMap<>();
 		}
 	};
 
@@ -91,7 +91,7 @@ public class GitDateParser {
 		Map<ParseableSimpleDateFormat, SimpleDateFormat> map = cache
 				.get(locale);
 		if (map == null) {
-			map = new HashMap<ParseableSimpleDateFormat, SimpleDateFormat>();
+			map = new HashMap<>();
 			cache.put(locale, map);
 			return getNewSimpleDateFormat(f, locale, map);
 		}

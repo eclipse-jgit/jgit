@@ -88,7 +88,7 @@ public abstract class HttpTestCase extends LocalDiskRepositoryTestCase {
 
 	protected TestRepository<Repository> createTestRepository()
 			throws IOException {
-		return new TestRepository<Repository>(createBareRepository());
+		return new TestRepository<>(createBareRepository());
 	}
 
 	protected URIish toURIish(String path) throws URISyntaxException {
@@ -120,12 +120,12 @@ public abstract class HttpTestCase extends LocalDiskRepositoryTestCase {
 	protected static void fsck(Repository db, RevObject... tips)
 			throws Exception {
 		TestRepository<? extends Repository> tr =
-				new TestRepository<Repository>(db);
+				new TestRepository<>(db);
 		tr.fsck(tips);
 	}
 
 	protected static Set<RefSpec> mirror(String... refs) {
-		HashSet<RefSpec> r = new HashSet<RefSpec>();
+		HashSet<RefSpec> r = new HashSet<>();
 		for (String name : refs) {
 			RefSpec rs = new RefSpec(name);
 			rs = rs.setDestination(name);

@@ -127,11 +127,11 @@ public class DirCacheCheckout {
 
 	private Repository repo;
 
-	private HashMap<String, CheckoutMetadata> updated = new HashMap<String, CheckoutMetadata>();
+	private HashMap<String, CheckoutMetadata> updated = new HashMap<>();
 
-	private ArrayList<String> conflicts = new ArrayList<String>();
+	private ArrayList<String> conflicts = new ArrayList<>();
 
-	private ArrayList<String> removed = new ArrayList<String>();
+	private ArrayList<String> removed = new ArrayList<>();
 
 	private ObjectId mergeCommitTree;
 
@@ -147,7 +147,7 @@ public class DirCacheCheckout {
 
 	private boolean failOnConflict = true;
 
-	private ArrayList<String> toBeDeleted = new ArrayList<String>();
+	private ArrayList<String> toBeDeleted = new ArrayList<>();
 
 	private boolean emptyDirCache;
 

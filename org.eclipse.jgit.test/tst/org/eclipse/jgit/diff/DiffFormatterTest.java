@@ -89,7 +89,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		testDb = new TestRepository<Repository>(db);
+		testDb = new TestRepository<>(db);
 		df = new DiffFormatter(DisabledOutputStream.INSTANCE);
 		df.setRepository(db);
 		df.setAbbreviationLength(8);

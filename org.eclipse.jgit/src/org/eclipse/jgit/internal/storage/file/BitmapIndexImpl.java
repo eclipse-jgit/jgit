@@ -442,10 +442,10 @@ public class BitmapIndexImpl implements BitmapIndex {
 
 	private static final class MutableBitmapIndex {
 		private final ObjectIdOwnerMap<MutableEntry>
-				revMap = new ObjectIdOwnerMap<MutableEntry>();
+				revMap = new ObjectIdOwnerMap<>();
 
 		private final BlockList<MutableEntry>
-				revList = new BlockList<MutableEntry>();
+				revList = new BlockList<>();
 
 		int findPosition(AnyObjectId objectId) {
 			MutableEntry entry = revMap.get(objectId);

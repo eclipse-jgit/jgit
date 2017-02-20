@@ -270,10 +270,10 @@ public class TransportAmazonS3 extends HttpTransport implements WalkTransport {
 
 		@Override
 		Collection<String> getPackNames() throws IOException {
-			final HashSet<String> have = new HashSet<String>();
+			final HashSet<String> have = new HashSet<>();
 			have.addAll(s3.list(bucket, resolveKey("pack"))); //$NON-NLS-1$
 
-			final Collection<String> packs = new ArrayList<String>();
+			final Collection<String> packs = new ArrayList<>();
 			for (final String n : have) {
 				if (!n.startsWith("pack-") || !n.endsWith(".pack")) //$NON-NLS-1$ //$NON-NLS-2$
 					continue;
@@ -312,7 +312,7 @@ public class TransportAmazonS3 extends HttpTransport implements WalkTransport {
 		}
 
 		Map<String, Ref> readAdvertisedRefs() throws TransportException {
-			final TreeMap<String, Ref> avail = new TreeMap<String, Ref>();
+			final TreeMap<String, Ref> avail = new TreeMap<>();
 			readPackedRefs(avail);
 			readLooseRefs(avail);
 			readRef(avail, Constants.HEAD);

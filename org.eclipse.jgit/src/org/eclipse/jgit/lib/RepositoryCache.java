@@ -300,7 +300,7 @@ public class RepositoryCache {
 	}
 
 	private Collection<Key> getKeys() {
-		return new ArrayList<Key>(cacheMap.keySet());
+		return new ArrayList<>(cacheMap.keySet());
 	}
 
 	private void clearAllExpired() {

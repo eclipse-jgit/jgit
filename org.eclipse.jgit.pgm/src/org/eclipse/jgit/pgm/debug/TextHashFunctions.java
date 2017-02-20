@@ -251,16 +251,16 @@ class TextHashFunctions extends TextBuiltin {
 	//
 
 	@Option(name = "--hash", multiValued = true, metaVar = "NAME", usage = "Enable hash function(s)")
-	List<String> hashFunctions = new ArrayList<String>();
+	List<String> hashFunctions = new ArrayList<>();
 
 	@Option(name = "--fold", multiValued = true, metaVar = "NAME", usage = "Enable fold function(s)")
-	List<String> foldFunctions = new ArrayList<String>();
+	List<String> foldFunctions = new ArrayList<>();
 
 	@Option(name = "--text-limit", metaVar = "LIMIT", usage = "Maximum size in KiB to scan")
 	int textLimit = 15 * 1024; // 15 MiB as later we do * 1024.
 
 	@Option(name = "--repository", aliases = { "-r" }, multiValued = true, metaVar = "GIT_DIR", usage = "Repository to scan")
-	List<File> gitDirs = new ArrayList<File>();
+	List<File> gitDirs = new ArrayList<>();
 
 	@Override
 	protected boolean requiresRepository() {
@@ -327,7 +327,7 @@ class TextHashFunctions extends TextBuiltin {
 				RawText txt = new RawText(raw);
 				int[] lines = new int[txt.size()];
 				int cnt = 0;
-				HashSet<Line> u = new HashSet<Line>();
+				HashSet<Line> u = new HashSet<>();
 				for (int i = 0; i < txt.size(); i++) {
 					if (u.add(new Line(txt, i)))
 						lines[cnt++] = i;
@@ -386,8 +386,8 @@ class TextHashFunctions extends TextBuiltin {
 	}
 
 	private List<Function> init() {
-		List<Hash> hashes = new ArrayList<Hash>();
-		List<Fold> folds = new ArrayList<Fold>();
+		List<Hash> hashes = new ArrayList<>();
+		List<Fold> folds = new ArrayList<>();
 
 		try {
 			for (Field f : TextHashFunctions.class.getDeclaredFields()) {
@@ -410,7 +410,7 @@ class TextHashFunctions extends TextBuiltin {
 			throw new RuntimeException("Cannot determine names", e); //$NON-NLS-1$
 		}
 
-		List<Function> all = new ArrayList<Function>();
+		List<Function> all = new ArrayList<>();
 		for (Hash cmp : hashes) {
 			if (include(cmp.name, hashFunctions)) {
 				for (Fold f : folds) {
