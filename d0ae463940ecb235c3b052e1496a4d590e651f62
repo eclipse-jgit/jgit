@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_50f11455",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1930,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-02-20T19:21:09Z",
+      "side": 1,
+      "message": "Please make this consistent with isValidRefName:\n\n* / is allowed except at the end\n* Two consecutive // are not allowed\n* . is allowed, except as first or last character, or after a /\n* Two consecutive .. are not allowed",
+      "revId": "d0ae463940ecb235c3b052e1496a4d590e651f62",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
