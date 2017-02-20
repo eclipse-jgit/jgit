@@ -89,6 +89,7 @@ public class RefLeaseSpec implements Serializable {
 		return expected;
 	}
 
+	@Override
 	public String toString() {
 		final StringBuilder r = new StringBuilder();
 		r.append(getRef());

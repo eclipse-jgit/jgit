@@ -67,6 +67,7 @@ public class GcOrphanFilesTest extends GcTestCase {
 
 	private File packDir;
 
+	@Override
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
