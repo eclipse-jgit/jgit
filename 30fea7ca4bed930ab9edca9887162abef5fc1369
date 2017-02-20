@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_027d968d",
+        "filename": "org.eclipse.jgit.ant.test/META-INF/MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-02-20T09:59:41Z",
+      "side": 1,
+      "message": "I think that should be done in a separate change.",
+      "parentUuid": "a7c23755_82aa868a",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 64
+      },
+      "revId": "30fea7ca4bed930ab9edca9887162abef5fc1369",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_e29a5a7a",
         "filename": "org.eclipse.jgit.ant.test/META-INF/MANIFEST.MF",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2017-02-20T09:54:04Z",
       "side": 1,
       "message": "which problem does this fix ? With the old package import for org.hamcrest I can still run the tests from Eclipse (tried with Oxygen)",
+      "revId": "30fea7ca4bed930ab9edca9887162abef5fc1369",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_62f9ea8d",
+        "filename": "org.eclipse.jgit.ant.test/META-INF/MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-02-20T09:59:41Z",
+      "side": 1,
+      "message": "Without this change, I get a warning:\n\n API analysis aborted: org.eclipse.jgit.ant.test has unresolved constraints: org.hamcrest [1.1.0,2.0.0)\n\nAll the other instances of hamcrest in manifest files are for org.hamcrest.core so I changed this one to the same.",
+      "parentUuid": "a7c23755_e29a5a7a",
       "revId": "30fea7ca4bed930ab9edca9887162abef5fc1369",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
