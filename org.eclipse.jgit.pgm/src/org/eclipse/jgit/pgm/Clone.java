@@ -74,6 +74,9 @@ class Clone extends AbstractFetchCommand {
 	@Option(name = "--quiet", usage = "usage_quiet")
 	private Boolean quiet;
 
+	@Option(name = "--recurse-submodules", usage = "usage_recurseSubmodules")
+	private boolean cloneSubmodules;
+
 	@Argument(index = 0, required = true, metaVar = "metaVar_uriish")
 	private String sourceUri;
 
@@ -109,7 +112,8 @@ class Clone extends AbstractFetchCommand {
 
 		CloneCommand command = Git.cloneRepository();
 		command.setURI(sourceUri).setRemote(remoteName).setBare(isBare)
-				.setNoCheckout(noCheckout).setBranch(branch);
+				.setNoCheckout(noCheckout).setBranch(branch)
+				.setCloneSubmodules(cloneSubmodules);
 
 		command.setGitDir(gitdir == null ? null : new File(gitdir));
 		command.setDirectory(localNameF);
