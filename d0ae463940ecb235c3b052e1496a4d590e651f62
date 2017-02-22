@@ -16,6 +16,24 @@
       "revId": "d0ae463940ecb235c3b052e1496a4d590e651f62",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_b70c17cd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1930,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-02-22T21:44:43Z",
+      "side": 1,
+      "message": "Besides, I don\u0027t think restricting this to 7-bit ASCII is good. Why would a Japanese programmer not name his branches in Japanese? Or a Spanish or French programmer use accented characters?\n\nAnd how about stripping off all Unicode whitespace instead of just trim() above?\n\nSomething like\n\n  // Replace whitespace by underscore\n  // Replace characters that isValidRefName doesn\u0027t accept by dash\n  // Collapse sequences of underscores, dots, and dashes\n  // Remove underscores, dots, and dashes following slashes\n  // Collapse sequences of slashes\n  // Remove leading or training slashes, underscores, dots, and dashes\n  return result.replaceAll(\"(?:\\\\h|\\\\v)+\", \"_\")\n    .replaceAll(\"[\\\\\\\\~^:?*\\\\[]+\", \"-\")\n    .replaceAll(\"_+\", \"_\")\n    .replaceAll(\"\\\\.+\", \".\")\n    .replaceAll(\"-+\", \"-\")\n    .replaceAll(\"[_.-]{2,}\", \"_\")\n    .replaceAll(\"/[_.-]+\", \"/\")\n    .replaceAll(\"/+\", \"/\")\n    .replaceAll(\"^[/_.-]+|[/_.-]+$\", \"\");\n\nshould do a minimal fix and leave things like accents, umlauts, or Japanese text alone.\n\nWhere in the git docu does it say branch names could be only 7bit ASCII?",
+      "parentUuid": "a7c23755_50f11455",
+      "revId": "d0ae463940ecb235c3b052e1496a4d590e651f62",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
