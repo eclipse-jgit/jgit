@@ -58,6 +58,7 @@ import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.BranchConfig.BranchRebaseMode;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
@@ -105,6 +106,42 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	private boolean noCheckout;
 
 	private Collection<String> branchesToClone;
+
+	private Callback callback;
+
+	/**
+	 * Callback for status of clone operation.
+	 *
+	 * @since 4.8
+	 */
+	public interface Callback {
+		/**
+		 * Notify initialized submodules.
+		 *
+		 * @param submodules
+		 *            the submodules
+		 *
+		 */
+		void initializedSubmodules(Collection<String> submodules);
+
+		/**
+		 * Notify starting to clone a submodule.
+		 *
+		 * @param path
+		 *            the submodule path
+		 */
+		void cloningSubmodule(String path);
+
+		/**
+		 * Notify checkout of commit
+		 *
+		 * @param commit
+		 *            the id of the commit being checked out
+		 * @param path
+		 *            the submodule path
+		 */
+		void checkingOut(AnyObjectId commit, String path);
+	}
 
 	/**
 	 * Create clone command with no repository set
@@ -280,12 +317,18 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	private void cloneSubmodules(Repository clonedRepo) throws IOException,
 			GitAPIException {
 		SubmoduleInitCommand init = new SubmoduleInitCommand(clonedRepo);
-		if (init.call().isEmpty())
+		Collection<String> submodules = init.call();
+		if (submodules.isEmpty()) {
 			return;
+		}
+		if (callback != null) {
+			callback.initializedSubmodules(submodules);
+		}
 
 		SubmoduleUpdateCommand update = new SubmoduleUpdateCommand(clonedRepo);
 		configure(update);
 		update.setProgressMonitor(monitor);
+		update.setCallback(callback);
 		if (!update.call().isEmpty()) {
 			SubmoduleWalk walk = SubmoduleWalk.forIndex(clonedRepo);
 			while (walk.next()) {
@@ -521,6 +564,17 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	public CloneCommand setNoCheckout(boolean noCheckout) {
 		this.noCheckout = noCheckout;
 		return this;
+	}
+
+	/**
+	 * Register a progress callback.
+	 *
+	 * @param callback
+	 *            the callback
+	 * @since 4.8
+	 */
+	public void setCallback(Callback callback) {
+		this.callback = callback;
 	}
 
 	private static void validateDirs(File directory, File gitDir, boolean bare)
