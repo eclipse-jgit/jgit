@@ -1,0 +1,268 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_32f2d5d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-02-23T00:03:06Z",
+      "side": 1,
+      "message": "ternary?",
+      "range": {
+        "startLine": 9,
+        "startChar": 51,
+        "endLine": 9,
+        "endChar": 57
+      },
+      "revId": "59e5d85f0c70d0b14a750a364662c2a128b4e8b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_5201113c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-02-23T00:03:06Z",
+      "side": 1,
+      "message": "operators",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 10
+      },
+      "revId": "59e5d85f0c70d0b14a750a364662c2a128b4e8b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_72fc4da8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-02-23T00:03:06Z",
+      "side": 1,
+      "message": "an",
+      "range": {
+        "startLine": 28,
+        "startChar": 57,
+        "endLine": 28,
+        "endChar": 58
+      },
+      "revId": "59e5d85f0c70d0b14a750a364662c2a128b4e8b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_922ac9b3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-02-23T00:03:06Z",
+      "side": 1,
+      "message": "through?  throughout?",
+      "range": {
+        "startLine": 33,
+        "startChar": 18,
+        "endLine": 33,
+        "endChar": 26
+      },
+      "revId": "59e5d85f0c70d0b14a750a364662c2a128b4e8b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_b22d05ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-02-23T00:03:06Z",
+      "side": 1,
+      "message": "tests",
+      "range": {
+        "startLine": 39,
+        "startChar": 5,
+        "endLine": 39,
+        "endChar": 9
+      },
+      "revId": "59e5d85f0c70d0b14a750a364662c2a128b4e8b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_121eb997",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/filter/PathFilterLogicTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-02-23T00:03:06Z",
+      "side": 1,
+      "message": "This hides the class variable of the same name.  Same in other methods below.",
+      "range": {
+        "startLine": 322,
+        "startChar": 54,
+        "endLine": 322,
+        "endChar": 60
+      },
+      "revId": "59e5d85f0c70d0b14a750a364662c2a128b4e8b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_3219f5ad",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/filter/PathFilterLogicTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-02-23T00:03:06Z",
+      "side": 1,
+      "message": "nit: missing comma after. Same in other methods below.",
+      "range": {
+        "startLine": 324,
+        "startChar": 33,
+        "endLine": 324,
+        "endChar": 34
+      },
+      "revId": "59e5d85f0c70d0b14a750a364662c2a128b4e8b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_521831a8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/filter/PathFilterLogicTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-02-23T00:03:06Z",
+      "side": 1,
+      "message": "Why is this prefix needed?",
+      "range": {
+        "startLine": 332,
+        "startChar": 22,
+        "endLine": 332,
+        "endChar": 23
+      },
+      "revId": "59e5d85f0c70d0b14a750a364662c2a128b4e8b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_72136d8b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/filter/PathFilterLogicTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-02-23T00:03:06Z",
+      "side": 1,
+      "message": "This should be opened in try-with-resource.",
+      "range": {
+        "startLine": 334,
+        "startChar": 2,
+        "endLine": 334,
+        "endChar": 33
+      },
+      "revId": "59e5d85f0c70d0b14a750a364662c2a128b4e8b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_92556928",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/filter/PathFilterLogicTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-02-23T00:03:06Z",
+      "side": 1,
+      "message": "This also hides the class member variable.",
+      "range": {
+        "startLine": 355,
+        "startChar": 17,
+        "endLine": 355,
+        "endChar": 23
+      },
+      "revId": "59e5d85f0c70d0b14a750a364662c2a128b4e8b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_d22441e8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-02-23T00:03:06Z",
+      "side": 1,
+      "message": "nit: too many blank lines",
+      "revId": "59e5d85f0c70d0b14a750a364662c2a128b4e8b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_f2277de7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-02-23T00:03:06Z",
+      "side": 1,
+      "message": "This should have a javadoc.",
+      "revId": "59e5d85f0c70d0b14a750a364662c2a128b4e8b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
