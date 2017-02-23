@@ -34,6 +34,24 @@
       "revId": "d0ae463940ecb235c3b052e1496a4d590e651f62",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_addbea60",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1930,
+      "author": {
+        "id": 879
+      },
+      "writtenOn": "2017-02-23T13:42:37Z",
+      "side": 1,
+      "message": "I took the initial code from the Mylyn normalizer which was even more restrictive than this version. Please note that isValidRefname(S) also does some local platform filename checking which might still fail after this normalizer has executed.\n\nThat being said, I agree with your comments. Please go ahead and update to your regex.",
+      "parentUuid": "a7c23755_b70c17cd",
+      "revId": "d0ae463940ecb235c3b052e1496a4d590e651f62",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
