@@ -44,6 +44,7 @@
 package org.eclipse.jgit.lib;
 
 import static org.eclipse.jgit.junit.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 import org.eclipse.jgit.junit.MockSystemReader;
 import org.eclipse.jgit.util.SystemReader;
@@ -89,6 +90,25 @@ public class ValidRefNameTest {
 			setWindowsSystemReader();
 			assertEquals("\"" + name + "\"", false,
 					Repository.isValidRefName(name));
+		} finally {
+			SystemReader.setInstance(instance);
+		}
+	}
+
+	private static void assertNormalized(final String name,
+			final String expected) {
+		SystemReader instance = SystemReader.getInstance();
+		try {
+			setUnixSystemReader();
+			String normalized = Repository.normalizeBranchName(name);
+			assertEquals("Normalization of " + name, expected, normalized);
+			assertEquals("\"" + normalized + "\"", true,
+					Repository.isValidRefName(Constants.R_HEADS + normalized));
+			setWindowsSystemReader();
+			normalized = Repository.normalizeBranchName(name);
+			assertEquals("Normalization of " + name, expected, normalized);
+			assertEquals("\"" + normalized + "\"", true,
+					Repository.isValidRefName(Constants.R_HEADS + normalized));
 		} finally {
 			SystemReader.setInstance(instance);
 		}
@@ -250,97 +270,53 @@ public class ValidRefNameTest {
 
 	@Test
 	public void testNormalizeBranchName() {
-
-		assertEquals(true, Repository.normalizeBranchName("").equals(""));
-
-		assertEquals(true,
-				Repository.normalizeBranchName("__@#$@#$@$____   _")
-						.equals(""));
-
-		assertEquals(true,
-				Repository.normalizeBranchName("~`!@#$%^&*()_+}]{[|\\\";?>.<,/")
-						.equals(""));
-
-		assertEquals(true,
-				Repository.normalizeBranchName("Bug 12345 :::: Hello World")
-						.equals("Bug_12345-Hello_World"));
-
-		assertEquals(true,
-				Repository.normalizeBranchName("Bug 12345 :::: Hello::: World")
-						.equals("Bug_12345-Hello-_World"));
-
-		assertEquals(true,
-				Repository.normalizeBranchName(":::Bug 12345 - Hello World")
-						.equals("Bug_12345-Hello_World"));
-
-		assertEquals(true,
-				Repository.normalizeBranchName("---Bug 12345 - Hello World")
-						.equals("Bug_12345-Hello_World"));
-
-		assertEquals(true,
-				Repository.normalizeBranchName("Bug 12345 ---- Hello --- World")
-						.equals("Bug_12345-Hello-World"));
-
 		assertEquals(true, Repository.normalizeBranchName(null) == null);
+		assertEquals(true, Repository.normalizeBranchName("").equals(""));
+		assertNormalized("Bug 12345::::Hello World", "Bug_12345-Hello_World");
+		assertNormalized("Bug 12345 :::: Hello World", "Bug_12345_Hello_World");
+		assertNormalized("Bug 12345 :::: Hello::: World",
+				"Bug_12345_Hello-World");
+		assertNormalized(":::Bug 12345 - Hello World", "Bug_12345_Hello_World");
+		assertNormalized("---Bug 12345 - Hello World", "Bug_12345_Hello_World");
+		assertNormalized("Bug 12345 ---- Hello --- World",
+				"Bug_12345_Hello_World");
+		assertNormalized("Bug 12345 - Hello World!", "Bug_12345_Hello_World!");
+		assertNormalized("Bug 12345 : Hello World!", "Bug_12345_Hello_World!");
+		assertNormalized("Bug 12345 _ Hello World!", "Bug_12345_Hello_World!");
+		assertNormalized("Bug 12345   -       Hello World!",
+				"Bug_12345_Hello_World!");
+		assertNormalized(" Bug 12345   -   Hello World! ",
+				"Bug_12345_Hello_World!");
+		assertNormalized(" Bug 12345   -   Hello World!   ",
+				"Bug_12345_Hello_World!");
+		assertNormalized("Bug 12345   -   Hello______ World!",
+				"Bug_12345_Hello_World!");
+		assertNormalized("_Bug 12345 - Hello World!", "Bug_12345_Hello_World!");
+	}
 
-		assertEquals(true,
-				Repository.normalizeBranchName("Bug 12345 - Hello World!")
-						.equals("Bug_12345-Hello_World"));
+	@Test
+	public void testNormalizeWithSlashes() {
+		assertNormalized("foo/bar/baz", "foo/bar/baz");
+		assertNormalized("foo/bar.lock/baz.lock", "foo/bar_lock/baz_lock");
+		assertNormalized("foo/.git/.git~1/bar", "foo/git/git-1/bar");
+		assertNormalized(".foo/aux/con/com3.txt/com0/prn/lpt1",
+				"foo/+aux/+con/+com3.txt/com0/+prn/+lpt1");
+		assertNormalized("foo/../bar///.--ba...z", "foo/bar/ba.z");
+	}
 
-		assertEquals(true,
-				Repository.normalizeBranchName("Bug 12345 : Hello World!")
-						.equals("Bug_12345-Hello_World"));
-
-		assertEquals(true,
-				Repository.normalizeBranchName("Bug 12345 _ Hello World!")
-						.equals("Bug_12345_Hello_World"));
-
-		assertEquals(true,
-				Repository
-						.normalizeBranchName("Bug 12345   -       Hello World!")
-						.equals("Bug_12345-Hello_World"));
-
-		assertEquals(true,
-				Repository.normalizeBranchName(" Bug 12345   -   Hello World! ")
-						.equals("Bug_12345-Hello_World"));
-
-		assertEquals(true,
-				Repository
-						.normalizeBranchName(" Bug 12345   -   Hello World!   ")
-						.equals("Bug_12345-Hello_World"));
-
-		assertEquals(true,
-				Repository
-						.normalizeBranchName(
-								"Bug 12345   -   Hello______ World!")
-						.equals("Bug_12345-Hello_World"));
-
-		assertEquals(true,
-				Repository.normalizeBranchName("_Bug 12345 - Hello World!")
-						.equals("Bug_12345-Hello_World"));
-
-		assertEquals(true,
-				Repository
-						.normalizeBranchName(
-								"Bug 12345 - Hello Wo!@#$%^&*(rld {@")
-						.equals("Bug_12345-Hello_World_"));
-
-		assertEquals(true,
-				Repository.normalizeBranchName("Bug 1#$  2345 - Hello World")
-						.equals("Bug_12345-Hello_World"));
+	@Test
+	public void testNormalizeWithUnicode() {
+		assertNormalized("föö/.bàr/*[<>|^~/bé\\z", "föö/bàr/bé-z");
 	}
 
 	@Test
 	public void testNormalizeAlreadyValidRefName() {
-		assertEquals(true,
-				Repository.normalizeBranchName("refs/heads/m.a.s.t.e.r")
-						.equals("refs/heads/m.a.s.t.e.r"));
+		assertNormalized("refs/heads/m.a.s.t.e.r", "refs/heads/m.a.s.t.e.r");
+		assertNormalized("refs/tags/v1.0-20170223", "refs/tags/v1.0-20170223");
 	}
 
 	@Test
 	public void testNormalizeTrimmedUnicodeAlreadyValidRefName() {
-		assertEquals(true,
-				Repository.normalizeBranchName(" \u00e5ngstr\u00f6m\t")
-						.equals("\u00e5ngstr\u00f6m"));
+		assertNormalized(" \u00e5ngstr\u00f6m\t", "\u00e5ngstr\u00f6m");
 	}
 }
