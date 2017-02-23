@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_f28bfd27",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Clone.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-02-23T00:54:50Z",
+      "side": 1,
+      "message": "The \"Cloning into ...\" message is emitted here, but the recursion into submodules is done at a lower level in the CloneCommand implementation.",
+      "range": {
+        "startLine": 121,
+        "startChar": 2,
+        "endLine": 126,
+        "endChar": 3
+      },
+      "revId": "844268ac9e52b6ebf977da514d2c15f4e7431e28",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
