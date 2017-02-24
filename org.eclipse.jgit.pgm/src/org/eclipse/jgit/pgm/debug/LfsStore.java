@@ -255,7 +255,7 @@ class LfsStore extends TextBuiltin {
 
 			@Override
 			protected LargeFileRepository getLargeFileRepository(
-					LfsRequest request, String path) {
+					LfsRequest request, String path, String auth) {
 				return repository;
 			}
 		};
