@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_4eb40d1d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1066,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-02-24T00:09:05Z",
+      "side": 1,
+      "message": "at",
+      "range": {
+        "startLine": 1066,
+        "startChar": 16,
+        "endLine": 1066,
+        "endChar": 19
+      },
+      "revId": "b85b6436e758eda7fb47059ef93000b0fcd26b91",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_6ebb890d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1067,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-02-24T00:09:05Z",
+      "side": 1,
+      "message": "than",
+      "range": {
+        "startLine": 1067,
+        "startChar": 11,
+        "endLine": 1067,
+        "endChar": 15
+      },
+      "revId": "b85b6436e758eda7fb47059ef93000b0fcd26b91",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_2eb1912d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1083,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-02-24T00:09:05Z",
+      "side": 1,
+      "message": "missing @since 4.7 tag for new API method",
+      "revId": "b85b6436e758eda7fb47059ef93000b0fcd26b91",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_8ebe25fb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1093,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-02-24T00:09:05Z",
+      "side": 1,
+      "message": "style nit: these empty comment lines seem unnecessary",
+      "revId": "b85b6436e758eda7fb47059ef93000b0fcd26b91",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_cebf3df5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-02-24T00:09:05Z",
+      "side": 1,
+      "message": "extends",
+      "range": {
+        "startLine": 204,
+        "startChar": 16,
+        "endLine": 204,
+        "endChar": 22
+      },
+      "revId": "b85b6436e758eda7fb47059ef93000b0fcd26b91",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_aec4c188",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-02-24T00:09:05Z",
+      "side": 1,
+      "message": "missing @since 4.7 tag for new API method",
+      "revId": "b85b6436e758eda7fb47059ef93000b0fcd26b91",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
