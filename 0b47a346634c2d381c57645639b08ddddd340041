@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_6e89c979",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/FetchCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-02-24T10:34:12Z",
+      "side": 1,
+      "message": "Thanks.  Squashed this check into the previous one in the latest patch set.",
+      "parentUuid": "a7c23755_1ca25df6",
+      "revId": "0b47a346634c2d381c57645639b08ddddd340041",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_fca201f6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/FetchCommand.java",
         "patchSetId": 7
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_ae720104",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/FetchCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-02-24T10:34:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_fca201f6",
+      "revId": "0b47a346634c2d381c57645639b08ddddd340041",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_3c9d59b8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/FetchCommand.java",
         "patchSetId": 7
@@ -47,6 +83,24 @@
       "writtenOn": "2017-02-19T10:46:17Z",
       "side": 1,
       "message": "do we really need two ways to specify yes/no ?",
+      "revId": "0b47a346634c2d381c57645639b08ddddd340041",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_ce6d7d29",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/FetchCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-02-24T10:34:12Z",
+      "side": 1,
+      "message": "I thought it make make it easier for callers, but I guess it\u0027s not really needed.  Removed in the latest patch set.",
+      "parentUuid": "a7c23755_3c9d59b8",
       "revId": "0b47a346634c2d381c57645639b08ddddd340041",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
