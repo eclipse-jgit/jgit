@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "a7c23755_543f3ae2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1065,
+      "author": {
+        "id": 107695
+      },
+      "writtenOn": "2017-02-24T17:03:35Z",
+      "side": 1,
+      "message": "I think I wrote this the opposite of what I intended. It should be \u0027a subtree of\u0027 to match the -1 return value.",
+      "range": {
+        "startLine": 1065,
+        "startChar": 58,
+        "endLine": 1065,
+        "endChar": 69
+      },
+      "revId": "b85b6436e758eda7fb47059ef93000b0fcd26b91",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_4eb40d1d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
         "patchSetId": 4
@@ -13,6 +36,30 @@
       "writtenOn": "2017-02-24T00:09:05Z",
       "side": 1,
       "message": "at",
+      "range": {
+        "startLine": 1066,
+        "startChar": 16,
+        "endLine": 1066,
+        "endChar": 19
+      },
+      "revId": "b85b6436e758eda7fb47059ef93000b0fcd26b91",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_b49a4e79",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1066,
+      "author": {
+        "id": 107695
+      },
+      "writtenOn": "2017-02-24T17:03:35Z",
+      "side": 1,
+      "message": "\u0027supplied pattern\u0027 should be \u0027current entry\u0027",
+      "parentUuid": "a7c23755_4eb40d1d",
       "range": {
         "startLine": 1066,
         "startChar": 16,
@@ -76,6 +123,24 @@
       "writtenOn": "2017-02-24T00:09:05Z",
       "side": 1,
       "message": "style nit: these empty comment lines seem unnecessary",
+      "revId": "b85b6436e758eda7fb47059ef93000b0fcd26b91",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_342abeb5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1093,
+      "author": {
+        "id": 107695
+      },
+      "writtenOn": "2017-02-24T17:03:35Z",
+      "side": 1,
+      "message": "True. This is pretty much a copy of isPathPrefix and this seemed to be the commenting style, that\u0027s why I kept it as it was..\nI\u0027ll remove the trailing empty comment lines in my next update.",
+      "parentUuid": "a7c23755_8ebe25fb",
       "revId": "b85b6436e758eda7fb47059ef93000b0fcd26b91",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
