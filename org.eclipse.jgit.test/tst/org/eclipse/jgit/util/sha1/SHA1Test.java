@@ -44,12 +44,21 @@
 package org.eclipse.jgit.util.sha1;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
+import static org.junit.Assume.assumeTrue;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.util.IO;
 import org.junit.Test;
 
 public class SHA1Test {
@@ -108,5 +117,129 @@ public class SHA1Test {
 
 		assertEquals(m1, s1);
 		assertEquals(exp, s1);
+	}
+
+	@Test
+	public void shatteredCollision()
+			throws IOException, NoSuchAlgorithmException {
+		byte[] pdf1 = read("shattered-1.pdf", 422435);
+		byte[] pdf2 = read("shattered-2.pdf", 422435);
+		MessageDigest md;
+		SHA1 s;
+
+		// SHAttered attack generated these PDFs to have identical SHA-1.
+		ObjectId bad = ObjectId
+				.fromString("38762cf7f55934b34d179ae6a4c80cadccbb7f0a");
+		md = MessageDigest.getInstance("SHA-1");
+		md.update(pdf1);
+		assertEquals("shattered-1 collides", bad,
+				ObjectId.fromRaw(md.digest()));
+		s = SHA1.newInstance().setDetectCollision(false);
+		s.update(pdf1);
+		assertEquals("shattered-1 collides", bad, s.toObjectId());
+
+		md = MessageDigest.getInstance("SHA-1");
+		md.update(pdf2);
+		assertEquals("shattered-2 collides", bad,
+				ObjectId.fromRaw(md.digest()));
+		s = SHA1.newInstance().setDetectCollision(false);
+		s.update(pdf2);
+		assertEquals("shattered-2 collides", bad, s.toObjectId());
+
+		// SHA1 with detectCollision shouldn't be fooled.
+		s = SHA1.newInstance().setDetectCollision(true);
+		s.update(pdf1);
+		try {
+			s.digest();
+			fail("expected " + Sha1CollisionException.class.getSimpleName());
+		} catch (Sha1CollisionException e) {
+			assertEquals(e.getMessage(),
+					"SHA-1 collision detected on " + bad.name());
+		}
+
+		s = SHA1.newInstance().setDetectCollision(true);
+		s.update(pdf2);
+		try {
+			s.digest();
+			fail("expected " + Sha1CollisionException.class.getSimpleName());
+		} catch (Sha1CollisionException e) {
+			assertEquals(e.getMessage(),
+					"SHA-1 collision detected on " + bad.name());
+		}
+
+		// SHA1 with safeHash produces different hash values.
+		s = SHA1.newInstance().setDetectCollision(true).setSafeHash(true);
+		s.update(pdf1);
+		ObjectId safe1 = s.toObjectId();
+
+		s = SHA1.newInstance().setDetectCollision(true).setSafeHash(true);
+		s.update(pdf2);
+		ObjectId safe2 = s.toObjectId();
+
+		assertNotEquals("safe hashes not same", safe1, safe2);
+		assertNotEquals("safe hash changed", bad, safe1);
+		assertNotEquals("safe hash changed", bad, safe2);
+		assertEquals(
+				"shattered-1 matches sha1dc",
+				ObjectId.fromString("16e96b70000dd1e7c85b8368ee197754400e58ec"),
+				safe1);
+		assertEquals(
+				"shattered-2 matches sha1dc",
+				ObjectId.fromString("e1761773e6a35916d99f891b77663e6405313587"),
+				safe2);
+	}
+
+	@Test
+	public void shatteredStoredInGitBlob() throws IOException {
+		byte[] pdf1 = read("shattered-1.pdf", 422435);
+		byte[] pdf2 = read("shattered-2.pdf", 422435);
+
+		// Although the prior test detects the chance of a collision, adding
+		// the Git blob header permutes the data enough for this specific
+		// attack example to not be detected as a collision. (A different file
+		// pair that takes the Git header into account however, would.)
+		ObjectId id1 = blob(pdf1, SHA1.newInstance().setDetectCollision(true));
+		ObjectId id2 = blob(pdf2, SHA1.newInstance().setDetectCollision(true));
+
+		assertEquals(
+				ObjectId.fromString("ba9aaa145ccd24ef760cf31c74d8f7ca1a2e47b0"),
+				id1);
+		assertEquals(
+				ObjectId.fromString("b621eeccd5c7edac9b7dcba35a8d5afd075e24f2"),
+				id2);
+	}
+
+	@Test
+	public void detectsShatteredByDefault() throws IOException {
+		assumeTrue(System.getProperty("org.eclipse.jgit.util.sha1.detectCollision") == null);
+		assumeTrue(System.getProperty("org.eclipse.jgit.util.sha1.safeHash") == null);
+
+		byte[] pdf1 = read("shattered-1.pdf", 422435);
+		SHA1 s = SHA1.newInstance();
+		s.update(pdf1);
+		try {
+			s.digest();
+			fail("expected " + Sha1CollisionException.class.getSimpleName());
+		} catch (Sha1CollisionException e) {
+			assertTrue("shattered-1 detected", true);
+		}
+	}
+
+	private static ObjectId blob(byte[] pdf1, SHA1 s) {
+		s.update(Constants.encodedTypeString(Constants.OBJ_BLOB));
+		s.update((byte) ' ');
+		s.update(Constants.encodeASCII(pdf1.length));
+		s.update((byte) 0);
+		s.update(pdf1);
+		return s.toObjectId();
+	}
+
+	private byte[] read(String name, int sizeHint) throws IOException {
+		try (InputStream in = getClass().getResourceAsStream(name)) {
+			ByteBuffer buf = IO.readWholeStream(in, sizeHint);
+			byte[] r = new byte[buf.remaining()];
+			buf.get(r);
+			return r;
+		}
 	}
 }
