@@ -49,12 +49,11 @@ import java.io.EOFException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.channels.Channels;
-import java.security.DigestOutputStream;
-import java.security.MessageDigest;
 import java.text.MessageFormat;
 import java.util.zip.Deflater;
 import java.util.zip.DeflaterOutputStream;
@@ -69,6 +68,7 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.transport.PackParser;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
+import org.eclipse.jgit.util.sha1.SHA1;
 
 /** Creates loose objects in a {@link ObjectDirectory}. */
 class ObjectDirectoryInserter extends ObjectInserter {
@@ -140,9 +140,9 @@ class ObjectDirectoryInserter extends ObjectInserter {
 			return insert(type, buf, 0, actLen, createDuplicate);
 
 		} else {
-			MessageDigest md = digest();
+			SHA1 md = SHA1.newInstance();
 			File tmp = toTemp(md, type, len, is);
-			ObjectId id = ObjectId.fromRaw(md.digest());
+			ObjectId id = md.toObjectId();
 			return insertOneObject(tmp, id, createDuplicate);
 		}
 	}
@@ -193,7 +193,7 @@ class ObjectDirectoryInserter extends ObjectInserter {
 	}
 
 	@SuppressWarnings("resource" /* java 7 */)
-	private File toTemp(final MessageDigest md, final int type, long len,
+	private File toTemp(final SHA1 md, final int type, long len,
 			final InputStream is) throws IOException, FileNotFoundException,
 			Error {
 		boolean delete = true;
@@ -205,7 +205,7 @@ class ObjectDirectoryInserter extends ObjectInserter {
 				if (config.getFSyncObjectFiles())
 					out = Channels.newOutputStream(fOut.getChannel());
 				DeflaterOutputStream cOut = compress(out);
-				DigestOutputStream dOut = new DigestOutputStream(cOut, md);
+				SHA1OutputStream dOut = new SHA1OutputStream(cOut, md);
 				writeHeader(dOut, type, len);
 
 				final byte[] buf = buffer();
@@ -284,5 +284,26 @@ class ObjectDirectoryInserter extends ObjectInserter {
 	private static EOFException shortInput(long missing) {
 		return new EOFException(MessageFormat.format(
 				JGitText.get().inputDidntMatchLength, Long.valueOf(missing)));
+	}
+
+	private static class SHA1OutputStream extends FilterOutputStream {
+		private final SHA1 md;
+
+		SHA1OutputStream(OutputStream out, SHA1 md) {
+			super(out);
+			this.md = md;
+		}
+
+		@Override
+		public void write(int b) throws IOException {
+			md.update((byte) b);
+			out.write(b);
+		}
+
+		@Override
+		public void write(byte[] in, int p, int n) throws IOException {
+			md.update(in, p, n);
+			out.write(in, p, n);
+		}
 	}
 }

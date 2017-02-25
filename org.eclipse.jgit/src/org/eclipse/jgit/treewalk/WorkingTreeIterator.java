@@ -56,7 +56,6 @@ import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.CharsetEncoder;
-import java.security.MessageDigest;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Collections;
@@ -99,6 +98,7 @@ import org.eclipse.jgit.util.TemporaryBuffer;
 import org.eclipse.jgit.util.TemporaryBuffer.LocalFile;
 import org.eclipse.jgit.util.io.AutoLFInputStream;
 import org.eclipse.jgit.util.io.EolStreamTypeUtil;
+import org.eclipse.jgit.util.sha1.SHA1;
 
 /**
  * Walks a working directory tree as part of a {@link TreeWalk}.
@@ -364,7 +364,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 			if (is == null)
 				return zeroid;
 			try {
-				state.initializeDigestAndReadBuffer();
+				state.initializeReadBuffer();
 
 				final long len = e.getLength();
 				InputStream filteredIs = possiblyFilteredInputStream(e, is, len,
@@ -1099,10 +1099,9 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	}
 
 	private byte[] computeHash(InputStream in, long length) throws IOException {
-		final MessageDigest contentDigest = state.contentDigest;
+		SHA1 contentDigest = SHA1.newInstance();
 		final byte[] contentReadBuffer = state.contentReadBuffer;
 
-		contentDigest.reset();
 		contentDigest.update(hblob);
 		contentDigest.update((byte) ' ');
 
@@ -1330,9 +1329,6 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		/** File name character encoder. */
 		final CharsetEncoder nameEncoder;
 
-		/** Digest computer for {@link #contentId} computations. */
-		MessageDigest contentDigest;
-
 		/** Buffer used to perform {@link #contentId} computations. */
 		byte[] contentReadBuffer;
 
@@ -1347,9 +1343,8 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 			this.nameEncoder = Constants.CHARSET.newEncoder();
 		}
 
-		void initializeDigestAndReadBuffer() {
-			if (contentDigest == null) {
-				contentDigest = Constants.newMessageDigest();
+		void initializeReadBuffer() {
+			if (contentReadBuffer == null) {
 				contentReadBuffer = new byte[BUFFER_SIZE];
 			}
 		}
