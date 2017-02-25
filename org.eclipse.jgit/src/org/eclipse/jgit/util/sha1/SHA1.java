@@ -43,32 +43,63 @@
 
 package org.eclipse.jgit.util.sha1;
 
+import static java.lang.Integer.lowestOneBit;
+import static java.lang.Integer.numberOfTrailingZeros;
+import static java.lang.Integer.rotateLeft;
+import static java.lang.Integer.rotateRight;
+
 import java.util.Arrays;
 
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.util.NB;
+import org.eclipse.jgit.util.SystemReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Pure Java implementation of SHA-1 from FIPS 180-1 / RFC 3174.
  *
  * <p>
  * See <a href="https://tools.ietf.org/html/rfc3174">RFC 3174</a>.
+ * <p>
+ * Unlike MessageDigest, this implementation includes the algorithm used by
+ * {@code sha1dc} to detect cryptanalytic collision attacks against SHA-1, such
+ * as the one used by <a href="https://shattered.it/">SHAttered</a>. See
+ * <a href="https://github.com/cr-marcstevens/sha1collisiondetection">
+ * sha1collisiondetection</a> for more information.
+ * <p>
+ * When detectCollision is true and safeHash is false (the defaults), this
+ * implementation throws {@link Sha1CollisionException} from any digest method
+ * if a potential collision was detected.
+ * <p>
+ * When safeHash is true, this implementation will instead return a hardened
+ * SHA-1 by running additional rounds on specific message blocks, which produces
+ * a different hash result than standard SHA-1 would produce for the same file.
+ * This may cause Git objects to be given a different name.
  *
  * @since 4.7
  */
 public class SHA1 {
+	private static Logger LOG = LoggerFactory.getLogger(SHA1.class);
+	private static final boolean DETECT_COLLISIONS;
+	private static final boolean SAFE_HASH;
+
+	static {
+		SystemReader sr = SystemReader.getInstance();
+		String v = sr.getProperty("org.eclipse.jgit.util.sha1.detectCollision"); //$NON-NLS-1$
+		DETECT_COLLISIONS = v != null ? Boolean.parseBoolean(v) : true;
+
+		v = sr.getProperty("org.eclipse.jgit.util.sha1.safeHash"); //$NON-NLS-1$
+		SAFE_HASH = v != null ? Boolean.parseBoolean(v) : false;
+	}
+
 	/** @return a new context to compute a SHA-1 hash of data. */
 	public static SHA1 newInstance() {
 		return new SHA1();
 	}
 
-	// Magic initialization constants defined by FIPS180.
-	private int h0 = 0x67452301;
-	private int h1 = 0xEFCDAB89;
-	private int h2 = 0x98BADCFE;
-	private int h3 = 0x10325476;
-	private int h4 = 0xC3D2E1F0;
+	private final State h = new State();
 	private final int[] w = new int[80];
 
 	/** Buffer to accumulate partial blocks to 64 byte alignment. */
@@ -77,7 +108,52 @@ public class SHA1 {
 	/** Total number of bytes in the message. */
 	private long length;
 
+	private boolean detectCollision = DETECT_COLLISIONS;
+	private boolean safeHash = SAFE_HASH;
+	private boolean foundCollision;
+
+	private final int[] w2 = new int[80];
+	private final State state58 = new State();
+	private final State state65 = new State();
+	private final State hIn = new State();
+	private final State hTmp = new State();
+
 	private SHA1() {
+		// Magic initialization constants defined by FIPS180.
+		h.save(0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0);
+	}
+
+	/**
+	 * Enable likely collision detection.
+	 * <p>
+	 * Default is {@code true}.
+	 * <p>
+	 * May also be set by system property:
+	 * {@code -Dorg.eclipse.jgit.util.sha1.detectCollision=true}.
+	 *
+	 * @param detect
+	 * @return {@code this}
+	 */
+	public SHA1 setDetectCollision(boolean detect) {
+		detectCollision = detect;
+		return this;
+	}
+
+	/**
+	 * Enable generation of hardened SHA-1 if a collision is likely.
+	 *
+	 * <p>
+	 * Default is {@code false}.
+	 * <p>
+	 * May also be set by system property:
+	 * {@code -Dorg.eclipse.jgit.util.sha1.safeHash=true}.
+	 *
+	 * @param safe
+	 * @return {@code this}
+	 */
+	public SHA1 setSafeHash(boolean safe) {
+		safeHash = safe;
+		return this;
 	}
 
 	/**
@@ -141,83 +217,287 @@ public class SHA1 {
 	}
 
 	private void compress(byte[] block, int p) {
-		// Method 1 from RFC 3174 section 6.1.
-		// Method 2 (circular queue of 16 words) is slower.
-		int a = h0, b = h1, c = h2, d = h3, e = h4;
+		initBlock(block, p);
+		int ubcDvMask = detectCollision ? UbcCheck.check(w) : 0;
+		compress();
 
-		// Round 1: 0 <= t <= 15 comes from the input block.
+		while (ubcDvMask != 0) {
+			int b = numberOfTrailingZeros(lowestOneBit(ubcDvMask));
+			UbcCheck.DvInfo dv = UbcCheck.DV[b];
+			for (int i = 0; i < 80; i++) {
+				w2[i] = w[i] ^ dv.dm[i];
+			}
+			recompress(dv.testt);
+			if (eq(hTmp, h)) {
+				foundCollision = true;
+				if (safeHash) {
+					compress();
+					compress();
+				}
+				break;
+			}
+			ubcDvMask &= ~(1 << b);
+		}
+	}
+
+	private void initBlock(byte[] block, int p) {
 		for (int t = 0; t < 16; t++) {
-			int temp = NB.decodeInt32(block, p + (t << 2));
-			w[t] = temp;
-			temp += ((a << 5) | (a >>> 27)) // S^5(A)
-					+ (((c ^ d) & b) ^ d) // f: 0 <= t <= 19
-					+ e + 0x5A827999;
-			e = d;
-			d = c;
-			c = (b << 30) | (b >>> 2); // S^30(B)
-			b = a;
-			a = temp;
+			w[t] = NB.decodeInt32(block, p + (t << 2));
 		}
 
 		// RFC 3174 6.1.b, extend state vector to 80 words.
 		for (int t = 16; t < 80; t++) {
 			int x = w[t - 3] ^ w[t - 8] ^ w[t - 14] ^ w[t - 16];
-			w[t] = (x << 1) | (x >>> 31); // S^1(...)
+			w[t] = rotateLeft(x, 1); // S^1(...)
 		}
+	}
 
-		// Round 1: tail
-		for (int t = 16; t < 20; t++) {
-			int temp = ((a << 5) | (a >>> 27)) // S^5(A)
-					+ (((c ^ d) & b) ^ d) // f: 0 <= t <= 19
-					+ e + w[t] + 0x5A827999;
-			e = d;
-			d = c;
-			c = (b << 30) | (b >>> 2); // S^30(B)
-			b = a;
-			a = temp;
+	private void compress() {
+		// Method 1 from RFC 3174 section 6.1.
+		// Method 2 (circular queue of 16 words) is slower.
+		int a = h.a, b = h.b, c = h.c, d = h.d, e = h.e;
+
+		// @formatter:off
+		 e += s1(a, b, c, d,w[ 0]);  b = rotateLeft( b, 30);
+		 d += s1(e, a, b, c,w[ 1]);  a = rotateLeft( a, 30);
+		 c += s1(d, e, a, b,w[ 2]);  e = rotateLeft( e, 30);
+		 b += s1(c, d, e, a,w[ 3]);  d = rotateLeft( d, 30);
+		 a += s1(b, c, d, e,w[ 4]);  c = rotateLeft( c, 30);
+		 e += s1(a, b, c, d,w[ 5]);  b = rotateLeft( b, 30);
+		 d += s1(e, a, b, c,w[ 6]);  a = rotateLeft( a, 30);
+		 c += s1(d, e, a, b,w[ 7]);  e = rotateLeft( e, 30);
+		 b += s1(c, d, e, a,w[ 8]);  d = rotateLeft( d, 30);
+		 a += s1(b, c, d, e,w[ 9]);  c = rotateLeft( c, 30);
+		 e += s1(a, b, c, d,w[ 10]);  b = rotateLeft( b, 30);
+		 d += s1(e, a, b, c,w[ 11]);  a = rotateLeft( a, 30);
+		 c += s1(d, e, a, b,w[ 12]);  e = rotateLeft( e, 30);
+		 b += s1(c, d, e, a,w[ 13]);  d = rotateLeft( d, 30);
+		 a += s1(b, c, d, e,w[ 14]);  c = rotateLeft( c, 30);
+		 e += s1(a, b, c, d,w[ 15]);  b = rotateLeft( b, 30);
+		 d += s1(e, a, b, c,w[ 16]);  a = rotateLeft( a, 30);
+		 c += s1(d, e, a, b,w[ 17]);  e = rotateLeft( e, 30);
+		 b += s1(c, d, e, a,w[ 18]);  d = rotateLeft( d, 30);
+		 a += s1(b, c, d, e,w[ 19]);  c = rotateLeft( c, 30);
+
+		 e += s2(a, b, c, d,w[ 20]);  b = rotateLeft( b, 30);
+		 d += s2(e, a, b, c,w[ 21]);  a = rotateLeft( a, 30);
+		 c += s2(d, e, a, b,w[ 22]);  e = rotateLeft( e, 30);
+		 b += s2(c, d, e, a,w[ 23]);  d = rotateLeft( d, 30);
+		 a += s2(b, c, d, e,w[ 24]);  c = rotateLeft( c, 30);
+		 e += s2(a, b, c, d,w[ 25]);  b = rotateLeft( b, 30);
+		 d += s2(e, a, b, c,w[ 26]);  a = rotateLeft( a, 30);
+		 c += s2(d, e, a, b,w[ 27]);  e = rotateLeft( e, 30);
+		 b += s2(c, d, e, a,w[ 28]);  d = rotateLeft( d, 30);
+		 a += s2(b, c, d, e,w[ 29]);  c = rotateLeft( c, 30);
+		 e += s2(a, b, c, d,w[ 30]);  b = rotateLeft( b, 30);
+		 d += s2(e, a, b, c,w[ 31]);  a = rotateLeft( a, 30);
+		 c += s2(d, e, a, b,w[ 32]);  e = rotateLeft( e, 30);
+		 b += s2(c, d, e, a,w[ 33]);  d = rotateLeft( d, 30);
+		 a += s2(b, c, d, e,w[ 34]);  c = rotateLeft( c, 30);
+		 e += s2(a, b, c, d,w[ 35]);  b = rotateLeft( b, 30);
+		 d += s2(e, a, b, c,w[ 36]);  a = rotateLeft( a, 30);
+		 c += s2(d, e, a, b,w[ 37]);  e = rotateLeft( e, 30);
+		 b += s2(c, d, e, a,w[ 38]);  d = rotateLeft( d, 30);
+		 a += s2(b, c, d, e,w[ 39]);  c = rotateLeft( c, 30);
+
+		 e += s3(a, b, c, d,w[ 40]);  b = rotateLeft( b, 30);
+		 d += s3(e, a, b, c,w[ 41]);  a = rotateLeft( a, 30);
+		 c += s3(d, e, a, b,w[ 42]);  e = rotateLeft( e, 30);
+		 b += s3(c, d, e, a,w[ 43]);  d = rotateLeft( d, 30);
+		 a += s3(b, c, d, e,w[ 44]);  c = rotateLeft( c, 30);
+		 e += s3(a, b, c, d,w[ 45]);  b = rotateLeft( b, 30);
+		 d += s3(e, a, b, c,w[ 46]);  a = rotateLeft( a, 30);
+		 c += s3(d, e, a, b,w[ 47]);  e = rotateLeft( e, 30);
+		 b += s3(c, d, e, a,w[ 48]);  d = rotateLeft( d, 30);
+		 a += s3(b, c, d, e,w[ 49]);  c = rotateLeft( c, 30);
+		 e += s3(a, b, c, d,w[ 50]);  b = rotateLeft( b, 30);
+		 d += s3(e, a, b, c,w[ 51]);  a = rotateLeft( a, 30);
+		 c += s3(d, e, a, b,w[ 52]);  e = rotateLeft( e, 30);
+		 b += s3(c, d, e, a,w[ 53]);  d = rotateLeft( d, 30);
+		 a += s3(b, c, d, e,w[ 54]);  c = rotateLeft( c, 30);
+		 e += s3(a, b, c, d,w[ 55]);  b = rotateLeft( b, 30);
+		 d += s3(e, a, b, c,w[ 56]);  a = rotateLeft( a, 30);
+		 c += s3(d, e, a, b,w[ 57]);  e = rotateLeft( e, 30);
+		state58.save(a, b, c, d, e);
+		 b += s3(c, d, e, a,w[ 58]);  d = rotateLeft( d, 30);
+		 a += s3(b, c, d, e,w[ 59]);  c = rotateLeft( c, 30);
+
+		 e += s4(a, b, c, d,w[ 60]);  b = rotateLeft( b, 30);
+		 d += s4(e, a, b, c,w[ 61]);  a = rotateLeft( a, 30);
+		 c += s4(d, e, a, b,w[ 62]);  e = rotateLeft( e, 30);
+		 b += s4(c, d, e, a,w[ 63]);  d = rotateLeft( d, 30);
+		 a += s4(b, c, d, e,w[ 64]);  c = rotateLeft( c, 30);
+		state65.save(a, b, c, d, e);
+		 e += s4(a, b, c, d,w[ 65]);  b = rotateLeft( b, 30);
+		 d += s4(e, a, b, c,w[ 66]);  a = rotateLeft( a, 30);
+		 c += s4(d, e, a, b,w[ 67]);  e = rotateLeft( e, 30);
+		 b += s4(c, d, e, a,w[ 68]);  d = rotateLeft( d, 30);
+		 a += s4(b, c, d, e,w[ 69]);  c = rotateLeft( c, 30);
+		 e += s4(a, b, c, d,w[ 70]);  b = rotateLeft( b, 30);
+		 d += s4(e, a, b, c,w[ 71]);  a = rotateLeft( a, 30);
+		 c += s4(d, e, a, b,w[ 72]);  e = rotateLeft( e, 30);
+		 b += s4(c, d, e, a,w[ 73]);  d = rotateLeft( d, 30);
+		 a += s4(b, c, d, e,w[ 74]);  c = rotateLeft( c, 30);
+		 e += s4(a, b, c, d,w[ 75]);  b = rotateLeft( b, 30);
+		 d += s4(e, a, b, c,w[ 76]);  a = rotateLeft( a, 30);
+		 c += s4(d, e, a, b,w[ 77]);  e = rotateLeft( e, 30);
+		 b += s4(c, d, e, a,w[ 78]);  d = rotateLeft( d, 30);
+		 a += s4(b, c, d, e,w[ 79]);  c = rotateLeft( c, 30);
+
+		// @formatter:on
+		h.save(h.a + a, h.b + b, h.c + c, h.d + d, h.e + e);
+	}
+
+	private void recompress(int t) {
+		State s;
+		if (t == 58) {
+			s = state58;
+		} else if (t == 65) {
+			s = state65;
+		} else {
+			throw new IllegalStateException();
 		}
+		int a = s.a, b = s.b, c = s.c, d = s.d, e = s.e;
 
-		// Round 2
-		for (int t = 20; t < 40; t++) {
-			int temp = ((a << 5) | (a >>> 27)) // S^5(A)
-					+ (b ^ c ^ d) // f: 20 <= t <= 39
-					+ e + w[t] + 0x6ED9EBA1;
-			e = d;
-			d = c;
-			c = (b << 30) | (b >>> 2); // S^30(B)
-			b = a;
-			a = temp;
-		}
+		// @formatter:off
+	  if (t == 65) {
+		{ c = rotateRight( c, 30);  a -= s4(b, c, d, e,w2[ 64]);}
+		{ d = rotateRight( d, 30);  b -= s4(c, d, e, a,w2[ 63]);}
+		{ e = rotateRight( e, 30);  c -= s4(d, e, a, b,w2[ 62]);}
+		{ a = rotateRight( a, 30);  d -= s4(e, a, b, c,w2[ 61]);}
+		{ b = rotateRight( b, 30);  e -= s4(a, b, c, d,w2[ 60]);}
 
-		// Round 3
-		for (int t = 40; t < 60; t++) {
-			int temp = ((a << 5) | (a >>> 27)) // S^5(A)
-					+ ((b & c) | (d & (b | c))) // f: 40 <= t <= 59
-					+ e + w[t] + 0x8F1BBCDC;
-			e = d;
-			d = c;
-			c = (b << 30) | (b >>> 2); // S^30(B)
-			b = a;
-			a = temp;
-		}
+		{ c = rotateRight( c, 30);  a -= s3(b, c, d, e,w2[ 59]);}
+		{ d = rotateRight( d, 30);  b -= s3(c, d, e, a,w2[ 58]);}
+	  }
+		{ e = rotateRight( e, 30);  c -= s3(d, e, a, b,w2[ 57]);}
+		{ a = rotateRight( a, 30);  d -= s3(e, a, b, c,w2[ 56]);}
+		{ b = rotateRight( b, 30);  e -= s3(a, b, c, d,w2[ 55]);}
+		{ c = rotateRight( c, 30);  a -= s3(b, c, d, e,w2[ 54]);}
+		{ d = rotateRight( d, 30);  b -= s3(c, d, e, a,w2[ 53]);}
+		{ e = rotateRight( e, 30);  c -= s3(d, e, a, b,w2[ 52]);}
+		{ a = rotateRight( a, 30);  d -= s3(e, a, b, c,w2[ 51]);}
+		{ b = rotateRight( b, 30);  e -= s3(a, b, c, d,w2[ 50]);}
+		{ c = rotateRight( c, 30);  a -= s3(b, c, d, e,w2[ 49]);}
+		{ d = rotateRight( d, 30);  b -= s3(c, d, e, a,w2[ 48]);}
+		{ e = rotateRight( e, 30);  c -= s3(d, e, a, b,w2[ 47]);}
+		{ a = rotateRight( a, 30);  d -= s3(e, a, b, c,w2[ 46]);}
+		{ b = rotateRight( b, 30);  e -= s3(a, b, c, d,w2[ 45]);}
+		{ c = rotateRight( c, 30);  a -= s3(b, c, d, e,w2[ 44]);}
+		{ d = rotateRight( d, 30);  b -= s3(c, d, e, a,w2[ 43]);}
+		{ e = rotateRight( e, 30);  c -= s3(d, e, a, b,w2[ 42]);}
+		{ a = rotateRight( a, 30);  d -= s3(e, a, b, c,w2[ 41]);}
+		{ b = rotateRight( b, 30);  e -= s3(a, b, c, d,w2[ 40]);}
 
-		// Round 4
-		for (int t = 60; t < 80; t++) {
-			int temp = ((a << 5) | (a >>> 27)) // S^5(A)
-					+ (b ^ c ^ d) // f: 60 <= t <= 79
-					+ e + w[t] + 0xCA62C1D6;
-			e = d;
-			d = c;
-			c = (b << 30) | (b >>> 2); // S^30(B)
-			b = a;
-			a = temp;
-		}
+		{ c = rotateRight( c, 30);  a -= s2(b, c, d, e,w2[ 39]);}
+		{ d = rotateRight( d, 30);  b -= s2(c, d, e, a,w2[ 38]);}
+		{ e = rotateRight( e, 30);  c -= s2(d, e, a, b,w2[ 37]);}
+		{ a = rotateRight( a, 30);  d -= s2(e, a, b, c,w2[ 36]);}
+		{ b = rotateRight( b, 30);  e -= s2(a, b, c, d,w2[ 35]);}
+		{ c = rotateRight( c, 30);  a -= s2(b, c, d, e,w2[ 34]);}
+		{ d = rotateRight( d, 30);  b -= s2(c, d, e, a,w2[ 33]);}
+		{ e = rotateRight( e, 30);  c -= s2(d, e, a, b,w2[ 32]);}
+		{ a = rotateRight( a, 30);  d -= s2(e, a, b, c,w2[ 31]);}
+		{ b = rotateRight( b, 30);  e -= s2(a, b, c, d,w2[ 30]);}
+		{ c = rotateRight( c, 30);  a -= s2(b, c, d, e,w2[ 29]);}
+		{ d = rotateRight( d, 30);  b -= s2(c, d, e, a,w2[ 28]);}
+		{ e = rotateRight( e, 30);  c -= s2(d, e, a, b,w2[ 27]);}
+		{ a = rotateRight( a, 30);  d -= s2(e, a, b, c,w2[ 26]);}
+		{ b = rotateRight( b, 30);  e -= s2(a, b, c, d,w2[ 25]);}
+		{ c = rotateRight( c, 30);  a -= s2(b, c, d, e,w2[ 24]);}
+		{ d = rotateRight( d, 30);  b -= s2(c, d, e, a,w2[ 23]);}
+		{ e = rotateRight( e, 30);  c -= s2(d, e, a, b,w2[ 22]);}
+		{ a = rotateRight( a, 30);  d -= s2(e, a, b, c,w2[ 21]);}
+		{ b = rotateRight( b, 30);  e -= s2(a, b, c, d,w2[ 20]);}
 
-		h0 += a;
-		h1 += b;
-		h2 += c;
-		h3 += d;
-		h4 += e;
+		{ c = rotateRight( c, 30);  a -= s1(b, c, d, e,w2[ 19]);}
+		{ d = rotateRight( d, 30);  b -= s1(c, d, e, a,w2[ 18]);}
+		{ e = rotateRight( e, 30);  c -= s1(d, e, a, b,w2[ 17]);}
+		{ a = rotateRight( a, 30);  d -= s1(e, a, b, c,w2[ 16]);}
+		{ b = rotateRight( b, 30);  e -= s1(a, b, c, d,w2[ 15]);}
+		{ c = rotateRight( c, 30);  a -= s1(b, c, d, e,w2[ 14]);}
+		{ d = rotateRight( d, 30);  b -= s1(c, d, e, a,w2[ 13]);}
+		{ e = rotateRight( e, 30);  c -= s1(d, e, a, b,w2[ 12]);}
+		{ a = rotateRight( a, 30);  d -= s1(e, a, b, c,w2[ 11]);}
+		{ b = rotateRight( b, 30);  e -= s1(a, b, c, d,w2[ 10]);}
+		{ c = rotateRight( c, 30);  a -= s1(b, c, d, e,w2[ 9]);}
+		{ d = rotateRight( d, 30);  b -= s1(c, d, e, a,w2[ 8]);}
+		{ e = rotateRight( e, 30);  c -= s1(d, e, a, b,w2[ 7]);}
+		{ a = rotateRight( a, 30);  d -= s1(e, a, b, c,w2[ 6]);}
+		{ b = rotateRight( b, 30);  e -= s1(a, b, c, d,w2[ 5]);}
+		{ c = rotateRight( c, 30);  a -= s1(b, c, d, e,w2[ 4]);}
+		{ d = rotateRight( d, 30);  b -= s1(c, d, e, a,w2[ 3]);}
+		{ e = rotateRight( e, 30);  c -= s1(d, e, a, b,w2[ 2]);}
+		{ a = rotateRight( a, 30);  d -= s1(e, a, b, c,w2[ 1]);}
+		{ b = rotateRight( b, 30);  e -= s1(a, b, c, d,w2[ 0]);}
+
+		hIn.save(a, b, c, d, e);
+		a = s.a; b = s.b; c = s.c; d = s.d; e = s.e;
+
+	  if (t == 58) {
+		{ b += s3(c, d, e, a,w2[ 58]);  d = rotateLeft( d, 30);}
+		{ a += s3(b, c, d, e,w2[ 59]);  c = rotateLeft( c, 30);}
+
+		{ e += s4(a, b, c, d,w2[ 60]);  b = rotateLeft( b, 30);}
+		{ d += s4(e, a, b, c,w2[ 61]);  a = rotateLeft( a, 30);}
+		{ c += s4(d, e, a, b,w2[ 62]);  e = rotateLeft( e, 30);}
+		{ b += s4(c, d, e, a,w2[ 63]);  d = rotateLeft( d, 30);}
+		{ a += s4(b, c, d, e,w2[ 64]);  c = rotateLeft( c, 30);}
+	  }
+		{ e += s4(a, b, c, d,w2[ 65]);  b = rotateLeft( b, 30);}
+		{ d += s4(e, a, b, c,w2[ 66]);  a = rotateLeft( a, 30);}
+		{ c += s4(d, e, a, b,w2[ 67]);  e = rotateLeft( e, 30);}
+		{ b += s4(c, d, e, a,w2[ 68]);  d = rotateLeft( d, 30);}
+		{ a += s4(b, c, d, e,w2[ 69]);  c = rotateLeft( c, 30);}
+		{ e += s4(a, b, c, d,w2[ 70]);  b = rotateLeft( b, 30);}
+		{ d += s4(e, a, b, c,w2[ 71]);  a = rotateLeft( a, 30);}
+		{ c += s4(d, e, a, b,w2[ 72]);  e = rotateLeft( e, 30);}
+		{ b += s4(c, d, e, a,w2[ 73]);  d = rotateLeft( d, 30);}
+		{ a += s4(b, c, d, e,w2[ 74]);  c = rotateLeft( c, 30);}
+		{ e += s4(a, b, c, d,w2[ 75]);  b = rotateLeft( b, 30);}
+		{ d += s4(e, a, b, c,w2[ 76]);  a = rotateLeft( a, 30);}
+		{ c += s4(d, e, a, b,w2[ 77]);  e = rotateLeft( e, 30);}
+		{ b += s4(c, d, e, a,w2[ 78]);  d = rotateLeft( d, 30);}
+		{ a += s4(b, c, d, e,w2[ 79]);  c = rotateLeft( c, 30);}
+
+		// @formatter:on
+		hTmp.save(hIn.a + a, hIn.b + b, hIn.c + c, hIn.d + d, hIn.e + e);
+	}
+
+	private static int s1(int a, int b, int c, int d, int w_t) {
+		return rotateLeft(a, 5)
+				// f: 0 <= t <= 19
+				+ ((b & c) | ((~b) & d))
+				+ 0x5A827999 + w_t;
+	}
+
+	private static int s2(int a, int b, int c, int d, int w_t) {
+		return rotateLeft(a, 5)
+				// f: 20 <= t <= 39
+				+ (b ^ c ^ d)
+				+ 0x6ED9EBA1 + w_t;
+	}
+
+	private static int s3(int a, int b, int c, int d, int w_t) {
+		return rotateLeft(a, 5)
+				// f: 40 <= t <= 59
+				+ ((b & c) | (b & d) | (c & d))
+				+ 0x8F1BBCDC + w_t;
+	}
+
+	private static int s4(int a, int b, int c, int d, int w_t) {
+		return rotateLeft(a, 5)
+				// f: 60 <= t <= 79
+				+ (b ^ c ^ d)
+				+ 0xCA62C1D6 + w_t;
+	}
+
+	private static boolean eq(State q, State r) {
+		return q.a == r.a
+				&& q.b == r.b
+				&& q.c == r.c
+				&& q.d == r.d
+				&& q.e == r.e;
 	}
 
 	private void finish() {
@@ -241,6 +521,16 @@ public class SHA1 {
 		NB.encodeInt32(buffer, 56, (int) (length >>> (32 - 3)));
 		NB.encodeInt32(buffer, 60, (int) (length << 3));
 		compress(buffer, 0);
+
+		if (foundCollision) {
+			ObjectId id = h.toObjectId();
+			LOG.warn("possible SHA-1 collision; safeHash " //$NON-NLS-1$
+					+ (safeHash ? "is" : "disabled,") //$NON-NLS-1$ //$NON-NLS-2$
+					+ ' ' + id.name());
+			if (!safeHash) {
+				throw new Sha1CollisionException(id);
+			}
+		}
 	}
 
 	/**
@@ -249,16 +539,18 @@ public class SHA1 {
 	 * Once {@code digest()} is called, this instance should be discarded.
 	 *
 	 * @return the bytes for the resulting hash.
+	 * @throws Sha1CollisionException
+	 *             if a collision was detected and safeHash is false.
 	 */
-	public byte[] digest() {
+	public byte[] digest() throws Sha1CollisionException {
 		finish();
 
 		byte[] b = new byte[20];
-		NB.encodeInt32(b, 0, h0);
-		NB.encodeInt32(b, 4, h1);
-		NB.encodeInt32(b, 8, h2);
-		NB.encodeInt32(b, 12, h3);
-		NB.encodeInt32(b, 16, h4);
+		NB.encodeInt32(b, 0, h.a);
+		NB.encodeInt32(b, 4, h.b);
+		NB.encodeInt32(b, 8, h.c);
+		NB.encodeInt32(b, 12, h.d);
+		NB.encodeInt32(b, 16, h.e);
 		return b;
 	}
 
@@ -268,10 +560,12 @@ public class SHA1 {
 	 * Once {@code digest()} is called, this instance should be discarded.
 	 *
 	 * @return the ObjectId for the resulting hash.
+	 * @throws Sha1CollisionException
+	 *             if a collision was detected and safeHash is false.
 	 */
-	public ObjectId toObjectId() {
+	public ObjectId toObjectId() throws Sha1CollisionException {
 		finish();
-		return new ObjectId(h0, h1, h2, h3, h4);
+		return h.toObjectId();
 	}
 
 	/**
@@ -281,9 +575,46 @@ public class SHA1 {
 	 *
 	 * @param id
 	 *            destination to copy the digest to.
+	 * @throws Sha1CollisionException
+	 *             if a collision was detected and safeHash is false.
 	 */
-	public void digest(MutableObjectId id) {
+	public void digest(MutableObjectId id) throws Sha1CollisionException {
 		finish();
-		id.set(h0, h1, h2, h3, h4);
+		id.set(h.a, h.b, h.c, h.d, h.e);
+	}
+
+	/**
+	 * Check if a collision was detected.
+	 *
+	 * <p>
+	 * This method only returns an accurate result after the digest was obtained
+	 * through {@link #digest()}, {@link #digest(MutableObjectId)} or
+	 * {@link #toObjectId()}, as the hashing function must finish processing to
+	 * know the final state.
+	 *
+	 * @return {@code true} if a likely collision was detected.
+	 */
+	public boolean hasCollision() {
+		return foundCollision;
+	}
+
+	private static final class State {
+		int a;
+		int b;
+		int c;
+		int d;
+		int e;
+
+		final void save(int a1, int b1, int c1, int d1, int e1) {
+			a = a1;
+			b = b1;
+			c = c1;
+			d = d1;
+			e = e1;
+		}
+
+		ObjectId toObjectId() {
+			return new ObjectId(a, b, c, d, e);
+		}
 	}
 }
