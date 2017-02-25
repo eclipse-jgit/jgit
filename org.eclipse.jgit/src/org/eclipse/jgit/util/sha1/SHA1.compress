@@ -1,0 +1,92 @@
+/* Template for compress method; run through cpp. */
+
+#define ROUND1_STEP(a, b, c, d, e, T) e += s1(a,b,c,d,w[T]); b = rotateLeft(b, 30)
+#define ROUND2_STEP(a, b, c, d, e, T) e += s2(a,b,c,d,w[T]); b = rotateLeft(b, 30)
+#define ROUND3_STEP(a, b, c, d, e, T) e += s3(a,b,c,d,w[T]); b = rotateLeft(b, 30)
+#define ROUND4_STEP(a, b, c, d, e, T) e += s4(a,b,c,d,w[T]); b = rotateLeft(b, 30)
+
+	ROUND1_STEP(a, b, c, d, e, 0);
+	ROUND1_STEP(e, a, b, c, d, 1);
+	ROUND1_STEP(d, e, a, b, c, 2);
+	ROUND1_STEP(c, d, e, a, b, 3);
+	ROUND1_STEP(b, c, d, e, a, 4);
+	ROUND1_STEP(a, b, c, d, e, 5);
+	ROUND1_STEP(e, a, b, c, d, 6);
+	ROUND1_STEP(d, e, a, b, c, 7);
+	ROUND1_STEP(c, d, e, a, b, 8);
+	ROUND1_STEP(b, c, d, e, a, 9);
+	ROUND1_STEP(a, b, c, d, e, 10);
+	ROUND1_STEP(e, a, b, c, d, 11);
+	ROUND1_STEP(d, e, a, b, c, 12);
+	ROUND1_STEP(c, d, e, a, b, 13);
+	ROUND1_STEP(b, c, d, e, a, 14);
+	ROUND1_STEP(a, b, c, d, e, 15);
+	ROUND1_STEP(e, a, b, c, d, 16);
+	ROUND1_STEP(d, e, a, b, c, 17);
+	ROUND1_STEP(c, d, e, a, b, 18);
+	ROUND1_STEP(b, c, d, e, a, 19);
+
+	ROUND2_STEP(a, b, c, d, e, 20);
+	ROUND2_STEP(e, a, b, c, d, 21);
+	ROUND2_STEP(d, e, a, b, c, 22);
+	ROUND2_STEP(c, d, e, a, b, 23);
+	ROUND2_STEP(b, c, d, e, a, 24);
+	ROUND2_STEP(a, b, c, d, e, 25);
+	ROUND2_STEP(e, a, b, c, d, 26);
+	ROUND2_STEP(d, e, a, b, c, 27);
+	ROUND2_STEP(c, d, e, a, b, 28);
+	ROUND2_STEP(b, c, d, e, a, 29);
+	ROUND2_STEP(a, b, c, d, e, 30);
+	ROUND2_STEP(e, a, b, c, d, 31);
+	ROUND2_STEP(d, e, a, b, c, 32);
+	ROUND2_STEP(c, d, e, a, b, 33);
+	ROUND2_STEP(b, c, d, e, a, 34);
+	ROUND2_STEP(a, b, c, d, e, 35);
+	ROUND2_STEP(e, a, b, c, d, 36);
+	ROUND2_STEP(d, e, a, b, c, 37);
+	ROUND2_STEP(c, d, e, a, b, 38);
+	ROUND2_STEP(b, c, d, e, a, 39);
+
+	ROUND3_STEP(a, b, c, d, e, 40);
+	ROUND3_STEP(e, a, b, c, d, 41);
+	ROUND3_STEP(d, e, a, b, c, 42);
+	ROUND3_STEP(c, d, e, a, b, 43);
+	ROUND3_STEP(b, c, d, e, a, 44);
+	ROUND3_STEP(a, b, c, d, e, 45);
+	ROUND3_STEP(e, a, b, c, d, 46);
+	ROUND3_STEP(d, e, a, b, c, 47);
+	ROUND3_STEP(c, d, e, a, b, 48);
+	ROUND3_STEP(b, c, d, e, a, 49);
+	ROUND3_STEP(a, b, c, d, e, 50);
+	ROUND3_STEP(e, a, b, c, d, 51);
+	ROUND3_STEP(d, e, a, b, c, 52);
+	ROUND3_STEP(c, d, e, a, b, 53);
+	ROUND3_STEP(b, c, d, e, a, 54);
+	ROUND3_STEP(a, b, c, d, e, 55);
+	ROUND3_STEP(e, a, b, c, d, 56);
+	ROUND3_STEP(d, e, a, b, c, 57);
+	state58.save(a, b, c, d, e);
+	ROUND3_STEP(c, d, e, a, b, 58);
+	ROUND3_STEP(b, c, d, e, a, 59);
+
+	ROUND4_STEP(a, b, c, d, e, 60);
+	ROUND4_STEP(e, a, b, c, d, 61);
+	ROUND4_STEP(d, e, a, b, c, 62);
+	ROUND4_STEP(c, d, e, a, b, 63);
+	ROUND4_STEP(b, c, d, e, a, 64);
+	state65.save(a, b, c, d, e);
+	ROUND4_STEP(a, b, c, d, e, 65);
+	ROUND4_STEP(e, a, b, c, d, 66);
+	ROUND4_STEP(d, e, a, b, c, 67);
+	ROUND4_STEP(c, d, e, a, b, 68);
+	ROUND4_STEP(b, c, d, e, a, 69);
+	ROUND4_STEP(a, b, c, d, e, 70);
+	ROUND4_STEP(e, a, b, c, d, 71);
+	ROUND4_STEP(d, e, a, b, c, 72);
+	ROUND4_STEP(c, d, e, a, b, 73);
+	ROUND4_STEP(b, c, d, e, a, 74);
+	ROUND4_STEP(a, b, c, d, e, 75);
+	ROUND4_STEP(e, a, b, c, d, 76);
+	ROUND4_STEP(d, e, a, b, c, 77);
+	ROUND4_STEP(c, d, e, a, b, 78);
+	ROUND4_STEP(b, c, d, e, a, 79);
