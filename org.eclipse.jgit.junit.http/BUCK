@@ -8,6 +8,7 @@ java_library(
     '//org.eclipse.jgit.junit:junit',
     '//lib:junit',
     '//lib:servlet-api',
+    '//lib:slf4j-api',
     '//lib/jetty:http',
     '//lib/jetty:server',
     '//lib/jetty:servlet',
