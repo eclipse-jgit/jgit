@@ -209,6 +209,24 @@ public class MutableObjectId extends AnyObjectId {
 	}
 
 	/**
+	 * Convert an ObjectId from binary representation expressed in integers.
+	 *
+	 * @param a
+	 * @param b
+	 * @param c
+	 * @param d
+	 * @param e
+	 * @since 4.7
+	 */
+	public void set(int a, int b, int c, int d, int e) {
+		w1 = a;
+		w2 = b;
+		w3 = c;
+		w4 = d;
+		w5 = e;
+	}
+
+	/**
 	 * Convert an ObjectId from hex characters (US-ASCII).
 	 *
 	 * @param buf
