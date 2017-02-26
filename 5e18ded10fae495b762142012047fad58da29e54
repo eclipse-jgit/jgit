@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_a29a1079",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/sha1/UbcCheck.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-02-26T15:13:25Z",
+      "side": 1,
+      "message": "do we need to file a CQ for this ?",
+      "revId": "5e18ded10fae495b762142012047fad58da29e54",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
