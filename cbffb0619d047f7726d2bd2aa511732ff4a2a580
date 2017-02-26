@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_2213601b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/sha1/SHA1Test.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-02-26T19:28:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_82d8b41c",
+      "range": {
+        "startLine": 85,
+        "startChar": 26,
+        "endLine": 85,
+        "endChar": 53
+      },
+      "revId": "cbffb0619d047f7726d2bd2aa511732ff4a2a580",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_a2be90a9",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/sha1/SHA1Test.java",
         "patchSetId": 3
@@ -36,6 +60,24 @@
       "writtenOn": "2017-02-26T16:50:58Z",
       "side": 1,
       "message": "likewise",
+      "revId": "cbffb0619d047f7726d2bd2aa511732ff4a2a580",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_42169c0a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/sha1/SHA1Test.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-02-26T19:28:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_a2be90a9",
       "revId": "cbffb0619d047f7726d2bd2aa511732ff4a2a580",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_621d5824",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/sha1/SHA1Test.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-02-26T19:28:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_c2b9ccc2",
+      "revId": "cbffb0619d047f7726d2bd2aa511732ff4a2a580",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_e2c8884c",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/sha1/SHA1Test.java",
         "patchSetId": 3
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_8220b459",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/sha1/SHA1Test.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-02-26T19:28:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_e2c8884c",
+      "revId": "cbffb0619d047f7726d2bd2aa511732ff4a2a580",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_c2e0ecb8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/sha1/SHA1.java",
         "patchSetId": 3
@@ -87,6 +165,24 @@
       "writtenOn": "2017-02-26T16:50:58Z",
       "side": 1,
       "message": "This is a little subtle. Perhaps worth a comment to mention that length is in bytes and the length written to the block is in bits.\n\nThe logic is correct --- it just takes some time to understand.",
+      "revId": "cbffb0619d047f7726d2bd2aa511732ff4a2a580",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_a20690d6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/sha1/SHA1.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-02-26T19:28:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_c2e0ecb8",
       "revId": "cbffb0619d047f7726d2bd2aa511732ff4a2a580",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
