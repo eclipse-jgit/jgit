@@ -140,7 +140,7 @@ class ObjectDirectoryInserter extends ObjectInserter {
 			return insert(type, buf, 0, actLen, createDuplicate);
 
 		} else {
-			SHA1 md = SHA1.newInstance();
+			SHA1 md = digest();
 			File tmp = toTemp(md, type, len, is);
 			ObjectId id = md.toObjectId();
 			return insertOneObject(tmp, id, createDuplicate);
