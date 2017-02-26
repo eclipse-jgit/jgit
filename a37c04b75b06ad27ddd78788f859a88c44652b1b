@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_828c348b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/sha1/SHA1Test.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-02-26T22:40:03Z",
+      "side": 1,
+      "message": "Thanks, fixed.",
+      "parentUuid": "a7c23755_829194a8",
+      "revId": "a37c04b75b06ad27ddd78788f859a88c44652b1b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_628e388d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/sha1/Sha1CollisionException.java",
         "patchSetId": 5
@@ -30,6 +48,30 @@
       "writtenOn": "2017-02-26T22:32:53Z",
       "side": 1,
       "message": "stray \u0027s\u0027",
+      "range": {
+        "startLine": 63,
+        "startChar": 62,
+        "endLine": 63,
+        "endChar": 63
+      },
+      "revId": "a37c04b75b06ad27ddd78788f859a88c44652b1b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_a2721004",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/sha1/Sha1CollisionException.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-02-26T22:40:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_628e388d",
       "range": {
         "startLine": 63,
         "startChar": 62,
