@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_2209a0bc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/sha1/SHA1.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-02-26T20:18:54Z",
+      "side": 1,
+      "message": "Not really if you enable safeHash with the system property, or with the method.\n\nI\u0027ve also flipped this around in the new version so that we log the warning before throwing to the caller.",
+      "parentUuid": "a7c23755_82727455",
+      "revId": "a28078da16f5a2445c72131d5f8650d4e84d78a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_a2785037",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/sha1/SHA1.recompress",
         "patchSetId": 2
@@ -30,6 +48,30 @@
       "writtenOn": "2017-02-26T19:36:14Z",
       "side": 1,
       "message": "nit: backwards",
+      "range": {
+        "startLine": 13,
+        "startChar": 20,
+        "endLine": 13,
+        "endChar": 29
+      },
+      "revId": "a28078da16f5a2445c72131d5f8650d4e84d78a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_420cdccb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/sha1/SHA1.recompress",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-02-26T20:18:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_a2785037",
       "range": {
         "startLine": 13,
         "startChar": 20,
