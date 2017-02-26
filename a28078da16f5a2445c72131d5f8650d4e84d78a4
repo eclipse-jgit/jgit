@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_82727455",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/sha1/SHA1.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-02-26T19:36:14Z",
+      "side": 1,
+      "message": "This line is dead code now.",
+      "revId": "a28078da16f5a2445c72131d5f8650d4e84d78a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_a2785037",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/sha1/SHA1.recompress",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-02-26T19:36:14Z",
+      "side": 1,
+      "message": "nit: backwards",
+      "range": {
+        "startLine": 13,
+        "startChar": 20,
+        "endLine": 13,
+        "endChar": 29
+      },
+      "revId": "a28078da16f5a2445c72131d5f8650d4e84d78a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
