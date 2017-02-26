@@ -63,12 +63,11 @@ public class SHA1 {
 		return new SHA1();
 	}
 
-	// Magic initialization constants defined by FIPS180.
-	private int h0 = 0x67452301;
-	private int h1 = 0xEFCDAB89;
-	private int h2 = 0x98BADCFE;
-	private int h3 = 0x10325476;
-	private int h4 = 0xC3D2E1F0;
+	private int h0;
+	private int h1;
+	private int h2;
+	private int h3;
+	private int h4;
 	private final int[] w = new int[80];
 
 	/** Buffer to accumulate partial blocks to 64 byte alignment. */
@@ -78,6 +77,27 @@ public class SHA1 {
 	private long length;
 
 	private SHA1() {
+		init();
+	}
+
+	/**
+	 * Reset this instance to compute another hash.
+	 *
+	 * @return {@code this}.
+	 */
+	public SHA1 reset() {
+		init();
+		length = 0;
+		return this;
+	}
+
+	private void init() {
+		// Magic initialization constants defined by FIPS180.
+		h0 = 0x67452301;
+		h1 = 0xEFCDAB89;
+		h2 = 0x98BADCFE;
+		h3 = 0x10325476;
+		h4 = 0xC3D2E1F0;
 	}
 
 	/**
