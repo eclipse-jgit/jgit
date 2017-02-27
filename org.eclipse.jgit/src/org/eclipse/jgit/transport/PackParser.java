@@ -117,6 +117,7 @@ public abstract class PackParser {
 
 	private byte[] hdrBuf;
 
+	private final SHA1 objectHasher = SHA1.newInstance();
 	private final MutableObjectId tempObjectId;
 
 	private InputStream in;
@@ -665,7 +666,7 @@ public abstract class PackParser {
 						JGitText.get().corruptionDetectedReReadingAt,
 						Long.valueOf(visit.delta.position)));
 
-			SHA1 objectDigest = SHA1.newInstance();
+			SHA1 objectDigest = objectHasher.reset();
 			objectDigest.update(Constants.encodedTypeString(type));
 			objectDigest.update((byte) ' ');
 			objectDigest.update(Constants.encodeASCII(visit.data.length));
@@ -1023,7 +1024,7 @@ public abstract class PackParser {
 
 	private void whole(final long pos, final int type, final long sz)
 			throws IOException {
-		SHA1 objectDigest = SHA1.newInstance();
+		SHA1 objectDigest = objectHasher.reset();
 		objectDigest.update(Constants.encodedTypeString(type));
 		objectDigest.update((byte) ' ');
 		objectDigest.update(Constants.encodeASCII(sz));

@@ -177,6 +177,8 @@ public abstract class ObjectInserter implements AutoCloseable {
 		}
 	}
 
+	private final SHA1 hasher = SHA1.newInstance();
+
 	/** Temporary working buffer for streaming data through. */
 	private byte[] tempBuffer;
 
@@ -217,7 +219,7 @@ public abstract class ObjectInserter implements AutoCloseable {
 
 	/** @return digest to help compute an ObjectId */
 	protected SHA1 digest() {
-		return SHA1.newInstance();
+		return hasher.reset();
 	}
 
 	/**

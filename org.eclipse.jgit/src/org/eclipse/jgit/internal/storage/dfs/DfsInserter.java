@@ -169,7 +169,7 @@ public class DfsInserter extends ObjectInserter {
 		}
 
 		long offset = beginObject(type, len);
-		SHA1 md = SHA1.newInstance();
+		SHA1 md = digest();
 		md.update(Constants.encodedTypeString(type));
 		md.update((byte) ' ');
 		md.update(Constants.encodeASCII(len));
