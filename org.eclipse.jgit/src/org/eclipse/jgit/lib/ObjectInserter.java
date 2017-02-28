@@ -217,7 +217,10 @@ public abstract class ObjectInserter implements AutoCloseable {
 		return b;
 	}
 
-	/** @return digest to help compute an ObjectId */
+	/**
+	 * @return digest to help compute an ObjectId
+	 * @since 4.7
+	 */
 	protected SHA1 digest() {
 		return hasher.reset();
 	}

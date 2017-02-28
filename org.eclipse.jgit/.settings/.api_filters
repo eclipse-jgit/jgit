@@ -8,6 +8,14 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/lib/ObjectInserter.java" type="org.eclipse.jgit.lib.ObjectInserter">
+        <filter comment="changed return type of digest() breaking implementors which is ok in minor releases according to OSGi semantic versioning" id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.ObjectInserter"/>
+                <message_argument value="digest()"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/transport/http/HttpConnection.java" type="org.eclipse.jgit.transport.http.HttpConnection">
         <filter comment="OSGi semantic versioning rules allow to break implementors in minor releases" id="403767336">
             <message_arguments>
