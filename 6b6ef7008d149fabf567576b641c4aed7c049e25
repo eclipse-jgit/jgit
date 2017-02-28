@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_8e137ae7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchResult.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-02-28T20:13:26Z",
+      "side": 1,
+      "message": "ugly that this needs to be public, could we push handling of submodules down to FetchProcess ?",
+      "revId": "6b6ef7008d149fabf567576b641c4aed7c049e25",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_6eba9e5b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchResult.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-02-28T20:13:26Z",
+      "side": 1,
+      "message": "wrap with Collections.unmodifiableMap() to prevent modifications ?",
+      "range": {
+        "startLine": 96,
+        "startChar": 9,
+        "endLine": 96,
+        "endChar": 19
+      },
+      "revId": "6b6ef7008d149fabf567576b641c4aed7c049e25",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
