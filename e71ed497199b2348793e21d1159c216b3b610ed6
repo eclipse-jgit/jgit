@@ -22,6 +22,30 @@
       "revId": "e71ed497199b2348793e21d1159c216b3b610ed6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_bad4ecb6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ValidRefNameTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-03-02T08:16:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_7a7ed45e",
+      "range": {
+        "startLine": 308,
+        "startChar": 26,
+        "endLine": 308,
+        "endChar": 37
+      },
+      "revId": "e71ed497199b2348793e21d1159c216b3b610ed6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
