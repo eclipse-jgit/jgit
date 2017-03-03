@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_95c53a86",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1372,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-03-03T23:13:55Z",
+      "side": 1,
+      "message": "looks like we should better return an empty String here, then callers don\u0027t need to check for nullness",
+      "revId": "10fef539e9d32363e87e194fce61a719ed444fc9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
