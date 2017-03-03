@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_c901e53e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1364,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-03-03T01:38:56Z",
+      "side": 1,
+      "message": "Should the method be annotated @Nullable?",
+      "range": {
+        "startLine": 1364,
+        "startChar": 32,
+        "endLine": 1364,
+        "endChar": 39
+      },
+      "revId": "36c6aa22691d47f5ceb680cd70660dd8d6c07a2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_a9f2e9d2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1364,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-03-03T01:38:56Z",
+      "side": 1,
+      "message": "if null or empty",
+      "range": {
+        "startLine": 1364,
+        "startChar": 40,
+        "endLine": 1364,
+        "endChar": 48
+      },
+      "revId": "36c6aa22691d47f5ceb680cd70660dd8d6c07a2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
