@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_c98c85c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-03-03T09:31:20Z",
+      "side": 1,
+      "message": "Wim\u0027s original motivation as I understood it was to be able to copy-paste some text from somewhere (for instance from a web page, such as a bug title from some bug tracker) as a branch name and have that be corrected to a valid branch name.",
+      "revId": "c9af7f35c948748e4bdb41bd2672ad1ffd099ecc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
