@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_4961552c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/FetchCommand.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-03-03T10:34:47Z",
+      "side": 1,
+      "message": "You force the caller to specifify a Config. Thats expensive because it forces us to check whether all three possible config locations for new data. That effort is not needed if submoduleRecurseMode is explicitly specified. I suggest a signature \"getRecurseMode(String path, Repository r)\". Then we can do the expensive r.getConfig() only when we need it.",
+      "revId": "46741b0bcb4ce14f5f444172f57c611f50bd02d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
