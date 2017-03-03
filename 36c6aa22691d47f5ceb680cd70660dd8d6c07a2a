@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "a7c23755_e96ea1f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-03-03T02:31:28Z",
+      "side": 1,
+      "message": "This doesn\u0027t make the motivation clear. I guess the idea is\n\n Make Repository.normalizeBranchName less strict\n\n? Please also say a little about the context in the commit message body --- where did this come up in practice, or what new use becomes possible after this change?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 7
+      },
+      "revId": "36c6aa22691d47f5ceb680cd70660dd8d6c07a2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_c901e53e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 4
