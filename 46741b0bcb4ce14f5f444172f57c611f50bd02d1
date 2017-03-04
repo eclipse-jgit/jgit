@@ -16,6 +16,24 @@
       "revId": "46741b0bcb4ce14f5f444172f57c611f50bd02d1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_15fa0a83",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/FetchCommand.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-03-04T00:30:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_4961552c",
+      "revId": "46741b0bcb4ce14f5f444172f57c611f50bd02d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
