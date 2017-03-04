@@ -22,6 +22,30 @@
       "revId": "1a43c9dd27ef2ea0a79130005bc8e276098f5560",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_959b7a7e",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/LfsProtocolServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-03-04T00:24:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_75117e8d",
+      "range": {
+        "startLine": 164,
+        "startChar": 19,
+        "endLine": 164,
+        "endChar": 32
+      },
+      "revId": "1a43c9dd27ef2ea0a79130005bc8e276098f5560",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
