@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_f512ee5d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/FetchCommand.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-03-04T00:35:50Z",
+      "side": 1,
+      "message": "We could pass only a SubmoduleWalk here because both the repository and path can be got from that, but I thought it\u0027s better to be explicit about what this method expects.",
+      "range": {
+        "startLine": 109,
+        "startChar": 51,
+        "endLine": 110,
+        "endChar": 14
+      },
+      "revId": "503d59044f80b93b1d1c512b9e71860f08f4156d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
