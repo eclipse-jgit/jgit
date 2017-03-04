@@ -924,7 +924,6 @@ public abstract class Repository implements AutoCloseable {
 		getRefDatabase().close();
 	}
 
-	@SuppressWarnings("nls")
 	@Override
 	@NonNull
 	public String toString() {
