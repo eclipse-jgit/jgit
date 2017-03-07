@@ -78,7 +78,7 @@ import org.xml.sax.helpers.XMLReaderFactory;
  */
 public class ManifestParser extends DefaultHandler {
 	private final String filename;
-	private final String baseUrl;
+	private final URI baseUrl;
 	private final String defaultBranch;
 	private final Repository rootRepo;
 	private final Map<String, Remote> remotes;
@@ -126,11 +126,11 @@ public class ManifestParser extends DefaultHandler {
 		this.defaultBranch = defaultBranch;
 		this.rootRepo = rootRepo;
 
-		// Strip trailing /s to match repo behavior.
-		int lastIndex = baseUrl.length() - 1;
-		while (lastIndex >= 0 && baseUrl.charAt(lastIndex) == '/')
-			lastIndex--;
-		this.baseUrl = baseUrl.substring(0, lastIndex + 1);
+		// Strip trailing '/' to match repo behavior.
+		while (baseUrl.endsWith("/")) { //$NON-NLS-1$
+			baseUrl = baseUrl.substring(0, baseUrl.length()-1);
+		}
+		this.baseUrl = URI.create(baseUrl);
 
 		plusGroups = new HashSet<>();
 		minusGroups = new HashSet<>();
@@ -259,12 +259,6 @@ public class ManifestParser extends DefaultHandler {
 
 		// Only do the following after we finished reading everything.
 		Map<String, String> remoteUrls = new HashMap<>();
-		URI baseUri;
-		try {
-			baseUri = new URI(baseUrl);
-		} catch (URISyntaxException e) {
-			throw new SAXException(e);
-		}
 		if (defaultRevision == null && defaultRemote != null) {
 			Remote remote = remotes.get(defaultRemote);
 			if (remote != null) {
@@ -296,8 +290,7 @@ public class ManifestParser extends DefaultHandler {
 			}
 			String remoteUrl = remoteUrls.get(remote);
 			if (remoteUrl == null) {
-				remoteUrl =
-						baseUri.resolve(remotes.get(remote).fetch).toString();
+				remoteUrl = baseUrl.resolve(remotes.get(remote).fetch).toString();
 				if (!remoteUrl.endsWith("/")) //$NON-NLS-1$
 					remoteUrl = remoteUrl + "/"; //$NON-NLS-1$
 				remoteUrls.put(remote, remoteUrl);
