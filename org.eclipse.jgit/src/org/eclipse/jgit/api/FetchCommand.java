@@ -60,6 +60,7 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
@@ -106,18 +107,25 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 		refSpecs = new ArrayList<>(3);
 	}
 
-	private FetchRecurseSubmodulesMode getRecurseMode(Repository repository,
-			String path) {
+	private FetchRecurseSubmodulesMode getRecurseMode(String path) {
 		// Use the caller-specified mode, if set
 		if (submoduleRecurseMode != null) {
 			return submoduleRecurseMode;
 		}
 
-		// Fall back to submodule config, if set
-		FetchRecurseSubmodulesMode mode = repository.getConfig().getEnum(
+		// Fall back to submodule.name.fetchRecurseSubmodules, if set
+		FetchRecurseSubmodulesMode mode = repo.getConfig().getEnum(
 				FetchRecurseSubmodulesMode.values(),
 				ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
 				ConfigConstants.CONFIG_KEY_FETCH_RECURSE_SUBMODULES, null);
+		if (mode != null) {
+			return mode;
+		}
+
+		// Fall back to fetch.recurseSubmodules, if set
+		mode = repo.getConfig().getEnum(FetchRecurseSubmodulesMode.values(),
+				ConfigConstants.CONFIG_FETCH_SECTION, null,
+				ConfigConstants.CONFIG_KEY_RECURSE_SUBMODULES, null);
 		if (mode != null) {
 			return mode;
 		}
@@ -126,18 +134,17 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 		return FetchRecurseSubmodulesMode.ON_DEMAND;
 	}
 
-	private boolean isRecurseSubmodules() {
-		return submoduleRecurseMode != null
-				&& submoduleRecurseMode != FetchRecurseSubmodulesMode.NO;
-	}
-
 	private void fetchSubmodules(FetchResult results)
 			throws org.eclipse.jgit.api.errors.TransportException,
 			GitAPIException, InvalidConfigurationException {
 		try (SubmoduleWalk walk = new SubmoduleWalk(repo);
 				RevWalk revWalk = new RevWalk(repo)) {
 			// Walk over submodules in the parent repository's FETCH_HEAD.
-			walk.setTree(revWalk.parseTree(repo.resolve(Constants.FETCH_HEAD)));
+			ObjectId fetchHead = repo.resolve(Constants.FETCH_HEAD);
+			if (fetchHead == null) {
+				return;
+			}
+			walk.setTree(revWalk.parseTree(fetchHead));
 			while (walk.next()) {
 				Repository submoduleRepo = walk.getRepository();
 
@@ -150,7 +157,7 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 				}
 
 				FetchRecurseSubmodulesMode recurseMode = getRecurseMode(
-						submoduleRepo, walk.getPath());
+						walk.getPath());
 
 				// When the fetch mode is "yes" we always fetch. When the mode
 				// is "on demand", we only fetch if the submodule's revision was
@@ -204,8 +211,7 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 			configure(transport);
 
 			FetchResult result = transport.fetch(monitor, refSpecs);
-			if (!repo.isBare() && (!result.getTrackingRefUpdates().isEmpty()
-					|| isRecurseSubmodules())) {
+			if (!repo.isBare()) {
 				fetchSubmodules(result);
 			}
 
