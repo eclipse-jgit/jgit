@@ -127,6 +127,8 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 
 	private boolean invalidBitmap;
 
+	private volatile int transientErrorCount;
+
 	private byte[] packChecksum;
 
 	private PackIndex loadedIdx;
@@ -569,6 +571,14 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 
 	void setInvalid() {
 		invalid = true;
+	}
+
+	int incrementTransientErrorCount() {
+		return ++transientErrorCount;
+	}
+
+	void resetTransientErrorCount() {
+		transientErrorCount = 0;
 	}
 
 	private void readFully(final long position, final byte[] dstbuf,
