@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_d268936d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/CachedObjectDirectory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-03-10T11:14:00Z",
+      "side": 1,
+      "message": "nit: add braces on the if-block.",
+      "range": {
+        "startLine": 167,
+        "startChar": 2,
+        "endLine": 168,
+        "endChar": 24
+      },
+      "revId": "caad030109100fa388e8d4703e507d78e003f8da",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_f26f4f71",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-03-10T11:14:00Z",
+      "side": 1,
+      "message": "Would this be useful to make public?",
+      "range": {
+        "startLine": 509,
+        "startChar": 1,
+        "endLine": 509,
+        "endChar": 8
+      },
+      "revId": "caad030109100fa388e8d4703e507d78e003f8da",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
