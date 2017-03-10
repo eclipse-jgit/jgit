@@ -81,6 +81,30 @@
       "revId": "436c63514f8e71e1236514bec8609416251f2e58",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_92237b58",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/CachedObjectDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-03-10T11:07:35Z",
+      "side": 1,
+      "message": "It doesn\u0027t, but in recent reviews we have been told to add the braces on one-liners in new code (even when surrounding existing code does not have them).",
+      "parentUuid": "a7c23755_d4155c49",
+      "range": {
+        "startLine": 167,
+        "startChar": 2,
+        "endLine": 168,
+        "endChar": 24
+      },
+      "revId": "436c63514f8e71e1236514bec8609416251f2e58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
