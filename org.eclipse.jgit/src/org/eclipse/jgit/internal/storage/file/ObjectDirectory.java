@@ -569,6 +569,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	private void handlePackError(IOException e, PackFile p) {
 		String warnTmpl = null;
+		String errTmpl = JGitText.get().exceptionWhileReadingPack;
 		if ((e instanceof CorruptObjectException)
 				|| (e instanceof PackInvalidException)) {
 			warnTmpl = JGitText.get().corruptPack;
@@ -576,11 +577,11 @@ public class ObjectDirectory extends FileObjectDatabase {
 			removePack(p);
 		} else if (e instanceof FileNotFoundException) {
 			if (p.getPackFile().exists()) {
-				warnTmpl = JGitText.get().packInaccessible;
+				errTmpl = JGitText.get().packInaccessible;
 			} else {
 				warnTmpl = JGitText.get().packWasDeleted;
+				removePack(p);
 			}
-			removePack(p);
 		} else if (FileUtils.isStaleFileHandleInCausalChain(e)) {
 			warnTmpl = JGitText.get().packHandleIsStale;
 			removePack(p);
@@ -597,8 +598,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 			// Don't remove the pack from the list, as the error may be
 			// transient.
 			LOG.error(MessageFormat.format(
-					JGitText.get().exceptionWhileReadingPack, p.getPackFile()
-							.getAbsolutePath()), e);
+					errTmpl, p.getPackFile().getAbsolutePath()), e);
 		}
 	}
 
