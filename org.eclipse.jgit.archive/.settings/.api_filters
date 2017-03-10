@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<component id="org.eclipse.jgit.archive" version="2">
+    <resource path="META-INF/MANIFEST.MF">
+        <filter comment="breaking API for implementors is ok in minor releases" id="924844039">
+            <message_arguments>
+                <message_argument value="4.7.0"/>
+                <message_argument value="4.7.0"/>
+            </message_arguments>
+        </filter>
+    </resource>
+</component>

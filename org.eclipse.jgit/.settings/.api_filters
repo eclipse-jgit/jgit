@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <component id="org.eclipse.jgit" version="2">
+    <resource path="META-INF/MANIFEST.MF">
+        <filter comment="breaking API for implementors is ok in minor releases" id="924844039">
+            <message_arguments>
+                <message_argument value="4.7.0"/>
+                <message_argument value="4.7.0"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/api/ArchiveCommand.java" type="org.eclipse.jgit.api.ArchiveCommand$Format">
         <filter comment="OSGi semver allows to break implementors in minor releases" id="403804204">
             <message_arguments>
