@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_f27e6f5c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2017-03-10T09:38:07Z",
+      "side": 1,
+      "message": "Nope, this should behave exactly as above for the loose objects.\n\nSee bug raised\nhttps://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d513435",
+      "range": {
+        "startLine": 562,
+        "startChar": 4,
+        "endLine": 562,
+        "endChar": 47
+      },
+      "revId": "d2faec27a7af7c9ea7db6b4ac31f75533ca45b80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
