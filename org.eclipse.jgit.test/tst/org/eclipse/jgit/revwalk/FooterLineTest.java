@@ -62,63 +62,268 @@ public class FooterLineTest extends RepositoryTestCase {
 	public void testNoFooters_EmptyBody() throws IOException {
 		final RevCommit commit = parse("");
 		final List<FooterLine> footers = commit.getFooterLines();
+		final String msgWithoutFooter = commit.getMessageWithoutFooter();
 		assertNotNull(footers);
 		assertEquals(0, footers.size());
+		assertEquals("", msgWithoutFooter);
+	}
+
+	@Test
+	public void testNoFooters_OneChar() throws IOException {
+		final RevCommit commit = parse("a");
+		final List<FooterLine> footers = commit.getFooterLines();
+		final String msgWithoutFooter = commit.getMessageWithoutFooter();
+		assertNotNull(footers);
+		assertEquals(0, footers.size());
+		assertEquals("a", msgWithoutFooter);
 	}
 
 	@Test
 	public void testNoFooters_NewlineOnlyBody1() throws IOException {
 		final RevCommit commit = parse("\n");
 		final List<FooterLine> footers = commit.getFooterLines();
+		final String msgWithoutFooter = commit.getMessageWithoutFooter();
 		assertNotNull(footers);
 		assertEquals(0, footers.size());
+		assertEquals("", msgWithoutFooter);
 	}
+
+	@Test
+	public void testNoFooters_OneCharNewLine() throws IOException {
+		final RevCommit commit = parse("a\n");
+		final List<FooterLine> footers = commit.getFooterLines();
+		final String msgWithoutFooter = commit.getMessageWithoutFooter();
+		assertNotNull(footers);
+		assertEquals(0, footers.size());
+		assertEquals("a", msgWithoutFooter);
+	}
+
 
 	@Test
 	public void testNoFooters_NewlineOnlyBody5() throws IOException {
 		final RevCommit commit = parse("\n\n\n\n\n");
 		final List<FooterLine> footers = commit.getFooterLines();
+		final String msgWithoutFooter = commit.getMessageWithoutFooter();
 		assertNotNull(footers);
 		assertEquals(0, footers.size());
+		assertEquals("", msgWithoutFooter);
 	}
 
 	@Test
 	public void testNoFooters_OneLineBodyNoLF() throws IOException {
 		final RevCommit commit = parse("this is a commit");
 		final List<FooterLine> footers = commit.getFooterLines();
+		final String msgWithoutFooter = commit.getMessageWithoutFooter();
 		assertNotNull(footers);
 		assertEquals(0, footers.size());
+		assertEquals("this is a commit", msgWithoutFooter);
 	}
 
 	@Test
 	public void testNoFooters_OneLineBodyWithLF() throws IOException {
 		final RevCommit commit = parse("this is a commit\n");
 		final List<FooterLine> footers = commit.getFooterLines();
+		final String msgWithoutFooter = commit.getMessageWithoutFooter();
 		assertNotNull(footers);
 		assertEquals(0, footers.size());
+		assertEquals("this is a commit", msgWithoutFooter);
+	}
+
+	@Test
+	public void testNoFooters_LongTitle() throws IOException {
+		final RevCommit commit = parse("this is a very\nlong title\n");
+		final List<FooterLine> footers = commit.getFooterLines();
+		final String msgWithoutFooter = commit.getMessageWithoutFooter();
+		final String title = commit.getShortMessage();
+		assertNotNull(footers);
+		assertEquals(0, footers.size());
+		assertEquals("this is a very long title", title);
+		assertEquals("this is a very\nlong title", msgWithoutFooter);
 	}
 
 	@Test
 	public void testNoFooters_ShortBodyNoLF() throws IOException {
 		final RevCommit commit = parse("subject\n\nbody of commit");
 		final List<FooterLine> footers = commit.getFooterLines();
+		final String msgWithoutFooter = commit.getMessageWithoutFooter();
 		assertNotNull(footers);
 		assertEquals(0, footers.size());
+		assertEquals("subject\n\nbody of commit", msgWithoutFooter);
 	}
 
 	@Test
 	public void testNoFooters_ShortBodyWithLF() throws IOException {
 		final RevCommit commit = parse("subject\n\nbody of commit\n");
 		final List<FooterLine> footers = commit.getFooterLines();
+		final String msgWithoutFooter = commit.getMessageWithoutFooter();
 		assertNotNull(footers);
 		assertEquals(0, footers.size());
+		assertEquals("subject\n\nbody of commit", msgWithoutFooter);
+	}
+
+	@Test
+	public void testNoFooters_LongBody() throws IOException {
+		final RevCommit commit = parse(
+				"subject\n\nbody of commit\nsecond body of commit");
+		final List<FooterLine> footers = commit.getFooterLines();
+		final String msgWithoutFooter = commit.getMessageWithoutFooter();
+		assertNotNull(footers);
+		assertEquals(0, footers.size());
+		assertEquals("subject\n\nbody of commit\nsecond body of commit",
+				msgWithoutFooter);
+	}
+
+	@Test
+	public void testNoFooters_LongBodySLF() throws IOException {
+		final RevCommit commit = parse(
+				"subject\n\nbody of commit\nsecond body of commit\n");
+		final List<FooterLine> footers = commit.getFooterLines();
+		final String msgWithoutFooter = commit.getMessageWithoutFooter();
+		assertNotNull(footers);
+		assertEquals(0, footers.size());
+		assertEquals("subject\n\nbody of commit\nsecond body of commit",
+				msgWithoutFooter);
+	}
+
+	@Test
+	public void testNoFooters_LongBodyWithDLF() throws IOException {
+		final RevCommit commit = parse(
+				"subject\n\nbody of commit\nsecond body of commit\n\n");
+		final List<FooterLine> footers = commit.getFooterLines();
+		final String msgWithoutFooter = commit.getMessageWithoutFooter();
+		assertNotNull(footers);
+		assertEquals(0, footers.size());
+		assertEquals("subject\n\nbody of commit\nsecond body of commit",
+				msgWithoutFooter);
+	}
+
+	@Test
+	public void testNoFooters_NoFooterParagraph() throws IOException {
+		final RevCommit commit = parse("subject\n"
+				+ "Signed-off-by: A. U. Thor <a@example.com>");
+		final List<FooterLine> footers = commit.getFooterLines();
+		final String msgWithoutFooter = commit.getMessageWithoutFooter();
+		final String title = commit.getShortMessage();
+
+		assertNotNull(footers);
+		assertEquals(0, footers.size());
+		assertEquals("subject Signed-off-by: A. U. Thor <a@example.com>", title);
+		assertEquals("subject\nSigned-off-by: A. U. Thor <a@example.com>",
+				msgWithoutFooter);
+	}
+
+	@Test
+	public void testOneFooter_NoBody() throws IOException {
+		final RevCommit commit = parse("subject\n\n"
+				+ "Signed-off-by: A. U. Thor <a@example.com>");
+		final List<FooterLine> footers = commit.getFooterLines();
+		final String msgWithoutFooter = commit.getMessageWithoutFooter();
+		final String title = commit.getShortMessage();
+		FooterLine f;
+
+		assertNotNull(footers);
+		assertEquals(1, footers.size());
+
+		f = footers.get(0);
+		assertEquals("Signed-off-by", f.getKey());
+		assertEquals("A. U. Thor <a@example.com>", f.getValue());
+		assertEquals("a@example.com", f.getEmailAddress());
+		assertEquals("subject", title);
+		assertEquals("subject", msgWithoutFooter);
+	}
+
+	@Test
+	public void testOneFooter_NoBodySkip() throws IOException {
+		final RevCommit commit = parse("subject\n\n"
+				+ "not really a footer line but we'll skip it anyway\n"
+				+ "Signed-off-by: A. U. Thor <a@example.com>");
+		final List<FooterLine> footers = commit.getFooterLines();
+		final String msgWithoutFooter = commit.getMessageWithoutFooter();
+		final String title = commit.getShortMessage();
+		FooterLine f;
+
+		assertNotNull(footers);
+		assertEquals(1, footers.size());
+
+		f = footers.get(0);
+		assertEquals("Signed-off-by", f.getKey());
+		assertEquals("A. U. Thor <a@example.com>", f.getValue());
+		assertEquals("a@example.com", f.getEmailAddress());
+		assertEquals("subject", title);
+		assertEquals("subject", msgWithoutFooter);
+	}
+
+
+	@Test
+	public void testSkipFooter_HeadAndTrail() throws IOException {
+		final RevCommit commit = parse("subject\n\nbody of commit\n\n"
+				+ "not really a footer line but we'll skip it anyway\n"
+				+ "Signed-off-by: A. U. Thor <a@example.com>\n"
+				+ "not really a footer line but we'll skip it anyway\n");
+		final List<FooterLine> footers = commit.getFooterLines();
+		final String msgWithoutFooter = commit.getMessageWithoutFooter();
+		final String title = commit.getShortMessage();
+		FooterLine f;
+
+		assertNotNull(footers);
+		assertEquals(1, footers.size());
+
+		f = footers.get(0);
+		assertEquals("Signed-off-by", f.getKey());
+		assertEquals("A. U. Thor <a@example.com>", f.getValue());
+		assertEquals("a@example.com", f.getEmailAddress());
+		assertEquals("subject", title);
+		assertEquals("subject\n\nbody of commit", msgWithoutFooter);
+	}
+
+	@Test
+	public void testSkipFooter_HeadOnly() throws IOException {
+		final RevCommit commit = parse("subject\n\nbody of commit\n\n"
+				+ "not really a footer line but we'll skip it anyway\n"
+				+ "Signed-off-by: A. U. Thor <a@example.com>\n");
+		final List<FooterLine> footers = commit.getFooterLines();
+		final String msgWithoutFooter = commit.getMessageWithoutFooter();
+		final String title = commit.getShortMessage();
+		FooterLine f;
+
+		assertNotNull(footers);
+		assertEquals(1, footers.size());
+
+		f = footers.get(0);
+		assertEquals("Signed-off-by", f.getKey());
+		assertEquals("A. U. Thor <a@example.com>", f.getValue());
+		assertEquals("a@example.com", f.getEmailAddress());
+		assertEquals("subject", title);
+		assertEquals("subject\n\nbody of commit", msgWithoutFooter);
+	}
+
+	@Test
+	public void testSkipFooter_TrailOnly() throws IOException {
+		final RevCommit commit = parse("subject\n\nbody of commit\n\n"
+				+ "Signed-off-by: A. U. Thor <a@example.com>\n"
+				+ "not really a footer line but we'll skip it anyway\n");
+		final List<FooterLine> footers = commit.getFooterLines();
+		final String msgWithoutFooter = commit.getMessageWithoutFooter();
+		final String title = commit.getShortMessage();
+		FooterLine f;
+
+		assertNotNull(footers);
+		assertEquals(1, footers.size());
+
+		f = footers.get(0);
+		assertEquals("Signed-off-by", f.getKey());
+		assertEquals("A. U. Thor <a@example.com>", f.getValue());
+		assertEquals("a@example.com", f.getEmailAddress());
+		assertEquals("subject", title);
+		assertEquals("subject\n\nbody of commit", msgWithoutFooter);
 	}
 
 	@Test
 	public void testSignedOffBy_OneUserNoLF() throws IOException {
-		final RevCommit commit = parse("subject\n\nbody of commit\n" + "\n"
+		final RevCommit commit = parse("subject\n\nbody of commit\n\n"
 				+ "Signed-off-by: A. U. Thor <a@example.com>");
 		final List<FooterLine> footers = commit.getFooterLines();
+		final String msgWithoutFooter = commit.getMessageWithoutFooter();
 		FooterLine f;
 
 		assertNotNull(footers);
@@ -128,13 +333,15 @@ public class FooterLineTest extends RepositoryTestCase {
 		assertEquals("Signed-off-by", f.getKey());
 		assertEquals("A. U. Thor <a@example.com>", f.getValue());
 		assertEquals("a@example.com", f.getEmailAddress());
+		assertEquals("subject\n\nbody of commit", msgWithoutFooter);
 	}
 
 	@Test
 	public void testSignedOffBy_OneUserWithLF() throws IOException {
-		final RevCommit commit = parse("subject\n\nbody of commit\n" + "\n"
+		final RevCommit commit = parse("subject\n\nbody of commit\n\n"
 				+ "Signed-off-by: A. U. Thor <a@example.com>\n");
 		final List<FooterLine> footers = commit.getFooterLines();
+		final String msgWithoutFooter = commit.getMessageWithoutFooter();
 		FooterLine f;
 
 		assertNotNull(footers);
@@ -144,6 +351,7 @@ public class FooterLineTest extends RepositoryTestCase {
 		assertEquals("Signed-off-by", f.getKey());
 		assertEquals("A. U. Thor <a@example.com>", f.getValue());
 		assertEquals("a@example.com", f.getEmailAddress());
+		assertEquals("subject\n\nbody of commit", msgWithoutFooter);
 	}
 
 	@Test
@@ -151,9 +359,10 @@ public class FooterLineTest extends RepositoryTestCase {
 		// We only ignore leading whitespace on the value, trailing
 		// is assumed part of the value.
 		//
-		final RevCommit commit = parse("subject\n\nbody of commit\n" + "\n"
+		final RevCommit commit = parse("subject\n\nbody of commit\n\n"
 				+ "Signed-off-by:   A. U. Thor <a@example.com>  \n");
 		final List<FooterLine> footers = commit.getFooterLines();
+		final String msgWithoutFooter = commit.getMessageWithoutFooter();
 		FooterLine f;
 
 		assertNotNull(footers);
@@ -163,13 +372,15 @@ public class FooterLineTest extends RepositoryTestCase {
 		assertEquals("Signed-off-by", f.getKey());
 		assertEquals("A. U. Thor <a@example.com>  ", f.getValue());
 		assertEquals("a@example.com", f.getEmailAddress());
+		assertEquals("subject\n\nbody of commit", msgWithoutFooter);
 	}
 
 	@Test
 	public void testEmptyValueNoLF() throws IOException {
-		final RevCommit commit = parse("subject\n\nbody of commit\n" + "\n"
+		final RevCommit commit = parse("subject\n\nbody of commit\n\n"
 				+ "Signed-off-by:");
 		final List<FooterLine> footers = commit.getFooterLines();
+		final String msgWithoutFooter = commit.getMessageWithoutFooter();
 		FooterLine f;
 
 		assertNotNull(footers);
@@ -179,13 +390,15 @@ public class FooterLineTest extends RepositoryTestCase {
 		assertEquals("Signed-off-by", f.getKey());
 		assertEquals("", f.getValue());
 		assertNull(f.getEmailAddress());
+		assertEquals("subject\n\nbody of commit", msgWithoutFooter);
 	}
 
 	@Test
 	public void testEmptyValueWithLF() throws IOException {
-		final RevCommit commit = parse("subject\n\nbody of commit\n" + "\n"
+		final RevCommit commit = parse("subject\n\nbody of commit\n\n"
 				+ "Signed-off-by:\n");
 		final List<FooterLine> footers = commit.getFooterLines();
+		final String msgWithoutFooter = commit.getMessageWithoutFooter();
 		FooterLine f;
 
 		assertNotNull(footers);
@@ -195,13 +408,15 @@ public class FooterLineTest extends RepositoryTestCase {
 		assertEquals("Signed-off-by", f.getKey());
 		assertEquals("", f.getValue());
 		assertNull(f.getEmailAddress());
+		assertEquals("subject\n\nbody of commit", msgWithoutFooter);
 	}
 
 	@Test
 	public void testShortKey() throws IOException {
-		final RevCommit commit = parse("subject\n\nbody of commit\n" + "\n"
+		final RevCommit commit = parse("subject\n\nbody of commit\n\n"
 				+ "K:V\n");
 		final List<FooterLine> footers = commit.getFooterLines();
+		final String msgWithoutFooter = commit.getMessageWithoutFooter();
 		FooterLine f;
 
 		assertNotNull(footers);
@@ -211,13 +426,15 @@ public class FooterLineTest extends RepositoryTestCase {
 		assertEquals("K", f.getKey());
 		assertEquals("V", f.getValue());
 		assertNull(f.getEmailAddress());
+		assertEquals("subject\n\nbody of commit", msgWithoutFooter);
 	}
 
 	@Test
 	public void testNonDelimtedEmail() throws IOException {
-		final RevCommit commit = parse("subject\n\nbody of commit\n" + "\n"
+		final RevCommit commit = parse("subject\n\nbody of commit\n\n"
 				+ "Acked-by: re@example.com\n");
 		final List<FooterLine> footers = commit.getFooterLines();
+		final String msgWithoutFooter = commit.getMessageWithoutFooter();
 		FooterLine f;
 
 		assertNotNull(footers);
@@ -227,13 +444,15 @@ public class FooterLineTest extends RepositoryTestCase {
 		assertEquals("Acked-by", f.getKey());
 		assertEquals("re@example.com", f.getValue());
 		assertEquals("re@example.com", f.getEmailAddress());
+		assertEquals("subject\n\nbody of commit", msgWithoutFooter);
 	}
 
 	@Test
 	public void testNotEmail() throws IOException {
-		final RevCommit commit = parse("subject\n\nbody of commit\n" + "\n"
+		final RevCommit commit = parse("subject\n\nbody of commit\n\n"
 				+ "Acked-by: Main Tain Er\n");
 		final List<FooterLine> footers = commit.getFooterLines();
+		final String msgWithoutFooter = commit.getMessageWithoutFooter();
 		FooterLine f;
 
 		assertNotNull(footers);
@@ -243,6 +462,7 @@ public class FooterLineTest extends RepositoryTestCase {
 		assertEquals("Acked-by", f.getKey());
 		assertEquals("Main Tain Er", f.getValue());
 		assertNull(f.getEmailAddress());
+		assertEquals("subject\n\nbody of commit", msgWithoutFooter);
 	}
 
 	@Test
@@ -255,6 +475,7 @@ public class FooterLineTest extends RepositoryTestCase {
 				+ "Acked-by: Some Reviewer <sr@example.com>\n"
 				+ "Signed-off-by: Main Tain Er <mte@example.com>\n");
 		final List<FooterLine> footers = commit.getFooterLines();
+		final String msgWithoutFooter = commit.getMessageWithoutFooter();
 		FooterLine f;
 
 		assertNotNull(footers);
@@ -279,6 +500,10 @@ public class FooterLineTest extends RepositoryTestCase {
 		assertEquals("Signed-off-by", f.getKey());
 		assertEquals("Main Tain Er <mte@example.com>", f.getValue());
 		assertEquals("mte@example.com", f.getEmailAddress());
+		assertEquals(
+				"subject\n\nbody of commit\n"
+						+ "Not-A-Footer-Line: this line must not be read as a footer",
+				msgWithoutFooter);
 	}
 
 	@Test
@@ -292,6 +517,7 @@ public class FooterLineTest extends RepositoryTestCase {
 				+ "Acked-by: Some Reviewer <sr@example.com>\n"
 				+ "Signed-off-by: Main Tain Er <mte@example.com>\n");
 		final List<FooterLine> footers = commit.getFooterLines();
+		final String msgWithoutFooter = commit.getMessageWithoutFooter();
 		FooterLine f;
 
 		assertNotNull(footers);
@@ -312,6 +538,10 @@ public class FooterLineTest extends RepositoryTestCase {
 		f = footers.get(3);
 		assertEquals("Signed-off-by", f.getKey());
 		assertEquals("Main Tain Er <mte@example.com>", f.getValue());
+		assertEquals(
+				"subject\n\nbody of commit\n"
+						+ "Not-A-Footer-Line: this line must not be read as a footer",
+				msgWithoutFooter);
 	}
 
 	@Test
@@ -324,12 +554,17 @@ public class FooterLineTest extends RepositoryTestCase {
 				+ "Acked-by: Some Reviewer <sr@example.com>\n"
 				+ "signed-off-by: Main Tain Er <mte@example.com>\n");
 		final List<String> footers = commit.getFooterLines("signed-off-by");
+		final String msgWithoutFooter = commit.getMessageWithoutFooter();
 
 		assertNotNull(footers);
 		assertEquals(2, footers.size());
 
 		assertEquals("A. U. Thor <a@example.com>", footers.get(0));
 		assertEquals("Main Tain Er <mte@example.com>", footers.get(1));
+		assertEquals(
+				"subject\n\nbody of commit\n"
+						+ "Not-A-Footer-Line: this line must not be read as a footer",
+				msgWithoutFooter);
 	}
 
 	@Test
@@ -338,6 +573,7 @@ public class FooterLineTest extends RepositoryTestCase {
 				+ "\n" // paragraph break, now footers appear in final block
 				+ "Simple-Bug-Id: 42\n");
 		final List<FooterLine> footers = commit.getFooterLines();
+		final String msgWithoutFooter = commit.getMessageWithoutFooter();
 
 		assertNotNull(footers);
 		assertEquals(1, footers.size());
@@ -351,6 +587,7 @@ public class FooterLineTest extends RepositoryTestCase {
 		assertTrue("matches Simple-Bug-Id", line.matches(bugid));
 		assertFalse("not Signed-off-by", line.matches(FooterKey.SIGNED_OFF_BY));
 		assertFalse("not CC", line.matches(FooterKey.CC));
+		assertEquals("this is a commit subject for test", msgWithoutFooter);
 	}
 
 	private RevCommit parse(final String msg) throws IOException {
