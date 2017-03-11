@@ -484,6 +484,62 @@ public class RevCommit extends RevObject {
 		return str;
 	}
 
+	/**
+	 * Parse the commit message and return the content without trailing LFs until
+	 * the footer lines.
+	 * <p>
+	 * Footers have to be in its own paragraph, otherwise it consider as a title.
+	 * If there are multiple footer paragraphs, only the last footer paragraph is
+	 * consider as footer.
+	 * If there are
+	 * this is consistent with {@link #getFooterLines()}
+	 * method.
+	 * <p>
+	 * This method parses and returns the message portion without footers and
+	 * trailing LFs of the commit buffer, after taking the commit's character set
+	 * into account and decoding the buffer using that character set. This method
+	 * is a fairly expensive operation and produces a new string on each
+	 * invocation.
+	 *
+	 * @return decoded commit message as a string. Never null.
+	 */
+	public final String getMessageWithoutFooter() {
+		byte[] raw = buffer;
+		int msgB = RawParseUtils.commitMessage(raw, 0);
+		if (msgB < 0) {
+			return ""; //$NON-NLS-1$
+		}
+
+		int ptr = raw.length - 1;
+		while (raw[ptr] == '\n') // trim any trailing LFs, not interesting
+			ptr--;
+
+		if (ptr < msgB) {
+			return "";
+		}
+
+		for (;;) {
+			int pre = ptr;
+			ptr = RawParseUtils.prevLF(raw, ptr);
+			if (ptr <= msgB) {
+				ptr = pre;
+				break;
+			}
+
+			final int keyStart = ptr + 2;
+			if (raw[keyStart] == '\n')
+				break; // Stop at first paragraph break, no footers above it.
+
+			final int keyEnd = RawParseUtils.endOfFooterLineKey(raw, keyStart);
+			if (keyEnd < 0) {
+				continue;
+			}
+		}
+
+		return RawParseUtils.decode(guessEncoding(), raw, msgB, ptr + 1);
+	}
+
+
 	static boolean hasLF(final byte[] r, int b, final int e) {
 		while (b < e)
 			if (r[b++] == '\n')
