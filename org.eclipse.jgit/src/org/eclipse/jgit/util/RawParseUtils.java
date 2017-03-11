@@ -567,6 +567,28 @@ public final class RawParseUtils {
 	}
 
 	/**
+	 * Locate the first position before the previous double LF (paragraph break).
+	 * <p>
+	 * This method stops on the first '\n\n' it finds.
+	 *
+	 * @param b
+	 *            buffer to scan.
+	 * @param ptr
+	 *            position within buffer to start looking for double LF at.
+	 * @return new position just before the first double LF found, -1 for not found
+	 */
+	public static int prevDLF(final byte[] b, int ptr) {
+		if (ptr == b.length)
+			--ptr;
+		while (ptr >= 1) {
+			final byte c = b[ptr--];
+			if (c == '\n' && b[ptr] == '\n')
+				return ptr - 1;
+		}
+		return -1;
+	}
+
+	/**
 	 * Locate the first position before the previous LF.
 	 * <p>
 	 * This method stops on the first '\n' it finds.

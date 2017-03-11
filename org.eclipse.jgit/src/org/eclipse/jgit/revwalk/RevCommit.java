@@ -484,6 +484,61 @@ public class RevCommit extends RevObject {
 		return str;
 	}
 
+	/**
+	 * Parse the commit message and return the content without trailing LFs until
+	 * the last footer paragraph if it exists.
+	 * <p>
+	 * This method parses and returns the message portion without footers and
+	 * trailing LFs of the commit buffer, after taking the commit's character set
+	 * into account and decoding the buffer using that character set. This method
+	 * is a fairly expensive operation and produces a new string on each
+	 * invocation.
+	 *
+	 * @return decoded commit message as a string. Never null.
+	 */
+	public final String getMessageWithoutFooter() {
+		byte[] raw = buffer;
+		int msgB = RawParseUtils.commitMessage(raw, 0);
+		if (msgB < 0) {
+			return ""; //$NON-NLS-1$
+		}
+
+		int ptr = raw.length - 1;
+		// trim any trailing LFs, not interesting
+		while (raw[ptr] == '\n') {
+			ptr--;
+		}
+
+		if (ptr < msgB) {
+			return "";
+		}
+
+		int pre = ptr;
+		int footerStart = RawParseUtils.prevDLF(raw, ptr);
+		// does not have a separate footer graph
+		if (footerStart <= msgB) {
+			return RawParseUtils.decode(guessEncoding(), raw, msgB, pre + 1);
+		}
+
+		ptr = footerStart + 3;
+		boolean hasFooter = false;
+		while (ptr < pre) {
+			final int keyEnd = RawParseUtils.endOfFooterLineKey(raw, ptr);
+			if (keyEnd > 0) {
+				hasFooter = true;
+				break;
+			}
+			ptr = RawParseUtils.nextLF(raw, ptr);
+		}
+
+		if (hasFooter) {
+			return RawParseUtils.decode(guessEncoding(), raw, msgB, footerStart + 1);
+		} else {
+			return RawParseUtils.decode(guessEncoding(), raw, msgB, pre + 1);
+		}
+	}
+
+
 	static boolean hasLF(final byte[] r, int b, final int e) {
 		while (b < e)
 			if (r[b++] == '\n')
@@ -544,6 +599,10 @@ public class RevCommit extends RevObject {
 	 * the commit message, providing each line as a key-value pair, ordered by
 	 * the order of the line's appearance in the commit message itself.
 	 * <p>
+	 * Footers have to be in their own paragraph (i.e. not share with subject
+	 * paragraph). If there are multiple paragraphs contains footer keys, only the
+	 * last footer paragraph is considered.
+	 * <p>
 	 * A footer line's key must match the pattern {@code ^[A-Za-z0-9-]+:}, while
 	 * the value is free-form, but must not contain an LF. Very common keys seen
 	 * in the wild are:
@@ -565,36 +624,40 @@ public class RevCommit extends RevObject {
 			ptr--;
 
 		final int msgB = RawParseUtils.commitMessage(raw, 0);
+		if (ptr < msgB) {
+			return Collections.emptyList();
+		}
+
+		int pre = ptr;
+		int footerStart = RawParseUtils.prevDLF(raw, ptr);
+		// does not have a separate footer graph
+		if (footerStart <= msgB) {
+			return Collections.emptyList();
+		}
+
+		ptr = footerStart + 3;
 		final ArrayList<FooterLine> r = new ArrayList<>(4);
 		final Charset enc = guessEncoding();
-		for (;;) {
-			ptr = RawParseUtils.prevLF(raw, ptr);
-			if (ptr <= msgB)
-				break; // Don't parse commit headers as footer lines.
-
-			final int keyStart = ptr + 2;
-			if (raw[keyStart] == '\n')
-				break; // Stop at first paragraph break, no footers above it.
-
-			final int keyEnd = RawParseUtils.endOfFooterLineKey(raw, keyStart);
-			if (keyEnd < 0)
+		while (ptr < pre) {
+			final int keyEnd = RawParseUtils.endOfFooterLineKey(raw, ptr);
+			if (keyEnd < 0) {
+				ptr = RawParseUtils.nextLF(raw, ptr);
 				continue; // Not a well formed footer line, skip it.
+			}
 
 			// Skip over the ': *' at the end of the key before the value.
-			//
 			int valStart = keyEnd + 1;
 			while (valStart < raw.length && raw[valStart] == ' ')
 				valStart++;
 
 			// Value ends at the LF, and does not include it.
-			//
 			int valEnd = RawParseUtils.nextLF(raw, valStart);
-			if (raw[valEnd - 1] == '\n')
+			if (raw[valEnd - 1] == '\n') {
 				valEnd--;
-
-			r.add(new FooterLine(raw, enc, keyStart, keyEnd, valStart, valEnd));
+			}
+			r.add(new FooterLine(raw, enc, ptr, keyEnd, valStart, valEnd));
+			ptr = valEnd;
 		}
-		Collections.reverse(r);
 		return r;
 	}
 
