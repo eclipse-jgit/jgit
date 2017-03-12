@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_84d9766c",
+        "filename": "org.eclipse.jgit/.settings/.api_filters",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-03-12T20:32:25Z",
+      "side": 0,
+      "message": "with this filter removed I get the following error (using 4.6.0 or 4.6.1 API baseline)\n\nThe field org.eclipse.jgit.transport.http.HttpConnection.HTTP_MOVED_PERM in an interface that is intended to be implemented or extended has been added\tHttpConnection.java\t/org.eclipse.jgit/src/org/eclipse/jgit/transport/http\tline 79\tCompatibility Problem",
+      "revId": "2fe1a3abbe511fad66a9a3e8e9dbbc952d258820",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
