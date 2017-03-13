@@ -283,12 +283,12 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 				init(process.getInputStream(), process.getOutputStream());
 
 			} catch (TransportException err) {
-				close();
 				throw err;
-			} catch (IOException err) {
-				close();
+			} catch (Throwable err) {
 				throw new TransportException(uri,
 						JGitText.get().remoteHungUpUnexpectedly, err);
+			} finally {
+				close();
 			}
 
 			try {
@@ -341,12 +341,12 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 				init(process.getInputStream(), process.getOutputStream());
 
 			} catch (TransportException err) {
-				close();
 				throw err;
-			} catch (IOException err) {
-				close();
+			} catch (Throwable err) {
 				throw new TransportException(uri,
 						JGitText.get().remoteHungUpUnexpectedly, err);
+			} finally {
+				close();
 			}
 
 			try {
