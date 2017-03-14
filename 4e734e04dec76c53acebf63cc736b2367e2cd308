@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_b9305321",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-03-14T20:08:08Z",
+      "side": 1,
+      "message": "this is not a retry count but rather \"transientErrorCount\"\n\nit looks like initializing to 0 could be wrong, but actually it\u0027s not since all paths not removing the pack do update the counter so we can avoid adding PackFile.getTransientErrorCount().",
+      "range": {
+        "startLine": 562,
+        "startChar": 6,
+        "endLine": 562,
+        "endChar": 25
+      },
+      "revId": "4e734e04dec76c53acebf63cc736b2367e2cd308",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
