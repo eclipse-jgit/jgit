@@ -46,7 +46,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-public class DfsBlockCacheConfigTest {
+public class DefaultDfsBlockCacheConfigTest {
 
 	@Rule
 	public ExpectedException thrown = ExpectedException.none();
@@ -56,13 +56,13 @@ public class DfsBlockCacheConfigTest {
 		thrown.expect(IllegalArgumentException.class);
 		thrown.expectMessage(is(JGitText.get().blockSizeNotPowerOf2));
 
-		new DfsBlockCacheConfig().setBlockSize(1000);
+		new DefaultDfsBlockCacheConfig().setBlockSize(1000);
 	}
 
 	@Test
 	@SuppressWarnings("boxing")
 	public void negativeBlockSizeIsConvertedToDefault() {
-		DfsBlockCacheConfig config = new DfsBlockCacheConfig();
+		DefaultDfsBlockCacheConfig config = new DefaultDfsBlockCacheConfig();
 		config.setBlockSize(-1);
 
 		assertThat(config.getBlockSize(), is(512));
@@ -71,7 +71,7 @@ public class DfsBlockCacheConfigTest {
 	@Test
 	@SuppressWarnings("boxing")
 	public void tooSmallBlockSizeIsConvertedToDefault() {
-		DfsBlockCacheConfig config = new DfsBlockCacheConfig();
+		DefaultDfsBlockCacheConfig config = new DefaultDfsBlockCacheConfig();
 		config.setBlockSize(10);
 
 		assertThat(config.getBlockSize(), is(512));
@@ -80,7 +80,7 @@ public class DfsBlockCacheConfigTest {
 	@Test
 	@SuppressWarnings("boxing")
 	public void validBlockSize() {
-		DfsBlockCacheConfig config = new DfsBlockCacheConfig();
+		DefaultDfsBlockCacheConfig config = new DefaultDfsBlockCacheConfig();
 		config.setBlockSize(65536);
 
 		assertThat(config.getBlockSize(), is(65536));

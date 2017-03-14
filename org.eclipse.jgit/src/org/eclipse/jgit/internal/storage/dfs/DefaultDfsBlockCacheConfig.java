@@ -55,8 +55,8 @@ import java.text.MessageFormat;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Config;
 
-/** Configuration parameters for {@link DfsBlockCache}. */
-public class DfsBlockCacheConfig {
+/** Configuration parameters for {@link DefaultDfsBlockCache}. */
+public class DefaultDfsBlockCacheConfig {
 	/** 1024 (number of bytes in one kibibyte/kilobyte) */
 	public static final int KB = 1024;
 
@@ -69,7 +69,7 @@ public class DfsBlockCacheConfig {
 	private int concurrencyLevel;
 
 	/** Create a default configuration. */
-	public DfsBlockCacheConfig() {
+	public DefaultDfsBlockCacheConfig() {
 		setBlockLimit(32 * MB);
 		setBlockSize(64 * KB);
 		setStreamRatio(0.30);
@@ -90,7 +90,7 @@ public class DfsBlockCacheConfig {
 	 *            pack file data.
 	 * @return {@code this}
 	 */
-	public DfsBlockCacheConfig setBlockLimit(final long newLimit) {
+	public DefaultDfsBlockCacheConfig setBlockLimit(final long newLimit) {
 		blockLimit = newLimit;
 		return this;
 	}
@@ -109,7 +109,7 @@ public class DfsBlockCacheConfig {
 	 *            The value must be a power of 2.
 	 * @return {@code this}
 	 */
-	public DfsBlockCacheConfig setBlockSize(final int newSize) {
+	public DefaultDfsBlockCacheConfig setBlockSize(final int newSize) {
 		int size = Math.max(512, newSize);
 		if ((size & (size - 1)) != 0) {
 			throw new IllegalArgumentException(
@@ -133,7 +133,7 @@ public class DfsBlockCacheConfig {
 	 *            cache.
 	 * @return {@code this}
 	 */
-	public DfsBlockCacheConfig setConcurrencyLevel(
+	public DefaultDfsBlockCacheConfig setConcurrencyLevel(
 			final int newConcurrencyLevel) {
 		concurrencyLevel = newConcurrencyLevel;
 		return this;
@@ -153,7 +153,7 @@ public class DfsBlockCacheConfig {
 	 *            percentage of cache to occupy with a copied pack.
 	 * @return {@code this}
 	 */
-	public DfsBlockCacheConfig setStreamRatio(double ratio) {
+	public DefaultDfsBlockCacheConfig setStreamRatio(double ratio) {
 		streamRatio = Math.max(0, Math.min(ratio, 1.0));
 		return this;
 	}
@@ -168,7 +168,7 @@ public class DfsBlockCacheConfig {
 	 *            configuration to read properties from.
 	 * @return {@code this}
 	 */
-	public DfsBlockCacheConfig fromConfig(final Config rc) {
+	public DefaultDfsBlockCacheConfig fromConfig(final Config rc) {
 		setBlockLimit(rc.getLong(
 				CONFIG_CORE_SECTION,
 				CONFIG_DFS_SECTION,

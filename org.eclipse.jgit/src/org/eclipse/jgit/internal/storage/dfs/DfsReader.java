@@ -672,7 +672,7 @@ public final class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 		if (cnt == 0)
 			return 0;
 
-		long length = pack.length;
+		long length = pack.getLength();
 		if (0 <= length && length <= position)
 			return 0;
 
@@ -684,7 +684,7 @@ public final class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 			dstoff += r;
 			need -= r;
 			if (length < 0)
-				length = pack.length;
+				length = pack.getLength();
 		} while (0 < need && position < length);
 		return cnt - need;
 	}
@@ -731,7 +731,7 @@ public final class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 	DfsBlock quickCopy(DfsPackFile p, long pos, long cnt)
 			throws IOException {
 		pin(p, pos);
-		if (block.contains(p.key, pos + (cnt - 1)))
+		if (block.contains(p.key(), pos + (cnt - 1)))
 			return block;
 		return null;
 	}
@@ -750,7 +750,7 @@ public final class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 
 	void pin(DfsPackFile pack, long position) throws IOException {
 		DfsBlock b = block;
-		if (b == null || !b.contains(pack.key, position)) {
+		if (b == null || !b.contains(pack.key(), position)) {
 			// If memory is low, we may need what is in our window field to
 			// be cleaned up by the GC during the get for the next window.
 			// So we always clear it, even though we are just going to set

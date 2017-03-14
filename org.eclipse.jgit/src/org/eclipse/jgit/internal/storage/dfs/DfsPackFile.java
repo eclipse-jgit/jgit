@@ -113,14 +113,14 @@ public final class DfsPackFile {
 	private final DfsPackDescription packDesc;
 
 	/** Unique identity of this pack while in-memory. */
-	final DfsPackKey key;
+	private final DfsPackKey key;
 
 	/**
 	 * Total number of bytes in this pack file.
 	 * <p>
 	 * This field initializes to -1 and gets populated when a block is loaded.
 	 */
-	volatile long length;
+	private volatile long length;
 
 	/**
 	 * Preferred alignment for loading blocks from the backing file.
@@ -170,7 +170,7 @@ public final class DfsPackFile {
 	 * @param key
 	 *            interned key used to identify blocks in the block cache.
 	 */
-	DfsPackFile(DfsBlockCache cache, DfsPackDescription desc, DfsPackKey key) {
+	public DfsPackFile(DfsBlockCache cache, DfsPackDescription desc, DfsPackKey key) {
 		this.cache = cache;
 		this.packDesc = desc;
 		this.key = key;
@@ -178,6 +178,16 @@ public final class DfsPackFile {
 		length = desc.getFileSize(PACK);
 		if (length <= 0)
 			length = -1;
+	}
+
+	/** @return key that uniquely identifies this pack while in-memory. */
+	public DfsPackKey key() {
+		return key;
+	}
+
+	/** @return total number of bytes in this pack file. */
+	public long getLength() {
+		return length;
 	}
 
 	/** @return description that was originally used to configure this pack file. */
@@ -195,7 +205,7 @@ public final class DfsPackFile {
 
 	/** @return bytes cached in memory for this pack, excluding the index. */
 	public long getCachedSize() {
-		return key.cachedSize.get();
+		return key.cachedSize().get();
 	}
 
 	String getPackName() {
@@ -482,7 +492,7 @@ public final class DfsPackFile {
 		long remaining = length - (12 + 20);
 		while (0 < remaining) {
 			DfsBlock b = cache.getOrLoad(this, position, ctx);
-			int ptr = (int) (position - b.start);
+			int ptr = (int) (position - b.getStart());
 			int n = (int) Math.min(b.size() - ptr, remaining);
 			b.write(out, position, n);
 			position += n;
@@ -502,7 +512,7 @@ public final class DfsPackFile {
 			while (0 < remaining) {
 				DfsBlock b = cache.get(key, alignToBlock(position));
 				if (b != null) {
-					int ptr = (int) (position - b.start);
+					int ptr = (int) (position - b.getStart());
 					int n = (int) Math.min(b.size() - ptr, remaining);
 					b.write(out, position, n);
 					position += n;
@@ -741,7 +751,7 @@ public final class DfsPackFile {
 		}
 	}
 
-	boolean invalid() {
+	public boolean invalid() {
 		return invalid;
 	}
 
@@ -761,18 +771,18 @@ public final class DfsPackFile {
 			throw new EOFException();
 	}
 
-	long alignToBlock(long pos) {
+	public long alignToBlock(long pos) {
 		int size = blockSize;
 		if (size == 0)
 			size = cache.getBlockSize();
 		return (pos / size) * size;
 	}
 
-	DfsBlock getOrLoadBlock(long pos, DfsReader ctx) throws IOException {
+	public DfsBlock getOrLoadBlock(long pos, DfsReader ctx) throws IOException {
 		return cache.getOrLoad(this, pos, ctx);
 	}
 
-	DfsBlock readOneBlock(long pos, DfsReader ctx)
+	public DfsBlock readOneBlock(long pos, DfsReader ctx)
 			throws IOException {
 		if (invalid)
 			throw new PackInvalidException(getPackName());
