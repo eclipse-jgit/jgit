@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_adee557e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-03-14T01:40:51Z",
+      "side": 1,
+      "message": "@since 4.7",
+      "revId": "3e4fca59e777bb4bc91d7f931d4e853c8c9a3319",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_cddf11cc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-03-14T01:40:51Z",
+      "side": 1,
+      "message": "@since 4.7",
+      "revId": "3e4fca59e777bb4bc91d7f931d4e853c8c9a3319",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_ede4cd9e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-03-14T01:40:51Z",
+      "side": 1,
+      "message": "Add braces.",
+      "range": {
+        "startLine": 581,
+        "startChar": 2,
+        "endLine": 582,
+        "endChar": 9
+      },
+      "revId": "3e4fca59e777bb4bc91d7f931d4e853c8c9a3319",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_0dfd892e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-03-14T01:40:51Z",
+      "side": 1,
+      "message": "Add braces",
+      "range": {
+        "startLine": 585,
+        "startChar": 3,
+        "endLine": 586,
+        "endChar": 19
+      },
+      "revId": "3e4fca59e777bb4bc91d7f931d4e853c8c9a3319",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
