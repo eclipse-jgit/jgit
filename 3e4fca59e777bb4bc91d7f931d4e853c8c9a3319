@@ -36,6 +36,29 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_4d51415a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-03-14T07:55:52Z",
+      "side": 1,
+      "message": "cryptic public method name, how about \"previousDoubleLF\" ?",
+      "range": {
+        "startLine": 580,
+        "startChar": 19,
+        "endLine": 580,
+        "endChar": 26
+      },
+      "revId": "3e4fca59e777bb4bc91d7f931d4e853c8c9a3319",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_ede4cd9e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
         "patchSetId": 3
