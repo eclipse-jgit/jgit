@@ -203,29 +203,39 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 	@Override
 	public PullResult call() throws GitAPIException,
 			WrongRepositoryStateException, InvalidConfigurationException,
-			DetachedHeadException, InvalidRemoteException, CanceledException,
+			InvalidRemoteException, CanceledException,
 			RefNotFoundException, RefNotAdvertisedException, NoHeadException,
 			org.eclipse.jgit.api.errors.TransportException {
 		checkCallable();
 
 		monitor.beginTask(JGitText.get().pullTaskName, 2);
+		Config repoConfig = repo.getConfig();
 
-		String branchName;
+		String branchName = null;
 		try {
 			String fullBranch = repo.getFullBranch();
-			if (fullBranch == null)
-				throw new NoHeadException(
-						JGitText.get().pullOnRepoWithoutHEADCurrentlyNotSupported);
-			if (!fullBranch.startsWith(Constants.R_HEADS)) {
-				// we can not pull if HEAD is detached and branch is not
-				// specified explicitly
-				throw new DetachedHeadException();
+			if (fullBranch != null
+					&& fullBranch.startsWith(Constants.R_HEADS)) {
+				branchName = fullBranch.substring(Constants.R_HEADS.length());
 			}
-			branchName = fullBranch.substring(Constants.R_HEADS.length());
 		} catch (IOException e) {
 			throw new JGitInternalException(
 					JGitText.get().exceptionCaughtDuringExecutionOfPullCommand,
 					e);
+		}
+		if (remoteBranchName == null && branchName != null) {
+			// get the name of the branch in the remote repository
+			// stored in configuration key branch.<branch name>.merge
+			remoteBranchName = repoConfig.getString(
+					ConfigConstants.CONFIG_BRANCH_SECTION, branchName,
+					ConfigConstants.CONFIG_KEY_MERGE);
+		}
+		if (remoteBranchName == null) {
+			remoteBranchName = branchName;
+		}
+		if (remoteBranchName == null) {
+			throw new NoHeadException(
+					JGitText.get().cannotCheckoutFromUnbornBranch);
 		}
 
 		if (!repo.getRepositoryState().equals(RepositoryState.SAFE))
@@ -233,32 +243,23 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 					JGitText.get().cannotPullOnARepoWithState, repo
 							.getRepositoryState().name()));
 
-		Config repoConfig = repo.getConfig();
-		if (remote == null) {
+		if (remote == null && branchName != null) {
 			// get the configured remote for the currently checked out branch
 			// stored in configuration key branch.<branch name>.remote
 			remote = repoConfig.getString(
 					ConfigConstants.CONFIG_BRANCH_SECTION, branchName,
 					ConfigConstants.CONFIG_KEY_REMOTE);
 		}
-		if (remote == null)
+		if (remote == null) {
 			// fall back to default remote
 			remote = Constants.DEFAULT_REMOTE_NAME;
-
-		if (remoteBranchName == null)
-			// get the name of the branch in the remote repository
-			// stored in configuration key branch.<branch name>.merge
-			remoteBranchName = repoConfig.getString(
-					ConfigConstants.CONFIG_BRANCH_SECTION, branchName,
-					ConfigConstants.CONFIG_KEY_MERGE);
+		}
 
 		// determines whether rebase should be used after fetching
-		if (pullRebaseMode == null) {
+		if (pullRebaseMode == null && branchName != null) {
 			pullRebaseMode = getRebaseMode(branchName, repoConfig);
 		}
 
-		if (remoteBranchName == null)
-			remoteBranchName = branchName;
 
 		final boolean isRemote = !remote.equals("."); //$NON-NLS-1$
 		String remoteUri;
