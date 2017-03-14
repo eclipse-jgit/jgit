@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_6dd99dea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-03-14T01:39:18Z",
+      "side": 1,
+      "message": "The bug specifically mentions out of memory error.",
+      "range": {
+        "startLine": 7,
+        "startChar": 29,
+        "endLine": 7,
+        "endChar": 43
+      },
+      "revId": "9e35d86c82b42822ad93801ff64b4ec554bfdaa8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_2dd325ce",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportGitSsh.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-03-14T01:39:18Z",
+      "side": 1,
+      "message": "This is the same handling as in the block at L288-291, so it could be added there instead, i.e.\n\n } catch (IOException | Throwable err) {\n     ....\n\nAlso, should this specifically catch OutOfMemoryError rather than Throwable?",
+      "range": {
+        "startLine": 292,
+        "startChar": 3,
+        "endLine": 296,
+        "endChar": 4
+      },
+      "revId": "9e35d86c82b42822ad93801ff64b4ec554bfdaa8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_4ddce1dc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportGitSsh.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-03-14T01:39:18Z",
+      "side": 1,
+      "message": "Same here",
+      "range": {
+        "startLine": 354,
+        "startChar": 3,
+        "endLine": 358,
+        "endChar": 4
+      },
+      "revId": "9e35d86c82b42822ad93801ff64b4ec554bfdaa8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
