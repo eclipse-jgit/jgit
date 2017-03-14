@@ -61,6 +61,7 @@ import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.lib.StoredConfig;
@@ -145,6 +146,52 @@ public class PullCommandWithRebaseTest extends RepositoryTestCase {
 				.setStrategy(MergeStrategy.RESOLVE).call();
 		assertEquals(MergeStatus.MERGED, result.getMergeStatus());
 
+	}
+
+	@Test
+	public void testPullFastForwardDetachedHead() throws Exception {
+		Repository repository = source.getRepository();
+		writeToFile(sourceFile, "2nd commit");
+		source.add().addFilepattern("SomeFile.txt").call();
+		source.commit().setMessage("2nd commit").call();
+
+		try (RevWalk revWalk = new RevWalk(repository)) {
+			// git checkout HEAD^
+			String initialBranch = repository.getBranch();
+			Ref initialRef = repository.findRef(Constants.HEAD);
+			RevCommit initialCommit = revWalk
+					.parseCommit(initialRef.getObjectId());
+			assertEquals("this test need linear history", 1,
+					initialCommit.getParentCount());
+			source.checkout().setName(initialCommit.getParent(0).getName())
+					.call();
+			assertFalse("expected detached HEAD",
+					repository.getFullBranch().startsWith(Constants.R_HEADS));
+
+			// change and commit the source file
+			writeToFile(sourceFile, "other 2nd commit");
+			source.add().addFilepattern("SomeFile.txt").call();
+			RevCommit newCommit = source.commit().setMessage("other 2nd commit")
+					.call();
+
+			// git pull --rebase initialBranch
+			source.pull().setRebase(true).setRemoteBranchName(initialBranch)
+					.call();
+
+			assertEquals(RepositoryState.SAFE,
+					target.getRepository().getRepositoryState());
+			Ref head = target.getRepository().findRef(Constants.HEAD);
+			RevCommit headCommit = revWalk.parseCommit(head.getObjectId());
+
+			// HEAD^ == initialCommit
+			assertEquals(1, headCommit.getParentCount());
+			assertEquals(initialCommit, headCommit.getParent(0));
+
+			// HEAD has same message as rebased commit
+			assertFileContentsEqual(sourceFile, "other 2nd commit");
+			assertEquals(newCommit.getShortMessage(),
+					headCommit.getShortMessage());
+		}
 	}
 
 	@Test
