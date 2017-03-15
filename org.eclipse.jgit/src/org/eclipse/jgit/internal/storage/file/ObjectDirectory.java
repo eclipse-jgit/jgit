@@ -337,6 +337,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 			for (PackFile p : pList.packs) {
 				try {
 					p.resolve(matches, id, RESOLVE_ABBREV_LIMIT);
+					p.resetTransientErrorCount();
 				} catch (IOException e) {
 					handlePackError(e, p);
 				}
@@ -418,6 +419,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 				for (PackFile p : pList.packs) {
 					try {
 						ObjectLoader ldr = p.get(curs, objectId);
+						p.resetTransientErrorCount();
 						if (ldr != null)
 							return ldr;
 					} catch (PackMismatchException e) {
@@ -496,6 +498,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 				for (PackFile p : pList.packs) {
 					try {
 						long len = p.getObjectSize(curs, id);
+						p.resetTransientErrorCount();
 						if (0 <= len)
 							return len;
 					} catch (PackMismatchException e) {
@@ -535,6 +538,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 			for (final PackFile p : pList.packs) {
 				try {
 					LocalObjectRepresentation rep = p.representation(curs, otp);
+					p.resetTransientErrorCount();
 					if (rep != null)
 						packer.select(otp, rep);
 				} catch (PackMismatchException e) {
@@ -555,6 +559,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	private void handlePackError(IOException e, PackFile p) {
 		String warnTmpl = null;
+		int transientErrorCount = 0;
+		String errTmpl = JGitText.get().exceptionWhileReadingPack;
 		if ((e instanceof CorruptObjectException)
 				|| (e instanceof PackInvalidException)) {
 			warnTmpl = JGitText.get().corruptPack;
@@ -562,14 +568,17 @@ public class ObjectDirectory extends FileObjectDatabase {
 			removePack(p);
 		} else if (e instanceof FileNotFoundException) {
 			if (p.getPackFile().exists()) {
-				warnTmpl = JGitText.get().packInaccessible;
+				errTmpl = JGitText.get().packInaccessible;
+				transientErrorCount = p.incrementTransientErrorCount();
 			} else {
 				warnTmpl = JGitText.get().packWasDeleted;
+				removePack(p);
 			}
-			removePack(p);
 		} else if (FileUtils.isStaleFileHandle(e)) {
 			warnTmpl = JGitText.get().packHandleIsStale;
 			removePack(p);
+		} else {
+			transientErrorCount = p.incrementTransientErrorCount();
 		}
 		if (warnTmpl != null) {
 			if (LOG.isDebugEnabled()) {
@@ -580,12 +589,23 @@ public class ObjectDirectory extends FileObjectDatabase {
 						p.getPackFile().getAbsolutePath()));
 			}
 		} else {
-			// Don't remove the pack from the list, as the error may be
-			// transient.
-			LOG.error(MessageFormat.format(
-					JGitText.get().exceptionWhileReadingPack, p.getPackFile()
-							.getAbsolutePath()), e);
+			if (doLogExponentialBackoff(transientErrorCount)) {
+				// Don't remove the pack from the list, as the error may be
+				// transient.
+				LOG.error(MessageFormat.format(errTmpl,
+						p.getPackFile().getAbsolutePath()),
+						Integer.valueOf(transientErrorCount), e);
+			}
 		}
+	}
+
+	/**
+	 * @param n
+	 *            count of consecutive failures
+	 * @return @{code true} if i is a power of 2
+	 */
+	private boolean doLogExponentialBackoff(int n) {
+		return (n & (n - 1)) == 0;
 	}
 
 	@Override
