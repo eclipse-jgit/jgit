@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_99ae37f0",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-03-15T02:27:37Z",
+      "side": 1,
+      "message": "What does this mean? Should it be \"{1}th retry\"?",
+      "range": {
+        "startLine": 472,
+        "startChar": 49,
+        "endLine": 472,
+        "endChar": 59
+      },
+      "revId": "a0613d72987373e0f709be942bd923843259c7f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
