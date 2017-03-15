@@ -22,6 +22,23 @@
       "revId": "a0613d72987373e0f709be942bd923843259c7f4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_39bfe317",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-03-15T02:40:41Z",
+      "side": 1,
+      "message": "http://jeremymanson.blogspot.com/2007/08/volatile-does-not-mean-atomic.html makes me nervous about this. It means that if one thread does\n\n resetTransientErrorCount()\n\nwhile another does\n\n incrementTransientErrorCount()\n\nthen the reset can be lost, the increment can be lost, or they can be interleaved and produce a result of 1. That is not important for functionality but it can result in confusing log messages.\n\nWhy log the transientErrorCount at all? Is the idea to be able to see something like\n\n (5 similar errors omitted)\n\nin logs? In that case, why don\u0027t we log when resetting the count if there are unlogged errors? Is there some simpler way to do rate-limited logging?\n\nThis makes me wish we were using guava already so we could use e.g. guava RateLimiter.",
+      "revId": "a0613d72987373e0f709be942bd923843259c7f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
