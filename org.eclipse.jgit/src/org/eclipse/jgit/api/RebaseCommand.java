@@ -806,8 +806,12 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			if (!line.trim().startsWith("#")) //$NON-NLS-1$
 				result.append(line).append("\n"); //$NON-NLS-1$
 		}
-		if (!commitMessage.endsWith("\n")) //$NON-NLS-1$
-			result.deleteCharAt(result.length() - 1);
+		if (!commitMessage.endsWith("\n")) { //$NON-NLS-1$
+			int bufferSize = result.length();
+			if (bufferSize > 0 && result.charAt(bufferSize - 1) == '\n') {
+				result.deleteCharAt(bufferSize - 1);
+			}
+		}
 		return result.toString();
 	}
 
