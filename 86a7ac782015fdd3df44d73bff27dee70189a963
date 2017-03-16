@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_d0b31953",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-03-16T20:30:01Z",
+      "side": 1,
+      "message": "Why is that in this function instead of commitPackImpl?",
+      "revId": "86a7ac782015fdd3df44d73bff27dee70189a963",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
