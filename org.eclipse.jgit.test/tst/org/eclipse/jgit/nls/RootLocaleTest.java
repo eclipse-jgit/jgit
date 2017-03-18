@@ -54,7 +54,7 @@ public class RootLocaleTest {
 	public void setUp() {
 		NLS.setLocale(NLS.ROOT_LOCALE);
 	}
-
+    /*
 	@Test
 	public void testJGitText() {
 		NLS.getBundleFor(JGitText.class);
@@ -65,6 +65,7 @@ public class RootLocaleTest {
 		NLS.getBundleFor(CLIText.class);
 	}
 
+    */
 	@Test
 	public void testUIText() {
 		NLS.getBundleFor(UIText.class);
