@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_8a0ecded",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GcLog.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-03-19T20:53:32Z",
+      "side": 1,
+      "message": "what I tried\n* using jgit version https://git.eclipse.org/r/#/c/90868/4 and egit current master\n* cloned https://gerrit.googlesource.com/gerrit\n* deleted most branches and tags to generate a lot of garbage\n* played with pruneexpire options \n* ran jgit gc a couple of times until garbage objects were stored as loose objects\n* created a couple of merge commits to provoke triggering autogc\n\nthen I hit the following exception:\n\n eclipse.buildId\u003dunknown\njava.version\u003d1.8.0_112\njava.vendor\u003dOracle Corporation\nBootLoader constants: OS\u003dmacosx, ARCH\u003dx86_64, WS\u003dcocoa, NL\u003den_US\nFramework arguments:  -product org.eclipse.sdk.ide\nCommand-line arguments:  -product org.eclipse.sdk.ide -data /Users/d029788/Documents/workspace/egit-neon/../runtime-EGit-neon -dev file:/Users/d029788/Documents/workspace/egit-neon/.metadata/.plugins/org.eclipse.pde.core/EGit/dev.properties -os macosx -ws cocoa -arch x86_64 -consoleLog\n\norg.eclipse.core.jobs\nError\nSun Mar 19 21:36:22 CET 2017\nAn internal error occurred during: \"Merging with refs/heads/test\".\n\njava.lang.IllegalStateException: Lock on /Users/d029788/tmp/git/gerrit1/.git/gc.log not held.\n\tat org.eclipse.jgit.internal.storage.file.LockFile.requireLock(LockFile.java:380)\n\tat org.eclipse.jgit.internal.storage.file.LockFile.write(LockFile.java:296)\n\tat org.eclipse.jgit.internal.storage.file.GcLog.write(GcLog.java:181)\n\tat org.eclipse.jgit.internal.storage.file.GC.gc(GC.java:224)\n\tat org.eclipse.jgit.internal.storage.file.FileRepository.lambda$0(FileRepository.java:654)\n\tat org.eclipse.jgit.internal.storage.file.FileRepository.autoGC(FileRepository.java:681)\n\tat org.eclipse.jgit.api.MergeCommand.call(MergeCommand.java:388)\n\tat org.eclipse.egit.core.op.MergeOperation$1.run(MergeOperation.java:187)\n\tat org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2240)\n\tat org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2267)\n\tat org.eclipse.egit.core.op.MergeOperation.execute(MergeOperation.java:216)\n\tat org.eclipse.egit.core.internal.job.JobUtil$2.runInWorkspace(JobUtil.java:105)\n\tat org.eclipse.core.internal.resources.InternalWorkspaceJob.run(InternalWorkspaceJob.java:39)\n\tat org.eclipse.core.internal.jobs.Worker.run(Worker.java:56)",
+      "revId": "3abc97ff5e4d226ff552c08e0c02353cc69fe722",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
