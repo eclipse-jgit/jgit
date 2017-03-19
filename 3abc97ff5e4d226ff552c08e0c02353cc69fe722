@@ -16,6 +16,24 @@
       "revId": "3abc97ff5e4d226ff552c08e0c02353cc69fe722",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_2a721957",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GcLog.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-03-19T21:44:52Z",
+      "side": 1,
+      "message": "though a file gc.log.lock was present in the .git folder of the repository",
+      "parentUuid": "a7c23755_8a0ecded",
+      "revId": "3abc97ff5e4d226ff552c08e0c02353cc69fe722",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
