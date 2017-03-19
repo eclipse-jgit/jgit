@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_2ab4d9e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-03-19T04:06:56Z",
+      "side": 1,
+      "message": "Those tests pass for me [1] on OSX.  Platform specific issue?\n\n[1] http://paste.openstack.org/show/603334/",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 51
+      },
+      "revId": "cc200c6c3b2a892bb625e3223c0c7e1d55df82ac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
