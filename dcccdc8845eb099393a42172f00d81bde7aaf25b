@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "a7c23755_aafb89ae",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RacyGitTests.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-03-19T00:35:39Z",
+      "side": 1,
+      "message": "Looks like these tests are not being executed when building with Maven, even after adding the @Test annotation.",
+      "revId": "dcccdc8845eb099393a42172f00d81bde7aaf25b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_9f51ad5d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RacyGitTests.java",
         "patchSetId": 5
