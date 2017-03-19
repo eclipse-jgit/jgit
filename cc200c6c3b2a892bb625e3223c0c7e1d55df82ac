@@ -22,6 +22,30 @@
       "revId": "cc200c6c3b2a892bb625e3223c0c7e1d55df82ac",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_ea52e1b3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2017-03-19T22:35:48Z",
+      "side": 1,
+      "message": "\u003e Those tests pass for me [1] on OSX.  Platform specific issue?\n\nIndeed. I removed this section above. We could merge the series then.",
+      "parentUuid": "a7c23755_2ab4d9e9",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 51
+      },
+      "revId": "cc200c6c3b2a892bb625e3223c0c7e1d55df82ac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
