@@ -22,6 +22,30 @@
       "revId": "755cc1a6c501e73f97c3d8f76ca4d86fa2ddc678",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_8a708dcc",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RacyGitTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-03-19T01:51:02Z",
+      "side": 1,
+      "message": "I have a fix.  Will upload a new patch set soon.",
+      "parentUuid": "a7c23755_6a1c119e",
+      "range": {
+        "startLine": 134,
+        "startChar": 30,
+        "endLine": 134,
+        "endChar": 47
+      },
+      "revId": "755cc1a6c501e73f97c3d8f76ca4d86fa2ddc678",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
