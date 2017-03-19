@@ -16,6 +16,24 @@
       "revId": "ccd97bbf9b79edfdbd188adf8acc9bd1772c58a0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_6a4251c4",
+        "filename": "org.eclipse.jgit.http.test/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-03-19T23:58:00Z",
+      "side": 1,
+      "message": "It wasn\u0027t required in the buck build either, so something seems wrong.",
+      "parentUuid": "a7c23755_2a2db919",
+      "revId": "ccd97bbf9b79edfdbd188adf8acc9bd1772c58a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
