@@ -52,6 +52,24 @@
       "revId": "ccd97bbf9b79edfdbd188adf8acc9bd1772c58a0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_2a8cd988",
+        "filename": "org.eclipse.jgit.http.test/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-03-20T00:53:23Z",
+      "side": 1,
+      "message": "That can be handled using targets in lib/BUILD with appropriate runtime_deps. Working on a patch.",
+      "parentUuid": "a7c23755_ea85815f",
+      "revId": "ccd97bbf9b79edfdbd188adf8acc9bd1772c58a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
