@@ -34,6 +34,24 @@
       "revId": "ccd97bbf9b79edfdbd188adf8acc9bd1772c58a0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_ea85815f",
+        "filename": "org.eclipse.jgit.http.test/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-03-20T00:49:00Z",
+      "side": 1,
+      "message": "See David\u0027s comment on the earlier patch set.  Tests fail with NoClassDefFoundError for org/apache/commons/codec/binary/Base64\n\nhttp://paste.openstack.org/show/603289/",
+      "parentUuid": "a7c23755_6a4251c4",
+      "revId": "ccd97bbf9b79edfdbd188adf8acc9bd1772c58a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
