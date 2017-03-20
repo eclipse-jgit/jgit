@@ -6,8 +6,8 @@ java_library(
     resource_strip_prefix = "org.eclipse.jgit.http.apache/resources",
     resources = glob(["resources/**"]),
     deps = [
+        "//lib:httpclient",
+        "//lib:httpcore",
         "//org.eclipse.jgit:jgit",
-        "@httpclient//jar",
-        "@httpcore//jar",
     ],
 )
