@@ -39,7 +39,8 @@ java_library(
 
 java_library(
     name = "junit",
-    visibility = ["//org.eclipse.jgit.junit:__pkg__"],
+    testonly = 1,
+    visibility = ["//visibility:public"],
     exports = ["@junit//jar"],
 )
 

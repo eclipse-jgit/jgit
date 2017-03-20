@@ -11,6 +11,7 @@ genrule(
         "//org.eclipse.jgit.lfs.server:jgit-lfs-server",
         "//org.eclipse.jgit.junit:junit",
     ],
+    testonly = 1,
     outs = ["all.zip"],
     cmd = " && ".join([
         "p=$$PWD",
