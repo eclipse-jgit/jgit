@@ -6,8 +6,8 @@ java_library(
     resource_strip_prefix = "org.eclipse.jgit.http.server/resources",
     resources = glob(["resources/**"]),
     deps = [
+        "//lib:servlet-api",
         # We want these deps to be provided_deps
         "//org.eclipse.jgit:jgit",
-        "@servlet_api_3_1//jar",
     ],
 )

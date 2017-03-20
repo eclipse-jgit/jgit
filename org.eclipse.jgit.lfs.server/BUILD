@@ -6,12 +6,12 @@ java_library(
     resource_strip_prefix = "org.eclipse.jgit.lfs.server/resources",
     resources = glob(["resources/**"]),
     deps = [
+        "//lib:gson",
+        "//lib:httpcore",
+        "//lib:servlet-api",
+        "//lib:slf4j-api",
         "//org.eclipse.jgit.http.apache:http-apache",
         "//org.eclipse.jgit:jgit",
         "//org.eclipse.jgit.lfs:jgit-lfs",
-        "@gson//jar",
-        "@httpcore//jar",
-        "@log_api//jar",
-        "@servlet_api_3_1//jar",
     ],
 )
