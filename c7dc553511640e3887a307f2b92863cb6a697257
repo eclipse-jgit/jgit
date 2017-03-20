@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_0bb55f37",
+        "filename": "org.eclipse.jgit.pgm/BUILD",
+        "patchSetId": 8
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-03-20T17:25:40Z",
+      "side": 1,
+      "message": "this works, but only due to sandboxing. If somebody adds a subpackage under this tree, I think you may end up zipping too much.\n\nit\u0027s probably better to use $(SRCS) to drive the input of the zip process. See eg. \n\nhttps://git.eclipse.org/r/#/c/93442/1/org.eclipse.jgit.test/BUILD\n\nline 89.",
+      "range": {
+        "startLine": 37,
+        "startChar": 29,
+        "endLine": 37,
+        "endChar": 36
+      },
+      "revId": "c7dc553511640e3887a307f2b92863cb6a697257",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
