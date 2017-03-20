@@ -9,8 +9,8 @@ java_library(
     resource_strip_prefix = "org.eclipse.jgit.archive/resources",
     resources = glob(["resources/**"]),
     deps = [
+        "//lib:commons-compress",
         # We want these deps to be provided_deps
         "//org.eclipse.jgit:jgit",
-        "@commons_compress//jar",
     ],
 )

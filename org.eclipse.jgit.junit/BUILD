@@ -6,8 +6,8 @@ java_library(
     resource_strip_prefix = "org.eclipse.jgit.junit/resources",
     resources = glob(["resources/**"]),
     deps = [
+        "//lib:junit",
         # We want these deps to be provided_deps
         "//org.eclipse.jgit:jgit",
-        "@junit//jar",
     ],
 )
