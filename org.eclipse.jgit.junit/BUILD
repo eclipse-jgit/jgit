@@ -8,6 +8,6 @@ java_library(
     deps = [
         # We want these deps to be provided_deps
         "//org.eclipse.jgit:jgit",
-        "@junit//jar",
+        "//lib:junit",
     ],
 )

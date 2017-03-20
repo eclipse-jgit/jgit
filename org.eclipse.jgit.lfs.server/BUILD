@@ -9,9 +9,9 @@ java_library(
         "//org.eclipse.jgit.http.apache:http-apache",
         "//org.eclipse.jgit:jgit",
         "//org.eclipse.jgit.lfs:jgit-lfs",
-        "@gson//jar",
-        "@httpcore//jar",
-        "@log_api//jar",
-        "@servlet_api_3_1//jar",
+        "//lib:gson",
+        "//lib:httpcore",
+        "//lib:servlet-api",
+        "//lib:slf4j-api",
     ],
 )
