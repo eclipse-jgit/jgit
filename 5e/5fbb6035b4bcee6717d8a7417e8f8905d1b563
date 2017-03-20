@@ -1,0 +1,8 @@
+Code-Review+1: David Ostrovsky <d.ostrovsky@gmx.de>
+Code-Review+2: Jonathan Nieder <jrn@google.com>
+Verified+1: Jonathan Nieder <jrn@google.com>
+Submitted-by: Jonathan Nieder <jrn@google.com>
+Submitted-at: Mon, 20 Mar 2017 13:25:57 -0400
+Reviewed-on: https://git.eclipse.org/r/93353
+Project: jgit/jgit
+Branch: refs/heads/master
