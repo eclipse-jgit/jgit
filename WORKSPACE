@@ -98,3 +98,53 @@ maven_jar(
     artifact = "com.google.code.gson:gson:2.2.4",
     sha1 = "a60a5e993c98c864010053cb901b7eab25306568",
 )
+
+JETTY_VERS = '9.4.1.v20170120'
+
+maven_jar(
+    name = "jetty_servlet",
+    artifact = "org.eclipse.jetty:jetty-servlet:" + JETTY_VERS,
+    sha1 = "406a6edc22311629b41e98ab26901574d243d408",
+)
+
+maven_jar(
+    name = "jetty_security",
+    artifact = "org.eclipse.jetty:jetty-security:" + JETTY_VERS,
+    sha1 = "677aa94298f42d322e2f19045693a233613537b6",
+)
+
+maven_jar(
+    name = "jetty_servlets",
+    artifact = "org.eclipse.jetty:jetty-servlets:" + JETTY_VERS,
+    sha1 = "691a3ef337194ef2588b3c9a517caf3b03a67390",
+)
+
+maven_jar(
+    name = "jetty_server",
+    artifact = "org.eclipse.jetty:jetty-server:" + JETTY_VERS,
+    sha1 = "4cf4bea26592de98b9126ac60bc91fb669176a63",
+)
+
+maven_jar(
+    name = "jetty_http",
+    artifact = "org.eclipse.jetty:jetty-http:" + JETTY_VERS,
+    sha1 = "c9c9d5b15b3bb41ae9ae588b7aede301b42186f6",
+)
+
+maven_jar(
+    name = "jetty_io",
+    artifact = "org.eclipse.jetty:jetty-io:" + JETTY_VERS,
+    sha1 = "6d2d7c82a4b5306ec7bf2d6eb4b67460fce77240",
+)
+
+maven_jar(
+    name = "jetty_util",
+    artifact = "org.eclipse.jetty:jetty-util:" + JETTY_VERS,
+    sha1 = "810c4e4275e399feaf6e8bc51aa72645bdc06205",
+)
+
+maven_jar(
+  name = 'servlet_api',
+  sha1 = '3cd63d075497751784b2fa84be59432f4905bf7c',
+  artifact = 'javax.servlet:javax.servlet-api:3.1.0',
+)

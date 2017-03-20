@@ -5,7 +5,7 @@ INSECURE_CIPHER_FACTORY = [
 ]
 
 SRCS = glob(
-    ["src/**"],
+    ["src/**/*.java"],
     exclude = INSECURE_CIPHER_FACTORY,
 )
 

@@ -790,9 +790,10 @@ public class WalkEncryptionTest {
 				return false;
 			}
 			try {
+                          return false;/* NOSUBMIT
 				Cipher.getInstance(crytoAlgo);
 				SecretKeyFactory.getInstance(keyAlgo);
-				return true;
+				return true;*/
 			} catch (Throwable e) {
 				return false;
 			}
