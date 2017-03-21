@@ -22,6 +22,29 @@
       "revId": "c7dc553511640e3887a307f2b92863cb6a697257",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_607c2d5c",
+        "filename": "org.eclipse.jgit.test/BUILD",
+        "patchSetId": 8
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2017-03-21T05:45:29Z",
+      "side": 1,
+      "message": "I think we could fix it the samy way Shawn fixed the sources using InsecureCipherFactory that was built with enabled EP bug pattern http://errorprone.info/bugpattern/InsecureCryptoUsage.",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 38,
+        "endChar": 6
+      },
+      "revId": "c7dc553511640e3887a307f2b92863cb6a697257",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
