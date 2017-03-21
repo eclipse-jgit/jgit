@@ -115,7 +115,7 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 	}
 
 	/**
-	 * During gc() or prune() each unreferenced, loose object which has been
+	 * During collectGarbage() or prune() each unreferenced, loose object which has been
 	 * created or modified after <code>expire</code> will not be pruned. Only
 	 * older objects may be pruned. If set to null then every object is a
 	 * candidate for pruning. Use {@link GitDateParser} to parse time formats
@@ -204,7 +204,7 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 					gc.setExpire(expire);
 
 				try {
-					gc.gc();
+					gc.collectGarbage();
 					return toProperties(gc.getStatistics());
 				} catch (ParseException e) {
 					throw new JGitInternalException(JGitText.get().gcFailed, e);
