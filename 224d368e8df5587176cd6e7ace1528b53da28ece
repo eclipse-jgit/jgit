@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_c0b2617b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/WalkEncryptionTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 793,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-03-21T08:14:59Z",
+      "side": 1,
+      "message": "cryptoAlgo",
+      "range": {
+        "startLine": 793,
+        "startChar": 33,
+        "endLine": 793,
+        "endChar": 40
+      },
+      "revId": "224d368e8df5587176cd6e7ace1528b53da28ece",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
