@@ -790,7 +790,7 @@ public class WalkEncryptionTest {
 				return false;
 			}
 			try {
-				Cipher.getInstance(crytoAlgo);
+				InsecureCipherFactory.create(keyAlgo);
 				SecretKeyFactory.getInstance(keyAlgo);
 				return true;
 			} catch (Throwable e) {
