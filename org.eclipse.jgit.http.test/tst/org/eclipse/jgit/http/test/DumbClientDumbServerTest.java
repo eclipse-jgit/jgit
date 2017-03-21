@@ -164,10 +164,11 @@ public class DumbClientDumbServerTest extends HttpTestCase {
 		assertEquals(B, map.get(Constants.HEAD).getObjectId());
 
 		List<AccessEvent> requests = getRequests();
+		requests.sort((AccessEvent a, AccessEvent b) -> a.getPath().compareTo(b.getPath()));
 		assertEquals(2, requests.size());
 		assertEquals(0, getRequests(remoteURI, "git-upload-pack").size());
 
-		AccessEvent info = requests.get(0);
+		AccessEvent info = requests.get(1);
 		assertEquals("GET", info.getMethod());
 		assertEquals(join(remoteURI, "info/refs"), info.getPath());
 		assertEquals(1, info.getParameters().size());
@@ -180,7 +181,7 @@ public class DumbClientDumbServerTest extends HttpTestCase {
 				.getRequestHeader(HDR_ACCEPT));
 		assertEquals(200, info.getStatus());
 
-		AccessEvent head = requests.get(1);
+		AccessEvent head = requests.get(0);
 		assertEquals("GET", head.getMethod());
 		assertEquals(join(remoteURI, "HEAD"), head.getPath());
 		assertEquals(0, head.getParameters().size());
