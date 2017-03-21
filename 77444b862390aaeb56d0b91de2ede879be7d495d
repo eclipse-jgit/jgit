@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_c080a19b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2017-03-21T07:55:03Z",
+      "side": 1,
+      "message": "Now, that the Bazel build is complete, i generated EP warnings and filed this issue to track them: [1].\n\n* [1] https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d513957",
+      "revId": "77444b862390aaeb56d0b91de2ede879be7d495d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
