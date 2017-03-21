@@ -107,7 +107,7 @@ public class GcCommitSelectionTest extends GcTestCase {
 
 			gc.setPackExpireAgeMillis(0); // immediately delete old packs
 			gc.setExpireAgeMillis(0);
-			gc.gc();
+			gc.collectGarbage();
 			assertEquals(currentCommits * 3, // commit/tree/object
 					gc.getStatistics().numberOfPackedObjects);
 			assertEquals(currentCommits + " commits: ", expectedBitmapCount,
@@ -171,7 +171,7 @@ public class GcCommitSelectionTest extends GcTestCase {
 
 			gc.setPackExpireAgeMillis(0); // immediately delete old packs
 			gc.setExpireAgeMillis(0);
-			gc.gc();
+			gc.collectGarbage();
 			assertEquals(currentCommits + " commits: ", expectedBitmapCount,
 					gc.getStatistics().numberOfBitmaps);
 		}
@@ -212,7 +212,7 @@ public class GcCommitSelectionTest extends GcTestCase {
 		// Excessive branch history pruning, one old branch.
 		gc.setPackExpireAgeMillis(0); // immediately delete old packs
 		gc.setExpireAgeMillis(0);
-		gc.gc();
+		gc.collectGarbage();
 		assertEquals(
 				commitsForSparseBranch + commitsForFullBranch
 						+ commitsForShallowBranches,
