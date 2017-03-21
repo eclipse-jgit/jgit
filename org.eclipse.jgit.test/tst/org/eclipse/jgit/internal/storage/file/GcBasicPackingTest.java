@@ -86,7 +86,7 @@ public class GcBasicPackingTest extends GcTestCase {
 		assertEquals(4, stats.numberOfLooseObjects);
 		assertEquals(0, stats.numberOfPackedObjects);
 		configureGc(gc, aggressive);
-		gc.gc();
+		gc.collectGarbage();
 		stats = gc.getStatistics();
 		assertEquals(4, stats.numberOfLooseObjects);
 		assertEquals(0, stats.numberOfPackedObjects);
@@ -104,7 +104,7 @@ public class GcBasicPackingTest extends GcTestCase {
 		assertEquals(8, stats.numberOfLooseObjects);
 		assertEquals(0, stats.numberOfPackedObjects);
 		configureGc(gc, aggressive);
-		gc.gc();
+		gc.collectGarbage();
 		stats = gc.getStatistics();
 		assertEquals(0, stats.numberOfLooseObjects);
 		assertEquals(8, stats.numberOfPackedObjects);
@@ -121,7 +121,7 @@ public class GcBasicPackingTest extends GcTestCase {
 		assertEquals(4, stats.numberOfLooseObjects);
 		assertEquals(0, stats.numberOfPackedObjects);
 		configureGc(gc, aggressive);
-		gc.gc();
+		gc.collectGarbage();
 		stats = gc.getStatistics();
 		assertEquals(0, stats.numberOfLooseObjects);
 		assertEquals(4, stats.numberOfPackedObjects);
@@ -129,7 +129,7 @@ public class GcBasicPackingTest extends GcTestCase {
 		assertEquals(1, stats.numberOfBitmaps);
 
 		// Do the gc again and check that it hasn't changed anything
-		gc.gc();
+		gc.collectGarbage();
 		stats = gc.getStatistics();
 		assertEquals(0, stats.numberOfLooseObjects);
 		assertEquals(4, stats.numberOfPackedObjects);
@@ -149,7 +149,7 @@ public class GcBasicPackingTest extends GcTestCase {
 		assertEquals(8, stats.numberOfLooseObjects);
 		assertEquals(0, stats.numberOfPackedObjects);
 		configureGc(gc, aggressive);
-		gc.gc();
+		gc.collectGarbage();
 		stats = gc.getStatistics();
 		assertEquals(0, stats.numberOfLooseObjects);
 		assertEquals(8, stats.numberOfPackedObjects);
@@ -177,7 +177,7 @@ public class GcBasicPackingTest extends GcTestCase {
 		gc.setExpireAgeMillis(0);
 		fsTick();
 		configureGc(gc, aggressive);
-		gc.gc();
+		gc.collectGarbage();
 		stats = gc.getStatistics();
 		assertEquals(0, stats.numberOfLooseObjects);
 
@@ -196,7 +196,7 @@ public class GcBasicPackingTest extends GcTestCase {
 		bb2.commit().message("M").add("M", "M").create();
 
 		gc.setExpireAgeMillis(0);
-		gc.gc();
+		gc.collectGarbage();
 		stats = gc.getStatistics();
 		assertEquals(0, stats.numberOfLooseObjects);
 		assertEquals(4, stats.numberOfPackedObjects);
@@ -216,7 +216,7 @@ public class GcBasicPackingTest extends GcTestCase {
 		// The old packfile is too young to be deleted. We should end up with
 		// two pack files
 		gc.setExpire(new Date(oldPackfile.lastModified() - 1));
-		gc.gc();
+		gc.collectGarbage();
 		stats = gc.getStatistics();
 		assertEquals(0, stats.numberOfLooseObjects);
 		// if objects exist in multiple packFiles then they are counted multiple
@@ -227,7 +227,7 @@ public class GcBasicPackingTest extends GcTestCase {
 		// repack again but now without a grace period for loose objects. Since
 		// we don't have loose objects anymore this shouldn't change anything
 		gc.setExpireAgeMillis(0);
-		gc.gc();
+		gc.collectGarbage();
 		stats = gc.getStatistics();
 		assertEquals(0, stats.numberOfLooseObjects);
 		// if objects exist in multiple packFiles then they are counted multiple
@@ -242,7 +242,7 @@ public class GcBasicPackingTest extends GcTestCase {
 		// we want to keep newly-loosened objects though
 		gc.setExpireAgeMillis(-1);
 
-		gc.gc();
+		gc.collectGarbage();
 		stats = gc.getStatistics();
 		assertEquals(1, stats.numberOfLooseObjects);
 		// if objects exist in multiple packFiles then they are counted multiple
@@ -261,7 +261,7 @@ public class GcBasicPackingTest extends GcTestCase {
 		bb2.commit().message("M").add("M", "M").create();
 
 		gc.setExpireAgeMillis(0);
-		gc.gc();
+		gc.collectGarbage();
 		stats = gc.getStatistics();
 
 		fsTick();
@@ -282,7 +282,7 @@ public class GcBasicPackingTest extends GcTestCase {
 		//And we don't want to keep packs full of dead objects
 		gc.setPackExpireAgeMillis(0);
 
-		gc.gc();
+		gc.collectGarbage();
 		stats = gc.getStatistics();
 		assertEquals(0, stats.numberOfLooseObjects);
 		assertEquals(6, stats.numberOfPackedObjects);
@@ -293,7 +293,7 @@ public class GcBasicPackingTest extends GcTestCase {
 	public void testPreserveAndPruneOldPacks() throws Exception {
 		testPreserveOldPacks();
 		configureGc(gc, false).setPrunePreserved(true);
-		gc.gc();
+		gc.collectGarbage();
 
 		assertFalse(repo.getObjectDatabase().getPreservedDirectory().exists());
 	}
@@ -304,7 +304,7 @@ public class GcBasicPackingTest extends GcTestCase {
 
 		// pack loose object into packfile
 		gc.setExpireAgeMillis(0);
-		gc.gc();
+		gc.collectGarbage();
 		File oldPackfile = tr.getRepository().getObjectDatabase().getPacks()
 				.iterator().next().getPackFile();
 		assertTrue(oldPackfile.exists());
@@ -317,7 +317,7 @@ public class GcBasicPackingTest extends GcTestCase {
 		// preserved directory
 		gc.setPackExpireAgeMillis(0);
 		configureGc(gc, false).setPreserveOldPacks(true);
-		gc.gc();
+		gc.collectGarbage();
 
 		File oldPackDir = repo.getObjectDatabase().getPreservedDirectory();
 		String oldPackFileName = oldPackfile.getName();

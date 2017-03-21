@@ -264,7 +264,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 			ParseException {
 		final ObjectId nonExisting = ObjectId
 				.fromString("0000000000000000000000000000000000000001");
-		new GC(db).gc();
+		new GC(db).collectGarbage();
 		createVerifyOpenPack(NONE, haves(nonExisting), false, true, true);
 		// shouldn't throw anything
 	}

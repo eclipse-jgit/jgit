@@ -63,7 +63,7 @@ public class GcKeepFilesTest extends GcTestCase {
 		assertEquals(4, stats.numberOfLooseObjects);
 		assertEquals(0, stats.numberOfPackedObjects);
 		assertEquals(0, stats.numberOfPackFiles);
-		gc.gc();
+		gc.collectGarbage();
 		stats = gc.getStatistics();
 		assertEquals(0, stats.numberOfLooseObjects);
 		assertEquals(4, stats.numberOfPackedObjects);
@@ -84,7 +84,7 @@ public class GcKeepFilesTest extends GcTestCase {
 		assertEquals(4, stats.numberOfLooseObjects);
 		assertEquals(4, stats.numberOfPackedObjects);
 		assertEquals(1, stats.numberOfPackFiles);
-		gc.gc();
+		gc.collectGarbage();
 		stats = gc.getStatistics();
 		assertEquals(0, stats.numberOfLooseObjects);
 		assertEquals(8, stats.numberOfPackedObjects);
