@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_0071b984",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/WalkEncryptionTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 796,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2017-03-21T05:28:40Z",
+      "side": 1,
+      "message": "I disabled the whole test too. I think we could fix it using Shanw\u0027s InsecureCipherFactory.",
+      "range": {
+        "startLine": 793,
+        "startChar": 39,
+        "endLine": 796,
+        "endChar": 18
+      },
+      "revId": "728fb77ee34ad30d4c0b8441917b3ad1501aa9fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
