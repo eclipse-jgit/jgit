@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_531629d8",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-03-21T12:55:23Z",
+      "side": 1,
+      "message": "Typo. LockFile.SUFFIX is \".lock\", not \".lck\".",
+      "range": {
+        "startLine": 80,
+        "startChar": 101,
+        "endLine": 80,
+        "endChar": 105
+      },
+      "revId": "119efea734b01995d6f9aa5a58c1554ba0c400bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
