@@ -1,0 +1,8 @@
+Code-Review+1: Thomas Wolf <thomas.wolf@paranor.ch>
+Verified+1: Hudson CI
+Code-Review+2: David Pursehouse <david.pursehouse@gmail.com>
+Submitted-by: David Pursehouse <david.pursehouse@gmail.com>
+Submitted-at: Wed, 22 Mar 2017 19:59:35 -0400
+Reviewed-on: https://git.eclipse.org/r/93452
+Project: jgit/jgit
+Branch: refs/heads/master
