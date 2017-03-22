@@ -196,6 +196,32 @@ public abstract class AbstractDiffTestCase {
 	}
 
 	@Test
+	public void testEdit_DeleteNearCommonTail() {
+		EditList r = diff(t("aCq}nD}nb"), t("aq}nb"));
+		assertEquals(new Edit(1, 2, 1, 1), r.get(0));
+		assertEquals(new Edit(5, 8, 4, 4), r.get(1));
+		assertEquals(2, r.size());
+	}
+
+	@Test
+	public void testEdit_DeleteNearCommonCenter() {
+		EditList r = diff(t("abcd123123uvwxpq"), t("aBcd123uvwxPq"));
+		assertEquals(new Edit(1, 2, 1, 2), r.get(0));
+		assertEquals(new Edit(7, 10, 7, 7), r.get(1));
+		assertEquals(new Edit(14, 15, 11, 12), r.get(2));
+		assertEquals(3, r.size());
+	}
+
+	@Test
+	public void testEdit_InsertNearCommonCenter() {
+		EditList r = diff(t("aBcd123uvwxPq"), t("abcd123123uvwxpq"));
+		assertEquals(new Edit(1, 2, 1, 2), r.get(0));
+		assertEquals(new Edit(7, 7, 7, 10), r.get(1));
+		assertEquals(new Edit(11, 12, 14, 15), r.get(2));
+		assertEquals(3, r.size());
+	}
+
+	@Test
 	public void testEdit_LinuxBug() {
 		EditList r = diff(t("a{bcdE}z"), t("a{0bcdEE}z"));
 		assertEquals(new Edit(2, 2, 2, 3), r.get(0));

@@ -132,6 +132,45 @@ public class MergeAlgorithmTest {
 	}
 
 	/**
+	 * Merge two modifications with a shared delete at the end. The underlying
+	 * diff algorithm has to provide consistent edit results to get the expected
+	 * merge result.
+	 *
+	 * @throws IOException
+	 */
+	@Test
+	public void testTwoModificationsWithSharedDelete() throws IOException {
+		assertEquals(t("Cb}n}"),
+				merge("ab}n}n}", "ab}n}", "Cb}n}"));
+	}
+
+	/**
+	 * Merge modifications with a shared insert in the middle. The
+	 * underlying diff algorithm has to provide consistent edit
+	 * results to get the expected merge result.
+	 *
+	 * @throws IOException
+	 */
+	@Test
+	public void testModificationsWithMiddleInsert() throws IOException {
+		assertEquals(t("aBcd123123uvwxPq"),
+				merge("abcd123uvwxpq", "aBcd123123uvwxPq", "abcd123123uvwxpq"));
+	}
+
+	/**
+	 * Merge modifications with a shared delete in the middle. The
+	 * underlying diff algorithm has to provide consistent edit
+	 * results to get the expected merge result.
+	 *
+	 * @throws IOException
+	 */
+	@Test
+	public void testModificationsWithMiddleDelete() throws IOException {
+		assertEquals(t("Abz}z123Q"),
+				merge("abz}z}z123q", "Abz}z123Q", "abz}z123q"));
+	}
+
+	/**
 	 * Test a conflicting region at the very start of the text.
 	 *
 	 * @throws IOException
