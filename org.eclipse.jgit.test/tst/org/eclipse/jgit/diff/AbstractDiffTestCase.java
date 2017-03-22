@@ -196,6 +196,14 @@ public abstract class AbstractDiffTestCase {
 	}
 
 	@Test
+	public void testEdit_DeleteNearCommonTail() {
+		EditList r = diff(t("aCq}nD}nb"), t("aq}nb"));
+		assertEquals(new Edit(1, 2, 1, 1), r.get(0));
+		assertEquals(new Edit(5, 8, 4, 4), r.get(1));
+		assertEquals(2, r.size());
+	}
+
+	@Test
 	public void testEdit_LinuxBug() {
 		EditList r = diff(t("a{bcdE}z"), t("a{0bcdEE}z"));
 		assertEquals(new Edit(2, 2, 2, 3), r.get(0));

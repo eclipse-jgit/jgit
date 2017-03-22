@@ -132,6 +132,19 @@ public class MergeAlgorithmTest {
 	}
 
 	/**
+	 * Merge two modifications with a shared delete at the end. The underlying
+	 * diff algorithm has to provide consistent edit results to get the expected
+	 * merge result.
+	 *
+	 * @throws IOException
+	 */
+	@Test
+	public void testTwoModificationsWithSharedDelete() throws IOException {
+		assertEquals(t("Cb}n}"),
+				merge("ab}n}n}", "ab}n}", "Cb}n}"));
+	}
+
+	/**
 	 * Test a conflicting region at the very start of the text.
 	 *
 	 * @throws IOException
