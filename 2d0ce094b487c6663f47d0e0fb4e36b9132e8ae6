@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_07b8eb0f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-03-22T00:42:45Z",
+      "side": 1,
+      "message": "Looks like I forgot to commit with -s.\n\nIs that OK?",
+      "revId": "2d0ce094b487c6663f47d0e0fb4e36b9132e8ae6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
