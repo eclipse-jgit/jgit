@@ -16,6 +16,24 @@
       "revId": "86a7ac782015fdd3df44d73bff27dee70189a963",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_67999f4d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 74655
+      },
+      "writtenOn": "2017-03-22T07:39:42Z",
+      "side": 1,
+      "message": "commitPackImpl is an abstract method to be overwritten by clients?",
+      "parentUuid": "a7c23755_d0b31953",
+      "revId": "86a7ac782015fdd3df44d73bff27dee70189a963",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
