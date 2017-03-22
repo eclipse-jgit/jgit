@@ -122,14 +122,22 @@ public abstract class DiffAlgorithm {
 			Subsequence<S> bs = Subsequence.b(b, region);
 			EditList e = Subsequence.toBase(diffNonCommon(cs, as, bs), as, bs);
 
-			// The last insertion may need to be shifted later if it
-			// inserts elements that were previously reduced out as
+			// The last insertion (deletion) may need to be shifted later if it
+			// inserts (deletes) elements that were previously reduced out as
 			// common at the end.
 			//
 			Edit last = e.get(e.size() - 1);
 			if (last.getType() == Edit.Type.INSERT) {
 				while (last.endB < b.size()
 						&& cmp.equals(b, last.beginB, b, last.endB)) {
+					last.beginA++;
+					last.endA++;
+					last.beginB++;
+					last.endB++;
+				}
+			} else if (last.getType() == Edit.Type.DELETE) {
+				while (last.endA < a.size()
+						&& cmp.equals(a, last.beginA, a, last.endA)) {
 					last.beginA++;
 					last.endA++;
 					last.beginB++;
