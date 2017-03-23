@@ -504,7 +504,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 				Config cfg = new Config();
 				StringBuilder attributes = new StringBuilder();
 				for (RepoProject proj : bareProjects) {
-					String name = proj.getPath();
+					String path = proj.getPath();
 					String nameUri = proj.getName();
 					ObjectId objectId;
 					if (ObjectId.isId(proj.getRevision())
@@ -520,7 +520,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 						}
 						if (recordRemoteBranch) {
 							// can be branch or tag
-							cfg.setString("submodule", name, "branch", //$NON-NLS-1$ //$NON-NLS-2$
+							cfg.setString("submodule", path, "branch", //$NON-NLS-1$ //$NON-NLS-2$
 									proj.getRevision());
 						}
 
@@ -530,14 +530,14 @@ public class RepoCommand extends GitCommand<RevCommit> {
 							// depth in the 'clone-depth' field, while
 							// git core only uses a binary 'shallow = true/false'
 							// hint, we'll map any depth to 'shallow = true'
-							cfg.setBoolean("submodule", name, "shallow", //$NON-NLS-1$ //$NON-NLS-2$
+							cfg.setBoolean("submodule", path, "shallow", //$NON-NLS-1$ //$NON-NLS-2$
 									true);
 						}
 					}
 					if (recordSubmoduleLabels) {
 						StringBuilder rec = new StringBuilder();
 						rec.append("/"); //$NON-NLS-1$
-						rec.append(name);
+						rec.append(path);
 						for (String group : proj.getGroups()) {
 							rec.append(" "); //$NON-NLS-1$
 							rec.append(group);
@@ -545,11 +545,11 @@ public class RepoCommand extends GitCommand<RevCommit> {
 						rec.append("\n"); //$NON-NLS-1$
 						attributes.append(rec.toString());
 					}
-					cfg.setString("submodule", name, "path", name); //$NON-NLS-1$ //$NON-NLS-2$
-					cfg.setString("submodule", name, "url", nameUri); //$NON-NLS-1$ //$NON-NLS-2$
+					cfg.setString("submodule", path, "path", path); //$NON-NLS-1$ //$NON-NLS-2$
+					cfg.setString("submodule", path, "url", nameUri); //$NON-NLS-1$ //$NON-NLS-2$
 
 					// create gitlink
-					DirCacheEntry dcEntry = new DirCacheEntry(name);
+					DirCacheEntry dcEntry = new DirCacheEntry(path);
 					dcEntry.setObjectId(objectId);
 					dcEntry.setFileMode(FileMode.GITLINK);
 					builder.add(dcEntry);
@@ -636,17 +636,17 @@ public class RepoCommand extends GitCommand<RevCommit> {
 		}
 	}
 
-	private void addSubmodule(String url, String name, String revision,
+	private void addSubmodule(String url, String path, String revision,
 			List<CopyFile> copyfiles, Set<String> groups, String recommendShallow)
 			throws GitAPIException, IOException {
 		if (repo.isBare()) {
-			RepoProject proj = new RepoProject(url, name, revision, null, groups, recommendShallow);
+			RepoProject proj = new RepoProject(url, path, revision, null, groups, recommendShallow);
 			proj.addCopyFiles(copyfiles);
 			bareProjects.add(proj);
 		} else {
 			SubmoduleAddCommand add = git
 				.submoduleAdd()
-				.setPath(name)
+				.setPath(path)
 				.setURI(url);
 			if (monitor != null)
 				add.setProgressMonitor(monitor);
@@ -658,7 +658,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 							.call();
 				}
 				subRepo.close();
-				git.add().addFilepattern(name).call();
+				git.add().addFilepattern(path).call();
 			}
 			for (CopyFile copyfile : copyfiles) {
 				copyfile.copy();
