@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "a7c23755_bdfc9f33",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-03-23T22:58:03Z",
+      "side": 1,
+      "message": "Sounds like this field should be renamed (and other generically named fields).\n\nAt first glance I also wonder why all these need to be fields. Are some of them local data masquerading as global to the object?",
+      "revId": "9fa3dc17e938c8ace945e6e28efa25c17fa89d3e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_ddd23bc8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 2
