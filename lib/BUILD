@@ -35,18 +35,6 @@ java_library(
 )
 
 java_library(
-    name = "hamcrest-core",
-    testonly = 1,
-    exports = ["@hamcrest_core//jar"],
-)
-
-java_library(
-    name = "hamcrest-library",
-    testonly = 1,
-    exports = ["@hamcrest_library//jar"],
-)
-
-java_library(
     name = "httpclient",
     visibility = [
         "//org.eclipse.jgit.http.apache:__pkg__",
@@ -126,10 +114,10 @@ java_library(
     name = "junit",
     testonly = 1,
     visibility = ["//visibility:public"],
-    exports = ["@junit//jar"],
-    runtime_deps = [
-        ":hamcrest-core",
-        ":hamcrest-library",
+    exports = [
+       "@junit//jar",
+       "@hamcrest_core//jar",
+       "@hamcrest_library//jar",
     ],
 )
 

@@ -37,15 +37,12 @@ def tests(tests):
       deps = additional_deps + [
         ':helpers',
         ':tst_rsrc',
+        '//lib:javaewah',
+        '//lib:junit',
+        '//lib:slf4j-api',
         '//org.eclipse.jgit:jgit',
         '//org.eclipse.jgit.junit:junit',
         '//org.eclipse.jgit.lfs:jgit-lfs',
-        '@hamcrest_core//jar',
-        '@hamcrest_library//jar',
-        '@javaewah//jar',
-        '@junit//jar',
-        '@log_api//jar',
-        '@slf4j_simple//jar',
       ],
       jvm_flags = ["-Xmx256m", "-Dfile.encoding=UTF-8"],
     )
