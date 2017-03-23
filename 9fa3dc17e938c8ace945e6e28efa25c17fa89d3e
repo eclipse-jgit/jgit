@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c23755_ddd23bc8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-03-23T22:56:35Z",
+      "side": 1,
+      "message": "this yields a warning \"The local variable path is hiding a field from type RepoCommand\"\n\neither choose a different name or suppress the warning",
+      "revId": "9fa3dc17e938c8ace945e6e28efa25c17fa89d3e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_fddb77e2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-03-23T22:56:35Z",
+      "side": 1,
+      "message": "this yields another warning: \"The parameter path is hiding a field from type RepoCommand\"",
+      "revId": "9fa3dc17e938c8ace945e6e28efa25c17fa89d3e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
