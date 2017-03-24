@@ -143,12 +143,14 @@ public class CLIText extends TranslationBundle {
 	/***/ public String failedToLockTag;
 	/***/ public String fatalError;
 	/***/ public String fatalThisProgramWillDestroyTheRepository;
+	/***/ public String fetchingSubmodule;
 	/***/ public String fileIsRequired;
 	/***/ public String ffNotPossibleAborting;
 	/***/ public String forcedUpdate;
 	/***/ public String fromURI;
 	/***/ public String initializedEmptyGitRepositoryIn;
 	/***/ public String invalidHttpProxyOnlyHttpSupported;
+	/***/ public String invalidRecurseSubmodulesMode;
 	/***/ public String jgitVersion;
 	/***/ public String lfsNoAccessKey;
 	/***/ public String lfsNoSecretKey;
