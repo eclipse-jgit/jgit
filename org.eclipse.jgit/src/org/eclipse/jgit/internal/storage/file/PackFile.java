@@ -50,6 +50,7 @@ import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 
 import java.io.EOFException;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InterruptedIOException;
 import java.io.RandomAccessFile;
@@ -635,6 +636,12 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 			// don't invalidate the pack, we are interrupted from another thread
 			openFail(false);
 			throw e;
+		} catch (FileNotFoundException fn) {
+			// don't invalidate the pack if opening an existing file failed
+			// since it may be related to a temporary lack of resources (e.g.
+			// max open files)
+			openFail(!packFile.exists());
+			throw fn;
 		} catch (IOException ioe) {
 			openFail(true);
 			throw ioe;
