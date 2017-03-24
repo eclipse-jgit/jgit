@@ -99,6 +99,24 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 
 	private FetchRecurseSubmodulesMode submoduleRecurseMode = null;
 
+	private Callback callback;
+
+	/**
+	 * Callback for status of fetch operation.
+	 *
+	 * @since 4.8
+	 *
+	 */
+	public interface Callback {
+		/**
+		 * Notify fetching a submodule.
+		 *
+		 * @param name
+		 *            the submodule name.
+		 */
+		void fetchingSubmodule(String name);
+	}
+
 	/**
 	 * @param repo
 	 */
@@ -173,6 +191,9 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 							.setThin(thin).setRefSpecs(refSpecs)
 							.setDryRun(dryRun)
 							.setRecurseSubmodules(recurseMode);
+					if (callback != null) {
+						callback.fetchingSubmodule(walk.getPath());
+					}
 					results.addSubmodule(walk.getPath(), f.call());
 				}
 			}
@@ -432,6 +453,19 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 	public FetchCommand setTagOpt(TagOpt tagOpt) {
 		checkCallable();
 		this.tagOption = tagOpt;
+		return this;
+	}
+
+	/**
+	 * Register a progress callback.
+	 *
+	 * @param callback
+	 *            the callback
+	 * @return {@code this}
+	 * @since 4.8
+	 */
+	public FetchCommand setCallback(Callback callback) {
+		this.callback = callback;
 		return this;
 	}
 }
