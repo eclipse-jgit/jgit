@@ -43,6 +43,10 @@
 
 package org.eclipse.jgit.lib;
 
+import java.util.Locale;
+
+import org.eclipse.jgit.util.StringUtils;
+
 /**
  * Submodule section of a Git configuration file.
  *
@@ -75,12 +79,17 @@ public class SubmoduleConfig {
 
 		@Override
 		public String toConfigValue() {
-			return configValue;
+			return name().toLowerCase(Locale.ROOT).replace('_', '-');
 		}
 
 		@Override
 		public boolean matchConfigValue(String s) {
-			return configValue.equals(s);
+			if (StringUtils.isEmptyOrNull(s)) {
+				return false;
+			}
+			s = s.replace('-', '_');
+			return name().equalsIgnoreCase(s)
+					|| configValue.equalsIgnoreCase(s);
 		}
 	}
 }
