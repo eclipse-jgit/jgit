@@ -34,6 +34,24 @@
       "revId": "363a3657b133ea4668bd832410eff67cfdb7dfd1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_f6cb3e94",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-03-25T01:27:12Z",
+      "side": 1,
+      "message": "That doesn\u0027t sound like something that should be done in this commit, though, or even on the stable branch...",
+      "parentUuid": "87bd33cc_b6c1c678",
+      "revId": "363a3657b133ea4668bd832410eff67cfdb7dfd1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
