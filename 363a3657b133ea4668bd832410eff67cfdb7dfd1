@@ -52,6 +52,58 @@
       "revId": "363a3657b133ea4668bd832410eff67cfdb7dfd1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_36b69626",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-03-25T01:33:24Z",
+      "side": 1,
+      "message": "yep, we should only openFail(true) for exceptions which signal a pack we for sure cannot use, found the following candidates:\n\n* java.io.EOFException (unexpected end of file detected)\n* java.nio.file.AccessDeniedException ?\n* java.nio.file.NoSuchFileException\n* org.eclipse.jgit.errors.CorruptObjectException\n* org.eclipse.jgit.errors.PackMismatchException\n\nI guess forl other less specific exceptions we can\u0027t be sure so we should handle them as a transient problem",
+      "parentUuid": "87bd33cc_53608429",
+      "revId": "363a3657b133ea4668bd832410eff67cfdb7dfd1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_f350b058",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-03-25T01:33:24Z",
+      "side": 1,
+      "message": "need a more specific exception since we should remove this non-pack from the pack list",
+      "revId": "363a3657b133ea4668bd832410eff67cfdb7dfd1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_16b19a2d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 725,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-03-25T01:33:24Z",
+      "side": 1,
+      "message": "need a more specific exception since we should remove this pack since we can\u0027t handle a non-supported pack version",
+      "revId": "363a3657b133ea4668bd832410eff67cfdb7dfd1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
