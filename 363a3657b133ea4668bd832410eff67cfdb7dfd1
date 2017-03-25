@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87bd33cc_53608429",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-03-25T00:37:22Z",
+      "side": 1,
+      "message": "Can\u0027t this happen due to other transient errors too? I think we need to reconsider the openFail(true) codepath altogether.",
+      "revId": "363a3657b133ea4668bd832410eff67cfdb7dfd1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
