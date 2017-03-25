@@ -16,6 +16,24 @@
       "revId": "363a3657b133ea4668bd832410eff67cfdb7dfd1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_b6c1c678",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2017-03-25T01:21:00Z",
+      "side": 1,
+      "message": "True, should we then encapsulate the concept of transient vs. persistent error given a generic throwable in a separate function?",
+      "parentUuid": "87bd33cc_53608429",
+      "revId": "363a3657b133ea4668bd832410eff67cfdb7dfd1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
