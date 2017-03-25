@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87bd33cc_168efa3d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-03-25T08:58:19Z",
+      "side": 1,
+      "message": "should we handle this at all ?",
+      "revId": "cc484f7c342ca0bec330a95d4beba497082c088d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
