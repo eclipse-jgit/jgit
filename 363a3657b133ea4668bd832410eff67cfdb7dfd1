@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "87bd33cc_f6e25e0c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2017-03-25T01:40:56Z",
+      "side": 1,
+      "message": "The java.nio.file.NoSuchFileException I guess needs to be managed as the FileNotFoundException: it is transient or persistent depending if the file actually exists or not.",
+      "parentUuid": "87bd33cc_36b69626",
+      "revId": "363a3657b133ea4668bd832410eff67cfdb7dfd1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87bd33cc_f350b058",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
         "patchSetId": 4
