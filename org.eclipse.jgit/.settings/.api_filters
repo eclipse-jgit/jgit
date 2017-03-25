@@ -21,4 +21,12 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="META-INF/MANIFEST.MF">
+        <filter comment="non-breaking addition of exception classes needed to cleanly fix error handling in PackFile" id="924844039">
+            <message_arguments>
+                <message_argument value="4.5.2"/>
+                <message_argument value="4.5.0"/>
+            </message_arguments>
+        </filter>
+    </resource>
 </component>
