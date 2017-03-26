@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "87bd33cc_39c68714",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/UnsupportedPackIndexVersionException.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-03-26T09:41:29Z",
+      "side": 1,
+      "message": "Eclipse only allows new API in minor version (2 digit version number)",
+      "parentUuid": "87bd33cc_19846beb",
+      "range": {
+        "startLine": 51,
+        "startChar": 10,
+        "endLine": 51,
+        "endChar": 13
+      },
+      "revId": "1f5f1612a0f7787dae4502d1b821f9dc81fa1c19",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87bd33cc_597ee35e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
         "patchSetId": 4
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "87bd33cc_19c1cbfb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 741,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-03-26T09:41:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87bd33cc_597ee35e",
+      "range": {
+        "startLine": 740,
+        "startChar": 45,
+        "endLine": 741,
+        "endChar": 63
+      },
+      "revId": "1f5f1612a0f7787dae4502d1b821f9dc81fa1c19",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87bd33cc_39892704",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackIndex.java",
         "patchSetId": 4
@@ -59,6 +107,30 @@
       "writtenOn": "2017-03-26T03:44:54Z",
       "side": 1,
       "message": "Pass the value only, and format the message inside the constructor?",
+      "range": {
+        "startLine": 142,
+        "startChar": 51,
+        "endLine": 144,
+        "endChar": 27
+      },
+      "revId": "1f5f1612a0f7787dae4502d1b821f9dc81fa1c19",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_f9408f0a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackIndex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-03-26T09:41:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87bd33cc_39892704",
       "range": {
         "startLine": 142,
         "startChar": 51,
