@@ -34,6 +34,24 @@
       "revId": "cc484f7c342ca0bec330a95d4beba497082c088d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_59cb431b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-03-26T09:41:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87bd33cc_196f0ba7",
+      "revId": "cc484f7c342ca0bec330a95d4beba497082c088d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
