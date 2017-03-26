@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87bd33cc_f9db2fe2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/Edit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-03-26T09:46:13Z",
+      "side": 1,
+      "message": "missing @since tag for new API method",
+      "revId": "32018c91ce657e49f776bc0622584250c3e1daa5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
