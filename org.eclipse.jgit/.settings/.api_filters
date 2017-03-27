@@ -8,6 +8,33 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/errors/NoPackSignatureException.java" type="org.eclipse.jgit.errors.NoPackSignatureException">
+        <filter id="1108344834">
+            <message_arguments>
+                <message_argument value="4.5"/>
+                <message_argument value="4.7"/>
+                <message_argument value="org.eclipse.jgit.errors.NoPackSignatureException"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/errors/UnsupportedPackIndexVersionException.java" type="org.eclipse.jgit.errors.UnsupportedPackIndexVersionException">
+        <filter id="1108344834">
+            <message_arguments>
+                <message_argument value="4.5"/>
+                <message_argument value="4.7"/>
+                <message_argument value="org.eclipse.jgit.errors.UnsupportedPackIndexVersionException"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/errors/UnsupportedPackVersionException.java" type="org.eclipse.jgit.errors.UnsupportedPackVersionException">
+        <filter id="1108344834">
+            <message_arguments>
+                <message_argument value="4.5"/>
+                <message_argument value="4.7"/>
+                <message_argument value="org.eclipse.jgit.errors.UnsupportedPackVersionException"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/lib/ObjectInserter.java" type="org.eclipse.jgit.lib.ObjectInserter">
         <filter comment="changed return type of digest() breaking implementors which is ok in minor releases according to OSGi semantic versioning" id="338792546">
             <message_arguments>
