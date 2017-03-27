@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87bd33cc_fc8ebd05",
+        "filename": "org.eclipse.jgit/.settings/.api_filters",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-03-27T09:08:53Z",
+      "side": 0,
+      "message": "This comment was not carried across into the new version.  Was that intentional?",
+      "range": {
+        "startLine": 27,
+        "startChar": 16,
+        "endLine": 27,
+        "endChar": 48
+      },
+      "revId": "bc40deaae25f1d9f723963086730976759472be8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
