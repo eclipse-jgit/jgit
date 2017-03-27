@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "87bd33cc_3c6bd511",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-03-27T11:20:31Z",
+      "side": 1,
+      "message": "they\u0027re options to the repo command, indicating properties of the source (XML) and destination (superproject).\n\nRenamed this to manifestPath",
+      "parentUuid": "a7c23755_bdfc9f33",
+      "revId": "9fa3dc17e938c8ace945e6e28efa25c17fa89d3e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_ddd23bc8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 2
@@ -47,6 +65,24 @@
       "writtenOn": "2017-03-23T22:56:35Z",
       "side": 1,
       "message": "this yields another warning: \"The parameter path is hiding a field from type RepoCommand\"",
+      "revId": "9fa3dc17e938c8ace945e6e28efa25c17fa89d3e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_dc7ca1db",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-03-27T11:20:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c23755_fddb77e2",
       "revId": "9fa3dc17e938c8ace945e6e28efa25c17fa89d3e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
