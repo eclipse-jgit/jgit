@@ -45,8 +45,6 @@ package org.eclipse.jgit.api;
 
 import static org.eclipse.jgit.lib.Constants.MASTER;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -296,8 +294,8 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 		write(b, "modified");
 		git.checkout().addPath("dir").call();
 
-		assertThat(read(a), is("A"));
-		assertThat(read(b), is("B"));
+		assertEquals("A", read(a));
+		assertEquals("B", read(b));
 	}
 
 	@Test
@@ -311,8 +309,8 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 		write(b, "modified");
 		git.checkout().setAllPaths(true).call();
 
-		assertThat(read(a), is("A"));
-		assertThat(read(b), is("B"));
+		assertEquals("A", read(a));
+		assertEquals("B", read(b));
 	}
 
 	@Test
@@ -327,7 +325,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 		git.checkout().setCreateBranch(true).setName("a")
 				.setStartPoint(first.getId().getName()).call();
 
-		assertThat(read(a), is("A"));
+		assertEquals("A", read(a));
 	}
 
 	@Test
@@ -344,8 +342,8 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 		git.checkout().setCreateBranch(true).setName("a")
 				.setStartPoint(first.getId().getName()).addPath("a.txt").call();
 
-		assertThat(read(a), is("A"));
-		assertThat(read(b), is("other"));
+		assertEquals("A", read(a));
+		assertEquals("other", read(b));
 	}
 
 	@Test
