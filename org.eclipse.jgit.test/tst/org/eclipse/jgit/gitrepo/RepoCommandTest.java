@@ -48,15 +48,28 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.InvalidRemoteException;
+import org.eclipse.jgit.api.errors.RefNotFoundException;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.lib.BlobBasedConfig;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 import org.junit.Test;
@@ -122,6 +135,108 @@ public class RepoCommandTest extends RepositoryTestCase {
 		}
 
 		resolveRelativeUris();
+	}
+
+	class IndexedRepos implements RepoCommand.RemoteReader {
+		Map<String, Repository> uriRepoMap;
+		IndexedRepos() {
+			uriRepoMap = new HashMap<>();
+		}
+
+		void put(String u, Repository r) {
+			uriRepoMap.put(u, r);
+		}
+
+		@Override
+		public ObjectId sha1(String uri, String refname) throws GitAPIException {
+			if (!uriRepoMap.containsKey(uri)) {
+				return null;
+			}
+
+			Repository r = uriRepoMap.get(uri);
+			try {
+				Ref ref = r.findRef(refname);
+				if (ref == null) return null;
+
+				ref = r.peel(ref);
+				ObjectId id = ref.getObjectId();
+				return id;
+			} catch (IOException e) {
+				throw new InvalidRemoteException("", e);
+			}
+		}
+
+		@Override
+		public byte[] readFile(String uri, String refName, String path)
+			throws GitAPIException, IOException {
+			Repository repo = uriRepoMap.get(uri);
+
+			String idStr = refName + ":" + path;
+			ObjectId id = repo.resolve(idStr);
+			if (id == null) {
+				throw new RefNotFoundException(
+					String.format("repo %s does not have %s", repo.toString(), idStr));
+			}
+			try (ObjectReader reader = repo.newObjectReader()) {
+				return reader.open(id).getCachedBytes(Integer.MAX_VALUE);
+			}
+		}
+	}
+
+	@Test
+	public void absoluteRemoteURL() throws Exception {
+		Repository child =
+			Git.cloneRepository().setURI(groupADb.getDirectory().toURI().toString())
+				.setDirectory(createUniqueTestGitDir(true))
+				.setBare(true).call().getRepository();
+		Repository dest = Git.cloneRepository()
+			.setURI(db.getDirectory().toURI().toString()).setDirectory(createUniqueTestGitDir(true))
+			.setBare(true).call().getRepository();
+		String abs = "https://chromium.googlesource.com";
+		String repoUrl = "https://chromium.googlesource.com/chromium/src";
+		boolean fetchSlash = false;
+		boolean baseSlash = false;
+		do {
+			do {
+				String fetchUrl = fetchSlash ? abs + "/" : abs;
+				String baseUrl = baseSlash ? abs + "/" : abs;
+
+				StringBuilder xmlContent = new StringBuilder();
+				xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+					.append("<manifest>")
+					.append("<remote name=\"origin\" fetch=\"" + fetchUrl + "\" />")
+					.append("<default revision=\"master\" remote=\"origin\" />")
+					.append("<project path=\"src\" name=\"chromium/src\" />")
+					.append("</manifest>");
+				RepoCommand cmd = new RepoCommand(dest);
+
+				IndexedRepos repos = new IndexedRepos();
+				repos.put(repoUrl, child);
+
+				RevCommit commit = cmd
+					.setInputStream(new ByteArrayInputStream(xmlContent.toString().getBytes(StandardCharsets.UTF_8)))
+					.setRemoteReader(repos)
+					.setURI(baseUrl)
+					.setRecordRemoteBranch(true)
+					.setRecordSubmoduleLabels(true)
+					.call();
+
+				String idStr = commit.getId().name() + ":" + ".gitmodules";
+				ObjectId modId = dest.resolve(idStr);
+
+				try (ObjectReader reader = dest.newObjectReader()) {
+					byte[] bytes = reader.open(modId).getCachedBytes(Integer.MAX_VALUE);
+					Config base = new Config();
+					BlobBasedConfig cfg = new BlobBasedConfig(base, bytes);
+					String subUrl = cfg.getString("submodule", "src", "url");
+					assertEquals("https://chromium.googlesource.com/chromium/src", subUrl);
+				}
+				fetchSlash = !fetchSlash;
+			} while (fetchSlash);
+			baseSlash = !baseSlash;
+		} while (baseSlash);
+		child.close();
+		dest.close();
 	}
 
 	@Test
