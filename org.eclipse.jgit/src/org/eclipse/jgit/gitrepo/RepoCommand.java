@@ -49,11 +49,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.StringJoiner;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.Git;
@@ -106,7 +108,8 @@ import org.eclipse.jgit.util.FileUtils;
  */
 public class RepoCommand extends GitCommand<RevCommit> {
 	private String manifestPath;
-	private String uri;
+	private String baseUri;
+	private URI targetUri;
 	private String groupsParam;
 	private String branch;
 	private String targetBranch = Constants.HEAD;
@@ -274,7 +277,23 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	 * @return this command
 	 */
 	public RepoCommand setURI(String uri) {
-		this.uri = uri;
+		this.baseUri = uri;
+		return this;
+	}
+
+	/**
+	 * Set the URI of the superproject (this repository), so the .gitmodules file can specify the
+	 * submodule URLs relative to the superproject.
+	 *
+	 * @param uri the URI of the repository holding the superproject.
+	 * @return this command
+	 */
+	public RepoCommand setTargetURI(String uri) {
+		// The repo name is interpreted as a directory, for example
+		// Gerrit (http://gerrit.googlesource.com/gerrit) has a
+		// .gitmodules referencing ../plugins/hooks, which is
+		// on http://gerrit.googlesource.com/plugins/hooks,
+		this.targetUri = URI.create(uri + "/"); //$NON-NLS-1$
 		return this;
 	}
 
@@ -452,9 +471,8 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	public RevCommit call() throws GitAPIException {
 		try {
 			checkCallable();
-			if (uri == null || uri.length() == 0) {
-				throw new IllegalArgumentException(
-					JGitText.get().uriNotConfigured);
+			if (baseUri == null) {
+				baseUri = ""; //$NON-NLS-1$
 			}
 			if (inputStream == null) {
 				if (manifestPath == null || manifestPath.length() == 0)
@@ -478,7 +496,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 				git = new Git(repo);
 
 			ManifestParser parser = new ManifestParser(
-					includedReader, manifestPath, branch, uri, groupsParam, repo);
+					includedReader, manifestPath, branch, baseUri, groupsParam, repo);
 			try {
 				parser.read(inputStream);
 				for (RepoProject proj : parser.getFilteredProjects()) {
@@ -550,8 +568,13 @@ public class RepoCommand extends GitCommand<RevCommit> {
 						rec.append("\n"); //$NON-NLS-1$
 						attributes.append(rec.toString());
 					}
+
+					URI submodUrl = URI.create(nameUri);
+					if (targetUri != null) {
+						submodUrl = relativize(targetUri, submodUrl);
+					}
 					cfg.setString("submodule", path, "path", path); //$NON-NLS-1$ //$NON-NLS-2$
-					cfg.setString("submodule", path, "url", nameUri); //$NON-NLS-1$ //$NON-NLS-2$
+					cfg.setString("submodule", path, "url", submodUrl.toString()); //$NON-NLS-1$ //$NON-NLS-2$
 
 					// create gitlink
 					DirCacheEntry dcEntry = new DirCacheEntry(path);
@@ -670,6 +693,66 @@ public class RepoCommand extends GitCommand<RevCommit> {
 				git.add().addFilepattern(copyfile.dest).call();
 			}
 		}
+	}
+
+	/*
+	 * Assume we are document "a/b/index.html", what should we put in a href to get to "a/" ?
+	 * Returns the child if either base or child is not a bare path. This provides a missing feature in
+	 * java.net.URI (see http://bugs.java.com/view_bug.do?bug_id=6226081).
+	 */
+	static URI relativize(URI current, URI target) {
+		// We only handle bare paths for now.
+		if (!target.toString().equals(target.getPath())) {
+			return target;
+		}
+		if (!current.toString().equals(current.getPath())) {
+			return target;
+		}
+
+		String cur = current.normalize().getPath();
+		String dest = target.normalize().getPath();
+
+		// TODO(hanwen): maybe (absolute, relative) should throw an exception.
+		if (cur.startsWith("/") != dest.startsWith("/")) { //$NON-NLS-1$//$NON-NLS-2$
+			return target;
+		}
+
+		while (cur.startsWith("/")) { //$NON-NLS-1$
+			cur = cur.substring(1);
+		}
+		while (dest.startsWith("/")) { //$NON-NLS-1$
+			dest = dest.substring(1);
+		}
+
+		if (!cur.endsWith("/")) { //$NON-NLS-1$
+			// The current file doesn't matter.
+			cur = cur.substring(0, cur.lastIndexOf('/'));
+		}
+		String destFile = ""; //$NON-NLS-1$
+		if (!dest.endsWith("/")) { //$NON-NLS-1$
+			// We always have to provide the destination file.
+			destFile = dest.substring(dest.lastIndexOf('/') + 1, dest.length());
+			dest = dest.substring(0, dest.lastIndexOf('/'));
+		}
+
+		String[] cs = cur.split("/"); //$NON-NLS-1$
+		String[] ds = dest.split("/"); //$NON-NLS-1$
+
+		int common = 0;
+		while (common < cs.length && common < ds.length && cs[common].equals(ds[common])) {
+			common++;
+		}
+
+		StringJoiner j = new StringJoiner("/"); //$NON-NLS-1$
+		for (int i = common; i < cs.length; i++) {
+			j.add(".."); //$NON-NLS-1$
+		}
+		for (int i = common; i < ds.length; i++) {
+			j.add(ds[i]);
+		}
+
+		j.add(destFile);
+		return URI.create(j.toString());
 	}
 
 	private static String findRef(String ref, Repository repo)
