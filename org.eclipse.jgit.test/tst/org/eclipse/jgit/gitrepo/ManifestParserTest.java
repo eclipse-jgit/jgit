@@ -46,9 +46,11 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
+import java.net.URI;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 public class ManifestParserTest {
@@ -109,5 +111,20 @@ public class ManifestParserTest {
 		assertTrue(
 				"Filtered projects shouldn't contain any unexpected results",
 				results.isEmpty());
+	}
+
+	void testNormalize(String in, String want) {
+		URI got = ManifestParser.normalizeEmptyPath(URI.create(in));
+		if (!got.toString().equals(want)) {
+			Assert.fail(String.format("normalize(%s) = %s want %s", in, got, want));
+		}
+	}
+
+	@Test
+	public void normalizeEmptyPath() {
+		testNormalize("http://a.b", "http://a.b/");
+		testNormalize("http://a.b/", "http://a.b/");
+		testNormalize("", "");
+		testNormalize("a/b", "a/b");
 	}
 }
