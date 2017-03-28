@@ -86,6 +86,7 @@ public class ManifestParser extends DefaultHandler {
 	private final List<RepoProject> projects;
 	private final List<RepoProject> filteredProjects;
 	private final IncludedFileReader includedReader;
+	private final boolean urlSlashMunging;
 
 	private String defaultRemote;
 	private String defaultRevision;
@@ -116,19 +117,19 @@ public class ManifestParser extends DefaultHandler {
 	 * @param baseUrl
 	 * @param groups
 	 * @param rootRepo
+	 * @param urlSlashMunging add and remove trailing slashes in URLs for unexplained purposes.
 	 */
 	public ManifestParser(IncludedFileReader includedReader, String filename,
 			String defaultBranch, String baseUrl, String groups,
-			Repository rootRepo) {
+			Repository rootRepo, boolean urlSlashMunging) {
 		this.includedReader = includedReader;
 		this.filename = filename;
 		this.defaultBranch = defaultBranch;
 		this.rootRepo = rootRepo;
-
-		// Strip trailing '/' to match repo behavior.
-		while (baseUrl.endsWith("/")) { //$NON-NLS-1$
+		this.urlSlashMunging = urlSlashMunging;
+		while (urlSlashMunging && baseUrl.endsWith("/")) { //$NON-NLS-1$
 			baseUrl = baseUrl.substring(0, baseUrl.length()-1);
-		}
+ 		}
 		this.baseUrl = URI.create(baseUrl);
 
 		plusGroups = new HashSet<>();
@@ -289,8 +290,13 @@ public class ManifestParser extends DefaultHandler {
 			}
 			String remoteUrl = remoteUrls.get(remote);
 			if (remoteUrl == null) {
-				remoteUrl = baseUrl.resolve(remotes.get(remote).fetch).toString();
-				if (!remoteUrl.endsWith("/")) //$NON-NLS-1$
+				String fetch = remotes.get(remote).fetch;
+				if (fetch == null) {
+					// We could also just assume fetch=="." ?
+					throw new SAXException("'fetch' attribute is mandatory.");
+				}
+				remoteUrl = baseUrl.resolve(fetch).toString();
+				if (urlSlashMunging && !remoteUrl.endsWith("/")) //$NON-NLS-1$
 					remoteUrl = remoteUrl + "/"; //$NON-NLS-1$
 				remoteUrls.put(remote, remoteUrl);
 			}
