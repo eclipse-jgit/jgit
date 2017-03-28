@@ -42,24 +42,25 @@
  */
 package org.eclipse.jgit.gitrepo;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
+import java.net.URI;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.InvalidRemoteException;
+import org.eclipse.jgit.api.errors.RefNotFoundException;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.*;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 public class RepoCommandTest extends RepositoryTestCase {
 
@@ -122,6 +123,154 @@ public class RepoCommandTest extends RepositoryTestCase {
 		}
 
 		resolveRelativeUris();
+	}
+
+	class IndexedRepos implements RepoCommand.RemoteReader {
+		Map<String,Repository> uriRepoMap;
+		IndexedRepos() {
+			uriRepoMap = new HashMap<>();
+		}
+
+		void put(String u, Repository r) {
+			uriRepoMap.put(u,r);
+		}
+
+		@Override
+		public ObjectId sha1(String uri, String refname) throws GitAPIException {
+			if (!uriRepoMap.containsKey(uri)) {
+				return null;
+			}
+
+			Repository r = uriRepoMap.get(uri);
+			try {
+				Ref ref = r.findRef(refname);
+				if (ref == null) return null;
+
+				ref = r.peel(ref);
+				ObjectId id = ref.getObjectId();
+				return id;
+			} catch (IOException e) {
+				throw new InvalidRemoteException("", e);
+			}
+		}
+
+		public byte[] readFile(String uri, String refName, String path)
+			throws GitAPIException, IOException {
+			Repository repo = uriRepoMap.get(uri);
+
+			String idStr = refName +":" + path;
+			ObjectId id = repo.resolve(idStr);
+			if (id == null) {
+				throw new RefNotFoundException(
+					String.format("repo %s does not have %s", repo.toString(), idStr));
+			}
+			try (ObjectReader reader = repo.newObjectReader()) {
+				return reader.open(id).getCachedBytes(Integer.MAX_VALUE);
+			}
+		}
+	}
+
+	@Test
+	public void androidSetup() throws Exception {
+		Repository child =
+  			Git.cloneRepository().setURI(groupADb.getDirectory().toURI().toString())
+				.setDirectory(createUniqueTestGitDir(true))
+				.setBare(true).call().getRepository();
+
+		Repository dest = Git.cloneRepository()
+			.setURI(db.getDirectory().toURI().toString()).setDirectory(createUniqueTestGitDir(true))
+			.setBare(true).call().getRepository();
+
+		assertTrue(dest.isBare());
+		assertTrue(child.isBare());
+
+		StringBuilder xmlContent = new StringBuilder();
+		xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+			.append("<manifest>")
+			.append("<remote name=\"remote1\" fetch=\"..\" />")
+			.append("<default revision=\"master\" remote=\"remote1\" />")
+			.append("<project path=\"base\" name=\"platform/base\" />")
+			.append("</manifest>");
+		RepoCommand cmd = new RepoCommand(dest);
+
+		IndexedRepos repos = new IndexedRepos();
+		repos.put("platform/base", child);
+
+
+		RevCommit commit = cmd
+			.setInputStream(new ByteArrayInputStream(xmlContent.toString().getBytes(StandardCharsets.UTF_8)))
+			.setRemoteReader(repos)
+			.setURI("platform/")
+			.setTargetURI("platform/superproject")
+			.setRecordRemoteBranch(true)
+			.setRecordSubmoduleLabels(true)
+			.call();
+
+		String idStr = commit.getId().name() +":" + ".gitmodules";
+		ObjectId modId = dest.resolve(idStr);
+
+		try (ObjectReader reader = dest.newObjectReader()) {
+			byte[] bytes = reader.open(modId).getCachedBytes(Integer.MAX_VALUE);
+			String content = new String(bytes);
+			Config base = new Config();
+			BlobBasedConfig cfg = new BlobBasedConfig(base, bytes);
+			String subUrl = cfg.getString("submodule", "base", "url");
+			assertEquals(subUrl, "../base");
+		}
+
+		child.close();
+		dest.close();
+	}
+
+	@Test
+	public void gerritSetup() throws Exception {
+		Repository child =
+			Git.cloneRepository().setURI(groupADb.getDirectory().toURI().toString())
+				.setDirectory(createUniqueTestGitDir(true))
+				.setBare(true).call().getRepository();
+
+		Repository dest = Git.cloneRepository()
+			.setURI(db.getDirectory().toURI().toString()).setDirectory(createUniqueTestGitDir(true))
+			.setBare(true).call().getRepository();
+
+		assertTrue(dest.isBare());
+		assertTrue(child.isBare());
+
+		StringBuilder xmlContent = new StringBuilder();
+		xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+			.append("<manifest>")
+			.append("<remote name=\"remote1\" fetch=\".\" />")
+			.append("<default revision=\"master\" remote=\"remote1\" />")
+			.append("<project path=\"plugins/cookbook\" name=\"plugins/cookbook\" />")
+			.append("</manifest>");
+		RepoCommand cmd = new RepoCommand(dest);
+
+		IndexedRepos repos = new IndexedRepos();
+		repos.put("plugins/cookbook", child);
+
+
+		RevCommit commit = cmd
+			.setInputStream(new ByteArrayInputStream(xmlContent.toString().getBytes(StandardCharsets.UTF_8)))
+			.setRemoteReader(repos)
+			.setURI("")
+			.setTargetURI("gerrit")
+			.setRecordRemoteBranch(true)
+			.setRecordSubmoduleLabels(true)
+			.call();
+
+		String idStr = commit.getId().name() +":" + ".gitmodules";
+		ObjectId modId = dest.resolve(idStr);
+
+		try (ObjectReader reader = dest.newObjectReader()) {
+			byte[] bytes = reader.open(modId).getCachedBytes(Integer.MAX_VALUE);
+			Config base = new Config();
+			BlobBasedConfig cfg = new BlobBasedConfig(base, bytes);
+			String subUrl = cfg.getString("submodule", "plugins/cookbook", "url");
+			assertEquals(subUrl, "../plugins/cookbook");
+		}
+
+		child.close();
+		dest.close();
 	}
 
 	@Test
@@ -881,5 +1030,28 @@ public class RepoCommandTest extends RepositoryTestCase {
 			}
 			start = newStart;
 		}
+	}
+
+	void testRelative(String a, String b, String want) {
+		String got = RepoCommand.relativize(URI.create(a), URI.create(b)).toString();
+
+		if (!got.equals(want)) {
+			fail(String.format("relative('%s', '%s') = '%s', want '%s'", a, b, got, want));
+		}
+	}
+
+	@Test
+	public void relative() {
+		testRelative("a/b/", "a/", "../");
+		// Normalization:
+		testRelative("a/p/..//b/", "a/", "../");
+		testRelative("a/b", "a/", "");
+		testRelative("a/", "a/b/", "b/");
+		testRelative("a/", "a/b", "b");
+		testRelative("/a/b/c", "/b/c", "../../b/c");
+		testRelative("/abc", "bcd", "bcd");
+		testRelative("abc", "/bcd", "/bcd");
+		testRelative("http://a", "a/b", "a/b");
+		testRelative("http://base.com/a/", "http://child.com/a/b", "http://child.com/a/b");
 	}
 }
