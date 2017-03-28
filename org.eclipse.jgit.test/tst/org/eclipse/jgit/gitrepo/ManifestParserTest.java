@@ -48,6 +48,7 @@ import static org.junit.Assert.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.net.URI;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -142,5 +143,20 @@ public class ManifestParserTest {
 			assertTrue(e.getCause().getMessage()
 					.contains("is missing fetch attribute"));
 		}
+	}
+
+	void testNormalize(String in, String want) {
+		URI got = ManifestParser.normalizeEmptyPath(URI.create(in));
+		if (!got.toString().equals(want)) {
+			fail(String.format("normalize(%s) = %s want %s", in, got, want));
+		}
+	}
+
+	@Test
+	public void testNormalizeEmptyPath() {
+		testNormalize("http://a.b", "http://a.b/");
+		testNormalize("http://a.b/", "http://a.b/");
+		testNormalize("", "");
+		testNormalize("a/b", "a/b");
 	}
 }
