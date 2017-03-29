@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "87bd33cc_b08d4140",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-03-29T11:53:10Z",
+      "side": 1,
+      "message": "split off the RepoCommand change to https://git.eclipse.org/r/94047",
+      "parentUuid": "87bd33cc_70ac89a8",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 52
+      },
+      "revId": "f56f86d8790729820618d1b9228ae8a9a1c8a601",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87bd33cc_50a78dc4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-03-29T11:40:51Z",
       "side": 1,
       "message": "It would be better to use an example that is publicly visible.",
+      "range": {
+        "startLine": 269,
+        "startChar": 20,
+        "endLine": 269,
+        "endChar": 30
+      },
+      "revId": "f56f86d8790729820618d1b9228ae8a9a1c8a601",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_10a515b6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-03-29T11:53:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87bd33cc_50a78dc4",
       "range": {
         "startLine": 269,
         "startChar": 20,
