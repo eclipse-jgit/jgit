@@ -44,28 +44,89 @@
 package org.eclipse.jgit.transport;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.util.IO;
 
 /** A git-fetch response seen from the server side. */
 class UploadPackResponse {
+	private final InputStream rawIn;
 	private final PacketLineOut pckOut;
+	private final boolean biDirectionalPipe;
 
-	UploadPackResponse(PacketLineOut pckOut) {
+	// If it's non-bidirectional pipe, we need to parse the request before
+	// start writing a response. This buffers the response until the negotiate
+	// request has been read.
+	private final List<String> shallowResponseBuffer = new ArrayList<>();
+	private boolean receivedNegotiateRequest;
+	private boolean shouldFlushShallowResponse;
+
+	UploadPackResponse(InputStream rawIn, PacketLineOut pckOut,
+			boolean biDirectionalPipe) {
+		this.rawIn = rawIn;
 		this.pckOut = pckOut;
+		this.biDirectionalPipe = biDirectionalPipe;
 	}
 
 	void writeShallow(RevCommit o) throws IOException {
-		pckOut.writeString("shallow " + o.name()); //$NON-NLS-1$
+		String line = "shallow " + o.name(); //$NON-NLS-1$
+		if (biDirectionalPipe) {
+			pckOut.writeString(line);
+		} else {
+			shallowResponseBuffer.add(line);
+		}
 	}
 
 	void writeUnshallow(RevCommit o) throws IOException {
-		pckOut.writeString("unshallow " + o.name()); //$NON-NLS-1$
+		String line = "unshallow " + o.name(); //$NON-NLS-1$
+		if (biDirectionalPipe) {
+			pckOut.writeString(line);
+		} else {
+			shallowResponseBuffer.add(line);
+		}
 	}
 
 	void endShallowResponse() throws IOException {
-		pckOut.end();
+		if (biDirectionalPipe) {
+			pckOut.end();
+		} else {
+			shouldFlushShallowResponse = true;
+		}
+	}
+
+	void onParseNegotiateRequestDone() throws IOException {
+		if (receivedNegotiateRequest) {
+			return;
+		}
+		receivedNegotiateRequest = true;
+		if (biDirectionalPipe) {
+			return;
+		}
+
+		// Ensure the request was fully consumed. Any remaining input must
+		// be a protocol error. If we aren't at EOF the implementation is
+		// broken.
+		int eof = rawIn.read();
+		if (0 <= eof)
+			throw new CorruptObjectException(MessageFormat.format(
+					JGitText.get().expectedEOFReceived,
+					"\\x" + Integer.toHexString(eof))); //$NON-NLS-1$
+
+		if (shouldFlushShallowResponse) {
+			for (String line : shallowResponseBuffer) {
+				pckOut.writeString(line);
+			}
+			pckOut.end();
+			shouldFlushShallowResponse = false;
+			shallowResponseBuffer.clear();
+		}
 	}
 
 	void writeNak() throws IOException {
@@ -93,6 +154,10 @@ class UploadPackResponse {
 	}
 
 	void writeError(String message) throws IOException {
+		if (!biDirectionalPipe) {
+			// Drain the request before start writing a response.
+			IO.skipFully(rawIn);
+		}
 		pckOut.writeString("ERR " + message + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 }
