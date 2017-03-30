@@ -1,0 +1,8 @@
+Verified+1: Hudson CI
+Code-Review+1: Stefan Beller <sbeller@google.com>
+Code-Review+2: David Pursehouse <david.pursehouse@gmail.com>
+Submitted-by: David Pursehouse <david.pursehouse@gmail.com>
+Submitted-at: Wed, 29 Mar 2017 20:12:22 -0400
+Reviewed-on: https://git.eclipse.org/r/93971
+Project: jgit/jgit
+Branch: refs/heads/master
