@@ -117,24 +117,33 @@ final class PackWriterBitmapWalker {
 						new AddUnseenToBitmapFilter(seen, bitmapResult));
 			}
 
-			while (walker.next() != null) {
-				// Iterate through all of the commits. The BitmapRevFilter does
-				// the work.
-				//
-				// filter.include returns true for commits that do not have
-				// a bitmap in bitmapIndex and are not reachable from a
-				// bitmap in bitmapIndex encountered earlier in the walk.
-				// Thus the number of commits returned by next() measures how
-				// much history was traversed without being able to make use
-				// of bitmaps.
-				pm.update(1);
-				countOfBitmapIndexMisses++;
-			}
+			try {
+				while (walker.next() != null) {
+					// Iterate through all of the commits. The BitmapRevFilter does
+					// the work.
+					//
+					// filter.include returns true for commits that do not have
+					// a bitmap in bitmapIndex and are not reachable from a
+					// bitmap in bitmapIndex encountered earlier in the walk.
+					// Thus the number of commits returned by next() measures how
+					// much history was traversed without being able to make use
+					// of bitmaps.
+					pm.update(1);
+					countOfBitmapIndexMisses++;
+				}
 
-			RevObject ro;
-			while ((ro = walker.nextObject()) != null) {
-				bitmapResult.addObject(ro, ro.getType());
-				pm.update(1);
+				RevObject ro;
+				while ((ro = walker.nextObject()) != null) {
+					bitmapResult.addObject(ro, ro.getType());
+					pm.update(1);
+				}
+			} catch (MissingObjectException e) {
+				// Only throw MissingObjectException when ignoreMissingStart is false.
+				// This could happen when the start object is present but the walk from
+				// start is missing some objects.
+				if (!ignoreMissingStart) {
+					throw e;
+				}
 			}
 		}
 
