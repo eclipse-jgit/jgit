@@ -117,24 +117,39 @@ final class PackWriterBitmapWalker {
 						new AddUnseenToBitmapFilter(seen, bitmapResult));
 			}
 
-			while (walker.next() != null) {
-				// Iterate through all of the commits. The BitmapRevFilter does
-				// the work.
-				//
-				// filter.include returns true for commits that do not have
-				// a bitmap in bitmapIndex and are not reachable from a
-				// bitmap in bitmapIndex encountered earlier in the walk.
-				// Thus the number of commits returned by next() measures how
-				// much history was traversed without being able to make use
-				// of bitmaps.
-				pm.update(1);
-				countOfBitmapIndexMisses++;
-			}
+			try {
+				while (walker.next() != null) {
+					// Iterate through all of the commits. The BitmapRevFilter does
+					// the work.
+					//
+					// filter.include returns true for commits that do not have
+					// a bitmap in bitmapIndex and are not reachable from a
+					// bitmap in bitmapIndex encountered earlier in the walk.
+					// Thus the number of commits returned by next() measures how
+					// much history was traversed without being able to make use
+					// of bitmaps.
+					pm.update(1);
+					countOfBitmapIndexMisses++;
+				}
 
-			RevObject ro;
-			while ((ro = walker.nextObject()) != null) {
-				bitmapResult.addObject(ro, ro.getType());
-				pm.update(1);
+				RevObject ro;
+				while ((ro = walker.nextObject()) != null) {
+					bitmapResult.addObject(ro, ro.getType());
+					pm.update(1);
+				}
+			} catch (MissingObjectException e) {
+				if (!ignoreMissingStart) {
+					throw e;
+				}
+				// Even when none of the objects we started the walk from is missing,
+				// an object reachable from one can be. RevWalk and ObjectWalk don't
+				// provide a way to ignore the missing object and continue, so bail
+				// out early with an undersized bitmap.
+				//
+				// The resulting packfile is likely to be much too large, but that's
+				// better than serving an error.
+				//
+				// TODO(czhen): Resume the walk instead once RevWalk supports that.
 			}
 		}
 
