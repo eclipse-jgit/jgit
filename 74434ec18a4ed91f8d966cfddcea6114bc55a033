@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87bd33cc_ae795d6e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2017-03-30T18:40:25Z",
+      "side": 1,
+      "message": "does JGit coding style allow for * imports?",
+      "range": {
+        "startLine": 54,
+        "startChar": 15,
+        "endLine": 54,
+        "endChar": 19
+      },
+      "revId": "74434ec18a4ed91f8d966cfddcea6114bc55a033",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_0e6091ad",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 703,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2017-03-30T18:40:25Z",
+      "side": 1,
+      "message": "I do not quite understand the comment, does it apply to only these first two lines checking?",
+      "range": {
+        "startLine": 700,
+        "startChar": 0,
+        "endLine": 703,
+        "endChar": 71
+      },
+      "revId": "74434ec18a4ed91f8d966cfddcea6114bc55a033",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_2e6d4da7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 703,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2017-03-30T18:40:25Z",
+      "side": 1,
+      "message": "is this target or current?",
+      "range": {
+        "startLine": 703,
+        "startChar": 55,
+        "endLine": 703,
+        "endChar": 71
+      },
+      "revId": "74434ec18a4ed91f8d966cfddcea6114bc55a033",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_8e5bc101",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 725,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2017-03-30T18:40:25Z",
+      "side": 1,
+      "message": "AFAICT the [] goes to the type not the variable in JGit, i.e. \n \n    String[] cs;",
+      "range": {
+        "startLine": 725,
+        "startChar": 2,
+        "endLine": 725,
+        "endChar": 11
+      },
+      "revId": "74434ec18a4ed91f8d966cfddcea6114bc55a033",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
