@@ -70,7 +70,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.PackProtocolException;
@@ -705,7 +704,7 @@ public class UploadPack {
 
 	private void service() throws IOException {
 		boolean sendPack;
-		response = new UploadPackResponse(pckOut);
+		response = new UploadPackResponse(rawIn, pckOut, biDirectionalPipe);
 		try {
 			if (biDirectionalPipe)
 				sendAdvertisedRefs(new PacketLineOutRefAdvertiser(pckOut));
@@ -714,7 +713,8 @@ public class UploadPack {
 			else
 				advertised = refIdSet(getAdvertisedOrDefaultRefs().values());
 
-			request = UploadPackRequest.parse(pckIn, biDirectionalPipe);
+			request = UploadPackRequest.parse(
+					pckIn, biDirectionalPipe, response);
 			if (request.wantIds.isEmpty()) {
 				preUploadHook.onBeginNegotiateRound(this, request.wantIds, 0);
 				preUploadHook.onEndNegotiateRound(
@@ -1314,16 +1314,6 @@ public class UploadPack {
 	private void sendPack() throws IOException {
 		final boolean sideband = request.options.contains(OPTION_SIDE_BAND)
 				|| request.options.contains(OPTION_SIDE_BAND_64K);
-
-		if (!biDirectionalPipe) {
-			// Ensure the request was fully consumed. Any remaining input must
-			// be a protocol error. If we aren't at EOF the implementation is broken.
-			int eof = rawIn.read();
-			if (0 <= eof)
-				throw new CorruptObjectException(MessageFormat.format(
-						JGitText.get().expectedEOFReceived,
-						"\\x" + Integer.toHexString(eof))); //$NON-NLS-1$
-		}
 
 		if (sideband) {
 			try {

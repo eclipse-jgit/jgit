@@ -60,6 +60,7 @@ import org.eclipse.jgit.transport.UploadPack.FirstLine;
 class UploadPackRequest {
 	private final PacketLineIn pckIn;
 	private final boolean biDirectionalPipe;
+	private final UploadPackResponse response;
 
 	/** Capabilities requested by the client. */
 	final Set<String> options;
@@ -75,10 +76,12 @@ class UploadPackRequest {
 
 	private UploadPackRequest(
 			PacketLineIn pckIn, boolean biDirectionalPipe,
-			Set<String> options, Set<ObjectId> wantIds,
-			Set<ObjectId> clientShallowCommits, int depth) {
+			UploadPackResponse response, Set<String> options,
+			Set<ObjectId> wantIds, Set<ObjectId> clientShallowCommits,
+			int depth) {
 		this.pckIn = pckIn;
 		this.biDirectionalPipe = biDirectionalPipe;
+		this.response = response;
 		this.options = options;
 		this.wantIds = wantIds;
 		this.clientShallowCommits = clientShallowCommits;
@@ -86,7 +89,9 @@ class UploadPackRequest {
 	}
 
 	static UploadPackRequest parse(
-			PacketLineIn pckIn, boolean biDirectionalPipe) throws IOException {
+			PacketLineIn pckIn, boolean biDirectionalPipe,
+			UploadPackResponse response)
+			throws IOException {
 		Set<String> options = Collections.emptySet();
 		Set<ObjectId> wantIds = new HashSet<>();
 		Set<ObjectId> clientShallowCommits = new HashSet<>();
@@ -139,8 +144,8 @@ class UploadPackRequest {
 			isFirst = false;
 		}
 
-		return new UploadPackRequest(pckIn, biDirectionalPipe, options, wantIds,
-				clientShallowCommits, depth);
+		return new UploadPackRequest(pckIn, biDirectionalPipe, response,
+				options, wantIds, clientShallowCommits, depth);
 	}
 
 	enum NegotiateState {
@@ -168,12 +173,14 @@ class UploadPackRequest {
 			}
 
 			if (line == PacketLineIn.END) {
+				response.onParseNegotiateRequestDone();
 				return NegotiateState.RECEIVE_END;
 
 			} else if (line.startsWith("have ") && line.length() == 45) { //$NON-NLS-1$
 				peerHas.add(ObjectId.fromString(line.substring(5)));
 
 			} else if (line.equals("done")) { //$NON-NLS-1$
+				response.onParseNegotiateRequestDone();
 				return NegotiateState.RECEIVE_DONE;
 
 			} else {
