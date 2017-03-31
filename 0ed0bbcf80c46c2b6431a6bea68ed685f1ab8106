@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "87bd33cc_4e6d24a6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2017-03-31T23:56:57Z",
+      "side": 1,
+      "message": "All of sudden Eclipse starts complaining about this. I don\u0027t know how it infers the resource leak. It won\u0027t complain the InputStream. (shrug)",
+      "parentUuid": "87bd33cc_4e928429",
+      "revId": "0ed0bbcf80c46c2b6431a6bea68ed685f1ab8106",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87bd33cc_2e954811",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2017-03-31T23:07:49Z",
       "side": 1,
       "message": "Feels too clever. Do we need RAII here? Would a try {} finally work okay?\n\nIf unbuffer fails e.g. due to the client disconnecting, it seems okay for that to mask another exception that was thrown in the try block. In other words, I don\u0027t think we need the https://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html#addSuppressed(java.lang.Throwable) magic.\n\nIs it guaranteed when unbuffer is called that we have finished reading rawIn? Should unbuffer tell rawIn to consume any remaining input? What happens if someone tries to read from pckIn afterward?",
+      "revId": "0ed0bbcf80c46c2b6431a6bea68ed685f1ab8106",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_8ec1fcfd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 725,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2017-03-31T23:56:57Z",
+      "side": 1,
+      "message": "The client disconnect case is just one case that IOException represents. Maybe there\u0027s another.\n\nNow, I realize that if ServiceMayNotContinueException is caused by a client disconnect but the exception doesn\u0027t have that in the exception chain, this adds that information. We might want to look into the suppressed exceptions to detect client disconnects.\n\n---\n\nThe request drain was intentionally not included in this change. I want to do that in another change.",
+      "parentUuid": "87bd33cc_2e954811",
       "revId": "0ed0bbcf80c46c2b6431a6bea68ed685f1ab8106",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "87bd33cc_ae5b1801",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1592,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2017-03-31T23:56:57Z",
+      "side": 1,
+      "message": "Yeah. Maybe the simpler is better.",
+      "parentUuid": "87bd33cc_6e8f4003",
+      "revId": "0ed0bbcf80c46c2b6431a6bea68ed685f1ab8106",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87bd33cc_8e6f3ca5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1
@@ -64,6 +118,30 @@
       "writtenOn": "2017-03-31T23:07:49Z",
       "side": 1,
       "message": "optional: it\u0027s not obvious from the name what this does. Maybe something like stopBuffering()? Or a javadoc comment would work.",
+      "range": {
+        "startLine": 1628,
+        "startChar": 7,
+        "endLine": 1628,
+        "endChar": 15
+      },
+      "revId": "0ed0bbcf80c46c2b6431a6bea68ed685f1ab8106",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_ce5054de",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1628,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2017-03-31T23:56:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87bd33cc_8e6f3ca5",
       "range": {
         "startLine": 1628,
         "startChar": 7,
