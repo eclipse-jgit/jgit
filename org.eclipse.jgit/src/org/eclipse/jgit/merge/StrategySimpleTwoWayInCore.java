@@ -49,6 +49,7 @@ import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.errors.UnmergedPathException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -89,6 +90,11 @@ public class StrategySimpleTwoWayInCore extends ThreeWayMergeStrategy {
 		return newMerger(db);
 	}
 
+	@Override
+	public ThreeWayMerger newMerger(ObjectInserter inserter, Config config) {
+		return new InCoreMerger(inserter);
+	}
+
 	private static class InCoreMerger extends ThreeWayMerger {
 		private static final int T_BASE = 0;
 
@@ -107,6 +113,12 @@ public class StrategySimpleTwoWayInCore extends ThreeWayMergeStrategy {
 		InCoreMerger(final Repository local) {
 			super(local);
 			tw = new NameConflictTreeWalk(local, reader);
+			cache = DirCache.newInCore();
+		}
+
+		InCoreMerger(final ObjectInserter inserter) {
+			super(inserter);
+			tw = new NameConflictTreeWalk(null, reader);
 			cache = DirCache.newInCore();
 		}
 
