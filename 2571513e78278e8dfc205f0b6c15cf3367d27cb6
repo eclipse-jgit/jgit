@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "87bd33cc_3a5743a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2017-03-31T18:57:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87bd33cc_398f5504",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 21
+      },
+      "revId": "2571513e78278e8dfc205f0b6c15cf3367d27cb6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87bd33cc_19929928",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "87bd33cc_5ab79f72",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2017-03-31T18:57:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87bd33cc_19929928",
+      "range": {
+        "startLine": 10,
+        "startChar": 42,
+        "endLine": 10,
+        "endChar": 50
+      },
+      "revId": "2571513e78278e8dfc205f0b6c15cf3367d27cb6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87bd33cc_396af58e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1
@@ -59,6 +107,24 @@
       "writtenOn": "2017-03-31T00:02:09Z",
       "side": 1,
       "message": "This just parses the \"want\"s, not \"have\"s, right? A name like parseWants would make it clearer.",
+      "revId": "2571513e78278e8dfc205f0b6c15cf3367d27cb6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_7abc5b56",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2017-03-31T18:57:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87bd33cc_396af58e",
       "revId": "2571513e78278e8dfc205f0b6c15cf3367d27cb6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -99,6 +165,24 @@
     },
     {
       "key": {
+        "uuid": "87bd33cc_7aa37b2f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPackRequest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2017-03-31T18:57:53Z",
+      "side": 1,
+      "message": "Renamed the method name based on the other comment. I guess the name and the return type explain the behavior well?",
+      "parentUuid": "87bd33cc_b97e0553",
+      "revId": "2571513e78278e8dfc205f0b6c15cf3367d27cb6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87bd33cc_f95f9df0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPackRequest.java",
         "patchSetId": 1
@@ -116,6 +200,24 @@
     },
     {
       "key": {
+        "uuid": "87bd33cc_fa194b06",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPackRequest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2017-03-31T18:57:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87bd33cc_f95f9df0",
+      "revId": "2571513e78278e8dfc205f0b6c15cf3367d27cb6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87bd33cc_f994fd16",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPackRequest.java",
         "patchSetId": 1
@@ -127,6 +229,24 @@
       "writtenOn": "2017-03-31T00:02:09Z",
       "side": 1,
       "message": "Not your fault, but I\u0027m having trouble parsing this comment. Can you summarize for me? Does it mean to say that EOF is normal in some cases but not in others?",
+      "revId": "2571513e78278e8dfc205f0b6c15cf3367d27cb6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_3a24a338",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPackRequest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2017-03-31T18:57:53Z",
+      "side": 1,
+      "message": "I interpret this comment in the same way. I added a Javadoc in NegotiateState and changed the name appropriately.",
+      "parentUuid": "87bd33cc_f994fd16",
       "revId": "2571513e78278e8dfc205f0b6c15cf3367d27cb6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
