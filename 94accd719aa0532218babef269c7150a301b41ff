@@ -22,6 +22,30 @@
       "revId": "94accd719aa0532218babef269c7150a301b41ff",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_19dff9d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-03-31T00:14:34Z",
+      "side": 1,
+      "message": "Also, was it intentional to leave 9.4.3.v20170317 in pom.xml?",
+      "parentUuid": "87bd33cc_59c171fa",
+      "range": {
+        "startLine": 7,
+        "startChar": 19,
+        "endLine": 7,
+        "endChar": 34
+      },
+      "revId": "94accd719aa0532218babef269c7150a301b41ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
