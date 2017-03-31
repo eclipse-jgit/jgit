@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87bd33cc_4e928429",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-03-31T23:07:49Z",
+      "side": 1,
+      "message": "This is safe because the TimeoutOutputStream is responsible for closing output and we assign \u0027output \u003d o\u0027 to ensure we close the TimeoutOutputStream.\n\nBut why did it start warning now? Was it warning before and we just didn\u0027t suppress it yet?",
+      "revId": "0ed0bbcf80c46c2b6431a6bea68ed685f1ab8106",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_2e954811",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 725,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-03-31T23:07:49Z",
+      "side": 1,
+      "message": "Feels too clever. Do we need RAII here? Would a try {} finally work okay?\n\nIf unbuffer fails e.g. due to the client disconnecting, it seems okay for that to mask another exception that was thrown in the try block. In other words, I don\u0027t think we need the https://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html#addSuppressed(java.lang.Throwable) magic.\n\nIs it guaranteed when unbuffer is called that we have finished reading rawIn? Should unbuffer tell rawIn to consume any remaining input? What happens if someone tries to read from pckIn afterward?",
+      "revId": "0ed0bbcf80c46c2b6431a6bea68ed685f1ab8106",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_6e8f4003",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1592,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-03-31T23:07:49Z",
+      "side": 1,
+      "message": "The second parameter is to avoid creating an unnecessary ByteArrayOutputStream in the bidi case?\n\nAn alternative would be\n\n  o \u003d new ResponseBufferedOutputStream(rawOut);\n  if (biDirectionalPipe) {\n    o.unbuffer();\n  }\n\nwhich feels simpler, though it\u0027s less efficient.\n\nWhat you have here is sensible.",
+      "revId": "0ed0bbcf80c46c2b6431a6bea68ed685f1ab8106",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_8e6f3ca5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1628,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-03-31T23:07:49Z",
+      "side": 1,
+      "message": "optional: it\u0027s not obvious from the name what this does. Maybe something like stopBuffering()? Or a javadoc comment would work.",
+      "range": {
+        "startLine": 1628,
+        "startChar": 7,
+        "endLine": 1628,
+        "endChar": 15
+      },
+      "revId": "0ed0bbcf80c46c2b6431a6bea68ed685f1ab8106",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
