@@ -58,6 +58,7 @@ import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDE_BAND;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDE_BAND_64K;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_THIN_PACK;
 
+import java.io.ByteArrayOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -71,6 +72,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -235,7 +237,7 @@ public class UploadPack {
 
 	private InputStream rawIn;
 
-	private OutputStream rawOut;
+	private ResponseBufferedOutputStream rawOut;
 
 	private PacketLineIn pckIn;
 
@@ -644,11 +646,10 @@ public class UploadPack {
 	 *            other network connections this should be null.
 	 * @throws IOException
 	 */
-	public void upload(final InputStream input, final OutputStream output,
+	public void upload(final InputStream input, OutputStream output,
 			final OutputStream messages) throws IOException {
 		try {
 			rawIn = input;
-			rawOut = output;
 			if (messages != null)
 				msgOut = messages;
 
@@ -656,11 +657,17 @@ public class UploadPack {
 				final Thread caller = Thread.currentThread();
 				timer = new InterruptTimer(caller.getName() + "-Timer"); //$NON-NLS-1$
 				TimeoutInputStream i = new TimeoutInputStream(rawIn, timer);
-				TimeoutOutputStream o = new TimeoutOutputStream(rawOut, timer);
+				@SuppressWarnings("resource")
+				TimeoutOutputStream o = new TimeoutOutputStream(output, timer);
 				i.setTimeout(timeout * 1000);
 				o.setTimeout(timeout * 1000);
 				rawIn = i;
-				rawOut = o;
+				output = o;
+			}
+
+			rawOut = new ResponseBufferedOutputStream(output);
+			if (biDirectionalPipe) {
+				rawOut.stopBuffering();
 			}
 
 			pckIn = new PacketLineIn(rawIn);
@@ -714,6 +721,8 @@ public class UploadPack {
 
 	private void service() throws IOException {
 		boolean sendPack;
+		// If it's a non-bidi request, we need to read the entire request before
+		// writing a response. Buffer the response until then.
 		try {
 			if (biDirectionalPipe)
 				sendAdvertisedRefs(new PacketLineOutRefAdvertiser(pckOut));
@@ -769,6 +778,8 @@ public class UploadPack {
 				throw new UploadPackInternalServerErrorException(err);
 			}
 			throw err;
+		} finally {
+			rawOut.stopBuffering();
 		}
 
 		if (sendPack)
@@ -1570,6 +1581,52 @@ public class UploadPack {
 		Ref head = refs.get(Constants.HEAD);
 		if (head != null && head.isSymbolic()) {
 			adv.addSymref(Constants.HEAD, head.getLeaf().getName());
+		}
+	}
+
+	private static class ResponseBufferedOutputStream extends OutputStream {
+		private final OutputStream rawOut;
+
+		private OutputStream out;
+		@Nullable
+		private ByteArrayOutputStream buffer;
+
+		ResponseBufferedOutputStream(OutputStream rawOut) {
+			this.rawOut = rawOut;
+			this.out = this.buffer = new ByteArrayOutputStream();
+		}
+
+		@Override
+		public void write(int b) throws IOException {
+			out.write(b);
+		}
+
+		@Override
+		public void write(byte b[]) throws IOException {
+			out.write(b);
+		}
+
+		@Override
+		public void write(byte b[], int off, int len) throws IOException {
+			out.write(b, off, len);
+		}
+
+		@Override
+		public void flush() throws IOException {
+			out.flush();
+		}
+
+		@Override
+		public void close() throws IOException {
+			out.close();
+		}
+
+		void stopBuffering() throws IOException {
+			if (buffer != null) {
+				buffer.writeTo(rawOut);
+				buffer = null;
+				out = rawOut;
+			}
 		}
 	}
 }
