@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "87bd33cc_0ed5ecb1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 725,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2017-03-31T23:58:48Z",
+      "side": 1,
+      "message": "The client disconnect case is just one case that IOException represents. Maybe there\u0027s another.\n\nSo, I think it\u0027s better not to conceal the first exception by the IOException thrown by unbuffer.",
+      "parentUuid": "87bd33cc_8ec1fcfd",
+      "revId": "0ed0bbcf80c46c2b6431a6bea68ed685f1ab8106",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87bd33cc_6e8f4003",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1
