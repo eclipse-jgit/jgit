@@ -1149,6 +1149,33 @@ public abstract class Repository implements AutoCloseable {
 	}
 
 	/**
+	 * Locate a reference to a commit and immediately parse its content.
+	 * <p>
+	 * This method only returns successfully if the commit object exists,
+	 * is verified to be a commit, and was parsed without error.
+	 *
+	 * @param id
+	 *            name of the commit object.
+	 * @return reference to the commit object. Never null.
+	 * @throws MissingObjectException
+	 *             the supplied commit does not exist.
+	 * @throws IncorrectObjectTypeException
+	 *             the supplied id is not a commit or an annotated tag.
+	 * @throws IOException
+	 *             a pack file or loose object could not be read.
+	 * @since 4.8
+	 */
+	public RevCommit parseCommit(AnyObjectId id) throws IncorrectObjectTypeException,
+			IOException, MissingObjectException {
+		if (id instanceof RevCommit && ((RevCommit) id).getRawBuffer() != null) {
+			return (RevCommit) id;
+		}
+		try (RevWalk walk = new RevWalk(this)) {
+			return walk.parseCommit(id);
+		}
+	}
+
+	/**
 	 * Create a new in-core index representation and read an index from disk.
 	 * <p>
 	 * The new index will be read before it is returned to the caller. Read
