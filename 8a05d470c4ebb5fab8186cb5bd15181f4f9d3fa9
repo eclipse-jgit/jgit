@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87bd33cc_b95525cd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-03-31T00:14:00Z",
+      "side": 1,
+      "message": "For non-bidirectional requests\n\nor\n\n For a non-bidirectional request",
+      "range": {
+        "startLine": 10,
+        "startChar": 18,
+        "endLine": 10,
+        "endChar": 25
+      },
+      "revId": "8a05d470c4ebb5fab8186cb5bd15181f4f9d3fa9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_d949013a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-03-31T00:14:00Z",
+      "side": 1,
+      "message": "This has happened not to be a problem most of the time",
+      "range": {
+        "startLine": 12,
+        "startChar": 29,
+        "endLine": 13,
+        "endChar": 9
+      },
+      "revId": "8a05d470c4ebb5fab8186cb5bd15181f4f9d3fa9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_f946bd26",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ServletUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-03-31T00:14:00Z",
+      "side": 1,
+      "message": "Unrelated change?\n\nI like this change but I think it should go in a separate commit.\n\nBTW, the catch in the next line is harmful. I want to deprecated consumeRequestBody and replace it with a function that throws IOException.",
+      "revId": "8a05d470c4ebb5fab8186cb5bd15181f4f9d3fa9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_1944591d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPackResponse.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-03-31T00:14:00Z",
+      "side": 1,
+      "message": "I wonder if it would make sense to buffer a few lists of ObjectId instead. That would decrease memory usage a little and might be easier to read.",
+      "revId": "8a05d470c4ebb5fab8186cb5bd15181f4f9d3fa9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_d9d4a1b8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPackResponse.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-03-31T00:14:00Z",
+      "side": 1,
+      "message": "It is subtle that some methods assume input is fully read in, others drain input manually, and others buffer until the input is read. Is there some way to make this more systematic?\n\nE.g.\n* parse the full request before deciding on and writing any output. In the caller, use a try{}catch to allow consuming input and writing an ERR response before the full request has been parsed. Or\n* decide on output while parsing the request but don\u0027t write any of it. In the caller, use a try{}catch to allow consuming input and writing an ERR response before the full request has been parsed. Or\n* handle input and output at the same time, but use a wrapper for PktLineOut that buffers instead of writing until input has been fully consumed. ERR would still work like the above two cases. Or\n* handle input and output at the same time, but use wrappers for PktLineIn and PktLineOut that buffer all remaining input on first write. Provide a method to consume all input to avoid wasting memory buffering in the ERR case.\n* etc\n\nThe first or second of the above (or a hybrid) seems simplest to me if it\u0027s possible to make them work. The first means reading to a deserialized representation and then in a second pass deciding what to do with it. The second means writing to a deserialized representation and then in a second pass serializing and writing it.",
+      "revId": "8a05d470c4ebb5fab8186cb5bd15181f4f9d3fa9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
