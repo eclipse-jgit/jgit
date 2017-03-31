@@ -46,6 +46,7 @@ package org.eclipse.jgit.junit.http;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -53,21 +54,21 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.jetty.security.AbstractLoginService;
 import org.eclipse.jetty.security.Authenticator;
 import org.eclipse.jetty.security.ConstraintMapping;
 import org.eclipse.jetty.security.ConstraintSecurityHandler;
+import org.eclipse.jetty.security.MappedLoginService;
 import org.eclipse.jetty.security.authentication.BasicAuthenticator;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.HttpConfiguration;
 import org.eclipse.jetty.server.HttpConnectionFactory;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.server.UserIdentity;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.util.security.Constraint;
-import org.eclipse.jetty.util.security.Credential;
-import org.eclipse.jetty.util.security.Credential.Crypt;
+import org.eclipse.jetty.util.security.Password;
 import org.eclipse.jgit.transport.URIish;
 
 /**
@@ -167,30 +168,36 @@ public class AppServer {
 		return ctx;
 	}
 
-	static class TestLoginService extends AbstractLoginService {
-
+	static class TestMappedLoginService extends MappedLoginService {
 		private String role;
 
-		TestLoginService(String role) {
+		TestMappedLoginService(String role) {
 			this.role = role;
 		}
+
 		@Override
-		protected String[] loadRoleInfo(UserPrincipal user) {
-			return new String[] { role };
+		protected UserIdentity loadUser(String who) {
+			return null;
 		}
 
 		@Override
-		protected UserPrincipal loadUserInfo(String name) {
-			return new UserPrincipal(username,
-					Credential.getCredential(Crypt.crypt(username, password)));
+		protected void loadUsers() throws IOException {
+			putUser(username, new Password(password), new String[] { role });
 		}
 
+		protected String[] loadRoleInfo(KnownUser user) {
+			return null;
+		}
+
+		protected KnownUser loadUserInfo(String usrname) {
+			return null;
+		}
 	}
 
 	private void auth(ServletContextHandler ctx, Authenticator authType) {
 		final String role = "can-access";
 
-		TestLoginService users = new TestLoginService(role);
+		MappedLoginService users = new TestMappedLoginService(role);
 		ConstraintMapping cm = new ConstraintMapping();
 		cm.setConstraint(new Constraint());
 		cm.getConstraint().setAuthenticate(true);
@@ -230,7 +237,6 @@ public class AppServer {
 	public void tearDown() throws Exception {
 		RecordingLogger.clear();
 		log.clear();
-		server.setStopTimeout(0);
 		server.stop();
 	}
 

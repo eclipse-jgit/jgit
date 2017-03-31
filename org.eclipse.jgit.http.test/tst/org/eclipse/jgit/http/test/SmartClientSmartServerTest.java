@@ -454,7 +454,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 			} catch (TransportException err) {
 				String exp = brokenURI + ": expected"
 						+ " Content-Type application/x-git-upload-pack-result;"
-						+ " received Content-Type text/plain;charset=utf-8";
+						+ " received Content-Type text/plain; charset=UTF-8";
 				assertEquals(exp, err.getMessage());
 			}
 		}
@@ -476,7 +476,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		assertEquals(join(brokenURI, "git-upload-pack"), service.getPath());
 		assertEquals(0, service.getParameters().size());
 		assertEquals(200, service.getStatus());
-		assertEquals("text/plain;charset=utf-8",
+		assertEquals("text/plain; charset=UTF-8",
 				service.getResponseHeader(HDR_CONTENT_TYPE));
 	}
 

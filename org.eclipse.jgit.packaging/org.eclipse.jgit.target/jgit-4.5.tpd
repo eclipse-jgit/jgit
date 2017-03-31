@@ -1,6 +1,6 @@
 target "jgit-4.5" with source configurePhase
 
-include "projects/jetty-9.4.1.tpd"
+include "projects/jetty-9.2.13.tpd"
 include "orbit/R20160221192158-Mars.tpd"
 include "orbit/S20170120205402-Oxygen.tpd"
 

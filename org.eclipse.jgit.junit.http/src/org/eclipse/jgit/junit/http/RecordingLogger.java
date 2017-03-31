@@ -49,7 +49,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.jetty.util.log.Logger;
-import org.slf4j.helpers.MessageFormatter;
 
 /** Logs warnings into an array for later inspection. */
 public class RecordingLogger implements Logger {
@@ -155,8 +154,7 @@ public class RecordingLogger implements Logger {
 
 	public void warn(String msg, Object... args) {
 		synchronized (warnings) {
-			warnings.add(new Warning(
-					MessageFormatter.format(msg, args).getMessage()));
+			warnings.add(new Warning(MessageFormat.format(msg, args)));
 		}
 	}
 
