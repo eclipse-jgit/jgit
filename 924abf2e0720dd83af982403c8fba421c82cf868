@@ -16,6 +16,24 @@
       "revId": "924abf2e0720dd83af982403c8fba421c82cf868",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_3adca3db",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapWalker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 79788
+      },
+      "writtenOn": "2017-03-31T17:40:07Z",
+      "side": 1,
+      "message": "Yea, the reason I used a wider try{} block is I suspect the revwalk can not continue (or produce incorrect bitmap) if there is a missing object during the walk.",
+      "parentUuid": "87bd33cc_5ac15ffa",
+      "revId": "924abf2e0720dd83af982403c8fba421c82cf868",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
