@@ -1,0 +1,135 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87bd33cc_398f5504",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-03-31T00:02:09Z",
+      "side": 1,
+      "message": "Does this mean no functional change is intended? Best to explicitly say so, if so.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 21
+      },
+      "revId": "2571513e78278e8dfc205f0b6c15cf3367d27cb6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_19929928",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-03-31T00:02:09Z",
+      "side": 1,
+      "message": "response",
+      "range": {
+        "startLine": 10,
+        "startChar": 42,
+        "endLine": 10,
+        "endChar": 50
+      },
+      "revId": "2571513e78278e8dfc205f0b6c15cf3367d27cb6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_396af58e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-03-31T00:02:09Z",
+      "side": 1,
+      "message": "This just parses the \"want\"s, not \"have\"s, right? A name like parseWants would make it clearer.",
+      "revId": "2571513e78278e8dfc205f0b6c15cf3367d27cb6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_596fb1a5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPackRequest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-03-31T00:02:09Z",
+      "side": 1,
+      "message": "It\u0027s too bad that is public. It belongs as an inner class here, but it\u0027s hard to do anything about it.\n\nMaybe worth marking it @Deprecated (in a separate change).",
+      "revId": "2571513e78278e8dfc205f0b6c15cf3367d27cb6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_b97e0553",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPackRequest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-03-31T00:02:09Z",
+      "side": 1,
+      "message": "Does this parse the entire request or a subset? My first guess was the entire request but looking closer I think that guess was wrong. Either way, this suggests that a javadoc comment would be helpful.",
+      "revId": "2571513e78278e8dfc205f0b6c15cf3367d27cb6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_f95f9df0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPackRequest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-03-31T00:02:09Z",
+      "side": 1,
+      "message": "peerHas is an output parameter? A javadoc comment would help.",
+      "revId": "2571513e78278e8dfc205f0b6c15cf3367d27cb6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_f994fd16",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPackRequest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-03-31T00:02:09Z",
+      "side": 1,
+      "message": "Not your fault, but I\u0027m having trouble parsing this comment. Can you summarize for me? Does it mean to say that EOF is normal in some cases but not in others?",
+      "revId": "2571513e78278e8dfc205f0b6c15cf3367d27cb6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
