@@ -59,6 +59,7 @@ import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.errors.NoMergeBaseException;
 import org.eclipse.jgit.errors.NoMergeBaseException.MergeBaseFailureReason;
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
@@ -408,7 +409,7 @@ public class ResolveMergerTest extends RepositoryTestCase {
 
 	/**
 	 * Merging two equal subtrees with an incore merger should lead to a merged
-	 * state (The 'Gerrit' use case).
+	 * state.
 	 *
 	 * @param strategy
 	 * @throws Exception
@@ -439,6 +440,43 @@ public class ResolveMergerTest extends RepositoryTestCase {
 				true);
 		boolean noProblems = resolveMerger.merge(masterCommit, sideCommit);
 		assertTrue(noProblems);
+	}
+
+	/**
+	 * Merging two equal subtrees with an incore merger should lead to a merged
+	 * state, without using a Repository (the 'Gerrit' use case).
+	 *
+	 * @param strategy
+	 * @throws Exception
+	 */
+	@Theory
+	public void checkMergeEqualTreesInCore_noRepo(MergeStrategy strategy)
+			throws Exception {
+		Git git = Git.wrap(db);
+
+		writeTrashFile("d/1", "orig");
+		git.add().addFilepattern("d/1").call();
+		RevCommit first = git.commit().setMessage("added d/1").call();
+
+		writeTrashFile("d/1", "modified");
+		RevCommit masterCommit = git.commit().setAll(true)
+				.setMessage("modified d/1 on master").call();
+
+		git.checkout().setCreateBranch(true).setStartPoint(first)
+				.setName("side").call();
+		writeTrashFile("d/1", "modified");
+		RevCommit sideCommit = git.commit().setAll(true)
+				.setMessage("modified d/1 on side").call();
+
+		git.rm().addFilepattern("d/1").call();
+		git.rm().addFilepattern("d").call();
+
+		try (ObjectInserter ins = db.newObjectInserter()) {
+			ThreeWayMerger resolveMerger =
+					(ThreeWayMerger) strategy.newMerger(ins, db.getConfig());
+			boolean noProblems = resolveMerger.merge(masterCommit, sideCommit);
+			assertTrue(noProblems);
+		}
 	}
 
 	/**
