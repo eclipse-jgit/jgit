@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87bd33cc_5ac15ffa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapWalker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-03-31T17:34:26Z",
+      "side": 1,
+      "message": "I think the scope of this try{} is too wide. It produces a very small bitmap.\n\nWould something like this work?\n\n  /** @return null when the walk has finished */\n  @Nullable\n  private static RevCommit next(RevWalk rw, boolean ignoreMissing) throws IOException {\n    while (true) {\n      try {\n        return rw.next();\n      } catch (MissingObjectException e) {\n        if (!ignoreMissing) {\n          throw e;\n        }\n      }\n    }\n  }\n\nLikewise for nextObject.\n\nThat said, I haven\u0027t checked if RevWalk is prepared to continue after noticing a missing object like this. RevWalk might need some changes to more gracefully recover (or it might make sense for the ignoreMissing logic to move there).",
+      "revId": "924abf2e0720dd83af982403c8fba421c82cf868",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
