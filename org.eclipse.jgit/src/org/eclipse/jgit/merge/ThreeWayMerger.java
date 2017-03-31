@@ -50,6 +50,7 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
@@ -82,6 +83,17 @@ public abstract class ThreeWayMerger extends Merger {
 	 */
 	protected ThreeWayMerger(final Repository local, boolean inCore) {
 		this(local);
+	}
+
+	/**
+	 * Create a new in-core merge instance from an inserter.
+	 *
+	 * @param inserter
+	 *            the inserter to write objects to.
+	 * @since 4.8
+	 */
+	protected ThreeWayMerger(ObjectInserter inserter) {
+		super(inserter);
 	}
 
 	/**
