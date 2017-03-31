@@ -46,7 +46,9 @@ package org.eclipse.jgit.merge;
 
 import java.io.IOException;
 
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
 
 /**
@@ -89,11 +91,21 @@ public class StrategyOneSided extends MergeStrategy {
 		return new OneSide(db, treeIndex);
 	}
 
+	@Override
+	public Merger newMerger(final ObjectInserter inserter, final Config config) {
+		return new OneSide(inserter, treeIndex);
+	}
+
 	static class OneSide extends Merger {
 		private final int treeIndex;
 
 		protected OneSide(final Repository local, final int index) {
 			super(local);
+			treeIndex = index;
+		}
+
+		protected OneSide(final ObjectInserter inserter, final int index) {
+			super(inserter);
 			treeIndex = index;
 		}
 
