@@ -61,7 +61,9 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.NoMergeBaseException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -108,6 +110,17 @@ public class RecursiveMerger extends ResolveMerger {
 	 */
 	protected RecursiveMerger(Repository local) {
 		this(local, false);
+	}
+
+	/**
+	 * Normal recursive merge, implies inCore.
+	 *
+	 * @param inserter
+	 * @param config
+	 * @since 4.8
+	 */
+	protected RecursiveMerger(ObjectInserter inserter, Config config) {
+		super(inserter, config);
 	}
 
 	/**

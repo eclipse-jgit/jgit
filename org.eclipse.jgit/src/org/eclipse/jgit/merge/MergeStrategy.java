@@ -49,6 +49,8 @@ import java.text.MessageFormat;
 import java.util.HashMap;
 
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
 
 /**
@@ -170,4 +172,20 @@ public abstract class MergeStrategy {
 	 * @return the new merge instance which implements this strategy.
 	 */
 	public abstract Merger newMerger(Repository db, boolean inCore);
+
+	/**
+	 * Create a new merge instance.
+	 * <p>
+	 * The merge will happen in memory, working folder will not be modified, in
+	 * case of a non-trivial merge that requires manual resolution, the merger
+	 * will fail.
+	 *
+	 * @param inserter
+	 *            inserter to write results back to.
+	 * @param config
+	 *            repo config for reading diff algorithm settings.
+	 * @return the new merge instance which implements this strategy.
+	 * @since 4.8
+	 */
+	public abstract Merger newMerger(ObjectInserter inserter, Config config);
 }

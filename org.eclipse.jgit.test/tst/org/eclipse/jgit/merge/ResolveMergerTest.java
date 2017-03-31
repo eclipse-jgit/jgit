@@ -42,12 +42,17 @@
  */
 package org.eclipse.jgit.merge;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.MergeResult;
@@ -59,8 +64,14 @@ import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.errors.NoMergeBaseException;
 import org.eclipse.jgit.errors.NoMergeBaseException.MergeBaseFailureReason;
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevObject;
+import org.eclipse.jgit.revwalk.RevTree;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
@@ -408,7 +419,7 @@ public class ResolveMergerTest extends RepositoryTestCase {
 
 	/**
 	 * Merging two equal subtrees with an incore merger should lead to a merged
-	 * state (The 'Gerrit' use case).
+	 * state.
 	 *
 	 * @param strategy
 	 * @throws Exception
@@ -439,6 +450,43 @@ public class ResolveMergerTest extends RepositoryTestCase {
 				true);
 		boolean noProblems = resolveMerger.merge(masterCommit, sideCommit);
 		assertTrue(noProblems);
+	}
+
+	/**
+	 * Merging two equal subtrees with an incore merger should lead to a merged
+	 * state, without using a Repository (the 'Gerrit' use case).
+	 *
+	 * @param strategy
+	 * @throws Exception
+	 */
+	@Theory
+	public void checkMergeEqualTreesInCore_noRepo(MergeStrategy strategy)
+			throws Exception {
+		Git git = Git.wrap(db);
+
+		writeTrashFile("d/1", "orig");
+		git.add().addFilepattern("d/1").call();
+		RevCommit first = git.commit().setMessage("added d/1").call();
+
+		writeTrashFile("d/1", "modified");
+		RevCommit masterCommit = git.commit().setAll(true)
+				.setMessage("modified d/1 on master").call();
+
+		git.checkout().setCreateBranch(true).setStartPoint(first)
+				.setName("side").call();
+		writeTrashFile("d/1", "modified");
+		RevCommit sideCommit = git.commit().setAll(true)
+				.setMessage("modified d/1 on side").call();
+
+		git.rm().addFilepattern("d/1").call();
+		git.rm().addFilepattern("d").call();
+
+		try (ObjectInserter ins = db.newObjectInserter()) {
+			ThreeWayMerger resolveMerger =
+					(ThreeWayMerger) strategy.newMerger(ins, db.getConfig());
+			boolean noProblems = resolveMerger.merge(masterCommit, sideCommit);
+			assertTrue(noProblems);
+		}
 	}
 
 	/**
@@ -613,6 +661,35 @@ public class ResolveMergerTest extends RepositoryTestCase {
 	}
 
 	@Theory
+	public void checkContentMergeNoConflict_noRepo(MergeStrategy strategy)
+			throws Exception {
+		Git git = Git.wrap(db);
+
+		writeTrashFile("file", "1\n2\n3");
+		git.add().addFilepattern("file").call();
+		RevCommit first = git.commit().setMessage("added file").call();
+
+		writeTrashFile("file", "1master\n2\n3");
+		RevCommit masterCommit = git.commit().setAll(true)
+				.setMessage("modified file on master").call();
+
+		git.checkout().setCreateBranch(true).setStartPoint(first)
+				.setName("side").call();
+		writeTrashFile("file", "1\n2\n3side");
+		RevCommit sideCommit = git.commit().setAll(true)
+				.setMessage("modified file on side").call();
+
+		try (ObjectInserter ins = db.newObjectInserter()) {
+			ResolveMerger merger =
+					(ResolveMerger) strategy.newMerger(ins, db.getConfig());
+			boolean noProblems = merger.merge(masterCommit, sideCommit);
+			assertTrue(noProblems);
+			assertEquals("1master\n2\n3side",
+					readBlob(merger.getResultTreeId(), "file"));
+		}
+	}
+
+	@Theory
 	public void checkContentMergeConflict(MergeStrategy strategy)
 			throws Exception {
 		Git git = Git.wrap(db);
@@ -642,6 +719,49 @@ public class ResolveMergerTest extends RepositoryTestCase {
 				+ "2\n"
 				+ "3";
 		assertEquals(expected, read("file"));
+	}
+
+	@Theory
+	public void checkContentMergeConflict_noTree(MergeStrategy strategy)
+			throws Exception {
+		Git git = Git.wrap(db);
+
+		writeTrashFile("file", "1\n2\n3");
+		git.add().addFilepattern("file").call();
+		RevCommit first = git.commit().setMessage("added file").call();
+
+		writeTrashFile("file", "1master\n2\n3");
+		RevCommit masterCommit = git.commit().setAll(true)
+				.setMessage("modified file on master").call();
+
+		git.checkout().setCreateBranch(true).setStartPoint(first)
+				.setName("side").call();
+		writeTrashFile("file", "1side\n2\n3");
+		RevCommit sideCommit = git.commit().setAll(true)
+				.setMessage("modified file on side").call();
+
+		try (ObjectInserter ins = db.newObjectInserter()) {
+			ResolveMerger merger =
+					(ResolveMerger) strategy.newMerger(ins, db.getConfig());
+			boolean noProblems = merger.merge(masterCommit, sideCommit);
+			assertFalse(noProblems);
+			assertEquals(Arrays.asList("file"), merger.getUnmergedPaths());
+
+			MergeFormatter fmt = new MergeFormatter();
+			merger.getMergeResults().get("file");
+			try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+				fmt.formatMerge(out, merger.getMergeResults().get("file"),
+						"BASE", "OURS", "THEIRS", UTF_8.name());
+				String expected = "<<<<<<< OURS\n"
+						+ "1master\n"
+						+ "=======\n"
+						+ "1side\n"
+						+ ">>>>>>> THEIRS\n"
+						+ "2\n"
+						+ "3";
+				assertEquals(expected, new String(out.toByteArray(), UTF_8));
+			}
+		}
 	}
 
 	/**
@@ -874,5 +994,16 @@ public class ResolveMergerTest extends RepositoryTestCase {
 				assertTrue("path " + p + " is older than predecesssor",
 						curMod >= lastMod);
 		}
+	}
+
+	private String readBlob(ObjectId treeish, String path) throws Exception {
+		TestRepository<?> tr = new TestRepository<>(db);
+		RevWalk rw = tr.getRevWalk();
+		RevTree tree = rw.parseTree(treeish);
+		RevObject obj = tr.get(tree, path);
+		if (obj == null) {
+			return null;
+		}
+		return new String(rw.getObjectReader().open(obj, OBJ_BLOB).getBytes(), UTF_8);
 	}
 }
