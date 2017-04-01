@@ -199,7 +199,7 @@ public class DumbClientSmartServerTest extends HttpTestCase {
 				.startsWith("JGit/"));
 		assertEquals("*/*", info.getRequestHeader(HDR_ACCEPT));
 		assertEquals(200, info.getStatus());
-		assertEquals("text/plain; charset=UTF-8",
+		assertEquals("text/plain;charset=utf-8",
 				info
 				.getResponseHeader(HDR_CONTENT_TYPE));
 
@@ -269,7 +269,7 @@ public class DumbClientSmartServerTest extends HttpTestCase {
 		assertEquals("GET", req.get(0).getMethod());
 		assertEquals(0, req.get(0).getParameters().size());
 		assertEquals(200, req.get(0).getStatus());
-		assertEquals("text/plain; charset=UTF-8",
+		assertEquals("text/plain;charset=utf-8",
 				req.get(0).getResponseHeader(
 				HDR_CONTENT_TYPE));
 	}

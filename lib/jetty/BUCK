@@ -1,10 +1,10 @@
-VERSION = '9.4.1.v20170120'
+VERSION = '9.3.17.v20170317'
 GROUP = 'org.eclipse.jetty'
 
 maven_jar(
   name = 'servlet',
-  bin_sha1 = '406a6edc22311629b41e98ab26901574d243d408',
-  src_sha1 = '57cf143c4110e0d43635406a1052013bbf29a4da',
+  bin_sha1 = 'ed6986b0d0ca7b9b0f9015c9efb80442e3043a8e',
+  src_sha1 = 'ee6b4784a00a92e5c1b6111033b7ae41ac6052a3',
   group = GROUP,
   artifact = 'jetty-servlet',
   version = VERSION,
@@ -12,8 +12,8 @@ maven_jar(
 
 maven_jar(
   name = 'security',
-  bin_sha1 = '677aa94298f42d322e2f19045693a233613537b6',
-  src_sha1 = '933928163506a8d366652fb895e770fcf3f9e8fe',
+  bin_sha1 = 'ca52535569445682d42aaa97c7039442719a0507',
+  src_sha1 = '2ff9f4fb18b320fd5a0272a427bacc4d5fe7bc86',
   group = GROUP,
   artifact = 'jetty-security',
   version = VERSION,
@@ -21,8 +21,8 @@ maven_jar(
 
 maven_jar(
   name = 'server',
-  bin_sha1 = '4cf4bea26592de98b9126ac60bc91fb669176a63',
-  src_sha1 = '2035ab117da534f9a525adfaa9f3a5634d202707',
+  bin_sha1 = '194e9a02e6ba249ef4a3f4bd56b4993087992299',
+  src_sha1 = '0c9bd572f530c411592aefb71781ecca0b3719a9',
   group = GROUP,
   artifact = 'jetty-server',
   version = VERSION,
@@ -30,8 +30,8 @@ maven_jar(
 
 maven_jar(
   name = 'http',
-  bin_sha1 = 'c9c9d5b15b3bb41ae9ae588b7aede301b42186f6',
-  src_sha1 = 'f1cbf0e1329ed722bf8eba74e4c4b94619dfe8a8',
+  bin_sha1 = '6c02d728e15d4868486254039c867a1ac3e4a52e',
+  src_sha1 = '3c0a2a82792f268631b4fefd77be9f126ec974b1',
   group = GROUP,
   artifact = 'jetty-http',
   version = VERSION,
@@ -39,8 +39,8 @@ maven_jar(
 
 maven_jar(
   name = 'io',
-  bin_sha1 = '6d2d7c82a4b5306ec7bf2d6eb4b67460fce77240',
-  src_sha1 = '404b560a0d289c904b72d02e2dbb3b9ad73db219',
+  bin_sha1 = '756a8cd2a1cbfb84a94973b6332dd3eccd47c0cd',
+  src_sha1 = 'a9afa99cccb19b441364fa805d027f457cbbb136',
   group = GROUP,
   artifact = 'jetty-io',
   version = VERSION,
@@ -48,8 +48,8 @@ maven_jar(
 
 maven_jar(
   name = 'util',
-  bin_sha1 = '810c4e4275e399feaf6e8bc51aa72645bdc06205',
-  src_sha1 = 'b0dea459e5646e9ccf250a236718d720fba7717c',
+  bin_sha1 = 'b8512ab02819de01f0f5a5c6026163041f579beb',
+  src_sha1 = '96f8e3dcdc3660a5c91f19c46695daa70ac95625',
   group = GROUP,
   artifact = 'jetty-util',
   version = VERSION,
