@@ -59,6 +59,8 @@ import org.eclipse.jgit.archive.internal.ArchiveText;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.revwalk.RevCommit;
+
 
 /**
  * Unix TAR format (ustar + some PAX extensions).
@@ -121,6 +123,12 @@ public final class TarFormat extends BaseFormat implements
 			path = path + "/"; //$NON-NLS-1$
 
 		final TarArchiveEntry entry = new TarArchiveEntry(path);
+
+		if (tree instanceof RevCommit) {
+			long t = ((RevCommit) tree).getCommitTime() * 1000L;
+			entry.setModTime(t);
+		}
+
 		if (mode == FileMode.TREE) {
 			out.putArchiveEntry(entry);
 			out.closeArchiveEntry();
