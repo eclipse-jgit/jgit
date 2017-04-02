@@ -105,46 +105,46 @@ maven_jar(
     sha1 = "a60a5e993c98c864010053cb901b7eab25306568",
 )
 
-JETTY_VER = "9.4.3.v20170317"
+JETTY_VER = "9.3.17.v20170317"
 
 maven_jar(
     name = "jetty_servlet",
     artifact = "org.eclipse.jetty:jetty-servlet:" + JETTY_VER,
-    sha1 = "3c564240ae2c3ec3a66c009884f5801f53be69c5",
-    src_sha1 = "fb8f7db6dcc2dc093d1b0cd656bac1709de91c2f",
+    sha1 = "ed6986b0d0ca7b9b0f9015c9efb80442e3043a8e",
+    src_sha1 = "ee6b4784a00a92e5c1b6111033b7ae41ac6052a3",
 )
 
 maven_jar(
     name = "jetty_security",
     artifact = "org.eclipse.jetty:jetty-security:" + JETTY_VER,
-    sha1 = "d7de81b385a054e65bada7282878a6178b25217e",
-    src_sha1 = "dd34ffa789e8c7e80d9e3ce5daecbf46278f359a",
+    sha1 = "ca52535569445682d42aaa97c7039442719a0507",
+    src_sha1 = "2ff9f4fb18b320fd5a0272a427bacc4d5fe7bc86",
 )
 
 maven_jar(
     name = "jetty_server",
     artifact = "org.eclipse.jetty:jetty-server:" + JETTY_VER,
-    sha1 = "216e823b42e86e78098e22c99aa49d557c61ca8e",
-    src_sha1 = "0a01cc0fed499f125bcc424533a54160f35b4314",
+    sha1 = "194e9a02e6ba249ef4a3f4bd56b4993087992299",
+    src_sha1 = "0c9bd572f530c411592aefb71781ecca0b3719a9",
 )
 
 maven_jar(
     name = "jetty_http",
     artifact = "org.eclipse.jetty:jetty-http:" + JETTY_VER,
-    sha1 = "8f73fbfaabb3a3b2d5b3a2ddad15c19c7f00a876",
-    src_sha1 = "275aeda737fac0eefc81f72ef47f48d3da8b7163",
+    sha1 = "6c02d728e15d4868486254039c867a1ac3e4a52e",
+    src_sha1 = "3c0a2a82792f268631b4fefd77be9f126ec974b1",
 )
 
 maven_jar(
     name = "jetty_io",
     artifact = "org.eclipse.jetty:jetty-io:" + JETTY_VER,
-    sha1 = "0c2b20cfd32d74e74c030c0b77fa64d01434f2e3",
-    src_sha1 = "ef2bd5fb00a15afa57e21b596244aaa1039420c9",
+    sha1 = "756a8cd2a1cbfb84a94973b6332dd3eccd47c0cd",
+    src_sha1 = "a9afa99cccb19b441364fa805d027f457cbbb136",
 )
 
 maven_jar(
     name = "jetty_util",
     artifact = "org.eclipse.jetty:jetty-util:" + JETTY_VER,
-    sha1 = "1d3299563053e2290338e22db693a8d442e7fb25",
-    src_sha1 = "285ad36145a2e4b689de1480a4f5c48f4e816e81",
+    sha1 = "b8512ab02819de01f0f5a5c6026163041f579beb",
+    src_sha1 = "96f8e3dcdc3660a5c91f19c46695daa70ac95625",
 )
