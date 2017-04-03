@@ -22,6 +22,30 @@
       "revId": "a73fb2ec4373b2f8c587e47edd470ba7ec023215",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_a2188936",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffAlgorithm.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-04-03T22:32:41Z",
+      "side": 1,
+      "message": "Yes please.",
+      "parentUuid": "87bd33cc_2266391c",
+      "range": {
+        "startLine": 139,
+        "startChar": 1,
+        "endLine": 139,
+        "endChar": 3
+      },
+      "revId": "a73fb2ec4373b2f8c587e47edd470ba7ec023215",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
