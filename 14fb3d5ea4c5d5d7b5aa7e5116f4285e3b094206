@@ -93,6 +93,30 @@
       "revId": "14fb3d5ea4c5d5d7b5aa7e5116f4285e3b094206",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_93359d63",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/ManifestParser.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2017-04-04T19:36:38Z",
+      "side": 1,
+      "message": "Thanks for digging!\n\nThat last change has an inline comment: \"to match repo behavior.\" I am not sure if that the whole story, though.\n\nMaybe drop the \"for unexplained purposes.\" in the code and rather put it into the commit message? I do not think it is helpful when reading and trying to understand the code, i.e. describe the \"what\" (maybe even \"how\") in the @param, not the \"why\", which (a) is not useful in the current form and (b) in case it becomes a longer backstory it is better in the commit message.",
+      "parentUuid": "87bd33cc_3d44981d",
+      "range": {
+        "startLine": 120,
+        "startChar": 59,
+        "endLine": 120,
+        "endChar": 92
+      },
+      "revId": "14fb3d5ea4c5d5d7b5aa7e5116f4285e3b094206",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
