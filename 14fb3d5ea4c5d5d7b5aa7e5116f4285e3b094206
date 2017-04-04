@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "87bd33cc_1d60bcad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-04-04T11:20:21Z",
+      "side": 1,
+      "message": "most of this is necessary to make the android and gerrit cases work. Added a line.",
+      "parentUuid": "87bd33cc_478347a6",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 47
+      },
+      "revId": "14fb3d5ea4c5d5d7b5aa7e5116f4285e3b094206",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87bd33cc_a7bc1b57",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/ManifestParser.java",
         "patchSetId": 9
@@ -36,6 +60,30 @@
       "writtenOn": "2017-04-03T17:59:32Z",
       "side": 1,
       "message": "maybe it\u0027s time to find out?\n\nMy suspicion is that the handling of submodule URLs of git-core is sneaking in here. As the submodule URLs are \"just like directories\", you need an extra ../ (compared to real relative URLs) to indicate a location of a submodule.\n\ngit-core also has a bug, that doesn\u0027t handle \u0027/\u0027 correctly if the last part of the URL is \u0027.\u0027 or even \u0027..\u0027.\n\nSo we also have the code there to relativize a URL, but with unexpected results:\n\n  dir/subdir    + ../anotherdir  -\u003e dir/anotherdir\n  dir/subbdir/a + ../anotherdir  -\u003e dir/subdir/anotherdir\n  dir/subdir/.  + ../anotherdir  -\u003e dir/subdir/anotherdir\n  dir/subdir/.. + ../anotherdir  -\u003e dir/subdir/anotherdir\n\nThis confusion seems straightforward to fix, but for reasons of git-core being git-core (\"What if someone treats it as a feature? We don\u0027t want to break them. But nobody would do that right? Well, it turns out the test suite of git-core uses this hack a lot.\") we never came around fixing it properly.\n\nOn the other hand the example above can be easily explained when having the implementation in mind: We count the number of \"../\" in front of \"anotherdir\" and slash as many \"/*\" from the right of dir/subdir.\n\nHow would this implementation handle it?\n(Seeing the testcase \"testRelative(\"a/p/..//b/\", \"a/\", \"../\");\" seems promising in two ways: (a) do the correct thing and (b) be slightly different than git-core",
+      "range": {
+        "startLine": 120,
+        "startChar": 59,
+        "endLine": 120,
+        "endChar": 92
+      },
+      "revId": "14fb3d5ea4c5d5d7b5aa7e5116f4285e3b094206",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_3d44981d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/ManifestParser.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-04-04T11:20:21Z",
+      "side": 1,
+      "message": "See https://git.eclipse.org/r/#/c/31562/ : The addition is \"a tweak\", follow-up on https://git.eclipse.org/r/#/c/31148, apparently for absolute remote URLs. Let me add a case for this.\n\nThe removal is from here: https://git.eclipse.org/r/#/c/28216/ - there is no explanation for this change.",
+      "parentUuid": "87bd33cc_a7bc1b57",
       "range": {
         "startLine": 120,
         "startChar": 59,
