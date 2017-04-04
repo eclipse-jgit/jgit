@@ -16,6 +16,58 @@
       "revId": "fb0df813c23eaf8381d15e9e52e654bbc2c46623",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_172a58b2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/Merger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-04-04T21:42:46Z",
+      "side": 1,
+      "message": "merge() also closes it. This API is a bit strange --- I suspect Merger should have been made AutoClosable but that\u0027s not related to this patch.\n\nAn ObjectInserter can be reused after closing, so I don\u0027t think this matters any more. Some API documentation explaining how oi gets used and who is responsible for closing it would still be useful.",
+      "parentUuid": "87bd33cc_d72f00c3",
+      "revId": "fb0df813c23eaf8381d15e9e52e654bbc2c46623",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_571bf0a5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/Merger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-04-04T21:42:46Z",
+      "side": 1,
+      "message": "Should be updated to describe the db \u003d\u003d null case too",
+      "revId": "fb0df813c23eaf8381d15e9e52e654bbc2c46623",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_7718eca8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/Merger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-04-04T21:42:46Z",
+      "side": 1,
+      "message": "Should be updated to describe the db \u003d\u003d null case too",
+      "revId": "fb0df813c23eaf8381d15e9e52e654bbc2c46623",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
