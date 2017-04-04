@@ -1,0 +1,147 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87bd33cc_d318f505",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/Merger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-04-04T19:26:33Z",
+      "side": 1,
+      "message": "nit: NullPointerException?",
+      "range": {
+        "startLine": 117,
+        "startChar": 13,
+        "endLine": 117,
+        "endChar": 37
+      },
+      "revId": "3b6f91b879e2f211f7226aad7e14ac53db8fb668",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_b31379e7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-04-04T19:26:33Z",
+      "side": 1,
+      "message": "would also use 4.8 if the others do.",
+      "range": {
+        "startLine": 120,
+        "startChar": 11,
+        "endLine": 120,
+        "endChar": 14
+      },
+      "revId": "3b6f91b879e2f211f7226aad7e14ac53db8fb668",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_d39d55ed",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-04-04T19:26:33Z",
+      "side": 1,
+      "message": "optional: Can these be imported statically? I think that would make it easier to read.",
+      "range": {
+        "startLine": 273,
+        "startChar": 4,
+        "endLine": 273,
+        "endChar": 39
+      },
+      "revId": "3b6f91b879e2f211f7226aad7e14ac53db8fb668",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_f39171d6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-04-04T19:26:33Z",
+      "side": 1,
+      "message": "this would also use 4.8 if the others do",
+      "range": {
+        "startLine": 311,
+        "startChar": 11,
+        "endLine": 311,
+        "endChar": 14
+      },
+      "revId": "3b6f91b879e2f211f7226aad7e14ac53db8fb668",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_930e7dc3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 829,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-04-04T19:26:33Z",
+      "side": 1,
+      "message": "Does this assertion hold? The only caller is updateIndex, which certainly wants an index. The caller of updateIndex is processEntry. processEntry is called by mergeTreeWalk, which is called by mergeTrees. I don\u0027t see anything preventing this code from triggering in the no-repo case.",
+      "revId": "3b6f91b879e2f211f7226aad7e14ac53db8fb668",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_b398d9fd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/StrategyOneSided.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-04-04T19:26:33Z",
+      "side": 1,
+      "message": "nit: this can be package-private. (also applies to the other constructor, so if you want to keep this \"protected\" for consistency then that\u0027s fine with me.)",
+      "revId": "3b6f91b879e2f211f7226aad7e14ac53db8fb668",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_93a3dd2e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ThreeWayMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-04-04T19:26:33Z",
+      "side": 1,
+      "message": "Should this be @since 4.8? (I honestly don\u0027t know --- I know that stable-4.7 was branched but don\u0027t know if it\u0027s had its last merge from master yet. Please forgive my ignorance.)",
+      "revId": "3b6f91b879e2f211f7226aad7e14ac53db8fb668",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
