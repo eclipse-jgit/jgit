@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "87bd33cc_33bbe9aa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 725,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2017-04-04T17:55:19Z",
+      "side": 1,
+      "message": "It seems the exception is swallowed by UploadPackServlet later in smart HTTP, so the exception thrown here wouldn\u0027t make any difference.",
+      "parentUuid": "87bd33cc_0ed5ecb1",
+      "revId": "0ed0bbcf80c46c2b6431a6bea68ed685f1ab8106",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87bd33cc_6e8f4003",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1
