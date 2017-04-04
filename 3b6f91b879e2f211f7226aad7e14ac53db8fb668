@@ -111,6 +111,24 @@
     },
     {
       "key": {
+        "uuid": "87bd33cc_5324e538",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 829,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-04-04T19:28:44Z",
+      "side": 1,
+      "message": "To clarify: updateIndex writes to the index builder \u0027builder\u0027. In the no-index case it uses DirCache.newInCore() and works fine.\n\nSo I think this just needs to have a fallback place to write temporary files when there is no repository.",
+      "parentUuid": "87bd33cc_930e7dc3",
+      "revId": "3b6f91b879e2f211f7226aad7e14ac53db8fb668",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87bd33cc_b398d9fd",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/StrategyOneSided.java",
         "patchSetId": 2
