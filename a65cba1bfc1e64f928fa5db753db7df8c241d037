@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87bd33cc_7d6ff0a5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UserAgent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-04-04T10:58:53Z",
+      "side": 1,
+      "message": "This returns null in Eclipse, causing it to return \"unknown\" at line 79.",
+      "range": {
+        "startLine": 74,
+        "startChar": 5,
+        "endLine": 74,
+        "endChar": 49
+      },
+      "revId": "a65cba1bfc1e64f928fa5db753db7df8c241d037",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
