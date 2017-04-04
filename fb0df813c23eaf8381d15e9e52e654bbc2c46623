@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87bd33cc_d72f00c3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/Merger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-04-04T21:38:29Z",
+      "side": 1,
+      "message": "This means that setObjectInserter will close \u0027oi\u0027. Should there be a boolean field to prevent that? Otherwise, please add a note to the javadoc to warn the caller.",
+      "revId": "fb0df813c23eaf8381d15e9e52e654bbc2c46623",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
