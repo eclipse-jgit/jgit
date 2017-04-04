@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "87bd33cc_1765f810",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/Merger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-04-04T21:48:52Z",
+      "side": 1,
+      "message": "This is one reason Gerrit always passes an ObjectInserter.Filter that makes close a no-op :/",
+      "parentUuid": "87bd33cc_172a58b2",
+      "revId": "fb0df813c23eaf8381d15e9e52e654bbc2c46623",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87bd33cc_571bf0a5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/Merger.java",
         "patchSetId": 3
