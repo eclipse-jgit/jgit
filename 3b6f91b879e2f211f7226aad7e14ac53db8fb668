@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "87bd33cc_97e3c810",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/Merger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-04-04T21:31:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87bd33cc_d318f505",
+      "range": {
+        "startLine": 117,
+        "startChar": 13,
+        "endLine": 117,
+        "endChar": 37
+      },
+      "revId": "3b6f91b879e2f211f7226aad7e14ac53db8fb668",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87bd33cc_b31379e7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
         "patchSetId": 2
@@ -59,6 +83,30 @@
       "writtenOn": "2017-04-04T19:26:33Z",
       "side": 1,
       "message": "optional: Can these be imported statically? I think that would make it easier to read.",
+      "range": {
+        "startLine": 273,
+        "startChar": 4,
+        "endLine": 273,
+        "endChar": 39
+      },
+      "revId": "3b6f91b879e2f211f7226aad7e14ac53db8fb668",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_b703644b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-04-04T21:31:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87bd33cc_d39d55ed",
       "range": {
         "startLine": 273,
         "startChar": 4,
@@ -183,6 +231,24 @@
     },
     {
       "key": {
+        "uuid": "87bd33cc_d708e069",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 829,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-04-04T21:31:47Z",
+      "side": 1,
+      "message": "Done, with moar tests.",
+      "parentUuid": "87bd33cc_7366414a",
+      "revId": "3b6f91b879e2f211f7226aad7e14ac53db8fb668",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87bd33cc_b398d9fd",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/StrategyOneSided.java",
         "patchSetId": 2
@@ -200,6 +266,24 @@
     },
     {
       "key": {
+        "uuid": "87bd33cc_f70ddc77",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/StrategyOneSided.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-04-04T21:31:47Z",
+      "side": 1,
+      "message": "It was for consistency, yes.",
+      "parentUuid": "87bd33cc_b398d9fd",
+      "revId": "3b6f91b879e2f211f7226aad7e14ac53db8fb668",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87bd33cc_93a3dd2e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ThreeWayMerger.java",
         "patchSetId": 2
@@ -211,6 +295,24 @@
       "writtenOn": "2017-04-04T19:26:33Z",
       "side": 1,
       "message": "Should this be @since 4.8? (I honestly don\u0027t know --- I know that stable-4.7 was branched but don\u0027t know if it\u0027s had its last merge from master yet. Please forgive my ignorance.)",
+      "revId": "3b6f91b879e2f211f7226aad7e14ac53db8fb668",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_17133898",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ThreeWayMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-04-04T21:31:47Z",
+      "side": 1,
+      "message": "No, pom.xml says 4.7-SNAPSHOT, and there are no instances of \"@since 4.8\" at head.",
+      "parentUuid": "87bd33cc_93a3dd2e",
       "revId": "3b6f91b879e2f211f7226aad7e14ac53db8fb668",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
