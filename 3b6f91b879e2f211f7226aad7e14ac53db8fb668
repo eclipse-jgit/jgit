@@ -165,6 +165,24 @@
     },
     {
       "key": {
+        "uuid": "87bd33cc_7366414a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 829,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-04-04T20:16:46Z",
+      "side": 1,
+      "message": "On further inspection, TemporaryBuffer.LocalFile is happy to take a null directory arg, so this can just be:\n\n repo !\u003d null ? repo.getDirectory() : null\n\nThis also works in the DFS case where getDirectory always returns null.\n\nAfter doing that, ensuring workingTreeIterator \u003d\u003d null when inCore \u003d\u003d true is no longer related to this change.",
+      "parentUuid": "87bd33cc_d38e3582",
+      "revId": "3b6f91b879e2f211f7226aad7e14ac53db8fb668",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87bd33cc_b398d9fd",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/StrategyOneSided.java",
         "patchSetId": 2
