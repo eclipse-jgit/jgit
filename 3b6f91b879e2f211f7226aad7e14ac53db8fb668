@@ -316,6 +316,24 @@
       "revId": "3b6f91b879e2f211f7226aad7e14ac53db8fb668",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_17f2588f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ThreeWayMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-04-04T23:47:13Z",
+      "side": 1,
+      "message": "It should be 4.8.  stable-4.7 was already branched out and Matthias is in the process of releasing 4.7.\n\nIt looks like the step to bump the version on master has not yet been done.",
+      "parentUuid": "87bd33cc_17133898",
+      "revId": "3b6f91b879e2f211f7226aad7e14ac53db8fb668",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
