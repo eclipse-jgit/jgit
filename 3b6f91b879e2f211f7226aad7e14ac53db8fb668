@@ -147,6 +147,24 @@
     },
     {
       "key": {
+        "uuid": "87bd33cc_d38e3582",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 829,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-04-04T20:08:34Z",
+      "side": 1,
+      "message": "(Also beyond me: why do you have to explicitly call setWorkingTreeIterator if you have already given it a non-bare repo? But at least in this case it\u0027s making my life easier.)",
+      "parentUuid": "87bd33cc_f3c09195",
+      "revId": "3b6f91b879e2f211f7226aad7e14ac53db8fb668",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87bd33cc_b398d9fd",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/StrategyOneSided.java",
         "patchSetId": 2
