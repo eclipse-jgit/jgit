@@ -129,6 +129,24 @@
     },
     {
       "key": {
+        "uuid": "87bd33cc_f3c09195",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 829,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-04-04T20:00:00Z",
+      "side": 1,
+      "message": "Good catch.\n\nSo, you\u0027re right that it\u0027s currently possible to call updateIndex when inCore \u003d\u003d true. But to get there *also* requires setting workingTreeIterator !\u003d null. If it\u0027s null:\n\n* We never do the 4th addTree call on line 1038.\n* Thus mergeTreeWalk calls processEntry with a null WorkingTreeIterator. (Why processEntry takes work as an argument instead of using the instance field is beyond me.)\n\nI think we should instead explicitly reject setWorkingTreeIterator(non-null) when inCore \u003d\u003d true. This would be more consistent with the javadoc (and spirit) of inCore anyway.\n\nI suspect this has never bitten us in Gerrit because we never call setWorkingTreeIterator on our mergers (because our repos are bare).",
+      "parentUuid": "87bd33cc_5324e538",
+      "revId": "3b6f91b879e2f211f7226aad7e14ac53db8fb668",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87bd33cc_b398d9fd",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/StrategyOneSided.java",
         "patchSetId": 2
