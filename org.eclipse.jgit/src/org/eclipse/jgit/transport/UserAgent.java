@@ -69,14 +69,15 @@ public class UserAgent {
 	}
 
 	private static String computeVersion() {
-		Package pkg = UserAgent.class.getPackage();
-		if (pkg != null) {
-			String ver = pkg.getImplementationVersion();
-			if (!StringUtils.isEmptyOrNull(ver)) {
-				return ver;
-			}
-		}
-		return "unknown"; //$NON-NLS-1$
+		//Package pkg = UserAgent.class.getPackage();
+		//if (pkg != null) {
+		//	String ver = pkg.getImplementationVersion();
+		//	if (!StringUtils.isEmptyOrNull(ver)) {
+		//		return ver;
+		//	}
+		//}
+		//return "unknown"; //$NON-NLS-1$
+		return "4.7.0.201704031717-r"; //$NON-NLS-1$
 	}
 
 	private static String clean(String s) {
