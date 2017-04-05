@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87bd33cc_1d135798",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-04-05T11:18:51Z",
+      "side": 1,
+      "message": "I think this should be split up into several commits.  Some of them could go to stable-4.7.",
+      "revId": "e9d1c84b769582d511eee6e1bfc39b2ffd02a0a9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
