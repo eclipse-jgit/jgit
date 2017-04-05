@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "87bd33cc_3d1d73f3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/Merger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-04-05T13:45:48Z",
+      "side": 1,
+      "message": "Updated the javadoc to mention under which conditions it will be closed. I agree that it seems like a manually passed in inserter should not be closed, but this behavior is consistent with setObjectInserter.",
+      "parentUuid": "87bd33cc_1765f810",
+      "revId": "fb0df813c23eaf8381d15e9e52e654bbc2c46623",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87bd33cc_571bf0a5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/Merger.java",
         "patchSetId": 3
@@ -72,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "87bd33cc_7d27eb3e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/Merger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-04-05T13:45:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87bd33cc_571bf0a5",
+      "revId": "fb0df813c23eaf8381d15e9e52e654bbc2c46623",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87bd33cc_7718eca8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/Merger.java",
         "patchSetId": 3
@@ -83,6 +119,24 @@
       "writtenOn": "2017-04-04T21:42:46Z",
       "side": 1,
       "message": "Should be updated to describe the db \u003d\u003d null case too",
+      "revId": "fb0df813c23eaf8381d15e9e52e654bbc2c46623",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_dd355f62",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/Merger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-04-05T13:45:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87bd33cc_7718eca8",
       "revId": "fb0df813c23eaf8381d15e9e52e654bbc2c46623",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
