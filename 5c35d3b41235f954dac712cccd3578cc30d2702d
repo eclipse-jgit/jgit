@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87bd33cc_37cf54d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-04-05T07:38:50Z",
+      "side": 1,
+      "message": "Not sure if we should call this a compilation error since it builds OK with both mvn and bazel, but is reported as an error in Eclipse due to its stricter configuration.",
+      "range": {
+        "startLine": 7,
+        "startChar": 6,
+        "endLine": 7,
+        "endChar": 40
+      },
+      "revId": "5c35d3b41235f954dac712cccd3578cc30d2702d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_97d6686a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1592,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-04-05T07:38:50Z",
+      "side": 1,
+      "message": "Why is this annotated as @Nullable?  The constructor instantiates it at L1596 and it only gets set to null during stopBuffereing at L1628, where it\u0027s also protected against null dereference.",
+      "range": {
+        "startLine": 1591,
+        "startChar": 2,
+        "endLine": 1592,
+        "endChar": 39
+      },
+      "revId": "5c35d3b41235f954dac712cccd3578cc30d2702d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}

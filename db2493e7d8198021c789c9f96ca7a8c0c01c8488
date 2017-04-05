@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87bd33cc_57ccd0df",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1626,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-04-05T07:38:50Z",
+      "side": 0,
+      "message": "The error is reported on this line, but I would say it\u0027s a false positive because it\u0027s inside a null check.",
+      "range": {
+        "startLine": 1626,
+        "startChar": 4,
+        "endLine": 1626,
+        "endChar": 27
+      },
+      "revId": "db2493e7d8198021c789c9f96ca7a8c0c01c8488",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
