@@ -22,6 +22,29 @@
       "revId": "db2493e7d8198021c789c9f96ca7a8c0c01c8488",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_d7bc6058",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1626,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2017-04-05T07:49:13Z",
+      "side": 0,
+      "message": "This is of course very theoretical use case, but since the if() {} is not synchronized and not atomic in any way, someone could call stopBuffering() second time in a different thread after we checked the if() condition.",
+      "range": {
+        "startLine": 1626,
+        "startChar": 4,
+        "endLine": 1626,
+        "endChar": 10
+      },
+      "revId": "db2493e7d8198021c789c9f96ca7a8c0c01c8488",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }

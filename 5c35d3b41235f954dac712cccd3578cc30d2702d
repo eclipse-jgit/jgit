@@ -45,6 +45,30 @@
       "revId": "5c35d3b41235f954dac712cccd3578cc30d2702d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_17941896",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1592,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2017-04-05T07:49:13Z",
+      "side": 1,
+      "message": "I wonder why the buffer is used at all. I will push an update shortly.",
+      "parentUuid": "87bd33cc_97d6686a",
+      "range": {
+        "startLine": 1591,
+        "startChar": 2,
+        "endLine": 1592,
+        "endChar": 39
+      },
+      "revId": "5c35d3b41235f954dac712cccd3578cc30d2702d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
