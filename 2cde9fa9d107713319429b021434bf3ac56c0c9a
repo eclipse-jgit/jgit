@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87bd33cc_bd02637e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 831,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-04-05T13:50:46Z",
+      "side": 1,
+      "message": "Whoops. Fixed.\n\n(Before you ask, I use nonNullRepo() rather than db even following the null check because Eclipse nullness checker isn\u0027t smart enough to figure it out.)",
+      "range": {
+        "startLine": 831,
+        "startChar": 23,
+        "endLine": 831,
+        "endChar": 34
+      },
+      "revId": "2cde9fa9d107713319429b021434bf3ac56c0c9a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
