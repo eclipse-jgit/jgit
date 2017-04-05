@@ -131,6 +131,7 @@ perl -pi~ -e '
 		$seen_version = 1 if (!/<\?xml/ &&
 		s/(version=")[^"]*(")/${1}'"$OSGI_V"'${2}/);
 	}
+	s/(import feature="org\.eclipse\.jgit.*" version=")[^"]*(")/${1}'"$API_V"'${2}/;
 	' org.eclipse.jgit.packaging/org.*.feature/feature.xml
 
 perl -pi~ -e '
