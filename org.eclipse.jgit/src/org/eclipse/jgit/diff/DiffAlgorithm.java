@@ -121,23 +121,7 @@ public abstract class DiffAlgorithm {
 			Subsequence<S> as = Subsequence.a(a, region);
 			Subsequence<S> bs = Subsequence.b(b, region);
 			EditList e = Subsequence.toBase(diffNonCommon(cs, as, bs), as, bs);
-
-			// The last insertion may need to be shifted later if it
-			// inserts elements that were previously reduced out as
-			// common at the end.
-			//
-			Edit last = e.get(e.size() - 1);
-			if (last.getType() == Edit.Type.INSERT) {
-				while (last.endB < b.size()
-						&& cmp.equals(b, last.beginB, b, last.endB)) {
-					last.beginA++;
-					last.endA++;
-					last.beginB++;
-					last.endB++;
-				}
-			}
-
-			return e;
+			return normalize(cmp, e, a, b);
 		}
 
 		case EMPTY:
@@ -150,6 +134,107 @@ public abstract class DiffAlgorithm {
 
 	private static <S extends Sequence> Edit coverEdit(S a, S b) {
 		return new Edit(0, a.size(), 0, b.size());
+	}
+
+	/**
+	 * Reorganize an {@link EditList} for better diff consistency.
+	 * <p>
+	 * {@code DiffAlgorithms} may return {@link Edit.Type#INSERT} or
+	 * {@link Edit.Type#DELETE} edits that can be "shifted". For
+	 * example, the deleted section
+	 * <pre>
+	 * -a
+	 * -b
+	 * -c
+	 *  a
+	 *  b
+	 *  c
+	 * </pre>
+	 * can be shifted down by 1, 2 or 3 locations.
+	 * <p>
+	 * To avoid later merge issues, we shift such edits to a
+	 * consistent location. {@code normalize} uses a simple strategy of
+	 * shifting such edits to their latest possible location.
+	 * <p>
+	 * This strategy may not always produce an aesthetically pleasing
+	 * diff. For instance, it works well with
+	 * <pre>
+	 *  function1 {
+	 *   ...
+	 *  }
+	 *
+	 * +function2 {
+	 * + ...
+	 * +}
+	 * +
+	 * function3 {
+	 * ...
+	 * }
+	 * </pre>
+	 * but less so for
+	 * <pre>
+	 *  #
+	 *  # comment1
+	 *  #
+	 *  function1() {
+	 *  }
+	 *
+	 *  #
+	 * +# comment3
+	 * +#
+	 * +function3() {
+	 * +}
+	 * +
+	 * +#
+	 *  # comment2
+	 *  #
+	 *  function2() {
+	 *  }
+	 * </pre>
+	 * <a href="https://github.com/mhagger/diff-slider-tools">More
+	 * sophisticated strategies</a> are possible, say by calculating a
+	 * suitable "aesthetic cost" for each possible position and using
+	 * the lowest cost, but {@code normalize} just shifts edits
+	 * to the end as much as possible.
+	 *
+	 * @param <S>
+	 *            type of sequence being compared.
+	 * @param cmp
+	 *            the comparator supplying the element equivalence function.
+	 * @param e
+	 *            a modifiable edit list comparing the provided sequences.
+	 * @param a
+	 *            the first (also known as old or pre-image) sequence.
+	 * @param b
+	 *            the second (also known as new or post-image) sequence.
+	 * @return a modifiable edit list with edit regions shifted to their
+	 *         latest possible location. The result list is never null.
+	 * @since 4.7
+	 */
+	private static <S extends Sequence> EditList normalize(
+		SequenceComparator<? super S> cmp, EditList e, S a, S b) {
+		Edit prev = null;
+		for (int i = e.size() - 1; i >= 0; i--) {
+			Edit cur = e.get(i);
+			Edit.Type curType = cur.getType();
+
+			int maxA = (prev == null) ? a.size() : prev.beginA;
+			int maxB = (prev == null) ? b.size() : prev.beginB;
+
+			if (curType == Edit.Type.INSERT) {
+				while (cur.endA < maxA && cur.endB < maxB
+					&& cmp.equals(b, cur.beginB, b, cur.endB)) {
+					cur.shift(1);
+				}
+			} else if (curType == Edit.Type.DELETE) {
+				while (cur.endA < maxA && cur.endB < maxB
+					&& cmp.equals(a, cur.beginA, a, cur.endA)) {
+					cur.shift(1);
+				}
+			}
+			prev = cur;
+		}
+		return e;
 	}
 
 	/**

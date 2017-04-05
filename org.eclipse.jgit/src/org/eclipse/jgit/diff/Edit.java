@@ -170,6 +170,20 @@ public class Edit {
 	}
 
 	/**
+	 * Move the edit region by the specified amount.
+	 * @param amount
+	 *            the region is shifted by this amount, and can be
+	 *            positive or negative.
+	 * @since 4.7
+	 */
+	public final void shift(int amount) {
+		beginA += amount;
+		endA += amount;
+		beginB += amount;
+		endB += amount;
+	}
+
+	/**
 	 * Construct a new edit representing the region before cut.
 	 *
 	 * @param cut
