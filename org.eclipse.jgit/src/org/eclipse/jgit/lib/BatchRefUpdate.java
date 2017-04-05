@@ -44,6 +44,7 @@
 
 package org.eclipse.jgit.lib;
 
+import static org.eclipse.jgit.transport.ReceiveCommand.Result.LOCK_FAILURE;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.NOT_ATTEMPTED;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_REASON;
 
@@ -597,6 +598,9 @@ public class BatchRefUpdate {
 			r.append("  "); //$NON-NLS-1$
 			r.append(cmd);
 			r.append("  (").append(cmd.getResult()); //$NON-NLS-1$
+			if (cmd.getResult() == LOCK_FAILURE) {
+				r.append("/").append(JGitText.get().unexpectedOldRefValue); //$NON-NLS-1$
+			}
 			if (cmd.getMessage() != null) {
 				r.append(": ").append(cmd.getMessage()); //$NON-NLS-1$
 			}
