@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "87bd33cc_466980eb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapWalker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 79788
+      },
+      "writtenOn": "2017-04-05T23:03:11Z",
+      "side": 1,
+      "message": "I think all the haves will be catched over line 102. If we don\u0027t have it, we will catch it before we enter here.",
+      "parentUuid": "87bd33cc_a615f470",
+      "range": {
+        "startLine": 141,
+        "startChar": 7,
+        "endLine": 141,
+        "endChar": 40
+      },
+      "revId": "3635ca26c1ccae08a87d69bc8645d84994e59818",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87bd33cc_e65a8c55",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapWalker.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2017-04-05T22:52:34Z",
       "side": 1,
       "message": "Not may, will.\n\nThis returns very early. When it trips, a fetch that was intended to get a small incremental set of additional objects would end up sending the entire history, if I understand correctly.\n\nThis might be the right thing to do right now, on the assumption that an enormous response is better than an error and no response at all. But we need to follow up afterwards to fix it.",
+      "range": {
+        "startLine": 144,
+        "startChar": 61,
+        "endLine": 144,
+        "endChar": 64
+      },
+      "revId": "3635ca26c1ccae08a87d69bc8645d84994e59818",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_4650a029",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapWalker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 79788
+      },
+      "writtenOn": "2017-04-05T23:03:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87bd33cc_e65a8c55",
       "range": {
         "startLine": 144,
         "startChar": 61,
