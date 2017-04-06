@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87bd33cc_8380e599",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1165,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-04-06T23:40:52Z",
+      "side": 1,
+      "message": "Need to add \"@since 4.8\" for new public method.",
+      "revId": "91adb2a96463a66f3cc5a0b12706dc1f24e41c3d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
