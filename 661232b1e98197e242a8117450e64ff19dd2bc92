@@ -22,6 +22,30 @@
       "revId": "661232b1e98197e242a8117450e64ff19dd2bc92",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_868398a5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushConnectionTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-04-06T04:27:42Z",
+      "side": 1,
+      "message": "I\u0027m not sure it\u0027s necessary.\n\nAlso, I\u0027m not even sure if this is really fixing anything or just hiding the actual problem.",
+      "parentUuid": "87bd33cc_a60ed4ec",
+      "range": {
+        "startLine": 187,
+        "startChar": 64,
+        "endLine": 187,
+        "endChar": 66
+      },
+      "revId": "661232b1e98197e242a8117450e64ff19dd2bc92",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
