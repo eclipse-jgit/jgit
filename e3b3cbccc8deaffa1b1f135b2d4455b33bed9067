@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "87bd33cc_9183d0a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-04-06T09:27:03Z",
+      "side": 1,
+      "message": "it\u0027s also the least important of the bunch :-)",
+      "parentUuid": "87bd33cc_bdb7c371",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 59
+      },
+      "revId": "e3b3cbccc8deaffa1b1f135b2d4455b33bed9067",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87bd33cc_264c8419",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/ManifestParser.java",
         "patchSetId": 5
