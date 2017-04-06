@@ -44,12 +44,15 @@ package org.eclipse.jgit.gitrepo;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.Test;
+import org.xml.sax.SAXException;
 
 public class ManifestParserTest {
 
@@ -109,5 +112,35 @@ public class ManifestParserTest {
 		assertTrue(
 				"Filtered projects shouldn't contain any unexpected results",
 				results.isEmpty());
+	}
+
+	@Test
+	public void testManifestParserWithMissingFetchOnRemote() throws Exception {
+		String baseUrl = "https://git.google.com/";
+		StringBuilder xmlContent = new StringBuilder();
+		xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+				.append("<manifest>")
+				.append("<remote name=\"remote1\" />")
+				.append("<default revision=\"master\" remote=\"remote1\" />")
+				.append("<project path=\"foo\" name=\"").append("foo")
+				.append("\" groups=\"a,test\" />")
+				.append("<project path=\"bar\" name=\"").append("bar")
+				.append("\" groups=\"notdefault\" />")
+				.append("<project path=\"foo/a\" name=\"").append("a")
+				.append("\" groups=\"a\" />")
+				.append("<project path=\"b\" name=\"").append("b")
+				.append("\" groups=\"b\" />").append("</manifest>");
+
+		ManifestParser parser = new ManifestParser(null, null, "master",
+				baseUrl, null, null);
+		try {
+			parser.read(new ByteArrayInputStream(
+					xmlContent.toString().getBytes(UTF_8)));
+			fail("ManifestParser did not throw exception for missing fetch");
+		} catch (IOException e) {
+			assertTrue(e.getCause() instanceof SAXException);
+			assertTrue(e.getCause().getMessage()
+					.contains("is missing fetch attribute"));
+		}
 	}
 }
