@@ -64,6 +64,7 @@ public class RepoText extends TranslationBundle {
 	/***/ public String errorIncludeNotImplemented;
 	/***/ public String errorNoDefault;
 	/***/ public String errorNoDefaultFilename;
+	/***/ public String errorNoFetch;
 	/***/ public String errorParsingManifestFile;
 	/***/ public String errorRemoteUnavailable;
 	/***/ public String invalidManifest;
