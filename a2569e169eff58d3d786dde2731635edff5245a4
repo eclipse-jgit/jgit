@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87bd33cc_516938eb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1167,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-04-06T07:51:24Z",
+      "side": 1,
+      "message": "Shouldn\u0027t it be public?",
+      "range": {
+        "startLine": 1167,
+        "startChar": 1,
+        "endLine": 1167,
+        "endChar": 8
+      },
+      "revId": "a2569e169eff58d3d786dde2731635edff5245a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
