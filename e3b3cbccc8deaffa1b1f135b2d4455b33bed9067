@@ -22,6 +22,29 @@
       "revId": "e3b3cbccc8deaffa1b1f135b2d4455b33bed9067",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_264c8419",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/ManifestParser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-04-06T04:35:24Z",
+      "side": 1,
+      "message": "This should be an externalized string.",
+      "range": {
+        "startLine": 291,
+        "startChar": 28,
+        "endLine": 291,
+        "endChar": 61
+      },
+      "revId": "e3b3cbccc8deaffa1b1f135b2d4455b33bed9067",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
