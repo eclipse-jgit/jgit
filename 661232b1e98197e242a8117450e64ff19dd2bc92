@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87bd33cc_a60ed4ec",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushConnectionTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-04-06T03:18:07Z",
+      "side": 1,
+      "message": "Should we bump this up to 200 to buy more room?",
+      "range": {
+        "startLine": 187,
+        "startChar": 64,
+        "endLine": 187,
+        "endChar": 66
+      },
+      "revId": "661232b1e98197e242a8117450e64ff19dd2bc92",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
