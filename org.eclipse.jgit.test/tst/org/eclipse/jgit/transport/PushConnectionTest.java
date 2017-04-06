@@ -184,7 +184,7 @@ public class PushConnectionTest {
 			updates.put(rru.getRemoteName(), rru);
 		}
 
-		server.getConfig().setInt("receive", null, "maxCommandBytes", 180);
+		server.getConfig().setInt("receive", null, "maxCommandBytes", 190);
 		try (Transport tn = testProtocol.open(uri, client, "server");
 				PushConnection connection = tn.openPush()) {
 			try {
