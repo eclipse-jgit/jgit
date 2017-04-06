@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "87bd33cc_00668b45",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoProject.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 110635
+      },
+      "writtenOn": "2017-04-06T17:46:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87bd33cc_a6b894ac",
+      "range": {
+        "startLine": 388,
+        "startChar": 11,
+        "endLine": 388,
+        "endChar": 14
+      },
+      "revId": "8eb43dd9d4a3a1a7e56a4c14f5c25f982e481121",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87bd33cc_c684b0ee",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
         "patchSetId": 10
@@ -36,6 +60,30 @@
       "writtenOn": "2017-04-06T01:39:07Z",
       "side": 1,
       "message": "4.8",
+      "range": {
+        "startLine": 503,
+        "startChar": 11,
+        "endLine": 503,
+        "endChar": 14
+      },
+      "revId": "8eb43dd9d4a3a1a7e56a4c14f5c25f982e481121",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_c06bb30e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 110635
+      },
+      "writtenOn": "2017-04-06T17:46:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87bd33cc_c684b0ee",
       "range": {
         "startLine": 503,
         "startChar": 11,
