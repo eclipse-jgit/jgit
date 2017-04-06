@@ -90,6 +90,9 @@ public class StrategySimpleTwoWayInCore extends ThreeWayMergeStrategy {
 		return newMerger(db);
 	}
 
+	/**
+	 * @since 4.8
+	 */
 	@Override
 	public ThreeWayMerger newMerger(ObjectInserter inserter, Config config) {
 		return new InCoreMerger(inserter);

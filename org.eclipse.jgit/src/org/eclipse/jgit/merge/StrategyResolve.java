@@ -62,6 +62,9 @@ public class StrategyResolve extends ThreeWayMergeStrategy {
 		return new ResolveMerger(db, inCore);
 	}
 
+	/**
+	 * @since 4.8
+	 */
 	@Override
 	public ThreeWayMerger newMerger(ObjectInserter inserter, Config config) {
 		return new ResolveMerger(inserter, config);
