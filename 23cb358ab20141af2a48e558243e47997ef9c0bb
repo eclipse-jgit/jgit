@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87bd33cc_c6f2f091",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 602,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-04-06T01:15:21Z",
+      "side": 1,
+      "message": "Is that always what LOCK_FAILURE means? E.g. if I try to lock the ref but there is a concurrent ref update happening, wouldn\u0027t that produce LOCK_FAILURE, too?",
+      "range": {
+        "startLine": 602,
+        "startChar": 40,
+        "endLine": 602,
+        "endChar": 61
+      },
+      "revId": "23cb358ab20141af2a48e558243e47997ef9c0bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
