@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "87bd33cc_344ae52d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1165,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2017-04-07T17:53:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87bd33cc_8380e599",
+      "revId": "91adb2a96463a66f3cc5a0b12706dc1f24e41c3d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87bd33cc_a302417e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 2
@@ -30,6 +48,30 @@
       "writtenOn": "2017-04-07T05:52:16Z",
       "side": 1,
       "message": "I think we should also parse the commit even if it\u0027s already a RevCommit.  See [1] for use case.\n\n[1] https://gerrit-review.googlesource.com/#/c/102513/4/gerrit-server/src/main/java/com/google/gerrit/server/git/Commits.java",
+      "range": {
+        "startLine": 1169,
+        "startChar": 2,
+        "endLine": 1171,
+        "endChar": 3
+      },
+      "revId": "91adb2a96463a66f3cc5a0b12706dc1f24e41c3d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_54476123",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1171,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2017-04-07T17:53:49Z",
+      "side": 1,
+      "message": "Added extra check.",
+      "parentUuid": "87bd33cc_a302417e",
       "range": {
         "startLine": 1169,
         "startChar": 2,
