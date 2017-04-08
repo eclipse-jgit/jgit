@@ -392,6 +392,9 @@
             <targetJdk>1.8</targetJdk>
             <format>xml</format>
             <failOnViolation>false</failOnViolation>
+            <excludes>
+              <exclude>**/UbcCheck.java</exclude>
+            </excludes>
           </configuration>
           <executions>
             <execution>
