@@ -1,61 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <component id="org.eclipse.jgit" version="2">
-    <resource path="src/org/eclipse/jgit/api/ArchiveCommand.java" type="org.eclipse.jgit.api.ArchiveCommand$Format">
-        <filter comment="OSGi semver allows to break implementors in minor releases" id="403804204">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.api.ArchiveCommand.Format"/>
-                <message_argument value="putEntry(T, ObjectId, String, FileMode, ObjectLoader)"/>
-            </message_arguments>
-        </filter>
-    </resource>
-    <resource path="src/org/eclipse/jgit/errors/NoPackSignatureException.java" type="org.eclipse.jgit.errors.NoPackSignatureException">
-        <filter comment="non-breaking addition of exception classes needed to cleanly fix error handling in PackFile" id="1108344834">
-            <message_arguments>
-                <message_argument value="4.5"/>
-                <message_argument value="4.7"/>
-                <message_argument value="org.eclipse.jgit.errors.NoPackSignatureException"/>
-            </message_arguments>
-        </filter>
-    </resource>
-    <resource path="src/org/eclipse/jgit/errors/UnsupportedPackIndexVersionException.java" type="org.eclipse.jgit.errors.UnsupportedPackIndexVersionException">
-        <filter comment="non-breaking addition of exception classes needed to cleanly fix error handling in PackFile" id="1108344834">
-            <message_arguments>
-                <message_argument value="4.5"/>
-                <message_argument value="4.7"/>
-                <message_argument value="org.eclipse.jgit.errors.UnsupportedPackIndexVersionException"/>
-            </message_arguments>
-        </filter>
-    </resource>
-    <resource path="src/org/eclipse/jgit/errors/UnsupportedPackVersionException.java" type="org.eclipse.jgit.errors.UnsupportedPackVersionException">
-        <filter comment="non-breaking addition of exception classes needed to cleanly fix error handling in PackFile" id="1108344834">
-            <message_arguments>
-                <message_argument value="4.5"/>
-                <message_argument value="4.7"/>
-                <message_argument value="org.eclipse.jgit.errors.UnsupportedPackVersionException"/>
-            </message_arguments>
-        </filter>
-    </resource>
-    <resource path="src/org/eclipse/jgit/lib/ObjectInserter.java" type="org.eclipse.jgit.lib.ObjectInserter">
-        <filter comment="changed return type of digest() breaking implementors which is ok in minor releases according to OSGi semantic versioning" id="338792546">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.lib.ObjectInserter"/>
-                <message_argument value="digest()"/>
-            </message_arguments>
-        </filter>
-    </resource>
     <resource path="src/org/eclipse/jgit/merge/MergeStrategy.java" type="org.eclipse.jgit.merge.MergeStrategy">
         <filter comment="OSGi semantic versioning allows breaking implementors of an API in a minor version" id="336695337">
             <message_arguments>
                 <message_argument value="org.eclipse.jgit.merge.MergeStrategy"/>
                 <message_argument value="newMerger(ObjectInserter, Config)"/>
-            </message_arguments>
-        </filter>
-    </resource>
-    <resource path="src/org/eclipse/jgit/transport/http/HttpConnection.java" type="org.eclipse.jgit.transport.http.HttpConnection">
-        <filter comment="OSGi semantic versioning rules allow to break implementors in minor releases" id="403767336">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.transport.http.HttpConnection"/>
-                <message_argument value="HTTP_MOVED_PERM"/>
             </message_arguments>
         </filter>
     </resource>
