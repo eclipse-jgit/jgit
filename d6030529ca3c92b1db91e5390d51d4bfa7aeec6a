@@ -34,6 +34,24 @@
       "revId": "d6030529ca3c92b1db91e5390d51d4bfa7aeec6a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_49fd07e0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/ManifestParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-04-10T22:40:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87bd33cc_452b2d34",
+      "revId": "d6030529ca3c92b1db91e5390d51d4bfa7aeec6a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
