@@ -22,6 +22,30 @@
       "revId": "48f0de0f641a4b1639f1a9fcbb8f79893f6de655",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_cc6da5a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-04-11T08:22:26Z",
+      "side": 1,
+      "message": "The overall plan is that Android moves to git submodules natively. Part of this plan is that Android must have a superproject.\n\nWe actually have something internally that does roughly this (manifest -\u003e submodules) already, but it uses a cron type mechanism that isn\u0027t supported in Gerrit. It also doesn\u0027t generate relative URLs correctly. Hence the fixes here.\n\nSimultaneously, Stefan is working on the git-core aspects there (as discussed at the summit). The rough idea is that we will use hooks in Git to replace some (readonly) submodules with symlinks into slothfs (https://github.com/google/slothfs).",
+      "parentUuid": "87bd33cc_ec8fc100",
+      "range": {
+        "startLine": 9,
+        "startChar": 22,
+        "endLine": 9,
+        "endChar": 71
+      },
+      "revId": "48f0de0f641a4b1639f1a9fcbb8f79893f6de655",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
