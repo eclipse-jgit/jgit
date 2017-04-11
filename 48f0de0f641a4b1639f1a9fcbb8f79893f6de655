@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87bd33cc_ec8fc100",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-04-11T08:16:32Z",
+      "side": 1,
+      "message": "I assume this is a step towards getting rid of git-repo?  Is there any public documentation about this beyond the presentations from Conley and Stefan at past Gerrit summits?",
+      "range": {
+        "startLine": 9,
+        "startChar": 22,
+        "endLine": 9,
+        "endChar": 71
+      },
+      "revId": "48f0de0f641a4b1639f1a9fcbb8f79893f6de655",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
