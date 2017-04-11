@@ -45,7 +45,10 @@
 
 package org.eclipse.jgit.transport;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -59,10 +62,16 @@ import java.util.Collections;
 import java.util.Set;
 
 import org.eclipse.jgit.errors.MissingBundlePrerequisiteException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
+import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -159,6 +168,39 @@ public class BundleWriterTest extends SampleDataRepositoryTestCase {
 			caught = true;
 		}
 		assertTrue(caught);
+	}
+
+	@Test
+	public void testCustomObjectReader() throws Exception {
+		String refName = "refs/heads/blob";
+		String data = "unflushed data";
+		ObjectId id;
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		try (Repository repo = new InMemoryRepository(
+					new DfsRepositoryDescription("repo"));
+				ObjectInserter ins = repo.newObjectInserter();
+				ObjectReader or = ins.newReader()) {
+			id = ins.insert(OBJ_BLOB, Constants.encode(data));
+			BundleWriter bw = new BundleWriter(or);
+			bw.include(refName, id);
+			bw.writeBundle(NullProgressMonitor.INSTANCE, out);
+			assertNull(repo.exactRef(refName));
+			try {
+				repo.open(id, OBJ_BLOB);
+				fail("We should not be able to open the unflushed blob");
+			} catch (MissingObjectException e) {
+				// Expected.
+			}
+		}
+
+		try (Repository repo = new InMemoryRepository(
+					new DfsRepositoryDescription("copy"))) {
+			fetchFromBundle(repo, out.toByteArray());
+			Ref ref = repo.exactRef(refName);
+			assertNotNull(ref);
+			assertEquals(id, ref.getObjectId());
+			assertEquals(data, new String(repo.open(id, OBJ_BLOB).getBytes(), UTF_8));
+		}
 	}
 
 	private static FetchResult fetchFromBundle(final Repository newRepo,
