@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "87bd33cc_e3b26c7a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BundleWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-04-12T12:28:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87bd33cc_987f6386",
+      "revId": "9d91c854cf10bda87e8a85718223c2966426c2e9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87bd33cc_7882870d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BundleWriter.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2017-04-12T00:36:05Z",
       "side": 1,
       "message": "super.close() already closes \u0027or\u0027 (as does writePack).\n\nIs the idea that PackWriter would gain a boolean to disable that behavior?",
+      "revId": "9d91c854cf10bda87e8a85718223c2966426c2e9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_c3b57065",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BundleWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-04-12T12:28:25Z",
+      "side": 1,
+      "message": "Didn\u0027t realize that, of course PackWriter doesn\u0027t document it. Since readers can be reused I will do the easier thing and just let it get closed (and document it here).",
+      "parentUuid": "87bd33cc_7882870d",
       "revId": "9d91c854cf10bda87e8a85718223c2966426c2e9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
