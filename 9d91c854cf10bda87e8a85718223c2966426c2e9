@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87bd33cc_987f6386",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BundleWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-04-12T00:36:05Z",
+      "side": 1,
+      "message": "Is it worth mentioning when the reader gets closed (or maybe in the opposite direction, saying that we do not want to guarantee it gets closed)? Readers are still usable after they are closed so as long as the caller closes it, they should be okay, but it might be useful for understanding.",
+      "revId": "9d91c854cf10bda87e8a85718223c2966426c2e9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_7882870d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BundleWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-04-12T00:36:05Z",
+      "side": 1,
+      "message": "super.close() already closes \u0027or\u0027 (as does writePack).\n\nIs the idea that PackWriter would gain a boolean to disable that behavior?",
+      "revId": "9d91c854cf10bda87e8a85718223c2966426c2e9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
