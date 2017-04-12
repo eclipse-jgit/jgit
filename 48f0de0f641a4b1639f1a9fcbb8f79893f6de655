@@ -46,6 +46,30 @@
       "revId": "48f0de0f641a4b1639f1a9fcbb8f79893f6de655",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_de89c3ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2017-04-12T16:55:26Z",
+      "side": 1,
+      "message": "Yes this is one step closer to deprecate git-repo.\n\nWhen it comes to public documentation, we\u0027re a bit shy as we do not quite know the details ourselves yet.\n\nThe rough plan is:\n(1) Bring Gerrit, Git up to shape for submodules\n(2) Have an automatic conversion from manifest to superproject\n  (https://gerrit.googlesource.com/plugins/supermanifest)\n(3) Find dog-fooders in Android\n(4) Fix their bugs\n(5) Migrate everyone.\n\nWhile Gerrit knows a bit about submodules by now, it is not yet fully complete. The plugin (2) is actually giving the finishing touch to Gerrit. \n\nThis change helps with (2) as well, I would assume.",
+      "parentUuid": "87bd33cc_ec8fc100",
+      "range": {
+        "startLine": 9,
+        "startChar": 22,
+        "endLine": 9,
+        "endChar": 71
+      },
+      "revId": "48f0de0f641a4b1639f1a9fcbb8f79893f6de655",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
