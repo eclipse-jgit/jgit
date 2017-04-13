@@ -3,7 +3,7 @@ package(default_visibility = ["//visibility:public"])
 java_library(
     name = "junit-http",
     testonly = 1,
-    srcs = glob(["src/**"]),
+    srcs = glob(["src/**/*.java"]),
     resources = glob(["resources/**"]),
     # TODO(davido): we want here provided deps
     deps = [

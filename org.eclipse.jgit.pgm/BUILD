@@ -1,6 +1,6 @@
 java_library(
     name = "pgm",
-    srcs = glob(["src/**"]),
+    srcs = glob(["src/**/*.java"]),
     resource_strip_prefix = "org.eclipse.jgit.pgm/resources",
     resources = glob(["resources/**"]),
     visibility = ["//visibility:public"],
