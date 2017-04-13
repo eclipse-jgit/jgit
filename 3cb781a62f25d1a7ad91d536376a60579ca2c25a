@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87bd33cc_12196f39",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-04-13T01:53:00Z",
+      "side": 1,
+      "message": "s/cookbook/cookbook-plugin\n\nbut this should probably be changed anyway, since it was removed [1] from the project.\n\n[1] https://gerrit-review.googlesource.com/#/c/100919/",
+      "range": {
+        "startLine": 293,
+        "startChar": 51,
+        "endLine": 295,
+        "endChar": 56
+      },
+      "revId": "3cb781a62f25d1a7ad91d536376a60579ca2c25a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
