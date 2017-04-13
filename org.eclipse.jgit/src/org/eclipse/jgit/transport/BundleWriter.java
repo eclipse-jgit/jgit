@@ -58,6 +58,7 @@ import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -84,6 +85,8 @@ import org.eclipse.jgit.storage.pack.PackConfig;
 public class BundleWriter {
 	private final Repository db;
 
+	private final ObjectReader reader;
+
 	private final Map<String, ObjectId> include;
 
 	private final Set<RevCommit> assume;
@@ -100,8 +103,26 @@ public class BundleWriter {
 	 * @param repo
 	 *            repository where objects are stored.
 	 */
-	public BundleWriter(final Repository repo) {
+	public BundleWriter(Repository repo) {
 		db = repo;
+		reader = null;
+		include = new TreeMap<>();
+		assume = new HashSet<>();
+		tagTargets = new HashSet<>();
+	}
+
+	/**
+	 * Create a writer for a bundle.
+	 *
+	 * @param or
+	 *            reader for reading objects. Will be closed at the end of {@link
+	 *            #writeBundle(ProgressMonitor, OutputStream)}, but readers may be
+	 *            reused after closing.
+	 * @since 4.8
+	 */
+	public BundleWriter(ObjectReader or) {
+		db = null;
+		reader = or;
 		include = new TreeMap<>();
 		assume = new HashSet<>();
 		tagTargets = new HashSet<>();
@@ -112,7 +133,8 @@ public class BundleWriter {
 	 *
 	 * @param pc
 	 *            configuration controlling packing parameters. If null the
-	 *            source repository's settings will be used.
+	 *            source repository's settings will be used, or the default
+	 *            settings if constructed without a repo.
 	 */
 	public void setPackConfig(PackConfig pc) {
 		this.packConfig = pc;
@@ -196,10 +218,7 @@ public class BundleWriter {
 	 */
 	public void writeBundle(ProgressMonitor monitor, OutputStream os)
 			throws IOException {
-		PackConfig pc = packConfig;
-		if (pc == null)
-			pc = new PackConfig(db);
-		try (PackWriter packWriter = new PackWriter(pc, db.newObjectReader())) {
+		try (PackWriter packWriter = newPackWriter()) {
 			packWriter.setObjectCountCallback(callback);
 
 			final HashSet<ObjectId> inc = new HashSet<>();
@@ -240,6 +259,14 @@ public class BundleWriter {
 			w.flush();
 			packWriter.writePack(monitor, monitor, os);
 		}
+	}
+
+	private PackWriter newPackWriter() {
+		PackConfig pc = packConfig;
+		if (pc == null) {
+			pc = db != null ? new PackConfig(db) : new PackConfig();
+		}
+		return new PackWriter(pc, reader != null ? reader : db.newObjectReader());
 	}
 
 	/**
