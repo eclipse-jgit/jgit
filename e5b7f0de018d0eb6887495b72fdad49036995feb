@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "87bd33cc_dc8466ee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/CachedObjectDirectory.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-04-14T21:36:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87bd33cc_fca20282",
+      "revId": "e5b7f0de018d0eb6887495b72fdad49036995feb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87bd33cc_1ca89e61",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/CachedObjectDirectory.java",
         "patchSetId": 10
@@ -30,6 +48,24 @@
       "writtenOn": "2017-04-14T21:34:14Z",
       "side": 1,
       "message": "this method could be declared private",
+      "revId": "e5b7f0de018d0eb6887495b72fdad49036995feb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_fc892204",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/CachedObjectDirectory.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-04-14T21:36:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87bd33cc_1ca89e61",
       "revId": "e5b7f0de018d0eb6887495b72fdad49036995feb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
