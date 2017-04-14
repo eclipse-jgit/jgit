@@ -282,11 +282,13 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	}
 
 	/**
-	 * Set the URI of the superproject (this repository), so the .gitmodules file can specify the
-	 * submodule URLs relative to the superproject.
+	 * Set the URI of the superproject (this repository), so the .gitmodules
+	 * file can specify the submodule URLs relative to the superproject.
 	 *
-	 * @param uri the URI of the repository holding the superproject.
+	 * @param uri
+	 *            the URI of the repository holding the superproject.
 	 * @return this command
+	 * @since 4.8
 	 */
 	public RepoCommand setTargetURI(String uri) {
 		// The repo name is interpreted as a directory, for example
