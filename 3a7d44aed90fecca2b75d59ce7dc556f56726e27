@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87bd33cc_f73f7d70",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-04-16T19:30:16Z",
+      "side": 1,
+      "message": "I can\u0027t reproduce these failures, I used RepeatRule to repeat these tests 2000 times but they didn\u0027t fail",
+      "revId": "3a7d44aed90fecca2b75d59ce7dc556f56726e27",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
