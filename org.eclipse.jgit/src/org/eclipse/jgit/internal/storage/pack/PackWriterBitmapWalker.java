@@ -44,7 +44,7 @@
 package org.eclipse.jgit.internal.storage.pack;
 
 import java.io.IOException;
-import java.util.Set;
+import java.util.Arrays;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -84,7 +84,55 @@ final class PackWriterBitmapWalker {
 		return countOfBitmapIndexMisses;
 	}
 
-	BitmapBuilder findObjects(Set<? extends ObjectId> start, BitmapBuilder seen, boolean ignoreMissingStart)
+	BitmapBuilder findObjects(Iterable<? extends ObjectId> start, BitmapBuilder seen, boolean ignoreMissing)
+			throws MissingObjectException, IncorrectObjectTypeException,
+				   IOException {
+		if (!ignoreMissing) {
+			return findObjectsWalk(start, seen, false);
+		}
+
+		try {
+			return findObjectsWalk(start, seen, true);
+		} catch (MissingObjectException ignore) {
+			// An object reachable from one of the "start"s is missing.
+			// Walk from the "start"s one at a time so it can be excluded.
+		}
+
+		final BitmapBuilder result = bitmapIndex.newBitmapBuilder();
+		for (ObjectId obj : start) {
+			Bitmap bitmap = bitmapIndex.getBitmap(obj);
+			if (bitmap != null) {
+				result.or(bitmap);
+			}
+		}
+
+		for (ObjectId obj : start) {
+			if (result.contains(obj)) {
+				continue;
+			}
+			try {
+				result.or(findObjectsWalk(Arrays.asList(obj), result, false));
+			} catch (MissingObjectException ignore) {
+				// An object reachable from this "start" is missing.
+				//
+				// This can happen when the client specified a "have" line
+				// pointing to an object that is present but unreachable:
+				// "git prune" and "git fsck" only guarantee that the object
+				// database will continue to contain all objects reachable
+				// from a ref and does not guarantee connectivity for other
+				// objects in the object database.
+				//
+				// In this situation, skip the relevant "start" and move on
+				// to the next one.
+				//
+				// TODO(czhen): Make findObjectsWalk resume the walk instead
+				// once RevWalk and ObjectWalk support that.
+			}
+		}
+		return result;
+	}
+
+	private BitmapBuilder findObjectsWalk(Iterable<? extends ObjectId> start, BitmapBuilder seen, boolean ignoreMissingStart)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
 		final BitmapBuilder bitmapResult = bitmapIndex.newBitmapBuilder();
@@ -117,39 +165,24 @@ final class PackWriterBitmapWalker {
 						new AddUnseenToBitmapFilter(seen, bitmapResult));
 			}
 
-			try {
-				while (walker.next() != null) {
-					// Iterate through all of the commits. The BitmapRevFilter does
-					// the work.
-					//
-					// filter.include returns true for commits that do not have
-					// a bitmap in bitmapIndex and are not reachable from a
-					// bitmap in bitmapIndex encountered earlier in the walk.
-					// Thus the number of commits returned by next() measures how
-					// much history was traversed without being able to make use
-					// of bitmaps.
-					pm.update(1);
-					countOfBitmapIndexMisses++;
-				}
+			while (walker.next() != null) {
+				// Iterate through all of the commits. The BitmapRevFilter does
+				// the work.
+				//
+				// filter.include returns true for commits that do not have
+				// a bitmap in bitmapIndex and are not reachable from a
+				// bitmap in bitmapIndex encountered earlier in the walk.
+				// Thus the number of commits returned by next() measures how
+				// much history was traversed without being able to make use
+				// of bitmaps.
+				pm.update(1);
+				countOfBitmapIndexMisses++;
+			}
 
-				RevObject ro;
-				while ((ro = walker.nextObject()) != null) {
-					bitmapResult.addObject(ro, ro.getType());
-					pm.update(1);
-				}
-			} catch (MissingObjectException e) {
-				if (!ignoreMissingStart) {
-					throw e;
-				}
-				// Even when none of the objects we started the walk from is missing,
-				// an object reachable from one can be. RevWalk and ObjectWalk don't
-				// provide a way to ignore the missing object and continue, so bail
-				// out early with an undersized bitmap.
-				//
-				// The resulting packfile is likely to be much too large, but that's
-				// better than serving an error.
-				//
-				// TODO(czhen): Resume the walk instead once RevWalk supports that.
+			RevObject ro;
+			while ((ro = walker.nextObject()) != null) {
+				bitmapResult.addObject(ro, ro.getType());
+				pm.update(1);
 			}
 		}
 
