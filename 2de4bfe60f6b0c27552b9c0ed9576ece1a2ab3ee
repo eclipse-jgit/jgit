@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87bd33cc_3b239f32",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2017-04-17T18:29:49Z",
+      "side": 1,
+      "message": "This is git core style. In projects reviewed with Gerrit, better give the change id, which is linkified?",
+      "range": {
+        "startLine": 12,
+        "startChar": 23,
+        "endLine": 13,
+        "endChar": 56
+      },
+      "revId": "2de4bfe60f6b0c27552b9c0ed9576ece1a2ab3ee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_9b2bd306",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapWalker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2017-04-17T18:29:49Z",
+      "side": 1,
+      "message": "Why? Can you expand this comment? Oh wait, I missread the code above. The `result.contains(obj) -\u003e continue` is a mere optimisation, and the actual functionality is in the result.or.",
+      "range": {
+        "startLine": 117,
+        "startChar": 7,
+        "endLine": 117,
+        "endChar": 32
+      },
+      "revId": "2de4bfe60f6b0c27552b9c0ed9576ece1a2ab3ee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
