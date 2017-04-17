@@ -16,6 +16,24 @@
       "revId": "3a7d44aed90fecca2b75d59ce7dc556f56726e27",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_bb388f88",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 93425
+      },
+      "writtenOn": "2017-04-17T17:36:38Z",
+      "side": 1,
+      "message": "On reflection, it\u0027s pretty weird that the order is arbitrary.    I have no idea how that can happen.  But nonetheless, locally, on master, I do get these failures, and this patch does fix them.  I\u0027m open to other suggestions about how to fix it, or how to reliably reproduce it.  \n\nMy config:\nApache Maven 3.3.9\nopenjdk version \"1.8.0_121\"\nDebian",
+      "parentUuid": "87bd33cc_f73f7d70",
+      "revId": "3a7d44aed90fecca2b75d59ce7dc556f56726e27",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
