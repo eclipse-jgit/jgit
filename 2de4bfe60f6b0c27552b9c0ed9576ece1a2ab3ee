@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "87bd33cc_9bfd93e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-04-17T18:40:23Z",
+      "side": 1,
+      "message": "JGit seems to do a little of both. I\u0027ll switch to change id.",
+      "parentUuid": "87bd33cc_3b239f32",
+      "range": {
+        "startLine": 12,
+        "startChar": 23,
+        "endLine": 13,
+        "endChar": 56
+      },
+      "revId": "2de4bfe60f6b0c27552b9c0ed9576ece1a2ab3ee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87bd33cc_1bda6391",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapWalker.java",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "87bd33cc_5b03fb83",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapWalker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-04-17T18:40:23Z",
+      "side": 1,
+      "message": "Good question. Yes, it\u0027s correct. Suppose object B is in object A\u0027s bitmap. Define reachable(A) to be the set of all objects directly or indirectly reachable from A. When object A\u0027s bitmap was \"or\"ed into the result, reachable(A) got included in the result set. Anything reachable from B is also reachable from A so we can skip the walk from A entirely.",
+      "parentUuid": "87bd33cc_1bda6391",
+      "range": {
+        "startLine": 111,
+        "startChar": 0,
+        "endLine": 113,
+        "endChar": 5
+      },
+      "revId": "2de4bfe60f6b0c27552b9c0ed9576ece1a2ab3ee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87bd33cc_9b2bd306",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapWalker.java",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2017-04-17T18:29:49Z",
       "side": 1,
       "message": "Why? Can you expand this comment? Oh wait, I missread the code above. The `result.contains(obj) -\u003e continue` is a mere optimisation, and the actual functionality is in the result.or.",
+      "range": {
+        "startLine": 117,
+        "startChar": 7,
+        "endLine": 117,
+        "endChar": 32
+      },
+      "revId": "2de4bfe60f6b0c27552b9c0ed9576ece1a2ab3ee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_7b06f794",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapWalker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-04-17T18:40:23Z",
+      "side": 1,
+      "message": "Are you asking about the \"okay\" or about the \"expected\"?\n\nI\u0027ll copy some of the text from the commit message here. Thanks for pointing it out.",
+      "parentUuid": "87bd33cc_9b2bd306",
       "range": {
         "startLine": 117,
         "startChar": 7,
