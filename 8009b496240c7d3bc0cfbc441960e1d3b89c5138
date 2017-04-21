@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87bd33cc_dc11af0c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-04-21T19:57:05Z",
+      "side": 1,
+      "message": "successfully",
+      "range": {
+        "startLine": 15,
+        "startChar": 54,
+        "endLine": 15,
+        "endChar": 64
+      },
+      "revId": "8009b496240c7d3bc0cfbc441960e1d3b89c5138",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_1c3b2788",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-04-21T19:57:05Z",
+      "side": 1,
+      "message": "copied",
+      "range": {
+        "startLine": 15,
+        "startChar": 46,
+        "endLine": 15,
+        "endChar": 53
+      },
+      "revId": "8009b496240c7d3bc0cfbc441960e1d3b89c5138",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_fc0cabf7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-04-21T19:57:05Z",
+      "side": 1,
+      "message": "deleting",
+      "range": {
+        "startLine": 16,
+        "startChar": 24,
+        "endLine": 16,
+        "endChar": 30
+      },
+      "revId": "8009b496240c7d3bc0cfbc441960e1d3b89c5138",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_9c0737d4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-04-21T19:57:05Z",
+      "side": 1,
+      "message": "nit: missing space",
+      "range": {
+        "startLine": 316,
+        "startChar": 47,
+        "endLine": 316,
+        "endChar": 56
+      },
+      "revId": "8009b496240c7d3bc0cfbc441960e1d3b89c5138",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
