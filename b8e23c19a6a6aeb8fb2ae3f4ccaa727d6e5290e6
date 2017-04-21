@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87bd33cc_dcb52f65",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-04-21T20:18:47Z",
+      "side": 1,
+      "message": "nit: This should be in the imperative mood, as if it\u0027s ordering the code or the computer to do something (so \"Add\").",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 5
+      },
+      "revId": "b8e23c19a6a6aeb8fb2ae3f4ccaa727d6e5290e6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_fcb02b74",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-04-21T20:18:47Z",
+      "side": 1,
+      "message": "nit: Where does this line come from? It shouldn\u0027t be needed.",
+      "revId": "b8e23c19a6a6aeb8fb2ae3f4ccaa727d6e5290e6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
