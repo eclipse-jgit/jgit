@@ -7,7 +7,6 @@ import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.UN
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
@@ -180,41 +179,133 @@ public class DfsGarbageCollectorTest {
 		RevCommit commit1 = commit().message("1").parent(commit0).create();
 		git.update("master", commit0);
 
-		gcNoTtl();
 		gcWithTtl();
-
-		// The repository has an UNREACHABLE_GARBAGE pack that could have
-		// expired, but since we never purge the most recent UNREACHABLE_GARBAGE
-		// pack, it must have survived the GC.
-		boolean commit1Found = false;
+		// The repository should have a GC pack with commit0 and an
+		// UNREACHABLE_GARBAGE pack with commit1.
+		assertEquals(2, odb.getPacks().length);
+		boolean gcPackFound = false;
+		boolean garbagePackFound = false;
 		for (DfsPackFile pack : odb.getPacks()) {
 			DfsPackDescription d = pack.getPackDescription();
 			if (d.getPackSource() == GC) {
+				gcPackFound = true;
 				assertTrue("has commit0", isObjectInPack(commit0, pack));
 				assertFalse("no commit1", isObjectInPack(commit1, pack));
 			} else if (d.getPackSource() == UNREACHABLE_GARBAGE) {
-				commit1Found |= isObjectInPack(commit1, pack);
+				garbagePackFound = true;
+				assertFalse("no commit0", isObjectInPack(commit0, pack));
+				assertTrue("has commit1", isObjectInPack(commit1, pack));
 			} else {
 				fail("unexpected " + d.getPackSource());
 			}
 		}
-		assertTrue("garbage commit1 still readable", commit1Found);
-
-		// Find oldest UNREACHABLE_GARBAGE; it will be pruned by next GC.
-		DfsPackDescription oldestGarbagePack = null;
-		for (DfsPackFile pack : odb.getPacks()) {
-			DfsPackDescription d = pack.getPackDescription();
-			if (d.getPackSource() == UNREACHABLE_GARBAGE) {
-				oldestGarbagePack = oldestPack(oldestGarbagePack, d);
-			}
-		}
-		assertNotNull("has UNREACHABLE_GARBAGE", oldestGarbagePack);
+		assertTrue("gc pack found", gcPackFound);
+		assertTrue("garbage pack found", garbagePackFound);
 
 		gcWithTtl();
-		assertTrue("has packs", odb.getPacks().length > 0);
+		// The gc operation should have removed UNREACHABLE_GARBAGE pack along with commit1.
+		DfsPackFile[] packs = odb.getPacks();
+		assertEquals(1, packs.length);
+
+		assertEquals(GC, packs[0].getPackDescription().getPackSource());
+		assertTrue("has commit0", isObjectInPack(commit0, packs[0]));
+		assertFalse("no commit1", isObjectInPack(commit1, packs[0]));
+	}
+
+	@Test
+	public void testCollectionWithGarbageAndRereferencingGarbage()
+			throws Exception {
+		RevCommit commit0 = commit().message("0").create();
+		RevCommit commit1 = commit().message("1").parent(commit0).create();
+		git.update("master", commit0);
+
+		gcWithTtl();
+		// The repository should have a GC pack with commit0 and an
+		// UNREACHABLE_GARBAGE pack with commit1.
+		assertEquals(2, odb.getPacks().length);
+		boolean gcPackFound = false;
+		boolean garbagePackFound = false;
 		for (DfsPackFile pack : odb.getPacks()) {
-			assertNotEquals(oldestGarbagePack, pack.getPackDescription());
+			DfsPackDescription d = pack.getPackDescription();
+			if (d.getPackSource() == GC) {
+				gcPackFound = true;
+				assertTrue("has commit0", isObjectInPack(commit0, pack));
+				assertFalse("no commit1", isObjectInPack(commit1, pack));
+			} else if (d.getPackSource() == UNREACHABLE_GARBAGE) {
+				garbagePackFound = true;
+				assertFalse("no commit0", isObjectInPack(commit0, pack));
+				assertTrue("has commit1", isObjectInPack(commit1, pack));
+			} else {
+				fail("unexpected " + d.getPackSource());
+			}
 		}
+		assertTrue("gc pack found", gcPackFound);
+		assertTrue("garbage pack found", garbagePackFound);
+
+		git.update("master", commit1);
+
+		gcWithTtl();
+		// The gc operation should have removed the UNREACHABLE_GARBAGE pack and
+		// moved commit1 into GC pack.
+		DfsPackFile[] packs = odb.getPacks();
+		assertEquals(1, packs.length);
+
+		assertEquals(GC, packs[0].getPackDescription().getPackSource());
+		assertTrue("has commit0", isObjectInPack(commit0, packs[0]));
+		assertTrue("has commit1", isObjectInPack(commit1, packs[0]));
+	}
+
+	@Test
+	public void testCollectionWithPureGarbageAndGarbagePacksPurged()
+			throws Exception {
+		RevCommit commit0 = commit().message("0").create();
+		RevCommit commit1 = commit().message("1").parent(commit0).create();
+
+		gcWithTtl();
+		// The repository should have a single UNREACHABLE_GARBAGE pack with commit0
+		// and commit1.
+		DfsPackFile[] packs = odb.getPacks();
+		assertEquals(1, packs.length);
+
+		assertEquals(UNREACHABLE_GARBAGE, packs[0].getPackDescription().getPackSource());
+		assertTrue("has commit0", isObjectInPack(commit0, packs[0]));
+		assertTrue("has commit1", isObjectInPack(commit1, packs[0]));
+
+		gcWithTtl();
+		// The gc operation should have removed UNREACHABLE_GARBAGE pack along
+		// with commit0 and commit1.
+		assertEquals(0, odb.getPacks().length);
+	}
+
+	@Test
+	public void testCollectionWithPureGarbageAndRereferencingGarbage()
+			throws Exception {
+		RevCommit commit0 = commit().message("0").create();
+		RevCommit commit1 = commit().message("1").parent(commit0).create();
+
+		gcWithTtl();
+		// The repository should have a single UNREACHABLE_GARBAGE pack with commit0
+		// and commit1.
+		DfsPackFile[] packs = odb.getPacks();
+		assertEquals(1, packs.length);
+
+		DfsPackDescription pack = packs[0].getPackDescription();
+		assertEquals(UNREACHABLE_GARBAGE, pack.getPackSource());
+		assertTrue("has commit0", isObjectInPack(commit0, packs[0]));
+		assertTrue("has commit1", isObjectInPack(commit1, packs[0]));
+
+		git.update("master", commit0);
+
+		gcWithTtl();
+		// The gc operation should have moved commit0 into the GC pack and
+		// removed UNREACHABLE_GARBAGE along with commit1.
+		packs = odb.getPacks();
+		assertEquals(1, packs.length);
+
+		pack = packs[0].getPackDescription();
+		assertEquals(GC, pack.getPackSource());
+		assertTrue("has commit0", isObjectInPack(commit0, packs[0]));
+		assertFalse("no commit1", isObjectInPack(commit1, packs[0]));
 	}
 
 	@Test
@@ -586,14 +677,6 @@ public class DfsGarbageCollectorTest {
 		try (DfsReader reader = new DfsReader(odb)) {
 			return pack.hasObject(reader, id);
 		}
-	}
-
-	private static DfsPackDescription oldestPack(DfsPackDescription a,
-			DfsPackDescription b) {
-		if (a != null && a.getLastModified() < b.getLastModified()) {
-			return a;
-		}
-		return b;
 	}
 
 	private int countPacks(PackSource source) throws IOException {
