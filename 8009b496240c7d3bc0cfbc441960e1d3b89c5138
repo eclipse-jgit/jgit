@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "87bd33cc_7c733b5b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 710
+      },
+      "writtenOn": "2017-04-21T20:03:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87bd33cc_dc11af0c",
+      "range": {
+        "startLine": 15,
+        "startChar": 54,
+        "endLine": 15,
+        "endChar": 64
+      },
+      "revId": "8009b496240c7d3bc0cfbc441960e1d3b89c5138",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_5c703f4f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 710
+      },
+      "writtenOn": "2017-04-21T20:03:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87bd33cc_1c3b2788",
+      "range": {
+        "startLine": 15,
+        "startChar": 46,
+        "endLine": 15,
+        "endChar": 53
+      },
+      "revId": "8009b496240c7d3bc0cfbc441960e1d3b89c5138",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87bd33cc_fc0cabf7",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "87bd33cc_9c79f73c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 710
+      },
+      "writtenOn": "2017-04-21T20:03:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87bd33cc_fc0cabf7",
+      "range": {
+        "startLine": 16,
+        "startChar": 24,
+        "endLine": 16,
+        "endChar": 30
+      },
+      "revId": "8009b496240c7d3bc0cfbc441960e1d3b89c5138",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87bd33cc_9c0737d4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
         "patchSetId": 2
@@ -82,6 +154,30 @@
       "writtenOn": "2017-04-21T19:57:05Z",
       "side": 1,
       "message": "nit: missing space",
+      "range": {
+        "startLine": 316,
+        "startChar": 47,
+        "endLine": 316,
+        "endChar": 56
+      },
+      "revId": "8009b496240c7d3bc0cfbc441960e1d3b89c5138",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_9c2e5744",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 710
+      },
+      "writtenOn": "2017-04-21T20:03:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87bd33cc_9c0737d4",
       "range": {
         "startLine": 316,
         "startChar": 47,
