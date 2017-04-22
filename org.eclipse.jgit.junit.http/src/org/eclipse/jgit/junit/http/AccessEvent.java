@@ -102,7 +102,7 @@ public class AccessEvent {
 
 	@SuppressWarnings("unchecked")
 	private static Map<String, String[]> clone(Map parameterMap) {
-		return new TreeMap<String, String[]>(parameterMap);
+		return new TreeMap<>(parameterMap);
 	}
 
 	/** @return {@code "GET"} or {@code "POST"} */
