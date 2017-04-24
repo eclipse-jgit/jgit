@@ -1299,8 +1299,13 @@ public class DirCacheCheckout {
 			return;
 		}
 
+		String name = f.getName();
+		if (name.length() > 200) {
+			name = name.substring(0, 200);
+		}
 		File tmpFile = File.createTempFile(
-				"._" + f.getName(), null, parentDir); //$NON-NLS-1$
+				"._" + name, null, parentDir); //$NON-NLS-1$
+
 		EolStreamType nonNullEolStreamType;
 		if (checkoutMetadata.eolStreamType != null) {
 			nonNullEolStreamType = checkoutMetadata.eolStreamType;
