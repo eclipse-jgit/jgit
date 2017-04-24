@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "87bd33cc_76b51718",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/InMemoryRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-04-24T12:30:17Z",
+      "side": 1,
+      "message": "For posterity, Shawn did this in I16922408 shortly after I asked.",
+      "parentUuid": "07d9433e_cbb058c8",
+      "revId": "3d8e6b1e16092701c31463092e945b8f00886bb7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27d6470d_34f9288f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushProcess.java",
         "patchSetId": 2
