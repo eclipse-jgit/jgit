@@ -1672,6 +1672,20 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 		}
 	}
 
+	@Test
+	public void testLongFilename() throws Exception {
+		char[] bytes = new char[253];
+		Arrays.fill(bytes, 'f');
+		String longFileName = new String(bytes);
+		// 1
+		doit(mkmap(longFileName, "a"), mkmap(longFileName, "b"),
+				mkmap(longFileName, "a"));
+		writeTrashFile(longFileName, "a");
+		checkout();
+		assertNoConflicts();
+		assertUpdated(longFileName);
+	}
+
 	public void assertWorkDir(Map<String, String> i)
 			throws CorruptObjectException,
 			IOException {
