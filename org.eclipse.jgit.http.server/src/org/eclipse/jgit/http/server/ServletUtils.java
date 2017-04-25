@@ -127,17 +127,11 @@ public final class ServletUtils {
 	 *            the request whose body must be consumed.
 	 */
 	public static void consumeRequestBody(HttpServletRequest req) {
-		if (0 < req.getContentLength() || isChunked(req)) {
-			try {
-				consumeRequestBody(req.getInputStream());
-			} catch (IOException e) {
-				// Ignore any errors obtaining the input stream.
-			}
+		try {
+			consumeRequestBody(req.getInputStream());
+		} catch (IOException e) {
+			// Ignore any errors obtaining the input stream.
 		}
-	}
-
-	static boolean isChunked(HttpServletRequest req) {
-		return "chunked".equals(req.getHeader("Transfer-Encoding"));
 	}
 
 	/**
