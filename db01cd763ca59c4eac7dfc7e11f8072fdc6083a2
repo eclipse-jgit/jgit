@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87bd33cc_e8405b0a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-04-27T07:19:04Z",
+      "side": 1,
+      "message": "it\u0027s the path you are setting",
+      "range": {
+        "startLine": 132,
+        "startChar": 31,
+        "endLine": 132,
+        "endChar": 35
+      },
+      "revId": "db01cd763ca59c4eac7dfc7e11f8072fdc6083a2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_286a5364",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-04-27T07:19:04Z",
+      "side": 1,
+      "message": "if we add another method checkingOut we can also print the checked out submodule commits like native git does",
+      "revId": "db01cd763ca59c4eac7dfc7e11f8072fdc6083a2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_884b6730",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleUpdateCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-04-27T07:19:04Z",
+      "side": 1,
+      "message": "missing @since tag",
+      "revId": "db01cd763ca59c4eac7dfc7e11f8072fdc6083a2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
