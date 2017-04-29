@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87bd33cc_3c2c4c1e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-04-29T18:34:39Z",
+      "side": 1,
+      "message": "nit: subject should be a single line.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 47
+      },
+      "revId": "dfd17b17deb4acca1007fe336911c522825810dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_5c2f4812",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-04-29T18:34:39Z",
+      "side": 1,
+      "message": "added",
+      "range": {
+        "startLine": 15,
+        "startChar": 106,
+        "endLine": 15,
+        "endChar": 110
+      },
+      "revId": "dfd17b17deb4acca1007fe336911c522825810dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_1c35d060",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ArchiveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-04-29T18:34:39Z",
+      "side": 1,
+      "message": "nit: spacing does not follow expected style, i.e. change it to:\n\n if (pfx.endsWith(\"/\")) {\n\nI suspect this will also need a suppression for literal strings, see L397 for example.",
+      "range": {
+        "startLine": 407,
+        "startChar": 4,
+        "endLine": 407,
+        "endChar": 27
+      },
+      "revId": "dfd17b17deb4acca1007fe336911c522825810dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_dc23582f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ArchiveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-04-29T18:34:39Z",
+      "side": 1,
+      "message": "nit: indent with tab",
+      "range": {
+        "startLine": 408,
+        "startChar": 4,
+        "endLine": 408,
+        "endChar": 8
+      },
+      "revId": "dfd17b17deb4acca1007fe336911c522825810dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
