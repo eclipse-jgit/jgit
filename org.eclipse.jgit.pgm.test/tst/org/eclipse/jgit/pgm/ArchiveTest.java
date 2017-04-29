@@ -348,7 +348,7 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 		commitBazAndFooSlashBar();
 		byte[] result = CLIGitCommand.executeRaw(
 				"git archive --prefix=x/ --format=zip master", db).outBytes();
-		String[] expect = { "x/baz", "x/foo/", "x/foo/bar" };
+		String[] expect = { "x/", "x/baz", "x/foo/", "x/foo/bar" };
 		String[] actual = listZipEntries(result);
 
 		Arrays.sort(expect);
@@ -361,7 +361,7 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 		commitBazAndFooSlashBar();
 		byte[] result = CLIGitCommand.executeRaw(
 				"git archive --prefix=x/ --format=tar master", db).outBytes();
-		String[] expect = { "x/baz", "x/foo/", "x/foo/bar" };
+		String[] expect = { "x/", "x/baz", "x/foo/", "x/foo/bar" };
 		String[] actual = listTarEntries(result);
 
 		Arrays.sort(expect);
@@ -380,7 +380,7 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 		commitFoo();
 		byte[] result = CLIGitCommand.executeRaw(
 				"git archive --prefix=x// --format=zip master", db).outBytes();
-		String[] expect = { "x//foo" };
+		String[] expect = { "x/", "x//foo" };
 		assertArrayEquals(expect, listZipEntries(result));
 	}
 
@@ -389,7 +389,7 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 		commitFoo();
 		byte[] result = CLIGitCommand.executeRaw(
 				"git archive --prefix=x// --format=tar master", db).outBytes();
-		String[] expect = { "x//foo" };
+		String[] expect = { "x/", "x//foo" };
 		assertArrayEquals(expect, listTarEntries(result));
 	}
 

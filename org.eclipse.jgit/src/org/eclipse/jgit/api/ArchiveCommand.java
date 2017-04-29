@@ -403,6 +403,11 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 				if (!paths.isEmpty())
 					walk.setFilter(PathFilterGroup.createFromStrings(paths));
 
+				// put base directory into archive
+				if( pfx.endsWith("/") ) {
+				    fmt.putEntry(outa, tree, pfx.replaceAll("[/]+$","/"), FileMode.TREE, null);
+				}
+
 				while (walk.next()) {
 					String name = pfx + walk.getPathString();
 					FileMode mode = walk.getFileMode(0);
