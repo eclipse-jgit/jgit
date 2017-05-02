@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87bd33cc_b43a304a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/MergeBaseGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-05-02T15:53:57Z",
+      "side": 1,
+      "message": "Style-wise we don\u0027t use \"break\" at the bottom of a for loop very often, we more often test for the break condition and break like on line 218 above. Save a line by inverting the condition and leaving the \"continue\" as implied. Same above in the carryOntoHistory loop.",
+      "range": {
+        "startLine": 234,
+        "startChar": 0,
+        "endLine": 237,
+        "endChar": 9
+      },
+      "revId": "e4dedf5b4fc19cd17711e8ea05727f539459dfae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
