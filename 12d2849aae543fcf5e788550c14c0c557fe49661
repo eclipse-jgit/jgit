@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "87bd33cc_92a7093f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/MergeBaseGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-05-02T00:23:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87bd33cc_72350ddd",
+      "range": {
+        "startLine": 206,
+        "startChar": 0,
+        "endLine": 208,
+        "endChar": 20
+      },
+      "revId": "12d2849aae543fcf5e788550c14c0c557fe49661",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87bd33cc_b22fa58e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/MergeBaseGenerator.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-05-01T18:39:42Z",
       "side": 1,
       "message": "we could return both CONTINUE and HAVE_ALL at this point, but the comment are all talking about HAVE_ALL.",
+      "range": {
+        "startLine": 264,
+        "startChar": 2,
+        "endLine": 264,
+        "endChar": 12
+      },
+      "revId": "12d2849aae543fcf5e788550c14c0c557fe49661",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_b2b6c56e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/MergeBaseGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-05-02T00:23:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87bd33cc_b22fa58e",
       "range": {
         "startLine": 264,
         "startChar": 2,
