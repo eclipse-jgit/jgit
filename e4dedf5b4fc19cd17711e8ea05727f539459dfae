@@ -22,6 +22,30 @@
       "revId": "e4dedf5b4fc19cd17711e8ea05727f539459dfae",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87bd33cc_17fe86dd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/MergeBaseGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-05-02T18:39:21Z",
+      "side": 1,
+      "message": "Ooh, good catch, thanks. Done.",
+      "parentUuid": "87bd33cc_b43a304a",
+      "range": {
+        "startLine": 234,
+        "startChar": 0,
+        "endLine": 237,
+        "endChar": 9
+      },
+      "revId": "e4dedf5b4fc19cd17711e8ea05727f539459dfae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
