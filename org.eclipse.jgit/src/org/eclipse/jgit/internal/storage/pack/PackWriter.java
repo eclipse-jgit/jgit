@@ -1874,7 +1874,6 @@ public class PackWriter implements AutoCloseable {
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
 		BitmapBuilder haveBitmap = bitmapWalker.findObjects(have, null, true);
-		bitmapWalker.reset();
 		BitmapBuilder wantBitmap = bitmapWalker.findObjects(want, haveBitmap,
 				false);
 		BitmapBuilder needBitmap = wantBitmap.andNot(haveBitmap);
@@ -2079,11 +2078,9 @@ public class PackWriter implements AutoCloseable {
 		PackWriterBitmapWalker walker = bitmapPreparer.newBitmapWalker();
 		AnyObjectId last = null;
 		for (PackWriterBitmapPreparer.BitmapCommit cmit : selectedCommits) {
-			if (cmit.isReuseWalker())
-				walker.reset();
-			else
+			if (!cmit.isReuseWalker()) {
 				walker = bitmapPreparer.newBitmapWalker();
-
+			}
 			BitmapBuilder bitmap = walker.findObjects(
 					Collections.singleton(cmit), null, false);
 
