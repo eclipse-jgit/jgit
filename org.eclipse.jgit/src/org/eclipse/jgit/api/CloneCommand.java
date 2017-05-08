@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011, 2013 Chris Aniszczyk <caniszczyk@gmail.com>
+ * Copyright (C) 2011, 2017 Chris Aniszczyk <caniszczyk@gmail.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -76,6 +76,8 @@ import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.TagOpt;
 import org.eclipse.jgit.transport.URIish;
+import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.FileUtils;
 
 /**
  * Clone a repository into a new working directory
@@ -108,6 +110,10 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	private Collection<String> branchesToClone;
 
 	private Callback callback;
+
+	private boolean directoryExistsInitially;
+
+	private boolean gitDirExistsInitially;
 
 	/**
 	 * Callback for status of clone operation.
@@ -167,26 +173,51 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	@Override
 	public Git call() throws GitAPIException, InvalidRemoteException,
 			org.eclipse.jgit.api.errors.TransportException {
-		Repository repository = null;
+		URIish u = null;
 		try {
-			URIish u = new URIish(uri);
-			repository = init(u);
-			FetchResult result = fetch(repository, u);
-			if (!noCheckout)
-				checkout(repository, result);
-			return new Git(repository, true);
+			u = new URIish(uri);
+			verifyDirectories(u);
+		} catch (URISyntaxException e) {
+			throw new InvalidRemoteException(
+					MessageFormat.format(JGitText.get().invalidURL, uri));
+		}
+		Repository repository = null;
+		FetchResult fetchResult = null;
+		try {
+			repository = init();
+			fetchResult = fetch(repository, u);
 		} catch (IOException ioe) {
 			if (repository != null) {
 				repository.close();
 			}
+			cleanup();
 			throw new JGitInternalException(ioe.getMessage(), ioe);
 		} catch (URISyntaxException e) {
 			if (repository != null) {
 				repository.close();
 			}
+			cleanup();
 			throw new InvalidRemoteException(MessageFormat.format(
 					JGitText.get().invalidRemote, remote));
+		} catch (GitAPIException | RuntimeException e) {
+			if (repository != null) {
+				repository.close();
+			}
+			cleanup();
+			throw e;
 		}
+		if (!noCheckout) {
+			try {
+				checkout(repository, fetchResult);
+			} catch (IOException ioe) {
+				repository.close();
+				throw new JGitInternalException(ioe.getMessage(), ioe);
+			} catch (GitAPIException | RuntimeException e) {
+				repository.close();
+				throw e;
+			}
+		}
+		return new Git(repository, true);
 	}
 
 	private static boolean isNonEmptyDirectory(File dir) {
@@ -197,12 +228,12 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 		return false;
 	}
 
-	private Repository init(URIish u) throws GitAPIException {
-		InitCommand command = Git.init();
-		command.setBare(bare);
+	private void verifyDirectories(URIish u) {
 		if (directory == null && gitDir == null) {
 			directory = new File(u.getHumanishName(), Constants.DOT_GIT);
 		}
+		directoryExistsInitially = directory != null && directory.exists();
+		gitDirExistsInitially = gitDir != null && gitDir.exists();
 		validateDirs(directory, gitDir, bare);
 		if (isNonEmptyDirectory(directory)) {
 			throw new JGitInternalException(MessageFormat.format(
@@ -212,6 +243,11 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 			throw new JGitInternalException(MessageFormat.format(
 					JGitText.get().cloneNonEmptyDirectory, gitDir.getName()));
 		}
+	}
+
+	private Repository init() throws GitAPIException {
+		InitCommand command = Git.init();
+		command.setBare(bare);
 		if (directory != null) {
 			command.setDirectory(directory);
 		}
@@ -600,6 +636,40 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 							JGitText.get().initFailedNonBareRepoSameDirs,
 							gitDir, directory));
 			}
+		}
+	}
+
+	private void cleanup() {
+		try {
+			if (directory != null) {
+				if (!directoryExistsInitially) {
+					FileUtils.delete(directory, FileUtils.RECURSIVE
+							| FileUtils.SKIP_MISSING | FileUtils.IGNORE_ERRORS);
+				} else {
+					deleteChildren(directory);
+				}
+			}
+			if (gitDir != null) {
+				if (!gitDirExistsInitially) {
+					FileUtils.delete(gitDir, FileUtils.RECURSIVE
+							| FileUtils.SKIP_MISSING | FileUtils.IGNORE_ERRORS);
+				} else {
+					deleteChildren(directory);
+				}
+			}
+		} catch (IOException e) {
+			// Ignore; this is a best-effort cleanup in error cases, and
+			// IOException should not be raised anyway
+		}
+	}
+
+	private void deleteChildren(File file) throws IOException {
+		if (!FS.DETECTED.isDirectory(file)) {
+			return;
+		}
+		for (File child : file.listFiles()) {
+			FileUtils.delete(child, FileUtils.RECURSIVE | FileUtils.SKIP_MISSING
+					| FileUtils.IGNORE_ERRORS);
 		}
 	}
 }
