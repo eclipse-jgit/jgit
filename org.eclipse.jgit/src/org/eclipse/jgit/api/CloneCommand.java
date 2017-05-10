@@ -182,6 +182,15 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 					MessageFormat.format(JGitText.get().invalidURL, uri));
 		}
 		Repository repository = null;
+		Thread hook = new Thread() {
+
+			@Override
+			public void run() {
+				System.out.println("cleanup unfinished clone");
+				cleanup();
+			}
+		};
+		Runtime.getRuntime().addShutdownHook(hook);
 		FetchResult fetchResult = null;
 		try {
 			repository = init();
@@ -205,6 +214,8 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 			}
 			cleanup();
 			throw e;
+		} finally {
+			Runtime.getRuntime().removeShutdownHook(hook);
 		}
 		if (!noCheckout) {
 			try {
