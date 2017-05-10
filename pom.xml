@@ -70,6 +70,10 @@
     <connection>scm:git:https://git.eclipse.org/r/jgit/jgit</connection>
   </scm>
 
+  <prerequisites>
+    <maven>3.3.1</maven>
+  </prerequisites>
+
   <ciManagement>
     <system>hudson</system>
     <url>https://hudson.eclipse.org/jgit/</url>
