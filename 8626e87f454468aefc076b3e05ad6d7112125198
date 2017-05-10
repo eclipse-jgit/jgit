@@ -16,6 +16,24 @@
       "revId": "8626e87f454468aefc076b3e05ad6d7112125198",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "479dfb6e_daf2d40c",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-05-10T23:03:31Z",
+      "side": 1,
+      "message": "Updated the commit message with clarification.",
+      "parentUuid": "479dfb6e_3a84c0eb",
+      "revId": "8626e87f454468aefc076b3e05ad6d7112125198",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
