@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "479dfb6e_bacef0d7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-05-10T22:53:44Z",
+      "side": 1,
+      "message": "maybe it would make sense to move this to FileUtils ?",
+      "range": {
+        "startLine": 666,
+        "startChar": 0,
+        "endLine": 674,
+        "endChar": 2
+      },
+      "revId": "a351625a74113f52fc06a10705680f3db19443cf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
