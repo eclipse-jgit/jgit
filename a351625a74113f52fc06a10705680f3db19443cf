@@ -22,6 +22,30 @@
       "revId": "a351625a74113f52fc06a10705680f3db19443cf",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "479dfb6e_ce1db29c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-05-11T15:25:04Z",
+      "side": 1,
+      "message": "Can do, including tests :-), but the semantics of deleteChildren(someFolder, EMPTY_DIRECTORIES_ONLY) is debatable. It could mean:\n\n1. Delete the children, but only if there are only empty\n   directories under someFolder. (I.e., fail if there\u0027s a\n   file or a non-empty directory.)\n2. Ignore files directly under someFolder; try to delete\n   only empty directories under someFolder. (I.e., fail\n   only if there\u0027s a non-empty directory under someFolder.)\n\nWhen combined with IGNORE_ERRORS the net result of the two interpretations would be the same: no files would be deleted, and only empty directories would be removed. (recursively, if RECURSIVE is also given).\n\nInterpretation (1) should check for files being immediate children of someFolder first, like delete().\n\nBoth are possible and are about the same amount of code. Unsure which would be more convenient, or whether anybody would care, especially since the use case in CloneCommand doesn\u0027t use it.\n\n(I find the logic behind EMPTY_DIRECTORIES_ONLY confusing when combined with RECURSIVE, but without IGNORE_ERRORS. If I have a tree like\n\n  A (dir)\n    - B (dir)\n    - C (dir)\n      - d (file)\n      - D (dir)\n\ndelete(A, EMPTY_DIRECTORIES_ONLY) may actually delete B\nbefore aborting the deletion of C at d. I find it inconsistent that B might be gone, while D remains. But I\u0027m certainly not going to touch that. The only use of that mode is in GC, where a delete(dir, EMPTY_DIRECTORIES_ONLY | IGNORE_ERRORS) occurs, so it\u0027s not recursive and deletes all direct children that are empty directories.)\n\nAnyway, which would you prefer? (In both cases it\u0027s possible that an empty child directory is removed before a non-empty directory is encountered and the operation is aborted if IGNORE_ERRORS is not given.)",
+      "parentUuid": "479dfb6e_bacef0d7",
+      "range": {
+        "startLine": 666,
+        "startChar": 0,
+        "endLine": 674,
+        "endChar": 2
+      },
+      "revId": "a351625a74113f52fc06a10705680f3db19443cf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
