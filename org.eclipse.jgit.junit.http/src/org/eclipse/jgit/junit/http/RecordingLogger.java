@@ -161,6 +161,12 @@ public class RecordingLogger implements Logger {
 	@Override
 	public void warn(String msg, Object... args) {
 		synchronized (warnings) {
+			int i = 0;
+			int index = msg.indexOf("{}");
+			while (index >= 0) {
+				msg = msg.replaceFirst("\\{\\}", "{" + i++ + "}");
+				index = msg.indexOf("{}");
+			}
 			warnings.add(new Warning(MessageFormat.format(msg, args)));
 		}
 	}
