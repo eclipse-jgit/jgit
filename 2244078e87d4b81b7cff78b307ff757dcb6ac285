@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "479dfb6e_2e79de9f",
+        "filename": "org.eclipse.jgit.lfs.server/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-05-11T15:44:08Z",
+      "side": 0,
+      "message": "this configuration should be also removed",
+      "range": {
+        "startLine": 155,
+        "startChar": 0,
+        "endLine": 156,
+        "endChar": 43
+      },
+      "revId": "2244078e87d4b81b7cff78b307ff757dcb6ac285",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "479dfb6e_4ef9c28d",
+        "filename": "org.eclipse.jgit.lfs/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-05-11T15:44:08Z",
+      "side": 0,
+      "message": "same here",
+      "range": {
+        "startLine": 131,
+        "startChar": 0,
+        "endLine": 132,
+        "endChar": 43
+      },
+      "revId": "2244078e87d4b81b7cff78b307ff757dcb6ac285",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
