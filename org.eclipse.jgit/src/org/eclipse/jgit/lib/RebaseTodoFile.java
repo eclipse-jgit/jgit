@@ -43,6 +43,8 @@
 
 package org.eclipse.jgit.lib;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -177,8 +179,8 @@ public class RebaseTodoFile {
 		while (tokenCount < 3 && nextSpace < lineEnd) {
 			switch (tokenCount) {
 			case 0:
-				String actionToken = new String(buf, tokenBegin, nextSpace
-						- tokenBegin - 1);
+				String actionToken = new String(buf, tokenBegin,
+						nextSpace - tokenBegin - 1, UTF_8);
 				tokenBegin = nextSpace;
 				action = RebaseTodoLine.Action.parse(actionToken);
 				if (action == null)
@@ -186,14 +188,14 @@ public class RebaseTodoFile {
 				break;
 			case 1:
 				nextSpace = RawParseUtils.next(buf, tokenBegin, ' ');
-				String commitToken = new String(buf, tokenBegin, nextSpace
-						- tokenBegin - 1);
+				String commitToken = new String(buf, tokenBegin,
+						nextSpace - tokenBegin - 1, UTF_8);
 				tokenBegin = nextSpace;
 				commit = AbbreviatedObjectId.fromString(commitToken);
 				break;
 			case 2:
-				return new RebaseTodoLine(action, commit, RawParseUtils.decode(
-						buf, tokenBegin, 1 + lineEnd));
+				return new RebaseTodoLine(action, commit,
+						RawParseUtils.decode(buf, tokenBegin, 1 + lineEnd));
 			}
 			tokenCount++;
 		}
