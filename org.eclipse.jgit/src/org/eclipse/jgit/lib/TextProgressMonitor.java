@@ -44,7 +44,10 @@
 
 package org.eclipse.jgit.lib;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Writer;
 
@@ -56,7 +59,7 @@ public class TextProgressMonitor extends BatchingProgressMonitor {
 
 	/** Initialize a new progress monitor. */
 	public TextProgressMonitor() {
-		this(new PrintWriter(System.err));
+		this(new PrintWriter(new OutputStreamWriter(System.err, UTF_8)));
 	}
 
 	/**
