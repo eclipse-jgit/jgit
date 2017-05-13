@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "479dfb6e_08aec96c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-05-13T11:49:53Z",
+      "side": 1,
+      "message": "How about\n\n  Thread cleanupHook \u003d new Thread(() -\u003e cleanup());\n\nFor Runnables, these Java 8 lambdas are really nice :-)",
+      "revId": "fd9904fa259f0e082294eed0f9b81b85ab23b432",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
