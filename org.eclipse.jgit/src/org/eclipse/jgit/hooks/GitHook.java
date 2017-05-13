@@ -42,9 +42,12 @@
  */
 package org.eclipse.jgit.hooks;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 import java.util.concurrent.Callable;
 
 import org.eclipse.jgit.api.errors.AbortedByHookException;
@@ -147,12 +150,19 @@ abstract class GitHook<T> implements Callable<T> {
 	 */
 	protected void doRun() throws AbortedByHookException {
 		final ByteArrayOutputStream errorByteArray = new ByteArrayOutputStream();
-		final PrintStream hookErrRedirect = new PrintStream(errorByteArray);
+		PrintStream hookErrRedirect = null;
+		try {
+			hookErrRedirect = new PrintStream(errorByteArray, false,
+					UTF_8.name());
+		} catch (UnsupportedEncodingException e) {
+			// UTF-8 is guaranteed to be available
+		}
 		ProcessResult result = FS.DETECTED.runHookIfPresent(getRepository(),
 				getHookName(), getParameters(), getOutputStream(),
 				hookErrRedirect, getStdinArgs());
 		if (result.isExecutedWithError()) {
-			throw new AbortedByHookException(errorByteArray.toString(),
+			throw new AbortedByHookException(
+					new String(errorByteArray.toByteArray(), UTF_8),
 					getHookName(), result.getExitCode());
 		}
 	}
