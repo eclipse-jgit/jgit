@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "479dfb6e_13a27ef6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RebaseTodoFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-05-15T06:47:59Z",
+      "side": 1,
+      "message": "import this static?",
+      "range": {
+        "startLine": 182,
+        "startChar": 41,
+        "endLine": 182,
+        "endChar": 46
+      },
+      "revId": "ad14bde21b62da510e08c15daa4ce98ec72ff746",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
