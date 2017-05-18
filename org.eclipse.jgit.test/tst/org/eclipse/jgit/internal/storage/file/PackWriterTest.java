@@ -711,7 +711,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 			}
 			ObjectWalk ow = walk.toObjectWalkWithSameObjects();
 
-			pw.preparePack(NullProgressMonitor.INSTANCE, ow, want, have);
+			pw.preparePack(NullProgressMonitor.INSTANCE, ow, want, have, NONE);
 			String id = pw.computeName().getName();
 			File packdir = new File(repo.getObjectsDirectory(), "pack");
 			File packFile = new File(packdir, "pack-" + id + ".pack");
@@ -832,7 +832,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		writer.setUseBitmaps(useBitmaps);
 		writer.setThin(thin);
 		writer.setIgnoreMissingUninteresting(ignoreMissingUninteresting);
-		writer.preparePack(m, interestings, uninterestings);
+		writer.preparePack(m, interestings, uninterestings, NONE);
 		writer.writePack(m, m, os);
 		writer.close();
 		verifyOpenPack(thin);

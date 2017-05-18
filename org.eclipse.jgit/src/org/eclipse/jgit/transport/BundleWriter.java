@@ -232,7 +232,7 @@ public class BundleWriter {
 			packWriter.setReuseValidatingObjects(false);
 			if (exc.size() == 0)
 				packWriter.setTagTargets(tagTargets);
-			packWriter.preparePack(monitor, inc, exc);
+			packWriter.preparePack(monitor, inc, exc, PackWriter.NONE);
 
 			final Writer w = new OutputStreamWriter(os, Constants.CHARSET);
 			w.write(TransportBundle.V2_BUNDLE_SIGNATURE);

@@ -352,7 +352,8 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 			writer.setThin(thinPack);
 			writer.setReuseValidatingObjects(false);
 			writer.setDeltaBaseAsOffset(capableOfsDelta);
-			writer.preparePack(monitor, newObjects, remoteObjects);
+			writer.preparePack(monitor, newObjects, remoteObjects,
+					PackWriter.NONE);
 
 			OutputStream packOut = out;
 			if (capableSideBand) {
