@@ -1523,7 +1523,7 @@ public class UploadPack {
 				walk.reset();
 
 				ObjectWalk ow = rw.toObjectWalkWithSameObjects();
-				pw.preparePack(pm, ow, wantAll, commonBase);
+				pw.preparePack(pm, ow, wantAll, commonBase, PackWriter.NONE);
 				rw = ow;
 			}
 
