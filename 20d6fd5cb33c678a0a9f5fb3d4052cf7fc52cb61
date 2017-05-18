@@ -117,6 +117,30 @@
       "revId": "20d6fd5cb33c678a0a9f5fb3d4052cf7fc52cb61",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "479dfb6e_0235b48f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 747,
+      "author": {
+        "id": 79788
+      },
+      "writtenOn": "2017-05-18T21:02:11Z",
+      "side": 1,
+      "message": "Yea, I think it is fine to keep it here.",
+      "parentUuid": "479dfb6e_e218b037",
+      "range": {
+        "startLine": 720,
+        "startChar": 0,
+        "endLine": 747,
+        "endChar": 5
+      },
+      "revId": "20d6fd5cb33c678a0a9f5fb3d4052cf7fc52cb61",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
