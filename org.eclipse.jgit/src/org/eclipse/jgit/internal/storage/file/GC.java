@@ -729,7 +729,9 @@ public class GC {
 		long time = System.currentTimeMillis();
 		Collection<Ref> refsBefore = getAllRefs();
 
+		Set<ObjectId> allHeadsAndTags = new HashSet<>();
 		Set<ObjectId> allHeads = new HashSet<>();
+		Set<ObjectId> allTags = new HashSet<>();
 		Set<ObjectId> nonHeads = new HashSet<>();
 		Set<ObjectId> txnHeads = new HashSet<>();
 		Set<ObjectId> tagTargets = new HashSet<>();
@@ -739,16 +741,21 @@ public class GC {
 		for (Ref ref : refsBefore) {
 			checkCancelled();
 			nonHeads.addAll(listRefLogObjects(ref, 0));
-			if (ref.isSymbolic() || ref.getObjectId() == null)
+			if (ref.isSymbolic() || ref.getObjectId() == null) {
 				continue;
-			if (isHead(ref) || isTag(ref))
+			}
+			if (isHead(ref)) {
 				allHeads.add(ref.getObjectId());
-			else if (RefTreeNames.isRefTree(refdb, ref.getName()))
+			} else if (isTag(ref)) {
+				allTags.add(ref.getObjectId());
+			} else if (RefTreeNames.isRefTree(refdb, ref.getName())) {
 				txnHeads.add(ref.getObjectId());
-			else
+			} else {
 				nonHeads.add(ref.getObjectId());
-			if (ref.getPeeledObjectId() != null)
+			}
+			if (ref.getPeeledObjectId() != null) {
 				tagTargets.add(ref.getPeeledObjectId());
+			}
 		}
 
 		List<ObjectIdSet> excluded = new LinkedList<>();
@@ -758,13 +765,19 @@ public class GC {
 				excluded.add(f.getIndex());
 		}
 
-		tagTargets.addAll(allHeads);
+		// Don't exclude tags that are also branch tips
+		allTags.removeAll(allHeads);
+		allHeadsAndTags.addAll(allHeads);
+		allHeadsAndTags.addAll(allTags);
+
+		// Hoist all branch tips and tags earlier in the pack file
+		tagTargets.addAll(allHeadsAndTags);
 		nonHeads.addAll(indexObjects);
 
 		List<PackFile> ret = new ArrayList<>(2);
 		PackFile heads = null;
-		if (!allHeads.isEmpty()) {
-			heads = writePack(allHeads, Collections.<ObjectId> emptySet(),
+		if (!allHeadsAndTags.isEmpty()) {
+			heads = writePack(allHeadsAndTags, PackWriter.NONE, allTags,
 					tagTargets, excluded);
 			if (heads != null) {
 				ret.add(heads);
@@ -772,12 +785,14 @@ public class GC {
 			}
 		}
 		if (!nonHeads.isEmpty()) {
-			PackFile rest = writePack(nonHeads, allHeads, tagTargets, excluded);
+			PackFile rest = writePack(nonHeads, allHeadsAndTags, PackWriter.NONE,
+					tagTargets, excluded);
 			if (rest != null)
 				ret.add(rest);
 		}
 		if (!txnHeads.isEmpty()) {
-			PackFile txn = writePack(txnHeads, PackWriter.NONE, null, excluded);
+			PackFile txn = writePack(txnHeads, PackWriter.NONE, PackWriter.NONE,
+					null, excluded);
 			if (txn != null)
 				ret.add(txn);
 		}
@@ -961,8 +976,9 @@ public class GC {
 	}
 
 	private PackFile writePack(@NonNull Set<? extends ObjectId> want,
-			@NonNull Set<? extends ObjectId> have, Set<ObjectId> tagTargets,
-			List<ObjectIdSet> excludeObjects) throws IOException {
+			@NonNull Set<? extends ObjectId> have, @NonNull Set<ObjectId> tags,
+			Set<ObjectId> tagTargets, List<ObjectIdSet> excludeObjects)
+			throws IOException {
 		checkCancelled();
 		File tmpPack = null;
 		Map<PackExt, File> tmpExts = new TreeMap<>(
@@ -988,12 +1004,13 @@ public class GC {
 			// prepare the PackWriter
 			pw.setDeltaBaseAsOffset(true);
 			pw.setReuseDeltaCommits(false);
-			if (tagTargets != null)
+			if (tagTargets != null) {
 				pw.setTagTargets(tagTargets);
+			}
 			if (excludeObjects != null)
 				for (ObjectIdSet idx : excludeObjects)
 					pw.excludeObjects(idx);
-			pw.preparePack(pm, want, have);
+			pw.preparePack(pm, want, have, PackWriter.NONE, tags);
 			if (pw.getObjectCount() == 0)
 				return null;
 			checkCancelled();
