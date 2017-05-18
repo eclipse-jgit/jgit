@@ -140,7 +140,7 @@ import org.eclipse.jgit.util.TemporaryBuffer;
  * <p>
  * Typical usage consists of creating an instance, configuring options,
  * preparing the list of objects by calling {@link #preparePack(Iterator)} or
- * {@link #preparePack(ProgressMonitor, Set, Set)}, and streaming with
+ * {@link #preparePack(ProgressMonitor, Set, Set, Set)}, and streaming with
  * {@link #writePack(ProgressMonitor, ProgressMonitor, OutputStream)}. If the
  * pack is being stored as a file the matching index can be written out after
  * writing the pack by {@link #writeIndex(OutputStream)}. An optional bitmap
@@ -233,7 +233,9 @@ public class PackWriter implements AutoCloseable {
 
 	private List<CachedPack> cachedPacks = new ArrayList<>(2);
 
-	private Set<ObjectId> tagTargets = Collections.emptySet();
+	private Set<ObjectId> tagTargets = NONE;
+
+	private Set<? extends ObjectId> excludeFromBitmapSelection = NONE;
 
 	private ObjectIdSet[] excludeInPacks;
 
@@ -298,7 +300,7 @@ public class PackWriter implements AutoCloseable {
 	 * Create writer for specified repository.
 	 * <p>
 	 * Objects for packing are specified in {@link #preparePack(Iterator)} or
-	 * {@link #preparePack(ProgressMonitor, Set, Set)}.
+	 * {@link #preparePack(ProgressMonitor, Set, Set, Set)}.
 	 *
 	 * @param repo
 	 *            repository where objects are stored.
@@ -311,7 +313,7 @@ public class PackWriter implements AutoCloseable {
 	 * Create a writer to load objects from the specified reader.
 	 * <p>
 	 * Objects for packing are specified in {@link #preparePack(Iterator)} or
-	 * {@link #preparePack(ProgressMonitor, Set, Set)}.
+	 * {@link #preparePack(ProgressMonitor, Set, Set, Set)}.
 	 *
 	 * @param reader
 	 *            reader to read from the repository with.
@@ -324,7 +326,7 @@ public class PackWriter implements AutoCloseable {
 	 * Create writer for specified repository.
 	 * <p>
 	 * Objects for packing are specified in {@link #preparePack(Iterator)} or
-	 * {@link #preparePack(ProgressMonitor, Set, Set)}.
+	 * {@link #preparePack(ProgressMonitor, Set, Set, Set)}.
 	 *
 	 * @param repo
 	 *            repository where objects are stored.
@@ -339,7 +341,7 @@ public class PackWriter implements AutoCloseable {
 	 * Create writer with a specified configuration.
 	 * <p>
 	 * Objects for packing are specified in {@link #preparePack(Iterator)} or
-	 * {@link #preparePack(ProgressMonitor, Set, Set)}.
+	 * {@link #preparePack(ProgressMonitor, Set, Set, Set)}.
 	 *
 	 * @param config
 	 *            configuration for the pack writer.
@@ -527,7 +529,7 @@ public class PackWriter implements AutoCloseable {
 	/**
 	 * @return true to ignore objects that are uninteresting and also not found
 	 *         on local disk; false to throw a {@link MissingObjectException}
-	 *         out of {@link #preparePack(ProgressMonitor, Set, Set)} if an
+	 *         out of {@link #preparePack(ProgressMonitor, Set, Set, Set)} if an
 	 *         uninteresting object is not in the source repository. By default,
 	 *         true, permitting gracefully ignoring of uninteresting objects.
 	 */
@@ -706,24 +708,27 @@ public class PackWriter implements AutoCloseable {
 	 *            points of graph traversal). Pass {@link #NONE} if all objects
 	 *            reachable from {@code want} are desired, such as when serving
 	 *            a clone.
+	 * @param noBitmaps
+	 *            collection of objects to be excluded from bitmap commit
+	 *            selection
 	 * @throws IOException
 	 *             when some I/O problem occur during reading objects.
 	 */
 	public void preparePack(ProgressMonitor countingMonitor,
 			@NonNull Set<? extends ObjectId> want,
-			@NonNull Set<? extends ObjectId> have) throws IOException {
-		preparePack(countingMonitor,
-				want, have, Collections.<ObjectId> emptySet());
+			@NonNull Set<? extends ObjectId> have,
+			@NonNull Set<ObjectId> noBitmaps) throws IOException {
+		preparePack(countingMonitor, want, have, noBitmaps, NONE);
 	}
 
 	/**
 	 * Prepare the list of objects to be written to the pack stream.
 	 * <p>
-	 * Like {@link #preparePack(ProgressMonitor, Set, Set)} but also allows
+	 * Like {@link #preparePack(ProgressMonitor, Set, Set, Set)} but also allows
 	 * specifying commits that should not be walked past ("shallow" commits).
-	 * The caller is responsible for filtering out commits that should not
-	 * be shallow any more ("unshallow" commits as in {@link #setShallowPack})
-	 * from the shallow set.
+	 * The caller is responsible for filtering out commits that should not be
+	 * shallow any more ("unshallow" commits as in {@link #setShallowPack}) from
+	 * the shallow set.
 	 *
 	 * @param countingMonitor
 	 *            progress during object enumeration.
@@ -731,27 +736,31 @@ public class PackWriter implements AutoCloseable {
 	 *            objects of interest, ancestors of which will be included in
 	 *            the pack. Must not be {@code null}.
 	 * @param have
-	 *            objects whose ancestors (up to and including
-	 *            {@code shallow} commits) do not need to be included in the
-	 *            pack because they are already available from elsewhere.
-	 *            Must not be {@code null}.
+	 *            objects whose ancestors (up to and including {@code shallow}
+	 *            commits) do not need to be included in the pack because they
+	 *            are already available from elsewhere. Must not be
+	 *            {@code null}.
+	 * @param noBitmaps
+	 *            collection of objects to be excluded from bitmap commit
+	 *            selection
 	 * @param shallow
 	 *            commits indicating the boundary of the history marked with
-	 *            {@code have}. Shallow commits have parents but those
-	 *            parents are considered not to be already available.
-	 *            Parents of {@code shallow} commits and earlier generations
-	 *            will be included in the pack if requested by {@code want}.
-	 *            Must not be {@code null}.
+	 *            {@code have}. Shallow commits have parents but those parents
+	 *            are considered not to be already available. Parents of
+	 *            {@code shallow} commits and earlier generations will be
+	 *            included in the pack if requested by {@code want}. Must not be
+	 *            {@code null}.
 	 * @throws IOException
-	 *            an I/O problem occured while reading objects.
+	 *             an I/O problem occured while reading objects.
 	 */
 	public void preparePack(ProgressMonitor countingMonitor,
 			@NonNull Set<? extends ObjectId> want,
 			@NonNull Set<? extends ObjectId> have,
+			@NonNull Set<? extends ObjectId> noBitmaps,
 			@NonNull Set<? extends ObjectId> shallow) throws IOException {
 		try (ObjectWalk ow = getObjectWalk()) {
 			ow.assumeShallow(shallow);
-			preparePack(countingMonitor, ow, want, have);
+			preparePack(countingMonitor, ow, want, have, noBitmaps);
 		}
 	}
 
@@ -784,13 +793,17 @@ public class PackWriter implements AutoCloseable {
 	 *            points of graph traversal). Pass {@link #NONE} if all objects
 	 *            reachable from {@code want} are desired, such as when serving
 	 *            a clone.
+	 * @param noBitmaps
+	 *            collection of objects to be excluded from bitmap commit
+	 *            selection
 	 * @throws IOException
 	 *             when some I/O problem occur during reading objects.
 	 */
 	public void preparePack(ProgressMonitor countingMonitor,
 			@NonNull ObjectWalk walk,
 			@NonNull Set<? extends ObjectId> interestingObjects,
-			@NonNull Set<? extends ObjectId> uninterestingObjects)
+			@NonNull Set<? extends ObjectId> uninterestingObjects,
+			@NonNull Set<? extends ObjectId> noBitmaps)
 			throws IOException {
 		if (countingMonitor == null)
 			countingMonitor = NullProgressMonitor.INSTANCE;
@@ -798,7 +811,7 @@ public class PackWriter implements AutoCloseable {
 			throw new IllegalArgumentException(
 					JGitText.get().shallowPacksRequireDepthWalk);
 		findObjectsToPack(countingMonitor, walk, interestingObjects,
-				uninterestingObjects);
+				uninterestingObjects, noBitmaps);
 	}
 
 	/**
@@ -965,8 +978,9 @@ public class PackWriter implements AutoCloseable {
 	/**
 	 * Write the prepared pack to the supplied stream.
 	 * <p>
-	 * Called after {@link #preparePack(ProgressMonitor, ObjectWalk, Set, Set)}
-	 * or {@link #preparePack(ProgressMonitor, Set, Set)}.
+	 * Called after
+	 * {@link #preparePack(ProgressMonitor, ObjectWalk, Set, Set, Set)} or
+	 * {@link #preparePack(ProgressMonitor, Set, Set, Set)}.
 	 * <p>
 	 * Performs delta search if enabled and writes the pack stream.
 	 * <p>
@@ -1652,12 +1666,15 @@ public class PackWriter implements AutoCloseable {
 
 	private void findObjectsToPack(@NonNull ProgressMonitor countingMonitor,
 			@NonNull ObjectWalk walker, @NonNull Set<? extends ObjectId> want,
-			@NonNull Set<? extends ObjectId> have) throws IOException {
+			@NonNull Set<? extends ObjectId> have,
+			@NonNull Set<? extends ObjectId> noBitmaps) throws IOException {
 		final long countingStart = System.currentTimeMillis();
-		beginPhase(PackingPhase.COUNTING, countingMonitor, ProgressMonitor.UNKNOWN);
+		beginPhase(PackingPhase.COUNTING, countingMonitor,
+				ProgressMonitor.UNKNOWN);
 
 		stats.interestingObjects = Collections.unmodifiableSet(new HashSet<ObjectId>(want));
 		stats.uninterestingObjects = Collections.unmodifiableSet(new HashSet<ObjectId>(have));
+		excludeFromBitmapSelection = noBitmaps;
 
 		canBuildBitmaps = config.isBuildBitmaps()
 				&& !shallowPack
@@ -2071,7 +2088,8 @@ public class PackWriter implements AutoCloseable {
 				reader, writeBitmaps, pm, stats.interestingObjects, config);
 
 		Collection<PackWriterBitmapPreparer.BitmapCommit> selectedCommits =
-				bitmapPreparer.selectCommits(numCommits);
+				bitmapPreparer.selectCommits(numCommits,
+						excludeFromBitmapSelection);
 
 		beginPhase(PackingPhase.BUILDING_BITMAPS, pm, selectedCommits.size());
 

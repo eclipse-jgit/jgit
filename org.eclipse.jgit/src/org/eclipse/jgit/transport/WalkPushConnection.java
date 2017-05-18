@@ -234,7 +234,7 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 				if (r.getPeeledObjectId() != null)
 					have.add(r.getPeeledObjectId());
 			}
-			writer.preparePack(monitor, need, have);
+			writer.preparePack(monitor, need, have, PackWriter.NONE);
 
 			// We don't have to continue further if the pack will
 			// be an empty pack, as the remote has all objects it

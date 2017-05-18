@@ -879,7 +879,7 @@ public class TestRepository<R extends Repository> {
 				Set<ObjectId> all = new HashSet<>();
 				for (Ref r : db.getAllRefs().values())
 					all.add(r.getObjectId());
-				pw.preparePack(m, all, PackWriter.NONE);
+				pw.preparePack(m, all, PackWriter.NONE, PackWriter.NONE);
 
 				final ObjectId name = pw.computeName();
 
