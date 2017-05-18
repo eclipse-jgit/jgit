@@ -53,6 +53,7 @@ import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.UN
 import static org.eclipse.jgit.internal.storage.pack.PackExt.BITMAP_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
+import static org.eclipse.jgit.internal.storage.pack.PackWriter.NONE;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -111,7 +112,8 @@ public class DfsGarbageCollector {
 	private List<DfsPackFile> packsBefore;
 	private List<DfsPackFile> expiredGarbagePacks;
 
-	private Set<ObjectId> allHeads;
+	private Set<ObjectId> allHeadsAndTags;
+	private Set<ObjectId> allTags;
 	private Set<ObjectId> nonHeads;
 	private Set<ObjectId> txnHeads;
 	private Set<ObjectId> tagTargets;
@@ -241,23 +243,36 @@ public class DfsGarbageCollector {
 			Collection<Ref> refsBefore = getAllRefs();
 			readPacksBefore();
 
-			allHeads = new HashSet<>();
+			Set<ObjectId> allHeads = new HashSet<>();
+			allHeadsAndTags = new HashSet<>();
+			allTags = new HashSet<>();
 			nonHeads = new HashSet<>();
 			txnHeads = new HashSet<>();
 			tagTargets = new HashSet<>();
 			for (Ref ref : refsBefore) {
-				if (ref.isSymbolic() || ref.getObjectId() == null)
+				if (ref.isSymbolic() || ref.getObjectId() == null) {
 					continue;
-				if (isHead(ref) || isTag(ref))
+				}
+				if (isHead(ref)) {
 					allHeads.add(ref.getObjectId());
-				else if (RefTreeNames.isRefTree(refdb, ref.getName()))
+				} else if (isTag(ref)) {
+					allTags.add(ref.getObjectId());
+				} else if (RefTreeNames.isRefTree(refdb, ref.getName())) {
 					txnHeads.add(ref.getObjectId());
-				else
+				} else {
 					nonHeads.add(ref.getObjectId());
-				if (ref.getPeeledObjectId() != null)
+				}
+				if (ref.getPeeledObjectId() != null) {
 					tagTargets.add(ref.getPeeledObjectId());
+				}
 			}
-			tagTargets.addAll(allHeads);
+			// Don't exclude tags that are also branch tips.
+			allTags.removeAll(allHeads);
+			allHeadsAndTags.addAll(allHeads);
+			allHeadsAndTags.addAll(allTags);
+
+			// Hoist all branch tips and tags earlier in the pack file
+			tagTargets.addAll(allHeadsAndTags);
 
 			boolean rollback = true;
 			try {
@@ -413,12 +428,12 @@ public class DfsGarbageCollector {
 	}
 
 	private void packHeads(ProgressMonitor pm) throws IOException {
-		if (allHeads.isEmpty())
+		if (allHeadsAndTags.isEmpty())
 			return;
 
 		try (PackWriter pw = newPackWriter()) {
 			pw.setTagTargets(tagTargets);
-			pw.preparePack(pm, allHeads, PackWriter.NONE);
+			pw.preparePack(pm, allHeadsAndTags, NONE, NONE, allTags);
 			if (0 < pw.getObjectCount())
 				writePack(GC, pw, pm,
 						estimateGcPackSize(INSERT, RECEIVE, COMPACT, GC));
@@ -432,7 +447,7 @@ public class DfsGarbageCollector {
 		try (PackWriter pw = newPackWriter()) {
 			for (ObjectIdSet packedObjs : newPackObj)
 				pw.excludeObjects(packedObjs);
-			pw.preparePack(pm, nonHeads, allHeads);
+			pw.preparePack(pm, nonHeads, allHeadsAndTags);
 			if (0 < pw.getObjectCount())
 				writePack(GC_REST, pw, pm,
 						estimateGcPackSize(INSERT, RECEIVE, COMPACT, GC_REST));
@@ -446,7 +461,7 @@ public class DfsGarbageCollector {
 		try (PackWriter pw = newPackWriter()) {
 			for (ObjectIdSet packedObjs : newPackObj)
 				pw.excludeObjects(packedObjs);
-			pw.preparePack(pm, txnHeads, PackWriter.NONE);
+			pw.preparePack(pm, txnHeads, NONE);
 			if (0 < pw.getObjectCount())
 				writePack(GC_TXN, pw, pm, 0 /* unknown pack size */);
 		}
