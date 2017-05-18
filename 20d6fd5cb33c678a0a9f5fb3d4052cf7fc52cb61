@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "479dfb6e_22139898",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 979,
+      "author": {
+        "id": 79788
+      },
+      "writtenOn": "2017-05-18T19:38:17Z",
+      "side": 1,
+      "message": "@NonNull for this too?",
+      "range": {
+        "startLine": 979,
+        "startChar": 42,
+        "endLine": 979,
+        "endChar": 60
+      },
+      "revId": "20d6fd5cb33c678a0a9f5fb3d4052cf7fc52cb61",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "479dfb6e_e2dd1057",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 747,
+      "author": {
+        "id": 79788
+      },
+      "writtenOn": "2017-05-18T19:38:17Z",
+      "side": 1,
+      "message": "this helper function comment is redundant.",
+      "range": {
+        "startLine": 720,
+        "startChar": 0,
+        "endLine": 747,
+        "endChar": 5
+      },
+      "revId": "20d6fd5cb33c678a0a9f5fb3d4052cf7fc52cb61",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
