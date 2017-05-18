@@ -93,6 +93,30 @@
       "revId": "20d6fd5cb33c678a0a9f5fb3d4052cf7fc52cb61",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "479dfb6e_e218b037",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 747,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-05-18T20:57:27Z",
+      "side": 1,
+      "message": "Well, this is an internal class, but I made some effort not to change the semantics of the existing public methods since it is probably used by clients.",
+      "parentUuid": "479dfb6e_a27948a1",
+      "range": {
+        "startLine": 720,
+        "startChar": 0,
+        "endLine": 747,
+        "endChar": 5
+      },
+      "revId": "20d6fd5cb33c678a0a9f5fb3d4052cf7fc52cb61",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
