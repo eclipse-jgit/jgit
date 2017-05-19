@@ -95,7 +95,7 @@ import org.eclipse.jgit.util.BlockList;
  * See the base {@link ObjectReader} documentation for details. Notably, a
  * reader is not thread safe.
  */
-public final class DfsReader extends ObjectReader implements ObjectReuseAsIs {
+public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 	private static final int MAX_RESOLVE_MATCHES = 256;
 
 	/** Temporary buffer large enough for at least one raw object id. */
@@ -112,7 +112,13 @@ public final class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 	private DfsPackFile last;
 	private boolean avoidUnreachable;
 
-	DfsReader(DfsObjDatabase db) {
+	/**
+	 * Initialize a new DfsReader
+	 *
+	 * @param db
+	 *            parent DfsObjDatabase.
+	 */
+	protected DfsReader(DfsObjDatabase db) {
 		this.db = db;
 		this.streamFileThreshold = db.getReaderOptions().getStreamFileThreshold();
 	}
@@ -129,7 +135,7 @@ public final class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 
 	@Override
 	public ObjectReader newReader() {
-		return new DfsReader(db);
+		return db.newReader();
 	}
 
 	@Override

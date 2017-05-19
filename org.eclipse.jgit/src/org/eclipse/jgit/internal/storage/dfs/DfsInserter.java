@@ -530,7 +530,7 @@ public class DfsInserter extends ObjectInserter {
 	}
 
 	private class Reader extends ObjectReader {
-		private final DfsReader ctx = new DfsReader(db);
+		private final DfsReader ctx = db.newReader();
 
 		@Override
 		public ObjectReader newReader() {
@@ -647,7 +647,7 @@ public class DfsInserter extends ObjectInserter {
 
 		@Override
 		public ObjectStream openStream() throws IOException {
-			final DfsReader ctx = new DfsReader(db);
+			final DfsReader ctx = db.newReader();
 			if (srcPack != packKey) {
 				try {
 					// Post DfsInserter.flush() use the normal code path.
