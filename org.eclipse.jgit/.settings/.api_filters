@@ -24,4 +24,12 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/merge/ResolveMerger.java" type="org.eclipse.jgit.merge.ResolveMerger">
+        <filter comment="OSGi semantic versioning allows breaking implementors of an API in a minor version" id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.merge.ResolveMerger"/>
+                <message_argument value="processEntry(CanonicalTreeParser, CanonicalTreeParser, CanonicalTreeParser, DirCacheBuildIterator, WorkingTreeIterator, boolean)"/>
+            </message_arguments>
+        </filter>
+    </resource>
 </component>
