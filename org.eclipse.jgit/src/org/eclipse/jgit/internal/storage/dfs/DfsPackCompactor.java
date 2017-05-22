@@ -201,7 +201,7 @@ public class DfsPackCompactor {
 			pm = NullProgressMonitor.INSTANCE;
 
 		DfsObjDatabase objdb = repo.getObjectDatabase();
-		try (DfsReader ctx = (DfsReader) objdb.newReader()) {
+		try (DfsReader ctx = objdb.newReader()) {
 			PackConfig pc = new PackConfig(repo);
 			pc.setIndexVersion(2);
 			pc.setDeltaCompress(false);
