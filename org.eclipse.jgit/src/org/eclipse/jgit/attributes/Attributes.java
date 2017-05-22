@@ -1,5 +1,6 @@
 /*
- * Copyright (C) 2015, Ivan Motsch <ivan.motsch@bsiag.com>
+ * Copyright (C) 2015, Ivan Motsch <ivan.motsch@bsiag.com>,
+ * Copyright (C) 2017, Obeo (mathieu.cartaud@obeo.fr)
  *
  * This program and the accompanying materials are made available
  * under the terms of the Eclipse Distribution License v1.0 which
@@ -48,6 +49,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.eclipse.jgit.attributes.Attribute.State;
+import org.eclipse.jgit.lib.Constants;
 
 /**
  * Represents a set of attributes for a path
@@ -168,6 +170,26 @@ public final class Attributes {
 	public String getValue(String key) {
 		Attribute a = map.get(key);
 		return a != null ? a.getValue() : null;
+	}
+
+	/**
+	 * Test if the given attributes implies to handle to related entry as a
+	 * binary file (i.e. if the entry has an -merge or a merge=binary
+	 * attribute).
+	 *
+	 * @return <code>true</code> if the entry must be handled like a binary one,
+	 *         <code>false</code> otherwise
+	 * @since 4.9
+	 */
+	public boolean isBinary() {
+		if (isUnset(Constants.ATTR_MERGE)) {
+				return true;
+		} else if (isCustom(Constants.ATTR_MERGE)
+				&& getValue(Constants.ATTR_MERGE)
+						.equals(Constants.ATTR_BUILTIN_BINARY_MERGER)) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override

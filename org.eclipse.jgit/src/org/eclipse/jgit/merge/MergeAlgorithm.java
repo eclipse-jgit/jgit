@@ -1,5 +1,6 @@
 /*
- * Copyright (C) 2009, Christian Halstrick <christian.halstrick@sap.com>
+ * Copyright (C) 2009, Christian Halstrick <christian.halstrick@sap.com>,
+ * Copyright (C) 2017, Obeo (mathieu.cartaud@obeo.fr)
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -47,6 +48,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.jgit.attributes.Attributes;
 import org.eclipse.jgit.diff.DiffAlgorithm;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.EditList;
@@ -98,6 +100,30 @@ public final class MergeAlgorithm {
 	 */
 	public <S extends Sequence> MergeResult<S> merge(
 			SequenceComparator<S> cmp, S base, S ours, S theirs) {
+		return merge(cmp, base, ours, theirs, new Attributes());
+	}
+
+	/**
+	 * Does the three way merge between a common base and two sequences.
+	 *
+	 * @param <S>
+	 *            type of sequence.
+	 * @param cmp
+	 *            comparison method for this execution.
+	 * @param base
+	 *            the common base sequence
+	 * @param ours
+	 *            the first sequence to be merged
+	 * @param theirs
+	 *            the second sequence to be merged
+	 * @param attributes
+	 *            the attributes defined for this entry
+	 * @return the resulting content
+	 * @since 4.9
+	 */
+	public <S extends Sequence> MergeResult<S> merge(
+			SequenceComparator<S> cmp, S base, S ours, S theirs,
+			Attributes attributes) {
 		List<S> sequences = new ArrayList<>(3);
 		sequences.add(base);
 		sequences.add(ours);
@@ -131,6 +157,14 @@ public final class MergeAlgorithm {
 			} else
 				// they deleted, we didn't modify -> Let their deletion win
 				result.add(2, 0, 0, ConflictState.NO_CONFLICT);
+			return result;
+		} else if (attributes.isBinary()) {
+			// The file has an attribute 'merge' unset or the binary merger
+			// specifically set. It is considered as a binary file
+			result.add(1, 0, ours.size(),
+					ConflictState.FIRST_CONFLICTING_RANGE);
+			result.add(2, 0, theirs.size(),
+					ConflictState.NEXT_CONFLICTING_RANGE);
 			return result;
 		}
 
