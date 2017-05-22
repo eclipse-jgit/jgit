@@ -38,7 +38,8 @@
 package org.eclipse.jgit.api.errors;
 
 /**
- * Exception thrown when the server rejected a too large pack
+ * Exception thrown when PackParser finds an object larger than a predefined
+ * limit
  *
  * @since 4.4
  */
