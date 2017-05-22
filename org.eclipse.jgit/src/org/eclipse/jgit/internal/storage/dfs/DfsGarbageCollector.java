@@ -235,7 +235,7 @@ public class DfsGarbageCollector {
 					JGitText.get().supportOnlyPackIndexVersion2);
 
 		startTimeMillis = SystemReader.getInstance().getCurrentTime();
-		ctx = (DfsReader) objdb.newReader();
+		ctx = objdb.newReader();
 		try {
 			refdb.refresh();
 			objdb.clearCache();
