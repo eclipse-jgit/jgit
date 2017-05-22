@@ -2,6 +2,7 @@
  * Copyright (C) 2010, Christian Halstrick <christian.halstrick@sap.com>,
  * Copyright (C) 2010-2012, Matthias Sohn <matthias.sohn@sap.com>
  * Copyright (C) 2012, Research In Motion Limited
+ * Copyright (C) 2017, Obeo (mathieu.cartaud@obeo.fr)
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -67,6 +68,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.attributes.Attributes;
 import org.eclipse.jgit.diff.DiffAlgorithm;
 import org.eclipse.jgit.diff.DiffAlgorithm.SupportedAlgorithm;
 import org.eclipse.jgit.diff.RawText;
@@ -84,6 +87,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.GitAttributes;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -429,9 +433,9 @@ public class ResolveMerger extends ThreeWayMerger {
 	}
 
 	/**
-	 * Processes one path and tries to merge. This method will do all do all
-	 * trivial (not content) merges and will also detect if a merge will fail.
-	 * The merge will fail when one of the following is true
+	 * Processes one path and tries to merge. This method will do all trivial
+	 * (not content) merges and will also detect if a merge will fail. The merge
+	 * will fail when one of the following is true
 	 * <ul>
 	 * <li>the index entry does not match the entry in ours. When merging one
 	 * branch into the current HEAD, ours will point to HEAD and theirs will
@@ -475,7 +479,63 @@ public class ResolveMerger extends ThreeWayMerger {
 	protected boolean processEntry(CanonicalTreeParser base,
 			CanonicalTreeParser ours, CanonicalTreeParser theirs,
 			DirCacheBuildIterator index, WorkingTreeIterator work,
-			boolean ignoreConflicts)
+			boolean ignoreConflicts) throws MissingObjectException,
+			IncorrectObjectTypeException, CorruptObjectException, IOException {
+		return processEntry(base, ours, theirs, index, work, ignoreConflicts,
+				null);
+	}
+
+	/**
+	 * Processes one path and tries to merge taking git attributes in account.
+	 * This method will do all trivial (not content) merges and will also detect
+	 * if a merge will fail. The merge will fail when one of the following is
+	 * true
+	 * <ul>
+	 * <li>the index entry does not match the entry in ours. When merging one
+	 * branch into the current HEAD, ours will point to HEAD and theirs will
+	 * point to the other branch. It is assumed that the index matches the HEAD
+	 * because it will only not match HEAD if it was populated before the merge
+	 * operation. But the merge commit should not accidentally contain
+	 * modifications done before the merge. Check the <a href=
+	 * "http://www.kernel.org/pub/software/scm/git/docs/git-read-tree.html#_3_way_merge"
+	 * >git read-tree</a> documentation for further explanations.</li>
+	 * <li>A conflict was detected and the working-tree file is dirty. When a
+	 * conflict is detected the content-merge algorithm will try to write a
+	 * merged version into the working-tree. If the file is dirty we would
+	 * override unsaved data.</li>
+	 * </ul>
+	 *
+	 * @param base
+	 *            the common base for ours and theirs
+	 * @param ours
+	 *            the ours side of the merge. When merging a branch into the
+	 *            HEAD ours will point to HEAD
+	 * @param theirs
+	 *            the theirs side of the merge. When merging a branch into the
+	 *            current HEAD theirs will point to the branch which is merged
+	 *            into HEAD.
+	 * @param index
+	 *            the index entry
+	 * @param work
+	 *            the file in the working tree
+	 * @param ignoreConflicts
+	 *            see
+	 *            {@link ResolveMerger#mergeTrees(AbstractTreeIterator, RevTree, RevTree, boolean)}
+	 * @param attributes
+	 *            the attributes defined for this entry
+	 * @return <code>false</code> if the merge will fail because the index entry
+	 *         didn't match ours or the working-dir file was dirty and a
+	 *         conflict occurred
+	 * @throws MissingObjectException
+	 * @throws IncorrectObjectTypeException
+	 * @throws CorruptObjectException
+	 * @throws IOException
+	 * @since 4.9
+	 */
+	protected boolean processEntry(CanonicalTreeParser base,
+			CanonicalTreeParser ours, CanonicalTreeParser theirs,
+			DirCacheBuildIterator index, WorkingTreeIterator work,
+			boolean ignoreConflicts, @Nullable Attributes attributes)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			CorruptObjectException, IOException {
 		enterSubtree = true;
@@ -635,10 +695,12 @@ public class ResolveMerger extends ThreeWayMerger {
 				return true;
 			}
 
-			MergeResult<RawText> result = contentMerge(base, ours, theirs);
-			if (ignoreConflicts)
+			MergeResult<RawText> result = contentMerge(base, ours, theirs,
+					attributes);
+			if (ignoreConflicts) {
 				result.setContainsConflicts(false);
-			updateIndex(base, ours, theirs, result);
+			}
+			updateIndex(base, ours, theirs, result, attributes);
 			if (result.containsConflicts() && !ignoreConflicts)
 				unmergedPaths.add(tw.getPathString());
 			modifiedFiles.add(tw.getPathString());
@@ -667,7 +729,7 @@ public class ResolveMerger extends ThreeWayMerger {
 
 				// generate a MergeResult for the deleted file
 				mergeResults.put(tw.getPathString(),
-						contentMerge(base, ours, theirs));
+						contentMerge(base, ours, theirs, attributes));
 			}
 		}
 		return true;
@@ -681,12 +743,15 @@ public class ResolveMerger extends ThreeWayMerger {
 	 * @param base
 	 * @param ours
 	 * @param theirs
+	 * @param attributes
+	 *            the attributes defined for this entry
 	 *
 	 * @return the result of the content merge
 	 * @throws IOException
 	 */
 	private MergeResult<RawText> contentMerge(CanonicalTreeParser base,
-			CanonicalTreeParser ours, CanonicalTreeParser theirs)
+			CanonicalTreeParser ours, CanonicalTreeParser theirs,
+			@Nullable Attributes attributes)
 			throws IOException {
 		RawText baseText = base == null ? RawText.EMPTY_TEXT : getRawText(
 				base.getEntryObjectId(), reader);
@@ -695,7 +760,7 @@ public class ResolveMerger extends ThreeWayMerger {
 		RawText theirsText = theirs == null ? RawText.EMPTY_TEXT : getRawText(
 				theirs.getEntryObjectId(), reader);
 		return (mergeAlgorithm.merge(RawTextComparator.DEFAULT, baseText,
-				ourText, theirsText));
+				ourText, theirsText, attributes));
 	}
 
 	private boolean isIndexDirty() {
@@ -752,14 +817,23 @@ public class ResolveMerger extends ThreeWayMerger {
 	 * @param ours
 	 * @param theirs
 	 * @param result
+	 * @param attributes
+	 *            the attributes defined for this entry
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
 	private void updateIndex(CanonicalTreeParser base,
 			CanonicalTreeParser ours, CanonicalTreeParser theirs,
-			MergeResult<RawText> result) throws FileNotFoundException,
+			MergeResult<RawText> result, @Nullable Attributes attributes)
+			throws FileNotFoundException,
 			IOException {
-		File mergedFile = !inCore ? writeMergedFile(result) : null;
+		// Merging a binary file should mark the file in conflict and keep
+		// ours version. An in memory merge should also let the local file
+		// unchanged.
+		File mergedFile = !inCore
+				&& !GitAttributes.isBinary(attributes)
+				? writeMergedFile(result) : null;
+
 		if (result.containsConflicts()) {
 			// A conflict occurred, the file will contain conflict markers
 			// the index will be populated with the three stages and the
@@ -1091,6 +1165,8 @@ public class ResolveMerger extends ThreeWayMerger {
 	protected boolean mergeTreeWalk(TreeWalk treeWalk, boolean ignoreConflicts)
 			throws IOException {
 		boolean hasWorkingTreeIterator = tw.getTreeCount() > T_FILE;
+		boolean hasAttributeNodeProvider = treeWalk
+				.getAttributesNodeProvider() != null;
 		while (treeWalk.next()) {
 			if (!processEntry(
 					treeWalk.getTree(T_BASE, CanonicalTreeParser.class),
@@ -1098,7 +1174,9 @@ public class ResolveMerger extends ThreeWayMerger {
 					treeWalk.getTree(T_THEIRS, CanonicalTreeParser.class),
 					treeWalk.getTree(T_INDEX, DirCacheBuildIterator.class),
 					hasWorkingTreeIterator ? treeWalk.getTree(T_FILE,
-							WorkingTreeIterator.class) : null, ignoreConflicts)) {
+							WorkingTreeIterator.class) : null,
+					ignoreConflicts, hasAttributeNodeProvider
+							? treeWalk.getAttributes() : null)) {
 				cleanUp();
 				return false;
 			}
