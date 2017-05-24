@@ -220,7 +220,9 @@ public class RenameDetector {
 	 * must be allocated, and 1,000,000 file compares may need to be performed.
 	 *
 	 * @param limit
-	 *            new file limit.
+	 *            new file limit. 0 means no limit; a negative number means no
+	 *            inexact rename detection will be performed, only exact rename
+	 *            detection.
 	 */
 	public void setRenameLimit(int limit) {
 		renameLimit = limit;
