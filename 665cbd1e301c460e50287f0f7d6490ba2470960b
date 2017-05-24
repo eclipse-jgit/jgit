@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e78d0f46_0ee8ab73",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 735,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-05-24T01:49:37Z",
+      "side": 1,
+      "message": "static final String",
+      "range": {
+        "startLine": 735,
+        "startChar": 2,
+        "endLine": 735,
+        "endChar": 8
+      },
+      "revId": "665cbd1e301c460e50287f0f7d6490ba2470960b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
