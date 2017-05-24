@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_2d256db3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 734,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-05-24T21:45:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_ad095d39",
+      "range": {
+        "startLine": 734,
+        "startChar": 9,
+        "endLine": 734,
+        "endChar": 21
+      },
+      "revId": "10ae2948393c26b5be9963983c2d50e393c14429",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_cd16a954",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 2
@@ -36,6 +60,24 @@
       "writtenOn": "2017-05-24T21:43:45Z",
       "side": 1,
       "message": "silence warning for non-externalized String by appending //$NON-NLS-1$",
+      "revId": "10ae2948393c26b5be9963983c2d50e393c14429",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_4d1ab976",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 772,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-05-24T21:45:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_cd16a954",
       "revId": "10ae2948393c26b5be9963983c2d50e393c14429",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
