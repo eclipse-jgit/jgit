@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_3cc67d14",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 641,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-05-28T21:34:53Z",
+      "side": 1,
+      "message": "background",
+      "range": {
+        "startLine": 641,
+        "startChar": 19,
+        "endLine": 641,
+        "endChar": 37
+      },
+      "revId": "6faa17cfccd496cb5785e838f22e45ad3cf3b93a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_2c114edf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-05-28T21:34:53Z",
+      "side": 1,
+      "message": "collectGarbage",
+      "range": {
+        "startLine": 246,
+        "startChar": 11,
+        "endLine": 246,
+        "endChar": 13
+      },
+      "revId": "6faa17cfccd496cb5785e838f22e45ad3cf3b93a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c23755_4c168ad8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-05-28T21:34:53Z",
+      "side": 1,
+      "message": "background, and",
+      "range": {
+        "startLine": 246,
+        "startChar": 40,
+        "endLine": 246,
+        "endChar": 55
+      },
+      "revId": "6faa17cfccd496cb5785e838f22e45ad3cf3b93a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_5c50a9db",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1202,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-05-28T21:34:53Z",
+      "side": 1,
+      "message": "4.8",
+      "range": {
+        "startLine": 1202,
+        "startChar": 11,
+        "endLine": 1202,
+        "endChar": 14
+      },
+      "revId": "6faa17cfccd496cb5785e838f22e45ad3cf3b93a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_7c5565ca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1210,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-05-28T21:34:53Z",
+      "side": 1,
+      "message": "4.8",
+      "range": {
+        "startLine": 1210,
+        "startChar": 11,
+        "endLine": 1210,
+        "endChar": 14
+      },
+      "revId": "6faa17cfccd496cb5785e838f22e45ad3cf3b93a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_9c49313b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-05-28T21:34:53Z",
+      "side": 1,
+      "message": "4.8",
+      "range": {
+        "startLine": 295,
+        "startChar": 11,
+        "endLine": 295,
+        "endChar": 14
+      },
+      "revId": "6faa17cfccd496cb5785e838f22e45ad3cf3b93a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_bc46ed25",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-05-28T21:34:53Z",
+      "side": 1,
+      "message": "4.8",
+      "range": {
+        "startLine": 301,
+        "startChar": 11,
+        "endLine": 301,
+        "endChar": 14
+      },
+      "revId": "6faa17cfccd496cb5785e838f22e45ad3cf3b93a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
