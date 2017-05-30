@@ -497,7 +497,13 @@ public abstract class FS {
 			if (env != null) {
 				pb.environment().putAll(env);
 			}
-			Process p = pb.start();
+			Process p;
+			try {
+				p = pb.start();
+			} catch (IOException e) {
+				// Process failed to start
+				throw new CommandFailedException(-1, e.getMessage(), e);
+			}
 			p.getOutputStream().close();
 			GobblerThread gobbler = new GobblerThread(p, command, dir);
 			gobbler.start();

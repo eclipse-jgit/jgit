@@ -322,6 +322,7 @@ public final class DfsBlockCache {
 		HashEntry e1 = table.get(slot);
 		DfsBlock v = scan(e1, key, position);
 		if (v != null) {
+			ctx.stats.blockCacheHit++;
 			statHit.incrementAndGet();
 			return v;
 		}
@@ -334,6 +335,7 @@ public final class DfsBlockCache {
 			if (e2 != e1) {
 				v = scan(e2, key, position);
 				if (v != null) {
+					ctx.stats.blockCacheHit++;
 					statHit.incrementAndGet();
 					creditSpace(blockSize);
 					return v;

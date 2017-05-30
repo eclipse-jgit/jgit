@@ -1120,6 +1120,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 		testRelative("a/", "a/b", "b");
 		testRelative("/a/b/c", "/b/c", "../../b/c");
 		testRelative("/abc", "bcd", "bcd");
+		testRelative("abc", "def", "def");
 		testRelative("abc", "/bcd", "/bcd");
 		testRelative("http://a", "a/b", "a/b");
 		testRelative("http://base.com/a/", "http://child.com/a/b", "http://child.com/a/b");

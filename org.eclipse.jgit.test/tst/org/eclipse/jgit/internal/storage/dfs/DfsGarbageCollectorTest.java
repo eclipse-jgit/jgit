@@ -674,7 +674,7 @@ public class DfsGarbageCollectorTest {
 
 	private boolean isObjectInPack(AnyObjectId id, DfsPackFile pack)
 			throws IOException {
-		try (DfsReader reader = new DfsReader(odb)) {
+		try (DfsReader reader = odb.newReader()) {
 			return pack.hasObject(reader, id);
 		}
 	}
