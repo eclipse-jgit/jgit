@@ -1,0 +1,169 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_0f6df3a6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 650,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-01T20:49:25Z",
+      "side": 1,
+      "message": "this object should be created by GC itself, it knows if gc should run in the background so there is no need to do this in the code calling gc()",
+      "revId": "6e9b4f049c9b08fada17010e8cf7801c1bceac32",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_2f6aaf8e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-01T20:49:25Z",
+      "side": 1,
+      "message": "could be inlined",
+      "revId": "6e9b4f049c9b08fada17010e8cf7801c1bceac32",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_4f561bdc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-01T20:49:25Z",
+      "side": 1,
+      "message": "there is no urgent need to add a new public method since the only caller FileRepository.autoGc() lives in the same package and we can tolerate if we get an empty collection if gc runs in the background",
+      "revId": "6e9b4f049c9b08fada17010e8cf7801c1bceac32",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_af55bfcc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-01T20:49:25Z",
+      "side": 1,
+      "message": "we should use a Callable instead of a Runnable then we can later return a Future when the task is run in the background",
+      "revId": "6e9b4f049c9b08fada17010e8cf7801c1bceac32",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_8f5003dd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-01T20:49:25Z",
+      "side": 1,
+      "message": "can be inlined",
+      "revId": "6e9b4f049c9b08fada17010e8cf7801c1bceac32",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_ef46e726",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1222,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-01T20:49:25Z",
+      "side": 1,
+      "message": "this is not needed if we create the GcLog in this class if background is true",
+      "revId": "6e9b4f049c9b08fada17010e8cf7801c1bceac32",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_2f41cf0c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1231,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-01T20:49:25Z",
+      "side": 1,
+      "message": "doesn\u0027t need to be public since the only caller FileRepository lives in the same package",
+      "range": {
+        "startLine": 1231,
+        "startChar": 1,
+        "endLine": 1231,
+        "endChar": 7
+      },
+      "revId": "6e9b4f049c9b08fada17010e8cf7801c1bceac32",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_8fcba31a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GcLog.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-01T20:49:25Z",
+      "side": 1,
+      "message": "this class needs reformatting, we use tabs for indentation",
+      "revId": "6e9b4f049c9b08fada17010e8cf7801c1bceac32",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_afd05fc3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GcLog.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-01T20:49:25Z",
+      "side": 1,
+      "message": "use String here and convert to byte[] in this method",
+      "range": {
+        "startLine": 177,
+        "startChar": 15,
+        "endLine": 177,
+        "endChar": 21
+      },
+      "revId": "6e9b4f049c9b08fada17010e8cf7801c1bceac32",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
