@@ -74,6 +74,7 @@ import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.BatchingProgressMonitor;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
@@ -360,12 +361,19 @@ class FetchProcess {
 
 	private void expandSingle(final RefSpec spec, final Set<Ref> matched)
 			throws TransportException {
-		final Ref src = conn.getRef(spec.getSource());
-		if (src == null) {
-			throw new TransportException(MessageFormat.format(JGitText.get().remoteDoesNotHaveSpec, spec.getSource()));
+		String want = spec.getSource();
+		if (ObjectId.isId(want)) {
+			want(ObjectId.fromString(want));
+			return;
 		}
-		if (matched.add(src))
+
+		Ref src = conn.getRef(want);
+		if (src == null) {
+			throw new TransportException(MessageFormat.format(JGitText.get().remoteDoesNotHaveSpec, want));
+		}
+		if (matched.add(src)) {
 			want(src, spec);
+		}
 	}
 
 	private Collection<Ref> expandAutoFollowTags() throws TransportException {
@@ -438,6 +446,11 @@ class FetchProcess {
 		fhr.sourceName = src.getName();
 		fhr.sourceURI = transport.getURI();
 		fetchHeadUpdates.add(fhr);
+	}
+
+	private void want(ObjectId id) {
+		askFor.put(id,
+				new ObjectIdRef.Unpeeled(Ref.Storage.NETWORK, id.name(), id));
 	}
 
 	private TrackingRefUpdate createUpdate(RefSpec spec, ObjectId newId)
