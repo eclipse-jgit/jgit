@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_da83a6df",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-05T23:20:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_daac8678",
+      "range": {
+        "startLine": 303,
+        "startChar": 100,
+        "endLine": 303,
+        "endChar": 112
+      },
+      "revId": "8fe29a01d96b03cf8ba379dc5f7906f58ed5a11b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_9aa2fe81",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-06-05T23:16:46Z",
       "side": 1,
       "message": "I think a progress monitor is a weak argument to run gc in the foreground, I think we should run autoGc always in the background if it\u0027s not configured to run in the foreground explicitly",
+      "range": {
+        "startLine": 635,
+        "startChar": 4,
+        "endLine": 635,
+        "endChar": 45
+      },
+      "revId": "8fe29a01d96b03cf8ba379dc5f7906f58ed5a11b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_fa978218",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 635,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-05T23:20:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_9aa2fe81",
       "range": {
         "startLine": 635,
         "startChar": 4,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_1a952e11",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-05T23:20:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_fae5c2c8",
+      "range": {
+        "startLine": 234,
+        "startChar": 23,
+        "endLine": 234,
+        "endChar": 33
+      },
+      "revId": "8fe29a01d96b03cf8ba379dc5f7906f58ed5a11b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_1ae36ec4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
         "patchSetId": 1
@@ -82,6 +154,24 @@
       "writtenOn": "2017-06-05T23:16:46Z",
       "side": 1,
       "message": "gcLog.commit() is missing here",
+      "revId": "8fe29a01d96b03cf8ba379dc5f7906f58ed5a11b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_3a92ea28",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-05T23:20:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_1ae36ec4",
       "revId": "8fe29a01d96b03cf8ba379dc5f7906f58ed5a11b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -105,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_5a8fb602",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GcLog.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-05T23:20:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_3ae02ab5",
+      "revId": "8fe29a01d96b03cf8ba379dc5f7906f58ed5a11b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_5addf6fe",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GcLog.java",
         "patchSetId": 1
@@ -122,6 +230,47 @@
         "endLine": 109,
         "endChar": 59
       },
+      "revId": "8fe29a01d96b03cf8ba379dc5f7906f58ed5a11b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_7a6f12a6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GcLog.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-05T23:20:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_5addf6fe",
+      "range": {
+        "startLine": 109,
+        "startChar": 58,
+        "endLine": 109,
+        "endChar": 59
+      },
+      "revId": "8fe29a01d96b03cf8ba379dc5f7906f58ed5a11b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_9a74be76",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GcLog.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-05T23:20:21Z",
+      "side": 1,
+      "message": "remove unused method",
       "revId": "8fe29a01d96b03cf8ba379dc5f7906f58ed5a11b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
