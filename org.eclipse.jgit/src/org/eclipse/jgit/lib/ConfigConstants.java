@@ -371,6 +371,12 @@ public class ConfigConstants {
 	public static final String CONFIG_KEY_RENAMES = "renames";
 
 	/**
+	 * The "external" key in the "diff section"
+	 * @since 4.9
+	 */
+	public static final String CONFIG_KEY_EXTERNAL = "external";
+
+	/**
 	 * The "prune" key
 	 * @since 3.3
 	 */
