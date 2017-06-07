@@ -8,6 +8,7 @@ Bundle-Vendor: %provider_name
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: com.googlecode.javaewah;version="[1.1.6,2.0.0)",
+ com.jcraft.jsch;version="[0.1.54,0.2.0)",
  org.eclipse.jgit.api;version="[4.9.0,4.10.0)",
  org.eclipse.jgit.api.errors;version="[4.9.0,4.10.0)",
  org.eclipse.jgit.attributes;version="[4.9.0,4.10.0)",
