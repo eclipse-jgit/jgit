@@ -637,12 +637,18 @@ public class FileRepository extends Repository {
 
 	}
 
+	private boolean shouldAutoDetach() {
+		return getConfig().getBoolean(ConfigConstants.CONFIG_GC_SECTION,
+				ConfigConstants.CONFIG_KEY_AUTODETACH, true);
+	}
+
 	@Override
 	public void autoGC(ProgressMonitor monitor) {
 		GC gc = new GC(this);
 		gc.setPackConfig(new PackConfig(this));
 		gc.setProgressMonitor(monitor);
 		gc.setAuto(true);
+		gc.setBackground(shouldAutoDetach());
 		try {
 			gc.gc();
 		} catch (ParseException | IOException e) {
