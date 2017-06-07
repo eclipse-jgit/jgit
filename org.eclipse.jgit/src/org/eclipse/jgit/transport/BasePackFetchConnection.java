@@ -777,6 +777,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			parser.setAllowThin(thinPack);
 			parser.setObjectChecker(transport.getObjectChecker());
 			parser.setLockMessage(lockMessage);
+			parser.setDeferCheckObject(transport.isDeferCheckObject());
 			packLock = parser.parse(monitor);
 			ins.flush();
 		}
