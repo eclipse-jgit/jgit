@@ -95,11 +95,17 @@ public class MockSystemReader extends SystemReader {
 	FileBasedConfig systemGitConfig;
 
 	public MockSystemReader() {
+		this(true);
+	}
+
+	public MockSystemReader(boolean initGitUsers) {
 		init(Constants.OS_USER_NAME_KEY);
-		init(Constants.GIT_AUTHOR_NAME_KEY);
-		init(Constants.GIT_AUTHOR_EMAIL_KEY);
-		init(Constants.GIT_COMMITTER_NAME_KEY);
-		init(Constants.GIT_COMMITTER_EMAIL_KEY);
+		if (initGitUsers) {
+			init(Constants.GIT_AUTHOR_NAME_KEY);
+			init(Constants.GIT_AUTHOR_EMAIL_KEY);
+			init(Constants.GIT_COMMITTER_NAME_KEY);
+			init(Constants.GIT_COMMITTER_EMAIL_KEY);
+		}
 		setProperty(Constants.OS_USER_DIR, ".");
 		userGitConfig = new MockConfig(null, null);
 		systemGitConfig = new MockConfig(null, null);
