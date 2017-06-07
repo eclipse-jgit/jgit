@@ -259,6 +259,9 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 	protected JSch getJSch(final OpenSshConfig.Host hc, FS fs) throws JSchException {
 		if (defaultJSch == null) {
 			defaultJSch = createDefaultJSch(fs);
+			if (defaultJSch.getConfigRepository() == null) {
+				defaultJSch.setConfigRepository(config);
+			}
 			for (Object name : defaultJSch.getIdentityNames())
 				byIdentityFile.put((String) name, defaultJSch);
 		}
@@ -272,6 +275,9 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 		if (jsch == null) {
 			jsch = new JSch();
 			configureJSch(jsch);
+			if (jsch.getConfigRepository() == null) {
+				jsch.setConfigRepository(defaultJSch.getConfigRepository());
+			}
 			jsch.setHostKeyRepository(defaultJSch.getHostKeyRepository());
 			jsch.addIdentity(identityKey);
 			byIdentityFile.put(identityKey, jsch);

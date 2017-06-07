@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008, 2014 Google Inc.
+ * Copyright (C) 2008, 2017 Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -43,10 +43,13 @@
 
 package org.eclipse.jgit.transport;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -60,6 +63,8 @@ import org.eclipse.jgit.transport.OpenSshConfig.Host;
 import org.eclipse.jgit.util.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.jcraft.jsch.ConfigRepository;
 
 public class OpenSshConfigTest extends RepositoryTestCase {
 	private File home;
@@ -84,10 +89,13 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 	}
 
 	private void config(final String data) throws IOException {
-		final OutputStreamWriter fw = new OutputStreamWriter(
-				new FileOutputStream(configFile), "UTF-8");
-		fw.write(data);
-		fw.close();
+		long lastMtime = configFile.lastModified();
+		do {
+			try (final OutputStreamWriter fw = new OutputStreamWriter(
+					new FileOutputStream(configFile), "UTF-8")) {
+				fw.write(data);
+			}
+		} while (lastMtime == configFile.lastModified());
 	}
 
 	@Test
@@ -155,12 +163,17 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 
 	@Test
 	public void testAlias_DoesNotMatch() throws Exception {
-		config("Host orcz\n" + "\tHostName repo.or.cz\n");
+		config("Host orcz\n" + "Port 29418\n" + "\tHostName repo.or.cz\n");
 		final Host h = osc.lookup("repo.or.cz");
 		assertNotNull(h);
 		assertEquals("repo.or.cz", h.getHostName());
 		assertEquals("jex_junit", h.getUser());
 		assertEquals(22, h.getPort());
+		assertNull(h.getIdentityFile());
+		final Host h2 = osc.lookup("orcz");
+		assertEquals("repo.or.cz", h.getHostName());
+		assertEquals("jex_junit", h.getUser());
+		assertEquals(29418, h2.getPort());
 		assertNull(h.getIdentityFile());
 	}
 
@@ -281,5 +294,154 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 		final Host h = osc.lookup("orcz");
 		assertNotNull(h);
 		assertEquals(1, h.getConnectionAttempts());
+	}
+
+	@Test
+	public void testDefaultBlock() throws Exception {
+		config("ConnectionAttempts 5\n\nHost orcz\nConnectionAttempts 3\n");
+		final Host h = osc.lookup("orcz");
+		assertNotNull(h);
+		assertEquals(5, h.getConnectionAttempts());
+	}
+
+	@Test
+	public void testHostCaseInsensitive() throws Exception {
+		config("hOsT orcz\nConnectionAttempts 3\n");
+		final Host h = osc.lookup("orcz");
+		assertNotNull(h);
+		assertEquals(3, h.getConnectionAttempts());
+	}
+
+	@Test
+	public void testListValueSingle() throws Exception {
+		config("Host orcz\nUserKnownHostsFile /foo/bar\n");
+		final ConfigRepository.Config c = osc.getConfig("orcz");
+		assertNotNull(c);
+		assertEquals("/foo/bar", c.getValue("UserKnownHostsFile"));
+	}
+
+	@Test
+	public void testListValueMultiple() throws Exception {
+		// Tilde expansion doesn't occur within the parser
+		config("Host orcz\nUserKnownHostsFile \"~/foo/ba z\" /foo/bar \n");
+		final ConfigRepository.Config c = osc.getConfig("orcz");
+		assertNotNull(c);
+		assertArrayEquals(new Object[] { "~/foo/ba z", "/foo/bar" },
+				c.getValues("UserKnownHostsFile"));
+	}
+
+	@Test
+	public void testRepeatedLookups() throws Exception {
+		config("Host orcz\n" + "\tConnectionAttempts 5\n");
+		final Host h1 = osc.lookup("orcz");
+		final Host h2 = osc.lookup("orcz");
+		assertNotNull(h1);
+		assertSame(h1, h2);
+		assertEquals(5, h1.getConnectionAttempts());
+		assertEquals(h1.getConnectionAttempts(), h2.getConnectionAttempts());
+		final ConfigRepository.Config c = osc.getConfig("orcz");
+		assertNotNull(c);
+		assertSame(c, h1.getConfig());
+		assertSame(c, h2.getConfig());
+	}
+
+	@Test
+	public void testRepeatedLookupsWithModification() throws Exception {
+		config("Host orcz\n" + "\tConnectionAttempts -1\n");
+		final Host h1 = osc.lookup("orcz");
+		assertNotNull(h1);
+		assertEquals(1, h1.getConnectionAttempts());
+		config("Host orcz\n" + "\tConnectionAttempts 5\n");
+		final Host h2 = osc.lookup("orcz");
+		assertNotNull(h2);
+		assertNotSame(h1, h2);
+		assertEquals(5, h2.getConnectionAttempts());
+		assertEquals(1, h1.getConnectionAttempts());
+		assertNotSame(h1.getConfig(), h2.getConfig());
+	}
+
+	@Test
+	public void testIdentityFile() throws Exception {
+		config("Host orcz\nIdentityFile \"~/foo/ba z\"\nIdentityFile /foo/bar");
+		final Host h = osc.lookup("orcz");
+		assertNotNull(h);
+		File f = h.getIdentityFile();
+		assertNotNull(f);
+		// Host does tilde replacement
+		assertEquals(new File(home, "foo/ba z"), f);
+		final ConfigRepository.Config c = h.getConfig();
+		// Config doesn't
+		assertArrayEquals(new Object[] { "~/foo/ba z", "/foo/bar" },
+				c.getValues("IdentityFile"));
+	}
+
+	@Test
+	public void testMultiIdentityFile() throws Exception {
+		config("IdentityFile \"~/foo/ba z\"\nHost orcz\nIdentityFile /foo/bar\nHOST *\nIdentityFile /foo/baz");
+		final Host h = osc.lookup("orcz");
+		assertNotNull(h);
+		File f = h.getIdentityFile();
+		assertNotNull(f);
+		// Host does tilde replacement
+		assertEquals(new File(home, "foo/ba z"), f);
+		final ConfigRepository.Config c = h.getConfig();
+		// Config doesn't
+		assertArrayEquals(new Object[] { "~/foo/ba z", "/foo/bar", "/foo/baz" },
+				c.getValues("IdentityFile"));
+	}
+
+	@Test
+	public void testNegatedPattern() throws Exception {
+		config("Host repo.or.cz\nIdentityFile ~/foo/bar\nHOST !*.or.cz\nIdentityFile /foo/baz");
+		final Host h = osc.lookup("repo.or.cz");
+		assertNotNull(h);
+		assertEquals(new File(home, "foo/bar"), h.getIdentityFile());
+		assertArrayEquals(new Object[] { "~/foo/bar" },
+				h.getConfig().getValues("IdentityFile"));
+	}
+
+	@Test
+	public void testPattern() throws Exception {
+		config("Host repo.or.cz\nIdentityFile ~/foo/bar\nHOST *.or.cz\nIdentityFile /foo/baz");
+		final Host h = osc.lookup("repo.or.cz");
+		assertNotNull(h);
+		assertEquals(new File(home, "foo/bar"), h.getIdentityFile());
+		assertArrayEquals(new Object[] { "~/foo/bar", "/foo/baz" },
+				h.getConfig().getValues("IdentityFile"));
+	}
+
+	@Test
+	public void testMultiHost() throws Exception {
+		config("Host orcz *.or.cz\nIdentityFile ~/foo/bar\nHOST *.or.cz\nIdentityFile /foo/baz");
+		final Host h1 = osc.lookup("repo.or.cz");
+		assertNotNull(h1);
+		assertEquals(new File(home, "foo/bar"), h1.getIdentityFile());
+		assertArrayEquals(new Object[] { "~/foo/bar", "/foo/baz" },
+				h1.getConfig().getValues("IdentityFile"));
+		final Host h2 = osc.lookup("orcz");
+		assertNotNull(h2);
+		assertEquals(new File(home, "foo/bar"), h2.getIdentityFile());
+		assertArrayEquals(new Object[] { "~/foo/bar" },
+				h2.getConfig().getValues("IdentityFile"));
+	}
+
+	@Test
+	public void testEqualsSign() throws Exception {
+		config("Host=orcz\n\tConnectionAttempts = 5\n\tUser=\t  foobar\t\n");
+		final Host h = osc.lookup("orcz");
+		assertNotNull(h);
+		assertEquals(5, h.getConnectionAttempts());
+		assertEquals("foobar", h.getUser());
+	}
+
+	@Test
+	public void testMissingArgument() throws Exception {
+		config("Host=orcz\n\tSendEnv\nIdentityFile\t\nForwardX11\n\tUser=\t  foobar\t\n");
+		final Host h = osc.lookup("orcz");
+		assertNotNull(h);
+		assertEquals("foobar", h.getUser());
+		assertArrayEquals(new String[0], h.getConfig().getValues("SendEnv"));
+		assertNull(h.getIdentityFile());
+		assertNull(h.getConfig().getValue("ForwardX11"));
 	}
 }
