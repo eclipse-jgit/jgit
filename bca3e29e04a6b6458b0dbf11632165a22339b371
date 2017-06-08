@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "c7880b39_0b8a356f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 913,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-06-08T22:24:59Z",
+      "side": 1,
+      "message": "This is confusing. The 4 was easier to understand.",
+      "range": {
+        "startLine": 913,
+        "startChar": 27,
+        "endLine": 913,
+        "endChar": 58
+      },
+      "revId": "bca3e29e04a6b6458b0dbf11632165a22339b371",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_2b8ff17f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 918,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-06-08T22:24:59Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 918,
+        "startChar": 27,
+        "endLine": 918,
+        "endChar": 62
+      },
+      "revId": "bca3e29e04a6b6458b0dbf11632165a22339b371",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_abc841ba",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
         "patchSetId": 2
@@ -13,6 +59,30 @@
       "writtenOn": "2017-06-08T22:15:21Z",
       "side": 1,
       "message": "Alternatively, we can just defer this collision check since this is the place we need read from local.",
+      "range": {
+        "startLine": 1108,
+        "startChar": 2,
+        "endLine": 1110,
+        "endChar": 3
+      },
+      "revId": "bca3e29e04a6b6458b0dbf11632165a22339b371",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_6b7019fd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1110,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-06-08T22:24:59Z",
+      "side": 1,
+      "message": "Yup, this is the part that is slow. We can still do the objCheck above on every object as it goes through.",
+      "parentUuid": "c7880b39_abc841ba",
       "range": {
         "startLine": 1108,
         "startChar": 2,
