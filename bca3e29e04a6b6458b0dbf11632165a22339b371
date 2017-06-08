@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_abc841ba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1110,
+      "author": {
+        "id": 79788
+      },
+      "writtenOn": "2017-06-08T22:15:21Z",
+      "side": 1,
+      "message": "Alternatively, we can just defer this collision check since this is the place we need read from local.",
+      "range": {
+        "startLine": 1108,
+        "startChar": 2,
+        "endLine": 1110,
+        "endChar": 3
+      },
+      "revId": "bca3e29e04a6b6458b0dbf11632165a22339b371",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
