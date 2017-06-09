@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_2613a898",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1095,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-06-09T02:40:52Z",
+      "side": 1,
+      "message": "I think you mean:\n\n  if (readCurs.has(obj)) {\n    checkObjectCollision(obj);\n  }\n\nAs coded we skip checking any object as soon as the first object doesn\u0027t exist locally.",
+      "range": {
+        "startLine": 1092,
+        "startChar": 0,
+        "endLine": 1095,
+        "endChar": 29
+      },
+      "revId": "bbc6777c3462d317aa74c3628bba3c18793190f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_46f7d4c6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1127,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-06-09T02:40:52Z",
+      "side": 1,
+      "message": "This is in the wrong place. You need to catch it throwing from readCurs.open().",
+      "range": {
+        "startLine": 1124,
+        "startChar": 0,
+        "endLine": 1127,
+        "endChar": 52
+      },
+      "revId": "bbc6777c3462d317aa74c3628bba3c18793190f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
