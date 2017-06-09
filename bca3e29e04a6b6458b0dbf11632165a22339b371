@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_86cffca2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 913,
+      "author": {
+        "id": 79788
+      },
+      "writtenOn": "2017-06-09T00:12:55Z",
+      "side": 1,
+      "message": "Should we change Constants.PACK_SIGNATURE.length to 4 in line 906 and 908 too? \n\nAnyway, I will revert this change since it is not related.",
+      "parentUuid": "c7880b39_0b8a356f",
+      "range": {
+        "startLine": 913,
+        "startChar": 27,
+        "endLine": 913,
+        "endChar": 58
+      },
+      "revId": "bca3e29e04a6b6458b0dbf11632165a22339b371",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_2b8ff17f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2017-06-08T22:24:59Z",
       "side": 1,
       "message": "same",
+      "range": {
+        "startLine": 918,
+        "startChar": 27,
+        "endLine": 918,
+        "endChar": 62
+      },
+      "revId": "bca3e29e04a6b6458b0dbf11632165a22339b371",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_e6dd2057",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 918,
+      "author": {
+        "id": 79788
+      },
+      "writtenOn": "2017-06-09T00:12:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_2b8ff17f",
       "range": {
         "startLine": 918,
         "startChar": 27,
@@ -83,6 +131,30 @@
       "side": 1,
       "message": "Yup, this is the part that is slow. We can still do the objCheck above on every object as it goes through.",
       "parentUuid": "c7880b39_abc841ba",
+      "range": {
+        "startLine": 1108,
+        "startChar": 2,
+        "endLine": 1110,
+        "endChar": 3
+      },
+      "revId": "bca3e29e04a6b6458b0dbf11632165a22339b371",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_06d30c49",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1110,
+      "author": {
+        "id": 79788
+      },
+      "writtenOn": "2017-06-09T00:12:55Z",
+      "side": 1,
+      "message": "I can defer the collision check instead.\nI am not sure whether to make this delay optional for non-blob objects?\n\nCurrently, blob is always deferred since it may be big.",
+      "parentUuid": "c7880b39_6b7019fd",
       "range": {
         "startLine": 1108,
         "startChar": 2,
