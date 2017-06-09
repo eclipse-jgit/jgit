@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_c63ca4f1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1095,
+      "author": {
+        "id": 79788
+      },
+      "writtenOn": "2017-06-09T04:58:33Z",
+      "side": 1,
+      "message": "Oops! I was about to say \n\nif (!readCurs.has(obj)) {\n  continue;\n}\n\nThanks!",
+      "parentUuid": "c7880b39_2613a898",
+      "range": {
+        "startLine": 1092,
+        "startChar": 0,
+        "endLine": 1095,
+        "endChar": 29
+      },
+      "revId": "bbc6777c3462d317aa74c3628bba3c18793190f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_46f7d4c6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2017-06-09T02:40:52Z",
       "side": 1,
       "message": "This is in the wrong place. You need to catch it throwing from readCurs.open().",
+      "range": {
+        "startLine": 1124,
+        "startChar": 0,
+        "endLine": 1127,
+        "endChar": 52
+      },
+      "revId": "bbc6777c3462d317aa74c3628bba3c18793190f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_263c88eb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1127,
+      "author": {
+        "id": 79788
+      },
+      "writtenOn": "2017-06-09T04:58:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_46f7d4c6",
       "range": {
         "startLine": 1124,
         "startChar": 0,
