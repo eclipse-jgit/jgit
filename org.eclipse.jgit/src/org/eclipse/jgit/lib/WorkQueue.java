@@ -49,8 +49,10 @@ import java.util.concurrent.ThreadFactory;
 
 /**
  * Simple work queue to run tasks in the background
+ *
+ * @since 4.8
  */
-class WorkQueue {
+public class WorkQueue {
 	private static final ScheduledThreadPoolExecutor executor;
 
 	static final Object executorKiller;
@@ -94,7 +96,10 @@ class WorkQueue {
 		};
 	}
 
-	static ScheduledThreadPoolExecutor getExecutor() {
+	/**
+	 * @return the WorkQueue's exexutor
+	 */
+	public static ScheduledThreadPoolExecutor getExecutor() {
 		return executor;
 	}
 }
