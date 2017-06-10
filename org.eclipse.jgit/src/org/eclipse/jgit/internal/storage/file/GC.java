@@ -78,7 +78,6 @@ import java.util.TreeMap;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -107,6 +106,7 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Ref.Storage;
+import org.eclipse.jgit.lib.internal.WorkQueue;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.lib.ReflogReader;
@@ -151,7 +151,19 @@ public class GC {
 
 	private static final int DEFAULT_AUTOLIMIT = 6700;
 
-	private static ExecutorService executor = Executors.newFixedThreadPool(1);
+	private static volatile ExecutorService executor;
+
+	/**
+	 * Set the executor for running auto-gc in the background. If no executor is
+	 * set JGit's own WorkQueue will be used.
+	 *
+	 * @param e
+	 *            the executor to be used for running auto-gc
+	 * @since 4.8
+	 */
+	public static void setExecutor(ExecutorService e) {
+		executor = e;
+	}
 
 	private final FileRepository repo;
 
@@ -271,7 +283,7 @@ public class GC {
 			}
 			return Collections.emptyList();
 		};
-		Future<Collection<PackFile>> result = executor.submit(gcTask);
+		Future<Collection<PackFile>> result = executor().submit(gcTask);
 		if (background) {
 			// TODO(ms): in 5.0 change signature and return the Future
 			return Collections.emptyList();
@@ -281,6 +293,10 @@ public class GC {
 		} catch (InterruptedException | ExecutionException e) {
 			throw new IOException(e);
 		}
+	}
+
+	private ExecutorService executor() {
+		return (executor != null) ? executor : WorkQueue.getExecutor();
 	}
 
 	private Collection<PackFile> doGc() throws IOException, ParseException {
