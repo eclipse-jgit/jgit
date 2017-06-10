@@ -61,6 +61,7 @@ import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.transport.OpenSshConfig.Host;
 import org.eclipse.jgit.util.FileUtils;
+import org.eclipse.jgit.util.SystemReader;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -84,7 +85,7 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 		configFile = new File(new File(home, ".ssh"), Constants.CONFIG);
 		FileUtils.mkdir(configFile.getParentFile());
 
-		System.setProperty("user.name", "jex_junit");
+		mockSystemReader.setProperty(Constants.OS_USER_NAME_KEY, "jex_junit");
 		osc = new OpenSshConfig(home, configFile);
 	}
 
@@ -443,5 +444,45 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 		assertArrayEquals(new String[0], h.getConfig().getValues("SendEnv"));
 		assertNull(h.getIdentityFile());
 		assertNull(h.getConfig().getValue("ForwardX11"));
+	}
+
+	@Test
+	public void testHomeDirUserReplacement() throws Exception {
+		config("Host=orcz\n\tIdentityFile %d/.ssh/%u_id_dsa");
+		final Host h = osc.lookup("orcz");
+		assertNotNull(h);
+		assertEquals(new File(new File(home, ".ssh"), "jex_junit_id_dsa"),
+				h.getIdentityFile());
+	}
+
+	@Test
+	public void testHostnameReplacement() throws Exception {
+		config("Host=orcz\nHost *.*\n\tHostname %h\nHost *\n\tHostname %h.example.org");
+		final Host h = osc.lookup("orcz");
+		assertNotNull(h);
+		assertEquals("orcz.example.org", h.getHostName());
+	}
+
+	@Test
+	public void testRemoteUserReplacement() throws Exception {
+		config("Host=orcz\n\tUser foo\n" + "Host *.*\n\tHostname %h\n"
+				+ "Host *\n\tHostname %h.ex%%20ample.org\n\tIdentityFile ~/.ssh/%h_%r_id_dsa");
+		final Host h = osc.lookup("orcz");
+		assertNotNull(h);
+		assertEquals(
+				new File(new File(home, ".ssh"),
+						"orcz.ex%20ample.org_foo_id_dsa"),
+				h.getIdentityFile());
+	}
+
+	@Test
+	public void testLocalhostFQDNReplacement() throws Exception {
+		String localhost = SystemReader.getInstance().getHostname();
+		config("Host=orcz\n\tIdentityFile ~/.ssh/%l_id_dsa");
+		final Host h = osc.lookup("orcz");
+		assertNotNull(h);
+		assertEquals(
+				new File(new File(home, ".ssh"), localhost + "_id_dsa"),
+				h.getIdentityFile());
 	}
 }
