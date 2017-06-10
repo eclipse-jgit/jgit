@@ -16,6 +16,24 @@
       "revId": "5b2e9c0571ab17849c7d47236ce61f28b7cc2854",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_b007cd8e",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Fetch.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-06-10T12:22:01Z",
+      "side": 1,
+      "message": "The yes/YES can probably be fixed by converting the input to uppercase.\n\nUsing --recurse-submdodules without explicitly giving a value seems to be a limitation of the parser.  To enable without explicitly giving YES, you have to do:\n\n jgit fetch --recurse-submodules\u003d origin\n\nnote the \u003d sign.\n\nWe could fix this by making it a boolean, so you could do either:\n\n jgit fetch --recurse-submodules origin\n\nor\n\n jgit fetch --no-recurse-submodules origin\n\nbut that would only allow to set either YES or NO, but not ON_DEMAND.\n\nsince ON_DEMAND is the default anyway, this might not be an issue?",
+      "parentUuid": "c7880b39_5027893e",
+      "revId": "5b2e9c0571ab17849c7d47236ce61f28b7cc2854",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
