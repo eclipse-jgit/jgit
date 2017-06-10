@@ -55,6 +55,7 @@ import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
+import org.eclipse.jgit.lib.internal.WorkQueue;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
