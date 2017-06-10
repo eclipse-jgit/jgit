@@ -65,6 +65,7 @@ import org.eclipse.jgit.fnmatch.FileNameMatcher;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.StringUtils;
+import org.eclipse.jgit.util.SystemReader;
 
 import com.jcraft.jsch.ConfigRepository;
 
@@ -94,15 +95,38 @@ import com.jcraft.jsch.ConfigRepository;
  * </p>
  * <ul>
  * <li>This parser does not handle Match or Include keywords.
- * <li>This parser does not do %-substitutions.
  * <li>This parser does not do host name canonicalization (Jsch ignores it
  * anyway).
  * </ul>
+ * <p>
  * Note that OpenSSH's readconf.c is a validating parser; Jsch's
  * ConfigRepository OTOH treats all option values as plain strings, so any
  * validation must happen in Jsch outside of the parser. Thus this parser does
  * not validate option values, except for a few options when constructing a
  * {@link Host} object.
+ * </p>
+ * <p>
+ * This config does %-substitutions for the following tokens:
+ * </p>
+ * <ul>
+ * <li>%% - single %
+ * <li>%C - short-hand for %l%h%p%r. See %p and %r below; the replacement may be
+ * done partially only and may leave %p or %r or both unreplaced.
+ * <li>%d - home directory path
+ * <li>%h - remote host name
+ * <li>%L - local host name without domain
+ * <li>%l - FQDN of the local host
+ * <li>%n - host name as specified in {@link #lookup(String)}
+ * <li>%p - port number; replaced only if set in the config
+ * <li>%r - remote user name; replaced only if set in the config
+ * <li>%u - local user name
+ * </ul>
+ * <p>
+ * If the config doesn't set the port or the remote user name, %p and %r remain
+ * un-substituted. It's the caller's responsibility to replace them with values
+ * obtained from the connection URI. %i is not handled; Java has no concept of a
+ * "user ID".
+ * </p>
  */
 public class OpenSshConfig implements ConfigRepository {
 
@@ -185,6 +209,7 @@ public class OpenSshConfig implements ConfigRepository {
 				fullConfig.merge(e.getValue());
 			}
 		}
+		fullConfig.substitute(hostName, home);
 		h = new Host(fullConfig, hostName, home);
 		cache.hosts.put(hostName, h);
 		return h;
@@ -336,7 +361,8 @@ public class OpenSshConfig implements ConfigRepository {
 		return AccessController.doPrivileged(new PrivilegedAction<String>() {
 			@Override
 			public String run() {
-				return System.getProperty("user.name"); //$NON-NLS-1$
+				return SystemReader.getInstance()
+						.getProperty(Constants.OS_USER_NAME_KEY);
 			}
 		});
 	}
@@ -562,12 +588,12 @@ public class OpenSshConfig implements ConfigRepository {
 					continue;
 				}
 				if (argument.charAt(start) == '"') {
-					int stop = argument.indexOf('"', start + 1);
-					if (stop <= start) {
+					int stop = argument.indexOf('"', ++start);
+					if (stop < start) {
 						// No closing double quote: skip
 						break;
 					}
-					result.add(argument.substring(start + 1, stop));
+					result.add(argument.substring(start, stop));
 					start = stop + 1;
 				} else {
 					int stop = start + 1;
@@ -625,6 +651,104 @@ public class OpenSshConfig implements ConfigRepository {
 					}
 				}
 			}
+		}
+
+		private class Replacer {
+			private final Map<Character, String> replacements = new HashMap<>();
+
+			public Replacer(String originalHostName, File home) {
+				replacements.put(Character.valueOf('%'), "%"); //$NON-NLS-1$
+				replacements.put(Character.valueOf('d'), home.getPath());
+				// Needs special treatment...
+				String host = getValue("HOSTNAME"); //$NON-NLS-1$
+				replacements.put(Character.valueOf('h'), originalHostName);
+				if (host != null && host.indexOf('%') >= 0) {
+					host = substitute(host, "h"); //$NON-NLS-1$
+					options.put("HOSTNAME", host); //$NON-NLS-1$
+				}
+				if (host != null) {
+					replacements.put(Character.valueOf('h'), host);
+				}
+				String localhost = SystemReader.getInstance().getHostname();
+				replacements.put(Character.valueOf('l'), localhost);
+				int period = localhost.indexOf('.');
+				if (period > 0) {
+					localhost = localhost.substring(0, period);
+				}
+				replacements.put(Character.valueOf('L'), localhost);
+				replacements.put(Character.valueOf('n'), originalHostName);
+				replacements.put(Character.valueOf('p'), getValue("PORT")); //$NON-NLS-1$
+				replacements.put(Character.valueOf('r'), getValue("USER")); //$NON-NLS-1$
+				replacements.put(Character.valueOf('u'), userName());
+				replacements.put(Character.valueOf('C'),
+						substitute("%l%h%p%r", "hlpr")); //$NON-NLS-1$ //$NON-NLS-2$
+			}
+
+			public String substitute(String input, String allowed) {
+				if (input == null || input.length() <= 1
+						|| input.indexOf('%') < 0) {
+					return input;
+				}
+				StringBuilder builder = new StringBuilder();
+				int start = 0;
+				int length = input.length();
+				while (start < length) {
+					int percent = input.indexOf('%', start);
+					if (percent < 0 || percent + 1 >= length) {
+						builder.append(input.substring(start));
+						break;
+					}
+					String replacement = null;
+					char ch = input.charAt(percent + 1);
+					if (ch == '%' || allowed.indexOf(ch) >= 0) {
+						replacement = replacements.get(Character.valueOf(ch));
+					}
+					if (replacement == null) {
+						builder.append(input.substring(start, percent + 2));
+					} else {
+						builder.append(input.substring(start, percent))
+								.append(replacement);
+					}
+					start = percent + 2;
+				}
+				return builder.toString();
+			}
+		}
+
+		private List<String> substitute(List<String> values, String allowed,
+				Replacer r) {
+			List<String> result = new ArrayList<>(values.size());
+			for (String value : values) {
+				result.add(r.substitute(value, allowed));
+			}
+			return result;
+		}
+
+		protected void substitute(String originalHostName, File home) {
+			Replacer r = new Replacer(originalHostName, home);
+			if (multiOptions != null) {
+				List<String> values = multiOptions.get("IDENTITYFILE"); //$NON-NLS-1$
+				if (values != null) {
+					values = substitute(values, "dhlru", r); //$NON-NLS-1$
+					multiOptions.put("IDENTITYFILE", values); //$NON-NLS-1$
+				}
+				values = multiOptions.get("CERTIFICATEFILE"); //$NON-NLS-1$
+				if (values != null) {
+					values = substitute(values, "dhlru", r); //$NON-NLS-1$
+					multiOptions.put("CERTIFICATEFILE", values); //$NON-NLS-1$
+				}
+			}
+			if (options != null) {
+				// HOSTNAME already done in Replacer constructor
+				String value = options.get("IDENTITYAGENT"); //$NON-NLS-1$
+				if (value != null) {
+					value = r.substitute(value, "dhlru"); //$NON-NLS-1$
+					options.put("IDENTITYAGENT", value); //$NON-NLS-1$
+				}
+			}
+			// Match is not implemented and would need to be done elsewhere
+			// anyway. ControlPath, LocalCommand, ProxyCommand, and
+			// RemoteCommand are not used by Jsch.
 		}
 	}
 
