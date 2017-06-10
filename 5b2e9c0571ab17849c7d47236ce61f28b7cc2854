@@ -34,6 +34,24 @@
       "revId": "5b2e9c0571ab17849c7d47236ce61f28b7cc2854",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_10f6e102",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Fetch.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-10T16:43:37Z",
+      "side": 1,
+      "message": "then I\u0027d say let\u0027s live with the limitation of the parser for now and fix the case sensitivity",
+      "parentUuid": "c7880b39_b007cd8e",
+      "revId": "5b2e9c0571ab17849c7d47236ce61f28b7cc2854",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
