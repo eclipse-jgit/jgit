@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_5027893e",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Fetch.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-10T08:35:29Z",
+      "side": 1,
+      "message": "when calling\n\n jgit fetch --recurse-submodules origin\n\nwithout a value for --recurse-submodules (which is accepted by native git) this fails here with the error \"fatal: Invalid recurse submodules mode: origin\". Maybe that\u0027s a limitation of args4j.\n\nwhen I reverse the order\n\n jgit fetch origin --recurse-submodules\n\nI get \"fatal: Option \"--recurse-submodules\" takes an operand\"\n\n jgit fetch --recurse-submodules yes origin\n\nyields \"fatal: Invalid recurse submodules mode: yes\"\n\nThe only working format seems to be the following:\n\n jgit fetch --recurse-submodules YES origin\n\nso it seems the detection needs to be made case insensitive.\n\nBranchRebaseMode has the same case-sensitivity problem.\n\n\nwould be true, false also valid option values ?",
+      "revId": "5b2e9c0571ab17849c7d47236ce61f28b7cc2854",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
