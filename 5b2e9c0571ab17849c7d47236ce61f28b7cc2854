@@ -52,6 +52,24 @@
       "revId": "5b2e9c0571ab17849c7d47236ce61f28b7cc2854",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_b0842d64",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Fetch.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-11T10:40:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_10f6e102",
+      "revId": "5b2e9c0571ab17849c7d47236ce61f28b7cc2854",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
