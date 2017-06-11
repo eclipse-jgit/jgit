@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_13698bec",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-11T10:42:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_13ec2b04",
+      "revId": "10a3eea9d0c29f493e4db4360365eb4ecb73da6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_33e927f4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/WorkQueue.java",
         "patchSetId": 1
