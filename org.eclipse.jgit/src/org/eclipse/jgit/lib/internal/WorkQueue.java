@@ -41,7 +41,7 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.lib;
+package org.eclipse.jgit.lib.internal;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -50,7 +50,7 @@ import java.util.concurrent.ThreadFactory;
 /**
  * Simple work queue to run tasks in the background
  */
-class WorkQueue {
+public class WorkQueue {
 	private static final ScheduledThreadPoolExecutor executor;
 
 	static final Object executorKiller;
@@ -94,7 +94,10 @@ class WorkQueue {
 		};
 	}
 
-	static ScheduledThreadPoolExecutor getExecutor() {
+	/**
+	 * @return the WorkQueue's executor
+	 */
+	public static ScheduledThreadPoolExecutor getExecutor() {
 		return executor;
 	}
 }
