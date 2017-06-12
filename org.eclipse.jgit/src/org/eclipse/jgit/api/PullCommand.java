@@ -98,6 +98,8 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 
 	private TagOpt tagOption;
 
+	private FastForwardMode fastForwardMode;
+
 	private FetchRecurseSubmodulesMode submoduleRecurseMode = null;
 
 	/**
@@ -349,11 +351,9 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 			result = new PullResult(fetchRes, remote, rebaseRes);
 		} else {
 			MergeCommand merge = new MergeCommand(repo);
-			merge.include(upstreamName, commitToMerge);
-			merge.setStrategy(strategy);
-			merge.setProgressMonitor(monitor);
-			merge.setFastForward(getFastForwardMode());
-			MergeResult mergeRes = merge.call();
+			MergeResult mergeRes = merge.include(upstreamName, commitToMerge)
+					.setStrategy(strategy).setProgressMonitor(monitor)
+					.setFastForward(getFastForwardMode()).call();
 			monitor.update(1);
 			result = new PullResult(fetchRes, remote, mergeRes);
 		}
@@ -436,6 +436,29 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 	}
 
 	/**
+	 * Sets the fast forward mode. It is used if pull is configured to do a
+	 * merge as opposed to rebase. If set here takes precedence over the fast
+	 * forward mode configured in git config. If {@code null} uses the value of
+	 * {@code pull.ff} configured in git config. If {@code pull.ff} is not
+	 * configured fallback to the value of {@code merge.ff}. If also
+	 * {@code merge.ff} is not configured --ff is the built-in default.
+	 *
+	 * @param fastForwardMode
+	 *            corresponds to the --ff/--no-ff/--ff-only options. If
+	 *            {@code null} use the value of {@code pull.ff} configured in
+	 *            git config. If {@code pull.ff} is not configured fallback to
+	 *            the value of {@code merge.ff}. If {@code merge.ff} is not
+	 *            configured --ff is the built-in default.
+	 * @return {@code this}
+	 * @since 4.9
+	 */
+	public PullCommand setFastForward(FastForwardMode fastForwardMode) {
+		checkCallable();
+		this.fastForwardMode = fastForwardMode;
+		return this;
+	}
+
+	/**
 	 * Set the mode to be used for recursing into submodules.
 	 *
 	 * @param recurse
@@ -475,6 +498,9 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 	}
 
 	private FastForwardMode getFastForwardMode() {
+		if (fastForwardMode != null) {
+			return fastForwardMode;
+		}
 		Config config = repo.getConfig();
 		Merge ffMode = config.getEnum(Merge.values(),
 				ConfigConstants.CONFIG_PULL_SECTION, null,
