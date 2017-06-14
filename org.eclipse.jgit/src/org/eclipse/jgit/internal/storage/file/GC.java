@@ -865,6 +865,12 @@ public class GC {
 		tagTargets.addAll(allHeadsAndTags);
 		nonHeads.addAll(indexObjects);
 
+		// Combine the GC_REST objects into the GC pack if requested
+		if (pconfig != null && pconfig.getSinglePack()) {
+			allHeadsAndTags.addAll(nonHeads);
+			nonHeads.clear();
+		}
+
 		List<PackFile> ret = new ArrayList<>(2);
 		PackFile heads = null;
 		if (!allHeadsAndTags.isEmpty()) {
