@@ -31,6 +31,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+/** Tests for pack creation and garbage expiration. */
 public class DfsGarbageCollectorTest {
 	private TestRepository<InMemoryRepository> git;
 	private InMemoryRepository repo;
@@ -630,6 +631,26 @@ public class DfsGarbageCollectorTest {
 				fail("unexpected " + d.getPackSource());
 			}
 		}
+	}
+
+	@Test
+	public void testSinglePackForAllRefs() throws Exception {
+		RevCommit commit0 = commit().message("0").create();
+		git.update("head", commit0);
+		RevCommit commit1 = commit().message("1").parent(commit0).create();
+		git.update("refs/notes/note1", commit1);
+
+		DfsGarbageCollector gc = new DfsGarbageCollector(repo);
+		gc.setGarbageTtl(0, TimeUnit.MILLISECONDS);
+		gc.getPackConfig().setSinglePack(true);
+		run(gc);
+		assertEquals(1, odb.getPacks().length);
+
+		gc = new DfsGarbageCollector(repo);
+		gc.setGarbageTtl(0, TimeUnit.MILLISECONDS);
+		gc.getPackConfig().setSinglePack(false);
+		run(gc);
+		assertEquals(2, odb.getPacks().length);
 	}
 
 	private TestRepository<InMemoryRepository>.CommitBuilder commit() {
