@@ -260,6 +260,8 @@ public class PackConfig {
 
 	private boolean cutDeltaChains;
 
+	private boolean singlePack;
+
 	/** Create a default configuration. */
 	public PackConfig() {
 		// Fields are initialized to defaults.
@@ -320,6 +322,7 @@ public class PackConfig {
 		this.bitmapExcessiveBranchCount = cfg.bitmapExcessiveBranchCount;
 		this.bitmapInactiveBranchAgeInDays = cfg.bitmapInactiveBranchAgeInDays;
 		this.cutDeltaChains = cfg.cutDeltaChains;
+		this.singlePack = cfg.singlePack;
 	}
 
 	/**
@@ -552,6 +555,30 @@ public class PackConfig {
 	 */
 	public void setCutDeltaChains(boolean cut) {
 		cutDeltaChains = cut;
+	}
+
+	/**
+	 * @return true if all of refs/* should be packed in a single pack. Default
+	 *        is false, packing a separate GC_REST pack for references outside
+	 *        of refs/heads/* and refs/tags/*.
+	 * @since 4.9
+	 */
+	public boolean getSinglePack() {
+		return singlePack;
+	}
+
+	/**
+	 * If {@code true}, packs a single GC pack for all objects reachable from
+	 * refs/*. Otherwise packs the GC pack with objects reachable from
+	 * refs/heads/* and refs/tags/*, and a GC_REST pack with the remaining
+	 * reachable objects. Disabled by default, packing GC and GC_REST.
+	 *
+	 * @param single
+	 *            true to pack a single GC pack rather than GC and GC_REST packs
+	 * @since 4.9
+	 */
+	public void setSinglePack(boolean single) {
+		singlePack = single;
 	}
 
 	/**
@@ -1026,6 +1053,8 @@ public class PackConfig {
 				rc.getBoolean("pack", "deltacompression", isDeltaCompress())); //$NON-NLS-1$ //$NON-NLS-2$
 		setCutDeltaChains(
 				rc.getBoolean("pack", "cutdeltachains", getCutDeltaChains())); //$NON-NLS-1$ //$NON-NLS-2$
+		setSinglePack(
+				rc.getBoolean("pack", "singlepack", getSinglePack())); //$NON-NLS-1$ //$NON-NLS-2$
 		setBuildBitmaps(
 				rc.getBoolean("pack", "buildbitmaps", isBuildBitmaps())); //$NON-NLS-1$ //$NON-NLS-2$
 		setBitmapContiguousCommitCount(
@@ -1073,6 +1102,7 @@ public class PackConfig {
 				.append(getBitmapExcessiveBranchCount());
 		b.append(", bitmapInactiveBranchAge=") //$NON-NLS-1$
 				.append(getBitmapInactiveBranchAgeInDays());
+		b.append(", singlePack=").append(getSinglePack()); //$NON-NLS-1$
 		return b.toString();
 	}
 }
