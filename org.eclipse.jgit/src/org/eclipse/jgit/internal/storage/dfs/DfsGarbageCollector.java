@@ -274,6 +274,12 @@ public class DfsGarbageCollector {
 			// Hoist all branch tips and tags earlier in the pack file
 			tagTargets.addAll(allHeadsAndTags);
 
+			// Combine the GC_REST objects into the GC pack if requested
+			if (packConfig.getSinglePack()) {
+				allHeadsAndTags.addAll(nonHeads);
+				nonHeads.clear();
+			}
+
 			boolean rollback = true;
 			try {
 				packHeads(pm);
