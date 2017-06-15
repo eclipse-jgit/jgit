@@ -53,6 +53,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
 import org.eclipse.jgit.api.errors.CheckoutConflictException;
 import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
@@ -554,12 +555,15 @@ public class MergeCommand extends GitCommand<MergeResult> {
 	 * Sets the fast forward mode.
 	 *
 	 * @param fastForwardMode
-	 *            corresponds to the --ff/--no-ff/--ff-only options. --ff is the
-	 *            default option.
+	 *            corresponds to the --ff/--no-ff/--ff-only options. If
+	 *            {@code null} use the value of the {@code merge.ff} option
+	 *            configured in git config. If this option is not configured
+	 *            --ff is the built-in default.
 	 * @return {@code this}
 	 * @since 2.2
 	 */
-	public MergeCommand setFastForward(FastForwardMode fastForwardMode) {
+	public MergeCommand setFastForward(
+			@Nullable FastForwardMode fastForwardMode) {
 		checkCallable();
 		this.fastForwardMode = fastForwardMode;
 		return this;
