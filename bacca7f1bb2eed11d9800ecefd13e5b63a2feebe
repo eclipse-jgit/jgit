@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_281e0422",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-06-15T09:57:07Z",
+      "side": 1,
+      "message": "Missing final period. Also not quite correct: if set to null, uses the default value, which is the value of pull.ff, or if that is not set, merge.ff, or if that is not set either, FF.\n\nAnd perhaps it should be mentioned that it has an effect only if the pull does a merge at all as opposed to a rebase.",
+      "revId": "bacca7f1bb2eed11d9800ecefd13e5b63a2feebe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
