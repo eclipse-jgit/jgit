@@ -16,6 +16,24 @@
       "revId": "bacca7f1bb2eed11d9800ecefd13e5b63a2feebe",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_fec67612",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-15T21:12:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_281e0422",
+      "revId": "bacca7f1bb2eed11d9800ecefd13e5b63a2feebe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
