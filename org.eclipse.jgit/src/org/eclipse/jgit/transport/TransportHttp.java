@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2010, Google Inc.
+ * Copyright (C) 2008-2017, Google Inc.
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
  * Copyright (C) 2013, Matthias Sohn <matthias.sohn@sap.com>
  * and other copyright owners as documented in the project's IP log.
@@ -901,6 +901,8 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 		protected final HttpExecuteStream execute;
 
+		private URL requestUrl;
+
 		final UnionInputStream in;
 
 		Service(String serviceName) {
@@ -913,15 +915,15 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			this.in = new UnionInputStream(execute);
 		}
 
-		void openStream() throws IOException {
-			openStream(null);
+		private URL getRequestUrl() throws IOException {
+			if (requestUrl == null) {
+				requestUrl = new URL(baseUrl, serviceName);
+			}
+			return requestUrl;
 		}
 
-		void openStream(final String redirectUrl) throws IOException {
-			conn = httpOpen(
-					METHOD_POST,
-					redirectUrl == null ? new URL(baseUrl, serviceName) : new URL(redirectUrl),
-					AcceptEncoding.GZIP);
+		void openStream() throws IOException {
+			conn = httpOpen(METHOD_POST, getRequestUrl(), AcceptEncoding.GZIP);
 			conn.setInstanceFollowRedirects(false);
 			conn.setDoOutput(true);
 			conn.setRequestProperty(HDR_CONTENT_TYPE, requestType);
@@ -929,10 +931,6 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		}
 
 		void sendRequest() throws IOException {
-			sendRequest(null);
-		}
-
-		void sendRequest(final String redirectUrl) throws IOException {
 			// Try to compress the content, but only if that is smaller.
 			TemporaryBuffer buf = new TemporaryBuffer.Heap(http.postBuffer);
 			try {
@@ -947,21 +945,142 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 				buf = out;
 			}
 
-			openStream(redirectUrl);
-			if (buf != out)
-				conn.setRequestProperty(HDR_CONTENT_ENCODING, ENCODING_GZIP);
-			conn.setFixedLengthStreamingMode((int) buf.length());
-			final OutputStream httpOut = conn.getOutputStream();
-			try {
-				buf.writeTo(httpOut, null);
-			} finally {
-				httpOut.close();
-			}
+			HttpAuthMethod authenticator = null;
+			int redirects = 0;
+			Collection<Type> ignoreTypes = EnumSet.noneOf(Type.class);
+			// Counts number of repeated authentication attempts using the same
+			// authentication scheme
+			int authAttempts = 1;
+			// Counts the number of 401s during NEGOTIATE
+			int negotiationRounds = 0;
+			for (;;) {
+				// The very first time, we will try with the authentication
+				// method used on the initial GET request. This is a hint only;
+				// it may fail. If so, we'll then re-try with proper 401
+				// handling, going though the available authentication schemes.
+				openStream();
+				if (buf != out) {
+					conn.setRequestProperty(HDR_CONTENT_ENCODING,
+							ENCODING_GZIP);
+				}
+				conn.setFixedLengthStreamingMode((int) buf.length());
+				try (OutputStream httpOut = conn.getOutputStream()) {
+					buf.writeTo(httpOut, null);
+				}
 
-			final int status = HttpSupport.response(conn);
-			if (status == HttpConnection.HTTP_MOVED_PERM) {
-				String locationHeader = HttpSupport.responseHeader(conn, HDR_LOCATION);
-				sendRequest(locationHeader);
+				final int status = HttpSupport.response(conn);
+				switch (status) {
+				case HttpConnection.HTTP_MOVED_PERM:
+					if (3 < redirects++) {
+						throw new TransportException(uri,
+								MessageFormat.format(
+										JGitText.get().tooManyRedirects,
+										Integer.valueOf(3), requestUrl));
+					}
+					String redirectUrl = HttpSupport.responseHeader(conn,
+							HDR_LOCATION);
+					requestUrl = new URL(redirectUrl);
+					continue;
+
+				case HttpConnection.HTTP_OK:
+					return;
+
+				case HttpConnection.HTTP_NOT_FOUND:
+					throw new NoRemoteRepositoryException(uri, MessageFormat
+							.format(JGitText.get().uriNotFound, requestUrl));
+
+				case HttpConnection.HTTP_UNAUTHORIZED:
+					int newAuthAttempts = authAttempts;
+					boolean rescan;
+					HttpAuthMethod nextMethod = null;
+					do {
+						rescan = false;
+						nextMethod = HttpAuthMethod.scanResponse(conn,
+								ignoreTypes);
+						switch (nextMethod.getType()) {
+						case NONE:
+							throw new TransportException(uri,
+									MessageFormat.format(
+											JGitText.get().authenticationNotSupported,
+											requestUrl));
+						case NEGOTIATE:
+							// RFC 4559 states "When using the SPNEGO [...] with
+							// [...] POST, the authentication should be complete
+							// [...] before sending the user data." So in theory
+							// the initial GET should have been authenticated
+							// already. (Unless there was a redirect?)
+							if (authenticator == null || authenticator
+									.getType() != nextMethod.getType()) {
+								if (authenticator != null) {
+									ignoreTypes.add(authenticator.getType());
+								}
+								authAttempts = 1;
+								newAuthAttempts = 2;
+							} else {
+								// Another round of NEGOTIATE. We must re-use
+								// the same object to get correct tokens.
+								nextMethod = authenticator;
+								// TODO: better state machine. When do we know
+								// that negotiate has failed finally? When the
+								// server doesn't advertise it anymore? In that
+								// case we're fine. But if the server keeps
+								// advertising it, we might otherwise end
+								// up in an endless loop here. The value of 10
+								// is arbitrary and may be too high or too low.
+								if (++negotiationRounds > 10) {
+									ignoreTypes
+											.add(HttpAuthMethod.Type.NEGOTIATE);
+									rescan = true;
+								}
+							}
+							break;
+						default:
+							// DIGEST or BASIC. Let's ignore NEGOTIATE; if it
+							// was available, we have tried it before.
+							ignoreTypes.add(HttpAuthMethod.Type.NEGOTIATE);
+							if (authenticator == null || authenticator
+									.getType() != nextMethod.getType()) {
+								if (authenticator != null) {
+									ignoreTypes.add(authenticator.getType());
+								}
+								authAttempts = 1;
+								newAuthAttempts = 2;
+							} else {
+								newAuthAttempts++;
+							}
+							break;
+						}
+					} while (rescan);
+					authMethod = nextMethod;
+					authenticator = nextMethod;
+					URIish requestUri = new URIish(requestUrl);
+					CredentialsProvider credentialsProvider = getCredentialsProvider();
+					if (credentialsProvider == null) {
+						throw new TransportException(requestUri,
+								JGitText.get().noCredentialsProvider);
+					}
+					if (authAttempts > 1) {
+						credentialsProvider.reset(requestUri);
+					}
+					if (3 < authAttempts || !authMethod.authorize(requestUri,
+							credentialsProvider)) {
+						throw new TransportException(requestUri,
+								JGitText.get().notAuthorized);
+					}
+					authAttempts = newAuthAttempts;
+					continue;
+
+				case HttpConnection.HTTP_FORBIDDEN:
+					throw new TransportException(new URIish(requestUrl),
+							MessageFormat.format(
+									JGitText.get().serviceNotPermitted,
+									serviceName));
+
+				default:
+					String err = status + ' ' + requestUrl.toString() + ' '
+							+ conn.getResponseMessage();
+					throw new TransportException(uri, err);
+				}
 			}
 		}
 
