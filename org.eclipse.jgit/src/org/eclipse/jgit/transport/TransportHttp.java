@@ -323,6 +323,13 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		}
 	}
 
+	/**
+	 * The current URI we're talking to. The inherited (final) field
+	 * {@link #uri} stores the original URI; {@code currentUri} may be different
+	 * after redirects.
+	 */
+	private URIish currentUri;
+
 	private URL baseUrl;
 
 	private URL objectsUrl;
@@ -360,6 +367,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	 */
 	protected void setURI(final URIish uri) throws NotSupportedException {
 		try {
+			currentUri = uri;
 			baseUrl = toURL(uri);
 			objectsUrl = new URL(baseUrl, "objects/"); //$NON-NLS-1$
 		} catch (MalformedURLException e) {
@@ -584,9 +592,10 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 						throw new TransportException(uri,
 								JGitText.get().noCredentialsProvider);
 					if (authAttempts > 1)
-						credentialsProvider.reset(uri);
+						credentialsProvider.reset(currentUri);
 					if (3 < authAttempts
-							|| !authMethod.authorize(uri, credentialsProvider)) {
+							|| !authMethod.authorize(currentUri,
+									credentialsProvider)) {
 						throw new TransportException(uri,
 								JGitText.get().notAuthorized);
 					}
@@ -1096,8 +1105,17 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 				buf = out;
 			}
 
+			HttpAuthMethod authenticator = null;
+			Collection<Type> ignoreTypes = EnumSet.noneOf(Type.class);
+			// Counts number of repeated authentication attempts using the same
+			// authentication scheme
+			int authAttempts = 1;
 			int redirects = 0;
 			for (;;) {
+				// The very first time we will try with the authentication
+				// method used on the initial GET request. This is a hint only;
+				// it may fail. If so, we'll then re-try with proper 401
+				// handling, going through the available authentication schemes.
 				openStream();
 				if (buf != out) {
 					conn.setRequestProperty(HDR_CONTENT_ENCODING, ENCODING_GZIP);
@@ -1107,31 +1125,111 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 					buf.writeTo(httpOut, null);
 				}
 
-				if (http.followRedirects == HttpRedirectMode.TRUE) {
-					final int status = HttpSupport.response(conn);
-					switch (status) {
-					case HttpConnection.HTTP_MOVED_PERM:
-					case HttpConnection.HTTP_MOVED_TEMP:
-					case HttpConnection.HTTP_11_MOVED_TEMP:
-						// SEE_OTHER after a POST doesn't make sense for a git
-						// server, so we don't handle it here and thus we'll
-						// report an error in openResponse() later on.
-						URIish newUri = redirect(
-								conn.getHeaderField(HDR_LOCATION),
-								'/' + serviceName, redirects++);
-						try {
-							baseUrl = toURL(newUri);
-						} catch (MalformedURLException e) {
-							throw new TransportException(MessageFormat.format(
-									JGitText.get().invalidRedirectLocation,
-									uri, baseUrl, newUri), e);
+				final int status = HttpSupport.response(conn);
+				switch (status) {
+				case HttpConnection.HTTP_OK:
+					// We're done.
+					return;
+
+				case HttpConnection.HTTP_NOT_FOUND:
+					throw new NoRemoteRepositoryException(uri, MessageFormat
+							.format(JGitText.get().uriNotFound, conn.getURL()));
+
+				case HttpConnection.HTTP_FORBIDDEN:
+					throw new TransportException(uri,
+							MessageFormat.format(
+									JGitText.get().serviceNotPermitted,
+									baseUrl, serviceName));
+
+				case HttpConnection.HTTP_MOVED_PERM:
+				case HttpConnection.HTTP_MOVED_TEMP:
+				case HttpConnection.HTTP_11_MOVED_TEMP:
+					// SEE_OTHER after a POST doesn't make sense for a git
+					// server, so we don't handle it here and thus we'll
+					// report an error in openResponse() later on.
+					if (http.followRedirects != HttpRedirectMode.TRUE) {
+						// Let openResponse() issue an error
+						return;
+					}
+					currentUri = redirect(
+							conn.getHeaderField(HDR_LOCATION),
+							'/' + serviceName, redirects++);
+					try {
+						baseUrl = toURL(currentUri);
+					} catch (MalformedURLException e) {
+						throw new TransportException(uri, MessageFormat.format(
+								JGitText.get().invalidRedirectLocation,
+								baseUrl, currentUri), e);
+					}
+					continue;
+
+				case HttpConnection.HTTP_UNAUTHORIZED:
+					HttpAuthMethod nextMethod = HttpAuthMethod
+							.scanResponse(conn, ignoreTypes);
+					switch (nextMethod.getType()) {
+					case NONE:
+						throw new TransportException(uri,
+								MessageFormat.format(
+										JGitText.get().authenticationNotSupported,
+										conn.getURL()));
+					case NEGOTIATE:
+						// RFC 4559 states "When using the SPNEGO [...] with
+						// [...] POST, the authentication should be complete
+						// [...] before sending the user data." So in theory
+						// the initial GET should have been authenticated
+						// already. (Unless there was a redirect?)
+						//
+						// We try this only once:
+						ignoreTypes.add(HttpAuthMethod.Type.NEGOTIATE);
+						if (authenticator != null) {
+							ignoreTypes.add(authenticator.getType());
 						}
-						continue;
+						authAttempts = 1;
+						// We only do the Kerberos part of SPNEGO, which
+						// requires only one attempt. We do *not* to the
+						// NTLM part of SPNEGO; it's a multi-round
+						// negotiation and among other problems it would
+						// be unclear when to stop if no HTTP_OK is
+						// forthcoming. In theory a malicious server
+						// could keep sending requests for another NTLM
+						// round, keeping a client stuck here.
+						break;
 					default:
+						// DIGEST or BASIC. Let's be sure we ignore NEGOTIATE;
+						// if it was available, we have tried it before.
+						ignoreTypes.add(HttpAuthMethod.Type.NEGOTIATE);
+						if (authenticator == null || authenticator
+								.getType() != nextMethod.getType()) {
+							if (authenticator != null) {
+								ignoreTypes.add(authenticator.getType());
+							}
+							authAttempts = 1;
+						}
 						break;
 					}
+					authMethod = nextMethod;
+					authenticator = nextMethod;
+					CredentialsProvider credentialsProvider = getCredentialsProvider();
+					if (credentialsProvider == null) {
+						throw new TransportException(uri,
+								JGitText.get().noCredentialsProvider);
+					}
+					if (authAttempts > 1) {
+						credentialsProvider.reset(currentUri);
+					}
+					if (3 < authAttempts || !authMethod.authorize(currentUri,
+							credentialsProvider)) {
+						throw new TransportException(uri,
+								JGitText.get().notAuthorized);
+					}
+					authAttempts++;
+					continue;
+
+				default:
+					// Just return here; openResponse() will report an appropriate
+					// error.
+					return;
 				}
-				break;
 			}
 		}
 
