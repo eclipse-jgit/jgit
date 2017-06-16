@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_3ed1dec6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-16T21:39:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_e8131c18",
+      "revId": "6186d30f6e1d3ffd6d5b536f6293f8fcd00a3d6e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_28e36497",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2017-06-15T09:52:55Z",
       "side": 1,
       "message": "Do we need this? MergeCommand should already fall back to the config... so it looks as if checking for pull.ff might be sufficient here.",
+      "revId": "6186d30f6e1d3ffd6d5b536f6293f8fcd00a3d6e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_5ed5cab0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-16T21:39:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_28e36497",
       "revId": "6186d30f6e1d3ffd6d5b536f6293f8fcd00a3d6e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
