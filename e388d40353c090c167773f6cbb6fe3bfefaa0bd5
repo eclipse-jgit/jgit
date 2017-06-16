@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_d23c4bf1",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/DescribeCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-16T22:25:57Z",
+      "side": 1,
+      "message": "how about tests using the \u0027?\u0027 wildcard ?\nNot sure if PathMatcher support \u0027?\u0027 wildcards",
+      "revId": "e388d40353c090c167773f6cbb6fe3bfefaa0bd5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_d2552b27",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-16T22:25:57Z",
+      "side": 1,
+      "message": "missing @since 4.9 tag at the end of javadoc for new API method",
+      "revId": "e388d40353c090c167773f6cbb6fe3bfefaa0bd5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_12609300",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-16T22:25:57Z",
+      "side": 1,
+      "message": "s/String/String.../\n\ngit describe allows to define multiple patterns, so we should use varargs here and store the result in a set",
+      "range": {
+        "startLine": 193,
+        "startChar": 33,
+        "endLine": 193,
+        "endChar": 40
+      },
+      "revId": "e388d40353c090c167773f6cbb6fe3bfefaa0bd5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_32658f11",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-16T22:25:57Z",
+      "side": 1,
+      "message": "s/match/pattern/ ?",
+      "range": {
+        "startLine": 193,
+        "startChar": 40,
+        "endLine": 193,
+        "endChar": 45
+      },
+      "revId": "e388d40353c090c167773f6cbb6fe3bfefaa0bd5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
