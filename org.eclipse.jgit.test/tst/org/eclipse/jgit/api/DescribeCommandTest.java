@@ -54,6 +54,7 @@ import java.util.Collection;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.RefNotFoundException;
+import org.eclipse.jgit.errors.InvalidPatternException;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
@@ -92,26 +93,41 @@ public class DescribeCommandTest extends RepositoryTestCase {
 		ObjectId c1 = modify("aaa");
 
 		ObjectId c2 = modify("bbb");
-		tag("t1");
+		tag("alice-t1");
 
 		ObjectId c3 = modify("ccc");
-		tag("t2");
+		tag("bob-t2");
 
 		ObjectId c4 = modify("ddd");
 
 		assertNull(describe(c1));
 		assertNull(describe(c1, true));
-		assertEquals("t1", describe(c2));
-		assertEquals("t2", describe(c3));
-		assertEquals("t2-0-g44579eb", describe(c3, true));
+		assertNull(describe(c1, "a*", "b*", "c*"));
+
+		assertEquals("alice-t1", describe(c2));
+		assertEquals("alice-t1", describe(c2, "alice*"));
+		assertNull(describe(c2, "bob*"));
+		assertNull(describe(c2, "?ob*"));
+		assertEquals("alice-t1", describe(c2, "a*", "b*", "c*"));
+
+		assertEquals("bob-t2", describe(c3));
+		assertEquals("bob-t2-0-g44579eb", describe(c3, true));
+		assertEquals("alice-t1-1-g44579eb", describe(c3, "alice*"));
+		assertEquals("alice-t1-1-g44579eb", describe(c3, "a??c?-t*"));
+		assertEquals("bob-t2", describe(c3, "bob*"));
+		assertEquals("bob-t2", describe(c3, "?ob*"));
+		assertEquals("bob-t2", describe(c3, "a*", "b*", "c*"));
 
 		assertNameStartsWith(c4, "3e563c5");
 		// the value verified with git-describe(1)
-		assertEquals("t2-1-g3e563c5", describe(c4));
-		assertEquals("t2-1-g3e563c5", describe(c4, true));
+		assertEquals("bob-t2-1-g3e563c5", describe(c4));
+		assertEquals("bob-t2-1-g3e563c5", describe(c4, true));
+		assertEquals("alice-t1-2-g3e563c5", describe(c4, "alice*"));
+		assertEquals("bob-t2-1-g3e563c5", describe(c4, "bob*"));
+		assertEquals("bob-t2-1-g3e563c5", describe(c4, "a*", "b*", "c*"));
 
 		// test default target
-		assertEquals("t2-1-g3e563c5", git.describe().call());
+		assertEquals("bob-t2-1-g3e563c5", git.describe().call());
 	}
 
 	/**
@@ -269,6 +285,10 @@ public class DescribeCommandTest extends RepositoryTestCase {
 
 	private String describe(ObjectId c1) throws GitAPIException, IOException {
 		return describe(c1, false);
+	}
+
+	private String describe(ObjectId c1, String... patterns) throws GitAPIException, IOException, InvalidPatternException {
+		return git.describe().setTarget(c1).setMatch(patterns).call();
 	}
 
 	private static void assertNameStartsWith(ObjectId c4, String prefix) {

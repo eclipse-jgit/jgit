@@ -57,7 +57,10 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.RefNotFoundException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.InvalidPatternException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.ignore.internal.IMatcher;
+import org.eclipse.jgit.ignore.internal.PathMatcher;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -92,6 +95,11 @@ public class DescribeCommand extends GitCommand<String> {
 	 * Whether to always use long output format or not.
 	 */
 	private boolean longDesc;
+
+	/**
+	 * Pattern matchers to be applied to tags under consideration
+	 */
+	private List<IMatcher> matchers = new ArrayList<>();
 
 	/**
 	 *
@@ -170,6 +178,37 @@ public class DescribeCommand extends GitCommand<String> {
 	}
 
 	/**
+	 * Sets one or more {@code glob(7)} patterns that tags must match to be considered.
+	 * If multiple patterns are provided, tags only need match one of them.
+	 *
+	 * @param patterns the {@code glob(7)} pattern or patterns
+	 * @return {@code this}
+	 * @throws InvalidPatternException if the pattern passed in was invalid.
+	 *
+	 * @see <a
+	 *      href="https://www.kernel.org/pub/software/scm/git/docs/git-describe.html"
+	 *      >Git documentation about describe</a>
+	 * @since 4.9
+	 */
+	public DescribeCommand setMatch(String... patterns) throws InvalidPatternException {
+		for (String p : patterns) {
+			matchers.add(PathMatcher.createPathMatcher(p, null, false));
+		}
+		return this;
+	}
+
+	private boolean tagMatches(Ref tag) {
+		if (tag == null) {
+			return false;
+		} else if (matchers.size() == 0) {
+			return true;
+		} else {
+			return matchers.stream()
+					.anyMatch(m -> m.matches(tag.getName(), false));
+		}
+	}
+
+	/**
 	 * Describes the specified commit. Target defaults to HEAD if no commit was
 	 * set explicitly.
 	 *
@@ -243,9 +282,9 @@ public class DescribeCommand extends GitCommand<String> {
 			List<Candidate> candidates = new ArrayList<>();    // all the candidates we find
 
 			// is the target already pointing to a tag? if so, we are done!
-			Ref lucky = tags.get(target);
-			if (lucky != null) {
-				return longDesc ? longDescription(lucky, 0, target) : lucky
+			Ref tagOnTarget = tags.get(target);
+			if (tagMatches(tagOnTarget)) {
+				return longDesc ? longDescription(tagOnTarget, 0, target) : tagOnTarget
 						.getName().substring(R_TAGS.length());
 			}
 
@@ -259,7 +298,7 @@ public class DescribeCommand extends GitCommand<String> {
 					// then there's no point in picking a tag on this commit
 					// since the one that dominates it is always more preferable
 					Ref t = tags.get(c);
-					if (t != null) {
+					if (tagMatches(t)) {
 						Candidate cd = new Candidate(c, t);
 						candidates.add(cd);
 						cd.depth = seen;
