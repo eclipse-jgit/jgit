@@ -52,12 +52,17 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.RefNotFoundException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.InvalidPatternException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.ignore.internal.IMatcher;
+import org.eclipse.jgit.ignore.internal.PathMatcher;
+import org.eclipse.jgit.ignore.internal.WildCardMatcher;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -92,6 +97,11 @@ public class DescribeCommand extends GitCommand<String> {
 	 * Whether to always use long output format or not.
 	 */
 	private boolean longDesc;
+
+	/**
+	 * Pattern matcher to be applied to tags under consideration
+	 */
+	private IMatcher matcher = null;
 
 	/**
 	 *
@@ -170,6 +180,27 @@ public class DescribeCommand extends GitCommand<String> {
 	}
 
 	/**
+	 * Sets a {@code glob(7)} pattern that tags must match to be considered
+	 *
+	 * @param match
+	 * @return {@code this}
+	 * @throws InvalidPatternException if the pattern passed in was invalid.
+	 *
+	 * @see <a
+	 *      href="https://www.kernel.org/pub/software/scm/git/docs/git-describe.html"
+	 *      >Git documentation about describe</a>
+	 */
+	public DescribeCommand setMatch(String match) throws InvalidPatternException {
+		matcher = PathMatcher.createPathMatcher(match, null, false);
+		return this;
+	}
+
+	private boolean tagMatches(Ref tag) {
+		return (tag != null &&
+				(matcher == null || matcher.matches(tag.getName(), false)));
+	}
+
+	/**
 	 * Describes the specified commit. Target defaults to HEAD if no commit was
 	 * set explicitly.
 	 *
@@ -244,7 +275,7 @@ public class DescribeCommand extends GitCommand<String> {
 
 			// is the target already pointing to a tag? if so, we are done!
 			Ref lucky = tags.get(target);
-			if (lucky != null) {
+			if (tagMatches(lucky)) {
 				return longDesc ? longDescription(lucky, 0, target) : lucky
 						.getName().substring(R_TAGS.length());
 			}
@@ -259,7 +290,7 @@ public class DescribeCommand extends GitCommand<String> {
 					// then there's no point in picking a tag on this commit
 					// since the one that dominates it is always more preferable
 					Ref t = tags.get(c);
-					if (t != null) {
+					if (tagMatches(t)) {
 						Candidate cd = new Candidate(c, t);
 						candidates.add(cd);
 						cd.depth = seen;
