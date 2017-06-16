@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_7c57ee51",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 956,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-06-16T15:01:33Z",
+      "side": 1,
+      "message": "Proxy authentication not handled. (It\u0027s also not handled in TransportHttp.connect().)",
+      "revId": "759402d71f850f7f63cbcf69172aedeb06a1280a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_1c618a2d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1016,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-06-16T15:01:33Z",
+      "side": 1,
+      "message": "Given that comment we might consider ignoring NEGOTIATE up front. We risk sending the data multiple times.",
+      "revId": "759402d71f850f7f63cbcf69172aedeb06a1280a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}

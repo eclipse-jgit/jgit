@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_fc6bde0d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 964,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-06-16T15:01:33Z",
+      "side": 0,
+      "message": "How was that recursion limited? The new code follows only 3 redirects, and does it in the loop, not recursively.",
+      "revId": "b4a46b5ed0e33f0a958ba809c648f46e5a19abd7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
