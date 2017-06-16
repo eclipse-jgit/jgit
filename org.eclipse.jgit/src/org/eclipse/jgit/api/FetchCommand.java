@@ -48,6 +48,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidConfigurationException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
@@ -258,11 +259,19 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 	 * Set the mode to be used for recursing into submodules.
 	 *
 	 * @param recurse
+	 *            corresponds to the
+	 *            --recurse-submodules/--no-recurse-submodules options. If
+	 *            {@code null} use the value of the
+	 *            {@code submodule.name.fetchRecurseSubmodules} option
+	 *            configured per submodule. If not specified there, use the
+	 *            value of the {@code fetch.recurseSubmodules} option configured
+	 *            in git config. If not configured in either, "on-demand" is the
+	 *            built-in default.
 	 * @return {@code this}
 	 * @since 4.7
 	 */
 	public FetchCommand setRecurseSubmodules(
-			FetchRecurseSubmodulesMode recurse) {
+			@Nullable FetchRecurseSubmodulesMode recurse) {
 		checkCallable();
 		submoduleRecurseMode = recurse;
 		return this;

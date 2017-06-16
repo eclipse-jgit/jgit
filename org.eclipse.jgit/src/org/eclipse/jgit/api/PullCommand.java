@@ -47,6 +47,7 @@ package org.eclipse.jgit.api;
 import java.io.IOException;
 import java.text.MessageFormat;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.RebaseCommand.Operation;
 import org.eclipse.jgit.api.errors.CanceledException;
 import org.eclipse.jgit.api.errors.DetachedHeadException;
@@ -438,9 +439,10 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 	 * @param recurse
 	 * @return {@code this}
 	 * @since 4.7
+	 * @see FetchCommand#setRecurseSubmodules(FetchRecurseSubmodulesMode)
 	 */
 	public PullCommand setRecurseSubmodules(
-			FetchRecurseSubmodulesMode recurse) {
+			@Nullable FetchRecurseSubmodulesMode recurse) {
 		this.submoduleRecurseMode = recurse;
 		return this;
 	}
