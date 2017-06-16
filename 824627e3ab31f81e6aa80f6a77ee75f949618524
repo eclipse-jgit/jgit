@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_9ccf3aa3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-16T12:34:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_01e12346",
+      "range": {
+        "startLine": 440,
+        "startChar": 32,
+        "endLine": 444,
+        "endChar": 68
+      },
+      "revId": "824627e3ab31f81e6aa80f6a77ee75f949618524",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_21e61f5f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
         "patchSetId": 5
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_bcccf6ae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-16T12:34:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_21e61f5f",
+      "range": {
+        "startLine": 449,
+        "startChar": 64,
+        "endLine": 449,
+        "endChar": 72
+      },
+      "revId": "824627e3ab31f81e6aa80f6a77ee75f949618524",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_41eb2b26",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
         "patchSetId": 5
@@ -59,6 +107,30 @@
       "writtenOn": "2017-06-16T11:29:58Z",
       "side": 1,
       "message": "@Nullable FastForwardMode, like in MergeCommand now.",
+      "range": {
+        "startLine": 455,
+        "startChar": 35,
+        "endLine": 455,
+        "endChar": 50
+      },
+      "revId": "824627e3ab31f81e6aa80f6a77ee75f949618524",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_1cd34a49",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-16T12:34:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_41eb2b26",
       "range": {
         "startLine": 455,
         "startChar": 35,
