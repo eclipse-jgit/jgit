@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_175165df",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2017-06-16T16:28:56Z",
+      "side": 1,
+      "message": "From what we\u0027ve seen in the code, the only place where this is mutated is the tests. From either JGit itself or Gerrit, the list is not directly changed. Apart from the tests, do you foresee any issues in returning an immutable copy for another Dfs Implementation?\n(apart from modifying the relevant tests)",
+      "range": {
+        "startLine": 211,
+        "startChar": 53,
+        "endLine": 212,
+        "endChar": 10
+      },
+      "revId": "fa4cc2475fb127783e98ddb56b6c1fd155cd2bc4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
