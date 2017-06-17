@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_3284afe8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1021,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-06-17T12:18:26Z",
+      "side": 1,
+      "message": "While I think that this statement is correct, I also see that HttpAuthMethod.Negotiate creates a *new* GSSContext on each configureRequest(). I think that is broken.\n\nAnother thing that I haven\u0027t quite found the answer to is how SPNEGO is supposed to work with several subsequent requests. I can\u0027t believe that each request has to be authenticated individually and go again through the several exchanges. I would expect a once established GSSContext to remain valid (after all,it has a lifetime), and be able to re-use it for multiple subsequent requests until the lifetime ends. But I don\u0027t see our code doing that, and I have not found any clear documentation of that. What should the token be to send on the second request once the GET has been successfully authenticated with NEGOTIATE?",
+      "revId": "70645b3efb4cc5dd57b601dbc57b3e1e0122496a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
