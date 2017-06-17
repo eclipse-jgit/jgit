@@ -255,11 +255,15 @@ public class DfsInserter extends ObjectInserter {
 		objectMap = null;
 		packKey = null;
 		packDsc = null;
+		packOut = null;
 	}
 
 	private long beginObject(int type, long len) throws IOException {
-		if (packOut == null)
-			beginPack();
+		if (packOut != null) {
+			flush();
+		}
+
+		beginPack();
 		long offset = packOut.getCount();
 		packOut.beginObject(type, len);
 		return offset;
