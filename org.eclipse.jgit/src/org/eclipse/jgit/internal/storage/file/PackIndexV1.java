@@ -153,7 +153,7 @@ class PackIndexV1 extends PackIndex {
 		final int levelOne = findLevelOne(nthPosition);
 		final int levelTwo = getLevelTwo(nthPosition, levelOne);
 		final int p = (4 + Constants.OBJECT_ID_LENGTH) * levelTwo;
-		return NB.decodeUInt32(idxdata[levelOne], p);
+		return NB.decodeInt32(idxdata[levelOne], p);
 	}
 
 	@Override

@@ -221,9 +221,10 @@ class PackIndexV2 extends PackIndex {
 	}
 
 	private long getOffset(final int levelOne, final int levelTwo) {
-		final long p = NB.decodeUInt32(offset32[levelOne], levelTwo << 2);
-		if ((p & IS_O64) != 0)
-			return NB.decodeUInt64(offset64, (8 * (int) (p & ~IS_O64)));
+		final long p = NB.decodeInt32(offset32[levelOne], levelTwo << 2);
+		if ((p & IS_O64) != 0) {
+			return NB.decodeInt64(offset64, (8 * (int) (p & ~IS_O64)));
+		}
 		return p;
 	}
 
@@ -233,7 +234,7 @@ class PackIndexV2 extends PackIndex {
 		final int levelTwo = binarySearchLevelTwo(objId, levelOne);
 		if (levelTwo == -1)
 			throw new MissingObjectException(objId.copy(), "unknown"); //$NON-NLS-1$
-		return NB.decodeUInt32(crc32[levelOne], levelTwo << 2);
+		return NB.decodeInt32(crc32[levelOne], levelTwo << 2);
 	}
 
 	@Override
