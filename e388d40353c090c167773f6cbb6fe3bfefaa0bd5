@@ -79,6 +79,29 @@
       "revId": "e388d40353c090c167773f6cbb6fe3bfefaa0bd5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_f225c7b3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-06-17T00:53:53Z",
+      "side": 1,
+      "message": "unrelated to this patch, but this is a strange variable name.",
+      "range": {
+        "startLine": 277,
+        "startChar": 7,
+        "endLine": 277,
+        "endChar": 12
+      },
+      "revId": "e388d40353c090c167773f6cbb6fe3bfefaa0bd5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
