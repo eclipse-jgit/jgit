@@ -118,6 +118,30 @@
       "revId": "412221f4f5bcefe59828b83e5b5e81ba91f86c31",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_8b99a902",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 79788
+      },
+      "writtenOn": "2017-06-19T20:00:07Z",
+      "side": 1,
+      "message": "Understood. I am wondering if it is possible to get the expected number of objects from the caller and pass it in.\n\nI think PackParser didn\u0027t parse INSERT packs before. My new fsck code was trying to parse every packs, it failed for INSERT packs.",
+      "parentUuid": "c7880b39_eb5b0dcc",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 16
+      },
+      "revId": "412221f4f5bcefe59828b83e5b5e81ba91f86c31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
