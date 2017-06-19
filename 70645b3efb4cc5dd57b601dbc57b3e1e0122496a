@@ -16,6 +16,24 @@
       "revId": "70645b3efb4cc5dd57b601dbc57b3e1e0122496a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_eddde656",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1021,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-06-19T05:49:20Z",
+      "side": 1,
+      "message": "\u003e While I think that this statement is correct, I also see that HttpAuthMethod.Negotiate creates a *new* GSSContext on each configureRequest(). I think that is broken.\n\nHmmm... maybe I\u0027ve been looking for too long at the JDK doing NTLM as part of Negotiate at https://www.eclipse.org/forums/index.php/t/1086668/ ... If we do only the Kerberos part of SPNEGO, using a fresh context might actually work?",
+      "parentUuid": "c7880b39_3284afe8",
+      "revId": "70645b3efb4cc5dd57b601dbc57b3e1e0122496a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
