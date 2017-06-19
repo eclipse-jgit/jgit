@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_8b7fe958",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackIndexV1.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 79788
+      },
+      "writtenOn": "2017-06-19T19:01:04Z",
+      "side": 0,
+      "message": "You\u0027re right. Offset needs to be decoded as unsigned.",
+      "parentUuid": "c7880b39_922e4392",
+      "revId": "df638e0cfc628469eee9a91df5b2b65634e274d7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_b22b3f81",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackIndexV2.java",
         "patchSetId": 1
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_ab82e5da",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackIndexV2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 79788
+      },
+      "writtenOn": "2017-06-19T19:01:04Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "c7880b39_b22b3f81",
+      "range": {
+        "startLine": 224,
+        "startChar": 0,
+        "endLine": 226,
+        "endChar": 63
+      },
+      "revId": "df638e0cfc628469eee9a91df5b2b65634e274d7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_d2cb6b4b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackIndexV2.java",
         "patchSetId": 1
@@ -53,6 +95,24 @@
       "writtenOn": "2017-06-17T01:39:23Z",
       "side": 0,
       "message": "The CRC used is actually treated as a 32 bit unsigned value by storing it in a signed long in Java. E.g. we use this in DfsPackFile:\n\n  crc1.getValue() !\u003d expectedCRC\n\nWhere crc1 is a java.util.zip.CRC32, and its getValue() method returns long because the CRC is actually an unsigned 32 bit value.",
+      "revId": "df638e0cfc628469eee9a91df5b2b65634e274d7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_ab7d8559",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackIndexV2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 79788
+      },
+      "writtenOn": "2017-06-19T19:01:04Z",
+      "side": 0,
+      "message": "Right, I was comparing a PackIndex.findCRC32() which returns long directly with PackObjectInfo.getCRC() which returns int.",
+      "parentUuid": "c7880b39_d2cb6b4b",
       "revId": "df638e0cfc628469eee9a91df5b2b65634e274d7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
