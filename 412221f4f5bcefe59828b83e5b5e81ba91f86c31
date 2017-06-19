@@ -94,6 +94,30 @@
       "revId": "412221f4f5bcefe59828b83e5b5e81ba91f86c31",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_eb5b0dcc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-06-19T19:48:59Z",
+      "side": 1,
+      "message": "Oh, I misread, I think it\u0027s reusing hdrBuf to write out the object header.\n\nI see why beginPack needs to write some object count even though it doesn\u0027t know the final number of objects. I\u0027m just surprised this hasn\u0027t caused lots of exploding prior to now.\n\nBut we really really need to support multi-object INSERT packs, I don\u0027t think that\u0027s negotiable.",
+      "parentUuid": "c7880b39_4b4d0118",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 16
+      },
+      "revId": "412221f4f5bcefe59828b83e5b5e81ba91f86c31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
