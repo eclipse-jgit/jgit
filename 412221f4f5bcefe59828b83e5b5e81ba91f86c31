@@ -46,6 +46,30 @@
       "revId": "412221f4f5bcefe59828b83e5b5e81ba91f86c31",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_ebf78d4b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 79788
+      },
+      "writtenOn": "2017-06-19T19:26:38Z",
+      "side": 1,
+      "message": "The reason for this change is that PackParser cannot parse INSERT pack since\nit contains an incorrect object counts. It expects pack footer after indexing 1 object as it believed in the pack header.\n\nbyte[] buf \u003d packOut.hdrBuf;\nSystem.arraycopy(Constants.PACK_SIGNATURE, 0, buf, 0, 4);\nNB.encodeInt32(buf, 4, 2); // Always use pack version 2.\nNB.encodeInt32(buf, 8, 1); // Always assume 1 object.\npackOut.write(buf, 0, 12);",
+      "parentUuid": "c7880b39_6bc55d06",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 16
+      },
+      "revId": "412221f4f5bcefe59828b83e5b5e81ba91f86c31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
