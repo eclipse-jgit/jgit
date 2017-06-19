@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_4d07dad4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/DescribeCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 122893
+      },
+      "writtenOn": "2017-06-19T09:04:19Z",
+      "side": 1,
+      "message": "I have added some tests, you\u0027re absolutely right that we should prove this.\n\nFYI Under the covers: PathMatcher, in the complex case, creates a WildCardMatcher, which in turn converts the glob expression into a regex Pattern.\n\nSee `org.eclipse.jgit.ignore.internal.Strings.convertGlob()` for how this is done.",
+      "parentUuid": "c7880b39_d23c4bf1",
+      "revId": "e388d40353c090c167773f6cbb6fe3bfefaa0bd5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_d2552b27",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
         "patchSetId": 1
