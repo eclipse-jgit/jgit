@@ -258,4 +258,27 @@ public abstract class JGitTestUtil {
 				target);
 	}
 
+	/**
+	 * Concatenate byte arrays.
+	 *
+	 * @param b
+	 *            byte arrays to combine together.
+	 * @return a single byte array that contains all bytes copied from input
+	 *         byte arrays.
+	 * @since 4.9
+	 */
+	public static byte[] concat(byte[]... b) {
+		int n = 0;
+		for (byte[] a : b) {
+			n += a.length;
+		}
+
+		byte[] data = new byte[n];
+		n = 0;
+		for (byte[] a : b) {
+			System.arraycopy(a, 0, data, n, a.length);
+			n += a.length;
+		}
+		return data;
+	}
 }
