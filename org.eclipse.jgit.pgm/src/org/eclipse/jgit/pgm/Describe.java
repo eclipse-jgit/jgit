@@ -50,6 +50,9 @@ import org.eclipse.jgit.pgm.internal.CLIText;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Command(common = true, usage = "usage_Describe")
 class Describe extends TextBuiltin {
 
@@ -59,6 +62,9 @@ class Describe extends TextBuiltin {
 	@Option(name = "--long", usage = "usage_LongFormat")
 	private boolean longDesc;
 
+	@Option(name = "--match", multiValued = true, usage = "usage_Match", metaVar = "metaVar_pattern")
+	private List<String> patterns = new ArrayList<>();
+
 	@Override
 	protected void run() throws Exception {
 		try (Git git = new Git(db)) {
@@ -66,6 +72,7 @@ class Describe extends TextBuiltin {
 			if (tree != null)
 				cmd.setTarget(tree);
 			cmd.setLong(longDesc);
+			cmd.setMatch(patterns.toArray(new String[patterns.size()]));
 			String result = null;
 			try {
 				result = cmd.call();
