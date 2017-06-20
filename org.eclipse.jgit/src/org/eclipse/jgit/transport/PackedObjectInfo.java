@@ -59,6 +59,8 @@ public class PackedObjectInfo extends ObjectIdOwnerMap.Entry {
 
 	private int crc;
 
+	private int type;
+
 	PackedObjectInfo(final long headerOffset, final int packedCRC,
 			final AnyObjectId id) {
 		super(id);
@@ -111,5 +113,13 @@ public class PackedObjectInfo extends ObjectIdOwnerMap.Entry {
 	 */
 	public void setCRC(final int crc) {
 		this.crc = crc;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
 	}
 }
