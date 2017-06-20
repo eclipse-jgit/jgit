@@ -190,6 +190,30 @@
       "revId": "412221f4f5bcefe59828b83e5b5e81ba91f86c31",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_9f372308",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-06-20T14:56:27Z",
+      "side": 1,
+      "message": "DfsPackDescription does have a field to store the objectCount:\nhttps://eclipse.googlesource.com/jgit/jgit/+/master/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackDescription.java#213\n\nI think its underdocumented that the implementation has to persist this in its own metadata somewhere.\n\nI\u0027m somewhat loath to define a standard format to store the list of packs and their metadata. Using that format would require changing our internal format for example. It might make some of the properties of our storage less useful.\n\nHowever, we could define a \"default\" format in JGit, one that implementors of DFS can use if they don\u0027t have or need their own.",
+      "parentUuid": "c7880b39_34fd76a4",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 16
+      },
+      "revId": "412221f4f5bcefe59828b83e5b5e81ba91f86c31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
