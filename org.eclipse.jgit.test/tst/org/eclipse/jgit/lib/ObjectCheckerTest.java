@@ -45,6 +45,7 @@
 package org.eclipse.jgit.lib;
 
 import static java.lang.Integer.valueOf;
+import static org.eclipse.jgit.junit.JGitTestUtil.concat;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_LENGTH;
 import static org.eclipse.jgit.lib.Constants.OBJ_BAD;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
@@ -1054,20 +1055,7 @@ public class ObjectCheckerTest {
 		checker.checkTree(data);
 	}
 
-	private static byte[] concat(byte[]... b) {
-		int n = 0;
-		for (byte[] a : b) {
-			n += a.length;
-		}
 
-		byte[] data = new byte[n];
-		n = 0;
-		for (byte[] a : b) {
-			System.arraycopy(a, 0, data, n, a.length);
-			n += a.length;
-		}
-		return data;
-	}
 
 	@Test
 	public void testInvalidTreeNameIsMacHFSGitCorruptUTF8AtEnd()
