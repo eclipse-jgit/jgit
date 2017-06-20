@@ -196,6 +196,7 @@ public class CLIText extends TranslationBundle {
 	/***/ public String metaVar_pass;
 	/***/ public String metaVar_path;
 	/***/ public String metaVar_paths;
+	/***/ public String metaVar_pattern;
 	/***/ public String metaVar_port;
 	/***/ public String metaVar_ref;
 	/***/ public String metaVar_refs;
