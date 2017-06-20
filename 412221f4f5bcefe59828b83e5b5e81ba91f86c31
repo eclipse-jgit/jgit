@@ -166,6 +166,30 @@
       "revId": "412221f4f5bcefe59828b83e5b5e81ba91f86c31",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_34fd76a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-06-20T11:43:45Z",
+      "side": 1,
+      "message": "\u003e Google\u0027s implementation of DfsPackDescription stores the accurate\n \u003e count in a side area, along with the list of packs that are part of\n \u003e the repository.\n\nIt seems like any DFS implementation would have to take a similar approach. Would it be worth making the pack metadata part of the core DFS interface rather than a Google-specific extension?",
+      "parentUuid": "c7880b39_6ec56b06",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 16
+      },
+      "revId": "412221f4f5bcefe59828b83e5b5e81ba91f86c31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
