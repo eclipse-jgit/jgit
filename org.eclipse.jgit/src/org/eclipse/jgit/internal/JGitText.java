@@ -468,8 +468,11 @@ public class JGitText extends TranslationBundle {
 	/***/ public String mergeRecursiveTooManyMergeBasesFor;
 	/***/ public String messageAndTaggerNotAllowedInUnannotatedTags;
 	/***/ public String minutesAgo;
+	/***/ public String mismatchOffset;
+	/***/ public String mismatchCRC;
 	/***/ public String missingAccesskey;
 	/***/ public String missingConfigurationForKey;
+	/***/ public String missingCRC;
 	/***/ public String missingDeltaBase;
 	/***/ public String missingForwardImageInGITBinaryPatch;
 	/***/ public String missingObject;
@@ -726,6 +729,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String unknownHost;
 	/***/ public String unknownIndexVersionOrCorruptIndex;
 	/***/ public String unknownObject;
+	/***/ public String unknownObjectInIndex;
 	/***/ public String unknownObjectType;
 	/***/ public String unknownObjectType2;
 	/***/ public String unknownRepositoryFormat;
