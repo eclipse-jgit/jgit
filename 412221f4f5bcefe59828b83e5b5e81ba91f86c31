@@ -142,6 +142,30 @@
       "revId": "412221f4f5bcefe59828b83e5b5e81ba91f86c31",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_6ec56b06",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-06-20T05:15:44Z",
+      "side": 1,
+      "message": "INSERT and RECEIVE packs in DFS slightly violate the pack file format by setting an invalid object count in the header of the pack. You need to look at the DfsPackDescription to get a valid object count out-of-band.\n\nThe issue is that during INSERT we have to store the header before the total number of objects is known. So we always produce a header with a count of 1.\n\nThe issue during RECEIVE is we have to store the header before we know how many base objects we have to append to make a thin-pack non-thin by appending copies of delta bases to support deltas that appear in the pack. So we always store the count as the original count from the thin-pack sent by a pushing client.\n\nDFS actually ignores the count at read time, so this isn\u0027t an error to anything except a PackParser or an fsck tool. INSERT and RECEIVE packs are only (thus far) ever accessed by random access supported by the idx file, and the count in the pack header is not relevant.\n\nNormal git gets around these cases by going back and overwriting the header. But DFS has to assume it can\u0027t overwrite a prior part of the pack file, so we don\u0027t have that option. So DFS normally ignores the object count in the pack header and relies on an object count from the DfsPackDescription.\n\nGoogle\u0027s implementation of DfsPackDescription stores the accurate count in a side area, along with the list of packs that are part of the repository.",
+      "parentUuid": "c7880b39_8b99a902",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 16
+      },
+      "revId": "412221f4f5bcefe59828b83e5b5e81ba91f86c31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
