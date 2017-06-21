@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_aebcae05",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/DescribeTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-21T00:26:52Z",
+      "side": 1,
+      "message": "Here jgit describe yields v2.1.1 but git yields v2.0.0. It seems git picks the first match if multiple patterns match on the same commit",
+      "revId": "12efc6568eba173a280ef40058a0b4f5c6403c05",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
