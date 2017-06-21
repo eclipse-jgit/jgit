@@ -76,8 +76,24 @@ public class TransferConfig {
 		}
 	};
 
-	enum FsckMode {
-		ERROR, WARN, IGNORE;
+	/**
+	 * A git configuration value for how to handle a fsck failure of a particular kind.
+	 * Used in e.g. fsck.missingEmail.
+	 * @since 4.9
+	 */
+	public enum FsckMode {
+		/**
+		 * Treat it as an error (the default).
+		 */
+		ERROR,
+		/**
+		 * Issue a warning (in fact, jgit treats this like IGNORE, but git itself does warn).
+		 */
+		WARN,
+		/**
+		 * Ignore the error.
+		 */
+		IGNORE;
 	}
 
 	private final boolean fetchFsck;

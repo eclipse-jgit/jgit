@@ -83,6 +83,11 @@ public class PushCommandTest extends RepositoryTestCase {
 
 		// create other repository
 		Repository db2 = createWorkRepository();
+		final StoredConfig config2 = db2.getConfig();
+
+		// this tests that this config can be parsed properly
+		config2.setString("fsck", "", "missingEmail", "ignore");
+		config2.save();
 
 		// setup the first repository
 		final StoredConfig config = db.getConfig();
