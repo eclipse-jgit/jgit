@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_44c7aba9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsFsck.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-06-21T21:35:42Z",
+      "side": 1,
+      "message": "I understand that we want to override this on the server side to add additional checks for our data store, but this basic functionality is also useful to clients, so maybe move it to a non-DFS class?",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 70,
+        "endChar": 22
+      },
+      "revId": "210b9af72adba267008411ef0360b911895bc2cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_a4fdafe2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsFsck.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-06-21T21:35:42Z",
+      "side": 1,
+      "message": "This looks O(N^2). I looked at ObjectWalk.checkConnectivity() and it doesn\u0027t seem to color any of the parent nodes as uninteresting when it walks. Can you make sure this isn\u0027t doing unnecessary work?",
+      "range": {
+        "startLine": 128,
+        "startChar": 6,
+        "endLine": 128,
+        "endChar": 37
+      },
+      "revId": "210b9af72adba267008411ef0360b911895bc2cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_c492bbaa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/FsckPackParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-06-21T21:35:42Z",
+      "side": 1,
+      "message": "There is no need to override this method.",
+      "range": {
+        "startLine": 106,
+        "startChar": 17,
+        "endLine": 106,
+        "endChar": 23
+      },
+      "revId": "210b9af72adba267008411ef0360b911895bc2cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_a48f6f86",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/FsckPackParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-06-21T21:35:42Z",
+      "side": 1,
+      "message": "\"INSERT/RECEIVE packs don\u0027t always contain the correct object count in their headers.\"",
+      "range": {
+        "startLine": 115,
+        "startChar": 4,
+        "endLine": 116,
+        "endChar": 26
+      },
+      "revId": "210b9af72adba267008411ef0360b911895bc2cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_e4a897da",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/FsckPackParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-06-21T21:35:42Z",
+      "side": 1,
+      "message": "Can you explain why this is safe to ignore?",
+      "range": {
+        "startLine": 167,
+        "startChar": 2,
+        "endLine": 167,
+        "endChar": 12
+      },
+      "revId": "210b9af72adba267008411ef0360b911895bc2cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_27e0e18c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/FsckPackParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-06-21T21:35:42Z",
+      "side": 1,
+      "message": "s/expect/are expected/",
+      "range": {
+        "startLine": 245,
+        "startChar": 40,
+        "endLine": 245,
+        "endChar": 46
+      },
+      "revId": "210b9af72adba267008411ef0360b911895bc2cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_47db2de4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/FsckPackParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-06-21T21:35:42Z",
+      "side": 1,
+      "message": "Does git-core report a single error in the index and abort, or attempt to report multiple problems? It would be nice to be consistent with whatever it does.",
+      "range": {
+        "startLine": 250,
+        "startChar": 13,
+        "endLine": 250,
+        "endChar": 24
+      },
+      "revId": "210b9af72adba267008411ef0360b911895bc2cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
