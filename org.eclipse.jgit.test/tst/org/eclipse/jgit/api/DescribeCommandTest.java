@@ -130,6 +130,30 @@ public class DescribeCommandTest extends RepositoryTestCase {
 		assertEquals("bob-t2-1-g3e563c5", git.describe().call());
 	}
 
+	@Test
+	public void testDescribeMultiMatch() throws Exception {
+		ObjectId c1 = modify("aaa");
+		tag("v1.0.0");
+		tag("v1.1.1");
+		ObjectId c2 = modify("bbb");
+
+		// Ensure that if we're interested in any tags, we get the first match as per Git behaviour
+		assertEquals("v1.0.0", describe(c1));
+		assertEquals("v1.0.0-1-g3747db3", describe(c2));
+
+		// Ensure that if we're only interested in one of multiple tags, we get the right match
+		assertEquals("v1.0.0", describe(c1, "v1.0*"));
+		assertEquals("v1.1.1", describe(c1, "v1.1*"));
+		assertEquals("v1.0.0-1-g3747db3", describe(c2, "v1.0*"));
+		assertEquals("v1.1.1-1-g3747db3", describe(c2, "v1.1*"));
+
+		// Ensure that ordering of match precedence is preserved as per Git behaviour
+		assertEquals("v1.0.0", describe(c1, "v1.0*", "v1.1*"));
+		assertEquals("v1.1.1", describe(c1, "v1.1*", "v1.0*"));
+		assertEquals("v1.0.0-1-g3747db3", describe(c2, "v1.0*", "v1.1*"));
+		assertEquals("v1.1.1-1-g3747db3", describe(c2, "v1.1*", "v1.0*"));
+	}
+
 	/**
 	 * Make sure it finds a tag when not all ancestries include a tag.
 	 *
