@@ -16,6 +16,24 @@
       "revId": "12efc6568eba173a280ef40058a0b4f5c6403c05",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_6ef3a696",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/DescribeTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 122893
+      },
+      "writtenOn": "2017-06-21T06:39:21Z",
+      "side": 1,
+      "message": "Hi Matthias - thank you for adding the tests.  I could have sworn I\u0027d looked for a `DescribeTest` class without success, but yesterday there were many distractions - apologies for that.\n\nI\u0027ll look into this test failure and address shortly.",
+      "parentUuid": "c7880b39_aebcae05",
+      "revId": "12efc6568eba173a280ef40058a0b4f5c6403c05",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
