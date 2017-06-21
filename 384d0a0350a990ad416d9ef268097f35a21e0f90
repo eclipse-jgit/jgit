@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_11e887ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-21T08:53:45Z",
+      "side": 1,
+      "message": "move this fix to a separate commit preceding the command line patch adding the  --match option to CLI",
+      "range": {
+        "startLine": 10,
+        "startChar": 18,
+        "endLine": 13,
+        "endChar": 48
+      },
+      "revId": "384d0a0350a990ad416d9ef268097f35a21e0f90",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_b1d33347",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/DescribeCommandTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-21T08:53:45Z",
+      "side": 1,
+      "message": "move this fix to a separate commit preceding the command line patch",
+      "revId": "384d0a0350a990ad416d9ef268097f35a21e0f90",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_d1d6ff36",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-21T08:53:45Z",
+      "side": 1,
+      "message": "move this fix to a separate commit preceding the command line patch",
+      "revId": "384d0a0350a990ad416d9ef268097f35a21e0f90",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_91dc775b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-21T08:53:45Z",
+      "side": 1,
+      "message": "this is a very long name for a very local variable, maybe \"bestMatch\" is sufficient ?",
+      "range": {
+        "startLine": 299,
+        "startChar": 17,
+        "endLine": 299,
+        "endChar": 40
+      },
+      "revId": "384d0a0350a990ad416d9ef268097f35a21e0f90",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_11c16776",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-21T08:53:45Z",
+      "side": 1,
+      "message": "this is a very long name for a very local variable, maybe \"bestMatch\" is sufficient ?",
+      "range": {
+        "startLine": 314,
+        "startChar": 19,
+        "endLine": 314,
+        "endChar": 42
+      },
+      "revId": "384d0a0350a990ad416d9ef268097f35a21e0f90",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
