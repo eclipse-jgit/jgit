@@ -51,6 +51,7 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -517,5 +518,18 @@ public class RemoteConfigTest {
 		assertFalse(rc.getPushURIs().isEmpty());
 		assertEquals("https://server/repos/project.git", rc.getPushURIs()
 				.get(0).toASCIIString());
+	}
+
+	@Test
+	public void pushInsteadOfNoPushUrl() throws Exception {
+		config.setString("remote", "origin", "url",
+				"http://git.eclipse.org/gitroot/jgit/jgit");
+		config.setStringList("url", "ssh://someone@git.eclipse.org:29418/",
+				"pushInsteadOf",
+				Collections.singletonList("http://git.eclipse.org/gitroot/"));
+		RemoteConfig rc = new RemoteConfig(config, "origin");
+		assertFalse(rc.getPushURIs().isEmpty());
+		assertEquals("ssh://someone@git.eclipse.org:29418/jgit/jgit",
+				rc.getPushURIs().get(0).toASCIIString());
 	}
 }
