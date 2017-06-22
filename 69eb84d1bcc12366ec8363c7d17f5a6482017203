@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_d88d3c87",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransferConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-06-22T21:26:34Z",
+      "side": 1,
+      "message": "This now needs javadoc (also for the individual values), and an @since 4.9.",
+      "revId": "69eb84d1bcc12366ec8363c7d17f5a6482017203",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
