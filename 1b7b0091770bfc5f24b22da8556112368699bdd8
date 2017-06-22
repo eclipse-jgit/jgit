@@ -1,0 +1,262 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_733d4bea",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/attributes/merge/MergeGitAttributeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-22T22:37:34Z",
+      "side": 1,
+      "message": "Conflict",
+      "range": {
+        "startLine": 95,
+        "startChar": 34,
+        "endLine": 95,
+        "endChar": 41
+      },
+      "revId": "1b7b0091770bfc5f24b22da8556112368699bdd8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_b30ed371",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/attributes/merge/MergeGitAttributeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-22T22:37:34Z",
+      "side": 1,
+      "message": "with",
+      "range": {
+        "startLine": 317,
+        "startChar": 18,
+        "endLine": 317,
+        "endChar": 23
+      },
+      "revId": "1b7b0091770bfc5f24b22da8556112368699bdd8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_3374a3bf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GitAttributes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-22T22:37:34Z",
+      "side": 1,
+      "message": "I think we don\u0027t need yet another class for attributes",
+      "revId": "1b7b0091770bfc5f24b22da8556112368699bdd8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_f3693bed",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GitAttributes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-22T22:37:34Z",
+      "side": 1,
+      "message": "move these to Constants, we already have other attribute constants there, e.g. ATTR_FILTER",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 75
+      },
+      "revId": "1b7b0091770bfc5f24b22da8556112368699bdd8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_1365e70e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GitAttributes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-22T22:37:34Z",
+      "side": 1,
+      "message": "move this method to class Attributes",
+      "revId": "1b7b0091770bfc5f24b22da8556112368699bdd8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_131a47a2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeAlgorithm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-22T22:37:34Z",
+      "side": 1,
+      "message": "pass empty Attributes set to avoid @Nullable",
+      "range": {
+        "startLine": 105,
+        "startChar": 40,
+        "endLine": 105,
+        "endChar": 44
+      },
+      "revId": "1b7b0091770bfc5f24b22da8556112368699bdd8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_5314cf72",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeAlgorithm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-22T22:37:34Z",
+      "side": 1,
+      "message": "pass empty Attributes set to avoid @Nullable",
+      "range": {
+        "startLine": 128,
+        "startChar": 3,
+        "endLine": 128,
+        "endChar": 12
+      },
+      "revId": "1b7b0091770bfc5f24b22da8556112368699bdd8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_d3119f8f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-22T22:37:34Z",
+      "side": 1,
+      "message": "this formatting change is unrelated, please revert it",
+      "revId": "1b7b0091770bfc5f24b22da8556112368699bdd8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_732b8bb9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-22T22:37:34Z",
+      "side": 1,
+      "message": "we should pass an empty Attributes set here in order to avoid this parameter needs to be @Nullable",
+      "range": {
+        "startLine": 485,
+        "startChar": 4,
+        "endLine": 485,
+        "endChar": 8
+      },
+      "revId": "1b7b0091770bfc5f24b22da8556112368699bdd8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_932e37c7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-22T22:37:34Z",
+      "side": 1,
+      "message": "pass empty Attributes set to avoid @Nullable",
+      "range": {
+        "startLine": 538,
+        "startChar": 28,
+        "endLine": 538,
+        "endChar": 37
+      },
+      "revId": "1b7b0091770bfc5f24b22da8556112368699bdd8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_b325f3e3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 754,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-22T22:37:34Z",
+      "side": 1,
+      "message": "pass empty Attributes set to avoid @Nullable",
+      "range": {
+        "startLine": 754,
+        "startChar": 3,
+        "endLine": 754,
+        "endChar": 12
+      },
+      "revId": "1b7b0091770bfc5f24b22da8556112368699bdd8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_f31e9b96",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 827,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-06-22T22:37:34Z",
+      "side": 1,
+      "message": "pass empty Attributes set to avoid @Nullable",
+      "range": {
+        "startLine": 827,
+        "startChar": 32,
+        "endLine": 827,
+        "endChar": 41
+      },
+      "revId": "1b7b0091770bfc5f24b22da8556112368699bdd8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
