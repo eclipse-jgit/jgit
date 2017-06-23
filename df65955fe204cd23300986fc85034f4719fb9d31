@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_d327de3c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attributes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 37142
+      },
+      "writtenOn": "2017-06-23T13:00:14Z",
+      "side": 1,
+      "message": "I am not sure for the name isMergeable, because if JGit handle one day custom mergers (with the attribute merger\u003d\u0027MyCustomMerger\u0027) it will be incorrect.\n\nMaybe isMergeableWith(theMerger) to use this method to detect the correct merger for the file or shouldBeHandledAsBinary() to keep its responsibility to the detection of files that should be handled as binary?",
+      "parentUuid": "c7880b39_53d3ee47",
+      "revId": "df65955fe204cd23300986fc85034f4719fb9d31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_b3f252d3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeAlgorithm.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2017-06-23T09:13:03Z",
       "side": 1,
       "message": "We could avoid the changes in this class if we don\u0027t call a MergeAlgorithm when the merge attribute is unset.",
+      "revId": "df65955fe204cd23300986fc85034f4719fb9d31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_538a0e70",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeAlgorithm.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37142
+      },
+      "writtenOn": "2017-06-23T13:00:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_b3f252d3",
       "revId": "df65955fe204cd23300986fc85034f4719fb9d31",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_f3393a58",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 37142
+      },
+      "writtenOn": "2017-06-23T13:00:14Z",
+      "side": 1,
+      "message": "I duplicate the method to avoid API break. If I remove this method, we need to change the version of the bundle to 5.0.0",
+      "parentUuid": "c7880b39_d3019e3e",
+      "revId": "df65955fe204cd23300986fc85034f4719fb9d31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_332e62c9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2017-06-23T09:13:03Z",
       "side": 1,
       "message": "I would have expected an if statement here. If for the current entry merge attribute is set call contentMerge() otherwise don\u0027t call contentMerge(). It sounds strange to even call contentMerge() if we know we don\u0027t do a content merge. The benefits would be:\n- method contentMerge() would not need a new signature,\n- your fix would be smaller\n- most important: we don\u0027t do the potentially expensive calls to the get the content for base,our,theirs in cases we know that we don\u0027t need content.\n\nWhat we do with binary files is similar to what we do to submodule link files in line 688. May you could just add a \u0027|| isBinary(...)\u0027 to the if in line 688\n\nLater we may support even more attributes influencing the merge. E.g. if the merge attribute is set to a string defining a external merge driver. I think that code handling this should also go here. Based on the attributes we would determine the mergeAlgorithm, configure it and let the algorithm do the content merge.",
+      "revId": "df65955fe204cd23300986fc85034f4719fb9d31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_7392aaac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 37142
+      },
+      "writtenOn": "2017-06-23T13:00:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_332e62c9",
       "revId": "df65955fe204cd23300986fc85034f4719fb9d31",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_b3a332fa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 750,
+      "author": {
+        "id": 37142
+      },
+      "writtenOn": "2017-06-23T13:00:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_5325aee0",
+      "revId": "df65955fe204cd23300986fc85034f4719fb9d31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_931e3696",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 2
@@ -98,6 +188,24 @@
       "writtenOn": "2017-06-23T09:13:03Z",
       "side": 1,
       "message": "Not sure whether updateIndex() needs to know about attributes if we handle it in processEntry()",
+      "revId": "df65955fe204cd23300986fc85034f4719fb9d31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_d3a27ef5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 823,
+      "author": {
+        "id": 37142
+      },
+      "writtenOn": "2017-06-23T13:00:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_931e3696",
       "revId": "df65955fe204cd23300986fc85034f4719fb9d31",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
