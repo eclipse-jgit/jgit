@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_53d3ee47",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attributes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-06-23T09:13:03Z",
+      "side": 1,
+      "message": "The method is called isBinary but it checks for the merge attribute. Maybe we should call it isMergeable.\n\nThink about the situation where we have text files which should not be content-merged. Some files are text but you know that a content merge algorithm would create invalid content and you want to force a human being to do the merge. One example I have in mind are property files written by tools which always write the lines in a random order. These files are not binary, e.g. it\u0027s ok to cat their content to the console. But although they contain text its useless to run jgits default mergealgorithm over it. So: not binary but also not mergeable.",
+      "revId": "df65955fe204cd23300986fc85034f4719fb9d31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_b3f252d3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeAlgorithm.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-06-23T09:13:03Z",
+      "side": 1,
+      "message": "We could avoid the changes in this class if we don\u0027t call a MergeAlgorithm when the merge attribute is unset.",
+      "revId": "df65955fe204cd23300986fc85034f4719fb9d31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_d3019e3e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-06-23T09:13:03Z",
+      "side": 1,
+      "message": "Why duplicating the method. It\u0027s a protected method called only from inside this class. Just add the attributes to the parameter list. No need to have two processEntry methods: one with and one without the attributes.",
+      "revId": "df65955fe204cd23300986fc85034f4719fb9d31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_332e62c9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-06-23T09:13:03Z",
+      "side": 1,
+      "message": "I would have expected an if statement here. If for the current entry merge attribute is set call contentMerge() otherwise don\u0027t call contentMerge(). It sounds strange to even call contentMerge() if we know we don\u0027t do a content merge. The benefits would be:\n- method contentMerge() would not need a new signature,\n- your fix would be smaller\n- most important: we don\u0027t do the potentially expensive calls to the get the content for base,our,theirs in cases we know that we don\u0027t need content.\n\nWhat we do with binary files is similar to what we do to submodule link files in line 688. May you could just add a \u0027|| isBinary(...)\u0027 to the if in line 688\n\nLater we may support even more attributes influencing the merge. E.g. if the merge attribute is set to a string defining a external merge driver. I think that code handling this should also go here. Based on the attributes we would determine the mergeAlgorithm, configure it and let the algorithm do the content merge.",
+      "revId": "df65955fe204cd23300986fc85034f4719fb9d31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_5325aee0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 750,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-06-23T09:13:03Z",
+      "side": 1,
+      "message": "Not sure whether contentMerge() needs to know about attributes if we handle it in processEntry()",
+      "revId": "df65955fe204cd23300986fc85034f4719fb9d31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_931e3696",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 823,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-06-23T09:13:03Z",
+      "side": 1,
+      "message": "Not sure whether updateIndex() needs to know about attributes if we handle it in processEntry()",
+      "revId": "df65955fe204cd23300986fc85034f4719fb9d31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
