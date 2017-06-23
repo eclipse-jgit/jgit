@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_169eb443",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attributes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-06-23T14:27:04Z",
+      "side": 1,
+      "message": "You described the semantics of the method in the javadoc: it should return true if \"the entry has an -merge or a merge\u003dbinary attribute\".\n\nMaybe hasNoOrBinaryMergeAttribute() or canBeContentMerged().\n\nI dislike *binary* method names because it fails when we set the -merge attribute on non-binary files.",
+      "parentUuid": "c7880b39_d327de3c",
+      "revId": "df65955fe204cd23300986fc85034f4719fb9d31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_b3f252d3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeAlgorithm.java",
         "patchSetId": 2
@@ -101,6 +119,24 @@
       "side": 1,
       "message": "I duplicate the method to avoid API break. If I remove this method, we need to change the version of the bundle to 5.0.0",
       "parentUuid": "c7880b39_d3019e3e",
+      "revId": "df65955fe204cd23300986fc85034f4719fb9d31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_d66d0ca8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-06-23T14:27:04Z",
+      "side": 1,
+      "message": "Really? I am also sometimes confused about what is allowed or not in a minor release so I asked Matthias. He said that we are allowed to change the signature of protected methods in a minor release. This breaks only implementors, so people who are subclassing our methods. But clients who are just using our public API should not be broken in a minor release.\nSo I think it\u0027s OK to simply modify the signature of this protected method and add problem filters to silence the API tooling",
+      "parentUuid": "c7880b39_f3393a58",
       "revId": "df65955fe204cd23300986fc85034f4719fb9d31",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
