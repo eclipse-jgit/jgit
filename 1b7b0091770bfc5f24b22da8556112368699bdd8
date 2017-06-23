@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_73b8eb62",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/attributes/merge/MergeGitAttributeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 37142
+      },
+      "writtenOn": "2017-06-23T08:45:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_733d4bea",
+      "range": {
+        "startLine": 95,
+        "startChar": 34,
+        "endLine": 95,
+        "endChar": 41
+      },
+      "revId": "1b7b0091770bfc5f24b22da8556112368699bdd8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_b30ed371",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/attributes/merge/MergeGitAttributeTest.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-06-22T22:37:34Z",
       "side": 1,
       "message": "with",
+      "range": {
+        "startLine": 317,
+        "startChar": 18,
+        "endLine": 317,
+        "endChar": 23
+      },
+      "revId": "1b7b0091770bfc5f24b22da8556112368699bdd8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_93bb975d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/attributes/merge/MergeGitAttributeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 37142
+      },
+      "writtenOn": "2017-06-23T08:45:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_b30ed371",
       "range": {
         "startLine": 317,
         "startChar": 18,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_d3c51fd6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GitAttributes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 37142
+      },
+      "writtenOn": "2017-06-23T08:45:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_3374a3bf",
+      "revId": "1b7b0091770bfc5f24b22da8556112368699bdd8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_f3693bed",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GitAttributes.java",
         "patchSetId": 1
@@ -76,6 +142,30 @@
       "writtenOn": "2017-06-22T22:37:34Z",
       "side": 1,
       "message": "move these to Constants, we already have other attribute constants there, e.g. ATTR_FILTER",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 75
+      },
+      "revId": "1b7b0091770bfc5f24b22da8556112368699bdd8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_f3abfb0a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GitAttributes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 37142
+      },
+      "writtenOn": "2017-06-23T08:45:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_f3693bed",
       "range": {
         "startLine": 55,
         "startChar": 0,
@@ -105,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_13a7a740",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GitAttributes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 37142
+      },
+      "writtenOn": "2017-06-23T08:45:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_1365e70e",
+      "revId": "1b7b0091770bfc5f24b22da8556112368699bdd8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_131a47a2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeAlgorithm.java",
         "patchSetId": 1
@@ -116,6 +224,30 @@
       "writtenOn": "2017-06-22T22:37:34Z",
       "side": 1,
       "message": "pass empty Attributes set to avoid @Nullable",
+      "range": {
+        "startLine": 105,
+        "startChar": 40,
+        "endLine": 105,
+        "endChar": 44
+      },
+      "revId": "1b7b0091770bfc5f24b22da8556112368699bdd8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_73038b84",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeAlgorithm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 37142
+      },
+      "writtenOn": "2017-06-23T08:45:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_131a47a2",
       "range": {
         "startLine": 105,
         "startChar": 40,
@@ -151,6 +283,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_93063792",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeAlgorithm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 37142
+      },
+      "writtenOn": "2017-06-23T08:45:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_5314cf72",
+      "range": {
+        "startLine": 128,
+        "startChar": 3,
+        "endLine": 128,
+        "endChar": 12
+      },
+      "revId": "1b7b0091770bfc5f24b22da8556112368699bdd8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_d3119f8f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 1
@@ -168,6 +324,24 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_33f10308",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 37142
+      },
+      "writtenOn": "2017-06-23T08:45:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_d3119f8f",
+      "revId": "1b7b0091770bfc5f24b22da8556112368699bdd8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_732b8bb9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 1
@@ -179,6 +353,30 @@
       "writtenOn": "2017-06-22T22:37:34Z",
       "side": 1,
       "message": "we should pass an empty Attributes set here in order to avoid this parameter needs to be @Nullable",
+      "range": {
+        "startLine": 485,
+        "startChar": 4,
+        "endLine": 485,
+        "endChar": 8
+      },
+      "revId": "1b7b0091770bfc5f24b22da8556112368699bdd8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_b3fdf3e2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 37142
+      },
+      "writtenOn": "2017-06-23T08:45:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_732b8bb9",
       "range": {
         "startLine": 485,
         "startChar": 4,
@@ -214,6 +412,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_d300bf76",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 37142
+      },
+      "writtenOn": "2017-06-23T08:45:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_932e37c7",
+      "range": {
+        "startLine": 538,
+        "startChar": 28,
+        "endLine": 538,
+        "endChar": 37
+      },
+      "revId": "1b7b0091770bfc5f24b22da8556112368699bdd8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_b325f3e3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 1
@@ -237,6 +459,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_f3f69b01",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 754,
+      "author": {
+        "id": 37142
+      },
+      "writtenOn": "2017-06-23T08:45:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_b325f3e3",
+      "range": {
+        "startLine": 754,
+        "startChar": 3,
+        "endLine": 754,
+        "endChar": 12
+      },
+      "revId": "1b7b0091770bfc5f24b22da8556112368699bdd8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_f31e9b96",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 1
@@ -248,6 +494,30 @@
       "writtenOn": "2017-06-22T22:37:34Z",
       "side": 1,
       "message": "pass empty Attributes set to avoid @Nullable",
+      "range": {
+        "startLine": 827,
+        "startChar": 32,
+        "endLine": 827,
+        "endChar": 41
+      },
+      "revId": "1b7b0091770bfc5f24b22da8556112368699bdd8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_13f2470d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 827,
+      "author": {
+        "id": 37142
+      },
+      "writtenOn": "2017-06-23T08:45:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_f31e9b96",
       "range": {
         "startLine": 827,
         "startChar": 32,
