@@ -52,8 +52,10 @@ import java.util.List;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.NoHeadException;
+import org.eclipse.jgit.diff.DiffConfig;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffFormatter;
+import org.eclipse.jgit.diff.ExternalDiffDriver;
 import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -144,14 +146,21 @@ public class DiffCommand extends GitCommand<List<DiffEntry>> {
 			if (showNameAndStatusOnly)
 				return result;
 			else {
-				if (contextLines >= 0)
-					diffFmt.setContext(contextLines);
-				if (destinationPrefix != null)
-					diffFmt.setNewPrefix(destinationPrefix);
-				if (sourcePrefix != null)
-					diffFmt.setOldPrefix(sourcePrefix);
-				diffFmt.format(result);
-				diffFmt.flush();
+				if (useExternalDiffDriver()) {
+					runExternalDiffDriver(result, diffFmt);
+				} else {
+					if (contextLines >= 0) {
+						diffFmt.setContext(contextLines);
+					}
+					if (destinationPrefix != null) {
+						diffFmt.setNewPrefix(destinationPrefix);
+					}
+					if (sourcePrefix != null) {
+						diffFmt.setOldPrefix(sourcePrefix);
+					}
+					diffFmt.format(result);
+					diffFmt.flush();
+				}
 				return result;
 			}
 		} catch (IOException e) {
@@ -159,6 +168,20 @@ public class DiffCommand extends GitCommand<List<DiffEntry>> {
 		} finally {
 			diffFmt.close();
 		}
+	}
+
+	private void runExternalDiffDriver(List<DiffEntry> entries,
+			DiffFormatter diffFmt) throws GitAPIException, IOException {
+		ExternalDiffDriver edd = new ExternalDiffDriver(repo, diffFmt, out);
+		for (DiffEntry entry : entries) {
+			edd.format(entry);
+		}
+		edd.flush();
+	}
+
+	private boolean useExternalDiffDriver() {
+		DiffConfig diffConfig = repo.getConfig().get(DiffConfig.KEY);
+		return diffConfig.getExternal() != null;
 	}
 
 	/**
