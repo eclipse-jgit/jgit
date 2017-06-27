@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_ad5bc7cc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attributes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 37142
+      },
+      "writtenOn": "2017-06-27T08:34:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_169eb443",
+      "revId": "df65955fe204cd23300986fc85034f4719fb9d31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_b3f252d3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeAlgorithm.java",
         "patchSetId": 2
@@ -137,6 +155,24 @@
       "side": 1,
       "message": "Really? I am also sometimes confused about what is allowed or not in a minor release so I asked Matthias. He said that we are allowed to change the signature of protected methods in a minor release. This breaks only implementors, so people who are subclassing our methods. But clients who are just using our public API should not be broken in a minor release.\nSo I think it\u0027s OK to simply modify the signature of this protected method and add problem filters to silence the API tooling",
       "parentUuid": "c7880b39_f3393a58",
+      "revId": "df65955fe204cd23300986fc85034f4719fb9d31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_ad74a741",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 37142
+      },
+      "writtenOn": "2017-06-27T08:34:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_d66d0ca8",
       "revId": "df65955fe204cd23300986fc85034f4719fb9d31",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
