@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_ff8c94c0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-06-27T17:14:58Z",
+      "side": 1,
+      "message": "No because you cannot assign to a variable declared in a try-with-resources block and I assign to it further below if we have a cache miss and decide to open the stream to fulfill that miss.",
+      "parentUuid": "c7880b39_1fb16076",
+      "revId": "5fdbcc1081e635eb4aab4302bc412f0e6f376f63",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_7f9984ff",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2017-06-27T17:11:21Z",
       "side": 1,
       "message": "optional: likewise. Here I think I prefer what you already have, but for completeness it would look something like\n\n  try (ReadableChannel toClose \u003d packChannel \u003d\u003d null ? rc : null) {\n   ...\n  }",
+      "revId": "5fdbcc1081e635eb4aab4302bc412f0e6f376f63",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_5f0da8c6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 818,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-06-27T17:14:58Z",
+      "side": 1,
+      "message": "Your suggestion not much different from what we have now, but comes with the side effect of needing yet another variable in scope whose only purpose is to know if we close or not in the (now transparent) finally. But we still need the finally anyway for the readBlockMicros, so its really not saving us anything.",
+      "parentUuid": "c7880b39_7f9984ff",
       "revId": "5fdbcc1081e635eb4aab4302bc412f0e6f376f63",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
