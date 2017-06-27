@@ -62,6 +62,7 @@ import java.util.zip.CRC32;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -489,15 +490,36 @@ public final class DfsPackFile {
 
 	private void copyPackThroughCache(PackOutputStream out, DfsReader ctx)
 			throws IOException {
-		long position = 12;
-		long remaining = length - (12 + 20);
-		while (0 < remaining) {
-			DfsBlock b = cache.getOrLoad(this, position, ctx);
-			int ptr = (int) (position - b.start);
-			int n = (int) Math.min(b.size() - ptr, remaining);
-			b.write(out, position, n);
-			position += n;
-			remaining -= n;
+		ReadableChannel rc = null;
+		try {
+			long position = 12;
+			long remaining = length - (12 + 20);
+			while (0 < remaining) {
+				DfsBlock b;
+				if (rc != null) {
+					b = cache.getOrLoad(this, position, ctx, rc);
+				} else {
+					b = cache.get(key, alignToBlock(position));
+					if (b == null) {
+						rc = ctx.db.openFile(packDesc, PACK);
+						int sz = ctx.getOptions().getStreamPackBufferSize();
+						if (sz > 0) {
+							rc.setReadAheadBytes(sz);
+						}
+						b = cache.getOrLoad(this, position, ctx, rc);
+					}
+				}
+
+				int ptr = (int) (position - b.start);
+				int n = (int) Math.min(b.size() - ptr, remaining);
+				b.write(out, position, n);
+				position += n;
+				remaining -= n;
+			}
+		} finally {
+			if (rc != null) {
+				rc.close();
+			}
 		}
 	}
 
@@ -780,17 +802,19 @@ public final class DfsPackFile {
 	}
 
 	DfsBlock getOrLoadBlock(long pos, DfsReader ctx) throws IOException {
-		return cache.getOrLoad(this, pos, ctx);
+		return cache.getOrLoad(this, pos, ctx, null);
 	}
 
-	DfsBlock readOneBlock(long pos, DfsReader ctx)
-			throws IOException {
+	DfsBlock readOneBlock(long pos, DfsReader ctx,
+			@Nullable ReadableChannel packChannel) throws IOException {
 		if (invalid)
 			throw new PackInvalidException(getPackName());
 
 		ctx.stats.readBlock++;
 		long start = System.nanoTime();
-		ReadableChannel rc = ctx.db.openFile(packDesc, PACK);
+		ReadableChannel rc = packChannel != null
+				? packChannel
+				: ctx.db.openFile(packDesc, PACK);
 		try {
 			int size = blockSize(rc);
 			pos = (pos / size) * size;
@@ -840,7 +864,9 @@ public final class DfsPackFile {
 
 			return new DfsBlock(key, pos, buf);
 		} finally {
-			rc.close();
+			if (rc != packChannel) {
+				rc.close();
+			}
 			ctx.stats.readBlockMicros += elapsedMicros(start);
 		}
 	}
