@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_1fb16076",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-06-27T17:11:21Z",
+      "side": 1,
+      "message": "optional: can simplify by using try-with-resources, which knows not to close a null resource:\n\n  try (ReadableChannel rc \u003d null) {\n    ...\n  }",
+      "revId": "5fdbcc1081e635eb4aab4302bc412f0e6f376f63",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_7f9984ff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 818,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-06-27T17:11:21Z",
+      "side": 1,
+      "message": "optional: likewise. Here I think I prefer what you already have, but for completeness it would look something like\n\n  try (ReadableChannel toClose \u003d packChannel \u003d\u003d null ? rc : null) {\n   ...\n  }",
+      "revId": "5fdbcc1081e635eb4aab4302bc412f0e6f376f63",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
