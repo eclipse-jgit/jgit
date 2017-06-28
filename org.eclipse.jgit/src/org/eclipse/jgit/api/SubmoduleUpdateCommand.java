@@ -91,6 +91,8 @@ public class SubmoduleUpdateCommand extends
 
 	private CloneCommand.Callback callback;
 
+	private boolean fetch = false;
+
 	/**
 	 * @param repo
 	 */
@@ -110,6 +112,18 @@ public class SubmoduleUpdateCommand extends
 	public SubmoduleUpdateCommand setProgressMonitor(
 			final ProgressMonitor monitor) {
 		this.monitor = monitor;
+		return this;
+	}
+
+	/**
+	 * Whether to fetch the submodules before we update them. By default, this
+	 * is set to <code>false</code>
+	 *
+	 * @param fetch
+	 * @return this command
+	 */
+	public SubmoduleUpdateCommand setFetch(final boolean fetch) {
+		this.fetch = fetch;
 		return this;
 	}
 
@@ -161,7 +175,7 @@ public class SubmoduleUpdateCommand extends
 					continue;
 
 				Repository submoduleRepo = generator.getRepository();
-				// Clone repository is not present
+				// Clone repository if not present
 				if (submoduleRepo == null) {
 					if (callback != null) {
 						callback.cloningSubmodule(generator.getPath());
@@ -175,6 +189,16 @@ public class SubmoduleUpdateCommand extends
 					if (monitor != null)
 						clone.setProgressMonitor(monitor);
 					submoduleRepo = clone.call().getRepository();
+				} else if (this.fetch) {
+					if (callback != null) {
+						// FIXME: Do we need a new callback to tell them we're
+						// fetching?
+						callback.cloningSubmodule(generator.getPath());
+					}
+					FetchCommand fetchCommand = Git.wrap(submoduleRepo).fetch();
+					if (monitor != null)
+						fetchCommand.setProgressMonitor(monitor);
+					fetchCommand.call();
 				}
 
 				try (RevWalk walk = new RevWalk(submoduleRepo)) {
