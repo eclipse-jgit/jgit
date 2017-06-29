@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_e1a233f5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-06-29T12:10:21Z",
+      "side": 1,
+      "message": "Please add the bug reference here:\n\n  Bug: 470318\n  Change-Id: ...",
+      "revId": "86db506e974657f6149b8dc5ce4f7e052aacf174",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_618f2388",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleUpdateCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-06-29T12:10:21Z",
+      "side": 1,
+      "message": "Why fetch if we just cloned? Should be in an else-branch of the previous if-statement.",
+      "revId": "86db506e974657f6149b8dc5ce4f7e052aacf174",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_c1a377f9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleUpdateCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-06-29T12:10:21Z",
+      "side": 1,
+      "message": "Should pass on the monitor, if there is one.",
+      "revId": "86db506e974657f6149b8dc5ce4f7e052aacf174",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_81924fa9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleUpdateCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-06-29T12:10:21Z",
+      "side": 1,
+      "message": "Please remove trailing whitespace.",
+      "revId": "86db506e974657f6149b8dc5ce4f7e052aacf174",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
