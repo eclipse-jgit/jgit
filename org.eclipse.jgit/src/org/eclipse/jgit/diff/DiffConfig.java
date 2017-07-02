@@ -50,6 +50,7 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Config.SectionParser;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.util.StringUtils;
+import org.eclipse.jgit.util.SystemReader;
 
 /** Keeps track of diff related configuration options. */
 public class DiffConfig {
@@ -88,7 +89,15 @@ public class DiffConfig {
 				ConfigConstants.CONFIG_DIFF_SECTION, null, ConfigConstants.CONFIG_KEY_RENAMES));
 		renameLimit = rc.getInt(ConfigConstants.CONFIG_DIFF_SECTION,
 				ConfigConstants.CONFIG_KEY_RENAMELIMIT, 200);
-		external = rc.getString(ConfigConstants.CONFIG_DIFF_SECTION, null,
+		external = readExternal(rc);
+	}
+
+	private String readExternal(Config rc) {
+		String value = SystemReader.getInstance().getenv("GIT_EXTERNAL_DIFF"); //$NON-NLS-1$
+		if (!StringUtils.isEmptyOrNull(value)) {
+			return value;
+		}
+		return rc.getString(ConfigConstants.CONFIG_DIFF_SECTION, null,
 				ConfigConstants.CONFIG_KEY_EXTERNAL);
 	}
 
