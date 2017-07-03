@@ -75,6 +75,8 @@ public class AttributesNodeTest {
 
 	private static final Attribute C_VALUE2_ATTR = new Attribute("C", "value2");
 
+	private static final Attribute C_UNSET_ATTR = new Attribute("C", UNSET);
+
 	private InputStream is;
 
 	@After
@@ -164,6 +166,19 @@ public class AttributesNodeTest {
 		assertAttribute("file.type2", node,
 				asSet(A_UNSET_ATTR, B_SET_ATTR, C_VALUE2_ATTR));
 		assertAttribute("file.type3", node, asSet(A_UNSET_ATTR, B_SET_ATTR));
+	}
+
+	@Test
+	public void testDoubleAsteriskAtEnd() throws IOException {
+	    String attributeFileContent = "dir/** \tA -B\tC=value";
+
+		is = new ByteArrayInputStream(attributeFileContent.getBytes());
+		AttributesNode node = new AttributesNode();
+		node.parse(is);
+		assertAttribute("dir", node,
+				asSet(new Attribute[]{}));
+		assertAttribute("dir/file.type1", node,
+				asSet(A_SET_ATTR, B_UNSET_ATTR, C_VALUE_ATTR));
 	}
 
 	private void assertAttribute(String path, AttributesNode node,

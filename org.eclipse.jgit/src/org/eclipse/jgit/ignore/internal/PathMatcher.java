@@ -231,10 +231,12 @@ public class PathMatcher extends AbstractMatcher {
 					match = matches(matcher, path, left, endExcl,
 							assumeDirectory);
 				if (match) {
-					if (matcher == matchers.size() - 2
-							&& matchers.get(matcher + 1) == WILD)
-						// ** can match *nothing*: a/b/** match also a/b
-						return true;
+					if (matcher == matchers.size() - 1
+							&& matchers.get(matcher) == WILD) {
+						// a/b/** doesn't match a/b
+						// but a/b/** matches a/b/x
+						return Strings.stripTrailing(path.substring(left, endExcl), slash).length() != 0;
+					}
 					if (matcher < matchers.size() - 1
 							&& matchers.get(matcher) == WILD) {
 						// ** can match *nothing*: a/**/b match also a/b
