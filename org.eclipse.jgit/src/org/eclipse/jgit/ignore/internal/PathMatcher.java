@@ -233,8 +233,9 @@ public class PathMatcher extends AbstractMatcher {
 				if (match) {
 					if (matcher == matchers.size() - 2
 							&& matchers.get(matcher + 1) == WILD)
-						// ** can match *nothing*: a/b/** match also a/b
-						return true;
+						// ** can match *nothing*:
+						// a/b/** matches a/b/ but not a/b
+						return assumeDirectory;
 					if (matcher < matchers.size() - 1
 							&& matchers.get(matcher) == WILD) {
 						// ** can match *nothing*: a/**/b match also a/b
