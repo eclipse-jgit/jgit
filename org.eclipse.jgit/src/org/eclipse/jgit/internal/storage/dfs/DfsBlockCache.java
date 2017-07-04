@@ -195,7 +195,7 @@ public final class DfsBlockCache {
 		blockSizeShift = Integer.numberOfTrailingZeros(blockSize);
 
 		clockLock = new ReentrantLock(true /* fair */);
-		clockHand = new Ref<>(new DfsPackKey(), -1, 0, null);
+		clockHand = new Ref<>(new DfsStreamKey(), -1, 0, null);
 		clockHand.next = clockHand;
 
 		packCache = new ConcurrentHashMap<>(
@@ -260,7 +260,7 @@ public final class DfsBlockCache {
 		return packFiles;
 	}
 
-	DfsPackFile getOrCreate(DfsPackDescription dsc, DfsPackKey key) {
+	DfsPackFile getOrCreate(DfsPackDescription dsc, DfsStreamKey key) {
 		// TODO This table grows without bound. It needs to clean up
 		// entries that aren't in cache anymore, and aren't being used
 		// by a live DfsObjDatabase reference.
@@ -277,7 +277,7 @@ public final class DfsBlockCache {
 				return v;                    // another thread
 			} else {
 				return new DfsPackFile(
-						this, dsc, key != null ? key : new DfsPackKey());
+						this, dsc, key != null ? key : new DfsStreamKey());
 			}
 		});
 	}
@@ -320,7 +320,7 @@ public final class DfsBlockCache {
 		final long requestedPosition = position;
 		position = pack.alignToBlock(position);
 
-		DfsPackKey key = pack.key;
+		DfsStreamKey key = pack.key;
 		int slot = slot(key, position);
 		HashEntry e1 = table.get(slot);
 		DfsBlock v = scan(e1, key, position);
@@ -442,10 +442,10 @@ public final class DfsBlockCache {
 	}
 
 	void put(DfsBlock v) {
-		put(v.pack, v.start, v.size(), v);
+		put(v.stream, v.start, v.size(), v);
 	}
 
-	<T> Ref<T> put(DfsPackKey key, long pos, int size, T v) {
+	<T> Ref<T> put(DfsStreamKey key, long pos, int size, T v) {
 		int slot = slot(key, pos);
 		HashEntry e1 = table.get(slot);
 		Ref<T> ref = scanRef(e1, key, pos);
@@ -481,12 +481,12 @@ public final class DfsBlockCache {
 		return ref;
 	}
 
-	boolean contains(DfsPackKey key, long position) {
+	boolean contains(DfsStreamKey key, long position) {
 		return scan(table.get(slot(key, position)), key, position) != null;
 	}
 
 	@SuppressWarnings("unchecked")
-	<T> T get(DfsPackKey key, long position) {
+	<T> T get(DfsStreamKey key, long position) {
 		T val = (T) scan(table.get(slot(key, position)), key, position);
 		if (val == null)
 			statMiss.incrementAndGet();
@@ -495,13 +495,13 @@ public final class DfsBlockCache {
 		return val;
 	}
 
-	private <T> T scan(HashEntry n, DfsPackKey pack, long position) {
+	private <T> T scan(HashEntry n, DfsStreamKey pack, long position) {
 		Ref<T> r = scanRef(n, pack, position);
 		return r != null ? r.get() : null;
 	}
 
 	@SuppressWarnings("unchecked")
-	private <T> Ref<T> scanRef(HashEntry n, DfsPackKey pack, long position) {
+	private <T> Ref<T> scanRef(HashEntry n, DfsStreamKey pack, long position) {
 		for (; n != null; n = n.next) {
 			Ref<T> r = n.ref;
 			if (r.pack == pack && r.position == position)
@@ -514,11 +514,11 @@ public final class DfsBlockCache {
 		packCache.remove(pack.getPackDescription());
 	}
 
-	private int slot(DfsPackKey pack, long position) {
+	private int slot(DfsStreamKey pack, long position) {
 		return (hash(pack.hash, position) >>> 1) % tableSize;
 	}
 
-	private ReentrantLock lockFor(DfsPackKey pack, long position) {
+	private ReentrantLock lockFor(DfsStreamKey pack, long position) {
 		return loadLocks[(hash(pack.hash, position) >>> 1) % loadLocks.length];
 	}
 
@@ -545,14 +545,14 @@ public final class DfsBlockCache {
 	}
 
 	static final class Ref<T> {
-		final DfsPackKey pack;
+		final DfsStreamKey pack;
 		final long position;
 		final int size;
 		volatile T value;
 		Ref next;
 		volatile boolean hot;
 
-		Ref(DfsPackKey pack, long position, int size, T v) {
+		Ref(DfsStreamKey pack, long position, int size, T v) {
 			this.pack = pack;
 			this.position = position;
 			this.size = size;

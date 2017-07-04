@@ -75,7 +75,7 @@ final class DeltaBaseCache {
 		table = new Entry[1 << TABLE_BITS];
 	}
 
-	Entry get(DfsPackKey key, long position) {
+	Entry get(DfsStreamKey key, long position) {
 		Entry e = table[hash(position)];
 		for (; e != null; e = e.tableNext) {
 			if (e.offset == position && key.equals(e.pack)) {
@@ -86,7 +86,7 @@ final class DeltaBaseCache {
 		return null;
 	}
 
-	void put(DfsPackKey key, long offset, int objectType, byte[] data) {
+	void put(DfsStreamKey key, long offset, int objectType, byte[] data) {
 		if (data.length > maxByteCount)
 			return; // Too large to cache.
 
@@ -189,7 +189,7 @@ final class DeltaBaseCache {
 	}
 
 	static class Entry {
-		final DfsPackKey pack;
+		final DfsStreamKey pack;
 		final long offset;
 		final int type;
 		final byte[] data;
@@ -198,7 +198,7 @@ final class DeltaBaseCache {
 		Entry lruPrev;
 		Entry lruNext;
 
-		Entry(DfsPackKey key, long offset, int type, byte[] data) {
+		Entry(DfsStreamKey key, long offset, int type, byte[] data) {
 			this.pack = key;
 			this.offset = offset;
 			this.type = type;
