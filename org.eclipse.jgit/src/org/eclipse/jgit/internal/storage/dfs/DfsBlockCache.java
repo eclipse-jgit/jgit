@@ -57,12 +57,12 @@ import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.internal.JGitText;
 
 /**
- * Caches slices of a {@link DfsPackFile} in memory for faster read access.
+ * Caches slices of a {@link BlockBasedFile} in memory for faster read access.
  * <p>
  * The DfsBlockCache serves as a Java based "buffer cache", loading segments of
- * a DfsPackFile into the JVM heap prior to use. As JGit often wants to do reads
- * of only tiny slices of a file, the DfsBlockCache tries to smooth out these
- * tiny reads into larger block-sized IO operations.
+ * a BlockBasedFile into the JVM heap prior to use. As JGit often wants to do
+ * reads of only tiny slices of a file, the DfsBlockCache tries to smooth out
+ * these tiny reads into larger block-sized IO operations.
  * <p>
  * Whenever a cache miss occurs, loading is invoked by exactly one thread for
  * the given <code>(DfsPackKey,position)</code> key tuple. This is ensured by an
@@ -303,24 +303,24 @@ public final class DfsBlockCache {
 	/**
 	 * Lookup a cached object, creating and loading it if it doesn't exist.
 	 *
-	 * @param pack
+	 * @param file
 	 *            the pack that "contains" the cached object.
 	 * @param position
 	 *            offset within <code>pack</code> of the object.
 	 * @param ctx
 	 *            current thread's reader.
-	 * @param packChannel
+	 * @param fileChannel
 	 *            optional channel to read {@code pack}.
 	 * @return the object reference.
 	 * @throws IOException
 	 *             the reference was not in the cache and could not be loaded.
 	 */
-	DfsBlock getOrLoad(DfsPackFile pack, long position, DfsReader ctx,
-			@Nullable ReadableChannel packChannel) throws IOException {
+	DfsBlock getOrLoad(BlockBasedFile file, long position, DfsReader ctx,
+			@Nullable ReadableChannel fileChannel) throws IOException {
 		final long requestedPosition = position;
-		position = pack.alignToBlock(position);
+		position = file.alignToBlock(position);
 
-		DfsStreamKey key = pack.key;
+		DfsStreamKey key = file.key;
 		int slot = slot(key, position);
 		HashEntry e1 = table.get(slot);
 		DfsBlock v = scan(e1, key, position);
@@ -348,7 +348,7 @@ public final class DfsBlockCache {
 			statMiss.incrementAndGet();
 			boolean credit = true;
 			try {
-				v = pack.readOneBlock(position, ctx, packChannel);
+				v = file.readOneBlock(position, ctx, fileChannel);
 				credit = false;
 			} finally {
 				if (credit)
@@ -377,9 +377,9 @@ public final class DfsBlockCache {
 
 		// If the block size changed from the default, it is possible the block
 		// that was loaded is the wrong block for the requested position.
-		if (v.contains(pack.key, requestedPosition))
+		if (v.contains(file.key, requestedPosition))
 			return v;
-		return getOrLoad(pack, requestedPosition, ctx, packChannel);
+		return getOrLoad(file, requestedPosition, ctx, fileChannel);
 	}
 
 	@SuppressWarnings("unchecked")
