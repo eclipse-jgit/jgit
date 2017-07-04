@@ -90,23 +90,6 @@ import org.eclipse.jgit.util.LongList;
  * objects are similar.
  */
 public final class DfsPackFile {
-	/**
-	 * File offset used to cache {@link #index} in {@link DfsBlockCache}.
-	 * <p>
-	 * To better manage memory, the forward index is stored as a single block in
-	 * the block cache under this file position. A negative value is used
-	 * because it cannot occur in a normal pack file, and it is less likely to
-	 * collide with a valid data block from the file as the high bits will all
-	 * be set when treated as an unsigned long by the cache code.
-	 */
-	private static final long POS_INDEX = -1;
-
-	/** Offset used to cache {@link #reverseIndex}. See {@link #POS_INDEX}. */
-	private static final long POS_REVERSE_INDEX = -2;
-
-	/** Offset used to cache {@link #bitmapIndex}. See {@link #POS_INDEX}. */
-	private static final long POS_BITMAP_INDEX = -3;
-
 	/** Cache that owns this pack file and its data. */
 	private final DfsBlockCache cache;
 
@@ -115,6 +98,9 @@ public final class DfsPackFile {
 
 	/** Unique identity of this pack while in-memory. */
 	final DfsStreamKey key;
+	final DfsStreamKey idxKey = new DfsStreamKey();
+	final DfsStreamKey reverseIdxKey = new DfsStreamKey();
+	final DfsStreamKey bitmapKey = new DfsStreamKey();
 
 	/**
 	 * Total number of bytes in this pack file.
@@ -211,7 +197,7 @@ public final class DfsPackFile {
 		long objCnt = idx.getObjectCount();
 		int recSize = Constants.OBJECT_ID_LENGTH + 8;
 		int sz = (int) Math.min(objCnt * recSize, Integer.MAX_VALUE);
-		index = cache.put(key, POS_INDEX, sz, idx);
+		index = cache.put(idxKey, 0, sz, idx);
 	}
 
 	/**
@@ -356,7 +342,7 @@ public final class DfsPackFile {
 				throw e2;
 			}
 
-			bitmapIndex = cache.put(key, POS_BITMAP_INDEX,
+			bitmapIndex = cache.put(bitmapKey, 0,
 					(int) Math.min(size, Integer.MAX_VALUE), idx);
 			return idx;
 		}
@@ -382,7 +368,7 @@ public final class DfsPackFile {
 			PackReverseIndex revidx = new PackReverseIndex(idx);
 			int sz = (int) Math.min(
 					idx.getObjectCount() * 8, Integer.MAX_VALUE);
-			reverseIndex = cache.put(key, POS_REVERSE_INDEX, sz, revidx);
+			reverseIndex = cache.put(reverseIdxKey, 0, sz, revidx);
 			return revidx;
 		}
 	}
