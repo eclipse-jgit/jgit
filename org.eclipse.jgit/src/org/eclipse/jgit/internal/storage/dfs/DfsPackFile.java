@@ -114,7 +114,7 @@ public final class DfsPackFile {
 	private final DfsPackDescription packDesc;
 
 	/** Unique identity of this pack while in-memory. */
-	final DfsPackKey key;
+	final DfsStreamKey key;
 
 	/**
 	 * Total number of bytes in this pack file.
@@ -171,7 +171,7 @@ public final class DfsPackFile {
 	 * @param key
 	 *            interned key used to identify blocks in the block cache.
 	 */
-	DfsPackFile(DfsBlockCache cache, DfsPackDescription desc, DfsPackKey key) {
+	DfsPackFile(DfsBlockCache cache, DfsPackDescription desc, DfsStreamKey key) {
 		this.cache = cache;
 		this.packDesc = desc;
 		this.key = key;

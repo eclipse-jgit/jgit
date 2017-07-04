@@ -54,7 +54,7 @@ import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
 
 /** A cached slice of a {@link DfsPackFile}. */
 final class DfsBlock {
-	final DfsPackKey pack;
+	final DfsStreamKey stream;
 
 	final long start;
 
@@ -62,8 +62,8 @@ final class DfsBlock {
 
 	private final byte[] block;
 
-	DfsBlock(DfsPackKey p, long pos, byte[] buf) {
-		pack = p;
+	DfsBlock(DfsStreamKey p, long pos, byte[] buf) {
+		stream = p;
 		start = pos;
 		end = pos + buf.length;
 		block = buf;
@@ -73,8 +73,8 @@ final class DfsBlock {
 		return block.length;
 	}
 
-	boolean contains(DfsPackKey want, long pos) {
-		return pack == want && start <= pos && pos < end;
+	boolean contains(DfsStreamKey want, long pos) {
+		return stream == want && start <= pos && pos < end;
 	}
 
 	int copy(long pos, byte[] dstbuf, int dstoff, int cnt) {
