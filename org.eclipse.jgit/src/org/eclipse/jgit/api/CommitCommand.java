@@ -482,7 +482,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 						JGitText.get().entryNotFoundByPath, only.get(i)));
 
 		// there must be at least one change
-		if (emptyCommit)
+		if (emptyCommit && !allowEmpty.booleanValue())
 			// Would like to throw a EmptyCommitException. But this would break the API
 			// TODO(ch): Change this in the next release
 			throw new JGitInternalException(JGitText.get().emptyCommit);
