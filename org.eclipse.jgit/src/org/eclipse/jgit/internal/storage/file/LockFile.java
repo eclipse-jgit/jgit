@@ -374,7 +374,7 @@ public class LockFile {
 		};
 	}
 
-	private void requireLock() {
+	void requireLock() {
 		if (os == null) {
 			unlock();
 			throw new IllegalStateException(MessageFormat.format(JGitText.get().lockOnNotHeld, ref));
