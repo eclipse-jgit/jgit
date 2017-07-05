@@ -190,6 +190,20 @@ public class ReceiveCommand {
 		}
 	}
 
+	/**
+	 * Check whether a command failed due to transaction aborted.
+	 *
+	 * @param cmd
+	 *            command.
+	 * @return whether the command failed due to transaction aborted, as in {@link
+	 *         #abort(Iterable)}.
+	 * @since 4.9
+	 */
+	public static boolean isTransactionAborted(ReceiveCommand cmd) {
+		return cmd.getResult() == REJECTED_OTHER_REASON
+				&& cmd.getMessage().equals(JGitText.get().transactionAborted);
+	}
+
 	private final ObjectId oldId;
 
 	private final ObjectId newId;

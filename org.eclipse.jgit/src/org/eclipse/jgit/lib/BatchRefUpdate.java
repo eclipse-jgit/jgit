@@ -82,8 +82,10 @@ public class BatchRefUpdate {
 	 * clock skew between machines on the same LAN using an NTP server also on
 	 * the same LAN should be under 5 seconds. 5 seconds is also not that long
 	 * for a large `git push` operation to complete.
+	 *
+	 * @since 4.9
 	 */
-	private static final Duration MAX_WAIT = Duration.ofSeconds(5);
+	protected static final Duration MAX_WAIT = Duration.ofSeconds(5);
 
 	private final RefDatabase refdb;
 
@@ -335,6 +337,19 @@ public class BatchRefUpdate {
 	}
 
 	/**
+	 * Set push options associated with this update.
+	 * <p>
+	 * Implementations must call this at the top of {@link #execute(RevWalk,
+	 * ProgressMonitor, List)}.
+	 *
+	 * @param options options passed to {@code execute}.
+	 * @since 4.9
+	 */
+	protected void setPushOptions(List<String> options) {
+		pushOptions = options;
+	}
+
+	/**
 	 * @return list of timestamps the batch must wait for.
 	 * @since 4.6
 	 */
@@ -400,7 +415,7 @@ public class BatchRefUpdate {
 		}
 
 		if (options != null) {
-			pushOptions = options;
+			setPushOptions(options);
 		}
 
 		monitor.beginTask(JGitText.get().updatingReferences, commands.size());
@@ -553,17 +568,36 @@ public class BatchRefUpdate {
 		return ref;
 	}
 
-	static Collection<String> getPrefixes(String s) {
+	/**
+	 * Get all path prefixes of a ref name.
+	 *
+	 * @param name
+	 *            ref name.
+	 * @return path prefixes of the ref name. For {@code refs/heads/foo}, returns
+	 *         {@code refs} and {@code refs/heads}.
+	 * @since 4.9
+	 */
+	protected static Collection<String> getPrefixes(String name) {
 		Collection<String> ret = new HashSet<>();
-		addPrefixesTo(s, ret);
+		addPrefixesTo(name, ret);
 		return ret;
 	}
 
-	static void addPrefixesTo(String s, Collection<String> out) {
-		int p1 = s.indexOf('/');
+	/**
+	 * Add prefixes of a ref name to an existing collection.
+	 *
+	 * @param name
+	 *            ref name.
+	 * @param out
+	 *            path prefixes of the ref name. For {@code refs/heads/foo},
+	 *            returns {@code refs} and {@code refs/heads}.
+	 * @since 4.9
+	 */
+	protected static void addPrefixesTo(String name, Collection<String> out) {
+		int p1 = name.indexOf('/');
 		while (p1 > 0) {
-			out.add(s.substring(0, p1));
-			p1 = s.indexOf('/', p1 + 1);
+			out.add(name.substring(0, p1));
+			p1 = name.indexOf('/', p1 + 1);
 		}
 	}
 
