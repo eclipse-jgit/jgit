@@ -322,6 +322,9 @@ public class BatchRefUpdate {
 
 	/**
 	 * Gets the list of option strings associated with this update.
+	 * <p>
+	 * Always returns null before {@link #execute} is called; afterwards, returns
+	 * the options that were passed to that method.
 	 *
 	 * @return pushOptions
 	 * @since 4.5
