@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_77f2770e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/attributes/AttributesNodeTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2017-07-05T15:17:38Z",
+      "side": 1,
+      "message": "This does not make sense, it is a directory",
+      "range": {
+        "startLine": 178,
+        "startChar": 19,
+        "endLine": 178,
+        "endChar": 23
+      },
+      "revId": "e3f5a84a178c927b2a58c6106feb1d08da76b896",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
