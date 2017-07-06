@@ -22,6 +22,29 @@
       "revId": "3fd81613c1667f42df47d776e6998b4b6873cb58",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_d15092ae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-07-06T22:14:36Z",
+      "side": 1,
+      "message": "mark with @Nullable annotation ?",
+      "range": {
+        "startLine": 332,
+        "startChar": 8,
+        "endLine": 332,
+        "endChar": 20
+      },
+      "revId": "3fd81613c1667f42df47d776e6998b4b6873cb58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
