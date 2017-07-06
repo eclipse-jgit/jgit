@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_d10df2c8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-07-06T22:52:00Z",
+      "side": 1,
+      "message": "mark this with @since 4.9",
+      "revId": "9138a07c613482d9f958ba97c5dabf2754da0688",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
