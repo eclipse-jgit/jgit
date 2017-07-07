@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_200edd41",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-07-07T13:15:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_fa8f2b85",
+      "range": {
+        "startLine": 325,
+        "startChar": 4,
+        "endLine": 327,
+        "endChar": 48
+      },
+      "revId": "3fd81613c1667f42df47d776e6998b4b6873cb58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_d15092ae",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-07-06T22:14:36Z",
       "side": 1,
       "message": "mark with @Nullable annotation ?",
+      "range": {
+        "startLine": 332,
+        "startChar": 8,
+        "endLine": 332,
+        "endChar": 20
+      },
+      "revId": "3fd81613c1667f42df47d776e6998b4b6873cb58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_40092936",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-07-07T13:15:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_d15092ae",
       "range": {
         "startLine": 332,
         "startChar": 8,
