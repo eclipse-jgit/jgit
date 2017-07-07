@@ -1,0 +1,7 @@
+Verified+1: Hudson CI
+Code-Review+2: Terry Parker <tparker@google.com>
+Submitted-by: Dave Borowitz <dborowitz@google.com>
+Submitted-at: Fri, 07 Jul 2017 13:51:25 -0400
+Reviewed-on: https://git.eclipse.org/r/100767
+Project: jgit/jgit
+Branch: refs/heads/master
