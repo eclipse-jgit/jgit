@@ -50,8 +50,10 @@ import java.nio.file.StandardCopyOption;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.jgit.api.errors.FilterFailedException;
 import org.eclipse.jgit.attributes.FilterCommand;
@@ -61,6 +63,7 @@ import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.IndexWriteException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.events.WorkingTreeModifiedEvent;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig.AutoCRLF;
@@ -150,6 +153,10 @@ public class DirCacheCheckout {
 	private ArrayList<String> toBeDeleted = new ArrayList<>();
 
 	private boolean emptyDirCache;
+
+	private Set<String> actuallyModifiedPaths;
+
+	private Set<String> actuallyDeletedPaths;
 
 	/**
 	 * @return a list of updated paths and smudgeFilterCommands
@@ -432,7 +439,8 @@ public class DirCacheCheckout {
 	}
 
 	/**
-	 * Execute this checkout
+	 * Execute this checkout. A {@link WorkingTreeModifiedEvent} is fired if the
+	 * working tree was modified; even if the checkout fails.
 	 *
 	 * @return <code>false</code> if this method could not delete all the files
 	 *         which should be deleted (e.g. because of of the files was
@@ -445,10 +453,22 @@ public class DirCacheCheckout {
 	 * @throws IOException
 	 */
 	public boolean checkout() throws IOException {
+		actuallyModifiedPaths = new HashSet<>();
+		actuallyDeletedPaths = new HashSet<>();
 		try {
 			return doCheckout();
 		} finally {
-			dc.unlock();
+			WorkingTreeModifiedEvent event = new WorkingTreeModifiedEvent(
+					actuallyModifiedPaths, actuallyDeletedPaths);
+			actuallyModifiedPaths = null;
+			actuallyDeletedPaths = null;
+			try {
+				dc.unlock();
+			} finally {
+				if (!event.isEmpty()) {
+					repo.fireEvent(event);
+				}
+			}
 		}
 	}
 
@@ -480,7 +500,11 @@ public class DirCacheCheckout {
 			for (int i = removed.size() - 1; i >= 0; i--) {
 				String r = removed.get(i);
 				file = new File(repo.getWorkTree(), r);
-				if (!file.delete() && repo.getFS().exists(file)) {
+				boolean deleted = file.delete();
+				if (deleted) {
+					actuallyDeletedPaths.add(r);
+				}
+				if (!deleted && repo.getFS().exists(file)) {
 					// The list of stuff to delete comes from the index
 					// which will only contain a directory if it is
 					// a submodule, in which case we shall not attempt
@@ -501,8 +525,10 @@ public class DirCacheCheckout {
 				String path = e.getKey();
 				CheckoutMetadata meta = e.getValue();
 				DirCacheEntry entry = dc.getEntry(path);
-				if (!FileMode.GITLINK.equals(entry.getRawMode()))
+				if (!FileMode.GITLINK.equals(entry.getRawMode())) {
 					checkoutEntry(repo, entry, objectReader, false, meta);
+					actuallyModifiedPaths.add(path);
+				}
 			}
 
 			// commit the index builder - a new index is persisted

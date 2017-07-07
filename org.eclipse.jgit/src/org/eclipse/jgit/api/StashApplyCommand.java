@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012, GitHub Inc.
+ * Copyright (C) 2012, 2017 GitHub Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -44,6 +44,8 @@ package org.eclipse.jgit.api;
 
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRefNameException;
@@ -58,6 +60,7 @@ import org.eclipse.jgit.dircache.DirCacheCheckout.CheckoutMetadata;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.CheckoutConflictException;
+import org.eclipse.jgit.events.WorkingTreeModifiedEvent;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig.EolStreamType;
@@ -329,6 +332,7 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 
 	private void resetUntracked(RevTree tree) throws CheckoutConflictException,
 			IOException {
+		Set<String> actuallyModifiedPaths = new HashSet<>();
 		// TODO maybe NameConflictTreeWalk ?
 		try (TreeWalk walk = new TreeWalk(repo)) {
 			walk.addTree(tree);
@@ -361,6 +365,12 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 
 				checkoutPath(entry, reader,
 						new CheckoutMetadata(eolStreamType, null));
+				actuallyModifiedPaths.add(entry.getPathString());
+			}
+		} finally {
+			if (!actuallyModifiedPaths.isEmpty()) {
+				repo.fireEvent(new WorkingTreeModifiedEvent(
+						actuallyModifiedPaths, null));
 			}
 		}
 	}
