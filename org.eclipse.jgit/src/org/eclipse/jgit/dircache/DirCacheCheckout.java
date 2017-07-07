@@ -50,6 +50,7 @@ import java.nio.file.StandardCopyOption;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -61,6 +62,7 @@ import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.IndexWriteException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.events.WorkingTreeModifiedEvent;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig.AutoCRLF;
@@ -85,6 +87,7 @@ import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FS.ExecutionResult;
 import org.eclipse.jgit.util.FileUtils;
+import org.eclipse.jgit.util.IntList;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.SystemReader;
 import org.eclipse.jgit.util.io.EolStreamTypeUtil;
@@ -150,6 +153,8 @@ public class DirCacheCheckout {
 	private ArrayList<String> toBeDeleted = new ArrayList<>();
 
 	private boolean emptyDirCache;
+
+	private boolean performingCheckout;
 
 	/**
 	 * @return a list of updated paths and smudgeFilterCommands
@@ -432,7 +437,8 @@ public class DirCacheCheckout {
 	}
 
 	/**
-	 * Execute this checkout
+	 * Execute this checkout. A {@link WorkingTreeModifiedEvent} is fired if the
+	 * working tree was modified; even if the checkout fails.
 	 *
 	 * @return <code>false</code> if this method could not delete all the files
 	 *         which should be deleted (e.g. because of of the files was
@@ -448,7 +454,17 @@ public class DirCacheCheckout {
 		try {
 			return doCheckout();
 		} finally {
-			dc.unlock();
+			try {
+				dc.unlock();
+			} finally {
+				if (performingCheckout) {
+					WorkingTreeModifiedEvent event = new WorkingTreeModifiedEvent(
+							getUpdated().keySet(), getRemoved());
+					if (!event.isEmpty()) {
+						repo.fireEvent(event);
+					}
+				}
+			}
 		}
 	}
 
@@ -472,11 +488,13 @@ public class DirCacheCheckout {
 			// update our index
 			builder.finish();
 
+			performingCheckout = true;
 			File file = null;
 			String last = null;
 			// when deleting files process them in the opposite order as they have
 			// been reported. This ensures the files are deleted before we delete
 			// their parent folders
+			IntList nonDeleted = new IntList();
 			for (int i = removed.size() - 1; i >= 0; i--) {
 				String r = removed.get(i);
 				file = new File(repo.getWorkTree(), r);
@@ -486,30 +504,82 @@ public class DirCacheCheckout {
 					// a submodule, in which case we shall not attempt
 					// to delete it. A submodule is not empty, so it
 					// is safe to check this after a failed delete.
-					if (!repo.getFS().isDirectory(file))
+					if (!repo.getFS().isDirectory(file)) {
+						nonDeleted.add(i);
 						toBeDeleted.add(r);
+					}
 				} else {
 					if (last != null && !isSamePrefix(r, last))
 						removeEmptyParents(new File(repo.getWorkTree(), last));
 					last = r;
 				}
 			}
-			if (file != null)
+			if (file != null) {
 				removeEmptyParents(file);
-
-			for (Map.Entry<String, CheckoutMetadata> e : updated.entrySet()) {
-				String path = e.getKey();
-				CheckoutMetadata meta = e.getValue();
-				DirCacheEntry entry = dc.getEntry(path);
-				if (!FileMode.GITLINK.equals(entry.getRawMode()))
-					checkoutEntry(repo, entry, objectReader, false, meta);
 			}
-
+			removed = filterOut(removed, nonDeleted);
+			nonDeleted = null;
+			Iterator<Map.Entry<String, CheckoutMetadata>> toUpdate = updated
+					.entrySet().iterator();
+			Map.Entry<String, CheckoutMetadata> e = null;
+			try {
+				while (toUpdate.hasNext()) {
+					e = toUpdate.next();
+					String path = e.getKey();
+					CheckoutMetadata meta = e.getValue();
+					DirCacheEntry entry = dc.getEntry(path);
+					if (!FileMode.GITLINK.equals(entry.getRawMode())) {
+						checkoutEntry(repo, entry, objectReader, false, meta);
+					}
+					e = null;
+				}
+			} catch (Exception ex) {
+				// We didn't actually modify the current entry nor any that
+				// might follow.
+				if (e != null) {
+					toUpdate.remove();
+				}
+				while (toUpdate.hasNext()) {
+					e = toUpdate.next();
+					toUpdate.remove();
+				}
+				throw ex;
+			}
 			// commit the index builder - a new index is persisted
 			if (!builder.commit())
 				throw new IndexWriteException();
 		}
 		return toBeDeleted.size() == 0;
+	}
+
+	private static ArrayList<String> filterOut(ArrayList<String> strings,
+			IntList indicesToRemove) {
+		int n = indicesToRemove.size();
+		if (n == strings.size()) {
+			return new ArrayList<>(0);
+		}
+		switch (n) {
+		case 0:
+			return strings;
+		case 1:
+			strings.remove(indicesToRemove.get(0));
+			return strings;
+		default:
+			int length = strings.size();
+			ArrayList<String> result = new ArrayList<>(length - n);
+			// Process indicesToRemove from the back; we know that it
+			// contains indices in descending order.
+			int j = n - 1;
+			int idx = indicesToRemove.get(j);
+			for (int i = 0; i < length; i++) {
+				if (i == idx) {
+					idx = (--j >= 0) ? indicesToRemove.get(j) : -1;
+				} else {
+					result.add(strings.get(i));
+				}
+			}
+			return result;
+		}
 	}
 
 	private static boolean isSamePrefix(String a, String b) {
