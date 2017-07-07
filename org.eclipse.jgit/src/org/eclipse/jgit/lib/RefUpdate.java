@@ -114,6 +114,9 @@ public abstract class RefUpdate {
 		 * merged into the new value. The configuration did not allow a forced
 		 * update/delete to take place, so ref still contains the old value. No
 		 * previous history was lost.
+		 * <p>
+		 * Also used when the new value of the ref is not a valid object (although a
+		 * full connectivity check is not performed).
 		 */
 		REJECTED,
 
@@ -637,34 +640,47 @@ public abstract class RefUpdate {
 		RevObject oldObj;
 
 		// don't make expensive conflict check if this is an existing Ref
-		if (oldValue == null && checkConflicting && getRefDatabase().isNameConflicting(getName()))
+		if (oldValue == null && checkConflicting
+				&& getRefDatabase().isNameConflicting(getName())) {
 			return Result.LOCK_FAILURE;
+		}
 		try {
 			// If we're detaching a symbolic reference, we should update the reference
 			// itself. Otherwise, we will update the leaf reference, which should be
 			// an ObjectIdRef.
-			if (!tryLock(!detachingSymbolicRef))
+			if (!tryLock(!detachingSymbolicRef)) {
 				return Result.LOCK_FAILURE;
+			}
 			if (expValue != null) {
 				final ObjectId o;
 				o = oldValue != null ? oldValue : ObjectId.zeroId();
-				if (!AnyObjectId.equals(expValue, o))
+				if (!AnyObjectId.equals(expValue, o)) {
 					return Result.LOCK_FAILURE;
+				}
 			}
-			if (oldValue == null)
+			try {
+				newObj = safeParseNew(walk, newValue);
+			} catch (MissingObjectException e) {
+				return Result.REJECTED;
+			}
+
+			if (oldValue == null) {
 				return store.execute(Result.NEW);
+			}
 
-			newObj = safeParse(walk, newValue);
-			oldObj = safeParse(walk, oldValue);
-			if (newObj == oldObj && !detachingSymbolicRef)
+			oldObj = safeParseOld(walk, oldValue);
+			if (newObj == oldObj && !detachingSymbolicRef) {
 				return store.execute(Result.NO_CHANGE);
+			}
 
-			if (isForceUpdate())
+			if (isForceUpdate()) {
 				return store.execute(Result.FORCED);
+			}
 
 			if (newObj instanceof RevCommit && oldObj instanceof RevCommit) {
-				if (walk.isMergedInto((RevCommit) oldObj, (RevCommit) newObj))
+				if (walk.isMergedInto((RevCommit) oldObj, (RevCommit) newObj)) {
 					return store.execute(Result.FAST_FORWARD);
+				}
 			}
 
 			return Result.REJECTED;
@@ -684,16 +700,23 @@ public abstract class RefUpdate {
 		checkConflicting = check;
 	}
 
-	private static RevObject safeParse(final RevWalk rw, final AnyObjectId id)
+	private static RevObject safeParseNew(RevWalk rw, AnyObjectId newId)
+			throws IOException {
+		if (newId == null || ObjectId.zeroId().equals(newId)) {
+			return null;
+		}
+		return rw.parseAny(newId);
+	}
+
+	private static RevObject safeParseOld(RevWalk rw, AnyObjectId oldId)
 			throws IOException {
 		try {
-			return id != null ? rw.parseAny(id) : null;
+			return oldId != null ? rw.parseAny(oldId) : null;
 		} catch (MissingObjectException e) {
-			// We can expect some objects to be missing, like if we are
-			// trying to force a deletion of a branch and the object it
-			// points to has been pruned from the database due to freak
-			// corruption accidents (it happens with 'git new-work-dir').
-			//
+			// We can expect some old objects to be missing, like if we are trying to
+			// force a deletion of a branch and the object it points to has been
+			// pruned from the database due to freak corruption accidents (it happens
+			// with 'git new-work-dir').
 			return null;
 		}
 	}
