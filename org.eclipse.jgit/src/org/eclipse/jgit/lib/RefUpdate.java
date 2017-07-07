@@ -278,6 +278,16 @@ public abstract class RefUpdate {
 	}
 
 	/**
+	 * Return whether this update is actually detaching a symbolic ref.
+	 *
+	 * @return true if detaching a symref.
+	 * @since 4.9
+	 */
+	public boolean isDetachingSymbolicRef() {
+		return detachingSymbolicRef;
+	}
+
+	/**
 	 * Set the new value the ref will update to.
 	 *
 	 * @param id
