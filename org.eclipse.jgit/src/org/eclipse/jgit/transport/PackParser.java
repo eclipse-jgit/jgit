@@ -1271,6 +1271,7 @@ public abstract class PackParser {
 	 * they should call this method during {@link #onPackHeader(long)}.
 	 *
 	 * @param expectedObjectCount
+	 * @since 4.9
 	 */
 	protected void setExpectedObjectCount(long expectedObjectCount) {
 		this.expectedObjectCount = expectedObjectCount;
