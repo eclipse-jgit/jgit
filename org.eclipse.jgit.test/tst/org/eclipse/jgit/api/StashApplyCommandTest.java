@@ -55,12 +55,15 @@ import org.eclipse.jgit.api.errors.InvalidRefNameException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.api.errors.StashApplyFailureException;
+import org.eclipse.jgit.events.ChangeRecorder;
+import org.eclipse.jgit.events.ListenerHandle;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.util.FileUtils;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -77,15 +80,31 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 
 	private File committedFile;
 
+	private ChangeRecorder recorder;
+
+	private ListenerHandle handle;
+
 	@Override
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
 		git = Git.wrap(db);
+		recorder = new ChangeRecorder();
+		handle = db.getListenerList().addWorkingTreeModifiedListener(recorder);
 		committedFile = writeTrashFile(PATH, "content");
 		git.add().addFilepattern(PATH).call();
 		head = git.commit().setMessage("add file").call();
 		assertNotNull(head);
+		recorder.assertNoEvent();
+	}
+
+	@Override
+	@After
+	public void tearDown() throws Exception {
+		if (handle != null) {
+			handle.remove();
+		}
+		super.tearDown();
 	}
 
 	@Test
@@ -95,10 +114,12 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 		RevCommit stashed = git.stashCreate().call();
 		assertNotNull(stashed);
 		assertEquals("content", read(committedFile));
+		recorder.assertEvent(new String[] { PATH }, new String[0]);
 
 		ObjectId unstashed = git.stashApply().call();
 		assertEquals(stashed, unstashed);
 		assertFalse(committedFile.exists());
+		recorder.assertEvent(new String[0], new String[] { PATH });
 
 		Status status = git.status().call();
 		assertTrue(status.getAdded().isEmpty());
@@ -121,11 +142,13 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 		RevCommit stashed = git.stashCreate().call();
 		assertNotNull(stashed);
 		assertFalse(addedFile.exists());
+		recorder.assertEvent(new String[0], new String[] { addedPath });
 
 		ObjectId unstashed = git.stashApply().call();
 		assertEquals(stashed, unstashed);
 		assertTrue(addedFile.exists());
 		assertEquals("content2", read(addedFile));
+		recorder.assertEvent(new String[] { addedPath }, new String[0]);
 
 		Status status = git.status().call();
 		assertTrue(status.getChanged().isEmpty());
@@ -142,14 +165,17 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 	@Test
 	public void indexDelete() throws Exception {
 		git.rm().addFilepattern("file.txt").call();
+		recorder.assertEvent(new String[0], new String[] { "file.txt" });
 
 		RevCommit stashed = git.stashCreate().call();
 		assertNotNull(stashed);
 		assertEquals("content", read(committedFile));
+		recorder.assertEvent(new String[] { "file.txt" }, new String[0]);
 
 		ObjectId unstashed = git.stashApply().call();
 		assertEquals(stashed, unstashed);
 		assertFalse(committedFile.exists());
+		recorder.assertEvent(new String[0], new String[] { "file.txt" });
 
 		Status status = git.status().call();
 		assertTrue(status.getAdded().isEmpty());
@@ -170,10 +196,12 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 		RevCommit stashed = git.stashCreate().call();
 		assertNotNull(stashed);
 		assertEquals("content", read(committedFile));
+		recorder.assertEvent(new String[] { "file.txt" }, new String[0]);
 
 		ObjectId unstashed = git.stashApply().call();
 		assertEquals(stashed, unstashed);
 		assertEquals("content2", read(committedFile));
+		recorder.assertEvent(new String[] { "file.txt" }, new String[0]);
 
 		Status status = git.status().call();
 		assertTrue(status.getAdded().isEmpty());
@@ -193,16 +221,20 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 		File subfolderFile = writeTrashFile(path, "content");
 		git.add().addFilepattern(path).call();
 		head = git.commit().setMessage("add file").call();
+		recorder.assertNoEvent();
 
 		writeTrashFile(path, "content2");
 
 		RevCommit stashed = git.stashCreate().call();
 		assertNotNull(stashed);
 		assertEquals("content", read(subfolderFile));
+		recorder.assertEvent(new String[] { "d1/d2/f.txt" }, new String[0]);
 
 		ObjectId unstashed = git.stashApply().call();
 		assertEquals(stashed, unstashed);
 		assertEquals("content2", read(subfolderFile));
+		recorder.assertEvent(new String[] { "d1/d2/f.txt", "d1/d2", "d1" },
+				new String[0]);
 
 		Status status = git.status().call();
 		assertTrue(status.getAdded().isEmpty());
@@ -225,10 +257,12 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 		RevCommit stashed = git.stashCreate().call();
 		assertNotNull(stashed);
 		assertEquals("content", read(committedFile));
+		recorder.assertEvent(new String[] { "file.txt" }, new String[0]);
 
 		ObjectId unstashed = git.stashApply().call();
 		assertEquals(stashed, unstashed);
 		assertEquals("content3", read(committedFile));
+		recorder.assertEvent(new String[] { "file.txt" }, new String[0]);
 
 		Status status = git.status().call();
 		assertTrue(status.getAdded().isEmpty());
@@ -252,10 +286,12 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 		RevCommit stashed = git.stashCreate().call();
 		assertNotNull(stashed);
 		assertEquals("content", read(committedFile));
+		recorder.assertEvent(new String[] { "file.txt" }, new String[0]);
 
 		ObjectId unstashed = git.stashApply().call();
 		assertEquals(stashed, unstashed);
 		assertEquals("content2", read(committedFile));
+		recorder.assertEvent(new String[] { "file.txt" }, new String[0]);
 
 		Status status = git.status().call();
 		assertTrue(status.getAdded().isEmpty());
@@ -281,10 +317,12 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 		RevCommit stashed = git.stashCreate().call();
 		assertNotNull(stashed);
 		assertFalse(added.exists());
+		recorder.assertNoEvent();
 
 		ObjectId unstashed = git.stashApply().call();
 		assertEquals(stashed, unstashed);
 		assertEquals("content2", read(added));
+		recorder.assertEvent(new String[] { path }, new String[0]);
 
 		Status status = git.status().call();
 		assertTrue(status.getChanged().isEmpty());
@@ -308,10 +346,12 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 		RevCommit stashed = git.stashCreate().call();
 		assertNotNull(stashed);
 		assertEquals("content", read(committedFile));
+		recorder.assertEvent(new String[] { PATH }, new String[0]);
 
 		ObjectId unstashed = git.stashApply().call();
 		assertEquals(stashed, unstashed);
 		assertFalse(committedFile.exists());
+		recorder.assertEvent(new String[0], new String[] { PATH });
 
 		Status status = git.status().call();
 		assertTrue(status.getAdded().isEmpty());
@@ -337,9 +377,13 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 		assertNotNull(stashed);
 		assertTrue(committedFile.exists());
 		assertFalse(addedFile.exists());
+		recorder.assertEvent(new String[] { PATH },
+				new String[] { "file2.txt" });
 
 		ObjectId unstashed = git.stashApply().call();
 		assertEquals(stashed, unstashed);
+		recorder.assertEvent(new String[] { "file2.txt" },
+				new String[] { PATH });
 
 		Status status = git.status().call();
 		assertTrue(status.getChanged().isEmpty());
@@ -362,6 +406,7 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 		assertNotNull(stashed);
 		assertEquals("content", read(committedFile));
 		assertTrue(git.status().call().isClean());
+		recorder.assertEvent(new String[] { PATH }, new String[0]);
 
 		writeTrashFile(PATH, "content3");
 
@@ -372,6 +417,7 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 			// expected
  		}
 		assertEquals("content3", read(PATH));
+		recorder.assertNoEvent();
 	}
 
 	@Test
@@ -391,10 +437,12 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 		assertEquals("content\nhead change\nmore content\n",
 				read(committedFile));
 		assertTrue(git.status().call().isClean());
+		recorder.assertEvent(new String[] { PATH }, new String[0]);
 
 		writeTrashFile(PATH, "content\nmore content\ncommitted change\n");
 		git.add().addFilepattern(PATH).call();
 		git.commit().setMessage("committed change").call();
+		recorder.assertNoEvent();
 
 		try {
 			git.stashApply().call();
@@ -402,6 +450,7 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 		} catch (StashApplyFailureException e) {
 			// expected
 		}
+		recorder.assertEvent(new String[] { PATH }, new String[0]);
 		Status status = new StatusCommand(db).call();
 		assertEquals(1, status.getConflicting().size());
 		assertEquals(
@@ -426,12 +475,15 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 		writeTrashFile(PATH, "master content");
 		git.add().addFilepattern(PATH).call();
 		git.commit().setMessage("even content").call();
+		recorder.assertNoEvent();
 
 		git.checkout().setName(otherBranch).call();
+		recorder.assertEvent(new String[] { PATH }, new String[0]);
 
 		writeTrashFile(PATH, "otherBranch content");
 		git.add().addFilepattern(PATH).call();
 		git.commit().setMessage("even more content").call();
+		recorder.assertNoEvent();
 
 		writeTrashFile(path2, "content\nstashed change\nmore content\n");
 
@@ -442,12 +494,15 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 		assertEquals("otherBranch content",
 				read(committedFile));
 		assertTrue(git.status().call().isClean());
+		recorder.assertEvent(new String[] { path2 }, new String[0]);
 
 		git.checkout().setName("master").call();
+		recorder.assertEvent(new String[] { PATH }, new String[0]);
 		git.stashApply().call();
 		assertEquals("content\nstashed change\nmore content\n", read(file2));
 		assertEquals("master content",
 				read(committedFile));
+		recorder.assertEvent(new String[] { path2 }, new String[0]);
 	}
 
 	@Test
@@ -467,12 +522,15 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 		writeTrashFile(PATH, "master content");
 		git.add().addFilepattern(PATH).call();
 		git.commit().setMessage("even content").call();
+		recorder.assertNoEvent();
 
 		git.checkout().setName(otherBranch).call();
+		recorder.assertEvent(new String[] { PATH }, new String[0]);
 
 		writeTrashFile(PATH, "otherBranch content");
 		git.add().addFilepattern(PATH).call();
 		git.commit().setMessage("even more content").call();
+		recorder.assertNoEvent();
 
 		writeTrashFile(path2,
 				"content\nstashed change in index\nmore content\n");
@@ -485,8 +543,10 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 		assertEquals("content\nmore content\n", read(file2));
 		assertEquals("otherBranch content", read(committedFile));
 		assertTrue(git.status().call().isClean());
+		recorder.assertEvent(new String[] { path2 }, new String[0]);
 
 		git.checkout().setName("master").call();
+		recorder.assertEvent(new String[] { PATH }, new String[0]);
 		git.stashApply().call();
 		assertEquals("content\nstashed change\nmore content\n", read(file2));
 		assertEquals(
@@ -494,6 +554,7 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 						+ "[file2.txt, mode:100644, content:content\nstashed change in index\nmore content\n]",
 				indexState(CONTENT));
 		assertEquals("master content", read(committedFile));
+		recorder.assertEvent(new String[] { path2 }, new String[0]);
 	}
 
 	@Test
@@ -501,6 +562,7 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 		writeTrashFile(PATH, "content\nmore content\n");
 		git.add().addFilepattern(PATH).call();
 		git.commit().setMessage("more content").call();
+		recorder.assertNoEvent();
 
 		writeTrashFile(PATH, "content\nstashed change\nmore content\n");
 
@@ -508,15 +570,18 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 		assertNotNull(stashed);
 		assertEquals("content\nmore content\n", read(committedFile));
 		assertTrue(git.status().call().isClean());
+		recorder.assertEvent(new String[] { PATH }, new String[0]);
 
 		writeTrashFile(PATH, "content\nmore content\ncommitted change\n");
 		git.add().addFilepattern(PATH).call();
 		git.commit().setMessage("committed change").call();
+		recorder.assertNoEvent();
 
 		git.stashApply().call();
 		assertEquals(
 				"content\nstashed change\nmore content\ncommitted change\n",
 				read(committedFile));
+		recorder.assertEvent(new String[] { PATH }, new String[0]);
 	}
 
 	@Test
@@ -527,6 +592,7 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 		assertNotNull(stashed);
 		assertEquals("content", read(committedFile));
 		assertTrue(git.status().call().isClean());
+		recorder.assertEvent(new String[] { PATH }, new String[0]);
 
 		writeTrashFile(PATH, "content3");
 		git.add().addFilepattern(PATH).call();
@@ -538,6 +604,7 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 		} catch (StashApplyFailureException e) {
 			// expected
 		}
+		recorder.assertNoEvent();
 		assertEquals("content2", read(PATH));
 	}
 
@@ -549,6 +616,7 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 		assertNotNull(stashed);
 		assertEquals("content", read(committedFile));
 		assertTrue(git.status().call().isClean());
+		recorder.assertEvent(new String[] { PATH }, new String[0]);
 
 		String path2 = "file2.txt";
 		writeTrashFile(path2, "content3");
@@ -557,6 +625,7 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 
 		ObjectId unstashed = git.stashApply().call();
 		assertEquals(stashed, unstashed);
+		recorder.assertEvent(new String[] { PATH }, new String[0]);
 
 		Status status = git.status().call();
 		assertTrue(status.getAdded().isEmpty());
@@ -583,12 +652,14 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 		RevCommit stashed = git.stashCreate().call();
 		assertNotNull(stashed);
 		assertTrue(git.status().call().isClean());
+		recorder.assertEvent(new String[0], new String[] { subdir, path });
 
 		git.branchCreate().setName(otherBranch).call();
 		git.checkout().setName(otherBranch).call();
 
 		ObjectId unstashed = git.stashApply().call();
 		assertEquals(stashed, unstashed);
+		recorder.assertEvent(new String[] { path }, new String[0]);
 
 		Status status = git.status().call();
 		assertTrue(status.getChanged().isEmpty());
@@ -643,12 +714,15 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 		git.commit().setMessage("x").call();
 		file.delete();
 		git.rm().addFilepattern("file").call();
+		recorder.assertNoEvent();
 		git.stashCreate().call();
+		recorder.assertEvent(new String[] { "file" }, new String[0]);
 		file.delete();
 
 		git.stashApply().setStashRef("stash@{0}").call();
 
 		assertFalse(file.exists());
+		recorder.assertEvent(new String[0], new String[] { "file" });
 	}
 
 	@Test
@@ -660,9 +734,11 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 		git.add().addFilepattern(PATH).call();
 		git.stashCreate().call();
 		assertTrue(untrackedFile.exists());
+		recorder.assertEvent(new String[] { PATH }, new String[0]);
 
 		git.stashApply().setStashRef("stash@{0}").call();
 		assertTrue(untrackedFile.exists());
+		recorder.assertEvent(new String[] { PATH }, new String[0]);
 
 		Status status = git.status().call();
 		assertEquals(1, status.getUntracked().size());
@@ -684,11 +760,14 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 				.call();
 		assertNotNull(stashedCommit);
 		assertFalse(untrackedFile.exists());
+		recorder.assertEvent(new String[0], new String[] { path });
+
 		deleteTrashFile("a/b"); // checkout should create parent dirs
 
 		git.stashApply().setStashRef("stash@{0}").call();
 		assertTrue(untrackedFile.exists());
 		assertEquals("content", read(path));
+		recorder.assertEvent(new String[] { path }, new String[0]);
 
 		Status status = git.status().call();
 		assertEquals(1, status.getUntracked().size());
@@ -706,6 +785,7 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 		String path = "untracked.txt";
 		writeTrashFile(path, "untracked");
 		git.stashCreate().setIncludeUntracked(true).call();
+		recorder.assertEvent(new String[0], new String[] { path });
 
 		writeTrashFile(path, "committed");
 		head = git.commit().setMessage("add file").call();
@@ -719,6 +799,7 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 			assertEquals(e.getMessage(), JGitText.get().stashApplyConflict);
 		}
 		assertEquals("committed", read(path));
+		recorder.assertNoEvent();
 	}
 
 	@Test
@@ -727,6 +808,7 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 		String path = "untracked.txt";
 		writeTrashFile(path, "untracked");
 		git.stashCreate().setIncludeUntracked(true).call();
+		recorder.assertEvent(new String[0], new String[] { path });
 
 		writeTrashFile(path, "working-directory");
 		try {
@@ -736,6 +818,7 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 			assertEquals(e.getMessage(), JGitText.get().stashApplyConflict);
 		}
 		assertEquals("working-directory", read(path));
+		recorder.assertNoEvent();
 	}
 
 	@Test
@@ -747,11 +830,13 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 		assertTrue(PATH + " should exist", check(PATH));
 		assertEquals(PATH + " should have been reset", "content", read(PATH));
 		assertFalse(path + " should not exist", check(path));
+		recorder.assertEvent(new String[] { PATH }, new String[] { path });
 		git.stashApply().setStashRef("stash@{0}").call();
 		assertTrue(PATH + " should exist", check(PATH));
 		assertEquals(PATH + " should have new content", "changed", read(PATH));
 		assertTrue(path + " should exist", check(path));
 		assertEquals(path + " should have new content", "untracked",
 				read(path));
+		recorder.assertEvent(new String[] { PATH, path }, new String[0]);
 	}
 }

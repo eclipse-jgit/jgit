@@ -54,6 +54,7 @@ import java.util.TreeSet;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
+import org.eclipse.jgit.events.WorkingTreeModifiedEvent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
@@ -135,6 +136,10 @@ public class CleanCommand extends GitCommand<Set<String>> {
 				}
 		} catch (IOException e) {
 			throw new JGitInternalException(e.getMessage(), e);
+		} finally {
+			if (!files.isEmpty()) {
+				repo.fireEvent(new WorkingTreeModifiedEvent(null, files));
+			}
 		}
 		return files;
 	}
