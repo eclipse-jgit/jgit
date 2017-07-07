@@ -16,6 +16,24 @@
       "revId": "a0679b98d2786c5dbc775b35b888ced9d008d6eb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_83131b62",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-07-07T16:33:30Z",
+      "side": 1,
+      "message": "I guess another alternative is: make this change use IO_FAILURE instead of REJECTED for missing objects.\n\nWould still need to have special code in BatchRefUpdate, but that\u0027s pretty simple, as the next patch set will show.",
+      "parentUuid": "c7880b39_e3b21fff",
+      "revId": "a0679b98d2786c5dbc775b35b888ced9d008d6eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
