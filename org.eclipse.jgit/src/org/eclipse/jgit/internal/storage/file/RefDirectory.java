@@ -647,16 +647,32 @@ public class RefDirectory extends RefDatabase {
 			RefList<Ref> cur = readPackedRefs();
 
 			// Iterate over all refs to be packed
+			boolean dirty = false;
 			for (String refName : refs) {
-				Ref ref = readRef(refName, cur);
-				if (ref.isSymbolic())
+				Ref oldRef = readRef(refName, cur);
+				if (oldRef.isSymbolic()) {
 					continue; // can't pack symbolic refs
+				}
 				// Add/Update it to packed-refs
+				Ref newRef = peeledPackedRef(oldRef);
+				if (newRef == oldRef) {
+					// No-op; peeledPackedRef returns the input ref only if it's already
+					// packed, and readRef returns a packed ref only if there is no loose
+					// ref.
+					continue;
+				}
+
+				dirty = true;
 				int idx = cur.find(refName);
-				if (idx >= 0)
-					cur = cur.set(idx, peeledPackedRef(ref));
-				else
-					cur = cur.add(idx, peeledPackedRef(ref));
+				if (idx >= 0) {
+					cur = cur.set(idx, newRef);
+				} else {
+					cur = cur.add(idx, newRef);
+				}
+			}
+			if (!dirty) {
+				// All requested refs were already packed accurately
+				return;
 			}
 
 			// The new content for packed-refs is collected. Persist it.

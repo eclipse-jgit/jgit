@@ -462,7 +462,7 @@ public class BatchRefUpdate {
 								break SWITCH;
 							}
 							ru.setCheckConflicting(false);
-							addRefToPrefixes(takenPrefixes, cmd.getRefName());
+							takenPrefixes.addAll(getPrefixes(cmd.getRefName()));
 							takenNames.add(cmd.getRefName());
 							cmd.setResult(ru.update(walk));
 						}
@@ -523,29 +523,26 @@ public class BatchRefUpdate {
 		execute(walk, monitor, null);
 	}
 
-	private static Collection<String> getTakenPrefixes(
-			final Collection<String> names) {
+	private static Collection<String> getTakenPrefixes(Collection<String> names) {
 		Collection<String> ref = new HashSet<>();
-		for (String name : names)
-			ref.addAll(getPrefixes(name));
-		return ref;
-	}
-
-	private static void addRefToPrefixes(Collection<String> prefixes,
-			String name) {
-		for (String prefix : getPrefixes(name)) {
-			prefixes.add(prefix);
+		for (String name : names) {
+			addPrefixesTo(name, ref);
 		}
+		return ref;
 	}
 
 	static Collection<String> getPrefixes(String s) {
 		Collection<String> ret = new HashSet<>();
+		addPrefixesTo(s, ret);
+		return ret;
+	}
+
+	static void addPrefixesTo(String s, Collection<String> out) {
 		int p1 = s.indexOf('/');
 		while (p1 > 0) {
-			ret.add(s.substring(0, p1));
+			out.add(s.substring(0, p1));
 			p1 = s.indexOf('/', p1 + 1);
 		}
-		return ret;
 	}
 
 	/**
