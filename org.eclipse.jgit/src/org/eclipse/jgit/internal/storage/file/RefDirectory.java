@@ -580,6 +580,9 @@ public class RefDirectory extends RefDatabase {
 
 	void delete(RefDirectoryUpdate update) throws IOException {
 		Ref dst = update.getRef();
+		if (!update.isDetachingSymbolicRef()) {
+			dst = dst.getLeaf();
+		}
 		String name = dst.getName();
 
 		// Write the packed-refs file using an atomic update. We might

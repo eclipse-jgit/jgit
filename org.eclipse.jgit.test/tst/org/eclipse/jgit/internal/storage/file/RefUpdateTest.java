@@ -45,6 +45,7 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.junit.Assert.assertEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -64,6 +65,7 @@ import java.util.Map.Entry;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefRename;
@@ -240,14 +242,73 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 	@Test
 	public void testDeleteHeadInBareRepo() throws IOException {
 		Repository bareRepo = createBareRepository();
+		String master = "refs/heads/master";
+		Ref head = bareRepo.exactRef(Constants.HEAD);
+		assertNotNull(head);
+		assertTrue(head.isSymbolic());
+		assertEquals(master, head.getLeaf().getName());
+		assertNull(head.getObjectId());
+		assertNull(bareRepo.exactRef(master));
+
+		ObjectId blobId;
+		try (ObjectInserter ins = bareRepo.newObjectInserter()) {
+			blobId = ins.insert(Constants.OBJ_BLOB, "contents".getBytes(UTF_8));
+			ins.flush();
+		}
+
+		// Create master via HEAD, so we delete it.
 		RefUpdate ref = bareRepo.updateRef(Constants.HEAD);
-		ref.setNewObjectId(ObjectId
-				.fromString("0123456789012345678901234567890123456789"));
-		// Create the HEAD ref so we can delete it.
+		ref.setNewObjectId(blobId);
 		assertEquals(Result.NEW, ref.update());
+
+		head = bareRepo.exactRef(Constants.HEAD);
+		assertTrue(head.isSymbolic());
+		assertEquals(master, head.getLeaf().getName());
+		assertEquals(blobId, head.getLeaf().getObjectId());
+		assertEquals(blobId, bareRepo.exactRef(master).getObjectId());
+
+		// Unlike in a non-bare repo, deleting the HEAD is allowed, and leaves HEAD
+		// back in a dangling state.
 		ref = bareRepo.updateRef(Constants.HEAD);
-		delete(bareRepo, ref, Result.NO_CHANGE, true, true);
+		ref.setExpectedOldObjectId(blobId);
+		ref.setForceUpdate(true);
+		delete(bareRepo, ref, Result.FORCED, true, true);
+
+		head = bareRepo.exactRef(Constants.HEAD);
+		assertNotNull(head);
+		assertTrue(head.isSymbolic());
+		assertEquals(master, head.getLeaf().getName());
+		assertNull(head.getObjectId());
+		assertNull(bareRepo.exactRef(master));
 	}
+
+	@Test
+	public void testDeleteSymref() throws IOException {
+		RefUpdate dst = updateRef("refs/heads/abc");
+		assertEquals(Result.NEW, dst.update());
+		ObjectId id = dst.getNewObjectId();
+
+		RefUpdate u = db.updateRef("refs/symref");
+		assertEquals(Result.NEW, u.link(dst.getName()));
+
+		Ref ref = db.exactRef(u.getName());
+		assertNotNull(ref);
+		assertTrue(ref.isSymbolic());
+		assertEquals(dst.getName(), ref.getLeaf().getName());
+		assertEquals(id, ref.getLeaf().getObjectId());
+
+		u = db.updateRef(u.getName());
+		u.setDetachingSymbolicRef();
+		u.setForceUpdate(true);
+		assertEquals(Result.FORCED, u.delete());
+
+		assertNull(db.exactRef(u.getName()));
+		ref = db.exactRef(dst.getName());
+		assertNotNull(ref);
+		assertFalse(ref.isSymbolic());
+		assertEquals(id, ref.getObjectId());
+	}
+
 	/**
 	 * Delete a loose ref and make sure the directory in refs is deleted too,
 	 * and the reflog dir too
