@@ -22,6 +22,30 @@
       "revId": "3e4b6dcca1540f7c1ad602e45ef65fe0e06333ca",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_e01bf576",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-07-07T13:15:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_3aa9b3dc",
+      "range": {
+        "startLine": 291,
+        "startChar": 34,
+        "endLine": 291,
+        "endChar": 36
+      },
+      "revId": "3e4b6dcca1540f7c1ad602e45ef65fe0e06333ca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
