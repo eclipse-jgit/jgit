@@ -467,6 +467,14 @@ public class ReceiveCommand {
 			setResult(Result.REJECTED_CURRENT_BRANCH);
 			break;
 
+		case REJECTED_MISSING_OBJECT:
+			setResult(Result.REJECTED_MISSING_OBJECT);
+			break;
+
+		case REJECTED_OTHER_REASON:
+			setResult(Result.REJECTED_OTHER_REASON);
+			break;
+
 		default:
 			setResult(Result.REJECTED_OTHER_REASON, r.name());
 			break;

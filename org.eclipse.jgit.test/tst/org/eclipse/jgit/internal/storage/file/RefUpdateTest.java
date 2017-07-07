@@ -58,12 +58,10 @@ import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -969,27 +967,10 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		RefUpdate ru = db.updateRef(name);
 		ru.setNewObjectId(bad);
 		Result update = ru.update();
-		assertEquals(Result.NEW, update);
+		assertEquals(Result.REJECTED_MISSING_OBJECT, update);
 
 		Ref ref = db.exactRef(name);
-		assertNotNull(ref);
-		assertFalse(ref.isPeeled());
-		assertEquals(bad, ref.getObjectId());
-
-		try (RevWalk rw = new RevWalk(db)) {
-			rw.parseAny(ref.getObjectId());
-			fail("Expected MissingObjectException");
-		} catch (MissingObjectException expected) {
-			assertEquals(bad, expected.getObjectId());
-		}
-
-		RefDirectory refdir = (RefDirectory) db.getRefDatabase();
-		try {
-			// Packing requires peeling, which fails.
-			refdir.pack(Arrays.asList(name));
-		} catch (MissingObjectException expected) {
-			assertEquals(bad, expected.getObjectId());
-		}
+		assertNull(ref);
 	}
 
 	@Test
@@ -1005,7 +986,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		ru = db.updateRef(name);
 		ru.setNewObjectId(bad);
 		update = ru.update();
-		assertEquals(Result.REJECTED, update);
+		assertEquals(Result.REJECTED_MISSING_OBJECT, update);
 
 		Ref ref = db.exactRef(name);
 		assertNotNull(ref);
@@ -1018,33 +999,18 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		RefUpdate ru = updateRef(name);
 		Result update = ru.update();
 		assertEquals(Result.NEW, update);
+		ObjectId oldId = ru.getNewObjectId();
 
 		ObjectId bad =
 				ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef");
 		ru = db.updateRef(name);
 		ru.setNewObjectId(bad);
 		update = ru.forceUpdate();
-		assertEquals(Result.FORCED, update);
+		assertEquals(Result.REJECTED_MISSING_OBJECT, update);
 
 		Ref ref = db.exactRef(name);
 		assertNotNull(ref);
-		assertFalse(ref.isPeeled());
-		assertEquals(bad, ref.getObjectId());
-
-		try (RevWalk rw = new RevWalk(db)) {
-			rw.parseAny(ref.getObjectId());
-			fail("Expected MissingObjectException");
-		} catch (MissingObjectException expected) {
-			assertEquals(bad, expected.getObjectId());
-		}
-
-		RefDirectory refdir = (RefDirectory) db.getRefDatabase();
-		try {
-			// Packing requires peeling, which fails.
-			refdir.pack(Arrays.asList(name));
-		} catch (MissingObjectException expected) {
-			assertEquals(bad, expected.getObjectId());
-		}
+		assertEquals(oldId, ref.getObjectId());
 	}
 
 	private static void writeReflog(Repository db, ObjectId newId, String msg,
