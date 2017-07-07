@@ -75,6 +75,7 @@ import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Ref.Storage;
@@ -1407,6 +1408,54 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		assertEquals("[HEAD, refs/heads/master, refs/heads/masters/x]", refs
 				.keySet().toString());
 		assertEquals(A.getId(), refs.get("refs/heads/masters/x").getObjectId());
+	}
+
+	@Test
+	public void testBatchRefUpdateUpdateToMissingObject() throws IOException {
+		writeLooseRef("refs/heads/master", A);
+		ObjectId bad =
+				ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef");
+		List<ReceiveCommand> commands = Arrays.asList(
+				new ReceiveCommand(A, bad, "refs/heads/master",
+						ReceiveCommand.Type.UPDATE),
+				new ReceiveCommand(zeroId(), B, "refs/heads/foo2",
+						ReceiveCommand.Type.CREATE));
+		BatchRefUpdate batchUpdate = refdir.newBatchUpdate();
+		batchUpdate.setAtomic(false);
+		batchUpdate.setAllowNonFastForwards(true);
+		batchUpdate.addCommand(commands);
+		batchUpdate.execute(new RevWalk(diskRepo), NullProgressMonitor.INSTANCE);
+		Map<String, Ref> refs = refdir.getRefs(RefDatabase.ALL);
+		assertEquals(ReceiveCommand.Result.REJECTED_MISSING_OBJECT,
+				commands.get(0).getResult());
+		assertEquals(ReceiveCommand.Result.OK, commands.get(1).getResult());
+		assertEquals("[HEAD, refs/heads/foo2, refs/heads/master]", refs.keySet()
+				.toString());
+		assertEquals(A.getId(), refs.get("refs/heads/master").getObjectId());
+		assertEquals(B.getId(), refs.get("refs/heads/foo2").getObjectId());
+	}
+
+	@Test
+	public void testBatchRefUpdateAddMissingObject() throws IOException {
+		writeLooseRef("refs/heads/master", A);
+		ObjectId bad =
+				ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef");
+		List<ReceiveCommand> commands = Arrays.asList(
+				new ReceiveCommand(A, B, "refs/heads/master",
+						ReceiveCommand.Type.UPDATE),
+				new ReceiveCommand(zeroId(), bad, "refs/heads/foo2",
+						ReceiveCommand.Type.CREATE));
+		BatchRefUpdate batchUpdate = refdir.newBatchUpdate();
+		batchUpdate.setAllowNonFastForwards(true);
+		batchUpdate.addCommand(commands);
+		batchUpdate.execute(new RevWalk(diskRepo), NullProgressMonitor.INSTANCE);
+		Map<String, Ref> refs = refdir.getRefs(RefDatabase.ALL);
+		assertEquals(ReceiveCommand.Result.OK, commands.get(0).getResult());
+		assertEquals(ReceiveCommand.Result.REJECTED_MISSING_OBJECT,
+				commands.get(1).getResult());
+		assertEquals("[HEAD, refs/heads/master]", refs.keySet()
+				.toString());
+		assertEquals(B.getId(), refs.get("refs/heads/master").getObjectId());
 	}
 
 	private void writeLooseRef(String name, AnyObjectId id) throws IOException {
