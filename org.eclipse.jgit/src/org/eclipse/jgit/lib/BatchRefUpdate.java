@@ -59,6 +59,7 @@ import java.util.List;
 import java.util.concurrent.TimeoutException;
 
 import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -410,6 +411,18 @@ public class BatchRefUpdate {
 		for (ReceiveCommand cmd : commands) {
 			try {
 				if (cmd.getResult() == NOT_ATTEMPTED) {
+					try {
+						if (!cmd.getNewId().equals(ObjectId.zeroId())) {
+							walk.parseAny(cmd.getNewId());
+						}
+					} catch (MissingObjectException e) {
+						// ReceiveCommand#setResult(Result) converts REJECTED to
+						// REJECTED_NONFASTFORWARD, even though that result is also used for
+						// a missing object. Eagerly handle this case so we can set the
+						// right result.
+						cmd.setResult(ReceiveCommand.Result.REJECTED_MISSING_OBJECT);
+						continue;
+					}
 					cmd.updateType(walk);
 					switch (cmd.getType()) {
 					case CREATE:
