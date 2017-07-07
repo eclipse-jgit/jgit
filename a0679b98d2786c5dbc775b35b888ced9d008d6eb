@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_e3b21fff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-07-07T16:19:34Z",
+      "side": 1,
+      "message": "I\u0027m not sure this is the right thing to do.\n\nReceiveCommand#setResult translates RefUpdate.Result.REJECTED to ReceiveCommand.Result.REJECTED_NONFASTFORWARD, presumably because this Javadoc says REJECTED means non-ff. Thus in order to make BatchRefUpdate return REJECTED_MISSING_OBJECT, we will have to have somewhat duplicate code in BatchRefUpdate to handle this case.\n\nA cleaner solution might be:\n\n* Add RefUpdate.Result.REJECTED_MISSING_OBJECT and RefUpdate.Result.REJECTED_OTHER_REASON, to mirror the ReceiveCommand.Result statuses.\n* Document that RefUpdate.Result.REJECTED really means rejected due to non-ff, not an unspecified reason (which would be REJECTED_OTHER_REASON), and it is only named this confusingly-general way for backwards compatibility.\n\nI don\u0027t know what the impact would be of extending the RefUpdate.Result enum; all current values date back to the original Eclipse commit in 2009, so we haven\u0027t had to deal with this case before. Hopefully, most callers already treat unknown values as failure, but one can never be sure.\n\nDoes anyone know the Eclipse policy on adding new values to existing enums?",
+      "revId": "a0679b98d2786c5dbc775b35b888ced9d008d6eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
