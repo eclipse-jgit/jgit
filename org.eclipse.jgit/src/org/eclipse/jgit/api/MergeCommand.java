@@ -64,6 +64,7 @@ import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.api.errors.NoMessageException;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
+import org.eclipse.jgit.events.WorkingTreeModifiedEvent;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Config.ConfigEnum;
@@ -355,6 +356,10 @@ public class MergeCommand extends GitCommand<MergeResult> {
 							.getMergeResults();
 					failingPaths = resolveMerger.getFailingPaths();
 					unmergedPaths = resolveMerger.getUnmergedPaths();
+					if (!resolveMerger.getModifiedFiles().isEmpty()) {
+						repo.fireEvent(new WorkingTreeModifiedEvent(
+								resolveMerger.getModifiedFiles(), null));
+					}
 				} else
 					noProblems = merger.merge(headCommit, srcCommit);
 				refLogMessage.append(": Merge made by "); //$NON-NLS-1$
