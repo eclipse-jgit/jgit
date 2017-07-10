@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_6f144e73",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-07-10T16:52:34Z",
+      "side": 1,
+      "message": "If you ask me, I don\u0027t know why BatchRefUpdate#execute throws IOException at all. It makes it confusing for downstream callers to need to distinguish between unexpected errors that throw IOException and unexpected errors that set results on the ReceiveCommand. I am thinking of a couple places in code your team owns that has to deal with this exact problem :)\n\nFrankly I think that the \"throws IOException\" is a license for implementers to be lazy and let basically every kind of IOException from the underlying storage propagate through. If we don\u0027t think that implementers should have a license to be lazy, maybe we should make it so execute can\u0027t throw (which is a backwards-incompatible change, sigh).\n\nSo what I\u0027ve done here is to be lazy and not catch anything I don\u0027t have to.",
+      "parentUuid": "c7880b39_8f2b3ab8",
+      "range": {
+        "startLine": 168,
+        "startChar": 2,
+        "endLine": 168,
+        "endChar": 75
+      },
+      "revId": "e220acdbffb1f01603f8579bc2aa1b8b226ea330",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_4fe7921e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 4
