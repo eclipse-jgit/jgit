@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_8f2b3ab8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-07-10T16:48:36Z",
+      "side": 1,
+      "message": "Agreed. Any thoughts/guidance from my reviewers? :)",
+      "parentUuid": "c7880b39_efd67e36",
+      "range": {
+        "startLine": 168,
+        "startChar": 2,
+        "endLine": 168,
+        "endChar": 75
+      },
+      "revId": "e220acdbffb1f01603f8579bc2aa1b8b226ea330",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_4fe7921e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 4
@@ -59,6 +83,30 @@
       "writtenOn": "2017-07-10T16:43:41Z",
       "side": 1,
       "message": "IIRC this create synthetic accessors, so we avoid using private on these nested classes.",
+      "range": {
+        "startLine": 1179,
+        "startChar": 2,
+        "endLine": 1179,
+        "endChar": 9
+      },
+      "revId": "e220acdbffb1f01603f8579bc2aa1b8b226ea330",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_cf2542e3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1179,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-07-10T16:48:36Z",
+      "side": 1,
+      "message": "I increased the visibility of the PackedRefList class so it\u0027s visible from PackedBatchRefUpdate. But I do not want this constant to be visible outside this .java file. I understand that the cost of this decision is a synthetic accessor method, but that doesn\u0027t seem like it\u0027s an actual problem in this case.\n\nI mean, if it is really a problem, I can keep PackedRefList private and just move PackedBatchRefUpdate into RefDirectory. But I\u0027d kinda rather not.",
+      "parentUuid": "c7880b39_6fe28e0e",
       "range": {
         "startLine": 1179,
         "startChar": 2,
