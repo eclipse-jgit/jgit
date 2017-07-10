@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_4f2f928f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-07-10T21:38:45Z",
+      "side": 1,
+      "message": "I discussed this change with Christian and we came to the conclusion we should rather try to correct the potentially inaccurate lists which are computed in the first pass while executing the checkout instead of adding more lists. This will also save some memory especially for large checkouts changing a lot of tiles.",
+      "range": {
+        "startLine": 12,
+        "startChar": 25,
+        "endLine": 12,
+        "endChar": 54
+      },
+      "revId": "fad7df1fdefe2335aeb27b849ee6eb44afb898f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_f6381f89",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/events/WorkingTreeModifiedListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-07-10T21:38:45Z",
+      "side": 1,
+      "message": "the class name already mentions that this is about working tree, so maybe this method\u0027s name could be shortened to onModified ?",
+      "range": {
+        "startLine": 60,
+        "startChar": 6,
+        "endLine": 60,
+        "endChar": 27
+      },
+      "revId": "fad7df1fdefe2335aeb27b849ee6eb44afb898f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
