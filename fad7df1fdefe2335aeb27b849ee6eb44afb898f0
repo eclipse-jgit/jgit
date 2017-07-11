@@ -69,6 +69,30 @@
       "revId": "fad7df1fdefe2335aeb27b849ee6eb44afb898f0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_aac54408",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/events/WorkingTreeModifiedListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-07-11T06:06:06Z",
+      "side": 1,
+      "message": "Sure. One could also call it simply onEvent since the argument type already says what kind of event it\u0027s about.\n\nI was sticking to the naming scheme used in the other listeners.",
+      "parentUuid": "c7880b39_f6381f89",
+      "range": {
+        "startLine": 60,
+        "startChar": 6,
+        "endLine": 60,
+        "endChar": 27
+      },
+      "revId": "fad7df1fdefe2335aeb27b849ee6eb44afb898f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
