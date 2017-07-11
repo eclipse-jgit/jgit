@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_0a4bb831",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-07-11T05:54:52Z",
+      "side": 1,
+      "message": "Not sure I understand what you mean. Basically remove items not modified (on the first exception) from updated and return that list then in the event? Deleted/toBeDeleted might be more complicated to get right when files cannot be deleted.\n\nIf memory is a concern, we could also simply send events for each file; it\u0027d then be the listener\u0027s responsibility to batch events in some way. Of course that shifts the memory burden to the listener.",
+      "parentUuid": "c7880b39_4f2f928f",
+      "range": {
+        "startLine": 12,
+        "startChar": 25,
+        "endLine": 12,
+        "endChar": 54
+      },
+      "revId": "fad7df1fdefe2335aeb27b849ee6eb44afb898f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_f6381f89",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/events/WorkingTreeModifiedListener.java",
         "patchSetId": 1
