@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_1db303d3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-07-11T15:33:32Z",
+      "side": 1,
+      "message": "\u003e It is unfortunate the contract isn\u0027t clear. I could see throwing\n \u003e IOExceptions on underlying storage system errors only, and setting\n \u003e status results for higher level git sequencing errors. But I think\n \u003e I agree with you that that is lazy. Any IOException thrown by the\n \u003e underlying layer should probably be caught and examined to see if\n \u003e it is recoverable or to better explain or sanitize the error.\n \nI\u0027d be concerned that there is simply not very much that a low-level JGit library can do to inspect/sanitize arbitrary IOExceptions that might have come from someone else\u0027s storage system implementation. As a high-level application author you might have some idea, but you can\u0027t encode your application-specific ideas into JGit.\n\nThe one exception I can think of off the top of my head here is IOException from the LockFile methods, which are entirely due to the implementation details in this class.\n\n \u003e Fixing that is an API change that is outside the scope of this\n \u003e change so I think you can just drop this comment.\n\nThanks, will do.",
+      "parentUuid": "c7880b39_5d2cab9a",
+      "range": {
+        "startLine": 168,
+        "startChar": 2,
+        "endLine": 168,
+        "endChar": 75
+      },
+      "revId": "e220acdbffb1f01603f8579bc2aa1b8b226ea330",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_4fe7921e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 4
