@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_5d2cab9a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-07-11T15:23:29Z",
+      "side": 1,
+      "message": "It is unfortunate the contract isn\u0027t clear. I could see throwing IOExceptions on underlying storage system errors only, and setting status results for higher level git sequencing errors. But I think I agree with you that that is lazy. Any IOException thrown by the underlying layer should probably be caught and examined to see if it is recoverable or to better explain or sanitize the error.\n\nFixing that is an API change that is outside the scope of this change so I think you can just drop this comment.",
+      "parentUuid": "c7880b39_6f144e73",
+      "range": {
+        "startLine": 168,
+        "startChar": 2,
+        "endLine": 168,
+        "endChar": 75
+      },
+      "revId": "e220acdbffb1f01603f8579bc2aa1b8b226ea330",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_4fe7921e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 4
@@ -89,6 +113,29 @@
         "startChar": 0,
         "endLine": 651,
         "endChar": 2
+      },
+      "revId": "e220acdbffb1f01603f8579bc2aa1b8b226ea330",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_bdd2effa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-07-11T15:23:29Z",
+      "side": 1,
+      "message": "Fix whitespace.",
+      "range": {
+        "startLine": 651,
+        "startChar": 0,
+        "endLine": 651,
+        "endChar": 3
       },
       "revId": "e220acdbffb1f01603f8579bc2aa1b8b226ea330",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
@@ -155,6 +202,30 @@
       "side": 1,
       "message": "Or we could move NO_PACKED_REFS to a top-level private constant, would that be better?",
       "parentUuid": "c7880b39_cf2542e3",
+      "range": {
+        "startLine": 1179,
+        "startChar": 2,
+        "endLine": 1179,
+        "endChar": 9
+      },
+      "revId": "e220acdbffb1f01603f8579bc2aa1b8b226ea330",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_ef8cbe43",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1179,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-07-11T15:23:29Z",
+      "side": 1,
+      "message": "Moving it out makes the intent that it is only referenced from this file more clear, imho.",
+      "parentUuid": "c7880b39_af59d662",
       "range": {
         "startLine": 1179,
         "startChar": 2,
