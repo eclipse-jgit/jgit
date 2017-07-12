@@ -56,6 +56,38 @@ import java.nio.channels.FileChannel;
  */
 public abstract class BlockSource implements AutoCloseable {
 	/**
+	 * Wrap a byte array as a {@code BlockSource}.
+	 *
+	 * @param content
+	 *            input file.
+	 * @return block source to read from {@code content}.
+	 */
+	public static BlockSource from(byte[] content) {
+		return new BlockSource() {
+			@Override
+			public ByteBuffer read(long pos, int cnt) {
+				ByteBuffer buf = ByteBuffer.allocate(cnt);
+				if (pos < content.length) {
+					int p = (int) pos;
+					int n = Math.min(cnt, content.length - p);
+					buf.put(content, p, n);
+				}
+				return buf;
+			}
+
+			@Override
+			public long size() {
+				return content.length;
+			}
+
+			@Override
+			public void close() {
+				// Do nothing.
+			}
+		};
+	}
+
+	/**
 	 * Read from a {@code FileInputStream}.
 	 * <p>
 	 * The returned {@code BlockSource} is not thread-safe, as it must seek the
