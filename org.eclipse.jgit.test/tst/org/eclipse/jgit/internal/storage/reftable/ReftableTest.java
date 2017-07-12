@@ -74,6 +74,7 @@ import org.junit.Test;
 
 public class ReftableTest {
 	private static final String MASTER = "refs/heads/master";
+	private static final String NEXT = "refs/heads/next";
 	private static final String V1_0 = "refs/tags/v1.0";
 
 	private Stats stats;
@@ -269,6 +270,41 @@ public class ReftableTest {
 			assertFalse(rc.next());
 		}
 		try (RefCursor rc = t.seekRef("refs/heads/n")) {
+			assertFalse(rc.next());
+		}
+	}
+
+	@Test
+	public void namespaceNotFound() throws IOException {
+		Ref exp = ref(MASTER, 1);
+		ReftableReader t = read(write(exp));
+		try (RefCursor rc = t.seekRef("refs/changes/")) {
+			assertFalse(rc.next());
+		}
+		try (RefCursor rc = t.seekRef("refs/tags/")) {
+			assertFalse(rc.next());
+		}
+	}
+
+	@Test
+	public void namespaceHeads() throws IOException {
+		Ref master = ref(MASTER, 1);
+		Ref next = ref(NEXT, 2);
+		Ref v1 = tag(V1_0, 3, 4);
+
+		ReftableReader t = read(write(master, next, v1));
+		try (RefCursor rc = t.seekRef("refs/tags/")) {
+			assertTrue(rc.next());
+			assertEquals(V1_0, rc.getRef().getName());
+			assertFalse(rc.next());
+		}
+		try (RefCursor rc = t.seekRef("refs/heads/")) {
+			assertTrue(rc.next());
+			assertEquals(MASTER, rc.getRef().getName());
+
+			assertTrue(rc.next());
+			assertEquals(NEXT, rc.getRef().getName());
+
 			assertFalse(rc.next());
 		}
 	}
