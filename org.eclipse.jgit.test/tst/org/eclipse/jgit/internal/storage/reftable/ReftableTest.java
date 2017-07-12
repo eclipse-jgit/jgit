@@ -74,6 +74,7 @@ import org.junit.Test;
 
 public class ReftableTest {
 	private static final String MASTER = "refs/heads/master";
+	private static final String NEXT = "refs/heads/next";
 	private static final String V1_0 = "refs/tags/v1.0";
 
 	private Stats stats;
@@ -197,6 +198,39 @@ public class ReftableTest {
 		assertFalse(r.next());
 
 		r.seek("refs/heads/n");
+		assertFalse(r.next());
+	}
+
+	@Test
+	public void namespaceNotFound() throws IOException {
+		Ref exp = ref(MASTER, 1);
+		ReftableReader r = read(write(exp));
+		r.seek("refs/changes/");
+		assertFalse(r.next());
+
+		r.seek("refs/tags/");
+		assertFalse(r.next());
+	}
+
+	@Test
+	public void namespaceHeads() throws IOException {
+		Ref master = ref(MASTER, 1);
+		Ref next = ref(NEXT, 2);
+		Ref v1 = tag(V1_0, 3, 4);
+
+		ReftableReader r = read(write(master, next, v1));
+		r.seek("refs/tags/");
+		assertTrue(r.next());
+		assertEquals(V1_0, r.getRef().getName());
+		assertFalse(r.next());
+
+		r.seek("refs/heads/");
+		assertTrue(r.next());
+		assertEquals(MASTER, r.getRef().getName());
+
+		assertTrue(r.next());
+		assertEquals(NEXT, r.getRef().getName());
+
 		assertFalse(r.next());
 	}
 
