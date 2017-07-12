@@ -426,6 +426,9 @@ public class JGitText extends TranslationBundle {
 	/***/ public String invalidPathReservedOnWindows;
 	/***/ public String invalidReflogRevision;
 	/***/ public String invalidRefName;
+	/***/ public String invalidReftableBlock;
+	/***/ public String invalidReftableCRC;
+	/***/ public String invalidReftableFile;
 	/***/ public String invalidRemote;
 	/***/ public String invalidShallowObject;
 	/***/ public String invalidStageForPath;
@@ -754,6 +757,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String unsupportedOperationNotAddAtEnd;
 	/***/ public String unsupportedPackIndexVersion;
 	/***/ public String unsupportedPackVersion;
+	/***/ public String unsupportedReftableVersion;
 	/***/ public String unsupportedRepositoryDescription;
 	/***/ public String updateRequiresOldIdAndNewId;
 	/***/ public String updatingHeadFailed;
