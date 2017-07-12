@@ -43,41 +43,30 @@
 
 package org.eclipse.jgit.internal.storage.reftable;
 
-class ReftableConstants {
-	static final byte[] FILE_HEADER_MAGIC = { '\1', 'R', 'E', 'F' };
-	static final byte VERSION_1 = (byte) 1;
+import java.io.IOException;
 
-	static final int FILE_HEADER_LEN = 8;
-	static final int FILE_FOOTER_LEN = 52;
-	static final int MAX_BLOCK_SIZE = (1 << 24) - 1;
+import org.eclipse.jgit.lib.Ref;
 
-	static final byte FILE_BLOCK_TYPE = '\1';
-	static final byte REF_BLOCK_TYPE = 'r';
-	static final byte OBJ_BLOCK_TYPE = 'o';
-	static final byte LOG_BLOCK_TYPE = 'g';
-	static final byte INDEX_BLOCK_TYPE = (byte) 0x80;
+/** Iterator over references inside a {@link Reftable}. */
+public abstract class RefCursor implements AutoCloseable {
+	/**
+	 * Check if another reference is available.
+	 *
+	 * @return {@code true} if there is another result.
+	 * @throws IOException
+	 *             references cannot be read.
+	 */
+	public abstract boolean next() throws IOException;
 
-	static final int VALUE_NONE = 0x0;
-	static final int VALUE_1ID = 0x1;
-	static final int VALUE_2ID = 0x2;
-	static final int VALUE_SYMREF = 0x3;
-	static final int VALUE_LEN_SPECIFIED = 0x4;
-	static final int VALUE_TYPE_MASK = 0x7;
+	/** @return reference at the current position. */
+	public abstract Ref getRef();
 
-	static final int MAX_RESTARTS = 65536;
-
-	static boolean isFileHeaderMagic(byte[] buf, int o, int n) {
-		return (n - o) >= FILE_HEADER_MAGIC.length
-				&& buf[o + 0] == FILE_HEADER_MAGIC[0]
-				&& buf[o + 1] == FILE_HEADER_MAGIC[1]
-				&& buf[o + 2] == FILE_HEADER_MAGIC[2]
-				&& buf[o + 3] == FILE_HEADER_MAGIC[3];
+	/** @return {@code true} if the current reference was deleted. */
+	public boolean wasDeleted() {
+		Ref r = getRef();
+		return r.getStorage() == Ref.Storage.NEW && r.getObjectId() == null;
 	}
 
-	static long reverseTime(long time) {
-		return 0xffffffffffffffffL - time;
-	}
-
-	private ReftableConstants() {
-	}
+	@Override
+	public abstract void close();
 }
