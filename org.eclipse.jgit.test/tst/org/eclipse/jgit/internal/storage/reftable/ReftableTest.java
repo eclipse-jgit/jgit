@@ -57,10 +57,13 @@ import static org.junit.Assert.fail;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.reftable.ReftableWriter.Stats;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.Ref;
@@ -71,6 +74,8 @@ import org.junit.Test;
 public class ReftableTest {
 	private static final String MASTER = "refs/heads/master";
 	private static final String V1_0 = "refs/tags/v1.0";
+
+	private Stats stats;
 
 	@Test
 	public void emptyTable() throws IOException {
@@ -180,6 +185,98 @@ public class ReftableTest {
 		assertFalse(r.next());
 	}
 
+	@SuppressWarnings("boxing")
+	@Test
+	public void indexScan() throws IOException {
+		List<Ref> refs = new ArrayList<>();
+		for (int i = 1; i <= 5670; i++) {
+			refs.add(ref(String.format("refs/heads/%04d", i), i));
+		}
+
+		byte[] table = write(refs);
+		assertTrue(stats.indexKeys() > 0);
+		assertTrue(stats.indexSize() > 0);
+
+		ReftableReader r = read(table);
+		r.seekToFirstRef();
+		for (Ref exp : refs) {
+			assertTrue("has " + exp.getName(), r.next());
+			Ref act = r.getRef();
+			assertEquals(exp.getName(), act.getName());
+			assertEquals(exp.getObjectId(), act.getObjectId());
+		}
+		assertFalse(r.next());
+	}
+
+	@SuppressWarnings("boxing")
+	@Test
+	public void indexSeek() throws IOException {
+		List<Ref> refs = new ArrayList<>();
+		for (int i = 1; i <= 5670; i++) {
+			refs.add(ref(String.format("refs/heads/%04d", i), i));
+		}
+
+		byte[] table = write(refs);
+		assertTrue(stats.indexKeys() > 0);
+		assertTrue(stats.indexSize() > 0);
+
+		for (Ref exp : refs) {
+			ReftableReader r = read(table).seek(exp.getName());
+			assertTrue("has " + exp.getName(), r.next());
+			Ref act = r.getRef();
+			assertEquals(exp.getName(), act.getName());
+			assertEquals(exp.getObjectId(), act.getObjectId());
+			assertFalse(r.next());
+		}
+	}
+
+	@SuppressWarnings("boxing")
+	@Test
+	public void noIndexScan() throws IOException {
+		List<Ref> refs = new ArrayList<>();
+		for (int i = 1; i <= 567; i++) {
+			refs.add(ref(String.format("refs/heads/%03d", i), i));
+		}
+
+		byte[] table = write(refs);
+		assertEquals(0, stats.indexKeys());
+		assertEquals(0, stats.indexSize());
+		assertEquals(4, stats.blockCount());
+		assertEquals(table.length, stats.totalBytes());
+
+		ReftableReader r = read(table);
+		r.seekToFirstRef();
+		for (Ref exp : refs) {
+			assertTrue("has " + exp.getName(), r.next());
+			Ref act = r.getRef();
+			assertEquals(exp.getName(), act.getName());
+			assertEquals(exp.getObjectId(), act.getObjectId());
+		}
+		assertFalse(r.next());
+	}
+
+	@SuppressWarnings("boxing")
+	@Test
+	public void noIndexSeek() throws IOException {
+		List<Ref> refs = new ArrayList<>();
+		for (int i = 1; i <= 567; i++) {
+			refs.add(ref(String.format("refs/heads/%03d", i), i));
+		}
+
+		byte[] table = write(refs);
+		assertEquals(0, stats.indexKeys());
+		assertEquals(4, stats.blockCount());
+
+		for (Ref exp : refs) {
+			ReftableReader r = read(table).seek(exp.getName());
+			assertTrue("has " + exp.getName(), r.next());
+			Ref act = r.getRef();
+			assertEquals(exp.getName(), act.getName());
+			assertEquals(exp.getObjectId(), act.getObjectId());
+			assertFalse(r.next());
+		}
+	}
+
 	@Test
 	public void unpeeledDoesNotWrite() {
 		try {
@@ -233,17 +330,18 @@ public class ReftableTest {
 		return new ReftableReader(BlockSource.of(table));
 	}
 
-	private static byte[] write(Ref... refs) throws IOException {
+	private byte[] write(Ref... refs) throws IOException {
 		return write(Arrays.asList(refs));
 	}
 
-	private static byte[] write(Collection<Ref> refs) throws IOException {
+	private byte[] write(Collection<Ref> refs) throws IOException {
 		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 		ReftableWriter writer = new ReftableWriter().begin(buffer);
 		for (Ref r : RefComparator.sort(refs)) {
 			writer.write(r);
 		}
 		writer.finish();
+		stats = writer.getStats();
 		return buffer.toByteArray();
 	}
 }
