@@ -51,6 +51,7 @@ import static org.eclipse.jgit.internal.storage.reftable.ReftableConstants.REF_B
 import static org.eclipse.jgit.internal.storage.reftable.ReftableConstants.VERSION_1;
 import static org.eclipse.jgit.internal.storage.reftable.ReftableConstants.isFileHeaderMagic;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.text.MessageFormat;
@@ -70,6 +71,24 @@ import org.eclipse.jgit.util.NB;
  * instance to read from the same file.
  */
 public class ReftableReader implements AutoCloseable {
+	/** @return an empty reftable. */
+	public static ReftableReader emptyTable() {
+		return new ReftableReader(BlockSource.from(EmptyTableHolder.I));
+	}
+
+	private static class EmptyTableHolder {
+		final static byte[] I = makeEmptyTable();
+		private static byte[] makeEmptyTable() {
+			try {
+				ByteArrayOutputStream out = new ByteArrayOutputStream();
+				new ReftableWriter().begin(out).finish();
+				return out.toByteArray();
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		}
+	}
+
 	private final BlockSource src;
 
 	private int blockSize;
