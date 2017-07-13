@@ -249,7 +249,16 @@ public class ReftableReader extends RefCursor {
 		return end % blockSize == 0 ? blocks : (blocks + 1);
 	}
 
-	private long size() throws IOException {
+	/**
+	 * Get an estimate of the content size, in bytes.
+	 * <p>
+	 * This size may not include the index, or the footer.
+	 *
+	 * @return approximate size of the reftable, in bytes.
+	 * @throws IOException
+	 *             size cannot be obtained.
+	 */
+	public long size() throws IOException {
 		if (size == 0) {
 			size = src.size() - FILE_FOOTER_LEN; // assume no index
 		}
