@@ -65,7 +65,7 @@ import org.eclipse.jgit.util.NB;
  * {@code ReftableReader} is not thread-safe. Concurrent readers need their own
  * instance to read from the same file.
  */
-public class ReftableReader implements AutoCloseable {
+public class ReftableReader extends RefCursor {
 	private final BlockSource src;
 
 	/** Size of the reftable, minus index and footer. */
@@ -88,12 +88,7 @@ public class ReftableReader implements AutoCloseable {
 		this.src = src;
 	}
 
-	/**
-	 * Seek to the first reference in the file, to iterate in order.
-	 *
-	 * @throws IOException
-	 *             cannot read the reftree file.
-	 */
+	@Override
 	public void seekToFirstRef() throws IOException {
 		if (blockSize == 0) {
 			readFileHeader();
@@ -104,19 +99,7 @@ public class ReftableReader implements AutoCloseable {
 		ref = null;
 	}
 
-	/**
-	 * Seek either to a reference, or a reference subtree.
-	 * <p>
-	 * If {@code refName} ends with {@code "/"} the method will seek to the
-	 * subtree of all references starting with {@code refName} as a prefix.
-	 * <p>
-	 * Otherwise, only {@code refName} will be found, if present.
-	 *
-	 * @param refName
-	 *            reference name or subtree to find.
-	 * @throws IOException
-	 *             cannot read the reftree file.
-	 */
+	@Override
 	public void seek(String refName) throws IOException {
 		byte[] name = refName.getBytes(UTF_8);
 		if (name[name.length - 1] == '/') {
@@ -156,13 +139,7 @@ public class ReftableReader implements AutoCloseable {
 		} while (low < end);
 	}
 
-	/**
-	 * Check if another reference is available.
-	 *
-	 * @return {@code true} if there is another reference.
-	 * @throws IOException
-	 *             reftable file cannot be read.
-	 */
+	@Override
 	public boolean next() throws IOException {
 		if (!block.isRefBlock()) {
 			ref = null;
@@ -193,7 +170,7 @@ public class ReftableReader implements AutoCloseable {
 		return true;
 	}
 
-	/** @return reference at the current position. */
+	@Override
 	public Ref getRef() {
 		return ref;
 	}
