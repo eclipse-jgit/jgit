@@ -60,6 +60,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.jgit.internal.JGitText;
@@ -93,6 +94,16 @@ public class ReftableTest {
 		assertFalse(seekToFirstRef(table).next());
 		assertFalse(seek(table, HEAD).next());
 		assertFalse(seek(table, R_HEADS).next());
+	}
+
+	@Test
+	public void emptyList() throws IOException {
+		RefCursor rc = RefCursor.from(Collections.emptyList());
+		rc.seekToFirstRef();
+		assertFalse(rc.next());
+
+		rc.seek(HEAD);
+		assertFalse(rc.next());
 	}
 
 	@Test
@@ -221,6 +232,28 @@ public class ReftableTest {
 		assertFalse(r.next());
 	}
 
+	@Test
+	public void namespacesFromList() throws IOException {
+		Ref master = ref(MASTER, 1);
+		Ref next = ref(NEXT, 2);
+		Ref v1 = tag(V1_0, 3, 4);
+
+		RefCursor r = RefCursor.from(Arrays.asList(v1, next, master));
+		r.seek("refs/tags/");
+		assertTrue(r.next());
+		assertEquals(V1_0, r.getRef().getName());
+		assertFalse(r.next());
+
+		r.seek("refs/heads/");
+		assertTrue(r.next());
+		assertEquals(MASTER, r.getRef().getName());
+
+		assertTrue(r.next());
+		assertEquals(NEXT, r.getRef().getName());
+
+		assertFalse(r.next());
+	}
+
 	@SuppressWarnings("boxing")
 	@Test
 	public void indexScan() throws IOException {
@@ -305,6 +338,25 @@ public class ReftableTest {
 
 		for (Ref exp : refs) {
 			ReftableReader r = seek(table, exp.getName());
+			assertTrue("has " + exp.getName(), r.next());
+			Ref act = r.getRef();
+			assertEquals(exp.getName(), act.getName());
+			assertEquals(exp.getObjectId(), act.getObjectId());
+			assertFalse(r.next());
+		}
+	}
+
+	@SuppressWarnings("boxing")
+	@Test
+	public void seekFromList() throws IOException {
+		List<Ref> refs = new ArrayList<>();
+		for (int i = 1; i <= 567; i++) {
+			refs.add(ref(String.format("refs/heads/%03d", i), i));
+		}
+
+		for (Ref exp : refs) {
+			RefCursor r = RefCursor.from(refs);
+			r.seek(exp.getName());
 			assertTrue("has " + exp.getName(), r.next());
 			Ref act = r.getRef();
 			assertEquals(exp.getName(), act.getName());

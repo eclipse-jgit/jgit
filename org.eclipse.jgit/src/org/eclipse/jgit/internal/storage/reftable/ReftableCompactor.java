@@ -119,6 +119,16 @@ public class ReftableCompactor {
 	}
 
 	/**
+	 * Unconditionally add a table at the bottom of the stack.
+	 *
+	 * @param table
+	 *            the table to read.
+	 */
+	public void addFirst(RefCursor table) {
+		tables.addFirst(table);
+	}
+
+	/**
 	 * Try to add this reader at the bottom of the stack.
 	 * <p>
 	 * A reader may be rejected by returning {@code false} if the compactor is

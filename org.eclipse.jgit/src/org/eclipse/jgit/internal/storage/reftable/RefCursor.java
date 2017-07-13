@@ -44,12 +44,24 @@
 package org.eclipse.jgit.internal.storage.reftable;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.lib.Ref;
 
 /** Iterator over references. */
 public abstract class RefCursor implements AutoCloseable {
+	/**
+	 * Wrap a collection of references as a {@code RefCursor}.
+	 *
+	 * @param refs
+	 *            references to wrap. A copy will be made, and sorted.
+	 * @return {@code refs} wrapped as {@code RefCursor}.
+	 */
+	public static RefCursor from(Collection<Ref> refs) {
+		return new ListRefCursor(refs);
+	}
+
 	/**
 	 * Seek to the first reference, to iterate in order.
 	 *
