@@ -433,6 +433,17 @@ public class ReftableReader extends Reftable {
 		return end % blockSize == 0 ? blocks : (blocks + 1);
 	}
 
+	/**
+	 * Get size of the reftable, in bytes.
+	 *
+	 * @return size of the reftable, in bytes.
+	 * @throws IOException
+	 *             size cannot be obtained.
+	 */
+	public long size() throws IOException {
+		return src.size();
+	}
+
 	@Override
 	public void close() throws IOException {
 		src.close();

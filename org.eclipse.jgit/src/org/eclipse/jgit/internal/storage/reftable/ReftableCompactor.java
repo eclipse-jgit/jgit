@@ -71,6 +71,8 @@ public class ReftableCompactor {
 	private final ReftableWriter writer = new ReftableWriter();
 	private final ArrayDeque<Reftable> tables = new ArrayDeque<>();
 
+	private long compactBytesLimit;
+	private long bytesToCompact;
 	private boolean includeDeletes;
 	private long minUpdateIndex;
 	private long maxUpdateIndex;
@@ -84,6 +86,16 @@ public class ReftableCompactor {
 	 */
 	public ReftableCompactor setConfig(ReftableConfig cfg) {
 		writer.setConfig(cfg);
+		return this;
+	}
+
+	/**
+	 * @param bytes
+	 *            limit on number of bytes from source tables to compact.
+	 * @return {@code this}
+	 */
+	public ReftableCompactor setCompactBytesLimit(long bytes) {
+		compactBytesLimit = bytes;
 		return this;
 	}
 
@@ -139,6 +151,9 @@ public class ReftableCompactor {
 
 	/**
 	 * Add all of the tables, in the specified order.
+	 * <p>
+	 * Unconditionally adds all tables, ignoring the
+	 * {@link #setCompactBytesLimit(long)}.
 	 *
 	 * @param readers
 	 *            tables to compact. Tables should be ordered oldest first/most
@@ -147,6 +162,32 @@ public class ReftableCompactor {
 	 */
 	public void addAll(List<? extends Reftable> readers) {
 		tables.addAll(readers);
+	}
+
+	/**
+	 * Try to add this reader at the bottom of the stack.
+	 * <p>
+	 * A reader may be rejected by returning {@code false} if the compactor is
+	 * already rewriting its {@link #setCompactBytesLimit(long)}. When this
+	 * happens the caller should stop trying to add tables, and execute the
+	 * compaction.
+	 *
+	 * @param reader
+	 *            the reader to insert at the bottom of the stack. Caller is
+	 *            responsible for closing the reader.
+	 * @return {@code true} if the compactor accepted this table; {@code false}
+	 *         if the compactor has reached its limit.
+	 * @throws IOException
+	 *             if size of {@code reader} cannot be read.
+	 */
+	public boolean tryAddFirst(ReftableReader reader) throws IOException {
+		long sz = reader.size();
+		if (compactBytesLimit > 0 && bytesToCompact + sz > compactBytesLimit) {
+			return false;
+		}
+		bytesToCompact += sz;
+		tables.addFirst(reader);
+		return true;
 	}
 
 	/**
