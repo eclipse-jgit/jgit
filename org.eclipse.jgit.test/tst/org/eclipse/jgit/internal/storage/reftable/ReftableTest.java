@@ -127,6 +127,7 @@ public class ReftableTest {
 		assertEquals(exp.getName(), act.getName());
 		assertEquals(exp.getObjectId(), act.getObjectId());
 		assertNull(act.getPeeledObjectId());
+		assertFalse(r.wasDeleted());
 		assertFalse(r.next());
 
 		r = seek(table, MASTER);
@@ -190,6 +191,7 @@ public class ReftableTest {
 		assertEquals(name, act.getName());
 		assertEquals(NEW, act.getStorage());
 		assertNull(act.getObjectId());
+		assertTrue(r.wasDeleted());
 	}
 
 	@Test
