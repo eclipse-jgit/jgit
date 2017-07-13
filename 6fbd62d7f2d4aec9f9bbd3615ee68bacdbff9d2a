@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_868a3ba1",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-07-13T20:58:13Z",
+      "side": 1,
+      "message": "style nit: trailing whitespace",
+      "revId": "6fbd62d7f2d4aec9f9bbd3615ee68bacdbff9d2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_c60b63b3",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-07-13T20:58:13Z",
+      "side": 1,
+      "message": "trailing whitespace",
+      "revId": "6fbd62d7f2d4aec9f9bbd3615ee68bacdbff9d2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_e6105fde",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-07-13T20:58:13Z",
+      "side": 1,
+      "message": "reappearing",
+      "range": {
+        "startLine": 425,
+        "startChar": 5,
+        "endLine": 425,
+        "endChar": 15
+      },
+      "revId": "6fbd62d7f2d4aec9f9bbd3615ee68bacdbff9d2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
