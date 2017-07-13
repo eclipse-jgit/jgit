@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_e90af05e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsFsck.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-07-13T23:58:48Z",
+      "side": 1,
+      "message": "These can be moved inside the try block.",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 41
+      },
+      "revId": "44b98ed297cf923d09accea4530c3a785131e424",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_2911588e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/FsckPackParser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-07-13T23:58:48Z",
+      "side": 1,
+      "message": "s/fsck purpose/object connectivity and validity checking/",
+      "range": {
+        "startLine": 73,
+        "startChar": 31,
+        "endLine": 73,
+        "endChar": 43
+      },
+      "revId": "44b98ed297cf923d09accea4530c3a785131e424",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_49f944b9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/FsckPackParser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-07-13T23:58:48Z",
+      "side": 1,
+      "message": "s/file doesn\u0027t/files don\u0027t/",
+      "range": {
+        "startLine": 108,
+        "startChar": 20,
+        "endLine": 108,
+        "endChar": 32
+      },
+      "revId": "44b98ed297cf923d09accea4530c3a785131e424",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_89ffac9c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/FsckPackParser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-07-13T23:58:48Z",
+      "side": 1,
+      "message": "s/Need overwrite/Overwrite/",
+      "range": {
+        "startLine": 110,
+        "startChar": 30,
+        "endLine": 110,
+        "endChar": 36
+      },
+      "revId": "44b98ed297cf923d09accea4530c3a785131e424",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_a9fc68a8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/FsckPackParser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-07-13T23:58:48Z",
+      "side": 1,
+      "message": "s/pack/the pack/",
+      "range": {
+        "startLine": 111,
+        "startChar": 20,
+        "endLine": 111,
+        "endChar": 24
+      },
+      "revId": "44b98ed297cf923d09accea4530c3a785131e424",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_c92c54d3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/FsckPackParser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-07-13T23:58:48Z",
+      "side": 1,
+      "message": "The class Javadoc makes it clear this is a read only parser so I don\u0027t think this  description is needed.",
+      "range": {
+        "startLine": 215,
+        "startChar": 0,
+        "endLine": 216,
+        "endChar": 19
+      },
+      "revId": "44b98ed297cf923d09accea4530c3a785131e424",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
