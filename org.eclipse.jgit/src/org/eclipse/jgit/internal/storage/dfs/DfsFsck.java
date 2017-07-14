@@ -59,7 +59,9 @@ import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectChecker;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.ObjectWalk;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.transport.PackedObjectInfo;
 
@@ -123,6 +125,15 @@ public class DfsFsck {
 					corruptIndices.add(new CorruptIndex(pack.getPackName(),
 							e.getErrorType()));
 				}
+			}
+
+			try (ObjectWalk ow = new ObjectWalk(ctx)) {
+				for (Ref r : repo.getAllRefs().values()) {
+					ow.markStart(ow.parseAny(r.getObjectId()));
+				}
+				ow.checkConnectivity();
+			} catch (MissingObjectException e) {
+				missingObjects.add(e.getObjectId());
 			}
 		} finally {
 			ctx.close();
