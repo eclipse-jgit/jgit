@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_913a8a4a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsFsck.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 79788
+      },
+      "writtenOn": "2017-07-14T18:54:18Z",
+      "side": 1,
+      "message": "Client side also has some loose objects, a separate class is necessary to deal with those.",
+      "parentUuid": "c7880b39_44c7aba9",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 70,
+        "endChar": 22
+      },
+      "revId": "210b9af72adba267008411ef0360b911895bc2cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_a4fdafe2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsFsck.java",
         "patchSetId": 2
@@ -96,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_ff0b8260",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsFsck.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 79788
+      },
+      "writtenOn": "2017-07-14T18:54:18Z",
+      "side": 1,
+      "message": "It is in next change.",
+      "parentUuid": "c7880b39_0923bcde",
+      "range": {
+        "startLine": 128,
+        "startChar": 6,
+        "endLine": 128,
+        "endChar": 37
+      },
+      "revId": "210b9af72adba267008411ef0360b911895bc2cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_c492bbaa",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/FsckPackParser.java",
         "patchSetId": 2
@@ -107,6 +155,30 @@
       "writtenOn": "2017-06-21T21:35:42Z",
       "side": 1,
       "message": "There is no need to override this method.",
+      "range": {
+        "startLine": 106,
+        "startChar": 17,
+        "endLine": 106,
+        "endChar": 23
+      },
+      "revId": "210b9af72adba267008411ef0360b911895bc2cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_f12bce04",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/FsckPackParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 79788
+      },
+      "writtenOn": "2017-07-14T18:54:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_c492bbaa",
       "range": {
         "startLine": 106,
         "startChar": 17,
@@ -142,6 +214,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_112f7a13",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/FsckPackParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 79788
+      },
+      "writtenOn": "2017-07-14T18:54:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_a48f6f86",
+      "range": {
+        "startLine": 115,
+        "startChar": 4,
+        "endLine": 116,
+        "endChar": 26
+      },
+      "revId": "210b9af72adba267008411ef0360b911895bc2cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_e4a897da",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/FsckPackParser.java",
         "patchSetId": 2
@@ -165,6 +261,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_314556cc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/FsckPackParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 79788
+      },
+      "writtenOn": "2017-07-14T18:54:18Z",
+      "side": 1,
+      "message": "This event is not used for sha1 and crc computation. And it is ignored by all implementations in JGit.",
+      "parentUuid": "c7880b39_e4a897da",
+      "range": {
+        "startLine": 167,
+        "startChar": 2,
+        "endLine": 167,
+        "endChar": 12
+      },
+      "revId": "210b9af72adba267008411ef0360b911895bc2cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_27e0e18c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/FsckPackParser.java",
         "patchSetId": 2
@@ -176,6 +296,30 @@
       "writtenOn": "2017-06-21T21:35:42Z",
       "side": 1,
       "message": "s/expect/are expected/",
+      "range": {
+        "startLine": 245,
+        "startChar": 40,
+        "endLine": 245,
+        "endChar": 46
+      },
+      "revId": "210b9af72adba267008411ef0360b911895bc2cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_514022ba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/FsckPackParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 79788
+      },
+      "writtenOn": "2017-07-14T18:54:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_27e0e18c",
       "range": {
         "startLine": 245,
         "startChar": 40,
@@ -222,6 +366,30 @@
       "writtenOn": "2017-07-13T23:58:48Z",
       "side": 1,
       "message": "Ping on this question.",
+      "parentUuid": "c7880b39_47db2de4",
+      "range": {
+        "startLine": 250,
+        "startChar": 13,
+        "endLine": 250,
+        "endChar": 24
+      },
+      "revId": "210b9af72adba267008411ef0360b911895bc2cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_713fde3d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/FsckPackParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 79788
+      },
+      "writtenOn": "2017-07-14T18:54:18Z",
+      "side": 1,
+      "message": "git-core takes a different approach. It starts with index file, using index entries to check the object. Here, we don\u0027t trust the index file since it is derived information from the pack file.",
       "parentUuid": "c7880b39_47db2de4",
       "range": {
         "startLine": 250,
