@@ -198,4 +198,46 @@ public class DfsFsckTest {
 			}
 		}
 	}
+
+	@Test
+	public void testValidConnectivity() throws Exception {
+		ObjectId blobId = ins
+				.insert(Constants.OBJ_BLOB, Constants.encode("foo"));
+
+		byte[] blobIdBytes = new byte[OBJECT_ID_LENGTH];
+		blobId.copyRawTo(blobIdBytes, 0);
+		byte[] data = concat(encodeASCII("100644 regular-file\0"), blobIdBytes);
+		ObjectId treeId = ins.insert(Constants.OBJ_TREE, data);
+		ins.flush();
+
+		RevCommit commit = git.commit().message("0").setTopLevelTree(treeId)
+				.create();
+
+		git.update("master", commit);
+
+		DfsFsck fsck = new DfsFsck(repo);
+		FsckError errors = fsck.check(null);
+		assertEquals(errors.getMissingObjects().size(), 0);
+	}
+
+	@Test
+	public void testMissingObject() throws Exception {
+		ObjectId blobId = ObjectId
+				.fromString("19102815663d23f8b75a47e7a01965dcdc96468c");
+		byte[] blobIdBytes = new byte[OBJECT_ID_LENGTH];
+		blobId.copyRawTo(blobIdBytes, 0);
+		byte[] data = concat(encodeASCII("100644 regular-file\0"), blobIdBytes);
+		ObjectId treeId = ins.insert(Constants.OBJ_TREE, data);
+		ins.flush();
+
+		RevCommit commit = git.commit().message("0").setTopLevelTree(treeId)
+				.create();
+
+		git.update("master", commit);
+
+		DfsFsck fsck = new DfsFsck(repo);
+		FsckError errors = fsck.check(null);
+		assertEquals(errors.getMissingObjects().size(), 1);
+		assertEquals(errors.getMissingObjects().iterator().next(), blobId);
+	}
 }
