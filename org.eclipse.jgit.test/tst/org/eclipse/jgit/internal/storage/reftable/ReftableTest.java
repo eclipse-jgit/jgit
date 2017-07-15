@@ -68,7 +68,9 @@ import org.eclipse.jgit.internal.storage.io.BlockSource;
 import org.eclipse.jgit.internal.storage.reftable.ReftableWriter.Stats;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.lib.SymbolicRef;
 import org.junit.Test;
 
@@ -365,6 +367,155 @@ public class ReftableTest {
 		assertSeek(refs, read(table));
 	}
 
+	@Test
+	public void withReflog() throws IOException {
+		Ref master = ref(MASTER, 1);
+		Ref next = ref(NEXT, 2);
+		PersonIdent who = new PersonIdent("Log", "Ger", 1500079709, -8 * 60);
+		String msg = "test";
+
+		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+		ReftableWriter writer = new ReftableWriter()
+				.setMinUpdateIndex(1)
+				.setMaxUpdateIndex(1)
+				.begin(buffer);
+
+		writer.writeRef(master);
+		writer.writeRef(next);
+
+		writer.writeLog(MASTER, 1, who, ObjectId.zeroId(), id(1), msg);
+		writer.writeLog(NEXT, 1, who, ObjectId.zeroId(), id(2), msg);
+
+		writer.finish();
+		byte[] table = buffer.toByteArray();
+		assertEquals(245, table.length);
+
+		ReftableReader t = read(table);
+		try (RefCursor rc = t.allRefs()) {
+			assertTrue(rc.next());
+			assertEquals(MASTER, rc.getRef().getName());
+			assertEquals(id(1), rc.getRef().getObjectId());
+
+			assertTrue(rc.next());
+			assertEquals(NEXT, rc.getRef().getName());
+			assertEquals(id(2), rc.getRef().getObjectId());
+			assertFalse(rc.next());
+		}
+		try (LogCursor lc = t.allLogs()) {
+			assertTrue(lc.next());
+			assertEquals(MASTER, lc.getRefName());
+			assertEquals(1, lc.getUpdateIndex());
+			assertEquals(ObjectId.zeroId(), lc.getReflogEntry().getOldId());
+			assertEquals(id(1), lc.getReflogEntry().getNewId());
+			assertEquals(who, lc.getReflogEntry().getWho());
+			assertEquals(msg, lc.getReflogEntry().getComment());
+
+			assertTrue(lc.next());
+			assertEquals(NEXT, lc.getRefName());
+			assertEquals(1, lc.getUpdateIndex());
+			assertEquals(ObjectId.zeroId(), lc.getReflogEntry().getOldId());
+			assertEquals(id(2), lc.getReflogEntry().getNewId());
+			assertEquals(who, lc.getReflogEntry().getWho());
+			assertEquals(msg, lc.getReflogEntry().getComment());
+
+			assertFalse(lc.next());
+		}
+	}
+
+	@Test
+	public void onlyReflog() throws IOException {
+		PersonIdent who = new PersonIdent("Log", "Ger", 1500079709, -8 * 60);
+		String msg = "test";
+
+		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+		ReftableWriter writer = new ReftableWriter()
+				.setMinUpdateIndex(1)
+				.setMaxUpdateIndex(1)
+				.begin(buffer);
+		writer.writeLog(MASTER, 1, who, ObjectId.zeroId(), id(1), msg);
+		writer.writeLog(NEXT, 1, who, ObjectId.zeroId(), id(2), msg);
+		writer.finish();
+		byte[] table = buffer.toByteArray();
+		stats = writer.getStats();
+		assertEquals(170, table.length);
+		assertEquals(0, stats.refCount());
+		assertEquals(0, stats.refBytes());
+		assertEquals(0, stats.refIndexLevels());
+
+		ReftableReader t = read(table);
+		try (RefCursor rc = t.allRefs()) {
+			assertFalse(rc.next());
+		}
+		try (RefCursor rc = t.seekRef("refs/heads/")) {
+			assertFalse(rc.next());
+		}
+		try (LogCursor lc = t.allLogs()) {
+			assertTrue(lc.next());
+			assertEquals(MASTER, lc.getRefName());
+			assertEquals(1, lc.getUpdateIndex());
+			assertEquals(ObjectId.zeroId(), lc.getReflogEntry().getOldId());
+			assertEquals(id(1), lc.getReflogEntry().getNewId());
+			assertEquals(who, lc.getReflogEntry().getWho());
+			assertEquals(msg, lc.getReflogEntry().getComment());
+
+			assertTrue(lc.next());
+			assertEquals(NEXT, lc.getRefName());
+			assertEquals(1, lc.getUpdateIndex());
+			assertEquals(ObjectId.zeroId(), lc.getReflogEntry().getOldId());
+			assertEquals(id(2), lc.getReflogEntry().getNewId());
+			assertEquals(who, lc.getReflogEntry().getWho());
+			assertEquals(msg, lc.getReflogEntry().getComment());
+
+			assertFalse(lc.next());
+		}
+	}
+
+	@SuppressWarnings("boxing")
+	@Test
+	public void logScan() throws IOException {
+		ReftableConfig cfg = new ReftableConfig();
+		cfg.setRefBlockSize(256);
+		cfg.setLogBlockSize(2048);
+
+		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+		ReftableWriter writer = new ReftableWriter(cfg);
+		writer.setMinUpdateIndex(1).setMaxUpdateIndex(1).begin(buffer);
+
+		List<Ref> refs = new ArrayList<>();
+		for (int i = 1; i <= 5670; i++) {
+			Ref ref = ref(String.format("refs/heads/%03d", i), i);
+			refs.add(ref);
+			writer.writeRef(ref);
+		}
+
+		PersonIdent who = new PersonIdent("Log", "Ger", 1500079709, -8 * 60);
+		for (Ref ref : refs) {
+			writer.writeLog(ref.getName(), 1, who,
+					ObjectId.zeroId(), ref.getObjectId(),
+					"create " + ref.getName());
+		}
+		writer.finish();
+		stats = writer.getStats();
+		assertTrue(stats.logBytes() > 4096);
+		byte[] table = buffer.toByteArray();
+
+		ReftableReader t = read(table);
+		try (LogCursor lc = t.allLogs()) {
+			for (Ref exp : refs) {
+				assertTrue("has " + exp.getName(), lc.next());
+				assertEquals(exp.getName(), lc.getRefName());
+				ReflogEntry entry = lc.getReflogEntry();
+				assertNotNull(entry);
+				assertEquals(who, entry.getWho());
+				assertEquals(ObjectId.zeroId(), entry.getOldId());
+				assertEquals(exp.getObjectId(), entry.getNewId());
+				assertEquals("create " + exp.getName(), entry.getComment());
+			}
+			assertFalse(lc.next());
+		}
+	}
+
+	@Test
 	public void unpeeledDoesNotWrite() {
 		try {
 			write(new ObjectIdRef.Unpeeled(PACKED, MASTER, id(1)));
