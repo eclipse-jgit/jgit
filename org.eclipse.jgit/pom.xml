@@ -206,8 +206,8 @@
     <pluginManagement>
       <plugins>
         <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>findbugs-maven-plugin</artifactId>
+          <groupId>com.github.hazendaz.spotbugs</groupId>
+          <artifactId>spotbugs-maven-plugin</artifactId>
           <configuration>
             <excludeFilterFile>findBugs/FindBugsExcludeFilter.xml</excludeFilterFile>
           </configuration>
