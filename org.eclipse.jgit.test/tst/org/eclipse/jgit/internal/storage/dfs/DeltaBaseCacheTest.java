@@ -63,7 +63,7 @@ public class DeltaBaseCacheTest {
 
 	@Before
 	public void setUp() {
-		key = new DfsStreamKey();
+		key = new DfsStreamKey("test.key");
 		cache = new DeltaBaseCache(SZ);
 		rng = new TestRng(getClass().getSimpleName());
 	}

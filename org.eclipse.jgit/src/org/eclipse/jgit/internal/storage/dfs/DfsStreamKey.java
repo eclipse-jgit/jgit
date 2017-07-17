@@ -43,15 +43,66 @@
 
 package org.eclipse.jgit.internal.storage.dfs;
 
-import java.util.concurrent.atomic.AtomicLong;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
-final class DfsStreamKey {
+import java.util.Arrays;
+
+/** Key used by {@link DfsBlockCache} to disambiguate streams. */
+public final class DfsStreamKey {
+	private final byte[] name;
 	final int hash;
-	final AtomicLong cachedSize = new AtomicLong();
 
-	DfsStreamKey() {
+	/**
+	 * @param name
+	 *            compute the key from a string name.
+	 */
+	public DfsStreamKey(String name) {
+		this(name.getBytes(UTF_8));
+	}
+
+	/**
+	 * @param name
+	 *            compute the key from a byte array. The key takes ownership of
+	 *            the passed {@code byte[] name}.
+	 */
+	public DfsStreamKey(byte[] name) {
 		// Multiply by 31 here so we can more directly combine with another
 		// value without doing the multiply there.
-		hash = System.identityHashCode(this) * 31;
+		this.hash = Arrays.hashCode(name) * 31;
+		this.name = name;
+	}
+
+	/**
+	 * Derive a new StreamKey based on this existing key.
+	 *
+	 * @param suffix
+	 *            a derivation suffix.
+	 * @return derived stream key.
+	 */
+	public DfsStreamKey derive(String suffix) {
+		byte[] s = suffix.getBytes(UTF_8);
+		byte[] n = Arrays.copyOf(name, name.length + s.length);
+		System.arraycopy(s, 0, n, name.length, s.length);
+		return new DfsStreamKey(n);
+	}
+
+	@Override
+	public int hashCode() {
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof DfsStreamKey) {
+			DfsStreamKey k = (DfsStreamKey) o;
+			return hash == k.hash && Arrays.equals(name, k.name);
+		}
+		return false;
+	}
+
+	@SuppressWarnings("boxing")
+	@Override
+	public String toString() {
+		return String.format("DfsStreamKey[hash=%08x]", hash); //$NON-NLS-1$
 	}
 }

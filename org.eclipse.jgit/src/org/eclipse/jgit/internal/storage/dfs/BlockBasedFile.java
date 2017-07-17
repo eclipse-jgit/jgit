@@ -61,7 +61,7 @@ public abstract class BlockBasedFile {
 	final DfsStreamKey key;
 
 	/** Description of the associated pack file's storage. */
-	final DfsPackDescription packDesc;
+	final DfsPackDescription desc;
 	final PackExt ext;
 
 	/**
@@ -84,16 +84,15 @@ public abstract class BlockBasedFile {
 	/** True once corruption has been detected that cannot be worked around. */
 	volatile boolean invalid;
 
-	BlockBasedFile(DfsBlockCache cache, DfsStreamKey key,
-			DfsPackDescription packDesc, PackExt ext) {
+	BlockBasedFile(DfsBlockCache cache, DfsPackDescription desc, PackExt ext) {
 		this.cache = cache;
-		this.key = key;
-		this.packDesc = packDesc;
+		this.key = desc.getStreamKey(ext);
+		this.desc = desc;
 		this.ext = ext;
 	}
 
 	String getFileName() {
-		return packDesc.getFileName(ext);
+		return desc.getFileName(ext);
 	}
 
 	boolean invalid() {
@@ -138,7 +137,7 @@ public abstract class BlockBasedFile {
 		ctx.stats.readBlock++;
 		long start = System.nanoTime();
 		ReadableChannel rc = fileChannel != null ? fileChannel
-				: ctx.db.openFile(packDesc, ext);
+				: ctx.db.openFile(desc, ext);
 		try {
 			int size = blockSize(rc);
 			pos = (pos / size) * size;
