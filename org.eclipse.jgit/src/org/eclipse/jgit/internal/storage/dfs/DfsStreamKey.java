@@ -45,16 +45,13 @@ package org.eclipse.jgit.internal.storage.dfs;
 
 import java.util.concurrent.atomic.AtomicLong;
 
-final class DfsPackKey {
+final class DfsStreamKey {
 	final int hash;
+	final AtomicLong cachedSize = new AtomicLong();
 
-	final AtomicLong cachedSize;
-
-	DfsPackKey() {
+	DfsStreamKey() {
 		// Multiply by 31 here so we can more directly combine with another
 		// value without doing the multiply there.
-		//
 		hash = System.identityHashCode(this) * 31;
-		cachedSize = new AtomicLong();
 	}
 }

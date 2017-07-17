@@ -104,7 +104,7 @@ public class DfsInserter extends ObjectInserter {
 	ObjectIdOwnerMap<PackedObjectInfo> objectMap;
 
 	DfsBlockCache cache;
-	DfsPackKey packKey;
+	DfsStreamKey packKey;
 	DfsPackDescription packDsc;
 	PackStream packOut;
 	private boolean rollback;
@@ -282,7 +282,7 @@ public class DfsInserter extends ObjectInserter {
 		rollback = true;
 		packDsc = db.newPack(DfsObjDatabase.PackSource.INSERT);
 		packOut = new PackStream(db.writeFile(packDsc, PACK));
-		packKey = new DfsPackKey();
+		packKey = new DfsStreamKey();
 
 		// Write the header as though it were a single object pack.
 		byte[] buf = packOut.hdrBuf;
@@ -633,11 +633,11 @@ public class DfsInserter extends ObjectInserter {
 		private final int type;
 		private final long size;
 
-		private final DfsPackKey srcPack;
+		private final DfsStreamKey srcPack;
 		private final long pos;
 
 		StreamLoader(ObjectId id, int type, long sz,
-				DfsPackKey key, long pos) {
+				DfsStreamKey key, long pos) {
 			this.id = id;
 			this.type = type;
 			this.size = sz;
