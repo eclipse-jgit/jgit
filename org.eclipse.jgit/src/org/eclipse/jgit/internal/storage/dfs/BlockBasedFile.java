@@ -53,7 +53,7 @@ import org.eclipse.jgit.errors.PackInvalidException;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 
 /** Block based file stored in {@link DfsBlockCache}. */
-public abstract class BlockBasedFile {
+abstract class BlockBasedFile {
 	/** Cache that owns this file and its data. */
 	final DfsBlockCache cache;
 
@@ -127,6 +127,10 @@ public abstract class BlockBasedFile {
 			blockSize = size;
 		}
 		return size;
+	}
+
+	DfsBlock getOrLoadBlock(long pos, DfsReader ctx) throws IOException {
+		return cache.getOrLoad(this, pos, ctx, null);
 	}
 
 	DfsBlock readOneBlock(long pos, DfsReader ctx,
