@@ -221,7 +221,7 @@ public class DfsInserter extends ObjectInserter {
 		db.commitPack(Collections.singletonList(packDsc), null);
 		rollback = false;
 
-		DfsPackFile p = cache.getOrCreate(packDsc, packKey);
+		DfsPackFile p = new DfsPackFile(cache, packDsc);
 		if (index != null)
 			p.setPackIndex(index);
 		db.addPack(p);
@@ -282,7 +282,7 @@ public class DfsInserter extends ObjectInserter {
 		rollback = true;
 		packDsc = db.newPack(DfsObjDatabase.PackSource.INSERT);
 		packOut = new PackStream(db.writeFile(packDsc, PACK));
-		packKey = new DfsStreamKey();
+		packKey = packDsc.getStreamKey(PACK);
 
 		// Write the header as though it were a single object pack.
 		byte[] buf = packOut.hdrBuf;
