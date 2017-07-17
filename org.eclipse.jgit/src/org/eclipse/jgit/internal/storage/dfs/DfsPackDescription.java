@@ -138,6 +138,15 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 		return packName + '.' + ext.getExtension();
 	}
 
+	/**
+	 * @param ext
+	 *            the file extension.
+	 * @return cache key for use by the block cache.
+	 */
+	public DfsStreamKey getStreamKey(PackExt ext) {
+		return DfsStreamKey.of(getFileName(ext));
+	}
+
 	/** @return the source of the pack. */
 	public PackSource getPackSource() {
 		return packSource;

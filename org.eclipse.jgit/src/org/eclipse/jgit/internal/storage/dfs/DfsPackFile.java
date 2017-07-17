@@ -62,7 +62,6 @@ import java.util.zip.CRC32;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
 
-import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -73,7 +72,6 @@ import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
 import org.eclipse.jgit.internal.storage.file.PackIndex;
 import org.eclipse.jgit.internal.storage.file.PackReverseIndex;
 import org.eclipse.jgit.internal.storage.pack.BinaryDelta;
-import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
 import org.eclipse.jgit.internal.storage.pack.StoredObjectRepresentation;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
@@ -89,52 +87,10 @@ import org.eclipse.jgit.util.LongList;
  * delta packed format yielding high compression of lots of object where some
  * objects are similar.
  */
-public final class DfsPackFile {
-	/**
-	 * File offset used to cache {@link #index} in {@link DfsBlockCache}.
-	 * <p>
-	 * To better manage memory, the forward index is stored as a single block in
-	 * the block cache under this file position. A negative value is used
-	 * because it cannot occur in a normal pack file, and it is less likely to
-	 * collide with a valid data block from the file as the high bits will all
-	 * be set when treated as an unsigned long by the cache code.
-	 */
-	private static final long POS_INDEX = -1;
-
-	/** Offset used to cache {@link #reverseIndex}. See {@link #POS_INDEX}. */
-	private static final long POS_REVERSE_INDEX = -2;
-
-	/** Offset used to cache {@link #bitmapIndex}. See {@link #POS_INDEX}. */
-	private static final long POS_BITMAP_INDEX = -3;
-
-	/** Cache that owns this pack file and its data. */
-	private final DfsBlockCache cache;
-
-	/** Description of the pack file's storage. */
-	private final DfsPackDescription packDesc;
-
-	/** Unique identity of this pack while in-memory. */
-	final DfsPackKey key;
-
-	/**
-	 * Total number of bytes in this pack file.
-	 * <p>
-	 * This field initializes to -1 and gets populated when a block is loaded.
-	 */
-	volatile long length;
-
-	/**
-	 * Preferred alignment for loading blocks from the backing file.
-	 * <p>
-	 * It is initialized to 0 and filled in on the first read made from the
-	 * file. Block sizes may be odd, e.g. 4091, caused by the underling DFS
-	 * storing 4091 user bytes and 5 bytes block metadata into a lower level
-	 * 4096 byte block on disk.
-	 */
-	private volatile int blockSize;
-
-	/** True once corruption has been detected that cannot be worked around. */
-	private volatile boolean invalid;
+public final class DfsPackFile extends BlockBasedFile {
+	final DfsStreamKey idxKey;
+	final DfsStreamKey reverseIdxKey;
+	DfsStreamKey bitmapKey;
 
 	/**
 	 * Lock for initialization of {@link #index} and {@link #corruptObjects}.
@@ -168,14 +124,11 @@ public final class DfsPackFile {
 	 *            cache that owns the pack data.
 	 * @param desc
 	 *            description of the pack within the DFS.
-	 * @param key
-	 *            interned key used to identify blocks in the block cache.
 	 */
-	DfsPackFile(DfsBlockCache cache, DfsPackDescription desc, DfsPackKey key) {
-		this.cache = cache;
-		this.packDesc = desc;
-		this.key = key;
-
+	DfsPackFile(DfsBlockCache cache, DfsPackDescription desc) {
+		super(cache, desc, PACK);
+		idxKey = desc.getStreamKey(INDEX);
+		reverseIdxKey = idxKey.derive("r"); //$NON-NLS-1$
 		length = desc.getFileSize(PACK);
 		if (length <= 0)
 			length = -1;
@@ -183,7 +136,7 @@ public final class DfsPackFile {
 
 	/** @return description that was originally used to configure this pack file. */
 	public DfsPackDescription getPackDescription() {
-		return packDesc;
+		return desc;
 	}
 
 	/**
@@ -194,24 +147,11 @@ public final class DfsPackFile {
 		return idxref != null && idxref.has();
 	}
 
-	/** @return bytes cached in memory for this pack, excluding the index. */
-	public long getCachedSize() {
-		return key.cachedSize.get();
-	}
-
-	String getPackName() {
-		return packDesc.getFileName(PACK);
-	}
-
-	void setBlockSize(int newSize) {
-		blockSize = newSize;
-	}
-
 	void setPackIndex(PackIndex idx) {
 		long objCnt = idx.getObjectCount();
 		int recSize = Constants.OBJECT_ID_LENGTH + 8;
 		int sz = (int) Math.min(objCnt * recSize, Integer.MAX_VALUE);
-		index = cache.put(key, POS_INDEX, sz, idx);
+		index = cache.put(idxKey, 0, sz, idx);
 	}
 
 	/**
@@ -237,7 +177,7 @@ public final class DfsPackFile {
 		}
 
 		if (invalid)
-			throw new PackInvalidException(getPackName());
+			throw new PackInvalidException(getFileName());
 
 		Repository.getGlobalListenerList()
 				.dispatch(new BeforeDfsPackIndexLoadedEvent(this));
@@ -254,7 +194,7 @@ public final class DfsPackFile {
 			try {
 				ctx.stats.readIdx++;
 				long start = System.nanoTime();
-				ReadableChannel rc = ctx.db.openFile(packDesc, INDEX);
+				ReadableChannel rc = ctx.db.openFile(desc, INDEX);
 				try {
 					InputStream in = Channels.newInputStream(rc);
 					int wantSize = 8192;
@@ -273,14 +213,14 @@ public final class DfsPackFile {
 				invalid = true;
 				IOException e2 = new IOException(MessageFormat.format(
 						DfsText.get().shortReadOfIndex,
-						packDesc.getFileName(INDEX)));
+						desc.getFileName(INDEX)));
 				e2.initCause(e);
 				throw e2;
 			} catch (IOException e) {
 				invalid = true;
 				IOException e2 = new IOException(MessageFormat.format(
 						DfsText.get().cannotReadIndex,
-						packDesc.getFileName(INDEX)));
+						desc.getFileName(INDEX)));
 				e2.initCause(e);
 				throw e2;
 			}
@@ -290,12 +230,8 @@ public final class DfsPackFile {
 		}
 	}
 
-	private static long elapsedMicros(long start) {
-		return (System.nanoTime() - start) / 1000L;
-	}
-
 	final boolean isGarbage() {
-		return packDesc.getPackSource() == UNREACHABLE_GARBAGE;
+		return desc.getPackSource() == UNREACHABLE_GARBAGE;
 	}
 
 	PackBitmapIndex getBitmapIndex(DfsReader ctx) throws IOException {
@@ -308,7 +244,7 @@ public final class DfsPackFile {
 				return idx;
 		}
 
-		if (!packDesc.hasFileExt(PackExt.BITMAP_INDEX))
+		if (!desc.hasFileExt(BITMAP_INDEX))
 			return null;
 
 		synchronized (initLock) {
@@ -318,13 +254,15 @@ public final class DfsPackFile {
 				if (idx != null)
 					return idx;
 			}
-
+			if (bitmapKey == null) {
+				bitmapKey = desc.getStreamKey(BITMAP_INDEX);
+			}
 			long size;
 			PackBitmapIndex idx;
 			try {
 				ctx.stats.readBitmap++;
 				long start = System.nanoTime();
-				ReadableChannel rc = ctx.db.openFile(packDesc, BITMAP_INDEX);
+				ReadableChannel rc = ctx.db.openFile(desc, BITMAP_INDEX);
 				try {
 					InputStream in = Channels.newInputStream(rc);
 					int wantSize = 8192;
@@ -345,18 +283,18 @@ public final class DfsPackFile {
 			} catch (EOFException e) {
 				IOException e2 = new IOException(MessageFormat.format(
 						DfsText.get().shortReadOfIndex,
-						packDesc.getFileName(BITMAP_INDEX)));
+						desc.getFileName(BITMAP_INDEX)));
 				e2.initCause(e);
 				throw e2;
 			} catch (IOException e) {
 				IOException e2 = new IOException(MessageFormat.format(
 						DfsText.get().cannotReadIndex,
-						packDesc.getFileName(BITMAP_INDEX)));
+						desc.getFileName(BITMAP_INDEX)));
 				e2.initCause(e);
 				throw e2;
 			}
 
-			bitmapIndex = cache.put(key, POS_BITMAP_INDEX,
+			bitmapIndex = cache.put(bitmapKey, 0,
 					(int) Math.min(size, Integer.MAX_VALUE), idx);
 			return idx;
 		}
@@ -382,7 +320,7 @@ public final class DfsPackFile {
 			PackReverseIndex revidx = new PackReverseIndex(idx);
 			int sz = (int) Math.min(
 					idx.getObjectCount() * 8, Integer.MAX_VALUE);
-			reverseIndex = cache.put(key, POS_REVERSE_INDEX, sz, revidx);
+			reverseIndex = cache.put(reverseIdxKey, 0, sz, revidx);
 			return revidx;
 		}
 	}
@@ -433,7 +371,6 @@ public final class DfsPackFile {
 
 	/** Release all memory used by this DfsPackFile instance. */
 	public void close() {
-		cache.remove(this);
 		index = null;
 		reverseIndex = null;
 	}
@@ -501,7 +438,7 @@ public final class DfsPackFile {
 				} else {
 					b = cache.get(key, alignToBlock(position));
 					if (b == null) {
-						rc = ctx.db.openFile(packDesc, PACK);
+						rc = ctx.db.openFile(desc, PACK);
 						int sz = ctx.getOptions().getStreamPackBufferSize();
 						if (sz > 0) {
 							rc.setReadAheadBytes(sz);
@@ -525,7 +462,7 @@ public final class DfsPackFile {
 
 	private long copyPackBypassCache(PackOutputStream out, DfsReader ctx)
 			throws IOException {
-		try (ReadableChannel rc = ctx.db.openFile(packDesc, PACK)) {
+		try (ReadableChannel rc = ctx.db.openFile(desc, PACK)) {
 			ByteBuffer buf = newCopyBuffer(out, rc);
 			if (ctx.getOptions().getStreamPackBufferSize() > 0)
 				rc.setReadAheadBytes(ctx.getOptions().getStreamPackBufferSize());
@@ -664,7 +601,7 @@ public final class DfsPackFile {
 					setCorrupt(src.offset);
 					throw new CorruptObjectException(MessageFormat.format(
 							JGitText.get().objectAtHasBadZlibStream,
-							Long.valueOf(src.offset), getPackName()));
+							Long.valueOf(src.offset), getFileName()));
 				}
 			} else if (validate) {
 				assert(crc1 != null);
@@ -706,7 +643,7 @@ public final class DfsPackFile {
 			CorruptObjectException corruptObject = new CorruptObjectException(
 					MessageFormat.format(
 							JGitText.get().objectAtHasBadZlibStream,
-							Long.valueOf(src.offset), getPackName()));
+							Long.valueOf(src.offset), getFileName()));
 			corruptObject.initCause(dataFormat);
 
 			StoredObjectRepresentationNotAvailableException gone;
@@ -768,24 +705,16 @@ public final class DfsPackFile {
 				if (crc2.getValue() != expectedCRC) {
 					throw new CorruptObjectException(MessageFormat.format(
 							JGitText.get().objectAtHasBadZlibStream,
-							Long.valueOf(src.offset), getPackName()));
+							Long.valueOf(src.offset), getFileName()));
 				}
 			}
 		}
 	}
 
-	boolean invalid() {
-		return invalid;
-	}
-
-	void setInvalid() {
-		invalid = true;
-	}
-
 	private IOException packfileIsTruncated() {
 		invalid = true;
 		return new IOException(MessageFormat.format(
-				JGitText.get().packfileIsTruncated, getPackName()));
+				JGitText.get().packfileIsTruncated, getFileName()));
 	}
 
 	private void readFully(long position, byte[] dstbuf, int dstoff, int cnt,
@@ -794,105 +723,8 @@ public final class DfsPackFile {
 			throw new EOFException();
 	}
 
-	long alignToBlock(long pos) {
-		int size = blockSize;
-		if (size == 0)
-			size = cache.getBlockSize();
-		return (pos / size) * size;
-	}
-
 	DfsBlock getOrLoadBlock(long pos, DfsReader ctx) throws IOException {
 		return cache.getOrLoad(this, pos, ctx, null);
-	}
-
-	DfsBlock readOneBlock(long pos, DfsReader ctx,
-			@Nullable ReadableChannel packChannel) throws IOException {
-		if (invalid)
-			throw new PackInvalidException(getPackName());
-
-		ctx.stats.readBlock++;
-		long start = System.nanoTime();
-		ReadableChannel rc = packChannel != null
-				? packChannel
-				: ctx.db.openFile(packDesc, PACK);
-		try {
-			int size = blockSize(rc);
-			pos = (pos / size) * size;
-
-			// If the size of the file is not yet known, try to discover it.
-			// Channels may choose to return -1 to indicate they don't
-			// know the length yet, in this case read up to the size unit
-			// given by the caller, then recheck the length.
-			long len = length;
-			if (len < 0) {
-				len = rc.size();
-				if (0 <= len)
-					length = len;
-			}
-
-			if (0 <= len && len < pos + size)
-				size = (int) (len - pos);
-			if (size <= 0)
-				throw new EOFException(MessageFormat.format(
-						DfsText.get().shortReadOfBlock, Long.valueOf(pos),
-						getPackName(), Long.valueOf(0), Long.valueOf(0)));
-
-			byte[] buf = new byte[size];
-			rc.position(pos);
-			int cnt = read(rc, ByteBuffer.wrap(buf, 0, size));
-			ctx.stats.readBlockBytes += cnt;
-			if (cnt != size) {
-				if (0 <= len) {
-					throw new EOFException(MessageFormat.format(
-						    DfsText.get().shortReadOfBlock,
-						    Long.valueOf(pos),
-						    getPackName(),
-						    Integer.valueOf(size),
-						    Integer.valueOf(cnt)));
-				}
-
-				// Assume the entire thing was read in a single shot, compact
-				// the buffer to only the space required.
-				byte[] n = new byte[cnt];
-				System.arraycopy(buf, 0, n, 0, n.length);
-				buf = n;
-			} else if (len < 0) {
-				// With no length at the start of the read, the channel should
-				// have the length available at the end.
-				length = len = rc.size();
-			}
-
-			return new DfsBlock(key, pos, buf);
-		} finally {
-			if (rc != packChannel) {
-				rc.close();
-			}
-			ctx.stats.readBlockMicros += elapsedMicros(start);
-		}
-	}
-
-	private int blockSize(ReadableChannel rc) {
-		// If the block alignment is not yet known, discover it. Prefer the
-		// larger size from either the cache or the file itself.
-		int size = blockSize;
-		if (size == 0) {
-			size = rc.blockSize();
-			if (size <= 0)
-				size = cache.getBlockSize();
-			else if (size < cache.getBlockSize())
-				size = (cache.getBlockSize() / size) * size;
-			blockSize = size;
-		}
-		return size;
-	}
-
-	private static int read(ReadableChannel rc, ByteBuffer buf)
-			throws IOException {
-		int n;
-		do {
-			n = rc.read(buf);
-		} while (0 < n && buf.hasRemaining());
-		return buf.position();
 	}
 
 	ObjectLoader load(DfsReader ctx, long pos)
@@ -1031,7 +863,7 @@ public final class DfsPackFile {
 			CorruptObjectException coe = new CorruptObjectException(
 					MessageFormat.format(
 							JGitText.get().objectAtHasBadZlibStream, Long.valueOf(pos),
-							getPackName()));
+							getFileName()));
 			coe.initCause(dfe);
 			throw coe;
 		}
@@ -1179,7 +1011,7 @@ public final class DfsPackFile {
 			CorruptObjectException coe = new CorruptObjectException(
 					MessageFormat.format(
 							JGitText.get().objectAtHasBadZlibStream, Long.valueOf(pos),
-							getPackName()));
+							getFileName()));
 			coe.initCause(dfe);
 			throw coe;
 		}
