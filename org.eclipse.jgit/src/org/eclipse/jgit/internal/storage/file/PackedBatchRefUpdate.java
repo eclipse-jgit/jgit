@@ -62,9 +62,11 @@ import org.eclipse.jgit.internal.storage.file.RefDirectory.PackedRefList;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
+import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -188,6 +190,7 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 
 		refdb.fireRefsChanged();
 		pending.forEach(c -> c.setResult(ReceiveCommand.Result.OK));
+		writeReflog(pending);
 	}
 
 	private boolean checkConflictingNames(List<ReceiveCommand> commands)
@@ -343,6 +346,81 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 		}
 
 		return b.toRefList();
+	}
+
+	private void writeReflog(List<ReceiveCommand> commands) {
+		if (isRefLogDisabled()) {
+			return;
+		}
+
+		PersonIdent ident = getRefLogIdent();
+		if (ident == null) {
+			ident = new PersonIdent(refdb.getRepository());
+		}
+		ReflogWriter w = refdb.getLogWriter();
+		for (ReceiveCommand cmd : commands) {
+			// Assume any pending commands have already been executed atomically.
+			if (cmd.getResult() != ReceiveCommand.Result.OK) {
+				continue;
+			}
+			String name = cmd.getRefName();
+
+			if (cmd.getType() == ReceiveCommand.Type.DELETE) {
+				try {
+					RefDirectory.delete(w.logFor(name), RefDirectory.levelsIn(name));
+				} catch (IOException e) {
+					// Ignore failures, see below.
+				}
+				continue;
+			}
+
+			String msg = getRefLogMessage();
+			if (isRefLogIncludingResult()) {
+				String strResult = toResultString(cmd);
+				if (strResult != null) {
+					msg = msg.isEmpty()
+							? strResult : msg + ": " + strResult; //$NON-NLS-1$
+				}
+			}
+			try {
+				w.log(name, cmd.getOldId(), cmd.getNewId(), ident, msg);
+			} catch (IOException e) {
+				// Ignore failures, but continue attempting to write more reflogs.
+				//
+				// In this storage format, it is impossible to atomically write the
+				// reflog with the ref updates, so we have to choose between:
+				// a. Propagating this exception and claiming failure, even though the
+				//    actual ref updates succeeded.
+				// b. Ignoring failures writing the reflog, so we claim success if and
+				//    only if the ref updates succeeded.
+				// We choose (b) in order to surprise callers the least.
+				//
+				// Possible future improvements:
+				// * Log a warning to a logger.
+				// * Retry a fixed number of times in case the error was transient.
+			}
+		}
+	}
+
+	private String toResultString(ReceiveCommand cmd) {
+		switch (cmd.getType()) {
+		case CREATE:
+			return ReflogEntry.PREFIX_CREATED;
+		case UPDATE:
+			// Match the behavior of a single RefUpdate. In that case, setting the
+			// force bit completely bypasses the potentially expensive isMergedInto
+			// check, by design, so the reflog message may be inaccurate.
+			//
+			// Similarly, this class bypasses the isMergedInto checks when the force
+			// bit is set, meaning we can't actually distinguish between UPDATE and
+			// UPDATE_NONFASTFORWARD when isAllowNonFastForwards() returns true.
+			return isAllowNonFastForwards()
+					? ReflogEntry.PREFIX_FORCED_UPDATE : ReflogEntry.PREFIX_FAST_FORWARD;
+		case UPDATE_NONFASTFORWARD:
+			return ReflogEntry.PREFIX_FORCED_UPDATE;
+		default:
+			return null;
+		}
 	}
 
 	private static Map<String, ReceiveCommand> byName(
