@@ -307,6 +307,8 @@ public final class DfsBlockCache {
 	 *            the pack that "contains" the cached object.
 	 * @param position
 	 *            offset within <code>pack</code> of the object.
+	 * @param bSize
+	 *            preferred block size, if {@code <= 0} will use cache size.
 	 * @param ctx
 	 *            current thread's reader.
 	 * @param fileChannel
@@ -315,10 +317,14 @@ public final class DfsBlockCache {
 	 * @throws IOException
 	 *             the reference was not in the cache and could not be loaded.
 	 */
-	DfsBlock getOrLoad(BlockBasedFile file, long position, DfsReader ctx,
-			@Nullable ReadableChannel fileChannel) throws IOException {
+	DfsBlock getOrLoad(BlockBasedFile file, long position, int bSize,
+			DfsReader ctx, @Nullable ReadableChannel fileChannel)
+					throws IOException {
 		final long requestedPosition = position;
-		position = file.alignToBlock(position);
+		if (bSize <= 0) {
+			bSize = blockSize;
+		}
+		position = alignToBlock(position, bSize);
 
 		DfsStreamKey key = file.key;
 		int slot = slot(key, position);
@@ -330,7 +336,7 @@ public final class DfsBlockCache {
 			return v;
 		}
 
-		reserveSpace(blockSize);
+		reserveSpace(bSize);
 		ReentrantLock regionLock = lockFor(key, position);
 		regionLock.lock();
 		try {
@@ -340,7 +346,7 @@ public final class DfsBlockCache {
 				if (v != null) {
 					ctx.stats.blockCacheHit++;
 					statHit.incrementAndGet();
-					creditSpace(blockSize);
+					creditSpace(bSize);
 					return v;
 				}
 			}
@@ -348,11 +354,11 @@ public final class DfsBlockCache {
 			statMiss.incrementAndGet();
 			boolean credit = true;
 			try {
-				v = file.readOneBlock(position, ctx, fileChannel);
+				v = file.readOneBlock(position, bSize, ctx, fileChannel);
 				credit = false;
 			} finally {
 				if (credit)
-					creditSpace(blockSize);
+					creditSpace(bSize);
 			}
 			if (position != v.start) {
 				// The file discovered its blockSize and adjusted.
@@ -370,7 +376,7 @@ public final class DfsBlockCache {
 					break;
 				e2 = table.get(slot);
 			}
-			addToClock(ref, blockSize - v.size());
+			addToClock(ref, bSize - v.size());
 		} finally {
 			regionLock.unlock();
 		}
@@ -379,7 +385,12 @@ public final class DfsBlockCache {
 		// that was loaded is the wrong block for the requested position.
 		if (v.contains(file.key, requestedPosition))
 			return v;
-		return getOrLoad(file, requestedPosition, ctx, fileChannel);
+		bSize = file.blockSize();
+		return getOrLoad(file, requestedPosition, bSize, ctx, fileChannel);
+	}
+
+	private static long alignToBlock(long pos, int bSize) {
+		return (pos / bSize) * bSize;
 	}
 
 	@SuppressWarnings("unchecked")

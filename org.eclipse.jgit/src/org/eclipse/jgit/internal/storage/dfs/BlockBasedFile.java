@@ -108,29 +108,31 @@ public abstract class BlockBasedFile {
 		blockSize = newSize;
 	}
 
-	long alignToBlock(long pos) {
-		int size = blockSize;
-		if (size == 0)
-			size = cache.getBlockSize();
-		return (pos / size) * size;
+	int blockSize() {
+		int sz = blockSize;
+		if (sz == 0) {
+			sz = cache.getBlockSize();
+			blockSize = sz;
+		}
+		return sz;
 	}
 
-	int blockSize(ReadableChannel rc) {
+	int blockSize(ReadableChannel rc, int wantBlockSize) {
 		// If the block alignment is not yet known, discover it. Prefer the
 		// larger size from either the cache or the file itself.
-		int size = blockSize;
+		int size = wantBlockSize;
 		if (size == 0) {
 			size = rc.blockSize();
 			if (size <= 0)
 				size = cache.getBlockSize();
 			else if (size < cache.getBlockSize())
 				size = (cache.getBlockSize() / size) * size;
-			blockSize = size;
 		}
+		blockSize = size;
 		return size;
 	}
 
-	DfsBlock readOneBlock(long pos, DfsReader ctx,
+	DfsBlock readOneBlock(long pos, int bSize, DfsReader ctx,
 			@Nullable ReadableChannel fileChannel) throws IOException {
 		if (invalid)
 			throw new PackInvalidException(getFileName());
@@ -140,7 +142,7 @@ public abstract class BlockBasedFile {
 		ReadableChannel rc = fileChannel != null ? fileChannel
 				: ctx.db.openFile(packDesc, ext);
 		try {
-			int size = blockSize(rc);
+			int size = blockSize(rc, bSize);
 			pos = (pos / size) * size;
 
 			// If the size of the file is not yet known, try to discover it.

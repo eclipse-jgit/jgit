@@ -135,6 +135,15 @@ public final class DfsPackFile extends BlockBasedFile {
 			length = -1;
 	}
 
+	private long alignToBlock(long pos) {
+		int sz = blockSize;
+		if (sz == 0) {
+			sz = cache.getBlockSize();
+			blockSize = sz;
+		}
+		return (pos / sz) * sz;
+	}
+
 	/** @return description that was originally used to configure this pack file. */
 	public DfsPackDescription getPackDescription() {
 		return packDesc;
@@ -441,7 +450,7 @@ public final class DfsPackFile extends BlockBasedFile {
 			while (0 < remaining) {
 				DfsBlock b;
 				if (rc != null) {
-					b = cache.getOrLoad(this, position, ctx, rc);
+					b = cache.getOrLoad(this, position, blockSize, ctx, rc);
 				} else {
 					b = cache.get(key, alignToBlock(position));
 					if (b == null) {
@@ -450,7 +459,7 @@ public final class DfsPackFile extends BlockBasedFile {
 						if (sz > 0) {
 							rc.setReadAheadBytes(sz);
 						}
-						b = cache.getOrLoad(this, position, ctx, rc);
+						b = cache.getOrLoad(this, position, blockSize, ctx, rc);
 					}
 				}
 
@@ -511,7 +520,7 @@ public final class DfsPackFile extends BlockBasedFile {
 	}
 
 	private ByteBuffer newCopyBuffer(PackOutputStream out, ReadableChannel rc) {
-		int bs = blockSize(rc);
+		int bs = blockSize(rc, 0);
 		byte[] copyBuf = out.getCopyBuffer();
 		if (bs > copyBuf.length)
 			copyBuf = new byte[bs];
@@ -731,7 +740,7 @@ public final class DfsPackFile extends BlockBasedFile {
 	}
 
 	DfsBlock getOrLoadBlock(long pos, DfsReader ctx) throws IOException {
-		return cache.getOrLoad(this, pos, ctx, null);
+		return cache.getOrLoad(this, pos, blockSize, ctx, null);
 	}
 
 	ObjectLoader load(DfsReader ctx, long pos)
