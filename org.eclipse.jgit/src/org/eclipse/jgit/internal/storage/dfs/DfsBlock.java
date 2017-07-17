@@ -46,6 +46,7 @@
 package org.eclipse.jgit.internal.storage.dfs;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.zip.CRC32;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
@@ -55,11 +56,8 @@ import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
 /** A cached slice of a {@link BlockBasedFile}. */
 final class DfsBlock {
 	final DfsStreamKey stream;
-
 	final long start;
-
 	final long end;
-
 	private final byte[] block;
 
 	DfsBlock(DfsStreamKey p, long pos, byte[] buf) {
@@ -71,6 +69,12 @@ final class DfsBlock {
 
 	int size() {
 		return block.length;
+	}
+
+	ByteBuffer zeroCopyByteBuffer(int n) {
+		ByteBuffer b = ByteBuffer.wrap(block);
+		b.position(n);
+		return b;
 	}
 
 	boolean contains(DfsStreamKey want, long pos) {
