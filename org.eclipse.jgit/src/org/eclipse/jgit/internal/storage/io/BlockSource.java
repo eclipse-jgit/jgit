@@ -48,6 +48,9 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 
+import org.eclipse.jgit.internal.storage.dfs.DfsReaderOptions;
+import org.eclipse.jgit.internal.storage.dfs.ReadableChannel;
+
 /**
  * Provides content blocks of file.
  * <p>
@@ -122,6 +125,59 @@ public abstract class BlockSource implements AutoCloseable {
 					n = ch.read(b);
 				} while (n > 0 && b.position() < blockSize);
 				return b;
+			}
+
+			@Override
+			public long size() throws IOException {
+				return ch.size();
+			}
+
+			@Override
+			public void close() {
+				try {
+					ch.close();
+				} catch (IOException e) {
+					// Ignore close failures of read-only files.
+				}
+			}
+		};
+	}
+
+	/**
+	 * Read from a DFS {@code ReadableChannel}.
+	 * <p>
+	 * The returned {@code BlockSource} is not thread-safe, as it must seek the
+	 * channel to read a block.
+	 *
+	 * @param opts
+	 *            options to control reading from DFS sources.
+	 * @param ch
+	 *            the channel. The {@code BlockSource} will close {@code ch}.
+	 * @return wrapper for {@code ch}.
+	 */
+	public static BlockSource from(DfsReaderOptions opts, ReadableChannel ch) {
+		return new BlockSource() {
+			@Override
+			public ByteBuffer read(long pos, int sz) throws IOException {
+				ByteBuffer b = ByteBuffer.allocate(sz);
+				ch.position(pos);
+				int n;
+				do {
+					n = ch.read(b);
+				} while (n > 0 && b.position() < sz);
+				return b;
+			}
+
+			@Override
+			public void adviseSequentialRead(long start, long end) {
+				int sz = opts.getStreamPackBufferSize();
+				if (sz > 0) {
+					try {
+						ch.setReadAheadBytes((int) Math.min(end - start, sz));
+					} catch (IOException e) {
+						// Ignore failed read-ahead advice.
+					}
+				}
 			}
 
 			@Override
