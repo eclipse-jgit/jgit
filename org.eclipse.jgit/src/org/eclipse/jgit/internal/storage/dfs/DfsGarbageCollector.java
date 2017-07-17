@@ -587,8 +587,6 @@ public class DfsGarbageCollector {
 		pack.setLastModified(startTimeMillis);
 		newPackStats.add(stats);
 		newPackObj.add(pw.getObjectSet());
-
-		DfsBlockCache.getInstance().getOrCreate(pack, null);
 		return pack;
 	}
 }
