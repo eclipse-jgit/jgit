@@ -43,15 +43,89 @@
 
 package org.eclipse.jgit.internal.storage.dfs;
 
-import java.util.concurrent.atomic.AtomicLong;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
-final class DfsStreamKey {
+import java.util.Arrays;
+
+/** Key used by {@link DfsBlockCache} to disambiguate streams. */
+public abstract class DfsStreamKey {
+	/**
+	 * @param name
+	 *            compute the key from a string name.
+	 * @return key for {@code name}
+	 */
+	public static DfsStreamKey of(String name) {
+		return of(name.getBytes(UTF_8));
+	}
+
+	/**
+	 * @param name
+	 *            compute the key from a byte array. The key takes ownership of
+	 *            the passed {@code byte[] name}.
+	 * @return key for {@code name}
+	 */
+	public static DfsStreamKey of(byte[] name) {
+		return new ByteArrayDfsStreamKey(name);
+	}
+
 	final int hash;
-	final AtomicLong cachedSize = new AtomicLong();
 
-	DfsStreamKey() {
+	/**
+	 * @param hash
+	 *            hash of the other identifying components of the key.
+	 */
+	protected DfsStreamKey(int hash) {
 		// Multiply by 31 here so we can more directly combine with another
 		// value without doing the multiply there.
-		hash = System.identityHashCode(this) * 31;
+		this.hash = hash * 31;
+	}
+
+	/**
+	 * Derive a new StreamKey based on this existing key.
+	 *
+	 * @param suffix
+	 *            a derivation suffix.
+	 * @return derived stream key.
+	 */
+	public abstract DfsStreamKey derive(String suffix);
+
+	@Override
+	public int hashCode() {
+		return hash;
+	}
+
+	@Override
+	public abstract boolean equals(Object o);
+
+	@SuppressWarnings("boxing")
+	@Override
+	public String toString() {
+		return String.format("DfsStreamKey[hash=%08x]", hash); //$NON-NLS-1$
+	}
+
+	private static final class ByteArrayDfsStreamKey extends DfsStreamKey {
+		private final byte[] name;
+
+		ByteArrayDfsStreamKey(byte[] name) {
+			super(Arrays.hashCode(name));
+			this.name = name;
+		}
+
+		@Override
+		public DfsStreamKey derive(String suffix) {
+			byte[] s = suffix.getBytes(UTF_8);
+			byte[] n = Arrays.copyOf(name, name.length + s.length);
+			System.arraycopy(s, 0, n, name.length, s.length);
+			return new ByteArrayDfsStreamKey(n);
+		}
+
+		@Override
+		public boolean equals(Object o) {
+			if (o instanceof ByteArrayDfsStreamKey) {
+				ByteArrayDfsStreamKey k = (ByteArrayDfsStreamKey) o;
+				return hash == k.hash && Arrays.equals(name, k.name);
+			}
+			return false;
+		}
 	}
 }
