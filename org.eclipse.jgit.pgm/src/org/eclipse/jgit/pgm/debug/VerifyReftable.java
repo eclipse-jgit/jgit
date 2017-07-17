@@ -50,7 +50,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import org.eclipse.jgit.internal.storage.reftable.BlockSource;
+import org.eclipse.jgit.internal.storage.io.BlockSource;
 import org.eclipse.jgit.internal.storage.reftable.ReftableReader;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;

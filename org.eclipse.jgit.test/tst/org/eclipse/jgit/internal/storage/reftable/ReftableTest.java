@@ -63,6 +63,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.io.BlockSource;
 import org.eclipse.jgit.internal.storage.reftable.ReftableWriter.Stats;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;

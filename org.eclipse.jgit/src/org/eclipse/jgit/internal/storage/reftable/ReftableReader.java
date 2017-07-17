@@ -59,6 +59,7 @@ import java.util.Arrays;
 import java.util.zip.CRC32;
 
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.io.BlockSource;
 import org.eclipse.jgit.internal.storage.reftable.BlockWriter.LogEntry;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.ReflogEntry;

@@ -60,6 +60,7 @@ import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
 
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.io.BlockSource;
 import org.eclipse.jgit.lib.CheckoutEntry;
 import org.eclipse.jgit.lib.InflaterCache;
 import org.eclipse.jgit.lib.ObjectId;

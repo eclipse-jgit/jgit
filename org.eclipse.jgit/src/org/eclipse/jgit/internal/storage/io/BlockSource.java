@@ -41,15 +41,17 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.internal.storage.reftable;
+package org.eclipse.jgit.internal.storage.io;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 
+import org.eclipse.jgit.internal.storage.dfs.ReadableChannel;
+
 /**
- * Provides content blocks of a reftable to {@link ReftableReader}.
+ * Provides content blocks from a file.
  * <p>
  * {@code BlockSource} implementations must decide if they will be thread-safe,
  * or not.
@@ -142,11 +144,59 @@ public abstract class BlockSource implements AutoCloseable {
 	}
 
 	/**
+	 * Read from a DFS {@code ReadableChannel}.
+	 * <p>
+	 * The returned {@code BlockSource} is not thread-safe, as it must seek the
+	 * channel to read a block.
+	 *
+	 * @param ch
+	 *            the channel. The {@code BlockSource} will close {@code ch}.
+	 * @return wrapper for {@code ch}.
+	 */
+	public static BlockSource from(ReadableChannel ch) {
+		return new BlockSource() {
+			@Override
+			public ByteBuffer read(long pos, int sz) throws IOException {
+				ByteBuffer b = ByteBuffer.allocate(sz);
+				ch.position(pos);
+				int n;
+				do {
+					n = ch.read(b);
+				} while (n > 0 && b.position() < sz);
+				return b;
+			}
+
+			@Override
+			public void adviseSequentialRead(long start, long end) {
+				try {
+					ch.setReadAheadBytes((int) Math.max(end - start, 8 << 20));
+				} catch (IOException e) {
+					// Ignore failed read-ahead advice.
+				}
+			}
+
+			@Override
+			public long size() throws IOException {
+				return ch.size();
+			}
+
+			@Override
+			public void close() {
+				try {
+					ch.close();
+				} catch (IOException e) {
+					// Ignore close failures of read-only files.
+				}
+			}
+		};
+	}
+
+	/**
 	 * Read a block from the file.
 	 * <p>
 	 * To reduce copying, the returned ByteBuffer should have an accessible
-	 * array. {@link ReftableReader} will discard the ByteBuffer and directly
-	 * use the backing array.
+	 * array with {@code arrayOffset() == 0}. Callers will discard the
+	 * ByteBuffer and directly use the backing array.
 	 *
 	 * @param position
 	 *            position of the block in the file, specified in bytes from the

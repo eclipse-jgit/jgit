@@ -46,7 +46,7 @@ package org.eclipse.jgit.pgm.debug;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import org.eclipse.jgit.internal.storage.reftable.BlockSource;
+import org.eclipse.jgit.internal.storage.io.BlockSource;
 import org.eclipse.jgit.internal.storage.reftable.ReftableReader;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
