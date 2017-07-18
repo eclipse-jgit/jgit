@@ -53,6 +53,7 @@ import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.UN
 import static org.eclipse.jgit.internal.storage.pack.PackExt.BITMAP_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.REFTABLE;
 import static org.eclipse.jgit.internal.storage.pack.PackWriter.NONE;
 
 import java.io.IOException;
@@ -72,6 +73,8 @@ import org.eclipse.jgit.internal.storage.file.PackIndex;
 import org.eclipse.jgit.internal.storage.file.PackReverseIndex;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
+import org.eclipse.jgit.internal.storage.reftable.ReftableConfig;
+import org.eclipse.jgit.internal.storage.reftable.ReftableWriter;
 import org.eclipse.jgit.internal.storage.reftree.RefTreeNames;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
@@ -94,14 +97,13 @@ public class DfsGarbageCollector {
 	private final DfsObjDatabase objdb;
 
 	private final List<DfsPackDescription> newPackDesc;
-
 	private final List<PackStatistics> newPackStats;
-
 	private final List<ObjectIdSet> newPackObj;
 
 	private DfsReader ctx;
 
 	private PackConfig packConfig;
+	private ReftableConfig reftableConfig;
 
 	// See packIsCoalesceableGarbage(), below, for how these two variables
 	// interact.
@@ -112,6 +114,7 @@ public class DfsGarbageCollector {
 	private List<DfsPackFile> packsBefore;
 	private List<DfsPackFile> expiredGarbagePacks;
 
+	private Collection<Ref> allRefs;
 	private Set<ObjectId> allHeadsAndTags;
 	private Set<ObjectId> allTags;
 	private Set<ObjectId> nonHeads;
@@ -148,6 +151,17 @@ public class DfsGarbageCollector {
 	 */
 	public DfsGarbageCollector setPackConfig(PackConfig newConfig) {
 		packConfig = newConfig;
+		return this;
+	}
+
+	/**
+	 * @param cfg
+	 *            configuration to write a reftable. Reftable writing is
+	 *            disabled (default) when {@code cfg} is {@code null}.
+	 * @return {@code this}
+	 */
+	public DfsGarbageCollector setReftableConfig(ReftableConfig cfg) {
+		reftableConfig = cfg;
 		return this;
 	}
 
@@ -240,7 +254,7 @@ public class DfsGarbageCollector {
 			refdb.refresh();
 			objdb.clearCache();
 
-			Collection<Ref> refsBefore = getAllRefs();
+			allRefs = getAllRefs();
 			readPacksBefore();
 
 			Set<ObjectId> allHeads = new HashSet<>();
@@ -249,7 +263,7 @@ public class DfsGarbageCollector {
 			nonHeads = new HashSet<>();
 			txnHeads = new HashSet<>();
 			tagTargets = new HashSet<>();
-			for (Ref ref : refsBefore) {
+			for (Ref ref : allRefs) {
 				if (ref.isSymbolic() || ref.getObjectId() == null) {
 					continue;
 				}
@@ -560,6 +574,10 @@ public class DfsGarbageCollector {
 				estimatedPackSize);
 		newPackDesc.add(pack);
 
+		if (source == GC && reftableConfig != null) {
+			writeReftable(pack, allRefs);
+		}
+
 		try (DfsOutputStream out = objdb.writeFile(pack, PACK)) {
 			pw.writePack(pm, pm, out);
 			pack.addFileExt(PACK);
@@ -591,5 +609,21 @@ public class DfsGarbageCollector {
 		newPackStats.add(stats);
 		newPackObj.add(pw.getObjectSet());
 		return pack;
+	}
+
+	private void writeReftable(DfsPackDescription pack, Collection<Ref> refs)
+			throws IOException {
+		try (DfsOutputStream out = objdb.writeFile(pack, REFTABLE)) {
+			if (out.blockSize() >= 256) {
+				reftableConfig = new ReftableConfig(reftableConfig);
+				reftableConfig.setRefBlockSize(out.blockSize());
+			}
+
+			ReftableWriter writer = new ReftableWriter();
+			writer.setConfig(reftableConfig);
+			writer.begin(out).sortAndWriteRefs(refs).finish();
+			pack.addFileExt(REFTABLE);
+			pack.setReftableStats(writer.getStats());
+		}
 	}
 }
