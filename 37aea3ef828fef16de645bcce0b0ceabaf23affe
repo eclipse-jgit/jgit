@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_0bd3ab01",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-07-18T05:41:02Z",
+      "side": 1,
+      "message": "penalties",
+      "range": {
+        "startLine": 15,
+        "startChar": 45,
+        "endLine": 15,
+        "endChar": 55
+      },
+      "revId": "37aea3ef828fef16de645bcce0b0ceabaf23affe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_6bc18f26",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-07-18T05:41:02Z",
+      "side": 1,
+      "message": "An",
+      "range": {
+        "startLine": 128,
+        "startChar": 0,
+        "endLine": 128,
+        "endChar": 1
+      },
+      "revId": "37aea3ef828fef16de645bcce0b0ceabaf23affe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_8bbebba8",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-07-18T05:41:02Z",
+      "side": 1,
+      "message": "\"follow\"?",
+      "range": {
+        "startLine": 163,
+        "startChar": 52,
+        "endLine": 163,
+        "endChar": 59
+      },
+      "revId": "37aea3ef828fef16de645bcce0b0ceabaf23affe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_abc7f738",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-07-18T05:41:02Z",
+      "side": 1,
+      "message": "prefix compressed",
+      "range": {
+        "startLine": 166,
+        "startChar": 37,
+        "endLine": 166,
+        "endChar": 56
+      },
+      "revId": "37aea3ef828fef16de645bcce0b0ceabaf23affe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_cbc44337",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-07-18T05:41:02Z",
+      "side": 1,
+      "message": "it\u0027s",
+      "range": {
+        "startLine": 257,
+        "startChar": 0,
+        "endLine": 257,
+        "endChar": 3
+      },
+      "revId": "37aea3ef828fef16de645bcce0b0ceabaf23affe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_ebf49f7f",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-07-18T05:41:02Z",
+      "side": 1,
+      "message": "Whitespace\n\nIs this needed for formatting?  Can\u0027t formatted blocks be achieved by surrounding with triple backticks?",
+      "range": {
+        "startLine": 341,
+        "startChar": 0,
+        "endLine": 341,
+        "endChar": 4
+      },
+      "revId": "37aea3ef828fef16de645bcce0b0ceabaf23affe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_4bf05386",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 568,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-07-18T05:41:02Z",
+      "side": 1,
+      "message": "preparing",
+      "range": {
+        "startLine": 568,
+        "startChar": 3,
+        "endLine": 568,
+        "endChar": 13
+      },
+      "revId": "37aea3ef828fef16de645bcce0b0ceabaf23affe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_6be8afa0",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-07-18T05:41:02Z",
+      "side": 1,
+      "message": "tab",
+      "range": {
+        "startLine": 594,
+        "startChar": 0,
+        "endLine": 594,
+        "endChar": 1
+      },
+      "revId": "37aea3ef828fef16de645bcce0b0ceabaf23affe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
