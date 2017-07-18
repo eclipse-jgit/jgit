@@ -53,6 +53,7 @@ import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.UN
 import static org.eclipse.jgit.internal.storage.pack.PackExt.BITMAP_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.REFTABLE;
 import static org.eclipse.jgit.internal.storage.pack.PackWriter.NONE;
 
 import java.io.IOException;
@@ -72,6 +73,7 @@ import org.eclipse.jgit.internal.storage.file.PackIndex;
 import org.eclipse.jgit.internal.storage.file.PackReverseIndex;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
+import org.eclipse.jgit.internal.storage.reftable.ReftableWriter;
 import org.eclipse.jgit.internal.storage.reftree.RefTreeNames;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
@@ -94,14 +96,15 @@ public class DfsGarbageCollector {
 	private final DfsObjDatabase objdb;
 
 	private final List<DfsPackDescription> newPackDesc;
-
 	private final List<PackStatistics> newPackStats;
-
 	private final List<ObjectIdSet> newPackObj;
 
 	private DfsReader ctx;
 
 	private PackConfig packConfig;
+	private boolean writeReftable;
+	private int refBlockSize;
+	private int refRestartInterval;
 
 	// See packIsCoalesceableGarbage(), below, for how these two variables
 	// interact.
@@ -112,6 +115,7 @@ public class DfsGarbageCollector {
 	private List<DfsPackFile> packsBefore;
 	private List<DfsPackFile> expiredGarbagePacks;
 
+	private Collection<Ref> allRefs;
 	private Set<ObjectId> allHeadsAndTags;
 	private Set<ObjectId> allTags;
 	private Set<ObjectId> nonHeads;
@@ -212,6 +216,39 @@ public class DfsGarbageCollector {
 	}
 
 	/**
+	 * @param write
+	 *            if {@code true} current references will be written to a
+	 *            reftable with the main GC pack.
+	 * @return {@code this}
+	 */
+	public DfsGarbageCollector setWriteReftable(boolean write) {
+		writeReftable = write;
+		return this;
+	}
+
+	/**
+	 * @param szBytes
+	 *            desired output block size for references, in bytes.
+	 * @return {@code this}
+	 */
+	public DfsGarbageCollector setRefBlockSize(int szBytes) {
+		refBlockSize = szBytes;
+		return this;
+	}
+
+	/**
+	 * @param interval
+	 *            number of references between binary search markers in the
+	 *            reftable. If {@code interval} is 0 (default), the writer will
+	 *            select a default value based on the block size.
+	 * @return {@code this}
+	 */
+	public DfsGarbageCollector setRestartInterval(int interval) {
+		refRestartInterval = interval;
+		return this;
+	}
+
+	/**
 	 * Create a single new pack file containing all of the live objects.
 	 * <p>
 	 * This method safely decides which packs can be expired after the new pack
@@ -240,7 +277,7 @@ public class DfsGarbageCollector {
 			refdb.refresh();
 			objdb.clearCache();
 
-			Collection<Ref> refsBefore = getAllRefs();
+			allRefs = getAllRefs();
 			readPacksBefore();
 
 			Set<ObjectId> allHeads = new HashSet<>();
@@ -249,7 +286,7 @@ public class DfsGarbageCollector {
 			nonHeads = new HashSet<>();
 			txnHeads = new HashSet<>();
 			tagTargets = new HashSet<>();
-			for (Ref ref : refsBefore) {
+			for (Ref ref : allRefs) {
 				if (ref.isSymbolic() || ref.getObjectId() == null) {
 					continue;
 				}
@@ -560,6 +597,10 @@ public class DfsGarbageCollector {
 				estimatedPackSize);
 		newPackDesc.add(pack);
 
+		if (source == GC && writeReftable) {
+			writeReftable(pack, allRefs);
+		}
+
 		try (DfsOutputStream out = objdb.writeFile(pack, PACK)) {
 			pw.writePack(pm, pm, out);
 			pack.addFileExt(PACK);
@@ -588,5 +629,22 @@ public class DfsGarbageCollector {
 		newPackStats.add(stats);
 		newPackObj.add(pw.getObjectSet());
 		return pack;
+	}
+
+	private void writeReftable(DfsPackDescription pack, Collection<Ref> refs)
+			throws IOException {
+		ReftableWriter writer = new ReftableWriter();
+		if (refBlockSize > 0) {
+			writer.setRefBlockSize(refBlockSize);
+		}
+		if (refRestartInterval > 0) {
+			writer.setRestartInterval(refRestartInterval);
+		}
+		try (CountingOutputStream cnt = new CountingOutputStream(
+				objdb.writeFile(pack, REFTABLE))) {
+			writer.begin(cnt).sortAndWriteRefs(refs).finish();
+			pack.addFileExt(REFTABLE);
+			pack.setFileSize(REFTABLE, cnt.getCount());
+		}
 	}
 }

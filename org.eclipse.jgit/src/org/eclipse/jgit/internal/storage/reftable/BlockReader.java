@@ -463,7 +463,7 @@ class BlockReader {
 		return new ObjectIdRef.Unpeeled(NEW, name, null);
 	}
 
-	private static int compare(byte[] a, byte[] b, int bi, int bLen) {
+	static int compare(byte[] a, byte[] b, int bi, int bLen) {
 		int bEnd = bi + bLen;
 		for (int ai = 0; ai < a.length && bi < bEnd; ai++, bi++) {
 			int c = (a[ai] & 0xff) - (b[bi] & 0xff);
