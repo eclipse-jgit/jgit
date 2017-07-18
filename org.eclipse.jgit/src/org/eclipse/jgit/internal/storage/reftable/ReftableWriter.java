@@ -52,9 +52,12 @@ import static org.eclipse.jgit.internal.storage.reftable.ReftableConstants.VERSI
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.zip.CRC32;
 
 import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.internal.storage.reftable.BlockWriter.Entry;
 import org.eclipse.jgit.internal.storage.reftable.BlockWriter.LogEntry;
 import org.eclipse.jgit.internal.storage.reftable.BlockWriter.RefEntry;
 import org.eclipse.jgit.lib.ObjectId;
@@ -163,6 +166,27 @@ public class ReftableWriter {
 		logLastRef = ""; //$NON-NLS-1$
 		logLastTimeUsec = 0;
 		writeFileHeader();
+		return this;
+	}
+
+	/**
+	 * Sort a collection of references and write them to the reftable.
+	 *
+	 * @param refs
+	 *            references to sort and write.
+	 * @return {@code this}
+	 * @throws IOException
+	 *             reftable cannot be written.
+	 */
+	public ReftableWriter sortAndWriteRefs(Collection<Ref> refs)
+			throws IOException {
+		Iterator<RefEntry> itr = refs.stream()
+				.map(RefEntry::new)
+				.sorted(Entry::compare)
+				.iterator();
+		while (itr.hasNext()) {
+			writeEntry(refIndex, itr.next());
+		}
 		return this;
 	}
 
