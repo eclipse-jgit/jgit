@@ -17,6 +17,11 @@ import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
+import org.eclipse.jgit.internal.storage.pack.PackExt;
+import org.eclipse.jgit.internal.storage.reftable.RefCursor;
+import org.eclipse.jgit.internal.storage.reftable.ReftableConfig;
+import org.eclipse.jgit.internal.storage.reftable.ReftableReader;
+import org.eclipse.jgit.internal.storage.reftable.ReftableWriter;
 import org.eclipse.jgit.junit.MockSystemReader;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -651,6 +656,44 @@ public class DfsGarbageCollectorTest {
 		gc.getPackConfig().setSinglePack(false);
 		run(gc);
 		assertEquals(2, odb.getPacks().length);
+	}
+
+	@SuppressWarnings("boxing")
+	@Test
+	public void producesReftable() throws Exception {
+		String master = "refs/heads/master";
+		RevCommit commit0 = commit().message("0").create();
+		RevCommit commit1 = commit().message("1").parent(commit0).create();
+		git.update(master, commit1);
+		for (int i = 1; i <= 5100; i++) {
+			git.update(String.format("refs/pulls/%04d", i), commit1);
+		}
+
+		DfsGarbageCollector gc = new DfsGarbageCollector(repo);
+		gc.setReftableConfig(new ReftableConfig());
+		run(gc);
+
+		// Single GC pack present with all objects.
+		assertEquals(1, odb.getPacks().length);
+		DfsPackFile pack = odb.getPacks()[0];
+		DfsPackDescription desc = pack.getPackDescription();
+		assertEquals(GC, desc.getPackSource());
+		assertTrue("commit0 in pack", isObjectInPack(commit0, pack));
+		assertTrue("commit1 in pack", isObjectInPack(commit1, pack));
+
+		// Sibling REFTABLE is also present.
+		assertTrue(desc.hasFileExt(PackExt.REFTABLE));
+		ReftableWriter.Stats stats = desc.getReftableStats();
+		assertNotNull(stats);
+		assertTrue(stats.refIndexSize() > 0);
+		DfsReftable table = new DfsReftable(DfsBlockCache.getInstance(), desc);
+		try (DfsReader ctx = odb.newReader();
+				ReftableReader rr = table.open(ctx);
+				RefCursor rc = rr.seek("refs/pulls/5100")) {
+			assertTrue(rc.next());
+			assertEquals(commit1, rc.getRef().getObjectId());
+			assertFalse(rc.next());
+		}
 	}
 
 	private TestRepository<InMemoryRepository>.CommitBuilder commit() {
