@@ -44,11 +44,13 @@
 package org.eclipse.jgit.internal.storage.dfs;
 
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.REFTABLE;
 
 import java.util.Arrays;
 
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
+import org.eclipse.jgit.internal.storage.reftable.ReftableWriter;
 import org.eclipse.jgit.storage.pack.PackStatistics;
 
 /**
@@ -68,7 +70,10 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 	private int[] blockSizeMap;
 	private long objectCount;
 	private long deltaCount;
-	private PackStatistics stats;
+
+	private PackStatistics packStats;
+
+	private ReftableWriter.Stats refStats;
 	private int extensions;
 	private int indexVersion;
 	private long estimatedPackSize;
@@ -281,15 +286,25 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 	 *         is being committed to the repository.
 	 */
 	public PackStatistics getPackStats() {
-		return stats;
+		return packStats;
 	}
 
 	DfsPackDescription setPackStats(PackStatistics stats) {
-		this.stats = stats;
+		this.packStats = stats;
 		setFileSize(PACK, stats.getTotalBytes());
 		setObjectCount(stats.getTotalObjects());
 		setDeltaCount(stats.getTotalDeltas());
 		return this;
+	}
+
+	/** @return stats from the sibling reftable, if created. */
+	public ReftableWriter.Stats getReftableStats() {
+		return refStats;
+	}
+
+	void setReftableStats(ReftableWriter.Stats stats) {
+		this.refStats = stats;
+		setFileSize(REFTABLE, stats.totalBytes());
 	}
 
 	/**
@@ -298,7 +313,8 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 	 * @return {@code this}
 	 */
 	public DfsPackDescription clearPackStats() {
-		stats = null;
+		packStats = null;
+		refStats = null;
 		return this;
 	}
 
