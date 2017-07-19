@@ -464,7 +464,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 			DfsPackFile oldPack = forReuse.remove(dsc);
 			if (oldPack != null) {
 				list.add(oldPack);
-			} else {
+			} else if (dsc.hasFileExt(PackExt.PACK)) {
 				list.add(new DfsPackFile(cache, dsc));
 				foundNew = true;
 			}
@@ -482,8 +482,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	}
 
 	private static Map<DfsPackDescription, DfsPackFile> reuseMap(PackList old) {
-		Map<DfsPackDescription, DfsPackFile> forReuse
-			= new HashMap<>();
+		Map<DfsPackDescription, DfsPackFile> forReuse = new HashMap<>();
 		for (DfsPackFile p : old.packs) {
 			if (p.invalid()) {
 				// The pack instance is corrupted, and cannot be safely used
