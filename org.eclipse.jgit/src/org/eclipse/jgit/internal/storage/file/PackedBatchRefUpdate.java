@@ -349,10 +349,6 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 	}
 
 	private void writeReflog(List<ReceiveCommand> commands) {
-		if (isRefLogDisabled()) {
-			return;
-		}
-
 		PersonIdent ident = getRefLogIdent();
 		if (ident == null) {
 			ident = new PersonIdent(refdb.getRepository());
@@ -374,8 +370,12 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 				continue;
 			}
 
-			String msg = getRefLogMessage();
-			if (isRefLogIncludingResult()) {
+			if (isRefLogDisabled(cmd)) {
+				continue;
+			}
+
+			String msg = getRefLogMessage(cmd);
+			if (isRefLogIncludingResult(cmd)) {
 				String strResult = toResultString(cmd);
 				if (strResult != null) {
 					msg = msg.isEmpty()
