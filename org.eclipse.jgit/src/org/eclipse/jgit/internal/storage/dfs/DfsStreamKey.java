@@ -80,15 +80,6 @@ public abstract class DfsStreamKey {
 		this.hash = hash * 31;
 	}
 
-	/**
-	 * Derive a new StreamKey based on this existing key.
-	 *
-	 * @param suffix
-	 *            a derivation suffix.
-	 * @return derived stream key.
-	 */
-	public abstract DfsStreamKey derive(String suffix);
-
 	@Override
 	public int hashCode() {
 		return hash;
@@ -112,20 +103,27 @@ public abstract class DfsStreamKey {
 		}
 
 		@Override
-		public DfsStreamKey derive(String suffix) {
-			byte[] s = suffix.getBytes(UTF_8);
-			byte[] n = Arrays.copyOf(name, name.length + s.length);
-			System.arraycopy(s, 0, n, name.length, s.length);
-			return new ByteArrayDfsStreamKey(n);
-		}
-
-		@Override
 		public boolean equals(Object o) {
 			if (o instanceof ByteArrayDfsStreamKey) {
 				ByteArrayDfsStreamKey k = (ByteArrayDfsStreamKey) o;
 				return hash == k.hash && Arrays.equals(name, k.name);
 			}
 			return false;
+		}
+	}
+
+	static final class ForReverseIndex extends DfsStreamKey {
+		private final DfsStreamKey idxKey;
+
+		ForReverseIndex(DfsStreamKey idxKey) {
+			super(idxKey.hash + 1);
+			this.idxKey = idxKey;
+		}
+
+		@Override
+		public boolean equals(Object o) {
+			return o instanceof ForReverseIndex
+					&& idxKey.equals(((ForReverseIndex) o).idxKey);
 		}
 	}
 }

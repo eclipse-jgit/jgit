@@ -88,10 +88,6 @@ import org.eclipse.jgit.util.LongList;
  * objects are similar.
  */
 public final class DfsPackFile extends BlockBasedFile {
-	final DfsStreamKey idxKey;
-	final DfsStreamKey reverseIdxKey;
-	DfsStreamKey bitmapKey;
-
 	/**
 	 * Lock for initialization of {@link #index} and {@link #corruptObjects}.
 	 * <p>
@@ -127,8 +123,6 @@ public final class DfsPackFile extends BlockBasedFile {
 	 */
 	DfsPackFile(DfsBlockCache cache, DfsPackDescription desc) {
 		super(cache, desc, PACK);
-		idxKey = desc.getStreamKey(INDEX);
-		reverseIdxKey = idxKey.derive("r"); //$NON-NLS-1$
 		length = desc.getFileSize(PACK);
 		if (length <= 0)
 			length = -1;
@@ -151,7 +145,7 @@ public final class DfsPackFile extends BlockBasedFile {
 		long objCnt = idx.getObjectCount();
 		int recSize = Constants.OBJECT_ID_LENGTH + 8;
 		int sz = (int) Math.min(objCnt * recSize, Integer.MAX_VALUE);
-		index = cache.put(idxKey, 0, sz, idx);
+		index = cache.put(desc.getStreamKey(INDEX), 0, sz, idx);
 	}
 
 	/**
@@ -254,9 +248,7 @@ public final class DfsPackFile extends BlockBasedFile {
 				if (idx != null)
 					return idx;
 			}
-			if (bitmapKey == null) {
-				bitmapKey = desc.getStreamKey(BITMAP_INDEX);
-			}
+
 			long size;
 			PackBitmapIndex idx;
 			try {
@@ -294,8 +286,9 @@ public final class DfsPackFile extends BlockBasedFile {
 				throw e2;
 			}
 
-			bitmapIndex = cache.put(bitmapKey, 0,
-					(int) Math.min(size, Integer.MAX_VALUE), idx);
+			bitmapIndex = cache.put(
+					desc.getStreamKey(BITMAP_INDEX),
+					0, (int) Math.min(size, Integer.MAX_VALUE), idx);
 			return idx;
 		}
 	}
@@ -320,7 +313,9 @@ public final class DfsPackFile extends BlockBasedFile {
 			PackReverseIndex revidx = new PackReverseIndex(idx);
 			int sz = (int) Math.min(
 					idx.getObjectCount() * 8, Integer.MAX_VALUE);
-			reverseIndex = cache.put(reverseIdxKey, 0, sz, revidx);
+			reverseIndex = cache.put(
+					new DfsStreamKey.ForReverseIndex(desc.getStreamKey(INDEX)),
+					0, sz, revidx);
 			return revidx;
 		}
 	}
