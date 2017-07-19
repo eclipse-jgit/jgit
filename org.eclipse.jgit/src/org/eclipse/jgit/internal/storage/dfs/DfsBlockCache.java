@@ -178,7 +178,10 @@ public final class DfsBlockCache {
 		blockSizeShift = Integer.numberOfTrailingZeros(blockSize);
 
 		clockLock = new ReentrantLock(true /* fair */);
-		clockHand = new Ref<>(DfsStreamKey.of(""), -1, 0, null); //$NON-NLS-1$
+		String none = ""; //$NON-NLS-1$
+		clockHand = new Ref<>(
+				DfsStreamKey.of(new DfsRepositoryDescription(none), none),
+				-1, 0, null);
 		clockHand.next = clockHand;
 
 		statHit = new AtomicLong();
