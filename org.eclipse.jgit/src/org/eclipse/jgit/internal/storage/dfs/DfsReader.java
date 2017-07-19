@@ -757,8 +757,7 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 	}
 
 	void pin(DfsPackFile pack, long position) throws IOException {
-		DfsBlock b = block;
-		if (b == null || !b.contains(pack.key, position)) {
+		if (block == null || !block.contains(pack.key, position)) {
 			// If memory is low, we may need what is in our window field to
 			// be cleaned up by the GC during the get for the next window.
 			// So we always clear it, even though we are just going to set
