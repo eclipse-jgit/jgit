@@ -50,22 +50,14 @@ import java.util.Arrays;
 /** Key used by {@link DfsBlockCache} to disambiguate streams. */
 public abstract class DfsStreamKey {
 	/**
+	 * @param repo
+	 *            description of the containing repository.
 	 * @param name
 	 *            compute the key from a string name.
 	 * @return key for {@code name}
 	 */
-	public static DfsStreamKey of(String name) {
-		return of(name.getBytes(UTF_8));
-	}
-
-	/**
-	 * @param name
-	 *            compute the key from a byte array. The key takes ownership of
-	 *            the passed {@code byte[] name}.
-	 * @return key for {@code name}
-	 */
-	public static DfsStreamKey of(byte[] name) {
-		return new ByteArrayDfsStreamKey(name);
+	public static DfsStreamKey of(DfsRepositoryDescription repo, String name) {
+		return new ByteArrayDfsStreamKey(repo, name.getBytes(UTF_8));
 	}
 
 	final int hash;
@@ -95,10 +87,12 @@ public abstract class DfsStreamKey {
 	}
 
 	private static final class ByteArrayDfsStreamKey extends DfsStreamKey {
+		private final DfsRepositoryDescription repo;
 		private final byte[] name;
 
-		ByteArrayDfsStreamKey(byte[] name) {
-			super(Arrays.hashCode(name));
+		ByteArrayDfsStreamKey(DfsRepositoryDescription repo, byte[] name) {
+			super(repo.hashCode() * 31 + Arrays.hashCode(name));
+			this.repo = repo;
 			this.name = name;
 		}
 
@@ -106,7 +100,9 @@ public abstract class DfsStreamKey {
 		public boolean equals(Object o) {
 			if (o instanceof ByteArrayDfsStreamKey) {
 				ByteArrayDfsStreamKey k = (ByteArrayDfsStreamKey) o;
-				return hash == k.hash && Arrays.equals(name, k.name);
+				return hash == k.hash
+						&& repo.equals(k.repo)
+						&& Arrays.equals(name, k.name);
 			}
 			return false;
 		}
