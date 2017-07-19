@@ -390,6 +390,10 @@ public final class DfsBlockCache {
 		put(v.stream, v.start, v.size(), v);
 	}
 
+	<T> Ref<T> putRef(DfsStreamKey key, long size, T v) {
+		return put(key, 0, (int) Math.min(size, Integer.MAX_VALUE), v);
+	}
+
 	<T> Ref<T> put(DfsStreamKey key, long pos, int size, T v) {
 		int slot = slot(key, pos);
 		HashEntry e1 = table.get(slot);
@@ -442,6 +446,15 @@ public final class DfsBlockCache {
 	private <T> T scan(HashEntry n, DfsStreamKey key, long position) {
 		Ref<T> r = scanRef(n, key, position);
 		return r != null ? r.get() : null;
+	}
+
+	<T> Ref<T> getRef(DfsStreamKey key) {
+		Ref<T> r = scanRef(table.get(slot(key, 0)), key, 0);
+		if (r != null)
+			statHit.incrementAndGet();
+		else
+			statMiss.incrementAndGet();
+		return r;
 	}
 
 	@SuppressWarnings("unchecked")
