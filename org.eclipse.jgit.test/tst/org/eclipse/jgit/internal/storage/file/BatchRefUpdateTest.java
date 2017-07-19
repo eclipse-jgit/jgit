@@ -539,6 +539,51 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		}
 	}
 
+	@Test
+	public void overrideRefLogMessage() throws Exception {
+		writeRef("refs/heads/master", A);
+
+		List<ReceiveCommand> cmds = Arrays.asList(
+				new ReceiveCommand(A, B, "refs/heads/master", UPDATE),
+				new ReceiveCommand(zeroId(), B, "refs/heads/branch", CREATE));
+		cmds.get(0).setRefLogMessage("custom log", false);
+		PersonIdent ident = new PersonIdent(diskRepo);
+		execute(
+				newBatchUpdate(cmds)
+						.setRefLogIdent(ident)
+						.setRefLogMessage("a reflog", true));
+
+		assertResults(cmds, OK, OK);
+		assertReflogEquals(
+				reflog(A, B, ident, "custom log"),
+				getLastReflog("refs/heads/master"),
+				true);
+		assertReflogEquals(
+				reflog(zeroId(), B, ident, "a reflog: created"),
+				getLastReflog("refs/heads/branch"),
+				true);
+	}
+
+	@Test
+	public void overrideDisableRefLog() throws Exception {
+		writeRef("refs/heads/master", A);
+
+		Map<String, ReflogEntry> oldLogs =
+				getLastReflogs("refs/heads/master", "refs/heads/branch");
+
+		List<ReceiveCommand> cmds = Arrays.asList(
+				new ReceiveCommand(A, B, "refs/heads/master", UPDATE),
+				new ReceiveCommand(zeroId(), B, "refs/heads/branch", CREATE));
+		cmds.get(0).disableRefLog();
+		execute(newBatchUpdate(cmds).setRefLogMessage("a reflog", true));
+
+		assertResults(cmds, OK, OK);
+		assertReflogUnchanged(oldLogs, "refs/heads/master");
+		assertReflogEquals(
+				reflog(zeroId(), B, new PersonIdent(diskRepo), "a reflog: created"),
+				getLastReflog("refs/heads/branch"));
+	}
+
 	private void writeLooseRef(String name, AnyObjectId id) throws IOException {
 		write(new File(diskRepo.getDirectory(), name), id.name() + "\n");
 	}
