@@ -74,7 +74,7 @@ final class DfsBlock {
 	}
 
 	boolean contains(DfsStreamKey want, long pos) {
-		return stream == want && start <= pos && pos < end;
+		return stream.equals(want) && start <= pos && pos < end;
 	}
 
 	int copy(long pos, byte[] dstbuf, int dstoff, int cnt) {
