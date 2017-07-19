@@ -72,6 +72,7 @@ public class DfsBlockCacheTest {
 		resetCache();
 	}
 
+	@SuppressWarnings("resource")
 	@Test
 	public void streamKeyReusesBlocks() throws Exception {
 		DfsRepositoryDescription repo = new DfsRepositoryDescription("test");
@@ -98,6 +99,7 @@ public class DfsBlockCacheTest {
 		assertEquals(oldSize, cache.getCurrentSize());
 	}
 
+	@SuppressWarnings("resource")
 	@Test
 	public void weirdBlockSize() throws Exception {
 		DfsRepositoryDescription repo = new DfsRepositoryDescription("test");
