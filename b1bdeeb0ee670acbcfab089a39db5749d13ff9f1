@@ -46,6 +46,30 @@
       "revId": "b1bdeeb0ee670acbcfab089a39db5749d13ff9f1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_bfd49163",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2017-07-19T05:58:27Z",
+      "side": 1,
+      "message": "Fair enough, we could insert a PackExt for REVERSE_INDEX on the fly, but this is performant enough",
+      "parentUuid": "c7880b39_7fcea9d9",
+      "range": {
+        "startLine": 317,
+        "startChar": 22,
+        "endLine": 317,
+        "endChar": 37
+      },
+      "revId": "b1bdeeb0ee670acbcfab089a39db5749d13ff9f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
