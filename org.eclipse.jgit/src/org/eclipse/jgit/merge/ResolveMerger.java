@@ -835,7 +835,7 @@ public class ResolveMerger extends ThreeWayMerger {
 	private ObjectId insertMergeResult(MergeResult<RawText> result)
 			throws IOException {
 		TemporaryBuffer.LocalFile buf = new TemporaryBuffer.LocalFile(
-				db != null ? nonNullRepo().getDirectory() : null, 10 << 20);
+				db != null ? nonNullRepo().getDirectory() : null, 100 << 20);
 		try {
 			new MergeFormatter().formatMerge(buf, result,
 					Arrays.asList(commitNames), CHARACTER_ENCODING);
