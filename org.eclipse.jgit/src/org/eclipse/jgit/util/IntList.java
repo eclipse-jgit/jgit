@@ -71,6 +71,20 @@ public class IntList {
 	}
 
 	/**
+	 * Check if an entry appears in this collection.
+	 *
+	 * @param value
+	 *            the value to search for.
+	 * @return true of {@code value} appears in this list.
+	 */
+	public boolean contains(int value) {
+		for (int i = 0; i < count; i++)
+			if (entries[i] == value)
+				return true;
+		return false;
+	}
+
+	/**
 	 * @param i
 	 *            index to read, must be in the range [0, {@link #size()}).
 	 * @return the number at the specified index
