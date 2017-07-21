@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_1e775e7a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-07-21T15:17:30Z",
+      "side": 1,
+      "message": "This should be 10 \u003c\u003c 20 so that the default is 10 MiB.\n\nThat allows users to specify configuration with standard suffix units e.g.:\n\n  [merge]\n    inCoreLimit \u003d 10m\n\nfor a 10 MiB limit.",
+      "range": {
+        "startLine": 291,
+        "startChar": 84,
+        "endLine": 291,
+        "endChar": 86
+      },
+      "revId": "98a3be6b37ae6df37fc3d3c86e21e05b61e24e3d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_de8dd60a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 852,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-07-21T15:17:30Z",
+      "side": 1,
+      "message": "Just use inCoreLimit here. Don\u0027t convert units to MiBs.",
+      "range": {
+        "startLine": 852,
+        "startChar": 54,
+        "endLine": 852,
+        "endChar": 71
+      },
+      "revId": "98a3be6b37ae6df37fc3d3c86e21e05b61e24e3d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
