@@ -85,11 +85,13 @@ import org.eclipse.jgit.errors.IndexWriteException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
@@ -272,11 +274,21 @@ public class ResolveMerger extends ThreeWayMerger {
 	 */
 	protected MergeAlgorithm mergeAlgorithm;
 
+	/**
+	 * The size limit (MiB) which controls a file to be stored in {@code Heap} or {@code LocalFile}.
+	 */
+	private int inCoreLimit = 10;
+
 	private static MergeAlgorithm getMergeAlgorithm(Config config) {
 		SupportedAlgorithm diffAlg = config.getEnum(
 				CONFIG_DIFF_SECTION, null, CONFIG_KEY_ALGORITHM,
 				HISTOGRAM);
 		return new MergeAlgorithm(DiffAlgorithm.getAlgorithm(diffAlg));
+	}
+
+	private static int getInCoreLimit(Config config) {
+		return config.getInt(
+				ConfigConstants.CONFIG_MERGE_SECTION, ConfigConstants.CONFIG_KEY_IN_CORE_LIMIT, 10);
 	}
 
 	private static String[] defaultCommitNames() {
@@ -289,7 +301,9 @@ public class ResolveMerger extends ThreeWayMerger {
 	 */
 	protected ResolveMerger(Repository local, boolean inCore) {
 		super(local);
-		mergeAlgorithm = getMergeAlgorithm(local.getConfig());
+		Config config = local.getConfig();
+		mergeAlgorithm = getMergeAlgorithm(config);
+		inCoreLimit = getInCoreLimit(config);
 		commitNames = defaultCommitNames();
 		this.inCore = inCore;
 
@@ -835,7 +849,7 @@ public class ResolveMerger extends ThreeWayMerger {
 	private ObjectId insertMergeResult(MergeResult<RawText> result)
 			throws IOException {
 		TemporaryBuffer.LocalFile buf = new TemporaryBuffer.LocalFile(
-				db != null ? nonNullRepo().getDirectory() : null, 10 << 20);
+				db != null ? nonNullRepo().getDirectory() : null, inCoreLimit << 20);
 		try {
 			new MergeFormatter().formatMerge(buf, result,
 					Arrays.asList(commitNames), CHARACTER_ENCODING);
