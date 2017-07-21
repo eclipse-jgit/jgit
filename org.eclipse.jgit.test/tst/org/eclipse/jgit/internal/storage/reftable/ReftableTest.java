@@ -515,6 +515,68 @@ public class ReftableTest {
 		}
 	}
 
+	@SuppressWarnings("boxing")
+	@Test
+	public void byObjectIdOneRefNoIndex() throws IOException {
+		List<Ref> refs = new ArrayList<>();
+		for (int i = 1; i <= 200; i++) {
+			refs.add(ref(String.format("refs/heads/%02d", i), i));
+		}
+		refs.add(ref("refs/heads/master", 100));
+
+		ReftableReader t = read(write(refs));
+		assertEquals(0, stats.objIndexSize());
+
+		try (RefCursor rc = t.byObjectId(id(42))) {
+			assertTrue("has 42", rc.next());
+			assertEquals("refs/heads/42", rc.getRef().getName());
+			assertEquals(id(42), rc.getRef().getObjectId());
+			assertFalse(rc.next());
+		}
+		try (RefCursor rc = t.byObjectId(id(100))) {
+			assertTrue("has 100", rc.next());
+			assertEquals("refs/heads/100", rc.getRef().getName());
+			assertEquals(id(100), rc.getRef().getObjectId());
+
+			assertTrue("has master", rc.next());
+			assertEquals("refs/heads/master", rc.getRef().getName());
+			assertEquals(id(100), rc.getRef().getObjectId());
+
+			assertFalse(rc.next());
+		}
+	}
+
+	@SuppressWarnings("boxing")
+	@Test
+	public void byObjectIdOneRefWithIndex() throws IOException {
+		List<Ref> refs = new ArrayList<>();
+		for (int i = 1; i <= 5200; i++) {
+			refs.add(ref(String.format("refs/heads/%02d", i), i));
+		}
+		refs.add(ref("refs/heads/master", 100));
+
+		ReftableReader t = read(write(refs));
+		assertTrue(stats.objIndexSize() > 0);
+
+		try (RefCursor rc = t.byObjectId(id(42))) {
+			assertTrue("has 42", rc.next());
+			assertEquals("refs/heads/42", rc.getRef().getName());
+			assertEquals(id(42), rc.getRef().getObjectId());
+			assertFalse(rc.next());
+		}
+		try (RefCursor rc = t.byObjectId(id(100))) {
+			assertTrue("has 100", rc.next());
+			assertEquals("refs/heads/100", rc.getRef().getName());
+			assertEquals(id(100), rc.getRef().getObjectId());
+
+			assertTrue("has master", rc.next());
+			assertEquals("refs/heads/master", rc.getRef().getName());
+			assertEquals(id(100), rc.getRef().getObjectId());
+
+			assertFalse(rc.next());
+		}
+	}
+
 	@Test
 	public void unpeeledDoesNotWrite() {
 		try {
