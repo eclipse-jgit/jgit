@@ -371,6 +371,12 @@ public class ConfigConstants {
 	public static final String CONFIG_KEY_RENAMES = "renames";
 
 	/**
+	 * The "inCoreLimit" key in the "merge section". It's a size limit (MiB) used to control
+	 * a file to be stored in {@code Heap} or {@code LocalFile} during the merge.
+	 */
+	public static final String CONFIG_KEY_IN_CORE_LIMIT = "inCoreLimit";
+
+	/**
 	 * The "prune" key
 	 * @since 3.3
 	 */
