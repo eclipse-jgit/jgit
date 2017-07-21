@@ -99,6 +99,7 @@ import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.TemporaryBuffer;
+import org.kohsuke.args4j.Option;
 
 /**
  * A three-way merger performing a content-merge if necessary
@@ -271,6 +272,12 @@ public class ResolveMerger extends ThreeWayMerger {
 	 * @since 3.0
 	 */
 	protected MergeAlgorithm mergeAlgorithm;
+
+	/**
+	 * The size limit (MiB) which controls a file to be stored in {@code Heap} or {@code LocalFile}.
+	 */
+	@Option(name = "--in-core-limit", usage = "usage_InCoreLimit")
+	private int inCoreLimit = 100;
 
 	private static MergeAlgorithm getMergeAlgorithm(Config config) {
 		SupportedAlgorithm diffAlg = config.getEnum(
@@ -835,7 +842,7 @@ public class ResolveMerger extends ThreeWayMerger {
 	private ObjectId insertMergeResult(MergeResult<RawText> result)
 			throws IOException {
 		TemporaryBuffer.LocalFile buf = new TemporaryBuffer.LocalFile(
-				db != null ? nonNullRepo().getDirectory() : null, 10 << 20);
+				db != null ? nonNullRepo().getDirectory() : null, inCoreLimit << 20);
 		try {
 			new MergeFormatter().formatMerge(buf, result,
 					Arrays.asList(commitNames), CHARACTER_ENCODING);
