@@ -65,6 +65,7 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 	private PackSource packSource;
 	private long lastModified;
 	private long[] sizeMap;
+	private int[] blockSizeMap;
 	private long objectCount;
 	private long deltaCount;
 	private PackStatistics stats;
@@ -91,7 +92,10 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 		this.repoDesc = repoDesc;
 		int dot = name.lastIndexOf('.');
 		this.packName = (dot < 0) ? name : name.substring(0, dot);
-		this.sizeMap = new long[PackExt.values().length];
+
+		int extCnt = PackExt.values().length;
+		sizeMap = new long[extCnt];
+		blockSizeMap = new int[extCnt];
 	}
 
 	/** @return description of the repository. */
@@ -191,6 +195,34 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 	public long getFileSize(PackExt ext) {
 		int i = ext.getPosition();
 		return i < sizeMap.length ? sizeMap[i] : 0;
+	}
+
+	/**
+	 * @param ext
+	 *            the file extension.
+	 * @return blockSize of the file, in bytes. If 0 the blockSize size is not
+	 *         yet known and may be discovered when opening the file.
+	 */
+	public int getBlockSize(PackExt ext) {
+		int i = ext.getPosition();
+		return i < blockSizeMap.length ? blockSizeMap[i] : 0;
+	}
+
+	/**
+	 * @param ext
+	 *            the file extension.
+	 * @param blockSize
+	 *            blockSize of the file, in bytes. If 0 the blockSize is not
+	 *            known and will be determined on first read.
+	 * @return {@code this}
+	 */
+	public DfsPackDescription setBlockSize(PackExt ext, int blockSize) {
+		int i = ext.getPosition();
+		if (i >= blockSizeMap.length) {
+			blockSizeMap = Arrays.copyOf(blockSizeMap, i + 1);
+		}
+		blockSizeMap[i] = Math.max(0, blockSize);
+		return this;
 	}
 
 	/**

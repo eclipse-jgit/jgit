@@ -150,6 +150,7 @@ public class DfsPackParser extends PackParser {
 			readBlock = null;
 			packDsc.addFileExt(PACK);
 			packDsc.setFileSize(PACK, packEnd);
+			packDsc.setBlockSize(PACK, blockSize);
 
 			writePackIndex();
 			objdb.commitPack(Collections.singletonList(packDsc), null);
