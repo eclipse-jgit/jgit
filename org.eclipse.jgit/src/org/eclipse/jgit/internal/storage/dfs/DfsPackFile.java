@@ -123,9 +123,14 @@ public final class DfsPackFile extends BlockBasedFile {
 	 */
 	DfsPackFile(DfsBlockCache cache, DfsPackDescription desc) {
 		super(cache, desc, PACK);
-		length = desc.getFileSize(PACK);
-		if (length <= 0)
-			length = -1;
+
+		int bs = desc.getBlockSize(PACK);
+		if (bs > 0) {
+			setBlockSize(bs);
+		}
+
+		long sz = desc.getFileSize(PACK);
+		length = sz > 0 ? sz : -1;
 	}
 
 	/** @return description that was originally used to configure this pack file. */

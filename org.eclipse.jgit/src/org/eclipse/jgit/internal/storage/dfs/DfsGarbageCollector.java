@@ -563,22 +563,25 @@ public class DfsGarbageCollector {
 		try (DfsOutputStream out = objdb.writeFile(pack, PACK)) {
 			pw.writePack(pm, pm, out);
 			pack.addFileExt(PACK);
+			pack.setBlockSize(PACK, out.blockSize());
 		}
 
-		try (CountingOutputStream cnt =
-				new CountingOutputStream(objdb.writeFile(pack, INDEX))) {
+		try (DfsOutputStream out = objdb.writeFile(pack, INDEX)) {
+			CountingOutputStream cnt = new CountingOutputStream(out);
 			pw.writeIndex(cnt);
 			pack.addFileExt(INDEX);
 			pack.setFileSize(INDEX, cnt.getCount());
+			pack.setBlockSize(INDEX, out.blockSize());
 			pack.setIndexVersion(pw.getIndexVersion());
 		}
 
 		if (pw.prepareBitmapIndex(pm)) {
-			try (CountingOutputStream cnt = new CountingOutputStream(
-					objdb.writeFile(pack, BITMAP_INDEX))) {
+			try (DfsOutputStream out = objdb.writeFile(pack, BITMAP_INDEX)) {
+				CountingOutputStream cnt = new CountingOutputStream(out);
 				pw.writeBitmapIndex(cnt);
 				pack.addFileExt(BITMAP_INDEX);
 				pack.setFileSize(BITMAP_INDEX, cnt.getCount());
+				pack.setBlockSize(BITMAP_INDEX, out.blockSize());
 			}
 		}
 
