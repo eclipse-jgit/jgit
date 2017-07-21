@@ -1,6 +1,7 @@
 java_library(
     name = "args4j",
     visibility = [
+        "//org.eclipse.jgit:__pkg__",
         "//org.eclipse.jgit.pgm:__pkg__",
         "//org.eclipse.jgit.pgm.test:__pkg__",
     ],
@@ -115,9 +116,9 @@ java_library(
     testonly = 1,
     visibility = ["//visibility:public"],
     exports = [
-       "@junit//jar",
-       "@hamcrest_core//jar",
-       "@hamcrest_library//jar",
+        "@hamcrest_core//jar",
+        "@hamcrest_library//jar",
+        "@junit//jar",
     ],
 )
 

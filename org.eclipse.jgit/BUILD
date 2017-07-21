@@ -18,6 +18,7 @@ java_library(
     resources = RESOURCES,
     deps = [
         ":insecure_cipher_factory",
+        "//lib:args4j",
         "//lib:javaewah",
         "//lib:jsch",
         "//lib:slf4j-api",
