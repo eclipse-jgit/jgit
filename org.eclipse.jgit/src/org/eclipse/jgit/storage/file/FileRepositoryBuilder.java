@@ -110,4 +110,19 @@ public class FileRepositoryBuilder extends
 		return new FileRepositoryBuilder().setGitDir(gitDir).readEnvironment()
 				.build();
 	}
+
+	/**
+	 * Convenience factory method to construct a {@link FileRepository}.
+	 *
+	 * @param gitDir
+	 *            {@code GIT_DIR}, work tree of a git repository
+	 * @throws IOException
+	 *             the repository could not be accessed to configure the rest of
+	 *             the builder's parameters.
+	 * @since 3.0
+	 */
+	public static Repository createFromWorktree(File worktree) throws IOException {
+		return new FileRepositoryBuilder().setWorkTree(worktree).readEnvironment()
+				.build();
+	}
 }
