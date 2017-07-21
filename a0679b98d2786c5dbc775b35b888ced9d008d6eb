@@ -34,6 +34,24 @@
       "revId": "a0679b98d2786c5dbc775b35b888ced9d008d6eb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_d93fb08a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-07-21T23:27:11Z",
+      "side": 1,
+      "message": "adding constants to enums doesn\u0027t break binary compatibility [1], Eclipse API evolution guidelines also say that adding enum constants doesn\u0027t break binary compatibility[2]. Client code can use the values() method to determine the ordinal positions of the enum constants, such code may be broken by reordering enum constants or adding new constants not at the end.\n\nSo I\u0027d say implement the cleaner solution and add the proposed new enum constants RefUpdate.Result.REJECTED_MISSING_OBJECT, RefUpdate.Result.REJECTED_OTHER_REASON at the end of the enum\n\n[1] https://docs.oracle.com/javase/specs/jls/se8/html/jls-13.html#jls-13.4.26\n\n[2] https://wiki.eclipse.org/Evolving_Java-based_APIs_2#Evolving_API_Classes",
+      "parentUuid": "c7880b39_e3b21fff",
+      "revId": "a0679b98d2786c5dbc775b35b888ced9d008d6eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
