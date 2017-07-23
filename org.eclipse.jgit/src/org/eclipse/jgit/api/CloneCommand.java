@@ -234,7 +234,7 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 
 	private void verifyDirectories(URIish u) {
 		if (directory == null && gitDir == null) {
-			directory = new File(u.getHumanishName(), Constants.DOT_GIT);
+			directory = new File(u.getHumanishName());
 		}
 		directoryExistsInitially = directory != null && directory.exists();
 		gitDirExistsInitially = gitDir != null && gitDir.exists();
