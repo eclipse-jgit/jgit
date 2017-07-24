@@ -22,6 +22,30 @@
       "revId": "97a21851121a3efe03a04fc141fbfe8504ec5c06",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_81e04e8a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 129397
+      },
+      "writtenOn": "2017-07-24T07:44:26Z",
+      "side": 1,
+      "message": "I edited all except the commiter. I don\u0027t know how to do.",
+      "parentUuid": "c7880b39_81ea0e99",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 34
+      },
+      "revId": "97a21851121a3efe03a04fc141fbfe8504ec5c06",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
