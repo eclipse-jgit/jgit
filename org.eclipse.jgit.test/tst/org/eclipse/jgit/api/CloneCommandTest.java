@@ -76,6 +76,7 @@ import org.eclipse.jgit.submodule.SubmoduleStatusType;
 import org.eclipse.jgit.submodule.SubmoduleWalk;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
+import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.util.SystemReader;
 import org.junit.Test;
 
@@ -152,6 +153,29 @@ public class CloneCommandTest extends RepositoryTestCase {
 		assertEquals(directory, git2.getRepository().getWorkTree());
 		assertEquals(new File(directory, ".git"), git2.getRepository()
 				.getDirectory());
+	}
+
+	@Test
+	public void testCloneRepositoryDefaultDirectory() throws IOException, URISyntaxException,
+			JGitInternalException, GitAPIException {
+		CloneCommand command = Git.cloneRepository();
+		command.setURI(fileUri());
+
+		command.verifyDirectories(new URIish(fileUri()));
+		File directory = command.getDirectory();
+		assertEquals(git.getRepository().getWorkTree().getName(), directory.getName());
+	}
+
+	@Test
+	public void testCloneBareRepositoryDefaultDirectory() throws IOException, URISyntaxException,
+			JGitInternalException, GitAPIException {
+		CloneCommand command = Git.cloneRepository();
+		command.setURI(fileUri());
+		command.setBare(true);
+
+		command.verifyDirectories(new URIish(fileUri()));
+		File directory = command.getDirectory();
+		assertEquals(git.getRepository().getWorkTree().getName() + ".git", directory.getName());
 	}
 
 	@Test
