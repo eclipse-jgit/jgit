@@ -123,6 +123,18 @@ public class ReftableTest {
 		}
 	}
 
+	@SuppressWarnings("boxing")
+	@Test
+	public void largeVirtualTableFromRefs() throws IOException {
+		List<Ref> refs = new ArrayList<>();
+		for (int i = 1; i <= 5670; i++) {
+			refs.add(ref(String.format("refs/heads/%04d", i), i));
+		}
+		Reftable t = Reftable.from(refs);
+		assertScan(refs, t);
+		assertSeek(refs, t);
+	}
+
 	@Test
 	public void estimateCurrentBytes() throws IOException {
 		Ref exp = ref(MASTER, 1);
@@ -350,17 +362,7 @@ public class ReftableTest {
 		byte[] table = write(refs);
 		assertTrue(stats.refIndexKeys() > 0);
 		assertTrue(stats.refIndexSize() > 0);
-
-		ReftableReader t = read(table);
-		try (RefCursor rc = t.allRefs()) {
-			for (Ref exp : refs) {
-				assertTrue("has " + exp.getName(), rc.next());
-				Ref act = rc.getRef();
-				assertEquals(exp.getName(), act.getName());
-				assertEquals(exp.getObjectId(), act.getObjectId());
-			}
-			assertFalse(rc.next());
-		}
+		assertScan(refs, read(table));
 	}
 
 	@SuppressWarnings("boxing")
@@ -374,17 +376,7 @@ public class ReftableTest {
 		byte[] table = write(refs);
 		assertTrue(stats.refIndexKeys() > 0);
 		assertTrue(stats.refIndexSize() > 0);
-
-		ReftableReader t = read(table);
-		for (Ref exp : refs) {
-			try (RefCursor rc = t.seek(exp.getName())) {
-				assertTrue("has " + exp.getName(), rc.next());
-				Ref act = rc.getRef();
-				assertEquals(exp.getName(), act.getName());
-				assertEquals(exp.getObjectId(), act.getObjectId());
-				assertFalse(rc.next());
-			}
-		}
+		assertSeek(refs, read(table));
 	}
 
 	@SuppressWarnings("boxing")
@@ -400,17 +392,7 @@ public class ReftableTest {
 		assertEquals(0, stats.refIndexSize());
 		assertEquals(4, stats.refBlockCount());
 		assertEquals(table.length, stats.totalBytes());
-
-		ReftableReader t = read(table);
-		try (RefCursor rc = t.allRefs()) {
-			for (Ref exp : refs) {
-				assertTrue("has " + exp.getName(), rc.next());
-				Ref act = rc.getRef();
-				assertEquals(exp.getName(), act.getName());
-				assertEquals(exp.getObjectId(), act.getObjectId());
-			}
-			assertFalse(rc.next());
-		}
+		assertScan(refs, read(table));
 	}
 
 	@SuppressWarnings("boxing")
@@ -424,17 +406,7 @@ public class ReftableTest {
 		byte[] table = write(refs);
 		assertEquals(0, stats.refIndexKeys());
 		assertEquals(4, stats.refBlockCount());
-
-		ReftableReader t = read(table);
-		for (Ref exp : refs) {
-			try (RefCursor rc = t.seek(exp.getName())) {
-				assertTrue("has " + exp.getName(), rc.next());
-				Ref act = rc.getRef();
-				assertEquals(exp.getName(), act.getName());
-				assertEquals(exp.getObjectId(), act.getObjectId());
-				assertFalse(rc.next());
-			}
-		}
+		assertSeek(refs, read(table));
 	}
 
 	@Test
@@ -617,6 +589,32 @@ public class ReftableTest {
 		}
 	}
 
+
+	private static void assertScan(List<Ref> refs, Reftable t)
+			throws IOException {
+		try (RefCursor rc = t.allRefs()) {
+			for (Ref exp : refs) {
+				assertTrue("has " + exp.getName(), rc.next());
+				Ref act = rc.getRef();
+				assertEquals(exp.getName(), act.getName());
+				assertEquals(exp.getObjectId(), act.getObjectId());
+			}
+			assertFalse(rc.next());
+		}
+	}
+
+	private static void assertSeek(List<Ref> refs, Reftable t)
+			throws IOException {
+		for (Ref exp : refs) {
+			try (RefCursor rc = t.seek(exp.getName())) {
+				assertTrue("has " + exp.getName(), rc.next());
+				Ref act = rc.getRef();
+				assertEquals(exp.getName(), act.getName());
+				assertEquals(exp.getObjectId(), act.getObjectId());
+				assertFalse(rc.next());
+			}
+		}
+	}
 
 	private static Ref ref(String name, int id) {
 		return new ObjectIdRef.PeeledNonTag(PACKED, name, id(id));
