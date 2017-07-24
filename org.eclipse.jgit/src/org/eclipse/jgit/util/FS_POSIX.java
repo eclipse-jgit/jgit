@@ -188,7 +188,7 @@ public class FS_POSIX extends FS {
 		if (!isFile(f))
 			return false;
 		if (!canExecute)
-			return f.setExecutable(false);
+			return f.setExecutable(false, false);
 
 		try {
 			Path path = f.toPath();
