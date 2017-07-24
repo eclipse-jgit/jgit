@@ -62,6 +62,24 @@
       "revId": "5cb784eec7100f4f9cfdcb60e5e7bdd25e105fe2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_c46424c6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 129397
+      },
+      "writtenOn": "2017-07-24T10:07:44Z",
+      "side": 1,
+      "message": "The issue is that on some systems we are not owner of the temporarily created file, so setExecutable with ownerOnly to true by default will not set off to false in your link [1]",
+      "parentUuid": "c7880b39_59abc05d",
+      "revId": "5cb784eec7100f4f9cfdcb60e5e7bdd25e105fe2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
