@@ -1,0 +1,8 @@
+Verified+1: Hudson CI
+Code-Review+2: Andrey Loskutov <loskutov@gmx.de>
+Code-Review+2: David Pursehouse <david.pursehouse@gmail.com>
+Submitted-by: David Pursehouse <david.pursehouse@gmail.com>
+Submitted-at: Mon, 24 Jul 2017 04:34:05 -0400
+Reviewed-on: https://git.eclipse.org/r/100550
+Project: jgit/jgit
+Branch: refs/heads/master
