@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_67c8d21f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 129397
+      },
+      "writtenOn": "2017-07-24T12:58:06Z",
+      "side": 1,
+      "message": "So it should be true on POSIX OS and this is currently set to false on Alpine Linux.",
+      "parentUuid": "c7880b39_39eb54a0",
+      "range": {
+        "startLine": 7,
+        "startChar": 27,
+        "endLine": 7,
+        "endChar": 81
+      },
+      "revId": "5cb784eec7100f4f9cfdcb60e5e7bdd25e105fe2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_59f02086",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
