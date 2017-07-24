@@ -43,12 +43,10 @@
 
 package org.eclipse.jgit.internal.storage.reftable;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Collection;
 
 import org.eclipse.jgit.annotations.Nullable;
-import org.eclipse.jgit.internal.storage.io.BlockSource;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Ref;
 
@@ -62,14 +60,16 @@ public abstract class Reftable implements AutoCloseable {
 	public static Reftable from(Collection<Ref> refs) {
 		try {
 			ReftableConfig cfg = new ReftableConfig();
+			cfg.setRefBlockSize(refs.size() < 10000 ? (4 << 10) : (64 << 10));
 			cfg.setIndexObjects(false);
-			ByteArrayOutputStream buf = new ByteArrayOutputStream();
+
+			MemoryReftable buf = new MemoryReftable(cfg.getRefBlockSize());
 			new ReftableWriter()
 				.setConfig(cfg)
-				.begin(buf)
+				.begin(buf.getOutput())
 				.sortAndWriteRefs(refs)
 				.finish();
-			return new ReftableReader(BlockSource.from(buf.toByteArray()));
+			return new ReftableReader(buf.getBlockSource());
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
