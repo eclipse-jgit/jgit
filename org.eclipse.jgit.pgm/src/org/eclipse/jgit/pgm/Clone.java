@@ -101,6 +101,9 @@ class Clone extends AbstractFetchCommand implements CloneCommand.Callback {
 		if (localName == null) {
 			try {
 				localName = uri.getHumanishName();
+				if (isBare) {
+					localName = localName + Constants.DOT_GIT_EXT;
+				}
 				localNameF = new File(SystemReader.getInstance().getProperty(
 						Constants.OS_USER_DIR), localName);
 			} catch (IllegalArgumentException e) {
