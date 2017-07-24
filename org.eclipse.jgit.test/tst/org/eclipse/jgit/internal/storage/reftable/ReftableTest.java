@@ -52,6 +52,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -237,6 +238,42 @@ public class ReftableTest {
 			assertEquals(MASTER, act.getTarget().getName());
 			assertNull(act.getObjectId());
 		}
+	}
+
+	@Test
+	public void resolveSymbolicRef() throws IOException {
+		Reftable t = read(write(
+				sym(HEAD, "refs/heads/tmp"),
+				sym("refs/heads/tmp", MASTER),
+				ref(MASTER, 1)));
+
+		Ref head = t.exactRef(HEAD);
+		assertNull(head.getObjectId());
+		assertEquals("refs/heads/tmp", head.getTarget().getName());
+
+		head = t.resolve(head);
+		assertNotNull(head);
+		assertEquals(id(1), head.getObjectId());
+
+		Ref master = t.exactRef(MASTER);
+		assertNotNull(master);
+		assertSame(master, t.resolve(master));
+	}
+
+	@Test
+	public void failDeepChainOfSymbolicRef() throws IOException {
+		Reftable t = read(write(
+				sym(HEAD, "refs/heads/1"),
+				sym("refs/heads/1", "refs/heads/2"),
+				sym("refs/heads/2", "refs/heads/3"),
+				sym("refs/heads/3", "refs/heads/4"),
+				sym("refs/heads/4", "refs/heads/5"),
+				sym("refs/heads/5", MASTER),
+				ref(MASTER, 1)));
+
+		Ref head = t.exactRef(HEAD);
+		assertNull(head.getObjectId());
+		assertNull(t.resolve(head));
 	}
 
 	@Test
