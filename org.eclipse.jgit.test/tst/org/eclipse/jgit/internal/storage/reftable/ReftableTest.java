@@ -294,6 +294,38 @@ public class ReftableTest {
 	}
 
 	@Test
+	public void resolveSymbolicRef() throws IOException {
+		Reftable t = read(write(
+				sym(HEAD, "refs/heads/tmp"),
+				sym("refs/heads/tmp", MASTER),
+				ref(MASTER, 1)));
+
+		Ref head = t.exactRef(HEAD);
+		assertNull(head.getObjectId());
+		assertEquals("refs/heads/tmp", head.getTarget().getName());
+
+		head = t.resolve(head);
+		assertNotNull(head);
+		assertEquals(id(1), head.getObjectId());
+	}
+
+	@Test
+	public void failChainOfSymbolicRef() throws IOException {
+		Reftable t = read(write(
+				sym(HEAD, "refs/heads/1"),
+				sym("refs/heads/1", "refs/heads/2"),
+				sym("refs/heads/2", "refs/heads/3"),
+				sym("refs/heads/3", "refs/heads/4"),
+				sym("refs/heads/4", "refs/heads/5"),
+				sym("refs/heads/5", MASTER),
+				ref(MASTER, 1)));
+
+		Ref head = t.exactRef(HEAD);
+		assertNull(head.getObjectId());
+		assertNull(t.resolve(head));
+	}
+
+	@Test
 	public void oneDeletedRef() throws IOException {
 		String name = "refs/heads/gone";
 		Ref exp = newRef(name);
