@@ -46,6 +46,30 @@
       "revId": "97a21851121a3efe03a04fc141fbfe8504ec5c06",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_611a822f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-07-24T07:54:30Z",
+      "side": 1,
+      "message": "You should be able to set the name in git config, either in ~/.gitconfig or in .git/config in the project itself.",
+      "parentUuid": "c7880b39_81e04e8a",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 34
+      },
+      "revId": "97a21851121a3efe03a04fc141fbfe8504ec5c06",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
