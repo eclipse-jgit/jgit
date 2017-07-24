@@ -580,6 +580,9 @@ public class RefDirectory extends RefDatabase {
 
 	void delete(RefDirectoryUpdate update) throws IOException {
 		Ref dst = update.getRef();
+		if (!update.isDetachingSymbolicRef()) {
+			dst = dst.getLeaf();
+		}
 		String name = dst.getName();
 
 		// Write the packed-refs file using an atomic update. We might
@@ -914,8 +917,24 @@ public class RefDirectory extends RefDatabase {
 					throw new ObjectWritingException(MessageFormat.format(JGitText.get().unableToWrite, name));
 
 				byte[] digest = Constants.newMessageDigest().digest(content);
-				packedRefs.compareAndSet(oldPackedList, new PackedRefList(refs,
-						lck.getCommitSnapshot(), ObjectId.fromRaw(digest)));
+				PackedRefList newPackedList = new PackedRefList(
+						refs, lck.getCommitSnapshot(), ObjectId.fromRaw(digest));
+
+				// This thread holds the file lock, so no other thread or process should
+				// be able to modify the packed-refs file on disk. If the list changed,
+				// it means something is very wrong, so throw an exception.
+				//
+				// However, we can't use a naive compareAndSet to check whether the
+				// update was successful, because another thread might _read_ the
+				// packed refs file that was written out by this thread while holding
+				// the lock, and update the packedRefs reference to point to that. So
+				// compare the actual contents instead.
+				PackedRefList afterUpdate = packedRefs.updateAndGet(
+						p -> p.id.equals(oldPackedList.id) ? newPackedList : p);
+				if (!afterUpdate.id.equals(newPackedList.id)) {
+					throw new ObjectWritingException(
+							MessageFormat.format(JGitText.get().unableToWrite, name));
+				}
 			}
 		}.writePackedRefs();
 	}
