@@ -50,6 +50,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
@@ -157,6 +158,16 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	}
 
 	/**
+	 * Get the git directory. This is primarily used for tests.
+	 *
+	 * @return the git directory
+	 */
+	@Nullable
+	File getDirectory() {
+		return directory;
+	}
+
+	/**
 	 * Executes the {@code Clone} command.
 	 *
 	 * The Git instance returned by this command needs to be closed by the
@@ -232,9 +243,9 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 		return false;
 	}
 
-	private void verifyDirectories(URIish u) {
+	void verifyDirectories(URIish u) {
 		if (directory == null && gitDir == null) {
-			directory = new File(u.getHumanishName(), Constants.DOT_GIT);
+			directory = new File(u.getHumanishName() + (bare ? Constants.DOT_GIT_EXT : "")); //$NON-NLS-1$
 		}
 		directoryExistsInitially = directory != null && directory.exists();
 		gitDirExistsInitially = gitDir != null && gitDir.exists();
