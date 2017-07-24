@@ -123,6 +123,18 @@ public class ReftableTest {
 		}
 	}
 
+	@SuppressWarnings("boxing")
+	@Test
+	public void largeVirtualTableFromRefs() throws IOException {
+		List<Ref> refs = new ArrayList<>();
+		for (int i = 1; i <= 5670; i++) {
+			refs.add(ref(String.format("refs/heads/%04d", i), i));
+		}
+		Reftable t = Reftable.from(refs);
+		assertScan(refs, t);
+		assertSeek(refs, t);
+	}
+
 	@Test
 	public void estimateCurrentBytes() throws IOException {
 		Ref exp = ref(MASTER, 1);
