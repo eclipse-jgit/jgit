@@ -232,7 +232,9 @@ public class PathMatcher extends AbstractMatcher {
 							assumeDirectory);
 				} else {
 					// a/** should not match a/ or a
-					match = match && matchers.get(matcher) != WILD;
+					// a/*  should not match a/ or a
+					// a/x  should not match a/ or a
+					match = false;
 				}
 				if (match) {
 					if (matcher < matchers.size() - 1
@@ -263,7 +265,9 @@ public class PathMatcher extends AbstractMatcher {
 				}
 				matcher++;
 				if (matcher == matchers.size()) {
-					return true;
+					return (right == -1) || // and we've reached the end of input
+							(right == Strings.stripTrailing(path.substring(startIncl, endExcl), slash).length()) || // or only slashes are remaining
+							(lastWildmatch == matcher - 1); // or the pattern ends with /**
 				}
 			} else if (lastWildmatch != -1) {
 				matcher = lastWildmatch + 1;

@@ -105,12 +105,12 @@ public class AttributesMatcherTest {
 		assertNotMatched(pattern, "test.stae");
 		assertNotMatched(pattern, "test.sta9");
 
-		//Test child directory/file is matched
+		//Test child directory/file is not matched
 		pattern = "/src/ne?";
 		assertMatched(pattern, "/src/new/");
 		assertMatched(pattern, "/src/new");
-		assertMatched(pattern, "/src/new/a.c");
-		assertMatched(pattern, "/src/new/a/a.c");
+		assertNotMatched(pattern, "/src/new/a.c");
+		assertNotMatched(pattern, "/src/new/a/a.c");
 		assertNotMatched(pattern, "/src/new.c");
 
 		//Test name-only fnmatcher matches
@@ -165,12 +165,12 @@ public class AttributesMatcherTest {
 		assertNotMatched(pattern, "test.stae");
 		assertNotMatched(pattern, "test.sta9");
 
-		//Test child directory/file is matched
+		//Test child directory/file is not matched
 		pattern = "/src/ne?";
 		assertMatched(pattern, "src/new/");
 		assertMatched(pattern, "src/new");
-		assertMatched(pattern, "src/new/a.c");
-		assertMatched(pattern, "src/new/a/a.c");
+		assertNotMatched(pattern, "src/new/a.c");
+		assertNotMatched(pattern, "src/new/a/a.c");
 		assertNotMatched(pattern, "src/new.c");
 
 		//Test name-only fnmatcher matches
