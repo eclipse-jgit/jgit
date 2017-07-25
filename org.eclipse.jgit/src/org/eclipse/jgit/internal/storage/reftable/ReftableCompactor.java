@@ -159,9 +159,16 @@ public class ReftableCompactor {
 	 *            tables to compact. Tables should be ordered oldest first/most
 	 *            recent last so that the more recent tables can shadow the
 	 *            older results. Caller is responsible for closing the readers.
+	 * @throws IOException
+	 *             update indexes of a reader cannot be accessed.
 	 */
-	public void addAll(List<? extends Reftable> readers) {
+	public void addAll(List<? extends Reftable> readers) throws IOException {
 		tables.addAll(readers);
+		for (Reftable r : readers) {
+			if (r instanceof ReftableReader) {
+				adjustUpdateIndexes((ReftableReader) r);
+			}
+		}
 	}
 
 	/**
@@ -178,7 +185,7 @@ public class ReftableCompactor {
 	 * @return {@code true} if the compactor accepted this table; {@code false}
 	 *         if the compactor has reached its limit.
 	 * @throws IOException
-	 *             if size of {@code reader} cannot be read.
+	 *             if size of {@code reader}, or its update indexes cannot be read.
 	 */
 	public boolean tryAddFirst(ReftableReader reader) throws IOException {
 		long sz = reader.size();
@@ -186,8 +193,18 @@ public class ReftableCompactor {
 			return false;
 		}
 		bytesToCompact += sz;
+		adjustUpdateIndexes(reader);
 		tables.addFirst(reader);
 		return true;
+	}
+
+	private void adjustUpdateIndexes(ReftableReader reader) throws IOException {
+		if (minUpdateIndex == 0) {
+			minUpdateIndex = reader.minUpdateIndex();
+		} else {
+			minUpdateIndex = Math.min(minUpdateIndex, reader.minUpdateIndex());
+		}
+		maxUpdateIndex = Math.max(maxUpdateIndex, reader.maxUpdateIndex());
 	}
 
 	/**
