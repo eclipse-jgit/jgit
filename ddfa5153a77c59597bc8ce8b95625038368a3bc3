@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_8dceb828",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-07-25T21:28:14Z",
+      "side": 1,
+      "message": "isRefLogDisabled()",
+      "range": {
+        "startLine": 352,
+        "startChar": 6,
+        "endLine": 352,
+        "endChar": 62
+      },
+      "revId": "ddfa5153a77c59597bc8ce8b95625038368a3bc3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_add614bc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-07-25T21:28:14Z",
+      "side": 1,
+      "message": "Hoist this out of the loop so the identity is the same for all refs in the transaction. That way the log timestamps are the same even if the logging activity spans over the turn of the second.",
+      "range": {
+        "startLine": 381,
+        "startChar": 0,
+        "endLine": 384,
+        "endChar": 4
+      },
+      "revId": "ddfa5153a77c59597bc8ce8b95625038368a3bc3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_cdd360cb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-07-25T21:28:14Z",
+      "side": 1,
+      "message": "I don\u0027t see why this conditional should be here. If the command type is UPDATE its a fast-forward. It doesn\u0027t matter what the BatchRefUpdate has been configured to allow.",
+      "range": {
+        "startLine": 410,
+        "startChar": 10,
+        "endLine": 411,
+        "endChar": 42
+      },
+      "revId": "ddfa5153a77c59597bc8ce8b95625038368a3bc3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
