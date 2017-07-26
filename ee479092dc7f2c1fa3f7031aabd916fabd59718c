@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_36551a97",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/CorruptPackIndexException.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-07-26T00:11:14Z",
+      "side": 1,
+      "message": "Is this \"offset in pack file does not match offset in index\"?",
+      "range": {
+        "startLine": 58,
+        "startChar": 6,
+        "endLine": 58,
+        "endChar": 41
+      },
+      "revId": "ee479092dc7f2c1fa3f7031aabd916fabd59718c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_f65e32bd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/CorruptPackIndexException.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-07-26T00:11:14Z",
+      "side": 1,
+      "message": "s/doesn\u0027t/not/",
+      "range": {
+        "startLine": 62,
+        "startChar": 10,
+        "endLine": 62,
+        "endChar": 17
+      },
+      "revId": "ee479092dc7f2c1fa3f7031aabd916fabd59718c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_96bfae48",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/CorruptPackIndexException.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-07-26T00:11:14Z",
+      "side": 1,
+      "message": "s/doesn\u0027t/not/",
+      "range": {
+        "startLine": 64,
+        "startChar": 21,
+        "endLine": 64,
+        "endChar": 28
+      },
+      "revId": "ee479092dc7f2c1fa3f7031aabd916fabd59718c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_d6acd626",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/CorruptPackIndexException.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-07-26T00:11:14Z",
+      "side": 1,
+      "message": "s/doesn\u0027t/not/",
+      "range": {
+        "startLine": 66,
+        "startChar": 27,
+        "endLine": 66,
+        "endChar": 34
+      },
+      "revId": "ee479092dc7f2c1fa3f7031aabd916fabd59718c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_16b3be80",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/fsck/Fsck.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-07-26T00:11:14Z",
+      "side": 1,
+      "message": "s/the objects/a repository/",
+      "range": {
+        "startLine": 49,
+        "startChar": 44,
+        "endLine": 49,
+        "endChar": 55
+      },
+      "revId": "ee479092dc7f2c1fa3f7031aabd916fabd59718c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_8d9b18f7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/fsck/Fsck.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-07-26T00:11:14Z",
+      "side": 1,
+      "message": "Using interfaces used to be a problem for future expansibility, since adding a new method broke binary compatibility. Since JGit requires Java 8 and Java 8 supports abstract methods in interfaces, this should be ok.",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 22
+      },
+      "revId": "ee479092dc7f2c1fa3f7031aabd916fabd59718c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_8dc4f8d9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/fsck/FsckError.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-07-26T00:11:14Z",
+      "side": 1,
+      "message": "s/Reports/Holds/",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 54,
+        "endChar": 11
+      },
+      "revId": "ee479092dc7f2c1fa3f7031aabd916fabd59718c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_adac5425",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/fsck/FsckPackParser.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-07-26T00:11:14Z",
+      "side": 1,
+      "message": "s/read only/read-only/",
+      "range": {
+        "startLine": 71,
+        "startChar": 6,
+        "endLine": 71,
+        "endChar": 15
+      },
+      "revId": "ee479092dc7f2c1fa3f7031aabd916fabd59718c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_edb2dc7a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1080,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-07-26T00:11:14Z",
+      "side": 1,
+      "message": "s/tracked/checked/",
+      "range": {
+        "startLine": 1080,
+        "startChar": 44,
+        "endLine": 1080,
+        "endChar": 51
+      },
+      "revId": "ee479092dc7f2c1fa3f7031aabd916fabd59718c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
