@@ -54,6 +54,7 @@ import static org.eclipse.jgit.transport.ReceiveCommand.Type.DELETE;
 import static org.eclipse.jgit.transport.ReceiveCommand.Type.UPDATE;
 import static org.eclipse.jgit.transport.ReceiveCommand.Type.UPDATE_NONFASTFORWARD;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -96,6 +97,7 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 
+@SuppressWarnings("boxing")
 @RunWith(Parameterized.class)
 public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 	@Parameter
@@ -125,6 +127,7 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		cfg.save();
 
 		refdir = (RefDirectory) diskRepo.getRefDatabase();
+		refdir.setRetrySleepMs(Arrays.asList(0, 0));
 
 		repo = new TestRepository<>(diskRepo);
 		A = repo.commit().create();
@@ -584,6 +587,85 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 				getLastReflog("refs/heads/branch"));
 	}
 
+	@Test
+	public void packedRefsLockFailure() throws Exception {
+		writeLooseRef("refs/heads/master", A);
+
+		List<ReceiveCommand> cmds = Arrays.asList(
+				new ReceiveCommand(A, B, "refs/heads/master", UPDATE),
+				new ReceiveCommand(zeroId(), B, "refs/heads/branch", CREATE));
+
+		LockFile myLock = refdir.lockPackedRefs();
+		try {
+			execute(newBatchUpdate(cmds).setAllowNonFastForwards(true));
+
+			assertFalse(getLockFile("refs/heads/master").exists());
+			assertFalse(getLockFile("refs/heads/branch").exists());
+
+			if (atomic) {
+				assertResults(cmds, LOCK_FAILURE, TRANSACTION_ABORTED);
+				assertRefs("refs/heads/master", A);
+			} else {
+				// Only operates on loose refs, doesn't care that packed-refs is locked.
+				assertResults(cmds, OK, OK);
+				assertRefs(
+						"refs/heads/master", B,
+						"refs/heads/branch", B);
+			}
+		} finally {
+			myLock.unlock();
+		}
+	}
+
+	@Test
+	public void oneRefLockFailure() throws Exception {
+		writeLooseRef("refs/heads/master", A);
+
+		List<ReceiveCommand> cmds = Arrays.asList(
+				new ReceiveCommand(zeroId(), B, "refs/heads/branch", CREATE),
+				new ReceiveCommand(A, B, "refs/heads/master", UPDATE));
+
+		LockFile myLock = new LockFile(refdir.fileFor("refs/heads/master"));
+		assertTrue(myLock.lock());
+		try {
+			execute(newBatchUpdate(cmds).setAllowNonFastForwards(true));
+
+			assertFalse(LockFile.getLockFile(refdir.packedRefsFile).exists());
+			assertFalse(getLockFile("refs/heads/branch").exists());
+
+			if (atomic) {
+				assertResults(cmds, TRANSACTION_ABORTED, LOCK_FAILURE);
+				assertRefs("refs/heads/master", A);
+			} else {
+				assertResults(cmds, OK, LOCK_FAILURE);
+				assertRefs(
+						"refs/heads/branch", B,
+						"refs/heads/master", A);
+			}
+		} finally {
+			myLock.unlock();
+		}
+	}
+
+	@Test
+	public void singleRefUpdateDoesNotRequirePackedRefsLock() throws Exception {
+		writeLooseRef("refs/heads/master", A);
+
+		List<ReceiveCommand> cmds = Arrays.asList(
+				new ReceiveCommand(A, B, "refs/heads/master", UPDATE));
+
+		LockFile myLock = refdir.lockPackedRefs();
+		try {
+			execute(newBatchUpdate(cmds).setAllowNonFastForwards(true));
+
+			assertFalse(getLockFile("refs/heads/master").exists());
+			assertResults(cmds, OK);
+			assertRefs("refs/heads/master", B);
+		} finally {
+			myLock.unlock();
+		}
+	}
+
 	private void writeLooseRef(String name, AnyObjectId id) throws IOException {
 		write(new File(diskRepo.getDirectory(), name), id.name() + "\n");
 	}
@@ -710,6 +792,10 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 			return null;
 		}
 		return r.getLastEntry();
+	}
+
+	private File getLockFile(String refName) {
+		return LockFile.getLockFile(refdir.fileFor(refName));
 	}
 
 	private void assertReflogUnchanged(

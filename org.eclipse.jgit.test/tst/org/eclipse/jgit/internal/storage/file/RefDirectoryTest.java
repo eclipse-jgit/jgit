@@ -60,10 +60,12 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.eclipse.jgit.errors.LockFailedException;
 import org.eclipse.jgit.events.ListenerHandle;
 import org.eclipse.jgit.events.RefsChangedEvent;
 import org.eclipse.jgit.events.RefsChangedListener;
@@ -79,6 +81,7 @@ import org.eclipse.jgit.revwalk.RevTag;
 import org.junit.Before;
 import org.junit.Test;
 
+@SuppressWarnings("boxing")
 public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	private Repository diskRepo;
 
@@ -1282,6 +1285,23 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		assertNull(error.get());
 		assertNull(exception.get());
 		assertEquals(1, changeCount.get());
+	}
+
+	@Test
+	public void testPackedRefsLockFailure() throws Exception {
+		writeLooseRef("refs/heads/master", A);
+		refdir.setRetrySleepMs(Arrays.asList(0, 0));
+		LockFile myLock = refdir.lockPackedRefs();
+		try {
+			refdir.pack(Arrays.asList("refs/heads/master"));
+			fail("expected LockFailedException");
+		} catch (LockFailedException e) {
+			assertEquals(refdir.packedRefsFile.getPath(), e.getFile().getPath());
+		} finally {
+			myLock.unlock();
+		}
+		Ref ref = refdir.getRef("refs/heads/master");
+		assertEquals(Storage.LOOSE, ref.getStorage());
 	}
 
 	private void writeLooseRef(String name, AnyObjectId id) throws IOException {
