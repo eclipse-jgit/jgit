@@ -16,6 +16,24 @@
       "revId": "26962861d4fd50ac32edd642eafca1c10f29a4ba",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_197e8a20",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-07-26T21:05:11Z",
+      "side": 1,
+      "message": "Done in https://git.eclipse.org/r/102031",
+      "parentUuid": "c7880b39_be647cc4",
+      "revId": "26962861d4fd50ac32edd642eafca1c10f29a4ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
