@@ -63,6 +63,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.InterruptedIOException;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.text.MessageFormat;
@@ -76,6 +77,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.errors.LockFailedException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -137,6 +139,10 @@ public class RefDirectory extends RefDatabase {
 			Constants.MERGE_HEAD, Constants.FETCH_HEAD, Constants.ORIG_HEAD,
 			Constants.CHERRY_PICK_HEAD };
 
+	@SuppressWarnings("boxing")
+	private static final List<Integer> RETRY_SLEEP_MS =
+			Collections.unmodifiableList(Arrays.asList(0, 100, 200, 400, 800, 1600));
+
 	private final FileRepository parent;
 
 	private final File gitDir;
@@ -175,6 +181,8 @@ public class RefDirectory extends RefDatabase {
 	 * the listeners only when it differs.
 	 */
 	private final AtomicInteger lastNotifiedModCnt = new AtomicInteger();
+
+	private List<Integer> retrySleepMs = RETRY_SLEEP_MS;
 
 	RefDirectory(final FileRepository db) {
 		final FS fs = db.getFS();
@@ -602,9 +610,7 @@ public class RefDirectory extends RefDatabase {
 		// we don't miss an edit made externally.
 		final PackedRefList packed = getPackedRefs();
 		if (packed.contains(name)) {
-			LockFile lck = new LockFile(packedRefsFile);
-			if (!lck.lock())
-				throw new LockFailedException(packedRefsFile);
+			LockFile lck = lockPackedRefsOrThrow();
 			try {
 				PackedRefList cur = readPackedRefs();
 				int idx = cur.find(name);
@@ -665,11 +671,7 @@ public class RefDirectory extends RefDatabase {
 		FS fs = parent.getFS();
 
 		// Lock the packed refs file and read the content
-		LockFile lck = new LockFile(packedRefsFile);
-		if (!lck.lock()) {
-			throw new IOException(MessageFormat.format(
-					JGitText.get().cannotLock, packedRefsFile));
-		}
+		LockFile lck = lockPackedRefsOrThrow();
 
 		try {
 			final PackedRefList packed = getPackedRefs();
@@ -763,6 +765,26 @@ public class RefDirectory extends RefDatabase {
 		} finally {
 			lck.unlock();
 		}
+	}
+
+	@Nullable
+	LockFile lockPackedRefs() throws IOException {
+		LockFile lck = new LockFile(packedRefsFile);
+		for (int ms : getRetrySleepMs()) {
+			sleep(ms);
+			if (lck.lock()) {
+				return lck;
+			}
+		}
+		return null;
+	}
+
+	private LockFile lockPackedRefsOrThrow() throws IOException {
+		LockFile lck = lockPackedRefs();
+		if (lck == null) {
+			throw new LockFailedException(packedRefsFile);
+		}
+		return lck;
 	}
 
 	/**
@@ -1172,6 +1194,63 @@ public class RefDirectory extends RefDatabase {
 				break; // ignore problem here
 			}
 			dir = dir.getParentFile();
+		}
+	}
+
+	/**
+	 * Get times to sleep while retrying a possibly contentious operation.
+	 * <p>
+	 * For retrying an operation that might have high contention, such as locking
+	 * the {@code packed-refs} file, the caller may implement a retry loop using
+	 * the returned values:
+	 *
+	 * <pre>
+	 * for (int toSleepMs : getRetrySleepMs()) {
+	 *   sleep(toSleepMs);
+	 *   if (isSuccessful(doSomething())) {
+	 *     return success;
+	 *   }
+	 * }
+	 * return failure;
+	 * </pre>
+	 *
+	 * The first value in the returned iterable is 0, and the caller should treat
+	 * a fully-consumed iterator as a timeout.
+	 *
+	 * @return iterable of times, in milliseconds, that the caller should sleep
+	 *         before attempting an operation.
+	 */
+	Iterable<Integer> getRetrySleepMs() {
+		return retrySleepMs;
+	}
+
+	void setRetrySleepMs(List<Integer> retrySleepMs) {
+		if (retrySleepMs == null || retrySleepMs.isEmpty()
+				|| retrySleepMs.get(0).intValue() != 0) {
+			throw new IllegalArgumentException();
+		}
+		this.retrySleepMs = retrySleepMs;
+	}
+
+	/**
+	 * Sleep with {@link Thread#sleep(long)}, converting {@link
+	 * InterruptedException} to {@link InterruptedIOException}.
+	 *
+	 * @param ms
+	 *            time to sleep, in milliseconds; zero or negative is a no-op.
+	 * @throws InterruptedIOException
+	 *             if sleeping was interrupted.
+	 */
+	static void sleep(long ms) throws InterruptedIOException {
+		if (ms <= 0) {
+			return;
+		}
+		try {
+			Thread.sleep(ms);
+		} catch (InterruptedException e) {
+			InterruptedIOException ie = new InterruptedIOException();
+			ie.initCause(e);
+			throw ie;
 		}
 	}
 

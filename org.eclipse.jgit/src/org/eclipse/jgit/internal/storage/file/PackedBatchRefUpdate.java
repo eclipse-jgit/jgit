@@ -49,6 +49,7 @@ import static org.eclipse.jgit.transport.ReceiveCommand.Result.NOT_ATTEMPTED;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_NONFASTFORWARD;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -57,7 +58,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.errors.LockFailedException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.RefDirectory.PackedRefList;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectId;
@@ -164,12 +168,18 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 
 		// Pack refs normally, so we can create lock files even in the case where
 		// refs/x is deleted and refs/x/y is created in this batch.
-		refdb.pack(
-				pending.stream().map(ReceiveCommand::getRefName).collect(toList()));
-
-		Map<String, LockFile> locks = new HashMap<>();
 		try {
-			if (!lockLooseRefs(pending, locks)) {
+			refdb.pack(
+					pending.stream().map(ReceiveCommand::getRefName).collect(toList()));
+		} catch (LockFailedException e) {
+			lockFailure(pending.get(0), pending);
+			return;
+		}
+
+		Map<String, LockFile> locks = null;
+		try {
+			locks = lockLooseRefs(pending);
+			if (locks == null) {
 				return;
 			}
 			PackedRefList oldPackedList = refdb.pack(locks);
@@ -177,15 +187,15 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 			if (newRefs == null) {
 				return;
 			}
-			LockFile packedRefsLock = new LockFile(refdb.packedRefsFile);
-			try {
-				packedRefsLock.lock();
-				refdb.commitPackedRefs(packedRefsLock, newRefs, oldPackedList);
-			} finally {
-				packedRefsLock.unlock();
+			LockFile packedRefsLock = refdb.lockPackedRefs();
+			if (packedRefsLock == null) {
+				lockFailure(pending.get(0), pending);
+				return;
 			}
+			// commitPackedRefs removes lock file (by renaming over real file).
+			refdb.commitPackedRefs(packedRefsLock, newRefs, oldPackedList);
 		} finally {
-			locks.values().forEach(LockFile::unlock);
+			unlockAll(locks);
 		}
 
 		refdb.fireRefsChanged();
@@ -271,17 +281,54 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 		return true;
 	}
 
-	private boolean lockLooseRefs(List<ReceiveCommand> commands,
-			Map<String, LockFile> locks) throws IOException {
-		for (ReceiveCommand c : commands) {
-			LockFile lock = new LockFile(refdb.fileFor(c.getRefName()));
-			if (!lock.lock()) {
-				lockFailure(c, commands);
-				return false;
+	/**
+	 * Lock loose refs corresponding to a list of commands.
+	 *
+	 * @param commands
+	 *            commands that we intend to execute.
+	 * @return map of ref name in the input commands to lock file. Always contains
+	 *         one entry for each ref in the input list. All locks are acquired
+	 *         before returning. If any lock was not able to be acquired: the
+	 *         return value is null; no locks are held; and all commands that were
+	 *         pending are set to fail with {@code LOCK_FAILURE}.
+	 * @throws IOException
+	 *             an error occurred other than a failure to acquire; no locks are
+	 *             held if this exception is thrown.
+	 */
+	@Nullable
+	private Map<String, LockFile> lockLooseRefs(List<ReceiveCommand> commands)
+			throws IOException {
+		ReceiveCommand failed = null;
+		Map<String, LockFile> locks = new HashMap<>();
+		try {
+			RETRY: for (int ms : refdb.getRetrySleepMs()) {
+				failed = null;
+				// Release all locks before trying again, to prevent deadlock.
+				unlockAll(locks);
+				locks.clear();
+				RefDirectory.sleep(ms);
+
+				for (ReceiveCommand c : commands) {
+					String name = c.getRefName();
+					LockFile lock = new LockFile(refdb.fileFor(name));
+					if (locks.put(name, lock) != null) {
+						throw new IOException(
+								MessageFormat.format(JGitText.get().duplicateRef, name));
+					}
+					if (!lock.lock()) {
+						failed = c;
+						continue RETRY;
+					}
+				}
+				Map<String, LockFile> result = locks;
+				locks = null;
+				return result;
 			}
-			locks.put(c.getRefName(), lock);
+		} finally {
+			unlockAll(locks);
 		}
-		return true;
+		lockFailure(failed != null ? failed : commands.get(0), commands);
+		return null;
 	}
 
 	private static RefList<Ref> applyUpdates(RevWalk walk, RefList<Ref> refs,
@@ -442,6 +489,12 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 		}
 		return new ObjectIdRef.PeeledNonTag(
 				Ref.Storage.PACKED, cmd.getRefName(), newId);
+	}
+
+	private static void unlockAll(@Nullable Map<?, LockFile> locks) {
+		if (locks != null) {
+			locks.values().forEach(LockFile::unlock);
+		}
 	}
 
 	private static void lockFailure(ReceiveCommand cmd,
