@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_19220a2d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-07-26T21:28:26Z",
+      "side": 1,
+      "message": "This isn\u0027t spinning --- this is retrying with exponential backoff.",
+      "revId": "3e1c2e49547e3695319b2df39ac60963d12bdbd9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_999b5af7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-07-26T21:28:26Z",
+      "side": 1,
+      "message": "Can this go in a finally block?",
+      "revId": "3e1c2e49547e3695319b2df39ac60963d12bdbd9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_390b46b6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-07-26T21:28:26Z",
+      "side": 1,
+      "message": "optional: should there be some jitter?",
+      "revId": "3e1c2e49547e3695319b2df39ac60963d12bdbd9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_f9245e3b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1251,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-07-26T21:28:26Z",
+      "side": 1,
+      "message": "should use Thread.currentThread().interrupt() when catching InterruptedException without rethrowing it (see item 69, p275-276 in Effective Java second edition.",
+      "revId": "3e1c2e49547e3695319b2df39ac60963d12bdbd9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
