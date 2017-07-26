@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_be647cc4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-07-26T16:43:07Z",
+      "side": 1,
+      "message": "Oops, this really needs to check the return value. Yay for interfaces where failure can be either a boolean false or an exception :(\n\nI\u0027m halfway through reworking this code to support a retry loop while acquiring locks, since I think we will have a contention problem. I will be sure to fix this.",
+      "revId": "26962861d4fd50ac32edd642eafca1c10f29a4ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
