@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_439bc1c9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-07-26T15:41:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_8dceb828",
+      "range": {
+        "startLine": 352,
+        "startChar": 6,
+        "endLine": 352,
+        "endChar": 62
+      },
+      "revId": "ddfa5153a77c59597bc8ce8b95625038368a3bc3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_add614bc",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2017-07-25T21:28:14Z",
       "side": 1,
       "message": "Hoist this out of the loop so the identity is the same for all refs in the transaction. That way the log timestamps are the same even if the logging activity spans over the turn of the second.",
+      "range": {
+        "startLine": 381,
+        "startChar": 0,
+        "endLine": 384,
+        "endChar": 4
+      },
+      "revId": "ddfa5153a77c59597bc8ce8b95625038368a3bc3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_838cc98a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-07-26T15:41:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_add614bc",
       "range": {
         "startLine": 381,
         "startChar": 0,
@@ -83,6 +131,30 @@
       "side": 1,
       "message": "Doesn\u0027t really make sense to me either, but it matches the default behavior in BatchRefUpdate, that\u0027s why I make sure to run all tests with atomic\u003dtrue/false.\n\nBut yeah, I can change the behavior in a separate change.",
       "parentUuid": "c7880b39_cdd360cb",
+      "range": {
+        "startLine": 410,
+        "startChar": 10,
+        "endLine": 411,
+        "endChar": 42
+      },
+      "revId": "ddfa5153a77c59597bc8ce8b95625038368a3bc3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_63b51d37",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-07-26T15:41:01Z",
+      "side": 1,
+      "message": "Having now actually looked at the code, I think I prefer to keep this as-is. It\u0027s an explicit tradeoff between performance and correctness of the reflog message.\n\nThe existing behavior in RefUpdate#updateImpl is:\n\n\n if (isForceUpdate()) {\n   return store.execute(Result.FORCED);\n }\n\n if (newObj instanceof RevCommit \u0026\u0026 oldObj instanceof RevCommit) {\n   if (walk.isMergedInto((RevCommit) oldObj, (RevCommit) newObj)) {\n     return store.execute(Result.FAST_FORWARD);\n   }\n }\n\nIt skips the isMergedInto check if isForceUpdate() returns true, which just checks the \"force\" bit. This is a feature, not a bug: you can call setForceUpdate(true) to skip performing a merge check that might be expensive. But we cannot get an accurate reflog message without doing that merge check.\n\nSo I don\u0027t think we want to change RefUpdate in this case, but I feel strongly that PackedBatchRefUpdate should match RefUpdate\u0027s behavior.\n\nThis line of code is still non-obvious, so added a comment.",
+      "parentUuid": "c7880b39_4343c16a",
       "range": {
         "startLine": 410,
         "startChar": 10,
