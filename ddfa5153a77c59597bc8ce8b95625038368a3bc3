@@ -68,6 +68,30 @@
       "revId": "ddfa5153a77c59597bc8ce8b95625038368a3bc3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_4343c16a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-07-26T12:57:24Z",
+      "side": 1,
+      "message": "Doesn\u0027t really make sense to me either, but it matches the default behavior in BatchRefUpdate, that\u0027s why I make sure to run all tests with atomic\u003dtrue/false.\n\nBut yeah, I can change the behavior in a separate change.",
+      "parentUuid": "c7880b39_cdd360cb",
+      "range": {
+        "startLine": 410,
+        "startChar": 10,
+        "endLine": 411,
+        "endChar": 42
+      },
+      "revId": "ddfa5153a77c59597bc8ce8b95625038368a3bc3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
