@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_1fe68ea5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsFsck.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-07-26T00:11:14Z",
+      "side": 1,
+      "message": "Add JavaDoc",
+      "range": {
+        "startLine": 94,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 43
+      },
+      "revId": "f47c3236671145f0cda4252e2609c0a6c3085f38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_3ffeea2b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsFsck.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-07-26T00:11:14Z",
+      "side": 1,
+      "message": "Add JavaDoc",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 59
+      },
+      "revId": "f47c3236671145f0cda4252e2609c0a6c3085f38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
