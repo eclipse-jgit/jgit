@@ -80,6 +80,13 @@ public class RawParseUtils_LineMapTest {
 	}
 
 	@Test
+	public void testBinary() throws UnsupportedEncodingException {
+		final byte[] buf = "xxxfoo\nb\0ar".getBytes("ISO-8859-1");
+		final IntList map = RawParseUtils.lineMap(buf, 3, buf.length);
+		assertArrayEquals(new int[]{Integer.MIN_VALUE, 3, buf.length}, asInts(map));
+	}
+
+	@Test
 	public void testFourLineBlanks() throws UnsupportedEncodingException {
 		final byte[] buf = "foo\n\n\nbar\n".getBytes("ISO-8859-1");
 		final IntList map = RawParseUtils.lineMap(buf, 0, buf.length);
