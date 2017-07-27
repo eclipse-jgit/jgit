@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_32befcaa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 652,
+      "author": {
+        "id": 79788
+      },
+      "writtenOn": "2017-07-27T17:53:13Z",
+      "side": 1,
+      "message": "Do we want to use 0 or the initial value of ptr?",
+      "range": {
+        "startLine": 652,
+        "startChar": 4,
+        "endLine": 652,
+        "endChar": 15
+      },
+      "revId": "29b6c54546b03ac0ca09dfa9a11a29552656c802",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
