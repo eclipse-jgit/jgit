@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_afb8c311",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-07-27T13:34:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_19220a2d",
+      "revId": "3e1c2e49547e3695319b2df39ac60963d12bdbd9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_999b5af7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2017-07-26T21:28:26Z",
       "side": 1,
       "message": "Can this go in a finally block?",
+      "revId": "3e1c2e49547e3695319b2df39ac60963d12bdbd9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_2f813453",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-07-27T13:34:49Z",
+      "side": 1,
+      "message": "Not naively, because we don\u0027t want to unlock in the normal return case on line 323. I worked around it by using an extra temp var. It\u0027s probably better this way because it will also unlock in the case of unchecked throwables.",
+      "parentUuid": "c7880b39_999b5af7",
       "revId": "3e1c2e49547e3695319b2df39ac60963d12bdbd9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_af7444f2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-07-27T13:34:49Z",
+      "side": 1,
+      "message": "I was hand-wavily hoping that the variable latency of the necessary syscalls would provide enough jitter.\n\nThe point of jitter is to have two workers using the same retry strategy interleave their operations slightly differently on each attempt, right? Seems like this would mostly only make a big difference if workers are each trying to lock a common list of \u003e1 ref locks, which seems like a rarer case.\n\nThat said I\u0027m happy to add it if you think it\u0027s worthwhile, although I still might prefer to do it in a followup. It\u0027d be enough work at that point that I might like to factor out a custom Iterable that I can test.",
+      "parentUuid": "c7880b39_390b46b6",
+      "revId": "3e1c2e49547e3695319b2df39ac60963d12bdbd9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_f9245e3b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2017-07-26T21:28:26Z",
       "side": 1,
       "message": "should use Thread.currentThread().interrupt() when catching InterruptedException without rethrowing it (see item 69, p275-276 in Effective Java second edition.",
+      "revId": "3e1c2e49547e3695319b2df39ac60963d12bdbd9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_8fb30735",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1251,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-07-27T13:34:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_f9245e3b",
       "revId": "3e1c2e49547e3695319b2df39ac60963d12bdbd9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
