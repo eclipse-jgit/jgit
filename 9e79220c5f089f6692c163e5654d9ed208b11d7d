@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_be5e336f",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-07-28T23:50:48Z",
+      "side": 1,
+      "message": "AND there is no index block?",
+      "range": {
+        "startLine": 193,
+        "startChar": 67,
+        "endLine": 194,
+        "endChar": 23
+      },
+      "revId": "9e79220c5f089f6692c163e5654d9ed208b11d7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_de63ff32",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-07-28T23:50:48Z",
+      "side": 1,
+      "message": "The structure above needs to be updated from\n    log_blocks*\n    log_index?\nto\n    log_block?\n    log_index?\n    log_blocks*",
+      "range": {
+        "startLine": 507,
+        "startChar": 14,
+        "endLine": 508,
+        "endChar": 5
+      },
+      "revId": "9e79220c5f089f6692c163e5654d9ed208b11d7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_fe5b5b7c",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-07-28T23:50:48Z",
+      "side": 1,
+      "message": "Given that log records are variable length blocks, should this be an absolute offset (like log_offset in the footer) rather than a block offset? Some more discussion in the \"Reading the log\" section about common access patterns would be helpful. My concern is that if log blocks compress really well, when we try to convert block_offset\u003d\u003d10 we may overshoot it by so much that we end up doing a binary search anyway.",
+      "range": {
+        "startLine": 513,
+        "startChar": 13,
+        "endLine": 513,
+        "endChar": 25
+      },
+      "revId": "9e79220c5f089f6692c163e5654d9ed208b11d7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
