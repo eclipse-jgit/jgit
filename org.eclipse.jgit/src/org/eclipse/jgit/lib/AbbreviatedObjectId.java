@@ -336,7 +336,7 @@ public final class AbbreviatedObjectId implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return w2;
+		return w1;
 	}
 
 	@Override
