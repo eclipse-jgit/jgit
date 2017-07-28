@@ -177,6 +177,7 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 		}
 
 		Map<String, LockFile> locks = null;
+		refdb.inProcessPackedRefsLock.lock();
 		try {
 			locks = lockLooseRefs(pending);
 			if (locks == null) {
@@ -195,7 +196,11 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 			// commitPackedRefs removes lock file (by renaming over real file).
 			refdb.commitPackedRefs(packedRefsLock, newRefs, oldPackedList);
 		} finally {
-			unlockAll(locks);
+			try {
+				unlockAll(locks);
+			} finally {
+				refdb.inProcessPackedRefsLock.unlock();
+			}
 		}
 
 		refdb.fireRefsChanged();

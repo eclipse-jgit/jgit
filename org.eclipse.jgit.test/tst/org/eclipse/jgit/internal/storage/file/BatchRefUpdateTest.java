@@ -43,6 +43,8 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.eclipse.jgit.internal.storage.file.BatchRefUpdateTest.Result.LOCK_FAILURE;
 import static org.eclipse.jgit.internal.storage.file.BatchRefUpdateTest.Result.OK;
 import static org.eclipse.jgit.internal.storage.file.BatchRefUpdateTest.Result.REJECTED_MISSING_OBJECT;
@@ -58,6 +60,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assume.assumeTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -67,6 +70,7 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Predicate;
 
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
@@ -664,6 +668,57 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		} finally {
 			myLock.unlock();
 		}
+	}
+
+	@Test
+	public void atomicUpdateRespectsInProcessLock() throws Exception {
+		assumeTrue(atomic);
+
+		writeLooseRef("refs/heads/master", A);
+
+		List<ReceiveCommand> cmds = Arrays.asList(
+				new ReceiveCommand(A, B, "refs/heads/master", UPDATE),
+				new ReceiveCommand(zeroId(), B, "refs/heads/branch", CREATE));
+
+		Thread t = new Thread(() -> {
+			try {
+				execute(newBatchUpdate(cmds).setAllowNonFastForwards(true));
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		});
+
+		ReentrantLock l = refdir.inProcessPackedRefsLock;
+		l.lock();
+		try {
+			t.start();
+			long timeoutSecs = 10;
+			long startNanos = System.nanoTime();
+
+			// Hold onto the lock until we observe the worker thread has attempted to
+			// acquire it.
+			while (l.getQueueLength() == 0) {
+				long elapsedNanos = System.nanoTime() - startNanos;
+				assertTrue(
+						"timed out waiting for work thread to attempt to acquire lock",
+						NANOSECONDS.toSeconds(elapsedNanos) < timeoutSecs);
+				Thread.sleep(3);
+			}
+
+			// Once we unlock, the worker thread should finish the update promptly.
+			l.unlock();
+			t.join(SECONDS.toMillis(timeoutSecs));
+			assertFalse(t.isAlive());
+		} finally {
+			if (l.isHeldByCurrentThread()) {
+				l.unlock();
+			}
+		}
+
+		assertResults(cmds, OK, OK);
+		assertRefs(
+				"refs/heads/master", B,
+				"refs/heads/branch", B);
 	}
 
 	private void writeLooseRef(String name, AnyObjectId id) throws IOException {
