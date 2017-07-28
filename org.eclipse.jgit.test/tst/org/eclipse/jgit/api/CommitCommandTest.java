@@ -557,6 +557,11 @@ public class CommitCommandTest extends RepositoryTestCase {
 			} catch (EmtpyCommitException e) {
 				// expect this exception
 			}
+
+			// Allow empty commits also when setOnly was set
+			git.commit().setAuthor("New Author", "newauthor@example.org")
+					.setMessage("again no change").setOnly("file1")
+					.setAllowEmpty(true).call();
 		}
 	}
 
