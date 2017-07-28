@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "c7880b39_d8779776",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-07-28T10:14:24Z",
+      "side": 1,
+      "message": "\"it doesn\u0027t only look at\"?",
+      "range": {
+        "startLine": 16,
+        "startChar": 35,
+        "endLine": 16,
+        "endChar": 55
+      },
+      "revId": "29b6c54546b03ac0ca09dfa9a11a29552656c802",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_32befcaa",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
         "patchSetId": 1
