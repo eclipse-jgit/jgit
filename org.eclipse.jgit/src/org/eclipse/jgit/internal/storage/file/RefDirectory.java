@@ -75,6 +75,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
@@ -165,6 +166,22 @@ public class RefDirectory extends RefDatabase {
 
 	/** Immutable sorted list of packed references. */
 	final AtomicReference<PackedRefList> packedRefs = new AtomicReference<>();
+
+	/**
+	 * Lock for coordinating operations within a single process that may contend
+	 * on the {@code packed-refs} file.
+	 * <p>
+	 * All operations that write {@code packed-refs} must still acquire a
+	 * {@link LockFile} on {@link #packedRefsFile}, even after they have acquired
+	 * this lock, since there may be multiple {@link RefDirectory} instances or
+	 * other processes operating on the same repo on disk.
+	 * <p>
+	 * This lock exists so multiple threads in the same process can wait in a fair
+	 * queue without trying, failing, and retrying to acquire the on-disk lock. If
+	 * {@code RepositoryCache} is used, this lock instance will be used by all
+	 * threads.
+	 */
+	final ReentrantLock inProcessPackedRefsLock = new ReentrantLock(true);
 
 	/**
 	 * Number of modifications made to this database.
@@ -610,14 +627,19 @@ public class RefDirectory extends RefDatabase {
 		// we don't miss an edit made externally.
 		final PackedRefList packed = getPackedRefs();
 		if (packed.contains(name)) {
-			LockFile lck = lockPackedRefsOrThrow();
+			inProcessPackedRefsLock.lock();
 			try {
-				PackedRefList cur = readPackedRefs();
-				int idx = cur.find(name);
-				if (0 <= idx)
-					commitPackedRefs(lck, cur.remove(idx), packed);
+				LockFile lck = lockPackedRefsOrThrow();
+				try {
+					PackedRefList cur = readPackedRefs();
+					int idx = cur.find(name);
+					if (0 <= idx)
+						commitPackedRefs(lck, cur.remove(idx), packed);
+				} finally {
+					lck.unlock();
+				}
 			} finally {
-				lck.unlock();
+				inProcessPackedRefsLock.unlock();
 			}
 		}
 
@@ -671,99 +693,103 @@ public class RefDirectory extends RefDatabase {
 		FS fs = parent.getFS();
 
 		// Lock the packed refs file and read the content
-		LockFile lck = lockPackedRefsOrThrow();
-
+		inProcessPackedRefsLock.lock();
 		try {
-			final PackedRefList packed = getPackedRefs();
-			RefList<Ref> cur = readPackedRefs();
+			LockFile lck = lockPackedRefsOrThrow();
+			try {
+				final PackedRefList packed = getPackedRefs();
+				RefList<Ref> cur = readPackedRefs();
 
-			// Iterate over all refs to be packed
-			boolean dirty = false;
-			for (String refName : refs) {
-				Ref oldRef = readRef(refName, cur);
-				if (oldRef == null) {
-					continue; // A non-existent ref is already correctly packed.
-				}
-				if (oldRef.isSymbolic()) {
-					continue; // can't pack symbolic refs
-				}
-				// Add/Update it to packed-refs
-				Ref newRef = peeledPackedRef(oldRef);
-				if (newRef == oldRef) {
-					// No-op; peeledPackedRef returns the input ref only if it's already
-					// packed, and readRef returns a packed ref only if there is no loose
-					// ref.
-					continue;
-				}
-
-				dirty = true;
-				int idx = cur.find(refName);
-				if (idx >= 0) {
-					cur = cur.set(idx, newRef);
-				} else {
-					cur = cur.add(idx, newRef);
-				}
-			}
-			if (!dirty) {
-				// All requested refs were already packed accurately
-				return packed;
-			}
-
-			// The new content for packed-refs is collected. Persist it.
-			PackedRefList result = commitPackedRefs(lck, cur, packed);
-
-			// Now delete the loose refs which are now packed
-			for (String refName : refs) {
-				// Lock the loose ref
-				File refFile = fileFor(refName);
-				if (!fs.exists(refFile)) {
-					continue;
-				}
-
-				LockFile rLck = heldLocks.get(refName);
-				boolean shouldUnlock;
-				if (rLck == null) {
-					rLck = new LockFile(refFile);
-					if (!rLck.lock()) {
+				// Iterate over all refs to be packed
+				boolean dirty = false;
+				for (String refName : refs) {
+					Ref oldRef = readRef(refName, cur);
+					if (oldRef == null) {
+						continue; // A non-existent ref is already correctly packed.
+					}
+					if (oldRef.isSymbolic()) {
+						continue; // can't pack symbolic refs
+					}
+					// Add/Update it to packed-refs
+					Ref newRef = peeledPackedRef(oldRef);
+					if (newRef == oldRef) {
+						// No-op; peeledPackedRef returns the input ref only if it's already
+						// packed, and readRef returns a packed ref only if there is no
+						// loose ref.
 						continue;
 					}
-					shouldUnlock = true;
-				} else {
-					shouldUnlock = false;
+
+					dirty = true;
+					int idx = cur.find(refName);
+					if (idx >= 0) {
+						cur = cur.set(idx, newRef);
+					} else {
+						cur = cur.add(idx, newRef);
+					}
+				}
+				if (!dirty) {
+					// All requested refs were already packed accurately
+					return packed;
 				}
 
-				try {
-					LooseRef currentLooseRef = scanRef(null, refName);
-					if (currentLooseRef == null || currentLooseRef.isSymbolic()) {
+				// The new content for packed-refs is collected. Persist it.
+				PackedRefList result = commitPackedRefs(lck, cur, packed);
+
+				// Now delete the loose refs which are now packed
+				for (String refName : refs) {
+					// Lock the loose ref
+					File refFile = fileFor(refName);
+					if (!fs.exists(refFile)) {
 						continue;
 					}
-					Ref packedRef = cur.get(refName);
-					ObjectId clr_oid = currentLooseRef.getObjectId();
-					if (clr_oid != null
-							&& clr_oid.equals(packedRef.getObjectId())) {
-						RefList<LooseRef> curLoose, newLoose;
-						do {
-							curLoose = looseRefs.get();
-							int idx = curLoose.find(refName);
-							if (idx < 0) {
-								break;
-							}
-							newLoose = curLoose.remove(idx);
-						} while (!looseRefs.compareAndSet(curLoose, newLoose));
-						int levels = levelsIn(refName) - 2;
-						delete(refFile, levels, rLck);
+
+					LockFile rLck = heldLocks.get(refName);
+					boolean shouldUnlock;
+					if (rLck == null) {
+						rLck = new LockFile(refFile);
+						if (!rLck.lock()) {
+							continue;
+						}
+						shouldUnlock = true;
+					} else {
+						shouldUnlock = false;
 					}
-				} finally {
-					if (shouldUnlock) {
-						rLck.unlock();
+
+					try {
+						LooseRef currentLooseRef = scanRef(null, refName);
+						if (currentLooseRef == null || currentLooseRef.isSymbolic()) {
+							continue;
+						}
+						Ref packedRef = cur.get(refName);
+						ObjectId clr_oid = currentLooseRef.getObjectId();
+						if (clr_oid != null
+								&& clr_oid.equals(packedRef.getObjectId())) {
+							RefList<LooseRef> curLoose, newLoose;
+							do {
+								curLoose = looseRefs.get();
+								int idx = curLoose.find(refName);
+								if (idx < 0) {
+									break;
+								}
+								newLoose = curLoose.remove(idx);
+							} while (!looseRefs.compareAndSet(curLoose, newLoose));
+							int levels = levelsIn(refName) - 2;
+							delete(refFile, levels, rLck);
+						}
+					} finally {
+						if (shouldUnlock) {
+							rLck.unlock();
+						}
 					}
 				}
+				// Don't fire refsChanged. The refs have not change, only their
+				// storage.
+				return result;
+			} finally {
+				lck.unlock();
 			}
-			// Don't fire refsChanged. The refs have not change, only their
-			// storage.
-			return result;
 		} finally {
-			lck.unlock();
+			inProcessPackedRefsLock.unlock();
 		}
 	}
 
