@@ -1,0 +1,9 @@
+Code-Review+2: David Pursehouse <david.pursehouse@gmail.com>
+Code-Review+2: Shawn Pearce <spearce@spearce.org>
+Verified+1: Hudson CI
+Code-Review+2: Jonathan Nieder <jrn@google.com>
+Submitted-by: David Pursehouse <david.pursehouse@gmail.com>
+Submitted-at: Fri, 28 Jul 2017 05:40:45 -0400
+Reviewed-on: https://git.eclipse.org/r/101583
+Project: jgit/jgit
+Branch: refs/heads/master
