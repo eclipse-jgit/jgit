@@ -16,6 +16,24 @@
       "revId": "55f671c4599a04bc0e67f91ae5e1ccf65694a5af",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_23a78c08",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IntList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-07-28T17:20:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_586ba792",
+      "revId": "55f671c4599a04bc0e67f91ae5e1ccf65694a5af",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
