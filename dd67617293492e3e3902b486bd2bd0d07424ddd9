@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_b56c9680",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1246,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-07-28T04:07:39Z",
+      "side": 1,
+      "message": "ms \u003c\u003d 0?\n\nThread.sleep(0) may or may not be a scheduling yield. Its undefined in the platform docs.",
+      "range": {
+        "startLine": 1246,
+        "startChar": 6,
+        "endLine": 1246,
+        "endChar": 12
+      },
+      "revId": "dd67617293492e3e3902b486bd2bd0d07424ddd9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_d56da27b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1253,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-07-28T04:07:39Z",
+      "side": 1,
+      "message": "Maybe InterruptedIOException?",
+      "range": {
+        "startLine": 1253,
+        "startChar": 3,
+        "endLine": 1253,
+        "endChar": 28
+      },
+      "revId": "dd67617293492e3e3902b486bd2bd0d07424ddd9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
