@@ -55,12 +55,14 @@ import static org.eclipse.jgit.transport.ReceiveCommand.Type.UPDATE;
 import static org.eclipse.jgit.transport.ReceiveCommand.Type.UPDATE_NONFASTFORWARD;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,12 +73,19 @@ import org.eclipse.jgit.junit.StrictWorkMonitor;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.CheckoutEntry;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
+import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.ReflogEntry;
+import org.eclipse.jgit.lib.ReflogReader;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
@@ -109,6 +118,12 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		super.setUp();
 
 		diskRepo = createBareRepository();
+		StoredConfig cfg = diskRepo.getConfig();
+		cfg.load();
+		cfg.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_KEY_LOGALLREFUPDATES, true);
+		cfg.save();
+
 		refdir = (RefDirectory) diskRepo.getRefDatabase();
 
 		repo = new TestRepository<>(diskRepo);
@@ -318,8 +333,229 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		}
 	}
 
+	@Test
+	public void noRefLog() throws IOException {
+		writeRef("refs/heads/master", A);
+
+		Map<String, ReflogEntry> oldLogs =
+				getLastReflogs("refs/heads/master", "refs/heads/branch");
+		assertEquals(Collections.singleton("refs/heads/master"), oldLogs.keySet());
+
+		List<ReceiveCommand> cmds = Arrays.asList(
+				new ReceiveCommand(A, B, "refs/heads/master", UPDATE),
+				new ReceiveCommand(zeroId(), B, "refs/heads/branch", CREATE));
+		execute(newBatchUpdate(cmds).setAllowNonFastForwards(true));
+
+		assertResults(cmds, OK, OK);
+		assertRefs(
+				"refs/heads/master", B,
+				"refs/heads/branch", B);
+		assertReflogUnchanged(oldLogs, "refs/heads/master");
+		assertReflogUnchanged(oldLogs, "refs/heads/branch");
+	}
+
+	@Test
+	public void reflogDefaultIdent() throws IOException {
+		writeRef("refs/heads/master", A);
+		writeRef("refs/heads/branch2", A);
+
+		Map<String, ReflogEntry> oldLogs = getLastReflogs(
+				"refs/heads/master", "refs/heads/branch1", "refs/heads/branch2");
+		List<ReceiveCommand> cmds = Arrays.asList(
+				new ReceiveCommand(A, B, "refs/heads/master", UPDATE),
+				new ReceiveCommand(zeroId(), B, "refs/heads/branch1", CREATE));
+		execute(
+				newBatchUpdate(cmds)
+						.setAllowNonFastForwards(true)
+						.setRefLogMessage("a reflog", false));
+
+		assertResults(cmds, OK, OK);
+		assertRefs(
+				"refs/heads/master", B,
+				"refs/heads/branch1", B,
+				"refs/heads/branch2", A);
+		assertReflogEquals(
+				reflog(A, B, new PersonIdent(diskRepo), "a reflog"),
+				getLastReflog("refs/heads/master"));
+		assertReflogEquals(
+				reflog(zeroId(), B, new PersonIdent(diskRepo), "a reflog"),
+				getLastReflog("refs/heads/branch1"));
+		assertReflogUnchanged(oldLogs, "refs/heads/branch2");
+	}
+
+	@Test
+	public void reflogAppendStatusNoMessage() throws IOException {
+		writeRef("refs/heads/master", A);
+		writeRef("refs/heads/branch1", B);
+
+		List<ReceiveCommand> cmds = Arrays.asList(
+				new ReceiveCommand(A, B, "refs/heads/master", UPDATE),
+				new ReceiveCommand(B, A, "refs/heads/branch1", UPDATE_NONFASTFORWARD),
+				new ReceiveCommand(zeroId(), A, "refs/heads/branch2", CREATE));
+		execute(
+				newBatchUpdate(cmds)
+						.setAllowNonFastForwards(true)
+						.setRefLogMessage(null, true));
+
+		assertResults(cmds, OK, OK, OK);
+		assertRefs(
+				"refs/heads/master", B,
+				"refs/heads/branch1", A,
+				"refs/heads/branch2", A);
+		assertReflogEquals(
+				// Always forced; setAllowNonFastForwards(true) bypasses the check.
+				reflog(A, B, new PersonIdent(diskRepo), "forced-update"),
+				getLastReflog("refs/heads/master"));
+		assertReflogEquals(
+				reflog(B, A, new PersonIdent(diskRepo), "forced-update"),
+				getLastReflog("refs/heads/branch1"));
+		assertReflogEquals(
+				reflog(zeroId(), A, new PersonIdent(diskRepo), "created"),
+				getLastReflog("refs/heads/branch2"));
+	}
+
+	@Test
+	public void reflogAppendStatusFastForward() throws IOException {
+		writeRef("refs/heads/master", A);
+
+		List<ReceiveCommand> cmds = Arrays.asList(
+				new ReceiveCommand(A, B, "refs/heads/master", UPDATE));
+		execute(newBatchUpdate(cmds).setRefLogMessage(null, true));
+
+		assertResults(cmds, OK);
+		assertRefs("refs/heads/master", B);
+		assertReflogEquals(
+				reflog(A, B, new PersonIdent(diskRepo), "fast-forward"),
+				getLastReflog("refs/heads/master"));
+	}
+
+	@Test
+	public void reflogAppendStatusWithMessage() throws IOException {
+		writeRef("refs/heads/master", A);
+
+		List<ReceiveCommand> cmds = Arrays.asList(
+				new ReceiveCommand(A, B, "refs/heads/master", UPDATE),
+				new ReceiveCommand(zeroId(), A, "refs/heads/branch", CREATE));
+		execute(newBatchUpdate(cmds).setRefLogMessage("a reflog", true));
+
+		assertResults(cmds, OK, OK);
+		assertRefs(
+				"refs/heads/master", B,
+				"refs/heads/branch", A);
+		assertReflogEquals(
+				reflog(A, B, new PersonIdent(diskRepo), "a reflog: fast-forward"),
+				getLastReflog("refs/heads/master"));
+		assertReflogEquals(
+				reflog(zeroId(), A, new PersonIdent(diskRepo), "a reflog: created"),
+				getLastReflog("refs/heads/branch"));
+	}
+
+	@Test
+	public void reflogCustomIdent() throws IOException {
+		writeRef("refs/heads/master", A);
+
+		List<ReceiveCommand> cmds = Arrays.asList(
+				new ReceiveCommand(A, B, "refs/heads/master", UPDATE),
+				new ReceiveCommand(zeroId(), B, "refs/heads/branch", CREATE));
+		PersonIdent ident = new PersonIdent("A Reflog User", "reflog@example.com");
+		execute(
+				newBatchUpdate(cmds)
+						.setRefLogMessage("a reflog", false)
+						.setRefLogIdent(ident));
+
+		assertResults(cmds, OK, OK);
+		assertRefs(
+				"refs/heads/master", B,
+				"refs/heads/branch", B);
+		assertReflogEquals(
+				reflog(A, B, ident, "a reflog"),
+				getLastReflog("refs/heads/master"),
+				true);
+		assertReflogEquals(
+				reflog(zeroId(), B, ident, "a reflog"),
+				getLastReflog("refs/heads/branch"),
+				true);
+	}
+
+	@Test
+	public void reflogDelete() throws IOException {
+		writeRef("refs/heads/master", A);
+		writeRef("refs/heads/branch", A);
+		assertEquals(
+				2, getLastReflogs("refs/heads/master", "refs/heads/branch").size());
+
+		List<ReceiveCommand> cmds = Arrays.asList(
+				new ReceiveCommand(A, zeroId(), "refs/heads/master", DELETE),
+				new ReceiveCommand(A, B, "refs/heads/branch", UPDATE));
+		execute(newBatchUpdate(cmds).setRefLogMessage("a reflog", false));
+
+		assertResults(cmds, OK, OK);
+		assertRefs("refs/heads/branch", B);
+		assertNull(getLastReflog("refs/heads/master"));
+		assertReflogEquals(
+				reflog(A, B, new PersonIdent(diskRepo), "a reflog"),
+				getLastReflog("refs/heads/branch"));
+	}
+
+	@Test
+	public void reflogFileDirectoryConflict() throws IOException {
+		writeRef("refs/heads/master", A);
+
+		List<ReceiveCommand> cmds = Arrays.asList(
+				new ReceiveCommand(A, zeroId(), "refs/heads/master", DELETE),
+				new ReceiveCommand(zeroId(), A, "refs/heads/master/x", CREATE));
+		execute(newBatchUpdate(cmds).setRefLogMessage("a reflog", false));
+
+		assertResults(cmds, OK, OK);
+		assertRefs("refs/heads/master/x", A);
+		assertNull(getLastReflog("refs/heads/master"));
+		assertReflogEquals(
+				reflog(zeroId(), A, new PersonIdent(diskRepo), "a reflog"),
+				getLastReflog("refs/heads/master/x"));
+	}
+
+	@Test
+	public void reflogOnLockFailure() throws IOException {
+		writeRef("refs/heads/master", A);
+
+		Map<String, ReflogEntry> oldLogs =
+				getLastReflogs("refs/heads/master", "refs/heads/branch");
+
+		List<ReceiveCommand> cmds = Arrays.asList(
+				new ReceiveCommand(A, B, "refs/heads/master", UPDATE),
+				new ReceiveCommand(A, B, "refs/heads/branch", UPDATE));
+		execute(newBatchUpdate(cmds).setRefLogMessage("a reflog", false));
+
+		if (atomic) {
+			assertResults(cmds, TRANSACTION_ABORTED, LOCK_FAILURE);
+			assertReflogUnchanged(oldLogs, "refs/heads/master");
+			assertReflogUnchanged(oldLogs, "refs/heads/branch");
+		} else {
+			assertResults(cmds, OK, LOCK_FAILURE);
+			assertReflogEquals(
+					reflog(A, B, new PersonIdent(diskRepo), "a reflog"),
+					getLastReflog("refs/heads/master"));
+			assertReflogUnchanged(oldLogs, "refs/heads/branch");
+		}
+	}
+
 	private void writeLooseRef(String name, AnyObjectId id) throws IOException {
 		write(new File(diskRepo.getDirectory(), name), id.name() + "\n");
+	}
+
+	private void writeRef(String name, AnyObjectId id) throws IOException {
+		RefUpdate u = diskRepo.updateRef(name);
+		u.setRefLogMessage(getClass().getSimpleName(), false);
+		u.setForceUpdate(true);
+		u.setNewObjectId(id);
+		RefUpdate.Result r = u.update();
+		switch (r) {
+			case NEW:
+			case FORCED:
+				return;
+			default:
+				throw new IOException("Got " + r + " while updating " + name);
+		}
 	}
 
 	private BatchRefUpdate newBatchUpdate(List<ReceiveCommand> cmds) {
@@ -409,5 +645,85 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 							c.getMessage() != null ? " (" + c.getMessage() + ")" : ""),
 					r.p.test(c));
 		}
+	}
+
+	private Map<String, ReflogEntry> getLastReflogs(String... names)
+			throws IOException {
+		Map<String, ReflogEntry> result = new LinkedHashMap<>();
+		for (String name : names) {
+			ReflogEntry e = getLastReflog(name);
+			if (e != null) {
+				result.put(name, e);
+			}
+		}
+		return result;
+	}
+
+	private ReflogEntry getLastReflog(String name) throws IOException {
+		ReflogReader r = diskRepo.getReflogReader(name);
+		if (r == null) {
+			return null;
+		}
+		return r.getLastEntry();
+	}
+
+	private void assertReflogUnchanged(
+			Map<String, ReflogEntry> old, String name) throws IOException {
+		assertReflogEquals(old.get(name), getLastReflog(name), true);
+	}
+
+	private static void assertReflogEquals(
+			ReflogEntry expected, ReflogEntry actual) {
+		assertReflogEquals(expected, actual, false);
+	}
+
+	private static void assertReflogEquals(
+			ReflogEntry expected, ReflogEntry actual, boolean strictTime) {
+		if (expected == null) {
+			assertNull(actual);
+			return;
+		}
+		assertNotNull(actual);
+		assertEquals(expected.getOldId(), actual.getOldId());
+		assertEquals(expected.getNewId(), actual.getNewId());
+		if (strictTime) {
+			assertEquals(expected.getWho(), actual.getWho());
+		} else {
+			assertEquals(expected.getWho().getName(), actual.getWho().getName());
+			assertEquals(
+					expected.getWho().getEmailAddress(),
+					actual.getWho().getEmailAddress());
+		}
+		assertEquals(expected.getComment(), actual.getComment());
+	}
+
+	private static ReflogEntry reflog(ObjectId oldId, ObjectId newId,
+			PersonIdent who, String comment) {
+		return new ReflogEntry() {
+			@Override
+			public ObjectId getOldId() {
+				return oldId;
+			}
+
+			@Override
+			public ObjectId getNewId() {
+				return newId;
+			}
+
+			@Override
+			public PersonIdent getWho() {
+				return who;
+			}
+
+			@Override
+			public String getComment() {
+				return comment;
+			}
+
+			@Override
+			public CheckoutEntry parseCheckout() {
+				throw new UnsupportedOperationException();
+			}
+		};
 	}
 }
