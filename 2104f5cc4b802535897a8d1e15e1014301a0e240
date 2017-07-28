@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_63db540c",
+        "filename": "pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 583,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-07-28T14:36:15Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this also be changed to spotbugs-maven-plugin?",
+      "range": {
+        "startLine": 583,
+        "startChar": 20,
+        "endLine": 583,
+        "endChar": 41
+      },
+      "revId": "2104f5cc4b802535897a8d1e15e1014301a0e240",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
