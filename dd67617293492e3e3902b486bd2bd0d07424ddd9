@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_f849b309",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1246,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-07-28T11:49:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_b56c9680",
+      "range": {
+        "startLine": 1246,
+        "startChar": 6,
+        "endLine": 1246,
+        "endChar": 12
+      },
+      "revId": "dd67617293492e3e3902b486bd2bd0d07424ddd9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_d56da27b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 2
@@ -60,6 +84,30 @@
       "side": 1,
       "message": "Good call. That would also save us from responsibility for calling Thread.currentThread().interrupt(). Sorry for the churn.",
       "parentUuid": "c7880b39_d56da27b",
+      "range": {
+        "startLine": 1253,
+        "startChar": 3,
+        "endLine": 1253,
+        "endChar": 28
+      },
+      "revId": "dd67617293492e3e3902b486bd2bd0d07424ddd9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_1862ff7f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1253,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-07-28T11:49:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_355fc6bb",
       "range": {
         "startLine": 1253,
         "startChar": 3,
