@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_49e4b719",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableWriter.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-07-29T01:25:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_3e7b23e2",
+      "range": {
+        "startLine": 149,
+        "startChar": 16,
+        "endLine": 149,
+        "endChar": 24
+      },
+      "revId": "6cb9dd7c1161bdbf0b21c1ba2974e97816ce7fcd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_7e684b14",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableWriter.java",
         "patchSetId": 11
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_69e17307",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableWriter.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-07-29T01:25:58Z",
+      "side": 1,
+      "message": "No, writeLog below would update logLastTimeUsec to this lower value. But this code is dead and gone after discussion with git-core so this comment thread is moot. :)",
+      "parentUuid": "c7880b39_7e684b14",
+      "range": {
+        "startLine": 266,
+        "startChar": 0,
+        "endLine": 266,
+        "endChar": 34
+      },
+      "revId": "6cb9dd7c1161bdbf0b21c1ba2974e97816ce7fcd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_5e78efe2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableWriter.java",
         "patchSetId": 11
@@ -59,6 +107,30 @@
       "writtenOn": "2017-07-28T23:48:29Z",
       "side": 1,
       "message": "s/ref/log/",
+      "range": {
+        "startLine": 548,
+        "startChar": 35,
+        "endLine": 548,
+        "endChar": 38
+      },
+      "revId": "6cb9dd7c1161bdbf0b21c1ba2974e97816ce7fcd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_8905bf51",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableWriter.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 548,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-07-29T01:25:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_5e78efe2",
       "range": {
         "startLine": 548,
         "startChar": 35,
