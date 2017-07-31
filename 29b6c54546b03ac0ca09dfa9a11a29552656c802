@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_9837ca68",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-07-31T13:38:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_d8779776",
+      "range": {
+        "startLine": 16,
+        "startChar": 35,
+        "endLine": 16,
+        "endChar": 55
+      },
+      "revId": "29b6c54546b03ac0ca09dfa9a11a29552656c802",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_32befcaa",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-07-27T17:53:13Z",
       "side": 1,
       "message": "Do we want to use 0 or the initial value of ptr?",
+      "range": {
+        "startLine": 652,
+        "startChar": 4,
+        "endLine": 652,
+        "endChar": 15
+      },
+      "revId": "29b6c54546b03ac0ca09dfa9a11a29552656c802",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_3825f635",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 652,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-07-31T13:38:04Z",
+      "side": 1,
+      "message": "Used ptr instead, but note that JGit has only one callsite, where ptr \u003d\u003d 0.",
+      "parentUuid": "c7880b39_32befcaa",
       "range": {
         "startLine": 652,
         "startChar": 4,
