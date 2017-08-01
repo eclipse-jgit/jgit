@@ -185,6 +185,12 @@ public abstract class RefUpdate {
 	/** Should the Result value be appended to {@link #refLogMessage}. */
 	private boolean refLogIncludeResult;
 
+	/**
+	 * Should reflogs be written even if the configured default for this ref is
+	 * not to write it.
+	 */
+	private boolean forceRefLog;
+
 	/** Old value of the ref, obtained after we lock it. */
 	private ObjectId oldValue;
 
@@ -403,6 +409,12 @@ public abstract class RefUpdate {
 
 	/**
 	 * Set the message to include in the reflog.
+	 * <p>
+	 * Repository implementations may limit which reflogs are written by default,
+	 * based on the project configuration. If a repo is not configured to write
+	 * logs for this ref by default, setting the message alone may have no effect.
+	 * To indicate that the repo should write logs for this update in spite of
+	 * configured defaults, use {@link #setForceRefLog(boolean)}.
 	 *
 	 * @param msg
 	 *            the message to describe this change. It may be null if
@@ -428,6 +440,26 @@ public abstract class RefUpdate {
 	public void disableRefLog() {
 		refLogMessage = null;
 		refLogIncludeResult = false;
+	}
+
+	/**
+	 * Force writing a reflog for the updated ref.
+	 *
+	 * @param force whether to force.
+	 * @since 4.9
+	 */
+	public void setForceRefLog(boolean force) {
+		forceRefLog = force;
+	}
+
+	/**
+	 * Check whether the reflog should be written regardless of repo defaults.
+	 *
+	 * @return whether force writing is enabled.
+	 * @since 4.9
+	 */
+	protected boolean isForceRefLog() {
+		return forceRefLog;
 	}
 
 	/**

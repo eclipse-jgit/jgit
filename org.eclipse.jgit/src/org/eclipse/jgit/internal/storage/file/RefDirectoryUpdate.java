@@ -120,7 +120,7 @@ class RefDirectoryUpdate extends RefUpdate {
 						msg = strResult;
 				}
 			}
-			database.log(this, msg, shouldDeref);
+			database.log(isForceRefLog(), this, msg, shouldDeref);
 		}
 		if (!lock.commit())
 			return Result.LOCK_FAILURE;
@@ -159,7 +159,7 @@ class RefDirectoryUpdate extends RefUpdate {
 
 		String msg = getRefLogMessage();
 		if (msg != null)
-			database.log(this, msg, false);
+			database.log(isForceRefLog(), this, msg, false);
 		if (!lock.commit())
 			return Result.LOCK_FAILURE;
 		database.storedSymbolicRef(this, lock.getCommitSnapshot(), target);

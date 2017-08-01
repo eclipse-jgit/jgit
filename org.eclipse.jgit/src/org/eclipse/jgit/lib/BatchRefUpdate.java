@@ -104,6 +104,12 @@ public class BatchRefUpdate {
 	/** Should the result value be appended to {@link #refLogMessage}. */
 	private boolean refLogIncludeResult;
 
+	/**
+	 * Should reflogs be written even if the configured default for this ref is
+	 * not to write it.
+	 */
+	private boolean forceRefLog;
+
 	/** Push certificate associated with this update. */
 	private PushCertificate pushCert;
 
@@ -198,6 +204,12 @@ public class BatchRefUpdate {
 	/**
 	 * Set the message to include in the reflog.
 	 * <p>
+	 * Repository implementations may limit which reflogs are written by default,
+	 * based on the project configuration. If a repo is not configured to write
+	 * logs for this ref by default, setting the message alone may have no effect.
+	 * To indicate that the repo should write logs for this update in spite of
+	 * configured defaults, use {@link #setForceRefLog(boolean)}.
+	 * <p>
 	 * Describes the default for commands in this batch that do not override it
 	 * with {@link ReceiveCommand#setRefLogMessage(String, boolean)}.
 	 *
@@ -236,12 +248,34 @@ public class BatchRefUpdate {
 	}
 
 	/**
+	 * Force writing a reflog for the updated ref.
+	 *
+	 * @param force whether to force.
+	 * @return {@code this}
+	 * @since 4.9
+	 */
+	public BatchRefUpdate setForceRefLog(boolean force) {
+		forceRefLog = force;
+		return this;
+	}
+
+	/**
 	 * Check whether log has been disabled by {@link #disableRefLog()}.
 	 *
 	 * @return true if disabled.
 	 */
 	public boolean isRefLogDisabled() {
 		return refLogMessage == null;
+	}
+
+	/**
+	 * Check whether the reflog should be written regardless of repo defaults.
+	 *
+	 * @return whether force writing is enabled.
+	 * @since 4.9
+	 */
+	protected boolean isForceRefLog() {
+		return forceRefLog;
 	}
 
 	/**
@@ -635,6 +669,7 @@ public class BatchRefUpdate {
 		} else {
 			ru.setRefLogIdent(refLogIdent);
 			ru.setRefLogMessage(getRefLogMessage(cmd), isRefLogIncludingResult(cmd));
+			ru.setForceRefLog(isForceRefLog(cmd));
 		}
 		ru.setPushCertificate(pushCert);
 		switch (cmd.getType()) {
@@ -694,6 +729,21 @@ public class BatchRefUpdate {
 	protected boolean isRefLogIncludingResult(ReceiveCommand cmd) {
 		return cmd.hasCustomRefLog()
 				? cmd.isRefLogIncludingResult() : isRefLogIncludingResult();
+	}
+
+	/**
+	 * Check whether the reflog for a command should be written regardless of repo
+	 * defaults.
+	 *
+	 * @param cmd
+	 *            specific command.
+	 * @return whether force writing is enabled.
+	 * @since 4.9
+	 */
+	protected boolean isForceRefLog(ReceiveCommand cmd) {
+		Boolean isForceRefLog = cmd.isForceRefLog();
+		return isForceRefLog != null ? isForceRefLog.booleanValue()
+				: isForceRefLog();
 	}
 
 	@Override

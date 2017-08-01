@@ -225,6 +225,8 @@ public class ReceiveCommand {
 
 	private boolean refLogIncludeResult;
 
+	private Boolean forceRefLog;
+
 	private boolean typeIsCorrect;
 
 	/**
@@ -390,8 +392,22 @@ public class ReceiveCommand {
 	}
 
 	/**
-	 * Check whether this command has a custom reflog setting that should override
-	 * defaults in any containing {@link org.eclipse.jgit.lib.BatchRefUpdate}.
+	 * Force writing a reflog for the updated ref.
+	 *
+	 * @param force whether to force.
+	 * @since 4.9
+	 */
+	public void setForceRefLog(boolean force) {
+		forceRefLog = Boolean.valueOf(force);
+	}
+
+	/**
+	 * Check whether this command has a custom reflog message setting that should
+	 * override defaults in any containing
+	 * {@link org.eclipse.jgit.lib.BatchRefUpdate}.
+	 * <p>
+	 * Does not take into account whether {@code #setForceRefLog(boolean)} has
+	 * been called.
 	 *
 	 * @return whether a custom reflog is set.
 	 * @since 4.9
@@ -431,6 +447,18 @@ public class ReceiveCommand {
 	 */
 	public boolean isRefLogIncludingResult() {
 		return refLogIncludeResult;
+	}
+
+	/**
+	 * Check whether the reflog should be written regardless of repo defaults.
+	 *
+	 * @return whether force writing is enabled; null if {@code
+	 * #setForceRefLog(boolean)} was never called.
+	 * @since 4.9
+	 */
+	@Nullable
+	public Boolean isForceRefLog() {
+		return forceRefLog;
 	}
 
 	/**

@@ -1018,7 +1018,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		RefDirectory refs = (RefDirectory) db.getRefDatabase();
 		RefDirectoryUpdate update = refs.newUpdate(refName, true);
 		update.setNewObjectId(newId);
-		refs.log(update, msg, true);
+		refs.log(false, update, msg, true);
 	}
 
 	private static class SubclassedId extends ObjectId {
