@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_516e1df3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/RawParseUtils_LineMapTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-08-01T07:11:46Z",
+      "side": 1,
+      "message": "Unintentionally committed test code?",
+      "range": {
+        "startLine": 86,
+        "startChar": 2,
+        "endLine": 86,
+        "endChar": 26
+      },
+      "revId": "273a4b6812c9cd09086b01bab39ec7088f33bb37",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
