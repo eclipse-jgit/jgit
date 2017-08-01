@@ -618,6 +618,10 @@ public final class RawParseUtils {
 	 * <p>
 	 * The last element (index <code>map.size()-1</code>) always contains
 	 * <code>end</code>.
+	 * <p>
+	 * If the data contains a '\0' anywhere, the whole region is considered binary
+	 * and a LineMap corresponding to a single line is returned.
+	 * </p>
 	 *
 	 * @param buf
 	 *            buffer to scan.
@@ -629,14 +633,29 @@ public final class RawParseUtils {
 	 * @return a line map indexing the start position of each line.
 	 */
 	public static final IntList lineMap(final byte[] buf, int ptr, int end) {
+		int start = ptr;
+
 		// Experimentally derived from multiple source repositories
 		// the average number of bytes/line is 36. Its a rough guess
 		// to initially size our map close to the target.
-		//
-		final IntList map = new IntList((end - ptr) / 36);
-		map.fillTo(1, Integer.MIN_VALUE);
-		for (; ptr < end; ptr = nextLF(buf, ptr))
-			map.add(ptr);
+		IntList map = new IntList((end - ptr) / 36);
+		map.add(Integer.MIN_VALUE);
+		boolean foundLF = true;
+		for (; ptr < end; ptr++) {
+			if (foundLF) {
+				map.add(ptr);
+			}
+
+			if (buf[ptr] == '\0') {
+				// binary data.
+				map = new IntList(3);
+				map.add(Integer.MIN_VALUE);
+				map.add(start);
+				break;
+			}
+
+			foundLF = (buf[ptr] == '\n');
+		}
 		map.add(end);
 		return map;
 	}
