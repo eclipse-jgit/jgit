@@ -48,6 +48,7 @@ package org.eclipse.jgit.internal.storage.file;
 
 import static org.eclipse.jgit.lib.Constants.CHARSET;
 import static org.eclipse.jgit.lib.Constants.HEAD;
+import static org.eclipse.jgit.lib.Constants.LOGS;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_STRING_LENGTH;
 import static org.eclipse.jgit.lib.Constants.PACKED_REFS;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
@@ -154,6 +155,10 @@ public class RefDirectory extends RefDatabase {
 
 	final File packedRefsFile;
 
+	final File logsDir;
+
+	final File logsRefsDir;
+
 	/**
 	 * Immutable sorted list of loose references.
 	 * <p>
@@ -205,8 +210,10 @@ public class RefDirectory extends RefDatabase {
 		final FS fs = db.getFS();
 		parent = db;
 		gitDir = db.getDirectory();
-		logWriter = new ReflogWriter(db);
+		logWriter = new ReflogWriter(this);
 		refsDir = fs.resolve(gitDir, R_REFS);
+		logsDir = fs.resolve(gitDir, LOGS);
+		logsRefsDir = fs.resolve(gitDir, LOGS + '/' + R_REFS);
 		packedRefsFile = fs.resolve(gitDir, PACKED_REFS);
 
 		looseRefs.set(RefList.<LooseRef> emptyList());
@@ -219,6 +226,22 @@ public class RefDirectory extends RefDatabase {
 
 	ReflogWriter getLogWriter() {
 		return logWriter;
+	}
+
+	/**
+	 * Locate the log file on disk for a single reference name.
+	 *
+	 * @param name
+	 *            name of the ref, relative to the Git repository top level
+	 *            directory (so typically starts with refs/).
+	 * @return the log file location.
+	 */
+	public File logFor(String name) {
+		if (name.startsWith(R_REFS)) {
+			name = name.substring(R_REFS.length());
+			return new File(logsRefsDir, name);
+		}
+		return new File(logsDir, name);
 	}
 
 	@Override
@@ -654,7 +677,7 @@ public class RefDirectory extends RefDatabase {
 		} while (!looseRefs.compareAndSet(curLoose, newLoose));
 
 		int levels = levelsIn(name) - 2;
-		delete(logWriter.logFor(name), levels);
+		delete(logFor(name), levels);
 		if (dst.getStorage().isLoose()) {
 			update.unlock();
 			delete(fileFor(name), levels);
