@@ -16,6 +16,26 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/lib/ReflogEntry.java" type="org.eclipse.jgit.lib.ReflogEntry">
+        <filter comment="adding enum constant does not break binary compatibility" id="403767336">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.ReflogEntry"/>
+                <message_argument value="PREFIX_CREATED"/>
+            </message_arguments>
+        </filter>
+        <filter comment="adding enum constant does not break binary compatibility" id="403767336">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.ReflogEntry"/>
+                <message_argument value="PREFIX_FAST_FORWARD"/>
+            </message_arguments>
+        </filter>
+        <filter comment="adding enum constant does not break binary compatibility" id="403767336">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.ReflogEntry"/>
+                <message_argument value="PREFIX_FORCED_UPDATE"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/merge/MergeStrategy.java" type="org.eclipse.jgit.merge.MergeStrategy">
         <filter comment="OSGi semantic versioning allows breaking implementors of an API in a minor version" id="336695337">
             <message_arguments>
