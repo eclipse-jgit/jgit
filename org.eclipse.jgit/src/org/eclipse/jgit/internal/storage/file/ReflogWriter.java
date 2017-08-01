@@ -72,20 +72,18 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 
-/**
- * Utility for writing reflog entries
- */
+/** Utility for writing reflog entries. */
 public class ReflogWriter {
 
 	/**
-	 * Get the ref name to be used for when locking a ref's log for rewriting
+	 * Get the ref name to be used for when locking a ref's log for rewriting.
 	 *
 	 * @param name
 	 *            name of the ref, relative to the Git repository top level
 	 *            directory (so typically starts with refs/).
-	 * @return the name of the ref's lock ref
+	 * @return the name of the ref's lock ref.
 	 */
-	public static String refLockFor(final String name) {
+	public static String refLockFor(String name) {
 		return name + LockFile.SUFFIX;
 	}
 
@@ -98,24 +96,24 @@ public class ReflogWriter {
 	private final boolean forceWrite;
 
 	/**
-	 * Create write for repository
+	 * Create writer for repository.
 	 *
 	 * @param repository
 	 */
-	public ReflogWriter(final Repository repository) {
+	public ReflogWriter(Repository repository) {
 		this(repository, false);
 	}
 
 	/**
-	 * Create write for repository
+	 * Create writer for repository.
 	 *
 	 * @param repository
 	 * @param forceWrite
 	 *            true to write to disk all entries logged, false to respect the
-	 *            repository's config and current log file status
+	 *            repository's config and current log file status.
 	 */
-	public ReflogWriter(final Repository repository, final boolean forceWrite) {
-		final FS fs = repository.getFS();
+	public ReflogWriter(Repository repository, boolean forceWrite) {
+		FS fs = repository.getFS();
 		parent = repository;
 		File gitDir = repository.getDirectory();
 		logsDir = fs.resolve(gitDir, LOGS);
@@ -124,19 +122,19 @@ public class ReflogWriter {
 	}
 
 	/**
-	 * Get repository that reflog is being written for
+	 * Get repository that reflog is being written for.
 	 *
-	 * @return file repository
+	 * @return file repository.
 	 */
 	public Repository getRepository() {
 		return parent;
 	}
 
 	/**
-	 * Create the log directories
+	 * Create the log directories.
 	 *
 	 * @throws IOException
-	 * @return this writer
+	 * @return this writer.
 	 */
 	public ReflogWriter create() throws IOException {
 		FileUtils.mkdir(logsDir);
@@ -163,15 +161,14 @@ public class ReflogWriter {
 	}
 
 	/**
-	 * Write the given {@link ReflogEntry} entry to the ref's log
+	 * Write the given entry to the ref's log.
 	 *
 	 * @param refName
-	 *
 	 * @param entry
 	 * @return this writer
 	 * @throws IOException
 	 */
-	public ReflogWriter log(final String refName, final ReflogEntry entry)
+	public ReflogWriter log(String refName, ReflogEntry entry)
 			throws IOException {
 		return log(refName, entry.getOldId(), entry.getNewId(), entry.getWho(),
 				entry.getComment());
@@ -188,15 +185,14 @@ public class ReflogWriter {
 	 * @return this writer
 	 * @throws IOException
 	 */
-	public ReflogWriter log(final String refName, final ObjectId oldId,
-			final ObjectId newId, final PersonIdent ident, final String message)
-			throws IOException {
+	public ReflogWriter log(String refName, ObjectId oldId,
+			ObjectId newId, PersonIdent ident, String message) throws IOException {
 		byte[] encoded = encode(oldId, newId, ident, message);
 		return log(refName, encoded);
 	}
 
 	/**
-	 * Write the given ref update to the ref's log
+	 * Write the given ref update to the ref's log.
 	 *
 	 * @param update
 	 * @param msg
@@ -204,11 +200,11 @@ public class ReflogWriter {
 	 * @return this writer
 	 * @throws IOException
 	 */
-	public ReflogWriter log(final RefUpdate update, final String msg,
-			final boolean deref) throws IOException {
-		final ObjectId oldId = update.getOldObjectId();
-		final ObjectId newId = update.getNewObjectId();
-		final Ref ref = update.getRef();
+	public ReflogWriter log(RefUpdate update, String msg,
+			boolean deref) throws IOException {
+		ObjectId oldId = update.getOldObjectId();
+		ObjectId newId = update.getNewObjectId();
+		Ref ref = update.getRef();
 
 		PersonIdent ident = update.getRefLogIdent();
 		if (ident == null)
@@ -216,7 +212,7 @@ public class ReflogWriter {
 		else
 			ident = new PersonIdent(ident);
 
-		final byte[] rec = encode(oldId, newId, ident, msg);
+		byte[] rec = encode(oldId, newId, ident, msg);
 		if (deref && ref.isSymbolic()) {
 			log(ref.getName(), rec);
 			log(ref.getLeaf().getName(), rec);
@@ -228,22 +224,23 @@ public class ReflogWriter {
 
 	private byte[] encode(ObjectId oldId, ObjectId newId, PersonIdent ident,
 			String message) {
-		final StringBuilder r = new StringBuilder();
+		StringBuilder r = new StringBuilder();
 		r.append(ObjectId.toString(oldId));
 		r.append(' ');
 		r.append(ObjectId.toString(newId));
 		r.append(' ');
 		r.append(ident.toExternalString());
 		r.append('\t');
-		r.append(message.replace("\r\n", " ").replace("\n", " ")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		r.append(
+				message.replace("\r\n", " ") //$NON-NLS-1$ //$NON-NLS-2$
+						.replace("\n", " ")); //$NON-NLS-1$ //$NON-NLS-2$
 		r.append('\n');
 		return Constants.encode(r.toString());
 	}
 
-	private ReflogWriter log(final String refName, final byte[] rec)
-			throws IOException {
-		final File log = logFor(refName);
-		final boolean write = forceWrite
+	private ReflogWriter log(String refName, byte[] rec) throws IOException {
+		File log = logFor(refName);
+		boolean write = forceWrite
 				|| (isLogAllRefUpdates() && shouldAutoCreateLog(refName))
 				|| log.isFile();
 		if (!write)
@@ -254,7 +251,7 @@ public class ReflogWriter {
 		try {
 			out = new FileOutputStream(log, true);
 		} catch (FileNotFoundException err) {
-			final File dir = log.getParentFile();
+			File dir = log.getParentFile();
 			if (dir.exists())
 				throw err;
 			if (!dir.mkdirs() && !dir.isDirectory())
@@ -281,10 +278,10 @@ public class ReflogWriter {
 		return parent.getConfig().get(CoreConfig.KEY).isLogAllRefUpdates();
 	}
 
-	private boolean shouldAutoCreateLog(final String refName) {
-		return refName.equals(HEAD) //
-				|| refName.startsWith(R_HEADS) //
-				|| refName.startsWith(R_REMOTES) //
+	private boolean shouldAutoCreateLog(String refName) {
+		return refName.equals(HEAD)
+				|| refName.startsWith(R_HEADS)
+				|| refName.startsWith(R_REMOTES)
 				|| refName.equals(R_STASH);
 	}
 }
