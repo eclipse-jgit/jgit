@@ -415,7 +415,7 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 
 			if (cmd.getType() == ReceiveCommand.Type.DELETE) {
 				try {
-					RefDirectory.delete(w.logFor(name), RefDirectory.levelsIn(name));
+					RefDirectory.delete(refdb.logFor(name), RefDirectory.levelsIn(name));
 				} catch (IOException e) {
 					// Ignore failures, see below.
 				}
