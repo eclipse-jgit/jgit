@@ -90,6 +90,24 @@ public class NBTest {
 	}
 
 	@Test
+	public void testDecodeUInt24() {
+		assertEquals(0, NB.decodeUInt24(b(0, 0, 0), 0));
+		assertEquals(0, NB.decodeUInt24(padb(3, 0, 0, 0), 3));
+
+		assertEquals(3, NB.decodeUInt24(b(0, 0, 3), 0));
+		assertEquals(3, NB.decodeUInt24(padb(3, 0, 0, 3), 3));
+
+		assertEquals(0xcede03, NB.decodeUInt24(b(0xce, 0xde, 3), 0));
+		assertEquals(0xbade03, NB.decodeUInt24(padb(3, 0xba, 0xde, 3), 3));
+
+		assertEquals(0x03bade, NB.decodeUInt24(b(3, 0xba, 0xde), 0));
+		assertEquals(0x03bade, NB.decodeUInt24(padb(3, 3, 0xba, 0xde), 3));
+
+		assertEquals(0xffffff, NB.decodeUInt24(b(0xff, 0xff, 0xff), 0));
+		assertEquals(0xffffff, NB.decodeUInt24(padb(3, 0xff, 0xff, 0xff), 3));
+	}
+
+	@Test
 	public void testDecodeInt32() {
 		assertEquals(0, NB.decodeInt32(b(0, 0, 0, 0), 0));
 		assertEquals(0, NB.decodeInt32(padb(3, 0, 0, 0, 0), 3));
@@ -195,6 +213,39 @@ public class NBTest {
 		prepareOutput(out);
 		NB.encodeInt16(out, 3, -1);
 		assertOutput(b(0xff, 0xff), out, 3);
+	}
+
+	@Test
+	public void testEncodeInt24() {
+		byte[] out = new byte[16];
+
+		prepareOutput(out);
+		NB.encodeInt24(out, 0, 0);
+		assertOutput(b(0, 0, 0), out, 0);
+
+		prepareOutput(out);
+		NB.encodeInt24(out, 3, 0);
+		assertOutput(b(0, 0, 0), out, 3);
+
+		prepareOutput(out);
+		NB.encodeInt24(out, 0, 3);
+		assertOutput(b(0, 0, 3), out, 0);
+
+		prepareOutput(out);
+		NB.encodeInt24(out, 3, 3);
+		assertOutput(b(0, 0, 3), out, 3);
+
+		prepareOutput(out);
+		NB.encodeInt24(out, 0, 0xc0deac);
+		assertOutput(b(0xc0, 0xde, 0xac), out, 0);
+
+		prepareOutput(out);
+		NB.encodeInt24(out, 3, 0xbadeac);
+		assertOutput(b(0xba, 0xde, 0xac), out, 3);
+
+		prepareOutput(out);
+		NB.encodeInt24(out, 3, -1);
+		assertOutput(b(0xff, 0xff, 0xff), out, 3);
 	}
 
 	@Test
@@ -315,8 +366,22 @@ public class NBTest {
 		return r;
 	}
 
+	private static byte[] b(int a, int b, int c) {
+		return new byte[] { (byte) a, (byte) b, (byte) c };
+	}
+
 	private static byte[] b(final int a, final int b, final int c, final int d) {
 		return new byte[] { (byte) a, (byte) b, (byte) c, (byte) d };
+	}
+
+	private static byte[] padb(int len, int a, int b, int c) {
+		final byte[] r = new byte[len + 4];
+		for (int i = 0; i < len; i++)
+			r[i] = (byte) 0xaf;
+		r[len] = (byte) a;
+		r[len + 1] = (byte) b;
+		r[len + 2] = (byte) c;
+		return r;
 	}
 
 	private static byte[] padb(final int len, final int a, final int b,

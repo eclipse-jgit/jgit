@@ -113,6 +113,24 @@ public final class NB {
 	}
 
 	/**
+	 * Convert sequence of 3 bytes (network byte order) into unsigned value.
+	 *
+	 * @param intbuf
+	 *            buffer to acquire the 3 bytes of data from.
+	 * @param offset
+	 *            position within the buffer to begin reading from. This
+	 *            position and the next 2 bytes after it (for a total of 3
+	 *            bytes) will be read.
+	 * @return signed integer value that matches the 24 bits read.
+	 * @since 4.9
+	 */
+	public static int decodeUInt24(byte[] intbuf, int offset) {
+		int r = (intbuf[offset] & 0xff) << 8;
+		r |= intbuf[offset + 1] & 0xff;
+		return (r << 8) | (intbuf[offset + 2] & 0xff);
+	}
+
+	/**
 	 * Convert sequence of 4 bytes (network byte order) into signed value.
 	 *
 	 * @param intbuf
@@ -216,6 +234,29 @@ public final class NB {
 	 *            the value to write.
 	 */
 	public static void encodeInt16(final byte[] intbuf, final int offset, int v) {
+		intbuf[offset + 1] = (byte) v;
+		v >>>= 8;
+
+		intbuf[offset] = (byte) v;
+	}
+
+	/**
+	 * Write a 24 bit integer as a sequence of 3 bytes (network byte order).
+	 *
+	 * @param intbuf
+	 *            buffer to write the 3 bytes of data into.
+	 * @param offset
+	 *            position within the buffer to begin writing to. This position
+	 *            and the next 2 bytes after it (for a total of 3 bytes) will be
+	 *            replaced.
+	 * @param v
+	 *            the value to write.
+	 * @since 4.9
+	 */
+	public static void encodeInt24(byte[] intbuf, int offset, int v) {
+		intbuf[offset + 2] = (byte) v;
+		v >>>= 8;
+
 		intbuf[offset + 1] = (byte) v;
 		v >>>= 8;
 
