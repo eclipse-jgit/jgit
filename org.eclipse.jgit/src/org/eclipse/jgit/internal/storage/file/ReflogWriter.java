@@ -46,7 +46,6 @@
 package org.eclipse.jgit.internal.storage.file;
 
 import static org.eclipse.jgit.lib.Constants.HEAD;
-import static org.eclipse.jgit.lib.Constants.LOGS;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.eclipse.jgit.lib.Constants.R_REFS;
 import static org.eclipse.jgit.lib.Constants.R_REMOTES;
@@ -68,11 +67,12 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.ReflogEntry;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 
-/** Utility for writing reflog entries. */
+/**
+ * Utility for writing reflog entries using the traditional one-file-per-log
+ * format.
+ */
 public class ReflogWriter {
 
 	/**
@@ -87,47 +87,30 @@ public class ReflogWriter {
 		return name + LockFile.SUFFIX;
 	}
 
-	private final Repository parent;
-
-	private final File logsDir;
-
-	private final File logsRefsDir;
+	private final RefDirectory refdb;
 
 	private final boolean forceWrite;
 
 	/**
-	 * Create writer for repository.
+	 * Create writer for ref directory.
 	 *
-	 * @param repository
+	 * @param refdb
 	 */
-	public ReflogWriter(Repository repository) {
-		this(repository, false);
+	public ReflogWriter(RefDirectory refdb) {
+		this(refdb, false);
 	}
 
 	/**
-	 * Create writer for repository.
+	 * Create writer for ref directory.
 	 *
-	 * @param repository
+	 * @param refdb
 	 * @param forceWrite
 	 *            true to write to disk all entries logged, false to respect the
 	 *            repository's config and current log file status.
 	 */
-	public ReflogWriter(Repository repository, boolean forceWrite) {
-		FS fs = repository.getFS();
-		parent = repository;
-		File gitDir = repository.getDirectory();
-		logsDir = fs.resolve(gitDir, LOGS);
-		logsRefsDir = fs.resolve(gitDir, LOGS + '/' + R_REFS);
+	public ReflogWriter(RefDirectory refdb, boolean forceWrite) {
+		this.refdb = refdb;
 		this.forceWrite = forceWrite;
-	}
-
-	/**
-	 * Get repository that reflog is being written for.
-	 *
-	 * @return file repository.
-	 */
-	public Repository getRepository() {
-		return parent;
 	}
 
 	/**
@@ -137,27 +120,11 @@ public class ReflogWriter {
 	 * @return this writer.
 	 */
 	public ReflogWriter create() throws IOException {
-		FileUtils.mkdir(logsDir);
-		FileUtils.mkdir(logsRefsDir);
-		FileUtils.mkdir(new File(logsRefsDir,
-				R_HEADS.substring(R_REFS.length())));
+		FileUtils.mkdir(refdb.logsDir);
+		FileUtils.mkdir(refdb.logsRefsDir);
+		FileUtils.mkdir(
+				new File(refdb.logsRefsDir, R_HEADS.substring(R_REFS.length())));
 		return this;
-	}
-
-	/**
-	 * Locate the log file on disk for a single reference name.
-	 *
-	 * @param name
-	 *            name of the ref, relative to the Git repository top level
-	 *            directory (so typically starts with refs/).
-	 * @return the log file location.
-	 */
-	public File logFor(String name) {
-		if (name.startsWith(R_REFS)) {
-			name = name.substring(R_REFS.length());
-			return new File(logsRefsDir, name);
-		}
-		return new File(logsDir, name);
 	}
 
 	/**
@@ -208,7 +175,7 @@ public class ReflogWriter {
 
 		PersonIdent ident = update.getRefLogIdent();
 		if (ident == null)
-			ident = new PersonIdent(parent);
+			ident = new PersonIdent(refdb.getRepository());
 		else
 			ident = new PersonIdent(ident);
 
@@ -239,14 +206,14 @@ public class ReflogWriter {
 	}
 
 	private ReflogWriter log(String refName, byte[] rec) throws IOException {
-		File log = logFor(refName);
+		File log = refdb.logFor(refName);
 		boolean write = forceWrite
 				|| (isLogAllRefUpdates() && shouldAutoCreateLog(refName))
 				|| log.isFile();
 		if (!write)
 			return this;
 
-		WriteConfig wc = getRepository().getConfig().get(WriteConfig.KEY);
+		WriteConfig wc = refdb.getRepository().getConfig().get(WriteConfig.KEY);
 		FileOutputStream out;
 		try {
 			out = new FileOutputStream(log, true);
@@ -275,7 +242,8 @@ public class ReflogWriter {
 	}
 
 	private boolean isLogAllRefUpdates() {
-		return parent.getConfig().get(CoreConfig.KEY).isLogAllRefUpdates();
+		return refdb.getRepository().getConfig().get(CoreConfig.KEY)
+				.isLogAllRefUpdates();
 	}
 
 	private boolean shouldAutoCreateLog(String refName) {
