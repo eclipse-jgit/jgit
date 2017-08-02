@@ -63,7 +63,6 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.PackLock;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.Config.SectionParser;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -250,7 +249,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		super(packTransport);
 
 		if (local != null) {
-			final FetchConfig cfg = local.getConfig().get(FetchConfig.KEY);
+			final FetchConfig cfg = local.getConfig().get(FetchConfig::new);
 			allowOfsDelta = cfg.allowOfsDelta;
 		} else {
 			allowOfsDelta = true;
@@ -279,13 +278,6 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 	}
 
 	private static class FetchConfig {
-		static final SectionParser<FetchConfig> KEY = new SectionParser<FetchConfig>() {
-			@Override
-			public FetchConfig parse(final Config cfg) {
-				return new FetchConfig(cfg);
-			}
-		};
-
 		final boolean allowOfsDelta;
 
 		FetchConfig(final Config c) {

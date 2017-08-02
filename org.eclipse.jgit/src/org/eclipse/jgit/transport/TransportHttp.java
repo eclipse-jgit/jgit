@@ -91,7 +91,6 @@ import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.RefDirectory;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.Config.SectionParser;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
@@ -231,13 +230,6 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		}
 	};
 
-	private static final Config.SectionParser<HttpConfig> HTTP_KEY = new SectionParser<HttpConfig>() {
-		@Override
-		public HttpConfig parse(final Config cfg) {
-			return new HttpConfig(cfg);
-		}
-	};
-
 	private static class HttpConfig {
 		final int postBuffer;
 
@@ -279,7 +271,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		} catch (MalformedURLException e) {
 			throw new NotSupportedException(MessageFormat.format(JGitText.get().invalidURL, uri), e);
 		}
-		http = local.getConfig().get(HTTP_KEY);
+		http = local.getConfig().get(HttpConfig::new);
 		proxySelector = ProxySelector.getDefault();
 	}
 

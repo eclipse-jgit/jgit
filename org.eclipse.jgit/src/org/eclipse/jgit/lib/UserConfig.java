@@ -51,12 +51,7 @@ import org.eclipse.jgit.util.SystemReader;
 /** The standard "user" configuration parameters. */
 public class UserConfig {
 	/** Key for {@link Config#get(SectionParser)}. */
-	public static final Config.SectionParser<UserConfig> KEY = new SectionParser<UserConfig>() {
-		@Override
-		public UserConfig parse(final Config cfg) {
-			return new UserConfig(cfg);
-		}
-	};
+	public static final Config.SectionParser<UserConfig> KEY = UserConfig::new;
 
 	private String authorName;
 

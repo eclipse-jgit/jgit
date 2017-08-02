@@ -78,7 +78,6 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.PackLock;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.Config.SectionParser;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectChecker;
@@ -314,7 +313,7 @@ public abstract class BaseReceivePack {
 		TransferConfig tc = db.getConfig().get(TransferConfig.KEY);
 		objectChecker = tc.newReceiveObjectChecker();
 
-		ReceiveConfig rc = db.getConfig().get(ReceiveConfig.KEY);
+		ReceiveConfig rc = db.getConfig().get(ReceiveConfig::new);
 		allowCreates = rc.allowCreates;
 		allowAnyDeletes = true;
 		allowBranchDeletes = rc.allowDeletes;
@@ -332,13 +331,6 @@ public abstract class BaseReceivePack {
 
 	/** Configuration for receive operations. */
 	protected static class ReceiveConfig {
-		static final SectionParser<ReceiveConfig> KEY = new SectionParser<ReceiveConfig>() {
-			@Override
-			public ReceiveConfig parse(final Config cfg) {
-				return new ReceiveConfig(cfg);
-			}
-		};
-
 		final boolean allowCreates;
 		final boolean allowDeletes;
 		final boolean allowNonFastForwards;

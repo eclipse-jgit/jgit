@@ -69,12 +69,8 @@ public class TransferConfig {
 	private static final String FSCK = "fsck"; //$NON-NLS-1$
 
 	/** Key for {@link Config#get(SectionParser)}. */
-	public static final Config.SectionParser<TransferConfig> KEY = new SectionParser<TransferConfig>() {
-		@Override
-		public TransferConfig parse(final Config cfg) {
-			return new TransferConfig(cfg);
-		}
-	};
+	public static final Config.SectionParser<TransferConfig> KEY =
+			TransferConfig::new;
 
 	/**
 	 * A git configuration value for how to handle a fsck failure of a particular kind.
