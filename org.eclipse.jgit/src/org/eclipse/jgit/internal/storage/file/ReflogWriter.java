@@ -45,11 +45,8 @@
  */
 package org.eclipse.jgit.internal.storage.file;
 
-import static org.eclipse.jgit.lib.Constants.HEAD;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
-import static org.eclipse.jgit.lib.Constants.R_NOTES;
 import static org.eclipse.jgit.lib.Constants.R_REFS;
-import static org.eclipse.jgit.lib.Constants.R_REMOTES;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -62,6 +59,7 @@ import java.text.MessageFormat;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig;
+import org.eclipse.jgit.lib.CoreConfig.LogAllRefUpdates;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
@@ -208,11 +206,9 @@ public class ReflogWriter {
 
 	private ReflogWriter log(String refName, byte[] rec) throws IOException {
 		File log = refdb.logFor(refName);
-		boolean write = forceWrite
-				|| (isLogAllRefUpdates() && shouldAutoCreateLog(refName))
-				|| log.isFile();
-		if (!write)
+		if (!shouldWrite(refName)) {
 			return this;
+		}
 
 		WriteConfig wc = refdb.getRepository().getConfig().get(WriteConfig.KEY);
 		FileOutputStream out;
@@ -242,15 +238,15 @@ public class ReflogWriter {
 		return this;
 	}
 
-	private boolean isLogAllRefUpdates() {
+	private boolean shouldWrite(String refName) {
+		if (forceWrite) {
+			return true;
+		}
 		Repository repo = refdb.getRepository();
-	    return repo.getConfig().get(CoreConfig.key(repo)).isLogAllRefUpdates();
-	}
-
-	private boolean shouldAutoCreateLog(String refName) {
-		return refName.equals(HEAD)
-				|| refName.startsWith(R_HEADS)
-				|| refName.startsWith(R_REMOTES)
-				|| refName.startsWith(R_NOTES);
+		LogAllRefUpdates opt =
+				repo.getConfig().get(CoreConfig.key(repo)).getLogAllRefUpdates();
+		return opt == LogAllRefUpdates.FALSE
+				? refdb.logFor(refName).isFile()
+				: opt.shouldAutoCreateLog(refName);
 	}
 }
