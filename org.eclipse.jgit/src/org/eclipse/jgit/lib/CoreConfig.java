@@ -50,6 +50,10 @@ package org.eclipse.jgit.lib;
 
 import static java.util.zip.Deflater.DEFAULT_COMPRESSION;
 
+import java.text.MessageFormat;
+import java.util.function.Predicate;
+
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Config.SectionParser;
 
 /**
@@ -152,7 +156,7 @@ public class CoreConfig {
 
 	private final int packIndexVersion;
 
-	private final boolean logAllRefUpdates;
+	private final LogAllRefUpdates logAllRefUpdates;
 
 	private final String excludesfile;
 
@@ -184,13 +188,74 @@ public class CoreConfig {
 		DOTGITONLY
 	}
 
+	/**
+	 * Options for enabling reflogs with {@code core.logAllRefUpdates}.
+	 * <p>
+	 * See also the documentation of {@code core.logAllRefUpdates} in {@code
+	 * git-config(1)}.
+	 *
+	 * @since 4.9
+	 */
+	public static enum LogAllRefUpdates {
+		/**
+		 * Don't log all ref updates: only log updates for refs whose reflog
+		 * already exists.
+		 *
+		 * @since 4.9
+		 */
+		FALSE(r -> false),
+
+		/**
+		 * Log all ref updates for a default set of refs.
+		 * <p>
+		 * Updates are logged only for the following refs:
+		 * <ul>
+		 * <li>{@code refs/heads/*}</li>
+		 * <li>{@code refs/remotes/*}</li>
+		 * <li>{@code refs/notes/*}</li>
+		 * <li>{@code HEAD}</li>
+		 *
+		 * @since 4.9
+		 */
+		TRUE(r -> r.startsWith(Constants.R_HEADS)
+				|| r.startsWith(Constants.R_REMOTES)
+				|| r.startsWith(Constants.R_NOTES)
+				|| r.equals(Constants.HEAD)),
+
+		/**
+		 * Log all ref updates for all refs.
+		 *
+		 * @since 4.9
+		 */
+		ALWAYS(r -> true);
+
+		private final Predicate<String> shouldAutoCreateLog;
+
+		private LogAllRefUpdates(Predicate<String> shouldAutoCreateLog) {
+			this.shouldAutoCreateLog = shouldAutoCreateLog;
+		}
+
+		/**
+		 * Check whether a log should be auto-created for a ref.
+		 *
+		 * @param refName
+		 *            ref name to check.
+		 * @return true if the log should be auto-created.
+		 * @since 4.9
+		 */
+		public boolean shouldAutoCreateLog(String refName) {
+			return shouldAutoCreateLog.test(refName);
+		}
+	}
+
 	private CoreConfig(Config rc, boolean bare) {
 		compression = rc.getInt(ConfigConstants.CONFIG_CORE_SECTION,
 				ConfigConstants.CONFIG_KEY_COMPRESSION, DEFAULT_COMPRESSION);
 		packIndexVersion = rc.getInt(ConfigConstants.CONFIG_PACK_SECTION,
 				ConfigConstants.CONFIG_KEY_INDEXVERSION, 2);
-		logAllRefUpdates = rc.getBoolean(ConfigConstants.CONFIG_CORE_SECTION,
-				ConfigConstants.CONFIG_KEY_LOGALLREFUPDATES, !bare);
+		logAllRefUpdates = rc.getEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_KEY_LOGALLREFUPDATES,
+				bare ? LogAllRefUpdates.FALSE : LogAllRefUpdates.TRUE);
 		excludesfile = rc.getString(ConfigConstants.CONFIG_CORE_SECTION, null,
 				ConfigConstants.CONFIG_KEY_EXCLUDESFILE);
 		attributesfile = rc.getString(ConfigConstants.CONFIG_CORE_SECTION,
@@ -212,9 +277,36 @@ public class CoreConfig {
 	}
 
 	/**
-	 * @return whether to log all refUpdates
+	 * Check whether all ref updates on some refs should be logged.
+	 *
+	 * @deprecated use {@code #getLogAllRefUpdates()}.
+	 * @return whether to log all ref updates on at least some ref updates;
+	 *         details about which ref updates are logged can be distinguished via
+	 *         {@code #getLogAllRefUpdates()}.
 	 */
+	@Deprecated
 	public boolean isLogAllRefUpdates() {
+		switch (logAllRefUpdates) {
+			case FALSE:
+				return false;
+			case TRUE:
+			case ALWAYS:
+				return true;
+			default:
+				throw new IllegalStateException(
+						MessageFormat.format(
+								JGitText.get().enumValueNotSupported0,
+								logAllRefUpdates.name()));
+		}
+	}
+
+	/**
+	 * Get an enum value describing how to log all ref updates.
+	 *
+	 * @return whether to log all ref updates.
+	 * @since 4.9
+	 */
+	public LogAllRefUpdates getLogAllRefUpdates() {
 		return logAllRefUpdates;
 	}
 

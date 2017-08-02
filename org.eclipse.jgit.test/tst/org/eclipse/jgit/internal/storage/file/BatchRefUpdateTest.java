@@ -67,6 +67,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -81,6 +82,7 @@ import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.CheckoutEntry;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.CoreConfig.LogAllRefUpdates;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -124,7 +126,7 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		super.setUp();
 
 		diskRepo = createBareRepository();
-		setLogAllRefUpdates(true);
+		setLogAllRefUpdates(LogAllRefUpdates.TRUE);
 
 		refdir = (RefDirectory) diskRepo.getRefDatabase();
 		refdir.setRetrySleepMs(Arrays.asList(0, 0));
@@ -589,7 +591,7 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 
 	@Test
 	public void refLogNotWrittenWithoutConfigOption() throws Exception {
-		setLogAllRefUpdates(false);
+		setLogAllRefUpdates(LogAllRefUpdates.FALSE);
 		writeRef("refs/heads/master", A);
 
 		Map<String, ReflogEntry> oldLogs =
@@ -608,7 +610,7 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 
 	@Test
 	public void forceRefLogInUpdate() throws Exception {
-		setLogAllRefUpdates(false);
+		setLogAllRefUpdates(LogAllRefUpdates.FALSE);
 		writeRef("refs/heads/master", A);
 		assertTrue(
 				getLastReflogs("refs/heads/master", "refs/heads/branch").isEmpty());
@@ -632,7 +634,7 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 
 	@Test
 	public void forceRefLogInCommand() throws Exception {
-		setLogAllRefUpdates(false);
+		setLogAllRefUpdates(LogAllRefUpdates.FALSE);
 		writeRef("refs/heads/master", A);
 
 		Map<String, ReflogEntry> oldLogs =
@@ -650,6 +652,54 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 		assertReflogEquals(
 				reflog(zeroId(), B, new PersonIdent(diskRepo), "a reflog"),
 				getLastReflog("refs/heads/branch"));
+	}
+
+	@Test
+	public void coreLogAllRefUpdatesTrue() throws Exception {
+		setLogAllRefUpdates(LogAllRefUpdates.TRUE);
+		writeRef("refs/heads/master", A);
+		writeRef("refs/tags/v1", A);
+
+		Map<String, ReflogEntry> oldLogs =
+				getLastReflogs("refs/heads/master", "refs/tags/v1");
+		assertEquals(Collections.singleton("refs/heads/master"), oldLogs.keySet());
+
+		List<ReceiveCommand> cmds = Arrays.asList(
+				new ReceiveCommand(A, B, "refs/heads/master", UPDATE),
+				new ReceiveCommand(A, B, "refs/tags/v1", UPDATE));
+		execute(newBatchUpdate(cmds).setRefLogMessage("a reflog", false));
+
+		assertResults(cmds, OK, OK);
+		assertReflogEquals(
+				reflog(A, B, new PersonIdent(diskRepo), "a reflog"),
+				getLastReflog("refs/heads/master"));
+		assertReflogUnchanged(oldLogs, "refs/tags/v1");
+	}
+
+	@Test
+	public void coreLogAllRefUpdatesAlways() throws Exception {
+		setLogAllRefUpdates(LogAllRefUpdates.ALWAYS);
+		writeRef("refs/heads/master", A);
+		writeRef("refs/tags/v1", A);
+
+		Map<String, ReflogEntry> oldLogs =
+				getLastReflogs("refs/heads/master", "refs/tags/v1");
+		assertEquals(
+				new HashSet<>(Arrays.asList("refs/heads/master", "refs/tags/v1")),
+				oldLogs.keySet());
+
+		List<ReceiveCommand> cmds = Arrays.asList(
+				new ReceiveCommand(A, B, "refs/heads/master", UPDATE),
+				new ReceiveCommand(A, B, "refs/tags/v1", UPDATE));
+		execute(newBatchUpdate(cmds).setRefLogMessage("a reflog", false));
+
+		assertResults(cmds, OK, OK);
+		assertReflogEquals(
+				reflog(A, B, new PersonIdent(diskRepo), "a reflog"),
+				getLastReflog("refs/heads/master"));
+		assertReflogEquals(
+				reflog(A, B, new PersonIdent(diskRepo), "a reflog"),
+				getLastReflog("refs/tags/v1"));
 	}
 
 	@Test
@@ -782,11 +832,11 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 				"refs/heads/branch", B);
 	}
 
-	private void setLogAllRefUpdates(boolean enable) throws Exception {
+	private void setLogAllRefUpdates(LogAllRefUpdates value) throws Exception {
 		StoredConfig cfg = diskRepo.getConfig();
 		cfg.load();
-		cfg.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
-				ConfigConstants.CONFIG_KEY_LOGALLREFUPDATES, enable);
+		cfg.setEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_KEY_LOGALLREFUPDATES, value);
 		cfg.save();
 	}
 
