@@ -47,6 +47,7 @@ package org.eclipse.jgit.lib;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
@@ -56,6 +57,10 @@ import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.junit.Test;
 
 public class ReflogConfigTest extends RepositoryTestCase {
+	private static final String CORE = ConfigConstants.CONFIG_CORE_SECTION;
+	private static final String LOGALL =
+			ConfigConstants.CONFIG_KEY_LOGALLREFUPDATES;
+
 	@Test
 	public void testlogAllRefUpdates() throws Exception {
 		long commitTime = 1154236443000L;
@@ -79,7 +84,7 @@ public class ReflogConfigTest extends RepositoryTestCase {
 		// set the logAllRefUpdates parameter to true and check it
 		cfg.setBoolean("core", null, "logallrefupdates", true);
 		cfg.save();
-		assertTrue(cfg.get(CoreConfig.KEY).isLogAllRefUpdates());
+		assertTrue(cfg.get(CoreConfig.key(db)).isLogAllRefUpdates());
 
 		// do one commit and check that reflog size is increased to 1
 		commit("A Commit\n", commitTime, tz);
@@ -91,13 +96,55 @@ public class ReflogConfigTest extends RepositoryTestCase {
 		// set the logAllRefUpdates parameter to false and check it
 		cfg.setBoolean("core", null, "logallrefupdates", false);
 		cfg.save();
-		assertFalse(cfg.get(CoreConfig.KEY).isLogAllRefUpdates());
+		assertFalse(cfg.get(CoreConfig.key(db)).isLogAllRefUpdates());
 
 		// do one commit and check that reflog size is 2
 		commit("A Commit\n", commitTime, tz);
 		assertTrue(
 				"Reflog for HEAD should contain two entries",
 				db.getReflogReader(Constants.HEAD).getReverseEntries().size() == 2);
+	}
+
+	@SuppressWarnings("deprecation")
+	@Test
+	public void testlogAllRefUpdatesRespectsWhetherRepoIsBare()
+			throws Exception {
+		Repository bareDb = createBareRepository();
+
+		// This test is just testing what happens when the value is unset.
+		db.getConfig().unset(CORE, null, LOGALL);
+		bareDb.getConfig().unset(CORE, null, LOGALL);
+
+		// Deprecated KEY always defaults to true, regardless of bareness.
+		assertTrue(db.getConfig().get(CoreConfig.KEY).isLogAllRefUpdates());
+		assertTrue(bareDb.getConfig().get(CoreConfig.KEY).isLogAllRefUpdates());
+
+		// key(Repository) defaults to !bare.
+		assertTrue(db.getConfig().get(CoreConfig.key(db)).isLogAllRefUpdates());
+		assertFalse(
+				bareDb.getConfig().get(CoreConfig.key(bareDb)).isLogAllRefUpdates());
+
+		// Overriding default always works.
+		db.getConfig().setBoolean(CORE, null, LOGALL, true);
+		bareDb.getConfig().setBoolean(CORE, null, LOGALL, true);
+		assertTrue(db.getConfig().get(CoreConfig.key(db)).isLogAllRefUpdates());
+		assertTrue(
+				bareDb.getConfig().get(CoreConfig.key(bareDb)).isLogAllRefUpdates());
+
+		db.getConfig().setBoolean(CORE, null, LOGALL, false);
+		bareDb.getConfig().setBoolean(CORE, null, LOGALL, false);
+		assertFalse(db.getConfig().get(CoreConfig.key(db)).isLogAllRefUpdates());
+		assertFalse(
+				bareDb.getConfig().get(CoreConfig.key(bareDb)).isLogAllRefUpdates());
+	}
+
+	@Test
+	public void testLogAllRefUpdatesInitialValueInConfigMatchesCGit()
+			throws Exception {
+		assertEquals("true", db.getConfig().getString(CORE, null, LOGALL));
+
+		Repository bareDb = createBareRepository();
+		assertNull(bareDb.getConfig().getString(CORE, null, LOGALL));
 	}
 
 	private void commit(String commitMsg, long commitTime, int tz)

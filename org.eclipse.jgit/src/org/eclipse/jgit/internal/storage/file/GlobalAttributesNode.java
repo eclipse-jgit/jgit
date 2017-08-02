@@ -70,7 +70,7 @@ public class GlobalAttributesNode extends AttributesNode {
 		AttributesNode r = new AttributesNode();
 
 		FS fs = repository.getFS();
-		String path = repository.getConfig().get(CoreConfig.KEY)
+		String path = repository.getConfig().get(CoreConfig.key(repository))
 				.getAttributesFile();
 		if (path != null) {
 			File attributesFile;
