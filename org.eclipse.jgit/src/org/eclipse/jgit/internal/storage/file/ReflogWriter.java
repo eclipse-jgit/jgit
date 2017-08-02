@@ -47,9 +47,9 @@ package org.eclipse.jgit.internal.storage.file;
 
 import static org.eclipse.jgit.lib.Constants.HEAD;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
+import static org.eclipse.jgit.lib.Constants.R_NOTES;
 import static org.eclipse.jgit.lib.Constants.R_REFS;
 import static org.eclipse.jgit.lib.Constants.R_REMOTES;
-import static org.eclipse.jgit.lib.Constants.R_STASH;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -250,6 +250,6 @@ public class ReflogWriter {
 		return refName.equals(HEAD)
 				|| refName.startsWith(R_HEADS)
 				|| refName.startsWith(R_REMOTES)
-				|| refName.equals(R_STASH);
+				|| refName.startsWith(R_NOTES);
 	}
 }

@@ -51,6 +51,7 @@ import java.util.Iterator;
 
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -94,9 +95,7 @@ public class StashListCommandTest extends RepositoryTestCase {
 		git.add().addFilepattern("file.txt").call();
 		RevCommit commit = git.commit().setMessage("create file").call();
 
-		RefUpdate update = db.updateRef(Constants.R_STASH);
-		update.setNewObjectId(commit);
-		assertEquals(Result.NEW, update.update());
+		assertEquals(Result.NEW, newStashUpdate(commit).update());
 
 		StashListCommand command = git.stashList();
 		Collection<RevCommit> stashed = command.call();
@@ -117,13 +116,8 @@ public class StashListCommandTest extends RepositoryTestCase {
 		git.add().addFilepattern("file.txt").call();
 		RevCommit commit2 = git.commit().setMessage("edit file").call();
 
-		RefUpdate create = db.updateRef(Constants.R_STASH);
-		create.setNewObjectId(commit1);
-		assertEquals(Result.NEW, create.update());
-
-		RefUpdate update = db.updateRef(Constants.R_STASH);
-		update.setNewObjectId(commit2);
-		assertEquals(Result.FAST_FORWARD, update.update());
+		assertEquals(Result.NEW, newStashUpdate(commit1).update());
+		assertEquals(Result.FAST_FORWARD, newStashUpdate(commit2).update());
 
 		StashListCommand command = git.stashList();
 		Collection<RevCommit> stashed = command.call();
@@ -132,5 +126,12 @@ public class StashListCommandTest extends RepositoryTestCase {
 		Iterator<RevCommit> iter = stashed.iterator();
 		assertEquals(commit2, iter.next());
 		assertEquals(commit1, iter.next());
+	}
+
+	private RefUpdate newStashUpdate(ObjectId newId) throws Exception {
+		RefUpdate ru = db.updateRef(Constants.R_STASH);
+		ru.setNewObjectId(newId);
+		ru.setForceRefLog(true);
+		return ru;
 	}
 }
