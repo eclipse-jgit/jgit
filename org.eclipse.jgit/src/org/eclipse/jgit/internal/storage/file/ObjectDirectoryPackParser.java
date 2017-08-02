@@ -128,7 +128,8 @@ public class ObjectDirectoryPackParser extends PackParser {
 		this.crc = new CRC32();
 		this.tailDigest = Constants.newMessageDigest();
 
-		indexVersion = db.getConfig().get(CoreConfig.KEY).getPackIndexVersion();
+		indexVersion = db.getConfig().get(CoreConfig.key(db.getRepository()))
+				.getPackIndexVersion();
 	}
 
 	/**

@@ -1269,7 +1269,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 			}
 
 			FS fs = repository.getFS();
-			String path = repository.getConfig().get(CoreConfig.KEY)
+			String path = repository.getConfig().get(CoreConfig.key(repository))
 					.getExcludesFile();
 			if (path != null) {
 				File excludesfile;

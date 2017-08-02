@@ -57,7 +57,25 @@ import org.eclipse.jgit.lib.Config.SectionParser;
  */
 public class CoreConfig {
 	/** Key for {@link Config#get(SectionParser)}. */
-	public static final Config.SectionParser<CoreConfig> KEY = CoreConfig::new;
+	public static final Config.SectionParser<CoreConfig> KEY =
+			// Assume non-bare for backwards compatibility, so isLogAllRefUpdates
+			// continues to default to true if unset.
+			cfg -> new CoreConfig(cfg, false);
+
+	/**
+	 * Key for {@link Config#get(SectionParser)}.
+	 * <p>
+	 * Takes into account properties of the repository that are not captured in
+	 * the {@link Config}, such as whether it has a working tree.
+	 *
+	 * @param repo
+	 *            repository containing the config.
+	 * @return section parser.
+	 * @since 4.9
+	 */
+	public static Config.SectionParser<CoreConfig> key(Repository repo) {
+		return cfg -> new CoreConfig(cfg, repo.isBare());
+	}
 
 	/** Permissible values for {@code core.autocrlf}. */
 	public static enum AutoCRLF {
@@ -166,13 +184,13 @@ public class CoreConfig {
 		DOTGITONLY
 	}
 
-	private CoreConfig(final Config rc) {
+	private CoreConfig(Config rc, boolean bare) {
 		compression = rc.getInt(ConfigConstants.CONFIG_CORE_SECTION,
 				ConfigConstants.CONFIG_KEY_COMPRESSION, DEFAULT_COMPRESSION);
 		packIndexVersion = rc.getInt(ConfigConstants.CONFIG_PACK_SECTION,
 				ConfigConstants.CONFIG_KEY_INDEXVERSION, 2);
 		logAllRefUpdates = rc.getBoolean(ConfigConstants.CONFIG_CORE_SECTION,
-				ConfigConstants.CONFIG_KEY_LOGALLREFUPDATES, true);
+				ConfigConstants.CONFIG_KEY_LOGALLREFUPDATES, !bare);
 		excludesfile = rc.getString(ConfigConstants.CONFIG_CORE_SECTION, null,
 				ConfigConstants.CONFIG_KEY_EXCLUDESFILE);
 		attributesfile = rc.getString(ConfigConstants.CONFIG_CORE_SECTION,

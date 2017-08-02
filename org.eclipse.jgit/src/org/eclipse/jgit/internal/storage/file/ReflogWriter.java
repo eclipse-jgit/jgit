@@ -67,6 +67,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.ReflogEntry;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.FileUtils;
 
 /**
@@ -242,8 +243,8 @@ public class ReflogWriter {
 	}
 
 	private boolean isLogAllRefUpdates() {
-		return refdb.getRepository().getConfig().get(CoreConfig.KEY)
-				.isLogAllRefUpdates();
+		Repository repo = refdb.getRepository();
+	    return repo.getConfig().get(CoreConfig.key(repo)).isLogAllRefUpdates();
 	}
 
 	private boolean shouldAutoCreateLog(String refName) {
