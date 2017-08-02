@@ -227,10 +227,10 @@ public class FileRepository extends Repository {
 			refs = new RefDirectory(this);
 		}
 
-		objectDatabase = new ObjectDirectory(repoConfig, //
-				options.getObjectDirectory(), //
-				options.getAlternateObjectDirectories(), //
-				getFS(), //
+		objectDatabase = new ObjectDirectory(this,
+				options.getObjectDirectory(),
+				options.getAlternateObjectDirectories(),
+				getFS(),
 				new File(getDirectory(), Constants.SHALLOW));
 
 		if (objectDatabase.exists()) {
@@ -351,8 +351,12 @@ public class FileRepository extends Repository {
 		if (bare)
 			cfg.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
 					ConfigConstants.CONFIG_KEY_BARE, true);
-		cfg.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
-				ConfigConstants.CONFIG_KEY_LOGALLREFUPDATES, !bare);
+		if (!bare) {
+			// Match C git behavior: set core.logAllRefUpdates to true if the repo is
+			// non-bare, and omit it otherwise.
+			cfg.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+					ConfigConstants.CONFIG_KEY_LOGALLREFUPDATES, true);
+		}
 		if (SystemReader.getInstance().isMacOS())
 			// Java has no other way
 			cfg.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
