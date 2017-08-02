@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_1b2aeb02",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ReflogWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-08-02T20:08:06Z",
+      "side": 0,
+      "message": "After fixing a bunch more tests that broke because of this, I\u0027m not 100% sure this is the right thing to do. More like 90%.\n\nOn the one hand, the documentation of core.refLogUpdates clearly does not mention refs/stash. And \"git update-ref refs/stash $sha\" in a non-bare repo definitely does not write the reflog, whereas \"git update-ref refs/heads/foo $sha\" does.\n\nOn the other hand, it\u0027s hard to imagine a use case where you are using the JGit RefUpdate API to update refs/stash and you do *not* want to update the reflog, so it sorta makes sense to have the default behavior be to write the reflog.\n\nOn the other other hand, you really should probably not be using RefUpdate directly if you want to manipulate the stash; there should be some higher-level API in JGit that does this. (Just like in C git, you should not be using \"git update-ref\" to interact with the stash, you should use \"git stash\".) And indeed there are the Stash*Command APIs.\n\nSo like I said, I think this is right, but not 100% sure.",
+      "revId": "881e86fe6811319416ebea7c870483a4bad73934",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
