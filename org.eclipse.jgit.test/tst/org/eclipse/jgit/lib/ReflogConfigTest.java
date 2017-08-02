@@ -53,6 +53,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.lib.CoreConfig.LogAllRefUpdates;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.junit.Test;
 
@@ -84,7 +85,8 @@ public class ReflogConfigTest extends RepositoryTestCase {
 		// set the logAllRefUpdates parameter to true and check it
 		cfg.setBoolean("core", null, "logallrefupdates", true);
 		cfg.save();
-		assertTrue(cfg.get(CoreConfig.key(db)).isLogAllRefUpdates());
+		assertEquals(LogAllRefUpdates.TRUE,
+				cfg.get(CoreConfig.key(db)).getLogAllRefUpdates());
 
 		// do one commit and check that reflog size is increased to 1
 		commit("A Commit\n", commitTime, tz);
@@ -96,7 +98,8 @@ public class ReflogConfigTest extends RepositoryTestCase {
 		// set the logAllRefUpdates parameter to false and check it
 		cfg.setBoolean("core", null, "logallrefupdates", false);
 		cfg.save();
-		assertFalse(cfg.get(CoreConfig.key(db)).isLogAllRefUpdates());
+		assertEquals(LogAllRefUpdates.FALSE,
+				cfg.get(CoreConfig.key(db)).getLogAllRefUpdates());
 
 		// do one commit and check that reflog size is 2
 		commit("A Commit\n", commitTime, tz);
@@ -116,25 +119,49 @@ public class ReflogConfigTest extends RepositoryTestCase {
 		bareDb.getConfig().unset(CORE, null, LOGALL);
 
 		// Deprecated KEY always defaults to true, regardless of bareness.
-		assertTrue(db.getConfig().get(CoreConfig.KEY).isLogAllRefUpdates());
-		assertTrue(bareDb.getConfig().get(CoreConfig.KEY).isLogAllRefUpdates());
+		assertEquals(LogAllRefUpdates.TRUE,
+				db.getConfig().get(CoreConfig.KEY).getLogAllRefUpdates());
+		assertEquals(LogAllRefUpdates.TRUE,
+				bareDb.getConfig().get(CoreConfig.KEY).getLogAllRefUpdates());
 
 		// key(Repository) defaults to !bare.
+		assertEquals(LogAllRefUpdates.TRUE,
+				db.getConfig().get(CoreConfig.key(db)).getLogAllRefUpdates());
 		assertTrue(db.getConfig().get(CoreConfig.key(db)).isLogAllRefUpdates());
+		assertEquals(LogAllRefUpdates.FALSE,
+				bareDb.getConfig().get(CoreConfig.key(bareDb)).getLogAllRefUpdates());
 		assertFalse(
 				bareDb.getConfig().get(CoreConfig.key(bareDb)).isLogAllRefUpdates());
 
 		// Overriding default always works.
 		db.getConfig().setBoolean(CORE, null, LOGALL, true);
 		bareDb.getConfig().setBoolean(CORE, null, LOGALL, true);
+		assertEquals(LogAllRefUpdates.TRUE,
+				db.getConfig().get(CoreConfig.key(db)).getLogAllRefUpdates());
 		assertTrue(db.getConfig().get(CoreConfig.key(db)).isLogAllRefUpdates());
+		assertEquals(LogAllRefUpdates.TRUE,
+				bareDb.getConfig().get(CoreConfig.key(bareDb)).getLogAllRefUpdates());
 		assertTrue(
 				bareDb.getConfig().get(CoreConfig.key(bareDb)).isLogAllRefUpdates());
 
 		db.getConfig().setBoolean(CORE, null, LOGALL, false);
 		bareDb.getConfig().setBoolean(CORE, null, LOGALL, false);
+		assertEquals(LogAllRefUpdates.FALSE,
+				db.getConfig().get(CoreConfig.key(db)).getLogAllRefUpdates());
 		assertFalse(db.getConfig().get(CoreConfig.key(db)).isLogAllRefUpdates());
+		assertEquals(LogAllRefUpdates.FALSE,
+				bareDb.getConfig().get(CoreConfig.key(bareDb)).getLogAllRefUpdates());
 		assertFalse(
+				bareDb.getConfig().get(CoreConfig.key(bareDb)).isLogAllRefUpdates());
+
+		db.getConfig().setString(CORE, null, LOGALL, "always");
+		bareDb.getConfig().setString(CORE, null, LOGALL, "always");
+		assertEquals(LogAllRefUpdates.ALWAYS,
+				db.getConfig().get(CoreConfig.key(db)).getLogAllRefUpdates());
+		assertTrue(db.getConfig().get(CoreConfig.key(db)).isLogAllRefUpdates());
+		assertEquals(LogAllRefUpdates.ALWAYS,
+				bareDb.getConfig().get(CoreConfig.key(bareDb)).getLogAllRefUpdates());
+		assertTrue(
 				bareDb.getConfig().get(CoreConfig.key(bareDb)).isLogAllRefUpdates());
 	}
 
