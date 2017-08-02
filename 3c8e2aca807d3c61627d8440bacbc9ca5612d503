@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_988261a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-08-02T16:11:46Z",
+      "side": 1,
+      "message": "There is, as you can see above, the \"core.bare\" config option. FileRepositoryBuilder will respect this config option if present, but only in the case where a work tree file was not specified with setWorkTree. So we can\u0027t tell from looking at the config option whether a given Repository instance will return true from isBare() or not.",
+      "range": {
+        "startLine": 38,
+        "startChar": 41,
+        "endLine": 39,
+        "endChar": 36
+      },
+      "revId": "3c8e2aca807d3c61627d8440bacbc9ca5612d503",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
