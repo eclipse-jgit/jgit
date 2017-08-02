@@ -425,6 +425,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		refUpdate.setNewObjectId(commitId);
 		refUpdate.setRefLogIdent(refLogIdent);
 		refUpdate.setRefLogMessage(refLogMessage, false);
+		refUpdate.setForceRefLog(true);
 		if (currentRef != null)
 			refUpdate.setExpectedOldObjectId(currentRef.getObjectId());
 		else
