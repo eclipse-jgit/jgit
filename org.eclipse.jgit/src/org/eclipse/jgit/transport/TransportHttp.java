@@ -469,7 +469,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 	private HttpConnection connect(final String service)
 			throws TransportException, NotSupportedException {
-		final URL u;
+		URL u;
 		try {
 			final StringBuilder b = new StringBuilder();
 			b.append(baseUrl);
@@ -539,6 +539,14 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 				case HttpConnection.HTTP_FORBIDDEN:
 					throw new TransportException(uri, MessageFormat.format(
 							JGitText.get().serviceNotPermitted, service));
+
+				case HttpConnection.HTTP_MOVED_PERM:
+					String locationHeader = HttpSupport.responseHeader(conn, HDR_LOCATION);
+					if (locationHeader == null) {
+						throw new TransportException(uri, JGitText.get().noLocationHeader);
+					}
+					u = new URL(locationHeader);
+					continue;
 
 				default:
 					String err = status + " " + conn.getResponseMessage(); //$NON-NLS-1$
