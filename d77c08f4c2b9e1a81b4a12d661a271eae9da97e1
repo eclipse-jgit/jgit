@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_09a54132",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-08-03T11:31:22Z",
+      "side": 1,
+      "message": "I suppose this should be limited to only follow redirects a certain number of times.\n\nAlso, subsequent attempts to use this connection should use the final URL we got redirected to, so presumably baseUrl needs to be updated if we were redirected. And since baseUrl is typically some remote URIish from a repo config: should that be changed? I don\u0027t think we could do it automatically from here (layer too deep). Does the user need to be informed (logging?) ?\n\nNote that a push/fetch is a GET followed by a POST. See also\nthe Service class at lines 890ff: it starts off with baseUrl again, and even worse, it follows MOVED_PERM also without limit and even recursively!\n\nAlso compare https://git.eclipse.org/r/#/c/99442/ .",
+      "revId": "d77c08f4c2b9e1a81b4a12d661a271eae9da97e1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
