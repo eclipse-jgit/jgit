@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_890bf12e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-08-03T08:55:32Z",
+      "side": 1,
+      "message": "Annotate as @Nullable?",
+      "revId": "4ba290e1fcf2e68365020a80d37829de42678ff5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
