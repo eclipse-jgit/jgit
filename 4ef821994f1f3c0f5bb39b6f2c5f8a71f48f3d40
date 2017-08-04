@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_ea82a356",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/events/ChangeRecorder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-08-04T08:18:12Z",
+      "side": 1,
+      "message": "instead of moving this class to the tst/ folder you can remove the test scope from the junit dependency to fix the maven build issue:\n\n diff --git a/org.eclipse.jgit.test/pom.xml b/org.eclipse.jgit.test/pom.xml\n index dad1e3cac..084014c61 100644\n --- a/org.eclipse.jgit.test/pom.xml\n +++ b/org.eclipse.jgit.test/pom.xml\n @@ -66,7 +66,6 @@\n     \u003cdependency\u003e\n       \u003cgroupId\u003ejunit\u003c/groupId\u003e\n       \u003cartifactId\u003ejunit\u003c/artifactId\u003e\n-      \u003cscope\u003etest\u003c/scope\u003e\n     \u003c/dependency\u003e\n\n     \u003c!-- Optional security provider for encryption tests. --\u003e",
+      "revId": "4ef821994f1f3c0f5bb39b6f2c5f8a71f48f3d40",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
