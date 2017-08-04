@@ -16,6 +16,24 @@
       "revId": "4ef821994f1f3c0f5bb39b6f2c5f8a71f48f3d40",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_2a890b7a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/events/ChangeRecorder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-08-04T08:21:10Z",
+      "side": 1,
+      "message": "I know: I actually tried that first. But then I noticed test.bzl -- I don\u0027t know bazel at all, and have no idea whether that setup also would need to be changed. Instead of ending up with inconsistent maven/bazel setups, I chose to move the class.\n\nBut if it\u0027s OK to just ignore test.bzl, I\u0027ll happily move the class back and remove the test scope from the org.junit dependency.",
+      "parentUuid": "c7880b39_ea82a356",
+      "revId": "4ef821994f1f3c0f5bb39b6f2c5f8a71f48f3d40",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
