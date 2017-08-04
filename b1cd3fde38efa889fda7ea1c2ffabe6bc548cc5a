@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "c7880b39_c18b0da5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-08-04T16:32:10Z",
+      "side": 1,
+      "message": "Thanks for working on this. But be careful: see\n\n https://kernel.googlesource.com/pub/scm/git/git/+/50d3413740d1da599cdc0106e6e916741394cc98\n https://kernel.googlesource.com/pub/scm/git/git/+/6628eb41db5189c0cdfdced6d8697e7c813c5f0f\n\nTo avoid certain kinds of attacks, the approach Git took is to handle redirects on the initial /info/refs request and update the base URL accordingly, and then refuse to follow redirects after that.\n\nI haven\u0027t looked carefully at the code, but I noticed the commit message and tests didn\u0027t cover this issue, so I thought I should mention it.",
+      "revId": "b1cd3fde38efa889fda7ea1c2ffabe6bc548cc5a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_15c1cec8",
         "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
         "patchSetId": 3
