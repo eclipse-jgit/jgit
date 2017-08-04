@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_61ffb9d8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-08-04T17:11:08Z",
+      "side": 1,
+      "message": "These are excellent links; nice to see such informative commit messages :-)\n\nI had mentioned http.followRedirects already in my global patch comment (item #5). And I suggest to even limit following redirects only a certain number of times.",
+      "parentUuid": "c7880b39_c18b0da5",
+      "revId": "b1cd3fde38efa889fda7ea1c2ffabe6bc548cc5a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c23755_15c1cec8",
         "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
         "patchSetId": 3
