@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_547c3d5b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CoreConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-08-04T22:34:39Z",
+      "side": 1,
+      "message": "This is a problem. The SectionParser instance is used as the cache key in a Map. Each invocation is going to make a new entry in the cache which isn\u0027t caching at all.\n\nYou probably need to hold the SectionParser instance in the Repository. Or implement the interface with equals/hashCode methods so that its not producing a new cache entry on every call.",
+      "range": {
+        "startLine": 76,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 2
+      },
+      "revId": "1413bebc71a7a6f6f1d6ea3f1dfff006f750aca2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
