@@ -41,7 +41,7 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.transport;
+package org.eclipse.jgit.util;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

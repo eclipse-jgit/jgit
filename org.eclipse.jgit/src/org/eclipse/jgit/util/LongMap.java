@@ -41,15 +41,16 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.transport;
+package org.eclipse.jgit.util;
 
 /**
- * Simple Map<long,Object> helper for {@link PackParser}.
+ * Simple Map<long,Object>.
  *
  * @param <V>
  *            type of the value instance.
+ * @since 4.9
  */
-final class LongMap<V> {
+public class LongMap<V> {
 	private static final float LOAD_FACTOR = 0.75f;
 
 	private Node<V>[] table;
@@ -60,16 +61,27 @@ final class LongMap<V> {
 	/** Next {@link #size} to trigger a {@link #grow()}. */
 	private int growAt;
 
-	LongMap() {
+	/** Initialize an empty LongMap. */
+	public LongMap() {
 		table = createArray(64);
 		growAt = (int) (table.length * LOAD_FACTOR);
 	}
 
-	boolean containsKey(final long key) {
+	/**
+	 * @param key
+	 *            the key to find.
+	 * @return {@code true} if {@code key} is present in the map.
+	 */
+	public boolean containsKey(long key) {
 		return get(key) != null;
 	}
 
-	V get(final long key) {
+	/**
+	 * @param key
+	 *            the key to find.
+	 * @return stored value of the key, or {@code null}.
+	 */
+	public V get(long key) {
 		for (Node<V> n = table[index(key)]; n != null; n = n.next) {
 			if (n.key == key)
 				return n.value;
@@ -77,7 +89,12 @@ final class LongMap<V> {
 		return null;
 	}
 
-	V remove(final long key) {
+	/**
+	 * @param key
+	 *            key to remove from the map.
+	 * @return old value of the key, or {@code null}.
+	 */
+	public V remove(long key) {
 		Node<V> n = table[index(key)];
 		Node<V> prior = null;
 		while (n != null) {
@@ -95,7 +112,14 @@ final class LongMap<V> {
 		return null;
 	}
 
-	V put(final long key, final V value) {
+	/**
+	 * @param key
+	 *            key to store {@code value} under.
+	 * @param value
+	 *            new value.
+	 * @return prior value, or null.
+	 */
+	public V put(long key, V value) {
 		for (Node<V> n = table[index(key)]; n != null; n = n.next) {
 			if (n.key == key) {
 				final V o = n.value;
@@ -145,9 +169,7 @@ final class LongMap<V> {
 
 	private static class Node<V> {
 		final long key;
-
 		V value;
-
 		Node<V> next;
 
 		Node(final long k, final V v) {
