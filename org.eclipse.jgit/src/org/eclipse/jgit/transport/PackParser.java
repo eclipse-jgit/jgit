@@ -82,6 +82,7 @@ import org.eclipse.jgit.lib.ObjectStream;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.util.BlockList;
 import org.eclipse.jgit.util.IO;
+import org.eclipse.jgit.util.LongMap;
 import org.eclipse.jgit.util.NB;
 import org.eclipse.jgit.util.sha1.SHA1;
 
