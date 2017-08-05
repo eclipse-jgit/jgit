@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_3479716c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/StashApplyCommandTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-08-05T22:38:13Z",
+      "side": 1,
+      "message": "make this a constant EMPTY ?",
+      "range": {
+        "startLine": 117,
+        "startChar": 46,
+        "endLine": 117,
+        "endChar": 59
+      },
+      "revId": "1901ea6464fa6aef543a3d7ee2bc916dd1fc6f12",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_345091da",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/events/WorkingTreeModifiedEvent.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-08-05T22:38:13Z",
+      "side": 1,
+      "message": "is there any use case which would benefit from differentiating added/modified files ?",
+      "revId": "1901ea6464fa6aef543a3d7ee2bc916dd1fc6f12",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
