@@ -216,7 +216,7 @@ public class FileRepository extends Repository {
 				ConfigConstants.CONFIG_KEY_REPO_FORMAT_VERSION, 0);
 
 		String reftype = repoConfig.getString(
-				"extensions", null, "refsStorage"); //$NON-NLS-1$ //$NON-NLS-2$
+				"extensions", null, "refStorage"); //$NON-NLS-1$ //$NON-NLS-2$
 		if (repositoryFormatVersion >= 1 && reftype != null) {
 			if (StringUtils.equalsIgnoreCase(reftype, "reftree")) { //$NON-NLS-1$
 				refs = new RefTreeDatabase(this, new RefDirectory(this));

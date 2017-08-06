@@ -133,7 +133,7 @@ class RebuildRefTree extends TextBuiltin {
 			if (enable && !(db.getRefDatabase() instanceof RefTreeDatabase)) {
 				StoredConfig cfg = db.getConfig();
 				cfg.setInt("core", null, "repositoryformatversion", 1); //$NON-NLS-1$ //$NON-NLS-2$
-				cfg.setString("extensions", null, "refsStorage", "reftree"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				cfg.setString("extensions", null, "refStorage", "reftree"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				cfg.save();
 				errw.println("Enabled reftree."); //$NON-NLS-1$
 				errw.flush();
