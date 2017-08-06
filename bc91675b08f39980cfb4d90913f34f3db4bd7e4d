@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_57befffc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 965,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-08-06T22:47:20Z",
+      "side": 1,
+      "message": "https://git.eclipse.org/r/#/c/46261/ has much better redirect handling.",
+      "revId": "bc91675b08f39980cfb4d90913f34f3db4bd7e4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
