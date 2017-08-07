@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_f7b0cb4a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-08-07T08:28:59Z",
+      "side": 1,
+      "message": "Stupid copy-paste error; forgot to update the comments. Fixed in PS 9.",
+      "range": {
+        "startLine": 265,
+        "startChar": 6,
+        "endLine": 265,
+        "endChar": 24
+      },
+      "revId": "db15651008fc07b709c700a6d5f3ae614048272a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
