@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_57ba7f28",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/SmartClientSmartServerTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-08-07T08:28:59Z",
+      "side": 1,
+      "message": "This should be \"/\", then we don\u0027t need the \"if\" at lines 229ff either. Fixed in PS 7.",
+      "range": {
+        "startLine": 226,
+        "startChar": 36,
+        "endLine": 226,
+        "endChar": 38
+      },
+      "revId": "9d4c3d4d4e6d48ce3b5ecd937af95a03189be57c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
