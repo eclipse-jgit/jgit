@@ -46,6 +46,30 @@
       "revId": "367bd069bb1c6f8cca9e618e5594da770a744c61",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_d77d8f24",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 655,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-08-07T07:20:02Z",
+      "side": 1,
+      "message": "I know. I hadn\u0027t thought about info logging being switched off... your original code already had the LOG.info; I thought the idea was to always and unconditionally log, like C git.\n\n(At least that\u0027s how I understood the text \"when we encounter a whole-repo redirect during the initial ref discovery, we now inform the user on stderr\" from the commit message at [1].)\n\nIf we want to stick with LOG.info and not use MessageFormat, then I think we should at least rename the message property to make clear it\u0027s a log message. \"redirectHttpLogMessage\", or \"logMessageRedirectHttp\".\n\nAlternatively we can of course wrap the statement with\nLOG.isInfoEnabled()...\n\n[1] https://kernel.googlesource.com/pub/scm/git/git/+/50d3413740d1da599cdc0106e6e916741394cc98",
+      "parentUuid": "c7880b39_57727f57",
+      "range": {
+        "startLine": 655,
+        "startChar": 12,
+        "endLine": 655,
+        "endChar": 32
+      },
+      "revId": "367bd069bb1c6f8cca9e618e5594da770a744c61",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
