@@ -45,6 +45,40 @@
       "revId": "89f186075d18f215179ff7f90283b37419c119ab",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_72cea92b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleUpdateCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-08-07T11:10:02Z",
+      "side": 1,
+      "message": "Dunno. @David, what do you think?",
+      "revId": "89f186075d18f215179ff7f90283b37419c119ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_52cb6d1a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleUpdateCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-08-07T11:10:02Z",
+      "side": 1,
+      "message": "Please add the missing curly braces.",
+      "revId": "89f186075d18f215179ff7f90283b37419c119ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
