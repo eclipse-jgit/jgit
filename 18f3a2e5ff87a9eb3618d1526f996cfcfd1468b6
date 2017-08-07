@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_37b7b341",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/SmartClientSmartServerTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 643,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-08-07T08:28:59Z",
+      "side": 1,
+      "message": "Could check here that it was a POST. Fixed in PS 8.",
+      "revId": "18f3a2e5ff87a9eb3618d1526f996cfcfd1468b6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
