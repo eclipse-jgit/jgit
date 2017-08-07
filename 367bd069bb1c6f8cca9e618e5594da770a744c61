@@ -22,6 +22,30 @@
       "revId": "367bd069bb1c6f8cca9e618e5594da770a744c61",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_57727f57",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 655,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-08-07T07:11:12Z",
+      "side": 1,
+      "message": "I think slf4j parameter substitution is faster in case logging for the relevant severity is switched off since it skips formatting in that case, see\nhttps://www.slf4j.org/faq.html#logging_performance",
+      "parentUuid": "c7880b39_f768cb6d",
+      "range": {
+        "startLine": 655,
+        "startChar": 12,
+        "endLine": 655,
+        "endChar": 32
+      },
+      "revId": "367bd069bb1c6f8cca9e618e5594da770a744c61",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
