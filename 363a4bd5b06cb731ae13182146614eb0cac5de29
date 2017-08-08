@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_924795d3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-08-08T12:38:50Z",
+      "side": 1,
+      "message": "missing blank after comma",
+      "range": {
+        "startLine": 14,
+        "startChar": 8,
+        "endLine": 14,
+        "endChar": 9
+      },
+      "revId": "363a4bd5b06cb731ae13182146614eb0cac5de29",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_72e86929",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-08-08T12:38:50Z",
+      "side": 1,
+      "message": "Fix getBitmapIndex() to invalidate",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 69
+      },
+      "revId": "363a4bd5b06cb731ae13182146614eb0cac5de29",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_4360fd28",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcConcurrentTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-08-08T12:38:50Z",
+      "side": 1,
+      "message": "can you add a test which tests that after a gc run by a different process jgit will find and use the bitmap index of the new packs created by gc ?",
+      "revId": "363a4bd5b06cb731ae13182146614eb0cac5de29",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_72ba2929",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcConcurrentTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-08-08T12:38:50Z",
+      "side": 1,
+      "message": "remove dead code ?",
+      "revId": "363a4bd5b06cb731ae13182146614eb0cac5de29",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_92c4f5a8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcConcurrentTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-08-08T12:38:50Z",
+      "side": 1,
+      "message": "remove duplicate \"when\"",
+      "range": {
+        "startLine": 167,
+        "startChar": 36,
+        "endLine": 167,
+        "endChar": 41
+      },
+      "revId": "363a4bd5b06cb731ae13182146614eb0cac5de29",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_f2c539a1",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcConcurrentTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-08-08T12:38:50Z",
+      "side": 1,
+      "message": "repo is gc\u0027ed",
+      "range": {
+        "startLine": 168,
+        "startChar": 44,
+        "endLine": 169,
+        "endChar": 14
+      },
+      "revId": "363a4bd5b06cb731ae13182146614eb0cac5de29",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
