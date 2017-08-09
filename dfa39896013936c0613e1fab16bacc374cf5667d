@@ -1,0 +1,192 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_fdcd012e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-08-09T23:02:29Z",
+      "side": 1,
+      "message": "style nit: trailing whitespace",
+      "revId": "dfa39896013936c0613e1fab16bacc374cf5667d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_3d6149b2",
+        "filename": "org.eclipse.jgit.http.test/src/org/eclipse/jgit/http/test/TestRepositoryResolver.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-08-09T23:02:29Z",
+      "side": 1,
+      "message": "missing braces",
+      "revId": "dfa39896013936c0613e1fab16bacc374cf5667d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_5d6c55aa",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/SmartClientSmartServerSslTest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-08-09T23:02:29Z",
+      "side": 1,
+      "message": "move this comment up before line 158 or down before the doFilter method ?",
+      "revId": "dfa39896013936c0613e1fab16bacc374cf5667d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_bd5c59fa",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/SmartClientSmartServerSslTest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-08-09T23:02:29Z",
+      "side": 1,
+      "message": "maybe extract this to a helper method redirect(fromScheme, fromPort, toScheme, toPort) which can be reused below ?",
+      "range": {
+        "startLine": 178,
+        "startChar": 0,
+        "endLine": 183,
+        "endChar": 36
+      },
+      "revId": "dfa39896013936c0613e1fab16bacc374cf5667d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_9d595d0c",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/SmartClientSmartServerSslTest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-08-09T23:02:29Z",
+      "side": 1,
+      "message": "move before line 195 or down before doFilter method ?",
+      "revId": "dfa39896013936c0613e1fab16bacc374cf5667d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_dd4f653d",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/SmartClientSmartServerTest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-08-09T23:02:29Z",
+      "side": 1,
+      "message": "remove this",
+      "range": {
+        "startLine": 193,
+        "startChar": 11,
+        "endLine": 193,
+        "endChar": 13
+      },
+      "revId": "dfa39896013936c0613e1fab16bacc374cf5667d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_fd5261e1",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/SmartClientSmartServerTest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-08-09T23:02:29Z",
+      "side": 1,
+      "message": "?",
+      "range": {
+        "startLine": 238,
+        "startChar": 6,
+        "endLine": 238,
+        "endChar": 30
+      },
+      "revId": "dfa39896013936c0613e1fab16bacc374cf5667d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_1d4d6d44",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/SmartClientSmartServerTest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 633,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-08-09T23:02:29Z",
+      "side": 1,
+      "message": "assert the error message ?",
+      "revId": "dfa39896013936c0613e1fab16bacc374cf5667d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_9dc4fd0c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-08-09T23:02:29Z",
+      "side": 1,
+      "message": "log a warning ?",
+      "revId": "dfa39896013936c0613e1fab16bacc374cf5667d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_ddca0516",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 703,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-08-09T23:02:29Z",
+      "side": 1,
+      "message": "missing braces",
+      "revId": "dfa39896013936c0613e1fab16bacc374cf5667d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
