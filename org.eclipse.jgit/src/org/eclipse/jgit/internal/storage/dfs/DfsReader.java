@@ -44,12 +44,12 @@
 
 package org.eclipse.jgit.internal.storage.dfs;
 
+import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.UNREACHABLE_GARBAGE;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_LENGTH;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -578,10 +578,22 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 	public void selectObjectRepresentation(PackWriter packer,
 			ProgressMonitor monitor, Iterable<ObjectToPack> objects)
 			throws IOException, MissingObjectException {
-		// Don't check dirty bit on PackList; assume ObjectToPacks all came from the
-		// current list.
-		for (DfsPackFile pack : sortPacksForSelectRepresentation()) {
-			List<DfsObjectToPack> tmp = findAllFromPack(pack, objects);
+		// Don't check dirty bit on PackList; assume ObjectToPacks all came
+		// from the current list.
+		List<DfsPackFile> packs = sortPacksForSelectRepresentation();
+		trySelectRepresentation(packer, monitor, objects, packs, false);
+
+		List<DfsPackFile> garbage = garbagePacksForSelectRepresentation();
+		if (!garbage.isEmpty() && checkGarbagePacks(objects)) {
+			trySelectRepresentation(packer, monitor, objects, garbage, true);
+		}
+	}
+
+	private void trySelectRepresentation(PackWriter packer,
+			ProgressMonitor monitor, Iterable<ObjectToPack> objects,
+			List<DfsPackFile> packs, boolean skipFound) throws IOException {
+		for (DfsPackFile pack : packs) {
+			List<DfsObjectToPack> tmp = findAllFromPack(pack, objects, skipFound);
 			if (tmp.isEmpty())
 				continue;
 			Collections.sort(tmp, OFFSET_SORT);
@@ -620,24 +632,54 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 		}
 	};
 
-	private DfsPackFile[] sortPacksForSelectRepresentation()
+	private List<DfsPackFile> sortPacksForSelectRepresentation()
 			throws IOException {
 		DfsPackFile[] packs = db.getPacks();
-		DfsPackFile[] sorted = new DfsPackFile[packs.length];
-		System.arraycopy(packs, 0, sorted, 0, packs.length);
-		Arrays.sort(sorted, PACK_SORT_FOR_REUSE);
+		List<DfsPackFile> sorted = new ArrayList<>(packs.length);
+		for (DfsPackFile p : packs) {
+			if (p.getPackDescription().getPackSource() != UNREACHABLE_GARBAGE) {
+				sorted.add(p);
+			}
+		}
+		Collections.sort(sorted, PACK_SORT_FOR_REUSE);
 		return sorted;
 	}
 
+	private List<DfsPackFile> garbagePacksForSelectRepresentation()
+			throws IOException {
+		DfsPackFile[] packs = db.getPacks();
+		List<DfsPackFile> garbage = new ArrayList<>(packs.length);
+		for (DfsPackFile p : packs) {
+			if (p.getPackDescription().getPackSource() == UNREACHABLE_GARBAGE) {
+				garbage.add(p);
+			}
+		}
+		return garbage;
+	}
+
+	private static boolean checkGarbagePacks(Iterable<ObjectToPack> objects) {
+		for (ObjectToPack otp : objects) {
+			if (!((DfsObjectToPack) otp).isFound()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	private List<DfsObjectToPack> findAllFromPack(DfsPackFile pack,
-			Iterable<ObjectToPack> objects) throws IOException {
+			Iterable<ObjectToPack> objects, boolean skipFound)
+					throws IOException {
 		List<DfsObjectToPack> tmp = new BlockList<>();
 		PackIndex idx = pack.getPackIndex(this);
-		for (ObjectToPack otp : objects) {
+		for (ObjectToPack obj : objects) {
+			DfsObjectToPack otp = (DfsObjectToPack) obj;
+			if (skipFound && otp.isFound()) {
+				continue;
+			}
 			long p = idx.findOffset(otp);
 			if (0 < p && !pack.isCorrupt(p)) {
 				otp.setOffset(p);
-				tmp.add((DfsObjectToPack) otp);
+				tmp.add(otp);
 			}
 		}
 		return tmp;
