@@ -513,14 +513,10 @@ public class IndexDiff {
 					}
 				}
 
-				for (int i = 0; i < treeWalk.getTreeCount(); i++) {
-					Set<String> values = fileModes.get(treeWalk.getFileMode(i));
-					String path = treeWalk.getPathString();
-					if (path != null) {
-						if (values == null)
-							values = new HashSet<>();
-						values.add(path);
-						fileModes.put(treeWalk.getFileMode(i), values);
+				String path = treeWalk.getPathString();
+				if (path != null) {
+					for (int i = 0; i < treeWalk.getTreeCount(); i++) {
+						recordFileMode(path, treeWalk.getFileMode(i));
 					}
 				}
 			}
@@ -545,19 +541,21 @@ public class IndexDiff {
 				}
 				Repository subRepo = smw.getRepository();
 				if (subRepo != null) {
+					String subRepoPath = smw.getPath();
 					try {
 						ObjectId subHead = subRepo.resolve("HEAD"); //$NON-NLS-1$
 						if (subHead != null
-								&& !subHead.equals(smw.getObjectId()))
-							modified.add(smw.getPath());
-						else if (ignoreSubmoduleMode != IgnoreSubmoduleMode.DIRTY) {
+								&& !subHead.equals(smw.getObjectId())) {
+							modified.add(subRepoPath);
+							recordFileMode(subRepoPath, FileMode.GITLINK);
+						} else if (ignoreSubmoduleMode != IgnoreSubmoduleMode.DIRTY) {
 							IndexDiff smid = submoduleIndexDiffs.get(smw
 									.getPath());
 							if (smid == null) {
 								smid = new IndexDiff(subRepo,
 										smw.getObjectId(),
 										wTreeIt.getWorkingTreeIterator(subRepo));
-								submoduleIndexDiffs.put(smw.getPath(), smid);
+								submoduleIndexDiffs.put(subRepoPath, smid);
 							}
 							if (smid.diff()) {
 								if (ignoreSubmoduleMode == IgnoreSubmoduleMode.UNTRACKED
@@ -569,7 +567,8 @@ public class IndexDiff {
 										&& smid.getRemoved().isEmpty()) {
 									continue;
 								}
-								modified.add(smw.getPath());
+								modified.add(subRepoPath);
+								recordFileMode(subRepoPath, FileMode.GITLINK);
 							}
 						}
 					} finally {
@@ -591,6 +590,17 @@ public class IndexDiff {
 			return false;
 		else
 			return true;
+	}
+
+	private void recordFileMode(String path, FileMode mode) {
+		Set<String> values = fileModes.get(mode);
+		if (path != null) {
+			if (values == null) {
+				values = new HashSet<>();
+				fileModes.put(mode, values);
+			}
+			values.add(path);
+		}
 	}
 
 	private boolean isEntryGitLink(AbstractTreeIterator ti) {
