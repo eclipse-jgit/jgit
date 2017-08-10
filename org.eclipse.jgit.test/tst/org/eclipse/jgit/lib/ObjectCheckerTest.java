@@ -63,12 +63,14 @@ import static org.eclipse.jgit.lib.ObjectChecker.ErrorType.HAS_DOTGIT;
 import static org.eclipse.jgit.lib.ObjectChecker.ErrorType.NULL_SHA1;
 import static org.eclipse.jgit.lib.ObjectChecker.ErrorType.TREE_NOT_SORTED;
 import static org.eclipse.jgit.lib.ObjectChecker.ErrorType.ZERO_PADDED_FILEMODE;
+import static org.eclipse.jgit.util.RawParseUtils.decode;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.fail;
 
 import java.io.UnsupportedEncodingException;
 import java.text.MessageFormat;
+import java.util.Optional;
 
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.internal.JGitText;
@@ -99,6 +101,65 @@ public class ObjectCheckerTest {
 
 		checker.check(OBJ_BLOB, new byte[0]);
 		checker.check(OBJ_BLOB, new byte[1]);
+	}
+
+	@Test
+	public void testCheckBlobCorrupt() throws CorruptObjectException {
+		checker = new ObjectChecker() {
+			@Override
+			public void checkBlob(byte[] raw) throws CorruptObjectException {
+				String in = decode(raw);
+				if (in.contains("secret_key")) {
+					throw new CorruptObjectException("don't add a secret key");
+				}
+			}
+		};
+
+		checker.check(OBJ_BLOB, encodeASCII("key = \"public_key\""));
+		try {
+			checker.check(OBJ_BLOB, encodeASCII("key = \"secret_key\""));
+			fail();
+		} catch (CorruptObjectException expected) {
+			// Expected
+		}
+	}
+
+	@Test
+	public void testCheckBlobWithBlobObjectCheckerCorrupt()
+			throws CorruptObjectException {
+		checker = new ObjectChecker() {
+			@Override
+			public Optional<BlobObjectChecker> newBlobObjectChecker() {
+				return Optional.of(new BlobObjectChecker() {
+					private boolean containSecretKey;
+
+					@Override
+					public void update(byte[] in, int offset, int len) {
+						String str = decode(in, offset, offset + len);
+						if (str.contains("secret_key")) {
+							containSecretKey = true;
+						}
+					}
+
+					@Override
+					public void endBlob(AnyObjectId id)
+						throws CorruptObjectException {
+						if (containSecretKey) {
+							throw new CorruptObjectException(
+									"don't add a secret key");
+						}
+					}
+				});
+			}
+		};
+
+		checker.check(OBJ_BLOB, encodeASCII("key = \"public_key\""));
+		try {
+			checker.check(OBJ_BLOB, encodeASCII("key = \"secret_key\""));
+			fail();
+		} catch (CorruptObjectException expected) {
+			// Expected
+		}
 	}
 
 	@Test
