@@ -100,6 +100,8 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 
 	private FetchRecurseSubmodulesMode submoduleRecurseMode = null;
 
+	private int depth = Transport.DEPTH_INFINITE;
+
 	private Callback callback;
 
 	/**
@@ -229,6 +231,7 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 			transport.setDryRun(dryRun);
 			if (tagOption != null)
 				transport.setTagOpt(tagOption);
+			transport.setDepth(this.depth);
 			transport.setFetchThin(thin);
 			configure(transport);
 
@@ -477,4 +480,42 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 		this.callback = callback;
 		return this;
 	}
+
+	/***
+	 * if depth > 0 then the history will be truncated to the specified number
+	 * of commits
+	 *
+	 * @return depth
+	 * @since 4.6
+	 */
+	public int getDepth() {
+		return depth;
+	}
+
+	/***
+	 * set depth to truncate history
+	 *
+	 * @param depth
+	 *            0 < depth <=
+	 *            {@code org.eclipse.jgit.transport.Transport.DEPTH_INFINITE}.
+	 *            If depth ==
+	 *            {@code org.eclipse.jgit.transport.Transport.DEPTH_INFINITE}
+	 *            then history will be cloned completely. otherwise the history
+	 *            will be truncated to the specified number of commits.
+	 * @return {@code this}
+	 * @throws IllegalArgumentException
+	 *             if depth is negative an <code>IllegalArgumentException</code>
+	 *             will be thrown
+	 * @since 4.6
+	 */
+	public FetchCommand setDepth(int depth) {
+		if (depth <= 0) {
+			throw new IllegalArgumentException(
+					MessageFormat.format(JGitText.get().invalidDepth,
+							Integer.valueOf(depth)));
+		}
+		this.depth = depth;
+		return this;
+	}
+
 }
