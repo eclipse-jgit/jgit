@@ -48,6 +48,7 @@ package org.eclipse.jgit.transport;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
+import java.util.Arrays;
 
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.internal.JGitText;
@@ -117,6 +118,9 @@ public class PacketLineIn {
 
 	AckNackResult readACK(final MutableObjectId returnedId) throws IOException {
 		final String line = readString();
+
+		System.out.println(Thread.currentThread().getName() + ":\t"
+				+ "PacketLineIn.readACK.line='" + line + "'");
 		if (line.length() == 0)
 			throw new PackProtocolException(JGitText.get().expectedACKNAKFoundEOF);
 		if ("NAK".equals(line)) //$NON-NLS-1$
@@ -155,6 +159,8 @@ public class PacketLineIn {
 		int len = readLength();
 		if (len == 0) {
 			log.debug("git< 0000"); //$NON-NLS-1$
+			System.out.println(Thread.currentThread().getName() + ":\t"
+					+ "PacketLineIn.readStringRaw git< 0000");
 			return END;
 		}
 
@@ -174,8 +180,12 @@ public class PacketLineIn {
 		if (raw[len - 1] == '\n')
 			len--;
 
+		System.out.println(Thread.currentThread().getName() + ":\t" +
+				"PacketLineIn.readString.raw='" + Arrays.toString(raw) + "'");
 		String s = RawParseUtils.decode(Constants.CHARSET, raw, 0, len);
 		log.debug("git< " + s); //$NON-NLS-1$
+		System.out.println(Thread.currentThread().getName() + ":\t"
+				+ "PacketLineIn.readString.s='" + s + "'");
 		return s;
 	}
 
@@ -193,6 +203,8 @@ public class PacketLineIn {
 		int len = readLength();
 		if (len == 0) {
 			log.debug("git< 0000"); //$NON-NLS-1$
+			System.out.println(Thread.currentThread().getName() + ":\t"
+					+ "PacketLineIn.readStringRaw git< 0000");
 			return END;
 		}
 
@@ -206,6 +218,9 @@ public class PacketLineIn {
 
 		IO.readFully(in, raw, 0, len);
 
+		System.out.println(Thread.currentThread().getName() + ":\t"
+				+ "PacketLineIn.readStringRaw.raw='"
+				+ Arrays.toString(raw) + "'");
 		String s = RawParseUtils.decode(Constants.CHARSET, raw, 0, len);
 		log.debug("git< " + s); //$NON-NLS-1$
 		return s;
