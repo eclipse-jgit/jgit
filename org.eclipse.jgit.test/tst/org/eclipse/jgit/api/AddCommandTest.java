@@ -303,6 +303,21 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testAttributesConflictingMatch() throws Exception {
+		writeTrashFile(".gitattributes", "foo/** crlf=input\n*.jar binary");
+		writeTrashFile("foo/bar.jar", "\r\n");
+		// We end up with attributes [binary -diff -merge -text crlf=input].
+		// crlf should have no effect when -text is present.
+		try (Git git = new Git(db)) {
+			git.add().addFilepattern(".").call();
+			assertEquals(
+					"[.gitattributes, mode:100644, content:foo/** crlf=input\n*.jar binary]"
+							+ "[foo/bar.jar, mode:100644, content:\r\n]",
+					indexState(CONTENT));
+		}
+	}
+
+	@Test
 	public void testCleanFilterEnvironment()
 			throws IOException, GitAPIException {
 		writeTrashFile(".gitattributes", "*.txt filter=tstFilter");

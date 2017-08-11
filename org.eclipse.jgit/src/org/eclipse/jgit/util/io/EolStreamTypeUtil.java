@@ -144,6 +144,11 @@ public final class EolStreamTypeUtil {
 
 	private static EolStreamType checkInStreamType(WorkingTreeOptions options,
 			Attributes attrs) {
+		if (attrs.isUnset("text")) {//$NON-NLS-1$
+			// "binary" or "-text" (which is included in the binary expansion)
+			return EolStreamType.DIRECT;
+		}
+
 		// old git system
 		if (attrs.isSet("crlf")) {//$NON-NLS-1$
 			return EolStreamType.TEXT_LF;
@@ -154,9 +159,6 @@ public final class EolStreamTypeUtil {
 		}
 
 		// new git system
-		if (attrs.isUnset("text")) {//$NON-NLS-1$
-			return EolStreamType.DIRECT;
-		}
 		String eol = attrs.getValue("eol"); //$NON-NLS-1$
 		if (eol != null)
 			// check-in is always normalized to LF
@@ -183,6 +185,11 @@ public final class EolStreamTypeUtil {
 
 	private static EolStreamType checkOutStreamType(WorkingTreeOptions options,
 			Attributes attrs) {
+		if (attrs.isUnset("text")) {//$NON-NLS-1$
+			// "binary" or "-text" (which is included in the binary expansion)
+			return EolStreamType.DIRECT;
+		}
+
 		// old git system
 		if (attrs.isSet("crlf")) {//$NON-NLS-1$
 			return FORCE_EOL_LF_ON_CHECKOUT ? EolStreamType.TEXT_LF
@@ -194,9 +201,6 @@ public final class EolStreamTypeUtil {
 		}
 
 		// new git system
-		if (attrs.isUnset("text")) {//$NON-NLS-1$
-			return EolStreamType.DIRECT;
-		}
 		String eol = attrs.getValue("eol"); //$NON-NLS-1$
 		if (eol != null && "crlf".equals(eol)) //$NON-NLS-1$
 			return EolStreamType.TEXT_CRLF;
