@@ -775,6 +775,11 @@ public abstract class Transport implements AutoCloseable {
 	 */
 	private TagOpt tagopt = TagOpt.NO_TAGS;
 
+	/***
+	 * fetch max. specified number of commits
+	 */
+	private Depth depth = null;
+
 	/** Should fetch request thin-pack if remote repository can produce it. */
 	private boolean fetchThin = DEFAULT_FETCH_THIN;
 
@@ -896,6 +901,27 @@ public abstract class Transport implements AutoCloseable {
 	 */
 	public void setTagOpt(final TagOpt option) {
 		tagopt = option != null ? option : TagOpt.AUTO_FOLLOW;
+	}
+
+	/***
+	 * Get depth.
+	 *
+	 * @return Maximum number of commits to fetch. Can be null.
+	 * @since 5.0
+	 */
+	public Depth getDepth() {
+		return depth;
+	}
+
+	/***
+	 * Set depth to truncate history.
+	 *
+	 * @param depth
+	 *            Maximum number of commits to fetch. Null value is allowed.
+	 * @since 5.0
+	 */
+	public void setDepth(final Depth depth) {
+		this.depth = depth;
 	}
 
 	/**

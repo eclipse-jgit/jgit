@@ -85,6 +85,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
+import org.eclipse.jgit.lib.RepositoryShallow;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.slf4j.Logger;
@@ -140,9 +141,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	private final UnpackedObjectCache unpackedObjectCache;
 
-	private final File shallowFile;
-
-	private FileSnapshot shallowFileSnapshot = FileSnapshot.DIRTY;
+	private RepositoryShallow shallowHandler;
 
 	private Set<ObjectId> shallowCommitsIds;
 
@@ -158,14 +157,16 @@ public class ObjectDirectory extends FileObjectDatabase {
 	 * @param fs
 	 *            the file system abstraction which will be necessary to perform
 	 *            certain file system operations.
-	 * @param shallowFile
-	 *            file which contains IDs of shallow commits, null if shallow
-	 *            commits handling should be turned off
+	 * @param shallowHandler
+	 *            handler for content of <code>$GITDIR/.shallow</code> which
+	 *            contains IDs of shallow commits, null if shallow commits
+	 *            handling should be turned off
 	 * @throws IOException
 	 *             an alternate object cannot be opened.
 	 */
 	public ObjectDirectory(final Config cfg, final File dir,
-			File[] alternatePaths, FS fs, File shallowFile) throws IOException {
+			File[] alternatePaths, FS fs, RepositoryShallow shallowHandler)
+			throws IOException {
 		config = cfg;
 		objects = dir;
 		infoDirectory = new File(objects, "info"); //$NON-NLS-1$
@@ -175,7 +176,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		packList = new AtomicReference<>(NO_PACKS);
 		unpackedObjectCache = new UnpackedObjectCache();
 		this.fs = fs;
-		this.shallowFile = shallowFile;
+		this.shallowHandler = shallowHandler;
 
 		alternates = new AtomicReference<>();
 		if (alternatePaths != null) {
@@ -774,31 +775,15 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	@Override
 	Set<ObjectId> getShallowCommits() throws IOException {
-		if (shallowFile == null || !shallowFile.isFile())
-			return Collections.emptySet();
-
-		if (shallowFileSnapshot == null
-				|| shallowFileSnapshot.isModified(shallowFile)) {
-			shallowCommitsIds = new HashSet<>();
-
-			final BufferedReader reader = open(shallowFile);
-			try {
-				String line;
-				while ((line = reader.readLine()) != null) {
-					try {
-						shallowCommitsIds.add(ObjectId.fromString(line));
-					} catch (IllegalArgumentException ex) {
-						throw new IOException(MessageFormat
-								.format(JGitText.get().badShallowLine, line));
-					}
-				}
-			} finally {
-				reader.close();
-			}
-
-			shallowFileSnapshot = FileSnapshot.save(shallowFile);
+		if (shallowHandler == null) {
+			shallowCommitsIds = Collections.emptySet();
 		}
-
+		else {
+			shallowHandler.lock();
+			final List<ObjectId> list = shallowHandler.read();
+			shallowHandler.unlock(false);
+			shallowCommitsIds = new HashSet<>(list);
+		}
 		return shallowCommitsIds;
 	}
 
