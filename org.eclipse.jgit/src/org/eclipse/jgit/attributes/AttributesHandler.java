@@ -50,11 +50,13 @@ import java.util.Map;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.attributes.Attribute.State;
 import org.eclipse.jgit.dircache.DirCacheIterator;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.TreeWalk.OperationType;
+import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 
 /**
@@ -104,13 +106,11 @@ public class AttributesHandler {
 		this.infoNode = attributesNodeProvider != null
 				? attributesNodeProvider.getInfoAttributesNode() : null;
 
-		AttributesNode rootNode = attributesNode(treeWalk,
-				rootOf(
-						treeWalk.getTree(WorkingTreeIterator.class)),
-				rootOf(
-						treeWalk.getTree(DirCacheIterator.class)),
-				rootOf(treeWalk
-						.getTree(CanonicalTreeParser.class)));
+		String[] ignored = { null };
+		AttributesNode rootNode = attributesNode(treeWalk, ignored,
+				rootOf(treeWalk.getTree(WorkingTreeIterator.class)),
+				rootOf(treeWalk.getTree(DirCacheIterator.class)),
+				rootOf(treeWalk.getTree(CanonicalTreeParser.class)));
 
 		expansions.put(BINARY_RULE_KEY, BINARY_RULE_ATTRIBUTES);
 		for (AttributesNode node : new AttributesNode[] { globalNode, rootNode,
@@ -144,7 +144,7 @@ public class AttributesHandler {
 		mergeInfoAttributes(entryPath, isDirectory, attributes);
 
 		// Gets the attributes located on the current entry path
-		mergePerDirectoryEntryAttributes(entryPath, isDirectory,
+		mergePerDirectoryEntryAttributes(isDirectory,
 				treeWalk.getTree(WorkingTreeIterator.class),
 				treeWalk.getTree(DirCacheIterator.class),
 				treeWalk.getTree(CanonicalTreeParser.class),
@@ -202,10 +202,6 @@ public class AttributesHandler {
 	/**
 	 * Merges the matching working directory attributes for an entry path.
 	 *
-	 * @param entryPath
-	 *            the path to test. The path must be relative to this attribute
-	 *            node's own repository path, and in repository path format
-	 *            (uses '/' and not '\').
 	 * @param isDirectory
 	 *            true if the target item is a directory.
 	 * @param workingTreeIterator
@@ -216,8 +212,7 @@ public class AttributesHandler {
 	 *            method will NOT override any existing entry in attributes.
 	 * @throws IOException
 	 */
-	private void mergePerDirectoryEntryAttributes(String entryPath,
-			boolean isDirectory,
+	private void mergePerDirectoryEntryAttributes(boolean isDirectory,
 			@Nullable WorkingTreeIterator workingTreeIterator,
 			@Nullable DirCacheIterator dirCacheIterator,
 			@Nullable CanonicalTreeParser otherTree, Attributes result)
@@ -225,12 +220,15 @@ public class AttributesHandler {
 		// Prevents infinite recurrence
 		if (workingTreeIterator != null || dirCacheIterator != null
 				|| otherTree != null) {
+			String[] relativePath = { null };
 			AttributesNode attributesNode = attributesNode(
-					treeWalk, workingTreeIterator, dirCacheIterator, otherTree);
+					treeWalk, relativePath, workingTreeIterator,
+					dirCacheIterator, otherTree);
 			if (attributesNode != null) {
-				mergeAttributes(attributesNode, entryPath, isDirectory, result);
+				mergeAttributes(attributesNode, relativePath[0], isDirectory,
+						result);
 			}
-			mergePerDirectoryEntryAttributes(entryPath, isDirectory,
+			mergePerDirectoryEntryAttributes(isDirectory,
 					parentOf(workingTreeIterator), parentOf(dirCacheIterator),
 					parentOf(otherTree), result);
 		}
@@ -252,10 +250,10 @@ public class AttributesHandler {
 	 *            method will NOT override any existing entry in attributes.
 	 */
 	protected void mergeAttributes(@Nullable AttributesNode node,
-			String entryPath,
-			boolean isDirectory, Attributes result) {
-		if (node == null)
+			String entryPath, boolean isDirectory, Attributes result) {
+		if (node == null) {
 			return;
+		}
 		List<AttributesRule> rules = node.getRules();
 		// Parse rules in the reverse order that they were read since the last
 		// entry should be used
@@ -346,6 +344,12 @@ public class AttributesHandler {
 		}
 	}
 
+	private static String relativePath(AbstractTreeIterator iter,
+			int pathLength) {
+		return RawParseUtils.decode(Constants.CHARSET,
+				iter.getEntryPathBuffer(), iter.getNameOffset(), pathLength);
+	}
+
 	/**
 	 * Get the {@link AttributesNode} for the current entry.
 	 * <p>
@@ -354,6 +358,9 @@ public class AttributesHandler {
 	 * </p>
 	 *
 	 * @param treeWalk
+	 * @param relativePath
+	 *            to return the entry path relative to the found attribute node,
+	 *            {@code null} if none found
 	 * @param workingTreeIterator
 	 * @param dirCacheIterator
 	 * @param otherTree
@@ -364,6 +371,7 @@ public class AttributesHandler {
 	 *             parsing one on the attributes file.
 	 */
 	private static AttributesNode attributesNode(TreeWalk treeWalk,
+			String[] relativePath,
 			@Nullable WorkingTreeIterator workingTreeIterator,
 			@Nullable DirCacheIterator dirCacheIterator,
 			@Nullable CanonicalTreeParser otherTree) throws IOException {
@@ -372,27 +380,57 @@ public class AttributesHandler {
 		case CHECKIN_OP:
 			if (workingTreeIterator != null) {
 				attributesNode = workingTreeIterator.getEntryAttributesNode();
+				if (attributesNode != null) {
+					relativePath[0] = relativePath(workingTreeIterator,
+							treeWalk.getPathLength());
+					return attributesNode;
+				}
 			}
-			if (attributesNode == null && dirCacheIterator != null) {
+			if (dirCacheIterator != null) {
 				attributesNode = dirCacheIterator
 						.getEntryAttributesNode(treeWalk.getObjectReader());
+				if (attributesNode != null) {
+					relativePath[0] = relativePath(dirCacheIterator,
+							treeWalk.getPathLength());
+					return attributesNode;
+				}
 			}
-			if (attributesNode == null && otherTree != null) {
+			if (otherTree != null) {
 				attributesNode = otherTree
 						.getEntryAttributesNode(treeWalk.getObjectReader());
+				if (attributesNode != null) {
+					relativePath[0] = relativePath(otherTree,
+							treeWalk.getPathLength());
+					return attributesNode;
+				}
 			}
 			break;
 		case CHECKOUT_OP:
 			if (otherTree != null) {
 				attributesNode = otherTree
 						.getEntryAttributesNode(treeWalk.getObjectReader());
+				if (attributesNode != null) {
+					relativePath[0] = relativePath(otherTree,
+							treeWalk.getPathLength());
+					return attributesNode;
+				}
 			}
-			if (attributesNode == null && dirCacheIterator != null) {
+			if (dirCacheIterator != null) {
 				attributesNode = dirCacheIterator
 						.getEntryAttributesNode(treeWalk.getObjectReader());
+				if (attributesNode != null) {
+					relativePath[0] = relativePath(dirCacheIterator,
+							treeWalk.getPathLength());
+					return attributesNode;
+				}
 			}
-			if (attributesNode == null && workingTreeIterator != null) {
+			if (workingTreeIterator != null) {
 				attributesNode = workingTreeIterator.getEntryAttributesNode();
+				if (attributesNode != null) {
+					relativePath[0] = relativePath(workingTreeIterator,
+							treeWalk.getPathLength());
+					return attributesNode;
+				}
 			}
 			break;
 		default:
@@ -402,7 +440,7 @@ public class AttributesHandler {
 							+ OperationType.CHECKOUT_OP);
 		}
 
-		return attributesNode;
+		return null;
 	}
 
 	private static <T extends AbstractTreeIterator> T parentOf(@Nullable T node) {

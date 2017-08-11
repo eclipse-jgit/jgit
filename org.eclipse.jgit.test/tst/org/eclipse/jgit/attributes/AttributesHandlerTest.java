@@ -254,6 +254,33 @@ public class AttributesHandlerTest extends RepositoryTestCase {
 		endWalk();
 	}
 
+	@Test
+	public void testRelativePaths() throws Exception {
+		setupRepo("sub/ global", "sub/** init",
+				"sub/** top_sub\n*.txt top",
+				"sub/** subsub\nsub/ subsub2\n*.txt foo");
+		// The last two sub/** and sub/ rules are in sub/.gitattributes. They
+		// must not apply to any of the files here. They would match for a
+		// further subdirectory sub/sub.
+		walk = beginWalk();
+		assertIteration(F, ".gitattributes");
+		assertIteration(D, "sub", attrs("global"));
+		assertIteration(F, "sub/.gitattributes", attrs("init top_sub global"));
+		assertIteration(F, "sub/a.txt", attrs("init foo top top_sub global"));
+		endWalk();
+		// All right, let's see that they *do* apply in sub/sub:
+		writeTrashFile("sub/sub/b.txt", "b");
+		walk = beginWalk();
+		assertIteration(F, ".gitattributes");
+		assertIteration(D, "sub", attrs("global"));
+		assertIteration(F, "sub/.gitattributes", attrs("init top_sub global"));
+		assertIteration(F, "sub/a.txt", attrs("init foo top top_sub global"));
+		assertIteration(D, "sub/sub", attrs("init subsub2 top_sub global"));
+		assertIteration(F, "sub/sub/b.txt",
+				attrs("init foo subsub2 subsub top top_sub global"));
+		endWalk();
+	}
+
 	private static Collection<Attribute> attrs(String s) {
 		return new AttributesRule("*", s).getAttributes();
 	}
