@@ -54,6 +54,7 @@ import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -78,6 +79,7 @@ import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.revwalk.filter.CommitTimeRevFilter;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
+import org.eclipse.jgit.storage.file.FileBasedShallow;
 import org.eclipse.jgit.transport.GitProtocolConstants.MultiAck;
 import org.eclipse.jgit.transport.PacketLineIn.AckNackResult;
 import org.eclipse.jgit.util.TemporaryBuffer;
@@ -224,6 +226,8 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 
 	private boolean includeTags;
 
+	private Depth depth;
+
 	private boolean allowOfsDelta;
 
 	private boolean noDone;
@@ -255,6 +259,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			allowOfsDelta = true;
 		}
 		includeTags = transport.getTagOpt() != TagOpt.NO_TAGS;
+		depth = transport.getDepth();
 		thinPack = transport.isFetchThin();
 
 		if (local != null) {
@@ -489,6 +494,28 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			line.append('\n');
 			p.writeString(line.toString());
 		}
+		// if commit is mentioned in $GITDIR/shallow we have to send a
+		// shallow <commit-id> line, see
+		// https://github.com/git/git/blob/master/Documentation/technical/pack-protocol.txt#L220
+		final FileBasedShallow shallow = new FileBasedShallow(this.local);
+		final List<ObjectId> shallowCommits = shallow.read();
+		for (ObjectId shallowCommit : shallowCommits) {
+			final String id = shallowCommit.getName();
+			final StringBuilder builder = new StringBuilder(46);
+			builder.append(FileBasedShallow.PREFIX_SHALLOW); // $NON-NLS-1$
+			builder.append(id);
+			builder.append('\n');
+			p.writeString(builder.toString());
+		}
+
+		// if depth is set, write deepen <depth>
+		if (Depth.isSet(depth)) {
+			final StringBuilder builder = new StringBuilder(46);
+			builder.append("deepen "); //$NON-NLS-1$
+			builder.append(depth.getDepth());
+			builder.append('\n');
+			p.writeString(builder.toString());
+		}
 		if (first)
 			return false;
 		p.end();
@@ -549,6 +576,11 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			state.writeTo(out, null);
 
 		negotiateBegin();
+
+		if (Depth.isSet(depth)) {
+			handleShallowUnshallowLines();
+		}
+
 		SEND_HAVES: for (;;) {
 			final RevCommit c = walk.next();
 			if (c == null)
@@ -788,4 +820,24 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 	private static class CancelledException extends Exception {
 		private static final long serialVersionUID = 1L;
 	}
+
+	/***
+	 * Implements reading shallow/unshallow lines that are received by client
+	 * from server.
+	 *
+	 * @throws IOException
+	 */
+	private void handleShallowUnshallowLines() throws IOException {
+		final FileBasedShallow shallow = new FileBasedShallow(this.local);
+		shallow.lock();
+		shallow.read();
+		for (String line;;) {
+			line = pckIn.readString();
+			if (!shallow.parseShallowUnshallowLine(line)) {
+				break;
+			}
+		}
+		shallow.unlock(true);
+	}
+
 }
