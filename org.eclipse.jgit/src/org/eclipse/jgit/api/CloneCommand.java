@@ -71,6 +71,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.submodule.SubmoduleWalk;
+import org.eclipse.jgit.transport.Depth;
 import org.eclipse.jgit.transport.FetchResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
@@ -114,6 +115,8 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	private boolean directoryExistsInitially;
 
 	private boolean gitDirExistsInitially;
+
+	private Depth depth = null;
 
 	/**
 	 * Callback for status of clone operation.
@@ -269,11 +272,14 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 		RemoteConfig config = new RemoteConfig(clonedRepo.getConfig(), remote);
 		config.addURI(u);
 
+		final String branchName = getBranchNameWithConsideredDepth();
 		final String dst = (bare ? Constants.R_HEADS : Constants.R_REMOTES
-				+ config.getName() + "/") + "*"; //$NON-NLS-1$//$NON-NLS-2$
+				+ config.getName() + "/"); //$NON-NLS-1$
+		final String dst1 = dst + branchName;
 		RefSpec refSpec = new RefSpec();
 		refSpec = refSpec.setForceUpdate(true);
-		refSpec = refSpec.setSourceDestination(Constants.R_HEADS + "*", dst); //$NON-NLS-1$
+		refSpec = refSpec
+				.setSourceDestination(Constants.R_HEADS + branchName, dst1);
 
 		config.addFetchRefSpec(refSpec);
 		config.update(clonedRepo.getConfig());
@@ -284,13 +290,39 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 		FetchCommand command = new FetchCommand(clonedRepo);
 		command.setRemote(remote);
 		command.setProgressMonitor(monitor);
-		command.setTagOpt(TagOpt.FETCH_TAGS);
+		// git clone --depth <depth> will only fetch tags that we have
+		if (Depth.isSet(this.depth)) {
+			command.setTagOpt(TagOpt.AUTO_FOLLOW);
+		} else {
+			command.setTagOpt(TagOpt.FETCH_TAGS);
+		}
+		command.setDepth(this.depth);
 		configure(command);
 
-		List<RefSpec> specs = calculateRefSpecs(dst);
+		final String dst2 = dst + "*"; //$NON-NLS-1$
+		List<RefSpec> specs = calculateRefSpecs(dst2);
 		command.setRefSpecs(specs);
 
 		return command.call();
+	}
+
+	/***
+	 * If depth is not set, it returns a wild-card, otherwise this function
+	 * returns the branch name as String
+	 *
+	 * @return branch name
+	 */
+	private String getBranchNameWithConsideredDepth() {
+		if (Depth.isSet(this.depth)) {
+			if (Constants.HEAD.equals(this.branch)) {
+				// branch name has not been set yet, so guess branch name
+				return Constants.MASTER;
+			} else {
+				return this.branch;
+			}
+		} else {
+			return "*"; //$NON-NLS-1$
+		}
 	}
 
 	private List<RefSpec> calculateRefSpecs(final String dst) {
@@ -678,4 +710,32 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 					| FileUtils.IGNORE_ERRORS);
 		}
 	}
+
+	/***
+	 * Get depth.
+	 *
+	 * @return Maximum number of commits to fetch. Can be null.
+	 * @since 4.6
+	 */
+	public Depth getDepth() {
+		return depth;
+	}
+
+	/***
+	 * Set depth to truncate history.
+	 *
+	 * @param depth
+	 *            Maximum number of commits to fetch. Null value is allowed.
+	 * @return {@code this}
+	 * @since 4.6
+	 */
+	public CloneCommand setDepth(Depth depth) {
+		this.depth = depth;
+		if (Depth.isSet(this.depth)) {
+			this.setCloneAllBranches(false);
+			this.setCloneSubmodules(false);
+		}
+		return this;
+	}
+
 }
