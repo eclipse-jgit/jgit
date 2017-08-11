@@ -47,19 +47,23 @@ package org.eclipse.jgit.transport;
 
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.file.LockFile;
 import org.eclipse.jgit.internal.storage.file.PackLock;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Config;
@@ -224,6 +228,8 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 
 	private boolean includeTags;
 
+	private int depth;
+
 	private boolean allowOfsDelta;
 
 	private boolean noDone;
@@ -255,6 +261,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			allowOfsDelta = true;
 		}
 		includeTags = transport.getTagOpt() != TagOpt.NO_TAGS;
+		depth = transport.getDepth();
 		thinPack = transport.isFetchThin();
 
 		if (local != null) {
@@ -359,7 +366,12 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			}
 
 			if (sendWants(want)) {
+				try {
 				negotiate(monitor);
+				} catch (Exception ex) {
+					ex.printStackTrace();
+					throw ex;
+				}
 
 				walk.dispose();
 				reachableCommits = null;
@@ -407,8 +419,13 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 	private void markReachable(final Set<ObjectId> have, final int maxTime)
 			throws IOException {
 		Map<String, Ref> refs = local.getRefDatabase().getRefs(ALL);
+		System.out.println(Thread.currentThread().getName() + ":\t"
+				+ "BasePackFetchConnection.markReachable.refs.size()='"
+				+ refs.size() + "'");
 		for (final Ref r : refs.values()) {
 			ObjectId id = r.getPeeledObjectId();
+			System.out.println(Thread.currentThread().getName() + ":\t" +
+					"BasePackFetchConnection.markReachable.#1.id='" + id + "'");
 			if (id == null)
 				id = r.getObjectId();
 			if (id == null)
@@ -416,13 +433,22 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			parseReachable(id);
 		}
 
-		for (ObjectId id : local.getAdditionalHaves())
+		for (ObjectId id : local.getAdditionalHaves()) {
+			System.out.println(Thread.currentThread().getName() + ":\t" +
+					"BasePackFetchConnection.markReachable.#2.id='" + id + "'");
 			parseReachable(id);
+		}
 
-		for (ObjectId id : have)
+		for (ObjectId id : have) {
+			System.out.println(Thread.currentThread().getName() + ":\t" +
+					"BasePackFetchConnection.markReachable.#2.id='" + id + "'");
 			parseReachable(id);
+		}
 
 		if (maxTime > 0) {
+			System.out
+					.println(Thread.currentThread().getName() + ":\t"
+							+ "BasePackFetchConnection.markReachable.maxTime>0");
 			// Mark reachable commits until we reach maxTime. These may
 			// wind up later matching up against things we want and we
 			// can avoid asking for something we already happen to have.
@@ -463,7 +489,14 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		final PacketLineOut p = statelessRPC ? pckState : pckOut;
 		boolean first = true;
 		for (final Ref r : want) {
+			System.out
+					.println(Thread.currentThread().getName() + ":\t"
+							+ "BasePackFetchConnection.sendWants.r='" + r
+							+ "'");
 			ObjectId objectId = r.getObjectId();
+			System.out.println(Thread.currentThread().getName() + ":\t"
+					+ "BasePackFetchConnection.sendWants.objectId='"
+					+ objectId + "'");
 			if (objectId == null) {
 				continue;
 			}
@@ -487,7 +520,26 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 				first = false;
 			}
 			line.append('\n');
+			// TODO: if commit is mentioned in $GITDIR/shallow we have to send a
+			// shallow <commit-id>
+			// see
+			// https://github.com/git/git/blob/master/Documentation/technical/pack-protocol.txt#L220
+			final StringBuilder builder = new StringBuilder(46);
+			if (depth > 0 && depth < Transport.DEPTH_INFINITE) {
+				builder.append("deepen "); //$NON-NLS-1$
+				builder.append(depth);
+				builder.append('\n');
+			}
+			System.out.println(Thread.currentThread().getName() + ":\t"
+					+ "BasePackFetchConnection.sendWants.line='"
+					+ line.toString() + "'");
+			System.out.println(Thread.currentThread().getName() + ":\t"
+					+ "BasePackFetchConnection.sendWants.line='"
+					+ builder.toString() + "'");
 			p.writeString(line.toString());
+			if (depth != Transport.DEPTH_INFINITE) {
+				p.writeString(builder.toString());
+			}
 		}
 		if (first)
 			return false;
@@ -544,13 +596,36 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		boolean receivedContinue = false;
 		boolean receivedAck = false;
 		boolean receivedReady = false;
+		System.out.println(Thread.currentThread().getName() + ":\t"
+				+ "BasePackFetchConnection.negotiate.statelessRPC='"
+				+ statelessRPC + "'");
 
 		if (statelessRPC)
 			state.writeTo(out, null);
 
+		System.out.println(Thread.currentThread().getName() + ":\t" +
+				"BasePackFetchConnection.negotiate.negotiateBegin - begin");
+
 		negotiateBegin();
+		System.out.println(Thread.currentThread().getName() + ":\t" +
+				"BasePackFetchConnection.negotiate.negotiateBegin - end");
+
+		if (depth > 0 && depth < Transport.DEPTH_INFINITE) {
+			handleShallowUnshallowLines();
+		}
+
+		System.out
+				.println(Thread.currentThread().getName() + ":\t"
+						+ "BasePackFetchConnection.negotiate.sendHaves - begin");
+
 		SEND_HAVES: for (;;) {
+			System.out.println(Thread.currentThread().getName() + ":\t"
+					+ "BasePackFetchConnection.negotiate.#walk.next");
 			final RevCommit c = walk.next();
+			System.out
+					.println(Thread.currentThread().getName() + ":\t"
+							+ "BasePackFetchConnection.negotiate.c='" + c
+							+ "'");
 			if (c == null)
 				break SEND_HAVES;
 
@@ -582,6 +657,8 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			}
 
 			READ_RESULT: for (;;) {
+				System.out.println(Thread.currentThread().getName() + ":\t"
+						+ "BasePackFetchConnection.negotiate.SEND_HAVES.READ_RESULT'");
 				final AckNackResult anr = pckIn.readACK(ackId);
 				switch (anr) {
 				case NAK:
@@ -638,6 +715,9 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 				break SEND_HAVES;
 			}
 		}
+		System.out
+				.println(Thread.currentThread().getName() + ":\t"
+						+ "BasePackFetchConnection.negotiate.sendHaves - end");
 
 		// Tell the remote side we have run out of things to talk about.
 		//
@@ -651,6 +731,8 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			//
 			pckOut.writeString("done\n"); //$NON-NLS-1$
 			pckOut.flush();
+			System.out.println(Thread.currentThread().getName() + ":\t"
+					+ "BasePackFetchConnection.negotiate write done!");
 		}
 
 		if (!receivedAck) {
@@ -661,8 +743,12 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			multiAck = MultiAck.OFF;
 			resultsPending++;
 		}
+		System.out.println(Thread.currentThread().getName() + ":\t" +
+				"BasePackFetchConnection.negotiate.readResult - begin");
 
 		READ_RESULT: while (resultsPending > 0 || multiAck != MultiAck.OFF) {
+			System.out.println(Thread.currentThread().getName() + ":\t"
+					+ "BasePackFetchConnection.negotiate.READ_RESULT");
 			final AckNackResult anr = pckIn.readACK(ackId);
 			resultsPending--;
 			switch (anr) {
@@ -690,12 +776,27 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			if (monitor.isCancelled())
 				throw new CancelledException();
 		}
+		System.out.println(Thread.currentThread().getName() + ":\t" +
+				"BasePackFetchConnection.negotiate.readResult - end");
 	}
 
 	private void negotiateBegin() throws IOException {
+		System.out.println(Thread.currentThread().getName() + ":\t"
+				+ "BasePackFetchConnection.negotiateBegin");
+		System.out.println(Thread.currentThread().getName() + ":\t"
+				+ "BasePackFetchConnection.negotiateBegin.walk='"
+				+ walk.getClass() + "'");
+		System.out.println(Thread.currentThread().getName() + ":\t"
+				+ "BasePackFetchConnection.negotiateBegin() #1");
 		walk.resetRetain(REACHABLE, ADVERTISED);
+		System.out.println(Thread.currentThread().getName() + ":\t"
+				+ "BasePackFetchConnection.negotiateBegin() #2");
 		walk.markStart(reachableCommits);
+		System.out.println(Thread.currentThread().getName() + ":\t"
+				+ "BasePackFetchConnection.negotiateBegin() #3");
 		walk.sort(RevSort.COMMIT_TIME_DESC);
+		System.out.println(Thread.currentThread().getName() + ":\t"
+				+ "BasePackFetchConnection.negotiateBegin() #4");
 		walk.setRevFilter(new RevFilter() {
 			@Override
 			public RevFilter clone() {
@@ -721,10 +822,16 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 				return false;
 			}
 		});
+		System.out.println(Thread.currentThread().getName() + ":\t"
+				+ "BasePackFetchConnection.negotiateBegin() #5");
 	}
 
 	private void markRefsAdvertised() {
 		for (final Ref r : getRefs()) {
+			System.out.println(Thread.currentThread().getName() + ":\t"
+					+
+					"BasePackFetchConnection.markRefsAdvertised.r.getObjectId='"
+							+ r.getObjectId() + "'");
 			markAdvertised(r.getObjectId());
 			if (r.getPeeledObjectId() != null)
 				markAdvertised(r.getPeeledObjectId());
@@ -788,4 +895,83 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 	private static class CancelledException extends Exception {
 		private static final long serialVersionUID = 1L;
 	}
+
+	private static final String SHALLOW = "shallow "; //$NON-NLS-1$
+
+	private static final String UNSHALLOW = "unshallow "; //$NON-NLS-1$
+
+	/***
+	 * implements reading shallow/unshallow lines that are sent as server
+	 * response to client.<br/>
+	 *
+	 * @see <a href=
+	 *      "https://github.com/git/git/blob/master/Documentation/technical/pack-protocol.txt#L261"
+	 *      >https://github.com/git/git/blob/master/Documentation/technical/pack-protocol.txt#L261</a>
+	 *
+	 * @throws IOException
+	 */
+	private void handleShallowUnshallowLines()
+			throws IOException {
+		System.out.println(
+				"handleShallowUnshallowLines: begin!");
+		final File parentDirectory = this.local.getDirectory();
+		if (parentDirectory == null) {
+			throw new IOException("Repository.getDirectory() is null (Could not obtain $GITDIR)!");
+		}
+		System.out.println("handleShallowUnshallowLines-shallowFile='"
+				+ parentDirectory.getAbsolutePath() + "'");
+		final File shallowFile = new File(parentDirectory, "shallow");
+		System.out.println("handleShallowUnshallowLines-shallowFile='"
+				+ shallowFile.getAbsolutePath() + "'");
+		LockFile shallowLockFile = new LockFile(shallowFile);
+		if (!shallowLockFile.lock()) {
+			throw new IOException("Could not obtain lock for $GITDIR/");
+		}
+		final List<ObjectId> shallowIds = new ArrayList<>();
+		// TODO: read shallowIds from shallowFile
+
+		String line = null;
+		int length = -1;
+		do {
+			line = pckIn.readString();
+			System.out
+					.println("handleShallowUnshallowLines.line='" + line + "'");
+			length = line.length();
+			System.out.println(
+					"handleShallowUnshallowLines.length='" + length + "'");
+			if (length > 0) {
+				if (line.startsWith(SHALLOW)) {
+					final String id = line.substring(SHALLOW.length(),
+							SHALLOW.length() + 40);
+					final ObjectId objId = ObjectId.fromString(id);
+					shallowIds.add(objId);
+					System.out.println(
+							"handleShallowUnshallowLines.id='" + id + "'");
+
+				} else if (line.startsWith(UNSHALLOW)) {
+					final String id = line.substring(UNSHALLOW.length(),
+							UNSHALLOW.length() + 40);
+					final ObjectId objId = ObjectId.fromString(id);
+					shallowIds.remove(objId);
+					System.out.println(
+							"handleShallowUnshallowLines.id='" + id + "'");
+				} else {
+					throw new PackProtocolException(MessageFormat.format(
+							JGitText.get().expectedShallowUnshallowGot, line));
+				}
+			}
+
+		} while (length != 0);
+
+		for (ObjectId id : shallowIds) {
+			shallowLockFile.write(id);
+		}
+		if (shallowIds.size() > 0) {
+			shallowLockFile.commit();
+		} else {
+			shallowLockFile.unlock();
+		}
+		System.out.println("handleShallowUnshallowLines: end!");
+	}
+
 }
