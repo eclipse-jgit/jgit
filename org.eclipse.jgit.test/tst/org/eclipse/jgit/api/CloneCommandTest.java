@@ -856,4 +856,6 @@ public class CloneCommandTest extends RepositoryTestCase {
 		command.setDepth(-3);
 	}
 
+	// TODO: add JUnit tests for complete shallow/unshallow negotiation
+
 }

@@ -516,6 +516,10 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 				first = false;
 			}
 			line.append('\n');
+			// TODO: if commit is mentioned in $GITDIR/shallow we have to send a
+			// shallow <commit-id>
+			// see
+			// https://github.com/git/git/blob/master/Documentation/technical/pack-protocol.txt#L220
 			final StringBuilder builder = new StringBuilder(46);
 			if (depth != Transport.DEPTH_INFINITE) {
 				builder.append("deepen "); //$NON-NLS-1$
