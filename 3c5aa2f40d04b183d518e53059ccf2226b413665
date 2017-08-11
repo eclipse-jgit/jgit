@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_65c3337f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-08-11T05:58:16Z",
+      "side": 1,
+      "message": "@Matthias: maybe use EGit nightly to avoid such line wrapping? ;-)",
+      "revId": "3c5aa2f40d04b183d518e53059ccf2226b413665",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
