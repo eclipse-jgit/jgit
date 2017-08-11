@@ -52,7 +52,9 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -76,6 +78,7 @@ import org.eclipse.jgit.submodule.SubmoduleStatusType;
 import org.eclipse.jgit.submodule.SubmoduleWalk;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
+import org.eclipse.jgit.transport.Transport;
 import org.eclipse.jgit.util.SystemReader;
 import org.junit.Test;
 
@@ -653,4 +656,206 @@ public class CloneCommandTest extends RepositoryTestCase {
 	private String fileUri() {
 		return "file://" + git.getRepository().getWorkTree().getAbsolutePath();
 	}
+
+	private void setUp2() throws IOException, JGitInternalException,
+			GitAPIException {
+		final String fileName2 = "HelloWorld.txt";
+		final String fileName3 = "file.txt";
+		// create more commits in branch master
+		git.checkout().setName("master")
+				.call();
+		assertEquals(git.getRepository().getFullBranch(), "refs/heads/master");
+
+		writeTrashFile(fileName2, "Hello World!");
+		git.add().addFilepattern(fileName2).call();
+		git.commit().setMessage("Third commit").call();
+		writeTrashFile(fileName3, "content");
+		git.add().addFilepattern(fileName3).call();
+		git.commit().setMessage("Final commit").call();
+	}
+
+	private List<RevCommit> getAsList(Iterable<RevCommit> iterable) {
+		assertNotNull(iterable);
+		final List<RevCommit> result = new ArrayList<RevCommit>();
+		final Iterator<RevCommit> it = iterable.iterator();
+		while (it.hasNext()) {
+			final RevCommit commit = it.next();
+			result.add(commit);
+		}
+		return result;
+	}
+
+	@Test
+	public void testCloneRepositoryWithDepthInfinite()
+			throws IOException,
+			JGitInternalException, GitAPIException {
+		// create more commits
+		this.setUp2();
+		// continue testing
+		System.out.println("testCloneRepositoryWithDepthInfinite - begin");
+		final String fileName1 = "Test.txt";
+		final String fileName2 = "HelloWorld.txt";
+		final String fileName3 = "file.txt";
+
+		File directory = createTempDirectory(
+				"testCloneRepositoryWithDepthInfinite");
+		CloneCommand command = Git.cloneRepository();
+		command.setDepth(Transport.DEPTH_INFINITE);
+		command.setBranch("refs/heads/master");
+		command.setBranchesToClone(
+				Collections.singletonList("refs/heads/master"));
+		command.setDirectory(directory);
+		command.setURI(fileUri());
+		Git git2 = command.call();
+		addRepoToClose(git2.getRepository());
+		assertNotNull(git2);
+		assertEquals(git2.getRepository().getFullBranch(), "refs/heads/master");
+		assertEquals("refs/remotes/origin/master", allRefNames(
+				git2.branchList().setListMode(ListMode.REMOTE).call()));
+		System.out.println("testCloneRepositoryWithDepth0 - end");
+		final Ref masterRef = git2.getRepository().findRef("refs/heads/master");
+		assertNotNull(masterRef);
+		// tags are loaded
+		assertEquals(2, db.getTags().size());
+		assertNotNull(db.resolve("tag-initial"));
+		assertNotNull(db.resolve("tag-for-blob"));
+
+		List<RevCommit> commits = getAsList(git.log().call());
+		assertEquals(3, commits.size());
+		RevCommit commit0 = commits.get(0);
+		assertNotNull(commit0);
+		System.out.println("	commit0='" + commit0.name() + "'");
+		assertEquals("Final commit", commit0.getShortMessage());
+		RevCommit commit1 = commits.get(1);
+		assertNotNull(commit1);
+		System.out.println("	commit1='" + commit1.name() + "'");
+		assertEquals("Third commit", commit1.getShortMessage());
+		RevCommit commit2 = commits.get(2);
+		assertNotNull(commit2);
+		System.out.println("	commit2='" + commit2.name() + "'");
+		assertEquals("Initial commit", commit2.getShortMessage());
+
+		assertTrue(new File(git2.getRepository().getWorkTree(),
+				File.separatorChar + fileName1).exists());
+		assertTrue(new File(git2.getRepository().getWorkTree(),
+				File.separatorChar + fileName2).exists());
+		assertTrue(new File(git2.getRepository().getWorkTree(),
+				File.separatorChar + fileName3).exists());
+	}
+
+	@Test
+	public void testCloneRepositoryWithDepth1() throws IOException,
+			JGitInternalException, GitAPIException {
+		// create more commits
+		this.setUp2();
+		// continue testing
+		System.out.println("testCloneRepositoryWithDepth1 - begin");
+		final String fileName1 = "Test.txt";
+		final String fileName2 = "HelloWorld.txt";
+		final String fileName3 = "file.txt";
+
+		File directory = createTempDirectory("testCloneRepositoryWithDepth1");
+		CloneCommand command = Git.cloneRepository();
+		command.setDepth(1);
+		command.setBranch("refs/heads/master");
+		command.setBranchesToClone(
+				Collections.singletonList("refs/heads/master"));
+		command.setDirectory(directory);
+		command.setURI(fileUri());
+		Git git2 = command.call();
+		addRepoToClose(git2.getRepository());
+		assertNotNull(git2);
+		assertEquals(git2.getRepository().getFullBranch(), "refs/heads/master");
+		assertEquals("refs/remotes/origin/master", allRefNames(
+				git2.branchList().setListMode(ListMode.REMOTE).call()));
+		System.out.println("testCloneRepositoryWithDepth1 - end");
+		// no tags
+		assertEquals(0, git2.getRepository().getTags().size());
+		assertNull(git2.getRepository().resolve("tag-initial"));
+		assertNull(git2.getRepository().resolve("tag-for-blob"));
+
+		List<RevCommit> commits = getAsList(git.log().call());
+		assertEquals(1, commits.size());
+		RevCommit commit0 = commits.get(0);
+		assertNotNull(commit0);
+		assertEquals("Final commit", commit0.getShortMessage());
+		System.out.println("	commit0='" + commit0.name() + "'");
+
+		assertTrue(new File(git2.getRepository().getWorkTree(),
+				File.separatorChar + fileName1).exists());
+		assertTrue(new File(git2.getRepository().getWorkTree(),
+				File.separatorChar + fileName2).exists());
+		assertTrue(new File(git2.getRepository().getWorkTree(),
+				File.separatorChar + fileName3).exists());
+
+		final Ref masterRef = git2.getRepository().findRef("refs/heads/master");
+		assertNotNull(masterRef);
+		final Ref testRef = git2.getRepository()
+				.findRef("refs/remotes/origin/test");
+		assertNull(testRef);
+	}
+
+	@Test
+	public void testCloneRepositoryWithDepth2() throws IOException,
+			JGitInternalException, GitAPIException {
+		// create more commits
+		this.setUp2();
+		// continue testing
+		System.out.println("testCloneRepositoryWithDepth2 - begin");
+		final String fileName1 = "Test.txt";
+		final String fileName2 = "HelloWorld.txt";
+		final String fileName3 = "file.txt";
+
+		File directory = createTempDirectory("testCloneRepositoryWithDepth2");
+		CloneCommand command = Git.cloneRepository();
+		command.setDepth(2);
+		command.setBranch("refs/heads/master");
+		command.setBranchesToClone(
+				Collections.singletonList("refs/heads/master"));
+		command.setDirectory(directory);
+		command.setURI(fileUri());
+		Git git2 = command.call();
+		addRepoToClose(git2.getRepository());
+		assertNotNull(git2);
+		assertEquals(git2.getRepository().getFullBranch(), "refs/heads/master");
+		assertEquals("refs/remotes/origin/master", allRefNames(
+				git2.branchList().setListMode(ListMode.REMOTE).call()));
+		System.out.println("testCloneRepositoryWithDepth2 - end");
+		// no tags
+		assertEquals(0, git2.getRepository().getTags().size());
+		assertNull(git2.getRepository().resolve("tag-initial"));
+		assertNull(git2.getRepository().resolve("tag-for-blob"));
+
+		List<RevCommit> commits = getAsList(git.log().call());
+		assertEquals(2, commits.size());
+		RevCommit commit0 = commits.get(0);
+		assertNotNull(commit0);
+		assertEquals("Final commit", commit0.getShortMessage());
+		RevCommit commit1 = commits.get(1);
+		assertNotNull(commit1);
+		assertEquals("Third commit", commit1.getShortMessage());
+
+		assertTrue(new File(git2.getRepository().getWorkTree(),
+				File.separatorChar + fileName1).exists());
+		assertTrue(new File(git2.getRepository().getWorkTree(),
+				File.separatorChar + fileName2).exists());
+		assertTrue(new File(git2.getRepository().getWorkTree(),
+				File.separatorChar + fileName3).exists());
+
+		final Ref masterRef = git2.getRepository().findRef("refs/heads/master");
+		assertNotNull(masterRef);
+		final Ref testRef = git2.getRepository()
+				.findRef("refs/remotes/origin/test");
+		assertNull(testRef);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testCloneRepositoryWithNegativeDepth()
+			throws JGitInternalException, IllegalArgumentException {
+		CloneCommand command = Git.cloneRepository();
+		command.setDepth(-3);
+	}
+
+	// TODO: add JUnit tests for complete shallow/unshallow negotiation
+
 }
