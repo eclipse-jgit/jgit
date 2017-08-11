@@ -52,7 +52,9 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -71,11 +73,13 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.storage.file.FileBasedShallow;
 import org.eclipse.jgit.submodule.SubmoduleStatus;
 import org.eclipse.jgit.submodule.SubmoduleStatusType;
 import org.eclipse.jgit.submodule.SubmoduleWalk;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
+import org.eclipse.jgit.transport.Transport;
 import org.eclipse.jgit.util.SystemReader;
 import org.junit.Test;
 
@@ -653,4 +657,340 @@ public class CloneCommandTest extends RepositoryTestCase {
 	private String fileUri() {
 		return "file://" + git.getRepository().getWorkTree().getAbsolutePath();
 	}
+
+	private void setUp2() throws IOException, JGitInternalException,
+			GitAPIException {
+		final String fileName1 = "another-file.txt";
+		final String fileName2 = "HelloWorld.txt";
+		final String fileName3 = "file.txt";
+		// create more commits in branch test
+		git.checkout().setName("test").call();
+		writeTrashFile(fileName1, fileName1);
+		git.add().addFilepattern(fileName1).call();
+		git.commit().setMessage(fileName1).call();
+		git.tag().setName(fileName1).call();
+
+		// create more commits in branch master
+		git.checkout().setName("master")
+				.call();
+		assertEquals(git.getRepository().getFullBranch(), "refs/heads/master");
+
+		writeTrashFile(fileName2, "Hello World!");
+		git.add().addFilepattern(fileName2).call();
+		git.commit().setMessage("Third commit").call();
+		writeTrashFile(fileName3, "content");
+		git.add().addFilepattern(fileName3).call();
+		git.commit().setMessage("Final commit").call();
+	}
+
+	private List<RevCommit> getAsList(Iterable<RevCommit> iterable) {
+		assertNotNull(iterable);
+		final List<RevCommit> result = new ArrayList<>();
+		final Iterator<RevCommit> it = iterable.iterator();
+		while (it.hasNext()) {
+			final RevCommit commit = it.next();
+			result.add(commit);
+		}
+		return result;
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testCloneRepositoryWithNegativeDepth()
+			throws JGitInternalException, IllegalArgumentException {
+		CloneCommand command = Git.cloneRepository();
+		command.setDepth(-3);
+	}
+
+	@Test
+	public void testCloneRepositoryWithDepth1() throws IOException,
+			JGitInternalException, GitAPIException {
+		// git clone --depth 1 \
+		// https://github.com/timeraider4u/jgit_test_repo.git
+		this.setUp2();
+		final CloneCommand cmd = helperForDepthTestSetupCloneCommand(
+				"testCloneRepositoryWithDepth1", 1);
+		final Git git2 = helperForDepthTestSetupGit(cmd);
+		// cat .git/shallow -> c21676d47a0f506cfa26596c5bb8f33430603054
+		helperForDepthTestCheckShallowFile(git2,
+				"c21676d47a0f506cfa26596c5bb8f33430603054");
+		// git log -> Final commit
+		helperForDepthTestCheckCommits(git2, true, false, false);
+		// ls -> HelloWorld.txt, Test.txt, file.txt
+		helperForDepthTestCheckFilesExist(git2);
+		// git tag -l -> (empty)
+		helperForDepthTestCheckTags(git2, false, false, false);
+		// git branch --all -> master
+		helperForDepthTestCheckBranches(git2, true, false);
+		// ls .git/refs/heads/ -> master
+		helperForDepthTestCheckRefs(git2, true, false);
+	}
+
+	@Test
+	public void testCloneRepositoryWithDepth1WithTestBranch()
+			throws IOException, JGitInternalException, GitAPIException {
+		// git clone --depth 1 \
+		// https://github.com/timeraider4u/jgit_test_repo.git
+		// git fetch --depth=1 origin test:test
+		this.setUp2();
+		final CloneCommand cmd = helperForDepthTestSetupCloneCommand(
+				"testCloneRepositoryWithDepth1WithTestBranch", 1);
+		final List<String> branchesToClone = new ArrayList<>();
+		branchesToClone.add("refs/heads/master");
+		branchesToClone.add("refs/heads/test");
+		cmd.setBranchesToClone(branchesToClone);
+		final Git git2 = helperForDepthTestSetupGit(cmd);
+		// cat .git/shallow
+		// -> 4c593aa21f6c0b95881a9f49cb03bd6dcd974535
+		// -> c21676d47a0f506cfa26596c5bb8f33430603054
+		helperForDepthTestCheckShallowFile(git2,
+				"4c593aa21f6c0b95881a9f49cb03bd6dcd974535",
+				"c21676d47a0f506cfa26596c5bb8f33430603054");
+		// git log -> Final commit
+		helperForDepthTestCheckCommits(git2, true, false, false);
+		// ls -> HelloWorld.txt, Test.txt, file.txt
+		helperForDepthTestCheckFilesExist(git2);
+		// git tag -l -> (empty)
+		helperForDepthTestCheckTags(git2, false, false, false);
+		// git branch --all -> master
+		helperForDepthTestCheckBranches(git2, true, false);
+		// ls .git/refs/heads/ -> master
+		helperForDepthTestCheckRefs(git2, true, false);
+	}
+
+	@Test
+	public void testCloneRepositoryWithDepth2() throws IOException,
+			JGitInternalException, GitAPIException {
+		// git clone --depth 2
+		// https://github.com/timeraider4u/jgit_test_repo.git
+		this.setUp2();
+		final CloneCommand cmd = helperForDepthTestSetupCloneCommand(
+				"testCloneRepositoryWithDepth2", 2);
+				final Git git2 = helperForDepthTestSetupGit(cmd);
+		// cat .git/shallow -> 9007666656678b23b58b5d88ec76107a9948c006
+		helperForDepthTestCheckShallowFile(git2,
+				"9007666656678b23b58b5d88ec76107a9948c006");
+		// git log -> Final commit, Third commit
+		helperForDepthTestCheckCommits(git2, true, true, false);
+		// ls -> HelloWorld.txt, Test.txt, file.txt
+		helperForDepthTestCheckFilesExist(git2);
+		// git tag -l -> (empty)
+		helperForDepthTestCheckTags(git2, false, false, false);
+		// git branch --all -> master
+		helperForDepthTestCheckBranches(git2, true, false);
+		// ls .git/refs/heads/ -> master
+		helperForDepthTestCheckRefs(git2, true, false);
+	}
+
+	@Test
+	public void testCloneRepositoryWithDepth2000() throws IOException,
+			JGitInternalException, GitAPIException {
+		// git clone --depth 2000
+		// https://github.com/timeraider4u/jgit_test_repo.git
+		this.setUp2();
+		final CloneCommand cmd = helperForDepthTestSetupCloneCommand(
+				"testCloneRepositoryWithDepth2000", 2000);
+		final Git git2 = helperForDepthTestSetupGit(cmd);
+		// cat .git/shallow -> (no such file)
+		helperForDepthTestCheckShallowFile(git2);
+		// git log -> Final commit, Third commit, Initial commit
+		helperForDepthTestCheckCommits(git2, true, true, true);
+		// ls -> HelloWorld.txt, Test.txt, file.txt
+		helperForDepthTestCheckFilesExist(git2);
+		// git tag -l -> tag-initial
+		helperForDepthTestCheckTags(git2, true, false, false);
+		// git branch --all -> master
+		helperForDepthTestCheckBranches(git2, true, false);
+		// ls .git/refs/heads/ -> master
+		helperForDepthTestCheckRefs(git2, true, false);
+	}
+
+	@Test
+	public void testCloneRepositoryWithDepthInfinite()
+			throws IOException, JGitInternalException, GitAPIException {
+		// git clone https://github.com/timeraider4u/jgit_test_repo.git
+		this.setUp2();
+		// try {
+		// Thread.sleep(40000);
+		// } catch (InterruptedException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
+		final CloneCommand cmd = helperForDepthTestSetupCloneCommand(
+				"testCloneRepositoryWithDepthInfinite",
+				Transport.DEPTH_INFINITE);
+		final Git git2 = helperForDepthTestSetupGit(cmd);
+
+		helperForDepthTestCheckShallowFile(git2);
+		helperForDepthTestCheckCommits(git2, true, true, true);
+		helperForDepthTestCheckFilesExist(git2);
+		helperForDepthTestCheckTags(git2, true, true, true);
+		helperForDepthTestCheckBranches(git2, true, false);
+		helperForDepthTestCheckRefs(git2, true, true);
+	}
+
+	private CloneCommand helperForDepthTestSetupCloneCommand(
+			final String testName,
+			final int depth)
+			throws IOException, JGitInternalException {
+		final File directory = createTempDirectory(testName);
+		final CloneCommand command = Git.cloneRepository();
+		command.setDepth(depth);
+		// command.setBranch("refs/heads/master");
+		// command.setBranchesToClone(
+		// Collections.singletonList("refs/heads/master"));
+		command.setDirectory(directory);
+		command.setURI(fileUri());
+		return command;
+	}
+
+	private Git helperForDepthTestSetupGit(final CloneCommand command)
+			throws IOException, JGitInternalException, GitAPIException {
+		final Git git2 = command.call();
+		addRepoToClose(git2.getRepository());
+		assertNotNull(git2);
+		assertEquals("refs/heads/master", git2.getRepository().getFullBranch());
+		return git2;
+	}
+
+	private void helperForDepthTestCheckRefs(final Git git2,
+			final boolean hasMaster, final boolean hasTest)
+			throws JGitInternalException, GitAPIException {
+		final StringBuilder expectedRefsList = new StringBuilder("");
+		boolean first = true;
+		if (hasMaster) {
+			expectedRefsList.append("refs/remotes/origin/master");
+		}
+		if (hasTest) {
+			if (first) {
+				expectedRefsList.append(", ");
+			}
+			expectedRefsList.append("refs/remotes/origin/test");
+		}
+		final String expectedRefs = expectedRefsList.toString();
+		final String actualRefs = allRefNames(
+				git2.branchList().setListMode(ListMode.REMOTE).call());
+		assertEquals(expectedRefs, actualRefs);
+		// final Ref masterRef =
+		// git2.getRepository().findRef("refs/heads/master");
+		// assertNotNull(masterRef);
+	}
+
+	private void helperForDepthTestCheckTags(final Git git2,
+			final boolean initialTag, final boolean blobTag,
+			final boolean anotherFileTag)
+			throws JGitInternalException, IOException {
+		int tagsCount = 0;
+		if (initialTag) {
+			tagsCount++;
+		}
+		if (blobTag) {
+			tagsCount++;
+		}
+		if (anotherFileTag) {
+			tagsCount++;
+		}
+
+		assertEquals(tagsCount, git2.getRepository().getTags().size());
+		final ObjectId initial = git2.getRepository().resolve("tag-initial");
+		if (initialTag) {
+			assertNotNull(initial);
+		} else {
+			assertNull(initial);
+		}
+		final ObjectId blob = git2.getRepository().resolve("tag-for-blob");
+		if (blobTag) {
+			assertNotNull(blob);
+		} else {
+			assertNull(blob);
+		}
+		final ObjectId another = git2.getRepository()
+				.resolve("another-file.txt");
+		if (anotherFileTag) {
+			assertNotNull(another);
+		} else {
+			assertNull(another);
+		}
+	}
+
+	private void helperForDepthTestCheckBranches(final Git git2,
+			final boolean branchMaster, final boolean branchTest)
+			throws GitAPIException {
+		int branchCount = 0;
+		if (branchMaster) {
+			branchCount++;
+		}
+		if (branchTest) {
+			branchCount++;
+		}
+		final List<Ref> branches = git2.branchList().call();
+		assertNotNull(branches);
+		int i = 0;
+		for (Ref ref : branches) {
+			System.out.println("ref('" + i + "')='" + ref + "'");
+			i++;
+		}
+		assertEquals(branchCount, branches.size());
+	}
+
+	private void helperForDepthTestCheckCommits(final Git git2,
+			final boolean finalCommit, final boolean thirdCommit,
+			final boolean initialCommit)
+			throws JGitInternalException, GitAPIException {
+		int commitCount = 0;
+		if (finalCommit) {
+			commitCount++;
+		}
+		if (thirdCommit) {
+			commitCount++;
+		}
+		if (initialCommit) {
+			commitCount++;
+		}
+		final List<RevCommit> commits = getAsList(git2.log().call());
+		assertEquals(commitCount, commits.size());
+		if (finalCommit) {
+			final RevCommit commit0 = commits.get(0);
+			assertNotNull(commit0);
+			assertEquals("Final commit", commit0.getShortMessage());
+		}
+		if (thirdCommit) {
+			final RevCommit commit1 = commits.get(1);
+			assertNotNull(commit1);
+			assertEquals("Third commit", commit1.getShortMessage());
+		}
+		if (initialCommit) {
+			final RevCommit commit2 = commits.get(2);
+			assertNotNull(commit2);
+			System.out.println("	commit2='" + commit2.name() + "'");
+			assertEquals("Initial commit", commit2.getShortMessage());
+		}
+	}
+
+	private void helperForDepthTestCheckFilesExist(final Git git2) {
+		final String fileName1 = "Test.txt";
+		final String fileName2 = "HelloWorld.txt";
+		final String fileName3 = "file.txt";
+		assertTrue(new File(git2.getRepository().getWorkTree(),
+				File.separatorChar + fileName1).exists());
+		assertTrue(new File(git2.getRepository().getWorkTree(),
+				File.separatorChar + fileName2).exists());
+		assertTrue(new File(git2.getRepository().getWorkTree(),
+				File.separatorChar + fileName3).exists());
+	}
+
+	private void helperForDepthTestCheckShallowFile(final Git git2,
+			final String... expectedIds) throws IOException {
+		final FileBasedShallow shallow = new FileBasedShallow(
+				git2.getRepository());
+		final List<ObjectId> ids = shallow.read();
+		assertEquals(expectedIds.length, ids.size());
+		for (int i = 0; i < expectedIds.length; i++) {
+			final String expectedId = expectedIds[i];
+			final ObjectId id = ids.get(i);
+			assertEquals(expectedId, id.name());
+		}
+	}
+
+	// TODO: add JUnit tests for complete shallow/unshallow negotiation
+
 }
