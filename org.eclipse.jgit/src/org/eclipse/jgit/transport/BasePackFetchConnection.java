@@ -78,6 +78,7 @@ import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.revwalk.filter.CommitTimeRevFilter;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
+import org.eclipse.jgit.storage.file.FileBasedShallow;
 import org.eclipse.jgit.transport.GitProtocolConstants.MultiAck;
 import org.eclipse.jgit.transport.PacketLineIn.AckNackResult;
 import org.eclipse.jgit.util.TemporaryBuffer;
@@ -224,6 +225,8 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 
 	private boolean includeTags;
 
+	private int depth;
+
 	private boolean allowOfsDelta;
 
 	private boolean noDone;
@@ -255,6 +258,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			allowOfsDelta = true;
 		}
 		includeTags = transport.getTagOpt() != TagOpt.NO_TAGS;
+		depth = transport.getDepth();
 		thinPack = transport.isFetchThin();
 
 		if (local != null) {
@@ -359,7 +363,12 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			}
 
 			if (sendWants(want)) {
+				try {
 				negotiate(monitor);
+				} catch (Exception ex) {
+					ex.printStackTrace();
+					throw ex;
+				}
 
 				walk.dispose();
 				reachableCommits = null;
@@ -416,11 +425,13 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			parseReachable(id);
 		}
 
-		for (ObjectId id : local.getAdditionalHaves())
+		for (ObjectId id : local.getAdditionalHaves()) {
 			parseReachable(id);
+		}
 
-		for (ObjectId id : have)
+		for (ObjectId id : have) {
 			parseReachable(id);
+		}
 
 		if (maxTime > 0) {
 			// Mark reachable commits until we reach maxTime. These may
@@ -487,7 +498,24 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 				first = false;
 			}
 			line.append('\n');
+			// TODO: if commit is mentioned in $GITDIR/shallow we have to send a
+			// shallow <commit-id>
+			// see
+			// https://github.com/git/git/blob/master/Documentation/technical/pack-protocol.txt#L220
+			System.out.println(Thread.currentThread().getName() + ":\t"
+					+ "BasePackFetchConnection.sendWants.line='"
+					+ line.toString() + "'");
 			p.writeString(line.toString());
+			if (depth > 0 && depth < Transport.DEPTH_INFINITE) {
+				final StringBuilder builder = new StringBuilder(46);
+				builder.append("deepen "); //$NON-NLS-1$
+				builder.append(depth);
+				builder.append('\n');
+				System.out.println(Thread.currentThread().getName() + ":\t"
+						+ "BasePackFetchConnection.sendWants.deepen='"
+						+ builder.toString() + "'");
+				p.writeString(builder.toString());
+			}
 		}
 		if (first)
 			return false;
@@ -549,6 +577,11 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			state.writeTo(out, null);
 
 		negotiateBegin();
+
+		if (depth > 0 && depth < Transport.DEPTH_INFINITE) {
+			handleShallowUnshallowLines();
+		}
+
 		SEND_HAVES: for (;;) {
 			final RevCommit c = walk.next();
 			if (c == null)
@@ -788,4 +821,24 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 	private static class CancelledException extends Exception {
 		private static final long serialVersionUID = 1L;
 	}
+
+	/***
+	 * Implements reading shallow/unshallow lines that are received by client
+	 * from server.
+	 *
+	 * @throws IOException
+	 */
+	private void handleShallowUnshallowLines() throws IOException {
+		final FileBasedShallow shallow = new FileBasedShallow(this.local);
+		shallow.lock();
+		shallow.read();
+		for (String line;;) {
+			line = pckIn.readString();
+			if (!shallow.parseShallowUnshallowLine(line)) {
+				break;
+			}
+		}
+		shallow.unlock(true);
+	}
+
 }
