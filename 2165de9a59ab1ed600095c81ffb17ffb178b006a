@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_314ded44",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 12
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-08-12T23:48:32Z",
+      "side": 1,
+      "message": "I think the following would look more consistent as both ref_block and ref_index have cardinality *:\n\nfirst_block {\n  header\n  first_ref_block\n}\nref_block*\nref_index*\nobj_block*\nobj_index*\nlog_block*\nlog_index*\nfooter\n\ni.e. always use terms in singular form and express cardinality using *",
+      "parentUuid": "c7880b39_319ecd6f",
+      "range": {
+        "startLine": 121,
+        "startChar": 4,
+        "endLine": 121,
+        "endChar": 14
+      },
+      "revId": "2165de9a59ab1ed600095c81ffb17ffb178b006a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_b633937c",
         "filename": "Documentation/technical/reftable.md",
         "patchSetId": 12
@@ -131,6 +155,30 @@
       "side": 1,
       "message": "Yes, your interpretation is correct. log blocks aren\u0027t really blocks, they are more chunks of data stored without block alignment. I just reused the term block for lack of a better term. Maybe changing to log_chunk would help?",
       "parentUuid": "c7880b39_b633937c",
+      "range": {
+        "startLine": 140,
+        "startChar": 8,
+        "endLine": 140,
+        "endChar": 42
+      },
+      "revId": "2165de9a59ab1ed600095c81ffb17ffb178b006a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_31d88de9",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 12
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-08-12T23:48:32Z",
+      "side": 1,
+      "message": "ok \n\nSo all blocks use the fixed block size given in the header except log_blocks which use a variable block size. Maximum log block size is also 16777215 since length has type uint24. Fixed size blocks are padded with NULs, variable size blocks don\u0027t use padding.\n\nThe fixed-size footer is appended after the last block, maybe the fixed-size header could be treated in the same way and come before the first block ? This would simplify the format description since we would no longer need to differentiate between first_ref_block and ref_block and no additional explanations would be needed for log-only files. The file format would then look like this:\n\nheader (24 byte)\nref_block* (fixed block size, NUL padded)\nref_index* (fixed block size, NUL padded)\nobj_block* (fixed block size, NUL padded)\nobj_index* (fixed block size, NUL padded)\nlog_block* (variable block size, no padding)\nlog_index*  (fixed block size, NUL padded)\nfooter (68 byte)",
+      "parentUuid": "c7880b39_51999983",
       "range": {
         "startLine": 140,
         "startChar": 8,
