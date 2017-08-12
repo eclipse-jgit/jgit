@@ -64,26 +64,59 @@ public class NameMatcher extends AbstractMatcher {
 			pattern = Strings.deleteBackslash(pattern);
 		}
 		beginning = pattern.length() == 0 ? false : pattern.charAt(0) == slash;
-		if (!beginning)
+		if (!beginning) {
 			this.subPattern = pattern;
-		else
+		} else {
 			this.subPattern = pattern.substring(1);
+		}
 	}
 
 	@Override
-	public boolean matches(String path, boolean assumeDirectory) {
-		int end = 0;
-		int firstChar = 0;
-		do {
-			firstChar = getFirstNotSlash(path, end);
-			end = getFirstSlash(path, firstChar);
-			boolean match = matches(path, firstChar, end, assumeDirectory);
-			if (match)
+	public boolean matches(String path, boolean assumeDirectory,
+			boolean pathMatch) {
+		// A NameMatcher's pattern does not contain a slash.
+		int start = 0;
+		int stop = path.length();
+		if (stop > 0 && path.charAt(0) == slash) {
+			start++;
+		}
+		if (pathMatch) {
+			// Can match only after the last slash
+			int lastSlash = path.lastIndexOf(slash, stop - 1);
+			if (lastSlash == stop - 1) {
+				// Skip trailing slash
+				lastSlash = path.lastIndexOf(slash, lastSlash - 1);
+				stop--;
+			}
+			boolean match;
+			if (lastSlash < start) {
+				match = matches(path, start, stop, assumeDirectory);
+			} else {
+				// Can't match if the path contains a slash if the pattern is
+				// anchored at the beginning
+				match = !beginning
+						&& matches(path, lastSlash + 1, stop, assumeDirectory);
+			}
+			if (match && dirOnly) {
+				match = assumeDirectory;
+			}
+			return match;
+		}
+		while (start < stop) {
+			int end = path.indexOf(slash, start);
+			if (end < 0) {
+				end = stop;
+			}
+			if (end > start && matches(path, start, end, assumeDirectory)) {
 				// make sure the directory matches: either if we are done with
 				// segment and there is next one, or if the directory is assumed
-				return !dirOnly ? true : (end > 0 && end != path.length())
-						|| assumeDirectory;
-		} while (!beginning && end != path.length());
+				return !dirOnly || assumeDirectory || end < stop;
+			}
+			if (beginning) {
+				break;
+			}
+			start = end + 1;
+		}
 		return false;
 	}
 
@@ -92,25 +125,18 @@ public class NameMatcher extends AbstractMatcher {
 			boolean assumeDirectory) {
 		// faster local access, same as in string.indexOf()
 		String s = subPattern;
-		if (s.length() != (endExcl - startIncl))
+		int length = s.length();
+		if (length != (endExcl - startIncl)) {
 			return false;
-		for (int i = 0; i < s.length(); i++) {
+		}
+		for (int i = 0; i < length; i++) {
 			char c1 = s.charAt(i);
 			char c2 = segment.charAt(i + startIncl);
-			if (c1 != c2)
+			if (c1 != c2) {
 				return false;
+			}
 		}
 		return true;
-	}
-
-	private int getFirstNotSlash(String s, int start) {
-		int slashIdx = s.indexOf(slash, start);
-		return slashIdx == start ? start + 1 : start;
-	}
-
-	private int getFirstSlash(String s, int start) {
-		int slashIdx = s.indexOf(slash, start);
-		return slashIdx == -1 ? s.length() : slashIdx;
 	}
 
 }
