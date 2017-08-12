@@ -53,6 +53,7 @@ import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.reftable.MergedReftable;
 import org.eclipse.jgit.internal.storage.reftable.RefCursor;
 import org.eclipse.jgit.internal.storage.reftable.Reftable;
+import org.eclipse.jgit.internal.storage.reftable.ReftableConfig;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
@@ -100,6 +101,11 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 	public BatchRefUpdate newBatchUpdate() {
 		DfsObjDatabase odb = getRepository().getObjectDatabase();
 		return new ReftableBatchRefUpdate(this, odb);
+	}
+
+	/** @return configuration to write new reftables with. */
+	public ReftableConfig getReftableConfig() {
+		return new ReftableConfig(getRepository().getConfig());
 	}
 
 	/** @return the lock protecting this instance's state. */
