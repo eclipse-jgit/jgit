@@ -58,18 +58,19 @@ public class ReftableStack implements AutoCloseable {
 	 * @param ctx
 	 *            context to read the tables with. This {@code ctx} will be
 	 *            retained by the stack and each of the table readers.
-	 * @param tables
+	 * @param files
 	 *            the tables to open.
 	 * @return stack reference to close the tables.
 	 * @throws IOException
 	 *             a table could not be opened
 	 */
-	public static ReftableStack open(DfsReader ctx, List<DfsReftable> tables)
+	public static ReftableStack open(DfsReader ctx, List<DfsReftable> files)
 			throws IOException {
-		ReftableStack stack = new ReftableStack(tables.size());
+		ReftableStack stack = new ReftableStack(files.size());
 		boolean close = true;
 		try {
-			for (DfsReftable t : tables) {
+			for (DfsReftable t : files) {
+				stack.files.add(t);
 				stack.tables.add(t.open(ctx));
 			}
 			close = false;
@@ -81,10 +82,20 @@ public class ReftableStack implements AutoCloseable {
 		}
 	}
 
+	private final List<DfsReftable> files;
 	private final List<Reftable> tables;
 
 	private ReftableStack(int tableCnt) {
+		this.files = new ArrayList<>(tableCnt);
 		this.tables = new ArrayList<>(tableCnt);
+	}
+
+	/**
+	 * @return unmodifiable list of DfsRefatble files, in the same order the
+	 *         files were passed to {@link #open(DfsReader, List)}.
+	 */
+	public List<DfsReftable> files() {
+		return Collections.unmodifiableList(files);
 	}
 
 	/**
