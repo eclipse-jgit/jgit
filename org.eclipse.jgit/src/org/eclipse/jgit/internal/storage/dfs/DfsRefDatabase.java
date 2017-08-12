@@ -180,7 +180,7 @@ public abstract class DfsRefDatabase extends RefDatabase {
 		return recreate(ref, newLeaf);
 	}
 
-	private Ref doPeel(final Ref leaf) throws MissingObjectException,
+	Ref doPeel(Ref leaf) throws MissingObjectException,
 			IOException {
 		try (RevWalk rw = new RevWalk(repository)) {
 			RevObject obj = rw.parseAny(leaf.getObjectId());
@@ -199,7 +199,7 @@ public abstract class DfsRefDatabase extends RefDatabase {
 		}
 	}
 
-	private static Ref recreate(Ref old, Ref leaf) {
+	static Ref recreate(Ref old, Ref leaf) {
 		if (old.isSymbolic()) {
 			Ref dst = recreate(old.getTarget(), leaf);
 			return new SymbolicRef(old.getName(), dst);
