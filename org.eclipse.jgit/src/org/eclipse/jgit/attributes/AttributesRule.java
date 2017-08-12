@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Red Hat Inc.
+ * Copyright (C) 2010, 2017 Red Hat Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -210,7 +210,7 @@ public class AttributesRule {
 			return false;
 		if (relativeTarget.length() == 0)
 			return false;
-		boolean match = matcher.matches(relativeTarget, isDirectory);
+		boolean match = matcher.matches(relativeTarget, isDirectory, true);
 		return match;
 	}
 
