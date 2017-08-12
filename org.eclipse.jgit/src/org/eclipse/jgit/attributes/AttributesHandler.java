@@ -1,5 +1,6 @@
 /*
- * Copyright (C) 2015, Ivan Motsch <ivan.motsch@bsiag.com>
+ * Copyright (C) 2015, 2017 Ivan Motsch <ivan.motsch@bsiag.com>
+ * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
  * under the terms of the Eclipse Distribution License v1.0 which

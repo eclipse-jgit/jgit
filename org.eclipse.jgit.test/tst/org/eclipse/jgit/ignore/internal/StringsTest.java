@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014, Andrey Loskutov <loskutov@gmx.de>
+ * Copyright (C) 2017, Thomas Wolf <thomas.wolf@paranor.ch>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -42,35 +42,32 @@
  */
 package org.eclipse.jgit.ignore.internal;
 
-/**
- * Wildmatch matcher for "double star" (<code>**</code>) pattern only. This
- * matcher matches any path.
- * <p>
- * This class is immutable and thread safe.
- */
-public final class WildMatcher extends AbstractMatcher {
+import static org.junit.Assert.assertEquals;
 
-	static final String WILDMATCH = "**"; //$NON-NLS-1$
+import org.junit.Test;
 
-	// double star for the beginning of pattern
-	static final String WILDMATCH2 = "/**"; //$NON-NLS-1$
+public class StringsTest {
 
-	static final WildMatcher INSTANCE = new WildMatcher();
-
-	private WildMatcher() {
-		super(WILDMATCH, false);
+	private void testString(String string, int n, int m) {
+		assertEquals(string, n, Strings.count(string, '/', false));
+		assertEquals(string, m, Strings.count(string, '/', true));
 	}
 
-	@Override
-	public final boolean matches(String path, boolean assumeDirectory,
-			boolean pathMatch) {
-		return true;
+	@Test
+	public void testCount() {
+		testString("", 0, 0);
+		testString("/", 1, 0);
+		testString("//", 2, 0);
+		testString("///", 3, 1);
+		testString("////", 4, 2);
+		testString("foo", 0, 0);
+		testString("/foo", 1, 0);
+		testString("foo/", 1, 0);
+		testString("/foo/", 2, 0);
+		testString("foo/bar", 1, 1);
+		testString("/foo/bar/", 3, 1);
+		testString("/foo/bar//", 4, 2);
+		testString("/foo//bar/", 4, 2);
+		testString(" /foo/ ", 2, 2);
 	}
-
-	@Override
-	public final boolean matches(String segment, int startIncl, int endExcl,
-			boolean assumeDirectory) {
-		return true;
-	}
-
 }

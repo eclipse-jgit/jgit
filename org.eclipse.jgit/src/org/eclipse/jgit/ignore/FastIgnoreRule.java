@@ -155,7 +155,7 @@ public class FastIgnoreRule {
 			return false;
 		if (path.length() == 0)
 			return false;
-		boolean match = matcher.matches(path, directory);
+		boolean match = matcher.matches(path, directory, false);
 		return match;
 	}
 
