@@ -47,6 +47,7 @@ import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.LOCK_FAILURE;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.NOT_ATTEMPTED;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_NONFASTFORWARD;
+import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_REASON;
 
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -142,6 +143,12 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 			super.execute(walk, monitor, options);
 			return;
 		}
+		if (containsSymrefs(pending)) {
+			// packed-refs file cannot store symrefs
+			reject(pending.get(0), REJECTED_OTHER_REASON,
+					JGitText.get().atomicSymRefNotSupported, pending);
+			return;
+		}
 
 		// Required implementation details copied from super.execute.
 		if (!blockUntilTimestamps(MAX_WAIT)) {
@@ -207,6 +214,15 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 		refdb.fireRefsChanged();
 		pending.forEach(c -> c.setResult(ReceiveCommand.Result.OK));
 		writeReflog(pending);
+	}
+
+	private static boolean containsSymrefs(List<ReceiveCommand> commands) {
+		for (ReceiveCommand cmd : commands) {
+			if (cmd.getOldSymref() != null || cmd.getNewSymref() != null) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private boolean checkConflictingNames(List<ReceiveCommand> commands)
@@ -510,7 +526,12 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 
 	private static void reject(ReceiveCommand cmd, ReceiveCommand.Result result,
 			List<ReceiveCommand> commands) {
-		cmd.setResult(result);
+		reject(cmd, result, null, commands);
+	}
+
+	private static void reject(ReceiveCommand cmd, ReceiveCommand.Result result,
+			String why, List<ReceiveCommand> commands) {
+		cmd.setResult(result, why);
 		for (ReceiveCommand c2 : commands) {
 			if (c2.getResult() == ReceiveCommand.Result.OK) {
 				// Undo OK status so ReceiveCommand#abort aborts it. Assumes this method
