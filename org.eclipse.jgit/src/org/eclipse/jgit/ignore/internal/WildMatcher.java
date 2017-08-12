@@ -62,7 +62,8 @@ public final class WildMatcher extends AbstractMatcher {
 	}
 
 	@Override
-	public final boolean matches(String path, boolean assumeDirectory) {
+	public final boolean matches(String path, boolean assumeDirectory,
+			boolean pathMatch) {
 		return true;
 	}
 

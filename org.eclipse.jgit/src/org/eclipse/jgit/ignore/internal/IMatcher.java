@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014, Andrey Loskutov <loskutov@gmx.de>
+ * Copyright (C) 2014, 2017 Andrey Loskutov <loskutov@gmx.de>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -52,7 +52,8 @@ public interface IMatcher {
 	 */
 	public static final IMatcher NO_MATCH = new IMatcher() {
 		@Override
-		public boolean matches(String path, boolean assumeDirectory) {
+		public boolean matches(String path, boolean assumeDirectory,
+				boolean pathMatch) {
 			return false;
 		}
 
@@ -71,9 +72,14 @@ public interface IMatcher {
 	 * @param assumeDirectory
 	 *            true to assume this path as directory (even if it doesn't end
 	 *            with a slash)
+	 * @param pathMatch
+	 *            {@code true} if the match is for the full path: prefix-only
+	 *            matches are not allowed, and {@link NameMatcher}s must match
+	 *            only the last component (if they can -- they may not, if they
+	 *            are anchored at the beginning)
 	 * @return true if this matcher pattern matches given string
 	 */
-	boolean matches(String path, boolean assumeDirectory);
+	boolean matches(String path, boolean assumeDirectory, boolean pathMatch);
 
 	/**
 	 * Matches only part of given string
