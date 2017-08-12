@@ -202,6 +202,13 @@ public class CGitAttributesTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testBug508568() throws Exception {
+		createFiles("foo.xml/bar.jar", "sub/foo.xml/bar.jar");
+		writeTrashFile(".gitattributes", "*.xml xml\n" + "*.jar jar\n");
+		assertSameAsCGit();
+	}
+
+	@Test
 	public void testRelativePath() throws Exception {
 		createFiles("sub/foo.txt");
 		writeTrashFile("sub/.gitattributes", "sub/** sub\n" + "*.txt txt\n");
@@ -225,6 +232,44 @@ public class CGitAttributesTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testNestedMatch() throws Exception {
+		// This is an interesting test. At the time of this writing, the
+		// gitignore documentation says: "In other words, foo/ will match a
+		// directory foo AND PATHS UNDERNEATH IT, but will not match a regular
+		// file or a symbolic link foo". (Emphasis added.) And gitattributes is
+		// supposed to follow the same rules. But the documentation appears to
+		// lie: C-git will *not* apply the attribute "xml" to *any* files in
+		// any subfolder "foo" here. It will only apply the "jar" attribute
+		// to the three *.jar files.
+		//
+		// The point is probably that ignores are handled top-down, and once a
+		// directory "foo" is matched (here: on paths "foo" and "sub/foo" by
+		// pattern "foo/"), the directory is excluded and the gitignore
+		// documentation also says: "It is not possible to re-include a file if
+		// a parent directory of that file is excluded." So once the pattern
+		// "foo/" has matched, it appears as if everything beneath would also be
+		// matched.
+		//
+		// But not so for gitattributes! The foo/ rule only matches the
+		// directory itself, but not anything beneath.
+		createFiles("foo/bar.jar", "foo/bar.xml", "sub/b.jar", "sub/b.xml",
+				"sub/foo/b.jar");
+		writeTrashFile(".gitattributes",
+				"foo/ xml\n" + "sub/foo/ sub\n" + "*.jar jar\n");
+		assertSameAsCGit();
+	}
+
+	@Test
+	public void testNestedMatchWithWildcard() throws Exception {
+		// See above.
+		createFiles("foo/bar.jar", "foo/bar.xml", "sub/b.jar", "sub/b.xml",
+				"sub/foo/b.jar");
+		writeTrashFile(".gitattributes",
+				"**/foo/ xml\n" + "*/foo/ sub\n" + "*.jar jar\n");
+		assertSameAsCGit();
+	}
+
+	@Test
 	public void testNestedMatchRecursive() throws Exception {
 		createFiles("foo/bar.jar", "foo/bar.xml", "sub/b.jar", "sub/b.xml",
 				"sub/foo/b.jar");
@@ -236,6 +281,55 @@ public class CGitAttributesTest extends RepositoryTestCase {
 	public void testStarMatchOnSlashNot() throws Exception {
 		createFiles("sub/a.txt", "foo/sext", "foo/s.txt");
 		writeTrashFile(".gitattributes", "s*xt bar");
+		assertSameAsCGit();
+	}
+
+	@Test
+	public void testPrefixMatchNot() throws Exception {
+		createFiles("src/new/foo.txt");
+		writeTrashFile(".gitattributes", "src/new bar\n");
+		assertSameAsCGit();
+	}
+
+	@Test
+	public void testComplexPathMatchNot() throws Exception {
+		createFiles("src/new/foo.txt", "src/ndw");
+		writeTrashFile(".gitattributes", "s[p-s]c/n[de]w bar\n");
+		assertSameAsCGit();
+	}
+
+	@Test
+	public void testStarPathMatchNot() throws Exception {
+		createFiles("src/new/foo.txt", "src/ndw");
+		writeTrashFile(".gitattributes", "src/* bar\n");
+		assertSameAsCGit();
+	}
+
+	@Test
+	public void testDirectoryMatchSubSimple() throws Exception {
+		createFiles("src/new/foo.txt", "foo/src/new/foo.txt", "sub/src/new");
+		writeTrashFile(".gitattributes", "src/new/ bar\n");
+		assertSameAsCGit();
+	}
+
+	@Test
+	public void testDirectoryMatchSubRecursive() throws Exception {
+		createFiles("src/new/foo.txt", "foo/src/new/foo.txt", "sub/src/new");
+		writeTrashFile(".gitattributes", "**/src/new/ bar\n");
+		assertSameAsCGit();
+	}
+
+	@Test
+	public void testDirectoryMatchSubComplex() throws Exception {
+		createFiles("src/new/foo.txt", "foo/src/new/foo.txt", "sub/src/new");
+		writeTrashFile(".gitattributes", "s[rs]c/n*/ bar\n");
+		assertSameAsCGit();
+	}
+
+	@Test
+	public void testDirectoryMatch() throws Exception {
+		createFiles("src/new/foo.txt", "foo/src/new/foo.txt", "sub/src/new");
+		writeTrashFile(".gitattributes", "new/ bar\n");
 		assertSameAsCGit();
 	}
 }
