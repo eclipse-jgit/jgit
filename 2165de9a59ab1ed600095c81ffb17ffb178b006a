@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_11b471e9",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 12
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-08-12T18:19:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_f6127be2",
+      "range": {
+        "startLine": 31,
+        "startChar": 33,
+        "endLine": 31,
+        "endChar": 41
+      },
+      "revId": "2165de9a59ab1ed600095c81ffb17ffb178b006a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_76268b43",
         "filename": "Documentation/technical/reftable.md",
         "patchSetId": 12
@@ -36,6 +60,30 @@
       "writtenOn": "2017-08-12T14:55:40Z",
       "side": 1,
       "message": "why plural here, for ref_index you use singular ?\nI guess * means [0..n] occurrences ?\n\nsame question for obj_blocks and log_blocks",
+      "range": {
+        "startLine": 121,
+        "startChar": 4,
+        "endLine": 121,
+        "endChar": 14
+      },
+      "revId": "2165de9a59ab1ed600095c81ffb17ffb178b006a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_319ecd6f",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 12
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-08-12T18:19:08Z",
+      "side": 1,
+      "message": "Correct, * means [0..n] occurrences. At some point in later drafts ref_index? was changed to ref_index* as there can be multiple index blocks for a multi-level index. You see that in the current version.",
+      "parentUuid": "c7880b39_76268b43",
       "range": {
         "startLine": 121,
         "startChar": 4,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_51999983",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 12
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-08-12T18:19:08Z",
+      "side": 1,
+      "message": "Yes, your interpretation is correct. log blocks aren\u0027t really blocks, they are more chunks of data stored without block alignment. I just reused the term block for lack of a better term. Maybe changing to log_chunk would help?",
+      "parentUuid": "c7880b39_b633937c",
+      "range": {
+        "startLine": 140,
+        "startChar": 8,
+        "endLine": 140,
+        "endChar": 42
+      },
+      "revId": "2165de9a59ab1ed600095c81ffb17ffb178b006a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_162d4719",
         "filename": "Documentation/technical/reftable.md",
         "patchSetId": 12
@@ -88,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_71a4d5b9",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 12
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-08-12T18:19:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_162d4719",
+      "revId": "2165de9a59ab1ed600095c81ffb17ffb178b006a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_96385754",
         "filename": "Documentation/technical/reftable.md",
         "patchSetId": 12
@@ -99,6 +189,24 @@
       "writtenOn": "2017-08-12T14:55:40Z",
       "side": 1,
       "message": "I guess suffix_length is also the length of the suffix. Or can the suffix be longer than the number of bytes to copy to complete the reference name ?",
+      "revId": "2165de9a59ab1ed600095c81ffb17ffb178b006a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_919f8167",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 12
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-08-12T18:19:08Z",
+      "side": 1,
+      "message": "Its the length of the suffix, suffix cannot be longer than suffix_length. I\u0027ve clarified this by rewriting as:\n\n  The `suffix_length` value provides the number of bytes available in\n  `suffix` to copy from `suffix` to complete the reference name.",
+      "parentUuid": "c7880b39_96385754",
       "revId": "2165de9a59ab1ed600095c81ffb17ffb178b006a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -128,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_b191dd5a",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 12
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-08-12T18:19:08Z",
+      "side": 1,
+      "message": "No, I meant \"reference-like\". Here is being used as an adjective.",
+      "parentUuid": "c7880b39_b6de3389",
+      "range": {
+        "startLine": 258,
+        "startChar": 14,
+        "endLine": 258,
+        "endChar": 23
+      },
+      "revId": "2165de9a59ab1ed600095c81ffb17ffb178b006a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_36d2437a",
         "filename": "Documentation/technical/reftable.md",
         "patchSetId": 12
@@ -145,6 +277,24 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_d194a94a",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 12
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-08-12T18:19:08Z",
+      "side": 1,
+      "message": "No. Clarified this section by making it explicit each index block must stay within the file format\u0027s max block size of 15.99 MiB.",
+      "parentUuid": "c7880b39_36d2437a",
+      "revId": "2165de9a59ab1ed600095c81ffb17ffb178b006a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_d6e1ff46",
         "filename": "Documentation/technical/reftable.md",
         "patchSetId": 12
@@ -156,6 +306,30 @@
       "writtenOn": "2017-08-12T14:55:40Z",
       "side": 1,
       "message": "require",
+      "range": {
+        "startLine": 283,
+        "startChar": 61,
+        "endLine": 283,
+        "endChar": 69
+      },
+      "revId": "2165de9a59ab1ed600095c81ffb17ffb178b006a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_f187e51b",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 12
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-08-12T18:19:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_d6e1ff46",
       "range": {
         "startLine": 283,
         "startChar": 61,
@@ -191,6 +365,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_118b912a",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 12
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-08-12T18:19:08Z",
+      "side": 1,
+      "message": "Yes, Done",
+      "parentUuid": "c7880b39_1691c7a5",
+      "range": {
+        "startLine": 315,
+        "startChar": 0,
+        "endLine": 315,
+        "endChar": 9
+      },
+      "revId": "2165de9a59ab1ed600095c81ffb17ffb178b006a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_56cd0fda",
         "filename": "Documentation/technical/reftable.md",
         "patchSetId": 12
@@ -202,6 +400,30 @@
       "writtenOn": "2017-08-12T14:55:40Z",
       "side": 1,
       "message": "by",
+      "range": {
+        "startLine": 402,
+        "startChar": 34,
+        "endLine": 402,
+        "endChar": 36
+      },
+      "revId": "2165de9a59ab1ed600095c81ffb17ffb178b006a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_3185ed13",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 12
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-08-12T18:19:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_56cd0fda",
       "range": {
         "startLine": 402,
         "startChar": 34,
@@ -237,6 +459,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_5180b901",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 12
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-08-12T18:19:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_76d84b98",
+      "range": {
+        "startLine": 431,
+        "startChar": 12,
+        "endLine": 431,
+        "endChar": 19
+      },
+      "revId": "2165de9a59ab1ed600095c81ffb17ffb178b006a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_96ea1714",
         "filename": "Documentation/technical/reftable.md",
         "patchSetId": 12
@@ -260,6 +506,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_717bf598",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 12
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-08-12T18:19:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_96ea1714",
+      "range": {
+        "startLine": 572,
+        "startChar": 49,
+        "endLine": 572,
+        "endChar": 52
+      },
+      "revId": "2165de9a59ab1ed600095c81ffb17ffb178b006a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_76ca0bb4",
         "filename": "Documentation/technical/reftable.md",
         "patchSetId": 12
@@ -271,6 +541,30 @@
       "writtenOn": "2017-08-12T14:55:40Z",
       "side": 1,
       "message": "reduce",
+      "range": {
+        "startLine": 750,
+        "startChar": 19,
+        "endLine": 750,
+        "endChar": 26
+      },
+      "revId": "2165de9a59ab1ed600095c81ffb17ffb178b006a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_9176a1ad",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 12
+      },
+      "lineNbr": 750,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-08-12T18:19:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_76ca0bb4",
       "range": {
         "startLine": 750,
         "startChar": 19,
