@@ -52,6 +52,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.jgit.internal.storage.pack.PackExt;
@@ -454,6 +455,31 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 			packs[0] = newPack;
 			System.arraycopy(o.packs, 0, packs, 1, o.packs.length);
 			n = new PackListImpl(packs, o.reftables);
+		} while (!packList.compareAndSet(o, n));
+	}
+
+	void addReftable(DfsPackDescription add, Set<DfsPackDescription> remove)
+			throws IOException {
+		PackList o, n;
+		do {
+			o = packList.get();
+			if (o == NO_PACKS) {
+				o = scanPacks(o);
+				for (DfsReftable t : o.reftables) {
+					if (t.getPackDescription().equals(add)) {
+						return;
+					}
+				}
+			}
+
+			List<DfsReftable> tables = new ArrayList<>(1 + o.reftables.length);
+			for (DfsReftable t : o.reftables) {
+				if (!remove.contains(t.getPackDescription())) {
+					tables.add(t);
+				}
+			}
+			tables.add(new DfsReftable(add));
+			n = new PackListImpl(o.packs, tables.toArray(new DfsReftable[0]));
 		} while (!packList.compareAndSet(o, n));
 	}
 
