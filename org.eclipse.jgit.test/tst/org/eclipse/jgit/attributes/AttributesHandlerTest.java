@@ -1,4 +1,7 @@
 /*
+ * Copyright (C) 2015, 2017 Ivan Motsch <ivan.motsch@bsiag.com>
+ * and other copyright owners as documented in the project's IP log.
+ *
  * This program and the accompanying materials are made available
  * under the terms of the Eclipse Distribution License v1.0 which
  * accompanies this distribution, is reproduced below, and is
@@ -259,25 +262,136 @@ public class AttributesHandlerTest extends RepositoryTestCase {
 		setupRepo("sub/ global", "sub/** init",
 				"sub/** top_sub\n*.txt top",
 				"sub/** subsub\nsub/ subsub2\n*.txt foo");
-		// The last two sub/** and sub/ rules are in sub/.gitattributes. They
-		// must not apply to any of the files here. They would match for a
-		// further subdirectory sub/sub.
+		// The last sub/** is in sub/.gitattributes. It must not
+		// apply to any of the files here. It would match for a
+		// further subdirectory sub/sub. The sub/ rules mustn't match
+		// at all.
 		walk = beginWalk();
 		assertIteration(F, ".gitattributes");
-		assertIteration(D, "sub", attrs("global"));
-		assertIteration(F, "sub/.gitattributes", attrs("init top_sub global"));
-		assertIteration(F, "sub/a.txt", attrs("init foo top top_sub global"));
+		assertIteration(D, "sub");
+		assertIteration(F, "sub/.gitattributes", attrs("init top_sub"));
+		assertIteration(F, "sub/a.txt", attrs("init foo top top_sub"));
 		endWalk();
 		// All right, let's see that they *do* apply in sub/sub:
 		writeTrashFile("sub/sub/b.txt", "b");
 		walk = beginWalk();
 		assertIteration(F, ".gitattributes");
-		assertIteration(D, "sub", attrs("global"));
-		assertIteration(F, "sub/.gitattributes", attrs("init top_sub global"));
-		assertIteration(F, "sub/a.txt", attrs("init foo top top_sub global"));
-		assertIteration(D, "sub/sub", attrs("init subsub2 top_sub global"));
+		assertIteration(D, "sub");
+		assertIteration(F, "sub/.gitattributes", attrs("init top_sub"));
+		assertIteration(F, "sub/a.txt", attrs("init foo top top_sub"));
+		assertIteration(D, "sub/sub", attrs("init top_sub"));
 		assertIteration(F, "sub/sub/b.txt",
-				attrs("init foo subsub2 subsub top top_sub global"));
+				attrs("init foo subsub top top_sub"));
+		endWalk();
+	}
+
+	@Test
+	public void testNestedMatchNot() throws Exception {
+		setupRepo(null, null, "*.xml xml\n*.jar jar", null);
+		writeTrashFile("foo.xml/bar.jar", "b");
+		writeTrashFile("foo.xml/bar.xml", "bx");
+		writeTrashFile("sub/b.jar", "bj");
+		writeTrashFile("sub/b.xml", "bx");
+		// On foo.xml/bar.jar we must not have 'xml'
+		walk = beginWalk();
+		assertIteration(F, ".gitattributes");
+		assertIteration(D, "foo.xml", attrs("xml"));
+		assertIteration(F, "foo.xml/bar.jar", attrs("jar"));
+		assertIteration(F, "foo.xml/bar.xml", attrs("xml"));
+		assertIteration(D, "sub");
+		assertIteration(F, "sub/a.txt");
+		assertIteration(F, "sub/b.jar", attrs("jar"));
+		assertIteration(F, "sub/b.xml", attrs("xml"));
+		endWalk();
+	}
+
+	@Test
+	public void testNestedMatch() throws Exception {
+		// See also CGitAttributeTest.testNestedMatch()
+		setupRepo(null, null, "foo/ xml\nsub/foo/ sub\n*.jar jar", null);
+		writeTrashFile("foo/bar.jar", "b");
+		writeTrashFile("foo/bar.xml", "bx");
+		writeTrashFile("sub/b.jar", "bj");
+		writeTrashFile("sub/b.xml", "bx");
+		writeTrashFile("sub/foo/b.jar", "bf");
+		walk = beginWalk();
+		assertIteration(F, ".gitattributes");
+		assertIteration(D, "foo");
+		assertIteration(F, "foo/bar.jar", attrs("jar"));
+		assertIteration(F, "foo/bar.xml");
+		assertIteration(D, "sub");
+		assertIteration(F, "sub/a.txt");
+		assertIteration(F, "sub/b.jar", attrs("jar"));
+		assertIteration(F, "sub/b.xml");
+		assertIteration(D, "sub/foo");
+		assertIteration(F, "sub/foo/b.jar", attrs("jar"));
+		endWalk();
+	}
+
+	@Test
+	public void testNestedMatchRecursive() throws Exception {
+		setupRepo(null, null, "foo/** xml\n*.jar jar", null);
+		writeTrashFile("foo/bar.jar", "b");
+		writeTrashFile("foo/bar.xml", "bx");
+		writeTrashFile("sub/b.jar", "bj");
+		writeTrashFile("sub/b.xml", "bx");
+		writeTrashFile("sub/foo/b.jar", "bf");
+		// On foo.xml/bar.jar we must not have 'xml'
+		walk = beginWalk();
+		assertIteration(F, ".gitattributes");
+		assertIteration(D, "foo");
+		assertIteration(F, "foo/bar.jar", attrs("jar xml"));
+		assertIteration(F, "foo/bar.xml", attrs("xml"));
+		assertIteration(D, "sub");
+		assertIteration(F, "sub/a.txt");
+		assertIteration(F, "sub/b.jar", attrs("jar"));
+		assertIteration(F, "sub/b.xml");
+		assertIteration(D, "sub/foo");
+		assertIteration(F, "sub/foo/b.jar", attrs("jar"));
+		endWalk();
+	}
+
+	@Test
+	public void testStarMatchOnSlashNot() throws Exception {
+		setupRepo(null, null, "s*xt bar", null);
+		writeTrashFile("sub/a.txt", "1");
+		writeTrashFile("foo/sext", "2");
+		writeTrashFile("foo/s.txt", "3");
+		walk = beginWalk();
+		assertIteration(F, ".gitattributes");
+		assertIteration(D, "foo");
+		assertIteration(F, "foo/s.txt", attrs("bar"));
+		assertIteration(F, "foo/sext", attrs("bar"));
+		assertIteration(D, "sub");
+		assertIteration(F, "sub/a.txt");
+		endWalk();
+	}
+
+	@Test
+	public void testPrefixMatchNot() throws Exception {
+		setupRepo(null, null, "sub/new bar", null);
+		writeTrashFile("sub/new/foo.txt", "1");
+		walk = beginWalk();
+		assertIteration(F, ".gitattributes");
+		assertIteration(D, "sub");
+		assertIteration(F, "sub/a.txt");
+		assertIteration(D, "sub/new", attrs("bar"));
+		assertIteration(F, "sub/new/foo.txt");
+		endWalk();
+	}
+
+	@Test
+	public void testComplexPathMatchNot() throws Exception {
+		setupRepo(null, null, "s[t-v]b/n[de]w bar", null);
+		writeTrashFile("sub/new/foo.txt", "1");
+		writeTrashFile("sub/ndw", "2");
+		walk = beginWalk();
+		assertIteration(F, ".gitattributes");
+		assertIteration(D, "sub");
+		assertIteration(F, "sub/a.txt");
+		assertIteration(F, "sub/ndw", attrs("bar"));
+		assertIteration(D, "sub/new", attrs("bar"));
+		assertIteration(F, "sub/new/foo.txt");
 		endWalk();
 	}
 
