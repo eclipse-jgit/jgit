@@ -14,7 +14,6 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
@@ -722,7 +721,7 @@ public class DfsGarbageCollectorTest {
 
 		DfsPackDescription t1 = odb.newPack(INSERT);
 		try (DfsOutputStream out = odb.writeFile(t1, REFTABLE)) {
-			out.write("ignored".getBytes(StandardCharsets.UTF_8));
+			new ReftableWriter().begin(out).finish();
 			t1.addFileExt(REFTABLE);
 		}
 		odb.commitPack(Collections.singleton(t1), null);
@@ -739,9 +738,9 @@ public class DfsGarbageCollectorTest {
 		assertTrue("commit0 in pack", isObjectInPack(commit0, pack));
 		assertTrue("commit1 in pack", isObjectInPack(commit1, pack));
 
-		// Only INSERT REFTABLE above is present.
+		// A GC and the older INSERT REFTABLE above is present.
 		DfsReftable[] tables = odb.getReftables();
-		assertEquals(1, tables.length);
+		assertEquals(2, tables.length);
 		assertEquals(t1, tables[0].getPackDescription());
 	}
 
@@ -754,7 +753,7 @@ public class DfsGarbageCollectorTest {
 
 		DfsPackDescription t1 = odb.newPack(INSERT);
 		try (DfsOutputStream out = odb.writeFile(t1, REFTABLE)) {
-			out.write("ignored".getBytes(StandardCharsets.UTF_8));
+			new ReftableWriter().begin(out).finish();
 			t1.addFileExt(REFTABLE);
 		}
 		odb.commitPack(Collections.singleton(t1), null);
