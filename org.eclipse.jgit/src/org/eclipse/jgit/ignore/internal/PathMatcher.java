@@ -225,6 +225,11 @@ public class PathMatcher extends AbstractMatcher {
 		int right = startIncl;
 		boolean match = false;
 		int lastWildmatch = -1;
+		// ** matches may get extended if a later match fails. When that
+		// happens, we must extend the ** by exactly one segment.
+		// wildmatchBacktrackPos records the end of the segment after a **
+		// match, so that we can reset correctly.
+		int wildmatchBacktrackPos = -1;
 		while (true) {
 			int left = right;
 			right = path.indexOf(slash, right);
@@ -250,6 +255,9 @@ public class PathMatcher extends AbstractMatcher {
 				}
 				return match && matcher + 1 == matchers.size();
 			}
+			if (wildmatchBacktrackPos < 0) {
+				wildmatchBacktrackPos = right;
+			}
 			if (right - left > 0) {
 				match = matches(matcher, path, left, right, assumeDirectory);
 			} else {
@@ -261,6 +269,7 @@ public class PathMatcher extends AbstractMatcher {
 				boolean wasWild = matchers.get(matcher) == WILD;
 				if (wasWild) {
 					lastWildmatch = matcher;
+					wildmatchBacktrackPos = -1;
 					// ** can match *nothing*: a/**/b match also a/b
 					right = left - 1;
 				}
@@ -276,11 +285,25 @@ public class PathMatcher extends AbstractMatcher {
 							return !dirOnly || assumeDirectory;
 						}
 						// Prefix matches only if pattern ended with /**
-						return wasWild;
+						if (wasWild) {
+							return true;
+						}
+						if (lastWildmatch >= 0) {
+							// Consider pattern **/x and input x/x.
+							// We've matched the prefix x/ so far: we
+							// must try to extend the **!
+							matcher = lastWildmatch + 1;
+							right = wildmatchBacktrackPos;
+							wildmatchBacktrackPos = -1;
+						} else {
+							return false;
+						}
 					}
 				}
 			} else if (lastWildmatch != -1) {
 				matcher = lastWildmatch + 1;
+				right = wildmatchBacktrackPos;
+				wildmatchBacktrackPos = -1;
 			} else {
 				return false;
 			}
