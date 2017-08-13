@@ -59,7 +59,6 @@ import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -453,9 +452,30 @@ public class AttributesHandlerTest extends RepositoryTestCase {
 	}
 
 	@Test
-	@Ignore("Re-enable once bug 520920 is fixed")
 	public void testDirectoryMatchSubRecursiveBacktrack() throws Exception {
 		setupRepo(null, null, "**/sub/new/ bar", null);
+		writeTrashFile("sub/new/foo.txt", "1");
+		writeTrashFile("foo/sub/new/foo.txt", "2");
+		writeTrashFile("sub/sub/new/foo.txt", "3");
+		walk = beginWalk();
+		assertIteration(F, ".gitattributes");
+		assertIteration(D, "foo");
+		assertIteration(D, "foo/sub");
+		assertIteration(D, "foo/sub/new", attrs("bar"));
+		assertIteration(F, "foo/sub/new/foo.txt");
+		assertIteration(D, "sub");
+		assertIteration(F, "sub/a.txt");
+		assertIteration(D, "sub/new", attrs("bar"));
+		assertIteration(F, "sub/new/foo.txt");
+		assertIteration(D, "sub/sub");
+		assertIteration(D, "sub/sub/new", attrs("bar"));
+		assertIteration(F, "sub/sub/new/foo.txt");
+		endWalk();
+	}
+
+	@Test
+	public void testDirectoryMatchSubRecursiveBacktrack2() throws Exception {
+		setupRepo(null, null, "**/**/sub/new/ bar", null);
 		writeTrashFile("sub/new/foo.txt", "1");
 		writeTrashFile("foo/sub/new/foo.txt", "2");
 		writeTrashFile("sub/sub/new/foo.txt", "3");

@@ -69,7 +69,6 @@ import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.TemporaryBuffer;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -214,10 +213,38 @@ public class CGitIgnoreTest extends RepositoryTestCase {
 	}
 
 	@Test
-	@Ignore("Re-enable once bug 520920 is fixed")
 	public void testDirectoryMatchSubRecursiveBacktrack() throws Exception {
 		createFiles("src/new/foo.txt", "src/src/new/foo.txt");
 		writeTrashFile(".gitignore", "**/src/new/");
+		assertSameAsCGit();
+	}
+
+	@Test
+	public void testDirectoryMatchSubRecursiveBacktrack2() throws Exception {
+		createFiles("src/new/foo.txt", "src/src/new/foo.txt");
+		writeTrashFile(".gitignore", "**/**/src/new/");
+		assertSameAsCGit();
+	}
+
+	@Test
+	public void testDirectoryMatchSubRecursiveBacktrack3() throws Exception {
+		createFiles("x/a/a/b/foo.txt");
+		writeTrashFile(".gitignore", "**/*/a/b/");
+		assertSameAsCGit();
+	}
+
+	@Test
+	public void testDirectoryMatchSubRecursiveBacktrack4() throws Exception {
+		createFiles("x/a/a/b/foo.txt", "x/y/z/b/a/b/foo.txt",
+				"x/y/a/a/a/a/b/foo.txt", "x/y/a/a/a/a/b/a/b/foo.txt");
+		writeTrashFile(".gitignore", "**/*/a/b bar\n");
+		assertSameAsCGit();
+	}
+
+	@Test
+	public void testDirectoryMatchSubRecursiveBacktrack5() throws Exception {
+		createFiles("x/a/a/b/foo.txt", "x/y/a/b/a/b/foo.txt");
+		writeTrashFile(".gitignore", "**/*/**/a/b bar\n");
 		assertSameAsCGit();
 	}
 
