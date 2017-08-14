@@ -173,20 +173,22 @@ public class RemoteConfig implements Serializable {
 		for (final String s : vlst) {
 			uris.add(new URIish(replaceUri(s, insteadOf)));
 		}
-		Map<String, String> pushInsteadOf = getReplacements(rc,
-				KEY_PUSHINSTEADOF);
 		String[] plst = rc.getStringList(SECTION, name, KEY_PUSHURL);
 		pushURIs = new ArrayList<>(plst.length);
 		for (final String s : plst) {
-			pushURIs.add(new URIish(replaceUri(s, pushInsteadOf)));
+			pushURIs.add(new URIish(s));
 		}
-		if (pushURIs.isEmpty() && !pushInsteadOf.isEmpty()) {
+		if (pushURIs.isEmpty()) {
 			// Would default to the uris. If we have pushinsteadof, we must
 			// supply rewritten push uris.
-			for (String s : vlst) {
-				String replaced = replaceUri(s, pushInsteadOf);
-				if (!s.equals(replaced)) {
-					pushURIs.add(new URIish(replaced));
+			Map<String, String> pushInsteadOf = getReplacements(rc,
+					KEY_PUSHINSTEADOF);
+			if (!pushInsteadOf.isEmpty()) {
+				for (String s : vlst) {
+					String replaced = replaceUri(s, pushInsteadOf);
+					if (!s.equals(replaced)) {
+						pushURIs.add(new URIish(replaced));
+					}
 				}
 			}
 		}
