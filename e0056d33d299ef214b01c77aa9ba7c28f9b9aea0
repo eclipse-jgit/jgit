@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_3ca4e1b8",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-08-14T18:31:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_b182bd55",
+      "range": {
+        "startLine": 203,
+        "startChar": 0,
+        "endLine": 203,
+        "endChar": 52
+      },
+      "revId": "e0056d33d299ef214b01c77aa9ba7c28f9b9aea0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_d185895f",
         "filename": "Documentation/technical/reftable.md",
         "patchSetId": 13
@@ -36,6 +60,30 @@
       "writtenOn": "2017-08-14T06:48:30Z",
       "side": 1,
       "message": "This is unclear. How would not adding padding cause the next block to spill into the block without padding? What you have written is clear without this.",
+      "range": {
+        "startLine": 219,
+        "startChar": 20,
+        "endLine": 219,
+        "endChar": 68
+      },
+      "revId": "e0056d33d299ef214b01c77aa9ba7c28f9b9aea0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_5c9fed67",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-08-14T18:31:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_d185895f",
       "range": {
         "startLine": 219,
         "startChar": 20,
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_9c94f549",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-08-14T18:31:18Z",
+      "side": 1,
+      "message": "Fixed to point to \"update transactions\" below.\n\nThe update_index field is a 64 bit counter. It won\u0027t overflow.",
+      "parentUuid": "c7880b39_39ceb3a7",
+      "range": {
+        "startLine": 504,
+        "startChar": 0,
+        "endLine": 504,
+        "endChar": 34
+      },
+      "revId": "e0056d33d299ef214b01c77aa9ba7c28f9b9aea0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_3176cdfa",
         "filename": "Documentation/technical/reftable.md",
         "patchSetId": 13
@@ -105,6 +177,30 @@
       "writtenOn": "2017-08-14T06:48:30Z",
       "side": 1,
       "message": "s/by repositories/on repositories/",
+      "range": {
+        "startLine": 765,
+        "startChar": 56,
+        "endLine": 765,
+        "endChar": 71
+      },
+      "revId": "e0056d33d299ef214b01c77aa9ba7c28f9b9aea0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_bc87f11c",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 765,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-08-14T18:31:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_3176cdfa",
       "range": {
         "startLine": 765,
         "startChar": 56,
@@ -140,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_dc059d1d",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 767,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-08-14T18:31:18Z",
+      "side": 1,
+      "message": "Reworded.",
+      "parentUuid": "c7880b39_517199fe",
+      "range": {
+        "startLine": 766,
+        "startChar": 0,
+        "endLine": 767,
+        "endChar": 54
+      },
+      "revId": "e0056d33d299ef214b01c77aa9ba7c28f9b9aea0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_717cd5d8",
         "filename": "Documentation/technical/reftable.md",
         "patchSetId": 13
@@ -151,6 +271,30 @@
       "writtenOn": "2017-08-14T06:48:30Z",
       "side": 1,
       "message": "\"Tombstone\" may be more familiar than \"shadows\", so: That serves as a tombstone, overriding any assertions about the existence of the reference from earlier files in the stack.",
+      "range": {
+        "startLine": 856,
+        "startChar": 0,
+        "endLine": 856,
+        "endChar": 63
+      },
+      "revId": "e0056d33d299ef214b01c77aa9ba7c28f9b9aea0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_dc8afd24",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 856,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-08-14T18:31:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_717cd5d8",
       "range": {
         "startLine": 856,
         "startChar": 0,
