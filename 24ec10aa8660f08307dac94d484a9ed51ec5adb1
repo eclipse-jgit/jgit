@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_dbbeacfb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableWriter.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-08-14T16:17:08Z",
+      "side": 1,
+      "message": "s/reftable/if reftable/\nThroughout the file.",
+      "range": {
+        "startLine": 222,
+        "startChar": 16,
+        "endLine": 222,
+        "endChar": 24
+      },
+      "revId": "24ec10aa8660f08307dac94d484a9ed51ec5adb1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
