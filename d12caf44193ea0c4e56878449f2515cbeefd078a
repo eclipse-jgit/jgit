@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_793f5be3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-08-14T08:29:41Z",
+      "side": 1,
+      "message": "I think we should also implement (2) since the current implementation doesn\u0027t comply with the documentation [1]",
+      "revId": "d12caf44193ea0c4e56878449f2515cbeefd078a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
