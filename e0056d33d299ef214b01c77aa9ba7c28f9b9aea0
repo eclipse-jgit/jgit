@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_b182bd55",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-08-14T06:48:30Z",
+      "side": 1,
+      "message": "This precedes the `restart_count`, so say that. It doesn\u0027t follow anything talked about to this point.",
+      "range": {
+        "startLine": 203,
+        "startChar": 0,
+        "endLine": 203,
+        "endChar": 52
+      },
+      "revId": "e0056d33d299ef214b01c77aa9ba7c28f9b9aea0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_d185895f",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-08-14T06:48:30Z",
+      "side": 1,
+      "message": "This is unclear. How would not adding padding cause the next block to spill into the block without padding? What you have written is clear without this.",
+      "range": {
+        "startLine": 219,
+        "startChar": 20,
+        "endLine": 219,
+        "endChar": 68
+      },
+      "revId": "e0056d33d299ef214b01c77aa9ba7c28f9b9aea0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_118c7188",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-08-14T06:48:30Z",
+      "side": 1,
+      "message": "This section clearly describes how alignment and size for log blocks differ from other blocks, so I think it is fine to keep calling them blocks rather than switching to \"log chunks\".",
+      "range": {
+        "startLine": 453,
+        "startChar": 0,
+        "endLine": 453,
+        "endChar": 20
+      },
+      "revId": "e0056d33d299ef214b01c77aa9ba7c28f9b9aea0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_39ceb3a7",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-08-14T06:48:30Z",
+      "side": 1,
+      "message": "There isn\u0027t an update index section below.\n\nIs it worth addressing what state the repository is in when the update index overflows? My thoughts would be that further updates get frozen until a full GC is run, which can reset that counter in the new GC pack, allowing the reftable ordering function of the update index to function again.\n\nreflog history could get written to a separate reflog archive file as part of that GC. `git log` could be taught to look at that file. To avoid infinite history, only one archive file of this type could be allowed.",
+      "range": {
+        "startLine": 504,
+        "startChar": 0,
+        "endLine": 504,
+        "endChar": 34
+      },
+      "revId": "e0056d33d299ef214b01c77aa9ba7c28f9b9aea0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_3176cdfa",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 765,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-08-14T06:48:30Z",
+      "side": 1,
+      "message": "s/by repositories/on repositories/",
+      "range": {
+        "startLine": 765,
+        "startChar": 56,
+        "endLine": 765,
+        "endChar": 71
+      },
+      "revId": "e0056d33d299ef214b01c77aa9ba7c28f9b9aea0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_517199fe",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 767,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-08-14T06:48:30Z",
+      "side": 1,
+      "message": "This talks about obj blocks but then about lookup by name again. Maybe something like: If looking up by SHA-1 is a common operation, obj blocks avoid disk seeks at the cost of storing SHA-1s twice.",
+      "range": {
+        "startLine": 766,
+        "startChar": 0,
+        "endLine": 767,
+        "endChar": 54
+      },
+      "revId": "e0056d33d299ef214b01c77aa9ba7c28f9b9aea0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_717cd5d8",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 856,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-08-14T06:48:30Z",
+      "side": 1,
+      "message": "\"Tombstone\" may be more familiar than \"shadows\", so: That serves as a tombstone, overriding any assertions about the existence of the reference from earlier files in the stack.",
+      "range": {
+        "startLine": 856,
+        "startChar": 0,
+        "endLine": 856,
+        "endChar": 63
+      },
+      "revId": "e0056d33d299ef214b01c77aa9ba7c28f9b9aea0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
