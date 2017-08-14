@@ -239,6 +239,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_1cbd65ad",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 12
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-08-14T18:43:23Z",
+      "side": 1,
+      "message": "I didn\u0027t mean to consume a complete block for the header, couldn\u0027t the first block start after the fixed size 24 byte header ?",
+      "parentUuid": "c7880b39_9c26b5bd",
+      "range": {
+        "startLine": 140,
+        "startChar": 8,
+        "endLine": 140,
+        "endChar": 42
+      },
+      "revId": "2165de9a59ab1ed600095c81ffb17ffb178b006a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_162d4719",
         "filename": "Documentation/technical/reftable.md",
         "patchSetId": 12
