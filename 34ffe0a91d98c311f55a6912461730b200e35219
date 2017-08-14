@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_393dd344",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/BlockWriter.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-08-14T16:17:08Z",
+      "side": 1,
+      "message": "Please add Javadoc.",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 80,
+        "endChar": 19
+      },
+      "revId": "34ffe0a91d98c311f55a6912461730b200e35219",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_99e16748",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/BlockWriter.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-08-14T16:17:08Z",
+      "side": 1,
+      "message": "Do you mean INDEX_BLOCK_TYPE here?",
+      "range": {
+        "startLine": 139,
+        "startChar": 21,
+        "endLine": 139,
+        "endChar": 35
+      },
+      "revId": "34ffe0a91d98c311f55a6912461730b200e35219",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_1942d7c2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableOutputStream.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-08-14T16:17:08Z",
+      "side": 1,
+      "message": "This high level comment doesn\u0027t belong at this low level, and could easily get out of sync. It seems like it could be ok to flush the header at any time, even for a non-log only file.",
+      "range": {
+        "startLine": 187,
+        "startChar": 0,
+        "endLine": 187,
+        "endChar": 65
+      },
+      "revId": "34ffe0a91d98c311f55a6912461730b200e35219",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_191bb7fe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableWriter.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-08-14T16:17:08Z",
+      "side": 1,
+      "message": "For exceptions, always \"@throws Exception IF ...\"",
+      "range": {
+        "startLine": 211,
+        "startChar": 16,
+        "endLine": 211,
+        "endChar": 24
+      },
+      "revId": "34ffe0a91d98c311f55a6912461730b200e35219",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_7982fb58",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableWriter.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-08-14T16:17:08Z",
+      "side": 1,
+      "message": "Rename to \"finishRefAndObjSections\" or something since it may be closing the index block section or index.",
+      "range": {
+        "startLine": 322,
+        "startChar": 3,
+        "endLine": 322,
+        "endChar": 12
+      },
+      "revId": "34ffe0a91d98c311f55a6912461730b200e35219",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
