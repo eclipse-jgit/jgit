@@ -16,6 +16,24 @@
       "revId": "d12caf44193ea0c4e56878449f2515cbeefd078a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_b902a313",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-08-14T09:20:55Z",
+      "side": 1,
+      "message": "In this change or in a follow-up change? Can do either way.\n\nIt _is_ a potentially user-visible change; if some people had relied on it their pushes may suddenly fail (the uncritical case; they just have to fix their setup) or even still succeed but push to places they didn\u0027t expect (the critical case). So even if wrong, changing it may be risky. Maybe better in a follow-up change?",
+      "parentUuid": "c7880b39_793f5be3",
+      "revId": "d12caf44193ea0c4e56878449f2515cbeefd078a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
