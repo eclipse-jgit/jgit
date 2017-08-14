@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_bc7d3162",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcConcurrentTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-08-14T19:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_fce899a1",
+      "range": {
+        "startLine": 190,
+        "startChar": 19,
+        "endLine": 190,
+        "endChar": 24
+      },
+      "revId": "2f7111de39a7f4a0309d8c16e05da7b301ad6042",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_1ce485c9",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcConcurrentTest.java",
         "patchSetId": 2
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_dc803dd6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcConcurrentTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-08-14T19:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_1ce485c9",
+      "revId": "2f7111de39a7f4a0309d8c16e05da7b301ad6042",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_3cdf81fa",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcConcurrentTest.java",
         "patchSetId": 2
@@ -53,6 +95,30 @@
       "writtenOn": "2017-08-14T19:11:28Z",
       "side": 1,
       "message": "to trigger",
+      "range": {
+        "startLine": 192,
+        "startChar": 26,
+        "endLine": 192,
+        "endChar": 33
+      },
+      "revId": "2f7111de39a7f4a0309d8c16e05da7b301ad6042",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_fc9a5941",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcConcurrentTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-08-14T19:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_3cdf81fa",
       "range": {
         "startLine": 192,
         "startChar": 26,
