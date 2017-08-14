@@ -1105,8 +1105,17 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		if (invalid || invalidBitmap)
 			return null;
 		if (bitmapIdx == null && hasExt(BITMAP_INDEX)) {
-			final PackBitmapIndex idx = PackBitmapIndex.open(
-					extFile(BITMAP_INDEX), idx(), getReverseIdx());
+			final PackBitmapIndex idx;
+			try {
+				idx = PackBitmapIndex.open(extFile(BITMAP_INDEX), idx(),
+						getReverseIdx());
+			} catch (FileNotFoundException e) {
+				// Once upon a time this bitmap file existed. Now it
+				// has been removed. Most likely an external gc  has
+				// removed this packfile and the bitmap
+				 invalidBitmap = true;
+				 return null;
+			}
 
 			// At this point, idx() will have set packChecksum.
 			if (Arrays.equals(packChecksum, idx.packChecksum))
