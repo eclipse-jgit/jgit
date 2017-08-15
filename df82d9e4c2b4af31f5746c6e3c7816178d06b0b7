@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "c7880b39_9fc7870e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/io/BlockSource.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-08-15T15:13:52Z",
+      "side": 1,
+      "message": "Most implementations are not thread safe, so what additional constraints does this method provide on a BlockSource? I don\u0027t see the justification for this in the API.",
+      "range": {
+        "startLine": 179,
+        "startChar": 13,
+        "endLine": 179,
+        "endChar": 33
+      },
+      "revId": "df82d9e4c2b4af31f5746c6e3c7816178d06b0b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_7cb02949",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/BlockReader.java",
         "patchSetId": 21
@@ -94,6 +117,29 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_1cbf2517",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/EmptyLogCursor.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-08-15T15:13:52Z",
+      "side": 1,
+      "message": "Add Javadoc",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 40
+      },
+      "revId": "df82d9e4c2b4af31f5746c6e3c7816178d06b0b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_dc159dcb",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/Reftable.java",
         "patchSetId": 21
@@ -133,6 +179,75 @@
         "startChar": 18,
         "endLine": 170,
         "endChar": 22
+      },
+      "revId": "df82d9e4c2b4af31f5746c6e3c7816178d06b0b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_1fd397cd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-08-15T15:13:52Z",
+      "side": 1,
+      "message": "I don\u0027t see how this special char is used. It appears the \"prefix\" argument to RefCursorImpl causes the correct exact vs. prefix match to occur.",
+      "range": {
+        "startLine": 178,
+        "startChar": 25,
+        "endLine": 178,
+        "endChar": 29
+      },
+      "revId": "df82d9e4c2b4af31f5746c6e3c7816178d06b0b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_bfe1a38e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-08-15T15:13:52Z",
+      "side": 1,
+      "message": "This appears to be seeking pas the end of the index, which I don\u0027t understand.",
+      "range": {
+        "startLine": 231,
+        "startChar": 0,
+        "endLine": 231,
+        "endChar": 55
+      },
+      "revId": "df82d9e4c2b4af31f5746c6e3c7816178d06b0b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_9feea77e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-08-15T15:13:52Z",
+      "side": 1,
+      "message": "This method is not fully intuitive and could use some comments. The idea here is that if you have a multi-level index, you seek through each level of index until you get to actual reference/object blocks?",
+      "range": {
+        "startLine": 233,
+        "startChar": 0,
+        "endLine": 233,
+        "endChar": 46
       },
       "revId": "df82d9e4c2b4af31f5746c6e3c7816178d06b0b7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
