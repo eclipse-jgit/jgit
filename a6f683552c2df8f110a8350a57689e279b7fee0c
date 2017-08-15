@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_df366f9a",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/WriteReftable.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-08-15T15:55:50Z",
+      "side": 1,
+      "message": "s/read/readRefs/",
+      "range": {
+        "startLine": 204,
+        "startChar": 18,
+        "endLine": 204,
+        "endChar": 22
+      },
+      "revId": "a6f683552c2df8f110a8350a57689e279b7fee0c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_5f227f55",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/WriteReftable.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-08-15T15:55:50Z",
+      "side": 1,
+      "message": "Asserting here if it doesn\u0027t match rather than silently ignore errors might save someone some time someday.",
+      "range": {
+        "startLine": 253,
+        "startChar": 0,
+        "endLine": 253,
+        "endChar": 22
+      },
+      "revId": "a6f683552c2df8f110a8350a57689e279b7fee0c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
