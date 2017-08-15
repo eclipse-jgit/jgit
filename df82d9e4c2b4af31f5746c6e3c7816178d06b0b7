@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_7cb02949",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/BlockReader.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-08-15T06:23:33Z",
+      "side": 1,
+      "message": "identity is not being chained, so need to reset logCommitterPtr \u003d ptr here",
+      "range": {
+        "startLine": 265,
+        "startChar": 0,
+        "endLine": 265,
+        "endChar": 36
+      },
+      "revId": "df82d9e4c2b4af31f5746c6e3c7816178d06b0b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_9cb31554",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/BlockReader.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-08-15T06:23:33Z",
+      "side": 1,
+      "message": "message is not being chained, so need to reset logMessagePtr \u003d ptr here",
+      "range": {
+        "startLine": 273,
+        "startChar": 0,
+        "endLine": 273,
+        "endChar": 28
+      },
+      "revId": "df82d9e4c2b4af31f5746c6e3c7816178d06b0b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_bcb61142",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/BlockReader.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-08-15T06:23:33Z",
+      "side": 1,
+      "message": "Why is it ok for bufLen \u003c blockLen in index blocks? Please add a comment.",
+      "range": {
+        "startLine": 374,
+        "startChar": 7,
+        "endLine": 374,
+        "endChar": 36
+      },
+      "revId": "df82d9e4c2b4af31f5746c6e3c7816178d06b0b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_dcb91d34",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/BlockReader.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-08-15T06:23:33Z",
+      "side": 1,
+      "message": "Add Javadoc for these seekKey and scanToKey functions, since the return values are not immediately obvious.",
+      "range": {
+        "startLine": 447,
+        "startChar": 0,
+        "endLine": 447,
+        "endChar": 26
+      },
+      "revId": "df82d9e4c2b4af31f5746c6e3c7816178d06b0b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_dc159dcb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/Reftable.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-08-15T06:23:33Z",
+      "side": 1,
+      "message": "Is an empty cursor returned if a specifically searched for reference isn\u0027t present, or is an IOException thrown. Be more explicit.",
+      "range": {
+        "startLine": 106,
+        "startChar": 4,
+        "endLine": 106,
+        "endChar": 62
+      },
+      "revId": "df82d9e4c2b4af31f5746c6e3c7816178d06b0b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_5cea8d16",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-08-15T06:23:33Z",
+      "side": 1,
+      "message": "s/seek/seekRef/ to be more consistent with seekLog and different from the BlockReader-returning seek().",
+      "range": {
+        "startLine": 170,
+        "startChar": 18,
+        "endLine": 170,
+        "endChar": 22
+      },
+      "revId": "df82d9e4c2b4af31f5746c6e3c7816178d06b0b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
