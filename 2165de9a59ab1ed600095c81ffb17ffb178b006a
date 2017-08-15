@@ -263,6 +263,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_426c64aa",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 12
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-08-15T22:49:17Z",
+      "side": 1,
+      "message": "That interacts badly with the DfsBlockCache and how our DFS system at $DAY_JOB works. Easier to say it starts at 0 and includes the file header.",
+      "parentUuid": "c7880b39_1cbd65ad",
+      "range": {
+        "startLine": 140,
+        "startChar": 8,
+        "endLine": 140,
+        "endChar": 42
+      },
+      "revId": "2165de9a59ab1ed600095c81ffb17ffb178b006a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_162d4719",
         "filename": "Documentation/technical/reftable.md",
         "patchSetId": 12
