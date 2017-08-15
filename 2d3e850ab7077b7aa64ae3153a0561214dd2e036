@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_3e524360",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/BenchmarkReftable.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-08-15T15:55:50Z",
+      "side": 1,
+      "message": "Why extend this?",
+      "range": {
+        "startLine": 73,
+        "startChar": 32,
+        "endLine": 73,
+        "endChar": 43
+      },
+      "revId": "2d3e850ab7077b7aa64ae3153a0561214dd2e036",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
