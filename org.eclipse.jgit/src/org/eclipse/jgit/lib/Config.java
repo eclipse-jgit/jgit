@@ -62,8 +62,6 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.events.ConfigChangedEvent;
@@ -73,18 +71,22 @@ import org.eclipse.jgit.events.ListenerList;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
-import org.eclipse.jgit.util.StringUtils;
-
 
 /**
  * Git style {@code .config}, {@code .gitconfig}, {@code .gitmodules} file.
  */
 public class Config {
+
 	private static final String[] EMPTY_STRING_ARRAY = {};
-	private static final long KiB = 1024;
-	private static final long MiB = 1024 * KiB;
-	private static final long GiB = 1024 * MiB;
+
+	static final long KiB = 1024;
+	static final long MiB = 1024 * KiB;
+	static final long GiB = 1024 * MiB;
 	private static final int MAX_DEPTH = 10;
+
+	private static final TypedConfigGetter DEFAULT_GETTER = new DefaultTypedConfigGetter();
+
+	private static TypedConfigGetter typedGetter = DEFAULT_GETTER;
 
 	/** the change listeners */
 	private final ListenerList listeners = new ListenerList();
@@ -106,7 +108,7 @@ public class Config {
 	 * must ensure it is a special copy of the empty string.  It also must
 	 * be treated like the empty string.
 	 */
-	private static final String MAGIC_EMPTY_VALUE = new String();
+	static final String MAGIC_EMPTY_VALUE = new String();
 
 	/** Create a configuration with no default fallback. */
 	public Config() {
@@ -123,6 +125,18 @@ public class Config {
 	public Config(Config defaultConfig) {
 		baseConfig = defaultConfig;
 		state = new AtomicReference<>(newState());
+	}
+
+	/**
+	 * Globally sets a {@link TypedConfigGetter} that is subsequently used to
+	 * read typed values from all git configs.
+	 *
+	 * @param getter
+	 *            to use; if {@code null} use the default getter.
+	 * @since 4.9
+	 */
+	public static void setTypedConfigGetter(TypedConfigGetter getter) {
+		typedGetter = getter == null ? DEFAULT_GETTER : getter;
 	}
 
 	/**
@@ -206,7 +220,7 @@ public class Config {
 	 */
 	public int getInt(final String section, final String name,
 			final int defaultValue) {
-		return getInt(section, null, name, defaultValue);
+		return typedGetter.getInt(this, section, null, name, defaultValue);
 	}
 
 	/**
@@ -224,11 +238,8 @@ public class Config {
 	 */
 	public int getInt(final String section, String subsection,
 			final String name, final int defaultValue) {
-		final long val = getLong(section, subsection, name, defaultValue);
-		if (Integer.MIN_VALUE <= val && val <= Integer.MAX_VALUE)
-			return (int) val;
-		throw new IllegalArgumentException(MessageFormat.format(JGitText.get().integerValueOutOfRange
-				, section, name));
+		return typedGetter.getInt(this, section, subsection, name,
+				defaultValue);
 	}
 
 	/**
@@ -243,7 +254,7 @@ public class Config {
 	 * @return an integer value from the configuration, or defaultValue.
 	 */
 	public long getLong(String section, String name, long defaultValue) {
-		return getLong(section, null, name, defaultValue);
+		return typedGetter.getLong(this, section, null, name, defaultValue);
 	}
 
 	/**
@@ -261,37 +272,8 @@ public class Config {
 	 */
 	public long getLong(final String section, String subsection,
 			final String name, final long defaultValue) {
-		final String str = getString(section, subsection, name);
-		if (str == null)
-			return defaultValue;
-
-		String n = str.trim();
-		if (n.length() == 0)
-			return defaultValue;
-
-		long mul = 1;
-		switch (StringUtils.toLowerCase(n.charAt(n.length() - 1))) {
-		case 'g':
-			mul = GiB;
-			break;
-		case 'm':
-			mul = MiB;
-			break;
-		case 'k':
-			mul = KiB;
-			break;
-		}
-		if (mul > 1)
-			n = n.substring(0, n.length() - 1).trim();
-		if (n.length() == 0)
-			return defaultValue;
-
-		try {
-			return mul * Long.parseLong(n);
-		} catch (NumberFormatException nfe) {
-			throw new IllegalArgumentException(MessageFormat.format(JGitText.get().invalidIntegerValue
-					, section, name, str));
-		}
+		return typedGetter.getLong(this, section, subsection, name,
+				defaultValue);
 	}
 
 	/**
@@ -308,7 +290,7 @@ public class Config {
 	 */
 	public boolean getBoolean(final String section, final String name,
 			final boolean defaultValue) {
-		return getBoolean(section, null, name, defaultValue);
+		return typedGetter.getBoolean(this, section, null, name, defaultValue);
 	}
 
 	/**
@@ -327,17 +309,8 @@ public class Config {
 	 */
 	public boolean getBoolean(final String section, String subsection,
 			final String name, final boolean defaultValue) {
-		String n = getRawString(section, subsection, name);
-		if (n == null)
-			return defaultValue;
-		if (MAGIC_EMPTY_VALUE == n)
-			return true;
-		try {
-			return StringUtils.toBoolean(n);
-		} catch (IllegalArgumentException err) {
-			throw new IllegalArgumentException(MessageFormat.format(JGitText.get().invalidBooleanValue
-					, section, name, n));
-		}
+		return typedGetter.getBoolean(this, section, subsection, name,
+				defaultValue);
 	}
 
 	/**
@@ -358,7 +331,8 @@ public class Config {
 	public <T extends Enum<?>> T getEnum(final String section,
 			final String subsection, final String name, final T defaultValue) {
 		final T[] all = allValuesOf(defaultValue);
-		return getEnum(all, section, subsection, name, defaultValue);
+		return typedGetter.getEnum(this, all, section, subsection, name,
+				defaultValue);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -393,55 +367,8 @@ public class Config {
 	 */
 	public <T extends Enum<?>> T getEnum(final T[] all, final String section,
 			final String subsection, final String name, final T defaultValue) {
-		String value = getString(section, subsection, name);
-		if (value == null)
-			return defaultValue;
-
-		if (all[0] instanceof ConfigEnum) {
-			for (T t : all) {
-				if (((ConfigEnum) t).matchConfigValue(value))
-					return t;
-			}
-		}
-
-		String n = value.replace(' ', '_');
-
-		// Because of c98abc9c0586c73ef7df4172644b7dd21c979e9d being used in
-		// the real world before its breakage was fully understood, we must
-		// also accept '-' as though it were ' '.
-		n = n.replace('-', '_');
-
-		T trueState = null;
-		T falseState = null;
-		for (T e : all) {
-			if (StringUtils.equalsIgnoreCase(e.name(), n))
-				return e;
-			else if (StringUtils.equalsIgnoreCase(e.name(), "TRUE")) //$NON-NLS-1$
-				trueState = e;
-			else if (StringUtils.equalsIgnoreCase(e.name(), "FALSE")) //$NON-NLS-1$
-				falseState = e;
-		}
-
-		// This is an odd little fallback. C Git sometimes allows boolean
-		// values in a tri-state with other things. If we have both a true
-		// and a false value in our enumeration, assume its one of those.
-		//
-		if (trueState != null && falseState != null) {
-			try {
-				return StringUtils.toBoolean(n) ? trueState : falseState;
-			} catch (IllegalArgumentException err) {
-				// Fall through and use our custom error below.
-			}
-		}
-
-		if (subsection != null)
-			throw new IllegalArgumentException(MessageFormat.format(
-					JGitText.get().enumValueNotSupported3, section, subsection,
-					name, value));
-		else
-			throw new IllegalArgumentException(
-					MessageFormat.format(JGitText.get().enumValueNotSupported2,
-							section, name, value));
+		return typedGetter.getEnum(this, all, section, subsection, name,
+				defaultValue);
 	}
 
 	/**
@@ -515,100 +442,8 @@ public class Config {
 	 */
 	public long getTimeUnit(String section, String subsection, String name,
 			long defaultValue, TimeUnit wantUnit) {
-		String valueString = getString(section, subsection, name);
-
-		if (valueString == null) {
-			return defaultValue;
-		}
-
-		String s = valueString.trim();
-		if (s.length() == 0) {
-			return defaultValue;
-		}
-
-		if (s.startsWith("-")/* negative */) { //$NON-NLS-1$
-			throw notTimeUnit(section, subsection, name, valueString);
-		}
-
-		Matcher m = Pattern.compile("^(0|[1-9][0-9]*)\\s*(.*)$") //$NON-NLS-1$
-				.matcher(valueString);
-		if (!m.matches()) {
-			return defaultValue;
-		}
-
-		String digits = m.group(1);
-		String unitName = m.group(2).trim();
-
-		TimeUnit inputUnit;
-		int inputMul;
-
-		if (unitName.isEmpty()) {
-			inputUnit = wantUnit;
-			inputMul = 1;
-
-		} else if (match(unitName, "ms", "milliseconds")) { //$NON-NLS-1$ //$NON-NLS-2$
-			inputUnit = TimeUnit.MILLISECONDS;
-			inputMul = 1;
-
-		} else if (match(unitName, "s", "sec", "second", "seconds")) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			inputUnit = TimeUnit.SECONDS;
-			inputMul = 1;
-
-		} else if (match(unitName, "m", "min", "minute", "minutes")) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			inputUnit = TimeUnit.MINUTES;
-			inputMul = 1;
-
-		} else if (match(unitName, "h", "hr", "hour", "hours")) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			inputUnit = TimeUnit.HOURS;
-			inputMul = 1;
-
-		} else if (match(unitName, "d", "day", "days")) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			inputUnit = TimeUnit.DAYS;
-			inputMul = 1;
-
-		} else if (match(unitName, "w", "week", "weeks")) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			inputUnit = TimeUnit.DAYS;
-			inputMul = 7;
-
-		} else if (match(unitName, "mon", "month", "months")) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			inputUnit = TimeUnit.DAYS;
-			inputMul = 30;
-
-		} else if (match(unitName, "y", "year", "years")) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			inputUnit = TimeUnit.DAYS;
-			inputMul = 365;
-
-		} else {
-			throw notTimeUnit(section, subsection, name, valueString);
-		}
-
-		try {
-			return wantUnit.convert(Long.parseLong(digits) * inputMul,
-					inputUnit);
-		} catch (NumberFormatException nfe) {
-			throw notTimeUnit(section, subsection, unitName, valueString);
-		}
-	}
-
-	private static boolean match(final String a, final String... cases) {
-		for (final String b : cases) {
-			if (b != null && b.equalsIgnoreCase(a)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	private IllegalArgumentException notTimeUnit(String section,
-			String subsection, String name, String valueString) {
-		if (subsection != null) {
-			return new IllegalArgumentException(
-					MessageFormat.format(JGitText.get().invalidTimeUnitValue3,
-							section, subsection, name, valueString));
-		}
-		return new IllegalArgumentException(
-				MessageFormat.format(JGitText.get().invalidTimeUnitValue2,
-						section, name, valueString));
+		return typedGetter.getTimeUnit(this, section, subsection, name,
+				defaultValue, wantUnit);
 	}
 
 	/**
@@ -757,7 +592,7 @@ public class Config {
 		listeners.dispatch(new ConfigChangedEvent());
 	}
 
-	private String getRawString(final String section, final String subsection,
+	String getRawString(final String section, final String subsection,
 			final String name) {
 		String[] lst = getRawStringList(section, subsection, name);
 		if (lst != null) {
