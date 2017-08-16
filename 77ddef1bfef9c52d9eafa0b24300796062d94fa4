@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_68af7f16",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/BlockReader.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-08-16T16:05:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_a8f88771",
+      "range": {
+        "startLine": 401,
+        "startChar": 4,
+        "endLine": 401,
+        "endChar": 8
+      },
+      "revId": "77ddef1bfef9c52d9eafa0b24300796062d94fa4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_c87dd361",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
         "patchSetId": 22
@@ -36,6 +60,30 @@
       "writtenOn": "2017-08-16T14:38:52Z",
       "side": 1,
       "message": "Avoid lots of small allocations by returning a static EMPTY_LONG_LIST? Also below.",
+      "range": {
+        "startLine": 582,
+        "startChar": 16,
+        "endLine": 582,
+        "endChar": 32
+      },
+      "revId": "77ddef1bfef9c52d9eafa0b24300796062d94fa4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_88a10b29",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableReader.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-08-16T16:05:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_c87dd361",
       "range": {
         "startLine": 582,
         "startChar": 16,
