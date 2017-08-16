@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_0810bb57",
+        "filename": "Documentation/technical/reftable.md",
+        "patchSetId": 14
+      },
+      "lineNbr": 771,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-08-16T14:16:08Z",
+      "side": 1,
+      "message": "It the idea that .log files are log-record-only reftables, and.ref files are ref-only or mixed ref-and-log? It would be good to be explicit.",
+      "range": {
+        "startLine": 769,
+        "startChar": 4,
+        "endLine": 771,
+        "endChar": 16
+      },
+      "revId": "23033bd1f0b8191b0583e2b7bec0cf8f7d93df0e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
