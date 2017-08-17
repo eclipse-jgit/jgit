@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_6e9f8768",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftable/ReftableTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-08-17T05:05:10Z",
+      "side": 1,
+      "message": "Test resolving a non-symbolic ref returns identity.",
+      "range": {
+        "startLine": 243,
+        "startChar": 0,
+        "endLine": 243,
+        "endChar": 54
+      },
+      "revId": "84b6792bfca1b630959f9fda70821fd58d4718a5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_8e91135b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftable/ReftableTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-08-17T05:05:10Z",
+      "side": 1,
+      "message": "s/Chain/DeepChain/",
+      "range": {
+        "startLine": 259,
+        "startChar": 17,
+        "endLine": 259,
+        "endChar": 22
+      },
+      "revId": "84b6792bfca1b630959f9fda70821fd58d4718a5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
