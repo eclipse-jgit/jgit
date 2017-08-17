@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_6e122788",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/MergedReftable.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-08-17T02:37:26Z",
+      "side": 1,
+      "message": "Adding these in the opposite order is counterintuitive (especially when seekLog() doesn\u0027t reverse the order. Please add a comment. I can see in the non-prefix case this hacks in the topmost cursor that contains the ref, but for prefixes it seems backwards.",
+      "range": {
+        "startLine": 105,
+        "startChar": 2,
+        "endLine": 105,
+        "endChar": 46
+      },
+      "revId": "28e16086b77eb7faf41d4ae59d7b020a93991ffa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_ae5b2f58",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/MergedReftable.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-08-17T02:37:26Z",
+      "side": 1,
+      "message": "I\u0027m missing something subtle here. This code appears to be pushing and popping the same cursor over and over again. RowCursor.next() just reports if there is another iterator, without advancing it, right?",
+      "range": {
+        "startLine": 191,
+        "startChar": 0,
+        "endLine": 191,
+        "endChar": 25
+      },
+      "revId": "28e16086b77eb7faf41d4ae59d7b020a93991ffa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_8e58335f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/MergedReftable.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-08-17T02:37:26Z",
+      "side": 1,
+      "message": "This isn\u0027t right.",
+      "range": {
+        "startLine": 266,
+        "startChar": 0,
+        "endLine": 269,
+        "endChar": 16
+      },
+      "revId": "28e16086b77eb7faf41d4ae59d7b020a93991ffa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
