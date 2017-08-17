@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_25ce7da7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/MergedReftable.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-08-17T18:48:10Z",
+      "side": 1,
+      "message": "I think this method is easier to understand if guarantees the following properties:\nA) Adding an entry whose cursor is at EOF closes its cursor and does not add the entry to the priority queue \nB) Otherwise \u0027head\u0027 is always set and always points at the next RefQueueEntry to return, which means either pushing the previous head on the queue if the new \u0027t\u0027 entry is earlier or pushing \u0027t\u0027 on the queue if it is later than \u0027head\u0027.\n\nif (!t.rc.next()) {\n  t.rc.close();\n  return;\n}\nif (head \u003d\u003d null) {\n  if (queue.isEmpty() || RefQueueEntry.compare(t, queue.peek()) \u003c 0) {\n    head \u003d t;\n  } else {\n    head \u003d queue.poll();\n    queue.add(t);\n  }\n  return;\n}\nif (RefQueueEntry.compare(t, head) \u003e 0) {\n  queue.add(t);\n} else {\n  queue.add(head);\n  head \u003d t;\n}\n\nThe O(log N) insertion comment is useful and can get moved to the top of the method.",
+      "range": {
+        "startLine": 190,
+        "startChar": 0,
+        "endLine": 193,
+        "endChar": 4
+      },
+      "revId": "abf48a4a164e0a062642a9d2452aa83436ae79d6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
