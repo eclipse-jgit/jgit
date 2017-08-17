@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_c2c3efce",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableCompactor.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-08-17T16:25:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_0e536336",
+      "range": {
+        "startLine": 159,
+        "startChar": 16,
+        "endLine": 159,
+        "endChar": 22
+      },
+      "revId": "58de2db1609495543b1873bb751ca30530fcb8c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_2e4e5f90",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableCompactor.java",
         "patchSetId": 23
