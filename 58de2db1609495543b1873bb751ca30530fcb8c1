@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_4e49eb84",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableCompactor.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-08-17T04:53:02Z",
+      "side": 1,
+      "message": "Should this just be setTables() or is calling it multiple times a reasonable use case?",
+      "range": {
+        "startLine": 148,
+        "startChar": 13,
+        "endLine": 148,
+        "endChar": 19
+      },
+      "revId": "58de2db1609495543b1873bb751ca30530fcb8c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_0e536336",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableCompactor.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-08-17T04:53:02Z",
+      "side": 1,
+      "message": "s/tables/if tables/",
+      "range": {
+        "startLine": 159,
+        "startChar": 16,
+        "endLine": 159,
+        "endChar": 22
+      },
+      "revId": "58de2db1609495543b1873bb751ca30530fcb8c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_2e4e5f90",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableCompactor.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-08-17T04:53:02Z",
+      "side": 1,
+      "message": "This class isn\u0027t using the \"tables\" ArrayDeque at all, and the MergedReftable already makes a defensive copy of its ArrayList argument, so \"tables\" can just store the List reference received in addAll and forward it here.",
+      "range": {
+        "startLine": 162,
+        "startChar": 41,
+        "endLine": 162,
+        "endChar": 64
+      },
+      "revId": "58de2db1609495543b1873bb751ca30530fcb8c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
