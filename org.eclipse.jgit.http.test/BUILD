@@ -38,5 +38,6 @@ java_library(
         "//org.eclipse.jgit:jgit",
         "//org.eclipse.jgit.junit.http:junit-http",
         "//org.eclipse.jgit.junit:junit",
+        "@servlet_api_3_1//jar",
     ],
 )
