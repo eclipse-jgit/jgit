@@ -22,6 +22,30 @@
       "revId": "36ea66d4b3e209385cf57ae69ab8df0c544fc756",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_6ee06704",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftable/ReftableTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-08-17T00:41:49Z",
+      "side": 1,
+      "message": "No, but it means we get strings like 00,99,100. :)",
+      "parentUuid": "c7880b39_4ece4ba8",
+      "range": {
+        "startLine": 523,
+        "startChar": 42,
+        "endLine": 523,
+        "endChar": 46
+      },
+      "revId": "36ea66d4b3e209385cf57ae69ab8df0c544fc756",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
