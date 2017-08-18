@@ -291,6 +291,8 @@ public class LongObjectIdTest {
 				"0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef");
 		assertEquals(0, id1.compareTo(LongObjectId.fromString(
 				"0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef")));
+		AnyLongObjectId self = id1;
+		assertEquals(0, id1.compareTo(self));
 
 		assertEquals(-1, id1.compareTo(LongObjectId.fromString(
 				"1123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef")));
