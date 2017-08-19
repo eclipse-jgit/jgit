@@ -243,6 +243,7 @@ its value(s). Records are formatted as:
     varint( prefix_length )
     varint( (suffix_length << 3) | value_type )
     suffix
+    varint( update_index_delta )
     value?
 
 The `prefix_length` field specifies how many leading bytes of the
@@ -257,6 +258,10 @@ Recovering a reference name from any `ref_record` is a simple concat:
 
 The `suffix_length` value provides the number of bytes available in
 `suffix` to copy from `suffix` to complete the reference name.
+
+The `update_index` that last modified the reference can be obtained by
+adding `update_index_delta` to the `min_update_index` from the file
+header: `min_update_index + update_index_delta`.
 
 The `value` follows.  Its format is determined by `value_type`, one of
 the following:

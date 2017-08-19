@@ -262,6 +262,41 @@ public class MergedReftableTest {
 	}
 
 	@Test
+	public void missedUpdate() throws IOException {
+		ByteArrayOutputStream buf = new ByteArrayOutputStream();
+		ReftableWriter writer = new ReftableWriter()
+				.setMinUpdateIndex(1)
+				.setMaxUpdateIndex(3)
+				.begin(buf);
+		writer.writeRef(ref("refs/heads/a", 1), 1);
+		writer.writeRef(ref("refs/heads/c", 3), 3);
+		writer.finish();
+		byte[] base = buf.toByteArray();
+
+		byte[] delta = write(Arrays.asList(
+				ref("refs/heads/b", 2),
+				ref("refs/heads/c", 4)),
+				2);
+		MergedReftable mr = merge(base, delta);
+		try (RefCursor rc = mr.allRefs()) {
+			assertTrue(rc.next());
+			assertEquals("refs/heads/a", rc.getRef().getName());
+			assertEquals(id(1), rc.getRef().getObjectId());
+			assertEquals(1, rc.getUpdateIndex());
+
+			assertTrue(rc.next());
+			assertEquals("refs/heads/b", rc.getRef().getName());
+			assertEquals(id(2), rc.getRef().getObjectId());
+			assertEquals(2, rc.getUpdateIndex());
+
+			assertTrue(rc.next());
+			assertEquals("refs/heads/c", rc.getRef().getName());
+			assertEquals(id(3), rc.getRef().getObjectId());
+			assertEquals(3, rc.getUpdateIndex());
+		}
+	}
+
+	@Test
 	public void compaction() throws IOException {
 		List<Ref> delta1 = Arrays.asList(
 				ref("refs/heads/next", 4),
@@ -322,12 +357,18 @@ public class MergedReftableTest {
 	}
 
 	private byte[] write(Collection<Ref> refs) throws IOException {
+		return write(refs, 1);
+	}
+
+	private byte[] write(Collection<Ref> refs, long updateIndex)
+			throws IOException {
 		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-		ReftableWriter writer = new ReftableWriter().begin(buffer);
-		for (Ref r : RefComparator.sort(refs)) {
-			writer.writeRef(r);
-		}
-		writer.finish();
+		new ReftableWriter()
+				.setMinUpdateIndex(updateIndex)
+				.setMaxUpdateIndex(updateIndex)
+				.begin(buffer)
+				.sortAndWriteRefs(refs)
+				.finish();
 		return buffer.toByteArray();
 	}
 
