@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_91adb3a5",
+        "filename": "org.eclipse.jgit.http.test/META-INF/MANIFEST.MF",
+        "patchSetId": 8
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-08-21T07:37:29Z",
+      "side": 1,
+      "message": "I don\u0027t know why this is needed, but without it the tests using the Apache HttpClient will fail. Which version range should be specified here?",
+      "revId": "1c406f8f71d0976468fa61e2cf2d8d26b812491a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
