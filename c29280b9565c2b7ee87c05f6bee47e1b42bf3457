@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_d161fb04",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-08-21T06:53:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_62116059",
+      "range": {
+        "startLine": 135,
+        "startChar": 37,
+        "endLine": 135,
+        "endChar": 38
+      },
+      "revId": "c29280b9565c2b7ee87c05f6bee47e1b42bf3457",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_c2193481",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/DefaultTypedConfigGetter.java",
         "patchSetId": 1
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_b15e2f47",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/DefaultTypedConfigGetter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-08-21T06:53:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_c2193481",
+      "revId": "c29280b9565c2b7ee87c05f6bee47e1b42bf3457",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_42162455",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ITypedConfigGetter.java",
         "patchSetId": 1
@@ -53,6 +95,30 @@
       "writtenOn": "2017-08-16T07:29:41Z",
       "side": 1,
       "message": "in JGit we don\u0027t use the convention used in other Eclipse projects to prefix the name of interface with an \u0027I\u0027\n\ns/ITypedConfigGetter/TypedConfigGetter/",
+      "range": {
+        "startLine": 54,
+        "startChar": 17,
+        "endLine": 54,
+        "endChar": 35
+      },
+      "revId": "c29280b9565c2b7ee87c05f6bee47e1b42bf3457",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_f16b57e2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ITypedConfigGetter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-08-21T06:53:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_42162455",
       "range": {
         "startLine": 54,
         "startChar": 17,
