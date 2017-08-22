@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_f060acaf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 956,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-08-22T21:57:52Z",
+      "side": 1,
+      "message": "Don\u0027t know if it\u0027s needed, and I really don\u0027t know how to set up a mock proxy server for unit tests. We do open the http connection with a proxy, and at least the JDK HttpUrlConnection should handle it? Though I think I remember a forum topic on problems with an authenticating proxy...",
+      "parentUuid": "c7880b39_b080e4d4",
+      "revId": "759402d71f850f7f63cbcf69172aedeb06a1280a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_1c618a2d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
         "patchSetId": 5
