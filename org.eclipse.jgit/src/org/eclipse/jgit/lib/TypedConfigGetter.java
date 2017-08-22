@@ -43,7 +43,11 @@
 
 package org.eclipse.jgit.lib;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.transport.RefSpec;
 
 /**
  * Something that knows how to convert plain strings from a git {@link Config}
@@ -155,4 +159,21 @@ public interface TypedConfigGetter {
 	long getTimeUnit(Config config, String section, String subsection,
 			String name, long defaultValue, TimeUnit wantUnit);
 
+
+	/**
+	 * Parse a list of {@link RefSpec}s from a git {@link Config}.
+	 *
+	 * @param config
+	 *            to get the list from
+	 * @param section
+	 *            section the key is in.
+	 * @param subsection
+	 *            subsection the key is in, or null if not in a subsection.
+	 * @param name
+	 *            the key name.
+	 * @return a possibly empty list of {@link RefSpec}s
+	 */
+	@NonNull
+	List<RefSpec> getRefSpecs(Config config, String section, String subsection,
+			String name);
 }

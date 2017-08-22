@@ -69,6 +69,7 @@ import org.eclipse.jgit.events.ConfigChangedListener;
 import org.eclipse.jgit.events.ListenerHandle;
 import org.eclipse.jgit.events.ListenerList;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
 
@@ -444,6 +445,23 @@ public class Config {
 			long defaultValue, TimeUnit wantUnit) {
 		return typedGetter.getTimeUnit(this, section, subsection, name,
 				defaultValue, wantUnit);
+	}
+
+	/**
+	 * Parse a list of {@link RefSpec}s from the configuration.
+	 *
+	 * @param section
+	 *            section the key is in.
+	 * @param subsection
+	 *            subsection the key is in, or null if not in a subsection.
+	 * @param name
+	 *            the key name.
+	 * @return a possibly empty list of {@link RefSpec}s
+	 * @since 4.9
+	 */
+	public List<RefSpec> getRefSpecs(String section, String subsection,
+			String name) {
+		return typedGetter.getRefSpecs(this, section, subsection, name);
 	}
 
 	/**
