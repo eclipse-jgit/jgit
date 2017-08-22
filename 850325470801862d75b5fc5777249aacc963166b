@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_904f683e",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/SmartClientSmartServerTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 751,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-08-22T21:57:52Z",
+      "side": 1,
+      "message": "\"WithAuthentication\" \u003d\u003d server requires authentication\n\"None\" \u003d\u003d we don\u0027t provide any.\n\nRenamed to \"WithAuthenticationNoCredentials\".",
+      "parentUuid": "c7880b39_30da3408",
+      "range": {
+        "startLine": 751,
+        "startChar": 30,
+        "endLine": 751,
+        "endChar": 52
+      },
+      "revId": "850325470801862d75b5fc5777249aacc963166b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_10dff8f9",
         "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/SmartClientSmartServerTest.java",
         "patchSetId": 9
@@ -36,6 +60,30 @@
       "writtenOn": "2017-08-22T21:15:24Z",
       "side": 1,
       "message": "redirect ?",
+      "range": {
+        "startLine": 831,
+        "startChar": 14,
+        "endLine": 831,
+        "endChar": 21
+      },
+      "revId": "850325470801862d75b5fc5777249aacc963166b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_b052a4e0",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/SmartClientSmartServerTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 831,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-08-22T21:57:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_10dff8f9",
       "range": {
         "startLine": 831,
         "startChar": 14,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_705cbcf9",
+        "filename": "org.eclipse.jgit.junit.http/src/org/eclipse/jgit/junit/http/AppServer.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-08-22T21:57:52Z",
+      "side": 1,
+      "message": "Of course. Done.",
+      "parentUuid": "c7880b39_50a0a07a",
+      "range": {
+        "startLine": 143,
+        "startChar": 19,
+        "endLine": 143,
+        "endChar": 24
+      },
+      "revId": "850325470801862d75b5fc5777249aacc963166b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_d09ad041",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
         "patchSetId": 9
@@ -82,6 +154,30 @@
       "writtenOn": "2017-08-22T21:15:24Z",
       "side": 1,
       "message": "through",
+      "range": {
+        "startLine": 1118,
+        "startChar": 23,
+        "endLine": 1118,
+        "endChar": 29
+      },
+      "revId": "850325470801862d75b5fc5777249aacc963166b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_50598008",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1118,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-08-22T21:57:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_d09ad041",
       "range": {
         "startLine": 1118,
         "startChar": 23,
