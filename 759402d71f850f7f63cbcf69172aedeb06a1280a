@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_b080e4d4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 956,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-08-22T21:15:24Z",
+      "side": 1,
+      "message": "file a bug for missing proxy authentication ?",
+      "parentUuid": "c7880b39_7c57ee51",
+      "revId": "759402d71f850f7f63cbcf69172aedeb06a1280a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_1c618a2d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
         "patchSetId": 5
