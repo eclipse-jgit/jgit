@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_e1045cd0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BlobObjectChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-08-23T21:51:58Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "b9db886dfb38c67be9f3556ec100ae3888bac06f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_01108805",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BlobObjectChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-08-23T21:51:58Z",
+      "side": 1,
+      "message": "mark new API with @since 4.9",
+      "revId": "b9db886dfb38c67be9f3556ec100ae3888bac06f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_813398aa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BlobObjectChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-08-23T21:51:58Z",
+      "side": 1,
+      "message": "name \"p\" doesn\u0027t provide any hint what\u0027s the meaning of this parameter, how about \"o\" or \"offset\" ?",
+      "range": {
+        "startLine": 31,
+        "startChar": 11,
+        "endLine": 31,
+        "endChar": 12
+      },
+      "revId": "b9db886dfb38c67be9f3556ec100ae3888bac06f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_217d8423",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BlobObjectChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-08-23T21:51:58Z",
+      "side": 1,
+      "message": "length of the fragment to check",
+      "range": {
+        "startLine": 34,
+        "startChar": 15,
+        "endLine": 34,
+        "endChar": 45
+      },
+      "revId": "b9db886dfb38c67be9f3556ec100ae3888bac06f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_616b0c68",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1081,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-08-23T21:51:58Z",
+      "side": 1,
+      "message": "mark new API with @since 4.9",
+      "revId": "b9db886dfb38c67be9f3556ec100ae3888bac06f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_a1717453",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1082,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-08-23T21:51:58Z",
+      "side": 1,
+      "message": "how does this create a new BlobObjectChecker ?",
+      "revId": "b9db886dfb38c67be9f3556ec100ae3888bac06f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
