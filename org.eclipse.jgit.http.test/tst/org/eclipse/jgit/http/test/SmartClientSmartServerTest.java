@@ -595,9 +595,9 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
 			fail("Should have failed (too many redirects)");
 		} catch (TransportException e) {
-			String expectedMessageBegin = MessageFormat.format(
-					JGitText.get().redirectLimitExceeded, remoteUri, "3",
-					remoteUri.replace("/4/", "/1/") + '/', "");
+			String expectedMessageBegin = remoteUri.toString() + ": "
+					+ MessageFormat.format(JGitText.get().redirectLimitExceeded,
+							"3", remoteUri.replace("/4/", "/1/") + '/', "");
 			String message = e.getMessage();
 			if (message.length() > expectedMessageBegin.length()) {
 				message = message.substring(0, expectedMessageBegin.length());
@@ -616,7 +616,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
 			fail("Should have failed (redirect loop)");
 		} catch (TransportException e) {
-			assertTrue(e.getMessage().contains("redirected more than"));
+			assertTrue(e.getMessage().contains("Redirected more than"));
 		}
 	}
 

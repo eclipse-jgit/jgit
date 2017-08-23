@@ -604,7 +604,8 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 				case HttpConnection.HTTP_FORBIDDEN:
 					throw new TransportException(uri, MessageFormat.format(
-							JGitText.get().serviceNotPermitted, service));
+							JGitText.get().serviceNotPermitted, baseUrl,
+							service));
 
 				case HttpConnection.HTTP_MOVED_PERM:
 				case HttpConnection.HTTP_MOVED_TEMP:
@@ -614,9 +615,10 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 					// and in general should occur only on POST requests. But it
 					// doesn't hurt to accept it here as a redirect.
 					if (http.followRedirects == HttpRedirectMode.FALSE) {
-						throw new TransportException(MessageFormat.format(
-								JGitText.get().redirectsOff, uri,
-								Integer.valueOf(status)));
+						throw new TransportException(uri,
+								MessageFormat.format(
+										JGitText.get().redirectsOff,
+										Integer.valueOf(status)));
 					}
 					URIish newUri = redirect(conn.getHeaderField(HDR_LOCATION),
 							Constants.INFO_REFS, redirects++);
@@ -655,31 +657,34 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	private URIish redirect(String location, String checkFor, int redirects)
 			throws TransportException {
 		if (location == null || location.isEmpty()) {
-			throw new TransportException(MessageFormat.format(
-					JGitText.get().redirectLocationMissing, uri, baseUrl));
+			throw new TransportException(uri,
+					MessageFormat.format(JGitText.get().redirectLocationMissing,
+							baseUrl));
 		}
 		if (redirects >= http.maxRedirects) {
-			throw new TransportException(MessageFormat.format(
-					JGitText.get().redirectLimitExceeded, uri,
+			throw new TransportException(uri,
+					MessageFormat.format(JGitText.get().redirectLimitExceeded,
 					Integer.valueOf(http.maxRedirects), baseUrl, location));
 		}
 		try {
 			if (!isValidRedirect(baseUrl, location, checkFor)) {
-				throw new TransportException(
+				throw new TransportException(uri,
 						MessageFormat.format(JGitText.get().redirectBlocked,
-								uri, baseUrl, location));
+								baseUrl, location));
 			}
 			location = location.substring(0, location.indexOf(checkFor));
 			URIish result = new URIish(location);
 			if (LOG.isInfoEnabled()) {
-				LOG.info(MessageFormat.format(JGitText.get().redirectHttp, uri,
+				LOG.info(MessageFormat.format(JGitText.get().redirectHttp,
+						uri.setPass(null),
 						Integer.valueOf(redirects), baseUrl, result));
 			}
 			return result;
 		} catch (URISyntaxException e) {
-			throw new TransportException(MessageFormat.format(
-					JGitText.get().invalidRedirectLocation,
-					uri, baseUrl, location), e);
+			throw new TransportException(uri,
+					MessageFormat.format(JGitText.get().invalidRedirectLocation,
+							baseUrl, location),
+					e);
 		}
 	}
 
