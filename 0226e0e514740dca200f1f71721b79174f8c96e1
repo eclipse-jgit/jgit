@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_414ff010",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 129397
+      },
+      "writtenOn": "2017-08-23T21:38:24Z",
+      "side": 1,
+      "message": "What do you recommend to do? I see only the solution of removing the test.",
+      "parentUuid": "c7880b39_c1fe802a",
+      "revId": "0226e0e514740dca200f1f71721b79174f8c96e1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_e1f9bc41",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
         "patchSetId": 8
@@ -30,6 +48,30 @@
       "writtenOn": "2017-08-23T20:57:16Z",
       "side": 1,
       "message": "silence non-externalized String warning in Eclipse by appending  //$NON-NLS-1$ after the semicolon\n\nthe same fix is needed in org.eclipse.jgit.pgm.Clone line 103",
+      "range": {
+        "startLine": 237,
+        "startChar": 74,
+        "endLine": 237,
+        "endChar": 76
+      },
+      "revId": "0226e0e514740dca200f1f71721b79174f8c96e1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_61406cee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 129397
+      },
+      "writtenOn": "2017-08-23T21:38:24Z",
+      "side": 1,
+      "message": "Why do we need this on Clone L103: `localName \u003d uri.getHumanishName();` ?",
+      "parentUuid": "c7880b39_e1f9bc41",
       "range": {
         "startLine": 237,
         "startChar": 74,
