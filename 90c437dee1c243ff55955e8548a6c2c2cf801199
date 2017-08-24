@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_30b4ef1c",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Clone.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-08-24T11:14:32Z",
+      "side": 1,
+      "message": "Minor detail: should be DOT_GIT_EXT (also in CloneCommand).\n\nI don\u0027t know why JGit has two different constants both \".git\", one supposed to be used for a .git directory and one as a file name extension. But as long as we have both, I think we should use them consistently.",
+      "range": {
+        "startLine": 103,
+        "startChar": 60,
+        "endLine": 103,
+        "endChar": 67
+      },
+      "revId": "90c437dee1c243ff55955e8548a6c2c2cf801199",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_90bda301",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-08-24T11:14:32Z",
+      "side": 1,
+      "message": "Maybe state that this is intended primarily for tests, and may return null. (Annotate return type as @Nullable.)",
+      "revId": "90c437dee1c243ff55955e8548a6c2c2cf801199",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
