@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_5c5277b5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-08-24T09:28:47Z",
+      "side": 1,
+      "message": "No, don\u0027t use reflection. I _did_ write above \"make verifyDirectories(URIish uri) have package visibility instead of private\", didn\u0027t I?",
+      "parentUuid": "c7880b39_7c6e5378",
+      "revId": "0226e0e514740dca200f1f71721b79174f8c96e1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_e1f9bc41",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
         "patchSetId": 8
