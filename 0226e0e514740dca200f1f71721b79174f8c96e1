@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_3cce8b5d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-08-24T08:25:52Z",
+      "side": 1,
+      "message": "Maybe it\u0027s time for a white-box unit test that doesn\u0027t actually clone but that just verifies that the directory gets set as expected.\n\nSomething like this:\n\n* add a package visibility method getDirectory() to CloneCommand.\n\n* make verifyDirectories(URIish uri) have package visibility instead of private.\n\nDo the test as\n\n  CloneCommand command \u003d Git.cloneRepository();\n  command.setURI(fileUri());\n  command.verifyDirectories(new URIish(fileUri());\n  File directory \u003d command.getDirectory();\n  // Then assert that \u0027directory\u0027 is as expected\n\nThis exploits knowledge about the implementation of CloneCommand.call(): it does a verifyDirectories(...) first, after which the directory should be set. But it doesn\u0027t actually create anything in the file system.\n\nCaveat: it\u0027s just an idea; I didn\u0027t actually try this.\n\nOtherwise, if you really want to test that CloneCommand.call() does the right thing overall, you\u0027d have to run the test in a separate process, which requires quite a bit of setup (separate test class with main method, then calling it with the correct class path and the correct initial directory, somehow getting the result, then doing an appropriate assertion here).\n\nAlso, there should be two tests: one with setBare(true) and one without. For a bare repo, I think directory should be \".../\u003creponame\u003e.git\", for a non-bare repo it should be \".../\u003creponame\u003e\".",
+      "parentUuid": "c7880b39_414ff010",
+      "revId": "0226e0e514740dca200f1f71721b79174f8c96e1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_e1f9bc41",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
         "patchSetId": 8
@@ -72,6 +90,30 @@
       "side": 1,
       "message": "Why do we need this on Clone L103: `localName \u003d uri.getHumanishName();` ?",
       "parentUuid": "c7880b39_e1f9bc41",
+      "range": {
+        "startLine": 237,
+        "startChar": 74,
+        "endLine": 237,
+        "endChar": 76
+      },
+      "revId": "0226e0e514740dca200f1f71721b79174f8c96e1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_9cee9fac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-08-24T08:25:52Z",
+      "side": 1,
+      "message": "Because it\u0027ll call setDirectory on line 122, and we\u0027ll eventually end up in InitCommand line 89 with directory not having the \".git\" suffix.",
+      "parentUuid": "c7880b39_61406cee",
       "range": {
         "startLine": 237,
         "startChar": 74,
