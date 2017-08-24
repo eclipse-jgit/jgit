@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_7c6e5378",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 129397
+      },
+      "writtenOn": "2017-08-24T09:25:50Z",
+      "side": 1,
+      "message": "I see, but `verifyDirectories` is private, should I do reflection to access it?",
+      "parentUuid": "c7880b39_3cce8b5d",
+      "revId": "0226e0e514740dca200f1f71721b79174f8c96e1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_e1f9bc41",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
         "patchSetId": 8
@@ -114,6 +132,30 @@
       "side": 1,
       "message": "Because it\u0027ll call setDirectory on line 122, and we\u0027ll eventually end up in InitCommand line 89 with directory not having the \".git\" suffix.",
       "parentUuid": "c7880b39_61406cee",
+      "range": {
+        "startLine": 237,
+        "startChar": 74,
+        "endLine": 237,
+        "endChar": 76
+      },
+      "revId": "0226e0e514740dca200f1f71721b79174f8c96e1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_dc766748",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 129397
+      },
+      "writtenOn": "2017-08-24T09:25:50Z",
+      "side": 1,
+      "message": "Ok I see",
+      "parentUuid": "c7880b39_9cee9fac",
       "range": {
         "startLine": 237,
         "startChar": 74,
