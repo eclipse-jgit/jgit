@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_c44129bf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 781,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-08-25T22:11:43Z",
+      "side": 1,
+      "message": "I don\u0027t understand this !sendPack condition.\n\nWhy should this happen when sendPack \u003d\u003d false? Why shouldn\u0027t it happen when sendPack \u003d\u003d true?",
+      "range": {
+        "startLine": 781,
+        "startChar": 8,
+        "endLine": 781,
+        "endChar": 16
+      },
+      "revId": "b2b898e59d2c1ebc8fd0de39302dce1c66bfa2c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
