@@ -173,6 +173,12 @@ public class OpenSshConfig implements ConfigRepository {
 	private static class State {
 		Map<String, HostEntry> entries = new LinkedHashMap<>();
 		Map<String, Host> hosts = new HashMap<>();
+
+		@Override
+		@SuppressWarnings("nls")
+		public String toString() {
+			return "State [entries=" + entries + ", hosts=" + hosts + "]";
+		}
 	}
 
 	/** State read from the config file, plus {@link Host}s created from it. */
@@ -750,6 +756,13 @@ public class OpenSshConfig implements ConfigRepository {
 			// anyway. ControlPath, LocalCommand, ProxyCommand, and
 			// RemoteCommand are not used by Jsch.
 		}
+
+		@Override
+		@SuppressWarnings("nls")
+		public String toString() {
+			return "HostEntry [options=" + options + ", multiOptions="
+					+ multiOptions + ", listOptions=" + listOptions + "]";
+		}
 	}
 
 	/**
@@ -910,6 +923,17 @@ public class OpenSshConfig implements ConfigRepository {
 		Config getConfig() {
 			return config;
 		}
+
+		@Override
+		@SuppressWarnings("nls")
+		public String toString() {
+			return "Host [hostName=" + hostName + ", port=" + port
+					+ ", identityFile=" + identityFile + ", user=" + user
+					+ ", preferredAuthentications=" + preferredAuthentications
+					+ ", batchMode=" + batchMode + ", strictHostKeyChecking="
+					+ strictHostKeyChecking + ", connectionAttempts="
+					+ connectionAttempts + ", config=" + config + "]";
+		}
 	}
 
 	/**
@@ -925,5 +949,12 @@ public class OpenSshConfig implements ConfigRepository {
 	public Config getConfig(String hostName) {
 		Host host = lookup(hostName);
 		return host.getConfig();
+	}
+
+	@Override
+	@SuppressWarnings("nls")
+	public String toString() {
+		return "OpenSshConfig [home=" + home + ", configFile=" + configFile
+				+ ", lastModified=" + lastModified + ", state=" + state + "]";
 	}
 }
