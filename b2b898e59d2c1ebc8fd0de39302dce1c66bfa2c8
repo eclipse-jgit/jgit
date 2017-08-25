@@ -22,6 +22,30 @@
       "revId": "b2b898e59d2c1ebc8fd0de39302dce1c66bfa2c8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_64e4f555",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 781,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2017-08-25T22:14:17Z",
+      "side": 1,
+      "message": "When sendPack is true, then we recognize that the request is valid so far. If there\u0027s any trailing byte, it\u0027s a protocol error. This protocol error will be checked in sendPack() (see the CorruptObjectException).",
+      "parentUuid": "c7880b39_c44129bf",
+      "range": {
+        "startLine": 781,
+        "startChar": 8,
+        "endLine": 781,
+        "endChar": 16
+      },
+      "revId": "b2b898e59d2c1ebc8fd0de39302dce1c66bfa2c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
