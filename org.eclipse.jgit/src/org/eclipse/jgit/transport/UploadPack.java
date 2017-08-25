@@ -719,7 +719,7 @@ public class UploadPack {
 	}
 
 	private void service() throws IOException {
-		boolean sendPack;
+		boolean sendPack = false;
 		// If it's a non-bidi request, we need to read the entire request before
 		// writing a response. Buffer the response until then.
 		try {
@@ -778,6 +778,11 @@ public class UploadPack {
 			}
 			throw err;
 		} finally {
+			if (!sendPack && !biDirectionalPipe) {
+				while (0 < rawIn.skip(2048) || 0 <= rawIn.read()) {
+					// Discard until EOF.
+				}
+			}
 			rawOut.stopBuffering();
 		}
 
