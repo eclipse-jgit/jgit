@@ -201,7 +201,7 @@ public class GitSmartHttpTools {
 		} else {
 			if (httpStatus < 400)
 				ServletUtils.consumeRequestBody(req);
-			res.sendError(httpStatus);
+			res.sendError(httpStatus, textForGit);
 		}
 	}
 
