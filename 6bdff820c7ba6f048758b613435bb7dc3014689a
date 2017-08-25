@@ -46,6 +46,30 @@
       "revId": "6bdff820c7ba6f048758b613435bb7dc3014689a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_c695b111",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/DefaultTypedConfigGetter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-08-25T06:09:21Z",
+      "side": 1,
+      "message": "I find it shorter (3 lines vs 6, although depends on line wrapping) but otherwise I suppose there\u0027s no real reason other than using Java 8 features :)",
+      "parentUuid": "c7880b39_868009d5",
+      "range": {
+        "startLine": 292,
+        "startChar": 2,
+        "endLine": 297,
+        "endChar": 16
+      },
+      "revId": "6bdff820c7ba6f048758b613435bb7dc3014689a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
