@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_a45c1d77",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/OpenSshConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-08-25T23:48:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_06289983",
+      "revId": "b9fdc5723444f16142c824a4983127529c1319ae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_26ce755d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/OpenSshConfig.java",
         "patchSetId": 3
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_c457694f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/OpenSshConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-08-25T23:48:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_26ce755d",
+      "range": {
+        "startLine": 372,
+        "startChar": 43,
+        "endLine": 372,
+        "endChar": 45
+      },
+      "revId": "b9fdc5723444f16142c824a4983127529c1319ae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_46d1c1f6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/OpenSshConfig.java",
         "patchSetId": 3
@@ -53,6 +95,24 @@
       "writtenOn": "2017-08-25T23:48:08Z",
       "side": 1,
       "message": "style nit: missing braces",
+      "revId": "b9fdc5723444f16142c824a4983127529c1319ae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_e452a55e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/OpenSshConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-08-25T23:48:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_46d1c1f6",
       "revId": "b9fdc5723444f16142c824a4983127529c1319ae",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
