@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_2682f557",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Clone.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-08-25T10:35:54Z",
+      "side": 1,
+      "message": "optional: Could avoid the NON-NLS suppression by using an if-block instead of ternary expression.\n\n localName \u003d uri.getHumanishName();\n if (isBare) {\n   localName \u003d localName + Constants.DOT_GIT_EXT;\n }",
+      "revId": "763cd4bfb47eda163179874235bedadc128a96a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_869009a3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-08-25T10:35:54Z",
+      "side": 1,
+      "message": "optional: CloneCommand follows the builder pattern, so these calls could all be chained into one:\n\n CloneCommand command \u003d Git.cloneRepository().setURI(fileUri()).setBare(true);\n\nSame at L161-162",
+      "range": {
+        "startLine": 172,
+        "startChar": 2,
+        "endLine": 174,
+        "endChar": 24
+      },
+      "revId": "763cd4bfb47eda163179874235bedadc128a96a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
