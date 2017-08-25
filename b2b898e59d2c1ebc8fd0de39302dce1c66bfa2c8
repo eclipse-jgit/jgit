@@ -46,6 +46,30 @@
       "revId": "b2b898e59d2c1ebc8fd0de39302dce1c66bfa2c8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_a4d17d76",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 781,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2017-08-25T22:16:17Z",
+      "side": 1,
+      "message": "Actually, in that case, we should throw an exception before calling stopBuffering. I\u0027ll move that trailer check code here.",
+      "parentUuid": "c7880b39_64e4f555",
+      "range": {
+        "startLine": 781,
+        "startChar": 8,
+        "endLine": 781,
+        "endChar": 16
+      },
+      "revId": "b2b898e59d2c1ebc8fd0de39302dce1c66bfa2c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
