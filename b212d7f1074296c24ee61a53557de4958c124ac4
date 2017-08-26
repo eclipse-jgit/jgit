@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_ffd870e8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PushConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-08-26T19:36:35Z",
+      "side": 1,
+      "message": "how about moving this class to org.eclipse.jgit.lib.transport ?\nWhere do you plan to use it ?",
+      "range": {
+        "startLine": 44,
+        "startChar": 8,
+        "endLine": 44,
+        "endChar": 28
+      },
+      "revId": "b212d7f1074296c24ee61a53557de4958c124ac4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
