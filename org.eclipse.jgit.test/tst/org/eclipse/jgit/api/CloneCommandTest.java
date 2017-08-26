@@ -156,8 +156,8 @@ public class CloneCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCloneRepositoryDefaultDirectory() throws IOException, URISyntaxException,
-			JGitInternalException, GitAPIException {
+	public void testCloneRepositoryDefaultDirectory()
+			throws URISyntaxException, JGitInternalException {
 		CloneCommand command = Git.cloneRepository().setURI(fileUri());
 
 		command.verifyDirectories(new URIish(fileUri()));
@@ -166,8 +166,8 @@ public class CloneCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCloneBareRepositoryDefaultDirectory() throws IOException, URISyntaxException,
-			JGitInternalException, GitAPIException {
+	public void testCloneBareRepositoryDefaultDirectory()
+			throws URISyntaxException, JGitInternalException {
 		CloneCommand command = Git.cloneRepository().setURI(fileUri()).setBare(true);
 
 		command.verifyDirectories(new URIish(fileUri()));
