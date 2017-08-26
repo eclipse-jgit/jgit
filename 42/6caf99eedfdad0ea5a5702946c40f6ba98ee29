@@ -1,0 +1,8 @@
+Code-Review+1: David Pursehouse <david.pursehouse@gmail.com>
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+Verified+1: Hudson CI
+Submitted-by: David Pursehouse <david.pursehouse@gmail.com>
+Submitted-at: Sat, 26 Aug 2017 04:12:34 -0400
+Reviewed-on: https://git.eclipse.org/r/103447
+Project: jgit/jgit
+Branch: refs/heads/master
