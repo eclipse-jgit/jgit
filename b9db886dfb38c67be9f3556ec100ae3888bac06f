@@ -233,6 +233,24 @@
       "revId": "b9db886dfb38c67be9f3556ec100ae3888bac06f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_fffa30aa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1082,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-08-26T01:50:40Z",
+      "side": 1,
+      "message": "JGit predates using Optional this way. I think just returning null here and adding comments that null means \"there is no new-fangled BlobObjectChecker, continue using the old style object checker\" is more in keeping with the rest of the library.",
+      "parentUuid": "c7880b39_21af4417",
+      "revId": "b9db886dfb38c67be9f3556ec100ae3888bac06f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
