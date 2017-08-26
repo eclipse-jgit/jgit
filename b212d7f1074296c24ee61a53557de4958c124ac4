@@ -22,6 +22,23 @@
       "revId": "b212d7f1074296c24ee61a53557de4958c124ac4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_dff49449",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PushConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-08-26T19:47:56Z",
+      "side": 1,
+      "message": "Why not simply return configValue?",
+      "revId": "b212d7f1074296c24ee61a53557de4958c124ac4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
