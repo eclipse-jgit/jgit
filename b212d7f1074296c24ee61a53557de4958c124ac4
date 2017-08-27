@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_bac27678",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PushConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-08-27T23:21:20Z",
+      "side": 1,
+      "message": "\u003e how about moving this class to org.eclipse.jgit.lib.transport ?\n\nI put it in here because that\u0027s where SubmoduleConfig was added, but I will move it as suggested.\n\n\u003e Where do you plan to use it ?\n\nI\u0027m going to add support for recursing submodules on push in the push command.  I\u0027ve done this as a separate commit to make reviewing a bit easier.",
+      "parentUuid": "c7880b39_ffd870e8",
+      "range": {
+        "startLine": 44,
+        "startChar": 8,
+        "endLine": 44,
+        "endChar": 28
+      },
+      "revId": "b212d7f1074296c24ee61a53557de4958c124ac4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_dff49449",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PushConfig.java",
         "patchSetId": 3
@@ -36,6 +60,24 @@
       "writtenOn": "2017-08-26T19:47:56Z",
       "side": 1,
       "message": "Why not simply return configValue?",
+      "revId": "b212d7f1074296c24ee61a53557de4958c124ac4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_dacd82ab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PushConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-08-27T23:21:20Z",
+      "side": 1,
+      "message": "Hmm, yes, you\u0027re right.  Done.",
+      "parentUuid": "c7880b39_dff49449",
       "revId": "b212d7f1074296c24ee61a53557de4958c124ac4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
