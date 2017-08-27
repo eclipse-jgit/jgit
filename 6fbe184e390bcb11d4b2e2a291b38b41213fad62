@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_ffaeb018",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/attributes/CGitAttributesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-08-27T08:22:07Z",
+      "side": 1,
+      "message": "isn\u0027t that simpler:\n\n return RawParseUtils.decode(b.toByteArray());",
+      "range": {
+        "startLine": 104,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 3
+      },
+      "revId": "6fbe184e390bcb11d4b2e2a291b38b41213fad62",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_7fc3a0d0",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/CGitIgnoreTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-08-27T08:22:07Z",
+      "side": 1,
+      "message": "isn\u0027t that simpler:\n\n return RawParseUtils.decode(b.toByteArray());",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 113,
+        "endChar": 3
+      },
+      "revId": "6fbe184e390bcb11d4b2e2a291b38b41213fad62",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
