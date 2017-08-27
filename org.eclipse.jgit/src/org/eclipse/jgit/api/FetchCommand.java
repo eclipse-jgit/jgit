@@ -192,6 +192,7 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 							.setThin(thin).setRefSpecs(refSpecs)
 							.setDryRun(dryRun)
 							.setRecurseSubmodules(recurseMode);
+					configure(f);
 					if (callback != null) {
 						callback.fetchingSubmodule(walk.getPath());
 					}
