@@ -34,6 +34,24 @@
       "revId": "62a56a201a8d768026a30bc64be8b8b4d10cd609",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_1fde1c8b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/attributes/CGitAttributesTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-08-27T14:10:12Z",
+      "side": 1,
+      "message": "ok",
+      "parentUuid": "c7880b39_3f36786d",
+      "revId": "62a56a201a8d768026a30bc64be8b8b4d10cd609",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
