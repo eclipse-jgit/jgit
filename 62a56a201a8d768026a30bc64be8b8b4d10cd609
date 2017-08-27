@@ -16,6 +16,24 @@
       "revId": "62a56a201a8d768026a30bc64be8b8b4d10cd609",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_3f36786d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/attributes/CGitAttributesTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-08-27T10:01:45Z",
+      "side": 1,
+      "message": "No, I didn\u0027t. For .gitignore the documentation is kind of correct if one looks at the global effects.\n\nThe important thing for JGit is to do the same as the C-git implementation, otherwise if attributes are different things like git lfs or other clean/smudge filters (like the eol/crlf filtering) may behave differently.",
+      "parentUuid": "c7880b39_ff207025",
+      "revId": "62a56a201a8d768026a30bc64be8b8b4d10cd609",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
