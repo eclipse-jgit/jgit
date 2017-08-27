@@ -79,6 +79,23 @@
       "revId": "89f186075d18f215179ff7f90283b37419c119ab",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_7f2c801d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleUpdateCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-08-27T13:29:10Z",
+      "side": 1,
+      "message": "Need to call configure(fetchCommand) before the call() to ensure the CredentialsProvider, timeout, etc. are passed on.",
+      "revId": "89f186075d18f215179ff7f90283b37419c119ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
