@@ -166,6 +166,10 @@ class BlockReader {
 		return readVarint64();
 	}
 
+	long readUpdateIndexDelta() {
+		return readVarint64();
+	}
+
 	Ref readRef() throws IOException {
 		String name = RawParseUtils.decode(UTF_8, nameBuf, 0, nameLen);
 		switch (valueType & VALUE_TYPE_MASK) {
@@ -490,6 +494,7 @@ class BlockReader {
 	void skipValue() {
 		switch (blockType) {
 		case REF_BLOCK_TYPE:
+			readVarint64(); // update_index_delta
 			switch (valueType & VALUE_TYPE_MASK) {
 			case VALUE_NONE:
 				return;

@@ -100,26 +100,8 @@ public class MergedReftable extends Reftable {
 
 	@Override
 	public RefCursor seekRef(String name) throws IOException {
-		if (name.endsWith("/")) { //$NON-NLS-1$
-			return seekRefPrefix(name);
-		}
-		return seekSingleRef(name);
-	}
-
-	private RefCursor seekRefPrefix(String name) throws IOException {
 		MergedRefCursor m = new MergedRefCursor();
 		for (int i = 0; i < tables.length; i++) {
-			m.add(new RefQueueEntry(tables[i].seekRef(name), i));
-		}
-		return m;
-	}
-
-	private RefCursor seekSingleRef(String name) throws IOException {
-		// Walk the tables from highest priority (end of list) to lowest.
-		// As soon as the reference is found (queue not empty), all lower
-		// priority tables are irrelevant as current table shadows them.
-		MergedRefCursor m = new MergedRefCursor();
-		for (int i = tables.length - 1; i >= 0 && m.queue.isEmpty(); i--) {
 			m.add(new RefQueueEntry(tables[i].seekRef(name), i));
 		}
 		return m;
@@ -168,6 +150,7 @@ public class MergedReftable extends Reftable {
 		private final PriorityQueue<RefQueueEntry> queue;
 		private RefQueueEntry head;
 		private Ref ref;
+		private long updateIndex;
 
 		MergedRefCursor() {
 			queue = new PriorityQueue<>(queueSize(), RefQueueEntry::compare);
@@ -205,6 +188,7 @@ public class MergedReftable extends Reftable {
 				}
 
 				ref = t.rc.getRef();
+				updateIndex = t.rc.getUpdateIndex();
 				boolean include = includeDeletes || !t.rc.wasDeleted();
 				skipShadowedRefs(ref.getName());
 				add(t);
@@ -240,7 +224,16 @@ public class MergedReftable extends Reftable {
 		}
 
 		@Override
+		public long getUpdateIndex() {
+			return updateIndex;
+		}
+
+		@Override
 		public void close() {
+			if (head != null) {
+				head.rc.close();
+				head = null;
+			}
 			while (!queue.isEmpty()) {
 				queue.remove().rc.close();
 			}
@@ -250,6 +243,10 @@ public class MergedReftable extends Reftable {
 	private static class RefQueueEntry {
 		static int compare(RefQueueEntry a, RefQueueEntry b) {
 			int cmp = a.name().compareTo(b.name());
+			if (cmp == 0) {
+				// higher updateIndex shadows lower updateIndex.
+				cmp = Long.signum(b.updateIndex() - a.updateIndex());
+			}
 			if (cmp == 0) {
 				// higher index shadows lower index, so higher index first.
 				cmp = b.stackIdx - a.stackIdx;
@@ -267,6 +264,10 @@ public class MergedReftable extends Reftable {
 
 		String name() {
 			return rc.getRef().getName();
+		}
+
+		long updateIndex() {
+			return rc.getUpdateIndex();
 		}
 	}
 
