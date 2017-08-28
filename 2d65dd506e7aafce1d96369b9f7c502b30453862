@@ -22,6 +22,30 @@
       "revId": "2d65dd506e7aafce1d96369b9f7c502b30453862",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_55e40555",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ObjectCheckerTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2017-08-28T15:46:30Z",
+      "side": 1,
+      "message": "Done. This could have done with assertThrows if JUnit \u003e\u003d 4.13, though.",
+      "parentUuid": "c7880b39_7a61ee02",
+      "range": {
+        "startLine": 119,
+        "startChar": 2,
+        "endLine": 124,
+        "endChar": 3
+      },
+      "revId": "2d65dd506e7aafce1d96369b9f7c502b30453862",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
