@@ -49,8 +49,8 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.internal.storage.reftable.ReftableWriter.Stats;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.ReflogEntry;
 
 /**

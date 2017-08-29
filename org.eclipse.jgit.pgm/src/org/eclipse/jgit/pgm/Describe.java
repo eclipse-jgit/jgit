@@ -42,6 +42,9 @@
  */
 package org.eclipse.jgit.pgm;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.jgit.api.DescribeCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.RefNotFoundException;
@@ -49,9 +52,6 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.pgm.internal.CLIText;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Command(common = true, usage = "usage_Describe")
 class Describe extends TextBuiltin {
