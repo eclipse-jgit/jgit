@@ -22,6 +22,30 @@
       "revId": "51618659f479b21782439d30288b9000c0bea675",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_d3d72c67",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-08-29T11:27:07Z",
+      "side": 1,
+      "message": "Hadn\u0027t noticed that. But I think as non-committer I cannot forge author identities on Gerrit and thus Gerrit would reject an update if I only changed the committer?\n\nJust tried pushing with Doug set as author and apparently it gets rejected even earlier by the foundation\u0027s validation hook:\n\n  Authored by: Doug Kelly \u003cdougk.ff7@gmail.com\u003e\n\n  The author is not a committer on the project.\n  error: The author does not have a current Eclipse Contributor Agreement (ECA) on file.\n\nSo what now? Assume I changed enough, or drop all this, find some other way to implement this, and then push a completely new change?",
+      "parentUuid": "c7880b39_132ff416",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 48
+      },
+      "revId": "51618659f479b21782439d30288b9000c0bea675",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
