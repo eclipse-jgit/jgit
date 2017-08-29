@@ -359,7 +359,7 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 		assertEquals(subId, gen.getObjectId());
 		assertEquals(new File(db.getWorkTree(), path), gen.getDirectory());
 		assertNull(gen.getConfigUpdate());
-		assertNull(gen.getConfigUrl());
+		assertEquals(gen.getModulesUrl(), gen.getConfigUrl());
 		assertEquals("sub", gen.getModulesPath());
 		assertNull(gen.getModulesUpdate());
 		assertEquals("git://example.com/sub", gen.getModulesUrl());
@@ -397,7 +397,7 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 		assertEquals(subId, gen.getObjectId());
 		assertEquals(new File(db.getWorkTree(), path), gen.getDirectory());
 		assertNull(gen.getConfigUpdate());
-		assertNull(gen.getConfigUrl());
+		assertEquals(gen.getModulesUrl(), gen.getConfigUrl());
 		assertEquals("sub", gen.getModulesPath());
 		assertNull(gen.getModulesUpdate());
 		assertEquals("git://example.com/sub", gen.getModulesUrl());
@@ -437,7 +437,7 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 		assertEquals(subId, gen.getObjectId());
 		assertEquals(new File(db.getWorkTree(), path), gen.getDirectory());
 		assertNull(gen.getConfigUpdate());
-		assertNull(gen.getConfigUrl());
+		assertEquals(gen.getModulesUrl(), gen.getConfigUrl());
 		assertEquals("sub", gen.getModulesPath());
 		assertNull(gen.getModulesUpdate());
 		assertEquals("git://example.com/sub", gen.getModulesUrl());
@@ -477,7 +477,7 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 		assertEquals(subId, gen.getObjectId());
 		assertEquals(new File(db.getWorkTree(), path), gen.getDirectory());
 		assertNull(gen.getConfigUpdate());
-		assertNull(gen.getConfigUrl());
+		assertEquals(gen.getModulesUrl(), gen.getConfigUrl());
 		assertEquals("sub", gen.getModulesPath());
 		assertNull(gen.getModulesUpdate());
 		assertEquals("git://example.com/sub", gen.getModulesUrl());
