@@ -49,7 +49,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.UnsupportedOperationException;
 import java.net.URI;
 import java.text.MessageFormat;
 import java.util.ArrayList;

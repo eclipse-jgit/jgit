@@ -42,6 +42,14 @@
  */
 package org.eclipse.jgit.treewalk.filter;
 
+import static org.junit.Assert.assertEquals;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
@@ -52,14 +60,6 @@ import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
 
 public class PathFilterLogicTest extends RepositoryTestCase {
 

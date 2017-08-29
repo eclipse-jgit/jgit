@@ -42,8 +42,8 @@
  */
 package org.eclipse.jgit.events;
 
-import java.util.Collections;
 import java.util.Collection;
+import java.util.Collections;
 
 import org.eclipse.jgit.annotations.NonNull;
 
