@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_53d17c3e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-08-29T08:32:27Z",
+      "side": 1,
+      "message": "Eliminated altogether. Setting the initial size here is probably not worth it; the default size is fine.",
+      "parentUuid": "27d6470d_cd24dce8",
+      "range": {
+        "startLine": 463,
+        "startChar": 53,
+        "endLine": 464,
+        "endChar": 62
+      },
+      "revId": "0156e6631dc4a0b07e0263568d045952678515e7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27d6470d_f2397b8c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
         "patchSetId": 1
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "Shouldn\u0027t the null-check also be done on pathToName itself?\n\nAnd since this ternary expression is repeated in three places it might be better to put it in utility method.",
       "parentUuid": "27d6470d_72572ba0",
+      "range": {
+        "startLine": 612,
+        "startChar": 5,
+        "endLine": 612,
+        "endChar": 15
+      },
+      "revId": "0156e6631dc4a0b07e0263568d045952678515e7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_b3e7001f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-08-29T08:32:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07b223f6_4ec3e19f",
       "range": {
         "startLine": 612,
         "startChar": 5,
