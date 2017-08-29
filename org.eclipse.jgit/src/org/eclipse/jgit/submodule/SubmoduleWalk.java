@@ -45,7 +45,6 @@ package org.eclipse.jgit.submodule;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
-import java.util.Locale;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -691,13 +690,9 @@ public class SubmoduleWalk implements AutoCloseable {
 	public IgnoreSubmoduleMode getModulesIgnore() throws IOException,
 			ConfigInvalidException {
 		lazyLoadModulesConfig();
-		String name = modulesConfig.getString(
+		return modulesConfig.getEnum(IgnoreSubmoduleMode.values(),
 				ConfigConstants.CONFIG_SUBMODULE_SECTION, getModuleName(path),
-				ConfigConstants.CONFIG_KEY_IGNORE);
-		if (name == null)
-			return null;
-		return IgnoreSubmoduleMode
-				.valueOf(name.trim().toUpperCase(Locale.ROOT));
+				ConfigConstants.CONFIG_KEY_IGNORE, IgnoreSubmoduleMode.NONE);
 	}
 
 	/**
