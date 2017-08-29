@@ -244,11 +244,11 @@ public class FileResolver<C> implements RepositoryResolver<C> {
 			return true; // no absolute paths
 
 		if (name.startsWith("../")) //$NON-NLS-1$
-			return true; // no "l../etc/passwd" 
+			return true; // no "l../etc/passwd"
 		if (name.contains("/../")) //$NON-NLS-1$
-			return true; // no "foo/../etc/passwd" 
+			return true; // no "foo/../etc/passwd"
 		if (name.contains("/./")) //$NON-NLS-1$
-			return true; // "foo/./foo" is insane to ask 
+			return true; // "foo/./foo" is insane to ask
 		if (name.contains("//")) //$NON-NLS-1$
 			return true; // double slashes is sloppy, don't use it
 

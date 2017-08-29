@@ -66,7 +66,7 @@ public abstract class SshSessionFactory {
 	 * <p>
 	 * A factory is always available. By default the factory will read from the
 	 * user's <code>$HOME/.ssh</code> and assume OpenSSH compatibility.
-	 * 
+	 *
 	 * @return factory the current factory for this JVM.
 	 */
 	public static SshSessionFactory getInstance() {

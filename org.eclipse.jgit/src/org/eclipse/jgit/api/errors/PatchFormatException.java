@@ -50,9 +50,9 @@ import org.eclipse.jgit.patch.FormatError;
 
 /**
  * Exception thrown when applying a patch fails due to an invalid format
- * 
+ *
  * @since 2.0
- * 
+ *
  */
 public class PatchFormatException extends GitAPIException {
 	private static final long serialVersionUID = 1L;

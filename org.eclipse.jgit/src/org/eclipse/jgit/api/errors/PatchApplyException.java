@@ -44,9 +44,9 @@ package org.eclipse.jgit.api.errors;
 
 /**
  * Exception thrown when applying a patch fails
- * 
+ *
  * @since 2.0
- * 
+ *
  */
 public class PatchApplyException extends GitAPIException {
 	private static final long serialVersionUID = 1L;

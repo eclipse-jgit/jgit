@@ -120,7 +120,7 @@ public abstract class SshTransport extends TcpTransport {
 
 	/**
 	 * Get the default SSH session
-	 * 
+	 *
 	 * @return a remote session
 	 * @throws TransportException
 	 *             in case of error with opening SSH session

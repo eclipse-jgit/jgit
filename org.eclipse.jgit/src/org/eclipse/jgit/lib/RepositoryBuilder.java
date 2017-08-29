@@ -55,7 +55,7 @@ import java.io.File;
  * <p>
  * Single repository applications trying to be compatible with other Git
  * implementations are encouraged to use a model such as:
- * 
+ *
  * <pre>
  * new RepositoryBuilder() //
  * 		.setGitDir(gitDirArgument) // --git-dir if supplied, no-op if null
@@ -63,7 +63,7 @@ import java.io.File;
  * 		.findGitDir() // scan up the file system tree
  * 		.build()
  * </pre>
- * 
+ *
  * @see org.eclipse.jgit.storage.file.FileRepositoryBuilder
  */
 public class RepositoryBuilder extends
