@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_9cd3f1cd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReftable.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2017-08-29T17:54:30Z",
+      "side": 1,
+      "message": "Can this be changed to \"rc\", same as the variable name for ReadableChannel in BlockBasedFile?",
+      "range": {
+        "startLine": 110,
+        "startChar": 26,
+        "endLine": 110,
+        "endChar": 28
+      },
+      "revId": "1222f345063bf989f35920b5e06091d9ea3b6ab0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_7ccf2527",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReftable.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2017-08-29T17:54:30Z",
+      "side": 1,
+      "message": "Should we call super.blockSize(ch) here to ensure that BlockBasedFile.blocksize field is properly set?",
+      "range": {
+        "startLine": 160,
+        "startChar": 4,
+        "endLine": 160,
+        "endChar": 46
+      },
+      "revId": "1222f345063bf989f35920b5e06091d9ea3b6ab0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
