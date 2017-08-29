@@ -16,6 +16,24 @@
       "revId": "99fd56176b1d1ed3dbe1643566b0cfbf6c7ad289",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_50ca5218",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollectorTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-08-29T02:26:43Z",
+      "side": 0,
+      "message": "Not really, I should have fixed the condition its testing for. Done.",
+      "parentUuid": "c7880b39_f08dfe0a",
+      "revId": "99fd56176b1d1ed3dbe1643566b0cfbf6c7ad289",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }

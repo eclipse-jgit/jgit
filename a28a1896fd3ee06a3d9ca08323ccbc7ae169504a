@@ -16,6 +16,24 @@
       "revId": "a28a1896fd3ee06a3d9ca08323ccbc7ae169504a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_90483a36",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/ReftableBatchRefUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-08-29T02:26:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_106e0aaa",
+      "revId": "a28a1896fd3ee06a3d9ca08323ccbc7ae169504a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
