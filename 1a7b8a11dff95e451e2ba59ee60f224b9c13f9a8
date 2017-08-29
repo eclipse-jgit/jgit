@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_9ca93117",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 542,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2017-08-29T19:14:27Z",
+      "side": 1,
+      "message": "Moving the comparator to DfsReftable class?",
+      "range": {
+        "startLine": 542,
+        "startChar": 35,
+        "endLine": 542,
+        "endChar": 53
+      },
+      "revId": "1a7b8a11dff95e451e2ba59ee60f224b9c13f9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_3ca2fd2b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2017-08-29T19:14:27Z",
+      "side": 1,
+      "message": "Should DfsReftables be sorted by minUpdateIndex too?",
+      "range": {
+        "startLine": 559,
+        "startChar": 3,
+        "endLine": 559,
+        "endChar": 26
+      },
+      "revId": "1a7b8a11dff95e451e2ba59ee60f224b9c13f9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_3cdf5d88",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackDescription.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2017-08-29T19:14:27Z",
+      "side": 1,
+      "message": "Returning DfsPackDescription, just like setPackStats()?",
+      "range": {
+        "startLine": 336,
+        "startChar": 1,
+        "endLine": 336,
+        "endChar": 5
+      },
+      "revId": "1a7b8a11dff95e451e2ba59ee60f224b9c13f9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}

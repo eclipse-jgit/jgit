@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_3c067d94",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2017-08-29T19:14:27Z",
+      "side": 0,
+      "message": "Please comment why close() is no longer needed, thanks!",
+      "range": {
+        "startLine": 491,
+        "startChar": 4,
+        "endLine": 491,
+        "endChar": 14
+      },
+      "revId": "1222f345063bf989f35920b5e06091d9ea3b6ab0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
