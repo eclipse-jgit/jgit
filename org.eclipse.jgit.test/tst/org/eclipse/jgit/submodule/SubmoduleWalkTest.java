@@ -444,4 +444,44 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 		assertNull(gen.getRepository());
 		assertFalse(gen.next());
 	}
+
+	@Test
+	public void testTreeIteratorWithGitmodulesNameNotPath() throws Exception {
+		final ObjectId subId = ObjectId
+				.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
+		final String path = "sub";
+		final String arbitraryName = "x";
+
+		final Config gitmodules = new Config();
+		gitmodules.setString(CONFIG_SUBMODULE_SECTION, arbitraryName,
+				CONFIG_KEY_PATH, "sub");
+		gitmodules.setString(CONFIG_SUBMODULE_SECTION, arbitraryName,
+				CONFIG_KEY_URL, "git://example.com/sub");
+
+		RevCommit commit = testDb.getRevWalk()
+				.parseCommit(testDb.commit().noParents()
+						.add(DOT_GIT_MODULES, gitmodules.toText())
+						.edit(new PathEdit(path) {
+
+							@Override
+							public void apply(DirCacheEntry ent) {
+								ent.setFileMode(FileMode.GITLINK);
+								ent.setObjectId(subId);
+							}
+						}).create());
+
+		final CanonicalTreeParser p = new CanonicalTreeParser();
+		p.reset(testDb.getRevWalk().getObjectReader(), commit.getTree());
+		SubmoduleWalk gen = SubmoduleWalk.forPath(db, p, "sub");
+		assertEquals(path, gen.getPath());
+		assertEquals(subId, gen.getObjectId());
+		assertEquals(new File(db.getWorkTree(), path), gen.getDirectory());
+		assertNull(gen.getConfigUpdate());
+		assertNull(gen.getConfigUrl());
+		assertEquals("sub", gen.getModulesPath());
+		assertNull(gen.getModulesUpdate());
+		assertEquals("git://example.com/sub", gen.getModulesUrl());
+		assertNull(gen.getRepository());
+		assertFalse(gen.next());
+	}
 }
