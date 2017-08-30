@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_674f8e40",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 542,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-08-30T00:41:26Z",
+      "side": 1,
+      "message": "I wanted to allow DfsObjDatabase implementations to override the comparator. If I move it to DfsReftable they have to subclass DfsReftable and I have to declare them a factory method to make a DfsReftable that they can override to use their subclass. This is simpler.",
+      "parentUuid": "c7880b39_9ca93117",
+      "range": {
+        "startLine": 542,
+        "startChar": 35,
+        "endLine": 542,
+        "endChar": 53
+      },
+      "revId": "1a7b8a11dff95e451e2ba59ee60f224b9c13f9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_3ca2fd2b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
         "patchSetId": 10
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_87547ad0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-08-30T00:41:26Z",
+      "side": 1,
+      "message": "No, I\u0027m only going to sort them by maxUpdateIndex.",
+      "parentUuid": "c7880b39_3ca2fd2b",
+      "range": {
+        "startLine": 559,
+        "startChar": 3,
+        "endLine": 559,
+        "endChar": 26
+      },
+      "revId": "1a7b8a11dff95e451e2ba59ee60f224b9c13f9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_3cdf5d88",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackDescription.java",
         "patchSetId": 10
@@ -59,6 +107,30 @@
       "writtenOn": "2017-08-29T19:14:27Z",
       "side": 1,
       "message": "Returning DfsPackDescription, just like setPackStats()?",
+      "range": {
+        "startLine": 336,
+        "startChar": 1,
+        "endLine": 336,
+        "endChar": 5
+      },
+      "revId": "1a7b8a11dff95e451e2ba59ee60f224b9c13f9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_475a92ff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackDescription.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-08-30T00:41:26Z",
+      "side": 1,
+      "message": "Nah. The builder pattern is overused. We probably should return void from setPackStats().",
+      "parentUuid": "c7880b39_3cdf5d88",
       "range": {
         "startLine": 336,
         "startChar": 1,
