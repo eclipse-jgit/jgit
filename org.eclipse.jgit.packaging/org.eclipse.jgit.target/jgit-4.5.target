@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/mbarbero/fr.obeo.releng.targetplatform -->
-<target name="jgit-4.5" sequenceNumber="1502749391">
+<target name="jgit-4.5" sequenceNumber="1504052010">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.jetty.client" version="9.4.5.v20170502"/>
@@ -63,6 +63,8 @@
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.apache.ant" version="1.9.6.v201510161327"/>
       <unit id="org.apache.ant.source" version="1.9.6.v201510161327"/>
+      <unit id="org.apache.commons.codec" version="1.9.0.v20170208-1614"/>
+      <unit id="org.apache.commons.codec.source" version="1.9.0.v20170208-1614"/>
       <unit id="org.apache.commons.compress" version="1.6.0.v201310281400"/>
       <unit id="org.apache.commons.compress.source" version="1.6.0.v201310281400"/>
       <unit id="org.apache.commons.logging" version="1.1.1.v201101211721"/>
