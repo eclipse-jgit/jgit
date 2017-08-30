@@ -366,6 +366,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String gitmodulesNotFound;
 	/***/ public String headRequiredToStash;
 	/***/ public String hoursAgo;
+	/***/ public String httpConfigCannotNormalizeURL;
+	/***/ public String httpConfigInvalidURL;
 	/***/ public String hugeIndexesAreNotSupportedByJgitYet;
 	/***/ public String hunkBelongsToAnotherFile;
 	/***/ public String hunkDisconnectedFromFile;
