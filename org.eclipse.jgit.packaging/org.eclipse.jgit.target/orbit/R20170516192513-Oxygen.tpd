@@ -4,6 +4,8 @@ target "R20170516192513-Oxygen" with source configurePhase
 location "http://download.eclipse.org/tools/orbit/downloads/drops/R20170516192513/repository" {
 	org.apache.ant [1.9.6.v201510161327,1.9.6.v201510161327]
 	org.apache.ant.source [1.9.6.v201510161327,1.9.6.v201510161327]
+	org.apache.commons.codec [1.9.0.v20170208-1614,1.9.0.v20170208-1614]
+	org.apache.commons.codec.source [1.9.0.v20170208-1614,1.9.0.v20170208-1614]
 	org.apache.commons.compress [1.6.0.v201310281400,1.6.0.v201310281400]
 	org.apache.commons.compress.source [1.6.0.v201310281400,1.6.0.v201310281400]
 	org.apache.commons.logging [1.1.1.v201101211721,1.1.1.v201101211721]
