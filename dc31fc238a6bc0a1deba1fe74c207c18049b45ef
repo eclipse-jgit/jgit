@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_022a387e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-08-30T07:25:22Z",
+      "side": 1,
+      "message": "can you please file bugs for these issues and link them here ? I didn\u0027t find any. The only related bug I found is bug 488831.",
+      "revId": "dc31fc238a6bc0a1deba1fe74c207c18049b45ef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_e22c4c9d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-08-30T07:25:22Z",
+      "side": 1,
+      "message": "style nit: trailing whitespace",
+      "revId": "dc31fc238a6bc0a1deba1fe74c207c18049b45ef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
