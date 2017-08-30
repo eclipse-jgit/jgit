@@ -49,7 +49,6 @@ import java.nio.channels.Channels;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.zip.CRC32;
 
@@ -65,6 +64,7 @@ import org.eclipse.jgit.internal.storage.file.PackIndex.MutableEntry;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectChecker;
 import org.eclipse.jgit.lib.ObjectDatabase;
+import org.eclipse.jgit.lib.ObjectIdOwnerMap;
 import org.eclipse.jgit.transport.PackParser;
 import org.eclipse.jgit.transport.PackedObjectInfo;
 
@@ -265,18 +265,18 @@ public class FsckPackParser extends PackParser {
 	/**
 	 * Verify the existing index file with all objects from the pack.
 	 *
-	 * @param entries
-	 *            all the entries that are expected in the index file
 	 * @param idx
 	 *            index file associate with the pack
 	 * @throws CorruptPackIndexException
 	 *             when the index file is corrupt.
 	 */
-	public void verifyIndex(List<PackedObjectInfo> entries, PackIndex idx)
+	public void verifyIndex(PackIndex idx)
 			throws CorruptPackIndexException {
-		Set<String> all = new HashSet<>();
-		for (PackedObjectInfo entry : entries) {
-			all.add(entry.getName());
+		ObjectIdOwnerMap<ObjFromPack> inPack = new ObjectIdOwnerMap<>();
+		for (int i = 0; i < getObjectCount(); i++) {
+			PackedObjectInfo entry = getObject(i);
+			inPack.add(new ObjFromPack(entry));
+
 			long offset = idx.findOffset(entry);
 			if (offset == -1) {
 				throw new CorruptPackIndexException(
@@ -305,7 +305,7 @@ public class FsckPackParser extends PackParser {
 		}
 
 		for (MutableEntry entry : idx) {
-			if (!all.contains(entry.name())) {
+			if (!inPack.contains(entry.toObjectId())) {
 				throw new CorruptPackIndexException(MessageFormat.format(
 						JGitText.get().unknownObjectInIndex, entry.name()),
 						ErrorType.UNKNOWN_OBJ);
@@ -322,5 +322,11 @@ public class FsckPackParser extends PackParser {
 	 */
 	public void overwriteObjectCount(long expectedObjectCount) {
 		this.expectedObjectCount = expectedObjectCount;
+	}
+
+	static class ObjFromPack extends ObjectIdOwnerMap.Entry {
+		ObjFromPack(AnyObjectId id) {
+			super(id);
+		}
 	}
 }
