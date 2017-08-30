@@ -84,7 +84,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.function.Supplier;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
@@ -94,7 +93,6 @@ import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.RefDirectory;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
@@ -103,11 +101,11 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.SymbolicRef;
 import org.eclipse.jgit.transport.HttpAuthMethod.Type;
+import org.eclipse.jgit.transport.HttpConfig.HttpRedirectMode;
 import org.eclipse.jgit.transport.http.HttpConnection;
 import org.eclipse.jgit.util.HttpSupport;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
-import org.eclipse.jgit.util.SystemReader;
 import org.eclipse.jgit.util.TemporaryBuffer;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
 import org.eclipse.jgit.util.io.UnionInputStream;
@@ -139,30 +137,6 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	private static final String SVC_UPLOAD_PACK = "git-upload-pack"; //$NON-NLS-1$
 
 	private static final String SVC_RECEIVE_PACK = "git-receive-pack"; //$NON-NLS-1$
-
-	private static final String MAX_REDIRECT_SYSTEM_PROPERTY = "http.maxRedirects"; //$NON-NLS-1$
-
-	private static final int DEFAULT_MAX_REDIRECTS = 5;
-
-	private static final int MAX_REDIRECTS = (new Supplier<Integer>() {
-
-		@Override
-		public Integer get() {
-			String rawValue = SystemReader.getInstance()
-					.getProperty(MAX_REDIRECT_SYSTEM_PROPERTY);
-			Integer value = Integer.valueOf(DEFAULT_MAX_REDIRECTS);
-			if (rawValue != null) {
-				try {
-					value = Integer.valueOf(Integer.parseUnsignedInt(rawValue));
-				} catch (NumberFormatException e) {
-					LOG.warn(MessageFormat.format(
-							JGitText.get().invalidSystemProperty,
-							MAX_REDIRECT_SYSTEM_PROPERTY, rawValue, value));
-				}
-			}
-			return value;
-		}
-	}).get().intValue();
 
 	/**
 	 * Accept-Encoding header in the HTTP request
@@ -265,65 +239,6 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	};
 
 	/**
-	 * Config values for http.followRedirect
-	 */
-	private static enum HttpRedirectMode implements Config.ConfigEnum {
-
-		/** Always follow redirects (up to the http.maxRedirects limit). */
-		TRUE("true"), //$NON-NLS-1$
-		/**
-		 * Only follow redirects on the initial GET request. This is the
-		 * default.
-		 */
-		INITIAL("initial"), //$NON-NLS-1$
-		/** Never follow redirects. */
-		FALSE("false"); //$NON-NLS-1$
-
-		private final String configValue;
-
-		private HttpRedirectMode(String configValue) {
-			this.configValue = configValue;
-		}
-
-		@Override
-		public String toConfigValue() {
-			return configValue;
-		}
-
-		@Override
-		public boolean matchConfigValue(String s) {
-			return configValue.equals(s);
-		}
-	}
-
-	private static class HttpConfig {
-		final int postBuffer;
-
-		final boolean sslVerify;
-
-		final HttpRedirectMode followRedirects;
-
-		final int maxRedirects;
-
-		HttpConfig(final Config rc) {
-			postBuffer = rc.getInt("http", "postbuffer", 1 * 1024 * 1024); //$NON-NLS-1$  //$NON-NLS-2$
-			sslVerify = rc.getBoolean("http", "sslVerify", true); //$NON-NLS-1$ //$NON-NLS-2$
-			followRedirects = rc.getEnum(HttpRedirectMode.values(), "http", //$NON-NLS-1$
-					null, "followRedirects", HttpRedirectMode.INITIAL); //$NON-NLS-1$
-			int redirectLimit = rc.getInt("http", "maxRedirects", //$NON-NLS-1$ //$NON-NLS-2$
-					MAX_REDIRECTS);
-			if (redirectLimit < 0) {
-				redirectLimit = MAX_REDIRECTS;
-			}
-			maxRedirects = redirectLimit;
-		}
-
-		HttpConfig() {
-			this(new Config());
-		}
-	}
-
-	/**
 	 * The current URI we're talking to. The inherited (final) field
 	 * {@link #uri} stores the original URI; {@code currentUri} may be different
 	 * after redirects.
@@ -348,7 +263,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			throws NotSupportedException {
 		super(local, uri);
 		setURI(uri);
-		http = local.getConfig().get(HttpConfig::new);
+		http = new HttpConfig(local.getConfig(), uri);
 		proxySelector = ProxySelector.getDefault();
 	}
 
@@ -384,7 +299,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	TransportHttp(final URIish uri) throws NotSupportedException {
 		super(uri);
 		setURI(uri);
-		http = new HttpConfig();
+		http = new HttpConfig(uri);
 		proxySelector = ProxySelector.getDefault();
 	}
 
@@ -614,7 +529,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 					// SEE_OTHER should actually never be sent by a git server,
 					// and in general should occur only on POST requests. But it
 					// doesn't hurt to accept it here as a redirect.
-					if (http.followRedirects == HttpRedirectMode.FALSE) {
+					if (http.getFollowRedirects() == HttpRedirectMode.FALSE) {
 						throw new TransportException(uri,
 								MessageFormat.format(
 										JGitText.get().redirectsOff,
@@ -661,10 +576,11 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 					MessageFormat.format(JGitText.get().redirectLocationMissing,
 							baseUrl));
 		}
-		if (redirects >= http.maxRedirects) {
+		if (redirects >= http.getMaxRedirects()) {
 			throw new TransportException(uri,
 					MessageFormat.format(JGitText.get().redirectLimitExceeded,
-					Integer.valueOf(http.maxRedirects), baseUrl, location));
+							Integer.valueOf(http.getMaxRedirects()), baseUrl,
+							location));
 		}
 		try {
 			if (!isValidRedirect(baseUrl, location, checkFor)) {
@@ -771,7 +687,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		final Proxy proxy = HttpSupport.proxyFor(proxySelector, u);
 		HttpConnection conn = connectionFactory.create(u, proxy);
 
-		if (!http.sslVerify && "https".equals(u.getProtocol())) { //$NON-NLS-1$
+		if (!http.isSslVerify() && "https".equals(u.getProtocol())) { //$NON-NLS-1$
 			HttpSupport.disableSslVerify(conn);
 		}
 
@@ -1097,7 +1013,8 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 		void sendRequest() throws IOException {
 			// Try to compress the content, but only if that is smaller.
-			TemporaryBuffer buf = new TemporaryBuffer.Heap(http.postBuffer);
+			TemporaryBuffer buf = new TemporaryBuffer.Heap(
+					http.getPostBuffer());
 			try {
 				GZIPOutputStream gzip = new GZIPOutputStream(buf);
 				out.writeTo(gzip, null);
@@ -1152,7 +1069,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 					// SEE_OTHER after a POST doesn't make sense for a git
 					// server, so we don't handle it here and thus we'll
 					// report an error in openResponse() later on.
-					if (http.followRedirects != HttpRedirectMode.TRUE) {
+					if (http.getFollowRedirects() != HttpRedirectMode.TRUE) {
 						// Let openResponse() issue an error
 						return;
 					}
@@ -1284,7 +1201,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 		class HttpOutputStream extends TemporaryBuffer {
 			HttpOutputStream() {
-				super(http.postBuffer);
+				super(http.getPostBuffer());
 			}
 
 			@Override
