@@ -48,11 +48,13 @@ import java.util.List;
 
 import org.eclipse.jgit.errors.CorruptPackIndexException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.fsck.FsckError;
 import org.eclipse.jgit.internal.fsck.FsckError.CorruptIndex;
 import org.eclipse.jgit.internal.fsck.FsckPackParser;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectChecker;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
@@ -94,6 +96,10 @@ public class DfsFsck {
 	 *             if encounters IO errors during the process.
 	 */
 	public FsckError check(ProgressMonitor pm) throws IOException {
+		if (pm == null) {
+			pm = NullProgressMonitor.INSTANCE;
+		}
+
 		FsckError errors = new FsckError();
 		try {
 			for (DfsPackFile pack : objdb.getPacks()) {
@@ -120,29 +126,39 @@ public class DfsFsck {
 				}
 			}
 
-			try (ObjectWalk ow = new ObjectWalk(ctx)) {
-				for (Ref r : repo.getAllRefs().values()) {
-					try {
-						RevObject tip = ow.parseAny(r.getObjectId());
-						if (r.getLeaf().getName().startsWith(Constants.R_HEADS)) {
-							// check if heads point to a commit object
-							if (tip.getType() != Constants.OBJ_COMMIT) {
-								errors.getNonCommitHeads()
-										.add(r.getLeaf().getName());
-							}
-						}
-						ow.markStart(tip);
-						ow.checkConnectivity();
-						ow.markUninteresting(tip);
-					} catch (MissingObjectException e) {
-						errors.getMissingObjects().add(e.getObjectId());
-					}
-				}
-			}
+			checkConnectivity(pm, errors);
 		} finally {
 			ctx.close();
 		}
 		return errors;
+	}
+
+	private void checkConnectivity(ProgressMonitor pm, FsckError errors)
+			throws IOException {
+		pm.beginTask(JGitText.get().countingObjects, ProgressMonitor.UNKNOWN);
+		try (ObjectWalk ow = new ObjectWalk(ctx)) {
+			for (Ref r : repo.getAllRefs().values()) {
+				RevObject tip;
+				try {
+					tip = ow.parseAny(r.getObjectId());
+					if (r.getLeaf().getName().startsWith(Constants.R_HEADS)
+							&& tip.getType() != Constants.OBJ_COMMIT) {
+						// heads should only point to a commit object
+						errors.getNonCommitHeads().add(r.getLeaf().getName());
+					}
+				} catch (MissingObjectException e) {
+					errors.getMissingObjects().add(e.getObjectId());
+					continue;
+				}
+				ow.markStart(tip);
+			}
+			try {
+				ow.checkConnectivity();
+			} catch (MissingObjectException e) {
+				errors.getMissingObjects().add(e.getObjectId());
+			}
+		}
+		pm.endTask();
 	}
 
 	/**
