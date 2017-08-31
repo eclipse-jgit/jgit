@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_857d4d63",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/fsck/FsckPackParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-08-31T12:38:39Z",
+      "side": 1,
+      "message": "should also be changed.",
+      "range": {
+        "startLine": 286,
+        "startChar": 14,
+        "endLine": 286,
+        "endChar": 20
+      },
+      "revId": "edeb6fa565a9adf254857fd85a15b397c433a67b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
