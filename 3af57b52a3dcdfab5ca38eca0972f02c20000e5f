@@ -34,6 +34,24 @@
       "revId": "3af57b52a3dcdfab5ca38eca0972f02c20000e5f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_aa64d63d",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.7.target",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-08-31T10:58:31Z",
+      "side": 1,
+      "message": "yes, it\u0027s pure coincidence that Eclipse platform and JGit are currently in a similar version range",
+      "parentUuid": "c7880b39_2ad5465f",
+      "revId": "3af57b52a3dcdfab5ca38eca0972f02c20000e5f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
