@@ -172,6 +172,7 @@ public class FsckPackParser extends PackParser {
 
 	@Override
 	protected void onPackFooter(byte[] hash) throws IOException {
+		// Do nothing.
 	}
 
 	@Override
@@ -183,6 +184,7 @@ public class FsckPackParser extends PackParser {
 
 	@Override
 	protected void onEndThinPack() throws IOException {
+		// Do nothing.
 	}
 
 	@Override
@@ -253,6 +255,7 @@ public class FsckPackParser extends PackParser {
 	@Override
 	protected void onStoreStream(byte[] raw, int pos, int len)
 			throws IOException {
+		// Do nothing.
 	}
 
 	/**
