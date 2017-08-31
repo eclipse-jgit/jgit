@@ -284,7 +284,8 @@ public class FsckPackParser extends PackParser {
 			if (offs == -1) {
 				throw new CorruptPackIndexException(
 						MessageFormat.format(JGitText.get().missingObject,
-								entry.getType(), entry.getName()),
+								Integer.valueOf(entry.getType()),
+								entry.getName()),
 						ErrorType.MISSING_OBJ);
 			} else if (offs != entry.getOffset()) {
 				throw new CorruptPackIndexException(MessageFormat
