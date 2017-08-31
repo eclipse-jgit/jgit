@@ -22,6 +22,30 @@
       "revId": "c02c9e80421f2da7391dac658030f9675d665c3a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_4a65323b",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Checkout.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-08-31T10:57:25Z",
+      "side": 0,
+      "message": "yes, I missed this",
+      "parentUuid": "c7880b39_a7bfb616",
+      "range": {
+        "startLine": 80,
+        "startChar": 49,
+        "endLine": 80,
+        "endChar": 69
+      },
+      "revId": "c02c9e80421f2da7391dac658030f9675d665c3a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
