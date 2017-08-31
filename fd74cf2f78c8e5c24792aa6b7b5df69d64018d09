@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_bb28a9ba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BlobObjectChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2017-08-31T22:44:15Z",
+      "side": 1,
+      "message": "If update() can be called multiple times for chunks, it should throw CorruptObjectException to allow fail fast.",
+      "range": {
+        "startLine": 81,
+        "startChar": 6,
+        "endLine": 81,
+        "endChar": 12
+      },
+      "revId": "fd74cf2f78c8e5c24792aa6b7b5df69d64018d09",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
