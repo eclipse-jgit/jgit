@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_0f7fbc1d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackCompactor.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2017-08-31T02:56:20Z",
+      "side": 1,
+      "message": "It could be renamed to reflect that it sets blockSize.",
+      "range": {
+        "startLine": 512,
+        "startChar": 23,
+        "endLine": 512,
+        "endChar": 40
+      },
+      "revId": "d25fdb507c7dbe523aa9069ea2e8c357d474a8b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
