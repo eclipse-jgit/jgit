@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_ef251037",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 634,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-08-31T06:06:27Z",
+      "side": 1,
+      "message": "Of course. Done.",
+      "parentUuid": "c7880b39_0fc5fc30",
+      "range": {
+        "startLine": 634,
+        "startChar": 37,
+        "endLine": 634,
+        "endChar": 51
+      },
+      "revId": "8db67f86fda4af9e084b07bce382f19e21e2878f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_2ff1d88d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2017-08-30T22:20:46Z",
       "side": 1,
       "message": ".gitmodules",
+      "range": {
+        "startLine": 635,
+        "startChar": 39,
+        "endLine": 635,
+        "endChar": 53
+      },
+      "revId": "8db67f86fda4af9e084b07bce382f19e21e2878f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_0f233c32",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 635,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-08-31T06:06:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_2ff1d88d",
       "range": {
         "startLine": 635,
         "startChar": 39,
