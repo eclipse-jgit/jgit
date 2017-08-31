@@ -39,6 +39,30 @@
       "revId": "c3550c0cecbe2b687621fc2431fefd6185f93a45",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_e0d0bfc2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/fsck/FsckPackParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-08-31T15:15:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_c0990388",
+      "range": {
+        "startLine": 288,
+        "startChar": 8,
+        "endLine": 288,
+        "endChar": 23
+      },
+      "revId": "c3550c0cecbe2b687621fc2431fefd6185f93a45",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
