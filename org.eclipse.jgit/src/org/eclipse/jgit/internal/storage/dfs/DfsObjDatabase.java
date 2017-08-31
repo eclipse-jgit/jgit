@@ -48,6 +48,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,7 +62,9 @@ import org.eclipse.jgit.lib.ObjectReader;
 
 /** Manages objects stored in {@link DfsPackFile} on a storage system. */
 public abstract class DfsObjDatabase extends ObjectDatabase {
-	private static final PackList NO_PACKS = new PackList(new DfsPackFile[0]) {
+	private static final PackList NO_PACKS = new PackList(
+			new DfsPackFile[0],
+			new DfsReftable[0]) {
 		@Override
 		boolean dirty() {
 			return true;
@@ -192,6 +195,18 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	}
 
 	/**
+	 * Scan and list all available reftable files in the repository.
+	 *
+	 * @return list of available reftables. The returned array is shared with
+	 *         the implementation and must not be modified by the caller.
+	 * @throws IOException
+	 *             the pack list cannot be initialized.
+	 */
+	public DfsReftable[] getReftables() throws IOException {
+		return getPackList().reftables;
+	}
+
+	/**
 	 * Scan and list all available pack files in the repository.
 	 *
 	 * @return list of available packs, with some additional metadata. The
@@ -217,6 +232,16 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	 */
 	public DfsPackFile[] getCurrentPacks() {
 		return getCurrentPackList().packs;
+	}
+
+	/**
+	 * List currently known reftable files in the repository, without scanning.
+	 *
+	 * @return list of available reftables. The returned array is shared with
+	 *         the implementation and must not be modified by the caller.
+	 */
+	public DfsReftable[] getCurrentReftables() {
+		return getCurrentPackList().reftables;
 	}
 
 	/**
@@ -428,7 +453,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 			DfsPackFile[] packs = new DfsPackFile[1 + o.packs.length];
 			packs[0] = newPack;
 			System.arraycopy(o.packs, 0, packs, 1, o.packs.length);
-			n = new PackListImpl(packs);
+			n = new PackListImpl(packs, o.reftables);
 		} while (!packList.compareAndSet(o, n));
 	}
 
@@ -454,57 +479,91 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 
 	private PackList scanPacksImpl(PackList old) throws IOException {
 		DfsBlockCache cache = DfsBlockCache.getInstance();
-		Map<DfsPackDescription, DfsPackFile> forReuse = reuseMap(old);
+		Map<DfsPackDescription, DfsPackFile> packs = packMap(old);
+		Map<DfsPackDescription, DfsReftable> reftables = reftableMap(old);
+
 		List<DfsPackDescription> scanned = listPacks();
 		Collections.sort(scanned);
 
-		List<DfsPackFile> list = new ArrayList<>(scanned.size());
+		List<DfsPackFile> newPacks = new ArrayList<>(scanned.size());
+		List<DfsReftable> newReftables = new ArrayList<>(scanned.size());
 		boolean foundNew = false;
 		for (DfsPackDescription dsc : scanned) {
-			DfsPackFile oldPack = forReuse.remove(dsc);
+			DfsPackFile oldPack = packs.remove(dsc);
 			if (oldPack != null) {
-				list.add(oldPack);
+				newPacks.add(oldPack);
 			} else if (dsc.hasFileExt(PackExt.PACK)) {
-				list.add(new DfsPackFile(cache, dsc));
+				newPacks.add(new DfsPackFile(cache, dsc));
+				foundNew = true;
+			}
+
+			DfsReftable oldReftable = reftables.remove(dsc);
+			if (oldReftable != null) {
+				newReftables.add(oldReftable);
+			} else if (dsc.hasFileExt(PackExt.REFTABLE)) {
+				newReftables.add(new DfsReftable(cache, dsc));
 				foundNew = true;
 			}
 		}
 
-		for (DfsPackFile p : forReuse.values())
-			p.close();
-		if (list.isEmpty())
-			return new PackListImpl(NO_PACKS.packs);
+		if (newPacks.isEmpty())
+			return new PackListImpl(NO_PACKS.packs, NO_PACKS.reftables);
 		if (!foundNew) {
 			old.clearDirty();
 			return old;
 		}
-		return new PackListImpl(list.toArray(new DfsPackFile[list.size()]));
+		Collections.sort(newReftables, reftableComparator());
+		return new PackListImpl(
+				newPacks.toArray(new DfsPackFile[0]),
+				newReftables.toArray(new DfsReftable[0]));
 	}
 
-	private static Map<DfsPackDescription, DfsPackFile> reuseMap(PackList old) {
+	private static Map<DfsPackDescription, DfsPackFile> packMap(PackList old) {
 		Map<DfsPackDescription, DfsPackFile> forReuse = new HashMap<>();
 		for (DfsPackFile p : old.packs) {
-			if (p.invalid()) {
-				// The pack instance is corrupted, and cannot be safely used
-				// again. Do not include it in our reuse map.
-				//
-				p.close();
-				continue;
-			}
-
-			DfsPackFile prior = forReuse.put(p.getPackDescription(), p);
-			if (prior != null) {
-				// This should never occur. It should be impossible for us
-				// to have two pack files with the same name, as all of them
-				// came out of the same directory. If it does, we promised to
-				// close any PackFiles we did not reuse, so close the second,
-				// readers are likely to be actively using the first.
-				//
-				forReuse.put(prior.getPackDescription(), prior);
-				p.close();
+			if (!p.invalid()) {
+				forReuse.put(p.desc, p);
 			}
 		}
 		return forReuse;
+	}
+
+	private static Map<DfsPackDescription, DfsReftable> reftableMap(PackList old) {
+		Map<DfsPackDescription, DfsReftable> forReuse = new HashMap<>();
+		for (DfsReftable p : old.reftables) {
+			if (!p.invalid()) {
+				forReuse.put(p.desc, p);
+			}
+		}
+		return forReuse;
+	}
+
+	/** @return comparator to sort {@link DfsReftable} by priority. */
+	protected Comparator<DfsReftable> reftableComparator() {
+		return (fa, fb) -> {
+			DfsPackDescription a = fa.getPackDescription();
+			DfsPackDescription b = fb.getPackDescription();
+
+			// GC, COMPACT reftables first by higher category.
+			int c = category(b) - category(a);
+			if (c != 0) {
+				return c;
+			}
+
+			// Lower maxUpdateIndex first.
+			c = Long.signum(a.getMaxUpdateIndex() - b.getMaxUpdateIndex());
+			if (c != 0) {
+				return c;
+			}
+
+			// Older reftable first.
+			return Long.signum(a.getLastModified() - b.getLastModified());
+		};
+	}
+
+	static int category(DfsPackDescription d) {
+		PackSource s = d.getPackSource();
+		return s != null ? s.category : 0;
 	}
 
 	/** Clears the cached list of packs, forcing them to be scanned again. */
@@ -514,12 +573,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 
 	@Override
 	public void close() {
-		// PackList packs = packList.get();
 		packList.set(NO_PACKS);
-
-		// TODO Close packs if they aren't cached.
-		// for (DfsPackFile p : packs.packs)
-		// p.close();
 	}
 
 	/** Snapshot of packs scanned in a single pass. */
@@ -527,10 +581,14 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		/** All known packs, sorted. */
 		public final DfsPackFile[] packs;
 
+		/** All known reftables, sorted. */
+		public final DfsReftable[] reftables;
+
 		private long lastModified = -1;
 
-		PackList(DfsPackFile[] packs) {
+		PackList(DfsPackFile[] packs, DfsReftable[] reftables) {
 			this.packs = packs;
+			this.reftables = reftables;
 		}
 
 		/** @return last modified time of all packs, in milliseconds. */
@@ -561,8 +619,8 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	private static final class PackListImpl extends PackList {
 		private volatile boolean dirty;
 
-		PackListImpl(DfsPackFile[] packs) {
-			super(packs);
+		PackListImpl(DfsPackFile[] packs, DfsReftable[] reftables) {
+			super(packs, reftables);
 		}
 
 		@Override

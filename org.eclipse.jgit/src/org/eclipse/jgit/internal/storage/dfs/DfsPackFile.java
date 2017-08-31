@@ -385,12 +385,6 @@ public final class DfsPackFile extends BlockBasedFile {
 		idx(ctx).resolve(matches, id, matchLimit);
 	}
 
-	/** Release all memory used by this DfsPackFile instance. */
-	public void close() {
-		index = null;
-		reverseIndex = null;
-	}
-
 	/**
 	 * Obtain the total number of objects available in this pack. This method
 	 * relies on pack index, giving number of effectively available objects.
@@ -737,10 +731,6 @@ public final class DfsPackFile extends BlockBasedFile {
 			DfsReader ctx) throws IOException {
 		if (ctx.copy(this, position, dstbuf, dstoff, cnt) != cnt)
 			throw new EOFException();
-	}
-
-	DfsBlock getOrLoadBlock(long pos, DfsReader ctx) throws IOException {
-		return cache.getOrLoad(this, pos, ctx, null);
 	}
 
 	ObjectLoader load(DfsReader ctx, long pos)
