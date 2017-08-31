@@ -112,6 +112,22 @@ public class ReftableReader extends Reftable {
 	}
 
 	/**
+	 * Initialize a new reftable reader.
+	 *
+	 * @param src
+	 *            the file content to read.
+	 *        minUpdateIndex
+	 *            the minimum update index for the reftable
+	 *        maxUpdateIndex
+	 *            the maximum update index for the reftable
+	 */
+	public ReftableReader(BlockSource src, long minUpdateIndex, long maxUpdateIndex) {
+		this.src = src;
+		this.minUpdateIndex = minUpdateIndex;
+		this.maxUpdateIndex = maxUpdateIndex;
+	}
+
+	/**
 	 * @return the block size in bytes chosen for this file by the writer. Most
 	 *         reads from the {@link BlockSource} will be aligned to the block
 	 *         size.
@@ -133,7 +149,7 @@ public class ReftableReader extends Reftable {
 	 *             file cannot be read.
 	 */
 	public long minUpdateIndex() throws IOException {
-		if (blockSize == -1) {
+		if (minUpdateIndex == 0 && blockSize == -1) {
 			readFileHeader();
 		}
 		return minUpdateIndex;
@@ -147,7 +163,7 @@ public class ReftableReader extends Reftable {
 	 *             file cannot be read.
 	 */
 	public long maxUpdateIndex() throws IOException {
-		if (blockSize == -1) {
+		if (maxUpdateIndex == 0 && blockSize == -1) {
 			readFileHeader();
 		}
 		return maxUpdateIndex;
@@ -341,8 +357,10 @@ public class ReftableReader extends Reftable {
 		if (blockSize == -1) {
 			blockSize = v & 0xffffff;
 		}
-		minUpdateIndex = NB.decodeInt64(tmp, 8);
-		maxUpdateIndex = NB.decodeInt64(tmp, 16);
+		if (minUpdateIndex == maxUpdateIndex && minUpdateIndex == 0) {
+			minUpdateIndex = NB.decodeInt64(tmp, 8);
+			maxUpdateIndex = NB.decodeInt64(tmp, 16);
+		}
 		return tmp;
 	}
 
