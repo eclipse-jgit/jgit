@@ -273,6 +273,7 @@ public class FsckPackParser extends PackParser {
 	 * @throws CorruptPackIndexException
 	 *             when the index file is corrupt.
 	 */
+	@SuppressWarnings("boxing")
 	public void verifyIndex(PackIndex idx)
 			throws CorruptPackIndexException {
 		ObjectIdOwnerMap<ObjFromPack> inPack = new ObjectIdOwnerMap<>();
