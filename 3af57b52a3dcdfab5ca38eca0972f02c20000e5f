@@ -16,6 +16,24 @@
       "revId": "3af57b52a3dcdfab5ca38eca0972f02c20000e5f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_2ad5465f",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.7.target",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-08-31T10:26:35Z",
+      "side": 1,
+      "message": "The number refers to the Eclipse version, not the Jgit version. 4.7 \u003d\u003d Oxygen. 4.8 would be Photon, and 4.9 doesn\u0027t exist yet :-)",
+      "parentUuid": "c7880b39_87bb9a2b",
+      "revId": "3af57b52a3dcdfab5ca38eca0972f02c20000e5f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
