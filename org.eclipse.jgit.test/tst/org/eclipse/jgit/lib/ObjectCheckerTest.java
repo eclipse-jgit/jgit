@@ -79,6 +79,42 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 public class ObjectCheckerTest {
+	private static final ObjectChecker SECRET_KEY_CHECKER = new ObjectChecker() {
+		@Override
+		public void checkBlob(byte[] raw) throws CorruptObjectException {
+			String in = decode(raw);
+			if (in.contains("secret_key")) {
+				throw new CorruptObjectException("don't add a secret key");
+			}
+		}
+	};
+
+	private static final ObjectChecker SECRET_KEY_BLOB_CHECKER = new ObjectChecker() {
+		@Override
+		public BlobObjectChecker newBlobObjectChecker() {
+			return new BlobObjectChecker() {
+				private boolean containSecretKey;
+
+				@Override
+				public void update(byte[] in, int offset, int len) {
+					String str = decode(in, offset, offset + len);
+					if (str.contains("secret_key")) {
+						containSecretKey = true;
+					}
+				}
+
+				@Override
+				public void endBlob(AnyObjectId id)
+						throws CorruptObjectException {
+					if (containSecretKey) {
+						throw new CorruptObjectException(
+								"don't add a secret key");
+					}
+				}
+			};
+		}
+	};
+
 	private ObjectChecker checker;
 
 	@Rule
@@ -109,94 +145,28 @@ public class ObjectCheckerTest {
 
 	@Test
 	public void testCheckBlobNotCorrupt() throws CorruptObjectException {
-		checker = new ObjectChecker() {
-			@Override
-			public void checkBlob(byte[] raw) throws CorruptObjectException {
-				String in = decode(raw);
-				if (in.contains("secret_key")) {
-					throw new CorruptObjectException("don't add a secret key");
-				}
-			}
-		};
-		checker.check(OBJ_BLOB, encodeASCII("key = \"public_key\""));
+		SECRET_KEY_CHECKER.check(OBJ_BLOB, encodeASCII("key = \"public_key\""));
 	}
 
 	@Test
 	public void testCheckBlobCorrupt() throws CorruptObjectException {
-		checker = new ObjectChecker() {
-			@Override
-			public void checkBlob(byte[] raw) throws CorruptObjectException {
-				String in = decode(raw);
-				if (in.contains("secret_key")) {
-					throw new CorruptObjectException("don't add a secret key");
-				}
-			}
-		};
 		thrown.expect(CorruptObjectException.class);
-		checker.check(OBJ_BLOB, encodeASCII("key = \"secret_key\""));
+		SECRET_KEY_CHECKER.check(OBJ_BLOB, encodeASCII("key = \"secret_key\""));
 	}
 
 	@Test
 	public void testCheckBlobWithBlobObjectCheckerNotCorrupt()
 			throws CorruptObjectException {
-		checker = new ObjectChecker() {
-			@Override
-			public BlobObjectChecker newBlobObjectChecker() {
-				return new BlobObjectChecker() {
-					private boolean containSecretKey;
-
-					@Override
-					public void update(byte[] in, int offset, int len) {
-						String str = decode(in, offset, offset + len);
-						if (str.contains("secret_key")) {
-							containSecretKey = true;
-						}
-					}
-
-					@Override
-					public void endBlob(AnyObjectId id)
-						throws CorruptObjectException {
-						if (containSecretKey) {
-							throw new CorruptObjectException(
-									"don't add a secret key");
-						}
-					}
-				};
-			}
-		};
-		checker.check(OBJ_BLOB, encodeASCII("key = \"public_key\""));
+		SECRET_KEY_BLOB_CHECKER.check(OBJ_BLOB,
+				encodeASCII("key = \"public_key\""));
 	}
 
 	@Test
 	public void testCheckBlobWithBlobObjectCheckerCorrupt()
 			throws CorruptObjectException {
-		checker = new ObjectChecker() {
-			@Override
-			public BlobObjectChecker newBlobObjectChecker() {
-				return new BlobObjectChecker() {
-					private boolean containSecretKey;
-
-					@Override
-					public void update(byte[] in, int offset, int len) {
-						String str = decode(in, offset, offset + len);
-						if (str.contains("secret_key")) {
-							containSecretKey = true;
-						}
-					}
-
-					@Override
-					public void endBlob(AnyObjectId id)
-						throws CorruptObjectException {
-						if (containSecretKey) {
-							throw new CorruptObjectException(
-									"don't add a secret key");
-						}
-					}
-				};
-			}
-		};
 		thrown.expect(CorruptObjectException.class);
-		checker.check(OBJ_BLOB, encodeASCII("key = \"secret_key\""));
+		SECRET_KEY_BLOB_CHECKER.check(OBJ_BLOB,
+				encodeASCII("key = \"secret_key\""));
 	}
 
 	@Test
