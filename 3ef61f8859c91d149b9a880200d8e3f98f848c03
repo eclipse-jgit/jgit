@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_4fca9b4a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-01T22:51:53Z",
+      "side": 1,
+      "message": "Upgrade maven plugins\n\n- error_prone_core to 2.1.1\n- maven-compiler-plugin to 3.6.2\n- plexus-compiler-javac{-error-prone} to 2.8.2",
+      "revId": "3ef61f8859c91d149b9a880200d8e3f98f848c03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
