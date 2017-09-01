@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_9b33edab",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/attributes/CGitAttributesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-09-01T06:40:20Z",
+      "side": 1,
+      "message": "FS.userHome() reads the Java system property user.home and returns whatever is set there. Interestingly, that property is set also when the test is run via bazel.\n\nIn my bazel test runs, it was the real user home directory. Don\u0027t know if that could be changed via some bazel configuration; I don\u0027t know bazel well and only learned yesterday that is has some sandboxing capabilities. (And that it does pass along $PATH, but not $HOME.)\n\nI don\u0027t know whether $HOME being unset in bazel is intended bazel behavior or a bug in bazel. Perhaps it\u0027s even a problem in my bazel setup, though I doubt that since otherwise bazel works fine, and all other tests did pass locally.",
+      "parentUuid": "c7880b39_5b9c254b",
+      "revId": "c91c20f36f2df03b792cd610b8ec54045b014159",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_7ba1e17d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/CGitIgnoreTest.java",
         "patchSetId": 1
