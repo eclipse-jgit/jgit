@@ -1,0 +1,8 @@
+Verified+1: Hudson CI
+Code-Review+1: David Ostrovsky <d.ostrovsky@gmx.de>
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-by: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-at: Fri, 01 Sep 2017 18:40:19 -0400
+Reviewed-on: https://git.eclipse.org/r/104129
+Project: jgit/jgit
+Branch: refs/heads/master
