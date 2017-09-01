@@ -52,6 +52,24 @@
       "revId": "3af57b52a3dcdfab5ca38eca0972f02c20000e5f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_9bebed9e",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.7.target",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-09-01T02:00:43Z",
+      "side": 1,
+      "message": "OK, thanks.  The reason I asked was because I\u0027ve been getting strange errors and warnings in Eclipse related to API versions.\n\nTurns out my environment was a bit messed up.  It\u0027s working now.",
+      "parentUuid": "c7880b39_aa64d63d",
+      "revId": "3af57b52a3dcdfab5ca38eca0972f02c20000e5f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
