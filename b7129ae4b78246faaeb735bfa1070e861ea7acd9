@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_ef2fc78e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StashDropCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-01T22:47:34Z",
+      "side": 1,
+      "message": "wouldn\u0027t UnsupportedOperationException be a better match ?",
+      "range": {
+        "startLine": 92,
+        "startChar": 13,
+        "endLine": 92,
+        "endChar": 37
+      },
+      "revId": "b7129ae4b78246faaeb735bfa1070e861ea7acd9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
