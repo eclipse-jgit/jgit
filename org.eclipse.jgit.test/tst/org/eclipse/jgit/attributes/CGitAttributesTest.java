@@ -125,11 +125,12 @@ public class CGitAttributesTest extends RepositoryTestCase {
 		ProcessBuilder builder = fs.runInShell("git",
 				new String[] { "check-attr", "--stdin", "--all" });
 		builder.directory(db.getWorkTree());
+		builder.environment().put("HOME", fs.userHome().getAbsolutePath());
 		ExecutionResult result = fs.execute(builder, new ByteArrayInputStream(
 				input.toString().getBytes(Constants.CHARSET)));
-		assertEquals("External git reported errors", "",
-				toString(result.getStderr()));
-		assertEquals("External git failed", 0, result.getRc());
+		String errorOut = toString(result.getStderr());
+		assertEquals("External git failed", "exit 0\n",
+				"exit " + result.getRc() + '\n' + errorOut);
 		LinkedHashMap<String, Attributes> map = new LinkedHashMap<>();
 		try (BufferedReader r = new BufferedReader(new InputStreamReader(
 				new BufferedInputStream(result.getStdout().openInputStream()),
