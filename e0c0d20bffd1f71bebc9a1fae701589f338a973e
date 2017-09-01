@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_4478c29b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ObjectCheckerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2017-09-01T16:10:21Z",
+      "side": 1,
+      "message": "SECRET_KEY_OBJECT_CHECKER to differentiate from `checker` variable?",
+      "range": {
+        "startLine": 82,
+        "startChar": 36,
+        "endLine": 82,
+        "endChar": 50
+      },
+      "revId": "e0c0d20bffd1f71bebc9a1fae701589f338a973e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_a4b086f8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ObjectCheckerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2017-09-01T16:10:21Z",
+      "side": 1,
+      "message": "This is not a BlobObjectChecker, but named as BLOB_OBJECT_CHECKER. Isn\u0027t it confusing?",
+      "range": {
+        "startLine": 92,
+        "startChar": 36,
+        "endLine": 92,
+        "endChar": 55
+      },
+      "revId": "e0c0d20bffd1f71bebc9a1fae701589f338a973e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
