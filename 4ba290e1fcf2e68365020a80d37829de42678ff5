@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "c7880b39_9b4f6d3f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 745,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-09-01T04:21:38Z",
+      "side": 1,
+      "message": "When ReceiveCommand.isForceRefLog() is annotated as @Nullable this causes a \"potential null pointer\" error in Eclipse.\n\nThis is clearly a false positive since we check for null on the previous line.\n\nFactoring it out to a variable fixes it.",
+      "range": {
+        "startLine": 745,
+        "startChar": 6,
+        "endLine": 745,
+        "endChar": 25
+      },
+      "revId": "4ba290e1fcf2e68365020a80d37829de42678ff5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_890bf12e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
         "patchSetId": 3
@@ -13,6 +36,24 @@
       "writtenOn": "2017-08-03T08:55:32Z",
       "side": 1,
       "message": "Annotate as @Nullable?",
+      "revId": "4ba290e1fcf2e68365020a80d37829de42678ff5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_7b5ac1ff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-09-01T04:21:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_890bf12e",
       "revId": "4ba290e1fcf2e68365020a80d37829de42678ff5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
