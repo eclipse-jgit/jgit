@@ -47,7 +47,6 @@ import java.io.IOException;
 import java.io.Writer;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -68,6 +67,7 @@ import org.kohsuke.args4j.IllegalAnnotationError;
 import org.kohsuke.args4j.NamedOptionDef;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.OptionDef;
+import org.kohsuke.args4j.OptionHandlerRegistry;
 import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.RestOfArgumentsHandler;
 import org.kohsuke.args4j.spi.Setter;
@@ -82,13 +82,14 @@ import org.kohsuke.args4j.spi.Setter;
  */
 public class CmdLineParser extends org.kohsuke.args4j.CmdLineParser {
 	static {
-		registerHandler(AbstractTreeIterator.class,
+		OptionHandlerRegistry registry = OptionHandlerRegistry.getRegistry();
+		registry.registerHandler(AbstractTreeIterator.class,
 				AbstractTreeIteratorHandler.class);
-		registerHandler(ObjectId.class, ObjectIdHandler.class);
-		registerHandler(RefSpec.class, RefSpecHandler.class);
-		registerHandler(RevCommit.class, RevCommitHandler.class);
-		registerHandler(RevTree.class, RevTreeHandler.class);
-		registerHandler(List.class, OptionWithValuesListHandler.class);
+		registry.registerHandler(ObjectId.class, ObjectIdHandler.class);
+		registry.registerHandler(RefSpec.class, RefSpecHandler.class);
+		registry.registerHandler(RevCommit.class, RevCommitHandler.class);
+		registry.registerHandler(RevTree.class, RevTreeHandler.class);
+		registry.registerHandler(List.class, OptionWithValuesListHandler.class);
 	}
 
 	private final Repository db;
@@ -267,8 +268,8 @@ public class CmdLineParser extends org.kohsuke.args4j.CmdLineParser {
 	class MyOptionDef extends OptionDef {
 
 		public MyOptionDef(OptionDef o) {
-			super(o.usage(), o.metaVar(), o.required(), o.handler(), o
-					.isMultiValued());
+			super(o.usage(), o.metaVar(), o.required(), o.help(), o.hidden(),
+					o.handler(), o.isMultiValued());
 		}
 
 		@Override
@@ -298,24 +299,6 @@ public class CmdLineParser extends org.kohsuke.args4j.CmdLineParser {
 		else
 			return super.createOptionHandler(new MyOptionDef(o), setter);
 
-	}
-
-	@SuppressWarnings("unchecked")
-	private List<OptionHandler> getOptions() {
-		List<OptionHandler> options = null;
-		try {
-			Field field = org.kohsuke.args4j.CmdLineParser.class
-					.getDeclaredField("options"); //$NON-NLS-1$
-			field.setAccessible(true);
-			options = (List<OptionHandler>) field.get(this);
-		} catch (NoSuchFieldException | SecurityException
-				| IllegalArgumentException | IllegalAccessException e) {
-			// ignore
-		}
-		if (options == null) {
-			return Collections.emptyList();
-		}
-		return options;
 	}
 
 	@Override
