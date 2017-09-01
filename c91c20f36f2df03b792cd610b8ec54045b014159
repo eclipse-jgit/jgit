@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_5b9c254b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/attributes/CGitAttributesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-09-01T02:12:35Z",
+      "side": 1,
+      "message": "Forgive my ignorance: is fs.userHome() a homedir set up by mvn/bazel, or is it my own HOME directory?\n\nI\u0027m assuming the former, but the latter would have been my assumption when just looking at this code. Maybe it\u0027s worth a comment.",
+      "revId": "c91c20f36f2df03b792cd610b8ec54045b014159",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_7ba1e17d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/CGitIgnoreTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-09-01T02:12:35Z",
+      "side": 1,
+      "message": "Likewise.",
+      "revId": "c91c20f36f2df03b792cd610b8ec54045b014159",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_9ba68d95",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/indexdiff/IndexDiffWithSymlinkTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-09-01T02:12:35Z",
+      "side": 1,
+      "message": "Likewise.",
+      "revId": "c91c20f36f2df03b792cd610b8ec54045b014159",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
