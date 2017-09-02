@@ -666,6 +666,14 @@ public class JGitText extends TranslationBundle {
 	/***/ public String sourceRefDoesntResolveToAnyObject;
 	/***/ public String sourceRefNotSpecifiedForRefspec;
 	/***/ public String squashCommitNotUpdatingHEAD;
+	/***/ public String sslFailureExceptionMessage;
+	/***/ public String sslFailureInfo;
+	/***/ public String sslFailureCause;
+	/***/ public String sslFailureTrustExplanation;
+	/***/ public String sslTrustAlways;
+	/***/ public String sslTrustForRepo;
+	/***/ public String sslTrustNow;
+	/***/ public String sslVerifyCannotSave;
 	/***/ public String staleRevFlagsOn;
 	/***/ public String startingReadStageWithoutWrittenRequestDataPendingIsNotSupported;
 	/***/ public String stashApplyConflict;
