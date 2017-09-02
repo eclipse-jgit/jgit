@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_4f653b3b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/SubmoduleConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-02T15:21:17Z",
+      "side": 1,
+      "message": "can\u0027t we also replace this by \n\n return configValue.equalsIgnoreCase(s);",
+      "range": {
+        "startLine": 88,
+        "startChar": 3,
+        "endLine": 90,
+        "endChar": 40
+      },
+      "revId": "ebef27acda606a3ac91454eba5e0b7d45fe879d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
