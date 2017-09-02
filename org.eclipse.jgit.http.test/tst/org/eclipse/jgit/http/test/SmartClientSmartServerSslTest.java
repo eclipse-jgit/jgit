@@ -68,6 +68,7 @@ import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jgit.errors.TransportException;
+import org.eclipse.jgit.errors.UnsupportedCredentialItem;
 import org.eclipse.jgit.http.server.GitServlet;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.junit.http.AccessEvent;
@@ -78,16 +79,16 @@ import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.transport.CredentialItem;
+import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.HttpTransport;
 import org.eclipse.jgit.transport.Transport;
 import org.eclipse.jgit.transport.URIish;
+import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.eclipse.jgit.transport.http.HttpConnectionFactory;
 import org.eclipse.jgit.transport.http.JDKHttpConnectionFactory;
 import org.eclipse.jgit.transport.http.apache.HttpClientConnectionFactory;
-import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.HttpSupport;
-import org.eclipse.jgit.util.SystemReader;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -96,6 +97,52 @@ import org.junit.runners.Parameterized.Parameters;
 
 @RunWith(Parameterized.class)
 public class SmartClientSmartServerSslTest extends HttpTestCase {
+
+	// We run these tests with a server on localhost with a self-signed
+	// certificate. We don't do authentication tests here, so there's no need
+	// for username and password.
+	//
+	// But the server certificate will not validate. We know that Transport will
+	// ask whether we trust the server all the same. This credentials provider
+	// blindly trusts the self-signed certificate by answering "Yes" to all
+	// questions.
+	private CredentialsProvider testCredentials = new CredentialsProvider() {
+
+		@Override
+		public boolean isInteractive() {
+			return false;
+		}
+
+		@Override
+		public boolean supports(CredentialItem... items) {
+			for (CredentialItem item : items) {
+				if (item instanceof CredentialItem.InformationalMessage) {
+					continue;
+				}
+				if (item instanceof CredentialItem.YesNoType) {
+					continue;
+				}
+				return false;
+			}
+			return true;
+		}
+
+		@Override
+		public boolean get(URIish uri, CredentialItem... items)
+				throws UnsupportedCredentialItem {
+			for (CredentialItem item : items) {
+				if (item instanceof CredentialItem.InformationalMessage) {
+					continue;
+				}
+				if (item instanceof CredentialItem.YesNoType) {
+					((CredentialItem.YesNoType) item).setValue(true);
+					continue;
+				}
+				return false;
+			}
+			return true;
+		}
+	};
 
 	private URIish remoteURI;
 
@@ -150,16 +197,6 @@ public class SmartClientSmartServerSslTest extends HttpTestCase {
 		src.update(master, B);
 
 		src.update("refs/garbage/a/very/long/ref/name/to/compress", B);
-
-		FileBasedConfig userConfig = SystemReader.getInstance()
-				.openUserConfig(null, FS.DETECTED);
-		userConfig.setBoolean("http",
-				"https://" + secureURI.getHost() + ':' + server.getSecurePort(),
-				"sslVerify", false);
-		userConfig.setBoolean("http",
-				"http://" + remoteURI.getHost() + ':' + server.getPort(),
-				"sslVerify", false);
-		userConfig.save();
 	}
 
 	private ServletContextHandler addNormalContext(GitServlet gs, TestRepository<Repository> src, String srcName) {
@@ -241,6 +278,7 @@ public class SmartClientSmartServerSslTest extends HttpTestCase {
 		assertFalse(dst.hasObject(A_txt));
 
 		try (Transport t = Transport.open(dst, secureURI)) {
+			t.setCredentialsProvider(testCredentials);
 			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
 		}
 		assertTrue(dst.hasObject(A_txt));
@@ -258,6 +296,7 @@ public class SmartClientSmartServerSslTest extends HttpTestCase {
 
 		URIish cloneFrom = extendPath(remoteURI, "/https");
 		try (Transport t = Transport.open(dst, cloneFrom)) {
+			t.setCredentialsProvider(testCredentials);
 			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
 		}
 		assertTrue(dst.hasObject(A_txt));
@@ -275,10 +314,27 @@ public class SmartClientSmartServerSslTest extends HttpTestCase {
 
 		URIish cloneFrom = extendPath(secureURI, "/back");
 		try (Transport t = Transport.open(dst, cloneFrom)) {
+			t.setCredentialsProvider(testCredentials);
 			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
 			fail("Should have failed (redirect from https to http)");
 		} catch (TransportException e) {
 			assertTrue(e.getMessage().contains("not allowed"));
+		}
+	}
+
+	@Test
+	public void testInitialClone_SslFailure() throws Exception {
+		Repository dst = createBareRepository();
+		assertFalse(dst.hasObject(A_txt));
+
+		try (Transport t = Transport.open(dst, secureURI)) {
+			// Set a credentials provider that doesn't handle questions
+			t.setCredentialsProvider(
+					new UsernamePasswordCredentialsProvider("any", "anypwd"));
+			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
+			fail("Should have failed (SSL certificate not trusted)");
+		} catch (TransportException e) {
+			assertTrue(e.getMessage().contains("Secure connection"));
 		}
 	}
 
