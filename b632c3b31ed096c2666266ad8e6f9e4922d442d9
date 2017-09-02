@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_6fc59706",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2017-09-02T02:37:12Z",
+      "side": 1,
+      "message": "I think this should be (reftableConfig \u003d\u003d null || reftableInitialMinUpdateIndex !\u003d 1 || reftableInitialMaxUpdateIndex !\u003d 1), so that in absence of reftableConfig, refdb is always refreshed, just like before.",
+      "range": {
+        "startLine": 302,
+        "startChar": 7,
+        "endLine": 303,
+        "endChar": 43
+      },
+      "revId": "b632c3b31ed096c2666266ad8e6f9e4922d442d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
