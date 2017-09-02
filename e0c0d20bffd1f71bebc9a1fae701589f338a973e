@@ -45,6 +45,30 @@
       "revId": "e0c0d20bffd1f71bebc9a1fae701589f338a973e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_6f175706",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ObjectCheckerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-09-02T03:15:39Z",
+      "side": 1,
+      "message": "I named it like this because it\u0027s an instance that overrides newBlobObjectChecker and returns a BlobObjectChecker.",
+      "parentUuid": "c7880b39_a4b086f8",
+      "range": {
+        "startLine": 92,
+        "startChar": 36,
+        "endLine": 92,
+        "endChar": 55
+      },
+      "revId": "e0c0d20bffd1f71bebc9a1fae701589f338a973e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
