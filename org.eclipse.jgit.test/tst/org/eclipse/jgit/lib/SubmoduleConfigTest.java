@@ -87,5 +87,7 @@ public class SubmoduleConfigTest {
 	public void fetchRecurseToConfigValue() {
 		assertEquals("on-demand",
 				FetchRecurseSubmodulesMode.ON_DEMAND.toConfigValue());
+		assertEquals("true", FetchRecurseSubmodulesMode.YES.toConfigValue());
+		assertEquals("false", FetchRecurseSubmodulesMode.NO.toConfigValue());
 	}
 }
