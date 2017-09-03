@@ -22,6 +22,30 @@
       "revId": "ebef27acda606a3ac91454eba5e0b7d45fe879d1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_2a8e1d07",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/SubmoduleConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-09-03T10:09:57Z",
+      "side": 1,
+      "message": "No, it needs to test both, i.e. \"true\" and \"yes\" for FetchRecurseSubmodulesMode.YES, and it needs to also return true for \"ON_DEMAND\" and \"ON-DEMAND\".",
+      "parentUuid": "c7880b39_4f653b3b",
+      "range": {
+        "startLine": 88,
+        "startChar": 3,
+        "endLine": 90,
+        "endChar": 40
+      },
+      "revId": "ebef27acda606a3ac91454eba5e0b7d45fe879d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
