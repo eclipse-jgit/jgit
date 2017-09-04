@@ -45,13 +45,14 @@ package org.eclipse.jgit.transport;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InterruptedIOException;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketAddress;
+import java.net.SocketException;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.JGitText;
@@ -77,9 +78,7 @@ public class Daemon {
 
 	private final ThreadGroup processors;
 
-	private boolean run;
-
-	Thread acceptThread;
+	private Acceptor acceptThread;
 
 	private int timeout;
 
@@ -281,6 +280,56 @@ public class Daemon {
 			receivePackFactory = (ReceivePackFactory<DaemonClient>) ReceivePackFactory.DISABLED;
 	}
 
+	private class Acceptor extends Thread {
+
+		private final ServerSocket listenSocket;
+
+		private final AtomicBoolean running = new AtomicBoolean(true);
+
+		public Acceptor(ThreadGroup group, String name, ServerSocket socket) {
+			super(group, name);
+			this.listenSocket = socket;
+		}
+
+		@Override
+		public void run() {
+			setUncaughtExceptionHandler((thread, throwable) -> terminate());
+			while (isRunning()) {
+				try {
+					startClient(listenSocket.accept());
+				} catch (SocketException e) {
+					// Test again to see if we should keep accepting.
+				} catch (IOException e) {
+					break;
+				}
+			}
+
+			terminate();
+		}
+
+		private void terminate() {
+			try {
+				shutDown();
+			} finally {
+				clearThread();
+			}
+		}
+
+		public boolean isRunning() {
+			return running.get();
+		}
+
+		public void shutDown() {
+			running.set(false);
+			try {
+				listenSocket.close();
+			} catch (IOException err) {
+				//
+			}
+		}
+
+	}
+
 	/**
 	 * Start this daemon on a background thread.
 	 *
@@ -290,52 +339,56 @@ public class Daemon {
 	 *             the daemon is already running.
 	 */
 	public synchronized void start() throws IOException {
-		if (acceptThread != null)
+		if (acceptThread != null) {
 			throw new IllegalStateException(JGitText.get().daemonAlreadyRunning);
+		}
+		ServerSocket socket = new ServerSocket();
+		socket.setReuseAddress(true);
+		if (myAddress != null) {
+			socket.bind(myAddress, BACKLOG);
+		} else {
+			socket.bind(new InetSocketAddress((InetAddress) null, 0), BACKLOG);
+		}
+		myAddress = (InetSocketAddress) socket.getLocalSocketAddress();
 
-		final ServerSocket listenSock = new ServerSocket(
-				myAddress != null ? myAddress.getPort() : 0, BACKLOG,
-				myAddress != null ? myAddress.getAddress() : null);
-		myAddress = (InetSocketAddress) listenSock.getLocalSocketAddress();
-
-		run = true;
-		acceptThread = new Thread(processors, "Git-Daemon-Accept") { //$NON-NLS-1$
-			@Override
-			public void run() {
-				while (isRunning()) {
-					try {
-						startClient(listenSock.accept());
-					} catch (InterruptedIOException e) {
-						// Test again to see if we should keep accepting.
-					} catch (IOException e) {
-						break;
-					}
-				}
-
-				try {
-					listenSock.close();
-				} catch (IOException err) {
-					//
-				} finally {
-					synchronized (Daemon.this) {
-						acceptThread = null;
-					}
-				}
-			}
-		};
+		acceptThread = new Acceptor(processors, "Git-Daemon-Accept", socket); //$NON-NLS-1$
 		acceptThread.start();
+	}
+
+	private synchronized void clearThread() {
+		acceptThread = null;
 	}
 
 	/** @return true if this daemon is receiving connections. */
 	public synchronized boolean isRunning() {
-		return run;
+		return acceptThread != null && acceptThread.isRunning();
 	}
 
-	/** Stop this daemon. */
+	/**
+	 * Stop this daemon.
+	 */
 	public synchronized void stop() {
 		if (acceptThread != null) {
-			run = false;
-			acceptThread.interrupt();
+			acceptThread.shutDown();
+		}
+	}
+
+	/**
+	 * Stops this daemon and waits until it's acceptor thread has finished.
+	 *
+	 * @throws InterruptedException
+	 *             if waiting for the acceptor thread is interrupted
+	 *
+	 * @since 4.9
+	 */
+	public void stopAndWait() throws InterruptedException {
+		Thread acceptor = null;
+		synchronized (this) {
+			acceptor = acceptThread;
+			stop();
+		}
+		if (acceptor != null) {
+			acceptor.join();
 		}
 	}
 
