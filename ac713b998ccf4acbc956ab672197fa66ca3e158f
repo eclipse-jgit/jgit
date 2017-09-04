@@ -22,6 +22,30 @@
       "revId": "ac713b998ccf4acbc956ab672197fa66ca3e158f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_10e51416",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-04T12:52:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_5554ee29",
+      "range": {
+        "startLine": 512,
+        "startChar": 4,
+        "endLine": 512,
+        "endChar": 42
+      },
+      "revId": "ac713b998ccf4acbc956ab672197fa66ca3e158f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
