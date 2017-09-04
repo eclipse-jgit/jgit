@@ -77,7 +77,7 @@ class Push extends TextBuiltin {
 	private String remote = Constants.DEFAULT_REMOTE_NAME;
 
 	@Argument(index = 1, metaVar = "metaVar_refspec")
-	private final List<RefSpec> refSpecs = new ArrayList<>();
+	private List<RefSpec> refSpecs = new ArrayList<>();
 
 	@Option(name = "--all")
 	private boolean all;

@@ -87,16 +87,16 @@ class Daemon extends TextBuiltin {
 	int timeout = -1;
 
 	@Option(name = "--enable", metaVar = "metaVar_service", usage = "usage_enableTheServiceInAllRepositories")
-	final List<String> enable = new ArrayList<>();
+	List<String> enable = new ArrayList<>();
 
 	@Option(name = "--disable", metaVar = "metaVar_service", usage = "usage_disableTheServiceInAllRepositories")
-	final List<String> disable = new ArrayList<>();
+	List<String> disable = new ArrayList<>();
 
 	@Option(name = "--allow-override", metaVar = "metaVar_service", usage = "usage_configureTheServiceInDaemonServicename")
-	final List<String> canOverride = new ArrayList<>();
+	List<String> canOverride = new ArrayList<>();
 
 	@Option(name = "--forbid-override", metaVar = "metaVar_service", usage = "usage_configureTheServiceInDaemonServicename")
-	final List<String> forbidOverride = new ArrayList<>();
+	List<String> forbidOverride = new ArrayList<>();
 
 	@Option(name = "--export-all", usage = "usage_exportWithoutGitDaemonExportOk")
 	boolean exportAll;
@@ -109,7 +109,7 @@ class Daemon extends TextBuiltin {
 	}
 
 	@Argument(required = true, metaVar = "metaVar_directory", usage = "usage_directoriesToExport")
-	final List<File> directory = new ArrayList<>();
+	List<File> directory = new ArrayList<>();
 
 	@Override
 	protected boolean requiresRepository() {
