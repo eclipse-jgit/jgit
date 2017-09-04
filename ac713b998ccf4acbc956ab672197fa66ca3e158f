@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_5554ee29",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-09-04T08:06:15Z",
+      "side": 1,
+      "message": "Move this into the loop in place of \"found \u003d true\" and remove the \"found\" variable?",
+      "range": {
+        "startLine": 512,
+        "startChar": 4,
+        "endLine": 512,
+        "endChar": 42
+      },
+      "revId": "ac713b998ccf4acbc956ab672197fa66ca3e158f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
