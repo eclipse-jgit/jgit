@@ -45,7 +45,6 @@
 package org.eclipse.jgit.pgm.opt;
 
 import java.io.IOException;
-import java.text.MessageFormat;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.pgm.internal.CLIText;
@@ -86,14 +85,15 @@ public class ObjectIdHandler extends OptionHandler<ObjectId> {
 		try {
 			id = clp.getRepository().resolve(name);
 		} catch (IOException e) {
-			throw new CmdLineException(clp, e.getMessage());
+			throw new CmdLineException(clp, CLIText.format(e.getMessage()));
 		}
 		if (id != null) {
 			setter.addValue(id);
 			return 1;
 		}
 
-		throw new CmdLineException(clp, MessageFormat.format(CLIText.get().notAnObject, name));
+		throw new CmdLineException(clp,
+				CLIText.format(CLIText.get().notAnObject), name);
 	}
 
 	@Override

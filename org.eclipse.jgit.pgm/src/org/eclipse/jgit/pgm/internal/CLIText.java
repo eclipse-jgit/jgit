@@ -45,14 +45,47 @@
 package org.eclipse.jgit.pgm.internal;
 
 import java.text.MessageFormat;
+import java.util.Locale;
 
 import org.eclipse.jgit.nls.NLS;
 import org.eclipse.jgit.nls.TranslationBundle;
+import org.kohsuke.args4j.Localizable;
 
 /**
  * Translation bundle for JGit command line interface
  */
 public class CLIText extends TranslationBundle {
+	/**
+	 * Formats text strings using {@code Localizable}.
+	 *
+	 */
+	public static class Format implements Localizable {
+		final String text;
+
+		Format(String text) {
+			this.text = text;
+		}
+
+		@Override
+		public String formatWithLocale(Locale locale, Object... args) {
+			// we don't care about Locale for now
+			return format(args);
+		}
+
+		@Override
+		public String format(Object... args) {
+			return MessageFormat.format(text, args);
+		}
+	}
+
+	/**
+	 * @param text
+	 *            the text to format.
+	 * @return a new Format instance.
+	 */
+	public static Format format(String text) {
+		return new Format(text);
+	}
 
 	/**
 	 * @return an instance of this translation bundle
