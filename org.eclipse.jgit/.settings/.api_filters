@@ -1,33 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <component id="org.eclipse.jgit" version="2">
-    <resource path="src/org/eclipse/jgit/lib/ConfigConstants.java" type="org.eclipse.jgit.lib.ConfigConstants">
-        <filter comment="adding enum constant does not break binary compatibility" id="336658481">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.lib.ConfigConstants"/>
-                <message_argument value="CONFIG_KEY_IN_CORE_LIMIT"/>
-            </message_arguments>
-        </filter>
-        <filter comment="adding enum constant does not break binary compatibility" id="336658481">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.lib.ConfigConstants"/>
-                <message_argument value="CONFIG_MERGE_SECTION"/>
-            </message_arguments>
-        </filter>
-        <filter id="1141899266">
-            <message_arguments>
-                <message_argument value="4.7"/>
-                <message_argument value="4.8"/>
-                <message_argument value="CONFIG_KEY_AUTODETACH"/>
-            </message_arguments>
-        </filter>
-        <filter id="1141899266">
-            <message_arguments>
-                <message_argument value="4.7"/>
-                <message_argument value="4.8"/>
-                <message_argument value="CONFIG_KEY_LOGEXPIRY"/>
-            </message_arguments>
-        </filter>
-    </resource>
     <resource path="src/org/eclipse/jgit/lib/ReflogEntry.java" type="org.eclipse.jgit.lib.ReflogEntry">
         <filter comment="adding enum constant does not break binary compatibility" id="403767336">
             <message_arguments>
