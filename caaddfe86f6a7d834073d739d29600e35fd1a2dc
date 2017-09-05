@@ -22,6 +22,30 @@
       "revId": "caaddfe86f6a7d834073d739d29600e35fd1a2dc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_78655a3b",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-05T22:29:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_b888a277",
+      "range": {
+        "startLine": 78,
+        "startChar": 55,
+        "endLine": 78,
+        "endChar": 60
+      },
+      "revId": "caaddfe86f6a7d834073d739d29600e35fd1a2dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
