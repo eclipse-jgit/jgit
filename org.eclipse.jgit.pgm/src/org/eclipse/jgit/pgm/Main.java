@@ -77,8 +77,8 @@ import org.eclipse.jgit.transport.http.apache.HttpClientConnectionFactory;
 import org.eclipse.jgit.util.CachedAuthenticator;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
-import org.kohsuke.args4j.ExampleMode;
 import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.OptionHandlerFilter;
 
 /** Command line entry point. */
 public class Main {
@@ -231,7 +231,8 @@ public class Main {
 		}
 
 		if (argv.length == 0 || help) {
-			final String ex = clp.printExample(ExampleMode.ALL, CLIText.get().resourceBundle());
+			final String ex = clp.printExample(OptionHandlerFilter.ALL,
+					CLIText.get().resourceBundle());
 			writer.println("jgit" + ex + " command [ARG ...]"); //$NON-NLS-1$ //$NON-NLS-2$
 			if (help) {
 				writer.println();
