@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_f8422ac3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/PushConfigTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-05T21:43:37Z",
+      "side": 1,
+      "message": "move this test to the same package org.eclipse.jgit.lib.transport  ?",
+      "revId": "d6984974c3b671b7d18be9a15fe1e5ee1ad82b8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
