@@ -22,6 +22,30 @@
       "revId": "b632c3b31ed096c2666266ad8e6f9e4922d442d9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_bd1c142a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-09-05T16:11:21Z",
+      "side": 1,
+      "message": "Removed the conditional altogether so we always perform the refresh. I don\u0027t think it hurts performance significantly, and it doesn\u0027t change correctness to always refresh/clearCache.",
+      "parentUuid": "c7880b39_6fc59706",
+      "range": {
+        "startLine": 302,
+        "startChar": 7,
+        "endLine": 303,
+        "endChar": 43
+      },
+      "revId": "b632c3b31ed096c2666266ad8e6f9e4922d442d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
