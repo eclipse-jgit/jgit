@@ -633,8 +633,9 @@ public class RefDirectory extends RefDatabase {
 				try {
 					PackedRefList cur = readPackedRefs();
 					int idx = cur.find(name);
-					if (0 <= idx)
-						commitPackedRefs(lck, cur.remove(idx), packed);
+					if (0 <= idx) {
+						commitPackedRefs(lck, cur.remove(idx), packed, true);
+					}
 				} finally {
 					lck.unlock();
 				}
@@ -733,7 +734,8 @@ public class RefDirectory extends RefDatabase {
 				}
 
 				// The new content for packed-refs is collected. Persist it.
-				PackedRefList result = commitPackedRefs(lck, cur, packed);
+				PackedRefList result = commitPackedRefs(lck, cur, packed,
+						false);
 
 				// Now delete the loose refs which are now packed
 				for (String refName : refs) {
@@ -988,7 +990,8 @@ public class RefDirectory extends RefDatabase {
 	}
 
 	PackedRefList commitPackedRefs(final LockFile lck, final RefList<Ref> refs,
-			final PackedRefList oldPackedList) throws IOException {
+			final PackedRefList oldPackedList, boolean changed)
+			throws IOException {
 		// Can't just return packedRefs.get() from this method; it might have been
 		// updated again after writePackedRefs() returns.
 		AtomicReference<PackedRefList> result = new AtomicReference<>();
@@ -1030,6 +1033,9 @@ public class RefDirectory extends RefDatabase {
 				if (!afterUpdate.id.equals(newPackedList.id)) {
 					throw new ObjectWritingException(
 							MessageFormat.format(JGitText.get().unableToWrite, name));
+				}
+				if (changed) {
+					modCnt.incrementAndGet();
 				}
 				result.set(newPackedList);
 			}
