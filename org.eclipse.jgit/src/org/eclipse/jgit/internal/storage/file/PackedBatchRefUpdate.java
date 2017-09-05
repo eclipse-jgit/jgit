@@ -194,7 +194,8 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 				return;
 			}
 			// commitPackedRefs removes lock file (by renaming over real file).
-			refdb.commitPackedRefs(packedRefsLock, newRefs, oldPackedList);
+			refdb.commitPackedRefs(packedRefsLock, newRefs, oldPackedList,
+					true);
 		} finally {
 			try {
 				unlockAll(locks);
