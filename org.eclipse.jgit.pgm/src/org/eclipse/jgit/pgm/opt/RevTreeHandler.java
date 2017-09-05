@@ -45,7 +45,6 @@
 package org.eclipse.jgit.pgm.opt;
 
 import java.io.IOException;
-import java.text.MessageFormat;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -89,20 +88,25 @@ public class RevTreeHandler extends OptionHandler<RevTree> {
 		try {
 			id = clp.getRepository().resolve(name);
 		} catch (IOException e) {
-			throw new CmdLineException(clp, e.getMessage());
+			throw new CmdLineException(clp, CLIText.format(e.getMessage()));
 		}
 		if (id == null)
-			throw new CmdLineException(clp, MessageFormat.format(CLIText.get().notATree, name));
+			throw new CmdLineException(clp,
+					CLIText.format(CLIText.get().notATree), name);
 
 		final RevTree c;
 		try {
 			c = clp.getRevWalk().parseTree(id);
 		} catch (MissingObjectException e) {
-			throw new CmdLineException(clp, MessageFormat.format(CLIText.get().notATree, name));
+			throw new CmdLineException(clp,
+					CLIText.format(CLIText.get().notATree), name);
 		} catch (IncorrectObjectTypeException e) {
-			throw new CmdLineException(clp, MessageFormat.format(CLIText.get().notATree, name));
+			throw new CmdLineException(clp,
+					CLIText.format(CLIText.get().notATree), name);
 		} catch (IOException e) {
-			throw new CmdLineException(clp, MessageFormat.format(CLIText.get().cannotReadBecause, name, e.getMessage()));
+			throw new CmdLineException(clp,
+					CLIText.format(CLIText.get().cannotReadBecause), name,
+					e.getMessage());
 		}
 		setter.addValue(c);
 		return 1;

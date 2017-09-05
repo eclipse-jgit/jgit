@@ -119,20 +119,25 @@ public class AbstractTreeIteratorHandler extends
 		try {
 			id = clp.getRepository().resolve(name);
 		} catch (IOException e) {
-			throw new CmdLineException(clp, e.getMessage());
+			throw new CmdLineException(clp, CLIText.format(e.getMessage()));
 		}
 		if (id == null)
-			throw new CmdLineException(clp, MessageFormat.format(CLIText.get().notATree, name));
+			throw new CmdLineException(clp,
+					CLIText.format(CLIText.get().notATree), name);
 
 		final CanonicalTreeParser p = new CanonicalTreeParser();
 		try (ObjectReader curs = clp.getRepository().newObjectReader()) {
 			p.reset(curs, clp.getRevWalk().parseTree(id));
 		} catch (MissingObjectException e) {
-			throw new CmdLineException(clp, MessageFormat.format(CLIText.get().notATree, name));
+			throw new CmdLineException(clp,
+					CLIText.format(CLIText.get().notATree), name);
 		} catch (IncorrectObjectTypeException e) {
-			throw new CmdLineException(clp, MessageFormat.format(CLIText.get().notATree, name));
+			throw new CmdLineException(clp,
+					CLIText.format(CLIText.get().notATree), name);
 		} catch (IOException e) {
-			throw new CmdLineException(clp, MessageFormat.format(CLIText.get().cannotReadBecause, name, e.getMessage()));
+			throw new CmdLineException(clp,
+					CLIText.format(CLIText.get().cannotReadBecause), name,
+					e.getMessage());
 		}
 
 		setter.addValue(p);
