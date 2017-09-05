@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_5ddc1004",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackCompactor.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-09-05T15:33:54Z",
+      "side": 1,
+      "message": "getNewPacks() already does all of this.",
+      "range": {
+        "startLine": 251,
+        "startChar": 0,
+        "endLine": 255,
+        "endChar": 4
+      },
+      "revId": "d868030425a22989dd5fa3ec1686641fb83c7722",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_bda6d494",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackCompactor.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-09-05T15:33:54Z",
+      "side": 1,
+      "message": "This enforces max(cfg.blockSize, DfsBlockCache.getInstance().getBlockSize()). Shouldn\u0027t it be max(cfg.blockSize, out.blockSize()) above?",
+      "range": {
+        "startLine": 519,
+        "startChar": 0,
+        "endLine": 519,
+        "endChar": 36
+      },
+      "revId": "d868030425a22989dd5fa3ec1686641fb83c7722",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
