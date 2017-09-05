@@ -16,6 +16,24 @@
       "revId": "d6984974c3b671b7d18be9a15fe1e5ee1ad82b8a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_f367ad16",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/PushConfigTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-09-05T23:04:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_f8422ac3",
+      "revId": "d6984974c3b671b7d18be9a15fe1e5ee1ad82b8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
