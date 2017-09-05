@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_7801da7a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileBasedShallow.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-09-05T22:07:28Z",
+      "side": 1,
+      "message": "That should be 4.9 (now), but more likely it\u0027ll be 5.0 in the end :-)",
+      "range": {
+        "startLine": 70,
+        "startChar": 10,
+        "endLine": 70,
+        "endChar": 13
+      },
+      "revId": "c46b61d01aeb5cfea752a9ed46e2e3a6e188e55c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_58d5fe5d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileBasedShallow.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-09-05T22:07:28Z",
+      "side": 1,
+      "message": "This exists already as Constants.SHALLOW.\n\nNote that there is some support for reading the shallow file in ObjectDatabase. That will need to be reconciled with this implementation here. ObjectDatabase doesn\u0027t use locking yet, it uses the older timestamp (snapshot) mechanism.",
+      "range": {
+        "startLine": 85,
+        "startChar": 29,
+        "endLine": 85,
+        "endChar": 36
+      },
+      "revId": "c46b61d01aeb5cfea752a9ed46e2e3a6e188e55c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_b8fb42ec",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileBasedShallow.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-09-05T22:07:28Z",
+      "side": 1,
+      "message": "Using try-with-resource and Java 8, reading this file is as simple as\n\n  try (BufferedReader reader \u003d new BufferedReader(new FileReader(shallowFile))) {\n    reader.lines().forEach(line -\u003e {\n      // Do something with the line here, for instance:\n      commitIds.add(ObjectId.fromString(line));\n    });\n  }",
+      "revId": "c46b61d01aeb5cfea752a9ed46e2e3a6e188e55c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
