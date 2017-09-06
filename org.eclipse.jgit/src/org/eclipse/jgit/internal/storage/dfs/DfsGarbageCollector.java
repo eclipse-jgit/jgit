@@ -107,6 +107,7 @@ public class DfsGarbageCollector {
 
 	private PackConfig packConfig;
 	private ReftableConfig reftableConfig;
+	private boolean convertToReftable = true;
 	private long reftableInitialMinUpdateIndex = 1;
 	private long reftableInitialMaxUpdateIndex = 1;
 
@@ -168,6 +169,19 @@ public class DfsGarbageCollector {
 	 */
 	public DfsGarbageCollector setReftableConfig(ReftableConfig cfg) {
 		reftableConfig = cfg;
+		return this;
+	}
+
+	/**
+	 * @param convert
+	 *            if true, {@link #setReftableConfig(ReftableConfig)} has been
+	 *            set non-null, and a GC reftable doesn't yet exist, the garbage
+	 *            collector will make one by scanning the existing references,
+	 *            and writing a new reftable. Default is {@code true}.
+	 * @return {@code this}
+	 */
+	public DfsGarbageCollector setConvertToReftable(boolean convert) {
+		convertToReftable = convert;
 		return this;
 	}
 
@@ -671,7 +685,7 @@ public class DfsGarbageCollector {
 	}
 
 	private void writeReftable(DfsPackDescription pack) throws IOException {
-		if (!hasGcReftable()) {
+		if (convertToReftable && !hasGcReftable()) {
 			writeReftable(pack, refsBefore);
 			return;
 		}
