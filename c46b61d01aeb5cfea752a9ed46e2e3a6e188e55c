@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_29df02fb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileBasedShallow.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 10814
+      },
+      "writtenOn": "2017-09-06T14:39:11Z",
+      "side": 1,
+      "message": "Thanks! I have changed it everywhere to 5.0.",
+      "parentUuid": "c7880b39_7801da7a",
+      "range": {
+        "startLine": 70,
+        "startChar": 10,
+        "endLine": 70,
+        "endChar": 13
+      },
+      "revId": "c46b61d01aeb5cfea752a9ed46e2e3a6e188e55c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_58d5fe5d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileBasedShallow.java",
         "patchSetId": 11
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_c982fedc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileBasedShallow.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 10814
+      },
+      "writtenOn": "2017-09-06T14:39:11Z",
+      "side": 1,
+      "message": "Thanks! Changed.\n\nIf I have seen it right, the only \"real\" implementation of FileObjectDatabase.getShallowCommits() is found in org.eclipse.jgit.internal.storage.file.ObjectDirectory.getShallowCommits on line 776. Should I change getShallowCommits() to use the FileBasedShallow implementation instead with locking?",
+      "parentUuid": "c7880b39_58d5fe5d",
+      "range": {
+        "startLine": 85,
+        "startChar": 29,
+        "endLine": 85,
+        "endChar": 36
+      },
+      "revId": "c46b61d01aeb5cfea752a9ed46e2e3a6e188e55c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_b8fb42ec",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileBasedShallow.java",
         "patchSetId": 11
@@ -59,6 +107,24 @@
       "writtenOn": "2017-09-05T22:07:28Z",
       "side": 1,
       "message": "Using try-with-resource and Java 8, reading this file is as simple as\n\n  try (BufferedReader reader \u003d new BufferedReader(new FileReader(shallowFile))) {\n    reader.lines().forEach(line -\u003e {\n      // Do something with the line here, for instance:\n      commitIds.add(ObjectId.fromString(line));\n    });\n  }",
+      "revId": "c46b61d01aeb5cfea752a9ed46e2e3a6e188e55c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_8973968c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileBasedShallow.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 10814
+      },
+      "writtenOn": "2017-09-06T14:39:11Z",
+      "side": 1,
+      "message": "Yes, I will use that then.\n\nIs JGit Java8 or greater only?",
+      "parentUuid": "c7880b39_b8fb42ec",
       "revId": "c46b61d01aeb5cfea752a9ed46e2e3a6e188e55c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
