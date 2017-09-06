@@ -173,11 +173,6 @@ public class DfsGarbageCollector {
 
 	/**
 	 * Set minUpdateIndex for the initial reftable created during conversion.
-	 * <p>
-	 * <b>Warning:</b> A setting {@code != 1} <b>disables cache refreshes</b>
-	 * normally performed at the start of {@link #pack(ProgressMonitor)}.
-	 * Callers must ensure the reference cache is current and will have been
-	 * read before the pack list.
 	 *
 	 * @param u
 	 *            minUpdateIndex for the initial reftable created by scanning
@@ -193,11 +188,6 @@ public class DfsGarbageCollector {
 
 	/**
 	 * Set maxUpdateIndex for the initial reftable created during conversion.
-	 * <p>
-	 * <b>Warning:</b> A setting {@code != 1} <b>disables cache refreshes</b>
-	 * normally performed at the start of {@link #pack(ProgressMonitor)}.
-	 * Callers must ensure the reference cache is current and will have been
-	 * read before the pack list.
 	 *
 	 * @param u
 	 *            maxUpdateIndex for the initial reftable created by scanning
