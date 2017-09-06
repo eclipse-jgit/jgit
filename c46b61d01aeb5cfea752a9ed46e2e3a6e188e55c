@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_11d7d034",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileBasedShallow.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-09-06T15:06:23Z",
+      "side": 1,
+      "message": "I guess so. They both need to use locking.",
+      "parentUuid": "c7880b39_c982fedc",
+      "range": {
+        "startLine": 85,
+        "startChar": 29,
+        "endLine": 85,
+        "endChar": 36
+      },
+      "revId": "c46b61d01aeb5cfea752a9ed46e2e3a6e188e55c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_b8fb42ec",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileBasedShallow.java",
         "patchSetId": 11
@@ -125,6 +149,24 @@
       "side": 1,
       "message": "Yes, I will use that then.\n\nIs JGit Java8 or greater only?",
       "parentUuid": "c7880b39_b8fb42ec",
+      "revId": "c46b61d01aeb5cfea752a9ed46e2e3a6e188e55c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_31ebecee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileBasedShallow.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-09-06T15:06:23Z",
+      "side": 1,
+      "message": "Yes, Java 8 is the minimum requirement.",
+      "parentUuid": "c7880b39_8973968c",
       "revId": "c46b61d01aeb5cfea752a9ed46e2e3a6e188e55c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
