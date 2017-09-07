@@ -447,6 +447,7 @@ public abstract class BaseReceivePack {
 	public void setAdvertisedRefs(Map<String, Ref> allRefs, Set<ObjectId> additionalHaves) {
 		refs = allRefs != null ? allRefs : db.getAllRefs();
 		refs = refFilter.filter(refs);
+		advertisedHaves.clear();
 
 		Ref head = refs.get(Constants.HEAD);
 		if (head != null && head.isSymbolic())
