@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_d088d978",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HttpConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-10T10:14:53Z",
+      "side": 1,
+      "message": "!StringUtils.isEmptyOrNull(uPath)",
+      "range": {
+        "startLine": 244,
+        "startChar": 20,
+        "endLine": 244,
+        "endChar": 53
+      },
+      "revId": "ac325256f91e0e243cf4b4522d4e8d69918d3025",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_f08dd586",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HttpConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-10T10:14:53Z",
+      "side": 1,
+      "message": "StringUtils.isEmptyOrNull(cPath)",
+      "range": {
+        "startLine": 277,
+        "startChar": 8,
+        "endLine": 277,
+        "endChar": 40
+      },
+      "revId": "ac325256f91e0e243cf4b4522d4e8d69918d3025",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_9065713e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HttpConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-10T10:14:53Z",
+      "side": 1,
+      "message": "This is incomplete, see subclasses of TransportProtocol registered in Transport",
+      "revId": "ac325256f91e0e243cf4b4522d4e8d69918d3025",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
