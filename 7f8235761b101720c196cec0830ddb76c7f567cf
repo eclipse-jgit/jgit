@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_d302a315",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-09-10T21:58:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_938d7b43",
+      "revId": "7f8235761b101720c196cec0830ddb76c7f567cf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_b392775b",
         "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_f3079f23",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-09-10T21:58:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_b392775b",
+      "revId": "7f8235761b101720c196cec0830ddb76c7f567cf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_d387031d",
         "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2017-09-10T21:37:15Z",
       "side": 1,
       "message": "Skip SSL verification for this single git operation",
+      "revId": "7f8235761b101720c196cec0830ddb76c7f567cf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_130c2b48",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 616,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-09-10T21:58:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_d387031d",
       "revId": "7f8235761b101720c196cec0830ddb76c7f567cf",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
