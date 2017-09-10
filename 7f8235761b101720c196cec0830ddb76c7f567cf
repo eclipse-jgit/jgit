@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_938d7b43",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-10T21:37:15Z",
+      "side": 1,
+      "message": "Why does skipping ssl verification imply we are trusting this server ? If we don\u0027t verify the server\u0027s certificate how can we be sure we are talking to the server we called and are not victim of a man-in-the-middle attack ? We could decide to trust the ca-cert used to sign the server\u0027s certificate and then we could use it to SSL-verify the server\u0027s certificate.\n\nHence I\u0027d rephrase this sentence:\n\nAlways skip SSL verification for this server from now on",
+      "revId": "7f8235761b101720c196cec0830ddb76c7f567cf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_b392775b",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-10T21:37:15Z",
+      "side": 1,
+      "message": "Skip SSL verification for git operations for repository {0}",
+      "revId": "7f8235761b101720c196cec0830ddb76c7f567cf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_d387031d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 616,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-10T21:37:15Z",
+      "side": 1,
+      "message": "Skip SSL verification for this single git operation",
+      "revId": "7f8235761b101720c196cec0830ddb76c7f567cf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
