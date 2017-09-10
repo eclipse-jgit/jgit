@@ -128,6 +128,24 @@
       "revId": "ac325256f91e0e243cf4b4522d4e8d69918d3025",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_3365a70f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HttpConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-10T19:33:06Z",
+      "side": 1,
+      "message": "I thought about amazon-s3, but you are right, this doesn\u0027t really make sense",
+      "parentUuid": "c7880b39_70500557",
+      "revId": "ac325256f91e0e243cf4b4522d4e8d69918d3025",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
