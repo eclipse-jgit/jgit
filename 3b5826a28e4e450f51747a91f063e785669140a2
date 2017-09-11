@@ -16,6 +16,24 @@
       "revId": "3b5826a28e4e450f51747a91f063e785669140a2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_4e30c6ec",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 5
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-09-11T09:33:34Z",
+      "side": 1,
+      "message": "Originally I had used \"trust\" in this and the following messages as a short-hand for what the average end-user is probably thinking: \"I don\u0027t care, get me connected\".\n\nThe problem with more specific explanations and messages is that right now we end up with all kinds of SSL errors in this callback to the CredentialsProvider. If it\u0027s a case of a wrong hostname in the certificate, I\u0027m not sure installing the signer\u0027s cert would even help. Also if the server\u0027s certificate has expired. So we would have to start to distinguish more detailed what kind of SSL validation failure we have, and then produce appropriate messages.\n\nIf we wanted to point the user at this possibility, we could only say something rather generic with the current implementation, like maybe\n\n\"To connect to the server, you can decide to skip SSL verification, or you can try to install the signer\u0027s certificate in your JVM and restart; see http:.... for instructions.\"\n\nIt\u0027s a bit long, would need additional support in the EGitCredentialsProvider for generating a link in the text, and from what I\u0027ve seen, many users struggle with installing certificates in JVM.\n\nSo a good UI in EGit would need a dialog with a help page that would explain the problems and solution option in painstaking detail. Perhaps the right approach would be to give the CredentialsProvider a new CredentialItem.ConnectionFailure that would have the exception and the config. The provider then could decide itself what kind of messages and choices to display, could even update the config, and could return a boolean value for TransportHttp to set this.sslVerify afterwards. Or maybe this whole SSL failure case should not be lumped together with the CredentialProvider at all, but then we\u0027d need something totally new.\n\nIf we can come up with a better and more correct text for this message, then by all means let\u0027s improve it. The current text is just the best I could come up with. It\u0027s certainly not set in stone.",
+      "parentUuid": "c7880b39_2e68dae7",
+      "revId": "3b5826a28e4e450f51747a91f063e785669140a2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
