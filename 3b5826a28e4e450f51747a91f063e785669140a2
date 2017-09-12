@@ -34,6 +34,24 @@
       "revId": "3b5826a28e4e450f51747a91f063e785669140a2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_736806e9",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 5
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-12T22:49:52Z",
+      "side": 1,
+      "message": "How about just asking the following question instead of discussing details :\n\n\"Do you want to skip SSL verification for this server?\"",
+      "parentUuid": "c7880b39_4e30c6ec",
+      "revId": "3b5826a28e4e450f51747a91f063e785669140a2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
