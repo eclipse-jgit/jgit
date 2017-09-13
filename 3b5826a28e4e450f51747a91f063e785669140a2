@@ -52,6 +52,24 @@
       "revId": "3b5826a28e4e450f51747a91f063e785669140a2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_b327ce65",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 5
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-09-13T06:47:06Z",
+      "side": 1,
+      "message": "Indeed, much simpler. Done.",
+      "parentUuid": "c7880b39_736806e9",
+      "revId": "3b5826a28e4e450f51747a91f063e785669140a2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
