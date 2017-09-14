@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_0bb22251",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-14T21:53:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_ce0d96c9",
+      "revId": "c6a3add625867a81474f3798831518274512c790",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_8e88eeaa",
         "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/LsFilesTest.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2017-09-11T11:17:25Z",
       "side": 1,
       "message": "You should check for entries:\n- exisiting in HEAD but missing in index (files where you already executed \u0027git rm\u0027 but have not comitted that)\n- symbolic links\n- submodules\n\nEven if we don\u0027t support all the bells and whistles of native git\u0027s ls-files we should not silently ignore links and submodules.",
+      "revId": "c6a3add625867a81474f3798831518274512c790",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_4bbc2a24",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/LsFilesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-14T21:53:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_8e88eeaa",
       "revId": "c6a3add625867a81474f3798831518274512c790",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
