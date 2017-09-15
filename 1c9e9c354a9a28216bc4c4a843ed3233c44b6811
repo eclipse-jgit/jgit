@@ -22,6 +22,30 @@
       "revId": "1c9e9c354a9a28216bc4c4a843ed3233c44b6811",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_de9c5a4d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleUpdateCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-09-15T03:46:19Z",
+      "side": 1,
+      "message": "Done in the follow-up change: https://git.eclipse.org/r/105169",
+      "parentUuid": "c7880b39_def1ba8e",
+      "range": {
+        "startLine": 195,
+        "startChar": 6,
+        "endLine": 197,
+        "endChar": 53
+      },
+      "revId": "1c9e9c354a9a28216bc4c4a843ed3233c44b6811",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
