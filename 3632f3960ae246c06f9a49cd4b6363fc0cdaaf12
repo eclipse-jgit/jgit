@@ -16,6 +16,24 @@
       "revId": "3632f3960ae246c06f9a49cd4b6363fc0cdaaf12",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_12cb331c",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/TextBuiltin.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 39869
+      },
+      "writtenOn": "2017-09-16T17:41:24Z",
+      "side": 1,
+      "message": "Sure, included in the next commit.",
+      "parentUuid": "c7880b39_f3023647",
+      "revId": "3632f3960ae246c06f9a49cd4b6363fc0cdaaf12",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
