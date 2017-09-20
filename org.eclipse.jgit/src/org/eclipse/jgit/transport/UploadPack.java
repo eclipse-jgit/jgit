@@ -1324,7 +1324,7 @@ public class UploadPack {
 		// no longer exports that requested item. If the requested commit is merged
 		// into an advertised branch it will be marked UNINTERESTING and no commits
 		// return.
-
+		walk.reset();
 		AsyncRevObjectQueue q = walk.parseAny(notAdvertisedWants, true);
 		try {
 			RevObject obj;
