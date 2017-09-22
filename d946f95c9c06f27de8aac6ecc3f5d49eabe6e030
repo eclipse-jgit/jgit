@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_bdece2b7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 645,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-22T22:57:37Z",
+      "side": 1,
+      "message": "I used this option during a gerrit training we gave today and it killed my global configuration. The resulting ~/.gitconfig was cut down to just\n\n [http \"\u003cserver URL\u003e\"]\n\tsslVerify \u003d false\n\nall the rest of my 2 pages of global configuration was gone (I have a backup so I could recover from this loss). I\u0027ll try if I can reproduce this problem.",
+      "revId": "d946f95c9c06f27de8aac6ecc3f5d49eabe6e030",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
