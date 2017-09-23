@@ -1,0 +1,662 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_9a7e515c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-23T23:14:48Z",
+      "side": 1,
+      "message": "This message doesn\u0027t comply to the guidelines given in the contributor guide [1] and the message is completely insufficient for such a large change.\n\n[1] https://wiki.eclipse.org/EGit/Contributor_Guide#Commit_message_guidelines",
+      "revId": "4d7cb9c2eee8884d2180f5f8926cd5969ee67ec9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_5a6f89a5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-23T23:14:48Z",
+      "side": 1,
+      "message": "move the shallow clone tests into a separate test class, how about ShallowCloneCommandTest ?",
+      "revId": "4d7cb9c2eee8884d2180f5f8926cd5969ee67ec9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_ba814dda",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 699,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-23T23:14:48Z",
+      "side": 1,
+      "message": "try to make the code speak for itself instead of adding comments for each and every line",
+      "revId": "4d7cb9c2eee8884d2180f5f8926cd5969ee67ec9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_da97f918",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-23T23:14:48Z",
+      "side": 1,
+      "message": "remove dead code which is commented out",
+      "revId": "4d7cb9c2eee8884d2180f5f8926cd5969ee67ec9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_1a926128",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 1054,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-23T23:14:48Z",
+      "side": 1,
+      "message": "find a shorter name",
+      "range": {
+        "startLine": 1054,
+        "startChar": 22,
+        "endLine": 1054,
+        "endChar": 57
+      },
+      "revId": "4d7cb9c2eee8884d2180f5f8926cd5969ee67ec9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_3a8d5d0a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 1066,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-23T23:14:48Z",
+      "side": 1,
+      "message": "find a shorter name",
+      "range": {
+        "startLine": 1066,
+        "startChar": 24,
+        "endLine": 1066,
+        "endChar": 59
+      },
+      "revId": "4d7cb9c2eee8884d2180f5f8926cd5969ee67ec9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_7a72858a",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 16
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-23T23:14:48Z",
+      "side": 1,
+      "message": "rephrase the error message using terms a user can understand who doesn\u0027t know the JGit implementation",
+      "range": {
+        "startLine": 554,
+        "startChar": 40,
+        "endLine": 554,
+        "endChar": 65
+      },
+      "revId": "4d7cb9c2eee8884d2180f5f8926cd5969ee67ec9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_9a79f16e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-23T23:14:48Z",
+      "side": 1,
+      "message": "Java uses null as default, so there is no need to assign null explicitly",
+      "range": {
+        "startLine": 119,
+        "startChar": 21,
+        "endLine": 119,
+        "endChar": 27
+      },
+      "revId": "4d7cb9c2eee8884d2180f5f8926cd5969ee67ec9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_da6299b7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-23T23:14:48Z",
+      "side": 1,
+      "message": "avoid inflation of unnecessary local variables",
+      "range": {
+        "startLine": 278,
+        "startChar": 2,
+        "endLine": 278,
+        "endChar": 19
+      },
+      "revId": "4d7cb9c2eee8884d2180f5f8926cd5969ee67ec9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_fa5d95fa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/FetchCommand.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-23T23:14:48Z",
+      "side": 1,
+      "message": "remove unnecessary assignment of Java\u0027s default for object references",
+      "range": {
+        "startLine": 104,
+        "startChar": 20,
+        "endLine": 104,
+        "endChar": 27
+      },
+      "revId": "4d7cb9c2eee8884d2180f5f8926cd5969ee67ec9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_1a6d01a7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 784,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-23T23:14:48Z",
+      "side": 1,
+      "message": "unlock in a finally block",
+      "revId": "4d7cb9c2eee8884d2180f5f8926cd5969ee67ec9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_da49b939",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryShallow.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-23T23:14:48Z",
+      "side": 1,
+      "message": "this class seems unnecessary",
+      "range": {
+        "startLine": 55,
+        "startChar": 3,
+        "endLine": 55,
+        "endChar": 65
+      },
+      "revId": "4d7cb9c2eee8884d2180f5f8926cd5969ee67ec9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_1a44211d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryShallow.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-23T23:14:48Z",
+      "side": 1,
+      "message": "that\u0027s Constants.OBJECT_ID_STRING_LENGTH",
+      "revId": "4d7cb9c2eee8884d2180f5f8926cd5969ee67ec9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_5ac149fa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryShallow.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-23T23:14:48Z",
+      "side": 1,
+      "message": "{@code false}",
+      "range": {
+        "startLine": 111,
+        "startChar": 57,
+        "endLine": 111,
+        "endChar": 62
+      },
+      "revId": "4d7cb9c2eee8884d2180f5f8926cd5969ee67ec9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_3a3f1d8e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryShallow.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-23T23:14:48Z",
+      "side": 1,
+      "message": "{@code true}",
+      "range": {
+        "startLine": 111,
+        "startChar": 12,
+        "endLine": 111,
+        "endChar": 16
+      },
+      "revId": "4d7cb9c2eee8884d2180f5f8926cd5969ee67ec9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_9acbb11a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryShallow.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-23T23:14:48Z",
+      "side": 1,
+      "message": "remove extra period",
+      "range": {
+        "startLine": 112,
+        "startChar": 18,
+        "endLine": 112,
+        "endChar": 19
+      },
+      "revId": "4d7cb9c2eee8884d2180f5f8926cd5969ee67ec9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_bacead28",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryShallow.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-23T23:14:48Z",
+      "side": 1,
+      "message": "invalidShallowFile",
+      "range": {
+        "startLine": 132,
+        "startChar": 20,
+        "endLine": 132,
+        "endChar": 47
+      },
+      "revId": "4d7cb9c2eee8884d2180f5f8926cd5969ee67ec9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_dd9b6ef6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryShallow.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-23T23:14:48Z",
+      "side": 1,
+      "message": "why do you convert this exception ?",
+      "revId": "4d7cb9c2eee8884d2180f5f8926cd5969ee67ec9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_3d8c72be",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryShallow.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-23T23:14:48Z",
+      "side": 1,
+      "message": "how can an exception deal with a .git/.shallow file ? Instead explain which error conditions are represented by this exception",
+      "range": {
+        "startLine": 176,
+        "startChar": 4,
+        "endLine": 176,
+        "endChar": 66
+      },
+      "revId": "4d7cb9c2eee8884d2180f5f8926cd5969ee67ec9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_9d0c86cd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileBasedShallow.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-23T23:14:48Z",
+      "side": 1,
+      "message": "no, shallow commits typically have a parent but not in the shallow repository, see https://github.com/git/git/blob/master/Documentation/technical/shallow.txt",
+      "range": {
+        "startLine": 67,
+        "startChar": 64,
+        "endLine": 68,
+        "endChar": 12
+      },
+      "revId": "4d7cb9c2eee8884d2180f5f8926cd5969ee67ec9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_5d877e99",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileBasedShallow.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-23T23:14:48Z",
+      "side": 1,
+      "message": "how about ShallowFile ?",
+      "range": {
+        "startLine": 72,
+        "startChar": 13,
+        "endLine": 72,
+        "endChar": 29
+      },
+      "revId": "4d7cb9c2eee8884d2180f5f8926cd5969ee67ec9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_bd1302e7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileBasedShallow.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-23T23:14:48Z",
+      "side": 1,
+      "message": "if you want to ensure parentDirectory is not null then annotate the parameter with @NonNull instead of throwing a RuntimeException.",
+      "revId": "4d7cb9c2eee8884d2180f5f8926cd5969ee67ec9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_3adabde0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileBasedShallow.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-23T23:14:48Z",
+      "side": 1,
+      "message": "this can be inlined",
+      "range": {
+        "startLine": 101,
+        "startChar": 16,
+        "endLine": 101,
+        "endChar": 20
+      },
+      "revId": "4d7cb9c2eee8884d2180f5f8926cd5969ee67ec9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_1adfc1d2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileBasedShallow.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-23T23:14:48Z",
+      "side": 1,
+      "message": "this should be a LockFailedException",
+      "range": {
+        "startLine": 102,
+        "startChar": 13,
+        "endLine": 102,
+        "endChar": 39
+      },
+      "revId": "4d7cb9c2eee8884d2180f5f8926cd5969ee67ec9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_3a68fd94",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileBasedShallow.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-23T23:14:48Z",
+      "side": 1,
+      "message": "remove unnecessary comment",
+      "revId": "4d7cb9c2eee8884d2180f5f8926cd5969ee67ec9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_7d099abb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileBasedShallow.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-23T23:14:48Z",
+      "side": 1,
+      "message": "why are you catching this ?\ndon\u0027t use printStackTrace for logging but use the slf4j API",
+      "range": {
+        "startLine": 157,
+        "startChar": 0,
+        "endLine": 158,
+        "endChar": 25
+      },
+      "revId": "4d7cb9c2eee8884d2180f5f8926cd5969ee67ec9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_1af6e150",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-23T23:14:48Z",
+      "side": 1,
+      "message": "this won\u0027t work if sendWantsDeepen is already true",
+      "revId": "4d7cb9c2eee8884d2180f5f8926cd5969ee67ec9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_faf67550",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-23T23:14:48Z",
+      "side": 1,
+      "message": "why compute this here already, it\u0027s used first time in line 522",
+      "revId": "4d7cb9c2eee8884d2180f5f8926cd5969ee67ec9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_9ae2d190",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-23T23:14:48Z",
+      "side": 1,
+      "message": "always unlock in a finally block to prevent file locks survive exceptions",
+      "revId": "4d7cb9c2eee8884d2180f5f8926cd5969ee67ec9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_5a56a9db",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Depth.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-23T23:14:48Z",
+      "side": 1,
+      "message": "why do we need a class to represent an integer ?",
+      "range": {
+        "startLine": 57,
+        "startChar": 13,
+        "endLine": 57,
+        "endChar": 18
+      },
+      "revId": "4d7cb9c2eee8884d2180f5f8926cd5969ee67ec9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_7a59a508",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Depth.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-23T23:14:48Z",
+      "side": 1,
+      "message": "there is no need to declare unchecked exceptions",
+      "revId": "4d7cb9c2eee8884d2180f5f8926cd5969ee67ec9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_ba530de6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Depth.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-09-23T23:14:48Z",
+      "side": 1,
+      "message": "why is that needed ?",
+      "range": {
+        "startLine": 122,
+        "startChar": 51,
+        "endLine": 122,
+        "endChar": 62
+      },
+      "revId": "4d7cb9c2eee8884d2180f5f8926cd5969ee67ec9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
