@@ -16,6 +16,24 @@
       "revId": "d946f95c9c06f27de8aac6ecc3f5d49eabe6e030",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_5d685e95",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 645,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-09-23T09:18:34Z",
+      "side": 1,
+      "message": "Ouch. openUserConfig() does not load it! That\u0027s rather misleading.\n\nShould be fixed by https://git.eclipse.org/r/#/c/105652/ .",
+      "parentUuid": "c7880b39_bdece2b7",
+      "revId": "d946f95c9c06f27de8aac6ecc3f5d49eabe6e030",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
