@@ -44,13 +44,16 @@
 
 package org.eclipse.jgit.transport;
 
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.text.MessageFormat;
 import java.util.Set;
 import java.util.function.Supplier;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.StringUtils;
 import org.eclipse.jgit.util.SystemReader;
@@ -142,13 +145,13 @@ public class HttpConfig {
 		}
 	}
 
-	private final int postBuffer;
+	private int postBuffer;
 
-	private final boolean sslVerify;
+	private boolean sslVerify;
 
-	private final HttpRedirectMode followRedirects;
+	private HttpRedirectMode followRedirects;
 
-	private final int maxRedirects;
+	private int maxRedirects;
 
 	/**
 	 * @return the value of the "http.postBuffer" setting
@@ -187,6 +190,32 @@ public class HttpConfig {
 	 *            to get the configuration values for
 	 */
 	public HttpConfig(Config config, URIish uri) {
+		init(config, uri);
+	}
+
+	/**
+	 * Creates a {@link HttpConfig} that reads values solely from the user
+	 * config.
+	 *
+	 * @param uri
+	 *            to get the configuration values for
+	 */
+	public HttpConfig(URIish uri) {
+		FileBasedConfig userConfig = SystemReader.getInstance()
+				.openUserConfig(null, FS.DETECTED);
+		try {
+			userConfig.load();
+		} catch (IOException | ConfigInvalidException e) {
+			// Log it and then work with default values.
+			LOG.error(MessageFormat.format(JGitText.get().userConfigFileInvalid,
+					userConfig.getFile().getAbsolutePath(), e));
+			init(new Config(), uri);
+			return;
+		}
+		init(userConfig, uri);
+	}
+
+	private void init(Config config, URIish uri) {
 		// Set defaults from the section first
 		int postBufferSize = config.getInt(HTTP, POST_BUFFER_KEY,
 				1 * 1024 * 1024);
@@ -218,17 +247,6 @@ public class HttpConfig {
 		sslVerify = sslVerifyFlag;
 		followRedirects = followRedirectsMode;
 		maxRedirects = redirectLimit;
-	}
-
-	/**
-	 * Creates a {@link HttpConfig} that reads values solely from the user
-	 * config.
-	 *
-	 * @param uri
-	 *            to get the configuration values for
-	 */
-	public HttpConfig(URIish uri) {
-		this(SystemReader.getInstance().openUserConfig(null, FS.DETECTED), uri);
 	}
 
 	/**
