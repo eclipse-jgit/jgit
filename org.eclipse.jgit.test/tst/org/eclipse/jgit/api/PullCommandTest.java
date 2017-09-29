@@ -117,6 +117,18 @@ public class PullCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testPullFromFileUrl() throws Exception {
+		File sourceLocation = source.getRepository().getWorkTree();
+		PullResult res = target.pull()
+			.setRemote(sourceLocation.toURI().toString())
+			.call();
+		// nothing to update since we don't have different data yet
+		assertTrue(res.getFetchResult().getTrackingRefUpdates().isEmpty());
+		assertTrue(res.getMergeResult().getMergeStatus().equals(
+				MergeStatus.ALREADY_UP_TO_DATE));
+	}
+
+	@Test
 	public void testPullMerge() throws Exception {
 		PullResult res = target.pull().call();
 		// nothing to update since we don't have different data yet
