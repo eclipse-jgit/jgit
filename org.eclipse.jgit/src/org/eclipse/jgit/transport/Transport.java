@@ -762,7 +762,7 @@ public abstract class Transport implements AutoCloseable {
 	private String optionUploadPack = RemoteConfig.DEFAULT_UPLOAD_PACK;
 
 	/** Specifications to apply during fetch. */
-	private List<RefSpec> fetch = Collections.emptyList();
+	private List<RefSpec> fetch = new ArrayList<>(3);
 
 	/**
 	 * How {@link #fetch(ProgressMonitor, Collection)} should handle tags.
@@ -831,6 +831,7 @@ public abstract class Transport implements AutoCloseable {
 		this.uri = uri;
 		this.objectChecker = tc.newObjectChecker();
 		this.credentialsProvider = CredentialsProvider.getDefault();
+        fetch.add(new RefSpec());  // By Default, "HEAD:"
 		prePush = Hooks.prePush(local, hookOutRedirect);
 	}
 

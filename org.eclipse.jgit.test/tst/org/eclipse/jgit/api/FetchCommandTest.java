@@ -102,6 +102,23 @@ public class FetchCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testFetchFromURI() throws Exception {
+
+		// create some refs via commits and tag
+		RevCommit commit = remoteGit.commit().setMessage("initial commit").call();
+		Ref tagRef = remoteGit.tag().setName("tag").call();
+        String remoteURI = remoteGit
+                .getRepository().getWorkTree().toURI().toString();
+
+		git.fetch().setRemote(remoteURI).call();
+
+		assertEquals(commit.getId(),
+				db.resolve(commit.getId().getName() + "^{commit}"));
+		assertEquals(tagRef.getObjectId(),
+				db.resolve(tagRef.getObjectId().getName()));
+	}
+
+	@Test
 	public void fetchShouldAutoFollowTag() throws Exception {
 		remoteGit.commit().setMessage("commit").call();
 		Ref tagRef = remoteGit.tag().setName("foo").call();
