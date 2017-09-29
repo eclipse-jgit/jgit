@@ -45,6 +45,8 @@
 package org.eclipse.jgit.api;
 
 import java.io.IOException;
+import java.io.File;
+import java.net.URISyntaxException;
 import java.text.MessageFormat;
 
 import org.eclipse.jgit.annotations.Nullable;
@@ -75,7 +77,9 @@ import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.lib.SubmoduleConfig.FetchRecurseSubmodulesMode;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.transport.FetchResult;
+import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.TagOpt;
+import org.eclipse.jgit.transport.URIish;
 
 /**
  * The Pull command
@@ -269,10 +273,22 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 		final boolean isRemote = !remote.equals("."); //$NON-NLS-1$
 		String remoteUri;
 		FetchResult fetchRes;
+		RefSpec headRef = null;
 		if (isRemote) {
 			remoteUri = repoConfig.getString(
 					ConfigConstants.CONFIG_REMOTE_SECTION, remote,
 					ConfigConstants.CONFIG_KEY_URL);
+			if (remoteUri == null) {
+				try {
+					remoteUri = new URIish(remote).toString();
+					remote = remoteUri;
+					// Set HEAD fetch ref since there is no remote config.
+					headRef = new RefSpec();
+				} catch(URISyntaxException e) {
+					// remote is neither an existing remote, nor parsable as
+					// a URI.
+				}
+			}
 			if (remoteUri == null) {
 				String missingKey = ConfigConstants.CONFIG_REMOTE_SECTION + DOT
 						+ remote + DOT + ConfigConstants.CONFIG_KEY_URL;
@@ -288,6 +304,9 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 			FetchCommand fetch = new FetchCommand(repo).setRemote(remote)
 					.setProgressMonitor(monitor).setTagOpt(tagOption)
 					.setRecurseSubmodules(submoduleRecurseMode);
+			if (headRef != null) {
+				fetch.setRefSpecs(headRef);
+			}
 			configure(fetch);
 
 			fetchRes = fetch.call();
@@ -506,5 +525,19 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 				ConfigConstants.CONFIG_PULL_SECTION, null,
 				ConfigConstants.CONFIG_KEY_FF, null);
 		return ffMode != null ? FastForwardMode.valueOf(ffMode) : null;
+	}
+
+	private boolean matches(URIish a, URIish b) {
+		if (a.isRemote() && b.isRemote()) {
+			return a.toString().equals(b.toString());
+		}
+		if (!a.isRemote() && !b.isRemote()) {
+			String ap = a.getRawPath();
+			String bp = b.getRawPath();
+			ap = ap.substring(0, ap.length() - (ap.endsWith("/") ? 1 : 0));
+			bp = bp.substring(0, bp.length() - (bp.endsWith("/") ? 1 : 0));
+			return ap.equals(bp);
+		}
+		return false;
 	}
 }

@@ -691,7 +691,7 @@ public abstract class Transport implements AutoCloseable {
 			final Repository db, final Collection<RefSpec> specs,
 			Collection<RefSpec> fetchSpecs) throws IOException {
 		return findRemoteRefUpdatesFor(db, specs, Collections.emptyMap(),
-					       fetchSpecs);
+						   fetchSpecs);
 	}
 
 	private static Collection<RefSpec> expandPushWildcardsFor(
@@ -1377,7 +1377,7 @@ public abstract class Transport implements AutoCloseable {
 	public Collection<RemoteRefUpdate> findRemoteRefUpdatesFor(
 			final Collection<RefSpec> specs) throws IOException {
 		return findRemoteRefUpdatesFor(local, specs, Collections.emptyMap(),
-					       fetch);
+						   fetch);
 	}
 
 	/**
@@ -1405,7 +1405,7 @@ public abstract class Transport implements AutoCloseable {
 			final Collection<RefSpec> specs,
 			final Map<String, RefLeaseSpec> leases) throws IOException {
 		return findRemoteRefUpdatesFor(local, specs, leases,
-					       fetch);
+						   fetch);
 	}
 
 	/**
