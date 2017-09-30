@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_cb5d56fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-09-30T09:41:38Z",
+      "side": 1,
+      "message": "OK, after upgrading to bazel 0.6.0 I do get the error.",
+      "parentUuid": "c7880b39_6b7e225f",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 52
+      },
+      "revId": "781b0aee4e3da7d67a72f2891d1657a89fceda75",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_0bdbde0c",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/ChangeIdUtilTest.java",
         "patchSetId": 1
