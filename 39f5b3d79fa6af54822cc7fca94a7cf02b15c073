@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_4ba0867a",
+        "filename": "org.eclipse.jgit.pgm.test/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-09-30T09:05:20Z",
+      "side": 1,
+      "message": "Despite the error message from bazel that tells to add exactly this, it should actually be a //lib target.",
+      "range": {
+        "startLine": 26,
+        "startChar": 8,
+        "endLine": 26,
+        "endChar": 23
+      },
+      "revId": "39f5b3d79fa6af54822cc7fca94a7cf02b15c073",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
