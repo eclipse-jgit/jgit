@@ -23,6 +23,7 @@ junit_tests(
         "//org.eclipse.jgit:jgit",
         "//org.eclipse.jgit.junit:junit",
         "//org.eclipse.jgit.pgm:pgm",
+        "@args4j//jar",
     ],
 )
 
