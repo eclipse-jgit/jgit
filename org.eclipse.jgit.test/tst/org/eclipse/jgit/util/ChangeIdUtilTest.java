@@ -50,6 +50,7 @@ import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.junit.MockSystemReader;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -583,6 +584,8 @@ public class ChangeIdUtilTest {
 						SOB1));
 	}
 
+    @Test
+    @Ignore
 	public void notestCommitDashV() throws Exception {
 		assertEquals("a\n" + //
 				"\n" + //
