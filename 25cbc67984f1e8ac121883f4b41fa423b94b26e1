@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_0b8d9e09",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/PullCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-09-30T09:17:50Z",
+      "side": 1,
+      "message": "please indent with tabs",
+      "range": {
+        "startLine": 119,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 4
+      },
+      "revId": "25cbc67984f1e8ac121883f4b41fa423b94b26e1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_2b6fbaa6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-09-30T09:17:50Z",
+      "side": 1,
+      "message": "please indent with tabs",
+      "range": {
+        "startLine": 279,
+        "startChar": 0,
+        "endLine": 279,
+        "endChar": 12
+      },
+      "revId": "25cbc67984f1e8ac121883f4b41fa423b94b26e1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
