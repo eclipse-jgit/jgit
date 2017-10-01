@@ -125,6 +125,7 @@ public class EditTest {
 		assertEquals("REPLACE(1-2,1-4)", e.toString());
 	}
 
+	@SuppressWarnings("unlikely-arg-type")
 	@Test
 	public void testEquals1() {
 		final Edit e1 = new Edit(1, 2, 3, 4);

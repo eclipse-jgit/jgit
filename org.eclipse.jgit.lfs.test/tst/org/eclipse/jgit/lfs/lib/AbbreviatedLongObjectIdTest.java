@@ -587,6 +587,7 @@ public class AbbreviatedLongObjectIdTest {
 		assertEquals(id.getFirstByte(), a.getFirstByte());
 	}
 
+	@SuppressWarnings("unlikely-arg-type")
 	@Test
 	public void testNotEquals() {
 		AbbreviatedLongObjectId a = new LongObjectId(1L, 2L, 3L, 4L)
