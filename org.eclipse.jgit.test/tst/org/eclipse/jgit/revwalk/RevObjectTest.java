@@ -60,6 +60,7 @@ public class RevObjectTest extends RevWalkTestCase {
 		assertSame(a, a.getId());
 	}
 
+	@SuppressWarnings("unlikely-arg-type")
 	@Test
 	public void testEquals() throws Exception {
 		final RevCommit a1 = commit();
