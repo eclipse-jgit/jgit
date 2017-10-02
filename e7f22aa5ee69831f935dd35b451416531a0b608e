@@ -16,6 +16,24 @@
       "revId": "e7f22aa5ee69831f935dd35b451416531a0b608e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_a97c9191",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1353,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-10-02T19:09:59Z",
+      "side": 1,
+      "message": "\"... seems like a code smell\", I mean. Sorry for the sloppiness.",
+      "parentUuid": "c7880b39_6982a90d",
+      "revId": "e7f22aa5ee69831f935dd35b451416531a0b608e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
