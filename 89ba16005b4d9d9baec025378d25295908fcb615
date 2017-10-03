@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_69a8e9d8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReftableDatabase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2017-10-03T01:39:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_910d80f4",
+      "range": {
+        "startLine": 123,
+        "startChar": 1,
+        "endLine": 123,
+        "endChar": 47
+      },
+      "revId": "89ba16005b4d9d9baec025378d25295908fcb615",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_b1551cd0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReftableDatabase.java",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_298a616f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReftableDatabase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2017-10-03T01:39:56Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "c7880b39_b1551cd0",
+      "range": {
+        "startLine": 150,
+        "startChar": 4,
+        "endLine": 150,
+        "endChar": 29
+      },
+      "revId": "89ba16005b4d9d9baec025378d25295908fcb615",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_512a3831",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReftableDatabase.java",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2017-09-06T17:00:40Z",
       "side": 1,
       "message": "This is similar cache handling to stored() and removed() so maybe group this with them.",
+      "range": {
+        "startLine": 267,
+        "startChar": 0,
+        "endLine": 267,
+        "endChar": 54
+      },
+      "revId": "89ba16005b4d9d9baec025378d25295908fcb615",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_896ef522",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReftableDatabase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2017-10-03T01:39:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_512a3831",
       "range": {
         "startLine": 267,
         "startChar": 0,
