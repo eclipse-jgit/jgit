@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_ef9e99ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-10-03T18:47:00Z",
+      "side": 1,
+      "message": "That\u0027s annoying. I don\u0027t think we should work around that by falsifying authorship, though. I can push changes for you if you like.",
+      "parentUuid": "c7880b39_2c60af00",
+      "revId": "b0b5c01564cf2d69dd2db4d948a6137271846ee8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_accf3fa2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
