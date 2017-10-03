@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_ecd86768",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-10-03T02:14:44Z",
+      "side": 1,
+      "message": "Same comments about author and mthai: line as patch 3.",
+      "revId": "3eeab7d84b81c33970e9179caa9020e970716a39",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_0cdcd358",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-10-03T02:14:44Z",
+      "side": 1,
+      "message": "Other rejection reasons (e.g. lockError) are localized --- should this one be, too?",
+      "range": {
+        "startLine": 149,
+        "startChar": 34,
+        "endLine": 149,
+        "endChar": 47
+      },
+      "revId": "3eeab7d84b81c33970e9179caa9020e970716a39",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_6cec7705",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-10-03T02:14:44Z",
+      "side": 1,
+      "message": "; or .?",
+      "range": {
+        "startLine": 215,
+        "startChar": 25,
+        "endLine": 215,
+        "endChar": 26
+      },
+      "revId": "3eeab7d84b81c33970e9179caa9020e970716a39",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_2cd34f49",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-10-03T02:14:44Z",
+      "side": 1,
+      "message": "nit: unnecessary \"final\" (and likewise for the others)",
+      "range": {
+        "startLine": 221,
+        "startChar": 35,
+        "endLine": 221,
+        "endChar": 40
+      },
+      "revId": "3eeab7d84b81c33970e9179caa9020e970716a39",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_4cd6db38",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-10-03T02:14:44Z",
+      "side": 1,
+      "message": ";?",
+      "range": {
+        "startLine": 232,
+        "startChar": 25,
+        "endLine": 232,
+        "endChar": 26
+      },
+      "revId": "3eeab7d84b81c33970e9179caa9020e970716a39",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
