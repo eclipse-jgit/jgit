@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_8cc0c373",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-10-03T02:10:19Z",
+      "side": 1,
+      "message": "You can restore the original author by using \u0027git commit --amend --author\u003d\"Shawn Pearce \u003cspearce@spearce.org\u003e\"\u0027. The committer field will still give credit for who gave the finishing touches.",
+      "revId": "b0b5c01564cf2d69dd2db4d948a6137271846ee8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_accf3fa2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-10-03T02:10:19Z",
+      "side": 1,
+      "message": "This line isn\u0027t needed --- when looking at \"git log\" it doesn\u0027t tell me anything about what the change did.\n\nYou can have a line like this if you have made some specific changes that need pointing out, though.\n\nPlease include a blank line afterward, so that tools like Gerrit and git-interpret-trailers(1) can interpret the footer that comes below correctly.",
+      "revId": "b0b5c01564cf2d69dd2db4d948a6137271846ee8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
