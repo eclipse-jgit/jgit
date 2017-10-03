@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_695aa97c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2017-10-03T02:03:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_9da2f829",
+      "range": {
+        "startLine": 390,
+        "startChar": 0,
+        "endLine": 390,
+        "endChar": 19
+      },
+      "revId": "29189cfe255502e301207b8590130f5af8ea3ff4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_1da7e840",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
         "patchSetId": 7
@@ -36,6 +60,30 @@
       "writtenOn": "2017-09-05T17:10:09Z",
       "side": 1,
       "message": "Either update the Javadoc to state this is another path to delete a non-symbolic reference or assert that newSymRef !\u003d null and drop this case. I prefer the latter.",
+      "range": {
+        "startLine": 396,
+        "startChar": 0,
+        "endLine": 396,
+        "endChar": 22
+      },
+      "revId": "29189cfe255502e301207b8590130f5af8ea3ff4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_8955154b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2017-10-03T02:03:14Z",
+      "side": 1,
+      "message": "In existing constructors, newObjectId \u003d\u003d zeroId() means DELETE.  Updated the javadoc.",
+      "parentUuid": "c7880b39_1da7e840",
       "range": {
         "startLine": 396,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_a954914c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2017-10-03T02:03:14Z",
+      "side": 1,
+      "message": "Same as above.",
+      "parentUuid": "c7880b39_1d8e08b9",
+      "range": {
+        "startLine": 426,
+        "startChar": 0,
+        "endLine": 426,
+        "endChar": 22
+      },
+      "revId": "29189cfe255502e301207b8590130f5af8ea3ff4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_5dd5f05d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
         "patchSetId": 7
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_c94f1db9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2017-10-03T02:03:14Z",
+      "side": 1,
+      "message": "Same, updated javadoc.",
+      "parentUuid": "c7880b39_5dd5f05d",
+      "range": {
+        "startLine": 454,
+        "startChar": 21,
+        "endLine": 454,
+        "endChar": 22
+      },
+      "revId": "29189cfe255502e301207b8590130f5af8ea3ff4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_fd713c02",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
         "patchSetId": 7
@@ -105,6 +201,30 @@
       "writtenOn": "2017-09-05T17:10:09Z",
       "side": 1,
       "message": "This is counter to my intuition. We might be detaching a ref if oldSymRef !\u003d null \u0026\u0026 (type \u003d\u003d DELETE || newSymRef \u003d\u003d null). Can you add some comments or fix this?",
+      "range": {
+        "startLine": 655,
+        "startChar": 3,
+        "endLine": 656,
+        "endChar": 51
+      },
+      "revId": "29189cfe255502e301207b8590130f5af8ea3ff4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_ecb1472e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2017-10-03T02:03:14Z",
+      "side": 1,
+      "message": "detach \u003d switch to new symref or deletion.",
+      "parentUuid": "c7880b39_fd713c02",
       "range": {
         "startLine": 655,
         "startChar": 3,
