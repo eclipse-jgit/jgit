@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_ccfc8baa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-10-03T02:22:12Z",
+      "side": 1,
+      "message": "Same comments about author and \"mthai:\" line.",
+      "revId": "a1d2b8c338c0efd83de05b808f60519ad950583d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_ec2a27b4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-10-03T02:22:12Z",
+      "side": 1,
+      "message": "Can/should this share some code with addPack (e.g. via a common helper)?",
+      "revId": "a1d2b8c338c0efd83de05b808f60519ad950583d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
