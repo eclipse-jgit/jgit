@@ -436,6 +436,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_92c0de73",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-10-03T20:59:54Z",
+      "side": 1,
+      "message": "Ok. Should these be private or package-private? I.e. is it intended to allow child classes to call them?",
+      "parentUuid": "c7880b39_aca57fb7",
+      "range": {
+        "startLine": 406,
+        "startChar": 1,
+        "endLine": 406,
+        "endChar": 10
+      },
+      "revId": "3eeab7d84b81c33970e9179caa9020e970716a39",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_ace65f20",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
         "patchSetId": 8
