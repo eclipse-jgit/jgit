@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_0c92135d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2017-10-03T04:00:27Z",
+      "side": 1,
+      "message": "remove the note about taking over",
+      "parentUuid": "c7880b39_ecd86768",
+      "revId": "3eeab7d84b81c33970e9179caa9020e970716a39",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_0cdcd358",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
         "patchSetId": 8
@@ -30,6 +48,30 @@
       "writtenOn": "2017-10-03T02:14:44Z",
       "side": 1,
       "message": "Other rejection reasons (e.g. lockError) are localized --- should this one be, too?",
+      "range": {
+        "startLine": 149,
+        "startChar": 34,
+        "endLine": 149,
+        "endChar": 47
+      },
+      "revId": "3eeab7d84b81c33970e9179caa9020e970716a39",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_2c898f32",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2017-10-03T04:00:27Z",
+      "side": 1,
+      "message": "localized",
+      "parentUuid": "c7880b39_0cdcd358",
       "range": {
         "startLine": 149,
         "startChar": 34,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_ec8ea73c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/Command.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2017-10-03T04:00:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_cce1eb09",
+      "range": {
+        "startLine": 164,
+        "startChar": 43,
+        "endLine": 164,
+        "endChar": 56
+      },
+      "revId": "3eeab7d84b81c33970e9179caa9020e970716a39",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_6cec7705",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
         "patchSetId": 8
@@ -76,6 +142,30 @@
       "writtenOn": "2017-10-03T02:14:44Z",
       "side": 1,
       "message": "; or .?",
+      "range": {
+        "startLine": 215,
+        "startChar": 25,
+        "endLine": 215,
+        "endChar": 26
+      },
+      "revId": "3eeab7d84b81c33970e9179caa9020e970716a39",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_4cb5fbe5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2017-10-03T04:00:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_6cec7705",
       "range": {
         "startLine": 215,
         "startChar": 25,
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_2cb26f00",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2017-10-03T04:00:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_2cd34f49",
+      "range": {
+        "startLine": 221,
+        "startChar": 35,
+        "endLine": 221,
+        "endChar": 40
+      },
+      "revId": "3eeab7d84b81c33970e9179caa9020e970716a39",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_4cd6db38",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
         "patchSetId": 8
@@ -122,6 +236,30 @@
       "writtenOn": "2017-10-03T02:14:44Z",
       "side": 1,
       "message": ";?",
+      "range": {
+        "startLine": 232,
+        "startChar": 25,
+        "endLine": 232,
+        "endChar": 26
+      },
+      "revId": "3eeab7d84b81c33970e9179caa9020e970716a39",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_0cabf390",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2017-10-03T04:00:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_4cd6db38",
       "range": {
         "startLine": 232,
         "startChar": 25,
@@ -151,6 +289,24 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_eca787c2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2017-10-03T04:00:27Z",
+      "side": 1,
+      "message": "removed",
+      "parentUuid": "c7880b39_8cf283d3",
+      "revId": "3eeab7d84b81c33970e9179caa9020e970716a39",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_6cf717c7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
         "patchSetId": 8
@@ -162,6 +318,24 @@
       "writtenOn": "2017-10-03T02:18:30Z",
       "side": 1,
       "message": "Unrelated change?",
+      "revId": "3eeab7d84b81c33970e9179caa9020e970716a39",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_6c9b977f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2017-10-03T04:00:27Z",
+      "side": 1,
+      "message": "removed",
+      "parentUuid": "c7880b39_6cf717c7",
       "revId": "3eeab7d84b81c33970e9179caa9020e970716a39",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -214,6 +388,54 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_8c960354",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2017-10-03T04:00:27Z",
+      "side": 1,
+      "message": "removed",
+      "parentUuid": "c7880b39_4c117b8d",
+      "range": {
+        "startLine": 406,
+        "startChar": 26,
+        "endLine": 406,
+        "endChar": 31
+      },
+      "revId": "3eeab7d84b81c33970e9179caa9020e970716a39",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_aca57fb7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2017-10-03T04:00:27Z",
+      "side": 1,
+      "message": "I think link()/unlink() being public is sufficient.",
+      "parentUuid": "c7880b39_2c0eef73",
+      "range": {
+        "startLine": 406,
+        "startChar": 1,
+        "endLine": 406,
+        "endChar": 10
+      },
+      "revId": "3eeab7d84b81c33970e9179caa9020e970716a39",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_ace65f20",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
         "patchSetId": 8
@@ -225,6 +447,24 @@
       "writtenOn": "2017-10-03T02:18:30Z",
       "side": 1,
       "message": "unrelated change?",
+      "revId": "3eeab7d84b81c33970e9179caa9020e970716a39",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_cca00ba7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 834,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2017-10-03T04:00:27Z",
+      "side": 1,
+      "message": "removed",
+      "parentUuid": "c7880b39_ace65f20",
       "revId": "3eeab7d84b81c33970e9179caa9020e970716a39",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
