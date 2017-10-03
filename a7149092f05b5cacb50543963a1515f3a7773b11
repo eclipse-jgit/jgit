@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_c9d47d65",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/ReftableBatchRefUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2017-10-03T01:39:56Z",
+      "side": 1,
+      "message": "The next commit in the series switches InMemoryRepository over to DfsReftableDatabase.  All the existing tests will test this.",
+      "parentUuid": "c7880b39_9123c030",
+      "range": {
+        "startLine": 95,
+        "startChar": 13,
+        "endLine": 95,
+        "endChar": 35
+      },
+      "revId": "a7149092f05b5cacb50543963a1515f3a7773b11",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_1118b002",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/ReftableBatchRefUpdate.java",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2017-09-06T17:00:40Z",
       "side": 1,
       "message": "IIRC this constant is used elsewhere so consolidate it in a central location.",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 41
+      },
+      "revId": "a7149092f05b5cacb50543963a1515f3a7773b11",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_a9d9f19d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/ReftableBatchRefUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2017-10-03T01:39:56Z",
+      "side": 1,
+      "message": "I haven\u0027t found it referenced anywhere.",
+      "parentUuid": "c7880b39_1118b002",
       "range": {
         "startLine": 96,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_e902197f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/ReftableBatchRefUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2017-10-03T01:39:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_71265444",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 118,
+        "endChar": 49
+      },
+      "revId": "a7149092f05b5cacb50543963a1515f3a7773b11",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_71d81499",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/ReftableBatchRefUpdate.java",
         "patchSetId": 5
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_09068593",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/ReftableBatchRefUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2017-10-03T01:39:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_71d81499",
+      "range": {
+        "startLine": 432,
+        "startChar": 2,
+        "endLine": 432,
+        "endChar": 40
+      },
+      "revId": "a7149092f05b5cacb50543963a1515f3a7773b11",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_11019078",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/ReftableBatchRefUpdate.java",
         "patchSetId": 5
@@ -105,6 +201,30 @@
       "writtenOn": "2017-09-06T17:00:40Z",
       "side": 1,
       "message": "Should this take the size of the N-1 table being compacted into too?",
+      "range": {
+        "startLine": 441,
+        "startChar": 0,
+        "endLine": 441,
+        "endChar": 49
+      },
+      "revId": "a7149092f05b5cacb50543963a1515f3a7773b11",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_49008d74",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/ReftableBatchRefUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2017-10-03T01:39:56Z",
+      "side": 1,
+      "message": "No, compactTopOfStack() will only compact the new table in the update with newest existing table.  This test ensures that the existing table is not too big and would take too long to compact.",
+      "parentUuid": "c7880b39_11019078",
       "range": {
         "startLine": 441,
         "startChar": 0,
