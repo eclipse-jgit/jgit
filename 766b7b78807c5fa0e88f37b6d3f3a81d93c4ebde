@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_7dc50383",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 30003
+      },
+      "writtenOn": "2017-10-04T10:16:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_328f2a89",
+      "revId": "766b7b78807c5fa0e88f37b6d3f3a81d93c4ebde",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_5292f6ab",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -30,6 +48,30 @@
       "writtenOn": "2017-10-04T09:55:00Z",
       "side": 1,
       "message": "remove these blank lines, we want all footers in the last paragraph",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 0
+      },
+      "revId": "766b7b78807c5fa0e88f37b6d3f3a81d93c4ebde",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_9dc0ef73",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 30003
+      },
+      "writtenOn": "2017-10-04T10:16:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_5292f6ab",
       "range": {
         "startLine": 11,
         "startChar": 0,
