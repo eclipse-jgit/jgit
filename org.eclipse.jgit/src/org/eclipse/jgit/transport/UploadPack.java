@@ -81,6 +81,7 @@ import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
@@ -206,6 +207,9 @@ public class UploadPack {
 	/** Database we read the objects from. */
 	private final Repository db;
 
+	/** reader to load the objects from database. */
+	private final ObjectReader reader;
+
 	/** Revision traversal support over {@link #db}. */
 	private final RevWalk walk;
 
@@ -326,6 +330,7 @@ public class UploadPack {
 	public UploadPack(final Repository copyFrom) {
 		db = copyFrom;
 		walk = new RevWalk(db);
+		reader = walk.getObjectReader();
 		walk.setRetainBody(false);
 
 		WANT = walk.newFlag("WANT"); //$NON-NLS-1$
@@ -351,6 +356,11 @@ public class UploadPack {
 	/** @return the RevWalk instance used by this connection. */
 	public final RevWalk getRevWalk() {
 		return walk;
+	}
+
+	/** @return the reader that is using to load objects by the RevWalk. */
+	public ObjectReader getObjectReader() {
+		return reader;
 	}
 
 	/**
@@ -1261,7 +1271,7 @@ public class UploadPack {
 		@Override
 		public void checkWants(UploadPack up, List<ObjectId> wants)
 				throws PackProtocolException, IOException {
-			checkNotAdvertisedWants(up.getRevWalk(), wants,
+			checkNotAdvertisedWants(up, wants,
 					refIdSet(up.getAdvertisedRefs().values()));
 		}
 	}
@@ -1298,7 +1308,7 @@ public class UploadPack {
 		@Override
 		public void checkWants(UploadPack up, List<ObjectId> wants)
 				throws PackProtocolException, IOException {
-			checkNotAdvertisedWants(up.getRevWalk(), wants,
+			checkNotAdvertisedWants(up, wants,
 					refIdSet(up.getRepository().getRefDatabase().getRefs(ALL).values()));
 		}
 	}
@@ -1316,7 +1326,7 @@ public class UploadPack {
 		}
 	}
 
-	private static void checkNotAdvertisedWants(RevWalk walk,
+	private static void checkNotAdvertisedWants(UploadPack up,
 			List<ObjectId> notAdvertisedWants, Set<ObjectId> reachableFrom)
 			throws MissingObjectException, IncorrectObjectTypeException, IOException {
 		// Walk the requested commits back to the provided set of commits. If any
@@ -1325,6 +1335,7 @@ public class UploadPack {
 		// into an advertised branch it will be marked UNINTERESTING and no commits
 		// return.
 
+		RevWalk walk = new RevWalk(up.getObjectReader());
 		AsyncRevObjectQueue q = walk.parseAny(notAdvertisedWants, true);
 		try {
 			RevObject obj;
@@ -1350,7 +1361,6 @@ public class UploadPack {
 		if (bad != null) {
 			throw new WantNotValidException(bad);
 		}
-		walk.reset();
 	}
 
 	private void addCommonBase(final RevObject o) {
