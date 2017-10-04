@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_a34bca7e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-10-04T21:23:24Z",
+      "side": 1,
+      "message": "Needs @since",
+      "revId": "4e5293ffdbd60d24fc03038660d544698a5a43d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_83508e2a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1338,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-10-04T21:23:24Z",
+      "side": 1,
+      "message": "Can this use try-with-resources?\n\nI know that close() is a no-op in this case, but it\u0027s more consistent with the cases that matter.",
+      "revId": "4e5293ffdbd60d24fc03038660d544698a5a43d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
