@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_95b52366",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 834,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-10-05T21:57:41Z",
+      "side": 1,
+      "message": "Move this into a separate change, since this intended enhancement is unrelated to the subject of this change \"PullCommand: Handle URI strings in setRemote()\".\n\nthis does not work in all cases:\n* clone jgit repository\n* comment out fetch refspecs in .git/config\n* run \"jgit fetch origin\"\n* this works with native git command line but fails when using this version of jgit:\n\n $ jgit fetch origin\norg.eclipse.jgit.api.errors.TransportException: Nothing to fetch.\n\tat org.eclipse.jgit.api.FetchCommand.call(FetchCommand.java:250)\n\tat org.eclipse.jgit.pgm.Fetch.run(Fetch.java:158)\n\tat org.eclipse.jgit.pgm.TextBuiltin.execute(TextBuiltin.java:224)\n\tat org.eclipse.jgit.pgm.Main.execute(Main.java:275)\n\tat org.eclipse.jgit.pgm.Main.run(Main.java:163)\n\tat org.eclipse.jgit.pgm.Main.main(Main.java:135)\nCaused by: org.eclipse.jgit.errors.TransportException: Nothing to fetch.\n\tat org.eclipse.jgit.transport.Transport.fetch(Transport.java:1213)\n\tat org.eclipse.jgit.api.FetchCommand.call(FetchCommand.java:239)\n\t... 5 more",
+      "revId": "21efbd46bd21fc9e3afbfb3464bc73d8a4a62eff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
