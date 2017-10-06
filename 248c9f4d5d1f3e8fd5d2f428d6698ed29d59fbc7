@@ -16,6 +16,24 @@
       "revId": "248c9f4d5d1f3e8fd5d2f428d6698ed29d59fbc7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_866ed722",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportGitSsh.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-10-06T22:07:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_a6a2f3f3",
+      "revId": "248c9f4d5d1f3e8fd5d2f428d6698ed29d59fbc7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
