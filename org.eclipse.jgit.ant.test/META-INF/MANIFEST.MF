@@ -3,13 +3,13 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %plugin_name
 Bundle-SymbolicName: org.eclipse.jgit.ant.test
-Bundle-Version: 4.9.0.201710071750-r
+Bundle-Version: 4.9.1.qualifier
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: org.apache.tools.ant,
- org.eclipse.jgit.ant.tasks;version="[4.9.0,4.10.0)",
- org.eclipse.jgit.junit;version="[4.9.0,4.10.0)",
- org.eclipse.jgit.lib;version="[4.9.0,4.10.0)",
- org.eclipse.jgit.util;version="[4.9.0,4.10.0)",
+ org.eclipse.jgit.ant.tasks;version="[4.9.1,4.10.0)",
+ org.eclipse.jgit.junit;version="[4.9.1,4.10.0)",
+ org.eclipse.jgit.lib;version="[4.9.1,4.10.0)",
+ org.eclipse.jgit.util;version="[4.9.1,4.10.0)",
  org.hamcrest.core;version="[1.1.0,2.0.0)",
  org.junit;version="[4.0.0,5.0.0)"
