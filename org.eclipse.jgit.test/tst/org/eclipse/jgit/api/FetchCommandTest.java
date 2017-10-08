@@ -56,6 +56,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.FetchResult;
+import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.TagOpt;
 import org.eclipse.jgit.transport.TrackingRefUpdate;
@@ -107,10 +108,10 @@ public class FetchCommandTest extends RepositoryTestCase {
 		// create some refs via commits and tag
 		RevCommit commit = remoteGit.commit().setMessage("initial commit").call();
 		Ref tagRef = remoteGit.tag().setName("tag").call();
-        String remoteURI = remoteGit
-                .getRepository().getWorkTree().toURI().toString();
+		String remoteURI = remoteGit
+				.getRepository().getWorkTree().toURI().toString();
 
-		git.fetch().setRemote(remoteURI).call();
+		git.fetch().setRemote(remoteURI).setRefSpecs(new RefSpec()).call();
 
 		assertEquals(commit.getId(),
 				db.resolve(commit.getId().getName() + "^{commit}"));

@@ -691,7 +691,7 @@ public abstract class Transport implements AutoCloseable {
 			final Repository db, final Collection<RefSpec> specs,
 			Collection<RefSpec> fetchSpecs) throws IOException {
 		return findRemoteRefUpdatesFor(db, specs, Collections.emptyMap(),
-					       fetchSpecs);
+						   fetchSpecs);
 	}
 
 	private static Collection<RefSpec> expandPushWildcardsFor(
@@ -762,7 +762,7 @@ public abstract class Transport implements AutoCloseable {
 	private String optionUploadPack = RemoteConfig.DEFAULT_UPLOAD_PACK;
 
 	/** Specifications to apply during fetch. */
-	private List<RefSpec> fetch = new ArrayList<>(3);
+	private List<RefSpec> fetch = Collections.emptyList();
 
 	/**
 	 * How {@link #fetch(ProgressMonitor, Collection)} should handle tags.
@@ -831,7 +831,6 @@ public abstract class Transport implements AutoCloseable {
 		this.uri = uri;
 		this.objectChecker = tc.newObjectChecker();
 		this.credentialsProvider = CredentialsProvider.getDefault();
-        fetch.add(new RefSpec());  // By Default, "HEAD:"
 		prePush = Hooks.prePush(local, hookOutRedirect);
 	}
 
@@ -1378,7 +1377,7 @@ public abstract class Transport implements AutoCloseable {
 	public Collection<RemoteRefUpdate> findRemoteRefUpdatesFor(
 			final Collection<RefSpec> specs) throws IOException {
 		return findRemoteRefUpdatesFor(local, specs, Collections.emptyMap(),
-					       fetch);
+						   fetch);
 	}
 
 	/**
@@ -1406,7 +1405,7 @@ public abstract class Transport implements AutoCloseable {
 			final Collection<RefSpec> specs,
 			final Map<String, RefLeaseSpec> leases) throws IOException {
 		return findRemoteRefUpdatesFor(local, specs, leases,
-					       fetch);
+						   fetch);
 	}
 
 	/**
