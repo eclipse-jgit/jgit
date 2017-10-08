@@ -16,6 +16,24 @@
       "revId": "21efbd46bd21fc9e3afbfb3464bc73d8a4a62eff",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_01b1f14b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 834,
+      "author": {
+        "id": 146559
+      },
+      "writtenOn": "2017-10-08T06:49:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_95b52366",
+      "revId": "21efbd46bd21fc9e3afbfb3464bc73d8a4a62eff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
