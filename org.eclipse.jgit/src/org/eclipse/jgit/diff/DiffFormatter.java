@@ -66,9 +66,9 @@ import org.eclipse.jgit.diff.DiffAlgorithm.SupportedAlgorithm;
 import org.eclipse.jgit.diff.DiffEntry.ChangeType;
 import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.AmbiguousObjectException;
+import org.eclipse.jgit.errors.BinaryBlobException;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
-import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
@@ -112,9 +112,6 @@ public class DiffFormatter implements AutoCloseable {
 
 	/** Magic return content indicating it is empty or no content present. */
 	private static final byte[] EMPTY = new byte[] {};
-
-	/** Magic return indicating the content is binary. */
-	private static final byte[] BINARY = new byte[] {};
 
 	private final OutputStream out;
 
@@ -954,46 +951,49 @@ public class DiffFormatter implements AutoCloseable {
 			// Content not changed (e.g. only mode, pure rename)
 			editList = new EditList();
 			type = PatchType.UNIFIED;
+			res.header = new FileHeader(buf.toByteArray(), editList, type);
+			return res;
+		}
 
+		assertHaveReader();
+
+		RawText aRaw = null;
+		RawText bRaw = null;
+		if (ent.getOldMode() == GITLINK || ent.getNewMode() == GITLINK) {
+			aRaw = new RawText(writeGitLinkText(ent.getOldId()));
+			bRaw = new RawText(writeGitLinkText(ent.getNewId()));
 		} else {
-			assertHaveReader();
-
-			byte[] aRaw, bRaw;
-
-			if (ent.getOldMode() == GITLINK || ent.getNewMode() == GITLINK) {
-				aRaw = writeGitLinkText(ent.getOldId());
-				bRaw = writeGitLinkText(ent.getNewId());
-			} else {
+			try {
 				aRaw = open(OLD, ent);
 				bRaw = open(NEW, ent);
-			}
-
-			if (aRaw == BINARY || bRaw == BINARY //
-					|| RawText.isBinary(aRaw) || RawText.isBinary(bRaw)) {
+			} catch (BinaryBlobException e) {
+				// Do nothing; we check for null below.
 				formatOldNewPaths(buf, ent);
 				buf.write(encodeASCII("Binary files differ\n")); //$NON-NLS-1$
 				editList = new EditList();
 				type = PatchType.BINARY;
-
-			} else {
-				res.a = new RawText(aRaw);
-				res.b = new RawText(bRaw);
-				editList = diff(res.a, res.b);
-				type = PatchType.UNIFIED;
-
-				switch (ent.getChangeType()) {
-				case RENAME:
-				case COPY:
-					if (!editList.isEmpty())
-						formatOldNewPaths(buf, ent);
-					break;
-
-				default:
-					formatOldNewPaths(buf, ent);
-					break;
-				}
+				res.header = new FileHeader(buf.toByteArray(), editList, type);
+				return res;
 			}
 		}
+
+		res.a = aRaw;
+		res.b = bRaw;
+		editList = diff(res.a, res.b);
+		type = PatchType.UNIFIED;
+
+		switch (ent.getChangeType()) {
+			case RENAME:
+			case COPY:
+				if (!editList.isEmpty())
+					formatOldNewPaths(buf, ent);
+				break;
+
+			default:
+				formatOldNewPaths(buf, ent);
+				break;
+		}
+
 
 		res.header = new FileHeader(buf.toByteArray(), editList, type);
 		return res;
@@ -1009,13 +1009,13 @@ public class DiffFormatter implements AutoCloseable {
 		}
 	}
 
-	private byte[] open(DiffEntry.Side side, DiffEntry entry)
-			throws IOException {
+	private RawText open(DiffEntry.Side side, DiffEntry entry)
+			throws IOException, BinaryBlobException {
 		if (entry.getMode(side) == FileMode.MISSING)
-			return EMPTY;
+			return RawText.EMPTY_TEXT;
 
 		if (entry.getMode(side).getObjectType() != Constants.OBJ_BLOB)
-			return EMPTY;
+			return RawText.EMPTY_TEXT;
 
 		AbbreviatedObjectId id = entry.getId(side);
 		if (!id.isComplete()) {
@@ -1036,23 +1036,8 @@ public class DiffFormatter implements AutoCloseable {
 				throw new AmbiguousObjectException(id, ids);
 		}
 
-		try {
-			ObjectLoader ldr = source.open(side, entry);
-			return ldr.getBytes(binaryFileThreshold);
-
-		} catch (LargeObjectException.ExceedsLimit overLimit) {
-			return BINARY;
-
-		} catch (LargeObjectException.ExceedsByteArrayLimit overLimit) {
-			return BINARY;
-
-		} catch (LargeObjectException.OutOfMemory tooBig) {
-			return BINARY;
-
-		} catch (LargeObjectException tooBig) {
-			tooBig.setObjectId(id.toObjectId());
-			throw tooBig;
-		}
+		ObjectLoader ldr = source.open(side, entry);
+		return RawText.load(ldr, binaryFileThreshold);
 	}
 
 	/**
