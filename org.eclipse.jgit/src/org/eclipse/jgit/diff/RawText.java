@@ -49,6 +49,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import org.eclipse.jgit.errors.LargeObjectException;
+import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.IntList;
 import org.eclipse.jgit.util.RawParseUtils;
@@ -294,5 +296,45 @@ public class RawText extends Sequence {
 			return "\r\n"; //$NON-NLS-1$
 		else
 			return "\n"; //$NON-NLS-1$
+	}
+
+	/**
+	 * Read a blob object, but short-circuit the read if the file is binary.
+	 *
+	 * @param ldr
+	 *   the ObjectLoader for the blob
+	 * @param threshold
+	 *   if the blob is larger than this size, we assume it is binary without looking further.
+	 * @return the bytes representing the blob, or null if the blob is suspected to be binary.
+	 */
+	public static byte[] openText(ObjectLoader ldr, int threshold) throws IOException, LargeObjectException {
+		long sz = ldr.getSize();
+		if (sz <= FIRST_FEW_BYTES) {
+			byte[] data = ldr.getBytes(threshold);
+			if (RawText.isBinary(data)) {
+				return null;
+			}
+			return data;
+		}
+
+		if (sz > threshold) {
+			return null;
+		}
+
+		try (InputStream stream = ldr.openStream()) {
+			if (RawText.isBinary(stream)) {
+				return null;
+			}
+		}
+
+		try {
+			return ldr.getBytes(threshold);
+		} catch (LargeObjectException.ExceedsLimit overLimit) {
+			return null;
+		} catch (LargeObjectException.ExceedsByteArrayLimit overLimit) {
+			return null;
+		} catch (LargeObjectException.OutOfMemory tooBig) {
+			return null;
+		}
 	}
 }

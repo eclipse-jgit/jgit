@@ -57,6 +57,7 @@ import static org.eclipse.jgit.lib.FileMode.GITLINK;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Collection;
 import java.util.Collections;
@@ -968,8 +969,7 @@ public class DiffFormatter implements AutoCloseable {
 				bRaw = open(NEW, ent);
 			}
 
-			if (aRaw == BINARY || bRaw == BINARY //
-					|| RawText.isBinary(aRaw) || RawText.isBinary(bRaw)) {
+			if (aRaw == BINARY || bRaw == BINARY) {
 				formatOldNewPaths(buf, ent);
 				buf.write(encodeASCII("Binary files differ\n")); //$NON-NLS-1$
 				editList = new EditList();
@@ -1038,23 +1038,14 @@ public class DiffFormatter implements AutoCloseable {
 
 		try {
 			ObjectLoader ldr = source.open(side, entry);
-			return ldr.getBytes(binaryFileThreshold);
-
-		} catch (LargeObjectException.ExceedsLimit overLimit) {
-			return BINARY;
-
-		} catch (LargeObjectException.ExceedsByteArrayLimit overLimit) {
-			return BINARY;
-
-		} catch (LargeObjectException.OutOfMemory tooBig) {
-			return BINARY;
-
+			byte  []data = RawText.openText(ldr, binaryFileThreshold);
+			return data == null ? BINARY : data;
 		} catch (LargeObjectException tooBig) {
 			tooBig.setObjectId(id.toObjectId());
 			throw tooBig;
 		}
-	}
 
+	}
 	/**
 	 * Output the first header line
 	 *
