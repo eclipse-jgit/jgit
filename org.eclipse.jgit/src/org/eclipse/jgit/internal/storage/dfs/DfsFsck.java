@@ -55,6 +55,7 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.fsck.FsckError;
 import org.eclipse.jgit.internal.fsck.FsckError.CorruptIndex;
 import org.eclipse.jgit.internal.fsck.FsckPackParser;
+import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectChecker;
@@ -106,6 +107,10 @@ public class DfsFsck {
 		try (DfsReader ctx = objdb.newReader()) {
 			for (DfsPackFile pack : objdb.getPacks()) {
 				DfsPackDescription packDesc = pack.getPackDescription();
+				if (packDesc.getPackSource()
+						== PackSource.UNREACHABLE_GARBAGE) {
+					continue;
+				}
 				try (ReadableChannel rc = objdb.openFile(packDesc, PACK)) {
 					verifyPack(pm, errors, ctx, pack, rc);
 				} catch (MissingObjectException e) {
