@@ -52,6 +52,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 import org.eclipse.jgit.api.Git;
@@ -65,8 +66,12 @@ import org.eclipse.jgit.errors.NoMergeBaseException;
 import org.eclipse.jgit.errors.NoMergeBaseException.MergeBaseFailureReason;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.ObjectStream;
 import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -686,6 +691,143 @@ public class ResolveMergerTest extends RepositoryTestCase {
 			assertTrue(noProblems);
 			assertEquals("1master\n2\n3side",
 					readBlob(merger.getResultTreeId(), "file"));
+		}
+	}
+
+
+	/**
+	 * Merging a change involving large binary files should short-circuit reads.
+	 *
+	 * @param strategy
+	 * @throws Exception
+	 */
+	@Theory
+	public void checkContentMergeLargeBinaries(MergeStrategy strategy) throws Exception {
+		Git git = Git.wrap(db);
+		final int LINELEN = 72;
+
+		// setup a merge that would work correctly if we disconsider the stray '\0'
+		// that the file contains near the start.
+		byte[] binary = new byte[LINELEN * 2000];
+		for (int i = 0; i < binary.length; i++) {
+			binary[i] = (byte)((i % LINELEN) == 0 ? '\n' : 'x');
+		}
+		binary[50] = '\0';
+
+		writeTrashFile("file", new String(binary, StandardCharsets.UTF_8));
+		git.add().addFilepattern("file").call();
+		RevCommit first = git.commit().setMessage("added file").call();
+
+		// Generate an edit in a single line.
+		int idx = LINELEN * 1200 + 1;
+		byte save = binary[idx];
+		binary[idx] = '@';
+		writeTrashFile("file", new String(binary, StandardCharsets.UTF_8));
+
+		binary[idx] = save;
+		git.add().addFilepattern("file").call();
+		RevCommit masterCommit = git.commit().setAll(true)
+			.setMessage("modified file l 1200").call();
+
+		git.checkout().setCreateBranch(true).setStartPoint(first).setName("side").call();
+		binary[LINELEN * 1500 + 1] = '!';
+		writeTrashFile("file", new String(binary, StandardCharsets.UTF_8));
+		git.add().addFilepattern("file").call();
+		RevCommit sideCommit = git.commit().setAll(true)
+			.setMessage("modified file l 1500").call();
+
+		try (ObjectInserter ins = db.newObjectInserter()) {
+			// Check that we don't read the large blobs.
+			ObjectInserter forbidInserter = new ObjectInserter.Filter() {
+				@Override
+				protected ObjectInserter delegate() {
+					return ins;
+				}
+
+				@Override
+				public ObjectReader newReader() {
+					return new BigReadForbiddenReader(super.newReader(), 8000);
+				}
+			};
+
+			ResolveMerger merger =
+				(ResolveMerger) strategy.newMerger(forbidInserter, db.getConfig());
+			boolean noProblems = merger.merge(masterCommit, sideCommit);
+			assertFalse(noProblems);
+		}
+	}
+
+	/**
+	 * Throws an exception if reading beyond limit.
+	 */
+	class BigReadForbiddenStream extends ObjectStream.Filter {
+		int limit;
+
+		BigReadForbiddenStream(ObjectStream orig, int limit) {
+			super(orig.getType(), orig.getSize(), orig);
+			this.limit = limit;
+		}
+
+		@Override
+		public long skip(long n) throws IOException {
+			limit -= n;
+			if (limit < 0) {
+				throw new IllegalStateException();
+			}
+
+			return super.skip(n);
+		}
+
+		@Override
+		public int read() throws IOException {
+			int r = super.read();
+			limit--;
+			if (limit < 0) {
+				throw new IllegalStateException();
+			}
+			return r;
+		}
+
+		@Override
+		public int read(byte[] b, int off, int len) throws IOException {
+			int n = super.read(b, off, len);
+			limit -= n;
+			if (limit < 0) {
+				throw new IllegalStateException();
+			}
+			return n;
+		}
+	}
+
+	class BigReadForbiddenReader extends ObjectReader.Filter {
+		ObjectReader delegate;
+		int limit;
+
+		@Override
+		protected ObjectReader delegate() {
+			return delegate;
+		}
+
+		BigReadForbiddenReader(ObjectReader delegate, int limit) {
+			this.delegate = delegate;
+			this.limit = limit;
+		}
+
+		@Override
+		public ObjectLoader open(AnyObjectId objectId, int typeHint) throws IOException {
+			ObjectLoader orig = super.open(objectId, typeHint);
+			return new ObjectLoader.Filter() {
+				@Override
+				protected ObjectLoader delegate() {
+					return orig;
+				}
+
+				@Override
+				public ObjectStream openStream() throws IOException {
+					ObjectStream os = orig.openStream();
+					return new BigReadForbiddenStream(os, limit);
+				}
+			};
 		}
 	}
 
