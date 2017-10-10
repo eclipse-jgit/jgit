@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_bda75dc3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-10-10T15:10:56Z",
+      "side": 1,
+      "message": "sz? Or just omit the argument? Although it shouldn\u0027t matter.",
+      "range": {
+        "startLine": 313,
+        "startChar": 30,
+        "endLine": 313,
+        "endChar": 39
+      },
+      "revId": "f9448758172e4cb1c5b3fe456d39377499fda3c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_3d9b6d80",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-10-10T15:10:56Z",
+      "side": 1,
+      "message": "You could avoid a byte array copy in the binary case if you use getCachedBytes here and manually clone the array before returning in the non-binary case. (Reimplementing ObjectLoader#getBytes, basically)",
+      "range": {
+        "startLine": 313,
+        "startChar": 21,
+        "endLine": 313,
+        "endChar": 29
+      },
+      "revId": "f9448758172e4cb1c5b3fe456d39377499fda3c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_5d967956",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-10-10T15:10:56Z",
+      "side": 1,
+      "message": "Not necessary, we are in RawText.java",
+      "range": {
+        "startLine": 314,
+        "startChar": 7,
+        "endLine": 314,
+        "endChar": 15
+      },
+      "revId": "f9448758172e4cb1c5b3fe456d39377499fda3c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_fd36450b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-10-10T15:10:56Z",
+      "side": 1,
+      "message": "I would have expected this to be the first check. The javadoc for threshold is ambiguous, though: it\u0027s not clear what \"without looking further\" means.",
+      "revId": "f9448758172e4cb1c5b3fe456d39377499fda3c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_7da5f5b4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-10-10T15:10:56Z",
+      "side": 1,
+      "message": "I still feel like you should be able to do this without opening the object twice:\n\n* read FIRST_FEW_BYTES into a byte[]\n* pass that to isBinary and return null if true\n* allocate a new byte[sz] for the output\n* copy the first few bytes into output\n* IO.readFully the remainder of the stream into output\n\nThis amounts to reimplementing part of ObjectLoader#getCachedBytes. But honestly a good chunk of that implementation is converting various corner cases into LargeObjectExceptions. You unwind that logic below anyway, so I feel like it might be worth it to handle them manually and return null rather than throwing an intermediate exception.",
+      "revId": "f9448758172e4cb1c5b3fe456d39377499fda3c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_1db5d1e6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-10-10T15:10:56Z",
+      "side": 1,
+      "message": "These catch blocks can be combined. Actually, is there a reason you don\u0027t catch just plain LargeObjectException?",
+      "revId": "f9448758172e4cb1c5b3fe456d39377499fda3c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
