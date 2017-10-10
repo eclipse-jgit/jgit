@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_7d7c1591",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-10-10T15:21:19Z",
+      "side": 1,
+      "message": "the argument is necessary, or many tests that open tiny files fail with \"LOE for unknown object\".",
+      "parentUuid": "c7880b39_bda75dc3",
+      "range": {
+        "startLine": 313,
+        "startChar": 30,
+        "endLine": 313,
+        "endChar": 39
+      },
+      "revId": "f9448758172e4cb1c5b3fe456d39377499fda3c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_5d967956",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
         "patchSetId": 1
@@ -116,6 +140,24 @@
       "writtenOn": "2017-10-10T15:10:56Z",
       "side": 1,
       "message": "These catch blocks can be combined. Actually, is there a reason you don\u0027t catch just plain LargeObjectException?",
+      "revId": "f9448758172e4cb1c5b3fe456d39377499fda3c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_9d7701ab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-10-10T15:21:19Z",
+      "side": 1,
+      "message": "I don\u0027t know. This is cut \u0026 paste from the originaL, which wants to handle other LOEs by rethrowing the exception.",
+      "parentUuid": "c7880b39_1db5d1e6",
       "revId": "f9448758172e4cb1c5b3fe456d39377499fda3c1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
