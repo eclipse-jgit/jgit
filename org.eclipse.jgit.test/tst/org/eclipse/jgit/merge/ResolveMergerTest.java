@@ -52,6 +52,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 import org.eclipse.jgit.api.Git;
@@ -686,6 +688,51 @@ public class ResolveMergerTest extends RepositoryTestCase {
 			assertTrue(noProblems);
 			assertEquals("1master\n2\n3side",
 					readBlob(merger.getResultTreeId(), "file"));
+		}
+	}
+
+	@Theory
+	public void checkContentMergeBinaries(MergeStrategy strategy) throws Exception {
+		Git git = Git.wrap(db);
+		final int LINELEN = 72;
+
+                /*
+                 * setup a merge that would work correctly if we disconsider the stray '\0'
+                 * that the file contains elsewhere. This test does not verify that we avoid
+                 * loading the files, but serves to verify this fact with a debugger.
+                 */
+		byte[] binary = new byte[LINELEN * 2000];
+		for (int i = 0; i < binary.length; i++) {
+			binary[i] = (byte)((i % LINELEN) == 0 ? '\n' : 'x');
+		}
+		binary[LINELEN * 1000 + 1] = '\0';
+
+		writeTrashFile("file", new String(binary, StandardCharsets.UTF_8));
+		git.add().addFilepattern("file").call();
+		RevCommit first = git.commit().setMessage("added file").call();
+
+		// Generate an edit in a single line.
+        	int idx = LINELEN * 1200 + 1;
+		byte save = binary[idx];
+		binary[idx] = '@';
+		writeTrashFile("file", new String(binary, StandardCharsets.UTF_8));
+		binary[idx] = save;
+		git.add().addFilepattern("file").call();
+		RevCommit masterCommit = git.commit().setAll(true)
+			.setMessage("modified file l 1200").call();
+
+		git.checkout().setCreateBranch(true).setStartPoint(first).setName("side").call();
+		binary[LINELEN * 1500 + 1] = '!';
+		writeTrashFile("file", new String(binary, StandardCharsets.UTF_8));
+		git.add().addFilepattern("file").call();
+		RevCommit sideCommit = git.commit().setAll(true)
+			.setMessage("modified file l 1500").call();
+
+		try (ObjectInserter ins = db.newObjectInserter()) {
+			ResolveMerger merger =
+				(ResolveMerger) strategy.newMerger(ins, db.getConfig());
+			boolean noProblems = merger.merge(masterCommit, sideCommit);
+			assertFalse(noProblems);
 		}
 	}
 
