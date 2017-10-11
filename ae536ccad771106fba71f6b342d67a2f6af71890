@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_061e5e68",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-10-11T15:14:40Z",
+      "side": 1,
+      "message": "also, maybe I should just introduce a BinaryException? That will let me throw BinaryException from the RawText constructor.",
+      "range": {
+        "startLine": 303,
+        "startChar": 47,
+        "endLine": 303,
+        "endChar": 52
+      },
+      "revId": "ae536ccad771106fba71f6b342d67a2f6af71890",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
