@@ -95,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_2bcfa3d6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-10-11T13:44:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_5d967956",
+      "range": {
+        "startLine": 314,
+        "startChar": 7,
+        "endLine": 314,
+        "endChar": 15
+      },
+      "revId": "f9448758172e4cb1c5b3fe456d39377499fda3c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_fd36450b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
         "patchSetId": 1
@@ -112,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_6bd9ab9b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-10-11T13:44:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_fd36450b",
+      "revId": "f9448758172e4cb1c5b3fe456d39377499fda3c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_7da5f5b4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
         "patchSetId": 1
@@ -123,6 +165,24 @@
       "writtenOn": "2017-10-10T15:10:56Z",
       "side": 1,
       "message": "I still feel like you should be able to do this without opening the object twice:\n\n* read FIRST_FEW_BYTES into a byte[]\n* pass that to isBinary and return null if true\n* allocate a new byte[sz] for the output\n* copy the first few bytes into output\n* IO.readFully the remainder of the stream into output\n\nThis amounts to reimplementing part of ObjectLoader#getCachedBytes. But honestly a good chunk of that implementation is converting various corner cases into LargeObjectExceptions. You unwind that logic below anyway, so I feel like it might be worth it to handle them manually and return null rather than throwing an intermediate exception.",
+      "revId": "f9448758172e4cb1c5b3fe456d39377499fda3c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_cb053f88",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-10-11T13:44:37Z",
+      "side": 1,
+      "message": "Done.\n\nI\u0027ve also changed the signature to return RawText directly, which I\u0027ll use in a follow-up change to make the binary detection exact (see https://git.eclipse.org/r/#/c/102076/)",
+      "parentUuid": "c7880b39_7da5f5b4",
       "revId": "f9448758172e4cb1c5b3fe456d39377499fda3c1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
