@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_9acc4cb0",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/RawTextLoadTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-10-12T18:25:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_bcfae880",
+      "revId": "c74e61065e16db89fdf832a6472796c657396a9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_dcffb470",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/RawTextLoadTest.java",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2017-10-12T18:08:48Z",
       "side": 1,
       "message": "Nit: extra blank line",
+      "revId": "c74e61065e16db89fdf832a6472796c657396a9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_bac9089f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/RawTextLoadTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-10-12T18:25:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_dcffb470",
       "revId": "c74e61065e16db89fdf832a6472796c657396a9b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_dad9746b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/RawTextLoadTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-10-12T18:25:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_7f7a32de",
+      "revId": "c74e61065e16db89fdf832a6472796c657396a9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_ff270238",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
         "patchSetId": 6
@@ -64,6 +118,24 @@
       "writtenOn": "2017-10-12T18:08:48Z",
       "side": 1,
       "message": "Optional: if you don\u0027t mind duplicating the \"res.header \u003d\", you can move the binary case into this block with an early return. I think that control flow would be easier to read.",
+      "revId": "c74e61065e16db89fdf832a6472796c657396a9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_5aed84ff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 968,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-10-12T18:25:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_ff270238",
       "revId": "c74e61065e16db89fdf832a6472796c657396a9b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_7aea40e9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-10-12T18:25:01Z",
+      "side": 1,
+      "message": "well , then don\u0027t do that :-) \n\nI added a note to the comments.",
+      "parentUuid": "c7880b39_dc75f471",
+      "revId": "c74e61065e16db89fdf832a6472796c657396a9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_bc9e6841",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
         "patchSetId": 6
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_9ae36c11",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-10-12T18:25:01Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c7880b39_bc9e6841",
+      "revId": "c74e61065e16db89fdf832a6472796c657396a9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_dcd174f9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
         "patchSetId": 6
@@ -115,6 +223,30 @@
       "writtenOn": "2017-10-12T18:08:48Z",
       "side": 1,
       "message": "byte[]",
+      "range": {
+        "startLine": 325,
+        "startChar": 3,
+        "endLine": 325,
+        "endChar": 10
+      },
+      "revId": "c74e61065e16db89fdf832a6472796c657396a9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_bae02805",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-10-12T18:25:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_dcd174f9",
       "range": {
         "startLine": 325,
         "startChar": 3,
@@ -150,6 +282,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_da041456",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-10-12T18:25:01Z",
+      "side": 1,
+      "message": "(?! I never realized you could spell it both ways)",
+      "parentUuid": "c7880b39_7cc6c03f",
+      "range": {
+        "startLine": 332,
+        "startChar": 2,
+        "endLine": 332,
+        "endChar": 6
+      },
+      "revId": "c74e61065e16db89fdf832a6472796c657396a9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_3ce7d8d1",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
         "patchSetId": 6
@@ -173,6 +329,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_fa09d06b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-10-12T18:25:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_3ce7d8d1",
+      "range": {
+        "startLine": 339,
+        "startChar": 37,
+        "endLine": 339,
+        "endChar": 52
+      },
+      "revId": "c74e61065e16db89fdf832a6472796c657396a9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_5c0bc42f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/BinaryBlobException.java",
         "patchSetId": 6
@@ -184,6 +364,24 @@
       "writtenOn": "2017-10-12T18:08:48Z",
       "side": 1,
       "message": "Missing copyright header",
+      "revId": "c74e61065e16db89fdf832a6472796c657396a9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_1a0bfc63",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/BinaryBlobException.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-10-12T18:25:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_5c0bc42f",
       "revId": "c74e61065e16db89fdf832a6472796c657396a9b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
