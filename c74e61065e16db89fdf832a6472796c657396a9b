@@ -1,0 +1,192 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_bcfae880",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/RawTextLoadTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-10-12T18:08:48Z",
+      "side": 1,
+      "message": "Missing copyright header",
+      "revId": "c74e61065e16db89fdf832a6472796c657396a9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_dcffb470",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/RawTextLoadTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-10-12T18:08:48Z",
+      "side": 1,
+      "message": "Nit: extra blank line",
+      "revId": "c74e61065e16db89fdf832a6472796c657396a9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_7f7a32de",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/RawTextLoadTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-10-12T18:08:48Z",
+      "side": 1,
+      "message": "static",
+      "revId": "c74e61065e16db89fdf832a6472796c657396a9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_ff270238",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 968,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-10-12T18:08:48Z",
+      "side": 1,
+      "message": "Optional: if you don\u0027t mind duplicating the \"res.header \u003d\", you can move the binary case into this block with an early return. I think that control flow would be easier to read.",
+      "revId": "c74e61065e16db89fdf832a6472796c657396a9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_dc75f471",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-10-12T18:08:48Z",
+      "side": 1,
+      "message": "This doesn\u0027t match the implementation. It implies that if sz \u003e threshold, it will always throw BinaryBlobException. But that\u0027s not guaranteed: if threshold\u003d10 and sz\u003d100, then threshold gets set to 8000 on line 318, but sz \u003c 8000 so it does an exact binary check and might not throw BBE.",
+      "revId": "c74e61065e16db89fdf832a6472796c657396a9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_bc9e6841",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-10-12T18:08:48Z",
+      "side": 1,
+      "message": "Optional: you could save some casting below if you do:\n\n if (ldr.getSize() \u003e threshold) {\n   throw\n }\n int sz \u003d (int) ldr.getSize();\n\n(It\u0027d be a stronger recommendation if you were doing more than 1 or 2 int arithmetic operations with sz.)",
+      "revId": "c74e61065e16db89fdf832a6472796c657396a9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_dcd174f9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-10-12T18:08:48Z",
+      "side": 1,
+      "message": "byte[]",
+      "range": {
+        "startLine": 325,
+        "startChar": 3,
+        "endLine": 325,
+        "endChar": 10
+      },
+      "revId": "c74e61065e16db89fdf832a6472796c657396a9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_7cc6c03f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-10-12T18:08:48Z",
+      "side": 1,
+      "message": "byte[]",
+      "range": {
+        "startLine": 332,
+        "startChar": 2,
+        "endLine": 332,
+        "endChar": 6
+      },
+      "revId": "c74e61065e16db89fdf832a6472796c657396a9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_3ce7d8d1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-10-12T18:08:48Z",
+      "side": 1,
+      "message": "Needs to be a translatable string from JGitText. Or maybe EOFException  with no message would be ok?\n\n(Eclipse should warn about this, so please check Eclipse warnings. Since this is the Eclipse Foundation we\u0027re working with, there is really only One True IDE to be using :)",
+      "range": {
+        "startLine": 339,
+        "startChar": 37,
+        "endLine": 339,
+        "endChar": 52
+      },
+      "revId": "c74e61065e16db89fdf832a6472796c657396a9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_5c0bc42f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/BinaryBlobException.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-10-12T18:08:48Z",
+      "side": 1,
+      "message": "Missing copyright header",
+      "revId": "c74e61065e16db89fdf832a6472796c657396a9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
