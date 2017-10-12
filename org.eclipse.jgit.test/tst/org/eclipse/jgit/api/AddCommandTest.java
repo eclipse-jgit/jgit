@@ -1250,9 +1250,9 @@ public class AddCommandTest extends RepositoryTestCase {
 
 		try (Git git = new Git(db)) {
 			git.add().addFilepattern("nested-repo").call();
-
+			// with gitlinks ignored, we treat this as a normal directory
 			assertEquals(
-					"[nested-repo, mode:160000]",
+					"[nested-repo/README1.md, mode:100644][nested-repo/README2.md, mode:100644]",
 					indexState(0));
 		}
 	}
