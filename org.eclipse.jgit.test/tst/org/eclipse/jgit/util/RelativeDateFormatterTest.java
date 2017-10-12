@@ -128,7 +128,14 @@ public class RelativeDateFormatterTest {
 		assertFormat(380, DAY_IN_MILLIS, "1 year, 1 month ago");
 		assertFormat(410, DAY_IN_MILLIS, "1 year, 2 months ago");
 		assertFormat(2, YEAR_IN_MILLIS, "2 years ago");
-		assertFormat(1824, DAY_IN_MILLIS, "4 years, 12 months ago");
+	}
+
+	@Test
+	public void testFullYearMissingSomeDays() {
+		// avoid "x year(s), 12 months", as humans would always round this up to
+		// "x+1 years"
+		assertFormat(5 * 365 + 1, DAY_IN_MILLIS, "5 years ago");
+		assertFormat(2 * 365 - 10, DAY_IN_MILLIS, "2 years ago");
 	}
 
 	@Test
