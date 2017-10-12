@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_ff5d4275",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 716,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-10-12T18:10:44Z",
+      "side": 1,
+      "message": "Won\u0027t this throw if the file is binary? (Does this need to be rebased on a new patch set of the parent?)",
+      "revId": "2e748d4d60ae4b205bcda99dba2df5f609c55695",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_df6c062a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 734,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-10-12T18:10:44Z",
+      "side": 1,
+      "message": "Is this necessary?",
+      "range": {
+        "startLine": 734,
+        "startChar": 57,
+        "endLine": 734,
+        "endChar": 66
+      },
+      "revId": "2e748d4d60ae4b205bcda99dba2df5f609c55695",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
