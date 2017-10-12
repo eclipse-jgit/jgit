@@ -528,7 +528,9 @@ public class DirCacheCheckout {
 					String path = e.getKey();
 					CheckoutMetadata meta = e.getValue();
 					DirCacheEntry entry = dc.getEntry(path);
-					if (!FileMode.GITLINK.equals(entry.getRawMode())) {
+					if (FileMode.GITLINK.equals(entry.getRawMode())) {
+						checkoutGitlink(path, entry);
+					} else {
 						checkoutEntry(repo, entry, objectReader, false, meta);
 					}
 					e = null;
@@ -550,6 +552,13 @@ public class DirCacheCheckout {
 				throw new IndexWriteException();
 		}
 		return toBeDeleted.size() == 0;
+	}
+
+	private void checkoutGitlink(String path, DirCacheEntry entry) throws IOException {
+		File gitlinkDir = new File(repo.getWorkTree(), path);
+		FileUtils.mkdirs(gitlinkDir, true);
+		FS fs = repo.getFS();
+		entry.setLastModified(fs.lastModified(gitlinkDir));
 	}
 
 	private static ArrayList<String> filterOut(ArrayList<String> strings,
@@ -931,14 +940,19 @@ public class DirCacheCheckout {
 							// to be removed. Since the file is not dirty remove
 							// file and index entry
 							remove(name);
-					} else
+					} else {
 						// Something in Merge or current path is not part of
 						// File/Folder conflict
 						// Merge contains nothing or the same as Index
 						// Nothing in Head
 						// Something in Index
 						// -> Merge contains nothing new. Keep the index.
-						keep(dce);
+						if (mMode == FileMode.GITLINK) {
+							update(name, mId, mMode);
+						} else {
+							keep(dce);
+						}
+					}
 				} else
 					// Merge contains something and it is not the same as Index
 					// Nothing in Head
