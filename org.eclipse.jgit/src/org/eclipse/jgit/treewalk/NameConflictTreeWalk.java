@@ -187,7 +187,7 @@ public class NameConflictTreeWalk extends TreeWalk {
 				//
 				t.matches = minRef;
 			} else if (fastMinHasMatch && isTree(t) && !isTree(minRef)
-					&& nameEqual(t, minRef)) {
+					&& !isGitlink(minRef) && nameEqual(t, minRef)) {
 				// The minimum is a file (non-tree) but the next entry
 				// of this iterator is a tree whose name matches our file.
 				// This is a classic D/F conflict and commonly occurs like
@@ -216,6 +216,10 @@ public class NameConflictTreeWalk extends TreeWalk {
 	private static boolean nameEqual(final AbstractTreeIterator a,
 			final AbstractTreeIterator b) {
 		return a.pathCompare(b, TREE_MODE) == 0;
+	}
+
+	private boolean isGitlink(AbstractTreeIterator p) {
+		return FileMode.GITLINK.equals(p.mode);
 	}
 
 	private static boolean isTree(final AbstractTreeIterator p) {
@@ -306,8 +310,9 @@ public class NameConflictTreeWalk extends TreeWalk {
 				if (t.matches == minRef)
 					t.matches = treeMatch;
 
-			if (dfConflict == null)
+			if (dfConflict == null && !isGitlink(minRef)) {
 				dfConflict = treeMatch;
+			}
 
 			return treeMatch;
 		}

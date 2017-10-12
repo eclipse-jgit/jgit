@@ -952,7 +952,19 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 			}
 			return false;
 		case DIFFER_BY_METADATA:
-			if (mode == FileMode.SYMLINK.getBits())
+			if (mode == FileMode.TREE.getBits()
+					&& entry.getFileMode().equals(FileMode.GITLINK)) {
+				byte[] idBuffer = idBuffer();
+				int idOffset = idOffset();
+				if (entry.getObjectId().compareTo(idBuffer, idOffset) == 0) {
+					return true;
+				} else if (ObjectId.zeroId().compareTo(idBuffer,
+						idOffset) == 0) {
+					return new File(repository.getWorkTree(),
+							entry.getPathString()).list().length > 0;
+				}
+				return false;
+			} else if (mode == FileMode.SYMLINK.getBits())
 				return contentCheck(entry, reader);
 			return true;
 		default:

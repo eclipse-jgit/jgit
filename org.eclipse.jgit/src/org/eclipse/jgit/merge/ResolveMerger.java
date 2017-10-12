@@ -96,6 +96,7 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.storage.pack.PackConfig;
+import org.eclipse.jgit.submodule.SubmoduleConflict;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.NameConflictTreeWalk;
@@ -393,8 +394,13 @@ public class ResolveMerger extends ThreeWayMerger {
 		}
 		for (Map.Entry<String, DirCacheEntry> entry : toBeCheckedOut
 				.entrySet()) {
-			DirCacheCheckout.checkoutEntry(db, entry.getValue(), reader);
-			modifiedFiles.add(entry.getKey());
+			DirCacheEntry cacheEntry = entry.getValue();
+			if (cacheEntry.getFileMode() == FileMode.GITLINK) {
+				new File(nonNullRepo().getWorkTree(), entry.getKey()).mkdirs();
+			} else {
+				DirCacheCheckout.checkoutEntry(db, cacheEntry, reader);
+				modifiedFiles.add(entry.getKey());
+			}
 		}
 	}
 
@@ -725,17 +731,42 @@ public class ResolveMerger extends ThreeWayMerger {
 
 		if (nonTree(modeO) && nonTree(modeT)) {
 			// Check worktree before modifying files
-			if (isWorktreeDirty(work, ourDce))
+			boolean worktreeDirty = isWorktreeDirty(work, ourDce);
+			if (!attributes.canBeContentMerged() && worktreeDirty) {
 				return false;
+			}
 
+			boolean gitlinkConflict = isGitLink(modeO) || isGitLink(modeT);
 			// Don't attempt to resolve submodule link conflicts
-			if (isGitLink(modeO) || isGitLink(modeT)
-					|| !attributes.canBeContentMerged()) {
+			if (gitlinkConflict || !attributes.canBeContentMerged()) {
 				add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, 0, 0);
 				add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, 0, 0);
 				add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, 0, 0);
-				unmergedPaths.add(tw.getPathString());
+
+				if (gitlinkConflict) {
+					MergeResult<SubmoduleConflict> result = new MergeResult<>(
+							Arrays.asList(
+									new SubmoduleConflict(base == null ? null
+											: base.getEntryObjectId()),
+									new SubmoduleConflict(ours == null ? null
+											: ours.getEntryObjectId()),
+									new SubmoduleConflict(theirs == null ? null
+											: theirs.getEntryObjectId())));
+					result.setContainsConflicts(true);
+					mergeResults.put(tw.getPathString(), result);
+					if (!ignoreConflicts) {
+						unmergedPaths.add(tw.getPathString());
+					}
+				} else {
+					// attribute merge issues are conflicts but not failures
+					unmergedPaths.add(tw.getPathString());
+				}
 				return true;
+			}
+
+			// Check worktree before modifying files
+			if (worktreeDirty) {
+				return false;
 			}
 
 			MergeResult<RawText> result = contentMerge(base, ours, theirs);

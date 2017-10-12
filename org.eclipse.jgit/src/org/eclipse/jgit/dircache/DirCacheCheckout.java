@@ -570,7 +570,9 @@ public class DirCacheCheckout {
 					String path = e.getKey();
 					CheckoutMetadata meta = e.getValue();
 					DirCacheEntry entry = dc.getEntry(path);
-					if (!FileMode.GITLINK.equals(entry.getRawMode())) {
+					if (FileMode.GITLINK.equals(entry.getRawMode())) {
+						checkoutGitlink(path, entry);
+					} else {
 						checkoutEntry(repo, entry, objectReader, false, meta);
 					}
 					e = null;
@@ -601,6 +603,14 @@ public class DirCacheCheckout {
 				throw new IndexWriteException();
 		}
 		return toBeDeleted.size() == 0;
+	}
+
+	private void checkoutGitlink(String path, DirCacheEntry entry)
+			throws IOException {
+		File gitlinkDir = new File(repo.getWorkTree(), path);
+		FileUtils.mkdirs(gitlinkDir, true);
+		FS fs = repo.getFS();
+		entry.setLastModified(fs.lastModified(gitlinkDir));
 	}
 
 	private static ArrayList<String> filterOut(ArrayList<String> strings,
