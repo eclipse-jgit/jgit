@@ -34,6 +34,24 @@
       "revId": "c31e168bf3edef4daf5fbf9ce21d69fdeeab4632",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_c5218c29",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RelativeDateFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 440
+      },
+      "writtenOn": "2017-10-13T08:49:05Z",
+      "side": 1,
+      "message": "I was not even aware of the fix until you linked it. I watched the bug report, and there the bug fix was not linked (only the predecessor commit, which refactored the test class). I would have copied the change otherwise.\n\nActually, I think my change is more clear, since it does not fix the bad case after it has already been calculated, but instead just completely avoids it without any conditional logic by fixing the math behind it. But I might not be in a neutral position about that. :)",
+      "parentUuid": "c7880b39_7aa6b70c",
+      "revId": "c31e168bf3edef4daf5fbf9ce21d69fdeeab4632",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
