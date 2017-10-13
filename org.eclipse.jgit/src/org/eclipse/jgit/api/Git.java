@@ -623,7 +623,18 @@ public class Git implements AutoCloseable {
 	}
 
 	/**
-	 * Return a command object to execute a {@code submodule status} command
+	 * Returns a command object to execute a {@code submodule deinit} command
+	 *
+	 * @return a {@link org.eclipse.jgit.api.SubmoduleDeinitCommand} used to
+	 *         remove a submodule's working tree manifestation
+	 * @since 4.10
+	 */
+	public SubmoduleDeinitCommand submoduleDeinit() {
+		return new SubmoduleDeinitCommand(repo);
+	}
+
+	/**
+	 * Returns a command object to execute a {@code submodule status} command
 	 *
 	 * @return a {@link org.eclipse.jgit.api.SubmoduleStatusCommand} used to
 	 *         report the status of a repository's configured submodules

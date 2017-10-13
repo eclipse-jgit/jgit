@@ -347,6 +347,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String expectedACKNAKGot;
 	/***/ public String expectedBooleanStringValue;
 	/***/ public String expectedCharacterEncodingGuesses;
+	/***/ public String expectedDirectoryNotSubmodule;
 	/***/ public String expectedEOFReceived;
 	/***/ public String expectedGot;
 	/***/ public String expectedLessThanGot;
@@ -762,6 +763,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String unexpectedRefReport;
 	/***/ public String unexpectedReportLine;
 	/***/ public String unexpectedReportLine2;
+	/***/ public String unexpectedSubmoduleStatus;
 	/***/ public String unknownOrUnsupportedCommand;
 	/***/ public String unknownDIRCVersion;
 	/***/ public String unknownHost;
