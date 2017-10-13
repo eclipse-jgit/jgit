@@ -52,6 +52,24 @@
       "revId": "c31e168bf3edef4daf5fbf9ce21d69fdeeab4632",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_94b257cc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RelativeDateFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-10-13T12:35:13Z",
+      "side": 1,
+      "message": "Looking at it again, this is a nicer solution.\n\nI\u0027ve done the same for Gerrit:\nhttps://gerrit-review.googlesource.com/#/c/gerrit/+/133190\n\nI added you as an \"Also-by\" in the commit message.",
+      "parentUuid": "c7880b39_c5218c29",
+      "revId": "c31e168bf3edef4daf5fbf9ce21d69fdeeab4632",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
