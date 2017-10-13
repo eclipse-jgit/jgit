@@ -16,6 +16,24 @@
       "revId": "c31e168bf3edef4daf5fbf9ce21d69fdeeab4632",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_7aa6b70c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RelativeDateFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-10-13T02:16:41Z",
+      "side": 1,
+      "message": "Never mind.  It seems the Gerrit implementation of this has already diverged quite significantly.",
+      "parentUuid": "c7880b39_fa9aa7c4",
+      "revId": "c31e168bf3edef4daf5fbf9ce21d69fdeeab4632",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
