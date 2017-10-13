@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_fa9aa7c4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RelativeDateFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-10-13T02:09:42Z",
+      "side": 1,
+      "message": "How about fixing it in the same way that Edwin did on the gerrit project?\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/130891/1/gerrit-gwtui-common/src/main/java/com/google/gerrit/client/RelativeDateFormatter.java",
+      "revId": "c31e168bf3edef4daf5fbf9ce21d69fdeeab4632",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
