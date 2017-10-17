@@ -47,6 +47,7 @@ import static org.eclipse.jgit.lib.RefDatabase.ALL;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_AGENT;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_ALLOW_REACHABLE_SHA1_IN_WANT;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_ALLOW_TIP_SHA1_IN_WANT;
+import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_BLOB_MAX_BYTES;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_INCLUDE_TAG;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_MULTI_ACK;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_MULTI_ACK_DETAILED;
@@ -312,6 +313,8 @@ public class UploadPack {
 	private boolean noDone;
 
 	private PackStatistics statistics;
+
+	private long blobMaxBytes = -1;
 
 	@SuppressWarnings("deprecation")
 	private UploadPackLogger logger = UploadPackLogger.NULL;
@@ -924,6 +927,7 @@ public class UploadPack {
 				|| policy == null)
 			adv.advertiseCapability(OPTION_ALLOW_REACHABLE_SHA1_IN_WANT);
 		adv.advertiseCapability(OPTION_AGENT, UserAgent.get());
+		adv.advertiseCapability(OPTION_BLOB_MAX_BYTES);
 		adv.setDerefTags(true);
 		Map<String, Ref> advertisedOrDefaultRefs = getAdvertisedOrDefaultRefs();
 		findSymrefs(adv, advertisedOrDefaultRefs);
@@ -987,6 +991,11 @@ public class UploadPack {
 
 			if (line.startsWith("shallow ")) { //$NON-NLS-1$
 				clientShallowCommits.add(ObjectId.fromString(line.substring(8)));
+				continue;
+			}
+
+			if (line.startsWith(OPTION_BLOB_MAX_BYTES + " ")) { //$NON-NLS-1$
+				blobMaxBytes = Long.parseLong(line.substring(OPTION_BLOB_MAX_BYTES.length() + 1));
 				continue;
 			}
 
@@ -1496,7 +1505,10 @@ public class UploadPack {
 		try {
 			pw.setIndexDisabled(true);
 			pw.setUseCachedPacks(true);
-			pw.setUseBitmaps(depth == 0 && clientShallowCommits.isEmpty());
+			if (blobMaxBytes >= 0) {
+				pw.setBlobMaxBytes(blobMaxBytes);
+			}
+			pw.setUseBitmaps(blobMaxBytes < 0 && depth == 0 && clientShallowCommits.isEmpty());
 			pw.setClientShallowCommits(clientShallowCommits);
 			pw.setReuseDeltaCommits(true);
 			pw.setDeltaBaseAsOffset(options.contains(OPTION_OFS_DELTA));
