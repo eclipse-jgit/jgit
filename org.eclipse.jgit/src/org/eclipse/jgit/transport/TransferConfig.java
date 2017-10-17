@@ -101,6 +101,7 @@ public class TransferConfig {
 	private final boolean safeForMacOS;
 	private final boolean allowTipSha1InWant;
 	private final boolean allowReachableSha1InWant;
+	private final boolean allowFilter;
 	final String[] hideRefs;
 
 	TransferConfig(final Repository db) {
@@ -153,6 +154,8 @@ public class TransferConfig {
 				"uploadpack", "allowtipsha1inwant", false); //$NON-NLS-1$ //$NON-NLS-2$
 		allowReachableSha1InWant = rc.getBoolean(
 				"uploadpack", "allowreachablesha1inwant", false); //$NON-NLS-1$ //$NON-NLS-2$
+		allowFilter = rc.getBoolean(
+				"uploadpack", "allowfilter", false); //$NON-NLS-1$ //$NON-NLS-2$
 		hideRefs = rc.getStringList("uploadpack", null, "hiderefs"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
@@ -217,6 +220,14 @@ public class TransferConfig {
 	 */
 	public boolean isAllowReachableSha1InWant() {
 		return allowReachableSha1InWant;
+	}
+
+	/**
+	 * @return true if clients are allowed to specify a "filter" line
+	 * @since 5.0
+	 */
+	public boolean isAllowFilter() {
+		return allowFilter;
 	}
 
 	/**

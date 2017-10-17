@@ -303,6 +303,8 @@ public class PackWriter implements AutoCloseable {
 
 	private ObjectCountCallback callback;
 
+	private long filterBlobLimit = -1;
+
 	/**
 	 * Create writer for specified repository.
 	 * <p>
@@ -636,6 +638,14 @@ public class PackWriter implements AutoCloseable {
 		this.shallowPack = true;
 		this.depth = depth;
 		this.unshallowObjects = unshallow;
+	}
+
+	/**
+	 * @param bytes exclude blobs of size greater than this
+	 * @since 5.0
+	 */
+	public void setFilterBlobLimit(long bytes) {
+		filterBlobLimit = bytes;
 	}
 
 	/**
@@ -1960,7 +1970,7 @@ public class PackWriter implements AutoCloseable {
 				byte[] pathBuf = walker.getPathBuffer();
 				int pathLen = walker.getPathLength();
 				bases.addBase(o.getType(), pathBuf, pathLen, pathHash);
-				addObject(o, pathHash);
+				filterAndAddObject(o, o.getType(), pathHash);
 				countingMonitor.update(1);
 			}
 		} else {
@@ -1970,7 +1980,7 @@ public class PackWriter implements AutoCloseable {
 					continue;
 				if (exclude(o))
 					continue;
-				addObject(o, walker.getPathHashCode());
+				filterAndAddObject(o, o.getType(), walker.getPathHashCode());
 				countingMonitor.update(1);
 			}
 		}
@@ -2003,7 +2013,7 @@ public class PackWriter implements AutoCloseable {
 				needBitmap.remove(objectId);
 				continue;
 			}
-			addObject(objectId, obj.getType(), 0);
+			filterAndAddObject(objectId, obj.getType(), 0);
 		}
 
 		if (thin)
@@ -2060,6 +2070,24 @@ public class PackWriter implements AutoCloseable {
 		otp.setPathHash(pathHashCode);
 		objectsLists[type].add(otp);
 		objectsMap.add(otp);
+	}
+
+	/**
+	 * Adds the given object as an object to be packed, first performing
+	 * filtering on blobs at or exceeding a given size.
+	 *
+	 * @see #setFilterBlobLimit
+	 */
+	private void filterAndAddObject(@NonNull AnyObjectId src, int type,
+			int pathHashCode) throws IOException {
+		// Check if this object needs to be rejected, doing the cheaper
+		// checks first.
+		boolean reject = filterBlobLimit >= 0 &&
+			type == OBJ_BLOB &&
+			reader.getObjectSize(src, OBJ_BLOB) > filterBlobLimit;
+		if (!reject) {
+			addObject(src, type, pathHashCode);
+		}
 	}
 
 	private boolean exclude(AnyObjectId objectId) {

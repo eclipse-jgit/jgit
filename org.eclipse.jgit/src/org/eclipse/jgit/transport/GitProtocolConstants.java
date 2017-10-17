@@ -152,6 +152,13 @@ public class GitProtocolConstants {
 	public static final String OPTION_PUSH_CERT = "push-cert"; //$NON-NLS-1$
 
 	/**
+	 * The client specified a filter expression.
+	 *
+	 * @since 5.0
+	 */
+	public static final String OPTION_FILTER = "filter"; //$NON-NLS-1$
+
+	/**
 	 * The client supports atomic pushes. If this option is used, the server
 	 * will update all refs within one atomic transaction.
 	 *

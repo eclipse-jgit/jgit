@@ -200,6 +200,13 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 	 */
 	public static final String OPTION_ALLOW_REACHABLE_SHA1_IN_WANT = GitProtocolConstants.OPTION_ALLOW_REACHABLE_SHA1_IN_WANT;
 
+	/**
+	 * The client specified a filter expression.
+	 *
+	 * @since 5.0
+	 */
+	public static final String OPTION_FILTER = GitProtocolConstants.OPTION_FILTER;
+
 	private final RevWalk walk;
 
 	/** All commits that are immediately reachable by a local ref. */
@@ -242,6 +249,9 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 
 	private PacketLineOut pckState;
 
+	/** If not -1, the maximum blob size to be sent to the server. */
+	private final long filterBlobLimit;
+
 	/**
 	 * Create a new connection to fetch using the native git transport.
 	 *
@@ -262,6 +272,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		}
 		includeTags = transport.getTagOpt() != TagOpt.NO_TAGS;
 		thinPack = transport.isFetchThin();
+		filterBlobLimit = transport.getFilterBlobLimit();
 
 		if (local != null) {
 			walk = new RevWalk(local);
@@ -524,6 +535,11 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		if (first) {
 			return false;
 		}
+		if (filterBlobLimit == 0) {
+			p.writeString(OPTION_FILTER + " blob:none");
+		} else if (filterBlobLimit > 0) {
+			p.writeString(OPTION_FILTER + " blob:limit=" + filterBlobLimit);
+		}
 		p.end();
 		outNeedsEnd = false;
 		return true;
@@ -562,6 +578,11 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			throw new PackProtocolException(uri, MessageFormat.format(
 					JGitText.get().statelessRPCRequiresOptionToBeEnabled,
 					OPTION_MULTI_ACK_DETAILED));
+		}
+
+		if (filterBlobLimit >= 0 && !wantCapability(line, OPTION_FILTER)) {
+			throw new PackProtocolException(uri,
+					JGitText.get().filterRequiresCapability);
 		}
 
 		addUserAgentCapability(line);
