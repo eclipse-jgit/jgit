@@ -19,6 +19,41 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_24f08851",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/RawTextLoadTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-10-17T22:20:52Z",
+      "side": 1,
+      "message": "Did IBM contribute to this test class ?",
+      "parentUuid": "c7880b39_81176e4b",
+      "revId": "15ab157ea0d593a28831256995fdcf7337677a65",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_4414b401",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-10-17T22:20:52Z",
+      "side": 1,
+      "message": "missing @since 4.10 for new API method",
+      "revId": "15ab157ea0d593a28831256995fdcf7337677a65",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_a11c6a70",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/BinaryBlobException.java",
         "patchSetId": 9
@@ -30,6 +65,23 @@
       "writtenOn": "2017-10-17T16:35:46Z",
       "side": 1,
       "message": "Copyright line",
+      "revId": "15ab157ea0d593a28831256995fdcf7337677a65",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_a41f181b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/BinaryBlobException.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-10-17T22:20:52Z",
+      "side": 1,
+      "message": "missing @since 4.10 for new API",
       "revId": "15ab157ea0d593a28831256995fdcf7337677a65",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
