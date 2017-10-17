@@ -177,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_c13416e4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-10-17T16:35:46Z",
+      "side": 1,
+      "message": "I don\u0027t see updated comments in PS9?",
+      "parentUuid": "c7880b39_7aea40e9",
+      "revId": "c74e61065e16db89fdf832a6472796c657396a9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_bc9e6841",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
         "patchSetId": 6
