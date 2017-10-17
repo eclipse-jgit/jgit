@@ -152,6 +152,13 @@ public class GitProtocolConstants {
 	public static final String OPTION_PUSH_CERT = "push-cert"; //$NON-NLS-1$
 
 	/**
+	 * The client does not want blobs larger than the given size.
+	 *
+	 * @since 4.10
+	 */
+	public static final String OPTION_BLOB_MAX_BYTES = "blob-max-bytes"; //$NON-NLS-1$
+
+	/**
 	 * The client supports atomic pushes. If this option is used, the server
 	 * will update all refs within one atomic transaction.
 	 *
