@@ -419,6 +419,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String invalidDepth;
 	/***/ public String invalidEncryption;
 	/***/ public String invalidExpandWildcard;
+	/***/ public String invalidFilter;
 	/***/ public String invalidGitdirRef;
 	/***/ public String invalidGitType;
 	/***/ public String invalidId;
@@ -726,6 +727,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String timeIsUncertain;
 	/***/ public String timerAlreadyTerminated;
 	/***/ public String tooManyCommands;
+	/***/ public String tooManyFilters;
 	/***/ public String tooManyIncludeRecursions;
 	/***/ public String topologicalSortRequired;
 	/***/ public String transportExceptionBadRef;
