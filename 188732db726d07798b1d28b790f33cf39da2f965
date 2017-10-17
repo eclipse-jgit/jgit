@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_c46344ba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 93425
+      },
+      "writtenOn": "2017-10-17T21:46:15Z",
+      "side": 1,
+      "message": "On reflection (and on trying this out), I don\u0027t think a submodule conflict ought to fail the merge -- I think it should instead be a conflict.  I\u0027m not sure whether this will be possible, but I\u0027m going to try.",
+      "revId": "188732db726d07798b1d28b790f33cf39da2f965",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
