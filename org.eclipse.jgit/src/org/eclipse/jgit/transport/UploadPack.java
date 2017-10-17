@@ -47,6 +47,7 @@ import static org.eclipse.jgit.lib.RefDatabase.ALL;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_AGENT;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_ALLOW_REACHABLE_SHA1_IN_WANT;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_ALLOW_TIP_SHA1_IN_WANT;
+import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_FILTER;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_INCLUDE_TAG;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_MULTI_ACK;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_MULTI_ACK_DETAILED;
@@ -316,6 +317,8 @@ public class UploadPack {
 	private boolean noDone;
 
 	private PackStatistics statistics;
+
+	private long filterBlobLimit = -1;
 
 	@SuppressWarnings("deprecation")
 	private UploadPackLogger logger = UploadPackLogger.NULL;
@@ -976,6 +979,8 @@ public class UploadPack {
 				|| policy == null)
 			adv.advertiseCapability(OPTION_ALLOW_REACHABLE_SHA1_IN_WANT);
 		adv.advertiseCapability(OPTION_AGENT, UserAgent.get());
+		adv.advertiseCapability(OPTION_FILTER);
+		adv.advertiseCapability("blob-max-bytes");
 		adv.setDerefTags(true);
 		Map<String, Ref> advertisedOrDefaultRefs = getAdvertisedOrDefaultRefs();
 		findSymrefs(adv, advertisedOrDefaultRefs);
@@ -1016,6 +1021,7 @@ public class UploadPack {
 
 	private void recvWants() throws IOException {
 		boolean isFirst = true;
+		boolean filterReceived = false;
 		for (;;) {
 			String line;
 			try {
@@ -1041,6 +1047,45 @@ public class UploadPack {
 
 			if (line.startsWith("shallow ")) { //$NON-NLS-1$
 				clientShallowCommits.add(ObjectId.fromString(line.substring(8)));
+				continue;
+			}
+
+			if (line.startsWith("blob-max-bytes ")) {
+				/* Rewrite as filter */
+				line = "filter blob:limit=" + line.substring("blob-max-bytes ".length());
+			}
+
+			if (line.startsWith(OPTION_FILTER + " ")) { //$NON-NLS-1$
+				String arg = line.substring(OPTION_FILTER.length() + 1);
+
+				if (filterReceived) {
+					throw new PackProtocolException(JGitText.get().tooManyFilters);
+				}
+				filterReceived = true;
+
+				if (arg.equals("blob:none")) {
+					filterBlobLimit = 0;
+				} else if (arg.startsWith("blob:limit=")) {
+					try {
+						filterBlobLimit = Long.parseLong(arg.substring("blob:limit=".length()));
+					} catch (NumberFormatException e) {
+						throw new PackProtocolException(
+								MessageFormat.format(JGitText.get().invalidFilter,
+										arg));
+					}
+				}
+				/* 
+				 * We must have (1) either "blob:none" or
+				 * "blob:limit=" set (because we only support
+				 * blob size limits for now), and (2) if the
+				 * latter, then it must be nonnegative. Throw
+				 * if (1) or (2) is not met.
+				 */
+				if (filterBlobLimit < 0) {
+					throw new PackProtocolException(
+							MessageFormat.format(JGitText.get().invalidFilter,
+									arg));
+				}
 				continue;
 			}
 
@@ -1576,7 +1621,12 @@ public class UploadPack {
 		final PackWriter pw = new PackWriter(cfg, walk.getObjectReader());
 		try {
 			pw.setIndexDisabled(true);
-			pw.setUseCachedPacks(true);
+			if (filterBlobLimit >= 0) {
+				pw.setFilterBlobLimit(filterBlobLimit);
+				pw.setUseCachedPacks(false);
+			} else {
+				pw.setUseCachedPacks(true);
+			}
 			pw.setUseBitmaps(depth == 0 && clientShallowCommits.isEmpty());
 			pw.setClientShallowCommits(clientShallowCommits);
 			pw.setReuseDeltaCommits(true);
