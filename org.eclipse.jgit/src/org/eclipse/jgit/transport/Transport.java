@@ -791,6 +791,8 @@ public abstract class Transport implements AutoCloseable {
 	/** Should refs no longer on the source be pruned from the destination? */
 	private boolean removeDeletedRefs;
 
+	private long filterBlobLimit = -1;
+
 	/** Timeout in seconds to wait before aborting an IO read or write. */
 	private int timeout;
 
@@ -1063,6 +1065,23 @@ public abstract class Transport implements AutoCloseable {
 	 */
 	public void setRemoveDeletedRefs(final boolean remove) {
 		removeDeletedRefs = remove;
+	}
+
+	/**
+	 * @return the last value passed to {@link #setFilterBlobLimit}, or -1 if
+	 *         it was never invoked.
+	 * @since 5.0
+	 */
+	public long getFilterBlobLimit() {
+		return filterBlobLimit;
+	}
+
+	/**
+	 * @param bytes exclude blobs of size greater than this
+	 * @since 5.0
+	 */
+	public void setFilterBlobLimit(final long bytes) {
+		filterBlobLimit = bytes;
 	}
 
 	/**

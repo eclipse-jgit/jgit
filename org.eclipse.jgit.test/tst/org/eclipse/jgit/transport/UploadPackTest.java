@@ -13,6 +13,7 @@ import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.transport.UploadPack.RequestPolicy;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
@@ -168,6 +169,151 @@ public class UploadPackTest {
 						"want " + blob.name() + " not valid"));
 			tn.fetch(NullProgressMonitor.INSTANCE,
 					Collections.singletonList(new RefSpec(blob.name())));
+		}
+	}
+
+	@Test
+	public void testFetchWithBlobNoneFilter() throws Exception {
+		InMemoryRepository server2 = newRepo("server2");
+		TestRepository<InMemoryRepository> remote =
+				new TestRepository<>(server2);
+		RevBlob blob1 = remote.blob("foobar");
+		RevBlob blob2 = remote.blob("fooba");
+		RevTree tree = remote.tree(
+				remote.file("1", blob1), remote.file("2", blob2));
+		RevCommit commit = remote.commit(tree);
+		remote.update("master", commit);
+
+		server2.getConfig().setBoolean("uploadpack", null, "allowfilter", true);
+
+		testProtocol = new TestProtocol<>(
+				new UploadPackFactory<Object>() {
+					@Override
+					public UploadPack create(Object req, Repository db)
+							throws ServiceNotEnabledException,
+							ServiceNotAuthorizedException {
+						UploadPack up = new UploadPack(db);
+						return up;
+					}
+				}, null);
+		uri = testProtocol.register(ctx, server2);
+
+		try (Transport tn = testProtocol.open(uri, client, "server2")) {
+			tn.setFilterBlobLimit(0);
+			tn.fetch(NullProgressMonitor.INSTANCE,
+					Collections.singletonList(new RefSpec(commit.name())));
+			assertTrue(client.hasObject(tree.toObjectId()));
+			assertFalse(client.hasObject(blob1.toObjectId()));
+			assertFalse(client.hasObject(blob2.toObjectId()));
+		}
+	}
+
+	@Test
+	public void testFetchWithBlobLimitFilter() throws Exception {
+		InMemoryRepository server2 = newRepo("server2");
+		TestRepository<InMemoryRepository> remote =
+				new TestRepository<>(server2);
+		RevBlob longBlob = remote.blob("foobar");
+		RevBlob shortBlob = remote.blob("fooba");
+		RevTree tree = remote.tree(
+				remote.file("1", longBlob), remote.file("2", shortBlob));
+		RevCommit commit = remote.commit(tree);
+		remote.update("master", commit);
+
+		server2.getConfig().setBoolean("uploadpack", null, "allowfilter", true);
+
+		testProtocol = new TestProtocol<>(
+				new UploadPackFactory<Object>() {
+					@Override
+					public UploadPack create(Object req, Repository db)
+							throws ServiceNotEnabledException,
+							ServiceNotAuthorizedException {
+						UploadPack up = new UploadPack(db);
+						return up;
+					}
+				}, null);
+		uri = testProtocol.register(ctx, server2);
+
+		try (Transport tn = testProtocol.open(uri, client, "server2")) {
+			tn.setFilterBlobLimit(5);
+			tn.fetch(NullProgressMonitor.INSTANCE,
+					Collections.singletonList(new RefSpec(commit.name())));
+			assertFalse(client.hasObject(longBlob.toObjectId()));
+			assertTrue(client.hasObject(shortBlob.toObjectId()));
+		}
+	}
+
+	@Test
+	public void testFetchWithBlobLimitFilterAndBitmaps() throws Exception {
+		InMemoryRepository server2 = newRepo("server2");
+		TestRepository<InMemoryRepository> remote =
+				new TestRepository<>(server2);
+		RevBlob longBlob = remote.blob("foobar");
+		RevBlob shortBlob = remote.blob("fooba");
+		RevTree tree = remote.tree(
+				remote.file("1", longBlob), remote.file("2", shortBlob));
+		RevCommit commit = remote.commit(tree);
+		remote.update("master", commit);
+
+		server2.getConfig().setBoolean("uploadpack", null, "allowfilter", true);
+
+		// generate bitmaps
+		new DfsGarbageCollector(server2).pack(null);
+		server2.scanForRepoChanges();
+
+		testProtocol = new TestProtocol<>(
+				new UploadPackFactory<Object>() {
+					@Override
+					public UploadPack create(Object req, Repository db)
+							throws ServiceNotEnabledException,
+							ServiceNotAuthorizedException {
+						UploadPack up = new UploadPack(db);
+						return up;
+					}
+				}, null);
+		uri = testProtocol.register(ctx, server2);
+
+		try (Transport tn = testProtocol.open(uri, client, "server2")) {
+			tn.setFilterBlobLimit(5);
+			tn.fetch(NullProgressMonitor.INSTANCE,
+					Collections.singletonList(new RefSpec(commit.name())));
+			assertFalse(client.hasObject(longBlob.toObjectId()));
+			assertTrue(client.hasObject(shortBlob.toObjectId()));
+		}
+	}
+
+	@Test
+	public void testFetchWithNonSupportingServer() throws Exception {
+		InMemoryRepository server2 = newRepo("server2");
+		TestRepository<InMemoryRepository> remote =
+				new TestRepository<>(server2);
+		RevBlob blob = remote.blob("foo");
+		RevTree tree = remote.tree(remote.file("1", blob));
+		RevCommit commit = remote.commit(tree);
+		remote.update("master", commit);
+
+		server2.getConfig().setBoolean("uploadpack", null, "allowfilter", false);
+
+		testProtocol = new TestProtocol<>(
+				new UploadPackFactory<Object>() {
+					@Override
+					public UploadPack create(Object req, Repository db)
+							throws ServiceNotEnabledException,
+							ServiceNotAuthorizedException {
+						UploadPack up = new UploadPack(db);
+						return up;
+					}
+				}, null);
+		uri = testProtocol.register(ctx, server2);
+
+		try (Transport tn = testProtocol.open(uri, client, "server2")) {
+			tn.setFilterBlobLimit(0);
+
+			thrown.expect(TransportException.class);
+			thrown.expectMessage("filter requires server to advertise that capability");
+
+			tn.fetch(NullProgressMonitor.INSTANCE,
+					Collections.singletonList(new RefSpec(commit.name())));
 		}
 	}
 }
