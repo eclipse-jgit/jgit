@@ -296,6 +296,8 @@ public class PackWriter implements AutoCloseable {
 
 	private ObjectCountCallback callback;
 
+	private long blobMaxBytes = -1;
+
 	/**
 	 * Create writer for specified repository.
 	 * <p>
@@ -579,6 +581,10 @@ public class PackWriter implements AutoCloseable {
 		this.shallowPack = true;
 		this.depth = depth;
 		this.unshallowObjects = unshallow;
+	}
+
+	public void setBlobMaxBytes(long bytes) {
+		blobMaxBytes = bytes;
 	}
 
 	/**
@@ -1841,7 +1847,7 @@ public class PackWriter implements AutoCloseable {
 
 		if (shallowPack) {
 			for (RevCommit cmit : commits) {
-				addObject(cmit, 0);
+				addObject(cmit, null, 0);
 			}
 		} else {
 			int commitCnt = 0;
@@ -1849,7 +1855,7 @@ public class PackWriter implements AutoCloseable {
 			for (RevCommit cmit : commits) {
 				if (!cmit.has(added)) {
 					cmit.add(added);
-					addObject(cmit, 0);
+					addObject(cmit, null, 0);
 					commitCnt++;
 				}
 
@@ -1858,7 +1864,7 @@ public class PackWriter implements AutoCloseable {
 					if (!p.has(added) && !p.has(RevFlag.UNINTERESTING)
 							&& !exclude(p)) {
 						p.add(added);
-						addObject(p, 0);
+						addObject(p, null, 0);
 						commitCnt++;
 					}
 				}
@@ -1871,7 +1877,7 @@ public class PackWriter implements AutoCloseable {
 								&& !obj.has(RevFlag.UNINTERESTING)
 								&& !obj.has(added)) {
 							obj.add(added);
-							addObject(obj, 0);
+							addObject(obj, null, 0);
 						}
 					}
 					putTagTargets = true;
@@ -1894,7 +1900,7 @@ public class PackWriter implements AutoCloseable {
 				byte[] pathBuf = walker.getPathBuffer();
 				int pathLen = walker.getPathLength();
 				bases.addBase(o.getType(), pathBuf, pathLen, pathHash);
-				addObject(o, pathHash);
+				addObject(o, walker, pathHash);
 				countingMonitor.update(1);
 			}
 		} else {
@@ -1904,7 +1910,7 @@ public class PackWriter implements AutoCloseable {
 					continue;
 				if (exclude(o))
 					continue;
-				addObject(o, walker.getPathHashCode());
+				addObject(o, walker, walker.getPathHashCode());
 				countingMonitor.update(1);
 			}
 		}
@@ -1937,7 +1943,7 @@ public class PackWriter implements AutoCloseable {
 				needBitmap.remove(objectId);
 				continue;
 			}
-			addObject(objectId, obj.getType(), 0);
+			addObject(objectId, obj.getType(), null, 0);
 		}
 
 		if (thin)
@@ -1977,16 +1983,26 @@ public class PackWriter implements AutoCloseable {
 	public void addObject(final RevObject object)
 			throws IncorrectObjectTypeException {
 		if (!exclude(object))
-			addObject(object, 0);
+			addObject(object, null, 0);
 	}
 
-	private void addObject(final RevObject object, final int pathHashCode) {
-		addObject(object, object.getType(), pathHashCode);
+	private void addObject(final RevObject object, final ObjectWalk walk, final int pathHashCode) {
+		addObject(object, object.getType(), walk, pathHashCode);
 	}
 
 	private void addObject(
-			final AnyObjectId src, final int type, final int pathHashCode) {
+			final AnyObjectId src, final int type, final ObjectWalk walk,
+			final int pathHashCode) {
 		final ObjectToPack otp;
+		if (blobMaxBytes >= 0 && type == OBJ_BLOB && (walk == null || !walk.isGitFile())) {
+			try {
+				if (reader.getObjectSize(src, OBJ_BLOB) > blobMaxBytes) {
+					return;
+				}
+			} catch (IOException e) {
+				// worry about it later
+			}
+		}
 		if (reuseSupport != null)
 			otp = reuseSupport.newObjectToPack(src, type);
 		else

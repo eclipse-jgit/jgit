@@ -239,6 +239,9 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 
 	private PacketLineOut pckState;
 
+	/** If not -1, the maximum blob size to be sent to the server. */
+	private final long blobMaxBytes;
+
 	/**
 	 * Create a new connection to fetch using the native git transport.
 	 *
@@ -256,6 +259,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		}
 		includeTags = transport.getTagOpt() != TagOpt.NO_TAGS;
 		thinPack = transport.isFetchThin();
+		blobMaxBytes = transport.getBlobMaxBytes();
 
 		if (local != null) {
 			walk = new RevWalk(local);
@@ -491,6 +495,8 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		}
 		if (first)
 			return false;
+		if (blobMaxBytes >= 0)
+			p.writeString("blob-max-bytes " + blobMaxBytes);
 		p.end();
 		outNeedsEnd = false;
 		return true;
