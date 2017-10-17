@@ -63,6 +63,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.errors.BinaryBlobException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
 
@@ -618,9 +619,6 @@ public final class RawParseUtils {
 	 * <p>
 	 * The last element (index <code>map.size()-1</code>) always contains
 	 * <code>end</code>.
-	 * <p>
-	 * If the data contains a '\0' anywhere, the whole region is considered binary
-	 * and a LineMap corresponding to a single line is returned.
 	 * </p>
 	 *
 	 * @param buf
@@ -631,10 +629,9 @@ public final class RawParseUtils {
 	 * @param end
 	 *            1 past the end of the content within <code>buf</code>.
 	 * @return a line map indexing the start position of each line.
+	 * @throws BinaryBlobException if any '\0' is found.
 	 */
-	public static final IntList lineMap(final byte[] buf, int ptr, int end) {
-		int start = ptr;
-
+	public static final IntList lineMap(final byte[] buf, int ptr, int end) throws BinaryBlobException {
 		// Experimentally derived from multiple source repositories
 		// the average number of bytes/line is 36. Its a rough guess
 		// to initially size our map close to the target.
@@ -647,11 +644,7 @@ public final class RawParseUtils {
 			}
 
 			if (buf[ptr] == '\0') {
-				// binary data.
-				map = new IntList(3);
-				map.add(Integer.MIN_VALUE);
-				map.add(start);
-				break;
+				throw new BinaryBlobException();
 			}
 
 			foundLF = (buf[ptr] == '\n');
