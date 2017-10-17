@@ -799,6 +799,8 @@ public abstract class Transport implements AutoCloseable {
 	/** Should refs no longer on the source be pruned from the destination? */
 	private boolean removeDeletedRefs;
 
+	private long blobMaxBytes = -1;
+
 	/** Timeout in seconds to wait before aborting an IO read or write. */
 	private int timeout;
 
@@ -1057,6 +1059,25 @@ public abstract class Transport implements AutoCloseable {
 	 */
 	public void setRemoveDeletedRefs(final boolean remove) {
 		removeDeletedRefs = remove;
+	}
+
+	/**
+	 * @return the last value passed to {@link #setBlobMaxBytes}, or -1 if
+	 *         it was never invoked.
+	 * @since 4.10
+	 */
+	public long getBlobMaxBytes() {
+		return blobMaxBytes;
+	}
+
+	/**
+	 * @param bytes
+	 *             exclude blobs of size greater than this, unless they
+	 *             appear as a file of name starting with ".git".
+	 * @since 4.10
+	 */
+	public void setBlobMaxBytes(final long bytes) {
+		blobMaxBytes = bytes;
 	}
 
 	/**
