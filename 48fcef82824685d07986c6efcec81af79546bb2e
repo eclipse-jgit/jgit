@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_2a8ccf0c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/ResolveMergerTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 757,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-10-18T12:30:47Z",
+      "side": 1,
+      "message": "maybe this should be JGit proper?",
+      "range": {
+        "startLine": 757,
+        "startChar": 43,
+        "endLine": 757,
+        "endChar": 55
+      },
+      "revId": "48fcef82824685d07986c6efcec81af79546bb2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
