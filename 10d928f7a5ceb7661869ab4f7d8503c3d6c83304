@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7880b39_07154e6f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-10-18T07:13:18Z",
+      "side": 1,
+      "message": "style nit: start subject in uppercase:\n\nBasic ...",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 5
+      },
+      "revId": "10d928f7a5ceb7661869ab4f7d8503c3d6c83304",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_47567633",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-10-18T07:13:18Z",
+      "side": 1,
+      "message": "I don\u0027t fully understand this sentence maybe you can rephrase it ?",
+      "revId": "10d928f7a5ceb7661869ab4f7d8503c3d6c83304",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_875cde51",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-10-18T07:13:18Z",
+      "side": 1,
+      "message": "add footer with bug link\n\n Bug: 494551",
+      "revId": "10d928f7a5ceb7661869ab4f7d8503c3d6c83304",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_e766821a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/SubmoduleSequence.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-10-18T07:13:18Z",
+      "side": 1,
+      "message": "then maybe we should name it SubmoduleConflict ?",
+      "range": {
+        "startLine": 49,
+        "startChar": 19,
+        "endLine": 49,
+        "endChar": 59
+      },
+      "revId": "10d928f7a5ceb7661869ab4f7d8503c3d6c83304",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_276deaf5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 683,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-10-18T07:13:18Z",
+      "side": 1,
+      "message": "style nit: missing braces",
+      "revId": "10d928f7a5ceb7661869ab4f7d8503c3d6c83304",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
