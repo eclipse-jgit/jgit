@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "a7979753_ccef8f26",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/ResolveMergerTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-10-18T19:49:16Z",
+      "side": 1,
+      "message": "Now we have 1 tab and the rest spaces",
+      "range": {
+        "startLine": 717,
+        "startChar": 0,
+        "endLine": 717,
+        "endChar": 8
+      },
+      "revId": "48fcef82824685d07986c6efcec81af79546bb2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_6cbcdb24",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/ResolveMergerTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 740,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-10-18T19:49:16Z",
+      "side": 1,
+      "message": "Nit: blank line between methods",
+      "revId": "48fcef82824685d07986c6efcec81af79546bb2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_2a8ccf0c",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/ResolveMergerTest.java",
         "patchSetId": 9
@@ -18,6 +58,70 @@
         "startChar": 43,
         "endLine": 757,
         "endChar": 55
+      },
+      "revId": "48fcef82824685d07986c6efcec81af79546bb2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_8cc02795",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/ResolveMergerTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 757,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-10-18T19:49:16Z",
+      "side": 1,
+      "message": "I wouldn\u0027t object.",
+      "parentUuid": "c7880b39_2a8ccf0c",
+      "range": {
+        "startLine": 757,
+        "startChar": 43,
+        "endLine": 757,
+        "endChar": 55
+      },
+      "revId": "48fcef82824685d07986c6efcec81af79546bb2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_ecc7eba7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/ResolveMergerTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 790,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-10-18T19:49:16Z",
+      "side": 1,
+      "message": "Nit: blank line before method.",
+      "revId": "48fcef82824685d07986c6efcec81af79546bb2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_0c943799",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/ResolveMergerTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 809,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-10-18T19:49:16Z",
+      "side": 1,
+      "message": "Nit: stray space",
+      "range": {
+        "startLine": 809,
+        "startChar": 8,
+        "endLine": 809,
+        "endChar": 9
       },
       "revId": "48fcef82824685d07986c6efcec81af79546bb2e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
