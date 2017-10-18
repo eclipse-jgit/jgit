@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_cf494188",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/ReftableBatchRefUpdate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2017-10-18T22:09:17Z",
+      "side": 1,
+      "message": "Why can\u0027t the config from refdb be used here, like in patchset 10?",
+      "range": {
+        "startLine": 119,
+        "startChar": 19,
+        "endLine": 119,
+        "endChar": 72
+      },
+      "revId": "d9e73961c02c5e98d5fe9553981cc5c58ba7a854",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
