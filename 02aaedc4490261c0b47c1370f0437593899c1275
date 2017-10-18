@@ -256,6 +256,24 @@
       "revId": "02aaedc4490261c0b47c1370f0437593899c1275",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_4cb71f41",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/ResolveMergerTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 729,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-10-18T19:49:16Z",
+      "side": 1,
+      "message": "\u003e It\u0027s somewhat surprising you can control reading from something\n \u003e called \"inserter\", but for this test it\u0027s nice that it\u0027s possible.\n\nYeah, I won\u0027t claim it\u0027s not surprising, but ObjectInserter#newReader is extremely important for Gerrit, hence all the JGit APIs that take only an inserter.",
+      "parentUuid": "c7880b39_cae6ebd3",
+      "revId": "02aaedc4490261c0b47c1370f0437593899c1275",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
