@@ -460,6 +460,30 @@
     },
     {
       "key": {
+        "uuid": "a7979753_4fd2b145",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2017-10-18T21:36:37Z",
+      "side": 1,
+      "message": "In our experience the only need to override these is to support symbolic links, which this change is adding. So eventually we could clean up the other ctor\u0027s to be private, but that has to be done over a major release.",
+      "parentUuid": "c7880b39_92c0de73",
+      "range": {
+        "startLine": 406,
+        "startChar": 1,
+        "endLine": 406,
+        "endChar": 10
+      },
+      "revId": "3eeab7d84b81c33970e9179caa9020e970716a39",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_ace65f20",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
         "patchSetId": 8
