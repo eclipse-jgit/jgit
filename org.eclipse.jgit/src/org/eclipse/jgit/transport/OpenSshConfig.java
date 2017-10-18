@@ -352,6 +352,17 @@ public class OpenSshConfig implements ConfigRepository {
 		return Boolean.FALSE;
 	}
 
+	private static File toFile(String path, File home) {
+		if (path.startsWith("~/")) { //$NON-NLS-1$
+			return new File(home, path.substring(2));
+		}
+		File ret = new File(path);
+		if (ret.isAbsolute()) {
+			return ret;
+		}
+		return new File(home, path);
+	}
+
 	private static int positive(final String value) {
 		if (value != null) {
 			try {
@@ -730,18 +741,40 @@ public class OpenSshConfig implements ConfigRepository {
 			return result;
 		}
 
+		private List<String> replaceTilde(List<String> values, File home) {
+			List<String> result = new ArrayList<>(values.size());
+			for (String value : values) {
+				result.add(toFile(value, home).getPath());
+			}
+			return result;
+		}
+
 		protected void substitute(String originalHostName, File home) {
 			Replacer r = new Replacer(originalHostName, home);
 			if (multiOptions != null) {
 				List<String> values = multiOptions.get("IDENTITYFILE"); //$NON-NLS-1$
 				if (values != null) {
 					values = substitute(values, "dhlru", r); //$NON-NLS-1$
+					values = replaceTilde(values, home);
 					multiOptions.put("IDENTITYFILE", values); //$NON-NLS-1$
 				}
 				values = multiOptions.get("CERTIFICATEFILE"); //$NON-NLS-1$
 				if (values != null) {
 					values = substitute(values, "dhlru", r); //$NON-NLS-1$
+					values = replaceTilde(values, home);
 					multiOptions.put("CERTIFICATEFILE", values); //$NON-NLS-1$
+				}
+			}
+			if (listOptions != null) {
+				List<String> values = listOptions.get("GLOBALKNOWNHOSTSFILE"); //$NON-NLS-1$
+				if (values != null) {
+					values = replaceTilde(values, home);
+					listOptions.put("GLOBALKNOWNHOSTSFILE", values); //$NON-NLS-1$
+				}
+				values = listOptions.get("USERKNOWNHOSTSFILE"); //$NON-NLS-1$
+				if (values != null) {
+					values = replaceTilde(values, home);
+					listOptions.put("USERKNOWNHOSTSFILE", values); //$NON-NLS-1$
 				}
 			}
 			if (options != null) {
@@ -749,6 +782,7 @@ public class OpenSshConfig implements ConfigRepository {
 				String value = options.get("IDENTITYAGENT"); //$NON-NLS-1$
 				if (value != null) {
 					value = r.substitute(value, "dhlru"); //$NON-NLS-1$
+					value = toFile(value, home).getPath();
 					options.put("IDENTITYAGENT", value); //$NON-NLS-1$
 				}
 			}
@@ -907,17 +941,6 @@ public class OpenSshConfig implements ConfigRepository {
 			if (identityFiles != null && identityFiles.length > 0) {
 				identityFile = toFile(identityFiles[0], homeDir);
 			}
-		}
-
-		private File toFile(String path, File home) {
-			if (path.startsWith("~/")) { //$NON-NLS-1$
-				return new File(home, path.substring(2));
-			}
-			File ret = new File(path);
-			if (ret.isAbsolute()) {
-				return ret;
-			}
-			return new File(home, path);
 		}
 
 		Config getConfig() {
