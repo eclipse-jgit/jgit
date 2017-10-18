@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_cab18bca",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/ResolveMergerTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-10-18T12:23:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_21287a84",
+      "revId": "02aaedc4490261c0b47c1370f0437593899c1275",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_e1e3d2c0",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/ResolveMergerTest.java",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2017-10-17T16:47:49Z",
       "side": 1,
       "message": "This makes me slightly uncomfortable because it limits the ability of this test to detect regressions.\n\nI think it should be possible to test this by overriding ObjectInserter#newReader to return a custom ObjectReader whose ObjectLoaders fail if you try to read past FIRST_FEW_BYTES. It\u0027s a little ugly, but fortunately there is Object{Reader,Inserter}.Filter which makes overriding less painful than it could be.",
+      "revId": "02aaedc4490261c0b47c1370f0437593899c1275",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_e757624f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/ResolveMergerTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 699,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-10-18T12:23:22Z",
+      "side": 1,
+      "message": "Let me look into this further.",
+      "parentUuid": "c7880b39_e1e3d2c0",
       "revId": "02aaedc4490261c0b47c1370f0437593899c1275",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_875dbe76",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/ResolveMergerTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 708,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-10-18T12:23:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_41cca664",
+      "range": {
+        "startLine": 708,
+        "startChar": 44,
+        "endLine": 708,
+        "endChar": 51
+      },
+      "revId": "02aaedc4490261c0b47c1370f0437593899c1275",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_a1d70aea",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/ResolveMergerTest.java",
         "patchSetId": 6
@@ -70,6 +130,24 @@
       "writtenOn": "2017-10-17T16:47:49Z",
       "side": 1,
       "message": "Tabs",
+      "revId": "02aaedc4490261c0b47c1370f0437593899c1275",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_676c5228",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/ResolveMergerTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 713,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-10-18T12:23:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_a1d70aea",
       "revId": "02aaedc4490261c0b47c1370f0437593899c1275",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_47675644",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/ResolveMergerTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 716,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-10-18T12:23:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_61d1a2f7",
+      "revId": "02aaedc4490261c0b47c1370f0437593899c1275",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_81d20efa",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/ResolveMergerTest.java",
         "patchSetId": 6
@@ -110,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "c7880b39_2777aaf4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/ResolveMergerTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 724,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-10-18T12:23:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7880b39_81d20efa",
+      "revId": "02aaedc4490261c0b47c1370f0437593899c1275",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7880b39_01dd3e00",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/ResolveMergerTest.java",
         "patchSetId": 6
@@ -121,6 +235,24 @@
       "writtenOn": "2017-10-17T16:47:49Z",
       "side": 1,
       "message": "See my comment above, here is where you would wrap the inserter in a custom ObjectInserter subclass that prevents the merger from reading further than it should.",
+      "revId": "02aaedc4490261c0b47c1370f0437593899c1275",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7880b39_cae6ebd3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/ResolveMergerTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 729,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-10-18T12:23:22Z",
+      "side": 1,
+      "message": "Done.\n\nIt\u0027s somewhat surprising you can control reading from something called \"inserter\", but for this test it\u0027s nice that it\u0027s possible.",
+      "parentUuid": "c7880b39_01dd3e00",
       "revId": "02aaedc4490261c0b47c1370f0437593899c1275",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
