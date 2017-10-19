@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_2f6ba511",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-10-19T07:44:41Z",
+      "side": 1,
+      "message": "Couldn\u0027t you check already here with isBinary(head, off,n) whether the last read chunk contained a null? We could avoid loading the header in multiple chunks if the first chunk already contains the null.",
+      "revId": "3a71c69db3789e7bfb489294738969f4a192cc03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
