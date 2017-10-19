@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_d559ced5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-10-19T22:35:56Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this become\n\n  getModuleName(path)\n\nnow? (And the comment above be deleted.)\n\nAnd what about repositories with submodules inited by an older JGit that _did_ use the path as the subsection key? Do we need a migration for this?",
+      "range": {
+        "startLine": 646,
+        "startChar": 4,
+        "endLine": 646,
+        "endChar": 8
+      },
+      "revId": "df5721425b4e9965513873616f1cdc96c9040450",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_f556caa2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-10-19T22:35:56Z",
+      "side": 1,
+      "message": "Likewise here.",
+      "range": {
+        "startLine": 673,
+        "startChar": 4,
+        "endLine": 673,
+        "endChar": 8
+      },
+      "revId": "df5721425b4e9965513873616f1cdc96c9040450",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
