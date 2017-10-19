@@ -598,6 +598,15 @@ public class SubmoduleWalk implements AutoCloseable {
 	}
 
 	/**
+	 * The module name for the current submodule entry (used for the section name of .git/config)
+	 * @since 4.10
+	 * @return name
+	 */
+	public String getModuleName() {
+		return getModuleName(path);
+	}
+
+	/**
 	 * Get object id of current submodule entry
 	 *
 	 * @return object id
