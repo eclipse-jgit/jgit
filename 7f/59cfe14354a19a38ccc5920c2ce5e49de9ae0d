@@ -1,0 +1,8 @@
+Code-Review+1: Minh Thai <mthai@google.com>
+Verified+1: Hudson CI
+Code-Review+2: Terry Parker <tparker@google.com>
+Submitted-by: Terry Parker <tparker@google.com>
+Submitted-at: Wed, 18 Oct 2017 20:25:08 -0400
+Reviewed-on: https://git.eclipse.org/r/103017
+Project: jgit/jgit
+Branch: refs/heads/master
