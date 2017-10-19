@@ -511,6 +511,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String noMergeHeadSpecified;
 	/***/ public String nonBareLinkFilesNotSupported;
 	/***/ public String noSuchRef;
+	/***/ public String noSuchSubmodule;
 	/***/ public String notABoolean;
 	/***/ public String notABundle;
 	/***/ public String notADIRCFile;
