@@ -61,6 +61,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.SymbolicRef;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -153,14 +154,20 @@ public class Command {
 	 */
 	public Command(RevWalk rw, ReceiveCommand cmd)
 			throws MissingObjectException, IOException {
-		this.oldRef = toRef(rw, cmd.getOldId(), cmd.getRefName(), false);
-		this.newRef = toRef(rw, cmd.getNewId(), cmd.getRefName(), true);
+		this.oldRef = toRef(rw, cmd.getOldId(), cmd.getOldSymref(),
+				cmd.getRefName(), false);
+		this.newRef = toRef(rw, cmd.getNewId(), cmd.getNewSymref(),
+				cmd.getRefName(), true);
 		this.cmd = cmd;
 	}
 
-	static Ref toRef(RevWalk rw, ObjectId id, String name,
-			boolean mustExist) throws MissingObjectException, IOException {
-		if (ObjectId.zeroId().equals(id)) {
+	static Ref toRef(RevWalk rw, ObjectId id, @Nullable String target,
+			String name, boolean mustExist)
+			throws MissingObjectException, IOException {
+		if (target != null) {
+			return new SymbolicRef(name,
+					new ObjectIdRef.Unpeeled(NETWORK, target, id));
+		} else if (ObjectId.zeroId().equals(id)) {
 			return null;
 		}
 
