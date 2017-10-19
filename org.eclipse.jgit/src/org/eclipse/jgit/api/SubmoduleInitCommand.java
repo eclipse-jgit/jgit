@@ -110,16 +110,17 @@ public class SubmoduleInitCommand extends GitCommand<Collection<String>> {
 					continue;
 
 				String path = generator.getPath();
+				String name = generator.getModuleName();
 				// Copy 'url' and 'update' fields from .gitmodules to config
 				// file
 				String url = generator.getRemoteUrl();
 				String update = generator.getModulesUpdate();
 				if (url != null)
 					config.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION,
-							path, ConfigConstants.CONFIG_KEY_URL, url);
+							name, ConfigConstants.CONFIG_KEY_URL, url);
 				if (update != null)
 					config.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION,
-							path, ConfigConstants.CONFIG_KEY_UPDATE, update);
+							name, ConfigConstants.CONFIG_KEY_UPDATE, update);
 				if (url != null || update != null)
 					initialized.add(path);
 			}

@@ -617,6 +617,15 @@ public class SubmoduleWalk implements AutoCloseable {
 	}
 
 	/**
+	 * The module name for the current submodule entry (used for the section name of .git/config)
+	 * @since 4.10
+	 * @return name
+	 */
+	public String getModuleName() {
+		return getModuleName(path);
+	}
+
+	/**
 	 * Get object id of current submodule entry
 	 *
 	 * @return object id
@@ -636,7 +645,7 @@ public class SubmoduleWalk implements AutoCloseable {
 	public String getModulesPath() throws IOException, ConfigInvalidException {
 		lazyLoadModulesConfig();
 		return modulesConfig.getString(ConfigConstants.CONFIG_SUBMODULE_SECTION,
-				getModuleName(path), ConfigConstants.CONFIG_KEY_PATH);
+				getModuleName(), ConfigConstants.CONFIG_KEY_PATH);
 	}
 
 	/**
@@ -648,12 +657,8 @@ public class SubmoduleWalk implements AutoCloseable {
 	 * @throws java.io.IOException
 	 */
 	public String getConfigUrl() throws IOException, ConfigInvalidException {
-		// SubmoduleInitCommand copies the submodules.*.url and
-		// submodules.*.update values from .gitmodules to the config, and
-		// does so using the path defined in .gitmodules as the subsection
-		// name. So no path-to-name translation is necessary here.
 		return repoConfig.getString(ConfigConstants.CONFIG_SUBMODULE_SECTION,
-				path, ConfigConstants.CONFIG_KEY_URL);
+				getModuleName(), ConfigConstants.CONFIG_KEY_URL);
 	}
 
 	/**
@@ -667,7 +672,7 @@ public class SubmoduleWalk implements AutoCloseable {
 	public String getModulesUrl() throws IOException, ConfigInvalidException {
 		lazyLoadModulesConfig();
 		return modulesConfig.getString(ConfigConstants.CONFIG_SUBMODULE_SECTION,
-				getModuleName(path), ConfigConstants.CONFIG_KEY_URL);
+				getModuleName(), ConfigConstants.CONFIG_KEY_URL);
 	}
 
 	/**
@@ -680,7 +685,7 @@ public class SubmoduleWalk implements AutoCloseable {
 	 */
 	public String getConfigUpdate() throws IOException, ConfigInvalidException {
 		return repoConfig.getString(ConfigConstants.CONFIG_SUBMODULE_SECTION,
-				path, ConfigConstants.CONFIG_KEY_UPDATE);
+				getModuleName(), ConfigConstants.CONFIG_KEY_UPDATE);
 	}
 
 	/**
@@ -694,7 +699,7 @@ public class SubmoduleWalk implements AutoCloseable {
 	public String getModulesUpdate() throws IOException, ConfigInvalidException {
 		lazyLoadModulesConfig();
 		return modulesConfig.getString(ConfigConstants.CONFIG_SUBMODULE_SECTION,
-				getModuleName(path), ConfigConstants.CONFIG_KEY_UPDATE);
+				getModuleName(), ConfigConstants.CONFIG_KEY_UPDATE);
 	}
 
 	/**
@@ -710,7 +715,7 @@ public class SubmoduleWalk implements AutoCloseable {
 			ConfigInvalidException {
 		lazyLoadModulesConfig();
 		return modulesConfig.getEnum(IgnoreSubmoduleMode.values(),
-				ConfigConstants.CONFIG_SUBMODULE_SECTION, getModuleName(path),
+				ConfigConstants.CONFIG_SUBMODULE_SECTION, getModuleName(),
 				ConfigConstants.CONFIG_KEY_IGNORE, IgnoreSubmoduleMode.NONE);
 	}
 
