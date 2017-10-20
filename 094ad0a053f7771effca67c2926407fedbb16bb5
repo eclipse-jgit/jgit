@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_462536b2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1989,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2017-10-20T23:49:49Z",
+      "side": 1,
+      "message": "In the end, I rewrote this part. Thanks for letting me know - I\u0027m no longer using the \"final\".",
+      "parentUuid": "a7979753_06a24ead",
+      "revId": "094ad0a053f7771effca67c2926407fedbb16bb5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_c67e868a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2017-10-20T21:03:18Z",
       "side": 1,
       "message": "What does it mean if walk is null? Maybe a comment describing the parameter would help.",
+      "range": {
+        "startLine": 1997,
+        "startChar": 48,
+        "endLine": 1997,
+        "endChar": 60
+      },
+      "revId": "094ad0a053f7771effca67c2926407fedbb16bb5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_26cbca4e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1997,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2017-10-20T23:49:49Z",
+      "side": 1,
+      "message": "I made another method to do the filtering now (should have done this from the start), so there is no longer this parameter.",
+      "parentUuid": "a7979753_c67e868a",
       "range": {
         "startLine": 1997,
         "startChar": 48,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "a7979753_46d0d6f4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2003,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2017-10-20T23:49:49Z",
+      "side": 1,
+      "message": "Meant to be later in the whole process (because I didn\u0027t want to change addObject from being non-throwing to throwing).\n\nHowever, now I have put this object-size-reading code into another method \"filterAndAddObject\" that can throw IOException, so this comment is no longer necessary.",
+      "parentUuid": "a7979753_e67b8297",
+      "range": {
+        "startLine": 2003,
+        "startChar": 22,
+        "endLine": 2003,
+        "endChar": 27
+      },
+      "revId": "094ad0a053f7771effca67c2926407fedbb16bb5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_868d5e40",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ObjectWalk.java",
         "patchSetId": 1
@@ -76,6 +142,24 @@
       "writtenOn": "2017-10-20T21:03:18Z",
       "side": 1,
       "message": "needs @since comment in javadoc\n\nMy first reaction when reading this was to think it was about \".git files\" that act as a replacement for .git symbolic links. Instead, I think it\u0027s about .git* files: .gitignore, .gitattributes, .gitmodules, etc.\n\nThe following question isn\u0027t specific to JGit --- the same question applies to [2], too: is it possible that this would miss some .git* files? E.g. if the same large blob appears both as a .git* file and a non-.git* file and is encountered by the ObjectWalk under the latter name first, would it be skipped as UNINTERESTING when encountered under the .git* name, or is that avoided somehow?\n\n[2] https://public-inbox.org/git/b9ea93edabc42754dc3643d6307c22a947eabaf3.1506714999.git.jonathantanmy@google.com/",
+      "revId": "094ad0a053f7771effca67c2926407fedbb16bb5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_66d5d2e3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ObjectWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 635,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2017-10-20T23:49:49Z",
+      "side": 1,
+      "message": "Added javadoc and @since (for this and other public methods).\n\nI\u0027ve added a test for the issue when a blob appears both as a .git* file and a non-.git* file, and then realized that it doesn\u0027t work. :-P\n\nI rewrote the PackWriter part to make it work. As a bonus, the diff is no longer so invasive.",
+      "parentUuid": "a7979753_868d5e40",
       "revId": "094ad0a053f7771effca67c2926407fedbb16bb5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -105,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "a7979753_e6c8e24c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 929,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2017-10-20T23:49:49Z",
+      "side": 1,
+      "message": "Changed to use a constant (here and elsewhere).\n\nAs for controlling advertisement with a config, I agree, but if possible I would like to delay implementing that until my corresponding proposal to Git gets accepted in its current form (if it gets accepted). I\u0027m happy if this patch is kept at a negative score until (i) my corresponding proposal to Git gets accepted, and (ii) I add the config option.",
+      "parentUuid": "a7979753_06796e9f",
+      "range": {
+        "startLine": 929,
+        "startChar": 26,
+        "endLine": 929,
+        "endChar": 42
+      },
+      "revId": "094ad0a053f7771effca67c2926407fedbb16bb5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_46fe1678",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1
@@ -116,6 +224,24 @@
       "writtenOn": "2017-10-20T21:03:18Z",
       "side": 1,
       "message": "optional: can simplify:\n\n if (blobMaxBytes \u003e\u003d 0) {\n   pw.setBlobMaxBytes(blobMaxBytes);\n }\n pw.setUseBitmaps(blobMaxBytes \u003c 0 \u0026\u0026 depth \u003d\u003d 0 \u0026\u0026 clientShallowCommits.isEmpty());",
+      "revId": "094ad0a053f7771effca67c2926407fedbb16bb5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_c6bbe6b8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1511,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2017-10-20T23:49:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_46fe1678",
       "revId": "094ad0a053f7771effca67c2926407fedbb16bb5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
