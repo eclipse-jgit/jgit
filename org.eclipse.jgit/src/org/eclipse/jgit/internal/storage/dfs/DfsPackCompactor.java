@@ -350,9 +350,13 @@ public class DfsPackCompactor {
 				: Collections.emptyList();
 	}
 
-	/** @return statistics corresponding to the {@link #getNewPacks()}. */
+	/**
+	 * @return statistics corresponding to the {@link #getNewPacks()}.
+	 *
+	 * <p>The element may be null if the stat is not available.
+	 */
 	public List<PackStatistics> getNewPackStatistics() {
-		return newStats != null
+		return outDesc != null
 				? Collections.singletonList(newStats)
 				: Collections.emptyList();
 	}
