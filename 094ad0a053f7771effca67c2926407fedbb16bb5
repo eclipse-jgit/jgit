@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_06a24ead",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1989,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-10-20T21:03:18Z",
+      "side": 1,
+      "message": "optional: can remove redundant \u0027final\u0027 (old code in this project used to use \"final\" excessively; new code omits it).",
+      "revId": "094ad0a053f7771effca67c2926407fedbb16bb5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_c67e868a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1997,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-10-20T21:03:18Z",
+      "side": 1,
+      "message": "What does it mean if walk is null? Maybe a comment describing the parameter would help.",
+      "range": {
+        "startLine": 1997,
+        "startChar": 48,
+        "endLine": 1997,
+        "endChar": 60
+      },
+      "revId": "094ad0a053f7771effca67c2926407fedbb16bb5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_e67b8297",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2003,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-10-20T21:03:18Z",
+      "side": 1,
+      "message": "does this mean later in the function or TODO?",
+      "range": {
+        "startLine": 2003,
+        "startChar": 22,
+        "endLine": 2003,
+        "endChar": 27
+      },
+      "revId": "094ad0a053f7771effca67c2926407fedbb16bb5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_868d5e40",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ObjectWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 635,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-10-20T21:03:18Z",
+      "side": 1,
+      "message": "needs @since comment in javadoc\n\nMy first reaction when reading this was to think it was about \".git files\" that act as a replacement for .git symbolic links. Instead, I think it\u0027s about .git* files: .gitignore, .gitattributes, .gitmodules, etc.\n\nThe following question isn\u0027t specific to JGit --- the same question applies to [2], too: is it possible that this would miss some .git* files? E.g. if the same large blob appears both as a .git* file and a non-.git* file and is encountered by the ObjectWalk under the latter name first, would it be skipped as UNINTERESTING when encountered under the .git* name, or is that avoided somehow?\n\n[2] https://public-inbox.org/git/b9ea93edabc42754dc3643d6307c22a947eabaf3.1506714999.git.jonathantanmy@google.com/",
+      "revId": "094ad0a053f7771effca67c2926407fedbb16bb5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_06796e9f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 929,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-10-20T21:03:18Z",
+      "side": 1,
+      "message": "should be a constant.\n\nDo we want to advertise the capability unconditionally? If we make it optional (controlled by a config), then that allows a two-stage rollout:\n\n1. First update the server to support blob-max-bytes\n2. Then flip the config to advertise the capability\n\nThat way, in a load-balanced setup (e.g. multiple mirrors of a Gerrit server), step (1) rolls out to all replicas before step (2) starts to roll out, avoiding a race where the client learns about blob-max-bytes from a info/refs request to one replica and then tries and fails to use it with another.",
+      "range": {
+        "startLine": 929,
+        "startChar": 26,
+        "endLine": 929,
+        "endChar": 42
+      },
+      "revId": "094ad0a053f7771effca67c2926407fedbb16bb5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_46fe1678",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1511,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-10-20T21:03:18Z",
+      "side": 1,
+      "message": "optional: can simplify:\n\n if (blobMaxBytes \u003e\u003d 0) {\n   pw.setBlobMaxBytes(blobMaxBytes);\n }\n pw.setUseBitmaps(blobMaxBytes \u003c 0 \u0026\u0026 depth \u003d\u003d 0 \u0026\u0026 clientShallowCommits.isEmpty());",
+      "revId": "094ad0a053f7771effca67c2926407fedbb16bb5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
