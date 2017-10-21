@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_86f1de8c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2020,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-10-21T00:07:11Z",
+      "side": 1,
+      "message": "I had trouble understanding the \u0027reject\u0027 test. It has structure\n\n  boolean reject \u003d A \u0026\u0026 B \u0026\u0026 C \u0026\u0026 (oversized \u003d D)\n\nIf reject is true, that means that A, B, and C were true, which means oversized got set to D and that it was also true. So why are these separate variables?\n\nI think the intent is\n\n if (blobMaxBytes \u003e\u003d 0 \u0026\u0026 object.getType() \u003d\u003d OBJ_BLOB \u0026\u0026 !walk.isGitFile() \u0026\u0026 ... size \u003e blobMaxBytes ...) {\n     // It could appear as a .git* file later in the traversal.\n     // Mark it as unseen to allow it to be considered again.\n     object.remove(SEEN);\n } else {\n     addObject(...);\n }\n\nIn other words, there\u0027s no such thing as rejected because of size --- all rejected blobs are rejected because of size.",
+      "revId": "6ba31947fc6dba56faad971774574d8df50c99c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_c6e206bf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ObjectWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-10-21T00:07:11Z",
+      "side": 1,
+      "message": "optional: can this get a name that distinguishes it the kind of \".git file\" described in gitrepository-layout(5)?\n\nE.g. how about something like isGitSpecialFile() or nameBeginsWithDotGit()?\n\nOr should this expose currVisit.buf to allow the caller to perform arbitrary checks on the name?",
+      "range": {
+        "startLine": 639,
+        "startChar": 16,
+        "endLine": 639,
+        "endChar": 25
+      },
+      "revId": "6ba31947fc6dba56faad971774574d8df50c99c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
