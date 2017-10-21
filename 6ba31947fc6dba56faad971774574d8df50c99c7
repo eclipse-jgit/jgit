@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_46a29684",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2020,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2017-10-21T00:16:33Z",
+      "side": 1,
+      "message": "Ah, you\u0027re right. Changed to remove the \"oversized\".",
+      "parentUuid": "a7979753_86f1de8c",
+      "revId": "6ba31947fc6dba56faad971774574d8df50c99c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_c6e206bf",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ObjectWalk.java",
         "patchSetId": 2
@@ -30,6 +48,30 @@
       "writtenOn": "2017-10-21T00:07:11Z",
       "side": 1,
       "message": "optional: can this get a name that distinguishes it the kind of \".git file\" described in gitrepository-layout(5)?\n\nE.g. how about something like isGitSpecialFile() or nameBeginsWithDotGit()?\n\nOr should this expose currVisit.buf to allow the caller to perform arbitrary checks on the name?",
+      "range": {
+        "startLine": 639,
+        "startChar": 16,
+        "endLine": 639,
+        "endChar": 25
+      },
+      "revId": "6ba31947fc6dba56faad971774574d8df50c99c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_66a79293",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ObjectWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2017-10-21T00:16:33Z",
+      "side": 1,
+      "message": "Changed to isGitSpecialFile. If we were to expose currVisit.buf, we would have to expose nameEnd and namePtr as well, and I think it\u0027s better to keep that an implementation detail.",
+      "parentUuid": "a7979753_c6e206bf",
       "range": {
         "startLine": 639,
         "startChar": 16,
