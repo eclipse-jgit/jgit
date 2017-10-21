@@ -81,6 +81,30 @@
       "revId": "6ba31947fc6dba56faad971774574d8df50c99c7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_06b88eaa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ObjectWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-10-21T00:23:21Z",
+      "side": 1,
+      "message": "Agreed. Thanks for your thoughtfulness.",
+      "parentUuid": "a7979753_66a79293",
+      "range": {
+        "startLine": 639,
+        "startChar": 16,
+        "endLine": 639,
+        "endChar": 25
+      },
+      "revId": "6ba31947fc6dba56faad971774574d8df50c99c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
