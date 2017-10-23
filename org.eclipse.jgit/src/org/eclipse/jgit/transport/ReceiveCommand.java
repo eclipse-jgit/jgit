@@ -505,7 +505,10 @@ public class ReceiveCommand {
 		return oldId;
 	}
 
-	/** @return expected old target for a symbolic reference. */
+	/**
+	 * @return expected old target for a symbolic reference.
+	 * @since 4.10
+	 */
 	@Nullable
 	public String getOldSymref() {
 		return oldSymref;
@@ -516,7 +519,10 @@ public class ReceiveCommand {
 		return newId;
 	}
 
-	/** @return requested new target for a symbolic reference. */
+	/**
+	 * @return requested new target for a symbolic reference.
+	 * @since 4.10
+	 */
 	@Nullable
 	public String getNewSymref() {
 		return newSymref;
