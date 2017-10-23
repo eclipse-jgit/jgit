@@ -22,6 +22,30 @@
       "revId": "b570596d804f7adf6a5f62d458781241face83f9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_332a27b6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 998,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2017-10-23T17:31:33Z",
+      "side": 1,
+      "message": "Done, and also made it throw PackProtocolException if it is negative.\n\nI\u0027m not sure if it should bubble NumberFormatException up (just like the handling of \"deepen\"), but at least it is more explicit this way.",
+      "parentUuid": "a7979753_93d75b33",
+      "range": {
+        "startLine": 998,
+        "startChar": 24,
+        "endLine": 998,
+        "endChar": 33
+      },
+      "revId": "b570596d804f7adf6a5f62d458781241face83f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
