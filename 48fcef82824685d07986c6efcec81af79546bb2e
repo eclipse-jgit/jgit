@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a7979753_e1f52c45",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/ResolveMergerTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-10-23T12:42:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_ccef8f26",
+      "range": {
+        "startLine": 717,
+        "startChar": 0,
+        "endLine": 717,
+        "endChar": 8
+      },
+      "revId": "48fcef82824685d07986c6efcec81af79546bb2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_6cbcdb24",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/ResolveMergerTest.java",
         "patchSetId": 9
@@ -36,6 +60,24 @@
       "writtenOn": "2017-10-18T19:49:16Z",
       "side": 1,
       "message": "Nit: blank line between methods",
+      "revId": "48fcef82824685d07986c6efcec81af79546bb2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_01f31860",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/ResolveMergerTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 740,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-10-23T12:42:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_6cbcdb24",
       "revId": "48fcef82824685d07986c6efcec81af79546bb2e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -89,6 +131,30 @@
     },
     {
       "key": {
+        "uuid": "a7979753_2113b41b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/ResolveMergerTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 757,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-10-23T12:42:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_8cc02795",
+      "range": {
+        "startLine": 757,
+        "startChar": 43,
+        "endLine": 757,
+        "endChar": 55
+      },
+      "revId": "48fcef82824685d07986c6efcec81af79546bb2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_ecc7eba7",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/ResolveMergerTest.java",
         "patchSetId": 9
@@ -106,6 +172,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_4118c035",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/ResolveMergerTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 790,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-10-23T12:42:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_ecc7eba7",
+      "revId": "48fcef82824685d07986c6efcec81af79546bb2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_0c943799",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/ResolveMergerTest.java",
         "patchSetId": 9
@@ -117,6 +201,30 @@
       "writtenOn": "2017-10-18T19:49:16Z",
       "side": 1,
       "message": "Nit: stray space",
+      "range": {
+        "startLine": 809,
+        "startChar": 8,
+        "endLine": 809,
+        "endChar": 9
+      },
+      "revId": "48fcef82824685d07986c6efcec81af79546bb2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_611dbc24",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/ResolveMergerTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 809,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-10-23T12:42:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_0c943799",
       "range": {
         "startLine": 809,
         "startChar": 8,
