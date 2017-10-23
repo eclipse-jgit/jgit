@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_93d75b33",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 998,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2017-10-23T17:18:54Z",
+      "side": 1,
+      "message": "catch NumberFormatException and throw PackProtocolException just in case?",
+      "range": {
+        "startLine": 998,
+        "startChar": 24,
+        "endLine": 998,
+        "endChar": 33
+      },
+      "revId": "b570596d804f7adf6a5f62d458781241face83f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
