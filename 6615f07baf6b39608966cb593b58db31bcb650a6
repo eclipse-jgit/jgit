@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_b62d254b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-10-24T13:03:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_76cbbd1b",
+      "revId": "6615f07baf6b39608966cb593b58db31bcb650a6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_96d029c4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectLoader.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_d62ab12f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-10-24T13:03:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_96d029c4",
+      "revId": "6615f07baf6b39608966cb593b58db31bcb650a6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_76e2dd93",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectLoader.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2017-10-24T12:43:03Z",
       "side": 1,
       "message": "Missing javadoc",
+      "revId": "6615f07baf6b39608966cb593b58db31bcb650a6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_1625195d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-10-24T13:03:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_76e2dd93",
       "revId": "6615f07baf6b39608966cb593b58db31bcb650a6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
