@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_d640f1bc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-10-24T13:31:49Z",
+      "side": 1,
+      "message": "Done.\n\nNote that there is a bunch of private methods without javadoc at all.",
+      "parentUuid": "a7979753_f6b40d6a",
+      "revId": "853872b64023d12e5f06f0b78d546f86a2da75d4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_76c1fdc8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2017-10-24T13:17:52Z",
       "side": 1,
       "message": "Unused",
+      "revId": "853872b64023d12e5f06f0b78d546f86a2da75d4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_f63ded45",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 635,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-10-24T13:31:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_76c1fdc8",
       "revId": "853872b64023d12e5f06f0b78d546f86a2da75d4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
