@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_36adb5f5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-10-24T13:59:08Z",
+      "side": 1,
+      "message": "I\u0027m just going by the warnings Eclipse shows me.\n\nPresumably the rule is, if there\u0027s a Javadoc at all, it must have @params.",
+      "parentUuid": "a7979753_d640f1bc",
+      "revId": "853872b64023d12e5f06f0b78d546f86a2da75d4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_76c1fdc8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
         "patchSetId": 6
