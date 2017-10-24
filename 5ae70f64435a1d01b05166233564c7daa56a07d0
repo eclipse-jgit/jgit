@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_d6f8f13f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/RawTextLoadTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-10-24T12:50:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_d6d1d1c5",
+      "revId": "5ae70f64435a1d01b05166233564c7daa56a07d0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_16dc39db",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
         "patchSetId": 11
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "a7979753_16f35960",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-10-24T12:50:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_16dc39db",
+      "range": {
+        "startLine": 315,
+        "startChar": 68,
+        "endLine": 315,
+        "endChar": 79
+      },
+      "revId": "5ae70f64435a1d01b05166233564c7daa56a07d0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_36e85574",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/BinaryBlobException.java",
         "patchSetId": 11
@@ -53,6 +95,24 @@
       "writtenOn": "2017-10-24T12:42:41Z",
       "side": 1,
       "message": "Missing javadoc",
+      "revId": "5ae70f64435a1d01b05166233564c7daa56a07d0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_56188135",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/BinaryBlobException.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-10-24T12:50:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_36e85574",
       "revId": "5ae70f64435a1d01b05166233564c7daa56a07d0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
