@@ -22,6 +22,30 @@
       "revId": "763062d32035ce4dca46a95e32ffe374567e4f01",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_b678c537",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/ResolveMergerTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-10-24T13:05:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_f6decdd4",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 21
+      },
+      "revId": "763062d32035ce4dca46a95e32ffe374567e4f01",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
