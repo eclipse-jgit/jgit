@@ -48,45 +48,45 @@ import static org.junit.Assert.assertNotNull;
 
 import java.io.UnsupportedEncodingException;
 
-import org.eclipse.jgit.errors.BinaryBlobException;
 import org.junit.Test;
 
 public class RawParseUtils_LineMapTest {
 	@Test
-	public void testEmpty() throws Exception {
+	public void testEmpty() {
 		final IntList map = RawParseUtils.lineMap(new byte[] {}, 0, 0);
 		assertNotNull(map);
 		assertArrayEquals(new int[]{Integer.MIN_VALUE, 0}, asInts(map));
 	}
 
 	@Test
-	public void testOneBlankLine() throws Exception  {
+	public void testOneBlankLine() {
 		final IntList map = RawParseUtils.lineMap(new byte[] { '\n' }, 0, 1);
 		assertArrayEquals(new int[]{Integer.MIN_VALUE, 0, 1}, asInts(map));
 	}
 
 	@Test
-	public void testTwoLineFooBar() throws Exception {
+	public void testTwoLineFooBar() throws UnsupportedEncodingException {
 		final byte[] buf = "foo\nbar\n".getBytes("ISO-8859-1");
 		final IntList map = RawParseUtils.lineMap(buf, 0, buf.length);
 		assertArrayEquals(new int[]{Integer.MIN_VALUE, 0, 4, buf.length}, asInts(map));
 	}
 
 	@Test
-	public void testTwoLineNoLF() throws Exception {
+	public void testTwoLineNoLF() throws UnsupportedEncodingException {
 		final byte[] buf = "foo\nbar".getBytes("ISO-8859-1");
 		final IntList map = RawParseUtils.lineMap(buf, 0, buf.length);
 		assertArrayEquals(new int[]{Integer.MIN_VALUE, 0, 4, buf.length}, asInts(map));
 	}
 
-	@Test(expected = BinaryBlobException.class)
-	public void testBinary() throws Exception {
+	@Test
+	public void testBinary() throws UnsupportedEncodingException {
 		final byte[] buf = "xxxfoo\nb\0ar".getBytes("ISO-8859-1");
-		RawParseUtils.lineMap(buf, 3, buf.length);
+		final IntList map = RawParseUtils.lineMap(buf, 3, buf.length);
+		assertArrayEquals(new int[]{Integer.MIN_VALUE, 3, buf.length}, asInts(map));
 	}
 
 	@Test
-	public void testFourLineBlanks() throws Exception {
+	public void testFourLineBlanks() throws UnsupportedEncodingException {
 		final byte[] buf = "foo\n\n\nbar\n".getBytes("ISO-8859-1");
 		final IntList map = RawParseUtils.lineMap(buf, 0, buf.length);
 
