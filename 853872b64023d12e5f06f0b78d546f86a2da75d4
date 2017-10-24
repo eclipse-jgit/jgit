@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_f6b40d6a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-10-24T13:17:52Z",
+      "side": 1,
+      "message": "Missing javadoc for arguments.\n\nAlso, it reads weirdly that only one argument is final",
+      "revId": "853872b64023d12e5f06f0b78d546f86a2da75d4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_76c1fdc8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 635,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-10-24T13:17:52Z",
+      "side": 1,
+      "message": "Unused",
+      "revId": "853872b64023d12e5f06f0b78d546f86a2da75d4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
