@@ -46,6 +46,30 @@
       "revId": "dc24383b6be8bd1e90a6754ea4791af13abb2fc7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_2c09e8bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-10-25T13:00:54Z",
+      "side": 1,
+      "message": "I guess the best thing to do is open a ticket on https://bugs.eclipse.org/\n\nI\u0027m not sure if it\u0027s correct to put it on the Gerrit component (Product:Community, Component:Gerrit) but if it\u0027s not I\u0027m sure they\u0027ll tell you the right place.",
+      "parentUuid": "a7979753_6c6f7074",
+      "range": {
+        "startLine": 2,
+        "startChar": 21,
+        "endLine": 2,
+        "endChar": 22
+      },
+      "revId": "dc24383b6be8bd1e90a6754ea4791af13abb2fc7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
