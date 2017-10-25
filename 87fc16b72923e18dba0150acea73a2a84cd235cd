@@ -22,6 +22,30 @@
       "revId": "87fc16b72923e18dba0150acea73a2a84cd235cd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_2c9e48ec",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2017-10-25T12:30:02Z",
+      "side": 1,
+      "message": "Is only FileUtil public API or FileUtils as well? In both cases, we could return defaults instead which would be identical to non-existing paths. For the actual crashes we are encountering with FileUtils.lastModified [1], we fortunately have IOException in the throws clause already.\n\n[1] http://dev.eclipse.org/mhonarc/lists/jgit-dev/msg03444.html",
+      "parentUuid": "a7979753_cc2a2430",
+      "range": {
+        "startLine": 89,
+        "startChar": 44,
+        "endLine": 89,
+        "endChar": 62
+      },
+      "revId": "87fc16b72923e18dba0150acea73a2a84cd235cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
