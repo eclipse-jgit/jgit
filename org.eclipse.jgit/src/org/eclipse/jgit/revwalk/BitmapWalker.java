@@ -41,7 +41,7 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.internal.storage.pack;
+package org.eclipse.jgit.revwalk;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -55,15 +55,14 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
-import org.eclipse.jgit.revwalk.ObjectWalk;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevFlag;
-import org.eclipse.jgit.revwalk.RevObject;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
 
-/** Helper class for PackWriter to do ObjectWalks with pack index bitmaps. */
-final class PackWriterBitmapWalker {
+/**
+ * Helper class to do ObjectWalks with pack index bitmaps.
+ *
+ * @since 4.10
+ */
+public final class BitmapWalker {
 
 	private final ObjectWalk walker;
 
@@ -73,18 +72,18 @@ final class PackWriterBitmapWalker {
 
 	private long countOfBitmapIndexMisses;
 
-	PackWriterBitmapWalker(
+	public BitmapWalker(
 			ObjectWalk walker, BitmapIndex bitmapIndex, ProgressMonitor pm) {
 		this.walker = walker;
 		this.bitmapIndex = bitmapIndex;
 		this.pm = (pm == null) ? NullProgressMonitor.INSTANCE : pm;
 	}
 
-	long getCountOfBitmapIndexMisses() {
+	public long getCountOfBitmapIndexMisses() {
 		return countOfBitmapIndexMisses;
 	}
 
-	BitmapBuilder findObjects(Iterable<? extends ObjectId> start, BitmapBuilder seen,
+	public BitmapBuilder findObjects(Iterable<? extends ObjectId> start, BitmapBuilder seen,
 			boolean ignoreMissing)
 			throws MissingObjectException, IncorrectObjectTypeException,
 				   IOException {
@@ -201,11 +200,13 @@ final class PackWriterBitmapWalker {
 	 * commit and its parents are marked as SEEN so that the walk does not
 	 * have to visit its ancestors.  This ensures the walk is very short if
 	 * there is good bitmap coverage.
+	 *
+	 * @since 4.10
 	 */
-	static class AddToBitmapFilter extends RevFilter {
+	public static class AddToBitmapFilter extends RevFilter {
 		private final BitmapBuilder bitmap;
 
-		AddToBitmapFilter(BitmapBuilder bitmap) {
+		public AddToBitmapFilter(BitmapBuilder bitmap) {
 			this.bitmap = bitmap;
 		}
 
@@ -253,12 +254,14 @@ final class PackWriterBitmapWalker {
 	 * Commits named in {@code seen} are considered already seen.  If one is
 	 * encountered, that commit and its parents will be marked with the SEEN
 	 * flag to prevent the walk from visiting its ancestors.
+	 *
+	 * @since 4.10
 	 */
-	static class AddUnseenToBitmapFilter extends RevFilter {
+	public static class AddUnseenToBitmapFilter extends RevFilter {
 		private final BitmapBuilder seen;
 		private final BitmapBuilder bitmap;
 
-		AddUnseenToBitmapFilter(BitmapBuilder seen, BitmapBuilder bitmapResult) {
+		public AddUnseenToBitmapFilter(BitmapBuilder seen, BitmapBuilder bitmapResult) {
 			this.seen = seen;
 			this.bitmap = bitmapResult;
 		}
