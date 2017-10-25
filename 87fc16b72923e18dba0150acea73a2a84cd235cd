@@ -70,6 +70,30 @@
       "revId": "87fc16b72923e18dba0150acea73a2a84cd235cd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_cc4064bd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2017-10-25T13:15:06Z",
+      "side": 1,
+      "message": "\u003e You mean catch the exception here and return false?\n\nYes.\n\n\u003e In that case maybe also log that it failed?\n\nI agree, logging makes sense here.",
+      "parentUuid": "a7979753_ac1cf8f7",
+      "range": {
+        "startLine": 89,
+        "startChar": 44,
+        "endLine": 89,
+        "endChar": 62
+      },
+      "revId": "87fc16b72923e18dba0150acea73a2a84cd235cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
