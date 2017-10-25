@@ -22,6 +22,30 @@
       "revId": "dc24383b6be8bd1e90a6754ea4791af13abb2fc7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_6c6f7074",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2017-10-25T11:23:57Z",
+      "side": 1,
+      "message": "I tried to fix it, but it seems there is no button for that. Is this something an admin could fix?",
+      "parentUuid": "a7979753_6c36900e",
+      "range": {
+        "startLine": 2,
+        "startChar": 21,
+        "endLine": 2,
+        "endChar": 22
+      },
+      "revId": "dc24383b6be8bd1e90a6754ea4791af13abb2fc7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
