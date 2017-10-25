@@ -46,6 +46,30 @@
       "revId": "87fc16b72923e18dba0150acea73a2a84cd235cd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_ac1cf8f7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-10-25T13:05:33Z",
+      "side": 1,
+      "message": "\u003e Is only FileUtil public API or FileUtils as well?\n\nAs far as I can see they\u0027re both public.  (My reasoning being they\u0027re public classes not in the .internal. package)\n\n\u003e return defaults instead\n\nYou mean catch the exception here and return false?  In that case maybe also log that it failed?",
+      "parentUuid": "a7979753_2c9e48ec",
+      "range": {
+        "startLine": 89,
+        "startChar": 44,
+        "endLine": 89,
+        "endChar": 62
+      },
+      "revId": "87fc16b72923e18dba0150acea73a2a84cd235cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
