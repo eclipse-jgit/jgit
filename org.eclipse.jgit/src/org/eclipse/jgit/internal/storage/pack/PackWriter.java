@@ -107,6 +107,7 @@ import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.ThreadSafeProgressMonitor;
 import org.eclipse.jgit.revwalk.AsyncRevObjectQueue;
+import org.eclipse.jgit.revwalk.BitmapWalker;
 import org.eclipse.jgit.revwalk.DepthWalk;
 import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -1714,7 +1715,7 @@ public class PackWriter implements AutoCloseable {
 		if (!shallowPack && useBitmaps) {
 			BitmapIndex bitmapIndex = reader.getBitmapIndex();
 			if (bitmapIndex != null) {
-				PackWriterBitmapWalker bitmapWalker = new PackWriterBitmapWalker(
+				BitmapWalker bitmapWalker = new BitmapWalker(
 						walker, bitmapIndex, countingMonitor);
 				findObjectsToPackUsingBitmaps(bitmapWalker, want, have);
 				endPhase(countingMonitor);
@@ -1917,7 +1918,7 @@ public class PackWriter implements AutoCloseable {
 	}
 
 	private void findObjectsToPackUsingBitmaps(
-			PackWriterBitmapWalker bitmapWalker, Set<? extends ObjectId> want,
+			BitmapWalker bitmapWalker, Set<? extends ObjectId> want,
 			Set<? extends ObjectId> have)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
@@ -2123,7 +2124,7 @@ public class PackWriter implements AutoCloseable {
 
 		beginPhase(PackingPhase.BUILDING_BITMAPS, pm, selectedCommits.size());
 
-		PackWriterBitmapWalker walker = bitmapPreparer.newBitmapWalker();
+		BitmapWalker walker = bitmapPreparer.newBitmapWalker();
 		AnyObjectId last = null;
 		for (PackWriterBitmapPreparer.BitmapCommit cmit : selectedCommits) {
 			if (!cmit.isReuseWalker()) {
