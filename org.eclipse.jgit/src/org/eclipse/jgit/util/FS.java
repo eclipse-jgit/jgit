@@ -720,7 +720,11 @@ public abstract class FS {
 	 * @since 3.0
 	 */
 	public boolean exists(File path) {
-		return FileUtils.exists(path);
+		try {
+			return FileUtils.exists(path);
+		} catch (IOException e) {
+			return false;
+		}
 	}
 
 	/**
@@ -732,7 +736,11 @@ public abstract class FS {
 	 * @since 3.0
 	 */
 	public boolean isDirectory(File path) {
-		return FileUtils.isDirectory(path);
+		try {
+			return FileUtils.isDirectory(path);
+		} catch (IOException e) {
+			return false;
+		}
 	}
 
 	/**
@@ -744,7 +752,11 @@ public abstract class FS {
 	 * @since 3.0
 	 */
 	public boolean isFile(File path) {
-		return FileUtils.isFile(path);
+		try {
+			return FileUtils.isFile(path);
+		} catch (IOException e) {
+			return false;
+		}
 	}
 
 	/**

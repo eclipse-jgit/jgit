@@ -180,7 +180,11 @@ public class FS_POSIX extends FS {
 
 	@Override
 	public boolean canExecute(File f) {
-		return FileUtils.canExecute(f);
+		try {
+			return FileUtils.canExecute(f);
+		} catch (IOException e) {
+			return false;
+		}
 	}
 
 	@Override
@@ -191,7 +195,7 @@ public class FS_POSIX extends FS {
 			return f.setExecutable(false, false);
 
 		try {
-			Path path = f.toPath();
+			Path path = FileUtils.toPath(f);
 			Set<PosixFilePermission> pset = Files.getPosixFilePermissions(path);
 
 			// owner (user) is always allowed to execute.
@@ -295,7 +299,14 @@ public class FS_POSIX extends FS {
 		if (gitdir == null) {
 			return null;
 		}
-		final Path hookPath = gitdir.toPath().resolve(Constants.HOOKS)
+		final Path path;
+		try {
+			path = FileUtils.toPath(gitdir);
+		} catch (IOException ex) {
+			return null;
+		}
+
+		final Path hookPath = path.resolve(Constants.HOOKS)
 				.resolve(hookName);
 		if (Files.isExecutable(hookPath))
 			return hookPath.toFile();

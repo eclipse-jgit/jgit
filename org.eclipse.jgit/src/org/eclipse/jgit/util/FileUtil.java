@@ -86,7 +86,7 @@ public class FileUtil {
 	 * @deprecated Use {@link Files#isSymbolicLink(java.nio.file.Path)} instead
 	 */
 	@Deprecated
-	public static boolean isSymlink(File path) {
+	public static boolean isSymlink(File path) throws IOException {
 		return FileUtils.isSymlink(path);
 	}
 
@@ -124,7 +124,7 @@ public class FileUtil {
 	 *             instead
 	 */
 	@Deprecated
-	public static boolean exists(File path) {
+	public static boolean exists(File path) throws IOException {
 		return FileUtils.exists(path);
 	}
 
@@ -169,7 +169,7 @@ public class FileUtil {
 	 *             instead
 	 */
 	@Deprecated
-	public static boolean isDirectory(File path) {
+	public static boolean isDirectory(File path) throws IOException {
 		return FileUtils.isDirectory(path);
 	}
 
@@ -181,7 +181,7 @@ public class FileUtil {
 	 *             instead
 	 */
 	@Deprecated
-	public static boolean isFile(File path) {
+	public static boolean isFile(File path) throws IOException {
 		return FileUtils.isFile(path);
 	}
 
@@ -191,7 +191,7 @@ public class FileUtil {
 	 * @deprecated Use {@link FileUtils#canExecute(File)} instead
 	 */
 	@Deprecated
-	public static boolean canExecute(File path) {
+	public static boolean canExecute(File path) throws IOException {
 		return FileUtils.canExecute(path);
 	}
 

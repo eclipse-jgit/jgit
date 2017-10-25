@@ -44,6 +44,7 @@
 package org.eclipse.jgit.util;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -188,7 +189,14 @@ public class FS_Win32_Cygwin extends FS_Win32 {
 		if (gitdir == null) {
 			return null;
 		}
-		final Path hookPath = gitdir.toPath().resolve(Constants.HOOKS)
+		final Path path;
+		try {
+			path = FileUtils.toPath(gitdir);
+		} catch (IOException ex) {
+			return null;
+		}
+
+		final Path hookPath = path.resolve(Constants.HOOKS)
 				.resolve(hookName);
 		if (Files.isExecutable(hookPath))
 			return hookPath.toFile();

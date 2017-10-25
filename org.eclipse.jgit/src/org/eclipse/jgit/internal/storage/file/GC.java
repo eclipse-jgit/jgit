@@ -950,7 +950,7 @@ public class GC {
 			} else {
 				if (base == null || !n.startsWith(base)) {
 					try {
-						Files.delete(new File(packDir.toFile(), n).toPath());
+						Files.delete(FileUtils.toPath(new File(packDir.toFile(), n)));
 					} catch (IOException e) {
 						LOG.error(e.getMessage(), e);
 					}
@@ -1514,7 +1514,14 @@ public class GC {
 		}
 		int n = 0;
 		int threshold = (auto + 255) / 256;
-		Path dir = repo.getObjectsDirectory().toPath().resolve("17"); //$NON-NLS-1$
+		final Path path;
+		try {
+			path = FileUtils.toPath(repo.getObjectsDirectory());
+		} catch (IOException e) {
+			return false;
+		}
+
+		Path dir = path.resolve("17"); //$NON-NLS-1$
 		if (!Files.exists(dir)) {
 			return false;
 		}
