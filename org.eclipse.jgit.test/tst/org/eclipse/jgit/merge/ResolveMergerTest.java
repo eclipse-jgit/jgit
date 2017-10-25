@@ -832,6 +832,32 @@ public class ResolveMergerTest extends RepositoryTestCase {
 	}
 
 	@Theory
+	public void checkContentMergeConflictBinary(MergeStrategy strategy)
+		throws Exception {
+		Git git = Git.wrap(db);
+
+		String orig = "1\n2\n3\0";
+		writeTrashFile("file",orig);
+		git.add().addFilepattern("file").call();
+		RevCommit first = git.commit().setMessage("added file").call();
+
+		writeTrashFile("file", "1master\n2\n3\0");
+		git.commit().setAll(true).setMessage("modified file on master").call();
+
+		git.checkout().setCreateBranch(true).setStartPoint(first)
+			.setName("side").call();
+		writeTrashFile("file", "1side\n2\n3\0");
+		RevCommit sideCommit = git.commit().setAll(true)
+			.setMessage("modified file on side").call();
+
+		git.checkout().setName("master").call();
+		MergeResult result =
+			git.merge().setStrategy(strategy).include(sideCommit).call();
+		assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
+		assertEquals(orig, read("file"));
+	}
+
+	@Theory
 	public void checkContentMergeConflict(MergeStrategy strategy)
 			throws Exception {
 		Git git = Git.wrap(db);
