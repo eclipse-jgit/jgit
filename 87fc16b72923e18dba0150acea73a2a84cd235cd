@@ -94,6 +94,30 @@
       "revId": "87fc16b72923e18dba0150acea73a2a84cd235cd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_275741a1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-10-25T22:30:33Z",
+      "side": 1,
+      "message": "public methods in both FileUtil and FileUtils are API and we can\u0027t change signature incompatibly in a minor version\n\nI think when we cannot change signature we should not silently hide the exception, if the path is invalid that\u0027s a problem which should be reported to the application using jgit. Not being a symlink is a different thing than trying to resolve an invalid path.",
+      "parentUuid": "a7979753_cc4064bd",
+      "range": {
+        "startLine": 89,
+        "startChar": 44,
+        "endLine": 89,
+        "endChar": 62
+      },
+      "revId": "87fc16b72923e18dba0150acea73a2a84cd235cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
