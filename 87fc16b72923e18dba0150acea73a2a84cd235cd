@@ -118,6 +118,30 @@
       "revId": "87fc16b72923e18dba0150acea73a2a84cd235cd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_22148f4a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2017-10-26T08:43:08Z",
+      "side": 1,
+      "message": "\u003e I think when we cannot change signature we should not silently hide\n\u003e the exception, if the path is invalid that\u0027s a problem which should\n\u003e be reported to the application using jgit. Not being a symlink is a\n\u003e different thing than trying to resolve an invalid path.\n\nWould you agree that logging problems is sufficient, as David has suggested? If not, should we better postpone to release 5.0, too? Or should I reduce the patch to those methods which already throw an IOException, as for example FileUtils.lastModified? (This is exactly the method which is causing troubles in practice and not just in theory.)",
+      "parentUuid": "a7979753_275741a1",
+      "range": {
+        "startLine": 89,
+        "startChar": 44,
+        "endLine": 89,
+        "endChar": 62
+      },
+      "revId": "87fc16b72923e18dba0150acea73a2a84cd235cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
