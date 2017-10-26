@@ -1,0 +1,7 @@
+Verified+1: Hudson CI
+Code-Review+2: Terry Parker <tparker@google.com>
+Submitted-by: Terry Parker <tparker@google.com>
+Submitted-at: Thu, 26 Oct 2017 18:22:49 -0400
+Reviewed-on: https://git.eclipse.org/r/110473
+Project: jgit/jgit
+Branch: refs/heads/master
