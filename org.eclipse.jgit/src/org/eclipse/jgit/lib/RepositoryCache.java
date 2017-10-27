@@ -64,10 +64,10 @@ import org.slf4j.LoggerFactory;
 
 /** Cache of active {@link Repository} instances. */
 public class RepositoryCache {
-	private static final RepositoryCache cache = new RepositoryCache();
-
 	private final static Logger LOG = LoggerFactory
 			.getLogger(RepositoryCache.class);
+
+	private static final RepositoryCache cache = new RepositoryCache();
 
 	/**
 	 * Open an existing repository, reusing a cached instance if possible.
