@@ -77,6 +77,8 @@ import org.slf4j.LoggerFactory;
 
 /** Abstraction to support various file system operations not in Java. */
 public abstract class FS {
+	private static final Logger LOG = LoggerFactory.getLogger(FS.class);
+
 	/**
 	 * This class creates FS instances. It will be overridden by a Java7 variant
 	 * if such can be detected in {@link #detect(Boolean)}.
@@ -157,8 +159,6 @@ public abstract class FS {
 			return rc;
 		}
 	}
-
-	private final static Logger LOG = LoggerFactory.getLogger(FS.class);
 
 	/** The auto-detected implementation selected for this operating system and JRE. */
 	public static final FS DETECTED = detect();
