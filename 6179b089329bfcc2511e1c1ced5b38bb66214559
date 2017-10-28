@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_b8a7ce07",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-10-28T07:10:41Z",
+      "side": 1,
+      "message": "optional: while this is being moved, can we change this to \"static final\"?",
+      "range": {
+        "startLine": 80,
+        "startChar": 9,
+        "endLine": 80,
+        "endChar": 21
+      },
+      "revId": "6179b089329bfcc2511e1c1ced5b38bb66214559",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
