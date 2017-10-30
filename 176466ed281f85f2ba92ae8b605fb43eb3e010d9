@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_014dce93",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-10-30T10:57:41Z",
+      "side": 1,
+      "message": "Interesting.  How did you manage to associate multiple email addresses to your account?\n\nWhen I tried that it didn\u0027t work, and I was told it was only possible to have one email address.",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 42
+      },
+      "revId": "176466ed281f85f2ba92ae8b605fb43eb3e010d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
