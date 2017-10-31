@@ -220,6 +220,16 @@ public class ObjectDirectory extends FileObjectDatabase {
 		return new ObjectDirectoryInserter(this, config);
 	}
 
+	/**
+	 * Create a new inserter that inserts all objects as pack files, not loose
+	 * objects.
+	 *
+	 * @return new inserter.
+	 */
+	public PackInserter newPackInserter() {
+		return new PackInserter(this);
+	}
+
 	@Override
 	public void close() {
 		unpackedObjectCache.clear();
