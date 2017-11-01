@@ -45,7 +45,10 @@ package org.eclipse.jgit.internal.storage.file;
 
 import static java.nio.file.StandardCopyOption.ATOMIC_MOVE;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_LENGTH;
+import static org.eclipse.jgit.lib.Constants.OBJ_OFS_DELTA;
+import static org.eclipse.jgit.lib.Constants.OBJ_REF_DELTA;
 
+import java.io.BufferedInputStream;
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -53,19 +56,35 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.RandomAccessFile;
+import java.nio.channels.Channels;
 import java.text.MessageFormat;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.zip.CRC32;
+import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
 import java.util.zip.DeflaterOutputStream;
+import java.util.zip.Inflater;
+import java.util.zip.InflaterInputStream;
 
+import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.LargeObjectException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.AbbreviatedObjectId;
+import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.InflaterCache;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdOwnerMap;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.ObjectStream;
 import org.eclipse.jgit.transport.PackParser;
 import org.eclipse.jgit.transport.PackedObjectInfo;
 import org.eclipse.jgit.util.BlockList;
@@ -93,6 +112,7 @@ class PackInserter extends ObjectInserter {
 	private int compression = Deflater.BEST_COMPRESSION;
 	private File tmpPack;
 	private PackStream packOut;
+	private Inflater cachedInflater;
 
 	PackInserter(ObjectDirectory db) {
 		this.db = db;
@@ -217,7 +237,7 @@ class PackInserter extends ObjectInserter {
 
 	@Override
 	public ObjectReader newReader() {
-		throw new UnsupportedOperationException();
+		return new Reader();
 	}
 
 	@Override
@@ -315,6 +335,11 @@ class PackInserter extends ObjectInserter {
 			}
 		} finally {
 			clear();
+			try {
+				InflaterCache.release(cachedInflater);
+			} finally {
+				cachedInflater = null;
+			}
 		}
 	}
 
@@ -323,6 +348,15 @@ class PackInserter extends ObjectInserter {
 		objectMap = null;
 		tmpPack = null;
 		packOut = null;
+	}
+
+	private Inflater inflater() {
+		if (cachedInflater == null) {
+			cachedInflater = InflaterCache.get();
+		} else {
+			cachedInflater.reset();
+		}
+		return cachedInflater;
 	}
 
 	private class PackStream extends OutputStream {
@@ -403,6 +437,203 @@ class PackInserter extends ObjectInserter {
 			deflater.end();
 			out.close();
 			file.close();
+		}
+
+		byte[] inflate(long filePos, int len) throws IOException, DataFormatException {
+			byte[] dstbuf;
+			try {
+				dstbuf = new byte[len];
+			} catch (OutOfMemoryError noMemory) {
+				return null; // Caller will switch to large object streaming.
+			}
+
+			byte[] srcbuf = buffer();
+			Inflater inf = inflater();
+			filePos += setInput(filePos, inf, srcbuf);
+			for (int dstoff = 0;;) {
+				int n = inf.inflate(dstbuf, dstoff, dstbuf.length - dstoff);
+				dstoff += n;
+				if (inf.finished()) {
+					return dstbuf;
+				}
+				if (inf.needsInput()) {
+					filePos += setInput(filePos, inf, srcbuf);
+				} else if (n == 0) {
+					throw new DataFormatException();
+				}
+			}
+		}
+
+		private int setInput(long filePos, Inflater inf, byte[] buf)
+				throws IOException {
+			if (file.getFilePointer() != filePos) {
+				file.seek(filePos);
+			}
+			int n = file.read(buf);
+			if (n < 0) {
+				throw new EOFException(JGitText.get().unexpectedEofInPack);
+			}
+			inf.setInput(buf, 0, n);
+			return n;
+		}
+	}
+
+	private class Reader extends ObjectReader {
+		private final ObjectReader ctx;
+
+		private Reader() {
+			ctx = db.newReader();
+			setStreamFileThreshold(ctx.getStreamFileThreshold());
+		}
+
+		@Override
+		public ObjectReader newReader() {
+			return db.newReader();
+		}
+
+		@Override
+		public ObjectInserter getCreatedFromInserter() {
+			return PackInserter.this;
+		}
+
+		@Override
+		public Collection<ObjectId> resolve(AbbreviatedObjectId id)
+				throws IOException {
+			Collection<ObjectId> stored = ctx.resolve(id);
+			if (objectList == null) {
+				return stored;
+			}
+
+			Set<ObjectId> r = new HashSet<>(stored.size() + 2);
+			r.addAll(stored);
+			for (PackedObjectInfo obj : objectList) {
+				if (id.prefixCompare(obj) == 0) {
+					r.add(obj.copy());
+				}
+			}
+			return r;
+		}
+
+		@Override
+		public ObjectLoader open(AnyObjectId objectId, int typeHint)
+				throws MissingObjectException, IncorrectObjectTypeException,
+				IOException {
+			if (objectMap == null) {
+				return ctx.open(objectId, typeHint);
+			}
+
+			PackedObjectInfo obj = objectMap.get(objectId);
+			if (obj == null) {
+				return ctx.open(objectId, typeHint);
+			}
+
+			byte[] buf = buffer();
+			RandomAccessFile f = packOut.file;
+			f.seek(obj.getOffset());
+			int cnt = f.read(buf, 0, 20);
+			if (cnt <= 0) {
+				throw new EOFException(JGitText.get().unexpectedEofInPack);
+			}
+
+			int c = buf[0] & 0xff;
+			int type = (c >> 4) & 7;
+			if (type == OBJ_OFS_DELTA || type == OBJ_REF_DELTA) {
+				throw new IOException(MessageFormat.format(
+						JGitText.get().cannotReadBackDelta, Integer.toString(type)));
+			}
+			if (typeHint != OBJ_ANY && type != typeHint) {
+				throw new IncorrectObjectTypeException(objectId.copy(), typeHint);
+			}
+
+			long sz = c & 0x0f;
+			int ptr = 1;
+			int shift = 4;
+			while ((c & 0x80) != 0) {
+				if (ptr >= cnt) {
+					throw new EOFException(JGitText.get().unexpectedEofInPack);
+				}
+				c = buf[ptr++] & 0xff;
+				sz += ((long) (c & 0x7f)) << shift;
+				shift += 7;
+			}
+
+			long zpos = obj.getOffset() + ptr;
+			if (sz < getStreamFileThreshold()) {
+				byte[] data = inflate(obj, zpos, (int) sz);
+				if (data != null) {
+					return new ObjectLoader.SmallObject(type, data);
+				}
+			}
+			return new StreamLoader(f, type, sz, zpos);
+		}
+
+		private byte[] inflate(PackedObjectInfo obj, long zpos, int sz)
+				throws IOException, CorruptObjectException {
+			try {
+				return packOut.inflate(zpos, sz);
+			} catch (DataFormatException dfe) {
+				CorruptObjectException coe = new CorruptObjectException(
+						MessageFormat.format(
+								JGitText.get().objectAtHasBadZlibStream,
+								Long.valueOf(obj.getOffset()),
+								tmpPack.getAbsolutePath()));
+				coe.initCause(dfe);
+				throw coe;
+			}
+		}
+
+		@Override
+		public Set<ObjectId> getShallowCommits() throws IOException {
+			return ctx.getShallowCommits();
+		}
+
+		@Override
+		public void close() {
+			ctx.close();
+		}
+
+		private class StreamLoader extends ObjectLoader {
+			private final RandomAccessFile file;
+			private final int type;
+			private final long size;
+			private final long pos;
+
+			StreamLoader(RandomAccessFile file, int type, long size, long pos) {
+				this.file = file;
+				this.type = type;
+				this.size = size;
+				this.pos = pos;
+			}
+
+			@Override
+			public ObjectStream openStream()
+					throws MissingObjectException, IOException {
+				int bufsz = buffer().length;
+				file.seek(pos);
+				return new ObjectStream.Filter(
+						type, size,
+						new BufferedInputStream(
+								new InflaterInputStream(
+										Channels.newInputStream(packOut.file.getChannel()),
+										inflater(), bufsz),
+								bufsz));
+			}
+
+			@Override
+			public int getType() {
+				return type;
+			}
+
+			@Override
+			public long getSize() {
+				return size;
+			}
+
+			@Override
+			public byte[] getCachedBytes() throws LargeObjectException {
+				throw new LargeObjectException.ExceedsLimit(
+						getStreamFileThreshold(), size);
+			}
 		}
 	}
 }
