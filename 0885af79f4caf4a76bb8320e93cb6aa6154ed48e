@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "a7979753_f846af26",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackInserterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-11-01T16:02:43Z",
+      "side": 1,
+      "message": "In case you were wondering about I00711b28: if you undo that change and then insert Thread.sleep(1500) here (to ensure a distinct mtime), it causes this test to fail. Specifically, the listPacks() call on line 233 will find 2 packs in fromOpenDb and 1 pack in reopened.",
+      "revId": "0885af79f4caf4a76bb8320e93cb6aa6154ed48e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_388f5704",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
         "patchSetId": 1
