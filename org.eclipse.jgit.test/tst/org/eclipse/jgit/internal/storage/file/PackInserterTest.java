@@ -45,6 +45,7 @@ package org.eclipse.jgit.internal.storage.file;
 
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
+
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.eclipse.jgit.lib.Constants.OBJ_COMMIT;
 import static org.hamcrest.Matchers.greaterThan;
@@ -73,6 +74,7 @@ import java.util.regex.Pattern;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
@@ -80,12 +82,29 @@ import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.ObjectStream;
+import org.eclipse.jgit.storage.file.WindowCacheConfig;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
+import org.eclipse.jgit.util.IO;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 @SuppressWarnings("boxing")
 public class PackInserterTest extends RepositoryTestCase {
+	private WindowCacheConfig origWindowCacheConfig;
+
+	@Before
+	public void setWindowCacheConfig() {
+		origWindowCacheConfig = new WindowCacheConfig();
+		origWindowCacheConfig.install();
+	}
+
+	@After
+	public void resetWindowCacheConfig() {
+		origWindowCacheConfig.install();
+	}
+
 	@Before
 	public void emptyAtSetUp() throws Exception {
 		assertEquals(0, listPacks().size());
@@ -327,6 +346,100 @@ public class PackInserterTest extends RepositoryTestCase {
 		assertEquals(2, listPacks().size());
 	}
 
+	@Test
+	public void readBackSmallFiles() throws Exception {
+		ObjectId blobId1;
+		ObjectId blobId2;
+		ObjectId blobId3;
+		byte[] blob1 = Constants.encode("blob1");
+		byte[] blob2 = Constants.encode("blob2");
+		byte[] blob3 = Constants.encode("blob3");
+		try (PackInserter ins = newInserter()) {
+			assertThat(blob1.length, lessThan(ins.getBufferSize()));
+			blobId1 = ins.insert(OBJ_BLOB, blob1);
+
+			try (ObjectReader reader = ins.newReader()) {
+				assertBlob(reader, blobId1, blob1);
+			}
+
+			// Read-back should not mess up the file pointer.
+			blobId2 = ins.insert(OBJ_BLOB, blob2);
+			ins.flush();
+
+			blobId3 = ins.insert(OBJ_BLOB, blob3);
+		}
+
+		assertPacksOnly();
+		List<PackFile> packs = listPacks();
+		assertEquals(1, packs.size());
+		assertEquals(2, packs.get(0).getObjectCount());
+
+		try (ObjectReader reader = db.newObjectReader()) {
+			assertBlob(reader, blobId1, blob1);
+			assertBlob(reader, blobId2, blob2);
+
+			try {
+				reader.open(blobId3);
+				fail("Expected MissingObjectException");
+			} catch (MissingObjectException expected) {
+				// Expected.
+			}
+		}
+	}
+
+	@Test
+	public void readBackLargeFile() throws Exception {
+		ObjectId blobId;
+		byte[] blob = newLargeBlob();
+
+		WindowCacheConfig wcc = new WindowCacheConfig();
+		wcc.setStreamFileThreshold(1024);
+		wcc.install();
+		try (ObjectReader reader = db.newObjectReader()) {
+			assertThat(blob.length, greaterThan(reader.getStreamFileThreshold()));
+		}
+
+		try (PackInserter ins = newInserter()) {
+			blobId = ins.insert(OBJ_BLOB, blob);
+
+			try (ObjectReader reader = ins.newReader()) {
+				// Double-check threshold is propagated.
+				assertThat(blob.length, greaterThan(reader.getStreamFileThreshold()));
+				assertBlob(reader, blobId, blob);
+			}
+		}
+
+		assertPacksOnly();
+		// Pack was streamed out to disk and read back from the temp file, but
+		// ultimately rolled back and deleted.
+		assertEquals(0, listPacks().size());
+
+		try (ObjectReader reader = db.newObjectReader()) {
+			try {
+				reader.open(blobId);
+				fail("Expected MissingObjectException");
+			} catch (MissingObjectException expected) {
+				// Expected.
+			}
+		}
+	}
+
+	@Test
+	public void readBackFallsBackToRepo() throws Exception {
+		ObjectId blobId;
+		byte[] blob = Constants.encode("foo contents");
+		try (PackInserter ins = newInserter()) {
+			assertThat(blob.length, lessThan(ins.getBufferSize()));
+			blobId = ins.insert(OBJ_BLOB, blob);
+			ins.flush();
+		}
+
+		try (PackInserter ins = newInserter();
+				ObjectReader reader = ins.newReader()) {
+			assertBlob(reader, blobId, blob);
+		}
+	}
+
 	private List<PackFile> listPacks() throws Exception {
 		List<PackFile> fromOpenDb = listPacks(db);
 		List<PackFile> reopened;
@@ -380,7 +493,12 @@ public class PackInserterTest extends RepositoryTestCase {
 		ObjectLoader loader = reader.open(id);
 		assertEquals(OBJ_BLOB, loader.getType());
 		assertEquals(expected.length, loader.getSize());
-		assertArrayEquals(expected, loader.getBytes());
+		try (ObjectStream s = loader.openStream()) {
+			int n = (int) s.getSize();
+			byte[] actual = new byte[n];
+			assertEquals(n, IO.readFully(s, actual, 0));
+			assertArrayEquals(expected, actual);
+		}
 	}
 
 	private void assertPacksOnly() throws Exception {
