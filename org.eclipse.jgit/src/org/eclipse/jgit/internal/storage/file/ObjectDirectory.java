@@ -969,6 +969,21 @@ public class ObjectDirectory extends FileObjectDatabase {
 		return nameSet;
 	}
 
+	void closeAllPackHandles(File packFile) {
+		// if the packfile already exists (because we are rewriting a
+		// packfile for the same set of objects maybe with different
+		// PackConfig) then make sure we get rid of all handles on the file.
+		// Windows will not allow for rename otherwise.
+		if (packFile.exists()) {
+			for (PackFile p : getPacks()) {
+				if (packFile.getPath().equals(p.getPackFile().getPath())) {
+					p.close();
+					break;
+				}
+			}
+		}
+	}
+
 	AlternateHandle[] myAlternates() {
 		AlternateHandle[] alt = alternates.get();
 		if (alt == null) {
