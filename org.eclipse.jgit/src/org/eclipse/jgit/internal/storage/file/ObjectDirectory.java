@@ -814,8 +814,6 @@ public class ObjectDirectory extends FileObjectDatabase {
 			final PackFile[] oldList = o.packs;
 			final String name = pf.getPackFile().getName();
 			for (PackFile p : oldList) {
-				if (PackFile.SORT.compare(pf, p) < 0)
-					break;
 				if (name.equals(p.getPackFile().getName()))
 					return;
 			}
