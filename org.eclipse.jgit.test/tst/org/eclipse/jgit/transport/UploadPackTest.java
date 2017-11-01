@@ -32,23 +32,14 @@ public class UploadPackTest {
 
 	private InMemoryRepository client;
 
-	private RevCommit commit0;
-
-	private RevCommit commit1;
-
-	private RevCommit tip;
+	private TestRepository<InMemoryRepository> remote;
 
 	@Before
 	public void setUp() throws Exception {
 		server = newRepo("server");
 		client = newRepo("client");
 
-		TestRepository<InMemoryRepository> remote =
-				new TestRepository<>(server);
-		commit0 = remote.commit().message("0").create();
-		commit1 = remote.commit().message("1").parent(commit0).create();
-		tip = remote.commit().message("2").parent(commit1).create();
-		remote.update("master", tip);
+		remote = new TestRepository<>(server);
 	}
 
 	@After
@@ -62,6 +53,11 @@ public class UploadPackTest {
 
 	@Test
 	public void testFetchParentOfShallowCommit() throws Exception {
+		RevCommit commit0 = remote.commit().message("0").create();
+		RevCommit commit1 = remote.commit().message("1").parent(commit0).create();
+		RevCommit tip = remote.commit().message("2").parent(commit1).create();
+		remote.update("master", tip);
+
 		testProtocol = new TestProtocol<>(
 				new UploadPackFactory<Object>() {
 					@Override
