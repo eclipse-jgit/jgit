@@ -1173,16 +1173,7 @@ public class GC {
 			// rename the temporary files to real files
 			File realPack = nameFor(id, ".pack"); //$NON-NLS-1$
 
-			// if the packfile already exists (because we are rewriting a
-			// packfile for the same set of objects maybe with different
-			// PackConfig) then make sure we get rid of all handles on the file.
-			// Windows will not allow for rename otherwise.
-			if (realPack.exists())
-				for (PackFile p : repo.getObjectDatabase().getPacks())
-					if (realPack.getPath().equals(p.getPackFile().getPath())) {
-						p.close();
-						break;
-					}
+			repo.getObjectDatabase().closeAllPackHandles(realPack);
 			tmpPack.setReadOnly();
 
 			FileUtils.rename(tmpPack, realPack, StandardCopyOption.ATOMIC_MOVE);
