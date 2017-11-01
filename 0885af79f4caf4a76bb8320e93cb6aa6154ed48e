@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_388f5704",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-11-01T15:54:23Z",
+      "side": 1,
+      "message": "Arguably we could be extending the ObjectReader interface to support setting some type of \"loose object strategy\". I didn\u0027t want to tackle that now, so I went with an internal API instead. Doesn\u0027t rule it out in the future, of course.",
+      "revId": "0885af79f4caf4a76bb8320e93cb6aa6154ed48e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
