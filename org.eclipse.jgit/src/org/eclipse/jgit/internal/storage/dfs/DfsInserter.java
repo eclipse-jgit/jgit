@@ -500,7 +500,7 @@ public class DfsInserter extends ObjectInserter {
 				inf.setInput(currBuf, s, n);
 				return n;
 			}
-			throw new EOFException(DfsText.get().unexpectedEofInPack);
+			throw new EOFException(JGitText.get().unexpectedEofInPack);
 		}
 
 		private DfsBlock getOrLoadBlock(long pos) throws IOException {
@@ -513,7 +513,7 @@ public class DfsInserter extends ObjectInserter {
 			for (int p = 0; p < blockSize;) {
 				int n = out.read(s + p, ByteBuffer.wrap(d, p, blockSize - p));
 				if (n <= 0)
-					throw new EOFException(DfsText.get().unexpectedEofInPack);
+					throw new EOFException(JGitText.get().unexpectedEofInPack);
 				p += n;
 			}
 			b = new DfsBlock(packKey, s, d);
@@ -569,13 +569,13 @@ public class DfsInserter extends ObjectInserter {
 			byte[] buf = buffer();
 			int cnt = packOut.read(obj.getOffset(), buf, 0, 20);
 			if (cnt <= 0)
-					throw new EOFException(DfsText.get().unexpectedEofInPack);
+					throw new EOFException(JGitText.get().unexpectedEofInPack);
 
 			int c = buf[0] & 0xff;
 			int type = (c >> 4) & 7;
 			if (type == OBJ_OFS_DELTA || type == OBJ_REF_DELTA)
 				throw new IOException(MessageFormat.format(
-						DfsText.get().cannotReadBackDelta, Integer.toString(type)));
+						JGitText.get().cannotReadBackDelta, Integer.toString(type)));
 			if (typeHint != OBJ_ANY && type != typeHint) {
 				throw new IncorrectObjectTypeException(objectId.copy(), typeHint);
 			}
@@ -585,7 +585,7 @@ public class DfsInserter extends ObjectInserter {
 			int shift = 4;
 			while ((c & 0x80) != 0) {
 				if (ptr >= cnt)
-					throw new EOFException(DfsText.get().unexpectedEofInPack);
+					throw new EOFException(JGitText.get().unexpectedEofInPack);
 				c = buf[ptr++] & 0xff;
 				sz += ((long) (c & 0x7f)) << shift;
 				shift += 7;
