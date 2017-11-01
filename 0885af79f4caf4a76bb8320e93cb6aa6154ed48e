@@ -33,6 +33,23 @@
       "revId": "0885af79f4caf4a76bb8320e93cb6aa6154ed48e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_58650393",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-11-01T16:35:47Z",
+      "side": 1,
+      "message": "This comment is no longer accurate.",
+      "revId": "0885af79f4caf4a76bb8320e93cb6aa6154ed48e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
