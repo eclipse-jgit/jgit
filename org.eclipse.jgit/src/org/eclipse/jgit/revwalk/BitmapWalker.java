@@ -50,12 +50,14 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.revwalk.AddToBitmapFilter;
 import org.eclipse.jgit.internal.revwalk.AddUnseenToBitmapFilter;
+import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.BitmapIndex;
 import org.eclipse.jgit.lib.BitmapIndex.Bitmap;
 import org.eclipse.jgit.lib.BitmapIndex.BitmapBuilder;
-import org.eclipse.jgit.lib.BitmapIndex;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
+import org.eclipse.jgit.revwalk.filter.ObjectFilter;
 
 /**
  * Helper class to do ObjectWalks with pack index bitmaps.
@@ -200,6 +202,7 @@ public final class BitmapWalker {
 				walker.setRevFilter(
 						new AddUnseenToBitmapFilter(seen, bitmapResult));
 			}
+			walker.setObjectFilter(new BitmapObjectFilter(bitmapResult));
 
 			while (walker.next() != null) {
 				// Iterate through all of the commits. The BitmapRevFilter does
@@ -223,5 +226,23 @@ public final class BitmapWalker {
 		}
 
 		return bitmapResult;
+	}
+
+	/**
+	 * Filter that excludes objects already in the given bitmap.
+	 */
+	static class BitmapObjectFilter extends ObjectFilter {
+		private final BitmapBuilder bitmap;
+
+		BitmapObjectFilter(BitmapBuilder bitmap) {
+			this.bitmap = bitmap;
+		}
+
+		@Override
+		public final boolean include(ObjectWalk walker, AnyObjectId objid)
+			throws MissingObjectException, IncorrectObjectTypeException,
+			       IOException {
+			return !bitmap.contains(objid);
+		}
 	}
 }
