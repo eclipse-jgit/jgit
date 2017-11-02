@@ -212,7 +212,7 @@
     <maven-javadoc-plugin-version>2.10.4</maven-javadoc-plugin-version>
     <tycho-extras-version>1.0.0</tycho-extras-version>
     <gson-version>2.2.4</gson-version>
-    <spotbugs-maven-plugin-version>3.0.6</spotbugs-maven-plugin-version>
+    <spotbugs-maven-plugin-version>3.1.0-RC7</spotbugs-maven-plugin-version>
     <maven-surefire-report-plugin-version>2.20</maven-surefire-report-plugin-version>
 
     <!-- Properties to enable jacoco code coverage analysis -->
@@ -371,7 +371,7 @@
         </plugin>
 
         <plugin>
-          <groupId>com.github.hazendaz.spotbugs</groupId>
+          <groupId>com.github.spotbugs</groupId>
           <artifactId>spotbugs-maven-plugin</artifactId>
           <version>${spotbugs-maven-plugin-version}</version>
           <configuration>
@@ -579,7 +579,7 @@
         <version>2.5</version>
       </plugin>
       <plugin>
-        <groupId>com.github.hazendaz.spotbugs</groupId>
+        <groupId>com.github.spotbugs</groupId>
         <artifactId>spotbugs-maven-plugin</artifactId>
         <version>${spotbugs-maven-plugin-version}</version>
       </plugin>
@@ -751,7 +751,7 @@
       <build>
         <plugins>
           <plugin>
-            <groupId>com.github.hazendaz.spotbugs</groupId>
+            <groupId>com.github.spotbugs</groupId>
             <artifactId>spotbugs-maven-plugin</artifactId>
           </plugin>
           <plugin>
