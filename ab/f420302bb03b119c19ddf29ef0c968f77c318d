@@ -1,0 +1,8 @@
+Verified+1: Hudson CI
+Code-Review+1: Laurent Goubet <laurent.goubet@obeo.fr>
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-by: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-at: Thu, 02 Nov 2017 12:59:11 -0400
+Reviewed-on: https://git.eclipse.org/r/110579
+Project: jgit/jgit
+Branch: refs/heads/stable-4.9
