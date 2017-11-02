@@ -77,14 +77,18 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
+import org.eclipse.jgit.lib.BitmapIndex;
+import org.eclipse.jgit.lib.BitmapIndex.BitmapBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.AsyncRevObjectQueue;
+import org.eclipse.jgit.revwalk.BitmapWalker;
 import org.eclipse.jgit.revwalk.DepthWalk;
 import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -1315,6 +1319,18 @@ public class UploadPack {
 		}
 	}
 
+	private static void checkNotAdvertisedWantsUsingBitmap(ObjectReader reader,
+			BitmapIndex bitmapIndex, List<ObjectId> notAdvertisedWants,
+			Set<ObjectId> reachableFrom) throws IOException {
+		BitmapWalker bitmapWalker = new BitmapWalker(new ObjectWalk(reader), bitmapIndex, null);
+		BitmapBuilder reachables = bitmapWalker.findObjects(reachableFrom, null, false);
+		for (ObjectId oid : notAdvertisedWants) {
+			if (!reachables.contains(oid)) {
+				throw new WantNotValidException(oid);
+			}
+		}
+	}
+
 	private static void checkNotAdvertisedWants(UploadPack up,
 			List<ObjectId> notAdvertisedWants, Set<ObjectId> reachableFrom)
 			throws MissingObjectException, IncorrectObjectTypeException, IOException {
@@ -1324,13 +1340,28 @@ public class UploadPack {
 		// into an advertised branch it will be marked UNINTERESTING and no commits
 		// return.
 
-		try (RevWalk walk = new RevWalk(up.getRevWalk().getObjectReader())) {
+		ObjectReader reader = up.getRevWalk().getObjectReader();
+		try (RevWalk walk = new RevWalk(reader)) {
 			AsyncRevObjectQueue q = walk.parseAny(notAdvertisedWants, true);
 			try {
 				RevObject obj;
 				while ((obj = q.next()) != null) {
-					if (!(obj instanceof RevCommit))
+					if (!(obj instanceof RevCommit)) {
+						// If unadvertized non-commits are requested, use
+						// bitmaps. If there are no bitmaps, instead of
+						// incurring the expense of a manual walk, reject
+						// the request.
+						BitmapIndex bitmapIndex = reader.getBitmapIndex();
+						if (bitmapIndex != null) {
+							checkNotAdvertisedWantsUsingBitmap(
+									reader,
+									bitmapIndex,
+									notAdvertisedWants,
+									reachableFrom);
+							return;
+						}
 						throw new WantNotValidException(obj);
+					}
 					walk.markStart((RevCommit) obj);
 				}
 			} catch (MissingObjectException notFound) {
