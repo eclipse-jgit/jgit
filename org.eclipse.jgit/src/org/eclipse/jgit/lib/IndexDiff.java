@@ -91,6 +91,7 @@ import org.eclipse.jgit.treewalk.filter.TreeFilter;
  * <li>conflicting files</li>
  * <li>untracked files</li>
  * <li>files with assume-unchanged flag</li>
+ * <li>files with skip-worktree files</li>
  * </ul>
  */
 public class IndexDiff {
@@ -270,6 +271,8 @@ public class IndexDiff {
 	private Set<String> ignored;
 
 	private Set<String> assumeUnchanged;
+
+	private Set<String> skipWorkingTree;
 
 	private DirCache dirCache;
 
@@ -739,5 +742,22 @@ public class IndexDiff {
 		if (paths == null)
 			paths = new HashSet<>();
 		return paths;
+	}
+	
+	/**
+	 * @return list of files with the flag skip-worktree
+	 * @since 4.10
+	 */
+	public Set<String> getSkipWorkingTree() {
+		if (skipWorkingTree == null) {
+			HashSet<String> skipped = new HashSet<>();
+			for (int i = 0; i < dirCache.getEntryCount(); i++) {
+				DirCacheEntry dirCacheEntry = dirCache.getEntry(i);
+				if (dirCacheEntry.isSkipWorkTree())
+					skipped.add(dirCache.getEntry(i).getPathString());
+			}
+			skipWorkingTree = skipped;
+		}
+		return skipWorkingTree;
 	}
 }

@@ -126,11 +126,13 @@ public class DirCacheEntry {
 	private static final int EXTENDED = 0x40;
 	private static final int ASSUME_VALID = 0x80;
 
-	/** In-core flag signaling that the entry should be considered as modified. */
+	/**
+	 * In-core flag signalling that the entry should be considered as modified.
+	 */
 	private static final int UPDATE_NEEDED = 0x1;
 
 	/** (Possibly shared) header information storage. */
-	private final byte[] info;
+	private byte[] info;
 
 	/** First location within {@link #info} where our header starts. */
 	private final int infoOffset;
@@ -465,6 +467,33 @@ public class DirCacheEntry {
 	}
 
 	/**
+	 * Set the skip-worktree flag for this entry. This method will automatically
+	 * extend the index entry to accommodate the extended flag.
+	 *
+	 * @param skip
+	 *            When reading an entry, if it is marked as skip-worktree, then
+	 *            Git pretends its working directory version is up to date and
+	 *            reads the index version instead.
+	 * @since 4.10
+	 */
+	public void setSkipWorkTree(final boolean skip) {
+		if (!isExtended()) {
+			extend(true);
+			setExtended(true);
+		}
+
+		if (skip) {
+			int extendedFlags = getExtendedFlags();
+			extendedFlags |= SKIP_WORKTREE;
+			setExtendedFlags(extendedFlags);
+		} else {
+			int extendedFlags = getExtendedFlags();
+			extendedFlags |= ~SKIP_WORKTREE;
+			setExtendedFlags(extendedFlags);
+		}
+	}
+
+	/**
 	 * Returns whether this entry is intent to be added to the Index.
 	 *
 	 * @return true if this entry is intent to add.
@@ -732,6 +761,14 @@ public class DirCacheEntry {
 		return (info[infoOffset + P_FLAGS] & EXTENDED) != 0;
 	}
 
+	void setExtended(boolean extended) {
+		if (extended) {
+			info[infoOffset + P_FLAGS] |= EXTENDED;
+		} else {
+			info[infoOffset + P_FLAGS] &= ~EXTENDED;
+		}
+	}
+
 	private long decodeTS(final int pIdx) {
 		final int base = infoOffset + pIdx;
 		final int sec = NB.decodeInt32(info, base);
@@ -752,6 +789,14 @@ public class DirCacheEntry {
 			return 0;
 	}
 
+	private void setExtendedFlags(int flag) {
+		if (isExtended()) {
+			NB.encodeInt16(info, infoOffset + P_FLAGS2, flag >> 16);
+		} else {
+			throw new UnsupportedOperationException();
+		}
+	}
+
 	private static void checkPath(byte[] path) {
 		try {
 			SystemReader.getInstance().checkPath(path);
@@ -768,5 +813,47 @@ public class DirCacheEntry {
 
 	static int getMaximumInfoLength(boolean extended) {
 		return extended ? INFO_LEN_EXTENDED : INFO_LEN;
+	}
+
+	/**
+	 * Extend the buffer to match the 'Version 3' index standard. Alternatively,
+	 * shorten the buffer to match the 'Version 2' index standard. This does not
+	 * handle the 'Version 4' standard (yet). The
+	 * {@link DirCacheEntry#infoOffset} remains safe to use.
+	 *
+	 * @param extend
+	 *            Indicates if the internal {@link DirCacheEntry#info} buffer
+	 *            will be extended (true) or shortened (false).
+	 */
+	private void extend(boolean extend) {
+		final int lengthDelta = INFO_LEN_EXTENDED - INFO_LEN;
+
+		if (extend) {
+			final int entryEndPos = infoOffset + INFO_LEN;
+			byte[] extendedInfo = new byte[info.length + lengthDelta];
+
+			// copy the buffer up to entry
+			System.arraycopy(info, 0, extendedInfo, 0, entryEndPos);
+
+			// copy buffer after the entry
+			System.arraycopy(info, entryEndPos, extendedInfo,
+					infoOffset + INFO_LEN_EXTENDED, info.length - entryEndPos);
+
+			// copy extended buffer to info
+			info = extendedInfo;
+		} else {
+			final int entryEndPos = infoOffset + INFO_LEN;
+			byte[] shortenedInfo = new byte[info.length - lengthDelta];
+
+			// copy the buffer up to entry (ignoring the extended info)
+			System.arraycopy(info, 0, shortenedInfo, 0, entryEndPos);
+
+			// copy buffer after the entry (ignoring the extended info)
+			System.arraycopy(info, entryEndPos, shortenedInfo, entryEndPos,
+					info.length - entryEndPos);
+
+			// copy truncated buffer to info
+			info = shortenedInfo;
+		}
 	}
 }

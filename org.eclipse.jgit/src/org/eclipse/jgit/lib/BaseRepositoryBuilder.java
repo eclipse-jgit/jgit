@@ -130,9 +130,13 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 
 	private File objectDirectory;
 
+	private File infoDirectory;
+
 	private List<File> alternateObjectDirectories;
 
 	private File indexFile;
+
+	private File sparseCheckoutFile;
 
 	private File workTree;
 
@@ -203,6 +207,27 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 	/** @return the object directory; null if not set. */
 	public File getObjectDirectory() {
 		return objectDirectory;
+	}
+
+	/**
+	 * Set the directory storing the info.
+	 *
+	 * @param infoDirectory
+	 *            The directory where the repository's info files are stored.
+	 * @return {@code this} (for chaining calls).
+	 * @since 4.10
+	 */
+	public B setInfoDirectory(File infoDirectory) {
+		this.infoDirectory = infoDirectory;
+		return self();
+	}
+
+	/**
+	 * @return the info directory; null if not set.
+	 * @since 4.10
+	 */
+	public File getInfoDirectory() {
+		return infoDirectory;
 	}
 
 	/**
@@ -344,6 +369,28 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 	/** @return the index file location, or null if not set. */
 	public File getIndexFile() {
 		return indexFile;
+	}
+
+	/**
+	 * Set the local sparse-checkout file that indicates if a index file entry can be
+	 * ignored in the working tree
+	 *
+	 * @param sparseCheckoutFile
+	 *            The sparse-checkout file location.
+	 * @return {@code this} (for chaining calls).
+	 * @since 4.10
+	 */
+	public B setSparseCheckoutFile(File sparseCheckoutFile) {
+		this.sparseCheckoutFile = sparseCheckoutFile;
+		return self();
+	}
+
+	/**
+	 * @return the sparse-checkout file location, or null if not set.
+	 * @since 4.10
+	 */
+	public File getSparseCheckoutFile() {
+		return sparseCheckoutFile;
 	}
 
 	/**
@@ -648,6 +695,14 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 	protected void setupInternals() throws IOException {
 		if (getObjectDirectory() == null && getGitDir() != null)
 			setObjectDirectory(safeFS().resolve(getGitDir(), "objects")); //$NON-NLS-1$
+
+		if (getInfoDirectory() == null && getGitDir() != null)
+			setInfoDirectory(safeFS().resolve(getGitDir(), "info")); //$NON-NLS-1$
+
+		if (getSparseCheckoutFile() == null) {
+			setSparseCheckoutFile(
+					new File(getInfoDirectory(), "sparse-checkout")); //$NON-NLS-1$
+		}
 	}
 
 	/**

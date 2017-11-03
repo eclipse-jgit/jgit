@@ -357,6 +357,9 @@ public class FileRepository extends Repository {
 			// Java has no other way
 			cfg.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
 					ConfigConstants.CONFIG_KEY_PRECOMPOSEUNICODE, true);
+		cfg.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_KEY_SPARSECHECKOUT, false);
+
 		if (!bare) {
 			File workTree = getWorkTree();
 			if (!getDirectory().getParentFile().equals(workTree)) {
@@ -376,6 +379,7 @@ public class FileRepository extends Repository {
 				}
 			}
 		}
+
 		cfg.save();
 	}
 
