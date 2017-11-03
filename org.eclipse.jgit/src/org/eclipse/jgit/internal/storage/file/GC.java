@@ -60,6 +60,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.text.MessageFormat;
 import java.text.ParseException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -902,6 +903,7 @@ public class GC {
 		}
 		prunePacked();
 		deleteOrphans();
+		deleteTempPacksIdx();
 
 		lastPackedRefs = refsBefore;
 		lastRepackTime = time;
@@ -954,6 +956,27 @@ public class GC {
 					}
 				}
 			}
+		}
+	}
+
+	private void deleteTempPacksIdx() {
+		Path packDir = repo.getObjectDatabase().getPackDirectory().toPath();
+		try {
+			Files.newDirectoryStream(packDir, "gc_*_tmp") //$NON-NLS-1$
+					.forEach(t -> {
+						try {
+							long lastModified = Files.getLastModifiedTime(t)
+									.toMillis();
+							long threshold = lastModified + 24 * 60 * 60 * 1000;
+							if (threshold <= Instant.now().toEpochMilli()) {
+								Files.deleteIfExists(t);
+							}
+						} catch (IOException e) {
+							LOG.error(e.getMessage(), e);
+						}
+					});
+		} catch (IOException e) {
+			LOG.error(e.getMessage(), e);
 		}
 	}
 
