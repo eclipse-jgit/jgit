@@ -902,6 +902,7 @@ public class GC {
 		}
 		prunePacked();
 		deleteOrphans();
+		deleteTempPacksIdx();
 
 		lastPackedRefs = refsBefore;
 		lastRepackTime = time;
@@ -954,6 +955,22 @@ public class GC {
 					}
 				}
 			}
+		}
+	}
+
+	private void deleteTempPacksIdx() {
+		Path packDir = repo.getObjectDatabase().getPackDirectory().toPath();
+		try {
+			Files.newDirectoryStream(packDir, "gc_*_tmp") //$NON-NLS-1$
+					.forEach(t -> {
+						try {
+							Files.deleteIfExists(t);
+						} catch (IOException e) {
+							LOG.error(e.getMessage(), e);
+						}
+					});
+		} catch (IOException e) {
+			LOG.error(e.getMessage(), e);
 		}
 	}
 
