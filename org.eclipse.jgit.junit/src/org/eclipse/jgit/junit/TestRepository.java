@@ -912,7 +912,7 @@ public class TestRepository<R extends Repository> {
 	}
 
 	private static File nameFor(ObjectDirectory odb, ObjectId name, String t) {
-		File packdir = new File(odb.getDirectory(), "pack");
+		File packdir = odb.getPackDirectory();
 		return new File(packdir, "pack-" + name.name() + t);
 	}
 

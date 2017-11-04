@@ -178,7 +178,7 @@ public class AbbreviationTest extends LocalDiskRepositoryTestCase {
 		}
 
 		String packName = "pack-" + id.name();
-		File packDir = new File(db.getObjectDatabase().getDirectory(), "pack");
+		File packDir = db.getObjectDatabase().getPackDirectory();
 		File idxFile = new File(packDir, packName + ".idx");
 		File packFile = new File(packDir, packName + ".pack");
 		FileUtils.mkdir(packDir, true);
