@@ -337,7 +337,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	 */
 	@Test
 	public void testWritePack2DeltasCRC32Copy() throws IOException {
-		final File packDir = new File(db.getObjectDatabase().getDirectory(), "pack");
+		final File packDir = db.getObjectDatabase().getPackDirectory();
 		final File crc32Pack = new File(packDir,
 				"pack-34be9032ac282b11fa9babdc2b2a93ca996c9c2f.pack");
 		final File crc32Idx = new File(packDir,
@@ -713,7 +713,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 
 			pw.preparePack(NullProgressMonitor.INSTANCE, ow, want, have, NONE);
 			String id = pw.computeName().getName();
-			File packdir = new File(repo.getObjectsDirectory(), "pack");
+			File packdir = repo.getObjectDatabase().getPackDirectory();
 			File packFile = new File(packdir, "pack-" + id + ".pack");
 			FileOutputStream packOS = new FileOutputStream(packFile);
 			pw.writePack(NullProgressMonitor.INSTANCE,
