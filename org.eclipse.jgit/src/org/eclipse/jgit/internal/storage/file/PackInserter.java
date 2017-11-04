@@ -262,8 +262,7 @@ class PackInserter extends ObjectInserter {
 		File tmpIdx = idxFor(tmpPack);
 		writePackIndex(tmpIdx, packHash, objectList);
 
-		File realPack = new File(
-				new File(db.getDirectory(), "pack"), //$NON-NLS-1$
+		File realPack = new File(db.getPackDirectory(),
 				"pack-" + computeName(objectList).name() + ".pack"); //$NON-NLS-1$ //$NON-NLS-2$
 		db.closeAllPackHandles(realPack);
 		tmpPack.setReadOnly();
