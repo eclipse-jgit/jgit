@@ -57,7 +57,6 @@ import java.nio.channels.FileChannel;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.text.MessageFormat;
 import java.text.ParseException;
@@ -925,8 +924,7 @@ public class GC {
 	 * </p>
 	 */
 	private void deleteOrphans() {
-		Path packDir = Paths.get(repo.getObjectsDirectory().getAbsolutePath(),
-				"pack"); //$NON-NLS-1$
+		Path packDir = repo.getObjectDatabase().getPackDirectory().toPath();
 		List<String> fileNames = null;
 		try (Stream<Path> files = Files.list(packDir)) {
 			fileNames = files.map(path -> path.getFileName().toString())
@@ -1114,7 +1112,7 @@ public class GC {
 
 			// create temporary files
 			String id = pw.computeName().getName();
-			File packdir = new File(repo.getObjectsDirectory(), "pack"); //$NON-NLS-1$
+			File packdir = repo.getObjectDatabase().getPackDirectory();
 			tmpPack = File.createTempFile("gc_", ".pack_tmp", packdir); //$NON-NLS-1$ //$NON-NLS-2$
 			final String tmpBase = tmpPack.getName()
 					.substring(0, tmpPack.getName().lastIndexOf('.'));
@@ -1214,7 +1212,7 @@ public class GC {
 	}
 
 	private File nameFor(String name, String ext) {
-		File packdir = new File(repo.getObjectsDirectory(), "pack"); //$NON-NLS-1$
+		File packdir = repo.getObjectDatabase().getPackDirectory();
 		return new File(packdir, "pack-" + name + ext); //$NON-NLS-1$
 	}
 
