@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_f0cb1c19",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmapWalker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-11-07T00:42:38Z",
+      "side": 1,
+      "message": "This is now a public class so it needs to have \"@since\" in the javadoc.",
+      "revId": "5814539243915713aab6e1edcd29e175b900e28d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_10d188c6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmapWalker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-11-07T00:42:38Z",
+      "side": 1,
+      "message": "I\u0027m not sure if these static classes also need their own \"@since\" or if they inherit it from the superclass.",
+      "revId": "5814539243915713aab6e1edcd29e175b900e28d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
