@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_70f00c04",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-11-07T07:33:13Z",
+      "side": 1,
+      "message": "I hate this, but doing this without reflection is very hard.\n\nEssentially we\u0027d need a cache of JSch instances not by host but by user name and host. Then we could provide Jsch a customized session-specific OpenSshConfig in which we\u0027d already have set the user name to the one from the URI.\n\nDoing so would also enable us to properly do the %p and %r replacements in OpenSshConfig. While it should be possible with such an approach to avoid this reflection here, it is a rather major refactoring, and I don\u0027t see how to do it without breaking interfaces. I also don\u0027t have the time to take on such a larger refactoring now; I\u0027m up to my ears in $DAYJOB work.\n\nSo this is the best stop-gap measure I could come up with.",
+      "revId": "4c9454beab9e8a68ba44641abcf540f1be13a353",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
