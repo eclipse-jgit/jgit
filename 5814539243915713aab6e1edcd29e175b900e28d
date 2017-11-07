@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_10234866",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmapWalker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2017-11-07T01:39:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_f0cb1c19",
+      "revId": "5814539243915713aab6e1edcd29e175b900e28d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_10d188c6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmapWalker.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2017-11-07T00:42:38Z",
       "side": 1,
       "message": "I\u0027m not sure if these static classes also need their own \"@since\" or if they inherit it from the superclass.",
+      "revId": "5814539243915713aab6e1edcd29e175b900e28d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_300764d6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmapWalker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2017-11-07T01:39:17Z",
+      "side": 1,
+      "message": "I added them anyway, thanks.",
+      "parentUuid": "a7979753_10d188c6",
       "revId": "5814539243915713aab6e1edcd29e175b900e28d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
