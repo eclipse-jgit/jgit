@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_b030b472",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-11-07T05:37:51Z",
+      "side": 1,
+      "message": "It might be better to move this right before the statement that is expected to throw.",
+      "range": {
+        "startLine": 127,
+        "startChar": 2,
+        "endLine": 128,
+        "endChar": 86
+      },
+      "revId": "381830caf8f9530d13daeaf79196ce7f6c704f2f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_d0354062",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-11-07T05:37:51Z",
+      "side": 1,
+      "message": "Same here",
+      "range": {
+        "startLine": 166,
+        "startChar": 2,
+        "endLine": 167,
+        "endChar": 86
+      },
+      "revId": "381830caf8f9530d13daeaf79196ce7f6c704f2f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
