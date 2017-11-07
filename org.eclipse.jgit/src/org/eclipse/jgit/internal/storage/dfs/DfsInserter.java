@@ -140,7 +140,7 @@ public class DfsInserter extends ObjectInserter {
 
 	@Override
 	public ObjectReader newReader() {
-		return new Reader();
+		return new Reader(db);
 	}
 
 	@Override
@@ -532,18 +532,15 @@ public class DfsInserter extends ObjectInserter {
 		}
 	}
 
-	private class Reader extends ObjectReader {
-		private final DfsReader ctx = db.newReader();
-
-		@Override
-		public ObjectReader newReader() {
-			return db.newReader();
+	private class Reader extends DfsReader {
+		private Reader(DfsObjDatabase db) {
+			super(db);
 		}
 
 		@Override
 		public Collection<ObjectId> resolve(AbbreviatedObjectId id)
 				throws IOException {
-			Collection<ObjectId> stored = ctx.resolve(id);
+			Collection<ObjectId> stored = super.resolve(id);
 			if (objectList == null)
 				return stored;
 
@@ -560,11 +557,11 @@ public class DfsInserter extends ObjectInserter {
 		public ObjectLoader open(AnyObjectId objectId, int typeHint)
 				throws IOException {
 			if (objectMap == null)
-				return ctx.open(objectId, typeHint);
+				return super.open(objectId, typeHint);
 
 			PackedObjectInfo obj = objectMap.get(objectId);
 			if (obj == null)
-				return ctx.open(objectId, typeHint);
+				return super.open(objectId, typeHint);
 
 			byte[] buf = buffer();
 			int cnt = packOut.read(obj.getOffset(), buf, 0, 20);
@@ -592,7 +589,7 @@ public class DfsInserter extends ObjectInserter {
 			}
 
 			long zpos = obj.getOffset() + ptr;
-			if (sz < ctx.getStreamFileThreshold()) {
+			if (sz < super.getStreamFileThreshold()) {
 				byte[] data = inflate(obj, zpos, (int) sz);
 				if (data != null)
 					return new ObjectLoader.SmallObject(type, data);
@@ -603,7 +600,7 @@ public class DfsInserter extends ObjectInserter {
 		private byte[] inflate(PackedObjectInfo obj, long zpos, int sz)
 				throws IOException, CorruptObjectException {
 			try {
-				return packOut.inflate(ctx, zpos, sz);
+				return packOut.inflate(this, zpos, sz);
 			} catch (DataFormatException dfe) {
 				CorruptObjectException coe = new CorruptObjectException(
 						MessageFormat.format(
@@ -616,18 +613,14 @@ public class DfsInserter extends ObjectInserter {
 		}
 
 		@Override
-		public Set<ObjectId> getShallowCommits() throws IOException {
-			return ctx.getShallowCommits();
+		public boolean has(AnyObjectId objectId) throws IOException {
+			return objectMap.contains(objectId) || super.has(objectId);
 		}
+
 
 		@Override
 		public ObjectInserter getCreatedFromInserter() {
 			return DfsInserter.this;
-		}
-
-		@Override
-		public void close() {
-			ctx.close();
 		}
 	}
 
