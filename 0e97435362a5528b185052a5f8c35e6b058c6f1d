@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_998f6302",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsInserter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-11-07T21:13:35Z",
+      "side": 1,
+      "message": "Use default access for this constructor.",
+      "range": {
+        "startLine": 536,
+        "startChar": 2,
+        "endLine": 536,
+        "endChar": 10
+      },
+      "revId": "0e97435362a5528b185052a5f8c35e6b058c6f1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
