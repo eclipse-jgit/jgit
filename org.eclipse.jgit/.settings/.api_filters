@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <component id="org.eclipse.jgit" version="2">
+    <resource path="src/org/eclipse/jgit/lib/ConfigConstants.java" type="org.eclipse.jgit.lib.ConfigConstants">
+        <filter comment="sparsecheckout is a feature available in GIT 1.9" id="336658481">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.ConfigConstants"/>
+                <message_argument value="CONFIG_KEY_SPARSECHECKOUT"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/lib/ReflogEntry.java" type="org.eclipse.jgit.lib.ReflogEntry">
         <filter comment="adding enum constant does not break binary compatibility" id="403767336">
             <message_arguments>
