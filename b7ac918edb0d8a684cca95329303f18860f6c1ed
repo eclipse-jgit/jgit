@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_70df2cd2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-11-07T00:48:40Z",
+      "side": 1,
+      "message": "nit: move this private method next to the existing private method (L54-56)",
+      "range": {
+        "startLine": 91,
+        "startChar": 1,
+        "endLine": 94,
+        "endChar": 2
+      },
+      "revId": "b7ac918edb0d8a684cca95329303f18860f6c1ed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_b0e8b475",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-11-07T00:48:40Z",
+      "side": 1,
+      "message": "This is repeated in all 3 of the added tests.  Factor it out to a method?",
+      "range": {
+        "startLine": 102,
+        "startChar": 17,
+        "endLine": 112,
+        "endChar": 13
+      },
+      "revId": "b7ac918edb0d8a684cca95329303f18860f6c1ed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_90dc98dd",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-11-07T00:48:40Z",
+      "side": 1,
+      "message": "optional: org.junit.rules.ExpectedException could be used here instead of the try-catch-fail pattern",
+      "range": {
+        "startLine": 118,
+        "startChar": 3,
+        "endLine": 123,
+        "endChar": 3
+      },
+      "revId": "b7ac918edb0d8a684cca95329303f18860f6c1ed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
