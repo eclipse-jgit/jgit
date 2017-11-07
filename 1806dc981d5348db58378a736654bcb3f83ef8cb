@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_ef68a0ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-11-07T11:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_59dd02ff",
+      "revId": "1806dc981d5348db58378a736654bcb3f83ef8cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_99a20a82",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2017-11-04T00:23:12Z",
       "side": 1,
       "message": "UI could be implemented in EGit",
+      "revId": "1806dc981d5348db58378a736654bcb3f83ef8cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_53e31ac3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-11-07T11:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_99a20a82",
       "revId": "1806dc981d5348db58378a736654bcb3f83ef8cb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_73e016b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-11-07T11:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_d9ac9278",
+      "revId": "1806dc981d5348db58378a736654bcb3f83ef8cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_b9a7c691",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2017-11-04T00:23:12Z",
       "side": 1,
       "message": "remove this blank line, all footers should go in the last paragraph",
+      "revId": "1806dc981d5348db58378a736654bcb3f83ef8cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_93dd8202",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-11-07T11:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_b9a7c691",
       "revId": "1806dc981d5348db58378a736654bcb3f83ef8cb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_53315aef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1153,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-11-07T11:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_f9b06ec7",
+      "revId": "1806dc981d5348db58378a736654bcb3f83ef8cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_19ae1a6d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2017-11-04T00:23:12Z",
       "side": 1,
       "message": "this can be inlined",
+      "revId": "1806dc981d5348db58378a736654bcb3f83ef8cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_b320bea4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1170,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-11-07T11:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_19ae1a6d",
       "revId": "1806dc981d5348db58378a736654bcb3f83ef8cb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_d3254ab4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1172,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-11-07T11:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_39bbd6aa",
+      "revId": "1806dc981d5348db58378a736654bcb3f83ef8cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_59b8a2ab",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 1
@@ -132,6 +258,24 @@
       "writtenOn": "2017-11-04T00:23:12Z",
       "side": 1,
       "message": "why did you move this down ? Instead move line 1172 up to line 1170",
+      "revId": "1806dc981d5348db58378a736654bcb3f83ef8cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_f31a4674",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1178,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-11-07T11:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_59b8a2ab",
       "revId": "1806dc981d5348db58378a736654bcb3f83ef8cb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -184,6 +328,30 @@
     },
     {
       "key": {
+        "uuid": "a7979753_9314a24c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1549,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-11-07T11:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_99892a06",
+      "range": {
+        "startLine": 1549,
+        "startChar": 37,
+        "endLine": 1549,
+        "endChar": 43
+      },
+      "revId": "1806dc981d5348db58378a736654bcb3f83ef8cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_598fc202",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 1
@@ -224,6 +392,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_f336c60b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1556,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-11-07T11:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_b97ee65b",
+      "revId": "1806dc981d5348db58378a736654bcb3f83ef8cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_f9978e18",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 1
@@ -235,6 +421,24 @@
       "writtenOn": "2017-11-04T00:23:12Z",
       "side": 1,
       "message": "return immediately if there are no rules:\n\n if (sparseCheckoutRules.isEmpty()) {\n       return true;\n }",
+      "revId": "1806dc981d5348db58378a736654bcb3f83ef8cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_133c32eb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1557,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-11-07T11:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_f9978e18",
       "revId": "1806dc981d5348db58378a736654bcb3f83ef8cb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -258,6 +462,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_534dda92",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1563,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-11-07T11:12:01Z",
+      "side": 1,
+      "message": "See the specification. See: https://git-scm.com/docs/gitignore#_pattern_format \n\nIn its basic form the logic of the sparse-checkout file is quite simple. In that: Any entries that match a file path will then be checked out. Otherwise the skip flag is applied and it is removed from the working tree. The loop handles that quite well. \n\nUnfortunately it cannot exit at this point as there is  complication that comes from negated \"!\" patterns. These negated patterns invert any of the rules that proceed it (which basically means you have to look for any negated patterns that follow which invert your match). If your pattern becomes negated then the path is checked out, the file is not skipped and it is written to the working tree.",
+      "parentUuid": "a7979753_3992f628",
+      "revId": "1806dc981d5348db58378a736654bcb3f83ef8cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_19953a11",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 1
@@ -269,6 +491,30 @@
       "writtenOn": "2017-11-04T00:23:12Z",
       "side": 1,
       "message": "return false ?",
+      "range": {
+        "startLine": 1565,
+        "startChar": 0,
+        "endLine": 1566,
+        "endChar": 11
+      },
+      "revId": "1806dc981d5348db58378a736654bcb3f83ef8cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_734ad67c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1566,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-11-07T11:12:01Z",
+      "side": 1,
+      "message": "I prefer to track a variable in this case. I think it makes it a little more readable. I changed the name of the variable to make the function name and logic consistent.",
+      "parentUuid": "a7979753_19953a11",
       "range": {
         "startLine": 1565,
         "startChar": 0,
@@ -304,6 +550,30 @@
     },
     {
       "key": {
+        "uuid": "a7979753_93474271",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1586,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-11-07T11:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_796f1ea6",
+      "range": {
+        "startLine": 1586,
+        "startChar": 16,
+        "endLine": 1586,
+        "endChar": 39
+      },
+      "revId": "1806dc981d5348db58378a736654bcb3f83ef8cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_b979866e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 1
@@ -315,6 +585,30 @@
       "writtenOn": "2017-11-04T00:23:12Z",
       "side": 1,
       "message": "choose a shorter name, e.g. f",
+      "range": {
+        "startLine": 1590,
+        "startChar": 13,
+        "endLine": 1590,
+        "endChar": 31
+      },
+      "revId": "1806dc981d5348db58378a736654bcb3f83ef8cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_b3a7dec3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1590,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-11-07T11:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_b979866e",
       "range": {
         "startLine": 1590,
         "startChar": 13,
@@ -344,6 +638,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_d3ac6aaa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1592,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-11-07T11:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_9974ca76",
+      "revId": "1806dc981d5348db58378a736654bcb3f83ef8cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_d97e5254",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 1
@@ -361,6 +673,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_f3b166fc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1595,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-11-07T11:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_d97e5254",
+      "revId": "1806dc981d5348db58378a736654bcb3f83ef8cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_596a628f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 1
@@ -372,6 +702,30 @@
       "writtenOn": "2017-11-04T00:23:12Z",
       "side": 1,
       "message": "* rename this to line\n* in the following block first trim the line",
+      "range": {
+        "startLine": 1602,
+        "startChar": 13,
+        "endLine": 1602,
+        "endChar": 16
+      },
+      "revId": "1806dc981d5348db58378a736654bcb3f83ef8cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_13b7d2f0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1602,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-11-07T11:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_596a628f",
       "range": {
         "startLine": 1602,
         "startChar": 13,
@@ -407,6 +761,30 @@
     },
     {
       "key": {
+        "uuid": "a7979753_73173651",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1603,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-11-07T11:12:01Z",
+      "side": 1,
+      "message": "This same pattern is dotted around the codebase in many places. Another change would be needed to make this consistent throughout the codebase.",
+      "parentUuid": "a7979753_396d96a7",
+      "range": {
+        "startLine": 1603,
+        "startChar": 31,
+        "endLine": 1603,
+        "endChar": 50
+      },
+      "revId": "1806dc981d5348db58378a736654bcb3f83ef8cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_79563edc",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 1
@@ -418,6 +796,30 @@
       "writtenOn": "2017-11-04T00:23:12Z",
       "side": 1,
       "message": "why this ?",
+      "range": {
+        "startLine": 1604,
+        "startChar": 12,
+        "endLine": 1604,
+        "endChar": 27
+      },
+      "revId": "1806dc981d5348db58378a736654bcb3f83ef8cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_93a2e2ab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1604,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-11-07T11:12:01Z",
+      "side": 1,
+      "message": "Done\n(The \u0027/\u0027 was copied from the .gitignore processing. In the case of .gitignore I expect this is considered an unnecessary rule. In the case of the sparse-checkout file I guess it might make sense as a rule.",
+      "parentUuid": "a7979753_79563edc",
       "range": {
         "startLine": 1604,
         "startChar": 12,
@@ -447,6 +849,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_732e5695",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-11-07T11:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_995bea01",
+      "revId": "1806dc981d5348db58378a736654bcb3f83ef8cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_b950a6dc",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
         "patchSetId": 1
@@ -458,6 +878,24 @@
       "writtenOn": "2017-11-04T00:23:12Z",
       "side": 1,
       "message": "add a message",
+      "revId": "1806dc981d5348db58378a736654bcb3f83ef8cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_932bc281",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 796,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-11-07T11:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_b950a6dc",
       "revId": "1806dc981d5348db58378a736654bcb3f83ef8cb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -481,6 +919,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_b3cb5e4c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 828,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-11-07T11:12:01Z",
+      "side": 1,
+      "message": "Done\nGood article!",
+      "parentUuid": "a7979753_f9494e39",
+      "revId": "1806dc981d5348db58378a736654bcb3f83ef8cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_d95572cc",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
         "patchSetId": 1
@@ -492,6 +948,24 @@
       "writtenOn": "2017-11-04T00:23:12Z",
       "side": 1,
       "message": "remove these unnecessary comments",
+      "revId": "1806dc981d5348db58378a736654bcb3f83ef8cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_d3d0eaf6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 835,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-11-07T11:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_d95572cc",
       "revId": "1806dc981d5348db58378a736654bcb3f83ef8cb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -515,6 +989,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_f3d5e6e4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-11-07T11:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_1947fa24",
+      "revId": "1806dc981d5348db58378a736654bcb3f83ef8cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_39df56d3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BaseRepositoryBuilder.java",
         "patchSetId": 1
@@ -526,6 +1018,30 @@
       "writtenOn": "2017-11-04T00:23:12Z",
       "side": 1,
       "message": "I think these methods aren\u0027t needed",
+      "range": {
+        "startLine": 212,
+        "startChar": 0,
+        "endLine": 231,
+        "endChar": 2
+      },
+      "revId": "1806dc981d5348db58378a736654bcb3f83ef8cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_13db5219",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BaseRepositoryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-11-07T11:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_39df56d3",
       "range": {
         "startLine": 212,
         "startChar": 0,
@@ -561,6 +1077,30 @@
     },
     {
       "key": {
+        "uuid": "a7979753_33bf6ea9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BaseRepositoryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-11-07T11:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_d9d012c5",
+      "range": {
+        "startLine": 374,
+        "startChar": 0,
+        "endLine": 394,
+        "endChar": 2
+      },
+      "revId": "1806dc981d5348db58378a736654bcb3f83ef8cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_79e8fe74",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BaseRepositoryBuilder.java",
         "patchSetId": 1
@@ -572,6 +1112,30 @@
       "writtenOn": "2017-11-04T00:23:12Z",
       "side": 1,
       "message": "sparseCheckoutFile \u003d safeFS().resolve(getGitDir(), Constants.INFO_SPARSE_CHECKOUT)",
+      "range": {
+        "startLine": 699,
+        "startChar": 0,
+        "endLine": 705,
+        "endChar": 3
+      },
+      "revId": "1806dc981d5348db58378a736654bcb3f83ef8cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_53bcfab1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BaseRepositoryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 705,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-11-07T11:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_79e8fe74",
       "range": {
         "startLine": 699,
         "startChar": 0,
@@ -607,6 +1171,30 @@
     },
     {
       "key": {
+        "uuid": "a7979753_73c9f64d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-11-07T11:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_d9e732a0",
+      "range": {
+        "startLine": 275,
+        "startChar": 21,
+        "endLine": 275,
+        "endChar": 36
+      },
+      "revId": "1806dc981d5348db58378a736654bcb3f83ef8cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_99edaa86",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
         "patchSetId": 1
@@ -624,6 +1212,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_b3f27e90",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 746,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-11-07T11:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_99edaa86",
+      "revId": "1806dc981d5348db58378a736654bcb3f83ef8cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_f9fb0e39",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
         "patchSetId": 1
@@ -635,6 +1241,30 @@
       "writtenOn": "2017-11-04T00:23:12Z",
       "side": 1,
       "message": "file paths",
+      "range": {
+        "startLine": 748,
+        "startChar": 20,
+        "endLine": 748,
+        "endChar": 25
+      },
+      "revId": "1806dc981d5348db58378a736654bcb3f83ef8cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_d3f70a80",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-11-07T11:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_f9fb0e39",
       "range": {
         "startLine": 748,
         "startChar": 20,
@@ -670,6 +1300,30 @@
     },
     {
       "key": {
+        "uuid": "a7979753_f3ec06b9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 751,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-11-07T11:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_b9e26690",
+      "range": {
+        "startLine": 751,
+        "startChar": 20,
+        "endLine": 751,
+        "endChar": 38
+      },
+      "revId": "1806dc981d5348db58378a736654bcb3f83ef8cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_19f9ba41",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
         "patchSetId": 1
@@ -687,6 +1341,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_13f2728f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 756,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-11-07T11:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_19f9ba41",
+      "revId": "1806dc981d5348db58378a736654bcb3f83ef8cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_39f67651",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 1
@@ -698,6 +1370,24 @@
       "writtenOn": "2017-11-04T00:23:12Z",
       "side": 1,
       "message": "missing braces",
+      "revId": "1806dc981d5348db58378a736654bcb3f83ef8cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_33e68ed5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1174,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-11-07T11:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_39f67651",
       "revId": "1806dc981d5348db58378a736654bcb3f83ef8cb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
