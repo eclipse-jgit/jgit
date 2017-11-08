@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_c49e62eb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-11-08T11:31:17Z",
+      "side": 1,
+      "message": "4.10",
+      "range": {
+        "startLine": 595,
+        "startChar": 11,
+        "endLine": 595,
+        "endChar": 14
+      },
+      "revId": "80deae6914339eb7aab7c1dec4bf15782b36b473",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
