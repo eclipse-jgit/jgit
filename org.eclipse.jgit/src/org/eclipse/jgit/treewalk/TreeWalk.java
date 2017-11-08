@@ -596,8 +596,8 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	// TODO(msohn) make this method public in 4.4
 	@Nullable
 	EolStreamType getEolStreamType(OperationType opType) {
-			if (attributesNodeProvider == null || config == null)
-				return null;
+		if (attributesNodeProvider == null || config == null)
+			return null;
 		return EolStreamTypeUtil.detectStreamType(opType,
 					config.get(WorkingTreeOptions.KEY), getAttributes());
 	}
