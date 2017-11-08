@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_244c8619",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 596,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-11-08T11:23:05Z",
+      "side": 1,
+      "message": "Is this TODO still valid?",
+      "range": {
+        "startLine": 596,
+        "startChar": 1,
+        "endLine": 596,
+        "endChar": 46
+      },
+      "revId": "6c387a750baf71765028e1687c154444e6a7d7e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
