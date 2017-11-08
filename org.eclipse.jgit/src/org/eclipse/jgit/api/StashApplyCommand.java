@@ -42,6 +42,8 @@
  */
 package org.eclipse.jgit.api;
 
+import static org.eclipse.jgit.treewalk.TreeWalk.OperationType.CHECKOUT_OP;
+
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.HashSet;
@@ -355,7 +357,8 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 					// Not in commit, don't create untracked
 					continue;
 
-				final EolStreamType eolStreamType = walk.getEolStreamType();
+				final EolStreamType eolStreamType = walk
+						.getEolStreamType(CHECKOUT_OP);
 				final DirCacheEntry entry = new DirCacheEntry(walk.getRawPath());
 				entry.setFileMode(cIter.getEntryFileMode());
 				entry.setObjectIdFromRaw(cIter.idBuffer(), cIter.idOffset());
