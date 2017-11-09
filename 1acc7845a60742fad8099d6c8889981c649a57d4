@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_37575353",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 722,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-11-09T17:20:30Z",
+      "side": 1,
+      "message": "Makes sense. In OpenJDK, this is the array size limit consistently used. I wish there were a publicly exposed constant but this is the next best thing.",
+      "range": {
+        "startLine": 722,
+        "startChar": 13,
+        "endLine": 722,
+        "endChar": 34
+      },
+      "revId": "1acc7845a60742fad8099d6c8889981c649a57d4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
