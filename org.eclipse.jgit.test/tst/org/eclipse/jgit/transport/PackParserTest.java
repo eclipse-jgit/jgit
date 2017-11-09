@@ -270,7 +270,7 @@ public class PackParserTest extends RepositoryTestCase {
 			fail("PackParser should have failed");
 		} catch (TooLargeObjectInPackException e) {
 			assertTrue(e.getMessage().contains("13")); // max obj size
-			assertFalse(e.getMessage().contains("14")); // no delta size
+			assertTrue(e.getMessage().contains("14")); // delta size
 		}
 	}
 
