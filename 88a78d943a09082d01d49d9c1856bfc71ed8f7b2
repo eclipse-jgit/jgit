@@ -22,6 +22,30 @@
       "revId": "88a78d943a09082d01d49d9c1856bfc71ed8f7b2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_3ac2da7b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PackParserTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-11-09T17:28:16Z",
+      "side": 1,
+      "message": "Whoops. Thanks for the review. Fixed.",
+      "parentUuid": "a7979753_dabb960b",
+      "range": {
+        "startLine": 273,
+        "startChar": 49,
+        "endLine": 273,
+        "endChar": 62
+      },
+      "revId": "88a78d943a09082d01d49d9c1856bfc71ed8f7b2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
