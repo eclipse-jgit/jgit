@@ -443,6 +443,13 @@ public final class Constants {
 	public static final String ATTR_MERGE = "merge"; //$NON-NLS-1$
 
 	/**
+	 * Merge attribute.
+	 *
+	 * @since 4.10
+	 */
+	public static final String ATTR_DIFF = "diff"; //$NON-NLS-1$
+
+	/**
 	 * Binary value for custom merger.
 	 *
 	 * @since 4.9

@@ -48,9 +48,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.jgit.attributes.Attribute;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
@@ -194,6 +196,11 @@ public class DiffEntry {
 			entry.newMode = walk.getFileMode(1);
 			entry.newPath = entry.oldPath = walk.getPathString();
 
+			if (walk.getAttributesNodeProvider() != null) {
+				entry.diffAttribute = walk.getAttributes()
+						.get(Constants.ATTR_DIFF);
+			}
+
 			if (treeFilterMarker != null)
 				entry.treeFilterMarks = treeFilterMarker.getMarks(walk);
 
@@ -280,6 +287,7 @@ public class DiffEntry {
 		del.newMode = FileMode.MISSING;
 		del.newPath = DiffEntry.DEV_NULL;
 		del.changeType = ChangeType.DELETE;
+		del.diffAttribute = entry.diffAttribute;
 
 		DiffEntry add = new DiffEntry();
 		add.oldId = A_ZERO;
@@ -290,6 +298,7 @@ public class DiffEntry {
 		add.newMode = entry.getNewMode();
 		add.newPath = entry.getNewPath();
 		add.changeType = ChangeType.ADD;
+		add.diffAttribute = entry.diffAttribute;
 		return Arrays.asList(del, add);
 	}
 
@@ -304,6 +313,7 @@ public class DiffEntry {
 		r.newId = dst.newId;
 		r.newMode = dst.newMode;
 		r.newPath = dst.newPath;
+		r.diffAttribute = dst.diffAttribute;
 
 		r.changeType = changeType;
 		r.score = score;
@@ -318,6 +328,9 @@ public class DiffEntry {
 
 	/** File name of the new (post-image). */
 	protected String newPath;
+
+	/** diff filter attribute */
+	protected Attribute diffAttribute;
 
 	/** Old mode of the file, if described by the patch, else null. */
 	protected FileMode oldMode;
@@ -390,6 +403,13 @@ public class DiffEntry {
 	 */
 	public String getPath(Side side) {
 		return side == Side.OLD ? getOldPath() : getNewPath();
+	}
+
+	/**
+	 * @return the {@link Attribute} determining filters to be applied.
+	 */
+	public Attribute getDiffAttribute() {
+		return diffAttribute;
 	}
 
 	/** @return the old file mode, if described in the patch */
