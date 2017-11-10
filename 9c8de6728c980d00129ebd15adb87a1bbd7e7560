@@ -34,6 +34,24 @@
       "revId": "9c8de6728c980d00129ebd15adb87a1bbd7e7560",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_2682c30c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmapWalker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2017-11-10T23:09:13Z",
+      "side": 1,
+      "message": "I made them toplevel classes in org.eclipse.jgit.internal.revwalk.",
+      "parentUuid": "a7979753_c641ff63",
+      "revId": "9c8de6728c980d00129ebd15adb87a1bbd7e7560",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
