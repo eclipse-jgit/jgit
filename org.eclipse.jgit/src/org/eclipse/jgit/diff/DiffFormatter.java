@@ -99,6 +99,7 @@ import org.eclipse.jgit.treewalk.filter.IndexDiffFilter;
 import org.eclipse.jgit.treewalk.filter.NotIgnoredFilter;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
+import org.eclipse.jgit.util.LfsHelper;
 import org.eclipse.jgit.util.QuotedString;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
 
@@ -143,6 +144,8 @@ public class DiffFormatter implements AutoCloseable {
 
 	private ContentSource.Pair source;
 
+	private Repository repository;
+
 	/**
 	 * Create a new formatter with a default level of context.
 	 *
@@ -170,6 +173,7 @@ public class DiffFormatter implements AutoCloseable {
 	 *            source repository holding referenced objects.
 	 */
 	public void setRepository(Repository repository) {
+		this.repository = repository;
 		setReader(repository.newObjectReader(), repository.getConfig(), true);
 	}
 
@@ -1036,7 +1040,10 @@ public class DiffFormatter implements AutoCloseable {
 				throw new AmbiguousObjectException(id, ids);
 		}
 
-		ObjectLoader ldr = source.open(side, entry);
+		ObjectLoader ldr = LfsHelper.getSmudgeFiltered(repository,
+				source.open(side, entry), LfsHelper
+						.getAttributesForPath(repository, entry.getPath(side))
+						.get(Constants.ATTR_DIFF));
 		return RawText.load(ldr, binaryFileThreshold);
 	}
 
