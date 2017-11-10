@@ -115,8 +115,6 @@ public class SmudgeFilter extends FilterCommand {
 						+ Constants.ATTR_FILTER_TYPE_SMUDGE, FACTORY);
 	}
 
-	private Lfs lfs;
-
 	/**
 	 * Constructor for SmudgeFilter.
 	 *
@@ -131,21 +129,24 @@ public class SmudgeFilter extends FilterCommand {
 	public SmudgeFilter(Repository db, InputStream in, OutputStream out)
 			throws IOException {
 		super(in, out);
-		lfs = new Lfs(db);
+		Lfs lfs = new Lfs(db);
 		LfsPointer res = LfsPointer.parseLfsPointer(in);
 		if (res != null) {
 			AnyLongObjectId oid = res.getOid();
 			Path mediaFile = lfs.getMediaFile(oid);
 			if (!Files.exists(mediaFile)) {
-				downloadLfsResource(db, res);
+				downloadLfsResource(lfs, db, res);
 
 			}
+			in.close(); // make sure the swapped stream is closed properly.
 			this.in = Files.newInputStream(mediaFile);
 		}
 	}
 
 	/**
 	 * Download content which is hosted on a LFS server
+	 *
+	 * @param lfs
 	 *
 	 * @param db
 	 *            the repository to work with
@@ -154,9 +155,8 @@ public class SmudgeFilter extends FilterCommand {
 	 * @return the paths of all mediafiles which have been downloaded
 	 * @throws IOException
 	 */
-	private Collection<Path> downloadLfsResource(Repository db,
-			LfsPointer... res)
-			throws IOException {
+	public static Collection<Path> downloadLfsResource(Lfs lfs, Repository db,
+			LfsPointer... res) throws IOException {
 		Collection<Path> downloadedPaths = new ArrayList<>();
 		Map<String, LfsPointer> oidStr2ptr = new HashMap<>();
 		for (LfsPointer p : res) {
@@ -172,10 +172,9 @@ public class SmudgeFilter extends FilterCommand {
 						.getBytes(StandardCharsets.UTF_8));
 		int responseCode = lfsServerConn.getResponseCode();
 		if (responseCode != 200) {
-			throw new IOException(
-					MessageFormat.format(LfsText.get().serverFailure,
-							lfsServerConn.getURL(),
-							Integer.valueOf(responseCode)));
+			throw new IOException(MessageFormat.format(
+					LfsText.get().serverFailure, lfsServerConn.getURL(),
+					Integer.valueOf(responseCode)));
 		}
 		try (JsonReader reader = new JsonReader(
 				new InputStreamReader(lfsServerConn.getInputStream()))) {
@@ -244,33 +243,39 @@ public class SmudgeFilter extends FilterCommand {
 	/** {@inheritDoc} */
 	@Override
 	public int run() throws IOException {
-		int totalRead = 0;
-		int length = 0;
-		if (in != null) {
-			byte[] buf = new byte[8192];
-			while ((length = in.read(buf)) != -1) {
-				out.write(buf, 0, length);
-				totalRead += length;
+		try {
+			int totalRead = 0;
+			int length = 0;
+			if (in != null) {
+				byte[] buf = new byte[8192];
+				while ((length = in.read(buf)) != -1) {
+					out.write(buf, 0, length);
+					totalRead += length;
 
-				// when threshold reached, loop back to the caller. otherwise we
-				// could only support files up to 2GB (int return type)
-				// properly. we will be called again as long as we don't return
-				// -1 here.
-				if (totalRead >= MAX_COPY_BYTES) {
-					// leave streams open - we need them in the next call.
-					return totalRead;
+					// when threshold reached, loop back to the caller.
+					// otherwise we could only support files up to 2GB (int
+					// return type) properly. we will be called again as long as
+					// we don't return -1 here.
+					if (totalRead >= MAX_COPY_BYTES) {
+						// leave streams open - we need them in the next call.
+						return totalRead;
+					}
 				}
 			}
-		}
 
-		if (totalRead == 0 && length == -1) {
-			// we're totally done :)
-			in.close();
+			if (totalRead == 0 && length == -1) {
+				// we're totally done :) cleanup all streams
+				in.close();
+				out.close();
+				return length;
+			}
+
+			return totalRead;
+		} catch (IOException e) {
+			in.close(); // clean up - we swapped this stream.
 			out.close();
-			return length;
+			throw e;
 		}
-
-		return totalRead;
 	}
 
 }

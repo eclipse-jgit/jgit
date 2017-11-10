@@ -166,6 +166,7 @@ public class CleanFilter extends FilterCommand {
 				}
 				LfsPointer lfsPointer = new LfsPointer(loid, size);
 				lfsPointer.encode(out);
+				in.close();
 				out.close();
 				return -1;
 			}
@@ -173,6 +174,7 @@ public class CleanFilter extends FilterCommand {
 			if (aOut != null) {
 				aOut.abort();
 			}
+			in.close();
 			out.close();
 			throw e;
 		}
