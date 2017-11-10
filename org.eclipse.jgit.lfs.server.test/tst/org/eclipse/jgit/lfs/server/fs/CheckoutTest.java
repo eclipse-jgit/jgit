@@ -51,8 +51,7 @@ import java.nio.file.Path;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.TestRepository;
-import org.eclipse.jgit.lfs.CleanFilter;
-import org.eclipse.jgit.lfs.SmudgeFilter;
+import org.eclipse.jgit.lfs.BuiltinLFS;
 import org.eclipse.jgit.lfs.lib.LongObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
@@ -72,8 +71,7 @@ public class CheckoutTest extends LfsServerTest {
 	public void setup() throws Exception {
 		super.setup();
 
-		SmudgeFilter.register();
-		CleanFilter.register();
+		BuiltinLFS.register();
 
 		Path tmp = Files.createTempDirectory("jgit_test_");
 		Repository db = FileRepositoryBuilder
