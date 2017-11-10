@@ -468,6 +468,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String largeObjectException;
 	/***/ public String largeObjectOutOfMemory;
 	/***/ public String lengthExceedsMaximumArraySize;
+	/***/ public String lfsHookConflict;
 	/***/ public String listingAlternates;
 	/***/ public String listingPacks;
 	/***/ public String localObjectsIncomplete;
