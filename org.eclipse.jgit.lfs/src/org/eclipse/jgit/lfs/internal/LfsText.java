@@ -76,4 +76,5 @@ public class LfsText extends TranslationBundle {
 	/***/ public String serverFailure;
 	/***/ public String wrongAmoutOfDataReceived;
 	/***/ public String userConfigInvalid;
+	/***/ public String missingLocalObject;
 }

@@ -172,4 +172,15 @@ abstract class GitHook<T> implements Callable<T> {
 		}
 	}
 
+	/**
+	 * Check whether a 'native' (i.e. script) hook is installed in the
+	 * repository.
+	 *
+	 * @return whether a native hook script is installed in the repository.
+	 * @since 4.11
+	 */
+	public boolean isNativeHookPresent() {
+		return FS.DETECTED.findHook(getRepository(), getHookName()) != null;
+	}
+
 }
