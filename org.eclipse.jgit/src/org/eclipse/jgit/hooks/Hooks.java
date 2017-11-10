@@ -43,8 +43,13 @@
 package org.eclipse.jgit.hooks;
 
 import java.io.PrintStream;
+import java.lang.reflect.Constructor;
+import java.text.MessageFormat;
 
+import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.StoredConfig;
 
 /**
  * Factory class for instantiating supported hooks.
@@ -107,6 +112,29 @@ public class Hooks {
 	 * @since 4.2
 	 */
 	public static PrePushHook prePush(Repository repo, PrintStream outputStream) {
+		PrePushHook lfsHook = null;
+		try {
+			StoredConfig cfg = repo.getConfig();
+			if (cfg.getBoolean(ConfigConstants.CONFIG_FILTER_SECTION, "lfs", //$NON-NLS-1$
+					ConfigConstants.CONFIG_KEY_USEJGITBUILTIN, false)) {
+				@SuppressWarnings("unchecked")
+				Class<? extends PrePushHook> cls = (Class<? extends PrePushHook>) Class
+						.forName("org.eclipse.jgit.lfs.LfsPrePushHook"); //$NON-NLS-1$
+				Constructor<? extends PrePushHook> constructor = cls
+						.getConstructor(Repository.class, PrintStream.class);
+
+				lfsHook = constructor.newInstance(repo, outputStream);
+			}
+		} catch (Exception e) {
+			// no problem :) no LFS support present
+		}
+		if (lfsHook != null) {
+			if (lfsHook.isNativeHookPresent()) {
+				throw new IllegalStateException(MessageFormat
+						.format(JGitText.get().lfsHookConflict, repo));
+			}
+			return lfsHook;
+		}
 		return new PrePushHook(repo, outputStream);
 	}
 }

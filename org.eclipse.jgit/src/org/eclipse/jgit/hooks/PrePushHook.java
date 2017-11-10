@@ -50,6 +50,7 @@ import org.eclipse.jgit.api.errors.AbortedByHookException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
+import org.eclipse.jgit.util.FS;
 
 /**
  * The <code>pre-push</code> hook implementation. The pre-push hook runs during
@@ -137,6 +138,16 @@ public class PrePushHook extends GitHook<String> {
 	}
 
 	/**
+	 * Get remote name
+	 *
+	 * @return remote name or null
+	 * @since 4.11
+	 */
+	protected String getRemoteName() {
+		return remoteName;
+	}
+
+	/**
 	 * Set remote location
 	 *
 	 * @param location
@@ -171,5 +182,15 @@ public class PrePushHook extends GitHook<String> {
 					.getName());
 		}
 		refs = b.toString();
+	}
+
+	/**
+	 * Check whether a 'native' (i.e. script) pre-push hook is installed in the repository.
+	 *
+	 * @return whether a native hook script is installed in the repository.
+	 * @since 4.11
+	 */
+	public boolean isNativeHookPresent() {
+		return FS.DETECTED.findHook(getRepository(), getHookName()) != null;
 	}
 }
