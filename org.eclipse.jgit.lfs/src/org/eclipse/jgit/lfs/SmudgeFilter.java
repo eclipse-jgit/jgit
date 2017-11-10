@@ -115,8 +115,6 @@ public class SmudgeFilter extends FilterCommand {
 						+ Constants.ATTR_FILTER_TYPE_SMUDGE, FACTORY);
 	}
 
-	private Lfs lfs;
-
 	/**
 	 * Constructor for SmudgeFilter.
 	 *
@@ -131,13 +129,13 @@ public class SmudgeFilter extends FilterCommand {
 	public SmudgeFilter(Repository db, InputStream in, OutputStream out)
 			throws IOException {
 		super(in, out);
-		lfs = new Lfs(db);
+		Lfs lfs = new Lfs(db);
 		LfsPointer res = LfsPointer.parseLfsPointer(in);
 		if (res != null) {
 			AnyLongObjectId oid = res.getOid();
 			Path mediaFile = lfs.getMediaFile(oid);
 			if (!Files.exists(mediaFile)) {
-				downloadLfsResource(db, res);
+				downloadLfsResource(lfs, db, res);
 
 			}
 			this.in = Files.newInputStream(mediaFile);
@@ -147,6 +145,8 @@ public class SmudgeFilter extends FilterCommand {
 	/**
 	 * Download content which is hosted on a LFS server
 	 *
+	 * @param lfs
+	 *
 	 * @param db
 	 *            the repository to work with
 	 * @param res
@@ -154,7 +154,7 @@ public class SmudgeFilter extends FilterCommand {
 	 * @return the paths of all mediafiles which have been downloaded
 	 * @throws IOException
 	 */
-	private Collection<Path> downloadLfsResource(Repository db,
+	public static Collection<Path> downloadLfsResource(Lfs lfs, Repository db,
 			LfsPointer... res)
 			throws IOException {
 		Collection<Path> downloadedPaths = new ArrayList<>();
