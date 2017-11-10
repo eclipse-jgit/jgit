@@ -64,7 +64,7 @@ import org.eclipse.jgit.lfs.lib.LongObjectId;
  *
  * @since 4.6
  */
-public class LfsPointer {
+public class LfsPointer implements Comparable<LfsPointer> {
 	/**
 	 * The version of the LfsPointer file format
 	 */
@@ -75,6 +75,13 @@ public class LfsPointer {
 	 * @since 4.7
 	 */
 	public static final String VERSION_LEGACY = "https://hawser.github.com/spec/v1"; //$NON-NLS-1$
+
+	/**
+	 * Don't inspect files that are larger than this threshold to avoid
+	 * excessive reading. No pointer file should be larger than this.
+	 * @since 4.11
+	 */
+	public static final int SIZE_THRESHOLD = 200;
 
 	/**
 	 * The name of the hash function as used in the pointer files. This will
@@ -184,6 +191,19 @@ public class LfsPointer {
 	public String toString() {
 		return "LfsPointer: oid=" + oid.name() + ", size=" //$NON-NLS-1$ //$NON-NLS-2$
 				+ size;
+	}
+
+	/**
+	 * @since 4.11
+	 */
+	@Override
+	public int compareTo(LfsPointer o) {
+		int x = getOid().compareTo(o.getOid());
+		if (x != 0) {
+			return x;
+		}
+
+		return (int) (getSize() - o.getSize());
 	}
 }
 
