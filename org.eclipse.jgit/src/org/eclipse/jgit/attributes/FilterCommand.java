@@ -67,6 +67,9 @@ public abstract class FilterCommand {
 
 	/**
 	 * Constructor for FilterCommand
+	 * <p>
+	 * FilterCommand implementors are required to manage the in and out streams
+	 * (close on success and/or exception).
 	 *
 	 * @param in
 	 *            The {@link java.io.InputStream} this command should read from
@@ -84,6 +87,9 @@ public abstract class FilterCommand {
 	 * number of bytes it read from {@link #in}. It should be called in a loop
 	 * until it returns -1 signaling that the {@link java.io.InputStream} is
 	 * completely processed.
+	 * <p>
+	 * On successful completion (return -1) or on Exception, the streams
+	 * {@link #in} and {@link #out} are closed by the implementation.
 	 *
 	 * @return the number of bytes read from the {@link java.io.InputStream} or
 	 *         -1. -1 means that the {@link java.io.InputStream} is completely
