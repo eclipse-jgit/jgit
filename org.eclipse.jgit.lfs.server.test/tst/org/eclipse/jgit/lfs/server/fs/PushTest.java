@@ -52,8 +52,7 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.RemoteAddCommand;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.TestRepository;
-import org.eclipse.jgit.lfs.CleanFilter;
-import org.eclipse.jgit.lfs.SmudgeFilter;
+import org.eclipse.jgit.lfs.BuiltinLFS;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
@@ -84,8 +83,7 @@ public class PushTest extends LfsServerTest {
 	public void setup() throws Exception {
 		super.setup();
 
-		SmudgeFilter.register();
-		CleanFilter.register();
+		BuiltinLFS.register();
 
 		Path rtmp = Files.createTempDirectory("jgit_test_");
 		remoteDb = FileRepositoryBuilder.create(rtmp.toFile());

@@ -63,8 +63,7 @@ import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
-import org.eclipse.jgit.lfs.CleanFilter;
-import org.eclipse.jgit.lfs.SmudgeFilter;
+import org.eclipse.jgit.lfs.BuiltinLFS;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
@@ -92,8 +91,7 @@ public class AddCommandTest extends RepositoryTestCase {
 
 	@Override
 	public void setUp() throws Exception {
-		CleanFilter.register();
-		SmudgeFilter.register();
+		BuiltinLFS.register();
 		super.setUp();
 	}
 
