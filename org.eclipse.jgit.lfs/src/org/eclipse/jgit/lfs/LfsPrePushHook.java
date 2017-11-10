@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016, Christian Halstrick <christian.halstrick@sap.com>
+ * Copyright (C) 2017, Markus Duft <markus.duft@ssi-schaefer.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -49,26 +49,32 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.PrintStream;
 import java.net.ProxySelector;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.MessageFormat;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
-import org.eclipse.jgit.attributes.FilterCommand;
-import org.eclipse.jgit.attributes.FilterCommandFactory;
-import org.eclipse.jgit.attributes.FilterCommandRegistry;
+import org.eclipse.jgit.api.errors.AbortedByHookException;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.hooks.PrePushHook;
 import org.eclipse.jgit.lfs.internal.LfsConnectionHelper;
 import org.eclipse.jgit.lfs.internal.LfsText;
-import org.eclipse.jgit.lfs.lib.AnyLongObjectId;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.ObjectWalk;
+import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.transport.HttpTransport;
+import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.http.HttpConnection;
 import org.eclipse.jgit.util.HttpSupport;
 
@@ -76,95 +82,107 @@ import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
 /**
- * Built-in LFS smudge filter
- *
- * When content is read from git's object-database and written to the filesystem
- * and this filter is configured for that content, then this filter will replace
- * the content of LFS pointer files with the original content. This happens e.g.
- * when a checkout needs to update a working tree file which is under LFS
- * control. This implementation expects that the origin content is already
- * available in the .git/lfs/objects folder. This implementation will not
- * contact any LFS servers in order to get the missing content.
- *
- * @since 4.6
+ * Pre-push hook that handles uploading LFS artefacts.
  */
-public class SmudgeFilter extends FilterCommand {
-	/**
-	 * The factory is responsible for creating instances of {@link SmudgeFilter}
-	 */
-	public final static FilterCommandFactory FACTORY = new FilterCommandFactory() {
-		@Override
-		public FilterCommand create(Repository db, InputStream in,
-				OutputStream out) throws IOException {
-			return new SmudgeFilter(db, in, out);
-		}
-	};
+public class LfsPrePushHook extends PrePushHook {
+
+	private Collection<RemoteRefUpdate> refs;
 
 	/**
-	 * Registers this filter in JGit by calling
+	 * @param repo
+	 *            the repository
+	 * @param outputStream
+	 *            not used by this implementation
 	 */
-	public final static void register() {
-		FilterCommandRegistry
-				.register(org.eclipse.jgit.lib.Constants.BUILTIN_FILTER_PREFIX
-						+ Constants.ATTR_FILTER_DRIVER_PREFIX
-						+ Constants.ATTR_FILTER_TYPE_SMUDGE, FACTORY);
+	public LfsPrePushHook(Repository repo, PrintStream outputStream) {
+		super(repo, outputStream);
 	}
 
-	private Lfs lfs;
-
-	/**
-	 * Instantiate a LFS smudge filter implementation
-	 *
-	 * @param db
-	 *            the associated repository
-	 * @param in
-	 *            the {@link InputStream} to read the original data (typically
-	 *            the content of a lfs pointer file)
-	 * @param out
-	 *            the {@link OutputStream} into which to write the content
-	 * @throws IOException
-	 */
-	public SmudgeFilter(Repository db, InputStream in, OutputStream out)
-			throws IOException {
-		super(in, out);
-		lfs = new Lfs(db);
-		LfsPointer res = LfsPointer.parseLfsPointer(in);
-		if (res != null) {
-			AnyLongObjectId oid = res.getOid();
-			Path mediaFile = lfs.getMediaFile(oid);
-			if (!Files.exists(mediaFile)) {
-				downloadLfsResource(db, res);
-
-			}
-			this.in = Files.newInputStream(mediaFile);
-		}
+	@Override
+	public void setRefs(Collection<RemoteRefUpdate> toRefs) {
+		this.refs = toRefs;
 	}
 
-	/**
-	 * Download content which is hosted on a LFS server
-	 *
-	 * @param db
-	 *            the repository to work with
-	 * @param res
-	 *            the objects to download
-	 * @return the pathes of all mediafiles which have been downloaded
-	 * @throws IOException
-	 */
 	@SuppressWarnings("boxing")
-	private Set<Path> downloadLfsResource(Repository db, LfsPointer... res)
-			throws IOException {
-		Set<Path> downloadedPathes = new HashSet<>();
+	@Override
+	public String call() throws IOException, AbortedByHookException {
+		Set<LfsPointer> toPush = new TreeSet<>();
+
+		// for all refs to be pushed, determine which commits are to be pushed.
+		for (RemoteRefUpdate up : refs) {
+			try (ObjectWalk walk = new ObjectWalk(getRepository())) {
+				walk.setRewriteParents(false);
+
+				// exclude all remote ref's current state - no need to go
+				// remote, we're only interested in our deltas.
+				Map<String, Ref> rr = getRepository().getRefDatabase()
+						.getRefs(Constants.R_REMOTES + (getRemoteName() == null
+								? Constants.DEFAULT_REMOTE_NAME
+								: getRemoteName()));
+				for (Ref r : rr.values()) {
+					ObjectId oid = r.getPeeledObjectId();
+					if (oid == null)
+						oid = r.getObjectId();
+					try {
+						walk.markUninteresting(walk.parseCommit(oid));
+					} catch (IncorrectObjectTypeException e) {
+						// Ignore all refs which are not commits
+					}
+				}
+
+				// find all objects that changed, and find all LfsPointers in
+				// there.
+				walk.markStart(walk.parseCommit(up.getNewObjectId()));
+				for (;;) {
+					// walk all commits to populate objects
+					if (walk.next() == null)
+						break;
+				}
+				for (;;) {
+					final RevObject obj = walk.nextObject();
+					if (obj == null)
+						break;
+
+					if (obj.getType() == Constants.OBJ_BLOB) {
+						long objectSize = walk.getObjectReader()
+								.getObjectSize(obj.getId(), Constants.OBJ_BLOB);
+						if (objectSize > LfsPointer.SIZE_THRESHOLD) {
+							continue;
+						} else {
+							try (InputStream is = walk.getObjectReader()
+									.open(obj.getId(), Constants.OBJ_BLOB)
+									.openStream()) {
+								LfsPointer ptr = LfsPointer.parseLfsPointer(is);
+								if (ptr != null) {
+									toPush.add(ptr);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		// build batch upload request to announce identified objects
+		if (toPush.isEmpty()) {
+			return ""; //$NON-NLS-1$
+		}
+
+		Lfs lfs = new Lfs(getRepository());
+
+		LfsPointer[] res = toPush.toArray(new LfsPointer[toPush.size()]);
 		Map<String, LfsPointer> oidStr2ptr = new HashMap<>();
 		for (LfsPointer p : res) {
 			oidStr2ptr.put(p.getOid().name(), p);
 		}
-		HttpConnection lfsServerConn = LfsConnectionHelper.getLfsConnection(db,
-				HttpSupport.METHOD_POST, Protocol.OPERATION_DOWNLOAD);
+		HttpConnection lfsServerConn = LfsConnectionHelper.getLfsConnection(
+				getRepository(), HttpSupport.METHOD_POST,
+				Protocol.OPERATION_UPLOAD);
 		Gson gson = new Gson();
 		lfsServerConn.getOutputStream()
 				.write(gson
 						.toJson(LfsConnectionHelper
-								.toRequest(Protocol.OPERATION_DOWNLOAD, res))
+								.toRequest(Protocol.OPERATION_UPLOAD, res))
 						.getBytes(StandardCharsets.UTF_8));
 		int responseCode = lfsServerConn.getResponseCode();
 		if (responseCode != 200) {
@@ -185,66 +203,50 @@ public class SmudgeFilter extends FilterCommand {
 					// received an object we didn't requested
 					continue;
 				}
-				if (ptr.getSize() != o.size) {
-					throw new IOException(MessageFormat.format(
-							LfsText.get().inconsistentContentLength,
-							lfsServerConn.getURL(), ptr.getSize(), o.size));
-				}
-				Protocol.Action downloadAction = o.actions
-						.get(Protocol.OPERATION_DOWNLOAD);
-				if (downloadAction == null || downloadAction.href == null) {
+				Protocol.Action uploadAction = o.actions
+						.get(Protocol.OPERATION_UPLOAD);
+				if (uploadAction == null || uploadAction.href == null) {
 					continue;
 				}
-				URL contentUrl = new URL(downloadAction.href);
+				URL contentUrl = new URL(uploadAction.href);
 				HttpConnection contentServerConn = HttpTransport
 						.getConnectionFactory().create(contentUrl,
 								HttpSupport.proxyFor(ProxySelector.getDefault(),
 										contentUrl));
-				contentServerConn.setRequestMethod(HttpSupport.METHOD_GET);
-				downloadAction.header.forEach(
+				contentServerConn.setRequestMethod(HttpSupport.METHOD_PUT);
+				uploadAction.header.forEach(
 						(k, v) -> contentServerConn.setRequestProperty(k, v));
-				if (contentUrl.getProtocol().equals("https") && !db.getConfig() //$NON-NLS-1$
-						.getBoolean("http", "sslVerify", true)) { //$NON-NLS-1$ //$NON-NLS-2$
+				if (contentUrl.getProtocol().equals("https") //$NON-NLS-1$
+						&& !getRepository().getConfig().getBoolean("http", "sslVerify", true)) { //$NON-NLS-1$ //$NON-NLS-2$
 					HttpSupport.disableSslVerify(contentServerConn);
 				}
 				contentServerConn.setRequestProperty(HDR_ACCEPT_ENCODING,
 						ENCODING_GZIP);
+				contentServerConn.setDoOutput(true);
+				Path path = lfs.getMediaFile(ptr.getOid());
+				if (!Files.exists(path)) {
+					throw new IOException(MessageFormat
+							.format(LfsText.get().missingLocalObject, path));
+				}
+				try (OutputStream contentOut = contentServerConn
+						.getOutputStream()) {
+					long bytesCopied = Files.copy(path, contentOut);
+					if (bytesCopied != o.size) {
+						throw new IOException(MessageFormat.format(
+								LfsText.get().wrongAmoutOfDataWritten,
+								contentServerConn.getURL(), bytesCopied,
+								o.size));
+					}
+				}
 				responseCode = contentServerConn.getResponseCode();
 				if (responseCode != HttpConnection.HTTP_OK) {
 					throw new IOException(
 							MessageFormat.format(LfsText.get().serverFailure,
 									contentServerConn.getURL(), responseCode));
 				}
-				Path path = lfs.getMediaFile(ptr.getOid());
-				path.getParent().toFile().mkdirs();
-				try (InputStream contentIn = contentServerConn
-						.getInputStream()) {
-					long bytesCopied = Files.copy(contentIn, path);
-					if (bytesCopied != o.size) {
-						throw new IOException(MessageFormat.format(
-								LfsText.get().wrongAmoutOfDataReceived,
-								contentServerConn.getURL(), bytesCopied,
-								o.size));
-					}
-					downloadedPathes.add(path);
-				}
 			}
 		}
-		return downloadedPathes;
-	}
-
-	@Override
-	public int run() throws IOException {
-		int length = 0;
-		if (in != null) {
-			byte[] buf = new byte[8192];
-			while ((length = in.read(buf)) != -1) {
-				out.write(buf, 0, length);
-			}
-			in.close();
-		}
-		out.close();
-		return length;
+		return ""; //$NON-NLS-1$
 	}
 
 }
