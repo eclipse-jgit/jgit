@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_4bf99a40",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1354,
+      "author": {
+        "id": 79788
+      },
+      "writtenOn": "2017-11-10T19:51:41Z",
+      "side": 1,
+      "message": "I think this comment is confusing. maybe rephrase as your commit message similar to \"If wants contains non-commit object, check wants if and only if there is a bitmap index, otherwise, follow the old behavior.\"",
+      "range": {
+        "startLine": 1351,
+        "startChar": 6,
+        "endLine": 1354,
+        "endChar": 39
+      },
+      "revId": "ceceab2c4302c3bd3607b982d42392cc2e031000",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
