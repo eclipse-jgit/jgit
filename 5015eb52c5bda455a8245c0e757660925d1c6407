@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a7979753_66bbeba9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/revwalk/AddToBitmapFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2017-11-10T23:37:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_a6f23390",
+      "range": {
+        "startLine": 68,
+        "startChar": 2,
+        "endLine": 69,
+        "endChar": 4
+      },
+      "revId": "5015eb52c5bda455a8245c0e757660925d1c6407",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_c6f73f80",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/revwalk/AddUnseenToBitmapFilter.java",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2017-11-10T23:24:36Z",
       "side": 1,
       "message": "missing tags for params.",
+      "range": {
+        "startLine": 72,
+        "startChar": 1,
+        "endLine": 75,
+        "endChar": 4
+      },
+      "revId": "5015eb52c5bda455a8245c0e757660925d1c6407",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_86b8d7ac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/revwalk/AddUnseenToBitmapFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2017-11-10T23:37:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_c6f73f80",
       "range": {
         "startLine": 72,
         "startChar": 1,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "a7979753_a684f3ec",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmapWalker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2017-11-10T23:37:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_86c6173c",
+      "range": {
+        "startLine": 76,
+        "startChar": 3,
+        "endLine": 77,
+        "endChar": 4
+      },
+      "revId": "5015eb52c5bda455a8245c0e757660925d1c6407",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_66c92b4e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmapWalker.java",
         "patchSetId": 4
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "a7979753_c689ff04",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmapWalker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2017-11-10T23:37:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_66c92b4e",
+      "range": {
+        "startLine": 86,
+        "startChar": 4,
+        "endLine": 86,
+        "endChar": 10
+      },
+      "revId": "5015eb52c5bda455a8245c0e757660925d1c6407",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_46bc2fb2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmapWalker.java",
         "patchSetId": 4
@@ -105,6 +201,30 @@
       "writtenOn": "2017-11-10T23:24:36Z",
       "side": 1,
       "message": "@return\n\nAlso missing tags for params and exceptions.",
+      "range": {
+        "startLine": 94,
+        "startChar": 4,
+        "endLine": 94,
+        "endChar": 12
+      },
+      "revId": "5015eb52c5bda455a8245c0e757660925d1c6407",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_e67efb5c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmapWalker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2017-11-10T23:37:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_46bc2fb2",
       "range": {
         "startLine": 94,
         "startChar": 4,
