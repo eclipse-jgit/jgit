@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_464d0f93",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1325,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-11-10T22:35:23Z",
+      "side": 1,
+      "message": "nit: unnecessary blank line",
+      "revId": "8c724eb051589c71675ff206ef4d3fc4d597ca24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_26500329",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1353,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-11-10T22:35:23Z",
+      "side": 1,
+      "message": "this says what happens, but not why.\n\nMaybe something like the following:\n\n  // If there are no bitmaps, instead of incurring the expense\n  // of a manual walk, reject the request.\n\nI\u0027m a little nervous about what happens in a new repository that does not have a bitmap index yet. But that can be handled in a separate patch.",
+      "range": {
+        "startLine": 1352,
+        "startChar": 18,
+        "endLine": 1353,
+        "endChar": 31
+      },
+      "revId": "8c724eb051589c71675ff206ef4d3fc4d597ca24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
