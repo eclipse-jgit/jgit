@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_4666ef1c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmapWalker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-11-10T22:30:20Z",
+      "side": 1,
+      "message": "I think these should be kept internal (i.e. not added to the stable API). Could they be new toplevel classes e.g. in org.eclipse.jgit.internal.revwalk or .storage?",
+      "revId": "9c8de6728c980d00129ebd15adb87a1bbd7e7560",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
