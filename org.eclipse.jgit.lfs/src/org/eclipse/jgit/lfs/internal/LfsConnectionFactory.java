@@ -1,0 +1,294 @@
+/*
+ * Copyright (C) 2017, Markus Duft <markus.duft@ssi-schaefer.com>
+ * and other copyright owners as documented in the project's IP log.
+ *
+ * This program and the accompanying materials are made available
+ * under the terms of the Eclipse Distribution License v1.0 which
+ * accompanies this distribution, is reproduced below, and is
+ * available at http://www.eclipse.org/org/documents/edl-v10.php
+ *
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or
+ * without modification, are permitted provided that the following
+ * conditions are met:
+ *
+ * - Redistributions of source code must retain the above copyright
+ *   notice, this list of conditions and the following disclaimer.
+ *
+ * - Redistributions in binary form must reproduce the above
+ *   copyright notice, this list of conditions and the following
+ *   disclaimer in the documentation and/or other materials provided
+ *   with the distribution.
+ *
+ * - Neither the name of the Eclipse Foundation, Inc. nor the
+ *   names of its contributors may be used to endorse or promote
+ *   products derived from this software without specific prior
+ *   written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
+ * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+package org.eclipse.jgit.lfs.internal;
+
+import static org.eclipse.jgit.util.HttpSupport.ENCODING_GZIP;
+import static org.eclipse.jgit.util.HttpSupport.HDR_ACCEPT;
+import static org.eclipse.jgit.util.HttpSupport.HDR_ACCEPT_ENCODING;
+import static org.eclipse.jgit.util.HttpSupport.HDR_CONTENT_TYPE;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.ProxySelector;
+import java.net.URL;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.TreeMap;
+
+import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.lfs.LfsPointer;
+import org.eclipse.jgit.lfs.Protocol;
+import org.eclipse.jgit.lfs.errors.LfsConfigInvalidException;
+import org.eclipse.jgit.lfs.lib.Constants;
+import org.eclipse.jgit.lib.ConfigConstants;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.StoredConfig;
+import org.eclipse.jgit.transport.HttpConfig;
+import org.eclipse.jgit.transport.HttpTransport;
+import org.eclipse.jgit.transport.RemoteSession;
+import org.eclipse.jgit.transport.SshSessionFactory;
+import org.eclipse.jgit.transport.URIish;
+import org.eclipse.jgit.transport.http.HttpConnection;
+import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.HttpSupport;
+import org.eclipse.jgit.util.io.MessageWriter;
+import org.eclipse.jgit.util.io.StreamCopyThread;
+
+import com.google.gson.Gson;
+
+/**
+ * Provides means to get a valid LFS connection for a given repository.
+ */
+public class LfsConnectionFactory {
+
+	private static final String SCHEME_HTTPS = "https"; //$NON-NLS-1$
+	private static final String SCHEME_SSH = "ssh"; //$NON-NLS-1$
+
+	/**
+	 * Determine URL of LFS server by looking into config parameters lfs.url,
+	 * lfs.[remote].url or remote.[remote].url. The LFS server URL is computed
+	 * from remote.[remote].url by appending "/info/lfs". In case there is no
+	 * URL configured, a SSH remote URI can be used to auto-detect the LFS URI
+	 * by using the remote "git-lfs-authenticate" command.
+	 *
+	 * @param db
+	 *            the repository to work with
+	 * @param method
+	 *            the method (GET,PUT,...) of the request this connection will
+	 *            be used for
+	 * @param purpose
+	 *            the action, e.g. Protocol.OPERATION_DOWNLOAD
+	 * @return the url for the lfs server. e.g.
+	 *         "https://github.com/github/git-lfs.git/info/lfs"
+	 * @throws IOException
+	 */
+	public static HttpConnection getLfsConnection(Repository db, String method,
+			String purpose) throws IOException {
+		StoredConfig config = db.getConfig();
+		Map<String, String> additionalHeaders = new TreeMap<>();
+		String lfsUrl = getLfsUrl(db, purpose, additionalHeaders);
+		URL url = new URL(lfsUrl + Protocol.OBJECTS_LFS_ENDPOINT);
+		HttpConnection connection = HttpTransport.getConnectionFactory().create(
+				url, HttpSupport.proxyFor(ProxySelector.getDefault(), url));
+		connection.setDoOutput(true);
+		if (url.getProtocol().equals(SCHEME_HTTPS)
+				&& !config.getBoolean(HttpConfig.HTTP,
+						HttpConfig.SSL_VERIFY_KEY, true)) {
+			HttpSupport.disableSslVerify(connection);
+		}
+		connection.setRequestMethod(method);
+		connection.setRequestProperty(HDR_ACCEPT,
+				Protocol.CONTENTTYPE_VND_GIT_LFS_JSON);
+		connection.setRequestProperty(HDR_CONTENT_TYPE,
+				Protocol.CONTENTTYPE_VND_GIT_LFS_JSON);
+		additionalHeaders
+				.forEach((k, v) -> connection.setRequestProperty(k, v));
+		return connection;
+	}
+
+	private static String getLfsUrl(Repository db, String purpose,
+			Map<String, String> additionalHeaders)
+			throws LfsConfigInvalidException {
+		StoredConfig config = db.getConfig();
+		String lfsUrl = config.getString(Constants.LFS, null,
+				ConfigConstants.CONFIG_KEY_URL);
+		if (lfsUrl == null) {
+			String remoteUrl = null;
+			for (String remote : db.getRemoteNames()) {
+				lfsUrl = config.getString(Constants.LFS, remote,
+						ConfigConstants.CONFIG_KEY_URL);
+				// This could be done better (more precise logic), but according
+				// to https://github.com/git-lfs/git-lfs/issues/1759 git-lfs
+				// generally only supports 'origin' in an integrated workflow.
+				if (lfsUrl == null && (remote.equals(
+						org.eclipse.jgit.lib.Constants.DEFAULT_REMOTE_NAME))) {
+					remoteUrl = config.getString(
+							ConfigConstants.CONFIG_KEY_REMOTE, remote,
+							ConfigConstants.CONFIG_KEY_URL);
+				}
+				break;
+			}
+			if (lfsUrl == null && remoteUrl != null) {
+				lfsUrl = discoverLfsUrl(db, purpose, additionalHeaders,
+						remoteUrl);
+			} else {
+				lfsUrl = lfsUrl + Protocol.INFO_LFS_ENDPOINT;
+			}
+		}
+		if (lfsUrl == null) {
+			throw new LfsConfigInvalidException(LfsText.get().lfsNoDownloadUrl);
+		}
+		return lfsUrl;
+	}
+
+	private static String discoverLfsUrl(Repository db, String purpose,
+			Map<String, String> additionalHeaders, String remoteUrl) {
+		try {
+			URIish u = new URIish(remoteUrl);
+
+			if (SCHEME_SSH.equals(u.getScheme())) {
+				// discover and authenticate; git-lfs does "ssh -p
+				// <port> -- <host> git-lfs-authenticate <project>
+				// <upload/download>"
+				String json = runSshCommand(u.setPath(""), db.getFS(), //$NON-NLS-1$
+						"git-lfs-authenticate " + extractProjectName(u) //$NON-NLS-1$
+								+ " " + purpose); //$NON-NLS-1$
+
+				Protocol.Action action = new Gson().fromJson(json,
+						Protocol.Action.class);
+				additionalHeaders.putAll(action.header);
+				return action.href;
+			} else {
+				return remoteUrl + Protocol.INFO_LFS_ENDPOINT;
+			}
+		} catch (Exception e) {
+			return null; // could not discover
+		}
+	}
+
+	/**
+	 * Create a connection for the specified
+	 * {@link org.eclipse.jgit.lfs.Protocol.Action}.
+	 *
+	 * @param repo
+	 *            the repo to fetch required configuration from
+	 * @param action
+	 *            the action for which to create a connection
+	 * @param method
+	 *            the target method (GET or PUT)
+	 * @return a connection. output mode is not set.
+	 * @throws IOException
+	 *             in case of any error.
+	 */
+	public static @NonNull HttpConnection getLfsContentConnection(
+			Repository repo, Protocol.Action action, String method)
+			throws IOException {
+		URL contentUrl = new URL(action.href);
+		HttpConnection contentServerConn = HttpTransport.getConnectionFactory()
+				.create(contentUrl, HttpSupport
+						.proxyFor(ProxySelector.getDefault(), contentUrl));
+		contentServerConn.setRequestMethod(method);
+		action.header
+				.forEach((k, v) -> contentServerConn.setRequestProperty(k, v));
+		if (contentUrl.getProtocol().equals(SCHEME_HTTPS)
+				&& !repo.getConfig().getBoolean(HttpConfig.HTTP,
+						HttpConfig.SSL_VERIFY_KEY, true)) {
+			HttpSupport.disableSslVerify(contentServerConn);
+		}
+
+		contentServerConn.setRequestProperty(HDR_ACCEPT_ENCODING,
+				ENCODING_GZIP);
+
+		return contentServerConn;
+	}
+
+	private static String extractProjectName(URIish u) {
+		String path = u.getPath().substring(1);
+		if (path.endsWith(org.eclipse.jgit.lib.Constants.DOT_GIT)) {
+			return path.substring(0, path.length() - 4);
+		} else {
+			return path;
+		}
+	}
+
+	private static String runSshCommand(URIish sshUri, FS fs, String command)
+			throws IOException {
+		RemoteSession session = null;
+		Process process = null;
+		StreamCopyThread errorThread = null;
+		try (MessageWriter stderr = new MessageWriter()) {
+			session = SshSessionFactory.getInstance().getSession(sshUri, null,
+					fs, 5_000);
+			process = session.exec(command, 0);
+			errorThread = new StreamCopyThread(process.getErrorStream(),
+					stderr.getRawStream());
+			errorThread.start();
+			try (BufferedReader reader = new BufferedReader(
+					new InputStreamReader(process.getInputStream(),
+							org.eclipse.jgit.lib.Constants.CHARSET))) {
+				return reader.readLine();
+			}
+		} finally {
+			if (process != null) {
+				process.destroy();
+			}
+			if (errorThread != null) {
+				try {
+					errorThread.halt();
+				} catch (InterruptedException e) {
+					// Stop waiting and return anyway.
+				} finally {
+					errorThread = null;
+				}
+			}
+			if (session != null) {
+				SshSessionFactory.getInstance().releaseSession(session);
+			}
+		}
+	}
+
+	/**
+	 * @param operation
+	 *            the operation to perform, e.g. Protocol.OPERATION_DOWNLOAD
+	 * @param resources
+	 *            the LFS resources affected
+	 * @return a request that can be serialized to JSON
+	 */
+	public static Protocol.Request toRequest(String operation,
+			LfsPointer... resources) {
+		Protocol.Request req = new Protocol.Request();
+		req.operation = operation;
+		if (resources != null) {
+			req.objects = new LinkedList<>();
+			for (LfsPointer res : resources) {
+				Protocol.ObjectSpec o = new Protocol.ObjectSpec();
+				o.oid = res.getOid().getName();
+				o.size = res.getSize();
+				req.objects.add(o);
+			}
+		}
+		return req;
+	}
+
+}
