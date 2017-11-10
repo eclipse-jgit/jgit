@@ -16,6 +16,24 @@
       "revId": "9c8de6728c980d00129ebd15adb87a1bbd7e7560",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_c641ff63",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmapWalker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-11-10T22:31:00Z",
+      "side": 1,
+      "message": "Another possibility is to keep them public, but as toplevel classes in org.eclipse.jgit.revwalk.filter.",
+      "parentUuid": "a7979753_4666ef1c",
+      "revId": "9c8de6728c980d00129ebd15adb87a1bbd7e7560",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
