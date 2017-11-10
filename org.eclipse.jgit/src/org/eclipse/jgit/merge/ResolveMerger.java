@@ -73,6 +73,7 @@ import org.eclipse.jgit.diff.DiffAlgorithm;
 import org.eclipse.jgit.diff.DiffAlgorithm.SupportedAlgorithm;
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.diff.RawTextComparator;
+import org.eclipse.jgit.diff.RawTextHelper;
 import org.eclipse.jgit.diff.Sequence;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuildIterator;
@@ -86,10 +87,10 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ConfigConstants;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
-import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
@@ -655,7 +656,8 @@ public class ResolveMerger extends ThreeWayMerger {
 				return true;
 			}
 
-			MergeResult<RawText> result = contentMerge(base, ours, theirs);
+			MergeResult<RawText> result = contentMerge(base, ours, theirs,
+					attributes);
 			if (ignoreConflicts) {
 				result.setContainsConflicts(false);
 			}
@@ -688,7 +690,7 @@ public class ResolveMerger extends ThreeWayMerger {
 
 				// generate a MergeResult for the deleted file
 				mergeResults.put(tw.getPathString(),
-						contentMerge(base, ours, theirs));
+						contentMerge(base, ours, theirs, attributes));
 			}
 		}
 		return true;
@@ -702,19 +704,21 @@ public class ResolveMerger extends ThreeWayMerger {
 	 * @param base
 	 * @param ours
 	 * @param theirs
+	 * @param attributes
 	 *
 	 * @return the result of the content merge
 	 * @throws IOException
 	 */
 	private MergeResult<RawText> contentMerge(CanonicalTreeParser base,
-			CanonicalTreeParser ours, CanonicalTreeParser theirs)
+			CanonicalTreeParser ours, CanonicalTreeParser theirs,
+			Attributes attributes)
 			throws IOException {
 		RawText baseText = base == null ? RawText.EMPTY_TEXT : getRawText(
-				base.getEntryObjectId(), reader);
+						base.getEntryObjectId(), attributes);
 		RawText ourText = ours == null ? RawText.EMPTY_TEXT : getRawText(
-				ours.getEntryObjectId(), reader);
+						ours.getEntryObjectId(), attributes);
 		RawText theirsText = theirs == null ? RawText.EMPTY_TEXT : getRawText(
-				theirs.getEntryObjectId(), reader);
+						theirs.getEntryObjectId(), attributes);
 		return (mergeAlgorithm.merge(RawTextComparator.DEFAULT, baseText,
 				ourText, theirsText));
 	}
@@ -890,11 +894,11 @@ public class ResolveMerger extends ThreeWayMerger {
 		return FileMode.MISSING.getBits();
 	}
 
-	private static RawText getRawText(ObjectId id, ObjectReader reader)
+	private RawText getRawText(ObjectId id,
+			Attributes attributes)
 			throws IOException {
-		if (id.equals(ObjectId.zeroId()))
-			return new RawText(new byte[] {});
-		return new RawText(reader.open(id, OBJ_BLOB).getCachedBytes());
+		return RawTextHelper.getRawText(nonNullRepo(), id, reader,
+				attributes.get(Constants.ATTR_MERGE));
 	}
 
 	private static boolean nonTree(final int mode) {
