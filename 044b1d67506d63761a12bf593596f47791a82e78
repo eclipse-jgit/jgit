@@ -22,6 +22,30 @@
       "revId": "044b1d67506d63761a12bf593596f47791a82e78",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_c65bbf00",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/revwalk/AddUnseenToBitmapFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2017-11-10T23:44:24Z",
+      "side": 1,
+      "message": "Ah...done.",
+      "parentUuid": "a7979753_e6799b6d",
+      "range": {
+        "startLine": 81,
+        "startChar": 16,
+        "endLine": 81,
+        "endChar": 28
+      },
+      "revId": "044b1d67506d63761a12bf593596f47791a82e78",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
