@@ -65,8 +65,7 @@ import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.awtui.AwtAuthenticator;
 import org.eclipse.jgit.awtui.AwtCredentialsProvider;
 import org.eclipse.jgit.errors.TransportException;
-import org.eclipse.jgit.lfs.CleanFilter;
-import org.eclipse.jgit.lfs.SmudgeFilter;
+import org.eclipse.jgit.lfs.BuiltinLFS;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryBuilder;
 import org.eclipse.jgit.pgm.internal.CLIText;
@@ -111,8 +110,7 @@ public class Main {
 	 */
 	public Main() {
 		HttpTransport.setConnectionFactory(new HttpClientConnectionFactory());
-		CleanFilter.register();
-		SmudgeFilter.register();
+		BuiltinLFS.register();
 		gcExecutor = Executors.newSingleThreadExecutor(new ThreadFactory() {
 			private final ThreadFactory baseFactory = Executors
 					.defaultThreadFactory();
