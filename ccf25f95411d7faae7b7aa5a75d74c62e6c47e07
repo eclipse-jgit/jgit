@@ -16,6 +16,29 @@
       "revId": "ccf25f95411d7faae7b7aa5a75d74c62e6c47e07",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_6644cb1e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmapWalker.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 79788
+      },
+      "writtenOn": "2017-11-10T23:49:24Z",
+      "side": 1,
+      "message": "here too.",
+      "range": {
+        "startLine": 101,
+        "startChar": 4,
+        "endLine": 101,
+        "endChar": 12
+      },
+      "revId": "ccf25f95411d7faae7b7aa5a75d74c62e6c47e07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
