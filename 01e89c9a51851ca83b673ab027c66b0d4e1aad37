@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_f0b79c3e",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/InstallLfsCommand.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-11-10T13:53:49Z",
+      "side": 1,
+      "message": "I am not sure anymore whether it is a good idea that JGit takes care to do the installation for native git-lfs. I would expect a JGit based lfs-install routine to do only what is needed to JGit lfs implementation (setting the CONFIG_KEY_USEJGITBUILTIN). What happens if native git changes what is done during \"git lfs install\". Maybe we could simply call \"git lfs install\" here and configure only CONFIG_KEY_USEJGITBUILTIN. Or we don\u0027t even call \"git lfs install\" and leave it up to the user.",
+      "revId": "01e89c9a51851ca83b673ab027c66b0d4e1aad37",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_10bd0820",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/InstallLfsCommand.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-11-10T13:53:49Z",
+      "side": 1,
+      "message": "We should support uninstall and also the \"--local\" option. Especially because we are replacing something which exists locally I can imagine that people want to try out the JGit version in specific repositories and leave the default implementation to JGit. In this case we have to write into the repo specific config file and not into the user\u0027s config file",
+      "revId": "01e89c9a51851ca83b673ab027c66b0d4e1aad37",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
