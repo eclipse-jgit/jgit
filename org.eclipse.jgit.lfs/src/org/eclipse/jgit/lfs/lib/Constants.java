@@ -56,7 +56,7 @@ import org.eclipse.jgit.lfs.internal.LfsText;
 @SuppressWarnings("nls")
 public final class Constants {
 	/**
-	 * lfs folder
+	 * lfs folder/section/filter name
 	 *
 	 * @since 4.6
 	 */
