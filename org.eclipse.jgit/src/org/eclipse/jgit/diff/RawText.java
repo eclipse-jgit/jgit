@@ -110,6 +110,13 @@ public class RawText extends Sequence {
 		this(IO.readFully(file));
 	}
 
+	/**
+	 * @return the raw, unprocessed content read.
+	 */
+	public byte[] getRawContent() {
+		return content;
+	}
+
 	/** @return total number of items in the sequence. */
 	@Override
 	public int size() {
