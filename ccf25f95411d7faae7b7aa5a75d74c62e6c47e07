@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_264ac32d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmapWalker.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-11-10T23:46:01Z",
+      "side": 1,
+      "message": "optional: can avoid repetition by doing /** @return. (That\u0027s against Google style, but JGit seems to do it occasionally since they require the @return tag.)",
+      "revId": "ccf25f95411d7faae7b7aa5a75d74c62e6c47e07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
