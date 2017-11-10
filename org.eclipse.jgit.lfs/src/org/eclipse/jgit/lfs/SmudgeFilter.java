@@ -133,7 +133,7 @@ public class SmudgeFilter extends FilterCommand {
 			AnyLongObjectId oid = res.getOid();
 			Path mediaFile = lfs.getMediaFile(oid);
 			if (!Files.exists(mediaFile)) {
-				downloadLfsResource(db, res);
+				downloadLfsResource(lfs, db, res);
 
 			}
 			this.in = Files.newInputStream(mediaFile);
@@ -142,6 +142,8 @@ public class SmudgeFilter extends FilterCommand {
 
 	/**
 	 * Download content which is hosted on a LFS server
+	 * 
+	 * @param lfs
 	 *
 	 * @param db
 	 *            the repository to work with
@@ -151,7 +153,8 @@ public class SmudgeFilter extends FilterCommand {
 	 * @throws IOException
 	 */
 	@SuppressWarnings("boxing")
-	private Set<Path> downloadLfsResource(Repository db, LfsPointer... res)
+	public static Set<Path> downloadLfsResource(Lfs lfs, Repository db,
+			LfsPointer... res)
 			throws IOException {
 		Set<Path> downloadedPathes = new HashSet<>();
 		Map<String, LfsPointer> oidStr2ptr = new HashMap<>();
