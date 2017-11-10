@@ -474,7 +474,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 				while (command.run() != -1) {
 					// loop as long as command.run() tells there is work to do
 				}
-				return buffer.openInputStream();
+				return buffer.openInputStreamWithAutoDestroy();
 			}
 			FS fs = repository.getFS();
 			ProcessBuilder filterProcessBuilder = fs.runInShell(filterCommand,
@@ -497,7 +497,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 						RawParseUtils.decode(result.getStderr()
 								.toByteArray(MAX_EXCEPTION_TEXT_SIZE))));
 			}
-			return result.getStdout().openInputStream();
+			return result.getStdout().openInputStreamWithAutoDestroy();
 		}
 		return in;
 	}

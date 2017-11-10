@@ -91,7 +91,7 @@ public class CleanFilter extends FilterCommand {
 	 * Registers this filter by calling
 	 * {@link FilterCommandRegistry#register(String, FilterCommandFactory)}
 	 */
-	public final static void register() {
+	static void register() {
 		FilterCommandRegistry
 				.register(org.eclipse.jgit.lib.Constants.BUILTIN_FILTER_PREFIX
 						+ Constants.ATTR_FILTER_DRIVER_PREFIX
@@ -167,6 +167,7 @@ public class CleanFilter extends FilterCommand {
 				}
 				LfsPointer lfsPointer = new LfsPointer(loid, size);
 				lfsPointer.encode(out);
+				in.close();
 				out.close();
 				return -1;
 			}
@@ -174,6 +175,7 @@ public class CleanFilter extends FilterCommand {
 			if (aOut != null) {
 				aOut.abort();
 			}
+			in.close();
 			out.close();
 			throw e;
 		}
