@@ -42,18 +42,10 @@
  */
 package org.eclipse.jgit.lfs;
 
-import static org.eclipse.jgit.util.HttpSupport.ENCODING_GZIP;
-import static org.eclipse.jgit.util.HttpSupport.HDR_ACCEPT;
-import static org.eclipse.jgit.util.HttpSupport.HDR_ACCEPT_ENCODING;
-import static org.eclipse.jgit.util.HttpSupport.HDR_CONTENT_TYPE;
-
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.net.ProxySelector;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -61,30 +53,18 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
-import java.util.TreeMap;
 
 import org.eclipse.jgit.attributes.FilterCommand;
 import org.eclipse.jgit.attributes.FilterCommandFactory;
 import org.eclipse.jgit.attributes.FilterCommandRegistry;
-import org.eclipse.jgit.lfs.errors.LfsConfigInvalidException;
+import org.eclipse.jgit.lfs.internal.LfsConnectionFactory;
 import org.eclipse.jgit.lfs.internal.LfsText;
 import org.eclipse.jgit.lfs.lib.AnyLongObjectId;
 import org.eclipse.jgit.lfs.lib.Constants;
-import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.StoredConfig;
-import org.eclipse.jgit.transport.HttpConfig;
-import org.eclipse.jgit.transport.HttpTransport;
-import org.eclipse.jgit.transport.RemoteSession;
-import org.eclipse.jgit.transport.SshSessionFactory;
-import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.transport.http.HttpConnection;
-import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.HttpSupport;
-import org.eclipse.jgit.util.io.MessageWriter;
-import org.eclipse.jgit.util.io.StreamCopyThread;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
@@ -176,11 +156,14 @@ public class SmudgeFilter extends FilterCommand {
 		for (LfsPointer p : res) {
 			oidStr2ptr.put(p.getOid().name(), p);
 		}
-		HttpConnection lfsServerConn = getLfsConnection(db,
-				HttpSupport.METHOD_POST);
+		HttpConnection lfsServerConn = LfsConnectionFactory.getLfsConnection(db,
+				HttpSupport.METHOD_POST, Protocol.OPERATION_DOWNLOAD);
 		Gson gson = new Gson();
 		lfsServerConn.getOutputStream()
-				.write(gson.toJson(body(res)).getBytes(StandardCharsets.UTF_8));
+				.write(gson
+						.toJson(LfsConnectionFactory
+								.toRequest(Protocol.OPERATION_DOWNLOAD, res))
+						.getBytes(StandardCharsets.UTF_8));
 		int responseCode = lfsServerConn.getResponseCode();
 		if (responseCode != HttpConnection.HTTP_OK) {
 			throw new IOException(
@@ -212,21 +195,11 @@ public class SmudgeFilter extends FilterCommand {
 				if (downloadAction == null || downloadAction.href == null) {
 					continue;
 				}
-				URL contentUrl = new URL(downloadAction.href);
-				HttpConnection contentServerConn = HttpTransport
-						.getConnectionFactory().create(contentUrl,
-								HttpSupport.proxyFor(ProxySelector.getDefault(),
-										contentUrl));
-				contentServerConn.setRequestMethod(HttpSupport.METHOD_GET);
-				downloadAction.header.forEach(
-						(k, v) -> contentServerConn.setRequestProperty(k, v));
-				if (contentUrl.getProtocol().equals("https") && !db.getConfig() //$NON-NLS-1$
-						.getBoolean(HttpConfig.HTTP, HttpConfig.SSL_VERIFY_KEY,
-								true)) {
-					HttpSupport.disableSslVerify(contentServerConn);
-				}
-				contentServerConn.setRequestProperty(HDR_ACCEPT_ENCODING,
-						ENCODING_GZIP);
+
+				HttpConnection contentServerConn = LfsConnectionFactory
+						.getLfsContentConnection(db, downloadAction,
+								HttpSupport.METHOD_GET);
+
 				responseCode = contentServerConn.getResponseCode();
 				if (responseCode != HttpConnection.HTTP_OK) {
 					throw new IOException(
@@ -251,148 +224,6 @@ public class SmudgeFilter extends FilterCommand {
 			}
 		}
 		return downloadedPaths;
-	}
-
-	private Protocol.Request body(LfsPointer... resources) {
-		Protocol.Request req = new Protocol.Request();
-		req.operation = Protocol.OPERATION_DOWNLOAD;
-		if (resources != null) {
-			req.objects = new LinkedList<>();
-			for (LfsPointer res : resources) {
-				Protocol.ObjectSpec o = new Protocol.ObjectSpec();
-				o.oid = res.getOid().getName();
-				o.size = res.getSize();
-				req.objects.add(o);
-			}
-		}
-		return req;
-	}
-
-	/**
-	 * Determine URL of LFS server by looking into config parameters lfs.url,
-	 * lfs.<remote>.url or remote.<remote>.url. The LFS server URL is computed
-	 * from remote.<remote>.url by appending "/info/lfs"
-	 *
-	 * @param db
-	 *            the repository to work with
-	 * @param method
-	 *            the method (GET,PUT,...) of the request this connection will
-	 *            be used for
-	 * @return the url for the lfs server. e.g.
-	 *         "https://github.com/github/git-lfs.git/info/lfs"
-	 * @throws IOException
-	 */
-	private HttpConnection getLfsConnection(Repository db, String method)
-			throws IOException {
-		StoredConfig config = db.getConfig();
-		String lfsEndpoint = config.getString(Constants.LFS, null,
-				ConfigConstants.CONFIG_KEY_URL);
-		Map<String, String> additionalHeaders = new TreeMap<>();
-		if (lfsEndpoint == null) {
-			String remoteUrl = null;
-			for (String remote : db.getRemoteNames()) {
-				lfsEndpoint = config.getString(Constants.LFS, remote,
-						ConfigConstants.CONFIG_KEY_URL);
-				if (lfsEndpoint == null
-						&& (remote.equals(
-								org.eclipse.jgit.lib.Constants.DEFAULT_REMOTE_NAME))) {
-					remoteUrl = config.getString(
-							ConfigConstants.CONFIG_KEY_REMOTE, remote,
-							ConfigConstants.CONFIG_KEY_URL);
-				}
-				break;
-			}
-			if (lfsEndpoint == null && remoteUrl != null) {
-				try {
-					URIish u = new URIish(remoteUrl);
-
-					if ("ssh".equals(u.getScheme())) { //$NON-NLS-1$
-						// discover and authenticate; git-lfs does "ssh -p
-						// <port> -- <host> git-lfs-authenticate <project>
-						// <upload/download>"
-						String json = runSshCommand(u.setPath(""), db.getFS(), //$NON-NLS-1$
-								"git-lfs-authenticate " + extractProjectName(u) //$NON-NLS-1$
-										+ " " + Protocol.OPERATION_DOWNLOAD); //$NON-NLS-1$
-
-						Protocol.Action action = new Gson().fromJson(json,
-								Protocol.Action.class);
-						additionalHeaders.putAll(action.header);
-						lfsEndpoint = action.href;
-					} else {
-						lfsEndpoint = remoteUrl + Protocol.INFO_LFS_ENDPOINT;
-					}
-				} catch (Exception e) {
-					lfsEndpoint = null; // could not discover
-				}
-			} else {
-				lfsEndpoint = lfsEndpoint + Protocol.INFO_LFS_ENDPOINT;
-			}
-		}
-		if (lfsEndpoint == null) {
-			throw new LfsConfigInvalidException(LfsText.get().lfsNoDownloadUrl);
-		}
-		URL url = new URL(lfsEndpoint + Protocol.OBJECTS_LFS_ENDPOINT);
-		HttpConnection connection = HttpTransport.getConnectionFactory().create(
-				url, HttpSupport.proxyFor(ProxySelector.getDefault(), url));
-		connection.setDoOutput(true);
-		if (url.getProtocol().equals("https") //$NON-NLS-1$
-				&& !config.getBoolean(HttpConfig.HTTP,
-						HttpConfig.SSL_VERIFY_KEY, true)) {
-			HttpSupport.disableSslVerify(connection);
-		}
-		connection.setRequestMethod(method);
-		connection.setRequestProperty(HDR_ACCEPT,
-				Protocol.CONTENTTYPE_VND_GIT_LFS_JSON);
-		connection.setRequestProperty(HDR_CONTENT_TYPE,
-				Protocol.CONTENTTYPE_VND_GIT_LFS_JSON);
-		additionalHeaders
-				.forEach((k, v) -> connection.setRequestProperty(k, v));
-		return connection;
-	}
-
-	private String extractProjectName(URIish u) {
-		String path = u.getPath().substring(1);
-		if (path.endsWith(org.eclipse.jgit.lib.Constants.DOT_GIT)) {
-			return path.substring(0, path.length() - 4);
-		} else {
-			return path;
-		}
-	}
-
-	private String runSshCommand(URIish sshUri, FS fs, String command)
-			throws IOException {
-		RemoteSession session = null;
-		Process process = null;
-		StreamCopyThread errorThread = null;
-		try (MessageWriter stderr = new MessageWriter()) {
-			session = SshSessionFactory.getInstance().getSession(sshUri,
-					null, fs, 5_000);
-			process = session.exec(command, 0);
-			errorThread = new StreamCopyThread(process.getErrorStream(),
-					stderr.getRawStream());
-			errorThread.start();
-			try (BufferedReader reader = new BufferedReader(
-					new InputStreamReader(process.getInputStream(),
-							org.eclipse.jgit.lib.Constants.CHARSET))) {
-				return reader.readLine();
-			}
-		} finally {
-			if (process != null) {
-				process.destroy();
-			}
-			if (errorThread != null) {
-				try {
-					errorThread.halt();
-				} catch (InterruptedException e) {
-					// Stop waiting and return anyway.
-				} finally {
-					errorThread = null;
-				}
-			}
-			if (session != null) {
-				SshSessionFactory.getInstance().releaseSession(session);
-			}
-		}
 	}
 
 	/** {@inheritDoc} */

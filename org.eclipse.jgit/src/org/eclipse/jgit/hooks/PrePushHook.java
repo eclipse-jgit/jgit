@@ -137,6 +137,16 @@ public class PrePushHook extends GitHook<String> {
 	}
 
 	/**
+	 * Get remote name
+	 *
+	 * @return remote name or null
+	 * @since 4.11
+	 */
+	protected String getRemoteName() {
+		return remoteName;
+	}
+
+	/**
 	 * Set remote location
 	 *
 	 * @param location
