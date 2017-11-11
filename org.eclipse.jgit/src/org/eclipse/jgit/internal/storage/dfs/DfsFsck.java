@@ -69,6 +69,7 @@ public class DfsFsck {
 	private final DfsRepository repo;
 	private final DfsObjDatabase objdb;
 	private ObjectChecker objChecker = new ObjectChecker();
+	private boolean connectivityOnly = false;
 
 	/**
 	 * Initialize DFS fsck.
@@ -97,7 +98,9 @@ public class DfsFsck {
 		}
 
 		FsckError errors = new FsckError();
-		checkPacks(pm, errors);
+		if (!connectivityOnly) {
+			checkPacks(pm, errors);
+		}
 		checkConnectivity(pm, errors);
 		return errors;
 	}
@@ -173,5 +176,14 @@ public class DfsFsck {
 	 */
 	public void setObjectChecker(ObjectChecker objChecker) {
 		this.objChecker = objChecker;
+	}
+
+	/**
+	 * @param connectivityOnly
+	 *            if {@code true} the fsck only check for connectivity.
+	 *            default is false.
+	 */
+	public void setConnectivityOnly(boolean connectivityOnly) {
+		this.connectivityOnly = connectivityOnly;
 	}
 }
