@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_e61d1b26",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsFsck.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-11-11T00:13:52Z",
+      "side": 1,
+      "message": "false is the default, so this assignment isn\u0027t needed.",
+      "revId": "a7c18023453a06c004eea00eeb28aa33b847ce9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_46042fcf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsFsck.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-11-11T00:13:52Z",
+      "side": 1,
+      "message": "s/the fsck only check/the fsck will only check/\n\nOr:\n\n @param connectivityOnly\n   whether fsck should bypass object validity and integrity\n   checks and only check connectivity. The default is false,\n   meaning to run all checks.",
+      "revId": "a7c18023453a06c004eea00eeb28aa33b847ce9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
