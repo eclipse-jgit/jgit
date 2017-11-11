@@ -343,8 +343,7 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 		assertEquals(h1.getConnectionAttempts(), h2.getConnectionAttempts());
 		final ConfigRepository.Config c = osc.getConfig("orcz");
 		assertNotNull(c);
-		assertSame(c, h1.getConfig());
-		assertSame(c, h2.getConfig());
+		assertSame(h1.getConfig(), h2.getConfig());
 	}
 
 	@Test
