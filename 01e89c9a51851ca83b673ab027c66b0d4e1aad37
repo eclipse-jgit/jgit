@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_41a8990f",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/InstallLfsCommand.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2017-11-13T06:26:33Z",
+      "side": 1,
+      "message": "hm. Well, judging from my less-git-affine colleagues, they definitely expect that settings up LFS once (they don\u0027t even want to do THAT, they expect the IDE to handle this for them ;)) will make \"their repositories work\" in all places. maybe calling git-lfs install is a good idea, yes.",
+      "parentUuid": "a7979753_f0b79c3e",
+      "revId": "01e89c9a51851ca83b673ab027c66b0d4e1aad37",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_10bd0820",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/InstallLfsCommand.java",
         "patchSetId": 14
@@ -30,6 +48,24 @@
       "writtenOn": "2017-11-10T13:53:49Z",
       "side": 1,
       "message": "We should support uninstall and also the \"--local\" option. Especially because we are replacing something which exists locally I can imagine that people want to try out the JGit version in specific repositories and leave the default implementation to JGit. In this case we have to write into the repo specific config file and not into the user\u0027s config file",
+      "revId": "01e89c9a51851ca83b673ab027c66b0d4e1aad37",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_61b59563",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/InstallLfsCommand.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2017-11-13T06:26:33Z",
+      "side": 1,
+      "message": "Yep, definitely true (nor for us, but for everyone else ;)). I need ideas on how to integrate this command in PGM, and - more importantly for us - into EGit. ConfigurationChecker on startup will not suffice anymore if we want to support the --local case in EGit as well...\n\nMy idea would be to have the configuration checker check a user-wide installation (as I have implemented now), but also provide a context menu entry on a repository to install LFS support locally... good plan?",
+      "parentUuid": "a7979753_10bd0820",
       "revId": "01e89c9a51851ca83b673ab027c66b0d4e1aad37",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
