@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_e1b7c53e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 971,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-11-13T09:05:52Z",
+      "side": 1,
+      "message": "We could delete files here which we haven\u0027t created. A different process which is doing gc with jgit could own these files. Don\u0027t we know the temporary files we created and delete only them?",
+      "revId": "999139d0dc263541737ba0e0c9dc43fe9d9d1e1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
