@@ -16,6 +16,24 @@
       "revId": "999139d0dc263541737ba0e0c9dc43fe9d9d1e1e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_9c2ae6b3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 971,
+      "author": {
+        "id": 24046
+      },
+      "writtenOn": "2017-11-13T10:26:26Z",
+      "side": 1,
+      "message": "Good point. I see two options here: one, we keep a track of the files this run of GC created in order to only delete those. The problem I see is if this run of GC is cancelled and this method is not run, the temporal files will stay there. Second option could be to limit the delete operation to files older than a certain time; this will avoid deleting temporal files of a concurrent JGit GC process while avoiding cancelled runs to keep accumulating these files. \nAnother (better) option?",
+      "parentUuid": "a7979753_e1b7c53e",
+      "revId": "999139d0dc263541737ba0e0c9dc43fe9d9d1e1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
