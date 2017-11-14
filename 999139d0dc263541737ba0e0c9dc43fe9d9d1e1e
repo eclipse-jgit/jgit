@@ -52,6 +52,24 @@
       "revId": "999139d0dc263541737ba0e0c9dc43fe9d9d1e1e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_abccb7e0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 971,
+      "author": {
+        "id": 24046
+      },
+      "writtenOn": "2017-11-14T13:00:26Z",
+      "side": 1,
+      "message": "I decided to go with the second option only given the removal of these temporary files is done in a finally block (lines 1227-1234). That means, unless the JVM is killed, they should be cleaned up as part of the regular GC workflow and this is what we see most of the time. This change should cover, then, the case when that finally block is not executed.\n\nIn order to avoid interfering with a concurrent GC operation, as you appropriately pointed out, only temporary files 24 hours or older are deleted. Given the GC operation takes max 2-3 hours in our biggest repositories, this threshold should be safe enough.",
+      "parentUuid": "a7979753_7c9ffab0",
+      "revId": "999139d0dc263541737ba0e0c9dc43fe9d9d1e1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
