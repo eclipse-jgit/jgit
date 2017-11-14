@@ -168,7 +168,7 @@ public class LockFile {
 	 */
 	public boolean lock() throws IOException {
 		FileUtils.mkdirs(lck.getParentFile(), true);
-		if (lck.createNewFile()) {
+		if (FS.DETECTED.createNewFile(lck)) {
 			haveLck = true;
 			try {
 				os = new FileOutputStream(lck);
