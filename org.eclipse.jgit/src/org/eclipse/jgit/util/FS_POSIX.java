@@ -50,6 +50,7 @@ import java.io.PrintStream;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.attribute.PosixFilePermission;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -58,8 +59,11 @@ import java.util.Set;
 
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.errors.CommandFailedException;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -73,6 +77,10 @@ public class FS_POSIX extends FS {
 
 	private static final int DEFAULT_UMASK = 0022;
 	private volatile int umask = -1;
+
+	private volatile boolean supportsUnixNLink = true;
+
+	private volatile Boolean supportsAtomicCreateNewFile;
 
 	/** Default constructor. */
 	protected FS_POSIX() {
@@ -88,6 +96,33 @@ public class FS_POSIX extends FS {
 		super(src);
 		if (src instanceof FS_POSIX) {
 			umask = ((FS_POSIX) src).umask;
+		}
+	}
+
+	private void determineAtomicFileCreationSupport() {
+		// @TODO: enhance SystemReader to support this without copying code
+		Boolean ret = getAtomicFileCreationSupportOption(
+				SystemReader.getInstance().openUserConfig(null, this));
+		if (ret == null && StringUtils.isEmptyOrNull(SystemReader.getInstance()
+				.getenv(Constants.GIT_CONFIG_NOSYSTEM_KEY))) {
+			ret = getAtomicFileCreationSupportOption(
+					SystemReader.getInstance().openSystemConfig(null, this));
+		}
+		supportsAtomicCreateNewFile = (ret == null) || ret;
+	}
+
+	private Boolean getAtomicFileCreationSupportOption(FileBasedConfig config) {
+		try {
+			config.load();
+			String value = config.getString(ConfigConstants.CONFIG_CORE_SECTION,
+					null,
+					ConfigConstants.CONFIG_KEY_SUPPORTSATOMICFILECREATION);
+			if (value == null) {
+				return null;
+			}
+			return Boolean.valueOf(StringUtils.toBoolean(value));
+		} catch (IOException | ConfigInvalidException e) {
+			return Boolean.TRUE;
 		}
 	}
 
@@ -300,5 +335,56 @@ public class FS_POSIX extends FS {
 		if (Files.isExecutable(hookPath))
 			return hookPath.toFile();
 		return null;
+	}
+
+	@Override
+	public boolean supportsAtomicCreateNewFile() {
+		if (supportsAtomicCreateNewFile == null) {
+			determineAtomicFileCreationSupport();
+		}
+		return supportsAtomicCreateNewFile.booleanValue();
+	}
+
+	@SuppressWarnings("boxing")
+	/**
+	 * An implementation of the File#createNewFile() semantics which works also
+	 * on NFS. If the config option
+	 * {@code core.supportsAtomicCreateNewFile = true} (which is the default)
+	 * then simply File#createNewFile() is called.
+	 *
+	 * But if {@code core.supportsAtomicCreateNewFile = false} then after
+	 * successful creation of the lock file a hardlink to that lock file is
+	 * created and the attribute nlink of the lock file is checked to be 2. If
+	 * multiple clients manage to create the same lock file nlink would be
+	 * greater than 2 showing the error.
+	 *
+	 * @see https://www.time-travellers.org/shane/papers/NFS_considered_harmful.html
+	 * @since 4.5
+	 */
+	public boolean createNewFile(File lock) throws IOException {
+		if (!lock.createNewFile()) {
+			return false;
+		}
+		if (supportsAtomicCreateNewFile() || !supportsUnixNLink) {
+			return true;
+		}
+		Path lockPath = lock.toPath();
+		Path link = Files.createLink(Paths.get(lock.getAbsolutePath() + ".lnk"), //$NON-NLS-1$
+				lockPath);
+		try {
+			Integer nlink = (Integer) (Files.getAttribute(lockPath,
+					"unix:nlink")); //$NON-NLS-1$
+			if (nlink != 2) {
+				LOG.warn("nlink of link to lock file {0} was not 2 but {1}", //$NON-NLS-1$
+						lock.getPath(), nlink);
+				return false;
+			}
+			return true;
+		} catch (UnsupportedOperationException | IllegalArgumentException e) {
+			supportsUnixNLink = false;
+			return true;
+		} finally {
+			Files.delete(link);
+		}
 	}
 }
