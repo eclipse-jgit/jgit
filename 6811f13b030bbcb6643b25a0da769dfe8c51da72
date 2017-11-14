@@ -16,6 +16,24 @@
       "revId": "6811f13b030bbcb6643b25a0da769dfe8c51da72",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_7150fc29",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableCompactor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2017-11-14T16:59:28Z",
+      "side": 1,
+      "message": "I want the side effects as minUpdateIndex might be queried by caller.",
+      "parentUuid": "a7979753_11425867",
+      "revId": "6811f13b030bbcb6643b25a0da769dfe8c51da72",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
