@@ -715,7 +715,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 			return InsertLooseObjectResult.EXISTS_LOOSE;
 		}
 		try {
-			Files.move(tmp.toPath(), dst.toPath(),
+			Files.move(FileUtils.toPath(tmp), FileUtils.toPath(dst),
 					StandardCopyOption.ATOMIC_MOVE);
 			dst.setReadOnly();
 			unpackedObjectCache.add(id);
@@ -732,7 +732,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		//
 		FileUtils.mkdir(dst.getParentFile(), true);
 		try {
-			Files.move(tmp.toPath(), dst.toPath(),
+			Files.move(FileUtils.toPath(tmp), FileUtils.toPath(dst),
 					StandardCopyOption.ATOMIC_MOVE);
 			dst.setReadOnly();
 			unpackedObjectCache.add(id);

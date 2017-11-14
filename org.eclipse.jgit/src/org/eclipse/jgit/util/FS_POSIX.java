@@ -191,7 +191,7 @@ public class FS_POSIX extends FS {
 			return f.setExecutable(false, false);
 
 		try {
-			Path path = f.toPath();
+			Path path = FileUtils.toPath(f);
 			Set<PosixFilePermission> pset = Files.getPosixFilePermissions(path);
 
 			// owner (user) is always allowed to execute.

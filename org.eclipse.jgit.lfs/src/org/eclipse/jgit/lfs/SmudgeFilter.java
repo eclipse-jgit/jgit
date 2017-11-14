@@ -53,6 +53,7 @@ import org.eclipse.jgit.attributes.FilterCommandFactory;
 import org.eclipse.jgit.attributes.FilterCommandRegistry;
 import org.eclipse.jgit.lfs.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.util.FileUtils;
 
 /**
  * Built-in LFS smudge filter
@@ -100,7 +101,7 @@ public class SmudgeFilter extends FilterCommand {
 	public SmudgeFilter(Repository db, InputStream in, OutputStream out)
 			throws IOException {
 		super(in, out);
-		lfs = new Lfs(db.getDirectory().toPath().resolve(Constants.LFS));
+		lfs = new Lfs(FileUtils.toPath(db.getDirectory()).resolve(Constants.LFS));
 		LfsPointer res = LfsPointer.parseLfsPointer(in);
 		if (res != null) {
 			Path mediaFile = lfs.getMediaFile(res.getOid());
