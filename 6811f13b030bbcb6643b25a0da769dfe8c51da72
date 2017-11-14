@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_11425867",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableCompactor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-11-14T16:58:03Z",
+      "side": 1,
+      "message": "This affects the state of the ReftableCompactor. Intended?\n\nE.g.\n\n  writer.setMinUpdateIndex(max(minUpdateIndex, 0))\n\nwould produce the same stream without side effects.",
+      "revId": "6811f13b030bbcb6643b25a0da769dfe8c51da72",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
