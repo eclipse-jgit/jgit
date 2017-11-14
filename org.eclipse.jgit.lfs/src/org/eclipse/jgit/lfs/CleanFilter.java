@@ -124,7 +124,7 @@ public class CleanFilter extends FilterCommand {
 	public CleanFilter(Repository db, InputStream in, OutputStream out)
 			throws IOException {
 		super(in, out);
-		lfsUtil = new Lfs(db.getDirectory().toPath().resolve("lfs")); //$NON-NLS-1$
+		lfsUtil = new Lfs(FileUtils.toPath(db.getDirectory()).resolve("lfs")); //$NON-NLS-1$
 		Files.createDirectories(lfsUtil.getLfsTmpDir());
 		tmpFile = lfsUtil.createTmpFile();
 		this.aOut = new AtomicObjectOutputStream(tmpFile.toAbsolutePath());

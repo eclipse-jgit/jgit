@@ -58,6 +58,7 @@ import java.time.Instant;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.ConfigConstants;
+import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.GitDateParser;
 import org.eclipse.jgit.util.SystemReader;
 
@@ -105,12 +106,12 @@ class GcLog {
 
 	private boolean autoGcBlockedByOldLockFile(boolean background) {
 		try {
-			FileTime lastModified = Files.getLastModifiedTime(logFile.toPath());
+			FileTime lastModified = Files.getLastModifiedTime(FileUtils.toPath(logFile));
 			if (lastModified.toInstant().compareTo(getLogExpiry()) > 0) {
 				// There is an existing log file, which is too recent to ignore
 				if (!background) {
 					try (BufferedReader reader = Files
-							.newBufferedReader(logFile.toPath())) {
+							.newBufferedReader(FileUtils.toPath(logFile))) {
 						char[] buf = new char[1000];
 						int len = reader.read(buf, 0, 1000);
 						String oldError = new String(buf, 0, len);
