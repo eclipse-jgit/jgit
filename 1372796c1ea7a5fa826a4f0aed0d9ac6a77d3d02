@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_9631def2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcTemporaryFilesTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-11-14T14:30:39Z",
+      "side": 1,
+      "message": "Imagine Instant.now() and/or Filesystem modification timestamps have a resolution of 500ms. If both timers don\u0027t tick between pack creation in line 72 to threshold check in gc then this test would fail. To be on the saver side I would add 2 sec to the threshold because we all hope that clocks tick at least all 2 seconds. Like .... -24*60*62*1000...",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 26
+      },
+      "revId": "1372796c1ea7a5fa826a4f0aed0d9ac6a77d3d02",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
