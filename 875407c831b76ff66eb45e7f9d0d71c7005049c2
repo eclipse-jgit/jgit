@@ -22,6 +22,30 @@
       "revId": "875407c831b76ff66eb45e7f9d0d71c7005049c2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_96f47ec2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 973,
+      "author": {
+        "id": 24046
+      },
+      "writtenOn": "2017-11-14T13:48:57Z",
+      "side": 1,
+      "message": "Indeed, way better, thanks. Done.",
+      "parentUuid": "a7979753_b6cfbaa2",
+      "range": {
+        "startLine": 968,
+        "startChar": 0,
+        "endLine": 973,
+        "endChar": 8
+      },
+      "revId": "875407c831b76ff66eb45e7f9d0d71c7005049c2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
