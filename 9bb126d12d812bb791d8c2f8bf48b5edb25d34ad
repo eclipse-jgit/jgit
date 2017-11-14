@@ -22,6 +22,30 @@
       "revId": "9bb126d12d812bb791d8c2f8bf48b5edb25d34ad",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_f6130218",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 24046
+      },
+      "writtenOn": "2017-11-14T15:12:07Z",
+      "side": 1,
+      "message": "Attempt to fix it here: https://git.eclipse.org/r/#/c/111548/",
+      "parentUuid": "a7979753_2b0fe7c1",
+      "range": {
+        "startLine": 126,
+        "startChar": 15,
+        "endLine": 126,
+        "endChar": 26
+      },
+      "revId": "9bb126d12d812bb791d8c2f8bf48b5edb25d34ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
