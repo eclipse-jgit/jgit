@@ -74,7 +74,7 @@ public class ReftableCompactor {
 	private long compactBytesLimit;
 	private long bytesToCompact;
 	private boolean includeDeletes;
-	private long minUpdateIndex;
+	private long minUpdateIndex = -1;
 	private long maxUpdateIndex;
 	private long oldestReflogTimeMillis;
 	private Stats stats;
@@ -199,7 +199,7 @@ public class ReftableCompactor {
 	}
 
 	private void adjustUpdateIndexes(ReftableReader reader) throws IOException {
-		if (minUpdateIndex == 0) {
+		if (minUpdateIndex == -1) {
 			minUpdateIndex = reader.minUpdateIndex();
 		} else {
 			minUpdateIndex = Math.min(minUpdateIndex, reader.minUpdateIndex());
@@ -220,7 +220,7 @@ public class ReftableCompactor {
 		MergedReftable mr = new MergedReftable(new ArrayList<>(tables));
 		mr.setIncludeDeletes(includeDeletes);
 
-		writer.setMinUpdateIndex(minUpdateIndex);
+		writer.setMinUpdateIndex(Math.max(minUpdateIndex, 0));
 		writer.setMaxUpdateIndex(maxUpdateIndex);
 		writer.begin(out);
 		mergeRefs(mr);
