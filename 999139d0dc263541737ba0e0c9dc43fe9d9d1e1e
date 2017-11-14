@@ -70,6 +70,24 @@
       "revId": "999139d0dc263541737ba0e0c9dc43fe9d9d1e1e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_f6d86268",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 971,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-11-14T13:38:32Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "a7979753_abccb7e0",
+      "revId": "999139d0dc263541737ba0e0c9dc43fe9d9d1e1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
