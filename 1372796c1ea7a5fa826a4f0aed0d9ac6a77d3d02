@@ -22,6 +22,30 @@
       "revId": "1372796c1ea7a5fa826a4f0aed0d9ac6a77d3d02",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_d6b8c6ad",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcTemporaryFilesTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 24046
+      },
+      "writtenOn": "2017-11-14T14:57:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_9631def2",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 26
+      },
+      "revId": "1372796c1ea7a5fa826a4f0aed0d9ac6a77d3d02",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
