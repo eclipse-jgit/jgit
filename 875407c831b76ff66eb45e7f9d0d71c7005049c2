@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_b6cfbaa2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 973,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-11-14T13:38:32Z",
+      "side": 1,
+      "message": "I would calculate a threshold outside the loop as now-(24*60*60*1000). And in this loop all files with lastmodified\u003cthreshold can be deleted. Same as in the prune() method where we delete loose unreferenced objects if they are old enough. There we calculate a threshold in advance and use the same threshold for all delete decisions.",
+      "range": {
+        "startLine": 968,
+        "startChar": 0,
+        "endLine": 973,
+        "endChar": 8
+      },
+      "revId": "875407c831b76ff66eb45e7f9d0d71c7005049c2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
