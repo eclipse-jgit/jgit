@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_685655d9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableCompactor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-11-14T06:52:32Z",
+      "side": 1,
+      "message": "Is it possible for minUpdateIndex to be -1 at this point? Could it e.g. check for it and throw IllegalStateException?\n\nWhat should minUpdateIndex and maxUpdateIndex be if there are no refs to write? Is that a caller error or is it a case that can come up?",
+      "revId": "7cf5d63926d8f4394f87e7dca07c3b4ce5340e75",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
