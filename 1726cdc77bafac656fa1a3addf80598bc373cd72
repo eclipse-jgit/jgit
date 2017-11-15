@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_4c19a606",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-11-15T21:53:42Z",
+      "side": 1,
+      "message": "language nit: \"from resurrecting\"",
+      "range": {
+        "startLine": 9,
+        "startChar": 52,
+        "endLine": 9,
+        "endChar": 66
+      },
+      "revId": "1726cdc77bafac656fa1a3addf80598bc373cd72",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_0c0f9ec1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-11-15T21:53:42Z",
+      "side": 1,
+      "message": "false is the default for a field, so this doesn\u0027t need an initializer",
+      "revId": "1726cdc77bafac656fa1a3addf80598bc373cd72",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
