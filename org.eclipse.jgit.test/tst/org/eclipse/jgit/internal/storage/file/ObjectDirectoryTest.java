@@ -129,8 +129,8 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 			assertTrue(receivingDB.getObjectDatabase().hasPackedObject(id));
 
 			// preparations
-			File packsFolder = new File(receivingDB.getObjectsDirectory(),
-					"pack");
+			File packsFolder = receivingDB.getObjectDatabase()
+					.getPackDirectory();
 			// prepare creation of a temporary file in the pack folder. This
 			// simulates that a native git gc is happening starting to write
 			// temporary files but has not yet finished
