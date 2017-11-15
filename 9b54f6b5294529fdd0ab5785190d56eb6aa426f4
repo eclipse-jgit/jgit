@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_fc02037f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 967,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-11-15T00:03:42Z",
+      "side": 1,
+      "message": "I\u0027d delegate these conversions to Instant:\n\n Instant threshold \u003d Instant.now().minus(1, ChronoUnit.DAYS);",
+      "range": {
+        "startLine": 967,
+        "startChar": 19,
+        "endLine": 967,
+        "endChar": 69
+      },
+      "revId": "9b54f6b5294529fdd0ab5785190d56eb6aa426f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_bcf07b04",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 974,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-11-15T00:03:42Z",
+      "side": 1,
+      "message": "Instant lastModified \u003d Files.getLastModifiedTime(t).toInstant();\nif (lastModified.isBefore(threshold)) {\n    ...",
+      "range": {
+        "startLine": 972,
+        "startChar": 0,
+        "endLine": 974,
+        "endChar": 38
+      },
+      "revId": "9b54f6b5294529fdd0ab5785190d56eb6aa426f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
