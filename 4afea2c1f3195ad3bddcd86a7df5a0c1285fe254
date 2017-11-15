@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_ecc172fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-11-15T20:58:36Z",
+      "side": 1,
+      "message": "Can you say more about this? Is it possible to illustrate using a test?",
+      "revId": "4afea2c1f3195ad3bddcd86a7df5a0c1285fe254",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
