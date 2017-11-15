@@ -1257,13 +1257,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 							}
 							authAttempts = 1;
 							// We only do the Kerberos part of SPNEGO, which
-							// requires only one attempt. We do *not* to the
-							// NTLM part of SPNEGO; it's a multi-round
-							// negotiation and among other problems it would
-							// be unclear when to stop if no HTTP_OK is
-							// forthcoming. In theory a malicious server
-							// could keep sending requests for another NTLM
-							// round, keeping a client stuck here.
+							// requires only one round.
 							break;
 						default:
 							// DIGEST or BASIC. Let's be sure we ignore
@@ -1305,6 +1299,27 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 				} catch (SSLHandshakeException e) {
 					handleSslFailure(e);
 					continue; // Re-try
+				} catch (IOException e) {
+					if (authenticator == null || authMethod
+							.getType() != HttpAuthMethod.Type.NONE) {
+						// Can happen for instance if the server advertises
+						// Negotiate, but the client isn't configured for
+						// Kerberos. The first time (authenticator == null) we
+						// must re-try even if the authMethod was NONE: this may
+						// occur if the server advertised NTLM on the GET
+						// and the HttpConnection managed to successfully
+						// authenticate under the hood with NTLM. We might not
+						// have picked this up on the GET's 200 response.
+						if (authMethod.getType() != HttpAuthMethod.Type.NONE) {
+							ignoreTypes.add(authMethod.getType());
+						}
+						// Start over with the remaining available methods.
+						authMethod = HttpAuthMethod.Type.NONE.method(null);
+						authenticator = authMethod;
+						authAttempts = 1;
+						continue;
+					}
+					throw e;
 				}
 			}
 		}
