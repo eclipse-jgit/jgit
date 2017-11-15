@@ -1257,13 +1257,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 							}
 							authAttempts = 1;
 							// We only do the Kerberos part of SPNEGO, which
-							// requires only one attempt. We do *not* to the
-							// NTLM part of SPNEGO; it's a multi-round
-							// negotiation and among other problems it would
-							// be unclear when to stop if no HTTP_OK is
-							// forthcoming. In theory a malicious server
-							// could keep sending requests for another NTLM
-							// round, keeping a client stuck here.
+							// requires only one round.
 							break;
 						default:
 							// DIGEST or BASIC. Let's be sure we ignore
@@ -1305,6 +1299,8 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 				} catch (SSLHandshakeException e) {
 					handleSslFailure(e);
 					continue; // Re-try
+				} catch (IOException e) {
+					throw e;
 				}
 			}
 		}
