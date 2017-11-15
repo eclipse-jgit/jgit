@@ -117,9 +117,10 @@ public class FileUtils {
 	 *
 	 * @param f
 	 *            {@code File} to be converted to {@code Path}
+	 * @return the path represented by the file
 	 * @throws IOException
-	 *            in case the path represented by the file
-	 *            is not valid ({@link java.nio.file.InvalidPathException})
+	 *             in case the path represented by the file is not valid (
+	 *             {@link java.nio.file.InvalidPathException})
 	 *
 	 * @since 4.10
 	 */
