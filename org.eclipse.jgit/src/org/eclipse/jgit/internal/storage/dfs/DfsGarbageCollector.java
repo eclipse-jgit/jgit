@@ -699,7 +699,7 @@ public class DfsGarbageCollector {
 		try (ReftableStack stack = ReftableStack.open(ctx, reftablesBefore)) {
 			ReftableCompactor compact = new ReftableCompactor();
 			compact.addAll(stack.readers());
-			compact.setIncludeDeletes(false);
+			compact.setIncludeDeletes(true);
 			compactReftable(pack, compact);
 		}
 	}
