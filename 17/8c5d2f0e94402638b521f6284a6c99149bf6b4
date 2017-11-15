@@ -1,0 +1,8 @@
+Code-Review+1: Marc Strapetz <marc.strapetz@syntevo.com>
+Verified+1: Hudson CI
+Code-Review+2: David Pursehouse <david.pursehouse@gmail.com>
+Submitted-by: David Pursehouse <david.pursehouse@gmail.com>
+Submitted-at: Tue, 14 Nov 2017 20:37:14 -0500
+Reviewed-on: https://git.eclipse.org/r/111548
+Project: jgit/jgit
+Branch: refs/heads/master
