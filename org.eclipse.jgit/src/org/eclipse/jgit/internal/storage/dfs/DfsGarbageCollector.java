@@ -108,6 +108,7 @@ public class DfsGarbageCollector {
 	private PackConfig packConfig;
 	private ReftableConfig reftableConfig;
 	private boolean convertToReftable = true;
+	private boolean includeDeletes = false;
 	private long reftableInitialMinUpdateIndex = 1;
 	private long reftableInitialMaxUpdateIndex = 1;
 
@@ -174,14 +175,25 @@ public class DfsGarbageCollector {
 
 	/**
 	 * @param convert
+	 *            if true, the garbage collector will include tombstones for
+	 *            deleted references in the reftable. Default is {@code false}.
+	 * @return {@code this}
+	 */
+	public DfsGarbageCollector setConvertToReftable(boolean convert) {
+		convertToReftable = convert;
+		return this;
+	}
+
+	/**
+	 * @param include
 	 *            if true, {@link #setReftableConfig(ReftableConfig)} has been
 	 *            set non-null, and a GC reftable doesn't yet exist, the garbage
 	 *            collector will make one by scanning the existing references,
 	 *            and writing a new reftable. Default is {@code true}.
 	 * @return {@code this}
 	 */
-	public DfsGarbageCollector setConvertToReftable(boolean convert) {
-		convertToReftable = convert;
+	public DfsGarbageCollector setIncludeDeletes(boolean include) {
+		includeDeletes = include;
 		return this;
 	}
 
@@ -699,7 +711,7 @@ public class DfsGarbageCollector {
 		try (ReftableStack stack = ReftableStack.open(ctx, reftablesBefore)) {
 			ReftableCompactor compact = new ReftableCompactor();
 			compact.addAll(stack.readers());
-			compact.setIncludeDeletes(false);
+			compact.setIncludeDeletes(includeDeletes);
 			compactReftable(pack, compact);
 		}
 	}
