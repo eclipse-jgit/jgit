@@ -438,6 +438,7 @@ public class ReftableBatchRefUpdate extends BatchRefUpdate {
 
 		ReftableCompactor compactor = new ReftableCompactor();
 		compactor.setConfig(cfg);
+		compactor.setIncludeDeletes(true);
 		compactor.addAll(tables);
 		compactor.compact(out);
 		return compactor.getStats();

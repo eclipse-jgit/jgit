@@ -587,6 +587,7 @@ public class TestRepository<R extends Repository> {
 	public void delete(String ref) throws Exception {
 		ref = normalizeRef(ref);
 		RefUpdate u = db.updateRef(ref);
+		u.setForceUpdate(true);
 		switch (u.delete()) {
 		case FAST_FORWARD:
 		case FORCED:
