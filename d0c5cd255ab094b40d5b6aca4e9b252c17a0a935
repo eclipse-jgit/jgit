@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_5fe6a6d5",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/TestRepository.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-11-16T06:12:04Z",
+      "side": 1,
+      "message": "What does this part do?",
+      "revId": "d0c5cd255ab094b40d5b6aca4e9b252c17a0a935",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_7fe362c3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/ReftableBatchRefUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-11-16T06:12:04Z",
+      "side": 1,
+      "message": "ooh, good catch as well.\n\nThis is orthogonal to the DfsGarbageCollector change, right? Could it be a separate commit?",
+      "revId": "d0c5cd255ab094b40d5b6aca4e9b252c17a0a935",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
