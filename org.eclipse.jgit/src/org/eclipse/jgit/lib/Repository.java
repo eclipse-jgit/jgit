@@ -154,6 +154,12 @@ public abstract class Repository implements AutoCloseable {
 	private final File indexFile;
 
 	/**
+	 * If not bare, the sparse-checkout file indicates which resources can be
+	 * ignored on checkout.
+	 */
+	private final File sparseCheckoutFile;
+
+	/**
 	 * Initialize a new repository instance.
 	 *
 	 * @param options
@@ -164,6 +170,7 @@ public abstract class Repository implements AutoCloseable {
 		fs = options.getFS();
 		workTree = options.getWorkTree();
 		indexFile = options.getIndexFile();
+		sparseCheckoutFile = options.getSparseCheckoutFile();
 	}
 
 	/** @return listeners observing only events on this repository. */
@@ -1155,10 +1162,26 @@ public abstract class Repository implements AutoCloseable {
 	}
 
 	/**
+	 * @return the sparse-checkout file location or {@code null} if repository
+	 *         isn't local.
+	 * @throws NoWorkTreeException
+	 *             if this is bare, which implies it has no working directory.
+	 *             See {@link #isBare()}.
+	 * @since 4.10
+	 */
+	@NonNull
+	public File getSparseCheckoutFile() throws NoWorkTreeException {
+		if (isBare()) {
+			throw new NoWorkTreeException();
+		}
+		return sparseCheckoutFile;
+	}
+
+	/**
 	 * Locate a reference to a commit and immediately parse its content.
 	 * <p>
-	 * This method only returns successfully if the commit object exists,
-	 * is verified to be a commit, and was parsed without error.
+	 * This method only returns successfully if the commit object exists, is
+	 * verified to be a commit, and was parsed without error.
 	 *
 	 * @param id
 	 *            name of the commit object.

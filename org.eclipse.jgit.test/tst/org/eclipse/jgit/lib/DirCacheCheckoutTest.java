@@ -49,6 +49,7 @@ import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -1951,4 +1952,152 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 			assertEquals("WorkDir has not the right size.", i.size(), nrFiles);
 		}
 	}
+
+	/**
+	 * Test a checkout when the spare-checkout rule is 'false' and no file is
+	 * present.
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testSkippedCheckoutNoFileSparseFalse() throws Exception {
+		ChangeRecorder recorder = new ChangeRecorder();
+		ListenerHandle handle = null;
+		try (Git git = new Git(db)) {
+			handle = db.getListenerList()
+					.addWorkingTreeModifiedListener(recorder);
+			TestRepository<Repository> db_t = new TestRepository<>(db);
+			db_t.getRepository().getConfig().setBoolean(
+					ConfigConstants.CONFIG_CORE_SECTION, null,
+					ConfigConstants.CONFIG_KEY_SPARSECHECKOUT, false);
+			BranchBuilder master = db_t.branch("master");
+			master.commit().add("f", "1").message("m0").create();
+			assertFalse(new File(db.getWorkTree(), "f").exists());
+			git.checkout().setName("master").call();
+			assertTrue(new File(db.getWorkTree(), "f").exists());
+			recorder.assertEvent(new String[] { "f" }, ChangeRecorder.EMPTY);
+		} finally {
+			if (handle != null) {
+				handle.remove();
+			}
+		}
+	}
+
+	/**
+	 * Test a checkout when the spare-checkout rule is 'true' and no file is
+	 * present.
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testSkippedCheckoutNoFileSparseTrue() throws Exception {
+		ChangeRecorder recorder = new ChangeRecorder();
+		ListenerHandle handle = null;
+		try (Git git = new Git(db)) {
+			handle = db.getListenerList()
+					.addWorkingTreeModifiedListener(recorder);
+			TestRepository<Repository> db_t = new TestRepository<>(db);
+			db_t.getRepository().getConfig().setBoolean(
+					ConfigConstants.CONFIG_CORE_SECTION, null,
+					ConfigConstants.CONFIG_KEY_SPARSECHECKOUT, true);
+			BranchBuilder master = db_t.branch("master");
+			master.commit().add("f", "1").message("m0").create();
+			assertFalse(new File(db.getWorkTree(), "f").exists());
+			git.checkout().setName("master").call();
+			assertTrue(new File(db.getWorkTree(), "f").exists());
+			recorder.assertEvent(new String[] { "f" }, ChangeRecorder.EMPTY);
+		} finally {
+			if (handle != null) {
+				handle.remove();
+			}
+		}
+	}
+
+	/**
+	 * Test a checkout when the spare-checkout rule is 'true' and there is an
+	 * empty sparse-checkout file present.
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testSkippedCheckoutWithEmptyFileSparseTrue() throws Exception {
+		ChangeRecorder recorder = new ChangeRecorder();
+		ListenerHandle handle = null;
+		try (Git git = new Git(db)) {
+			handle = db.getListenerList()
+					.addWorkingTreeModifiedListener(recorder);
+			File infoDir = new File(db.getDirectory(), "info");
+			infoDir.mkdirs();
+			File file = new File(db.getDirectory(),
+					Constants.INFO_SPARSE_CHECKOUT);
+			file.createNewFile();
+
+			TestRepository<Repository> db_t = new TestRepository<>(db);
+			db_t.getRepository().getConfig().setBoolean(
+					ConfigConstants.CONFIG_CORE_SECTION, null,
+					ConfigConstants.CONFIG_KEY_SPARSECHECKOUT, true);
+			BranchBuilder master = db_t.branch("master");
+			master.commit().add("f", "1").message("m0").create();
+			assertFalse(new File(db.getWorkTree(), "f").exists());
+			git.checkout().setName("master").call();
+			assertTrue(new File(db.getWorkTree(), "f").exists());
+			recorder.assertEvent(new String[] { "f" }, ChangeRecorder.EMPTY);
+		} finally {
+			if (handle != null) {
+				handle.remove();
+			}
+		}
+	}
+
+	/**
+	 * Test a checkout when the spare-checkout rule is 'true' and there is
+	 * sparse-checkout file with rules present.
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testSkippedCheckoutWithSparseTrue() throws Exception {
+		ChangeRecorder recorder = new ChangeRecorder();
+		ListenerHandle handle = null;
+		try (Git git = new Git(db)) {
+			handle = db.getListenerList()
+					.addWorkingTreeModifiedListener(recorder);
+			File infoDir = new File(db.getDirectory(), "info");
+			infoDir.mkdirs();
+			File file = new File(db.getDirectory(),
+					Constants.INFO_SPARSE_CHECKOUT);
+			file.createNewFile();
+
+			try (FileWriter fw = new FileWriter(file)) {
+				fw.write("file-to-checkout");
+				fw.write("\n!file-to-not-checkout");
+				fw.write("\nfile-does-not-exist");
+			}
+
+			TestRepository<Repository> db_t = new TestRepository<>(db);
+			db_t.getRepository().getConfig().setBoolean(
+					ConfigConstants.CONFIG_CORE_SECTION, null,
+					ConfigConstants.CONFIG_KEY_SPARSECHECKOUT, true);
+			BranchBuilder master = db_t.branch("master");
+			master.commit().add("f", "1").message("m0").create();
+			master.commit().add("file-to-checkout", "1").message("m0").create();
+			master.commit().add("file-to-not-checkout", "1").message("m0")
+					.create();
+			assertFalse(new File(db.getWorkTree(), "f").exists());
+			assertFalse(
+					new File(db.getWorkTree(), "file-to-checkout").exists());
+			assertFalse(new File(db.getWorkTree(), "file-to-not-checkout")
+					.exists());
+			git.checkout().setName("master").call();
+			assertFalse(new File(db.getWorkTree(), "f").exists());
+			assertTrue(new File(db.getWorkTree(), "file-to-checkout").exists());
+			assertFalse(new File(db.getWorkTree(), "file-to-not-checkout")
+					.exists());
+		} finally {
+			if (handle != null) {
+				handle.remove();
+			}
+		}
+	}
+
 }
