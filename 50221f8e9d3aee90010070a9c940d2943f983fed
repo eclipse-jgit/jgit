@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_e7ca64c3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 860,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-11-19T19:43:50Z",
+      "side": 1,
+      "message": "I think we only need to replace \"\\\\\" by \"/\" (on Windows). Replacing \"/\" by itself on Unix seems unnecessary.",
+      "range": {
+        "startLine": 860,
+        "startChar": 42,
+        "endLine": 860,
+        "endChar": 60
+      },
+      "revId": "50221f8e9d3aee90010070a9c940d2943f983fed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_07da1091",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 860,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-11-19T19:43:50Z",
+      "side": 1,
+      "message": "use File.getPah() instead ?",
+      "range": {
+        "startLine": 860,
+        "startChar": 14,
+        "endLine": 860,
+        "endChar": 33
+      },
+      "revId": "50221f8e9d3aee90010070a9c940d2943f983fed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
