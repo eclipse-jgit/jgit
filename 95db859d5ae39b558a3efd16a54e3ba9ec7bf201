@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_27d54c5f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/FileBasedConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-11-19T19:44:39Z",
+      "side": 1,
+      "message": "\u0027\\\\\u0027",
+      "range": {
+        "startLine": 167,
+        "startChar": 13,
+        "endLine": 167,
+        "endChar": 31
+      },
+      "revId": "95db859d5ae39b558a3efd16a54e3ba9ec7bf201",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_c7f64802",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileBasedConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-11-19T19:44:39Z",
+      "side": 1,
+      "message": "missing @since 4.10 tag",
+      "revId": "95db859d5ae39b558a3efd16a54e3ba9ec7bf201",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_c7d568b3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileBasedConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-11-19T19:44:39Z",
+      "side": 1,
+      "message": "style nit: missing braces",
+      "revId": "95db859d5ae39b558a3efd16a54e3ba9ec7bf201",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
