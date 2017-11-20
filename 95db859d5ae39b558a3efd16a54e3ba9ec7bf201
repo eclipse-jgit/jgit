@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a7979753_8a1e0720",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/FileBasedConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2017-11-20T09:38:38Z",
+      "side": 1,
+      "message": "I\u0027m using ConfigTest.pathToString now.",
+      "parentUuid": "a7979753_27d54c5f",
+      "range": {
+        "startLine": 167,
+        "startChar": 13,
+        "endLine": 167,
+        "endChar": 31
+      },
+      "revId": "95db859d5ae39b558a3efd16a54e3ba9ec7bf201",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_c7f64802",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileBasedConfig.java",
         "patchSetId": 1
@@ -60,6 +84,42 @@
     },
     {
       "key": {
+        "uuid": "a7979753_aa382388",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileBasedConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2017-11-20T09:38:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_ca500f2c",
+      "revId": "95db859d5ae39b558a3efd16a54e3ba9ec7bf201",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_8a352792",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileBasedConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2017-11-20T09:38:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_c7f64802",
+      "revId": "95db859d5ae39b558a3efd16a54e3ba9ec7bf201",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_c7d568b3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileBasedConfig.java",
         "patchSetId": 1
@@ -71,6 +131,24 @@
       "writtenOn": "2017-11-19T19:44:39Z",
       "side": 1,
       "message": "style nit: missing braces",
+      "revId": "95db859d5ae39b558a3efd16a54e3ba9ec7bf201",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_ca2e4f45",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileBasedConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2017-11-20T09:38:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_c7d568b3",
       "revId": "95db859d5ae39b558a3efd16a54e3ba9ec7bf201",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
