@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_ca500f2c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileBasedConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-11-20T05:28:56Z",
+      "side": 1,
+      "message": "Annotate as @Nullable?",
+      "parentUuid": "a7979753_c7f64802",
+      "revId": "95db859d5ae39b558a3efd16a54e3ba9ec7bf201",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_c7d568b3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileBasedConfig.java",
         "patchSetId": 1
