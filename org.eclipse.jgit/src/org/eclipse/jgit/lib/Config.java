@@ -63,6 +63,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.events.ConfigChangedEvent;
 import org.eclipse.jgit.events.ConfigChangedListener;
@@ -1100,6 +1101,36 @@ public class Config {
 		return newEntries;
 	}
 
+	/**
+	 * Read the included config from the specified (possibly) relative path
+	 *
+	 * @param relPath
+	 *            possibly relative path to the included config, as specified in
+	 *            this config
+	 * @return the read bytes, or null if the included config should be ignored
+	 * @throws ConfigInvalidException
+	 *             if something went wrong while reading the config
+	 * @since 4.10
+	 */
+	@Nullable
+	protected byte[] readIncludedConfig(String relPath)
+			throws ConfigInvalidException {
+		File path = new File(relPath);
+		try {
+			return IO.readFully(path);
+		} catch (FileNotFoundException fnfe) {
+			if (path.exists()) {
+				throw new ConfigInvalidException(MessageFormat
+						.format(JGitText.get().cannotReadFile, path), fnfe);
+			}
+			return null;
+		} catch (IOException ioe) {
+			throw new ConfigInvalidException(
+					MessageFormat.format(JGitText.get().cannotReadFile, path),
+					ioe);
+		}
+	}
+
 	private void addIncludedConfig(final List<ConfigLine> newEntries,
 			ConfigLine line, int depth) throws ConfigInvalidException {
 		if (!line.name.equals("path") || //$NON-NLS-1$
@@ -1107,27 +1138,19 @@ public class Config {
 			throw new ConfigInvalidException(
 					JGitText.get().invalidLineInConfigFile);
 		}
-		File path = new File(line.value);
-		try {
-			byte[] bytes = IO.readFully(path);
-			String decoded;
-			if (isUtf8(bytes)) {
-				decoded = RawParseUtils.decode(RawParseUtils.UTF8_CHARSET,
-						bytes, 3, bytes.length);
-			} else {
-				decoded = RawParseUtils.decode(bytes);
-			}
-			newEntries.addAll(fromTextRecurse(decoded, depth + 1));
-		} catch (FileNotFoundException fnfe) {
-			if (path.exists()) {
-				throw new ConfigInvalidException(MessageFormat
-						.format(JGitText.get().cannotReadFile, path), fnfe);
-			}
-		} catch (IOException ioe) {
-			throw new ConfigInvalidException(
-					MessageFormat.format(JGitText.get().cannotReadFile, path),
-					ioe);
+		byte[] bytes = readIncludedConfig(line.value);
+		if (bytes == null) {
+			return;
 		}
+
+		String decoded;
+		if (isUtf8(bytes)) {
+			decoded = RawParseUtils.decode(RawParseUtils.UTF8_CHARSET, bytes, 3,
+					bytes.length);
+		} else {
+			decoded = RawParseUtils.decode(bytes);
+		}
+		newEntries.addAll(fromTextRecurse(decoded, depth + 1));
 	}
 
 	private ConfigSnapshot newState() {
