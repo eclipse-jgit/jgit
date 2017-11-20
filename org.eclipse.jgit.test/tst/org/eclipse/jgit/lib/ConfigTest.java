@@ -64,6 +64,7 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -818,7 +819,7 @@ public class ConfigTest {
 	@Test
 	public void testIncludeTooManyRecursions() throws IOException {
 		File config = tmp.newFile("config");
-		String include = "[include]\npath=" + config.toPath() + "\n";
+		String include = "[include]\npath=" + pathToString(config) + "\n";
 		Files.write(config.toPath(), include.getBytes());
 		FileBasedConfig fbConfig = new FileBasedConfig(null, config,
 				FS.DETECTED);
@@ -838,8 +839,8 @@ public class ConfigTest {
 		File other = tmp.newFile("config.other");
 
 		String fooBar = "[foo]\nbar=true\n";
-		String includeMore = "[include]\npath=" + more.toPath() + "\n";
-		String includeOther = "path=" + other.toPath() + "\n";
+		String includeMore = "[include]\npath=" + pathToString(more) + "\n";
+		String includeOther = "path=" + pathToString(other) + "\n";
 		String fooPlus = fooBar + includeMore + includeOther;
 		Files.write(config.toPath(), fooPlus.getBytes());
 
@@ -849,10 +850,16 @@ public class ConfigTest {
 		String otherMore = "[other]\nmore=bar\n";
 		Files.write(other.toPath(), otherMore.getBytes());
 
-		Config parsed = parse("[include]\npath=" + config.toPath() + "\n");
+		Config parsed = parse("[include]\npath=" + pathToString(config) + "\n");
 		assertTrue(parsed.getBoolean("foo", "bar", false));
 		assertEquals("bar", parsed.getString("foo", null, "more"));
 		assertEquals("bar", parsed.getString("other", null, "more"));
+	}
+
+	private static String pathToString(File file) {
+		final String path = file.getPath();
+		return SystemReader.getInstance().isWindows() ? path.replace('\\', '/')
+				: path;
 	}
 
 	private static void assertReadLong(long exp) throws ConfigInvalidException {
