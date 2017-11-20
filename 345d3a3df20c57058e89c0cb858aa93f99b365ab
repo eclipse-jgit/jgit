@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a7979753_4ae97f77",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2017-11-20T09:38:27Z",
+      "side": 1,
+      "message": "I\u0027ve changed to \"Config: extract method to read included config\" to stay below 50 chars",
+      "parentUuid": "a7979753_47033884",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 7,
+        "endChar": 38
+      },
+      "revId": "345d3a3df20c57058e89c0cb858aa93f99b365ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_67067495",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -72,6 +96,54 @@
     },
     {
       "key": {
+        "uuid": "a7979753_6aec7b88",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2017-11-20T09:38:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_67067495",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 37
+      },
+      "revId": "345d3a3df20c57058e89c0cb858aa93f99b365ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_8ae36795",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2017-11-20T09:38:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_8a37e707",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 37
+      },
+      "revId": "345d3a3df20c57058e89c0cb858aa93f99b365ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_07e0508c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
         "patchSetId": 1
@@ -100,6 +172,42 @@
       "writtenOn": "2017-11-20T05:28:14Z",
       "side": 1,
       "message": "Annotate as @Nullable?",
+      "parentUuid": "a7979753_07e0508c",
+      "revId": "345d3a3df20c57058e89c0cb858aa93f99b365ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_eaf78b4b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1097,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2017-11-20T09:38:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_6a40fb5e",
+      "revId": "345d3a3df20c57058e89c0cb858aa93f99b365ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_cafc8f35",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1097,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2017-11-20T09:38:27Z",
+      "side": 1,
+      "message": "Done",
       "parentUuid": "a7979753_07e0508c",
       "revId": "345d3a3df20c57058e89c0cb858aa93f99b365ab",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
