@@ -68,7 +68,7 @@ class RevParse extends TextBuiltin {
 	boolean verify;
 
 	@Argument(index = 0, metaVar = "metaVar_commitish")
-	private final List<ObjectId> commits = new ArrayList<>();
+	private List<ObjectId> commits = new ArrayList<>();
 
 	@Override
 	protected void run() throws Exception {
