@@ -965,4 +965,56 @@ public class ConfigTest {
 		expectedEx.expect(IllegalArgumentException.class);
 		parseTime("-1", MILLISECONDS);
 	}
+
+	@Test
+	public void testEscapeSpacesOnly() throws ConfigInvalidException {
+		assertEquals("", Config.escapeValue(""));
+		assertEquals("\" \"", Config.escapeValue(" "));
+		assertEquals("\"  \"", Config.escapeValue("  "));
+
+		assertParseRoundTrip(" ");
+		assertParseRoundTrip("  ");
+	}
+
+	@Test
+	public void testEscapeLeadingSpace() throws ConfigInvalidException {
+		assertEquals("x", Config.escapeValue("x"));
+		assertEquals("\" x\"", Config.escapeValue(" x"));
+		assertEquals("\"  x\"", Config.escapeValue("  x"));
+
+		assertParseRoundTrip("x");
+		assertParseRoundTrip(" x");
+		assertParseRoundTrip("  x");
+	}
+
+	@Test
+	public void testEscapeTrailingSpace() throws ConfigInvalidException {
+		assertEquals("x", Config.escapeValue("x"));
+		assertEquals("\"x  \"", Config.escapeValue("x  "));
+		assertEquals("x\" \"", Config.escapeValue("x "));
+
+		assertParseRoundTrip("x");
+		assertParseRoundTrip("x ");
+		assertParseRoundTrip("x  ");
+	}
+
+	@Test
+	public void testEscapeLeadingAndTrailingSpace()
+			throws ConfigInvalidException {
+		assertEquals("\" x \"", Config.escapeValue(" x "));
+		assertEquals("\"  x \"", Config.escapeValue("  x "));
+		assertEquals("\" x  \"", Config.escapeValue(" x  "));
+		assertEquals("\"  x  \"", Config.escapeValue("  x  "));
+
+		assertParseRoundTrip(" x ");
+		assertParseRoundTrip(" x  ");
+		assertParseRoundTrip("  x ");
+		assertParseRoundTrip("  x  ");
+	}
+
+	private static void assertParseRoundTrip(String value)
+			throws ConfigInvalidException {
+		Config c = parse("[foo]\nbar = " + Config.escapeValue(value));
+		assertEquals(value, c.getString("foo", null, "bar"));
+	}
 }
