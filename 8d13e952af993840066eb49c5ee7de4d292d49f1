@@ -59,6 +59,48 @@
     },
     {
       "key": {
+        "uuid": "a7979753_c49c7bf2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-11-22T16:40:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_2429bf3a",
+      "revId": "8d13e952af993840066eb49c5ee7de4d292d49f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_e49257d9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-11-22T16:40:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_a4476ff5",
+      "range": {
+        "startLine": 83,
+        "startChar": 44,
+        "endLine": 83,
+        "endChar": 51
+      },
+      "revId": "8d13e952af993840066eb49c5ee7de4d292d49f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_c4739b59",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
         "patchSetId": 6
@@ -76,6 +118,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_048e83b8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-11-22T16:40:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_c4739b59",
+      "revId": "8d13e952af993840066eb49c5ee7de4d292d49f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_045cc3c4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
         "patchSetId": 6
@@ -87,6 +147,24 @@
       "writtenOn": "2017-11-22T16:26:55Z",
       "side": 1,
       "message": "rewrite as:\n\n  supportsAtomicCreateNewFile \u003d ret \u003d\u003d null || ret\n\n?",
+      "revId": "8d13e952af993840066eb49c5ee7de4d292d49f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_2428df0d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-11-22T16:40:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_045cc3c4",
       "revId": "8d13e952af993840066eb49c5ee7de4d292d49f1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
