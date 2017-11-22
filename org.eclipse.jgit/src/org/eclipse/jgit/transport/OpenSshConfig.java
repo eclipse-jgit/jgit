@@ -59,6 +59,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.errors.InvalidPatternException;
 import org.eclipse.jgit.fnmatch.FileNameMatcher;
@@ -961,7 +962,7 @@ public class OpenSshConfig implements ConfigRepository {
 
 	/**
 	 * Retrieves the full {@link com.jcraft.jsch.ConfigRepository.Config Config}
-	 * for the given host name.
+	 * for the given host name. Should be called only by Jsch and tests.
 	 *
 	 * @param hostName
 	 *            to get the config for
@@ -971,7 +972,7 @@ public class OpenSshConfig implements ConfigRepository {
 	@Override
 	public Config getConfig(String hostName) {
 		Host host = lookup(hostName);
-		return host.getConfig();
+		return new JschBugFixingConfig(host.getConfig());
 	}
 
 	@Override
@@ -979,5 +980,62 @@ public class OpenSshConfig implements ConfigRepository {
 	public String toString() {
 		return "OpenSshConfig [home=" + home + ", configFile=" + configFile
 				+ ", lastModified=" + lastModified + ", state=" + state + "]";
+	}
+
+	/**
+	 * A {@link com.jcraft.jsch.ConfigRepository.Config} that transforms some
+	 * values from the config file into the format Jsch 0.1.54 expects. This is
+	 * a work-around for bugs in Jsch.
+	 */
+	private static class JschBugFixingConfig implements Config {
+
+		private final Config real;
+
+		public JschBugFixingConfig(Config delegate) {
+			real = delegate;
+		}
+
+		@Override
+		public String getHostname() {
+			return real.getHostname();
+		}
+
+		@Override
+		public String getUser() {
+			return real.getUser();
+		}
+
+		@Override
+		public int getPort() {
+			return real.getPort();
+		}
+
+		@Override
+		public String getValue(String key) {
+			String result = real.getValue(key);
+			if (result != null) {
+				String k = key.toUpperCase(Locale.ROOT);
+				if ("SERVERALIVEINTERVAL".equals(k) //$NON-NLS-1$
+						|| "CONNECTTIMEOUT".equals(k)) { //$NON-NLS-1$
+					// These values are in seconds. Jsch 0.1.54 passes them on
+					// as is to java.net.Socket.setSoTimeout(), which expects
+					// milliseconds. So convert here to milliseconds...
+					try {
+						int timeout = Integer.parseInt(result);
+						result = Long
+								.toString(TimeUnit.SECONDS.toMillis(timeout));
+					} catch (NumberFormatException e) {
+						// Ignore
+					}
+				}
+			}
+			return result;
+		}
+
+		@Override
+		public String[] getValues(String key) {
+			return real.getValues(key);
+		}
+
 	}
 }
