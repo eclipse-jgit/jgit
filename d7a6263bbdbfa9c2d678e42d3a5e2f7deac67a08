@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_215b71ce",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-11-22T13:31:13Z",
+      "side": 1,
+      "message": "I think this is wrong, we should not get a global FS configuration parameter from a repository specific configuration. At the moment JGit only has a singleton FS instance i.e. the same JGit instance cannot handle two different filesystems with different configurations. I propose we get this configuration parameter from the global ~/.gitconfig.",
+      "revId": "d7a6263bbdbfa9c2d678e42d3a5e2f7deac67a08",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
