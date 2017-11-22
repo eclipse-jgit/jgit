@@ -655,8 +655,12 @@ public class DirCache {
 		final DigestOutputStream dos = new DigestOutputStream(os, foot);
 
 		boolean extended = false;
-		for (int i = 0; i < entryCnt; i++)
-			extended |= sortedEntries[i].isExtended();
+		for (int i = 0; i < entryCnt; i++) {
+			if (sortedEntries[i].isExtended()) {
+				extended = true;
+				break;
+			}
+		}
 
 		// Write the header.
 		//
