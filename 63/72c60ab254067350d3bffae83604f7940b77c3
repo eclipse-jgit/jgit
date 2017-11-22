@@ -1,0 +1,7 @@
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+Verified+1: Hudson CI
+Submitted-by: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-at: Wed, 22 Nov 2017 13:23:12 -0500
+Reviewed-on: https://git.eclipse.org/r/112096
+Project: jgit/jgit
+Branch: refs/heads/stable-4.5
