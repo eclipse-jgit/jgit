@@ -99,6 +99,7 @@ public class FS_POSIX extends FS {
 		}
 	}
 
+	@SuppressWarnings("boxing")
 	private void determineAtomicFileCreationSupport() {
 		// @TODO: enhance SystemReader to support this without copying code
 		Boolean ret = getAtomicFileCreationSupportOption(
