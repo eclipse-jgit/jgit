@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "a7979753_0475a33c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-11-22T16:15:56Z",
+      "side": 1,
+      "message": "mention that this needs to be set in global or system git config",
+      "revId": "8d13e952af993840066eb49c5ee7de4d292d49f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_2429bf3a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
         "patchSetId": 6
