@@ -95,6 +95,54 @@
     },
     {
       "key": {
+        "uuid": "a7979753_41cb1d96",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-11-22T12:01:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_0e094437",
+      "range": {
+        "startLine": 242,
+        "startChar": 35,
+        "endLine": 242,
+        "endChar": 38
+      },
+      "revId": "0aa5bf9107168555836a076a35f9cc47d3079a9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_61d9f969",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-11-22T12:01:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_ee0dd845",
+      "range": {
+        "startLine": 242,
+        "startChar": 26,
+        "endLine": 242,
+        "endChar": 34
+      },
+      "revId": "0aa5bf9107168555836a076a35f9cc47d3079a9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_8e2454b8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 2
@@ -106,6 +154,30 @@
       "writtenOn": "2017-11-22T07:06:17Z",
       "side": 1,
       "message": "\"a new\"",
+      "range": {
+        "startLine": 811,
+        "startChar": 11,
+        "endLine": 811,
+        "endChar": 14
+      },
+      "revId": "0aa5bf9107168555836a076a35f9cc47d3079a9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_c1d62d37",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 811,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-11-22T12:01:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_8e2454b8",
       "range": {
         "startLine": 811,
         "startChar": 11,
@@ -141,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "a7979753_a1892134",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-11-22T12:01:20Z",
+      "side": 1,
+      "message": "- it\u0027s marked volatile now\n- the field has been moved\n- the name: Technically this field is set when an access to the attribute \"unix:nlink\" throws an UnsupportedOperationException. And based on the API doc this means that the view \"unix\" is not supported. If the attribute \"nlink\" is not known then another, currently unhandled exception is thrown. Means: I think the name is ok.",
+      "parentUuid": "a7979753_0ed144c4",
+      "range": {
+        "startLine": 306,
+        "startChar": 17,
+        "endLine": 306,
+        "endChar": 33
+      },
+      "revId": "0aa5bf9107168555836a076a35f9cc47d3079a9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_8ec53409",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
         "patchSetId": 2
@@ -152,6 +248,30 @@
       "writtenOn": "2017-11-22T08:34:14Z",
       "side": 1,
       "message": "{@code core.supportsAtomicCreateNewFile \u003d true}",
+      "range": {
+        "startLine": 311,
+        "startChar": 33,
+        "endLine": 311,
+        "endChar": 73
+      },
+      "revId": "0aa5bf9107168555836a076a35f9cc47d3079a9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_c18c6d44",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-11-22T12:01:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_8ec53409",
       "range": {
         "startLine": 311,
         "startChar": 33,
@@ -187,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "a7979753_e182490b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-11-22T12:01:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_aeccb033",
+      "range": {
+        "startLine": 314,
+        "startChar": 11,
+        "endLine": 314,
+        "endChar": 59
+      },
+      "revId": "0aa5bf9107168555836a076a35f9cc47d3079a9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_ee34f8e3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
         "patchSetId": 2
@@ -204,6 +348,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_e10de945",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-11-22T12:01:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_ee34f8e3",
+      "revId": "0aa5bf9107168555836a076a35f9cc47d3079a9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_4e2a6c7f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
         "patchSetId": 2
@@ -215,6 +377,30 @@
       "writtenOn": "2017-11-22T07:06:17Z",
       "side": 1,
       "message": "else block is unnecessary here.",
+      "range": {
+        "startLine": 337,
+        "startChar": 4,
+        "endLine": 340,
+        "endChar": 4
+      },
+      "revId": "0aa5bf9107168555836a076a35f9cc47d3079a9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_01091537",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-11-22T12:01:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_4e2a6c7f",
       "range": {
         "startLine": 337,
         "startChar": 4,
@@ -266,6 +452,54 @@
         "startChar": 24,
         "endLine": 341,
         "endChar": 38
+      },
+      "revId": "0aa5bf9107168555836a076a35f9cc47d3079a9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_812425b8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-11-22T12:01:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_ce1e5c68",
+      "range": {
+        "startLine": 341,
+        "startChar": 24,
+        "endLine": 341,
+        "endChar": 38
+      },
+      "revId": "0aa5bf9107168555836a076a35f9cc47d3079a9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_6121f9a6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-11-22T12:01:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_2e2fe090",
+      "range": {
+        "startLine": 341,
+        "startChar": 10,
+        "endLine": 341,
+        "endChar": 22
       },
       "revId": "0aa5bf9107168555836a076a35f9cc47d3079a9b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
