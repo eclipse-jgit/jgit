@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_fa9bce7c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 817,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-11-22T22:30:01Z",
+      "side": 1,
+      "message": "remove ss",
+      "revId": "6c4abb58589ed07d8de1a60fe8ad07d20ee1cfb0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
