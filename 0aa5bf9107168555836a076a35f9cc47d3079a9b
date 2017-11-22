@@ -1,0 +1,182 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_ce073c24",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-11-22T07:06:17Z",
+      "side": 1,
+      "message": "Do we always specify the major release in @since even for things added in a minor release?",
+      "range": {
+        "startLine": 295,
+        "startChar": 4,
+        "endLine": 295,
+        "endChar": 14
+      },
+      "revId": "0aa5bf9107168555836a076a35f9cc47d3079a9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_ee0dd845",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-11-22T07:06:17Z",
+      "side": 1,
+      "message": "support",
+      "range": {
+        "startLine": 242,
+        "startChar": 26,
+        "endLine": 242,
+        "endChar": 34
+      },
+      "revId": "0aa5bf9107168555836a076a35f9cc47d3079a9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_0e094437",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-11-22T07:06:17Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 242,
+        "startChar": 35,
+        "endLine": 242,
+        "endChar": 38
+      },
+      "revId": "0aa5bf9107168555836a076a35f9cc47d3079a9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_8e2454b8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 811,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-11-22T07:06:17Z",
+      "side": 1,
+      "message": "\"a new\"",
+      "range": {
+        "startLine": 811,
+        "startChar": 11,
+        "endLine": 811,
+        "endChar": 14
+      },
+      "revId": "0aa5bf9107168555836a076a35f9cc47d3079a9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_ee34f8e3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-11-22T07:06:17Z",
+      "side": 1,
+      "message": "Missing @since tag?",
+      "revId": "0aa5bf9107168555836a076a35f9cc47d3079a9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_4e2a6c7f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-11-22T07:06:17Z",
+      "side": 1,
+      "message": "else block is unnecessary here.",
+      "range": {
+        "startLine": 337,
+        "startChar": 4,
+        "endLine": 340,
+        "endChar": 4
+      },
+      "revId": "0aa5bf9107168555836a076a35f9cc47d3079a9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_2e2fe090",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-11-22T07:06:17Z",
+      "side": 1,
+      "message": "Doesn\u0027t this always evaluate to false?  If nlink is 2, it would enter the block at L335 and return true at L336.",
+      "range": {
+        "startLine": 341,
+        "startChar": 10,
+        "endLine": 341,
+        "endChar": 22
+      },
+      "revId": "0aa5bf9107168555836a076a35f9cc47d3079a9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_ce1e5c68",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-11-22T07:06:17Z",
+      "side": 1,
+      "message": "Is this suppression needed?  There are no string literals in this line.",
+      "range": {
+        "startLine": 341,
+        "startChar": 24,
+        "endLine": 341,
+        "endChar": 38
+      },
+      "revId": "0aa5bf9107168555836a076a35f9cc47d3079a9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
