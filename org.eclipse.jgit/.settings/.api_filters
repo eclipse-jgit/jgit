@@ -1,10 +1,68 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <component id="org.eclipse.jgit" version="2">
     <resource path="META-INF/MANIFEST.MF">
-        <filter comment="non-breaking addition of exception classes needed to cleanly fix error handling in PackFile" id="924844039">
+        <filter id="924844039">
             <message_arguments>
-                <message_argument value="4.5.2"/>
-                <message_argument value="4.5.0"/>
+                <message_argument value="4.6.2"/>
+                <message_argument value="4.6.0"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/errors/NoPackSignatureException.java" type="org.eclipse.jgit.errors.NoPackSignatureException">
+        <filter id="1108344834">
+            <message_arguments>
+                <message_argument value="4.5"/>
+                <message_argument value="4.6"/>
+                <message_argument value="org.eclipse.jgit.errors.NoPackSignatureException"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/errors/UnsupportedPackIndexVersionException.java" type="org.eclipse.jgit.errors.UnsupportedPackIndexVersionException">
+        <filter id="1108344834">
+            <message_arguments>
+                <message_argument value="4.5"/>
+                <message_argument value="4.6"/>
+                <message_argument value="org.eclipse.jgit.errors.UnsupportedPackIndexVersionException"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/errors/UnsupportedPackVersionException.java" type="org.eclipse.jgit.errors.UnsupportedPackVersionException">
+        <filter id="1108344834">
+            <message_arguments>
+                <message_argument value="4.5"/>
+                <message_argument value="4.6"/>
+                <message_argument value="org.eclipse.jgit.errors.UnsupportedPackVersionException"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/lib/ConfigConstants.java" type="org.eclipse.jgit.lib.ConfigConstants">
+        <filter id="336658481">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.ConfigConstants"/>
+                <message_argument value="CONFIG_KEY_SUPPORTSATOMICFILECREATION"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="4.5"/>
+                <message_argument value="4.6"/>
+                <message_argument value="CONFIG_KEY_SUPPORTSATOMICFILECREATION"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/util/FS.java" type="org.eclipse.jgit.util.FS">
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="4.5"/>
+                <message_argument value="4.6"/>
+                <message_argument value="createNewFile(File)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="4.5"/>
+                <message_argument value="4.6"/>
+                <message_argument value="supportsAtomicCreateNewFile()"/>
             </message_arguments>
         </filter>
     </resource>
