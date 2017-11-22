@@ -1,26 +1,41 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <component id="org.eclipse.jgit" version="2">
-    <resource path="src/org/eclipse/jgit/lib/ConfigConstants.java" type="org.eclipse.jgit.lib.ConfigConstants">
-        <filter id="1141899266">
+    <resource path="META-INF/MANIFEST.MF">
+        <filter id="924844039">
             <message_arguments>
-                <message_argument value="4.7"/>
-                <message_argument value="4.8"/>
-                <message_argument value="CONFIG_KEY_AUTODETACH"/>
-            </message_arguments>
-        </filter>
-        <filter id="1141899266">
-            <message_arguments>
-                <message_argument value="4.7"/>
-                <message_argument value="4.8"/>
-                <message_argument value="CONFIG_KEY_LOGEXPIRY"/>
+                <message_argument value="4.8.1"/>
+                <message_argument value="4.8.0"/>
             </message_arguments>
         </filter>
     </resource>
-    <resource path="src/org/eclipse/jgit/merge/MergeStrategy.java" type="org.eclipse.jgit.merge.MergeStrategy">
-        <filter comment="OSGi semantic versioning allows breaking implementors of an API in a minor version" id="336695337">
+    <resource path="src/org/eclipse/jgit/lib/ConfigConstants.java" type="org.eclipse.jgit.lib.ConfigConstants">
+        <filter id="336658481">
             <message_arguments>
-                <message_argument value="org.eclipse.jgit.merge.MergeStrategy"/>
-                <message_argument value="newMerger(ObjectInserter, Config)"/>
+                <message_argument value="org.eclipse.jgit.lib.ConfigConstants"/>
+                <message_argument value="CONFIG_KEY_SUPPORTSATOMICFILECREATION"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="4.5"/>
+                <message_argument value="4.8"/>
+                <message_argument value="CONFIG_KEY_SUPPORTSATOMICFILECREATION"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/util/FS.java" type="org.eclipse.jgit.util.FS">
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="4.5"/>
+                <message_argument value="4.8"/>
+                <message_argument value="createNewFile(File)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="4.5"/>
+                <message_argument value="4.8"/>
+                <message_argument value="supportsAtomicCreateNewFile()"/>
             </message_arguments>
         </filter>
     </resource>

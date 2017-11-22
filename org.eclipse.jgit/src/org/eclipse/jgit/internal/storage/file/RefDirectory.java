@@ -80,6 +80,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.ObjectWritingException;
 import org.eclipse.jgit.events.RefsChangedEvent;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
@@ -767,14 +768,20 @@ public class RefDirectory extends RefDatabase {
 	}
 
 	private PackedRefList getPackedRefs() throws IOException {
+		boolean trustFolderStat = getRepository().getConfig().getBoolean(
+				ConfigConstants.CONFIG_CORE_SECTION,
+				ConfigConstants.CONFIG_KEY_TRUSTFOLDERSTAT, true);
+
 		final PackedRefList curList = packedRefs.get();
-		if (!curList.snapshot.isModified(packedRefsFile))
+		if (trustFolderStat && !curList.snapshot.isModified(packedRefsFile)) {
 			return curList;
+		}
 
 		final PackedRefList newList = readPackedRefs();
 		if (packedRefs.compareAndSet(curList, newList)
-				&& !curList.id.equals(newList.id))
+				&& !curList.id.equals(newList.id)) {
 			modCnt.incrementAndGet();
+		}
 		return newList;
 	}
 
