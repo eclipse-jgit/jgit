@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a7979753_6e5728d7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-11-22T08:34:14Z",
+      "side": 1,
+      "message": "strictly speaking Eclipse API tooling does not support adding API in a service release (3rd digit in version changes) which is also against semantic versioning rules. The closest accepted by Eclipse API tooling is using @since 4.5. \n\nWe need this patch on stable-4.5 since we have some systems still running on Java 7 and 4.5 is the last version supporting this ancient Java version and adding this constant doesn\u0027t really break anything. We\u0027ll have to suppress the corresponding warning in Eclipse.",
+      "parentUuid": "a7979753_ce073c24",
+      "range": {
+        "startLine": 295,
+        "startChar": 4,
+        "endLine": 295,
+        "endChar": 14
+      },
+      "revId": "0aa5bf9107168555836a076a35f9cc47d3079a9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_ee0dd845",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 2
@@ -87,6 +111,75 @@
         "startChar": 11,
         "endLine": 811,
         "endChar": 14
+      },
+      "revId": "0aa5bf9107168555836a076a35f9cc47d3079a9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_0ed144c4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-11-22T08:34:14Z",
+      "side": 1,
+      "message": "* this isn\u0027t thread safe, mark it volatile ?\n* I think this should be named supportsUnixNLink\n* move this field to the top of this class where the other fields are defined",
+      "range": {
+        "startLine": 306,
+        "startChar": 17,
+        "endLine": 306,
+        "endChar": 33
+      },
+      "revId": "0aa5bf9107168555836a076a35f9cc47d3079a9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_8ec53409",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-11-22T08:34:14Z",
+      "side": 1,
+      "message": "{@code core.supportsAtomicCreateNewFile \u003d true}",
+      "range": {
+        "startLine": 311,
+        "startChar": 33,
+        "endLine": 311,
+        "endChar": 73
+      },
+      "revId": "0aa5bf9107168555836a076a35f9cc47d3079a9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_aeccb033",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-11-22T08:34:14Z",
+      "side": 1,
+      "message": "{@code core.supportsAtomicCreateNewFile \u003d false}",
+      "range": {
+        "startLine": 314,
+        "startChar": 11,
+        "endLine": 314,
+        "endChar": 59
       },
       "revId": "0aa5bf9107168555836a076a35f9cc47d3079a9b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
