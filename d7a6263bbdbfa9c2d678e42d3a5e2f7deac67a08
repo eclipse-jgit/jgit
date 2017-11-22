@@ -16,6 +16,24 @@
       "revId": "d7a6263bbdbfa9c2d678e42d3a5e2f7deac67a08",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_042a0330",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-11-22T16:11:40Z",
+      "side": 1,
+      "message": "Agreed. I moved reading this configuration option to FS classes. Whenever the FS class is asked for supportAtomicFileCreation() and this option is not yet read it will be read from system/global config. Repo config is not read anymore.",
+      "parentUuid": "a7979753_215b71ce",
+      "revId": "d7a6263bbdbfa9c2d678e42d3a5e2f7deac67a08",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
