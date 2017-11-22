@@ -341,6 +341,13 @@ public class ConfigConstants {
 	public static final String CONFIG_KEY_TRUSTFOLDERSTAT = "trustfolderstat";
 
 	/**
+	 * The "supportsAtomicFileCreation" key in the "core section"
+	 *
+	 * @since 4.5
+	 */
+	public static final String CONFIG_KEY_SUPPORTSATOMICFILECREATION = "supportsatomicfilecreation";
+
+	/**
 	 * The "noprefix" key in the "diff section"
 	 * @since 3.0
 	 */

@@ -3,59 +3,51 @@
     <resource path="META-INF/MANIFEST.MF">
         <filter id="924844039">
             <message_arguments>
-                <message_argument value="4.7.1"/>
+                <message_argument value="4.7.2"/>
                 <message_argument value="4.7.0"/>
             </message_arguments>
         </filter>
     </resource>
-    <resource path="src/org/eclipse/jgit/api/ArchiveCommand.java" type="org.eclipse.jgit.api.ArchiveCommand$Format">
-        <filter comment="OSGi semver allows to break implementors in minor releases" id="403804204">
+    <resource path="src/org/eclipse/jgit/lib/ConfigConstants.java" type="org.eclipse.jgit.lib.ConfigConstants">
+        <filter id="336658481">
             <message_arguments>
-                <message_argument value="org.eclipse.jgit.api.ArchiveCommand.Format"/>
-                <message_argument value="putEntry(T, ObjectId, String, FileMode, ObjectLoader)"/>
+                <message_argument value="org.eclipse.jgit.lib.ConfigConstants"/>
+                <message_argument value="CONFIG_KEY_AUTODETACH"/>
             </message_arguments>
         </filter>
-    </resource>
-    <resource path="src/org/eclipse/jgit/errors/NoPackSignatureException.java" type="org.eclipse.jgit.errors.NoPackSignatureException">
-        <filter comment="non-breaking addition of exception classes needed to cleanly fix error handling in PackFile" id="1108344834">
+        <filter id="336658481">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.ConfigConstants"/>
+                <message_argument value="CONFIG_KEY_LOGEXPIRY"/>
+            </message_arguments>
+        </filter>
+        <filter id="336658481">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.ConfigConstants"/>
+                <message_argument value="CONFIG_KEY_SUPPORTSATOMICFILECREATION"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
             <message_arguments>
                 <message_argument value="4.5"/>
                 <message_argument value="4.7"/>
-                <message_argument value="org.eclipse.jgit.errors.NoPackSignatureException"/>
+                <message_argument value="CONFIG_KEY_SUPPORTSATOMICFILECREATION"/>
             </message_arguments>
         </filter>
     </resource>
-    <resource path="src/org/eclipse/jgit/errors/UnsupportedPackIndexVersionException.java" type="org.eclipse.jgit.errors.UnsupportedPackIndexVersionException">
-        <filter comment="non-breaking addition of exception classes needed to cleanly fix error handling in PackFile" id="1108344834">
+    <resource path="src/org/eclipse/jgit/util/FS.java" type="org.eclipse.jgit.util.FS">
+        <filter id="1141899266">
             <message_arguments>
                 <message_argument value="4.5"/>
                 <message_argument value="4.7"/>
-                <message_argument value="org.eclipse.jgit.errors.UnsupportedPackIndexVersionException"/>
+                <message_argument value="createNewFile(File)"/>
             </message_arguments>
         </filter>
-    </resource>
-    <resource path="src/org/eclipse/jgit/errors/UnsupportedPackVersionException.java" type="org.eclipse.jgit.errors.UnsupportedPackVersionException">
-        <filter comment="non-breaking addition of exception classes needed to cleanly fix error handling in PackFile" id="1108344834">
+        <filter id="1141899266">
             <message_arguments>
                 <message_argument value="4.5"/>
                 <message_argument value="4.7"/>
-                <message_argument value="org.eclipse.jgit.errors.UnsupportedPackVersionException"/>
-            </message_arguments>
-        </filter>
-    </resource>
-    <resource path="src/org/eclipse/jgit/lib/ObjectInserter.java" type="org.eclipse.jgit.lib.ObjectInserter">
-        <filter comment="changed return type of digest() breaking implementors which is ok in minor releases according to OSGi semantic versioning" id="338792546">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.lib.ObjectInserter"/>
-                <message_argument value="digest()"/>
-            </message_arguments>
-        </filter>
-    </resource>
-    <resource path="src/org/eclipse/jgit/transport/http/HttpConnection.java" type="org.eclipse.jgit.transport.http.HttpConnection">
-        <filter comment="OSGi semantic versioning rules allow to break implementors in minor releases" id="403767336">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.transport.http.HttpConnection"/>
-                <message_argument value="HTTP_MOVED_PERM"/>
+                <message_argument value="supportsAtomicCreateNewFile()"/>
             </message_arguments>
         </filter>
     </resource>
