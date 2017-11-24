@@ -212,7 +212,7 @@
     <maven-javadoc-plugin-version>2.10.4</maven-javadoc-plugin-version>
     <tycho-extras-version>1.0.0</tycho-extras-version>
     <gson-version>2.2.4</gson-version>
-    <spotbugs-maven-plugin-version>3.1.0-RC7</spotbugs-maven-plugin-version>
+    <spotbugs-maven-plugin-version>3.1.0-RC8</spotbugs-maven-plugin-version>
     <maven-surefire-report-plugin-version>2.20</maven-surefire-report-plugin-version>
 
     <!-- Properties to enable jacoco code coverage analysis -->
