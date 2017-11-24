@@ -1658,8 +1658,11 @@ public class UploadPack {
 					if (peeledId == null || objectId == null)
 						continue;
 
+					objectId = ref.getObjectId();
 					if (pw.willInclude(peeledId) && !pw.willInclude(objectId)) {
-						pw.addObject(rw.parseAny(objectId));
+						RevObject o = rw.parseAny(objectId);
+						addTagChain(o, pw);
+						pw.addObject(o);
 					}
 				}
 			}
@@ -1689,6 +1692,18 @@ public class UploadPack {
 		Ref head = refs.get(Constants.HEAD);
 		if (head != null && head.isSymbolic()) {
 			adv.addSymref(Constants.HEAD, head.getLeaf().getName());
+		}
+	}
+
+	private void addTagChain(
+			RevObject o, final PackWriter pw) throws IOException {
+		while (Constants.OBJ_TAG == o.getType()) {
+			final RevTag t = (RevTag) o;
+			o = t.getObject();
+			if (o.getType() == Constants.OBJ_TAG && !pw.willInclude(o.getId())) {
+				walk.parseBody(o);
+				pw.addObject(o);
+			}
 		}
 	}
 
