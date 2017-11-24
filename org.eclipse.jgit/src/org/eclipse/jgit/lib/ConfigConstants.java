@@ -420,4 +420,10 @@ public class ConfigConstants {
 	 * @since 4.7
 	 */
 	public static final String CONFIG_KEY_RECURSE_SUBMODULES = "recurseSubmodules";
+
+	/**
+	 * The "sparsecheckout" key
+	 * @since 4.10
+	 */
+	public static final String CONFIG_KEY_SPARSECHECKOUT = "sparsecheckout";
 }
