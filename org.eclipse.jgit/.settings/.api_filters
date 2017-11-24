@@ -136,14 +136,6 @@
             </message_arguments>
         </filter>
     </resource>
-    <resource path="src/org/eclipse/jgit/transport/UploadPack.java" type="org.eclipse.jgit.transport.UploadPack">
-        <filter id="421654647">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.transport.UploadPack"/>
-                <message_argument value="getFilterBlobLimit()"/>
-            </message_arguments>
-        </filter>
-    </resource>
     <resource path="src/org/eclipse/jgit/util/FS.java" type="org.eclipse.jgit.util.FS">
         <filter id="1142947843">
             <message_arguments>
