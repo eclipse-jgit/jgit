@@ -1,0 +1,7 @@
+Verified+1: Hudson CI
+Code-Review+2: David Pursehouse <david.pursehouse@gmail.com>
+Submitted-by: David Pursehouse <david.pursehouse@gmail.com>
+Submitted-at: Thu, 23 Nov 2017 19:33:12 -0500
+Reviewed-on: https://git.eclipse.org/r/112226
+Project: jgit/jgit
+Branch: refs/heads/stable-4.9
