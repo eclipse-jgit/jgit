@@ -46,11 +46,14 @@ package org.eclipse.jgit.internal.storage.dfs;
 
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.stream.LongStream;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.pack.PackExt;
 
 /**
  * Caches slices of a {@link BlockBasedFile} in memory for faster read access.
@@ -61,8 +64,8 @@ import org.eclipse.jgit.internal.JGitText;
  * these tiny reads into larger block-sized IO operations.
  * <p>
  * Whenever a cache miss occurs, loading is invoked by exactly one thread for
- * the given <code>(DfsPackKey,position)</code> key tuple. This is ensured by an
- * array of locks, with the tuple hashed to a lock instance.
+ * the given <code>(DfsStreamKey,position)</code> key tuple. This is ensured by
+ * an array of locks, with the tuple hashed to a lock instance.
  * <p>
  * Its too expensive during object access to be accurate with a least recently
  * used (LRU) algorithm. Strictly ordering every read is a lot of overhead that
@@ -143,23 +146,33 @@ public final class DfsBlockCache {
 	/** As {@link #blockSize} is a power of 2, bits to shift for a / blockSize. */
 	private final int blockSizeShift;
 
-	/** Number of times a block was found in the cache. */
-	private final AtomicLong statHit;
+	/**
+	 * Number of times a block was found in the cache, per pack file extension.
+	 */
+	private final AtomicReference<AtomicLong[]> statHit;
 
-	/** Number of times a block was not found, and had to be loaded. */
-	private final AtomicLong statMiss;
+	/**
+	 * Number of times a block was not found, and had to be loaded, per pack
+	 * file extension.
+	 */
+	private final AtomicReference<AtomicLong[]> statMiss;
 
-	/** Number of blocks evicted due to cache being full. */
-	private volatile long statEvict;
+	/**
+	 * Number of blocks evicted due to cache being full, per pack file
+	 * extension.
+	 */
+	private final AtomicReference<AtomicLong[]> statEvict;
+
+	/**
+	 * Number of bytes currently loaded in the cache, per pack file extension.
+	 */
+	private final AtomicReference<AtomicLong[]> liveBytes;
 
 	/** Protects the clock and its related data. */
 	private final ReentrantLock clockLock;
 
 	/** Current position of the clock. */
 	private Ref clockHand;
-
-	/** Number of bytes currently loaded in the cache. */
-	private volatile long liveBytes;
 
 	@SuppressWarnings("unchecked")
 	private DfsBlockCache(final DfsBlockCacheConfig cfg) {
@@ -180,56 +193,90 @@ public final class DfsBlockCache {
 		clockLock = new ReentrantLock(true /* fair */);
 		String none = ""; //$NON-NLS-1$
 		clockHand = new Ref<>(
-				DfsStreamKey.of(new DfsRepositoryDescription(none), none),
+				DfsStreamKey.of(new DfsRepositoryDescription(none), none, null),
 				-1, 0, null);
 		clockHand.next = clockHand;
 
-		statHit = new AtomicLong();
-		statMiss = new AtomicLong();
+		statHit = new AtomicReference<>(newCounters());
+		statMiss = new AtomicReference<>(newCounters());
+		statEvict = new AtomicReference<>(newCounters());
+		liveBytes = new AtomicReference<>(newCounters());
 	}
 
 	boolean shouldCopyThroughCache(long length) {
 		return length <= maxStreamThroughCache;
 	}
 
-	/** @return total number of bytes in the cache. */
-	public long getCurrentSize() {
-		return liveBytes;
+	/** @return total number of bytes in the cache, per pack file extension. */
+	public long[] getCurrentSize() {
+		return getStatVals(liveBytes);
 	}
 
 	/** @return 0..100, defining how full the cache is. */
 	public long getFillPercentage() {
-		return getCurrentSize() * 100 / maxBytes;
+		return LongStream.of(getCurrentSize()).sum() * 100 / maxBytes;
 	}
 
-	/** @return number of requests for items in the cache. */
-	public long getHitCount() {
-		return statHit.get();
+	/**
+	 * @return number of requests for items in the cache, per pack file
+	 *         extension.
+	 */
+	public long[] getHitCount() {
+		return getStatVals(statHit);
 	}
 
-	/** @return number of requests for items not in the cache. */
-	public long getMissCount() {
-		return statMiss.get();
+	/**
+	 * @return number of requests for items not in the cache, per pack file
+	 *         extension.
+	 */
+	public long[] getMissCount() {
+		return getStatVals(statMiss);
 	}
 
-	/** @return total number of requests (hit + miss). */
-	public long getTotalRequestCount() {
-		return getHitCount() + getMissCount();
+	/**
+	 * @return total number of requests (hit + miss), per pack file extension.
+	 */
+	public long[] getTotalRequestCount() {
+		AtomicLong[] hit = statHit.get();
+		AtomicLong[] miss = statMiss.get();
+		long[] cnt = new long[Math.max(hit.length, miss.length)];
+		for (int i = 0; i < hit.length; i++) {
+			cnt[i] += hit[i].get();
+		}
+		for (int i = 0; i < miss.length; i++) {
+			cnt[i] += miss[i].get();
+		}
+		return cnt;
 	}
 
-	/** @return 0..100, defining number of cache hits. */
-	public long getHitRatio() {
-		long hits = statHit.get();
-		long miss = statMiss.get();
-		long total = hits + miss;
-		if (total == 0)
-			return 0;
-		return hits * 100 / total;
+	/**
+	 * @return 0..100, defining number of cache hits, per pack file extension.
+	 */
+	public long[] getHitRatio() {
+		AtomicLong[] hit = statHit.get();
+		AtomicLong[] miss = statMiss.get();
+		long[] ratio = new long[Math.max(hit.length, miss.length)];
+		for (int i = 0; i < ratio.length; i++) {
+			if (i >= hit.length) {
+				ratio[i] = 0;
+			} else if (i >= miss.length) {
+				ratio[i] = 100;
+			} else {
+				long hitVal = hit[i].get();
+				long missVal = miss[i].get();
+				long total = hitVal + missVal;
+				ratio[i] = total == 0 ? 0 : hitVal * 100 / total;
+			}
+		}
+		return ratio;
 	}
 
-	/** @return number of evictions performed due to cache being full. */
-	public long getEvictions() {
-		return statEvict;
+	/**
+	 * @return number of evictions performed due to cache being full, per pack
+	 *         file extension.
+	 */
+	public long[] getEvictions() {
+		return getStatVals(statEvict);
 	}
 
 	private int hash(int packHash, long off) {
@@ -276,11 +323,11 @@ public final class DfsBlockCache {
 		DfsBlock v = scan(e1, key, position);
 		if (v != null && v.contains(key, requestedPosition)) {
 			ctx.stats.blockCacheHit++;
-			statHit.incrementAndGet();
+			getStat(statHit, key).incrementAndGet();
 			return v;
 		}
 
-		reserveSpace(blockSize);
+		reserveSpace(blockSize, key);
 		ReentrantLock regionLock = lockFor(key, position);
 		regionLock.lock();
 		try {
@@ -289,20 +336,20 @@ public final class DfsBlockCache {
 				v = scan(e2, key, position);
 				if (v != null) {
 					ctx.stats.blockCacheHit++;
-					statHit.incrementAndGet();
-					creditSpace(blockSize);
+					getStat(statHit, key).incrementAndGet();
+					creditSpace(blockSize, key);
 					return v;
 				}
 			}
 
-			statMiss.incrementAndGet();
+			getStat(statMiss, key).incrementAndGet();
 			boolean credit = true;
 			try {
 				v = file.readOneBlock(requestedPosition, ctx, fileChannel);
 				credit = false;
 			} finally {
 				if (credit)
-					creditSpace(blockSize);
+					creditSpace(blockSize, key);
 			}
 			if (position != v.start) {
 				// The file discovered its blockSize and adjusted.
@@ -332,10 +379,10 @@ public final class DfsBlockCache {
 	}
 
 	@SuppressWarnings("unchecked")
-	private void reserveSpace(int reserve) {
+	private void reserveSpace(int reserve, DfsStreamKey key) {
 		clockLock.lock();
 		try {
-			long live = liveBytes + reserve;
+			long live = LongStream.of(getCurrentSize()).sum() + reserve;
 			if (maxBytes < live) {
 				Ref prev = clockHand;
 				Ref hand = clockHand.next;
@@ -358,19 +405,20 @@ public final class DfsBlockCache {
 					dead.next = null;
 					dead.value = null;
 					live -= dead.size;
-					statEvict++;
+					getStat(liveBytes, dead.key).addAndGet(-dead.size);
+					getStat(statEvict, dead.key).incrementAndGet();
 				} while (maxBytes < live);
 				clockHand = prev;
 			}
-			liveBytes = live;
+			getStat(liveBytes, key).addAndGet(reserve);
 		} finally {
 			clockLock.unlock();
 		}
 	}
 
-	private void creditSpace(int credit) {
+	private void creditSpace(int credit, DfsStreamKey key) {
 		clockLock.lock();
-		liveBytes -= credit;
+		getStat(liveBytes, key).addAndGet(-credit);
 		clockLock.unlock();
 	}
 
@@ -378,8 +426,9 @@ public final class DfsBlockCache {
 	private void addToClock(Ref ref, int credit) {
 		clockLock.lock();
 		try {
-			if (credit != 0)
-				liveBytes -= credit;
+			if (credit != 0) {
+				getStat(liveBytes, ref.key).addAndGet(-credit);
+			}
 			Ref ptr = clockHand;
 			ref.next = ptr.next;
 			ptr.next = ref;
@@ -404,7 +453,7 @@ public final class DfsBlockCache {
 		if (ref != null)
 			return ref;
 
-		reserveSpace(size);
+		reserveSpace(size, key);
 		ReentrantLock regionLock = lockFor(key, pos);
 		regionLock.lock();
 		try {
@@ -412,7 +461,7 @@ public final class DfsBlockCache {
 			if (e2 != e1) {
 				ref = scanRef(e2, key, pos);
 				if (ref != null) {
-					creditSpace(size);
+					creditSpace(size, key);
 					return ref;
 				}
 			}
@@ -440,9 +489,9 @@ public final class DfsBlockCache {
 	<T> T get(DfsStreamKey key, long position) {
 		T val = (T) scan(table.get(slot(key, position)), key, position);
 		if (val == null)
-			statMiss.incrementAndGet();
+			getStat(statMiss, key).incrementAndGet();
 		else
-			statHit.incrementAndGet();
+			getStat(statHit, key).incrementAndGet();
 		return val;
 	}
 
@@ -454,9 +503,9 @@ public final class DfsBlockCache {
 	<T> Ref<T> getRef(DfsStreamKey key) {
 		Ref<T> r = scanRef(table.get(slot(key, 0)), key, 0);
 		if (r != null)
-			statHit.incrementAndGet();
+			getStat(statHit, key).incrementAndGet();
 		else
-			statMiss.incrementAndGet();
+			getStat(statMiss, key).incrementAndGet();
 		return r;
 	}
 
@@ -476,6 +525,43 @@ public final class DfsBlockCache {
 
 	private ReentrantLock lockFor(DfsStreamKey key, long position) {
 		return loadLocks[(hash(key.hash, position) >>> 1) % loadLocks.length];
+	}
+
+	private static AtomicLong[] newCounters() {
+		AtomicLong[] ret = new AtomicLong[PackExt.values().length];
+		for (int i = 0; i < ret.length; i++) {
+			ret[i] = new AtomicLong();
+		}
+		return ret;
+	}
+
+	private static AtomicLong getStat(AtomicReference<AtomicLong[]> stats,
+			DfsStreamKey key) {
+		int pos = key.packExtPos;
+		while (true) {
+			AtomicLong[] vals = stats.get();
+			if (pos < vals.length) {
+				return vals[pos];
+			}
+			AtomicLong[] expect = vals;
+			vals = new AtomicLong[Math.max(pos + 1, PackExt.values().length)];
+			System.arraycopy(expect, 0, vals, 0, expect.length);
+			for (int i = expect.length; i < vals.length; i++) {
+				vals[i] = new AtomicLong();
+			}
+			if (stats.compareAndSet(expect, vals)) {
+				return vals[pos];
+			}
+		}
+	}
+
+	private static long[] getStatVals(AtomicReference<AtomicLong[]> stat) {
+		AtomicLong[] stats = stat.get();
+		long[] cnt = new long[stats.length];
+		for (int i = 0; i < stats.length; i++) {
+			cnt[i] = stats[i].get();
+		}
+		return cnt;
 	}
 
 	private static HashEntry clean(HashEntry top) {
