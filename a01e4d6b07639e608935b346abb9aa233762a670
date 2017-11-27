@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_dd744243",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-11-27T23:50:17Z",
+      "side": 1,
+      "message": "I think we also want this broken down by PackExt.",
+      "range": {
+        "startLine": 170,
+        "startChar": 0,
+        "endLine": 171,
+        "endChar": 33
+      },
+      "revId": "a01e4d6b07639e608935b346abb9aa233762a670",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_fd83bea3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-11-27T23:50:17Z",
+      "side": 1,
+      "message": "Create a static helper method that presizes by PackExt.values().length.",
+      "range": {
+        "startLine": 196,
+        "startChar": 34,
+        "endLine": 196,
+        "endChar": 71
+      },
+      "revId": "a01e4d6b07639e608935b346abb9aa233762a670",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_1d7faa1d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-11-27T23:50:17Z",
+      "side": 1,
+      "message": "This method can be static.",
+      "revId": "a01e4d6b07639e608935b346abb9aa233762a670",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_3d4d4619",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-11-27T23:50:17Z",
+      "side": 1,
+      "message": "Math.max(pos + 1, PackExt.values().length)",
+      "range": {
+        "startLine": 543,
+        "startChar": 25,
+        "endLine": 543,
+        "endChar": 28
+      },
+      "revId": "a01e4d6b07639e608935b346abb9aa233762a670",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_5d5052ac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 550,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2017-11-27T23:50:17Z",
+      "side": 1,
+      "message": "This is simpler:\n\n  System.arraycopy(expect, 0, vals, 0, expect.length);\n  for (int i \u003d expect.length; i \u003c vals.length; i++) {\n    vals[i] \u003d new AtomicLong();\n  }",
+      "range": {
+        "startLine": 544,
+        "startChar": 0,
+        "endLine": 550,
+        "endChar": 4
+      },
+      "revId": "a01e4d6b07639e608935b346abb9aa233762a670",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
