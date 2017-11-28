@@ -534,8 +534,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 					String path = proj.getPath();
 					String nameUri = proj.getName();
 					ObjectId objectId;
-					if (ObjectId.isId(proj.getRevision())
-							&& !ignoreRemoteFailures) {
+					if (ObjectId.isId(proj.getRevision())) {
 						objectId = ObjectId.fromString(proj.getRevision());
 					} else {
 						objectId = callback.sha1(nameUri, proj.getRevision());
