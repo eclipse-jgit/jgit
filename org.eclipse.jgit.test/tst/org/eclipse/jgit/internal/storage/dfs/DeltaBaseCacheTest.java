@@ -64,7 +64,7 @@ public class DeltaBaseCacheTest {
 	@Before
 	public void setUp() {
 		DfsRepositoryDescription repo = new DfsRepositoryDescription("test");
-		key = DfsStreamKey.of(repo, "test.key");
+		key = DfsStreamKey.of(repo, "test.key", null);
 		cache = new DeltaBaseCache(SZ);
 		rng = new TestRng(getClass().getSimpleName());
 	}

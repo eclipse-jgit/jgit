@@ -50,6 +50,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.LongStream;
 
 import org.eclipse.jgit.junit.TestRng;
 import org.eclipse.jgit.lib.ObjectId;
@@ -84,9 +85,9 @@ public class DfsBlockCacheTest {
 			ins.flush();
 		}
 
-		long oldSize = cache.getCurrentSize();
+		long oldSize = LongStream.of(cache.getCurrentSize()).sum();
 		assertTrue(oldSize > 2000);
-		assertEquals(0, cache.getHitCount());
+		assertEquals(0, LongStream.of(cache.getHitCount()).sum());
 
 		List<DfsPackDescription> packs = r1.getObjectDatabase().listPacks();
 		InMemoryRepository r2 = new InMemoryRepository(repo);
@@ -95,8 +96,8 @@ public class DfsBlockCacheTest {
 			byte[] actual = rdr.open(id, OBJ_BLOB).getBytes();
 			assertTrue(Arrays.equals(content, actual));
 		}
-		assertEquals(0, cache.getMissCount());
-		assertEquals(oldSize, cache.getCurrentSize());
+		assertEquals(0, LongStream.of(cache.getMissCount()).sum());
+		assertEquals(oldSize, LongStream.of(cache.getCurrentSize()).sum());
 	}
 
 	@SuppressWarnings("resource")
