@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_ce69e39a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-11-30T14:19:52Z",
+      "side": 1,
+      "message": "This is wrong.  Should use the new access methods as here:\n\nhttps://git.eclipse.org/r/#/c/111374/5/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+      "revId": "56082db0607588d6d5604ef2f60e9d47c3b3737d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
