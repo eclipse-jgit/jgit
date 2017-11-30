@@ -16,6 +16,29 @@
       "revId": "56082db0607588d6d5604ef2f60e9d47c3b3737d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_2e5267e4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 966,
+      "author": {
+        "id": 24046
+      },
+      "writtenOn": "2017-11-30T14:20:55Z",
+      "side": 1,
+      "message": "In master we can just do:\n\n  repo.getObjectDatabase().getPackDirectory().toPath();\n\nas in deleteOrphans()",
+      "range": {
+        "startLine": 965,
+        "startChar": 17,
+        "endLine": 966,
+        "endChar": 26
+      },
+      "revId": "56082db0607588d6d5604ef2f60e9d47c3b3737d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
