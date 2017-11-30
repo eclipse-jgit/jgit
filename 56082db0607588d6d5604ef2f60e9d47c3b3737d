@@ -39,6 +39,30 @@
       "revId": "56082db0607588d6d5604ef2f60e9d47c3b3737d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_8e46fb25",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 966,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-11-30T14:22:02Z",
+      "side": 1,
+      "message": "Yes.  I\u0027ve done it locally; will push a new PS after tests have completed.",
+      "parentUuid": "a7979753_2e5267e4",
+      "range": {
+        "startLine": 965,
+        "startChar": 17,
+        "endLine": 966,
+        "endChar": 26
+      },
+      "revId": "56082db0607588d6d5604ef2f60e9d47c3b3737d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
