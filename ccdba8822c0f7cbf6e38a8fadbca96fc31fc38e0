@@ -53,6 +53,40 @@
     },
     {
       "key": {
+        "uuid": "a7979753_9df0fa87",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/SubmoduleConflict.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-01T22:49:28Z",
+      "side": 1,
+      "message": "move this to org.eclipse.jgit.submodule ?",
+      "revId": "ccdba8822c0f7cbf6e38a8fadbca96fc31fc38e0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_5dcf7258",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/SubmoduleConflict.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-01T22:49:28Z",
+      "side": 1,
+      "message": "missing javadoc for public method",
+      "revId": "ccdba8822c0f7cbf6e38a8fadbca96fc31fc38e0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_023e5ae7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 4
