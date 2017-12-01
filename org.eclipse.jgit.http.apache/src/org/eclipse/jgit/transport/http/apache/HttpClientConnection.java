@@ -58,7 +58,6 @@ import java.net.URL;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.security.cert.X509Certificate;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -67,9 +66,6 @@ import java.util.Map;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.KeyManager;
 import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLException;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.SSLSocket;
 import javax.net.ssl.TrustManager;
 
 import org.apache.http.Header;
@@ -91,7 +87,6 @@ import org.apache.http.config.RegistryBuilder;
 import org.apache.http.conn.socket.ConnectionSocketFactory;
 import org.apache.http.conn.socket.PlainConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.conn.ssl.X509HostnameVerifier;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.BasicHttpClientConnectionManager;
@@ -128,7 +123,7 @@ public class HttpClientConnection implements HttpConnection {
 
 	private Boolean followRedirects;
 
-	private X509HostnameVerifier hostnameverifier;
+	private HostnameVerifier hostnameverifier;
 
 	SSLContext ctx;
 
@@ -398,29 +393,7 @@ public class HttpClientConnection implements HttpConnection {
 
 	@Override
 	public void setHostnameVerifier(final HostnameVerifier hostnameverifier) {
-		this.hostnameverifier = new X509HostnameVerifier() {
-			@Override
-			public boolean verify(String hostname, SSLSession session) {
-				return hostnameverifier.verify(hostname, session);
-			}
-
-			@Override
-			public void verify(String host, String[] cns, String[] subjectAlts)
-					throws SSLException {
-				throw new UnsupportedOperationException(); // TODO message
-			}
-
-			@Override
-			public void verify(String host, X509Certificate cert)
-					throws SSLException {
-				throw new UnsupportedOperationException(); // TODO message
-			}
-
-			@Override
-			public void verify(String host, SSLSocket ssl) throws IOException {
-				hostnameverifier.verify(host, ssl.getSession());
-			}
-		};
+		this.hostnameverifier = hostnameverifier;
 	}
 
 	@Override
