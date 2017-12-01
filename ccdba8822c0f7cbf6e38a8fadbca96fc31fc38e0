@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_d70df2f2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-12-01T16:09:43Z",
+      "side": 1,
+      "message": "s/whre/where/",
+      "revId": "ccdba8822c0f7cbf6e38a8fadbca96fc31fc38e0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_b7f14609",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/ResolveMergerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1144,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-12-01T16:09:43Z",
+      "side": 1,
+      "message": "I am not sure why at all you create a second repo \u0027submodule\u0027 and create commits in that repo. In the end you do all your test in the repo \u0027db\u0027. And in \u0027db\u0027 you do create a folder \u0027one\u0027 and configure it to be a submodule, but you never fetch content from other repo. You could write the same test and use random guids for firstSubCommit and secondSubCommit, or? \u0027db\u0027 would never detect a difference because it never fetches from the submodule repo. \n\nI would understand this test if the repository \u0027submodule\u0027 would be located in the \u0027one\u0027 folder of the workingtree of \u0027db\u0027. If you would have a tree like\n\n  - \u003cdb\u003e/\n  -- .git/...\n  -- .gitmodules\n  -- initial\n  -- one/\n  --- .git/...\n  --- sub\n\nBut you have a tree like this\n\n  - \u003cdb\u003e/\n  -- .git/...\n  -- .gitmodules\n  -- initial\n  -- one\n  - \u003csubmodule\u003e/\n  -- .git/...\n  -- sub",
+      "revId": "ccdba8822c0f7cbf6e38a8fadbca96fc31fc38e0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_371556cc",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/ResolveMergerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1225,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-12-01T16:09:43Z",
+      "side": 1,
+      "message": "That\u0027s strange. This method works in the repo db. Imagine the worktree of this repo would start at /\u003cdb\u003e/. It changes the config of the repository /\u003cdb\u003e/.git/config. Here it adds a submodule and the url for this submodule is again the location of the repo db. A cyclic reference. Is this intendet? I was assuming you would want to add the location of the \u0027submodule\u0027 repository here.\n\n  \u003e/.../T/jgit_test_4760626799335894783_tmp/tmp_3098717374613702227 (left +)]$ git config submodule.one.url\n  file:/.../T/jgit_test_4760626799335894783_tmp/tmp_3098717374613702227/.git/",
+      "revId": "ccdba8822c0f7cbf6e38a8fadbca96fc31fc38e0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_023e5ae7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 951,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-12-01T16:09:43Z",
+      "side": 1,
+      "message": "I look at the comment above. We reach this code also when\n\n- MERGE and index both point to the same commit in a submodule\n- HEAD contains nothing \n\nWhy do we want to update the index? If the index contains what we want to checkout then we typically don\u0027t update the index and also don\u0027t touch the working tree. But here we call update() which populates the index again (not a problem because the index already contains mID,mMode) but also remembers that this path has been updated. This forces a checkout on the path.\n\nCheck this [1] out and see the difference if the last checkout is done with native-git or jgit.\n\n  + git init subRepo\n  Initialized empty Git repository in /private/tmp/x/subRepo/.git/\n  + cd subRepo/\n  + touch a\n  + git add a\n  + git commit -m addA\n  [master (root-commit) 190d5ae] addA\n   1 file changed, 0 insertions(+), 0 deletions(-)\n   create mode 100644 a\n  + cd ..\n  + git init rootRepo\n  Initialized empty Git repository in /private/tmp/x/rootRepo/.git/\n  + cd rootRepo/\n  + touch b\n  + git add b\n  + git commit -m addB\n  [master (root-commit) 880f629] addB\n   1 file changed, 0 insertions(+), 0 deletions(-)\n   create mode 100644 b\n  + git branch side\n  + git submodule add ../subRepo/ sub\n  Cloning into \u0027/private/tmp/x/rootRepo/sub\u0027...\n  done.\n  + git commit -m addSub\n  [master fb1a590] addSub\n   2 files changed, 4 insertions(+)\n   create mode 100644 .gitmodules\n   create mode 160000 sub\n  + git tag withSub\n  + git reset --soft side\n  + rm -fr sub\n  + jgit checkout withSub\n  + ls\n  b\n\n[1] https://gist.github.com/chalstrick/c743b10b1ccd7a6954f12260ea0c59b9",
+      "revId": "ccdba8822c0f7cbf6e38a8fadbca96fc31fc38e0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_a24ca698",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 935,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-12-01T16:09:43Z",
+      "side": 1,
+      "message": "I am not sure about the perfomance issues on this. We are computing in the next lines the sha1 for a complete subtree in the working tree. That maybe really expensive. But maybe we have to do... I keep investigating",
+      "range": {
+        "startLine": 935,
+        "startChar": 3,
+        "endLine": 935,
+        "endChar": 89
+      },
+      "revId": "ccdba8822c0f7cbf6e38a8fadbca96fc31fc38e0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
