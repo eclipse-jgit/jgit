@@ -465,7 +465,7 @@ public class FastIgnoreRuleTest {
 				split("/a/b/c/", '/').toArray());
 	}
 
-	public void assertMatched(String pattern, String path) {
+	private void assertMatched(String pattern, String path) {
 		boolean match = match(pattern, path);
 		String result = path + " is " + (match ? "ignored" : "not ignored")
 				+ " via '" + pattern + "' rule";
@@ -485,7 +485,7 @@ public class FastIgnoreRuleTest {
 				match);
 	}
 
-	public void assertNotMatched(String pattern, String path) {
+	private void assertNotMatched(String pattern, String path) {
 		boolean match = match(pattern, path);
 		String result = path + " is " + (match ? "ignored" : "not ignored")
 				+ " via '" + pattern + "' rule";

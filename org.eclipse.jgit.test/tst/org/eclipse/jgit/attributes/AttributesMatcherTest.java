@@ -391,7 +391,7 @@ public class AttributesMatcherTest {
 	 * @param target
 	 *            Target file path relative to repository's GIT_DIR
 	 */
-	public void assertMatched(String pattern, String target) {
+	private void assertMatched(String pattern, String target) {
 		boolean value = match(pattern, target);
 		assertTrue("Expected a match for: " + pattern + " with: " + target,
 				value);
@@ -406,7 +406,7 @@ public class AttributesMatcherTest {
 	 * @param target
 	 *            Target file path relative to repository's GIT_DIR
 	 */
-	public void assertNotMatched(String pattern, String target) {
+	private void assertNotMatched(String pattern, String target) {
 		boolean value = match(pattern, target);
 		assertFalse("Expected no match for: " + pattern + " with: " + target,
 				value);

@@ -346,7 +346,7 @@ public class IgnoreMatcherParametrizedTest {
 	 *            Target file path relative to repository's GIT_DIR
 	 * @param assume
 	 */
-	public void assertMatched(String pattern, String target, Boolean... assume) {
+	private void assertMatched(String pattern, String target, Boolean... assume) {
 		boolean value = match(pattern, target);
 		if (assume.length == 0 || !assume[0].booleanValue())
 			assertTrue("Expected a match for: " + pattern + " with: " + target,
@@ -366,7 +366,7 @@ public class IgnoreMatcherParametrizedTest {
 	 *            Target file path relative to repository's GIT_DIR
 	 * @param assume
 	 */
-	public void assertNotMatched(String pattern, String target,
+	private void assertNotMatched(String pattern, String target,
 			Boolean... assume) {
 		boolean value = match(pattern, target);
 		if (assume.length == 0 || !assume[0].booleanValue())
