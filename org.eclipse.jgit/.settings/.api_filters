@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <component id="org.eclipse.jgit" version="2">
+    <resource path="META-INF/MANIFEST.MF">
+        <filter id="924844039">
+            <message_arguments>
+                <message_argument value="4.9.1"/>
+                <message_argument value="4.9.0"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/lib/ConfigConstants.java" type="org.eclipse.jgit.lib.ConfigConstants">
         <filter id="336658481">
             <message_arguments>
@@ -44,6 +52,15 @@
             <message_arguments>
                 <message_argument value="org.eclipse.jgit.lib.ReflogEntry"/>
                 <message_argument value="PREFIX_FORCED_UPDATE"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/merge/ResolveMerger.java" type="org.eclipse.jgit.merge.ResolveMerger">
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="3.5"/>
+                <message_argument value="4.9"/>
+                <message_argument value="processEntry(CanonicalTreeParser, CanonicalTreeParser, CanonicalTreeParser, DirCacheBuildIterator, WorkingTreeIterator, boolean)"/>
             </message_arguments>
         </filter>
     </resource>
