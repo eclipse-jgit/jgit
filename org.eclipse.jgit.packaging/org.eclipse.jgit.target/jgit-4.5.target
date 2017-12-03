@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/mbarbero/fr.obeo.releng.targetplatform -->
-<target name="jgit-4.5" sequenceNumber="1511990822">
+<target name="jgit-4.5" sequenceNumber="1512295395">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.jetty.client" version="9.4.8.v20171121"/>
@@ -69,10 +69,10 @@
       <unit id="org.apache.commons.compress.source" version="1.6.0.v201310281400"/>
       <unit id="org.apache.commons.logging" version="1.1.1.v201101211721"/>
       <unit id="org.apache.commons.logging.source" version="1.1.1.v201101211721"/>
-      <unit id="org.apache.httpcomponents.httpcore" version="4.3.3.v201411290715"/>
-      <unit id="org.apache.httpcomponents.httpcore.source" version="4.3.3.v201411290715"/>
-      <unit id="org.apache.httpcomponents.httpclient" version="4.3.6.v201511171540"/>
-      <unit id="org.apache.httpcomponents.httpclient.source" version="4.3.6.v201511171540"/>
+      <unit id="org.apache.httpcomponents.httpcore" version="4.4.6.v20170210-0925"/>
+      <unit id="org.apache.httpcomponents.httpcore.source" version="4.4.6.v20170210-0925"/>
+      <unit id="org.apache.httpcomponents.httpclient" version="4.5.2.v20170210-0925"/>
+      <unit id="org.apache.httpcomponents.httpclient.source" version="4.5.2.v20170210-0925"/>
       <unit id="org.apache.log4j" version="1.2.15.v201012070815"/>
       <unit id="org.apache.log4j.source" version="1.2.15.v201012070815"/>
       <unit id="org.kohsuke.args4j" version="2.33.0.v20160323-2218"/>

@@ -23,14 +23,14 @@ maven_jar(
 
 maven_jar(
     name = "httpclient",
-    artifact = "org.apache.httpcomponents:httpclient:4.3.6",
-    sha1 = "4c47155e3e6c9a41a28db36680b828ced53b8af4",
+    artifact = "org.apache.httpcomponents:httpclient:4.5.2",
+    sha1 = "733db77aa8d9b2d68015189df76ab06304406e50",
 )
 
 maven_jar(
     name = "httpcore",
-    artifact = "org.apache.httpcomponents:httpcore:4.3.3",
-    sha1 = "f91b7a4aadc5cf486df6e4634748d7dd7a73f06d",
+    artifact = "org.apache.httpcomponents:httpcore:4.4.6",
+    sha1 = "e3fd8ced1f52c7574af952e2e6da0df8df08eb82",
 )
 
 maven_jar(
