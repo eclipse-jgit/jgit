@@ -1,7 +1,7 @@
-target "R20170516192513-Oxygen" with source configurePhase
+target "R20170919201930-Oxygen" with source configurePhase
 // see http://download.eclipse.org/tools/orbit/downloads/
 
-location "http://download.eclipse.org/tools/orbit/downloads/drops/R20170516192513/repository" {
+location "http://download.eclipse.org/tools/orbit/downloads/drops/R20170919201930/repository" {
 	org.apache.ant [1.9.6.v201510161327,1.9.6.v201510161327]
 	org.apache.ant.source [1.9.6.v201510161327,1.9.6.v201510161327]
 	org.apache.commons.codec [1.9.0.v20170208-1614,1.9.0.v20170208-1614]
