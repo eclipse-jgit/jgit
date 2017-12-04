@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_a5f2ed58",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-12-04T17:26:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_1236a59c",
+      "revId": "b5d8fd931bab96599d551e8144454bc87224a89e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_3239e18b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -30,6 +48,30 @@
       "writtenOn": "2017-12-04T14:26:59Z",
       "side": 1,
       "message": "Typically we don\u0027t describe in this project in which file we did what. Just a sentence for user visible changes (like describing the new config constants), how to enable/disable the feature. You should tell what to write in sparse-checkout files (or refer to an explanation). And tell what is missing from the native-git sparse checkout feature.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 43
+      },
+      "revId": "b5d8fd931bab96599d551e8144454bc87224a89e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_c5145904",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-12-04T17:26:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_3239e18b",
       "range": {
         "startLine": 12,
         "startChar": 0,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "a7979753_e5179503",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-12-04T17:26:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_522f4d41",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 20
+      },
+      "revId": "b5d8fd931bab96599d551e8144454bc87224a89e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_d2aeddf0",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
         "patchSetId": 7
@@ -76,6 +142,41 @@
       "writtenOn": "2017-12-04T14:26:59Z",
       "side": 1,
       "message": "I think we need tests for \u0027what happens when we used sparse checkout before and now turned it off\u0027. How does a users comes back to an index with no skip-worktree bits set. git-read-tree documentation tells that in native git that\u0027s tricky",
+      "revId": "b5d8fd931bab96599d551e8144454bc87224a89e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_85f7b14b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1954,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-12-04T17:26:25Z",
+      "side": 1,
+      "message": "I have added a test for this. I think native git would require the user to do a --hard reset of the tree to update the index. That is my experience of what you need to do when switch sparse-checkout off.",
+      "parentUuid": "a7979753_d2aeddf0",
+      "revId": "b5d8fd931bab96599d551e8144454bc87224a89e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_854b317e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/IndexDiffTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-12-04T17:26:25Z",
+      "side": 1,
+      "message": "I will be removing this test.",
       "revId": "b5d8fd931bab96599d551e8144454bc87224a89e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -99,6 +200,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_e52eb5c7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1156,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-12-04T17:26:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_d2b89d64",
+      "revId": "b5d8fd931bab96599d551e8144454bc87224a89e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_b2d5d160",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 7
@@ -116,6 +235,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_25643d14",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1167,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-12-04T17:26:25Z",
+      "side": 1,
+      "message": "I think my follow-up change address this. It now reads the index cache entry to get the \u0027skip working\u0027 tree flag the user may have set in the index.\n(This was a good spot.)",
+      "parentUuid": "a7979753_b2d5d160",
+      "revId": "b5d8fd931bab96599d551e8144454bc87224a89e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_12486505",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
         "patchSetId": 7
@@ -127,6 +264,30 @@
       "writtenOn": "2017-12-04T14:26:59Z",
       "side": 1,
       "message": "wouldn\u0027t \u0027flags\u0027 be better?",
+      "range": {
+        "startLine": 791,
+        "startChar": 35,
+        "endLine": 791,
+        "endChar": 39
+      },
+      "revId": "b5d8fd931bab96599d551e8144454bc87224a89e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_e5b5d519",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 791,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-12-04T17:26:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_12486505",
       "range": {
         "startLine": 791,
         "startChar": 35,
@@ -162,6 +323,30 @@
     },
     {
       "key": {
+        "uuid": "a7979753_05bd8100",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 827,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-12-04T17:26:25Z",
+      "side": 1,
+      "message": "The \u0027DELTA\u0027 is the difference between the V2 info length and the V3 info length.",
+      "parentUuid": "a7979753_925b75cc",
+      "range": {
+        "startLine": 827,
+        "startChar": 33,
+        "endLine": 827,
+        "endChar": 70
+      },
+      "revId": "b5d8fd931bab96599d551e8144454bc87224a89e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_d266dd9f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
         "patchSetId": 7
@@ -185,6 +370,47 @@
     },
     {
       "key": {
+        "uuid": "a7979753_45c6a991",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-12-04T17:26:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_d266dd9f",
+      "range": {
+        "startLine": 425,
+        "startChar": 9,
+        "endLine": 425,
+        "endChar": 23
+      },
+      "revId": "b5d8fd931bab96599d551e8144454bc87224a89e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_051f411e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-12-04T17:26:25Z",
+      "side": 1,
+      "message": "I am removing this.",
+      "revId": "b5d8fd931bab96599d551e8144454bc87224a89e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_527aed2f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
         "patchSetId": 7
@@ -202,6 +428,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_253b5df5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-12-04T17:26:25Z",
+      "side": 1,
+      "message": "I am going to remove this functionality as it is not used anywhere else at the moment. I also agree with your comment.",
+      "parentUuid": "a7979753_527aed2f",
+      "revId": "b5d8fd931bab96599d551e8144454bc87224a89e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_928455af",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 7
@@ -213,6 +457,24 @@
       "writtenOn": "2017-12-04T14:26:59Z",
       "side": 1,
       "message": "what does \"isn\u0027t local\" mean? You could say\n\n  or {@code null} if no sparse-checkout file exists.",
+      "revId": "b5d8fd931bab96599d551e8144454bc87224a89e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_c5045956",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1166,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-12-04T17:26:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_928455af",
       "revId": "b5d8fd931bab96599d551e8144454bc87224a89e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
