@@ -42,6 +42,7 @@
  */
 package org.eclipse.jgit.storage.file;
 
+import static org.eclipse.jgit.util.FileUtils.pathToString;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -52,7 +53,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.ConfigTest;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
@@ -164,7 +164,7 @@ public class FileBasedConfigTest {
 		final File includedFile = createFile(CONTENT1.getBytes());
 		final ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		bos.write("[include]\npath=".getBytes());
-		bos.write(ConfigTest.pathToString(includedFile).getBytes());
+		bos.write(pathToString(includedFile).getBytes());
 
 		final File file = createFile(bos.toByteArray());
 		final FileBasedConfig config = new FileBasedConfig(file, FS.DETECTED);

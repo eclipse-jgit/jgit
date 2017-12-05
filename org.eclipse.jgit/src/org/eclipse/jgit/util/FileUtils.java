@@ -869,4 +869,18 @@ public class FileUtils {
 		}
 	}
 
+	/**
+	 * Convert a path to String, replacing separators as necessary.
+	 *
+	 * @param file
+	 * @return file's path as a String
+	 * @since 4.10
+	 */
+	public static String pathToString(File file) {
+		final String path = file.getPath();
+		if (SystemReader.getInstance().isWindows()) {
+			return path.replace('\\', '/');
+		}
+		return path;
+	}
 }
