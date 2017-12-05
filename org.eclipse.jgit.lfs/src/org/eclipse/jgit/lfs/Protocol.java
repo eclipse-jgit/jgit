@@ -97,6 +97,13 @@ public interface Protocol {
 		public Map<String, String> header;
 	}
 
+	/**
+	 * Describes an action with an additional expiration timestamp
+	 */
+	class ExpiringAction extends Action {
+		public String expires_at;
+	}
+
 	/** Describes an error to be returned by the LFS batch API */
 	class Error {
 		public int code;
