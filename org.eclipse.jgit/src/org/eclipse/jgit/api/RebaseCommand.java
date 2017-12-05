@@ -931,6 +931,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		try {
 			DirCacheCheckout dco = new DirCacheCheckout(repo, dc, headTree);
 			dco.setFailOnConflict(false);
+			dco.setProgressMonitor(monitor);
 			boolean needsDeleteFiles = dco.checkout();
 			if (needsDeleteFiles) {
 				List<String> fileList = dco.getToBeDeleted();
@@ -1262,6 +1263,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 
 		CheckoutCommand co = new CheckoutCommand(repo);
 		try {
+			co.setProgressMonitor(monitor);
 			co.setName(newCommit.name()).call();
 			if (headName.startsWith(Constants.R_HEADS)) {
 				RefUpdate rup = repo.updateRef(headName);
@@ -1404,6 +1406,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			DirCacheCheckout dco = new DirCacheCheckout(repo, head.getTree(),
 					repo.lockDirCache(), commit.getTree());
 			dco.setFailOnConflict(true);
+			dco.setProgressMonitor(monitor);
 			try {
 				dco.checkout();
 			} catch (org.eclipse.jgit.errors.CheckoutConflictException cce) {
