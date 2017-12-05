@@ -67,6 +67,7 @@ import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.transport.http.HttpConnection;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.HttpSupport;
+import org.eclipse.jgit.util.LfsHelper;
 import org.eclipse.jgit.util.io.MessageWriter;
 import org.eclipse.jgit.util.io.StreamCopyThread;
 
@@ -98,12 +99,13 @@ public class LfsConnectionHelper {
 	public static HttpConnection getLfsConnection(Repository db, String method,
 			String purpose) throws IOException {
 		StoredConfig config = db.getConfig();
-		String lfsEndpoint = config.getString("lfs", null, "url"); //$NON-NLS-1$ //$NON-NLS-2$
+		String lfsEndpoint = config.getString(LfsHelper.LFS_CFG, null, "url");
 		Map<String, String> additionalHeaders = new TreeMap<>();
 		if (lfsEndpoint == null) {
 			String remoteUrl = null;
 			for (String remote : db.getRemoteNames()) {
-				lfsEndpoint = config.getString("lfs", remote, "url"); //$NON-NLS-1$ //$NON-NLS-2$
+				lfsEndpoint = config.getString(LfsHelper.LFS_CFG, remote,
+						"url");
 				// TODO: only works for origin?
 				if (lfsEndpoint == null
 						&& (remote.equals(Constants.DEFAULT_REMOTE_NAME))) {
