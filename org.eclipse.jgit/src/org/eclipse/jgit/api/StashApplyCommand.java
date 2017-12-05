@@ -389,7 +389,7 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 			CheckoutMetadata checkoutMetadata) {
 		try {
 			DirCacheCheckout.checkoutEntry(repo, entry, reader, true,
-					checkoutMetadata);
+					checkoutMetadata, null);
 		} catch (IOException e) {
 			throw new JGitInternalException(MessageFormat.format(
 					JGitText.get().checkoutConflictWithFile,

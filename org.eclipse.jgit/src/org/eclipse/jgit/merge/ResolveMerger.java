@@ -370,7 +370,8 @@ public class ResolveMerger extends ThreeWayMerger {
 		}
 		for (Map.Entry<String, DirCacheEntry> entry : toBeCheckedOut
 				.entrySet()) {
-			DirCacheCheckout.checkoutEntry(db, entry.getValue(), reader);
+			DirCacheCheckout.checkoutEntry(db, entry.getValue(), reader,
+					monitor);
 			modifiedFiles.add(entry.getKey());
 		}
 	}
@@ -400,7 +401,7 @@ public class ResolveMerger extends ThreeWayMerger {
 			String mpath=mpathsIt.next();
 			DirCacheEntry entry = dc.getEntry(mpath);
 			if (entry != null)
-				DirCacheCheckout.checkoutEntry(db, entry, reader);
+				DirCacheCheckout.checkoutEntry(db, entry, reader, monitor);
 			mpathsIt.remove();
 		}
 	}
