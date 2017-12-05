@@ -53,6 +53,7 @@ import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.eclipse.jgit.util.FileUtils.pathToString;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -853,14 +854,6 @@ public class ConfigTest {
 		assertTrue(parsed.getBoolean("foo", "bar", false));
 		assertEquals("bar", parsed.getString("foo", null, "more"));
 		assertEquals("bar", parsed.getString("other", null, "more"));
-	}
-
-	public static String pathToString(File file) {
-		final String path = file.getPath();
-		if (SystemReader.getInstance().isWindows()) {
-			return path.replace('\\', '/');
-		}
-		return path;
 	}
 
 	private static void assertReadLong(long exp) throws ConfigInvalidException {
