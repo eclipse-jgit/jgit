@@ -46,6 +46,23 @@
       "revId": "c1784845202b52419e92eeaf0d1fd59fa0606db1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_199a48f5",
+        "filename": "org.eclipse.jgit.test/src/org/eclipse/jgit/lib/ConfigUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-05T23:54:11Z",
+      "side": 1,
+      "message": "I\u0027d move this method to org.eclipse.jgit.util.FileUtils instead of creating yet another utils class",
+      "revId": "c1784845202b52419e92eeaf0d1fd59fa0606db1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
