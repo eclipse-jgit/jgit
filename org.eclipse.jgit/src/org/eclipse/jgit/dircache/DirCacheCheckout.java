@@ -67,6 +67,7 @@ import org.eclipse.jgit.errors.IndexWriteException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.events.WorkingTreeModifiedEvent;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig.AutoCRLF;
 import org.eclipse.jgit.lib.CoreConfig.EolStreamType;
@@ -1539,6 +1540,9 @@ public class DirCacheCheckout {
 	private static void runBuiltinFilterCommand(Repository repo,
 			CheckoutMetadata checkoutMetadata, ObjectLoader ol,
 			OutputStream channel) throws MissingObjectException, IOException {
+		boolean isMandatory = repo.getConfig().getBoolean(
+				ConfigConstants.CONFIG_FILTER_SECTION, "lfs",
+				ConfigConstants.CONFIG_KEY_REQUIRED, false);
 		FilterCommand command = null;
 		try {
 			command = FilterCommandRegistry.createFilterCommand(
@@ -1546,9 +1550,14 @@ public class DirCacheCheckout {
 					channel);
 		} catch (IOException e) {
 			LOG.error(JGitText.get().failedToDetermineFilterDefinition, e);
-			// In case an IOException occurred during creating of the command
-			// then proceed as if there would not have been a builtin filter.
-			ol.copyTo(channel);
+			if (!isMandatory) {
+				// In case an IOException occurred during creating of the
+				// command then proceed as if there would not have been a
+				// builtin filter (only if the filter is not mandatory).
+				ol.copyTo(channel);
+			} else {
+				throw e;
+			}
 		}
 		if (command != null) {
 			while (command.run() != -1) {
