@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_487400f2",
+        "filename": "org.eclipse.jgit.test/src/org/eclipse/jgit/lib/ConfigUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2017-12-05T09:06:36Z",
+      "side": 1,
+      "message": "Not sure if I should be the author here",
+      "range": {
+        "startLine": 2,
+        "startChar": 3,
+        "endLine": 2,
+        "endChar": 36
+      },
+      "revId": "c1784845202b52419e92eeaf0d1fd59fa0606db1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
