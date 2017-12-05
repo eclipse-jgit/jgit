@@ -47,6 +47,7 @@ import java.security.NoSuchAlgorithmException;
 import java.text.MessageFormat;
 
 import org.eclipse.jgit.lfs.internal.LfsText;
+import org.eclipse.jgit.util.LfsHelper;
 
 /**
  * Misc. constants used throughout JGit LFS extension.
@@ -60,7 +61,7 @@ public final class Constants {
 	 *
 	 * @since 4.6
 	 */
-	public static final String LFS = "lfs";
+	public static final String LFS = LfsHelper.LFS_CFG;
 
 	/**
 	 * Hash function used natively by Git LFS extension for large objects.

@@ -132,6 +132,10 @@ public class Main {
 	 * @throws Exception
 	 */
 	public static void main(final String[] argv) throws Exception {
+		// make sure built-in filters are registered
+		SmudgeFilter.register();
+		CleanFilter.register();
+
 		new Main().run(argv);
 	}
 
