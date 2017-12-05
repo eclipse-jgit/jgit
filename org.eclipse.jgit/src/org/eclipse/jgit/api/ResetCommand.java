@@ -407,6 +407,7 @@ public class ResetCommand extends GitCommand<Ref> {
 			DirCacheCheckout checkout = new DirCacheCheckout(repo, dc,
 					commitTree);
 			checkout.setFailOnConflict(false);
+			// TODO: checkout.setProgressMonitor(monitor);
 			try {
 				checkout.checkout();
 			} catch (org.eclipse.jgit.errors.CheckoutConflictException cce) {

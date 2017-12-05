@@ -359,6 +359,7 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 			DirCache dc = clonedRepo.lockDirCache();
 			DirCacheCheckout co = new DirCacheCheckout(clonedRepo, dc,
 					commit.getTree());
+			co.setProgressMonitor(monitor);
 			co.checkout();
 			if (cloneSubmodules)
 				cloneSubmodules(clonedRepo);
