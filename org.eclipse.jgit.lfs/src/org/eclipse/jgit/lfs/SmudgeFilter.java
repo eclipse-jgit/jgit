@@ -163,7 +163,7 @@ public class SmudgeFilter extends FilterCommand {
 		}
 		HttpConnection lfsServerConn = LfsConnectionHelper.getLfsConnection(db,
 				HttpSupport.METHOD_POST, Protocol.OPERATION_DOWNLOAD);
-		Gson gson = new Gson();
+		Gson gson = Protocol.gson();
 		lfsServerConn.getOutputStream()
 				.write(gson
 						.toJson(LfsConnectionHelper
