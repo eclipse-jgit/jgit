@@ -120,7 +120,7 @@ public class LfsPrePushHook extends PrePushHook {
 		HttpConnection lfsServerConn = LfsConnectionFactory.getLfsConnection(
 				getRepository(), HttpSupport.METHOD_POST,
 				Protocol.OPERATION_UPLOAD);
-		Gson gson = new Gson();
+		Gson gson = Protocol.gson();
 		lfsServerConn.getOutputStream()
 				.write(gson
 						.toJson(LfsConnectionFactory
