@@ -22,6 +22,30 @@
       "revId": "c1784845202b52419e92eeaf0d1fd59fa0606db1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_c378d19d",
+        "filename": "org.eclipse.jgit.test/src/org/eclipse/jgit/lib/ConfigUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-12-05T10:39:40Z",
+      "side": 1,
+      "message": "I wasn\u0027t sure either, but since you wrote the method originally in [1] I thought it better to attribute it to you.\n\n[1] https://git.eclipse.org/r/#/c/111846/5/org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ConfigTest.java",
+      "parentUuid": "a7979753_487400f2",
+      "range": {
+        "startLine": 2,
+        "startChar": 3,
+        "endLine": 2,
+        "endChar": 36
+      },
+      "revId": "c1784845202b52419e92eeaf0d1fd59fa0606db1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
