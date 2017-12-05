@@ -95,14 +95,11 @@ import org.eclipse.jgit.util.IntList;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.SystemReader;
 import org.eclipse.jgit.util.io.EolStreamTypeUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * This class handles checking out one or two trees merging with the index.
  */
 public class DirCacheCheckout {
-	private static Logger LOG = LoggerFactory.getLogger(DirCacheCheckout.class);
 
 	private static final int MAX_EXCEPTION_TEXT_SIZE = 10 * 1024;
 
@@ -1522,17 +1519,12 @@ public class DirCacheCheckout {
 	private static void runBuiltinFilterCommand(Repository repo,
 			CheckoutMetadata checkoutMetadata, ObjectLoader ol,
 			OutputStream channel) throws MissingObjectException, IOException {
-		FilterCommand command = null;
-		try {
-			command = FilterCommandRegistry.createFilterCommand(
-					checkoutMetadata.smudgeFilterCommand, repo, ol.openStream(),
-					channel);
-		} catch (IOException e) {
-			LOG.error(JGitText.get().failedToDetermineFilterDefinition, e);
-			// In case an IOException occurred during creating of the command
-			// then proceed as if there would not have been a builtin filter.
-			ol.copyTo(channel);
-		}
+		// the filter is registered, so we assume it is mandatory. in case the
+		// filter creation fails, this is very likely due to a real failure, and
+		// should be propagated further up the call stack.
+		FilterCommand command = FilterCommandRegistry.createFilterCommand(
+				checkoutMetadata.smudgeFilterCommand, repo, ol.openStream(),
+				channel);
 		if (command != null) {
 			while (command.run() != -1) {
 				// loop as long as command.run() tells there is work to do
