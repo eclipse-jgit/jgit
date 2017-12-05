@@ -132,6 +132,9 @@ public class Main {
 	 * @throws java.lang.Exception
 	 */
 	public static void main(final String[] argv) throws Exception {
+		// make sure built-in filters are registered
+		BuiltinLFS.register();
+
 		new Main().run(argv);
 	}
 
