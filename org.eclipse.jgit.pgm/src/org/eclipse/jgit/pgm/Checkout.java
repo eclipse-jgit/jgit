@@ -57,6 +57,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.pgm.internal.CLIText;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
@@ -90,7 +91,8 @@ class Checkout extends TextBuiltin {
 		}
 
 		try (Git git = new Git(db)) {
-			CheckoutCommand command = git.checkout();
+			CheckoutCommand command = git.checkout()
+					.setProgressMonitor(new TextProgressMonitor(errw));
 			if (paths.size() > 0) {
 				command.setStartPoint(name);
 				if (paths.size() == 1 && paths.get(0).equals(".")) { //$NON-NLS-1$

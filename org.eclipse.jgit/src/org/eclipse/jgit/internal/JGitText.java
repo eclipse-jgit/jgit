@@ -176,6 +176,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String cantPassMeATree;
 	/***/ public String channelMustBeInRange1_255;
 	/***/ public String characterClassIsNotSupported;
+	/***/ public String checkingOutFiles;
 	/***/ public String checkoutConflictWithFile;
 	/***/ public String checkoutConflictWithFiles;
 	/***/ public String checkoutUnexpectedResult;

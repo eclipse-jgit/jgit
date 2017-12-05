@@ -268,6 +268,7 @@ public class MergeCommand extends GitCommand<MergeResult> {
 				dco = new DirCacheCheckout(repo,
 						repo.lockDirCache(), srcCommit.getTree());
 				dco.setFailOnConflict(true);
+				dco.setProgressMonitor(monitor);
 				dco.checkout();
 				RefUpdate refUpdate = repo
 						.updateRef(head.getTarget().getName());
@@ -298,6 +299,7 @@ public class MergeCommand extends GitCommand<MergeResult> {
 				dco = new DirCacheCheckout(repo,
 						headCommit.getTree(), repo.lockDirCache(),
 						srcCommit.getTree());
+				dco.setProgressMonitor(monitor);
 				dco.setFailOnConflict(true);
 				dco.checkout();
 				String msg = null;
@@ -376,6 +378,7 @@ public class MergeCommand extends GitCommand<MergeResult> {
 							headCommit.getTree(), repo.lockDirCache(),
 							merger.getResultTreeId());
 					dco.setFailOnConflict(true);
+					dco.setProgressMonitor(monitor);
 					dco.checkout();
 
 					String msg = null;
