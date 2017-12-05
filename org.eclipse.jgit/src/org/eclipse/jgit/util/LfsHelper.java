@@ -68,6 +68,10 @@ import org.eclipse.jgit.treewalk.filter.PathFilter;
  */
 public class LfsHelper {
 
+	/**
+	 * Constant for the "lfs" filter subsection name
+	 */
+	public static final String LFS_CFG = "lfs"; //$NON-NLS-1$
 	private static final String CLEAN_FILTER_METHOD = "cleanLfsBlob"; //$NON-NLS-1$
 
 	private static final String SMUDGE_FILTER_METHOD = "smudgeLfsBlob"; //$NON-NLS-1$
@@ -177,7 +181,7 @@ public class LfsHelper {
 			return false;
 		}
 		return db.getConfig().getBoolean(ConfigConstants.CONFIG_FILTER_SECTION,
-				"lfs", ConfigConstants.CONFIG_KEY_USEJGITBUILTIN, false); //$NON-NLS-1$
+				LFS_CFG, ConfigConstants.CONFIG_KEY_USEJGITBUILTIN, false);
 	}
 
 	/**
@@ -192,7 +196,7 @@ public class LfsHelper {
 		if (attribute == null) {
 			return false;
 		}
-		return isEnabled(db) && "lfs".equals(attribute.getValue()); //$NON-NLS-1$
+		return isEnabled(db) && LFS_CFG.equals(attribute.getValue());
 	}
 
 	/**
