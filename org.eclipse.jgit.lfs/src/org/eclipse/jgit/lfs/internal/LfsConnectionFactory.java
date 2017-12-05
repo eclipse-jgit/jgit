@@ -52,6 +52,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ProxySelector;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.TreeMap;
@@ -75,8 +76,6 @@ import org.eclipse.jgit.util.HttpSupport;
 import org.eclipse.jgit.util.io.MessageWriter;
 import org.eclipse.jgit.util.io.StreamCopyThread;
 
-import com.google.gson.Gson;
-
 /**
  * Provides means to get a valid LFS connection for a given repository.
  */
@@ -84,6 +83,7 @@ public class LfsConnectionFactory {
 
 	private static final String SCHEME_HTTPS = "https"; //$NON-NLS-1$
 	private static final String SCHEME_SSH = "ssh"; //$NON-NLS-1$
+	private static final Map<String, AuthCache> sshAuthCache = new TreeMap<>();
 
 	/**
 	 * Determine URL of LFS server by looking into config parameters lfs.url,
@@ -166,17 +166,9 @@ public class LfsConnectionFactory {
 			Map<String, String> additionalHeaders, String remoteUrl) {
 		try {
 			URIish u = new URIish(remoteUrl);
-
 			if (SCHEME_SSH.equals(u.getScheme())) {
-				// discover and authenticate; git-lfs does "ssh -p
-				// <port> -- <host> git-lfs-authenticate <project>
-				// <upload/download>"
-				String json = runSshCommand(u.setPath(""), db.getFS(), //$NON-NLS-1$
-						"git-lfs-authenticate " + extractProjectName(u) //$NON-NLS-1$
-								+ " " + purpose); //$NON-NLS-1$
-
-				Protocol.Action action = new Gson().fromJson(json,
-						Protocol.Action.class);
+				Protocol.ExpiringAction action = getSshAuthentication(
+						db, purpose, remoteUrl, u);
 				additionalHeaders.putAll(action.header);
 				return action.href;
 			} else {
@@ -185,6 +177,34 @@ public class LfsConnectionFactory {
 		} catch (Exception e) {
 			return null; // could not discover
 		}
+	}
+
+	private static Protocol.ExpiringAction getSshAuthentication(
+			Repository db, String purpose, String remoteUrl, URIish u)
+			throws IOException {
+		AuthCache cached = sshAuthCache.get(remoteUrl);
+		Protocol.ExpiringAction action = null;
+		if (cached != null && cached.validUntil > System.currentTimeMillis()) {
+			action = cached.cachedAction;
+		}
+
+		if (action == null) {
+			// discover and authenticate; git-lfs does "ssh
+			// -p <port> -- <host> git-lfs-authenticate
+			// <project> <upload/download>"
+			String json = runSshCommand(u.setPath(""), //$NON-NLS-1$
+					db.getFS(),
+					"git-lfs-authenticate " + extractProjectName(u) + " " //$NON-NLS-1$//$NON-NLS-2$
+							+ purpose);
+
+			action = Protocol.gson().fromJson(json,
+					Protocol.ExpiringAction.class);
+
+			// cache the result as long as possible.
+			AuthCache c = new AuthCache(action);
+			sshAuthCache.put(remoteUrl, c);
+		}
+		return action;
 	}
 
 	/**
@@ -289,6 +309,43 @@ public class LfsConnectionFactory {
 			}
 		}
 		return req;
+	}
+
+	private static final class AuthCache {
+		private static final long AUTH_CACHE_EAGER_TIMEOUT = 100;
+
+		private static final SimpleDateFormat ISO_FORMAT = new SimpleDateFormat(
+				"yyyy-MM-dd'T'HH:mm:ss.SSSX"); //$NON-NLS-1$
+
+		/**
+		 * Creates a cache entry for an authentication response.
+		 * <p>
+		 * The timeout of the cache token is extracted from the given action. If
+		 * no timeout can be determined, the token will be used only once.
+		 *
+		 * @param action
+		 */
+		public AuthCache(Protocol.ExpiringAction action) {
+			this.cachedAction = action;
+			try {
+				if (action.expiresIn != null && !action.expiresIn.isEmpty()) {
+					this.validUntil = System.currentTimeMillis()
+							+ Long.parseLong(action.expiresIn);
+				} else if (action.expiresAt != null
+						&& !action.expiresAt.isEmpty()) {
+					this.validUntil = ISO_FORMAT.parse(action.expiresAt)
+							.getTime() - AUTH_CACHE_EAGER_TIMEOUT;
+				} else {
+					this.validUntil = System.currentTimeMillis();
+				}
+			} catch (Exception e) {
+				this.validUntil = System.currentTimeMillis();
+			}
+		}
+
+		long validUntil;
+
+		Protocol.ExpiringAction cachedAction;
 	}
 
 }
