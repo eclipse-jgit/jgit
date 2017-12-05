@@ -46,6 +46,10 @@ package org.eclipse.jgit.lfs;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 /**
  * This interface describes the network protocol used between lfs client and lfs
  * server
@@ -97,6 +101,15 @@ public interface Protocol {
 		public Map<String, String> header;
 	}
 
+	/**
+	 * An action with an additional expiration timestamp
+	 *
+	 * @since 4.11
+	 */
+	class ExpiringAction extends Action {
+		public String expiresAt;
+	}
+
 	/** Describes an error to be returned by the LFS batch API */
 	class Error {
 		public int code;
@@ -138,4 +151,17 @@ public interface Protocol {
 	 * Path to the LFS objects servlet.
 	 */
 	String OBJECTS_LFS_ENDPOINT = "/objects/batch"; //$NON-NLS-1$
+
+	/**
+	 * @return a {@link Gson} instance suitable for handling this
+	 *         {@link Protocol}
+	 *
+	 * @since 4.11
+	 */
+	public static Gson gson() {
+		return new GsonBuilder()
+				.setFieldNamingPolicy(
+						FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+				.disableHtmlEscaping().create();
+	}
 }
