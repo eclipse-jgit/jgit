@@ -163,6 +163,7 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 							newHead.getTree(), repo.lockDirCache(),
 							merger.getResultTreeId());
 					dco.setFailOnConflict(true);
+					// TODO: dco.setProgressMonitor(monitor);
 					dco.checkout();
 					if (!noCommit)
 						newHead = new Git(getRepository()).commit()
