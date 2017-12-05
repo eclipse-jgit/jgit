@@ -43,8 +43,8 @@
 package org.eclipse.jgit.lfs;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.eclipse.jgit.lfs.internal.LfsConnectionFactory.toRequest;
 import static org.eclipse.jgit.lfs.Protocol.OPERATION_UPLOAD;
+import static org.eclipse.jgit.lfs.internal.LfsConnectionFactory.toRequest;
 import static org.eclipse.jgit.transport.http.HttpConnection.HTTP_OK;
 import static org.eclipse.jgit.util.HttpSupport.METHOD_POST;
 import static org.eclipse.jgit.util.HttpSupport.METHOD_PUT;
@@ -123,6 +123,7 @@ public class LfsPrePushHook extends PrePushHook {
 		Map<String, LfsPointer> oid2ptr = requestBatchUpload(api, toPush);
 		uploadContents(api, oid2ptr);
 		return EMPTY;
+
 	}
 
 	private Set<LfsPointer> findObjectsToPush() throws IOException,
@@ -201,7 +202,7 @@ public class LfsPrePushHook extends PrePushHook {
 		for (LfsPointer p : res) {
 			oidStr2ptr.put(p.getOid().name(), p);
 		}
-		Gson gson = new Gson();
+		Gson gson = Protocol.gson();
 		api.getOutputStream().write(
 				gson.toJson(toRequest(OPERATION_UPLOAD, res)).getBytes(UTF_8));
 		int responseCode = api.getResponseCode();
