@@ -61,8 +61,10 @@ import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
+import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Ref.Storage;
 import org.eclipse.jgit.lib.Repository;
@@ -96,6 +98,8 @@ public class RevertCommand extends GitCommand<RevCommit> {
 	private List<String> unmergedPaths;
 
 	private MergeStrategy strategy = MergeStrategy.RECURSIVE;
+
+	private ProgressMonitor monitor = NullProgressMonitor.INSTANCE;
 
 	/**
 	 * <p>
@@ -178,6 +182,7 @@ public class RevertCommand extends GitCommand<RevCommit> {
 							headCommit.getTree(), repo.lockDirCache(),
 							merger.getResultTreeId());
 					dco.setFailOnConflict(true);
+					dco.setProgressMonitor(monitor);
 					dco.checkout();
 					try (Git git = new Git(getRepository())) {
 						newHead = git.commit().setMessage(newMessage)
@@ -323,6 +328,24 @@ public class RevertCommand extends GitCommand<RevCommit> {
 	 */
 	public RevertCommand setStrategy(MergeStrategy strategy) {
 		this.strategy = strategy;
+		return this;
+	}
+
+	/**
+	 * The progress monitor associated with the revert operation. By default,
+	 * this is set to <code>NullProgressMonitor</code>
+	 *
+	 * @see NullProgressMonitor
+	 * @param monitor
+	 *            a {@link org.eclipse.jgit.lib.ProgressMonitor}
+	 * @return {@code this}
+	 * @since 4.11
+	 */
+	public RevertCommand setProgressMonitor(ProgressMonitor monitor) {
+		if (monitor == null) {
+			monitor = NullProgressMonitor.INSTANCE;
+		}
+		this.monitor = monitor;
 		return this;
 	}
 }

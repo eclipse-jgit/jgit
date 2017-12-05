@@ -60,8 +60,10 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
+import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Ref.Storage;
 import org.eclipse.jgit.lib.Repository;
@@ -94,6 +96,8 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 	private Integer mainlineParentNumber;
 
 	private boolean noCommit = false;
+
+	private ProgressMonitor monitor = NullProgressMonitor.INSTANCE;
 
 	/**
 	 * Constructor for CherryPickCommand
@@ -160,6 +164,7 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 							newHead.getTree(), repo.lockDirCache(),
 							merger.getResultTreeId());
 					dco.setFailOnConflict(true);
+					dco.setProgressMonitor(monitor);
 					dco.checkout();
 					if (!noCommit)
 						newHead = new Git(getRepository()).commit()
@@ -329,6 +334,24 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 	 */
 	public CherryPickCommand setNoCommit(boolean noCommit) {
 		this.noCommit = noCommit;
+		return this;
+	}
+
+	/**
+	 * The progress monitor associated with the cherry-pick operation. By
+	 * default, this is set to <code>NullProgressMonitor</code>
+	 *
+	 * @see NullProgressMonitor
+	 * @param monitor
+	 *            a {@link org.eclipse.jgit.lib.ProgressMonitor}
+	 * @return {@code this}
+	 * @since 4.11
+	 */
+	public CherryPickCommand setProgressMonitor(ProgressMonitor monitor) {
+		if (monitor == null) {
+			monitor = NullProgressMonitor.INSTANCE;
+		}
+		this.monitor = monitor;
 		return this;
 	}
 

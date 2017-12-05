@@ -56,6 +56,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.jgit.api.errors.CanceledException;
 import org.eclipse.jgit.api.errors.FilterFailedException;
 import org.eclipse.jgit.attributes.FilterCommand;
 import org.eclipse.jgit.attributes.FilterCommandRegistry;
@@ -76,6 +77,7 @@ import org.eclipse.jgit.lib.ObjectChecker;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
@@ -157,6 +159,8 @@ public class DirCacheCheckout {
 	private boolean emptyDirCache;
 
 	private boolean performingCheckout;
+
+	private ProgressMonitor monitor = NullProgressMonitor.INSTANCE;
 
 	/**
 	 * Get list of updated paths and smudgeFilterCommands
@@ -285,6 +289,18 @@ public class DirCacheCheckout {
 	public DirCacheCheckout(Repository repo, DirCache dc,
 			ObjectId mergeCommitTree) throws IOException {
 		this(repo, null, dc, mergeCommitTree, new FileTreeIterator(repo));
+	}
+
+	/**
+	 * Set a progress monitor which can be passed to built-in filter commands,
+	 * providing progress information for long running tasks.
+	 *
+	 * @param monitor
+	 *            the {@link ProgressMonitor}
+	 * @since 4.11
+	 */
+	public void setProgressMonitor(ProgressMonitor monitor) {
+		this.monitor = monitor != null ? monitor : NullProgressMonitor.INSTANCE;
 	}
 
 	/**
@@ -465,6 +481,10 @@ public class DirCacheCheckout {
 	public boolean checkout() throws IOException {
 		try {
 			return doCheckout();
+		} catch (CanceledException ce) {
+			// should actually be propagated, but this would change a LOT of
+			// APIs
+			throw new IOException(ce);
 		} finally {
 			try {
 				dc.unlock();
@@ -482,7 +502,7 @@ public class DirCacheCheckout {
 
 	private boolean doCheckout() throws CorruptObjectException, IOException,
 			MissingObjectException, IncorrectObjectTypeException,
-			CheckoutConflictException, IndexWriteException {
+			CheckoutConflictException, IndexWriteException, CanceledException {
 		toBeDeleted.clear();
 		try (ObjectReader objectReader = repo.getObjectDatabase().newReader()) {
 			if (headCommitTree != null)
@@ -499,6 +519,10 @@ public class DirCacheCheckout {
 
 			// update our index
 			builder.finish();
+
+			// init progress reporting
+			int numTotal = removed.size() + updated.size();
+			monitor.beginTask(JGitText.get().checkingOutFiles, numTotal);
 
 			performingCheckout = true;
 			File file = null;
@@ -525,6 +549,12 @@ public class DirCacheCheckout {
 						removeEmptyParents(new File(repo.getWorkTree(), last));
 					last = r;
 				}
+				monitor.update(1);
+				if (monitor.isCancelled()) {
+					throw new CanceledException(MessageFormat.format(
+							JGitText.get().operationCanceled,
+							JGitText.get().checkingOutFiles));
+				}
 			}
 			if (file != null) {
 				removeEmptyParents(file);
@@ -544,6 +574,13 @@ public class DirCacheCheckout {
 						checkoutEntry(repo, entry, objectReader, false, meta);
 					}
 					e = null;
+
+					monitor.update(1);
+					if (monitor.isCancelled()) {
+						throw new CanceledException(MessageFormat.format(
+								JGitText.get().operationCanceled,
+								JGitText.get().checkingOutFiles));
+					}
 				}
 			} catch (Exception ex) {
 				// We didn't actually modify the current entry nor any that
@@ -557,6 +594,8 @@ public class DirCacheCheckout {
 				}
 				throw ex;
 			}
+			monitor.endTask();
+
 			// commit the index builder - a new index is persisted
 			if (!builder.commit())
 				throw new IndexWriteException();

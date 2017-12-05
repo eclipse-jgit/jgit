@@ -58,7 +58,9 @@ import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
@@ -124,6 +126,8 @@ public class ResetCommand extends GitCommand<Ref> {
 	private Collection<String> filepaths = new LinkedList<>();
 
 	private boolean isReflogDisabled;
+
+	private ProgressMonitor monitor = NullProgressMonitor.INSTANCE;
 
 	/**
 	 * <p>
@@ -336,6 +340,24 @@ public class ResetCommand extends GitCommand<Ref> {
 			return Constants.HEAD;
 	}
 
+	/**
+	 * The progress monitor associated with the reset operation. By default,
+	 * this is set to <code>NullProgressMonitor</code>
+	 *
+	 * @see NullProgressMonitor
+	 * @param monitor
+	 *            a {@link org.eclipse.jgit.lib.ProgressMonitor}
+	 * @return {@code this}
+	 * @since 4.11
+	 */
+	public ResetCommand setProgressMonitor(ProgressMonitor monitor) {
+		if (monitor == null) {
+			monitor = NullProgressMonitor.INSTANCE;
+		}
+		this.monitor = monitor;
+		return this;
+	}
+
 	private void resetIndexForPaths(ObjectId commitTree) {
 		DirCache dc = null;
 		try (final TreeWalk tw = new TreeWalk(repo)) {
@@ -420,6 +442,7 @@ public class ResetCommand extends GitCommand<Ref> {
 			DirCacheCheckout checkout = new DirCacheCheckout(repo, dc,
 					commitTree);
 			checkout.setFailOnConflict(false);
+			checkout.setProgressMonitor(monitor);
 			try {
 				checkout.checkout();
 			} catch (org.eclipse.jgit.errors.CheckoutConflictException cce) {

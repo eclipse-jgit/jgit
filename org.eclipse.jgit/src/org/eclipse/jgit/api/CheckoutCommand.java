@@ -76,8 +76,10 @@ import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig.EolStreamType;
 import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
@@ -182,6 +184,8 @@ public class CheckoutCommand extends GitCommand<Ref> {
 
 	private Set<String> actuallyModifiedPaths;
 
+	private ProgressMonitor monitor = NullProgressMonitor.INSTANCE;
+
 	/**
 	 * Constructor for CheckoutCommand
 	 *
@@ -266,6 +270,7 @@ public class CheckoutCommand extends GitCommand<Ref> {
 				dco = new DirCacheCheckout(repo, headTree, dc,
 						newCommit.getTree());
 				dco.setFailOnConflict(true);
+				dco.setProgressMonitor(monitor);
 				try {
 					dco.checkout();
 				} catch (org.eclipse.jgit.errors.CheckoutConflictException e) {
@@ -344,6 +349,20 @@ public class CheckoutCommand extends GitCommand<Ref> {
 			throw new NullPointerException();
 		}
 		return id.getName();
+	}
+
+	/**
+	 * @param monitor
+	 *            a progress monitor
+	 * @return this instance
+	 * @since 4.11
+	 */
+	public CheckoutCommand setProgressMonitor(ProgressMonitor monitor) {
+		if (monitor == null) {
+			monitor = NullProgressMonitor.INSTANCE;
+		}
+		this.monitor = monitor;
+		return this;
 	}
 
 	/**
