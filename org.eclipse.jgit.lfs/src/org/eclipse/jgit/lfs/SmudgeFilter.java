@@ -142,7 +142,7 @@ public class SmudgeFilter extends FilterCommand {
 
 	/**
 	 * Download content which is hosted on a LFS server
-	 * 
+	 *
 	 * @param lfs
 	 *
 	 * @param db
@@ -154,8 +154,7 @@ public class SmudgeFilter extends FilterCommand {
 	 */
 	@SuppressWarnings("boxing")
 	public static Set<Path> downloadLfsResource(Lfs lfs, Repository db,
-			LfsPointer... res)
-			throws IOException {
+			LfsPointer... res) throws IOException {
 		Set<Path> downloadedPathes = new HashSet<>();
 		Map<String, LfsPointer> oidStr2ptr = new HashMap<>();
 		for (LfsPointer p : res) {
@@ -180,6 +179,11 @@ public class SmudgeFilter extends FilterCommand {
 			Protocol.Response resp = gson.fromJson(reader,
 					Protocol.Response.class);
 			for (Protocol.ObjectInfo o : resp.objects) {
+				if (o.error != null) {
+					throw new IOException(
+							MessageFormat.format(LfsText.get().protocolError,
+									o.error.code, o.error.message));
+				}
 				if (o.actions == null) {
 					continue;
 				}

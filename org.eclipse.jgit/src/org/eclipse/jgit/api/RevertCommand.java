@@ -181,6 +181,7 @@ public class RevertCommand extends GitCommand<RevCommit> {
 							headCommit.getTree(), repo.lockDirCache(),
 							merger.getResultTreeId());
 					dco.setFailOnConflict(true);
+					// TODO: dco.setProgressMonitor(monitor);
 					dco.checkout();
 					try (Git git = new Git(getRepository())) {
 						newHead = git.commit().setMessage(newMessage)
