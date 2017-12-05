@@ -226,6 +226,7 @@ public class SubmoduleUpdateCommand extends
 								submoduleRepo, submoduleRepo.lockDirCache(),
 								commit.getTree());
 						co.setFailOnConflict(true);
+						co.setProgressMonitor(monitor);
 						co.checkout();
 						RefUpdate refUpdate = submoduleRepo.updateRef(
 								Constants.HEAD, true);
