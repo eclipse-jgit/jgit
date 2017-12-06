@@ -81,12 +81,9 @@ import org.eclipse.jgit.lfs.errors.LfsUnauthorized;
 import org.eclipse.jgit.lfs.errors.LfsUnavailable;
 import org.eclipse.jgit.lfs.errors.LfsValidationError;
 import org.eclipse.jgit.lfs.internal.LfsText;
+import org.eclipse.jgit.lfs.server.internal.LfsGson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 /**
  * LFS protocol handler implementing the LFS batch API [1]
@@ -107,8 +104,6 @@ public abstract class LfsProtocolServlet extends HttpServlet {
 	private static final int SC_RATE_LIMIT_EXCEEDED = 429;
 
 	private static final int SC_BANDWIDTH_LIMIT_EXCEEDED = 509;
-
-	private Gson gson = createGson();
 
 	/**
 	 * Get the large file repository for the given request and path.
@@ -254,7 +249,7 @@ public abstract class LfsProtocolServlet extends HttpServlet {
 
 		Reader r = new BufferedReader(
 				new InputStreamReader(req.getInputStream(), UTF_8));
-		LfsRequest request = gson.fromJson(r, LfsRequest.class);
+		LfsRequest request = LfsGson.fromJson(r, LfsRequest.class);
 		String path = req.getPathInfo();
 
 		res.setContentType(CONTENTTYPE_VND_GIT_LFS_JSON);
@@ -271,7 +266,7 @@ public abstract class LfsProtocolServlet extends HttpServlet {
 			res.setStatus(SC_OK);
 			TransferHandler handler = TransferHandler
 					.forOperation(request.operation, repo, request.objects);
-			gson.toJson(handler.process(), w);
+			LfsGson.toJson(handler.process(), w);
 		} catch (LfsValidationError e) {
 			sendError(res, w, SC_UNPROCESSABLE_ENTITY, e.getMessage());
 		} catch (LfsRepositoryNotFound e) {
@@ -295,24 +290,9 @@ public abstract class LfsProtocolServlet extends HttpServlet {
 		}
 	}
 
-	static class Error {
-		String message;
-
-		Error(String m) {
-			this.message = m;
-		}
-	}
-
 	private void sendError(HttpServletResponse rsp, Writer writer, int status,
 			String message) {
 		rsp.setStatus(status);
-		gson.toJson(new Error(message), writer);
-	}
-
-	private Gson createGson() {
-		return new GsonBuilder()
-				.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-				.disableHtmlEscaping()
-				.create();
+		LfsGson.toJson(message, writer);
 	}
 }
