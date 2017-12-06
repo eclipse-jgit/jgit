@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_b9d5b460",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/Protocol.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-12-06T04:45:54Z",
+      "side": 1,
+      "message": "Add an \"@since 4.10\" tag.",
+      "revId": "b9bf00faf0f005b3336008e113ab14cd87cb0ee2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_d9036082",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/Protocol.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-12-06T04:45:54Z",
+      "side": 1,
+      "message": "\"expiresAt\"?",
+      "range": {
+        "startLine": 104,
+        "startChar": 16,
+        "endLine": 104,
+        "endChar": 26
+      },
+      "revId": "b9bf00faf0f005b3336008e113ab14cd87cb0ee2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_f9065c92",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-12-06T04:45:54Z",
+      "side": 1,
+      "message": "nit: unrelated formatting change",
+      "range": {
+        "startLine": 101,
+        "startChar": 0,
+        "endLine": 101,
+        "endChar": 39
+      },
+      "revId": "b9bf00faf0f005b3336008e113ab14cd87cb0ee2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_59f770fe",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-12-06T04:45:54Z",
+      "side": 1,
+      "message": "Do we need to explicitly assign null to action if we\u0027re going to initialize it again on the next line?\n\nI.e. this could be:\n\n Protocol.ExpiringAction action \u003d getCachedSshAuthentication(db, purpose,\n     remoteUrl, u, null);\n\n\nOr, actually I can\u0027t see any other usage of getCachedSshAuthentication where it would pass a non-null value for action, so maybe just remove the parameter?",
+      "range": {
+        "startLine": 120,
+        "startChar": 6,
+        "endLine": 122,
+        "endChar": 30
+      },
+      "revId": "b9bf00faf0f005b3336008e113ab14cd87cb0ee2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
