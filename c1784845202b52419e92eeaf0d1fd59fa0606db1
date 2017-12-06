@@ -63,6 +63,24 @@
       "revId": "c1784845202b52419e92eeaf0d1fd59fa0606db1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_998d58bd",
+        "filename": "org.eclipse.jgit.test/src/org/eclipse/jgit/lib/ConfigUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-12-06T00:32:07Z",
+      "side": 1,
+      "message": "Ah, thanks, I was only looking in org.eclipse.jgit.test so didn\u0027t notice that one.\n\nDone.",
+      "parentUuid": "a7979753_199a48f5",
+      "revId": "c1784845202b52419e92eeaf0d1fd59fa0606db1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
