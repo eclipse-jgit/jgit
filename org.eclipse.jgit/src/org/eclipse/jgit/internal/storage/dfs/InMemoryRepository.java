@@ -107,7 +107,7 @@ public class InMemoryRepository extends DfsRepository {
 	}
 
 	/** DfsObjDatabase used by InMemoryRepository. */
-	public class MemObjDatabase extends DfsObjDatabase {
+	public static class MemObjDatabase extends DfsObjDatabase {
 		private List<DfsPackDescription> packs = new ArrayList<>();
 		private int blockSize;
 
