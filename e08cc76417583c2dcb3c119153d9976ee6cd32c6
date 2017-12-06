@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_54c01523",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionHelper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-12-06T08:46:16Z",
+      "side": 1,
+      "message": "Doesn\u0027t this line need a NON-NLS suppression?",
+      "revId": "e08cc76417583c2dcb3c119153d9976ee6cd32c6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
