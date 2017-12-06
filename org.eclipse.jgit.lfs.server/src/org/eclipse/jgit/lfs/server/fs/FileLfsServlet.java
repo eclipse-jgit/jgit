@@ -58,11 +58,8 @@ import org.eclipse.jgit.lfs.errors.InvalidLongObjectIdException;
 import org.eclipse.jgit.lfs.lib.AnyLongObjectId;
 import org.eclipse.jgit.lfs.lib.Constants;
 import org.eclipse.jgit.lfs.lib.LongObjectId;
+import org.eclipse.jgit.lfs.server.internal.LfsGson;
 import org.eclipse.jgit.lfs.server.internal.LfsServerText;
-
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 /**
  * Servlet supporting upload and download of large objects as defined by the
@@ -80,8 +77,6 @@ public class FileLfsServlet extends HttpServlet {
 	private final FileLfsRepository repository;
 
 	private final long timeout;
-
-	private static Gson gson = createGson();
 
 	/**
 	 * @param repository
@@ -179,14 +174,6 @@ public class FileLfsServlet extends HttpServlet {
 		}
 	}
 
-	static class Error {
-		String message;
-
-		Error(String m) {
-			this.message = m;
-		}
-	}
-
 	/**
 	 * Send an error response.
 	 *
@@ -204,16 +191,9 @@ public class FileLfsServlet extends HttpServlet {
 			throws IOException {
 		rsp.setStatus(status);
 		PrintWriter writer = rsp.getWriter();
-		gson.toJson(new Error(message), writer);
+		LfsGson.toJson(message, writer);
 		writer.flush();
 		writer.close();
 		rsp.flushBuffer();
-	}
-
-	private static Gson createGson() {
-		return new GsonBuilder()
-				.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-				.disableHtmlEscaping()
-				.create();
 	}
 }
