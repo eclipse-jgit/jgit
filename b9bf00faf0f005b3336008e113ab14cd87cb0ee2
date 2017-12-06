@@ -84,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "a7979753_944b5d7e",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/Protocol.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-12-06T08:08:30Z",
+      "side": 1,
+      "message": "I\u0027m not sure.  Maybe better to use the gson hint.",
+      "parentUuid": "a7979753_d4040556",
+      "range": {
+        "startLine": 104,
+        "startChar": 16,
+        "endLine": 104,
+        "endChar": 26
+      },
+      "revId": "b9bf00faf0f005b3336008e113ab14cd87cb0ee2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_f9065c92",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionHelper.java",
         "patchSetId": 1
