@@ -443,7 +443,7 @@ public class DirCacheCheckout {
 	 * working tree was modified; even if the checkout fails.
 	 *
 	 * @return <code>false</code> if this method could not delete all the files
-	 *         which should be deleted (e.g. because of of the files was
+	 *         which should be deleted (e.g. because one of the files was
 	 *         locked). In this case {@link #getToBeDeleted()} lists the files
 	 *         which should be tried to be deleted outside of this method.
 	 *         Although <code>false</code> is returned the checkout was

@@ -82,7 +82,7 @@ class LfsStore extends TextBuiltin {
 	/**
 	 * Tiny web application server for testing
 	 */
-	class AppServer {
+	static class AppServer {
 
 		private final Server server;
 
