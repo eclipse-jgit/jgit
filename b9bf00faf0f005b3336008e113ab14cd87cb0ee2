@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_f4074155",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/Protocol.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2017-12-06T08:00:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_b9d5b460",
+      "revId": "b9bf00faf0f005b3336008e113ab14cd87cb0ee2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_d9036082",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/Protocol.java",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2017-12-06T04:45:54Z",
       "side": 1,
       "message": "\"expiresAt\"?",
+      "range": {
+        "startLine": 104,
+        "startChar": 16,
+        "endLine": 104,
+        "endChar": 26
+      },
+      "revId": "b9bf00faf0f005b3336008e113ab14cd87cb0ee2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_d4040556",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/Protocol.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2017-12-06T08:00:05Z",
+      "side": 1,
+      "message": "according to the official lfs docs its expires_at, and that\u0027s what comes over the wire. gerrit uses expiresAt with a Gson hint to change field names to lower case with underscore :) Not sure whether this should be done for jgit too?",
+      "parentUuid": "a7979753_d9036082",
       "range": {
         "startLine": 104,
         "startChar": 16,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "a7979753_94027d40",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2017-12-06T08:00:05Z",
+      "side": 1,
+      "message": "true, actually i thought formatting is broken here so i reformatted intentionally :D",
+      "parentUuid": "a7979753_f9065c92",
+      "range": {
+        "startLine": 101,
+        "startChar": 0,
+        "endLine": 101,
+        "endChar": 39
+      },
+      "revId": "b9bf00faf0f005b3336008e113ab14cd87cb0ee2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_59f770fe",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionHelper.java",
         "patchSetId": 1
@@ -76,6 +142,30 @@
       "writtenOn": "2017-12-06T04:45:54Z",
       "side": 1,
       "message": "Do we need to explicitly assign null to action if we\u0027re going to initialize it again on the next line?\n\nI.e. this could be:\n\n Protocol.ExpiringAction action \u003d getCachedSshAuthentication(db, purpose,\n     remoteUrl, u, null);\n\n\nOr, actually I can\u0027t see any other usage of getCachedSshAuthentication where it would pass a non-null value for action, so maybe just remove the parameter?",
+      "range": {
+        "startLine": 120,
+        "startChar": 6,
+        "endLine": 122,
+        "endChar": 30
+      },
+      "revId": "b9bf00faf0f005b3336008e113ab14cd87cb0ee2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_d42b25b7",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2017-12-06T08:00:05Z",
+      "side": 1,
+      "message": "oups. i went too fast with refactoring and did not look close enough :) of course this is a mess. Done.",
+      "parentUuid": "a7979753_59f770fe",
       "range": {
         "startLine": 120,
         "startChar": 6,
