@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_14804dd4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2017-12-06T09:31:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_34ac6975",
+      "revId": "9b7ce1a2596bf612138e222b1b37b2f93f89ede8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_94ca7d41",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
         "patchSetId": 3
@@ -30,6 +48,30 @@
       "writtenOn": "2017-12-06T08:55:00Z",
       "side": 1,
       "message": "Put this in a separate commit?  Looks more like it\u0027s related to error handling than progress reporting.",
+      "range": {
+        "startLine": 182,
+        "startChar": 4,
+        "endLine": 186,
+        "endChar": 5
+      },
+      "revId": "9b7ce1a2596bf612138e222b1b37b2f93f89ede8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_d485e5e8",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2017-12-06T09:31:08Z",
+      "side": 1,
+      "message": "I will move that to the \"improve error handling\" commit :)",
+      "parentUuid": "a7979753_94ca7d41",
       "range": {
         "startLine": 182,
         "startChar": 4,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "a7979753_347e2955",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2017-12-06T09:31:08Z",
+      "side": 1,
+      "message": "unfortunately they don\u0027t. setProgressMonitor follows what I saw in DirCacheCheckout right now, and there are no builder methods in there right now. I can change this in a follow up commit? Or with this one?",
+      "parentUuid": "a7979753_34f1c98a",
+      "range": {
+        "startLine": 281,
+        "startChar": 4,
+        "endLine": 282,
+        "endChar": 36
+      },
+      "revId": "9b7ce1a2596bf612138e222b1b37b2f93f89ede8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_b4c5b932",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
         "patchSetId": 3
@@ -76,6 +142,24 @@
       "writtenOn": "2017-12-06T08:55:00Z",
       "side": 1,
       "message": "Missing @since tag",
+      "revId": "9b7ce1a2596bf612138e222b1b37b2f93f89ede8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_f45ae1fc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2017-12-06T09:31:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_b4c5b932",
       "revId": "9b7ce1a2596bf612138e222b1b37b2f93f89ede8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -99,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_345549cb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2017-12-06T09:31:08Z",
+      "side": 1,
+      "message": "there is no monitor available in CherryPickCommand - it needs to be implemented to set a monitor on here all the way from PGM/EGit",
+      "parentUuid": "a7979753_d4f32594",
+      "revId": "9b7ce1a2596bf612138e222b1b37b2f93f89ede8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_54e735d0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ResetCommand.java",
         "patchSetId": 3
@@ -110,6 +212,24 @@
       "writtenOn": "2017-12-06T08:55:00Z",
       "side": 1,
       "message": "Why TODO?",
+      "revId": "9b7ce1a2596bf612138e222b1b37b2f93f89ede8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_544bb530",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ResetCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2017-12-06T09:31:08Z",
+      "side": 1,
+      "message": "same answer as before.",
+      "parentUuid": "a7979753_54e735d0",
       "revId": "9b7ce1a2596bf612138e222b1b37b2f93f89ede8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -133,6 +253,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_7446f128",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RevertCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2017-12-06T09:31:08Z",
+      "side": 1,
+      "message": "same answer as before.",
+      "parentUuid": "a7979753_74e271c0",
+      "revId": "9b7ce1a2596bf612138e222b1b37b2f93f89ede8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_94e19dbb",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 3
@@ -150,6 +288,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_d4c245ff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2017-12-06T09:31:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_94e19dbb",
+      "revId": "9b7ce1a2596bf612138e222b1b37b2f93f89ede8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_14a92d66",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 3
@@ -161,6 +317,24 @@
       "writtenOn": "2017-12-06T08:55:00Z",
       "side": 1,
       "message": "I\u0027m don\u0027t think we can add parameters to existing APIs.\n\nIt might be necessary to leave these as they are, and add a new one that takes the Monitor.\n\nI\u0027m not sure if the old ones would then need be marked as @Deprecated and modified to just call the new one with null Monitor (assuming null is valid?)",
+      "revId": "9b7ce1a2596bf612138e222b1b37b2f93f89ede8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_14cdad2e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1342,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2017-12-06T09:31:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_14a92d66",
       "revId": "9b7ce1a2596bf612138e222b1b37b2f93f89ede8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
