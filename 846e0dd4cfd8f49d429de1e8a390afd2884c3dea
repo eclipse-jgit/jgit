@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_d467a542",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/LfsHelper.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-12-06T11:26:28Z",
+      "side": 1,
+      "message": "This should be in ConfigConstants.",
+      "revId": "846e0dd4cfd8f49d429de1e8a390afd2884c3dea",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
