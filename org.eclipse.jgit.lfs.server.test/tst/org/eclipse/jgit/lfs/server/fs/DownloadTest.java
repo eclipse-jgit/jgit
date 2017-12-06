@@ -129,7 +129,7 @@ public class DownloadTest extends LfsServerTest {
 		long start = System.nanoTime();
 		long len = getContent(id, f2);
 		System.out.println(
-				MessageFormat.format("dowloaded 10 MiB random data in {0}ms",
+				MessageFormat.format("downloaded 10 MiB random data in {0}ms",
 						(System.nanoTime() - start) / 1e6));
 		assertEquals(expectedLen, len);
 		FileUtils.delete(f.toFile(), FileUtils.RETRY);
@@ -138,7 +138,7 @@ public class DownloadTest extends LfsServerTest {
 
 	@SuppressWarnings("boxing")
 	private String formatErrorMessage(int status, String message) {
-		return String.format("Status: %d {\n  \"message\": \"%s\"\n}", status,
+		return String.format("Status: %d {\"message\":\"%s\"}", status,
 				message);
 	}
 }
