@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.revwalk;
 
+import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -97,7 +98,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 		assertNull(c.getObject());
 		assertNull(c.getTagName());
 
-		c.parseCanonical(rw, b.toString().getBytes("UTF-8"));
+		c.parseCanonical(rw, b.toString().getBytes(UTF_8));
 		assertNotNull(c.getObject());
 		assertEquals(id, c.getObject().getId());
 		assertSame(rw.lookupAny(id, typeCode), c.getObject());
@@ -140,7 +141,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 		assertNull(c.getObject());
 		assertNull(c.getTagName());
 
-		c.parseCanonical(rw, body.toString().getBytes("UTF-8"));
+		c.parseCanonical(rw, body.toString().getBytes(UTF_8));
 		assertNotNull(c.getObject());
 		assertEquals(treeId, c.getObject().getId());
 		assertSame(rw.lookupTree(treeId), c.getObject());
@@ -188,7 +189,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 		assertNull(c.getObject());
 		assertNull(c.getTagName());
 
-		c.parseCanonical(rw, body.toString().getBytes("UTF-8"));
+		c.parseCanonical(rw, body.toString().getBytes(UTF_8));
 		assertNotNull(c.getObject());
 		assertEquals(treeId, c.getObject().getId());
 		assertSame(rw.lookupTree(treeId), c.getObject());
@@ -212,7 +213,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 
 		final RevTag c;
 		c = new RevTag(id("9473095c4cb2f12aefe1db8a355fe3fafba42f67"));
-		c.parseCanonical(new RevWalk(db), b.toString().getBytes("UTF-8"));
+		c.parseCanonical(new RevWalk(db), b.toString().getBytes(UTF_8));
 		return c;
 	}
 
@@ -220,17 +221,17 @@ public class RevTagParseTest extends RepositoryTestCase {
 	public void testParse_implicit_UTF8_encoded() throws Exception {
 		final ByteArrayOutputStream b = new ByteArrayOutputStream();
 		b.write("object 9788669ad918b6fcce64af8882fc9a81cb6aba67\n"
-				.getBytes("UTF-8"));
-		b.write("type tree\n".getBytes("UTF-8"));
-		b.write("tag v1.2.3.4.5\n".getBytes("UTF-8"));
+				.getBytes(UTF_8));
+		b.write("type tree\n".getBytes(UTF_8));
+		b.write("tag v1.2.3.4.5\n".getBytes(UTF_8));
 
 		b
 				.write("tagger F\u00f6r fattare <a_u_thor@example.com> 1218123387 +0700\n"
-						.getBytes("UTF-8"));
-		b.write("\n".getBytes("UTF-8"));
-		b.write("Sm\u00f6rg\u00e5sbord\n".getBytes("UTF-8"));
-		b.write("\n".getBytes("UTF-8"));
-		b.write("\u304d\u308c\u3044\n".getBytes("UTF-8"));
+						.getBytes(UTF_8));
+		b.write("\n".getBytes(UTF_8));
+		b.write("Sm\u00f6rg\u00e5sbord\n".getBytes(UTF_8));
+		b.write("\n".getBytes(UTF_8));
+		b.write("\u304d\u308c\u3044\n".getBytes(UTF_8));
 		final RevTag c;
 		c = new RevTag(id("9473095c4cb2f12aefe1db8a355fe3fafba42f67"));
 		c.parseCanonical(new RevWalk(db), b.toByteArray());
@@ -245,16 +246,15 @@ public class RevTagParseTest extends RepositoryTestCase {
 	public void testParse_implicit_mixed_encoded() throws Exception {
 		final ByteArrayOutputStream b = new ByteArrayOutputStream();
 		b.write("object 9788669ad918b6fcce64af8882fc9a81cb6aba67\n"
-				.getBytes("UTF-8"));
-		b.write("type tree\n".getBytes("UTF-8"));
-		b.write("tag v1.2.3.4.5\n".getBytes("UTF-8"));
-		b
-				.write("tagger F\u00f6r fattare <a_u_thor@example.com> 1218123387 +0700\n"
-						.getBytes("ISO-8859-1"));
-		b.write("\n".getBytes("UTF-8"));
-		b.write("Sm\u00f6rg\u00e5sbord\n".getBytes("UTF-8"));
-		b.write("\n".getBytes("UTF-8"));
-		b.write("\u304d\u308c\u3044\n".getBytes("UTF-8"));
+				.getBytes(UTF_8));
+		b.write("type tree\n".getBytes(UTF_8));
+		b.write("tag v1.2.3.4.5\n".getBytes(UTF_8));
+		b.write("tagger F\u00f6r fattare <a_u_thor@example.com> 1218123387 +0700\n"
+				.getBytes(ISO_8859_1));
+		b.write("\n".getBytes(UTF_8));
+		b.write("Sm\u00f6rg\u00e5sbord\n".getBytes(UTF_8));
+		b.write("\n".getBytes(UTF_8));
+		b.write("\u304d\u308c\u3044\n".getBytes(UTF_8));
 		final RevTag c;
 		c = new RevTag(id("9473095c4cb2f12aefe1db8a355fe3fafba42f67"));
 		c.parseCanonical(new RevWalk(db), b.toByteArray());
@@ -307,17 +307,17 @@ public class RevTagParseTest extends RepositoryTestCase {
 	public void testParse_explicit_bad_encoded() throws Exception {
 		final ByteArrayOutputStream b = new ByteArrayOutputStream();
 		b.write("object 9788669ad918b6fcce64af8882fc9a81cb6aba67\n"
-				.getBytes("UTF-8"));
-		b.write("type tree\n".getBytes("UTF-8"));
-		b.write("tag v1.2.3.4.5\n".getBytes("UTF-8"));
+				.getBytes(UTF_8));
+		b.write("type tree\n".getBytes(UTF_8));
+		b.write("tag v1.2.3.4.5\n".getBytes(UTF_8));
 		b
 				.write("tagger F\u00f6r fattare <a_u_thor@example.com> 1218123387 +0700\n"
-						.getBytes("ISO-8859-1"));
-		b.write("encoding EUC-JP\n".getBytes("UTF-8"));
-		b.write("\n".getBytes("UTF-8"));
-		b.write("\u304d\u308c\u3044\n".getBytes("UTF-8"));
-		b.write("\n".getBytes("UTF-8"));
-		b.write("Hi\n".getBytes("UTF-8"));
+						.getBytes(ISO_8859_1));
+		b.write("encoding EUC-JP\n".getBytes(UTF_8));
+		b.write("\n".getBytes(UTF_8));
+		b.write("\u304d\u308c\u3044\n".getBytes(UTF_8));
+		b.write("\n".getBytes(UTF_8));
+		b.write("Hi\n".getBytes(UTF_8));
 		final RevTag c;
 		c = new RevTag(id("9473095c4cb2f12aefe1db8a355fe3fafba42f67"));
 		c.parseCanonical(new RevWalk(db), b.toByteArray());
@@ -342,17 +342,17 @@ public class RevTagParseTest extends RepositoryTestCase {
 	public void testParse_explicit_bad_encoded2() throws Exception {
 		final ByteArrayOutputStream b = new ByteArrayOutputStream();
 		b.write("object 9788669ad918b6fcce64af8882fc9a81cb6aba67\n"
-				.getBytes("UTF-8"));
-		b.write("type tree\n".getBytes("UTF-8"));
-		b.write("tag v1.2.3.4.5\n".getBytes("UTF-8"));
+				.getBytes(UTF_8));
+		b.write("type tree\n".getBytes(UTF_8));
+		b.write("tag v1.2.3.4.5\n".getBytes(UTF_8));
 		b
 				.write("tagger F\u00f6r fattare <a_u_thor@example.com> 1218123387 +0700\n"
-						.getBytes("UTF-8"));
-		b.write("encoding ISO-8859-1\n".getBytes("UTF-8"));
-		b.write("\n".getBytes("UTF-8"));
-		b.write("\u304d\u308c\u3044\n".getBytes("UTF-8"));
-		b.write("\n".getBytes("UTF-8"));
-		b.write("Hi\n".getBytes("UTF-8"));
+						.getBytes(UTF_8));
+		b.write("encoding ISO-8859-1\n".getBytes(UTF_8));
+		b.write("\n".getBytes(UTF_8));
+		b.write("\u304d\u308c\u3044\n".getBytes(UTF_8));
+		b.write("\n".getBytes(UTF_8));
+		b.write("Hi\n".getBytes(UTF_8));
 		final RevTag c;
 		c = new RevTag(id("9473095c4cb2f12aefe1db8a355fe3fafba42f67"));
 		c.parseCanonical(new RevWalk(db), b.toByteArray());

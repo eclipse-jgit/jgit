@@ -44,12 +44,12 @@
 
 package org.eclipse.jgit.util.io;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 
 import org.junit.Test;
 
@@ -129,10 +129,6 @@ public class AutoLFInputStreamTest {
 	}
 
 	private static byte[] asBytes(String in) {
-		try {
-			return in.getBytes("UTF-8");
-		} catch (UnsupportedEncodingException ex) {
-			throw new AssertionError();
-		}
+		return in.getBytes(UTF_8);
 	}
 }

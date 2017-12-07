@@ -43,14 +43,13 @@
 
 package org.eclipse.jgit.util;
 
+import static java.nio.charset.StandardCharsets.US_ASCII;
 import static org.eclipse.jgit.util.RawCharUtil.isWhitespace;
 import static org.eclipse.jgit.util.RawCharUtil.trimLeadingWhitespace;
 import static org.eclipse.jgit.util.RawCharUtil.trimTrailingWhitespace;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-
-import java.io.UnsupportedEncodingException;
 
 import org.junit.Test;
 
@@ -78,37 +77,31 @@ public class RawCharUtilTest {
 	/**
 	 * Test method for
 	 * {@link RawCharUtil#trimTrailingWhitespace(byte[], int, int)}.
-	 *
-	 * @throws UnsupportedEncodingException
 	 */
 	@Test
-	public void testTrimTrailingWhitespace()
-			throws UnsupportedEncodingException {
-		assertEquals(0, trimTrailingWhitespace("".getBytes("US-ASCII"), 0, 0));
-		assertEquals(0, trimTrailingWhitespace(" ".getBytes("US-ASCII"), 0, 1));
-		assertEquals(1, trimTrailingWhitespace("a ".getBytes("US-ASCII"), 0, 2));
-		assertEquals(2,
-				trimTrailingWhitespace(" a ".getBytes("US-ASCII"), 0, 3));
-		assertEquals(3,
-				trimTrailingWhitespace("  a".getBytes("US-ASCII"), 0, 3));
-		assertEquals(6, trimTrailingWhitespace(
-				"  test   ".getBytes("US-ASCII"), 2, 9));
+	public void testTrimTrailingWhitespace() {
+		assertEquals(0, trimTrailingWhitespace("".getBytes(US_ASCII), 0, 0));
+		assertEquals(0, trimTrailingWhitespace(" ".getBytes(US_ASCII), 0, 1));
+		assertEquals(1, trimTrailingWhitespace("a ".getBytes(US_ASCII), 0, 2));
+		assertEquals(2, trimTrailingWhitespace(" a ".getBytes(US_ASCII), 0, 3));
+		assertEquals(3, trimTrailingWhitespace("  a".getBytes(US_ASCII), 0, 3));
+		assertEquals(6,
+				trimTrailingWhitespace("  test   ".getBytes(US_ASCII), 2, 9));
 	}
 
 	/**
 	 * Test method for
 	 * {@link RawCharUtil#trimLeadingWhitespace(byte[], int, int)}.
-	 *
-	 * @throws UnsupportedEncodingException
 	 */
 	@Test
-	public void testTrimLeadingWhitespace() throws UnsupportedEncodingException {
-		assertEquals(0, trimLeadingWhitespace("".getBytes("US-ASCII"), 0, 0));
-		assertEquals(1, trimLeadingWhitespace(" ".getBytes("US-ASCII"), 0, 1));
-		assertEquals(0, trimLeadingWhitespace("a ".getBytes("US-ASCII"), 0, 2));
-		assertEquals(1, trimLeadingWhitespace(" a ".getBytes("US-ASCII"), 0, 3));
-		assertEquals(2, trimLeadingWhitespace("  a".getBytes("US-ASCII"), 0, 3));
-		assertEquals(2, trimLeadingWhitespace("  test   ".getBytes("US-ASCII"),
+	public void testTrimLeadingWhitespace() {
+		assertEquals(0, trimLeadingWhitespace("".getBytes(US_ASCII), 0, 0));
+		assertEquals(1, trimLeadingWhitespace(" ".getBytes(US_ASCII), 0, 1));
+		assertEquals(0, trimLeadingWhitespace("a ".getBytes(US_ASCII), 0, 2));
+		assertEquals(1, trimLeadingWhitespace(" a ".getBytes(US_ASCII), 0, 3));
+		assertEquals(2, trimLeadingWhitespace("  a".getBytes(US_ASCII), 0, 3));
+		assertEquals(2,
+				trimLeadingWhitespace("  test   ".getBytes(US_ASCII),
 				2, 9));
 	}
 

@@ -42,6 +42,7 @@
  */
 package org.eclipse.jgit.gitrepo;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
@@ -54,7 +55,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URI;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -213,7 +213,8 @@ public class RepoCommandTest extends RepositoryTestCase {
 		repos.put("platform/base", child);
 
 		RevCommit commit = cmd
-			.setInputStream(new ByteArrayInputStream(xmlContent.toString().getBytes(StandardCharsets.UTF_8)))
+				.setInputStream(new ByteArrayInputStream(
+						xmlContent.toString().getBytes(UTF_8)))
 			.setRemoteReader(repos)
 			.setURI("platform/")
 			.setTargetURI("platform/superproject")
@@ -263,7 +264,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 		repos.put("plugins/cookbook", child);
 
 		RevCommit commit = cmd
-			.setInputStream(new ByteArrayInputStream(xmlContent.toString().getBytes(StandardCharsets.UTF_8)))
+			.setInputStream(new ByteArrayInputStream(xmlContent.toString().getBytes(UTF_8)))
 			.setRemoteReader(repos)
 			.setURI("")
 			.setTargetURI("gerrit")
@@ -317,7 +318,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 				repos.put(repoUrl, child);
 
 				RevCommit commit = cmd
-					.setInputStream(new ByteArrayInputStream(xmlContent.toString().getBytes(StandardCharsets.UTF_8)))
+					.setInputStream(new ByteArrayInputStream(xmlContent.toString().getBytes(UTF_8)))
 					.setRemoteReader(repos)
 					.setURI(baseUrl)
 					.setTargetURI("gerrit")

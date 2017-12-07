@@ -52,7 +52,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 import org.eclipse.jgit.api.Git;
@@ -714,7 +713,7 @@ public class ResolveMergerTest extends RepositoryTestCase {
 		}
 		binary[50] = '\0';
 
-		writeTrashFile("file", new String(binary, StandardCharsets.UTF_8));
+		writeTrashFile("file", new String(binary, UTF_8));
 		git.add().addFilepattern("file").call();
 		RevCommit first = git.commit().setMessage("added file").call();
 
@@ -722,7 +721,7 @@ public class ResolveMergerTest extends RepositoryTestCase {
 		int idx = LINELEN * 1200 + 1;
 		byte save = binary[idx];
 		binary[idx] = '@';
-		writeTrashFile("file", new String(binary, StandardCharsets.UTF_8));
+		writeTrashFile("file", new String(binary, UTF_8));
 
 		binary[idx] = save;
 		git.add().addFilepattern("file").call();
@@ -731,7 +730,7 @@ public class ResolveMergerTest extends RepositoryTestCase {
 
 		git.checkout().setCreateBranch(true).setStartPoint(first).setName("side").call();
 		binary[LINELEN * 1500 + 1] = '!';
-		writeTrashFile("file", new String(binary, StandardCharsets.UTF_8));
+		writeTrashFile("file", new String(binary, UTF_8));
 		git.add().addFilepattern("file").call();
 		RevCommit sideCommit = git.commit().setAll(true)
 			.setMessage("modified file l 1500").call();

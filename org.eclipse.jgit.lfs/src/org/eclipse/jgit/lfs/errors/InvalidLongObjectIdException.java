@@ -45,7 +45,8 @@
 
 package org.eclipse.jgit.lfs.errors;
 
-import java.io.UnsupportedEncodingException;
+import static java.nio.charset.StandardCharsets.US_ASCII;
+
 import java.text.MessageFormat;
 
 import org.eclipse.jgit.lfs.internal.LfsText;
@@ -80,10 +81,8 @@ public class InvalidLongObjectIdException extends IllegalArgumentException {
 
 	private static String asAscii(byte[] bytes, int offset, int length) {
 		try {
-			return new String(bytes, offset, length, "US-ASCII"); //$NON-NLS-1$
-		} catch (UnsupportedEncodingException e2) {
-			return ""; //$NON-NLS-1$
-		} catch (StringIndexOutOfBoundsException e2) {
+			return new String(bytes, offset, length, US_ASCII);
+		} catch (StringIndexOutOfBoundsException e) {
 			return ""; //$NON-NLS-1$
 		}
 	}

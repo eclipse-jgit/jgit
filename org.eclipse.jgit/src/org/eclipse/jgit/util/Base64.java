@@ -6,7 +6,8 @@
 
 package org.eclipse.jgit.util;
 
-import java.io.UnsupportedEncodingException;
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 import java.util.Arrays;
@@ -40,9 +41,6 @@ public class Base64 {
 	/** Indicates an invalid byte during decoding. */
 	private final static byte INVALID_DEC = -3;
 
-	/** Preferred encoding. */
-	private final static String UTF_8 = "UTF-8"; //$NON-NLS-1$
-
 	/** The 64 valid Base64 values. */
 	private final static byte[] ENC;
 
@@ -54,15 +52,11 @@ public class Base64 {
 	private final static byte[] DEC;
 
 	static {
-		try {
-			ENC = ("ABCDEFGHIJKLMNOPQRSTUVWXYZ" // //$NON-NLS-1$
-					+ "abcdefghijklmnopqrstuvwxyz" // //$NON-NLS-1$
-					+ "0123456789" // //$NON-NLS-1$
-					+ "+/" // //$NON-NLS-1$
-			).getBytes(UTF_8);
-		} catch (UnsupportedEncodingException uee) {
-			throw new RuntimeException(uee.getMessage(), uee);
-		}
+		ENC = ("ABCDEFGHIJKLMNOPQRSTUVWXYZ" // //$NON-NLS-1$
+				+ "abcdefghijklmnopqrstuvwxyz" // //$NON-NLS-1$
+				+ "0123456789" // //$NON-NLS-1$
+				+ "+/" // //$NON-NLS-1$
+		).getBytes(UTF_8);
 
 		DEC = new byte[128];
 		Arrays.fill(DEC, INVALID_DEC);
@@ -301,7 +295,7 @@ public class Base64 {
 	 * @return the decoded data
 	 */
 	public static byte[] decode(String s) {
-		byte[] bytes = s.getBytes(StandardCharsets.UTF_8);
+		byte[] bytes = s.getBytes(UTF_8);
 		return decode(bytes, 0, bytes.length);
 	}
 }
