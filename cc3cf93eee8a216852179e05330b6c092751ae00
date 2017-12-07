@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_e0b13c4d",
+        "filename": "org.eclipse.jgit.lfs.server.test/META-INF/MANIFEST.MF",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-12-07T11:06:04Z",
+      "side": 1,
+      "message": "not sure if this is correct?  copied from org.eclipse.jgit.test",
+      "range": {
+        "startLine": 37,
+        "startChar": 29,
+        "endLine": 37,
+        "endChar": 31
+      },
+      "revId": "cc3cf93eee8a216852179e05330b6c092751ae00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
