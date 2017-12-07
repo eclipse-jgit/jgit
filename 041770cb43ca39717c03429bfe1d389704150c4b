@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_0e22f960",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-07T21:19:39Z",
+      "side": 1,
+      "message": "* can you split this large commit into a few smaller changes each focussing on one aspect of adding working tree support ?\n* and please add unit tests and ensure a good test coverage",
+      "revId": "041770cb43ca39717c03429bfe1d389704150c4b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_2e0895e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-07T21:19:39Z",
+      "side": 1,
+      "message": "I think that\u0027s the wrong class for this functionality. It contains only generic file system methods, whereas these methods are FileRepository specific",
+      "range": {
+        "startLine": 34,
+        "startChar": 60,
+        "endLine": 34,
+        "endChar": 69
+      },
+      "revId": "041770cb43ca39717c03429bfe1d389704150c4b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
