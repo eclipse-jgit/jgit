@@ -564,6 +564,10 @@ public abstract class FS {
 	}
 
 	private static class GobblerThread extends Thread {
+
+		/* The process has 5 seconds to exit after closing stderr */
+		private static final int PROCESS_EXIT_TIMEOUT = 5;
+
 		private final Process p;
 		private final String desc;
 		private final String dir;
@@ -586,15 +590,23 @@ public abstract class FS {
 					err.append((char) ch);
 				}
 			} catch (IOException e) {
-				if (p.exitValue() != 0) {
-					setError(e, e.getMessage());
+				final boolean processExited = waitForProcessCompletion();
+				if (!processExited) {
+					setError(e, String.format("Command '%s' closed stderr stream but didn't exit within timeout %s seconds", desc, PROCESS_EXIT_TIMEOUT), -1);
+					fail.set(true);
+				} else if (p.exitValue() != 0) {
+					setError(e, e.getMessage(), p.exitValue());
 					fail.set(true);
 				} else {
 					// ignore. command terminated faster and stream was just closed
 				}
 			} finally {
-				if (err.length() > 0) {
-					setError(null, err.toString());
+				final boolean processExited = waitForProcessCompletion();
+				if (!processExited) {
+					setError(null, String.format("Command '%s' closed stderr stream but didn't exit within timeout %s seconds", desc, PROCESS_EXIT_TIMEOUT), -1);
+					fail.set(true);
+				} else if (err.length() > 0) {
+					setError(null, err.toString(), p.exitValue());
 					if (p.exitValue() != 0) {
 						fail.set(true);
 					}
@@ -602,11 +614,21 @@ public abstract class FS {
 			}
 		}
 
-		private void setError(IOException e, String message) {
+		private boolean waitForProcessCompletion() {
+			try {
+				return p.waitFor(PROCESS_EXIT_TIMEOUT, TimeUnit.SECONDS);
+			} catch (InterruptedException e) {
+				//ignore. current thread was interrupted while waiting for command completion
+				LOG.error("Current thread interrupted while running '" + desc + "'", e);
+			}
+			return false;
+		}
+
+		private void setError(IOException e, String message, int exitCode) {
 			exception.set(e);
 			errorMessage.set(MessageFormat.format(
 					JGitText.get().exceptionCaughtDuringExcecutionOfCommand,
-					desc, dir, Integer.valueOf(p.exitValue()), message));
+					desc, dir, Integer.valueOf(exitCode), message));
 		}
 	}
 
