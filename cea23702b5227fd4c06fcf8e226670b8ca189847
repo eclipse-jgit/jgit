@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_60e8ecef",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/s3/SignerV4.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-12-07T05:33:26Z",
+      "side": 1,
+      "message": "Reuse the static import",
+      "range": {
+        "startLine": 363,
+        "startChar": 23,
+        "endLine": 363,
+        "endChar": 45
+      },
+      "revId": "cea23702b5227fd4c06fcf8e226670b8ca189847",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
