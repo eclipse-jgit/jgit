@@ -94,7 +94,7 @@ public class DownloadTest extends LfsServerTest {
 		String TEXT = "test";
 		String id = putContent(TEXT).name().replace('f', 'z');
 		Path f = Paths.get(getTempDirectory().toString(), "download");
-		String error = String.format("Invalid id: : %s", id);
+		String error = String.format("Invalid id: %s", id);
 		exception.expect(RuntimeException.class);
 		exception.expectMessage(
 				formatErrorMessage(SC_UNPROCESSABLE_ENTITY, error));
