@@ -43,6 +43,7 @@
 package org.eclipse.jgit.pgm;
 
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static org.junit.Assume.assumeNoException;
 
@@ -635,7 +636,10 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 		BufferedInputStream in = new BufferedInputStream(
 				new FileInputStream(file));
 		try {
-			in.skip(offset);
+			if (offset > 0) {
+				long skipped = in.skip(offset);
+				assertEquals(offset, skipped);
+			}
 
 			byte[] actual = new byte[magicBytes.length];
 			in.read(actual);
