@@ -1,0 +1,187 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_0e4bd902",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-07T21:40:45Z",
+      "side": 1,
+      "message": "the",
+      "range": {
+        "startLine": 12,
+        "startChar": 4,
+        "endLine": 12,
+        "endChar": 8
+      },
+      "revId": "c5fc0499d0d6c102e0a2c03608cd476115cb9dd6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_8e0d09f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-07T21:40:45Z",
+      "side": 1,
+      "message": "to",
+      "range": {
+        "startLine": 14,
+        "startChar": 26,
+        "endLine": 14,
+        "endChar": 42
+      },
+      "revId": "c5fc0499d0d6c102e0a2c03608cd476115cb9dd6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_6e129d11",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-07T21:40:45Z",
+      "side": 1,
+      "message": "Add",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 3
+      },
+      "revId": "c5fc0499d0d6c102e0a2c03608cd476115cb9dd6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_4e5c01c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-07T21:40:45Z",
+      "side": 1,
+      "message": "can you please copy the problem description you posted on the mailing list into a bug in Bugzilla and link to it from here (Gerrit will render a hyperlink) like this:\n\n Bug: 12345",
+      "revId": "c5fc0499d0d6c102e0a2c03608cd476115cb9dd6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_4e2a4131",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-07T21:40:45Z",
+      "side": 1,
+      "message": "unnecessary variable can be inlined",
+      "range": {
+        "startLine": 593,
+        "startChar": 18,
+        "endLine": 593,
+        "endChar": 31
+      },
+      "revId": "c5fc0499d0d6c102e0a2c03608cd476115cb9dd6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_ee35ad90",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-07T21:40:45Z",
+      "side": 1,
+      "message": "* externalise the error message using JGitText\n* reformat the line, it\u0027s too wide. If you are using Eclipse the auto-save rules configured in project settings should do this automatically",
+      "revId": "c5fc0499d0d6c102e0a2c03608cd476115cb9dd6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_4e75e13b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-07T21:40:45Z",
+      "side": 1,
+      "message": "This is an exact copy of the 4 lines starting at line 593. Move them into waitForProcessCompletion().",
+      "range": {
+        "startLine": 604,
+        "startChar": 0,
+        "endLine": 607,
+        "endChar": 20
+      },
+      "revId": "c5fc0499d0d6c102e0a2c03608cd476115cb9dd6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_ce69d170",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 621,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-07T21:40:45Z",
+      "side": 1,
+      "message": "I think this comment isn\u0027t needed",
+      "revId": "c5fc0499d0d6c102e0a2c03608cd476115cb9dd6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_2e7a552f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-07T21:40:45Z",
+      "side": 1,
+      "message": "externalise error message and use MessageFormat#format or String#format for formatting",
+      "revId": "c5fc0499d0d6c102e0a2c03608cd476115cb9dd6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
