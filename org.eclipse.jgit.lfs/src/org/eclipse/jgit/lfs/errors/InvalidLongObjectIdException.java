@@ -80,7 +80,7 @@ public class InvalidLongObjectIdException extends IllegalArgumentException {
 
 	private static String asAscii(byte[] bytes, int offset, int length) {
 		try {
-			return ": " + new String(bytes, offset, length, "US-ASCII"); //$NON-NLS-1$ //$NON-NLS-2$
+			return new String(bytes, offset, length, "US-ASCII"); //$NON-NLS-1$
 		} catch (UnsupportedEncodingException e2) {
 			return ""; //$NON-NLS-1$
 		} catch (StringIndexOutOfBoundsException e2) {
