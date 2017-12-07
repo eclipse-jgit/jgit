@@ -80,7 +80,11 @@ public class FS_POSIX extends FS {
 
 	private volatile boolean supportsUnixNLink = true;
 
-	private volatile Boolean supportsAtomicCreateNewFile;
+	private volatile AtomicFileCreation supportsAtomicCreateNewFile = AtomicFileCreation.UNDEFINED;
+
+	private enum AtomicFileCreation {
+		SUPPORTED, NOT_SUPPORTED, UNDEFINED
+	}
 
 	/** Default constructor. */
 	protected FS_POSIX() {
@@ -99,31 +103,34 @@ public class FS_POSIX extends FS {
 		}
 	}
 
-	@SuppressWarnings("boxing")
 	private void determineAtomicFileCreationSupport() {
 		// @TODO: enhance SystemReader to support this without copying code
-		Boolean ret = getAtomicFileCreationSupportOption(
+		AtomicFileCreation ret = getAtomicFileCreationSupportOption(
 				SystemReader.getInstance().openUserConfig(null, this));
-		if (ret == null && StringUtils.isEmptyOrNull(SystemReader.getInstance()
-				.getenv(Constants.GIT_CONFIG_NOSYSTEM_KEY))) {
+		if (ret == AtomicFileCreation.UNDEFINED
+				&& StringUtils.isEmptyOrNull(SystemReader.getInstance()
+						.getenv(Constants.GIT_CONFIG_NOSYSTEM_KEY))) {
 			ret = getAtomicFileCreationSupportOption(
 					SystemReader.getInstance().openSystemConfig(null, this));
 		}
-		supportsAtomicCreateNewFile = (ret == null) || ret;
+		supportsAtomicCreateNewFile = ret;
 	}
 
-	private Boolean getAtomicFileCreationSupportOption(FileBasedConfig config) {
+	private AtomicFileCreation getAtomicFileCreationSupportOption(
+			FileBasedConfig config) {
 		try {
 			config.load();
 			String value = config.getString(ConfigConstants.CONFIG_CORE_SECTION,
 					null,
 					ConfigConstants.CONFIG_KEY_SUPPORTSATOMICFILECREATION);
 			if (value == null) {
-				return null;
+				return AtomicFileCreation.UNDEFINED;
 			}
-			return Boolean.valueOf(StringUtils.toBoolean(value));
+			return StringUtils.toBoolean(value)
+					? AtomicFileCreation.SUPPORTED
+					: AtomicFileCreation.NOT_SUPPORTED;
 		} catch (IOException | ConfigInvalidException e) {
-			return Boolean.TRUE;
+			return AtomicFileCreation.SUPPORTED;
 		}
 	}
 
@@ -340,10 +347,10 @@ public class FS_POSIX extends FS {
 
 	@Override
 	public boolean supportsAtomicCreateNewFile() {
-		if (supportsAtomicCreateNewFile == null) {
+		if (supportsAtomicCreateNewFile == AtomicFileCreation.UNDEFINED) {
 			determineAtomicFileCreationSupport();
 		}
-		return supportsAtomicCreateNewFile.booleanValue();
+		return supportsAtomicCreateNewFile == AtomicFileCreation.SUPPORTED;
 	}
 
 	@Override
