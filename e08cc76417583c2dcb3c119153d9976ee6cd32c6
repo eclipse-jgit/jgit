@@ -34,6 +34,24 @@
       "revId": "e08cc76417583c2dcb3c119153d9976ee6cd32c6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_fd61e52d",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionHelper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-12-07T03:18:50Z",
+      "side": 1,
+      "message": "If it\u0027s generating a warning in Eclipse, please add a suppression comment.\n\nSee L185 for example.",
+      "parentUuid": "a7979753_34746942",
+      "revId": "e08cc76417583c2dcb3c119153d9976ee6cd32c6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
