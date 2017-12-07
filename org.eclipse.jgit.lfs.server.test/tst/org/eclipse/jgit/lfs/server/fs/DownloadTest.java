@@ -81,7 +81,7 @@ public class DownloadTest extends LfsServerTest {
 		String id = putContent(TEXT).name().substring(0, 60);
 		Path f = Paths.get(getTempDirectory().toString(), "download");
 		String error = String.format(
-				"Invalid pathInfo '/%s' does not match '/{SHA-256}'", id);
+				"Invalid pathInfo: '/%s' does not match '/{SHA-256}'", id);
 		exception.expect(RuntimeException.class);
 		exception.expectMessage(
 				formatErrorMessage(SC_UNPROCESSABLE_ENTITY, error));
