@@ -418,8 +418,11 @@ public final class DfsBlockCache {
 
 	private void creditSpace(int credit, DfsStreamKey key) {
 		clockLock.lock();
-		getStat(liveBytes, key).addAndGet(-credit);
-		clockLock.unlock();
+		try {
+			getStat(liveBytes, key).addAndGet(-credit);
+		} finally {
+			clockLock.unlock();
+		}
 	}
 
 	@SuppressWarnings("unchecked")
