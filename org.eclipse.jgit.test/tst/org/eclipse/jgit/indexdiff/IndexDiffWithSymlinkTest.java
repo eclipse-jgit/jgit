@@ -41,6 +41,7 @@
  */
 package org.eclipse.jgit.indexdiff;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -60,7 +61,6 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -130,8 +130,7 @@ public class IndexDiffWithSymlinkTest extends LocalDiskRepositoryTestCase {
 		File restoreScript = new File(testDir, name + ".sh");
 		try (OutputStream out = new BufferedOutputStream(
 				new FileOutputStream(restoreScript));
-				Writer writer = new OutputStreamWriter(out,
-						StandardCharsets.UTF_8)) {
+				Writer writer = new OutputStreamWriter(out, UTF_8)) {
 			writer.write("echo `which git` 1>&2\n");
 			writer.write("echo `git --version` 1>&2\n");
 			writer.write("git init " + name + " && \\\n");

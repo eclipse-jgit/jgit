@@ -46,6 +46,7 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
+import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -544,9 +545,9 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void test025_computeSha1NoStore() throws IOException {
+	public void test025_computeSha1NoStore() {
 		byte[] data = "test025 some data, more than 16 bytes to get good coverage"
-				.getBytes("ISO-8859-1");
+				.getBytes(ISO_8859_1);
 		try (ObjectInserter.Formatter formatter = new ObjectInserter.Formatter()) {
 			final ObjectId id = formatter.idFor(Constants.OBJ_BLOB, data);
 			assertEquals("4f561df5ecf0dfbd53a0dc0f37262fef075d9dde", id.name());

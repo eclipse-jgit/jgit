@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.revwalk;
 
+import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -113,7 +114,7 @@ public class RevCommitParseTest extends RepositoryTestCase {
 		assertNull(c.getTree());
 		assertNull(c.parents);
 
-		c.parseCanonical(rw, body.toString().getBytes("UTF-8"));
+		c.parseCanonical(rw, body.toString().getBytes(UTF_8));
 		assertNotNull(c.getTree());
 		assertEquals(treeId, c.getTree().getId());
 		assertSame(rw.lookupTree(treeId), c.getTree());
@@ -147,7 +148,7 @@ public class RevCommitParseTest extends RepositoryTestCase {
 
 		final RevCommit c;
 		c = new RevCommit(id("9473095c4cb2f12aefe1db8a355fe3fafba42f67"));
-		c.parseCanonical(new RevWalk(db), b.toString().getBytes("UTF-8"));
+		c.parseCanonical(new RevWalk(db), b.toString().getBytes(UTF_8));
 		return c;
 	}
 
@@ -160,7 +161,7 @@ public class RevCommitParseTest extends RepositoryTestCase {
 
 		final RevCommit c;
 		c = new RevCommit(id("9473095c4cb2f12aefe1db8a355fe3fafba42f67"));
-		c.parseCanonical(new RevWalk(db), b.toString().getBytes("UTF-8"));
+		c.parseCanonical(new RevWalk(db), b.toString().getBytes(UTF_8));
 
 		assertEquals("", c.getFullMessage());
 		assertEquals("", c.getShortMessage());
@@ -175,7 +176,7 @@ public class RevCommitParseTest extends RepositoryTestCase {
 
 		final RevCommit c;
 		c = new RevCommit(id("9473095c4cb2f12aefe1db8a355fe3fafba42f67"));
-		c.parseCanonical(new RevWalk(db), b.toString().getBytes("UTF-8"));
+		c.parseCanonical(new RevWalk(db), b.toString().getBytes(UTF_8));
 
 		assertEquals(new PersonIdent("", "a_u_thor@example.com", 1218123387000l, 7), c.getAuthorIdent());
 		assertEquals(new PersonIdent("", "", 1218123390000l, -5), c.getCommitterIdent());
@@ -184,13 +185,13 @@ public class RevCommitParseTest extends RepositoryTestCase {
 	@Test
 	public void testParse_implicit_UTF8_encoded() throws Exception {
 		final ByteArrayOutputStream b = new ByteArrayOutputStream();
-		b.write("tree 9788669ad918b6fcce64af8882fc9a81cb6aba67\n".getBytes("UTF-8"));
-		b.write("author F\u00f6r fattare <a_u_thor@example.com> 1218123387 +0700\n".getBytes("UTF-8"));
-		b.write("committer C O. Miter <c@example.com> 1218123390 -0500\n".getBytes("UTF-8"));
-		b.write("\n".getBytes("UTF-8"));
-		b.write("Sm\u00f6rg\u00e5sbord\n".getBytes("UTF-8"));
-		b.write("\n".getBytes("UTF-8"));
-		b.write("\u304d\u308c\u3044\n".getBytes("UTF-8"));
+		b.write("tree 9788669ad918b6fcce64af8882fc9a81cb6aba67\n".getBytes(UTF_8));
+		b.write("author F\u00f6r fattare <a_u_thor@example.com> 1218123387 +0700\n".getBytes(UTF_8));
+		b.write("committer C O. Miter <c@example.com> 1218123390 -0500\n".getBytes(UTF_8));
+		b.write("\n".getBytes(UTF_8));
+		b.write("Sm\u00f6rg\u00e5sbord\n".getBytes(UTF_8));
+		b.write("\n".getBytes(UTF_8));
+		b.write("\u304d\u308c\u3044\n".getBytes(UTF_8));
 		final RevCommit c;
 		c = new RevCommit(id("9473095c4cb2f12aefe1db8a355fe3fafba42f67")); // bogus id
 		c.parseCanonical(new RevWalk(db), b.toByteArray());
@@ -204,13 +205,13 @@ public class RevCommitParseTest extends RepositoryTestCase {
 	@Test
 	public void testParse_implicit_mixed_encoded() throws Exception {
 		final ByteArrayOutputStream b = new ByteArrayOutputStream();
-		b.write("tree 9788669ad918b6fcce64af8882fc9a81cb6aba67\n".getBytes("UTF-8"));
-		b.write("author F\u00f6r fattare <a_u_thor@example.com> 1218123387 +0700\n".getBytes("ISO-8859-1"));
-		b.write("committer C O. Miter <c@example.com> 1218123390 -0500\n".getBytes("UTF-8"));
-		b.write("\n".getBytes("UTF-8"));
-		b.write("Sm\u00f6rg\u00e5sbord\n".getBytes("UTF-8"));
-		b.write("\n".getBytes("UTF-8"));
-		b.write("\u304d\u308c\u3044\n".getBytes("UTF-8"));
+		b.write("tree 9788669ad918b6fcce64af8882fc9a81cb6aba67\n".getBytes(UTF_8));
+		b.write("author F\u00f6r fattare <a_u_thor@example.com> 1218123387 +0700\n".getBytes(ISO_8859_1));
+		b.write("committer C O. Miter <c@example.com> 1218123390 -0500\n".getBytes(UTF_8));
+		b.write("\n".getBytes(UTF_8));
+		b.write("Sm\u00f6rg\u00e5sbord\n".getBytes(UTF_8));
+		b.write("\n".getBytes(UTF_8));
+		b.write("\u304d\u308c\u3044\n".getBytes(UTF_8));
 		final RevCommit c;
 		c = new RevCommit(id("9473095c4cb2f12aefe1db8a355fe3fafba42f67")); // bogus id
 		c.parseCanonical(new RevWalk(db), b.toByteArray());
@@ -259,14 +260,14 @@ public class RevCommitParseTest extends RepositoryTestCase {
 	@Test
 	public void testParse_explicit_bad_encoded() throws Exception {
 		final ByteArrayOutputStream b = new ByteArrayOutputStream();
-		b.write("tree 9788669ad918b6fcce64af8882fc9a81cb6aba67\n".getBytes("UTF-8"));
-		b.write("author F\u00f6r fattare <a_u_thor@example.com> 1218123387 +0700\n".getBytes("ISO-8859-1"));
-		b.write("committer C O. Miter <c@example.com> 1218123390 -0500\n".getBytes("UTF-8"));
-		b.write("encoding EUC-JP\n".getBytes("UTF-8"));
-		b.write("\n".getBytes("UTF-8"));
-		b.write("\u304d\u308c\u3044\n".getBytes("UTF-8"));
-		b.write("\n".getBytes("UTF-8"));
-		b.write("Hi\n".getBytes("UTF-8"));
+		b.write("tree 9788669ad918b6fcce64af8882fc9a81cb6aba67\n".getBytes(UTF_8));
+		b.write("author F\u00f6r fattare <a_u_thor@example.com> 1218123387 +0700\n".getBytes(ISO_8859_1));
+		b.write("committer C O. Miter <c@example.com> 1218123390 -0500\n".getBytes(UTF_8));
+		b.write("encoding EUC-JP\n".getBytes(UTF_8));
+		b.write("\n".getBytes(UTF_8));
+		b.write("\u304d\u308c\u3044\n".getBytes(UTF_8));
+		b.write("\n".getBytes(UTF_8));
+		b.write("Hi\n".getBytes(UTF_8));
 		final RevCommit c;
 		c = new RevCommit(id("9473095c4cb2f12aefe1db8a355fe3fafba42f67")); // bogus id
 		c.parseCanonical(new RevWalk(db), b.toByteArray());
@@ -290,14 +291,14 @@ public class RevCommitParseTest extends RepositoryTestCase {
 	@Test
 	public void testParse_explicit_bad_encoded2() throws Exception {
 		final ByteArrayOutputStream b = new ByteArrayOutputStream();
-		b.write("tree 9788669ad918b6fcce64af8882fc9a81cb6aba67\n".getBytes("UTF-8"));
-		b.write("author F\u00f6r fattare <a_u_thor@example.com> 1218123387 +0700\n".getBytes("UTF-8"));
-		b.write("committer C O. Miter <c@example.com> 1218123390 -0500\n".getBytes("UTF-8"));
-		b.write("encoding ISO-8859-1\n".getBytes("UTF-8"));
-		b.write("\n".getBytes("UTF-8"));
-		b.write("\u304d\u308c\u3044\n".getBytes("UTF-8"));
-		b.write("\n".getBytes("UTF-8"));
-		b.write("Hi\n".getBytes("UTF-8"));
+		b.write("tree 9788669ad918b6fcce64af8882fc9a81cb6aba67\n".getBytes(UTF_8));
+		b.write("author F\u00f6r fattare <a_u_thor@example.com> 1218123387 +0700\n".getBytes(UTF_8));
+		b.write("committer C O. Miter <c@example.com> 1218123390 -0500\n".getBytes(UTF_8));
+		b.write("encoding ISO-8859-1\n".getBytes(UTF_8));
+		b.write("\n".getBytes(UTF_8));
+		b.write("\u304d\u308c\u3044\n".getBytes(UTF_8));
+		b.write("\n".getBytes(UTF_8));
+		b.write("Hi\n".getBytes(UTF_8));
 		final RevCommit c;
 		c = new RevCommit(id("9473095c4cb2f12aefe1db8a355fe3fafba42f67")); // bogus id
 		c.parseCanonical(new RevWalk(db), b.toByteArray());

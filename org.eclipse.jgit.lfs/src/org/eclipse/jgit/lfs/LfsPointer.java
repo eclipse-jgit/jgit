@@ -42,6 +42,8 @@
  */
 package org.eclipse.jgit.lfs;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -49,7 +51,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
 import java.nio.charset.UnsupportedCharsetException;
 import java.util.Locale;
 
@@ -120,7 +121,7 @@ public class LfsPointer {
 	 */
 	public void encode(OutputStream out) {
 		try (PrintStream ps = new PrintStream(out, false,
-				StandardCharsets.UTF_8.name())) {
+				UTF_8.name())) {
 			ps.print("version "); //$NON-NLS-1$
 			ps.print(VERSION + "\n"); //$NON-NLS-1$
 			ps.print("oid " + HASH_FUNCTION_NAME + ":"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -129,8 +130,7 @@ public class LfsPointer {
 			ps.print(size + "\n"); //$NON-NLS-1$
 		} catch (UnsupportedEncodingException e) {
 			// should not happen, we are using a standard charset
-			throw new UnsupportedCharsetException(
-					StandardCharsets.UTF_8.name());
+			throw new UnsupportedCharsetException(UTF_8.name());
 		}
 	}
 
@@ -152,7 +152,7 @@ public class LfsPointer {
 		long sz = -1;
 
 		try (BufferedReader br = new BufferedReader(
-				new InputStreamReader(in, StandardCharsets.UTF_8.name()))) {
+				new InputStreamReader(in, UTF_8))) {
 			for (String s = br.readLine(); s != null; s = br.readLine()) {
 				if (s.startsWith("#") || s.length() == 0) { //$NON-NLS-1$
 					continue;

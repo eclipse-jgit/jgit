@@ -42,6 +42,7 @@
 
 package org.eclipse.jgit.api;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.CoreConfig.EolStreamType.AUTO_CRLF;
 import static org.eclipse.jgit.lib.CoreConfig.EolStreamType.AUTO_LF;
 import static org.eclipse.jgit.lib.CoreConfig.EolStreamType.DIRECT;
@@ -53,7 +54,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 import org.eclipse.jgit.lib.CoreConfig.EolStreamType;
@@ -150,9 +150,8 @@ public class EolStreamTypeUtilTest {
 			EolStreamType streamTypeWithBinaryCheck, String output,
 			String expectedConversion) throws Exception {
 		ByteArrayOutputStream b;
-		byte[] outputBytes = output.getBytes(StandardCharsets.UTF_8);
-		byte[] expectedConversionBytes = expectedConversion
-				.getBytes(StandardCharsets.UTF_8);
+		byte[] outputBytes = output.getBytes(UTF_8);
+		byte[] expectedConversionBytes = expectedConversion.getBytes(UTF_8);
 
 		// test using output text and assuming it was declared TEXT
 		b = new ByteArrayOutputStream();
@@ -278,9 +277,8 @@ public class EolStreamTypeUtilTest {
 	private void testCheckin(EolStreamType streamTypeText,
 			EolStreamType streamTypeWithBinaryCheck, String input,
 			String expectedConversion) throws Exception {
-		byte[] inputBytes = input.getBytes(StandardCharsets.UTF_8);
-		byte[] expectedConversionBytes = expectedConversion
-				.getBytes(StandardCharsets.UTF_8);
+		byte[] inputBytes = input.getBytes(UTF_8);
+		byte[] expectedConversionBytes = expectedConversion.getBytes(UTF_8);
 
 		// test using input text and assuming it was declared TEXT
 		try (InputStream in = EolStreamTypeUtil.wrapInputStream(

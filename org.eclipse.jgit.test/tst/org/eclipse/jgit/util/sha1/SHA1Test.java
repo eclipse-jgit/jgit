@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.util.sha1;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -51,7 +52,6 @@ import static org.junit.Assume.assumeTrue;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -95,15 +95,15 @@ public class SHA1Test {
 				.fromString("a9993e364706816aba3e25717850c26c9cd0d89d");
 
 		MessageDigest m = MessageDigest.getInstance("SHA-1");
-		m.update(TEST1.getBytes(StandardCharsets.UTF_8));
+		m.update(TEST1.getBytes(UTF_8));
 		ObjectId m1 = ObjectId.fromRaw(m.digest());
 
 		SHA1 s = SHA1.newInstance();
-		s.update(TEST1.getBytes(StandardCharsets.UTF_8));
+		s.update(TEST1.getBytes(UTF_8));
 		ObjectId s1 = ObjectId.fromRaw(s.digest());
 
 		s.reset();
-		s.update(TEST1.getBytes(StandardCharsets.UTF_8));
+		s.update(TEST1.getBytes(UTF_8));
 		ObjectId s2 = s.toObjectId();
 
 		assertEquals(m1, s1);
@@ -117,15 +117,15 @@ public class SHA1Test {
 				.fromString("84983e441c3bd26ebaae4aa1f95129e5e54670f1");
 
 		MessageDigest m = MessageDigest.getInstance("SHA-1");
-		m.update(TEST2.getBytes(StandardCharsets.UTF_8));
+		m.update(TEST2.getBytes(UTF_8));
 		ObjectId m1 = ObjectId.fromRaw(m.digest());
 
 		SHA1 s = SHA1.newInstance();
-		s.update(TEST2.getBytes(StandardCharsets.UTF_8));
+		s.update(TEST2.getBytes(UTF_8));
 		ObjectId s1 = ObjectId.fromRaw(s.digest());
 
 		s.reset();
-		s.update(TEST2.getBytes(StandardCharsets.UTF_8));
+		s.update(TEST2.getBytes(UTF_8));
 		ObjectId s2 = s.toObjectId();
 
 		assertEquals(m1, s1);

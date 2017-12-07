@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.lfs.lib;
 
+import static java.nio.charset.StandardCharsets.US_ASCII;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
@@ -54,7 +55,6 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Locale;
@@ -270,7 +270,7 @@ public class LongObjectIdTest {
 	public void testCopyFromStringByte() {
 		AnyLongObjectId id1 = LongObjectIdTestUtils.hash("test");
 		byte[] buf = new byte[64];
-		Charset cs = StandardCharsets.US_ASCII;
+		Charset cs = US_ASCII;
 		cs.encode(id1.name()).get(buf);
 		AnyLongObjectId id2 = LongObjectId.fromString(buf, 0);
 		assertEquals("objects should be equals", id1, id2);

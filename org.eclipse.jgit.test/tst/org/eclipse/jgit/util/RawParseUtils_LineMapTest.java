@@ -43,10 +43,9 @@
 
 package org.eclipse.jgit.util;
 
+import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertNotNull;
-
-import java.io.UnsupportedEncodingException;
 
 import org.junit.Test;
 
@@ -65,29 +64,29 @@ public class RawParseUtils_LineMapTest {
 	}
 
 	@Test
-	public void testTwoLineFooBar() throws UnsupportedEncodingException {
-		final byte[] buf = "foo\nbar\n".getBytes("ISO-8859-1");
+	public void testTwoLineFooBar() {
+		final byte[] buf = "foo\nbar\n".getBytes(ISO_8859_1);
 		final IntList map = RawParseUtils.lineMap(buf, 0, buf.length);
 		assertArrayEquals(new int[]{Integer.MIN_VALUE, 0, 4, buf.length}, asInts(map));
 	}
 
 	@Test
-	public void testTwoLineNoLF() throws UnsupportedEncodingException {
-		final byte[] buf = "foo\nbar".getBytes("ISO-8859-1");
+	public void testTwoLineNoLF() {
+		final byte[] buf = "foo\nbar".getBytes(ISO_8859_1);
 		final IntList map = RawParseUtils.lineMap(buf, 0, buf.length);
 		assertArrayEquals(new int[]{Integer.MIN_VALUE, 0, 4, buf.length}, asInts(map));
 	}
 
 	@Test
-	public void testBinary() throws UnsupportedEncodingException {
-		final byte[] buf = "xxxfoo\nb\0ar".getBytes("ISO-8859-1");
+	public void testBinary() {
+		final byte[] buf = "xxxfoo\nb\0ar".getBytes(ISO_8859_1);
 		final IntList map = RawParseUtils.lineMap(buf, 3, buf.length);
 		assertArrayEquals(new int[]{Integer.MIN_VALUE, 3, buf.length}, asInts(map));
 	}
 
 	@Test
-	public void testFourLineBlanks() throws UnsupportedEncodingException {
-		final byte[] buf = "foo\n\n\nbar\n".getBytes("ISO-8859-1");
+	public void testFourLineBlanks() {
+		final byte[] buf = "foo\n\n\nbar\n".getBytes(ISO_8859_1);
 		final IntList map = RawParseUtils.lineMap(buf, 0, buf.length);
 
 		assertArrayEquals(new int[]{
