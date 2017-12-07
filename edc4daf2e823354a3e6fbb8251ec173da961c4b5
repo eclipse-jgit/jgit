@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_00b3a804",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 793,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-12-07T07:16:13Z",
+      "side": 1,
+      "message": "Where does this get initialized?  As far as I can see it\u0027s not, so null gets passed here meaning System.out is used.",
+      "range": {
+        "startLine": 793,
+        "startChar": 33,
+        "endLine": 793,
+        "endChar": 48
+      },
+      "revId": "edc4daf2e823354a3e6fbb8251ec173da961c4b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
