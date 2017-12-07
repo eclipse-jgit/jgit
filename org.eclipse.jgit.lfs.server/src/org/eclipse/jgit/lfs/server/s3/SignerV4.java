@@ -43,6 +43,7 @@
  */
 package org.eclipse.jgit.lfs.server.s3;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.util.HttpSupport.HDR_AUTHORIZATION;
 
 import java.io.UnsupportedEncodingException;
@@ -365,7 +366,7 @@ class SignerV4 {
 
 	private static byte[] sign(String stringData, byte[] key) {
 		try {
-			byte[] data = stringData.getBytes("UTF-8"); //$NON-NLS-1$
+			byte[] data = stringData.getBytes(UTF_8);
 			Mac mac = Mac.getInstance(HMACSHA256);
 			mac.init(new SecretKeySpec(key, HMACSHA256));
 			return mac.doFinal(data);

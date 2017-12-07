@@ -45,6 +45,7 @@
 package org.eclipse.jgit.lib;
 
 import static java.lang.Integer.valueOf;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.junit.JGitTestUtil.concat;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_LENGTH;
 import static org.eclipse.jgit.lib.Constants.OBJ_BAD;
@@ -68,7 +69,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.fail;
 
-import java.io.UnsupportedEncodingException;
 import java.text.MessageFormat;
 
 import org.eclipse.jgit.errors.CorruptObjectException;
@@ -1450,11 +1450,11 @@ public class ObjectCheckerTest {
 
 	@Test
 	public void testInvalidTreeDuplicateNames5()
-			throws UnsupportedEncodingException, CorruptObjectException {
+			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 A");
 		entry(b, "100644 a");
-		byte[] data = b.toString().getBytes("UTF-8");
+		byte[] data = b.toString().getBytes(UTF_8);
 		checker.setSafeForWindows(true);
 		assertCorrupt("duplicate entry names", OBJ_TREE, data);
 		assertSkipListAccepts(OBJ_TREE, data);
@@ -1464,11 +1464,11 @@ public class ObjectCheckerTest {
 
 	@Test
 	public void testInvalidTreeDuplicateNames6()
-			throws UnsupportedEncodingException, CorruptObjectException {
+			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 A");
 		entry(b, "100644 a");
-		byte[] data = b.toString().getBytes("UTF-8");
+		byte[] data = b.toString().getBytes(UTF_8);
 		checker.setSafeForMacOS(true);
 		assertCorrupt("duplicate entry names", OBJ_TREE, data);
 		assertSkipListAccepts(OBJ_TREE, data);
@@ -1478,11 +1478,11 @@ public class ObjectCheckerTest {
 
 	@Test
 	public void testInvalidTreeDuplicateNames7()
-			throws UnsupportedEncodingException, CorruptObjectException {
+			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 \u0065\u0301");
 		entry(b, "100644 \u00e9");
-		byte[] data = b.toString().getBytes("UTF-8");
+		byte[] data = b.toString().getBytes(UTF_8);
 		checker.setSafeForMacOS(true);
 		assertCorrupt("duplicate entry names", OBJ_TREE, data);
 		assertSkipListAccepts(OBJ_TREE, data);
@@ -1492,11 +1492,11 @@ public class ObjectCheckerTest {
 
 	@Test
 	public void testInvalidTreeDuplicateNames8()
-			throws UnsupportedEncodingException, CorruptObjectException {
+			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 A");
 		checker.setSafeForMacOS(true);
-		checker.checkTree(b.toString().getBytes("UTF-8"));
+		checker.checkTree(b.toString().getBytes(UTF_8));
 	}
 
 	@Test

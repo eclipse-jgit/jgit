@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.patch;
 
+import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -218,7 +219,7 @@ public class EGitPatchHistoryTest {
 					commitId = line.substring("commit ".length());
 					buf = new TemporaryBuffer.LocalFile(null);
 				} else if (buf != null) {
-					buf.write(line.getBytes("ISO-8859-1"));
+					buf.write(line.getBytes(ISO_8859_1));
 					buf.write('\n');
 				}
 			}

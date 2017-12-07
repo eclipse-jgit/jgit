@@ -42,8 +42,10 @@
  */
 package org.eclipse.jgit.transport;
 
+import static java.nio.charset.StandardCharsets.ISO_8859_1;
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.io.File;
-import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
@@ -69,15 +71,13 @@ public class HMACSHA1NonceGenerator implements NonceGenerator {
 	 */
 	public HMACSHA1NonceGenerator(String seed) throws IllegalStateException {
 		try {
-			byte[] keyBytes = seed.getBytes("ISO-8859-1"); //$NON-NLS-1$
+			byte[] keyBytes = seed.getBytes(ISO_8859_1);
 			SecretKeySpec signingKey = new SecretKeySpec(keyBytes, "HmacSHA1"); //$NON-NLS-1$
 			mac = Mac.getInstance("HmacSHA1"); //$NON-NLS-1$
 			mac.init(signingKey);
 		} catch (InvalidKeyException e) {
 			throw new IllegalStateException(e);
 		} catch (NoSuchAlgorithmException e) {
-			throw new IllegalStateException(e);
-		} catch (UnsupportedEncodingException e) {
 			throw new IllegalStateException(e);
 		}
 	}
@@ -98,12 +98,7 @@ public class HMACSHA1NonceGenerator implements NonceGenerator {
 		}
 
 		String input = path + ":" + String.valueOf(timestamp); //$NON-NLS-1$
-		byte[] rawHmac;
-		try {
-			rawHmac = mac.doFinal(input.getBytes("UTF-8")); //$NON-NLS-1$
-		} catch (UnsupportedEncodingException e) {
-			throw new IllegalStateException(e);
-		}
+		byte[] rawHmac = mac.doFinal(input.getBytes(UTF_8));
 		return Long.toString(timestamp) + "-" + toHex(rawHmac); //$NON-NLS-1$
 	}
 

@@ -42,6 +42,7 @@
  */
 package org.eclipse.jgit.api;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -593,7 +594,7 @@ public class PullCommandTest extends RepositoryTestCase {
 		FileOutputStream fos = null;
 		try {
 			fos = new FileOutputStream(actFile);
-			fos.write(string.getBytes("UTF-8"));
+			fos.write(string.getBytes(UTF_8));
 			fos.close();
 		} finally {
 			if (fos != null)

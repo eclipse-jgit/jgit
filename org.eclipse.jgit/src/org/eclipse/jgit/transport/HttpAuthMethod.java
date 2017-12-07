@@ -43,11 +43,11 @@
 
 package org.eclipse.jgit.transport;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.util.HttpSupport.HDR_AUTHORIZATION;
 import static org.eclipse.jgit.util.HttpSupport.HDR_WWW_AUTHENTICATE;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -309,7 +309,7 @@ abstract class HttpAuthMethod {
 		@Override
 		void configureRequest(final HttpConnection conn) throws IOException {
 			String ident = user + ":" + pass; //$NON-NLS-1$
-			String enc = Base64.encodeBytes(ident.getBytes("UTF-8")); //$NON-NLS-1$
+			String enc = Base64.encodeBytes(ident.getBytes(UTF_8));
 			conn.setRequestProperty(HDR_AUTHORIZATION, type.getSchemeName()
 					+ " " + enc); //$NON-NLS-1$
 		}
@@ -423,25 +423,17 @@ abstract class HttpAuthMethod {
 		}
 
 		private static String H(String data) {
-			try {
-				MessageDigest md = newMD5();
-				md.update(data.getBytes("UTF-8")); //$NON-NLS-1$
-				return LHEX(md.digest());
-			} catch (UnsupportedEncodingException e) {
-				throw new RuntimeException("UTF-8 encoding not available", e); //$NON-NLS-1$
-			}
+			MessageDigest md = newMD5();
+			md.update(data.getBytes(UTF_8));
+			return LHEX(md.digest());
 		}
 
 		private static String KD(String secret, String data) {
-			try {
-				MessageDigest md = newMD5();
-				md.update(secret.getBytes("UTF-8")); //$NON-NLS-1$
-				md.update((byte) ':');
-				md.update(data.getBytes("UTF-8")); //$NON-NLS-1$
-				return LHEX(md.digest());
-			} catch (UnsupportedEncodingException e) {
-				throw new RuntimeException("UTF-8 encoding not available", e); //$NON-NLS-1$
-			}
+			MessageDigest md = newMD5();
+			md.update(secret.getBytes(UTF_8));
+			md.update((byte) ':');
+			md.update(data.getBytes(UTF_8));
+			return LHEX(md.digest());
 		}
 
 		private static MessageDigest newMD5() {
