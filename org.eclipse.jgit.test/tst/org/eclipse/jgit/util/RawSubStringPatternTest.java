@@ -42,10 +42,9 @@
  */
 package org.eclipse.jgit.util;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-
-import java.io.UnsupportedEncodingException;
 
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.junit.Test;
@@ -94,11 +93,7 @@ public class RawSubStringPatternTest extends RepositoryTestCase {
 	}
 
 	private static RawCharSequence raw(String text) {
-		try {
-			byte[] bytes = text.getBytes("UTF-8");
-			return new RawCharSequence(bytes, 0, bytes.length);
-		} catch (UnsupportedEncodingException e) {
-			throw new RuntimeException(e);
-		}
+		byte[] bytes = text.getBytes(UTF_8);
+		return new RawCharSequence(bytes, 0, bytes.length);
 	}
 }

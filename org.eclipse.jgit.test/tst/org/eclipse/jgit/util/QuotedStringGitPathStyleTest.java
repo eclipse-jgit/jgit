@@ -43,13 +43,12 @@
 
 package org.eclipse.jgit.util;
 
+import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static org.eclipse.jgit.util.QuotedString.GIT_PATH;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
-
-import java.io.UnsupportedEncodingException;
 
 import org.eclipse.jgit.lib.Constants;
 import org.junit.Test;
@@ -63,12 +62,7 @@ public class QuotedStringGitPathStyleTest {
 	}
 
 	private static void assertDequote(final String exp, final String in) {
-		final byte[] b;
-		try {
-			b = ('"' + in + '"').getBytes("ISO-8859-1");
-		} catch (UnsupportedEncodingException e) {
-			throw new RuntimeException(e);
-		}
+		final byte[] b = ('"' + in + '"').getBytes(ISO_8859_1);
 		final String r = GIT_PATH.dequote(b, 0, b.length);
 		assertEquals(exp, r);
 	}
