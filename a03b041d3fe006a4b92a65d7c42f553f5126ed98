@@ -1,0 +1,169 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_837de28e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1973,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-12-07T16:20:46Z",
+      "side": 1,
+      "message": "That code may be problematic. Typically you get a Config instance with cfg\u003drepo.getConfig(), then you modify it with cfg.set...(...) methods and then you call cfg.save(). But you call getConfig() twice in this line and the line above. Theoretically this could return two different Config instances and what you save in this line is not the same as what you modified in the line above. To be sure I would follow the following pattern everywhere in this file:\n\n  Config cfg\u003d... .getConfig()\n  cfg.setBoolean(....)\n  cfg.save()",
+      "revId": "a03b041d3fe006a4b92a65d7c42f553f5126ed98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_e3fdc67a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 2237,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-12-07T16:20:46Z",
+      "side": 1,
+      "message": "s/rule/config option/\n\nThe term \"rule\" made me think you are modifying the rules in the sparse-checkout file.",
+      "range": {
+        "startLine": 2237,
+        "startChar": 44,
+        "endLine": 2237,
+        "endChar": 48
+      },
+      "revId": "a03b041d3fe006a4b92a65d7c42f553f5126ed98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_0352d2e3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 2394,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-12-07T16:20:46Z",
+      "side": 1,
+      "message": "There should be a test for switching from using sparse checkout to not using sparse checkout. A test where you do have index entries with skip-worktree flag set and the working tree file exits/no-exists. And then you do a configuration change and another checkout to see that all files exist and no skip-worktree bit is set. Or have I overlooked this in your tests?",
+      "revId": "a03b041d3fe006a4b92a65d7c42f553f5126ed98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_23d0aec1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-12-07T16:20:46Z",
+      "side": 1,
+      "message": "Just for info: have you thought about the situation where you have skip-worktree set for a specific path, then you do a merge a this leads to a conflict. We may have multiple entries with different stages for the same path in this moment and how does this work in combination with skip-worktree bits.",
+      "revId": "a03b041d3fe006a4b92a65d7c42f553f5126ed98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_432f7a41",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1154,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-12-07T16:20:46Z",
+      "side": 1,
+      "message": "Don\u0027t get completely what you want to achieve here. You have to help me.\n\nHere is what the docs (of git-read-tree) say:\n\n  When git read-tree needs to update the working directory, it resets the \n  skip-worktree bit in the index based on this file, which uses the same \n  syntax as .gitignore files. If an entry matches a pattern in this file, skip-\n  worktree will not be set on that entry. Otherwise, skip-worktree will be \n  set.\n\n  Then it compares the new skip-worktree value with the previous one. If \n  skip-worktree turns from set to unset, it will add the corresponding file \n  back. If it turns from unset to set, that file will be removed.\n\nMeans, we need to save the old value of the skip-worktree bit. Then we update the DircacheEntry to be written to the index with the new value based on the rules in the sparse-checkout file (independent of the working-tree content) and configuration option sparseCheckout. \n\nAfter this is done and we added a possibly change DircacheEntry to the builder we finally look at the filesystem. If the skip-worktree bit has toggled from false to true we remove the file (regardless whether it existed or not). If it has toggled from true to false we rewrite the file if it not already had the right content. Before we modify a workingtree file we have to check whether it is dirty (file content differs from index content). Better don\u0027t delete unsaved content. I am not sure what native git is doing here.\n\nBut where do you compare old state of the flag to new state?\n\nI think I\u0027ll add some tests. That\u0027s sometimes easier then explaining so much.",
+      "revId": "a03b041d3fe006a4b92a65d7c42f553f5126ed98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_c3660aa0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1160,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-12-07T16:20:46Z",
+      "side": 1,
+      "message": "Be careful with calls to the filesystem. They can be real performance killers on some platforms. I would avoid checking for the existence of the file. See my comments below.",
+      "range": {
+        "startLine": 1159,
+        "startChar": 3,
+        "endLine": 1160,
+        "endChar": 30
+      },
+      "revId": "a03b041d3fe006a4b92a65d7c42f553f5126ed98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_23c6eee1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1162,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-12-07T16:20:46Z",
+      "side": 1,
+      "message": "Why is the decision whether to write a new DirCacheEntry been affected by the fact whether a working tree file exists or not. How we populate the index is a decision based on old index and tree you want to checkout. The working tree state plays no role.\n\nAfter we have decided on the new index entry we finally clean up the working tree and create or delete files.",
+      "revId": "a03b041d3fe006a4b92a65d7c42f553f5126ed98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_a323be2f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1171,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-12-07T16:20:46Z",
+      "side": 1,
+      "message": "What is if the old index had multiple stages (a conflicting file). We cannot switch to just writing stage 0.  Why at all we write a complete new entry. Uff, that\u0027s complicated",
+      "revId": "a03b041d3fe006a4b92a65d7c42f553f5126ed98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_e3b1464d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1185,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-12-07T16:20:46Z",
+      "side": 1,
+      "message": "Even if we remove the file from the worktree, don\u0027t we have to update the index so it contains the content of the file we would like to checkout. Just asking, no clue what native git does.",
+      "revId": "a03b041d3fe006a4b92a65d7c42f553f5126ed98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
