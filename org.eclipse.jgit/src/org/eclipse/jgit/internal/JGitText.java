@@ -179,6 +179,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String cloneNonEmptyDirectory;
 	/***/ public String closed;
 	/***/ public String collisionOn;
+	/***/ public String commandClosedStderrButDidntExit;
 	/***/ public String commandRejectedByHook;
 	/***/ public String commandWasCalledInTheWrongState;
 	/***/ public String commitAlreadyExists;
@@ -705,6 +706,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String tagOnRepoWithoutHEADCurrentlyNotSupported;
 	/***/ public String transactionAborted;
 	/***/ public String theFactoryMustNotBeNull;
+	/***/ public String threadInterruptedWhileRunning;
 	/***/ public String timeIsUncertain;
 	/***/ public String timerAlreadyTerminated;
 	/***/ public String tooManyCommands;
