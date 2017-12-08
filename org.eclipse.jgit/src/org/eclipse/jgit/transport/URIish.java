@@ -93,9 +93,10 @@ public class URIish implements Serializable {
 
 	/**
 	 * Part of a pattern which matches the optional port part of URIs. Defines
-	 * one capturing group containing the port without the preceding colon.
+	 * one capturing group containing the port without the preceding colon. Note
+	 * that Git supports empty ports, like "host:/path", hence \\d*
 	 */
-	private static final String OPT_PORT_P = "(?::(\\d+))?"; //$NON-NLS-1$
+	private static final String OPT_PORT_P = "(?::(\\d*))?"; //$NON-NLS-1$
 
 	/**
 	 * Part of a pattern which matches the ~username part (e.g. /~root in
@@ -223,7 +224,8 @@ public class URIish implements Serializable {
 			user = unescape(matcher.group(2));
 			pass = unescape(matcher.group(3));
 			host = unescape(matcher.group(4));
-			if (matcher.group(5) != null)
+			String portString = matcher.group(5);
+			if (portString != null && portString.length() > 0)
 				port = Integer.parseInt(matcher.group(5));
 			rawPath = cleanLeadingSlashes(
 					n2e(matcher.group(6)) + n2e(matcher.group(7)), scheme);
