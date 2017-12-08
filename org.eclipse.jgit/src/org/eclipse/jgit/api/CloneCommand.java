@@ -77,7 +77,6 @@ import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.TagOpt;
 import org.eclipse.jgit.transport.URIish;
-import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 
 /**
@@ -681,10 +680,11 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	}
 
 	private void deleteChildren(File file) throws IOException {
-		if (!FS.DETECTED.isDirectory(file)) {
+		File[] files = file.listFiles();
+		if (files == null) {
 			return;
 		}
-		for (File child : file.listFiles()) {
+		for (File child : files) {
 			FileUtils.delete(child, FileUtils.RECURSIVE | FileUtils.SKIP_MISSING
 					| FileUtils.IGNORE_ERRORS);
 		}
