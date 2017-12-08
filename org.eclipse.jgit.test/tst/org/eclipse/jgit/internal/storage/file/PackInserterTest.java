@@ -529,9 +529,12 @@ public class PackInserterTest extends RepositoryTestCase {
 
 		@Override
 		public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
-			String name = file.getFileName().toString();
-			if (!attrs.isDirectory() && badName.test(name)) {
-				bad.add(name);
+			Path fileName = file.getFileName();
+			if (fileName != null) {
+				String name = fileName.toString();
+				if (!attrs.isDirectory() && badName.test(name)) {
+					bad.add(name);
+				}
 			}
 			return FileVisitResult.CONTINUE;
 		}
