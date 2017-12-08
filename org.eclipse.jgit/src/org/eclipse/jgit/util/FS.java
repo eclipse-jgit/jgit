@@ -590,22 +590,15 @@ public abstract class FS {
 					err.append((char) ch);
 				}
 			} catch (IOException e) {
-				final boolean processExited = waitForProcessCompletion();
-				if (!processExited) {
-					setError(e, String.format("Command '%s' closed stderr stream but didn't exit within timeout %s seconds", desc, PROCESS_EXIT_TIMEOUT), -1);
-					fail.set(true);
-				} else if (p.exitValue() != 0) {
+				if (waitForProcessCompletion(e) && p.exitValue() != 0) {
 					setError(e, e.getMessage(), p.exitValue());
 					fail.set(true);
 				} else {
 					// ignore. command terminated faster and stream was just closed
+					// or the process didn't terminate within timeout
 				}
 			} finally {
-				final boolean processExited = waitForProcessCompletion();
-				if (!processExited) {
-					setError(null, String.format("Command '%s' closed stderr stream but didn't exit within timeout %s seconds", desc, PROCESS_EXIT_TIMEOUT), -1);
-					fail.set(true);
-				} else if (err.length() > 0) {
+				if (waitForProcessCompletion(null) && err.length() > 0) {
 					setError(null, err.toString(), p.exitValue());
 					if (p.exitValue() != 0) {
 						fail.set(true);
@@ -614,12 +607,17 @@ public abstract class FS {
 			}
 		}
 
-		private boolean waitForProcessCompletion() {
+		private boolean waitForProcessCompletion(IOException originalError) {
 			try {
-				return p.waitFor(PROCESS_EXIT_TIMEOUT, TimeUnit.SECONDS);
+				if (!p.waitFor(PROCESS_EXIT_TIMEOUT, TimeUnit.SECONDS)) {
+					setError(originalError, MessageFormat.format(
+							JGitText.get().commandClosedStderrButDidntExit,
+							desc, PROCESS_EXIT_TIMEOUT), -1);
+					fail.set(true);
+				}
 			} catch (InterruptedException e) {
-				//ignore. current thread was interrupted while waiting for command completion
-				LOG.error("Current thread interrupted while running '" + desc + "'", e);
+				LOG.error(MessageFormat.format("Current thread interrupted " +
+						"while running {0}", desc), e);
 			}
 			return false;
 		}

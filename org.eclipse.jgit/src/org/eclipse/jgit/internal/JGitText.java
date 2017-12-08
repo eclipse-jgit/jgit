@@ -181,6 +181,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String cloneNonEmptyDirectory;
 	/***/ public String closed;
 	/***/ public String collisionOn;
+	/***/ public String commandClosedStderrButDidntExit;
 	/***/ public String commandRejectedByHook;
 	/***/ public String commandWasCalledInTheWrongState;
 	/***/ public String commitAlreadyExists;
