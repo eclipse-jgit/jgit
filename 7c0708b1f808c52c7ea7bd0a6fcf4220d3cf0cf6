@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_41e20fc0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2017-12-09T23:19:05Z",
+      "side": 1,
+      "message": "It seems that I\u0027m not able to edit any header fields of this bug -- is this expected?\n\nI\u0027ll fix the commit message according to the Integer port decision.",
+      "parentUuid": "a7979753_011f2765",
+      "revId": "7c0708b1f808c52c7ea7bd0a6fcf4220d3cf0cf6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_a121f3a8",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/URIishTest.java",
         "patchSetId": 1
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_e1edbbb3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/URIishTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1059,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2017-12-09T23:19:05Z",
+      "side": 1,
+      "message": "I think that depends on whether we will keep the Integer port.",
+      "parentUuid": "a7979753_c1243fb9",
+      "revId": "7c0708b1f808c52c7ea7bd0a6fcf4220d3cf0cf6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_a1fad380",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
         "patchSetId": 1
@@ -64,6 +100,24 @@
       "writtenOn": "2017-12-09T21:25:11Z",
       "side": 1,
       "message": "Looks like this was changed only to have an extra out-of-band value to record a new state:\n\nnull -\u003e no port spec at all\n-1   -\u003e we had a \":\", but no port number\n\u003e\u003d 0 -\u003e both colon and port number were present.\n\nI don\u0027t think that\u0027s needed. In particular, I think format() should never produce a string that has the colon, but no port number.(format() appears to be the only place where this distinction is used at all.)\n\nI would prefer it if we didn\u0027t generate such strings, as per RFC 3986, 3.2: \"URI producers and normalizers should omit the \":\" delimiter that separates host from port if the port component is empty.\"[1]\n\nThen this change from int to Integer isn\u0027t needed.\n\n[1] https://tools.ietf.org/html/rfc3986#section-3.2",
+      "revId": "7c0708b1f808c52c7ea7bd0a6fcf4220d3cf0cf6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_e1d69bef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2017-12-09T23:19:05Z",
+      "side": 1,
+      "message": "\u003e Looks like this was changed only to have an extra out-of-band value to record a new state:\n\u003e\n\u003e null -\u003e no port spec at all\n\u003e -1   -\u003e we had a \":\", but no port number\n\u003e \u003e\u003d 0 -\u003e both colon and port number were present.\n\nYes, that\u0027s the intention.\n\n\u003e I don\u0027t think that\u0027s needed. In particular, I think format() should never produce a string that has the colon, but no port number.(format() appears to be the only place where this distinction is used at all.)\n\u003e\n\u003e I would prefer it if we didn\u0027t generate such strings, as per RFC 3986, 3.2: \"URI producers and normalizers should omit the \":\" delimiter that separates host from port if the port component is empty.\"[1]\n\nI agree that when building an URIish using the set-methods, it shouldn\u0027t be possible to create a colon without port, but parsing and formatting an URIish should preserve the format as much as possible, i.e.:\n\n  String url \u003d ...;\n  assertTrue(new URIish(str).toString().equals(str))\n\nThis is especially useful when manipulating a config file like in following snippet:\n\n  StoredConfig storedConfig \u003d new FileBasedConfig(...);\n  RemoteConfig origin \u003d new RemoteConfig(storedConfig, \"origin\");\n  origin.update(storedConfig);\n  storedConfig.save();\n\nHere I would *prefer* to not have the URL canonicalized. On the other hand, (for our purposes) it wouldn\u0027t do any harm, so I\u0027m happy to change port back to int, if you prefer.",
+      "parentUuid": "a7979753_a1fad380",
       "revId": "7c0708b1f808c52c7ea7bd0a6fcf4220d3cf0cf6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -93,6 +147,30 @@
     },
     {
       "key": {
+        "uuid": "a7979753_21c0a322",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2017-12-09T23:19:05Z",
+      "side": 1,
+      "message": "Thanks, will be fixed.",
+      "parentUuid": "a7979753_e104db23",
+      "range": {
+        "startLine": 228,
+        "startChar": 20,
+        "endLine": 228,
+        "endChar": 23
+      },
+      "revId": "7c0708b1f808c52c7ea7bd0a6fcf4220d3cf0cf6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_210ee341",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
         "patchSetId": 1
@@ -104,6 +182,24 @@
       "writtenOn": "2017-12-09T21:25:11Z",
       "side": 1,
       "message": "Strange that two URIs are unequal even if they both have no port, but one happens to have been created from a string that had a \"naked\" colon.",
+      "revId": "7c0708b1f808c52c7ea7bd0a6fcf4220d3cf0cf6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_81c5d732",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 609,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2017-12-09T23:19:05Z",
+      "side": 1,
+      "message": "I think this depends on decision regarding discussion at line 199.",
+      "parentUuid": "a7979753_210ee341",
       "revId": "7c0708b1f808c52c7ea7bd0a6fcf4220d3cf0cf6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
