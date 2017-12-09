@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_41adaf6e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-12-09T23:45:24Z",
+      "side": 1,
+      "message": "Would have been done by leaving a comment. Under the comment box in bugzilla there\u0027s a button previously showing \"Closed/Not_Eclipse\" where one can choose \"Reopened\". I\u0027m not aware of any access restrictions for this button.\n\nAnyway, I\u0027ve re-opened the bug report.",
+      "parentUuid": "a7979753_41e20fc0",
+      "revId": "7c0708b1f808c52c7ea7bd0a6fcf4220d3cf0cf6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_a121f3a8",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/URIishTest.java",
         "patchSetId": 1
@@ -118,6 +136,24 @@
       "side": 1,
       "message": "\u003e Looks like this was changed only to have an extra out-of-band value to record a new state:\n\u003e\n\u003e null -\u003e no port spec at all\n\u003e -1   -\u003e we had a \":\", but no port number\n\u003e \u003e\u003d 0 -\u003e both colon and port number were present.\n\nYes, that\u0027s the intention.\n\n\u003e I don\u0027t think that\u0027s needed. In particular, I think format() should never produce a string that has the colon, but no port number.(format() appears to be the only place where this distinction is used at all.)\n\u003e\n\u003e I would prefer it if we didn\u0027t generate such strings, as per RFC 3986, 3.2: \"URI producers and normalizers should omit the \":\" delimiter that separates host from port if the port component is empty.\"[1]\n\nI agree that when building an URIish using the set-methods, it shouldn\u0027t be possible to create a colon without port, but parsing and formatting an URIish should preserve the format as much as possible, i.e.:\n\n  String url \u003d ...;\n  assertTrue(new URIish(str).toString().equals(str))\n\nThis is especially useful when manipulating a config file like in following snippet:\n\n  StoredConfig storedConfig \u003d new FileBasedConfig(...);\n  RemoteConfig origin \u003d new RemoteConfig(storedConfig, \"origin\");\n  origin.update(storedConfig);\n  storedConfig.save();\n\nHere I would *prefer* to not have the URL canonicalized. On the other hand, (for our purposes) it wouldn\u0027t do any harm, so I\u0027m happy to change port back to int, if you prefer.",
       "parentUuid": "a7979753_a1fad380",
+      "revId": "7c0708b1f808c52c7ea7bd0a6fcf4220d3cf0cf6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_e17f7b57",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-12-09T23:45:24Z",
+      "side": 1,
+      "message": "Why? As you write, it doesn\u0027t do any harm. I think parsing such a string into a URIish is fine, but if the uri has no port, format/toString() should never produce a \"naked\" colon. But let\u0027s see what others think.",
+      "parentUuid": "a7979753_e1d69bef",
       "revId": "7c0708b1f808c52c7ea7bd0a6fcf4220d3cf0cf6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
