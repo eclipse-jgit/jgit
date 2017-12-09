@@ -95,7 +95,7 @@ public class URIish implements Serializable {
 	 * Part of a pattern which matches the optional port part of URIs. Defines
 	 * one capturing group containing the port without the preceding colon.
 	 */
-	private static final String OPT_PORT_P = "(?::(\\d+))?"; //$NON-NLS-1$
+	private static final String OPT_PORT_P = "(?::(\\d*))?"; //$NON-NLS-1$
 
 	/**
 	 * Part of a pattern which matches the ~username part (e.g. /~root in
@@ -224,11 +224,23 @@ public class URIish implements Serializable {
 			scheme = matcher.group(1);
 			user = unescape(matcher.group(2));
 			pass = unescape(matcher.group(3));
-			host = unescape(matcher.group(4));
-			if (matcher.group(5) != null)
-				port = Integer.parseInt(matcher.group(5));
-			rawPath = cleanLeadingSlashes(
-					n2e(matcher.group(6)) + n2e(matcher.group(7)), scheme);
+			// empty ports are in general allowed, except for URLs like
+			// file://D:/path for which it is more desirable to parse with
+			// host=null and path=D:/path
+			String portString = matcher.group(5);
+			if ("file".equals(scheme) && "".equals(portString)) { //$NON-NLS-1$ //$NON-NLS-2$
+				rawPath = cleanLeadingSlashes(
+						n2e(matcher.group(4)) + ":" + portString //$NON-NLS-1$
+								+ n2e(matcher.group(6)) + n2e(matcher.group(7)),
+						scheme);
+			} else {
+				host = unescape(matcher.group(4));
+				if (portString != null && portString.length() > 0) {
+					port = Integer.parseInt(portString);
+				}
+				rawPath = cleanLeadingSlashes(
+						n2e(matcher.group(6)) + n2e(matcher.group(7)), scheme);
+			}
 			path = unescape(rawPath);
 			return;
 		}
