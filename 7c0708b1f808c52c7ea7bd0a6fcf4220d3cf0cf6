@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_a1fad380",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-12-09T21:25:11Z",
+      "side": 1,
+      "message": "Looks like this was changed only to have an extra out-of-band value to record a new state:\n\nnull -\u003e no port spec at all\n-1   -\u003e we had a \":\", but no port number\n\u003e\u003d 0 -\u003e both colon and port number were present.\n\nI don\u0027t think that\u0027s needed. In particular, I think format() should never produce a string that has the colon, but no port number.(format() appears to be the only place where this distinction is used at all.)\n\nI would prefer it if we didn\u0027t generate such strings, as per RFC 3986, 3.2: \"URI producers and normalizers should omit the \":\" delimiter that separates host from port if the port component is empty.\"[1]\n\nThen this change from int to Integer isn\u0027t needed.\n\n[1] https://tools.ietf.org/html/rfc3986#section-3.2",
+      "revId": "7c0708b1f808c52c7ea7bd0a6fcf4220d3cf0cf6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_e104db23",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-12-09T21:25:11Z",
+      "side": 1,
+      "message": "?",
+      "range": {
+        "startLine": 228,
+        "startChar": 20,
+        "endLine": 228,
+        "endChar": 23
+      },
+      "revId": "7c0708b1f808c52c7ea7bd0a6fcf4220d3cf0cf6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_210ee341",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 609,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-12-09T21:25:11Z",
+      "side": 1,
+      "message": "Strange that two URIs are unequal even if they both have no port, but one happens to have been created from a string that had a \"naked\" colon.",
+      "revId": "7c0708b1f808c52c7ea7bd0a6fcf4220d3cf0cf6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_c1fd1f7b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-12-09T21:25:11Z",
+      "side": 1,
+      "message": "See comment at line 199.",
+      "revId": "7c0708b1f808c52c7ea7bd0a6fcf4220d3cf0cf6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
