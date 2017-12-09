@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "a7979753_011f2765",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-12-09T21:34:11Z",
+      "side": 1,
+      "message": "I suggest re-opening bug 519187 and linking it here in the footer\n\n  Bug: 519187\n\nThe commit message could be a bit more verbose and explain what \"properly\" means and explain the implications for format() (or toString()) and equals().",
+      "revId": "7c0708b1f808c52c7ea7bd0a6fcf4220d3cf0cf6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_a121f3a8",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/URIishTest.java",
         "patchSetId": 1
