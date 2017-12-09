@@ -198,10 +198,92 @@ public class URIishTest {
 		URIish u = new URIish(str);
 		assertEquals("file", u.getScheme());
 		assertFalse(u.isRemote());
+		assertEquals(null, u.getHost());
+		assertEquals(-1, u.getPort());
+		assertEquals(null, u.getUser());
+		assertEquals(null, u.getPass());
 		assertEquals("D:/m y", u.getRawPath());
 		assertEquals("D:/m y", u.getPath());
 		assertEquals("file:///D:/m y", u.toString());
 		assertEquals("file:///D:/m%20y", u.toASCIIString());
+		assertEquals(u, new URIish(str));
+	}
+
+	@Test
+	public void testFileProtoWindowsWithHost() throws Exception {
+		final String str = "file://localhost/D:/m y";
+		URIish u = new URIish(str);
+		assertEquals("file", u.getScheme());
+		assertTrue(u.isRemote());
+		assertEquals("localhost", u.getHost());
+		assertEquals(-1, u.getPort());
+		assertEquals(null, u.getUser());
+		assertEquals(null, u.getPass());
+		assertEquals("D:/m y", u.getRawPath());
+		assertEquals("D:/m y", u.getPath());
+		assertEquals("file://localhost/D:/m y", u.toString());
+		assertEquals("file://localhost/D:/m%20y", u.toASCIIString());
+		assertEquals(u, new URIish(str));
+	}
+
+	@Test
+	public void testFileProtoWindowsWithHostAndPort() throws Exception {
+		final String str = "file://localhost:80/D:/m y";
+		URIish u = new URIish(str);
+		assertEquals("file", u.getScheme());
+		assertTrue(u.isRemote());
+		assertEquals("localhost", u.getHost());
+		assertEquals(80, u.getPort());
+		assertEquals(null, u.getUser());
+		assertEquals(null, u.getPass());
+		assertEquals("D:/m y", u.getRawPath());
+		assertEquals("D:/m y", u.getPath());
+		assertEquals("file://localhost:80/D:/m y", u.toString());
+		assertEquals("file://localhost:80/D:/m%20y", u.toASCIIString());
+		assertEquals(u, new URIish(str));
+	}
+
+	@Test
+	public void testFileProtoWindowsWithHostAndEmptyPortIsAmbiguous()
+			throws Exception {
+		final String str = "file://localhost:/D:/m y";
+		URIish u = new URIish(str);
+		assertEquals("file", u.getScheme());
+		assertFalse(u.isRemote());
+		assertEquals(null, u.getHost());
+		assertEquals(-1, u.getPort());
+		assertEquals(null, u.getUser());
+		assertEquals(null, u.getPass());
+		assertEquals("localhost:/D:/m y", u.getRawPath());
+		assertEquals("localhost:/D:/m y", u.getPath());
+		assertEquals("file:///localhost:/D:/m y", u.toString());
+		assertEquals("file:///localhost:/D:/m%20y", u.toASCIIString());
+		assertEquals(u, new URIish(str));
+	}
+
+	@Test
+	public void testFileProtoWindowsMissingHostSlash() throws Exception {
+		final String str = "file://D:/m y";
+		URIish u = new URIish(str);
+		assertEquals("file", u.getScheme());
+		assertFalse(u.isRemote());
+		assertEquals("D:/m y", u.getRawPath());
+		assertEquals("D:/m y", u.getPath());
+		assertEquals("file:///D:/m y", u.toString());
+		assertEquals("file:///D:/m%20y", u.toASCIIString());
+		assertEquals(u, new URIish(str));
+	}
+
+	@Test
+	public void testFileProtoWindowsMissingHostSlash2() throws Exception {
+		final String str = "file://D: /m y";
+		URIish u = new URIish(str);
+		assertEquals("file", u.getScheme());
+		assertFalse(u.isRemote());
+		assertEquals("D: /m y", u.getRawPath());
+		assertEquals("D: /m y", u.getPath());
+		assertEquals("file:///D: /m y", u.toString());
+		assertEquals("file:///D:%20/m%20y", u.toASCIIString());
 		assertEquals(u, new URIish(str));
 	}
 
