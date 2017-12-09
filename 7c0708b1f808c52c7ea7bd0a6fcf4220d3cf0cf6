@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "a7979753_a121f3a8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/URIishTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-12-09T21:31:40Z",
+      "side": 1,
+      "message": "As explained in URIish, I think these two assertions should fails, but\n\n  assertEquals(\"ssh://example.com/path\", u.toString());\n  assertEquals(\"ssh://example.com/path\", u.toASCIIString());\n\nshould succeed, and I think\n\n  assertEquals(u, new URIish(\"ssh://example.com/path\"));\n\nshould also succeed.",
+      "revId": "7c0708b1f808c52c7ea7bd0a6fcf4220d3cf0cf6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_c1243fb9",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/URIishTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1059,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-12-09T21:31:40Z",
+      "side": 1,
+      "message": "I don\u0027t agree with this.",
+      "revId": "7c0708b1f808c52c7ea7bd0a6fcf4220d3cf0cf6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_a1fad380",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
         "patchSetId": 1
