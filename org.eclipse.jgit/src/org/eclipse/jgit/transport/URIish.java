@@ -55,6 +55,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.BitSet;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -95,7 +96,7 @@ public class URIish implements Serializable {
 	 * Part of a pattern which matches the optional port part of URIs. Defines
 	 * one capturing group containing the port without the preceding colon.
 	 */
-	private static final String OPT_PORT_P = "(?::(\\d+))?"; //$NON-NLS-1$
+	private static final String OPT_PORT_P = "(?::(\\d*))?"; //$NON-NLS-1$
 
 	/**
 	 * Part of a pattern which matches the ~username part (e.g. /~root in
@@ -195,7 +196,7 @@ public class URIish implements Serializable {
 
 	private String pass;
 
-	private int port = -1;
+	private Integer port;
 
 	private String host;
 
@@ -222,11 +223,24 @@ public class URIish implements Serializable {
 			scheme = matcher.group(1);
 			user = unescape(matcher.group(2));
 			pass = unescape(matcher.group(3));
-			host = unescape(matcher.group(4));
-			if (matcher.group(5) != null)
-				port = Integer.parseInt(matcher.group(5));
-			rawPath = cleanLeadingSlashes(
-					n2e(matcher.group(6)) + n2e(matcher.group(7)), scheme);
+			// empty ports are in general allowed, except for URLs like
+			// file://D:/path for which it is more desirable to parse with
+			// host=null and // path=D:/path
+			String portString = matcher.group(5);
+			if ("file".equals(scheme) && "".equals(portString)) { //$NON-NLS-1$ //$NON-NLS-2$
+				rawPath = cleanLeadingSlashes(
+						n2e(matcher.group(4)) + ":" + portString //$NON-NLS-1$
+								+ n2e(matcher.group(6)) + n2e(matcher.group(7)),
+						scheme);
+			} else {
+				host = unescape(matcher.group(4));
+				if (portString != null) {
+					port = portString.length() > 0 ? new Integer(portString)
+							: new Integer(-1);
+				}
+				rawPath = cleanLeadingSlashes(
+						n2e(matcher.group(6)) + n2e(matcher.group(7)), scheme);
+			}
 			path = unescape(rawPath);
 			return;
 		}
@@ -391,7 +405,8 @@ public class URIish implements Serializable {
 			pass = d < 0 ? null : ui.substring(d + 1);
 		}
 
-		port = u.getPort();
+		int urlPort = u.getPort();
+		port = urlPort > 0 ? new Integer(urlPort) : null;
 		host = u.getHost();
 	}
 
@@ -544,7 +559,7 @@ public class URIish implements Serializable {
 	 * @return port number requested for transfer or -1 if not explicit
 	 */
 	public int getPort() {
-		return port;
+		return port != null ? port.intValue() : -1;
 	}
 
 	/**
@@ -556,7 +571,7 @@ public class URIish implements Serializable {
 	 */
 	public URIish setPort(final int n) {
 		final URIish r = new URIish(this);
-		r.port = n > 0 ? n : -1;
+		r.port = n > 0 ? new Integer(n) : null;
 		return r;
 	}
 
@@ -571,8 +586,8 @@ public class URIish implements Serializable {
 			hc = hc * 31 + getPass().hashCode();
 		if (getHost() != null)
 			hc = hc * 31 + getHost().hashCode();
-		if (getPort() > 0)
-			hc = hc * 31 + getPort();
+		if (port != null)
+			hc = hc * 31 + port.intValue();
 		if (getPath() != null)
 			hc = hc * 31 + getPath().hashCode();
 		return hc;
@@ -591,7 +606,7 @@ public class URIish implements Serializable {
 			return false;
 		if (!eq(getHost(), b.getHost()))
 			return false;
-		if (getPort() != b.getPort())
+		if (!Objects.equals(port, b.port))
 			return false;
 		if (!eq(getPath(), b.getPath()))
 			return false;
@@ -641,9 +656,11 @@ public class URIish implements Serializable {
 			if (getUser() != null && getUser().length() > 0)
 				r.append('@');
 			r.append(escape(getHost(), false, escapeNonAscii));
-			if (getScheme() != null && getPort() > 0) {
+			if (getScheme() != null && port != null) {
 				r.append(':');
-				r.append(getPort());
+				if (port.intValue() > 0) {
+					r.append(port);
+				}
 			}
 		}
 

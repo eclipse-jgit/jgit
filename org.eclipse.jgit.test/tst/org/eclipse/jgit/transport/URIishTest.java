@@ -503,6 +503,21 @@ public class URIishTest {
 	}
 
 	@Test
+	public void testSshProtoHostWithEmptyPortAndPath() throws Exception {
+		final String str = "ssh://example.com:/path";
+		URIish u = new URIish(str);
+		assertEquals("ssh", u.getScheme());
+		assertTrue(u.isRemote());
+		assertEquals("/path", u.getRawPath());
+		assertEquals("/path", u.getPath());
+		assertEquals("example.com", u.getHost());
+		assertEquals(-1, u.getPort());
+		assertEquals("ssh://example.com:/path", u.toString());
+		assertEquals("ssh://example.com:/path", u.toASCIIString());
+		assertEquals(u, new URIish(str));
+	}
+
+	@Test
 	public void testSshProtoWithUserAndPort() throws Exception {
 		final String str = "ssh://user@example.com:33/some/p ath";
 		URIish u = new URIish(str);
@@ -973,13 +988,6 @@ public class URIishTest {
 	}
 
 	@Test
-	public void testMissingPort() throws URISyntaxException {
-		final String incorrectSshUrl = "ssh://some-host:/path/to/repository.git";
-		URIish u = new URIish(incorrectSshUrl);
-		assertFalse(TransportGitSsh.PROTO_SSH.canHandle(u));
-	}
-
-	@Test
 	public void testALot() throws URISyntaxException {
 		// user pass host port path
 		// 1 2 3 4 5
@@ -1042,5 +1050,12 @@ public class URIishTest {
 		assertEquals("example.com", u.getHost());
 		assertEquals("", u.getPath());
 		assertEquals(str, u.toString());
+	}
+
+	@Test
+	public void testEmptyPortDoesNotEqualNoPort() throws Exception {
+		URIish u1 = new URIish("http://example.com/");
+		URIish u2 = new URIish("http://example.com:/");
+		assertFalse(u1.equals(u2));
 	}
 }
