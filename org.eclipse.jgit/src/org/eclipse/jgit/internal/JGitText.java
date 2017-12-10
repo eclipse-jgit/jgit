@@ -323,6 +323,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String exceptionCaughtDuringExecutionOfAddCommand;
 	/***/ public String exceptionCaughtDuringExecutionOfArchiveCommand;
 	/***/ public String exceptionCaughtDuringExecutionOfCherryPickCommand;
+	/***/ public String exceptionCaughtDuringExecutionOfCommand;
 	/***/ public String exceptionCaughtDuringExecutionOfCommitCommand;
 	/***/ public String exceptionCaughtDuringExecutionOfFetchCommand;
 	/***/ public String exceptionCaughtDuringExecutionOfLsRemoteCommand;
@@ -333,7 +334,6 @@ public class JGitText extends TranslationBundle {
 	/***/ public String exceptionCaughtDuringExecutionOfRevertCommand;
 	/***/ public String exceptionCaughtDuringExecutionOfRmCommand;
 	/***/ public String exceptionCaughtDuringExecutionOfTagCommand;
-	/***/ public String exceptionCaughtDuringExcecutionOfCommand;
 	/***/ public String exceptionHookExecutionInterrupted;
 	/***/ public String exceptionOccurredDuringAddingOfOptionToALogCommand;
 	/***/ public String exceptionOccurredDuringReadingOfGIT_DIR;

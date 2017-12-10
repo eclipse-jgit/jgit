@@ -626,7 +626,7 @@ public abstract class FS {
 		private void setError(IOException e, String message, int exitCode) {
 			exception.set(e);
 			errorMessage.set(MessageFormat.format(
-					JGitText.get().exceptionCaughtDuringExcecutionOfCommand,
+					JGitText.get().exceptionCaughtDuringExecutionOfCommand,
 					desc, dir, Integer.valueOf(exitCode), message));
 		}
 	}
