@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_c1ec3f8a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5413
+      },
+      "writtenOn": "2017-12-10T10:17:39Z",
+      "side": 1,
+      "message": "OK, i will try to make smaller and consistent changes with tests.",
+      "parentUuid": "a7979753_0e22f960",
+      "revId": "041770cb43ca39717c03429bfe1d389704150c4b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_2e0895e3",
         "filename": "/COMMIT_MSG",
         "patchSetId": 12
@@ -30,6 +48,30 @@
       "writtenOn": "2017-12-07T21:19:39Z",
       "side": 1,
       "message": "I think that\u0027s the wrong class for this functionality. It contains only generic file system methods, whereas these methods are FileRepository specific",
+      "range": {
+        "startLine": 34,
+        "startChar": 60,
+        "endLine": 34,
+        "endChar": 69
+      },
+      "revId": "041770cb43ca39717c03429bfe1d389704150c4b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_e1e3fb93",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5413
+      },
+      "writtenOn": "2017-12-10T10:17:39Z",
+      "side": 1,
+      "message": "Yes, you are right, i will search for better place in this huge code base.",
+      "parentUuid": "a7979753_2e0895e3",
       "range": {
         "startLine": 34,
         "startChar": 60,
