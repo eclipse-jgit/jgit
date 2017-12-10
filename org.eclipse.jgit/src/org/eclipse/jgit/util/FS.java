@@ -564,6 +564,10 @@ public abstract class FS {
 	}
 
 	private static class GobblerThread extends Thread {
+
+		/* The process has 5 seconds to exit after closing stderr */
+		private static final int PROCESS_EXIT_TIMEOUT = 5;
+
 		private final Process p;
 		private final String desc;
 		private final String dir;
@@ -586,15 +590,16 @@ public abstract class FS {
 					err.append((char) ch);
 				}
 			} catch (IOException e) {
-				if (p.exitValue() != 0) {
-					setError(e, e.getMessage());
+				if (waitForProcessCompletion(e) && p.exitValue() != 0) {
+					setError(e, e.getMessage(), p.exitValue());
 					fail.set(true);
 				} else {
 					// ignore. command terminated faster and stream was just closed
+					// or the process didn't terminate within timeout
 				}
 			} finally {
-				if (err.length() > 0) {
-					setError(null, err.toString());
+				if (waitForProcessCompletion(null) && err.length() > 0) {
+					setError(null, err.toString(), p.exitValue());
 					if (p.exitValue() != 0) {
 						fail.set(true);
 					}
@@ -602,11 +607,27 @@ public abstract class FS {
 			}
 		}
 
-		private void setError(IOException e, String message) {
+		@SuppressWarnings("boxing")
+		private boolean waitForProcessCompletion(IOException originalError) {
+			try {
+				if (!p.waitFor(PROCESS_EXIT_TIMEOUT, TimeUnit.SECONDS)) {
+					setError(originalError, MessageFormat.format(
+							JGitText.get().commandClosedStderrButDidntExit,
+							desc, PROCESS_EXIT_TIMEOUT), -1);
+					fail.set(true);
+				}
+			} catch (InterruptedException e) {
+				LOG.error(MessageFormat.format(
+						JGitText.get().threadInterruptedWhileRunning, desc), e);
+			}
+			return false;
+		}
+
+		private void setError(IOException e, String message, int exitCode) {
 			exception.set(e);
 			errorMessage.set(MessageFormat.format(
 					JGitText.get().exceptionCaughtDuringExcecutionOfCommand,
-					desc, dir, Integer.valueOf(p.exitValue()), message));
+					desc, dir, Integer.valueOf(exitCode), message));
 		}
 	}
 
