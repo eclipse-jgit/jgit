@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_c1699f70",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-10T16:57:10Z",
+      "side": 1,
+      "message": "s/Bug/Bug:/",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 3
+      },
+      "revId": "000462feb661cac0b681f1537a3384345765e30a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_e1705b51",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 620,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-10T16:57:10Z",
+      "side": 1,
+      "message": "externalise error message",
+      "range": {
+        "startLine": 619,
+        "startChar": 35,
+        "endLine": 620,
+        "endChar": 25
+      },
+      "revId": "000462feb661cac0b681f1537a3384345765e30a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
