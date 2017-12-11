@@ -164,6 +164,23 @@
       "revId": "a03b041d3fe006a4b92a65d7c42f553f5126ed98",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_5a74b4bf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-12-11T15:17:38Z",
+      "side": 1,
+      "message": "found a more severe bug: when you call setSkipWorkTree(false) on an entry then we can\u0027t parse the resulting index anymore. Even native git can\u0027t parse that index anymore. I added a test to AddTest.java\n\nMaybe we should not extend the entry when it was not extended before and you call setSkipWorkTree(false). I tried with native git and a call to \u0027git update-index --no-skip-worktree \u0027 also doesn\u0027t forcefully extend an entry.\n\nBut I am not sure that\u0027s the whole problem.",
+      "revId": "a03b041d3fe006a4b92a65d7c42f553f5126ed98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
