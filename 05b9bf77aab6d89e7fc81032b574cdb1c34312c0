@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_fa73a058",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2017-12-11T17:05:11Z",
+      "side": 1,
+      "message": "Here we have the bug: this line set\u0027s all bits besides the skip_worktree. The skip_worktree bit stays unchanged. That\u0027s not what we want. We want to unset only skip_worktree.  \n\n  extendedFlags \u0026\u003d ~SKIP_WORKTREE\n\nWhat scares me we are not able to read such an index even from JGit, but not test showed this.",
+      "range": {
+        "startLine": 490,
+        "startChar": 0,
+        "endLine": 490,
+        "endChar": 35
+      },
+      "revId": "05b9bf77aab6d89e7fc81032b574cdb1c34312c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
