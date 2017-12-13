@@ -78,6 +78,7 @@ import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.TagOpt;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.util.FileUtils;
+import org.eclipse.jgit.util.FS;
 
 /**
  * Clone a repository into a new working directory
@@ -94,6 +95,8 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	private File gitDir;
 
 	private boolean bare;
+
+	private FS fs;
 
 	private String remote = Constants.DEFAULT_REMOTE_NAME;
 
@@ -259,6 +262,9 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	private Repository init() throws GitAPIException {
 		InitCommand command = Git.init();
 		command.setBare(bare);
+		if (fs != null) {
+			command.setFs(fs);
+		}
 		if (directory != null) {
 			command.setDirectory(directory);
 		}
@@ -515,6 +521,20 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	public CloneCommand setBare(boolean bare) throws IllegalStateException {
 		validateDirs(directory, gitDir, bare);
 		this.bare = bare;
+		return this;
+	}
+
+	/**
+	 * Set the file system abstraction to be used for repositories created by
+	 * this command.
+	 *
+	 * @param fs
+	 *            the abstraction.
+	 * @return {@code this} (for chaining calls).
+	 * @since 4.10
+	 */
+	public CloneCommand setFs(FS fs) {
+		this.fs = fs;
 		return this;
 	}
 
