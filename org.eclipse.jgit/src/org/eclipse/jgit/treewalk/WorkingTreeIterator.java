@@ -341,7 +341,8 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		final Repository submoduleRepo;
 		try {
 			submoduleRepo = SubmoduleWalk.getSubmoduleRepository(directory,
-					e.getName());
+					e.getName(),
+					repository != null ? repository.getFS() : FS.DETECTED);
 		} catch (IOException exception) {
 			return zeroid;
 		}

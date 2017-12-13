@@ -223,7 +223,8 @@ public class SubmoduleWalk implements AutoCloseable {
 	 */
 	public static Repository getSubmoduleRepository(final Repository parent,
 			final String path) throws IOException {
-		return getSubmoduleRepository(parent.getWorkTree(), path);
+		return getSubmoduleRepository(parent.getWorkTree(), path,
+				parent.getFS());
 	}
 
 	/**
@@ -238,6 +239,23 @@ public class SubmoduleWalk implements AutoCloseable {
 	 */
 	public static Repository getSubmoduleRepository(final File parent,
 			final String path) throws IOException {
+		return getSubmoduleRepository(parent, path, FS.DETECTED);
+	}
+
+	/**
+	 * Get submodule repository at path, using the specified file system
+	 * abstraction
+	 *
+	 * @param parent
+	 * @param path
+	 * @param fs
+	 *            the file system abstraction to be used
+	 * @return repository or null if repository doesn't exist
+	 * @throws IOException
+	 * @since 4.10
+	 */
+	public static Repository getSubmoduleRepository(final File parent,
+			final String path, FS fs) throws IOException {
 		File subWorkTree = new File(parent, path);
 		if (!subWorkTree.isDirectory())
 			return null;
@@ -245,7 +263,7 @@ public class SubmoduleWalk implements AutoCloseable {
 		try {
 			return new RepositoryBuilder() //
 					.setMustExist(true) //
-					.setFS(FS.DETECTED) //
+					.setFS(fs) //
 					.setWorkTree(workTree) //
 					.build();
 		} catch (RepositoryNotFoundException e) {
