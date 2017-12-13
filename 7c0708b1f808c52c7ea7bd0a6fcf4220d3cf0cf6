@@ -160,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_70b34880",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2017-12-13T22:40:42Z",
+      "side": 1,
+      "message": "Looks like no one else is interested. Should we change it back to int, as you have suggested?",
+      "parentUuid": "a7979753_e17f7b57",
+      "revId": "7c0708b1f808c52c7ea7bd0a6fcf4220d3cf0cf6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_e104db23",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
         "patchSetId": 1
