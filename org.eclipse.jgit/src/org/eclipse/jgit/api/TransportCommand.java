@@ -95,7 +95,7 @@ public abstract class TransportCommand<C extends GitCommand, T> extends
 
 	/**
 	 * @param timeout
-	 *            the timeout used for the transport step
+	 *            the timeout (in seconds) used for the transport step
 	 * @return {@code this}
 	 */
 	public C setTimeout(int timeout) {
