@@ -14,6 +14,10 @@ RESOURCES = glob(["resources/**"])
 java_library(
     name = "jgit",
     srcs = SRCS,
+    javacopts = select({
+        "//:jdk9": ["--add-modules=java.xml.bind"],
+        "//conditions:default": [],
+    }),
     resource_strip_prefix = "org.eclipse.jgit/resources",
     resources = RESOURCES,
     deps = [
