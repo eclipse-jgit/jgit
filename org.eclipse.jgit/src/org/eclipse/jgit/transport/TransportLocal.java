@@ -172,7 +172,13 @@ class TransportLocal extends Transport implements PackTransport {
 
 	private Repository openRepo() throws TransportException {
 		try {
-			return new RepositoryBuilder().setGitDir(remoteGitDir).build();
+			final RepositoryBuilder builder = new RepositoryBuilder();
+			builder.setGitDir(remoteGitDir);
+			if (local != null) {
+				builder.setFS(local.getFS());
+			}
+
+			return builder.build();
 		} catch (IOException err) {
 			throw new TransportException(uri, JGitText.get().notAGitDirectory);
 		}
