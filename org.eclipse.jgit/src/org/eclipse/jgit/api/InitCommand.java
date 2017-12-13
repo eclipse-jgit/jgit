@@ -53,6 +53,7 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryBuilder;
+import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.SystemReader;
 
 /**
@@ -68,6 +69,8 @@ public class InitCommand implements Callable<Git> {
 
 	private boolean bare;
 
+	private FS fs;
+
 	/**
 	 * {@inheritDoc}
 	 * <p>
@@ -79,6 +82,9 @@ public class InitCommand implements Callable<Git> {
 			RepositoryBuilder builder = new RepositoryBuilder();
 			if (bare)
 				builder.setBare();
+			if (fs != null) {
+				builder.setFS(fs);
+			}
 			builder.readEnvironment();
 			if (gitDir != null)
 				builder.setGitDir(gitDir);
@@ -192,6 +198,20 @@ public class InitCommand implements Callable<Git> {
 	public InitCommand setBare(boolean bare) {
 		validateDirs(directory, gitDir, bare);
 		this.bare = bare;
+		return this;
+	}
+
+	/**
+	 * Set the file system abstraction to be used for repositories created by
+	 * this command.
+	 *
+	 * @param fs
+	 *            the abstraction.
+	 * @return {@code this} (for chaining calls).
+	 * @since 4.10
+	 */
+	public InitCommand setFs(FS fs) {
+		this.fs = fs;
 		return this;
 	}
 }
