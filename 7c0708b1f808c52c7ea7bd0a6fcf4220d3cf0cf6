@@ -178,6 +178,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_d65314b7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-12-14T13:38:49Z",
+      "side": 1,
+      "message": "I think it\u0027d be better. Yes, please.",
+      "parentUuid": "a7979753_70b34880",
+      "revId": "7c0708b1f808c52c7ea7bd0a6fcf4220d3cf0cf6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_e104db23",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
         "patchSetId": 1
