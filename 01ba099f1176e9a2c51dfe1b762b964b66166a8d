@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_71cd0aaa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-12-14T14:50:33Z",
+      "side": 1,
+      "message": "In the clone case I do get back a null anyway. head is an Unpeeled with \"refs/heads/master\", objectId null, and storage NEW... so maybe testing for the zeroId isn\u0027t needed.",
+      "parentUuid": "a7979753_f6bf3047",
+      "revId": "01ba099f1176e9a2c51dfe1b762b964b66166a8d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_56fba439",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
         "patchSetId": 1
@@ -102,6 +120,24 @@
       "side": 1,
       "message": "+1, I think that\u0027s safer.",
       "parentUuid": "a7979753_56fba439",
+      "revId": "01ba099f1176e9a2c51dfe1b762b964b66166a8d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_91ca7690",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-12-14T14:50:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_b6a04824",
       "revId": "01ba099f1176e9a2c51dfe1b762b964b66166a8d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
