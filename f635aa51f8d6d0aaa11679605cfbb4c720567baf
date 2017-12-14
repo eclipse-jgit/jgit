@@ -34,6 +34,24 @@
       "revId": "f635aa51f8d6d0aaa11679605cfbb4c720567baf",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_1064c43b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ConfigTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 836,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-12-14T01:54:32Z",
+      "side": 0,
+      "message": "Excellent. Thanks for checking.",
+      "parentUuid": "a7979753_d06ddc24",
+      "revId": "f635aa51f8d6d0aaa11679605cfbb4c720567baf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
