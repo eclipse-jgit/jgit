@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_967eec1e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-12-14T13:34:55Z",
+      "side": 1,
+      "message": "And pass it through FetchCommand and into the FetchProcess? Not sure that could be done without adding API.",
+      "parentUuid": "a7979753_d64154f3",
+      "revId": "01ba099f1176e9a2c51dfe1b762b964b66166a8d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_56fba439",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
         "patchSetId": 1
