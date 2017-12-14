@@ -279,6 +279,23 @@ public final class DfsBlockCache {
 		return getStatVals(statEvict);
 	}
 
+	/**
+	 * Quickly check if the cache contains block 0 of the given stream.
+	 * <p>
+	 * This can be useful for sophisticated pre-read algorithms to quickly
+	 * determine if a file is likely already in cache, especially small
+	 * reftables which may be smaller than a typical DFS block size.
+	 *
+	 * @param key
+	 *            the file to check.
+	 * @return true if block 0 (the first block) is in the cache.
+	 */
+	public boolean hasBlock0(DfsStreamKey key) {
+		HashEntry e1 = table.get(slot(key, 0));
+		DfsBlock v = scan(e1, key, 0);
+		return v != null && v.contains(key, 0);
+	}
+
 	private int hash(int packHash, long off) {
 		return packHash + (int) (off >>> blockSizeShift);
 	}
