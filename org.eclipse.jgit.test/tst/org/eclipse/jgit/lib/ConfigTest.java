@@ -80,6 +80,7 @@ import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.SystemReader;
 import org.junit.After;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -766,6 +767,7 @@ public class ConfigTest {
 	}
 
 	@Test
+	@Ignore
 	public void testIncludeInvalidName() throws ConfigInvalidException {
 		expectedEx.expect(ConfigInvalidException.class);
 		expectedEx.expectMessage(JGitText.get().invalidLineInConfigFile);
@@ -773,6 +775,7 @@ public class ConfigTest {
 	}
 
 	@Test
+	@Ignore
 	public void testIncludeNoValue() throws ConfigInvalidException {
 		expectedEx.expect(ConfigInvalidException.class);
 		expectedEx.expectMessage(JGitText.get().invalidLineInConfigFile);
@@ -780,6 +783,7 @@ public class ConfigTest {
 	}
 
 	@Test
+	@Ignore
 	public void testIncludeEmptyValue() throws ConfigInvalidException {
 		expectedEx.expect(ConfigInvalidException.class);
 		expectedEx.expectMessage(JGitText.get().invalidLineInConfigFile);
@@ -816,6 +820,7 @@ public class ConfigTest {
 	}
 
 	@Test
+	@Ignore
 	public void testIncludeTooManyRecursions() throws IOException {
 		File config = tmp.newFile("config");
 		String include = "[include]\npath=" + config.toPath() + "\n";
@@ -832,27 +837,14 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testInclude() throws IOException, ConfigInvalidException {
+	public void testIncludeIsNoop() throws IOException, ConfigInvalidException {
 		File config = tmp.newFile("config");
-		File more = tmp.newFile("config.more");
-		File other = tmp.newFile("config.other");
 
 		String fooBar = "[foo]\nbar=true\n";
-		String includeMore = "[include]\npath=" + more.toPath() + "\n";
-		String includeOther = "path=" + other.toPath() + "\n";
-		String fooPlus = fooBar + includeMore + includeOther;
-		Files.write(config.toPath(), fooPlus.getBytes());
-
-		String fooMore = "[foo]\nmore=bar\n";
-		Files.write(more.toPath(), fooMore.getBytes());
-
-		String otherMore = "[other]\nmore=bar\n";
-		Files.write(other.toPath(), otherMore.getBytes());
+		Files.write(config.toPath(), fooBar.getBytes());
 
 		Config parsed = parse("[include]\npath=" + config.toPath() + "\n");
-		assertTrue(parsed.getBoolean("foo", "bar", false));
-		assertEquals("bar", parsed.getString("foo", null, "more"));
-		assertEquals("bar", parsed.getString("other", null, "more"));
+		assertFalse(parsed.getBoolean("foo", "bar", false));
 	}
 
 	private static void assertReadLong(long exp) throws ConfigInvalidException {
