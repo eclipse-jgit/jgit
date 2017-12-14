@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_f6bf3047",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-12-14T13:56:34Z",
+      "side": 1,
+      "message": "Ah, good point, I was just thinking about this class, which is in an internal package, but FetchProcess is not.\n\nI think the general idea of trying to detect a clone from within this block is a good one. I will ask around and see if there is a better way to detect this state.\n\nI\u0027m not entirely sure what HEAD pointing to zeroId actually means. Is that a dangling symref (aka an unborn branch)? If so, I\u0027m pretty sure it is possible to get into such a state in a repo that has more than zero refs, in which case we do need a lockfile.",
+      "parentUuid": "a7979753_967eec1e",
+      "revId": "01ba099f1176e9a2c51dfe1b762b964b66166a8d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_56fba439",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
         "patchSetId": 1
@@ -66,6 +84,24 @@
       "writtenOn": "2017-12-14T13:04:39Z",
       "side": 1,
       "message": "Not sure about this. Maybe we\u0027d need to make RefDirectory.getPackedRefs() package-visible and use that?",
+      "revId": "01ba099f1176e9a2c51dfe1b762b964b66166a8d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_b6a04824",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-12-14T13:56:34Z",
+      "side": 1,
+      "message": "+1, I think that\u0027s safer.",
+      "parentUuid": "a7979753_56fba439",
       "revId": "01ba099f1176e9a2c51dfe1b762b964b66166a8d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
