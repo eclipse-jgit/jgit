@@ -179,11 +179,15 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 		Map<String, LockFile> locks = null;
 		refdb.inProcessPackedRefsLock.lock();
 		try {
-			locks = lockLooseRefs(pending);
-			if (locks == null) {
-				return;
+			// during clone locking isn't needed since there aren't any refs yet
+			if (!refdb.isInClone()) {
+				locks = lockLooseRefs(pending);
+				if (locks == null) {
+					return;
+				}
 			}
-			PackedRefList oldPackedList = refdb.pack(locks);
+			PackedRefList oldPackedList = locks != null ? refdb.pack(locks)
+					: refdb.getPackedRefs();
 			RefList<Ref> newRefs = applyUpdates(walk, oldPackedList, pending);
 			if (newRefs == null) {
 				return;
