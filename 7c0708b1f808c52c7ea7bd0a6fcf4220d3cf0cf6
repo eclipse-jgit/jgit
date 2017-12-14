@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_56aac408",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2017-12-14T14:29:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_011f2765",
+      "revId": "7c0708b1f808c52c7ea7bd0a6fcf4220d3cf0cf6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_a121f3a8",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/URIishTest.java",
         "patchSetId": 1
@@ -66,6 +84,24 @@
       "writtenOn": "2017-12-09T21:31:40Z",
       "side": 1,
       "message": "As explained in URIish, I think these two assertions should fails, but\n\n  assertEquals(\"ssh://example.com/path\", u.toString());\n  assertEquals(\"ssh://example.com/path\", u.toASCIIString());\n\nshould succeed, and I think\n\n  assertEquals(u, new URIish(\"ssh://example.com/path\"));\n\nshould also succeed.",
+      "revId": "7c0708b1f808c52c7ea7bd0a6fcf4220d3cf0cf6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_96d42c64",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/URIishTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2017-12-14T14:29:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_a121f3a8",
       "revId": "7c0708b1f808c52c7ea7bd0a6fcf4220d3cf0cf6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -101,6 +137,24 @@
       "side": 1,
       "message": "I think that depends on whether we will keep the Integer port.",
       "parentUuid": "a7979753_c1243fb9",
+      "revId": "7c0708b1f808c52c7ea7bd0a6fcf4220d3cf0cf6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_b604c88c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/URIishTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1059,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2017-12-14T14:29:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_e1edbbb3",
       "revId": "7c0708b1f808c52c7ea7bd0a6fcf4220d3cf0cf6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -196,6 +250,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_f6e3b04b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2017-12-14T14:29:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_d65314b7",
+      "revId": "7c0708b1f808c52c7ea7bd0a6fcf4220d3cf0cf6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_e104db23",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
         "patchSetId": 1
@@ -243,6 +315,30 @@
     },
     {
       "key": {
+        "uuid": "a7979753_16e91c2d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2017-12-14T14:29:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_21c0a322",
+      "range": {
+        "startLine": 228,
+        "startChar": 20,
+        "endLine": 228,
+        "endChar": 23
+      },
+      "revId": "7c0708b1f808c52c7ea7bd0a6fcf4220d3cf0cf6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_210ee341",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
         "patchSetId": 1
@@ -278,6 +374,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_36d1b875",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 609,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2017-12-14T14:29:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_81c5d732",
+      "revId": "7c0708b1f808c52c7ea7bd0a6fcf4220d3cf0cf6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_c1fd1f7b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
         "patchSetId": 1
@@ -289,6 +403,24 @@
       "writtenOn": "2017-12-09T21:25:11Z",
       "side": 1,
       "message": "See comment at line 199.",
+      "revId": "7c0708b1f808c52c7ea7bd0a6fcf4220d3cf0cf6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_56ce44d9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2017-12-14T14:29:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_c1fd1f7b",
       "revId": "7c0708b1f808c52c7ea7bd0a6fcf4220d3cf0cf6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
