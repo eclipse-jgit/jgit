@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_d64154f3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-12-14T13:13:58Z",
+      "side": 1,
+      "message": "Another alternative would be to add a method like skipLockDuringClone() that CloneCommand can call.",
+      "parentUuid": "a7979753_36fe182c",
+      "revId": "01ba099f1176e9a2c51dfe1b762b964b66166a8d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_56fba439",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
         "patchSetId": 1
