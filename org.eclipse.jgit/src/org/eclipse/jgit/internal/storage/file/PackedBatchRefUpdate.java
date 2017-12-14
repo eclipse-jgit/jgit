@@ -64,6 +64,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.RefDirectory.PackedRefList;
 import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -179,11 +180,20 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 		Map<String, LockFile> locks = null;
 		refdb.inProcessPackedRefsLock.lock();
 		try {
-			locks = lockLooseRefs(pending);
-			if (locks == null) {
-				return;
+			Ref head = refdb.exactRef(Constants.HEAD);
+			if (head != null) {
+				ObjectId id = head.getObjectId();
+				if (id != null && !id.equals(ObjectId.zeroId())) {
+					// If we have no HEAD, we're likely in clone, and in any
+					// case we cannot have any refs yet, so no need to lock.
+					locks = lockLooseRefs(pending);
+					if (locks == null) {
+						return;
+					}
+				}
 			}
-			PackedRefList oldPackedList = refdb.pack(locks);
+			PackedRefList oldPackedList = locks != null ? refdb.pack(locks)
+					: refdb.getPackedRefs();
 			RefList<Ref> newRefs = applyUpdates(walk, oldPackedList, pending);
 			if (newRefs == null) {
 				return;

@@ -901,7 +901,7 @@ public class RefDirectory extends RefDatabase {
 		return ref;
 	}
 
-	private PackedRefList getPackedRefs() throws IOException {
+	PackedRefList getPackedRefs() throws IOException {
 		boolean trustFolderStat = getRepository().getConfig().getBoolean(
 				ConfigConstants.CONFIG_CORE_SECTION,
 				ConfigConstants.CONFIG_KEY_TRUSTFOLDERSTAT, true);
