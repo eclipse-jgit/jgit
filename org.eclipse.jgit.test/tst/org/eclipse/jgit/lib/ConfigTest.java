@@ -833,27 +833,15 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testInclude() throws IOException, ConfigInvalidException {
+	public void testIncludeIsNoop() throws IOException, ConfigInvalidException {
 		File config = tmp.newFile("config");
-		File more = tmp.newFile("config.more");
-		File other = tmp.newFile("config.other");
 
 		String fooBar = "[foo]\nbar=true\n";
-		String includeMore = "[include]\npath=" + pathToString(more) + "\n";
-		String includeOther = "path=" + pathToString(other) + "\n";
-		String fooPlus = fooBar + includeMore + includeOther;
+		String fooPlus = fooBar;
 		Files.write(config.toPath(), fooPlus.getBytes());
 
-		String fooMore = "[foo]\nmore=bar\n";
-		Files.write(more.toPath(), fooMore.getBytes());
-
-		String otherMore = "[other]\nmore=bar\n";
-		Files.write(other.toPath(), otherMore.getBytes());
-
 		Config parsed = parse("[include]\npath=" + pathToString(config) + "\n");
-		assertTrue(parsed.getBoolean("foo", "bar", false));
-		assertEquals("bar", parsed.getString("foo", null, "more"));
-		assertEquals("bar", parsed.getString("other", null, "more"));
+		assertFalse(parsed.getBoolean("foo", "bar", false));
 	}
 
 	private static void assertReadLong(long exp) throws ConfigInvalidException {
