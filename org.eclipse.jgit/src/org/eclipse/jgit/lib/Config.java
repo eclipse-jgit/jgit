@@ -51,9 +51,6 @@
 
 package org.eclipse.jgit.lib;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -71,7 +68,6 @@ import org.eclipse.jgit.events.ListenerHandle;
 import org.eclipse.jgit.events.ListenerList;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.transport.RefSpec;
-import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
 
 /**
@@ -1115,20 +1111,7 @@ public class Config {
 	@Nullable
 	protected byte[] readIncludedConfig(String relPath)
 			throws ConfigInvalidException {
-		File path = new File(relPath);
-		try {
-			return IO.readFully(path);
-		} catch (FileNotFoundException fnfe) {
-			if (path.exists()) {
-				throw new ConfigInvalidException(MessageFormat
-						.format(JGitText.get().cannotReadFile, path), fnfe);
-			}
-			return null;
-		} catch (IOException ioe) {
-			throw new ConfigInvalidException(
-					MessageFormat.format(JGitText.get().cannotReadFile, path),
-					ioe);
-		}
+		return null;
 	}
 
 	private void addIncludedConfig(final List<ConfigLine> newEntries,
