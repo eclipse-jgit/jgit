@@ -221,4 +221,18 @@ public class DirCacheEntryTest {
 		assertTrue(e.isUpdateNeeded());
 		assertEquals("some/path", e.getPathString());
 	}
+
+	@Test
+	public void testExtend() {
+		DirCacheEntry e = new DirCacheEntry("extended", DirCacheEntry.STAGE_0);
+		assertFalse(e.isExtended());
+		e.setSkipWorkTree(true);
+		assertTrue(e.isExtended());
+
+		e = new DirCacheEntry("notextended", DirCacheEntry.STAGE_0);
+		assertFalse(e.isExtended());
+		e.setSkipWorkTree(false);
+		assertFalse(e.isExtended());
+	}
+
 }
