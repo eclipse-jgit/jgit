@@ -369,7 +369,10 @@ public class Strings {
 
 			case '[':
 				if (in_brackets > 0) {
-					sb.append('\\').append('[');
+					if (!seenEscape) {
+						sb.append('\\');
+					}
+					sb.append('[');
 					ignoreLastBracket = true;
 				} else {
 					if (!seenEscape) {

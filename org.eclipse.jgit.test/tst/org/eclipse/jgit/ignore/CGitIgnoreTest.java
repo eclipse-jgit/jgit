@@ -241,4 +241,31 @@ public class CGitIgnoreTest extends RepositoryTestCase {
 		assertSameAsCGit();
 	}
 
+	@Test
+	public void testUnescapedBracketsInGroup() throws Exception {
+		createFiles("[", "]", "[]", "][", "[[]", "[]]", "[[]]");
+		writeTrashFile(".gitignore", "[[]]\n");
+		assertSameAsCGit();
+	}
+
+	@Test
+	public void testEscapedFirstBracketInGroup() throws Exception {
+		createFiles("[", "]", "[]", "][", "[[]", "[]]", "[[]]");
+		writeTrashFile(".gitignore", "[\\[]]\n");
+		assertSameAsCGit();
+	}
+
+	@Test
+	public void testEscapedSecondBracketInGroup() throws Exception {
+		createFiles("[", "]", "[]", "][", "[[]", "[]]", "[[]]");
+		writeTrashFile(".gitignore", "[[\\]]\n");
+		assertSameAsCGit();
+	}
+
+	@Test
+	public void testEscapedBothBracketsInGroup() throws Exception {
+		createFiles("[", "]", "[]", "][", "[[]", "[]]", "[[]]");
+		writeTrashFile(".gitignore", "[\\[\\]]\n");
+		assertSameAsCGit();
+	}
 }
