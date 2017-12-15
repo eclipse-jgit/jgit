@@ -22,6 +22,30 @@
       "revId": "4535f374eab9a273f6180195adf32f1b08c7bac1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_3c7516ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-12-15T22:05:58Z",
+      "side": 1,
+      "message": "I wonder if an update to the javadoc comment for Repository#getAllRefs would also help.\n\nIf I understood correctly, suggested wording for the commit message:\n\n DfsFsck: Skip unborn branches and symrefs to nowhere\n\n The map returned by getAllRefs includes all refs, including\n symrefs like HEAD that may not point to any object yet.\n That is a valid state (e.g., in a new repository that has\n just been created by \"git init\"), so skip such refs.",
+      "parentUuid": "a7979753_bc810655",
+      "range": {
+        "startLine": 7,
+        "startChar": 20,
+        "endLine": 7,
+        "endChar": 37
+      },
+      "revId": "4535f374eab9a273f6180195adf32f1b08c7bac1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
