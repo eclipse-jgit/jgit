@@ -81,6 +81,29 @@
       "revId": "3f7c42806397da29680552e5e15edf4187ecda16",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_e66dbf24",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1212,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2017-12-15T12:57:04Z",
+      "side": 1,
+      "message": "Files::isRegularFile",
+      "range": {
+        "startLine": 1212,
+        "startChar": 45,
+        "endLine": 1212,
+        "endChar": 72
+      },
+      "revId": "3f7c42806397da29680552e5e15edf4187ecda16",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
