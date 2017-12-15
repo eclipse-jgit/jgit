@@ -16,6 +16,24 @@
       "revId": "3f7c42806397da29680552e5e15edf4187ecda16",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_064f2b40",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1208,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-15T09:56:33Z",
+      "side": 1,
+      "message": "I think that\u0027s not a valid repository, RepositoryCache.isGitRepository(File dir, FS) requires a valid HEAD to consider the directory a git repository, see\nhttps://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/stable-4.9/org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java#453",
+      "parentUuid": "a7979753_c63e03e7",
+      "revId": "3f7c42806397da29680552e5e15edf4187ecda16",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
