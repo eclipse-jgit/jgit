@@ -22,6 +22,30 @@
       "revId": "05b9bf77aab6d89e7fc81032b574cdb1c34312c0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_c681a354",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-12-15T14:29:02Z",
+      "side": 1,
+      "message": "I have fixed this with your recommendation (thanks). I have also changed the logic to only extend the entry if a skip needs to be applied. This behaviour is the same as native git.",
+      "parentUuid": "a7979753_fa73a058",
+      "range": {
+        "startLine": 490,
+        "startChar": 0,
+        "endLine": 490,
+        "endChar": 35
+      },
+      "revId": "05b9bf77aab6d89e7fc81032b574cdb1c34312c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
