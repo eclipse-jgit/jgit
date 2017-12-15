@@ -382,6 +382,39 @@ public class AttributesMatcherTest {
 		assertEquals(r.getAttributes().get(2).toString(), "attribute3=value");
 	}
 
+	@Test
+	public void testBracketsInGroup() {
+		//combinations of brackets in brackets, escaped and not
+
+		String[] patterns = new String[]{"[[\\]]", "[\\[\\]]"};
+		for (String pattern : patterns) {
+			assertNotMatched(pattern, "");
+			assertNotMatched(pattern, "[]");
+			assertNotMatched(pattern, "][");
+			assertNotMatched(pattern, "[\\[]");
+			assertNotMatched(pattern, "[[]");
+			assertNotMatched(pattern, "[[]]");
+			assertNotMatched(pattern, "[\\[\\]]");
+
+			assertMatched(pattern, "[");
+			assertMatched(pattern, "]");
+		}
+
+		patterns = new String[]{"[[]]", "[\\[]]"};
+		for (String pattern : patterns) {
+			assertNotMatched(pattern, "");
+			assertMatched(pattern, "[]");
+			assertNotMatched(pattern, "][");
+			assertNotMatched(pattern, "[\\[]");
+			assertNotMatched(pattern, "[[]");
+			assertNotMatched(pattern, "[[]]");
+			assertNotMatched(pattern, "[\\[\\]]");
+
+			assertNotMatched(pattern, "[");
+			assertNotMatched(pattern, "]");
+		}
+	}
+
 	/**
 	 * Check for a match. If target ends with "/", match will assume that the
 	 * target is meant to be a directory.
