@@ -812,4 +812,5 @@ public class JGitText extends TranslationBundle {
 	/***/ public String years0MonthsAgo;
 	/***/ public String yearsAgo;
 	/***/ public String yearsMonthsAgo;
+	/***/ public String indexEntryNotExtendable;
 }
