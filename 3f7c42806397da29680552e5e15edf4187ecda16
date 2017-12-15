@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a7979753_a67817e4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2017-12-15T12:52:20Z",
+      "side": 1,
+      "message": "Reading again my comment, looks like it is not precise enough. Basically, I was thinking about something like:\n\n  PackedRefList oldPackedList;\n  if (!refdb.isInClone()) {\n    locks \u003d lockLooseRefs(pending);\n    if (locks \u003d\u003d null) {\n      return;\n    }\n    oldPackedList \u003d refdb.pack(locks);\n  } else {\n    oldPackedList \u003d refdb.getPackedRefs();\n  }",
+      "parentUuid": "a7979753_e6869f6a",
+      "range": {
+        "startLine": 189,
+        "startChar": 33,
+        "endLine": 189,
+        "endChar": 48
+      },
+      "revId": "3f7c42806397da29680552e5e15edf4187ecda16",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_c63e03e7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 4
