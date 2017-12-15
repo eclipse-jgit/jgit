@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_e6a5bf33",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportLocal.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-12-15T11:12:19Z",
+      "side": 1,
+      "message": "Does it need to be final?",
+      "range": {
+        "startLine": 175,
+        "startChar": 3,
+        "endLine": 175,
+        "endChar": 8
+      },
+      "revId": "79950edd807b813556cde3823daa177e4111390e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_c6a0c325",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportLocal.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-12-15T11:12:19Z",
+      "side": 1,
+      "message": "This can be chained on to the previous call.",
+      "range": {
+        "startLine": 176,
+        "startChar": 3,
+        "endLine": 176,
+        "endChar": 35
+      },
+      "revId": "79950edd807b813556cde3823daa177e4111390e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
