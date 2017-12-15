@@ -378,4 +378,14 @@ public class CGitAttributesTest extends RepositoryTestCase {
 		writeTrashFile(".gitattributes", "new/ bar\n");
 		assertSameAsCGit();
 	}
+
+	@Test
+	public void testBracketsInGroup() throws Exception {
+		createFiles("[", "]", "[]", "][", "[[]", "[]]", "[[]]");
+		writeTrashFile(".gitattributes", "[[]] bar1\n");
+		writeTrashFile(".gitattributes", "[\\[]] bar2\n");
+		writeTrashFile(".gitattributes", "[[\\]] bar3\n");
+		writeTrashFile(".gitattributes", "[\\[\\]] bar4\n");
+		assertSameAsCGit();
+	}
 }
