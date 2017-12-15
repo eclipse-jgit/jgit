@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_bc810655",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-12-15T22:00:13Z",
+      "side": 1,
+      "message": "Does this mean \u0027branch yet to be born\u0027?  (As in\n\n $ git status\n On branch master\n\n No commits yet\n\n) Can you give an example in the commit message, or even better, in tests?",
+      "range": {
+        "startLine": 7,
+        "startChar": 20,
+        "endLine": 7,
+        "endChar": 37
+      },
+      "revId": "4535f374eab9a273f6180195adf32f1b08c7bac1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
