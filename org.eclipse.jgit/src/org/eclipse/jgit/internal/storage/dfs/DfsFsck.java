@@ -59,6 +59,7 @@ import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectChecker;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.ObjectWalk;
@@ -144,19 +145,24 @@ public class DfsFsck {
 		pm.beginTask(JGitText.get().countingObjects, ProgressMonitor.UNKNOWN);
 		try (ObjectWalk ow = new ObjectWalk(repo)) {
 			for (Ref r : repo.getAllRefs().values()) {
+				ObjectId objectId = r.getObjectId();
+				if (objectId == null) {
+					// skip unborn branch
+					continue;
+				}
 				RevObject tip;
 				try {
-					tip = ow.parseAny(r.getObjectId());
+					tip = ow.parseAny(objectId);
 					if (r.getLeaf().getName().startsWith(Constants.R_HEADS)
 							&& tip.getType() != Constants.OBJ_COMMIT) {
 						// heads should only point to a commit object
 						errors.getNonCommitHeads().add(r.getLeaf().getName());
 					}
+					ow.markStart(tip);
 				} catch (MissingObjectException e) {
 					errors.getMissingObjects().add(e.getObjectId());
 					continue;
 				}
-				ow.markStart(tip);
 			}
 			try {
 				ow.checkConnectivity();
