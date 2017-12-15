@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_f0d9ff1f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1973,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-12-15T14:29:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_837de28e",
+      "revId": "a03b041d3fe006a4b92a65d7c42f553f5126ed98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_e3fdc67a",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
         "patchSetId": 10
@@ -30,6 +48,30 @@
       "writtenOn": "2017-12-07T16:20:46Z",
       "side": 1,
       "message": "s/rule/config option/\n\nThe term \"rule\" made me think you are modifying the rules in the sparse-checkout file.",
+      "range": {
+        "startLine": 2237,
+        "startChar": 44,
+        "endLine": 2237,
+        "endChar": 48
+      },
+      "revId": "a03b041d3fe006a4b92a65d7c42f553f5126ed98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_10c04b22",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 2237,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-12-15T14:29:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_e3fdc67a",
       "range": {
         "startLine": 2237,
         "startChar": 44,
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_30bb87bb",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 2394,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-12-15T14:29:02Z",
+      "side": 1,
+      "message": "There is already a test for turning sparse-checkout on/of: testCheckoutToggleSparseCheckoutInConfig.\n\nI will add a test to see how the skip flag behaves with files that have been modified.",
+      "parentUuid": "a7979753_0352d2e3",
+      "revId": "a03b041d3fe006a4b92a65d7c42f553f5126ed98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_23d0aec1",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 10
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_99129c5d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-12-15T14:29:02Z",
+      "side": 1,
+      "message": "In all honesty I have not considered this state.",
+      "parentUuid": "a7979753_23d0aec1",
+      "revId": "a03b041d3fe006a4b92a65d7c42f553f5126ed98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_432f7a41",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 10
@@ -87,6 +165,24 @@
       "writtenOn": "2017-12-07T16:20:46Z",
       "side": 1,
       "message": "Don\u0027t get completely what you want to achieve here. You have to help me.\n\nHere is what the docs (of git-read-tree) say:\n\n  When git read-tree needs to update the working directory, it resets the \n  skip-worktree bit in the index based on this file, which uses the same \n  syntax as .gitignore files. If an entry matches a pattern in this file, skip-\n  worktree will not be set on that entry. Otherwise, skip-worktree will be \n  set.\n\n  Then it compares the new skip-worktree value with the previous one. If \n  skip-worktree turns from set to unset, it will add the corresponding file \n  back. If it turns from unset to set, that file will be removed.\n\nMeans, we need to save the old value of the skip-worktree bit. Then we update the DircacheEntry to be written to the index with the new value based on the rules in the sparse-checkout file (independent of the working-tree content) and configuration option sparseCheckout. \n\nAfter this is done and we added a possibly change DircacheEntry to the builder we finally look at the filesystem. If the skip-worktree bit has toggled from false to true we remove the file (regardless whether it existed or not). If it has toggled from true to false we rewrite the file if it not already had the right content. Before we modify a workingtree file we have to check whether it is dirty (file content differs from index content). Better don\u0027t delete unsaved content. I am not sure what native git is doing here.\n\nBut where do you compare old state of the flag to new state?\n\nI think I\u0027ll add some tests. That\u0027s sometimes easier then explaining so much.",
+      "revId": "a03b041d3fe006a4b92a65d7c42f553f5126ed98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_f901e011",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1154,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-12-15T14:29:02Z",
+      "side": 1,
+      "message": "Your write up has improved my logic in this area. I am pretty sure my following change will show that.",
+      "parentUuid": "a7979753_432f7a41",
       "revId": "a03b041d3fe006a4b92a65d7c42f553f5126ed98",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -116,6 +212,30 @@
     },
     {
       "key": {
+        "uuid": "a7979753_19078c26",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1160,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-12-15T14:29:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_c3660aa0",
+      "range": {
+        "startLine": 1159,
+        "startChar": 3,
+        "endLine": 1160,
+        "endChar": 30
+      },
+      "revId": "a03b041d3fe006a4b92a65d7c42f553f5126ed98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_23c6eee1",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 10
@@ -127,6 +247,24 @@
       "writtenOn": "2017-12-07T16:20:46Z",
       "side": 1,
       "message": "Why is the decision whether to write a new DirCacheEntry been affected by the fact whether a working tree file exists or not. How we populate the index is a decision based on old index and tree you want to checkout. The working tree state plays no role.\n\nAfter we have decided on the new index entry we finally clean up the working tree and create or delete files.",
+      "revId": "a03b041d3fe006a4b92a65d7c42f553f5126ed98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_390fe83e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1162,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-12-15T14:29:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_23c6eee1",
       "revId": "a03b041d3fe006a4b92a65d7c42f553f5126ed98",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -150,6 +288,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_7915f046",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1171,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-12-15T14:29:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7979753_a323be2f",
+      "revId": "a03b041d3fe006a4b92a65d7c42f553f5126ed98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_e3b1464d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 10
@@ -167,6 +323,24 @@
     },
     {
       "key": {
+        "uuid": "a7979753_4fe23bc0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1185,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-12-15T14:29:02Z",
+      "side": 1,
+      "message": "Of course. You are right. I will add the removed/skipped file to the index.",
+      "parentUuid": "a7979753_e3b1464d",
+      "revId": "a03b041d3fe006a4b92a65d7c42f553f5126ed98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7979753_5a74b4bf",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
         "patchSetId": 10
@@ -178,6 +352,24 @@
       "writtenOn": "2017-12-11T15:17:38Z",
       "side": 1,
       "message": "found a more severe bug: when you call setSkipWorkTree(false) on an entry then we can\u0027t parse the resulting index anymore. Even native git can\u0027t parse that index anymore. I added a test to AddTest.java\n\nMaybe we should not extend the entry when it was not extended before and you call setSkipWorkTree(false). I tried with native git and a call to \u0027git update-index --no-skip-worktree \u0027 also doesn\u0027t forcefully extend an entry.\n\nBut I am not sure that\u0027s the whole problem.",
+      "revId": "a03b041d3fe006a4b92a65d7c42f553f5126ed98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_b0cf7757",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-12-15T14:29:02Z",
+      "side": 1,
+      "message": "I fixed this bug. The entry is only extended if absolutely necessary which is the same as git native (where it only extends the entry if the skip flag is set to true).",
+      "parentUuid": "a7979753_5a74b4bf",
       "revId": "a03b041d3fe006a4b92a65d7c42f553f5126ed98",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
