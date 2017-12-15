@@ -837,8 +837,7 @@ public class ConfigTest {
 		File config = tmp.newFile("config");
 
 		String fooBar = "[foo]\nbar=true\n";
-		String fooPlus = fooBar;
-		Files.write(config.toPath(), fooPlus.getBytes());
+		Files.write(config.toPath(), fooBar.getBytes());
 
 		Config parsed = parse("[include]\npath=" + pathToString(config) + "\n");
 		assertFalse(parsed.getBoolean("foo", "bar", false));
