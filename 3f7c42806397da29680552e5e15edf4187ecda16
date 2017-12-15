@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_c63e03e7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1208,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-12-15T09:04:02Z",
+      "side": 1,
+      "message": "What if head \u003d\u003d null? I presume we could consider that dangling, too? So I\u0027d return true here.",
+      "revId": "3f7c42806397da29680552e5e15edf4187ecda16",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
