@@ -50,7 +50,8 @@ import org.eclipse.jgit.util.time.MonotonicClock;
 import org.eclipse.jgit.util.time.ProposedTimestamp;
 
 /**
- * Fake {@link MonotonicClock} for testing code that uses Clock.
+ * Fake {@link org.eclipse.jgit.util.time.MonotonicClock} for testing code that
+ * uses Clock.
  *
  * @since 4.6
  */
@@ -72,6 +73,7 @@ public class MonotonicFakeClock implements MonotonicClock {
 		now += unit.toMillis(add);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public ProposedTimestamp propose() {
 		long t = now++;
