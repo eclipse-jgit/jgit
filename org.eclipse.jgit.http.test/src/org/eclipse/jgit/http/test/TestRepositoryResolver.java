@@ -61,8 +61,8 @@ public final class TestRepositoryResolver
 	private final String repoName;
 
 	/**
-	 * Creates a new {@link org.eclipse.jgit.http.test.TestRepositoryResolver} that resolves the given name to
-	 * the given repository.
+	 * Creates a new {@link org.eclipse.jgit.http.test.TestRepositoryResolver}
+	 * that resolves the given name to the given repository.
 	 *
 	 * @param repo
 	 *            to resolve to
