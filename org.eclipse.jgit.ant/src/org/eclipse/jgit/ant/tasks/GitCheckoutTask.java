@@ -67,6 +67,8 @@ public class GitCheckoutTask extends Task {
 	private boolean force;
 
 	/**
+	 * Set the <code>src</code>
+	 *
 	 * @param src
 	 *            the src to set
 	 */
@@ -75,6 +77,8 @@ public class GitCheckoutTask extends Task {
 	}
 
 	/**
+	 * Set <code>branch</code>
+	 *
 	 * @param branch
 	 *            the initial branch to check out
 	 */
@@ -83,6 +87,8 @@ public class GitCheckoutTask extends Task {
 	}
 
 	/**
+	 * Set if branch should be created if not yet existing
+	 *
 	 * @param createBranch
 	 *            whether the branch should be created if it does not already
 	 *            exist
@@ -92,6 +98,8 @@ public class GitCheckoutTask extends Task {
 	}
 
 	/**
+	 * Set <code>force</code>
+	 *
 	 * @param force
 	 *            if <code>true</code> and the branch with the given name
 	 *            already exists, the start-point of an existing branch will be
@@ -102,6 +110,7 @@ public class GitCheckoutTask extends Task {
 		this.force = force;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void execute() throws BuildException {
 		CheckoutCommand checkout;

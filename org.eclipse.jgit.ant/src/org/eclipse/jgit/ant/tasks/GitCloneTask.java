@@ -68,6 +68,8 @@ public class GitCloneTask extends Task {
 	private String branch = Constants.HEAD;
 
 	/**
+	 * Set the <code>uri</code>.
+	 *
 	 * @param uri
 	 *            the uri to clone from
 	 */
@@ -80,7 +82,6 @@ public class GitCloneTask extends Task {
 	 * directory isn't set, a name associated with the source uri will be used.
 	 *
 	 * @see URIish#getHumanishName()
-	 *
 	 * @param destination
 	 *            the directory to clone to
 	 */
@@ -89,6 +90,8 @@ public class GitCloneTask extends Task {
 	}
 
 	/**
+	 * Set <code>bare</code>
+	 *
 	 * @param bare
 	 *            whether the cloned repository is bare or not
 	 */
@@ -97,6 +100,8 @@ public class GitCloneTask extends Task {
 	}
 
 	/**
+	 * Set the <code>branch</code>
+	 *
 	 * @param branch
 	 *            the initial branch to check out when cloning the repository
 	 */
@@ -104,6 +109,7 @@ public class GitCloneTask extends Task {
 		this.branch = branch;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void execute() throws BuildException {
 		log("Cloning repository " + uri);
