@@ -62,8 +62,6 @@ import org.eclipse.jgit.http.server.resolver.AsIsFileService;
 import org.eclipse.jgit.http.server.resolver.DefaultReceivePackFactory;
 import org.eclipse.jgit.http.server.resolver.DefaultUploadPackFactory;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.transport.ReceivePack;
-import org.eclipse.jgit.transport.UploadPack;
 import org.eclipse.jgit.transport.resolver.FileResolver;
 import org.eclipse.jgit.transport.resolver.ReceivePackFactory;
 import org.eclipse.jgit.transport.resolver.RepositoryResolver;
@@ -74,15 +72,16 @@ import org.eclipse.jgit.util.StringUtils;
  * Handles Git repository access over HTTP.
  * <p>
  * Applications embedding this filter should map a directory path within the
- * application to this filter. For a servlet version, see {@link GitServlet}.
+ * application to this filter. For a servlet version, see
+ * {@link org.eclipse.jgit.http.server.GitServlet}.
  * <p>
  * Applications may wish to add additional repository action URLs to this
- * servlet by taking advantage of its extension from {@link MetaFilter}.
- * Callers may register their own URL suffix translations through
- * {@link #serve(String)}, or their regex translations through
- * {@link #serveRegex(String)}. Each translation should contain a complete
- * filter pipeline which ends with the HttpServlet that should handle the
- * requested action.
+ * servlet by taking advantage of its extension from
+ * {@link org.eclipse.jgit.http.server.glue.MetaFilter}. Callers may register
+ * their own URL suffix translations through {@link #serve(String)}, or their
+ * regex translations through {@link #serveRegex(String)}. Each translation
+ * should contain a complete filter pipeline which ends with the HttpServlet
+ * that should handle the requested action.
  */
 public class GitFilter extends MetaFilter {
 	private volatile boolean initialized;
@@ -124,6 +123,8 @@ public class GitFilter extends MetaFilter {
 	}
 
 	/**
+	 * Set AsIsFileService
+	 *
 	 * @param f
 	 *            the filter to validate direct access to repository files
 	 *            through a dumb client. If {@code null} then dumb client
@@ -135,9 +136,12 @@ public class GitFilter extends MetaFilter {
 	}
 
 	/**
+	 * Set upload-pack factory
+	 *
 	 * @param f
-	 *            the factory to construct and configure an {@link UploadPack}
-	 *            session when a fetch or clone is requested by a client.
+	 *            the factory to construct and configure an
+	 *            {@link org.eclipse.jgit.transport.UploadPack} session when a
+	 *            fetch or clone is requested by a client.
 	 */
 	@SuppressWarnings("unchecked")
 	public void setUploadPackFactory(UploadPackFactory<HttpServletRequest> f) {
@@ -146,10 +150,12 @@ public class GitFilter extends MetaFilter {
 	}
 
 	/**
+	 * Add upload-pack filter
+	 *
 	 * @param filter
 	 *            filter to apply before any of the UploadPack operations. The
 	 *            UploadPack instance is available in the request attribute
-	 *            {@link ServletUtils#ATTRIBUTE_HANDLER}.
+	 *            {@link org.eclipse.jgit.http.server.ServletUtils#ATTRIBUTE_HANDLER}.
 	 */
 	public void addUploadPackFilter(Filter filter) {
 		assertNotInitialized();
@@ -157,9 +163,12 @@ public class GitFilter extends MetaFilter {
 	}
 
 	/**
+	 * Set the receive-pack factory
+	 *
 	 * @param f
-	 *            the factory to construct and configure a {@link ReceivePack}
-	 *            session when a push is requested by a client.
+	 *            the factory to construct and configure a
+	 *            {@link org.eclipse.jgit.transport.ReceivePack} session when a
+	 *            push is requested by a client.
 	 */
 	@SuppressWarnings("unchecked")
 	public void setReceivePackFactory(ReceivePackFactory<HttpServletRequest> f) {
@@ -168,10 +177,12 @@ public class GitFilter extends MetaFilter {
 	}
 
 	/**
+	 * Add receive-pack filter
+	 *
 	 * @param filter
 	 *            filter to apply before any of the ReceivePack operations. The
 	 *            ReceivePack instance is available in the request attribute
-	 *            {@link ServletUtils#ATTRIBUTE_HANDLER}.
+	 *            {@link org.eclipse.jgit.http.server.ServletUtils#ATTRIBUTE_HANDLER}.
 	 */
 	public void addReceivePackFilter(Filter filter) {
 		assertNotInitialized();
@@ -183,6 +194,7 @@ public class GitFilter extends MetaFilter {
 			throw new IllegalStateException(HttpServerText.get().alreadyInitializedByContainer);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		super.init(filterConfig);
@@ -297,6 +309,7 @@ public class GitFilter extends MetaFilter {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected ServletBinder register(ServletBinder binder) {
 		if (resolver == null)

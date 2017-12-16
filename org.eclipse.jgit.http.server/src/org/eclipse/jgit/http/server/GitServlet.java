@@ -54,8 +54,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.eclipse.jgit.http.server.glue.MetaServlet;
 import org.eclipse.jgit.http.server.resolver.AsIsFileService;
-import org.eclipse.jgit.transport.ReceivePack;
-import org.eclipse.jgit.transport.UploadPack;
 import org.eclipse.jgit.transport.resolver.ReceivePackFactory;
 import org.eclipse.jgit.transport.resolver.RepositoryResolver;
 import org.eclipse.jgit.transport.resolver.UploadPackFactory;
@@ -87,12 +85,12 @@ import org.eclipse.jgit.transport.resolver.UploadPackFactory;
  *
  * <p>
  * Applications may wish to add additional repository action URLs to this
- * servlet by taking advantage of its extension from {@link MetaServlet}.
- * Callers may register their own URL suffix translations through
- * {@link #serve(String)}, or their regex translations through
- * {@link #serveRegex(String)}. Each translation should contain a complete
- * filter pipeline which ends with the HttpServlet that should handle the
- * requested action.
+ * servlet by taking advantage of its extension from
+ * {@link org.eclipse.jgit.http.server.glue.MetaServlet}. Callers may register
+ * their own URL suffix translations through {@link #serve(String)}, or their
+ * regex translations through {@link #serveRegex(String)}. Each translation
+ * should contain a complete filter pipeline which ends with the HttpServlet
+ * that should handle the requested action.
  */
 public class GitServlet extends MetaServlet {
 	private static final long serialVersionUID = 1L;
@@ -124,6 +122,8 @@ public class GitServlet extends MetaServlet {
 	}
 
 	/**
+	 * Set AsIsFileService
+	 *
 	 * @param f
 	 *            the filter to validate direct access to repository files
 	 *            through a dumb client. If {@code null} then dumb client
@@ -134,43 +134,54 @@ public class GitServlet extends MetaServlet {
 	}
 
 	/**
+	 * Set upload-pack factory
+	 *
 	 * @param f
-	 *            the factory to construct and configure an {@link UploadPack}
-	 *            session when a fetch or clone is requested by a client.
+	 *            the factory to construct and configure an
+	 *            {@link org.eclipse.jgit.transport.UploadPack} session when a
+	 *            fetch or clone is requested by a client.
 	 */
 	public void setUploadPackFactory(UploadPackFactory<HttpServletRequest> f) {
 		gitFilter.setUploadPackFactory(f);
 	}
 
 	/**
+	 * Add upload-pack filter
+	 *
 	 * @param filter
 	 *            filter to apply before any of the UploadPack operations. The
 	 *            UploadPack instance is available in the request attribute
-	 *            {@link ServletUtils#ATTRIBUTE_HANDLER}.
+	 *            {@link org.eclipse.jgit.http.server.ServletUtils#ATTRIBUTE_HANDLER}.
 	 */
 	public void addUploadPackFilter(Filter filter) {
 		gitFilter.addUploadPackFilter(filter);
 	}
 
 	/**
+	 * Set receive-pack factory
+	 *
 	 * @param f
-	 *            the factory to construct and configure a {@link ReceivePack}
-	 *            session when a push is requested by a client.
+	 *            the factory to construct and configure a
+	 *            {@link org.eclipse.jgit.transport.ReceivePack} session when a
+	 *            push is requested by a client.
 	 */
 	public void setReceivePackFactory(ReceivePackFactory<HttpServletRequest> f) {
 		gitFilter.setReceivePackFactory(f);
 	}
 
 	/**
+	 * Add receive-pack filter
+	 *
 	 * @param filter
 	 *            filter to apply before any of the ReceivePack operations. The
 	 *            ReceivePack instance is available in the request attribute
-	 *            {@link ServletUtils#ATTRIBUTE_HANDLER}.
+	 *            {@link org.eclipse.jgit.http.server.ServletUtils#ATTRIBUTE_HANDLER}.
 	 */
 	public void addReceivePackFilter(Filter filter) {
 		gitFilter.addReceivePackFilter(filter);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void init(final ServletConfig config) throws ServletException {
 		gitFilter.init(new FilterConfig() {

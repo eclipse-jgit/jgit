@@ -47,13 +47,19 @@ import static org.eclipse.jgit.http.server.ServletUtils.isChunked;
 
 import javax.servlet.http.HttpServletRequest;
 
-/** Parses Git client User-Agent strings. */
+/**
+ * Parses Git client User-Agent strings.
+ */
 public class ClientVersionUtil {
 	private static final int[] v1_7_5 = { 1, 7, 5 };
 	private static final int[] v1_7_8_6 = { 1, 7, 8, 6 };
 	private static final int[] v1_7_9 = { 1, 7, 9 };
 
-	/** @return maximum version array, indicating an invalid version of Git. */
+	/**
+	 * An invalid version of Git
+	 *
+	 * @return maximum version array, indicating an invalid version of Git.
+	 */
 	public static int[] invalidVersion() {
 		return new int[] { Integer.MAX_VALUE };
 	}

@@ -46,9 +46,13 @@ package org.eclipse.jgit.http.server.glue;
 import javax.servlet.Filter;
 import javax.servlet.http.HttpServlet;
 
-/** Binds a servlet to a URL. */
+/**
+ * Binds a servlet to a URL.
+ */
 public interface ServletBinder {
 	/**
+	 * Set the filter to trigger while processing the path.
+	 *
 	 * @param filter
 	 *            the filter to trigger while processing the path.
 	 * @return {@code this}.
@@ -56,6 +60,8 @@ public interface ServletBinder {
 	public ServletBinder through(Filter filter);
 
 	/**
+	 * Set the servlet to execute on this path
+	 *
 	 * @param servlet
 	 *            the servlet to execute on this path.
 	 */

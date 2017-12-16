@@ -164,6 +164,7 @@ class RegexPipeline extends UrlPipeline {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		return "Pipeline[regex: " + pattern + " ]";

@@ -80,16 +80,19 @@ abstract class SmartServiceInfoRefs implements Filter {
 		this.filters = filters.toArray(new Filter[filters.size()]);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void init(FilterConfig config) throws ServletException {
 		// Do nothing.
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void destroy() {
 		// Do nothing.
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
@@ -146,10 +149,31 @@ abstract class SmartServiceInfoRefs implements Filter {
 		}
 	}
 
+	/**
+	 * Begin service.
+	 *
+	 * @param req
+	 *            request
+	 * @param db
+	 *            repository
+	 * @throws IOException
+	 * @throws ServiceNotEnabledException
+	 * @throws ServiceNotAuthorizedException
+	 */
 	protected abstract void begin(HttpServletRequest req, Repository db)
 			throws IOException, ServiceNotEnabledException,
 			ServiceNotAuthorizedException;
 
+	/**
+	 * Advertise.
+	 *
+	 * @param req
+	 *            request
+	 * @param pck
+	 * @throws IOException
+	 * @throws ServiceNotEnabledException
+	 * @throws ServiceNotAuthorizedException
+	 */
 	protected abstract void advertise(HttpServletRequest req,
 			PacketLineOutRefAdvertiser pck) throws IOException,
 			ServiceNotEnabledException, ServiceNotAuthorizedException;

@@ -154,9 +154,9 @@ public class GitSmartHttpTools {
 	 * an HTTP response code is returned instead.
 	 * <p>
 	 * This method may only be called before handing off the request to
-	 * {@link UploadPack#upload(java.io.InputStream, OutputStream, OutputStream)}
+	 * {@link org.eclipse.jgit.transport.UploadPack#upload(java.io.InputStream, OutputStream, OutputStream)}
 	 * or
-	 * {@link ReceivePack#receive(java.io.InputStream, OutputStream, OutputStream)}.
+	 * {@link org.eclipse.jgit.transport.ReceivePack#receive(java.io.InputStream, OutputStream, OutputStream)}.
 	 *
 	 * @param req
 	 *            current request.
