@@ -103,6 +103,7 @@ class SuffixPipeline extends UrlPipeline {
 		super.service(new WrappedRequest(req, newPath, newInfo), rsp);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		return "Pipeline[ *" + suffix + " ]";

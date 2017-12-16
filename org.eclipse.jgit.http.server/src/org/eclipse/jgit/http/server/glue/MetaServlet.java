@@ -74,7 +74,9 @@ public class MetaServlet extends HttpServlet {
 
 	private final MetaFilter filter;
 
-	/** Empty servlet with no bindings. */
+	/**
+	 * Empty servlet with no bindings.
+	 */
 	public MetaServlet() {
 		this(new MetaFilter());
 	}
@@ -89,7 +91,11 @@ public class MetaServlet extends HttpServlet {
 		filter = delegateFilter;
 	}
 
-	/** @return filter this servlet delegates all routing logic to. */
+	/**
+	 * Get delegate filter
+	 *
+	 * @return filter this servlet delegates all routing logic to.
+	 */
 	protected MetaFilter getDelegateFilter() {
 		return filter;
 	}
@@ -116,6 +122,7 @@ public class MetaServlet extends HttpServlet {
 		return filter.serveRegex(expression);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		String name = filter.getClass().getName();
@@ -123,11 +130,13 @@ public class MetaServlet extends HttpServlet {
 		filter.init(new NoParameterFilterConfig(name, ctx));
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void destroy() {
 		filter.destroy();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {

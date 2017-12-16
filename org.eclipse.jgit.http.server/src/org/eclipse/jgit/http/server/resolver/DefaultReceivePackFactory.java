@@ -54,12 +54,14 @@ import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 
 /**
- * Create and configure {@link ReceivePack} service instance.
+ * Create and configure {@link org.eclipse.jgit.transport.ReceivePack} service
+ * instance.
  * <p>
  * Writing by receive-pack is permitted if any of the following is true:
  * <ul>
  * <li>The container has authenticated the user and set
- * {@link HttpServletRequest#getRemoteUser()} to the authenticated name.
+ * {@link javax.servlet.http.HttpServletRequest#getRemoteUser()} to the
+ * authenticated name.
  * <li>The repository configuration file has {@code http.receivepack} explicitly
  * set to true.
  * </ul>
@@ -78,6 +80,7 @@ public class DefaultReceivePackFactory implements
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public ReceivePack create(final HttpServletRequest req, final Repository db)
 			throws ServiceNotEnabledException, ServiceNotAuthorizedException {

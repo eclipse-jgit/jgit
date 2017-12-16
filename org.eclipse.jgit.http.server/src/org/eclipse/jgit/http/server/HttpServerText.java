@@ -52,6 +52,8 @@ import org.eclipse.jgit.nls.TranslationBundle;
 public class HttpServerText extends TranslationBundle {
 
 	/**
+	 * Get an instance of this translation bundle
+	 *
 	 * @return an instance of this translation bundle
 	 */
 	public static HttpServerText get() {

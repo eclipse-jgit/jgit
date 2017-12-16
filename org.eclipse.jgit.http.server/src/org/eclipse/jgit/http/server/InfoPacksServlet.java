@@ -60,6 +60,7 @@ import org.eclipse.jgit.lib.ObjectDatabase;
 class InfoPacksServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	/** {@inheritDoc} */
 	@Override
 	public void doGet(final HttpServletRequest req,
 			final HttpServletResponse rsp) throws IOException {

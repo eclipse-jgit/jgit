@@ -53,7 +53,8 @@ import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 import org.eclipse.jgit.transport.resolver.UploadPackFactory;
 
 /**
- * Create and configure {@link UploadPack} service instance.
+ * Create and configure {@link org.eclipse.jgit.transport.UploadPack} service
+ * instance.
  * <p>
  * Reading by upload-pack is permitted unless {@code http.uploadpack} is
  * explicitly set to false.
@@ -68,6 +69,7 @@ public class DefaultUploadPackFactory implements
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public UploadPack create(final HttpServletRequest req, final Repository db)
 			throws ServiceNotEnabledException, ServiceNotAuthorizedException {
