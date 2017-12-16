@@ -61,14 +61,17 @@ import org.eclipse.jgit.http.server.HttpServerText;
  * Switch servlet path and path info to use another regex match group.
  * <p>
  * This filter is meant to be installed in the middle of a pipeline created by
- * {@link MetaServlet#serveRegex(String)}. The passed request's servlet path is
- * updated to be all text up to the start of the designated capture group, and
- * the path info is changed to the contents of the capture group.
- **/
+ * {@link org.eclipse.jgit.http.server.glue.MetaServlet#serveRegex(String)}. The
+ * passed request's servlet path is updated to be all text up to the start of
+ * the designated capture group, and the path info is changed to the contents of
+ * the capture group.
+ */
 public class RegexGroupFilter implements Filter {
 	private final int groupIdx;
 
 	/**
+	 * Constructor for RegexGroupFilter
+	 *
 	 * @param groupIdx
 	 *            capture group number, 1 through the number of groups.
 	 */
@@ -79,16 +82,19 @@ public class RegexGroupFilter implements Filter {
 		this.groupIdx = groupIdx - 1;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void init(FilterConfig config) throws ServletException {
 		// Do nothing.
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void destroy() {
 		// Do nothing.
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void doFilter(final ServletRequest request,
 			final ServletResponse rsp, final FilterChain chain)

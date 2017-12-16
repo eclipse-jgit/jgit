@@ -117,12 +117,14 @@ abstract class ObjectFileServlet extends HttpServlet {
 
 	abstract String etag(FileSender sender) throws IOException;
 
+	/** {@inheritDoc} */
 	@Override
 	public void doGet(final HttpServletRequest req,
 			final HttpServletResponse rsp) throws IOException {
 		serve(req, rsp, true);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void doHead(final HttpServletRequest req,
 			final HttpServletResponse rsp) throws ServletException, IOException {

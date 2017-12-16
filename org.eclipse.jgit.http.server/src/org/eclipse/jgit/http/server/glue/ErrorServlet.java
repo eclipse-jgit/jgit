@@ -50,7 +50,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Sends a fixed status code to the client. */
+/**
+ * Send a fixed status code to the client.
+ */
 public class ErrorServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -66,6 +68,7 @@ public class ErrorServlet extends HttpServlet {
 		this.status = status;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse rsp)
 			throws ServletException, IOException {

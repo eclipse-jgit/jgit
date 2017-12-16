@@ -71,16 +71,19 @@ import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 
 /**
- * Opens a repository named by the path info through {@link RepositoryResolver}.
+ * Open a repository named by the path info through
+ * {@link org.eclipse.jgit.transport.resolver.RepositoryResolver}.
  * <p>
- * This filter assumes it is invoked by {@link GitServlet} and is likely to not
- * work as expected if called from any other class. This filter assumes the path
- * info of the current request is a repository name which can be used by the
- * configured {@link RepositoryResolver} to open a {@link Repository} and attach
- * it to the current request.
+ * This filter assumes it is invoked by
+ * {@link org.eclipse.jgit.http.server.GitServlet} and is likely to not work as
+ * expected if called from any other class. This filter assumes the path info of
+ * the current request is a repository name which can be used by the configured
+ * {@link org.eclipse.jgit.transport.resolver.RepositoryResolver} to open a
+ * {@link org.eclipse.jgit.lib.Repository} and attach it to the current request.
  * <p>
- * This filter sets request attribute {@link ServletUtils#ATTRIBUTE_REPOSITORY}
- * when it discovers the repository, and automatically closes and removes the
+ * This filter sets request attribute
+ * {@link org.eclipse.jgit.http.server.ServletUtils#ATTRIBUTE_REPOSITORY} when
+ * it discovers the repository, and automatically closes and removes the
  * attribute when the request is complete.
  */
 public class RepositoryFilter implements Filter {
@@ -93,23 +96,27 @@ public class RepositoryFilter implements Filter {
 	 *
 	 * @param resolver
 	 *            the resolver which will be used to translate the URL name
-	 *            component to the actual {@link Repository} instance for the
+	 *            component to the actual
+	 *            {@link org.eclipse.jgit.lib.Repository} instance for the
 	 *            current web request.
 	 */
 	public RepositoryFilter(final RepositoryResolver<HttpServletRequest> resolver) {
 		this.resolver = resolver;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void init(final FilterConfig config) throws ServletException {
 		context = config.getServletContext();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void destroy() {
 		context = null;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void doFilter(final ServletRequest request,
 			final ServletResponse response, final FilterChain chain)

@@ -68,7 +68,9 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 
-/** Common utility functions for servlets. */
+/**
+ * Common utility functions for servlets.
+ */
 public final class ServletUtils {
 	/** Request attribute which stores the {@link Repository} instance. */
 	public static final String ATTRIBUTE_REPOSITORY = "org.eclipse.jgit.Repository";

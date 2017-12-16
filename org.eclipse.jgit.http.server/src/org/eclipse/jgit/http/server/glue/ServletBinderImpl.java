@@ -61,6 +61,7 @@ abstract class ServletBinderImpl implements ServletBinder {
 		this.filters = new ArrayList<>();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public ServletBinder through(Filter filter) {
 		if (filter == null)
@@ -69,6 +70,7 @@ abstract class ServletBinderImpl implements ServletBinder {
 		return this;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void with(HttpServlet servlet) {
 		if (servlet == null)
@@ -78,7 +80,11 @@ abstract class ServletBinderImpl implements ServletBinder {
 		httpServlet = servlet;
 	}
 
-	/** @return the configured servlet, or singleton returning 404 if none. */
+	/**
+	 * Get the servlet
+	 *
+	 * @return the configured servlet, or singleton returning 404 if none.
+	 */
 	protected HttpServlet getServlet() {
 		if (httpServlet != null)
 			return httpServlet;
@@ -86,7 +92,11 @@ abstract class ServletBinderImpl implements ServletBinder {
 			return new ErrorServlet(HttpServletResponse.SC_NOT_FOUND);
 	}
 
-	/** @return the configured filters; zero-length array if none. */
+	/**
+	 * Get filters
+	 *
+	 * @return the configured filters; zero-length array if none.
+	 */
 	protected Filter[] getFilters() {
 		return filters.toArray(new Filter[filters.size()]);
 	}
