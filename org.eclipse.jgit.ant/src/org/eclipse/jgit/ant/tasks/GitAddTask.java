@@ -71,6 +71,8 @@ public class GitAddTask extends Task {
 	private Union path;
 
 	/**
+	 * <p>Set the field <code>src</code>.</p>
+	 *
 	 * @param src
 	 *            the src to set
 	 */
@@ -106,6 +108,7 @@ public class GitAddTask extends Task {
 		return path;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void execute() throws BuildException {
 		if (src == null) {

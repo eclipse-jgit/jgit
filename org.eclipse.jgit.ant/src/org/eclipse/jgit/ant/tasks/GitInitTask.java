@@ -71,6 +71,8 @@ public class GitInitTask extends Task {
 	}
 
 	/**
+	 * Configure if the repository should be <code>bare</code>
+	 *
 	 * @param bare
 	 *            whether the repository should be initialized to a bare
 	 *            repository or not.
@@ -79,6 +81,7 @@ public class GitInitTask extends Task {
 		this.bare = bare;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void execute() throws BuildException {
 		if (bare) {
