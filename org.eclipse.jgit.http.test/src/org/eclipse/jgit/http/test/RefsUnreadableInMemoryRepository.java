@@ -65,6 +65,7 @@ class RefsUnreadableInMemoryRepository extends InMemoryRepository {
 		failing = false;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public RefDatabase getRefDatabase() {
 		return refs;
