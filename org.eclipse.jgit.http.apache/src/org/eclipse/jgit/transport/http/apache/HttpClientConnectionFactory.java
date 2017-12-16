@@ -50,16 +50,19 @@ import org.eclipse.jgit.transport.http.HttpConnection;
 import org.eclipse.jgit.transport.http.HttpConnectionFactory;
 
 /**
- * A factory returning instances of {@link HttpClientConnection}
+ * A factory returning instances of
+ * {@link org.eclipse.jgit.transport.http.apache.HttpClientConnection}
  *
  * @since 3.3
  */
 public class HttpClientConnectionFactory implements HttpConnectionFactory {
+	/** {@inheritDoc} */
 	@Override
 	public HttpConnection create(URL url) throws IOException {
 		return new HttpClientConnection(url.toString());
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public HttpConnection create(URL url, Proxy proxy)
 			throws IOException {
