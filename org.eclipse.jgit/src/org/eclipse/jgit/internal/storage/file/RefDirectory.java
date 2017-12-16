@@ -65,6 +65,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.InterruptedIOException;
+import java.nio.file.Files;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.text.MessageFormat;
@@ -901,7 +902,7 @@ public class RefDirectory extends RefDatabase {
 		return ref;
 	}
 
-	private PackedRefList getPackedRefs() throws IOException {
+	PackedRefList getPackedRefs() throws IOException {
 		boolean trustFolderStat = getRepository().getConfig().getBoolean(
 				ConfigConstants.CONFIG_CORE_SECTION,
 				ConfigConstants.CONFIG_KEY_TRUSTFOLDERSTAT, true);
@@ -1186,6 +1187,29 @@ public class RefDirectory extends RefDatabase {
 				&& buf[2] == 'f' //
 				&& buf[3] == ':' //
 				&& buf[4] == ' ';
+	}
+
+	/**
+	 * Detect if we are in a clone command execution
+	 *
+	 * @return {@code true} if we are currently cloning a repository
+	 * @throws IOException
+	 */
+	boolean isInClone() throws IOException {
+		return hasDanglingHead() && !packedRefsFile.exists() && !hasLooseRef();
+	}
+
+	private boolean hasDanglingHead() throws IOException {
+		Ref head = exactRef(Constants.HEAD);
+		if (head != null) {
+			ObjectId id = head.getObjectId();
+			return id == null || id.equals(ObjectId.zeroId());
+		}
+		return false;
+	}
+
+	private boolean hasLooseRef() throws IOException {
+		return Files.walk(refsDir.toPath()).anyMatch(Files::isRegularFile);
 	}
 
 	/** If the parent should fire listeners, fires them. */
