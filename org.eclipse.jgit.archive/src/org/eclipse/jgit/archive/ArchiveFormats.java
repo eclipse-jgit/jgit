@@ -48,11 +48,11 @@ import java.util.List;
 import org.eclipse.jgit.api.ArchiveCommand;
 
 /**
- * Registers all format types from the org.eclipse.jgit.archive
- * package for use via the ArchiveCommand API.
+ * Registers all format types from the org.eclipse.jgit.archive package for use
+ * via the ArchiveCommand API.
  *
- * See {@link FormatActivator} for an OSGi bundle activator
- * that performs the same registration automatically.
+ * See {@link org.eclipse.jgit.archive.FormatActivator} for an OSGi bundle
+ * activator that performs the same registration automatically.
  */
 public class ArchiveFormats {
 	private static final List<String> myFormats = new ArrayList<>();
