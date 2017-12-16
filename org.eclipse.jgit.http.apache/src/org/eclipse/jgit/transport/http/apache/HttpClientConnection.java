@@ -96,7 +96,8 @@ import org.eclipse.jgit.util.TemporaryBuffer;
 import org.eclipse.jgit.util.TemporaryBuffer.LocalFile;
 
 /**
- * A {@link HttpConnection} which uses {@link HttpClient}
+ * A {@link org.eclipse.jgit.transport.http.HttpConnection} which uses
+ * {@link org.apache.http.client.HttpClient}
  *
  * @since 3.3
  */
@@ -188,6 +189,8 @@ public class HttpClientConnection implements HttpConnection {
 	}
 
 	/**
+	 * Constructor for HttpClientConnection.
+	 *
 	 * @param urlStr
 	 * @throws MalformedURLException
 	 */
@@ -196,6 +199,8 @@ public class HttpClientConnection implements HttpConnection {
 	}
 
 	/**
+	 * Constructor for HttpClientConnection.
+	 *
 	 * @param urlStr
 	 * @param proxy
 	 * @throws MalformedURLException
@@ -206,6 +211,8 @@ public class HttpClientConnection implements HttpConnection {
 	}
 
 	/**
+	 * Constructor for HttpClientConnection.
+	 *
 	 * @param urlStr
 	 * @param proxy
 	 * @param cl
@@ -218,17 +225,20 @@ public class HttpClientConnection implements HttpConnection {
 		this.proxy = proxy;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int getResponseCode() throws IOException {
 		execute();
 		return resp.getStatusLine().getStatusCode();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public URL getURL() {
 		return url;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String getResponseMessage() throws IOException {
 		execute();
@@ -257,6 +267,7 @@ public class HttpClientConnection implements HttpConnection {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Map<String, List<String>> getHeaderFields() {
 		Map<String, List<String>> ret = new HashMap<>();
@@ -269,11 +280,13 @@ public class HttpClientConnection implements HttpConnection {
 		return ret;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void setRequestProperty(String name, String value) {
 		req.addHeader(name, value);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void setRequestMethod(String method) throws ProtocolException {
 		this.method = method;
@@ -291,21 +304,25 @@ public class HttpClientConnection implements HttpConnection {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void setUseCaches(boolean usecaches) {
 		// not needed
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void setConnectTimeout(int timeout) {
 		this.timeout = Integer.valueOf(timeout);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void setReadTimeout(int readTimeout) {
 		this.readTimeout = Integer.valueOf(readTimeout);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String getContentType() {
 		HttpEntity responseEntity = resp.getEntity();
@@ -317,18 +334,21 @@ public class HttpClientConnection implements HttpConnection {
 		return null;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public InputStream getInputStream() throws IOException {
 		return resp.getEntity().getContent();
 	}
 
 	// will return only the first field
+	/** {@inheritDoc} */
 	@Override
 	public String getHeaderField(String name) {
 		Header header = resp.getFirstHeader(name);
 		return (header == null) ? null : header.getValue();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int getContentLength() {
 		Header contentLength = resp.getFirstHeader("content-length"); //$NON-NLS-1$
@@ -344,16 +364,19 @@ public class HttpClientConnection implements HttpConnection {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void setInstanceFollowRedirects(boolean followRedirects) {
 		this.followRedirects = Boolean.valueOf(followRedirects);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void setDoOutput(boolean dooutput) {
 		// TODO: check whether we can really ignore this.
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void setFixedLengthStreamingMode(int contentLength) {
 		if (entity != null)
@@ -362,6 +385,7 @@ public class HttpClientConnection implements HttpConnection {
 		entity.setContentLength(contentLength);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public OutputStream getOutputStream() throws IOException {
 		if (entity == null)
@@ -369,6 +393,7 @@ public class HttpClientConnection implements HttpConnection {
 		return entity.getBuffer();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void setChunkedStreamingMode(int chunklen) {
 		if (entity == null)
@@ -376,26 +401,31 @@ public class HttpClientConnection implements HttpConnection {
 		entity.setChunked(true);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String getRequestMethod() {
 		return method;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean usingProxy() {
 		return isUsingProxy;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void connect() throws IOException {
 		execute();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void setHostnameVerifier(final HostnameVerifier hostnameverifier) {
 		this.hostnameverifier = hostnameverifier;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void configure(KeyManager[] km, TrustManager[] tm,
 			SecureRandom random) throws KeyManagementException {

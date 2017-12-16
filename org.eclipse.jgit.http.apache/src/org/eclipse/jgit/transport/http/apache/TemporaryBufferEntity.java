@@ -46,12 +46,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.entity.AbstractHttpEntity;
 import org.eclipse.jgit.util.TemporaryBuffer;
 
 /**
- * A {@link HttpEntity} which takes it's content from a {@link TemporaryBuffer}
+ * A {@link org.apache.http.HttpEntity} which takes its content from a
+ * {@link org.eclipse.jgit.util.TemporaryBuffer}
  *
  * @since 3.3
  */
@@ -62,8 +62,8 @@ public class TemporaryBufferEntity extends AbstractHttpEntity
 	private Integer contentLength;
 
 	/**
-	 * Construct a new {@link HttpEntity} which will contain the content stored
-	 * in the specified buffer
+	 * Construct a new {@link org.apache.http.HttpEntity} which will contain the
+	 * content stored in the specified buffer
 	 *
 	 * @param buffer
 	 */
@@ -72,17 +72,21 @@ public class TemporaryBufferEntity extends AbstractHttpEntity
 	}
 
 	/**
+	 * Get the <code>buffer</code> containing the content
+	 *
 	 * @return buffer containing the content
 	 */
 	public TemporaryBuffer getBuffer() {
 		return buffer;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean isRepeatable() {
 		return true;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public long getContentLength() {
 		if (contentLength != null)
@@ -90,23 +94,28 @@ public class TemporaryBufferEntity extends AbstractHttpEntity
 		return buffer.length();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public InputStream getContent() throws IOException, IllegalStateException {
 		return buffer.openInputStream();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void writeTo(OutputStream outstream) throws IOException {
 		// TODO: dont we need a progressmonitor
 		buffer.writeTo(outstream, null);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean isStreaming() {
 		return false;
 	}
 
 	/**
+	 * Set the <code>contentLength</code>
+	 *
 	 * @param contentLength
 	 */
 	public void setContentLength(int contentLength) {
@@ -114,8 +123,9 @@ public class TemporaryBufferEntity extends AbstractHttpEntity
 	}
 
 	/**
-	 * Close destroys the associated buffer used to buffer the entity
+	 * {@inheritDoc}
 	 *
+	 * Close destroys the associated buffer used to buffer the entity
 	 * @since 4.5
 	 */
 	@Override
