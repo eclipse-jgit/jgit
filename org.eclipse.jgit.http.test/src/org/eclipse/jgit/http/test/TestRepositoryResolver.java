@@ -50,7 +50,9 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.resolver.RepositoryResolver;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 
-/** A simple repository resolver for tests. */
+/**
+ * A simple repository resolver for tests.
+ */
 public final class TestRepositoryResolver
 		implements RepositoryResolver<HttpServletRequest> {
 
@@ -59,8 +61,8 @@ public final class TestRepositoryResolver
 	private final String repoName;
 
 	/**
-	 * Creates a new {@link TestRepositoryResolver} that resolves the given name to
-	 * the given repository.
+	 * Create a new {@link org.eclipse.jgit.http.test.TestRepositoryResolver}
+	 * that resolves the given name to the given repository.
 	 *
 	 * @param repo
 	 *            to resolve to
@@ -72,6 +74,7 @@ public final class TestRepositoryResolver
 		this.repoName = repoName;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Repository open(HttpServletRequest req, String name)
 			throws RepositoryNotFoundException, ServiceNotEnabledException {
