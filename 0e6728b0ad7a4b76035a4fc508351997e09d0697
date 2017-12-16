@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_171cb327",
+        "filename": "pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-16T13:36:56Z",
+      "side": 1,
+      "message": "use ${maven-surefire-report-plugin-version} instead or remove the variable if it is used only once",
+      "range": {
+        "startLine": 361,
+        "startChar": 19,
+        "endLine": 361,
+        "endChar": 25
+      },
+      "revId": "0e6728b0ad7a4b76035a4fc508351997e09d0697",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
