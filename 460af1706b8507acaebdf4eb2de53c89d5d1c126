@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7979753_972c239c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 2439,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-12-16T07:49:38Z",
+      "side": 1,
+      "message": "Change to a filewriter",
+      "range": {
+        "startLine": 2439,
+        "startChar": 3,
+        "endLine": 2439,
+        "endChar": 13
+      },
+      "revId": "460af1706b8507acaebdf4eb2de53c89d5d1c126",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7979753_b7291f8b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 2455,
+      "author": {
+        "id": 103363
+      },
+      "writtenOn": "2017-12-16T07:49:38Z",
+      "side": 1,
+      "message": "Test the last modified on the actual file rather than the index",
+      "range": {
+        "startLine": 2455,
+        "startChar": 3,
+        "endLine": 2455,
+        "endChar": 4
+      },
+      "revId": "460af1706b8507acaebdf4eb2de53c89d5d1c126",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
