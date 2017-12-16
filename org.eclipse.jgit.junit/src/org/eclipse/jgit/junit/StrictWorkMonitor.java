@@ -47,30 +47,38 @@ import static org.junit.Assert.assertEquals;
 
 import org.eclipse.jgit.lib.ProgressMonitor;
 
+/**
+ * Strict work monitor
+ */
 public final class StrictWorkMonitor implements ProgressMonitor {
 	private int lastWork, totalWork;
 
+	/** {@inheritDoc} */
 	@Override
 	public void start(int totalTasks) {
 		// empty
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void beginTask(String title, int total) {
 		this.totalWork = total;
 		lastWork = 0;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void update(int completed) {
 		lastWork += completed;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void endTask() {
 		assertEquals("Units of work recorded", totalWork, lastWork);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean isCancelled() {
 		return false;
