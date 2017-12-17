@@ -43,7 +43,9 @@
 
 package org.eclipse.jgit.junit;
 
-/** Toy RNG to ensure we get predictable numbers during unit tests. */
+/**
+ * Toy RNG to ensure we get predictable numbers during unit tests.
+ */
 public class TestRng {
 	private int next;
 
@@ -74,6 +76,8 @@ public class TestRng {
 	}
 
 	/**
+	 * Next int
+	 *
 	 * @return the next random integer.
 	 */
 	public int nextInt() {
