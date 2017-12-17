@@ -78,7 +78,7 @@ public class BlameResult {
 	 *            the generator the result will consume records from.
 	 * @return the new result object. null if the generator cannot find the path
 	 *         it starts from.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the repository cannot be read.
 	 */
 	public static BlameResult create(BlameGenerator gen) throws IOException {
@@ -123,17 +123,27 @@ public class BlameResult {
 		sourcePaths = new String[cnt];
 	}
 
-	/** @return path of the file this result annotates. */
+	/**
+	 * Get result path
+	 *
+	 * @return path of the file this result annotates
+	 */
 	public String getResultPath() {
 		return resultPath;
 	}
 
-	/** @return contents of the result file, available for display. */
+	/**
+	 * Get result contents
+	 *
+	 * @return contents of the result file, available for display
+	 */
 	public RawText getResultContents() {
 		return resultContents;
 	}
 
-	/** Throw away the {@link #getResultContents()}. */
+	/**
+	 * Throw away the {@link #getResultContents()}.
+	 */
 	public void discardResultContents() {
 		resultContents = null;
 	}
@@ -227,7 +237,7 @@ public class BlameResult {
 	/**
 	 * Compute all pending information.
 	 *
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the repository cannot be read.
 	 */
 	public void computeAll() throws IOException {
@@ -252,7 +262,7 @@ public class BlameResult {
 	 * to determine how many lines of the result were computed.
 	 *
 	 * @return index that is now available. -1 if no more are available.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the repository cannot be read.
 	 */
 	public int computeNext() throws IOException {
@@ -271,7 +281,11 @@ public class BlameResult {
 		}
 	}
 
-	/** @return length of the last segment found by {@link #computeNext()}. */
+	/**
+	 * Get last length
+	 *
+	 * @return length of the last segment found by {@link #computeNext()}
+	 */
 	public int lastLength() {
 		return lastLength;
 	}
@@ -283,7 +297,7 @@ public class BlameResult {
 	 *            first index to examine (inclusive).
 	 * @param end
 	 *            end index (exclusive).
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the repository cannot be read.
 	 */
 	public void computeRange(int start, int end) throws IOException {
@@ -322,6 +336,7 @@ public class BlameResult {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		StringBuilder r = new StringBuilder();

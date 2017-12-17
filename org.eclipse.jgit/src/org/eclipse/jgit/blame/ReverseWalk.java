@@ -57,6 +57,7 @@ final class ReverseWalk extends RevWalk {
 		super(repo);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public ReverseCommit next() throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
@@ -68,6 +69,7 @@ final class ReverseWalk extends RevWalk {
 		return c;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected RevCommit createCommit(AnyObjectId id) {
 		return new ReverseCommit(id);
