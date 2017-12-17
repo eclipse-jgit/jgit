@@ -88,8 +88,10 @@ import org.eclipse.jgit.treewalk.filter.TreeFilter;
  * <p>
  * Applications that want more incremental update behavior may use either the
  * raw {@link #next()} streaming approach supported by this class, or construct
- * a {@link BlameResult} using {@link BlameResult#create(BlameGenerator)} and
- * incrementally construct the result with {@link BlameResult#computeNext()}.
+ * a {@link org.eclipse.jgit.blame.BlameResult} using
+ * {@link org.eclipse.jgit.blame.BlameResult#create(BlameGenerator)} and
+ * incrementally construct the result with
+ * {@link org.eclipse.jgit.blame.BlameResult#computeNext()}.
  * <p>
  * This class is not thread-safe.
  * <p>
@@ -186,12 +188,20 @@ public class BlameGenerator implements AutoCloseable {
 		treeWalk.setRecursive(true);
 	}
 
-	/** @return repository being scanned for revision history. */
+	/**
+	 * Get repository
+	 *
+	 * @return repository being scanned for revision history
+	 */
 	public Repository getRepository() {
 		return repository;
 	}
 
-	/** @return path file path being processed. */
+	/**
+	 * Get result path
+	 *
+	 * @return path file path being processed
+	 */
 	public String getResultPath() {
 		return resultPath.getPath();
 	}
@@ -200,6 +210,7 @@ public class BlameGenerator implements AutoCloseable {
 	 * Difference algorithm to use when comparing revisions.
 	 *
 	 * @param algorithm
+	 *            a {@link org.eclipse.jgit.diff.DiffAlgorithm}
 	 * @return {@code this}
 	 */
 	public BlameGenerator setDiffAlgorithm(DiffAlgorithm algorithm) {
@@ -211,6 +222,7 @@ public class BlameGenerator implements AutoCloseable {
 	 * Text comparator to use when comparing revisions.
 	 *
 	 * @param comparator
+	 *            a {@link org.eclipse.jgit.diff.RawTextComparator}
 	 * @return {@code this}
 	 */
 	public BlameGenerator setTextComparator(RawTextComparator comparator) {
@@ -255,15 +267,15 @@ public class BlameGenerator implements AutoCloseable {
 	 * <p>
 	 * Candidates should be pushed in history order from oldest-to-newest.
 	 * Applications should push the starting commit first, then the index
-	 * revision (if the index is interesting), and finally the working tree
-	 * copy (if the working tree is interesting).
+	 * revision (if the index is interesting), and finally the working tree copy
+	 * (if the working tree is interesting).
 	 *
 	 * @param description
 	 *            description of the blob revision, such as "Working Tree".
 	 * @param contents
 	 *            contents of the file.
 	 * @return {@code this}
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the repository cannot be read.
 	 */
 	public BlameGenerator push(String description, byte[] contents)
@@ -284,7 +296,7 @@ public class BlameGenerator implements AutoCloseable {
 	 * @param contents
 	 *            contents of the file.
 	 * @return {@code this}
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the repository cannot be read.
 	 */
 	public BlameGenerator push(String description, RawText contents)
@@ -312,7 +324,7 @@ public class BlameGenerator implements AutoCloseable {
 	 * @param id
 	 *            may be a commit or a blob.
 	 * @return {@code this}
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the repository cannot be read.
 	 */
 	public BlameGenerator push(String description, AnyObjectId id)
@@ -357,8 +369,8 @@ public class BlameGenerator implements AutoCloseable {
 	 * each of these is a descendant commit that removed the line, typically
 	 * this occurs when the same deletion appears in multiple side branches such
 	 * as due to a cherry-pick. Applications relying on reverse should use
-	 * {@link BlameResult} as it filters these duplicate sources and only
-	 * remembers the first (oldest) deletion.
+	 * {@link org.eclipse.jgit.blame.BlameResult} as it filters these duplicate
+	 * sources and only remembers the first (oldest) deletion.
 	 *
 	 * @param start
 	 *            oldest commit to traverse from. The result file will be loaded
@@ -367,7 +379,7 @@ public class BlameGenerator implements AutoCloseable {
 	 *            most recent commit to stop traversal at. Usually an active
 	 *            branch tip, tag, or HEAD.
 	 * @return {@code this}
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the repository cannot be read.
 	 */
 	public BlameGenerator reverse(AnyObjectId start, AnyObjectId end)
@@ -389,8 +401,8 @@ public class BlameGenerator implements AutoCloseable {
 	 * each of these is a descendant commit that removed the line, typically
 	 * this occurs when the same deletion appears in multiple side branches such
 	 * as due to a cherry-pick. Applications relying on reverse should use
-	 * {@link BlameResult} as it filters these duplicate sources and only
-	 * remembers the first (oldest) deletion.
+	 * {@link org.eclipse.jgit.blame.BlameResult} as it filters these duplicate
+	 * sources and only remembers the first (oldest) deletion.
 	 *
 	 * @param start
 	 *            oldest commit to traverse from. The result file will be loaded
@@ -399,7 +411,7 @@ public class BlameGenerator implements AutoCloseable {
 	 *            most recent commits to stop traversal at. Usually an active
 	 *            branch tip, tag, or HEAD.
 	 * @return {@code this}
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the repository cannot be read.
 	 */
 	public BlameGenerator reverse(AnyObjectId start,
@@ -443,7 +455,7 @@ public class BlameGenerator implements AutoCloseable {
 	 * Execute the generator in a blocking fashion until all data is ready.
 	 *
 	 * @return the complete result. Null if no file exists for the given path.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the repository cannot be read.
 	 */
 	public BlameResult computeBlameResult() throws IOException {
@@ -464,7 +476,7 @@ public class BlameGenerator implements AutoCloseable {
 	 *         and {@link #getResultStart()}, {@link #getResultEnd()} methods
 	 *         can be used to inspect the region found. False if there are no
 	 *         more regions to describe.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             repository cannot be read.
 	 */
 	public boolean next() throws IOException {
@@ -842,28 +854,47 @@ public class BlameGenerator implements AutoCloseable {
 		return outCandidate.sourceCommit;
 	}
 
-	/** @return current author being blamed. */
+	/**
+	 * Get source author
+	 *
+	 * @return current author being blamed
+	 */
 	public PersonIdent getSourceAuthor() {
 		return outCandidate.getAuthor();
 	}
 
-	/** @return current committer being blamed. */
+	/**
+	 * Get source committer
+	 *
+	 * @return current committer being blamed
+	 */
 	public PersonIdent getSourceCommitter() {
 		RevCommit c = getSourceCommit();
 		return c != null ? c.getCommitterIdent() : null;
 	}
 
-	/** @return path of the file being blamed. */
+	/**
+	 * Get source path
+	 *
+	 * @return path of the file being blamed
+	 */
 	public String getSourcePath() {
 		return outCandidate.sourcePath.getPath();
 	}
 
-	/** @return rename score if a rename occurred in {@link #getSourceCommit}. */
+	/**
+	 * Get rename score
+	 *
+	 * @return rename score if a rename occurred in {@link #getSourceCommit}
+	 */
 	public int getRenameScore() {
 		return outCandidate.renameScore;
 	}
 
 	/**
+	 * Get first line of the source data that has been blamed for the current
+	 * region
+	 *
 	 * @return first line of the source data that has been blamed for the
 	 *         current region. This is line number of where the region was added
 	 *         during {@link #getSourceCommit()} in file
@@ -874,6 +905,9 @@ public class BlameGenerator implements AutoCloseable {
 	}
 
 	/**
+	 * Get one past the range of the source data that has been blamed for the
+	 * current region
+	 *
 	 * @return one past the range of the source data that has been blamed for
 	 *         the current region. This is line number of where the region was
 	 *         added during {@link #getSourceCommit()} in file
@@ -885,6 +919,9 @@ public class BlameGenerator implements AutoCloseable {
 	}
 
 	/**
+	 * Get first line of the result that {@link #getSourceCommit()} has been
+	 * blamed for providing
+	 *
 	 * @return first line of the result that {@link #getSourceCommit()} has been
 	 *         blamed for providing. Line numbers use 0 based indexing.
 	 */
@@ -893,6 +930,9 @@ public class BlameGenerator implements AutoCloseable {
 	}
 
 	/**
+	 * Get one past the range of the result that {@link #getSourceCommit()} has
+	 * been blamed for providing
+	 *
 	 * @return one past the range of the result that {@link #getSourceCommit()}
 	 *         has been blamed for providing. Line numbers use 0 based indexing.
 	 *         Because a source cannot be blamed for an empty region of the
@@ -905,6 +945,9 @@ public class BlameGenerator implements AutoCloseable {
 	}
 
 	/**
+	 * Get number of lines in the current region being blamed to
+	 * {@link #getSourceCommit()}
+	 *
 	 * @return number of lines in the current region being blamed to
 	 *         {@link #getSourceCommit()}. This is always the value of the
 	 *         expression {@code getResultEnd() - getResultStart()}, but also
@@ -915,6 +958,9 @@ public class BlameGenerator implements AutoCloseable {
 	}
 
 	/**
+	 * Get complete contents of the source file blamed for the current output
+	 * region
+	 *
 	 * @return complete contents of the source file blamed for the current
 	 *         output region. This is the contents of {@link #getSourcePath()}
 	 *         within {@link #getSourceCommit()}. The source contents is
@@ -926,13 +972,15 @@ public class BlameGenerator implements AutoCloseable {
 	}
 
 	/**
+	 * Get complete file contents of the result file blame is annotating
+	 *
 	 * @return complete file contents of the result file blame is annotating.
 	 *         This value is accessible only after being configured and only
 	 *         immediately before the first call to {@link #next()}. Returns
 	 *         null if the path does not exist.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             repository cannot be read.
-	 * @throws IllegalStateException
+	 * @throws java.lang.IllegalStateException
 	 *             {@link #next()} has already been invoked.
 	 */
 	public RawText getResultContents() throws IOException {
@@ -940,6 +988,8 @@ public class BlameGenerator implements AutoCloseable {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * Release the current blame session.
 	 *
 	 * @since 4.0
