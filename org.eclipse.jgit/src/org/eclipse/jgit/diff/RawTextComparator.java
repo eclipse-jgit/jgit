@@ -50,7 +50,9 @@ import static org.eclipse.jgit.util.RawCharUtil.trimTrailingWhitespace;
 
 import org.eclipse.jgit.util.IntList;
 
-/** Equivalence function for {@link RawText}. */
+/**
+ * Equivalence function for {@link org.eclipse.jgit.diff.RawText}.
+ */
 public abstract class RawTextComparator extends SequenceComparator<RawText> {
 	/** No special treatment. */
 	public static final RawTextComparator DEFAULT = new RawTextComparator() {
@@ -134,7 +136,9 @@ public abstract class RawTextComparator extends SequenceComparator<RawText> {
 		}
 	};
 
-	/** Ignores leading whitespace. */
+	/**
+	 * Ignore leading whitespace.
+	 **/
 	public static final RawTextComparator WS_IGNORE_LEADING = new RawTextComparator() {
 		@Override
 		public boolean equals(RawText a, int ai, RawText b, int bi) {
@@ -262,6 +266,7 @@ public abstract class RawTextComparator extends SequenceComparator<RawText> {
 		return hashRegion(seq.content, begin, end);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Edit reduceCommonStartEnd(RawText a, RawText b, Edit e) {
 		// This is a faster exact match based form that tries to improve

@@ -85,8 +85,9 @@ import java.util.List;
  * So long as {@link #setMaxChainLength(int)} is a small constant (such as 64),
  * the algorithm runs in O(N * D) time, where N is the sum of the input lengths
  * and D is the number of edits in the resulting EditList. If the supplied
- * {@link SequenceComparator} has a good hash function, this implementation
- * typically out-performs {@link MyersDiff}, even though its theoretical running
+ * {@link org.eclipse.jgit.diff.SequenceComparator} has a good hash function,
+ * this implementation typically out-performs
+ * {@link org.eclipse.jgit.diff.MyersDiff}, even though its theoretical running
  * time is the same.
  * <p>
  * This implementation has an internal limitation that prevents it from handling
@@ -130,6 +131,7 @@ public class HistogramDiff extends LowLevelDiffAlgorithm {
 		maxChainLength = maxLen;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public <S extends Sequence> void diffNonCommon(EditList edits,
 			HashedSequenceComparator<S> cmp, HashedSequence<S> a,

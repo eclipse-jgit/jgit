@@ -103,7 +103,7 @@ public class RawText extends Sequence {
 	 *
 	 * @param file
 	 *            the text file.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             if Exceptions occur while reading the file
 	 */
 	public RawText(File file) throws IOException {
@@ -111,6 +111,7 @@ public class RawText extends Sequence {
 	}
 
 	/** @return total number of items in the sequence. */
+	/** {@inheritDoc} */
 	@Override
 	public int size() {
 		// The line map is always 2 entries larger than the number of lines in
@@ -135,7 +136,7 @@ public class RawText extends Sequence {
 	 * @param i
 	 *            index of the line to extract. Note this is 0-based, so line
 	 *            number 1 is actually index 0.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the stream write operation failed.
 	 */
 	public void writeLine(final OutputStream out, final int i)
@@ -244,7 +245,7 @@ public class RawText extends Sequence {
 	 * @param raw
 	 *            input stream containing the raw file content.
 	 * @return true if raw is likely to be a binary file, false otherwise
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             if input stream could not be read
 	 */
 	public static boolean isBinary(InputStream raw) throws IOException {
@@ -301,17 +302,20 @@ public class RawText extends Sequence {
 	}
 
 	/**
-	 * Read a blob object into RawText, or throw BinaryBlobException if
-	 * the blob is binary.
+	 * Read a blob object into RawText, or throw BinaryBlobException if the blob
+	 * is binary.
 	 *
 	 * @param ldr
-	 *   the ObjectLoader for the blob
+	 *            the ObjectLoader for the blob
 	 * @param threshold
-	 *   if the blob is larger than this size, it is always assumed to be binary.
+	 *            if the blob is larger than this size, it is always assumed to
+	 *            be binary.
 	 * @since 4.10
 	 * @return the RawText representing the blob.
-	 * @throws BinaryBlobException if the blob contains binary data.
-	 * @throws IOException if the input could not be read.
+	 * @throws org.eclipse.jgit.errors.BinaryBlobException
+	 *             if the blob contains binary data.
+	 * @throws java.io.IOException
+	 *             if the input could not be read.
 	 */
 	public static RawText load(ObjectLoader ldr, int threshold) throws IOException, BinaryBlobException {
 		long sz = ldr.getSize();

@@ -58,7 +58,9 @@ public class PatchIdDiffFormatter extends DiffFormatter {
 
 	private final MessageDigest digest;
 
-	/** Initialize a formatter to compute a patch id. */
+	/**
+	 * Initialize a formatter to compute a patch id.
+	 */
 	public PatchIdDiffFormatter() {
 		super(new DigestOutputStream(NullOutputStream.INSTANCE,
 				Constants.newMessageDigest()));
@@ -74,12 +76,14 @@ public class PatchIdDiffFormatter extends DiffFormatter {
 		return ObjectId.fromRaw(digest.digest());
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void writeHunkHeader(int aStartLine, int aEndLine,
 			int bStartLine, int bEndLine) throws IOException {
 		// The hunk header is not taken into account for patch id calculation
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void formatIndexLine(OutputStream o, DiffEntry ent)
 			throws IOException {
