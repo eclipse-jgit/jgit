@@ -44,11 +44,12 @@
 package org.eclipse.jgit.diff;
 
 /**
- * Wraps a {@link Sequence} to have a narrower range of elements.
+ * Wraps a {@link org.eclipse.jgit.diff.Sequence} to have a narrower range of
+ * elements.
  * <p>
  * This sequence acts as a proxy for the real sequence, translating element
  * indexes on the fly by adding {@code begin} to them. Sequences of this type
- * must be used with a {@link SubsequenceComparator}.
+ * must be used with a {@link org.eclipse.jgit.diff.SubsequenceComparator}.
  *
  * @param <S>
  *            the base sequence type.
@@ -57,8 +58,6 @@ public final class Subsequence<S extends Sequence> extends Sequence {
 	/**
 	 * Construct a subsequence around the A region/base sequence.
 	 *
-	 * @param <S>
-	 *            the base sequence type.
 	 * @param a
 	 *            the A sequence.
 	 * @param region
@@ -72,8 +71,6 @@ public final class Subsequence<S extends Sequence> extends Sequence {
 	/**
 	 * Construct a subsequence around the B region/base sequence.
 	 *
-	 * @param <S>
-	 *            the base sequence type.
 	 * @param b
 	 *            the B sequence.
 	 * @param region
@@ -87,8 +84,6 @@ public final class Subsequence<S extends Sequence> extends Sequence {
 	/**
 	 * Adjust the Edit to reflect positions in the base sequence.
 	 *
-	 * @param <S>
-	 *            the base sequence type.
 	 * @param e
 	 *            edit to adjust in-place. Prior to invocation the indexes are
 	 *            in terms of the two subsequences; after invocation the indexes
@@ -110,8 +105,6 @@ public final class Subsequence<S extends Sequence> extends Sequence {
 	/**
 	 * Adjust the Edits to reflect positions in the base sequence.
 	 *
-	 * @param <S>
-	 *            the base sequence type.
 	 * @param edits
 	 *            edits to adjust in-place. Prior to invocation the indexes are
 	 *            in terms of the two subsequences; after invocation the indexes
@@ -156,6 +149,7 @@ public final class Subsequence<S extends Sequence> extends Sequence {
 		this.size = end - begin;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int size() {
 		return size;

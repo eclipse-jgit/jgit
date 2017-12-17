@@ -52,13 +52,19 @@ package org.eclipse.jgit.diff;
  * Unlike a List, the members of the sequence are not directly obtainable.
  * <p>
  * Implementations of Sequence are primarily intended for use in content
- * difference detection algorithms, to produce an {@link EditList} of
- * {@link Edit} instances describing how two Sequence instances differ.
+ * difference detection algorithms, to produce an
+ * {@link org.eclipse.jgit.diff.EditList} of {@link org.eclipse.jgit.diff.Edit}
+ * instances describing how two Sequence instances differ.
  * <p>
  * To be compared against another Sequence of the same type, a supporting
- * {@link SequenceComparator} must also be supplied.
+ * {@link org.eclipse.jgit.diff.SequenceComparator} must also be supplied.
  */
 public abstract class Sequence {
 	/** @return total number of items in the sequence. */
+	/**
+	 * Get size
+	 *
+	 * @return size
+	 */
 	public abstract int size();
 }

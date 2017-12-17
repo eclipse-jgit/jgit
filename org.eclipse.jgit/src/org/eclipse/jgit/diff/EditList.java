@@ -45,7 +45,9 @@ package org.eclipse.jgit.diff;
 
 import java.util.ArrayList;
 
-/** Specialized list of {@link Edit}s in a document. */
+/**
+ * Specialized list of {@link org.eclipse.jgit.diff.Edit}s in a document.
+ */
 public class EditList extends ArrayList<Edit> {
 	private static final long serialVersionUID = 1L;
 
@@ -62,7 +64,9 @@ public class EditList extends ArrayList<Edit> {
 		return res;
 	}
 
-	/** Create a new, empty edit list. */
+	/**
+	 * Create a new, empty edit list.
+	 */
 	public EditList() {
 		super(16);
 	}
@@ -78,6 +82,7 @@ public class EditList extends ArrayList<Edit> {
 		super(capacity);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		return "EditList" + super.toString(); //$NON-NLS-1$

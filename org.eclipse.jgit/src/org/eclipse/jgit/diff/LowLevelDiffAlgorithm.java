@@ -43,8 +43,11 @@
 
 package org.eclipse.jgit.diff;
 
-/** Compares two sequences primarily based upon hash codes. */
+/**
+ * Compares two sequences primarily based upon hash codes.
+ */
 public abstract class LowLevelDiffAlgorithm extends DiffAlgorithm {
+	/** {@inheritDoc} */
 	@Override
 	public <S extends Sequence> EditList diffNonCommon(
 			SequenceComparator<? super S> cmp, S a, S b) {
@@ -67,10 +70,9 @@ public abstract class LowLevelDiffAlgorithm extends DiffAlgorithm {
 	 * proven to have no common starting or ending elements. The expected
 	 * elimination of common starting and ending elements is automatically
 	 * performed by the {@link #diff(SequenceComparator, Sequence, Sequence)}
-	 * method, which invokes this method using {@link Subsequence}s.
+	 * method, which invokes this method using
+	 * {@link org.eclipse.jgit.diff.Subsequence}s.
 	 *
-	 * @param <S>
-	 *            type of sequence being compared.
 	 * @param edits
 	 *            result list to append the region's edits onto.
 	 * @param cmp
@@ -78,11 +80,13 @@ public abstract class LowLevelDiffAlgorithm extends DiffAlgorithm {
 	 * @param a
 	 *            the first (also known as old or pre-image) sequence. Edits
 	 *            returned by this algorithm will reference indexes using the
-	 *            'A' side: {@link Edit#getBeginA()}, {@link Edit#getEndA()}.
+	 *            'A' side: {@link org.eclipse.jgit.diff.Edit#getBeginA()},
+	 *            {@link org.eclipse.jgit.diff.Edit#getEndA()}.
 	 * @param b
 	 *            the second (also known as new or post-image) sequence. Edits
 	 *            returned by this algorithm will reference indexes using the
-	 *            'B' side: {@link Edit#getBeginB()}, {@link Edit#getEndB()}.
+	 *            'B' side: {@link org.eclipse.jgit.diff.Edit#getBeginB()},
+	 *            {@link org.eclipse.jgit.diff.Edit#getEndB()}.
 	 * @param region
 	 *            the region being compared within the two sequences.
 	 */
