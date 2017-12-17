@@ -124,11 +124,16 @@ public class AppServer {
 
 	private List<File> filesToDelete = new ArrayList<>();
 
+	/**
+	 * Constructor for <code>AppServer</code>.
+	 */
 	public AppServer() {
 		this(0, -1);
 	}
 
 	/**
+	 * Constructor for <code>AppServer</code>.
+	 *
 	 * @param port
 	 *            the http port number; may be zero to allocate a port
 	 *            dynamically
@@ -139,6 +144,8 @@ public class AppServer {
 	}
 
 	/**
+	 * Constructor for <code>AppServer</code>.
+	 *
 	 * @param port
 	 *            for http, may be zero to allocate a port dynamically
 	 * @param sslPort
@@ -268,6 +275,13 @@ public class AppServer {
 		return ctx;
 	}
 
+	/**
+	 * Configure basic authentication.
+	 *
+	 * @param ctx
+	 * @param methods
+	 * @return servlet context handler
+	 */
 	public ServletContextHandler authBasic(ServletContextHandler ctx,
 			String... methods) {
 		assertNotYetSetUp();
@@ -395,24 +409,38 @@ public class AppServer {
 		}
 	}
 
-	/** @return the local port number the server is listening on. */
+	/**
+	 * Get port.
+	 *
+	 * @return the local port number the server is listening on.
+	 */
 	public int getPort() {
 		assertAlreadySetUp();
 		return connector.getLocalPort();
 	}
 
-	/** @return the HTTPS port or -1 if not configured. */
+	/**
+	 * Get secure port.
+	 *
+	 * @return the HTTPS port or -1 if not configured.
+	 */
 	public int getSecurePort() {
 		assertAlreadySetUp();
 		return secureConnector != null ? secureConnector.getLocalPort() : -1;
 	}
 
-	/** @return all requests since the server was started. */
+	/**
+	 * Get requests.
+	 *
+	 * @return all requests since the server was started.
+	 */
 	public List<AccessEvent> getRequests() {
 		return new ArrayList<>(log.getEvents());
 	}
 
 	/**
+	 * Get requests.
+	 *
 	 * @param base
 	 *            base URI used to access the server.
 	 * @param path
@@ -424,6 +452,8 @@ public class AppServer {
 	}
 
 	/**
+	 * Get requests.
+	 *
 	 * @param path
 	 *            the path to locate requests for.
 	 * @return all requests which match the given path.

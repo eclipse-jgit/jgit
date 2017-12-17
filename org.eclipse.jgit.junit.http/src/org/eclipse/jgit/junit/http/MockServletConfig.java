@@ -51,18 +51,29 @@ import java.util.Map;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 
+/**
+ * Mock ServletConfig
+ */
 public class MockServletConfig implements ServletConfig {
 	private final Map<String, String> parameters = new HashMap<>();
 
+	/**
+	 * Set init parameter.
+	 *
+	 * @param name
+	 * @param value
+	 */
 	public void setInitParameter(String name, String value) {
 		parameters.put(name, value);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String getInitParameter(String name) {
 		return parameters.get(name);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Enumeration<String> getInitParameterNames() {
 		final Iterator<String> i = parameters.keySet().iterator();
@@ -79,11 +90,13 @@ public class MockServletConfig implements ServletConfig {
 		};
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String getServletName() {
 		return "MOCK_SERVLET";
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public ServletContext getServletContext() {
 		return null;

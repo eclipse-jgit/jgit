@@ -67,19 +67,24 @@ import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.URIish;
 
-/** Base class for HTTP related transport testing. */
+/**
+ * Base class for HTTP related transport testing.
+ */
 public abstract class HttpTestCase extends LocalDiskRepositoryTestCase {
+	/** Constant <code>master="Constants.R_HEADS + Constants.MASTER"</code> */
 	protected static final String master = Constants.R_HEADS + Constants.MASTER;
 
 	/** In-memory application server; subclass must start. */
 	protected AppServer server;
 
+	/** {@inheritDoc} */
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 		server = createServer();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void tearDown() throws Exception {
 		server.tearDown();
@@ -87,29 +92,50 @@ public abstract class HttpTestCase extends LocalDiskRepositoryTestCase {
 	}
 
 	/**
-	 * Creates the {@linkAppServer}.This default implementation creates a server
+	 * Create the {@linkAppServer}.This default implementation creates a server
 	 * without SSLsupport listening for HTTP connections on a dynamically chosen
 	 * port, which can be gotten once the server has been started via its
-	 * {@link AppServer#getPort()} method. Subclasses may override if they need
-	 * a more specialized server.
+	 * {@link org.eclipse.jgit.junit.http.AppServer#getPort()} method.
+	 * Subclasses may override if they need a more specialized server.
 	 *
-	 * @return the {@link AppServer}.
+	 * @return the {@link org.eclipse.jgit.junit.http.AppServer}.
 	 * @since 4.9
 	 */
 	protected AppServer createServer() {
 		return new AppServer();
 	}
 
+	/**
+	 * Create TestRepository
+	 *
+	 * @return the TestRepository
+	 * @throws IOException
+	 */
 	protected TestRepository<Repository> createTestRepository()
 			throws IOException {
 		return new TestRepository<>(createBareRepository());
 	}
 
+	/**
+	 * Convert path to URIish
+	 *
+	 * @param path
+	 * @return the URIish
+	 * @throws URISyntaxException
+	 */
 	protected URIish toURIish(String path) throws URISyntaxException {
 		URI u = server.getURI().resolve(path);
 		return new URIish(u.toString());
 	}
 
+	/**
+	 * Convert a path relative to the app's context path to a URIish
+	 *
+	 * @param app
+	 * @param name
+	 * @return the warnings (if any) from the last execution
+	 * @throws URISyntaxException
+	 */
 	protected URIish toURIish(ServletContextHandler app, String name)
 			throws URISyntaxException {
 		String p = app.getContextPath();
@@ -119,18 +145,45 @@ public abstract class HttpTestCase extends LocalDiskRepositoryTestCase {
 		return toURIish(p);
 	}
 
+	/**
+	 * Get requests.
+	 *
+	 * @return list of events
+	 */
 	protected List<AccessEvent> getRequests() {
 		return server.getRequests();
 	}
 
+	/**
+	 * Get requests.
+	 *
+	 * @param base
+	 * @param path
+	 *
+	 * @return list of events
+	 */
 	protected List<AccessEvent> getRequests(URIish base, String path) {
 		return server.getRequests(base, path);
 	}
 
+	/**
+	 * Get requests.
+	 *
+	 * @param path
+	 *
+	 * @return list of events
+	 */
 	protected List<AccessEvent> getRequests(String path) {
 		return server.getRequests(path);
 	}
 
+	/**
+	 * Run fsck
+	 *
+	 * @param db
+	 * @param tips
+	 * @throws Exception
+	 */
 	protected static void fsck(Repository db, RevObject... tips)
 			throws Exception {
 		TestRepository<? extends Repository> tr =
@@ -138,6 +191,12 @@ public abstract class HttpTestCase extends LocalDiskRepositoryTestCase {
 		tr.fsck(tips);
 	}
 
+	/**
+	 * Mirror refs
+	 *
+	 * @param refs
+	 * @return set of RefSpecs
+	 */
 	protected static Set<RefSpec> mirror(String... refs) {
 		HashSet<RefSpec> r = new HashSet<>();
 		for (String name : refs) {
@@ -149,6 +208,14 @@ public abstract class HttpTestCase extends LocalDiskRepositoryTestCase {
 		return r;
 	}
 
+	/**
+	 * Push a commit
+	 *
+	 * @param from
+	 * @param q
+	 * @return collection of RefUpdates
+	 * @throws IOException
+	 */
 	protected static Collection<RemoteRefUpdate> push(TestRepository from,
 			RevCommit q) throws IOException {
 		final Repository db = from.getRepository();
@@ -163,6 +230,13 @@ public abstract class HttpTestCase extends LocalDiskRepositoryTestCase {
 		return Collections.singleton(u);
 	}
 
+	/**
+	 * Create loose object path
+	 *
+	 * @param base
+	 * @param id
+	 * @return path of the loose object
+	 */
 	public static String loose(URIish base, AnyObjectId id) {
 		final String objectName = id.name();
 		final String d = objectName.substring(0, 2);
@@ -170,6 +244,14 @@ public abstract class HttpTestCase extends LocalDiskRepositoryTestCase {
 		return join(base, "objects/" + d + "/" + f);
 	}
 
+	/**
+	 * Join a base URIish and a path
+	 *
+	 * @param base
+	 * @param path
+	 *            a relative path
+	 * @return the joined path
+	 */
 	public static String join(URIish base, String path) {
 		if (path.startsWith("/"))
 			fail("Cannot join absolute path " + path + " to URIish " + base);
@@ -180,6 +262,14 @@ public abstract class HttpTestCase extends LocalDiskRepositoryTestCase {
 		return dir + path;
 	}
 
+	/**
+	 * Rewrite a url
+	 *
+	 * @param url
+	 * @param newProtocol
+	 * @param newPort
+	 * @return the rewritten url
+	 */
 	protected static String rewriteUrl(String url, String newProtocol,
 			int newPort) {
 		String newUrl = url;
@@ -198,6 +288,14 @@ public abstract class HttpTestCase extends LocalDiskRepositoryTestCase {
 		return newUrl;
 	}
 
+	/**
+	 * Extend a path
+	 *
+	 * @param uri
+	 * @param pathComponents
+	 * @return the extended URIish
+	 * @throws URISyntaxException
+	 */
 	protected static URIish extendPath(URIish uri, String pathComponents)
 			throws URISyntaxException {
 		String raw = uri.toString();
