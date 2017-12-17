@@ -47,9 +47,12 @@ package org.eclipse.jgit.attributes;
  * <p>
  * According to the man page, an attribute can have the following states:
  * <ul>
- * <li>Set - represented by {@link State#SET}</li>
- * <li>Unset - represented by {@link State#UNSET}</li>
- * <li>Set to a value - represented by {@link State#CUSTOM}</li>
+ * <li>Set - represented by
+ * {@link org.eclipse.jgit.attributes.Attribute.State#SET}</li>
+ * <li>Unset - represented by
+ * {@link org.eclipse.jgit.attributes.Attribute.State#UNSET}</li>
+ * <li>Set to a value - represented by
+ * {@link org.eclipse.jgit.attributes.Attribute.State#CUSTOM}</li>
  * <li>Unspecified - used to revert an attribute . This is crucial in order to
  * mark an attribute as unspecified in the attributes map and thus preventing
  * following (with lower priority) nodes from setting the attribute to a value
@@ -93,10 +96,11 @@ public final class Attribute {
 	 * @param key
 	 *            the attribute key. Should not be <code>null</code>.
 	 * @param state
-	 *            the attribute state. It should be either {@link State#SET} or
-	 *            {@link State#UNSET}. In order to create a custom value
-	 *            attribute prefer the use of {@link #Attribute(String, String)}
-	 *            constructor.
+	 *            the attribute state. It should be either
+	 *            {@link org.eclipse.jgit.attributes.Attribute.State#SET} or
+	 *            {@link org.eclipse.jgit.attributes.Attribute.State#UNSET}. In
+	 *            order to create a custom value attribute prefer the use of
+	 *            {@link #Attribute(String, String)} constructor.
 	 */
 	public Attribute(String key, State state) {
 		this(key, state, null);
@@ -127,6 +131,7 @@ public final class Attribute {
 		this(key, State.CUSTOM, value);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -147,6 +152,8 @@ public final class Attribute {
 	}
 
 	/**
+	 * Get key
+	 *
 	 * @return the attribute key (never returns <code>null</code>)
 	 */
 	public String getKey() {
@@ -154,7 +161,7 @@ public final class Attribute {
 	}
 
 	/**
-	 * Returns the state.
+	 * Return the state.
 	 *
 	 * @return the state (never returns <code>null</code>)
 	 */
@@ -163,12 +170,15 @@ public final class Attribute {
 	}
 
 	/**
+	 * Get value
+	 *
 	 * @return the attribute value (may be <code>null</code>)
 	 */
 	public String getValue() {
 		return value;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -179,6 +189,7 @@ public final class Attribute {
 		return result;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		switch (state) {

@@ -59,17 +59,20 @@ public class FilterCommandRegistry {
 	private static ConcurrentHashMap<String, FilterCommandFactory> filterCommandRegistry = new ConcurrentHashMap<>();
 
 	/**
-	 * Registers a {@link FilterCommandFactory} responsible for creating
-	 * {@link FilterCommand}s for a certain command name. If the factory f1 is
-	 * registered for the name "jgit://builtin/x" then a call to
-	 * <code>getCommand("jgit://builtin/x", ...)</code> will call
-	 * <code>f1(...)</code> to create a new instance of {@link FilterCommand}
+	 * Register a {@link org.eclipse.jgit.attributes.FilterCommandFactory}
+	 * responsible for creating
+	 * {@link org.eclipse.jgit.attributes.FilterCommand}s for a certain command
+	 * name. If the factory f1 is registered for the name "jgit://builtin/x"
+	 * then a call to <code>getCommand("jgit://builtin/x", ...)</code> will call
+	 * <code>f1(...)</code> to create a new instance of
+	 * {@link org.eclipse.jgit.attributes.FilterCommand}
 	 *
 	 * @param filterCommandName
 	 *            the command name for which this factory is registered
 	 * @param factory
-	 *            the factory responsible for creating {@link FilterCommand}s
-	 *            for the specified name
+	 *            the factory responsible for creating
+	 *            {@link org.eclipse.jgit.attributes.FilterCommand}s for the
+	 *            specified name
 	 * @return the previous factory associated with <tt>commandName</tt>, or
 	 *         <tt>null</tt> if there was no mapping for <tt>commandName</tt>
 	 */
@@ -79,8 +82,8 @@ public class FilterCommandRegistry {
 	}
 
 	/**
-	 * Unregisters the {@link FilterCommandFactory} registered for the given
-	 * command name
+	 * Unregister the {@link org.eclipse.jgit.attributes.FilterCommandFactory}
+	 * registered for the given command name
 	 *
 	 * @param filterCommandName
 	 *            the FilterCommandFactory's filter command name
@@ -92,8 +95,9 @@ public class FilterCommandRegistry {
 	}
 
 	/**
-	 * Checks whether any {@link FilterCommandFactory} is registered for a given
-	 * command name
+	 * Check whether any
+	 * {@link org.eclipse.jgit.attributes.FilterCommandFactory} is registered
+	 * for a given command name
 	 *
 	 * @param filterCommandName
 	 *            the name for which the registry should be checked
@@ -104,7 +108,10 @@ public class FilterCommandRegistry {
 	}
 
 	/**
-	 * @return Set of commandNames for which a {@link FilterCommandFactory} is
+	 * Get registered filter commands
+	 *
+	 * @return Set of commandNames for which a
+	 *         {@link org.eclipse.jgit.attributes.FilterCommandFactory} is
 	 *         registered
 	 */
 	public static Set<String> getRegisteredFilterCommands() {
@@ -112,23 +119,26 @@ public class FilterCommandRegistry {
 	}
 
 	/**
-	 * Creates a new {@link FilterCommand} for the given name. A factory must be
-	 * registered for the name in advance.
+	 * Create a new {@link org.eclipse.jgit.attributes.FilterCommand} for the
+	 * given name. A factory must be registered for the name in advance.
 	 *
 	 * @param filterCommandName
-	 *            The name for which a new {@link FilterCommand} should be
+	 *            The name for which a new
+	 *            {@link org.eclipse.jgit.attributes.FilterCommand} should be
 	 *            created
 	 * @param db
 	 *            the repository this command should work on
 	 * @param in
-	 *            the {@link InputStream} this {@link FilterCommand} should read
+	 *            the {@link java.io.InputStream} this
+	 *            {@link org.eclipse.jgit.attributes.FilterCommand} should read
 	 *            from
 	 * @param out
-	 *            the {@link OutputStream} this {@link FilterCommand} should
-	 *            write to
+	 *            the {@link java.io.OutputStream} this
+	 *            {@link org.eclipse.jgit.attributes.FilterCommand} should write
+	 *            to
 	 * @return the command if a command could be created or <code>null</code> if
 	 *         there was no factory registered for that name
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 */
 	public static FilterCommand createFilterCommand(String filterCommandName,
 			Repository db, InputStream in, OutputStream out)
