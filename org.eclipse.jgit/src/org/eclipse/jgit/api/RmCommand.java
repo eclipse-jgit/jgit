@@ -72,7 +72,7 @@ import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
  * class should only be used for one invocation of the command (means: one call
  * to {@link #call()}).
  * <p>
- * Examples (<code>git</code> is a {@link Git} instance):
+ * Examples (<code>git</code> is a {@link org.eclipse.jgit.api.Git} instance):
  * <p>
  * Remove file "test.txt" from both index and working directory:
  *
@@ -97,8 +97,10 @@ public class RmCommand extends GitCommand<DirCache> {
 	private boolean cached = false;
 
 	/**
+	 * Constructor for RmCommand.
 	 *
 	 * @param repo
+	 *            the {@link org.eclipse.jgit.lib.Repository}
 	 */
 	public RmCommand(Repository repo) {
 		super(repo);
@@ -106,6 +108,8 @@ public class RmCommand extends GitCommand<DirCache> {
 	}
 
 	/**
+	 * Add file name pattern of files to be removed
+	 *
 	 * @param filepattern
 	 *            repository-relative path of file to remove (with
 	 *            <code>/</code> as separator)
@@ -121,8 +125,9 @@ public class RmCommand extends GitCommand<DirCache> {
 	 * Only remove the specified files from the index.
 	 *
 	 * @param cached
-	 *            true if files should only be removed from index, false if
-	 *            files should also be deleted from the working directory
+	 *            {@code true} if files should only be removed from index,
+	 *            {@code false} if files should also be deleted from the working
+	 *            directory
 	 * @return {@code this}
 	 * @since 2.2
 	 */
@@ -133,11 +138,11 @@ public class RmCommand extends GitCommand<DirCache> {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * Executes the {@code Rm} command. Each instance of this class should only
 	 * be used for one invocation of the command. Don't call this method twice
 	 * on an instance.
-	 *
-	 * @return the DirCache after Rm
 	 */
 	@Override
 	public DirCache call() throws GitAPIException,

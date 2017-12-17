@@ -47,7 +47,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Encapsulates the result of a {@link ApplyCommand}
+ * Encapsulates the result of a {@link org.eclipse.jgit.api.ApplyCommand}
  *
  * @since 2.0
  */
@@ -56,6 +56,8 @@ public class ApplyResult {
 	private List<File> updatedFiles = new ArrayList<>();
 
 	/**
+	 * Add updated file
+	 *
 	 * @param f
 	 *            an updated file
 	 * @return this instance
@@ -67,6 +69,8 @@ public class ApplyResult {
 	}
 
 	/**
+	 * Get updated files
+	 *
 	 * @return updated files
 	 */
 	public List<File> getUpdatedFiles() {

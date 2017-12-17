@@ -91,7 +91,7 @@ import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 /**
  * Checkout a branch to the working tree.
  * <p>
- * Examples (<code>git</code> is a {@link Git} instance):
+ * Examples (<code>git</code> is a {@link org.eclipse.jgit.api.Git} instance):
  * <p>
  * Check out an existing branch:
  *
@@ -126,9 +126,9 @@ import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
  * 		.setStartPoint(&quot;origin/stable&quot;).call();
  * </pre>
  *
- * @see <a
- *      href="http://www.kernel.org/pub/software/scm/git/docs/git-checkout.html"
- *      >Git documentation about Checkout</a>
+ * @see <a href=
+ *      "http://www.kernel.org/pub/software/scm/git/docs/git-checkout.html" >Git
+ *      documentation about Checkout</a>
  */
 public class CheckoutCommand extends GitCommand<Ref> {
 
@@ -183,26 +183,17 @@ public class CheckoutCommand extends GitCommand<Ref> {
 	private Set<String> actuallyModifiedPaths;
 
 	/**
+	 * Constructor for CheckoutCommand
+	 *
 	 * @param repo
+	 *            the {@link org.eclipse.jgit.lib.Repository}
 	 */
 	protected CheckoutCommand(Repository repo) {
 		super(repo);
 		this.paths = new LinkedList<>();
 	}
 
-	/**
-	 * @throws RefAlreadyExistsException
-	 *             when trying to create (without force) a branch with a name
-	 *             that already exists
-	 * @throws RefNotFoundException
-	 *             if the start point or branch can not be found
-	 * @throws InvalidRefNameException
-	 *             if the provided name is <code>null</code> or otherwise
-	 *             invalid
-	 * @throws CheckoutConflictException
-	 *             if the checkout results in a conflict
-	 * @return the newly created branch
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public Ref call() throws GitAPIException, RefAlreadyExistsException,
 			RefNotFoundException, InvalidRefNameException,
@@ -418,11 +409,12 @@ public class CheckoutCommand extends GitCommand<Ref> {
 
 	/**
 	 * Checkout paths into index and working directory, firing a
-	 * {@link WorkingTreeModifiedEvent} if the working tree was modified.
+	 * {@link org.eclipse.jgit.events.WorkingTreeModifiedEvent} if the working
+	 * tree was modified.
 	 *
 	 * @return this instance
-	 * @throws IOException
-	 * @throws RefNotFoundException
+	 * @throws java.io.IOException
+	 * @throws org.eclipse.jgit.api.errors.RefNotFoundException
 	 */
 	protected CheckoutCommand checkoutPaths() throws IOException,
 			RefNotFoundException {
@@ -739,6 +731,8 @@ public class CheckoutCommand extends GitCommand<Ref> {
 	}
 
 	/**
+	 * <p>getResult.</p>
+	 *
 	 * @return the result, never <code>null</code>
 	 */
 	public CheckoutResult getResult() {

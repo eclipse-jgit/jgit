@@ -48,18 +48,20 @@ import org.eclipse.jgit.lib.Repository;
 /**
  * Common superclass of all commands in the package {@code org.eclipse.jgit.api}
  * <p>
- * This class ensures that all commands fulfill the {@link Callable} interface.
- * It also has a property {@link #repo} holding a reference to the git
- * {@link Repository} this command should work with.
+ * This class ensures that all commands fulfill the
+ * {@link java.util.concurrent.Callable} interface. It also has a property
+ * {@link #repo} holding a reference to the git
+ * {@link org.eclipse.jgit.lib.Repository} this command should work with.
  * <p>
  * Finally this class stores a state telling whether it is allowed to call
- * {@link #call()} on this instance. Instances of {@link GitCommand} can only be
- * used for one single successful call to {@link #call()}. Afterwards this
- * instance may not be used anymore to set/modify any properties or to call
- * {@link #call()} again. This is achieved by setting the {@link #callable}
- * property to false after the successful execution of {@link #call()} and to
- * check the state (by calling {@link #checkCallable()}) before setting of
- * properties and inside {@link #call()}.
+ * {@link #call()} on this instance. Instances of
+ * {@link org.eclipse.jgit.api.GitCommand} can only be used for one single
+ * successful call to {@link #call()}. Afterwards this instance may not be used
+ * anymore to set/modify any properties or to call {@link #call()} again. This
+ * is achieved by setting the {@link #callable} property to false after the
+ * successful execution of {@link #call()} and to check the state (by calling
+ * {@link #checkCallable()}) before setting of properties and inside
+ * {@link #call()}.
  *
  * @param <T>
  *            the return type which is expected from {@link #call()}
@@ -78,14 +80,18 @@ public abstract class GitCommand<T> implements Callable<T> {
 	 * Creates a new command which interacts with a single repository
 	 *
 	 * @param repo
-	 *            the {@link Repository} this command should interact with
+	 *            the {@link org.eclipse.jgit.lib.Repository} this command
+	 *            should interact with
 	 */
 	protected GitCommand(Repository repo) {
 		this.repo = repo;
 	}
 
 	/**
-	 * @return the {@link Repository} this command is interacting with
+	 * Get repository this command is working on
+	 *
+	 * @return the {@link org.eclipse.jgit.lib.Repository} this command is
+	 *         interacting with
 	 */
 	public Repository getRepository() {
 		return repo;
@@ -106,9 +112,9 @@ public abstract class GitCommand<T> implements Callable<T> {
 
 	/**
 	 * Checks that the property {@link #callable} is {@code true}. If not then
-	 * an {@link IllegalStateException} is thrown
+	 * an {@link java.lang.IllegalStateException} is thrown
 	 *
-	 * @throws IllegalStateException
+	 * @throws java.lang.IllegalStateException
 	 *             when this method is called and the property {@link #callable}
 	 *             is {@code false}
 	 */
@@ -120,11 +126,9 @@ public abstract class GitCommand<T> implements Callable<T> {
 	}
 
 	/**
-	 * Executes the command
-	 *
-	 * @return T a result. Each command has its own return type
-	 * @throws GitAPIException
-	 *             or subclass thereof when an error occurs
+	 * {@inheritDoc}
+	 * <p>
+	 * Execute the command
 	 */
 	@Override
 	public abstract T call() throws GitAPIException;

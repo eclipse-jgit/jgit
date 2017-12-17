@@ -61,7 +61,6 @@ import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.storage.pack.PackConfig;
-import org.eclipse.jgit.util.GitDateParser;
 
 /**
  * A class used to execute a {@code gc} command. It has setters for all
@@ -97,7 +96,10 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 	private PackConfig pconfig;
 
 	/**
+	 * Constructor for GarbageCollectCommand.
+	 *
 	 * @param repo
+	 *            a {@link org.eclipse.jgit.lib.Repository} object.
 	 */
 	protected GarbageCollectCommand(Repository repo) {
 		super(repo);
@@ -105,6 +107,8 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 	}
 
 	/**
+	 * Set progress monitor
+	 *
 	 * @param monitor
 	 *            a progress monitor
 	 * @return this instance
@@ -118,8 +122,8 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 	 * During gc() or prune() each unreferenced, loose object which has been
 	 * created or modified after <code>expire</code> will not be pruned. Only
 	 * older objects may be pruned. If set to null then every object is a
-	 * candidate for pruning. Use {@link GitDateParser} to parse time formats
-	 * used by git gc.
+	 * candidate for pruning. Use {@link org.eclipse.jgit.util.GitDateParser} to
+	 * parse time formats used by git gc.
 	 *
 	 * @param expire
 	 *            minimal age of objects to be pruned.
@@ -191,6 +195,7 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 		return this;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Properties call() throws GitAPIException {
 		checkCallable();
@@ -229,7 +234,7 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 	 * Computes and returns the repository statistics.
 	 *
 	 * @return the repository statistics
-	 * @throws GitAPIException
+	 * @throws org.eclipse.jgit.api.errors.GitAPIException
 	 *             thrown if the repository statistics cannot be computed
 	 * @since 3.0
 	 */

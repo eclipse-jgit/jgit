@@ -84,7 +84,10 @@ public class StashDropCommand extends GitCommand<ObjectId> {
 	private boolean all;
 
 	/**
+	 * Constructor for StashDropCommand.
+	 *
 	 * @param repo
+	 *            a {@link org.eclipse.jgit.lib.Repository} object.
 	 */
 	public StashDropCommand(Repository repo) {
 		super(repo);
@@ -101,6 +104,7 @@ public class StashDropCommand extends GitCommand<ObjectId> {
 	 * unspecified
 	 *
 	 * @param stashRef
+	 *            the 0-based index of the stash reference
 	 * @return {@code this}
 	 */
 	public StashDropCommand setStashRef(final int stashRef) {
@@ -112,11 +116,12 @@ public class StashDropCommand extends GitCommand<ObjectId> {
 	}
 
 	/**
-	 * Set wheter drop all stashed commits
+	 * Set whether to drop all stashed commits
 	 *
 	 * @param all
-	 *            true to drop all stashed commits, false to drop only the
-	 *            stashed commit set via calling {@link #setStashRef(int)}
+	 *            {@code true} to drop all stashed commits, {@code false} to
+	 *            drop only the stashed commit set via calling
+	 *            {@link #setStashRef(int)}
 	 * @return {@code this}
 	 */
 	public StashDropCommand setAll(final boolean all) {
@@ -173,11 +178,10 @@ public class StashDropCommand extends GitCommand<ObjectId> {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * Drop the configured entry from the stash reflog and return value of the
 	 * stash reference after the drop occurs
-	 *
-	 * @return commit id of stash reference or null if no more stashed changes
-	 * @throws GitAPIException
 	 */
 	@Override
 	public ObjectId call() throws GitAPIException {

@@ -62,7 +62,6 @@ import org.eclipse.jgit.transport.URIish;
  * @see <a href=
  *      "http://www.kernel.org/pub/software/scm/git/docs/git-remote.html" > Git
  *      documentation about Remote</a>
- *
  * @since 4.2
  */
 public class RemoteSetUrlCommand extends GitCommand<RemoteConfig> {
@@ -74,7 +73,12 @@ public class RemoteSetUrlCommand extends GitCommand<RemoteConfig> {
 	private boolean push;
 
 	/**
+	 * <p>
+	 * Constructor for RemoteSetUrlCommand.
+	 * </p>
+	 *
 	 * @param repo
+	 *            the {@link org.eclipse.jgit.lib.Repository}
 	 */
 	protected RemoteSetUrlCommand(Repository repo) {
 		super(repo);
@@ -112,10 +116,10 @@ public class RemoteSetUrlCommand extends GitCommand<RemoteConfig> {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * Executes the {@code remote} command with all the options and parameters
 	 * collected by the setter methods of this class.
-	 *
-	 * @return the {@link RemoteConfig} object of the modified remote
 	 */
 	@Override
 	public RemoteConfig call() throws GitAPIException {

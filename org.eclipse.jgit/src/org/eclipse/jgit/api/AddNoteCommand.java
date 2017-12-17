@@ -75,12 +75,16 @@ public class AddNoteCommand extends GitCommand<Note> {
 	private String notesRef = Constants.R_NOTES_COMMITS;
 
 	/**
+	 * Constructor for AddNoteCommand
+	 *
 	 * @param repo
+	 *            the {@link org.eclipse.jgit.lib.Repository}
 	 */
 	protected AddNoteCommand(Repository repo) {
 		super(repo);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Note call() throws GitAPIException {
 		checkCallable();
@@ -108,6 +112,7 @@ public class AddNoteCommand extends GitCommand<Note> {
 	 * has a note, the existing note will be replaced.
 	 *
 	 * @param id
+	 *            a {@link org.eclipse.jgit.revwalk.RevObject}
 	 * @return {@code this}
 	 */
 	public AddNoteCommand setObjectId(RevObject id) {
@@ -117,6 +122,8 @@ public class AddNoteCommand extends GitCommand<Note> {
 	}
 
 	/**
+	 * Set the notes message
+	 *
 	 * @param message
 	 *            the notes message used when adding a note
 	 * @return {@code this}
@@ -152,12 +159,13 @@ public class AddNoteCommand extends GitCommand<Note> {
 	}
 
 	/**
+	 * Set name of a {@code Ref} to read notes from
+	 *
 	 * @param notesRef
 	 *            the ref to read notes from. Note, the default value of
-	 *            {@link Constants#R_NOTES_COMMITS} will be used if nothing is
-	 *            set
+	 *            {@link org.eclipse.jgit.lib.Constants#R_NOTES_COMMITS} will be
+	 *            used if nothing is set
 	 * @return {@code this}
-	 *
 	 * @see Constants#R_NOTES_COMMITS
 	 */
 	public AddNoteCommand setNotesRef(String notesRef) {

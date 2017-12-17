@@ -47,7 +47,10 @@ public class InvalidMergeHeadsException extends GitAPIException {
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * Constructor for InvalidMergeHeadsException.
+	 *
 	 * @param msg
+	 *            error message
 	 */
 	public InvalidMergeHeadsException(String msg) {
 		super(msg);

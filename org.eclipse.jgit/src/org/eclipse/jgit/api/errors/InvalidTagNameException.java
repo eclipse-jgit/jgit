@@ -45,7 +45,10 @@ public class InvalidTagNameException extends GitAPIException {
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * Constructor for InvalidTagNameException.
+	 *
 	 * @param msg
+	 *            error message
 	 */
 	public InvalidTagNameException(String msg) {
 		super(msg);

@@ -44,15 +44,22 @@ public class InvalidRemoteException extends GitAPIException {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * @param msg message describing the invalid remote.
+	 * Constructor for InvalidRemoteException
+	 *
+	 * @param msg
+	 *            message describing the invalid remote.
 	 */
 	public InvalidRemoteException(String msg) {
 		super(msg);
 	}
 
 	/**
-	 * @param msg message describing the invalid remote.
-	 * @param cause why the remote is invalid.
+	 * Constructor for InvalidRemoteException
+	 *
+	 * @param msg
+	 *            message describing the invalid remote.
+	 * @param cause
+	 *            why the remote is invalid.
 	 */
 	public InvalidRemoteException(String msg, Throwable cause) {
 		super(msg, cause);

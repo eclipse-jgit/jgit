@@ -62,8 +62,8 @@ import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 /**
  * A class used to execute a submodule status command.
  *
- * @see <a
- *      href="http://www.kernel.org/pub/software/scm/git/docs/git-submodule.html"
+ * @see <a href=
+ *      "http://www.kernel.org/pub/software/scm/git/docs/git-submodule.html"
  *      >Git documentation about submodules</a>
  */
 public class SubmoduleStatusCommand extends
@@ -72,7 +72,10 @@ public class SubmoduleStatusCommand extends
 	private final Collection<String> paths;
 
 	/**
+	 * Constructor for SubmoduleStatusCommand.
+	 *
 	 * @param repo
+	 *            a {@link org.eclipse.jgit.lib.Repository} object.
 	 */
 	public SubmoduleStatusCommand(final Repository repo) {
 		super(repo);
@@ -91,6 +94,7 @@ public class SubmoduleStatusCommand extends
 		return this;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Map<String, SubmoduleStatus> call() throws GitAPIException {
 		checkCallable();

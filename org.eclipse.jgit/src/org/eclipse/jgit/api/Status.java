@@ -70,7 +70,10 @@ public class Status {
 	private final boolean hasUncommittedChanges;
 
 	/**
+	 * Constructor for Status.
+	 *
 	 * @param diff
+	 *            the {@link org.eclipse.jgit.lib.IndexDiff} having the status
 	 */
 	public Status(IndexDiff diff) {
 		super();
@@ -86,16 +89,20 @@ public class Status {
 	}
 
 	/**
-	 * @return true if no differences exist between the working-tree, the index,
-	 *         and the current HEAD, false if differences do exist
+	 * Whether the status is clean
+	 *
+	 * @return {@code true} if no differences exist between the working-tree,
+	 *         the index, and the current HEAD, {@code false} if differences do
+	 *         exist
 	 */
 	public boolean isClean() {
 		return clean;
 	}
 
 	/**
-	 * @return true if any tracked file is changed
+	 * Whether there are uncommitted changes
 	 *
+	 * @return {@code true} if any tracked file is changed
 	 * @since 3.2
 	 */
 	public boolean hasUncommittedChanges() {
@@ -103,14 +110,18 @@ public class Status {
 	}
 
 	/**
+	 * Get files added to the index
+	 *
 	 * @return list of files added to the index, not in HEAD (e.g. what you get
-	 *         if you call 'git add ...' on a newly created file)
+	 *         if you call {@code git add ...} on a newly created file)
 	 */
 	public Set<String> getAdded() {
 		return Collections.unmodifiableSet(diff.getAdded());
 	}
 
 	/**
+	 * Get changed files from HEAD to index
+	 *
 	 * @return list of files changed from HEAD to index (e.g. what you get if
 	 *         you modify an existing file and call 'git add ...' on it)
 	 */
@@ -119,6 +130,8 @@ public class Status {
 	}
 
 	/**
+	 * Get removed files
+	 *
 	 * @return list of files removed from index, but in HEAD (e.g. what you get
 	 *         if you call 'git rm ...' on a existing file)
 	 */
@@ -127,6 +140,8 @@ public class Status {
 	}
 
 	/**
+	 * Get missing files
+	 *
 	 * @return list of files in index, but not filesystem (e.g. what you get if
 	 *         you call 'rm ...' on a existing file)
 	 */
@@ -135,6 +150,8 @@ public class Status {
 	}
 
 	/**
+	 * Get modified files relative to the index
+	 *
 	 * @return list of files modified on disk relative to the index (e.g. what
 	 *         you get if you modify an existing file without adding it to the
 	 *         index)
@@ -144,6 +161,8 @@ public class Status {
 	}
 
 	/**
+	 * Get untracked files
+	 *
 	 * @return list of files that are not ignored, and not in the index. (e.g.
 	 *         what you get if you create a new file without adding it to the
 	 *         index)
@@ -153,6 +172,8 @@ public class Status {
 	}
 
 	/**
+	 * Get untracked folders
+	 *
 	 * @return set of directories that are not ignored, and not in the index.
 	 */
 	public Set<String> getUntrackedFolders() {
@@ -160,6 +181,8 @@ public class Status {
 	}
 
 	/**
+	 * Get conflicting files
+	 *
 	 * @return list of files that are in conflict. (e.g what you get if you
 	 *         modify file that was modified by someone else in the meantime)
 	 */
@@ -168,7 +191,10 @@ public class Status {
 	}
 
 	/**
-	 * @return a map from conflicting path to its {@link StageState}.
+	 * Get StageState of conflicting files
+	 *
+	 * @return a map from conflicting path to its
+	 *         {@link org.eclipse.jgit.lib.IndexDiff.StageState}.
 	 * @since 3.0
 	 */
 	public Map<String, StageState> getConflictingStageState() {
@@ -176,6 +202,8 @@ public class Status {
 	}
 
 	/**
+	 * Get ignored files which are not in the index
+	 *
 	 * @return set of files and folders that are ignored and not in the index.
 	 */
 	public Set<String> getIgnoredNotInIndex() {
@@ -183,9 +211,11 @@ public class Status {
 	}
 
 	/**
+	 * Get uncommitted changes, i.e. all files changed in the index or working
+	 * tree
+	 *
 	 * @return set of files and folders that are known to the repo and changed
 	 *         either in the index or in the working tree.
-	 *
 	 * @since 3.2
 	 */
 	public Set<String> getUncommittedChanges() {

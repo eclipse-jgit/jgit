@@ -77,25 +77,18 @@ public class RenameBranchCommand extends GitCommand<Ref> {
 	private String newName;
 
 	/**
+	 * <p>
+	 * Constructor for RenameBranchCommand.
+	 * </p>
+	 *
 	 * @param repo
+	 *            the {@link org.eclipse.jgit.lib.Repository}
 	 */
 	protected RenameBranchCommand(Repository repo) {
 		super(repo);
 	}
 
-	/**
-	 * @throws RefNotFoundException
-	 *             if the old branch can not be found (branch with provided old
-	 *             name does not exist or old name resolves to a tag)
-	 * @throws InvalidRefNameException
-	 *             if the provided new name is <code>null</code> or otherwise
-	 *             invalid
-	 * @throws RefAlreadyExistsException
-	 *             if a branch with the new name already exists
-	 * @throws DetachedHeadException
-	 *             if rename is tried without specifying the old name and HEAD
-	 *             is detached
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public Ref call() throws GitAPIException, RefNotFoundException, InvalidRefNameException,
 			RefAlreadyExistsException, DetachedHeadException {
@@ -198,6 +191,8 @@ public class RenameBranchCommand extends GitCommand<Ref> {
 	}
 
 	/**
+	 * Set the new name of the branch
+	 *
 	 * @param newName
 	 *            the new name
 	 * @return this instance
@@ -209,6 +204,8 @@ public class RenameBranchCommand extends GitCommand<Ref> {
 	}
 
 	/**
+	 * Set the old name of the branch
+	 *
 	 * @param oldName
 	 *            the name of the branch to rename; if not set, the currently
 	 *            checked out branch (if any) will be renamed

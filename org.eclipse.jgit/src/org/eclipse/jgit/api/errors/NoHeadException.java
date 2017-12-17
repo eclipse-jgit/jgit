@@ -45,15 +45,22 @@ public class NoHeadException extends GitAPIException {
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * Constructor for NoHeadException
+	 *
 	 * @param message
+	 *            error message
 	 * @param cause
+	 *            a {@link java.lang.Throwable}
 	 */
 	public NoHeadException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
 	/**
+	 * Constructor for NoHeadException
+	 *
 	 * @param message
+	 *            error message
 	 */
 	public NoHeadException(String message) {
 		super(message);

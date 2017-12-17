@@ -44,6 +44,8 @@ public class TransportException extends GitAPIException {
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * Constructor for TransportException
+	 *
 	 * @param msg
 	 *            message describing the transport failure.
 	 */
@@ -52,6 +54,8 @@ public class TransportException extends GitAPIException {
 	}
 
 	/**
+	 * Constructor for TransportException
+	 *
 	 * @param msg
 	 *            message describing the transport exception.
 	 * @param cause
