@@ -57,6 +57,8 @@ public class LfsRepositoryReadOnly extends LfsException {
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * <p>Constructor for LfsRepositoryReadOnly.</p>
+	 *
 	 * @param name
 	 *            the repository name.
 	 */

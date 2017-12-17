@@ -47,12 +47,13 @@ package org.eclipse.jgit.lfs.errors;
  * Thrown when there is insufficient storage on the server.
  *
  * @since 4.5
- *
  */
 public class LfsInsufficientStorage extends LfsException {
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * <p>Constructor for LfsInsufficientStorage.</p>
+	 *
 	 * @param message
 	 *            error message, which may be shown to an end-user.
 	 */

@@ -70,7 +70,8 @@ import org.eclipse.jgit.util.FileUtils;
  */
 public class SmudgeFilter extends FilterCommand {
 	/**
-	 * The factory is responsible for creating instances of {@link SmudgeFilter}
+	 * The factory is responsible for creating instances of
+	 * {@link org.eclipse.jgit.lfs.SmudgeFilter}
 	 */
 	public final static FilterCommandFactory FACTORY = new FilterCommandFactory() {
 		@Override
@@ -93,10 +94,15 @@ public class SmudgeFilter extends FilterCommand {
 	private Lfs lfs;
 
 	/**
+	 * Constructor for SmudgeFilter.
+	 *
 	 * @param db
+	 *            a {@link org.eclipse.jgit.lib.Repository} object.
 	 * @param in
+	 *            a {@link java.io.InputStream} object.
 	 * @param out
-	 * @throws IOException
+	 *            a {@link java.io.OutputStream} object.
+	 * @throws java.io.IOException
 	 */
 	public SmudgeFilter(Repository db, InputStream in, OutputStream out)
 			throws IOException {
@@ -111,6 +117,7 @@ public class SmudgeFilter extends FilterCommand {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int run() throws IOException {
 		int b;

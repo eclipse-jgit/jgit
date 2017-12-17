@@ -66,8 +66,7 @@ public class CorruptLongObjectException extends IllegalArgumentException {
 	 *            id of the long object
 	 * @param contentHash
 	 *            hash of the long object's content
-	 *
-	 * @param message
+	 * @param message a {@link java.lang.String} object.
 	 */
 	public CorruptLongObjectException(AnyLongObjectId id,
 			AnyLongObjectId contentHash,
@@ -78,6 +77,8 @@ public class CorruptLongObjectException extends IllegalArgumentException {
 	}
 
 	/**
+	 * Get the <code>id</code> of the object.
+	 *
 	 * @return the id of the object, i.e. the expected hash of the object's
 	 *         content
 	 */
@@ -86,6 +87,8 @@ public class CorruptLongObjectException extends IllegalArgumentException {
 	}
 
 	/**
+	 * Get the <code>contentHash</code>.
+	 *
 	 * @return the actual hash of the object's content which doesn't match the
 	 *         object's id when this exception is thrown which signals that the
 	 *         object has been corrupted

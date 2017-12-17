@@ -61,6 +61,8 @@ public class Lfs {
 	private Path tmpDir;
 
 	/**
+	 * Constructor for Lfs.
+	 *
 	 * @param root
 	 *            the path to the LFS media directory. Will be "<repo>/.git/lfs"
 	 */
@@ -69,6 +71,8 @@ public class Lfs {
 	}
 
 	/**
+	 * Get the LFS root directory
+	 *
 	 * @return the path to the LFS directory
 	 */
 	public Path getLfsRoot() {
@@ -76,8 +80,10 @@ public class Lfs {
 	}
 
 	/**
-	 * @return the path to the temp directory used by LFS. Will be
-	 *         "<repo>/.git/lfs/tmp"
+	 * Get the path to the temporary directory used by LFS.
+	 *
+	 * @return the path to the temporary directory used by LFS. Will be
+	 *         {@code <repo>/.git/lfs/tmp}
 	 */
 	public Path getLfsTmpDir() {
 		if (tmpDir == null) {
@@ -87,8 +93,10 @@ public class Lfs {
 	}
 
 	/**
+	 * Get the object directory used by LFS
+	 *
 	 * @return the path to the object directory used by LFS. Will be
-	 *         "<repo>/.git/lfs/objects"
+	 *         {@code <repo>/.git/lfs/objects}
 	 */
 	public Path getLfsObjDir() {
 		if (objDir == null) {
@@ -98,6 +106,8 @@ public class Lfs {
 	}
 
 	/**
+	 * Get the media file which stores the original content
+	 *
 	 * @param id
 	 *            the id of the mediafile
 	 * @return the file which stores the original content. This will be files
@@ -114,7 +124,7 @@ public class Lfs {
 	 * Create a new temp file in the LFS directory
 	 *
 	 * @return a new temporary file in the LFS directory
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             when the temp file could not be created
 	 */
 	public Path createTmpFile() throws IOException {

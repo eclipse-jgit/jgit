@@ -56,6 +56,8 @@ public class LfsUnavailable extends LfsException {
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * Constructor for LfsUnavailable.
+	 *
 	 * @param name
 	 *            the repository name.
 	 */

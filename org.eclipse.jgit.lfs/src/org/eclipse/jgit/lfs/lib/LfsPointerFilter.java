@@ -66,12 +66,15 @@ public class LfsPointerFilter extends TreeFilter {
 	private LfsPointer pointer;
 
 	/**
-	 * @return {@link LfsPointer} or {@code null}
+	 * Get the field <code>pointer</code>.
+	 *
+	 * @return {@link org.eclipse.jgit.lfs.LfsPointer} or {@code null}
 	 */
 	public LfsPointer getPointer() {
 		return pointer;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean include(TreeWalk walk) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
@@ -91,11 +94,13 @@ public class LfsPointerFilter extends TreeFilter {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean shouldBeRecursive() {
 		return false;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public TreeFilter clone() {
 		return new LfsPointerFilter();

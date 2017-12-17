@@ -56,9 +56,9 @@ import org.eclipse.jgit.lfs.lib.Constants;
 import org.eclipse.jgit.lfs.lib.LongObjectId;
 
 /**
- * Output stream writing content to a {@link LockFile} which is committed on
- * close(). The stream checks if the hash of the stream content matches the
- * id.
+ * Output stream writing content to a
+ * {@link org.eclipse.jgit.internal.storage.file.LockFile} which is committed on
+ * close(). The stream checks if the hash of the stream content matches the id.
  */
 public class AtomicObjectOutputStream extends OutputStream {
 
@@ -71,9 +71,13 @@ public class AtomicObjectOutputStream extends OutputStream {
 	private AnyLongObjectId id;
 
 	/**
+	 * Constructor for AtomicObjectOutputStream.
+	 *
 	 * @param path
+	 *            a {@link java.nio.file.Path} object.
 	 * @param id
-	 * @throws IOException
+	 *            a {@link org.eclipse.jgit.lfs.lib.AnyLongObjectId} object.
+	 * @throws java.io.IOException
 	 */
 	public AtomicObjectOutputStream(Path path, AnyLongObjectId id)
 			throws IOException {
@@ -85,36 +89,46 @@ public class AtomicObjectOutputStream extends OutputStream {
 	}
 
 	/**
+	 * Constructor for AtomicObjectOutputStream.
+	 *
 	 * @param path
-	 * @throws IOException
+	 *            a {@link java.nio.file.Path} object.
+	 * @throws java.io.IOException
 	 */
 	public AtomicObjectOutputStream(Path path) throws IOException {
 		this(path, null);
 	}
 
 	/**
+	 * Get the <code>id</code>.
+	 *
 	 * @return content hash of the object which was streamed through this
-	 *         stream. May return {@code null} if called before closing this stream.
+	 *         stream. May return {@code null} if called before closing this
+	 *         stream.
 	 */
 	public @Nullable AnyLongObjectId getId() {
 		return id;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void write(int b) throws IOException {
 		out.write(b);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void write(byte[] b) throws IOException {
 		out.write(b);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void write(byte[] b, int off, int len) throws IOException {
 		out.write(b, off, len);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void close() throws IOException {
 		out.close();
