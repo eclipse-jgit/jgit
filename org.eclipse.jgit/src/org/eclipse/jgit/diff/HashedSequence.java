@@ -44,13 +44,15 @@
 package org.eclipse.jgit.diff;
 
 /**
- * Wraps a {@link Sequence} to assign hash codes to elements.
+ * Wraps a {@link org.eclipse.jgit.diff.Sequence} to assign hash codes to
+ * elements.
  * <p>
  * This sequence acts as a proxy for the real sequence, caching element hash
  * codes so they don't need to be recomputed each time. Sequences of this type
- * must be used with a {@link HashedSequenceComparator}.
+ * must be used with a {@link org.eclipse.jgit.diff.HashedSequenceComparator}.
  * <p>
- * To construct an instance of this type use {@link HashedSequencePair}.
+ * To construct an instance of this type use
+ * {@link org.eclipse.jgit.diff.HashedSequencePair}.
  *
  * @param <S>
  *            the base sequence type.
@@ -65,6 +67,7 @@ public final class HashedSequence<S extends Sequence> extends Sequence {
 		this.hashes = hashes;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int size() {
 		return base.size();

@@ -56,8 +56,9 @@ import org.eclipse.jgit.lib.ObjectStream;
  * Index structure of lines/blocks in one file.
  * <p>
  * This structure can be used to compute an approximation of the similarity
- * between two files. The index is used by {@link SimilarityRenameDetector} to
- * compute scores between files.
+ * between two files. The index is used by
+ * {@link org.eclipse.jgit.diff.SimilarityRenameDetector} to compute scores
+ * between files.
  * <p>
  * To save space in memory, this index uses a space efficient encoding which
  * will not exceed 1 MiB per instance. The index starts out at a smaller size
@@ -114,9 +115,9 @@ public class SimilarityIndex {
 	 * @param obj
 	 *            the object to hash
 	 * @return similarity index for this object
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             file contents cannot be read from the repository.
-	 * @throws TableFullException
+	 * @throws org.eclipse.jgit.diff.SimilarityIndex.TableFullException
 	 *             object hashing overflowed the storage capacity of the
 	 *             SimilarityIndex.
 	 */

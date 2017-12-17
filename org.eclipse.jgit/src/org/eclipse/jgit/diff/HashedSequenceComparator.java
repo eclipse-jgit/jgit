@@ -44,13 +44,16 @@
 package org.eclipse.jgit.diff;
 
 /**
- * Wrap another comparator for use with {@link HashedSequence}.
+ * Wrap another comparator for use with
+ * {@link org.eclipse.jgit.diff.HashedSequence}.
  * <p>
  * This comparator acts as a proxy for the real comparator, evaluating the
  * cached hash code before testing the underlying comparator's equality.
- * Comparators of this type must be used with a {@link HashedSequence}.
+ * Comparators of this type must be used with a
+ * {@link org.eclipse.jgit.diff.HashedSequence}.
  * <p>
- * To construct an instance of this type use {@link HashedSequencePair}.
+ * To construct an instance of this type use
+ * {@link org.eclipse.jgit.diff.HashedSequencePair}.
  *
  * @param <S>
  *            the base sequence type.
@@ -63,6 +66,7 @@ public final class HashedSequenceComparator<S extends Sequence> extends
 		this.cmp = cmp;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean equals(HashedSequence<S> a, int ai, //
 			HashedSequence<S> b, int bi) {
@@ -70,6 +74,7 @@ public final class HashedSequenceComparator<S extends Sequence> extends
 				&& cmp.equals(a.base, ai, b.base, bi);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int hash(HashedSequence<S> seq, int ptr) {
 		return seq.hashes[ptr];
