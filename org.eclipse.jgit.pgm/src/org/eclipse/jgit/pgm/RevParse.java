@@ -70,6 +70,7 @@ class RevParse extends TextBuiltin {
 	@Argument(index = 0, metaVar = "metaVar_commitish")
 	private List<ObjectId> commits = new ArrayList<>();
 
+	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
 		if (all) {

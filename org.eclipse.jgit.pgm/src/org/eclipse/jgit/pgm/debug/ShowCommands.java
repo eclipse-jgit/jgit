@@ -59,6 +59,7 @@ class ShowCommands extends TextBuiltin {
 	@Option(name = "--pretty", metaVar = "metaVar_commandDetail", usage = "usage_alterTheDetailShown")
 	private Format pretty = Format.USAGE;
 
+	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
 		final CommandRef[] list = CommandCatalog.all();

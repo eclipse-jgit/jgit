@@ -134,6 +134,7 @@ class Blame extends TextBuiltin {
 
 	private BlameResult blame;
 
+	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
 		if (file == null) {

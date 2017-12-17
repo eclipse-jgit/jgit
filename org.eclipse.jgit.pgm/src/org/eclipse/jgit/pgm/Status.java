@@ -86,6 +86,7 @@ class Status extends TextBuiltin {
 	@Option(name = "--", metaVar = "metaVar_paths", handler = RestOfArgumentsHandler.class)
 	protected List<String> filterPaths;
 
+	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
 		try (Git git = new Git(db)) {
@@ -261,6 +262,15 @@ class Status extends TextBuiltin {
 		}
 	}
 
+	/**
+	 * Print section header
+	 *
+	 * @param pattern
+	 *            a {@link java.lang.String} object.
+	 * @param arguments
+	 *            a {@link java.lang.Object} object.
+	 * @throws java.io.IOException
+	 */
 	protected void printSectionHeader(String pattern, Object... arguments)
 			throws IOException {
 		if (!porcelain) {
@@ -272,6 +282,14 @@ class Status extends TextBuiltin {
 		}
 	}
 
+	/**
+	 * Print String list
+	 *
+	 * @param list
+	 *            a {@link java.util.Collection} object.
+	 * @return a int.
+	 * @throws java.io.IOException
+	 */
 	protected int printList(Collection<String> list) throws IOException {
 		if (!list.isEmpty()) {
 			List<String> sortedList = new ArrayList<>(list);
@@ -286,6 +304,26 @@ class Status extends TextBuiltin {
 			return 0;
 	}
 
+	/**
+	 * Print String list
+	 *
+	 * @param status1
+	 *            a {@link java.lang.String} object.
+	 * @param status2
+	 *            a {@link java.lang.String} object.
+	 * @param status3
+	 *            a {@link java.lang.String} object.
+	 * @param list
+	 *            a {@link java.util.Collection} object.
+	 * @param set1
+	 *            a {@link java.util.Collection} object.
+	 * @param set2
+	 *            a {@link java.util.Collection} object.
+	 * @param set3
+	 *            a {@link java.util.Collection} object.
+	 * @return a int.
+	 * @throws java.io.IOException
+	 */
 	protected int printList(String status1, String status2, String status3,
 			Collection<String> list, Collection<String> set1,
 			Collection<String> set2,

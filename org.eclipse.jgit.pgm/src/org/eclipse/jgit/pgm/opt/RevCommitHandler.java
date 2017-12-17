@@ -60,7 +60,8 @@ import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
 
 /**
- * Custom argument handler {@link RevCommit} from string values.
+ * Custom argument handler {@link org.eclipse.jgit.revwalk.RevCommit} from
+ * string values.
  * <p>
  * Assumes the parser has been initialized with a Repository.
  */
@@ -73,8 +74,11 @@ public class RevCommitHandler extends OptionHandler<RevCommit> {
 	 * This constructor is used only by args4j.
 	 *
 	 * @param parser
+	 *            a {@link org.kohsuke.args4j.CmdLineParser} object.
 	 * @param option
+	 *            a {@link org.kohsuke.args4j.OptionDef} object.
 	 * @param setter
+	 *            a {@link org.kohsuke.args4j.spi.Setter} object.
 	 */
 	public RevCommitHandler(final CmdLineParser parser, final OptionDef option,
 			final Setter<? super RevCommit> setter) {
@@ -82,6 +86,7 @@ public class RevCommitHandler extends OptionHandler<RevCommit> {
 		clp = (org.eclipse.jgit.pgm.opt.CmdLineParser) parser;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int parseArguments(final Parameters params) throws CmdLineException {
 		String name = params.getParameter(0);
@@ -145,6 +150,7 @@ public class RevCommitHandler extends OptionHandler<RevCommit> {
 		setter.addValue(c);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String getDefaultMetaVariable() {
 		return CLIText.get().metaVar_commitish;

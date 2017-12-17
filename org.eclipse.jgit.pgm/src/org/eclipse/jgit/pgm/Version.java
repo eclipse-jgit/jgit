@@ -55,6 +55,7 @@ import org.eclipse.jgit.pgm.internal.CLIText;
 
 @Command(common = true, usage = "usage_DisplayTheVersionOfJgit")
 class Version extends TextBuiltin {
+	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
 		// read the Implementation-Version from Manifest
@@ -73,6 +74,7 @@ class Version extends TextBuiltin {
 		outw.println(MessageFormat.format(CLIText.get().jgitVersion, version));
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected final boolean requiresRepository() {
 		return false;

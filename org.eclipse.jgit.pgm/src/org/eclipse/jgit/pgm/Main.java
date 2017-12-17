@@ -80,7 +80,9 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.OptionHandlerFilter;
 
-/** Command line entry point. */
+/**
+ * Command line entry point.
+ */
 public class Main {
 	@Option(name = "--help", usage = "usage_displayThisHelpText", aliases = { "-h" })
 	private boolean help;
@@ -105,7 +107,7 @@ public class Main {
 	private ExecutorService gcExecutor;
 
 	/**
-	 *
+	 * <p>Constructor for Main.</p>
 	 */
 	public Main() {
 		HttpTransport.setConnectionFactory(new HttpClientConnectionFactory());
@@ -129,7 +131,7 @@ public class Main {
 	 *
 	 * @param argv
 	 *            arguments.
-	 * @throws Exception
+	 * @throws java.lang.Exception
 	 */
 	public static void main(final String[] argv) throws Exception {
 		new Main().run(argv);
@@ -150,7 +152,7 @@ public class Main {
 	 *
 	 * @param argv
 	 *            arguments.
-	 * @throws Exception
+	 * @throws java.lang.Exception
 	 */
 	protected void run(final String[] argv) throws Exception {
 		writer = createErrorWriter();
@@ -309,7 +311,7 @@ public class Main {
 	 *            the {@code --git-dir} option given on the command line. May be
 	 *            null if it was not supplied.
 	 * @return the repository to operate on.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the repository cannot be opened.
 	 */
 	protected Repository openGitDir(String aGitdir) throws IOException {

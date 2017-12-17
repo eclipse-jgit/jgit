@@ -101,6 +101,7 @@ class Merge extends TextBuiltin {
 	@Option(name = "-m", usage = "usage_message")
 	private String message;
 
+	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
 		if (squash && ff == FastForwardMode.NO_FF)

@@ -50,7 +50,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Annotation to document a {@link TextBuiltin}.
+ * Annotation to document a {@link org.eclipse.jgit.pgm.TextBuiltin}.
  * <p>
  * This is an optional annotation for TextBuiltin subclasses and it carries
  * documentation forward into the runtime system describing what the command is
@@ -60,6 +60,8 @@ import java.lang.annotation.Target;
 @Target( { TYPE })
 public @interface Command {
 	/**
+	 * Get the command name
+	 *
 	 * @return name the command is invoked as from the command line. If the
 	 *         (default) empty string is supplied the name will be generated
 	 *         from the class name.
@@ -67,11 +69,15 @@ public @interface Command {
 	public String name() default "";
 
 	/**
+	 * Get command description
+	 *
 	 * @return one line description of the command's feature set.
 	 */
 	public String usage() default "";
 
 	/**
+	 * If this command is considered to be commonly used
+	 *
 	 * @return true if this command is considered to be commonly used.
 	 */
 	public boolean common() default false;

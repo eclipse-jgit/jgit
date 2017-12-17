@@ -19,15 +19,21 @@ import org.kohsuke.args4j.spi.Setter;
 public class OptionWithValuesListHandler extends OptionHandler<List<?>> {
 
 	/**
+	 * Constructor for OptionWithValuesListHandler.
+	 *
 	 * @param parser
+	 *            a {@link org.kohsuke.args4j.CmdLineParser} object.
 	 * @param option
+	 *            a {@link org.kohsuke.args4j.OptionDef} object.
 	 * @param setter
+	 *            a {@link org.kohsuke.args4j.spi.Setter} object.
 	 */
 	public OptionWithValuesListHandler(CmdLineParser parser,
 			OptionDef option, Setter<List<?>> setter) {
 		super(parser, option, setter);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int parseArguments(Parameters params) throws CmdLineException {
 		final List<String> list = new ArrayList<>();
@@ -44,6 +50,7 @@ public class OptionWithValuesListHandler extends OptionHandler<List<?>> {
 		return list.size();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String getDefaultMetaVariable() {
 		return CLIText.get().metaVar_values;

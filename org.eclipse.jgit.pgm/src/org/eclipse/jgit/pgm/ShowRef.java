@@ -58,6 +58,7 @@ import org.eclipse.jgit.util.RefMap;
 
 @Command(usage = "usage_ShowRef")
 class ShowRef extends TextBuiltin {
+	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
 		for (final Ref r : getSortedRefs()) {

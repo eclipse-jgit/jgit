@@ -77,6 +77,7 @@ class Commit extends TextBuiltin {
 	@Argument(metaVar = "metaVar_commitPaths", usage = "usage_CommitPaths")
 	private List<String> paths = new ArrayList<>();
 
+	/** {@inheritDoc} */
 	@Override
 	protected void run() throws NoHeadException, NoMessageException,
 			ConcurrentRefUpdateException, JGitInternalException, Exception {

@@ -57,6 +57,7 @@ import org.eclipse.jgit.pgm.internal.CLIText;
 
 @Command(usage = "usage_ShowCacheTree")
 class ShowCacheTree extends TextBuiltin {
+	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
 		final DirCache cache = db.readDirCache();

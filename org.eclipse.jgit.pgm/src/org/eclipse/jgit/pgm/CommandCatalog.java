@@ -60,9 +60,10 @@ import java.util.Vector;
 /**
  * List of all commands known by jgit's command line tools.
  * <p>
- * Commands are implementations of {@link TextBuiltin}, with an optional
- * {@link Command} class annotation to insert additional documentation or
- * override the default command name (which is guessed from the class name).
+ * Commands are implementations of {@link org.eclipse.jgit.pgm.TextBuiltin},
+ * with an optional {@link org.eclipse.jgit.pgm.Command} class annotation to
+ * insert additional documentation or override the default command name (which
+ * is guessed from the class name).
  * <p>
  * Commands may be registered by adding them to a services file in the same JAR
  * (or classes directory) as the command implementation. The service file name
@@ -90,6 +91,8 @@ public class CommandCatalog {
 	}
 
 	/**
+	 * Get all commands sorted by their name
+	 *
 	 * @return all known commands, sorted by command name.
 	 */
 	public static CommandRef[] all() {
@@ -97,6 +100,8 @@ public class CommandCatalog {
 	}
 
 	/**
+	 * Get all common commands sorted by their name
+	 *
 	 * @return all common commands, sorted by command name.
 	 */
 	public static CommandRef[] common() {

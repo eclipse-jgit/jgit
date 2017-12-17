@@ -72,6 +72,7 @@ class DiffTree extends TextBuiltin {
 	@Option(name = "--", metaVar = "metaVar_path", handler = PathTreeFilterHandler.class)
 	private TreeFilter pathFilter = TreeFilter.ALL;
 
+	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
 		try (final TreeWalk walk = new TreeWalk(db)) {

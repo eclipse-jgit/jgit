@@ -75,6 +75,7 @@ class VerifyReftable extends TextBuiltin {
 	@Argument(index = 1)
 	private String reftablePath;
 
+	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
 		List<Ref> refs = WriteReftable.readRefs(lsRemotePath);

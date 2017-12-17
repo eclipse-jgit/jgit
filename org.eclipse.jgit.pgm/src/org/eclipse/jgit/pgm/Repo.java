@@ -58,6 +58,7 @@ class Repo extends TextBuiltin {
 	@Argument(required = true, metaVar = "metaVar_path", usage = "usage_pathToXml")
 	private String path;
 
+	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
 		new RepoCommand(db)

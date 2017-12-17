@@ -64,6 +64,7 @@ class ShowDirCache extends TextBuiltin {
 	@Option(name = "--millis", aliases = { "-m" }, usage = "usage_showTimeInMilliseconds")
 	private boolean millis = false;
 
+	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
 		final SimpleDateFormat fmt;

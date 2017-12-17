@@ -71,6 +71,8 @@ import org.kohsuke.args4j.spi.StringOptionHandler;
 public class UntrackedFilesHandler extends StringOptionHandler {
 
 	/**
+	 * <p>Constructor for UntrackedFilesHandler.</p>
+	 *
 	 * @param parser
 	 *            The parser to which this handler belongs to.
 	 * @param option
@@ -83,6 +85,7 @@ public class UntrackedFilesHandler extends StringOptionHandler {
 		super(parser, option, setter);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int parseArguments(Parameters params) throws CmdLineException {
 		String alias = params.getParameter(-1);

@@ -57,8 +57,9 @@ import org.kohsuke.args4j.spi.Setter;
 /**
  * Custom Argument handler for jgit command selection.
  * <p>
- * Translates a single argument string to a {@link TextBuiltin} instance which
- * we can execute at runtime with the remaining arguments of the parser.
+ * Translates a single argument string to a
+ * {@link org.eclipse.jgit.pgm.TextBuiltin} instance which we can execute at
+ * runtime with the remaining arguments of the parser.
  */
 public class SubcommandHandler extends OptionHandler<TextBuiltin> {
 	private final org.eclipse.jgit.pgm.opt.CmdLineParser clp;
@@ -69,8 +70,11 @@ public class SubcommandHandler extends OptionHandler<TextBuiltin> {
 	 * This constructor is used only by args4j.
 	 *
 	 * @param parser
+	 *            a {@link org.kohsuke.args4j.CmdLineParser} object.
 	 * @param option
+	 *            a {@link org.kohsuke.args4j.OptionDef} object.
 	 * @param setter
+	 *            a {@link org.kohsuke.args4j.spi.Setter} object.
 	 */
 	public SubcommandHandler(final CmdLineParser parser,
 			final OptionDef option, final Setter<? super TextBuiltin> setter) {
@@ -78,6 +82,7 @@ public class SubcommandHandler extends OptionHandler<TextBuiltin> {
 		clp = (org.eclipse.jgit.pgm.opt.CmdLineParser) parser;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int parseArguments(final Parameters params) throws CmdLineException {
 		final String name = params.getParameter(0);
@@ -95,6 +100,7 @@ public class SubcommandHandler extends OptionHandler<TextBuiltin> {
 		return 1;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String getDefaultMetaVariable() {
 		return CLIText.get().metaVar_command;

@@ -86,11 +86,13 @@ class Clone extends AbstractFetchCommand implements CloneCommand.Callback {
 	@Argument(index = 1, metaVar = "metaVar_directory")
 	private String localName;
 
+	/** {@inheritDoc} */
 	@Override
 	protected final boolean requiresRepository() {
 		return false;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
 		if (localName != null && gitdir != null)
@@ -148,6 +150,7 @@ class Clone extends AbstractFetchCommand implements CloneCommand.Callback {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void initializedSubmodules(Collection<String> submodules) {
 		try {
@@ -161,6 +164,7 @@ class Clone extends AbstractFetchCommand implements CloneCommand.Callback {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void cloningSubmodule(String path) {
 		try {
@@ -172,6 +176,7 @@ class Clone extends AbstractFetchCommand implements CloneCommand.Callback {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void checkingOut(AnyObjectId commit, String path) {
 		try {

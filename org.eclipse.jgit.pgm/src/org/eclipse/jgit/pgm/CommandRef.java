@@ -50,7 +50,8 @@ import java.text.MessageFormat;
 import org.eclipse.jgit.pgm.internal.CLIText;
 
 /**
- * Description of a command (a {@link TextBuiltin} subclass.
+ * Description of a command (a {@link org.eclipse.jgit.pgm.TextBuiltin}
+ * subclass).
  * <p>
  * These descriptions are lightweight compared to creating a command instance
  * and are therefore suitable for catalogs of "known" commands without linking
@@ -102,6 +103,8 @@ public class CommandRef {
 	}
 
 	/**
+	 * Get the <code>name</code>.
+	 *
 	 * @return name the command is invoked as from the command line.
 	 */
 	public String getName() {
@@ -109,6 +112,8 @@ public class CommandRef {
 	}
 
 	/**
+	 * Get <code>usage</code>.
+	 *
 	 * @return one line description of the command's feature set.
 	 */
 	public String getUsage() {
@@ -116,6 +121,8 @@ public class CommandRef {
 	}
 
 	/**
+	 * Is this command commonly used
+	 *
 	 * @return true if this command is considered to be commonly used.
 	 */
 	public boolean isCommon() {
@@ -123,6 +130,8 @@ public class CommandRef {
 	}
 
 	/**
+	 * Get implementation class name
+	 *
 	 * @return name of the Java class which implements this command.
 	 */
 	public String getImplementationClassName() {
@@ -130,6 +139,8 @@ public class CommandRef {
 	}
 
 	/**
+	 * Get implementation class loader
+	 *
 	 * @return loader for {@link #getImplementationClassName()}.
 	 */
 	public ClassLoader getImplementationClassLoader() {
@@ -137,6 +148,8 @@ public class CommandRef {
 	}
 
 	/**
+	 * Create an instance of the command implementation
+	 *
 	 * @return a new instance of the command implementation.
 	 */
 	public TextBuiltin create() {
@@ -166,6 +179,7 @@ public class CommandRef {
 		return r;
 	}
 
+	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {

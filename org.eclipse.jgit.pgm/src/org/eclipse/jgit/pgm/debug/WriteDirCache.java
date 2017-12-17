@@ -51,6 +51,7 @@ import org.eclipse.jgit.pgm.internal.CLIText;
 
 @Command(usage = "usage_WriteDirCache")
 class WriteDirCache extends TextBuiltin {
+	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
 		final DirCache cache = db.readDirCache();

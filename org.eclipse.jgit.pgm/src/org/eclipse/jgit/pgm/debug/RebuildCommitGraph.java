@@ -114,6 +114,7 @@ class RebuildCommitGraph extends TextBuiltin {
 
 	private Map<ObjectId, ObjectId> rewrites = new HashMap<>();
 
+	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
 		if (!really && !db.getRefDatabase().getRefs(ALL).isEmpty()) {

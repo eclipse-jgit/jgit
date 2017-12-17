@@ -113,6 +113,7 @@ class Push extends TextBuiltin {
 
 	private boolean shownURI;
 
+	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
 		try (Git git = new Git(db)) {

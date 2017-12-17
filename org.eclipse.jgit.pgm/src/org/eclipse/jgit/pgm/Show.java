@@ -165,12 +165,14 @@ class Show extends TextBuiltin {
 		fmt = new SimpleDateFormat("EEE MMM dd HH:mm:ss yyyy ZZZZZ", Locale.US); //$NON-NLS-1$
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void init(final Repository repository, final String gitDir) {
 		super.init(repository, gitDir);
 		diffFmt = new DiffFormatter(new BufferedOutputStream(outs));
 	}
 
+	/** {@inheritDoc} */
 	@SuppressWarnings("boxing")
 	@Override
 	protected void run() throws Exception {

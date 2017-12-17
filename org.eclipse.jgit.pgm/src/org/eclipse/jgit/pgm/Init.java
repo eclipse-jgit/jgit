@@ -66,11 +66,13 @@ class Init extends TextBuiltin {
 	@Argument(index = 0, metaVar = "metaVar_directory")
 	private String directory;
 
+	/** {@inheritDoc} */
 	@Override
 	protected final boolean requiresRepository() {
 		return false;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
 		InitCommand command = Git.init();
