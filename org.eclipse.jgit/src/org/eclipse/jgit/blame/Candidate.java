@@ -325,6 +325,7 @@ class Candidate {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
