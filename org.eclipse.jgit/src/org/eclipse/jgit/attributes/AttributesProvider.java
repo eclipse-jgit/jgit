@@ -49,6 +49,8 @@ package org.eclipse.jgit.attributes;
  */
 public interface AttributesProvider {
 	/**
+	 * Get attributes
+	 *
 	 * @return the currently active attributes
 	 */
 	public Attributes getAttributes();
