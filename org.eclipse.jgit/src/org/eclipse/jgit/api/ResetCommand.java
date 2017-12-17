@@ -126,20 +126,23 @@ public class ResetCommand extends GitCommand<Ref> {
 	private boolean isReflogDisabled;
 
 	/**
+	 * <p>
+	 * Constructor for ResetCommand.
+	 * </p>
 	 *
 	 * @param repo
+	 *            the {@link org.eclipse.jgit.lib.Repository}
 	 */
 	public ResetCommand(Repository repo) {
 		super(repo);
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * Executes the {@code Reset} command. Each instance of this class should
 	 * only be used for one invocation of the command. Don't call this method
 	 * twice on an instance.
-	 *
-	 * @return the Ref after reset
-	 * @throws GitAPIException
 	 */
 	@Override
 	public Ref call() throws GitAPIException, CheckoutConflictException {
@@ -258,6 +261,8 @@ public class ResetCommand extends GitCommand<Ref> {
 	}
 
 	/**
+	 * Set the name of the <code>Ref</code> to reset to
+	 *
 	 * @param ref
 	 *            the ref to reset to, defaults to HEAD if not specified
 	 * @return this instance
@@ -268,6 +273,8 @@ public class ResetCommand extends GitCommand<Ref> {
 	}
 
 	/**
+	 * Set the reset mode
+	 *
 	 * @param mode
 	 *            the mode of the reset command
 	 * @return this instance
@@ -282,6 +289,8 @@ public class ResetCommand extends GitCommand<Ref> {
 	}
 
 	/**
+	 * Repository relative path of file or directory to reset
+	 *
 	 * @param path
 	 *            repository-relative path of file/directory to reset (with
 	 *            <code>/</code> as separator)
@@ -297,6 +306,8 @@ public class ResetCommand extends GitCommand<Ref> {
 	}
 
 	/**
+	 * Whether to disable reflog
+	 *
 	 * @param disable
 	 *            if {@code true} disables writing a reflog entry for this reset
 	 *            command
@@ -309,6 +320,8 @@ public class ResetCommand extends GitCommand<Ref> {
 	}
 
 	/**
+	 * Whether reflog is disabled
+	 *
 	 * @return {@code true} if writing reflog is disabled for this reset command
 	 * @since 4.5
 	 */
@@ -433,6 +446,7 @@ public class ResetCommand extends GitCommand<Ref> {
 		repo.writeMergeCommitMsg(null);
 	}
 
+	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {

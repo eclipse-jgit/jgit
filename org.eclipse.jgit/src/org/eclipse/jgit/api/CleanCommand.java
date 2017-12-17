@@ -79,21 +79,22 @@ public class CleanCommand extends GitCommand<Set<String>> {
 	private boolean force = false;
 
 	/**
+	 * Constructor for CleanCommand
+	 *
 	 * @param repo
+	 *            the {@link org.eclipse.jgit.lib.Repository}
 	 */
 	protected CleanCommand(Repository repo) {
 		super(repo);
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * Executes the {@code clean} command with all the options and parameters
 	 * collected by the setter methods of this class. Each instance of this
 	 * class should only be used for one invocation of the command (means: one
 	 * call to {@link #call()})
-	 *
-	 * @return a set of strings representing each file cleaned.
-	 * @throws GitAPIException
-	 * @throws NoWorkTreeException
 	 */
 	@Override
 	public Set<String> call() throws NoWorkTreeException, GitAPIException {

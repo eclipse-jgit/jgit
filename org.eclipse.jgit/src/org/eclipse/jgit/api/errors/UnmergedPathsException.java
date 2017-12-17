@@ -63,8 +63,12 @@ public class UnmergedPathsException extends GitAPIException {
 	}
 
 	/**
+	 * Constructor for UnmergedPathsException
+	 *
 	 * @param message
+	 *            the message
 	 * @param cause
+	 *            a {@link java.lang.Throwable}
 	 * @since 4.1
 	 */
 	public UnmergedPathsException(String message, Throwable cause) {

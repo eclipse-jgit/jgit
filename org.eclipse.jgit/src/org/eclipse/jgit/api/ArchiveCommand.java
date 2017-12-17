@@ -70,19 +70,16 @@ import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 /**
  * Create an archive of files from a named tree.
  * <p>
- * Examples (<code>git</code> is a {@link Git} instance):
+ * Examples (<code>git</code> is a {@link org.eclipse.jgit.api.Git} instance):
  * <p>
  * Create a tarball from HEAD:
  *
  * <pre>
  * ArchiveCommand.registerFormat("tar", new TarFormat());
  * try {
- *	git.archive()
- *		.setTree(db.resolve(&quot;HEAD&quot;))
- *		.setOutputStream(out)
- *		.call();
+ * 	git.archive().setTree(db.resolve(&quot;HEAD&quot;)).setOutputStream(out).call();
  * } finally {
- *	ArchiveCommand.unregisterFormat("tar");
+ * 	ArchiveCommand.unregisterFormat("tar");
  * }
  * </pre>
  * <p>
@@ -103,7 +100,6 @@ import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
  *
  * @see <a href="http://git-htmldocs.googlecode.com/git/git-archive.html" >Git
  *      documentation about archive</a>
- *
  * @since 3.1
  */
 public class ArchiveCommand extends GitCommand<OutputStream> {
@@ -383,7 +379,10 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 	private String suffix;
 
 	/**
+	 * Constructor for ArchiveCommand
+	 *
 	 * @param repo
+	 *            the {@link org.eclipse.jgit.lib.Repository}
 	 */
 	public ArchiveCommand(Repository repo) {
 		super(repo);
@@ -440,9 +439,7 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 		}
 	}
 
-	/**
-	 * @return the stream to which the archive has been written
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public OutputStream call() throws GitAPIException {
 		checkCallable();
@@ -456,6 +453,8 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 	}
 
 	/**
+	 * Set the tag, commit, or tree object to produce an archive for
+	 *
 	 * @param tree
 	 *            the tag, commit, or tree object to produce an archive for
 	 * @return this
@@ -470,6 +469,8 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 	}
 
 	/**
+	 * Set string prefixed to filenames in archive
+	 *
 	 * @param prefix
 	 *            string prefixed to filenames in archive (e.g., "master/").
 	 *            null means to not use any leading prefix.
@@ -502,8 +503,10 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 	}
 
 	/**
+	 * Set output stream
+	 *
 	 * @param out
-	 *	      the stream to which to write the archive
+	 *            the stream to which to write the archive
 	 * @return this
 	 */
 	public ArchiveCommand setOutputStream(OutputStream out) {
@@ -512,10 +515,11 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 	}
 
 	/**
+	 * Set archive format
+	 *
 	 * @param fmt
-	 *	      archive format (e.g., "tar" or "zip").
-	 *	      null means to choose automatically based on
-	 *	      the archive filename.
+	 *            archive format (e.g., "tar" or "zip"). null means to choose
+	 *            automatically based on the archive filename.
 	 * @return this
 	 */
 	public ArchiveCommand setFormat(String fmt) {
@@ -524,6 +528,8 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 	}
 
 	/**
+	 * Set archive format options
+	 *
 	 * @param options
 	 *            archive format options (e.g., level=9 for zip compression).
 	 * @return this

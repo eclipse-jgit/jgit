@@ -96,7 +96,12 @@ public class SubmoduleUpdateCommand extends
 	private boolean fetch = false;
 
 	/**
+	 * <p>
+	 * Constructor for SubmoduleUpdateCommand.
+	 * </p>
+	 *
 	 * @param repo
+	 *            a {@link org.eclipse.jgit.lib.Repository} object.
 	 */
 	public SubmoduleUpdateCommand(final Repository repo) {
 		super(repo);
@@ -109,6 +114,7 @@ public class SubmoduleUpdateCommand extends
 	 *
 	 * @see NullProgressMonitor
 	 * @param monitor
+	 *            a {@link org.eclipse.jgit.lib.ProgressMonitor} object.
 	 * @return this command
 	 */
 	public SubmoduleUpdateCommand setProgressMonitor(
@@ -122,6 +128,7 @@ public class SubmoduleUpdateCommand extends
 	 * is set to <code>false</code>
 	 *
 	 * @param fetch
+	 *            whether to fetch the submodules before we update them
 	 * @return this command
 	 * @since 4.9
 	 */
@@ -143,18 +150,9 @@ public class SubmoduleUpdateCommand extends
 	}
 
 	/**
-	 * Execute the SubmoduleUpdateCommand command.
+	 * {@inheritDoc}
 	 *
-	 * @return a collection of updated submodule paths
-	 * @throws ConcurrentRefUpdateException
-	 * @throws CheckoutConflictException
-	 * @throws InvalidMergeHeadsException
-	 * @throws InvalidConfigurationException
-	 * @throws NoHeadException
-	 * @throws NoMessageException
-	 * @throws RefNotFoundException
-	 * @throws WrongRepositoryStateException
-	 * @throws GitAPIException
+	 * Execute the SubmoduleUpdateCommand command.
 	 */
 	@Override
 	public Collection<String> call() throws InvalidConfigurationException,
@@ -252,6 +250,8 @@ public class SubmoduleUpdateCommand extends
 	}
 
 	/**
+	 * Setter for the field <code>strategy</code>.
+	 *
 	 * @param strategy
 	 *            The merge strategy to use during this update operation.
 	 * @return {@code this}

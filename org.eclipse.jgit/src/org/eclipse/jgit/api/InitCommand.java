@@ -69,9 +69,9 @@ public class InitCommand implements Callable<Git> {
 	private boolean bare;
 
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * Executes the {@code Init} command.
-	 *
-	 * @return the newly created {@code Git} object with associated repository
 	 */
 	@Override
 	public Git call() throws GitAPIException {
@@ -127,7 +127,7 @@ public class InitCommand implements Callable<Git> {
 	 * @param directory
 	 *            the directory to init to
 	 * @return this instance
-	 * @throws IllegalStateException
+	 * @throws java.lang.IllegalStateException
 	 *             if the combination of directory, gitDir and bare is illegal.
 	 *             E.g. if for a non-bare repository directory and gitDir point
 	 *             to the same directory of if for a bare repository both
@@ -141,10 +141,12 @@ public class InitCommand implements Callable<Git> {
 	}
 
 	/**
+	 * Set the repository meta directory (.git)
+	 *
 	 * @param gitDir
 	 *            the repository meta directory
 	 * @return this instance
-	 * @throws IllegalStateException
+	 * @throws java.lang.IllegalStateException
 	 *             if the combination of directory, gitDir and bare is illegal.
 	 *             E.g. if for a non-bare repository directory and gitDir point
 	 *             to the same directory of if for a bare repository both
@@ -176,9 +178,11 @@ public class InitCommand implements Callable<Git> {
 	}
 
 	/**
+	 * Set whether the repository is bare or not
+	 *
 	 * @param bare
 	 *            whether the repository is bare or not
-	 * @throws IllegalStateException
+	 * @throws java.lang.IllegalStateException
 	 *             if the combination of directory, gitDir and bare is illegal.
 	 *             E.g. if for a non-bare repository directory and gitDir point
 	 *             to the same directory of if for a bare repository both

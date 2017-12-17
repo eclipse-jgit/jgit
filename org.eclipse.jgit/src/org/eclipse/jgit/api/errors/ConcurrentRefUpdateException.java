@@ -55,10 +55,16 @@ public class ConcurrentRefUpdateException extends GitAPIException {
 	private Ref ref;
 
 	/**
+	 * Constructor for ConcurrentRefUpdateException.
+	 *
 	 * @param message
+	 *            error message
 	 * @param ref
+	 *            a {@link org.eclipse.jgit.lib.Ref}
 	 * @param rc
+	 *            a {@link org.eclipse.jgit.lib.RefUpdate.Result}
 	 * @param cause
+	 *            a {@link java.lang.Throwable}
 	 */
 	public ConcurrentRefUpdateException(String message, Ref ref,
 			RefUpdate.Result rc, Throwable cause) {
@@ -69,9 +75,14 @@ public class ConcurrentRefUpdateException extends GitAPIException {
 	}
 
 	/**
+	 * Constructor for ConcurrentRefUpdateException.
+	 *
 	 * @param message
+	 *            error message
 	 * @param ref
+	 *            a {@link org.eclipse.jgit.lib.Ref}
 	 * @param rc
+	 *            a {@link org.eclipse.jgit.lib.RefUpdate.Result}
 	 */
 	public ConcurrentRefUpdateException(String message, Ref ref,
 			RefUpdate.Result rc) {
@@ -82,15 +93,21 @@ public class ConcurrentRefUpdateException extends GitAPIException {
 	}
 
 	/**
-	 * @return the {@link Ref} which was tried to by updated
+	 * Get <code>Ref</code>
+	 *
+	 * @return the {@link org.eclipse.jgit.lib.Ref} which was tried to by
+	 *         updated
 	 */
 	public Ref getRef() {
 		return ref;
 	}
 
 	/**
-	 * @return the result which was returned by {@link RefUpdate#update()} and
-	 *         which caused this error
+	 * Get result
+	 *
+	 * @return the result which was returned by
+	 *         {@link org.eclipse.jgit.lib.RefUpdate#update()} and which caused
+	 *         this error
 	 */
 	public RefUpdate.Result getResult() {
 		return rc;

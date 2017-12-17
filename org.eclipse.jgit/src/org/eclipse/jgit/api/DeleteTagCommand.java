@@ -71,15 +71,16 @@ public class DeleteTagCommand extends GitCommand<List<String>> {
 	private final Set<String> tags = new HashSet<>();
 
 	/**
+	 * Constructor for DeleteTagCommand
+	 *
 	 * @param repo
+	 *            the {@link org.eclipse.jgit.lib.Repository}
 	 */
 	protected DeleteTagCommand(Repository repo) {
 		super(repo);
 	}
 
-	/**
-	 * @return the list with the full names of the deleted tags
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public List<String> call() throws GitAPIException {
 		checkCallable();
@@ -124,6 +125,8 @@ public class DeleteTagCommand extends GitCommand<List<String>> {
 	}
 
 	/**
+	 * Set names of the tags to delete
+	 *
 	 * @param tags
 	 *            the names of the tags to delete; if not set, this will do
 	 *            nothing; invalid tag names will simply be ignored

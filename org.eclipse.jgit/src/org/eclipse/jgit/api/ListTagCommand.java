@@ -65,15 +65,16 @@ import org.eclipse.jgit.revwalk.RevWalk;
 public class ListTagCommand extends GitCommand<List<Ref>> {
 
 	/**
+	 * Constructor for ListTagCommand.
+	 *
 	 * @param repo
+	 *            a {@link org.eclipse.jgit.lib.Repository} object.
 	 */
 	protected ListTagCommand(Repository repo) {
 		super(repo);
 	}
 
-	/**
-	 * @return the tags available
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public List<Ref> call() throws GitAPIException {
 		checkCallable();

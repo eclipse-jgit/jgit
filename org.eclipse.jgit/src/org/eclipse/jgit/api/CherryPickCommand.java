@@ -96,25 +96,22 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 	private boolean noCommit = false;
 
 	/**
+	 * Constructor for CherryPickCommand
+	 *
 	 * @param repo
+	 *            the {@link org.eclipse.jgit.lib.Repository}
 	 */
 	protected CherryPickCommand(Repository repo) {
 		super(repo);
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * Executes the {@code Cherry-Pick} command with all the options and
 	 * parameters collected by the setter methods (e.g. {@link #include(Ref)} of
 	 * this class. Each instance of this class should only be used for one
 	 * invocation of the command. Don't call this method twice on an instance.
-	 *
-	 * @return the result of the cherry-pick
-	 * @throws GitAPIException
-	 * @throws WrongRepositoryStateException
-	 * @throws ConcurrentRefUpdateException
-	 * @throws UnmergedPathsException
-	 * @throws NoMessageException
-	 * @throws NoHeadException
 	 */
 	@Override
 	public CherryPickResult call() throws GitAPIException, NoMessageException,
@@ -224,6 +221,8 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 	}
 
 	/**
+	 * Include a reference to a commit
+	 *
 	 * @param commit
 	 *            a reference to a commit which is cherry-picked to the current
 	 *            head
@@ -236,6 +235,8 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 	}
 
 	/**
+	 * Include a commit
+	 *
 	 * @param commit
 	 *            the Id of a commit which is cherry-picked to the current head
 	 * @return {@code this}
@@ -245,6 +246,8 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 	}
 
 	/**
+	 * Include a commit
+	 *
 	 * @param name
 	 *            a name given to the commit
 	 * @param commit
@@ -257,6 +260,8 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 	}
 
 	/**
+	 * Set the name that should be used in the "OURS" place for conflict markers
+	 *
 	 * @param ourCommitName
 	 *            the name that should be used in the "OURS" place for conflict
 	 *            markers
@@ -284,6 +289,8 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 	}
 
 	/**
+	 * Set the {@code MergeStrategy}
+	 *
 	 * @param strategy
 	 *            The merge strategy to use during this Cherry-pick.
 	 * @return {@code this}
@@ -295,6 +302,8 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 	}
 
 	/**
+	 * Set the (1-based) parent number to diff against
+	 *
 	 * @param mainlineParentNumber
 	 *            the (1-based) parent number to diff against. This allows
 	 *            cherry-picking of merges.
@@ -332,6 +341,7 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 		return headName;
 	}
 
+	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {

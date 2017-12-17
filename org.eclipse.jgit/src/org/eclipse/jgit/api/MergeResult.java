@@ -53,11 +53,10 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.merge.MergeChunk;
 import org.eclipse.jgit.merge.MergeChunk.ConflictState;
 import org.eclipse.jgit.merge.MergeStrategy;
-import org.eclipse.jgit.merge.ResolveMerger;
 import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
 
 /**
- * Encapsulates the result of a {@link MergeCommand}.
+ * Encapsulates the result of a {@link org.eclipse.jgit.api.MergeCommand}.
  */
 public class MergeResult {
 
@@ -249,6 +248,8 @@ public class MergeResult {
 	private List<String> checkoutConflicts;
 
 	/**
+	 * Constructor for MergeResult.
+	 *
 	 * @param newHead
 	 *            the object the head points at after the merge
 	 * @param base
@@ -260,10 +261,10 @@ public class MergeResult {
 	 * @param mergeStatus
 	 *            the status the merge resulted in
 	 * @param mergeStrategy
-	 *            the used {@link MergeStrategy}
+	 *            the used {@link org.eclipse.jgit.merge.MergeStrategy}
 	 * @param lowLevelResults
 	 *            merge results as returned by
-	 *            {@link ResolveMerger#getMergeResults()}
+	 *            {@link org.eclipse.jgit.merge.ResolveMerger#getMergeResults()}
 	 * @since 2.0
 	 */
 	public MergeResult(ObjectId newHead, ObjectId base,
@@ -275,6 +276,8 @@ public class MergeResult {
 	}
 
 	/**
+	 * Constructor for MergeResult.
+	 *
 	 * @param newHead
 	 *            the object the head points at after the merge
 	 * @param base
@@ -286,9 +289,10 @@ public class MergeResult {
 	 * @param mergeStatus
 	 *            the status the merge resulted in
 	 * @param mergeStrategy
-	 *            the used {@link MergeStrategy}
+	 *            the used {@link org.eclipse.jgit.merge.MergeStrategy}
 	 * @param lowLevelResults
-	 *            merge results as returned by {@link ResolveMerger#getMergeResults()}
+	 *            merge results as returned by
+	 *            {@link org.eclipse.jgit.merge.ResolveMerger#getMergeResults()}
 	 * @param description
 	 *            a user friendly description of the merge result
 	 */
@@ -302,6 +306,8 @@ public class MergeResult {
 	}
 
 	/**
+	 * Constructor for MergeResult.
+	 *
 	 * @param newHead
 	 *            the object the head points at after the merge
 	 * @param base
@@ -313,13 +319,13 @@ public class MergeResult {
 	 * @param mergeStatus
 	 *            the status the merge resulted in
 	 * @param mergeStrategy
-	 *            the used {@link MergeStrategy}
+	 *            the used {@link org.eclipse.jgit.merge.MergeStrategy}
 	 * @param lowLevelResults
 	 *            merge results as returned by
-	 *            {@link ResolveMerger#getMergeResults()}
+	 *            {@link org.eclipse.jgit.merge.ResolveMerger#getMergeResults()}
 	 * @param failingPaths
 	 *            list of paths causing this merge to fail as returned by
-	 *            {@link ResolveMerger#getFailingPaths()}
+	 *            {@link org.eclipse.jgit.merge.ResolveMerger#getFailingPaths()}
 	 * @param description
 	 *            a user friendly description of the merge result
 	 */
@@ -354,6 +360,8 @@ public class MergeResult {
 	}
 
 	/**
+	 * Get the object the head points at after the merge
+	 *
 	 * @return the object the head points at after the merge
 	 */
 	public ObjectId getNewHead() {
@@ -361,6 +369,8 @@ public class MergeResult {
 	}
 
 	/**
+	 * Get the merge status
+	 *
 	 * @return the status the merge resulted in
 	 */
 	public MergeStatus getMergeStatus() {
@@ -368,6 +378,8 @@ public class MergeResult {
 	}
 
 	/**
+	 * Get the commits which have been merged
+	 *
 	 * @return all the commits which have been merged together
 	 */
 	public ObjectId[] getMergedCommits() {
@@ -375,6 +387,8 @@ public class MergeResult {
 	}
 
 	/**
+	 * Get the common base
+	 *
 	 * @return base the common base which was used to produce a content-merge.
 	 *         May be <code>null</code> if the merge-result was produced without
 	 *         computing a common base
@@ -383,6 +397,7 @@ public class MergeResult {
 		return base;
 	}
 
+	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
@@ -402,6 +417,8 @@ public class MergeResult {
 	}
 
 	/**
+	 * Set conflicts
+	 *
 	 * @param conflicts
 	 *            the conflicts to set
 	 */
@@ -410,7 +427,10 @@ public class MergeResult {
 	}
 
 	/**
+	 * Add a conflict
+	 *
 	 * @param path
+	 *            path of the file to add a conflict for
 	 * @param conflictingRanges
 	 *            the conflicts to set
 	 */
@@ -421,8 +441,12 @@ public class MergeResult {
 	}
 
 	/**
+	 * Add a conflict
+	 *
 	 * @param path
+	 *            path of the file to add a conflict for
 	 * @param lowLevelResult
+	 *            a {@link org.eclipse.jgit.merge.MergeResult}
 	 */
 	public void addConflict(String path, org.eclipse.jgit.merge.MergeResult<?> lowLevelResult) {
 		if (!lowLevelResult.containsConflicts())
@@ -462,9 +486,10 @@ public class MergeResult {
 
 	/**
 	 * Returns information about the conflicts which occurred during a
-	 * {@link MergeCommand}. The returned value maps the path of a conflicting
-	 * file to a two-dimensional int-array of line-numbers telling where in the
-	 * file conflict markers for which merged commit can be found.
+	 * {@link org.eclipse.jgit.api.MergeCommand}. The returned value maps the
+	 * path of a conflicting file to a two-dimensional int-array of line-numbers
+	 * telling where in the file conflict markers for which merged commit can be
+	 * found.
 	 * <p>
 	 * If the returned value contains a mapping "path"-&gt;[x][y]=z then this
 	 * means
@@ -505,7 +530,7 @@ public class MergeResult {
 
 	/**
 	 * Returns a list of paths causing this merge to fail as returned by
-	 * {@link ResolveMerger#getFailingPaths()}
+	 * {@link org.eclipse.jgit.merge.ResolveMerger#getFailingPaths()}
 	 *
 	 * @return the list of paths causing this merge to fail or <code>null</code>
 	 *         if no failure occurred

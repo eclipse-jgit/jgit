@@ -104,8 +104,10 @@ public class DescribeCommand extends GitCommand<String> {
 	private List<IMatcher> matchers = new ArrayList<>();
 
 	/**
+	 * Constructor for DescribeCommand.
 	 *
 	 * @param repo
+	 *            the {@link org.eclipse.jgit.lib.Repository}
 	 */
 	protected DescribeCommand(Repository repo) {
 		super(repo);
@@ -123,7 +125,7 @@ public class DescribeCommand extends GitCommand<String> {
 	 *             the supplied commit does not exist.
 	 * @throws IncorrectObjectTypeException
 	 *             the supplied id is not a commit or an annotated tag.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             a pack file or loose object could not be read.
 	 */
 	public DescribeCommand setTarget(ObjectId target) throws IOException {
@@ -135,14 +137,15 @@ public class DescribeCommand extends GitCommand<String> {
 	 * Sets the commit to be described.
 	 *
 	 * @param rev
-	 * 		Commit ID, tag, branch, ref, etc.
-	 * 		See {@link Repository#resolve(String)} for allowed syntax.
+	 *            Commit ID, tag, branch, ref, etc. See
+	 *            {@link org.eclipse.jgit.lib.Repository#resolve(String)} for
+	 *            allowed syntax.
 	 * @return {@code this}
 	 * @throws IncorrectObjectTypeException
 	 *             the supplied id is not a commit or an annotated tag.
-	 * @throws RefNotFoundException
-	 * 				the given rev didn't resolve to any object.
-	 * @throws IOException
+	 * @throws org.eclipse.jgit.api.errors.RefNotFoundException
+	 *             the given rev didn't resolve to any object.
+	 * @throws java.io.IOException
 	 *             a pack file or loose object could not be read.
 	 */
 	public DescribeCommand setTarget(String rev) throws IOException,
@@ -160,7 +163,6 @@ public class DescribeCommand extends GitCommand<String> {
 	 * @param longDesc
 	 *            <code>true</code> if always the long format should be used.
 	 * @return {@code this}
-	 *
 	 * @see <a
 	 *      href="https://www.kernel.org/pub/software/scm/git/docs/git-describe.html"
 	 *      >Git documentation about describe</a>
@@ -180,15 +182,17 @@ public class DescribeCommand extends GitCommand<String> {
 	}
 
 	/**
-	 * Sets one or more {@code glob(7)} patterns that tags must match to be considered.
-	 * If multiple patterns are provided, tags only need match one of them.
+	 * Sets one or more {@code glob(7)} patterns that tags must match to be
+	 * considered. If multiple patterns are provided, tags only need match one
+	 * of them.
 	 *
-	 * @param patterns the {@code glob(7)} pattern or patterns
+	 * @param patterns
+	 *            the {@code glob(7)} pattern or patterns
 	 * @return {@code this}
-	 * @throws InvalidPatternException if the pattern passed in was invalid.
-	 *
-	 * @see <a
-	 *      href="https://www.kernel.org/pub/software/scm/git/docs/git-describe.html"
+	 * @throws org.eclipse.jgit.errors.InvalidPatternException
+	 *             if the pattern passed in was invalid.
+	 * @see <a href=
+	 *      "https://www.kernel.org/pub/software/scm/git/docs/git-describe.html"
 	 *      >Git documentation about describe</a>
 	 * @since 4.9
 	 */
@@ -229,16 +233,10 @@ public class DescribeCommand extends GitCommand<String> {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * Describes the specified commit. Target defaults to HEAD if no commit was
 	 * set explicitly.
-	 *
-	 * @return if there's a tag that points to the commit being described, this
-	 *         tag name is returned. Otherwise additional suffix is added to the
-	 *         nearest tag, just like git-describe(1).
-	 *         <p>
-	 *         If none of the ancestors of the commit being described has any
-	 *         tags at all, then this method returns null, indicating that
-	 *         there's no way to describe this tag.
 	 */
 	@Override
 	public String call() throws GitAPIException {

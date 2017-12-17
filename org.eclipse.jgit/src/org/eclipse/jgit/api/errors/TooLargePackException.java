@@ -46,6 +46,8 @@ public class TooLargePackException extends TransportException {
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * Constructor for TooLargePackException
+	 *
 	 * @param msg
 	 *            message describing the transport failure.
 	 */
@@ -54,6 +56,8 @@ public class TooLargePackException extends TransportException {
 	}
 
 	/**
+	 * Constructor for TooLargePackException
+	 *
 	 * @param msg
 	 *            message describing the transport exception.
 	 * @param cause

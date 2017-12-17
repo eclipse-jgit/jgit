@@ -48,15 +48,22 @@ public class NoFilepatternException extends GitAPIException {
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * Constructor for NoFilepatternException.
+	 *
 	 * @param message
+	 *            error message
 	 * @param cause
+	 *            a {@link java.lang.Throwable}
 	 */
 	public NoFilepatternException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
 	/**
+	 * Constructor for NoFilepatternException.
+	 *
 	 * @param message
+	 *            error message
 	 */
 	public NoFilepatternException(String message) {
 		super(message);

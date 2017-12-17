@@ -68,15 +68,16 @@ public class ListNotesCommand extends GitCommand<List<Note>> {
 	private String notesRef = Constants.R_NOTES_COMMITS;
 
 	/**
+	 * Constructor for ListNotesCommand.
+	 *
 	 * @param repo
+	 *            the {@link org.eclipse.jgit.lib.Repository}
 	 */
 	protected ListNotesCommand(Repository repo) {
 		super(repo);
 	}
 
-	/**
-	 * @return the requested notes
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public List<Note> call() throws GitAPIException {
 		checkCallable();
@@ -101,12 +102,14 @@ public class ListNotesCommand extends GitCommand<List<Note>> {
 	}
 
 	/**
-	 * @param notesRef
-	 *            the ref to read notes from. Note, the default value of
-	 *            {@link Constants#R_NOTES_COMMITS} will be used if nothing is
-	 *            set
-	 * @return {@code this}
+	 * Set the {@code Ref} to read notes from
 	 *
+	 * @param notesRef
+	 *            the name of the {@code Ref} to read notes from. Note, the
+	 *            default value of
+	 *            {@link org.eclipse.jgit.lib.Constants#R_NOTES_COMMITS} will be
+	 *            used if nothing is set
+	 * @return {@code this}
 	 * @see Constants#R_NOTES_COMMITS
 	 */
 	public ListNotesCommand setNotesRef(String notesRef) {

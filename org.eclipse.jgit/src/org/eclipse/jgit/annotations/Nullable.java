@@ -89,7 +89,6 @@ import java.lang.annotation.Target;
  * @see <a href=
  *      "http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#faq-array-syntax-meaning">
  *      The checker-framework manual</a>
- *
  * @since 4.2
  */
 @Documented

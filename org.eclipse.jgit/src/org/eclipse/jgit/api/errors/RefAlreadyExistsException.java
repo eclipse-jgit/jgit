@@ -37,17 +37,18 @@
  */
 package org.eclipse.jgit.api.errors;
 
-import org.eclipse.jgit.lib.Ref;
-
 /**
- * Thrown when trying to create a {@link Ref} with the same name as an existing
- * one
+ * Thrown when trying to create a {@link org.eclipse.jgit.lib.Ref} with the same
+ * name as an existing one
  */
 public class RefAlreadyExistsException extends GitAPIException {
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * Constructor for RefAlreadyExistsException
+	 *
 	 * @param message
+	 *            error message
 	 */
 	public RefAlreadyExistsException(String message) {
 		super(message);

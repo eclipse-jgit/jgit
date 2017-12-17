@@ -73,12 +73,18 @@ public class RemoveNoteCommand extends GitCommand<Note> {
 	private String notesRef = Constants.R_NOTES_COMMITS;
 
 	/**
+	 * <p>
+	 * Constructor for RemoveNoteCommand.
+	 * </p>
+	 *
 	 * @param repo
+	 *            the {@link org.eclipse.jgit.lib.Repository}
 	 */
 	protected RemoveNoteCommand(Repository repo) {
 		super(repo);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Note call() throws GitAPIException {
 		checkCallable();
@@ -105,6 +111,8 @@ public class RemoveNoteCommand extends GitCommand<Note> {
 	 * Sets the object id of object you want to remove a note
 	 *
 	 * @param id
+	 *            the {@link org.eclipse.jgit.revwalk.RevObject} to remove a
+	 *            note from.
 	 * @return {@code this}
 	 */
 	public RemoveNoteCommand setObjectId(RevObject id) {
@@ -138,12 +146,13 @@ public class RemoveNoteCommand extends GitCommand<Note> {
 	}
 
 	/**
-	 * @param notesRef
-	 *            the ref to read notes from. Note, the default value of
-	 *            {@link Constants#R_NOTES_COMMITS} will be used if nothing is
-	 *            set
-	 * @return {@code this}
+	 * Set the name of the <code>Ref</code> to remove a note from.
 	 *
+	 * @param notesRef
+	 *            the {@code Ref} to read notes from. Note, the default value of
+	 *            {@link org.eclipse.jgit.lib.Constants#R_NOTES_COMMITS} will be
+	 *            used if nothing is set
+	 * @return {@code this}
 	 * @see Constants#R_NOTES_COMMITS
 	 */
 	public RemoveNoteCommand setNotesRef(String notesRef) {

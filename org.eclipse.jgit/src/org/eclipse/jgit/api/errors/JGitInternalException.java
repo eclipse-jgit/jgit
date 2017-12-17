@@ -63,7 +63,9 @@ public class JGitInternalException extends RuntimeException {
 	 * Construct an exception for low-level internal exceptions
 	 *
 	 * @param message
+	 *            error message
 	 * @param cause
+	 *            a {@link java.lang.Throwable}
 	 */
 	public JGitInternalException(String message, Throwable cause) {
 		super(message, cause);
@@ -73,6 +75,7 @@ public class JGitInternalException extends RuntimeException {
 	 * Construct an exception for low-level internal exceptions
 	 *
 	 * @param message
+	 *            error message
 	 */
 	public JGitInternalException(String message) {
 		super(message);
