@@ -47,32 +47,32 @@ import java.io.IOException;
 import org.eclipse.jgit.lib.CoreConfig;
 
 /**
- * An interface used to retrieve the global and info {@link AttributesNode}s.
+ * An interface used to retrieve the global and info
+ * {@link org.eclipse.jgit.attributes.AttributesNode}s.
  *
  * @since 4.2
- *
  */
 public interface AttributesNodeProvider {
 
 	/**
-	 * Retrieve the {@link AttributesNode} that holds the information located
-	 * in $GIT_DIR/info/attributes file.
+	 * Retrieve the {@link org.eclipse.jgit.attributes.AttributesNode} that
+	 * holds the information located in $GIT_DIR/info/attributes file.
 	 *
-	 * @return the {@link AttributesNode} that holds the information located in
-	 *         $GIT_DIR/info/attributes file.
-	 * @throws IOException
+	 * @return the {@link org.eclipse.jgit.attributes.AttributesNode} that holds
+	 *         the information located in $GIT_DIR/info/attributes file.
+	 * @throws java.io.IOException
 	 *             if an error is raised while parsing the attributes file
 	 */
 	public AttributesNode getInfoAttributesNode() throws IOException;
 
 	/**
-	 * Retrieve the {@link AttributesNode} that holds the information located
-	 * in the global gitattributes file.
+	 * Retrieve the {@link org.eclipse.jgit.attributes.AttributesNode} that
+	 * holds the information located in the global gitattributes file.
 	 *
-	 * @return the {@link AttributesNode} that holds the information located in
-	 *         the global gitattributes file.
-	 * @throws IOException
-	 *             IOException if an error is raised while parsing the
+	 * @return the {@link org.eclipse.jgit.attributes.AttributesNode} that holds
+	 *         the information located in the global gitattributes file.
+	 * @throws java.io.IOException
+	 *             java.io.IOException if an error is raised while parsing the
 	 *             attributes file
 	 * @see CoreConfig#getAttributesFile()
 	 */
