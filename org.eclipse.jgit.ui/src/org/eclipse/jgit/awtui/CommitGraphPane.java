@@ -81,7 +81,9 @@ public class CommitGraphPane extends JTable {
 
 	private final SwingCommitList allCommits;
 
-	/** Create a new empty panel. */
+	/**
+	 * Create a new empty panel.
+	 */
 	public CommitGraphPane() {
 		allCommits = new SwingCommitList();
 		configureHeader();
@@ -110,6 +112,7 @@ public class CommitGraphPane extends JTable {
 		return allCommits;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void setModel(final TableModel dataModel) {
 		if (dataModel != null && !(dataModel instanceof CommitTableModel))
@@ -117,6 +120,7 @@ public class CommitGraphPane extends JTable {
 		super.setModel(dataModel);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected TableModel createDefaultDataModel() {
 		return new CommitTableModel();

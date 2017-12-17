@@ -58,13 +58,18 @@ import javax.swing.JTextField;
 
 import org.eclipse.jgit.util.CachedAuthenticator;
 
-/** Basic network prompt for username/password when using AWT. */
+/**
+ * Basic network prompt for username/password when using AWT.
+ */
 public class AwtAuthenticator extends CachedAuthenticator {
-	/** Install this authenticator implementation into the JVM. */
+	/**
+	 * Install this authenticator implementation into the JVM.
+	 */
 	public static void install() {
 		setDefault(new AwtAuthenticator());
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected PasswordAuthentication promptPasswordAuthentication() {
 		final GridBagConstraints gbc = new GridBagConstraints(0, 0, 1, 1, 1, 1,

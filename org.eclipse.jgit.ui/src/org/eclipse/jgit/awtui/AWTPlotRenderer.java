@@ -84,6 +84,7 @@ final class AWTPlotRenderer extends AbstractPlotRenderer<SwingLane, Color>
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void drawLine(final Color color, int x1, int y1, int x2,
 			int y2, int width) {
@@ -100,6 +101,7 @@ final class AWTPlotRenderer extends AbstractPlotRenderer<SwingLane, Color>
 		g.drawLine(x1, y1, x2, y2);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void drawCommitDot(final int x, final int y, final int w,
 			final int h) {
@@ -110,6 +112,7 @@ final class AWTPlotRenderer extends AbstractPlotRenderer<SwingLane, Color>
 		g.drawOval(x, y, w, h);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void drawBoundaryDot(final int x, final int y, final int w,
 			final int h) {
@@ -120,6 +123,7 @@ final class AWTPlotRenderer extends AbstractPlotRenderer<SwingLane, Color>
 		g.drawOval(x, y, w, h);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void drawText(final String msg, final int x, final int y) {
 		final int texth = g.getFontMetrics().getHeight();
@@ -128,6 +132,7 @@ final class AWTPlotRenderer extends AbstractPlotRenderer<SwingLane, Color>
 		g.drawString(msg, x, y0 + texth - g.getFontMetrics().getDescent());
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected Color laneColor(final SwingLane myLane) {
 		return myLane != null ? myLane.color : Color.black;
@@ -147,6 +152,7 @@ final class AWTPlotRenderer extends AbstractPlotRenderer<SwingLane, Color>
 		g.drawPolygon(triangle);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected int drawLabel(int x, int y, Ref ref) {
 		String txt;
