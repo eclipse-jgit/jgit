@@ -52,6 +52,8 @@ public class LfsException extends Exception {
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * <p>Constructor for LfsException.</p>
+	 *
 	 * @param message
 	 *            error message, which may be shown to an end-user.
 	 */

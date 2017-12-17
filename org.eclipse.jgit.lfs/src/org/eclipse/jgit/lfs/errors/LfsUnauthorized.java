@@ -56,6 +56,8 @@ public class LfsUnauthorized extends LfsException {
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * <p>Constructor for LfsUnauthorized.</p>
+	 *
 	 * @param operation
 	 *            the operation that was attempted.
 	 * @param name

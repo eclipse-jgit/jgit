@@ -52,7 +52,7 @@ import org.eclipse.jgit.lfs.internal.LfsText;
  * Misc. constants used throughout JGit LFS extension.
  *
  * @since 4.3
- **/
+ */
 @SuppressWarnings("nls")
 public final class Constants {
 	/**
@@ -111,7 +111,7 @@ public final class Constants {
 	 * Create a new digest function for objects.
 	 *
 	 * @return a new digest object.
-	 * @throws RuntimeException
+	 * @throws java.lang.RuntimeException
 	 *             this Java virtual machine does not support the required hash
 	 *             function. Very unlikely given that JGit uses a hash function
 	 *             that is in the Java reference specification.

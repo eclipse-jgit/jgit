@@ -74,7 +74,8 @@ import org.eclipse.jgit.util.FileUtils;
  */
 public class CleanFilter extends FilterCommand {
 	/**
-	 * The factory is responsible for creating instances of {@link CleanFilter}
+	 * The factory is responsible for creating instances of
+	 * {@link org.eclipse.jgit.lfs.CleanFilter}
 	 */
 	public final static FilterCommandFactory FACTORY = new FilterCommandFactory() {
 
@@ -109,17 +110,19 @@ public class CleanFilter extends FilterCommand {
 	private Path tmpFile;
 
 	/**
+	 * Constructor for CleanFilter.
+	 *
 	 * @param db
 	 *            the repository
 	 * @param in
-	 *            an {@link InputStream} providing the original content
+	 *            an {@link java.io.InputStream} providing the original content
 	 * @param out
-	 *            the {@link OutputStream} into which the content of the pointer
-	 *            file should be written. That's the content which will be added
-	 *            to the git repository
-	 * @throws IOException
+	 *            the {@link java.io.OutputStream} into which the content of the
+	 *            pointer file should be written. That's the content which will
+	 *            be added to the git repository
+	 * @throws java.io.IOException
 	 *             when the creation of the temporary file fails or when no
-	 *             {@link OutputStream} for this file can be created
+	 *             {@link java.io.OutputStream} for this file can be created
 	 */
 	public CleanFilter(Repository db, InputStream in, OutputStream out)
 			throws IOException {
@@ -130,6 +133,7 @@ public class CleanFilter extends FilterCommand {
 		this.aOut = new AtomicObjectOutputStream(tmpFile.toAbsolutePath());
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int run() throws IOException {
 		try {

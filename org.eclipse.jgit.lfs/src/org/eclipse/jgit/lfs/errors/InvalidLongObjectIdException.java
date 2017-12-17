@@ -72,6 +72,8 @@ public class InvalidLongObjectIdException extends IllegalArgumentException {
 	}
 
 	/**
+	 * <p>Constructor for InvalidLongObjectIdException.</p>
+	 *
 	 * @param idString
 	 *            String containing the invalid id
 	 */

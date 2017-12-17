@@ -53,6 +53,8 @@ public class LfsValidationError extends LfsException {
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * Constructor for LfsValidationError.
+	 *
 	 * @param message
 	 *            error message, which may be shown to an end-user.
 	 */

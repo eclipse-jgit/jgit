@@ -56,9 +56,10 @@ public class LfsRepositoryNotFound extends LfsException {
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * <p>Constructor for LfsRepositoryNotFound.</p>
+	 *
 	 * @param name
 	 *            the repository name.
-	 *
 	 */
 	public LfsRepositoryNotFound(String name) {
 		super(MessageFormat.format(LfsText.get().repositoryNotFound, name));

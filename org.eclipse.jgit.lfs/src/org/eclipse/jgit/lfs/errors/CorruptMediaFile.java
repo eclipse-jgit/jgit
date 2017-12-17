@@ -63,9 +63,11 @@ public class CorruptMediaFile extends IOException {
 	private long size;
 
 	/**
-	 * @param mediaFile
-	 * @param expectedSize
-	 * @param size
+	 * <p>Constructor for CorruptMediaFile.</p>
+	 *
+	 * @param mediaFile a {@link java.nio.file.Path} object.
+	 * @param expectedSize a long.
+	 * @param size a long.
 	 */
 	@SuppressWarnings("boxing")
 	public CorruptMediaFile(Path mediaFile, long expectedSize,
@@ -78,6 +80,8 @@ public class CorruptMediaFile extends IOException {
 	}
 
 	/**
+	 * Get the <code>mediaFile</code>.
+	 *
 	 * @return the media file which seems to be corrupt
 	 */
 	public Path getMediaFile() {
@@ -85,6 +89,8 @@ public class CorruptMediaFile extends IOException {
 	}
 
 	/**
+	 * Get the <code>expectedSize</code>.
+	 *
 	 * @return the expected size of the media file
 	 */
 	public long getExpectedSize() {
@@ -92,6 +98,8 @@ public class CorruptMediaFile extends IOException {
 	}
 
 	/**
+	 * Get the <code>size</code>.
+	 *
 	 * @return the actual size of the media file in the file system
 	 */
 	public long getSize() {

@@ -88,6 +88,8 @@ public class LfsPointer {
 	private long size;
 
 	/**
+	 * <p>Constructor for LfsPointer.</p>
+	 *
 	 * @param oid
 	 *            the id of the content
 	 * @param size
@@ -99,6 +101,8 @@ public class LfsPointer {
 	}
 
 	/**
+	 * <p>Getter for the field <code>oid</code>.</p>
+	 *
 	 * @return the id of the content
 	 */
 	public AnyLongObjectId getOid() {
@@ -106,6 +110,8 @@ public class LfsPointer {
 	}
 
 	/**
+	 * <p>Getter for the field <code>size</code>.</p>
+	 *
 	 * @return the size of the content
 	 */
 	public long getSize() {
@@ -116,7 +122,7 @@ public class LfsPointer {
 	 * Encode this object into the LFS format defined by {@link #VERSION}
 	 *
 	 * @param out
-	 *            the {@link OutputStream} into which the encoded data should be
+	 *            the {@link java.io.OutputStream} into which the encoded data should be
 	 *            written
 	 */
 	public void encode(OutputStream out) {
@@ -139,10 +145,10 @@ public class LfsPointer {
 	 * {@link #VERSION}
 	 *
 	 * @param in
-	 *            the {@link InputStream} from where to read the data
-	 * @return an {@link LfsPointer} or <code>null</code> if the stream was not
-	 *         parseable as LfsPointer
-	 * @throws IOException
+	 *            the {@link java.io.InputStream} from where to read the data
+	 * @return an {@link org.eclipse.jgit.lfs.LfsPointer} or <code>null</code>
+	 *         if the stream was not parseable as LfsPointer
+	 * @throws java.io.IOException
 	 */
 	@Nullable
 	public static LfsPointer parseLfsPointer(InputStream in)
@@ -173,6 +179,7 @@ public class LfsPointer {
 		return null;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		return "LfsPointer: oid=" + oid.name() + ", size=" //$NON-NLS-1$ //$NON-NLS-2$

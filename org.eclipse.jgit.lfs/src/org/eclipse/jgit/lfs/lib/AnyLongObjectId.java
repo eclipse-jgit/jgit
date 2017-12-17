@@ -49,17 +49,17 @@ import java.io.Writer;
 import java.nio.ByteBuffer;
 
 import org.eclipse.jgit.lib.AnyObjectId;
-import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.util.NB;
 
 /**
  * A (possibly mutable) SHA-256 abstraction.
  * <p>
- * If this is an instance of {@link MutableLongObjectId} the concept of equality
+ * If this is an instance of
+ * {@link org.eclipse.jgit.lfs.lib.MutableLongObjectId} the concept of equality
  * with this instance can alter at any time, if this instance is modified to
  * represent a different object name.
  *
- * Ported to SHA-256 from {@link AnyObjectId}
+ * Ported to SHA-256 from {@link org.eclipse.jgit.lib.AnyObjectId}
  *
  * @since 4.3
  */
@@ -132,14 +132,15 @@ public abstract class AnyLongObjectId implements Comparable<AnyLongObjectId> {
 	 * @param index
 	 *            index of the byte to obtain from the raw form of the
 	 *            LongObjectId. Must be in range [0,
-	 *            {@link Constants#LONG_OBJECT_ID_LENGTH}).
+	 *            {@link org.eclipse.jgit.lfs.lib.Constants#LONG_OBJECT_ID_LENGTH}).
 	 * @return the value of the requested byte at {@code index}. Returned values
 	 *         are unsigned and thus are in the range [0,255] rather than the
 	 *         signed byte range of [-128, 127].
-	 * @throws ArrayIndexOutOfBoundsException
+	 * @throws java.lang.ArrayIndexOutOfBoundsException
 	 *             {@code index} is less than 0, equal to
-	 *             {@link Constants#LONG_OBJECT_ID_LENGTH}, or greater than
-	 *             {@link Constants#LONG_OBJECT_ID_LENGTH}.
+	 *             {@link org.eclipse.jgit.lfs.lib.Constants#LONG_OBJECT_ID_LENGTH},
+	 *             or greater than
+	 *             {@link org.eclipse.jgit.lfs.lib.Constants#LONG_OBJECT_ID_LENGTH}.
 	 */
 	public final int getByte(int index) {
 		long w;
@@ -164,12 +165,9 @@ public abstract class AnyLongObjectId implements Comparable<AnyLongObjectId> {
 	}
 
 	/**
-	 * Compare this LongObjectId to another and obtain a sort ordering.
+	 * {@inheritDoc}
 	 *
-	 * @param other
-	 *            the other id to compare to. Must not be null.
-	 * @return &lt; 0 if this id comes before other; 0 if this id is equal to
-	 *         other; &gt; 0 if this id comes after other.
+	 * Compare this LongObjectId to another and obtain a sort ordering.
 	 */
 	@Override
 	public final int compareTo(final AnyLongObjectId other) {
@@ -263,6 +261,7 @@ public abstract class AnyLongObjectId implements Comparable<AnyLongObjectId> {
 		return abbr.prefixCompare(this) == 0;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public final int hashCode() {
 		return (int) (w1 >> 32);
@@ -279,6 +278,7 @@ public abstract class AnyLongObjectId implements Comparable<AnyLongObjectId> {
 		return other != null ? equals(this, other) : false;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public final boolean equals(final Object o) {
 		if (o instanceof AnyLongObjectId)
@@ -335,7 +335,7 @@ public abstract class AnyLongObjectId implements Comparable<AnyLongObjectId> {
 	 *
 	 * @param w
 	 *            the stream to write to.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the stream writing failed.
 	 */
 	public void copyRawTo(final OutputStream w) throws IOException {
@@ -362,7 +362,7 @@ public abstract class AnyLongObjectId implements Comparable<AnyLongObjectId> {
 	 *
 	 * @param w
 	 *            the stream to copy to.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the stream writing failed.
 	 */
 	public void copyTo(final OutputStream w) throws IOException {
@@ -421,7 +421,7 @@ public abstract class AnyLongObjectId implements Comparable<AnyLongObjectId> {
 	 *
 	 * @param w
 	 *            the stream to copy to.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the stream writing failed.
 	 */
 	public void copyTo(final Writer w) throws IOException {
@@ -437,7 +437,7 @@ public abstract class AnyLongObjectId implements Comparable<AnyLongObjectId> {
 	 *            of object id (64 characters or larger).
 	 * @param w
 	 *            the stream to copy to.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the stream writing failed.
 	 */
 	public void copyTo(final char[] tmp, final Writer w) throws IOException {
@@ -486,6 +486,7 @@ public abstract class AnyLongObjectId implements Comparable<AnyLongObjectId> {
 			dst[o--] = '0';
 	}
 
+	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
@@ -493,6 +494,8 @@ public abstract class AnyLongObjectId implements Comparable<AnyLongObjectId> {
 	}
 
 	/**
+	 * Get string form of the SHA-256
+	 *
 	 * @return string form of the SHA-256, in lower case hexadecimal.
 	 */
 	public final String name() {
@@ -500,6 +503,8 @@ public abstract class AnyLongObjectId implements Comparable<AnyLongObjectId> {
 	}
 
 	/**
+	 * Get string form of the SHA-256
+	 *
 	 * @return string form of the SHA-256, in lower case hexadecimal.
 	 */
 	public final String getName() {
@@ -510,8 +515,10 @@ public abstract class AnyLongObjectId implements Comparable<AnyLongObjectId> {
 	 * Return an abbreviation (prefix) of this object SHA-256.
 	 * <p>
 	 * This implementation does not guarantee uniqueness. Callers should instead
-	 * use {@link ObjectReader#abbreviate(AnyObjectId, int)} to obtain a unique
-	 * abbreviation within the scope of a particular object database.
+	 * use
+	 * {@link org.eclipse.jgit.lib.ObjectReader#abbreviate(AnyObjectId, int)} to
+	 * obtain a unique abbreviation within the scope of a particular object
+	 * database.
 	 *
 	 * @param len
 	 *            length of the abbreviated string.
@@ -529,8 +536,8 @@ public abstract class AnyLongObjectId implements Comparable<AnyLongObjectId> {
 	 * Obtain an immutable copy of this current object.
 	 * <p>
 	 * Only returns <code>this</code> if this instance is an unsubclassed
-	 * instance of {@link LongObjectId}; otherwise a new instance is returned
-	 * holding the same value.
+	 * instance of {@link org.eclipse.jgit.lfs.lib.LongObjectId}; otherwise a
+	 * new instance is returned holding the same value.
 	 * <p>
 	 * This method is useful to shed any additional memory that may be tied to
 	 * the subclass, yet retain the unique identity of the object id for future

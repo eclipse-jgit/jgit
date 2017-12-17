@@ -51,6 +51,8 @@ import org.eclipse.jgit.nls.TranslationBundle;
 public class LfsText extends TranslationBundle {
 
 	/**
+	 * Get an instance of this translation bundle.
+	 *
 	 * @return an instance of this translation bundle
 	 */
 	public static LfsText get() {
