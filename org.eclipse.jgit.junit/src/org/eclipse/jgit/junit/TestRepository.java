@@ -114,12 +114,16 @@ import org.eclipse.jgit.util.FileUtils;
  */
 public class TestRepository<R extends Repository> {
 
+	/** Constant <code>AUTHOR="J. Author"</code> */
 	public static final String AUTHOR = "J. Author";
 
+	/** Constant <code>AUTHOR_EMAIL="jauthor@example.com"</code> */
 	public static final String AUTHOR_EMAIL = "jauthor@example.com";
 
+	/** Constant <code>COMMITTER="J. Committer"</code> */
 	public static final String COMMITTER = "J. Committer";
 
+	/** Constant <code>COMMITTER_EMAIL="jcommitter@example.com"</code> */
 	public static final String COMMITTER_EMAIL = "jcommitter@example.com";
 
 	private final PersonIdent defaultAuthor;
@@ -186,25 +190,38 @@ public class TestRepository<R extends Repository> {
 		defaultCommitter = new PersonIdent(COMMITTER, COMMITTER_EMAIL, now, tz);
 	}
 
-	/** @return the repository this helper class operates against. */
+	/**
+	 * Get repository
+	 *
+	 * @return the repository this helper class operates against.
+	 */
 	public R getRepository() {
 		return db;
 	}
 
-	/** @return get the RevWalk pool all objects are allocated through. */
+	/**
+	 * Get RevWalk
+	 *
+	 * @return get the RevWalk pool all objects are allocated through.
+	 */
 	public RevWalk getRevWalk() {
 		return pool;
 	}
 
 	/**
+	 * Return Git API wrapper
+	 *
 	 * @return an API wrapper for the underlying repository. This wrapper does
-	 *         not allocate any new resources and need not be closed (but closing
-	 *         it is harmless). */
+	 *         not allocate any new resources and need not be closed (but
+	 *         closing it is harmless).
+	 */
 	public Git git() {
 		return git;
 	}
 
 	/**
+	 * Get date
+	 *
 	 * @return current date.
 	 * @since 4.2
 	 */
@@ -212,7 +229,11 @@ public class TestRepository<R extends Repository> {
 		return new Date(mockSystemReader.getCurrentTime());
 	}
 
-	/** @return timezone used for default identities. */
+	/**
+	 * Get timezone
+	 *
+	 * @return timezone used for default identities.
+	 */
 	public TimeZone getTimeZone() {
 		return mockSystemReader.getTimeZone();
 	}
@@ -424,7 +445,11 @@ public class TestRepository<R extends Repository> {
 		return pool.lookupCommit(id);
 	}
 
-	/** @return a new commit builder. */
+	/**
+	 * Create commit builder
+	 *
+	 * @return a new commit builder.
+	 */
 	public CommitBuilder commit() {
 		return new CommitBuilder();
 	}
@@ -618,7 +643,7 @@ public class TestRepository<R extends Repository> {
 
 	/**
 	 * Soft-reset HEAD to a detached state.
-	 * <p>
+	 *
 	 * @param id
 	 *            ID of detached head.
 	 * @throws Exception
@@ -758,7 +783,8 @@ public class TestRepository<R extends Repository> {
 	 * Ensure the body of the given object has been parsed.
 	 *
 	 * @param <T>
-	 *            type of object, e.g. {@link RevTag} or {@link RevCommit}.
+	 *            type of object, e.g. {@link org.eclipse.jgit.revwalk.RevTag}
+	 *            or {@link org.eclipse.jgit.revwalk.RevCommit}.
 	 * @param object
 	 *            reference to the (possibly unparsed) object to force body
 	 *            parsing of.

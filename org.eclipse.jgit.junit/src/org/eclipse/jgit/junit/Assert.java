@@ -44,12 +44,33 @@ package org.eclipse.jgit.junit;
 
 import static java.lang.Boolean.valueOf;
 
+/**
+ * Assertion class
+ */
 public class Assert {
 
+	/**
+	 * Assert booleans are equal
+	 *
+	 * @param expect
+	 *            expected value
+	 * @param actual
+	 *            actual value
+	 */
 	public static void assertEquals(boolean expect, boolean actual) {
 		org.junit.Assert.assertEquals(valueOf(expect), valueOf(actual));
 	}
 
+	/**
+	 * Assert booleans are equal
+	 *
+	 * @param message
+	 *            message
+	 * @param expect
+	 *            expected value
+	 * @param actual
+	 *            actual value
+	 */
 	public static void assertEquals(String message, boolean expect,
 			boolean actual) {
 		org.junit.Assert

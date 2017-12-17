@@ -46,8 +46,14 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * Interface enabling to run tests repeatedly
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ java.lang.annotation.ElementType.METHOD })
 public @interface Repeat {
+	/**
+	 * Number of repetitions
+	 */
 	public abstract int n();
 }

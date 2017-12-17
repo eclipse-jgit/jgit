@@ -67,7 +67,7 @@ import org.eclipse.jgit.util.time.MonotonicClock;
 import org.eclipse.jgit.util.time.ProposedTimestamp;
 
 /**
- * Mock {@link SystemReader} for tests.
+ * Mock {@link org.eclipse.jgit.util.SystemReader} for tests.
  */
 public class MockSystemReader extends SystemReader {
 	private final class MockConfig extends FileBasedConfig {
@@ -94,6 +94,9 @@ public class MockSystemReader extends SystemReader {
 
 	FileBasedConfig systemGitConfig;
 
+	/**
+	 * Constructor for <code>MockSystemReader</code>
+	 */
 	public MockSystemReader() {
 		init(Constants.OS_USER_NAME_KEY);
 		init(Constants.GIT_AUTHOR_NAME_KEY);
@@ -110,46 +113,62 @@ public class MockSystemReader extends SystemReader {
 		setProperty(n, n);
 	}
 
+	/**
+	 * Clear properties
+	 */
 	public void clearProperties() {
 		values.clear();
 	}
 
+	/**
+	 * Set a property
+	 *
+	 * @param key
+	 * @param value
+	 */
 	public void setProperty(String key, String value) {
 		values.put(key, value);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String getenv(String variable) {
 		return values.get(variable);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String getProperty(String key) {
 		return values.get(key);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public FileBasedConfig openUserConfig(Config parent, FS fs) {
 		assert parent == null || parent == systemGitConfig;
 		return userGitConfig;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public FileBasedConfig openSystemConfig(Config parent, FS fs) {
 		assert parent == null;
 		return systemGitConfig;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String getHostname() {
 		return "fake.host.example.com";
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public long getCurrentTime() {
 		return now;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public MonotonicClock getClock() {
 		return new MonotonicClock() {
@@ -182,26 +201,31 @@ public class MockSystemReader extends SystemReader {
 		now += secDelta * 1000L;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int getTimezone(long when) {
 		return getTimeZone().getOffset(when) / (60 * 1000);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public TimeZone getTimeZone() {
 		return TimeZone.getTimeZone("GMT-03:30");
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Locale getLocale() {
 		return Locale.US;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public SimpleDateFormat getSimpleDateFormat(String pattern) {
 		return new SimpleDateFormat(pattern, getLocale());
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public DateFormat getDateTimeInstance(int dateStyle, int timeStyle) {
 		return DateFormat

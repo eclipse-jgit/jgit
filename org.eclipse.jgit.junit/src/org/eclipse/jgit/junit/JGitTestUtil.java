@@ -64,13 +64,22 @@ import org.eclipse.jgit.util.RawParseUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
+/**
+ * Abstract test util class
+ */
 public abstract class JGitTestUtil {
+	/** Constant <code>CLASSPATH_TO_RESOURCES="org/eclipse/jgit/test/resources/"</code> */
 	public static final String CLASSPATH_TO_RESOURCES = "org/eclipse/jgit/test/resources/";
 
 	private JGitTestUtil() {
 		throw new UnsupportedOperationException();
 	}
 
+	/**
+	 * Get name of current test by inspecting stack trace
+	 *
+	 * @return the name
+	 */
 	public static String getName() {
 		GatherStackTrace stack;
 		try {
@@ -109,6 +118,14 @@ public abstract class JGitTestUtil {
 		// Thrown above to collect the stack frame.
 	}
 
+	/**
+	 * Assert byte arrays are equal
+	 *
+	 * @param exp
+	 *            expected value
+	 * @param act
+	 *            actual value
+	 */
 	public static void assertEquals(byte[] exp, byte[] act) {
 		Assert.assertEquals(s(exp), s(act));
 	}
@@ -117,6 +134,12 @@ public abstract class JGitTestUtil {
 		return RawParseUtils.decode(raw);
 	}
 
+	/**
+	 * Get test resource file.
+	 *
+	 * @param fileName
+	 * @return the test resource file
+	 */
 	public static File getTestResourceFile(final String fileName) {
 		if (fileName == null || fileName.length() <= 0) {
 			return null;
@@ -145,6 +168,13 @@ public abstract class JGitTestUtil {
 		}
 	}
 
+	/**
+	 * Copy test resource.
+	 *
+	 * @param name
+	 * @param dest
+	 * @throws IOException
+	 */
 	public static void copyTestResource(String name, File dest)
 			throws IOException {
 		URL url = cl().getResource(CLASSPATH_TO_RESOURCES + name);
@@ -169,6 +199,15 @@ public abstract class JGitTestUtil {
 		return JGitTestUtil.class.getClassLoader();
 	}
 
+	/**
+	 * Write a trash file.
+	 *
+	 * @param db
+	 * @param name
+	 * @param data
+	 * @return the trash file
+	 * @throws IOException
+	 */
 	public static File writeTrashFile(final Repository db,
 			final String name, final String data) throws IOException {
 		File path = new File(db.getWorkTree(), name);
@@ -176,6 +215,16 @@ public abstract class JGitTestUtil {
 		return path;
 	}
 
+	/**
+	 * Write a trash file.
+	 *
+	 * @param db
+	 * @param subdir
+	 * @param name
+	 * @param data
+	 * @return the trash file
+	 * @throws IOException
+	 */
 	public static File writeTrashFile(final Repository db,
 			final String subdir,
 			final String name, final String data) throws IOException {
@@ -224,17 +273,40 @@ public abstract class JGitTestUtil {
 		return new String(body, 0, body.length, "UTF-8");
 	}
 
+	/**
+	 * Read a file's content
+	 *
+	 * @param db
+	 * @param name
+	 * @return the content of the file
+	 * @throws IOException
+	 */
 	public static String read(final Repository db, final String name)
 			throws IOException {
 		File file = new File(db.getWorkTree(), name);
 		return read(file);
 	}
 
+	/**
+	 * Check if file exists
+	 *
+	 * @param db
+	 * @param name
+	 *            name of the file
+	 * @return {@code true} if the file exists
+	 */
 	public static boolean check(final Repository db, final String name) {
 		File file = new File(db.getWorkTree(), name);
 		return file.exists();
 	}
 
+	/**
+	 * Delete a trash file.
+	 *
+	 * @param db
+	 * @param name
+	 * @throws IOException
+	 */
 	public static void deleteTrashFile(final Repository db,
 			final String name) throws IOException {
 		File path = new File(db.getWorkTree(), name);
@@ -242,6 +314,8 @@ public abstract class JGitTestUtil {
 	}
 
 	/**
+	 * Write a symbolic link
+	 *
 	 * @param db
 	 *            the repository
 	 * @param link

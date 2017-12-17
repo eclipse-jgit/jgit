@@ -51,8 +51,8 @@ import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
 /**
- * {@link TestRule} which enables to run the same JUnit test repeatedly. Add
- * this rule to the test class
+ * {@link org.junit.rules.TestRule} which enables to run the same JUnit test
+ * repeatedly. Add this rule to the test class
  *
  * <pre>
  * public class MyTest {
@@ -118,6 +118,7 @@ public class RepeatRule implements TestRule {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Statement apply(Statement statement, Description description) {
 		Statement result = statement;
