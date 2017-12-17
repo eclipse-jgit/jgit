@@ -45,16 +45,24 @@ package org.eclipse.jgit.api.errors;
  */
 public class InvalidRebaseStepException extends GitAPIException {
 	private static final long serialVersionUID = 1L;
+
 	/**
+	 * Constructor for InvalidRebaseStepException.
+	 *
 	 * @param msg
+	 *            error message
 	 */
 	public InvalidRebaseStepException(String msg) {
 		super(msg);
 	}
 
 	/**
+	 * Constructor for InvalidRebaseStepException.
+	 *
 	 * @param msg
+	 *            error message
 	 * @param cause
+	 *            a {@link java.lang.Throwable}
 	 */
 	public InvalidRebaseStepException(String msg, Throwable cause) {
 		super(msg, cause);

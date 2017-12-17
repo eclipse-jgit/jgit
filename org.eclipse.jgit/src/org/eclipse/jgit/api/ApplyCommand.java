@@ -87,6 +87,8 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 	}
 
 	/**
+	 * Set patch
+	 *
 	 * @param in
 	 *            the patch to apply
 	 * @return this instance
@@ -98,16 +100,13 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * Executes the {@code ApplyCommand} command with all the options and
 	 * parameters collected by the setter methods (e.g.
 	 * {@link #setPatch(InputStream)} of this class. Each instance of this class
 	 * should only be used for one invocation of the command. Don't call this
 	 * method twice on an instance.
-	 *
-	 * @return an {@link ApplyResult} object representing the command result
-	 * @throws GitAPIException
-	 * @throws PatchFormatException
-	 * @throws PatchApplyException
 	 */
 	@Override
 	public ApplyResult call() throws GitAPIException, PatchFormatException,

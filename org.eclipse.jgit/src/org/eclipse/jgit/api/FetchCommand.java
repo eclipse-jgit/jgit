@@ -122,7 +122,10 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 	}
 
 	/**
+	 * Constructor for FetchCommand.
+	 *
 	 * @param repo
+	 *            a {@link org.eclipse.jgit.lib.Repository} object.
 	 */
 	protected FetchCommand(Repository repo) {
 		super(repo);
@@ -210,17 +213,12 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 	}
 
 	/**
-	 * Executes the {@code fetch} command with all the options and parameters
+	 * {@inheritDoc}
+	 * <p>
+	 * Execute the {@code fetch} command with all the options and parameters
 	 * collected by the setter methods of this class. Each instance of this
 	 * class should only be used for one invocation of the command (means: one
 	 * call to {@link #call()})
-	 *
-	 * @return a {@link FetchResult} object representing the successful fetch
-	 *         result
-	 * @throws InvalidRemoteException
-	 *             when called with an invalid remote uri
-	 * @throws org.eclipse.jgit.api.errors.TransportException
-	 *             when an error occurs during transport
 	 */
 	@Override
 	public FetchResult call() throws GitAPIException, InvalidRemoteException,
@@ -288,6 +286,7 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 	 *
 	 * @see Constants#DEFAULT_REMOTE_NAME
 	 * @param remote
+	 *            name of a remote
 	 * @return {@code this}
 	 */
 	public FetchCommand setRemote(String remote) {
@@ -297,6 +296,8 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 	}
 
 	/**
+	 * Get the remote
+	 *
 	 * @return the remote used for the remote operation
 	 */
 	public String getRemote() {
@@ -304,6 +305,8 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 	}
 
 	/**
+	 * Get timeout
+	 *
 	 * @return the timeout used for the fetch operation
 	 */
 	public int getTimeout() {
@@ -311,16 +314,19 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 	}
 
 	/**
-	 * @return whether to check received objects checked for validity
+	 * Whether to check received objects for validity
+	 *
+	 * @return whether to check received objects for validity
 	 */
 	public boolean isCheckFetchedObjects() {
 		return checkFetchedObjects;
 	}
 
 	/**
-	 * If set to true, objects received will be checked for validity
+	 * If set to {@code true}, objects received will be checked for validity
 	 *
 	 * @param checkFetchedObjects
+	 *            whether to check objects for validity
 	 * @return {@code this}
 	 */
 	public FetchCommand setCheckFetchedObjects(boolean checkFetchedObjects) {
@@ -330,7 +336,9 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 	}
 
 	/**
-	 * @return whether or not to remove refs which no longer exist in the source
+	 * Whether to remove refs which no longer exist in the source
+	 *
+	 * @return whether to remove refs which no longer exist in the source
 	 */
 	public boolean isRemoveDeletedRefs() {
 		if (removeDeletedRefs != null)
@@ -347,9 +355,11 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 	}
 
 	/**
-	 * If set to true, refs are removed which no longer exist in the source
+	 * If set to {@code true}, refs are removed which no longer exist in the
+	 * source
 	 *
 	 * @param removeDeletedRefs
+	 *            whether to remove deleted {@code Ref}s
 	 * @return {@code this}
 	 */
 	public FetchCommand setRemoveDeletedRefs(boolean removeDeletedRefs) {
@@ -359,6 +369,8 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 	}
 
 	/**
+	 * Get progress monitor
+	 *
 	 * @return the progress monitor for the fetch operation
 	 */
 	public ProgressMonitor getProgressMonitor() {
@@ -370,8 +382,8 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 	 * this is set to <code>NullProgressMonitor</code>
 	 *
 	 * @see NullProgressMonitor
-	 *
 	 * @param monitor
+	 *            a {@link org.eclipse.jgit.lib.ProgressMonitor}
 	 * @return {@code this}
 	 */
 	public FetchCommand setProgressMonitor(ProgressMonitor monitor) {
@@ -384,6 +396,8 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 	}
 
 	/**
+	 * Get list of {@code RefSpec}s
+	 *
 	 * @return the ref specs
 	 */
 	public List<RefSpec> getRefSpecs() {
@@ -394,6 +408,7 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 	 * The ref specs to be used in the fetch operation
 	 *
 	 * @param specs
+	 *            String representation of {@code RefSpec}s
 	 * @return {@code this}
 	 * @since 4.9
 	 */
@@ -406,6 +421,7 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 	 * The ref specs to be used in the fetch operation
 	 *
 	 * @param specs
+	 *            one or multiple {@link org.eclipse.jgit.transport.RefSpec}s
 	 * @return {@code this}
 	 */
 	public FetchCommand setRefSpecs(RefSpec... specs) {
@@ -416,6 +432,7 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 	 * The ref specs to be used in the fetch operation
 	 *
 	 * @param specs
+	 *            list of {@link org.eclipse.jgit.transport.RefSpec}s
 	 * @return {@code this}
 	 */
 	public FetchCommand setRefSpecs(List<RefSpec> specs) {
@@ -426,6 +443,8 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 	}
 
 	/**
+	 * Whether to do a dry run
+	 *
 	 * @return the dry run preference for the fetch operation
 	 */
 	public boolean isDryRun() {
@@ -436,6 +455,7 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 	 * Sets whether the fetch operation should be a dry run
 	 *
 	 * @param dryRun
+	 *            whether to do a dry run
 	 * @return {@code this}
 	 */
 	public FetchCommand setDryRun(boolean dryRun) {
@@ -445,6 +465,8 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 	}
 
 	/**
+	 * Get thin-pack preference
+	 *
 	 * @return the thin-pack preference for fetch operation
 	 */
 	public boolean isThin() {
@@ -457,6 +479,7 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 	 * Default setting is Transport.DEFAULT_FETCH_THIN
 	 *
 	 * @param thin
+	 *            the thin-pack preference
 	 * @return {@code this}
 	 */
 	public FetchCommand setThin(boolean thin) {
@@ -469,6 +492,7 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 	 * Sets the specification of annotated tag behavior during fetch
 	 *
 	 * @param tagOpt
+	 *            the {@link org.eclipse.jgit.transport.TagOpt}
 	 * @return {@code this}
 	 */
 	public FetchCommand setTagOpt(TagOpt tagOpt) {

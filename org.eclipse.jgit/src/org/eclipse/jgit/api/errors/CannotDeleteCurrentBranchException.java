@@ -44,8 +44,10 @@ public class CannotDeleteCurrentBranchException extends GitAPIException {
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * Constructor for CannotDeleteCurrentBranchException
+	 *
 	 * @param message
-	 *            the message
+	 *            error message
 	 */
 	public CannotDeleteCurrentBranchException(String message) {
 		super(message);

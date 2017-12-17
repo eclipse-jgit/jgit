@@ -140,33 +140,22 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	private Boolean allowEmpty;
 
 	/**
+	 * Constructor for CommitCommand
+	 *
 	 * @param repo
+	 *            the {@link org.eclipse.jgit.lib.Repository}
 	 */
 	protected CommitCommand(Repository repo) {
 		super(repo);
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * Executes the {@code commit} command with all the options and parameters
 	 * collected by the setter methods of this class. Each instance of this
 	 * class should only be used for one invocation of the command (means: one
 	 * call to {@link #call()})
-	 *
-	 * @return a {@link RevCommit} object representing the successful commit.
-	 * @throws NoHeadException
-	 *             when called on a git repo without a HEAD reference
-	 * @throws NoMessageException
-	 *             when called without specifying a commit message
-	 * @throws UnmergedPathsException
-	 *             when the current index contained unmerged paths (conflicts)
-	 * @throws ConcurrentRefUpdateException
-	 *             when HEAD or branch ref is updated concurrently by someone
-	 *             else
-	 * @throws WrongRepositoryStateException
-	 *             when repository is not in the right state for committing
-	 * @throws AbortedByHookException
-	 *             if there are either pre-commit or commit-msg hooks present in
-	 *             the repository and one of them rejects the commit.
 	 */
 	@Override
 	public RevCommit call() throws GitAPIException, NoHeadException,
@@ -602,6 +591,8 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	}
 
 	/**
+	 * Set the commit message
+	 *
 	 * @param message
 	 *            the commit message used for the {@code commit}
 	 * @return {@code this}
@@ -613,6 +604,8 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	}
 
 	/**
+	 * Set whether to allow to create an empty commit
+	 *
 	 * @param allowEmpty
 	 *            whether it should be allowed to create a commit which has the
 	 *            same tree as it's sole predecessor (a commit which doesn't
@@ -623,8 +616,9 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	 *            <p>
 	 *            By default when creating a commit containing only specified
 	 *            paths an attempt to create an empty commit leads to a
-	 *            {@link JGitInternalException}. By setting this flag to
-	 *            <code>true</code> this exception will not be thrown.
+	 *            {@link org.eclipse.jgit.api.errors.JGitInternalException}. By
+	 *            setting this flag to <code>true</code> this exception will not
+	 *            be thrown.
 	 * @return {@code this}
 	 * @since 4.2
 	 */
@@ -634,6 +628,8 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	}
 
 	/**
+	 * Get the commit message
+	 *
 	 * @return the commit message used for the <code>commit</code>
 	 */
 	public String getMessage() {
@@ -673,10 +669,12 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	}
 
 	/**
+	 * Get the committer
+	 *
 	 * @return the committer used for the {@code commit}. If no committer was
 	 *         specified {@code null} is returned and the default
-	 *         {@link PersonIdent} of this repo is used during execution of the
-	 *         command
+	 *         {@link org.eclipse.jgit.lib.PersonIdent} of this repo is used
+	 *         during execution of the command
 	 */
 	public PersonIdent getCommitter() {
 		return committer;
@@ -715,10 +713,12 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	}
 
 	/**
+	 * Get the author
+	 *
 	 * @return the author used for the {@code commit}. If no author was
 	 *         specified {@code null} is returned and the default
-	 *         {@link PersonIdent} of this repo is used during execution of the
-	 *         command
+	 *         {@link org.eclipse.jgit.lib.PersonIdent} of this repo is used
+	 *         during execution of the command
 	 */
 	public PersonIdent getAuthor() {
 		return author;
@@ -730,6 +730,8 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	 * not affected. This corresponds to the parameter -a on the command line.
 	 *
 	 * @param all
+	 *            whether to auto-stage all files that have been modified and
+	 *            deleted
 	 * @return {@code this}
 	 * @throws JGitInternalException
 	 *             in case of an illegal combination of arguments/ options
@@ -745,11 +747,12 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	}
 
 	/**
-	 * Used to amend the tip of the current branch. If set to true, the previous
-	 * commit will be amended. This is equivalent to --amend on the command
-	 * line.
+	 * Used to amend the tip of the current branch. If set to {@code true}, the
+	 * previous commit will be amended. This is equivalent to --amend on the
+	 * command line.
 	 *
 	 * @param amend
+	 *            whether to ammend the tip of the current branch
 	 * @return {@code this}
 	 */
 	public CommitCommand setAmend(boolean amend) {
@@ -790,7 +793,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	 * will be replaced by the change id.
 	 *
 	 * @param insertChangeId
-	 *
+	 *            whether to insert a change id
 	 * @return {@code this}
 	 */
 	public CommitCommand setInsertChangeId(boolean insertChangeId) {

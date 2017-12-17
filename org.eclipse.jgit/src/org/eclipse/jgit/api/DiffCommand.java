@@ -95,19 +95,22 @@ public class DiffCommand extends GitCommand<List<DiffEntry>> {
 	private ProgressMonitor monitor = NullProgressMonitor.INSTANCE;
 
 	/**
+	 * Constructor for DiffCommand
+	 *
 	 * @param repo
+	 *            a {@link org.eclipse.jgit.lib.Repository} object.
 	 */
 	protected DiffCommand(Repository repo) {
 		super(repo);
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * Executes the {@code Diff} command with all the options and parameters
 	 * collected by the setter methods (e.g. {@link #setCached(boolean)} of this
 	 * class. Each instance of this class should only be used for one invocation
 	 * of the command. Don't call this method twice on an instance.
-	 *
-	 * @return a DiffEntry for each path which is different
 	 */
 	@Override
 	public List<DiffEntry> call() throws GitAPIException {
@@ -162,9 +165,10 @@ public class DiffCommand extends GitCommand<List<DiffEntry>> {
 	}
 
 	/**
+	 * Whether to view the changes staged for the next commit
 	 *
 	 * @param cached
-	 *            whether to view the changes you staged for the next commit
+	 *            whether to view the changes staged for the next commit
 	 * @return this instance
 	 */
 	public DiffCommand setCached(boolean cached) {
@@ -173,6 +177,8 @@ public class DiffCommand extends GitCommand<List<DiffEntry>> {
 	}
 
 	/**
+	 * Set path filter
+	 *
 	 * @param pathFilter
 	 *            parameter, used to limit the diff to the named path
 	 * @return this instance
@@ -183,6 +189,8 @@ public class DiffCommand extends GitCommand<List<DiffEntry>> {
 	}
 
 	/**
+	 * Set old tree
+	 *
 	 * @param oldTree
 	 *            the previous state
 	 * @return this instance
@@ -193,6 +201,8 @@ public class DiffCommand extends GitCommand<List<DiffEntry>> {
 	}
 
 	/**
+	 * Set new tree
+	 *
 	 * @param newTree
 	 *            the updated state
 	 * @return this instance
@@ -203,6 +213,8 @@ public class DiffCommand extends GitCommand<List<DiffEntry>> {
 	}
 
 	/**
+	 * Set whether to return only names and status of changed files
+	 *
 	 * @param showNameAndStatusOnly
 	 *            whether to return only names and status of changed files
 	 * @return this instance
@@ -213,6 +225,8 @@ public class DiffCommand extends GitCommand<List<DiffEntry>> {
 	}
 
 	/**
+	 * Set output stream
+	 *
 	 * @param out
 	 *            the stream to write line data
 	 * @return this instance
@@ -263,7 +277,6 @@ public class DiffCommand extends GitCommand<List<DiffEntry>> {
 	 * is set to <code>NullProgressMonitor</code>
 	 *
 	 * @see NullProgressMonitor
-	 *
 	 * @param monitor
 	 *            a progress monitor
 	 * @return this instance

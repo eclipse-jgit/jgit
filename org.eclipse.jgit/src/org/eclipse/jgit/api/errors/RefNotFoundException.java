@@ -44,8 +44,12 @@ public class RefNotFoundException extends GitAPIException {
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * Constructor for RefNotFoundException
+	 *
 	 * @param message
+	 *            error message
 	 * @param cause
+	 *            a {@link java.lang.Throwable}
 	 * @since 4.1
 	 */
 	public RefNotFoundException(String message, Throwable cause) {
@@ -53,7 +57,10 @@ public class RefNotFoundException extends GitAPIException {
 	}
 
 	/**
+	 * Constructor for RefNotFoundException
+	 *
 	 * @param message
+	 *            error message
 	 */
 	public RefNotFoundException(String message) {
 		super(message);

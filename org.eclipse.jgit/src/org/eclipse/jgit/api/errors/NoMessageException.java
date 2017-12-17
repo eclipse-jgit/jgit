@@ -47,15 +47,22 @@ public class NoMessageException extends GitAPIException {
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * Constructor for NoMessageException
+	 *
 	 * @param message
+	 *            error message
 	 * @param cause
+	 *            a {@link java.lang.Throwable}
 	 */
 	public NoMessageException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
 	/**
+	 * Constructor for NoMessageException
+	 *
 	 * @param message
+	 *            error message
 	 */
 	public NoMessageException(String message) {
 		super(message);

@@ -57,7 +57,6 @@ import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.FIFORevQueue;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -120,6 +119,7 @@ public class NameRevCommand extends GitCommand<Map<ObjectId, String>> {
 	 * Create a new name-rev command.
 	 *
 	 * @param repo
+	 *            the {@link org.eclipse.jgit.lib.Repository}
 	 */
 	protected NameRevCommand(Repository repo) {
 		super(repo);
@@ -134,6 +134,7 @@ public class NameRevCommand extends GitCommand<Map<ObjectId, String>> {
 		};
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Map<ObjectId, String> call() throws GitAPIException {
 		try {
@@ -199,13 +200,13 @@ public class NameRevCommand extends GitCommand<Map<ObjectId, String>> {
 	 * @param id
 	 *            object ID to add.
 	 * @return {@code this}
-	 * @throws MissingObjectException
+	 * @throws org.eclipse.jgit.errors.MissingObjectException
 	 *             the object supplied is not available from the object
 	 *             database.
-	 * @throws JGitInternalException
+	 * @throws org.eclipse.jgit.api.errors.JGitInternalException
 	 *             a low-level exception of JGit has occurred. The original
 	 *             exception can be retrieved by calling
-	 *             {@link Exception#getCause()}.
+	 *             {@link java.lang.Exception#getCause()}.
 	 */
 	public NameRevCommand add(ObjectId id) throws MissingObjectException,
 			JGitInternalException {
@@ -227,13 +228,13 @@ public class NameRevCommand extends GitCommand<Map<ObjectId, String>> {
 	 * @param ids
 	 *            object IDs to add.
 	 * @return {@code this}
-	 * @throws MissingObjectException
+	 * @throws org.eclipse.jgit.errors.MissingObjectException
 	 *             the object supplied is not available from the object
 	 *             database.
-	 * @throws JGitInternalException
+	 * @throws org.eclipse.jgit.api.errors.JGitInternalException
 	 *             a low-level exception of JGit has occurred. The original
 	 *             exception can be retrieved by calling
-	 *             {@link Exception#getCause()}.
+	 *             {@link java.lang.Exception#getCause()}.
 	 */
 	public NameRevCommand add(Iterable<ObjectId> ids)
 			throws MissingObjectException, JGitInternalException {
@@ -250,7 +251,8 @@ public class NameRevCommand extends GitCommand<Map<ObjectId, String>> {
 	 * prefix added by {@link #addPrefix(String)}.
 	 *
 	 * @param prefix
-	 *            prefix to add; see {@link RefDatabase#getRefs(String)}
+	 *            prefix to add; see
+	 *            {@link org.eclipse.jgit.lib.RefDatabase#getRefs(String)}
 	 * @return {@code this}
 	 */
 	public NameRevCommand addPrefix(String prefix) {
@@ -260,8 +262,8 @@ public class NameRevCommand extends GitCommand<Map<ObjectId, String>> {
 	}
 
 	/**
-	 * Add all annotated tags under {@code refs/tags/} to the set that all results
-	 * must match.
+	 * Add all annotated tags under {@code refs/tags/} to the set that all
+	 * results must match.
 	 * <p>
 	 * Calls {@link #addRef(Ref)}; see that method for a note on matching
 	 * priority.
@@ -270,7 +272,7 @@ public class NameRevCommand extends GitCommand<Map<ObjectId, String>> {
 	 * @throws JGitInternalException
 	 *             a low-level exception of JGit has occurred. The original
 	 *             exception can be retrieved by calling
-	 *             {@link Exception#getCause()}.
+	 *             {@link java.lang.Exception#getCause()}.
 	 */
 	public NameRevCommand addAnnotatedTags() {
 		checkCallable();

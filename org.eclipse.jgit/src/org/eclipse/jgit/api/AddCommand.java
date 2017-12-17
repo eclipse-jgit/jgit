@@ -91,8 +91,10 @@ public class AddCommand extends GitCommand<DirCache> {
 	private boolean update = false;
 
 	/**
+	 * Constructor for AddCommand
 	 *
 	 * @param repo
+	 *            the {@link org.eclipse.jgit.lib.Repository}
 	 */
 	public AddCommand(Repository repo) {
 		super(repo);
@@ -119,7 +121,10 @@ public class AddCommand extends GitCommand<DirCache> {
 
 	/**
 	 * Allow clients to provide their own implementation of a FileTreeIterator
+	 *
 	 * @param f
+	 *            a {@link org.eclipse.jgit.treewalk.WorkingTreeIterator}
+	 *            object.
 	 * @return {@code this}
 	 */
 	public AddCommand setWorkingTreeIterator(WorkingTreeIterator f) {
@@ -128,11 +133,11 @@ public class AddCommand extends GitCommand<DirCache> {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * Executes the {@code Add} command. Each instance of this class should only
 	 * be used for one invocation of the command. Don't call this method twice
 	 * on an instance.
-	 *
-	 * @return the DirCache after Add
 	 */
 	@Override
 	public DirCache call() throws GitAPIException, NoFilepatternException {
@@ -260,17 +265,18 @@ public class AddCommand extends GitCommand<DirCache> {
 	}
 
 	/**
+	 * Set whether to only match against already tracked files
+	 *
 	 * @param update
 	 *            If set to true, the command only matches {@code filepattern}
 	 *            against already tracked files in the index rather than the
 	 *            working tree. That means that it will never stage new files,
 	 *            but that it will stage modified new contents of tracked files
 	 *            and that it will remove files from the index if the
-	 *            corresponding files in the working tree have been removed.
-	 *            In contrast to the git command line a {@code filepattern} must
-	 *            exist also if update is set to true as there is no
-	 *            concept of a working directory here.
-	 *
+	 *            corresponding files in the working tree have been removed. In
+	 *            contrast to the git command line a {@code filepattern} must
+	 *            exist also if update is set to true as there is no concept of
+	 *            a working directory here.
 	 * @return {@code this}
 	 */
 	public AddCommand setUpdate(boolean update) {
@@ -279,7 +285,9 @@ public class AddCommand extends GitCommand<DirCache> {
 	}
 
 	/**
-	 * @return is the parameter update is set
+	 * Whether to only match against already tracked files
+	 *
+	 * @return whether to only match against already tracked files
 	 */
 	public boolean isUpdate() {
 		return update;

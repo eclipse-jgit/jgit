@@ -52,7 +52,6 @@ import org.eclipse.jgit.api.MergeCommand.FastForwardMode;
 import org.eclipse.jgit.api.MergeCommand.FastForwardMode.Merge;
 import org.eclipse.jgit.api.RebaseCommand.Operation;
 import org.eclipse.jgit.api.errors.CanceledException;
-import org.eclipse.jgit.api.errors.DetachedHeadException;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidConfigurationException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
@@ -104,13 +103,18 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 	private FetchRecurseSubmodulesMode submoduleRecurseMode = null;
 
 	/**
+	 * Constructor for PullCommand.
+	 *
 	 * @param repo
+	 *            the {@link org.eclipse.jgit.lib.Repository}
 	 */
 	protected PullCommand(Repository repo) {
 		super(repo);
 	}
 
 	/**
+	 * Set progress monitor
+	 *
 	 * @param monitor
 	 *            a progress monitor
 	 * @return this instance
@@ -139,6 +143,7 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 	 * branch.[name].rebase and branch.autosetuprebase.
 	 *
 	 * @param useRebase
+	 *            whether to use rebase after fetching
 	 * @return {@code this}
 	 */
 	public PullCommand setRebase(boolean useRebase) {
@@ -149,7 +154,8 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 	}
 
 	/**
-	 * Sets the {@link BranchRebaseMode} to use after fetching.
+	 * Sets the {@link org.eclipse.jgit.lib.BranchConfig.BranchRebaseMode} to
+	 * use after fetching.
 	 *
 	 * <dl>
 	 * <dt>BranchRebaseMode.REBASE</dt>
@@ -176,7 +182,8 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 	 * {@code pull.rebase}.
 	 *
 	 * @param rebaseMode
-	 *            the {@link BranchRebaseMode} to use
+	 *            the {@link org.eclipse.jgit.lib.BranchConfig.BranchRebaseMode}
+	 *            to use
 	 * @return {@code this}
 	 * @since 4.5
 	 */
@@ -187,23 +194,13 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 	}
 
 	/**
-	 * Executes the {@code Pull} command with all the options and parameters
+	 * {@inheritDoc}
+	 * <p>
+	 * Execute the {@code Pull} command with all the options and parameters
 	 * collected by the setter methods (e.g.
 	 * {@link #setProgressMonitor(ProgressMonitor)}) of this class. Each
 	 * instance of this class should only be used for one invocation of the
 	 * command. Don't call this method twice on an instance.
-	 *
-	 * @return the result of the pull
-	 * @throws WrongRepositoryStateException
-	 * @throws InvalidConfigurationException
-	 * @throws DetachedHeadException
-	 * @throws InvalidRemoteException
-	 * @throws CanceledException
-	 * @throws RefNotFoundException
-	 * @throws RefNotAdvertisedException
-	 * @throws NoHeadException
-	 * @throws org.eclipse.jgit.api.errors.TransportException
-	 * @throws GitAPIException
 	 */
 	@Override
 	public PullResult call() throws GitAPIException,
@@ -370,6 +367,7 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 	 *
 	 * @see Constants#DEFAULT_REMOTE_NAME
 	 * @param remote
+	 *            name of the remote to pull from
 	 * @return {@code this}
 	 * @since 3.3
 	 */
@@ -386,6 +384,7 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 	 * the current branch is used.
 	 *
 	 * @param remoteBranchName
+	 *            remote branch name to be used for pull operation
 	 * @return {@code this}
 	 * @since 3.3
 	 */
@@ -396,6 +395,8 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 	}
 
 	/**
+	 * Get the remote name used for pull operation
+	 *
 	 * @return the remote used for the pull operation if it was set explicitly
 	 * @since 3.3
 	 */
@@ -404,6 +405,8 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 	}
 
 	/**
+	 * Get the remote branch name for the pull operation
+	 *
 	 * @return the remote branch name used for the pull operation if it was set
 	 *         explicitly
 	 * @since 3.3
@@ -413,6 +416,8 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 	}
 
 	/**
+	 * Set the @{code MergeStrategy}
+	 *
 	 * @param strategy
 	 *            The merge strategy to use during this pull operation.
 	 * @return {@code this}
@@ -424,9 +429,10 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 	}
 
 	/**
-	 * Sets the specification of annotated tag behavior during fetch
+	 * Set the specification of annotated tag behavior during fetch
 	 *
 	 * @param tagOpt
+	 *            the {@link org.eclipse.jgit.transport.TagOpt}
 	 * @return {@code this}
 	 * @since 4.7
 	 */
@@ -437,8 +443,8 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 	}
 
 	/**
-	 * Sets the fast forward mode. It is used if pull is configured to do a
-	 * merge as opposed to rebase. If non-{@code null} takes precedence over the
+	 * Set the fast forward mode. It is used if pull is configured to do a merge
+	 * as opposed to rebase. If non-{@code null} takes precedence over the
 	 * fast-forward mode configured in git config.
 	 *
 	 * @param fastForwardMode
@@ -461,6 +467,9 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 	 * Set the mode to be used for recursing into submodules.
 	 *
 	 * @param recurse
+	 *            the
+	 *            {@link org.eclipse.jgit.lib.SubmoduleConfig.FetchRecurseSubmodulesMode}
+	 *            to be used for recursing into submodules
 	 * @return {@code this}
 	 * @since 4.7
 	 * @see FetchCommand#setRecurseSubmodules(FetchRecurseSubmodulesMode)
@@ -475,13 +484,14 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 	 * Reads the rebase mode to use for a pull command from the repository
 	 * configuration. This is the value defined for the configurations
 	 * {@code branch.[branchName].rebase}, or,if not set, {@code pull.rebase}.
-	 * If neither is set, yields {@link BranchRebaseMode#NONE}.
+	 * If neither is set, yields
+	 * {@link org.eclipse.jgit.lib.BranchConfig.BranchRebaseMode#NONE}.
 	 *
 	 * @param branchName
 	 *            name of the local branch
 	 * @param config
-	 *            the {@link Config} to read the value from
-	 * @return the {@link BranchRebaseMode}
+	 *            the {@link org.eclipse.jgit.lib.Config} to read the value from
+	 * @return the {@link org.eclipse.jgit.lib.BranchConfig.BranchRebaseMode}
 	 * @since 4.5
 	 */
 	public static BranchRebaseMode getRebaseMode(String branchName,

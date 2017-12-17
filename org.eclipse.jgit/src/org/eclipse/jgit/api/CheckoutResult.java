@@ -46,8 +46,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Encapsulates the result of a {@link CheckoutCommand}
- *
+ * Encapsulates the result of a {@link org.eclipse.jgit.api.CheckoutCommand}
  */
 public class CheckoutResult {
 
@@ -168,6 +167,8 @@ public class CheckoutResult {
 	}
 
 	/**
+	 * Get status
+	 *
 	 * @return the status
 	 */
 	public Status getStatus() {
@@ -175,33 +176,44 @@ public class CheckoutResult {
 	}
 
 	/**
+	 * Get list of file that created a checkout conflict
+	 *
 	 * @return the list of files that created a checkout conflict, or an empty
-	 *         list if {@link #getStatus()} is not {@link Status#CONFLICTS};
+	 *         list if {@link #getStatus()} is not
+	 *         {@link org.eclipse.jgit.api.CheckoutResult.Status#CONFLICTS};
 	 */
 	public List<String> getConflictList() {
 		return conflictList;
 	}
 
 	/**
+	 * Get the list of files that could not be deleted during checkout
+	 *
 	 * @return the list of files that could not be deleted during checkout, or
 	 *         an empty list if {@link #getStatus()} is not
-	 *         {@link Status#NONDELETED};
+	 *         {@link org.eclipse.jgit.api.CheckoutResult.Status#NONDELETED};
 	 */
 	public List<String> getUndeletedList() {
 		return undeletedList;
 	}
 
 	/**
+	 * Get the list of files that where modified during checkout
+	 *
 	 * @return the list of files that where modified during checkout, or an
-	 *         empty list if {@link #getStatus()} is not {@link Status#OK}
+	 *         empty list if {@link #getStatus()} is not
+	 *         {@link org.eclipse.jgit.api.CheckoutResult.Status#OK}
 	 */
 	public List<String> getModifiedList() {
 		return modifiedList;
 	}
 
 	/**
+	 * Get the list of files that where removed during checkout
+	 *
 	 * @return the list of files that where removed during checkout, or an empty
-	 *         list if {@link #getStatus()} is not {@link Status#OK}
+	 *         list if {@link #getStatus()} is not
+	 *         {@link org.eclipse.jgit.api.CheckoutResult.Status#OK}
 	 */
 	public List<String> getRemovedList() {
 		return removedList;

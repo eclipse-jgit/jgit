@@ -46,15 +46,22 @@ public class WrongRepositoryStateException extends GitAPIException {
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * Constructor for WrongRepositoryStateException.
+	 *
 	 * @param message
+	 *            error message
 	 * @param cause
+	 *            a {@link java.lang.Throwable}
 	 */
 	public WrongRepositoryStateException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
 	/**
+	 * Constructor for WrongRepositoryStateException.
+	 *
 	 * @param message
+	 *            error message
 	 */
 	public WrongRepositoryStateException(String message) {
 		super(message);

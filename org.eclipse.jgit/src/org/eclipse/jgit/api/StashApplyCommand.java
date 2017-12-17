@@ -88,7 +88,6 @@ import org.eclipse.jgit.treewalk.TreeWalk;
  *
  * @see <a href="http://www.kernel.org/pub/software/scm/git/docs/git-stash.html"
  *      >Git documentation about Stash</a>
- *
  * @since 2.0
  */
 public class StashApplyCommand extends GitCommand<ObjectId> {
@@ -109,6 +108,8 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 	 * Create command to apply the changes of a stashed commit
 	 *
 	 * @param repo
+	 *            the {@link org.eclipse.jgit.lib.Repository} to apply the stash
+	 *            to
 	 */
 	public StashApplyCommand(final Repository repo) {
 		super(repo);
@@ -121,6 +122,7 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 	 * unspecified
 	 *
 	 * @param stashRef
+	 *            name of the stash {@code Ref} to apply
 	 * @return {@code this}
 	 */
 	public StashApplyCommand setStashRef(final String stashRef) {
@@ -129,7 +131,10 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 	}
 
 	/**
+	 * Whether to ignore the repository state when applying the stash
+	 *
 	 * @param willIgnoreRepositoryState
+	 *            whether to ignore the repository state when applying the stash
 	 * @return {@code this}
 	 * @since 3.2
 	 */
@@ -154,14 +159,9 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * Apply the changes in a stashed commit to the working directory and index
-	 *
-	 * @return id of stashed commit that was applied TODO: Does anyone depend on
-	 *         this, or could we make it more like Merge/CherryPick/Revert?
-	 * @throws GitAPIException
-	 * @throws WrongRepositoryStateException
-	 * @throws NoHeadException
-	 * @throws StashApplyFailureException
 	 */
 	@Override
 	public ObjectId call() throws GitAPIException,
@@ -273,6 +273,8 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 	}
 
 	/**
+	 * Whether to restore the index state
+	 *
 	 * @param applyIndex
 	 *            true (default) if the command should restore the index state
 	 */
@@ -281,6 +283,8 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 	}
 
 	/**
+	 * Set the <code>MergeStrategy</code> to use.
+	 *
 	 * @param strategy
 	 *            The merge strategy to use in order to merge during this
 	 *            command execution.
@@ -293,6 +297,8 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 	}
 
 	/**
+	 * Whether the command should restore untracked files
+	 *
 	 * @param applyUntracked
 	 *            true (default) if the command should restore untracked files
 	 * @since 3.4

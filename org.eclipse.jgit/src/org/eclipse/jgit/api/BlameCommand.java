@@ -69,7 +69,8 @@ import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.io.AutoLFInputStream;
 
 /**
- * Blame command for building a {@link BlameResult} for a file path.
+ * Blame command for building a {@link org.eclipse.jgit.blame.BlameResult} for a
+ * file path.
  */
 public class BlameCommand extends GitCommand<BlameResult> {
 
@@ -86,7 +87,10 @@ public class BlameCommand extends GitCommand<BlameResult> {
 	private Boolean followFileRenames;
 
 	/**
+	 * Constructor for BlameCommand
+	 *
 	 * @param repo
+	 *            the {@link org.eclipse.jgit.lib.Repository}
 	 */
 	public BlameCommand(Repository repo) {
 		super(repo);
@@ -108,6 +112,7 @@ public class BlameCommand extends GitCommand<BlameResult> {
 	 * Set diff algorithm
 	 *
 	 * @param diffAlgorithm
+	 *            a {@link org.eclipse.jgit.diff.DiffAlgorithm} object.
 	 * @return this command
 	 */
 	public BlameCommand setDiffAlgorithm(DiffAlgorithm diffAlgorithm) {
@@ -119,6 +124,7 @@ public class BlameCommand extends GitCommand<BlameResult> {
 	 * Set raw text comparator
 	 *
 	 * @param textComparator
+	 *            a {@link org.eclipse.jgit.diff.RawTextComparator}
 	 * @return this command
 	 */
 	public BlameCommand setTextComparator(RawTextComparator textComparator) {
@@ -130,6 +136,7 @@ public class BlameCommand extends GitCommand<BlameResult> {
 	 * Set start commit id
 	 *
 	 * @param commit
+	 *            id of a commit
 	 * @return this command
 	 */
 	public BlameCommand setStartCommit(AnyObjectId commit) {
@@ -164,7 +171,7 @@ public class BlameCommand extends GitCommand<BlameResult> {
 	 *            most recent commit to stop traversal at. Usually an active
 	 *            branch tip, tag, or HEAD.
 	 * @return {@code this}
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the repository cannot be read.
 	 */
 	public BlameCommand reverse(AnyObjectId start, AnyObjectId end)
@@ -182,7 +189,7 @@ public class BlameCommand extends GitCommand<BlameResult> {
 	 *            most recent commits to stop traversal at. Usually an active
 	 *            branch tip, tag, or HEAD.
 	 * @return {@code this}
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the repository cannot be read.
 	 */
 	public BlameCommand reverse(AnyObjectId start, Collection<ObjectId> end)
@@ -193,10 +200,10 @@ public class BlameCommand extends GitCommand<BlameResult> {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * Generate a list of lines with information about when the lines were
 	 * introduced into the file path.
-	 *
-	 * @return list of lines
 	 */
 	@Override
 	public BlameResult call() throws GitAPIException {

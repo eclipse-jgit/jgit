@@ -211,19 +211,22 @@ public class MergeCommand extends GitCommand<MergeResult> {
 	private Boolean commit;
 
 	/**
+	 * Constructor for MergeCommand.
+	 *
 	 * @param repo
+	 *            the {@link org.eclipse.jgit.lib.Repository}
 	 */
 	protected MergeCommand(Repository repo) {
 		super(repo);
 	}
 
 	/**
-	 * Executes the {@code Merge} command with all the options and parameters
+	 * {@inheritDoc}
+	 * <p>
+	 * Execute the {@code Merge} command with all the options and parameters
 	 * collected by the setter methods (e.g. {@link #include(Ref)}) of this
 	 * class. Each instance of this class should only be used for one invocation
 	 * of the command. Don't call this method twice on an instance.
-	 *
-	 * @return the result of the merge
 	 */
 	@Override
 	@SuppressWarnings("boxing")
@@ -492,9 +495,10 @@ public class MergeCommand extends GitCommand<MergeResult> {
 	}
 
 	/**
+	 * Set merge strategy
 	 *
 	 * @param mergeStrategy
-	 *            the {@link MergeStrategy} to be used
+	 *            the {@link org.eclipse.jgit.merge.MergeStrategy} to be used
 	 * @return {@code this}
 	 */
 	public MergeCommand setStrategy(MergeStrategy mergeStrategy) {
@@ -504,6 +508,8 @@ public class MergeCommand extends GitCommand<MergeResult> {
 	}
 
 	/**
+	 * Reference to a commit to be merged with the current head
+	 *
 	 * @param aCommit
 	 *            a reference to a commit which is merged with the current head
 	 * @return {@code this}
@@ -515,6 +521,8 @@ public class MergeCommand extends GitCommand<MergeResult> {
 	}
 
 	/**
+	 * Id of a commit which is to be merged with the current head
+	 *
 	 * @param aCommit
 	 *            the Id of a commit which is merged with the current head
 	 * @return {@code this}
@@ -524,8 +532,10 @@ public class MergeCommand extends GitCommand<MergeResult> {
 	}
 
 	/**
+	 * Include a commit
+	 *
 	 * @param name
-	 *            a name given to the commit
+	 *            a name of a {@code Ref} pointing to the commit
 	 * @param aCommit
 	 *            the Id of a commit which is merged with the current head
 	 * @return {@code this}
@@ -541,9 +551,10 @@ public class MergeCommand extends GitCommand<MergeResult> {
 	 * HEAD. Otherwise, perform the merge and commit the result.
 	 * <p>
 	 * In case the merge was successful but this flag was set to
-	 * <code>true</code> a {@link MergeResult} with status
-	 * {@link MergeStatus#MERGED_SQUASHED} or
-	 * {@link MergeStatus#FAST_FORWARD_SQUASHED} is returned.
+	 * <code>true</code> a {@link org.eclipse.jgit.api.MergeResult} with status
+	 * {@link org.eclipse.jgit.api.MergeResult.MergeStatus#MERGED_SQUASHED} or
+	 * {@link org.eclipse.jgit.api.MergeResult.MergeStatus#FAST_FORWARD_SQUASHED}
+	 * is returned.
 	 *
 	 * @param squash
 	 *            whether to squash commits or not
@@ -582,9 +593,11 @@ public class MergeCommand extends GitCommand<MergeResult> {
 	 *            <code>true</code> if this command should commit (this is the
 	 *            default behavior). <code>false</code> if this command should
 	 *            not commit. In case the merge was successful but this flag was
-	 *            set to <code>false</code> a {@link MergeResult} with type
-	 *            {@link MergeResult} with status
-	 *            {@link MergeStatus#MERGED_NOT_COMMITTED} is returned
+	 *            set to <code>false</code> a
+	 *            {@link org.eclipse.jgit.api.MergeResult} with type
+	 *            {@link org.eclipse.jgit.api.MergeResult} with status
+	 *            {@link org.eclipse.jgit.api.MergeResult.MergeStatus#MERGED_NOT_COMMITTED}
+	 *            is returned
 	 * @return {@code this}
 	 * @since 3.0
 	 */
@@ -612,7 +625,6 @@ public class MergeCommand extends GitCommand<MergeResult> {
 	 * is set to <code>NullProgressMonitor</code>
 	 *
 	 * @see NullProgressMonitor
-	 *
 	 * @param monitor
 	 *            A progress monitor
 	 * @return this instance

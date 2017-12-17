@@ -67,6 +67,8 @@ public class AbortedByHookException extends GitAPIException {
 	private final int returnCode;
 
 	/**
+	 * Constructor for AbortedByHookException
+	 *
 	 * @param message
 	 *            The error details.
 	 * @param hookName
@@ -83,6 +85,8 @@ public class AbortedByHookException extends GitAPIException {
 	}
 
 	/**
+	 * Get hook name
+	 *
 	 * @return the type of the hook that interrupted the git command.
 	 */
 	public String getHookName() {
@@ -90,12 +94,15 @@ public class AbortedByHookException extends GitAPIException {
 	}
 
 	/**
+	 * Get return code
+	 *
 	 * @return the hook process result.
 	 */
 	public int getReturnCode() {
 		return returnCode;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String getMessage() {
 		return MessageFormat.format(JGitText.get().commandRejectedByHook,

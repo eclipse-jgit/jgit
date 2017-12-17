@@ -84,19 +84,16 @@ public class DeleteBranchCommand extends GitCommand<List<String>> {
 	private boolean force;
 
 	/**
+	 * Constructor for DeleteBranchCommand
+	 *
 	 * @param repo
+	 *            the {@link org.eclipse.jgit.lib.Repository}
 	 */
 	protected DeleteBranchCommand(Repository repo) {
 		super(repo);
 	}
 
-	/**
-	 * @throws NotMergedException
-	 *             when trying to delete a branch which has not been merged into
-	 *             the currently checked out branch without force
-	 * @throws CannotDeleteCurrentBranchException
-	 * @return the list with the (full) names of the deleted branches
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public List<String> call() throws GitAPIException,
 			NotMergedException, CannotDeleteCurrentBranchException {
@@ -181,6 +178,8 @@ public class DeleteBranchCommand extends GitCommand<List<String>> {
 	}
 
 	/**
+	 * Set the names of the branches to delete
+	 *
 	 * @param branchnames
 	 *            the names of the branches to delete; if not set, this will do
 	 *            nothing; invalid branch names will simply be ignored
@@ -195,6 +194,8 @@ public class DeleteBranchCommand extends GitCommand<List<String>> {
 	}
 
 	/**
+	 * Set whether to forcefully delete branches
+	 *
 	 * @param force
 	 *            <code>true</code> corresponds to the -D option,
 	 *            <code>false</code> to the -d option (default) <br>

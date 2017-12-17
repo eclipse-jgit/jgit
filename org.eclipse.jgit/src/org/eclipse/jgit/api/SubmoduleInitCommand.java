@@ -63,8 +63,8 @@ import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
  * .gitmodules file to a repository's config file for each submodule not
  * currently present in the repository's config file.
  *
- * @see <a
- *      href="http://www.kernel.org/pub/software/scm/git/docs/git-submodule.html"
+ * @see <a href=
+ *      "http://www.kernel.org/pub/software/scm/git/docs/git-submodule.html"
  *      >Git documentation about submodules</a>
  */
 public class SubmoduleInitCommand extends GitCommand<Collection<String>> {
@@ -72,7 +72,10 @@ public class SubmoduleInitCommand extends GitCommand<Collection<String>> {
 	private final Collection<String> paths;
 
 	/**
+	 * Constructor for SubmoduleInitCommand.
+	 *
 	 * @param repo
+	 *            a {@link org.eclipse.jgit.lib.Repository} object.
 	 */
 	public SubmoduleInitCommand(final Repository repo) {
 		super(repo);
@@ -91,6 +94,7 @@ public class SubmoduleInitCommand extends GitCommand<Collection<String>> {
 		return this;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Collection<String> call() throws GitAPIException {
 		checkCallable();

@@ -52,7 +52,6 @@ import org.eclipse.jgit.patch.FormatError;
  * Exception thrown when applying a patch fails due to an invalid format
  *
  * @since 2.0
- *
  */
 public class PatchFormatException extends GitAPIException {
 	private static final long serialVersionUID = 1L;
@@ -60,7 +59,10 @@ public class PatchFormatException extends GitAPIException {
 	private List<FormatError> errors;
 
 	/**
+	 * Constructor for PatchFormatException
+	 *
 	 * @param errors
+	 *            a {@link java.util.List} of {@link FormatError}s
 	 */
 	public PatchFormatException(List<FormatError> errors) {
 		super(MessageFormat.format(JGitText.get().patchFormatException, errors));
@@ -68,6 +70,8 @@ public class PatchFormatException extends GitAPIException {
 	}
 
 	/**
+	 * Get list of errors
+	 *
 	 * @return all the errors where unresolved conflicts have been detected
 	 */
 	public List<FormatError> getErrors() {

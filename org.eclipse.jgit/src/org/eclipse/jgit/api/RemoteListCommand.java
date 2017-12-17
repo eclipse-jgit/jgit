@@ -59,23 +59,27 @@ import org.eclipse.jgit.transport.RemoteConfig;
  * @see <a href=
  *      "http://www.kernel.org/pub/software/scm/git/docs/git-remote.html" > Git
  *      documentation about Remote</a>
- *
  * @since 4.2
  */
 public class RemoteListCommand extends GitCommand<List<RemoteConfig>> {
 
 	/**
+	 * <p>
+	 * Constructor for RemoteListCommand.
+	 * </p>
+	 *
 	 * @param repo
+	 *            the {@link org.eclipse.jgit.lib.Repository}
 	 */
 	protected RemoteListCommand(Repository repo) {
 		super(repo);
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * Executes the {@code remote} command with all the options and parameters
 	 * collected by the setter methods of this class.
-	 *
-	 * @return a list of {@link RemoteConfig} objects.
 	 */
 	@Override
 	public List<RemoteConfig> call() throws GitAPIException {
