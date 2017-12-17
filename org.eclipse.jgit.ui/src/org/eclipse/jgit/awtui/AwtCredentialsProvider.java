@@ -62,9 +62,13 @@ import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.NetRCCredentialsProvider;
 import org.eclipse.jgit.transport.URIish;
 
-/** Interacts with the user during authentication by using AWT/Swing dialogs. */
+/**
+ * Interacts with the user during authentication by using AWT/Swing dialogs.
+ */
 public class AwtCredentialsProvider extends CredentialsProvider {
-	/** Install this implementation as the default. */
+	/**
+	 * Install this implementation as the default.
+	 */
 	public static void install() {
 		final AwtCredentialsProvider c = new AwtCredentialsProvider();
 		CredentialsProvider cp = new ChainingCredentialsProvider(
@@ -72,11 +76,13 @@ public class AwtCredentialsProvider extends CredentialsProvider {
 		CredentialsProvider.setDefault(cp);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean isInteractive() {
 		return true;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean supports(CredentialItem... items) {
 		for (CredentialItem i : items) {
@@ -98,6 +104,7 @@ public class AwtCredentialsProvider extends CredentialsProvider {
 		return true;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean get(URIish uri, CredentialItem... items)
 			throws UnsupportedCredentialItem {

@@ -67,6 +67,7 @@ class SwingCommitList extends PlotCommitList<SwingCommitList.SwingLane> {
 		colors.add(Color.orange);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected SwingLane createLane() {
 		final SwingLane lane = new SwingLane();
@@ -76,6 +77,7 @@ class SwingCommitList extends PlotCommitList<SwingCommitList.SwingLane> {
 		return lane;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void recycleLane(final SwingLane lane) {
 		colors.add(lane.color);
