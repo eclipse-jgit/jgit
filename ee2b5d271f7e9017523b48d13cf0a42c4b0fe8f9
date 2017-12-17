@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87929364_6b4be102",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/CommandRef.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-12-17T23:44:39Z",
+      "side": 1,
+      "message": "This is not closed",
+      "range": {
+        "startLine": 53,
+        "startChar": 28,
+        "endLine": 53,
+        "endChar": 29
+      },
+      "revId": "ee2b5d271f7e9017523b48d13cf0a42c4b0fe8f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
