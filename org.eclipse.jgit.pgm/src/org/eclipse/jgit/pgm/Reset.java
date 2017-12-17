@@ -72,6 +72,7 @@ class Reset extends TextBuiltin {
 	@Option(name = "--", metaVar = "metaVar_paths", handler = RestOfArgumentsHandler.class)
 	private List<String> paths = new ArrayList<>();
 
+	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
 		try (Git git = new Git(db)) {

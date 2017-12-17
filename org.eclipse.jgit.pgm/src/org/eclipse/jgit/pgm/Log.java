@@ -184,12 +184,14 @@ class Log extends RevWalkTextBuiltin {
 		dateFormatter = new GitDateFormatter(Format.DEFAULT);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void init(final Repository repository, final String gitDir) {
 		super.init(repository, gitDir);
 		diffFmt = new DiffFormatter(new BufferedOutputStream(outs));
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
 		diffFmt.setRepository(db);
@@ -237,6 +239,7 @@ class Log extends RevWalkTextBuiltin {
 				NoteMap.read(argWalk.getObjectReader(), notesCommit));
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void show(final RevCommit c) throws Exception {
 		outw.print(CLIText.get().commitLabel);

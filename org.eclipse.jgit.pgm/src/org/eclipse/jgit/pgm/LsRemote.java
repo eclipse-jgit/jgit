@@ -70,6 +70,7 @@ class LsRemote extends TextBuiltin {
 	@Argument(index = 0, metaVar = "metaVar_uriish", required = true)
 	private String remote;
 
+	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
 		LsRemoteCommand command = Git.lsRemoteRepository().setRemote(remote)
@@ -89,6 +90,7 @@ class LsRemote extends TextBuiltin {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected boolean requiresRepository() {
 		return false;

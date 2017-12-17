@@ -61,11 +61,9 @@ import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
-import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.IllegalAnnotationError;
 import org.kohsuke.args4j.NamedOptionDef;
-import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.OptionDef;
 import org.kohsuke.args4j.OptionHandlerRegistry;
 import org.kohsuke.args4j.spi.OptionHandler;
@@ -105,9 +103,10 @@ public class CmdLineParser extends org.kohsuke.args4j.CmdLineParser {
 	 * them into the given object.
 	 *
 	 * @param bean
-	 *            instance of a class annotated by {@link Option} and
-	 *            {@link Argument}. this object will receive values.
-	 *
+	 *            instance of a class annotated by
+	 *            {@link org.kohsuke.args4j.Option} and
+	 *            {@link org.kohsuke.args4j.Argument}. this object will receive
+	 *            values.
 	 * @throws IllegalAnnotationError
 	 *             if the option bean class is using args4j annotations
 	 *             incorrectly.
@@ -121,8 +120,10 @@ public class CmdLineParser extends org.kohsuke.args4j.CmdLineParser {
 	 * them into the given object.
 	 *
 	 * @param bean
-	 *            instance of a class annotated by {@link Option} and
-	 *            {@link Argument}. this object will receive values.
+	 *            instance of a class annotated by
+	 *            {@link org.kohsuke.args4j.Option} and
+	 *            {@link org.kohsuke.args4j.Argument}. this object will receive
+	 *            values.
 	 * @param repo
 	 *            repository this parser can translate options through.
 	 * @throws IllegalAnnotationError
@@ -140,6 +141,7 @@ public class CmdLineParser extends org.kohsuke.args4j.CmdLineParser {
 		this.db = repo;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void parseArgument(final String... args) throws CmdLineException {
 		final ArrayList<String> tmp = new ArrayList<>(args.length);
@@ -223,6 +225,8 @@ public class CmdLineParser extends org.kohsuke.args4j.CmdLineParser {
 	}
 
 	/**
+	 * Check if array contains help option
+	 *
 	 * @param args
 	 *            non null
 	 * @return true if the given array contains help option
@@ -292,6 +296,7 @@ public class CmdLineParser extends org.kohsuke.args4j.CmdLineParser {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected OptionHandler createOptionHandler(OptionDef o, Setter setter) {
 		if (o instanceof NamedOptionDef)
@@ -301,6 +306,7 @@ public class CmdLineParser extends org.kohsuke.args4j.CmdLineParser {
 
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void printSingleLineUsage(Writer w, ResourceBundle rb) {
 		List<OptionHandler> options = getOptions();

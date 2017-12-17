@@ -74,6 +74,7 @@ class Archive extends TextBuiltin {
 	@Option(name = "--output", aliases = { "-o" }, metaVar = "metaVar_file", usage = "usage_archiveOutput")
 	private String output;
 
+	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
 		if (tree == null)

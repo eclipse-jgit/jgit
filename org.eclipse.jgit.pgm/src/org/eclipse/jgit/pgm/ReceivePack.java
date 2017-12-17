@@ -58,11 +58,13 @@ class ReceivePack extends TextBuiltin {
 	@Argument(index = 0, required = true, metaVar = "metaVar_directory", usage = "usage_RepositoryToReceiveInto")
 	File dstGitdir;
 
+	/** {@inheritDoc} */
 	@Override
 	protected final boolean requiresRepository() {
 		return false;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
 		final org.eclipse.jgit.transport.ReceivePack rp;

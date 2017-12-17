@@ -65,6 +65,7 @@ class Describe extends TextBuiltin {
 	@Option(name = "--match", usage = "usage_Match", metaVar = "metaVar_pattern")
 	private List<String> patterns = new ArrayList<>();
 
+	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
 		try (Git git = new Git(db)) {

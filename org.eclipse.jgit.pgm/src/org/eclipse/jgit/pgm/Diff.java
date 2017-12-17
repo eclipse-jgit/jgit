@@ -168,12 +168,14 @@ class Diff extends TextBuiltin {
 
 	// END -- Options shared with Log
 
+	/** {@inheritDoc} */
 	@Override
 	protected void init(final Repository repository, final String gitDir) {
 		super.init(repository, gitDir);
 		diffFmt = new DiffFormatter(new BufferedOutputStream(outs));
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
 		diffFmt.setRepository(db);

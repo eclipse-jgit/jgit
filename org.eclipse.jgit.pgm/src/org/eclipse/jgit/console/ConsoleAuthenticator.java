@@ -58,7 +58,9 @@ import org.eclipse.jgit.util.CachedAuthenticator;
  * @since 4.0
  */
 public class ConsoleAuthenticator extends CachedAuthenticator {
-	/** Install this authenticator implementation into the JVM. */
+	/**
+	 * Install this authenticator implementation into the JVM.
+	 */
 	public static void install() {
 		final ConsoleAuthenticator c = new ConsoleAuthenticator();
 		if (c.cons == null)
@@ -69,6 +71,7 @@ public class ConsoleAuthenticator extends CachedAuthenticator {
 
 	private final Console cons = System.console();
 
+	/** {@inheritDoc} */
 	@Override
 	protected PasswordAuthentication promptPasswordAuthentication() {
 		final String realm = formatRealm();

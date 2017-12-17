@@ -87,6 +87,12 @@ class Branch extends TextBuiltin {
 
 	private List<String> delete;
 
+	/**
+	 * Delete branches
+	 *
+	 * @param names
+	 *            a {@link java.util.List} of branch names.
+	 */
 	@Option(name = "--delete", aliases = {
 			"-d" }, metaVar = "metaVar_branchNames", usage = "usage_deleteFullyMergedBranch", handler = OptionWithValuesListHandler.class)
 	public void delete(List<String> names) {
@@ -98,6 +104,12 @@ class Branch extends TextBuiltin {
 
 	private List<String> deleteForce;
 
+	/**
+	 * Forcefully delete branches
+	 *
+	 * @param names
+	 *            a {@link java.util.List} of branch names.
+	 */
 	@Option(name = "--delete-force", aliases = {
 			"-D" }, metaVar = "metaVar_branchNames", usage = "usage_deleteBranchEvenIfNotMerged", handler = OptionWithValuesListHandler.class)
 	public void deleteForce(List<String> names) {
@@ -107,6 +119,12 @@ class Branch extends TextBuiltin {
 		deleteForce = names;
 	}
 
+	/**
+	 * Forcefully create a list of branches
+	 *
+	 * @param branchAndStartPoint
+	 *            a branch name and a start point
+	 */
 	@Option(name = "--create-force", aliases = {
 			"-f" }, metaVar = "metaVar_branchAndStartPoint", usage = "usage_forceCreateBranchEvenExists", handler = OptionWithValuesListHandler.class)
 	public void createForce(List<String> branchAndStartPoint) {
@@ -125,6 +143,12 @@ class Branch extends TextBuiltin {
 		}
 	}
 
+	/**
+	 * Move or rename a branch
+	 *
+	 * @param currentAndNew
+	 *            the current and the new branch name
+	 */
 	@Option(name = "--move", aliases = {
 			"-m" }, metaVar = "metaVar_oldNewBranchNames", usage = "usage_moveRenameABranch", handler = OptionWithValuesListHandler.class)
 	public void moveRename(List<String> currentAndNew) {
@@ -156,6 +180,7 @@ class Branch extends TextBuiltin {
 
 	private int maxNameLength;
 
+	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
 		if (delete != null || deleteForce != null) {

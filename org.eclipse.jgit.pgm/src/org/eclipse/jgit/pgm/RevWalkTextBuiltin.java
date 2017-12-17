@@ -149,6 +149,7 @@ abstract class RevWalkTextBuiltin extends TextBuiltin {
 	@Option(name = "--max-count", aliases = "-n", metaVar = "metaVar_n")
 	private int maxCount = -1;
 
+	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
 		walk = createWalk();
@@ -210,6 +211,11 @@ abstract class RevWalkTextBuiltin extends TextBuiltin {
 		}
 	}
 
+	/**
+	 * Create RevWalk
+	 *
+	 * @return a {@link org.eclipse.jgit.revwalk.RevWalk} object.
+	 */
 	protected RevWalk createWalk() {
 		RevWalk result;
 		if (objects)
@@ -222,6 +228,13 @@ abstract class RevWalkTextBuiltin extends TextBuiltin {
 		return result;
 	}
 
+	/**
+	 * Loop the walk
+	 *
+	 * @return number of RevCommits walked
+	 * @throws java.lang.Exception
+	 *             if any.
+	 */
 	protected int walkLoop() throws Exception {
 		int n = 0;
 		for (final RevCommit c : walk) {
@@ -248,8 +261,8 @@ abstract class RevWalkTextBuiltin extends TextBuiltin {
 	 * RevWalkTextBuiltin.
 	 *
 	 * @param c
-	 *            The current {@link RevCommit}
-	 * @throws Exception
+	 *            The current {@link org.eclipse.jgit.revwalk.RevCommit}
+	 * @throws java.lang.Exception
 	 */
 	protected abstract void show(final RevCommit c) throws Exception;
 
@@ -260,10 +273,11 @@ abstract class RevWalkTextBuiltin extends TextBuiltin {
 	 * process RevCommits.
 	 *
 	 * @param objectWalk
-	 *            the {@link ObjectWalk} used by {@link #walkLoop()}
+	 *            the {@link org.eclipse.jgit.revwalk.ObjectWalk} used by
+	 *            {@link #walkLoop()}
 	 * @param currentObject
-	 *            The current {@link RevObject}
-	 * @throws Exception
+	 *            The current {@link org.eclipse.jgit.revwalk.RevObject}
+	 * @throws java.lang.Exception
 	 */
 	protected void show(final ObjectWalk objectWalk,
 			final RevObject currentObject) throws Exception {

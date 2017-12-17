@@ -45,7 +45,8 @@
 package org.eclipse.jgit.pgm;
 
 /**
- * Indicates a {@link TextBuiltin} implementation has failed during execution.
+ * Indicates a {@link org.eclipse.jgit.pgm.TextBuiltin} implementation has
+ * failed during execution.
  * <p>
  * Typically the stack trace for a Die exception is not shown to the user as it
  * may indicate a simple error condition that the end-user can fix on their own,

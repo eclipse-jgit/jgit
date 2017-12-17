@@ -111,11 +111,13 @@ class Daemon extends TextBuiltin {
 	@Argument(required = true, metaVar = "metaVar_directory", usage = "usage_directoriesToExport")
 	List<File> directory = new ArrayList<>();
 
+	/** {@inheritDoc} */
 	@Override
 	protected boolean requiresRepository() {
 		return false;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
 		PackConfig packConfig = new PackConfig();

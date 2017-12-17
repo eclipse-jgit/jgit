@@ -65,6 +65,7 @@ class MergeBase extends TextBuiltin {
 	@Argument(index = 1, metaVar = "metaVar_commitish", required = true)
 	private List<RevCommit> commits = new ArrayList<>();
 
+	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
 		for (final RevCommit c : commits)

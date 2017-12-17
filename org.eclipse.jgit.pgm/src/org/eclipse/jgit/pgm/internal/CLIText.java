@@ -79,6 +79,8 @@ public class CLIText extends TranslationBundle {
 	}
 
 	/**
+	 * Format text
+	 *
 	 * @param text
 	 *            the text to format.
 	 * @return a new Format instance.
@@ -88,6 +90,8 @@ public class CLIText extends TranslationBundle {
 	}
 
 	/**
+	 * Get an instance of this translation bundle
+	 *
 	 * @return an instance of this translation bundle
 	 */
 	public static CLIText get() {

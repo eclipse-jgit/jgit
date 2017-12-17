@@ -54,6 +54,7 @@ import org.eclipse.jgit.pgm.internal.CLIText;
 
 @Command(usage = "usage_ReadDirCache")
 class ReadDirCache extends TextBuiltin {
+	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
 		final int cnt = 100;

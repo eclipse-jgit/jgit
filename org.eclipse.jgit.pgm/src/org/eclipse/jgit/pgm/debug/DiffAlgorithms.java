@@ -130,11 +130,13 @@ class DiffAlgorithms extends TextBuiltin {
 
 	private ThreadMXBean mxBean;
 
+	/** {@inheritDoc} */
 	@Override
 	protected boolean requiresRepository() {
 		return false;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
 		mxBean = ManagementFactory.getThreadMXBean();

@@ -66,6 +66,14 @@ abstract class AbstractFetchCommand extends TextBuiltin {
 	@Option(name = "--verbose", aliases = { "-v" }, usage = "usage_beMoreVerbose")
 	private boolean verbose;
 
+	/**
+	 * Show fetch result.
+	 *
+	 * @param r
+	 *            a {@link org.eclipse.jgit.transport.FetchResult} object.
+	 * @throws java.io.IOException
+	 *             if any.
+	 */
 	protected void showFetchResult(final FetchResult r) throws IOException {
 		try (ObjectReader reader = db.newObjectReader()) {
 			boolean shownURI = false;

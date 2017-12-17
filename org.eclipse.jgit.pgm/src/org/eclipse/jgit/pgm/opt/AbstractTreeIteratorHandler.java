@@ -68,7 +68,8 @@ import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
 
 /**
- * Custom argument handler {@link AbstractTreeIterator} from string values.
+ * Custom argument handler
+ * {@link org.eclipse.jgit.treewalk.AbstractTreeIterator} from string values.
  * <p>
  * Assumes the parser has been initialized with a Repository.
  */
@@ -82,8 +83,11 @@ public class AbstractTreeIteratorHandler extends
 	 * This constructor is used only by args4j.
 	 *
 	 * @param parser
+	 *            a {@link org.kohsuke.args4j.CmdLineParser} object.
 	 * @param option
+	 *            a {@link org.kohsuke.args4j.OptionDef} object.
 	 * @param setter
+	 *            a {@link org.kohsuke.args4j.spi.Setter} object.
 	 */
 	public AbstractTreeIteratorHandler(final CmdLineParser parser,
 			final OptionDef option,
@@ -92,6 +96,7 @@ public class AbstractTreeIteratorHandler extends
 		clp = (org.eclipse.jgit.pgm.opt.CmdLineParser) parser;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int parseArguments(final Parameters params) throws CmdLineException {
 		final String name = params.getParameter(0);
@@ -144,6 +149,7 @@ public class AbstractTreeIteratorHandler extends
 		return 1;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String getDefaultMetaVariable() {
 		return CLIText.get().metaVar_treeish;

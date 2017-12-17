@@ -60,6 +60,7 @@ class IndexPack extends TextBuiltin {
 	@Option(name = "--index-version", usage = "usage_indexFileFormatToCreate")
 	private int indexVersion = -1;
 
+	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
 		BufferedInputStream in = new BufferedInputStream(ins);

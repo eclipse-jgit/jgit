@@ -63,6 +63,7 @@ class ReadReftable extends TextBuiltin {
 	@Argument(index = 1, required = false)
 	private String ref;
 
+	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
 		try (FileInputStream in = new FileInputStream(input);

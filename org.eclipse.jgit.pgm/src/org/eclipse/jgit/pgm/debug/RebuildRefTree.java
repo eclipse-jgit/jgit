@@ -73,6 +73,7 @@ class RebuildRefTree extends TextBuiltin {
 	private String txnNamespace;
 	private String txnCommitted;
 
+	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
 		try (ObjectReader reader = db.newObjectReader();
