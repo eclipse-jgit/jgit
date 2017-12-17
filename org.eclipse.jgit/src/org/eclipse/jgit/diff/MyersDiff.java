@@ -557,7 +557,10 @@ if (k < beginK || k > endK)
 	}
 
 	/**
-	 * @param args two filenames specifying the contents to be diffed
+	 * Main method
+	 *
+	 * @param args
+	 *            two filenames specifying the contents to be diffed
 	 */
 	public static void main(String[] args) {
 		if (args.length != 2) {
