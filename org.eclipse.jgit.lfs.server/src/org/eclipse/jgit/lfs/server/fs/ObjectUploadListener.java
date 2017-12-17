@@ -88,14 +88,20 @@ public class ObjectUploadListener implements ReadListener {
 	private final ByteBuffer buffer = ByteBuffer.allocateDirect(8192);
 
 	/**
+	 * Constructor for ObjectUploadListener.
+	 *
 	 * @param repository
 	 *            the repository storing large objects
 	 * @param context
+	 *            a {@link javax.servlet.AsyncContext} object.
 	 * @param request
+	 *            a {@link javax.servlet.http.HttpServletRequest} object.
 	 * @param response
+	 *            a {@link javax.servlet.http.HttpServletResponse} object.
 	 * @param id
-	 * @throws FileNotFoundException
-	 * @throws IOException
+	 *            a {@link org.eclipse.jgit.lfs.lib.AnyLongObjectId} object.
+	 * @throws java.io.FileNotFoundException
+	 * @throws java.io.IOException
 	 */
 	public ObjectUploadListener(FileLfsRepository repository,
 			AsyncContext context, HttpServletRequest request,
@@ -111,9 +117,9 @@ public class ObjectUploadListener implements ReadListener {
 	}
 
 	/**
-	 * Writes all the received data to the output channel
+	 * {@inheritDoc}
 	 *
-	 * @throws IOException
+	 * Writes all the received data to the output channel
 	 */
 	@Override
 	public void onDataAvailable() throws IOException {
@@ -133,16 +139,16 @@ public class ObjectUploadListener implements ReadListener {
 		}
 	}
 
-	/**
-	 * @throws IOException
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public void onAllDataRead() throws IOException {
 		close();
 	}
 
 	/**
-	 * @throws IOException
+	 * Close resources held by this listener
+	 *
+	 * @throws java.io.IOException
 	 */
 	protected void close() throws IOException {
 		try {
@@ -156,10 +162,7 @@ public class ObjectUploadListener implements ReadListener {
 		}
 	}
 
-	/**
-	 * @param e
-	 *            the exception that caused the problem
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public void onError(Throwable e) {
 		try {

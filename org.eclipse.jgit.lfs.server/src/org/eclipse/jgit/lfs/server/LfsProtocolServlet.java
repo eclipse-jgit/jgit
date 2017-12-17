@@ -112,30 +112,29 @@ public abstract class LfsProtocolServlet extends HttpServlet {
 	 *            the request
 	 * @param path
 	 *            the path
-	 *
 	 * @return the large file repository storing large files.
-	 * @throws LfsException
+	 * @throws org.eclipse.jgit.lfs.errors.LfsException
 	 *             implementations should throw more specific exceptions to
 	 *             signal which type of error occurred:
 	 *             <dl>
-	 *             <dt>{@link LfsValidationError}</dt>
+	 *             <dt>{@link org.eclipse.jgit.lfs.errors.LfsValidationError}</dt>
 	 *             <dd>when there is a validation error with one or more of the
 	 *             objects in the request</dd>
-	 *             <dt>{@link LfsRepositoryNotFound}</dt>
+	 *             <dt>{@link org.eclipse.jgit.lfs.errors.LfsRepositoryNotFound}</dt>
 	 *             <dd>when the repository does not exist for the user</dd>
-	 *             <dt>{@link LfsRepositoryReadOnly}</dt>
+	 *             <dt>{@link org.eclipse.jgit.lfs.errors.LfsRepositoryReadOnly}</dt>
 	 *             <dd>when the user has read, but not write access. Only
 	 *             applicable when the operation in the request is "upload"</dd>
-	 *             <dt>{@link LfsRateLimitExceeded}</dt>
+	 *             <dt>{@link org.eclipse.jgit.lfs.errors.LfsRateLimitExceeded}</dt>
 	 *             <dd>when the user has hit a rate limit with the server</dd>
-	 *             <dt>{@link LfsBandwidthLimitExceeded}</dt>
+	 *             <dt>{@link org.eclipse.jgit.lfs.errors.LfsBandwidthLimitExceeded}</dt>
 	 *             <dd>when the bandwidth limit for the user or repository has
 	 *             been exceeded</dd>
-	 *             <dt>{@link LfsInsufficientStorage}</dt>
+	 *             <dt>{@link org.eclipse.jgit.lfs.errors.LfsInsufficientStorage}</dt>
 	 *             <dd>when there is insufficient storage on the server</dd>
-	 *             <dt>{@link LfsUnavailable}</dt>
+	 *             <dt>{@link org.eclipse.jgit.lfs.errors.LfsUnavailable}</dt>
 	 *             <dd>when LFS is not available</dd>
-	 *             <dt>{@link LfsException}</dt>
+	 *             <dt>{@link org.eclipse.jgit.lfs.errors.LfsException}</dt>
 	 *             <dd>when an unexpected internal server error occurred</dd>
 	 *             </dl>
 	 * @since 4.5
@@ -157,30 +156,29 @@ public abstract class LfsProtocolServlet extends HttpServlet {
 	 *            the path
 	 * @param auth
 	 *            the Authorization HTTP header
-	 *
 	 * @return the large file repository storing large files.
-	 * @throws LfsException
+	 * @throws org.eclipse.jgit.lfs.errors.LfsException
 	 *             implementations should throw more specific exceptions to
 	 *             signal which type of error occurred:
 	 *             <dl>
-	 *             <dt>{@link LfsValidationError}</dt>
+	 *             <dt>{@link org.eclipse.jgit.lfs.errors.LfsValidationError}</dt>
 	 *             <dd>when there is a validation error with one or more of the
 	 *             objects in the request</dd>
-	 *             <dt>{@link LfsRepositoryNotFound}</dt>
+	 *             <dt>{@link org.eclipse.jgit.lfs.errors.LfsRepositoryNotFound}</dt>
 	 *             <dd>when the repository does not exist for the user</dd>
-	 *             <dt>{@link LfsRepositoryReadOnly}</dt>
+	 *             <dt>{@link org.eclipse.jgit.lfs.errors.LfsRepositoryReadOnly}</dt>
 	 *             <dd>when the user has read, but not write access. Only
 	 *             applicable when the operation in the request is "upload"</dd>
-	 *             <dt>{@link LfsRateLimitExceeded}</dt>
+	 *             <dt>{@link org.eclipse.jgit.lfs.errors.LfsRateLimitExceeded}</dt>
 	 *             <dd>when the user has hit a rate limit with the server</dd>
-	 *             <dt>{@link LfsBandwidthLimitExceeded}</dt>
+	 *             <dt>{@link org.eclipse.jgit.lfs.errors.LfsBandwidthLimitExceeded}</dt>
 	 *             <dd>when the bandwidth limit for the user or repository has
 	 *             been exceeded</dd>
-	 *             <dt>{@link LfsInsufficientStorage}</dt>
+	 *             <dt>{@link org.eclipse.jgit.lfs.errors.LfsInsufficientStorage}</dt>
 	 *             <dd>when there is insufficient storage on the server</dd>
-	 *             <dt>{@link LfsUnavailable}</dt>
+	 *             <dt>{@link org.eclipse.jgit.lfs.errors.LfsUnavailable}</dt>
 	 *             <dd>when LFS is not available</dd>
-	 *             <dt>{@link LfsException}</dt>
+	 *             <dt>{@link org.eclipse.jgit.lfs.errors.LfsException}</dt>
 	 *             <dd>when an unexpected internal server error occurred</dd>
 	 *             </dl>
 	 * @since 4.7
@@ -241,6 +239,7 @@ public abstract class LfsProtocolServlet extends HttpServlet {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {

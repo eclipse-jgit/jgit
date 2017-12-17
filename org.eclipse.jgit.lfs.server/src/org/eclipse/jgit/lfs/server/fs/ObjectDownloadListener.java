@@ -83,6 +83,8 @@ public class ObjectDownloadListener implements WriteListener {
 	private final ByteBuffer buffer = ByteBuffer.allocateDirect(8192);
 
 	/**
+	 * <p>Constructor for ObjectDownloadListener.</p>
+	 *
 	 * @param repository
 	 *            the repository storing large objects
 	 * @param context
@@ -91,7 +93,7 @@ public class ObjectDownloadListener implements WriteListener {
 	 *            the servlet response
 	 * @param id
 	 *            id of the object to be downloaded
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 */
 	public ObjectDownloadListener(FileLfsRepository repository,
 			AsyncContext context, HttpServletResponse response,
@@ -108,9 +110,9 @@ public class ObjectDownloadListener implements WriteListener {
 	}
 
 	/**
-	 * Write file content
+	 * {@inheritDoc}
 	 *
-	 * @throws IOException
+	 * Write file content
 	 */
 	@Override
 	public void onWritePossible() throws IOException {
@@ -134,10 +136,9 @@ public class ObjectDownloadListener implements WriteListener {
 	}
 
 	/**
-	 * Handle errors
+	 * {@inheritDoc}
 	 *
-	 * @param e
-	 *            the cause
+	 * Handle errors
 	 */
 	@Override
 	public void onError(Throwable e) {

@@ -55,6 +55,8 @@ import org.eclipse.jgit.lfs.lib.AnyLongObjectId;
 public interface LargeFileRepository {
 
 	/**
+	 * Get download action
+	 *
 	 * @param id
 	 *            id of the object to download
 	 * @return Action for downloading the object
@@ -62,6 +64,8 @@ public interface LargeFileRepository {
 	public Response.Action getDownloadAction(AnyLongObjectId id);
 
 	/**
+	 * Get upload action
+	 *
 	 * @param id
 	 *            id of the object to upload
 	 * @param size
@@ -71,6 +75,8 @@ public interface LargeFileRepository {
 	public Response.Action getUploadAction(AnyLongObjectId id, long size);
 
 	/**
+	 * Get verify action
+	 *
 	 * @param id
 	 *            id of the object to be verified
 	 * @return Action for verifying the object, or {@code null} if the server
@@ -79,11 +85,13 @@ public interface LargeFileRepository {
 	public @Nullable Response.Action getVerifyAction(AnyLongObjectId id);
 
 	/**
+	 * Get size of an object
+	 *
 	 * @param id
 	 *            id of the object
 	 * @return length of the object content in bytes, -1 if the object doesn't
 	 *         exist
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 */
 	public long getSize(AnyLongObjectId id) throws IOException;
 }

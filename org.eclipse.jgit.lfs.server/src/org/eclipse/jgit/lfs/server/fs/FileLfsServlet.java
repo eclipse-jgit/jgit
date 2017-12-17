@@ -79,6 +79,8 @@ public class FileLfsServlet extends HttpServlet {
 	private final long timeout;
 
 	/**
+	 * <p>Constructor for FileLfsServlet.</p>
+	 *
 	 * @param repository
 	 *            the repository storing the large objects
 	 * @param timeout
@@ -90,16 +92,9 @@ public class FileLfsServlet extends HttpServlet {
 	}
 
 	/**
-	 * Handles object downloads
+	 * {@inheritDoc}
 	 *
-	 * @param req
-	 *            servlet request
-	 * @param rsp
-	 *            servlet response
-	 * @throws ServletException
-	 *             if a servlet-specific error occurs
-	 * @throws IOException
-	 *             if an I/O error occurs
+	 * Handle object downloads
 	 */
 	@Override
 	protected void doGet(HttpServletRequest req,
@@ -129,9 +124,9 @@ public class FileLfsServlet extends HttpServlet {
 	 *            servlet response
 	 * @return object id, or <code>null</code> if the object id could not be
 	 *         retrieved
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             if an I/O error occurs
-         * @since 4.6
+	 * @since 4.6
 	 */
 	protected AnyLongObjectId getObjectToTransfer(HttpServletRequest req,
 			HttpServletResponse rsp) throws IOException {
@@ -151,16 +146,9 @@ public class FileLfsServlet extends HttpServlet {
 	}
 
 	/**
-	 * Handle object uploads
+	 * {@inheritDoc}
 	 *
-	 * @param req
-	 *            servlet request
-	 * @param rsp
-	 *            servlet response
-	 * @throws ServletException
-	 *             if a servlet-specific error occurs
-	 * @throws IOException
-	 *             if an I/O error occurs
+	 * Handle object uploads
 	 */
 	@Override
 	protected void doPut(HttpServletRequest req,
@@ -183,7 +171,7 @@ public class FileLfsServlet extends HttpServlet {
 	 *            HTTP status code
 	 * @param message
 	 *            error message
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             on failure to send the response
 	 * @since 4.6
 	 */

@@ -52,8 +52,9 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 
 /**
- * Wrapper for {@link Gson} used by LFS servlets.
+ * Wrapper for {@link com.google.gson.Gson} used by LFS servlets.
  *
+ * @since 4.10.0
  */
 public class LfsGson {
 	private static final Gson gson = new GsonBuilder()
@@ -78,10 +79,10 @@ public class LfsGson {
 	 * @param src
 	 *            the object for which Json representation is to be created. If
 	 *            this is a String, it is wrapped in an instance of
-	 *            {@link Error}.
+	 *            {@link org.eclipse.jgit.lfs.server.internal.LfsGson.Error}.
 	 * @param writer
 	 *            Writer to which the Json representation needs to be written
-	 * @throws JsonIOException
+	 * @throws com.google.gson.JsonIOException
 	 *             if there was a problem writing to the writer
 	 * @see Gson#toJson(Object, Appendable)
 	 */
@@ -104,11 +105,13 @@ public class LfsGson {
 	 * @param classOfT
 	 *            specified type to deserialize
 	 * @return an Object of type T
-	 * @throws JsonIOException
+	 * @throws com.google.gson.JsonIOException
 	 *             if there was a problem reading from the Reader
-	 * @throws JsonSyntaxException
+	 * @throws com.google.gson.JsonSyntaxException
 	 *             if json is not a valid representation for an object of type
 	 * @see Gson#fromJson(Reader, java.lang.reflect.Type)
+	 * @param <T>
+	 *            a T object.
 	 */
 	public static <T> T fromJson(Reader json, Class<T> classOfT)
 			throws JsonSyntaxException, JsonIOException {

@@ -91,6 +91,7 @@ public class S3Repository implements LargeFileRepository {
 		this.s3Config = config;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Response.Action getDownloadAction(AnyLongObjectId oid) {
 		URL endpointUrl = getObjectUrl(oid);
@@ -107,6 +108,7 @@ public class S3Repository implements LargeFileRepository {
 		return a;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Response.Action getUploadAction(AnyLongObjectId oid, long size) {
 		cacheObjectMetaData(oid, size);
@@ -126,11 +128,13 @@ public class S3Repository implements LargeFileRepository {
 		return a;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Action getVerifyAction(AnyLongObjectId id) {
 		return null; // TODO(ms) implement this
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public long getSize(AnyLongObjectId oid) throws IOException {
 		URL endpointUrl = getObjectUrl(oid);

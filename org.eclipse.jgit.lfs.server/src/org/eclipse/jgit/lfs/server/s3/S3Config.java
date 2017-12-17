@@ -58,6 +58,8 @@ public class S3Config {
 	private final boolean disableSslVerify;
 
 	/**
+	 * <p>Constructor for S3Config.</p>
+	 *
 	 * @param region
 	 *            AWS region
 	 * @param bucket
@@ -88,6 +90,8 @@ public class S3Config {
 	}
 
 	/**
+	 * Get the <code>region</code>.
+	 *
 	 * @return Get name of AWS region this bucket resides in
 	 */
 	public String getRegion() {
@@ -95,6 +99,8 @@ public class S3Config {
 	}
 
 	/**
+	 * Get the <code>bucket</code>.
+	 *
 	 * @return Get S3 storage bucket name
 	 */
 	public String getBucket() {
@@ -102,6 +108,8 @@ public class S3Config {
 	}
 
 	/**
+	 * Get the <code>storageClass</code>.
+	 *
 	 * @return S3 storage class to use for objects stored in this bucket
 	 */
 	public String getStorageClass() {
@@ -109,6 +117,8 @@ public class S3Config {
 	}
 
 	/**
+	 * Get the <code>accessKey</code>.
+	 *
 	 * @return access key for authenticating to AWS
 	 */
 	public String getAccessKey() {
@@ -116,6 +126,8 @@ public class S3Config {
 	}
 
 	/**
+	 * Get the <code>secretKey</code>.
+	 *
 	 * @return secret key for authenticating to AWS
 	 */
 	public String getSecretKey() {
@@ -123,6 +135,8 @@ public class S3Config {
 	}
 
 	/**
+	 * Get the <code>expirationSeconds</code>.
+	 *
 	 * @return period in seconds after which requests signed for this bucket
 	 *         will expire
 	 */

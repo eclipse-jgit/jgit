@@ -52,6 +52,8 @@ public class LfsObject {
 	long size;
 
 	/**
+	 * Get the <code>oid</code> of this object.
+	 *
 	 * @return the object ID.
 	 */
 	public String getOid() {
@@ -59,6 +61,8 @@ public class LfsObject {
 	}
 
 	/**
+	 * Get the <code>size</code> of this object.
+	 *
 	 * @return the object size.
 	 */
 	public long getSize() {
