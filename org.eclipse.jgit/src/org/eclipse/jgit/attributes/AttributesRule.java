@@ -57,7 +57,7 @@ import org.eclipse.jgit.ignore.internal.PathMatcher;
 /**
  * A single attributes rule corresponding to one line in a .gitattributes file.
  *
- * Inspiration from: {@link FastIgnoreRule}
+ * Inspiration from: {@link org.eclipse.jgit.ignore.FastIgnoreRule}
  *
  * @since 3.7
  */
@@ -162,7 +162,9 @@ public class AttributesRule {
 	}
 
 	/**
-	 * @return True if the pattern should match directories only
+	 * Whether to match directories only
+	 *
+	 * @return {@code true} if the pattern should match directories only
 	 * @since 4.3
 	 */
 	public boolean isDirOnly() {
@@ -170,7 +172,7 @@ public class AttributesRule {
 	}
 
 	/**
-	 * Returns the attributes.
+	 * Return the attributes.
 	 *
 	 * @return an unmodifiable list of attributes (never returns
 	 *         <code>null</code>)
@@ -180,6 +182,8 @@ public class AttributesRule {
 	}
 
 	/**
+	 * Whether the pattern is only a file name and not a path
+	 *
 	 * @return <code>true</code> if the pattern is just a file name and not a
 	 *         path
 	 */
@@ -188,6 +192,8 @@ public class AttributesRule {
 	}
 
 	/**
+	 * Get the pattern
+	 *
 	 * @return The blob pattern to be used as a matcher (never returns
 	 *         <code>null</code>)
 	 */
@@ -214,6 +220,7 @@ public class AttributesRule {
 		return match;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();

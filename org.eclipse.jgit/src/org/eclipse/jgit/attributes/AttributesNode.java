@@ -63,7 +63,9 @@ public class AttributesNode {
 	/** The rules that have been parsed into this node. */
 	private final List<AttributesRule> rules;
 
-	/** Create an empty ignore node with no rules. */
+	/**
+	 * Create an empty ignore node with no rules.
+	 */
 	public AttributesNode() {
 		rules = new ArrayList<>();
 	}
@@ -73,7 +75,7 @@ public class AttributesNode {
 	 *
 	 * @param rules
 	 *            list of rules.
-	 **/
+	 */
 	public AttributesNode(List<AttributesRule> rules) {
 		this.rules = rules;
 	}
@@ -84,7 +86,7 @@ public class AttributesNode {
 	 * @param in
 	 *            input stream holding the standard ignore format. The caller is
 	 *            responsible for closing the stream.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             Error thrown when reading an ignore file.
 	 */
 	public void parse(InputStream in) throws IOException {
@@ -116,7 +118,11 @@ public class AttributesNode {
 		return new BufferedReader(new InputStreamReader(in, Constants.CHARSET));
 	}
 
-	/** @return list of all ignore rules held by this node. */
+	/**
+	 * Getter for the field <code>rules</code>.
+	 *
+	 * @return list of all ignore rules held by this node
+	 */
 	public List<AttributesRule> getRules() {
 		return Collections.unmodifiableList(rules);
 	}
