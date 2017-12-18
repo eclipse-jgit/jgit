@@ -71,6 +71,8 @@ public class CommitMsgHook extends GitHook<String> {
 	private String commitMessage;
 
 	/**
+	 * Constructor for CommitMsgHook
+	 *
 	 * @param repo
 	 *            The repository
 	 * @param outputStream
@@ -81,6 +83,7 @@ public class CommitMsgHook extends GitHook<String> {
 		super(repo, outputStream);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String call() throws IOException, AbortedByHookException {
 		if (commitMessage == null) {
@@ -103,12 +106,15 @@ public class CommitMsgHook extends GitHook<String> {
 		return getCommitEditMessageFilePath() != null && commitMessage != null;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String getHookName() {
 		return NAME;
 	}
 
 	/**
+	 * {@inheritDoc}
+	 *
 	 * This hook receives one parameter, which is the path to the file holding
 	 * the current commit-msg, relative to the repository's work tree.
 	 */
