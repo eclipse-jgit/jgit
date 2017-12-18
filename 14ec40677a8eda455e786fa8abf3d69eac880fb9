@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87929364_2e99e7d1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-12-18T10:53:18Z",
+      "side": 1,
+      "message": "Is this a typo of \"this\", or should it be \"its\"?",
+      "range": {
+        "startLine": 382,
+        "startChar": 35,
+        "endLine": 382,
+        "endChar": 38
+      },
+      "revId": "14ec40677a8eda455e786fa8abf3d69eac880fb9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
