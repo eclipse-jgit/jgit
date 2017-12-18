@@ -43,7 +43,9 @@
 
 package org.eclipse.jgit.events;
 
-/** Receives {@link IndexChangedEvent}s. */
+/**
+ * Receives {@link org.eclipse.jgit.events.IndexChangedEvent}s.
+ */
 public interface IndexChangedListener extends RepositoryListener {
 	/**
 	 * Invoked when any change is made to the index.

@@ -43,13 +43,17 @@
 
 package org.eclipse.jgit.events;
 
-/** Describes a change to one or more paths in the index file. */
+/**
+ * Describes a change to one or more paths in the index file.
+ */
 public class IndexChangedEvent extends RepositoryEvent<IndexChangedListener> {
+	/** {@inheritDoc} */
 	@Override
 	public Class<IndexChangedListener> getListenerType() {
 		return IndexChangedListener.class;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void dispatch(IndexChangedListener listener) {
 		listener.onIndexChanged(this);
