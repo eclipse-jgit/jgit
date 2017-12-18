@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "87929364_b44c4699",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchLeader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-18T16:10:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_b140d8bb",
+      "range": {
+        "startLine": 591,
+        "startChar": 1,
+        "endLine": 591,
+        "endChar": 37
+      },
+      "revId": "5dea59265cd28f121896b23a62738d3917fe11e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_f13a604b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchReplica.java",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "87929364_14a7dac5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchReplica.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-18T16:10:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_f13a604b",
+      "range": {
+        "startLine": 260,
+        "startChar": 4,
+        "endLine": 260,
+        "endChar": 10
+      },
+      "revId": "5dea59265cd28f121896b23a62738d3917fe11e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_31e06842",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/LeaderSnapshot.java",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2017-12-18T14:49:06Z",
       "side": 1,
       "message": "remove",
+      "range": {
+        "startLine": 122,
+        "startChar": 8,
+        "endLine": 122,
+        "endChar": 10
+      },
+      "revId": "5dea59265cd28f121896b23a62738d3917fe11e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_34acd6a7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/LeaderSnapshot.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-18T16:10:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_31e06842",
       "range": {
         "startLine": 122,
         "startChar": 8,
