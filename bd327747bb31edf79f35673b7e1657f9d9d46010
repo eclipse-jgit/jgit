@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87929364_ebb19177",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-12-18T00:03:29Z",
+      "side": 1,
+      "message": "Reword this at the same time?",
+      "range": {
+        "startLine": 290,
+        "startChar": 12,
+        "endLine": 290,
+        "endChar": 42
+      },
+      "revId": "bd327747bb31edf79f35673b7e1657f9d9d46010",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_0b9eddeb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/FetchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-12-18T00:03:29Z",
+      "side": 1,
+      "message": "Reword both of these?\n\n\"Whether to check received objects for validity\"",
+      "range": {
+        "startLine": 317,
+        "startChar": 4,
+        "endLine": 319,
+        "endChar": 66
+      },
+      "revId": "bd327747bb31edf79f35673b7e1657f9d9d46010",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_2ba39930",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/FetchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-12-18T00:03:29Z",
+      "side": 1,
+      "message": "Does this (and L411) need the fully qualified name like at L424?",
+      "range": {
+        "startLine": 399,
+        "startChar": 23,
+        "endLine": 399,
+        "endChar": 30
+      },
+      "revId": "bd327747bb31edf79f35673b7e1657f9d9d46010",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_4b98e5fc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-12-18T00:03:29Z",
+      "side": 1,
+      "message": "Is this required for javadoc?   If not, maybe do it in a separate commit?",
+      "range": {
+        "startLine": 403,
+        "startChar": 8,
+        "endLine": 403,
+        "endChar": 17
+      },
+      "revId": "bd327747bb31edf79f35673b7e1657f9d9d46010",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_eb88b1ab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ShowNoteCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-12-18T00:03:29Z",
+      "side": 1,
+      "message": "Why not {@code ?",
+      "range": {
+        "startLine": 114,
+        "startChar": 12,
+        "endLine": 114,
+        "endChar": 18
+      },
+      "revId": "bd327747bb31edf79f35673b7e1657f9d9d46010",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_0b097dbc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/errors/EmtpyCommitException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-12-18T00:03:29Z",
+      "side": 1,
+      "message": "This is misspelled.  I tried to fix it before, but couldn\u0027t think of a way to do it without breaking the API.\n\nAny ideas?",
+      "range": {
+        "startLine": 45,
+        "startChar": 13,
+        "endLine": 45,
+        "endChar": 18
+      },
+      "revId": "bd327747bb31edf79f35673b7e1657f9d9d46010",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
