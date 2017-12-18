@@ -87,6 +87,7 @@ class RefTreeBatch extends BatchRefUpdate {
 		this.refdb = refdb;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void execute(RevWalk rw, ProgressMonitor monitor)
 			throws IOException {
