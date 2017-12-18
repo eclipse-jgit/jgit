@@ -52,24 +52,25 @@ import org.eclipse.jgit.lib.Repository;
  */
 public class StrategyResolve extends ThreeWayMergeStrategy {
 
+	/** {@inheritDoc} */
 	@Override
 	public ThreeWayMerger newMerger(Repository db) {
 		return new ResolveMerger(db, false);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public ThreeWayMerger newMerger(Repository db, boolean inCore) {
 		return new ResolveMerger(db, inCore);
 	}
 
-	/**
-	 * @since 4.8
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public ThreeWayMerger newMerger(ObjectInserter inserter, Config config) {
 		return new ResolveMerger(inserter, config);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String getName() {
 		return "resolve"; //$NON-NLS-1$

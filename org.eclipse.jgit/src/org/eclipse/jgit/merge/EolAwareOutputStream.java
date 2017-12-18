@@ -79,12 +79,14 @@ class EolAwareOutputStream extends OutputStream {
 		return bol;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void write(int val) throws IOException {
 		out.write(val);
 		bol = (val == '\n');
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void write(byte[] buf, int pos, int cnt) throws IOException {
 		if (cnt > 0) {
