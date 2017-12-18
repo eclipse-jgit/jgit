@@ -126,12 +126,14 @@ public class FileNameMatcher {
 	}
 
 	/**
+	 * Constructor for FileNameMatcher
+	 *
 	 * @param patternString
 	 *            must contain a pattern which fnmatch would accept.
 	 * @param invalidWildgetCharacter
 	 *            if this parameter isn't null then this character will not
 	 *            match at wildcards(* and ? are wildcards).
-	 * @throws InvalidPatternException
+	 * @throws org.eclipse.jgit.errors.InvalidPatternException
 	 *             if the patternString contains a invalid fnmatch pattern.
 	 */
 	public FileNameMatcher(final String patternString,
@@ -141,11 +143,13 @@ public class FileNameMatcher {
 	}
 
 	/**
-	 * A Copy Constructor which creates a new {@link FileNameMatcher} with the
-	 * same state and reset point like <code>other</code>.
+	 * A Copy Constructor which creates a new
+	 * {@link org.eclipse.jgit.fnmatch.FileNameMatcher} with the same state and
+	 * reset point like <code>other</code>.
 	 *
 	 * @param other
-	 *            another {@link FileNameMatcher} instance.
+	 *            another {@link org.eclipse.jgit.fnmatch.FileNameMatcher}
+	 *            instance.
 	 */
 	public FileNameMatcher(FileNameMatcher other) {
 		this(other.headsStartValue, other.heads);
@@ -347,6 +351,7 @@ public class FileNameMatcher {
 	}
 
 	/**
+	 * Append to the string which is matched against the patterns of this class
 	 *
 	 * @param stringToMatch
 	 *            extends the string which is matched against the patterns of
@@ -369,10 +374,13 @@ public class FileNameMatcher {
 	}
 
 	/**
+	 * Create a {@link org.eclipse.jgit.fnmatch.FileNameMatcher} instance which
+	 * uses the same pattern like this matcher, but has the current state of
+	 * this matcher as reset and start point
 	 *
-	 * @return a {@link FileNameMatcher} instance which uses the same pattern
-	 *         like this matcher, but has the current state of this matcher as
-	 *         reset and start point.
+	 * @return a {@link org.eclipse.jgit.fnmatch.FileNameMatcher} instance which
+	 *         uses the same pattern like this matcher, but has the current
+	 *         state of this matcher as reset and start point.
 	 */
 	public FileNameMatcher createMatcherForSuffix() {
 		final List<Head> copyOfHeads = new ArrayList<>(heads.size());
@@ -381,8 +389,9 @@ public class FileNameMatcher {
 	}
 
 	/**
+	 * Whether the matcher matches
 	 *
-	 * @return true, if the string currently being matched does match.
+	 * @return whether the matcher matches
 	 */
 	public boolean isMatch() {
 		if (heads.isEmpty())
@@ -400,9 +409,9 @@ public class FileNameMatcher {
 	}
 
 	/**
+	 * Whether a match can be appended
 	 *
-	 * @return false, if the string being matched will not match when the string
-	 *         gets extended.
+	 * @return a boolean.
 	 */
 	public boolean canAppendMatch() {
 		for (int i = 0; i < heads.size(); i++) {
