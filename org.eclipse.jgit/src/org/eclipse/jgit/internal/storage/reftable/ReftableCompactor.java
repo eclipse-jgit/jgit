@@ -80,6 +80,8 @@ public class ReftableCompactor {
 	private Stats stats;
 
 	/**
+	 * Set configuration for the reftable.
+	 *
 	 * @param cfg
 	 *            configuration for the reftable.
 	 * @return {@code this}
@@ -90,6 +92,8 @@ public class ReftableCompactor {
 	}
 
 	/**
+	 * Set limit on number of bytes from source tables to compact.
+	 *
 	 * @param bytes
 	 *            limit on number of bytes from source tables to compact.
 	 * @return {@code this}
@@ -100,6 +104,9 @@ public class ReftableCompactor {
 	}
 
 	/**
+	 * Whether to include deletions in the output, which may be necessary for
+	 * partial compaction.
+	 *
 	 * @param deletes
 	 *            {@code true} to include deletions in the output, which may be
 	 *            necessary for partial compaction.
@@ -111,6 +118,9 @@ public class ReftableCompactor {
 	}
 
 	/**
+	 * Set the minimum update index for log entries that appear in the compacted
+	 * reftable.
+	 *
 	 * @param min
 	 *            the minimum update index for log entries that appear in the
 	 *            compacted reftable. This should be 1 higher than the prior
@@ -124,6 +134,9 @@ public class ReftableCompactor {
 	}
 
 	/**
+	 * Set the maximum update index for log entries that appear in the compacted
+	 * reftable.
+	 *
 	 * @param max
 	 *            the maximum update index for log entries that appear in the
 	 *            compacted reftable. This should be at least 1 higher than the
@@ -137,6 +150,8 @@ public class ReftableCompactor {
 	}
 
 	/**
+	 * Set oldest reflog time to preserve.
+	 *
 	 * @param timeMillis
 	 *            oldest log time to preserve. Entries whose timestamps are
 	 *            {@code >= timeMillis} will be copied into the output file. Log
@@ -159,7 +174,7 @@ public class ReftableCompactor {
 	 *            tables to compact. Tables should be ordered oldest first/most
 	 *            recent last so that the more recent tables can shadow the
 	 *            older results. Caller is responsible for closing the readers.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             update indexes of a reader cannot be accessed.
 	 */
 	public void addAll(List<? extends Reftable> readers) throws IOException {
@@ -184,7 +199,7 @@ public class ReftableCompactor {
 	 *            responsible for closing the reader.
 	 * @return {@code true} if the compactor accepted this table; {@code false}
 	 *         if the compactor has reached its limit.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             if size of {@code reader}, or its update indexes cannot be read.
 	 */
 	public boolean tryAddFirst(ReftableReader reader) throws IOException {
@@ -213,7 +228,7 @@ public class ReftableCompactor {
 	 * @param out
 	 *            stream to write the compacted tables to. Caller is responsible
 	 *            for closing {@code out}.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             if tables cannot be read, or cannot be written.
 	 */
 	public void compact(OutputStream out) throws IOException {
@@ -229,7 +244,11 @@ public class ReftableCompactor {
 		stats = writer.getStats();
 	}
 
-	/** @return statistics of the last written reftable. */
+	/**
+	 * Get statistics of the last written reftable.
+	 *
+	 * @return statistics of the last written reftable.
+	 */
 	public Stats getStats() {
 		return stats;
 	}

@@ -112,10 +112,13 @@ public class ReftableReader extends Reftable {
 	}
 
 	/**
+	 * Get the block size in bytes chosen for this file by the writer.
+	 *
 	 * @return the block size in bytes chosen for this file by the writer. Most
-	 *         reads from the {@link BlockSource} will be aligned to the block
-	 *         size.
-	 * @throws IOException
+	 *         reads from the
+	 *         {@link org.eclipse.jgit.internal.storage.io.BlockSource} will be
+	 *         aligned to the block size.
+	 * @throws java.io.IOException
 	 *             file cannot be read.
 	 */
 	public int blockSize() throws IOException {
@@ -126,10 +129,13 @@ public class ReftableReader extends Reftable {
 	}
 
 	/**
+	 * Get the minimum update index for log entries that appear in this
+	 * reftable.
+	 *
 	 * @return the minimum update index for log entries that appear in this
 	 *         reftable. This should be 1 higher than the prior reftable's
 	 *         {@code maxUpdateIndex} if this table is used in a stack.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             file cannot be read.
 	 */
 	public long minUpdateIndex() throws IOException {
@@ -140,10 +146,13 @@ public class ReftableReader extends Reftable {
 	}
 
 	/**
+	 * Get the maximum update index for log entries that appear in this
+	 * reftable.
+	 *
 	 * @return the maximum update index for log entries that appear in this
 	 *         reftable. This should be 1 higher than the prior reftable's
 	 *         {@code maxUpdateIndex} if this table is used in a stack.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             file cannot be read.
 	 */
 	public long maxUpdateIndex() throws IOException {
@@ -153,6 +162,7 @@ public class ReftableReader extends Reftable {
 		return maxUpdateIndex;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public RefCursor allRefs() throws IOException {
 		if (blockSize == -1) {
@@ -167,6 +177,7 @@ public class ReftableReader extends Reftable {
 		return i;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public RefCursor seekRef(String refName) throws IOException {
 		initRefIndex();
@@ -179,6 +190,7 @@ public class ReftableReader extends Reftable {
 		return i;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public RefCursor byObjectId(AnyObjectId id) throws IOException {
 		initObjIndex();
@@ -191,6 +203,7 @@ public class ReftableReader extends Reftable {
 		return i;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public LogCursor allLogs() throws IOException {
 		initLogIndex();
@@ -203,6 +216,7 @@ public class ReftableReader extends Reftable {
 		return new EmptyLogCursor();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public LogCursor seekLog(String refName, long updateIndex)
 			throws IOException {
@@ -437,13 +451,14 @@ public class ReftableReader extends Reftable {
 	 * Get size of the reftable, in bytes.
 	 *
 	 * @return size of the reftable, in bytes.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             size cannot be obtained.
 	 */
 	public long size() throws IOException {
 		return src.size();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void close() throws IOException {
 		src.close();

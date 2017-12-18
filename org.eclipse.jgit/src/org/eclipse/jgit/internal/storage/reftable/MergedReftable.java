@@ -54,8 +54,10 @@ import org.eclipse.jgit.lib.ReflogEntry;
 /**
  * Merges multiple reference tables together.
  * <p>
- * A {@link MergedReftable} merge-joins multiple {@link ReftableReader} on the
- * fly. Tables higher/later in the stack shadow lower/earlier tables, hiding
+ * A {@link org.eclipse.jgit.internal.storage.reftable.MergedReftable}
+ * merge-joins multiple
+ * {@link org.eclipse.jgit.internal.storage.reftable.ReftableReader} on the fly.
+ * Tables higher/later in the stack shadow lower/earlier tables, hiding
  * references that been updated/replaced.
  * <p>
  * By default deleted references are skipped and not returned to the caller.
@@ -89,6 +91,7 @@ public class MergedReftable extends Reftable {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public RefCursor allRefs() throws IOException {
 		MergedRefCursor m = new MergedRefCursor();
@@ -98,6 +101,7 @@ public class MergedReftable extends Reftable {
 		return m;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public RefCursor seekRef(String name) throws IOException {
 		MergedRefCursor m = new MergedRefCursor();
@@ -107,6 +111,7 @@ public class MergedReftable extends Reftable {
 		return m;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public RefCursor byObjectId(AnyObjectId name) throws IOException {
 		MergedRefCursor m = new MergedRefCursor();
@@ -116,6 +121,7 @@ public class MergedReftable extends Reftable {
 		return m;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public LogCursor allLogs() throws IOException {
 		MergedLogCursor m = new MergedLogCursor();
@@ -125,6 +131,7 @@ public class MergedReftable extends Reftable {
 		return m;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public LogCursor seekLog(String refName, long updateIdx)
 			throws IOException {
@@ -135,6 +142,7 @@ public class MergedReftable extends Reftable {
 		return m;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void close() throws IOException {
 		for (Reftable t : tables) {

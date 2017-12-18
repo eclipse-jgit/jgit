@@ -92,12 +92,14 @@ class ReftableOutputStream extends OutputStream {
 		blockSize = bs;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void write(int b) {
 		ensureBytesAvailableInBlockBuf(1);
 		blockBuf[cur++] = (byte) b;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void write(byte[] b, int off, int cnt) {
 		ensureBytesAvailableInBlockBuf(cnt);
