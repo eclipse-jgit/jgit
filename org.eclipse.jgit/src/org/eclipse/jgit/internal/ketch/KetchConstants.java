@@ -45,7 +45,9 @@ package org.eclipse.jgit.internal.ketch;
 
 import org.eclipse.jgit.revwalk.FooterKey;
 
-/** Frequently used constants in a Ketch system. */
+/**
+ * Frequently used constants in a Ketch system.
+ */
 public class KetchConstants {
 	/**
 	 * Default reference namespace holding {@link #ACCEPTED} and

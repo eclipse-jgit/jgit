@@ -50,7 +50,9 @@ import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 
-/** A fetch request to obtain objects from a replica, and its result. */
+/**
+ * A fetch request to obtain objects from a replica, and its result.
+ */
 public class ReplicaFetchRequest {
 	private final Set<String> wantRefs;
 	private final Set<ObjectId> wantObjects;
@@ -70,23 +72,37 @@ public class ReplicaFetchRequest {
 		this.wantObjects = wantObjects;
 	}
 
-	/** @return references to be fetched. */
+	/**
+	 * Get references to be fetched.
+	 *
+	 * @return references to be fetched.
+	 */
 	public Set<String> getWantRefs() {
 		return wantRefs;
 	}
 
-	/** @return objects to be fetched. */
+	/**
+	 * Get objects to be fetched.
+	 *
+	 * @return objects to be fetched.
+	 */
 	public Set<ObjectId> getWantObjects() {
 		return wantObjects;
 	}
 
-	/** @return remote references, usually from the advertisement. */
+	/**
+	 * Get remote references, usually from the advertisement.
+	 *
+	 * @return remote references, usually from the advertisement.
+	 */
 	@Nullable
 	public Map<String, Ref> getRefs() {
 		return refs;
 	}
 
 	/**
+	 * Set references observed from the replica.
+	 *
 	 * @param refs
 	 *            references observed from the replica.
 	 */

@@ -86,6 +86,7 @@ class LagCheck implements AutoCloseable {
 		rw.setRetainBody(false);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		if (rw != null) {

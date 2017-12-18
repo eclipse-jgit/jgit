@@ -67,7 +67,10 @@ import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.util.time.MonotonicClock;
 import org.eclipse.jgit.util.time.ProposedTimestamp;
 
-/** Ketch replica running on the same system as the {@link KetchLeader}. */
+/**
+ * Ketch replica running on the same system as the
+ * {@link org.eclipse.jgit.internal.ketch.KetchLeader}.
+ */
 public class LocalReplica extends KetchReplica {
 	/**
 	 * Configure a local replica.
@@ -83,6 +86,7 @@ public class LocalReplica extends KetchReplica {
 		super(leader, name, cfg);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected String describeForLog() {
 		return String.format("%s (leader)", getName()); //$NON-NLS-1$
@@ -116,6 +120,7 @@ public class LocalReplica extends KetchReplica {
 				getSystem().getTxnCommitted()));
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void startPush(final ReplicaPushRequest req) {
 		getSystem().getExecutor().execute(new Runnable() {
@@ -137,6 +142,7 @@ public class LocalReplica extends KetchReplica {
 		});
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void blockingFetch(Repository repo, ReplicaFetchRequest req)
 			throws IOException {

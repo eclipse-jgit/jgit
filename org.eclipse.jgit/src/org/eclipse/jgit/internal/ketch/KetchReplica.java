@@ -82,26 +82,32 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * A Ketch replica, either {@link LocalReplica} or {@link RemoteGitReplica}.
+ * A Ketch replica, either {@link org.eclipse.jgit.internal.ketch.LocalReplica}
+ * or {@link org.eclipse.jgit.internal.ketch.RemoteGitReplica}.
  * <p>
  * Replicas can be either a stock Git replica, or a Ketch-aware replica.
  * <p>
  * A stock Git replica has no special knowledge of Ketch and simply stores
  * objects and references. Ketch communicates with the stock Git replica using
- * the Git push wire protocol. The {@link KetchLeader} commits an agreed upon
+ * the Git push wire protocol. The
+ * {@link org.eclipse.jgit.internal.ketch.KetchLeader} commits an agreed upon
  * state by pushing all references to the Git replica, for example
  * {@code "refs/heads/master"} is pushed during commit. Stock Git replicas use
- * {@link CommitMethod#ALL_REFS} to record the final state.
+ * {@link org.eclipse.jgit.internal.ketch.KetchReplica.CommitMethod#ALL_REFS} to
+ * record the final state.
  * <p>
  * Ketch-aware replicas understand the {@code RefTree} sent during the proposal
  * and during commit are able to update their own reference space to match the
  * state represented by the {@code RefTree}. Ketch-aware replicas typically use
  * a {@link org.eclipse.jgit.internal.storage.reftree.RefTreeDatabase} and
- * {@link CommitMethod#TXN_COMMITTED} to record the final state.
+ * {@link org.eclipse.jgit.internal.ketch.KetchReplica.CommitMethod#TXN_COMMITTED}
+ * to record the final state.
  * <p>
- * KetchReplica instances are tightly coupled with a single {@link KetchLeader}.
- * Some state may be accessed by the leader thread and uses the leader's own
- * {@link KetchLeader#lock} to protect shared data.
+ * KetchReplica instances are tightly coupled with a single
+ * {@link org.eclipse.jgit.internal.ketch.KetchLeader}. Some state may be
+ * accessed by the leader thread and uses the leader's own
+ * {@link org.eclipse.jgit.internal.ketch.KetchLeader#lock} to protect shared
+ * data.
  */
 public abstract class KetchReplica {
 	static final Logger log = LoggerFactory.getLogger(KetchReplica.class);
@@ -223,37 +229,65 @@ public abstract class KetchReplica {
 		this.queued = new ArrayList<>(4);
 	}
 
-	/** @return system configuration. */
+	/**
+	 * Get system configuration.
+	 *
+	 * @return system configuration.
+	 */
 	public KetchSystem getSystem() {
 		return getLeader().getSystem();
 	}
 
-	/** @return leader instance this replica follows. */
+	/**
+	 * Get leader instance this replica follows.
+	 *
+	 * @return leader instance this replica follows.
+	 */
 	public KetchLeader getLeader() {
 		return leader;
 	}
 
-	/** @return unique-ish name for debugging. */
+	/**
+	 * Get unique-ish name for debugging.
+	 *
+	 * @return unique-ish name for debugging.
+	 */
 	public String getName() {
 		return replicaName;
 	}
 
-	/** @return description of this replica for error/debug logging purposes. */
+	/**
+	 * Get description of this replica for error/debug logging purposes.
+	 *
+	 * @return description of this replica for error/debug logging purposes.
+	 */
 	protected String describeForLog() {
 		return getName();
 	}
 
-	/** @return how the replica participates in this Ketch system. */
+	/**
+	 * Get how the replica participates in this Ketch system.
+	 *
+	 * @return how the replica participates in this Ketch system.
+	 */
 	public Participation getParticipation() {
 		return participation;
 	}
 
-	/** @return how Ketch will commit to the repository. */
+	/**
+	 * Get how Ketch will commit to the repository.
+	 *
+	 * @return how Ketch will commit to the repository.
+	 */
 	public CommitMethod getCommitMethod() {
 		return commitMethod;
 	}
 
-	/** @return when Ketch will commit to the repository. */
+	/**
+	 * Get when Ketch will commit to the repository.
+	 *
+	 * @return when Ketch will commit to the repository.
+	 */
 	public CommitSpeed getCommitSpeed() {
 		return commitSpeed;
 	}
@@ -264,7 +298,8 @@ public abstract class KetchReplica {
 	 * Default implementation cancels any scheduled retry. Subclasses may add
 	 * additional logic before or after calling {@code super.shutdown()}.
 	 * <p>
-	 * Called with {@link KetchLeader#lock} held by caller.
+	 * Called with {@link org.eclipse.jgit.internal.ketch.KetchLeader#lock} held
+	 * by caller.
 	 */
 	protected void shutdown() {
 		Future<?> f = retryFuture;
@@ -541,8 +576,8 @@ public abstract class KetchReplica {
 	/**
 	 * Begin executing a single push.
 	 * <p>
-	 * This method must move processing onto another thread.
-	 * Called with {@link KetchLeader#lock} held by caller.
+	 * This method must move processing onto another thread. Called with
+	 * {@link org.eclipse.jgit.internal.ketch.KetchLeader#lock} held by caller.
 	 *
 	 * @param req
 	 *            the request to send to the replica.
@@ -666,20 +701,21 @@ public abstract class KetchReplica {
 	/**
 	 * Fetch objects from the remote using the calling thread.
 	 * <p>
-	 * Called without {@link KetchLeader#lock}.
+	 * Called without {@link org.eclipse.jgit.internal.ketch.KetchLeader#lock}.
 	 *
 	 * @param repo
 	 *            local repository to fetch objects into.
 	 * @param req
 	 *            the request to fetch from a replica.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             communication with the replica was not possible.
 	 */
 	protected abstract void blockingFetch(Repository repo,
 			ReplicaFetchRequest req) throws IOException;
 
 	/**
-	 * Build a list of commands to commit {@link CommitMethod#ALL_REFS}.
+	 * Build a list of commands to commit
+	 * {@link org.eclipse.jgit.internal.ketch.KetchReplica.CommitMethod#ALL_REFS}.
 	 *
 	 * @param git
 	 *            local leader repository to read committed state from.
@@ -689,7 +725,7 @@ public abstract class KetchReplica {
 	 * @param committed
 	 *            state being pushed to {@code refs/txn/committed}.
 	 * @return commands to update during commit.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             cannot read the committed state.
 	 */
 	protected Collection<ReceiveCommand> prepareCommit(Repository git,

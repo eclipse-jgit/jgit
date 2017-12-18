@@ -69,11 +69,15 @@ import org.slf4j.LoggerFactory;
 /**
  * A leader managing consensus across remote followers.
  * <p>
- * A leader instance starts up in {@link State#CANDIDATE} and tries to begin a
- * new term by sending an {@link ElectionRound} to all replicas. Its term starts
- * if a majority of replicas have accepted this leader instance for the term.
+ * A leader instance starts up in
+ * {@link org.eclipse.jgit.internal.ketch.KetchLeader.State#CANDIDATE} and tries
+ * to begin a new term by sending an
+ * {@link org.eclipse.jgit.internal.ketch.ElectionRound} to all replicas. Its
+ * term starts if a majority of replicas have accepted this leader instance for
+ * the term.
  * <p>
- * Once elected by a majority the instance enters {@link State#LEADER} and runs
+ * Once elected by a majority the instance enters
+ * {@link org.eclipse.jgit.internal.ketch.KetchLeader.State#LEADER} and runs
  * proposals offered to {@link #queueProposal(Proposal)}. This continues until
  * the leader is timed out for inactivity, or is deposed by a competing leader
  * gaining its own majority.
@@ -81,36 +85,42 @@ import org.slf4j.LoggerFactory;
  * Once timed out or deposed this {@code KetchLeader} instance should be
  * discarded, and a new instance takes over.
  * <p>
- * Each leader instance coordinates a group of {@link KetchReplica}s. Replica
- * instances are owned by the leader instance and must be discarded when the
- * leader is discarded.
+ * Each leader instance coordinates a group of
+ * {@link org.eclipse.jgit.internal.ketch.KetchReplica}s. Replica instances are
+ * owned by the leader instance and must be discarded when the leader is
+ * discarded.
  * <p>
  * In Ketch all push requests are issued through the leader. The steps are as
- * follows (see {@link KetchPreReceive} for an example):
+ * follows (see {@link org.eclipse.jgit.internal.ketch.KetchPreReceive} for an
+ * example):
  * <ul>
- * <li>Create a {@link Proposal} with the
+ * <li>Create a {@link org.eclipse.jgit.internal.ketch.Proposal} with the
  * {@link org.eclipse.jgit.transport.ReceiveCommand}s that represent the push.
  * <li>Invoke {@link #queueProposal(Proposal)} on the leader instance.
- * <li>Wait for consensus with {@link Proposal#await()}.
- * <li>To examine the status of the push, check {@link Proposal#getCommands()},
- * looking at
+ * <li>Wait for consensus with
+ * {@link org.eclipse.jgit.internal.ketch.Proposal#await()}.
+ * <li>To examine the status of the push, check
+ * {@link org.eclipse.jgit.internal.ketch.Proposal#getCommands()}, looking at
  * {@link org.eclipse.jgit.internal.storage.reftree.Command#getResult()}.
  * </ul>
  * <p>
  * The leader gains consensus by first pushing the needed objects and a
- * {@link RefTree} representing the desired target repository state to the
- * {@code refs/txn/accepted} branch on each of the replicas. Once a majority has
- * succeeded, the leader commits the state by either pushing the
- * {@code refs/txn/accepted} value to {@code refs/txn/committed} (for
- * Ketch-aware replicas) or by pushing updates to {@code refs/heads/master},
- * etc. for stock Git replicas.
+ * {@link org.eclipse.jgit.internal.storage.reftree.RefTree} representing the
+ * desired target repository state to the {@code refs/txn/accepted} branch on
+ * each of the replicas. Once a majority has succeeded, the leader commits the
+ * state by either pushing the {@code refs/txn/accepted} value to
+ * {@code refs/txn/committed} (for Ketch-aware replicas) or by pushing updates
+ * to {@code refs/heads/master}, etc. for stock Git replicas.
  * <p>
  * Internally, the actual transport to replicas is performed on background
- * threads via the {@link KetchSystem}'s executor service. For performance, the
- * {@link KetchLeader}, {@link KetchReplica} and {@link Proposal} objects share
- * some state, and may invoke each other's methods on different threads. This
- * access is protected by the leader's {@link #lock} object. Care must be taken
- * to prevent concurrent access by correctly obtaining the leader's lock.
+ * threads via the {@link org.eclipse.jgit.internal.ketch.KetchSystem}'s
+ * executor service. For performance, the
+ * {@link org.eclipse.jgit.internal.ketch.KetchLeader},
+ * {@link org.eclipse.jgit.internal.ketch.KetchReplica} and
+ * {@link org.eclipse.jgit.internal.ketch.Proposal} objects share some state,
+ * and may invoke each other's methods on different threads. This access is
+ * protected by the leader's {@link #lock} object. Care must be taken to prevent
+ * concurrent access by correctly obtaining the leader's lock.
  */
 public abstract class KetchLeader {
 	private static final Logger log = LoggerFactory.getLogger(KetchLeader.class);
@@ -295,7 +305,7 @@ public abstract class KetchLeader {
 	 * The caller will close the repository.
 	 *
 	 * @return opened repository for use by the leader thread.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             cannot reopen the repository for the leader.
 	 */
 	protected abstract Repository openRepository() throws IOException;
@@ -307,16 +317,17 @@ public abstract class KetchLeader {
 	 * checked to look for risks of conflicts, and then submitted into the queue
 	 * for distribution as soon as possible.
 	 * <p>
-	 * Callers must use {@link Proposal#await()} to see if the proposal is done.
+	 * Callers must use {@link org.eclipse.jgit.internal.ketch.Proposal#await()}
+	 * to see if the proposal is done.
 	 *
 	 * @param proposal
 	 *            the proposed reference updates to queue for consideration.
 	 *            Once execution is complete the individual reference result
 	 *            fields will be populated with the outcome.
-	 * @throws InterruptedException
+	 * @throws java.lang.InterruptedException
 	 *             current thread was interrupted. The proposal may have been
 	 *             aborted if it was not yet queued for execution.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             unrecoverable error preventing proposals from being attempted
 	 *             by this leader.
 	 */
@@ -577,7 +588,11 @@ public abstract class KetchLeader {
 		}
 	}
 
-	/** @return snapshot this leader. */
+	/**
+	 * Snapshot this leader
+	 *
+	 * @return snapshot of this leader
+	 */
 	public LeaderSnapshot snapshot() {
 		lock.lock();
 		try {
@@ -599,7 +614,9 @@ public abstract class KetchLeader {
 		}
 	}
 
-	/** Gracefully shutdown this leader and cancel outstanding operations. */
+	/**
+	 * Gracefully shutdown this leader and cancel outstanding operations.
+	 */
 	public void shutdown() {
 		lock.lock();
 		try {
@@ -617,6 +634,7 @@ public abstract class KetchLeader {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		return snapshot().toString();

@@ -66,7 +66,9 @@ import org.eclipse.jgit.treewalk.EmptyTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 
-/** Constructs a set of commands to stage content during a proposal. */
+/**
+ * Constructs a set of commands to stage content during a proposal.
+ */
 public class StageBuilder {
 	/**
 	 * Acceptable number of references to send in a single stage transaction.
@@ -119,14 +121,15 @@ public class StageBuilder {
 	 *            from.
 	 * @param oldTree
 	 *            accepted RefTree on the replica ({@code refs/txn/accepted}).
-	 *            Use {@link ObjectId#zeroId()} if the remote does not have any
-	 *            ref tree, e.g. a new replica catching up.
+	 *            Use {@link org.eclipse.jgit.lib.ObjectId#zeroId()} if the
+	 *            remote does not have any ref tree, e.g. a new replica catching
+	 *            up.
 	 * @param newTree
 	 *            RefTree being sent to the replica. The trees will be compared.
 	 * @return list of commands to create {@code "refs/txn/stage/..."}
 	 *         references on replicas anchoring new objects into the repository
 	 *         while a transaction gains consensus.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             {@code git} cannot be accessed to compare {@code oldTree} and
 	 *             {@code newTree} to build the object set.
 	 */
@@ -172,7 +175,7 @@ public class StageBuilder {
 	 * @return list of commands to create {@code "refs/txn/stage/..."}
 	 *         references on replicas anchoring {@code newObjs} into the
 	 *         repository while a transaction gains consensus.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             {@code git} cannot be accessed to perform minification of
 	 *             {@code newObjs}.
 	 */

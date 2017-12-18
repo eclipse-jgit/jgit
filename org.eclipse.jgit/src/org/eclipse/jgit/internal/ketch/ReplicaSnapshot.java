@@ -65,31 +65,50 @@ public class ReplicaSnapshot {
 		this.replica = replica;
 	}
 
-	/** @return the replica this snapshot describes the state of. */
+	/**
+	 * Get the replica this snapshot describes the state of
+	 *
+	 * @return the replica this snapshot describes the state of
+	 */
 	public KetchReplica getReplica() {
 		return replica;
 	}
 
-	/** @return current state of the replica. */
+	/**
+	 * Get current state of the replica
+	 *
+	 * @return current state of the replica
+	 */
 	public KetchReplica.State getState() {
 		return state;
 	}
 
-	/** @return last known Git commit at {@code refs/txn/accepted}. */
+	/**
+	 * Get last known Git commit at {@code refs/txn/accepted}
+	 *
+	 * @return last known Git commit at {@code refs/txn/accepted}
+	 */
 	@Nullable
 	public ObjectId getAccepted() {
 		return accepted;
 	}
 
-	/** @return last known Git commit at {@code refs/txn/committed}. */
+	/**
+	 * Get last known Git commit at {@code refs/txn/committed}
+	 *
+	 * @return last known Git commit at {@code refs/txn/committed}
+	 */
 	@Nullable
 	public ObjectId getCommitted() {
 		return committed;
 	}
 
 	/**
-	 * @return if {@link #getState()} == {@link KetchReplica.State#OFFLINE} an
-	 *         optional human-readable message from the transport system
+	 * Get error message
+	 *
+	 * @return if {@link #getState()} ==
+	 *         {@link org.eclipse.jgit.internal.ketch.KetchReplica.State#OFFLINE}
+	 *         an optional human-readable message from the transport system
 	 *         explaining the failure.
 	 */
 	@Nullable
@@ -98,6 +117,9 @@ public class ReplicaSnapshot {
 	}
 
 	/**
+	 * Get when the leader will retry communication with the offline or lagging
+	 * replica
+	 *
 	 * @return time (usually in the future) when the leader will retry
 	 *         communication with the offline or lagging replica; null if no
 	 *         retry is scheduled or necessary.
