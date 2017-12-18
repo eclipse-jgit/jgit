@@ -153,7 +153,7 @@ public abstract class BlockSource implements AutoCloseable {
 	 * @param blockSize
 	 *            size to read.
 	 * @return buffer containing the block content.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             if block cannot be read.
 	 */
 	public abstract ByteBuffer read(long position, int blockSize)
@@ -163,7 +163,7 @@ public abstract class BlockSource implements AutoCloseable {
 	 * Determine the size of the file.
 	 *
 	 * @return total number of bytes in the file.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             if size cannot be obtained.
 	 */
 	public abstract long size() throws IOException;
@@ -180,6 +180,7 @@ public abstract class BlockSource implements AutoCloseable {
 		// Do nothing by default.
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public abstract void close();
 }
