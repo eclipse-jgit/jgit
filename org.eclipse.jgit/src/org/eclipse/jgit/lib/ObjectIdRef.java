@@ -47,7 +47,10 @@ package org.eclipse.jgit.lib;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
 
-/** A {@link Ref} that points directly at an {@link ObjectId}. */
+/**
+ * A {@link org.eclipse.jgit.lib.Ref} that points directly at an
+ * {@link org.eclipse.jgit.lib.ObjectId}.
+ */
 public abstract class ObjectIdRef implements Ref {
 	/** Any reference whose peeled value is not yet known. */
 	public static class Unpeeled extends ObjectIdRef {
@@ -167,41 +170,48 @@ public abstract class ObjectIdRef implements Ref {
 		this.objectId = id;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	@NonNull
 	public String getName() {
 		return name;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean isSymbolic() {
 		return false;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	@NonNull
 	public Ref getLeaf() {
 		return this;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	@NonNull
 	public Ref getTarget() {
 		return this;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	@Nullable
 	public ObjectId getObjectId() {
 		return objectId;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	@NonNull
 	public Storage getStorage() {
 		return storage;
 	}
 
+	/** {@inheritDoc} */
 	@NonNull
 	@Override
 	public String toString() {

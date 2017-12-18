@@ -86,7 +86,11 @@ public abstract class RefRename {
 				+ Repository.shortenRefName(destination.getName()));
 	}
 
-	/** @return identity of the user making the change in the reflog. */
+	/**
+	 * Get identity of the user making the change in the reflog.
+	 *
+	 * @return identity of the user making the change in the reflog.
+	 */
 	public PersonIdent getRefLogIdent() {
 		return destination.getRefLogIdent();
 	}
@@ -130,12 +134,16 @@ public abstract class RefRename {
 			destination.setRefLogMessage(msg, false);
 	}
 
-	/** Don't record this rename in the ref's associated reflog. */
+	/**
+	 * Don't record this rename in the ref's associated reflog.
+	 */
 	public void disableRefLog() {
 		destination.setRefLogMessage("", false); //$NON-NLS-1$
 	}
 
 	/**
+	 * Get result of rename operation
+	 *
 	 * @return result of rename operation
 	 */
 	public Result getResult() {
@@ -143,8 +151,10 @@ public abstract class RefRename {
 	}
 
 	/**
+	 * Rename
+	 *
 	 * @return the result of the new ref update
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 */
 	public Result rename() throws IOException {
 		try {
@@ -157,15 +167,20 @@ public abstract class RefRename {
 	}
 
 	/**
+	 * Do the actual rename
+	 *
 	 * @return the result of the rename operation.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 */
 	protected abstract Result doRename() throws IOException;
 
 	/**
+	 * Whether the {@code Constants#HEAD} reference needs to be linked to the
+	 * new destination name.
+	 *
 	 * @return true if the {@code Constants#HEAD} reference needs to be linked
 	 *         to the new destination name.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the current value of {@code HEAD} cannot be read.
 	 */
 	protected boolean needToUpdateHEAD() throws IOException {

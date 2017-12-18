@@ -49,13 +49,15 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- * Fast, efficient map specifically for {@link ObjectId} subclasses.
+ * Fast, efficient map specifically for {@link org.eclipse.jgit.lib.ObjectId}
+ * subclasses.
  * <p>
  * This map provides an efficient translation from any ObjectId instance to a
  * cached subclass of ObjectId that has the same value.
  * <p>
- * If object instances are stored in only one map, {@link ObjectIdOwnerMap} is a
- * more efficient implementation.
+ * If object instances are stored in only one map,
+ * {@link org.eclipse.jgit.lib.ObjectIdOwnerMap} is a more efficient
+ * implementation.
  *
  * @param <V>
  *            type of subclass of ObjectId that will be stored in the map.
@@ -72,12 +74,16 @@ public class ObjectIdSubclassMap<V extends ObjectId>
 
 	V[] table;
 
-	/** Create an empty map. */
+	/**
+	 * Create an empty map.
+	 */
 	public ObjectIdSubclassMap() {
 		initTable(INITIAL_TABLE_SIZE);
 	}
 
-	/** Remove all entries from this map. */
+	/**
+	 * Remove all entries from this map.
+	 */
 	public void clear() {
 		size = 0;
 		initTable(INITIAL_TABLE_SIZE);
@@ -105,11 +111,9 @@ public class ObjectIdSubclassMap<V extends ObjectId>
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * Returns true if this map contains the specified object.
-	 *
-	 * @param toFind
-	 *            object to find.
-	 * @return true if the mapping exists for this object; false otherwise.
 	 */
 	@Override
 	public boolean contains(final AnyObjectId toFind) {
@@ -126,8 +130,6 @@ public class ObjectIdSubclassMap<V extends ObjectId>
 	 *
 	 * @param newValue
 	 *            the object to store.
-	 * @param <Q>
-	 *            type of instance to store.
 	 */
 	public <Q extends V> void add(final Q newValue) {
 		if (++size == grow)
@@ -152,8 +154,6 @@ public class ObjectIdSubclassMap<V extends ObjectId>
 	 * @return {@code newValue} if stored, or the prior value already stored and
 	 *         that would have been returned had the caller used
 	 *         {@code get(newValue)} first.
-	 * @param <Q>
-	 *            type of instance to store.
 	 */
 	public <Q extends V> V addIfAbsent(final Q newValue) {
 		final int msk = mask;
@@ -177,17 +177,24 @@ public class ObjectIdSubclassMap<V extends ObjectId>
 	}
 
 	/**
+	 * Get number of objects in map
+	 *
 	 * @return number of objects in map
 	 */
 	public int size() {
 		return size;
 	}
 
-	/** @return true if {@link #size()} is 0. */
+	/**
+	 * Whether {@link #size()} is 0.
+	 *
+	 * @return true if {@link #size()} is 0.
+	 */
 	public boolean isEmpty() {
 		return size == 0;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Iterator<V> iterator() {
 		return new Iterator<V>() {

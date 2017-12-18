@@ -62,7 +62,9 @@ import org.eclipse.jgit.util.RawParseUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** Cache of active {@link Repository} instances. */
+/**
+ * Cache of active {@link org.eclipse.jgit.lib.Repository} instances.
+ */
 public class RepositoryCache {
 	private final static Logger LOG = LoggerFactory
 			.getLogger(RepositoryCache.class);
@@ -73,15 +75,17 @@ public class RepositoryCache {
 	 * Open an existing repository, reusing a cached instance if possible.
 	 * <p>
 	 * When done with the repository, the caller must call
-	 * {@link Repository#close()} to decrement the repository's usage counter.
+	 * {@link org.eclipse.jgit.lib.Repository#close()} to decrement the
+	 * repository's usage counter.
 	 *
 	 * @param location
-	 *            where the local repository is. Typically a {@link FileKey}.
+	 *            where the local repository is. Typically a
+	 *            {@link org.eclipse.jgit.lib.RepositoryCache.FileKey}.
 	 * @return the repository instance requested; caller must close when done.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the repository could not be read (likely its core.version
 	 *             property is not supported).
-	 * @throws RepositoryNotFoundException
+	 * @throws org.eclipse.jgit.errors.RepositoryNotFoundException
 	 *             there is no repository at the given location.
 	 */
 	public static Repository open(final Key location) throws IOException,
@@ -93,16 +97,18 @@ public class RepositoryCache {
 	 * Open a repository, reusing a cached instance if possible.
 	 * <p>
 	 * When done with the repository, the caller must call
-	 * {@link Repository#close()} to decrement the repository's usage counter.
+	 * {@link org.eclipse.jgit.lib.Repository#close()} to decrement the
+	 * repository's usage counter.
 	 *
 	 * @param location
-	 *            where the local repository is. Typically a {@link FileKey}.
+	 *            where the local repository is. Typically a
+	 *            {@link org.eclipse.jgit.lib.RepositoryCache.FileKey}.
 	 * @param mustExist
 	 *            If true, and the repository is not found, throws {@code
 	 *            RepositoryNotFoundException}. If false, a repository instance
 	 *            is created and registered anyway.
 	 * @return the repository instance requested; caller must close when done.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the repository could not be read (likely its core.version
 	 *             property is not supported).
 	 * @throws RepositoryNotFoundException
@@ -118,9 +124,10 @@ public class RepositoryCache {
 	 * Register one repository into the cache.
 	 * <p>
 	 * During registration the cache automatically increments the usage counter,
-	 * permitting it to retain the reference. A {@link FileKey} for the
-	 * repository's {@link Repository#getDirectory()} is used to index the
-	 * repository in the cache.
+	 * permitting it to retain the reference. A
+	 * {@link org.eclipse.jgit.lib.RepositoryCache.FileKey} for the repository's
+	 * {@link org.eclipse.jgit.lib.Repository#getDirectory()} is used to index
+	 * the repository in the cache.
 	 * <p>
 	 * If another repository already is registered in the cache at this
 	 * location, the other instance is closed.
@@ -156,8 +163,8 @@ public class RepositoryCache {
 	 * <p>
 	 * Removes a repository from the cache, if it is still registered here. This
 	 * method will not close the repository, only remove it from the cache. See
-	 * {@link RepositoryCache#close(Repository)} to remove and close the
-	 * repository.
+	 * {@link org.eclipse.jgit.lib.RepositoryCache#close(Repository)} to remove
+	 * and close the repository.
 	 *
 	 * @param db
 	 *            repository to unregister.
@@ -174,8 +181,8 @@ public class RepositoryCache {
 	 * <p>
 	 * Removes a repository from the cache, if it is still registered here. This
 	 * method will not close the repository, only remove it from the cache. See
-	 * {@link RepositoryCache#close(Repository)} to remove and close the
-	 * repository.
+	 * {@link org.eclipse.jgit.lib.RepositoryCache#close(Repository)} to remove
+	 * and close the repository.
 	 *
 	 * @param location
 	 *            location of the repository to remove.
@@ -186,6 +193,8 @@ public class RepositoryCache {
 	}
 
 	/**
+	 * Get the locations of all repositories registered in the cache.
+	 *
 	 * @return the locations of all repositories registered in the cache.
 	 * @since 4.1
 	 */
@@ -202,7 +211,9 @@ public class RepositoryCache {
 		return cache.cacheMap.get(key) == repo;
 	}
 
-	/** Unregister all repositories from the cache. */
+	/**
+	 * Unregister all repositories from the cache.
+	 */
 	public static void clear() {
 		cache.clearAll();
 	}

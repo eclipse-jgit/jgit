@@ -70,6 +70,8 @@ public interface AsyncOperation {
 	 */
 	public boolean cancel(boolean mayInterruptIfRunning);
 
-	/** Release resources used by the operation, including cancellation. */
+	/**
+	 * Release resources used by the operation, including cancellation.
+	 */
 	public void release();
 }

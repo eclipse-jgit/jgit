@@ -46,12 +46,22 @@ package org.eclipse.jgit.lib;
 import java.io.IOException;
 import java.io.InputStream;
 
-/** Stream of data coming from an object loaded by {@link ObjectLoader}. */
+/**
+ * Stream of data coming from an object loaded by {@link org.eclipse.jgit.lib.ObjectLoader}.
+ */
 public abstract class ObjectStream extends InputStream {
-	/** @return Git object type, see {@link Constants}. */
+	/**
+	 * Get Git object type, see {@link Constants}.
+	 *
+	 * @return Git object type, see {@link Constants}.
+	 */
 	public abstract int getType();
 
-	/** @return total size of object in bytes */
+	/**
+	 * Get total size of object in bytes
+	 *
+	 * @return total size of object in bytes
+	 */
 	public abstract long getSize();
 
 	/**

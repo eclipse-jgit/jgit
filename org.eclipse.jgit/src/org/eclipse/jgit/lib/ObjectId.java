@@ -252,10 +252,15 @@ public class ObjectId extends AnyObjectId implements Serializable {
 	 * Construct an ObjectId from 160 bits provided in 5 words.
 	 *
 	 * @param new_1
+	 *            a word
 	 * @param new_2
+	 *            a word
 	 * @param new_3
+	 *            a word
 	 * @param new_4
+	 *            a word
 	 * @param new_5
+	 *            a word
 	 * @since 4.7
 	 */
 	public ObjectId(int new_1, int new_2, int new_3, int new_4, int new_5) {
@@ -284,6 +289,7 @@ public class ObjectId extends AnyObjectId implements Serializable {
 		w5 = src.w5;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public ObjectId toObjectId() {
 		return this;

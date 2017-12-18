@@ -55,11 +55,13 @@ import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
 
 /**
- * Abstraction of name to {@link ObjectId} mapping.
+ * Abstraction of name to {@link org.eclipse.jgit.lib.ObjectId} mapping.
  * <p>
- * A reference database stores a mapping of reference names to {@link ObjectId}.
- * Every {@link Repository} has a single reference database, mapping names to
- * the tips of the object graph contained by the {@link ObjectDatabase}.
+ * A reference database stores a mapping of reference names to
+ * {@link org.eclipse.jgit.lib.ObjectId}. Every
+ * {@link org.eclipse.jgit.lib.Repository} has a single reference database,
+ * mapping names to the tips of the object graph contained by the
+ * {@link org.eclipse.jgit.lib.ObjectDatabase}.
  */
 public abstract class RefDatabase {
 	/**
@@ -93,12 +95,14 @@ public abstract class RefDatabase {
 	/**
 	 * Initialize a new reference database at this location.
 	 *
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the database could not be created.
 	 */
 	public abstract void create() throws IOException;
 
-	/** Close any resources held by this database. */
+	/**
+	 * Close any resources held by this database.
+	 */
 	public abstract void close();
 
 	/**
@@ -118,7 +122,7 @@ public abstract class RefDatabase {
 	 *            proposed name.
 	 * @return true if the name overlaps with an existing reference; false if
 	 *         using this name right now would be safe.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the database could not be read to check for conflicts.
 	 * @see #getConflictingNames(String)
 	 */
@@ -133,7 +137,7 @@ public abstract class RefDatabase {
 	 * @return a collection of full names of existing refs which would conflict
 	 *         with the passed ref name; empty collection when there are no
 	 *         conflicts
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 * @since 2.3
 	 * @see #isNameConflicting(String)
 	 */
@@ -167,12 +171,13 @@ public abstract class RefDatabase {
 	 *            the name of the reference.
 	 * @param detach
 	 *            if {@code true} and {@code name} is currently a
-	 *            {@link SymbolicRef}, the update will replace it with an
-	 *            {@link ObjectIdRef}. Otherwise, the update will recursively
-	 *            traverse {@link SymbolicRef}s and operate on the leaf
-	 *            {@link ObjectIdRef}.
+	 *            {@link org.eclipse.jgit.lib.SymbolicRef}, the update will
+	 *            replace it with an {@link org.eclipse.jgit.lib.ObjectIdRef}.
+	 *            Otherwise, the update will recursively traverse
+	 *            {@link org.eclipse.jgit.lib.SymbolicRef}s and operate on the
+	 *            leaf {@link org.eclipse.jgit.lib.ObjectIdRef}.
 	 * @return a new update for the requested name; never null.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the reference space cannot be accessed.
 	 */
 	@NonNull
@@ -187,7 +192,7 @@ public abstract class RefDatabase {
 	 * @param toName
 	 *            name of reference to rename to
 	 * @return an update command that knows how to rename a branch to another.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the reference space cannot be accessed.
 	 */
 	@NonNull
@@ -210,20 +215,21 @@ public abstract class RefDatabase {
 	 * Whether the database is capable of performing batch updates as atomic
 	 * transactions.
 	 * <p>
-	 * If true, by default {@link BatchRefUpdate} instances will perform updates
-	 * atomically, meaning either all updates will succeed, or all updates will
-	 * fail. It is still possible to turn off this behavior on a per-batch basis
-	 * by calling {@code update.setAtomic(false)}.
+	 * If true, by default {@link org.eclipse.jgit.lib.BatchRefUpdate} instances
+	 * will perform updates atomically, meaning either all updates will succeed,
+	 * or all updates will fail. It is still possible to turn off this behavior
+	 * on a per-batch basis by calling {@code update.setAtomic(false)}.
 	 * <p>
-	 * If false, {@link BatchRefUpdate} instances will never perform updates
-	 * atomically, and calling {@code update.setAtomic(true)} will cause the
-	 * entire batch to fail with {@code REJECTED_OTHER_REASON}.
+	 * If false, {@link org.eclipse.jgit.lib.BatchRefUpdate} instances will
+	 * never perform updates atomically, and calling
+	 * {@code update.setAtomic(true)} will cause the entire batch to fail with
+	 * {@code REJECTED_OTHER_REASON}.
 	 * <p>
 	 * This definition of atomicity is stronger than what is provided by
 	 * {@link org.eclipse.jgit.transport.ReceivePack}. {@code ReceivePack} will
 	 * attempt to reject all commands if it knows in advance some commands may
-	 * fail, even if the storage layer does not support atomic transactions. Here,
-	 * atomicity applies even in the case of unforeseeable errors.
+	 * fail, even if the storage layer does not support atomic transactions.
+	 * Here, atomicity applies even in the case of unforeseeable errors.
 	 *
 	 * @return whether transactions are atomic by default.
 	 * @since 3.6
@@ -246,7 +252,7 @@ public abstract class RefDatabase {
 	 *            the name of the reference. May be a short name which must be
 	 *            searched for using the standard {@link #SEARCH_PATH}.
 	 * @return the reference (if it exists); else {@code null}.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the reference space cannot be accessed.
 	 */
 	@Nullable
@@ -261,7 +267,7 @@ public abstract class RefDatabase {
 	 * @param name
 	 *             the unabbreviated name of the reference.
 	 * @return the reference (if it exists); else {@code null}.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the reference space cannot be accessed.
 	 * @since 4.1
 	 */
@@ -285,7 +291,7 @@ public abstract class RefDatabase {
 	 *             the unabbreviated names of references to look up.
 	 * @return modifiable map describing any refs that exist among the ref
 	 *         ref names supplied. The map can be an unsorted map.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the reference space cannot be accessed.
 	 * @since 4.1
 	 */
@@ -310,7 +316,7 @@ public abstract class RefDatabase {
 	 * @param refs
 	 *             the unabbreviated names of references to look up.
 	 * @return the first named reference that exists (if any); else {@code null}.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the reference space cannot be accessed.
 	 * @since 4.1
 	 */
@@ -335,7 +341,7 @@ public abstract class RefDatabase {
 	 * @return modifiable map that is a complete snapshot of the current
 	 *         reference namespace, with {@code prefix} removed from the start
 	 *         of each key. The map can be an unsorted map.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the reference space cannot be accessed.
 	 */
 	@NonNull
@@ -350,7 +356,7 @@ public abstract class RefDatabase {
 	 * and {@link #exactRef(String)}.
 	 *
 	 * @return a list of additional refs
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the reference space cannot be accessed.
 	 */
 	@NonNull
@@ -360,10 +366,11 @@ public abstract class RefDatabase {
 	 * Peel a possibly unpeeled reference by traversing the annotated tags.
 	 * <p>
 	 * If the reference cannot be peeled (as it does not refer to an annotated
-	 * tag) the peeled id stays null, but {@link Ref#isPeeled()} will be true.
+	 * tag) the peeled id stays null, but
+	 * {@link org.eclipse.jgit.lib.Ref#isPeeled()} will be true.
 	 * <p>
-	 * Implementors should check {@link Ref#isPeeled()} before performing any
-	 * additional work effort.
+	 * Implementors should check {@link org.eclipse.jgit.lib.Ref#isPeeled()}
+	 * before performing any additional work effort.
 	 *
 	 * @param ref
 	 *            The reference to peel
@@ -371,7 +378,7 @@ public abstract class RefDatabase {
 	 *         Ref object representing the same data as Ref, but isPeeled() will
 	 *         be true and getPeeledObjectId() will contain the peeled object
 	 *         (or {@code null}).
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the reference space or object space cannot be accessed.
 	 */
 	@NonNull

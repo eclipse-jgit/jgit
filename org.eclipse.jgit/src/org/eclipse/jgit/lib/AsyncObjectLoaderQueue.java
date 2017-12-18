@@ -63,30 +63,37 @@ public interface AsyncObjectLoaderQueue<T extends ObjectId> extends
 	 * Position this queue onto the next available result.
 	 *
 	 * Even if this method returns true, {@link #open()} may still throw
-	 * {@link MissingObjectException} if the underlying object database was
-	 * concurrently modified and the current object is no longer available.
+	 * {@link org.eclipse.jgit.errors.MissingObjectException} if the underlying
+	 * object database was concurrently modified and the current object is no
+	 * longer available.
 	 *
 	 * @return true if there is a result available; false if the queue has
 	 *         finished its input iteration.
-	 * @throws MissingObjectException
+	 * @throws org.eclipse.jgit.errors.MissingObjectException
 	 *             the object does not exist. If the implementation is retaining
 	 *             the application's objects {@link #getCurrent()} will be the
 	 *             current object that is missing. There may be more results
 	 *             still available, so the caller should continue invoking next
 	 *             to examine another result.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the object store cannot be accessed.
 	 */
 	public boolean next() throws MissingObjectException, IOException;
 
 	/**
+	 * Get the current object, null if the implementation lost track.
+	 *
 	 * @return the current object, null if the implementation lost track.
 	 *         Implementations may for performance reasons discard the caller's
 	 *         ObjectId and provider their own through {@link #getObjectId()}.
 	 */
 	public T getCurrent();
 
-	/** @return the ObjectId of the current object. Never null. */
+	/**
+	 * Get the ObjectId of the current object. Never null.
+	 *
+	 * @return the ObjectId of the current object. Never null.
+	 */
 	public ObjectId getObjectId();
 
 	/**
@@ -105,7 +112,7 @@ public interface AsyncObjectLoaderQueue<T extends ObjectId> extends
 	 *             current object that is missing. There may be more results
 	 *             still available, so the caller should continue invoking next
 	 *             to examine another result.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the object store cannot be accessed.
 	 */
 	public ObjectLoader open() throws IOException;

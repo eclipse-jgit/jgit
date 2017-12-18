@@ -50,15 +50,15 @@ import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.transport.RefSpec;
 
 /**
- * Something that knows how to convert plain strings from a git {@link Config}
- * to typed values.
+ * Something that knows how to convert plain strings from a git
+ * {@link org.eclipse.jgit.lib.Config} to typed values.
  *
  * @since 4.9
  */
 public interface TypedConfigGetter {
 
 	/**
-	 * Get a boolean value from a git {@link Config}.
+	 * Get a boolean value from a git {@link org.eclipse.jgit.lib.Config}.
 	 *
 	 * @param config
 	 *            to get the value from
@@ -77,10 +77,8 @@ public interface TypedConfigGetter {
 			String name, boolean defaultValue);
 
 	/**
-	 * Parse an enumeration from a git {@link Config}.
+	 * Parse an enumeration from a git {@link org.eclipse.jgit.lib.Config}.
 	 *
-	 * @param <T>
-	 *            type of the enumeration object.
 	 * @param config
 	 *            to get the value from
 	 * @param all
@@ -100,7 +98,7 @@ public interface TypedConfigGetter {
 			String subsection, String name, T defaultValue);
 
 	/**
-	 * Obtain an integer value from a git {@link Config}.
+	 * Obtain an integer value from a git {@link org.eclipse.jgit.lib.Config}.
 	 *
 	 * @param config
 	 *            to get the value from
@@ -118,7 +116,7 @@ public interface TypedConfigGetter {
 			int defaultValue);
 
 	/**
-	 * Obtain a long value from a git {@link Config}.
+	 * Obtain a long value from a git {@link org.eclipse.jgit.lib.Config}.
 	 *
 	 * @param config
 	 *            to get the value from
@@ -137,7 +135,7 @@ public interface TypedConfigGetter {
 
 	/**
 	 * Parse a numerical time unit, such as "1 minute", from a git
-	 * {@link Config}.
+	 * {@link org.eclipse.jgit.lib.Config}.
 	 *
 	 * @param config
 	 *            to get the value from
@@ -161,7 +159,8 @@ public interface TypedConfigGetter {
 
 
 	/**
-	 * Parse a list of {@link RefSpec}s from a git {@link Config}.
+	 * Parse a list of {@link org.eclipse.jgit.transport.RefSpec}s from a git
+	 * {@link org.eclipse.jgit.lib.Config}.
 	 *
 	 * @param config
 	 *            to get the list from
@@ -171,7 +170,8 @@ public interface TypedConfigGetter {
 	 *            subsection the key is in, or null if not in a subsection.
 	 * @param name
 	 *            the key name.
-	 * @return a possibly empty list of {@link RefSpec}s
+	 * @return a possibly empty list of
+	 *         {@link org.eclipse.jgit.transport.RefSpec}s
 	 */
 	@NonNull
 	List<RefSpec> getRefSpecs(Config config, String section, String subsection,

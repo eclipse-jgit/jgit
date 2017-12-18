@@ -55,7 +55,9 @@ import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.util.MutableInteger;
 
-/** Misc. constants used throughout JGit. */
+/**
+ * Misc. constants used throughout JGit.
+ */
 @SuppressWarnings("nls")
 public final class Constants {
 	/** Hash function used natively by Git for all objects. */
@@ -446,7 +448,7 @@ public final class Constants {
 	 * Create a new digest function for objects.
 	 *
 	 * @return a new digest object.
-	 * @throws RuntimeException
+	 * @throws java.lang.RuntimeException
 	 *             this Java virtual machine does not support the required hash
 	 *             function. Very unlikely given that JGit uses a hash function
 	 *             that is in the Java reference specification.
@@ -524,7 +526,7 @@ public final class Constants {
 	 *            <code>endMark</code> when the parse is successful.
 	 * @return a type code constant (one of {@link #OBJ_BLOB},
 	 *         {@link #OBJ_COMMIT}, {@link #OBJ_TAG}, {@link #OBJ_TREE}.
-	 * @throws CorruptObjectException
+	 * @throws org.eclipse.jgit.errors.CorruptObjectException
 	 *             there is no valid type identified by <code>typeString</code>.
 	 */
 	public static int decodeTypeString(final AnyObjectId id,
@@ -602,7 +604,7 @@ public final class Constants {
 	 *            127 (outside of 7-bit ASCII).
 	 * @return a byte array of the same length as the input string, holding the
 	 *         same characters, in the same order.
-	 * @throws IllegalArgumentException
+	 * @throws java.lang.IllegalArgumentException
 	 *             the input string contains one or more characters outside of
 	 *             the 7-bit ASCII character space.
 	 */

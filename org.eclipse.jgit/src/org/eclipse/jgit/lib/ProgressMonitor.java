@@ -44,7 +44,9 @@
 
 package org.eclipse.jgit.lib;
 
-/** A progress reporting interface. */
+/**
+ * A progress reporting interface.
+ */
 public interface ProgressMonitor {
 	/** Constant indicating the total work units cannot be predicted. */
 	public static final int UNKNOWN = 0;
@@ -85,7 +87,9 @@ public interface ProgressMonitor {
 	 */
 	void update(int completed);
 
-	/** Finish the current task, so the next can begin. */
+	/**
+	 * Finish the current task, so the next can begin.
+	 */
 	void endTask();
 
 	/**

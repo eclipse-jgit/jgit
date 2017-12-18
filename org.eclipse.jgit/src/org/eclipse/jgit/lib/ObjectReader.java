@@ -53,13 +53,13 @@ import java.util.Set;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.internal.storage.pack.ObjectReuseAsIs;
 
 /**
- * Reads an {@link ObjectDatabase} for a single thread.
+ * Reads an {@link org.eclipse.jgit.lib.ObjectDatabase} for a single thread.
  * <p>
  * Readers that can support efficient reuse of pack encoded objects should also
- * implement the companion interface {@link ObjectReuseAsIs}.
+ * implement the companion interface
+ * {@link org.eclipse.jgit.internal.storage.pack.ObjectReuseAsIs}.
  */
 public abstract class ObjectReader implements AutoCloseable {
 	/** Type hint indicating the caller doesn't know the type. */
@@ -95,7 +95,7 @@ public abstract class ObjectReader implements AutoCloseable {
 	 * @param objectId
 	 *            object identity that needs to be abbreviated.
 	 * @return SHA-1 abbreviation.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the object store cannot be read.
 	 */
 	public AbbreviatedObjectId abbreviate(AnyObjectId objectId)
@@ -122,7 +122,7 @@ public abstract class ObjectReader implements AutoCloseable {
 	 *            [2, {@value Constants#OBJECT_ID_STRING_LENGTH}].
 	 * @return SHA-1 abbreviation. If no matching objects exist in the
 	 *         repository, the abbreviation will match the minimum length.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the object store cannot be read.
 	 */
 	public AbbreviatedObjectId abbreviate(AnyObjectId objectId, int len)
@@ -174,7 +174,7 @@ public abstract class ObjectReader implements AutoCloseable {
 	 *            abbreviated id to resolve to a complete identity. The
 	 *            abbreviation must have a length of at least 2.
 	 * @return candidates that begin with the abbreviated identity.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the object store cannot be read.
 	 */
 	public abstract Collection<ObjectId> resolve(AbbreviatedObjectId id)
@@ -186,7 +186,7 @@ public abstract class ObjectReader implements AutoCloseable {
 	 * @param objectId
 	 *            identity of the object to test for existence of.
 	 * @return true if the specified object is stored in this database.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the object store cannot be accessed.
 	 */
 	public boolean has(AnyObjectId objectId) throws IOException {
@@ -200,13 +200,14 @@ public abstract class ObjectReader implements AutoCloseable {
 	 *            identity of the object to test for existence of.
 	 * @param typeHint
 	 *            hint about the type of object being requested, e.g.
-	 *            {@link Constants#OBJ_BLOB}; {@link #OBJ_ANY} if the object
-	 *            type is not known, or does not matter to the caller.
+	 *            {@link org.eclipse.jgit.lib.Constants#OBJ_BLOB};
+	 *            {@link #OBJ_ANY} if the object type is not known, or does not
+	 *            matter to the caller.
 	 * @return true if the specified object is stored in this database.
 	 * @throws IncorrectObjectTypeException
 	 *             typeHint was not OBJ_ANY, and the object's actual type does
 	 *             not match typeHint.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the object store cannot be accessed.
 	 */
 	public boolean has(AnyObjectId objectId, int typeHint) throws IOException {
@@ -223,10 +224,11 @@ public abstract class ObjectReader implements AutoCloseable {
 	 *
 	 * @param objectId
 	 *            identity of the object to open.
-	 * @return a {@link ObjectLoader} for accessing the object.
-	 * @throws MissingObjectException
+	 * @return a {@link org.eclipse.jgit.lib.ObjectLoader} for accessing the
+	 *         object.
+	 * @throws org.eclipse.jgit.errors.MissingObjectException
 	 *             the object does not exist.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the object store cannot be accessed.
 	 */
 	public ObjectLoader open(AnyObjectId objectId)
@@ -241,15 +243,17 @@ public abstract class ObjectReader implements AutoCloseable {
 	 *            identity of the object to open.
 	 * @param typeHint
 	 *            hint about the type of object being requested, e.g.
-	 *            {@link Constants#OBJ_BLOB}; {@link #OBJ_ANY} if the object
-	 *            type is not known, or does not matter to the caller.
-	 * @return a {@link ObjectLoader} for accessing the object.
-	 * @throws MissingObjectException
+	 *            {@link org.eclipse.jgit.lib.Constants#OBJ_BLOB};
+	 *            {@link #OBJ_ANY} if the object type is not known, or does not
+	 *            matter to the caller.
+	 * @return a {@link org.eclipse.jgit.lib.ObjectLoader} for accessing the
+	 *         object.
+	 * @throws org.eclipse.jgit.errors.MissingObjectException
 	 *             the object does not exist.
-	 * @throws IncorrectObjectTypeException
+	 * @throws org.eclipse.jgit.errors.IncorrectObjectTypeException
 	 *             typeHint was not OBJ_ANY, and the object's actual type does
 	 *             not match typeHint.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the object store cannot be accessed.
 	 */
 	public abstract ObjectLoader open(AnyObjectId objectId, int typeHint)
@@ -260,15 +264,13 @@ public abstract class ObjectReader implements AutoCloseable {
 	 * Returns IDs for those commits which should be considered as shallow.
 	 *
 	 * @return IDs of shallow commits
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 */
 	public abstract Set<ObjectId> getShallowCommits() throws IOException;
 
 	/**
 	 * Asynchronous object opening.
 	 *
-	 * @param <T>
-	 *            type of identifier being supplied.
 	 * @param objectIds
 	 *            objects to open from the object store. The supplied collection
 	 *            must not be modified until the queue has finished.
@@ -335,15 +337,16 @@ public abstract class ObjectReader implements AutoCloseable {
 	 *            identity of the object to open.
 	 * @param typeHint
 	 *            hint about the type of object being requested, e.g.
-	 *            {@link Constants#OBJ_BLOB}; {@link #OBJ_ANY} if the object
-	 *            type is not known, or does not matter to the caller.
+	 *            {@link org.eclipse.jgit.lib.Constants#OBJ_BLOB};
+	 *            {@link #OBJ_ANY} if the object type is not known, or does not
+	 *            matter to the caller.
 	 * @return size of object in bytes.
-	 * @throws MissingObjectException
+	 * @throws org.eclipse.jgit.errors.MissingObjectException
 	 *             the object does not exist.
-	 * @throws IncorrectObjectTypeException
+	 * @throws org.eclipse.jgit.errors.IncorrectObjectTypeException
 	 *             typeHint was not OBJ_ANY, and the object's actual type does
 	 *             not match typeHint.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the object store cannot be accessed.
 	 */
 	public long getObjectSize(AnyObjectId objectId, int typeHint)
@@ -355,8 +358,6 @@ public abstract class ObjectReader implements AutoCloseable {
 	/**
 	 * Asynchronous object size lookup.
 	 *
-	 * @param <T>
-	 *            type of identifier being supplied.
 	 * @param objectIds
 	 *            objects to get the size of from the object store. The supplied
 	 *            collection must not be modified until the queue has finished.
@@ -433,7 +434,7 @@ public abstract class ObjectReader implements AutoCloseable {
 	 * An index that can be used to speed up ObjectWalks.
 	 *
 	 * @return the index or null if one does not exist.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             when the index fails to load
 	 * @since 3.0
 	 */
@@ -442,9 +443,12 @@ public abstract class ObjectReader implements AutoCloseable {
 	}
 
 	/**
-	 * @return the {@link ObjectInserter} from which this reader was created
-	 *         using {@code inserter.newReader()}, or null if this reader was not
-	 *         created from an inserter.
+	 * Get the {@link org.eclipse.jgit.lib.ObjectInserter} from which this
+	 * reader was created using {@code inserter.newReader()}
+	 *
+	 * @return the {@link org.eclipse.jgit.lib.ObjectInserter} from which this
+	 *         reader was created using {@code inserter.newReader()}, or null if
+	 *         this reader was not created from an inserter.
 	 * @since 4.4
 	 */
 	@Nullable
@@ -453,6 +457,8 @@ public abstract class ObjectReader implements AutoCloseable {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * Release any resources used by this reader.
 	 * <p>
 	 * A reader that has been released can be used again, but may need to be

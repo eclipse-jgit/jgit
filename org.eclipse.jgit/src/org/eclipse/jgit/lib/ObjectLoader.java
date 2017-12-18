@@ -61,16 +61,23 @@ import org.eclipse.jgit.util.IO;
  */
 public abstract class ObjectLoader {
 	/**
-	 * @return Git in pack object type, see {@link Constants}.
+	 * Get Git in pack object type
+	 *
+	 * @return Git in pack object type, see
+	 *         {@link org.eclipse.jgit.lib.Constants}.
 	 */
 	public abstract int getType();
 
 	/**
+	 * Get size of object in bytes
+	 *
 	 * @return size of object in bytes
 	 */
 	public abstract long getSize();
 
 	/**
+	 * Whether this object is too large to obtain as a byte array.
+	 *
 	 * @return true if this object is too large to obtain as a byte array.
 	 *         Objects over a certain threshold should be accessed only by their
 	 *         {@link #openStream()} to prevent overflowing the JVM heap.
@@ -91,7 +98,7 @@ public abstract class ObjectLoader {
 	 * be modified by the caller.
 	 *
 	 * @return the bytes of this object.
-	 * @throws LargeObjectException
+	 * @throws org.eclipse.jgit.errors.LargeObjectException
 	 *             if the object won't fit into a byte array, because
 	 *             {@link #isLarge()} returns true. Callers should use
 	 *             {@link #openStream()} instead to access the contents.
@@ -113,16 +120,18 @@ public abstract class ObjectLoader {
 	 *
 	 * @param sizeLimit
 	 *            maximum number of bytes to return. If the object is larger
-	 *            than this limit, {@link LargeObjectException} will be thrown.
+	 *            than this limit,
+	 *            {@link org.eclipse.jgit.errors.LargeObjectException} will be
+	 *            thrown.
 	 * @return the bytes of this object.
-	 * @throws LargeObjectException
+	 * @throws org.eclipse.jgit.errors.LargeObjectException
 	 *             if the object is bigger than {@code sizeLimit}, or if
-	 *             {@link OutOfMemoryError} occurs during allocation of the
-	 *             result array. Callers should use {@link #openStream()}
+	 *             {@link java.lang.OutOfMemoryError} occurs during allocation
+	 *             of the result array. Callers should use {@link #openStream()}
 	 *             instead to access the contents.
-	 * @throws MissingObjectException
+	 * @throws org.eclipse.jgit.errors.MissingObjectException
 	 *             the object is large, and it no longer exists.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the object store cannot be accessed.
 	 */
 	public final byte[] getBytes(int sizeLimit) throws LargeObjectException,
@@ -144,7 +153,7 @@ public abstract class ObjectLoader {
 	 * Changes (if made) will affect the cache but not the repository itself.
 	 *
 	 * @return the cached bytes of this object. Do not modify it.
-	 * @throws LargeObjectException
+	 * @throws org.eclipse.jgit.errors.LargeObjectException
 	 *             if the object won't fit into a byte array, because
 	 *             {@link #isLarge()} returns true. Callers should use
 	 *             {@link #openStream()} instead to access the contents.
@@ -167,16 +176,17 @@ public abstract class ObjectLoader {
 	 * @param sizeLimit
 	 *            maximum number of bytes to return. If the object size is
 	 *            larger than this limit and {@link #isLarge()} is true,
-	 *            {@link LargeObjectException} will be thrown.
+	 *            {@link org.eclipse.jgit.errors.LargeObjectException} will be
+	 *            thrown.
 	 * @return the cached bytes of this object. Do not modify it.
-	 * @throws LargeObjectException
+	 * @throws org.eclipse.jgit.errors.LargeObjectException
 	 *             if the object is bigger than {@code sizeLimit}, or if
-	 *             {@link OutOfMemoryError} occurs during allocation of the
-	 *             result array. Callers should use {@link #openStream()}
+	 *             {@link java.lang.OutOfMemoryError} occurs during allocation
+	 *             of the result array. Callers should use {@link #openStream()}
 	 *             instead to access the contents.
-	 * @throws MissingObjectException
+	 * @throws org.eclipse.jgit.errors.MissingObjectException
 	 *             the object is large, and it no longer exists.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the object store cannot be accessed.
 	 */
 	public byte[] getCachedBytes(int sizeLimit) throws LargeObjectException,
@@ -213,9 +223,9 @@ public abstract class ObjectLoader {
 	 * @return a stream of this object's data. Caller must close the stream when
 	 *         through with it. The returned stream is buffered with a
 	 *         reasonable buffer size.
-	 * @throws MissingObjectException
+	 * @throws org.eclipse.jgit.errors.MissingObjectException
 	 *             the object no longer exists.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the object store cannot be accessed.
 	 */
 	public abstract ObjectStream openStream() throws MissingObjectException,
@@ -236,9 +246,9 @@ public abstract class ObjectLoader {
 	 *            stream to receive the complete copy of this object's data.
 	 *            Caller is responsible for flushing or closing this stream
 	 *            after this method returns.
-	 * @throws MissingObjectException
+	 * @throws org.eclipse.jgit.errors.MissingObjectException
 	 *             the object no longer exists.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the object store cannot be accessed, or the stream cannot be
 	 *             written to.
 	 */

@@ -88,13 +88,19 @@ public class CommitBuilder {
 
 	private Charset encoding;
 
-	/** Initialize an empty commit. */
+	/**
+	 * Initialize an empty commit.
+	 */
 	public CommitBuilder() {
 		parentIds = EMPTY_OBJECTID_LIST;
 		encoding = Constants.CHARSET;
 	}
 
-	/** @return id of the root tree listing this commit's snapshot. */
+	/**
+	 * Get id of the root tree listing this commit's snapshot.
+	 *
+	 * @return id of the root tree listing this commit's snapshot.
+	 */
 	public ObjectId getTreeId() {
 		return treeId;
 	}
@@ -109,7 +115,11 @@ public class CommitBuilder {
 		treeId = id.copy();
 	}
 
-	/** @return the author of this commit (who wrote it). */
+	/**
+	 * Get the author of this commit (who wrote it).
+	 *
+	 * @return the author of this commit (who wrote it).
+	 */
 	public PersonIdent getAuthor() {
 		return author;
 	}
@@ -124,7 +134,11 @@ public class CommitBuilder {
 		author = newAuthor;
 	}
 
-	/** @return the committer and commit time for this object. */
+	/**
+	 * Get the committer and commit time for this object.
+	 *
+	 * @return the committer and commit time for this object.
+	 */
 	public PersonIdent getCommitter() {
 		return committer;
 	}
@@ -139,7 +153,11 @@ public class CommitBuilder {
 		committer = newCommitter;
 	}
 
-	/** @return the ancestors of this commit. Never null. */
+	/**
+	 * Get the ancestors of this commit.
+	 *
+	 * @return the ancestors of this commit. Never null.
+	 */
 	public ObjectId[] getParentIds() {
 		return parentIds;
 	}
@@ -210,7 +228,11 @@ public class CommitBuilder {
 		}
 	}
 
-	/** @return the complete commit message. */
+	/**
+	 * Get the complete commit message.
+	 *
+	 * @return the complete commit message.
+	 */
 	public String getMessage() {
 		return message;
 	}
@@ -229,7 +251,8 @@ public class CommitBuilder {
 	 * Set the encoding for the commit information
 	 *
 	 * @param encodingName
-	 *            the encoding name. See {@link Charset#forName(String)}.
+	 *            the encoding name. See
+	 *            {@link java.nio.charset.Charset#forName(String)}.
 	 */
 	public void setEncoding(String encodingName) {
 		encoding = Charset.forName(encodingName);
@@ -245,7 +268,11 @@ public class CommitBuilder {
 		encoding = enc;
 	}
 
-	/** @return the encoding that should be used for the commit message text. */
+	/**
+	 * Get the encoding that should be used for the commit message text.
+	 *
+	 * @return the encoding that should be used for the commit message text.
+	 */
 	public Charset getEncoding() {
 		return encoding;
 	}
@@ -255,7 +282,7 @@ public class CommitBuilder {
 	 *
 	 * @return this object in the canonical commit format, suitable for storage
 	 *         in a repository.
-	 * @throws UnsupportedEncodingException
+	 * @throws java.io.UnsupportedEncodingException
 	 *             the encoding specified by {@link #getEncoding()} is not
 	 *             supported by this Java runtime.
 	 */
@@ -314,7 +341,7 @@ public class CommitBuilder {
 	 *
 	 * @return this object in the canonical commit format, suitable for storage
 	 *         in a repository.
-	 * @throws UnsupportedEncodingException
+	 * @throws java.io.UnsupportedEncodingException
 	 *             the encoding specified by {@link #getEncoding()} is not
 	 *             supported by this Java runtime.
 	 */
@@ -322,6 +349,7 @@ public class CommitBuilder {
 		return build();
 	}
 
+	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {

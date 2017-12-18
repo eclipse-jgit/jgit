@@ -57,13 +57,14 @@ import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.util.StringUtils;
 
 /**
- * An {@link TypedConfigGetter} that throws {@link IllegalArgumentException} on
- * invalid values.
+ * An {@link org.eclipse.jgit.lib.TypedConfigGetter} that throws
+ * {@link java.lang.IllegalArgumentException} on invalid values.
  *
  * @since 4.9
  */
 public class DefaultTypedConfigGetter implements TypedConfigGetter {
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean getBoolean(Config config, String section, String subsection,
 			String name, boolean defaultValue) {
@@ -82,6 +83,7 @@ public class DefaultTypedConfigGetter implements TypedConfigGetter {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public <T extends Enum<?>> T getEnum(Config config, T[] all, String section,
 			String subsection, String name, T defaultValue) {
@@ -139,6 +141,7 @@ public class DefaultTypedConfigGetter implements TypedConfigGetter {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int getInt(Config config, String section, String subsection,
 			String name, int defaultValue) {
@@ -150,6 +153,7 @@ public class DefaultTypedConfigGetter implements TypedConfigGetter {
 				.format(JGitText.get().integerValueOutOfRange, section, name));
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public long getLong(Config config, String section, String subsection,
 			String name, long defaultValue) {
@@ -187,6 +191,7 @@ public class DefaultTypedConfigGetter implements TypedConfigGetter {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public long getTimeUnit(Config config, String section, String subsection,
 			String name, long defaultValue, TimeUnit wantUnit) {
@@ -286,6 +291,7 @@ public class DefaultTypedConfigGetter implements TypedConfigGetter {
 						section, name, valueString));
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public @NonNull List<RefSpec> getRefSpecs(Config config, String section,
 			String subsection, String name) {

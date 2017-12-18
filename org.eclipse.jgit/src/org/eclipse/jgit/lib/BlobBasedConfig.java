@@ -73,7 +73,7 @@ public class BlobBasedConfig extends Config {
 	 *            the base configuration file
 	 * @param blob
 	 *            the byte array, should be UTF-8 encoded text.
-	 * @throws ConfigInvalidException
+	 * @throws org.eclipse.jgit.errors.ConfigInvalidException
 	 *             the byte array is not a valid configuration format.
 	 */
 	public BlobBasedConfig(Config base, final byte[] blob)
@@ -98,9 +98,9 @@ public class BlobBasedConfig extends Config {
 	 *            the repository
 	 * @param objectId
 	 *            the object identifier
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the blob cannot be read from the repository.
-	 * @throws ConfigInvalidException
+	 * @throws org.eclipse.jgit.errors.ConfigInvalidException
 	 *             the blob is not a valid configuration format.
 	 */
 	public BlobBasedConfig(Config base, Repository db, AnyObjectId objectId)
@@ -134,11 +134,11 @@ public class BlobBasedConfig extends Config {
 	 *            the tree (or commit) that contains the object
 	 * @param path
 	 *            the path within the tree
-	 * @throws FileNotFoundException
+	 * @throws java.io.FileNotFoundException
 	 *             the path does not exist in the commit's tree.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the tree and/or blob cannot be accessed.
-	 * @throws ConfigInvalidException
+	 * @throws org.eclipse.jgit.errors.ConfigInvalidException
 	 *             the blob is not a valid configuration format.
 	 */
 	public BlobBasedConfig(Config base, Repository db, AnyObjectId treeish,

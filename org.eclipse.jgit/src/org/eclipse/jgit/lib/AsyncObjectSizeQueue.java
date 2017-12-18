@@ -64,27 +64,37 @@ public interface AsyncObjectSizeQueue<T extends ObjectId> extends
 	 *
 	 * @return true if there is a result available; false if the queue has
 	 *         finished its input iteration.
-	 * @throws MissingObjectException
+	 * @throws org.eclipse.jgit.errors.MissingObjectException
 	 *             the object does not exist. If the implementation is retaining
 	 *             the application's objects {@link #getCurrent()} will be the
 	 *             current object that is missing. There may be more results
 	 *             still available, so the caller should continue invoking next
 	 *             to examine another result.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the object store cannot be accessed.
 	 */
 	public boolean next() throws MissingObjectException, IOException;
 
 	/**
+	 * <p>getCurrent.</p>
+	 *
 	 * @return the current object, null if the implementation lost track.
 	 *         Implementations may for performance reasons discard the caller's
 	 *         ObjectId and provider their own through {@link #getObjectId()}.
 	 */
 	public T getCurrent();
 
-	/** @return the ObjectId of the current object. Never null. */
+	/**
+	 * Get the ObjectId of the current object. Never null.
+	 *
+	 * @return the ObjectId of the current object. Never null.
+	 */
 	public ObjectId getObjectId();
 
-	/** @return the size of the current object. */
+	/**
+	 * Get the size of the current object.
+	 *
+	 * @return the size of the current object.
+	 */
 	public long getSize();
 }

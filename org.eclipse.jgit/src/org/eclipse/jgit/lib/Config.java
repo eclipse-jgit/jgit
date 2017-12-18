@@ -108,7 +108,9 @@ public class Config {
 	 */
 	static final String MAGIC_EMPTY_VALUE = new String();
 
-	/** Create a configuration with no default fallback. */
+	/**
+	 * Create a configuration with no default fallback.
+	 */
 	public Config() {
 		this(null);
 	}
@@ -126,8 +128,8 @@ public class Config {
 	}
 
 	/**
-	 * Globally sets a {@link TypedConfigGetter} that is subsequently used to
-	 * read typed values from all git configs.
+	 * Globally sets a {@link org.eclipse.jgit.lib.TypedConfigGetter} that is
+	 * subsequently used to read typed values from all git configs.
 	 *
 	 * @param getter
 	 *            to use; if {@code null} use the default getter.
@@ -330,8 +332,6 @@ public class Config {
 	/**
 	 * Parse an enumeration from the configuration.
 	 *
-	 * @param <T>
-	 *            type of the enumeration object.
 	 * @param section
 	 *            section the key is grouped within.
 	 * @param subsection
@@ -364,8 +364,6 @@ public class Config {
 	/**
 	 * Parse an enumeration from the configuration.
 	 *
-	 * @param <T>
-	 *            type of the enumeration object.
 	 * @param all
 	 *            all possible values in the enumeration which should be
 	 *            recognized. Typically {@code EnumType.values()}.
@@ -461,7 +459,8 @@ public class Config {
 	}
 
 	/**
-	 * Parse a list of {@link RefSpec}s from the configuration.
+	 * Parse a list of {@link org.eclipse.jgit.transport.RefSpec}s from the
+	 * configuration.
 	 *
 	 * @param section
 	 *            section the key is in.
@@ -469,7 +468,8 @@ public class Config {
 	 *            subsection the key is in, or null if not in a subsection.
 	 * @param name
 	 *            the key name.
-	 * @return a possibly empty list of {@link RefSpec}s
+	 * @return a possibly empty list of
+	 *         {@link org.eclipse.jgit.transport.RefSpec}s
 	 * @since 4.9
 	 */
 	public List<RefSpec> getRefSpecs(String section, String subsection,
@@ -478,6 +478,9 @@ public class Config {
 	}
 
 	/**
+	 * Get set of all subsections of specified section within this configuration
+	 * and its base configuration
+	 *
 	 * @param section
 	 *            section to search for.
 	 * @return set of all subsections of specified section within this
@@ -491,16 +494,20 @@ public class Config {
 	}
 
 	/**
-	 * @return the sections defined in this {@link Config}. The set's iterator
-	 *         returns sections in the order they are declared by the
-	 *         configuration starting from this instance and progressing through
-	 *         the base.
+	 * Get the sections defined in this {@link org.eclipse.jgit.lib.Config}.
+	 *
+	 * @return the sections defined in this {@link org.eclipse.jgit.lib.Config}.
+	 *         The set's iterator returns sections in the order they are
+	 *         declared by the configuration starting from this instance and
+	 *         progressing through the base.
 	 */
 	public Set<String> getSections() {
 		return getState().getSections();
 	}
 
 	/**
+	 * Get the list of names defined for this section
+	 *
 	 * @param section
 	 *            the section
 	 * @return the list of names defined for this section
@@ -510,6 +517,8 @@ public class Config {
 	}
 
 	/**
+	 * Get the list of names defined for this subsection
+	 *
 	 * @param section
 	 *            the section
 	 * @param subsection
@@ -521,6 +530,8 @@ public class Config {
 	}
 
 	/**
+	 * Get the list of names defined for this section
+	 *
 	 * @param section
 	 *            the section
 	 * @param recursive
@@ -534,6 +545,8 @@ public class Config {
 	}
 
 	/**
+	 * Get the list of names defined for this section
+	 *
 	 * @param section
 	 *            the section
 	 * @param subsection
@@ -590,7 +603,8 @@ public class Config {
 	 * Adds a listener to be notified about changes.
 	 * <p>
 	 * Clients are supposed to remove the listeners after they are done with
-	 * them using the {@link ListenerHandle#remove()} method
+	 * them using the {@link org.eclipse.jgit.events.ListenerHandle#remove()}
+	 * method
 	 *
 	 * @param listener
 	 *            the listener
@@ -745,8 +759,6 @@ public class Config {
 	 *         name = value
 	 * </pre>
 	 *
-	 * @param <T>
-	 *            type of the enumeration object.
 	 * @param section
 	 *            section name, e.g "branch"
 	 * @param subsection
@@ -966,6 +978,8 @@ public class Config {
 	}
 
 	/**
+	 * Get this configuration, formatted as a Git style text file.
+	 *
 	 * @return this configuration, formatted as a Git style text file.
 	 */
 	public String toText() {
@@ -1015,7 +1029,7 @@ public class Config {
 	 *
 	 * @param text
 	 *            Git style text file listing configuration properties.
-	 * @throws ConfigInvalidException
+	 * @throws org.eclipse.jgit.errors.ConfigInvalidException
 	 *             the text supplied is not formatted correctly. No changes were
 	 *             made to {@code this}.
 	 */
@@ -1104,7 +1118,7 @@ public class Config {
 	 *            possibly relative path to the included config, as specified in
 	 *            this config
 	 * @return the read bytes, or null if the included config should be ignored
-	 * @throws ConfigInvalidException
+	 * @throws org.eclipse.jgit.errors.ConfigInvalidException
 	 *             if something went wrong while reading the config
 	 * @since 4.10
 	 */

@@ -233,10 +233,18 @@ public abstract class RefUpdate {
 		refLogMessage = ""; //$NON-NLS-1$
 	}
 
-	/** @return the reference database this update modifies. */
+	/**
+	 * Get the reference database this update modifies.
+	 *
+	 * @return the reference database this update modifies.
+	 */
 	protected abstract RefDatabase getRefDatabase();
 
-	/** @return the repository storing the database's objects. */
+	/**
+	 * Get the repository storing the database's objects.
+	 *
+	 * @return the repository storing the database's objects.
+	 */
 	protected abstract Repository getRepository();
 
 	/**
@@ -251,33 +259,44 @@ public abstract class RefUpdate {
 	 *            current reference.
 	 * @return true if the lock was acquired and the reference is likely
 	 *         protected from concurrent modification; false if it failed.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the lock couldn't be taken due to an unexpected storage
 	 *             failure, and not because of a concurrent update.
 	 */
 	protected abstract boolean tryLock(boolean deref) throws IOException;
 
-	/** Releases the lock taken by {@link #tryLock} if it succeeded. */
+	/**
+	 * Releases the lock taken by {@link #tryLock} if it succeeded.
+	 */
 	protected abstract void unlock();
 
 	/**
+	 * Do update
+	 *
 	 * @param desiredResult
+	 *            a {@link org.eclipse.jgit.lib.RefUpdate.Result} object.
 	 * @return {@code result}
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 */
 	protected abstract Result doUpdate(Result desiredResult) throws IOException;
 
 	/**
+	 * Do delete
+	 *
 	 * @param desiredResult
+	 *            a {@link org.eclipse.jgit.lib.RefUpdate.Result} object.
 	 * @return {@code result}
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 */
 	protected abstract Result doDelete(Result desiredResult) throws IOException;
 
 	/**
+	 * Do link
+	 *
 	 * @param target
-	 * @return {@link Result#NEW} on success.
-	 * @throws IOException
+	 *            a {@link java.lang.String} object.
+	 * @return {@link org.eclipse.jgit.lib.RefUpdate.Result#NEW} on success.
+	 * @throws java.io.IOException
 	 */
 	protected abstract Result doLink(String target) throws IOException;
 
@@ -290,7 +309,11 @@ public abstract class RefUpdate {
 		return getRef().getName();
 	}
 
-	/** @return the reference this update will create or modify. */
+	/**
+	 * Get the reference this update will create or modify.
+	 *
+	 * @return the reference this update will create or modify.
+	 */
 	public Ref getRef() {
 		return ref;
 	}
@@ -332,21 +355,27 @@ public abstract class RefUpdate {
 	}
 
 	/**
+	 * Get the expected value of the ref after the lock is taken, but before
+	 * update occurs.
+	 *
 	 * @return the expected value of the ref after the lock is taken, but before
 	 *         update occurs. Null to avoid the compare and swap test. Use
-	 *         {@link ObjectId#zeroId()} to indicate expectation of a
-	 *         non-existant ref.
+	 *         {@link org.eclipse.jgit.lib.ObjectId#zeroId()} to indicate
+	 *         expectation of a non-existant ref.
 	 */
 	public ObjectId getExpectedOldObjectId() {
 		return expValue;
 	}
 
 	/**
+	 * Set the expected value of the ref after the lock is taken, but before
+	 * update occurs.
+	 *
 	 * @param id
 	 *            the expected value of the ref after the lock is taken, but
 	 *            before update occurs. Null to avoid the compare and swap test.
-	 *            Use {@link ObjectId#zeroId()} to indicate expectation of a
-	 *            non-existant ref.
+	 *            Use {@link org.eclipse.jgit.lib.ObjectId#zeroId()} to indicate
+	 *            expectation of a non-existant ref.
 	 */
 	public void setExpectedOldObjectId(final AnyObjectId id) {
 		expValue = id != null ? id.toObjectId() : null;
@@ -371,7 +400,11 @@ public abstract class RefUpdate {
 		force = b;
 	}
 
-	/** @return identity of the user making the change in the reflog. */
+	/**
+	 * Get identity of the user making the change in the reflog.
+	 *
+	 * @return identity of the user making the change in the reflog.
+	 */
 	public PersonIdent getRefLogIdent() {
 		return refLogIdent;
 	}
@@ -402,7 +435,11 @@ public abstract class RefUpdate {
 		return refLogMessage;
 	}
 
-	/** @return {@code true} if the ref log message should show the result. */
+	/**
+	 * Whether the ref log message should show the result.
+	 *
+	 * @return {@code true} if the ref log message should show the result.
+	 */
 	protected boolean isRefLogIncludingResult() {
 		return refLogIncludeResult;
 	}
@@ -436,7 +473,9 @@ public abstract class RefUpdate {
 		}
 	}
 
-	/** Don't record this update in the ref's associated reflog. */
+	/**
+	 * Don't record this update in the ref's associated reflog.
+	 */
 	public void disableRefLog() {
 		refLogMessage = null;
 		refLogIncludeResult = false;
@@ -535,7 +574,7 @@ public abstract class RefUpdate {
 	 * the merge test is performed.
 	 *
 	 * @return the result status of the update.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             an unexpected IO error occurred while writing changes.
 	 */
 	public Result forceUpdate() throws IOException {
@@ -555,7 +594,7 @@ public abstract class RefUpdate {
 	 * </pre>
 	 *
 	 * @return the result status of the update.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             an unexpected IO error occurred while writing changes.
 	 */
 	public Result update() throws IOException {
@@ -573,7 +612,7 @@ public abstract class RefUpdate {
 	 *            a RevWalk instance this update command can borrow to perform
 	 *            the merge test. The walk will be reset to perform the test.
 	 * @return the result status of the update.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             an unexpected IO error occurred while writing changes.
 	 */
 	public Result update(final RevWalk walk) throws IOException {
@@ -603,7 +642,7 @@ public abstract class RefUpdate {
 	 * </pre>
 	 *
 	 * @return the result status of the delete.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 */
 	public Result delete() throws IOException {
 		try (RevWalk rw = new RevWalk(getRepository())) {
@@ -618,7 +657,7 @@ public abstract class RefUpdate {
 	 *            a RevWalk instance this delete command can borrow to perform
 	 *            the merge test. The walk will be reset to perform the test.
 	 * @return the result status of the delete.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 */
 	public Result delete(final RevWalk walk) throws IOException {
 		final String myName = detachingSymbolicRef
@@ -656,8 +695,9 @@ public abstract class RefUpdate {
 	 * @param target
 	 *            name of the new target for this reference. The new target name
 	 *            must be absolute, so it must begin with {@code refs/}.
-	 * @return {@link Result#NEW} or {@link Result#FORCED} on success.
-	 * @throws IOException
+	 * @return {@link org.eclipse.jgit.lib.RefUpdate.Result#NEW} or
+	 *         {@link org.eclipse.jgit.lib.RefUpdate.Result#FORCED} on success.
+	 * @throws java.io.IOException
 	 */
 	public Result link(String target) throws IOException {
 		if (!target.startsWith(Constants.R_REFS))
@@ -751,6 +791,7 @@ public abstract class RefUpdate {
 	 * are checked explicitly.
 	 *
 	 * @param check
+	 *            whether to enable the check for conflicting ref names.
 	 * @since 3.0
 	 */
 	public void setCheckConflicting(boolean check) {

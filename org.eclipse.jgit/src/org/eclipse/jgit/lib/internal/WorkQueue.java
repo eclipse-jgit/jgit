@@ -95,6 +95,8 @@ public class WorkQueue {
 	}
 
 	/**
+	 * Get the WorkQueue's executor
+	 *
 	 * @return the WorkQueue's executor
 	 */
 	public static ScheduledThreadPoolExecutor getExecutor() {

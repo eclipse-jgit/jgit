@@ -94,7 +94,9 @@ public class TreeFormatter {
 
 	private TemporaryBuffer.Heap overflowBuffer;
 
-	/** Create an empty formatter with a default buffer size. */
+	/**
+	 * Create an empty formatter with a default buffer size.
+	 */
 	public TreeFormatter() {
 		this(8192);
 	}
@@ -112,7 +114,7 @@ public class TreeFormatter {
 	}
 
 	/**
-	 * Add a link to a submodule commit, mode is {@link FileMode#GITLINK}.
+	 * Add a link to a submodule commit, mode is {@link org.eclipse.jgit.lib.FileMode#GITLINK}.
 	 *
 	 * @param name
 	 *            name of the entry.
@@ -124,7 +126,7 @@ public class TreeFormatter {
 	}
 
 	/**
-	 * Add a subtree, mode is {@link FileMode#TREE}.
+	 * Add a subtree, mode is {@link org.eclipse.jgit.lib.FileMode#TREE}.
 	 *
 	 * @param name
 	 *            name of the entry.
@@ -136,7 +138,7 @@ public class TreeFormatter {
 	}
 
 	/**
-	 * Add a regular file, mode is {@link FileMode#REGULAR_FILE}.
+	 * Add a regular file, mode is {@link org.eclipse.jgit.lib.FileMode#REGULAR_FILE}.
 	 *
 	 * @param name
 	 *            name of the entry.
@@ -307,7 +309,7 @@ public class TreeFormatter {
 	 * @param ins
 	 *            the inserter to store the tree.
 	 * @return computed ObjectId of the tree
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the tree could not be stored.
 	 */
 	public ObjectId insertTo(ObjectInserter ins) throws IOException {
@@ -321,7 +323,7 @@ public class TreeFormatter {
 	/**
 	 * Compute the ObjectId for this tree
 	 *
-	 * @param ins
+	 * @param ins a {@link org.eclipse.jgit.lib.ObjectInserter} object.
 	 * @return ObjectId for this tree
 	 */
 	public ObjectId computeId(ObjectInserter ins) {
@@ -343,7 +345,8 @@ public class TreeFormatter {
 	 * This method is not efficient, as it needs to create a copy of the
 	 * internal buffer in order to supply an array of the correct size to the
 	 * caller. If the buffer is just to pass to an ObjectInserter, consider
-	 * using {@link ObjectInserter#insert(TreeFormatter)} instead.
+	 * using {@link org.eclipse.jgit.lib.ObjectInserter#insert(TreeFormatter)}
+	 * instead.
 	 *
 	 * @return a copy of this formatter's buffer.
 	 */
@@ -362,6 +365,7 @@ public class TreeFormatter {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {

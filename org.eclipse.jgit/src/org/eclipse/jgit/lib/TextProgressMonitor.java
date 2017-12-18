@@ -51,13 +51,17 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Writer;
 
-/** A simple progress reporter printing on a stream. */
+/**
+ * A simple progress reporter printing on a stream.
+ */
 public class TextProgressMonitor extends BatchingProgressMonitor {
 	private final Writer out;
 
 	private boolean write;
 
-	/** Initialize a new progress monitor. */
+	/**
+	 * Initialize a new progress monitor.
+	 */
 	public TextProgressMonitor() {
 		this(new PrintWriter(new OutputStreamWriter(System.err, UTF_8)));
 	}
@@ -73,6 +77,7 @@ public class TextProgressMonitor extends BatchingProgressMonitor {
 		this.write = true;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void onUpdate(String taskName, int workCurr) {
 		StringBuilder s = new StringBuilder();
@@ -80,6 +85,7 @@ public class TextProgressMonitor extends BatchingProgressMonitor {
 		send(s);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void onEndTask(String taskName, int workCurr) {
 		StringBuilder s = new StringBuilder();
@@ -97,6 +103,7 @@ public class TextProgressMonitor extends BatchingProgressMonitor {
 		s.append(workCurr);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void onUpdate(String taskName, int cmp, int totalWork, int pcnt) {
 		StringBuilder s = new StringBuilder();
@@ -104,6 +111,7 @@ public class TextProgressMonitor extends BatchingProgressMonitor {
 		send(s);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void onEndTask(String taskName, int cmp, int totalWork, int pcnt) {
 		StringBuilder s = new StringBuilder();

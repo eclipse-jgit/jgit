@@ -48,10 +48,12 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- * Fast, efficient map for {@link ObjectId} subclasses in only one map.
+ * Fast, efficient map for {@link org.eclipse.jgit.lib.ObjectId} subclasses in
+ * only one map.
  * <p>
  * To use this map type, applications must have their entry value type extend
- * from {@link ObjectIdOwnerMap.Entry}, which itself extends from ObjectId.
+ * from {@link org.eclipse.jgit.lib.ObjectIdOwnerMap.Entry}, which itself
+ * extends from ObjectId.
  * <p>
  * Object instances may only be stored in <b>ONE</b> ObjectIdOwnerMap. This
  * restriction exists because the map stores internal map state within each
@@ -59,10 +61,11 @@ import java.util.NoSuchElementException;
  * could corrupt one or both map's internal state.
  * <p>
  * If an object instance must be in more than one map, applications may use
- * ObjectIdOwnerMap for one of the maps, and {@link ObjectIdSubclassMap} for the
- * other map(s). It is encouraged to use ObjectIdOwnerMap for the map that is
- * accessed most often, as this implementation runs faster than the more general
- * ObjectIdSubclassMap implementation.
+ * ObjectIdOwnerMap for one of the maps, and
+ * {@link org.eclipse.jgit.lib.ObjectIdSubclassMap} for the other map(s). It is
+ * encouraged to use ObjectIdOwnerMap for the map that is accessed most often,
+ * as this implementation runs faster than the more general ObjectIdSubclassMap
+ * implementation.
  *
  * @param <V>
  *            type of subclass of ObjectId that will be stored in the map.
@@ -97,7 +100,9 @@ public class ObjectIdOwnerMap<V extends ObjectIdOwnerMap.Entry>
 	/** Low bit mask to index into {@link #directory}, {@code 2^bits-1}. */
 	private int mask;
 
-	/** Create an empty map. */
+	/**
+	 * Create an empty map.
+	 */
 	@SuppressWarnings("unchecked")
 	public ObjectIdOwnerMap() {
 		bits = 0;
@@ -108,7 +113,9 @@ public class ObjectIdOwnerMap<V extends ObjectIdOwnerMap.Entry>
 		directory[0] = newSegment();
 	}
 
-	/** Remove all entries from this map. */
+	/**
+	 * Remove all entries from this map.
+	 */
 	public void clear() {
 		size = 0;
 
@@ -137,11 +144,9 @@ public class ObjectIdOwnerMap<V extends ObjectIdOwnerMap.Entry>
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * Returns true if this map contains the specified object.
-	 *
-	 * @param toFind
-	 *            object to find.
-	 * @return true if the mapping exists for this object; false otherwise.
 	 */
 	@Override
 	public boolean contains(final AnyObjectId toFind) {
@@ -157,8 +162,6 @@ public class ObjectIdOwnerMap<V extends ObjectIdOwnerMap.Entry>
 	 *
 	 * @param newValue
 	 *            the object to store.
-	 * @param <Q>
-	 *            type of instance to store.
 	 */
 	public <Q extends V> void add(final Q newValue) {
 		if (++size == grow)
@@ -189,8 +192,6 @@ public class ObjectIdOwnerMap<V extends ObjectIdOwnerMap.Entry>
 	 * @return {@code newValue} if stored, or the prior value already stored and
 	 *         that would have been returned had the caller used
 	 *         {@code get(newValue)} first.
-	 * @param <Q>
-	 *            type of instance to store.
 	 */
 	@SuppressWarnings("unchecked")
 	public <Q extends V> V addIfAbsent(final Q newValue) {
@@ -210,16 +211,25 @@ public class ObjectIdOwnerMap<V extends ObjectIdOwnerMap.Entry>
 		return newValue;
 	}
 
-	/** @return number of objects in this map. */
+	/**
+	 * Get number of objects in this map.
+	 *
+	 * @return number of objects in this map.
+	 */
 	public int size() {
 		return size;
 	}
 
-	/** @return true if {@link #size()} is 0. */
+	/**
+	 * Whether this map is empty
+	 *
+	 * @return true if {@link #size()} is 0.
+	 */
 	public boolean isEmpty() {
 		return size == 0;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Iterator<V> iterator() {
 		return new Iterator<V>() {

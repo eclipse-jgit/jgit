@@ -160,7 +160,11 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 		return self();
 	}
 
-	/** @return the file system abstraction, or null if not set. */
+	/**
+	 * Get the file system abstraction, or null if not set.
+	 *
+	 * @return the file system abstraction, or null if not set.
+	 */
 	public FS getFS() {
 		return fs;
 	}
@@ -182,7 +186,11 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 		return self();
 	}
 
-	/** @return the meta data directory; null if not set. */
+	/**
+	 * Get the meta data directory; null if not set.
+	 *
+	 * @return the meta data directory; null if not set.
+	 */
 	public File getGitDir() {
 		return gitDir;
 	}
@@ -200,7 +208,11 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 		return self();
 	}
 
-	/** @return the object directory; null if not set. */
+	/**
+	 * Get the object directory; null if not set.
+	 *
+	 * @return the object directory; null if not set.
+	 */
 	public File getObjectDirectory() {
 		return objectDirectory;
 	}
@@ -262,7 +274,11 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 		return self();
 	}
 
-	/** @return ordered array of alternate directories; null if non were set. */
+	/**
+	 * Get ordered array of alternate directories; null if non were set.
+	 *
+	 * @return ordered array of alternate directories; null if non were set.
+	 */
 	public File[] getAlternateObjectDirectories() {
 		final List<File> alts = alternateObjectDirectories;
 		if (alts == null)
@@ -285,7 +301,11 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 		return self();
 	}
 
-	/** @return true if this repository was forced bare by {@link #setBare()}. */
+	/**
+	 * Whether this repository was forced bare by {@link #setBare()}.
+	 *
+	 * @return true if this repository was forced bare by {@link #setBare()}.
+	 */
 	public boolean isBare() {
 		return bare;
 	}
@@ -303,7 +323,11 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 		return self();
 	}
 
-	/** @return true if the repository must exist before being opened. */
+	/**
+	 * Whether the repository must exist before being opened.
+	 *
+	 * @return true if the repository must exist before being opened.
+	 */
 	public boolean isMustExist() {
 		return mustExist;
 	}
@@ -320,7 +344,11 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 		return self();
 	}
 
-	/** @return the work tree directory, or null if not set. */
+	/**
+	 * Get the work tree directory, or null if not set.
+	 *
+	 * @return the work tree directory, or null if not set.
+	 */
 	public File getWorkTree() {
 		return workTree;
 	}
@@ -341,7 +369,11 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 		return self();
 	}
 
-	/** @return the index file location, or null if not set. */
+	/**
+	 * Get the index file location, or null if not set.
+	 *
+	 * @return the index file location, or null if not set.
+	 */
 	public File getIndexFile() {
 		return indexFile;
 	}
@@ -544,10 +576,10 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 	 * exception is thrown to the caller.
 	 *
 	 * @return {@code this}
-	 * @throws IllegalArgumentException
+	 * @throws java.lang.IllegalArgumentException
 	 *             insufficient parameters were set, or some parameters are
 	 *             incompatible with one another.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the repository could not be accessed to configure the rest of
 	 *             the builder's parameters.
 	 */
@@ -569,9 +601,9 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 	 * @return a repository matching this configuration. The caller is
 	 *         responsible to close the repository instance when it is no longer
 	 *         needed.
-	 * @throws IllegalArgumentException
+	 * @throws java.lang.IllegalArgumentException
 	 *             insufficient parameters were set.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the repository could not be accessed to configure the rest of
 	 *             the builder's parameters.
 	 */
@@ -583,7 +615,9 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 		return repo;
 	}
 
-	/** Require either {@code gitDir} or {@code workTree} to be set. */
+	/**
+	 * Require either {@code gitDir} or {@code workTree} to be set.
+	 */
 	protected void requireGitDirOrWorkTree() {
 		if (getGitDir() == null && getWorkTree() == null)
 			throw new IllegalArgumentException(
@@ -593,7 +627,7 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 	/**
 	 * Perform standard gitDir initialization.
 	 *
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the repository could not be accessed
 	 */
 	protected void setupGitDir() throws IOException {
@@ -615,7 +649,7 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 	 * end after the repository has been identified and its configuration is
 	 * available for inspection.
 	 *
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the repository configuration could not be read.
 	 */
 	protected void setupWorkTree() throws IOException {
@@ -642,7 +676,7 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 	/**
 	 * Configure the internal implementation details of the repository.
 	 *
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the repository could not be accessed
 	 */
 	protected void setupInternals() throws IOException {
@@ -654,7 +688,7 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 	 * Get the cached repository configuration, loading if not yet available.
 	 *
 	 * @return the configuration of the repository.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the configuration is not available, or is badly formed.
 	 */
 	protected Config getConfig() throws IOException {
@@ -670,7 +704,7 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 	 * empty configuration if gitDir was not set.
 	 *
 	 * @return the repository's configuration.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the configuration is not available.
 	 */
 	protected Config loadConfig() throws IOException {
@@ -728,12 +762,20 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 		return null;
 	}
 
-	/** @return the configured FS, or {@link FS#DETECTED}. */
+	/**
+	 * Get the configured FS, or {@link FS#DETECTED}.
+	 *
+	 * @return the configured FS, or {@link FS#DETECTED}.
+	 */
 	protected FS safeFS() {
 		return getFS() != null ? getFS() : FS.DETECTED;
 	}
 
-	/** @return {@code this} */
+	/**
+	 * Get this object
+	 *
+	 * @return {@code this}
+	 */
 	@SuppressWarnings("unchecked")
 	protected final B self() {
 		return (B) this;
