@@ -292,6 +292,7 @@ final class DeltaTask implements Callable<Object> {
 		slices.add(s);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Object call() throws Exception {
 		or = block.templateReader.newReader();
