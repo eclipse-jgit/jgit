@@ -327,7 +327,7 @@ class Status extends TextBuiltin {
 	protected int printList(String status1, String status2, String status3,
 			Collection<String> list, Collection<String> set1,
 			Collection<String> set2,
-			@SuppressWarnings("unused") Collection<String> set3)
+			Collection<String> set3)
 			throws IOException {
 		List<String> sortedList = new ArrayList<>(list);
 		java.util.Collections.sort(sortedList);
