@@ -57,21 +57,25 @@ class DfsObjectRepresentation extends StoredObjectRepresentation {
 		this.pack = pack;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int getFormat() {
 		return format;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int getWeight() {
 		return (int) Math.min(length, Integer.MAX_VALUE);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public ObjectId getDeltaBase() {
 		return baseId;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean wasDeltaAttempted() {
 		switch (pack.getPackDescription().getPackSource()) {

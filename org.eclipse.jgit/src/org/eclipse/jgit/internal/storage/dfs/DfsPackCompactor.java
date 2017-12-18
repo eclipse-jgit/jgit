@@ -126,6 +126,8 @@ public class DfsPackCompactor {
 	}
 
 	/**
+	 * Set configuration to write a reftable.
+	 *
 	 * @param cfg
 	 *            configuration to write a reftable. Reftable compacting is
 	 *            disabled (default) when {@code cfg} is {@code null}.
@@ -172,7 +174,7 @@ public class DfsPackCompactor {
 	 * ones are omitted.
 	 *
 	 * @return {@code this}
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             existing packs cannot be read.
 	 */
 	public DfsPackCompactor autoAdd() throws IOException {
@@ -215,7 +217,7 @@ public class DfsPackCompactor {
 	 * @param pack
 	 *            objects to not include.
 	 * @return {@code this}.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             pack index cannot be loaded.
 	 */
 	public DfsPackCompactor exclude(DfsPackFile pack) throws IOException {
@@ -232,7 +234,7 @@ public class DfsPackCompactor {
 	 * @param pm
 	 *            progress monitor to receive updates on as packing may take a
 	 *            while, depending on the size of the repository.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the packs cannot be compacted.
 	 */
 	public void compact(ProgressMonitor pm) throws IOException {
@@ -331,7 +333,11 @@ public class DfsPackCompactor {
 		}
 	}
 
-	/** @return all of the source packs that fed into this compaction. */
+	/**
+	 * Get all of the source packs that fed into this compaction.
+	 *
+	 * @return all of the source packs that fed into this compaction.
+	 */
 	public Collection<DfsPackDescription> getSourcePacks() {
 		Set<DfsPackDescription> src = new HashSet<>();
 		for (DfsPackFile pack : srcPacks) {
@@ -343,7 +349,11 @@ public class DfsPackCompactor {
 		return src;
 	}
 
-	/** @return new packs created by this compaction. */
+	/**
+	 * Get new packs created by this compaction.
+	 *
+	 * @return new packs created by this compaction.
+	 */
 	public List<DfsPackDescription> getNewPacks() {
 		return outDesc != null
 				? Collections.singletonList(outDesc)
@@ -351,9 +361,11 @@ public class DfsPackCompactor {
 	}
 
 	/**
+	 * Get statistics corresponding to the {@link #getNewPacks()}.
+	 * May be null if statistics are not available.
+	 *
 	 * @return statistics corresponding to the {@link #getNewPacks()}.
 	 *
-	 * <p>The element may be null if the stat is not available.
 	 */
 	public List<PackStatistics> getNewPackStatistics() {
 		return outDesc != null

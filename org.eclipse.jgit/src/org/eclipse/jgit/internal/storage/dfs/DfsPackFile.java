@@ -133,12 +133,18 @@ public final class DfsPackFile extends BlockBasedFile {
 		length = sz > 0 ? sz : -1;
 	}
 
-	/** @return description that was originally used to configure this pack file. */
+	/**
+	 * Get description that was originally used to configure this pack file.
+	 *
+	 * @return description that was originally used to configure this pack file.
+	 */
 	public DfsPackDescription getPackDescription() {
 		return desc;
 	}
 
 	/**
+	 * Whether the pack index file is loaded and cached in memory.
+	 *
 	 * @return whether the pack index file is loaded and cached in memory.
 	 */
 	public boolean isIndexLoaded() {
@@ -160,7 +166,7 @@ public final class DfsPackFile extends BlockBasedFile {
 	 *            reader context to support reading from the backing store if
 	 *            the index is not already loaded in memory.
 	 * @return the PackIndex.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the pack index is not available, or is corrupt.
 	 */
 	public PackIndex getPackIndex(DfsReader ctx) throws IOException {
@@ -350,7 +356,7 @@ public final class DfsPackFile extends BlockBasedFile {
 	 * @param id
 	 *            object to be located.
 	 * @return true if the object exists in this pack; false if it does not.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the pack index is not available, or is corrupt.
 	 */
 	public boolean hasObject(DfsReader ctx, AnyObjectId id) throws IOException {

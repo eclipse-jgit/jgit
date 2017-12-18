@@ -51,7 +51,9 @@ import java.nio.ByteBuffer;
 import org.eclipse.jgit.internal.storage.io.BlockSource;
 import org.eclipse.jgit.internal.storage.reftable.ReftableReader;
 
-/** A reftable stored in {@link DfsBlockCache}. */
+/**
+ * A reftable stored in {@link org.eclipse.jgit.internal.storage.dfs.DfsBlockCache}.
+ */
 public class DfsReftable extends BlockBasedFile {
 	/**
 	 * Construct a reader for an existing reftable.
@@ -83,7 +85,11 @@ public class DfsReftable extends BlockBasedFile {
 		length = sz > 0 ? sz : -1;
 	}
 
-	/** @return description that was originally used to configure this file. */
+	/**
+	 * Get description that was originally used to configure this file.
+	 *
+	 * @return description that was originally used to configure this file.
+	 */
 	public DfsPackDescription getPackDescription() {
 		return desc;
 	}
@@ -96,7 +102,7 @@ public class DfsReftable extends BlockBasedFile {
 	 * @param ctx
 	 *            reader to access the DFS storage.
 	 * @return cursor to read the table; caller must close.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             table cannot be opened.
 	 */
 	public ReftableReader open(DfsReader ctx) throws IOException {

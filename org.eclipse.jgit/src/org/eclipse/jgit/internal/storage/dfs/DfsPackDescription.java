@@ -104,7 +104,11 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 		blockSizeMap = new int[extCnt];
 	}
 
-	/** @return description of the repository. */
+	/**
+	 * Get description of the repository.
+	 *
+	 * @return description of the repository.
+	 */
 	public DfsRepositoryDescription getRepositoryDescription() {
 		return repoDesc;
 	}
@@ -120,15 +124,19 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 	}
 
 	/**
+	 * Whether the pack file extension is known to exist.
+	 *
 	 * @param ext
 	 *            the file extension
-	 * @return whether the pack file extensions is known to exist.
+	 * @return whether the pack file extension is known to exist.
 	 */
 	public boolean hasFileExt(PackExt ext) {
 		return (extensions & ext.getBit()) != 0;
 	}
 
 	/**
+	 * Get file name
+	 *
 	 * @param ext
 	 *            the file extension
 	 * @return name of the file.
@@ -138,6 +146,8 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 	}
 
 	/**
+	 * Get cache key for use by the block cache.
+	 *
 	 * @param ext
 	 *            the file extension.
 	 * @return cache key for use by the block cache.
@@ -147,12 +157,18 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 				ext);
 	}
 
-	/** @return the source of the pack. */
+	/**
+	 * Get the source of the pack.
+	 *
+	 * @return the source of the pack.
+	 */
 	public PackSource getPackSource() {
 		return packSource;
 	}
 
 	/**
+	 * Set the source of the pack.
+	 *
 	 * @param source
 	 *            the source of the pack.
 	 * @return {@code this}
@@ -162,12 +178,18 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 		return this;
 	}
 
-	/** @return time the pack was created, in milliseconds. */
+	/**
+	 * Get time the pack was created, in milliseconds.
+	 *
+	 * @return time the pack was created, in milliseconds.
+	 */
 	public long getLastModified() {
 		return lastModified;
 	}
 
 	/**
+	 * Set time the pack was created, in milliseconds.
+	 *
 	 * @param timeMillis
 	 *            time the pack was created, in milliseconds. 0 if not known.
 	 * @return {@code this}
@@ -177,14 +199,20 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 		return this;
 	}
 
-	/** @return minUpdateIndex for the reftable, if present. */
+	/**
+	 * Get minUpdateIndex for the reftable, if present.
+	 *
+	 * @return minUpdateIndex for the reftable, if present.
+	 */
 	public long getMinUpdateIndex() {
 		return minUpdateIndex;
 	}
 
 	/**
+	 * Set minUpdateIndex for the reftable.
+	 *
 	 * @param min
-	 *            minUpdateIndex for the reftable, or 0.
+	 *            minUpdateIndex for the reftable.
 	 * @return {@code this}
 	 */
 	public DfsPackDescription setMinUpdateIndex(long min) {
@@ -192,14 +220,20 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 		return this;
 	}
 
-	/** @return maxUpdateIndex for the reftable, if present. */
+	/**
+	 * Get maxUpdateIndex for the reftable, if present.
+	 *
+	 * @return maxUpdateIndex for the reftable, if present.
+	 */
 	public long getMaxUpdateIndex() {
 		return maxUpdateIndex;
 	}
 
 	/**
+	 * Set maxUpdateIndex for the reftable.
+	 *
 	 * @param max
-	 *            maxUpdateIndex for the reftable, or 0.
+	 *            maxUpdateIndex for the reftable.
 	 * @return {@code this}
 	 */
 	public DfsPackDescription setMaxUpdateIndex(long max) {
@@ -208,6 +242,8 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 	}
 
 	/**
+	 * Set size of the file in bytes.
+	 *
 	 * @param ext
 	 *            the file extension.
 	 * @param bytes
@@ -225,6 +261,8 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 	}
 
 	/**
+	 * Get size of the file, in bytes.
+	 *
 	 * @param ext
 	 *            the file extension.
 	 * @return size of the file, in bytes. If 0 the file size is not yet known.
@@ -235,6 +273,8 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 	}
 
 	/**
+	 * Get blockSize of the file, in bytes.
+	 *
 	 * @param ext
 	 *            the file extension.
 	 * @return blockSize of the file, in bytes. If 0 the blockSize size is not
@@ -246,6 +286,8 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 	}
 
 	/**
+	 * Set blockSize of the file, in bytes.
+	 *
 	 * @param ext
 	 *            the file extension.
 	 * @param blockSize
@@ -263,6 +305,8 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 	}
 
 	/**
+	 * Set estimated size of the .pack file in bytes.
+	 *
 	 * @param estimatedPackSize
 	 *            estimated size of the .pack file in bytes. If 0 the pack file
 	 *            size is unknown.
@@ -274,6 +318,8 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 	}
 
 	/**
+	 * Get estimated size of the .pack file in bytes.
+	 *
 	 * @return estimated size of the .pack file in bytes. If 0 the pack file
 	 *         size is unknown.
 	 */
@@ -281,12 +327,18 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 		return estimatedPackSize;
 	}
 
-	/** @return number of objects in the pack. */
+	/**
+	 * Get number of objects in the pack.
+	 *
+	 * @return number of objects in the pack.
+	 */
 	public long getObjectCount() {
 		return objectCount;
 	}
 
 	/**
+	 * Set number of objects in the pack.
+	 *
 	 * @param cnt
 	 *            number of objects in the pack.
 	 * @return {@code this}
@@ -296,12 +348,18 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 		return this;
 	}
 
-	/** @return number of delta compressed objects in the pack. */
+	/**
+	 * Get number of delta compressed objects in the pack.
+	 *
+	 * @return number of delta compressed objects in the pack.
+	 */
 	public long getDeltaCount() {
 		return deltaCount;
 	}
 
 	/**
+	 * Set number of delta compressed objects in the pack.
+	 *
 	 * @param cnt
 	 *            number of delta compressed objects in the pack.
 	 * @return {@code this}
@@ -312,6 +370,8 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 	}
 
 	/**
+	 * Get statistics from PackWriter, if the pack was built with it.
+	 *
 	 * @return statistics from PackWriter, if the pack was built with it.
 	 *         Generally this is only available for packs created by
 	 *         DfsGarbageCollector or DfsPackCompactor, and only when the pack
@@ -329,7 +389,11 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 		return this;
 	}
 
-	/** @return stats from the sibling reftable, if created. */
+	/**
+	 * Get stats from the sibling reftable, if created.
+	 *
+	 * @return stats from the sibling reftable, if created.
+	 */
 	public ReftableWriter.Stats getReftableStats() {
 		return refStats;
 	}
@@ -353,12 +417,18 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 		return this;
 	}
 
-	/** @return the version of the index file written. */
+	/**
+	 * Get the version of the index file written.
+	 *
+	 * @return the version of the index file written.
+	 */
 	public int getIndexVersion() {
 		return indexVersion;
 	}
 
 	/**
+	 * Set the version of the index file written.
+	 *
 	 * @param version
 	 *            the version of the index file written.
 	 * @return {@code this}
@@ -368,11 +438,13 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 		return this;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int hashCode() {
 		return packName.hashCode();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean equals(Object b) {
 		if (b instanceof DfsPackDescription) {
@@ -384,15 +456,14 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * Sort packs according to the optimal lookup ordering.
 	 * <p>
 	 * This method tries to position packs in the order readers should examine
 	 * them when looking for objects by SHA-1. The default tries to sort packs
 	 * with more recent modification dates before older packs, and packs with
 	 * fewer objects before packs with more objects.
-	 *
-	 * @param b
-	 *            the other pack.
 	 */
 	@Override
 	public int compareTo(DfsPackDescription b) {
@@ -438,6 +509,7 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		return getFileName(PackExt.PACK);

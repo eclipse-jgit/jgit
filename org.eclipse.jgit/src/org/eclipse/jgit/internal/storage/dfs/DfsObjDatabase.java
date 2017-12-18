@@ -61,7 +61,11 @@ import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 
-/** Manages objects stored in {@link DfsPackFile} on a storage system. */
+/**
+ * Manages objects stored in
+ * {@link org.eclipse.jgit.internal.storage.dfs.DfsPackFile} on a storage
+ * system.
+ */
 public abstract class DfsObjDatabase extends ObjectDatabase {
 	private static final PackList NO_PACKS = new PackList(
 			new DfsPackFile[0],
@@ -157,7 +161,6 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	 *
 	 * @param repository
 	 *            repository owning this object database.
-	 *
 	 * @param options
 	 *            how readers should access the object database.
 	 */
@@ -168,16 +171,22 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		this.readerOptions = options;
 	}
 
-	/** @return configured reader options, such as read-ahead. */
+	/**
+	 * Get configured reader options, such as read-ahead.
+	 *
+	 * @return configured reader options, such as read-ahead.
+	 */
 	public DfsReaderOptions getReaderOptions() {
 		return readerOptions;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public DfsReader newReader() {
 		return new DfsReader(this);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public ObjectInserter newInserter() {
 		return new DfsInserter(this);
@@ -188,7 +197,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	 *
 	 * @return list of available packs. The returned array is shared with the
 	 *         implementation and must not be modified by the caller.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the pack list cannot be initialized.
 	 */
 	public DfsPackFile[] getPacks() throws IOException {
@@ -200,7 +209,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	 *
 	 * @return list of available reftables. The returned array is shared with
 	 *         the implementation and must not be modified by the caller.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the pack list cannot be initialized.
 	 */
 	public DfsReftable[] getReftables() throws IOException {
@@ -213,14 +222,18 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	 * @return list of available packs, with some additional metadata. The
 	 *         returned array is shared with the implementation and must not be
 	 *         modified by the caller.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the pack list cannot be initialized.
 	 */
 	public PackList getPackList() throws IOException {
 		return scanPacks(NO_PACKS);
 	}
 
-	/** @return repository owning this object database. */
+	/**
+	 * Get repository owning this object database.
+	 *
+	 * @return repository owning this object database.
+	 */
 	protected DfsRepository getRepository() {
 		return repository;
 	}
@@ -267,7 +280,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	 * @param avoidUnreachableObjects
 	 *            if true, ignore objects that are unreachable.
 	 * @return true if the specified object is stored in this database.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the object store cannot be accessed.
 	 */
 	public boolean has(AnyObjectId objectId, boolean avoidUnreachableObjects)
@@ -285,7 +298,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	 *            where the pack stream is created.
 	 * @return a unique name for the pack file. Must not collide with any other
 	 *         pack file name in the same DFS.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             a new unique pack description cannot be generated.
 	 */
 	protected abstract DfsPackDescription newPack(PackSource source)
@@ -299,7 +312,8 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	 * {@code newPack(source).setEstimatedPackSize(estimatedPackSize)}. But the
 	 * clients can override this method to use the given
 	 * {@code estomatedPackSize} value more efficiently in the process of
-	 * creating a new {@link DfsPackDescription} object.
+	 * creating a new
+	 * {@link org.eclipse.jgit.internal.storage.dfs.DfsPackDescription} object.
 	 *
 	 * @param source
 	 *            where the pack stream is created.
@@ -307,7 +321,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	 *            the estimated size of the pack.
 	 * @return a unique name for the pack file. Must not collide with any other
 	 *         pack file name in the same DFS.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             a new unique pack description cannot be generated.
 	 */
 	protected DfsPackDescription newPack(PackSource source,
@@ -338,7 +352,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	 *            description of the new packs.
 	 * @param replaces
 	 *            if not null, list of packs to remove.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the packs cannot be committed. On failure a rollback must
 	 *             also be attempted by the caller.
 	 */
@@ -352,12 +366,11 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	 * Implementation of pack commit.
 	 *
 	 * @see #commitPack(Collection, Collection)
-	 *
 	 * @param desc
 	 *            description of the new packs.
 	 * @param replaces
 	 *            if not null, list of packs to remove.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the packs cannot be committed.
 	 */
 	protected abstract void commitPackImpl(Collection<DfsPackDescription> desc,
@@ -388,7 +401,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	 * DfsPackDescription objects.
 	 *
 	 * @return available packs. May be empty if there are no packs.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the packs cannot be listed and the object database is not
 	 *             functional to the caller.
 	 */
@@ -405,9 +418,9 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	 * @param ext
 	 *            file extension that will be read i.e "pack" or "idx".
 	 * @return channel to read the file.
-	 * @throws FileNotFoundException
+	 * @throws java.io.FileNotFoundException
 	 *             the file does not exist.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the file cannot be opened.
 	 */
 	protected abstract ReadableChannel openFile(
@@ -424,7 +437,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	 * @param ext
 	 *            file extension that will be written i.e "pack" or "idx".
 	 * @return channel to write the file.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the file cannot be opened.
 	 */
 	protected abstract DfsOutputStream writeFile(
@@ -565,7 +578,11 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		return forReuse;
 	}
 
-	/** @return comparator to sort {@link DfsReftable} by priority. */
+	/**
+	 * Get comparator to sort {@link DfsReftable} by priority.
+	 *
+	 * @return comparator to sort {@link DfsReftable} by priority.
+	 */
 	protected Comparator<DfsReftable> reftableComparator() {
 		return (fa, fb) -> {
 			DfsPackDescription a = fa.getPackDescription();
@@ -593,11 +610,14 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		return s != null ? s.category : 0;
 	}
 
-	/** Clears the cached list of packs, forcing them to be scanned again. */
+	/**
+	 * Clears the cached list of packs, forcing them to be scanned again.
+	 */
 	protected void clearCache() {
 		packList.set(NO_PACKS);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		packList.set(NO_PACKS);

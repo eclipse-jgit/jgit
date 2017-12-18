@@ -93,7 +93,9 @@ import org.eclipse.jgit.storage.pack.PackStatistics;
 import org.eclipse.jgit.util.SystemReader;
 import org.eclipse.jgit.util.io.CountingOutputStream;
 
-/** Repack and garbage collect a repository. */
+/**
+ * Repack and garbage collect a repository.
+ */
 public class DfsGarbageCollector {
 	private final DfsRepository repo;
 	private final RefDatabase refdb;
@@ -147,12 +149,18 @@ public class DfsGarbageCollector {
 		packConfig.setIndexVersion(2);
 	}
 
-	/** @return configuration used to generate the new pack file. */
+	/**
+	 * Get configuration used to generate the new pack file.
+	 *
+	 * @return configuration used to generate the new pack file.
+	 */
 	public PackConfig getPackConfig() {
 		return packConfig;
 	}
 
 	/**
+	 * Set the new configuration to use when creating the pack file.
+	 *
 	 * @param newConfig
 	 *            the new configuration to use when creating the pack file.
 	 * @return {@code this}
@@ -163,6 +171,8 @@ public class DfsGarbageCollector {
 	}
 
 	/**
+	 * Set configuration to write a reftable.
+	 *
 	 * @param cfg
 	 *            configuration to write a reftable. Reftable writing is
 	 *            disabled (default) when {@code cfg} is {@code null}.
@@ -174,11 +184,14 @@ public class DfsGarbageCollector {
 	}
 
 	/**
+	 * Whether the garbage collector should convert references to reftable.
+	 *
 	 * @param convert
-	 *            if true, {@link #setReftableConfig(ReftableConfig)} has been
-	 *            set non-null, and a GC reftable doesn't yet exist, the garbage
-	 *            collector will make one by scanning the existing references,
-	 *            and writing a new reftable. Default is {@code true}.
+	 *            if {@code true}, {@link #setReftableConfig(ReftableConfig)}
+	 *            has been set non-null, and a GC reftable doesn't yet exist,
+	 *            the garbage collector will make one by scanning the existing
+	 *            references, and writing a new reftable. Default is
+	 *            {@code true}.
 	 * @return {@code this}
 	 */
 	public DfsGarbageCollector setConvertToReftable(boolean convert) {
@@ -187,9 +200,13 @@ public class DfsGarbageCollector {
 	}
 
 	/**
+	 * Whether the garbage collector will include tombstones for deleted
+	 * references in the reftable.
+	 *
 	 * @param include
-	 *            if true, the garbage collector will include tombstones for
-	 *            deleted references in the reftable. Default is {@code false}.
+	 *            if {@code true}, the garbage collector will include tombstones
+	 *            for deleted references in the reftable. Default is
+	 *            {@code false}.
 	 * @return {@code this}
 	 */
 	public DfsGarbageCollector setIncludeDeletes(boolean include) {
@@ -202,9 +219,10 @@ public class DfsGarbageCollector {
 	 *
 	 * @param u
 	 *            minUpdateIndex for the initial reftable created by scanning
-	 *            {@link DfsRefDatabase#getRefs(String)}. Ignored unless caller
-	 *            has also set {@link #setReftableConfig(ReftableConfig)}.
-	 *            Defaults to {@code 1}. Must be {@code u >= 0}.
+	 *            {@link org.eclipse.jgit.internal.storage.dfs.DfsRefDatabase#getRefs(String)}.
+	 *            Ignored unless caller has also set
+	 *            {@link #setReftableConfig(ReftableConfig)}. Defaults to
+	 *            {@code 1}. Must be {@code u >= 0}.
 	 * @return {@code this}
 	 */
 	public DfsGarbageCollector setReftableInitialMinUpdateIndex(long u) {
@@ -217,9 +235,10 @@ public class DfsGarbageCollector {
 	 *
 	 * @param u
 	 *            maxUpdateIndex for the initial reftable created by scanning
-	 *            {@link DfsRefDatabase#getRefs(String)}. Ignored unless caller
-	 *            has also set {@link #setReftableConfig(ReftableConfig)}.
-	 *            Defaults to {@code 1}. Must be {@code u >= 0}.
+	 *            {@link org.eclipse.jgit.internal.storage.dfs.DfsRefDatabase#getRefs(String)}.
+	 *            Ignored unless caller has also set
+	 *            {@link #setReftableConfig(ReftableConfig)}. Defaults to
+	 *            {@code 1}. Must be {@code u >= 0}.
 	 * @return {@code this}
 	 */
 	public DfsGarbageCollector setReftableInitialMaxUpdateIndex(long u) {
@@ -227,7 +246,12 @@ public class DfsGarbageCollector {
 		return this;
 	}
 
-	/** @return garbage packs smaller than this size will be repacked. */
+	/**
+	 * Get coalesce garbage limit
+	 *
+	 * @return coalesce garbage limit, packs smaller than this size will be
+	 *         repacked.
+	 */
 	public long getCoalesceGarbageLimit() {
 		return coalesceGarbageLimit;
 	}
@@ -244,7 +268,8 @@ public class DfsGarbageCollector {
 	 * reading and copying the objects.
 	 * <p>
 	 * If limit is set to 0 the UNREACHABLE_GARBAGE coalesce is disabled.<br>
-	 * If limit is set to {@link Long#MAX_VALUE}, everything is coalesced.
+	 * If limit is set to {@link java.lang.Long#MAX_VALUE}, everything is
+	 * coalesced.
 	 * <p>
 	 * Keeping unreachable garbage prevents race conditions with repository
 	 * changes that may suddenly need an object whose only copy was stored in
@@ -260,6 +285,8 @@ public class DfsGarbageCollector {
 	}
 
 	/**
+	 * Get time to live for garbage packs.
+	 *
 	 * @return garbage packs older than this limit (in milliseconds) will be
 	 *         pruned as part of the garbage collection process if the value is
 	 *         > 0, otherwise garbage packs are retained.
@@ -300,7 +327,7 @@ public class DfsGarbageCollector {
 	 * @return true if the repack was successful without race conditions. False
 	 *         if a race condition was detected and the repack should be run
 	 *         again later.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             a new pack cannot be created.
 	 */
 	public boolean pack(ProgressMonitor pm) throws IOException {
@@ -488,21 +515,30 @@ public class DfsGarbageCollector {
 		return cal.getTimeInMillis();
 	}
 
-	/** @return all of the source packs that fed into this compaction. */
+	/**
+	 * Get all of the source packs that fed into this compaction.
+	 *
+	 * @return all of the source packs that fed into this compaction.
+	 */
 	public Set<DfsPackDescription> getSourcePacks() {
 		return toPrune();
 	}
 
-	/** @return new packs created by this compaction. */
+	/**
+	 * Get new packs created by this compaction.
+	 *
+	 * @return new packs created by this compaction.
+	 */
 	public List<DfsPackDescription> getNewPacks() {
 		return newPackDesc;
 	}
 
 	/**
-	 * @return statistics corresponding to the {@link #getNewPacks()}.
+	 * Get statistics corresponding to the {@link #getNewPacks()}.
+	 * <p>
+	 * The elements can be null if the stat is not available for the pack file.
 	 *
-	 * <p>The elements can be null if the stat is not available for the pack
-	 * file.
+	 * @return statistics corresponding to the {@link #getNewPacks()}.
 	 */
 	public List<PackStatistics> getNewPackStatistics() {
 		return newPackStats;

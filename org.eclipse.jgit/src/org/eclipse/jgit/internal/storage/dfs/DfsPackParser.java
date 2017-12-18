@@ -63,7 +63,9 @@ import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.transport.PackParser;
 import org.eclipse.jgit.transport.PackedObjectInfo;
 
-/** Parses a pack stream into the DFS, by creating a new pack and index. */
+/**
+ * Parses a pack stream into the DFS, by creating a new pack and index.
+ */
 public class DfsPackParser extends PackParser {
 	private final DfsObjDatabase objdb;
 
@@ -132,6 +134,7 @@ public class DfsPackParser extends PackParser {
 		this.packDigest = Constants.newMessageDigest();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public PackLock parse(ProgressMonitor receiving, ProgressMonitor resolving)
 			throws IOException {
@@ -193,11 +196,16 @@ public class DfsPackParser extends PackParser {
 		}
 	}
 
-	/** @return description of the imported pack, if one was made. */
+	/**
+	 * Get description of the imported pack, if one was made.
+	 *
+	 * @return description of the imported pack, if one was made.
+	 */
 	public DfsPackDescription getPackDescription() {
 		return packDsc;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void onPackHeader(long objectCount) throws IOException {
 		if (objectCount == 0) {
@@ -219,29 +227,34 @@ public class DfsPackParser extends PackParser {
 		currBuf = new byte[blockSize];
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void onBeginWholeObject(long streamPosition, int type,
 			long inflatedSize) throws IOException {
 		crc.reset();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void onEndWholeObject(PackedObjectInfo info) throws IOException {
 		info.setCRC((int) crc.getValue());
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void onBeginOfsDelta(long streamPosition,
 			long baseStreamPosition, long inflatedSize) throws IOException {
 		crc.reset();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void onBeginRefDelta(long streamPosition, AnyObjectId baseId,
 			long inflatedSize) throws IOException {
 		crc.reset();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected UnresolvedDelta onEndDelta() throws IOException {
 		UnresolvedDelta delta = new UnresolvedDelta();
@@ -249,24 +262,28 @@ public class DfsPackParser extends PackParser {
 		return delta;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void onInflatedObjectData(PackedObjectInfo obj, int typeCode,
 			byte[] data) throws IOException {
 		// DfsPackParser ignores this event.
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void onObjectHeader(Source src, byte[] raw, int pos, int len)
 			throws IOException {
 		crc.update(raw, pos, len);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void onObjectData(Source src, byte[] raw, int pos, int len)
 			throws IOException {
 		crc.update(raw, pos, len);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void onStoreStream(byte[] raw, int pos, int len)
 			throws IOException {
@@ -313,6 +330,7 @@ public class DfsPackParser extends PackParser {
 		return v;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void onPackFooter(byte[] hash) throws IOException {
 		// The base class will validate the original hash matches
@@ -322,6 +340,7 @@ public class DfsPackParser extends PackParser {
 		packHash = hash;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected ObjectTypeAndSize seekDatabase(PackedObjectInfo obj,
 			ObjectTypeAndSize info) throws IOException {
@@ -330,6 +349,7 @@ public class DfsPackParser extends PackParser {
 		return readObjectHeader(info);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected ObjectTypeAndSize seekDatabase(UnresolvedDelta delta,
 			ObjectTypeAndSize info) throws IOException {
@@ -338,6 +358,7 @@ public class DfsPackParser extends PackParser {
 		return readObjectHeader(info);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected int readDatabase(byte[] dst, int pos, int cnt) throws IOException {
 		if (cnt == 0)
@@ -393,11 +414,13 @@ public class DfsPackParser extends PackParser {
 		return (pos / blockSize) * blockSize;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected boolean checkCRC(int oldCRC) {
 		return oldCRC == (int) crc.getValue();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected boolean onAppendBase(final int typeCode, final byte[] data,
 			final PackedObjectInfo info) throws IOException {
@@ -437,6 +460,7 @@ public class DfsPackParser extends PackParser {
 		return true;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void onEndThinPack() throws IOException {
 		// Normally when a thin pack is closed the pack header gets
