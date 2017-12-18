@@ -78,10 +78,11 @@ import org.eclipse.jgit.util.time.ProposedTimestamp;
  * area under the {@code refs/txn/stage/} namespace. If the proposal succeeds
  * then the changes are durable and the leader can commit the proposal.
  * <p>
- * Proposals are executed by {@link KetchLeader#queueProposal(Proposal)}, which
- * runs them asynchronously in the background. Proposals are thread-safe futures
- * allowing callers to {@link #await()} for results or be notified by callback
- * using {@link #addListener(Runnable)}.
+ * Proposals are executed by
+ * {@link org.eclipse.jgit.internal.ketch.KetchLeader#queueProposal(Proposal)},
+ * which runs them asynchronously in the background. Proposals are thread-safe
+ * futures allowing callers to {@link #await()} for results or be notified by
+ * callback using {@link #addListener(Runnable)}.
  */
 public class Proposal {
 	/** Current state of the proposal. */
@@ -146,9 +147,9 @@ public class Proposal {
 	 *            walker to assist in preparing commands.
 	 * @param cmds
 	 *            list of pending commands.
-	 * @throws MissingObjectException
+	 * @throws org.eclipse.jgit.errors.MissingObjectException
 	 *             newId of a command is not found locally.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             local objects cannot be accessed.
 	 */
 	public Proposal(RevWalk rw, Collection<ReceiveCommand> cmds)
@@ -166,12 +167,20 @@ public class Proposal {
 		return Collections.unmodifiableList(commands);
 	}
 
-	/** @return commands from this proposal. */
+	/**
+	 * Get commands from this proposal.
+	 *
+	 * @return commands from this proposal.
+	 */
 	public Collection<Command> getCommands() {
 		return commands;
 	}
 
-	/** @return optional author of the proposal. */
+	/**
+	 * Get optional author of the proposal.
+	 *
+	 * @return optional author of the proposal.
+	 */
 	@Nullable
 	public PersonIdent getAuthor() {
 		return author;
@@ -189,7 +198,11 @@ public class Proposal {
 		return this;
 	}
 
-	/** @return optional message for the commit log of the RefTree. */
+	/**
+	 * Get optional message for the commit log of the RefTree.
+	 *
+	 * @return optional message for the commit log of the RefTree.
+	 */
 	@Nullable
 	public String getMessage() {
 		return message;
@@ -207,7 +220,11 @@ public class Proposal {
 		return this;
 	}
 
-	/** @return optional certificate signing the references. */
+	/**
+	 * Get optional certificate signing the references.
+	 *
+	 * @return optional certificate signing the references.
+	 */
 	@Nullable
 	public PushCertificate getPushCertificate() {
 		return pushCert;
@@ -226,6 +243,8 @@ public class Proposal {
 	}
 
 	/**
+	 * Get timestamps that Ketch must block for.
+	 *
 	 * @return timestamps that Ketch must block for. These may have been used as
 	 *         commit times inside the objects involved in the proposal.
 	 */
@@ -240,6 +259,7 @@ public class Proposal {
 	 * Request the proposal to wait for the affected timestamps to resolve.
 	 *
 	 * @param ts
+	 *            a {@link org.eclipse.jgit.util.time.ProposedTimestamp} object.
 	 * @return {@code this}.
 	 */
 	public Proposal addProposedTimestamp(ProposedTimestamp ts) {
@@ -253,9 +273,11 @@ public class Proposal {
 	/**
 	 * Add a callback to be invoked when the proposal is done.
 	 * <p>
-	 * A proposal is done when it has entered either {@link State#EXECUTED} or
-	 * {@link State#ABORTED} state. If the proposal is already done
-	 * {@code callback.run()} is immediately invoked on the caller's thread.
+	 * A proposal is done when it has entered either
+	 * {@link org.eclipse.jgit.internal.ketch.Proposal.State#EXECUTED} or
+	 * {@link org.eclipse.jgit.internal.ketch.Proposal.State#ABORTED} state. If
+	 * the proposal is already done {@code callback.run()} is immediately
+	 * invoked on the caller's thread.
 	 *
 	 * @param callback
 	 *            method to run after the proposal is done. The callback may be
@@ -291,12 +313,18 @@ public class Proposal {
 		notifyState(ABORTED);
 	}
 
-	/** @return read the current state of the proposal. */
+	/**
+	 * Read the current state of the proposal.
+	 *
+	 * @return read the current state of the proposal.
+	 */
 	public State getState() {
 		return state.get();
 	}
 
 	/**
+	 * Whether the proposal was attempted
+	 *
 	 * @return {@code true} if the proposal was attempted. A true value does not
 	 *         mean consensus was reached, only that the proposal was considered
 	 *         and will not be making any more progress beyond its current
@@ -309,7 +337,7 @@ public class Proposal {
 	/**
 	 * Wait for the proposal to be attempted and {@link #isDone()} to be true.
 	 *
-	 * @throws InterruptedException
+	 * @throws java.lang.InterruptedException
 	 *             caller was interrupted before proposal executed.
 	 */
 	public void await() throws InterruptedException {
@@ -328,7 +356,7 @@ public class Proposal {
 	 * @param unit
 	 *            unit describing the wait time.
 	 * @return true if the proposal is done; false if the method timed out.
-	 * @throws InterruptedException
+	 * @throws java.lang.InterruptedException
 	 *             caller was interrupted before proposal executed.
 	 */
 	public boolean await(long wait, TimeUnit unit) throws InterruptedException {
@@ -351,7 +379,7 @@ public class Proposal {
 	 * @param unit
 	 *            unit describing the wait time.
 	 * @return true if the proposal exited the state; false on time out.
-	 * @throws InterruptedException
+	 * @throws java.lang.InterruptedException
 	 *             caller was interrupted before proposal executed.
 	 */
 	public boolean awaitStateChange(State notIn, long wait, TimeUnit unit)
@@ -378,6 +406,7 @@ public class Proposal {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		StringBuilder s = new StringBuilder();

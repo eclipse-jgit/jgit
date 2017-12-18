@@ -64,9 +64,10 @@ import org.slf4j.LoggerFactory;
 /**
  * PreReceiveHook for handling push traffic in a Ketch system.
  * <p>
- * Install an instance on {@link ReceivePack} to capture the commands and other
- * connection state and relay them through the {@link KetchLeader}, allowing the
- * leader to gain consensus about the new reference state.
+ * Install an instance on {@link org.eclipse.jgit.transport.ReceivePack} to
+ * capture the commands and other connection state and relay them through the
+ * {@link org.eclipse.jgit.internal.ketch.KetchLeader}, allowing the leader to
+ * gain consensus about the new reference state.
  */
 public class KetchPreReceive implements PreReceiveHook {
 	private static final Logger log = LoggerFactory.getLogger(KetchPreReceive.class);
@@ -74,7 +75,8 @@ public class KetchPreReceive implements PreReceiveHook {
 	private final KetchLeader leader;
 
 	/**
-	 * Construct a hook executing updates through a {@link KetchLeader}.
+	 * Construct a hook executing updates through a
+	 * {@link org.eclipse.jgit.internal.ketch.KetchLeader}.
 	 *
 	 * @param leader
 	 *            leader for this repository.
@@ -83,6 +85,7 @@ public class KetchPreReceive implements PreReceiveHook {
 		this.leader = leader;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void onPreReceive(ReceivePack rp, Collection<ReceiveCommand> cmds) {
 		cmds = ReceiveCommand.filter(cmds, NOT_ATTEMPTED);

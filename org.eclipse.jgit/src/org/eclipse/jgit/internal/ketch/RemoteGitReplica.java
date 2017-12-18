@@ -80,7 +80,8 @@ import org.eclipse.jgit.transport.URIish;
 /**
  * Representation of a Git repository on a remote replica system.
  * <p>
- * {@link KetchLeader} will contact the replica using the Git wire protocol.
+ * {@link org.eclipse.jgit.internal.ketch.KetchLeader} will contact the replica
+ * using the Git wire protocol.
  * <p>
  * The remote replica may be fully Ketch-aware, or a standard Git server.
  */
@@ -110,22 +111,32 @@ public class RemoteGitReplica extends KetchReplica {
 		this.remoteConfig = rc;
 	}
 
-	/** @return URI to contact the remote peer repository. */
+	/**
+	 * Get URI to contact the remote peer repository.
+	 *
+	 * @return URI to contact the remote peer repository.
+	 */
 	public URIish getURI() {
 		return uri;
 	}
 
-	/** @return optional configuration describing how to contact the peer. */
+	/**
+	 * Get optional configuration describing how to contact the peer.
+	 *
+	 * @return optional configuration describing how to contact the peer.
+	 */
 	@Nullable
 	protected RemoteConfig getRemoteConfig() {
 		return remoteConfig;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected String describeForLog() {
 		return String.format("%s @ %s", getName(), getURI()); //$NON-NLS-1$
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void startPush(final ReplicaPushRequest req) {
 		getSystem().getExecutor().execute(new Runnable() {
@@ -240,6 +251,7 @@ public class RemoteGitReplica extends KetchReplica {
 		ReceiveCommand.abort(tmp);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void blockingFetch(Repository repo, ReplicaFetchRequest req)
 			throws NotSupportedException, TransportException {

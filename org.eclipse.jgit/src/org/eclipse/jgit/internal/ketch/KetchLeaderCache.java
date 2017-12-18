@@ -82,7 +82,7 @@ public class KetchLeaderCache {
 	 * @param repo
 	 *            repository to get the leader for.
 	 * @return the leader instance for the repository.
-	 * @throws URISyntaxException
+	 * @throws java.net.URISyntaxException
 	 *             remote configuration contains an invalid URL.
 	 */
 	public KetchLeader get(Repository repo)

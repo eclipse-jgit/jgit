@@ -81,12 +81,17 @@ import org.slf4j.LoggerFactory;
  * Full scale installations are expected to subclass and override methods to
  * provide consistent configuration across all managed repositories.
  * <p>
- * Servers should configure their own {@link ScheduledExecutorService}.
+ * Servers should configure their own
+ * {@link java.util.concurrent.ScheduledExecutorService}.
  */
 public class KetchSystem {
 	private static final Random RNG = new Random();
 
-	/** @return default executor, one thread per available processor. */
+	/**
+	 * Get default executor, one thread per available processor.
+	 *
+	 * @return default executor, one thread per available processor.
+	 */
 	public static ScheduledExecutorService defaultExecutor() {
 		return DefaultExecutorHolder.I;
 	}
@@ -98,7 +103,9 @@ public class KetchSystem {
 	private final String txnCommitted;
 	private final String txnStage;
 
-	/** Create a default system with a thread pool of 1 thread per CPU. */
+	/**
+	 * Create a default system with a thread pool of 1 thread per CPU.
+	 */
 	public KetchSystem() {
 		this(defaultExecutor(), new MonotonicSystemClock(), DEFAULT_TXN_NAMESPACE);
 	}
@@ -125,17 +132,29 @@ public class KetchSystem {
 		this.txnStage = txnNamespace + STAGE;
 	}
 
-	/** @return executor to perform background operations. */
+	/**
+	 * Get executor to perform background operations.
+	 *
+	 * @return executor to perform background operations.
+	 */
 	public ScheduledExecutorService getExecutor() {
 		return executor;
 	}
 
-	/** @return clock to obtain timestamps from. */
+	/**
+	 * Get clock to obtain timestamps from.
+	 *
+	 * @return clock to obtain timestamps from.
+	 */
 	public MonotonicClock getClock() {
 		return clock;
 	}
 
 	/**
+	 * Get how long the leader will wait for the {@link #getClock()}'s
+	 * {@code ProposedTimestamp} used in commits proposed to the RefTree graph
+	 * ({@link #getTxnAccepted()})
+	 *
 	 * @return how long the leader will wait for the {@link #getClock()}'s
 	 *         {@code ProposedTimestamp} used in commits proposed to the RefTree
 	 *         graph ({@link #getTxnAccepted()}). Defaults to 5 seconds.
@@ -145,8 +164,12 @@ public class KetchSystem {
 	}
 
 	/**
-	 * @return true if elections should require monotonically increasing commit
-	 *         timestamps. This requires a very good {@link MonotonicClock}.
+	 * Whether elections should require monotonically increasing commit
+	 * timestamps
+	 *
+	 * @return {@code true} if elections should require monotonically increasing
+	 *         commit timestamps. This requires a very good
+	 *         {@link org.eclipse.jgit.util.time.MonotonicClock}.
 	 */
 	public boolean requireMonotonicLeaderElections() {
 		return false;
@@ -161,22 +184,36 @@ public class KetchSystem {
 		return txnNamespace;
 	}
 
-	/** @return name of the accepted RefTree graph. */
+	/**
+	 * Get name of the accepted RefTree graph.
+	 *
+	 * @return name of the accepted RefTree graph.
+	 */
 	public String getTxnAccepted() {
 		return txnAccepted;
 	}
 
-	/** @return name of the committed RefTree graph. */
+	/**
+	 * Get name of the committed RefTree graph.
+	 *
+	 * @return name of the committed RefTree graph.
+	 */
 	public String getTxnCommitted() {
 		return txnCommitted;
 	}
 
-	/** @return prefix for staged objects, e.g. {@code "refs/txn/stage/"}. */
+	/**
+	 * Get prefix for staged objects, e.g. {@code "refs/txn/stage/"}.
+	 *
+	 * @return prefix for staged objects, e.g. {@code "refs/txn/stage/"}.
+	 */
 	public String getTxnStage() {
 		return txnStage;
 	}
 
 	/**
+	 * Create new committer {@code PersonIdent} for ketch system
+	 *
 	 * @param time
 	 *            timestamp for the committer.
 	 * @return identity line for the committer header of a RefTreeGraph.
@@ -220,7 +257,7 @@ public class KetchSystem {
 	 * @param repo
 	 *            local repository stored by the leader.
 	 * @return leader instance.
-	 * @throws URISyntaxException
+	 * @throws java.net.URISyntaxException
 	 *             a follower configuration contains an unsupported URI.
 	 */
 	public KetchLeader createLeader(final Repository repo)
@@ -246,7 +283,7 @@ public class KetchSystem {
 	 * @param repo
 	 *            repository to get the replicas of.
 	 * @return collection of replicas for the specified repository.
-	 * @throws URISyntaxException
+	 * @throws java.net.URISyntaxException
 	 *             a configured URI is invalid.
 	 */
 	protected List<KetchReplica> createReplicas(KetchLeader leader,

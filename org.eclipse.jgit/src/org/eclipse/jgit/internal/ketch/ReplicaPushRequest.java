@@ -54,8 +54,8 @@ import org.eclipse.jgit.transport.ReceiveCommand;
 /**
  * A push request sending objects to a replica, and its result.
  * <p>
- * Implementors of {@link KetchReplica} must populate the command result fields,
- * {@link #setRefs(Map)}, and call one of
+ * Implementors of {@link org.eclipse.jgit.internal.ketch.KetchReplica} must
+ * populate the command result fields, {@link #setRefs(Map)}, and call one of
  * {@link #setException(Repository, Throwable)} or {@link #done(Repository)} to
  * finish processing.
  */
@@ -80,18 +80,28 @@ public class ReplicaPushRequest {
 		this.commands = commands;
 	}
 
-	/** @return commands to be executed, and their results. */
+	/**
+	 * Get commands to be executed, and their results.
+	 *
+	 * @return commands to be executed, and their results.
+	 */
 	public Collection<ReceiveCommand> getCommands() {
 		return commands;
 	}
 
-	/** @return remote references, usually from the advertisement. */
+	/**
+	 * Get remote references, usually from the advertisement.
+	 *
+	 * @return remote references, usually from the advertisement.
+	 */
 	@Nullable
 	public Map<String, Ref> getRefs() {
 		return refs;
 	}
 
 	/**
+	 * Set references observed from the replica.
+	 *
 	 * @param refs
 	 *            references observed from the replica.
 	 */
@@ -99,7 +109,11 @@ public class ReplicaPushRequest {
 		this.refs = refs;
 	}
 
-	/** @return exception thrown, if any. */
+	/**
+	 * Get exception thrown, if any.
+	 *
+	 * @return exception thrown, if any.
+	 */
 	@Nullable
 	public Throwable getException() {
 		return exception;
