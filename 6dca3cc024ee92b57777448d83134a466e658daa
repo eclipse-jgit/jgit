@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87929364_ffa147a9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1280,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-12-18T21:04:36Z",
+      "side": 0,
+      "message": "This got lost, causing the test failure in T0003. Will add it bag, plus a test in ConfigTest.",
+      "revId": "6dca3cc024ee92b57777448d83134a466e658daa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
