@@ -64,74 +64,88 @@ class SimpleDataOutput implements DataOutput {
 		this.fd = fd;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void writeShort(int v) throws IOException {
 		NB.encodeInt16(buf, 0, v);
 		fd.write(buf, 0, 2);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void writeInt(int v) throws IOException {
 		NB.encodeInt32(buf, 0, v);
 		fd.write(buf, 0, 4);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void writeLong(long v) throws IOException {
 		NB.encodeInt64(buf, 0, v);
 		fd.write(buf, 0, 8);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void write(int b) throws IOException {
 		throw new UnsupportedOperationException();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void write(byte[] b) throws IOException {
 		throw new UnsupportedOperationException();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void write(byte[] b, int off, int len) throws IOException {
 		throw new UnsupportedOperationException();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void writeBoolean(boolean v) throws IOException {
 		throw new UnsupportedOperationException();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void writeByte(int v) throws IOException {
 		throw new UnsupportedOperationException();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void writeChar(int v) throws IOException {
 		throw new UnsupportedOperationException();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void writeFloat(float v) throws IOException {
 		throw new UnsupportedOperationException();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void writeDouble(double v) throws IOException {
 		throw new UnsupportedOperationException();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void writeBytes(String s) throws IOException {
 		throw new UnsupportedOperationException();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void writeChars(String s) throws IOException {
 		throw new UnsupportedOperationException();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void writeUTF(String s) throws IOException {
 		throw new UnsupportedOperationException();

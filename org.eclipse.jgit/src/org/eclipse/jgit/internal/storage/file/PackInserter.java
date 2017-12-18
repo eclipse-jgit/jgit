@@ -119,15 +119,20 @@ class PackInserter extends ObjectInserter {
 	}
 
 	/**
+	 * Whether to check if objects exist in the repo
+	 *
 	 * @param check
-	 *            if false, will write out possibly-duplicate objects without
-	 *            first checking whether they exist in the repo; default is true.
+	 *            if {@code false}, will write out possibly-duplicate objects
+	 *            without first checking whether they exist in the repo; default
+	 *            is true.
 	 */
 	public void checkExisting(boolean check) {
 		checkExisting = check;
 	}
 
 	/**
+	 * Set compression level for zlib deflater.
+	 *
 	 * @param compression
 	 *            compression level for zlib deflater.
 	 */
@@ -139,6 +144,7 @@ class PackInserter extends ObjectInserter {
 		return buffer().length;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public ObjectId insert(int type, byte[] data, int off, int len)
 			throws IOException {
@@ -157,6 +163,7 @@ class PackInserter extends ObjectInserter {
 		return endObject(id, offset);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public ObjectId insert(int type, long len, InputStream in)
 			throws IOException {
@@ -230,16 +237,19 @@ class PackInserter extends ObjectInserter {
 		return 12;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public PackParser newPackParser(InputStream in) {
 		throw new UnsupportedOperationException();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public ObjectReader newReader() {
 		return new Reader();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void flush() throws IOException {
 		if (tmpPack == null) {
@@ -309,6 +319,7 @@ class PackInserter extends ObjectInserter {
 		return ObjectId.fromRaw(md.digest());
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		try {

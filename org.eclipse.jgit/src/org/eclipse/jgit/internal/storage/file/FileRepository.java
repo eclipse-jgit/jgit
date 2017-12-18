@@ -116,7 +116,6 @@ import org.eclipse.jgit.util.SystemReader;
  * This class is thread-safe.
  * <p>
  * This implementation only handles a subtly undocumented subset of git features.
- *
  */
 public class FileRepository extends Repository {
 	private static final String UNNAMED = "Unnamed repository; edit this file to name it for gitweb."; //$NON-NLS-1$
@@ -133,8 +132,9 @@ public class FileRepository extends Repository {
 	 * <p>
 	 * The work tree, object directory, alternate object directories and index
 	 * file locations are deduced from the given git directory and the default
-	 * rules by running {@link FileRepositoryBuilder}. This constructor is the
-	 * same as saying:
+	 * rules by running
+	 * {@link org.eclipse.jgit.storage.file.FileRepositoryBuilder}. This
+	 * constructor is the same as saying:
 	 *
 	 * <pre>
 	 * new FileRepositoryBuilder().setGitDir(gitDir).build()
@@ -142,7 +142,7 @@ public class FileRepository extends Repository {
 	 *
 	 * @param gitDir
 	 *            GIT_DIR (the location of the repository metadata).
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the repository appears to already exist but cannot be
 	 *             accessed.
 	 * @see FileRepositoryBuilder
@@ -156,7 +156,7 @@ public class FileRepository extends Repository {
 	 *
 	 * @param gitDir
 	 *            GIT_DIR (the location of the repository metadata).
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the repository appears to already exist but cannot be
 	 *             accessed.
 	 * @see FileRepositoryBuilder
@@ -170,7 +170,7 @@ public class FileRepository extends Repository {
 	 *
 	 * @param options
 	 *            description of the repository's important paths.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the user configuration file or repository configuration file
 	 *             cannot be accessed.
 	 */
@@ -279,14 +279,10 @@ public class FileRepository extends Repository {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * Create a new Git repository initializing the necessary files and
 	 * directories.
-	 *
-	 * @param bare
-	 *            if true, a bare repository is created.
-	 *
-	 * @throws IOException
-	 *             in case of IO problem
 	 */
 	@Override
 	public void create(boolean bare) throws IOException {
@@ -380,25 +376,27 @@ public class FileRepository extends Repository {
 	}
 
 	/**
+	 * Get the directory containing the objects owned by this repository
+	 *
 	 * @return the directory containing the objects owned by this repository.
 	 */
 	public File getObjectsDirectory() {
 		return objectDatabase.getDirectory();
 	}
 
-	/** @return the object database storing this repository's data. */
+	/** {@inheritDoc} */
 	@Override
 	public ObjectDirectory getObjectDatabase() {
 		return objectDatabase;
 	}
 
-	/** @return the reference database which stores the reference namespace. */
+	/** {@inheritDoc} */
 	@Override
 	public RefDatabase getRefDatabase() {
 		return refs;
 	}
 
-	/** @return the configuration of this repository. */
+	/** {@inheritDoc} */
 	@Override
 	public FileBasedConfig getConfig() {
 		if (systemConfig.isOutdated()) {
@@ -425,6 +423,7 @@ public class FileRepository extends Repository {
 		return repoConfig;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	@Nullable
 	public String getGitwebDescription() throws IOException {
@@ -443,6 +442,7 @@ public class FileRepository extends Repository {
 		return d;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void setGitwebDescription(@Nullable String description)
 			throws IOException {
@@ -479,14 +479,14 @@ public class FileRepository extends Repository {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * Objects known to exist but not expressed by {@link #getAllRefs()}.
 	 * <p>
 	 * When a repository borrows objects from another repository, it can
 	 * advertise that it safely has that other repository's references, without
-	 * exposing any other details about the other repository.  This may help
-	 * a client trying to push changes avoid pushing more than it needs to.
-	 *
-	 * @return unmodifiable collection of other known objects.
+	 * exposing any other details about the other repository. This may help a
+	 * client trying to push changes avoid pushing more than it needs to.
 	 */
 	@Override
 	public Set<ObjectId> getAdditionalHaves() {
@@ -531,7 +531,7 @@ public class FileRepository extends Repository {
 	 *
 	 * @param pack
 	 *            path of the pack file to open.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             index file could not be opened, read, or is not recognized as
 	 *             a Git pack file index.
 	 */
@@ -539,6 +539,7 @@ public class FileRepository extends Repository {
 		objectDatabase.openPack(pack);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void scanForRepoChanges() throws IOException {
 		getRefDatabase().getRefs(ALL); // This will look for changes to refs
@@ -557,18 +558,14 @@ public class FileRepository extends Repository {
 			notifyIndexChanged();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void notifyIndexChanged() {
 		snapshot = FileSnapshot.save(getIndexFile());
 		fireEvent(new IndexChangedEvent());
 	}
 
-	/**
-	 * @param refName
-	 * @return a {@link ReflogReader} for the supplied refname, or null if the
-	 *         named ref does not exist.
-	 * @throws IOException the ref could not be accessed.
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public ReflogReader getReflogReader(String refName) throws IOException {
 		Ref ref = findRef(refName);
@@ -577,6 +574,7 @@ public class FileRepository extends Repository {
 		return null;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public AttributesNodeProvider createAttributesNodeProvider() {
 		return new AttributesNodeProviderImpl(this);
@@ -642,6 +640,7 @@ public class FileRepository extends Repository {
 				ConfigConstants.CONFIG_KEY_AUTODETACH, true);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void autoGC(ProgressMonitor monitor) {
 		GC gc = new GC(this);

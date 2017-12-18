@@ -50,7 +50,10 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 
-/** Keeps track of a {@link PackFile}'s associated <code>.keep</code> file. */
+/**
+ * Keeps track of a {@link org.eclipse.jgit.internal.storage.file.PackFile}'s
+ * associated <code>.keep</code> file.
+ */
 public class PackLock {
 	private final File keepFile;
 
@@ -74,7 +77,7 @@ public class PackLock {
 	 * @param msg
 	 *            message to store in the file.
 	 * @return true if the keep file was successfully written; false otherwise.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the keep file could not be written.
 	 */
 	public boolean lock(String msg) throws IOException {
@@ -92,7 +95,7 @@ public class PackLock {
 	/**
 	 * Remove the <code>.keep</code> file that holds this pack in place.
 	 *
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             if deletion of .keep file failed
 	 */
 	public void unlock() throws IOException {

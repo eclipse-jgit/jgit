@@ -121,7 +121,6 @@ public class FileSnapshot {
 	 *
 	 * @param modified
 	 *            the last modification time of the file
-	 *
 	 * @return the snapshot.
 	 */
 	public static FileSnapshot save(long modified) {
@@ -145,6 +144,8 @@ public class FileSnapshot {
 	}
 
 	/**
+	 * Get time of last snapshot update
+	 *
 	 * @return time of last snapshot update
 	 */
 	public long lastModified() {
@@ -208,6 +209,7 @@ public class FileSnapshot {
 		return lastModified == other.lastModified;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean equals(Object other) {
 		if (other instanceof FileSnapshot)
@@ -215,6 +217,7 @@ public class FileSnapshot {
 		return false;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int hashCode() {
 		// This is pretty pointless, but override hashCode to ensure that
@@ -223,6 +226,7 @@ public class FileSnapshot {
 		return (int) lastModified;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		if (this == DIRTY)

@@ -110,11 +110,13 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 		return baseCache;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public ObjectReader newReader() {
 		return new WindowCursor(db);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public BitmapIndex getBitmapIndex() throws IOException {
 		for (PackFile pack : db.getPacks()) {
@@ -125,6 +127,7 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 		return null;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Collection<CachedPack> getCachedPacksAndUpdate(
 			BitmapBuilder needBitmap) throws IOException {
@@ -137,6 +140,7 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 		return Collections.emptyList();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Collection<ObjectId> resolve(AbbreviatedObjectId id)
 			throws IOException {
@@ -147,11 +151,13 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 		return matches;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean has(AnyObjectId objectId) throws IOException {
 		return db.has(objectId);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public ObjectLoader open(AnyObjectId objectId, int typeHint)
 			throws MissingObjectException, IncorrectObjectTypeException,
@@ -168,11 +174,13 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 		return ldr;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Set<ObjectId> getShallowCommits() throws IOException {
 		return db.getShallowCommits();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public long getObjectSize(AnyObjectId objectId, int typeHint)
 			throws MissingObjectException, IncorrectObjectTypeException,
@@ -187,11 +195,13 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 		return sz;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public LocalObjectToPack newObjectToPack(AnyObjectId objectId, int type) {
 		return new LocalObjectToPack(objectId, type);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void selectObjectRepresentation(PackWriter packer,
 			ProgressMonitor monitor, Iterable<ObjectToPack> objects)
@@ -202,6 +212,7 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void copyObjectAsIs(PackOutputStream out, ObjectToPack otp,
 			boolean validate) throws IOException,
@@ -210,6 +221,7 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 		src.pack.copyAsIs(out, src, validate, this);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void writeObjects(PackOutputStream out, List<ObjectToPack> list)
 			throws IOException {
@@ -253,6 +265,7 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 		return cnt - need;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void copyPackAsIs(PackOutputStream out, CachedPack pack)
 			throws IOException {
@@ -348,13 +361,18 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	@Nullable
 	public ObjectInserter getCreatedFromInserter() {
 		return createdFromInserter;
 	}
 
-	/** Release the current window cursor. */
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * Release the current window cursor.
+	 */
 	@Override
 	public void close() {
 		window = null;

@@ -68,6 +68,7 @@ class PackIndexWriterV1 extends PackIndexWriter {
 		super(dst);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void writeImpl() throws IOException {
 		writeFanOutTable();
