@@ -254,7 +254,8 @@ public class PackStatistics {
 	private Accumulator statistics;
 
 	/**
-	 * Creates a new {@link PackStatistics} object from the accumulator.
+	 * Creates a new {@link org.eclipse.jgit.storage.pack.PackStatistics} object
+	 * from the accumulator.
 	 *
 	 * @param accumulator
 	 *            the accumulator of the statistics
@@ -270,6 +271,8 @@ public class PackStatistics {
 	}
 
 	/**
+	 * Get unmodifiable collection of objects to be included in the pack.
+	 *
 	 * @return unmodifiable collection of objects to be included in the pack.
 	 *         May be {@code null} if the pack was hand-crafted in a unit test.
 	 */
@@ -278,6 +281,9 @@ public class PackStatistics {
 	}
 
 	/**
+	 * Get unmodifiable collection of objects that should be excluded from the
+	 * pack
+	 *
 	 * @return unmodifiable collection of objects that should be excluded from
 	 *         the pack, as the peer that will receive the pack already has
 	 *         these objects.
@@ -287,6 +293,9 @@ public class PackStatistics {
 	}
 
 	/**
+	 * Get unmodifiable collection of objects that were shallow commits on the
+	 * client.
+	 *
 	 * @return unmodifiable collection of objects that were shallow commits on
 	 *         the client.
 	 */
@@ -295,6 +304,8 @@ public class PackStatistics {
 	}
 
 	/**
+	 * Get unmodifiable list of the cached packs that were reused in the output
+	 *
 	 * @return unmodifiable list of the cached packs that were reused in the
 	 *         output, if any were selected for reuse.
 	 */
@@ -302,12 +313,19 @@ public class PackStatistics {
 		return statistics.reusedPacks;
 	}
 
-	/** @return unmodifiable collection of the root commits of the history. */
+	/**
+	 * Get unmodifiable collection of the root commits of the history.
+	 *
+	 * @return unmodifiable collection of the root commits of the history.
+	 */
 	public Set<ObjectId> getRootCommits() {
 		return statistics.rootCommits;
 	}
 
 	/**
+	 * Get number of objects in the output pack that went through the delta
+	 * search process in order to find a potential delta base.
+	 *
 	 * @return number of objects in the output pack that went through the delta
 	 *         search process in order to find a potential delta base.
 	 */
@@ -316,6 +334,9 @@ public class PackStatistics {
 	}
 
 	/**
+	 * Get number of objects in the output pack that went through delta base
+	 * search and found a suitable base.
+	 *
 	 * @return number of objects in the output pack that went through delta base
 	 *         search and found a suitable base. This is a subset of
 	 *         {@link #getDeltaSearchNonEdgeObjects()}.
@@ -325,6 +346,8 @@ public class PackStatistics {
 	}
 
 	/**
+	 * Get total number of objects output.
+	 *
 	 * @return total number of objects output. This total includes the value of
 	 *         {@link #getTotalDeltas()}.
 	 */
@@ -333,6 +356,9 @@ public class PackStatistics {
 	}
 
 	/**
+	 * Get the count of objects that needed to be discovered through an object
+	 * walk because they were not found in bitmap indices.
+	 *
 	 * @return the count of objects that needed to be discovered through an
 	 *         object walk because they were not found in bitmap indices.
 	 *         Returns -1 if no bitmap indices were found.
@@ -342,6 +368,8 @@ public class PackStatistics {
 	}
 
 	/**
+	 * Get total number of deltas output.
+	 *
 	 * @return total number of deltas output. This may be lower than the actual
 	 *         number of deltas if a cached pack was reused.
 	 */
@@ -350,6 +378,9 @@ public class PackStatistics {
 	}
 
 	/**
+	 * Get number of objects whose existing representation was reused in the
+	 * output.
+	 *
 	 * @return number of objects whose existing representation was reused in the
 	 *         output. This count includes {@link #getReusedDeltas()}.
 	 */
@@ -358,6 +389,9 @@ public class PackStatistics {
 	}
 
 	/**
+	 * Get number of deltas whose existing representation was reused in the
+	 * output.
+	 *
 	 * @return number of deltas whose existing representation was reused in the
 	 *         output, as their base object was also output or was assumed
 	 *         present for a thin pack. This may be lower than the actual number
@@ -368,6 +402,8 @@ public class PackStatistics {
 	}
 
 	/**
+	 * Get total number of bytes written.
+	 *
 	 * @return total number of bytes written. This size includes the pack
 	 *         header, trailer, thin pack, and reused cached pack(s).
 	 */
@@ -376,6 +412,8 @@ public class PackStatistics {
 	}
 
 	/**
+	 * Get size of the thin pack in bytes.
+	 *
 	 * @return size of the thin pack in bytes, if a thin pack was generated. A
 	 *         thin pack is created when the client already has objects and some
 	 *         deltas are created against those objects, or if a cached pack is
@@ -387,6 +425,8 @@ public class PackStatistics {
 	}
 
 	/**
+	 * Get information about this type of object in the pack.
+	 *
 	 * @param typeCode
 	 *            object type code, e.g. OBJ_COMMIT or OBJ_TREE.
 	 * @return information about this type of object in the pack.
@@ -395,17 +435,28 @@ public class PackStatistics {
 		return new ObjectType(statistics.objectTypes[typeCode]);
 	}
 
-	/** @return true if the resulting pack file was a shallow pack. */
+	/**
+	 * Whether the resulting pack file was a shallow pack.
+	 *
+	 * @return {@code true} if the resulting pack file was a shallow pack.
+	 */
 	public boolean isShallow() {
 		return statistics.depth > 0;
 	}
 
-	/** @return depth (in commits) the pack includes if shallow. */
+	/**
+	 * Get depth (in commits) the pack includes if shallow.
+	 *
+	 * @return depth (in commits) the pack includes if shallow.
+	 */
 	public int getDepth() {
 		return statistics.depth;
 	}
 
 	/**
+	 * Get time in milliseconds spent enumerating the objects that need to be
+	 * included in the output.
+	 *
 	 * @return time in milliseconds spent enumerating the objects that need to
 	 *         be included in the output. This time includes any restarts that
 	 *         occur when a cached pack is selected for reuse.
@@ -415,6 +466,9 @@ public class PackStatistics {
 	}
 
 	/**
+	 * Get time in milliseconds spent matching existing representations against
+	 * objects that will be transmitted.
+	 *
 	 * @return time in milliseconds spent matching existing representations
 	 *         against objects that will be transmitted, or that the client can
 	 *         be assumed to already have.
@@ -424,6 +478,9 @@ public class PackStatistics {
 	}
 
 	/**
+	 * Get time in milliseconds spent finding the sizes of all objects that will
+	 * enter the delta compression search window.
+	 *
 	 * @return time in milliseconds spent finding the sizes of all objects that
 	 *         will enter the delta compression search window. The sizes need to
 	 *         be known to better match similar objects together and improve
@@ -434,6 +491,8 @@ public class PackStatistics {
 	}
 
 	/**
+	 * Get time in milliseconds spent on delta compression.
+	 *
 	 * @return time in milliseconds spent on delta compression. This is observed
 	 *         wall-clock time and does not accurately track CPU time used when
 	 *         multiple threads were used to perform the delta compression.
@@ -443,6 +502,9 @@ public class PackStatistics {
 	}
 
 	/**
+	 * Get time in milliseconds spent writing the pack output, from start of
+	 * header until end of trailer.
+	 *
 	 * @return time in milliseconds spent writing the pack output, from start of
 	 *         header until end of trailer. The transfer speed can be
 	 *         approximated by dividing {@link #getTotalBytes()} by this value.
@@ -451,7 +513,11 @@ public class PackStatistics {
 		return statistics.timeWriting;
 	}
 
-	/** @return total time spent processing this pack. */
+	/**
+	 * Get total time spent processing this pack.
+	 *
+	 * @return total time spent processing this pack.
+	 */
 	public long getTimeTotal() {
 		return statistics.timeCounting + statistics.timeSearchingForReuse
 				+ statistics.timeSearchingForSizes + statistics.timeCompressing
@@ -459,14 +525,20 @@ public class PackStatistics {
 	}
 
 	/**
-	 * @return get the average output speed in terms of bytes-per-second.
+	 * Get the average output speed in terms of bytes-per-second.
+	 *
+	 * @return the average output speed in terms of bytes-per-second.
 	 *         {@code getTotalBytes() / (getTimeWriting() / 1000.0)}.
 	 */
 	public double getTransferRate() {
 		return getTotalBytes() / (getTimeWriting() / 1000.0);
 	}
 
-	/** @return formatted message string for display to clients. */
+	/**
+	 * Get formatted message string for display to clients.
+	 *
+	 * @return formatted message string for display to clients.
+	 */
 	public String getMessage() {
 		return MessageFormat.format(JGitText.get().packWriterStatistics,
 				Long.valueOf(statistics.totalObjects),
@@ -475,7 +547,11 @@ public class PackStatistics {
 				Long.valueOf(statistics.reusedDeltas));
 	}
 
-	/** @return a map containing ObjectType statistics. */
+	/**
+	 * Get a map containing ObjectType statistics.
+	 *
+	 * @return a map containing ObjectType statistics.
+	 */
 	public Map<Integer, ObjectType> getObjectTypes() {
 		HashMap<Integer, ObjectType> map = new HashMap<>();
 		map.put(Integer.valueOf(OBJ_BLOB), new ObjectType(

@@ -52,7 +52,7 @@ import org.eclipse.jgit.lib.BaseRepositoryBuilder;
 import org.eclipse.jgit.lib.Repository;
 
 /**
- * Constructs a {@link FileRepository}.
+ * Constructs a {@link org.eclipse.jgit.internal.storage.file.FileRepository}.
  * <p>
  * Applications must set one of {@link #setGitDir(File)} or
  * {@link #setWorkTree(File)}, or use {@link #readEnvironment()} or
@@ -73,18 +73,14 @@ import org.eclipse.jgit.lib.Repository;
 public class FileRepositoryBuilder extends
 		BaseRepositoryBuilder<FileRepositoryBuilder, Repository> {
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * Create a repository matching the configuration in this builder.
 	 * <p>
 	 * If an option was not set, the build method will try to default the option
 	 * based on other options. If insufficient information is available, an
 	 * exception is thrown to the caller.
 	 *
-	 * @return a repository matching this configuration.
-	 * @throws IllegalArgumentException
-	 *             insufficient parameters were set.
-	 * @throws IOException
-	 *             the repository could not be accessed to configure the rest of
-	 *             the builder's parameters.
 	 * @since 3.0
 	 */
 	@Override
@@ -96,12 +92,13 @@ public class FileRepositoryBuilder extends
 	}
 
 	/**
-	 * Convenience factory method to construct a {@link FileRepository}.
+	 * Convenience factory method to construct a
+	 * {@link org.eclipse.jgit.internal.storage.file.FileRepository}.
 	 *
 	 * @param gitDir
 	 *            {@code GIT_DIR}, the repository meta directory.
 	 * @return a repository matching this configuration.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the repository could not be accessed to configure the rest of
 	 *             the builder's parameters.
 	 * @since 3.0

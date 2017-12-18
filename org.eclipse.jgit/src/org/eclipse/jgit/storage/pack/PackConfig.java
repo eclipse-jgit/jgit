@@ -262,7 +262,9 @@ public class PackConfig {
 
 	private boolean singlePack;
 
-	/** Create a default configuration. */
+	/**
+	 * Create a default configuration.
+	 */
 	public PackConfig() {
 		// Fields are initialized to defaults.
 	}
@@ -280,7 +282,8 @@ public class PackConfig {
 	}
 
 	/**
-	 * Create a configuration honoring settings in a {@link Config}.
+	 * Create a configuration honoring settings in a
+	 * {@link org.eclipse.jgit.lib.Config}.
 	 *
 	 * @param cfg
 	 *            the source to read settings from. The source is not retained
@@ -531,6 +534,9 @@ public class PackConfig {
 	}
 
 	/**
+	 * Whether existing delta chains should be cut at
+	 * {@link #getMaxDeltaDepth()}.
+	 *
 	 * @return true if existing delta chains should be cut at
 	 *         {@link #getMaxDeltaDepth()}. Default is false, allowing existing
 	 *         chains to be of any length.
@@ -558,9 +564,11 @@ public class PackConfig {
 	}
 
 	/**
+	 * Whether all of refs/* should be packed in a single pack.
+	 *
 	 * @return true if all of refs/* should be packed in a single pack. Default
-	 *        is false, packing a separate GC_REST pack for references outside
-	 *        of refs/heads/* and refs/tags/*.
+	 *         is false, packing a separate GC_REST pack for references outside
+	 *         of refs/heads/* and refs/tags/*.
 	 * @since 4.9
 	 */
 	public boolean getSinglePack() {
@@ -785,7 +793,11 @@ public class PackConfig {
 		this.threads = threads;
 	}
 
-	/** @return the preferred thread pool to execute delta search on. */
+	/**
+	 * Get the preferred thread pool to execute delta search on.
+	 *
+	 * @return the preferred thread pool to execute delta search on.
+	 */
 	public Executor getExecutor() {
 		return executor;
 	}
@@ -1073,6 +1085,7 @@ public class PackConfig {
 						getBitmapInactiveBranchAgeInDays()));
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		final StringBuilder b = new StringBuilder();
