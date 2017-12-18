@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87929364_bf46df25",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-12-18T22:42:03Z",
+      "side": 1,
+      "message": "\"Glob\", please. \"Blob\" had me a little confused :-)",
+      "range": {
+        "startLine": 7,
+        "startChar": 15,
+        "endLine": 7,
+        "endChar": 19
+      },
+      "revId": "f79c32f71f4ab5ed1f9a81b6f6f7ead85f6111a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_df164b54",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/attributes/CGitAttributesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2017-12-18T22:42:03Z",
+      "side": 1,
+      "message": "I presume you want to have all those line in .gitattributes? I think you need to do a single writeTrashFile with the four lines:\n\n  writeTrashFile(\".gitattributes\", \"[[]] bar\\n\" + \"[\\\\[]] bar2\\n\" + ... );",
+      "revId": "f79c32f71f4ab5ed1f9a81b6f6f7ead85f6111a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
