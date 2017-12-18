@@ -57,7 +57,9 @@ import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectIdOwnerMap;
 import org.eclipse.jgit.lib.ObjectIdSet;
 
-/** Lazily loads a set of ObjectIds, one per line. */
+/**
+ * Lazily loads a set of ObjectIds, one per line.
+ */
 public class LazyObjectIdSetFile implements ObjectIdSet {
 	private final File src;
 	private ObjectIdOwnerMap<Entry> set;
@@ -72,6 +74,7 @@ public class LazyObjectIdSetFile implements ObjectIdSet {
 		this.src = src;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean contains(AnyObjectId objectId) {
 		if (set == null) {

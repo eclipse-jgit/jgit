@@ -58,11 +58,11 @@ import com.googlecode.javaewah.EWAHCompressedBitmap;
 
 /**
  * Logical representation of the bitmap data stored in the pack index.
- * {@link ObjectId}s are encoded as a single integer in the range [0,
- * {@link #getObjectCount()}). Compressed bitmaps are available at certain
- * {@code ObjectId}s, which represent all of the objects reachable from that
- * {@code ObjectId} (include the {@code ObjectId} itself). The meaning of the
- * positions in the bitmaps can be decoded using {@link #getObject(int)} and
+ * {@link org.eclipse.jgit.lib.ObjectId}s are encoded as a single integer in the
+ * range [0, {@link #getObjectCount()}). Compressed bitmaps are available at
+ * certain {@code ObjectId}s, which represent all of the objects reachable from
+ * that {@code ObjectId} (include the {@code ObjectId} itself). The meaning of
+ * the positions in the bitmaps can be decoded using {@link #getObject(int)} and
  * {@link #ofObjectType(EWAHCompressedBitmap, int)}. Furthermore,
  * {@link #findPosition(AnyObjectId)} can be used to build other bitmaps that a
  * compatible with the encoded bitmaps available from the index.
@@ -85,7 +85,7 @@ public abstract class PackBitmapIndex {
 	 * @param reverseIndex
 	 *            the pack reverse index for the corresponding pack file.
 	 * @return a copy of the index in-memory.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the stream cannot be read.
 	 * @throws CorruptObjectException
 	 *             the stream does not contain a valid pack bitmap index.
@@ -128,7 +128,7 @@ public abstract class PackBitmapIndex {
 	 * @param reverseIndex
 	 *            the pack reverse index for the corresponding pack file.
 	 * @return a copy of the index in-memory.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the stream cannot be read.
 	 * @throws CorruptObjectException
 	 *             the stream does not contain a valid pack bitmap index.
@@ -157,7 +157,7 @@ public abstract class PackBitmapIndex {
 	 * @param position
 	 *            the id for which the object will be found.
 	 * @return the ObjectId.
-	 * @throws IllegalArgumentException
+	 * @throws java.lang.IllegalArgumentException
 	 *             when the item is not found.
 	 */
 	public abstract ObjectId getObject(int position) throws IllegalArgumentException;

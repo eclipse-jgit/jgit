@@ -51,20 +51,27 @@ import org.eclipse.jgit.lib.CoreConfig;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.FS;
 
-/** Attribute node loaded from global system-wide file. */
+/**
+ * Attribute node loaded from global system-wide file.
+ */
 public class GlobalAttributesNode extends AttributesNode {
 	final Repository repository;
 
 	/**
+	 * Constructor for GlobalAttributesNode.
+	 *
 	 * @param repository
+	 *            the {@link org.eclipse.jgit.lib.Repository}.
 	 */
 	public GlobalAttributesNode(Repository repository) {
 		this.repository = repository;
 	}
 
 	/**
+	 * Load the attributes node
+	 *
 	 * @return the attributes node
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 */
 	public AttributesNode load() throws IOException {
 		AttributesNode r = new AttributesNode();

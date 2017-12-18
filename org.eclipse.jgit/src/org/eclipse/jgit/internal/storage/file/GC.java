@@ -124,8 +124,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * A garbage collector for git {@link FileRepository}. Instances of this class
- * are not thread-safe. Don't use the same instance from multiple threads.
+ * A garbage collector for git
+ * {@link org.eclipse.jgit.internal.storage.file.FileRepository}. Instances of
+ * this class are not thread-safe. Don't use the same instance from multiple
+ * threads.
  *
  * This class started as a copy of DfsGarbageCollector from Shawn O. Pearce
  * adapted to FileRepositories.
@@ -218,7 +220,8 @@ public class GC {
 	}
 
 	/**
-	 * Runs a garbage collector on a {@link FileRepository}. It will
+	 * Runs a garbage collector on a
+	 * {@link org.eclipse.jgit.internal.storage.file.FileRepository}. It will
 	 * <ul>
 	 * <li>pack loose references into packed-refs</li>
 	 * <li>repack all reachable objects into new pack files and delete the old
@@ -235,9 +238,11 @@ public class GC {
 	 * return immediately. In this case, errors will not be reported except in
 	 * gc.log.
 	 *
-	 * @return the collection of {@link PackFile}'s which are newly created
-	 * @throws IOException
-	 * @throws ParseException
+	 * @return the collection of
+	 *         {@link org.eclipse.jgit.internal.storage.file.PackFile}'s which
+	 *         are newly created
+	 * @throws java.io.IOException
+	 * @throws java.text.ParseException
 	 *             If the configuration parameter "gc.pruneexpire" couldn't be
 	 *             parsed
 	 */
@@ -475,7 +480,7 @@ public class GC {
 	 * which can be found in packs. If certain objects can't be pruned (e.g.
 	 * because the filesystem delete operation fails) this is silently ignored.
 	 *
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 */
 	public void prunePacked() throws IOException {
 		ObjectDirectory objdb = repo.getObjectDatabase();
@@ -533,9 +538,8 @@ public class GC {
 	 *
 	 * @param objectsToKeep
 	 *            a set of objects which should explicitly not be pruned
-	 *
-	 * @throws IOException
-	 * @throws ParseException
+	 * @throws java.io.IOException
+	 * @throws java.text.ParseException
 	 *             If the configuration parameter "gc.pruneexpire" couldn't be
 	 *             parsed
 	 */
@@ -782,7 +786,7 @@ public class GC {
 	/**
 	 * Packs all non-symbolic, loose refs into packed-refs.
 	 *
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 */
 	public void packRefs() throws IOException {
 		Collection<Ref> refs = repo.getRefDatabase().getRefs(Constants.R_REFS).values();
@@ -810,10 +814,10 @@ public class GC {
 	 * repacked. All old pack files which existed before are deleted.
 	 *
 	 * @return a collection of the newly created pack files
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             when during reading of refs, index, packfiles, objects,
 	 *             reflog-entries or during writing to the packfiles
-	 *             {@link IOException} occurs
+	 *             {@link java.io.IOException} occurs
 	 */
 	public Collection<PackFile> repack() throws IOException {
 		Collection<PackFile> toBeDeleted = repo.getObjectDatabase().getPacks();
@@ -1312,7 +1316,7 @@ public class GC {
 	 * Returns information about objects and pack files for a FileRepository.
 	 *
 	 * @return information about objects and pack files for a FileRepository
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 */
 	public RepoStatistics getStatistics() throws IOException {
 		RepoStatistics ret = new RepoStatistics();
@@ -1357,7 +1361,7 @@ public class GC {
 	/**
 	 * Set the progress monitor used for garbage collection methods.
 	 *
-	 * @param pm
+	 * @param pm a {@link org.eclipse.jgit.lib.ProgressMonitor} object.
 	 * @return this
 	 */
 	public GC setProgressMonitor(ProgressMonitor pm) {
@@ -1399,7 +1403,8 @@ public class GC {
 	 * "git gc --aggressive"
 	 *
 	 * @param pconfig
-	 *            the {@link PackConfig} used when writing packs
+	 *            the {@link org.eclipse.jgit.storage.pack.PackConfig} used when
+	 *            writing packs
 	 */
 	public void setPackConfig(PackConfig pconfig) {
 		this.pconfig = pconfig;

@@ -92,11 +92,13 @@ class LocalObjectRepresentation extends StoredObjectRepresentation {
 
 	private ObjectId baseId;
 
+	/** {@inheritDoc} */
 	@Override
 	public int getWeight() {
 		return (int) Math.min(length, Integer.MAX_VALUE);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public ObjectId getDeltaBase() {
 		if (baseId == null && getFormat() == PACK_DELTA) {

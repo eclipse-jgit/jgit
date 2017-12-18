@@ -62,12 +62,14 @@ class LocalObjectToPack extends ObjectToPack {
 		super(src, type);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void clearReuseAsIs() {
 		super.clearReuseAsIs();
 		pack = null;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void select(StoredObjectRepresentation ref) {
 		LocalObjectRepresentation ptr = (LocalObjectRepresentation) ref;

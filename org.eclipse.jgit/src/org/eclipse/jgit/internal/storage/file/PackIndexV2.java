@@ -164,11 +164,13 @@ class PackIndexV2 extends PackIndex {
 		IO.readFully(fd, packChecksum, 0, packChecksum.length);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public long getObjectCount() {
 		return objectCnt;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public long getOffset64Count() {
 		return offset64.length / 8;
@@ -196,6 +198,7 @@ class PackIndexV2 extends PackIndex {
 		return (int) (nthPosition - base);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public ObjectId getObjectId(final long nthPosition) {
 		final int levelOne = findLevelOne(nthPosition);
@@ -204,6 +207,7 @@ class PackIndexV2 extends PackIndex {
 		return ObjectId.fromRaw(names[levelOne], p4 + p); // p * 5
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public long getOffset(final long nthPosition) {
 		final int levelOne = findLevelOne(nthPosition);
@@ -211,6 +215,7 @@ class PackIndexV2 extends PackIndex {
 		return getOffset(levelOne, levelTwo);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public long findOffset(final AnyObjectId objId) {
 		final int levelOne = objId.getFirstByte();
@@ -227,6 +232,7 @@ class PackIndexV2 extends PackIndex {
 		return p;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public long findCRC32(AnyObjectId objId) throws MissingObjectException {
 		final int levelOne = objId.getFirstByte();
@@ -236,16 +242,19 @@ class PackIndexV2 extends PackIndex {
 		return NB.decodeUInt32(crc32[levelOne], levelTwo << 2);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean hasCRC32Support() {
 		return true;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Iterator<MutableEntry> iterator() {
 		return new EntriesIteratorV2();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void resolve(Set<ObjectId> matches, AbbreviatedObjectId id,
 			int matchLimit) throws IOException {

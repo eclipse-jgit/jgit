@@ -57,7 +57,8 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.storage.file.WindowCacheConfig;
 
 /**
- * Caches slices of a {@link PackFile} in memory for faster read access.
+ * Caches slices of a {@link org.eclipse.jgit.internal.storage.file.PackFile} in
+ * memory for faster read access.
  * <p>
  * The WindowCache serves as a Java based "buffer cache", loading segments of a
  * PackFile into the JVM heap prior to use. As JGit often wants to do reads of
@@ -111,8 +112,9 @@ import org.eclipse.jgit.storage.file.WindowCacheConfig;
  * {@link #createRef(PackFile, long, ByteWindow)} methods, and matching
  * decrements during {@link #clear(Ref)}. Implementors may need to override
  * {@link #createRef(PackFile, long, ByteWindow)} in order to embed additional
- * accounting information into an implementation specific {@link Ref} subclass,
- * as the cached entity may have already been evicted by the JRE's garbage
+ * accounting information into an implementation specific
+ * {@link org.eclipse.jgit.internal.storage.file.WindowCache.Ref} subclass, as
+ * the cached entity may have already been evicted by the JRE's garbage
  * collector.
  * <p>
  * To maintain higher concurrency workloads, during eviction only one thread
@@ -150,7 +152,7 @@ public class WindowCache {
 	 * @deprecated use {@code cfg.install()} to avoid internal reference.
 	 * @param cfg
 	 *            the new window cache configuration.
-	 * @throws IllegalArgumentException
+	 * @throws java.lang.IllegalArgumentException
 	 *             the cache configuration contains one or more invalid
 	 *             settings, usually too low of a limit.
 	 */

@@ -66,7 +66,8 @@ import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.NB;
 
 /**
- * Access path to locate objects by {@link ObjectId} in a {@link PackFile}.
+ * Access path to locate objects by {@link org.eclipse.jgit.lib.ObjectId} in a
+ * {@link org.eclipse.jgit.internal.storage.file.PackFile}.
  * <p>
  * Indexes are strictly redundant information in that we can rebuild all of the
  * data held in the index file from the on disk representation of the pack file
@@ -89,7 +90,7 @@ public abstract class PackIndex
 	 * @return access implementation for the requested file.
 	 * @throws FileNotFoundException
 	 *             the file does not exist.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the file exists but could not be read due to security errors,
 	 *             unrecognized data version, or unexpected data corruption.
 	 */
@@ -124,9 +125,9 @@ public abstract class PackIndex
 	 *            buffered as some small IOs are performed against the stream.
 	 *            The caller is responsible for closing the stream.
 	 * @return a copy of the index in-memory.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the stream cannot be read.
-	 * @throws CorruptObjectException
+	 * @throws org.eclipse.jgit.errors.CorruptObjectException
 	 *             the stream does not contain a valid pack index.
 	 */
 	public static PackIndex read(InputStream fd) throws IOException,
@@ -167,12 +168,15 @@ public abstract class PackIndex
 		return findOffset(id) != -1;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean contains(AnyObjectId id) {
 		return findOffset(id) != -1;
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * Provide iterator that gives access to index entries. Note, that iterator
 	 * returns reference to mutable object, the same reference in each call -
 	 * for performance reason. If client needs immutable objects, it must copy
@@ -180,8 +184,6 @@ public abstract class PackIndex
 	 * <p>
 	 * Iterator returns objects in SHA-1 lexicographical order.
 	 * </p>
-	 *
-	 * @return iterator over pack index entries
 	 */
 	@Override
 	public abstract Iterator<MutableEntry> iterator();
@@ -218,7 +220,8 @@ public abstract class PackIndex
 	 * @param nthPosition
 	 *            position within the traversal of {@link #iterator()} that the
 	 *            caller needs the object for. The first returned
-	 *            {@link MutableEntry} is 0, the second is 1, etc.
+	 *            {@link org.eclipse.jgit.internal.storage.file.PackIndex.MutableEntry}
+	 *            is 0, the second is 1, etc.
 	 * @return the ObjectId for the corresponding entry.
 	 */
 	public abstract ObjectId getObjectId(long nthPosition);
@@ -239,8 +242,10 @@ public abstract class PackIndex
 	 * @param nthPosition
 	 *            unsigned 32 bit position within the traversal of
 	 *            {@link #iterator()} that the caller needs the object for. The
-	 *            first returned {@link MutableEntry} is 0, the second is 1,
-	 *            etc. Positions past 2**31-1 are negative, but still valid.
+	 *            first returned
+	 *            {@link org.eclipse.jgit.internal.storage.file.PackIndex.MutableEntry}
+	 *            is 0, the second is 1, etc. Positions past 2**31-1 are
+	 *            negative, but still valid.
 	 * @return the ObjectId for the corresponding entry.
 	 */
 	public final ObjectId getObjectId(final int nthPosition) {
@@ -282,9 +287,9 @@ public abstract class PackIndex
 	 * @param objId
 	 *            id of object to look for
 	 * @return CRC32 checksum of specified object (at 32 less significant bits)
-	 * @throws MissingObjectException
+	 * @throws org.eclipse.jgit.errors.MissingObjectException
 	 *             when requested ObjectId was not found in this index
-	 * @throws UnsupportedOperationException
+	 * @throws java.lang.UnsupportedOperationException
 	 *             when this index doesn't support CRC32 checksum
 	 */
 	public abstract long findCRC32(AnyObjectId objId)
@@ -308,7 +313,7 @@ public abstract class PackIndex
 	 * @param matchLimit
 	 *            maximum number of results to return. At most this many
 	 *            ObjectIds should be added to matches before returning.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the index cannot be read.
 	 */
 	public abstract void resolve(Set<ObjectId> matches, AbbreviatedObjectId id,

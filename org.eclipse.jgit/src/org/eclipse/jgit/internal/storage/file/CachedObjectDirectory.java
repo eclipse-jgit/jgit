@@ -117,11 +117,13 @@ class CachedObjectDirectory extends FileObjectDatabase {
 		return m;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		// Don't close anything.
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public ObjectDatabase newCachedDatabase() {
 		return this;
@@ -177,6 +179,7 @@ class CachedObjectDirectory extends FileObjectDatabase {
 		wrapped.resolve(matches, id);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean has(final AnyObjectId objectId) throws IOException {
 		return has(objectId, null);

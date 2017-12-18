@@ -95,6 +95,7 @@ class RefDirectoryRename extends RefRename {
 		refdb = src.getRefDatabase();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected Result doRename() throws IOException {
 		if (source.getRef().isSymbolic())

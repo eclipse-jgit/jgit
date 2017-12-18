@@ -93,6 +93,7 @@ public class ReflogEntryImpl implements Serializable, ReflogEntry {
 	/* (non-Javadoc)
 	 * @see org.eclipse.jgit.internal.storage.file.ReflogEntry#getOldId()
 	 */
+	/** {@inheritDoc} */
 	@Override
 	public ObjectId getOldId() {
 		return oldId;
@@ -101,6 +102,7 @@ public class ReflogEntryImpl implements Serializable, ReflogEntry {
 	/* (non-Javadoc)
 	 * @see org.eclipse.jgit.internal.storage.file.ReflogEntry#getNewId()
 	 */
+	/** {@inheritDoc} */
 	@Override
 	public ObjectId getNewId() {
 		return newId;
@@ -109,6 +111,7 @@ public class ReflogEntryImpl implements Serializable, ReflogEntry {
 	/* (non-Javadoc)
 	 * @see org.eclipse.jgit.internal.storage.file.ReflogEntry#getWho()
 	 */
+	/** {@inheritDoc} */
 	@Override
 	public PersonIdent getWho() {
 		return who;
@@ -117,11 +120,13 @@ public class ReflogEntryImpl implements Serializable, ReflogEntry {
 	/* (non-Javadoc)
 	 * @see org.eclipse.jgit.internal.storage.file.ReflogEntry#getComment()
 	 */
+	/** {@inheritDoc} */
 	@Override
 	public String getComment() {
 		return comment;
 	}
 
+	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
@@ -132,6 +137,7 @@ public class ReflogEntryImpl implements Serializable, ReflogEntry {
 	/* (non-Javadoc)
 	 * @see org.eclipse.jgit.internal.storage.file.ReflogEntry#parseCheckout()
 	 */
+	/** {@inheritDoc} */
 	@Override
 	public CheckoutEntry parseCheckout() {
 		if (getComment().startsWith(CheckoutEntryImpl.CHECKOUT_MOVING_FROM))

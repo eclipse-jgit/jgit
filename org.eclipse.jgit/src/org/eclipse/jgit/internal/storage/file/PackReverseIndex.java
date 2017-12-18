@@ -174,7 +174,7 @@ public class PackReverseIndex {
 	 *            offset).
 	 * @return offset of the next object in a pack or maxOffset if provided
 	 *         offset was the last one.
-	 * @throws CorruptObjectException
+	 * @throws org.eclipse.jgit.errors.CorruptObjectException
 	 *             when there is no object with the provided offset.
 	 */
 	public long findNextOffset(final long offset, final long maxOffset)
