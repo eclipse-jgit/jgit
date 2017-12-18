@@ -50,7 +50,10 @@ import java.util.List;
 
 import org.eclipse.jgit.internal.storage.reftable.Reftable;
 
-/** Tracks multiple open {@link Reftable} instances. */
+/**
+ * Tracks multiple open
+ * {@link org.eclipse.jgit.internal.storage.reftable.Reftable} instances.
+ */
 public class ReftableStack implements AutoCloseable {
 	/**
 	 * Opens a stack of tables for reading.
@@ -61,7 +64,7 @@ public class ReftableStack implements AutoCloseable {
 	 * @param files
 	 *            the tables to open.
 	 * @return stack reference to close the tables.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             a table could not be opened
 	 */
 	public static ReftableStack open(DfsReader ctx, List<DfsReftable> files)
@@ -91,6 +94,8 @@ public class ReftableStack implements AutoCloseable {
 	}
 
 	/**
+	 * Get unmodifiable list of DfsRefatble files
+	 *
 	 * @return unmodifiable list of DfsRefatble files, in the same order the
 	 *         files were passed to {@link #open(DfsReader, List)}.
 	 */
@@ -99,6 +104,8 @@ public class ReftableStack implements AutoCloseable {
 	}
 
 	/**
+	 * Get unmodifiable list of tables
+	 *
 	 * @return unmodifiable list of tables, in the same order the files were
 	 *         passed to {@link #open(DfsReader, List)}.
 	 */
@@ -106,6 +113,7 @@ public class ReftableStack implements AutoCloseable {
 		return Collections.unmodifiableList(tables);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		for (Reftable t : tables) {

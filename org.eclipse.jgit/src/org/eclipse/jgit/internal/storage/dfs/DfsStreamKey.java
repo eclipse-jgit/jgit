@@ -50,9 +50,13 @@ import java.util.Arrays;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 
-/** Key used by {@link DfsBlockCache} to disambiguate streams. */
+/**
+ * Key used by {@link org.eclipse.jgit.internal.storage.dfs.DfsBlockCache} to disambiguate streams.
+ */
 public abstract class DfsStreamKey {
 	/**
+	 * Create a {@code DfsStreamKey}
+	 *
 	 * @param repo
 	 *            description of the containing repository.
 	 * @param name
@@ -71,6 +75,8 @@ public abstract class DfsStreamKey {
 	final int packExtPos;
 
 	/**
+	 * Constructor for DfsStreamKey.
+	 *
 	 * @param hash
 	 *            hash of the other identifying components of the key.
 	 * @param ext
@@ -83,14 +89,17 @@ public abstract class DfsStreamKey {
 		this.packExtPos = ext == null ? 0 : ext.getPosition();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int hashCode() {
 		return hash;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public abstract boolean equals(Object o);
 
+	/** {@inheritDoc} */
 	@SuppressWarnings("boxing")
 	@Override
 	public String toString() {

@@ -66,16 +66,19 @@ final class DfsRefUpdate extends RefUpdate {
 		this.refdb = refdb;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected DfsRefDatabase getRefDatabase() {
 		return refdb;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected DfsRepository getRepository() {
 		return refdb.getRepository();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected boolean tryLock(boolean deref) throws IOException {
 		dstRef = getRef();
@@ -90,11 +93,13 @@ final class DfsRefUpdate extends RefUpdate {
 		return true;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void unlock() {
 		// No state is held while "locked".
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Result update(RevWalk walk) throws IOException {
 		try {
@@ -105,6 +110,7 @@ final class DfsRefUpdate extends RefUpdate {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected Result doUpdate(Result desiredResult) throws IOException {
 		ObjectIdRef newRef;
@@ -129,6 +135,7 @@ final class DfsRefUpdate extends RefUpdate {
 		return Result.LOCK_FAILURE;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected Result doDelete(Result desiredResult) throws IOException {
 		if (getRefDatabase().compareAndRemove(dstRef)) {
@@ -138,6 +145,7 @@ final class DfsRefUpdate extends RefUpdate {
 		return Result.LOCK_FAILURE;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected Result doLink(String target) throws IOException {
 		final SymbolicRef newRef = new SymbolicRef(

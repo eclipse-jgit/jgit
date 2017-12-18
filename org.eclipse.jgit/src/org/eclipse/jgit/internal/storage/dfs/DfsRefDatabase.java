@@ -64,7 +64,10 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.RefList;
 import org.eclipse.jgit.util.RefMap;
 
-/** */
+/**
+ * Abstract DfsRefDatabase class.
+ *
+ */
 public abstract class DfsRefDatabase extends RefDatabase {
 	private final DfsRepository repository;
 
@@ -81,7 +84,11 @@ public abstract class DfsRefDatabase extends RefDatabase {
 		this.cache = new AtomicReference<>();
 	}
 
-	/** @return the repository the database holds the references of. */
+	/**
+	 * Get the repository the database holds the references of.
+	 *
+	 * @return the repository the database holds the references of.
+	 */
 	protected DfsRepository getRepository() {
 		return repository;
 	}
@@ -90,6 +97,7 @@ public abstract class DfsRefDatabase extends RefDatabase {
 		return 0 < read().size();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Ref exactRef(String name) throws IOException {
 		RefCache curr = read();
@@ -97,6 +105,7 @@ public abstract class DfsRefDatabase extends RefDatabase {
 		return ref != null ? resolve(ref, 0, curr.ids) : null;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Ref getRef(String needle) throws IOException {
 		RefCache curr = read();
@@ -110,11 +119,13 @@ public abstract class DfsRefDatabase extends RefDatabase {
 		return null;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public List<Ref> getAdditionalRefs() {
 		return Collections.emptyList();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Map<String, Ref> getRefs(String prefix) throws IOException {
 		RefCache curr = read();
@@ -161,6 +172,7 @@ public abstract class DfsRefDatabase extends RefDatabase {
 		return new SymbolicRef(ref.getName(), dst);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Ref peel(Ref ref) throws IOException {
 		final Ref oldLeaf = ref.getLeaf();
@@ -207,6 +219,7 @@ public abstract class DfsRefDatabase extends RefDatabase {
 		return leaf;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public RefUpdate newUpdate(String refName, boolean detach)
 			throws IOException {
@@ -223,6 +236,7 @@ public abstract class DfsRefDatabase extends RefDatabase {
 		return update;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public RefRename newRename(String fromName, String toName)
 			throws IOException {
@@ -231,6 +245,7 @@ public abstract class DfsRefDatabase extends RefDatabase {
 		return new DfsRefRename(src, dst);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean isNameConflicting(String refName) throws IOException {
 		RefList<Ref> all = read().ids;
@@ -252,16 +267,19 @@ public abstract class DfsRefDatabase extends RefDatabase {
 		return false;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void create() {
 		// Nothing to do.
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void refresh() {
 		clearCache();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		clearCache();
@@ -304,7 +322,7 @@ public abstract class DfsRefDatabase extends RefDatabase {
 	 * Read all known references in the repository.
 	 *
 	 * @return all current references of the repository.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             references cannot be accessed.
 	 */
 	protected abstract RefCache scanAllRefs() throws IOException;
@@ -329,7 +347,7 @@ public abstract class DfsRefDatabase extends RefDatabase {
 	 * @param newRef
 	 *            new reference to store.
 	 * @return true if the put was successful; false otherwise.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the reference cannot be put due to a system error.
 	 */
 	protected abstract boolean compareAndPut(Ref oldRef, Ref newRef)
@@ -341,7 +359,7 @@ public abstract class DfsRefDatabase extends RefDatabase {
 	 * @param oldRef
 	 *            the old reference information that was previously read.
 	 * @return true if the remove was successful; false otherwise.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the reference could not be removed due to a system error.
 	 */
 	protected abstract boolean compareAndRemove(Ref oldRef) throws IOException;

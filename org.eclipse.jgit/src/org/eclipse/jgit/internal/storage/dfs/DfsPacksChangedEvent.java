@@ -45,14 +45,19 @@ package org.eclipse.jgit.internal.storage.dfs;
 
 import org.eclipse.jgit.events.RepositoryEvent;
 
-/** Describes a change to the list of packs in a {@link DfsRepository}. */
+/**
+ * Describes a change to the list of packs in a
+ * {@link org.eclipse.jgit.internal.storage.dfs.DfsRepository}.
+ */
 public class DfsPacksChangedEvent
 		extends RepositoryEvent<DfsPacksChangedListener> {
+	/** {@inheritDoc} */
 	@Override
 	public Class<DfsPacksChangedListener> getListenerType() {
 		return DfsPacksChangedListener.class;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void dispatch(DfsPacksChangedListener listener) {
 		listener.onPacksChanged(this);

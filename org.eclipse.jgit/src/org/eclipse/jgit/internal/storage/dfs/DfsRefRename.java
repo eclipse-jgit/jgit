@@ -55,6 +55,7 @@ final class DfsRefRename extends RefRename {
 		super(src, dst);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected Result doRename() throws IOException {
 		// TODO Correctly handle renaming foo/bar to foo.

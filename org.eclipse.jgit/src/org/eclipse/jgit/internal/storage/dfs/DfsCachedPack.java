@@ -50,7 +50,9 @@ import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
 import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
 import org.eclipse.jgit.internal.storage.pack.StoredObjectRepresentation;
 
-/** A DfsPackFile available for reuse as-is. */
+/**
+ * A DfsPackFile available for reuse as-is.
+ */
 public class DfsCachedPack extends CachedPack {
 	private final DfsPackFile pack;
 
@@ -58,21 +60,28 @@ public class DfsCachedPack extends CachedPack {
 		this.pack = pack;
 	}
 
-	/** @return the description of the pack. */
+	/**
+	 * Get the description of the pack.
+	 *
+	 * @return the description of the pack.
+	 */
 	public DfsPackDescription getPackDescription() {
 		return pack.getPackDescription();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public long getObjectCount() throws IOException {
 		return getPackDescription().getObjectCount();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public long getDeltaCount() throws IOException {
 		return getPackDescription().getDeltaCount();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean hasObject(ObjectToPack obj, StoredObjectRepresentation rep) {
 		return ((DfsObjectRepresentation) rep).pack == pack;
