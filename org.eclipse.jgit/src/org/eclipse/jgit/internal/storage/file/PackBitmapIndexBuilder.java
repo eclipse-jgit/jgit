@@ -64,7 +64,8 @@ import org.eclipse.jgit.util.BlockList;
 import com.googlecode.javaewah.EWAHCompressedBitmap;
 
 /**
- * Helper for constructing {@link PackBitmapIndex}es.
+ * Helper for constructing
+ * {@link org.eclipse.jgit.internal.storage.file.PackBitmapIndex}es.
  */
 public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 	private static final int MAX_XOR_OFFSET_SEARCH = 10;
@@ -145,7 +146,11 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		}
 	}
 
-	/** @return set of objects included in the pack. */
+	/**
+	 * Get set of objects included in the pack.
+	 *
+	 * @return set of objects included in the pack.
+	 */
 	public ObjectIdOwnerMap<ObjectIdOwnerMap.Entry> getObjectSet() {
 		ObjectIdOwnerMap<ObjectIdOwnerMap.Entry> r = new ObjectIdOwnerMap<>();
 		for (PositionEntry e : byOffset) {
@@ -197,6 +202,7 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		byAddOrder.add(result);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public EWAHCompressedBitmap ofObjectType(
 			EWAHCompressedBitmap bitmap, int type) {
@@ -213,6 +219,7 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		throw new IllegalArgumentException();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int findPosition(AnyObjectId objectId) {
 		PositionEntry entry = positionEntries.get(objectId);
@@ -221,6 +228,7 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		return entry.offsetPosition;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public ObjectId getObject(int position) throws IllegalArgumentException {
 		ObjectId objectId = byOffset.get(position);
@@ -229,48 +237,76 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		return objectId;
 	}
 
-	/** @return the commit object bitmap. */
+	/**
+	 * Get the commit object bitmap.
+	 *
+	 * @return the commit object bitmap.
+	 */
 	public EWAHCompressedBitmap getCommits() {
 		return commits;
 	}
 
-	/** @return the tree object bitmap. */
+	/**
+	 * Get the tree object bitmap.
+	 *
+	 * @return the tree object bitmap.
+	 */
 	public EWAHCompressedBitmap getTrees() {
 		return trees;
 	}
 
-	/** @return the blob object bitmap. */
+	/**
+	 * Get the blob object bitmap.
+	 *
+	 * @return the blob object bitmap.
+	 */
 	public EWAHCompressedBitmap getBlobs() {
 		return blobs;
 	}
 
-	/** @return the tag object bitmap. */
+	/**
+	 * Get the tag object bitmap.
+	 *
+	 * @return the tag object bitmap.
+	 */
 	public EWAHCompressedBitmap getTags() {
 		return tags;
 	}
 
-	/** @return the index storage options. */
+	/**
+	 * Get the index storage options.
+	 *
+	 * @return the index storage options.
+	 */
 	public int getOptions() {
 		return PackBitmapIndexV1.OPT_FULL;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int getBitmapCount() {
 		return getBitmaps().size();
 	}
 
-	/** Removes all the bitmaps entries added. */
+	/**
+	 * Remove all the bitmaps entries added.
+	 */
 	public void clearBitmaps() {
 		byAddOrder.clear();
 		getBitmaps().clear();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int getObjectCount() {
 		return byOffset.size();
 	}
 
-	/** @return an iterator over the xor compressed entries. */
+	/**
+	 * Get an iterator over the xor compressed entries.
+	 *
+	 * @return an iterator over the xor compressed entries.
+	 */
 	public Iterable<StoredEntry> getCompressedBitmaps() {
 		// Add order is from oldest to newest. The reverse add order is the
 		// output order.

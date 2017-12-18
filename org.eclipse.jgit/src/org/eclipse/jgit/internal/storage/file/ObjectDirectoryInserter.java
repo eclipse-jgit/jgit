@@ -83,6 +83,7 @@ class ObjectDirectoryInserter extends ObjectInserter {
 		config = cfg.get(WriteConfig.KEY);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public ObjectId insert(int type, byte[] data, int off, int len)
 			throws IOException {
@@ -114,6 +115,7 @@ class ObjectDirectoryInserter extends ObjectInserter {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public ObjectId insert(final int type, long len, final InputStream is)
 			throws IOException {
@@ -166,21 +168,25 @@ class ObjectDirectoryInserter extends ObjectInserter {
 				.format(JGitText.get().unableToCreateNewObject, dst));
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public PackParser newPackParser(InputStream in) throws IOException {
 		return new ObjectDirectoryPackParser(db, in);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public ObjectReader newReader() {
 		return new WindowCursor(db, this);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void flush() throws IOException {
 		// Do nothing. Loose objects are immediately visible.
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		if (deflate != null) {

@@ -77,21 +77,25 @@ class LargePackedWholeObject extends ObjectLoader {
 		this.db = db;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int getType() {
 		return type;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public long getSize() {
 		return size;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean isLarge() {
 		return true;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public byte[] getCachedBytes() throws LargeObjectException {
 		try {
@@ -103,6 +107,7 @@ class LargePackedWholeObject extends ObjectLoader {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public ObjectStream openStream() throws MissingObjectException, IOException {
 		WindowCursor wc = new WindowCursor(db);

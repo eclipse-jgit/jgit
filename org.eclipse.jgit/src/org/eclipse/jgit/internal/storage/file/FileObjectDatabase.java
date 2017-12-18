@@ -64,11 +64,13 @@ abstract class FileObjectDatabase extends ObjectDatabase {
 		INSERTED, EXISTS_PACKED, EXISTS_LOOSE, FAILURE;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public ObjectReader newReader() {
 		return new WindowCursor(this);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public ObjectDirectoryInserter newInserter() {
 		return new ObjectDirectoryInserter(this, getConfig());

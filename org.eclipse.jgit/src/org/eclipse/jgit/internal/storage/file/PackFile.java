@@ -201,20 +201,30 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		return loadedIdx;
 	}
 
-	/** @return the File object which locates this pack on disk. */
+	/**
+	 * Get the File object which locates this pack on disk.
+	 *
+	 * @return the File object which locates this pack on disk.
+	 */
 	public File getPackFile() {
 		return packFile;
 	}
 
 	/**
+	 * Get the index for this pack file.
+	 *
 	 * @return the index for this pack file.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 */
 	public PackIndex getIndex() throws IOException {
 		return idx();
 	}
 
-	/** @return name extracted from {@code pack-*.pack} pattern. */
+	/**
+	 * Get name extracted from {@code pack-*.pack} pattern.
+	 *
+	 * @return name extracted from {@code pack-*.pack} pattern.
+	 */
 	public String getPackName() {
 		String name = packName;
 		if (name == null) {
@@ -238,7 +248,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	 * @param id
 	 *            the object to look for. Must not be null.
 	 * @return true if the object is in this pack; false otherwise.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the index file cannot be loaded into memory.
 	 */
 	public boolean hasObject(final AnyObjectId id) throws IOException {
@@ -292,14 +302,14 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * Provide iterator over entries in associated pack index, that should also
 	 * exist in this pack file. Objects returned by such iterator are mutable
 	 * during iteration.
 	 * <p>
 	 * Iterator returns objects in SHA-1 lexicographical order.
 	 * </p>
-	 *
-	 * @return iterator over entries of associated pack index
 	 *
 	 * @see PackIndex#iterator()
 	 */

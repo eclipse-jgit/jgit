@@ -71,6 +71,7 @@ class LocalCachedPack extends CachedPack {
 		this.packs = packs.toArray(new PackFile[packs.size()]);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public long getObjectCount() throws IOException {
 		long cnt = 0;
@@ -85,6 +86,7 @@ class LocalCachedPack extends CachedPack {
 			pack.copyPackAsIs(out, wc);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean hasObject(ObjectToPack obj, StoredObjectRepresentation rep) {
 		try {

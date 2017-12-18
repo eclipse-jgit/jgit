@@ -111,14 +111,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Traditional file system based {@link RefDatabase}.
+ * Traditional file system based {@link org.eclipse.jgit.lib.RefDatabase}.
  * <p>
  * This is the classical reference database representation for a Git repository.
  * References are stored in two formats: loose, and packed.
  * <p>
  * Loose references are stored as individual files within the {@code refs/}
  * directory. The file name matches the reference name and the file contents is
- * the current {@link ObjectId} in string form.
+ * the current {@link org.eclipse.jgit.lib.ObjectId} in string form.
  * <p>
  * Packed references are stored in a single text file named {@code packed-refs}.
  * In the packed format, each reference is stored on its own line. This file
@@ -243,6 +243,7 @@ public class RefDirectory extends RefDatabase {
 		return new File(logsDir, name);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void create() throws IOException {
 		FileUtils.mkdir(refsDir);
@@ -251,6 +252,7 @@ public class RefDirectory extends RefDatabase {
 		newLogWriter(false).create();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		clearReferences();
@@ -261,12 +263,14 @@ public class RefDirectory extends RefDatabase {
 		packedRefs.set(NO_PACKED_REFS);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void refresh() {
 		super.refresh();
 		clearReferences();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean isNameConflicting(String name) throws IOException {
 		RefList<Ref> packed = getPackedRefs();
@@ -312,6 +316,7 @@ public class RefDirectory extends RefDatabase {
 		return loose;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Ref exactRef(String name) throws IOException {
 		RefList<Ref> packed = getPackedRefs();
@@ -336,6 +341,7 @@ public class RefDirectory extends RefDatabase {
 		return ref;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Ref getRef(final String needle) throws IOException {
 		final RefList<Ref> packed = getPackedRefs();
@@ -360,6 +366,7 @@ public class RefDirectory extends RefDatabase {
 		return ref;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Map<String, Ref> getRefs(String prefix) throws IOException {
 		final RefList<LooseRef> oldLoose = looseRefs.get();
@@ -399,6 +406,7 @@ public class RefDirectory extends RefDatabase {
 		return new RefMap(prefix, packed, upcast(loose), symbolic.toRefList());
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public List<Ref> getAdditionalRefs() throws IOException {
 		List<Ref> ret = new LinkedList<>();
@@ -533,6 +541,7 @@ public class RefDirectory extends RefDatabase {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Ref peel(final Ref ref) throws IOException {
 		final Ref leaf = ref.getLeaf();
@@ -584,6 +593,7 @@ public class RefDirectory extends RefDatabase {
 		fireRefsChanged();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public RefDirectoryUpdate newUpdate(String name, boolean detach)
 			throws IOException {
@@ -603,6 +613,7 @@ public class RefDirectory extends RefDatabase {
 		return refDirUpdate;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public RefDirectoryRename newRename(String fromName, String toName)
 			throws IOException {
@@ -611,11 +622,13 @@ public class RefDirectory extends RefDatabase {
 		return new RefDirectoryRename(from, to);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public PackedBatchRefUpdate newBatchUpdate() {
 		return new PackedBatchRefUpdate(this);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean performsAtomicTransactions() {
 		return true;
@@ -695,7 +708,7 @@ public class RefDirectory extends RefDatabase {
 	 *
 	 * @param refs
 	 *            the refs to be added. Must be fully qualified.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 */
 	public void pack(List<String> refs) throws IOException {
 		pack(refs, Collections.emptyMap());

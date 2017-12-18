@@ -116,27 +116,32 @@ public class PackBitmapIndexRemapper extends PackBitmapIndex
 					oldPackIndex.getObject(pos));
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int findPosition(AnyObjectId objectId) {
 		return newPackIndex.findPosition(objectId);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public ObjectId getObject(int position) throws IllegalArgumentException {
 		return newPackIndex.getObject(position);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int getObjectCount() {
 		return newPackIndex.getObjectCount();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public EWAHCompressedBitmap ofObjectType(
 			EWAHCompressedBitmap bitmap, int type) {
 		return newPackIndex.ofObjectType(bitmap, type);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Iterator<Entry> iterator() {
 		if (oldPackIndex == null)
@@ -173,6 +178,7 @@ public class PackBitmapIndexRemapper extends PackBitmapIndex
 		};
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public EWAHCompressedBitmap getBitmap(AnyObjectId objectId) {
 		EWAHCompressedBitmap bitmap = newPackIndex.getBitmap(objectId);
@@ -214,6 +220,7 @@ public class PackBitmapIndexRemapper extends PackBitmapIndex
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int getBitmapCount() {
 		// The count is only useful for the end index, not the remapper.

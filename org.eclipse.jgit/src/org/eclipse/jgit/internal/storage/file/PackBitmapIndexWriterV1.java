@@ -89,7 +89,7 @@ public class PackBitmapIndexWriterV1 {
 	 * @param packDataChecksum
 	 *            checksum signature of the entire pack data content. This is
 	 *            traditionally the last 20 bytes of the pack file's own stream.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             an error occurred while writing to the output stream, or this
 	 *             index format cannot store the object data supplied.
 	 */

@@ -91,12 +91,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Traditional file system based {@link ObjectDatabase}.
+ * Traditional file system based {@link org.eclipse.jgit.lib.ObjectDatabase}.
  * <p>
  * This is the classical object database representation for a Git repository,
  * where objects are stored loose by hashing them into directories by their
- * {@link ObjectId}, or are stored in compressed containers known as
- * {@link PackFile}s.
+ * {@link org.eclipse.jgit.lib.ObjectId}, or are stored in compressed containers
+ * known as {@link org.eclipse.jgit.internal.storage.file.PackFile}s.
  * <p>
  * Optionally an object database can reference one or more alternates; other
  * ObjectDatabase instances that are searched in addition to the current
@@ -161,7 +161,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 	 * @param shallowFile
 	 *            file which contains IDs of shallow commits, null if shallow
 	 *            commits handling should be turned off
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             an alternate object cannot be opened.
 	 */
 	public ObjectDirectory(final Config cfg, final File dir,
@@ -188,15 +188,15 @@ public class ObjectDirectory extends FileObjectDatabase {
 		}
 	}
 
-	/**
-	 * @return the location of the <code>objects</code> directory.
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final File getDirectory() {
 		return objects;
 	}
 
 	/**
+	 * <p>Getter for the field <code>packDirectory</code>.</p>
+	 *
 	 * @return the location of the <code>pack</code> directory.
 	 * @since 4.10
 	 */
@@ -205,17 +205,21 @@ public class ObjectDirectory extends FileObjectDatabase {
 	}
 
 	/**
+	 * <p>Getter for the field <code>preservedDirectory</code>.</p>
+	 *
 	 * @return the location of the <code>preserved</code> directory.
 	 */
 	public final File getPreservedDirectory() {
 		return preservedDirectory;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean exists() {
 		return fs.exists(objects);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void create() throws IOException {
 		FileUtils.mkdirs(objects);
@@ -223,6 +227,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		FileUtils.mkdir(packDirectory);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public ObjectDirectoryInserter newInserter() {
 		return new ObjectDirectoryInserter(this, config);
@@ -238,6 +243,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		return new PackInserter(this);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		unpackedObjectCache.clear();
@@ -256,13 +262,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		}
 	}
 
-	/**
-	 * @return unmodifiable collection of all known pack files local to this
-	 *         directory. Most recent packs are presented first. Packs most
-	 *         likely to contain more recent objects appear before packs
-	 *         containing objects referenced by commits further back in the
-	 *         history of the repository.
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public Collection<PackFile> getPacks() {
 		PackList list = packList.get();
@@ -273,14 +273,9 @@ public class ObjectDirectory extends FileObjectDatabase {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * Add a single existing pack to the list of available pack files.
-	 *
-	 * @param pack
-	 *            path of the pack file to open.
-	 * @return the pack that was opened and added to the database.
-	 * @throws IOException
-	 *             index file could not be opened, read, or is not recognized as
-	 *             a Git pack file index.
 	 */
 	@Override
 	public PackFile openPack(final File pack)
@@ -307,11 +302,13 @@ public class ObjectDirectory extends FileObjectDatabase {
 		return res;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		return "ObjectDirectory[" + getDirectory() + "]"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean has(AnyObjectId objectId) {
 		return unpackedObjectCache.isUnpacked(objectId)
@@ -1066,11 +1063,9 @@ public class ObjectDirectory extends FileObjectDatabase {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * Compute the location of a loose object file.
-	 *
-	 * @param objectId
-	 *            identity of the loose object to map to the directory.
-	 * @return location of the object, if it were to exist as a loose object.
 	 */
 	@Override
 	public File fileFor(AnyObjectId objectId) {
@@ -1155,6 +1150,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public ObjectDatabase newCachedDatabase() {
 		return newCachedFileObjectDatabase();
