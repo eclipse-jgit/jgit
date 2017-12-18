@@ -51,14 +51,14 @@ import org.eclipse.jgit.merge.MergeChunk.ConflictState;
 import org.eclipse.jgit.util.IntList;
 
 /**
- * The result of merging a number of {@link Sequence} objects. These sequences
- * have one common predecessor sequence. The result of a merge is a list of
- * MergeChunks. Each MergeChunk contains either a range (a subsequence) from
- * one of the merged sequences, a range from the common predecessor or a
- * conflicting range from one of the merged sequences. A conflict will be
- * reported as multiple chunks, one for each conflicting range. The first chunk
- * for a conflict is marked specially to distinguish the border between two
- * consecutive conflicts.
+ * The result of merging a number of {@link org.eclipse.jgit.diff.Sequence}
+ * objects. These sequences have one common predecessor sequence. The result of
+ * a merge is a list of MergeChunks. Each MergeChunk contains either a range (a
+ * subsequence) from one of the merged sequences, a range from the common
+ * predecessor or a conflicting range from one of the merged sequences. A
+ * conflict will be reported as multiple chunks, one for each conflicting range.
+ * The first chunk for a conflict is marked specially to distinguish the border
+ * between two consecutive conflicts.
  * <p>
  * This class does not know anything about how to present the merge result to
  * the end-user. MergeFormatters have to be used to construct something human
@@ -80,7 +80,8 @@ public class MergeResult<S extends Sequence> implements Iterable<MergeChunk> {
 	 * @param sequences
 	 *            contains the common predecessor sequence at position 0
 	 *            followed by the merged sequences. This list should not be
-	 *            modified anymore during the lifetime of this {@link MergeResult}.
+	 *            modified anymore during the lifetime of this
+	 *            {@link org.eclipse.jgit.merge.MergeResult}.
 	 */
 	public MergeResult(List<S> sequences) {
 		this.sequences = sequences;
@@ -129,10 +130,7 @@ public class MergeResult<S extends Sequence> implements Iterable<MergeChunk> {
 
 	static final ConflictState[] states = ConflictState.values();
 
-	/**
-	 * @return an iterator over the MergeChunks. The iterator does not support
-	 * the remove operation
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public Iterator<MergeChunk> iterator() {
 		return new Iterator<MergeChunk>() {
@@ -160,6 +158,8 @@ public class MergeResult<S extends Sequence> implements Iterable<MergeChunk> {
 	}
 
 	/**
+	 * Whether this merge result contains conflicts
+	 *
 	 * @return true if this merge result contains conflicts
 	 */
 	public boolean containsConflicts() {
@@ -173,6 +173,8 @@ public class MergeResult<S extends Sequence> implements Iterable<MergeChunk> {
 	 * markers!) as new conflict-free content
 	 *
 	 * @param containsConflicts
+	 *            whether this merge should be seen as containing a conflict or
+	 *            not.
 	 * @since 3.5
 	 */
 	protected void setContainsConflicts(boolean containsConflicts) {
