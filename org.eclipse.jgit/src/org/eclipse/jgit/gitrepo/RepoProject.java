@@ -169,6 +169,8 @@ public class RepoProject implements Comparable<RepoProject> {
 	}
 
 	/**
+	 * Constructor for RepoProject
+	 *
 	 * @param name
 	 *            the relative path to the {@code remote}
 	 * @param path
@@ -203,6 +205,8 @@ public class RepoProject implements Comparable<RepoProject> {
 	}
 
 	/**
+	 * Constructor for RepoProject
+	 *
 	 * @param name
 	 *            the relative path to the {@code remote}
 	 * @param path
@@ -225,6 +229,7 @@ public class RepoProject implements Comparable<RepoProject> {
 	 * Set the url of the sub repo.
 	 *
 	 * @param url
+	 *            project url
 	 * @return this for chaining.
 	 */
 	public RepoProject setUrl(String url) {
@@ -250,6 +255,7 @@ public class RepoProject implements Comparable<RepoProject> {
 	 * Set the default revision for the sub repo.
 	 *
 	 * @param defaultRevision
+	 *            the name of the default revision
 	 * @return this for chaining.
 	 */
 	public RepoProject setDefaultRevision(String defaultRevision) {
@@ -325,6 +331,7 @@ public class RepoProject implements Comparable<RepoProject> {
 	 * Test whether this sub repo belongs to a specified group.
 	 *
 	 * @param group
+	 *            a group
 	 * @return true if {@code group} is present.
 	 */
 	public boolean inGroup(String group) {
@@ -365,7 +372,7 @@ public class RepoProject implements Comparable<RepoProject> {
 	/**
 	 * Add a copy file configuration.
 	 *
-	 * @param copyfile
+	 * @param copyfile a {@link org.eclipse.jgit.gitrepo.RepoProject.CopyFile} object.
 	 */
 	public void addCopyFile(CopyFile copyfile) {
 		copyfiles.add(copyfile);
@@ -375,6 +382,8 @@ public class RepoProject implements Comparable<RepoProject> {
 	 * Add a bunch of copyfile configurations.
 	 *
 	 * @param copyFiles
+	 *            a collection of
+	 *            {@link org.eclipse.jgit.gitrepo.RepoProject.CopyFile} objects
 	 */
 	public void addCopyFiles(Collection<CopyFile> copyFiles) {
 		this.copyfiles.addAll(copyFiles);
@@ -392,7 +401,7 @@ public class RepoProject implements Comparable<RepoProject> {
 	/**
 	 * Add a link file configuration.
 	 *
-	 * @param linkfile
+	 * @param linkfile a {@link org.eclipse.jgit.gitrepo.RepoProject.LinkFile} object.
 	 * @since 4.8
 	 */
 	public void addLinkFile(LinkFile linkfile) {
@@ -403,6 +412,7 @@ public class RepoProject implements Comparable<RepoProject> {
 	 * Add a bunch of linkfile configurations.
 	 *
 	 * @param linkFiles
+	 *            a collection of {@link LinkFile}s
 	 * @since 4.8
 	 */
 	public void addLinkFiles(Collection<LinkFile> linkFiles) {
@@ -448,6 +458,7 @@ public class RepoProject implements Comparable<RepoProject> {
 		return thatPath.startsWith(getPathWithSlash());
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof RepoProject) {
@@ -457,11 +468,13 @@ public class RepoProject implements Comparable<RepoProject> {
 		return false;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int hashCode() {
 		return this.getPathWithSlash().hashCode();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int compareTo(RepoProject that) {
 		return this.getPathWithSlash().compareTo(that.getPathWithSlash());
