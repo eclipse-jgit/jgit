@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "87929364_0ec18bfb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-18T09:48:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_4b8e258d",
+      "range": {
+        "startLine": 414,
+        "startChar": 9,
+        "endLine": 414,
+        "endChar": 17
+      },
+      "revId": "4fcdc0fe0c1f50d803514f74ccbd39c6607d15db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_6b93e1af",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseResult.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2017-12-18T00:47:19Z",
       "side": 1,
       "message": "same",
+      "range": {
+        "startLine": 299,
+        "startChar": 9,
+        "endLine": 299,
+        "endChar": 17
+      },
+      "revId": "4fcdc0fe0c1f50d803514f74ccbd39c6607d15db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_2ec64714",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseResult.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-18T09:48:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_6b93e1af",
       "range": {
         "startLine": 299,
         "startChar": 9,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "87929364_4ecb931b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseResult.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-18T09:48:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_8ba72d08",
+      "range": {
+        "startLine": 312,
+        "startChar": 9,
+        "endLine": 312,
+        "endChar": 17
+      },
+      "revId": "4fcdc0fe0c1f50d803514f74ccbd39c6607d15db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_aba4e903",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseResult.java",
         "patchSetId": 2
@@ -82,6 +154,30 @@
       "writtenOn": "2017-12-18T00:47:19Z",
       "side": 1,
       "message": "same",
+      "range": {
+        "startLine": 322,
+        "startChar": 9,
+        "endLine": 322,
+        "endChar": 17
+      },
+      "revId": "4fcdc0fe0c1f50d803514f74ccbd39c6607d15db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_6ed04fc3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseResult.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-18T09:48:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_aba4e903",
       "range": {
         "startLine": 322,
         "startChar": 9,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "87929364_8ed49bb7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseResult.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-18T09:48:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_cba135f3",
+      "range": {
+        "startLine": 333,
+        "startChar": 9,
+        "endLine": 333,
+        "endChar": 17
+      },
+      "revId": "4fcdc0fe0c1f50d803514f74ccbd39c6607d15db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_2b847962",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RevertCommand.java",
         "patchSetId": 2
@@ -128,6 +248,30 @@
       "writtenOn": "2017-12-18T00:47:19Z",
       "side": 1,
       "message": "same",
+      "range": {
+        "startLine": 313,
+        "startChar": 9,
+        "endLine": 313,
+        "endChar": 17
+      },
+      "revId": "4fcdc0fe0c1f50d803514f74ccbd39c6607d15db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_aed157c6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RevertCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-18T09:48:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_2b847962",
       "range": {
         "startLine": 313,
         "startChar": 9,
