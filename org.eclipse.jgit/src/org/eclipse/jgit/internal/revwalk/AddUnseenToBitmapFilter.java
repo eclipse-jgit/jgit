@@ -81,6 +81,7 @@ public class AddUnseenToBitmapFilter extends RevFilter {
 		this.bitmap = bitmap;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public final boolean include(RevWalk walker, RevCommit cmit) {
 		Bitmap visitedBitmap;
@@ -101,11 +102,13 @@ public class AddUnseenToBitmapFilter extends RevFilter {
 		return false;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public final RevFilter clone() {
 		throw new UnsupportedOperationException();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public final boolean requiresCommitBody() {
 		return false;
