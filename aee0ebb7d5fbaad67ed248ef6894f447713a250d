@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87929364_14c19afb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeStrategy.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-12-18T17:12:54Z",
+      "side": 1,
+      "message": "Looks like something went wrong on this one.",
+      "revId": "aee0ebb7d5fbaad67ed248ef6894f447713a250d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
