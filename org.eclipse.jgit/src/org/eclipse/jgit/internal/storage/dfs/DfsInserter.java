@@ -92,7 +92,9 @@ import org.eclipse.jgit.util.TemporaryBuffer;
 import org.eclipse.jgit.util.io.CountingOutputStream;
 import org.eclipse.jgit.util.sha1.SHA1;
 
-/** Inserts objects into the DFS. */
+/**
+ * Inserts objects into the DFS.
+ */
 public class DfsInserter extends ObjectInserter {
 	/** Always produce version 2 indexes, to get CRC data. */
 	private static final int INDEX_VERSION = 2;
@@ -121,9 +123,12 @@ public class DfsInserter extends ObjectInserter {
 	}
 
 	/**
+	 * Check existence
+	 *
 	 * @param check
-	 *            if false, will write out possibly-duplicate objects without
-	 *            first checking whether they exist in the repo; default is true.
+	 *            if {@code false}, will write out possibly-duplicate objects
+	 *            without first checking whether they exist in the repo; default
+	 *            is true.
 	 */
 	public void checkExisting(boolean check) {
 		checkExisting = check;
@@ -133,16 +138,19 @@ public class DfsInserter extends ObjectInserter {
 		this.compression = compression;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public DfsPackParser newPackParser(InputStream in) throws IOException {
 		return new DfsPackParser(db, this, in);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public ObjectReader newReader() {
 		return new Reader();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public ObjectId insert(int type, byte[] data, int off, int len)
 			throws IOException {
@@ -159,6 +167,7 @@ public class DfsInserter extends ObjectInserter {
 		return endObject(id, offset);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public ObjectId insert(int type, long len, InputStream in)
 			throws IOException {
@@ -201,6 +210,7 @@ public class DfsInserter extends ObjectInserter {
 		return buf;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void flush() throws IOException {
 		if (packDsc == null)
@@ -228,6 +238,7 @@ public class DfsInserter extends ObjectInserter {
 		clear();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		if (packOut != null) {

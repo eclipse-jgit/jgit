@@ -56,11 +56,13 @@ public class InMemoryRepository extends DfsRepository {
 		refdb = new MemRefDatabase();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public MemObjDatabase getObjectDatabase() {
 		return objdb;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public RefDatabase getRefDatabase() {
 		return refdb;
@@ -72,17 +74,20 @@ public class InMemoryRepository extends DfsRepository {
 	 * Useful for testing atomic support enabled or disabled.
 	 *
 	 * @param atomic
+	 *            whether to use atomic reference transaction support
 	 */
 	public void setPerformsAtomicTransactions(boolean atomic) {
 		refdb.performsAtomicTransactions = atomic;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	@Nullable
 	public String getGitwebDescription() {
 		return gitwebDescription;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void setGitwebDescription(@Nullable String d) {
 		gitwebDescription = d;

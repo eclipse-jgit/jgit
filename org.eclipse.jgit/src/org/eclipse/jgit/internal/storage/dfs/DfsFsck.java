@@ -65,7 +65,9 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevObject;
 
-/** Verify the validity and connectivity of a DFS repository. */
+/**
+ * Verify the validity and connectivity of a DFS repository.
+ */
 public class DfsFsck {
 	private final DfsRepository repo;
 	private final DfsObjDatabase objdb;
@@ -90,7 +92,7 @@ public class DfsFsck {
 	 * @param pm
 	 *            callback to provide progress feedback during the check.
 	 * @return all errors about the repository.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             if encounters IO errors during the process.
 	 */
 	public FsckError check(ProgressMonitor pm) throws IOException {
@@ -185,10 +187,13 @@ public class DfsFsck {
 	}
 
 	/**
+	 * Whether fsck should bypass object validity and integrity checks and only
+	 * check connectivity.
+	 *
 	 * @param connectivityOnly
-	 *             whether fsck should bypass object validity and integrity
-	 *             checks and only check connectivity. The default is
-	 *             {@code false}, meaning to run all checks.
+	 *            whether fsck should bypass object validity and integrity
+	 *            checks and only check connectivity. The default is
+	 *            {@code false}, meaning to run all checks.
 	 */
 	public void setConnectivityOnly(boolean connectivityOnly) {
 		this.connectivityOnly = connectivityOnly;

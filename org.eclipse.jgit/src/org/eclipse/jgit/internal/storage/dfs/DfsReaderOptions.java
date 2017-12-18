@@ -52,7 +52,9 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_STREAM_FILE_TRESHO
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.storage.pack.PackConfig;
 
-/** Options controlling how objects are read from a DFS stored repository. */
+/**
+ * Options controlling how objects are read from a DFS stored repository.
+ */
 public class DfsReaderOptions {
 	/** 1024 (number of bytes in one kibibyte/kilobyte) */
 	public static final int KiB = 1024;
@@ -65,13 +67,19 @@ public class DfsReaderOptions {
 
 	private int streamPackBufferSize;
 
-	/** Create a default reader configuration. */
+	/**
+	 * Create a default reader configuration.
+	 */
 	public DfsReaderOptions() {
 		setDeltaBaseCacheLimit(10 * MiB);
 		setStreamFileThreshold(PackConfig.DEFAULT_BIG_FILE_THRESHOLD);
 	}
 
-	/** @return maximum number of bytes to hold in per-reader DeltaBaseCache. */
+	/**
+	 * Get maximum number of bytes to hold in per-reader DeltaBaseCache.
+	 *
+	 * @return maximum number of bytes to hold in per-reader DeltaBaseCache.
+	 */
 	public int getDeltaBaseCacheLimit() {
 		return deltaBaseCacheLimit;
 	}
@@ -88,12 +96,18 @@ public class DfsReaderOptions {
 		return this;
 	}
 
-	/** @return the size threshold beyond which objects must be streamed. */
+	/**
+	 * Get the size threshold beyond which objects must be streamed.
+	 *
+	 * @return the size threshold beyond which objects must be streamed.
+	 */
 	public int getStreamFileThreshold() {
 		return streamFileThreshold;
 	}
 
 	/**
+	 * Set new byte limit for objects that must be streamed.
+	 *
 	 * @param newLimit
 	 *            new byte limit for objects that must be streamed. Objects
 	 *            smaller than this size can be obtained as a contiguous byte
@@ -107,6 +121,9 @@ public class DfsReaderOptions {
 	}
 
 	/**
+	 * Get number of bytes to use for buffering when streaming a pack file
+	 * during copying.
+	 *
 	 * @return number of bytes to use for buffering when streaming a pack file
 	 *         during copying. If 0 the block size of the pack is used.
 	 */
@@ -115,6 +132,9 @@ public class DfsReaderOptions {
 	}
 
 	/**
+	 * Set new buffer size in bytes for buffers used when streaming pack files
+	 * during copying.
+	 *
 	 * @param bufsz
 	 *            new buffer size in bytes for buffers used when streaming pack
 	 *            files during copying.
