@@ -43,13 +43,17 @@
 
 package org.eclipse.jgit.events;
 
-/** Describes a change to one or more references of a repository. */
+/**
+ * Describes a change to one or more references of a repository.
+ */
 public class RefsChangedEvent extends RepositoryEvent<RefsChangedListener> {
+	/** {@inheritDoc} */
 	@Override
 	public Class<RefsChangedListener> getListenerType() {
 		return RefsChangedListener.class;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void dispatch(RefsChangedListener listener) {
 		listener.onRefsChanged(this);

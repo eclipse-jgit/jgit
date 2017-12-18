@@ -44,8 +44,8 @@
 package org.eclipse.jgit.events;
 
 /**
- * Receives {@link WorkingTreeModifiedEvent}s, which are fired whenever a
- * {@link org.eclipse.jgit.dircache.DirCacheCheckout} modifies
+ * Receives {@link org.eclipse.jgit.events.WorkingTreeModifiedEvent}s, which are
+ * fired whenever a {@link org.eclipse.jgit.dircache.DirCacheCheckout} modifies
  * (adds/deletes/updates) files in the working tree.
  *
  * @since 4.9
@@ -56,6 +56,8 @@ public interface WorkingTreeModifiedListener extends RepositoryListener {
 	 * Respond to working tree modifications.
 	 *
 	 * @param event
+	 *            a {@link org.eclipse.jgit.events.WorkingTreeModifiedEvent}
+	 *            object.
 	 */
 	void onWorkingTreeModified(WorkingTreeModifiedEvent event);
 }

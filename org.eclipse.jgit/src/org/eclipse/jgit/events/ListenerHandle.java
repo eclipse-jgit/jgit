@@ -43,7 +43,9 @@
 
 package org.eclipse.jgit.events;
 
-/** Tracks a previously registered {@link RepositoryListener}. */
+/**
+ * Tracks a previously registered {@link org.eclipse.jgit.events.RepositoryListener}.
+ */
 public class ListenerHandle {
 	private final ListenerList parent;
 
@@ -59,11 +61,14 @@ public class ListenerHandle {
 		this.listener = listener;
 	}
 
-	/** Remove the listener and stop receiving events. */
+	/**
+	 * Remove the listener and stop receiving events.
+	 */
 	public void remove() {
 		parent.remove(this);
 	}
 
+	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
