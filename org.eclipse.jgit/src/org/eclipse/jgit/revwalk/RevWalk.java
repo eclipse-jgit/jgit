@@ -84,10 +84,12 @@ import org.eclipse.jgit.treewalk.filter.TreeFilter;
  * usage of a RevWalk instance to a single thread, or implement their own
  * synchronization at a higher level.
  * <p>
- * Multiple simultaneous RevWalk instances per {@link Repository} are permitted,
- * even from concurrent threads. Equality of {@link RevCommit}s from two
- * different RevWalk instances is never true, even if their {@link ObjectId}s
- * are equal (and thus they describe the same commit).
+ * Multiple simultaneous RevWalk instances per
+ * {@link org.eclipse.jgit.lib.Repository} are permitted, even from concurrent
+ * threads. Equality of {@link org.eclipse.jgit.revwalk.RevCommit}s from two
+ * different RevWalk instances is never true, even if their
+ * {@link org.eclipse.jgit.lib.ObjectId}s are equal (and thus they describe the
+ * same commit).
  * <p>
  * The offered iterator is over the list of RevCommits described by the
  * configuration of this instance. Applications should restrict themselves to
@@ -236,12 +238,18 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		this.closeReader = closeReader;
 	}
 
-	/** @return the reader this walker is using to load objects. */
+	/**
+	 * Get the reader this walker is using to load objects.
+	 *
+	 * @return the reader this walker is using to load objects.
+	 */
 	public ObjectReader getObjectReader() {
 		return reader;
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * Release any resources used by this walker's reader.
 	 * <p>
 	 * A walker that has been released can be used again, but may need to be
@@ -272,17 +280,17 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @param c
 	 *            the commit to start traversing from. The commit passed must be
 	 *            from this same revision walker.
-	 * @throws MissingObjectException
+	 * @throws org.eclipse.jgit.errors.MissingObjectException
 	 *             the commit supplied is not available from the object
 	 *             database. This usually indicates the supplied commit is
 	 *             invalid, but the reference was constructed during an earlier
 	 *             invocation to {@link #lookupCommit(AnyObjectId)}.
-	 * @throws IncorrectObjectTypeException
+	 * @throws org.eclipse.jgit.errors.IncorrectObjectTypeException
 	 *             the object was not parsed yet and it was discovered during
 	 *             parsing that it is not actually a commit. This usually
 	 *             indicates the caller supplied a non-commit SHA-1 to
 	 *             {@link #lookupCommit(AnyObjectId)}.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             a pack file or loose object could not be read.
 	 */
 	public void markStart(final RevCommit c) throws MissingObjectException,
@@ -302,17 +310,17 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @param list
 	 *            commits to start traversing from. The commits passed must be
 	 *            from this same revision walker.
-	 * @throws MissingObjectException
+	 * @throws org.eclipse.jgit.errors.MissingObjectException
 	 *             one of the commits supplied is not available from the object
 	 *             database. This usually indicates the supplied commit is
 	 *             invalid, but the reference was constructed during an earlier
 	 *             invocation to {@link #lookupCommit(AnyObjectId)}.
-	 * @throws IncorrectObjectTypeException
+	 * @throws org.eclipse.jgit.errors.IncorrectObjectTypeException
 	 *             the object was not parsed yet and it was discovered during
 	 *             parsing that it is not actually a commit. This usually
 	 *             indicates the caller supplied a non-commit SHA-1 to
 	 *             {@link #lookupCommit(AnyObjectId)}.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             a pack file or loose object could not be read.
 	 */
 	public void markStart(final Collection<RevCommit> list)
@@ -342,17 +350,17 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @param c
 	 *            the commit to start traversing from. The commit passed must be
 	 *            from this same revision walker.
-	 * @throws MissingObjectException
+	 * @throws org.eclipse.jgit.errors.MissingObjectException
 	 *             the commit supplied is not available from the object
 	 *             database. This usually indicates the supplied commit is
 	 *             invalid, but the reference was constructed during an earlier
 	 *             invocation to {@link #lookupCommit(AnyObjectId)}.
-	 * @throws IncorrectObjectTypeException
+	 * @throws org.eclipse.jgit.errors.IncorrectObjectTypeException
 	 *             the object was not parsed yet and it was discovered during
 	 *             parsing that it is not actually a commit. This usually
 	 *             indicates the caller supplied a non-commit SHA-1 to
 	 *             {@link #lookupCommit(AnyObjectId)}.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             a pack file or loose object could not be read.
 	 */
 	public void markUninteresting(final RevCommit c)
@@ -383,14 +391,14 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @return true if there is a path directly from <code>tip</code> to
 	 *         <code>base</code> (and thus <code>base</code> is fully merged
 	 *         into <code>tip</code>); false otherwise.
-	 * @throws MissingObjectException
+	 * @throws org.eclipse.jgit.errors.MissingObjectException
 	 *             one or or more of the next commit's parents are not available
 	 *             from the object database, but were thought to be candidates
 	 *             for traversal. This usually indicates a broken link.
-	 * @throws IncorrectObjectTypeException
+	 * @throws org.eclipse.jgit.errors.IncorrectObjectTypeException
 	 *             one or or more of the next commit's parents are not actually
 	 *             commit objects.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             a pack file or loose object could not be read.
 	 */
 	public boolean isMergedInto(final RevCommit base, final RevCommit tip)
@@ -420,14 +428,14 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * Pop the next most recent commit.
 	 *
 	 * @return next most recent commit; null if traversal is over.
-	 * @throws MissingObjectException
+	 * @throws org.eclipse.jgit.errors.MissingObjectException
 	 *             one or or more of the next commit's parents are not available
 	 *             from the object database, but were thought to be candidates
 	 *             for traversal. This usually indicates a broken link.
-	 * @throws IncorrectObjectTypeException
+	 * @throws org.eclipse.jgit.errors.IncorrectObjectTypeException
 	 *             one or or more of the next commit's parents are not actually
 	 *             commit objects.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             a pack file or loose object could not be read.
 	 */
 	public RevCommit next() throws MissingObjectException,
@@ -439,7 +447,8 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * Obtain the sort types applied to the commits returned.
 	 *
 	 * @return the sorting strategies employed. At least one strategy is always
-	 *         used, but that strategy may be {@link RevSort#NONE}.
+	 *         used, but that strategy may be
+	 *         {@link org.eclipse.jgit.revwalk.RevSort#NONE}.
 	 */
 	public EnumSet<RevSort> getRevSort() {
 		return sorting.clone();
@@ -475,8 +484,9 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * Add or remove a sorting strategy for the returned commits.
 	 * <p>
 	 * Multiple strategies can be applied at once, in which case some strategies
-	 * may take precedence over others. As an example, {@link RevSort#TOPO} must
-	 * take precedence over {@link RevSort#COMMIT_TIME_DESC}, otherwise it
+	 * may take precedence over others. As an example,
+	 * {@link org.eclipse.jgit.revwalk.RevSort#TOPO} must take precedence over
+	 * {@link org.eclipse.jgit.revwalk.RevSort#COMMIT_TIME_DESC}, otherwise it
 	 * cannot enforce its ordering.
 	 *
 	 * @param s
@@ -518,12 +528,14 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * Note that filters are not thread-safe and may not be shared by concurrent
 	 * RevWalk instances. Every RevWalk must be supplied its own unique filter,
 	 * unless the filter implementation specifically states it is (and always
-	 * will be) thread-safe. Callers may use {@link RevFilter#clone()} to create
-	 * a unique filter tree for this RevWalk instance.
+	 * will be) thread-safe. Callers may use
+	 * {@link org.eclipse.jgit.revwalk.filter.RevFilter#clone()} to create a
+	 * unique filter tree for this RevWalk instance.
 	 *
 	 * @param newFilter
-	 *            the new filter. If null the special {@link RevFilter#ALL}
-	 *            filter will be used instead, as it matches every commit.
+	 *            the new filter. If null the special
+	 *            {@link org.eclipse.jgit.revwalk.filter.RevFilter#ALL} filter
+	 *            will be used instead, as it matches every commit.
 	 * @see org.eclipse.jgit.revwalk.filter.AndRevFilter
 	 * @see org.eclipse.jgit.revwalk.filter.OrRevFilter
 	 */
@@ -536,7 +548,9 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * Get the tree filter used to simplify commits by modified paths.
 	 *
 	 * @return the current filter. Never null as a filter is always needed. If
-	 *         no filter is being applied {@link TreeFilter#ALL} is returned.
+	 *         no filter is being applied
+	 *         {@link org.eclipse.jgit.treewalk.filter.TreeFilter#ALL} is
+	 *         returned.
 	 */
 	public TreeFilter getTreeFilter() {
 		return treeFilter;
@@ -545,20 +559,23 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	/**
 	 * Set the tree filter used to simplify commits by modified paths.
 	 * <p>
-	 * If null or {@link TreeFilter#ALL} the path limiter is removed. Commits
-	 * will not be simplified.
+	 * If null or {@link org.eclipse.jgit.treewalk.filter.TreeFilter#ALL} the
+	 * path limiter is removed. Commits will not be simplified.
 	 * <p>
-	 * If non-null and not {@link TreeFilter#ALL} then the tree filter will be
-	 * installed. Commits will have their ancestry simplified to hide commits that
-	 * do not contain tree entries matched by the filter, unless
-	 * {@code setRewriteParents(false)} is called.
+	 * If non-null and not
+	 * {@link org.eclipse.jgit.treewalk.filter.TreeFilter#ALL} then the tree
+	 * filter will be installed. Commits will have their ancestry simplified to
+	 * hide commits that do not contain tree entries matched by the filter,
+	 * unless {@code setRewriteParents(false)} is called.
 	 * <p>
 	 * Usually callers should be inserting a filter graph including
-	 * {@link TreeFilter#ANY_DIFF} along with one or more
-	 * {@link org.eclipse.jgit.treewalk.filter.PathFilter} instances.
+	 * {@link org.eclipse.jgit.treewalk.filter.TreeFilter#ANY_DIFF} along with
+	 * one or more {@link org.eclipse.jgit.treewalk.filter.PathFilter}
+	 * instances.
 	 *
 	 * @param newFilter
-	 *            new filter. If null the special {@link TreeFilter#ALL} filter
+	 *            new filter. If null the special
+	 *            {@link org.eclipse.jgit.treewalk.filter.TreeFilter#ALL} filter
 	 *            will be used instead, as it matches everything.
 	 * @see org.eclipse.jgit.treewalk.filter.PathFilter
 	 */
@@ -571,9 +588,9 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * Set whether to rewrite parent pointers when filtering by modified paths.
 	 * <p>
 	 * By default, when {@link #setTreeFilter(TreeFilter)} is called with non-
-	 * null and non-{@link TreeFilter#ALL} filter, commits will have their
-	 * ancestry simplified and parents rewritten to hide commits that do not match
-	 * the filter.
+	 * null and non-{@link org.eclipse.jgit.treewalk.filter.TreeFilter#ALL}
+	 * filter, commits will have their ancestry simplified and parents rewritten
+	 * to hide commits that do not match the filter.
 	 * <p>
 	 * This behavior can be bypassed by passing false to this method.
 	 *
@@ -596,8 +613,8 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * care and would prefer to discard the body of a commit as early as
 	 * possible, to reduce memory usage.
 	 * <p>
-	 * True by default on {@link RevWalk} and false by default for
-	 * {@link ObjectWalk}.
+	 * True by default on {@link org.eclipse.jgit.revwalk.RevWalk} and false by
+	 * default for {@link org.eclipse.jgit.revwalk.ObjectWalk}.
 	 *
 	 * @return true if the body should be retained; false it is discarded.
 	 */
@@ -608,14 +625,15 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	/**
 	 * Set whether or not the body of a commit or tag is retained.
 	 * <p>
-	 * If a body of a commit or tag is not retained, the application must
-	 * call {@link #parseBody(RevObject)} before the body can be safely
-	 * accessed through the type specific access methods.
+	 * If a body of a commit or tag is not retained, the application must call
+	 * {@link #parseBody(RevObject)} before the body can be safely accessed
+	 * through the type specific access methods.
 	 * <p>
-	 * True by default on {@link RevWalk} and false by default for
-	 * {@link ObjectWalk}.
+	 * True by default on {@link org.eclipse.jgit.revwalk.RevWalk} and false by
+	 * default for {@link org.eclipse.jgit.revwalk.ObjectWalk}.
 	 *
-	 * @param retain true to retain bodies; false to discard them early.
+	 * @param retain
+	 *            true to retain bodies; false to discard them early.
 	 */
 	public void setRetainBody(final boolean retain) {
 		retainBody = retain;
@@ -759,11 +777,11 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @param id
 	 *            name of the commit object.
 	 * @return reference to the commit object. Never null.
-	 * @throws MissingObjectException
+	 * @throws org.eclipse.jgit.errors.MissingObjectException
 	 *             the supplied commit does not exist.
-	 * @throws IncorrectObjectTypeException
+	 * @throws org.eclipse.jgit.errors.IncorrectObjectTypeException
 	 *             the supplied id is not a commit or an annotated tag.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             a pack file or loose object could not be read.
 	 */
 	public RevCommit parseCommit(final AnyObjectId id)
@@ -786,11 +804,11 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 *            name of the tree object, or a commit or annotated tag that may
 	 *            reference a tree.
 	 * @return reference to the tree object. Never null.
-	 * @throws MissingObjectException
+	 * @throws org.eclipse.jgit.errors.MissingObjectException
 	 *             the supplied tree does not exist.
-	 * @throws IncorrectObjectTypeException
+	 * @throws org.eclipse.jgit.errors.IncorrectObjectTypeException
 	 *             the supplied id is not a tree, a commit or an annotated tag.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             a pack file or loose object could not be read.
 	 */
 	public RevTree parseTree(final AnyObjectId id)
@@ -820,11 +838,11 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @param id
 	 *            name of the tag object.
 	 * @return reference to the tag object. Never null.
-	 * @throws MissingObjectException
+	 * @throws org.eclipse.jgit.errors.MissingObjectException
 	 *             the supplied tag does not exist.
-	 * @throws IncorrectObjectTypeException
+	 * @throws org.eclipse.jgit.errors.IncorrectObjectTypeException
 	 *             the supplied id is not a tag or an annotated tag.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             a pack file or loose object could not be read.
 	 */
 	public RevTag parseTag(final AnyObjectId id) throws MissingObjectException,
@@ -847,9 +865,9 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @param id
 	 *            name of the object.
 	 * @return reference to the object. Never null.
-	 * @throws MissingObjectException
+	 * @throws org.eclipse.jgit.errors.MissingObjectException
 	 *             the supplied does not exist.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             a pack file or loose object could not be read.
 	 */
 	public RevObject parseAny(final AnyObjectId id)
@@ -916,8 +934,6 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	/**
 	 * Asynchronous object parsing.
 	 *
-	 * @param <T>
-	 *            any ObjectId type.
 	 * @param objectIds
 	 *            objects to open from the object store. The supplied collection
 	 *            must not be modified until the queue has finished.
@@ -1007,9 +1023,9 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 *
 	 * @param obj
 	 *            the object the caller needs to be parsed.
-	 * @throws MissingObjectException
+	 * @throws org.eclipse.jgit.errors.MissingObjectException
 	 *             the supplied does not exist.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             a pack file or loose object could not be read.
 	 */
 	public void parseHeaders(final RevObject obj)
@@ -1026,9 +1042,9 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 *
 	 * @param obj
 	 *            the object the caller needs to be parsed.
-	 * @throws MissingObjectException
+	 * @throws org.eclipse.jgit.errors.MissingObjectException
 	 *             the supplied does not exist.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             a pack file or loose object could not be read.
 	 */
 	public void parseBody(final RevObject obj)
@@ -1044,9 +1060,9 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @return If {@code obj} is not an annotated tag, {@code obj}. Otherwise
 	 *         the first non-tag object that {@code obj} references. The
 	 *         returned object's headers have been parsed.
-	 * @throws MissingObjectException
+	 * @throws org.eclipse.jgit.errors.MissingObjectException
 	 *             a referenced object cannot be found.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             a pack file or loose object could not be read.
 	 */
 	public RevObject peel(RevObject obj) throws MissingObjectException,
@@ -1069,7 +1085,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @param name
 	 *            description of the flag, primarily useful for debugging.
 	 * @return newly constructed flag instance.
-	 * @throws IllegalArgumentException
+	 * @throws java.lang.IllegalArgumentException
 	 *             too many flags have been reserved on this revision walker.
 	 */
 	public RevFlag newFlag(final String name) {
@@ -1308,6 +1324,8 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * Returns an Iterator over the commits of this walker.
 	 * <p>
 	 * The returned iterator is only useful for one walk. If this RevWalk gets
@@ -1316,10 +1334,9 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * Applications must not use both the Iterator and the {@link #next()} API
 	 * at the same time. Pick one API and use that for the entire walk.
 	 * <p>
-	 * If a checked exception is thrown during the walk (see {@link #next()})
-	 * it is rethrown from the Iterator as a {@link RevWalkException}.
+	 * If a checked exception is thrown during the walk (see {@link #next()}) it
+	 * is rethrown from the Iterator as a {@link RevWalkException}.
 	 *
-	 * @return an iterator over this walker's commits.
 	 * @see RevWalkException
 	 */
 	@Override
@@ -1365,7 +1382,9 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		};
 	}
 
-	/** Throws an exception if we have started producing output. */
+	/**
+	 * Throws an exception if we have started producing output.
+	 */
 	protected void assertNotStarted() {
 		if (isNotStarted())
 			return;
@@ -1377,7 +1396,8 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	}
 
 	/**
-	 * Create and return an {@link ObjectWalk} using the same objects.
+	 * Create and return an {@link org.eclipse.jgit.revwalk.ObjectWalk} using
+	 * the same objects.
 	 * <p>
 	 * Prior to using this method, the caller must reset this RevWalk to clean
 	 * any flags that were used during the last traversal.

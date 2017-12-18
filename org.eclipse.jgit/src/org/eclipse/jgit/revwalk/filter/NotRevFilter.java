@@ -50,7 +50,9 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
-/** Includes a commit only if the subfilter does not include the commit. */
+/**
+ * Includes a commit only if the subfilter does not include the commit.
+ */
 public class NotRevFilter extends RevFilter {
 	/**
 	 * Create a filter that negates the result of another filter.
@@ -69,11 +71,13 @@ public class NotRevFilter extends RevFilter {
 		a = one;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public RevFilter negate() {
 		return a;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean include(final RevWalk walker, final RevCommit c)
 			throws MissingObjectException, IncorrectObjectTypeException,
@@ -81,16 +85,19 @@ public class NotRevFilter extends RevFilter {
 		return !a.include(walker, c);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean requiresCommitBody() {
 		return a.requiresCommitBody();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public RevFilter clone() {
 		return new NotRevFilter(a.clone());
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		return "NOT " + a.toString(); //$NON-NLS-1$

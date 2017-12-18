@@ -59,7 +59,8 @@ import org.eclipse.jgit.treewalk.filter.TreeFilter;
  * triggers rename detection so that the path node is updated to include a prior
  * file name as the RevWalk traverses history.
  *
- * The renames found will be reported to a {@link RenameCallback} if one is set.
+ * The renames found will be reported to a
+ * {@link org.eclipse.jgit.revwalk.RenameCallback} if one is set.
  * <p>
  * Results with this filter are unpredictable if the path being followed is a
  * subdirectory.
@@ -81,7 +82,7 @@ public class FollowFilter extends TreeFilter {
 	 * @param cfg
 	 *            diff config specifying rename detection options.
 	 * @return a new filter for the requested path.
-	 * @throws IllegalArgumentException
+	 * @throws java.lang.IllegalArgumentException
 	 *             the path supplied was the empty string.
 	 * @since 3.0
 	 */
@@ -100,10 +101,16 @@ public class FollowFilter extends TreeFilter {
 	}
 
 	/** @return the path this filter matches. */
+	/**
+	 * Get the path this filter matches.
+	 *
+	 * @return the path this filter matches.
+	 */
 	public String getPath() {
 		return path.getPath();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean include(final TreeWalk walker)
 			throws MissingObjectException, IncorrectObjectTypeException,
@@ -111,16 +118,19 @@ public class FollowFilter extends TreeFilter {
 		return path.include(walker) && ANY_DIFF.include(walker);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean shouldBeRecursive() {
 		return path.shouldBeRecursive() || ANY_DIFF.shouldBeRecursive();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public TreeFilter clone() {
 		return new FollowFilter(path.clone(), cfg);
 	}
 
+	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
@@ -130,6 +140,8 @@ public class FollowFilter extends TreeFilter {
 	}
 
 	/**
+	 * Get the callback to which renames are reported.
+	 *
 	 * @return the callback to which renames are reported, or <code>null</code>
 	 *         if none
 	 */

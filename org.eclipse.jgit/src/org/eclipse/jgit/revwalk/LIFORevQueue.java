@@ -49,11 +49,15 @@ import java.io.IOException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 
-/** A queue of commits in LIFO order. */
+/**
+ * A queue of commits in LIFO order.
+ */
 public class LIFORevQueue extends BlockRevQueue {
 	private Block head;
 
-	/** Create an empty LIFO queue. */
+	/**
+	 * Create an empty LIFO queue.
+	 */
 	public LIFORevQueue() {
 		super();
 	}
@@ -63,6 +67,7 @@ public class LIFORevQueue extends BlockRevQueue {
 		super(s);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void add(final RevCommit c) {
 		Block b = head;
@@ -75,6 +80,7 @@ public class LIFORevQueue extends BlockRevQueue {
 		b.unpop(c);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public RevCommit next() {
 		final Block b = head;
@@ -89,6 +95,7 @@ public class LIFORevQueue extends BlockRevQueue {
 		return c;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void clear() {
 		head = null;
@@ -115,6 +122,7 @@ public class LIFORevQueue extends BlockRevQueue {
 		return false;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		final StringBuilder s = new StringBuilder();

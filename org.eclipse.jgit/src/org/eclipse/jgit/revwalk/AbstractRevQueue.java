@@ -103,14 +103,16 @@ abstract class AbstractRevQueue extends Generator {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * Remove the first commit from the queue.
-	 *
-	 * @return the first commit of this queue.
 	 */
 	@Override
 	public abstract RevCommit next();
 
-	/** Remove all entries from this queue. */
+	/**
+	 * Remove all entries from this queue.
+	 */
 	public abstract void clear();
 
 	abstract boolean everbodyHasFlag(int f);
@@ -122,6 +124,14 @@ abstract class AbstractRevQueue extends Generator {
 		return outputType;
 	}
 
+	/**
+	 * Describe this queue
+	 *
+	 * @param s
+	 *            a StringBuilder
+	 * @param c
+	 *            a {@link org.eclipse.jgit.revwalk.RevCommit}
+	 */
 	protected static void describe(final StringBuilder s, final RevCommit c) {
 		s.append(c.toString());
 		s.append('\n');

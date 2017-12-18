@@ -48,13 +48,17 @@ import java.io.IOException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 
-/** A queue of commits in FIFO order. */
+/**
+ * A queue of commits in FIFO order.
+ */
 public class FIFORevQueue extends BlockRevQueue {
 	private Block head;
 
 	private Block tail;
 
-	/** Create an empty FIFO queue. */
+	/**
+	 * Create an empty FIFO queue.
+	 */
 	public FIFORevQueue() {
 		super();
 	}
@@ -64,6 +68,7 @@ public class FIFORevQueue extends BlockRevQueue {
 		super(s);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void add(final RevCommit c) {
 		Block b = tail;
@@ -108,6 +113,7 @@ public class FIFORevQueue extends BlockRevQueue {
 		head = b;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public RevCommit next() {
 		final Block b = head;
@@ -124,6 +130,7 @@ public class FIFORevQueue extends BlockRevQueue {
 		return c;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void clear() {
 		head = null;
@@ -159,6 +166,7 @@ public class FIFORevQueue extends BlockRevQueue {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		final StringBuilder s = new StringBuilder();

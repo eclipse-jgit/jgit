@@ -53,7 +53,9 @@ import org.eclipse.jgit.errors.StopWalkException;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
-/** Selects commits based upon the commit time field. */
+/**
+ * Selects commits based upon the commit time field.
+ */
 public abstract class CommitTimeRevFilter extends RevFilter {
 	/**
 	 * Create a new filter to select commits before a given date/time.
@@ -129,11 +131,13 @@ public abstract class CommitTimeRevFilter extends RevFilter {
 		when = (int) (ts / 1000);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public RevFilter clone() {
 		return this;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean requiresCommitBody() {
 		return false;

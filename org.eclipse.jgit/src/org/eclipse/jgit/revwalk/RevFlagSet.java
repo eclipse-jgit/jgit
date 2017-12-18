@@ -50,7 +50,8 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Multiple application level mark bits for {@link RevObject}s.
+ * Multiple application level mark bits for
+ * {@link org.eclipse.jgit.revwalk.RevObject}s.
  *
  * @see RevFlag
  */
@@ -59,7 +60,9 @@ public class RevFlagSet extends AbstractSet<RevFlag> {
 
 	private final List<RevFlag> active;
 
-	/** Create an empty set of flags. */
+	/**
+	 * Create an empty set of flags.
+	 */
 	public RevFlagSet() {
 		active = new ArrayList<>();
 	}
@@ -86,6 +89,7 @@ public class RevFlagSet extends AbstractSet<RevFlag> {
 		addAll(s);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean contains(final Object o) {
 		if (o instanceof RevFlag)
@@ -93,6 +97,7 @@ public class RevFlagSet extends AbstractSet<RevFlag> {
 		return false;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean containsAll(final Collection<?> c) {
 		if (c instanceof RevFlagSet) {
@@ -102,6 +107,7 @@ public class RevFlagSet extends AbstractSet<RevFlag> {
 		return super.containsAll(c);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean add(final RevFlag flag) {
 		if ((mask & flag.mask) != 0)
@@ -114,6 +120,7 @@ public class RevFlagSet extends AbstractSet<RevFlag> {
 		return true;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean remove(final Object o) {
 		final RevFlag flag = (RevFlag) o;
@@ -126,6 +133,7 @@ public class RevFlagSet extends AbstractSet<RevFlag> {
 		return true;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Iterator<RevFlag> iterator() {
 		final Iterator<RevFlag> i = active.iterator();
@@ -150,6 +158,7 @@ public class RevFlagSet extends AbstractSet<RevFlag> {
 		};
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int size() {
 		return active.size();

@@ -52,7 +52,9 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.RawCharSequence;
 import org.eclipse.jgit.util.RawSubStringPattern;
 
-/** Abstract filter that searches text using only substring search. */
+/**
+ * Abstract filter that searches text using only substring search.
+ */
 public abstract class SubStringRevFilter extends RevFilter {
 	/**
 	 * Can this string be safely handled by a substring filter?
@@ -60,7 +62,8 @@ public abstract class SubStringRevFilter extends RevFilter {
 	 * @param pattern
 	 *            the pattern text proposed by the user.
 	 * @return true if a substring filter can perform this pattern match; false
-	 *         if {@link PatternMatchRevFilter} must be used instead.
+	 *         if {@link org.eclipse.jgit.revwalk.filter.PatternMatchRevFilter}
+	 *         must be used instead.
 	 */
 	public static boolean safe(final String pattern) {
 		for (int i = 0; i < pattern.length(); i++) {
@@ -97,6 +100,7 @@ public abstract class SubStringRevFilter extends RevFilter {
 		pattern = new RawSubStringPattern(patternText);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean include(final RevWalk walker, final RevCommit cmit)
 			throws MissingObjectException, IncorrectObjectTypeException,
@@ -104,6 +108,7 @@ public abstract class SubStringRevFilter extends RevFilter {
 		return pattern.match(text(cmit)) >= 0;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean requiresCommitBody() {
 		return true;
@@ -118,11 +123,13 @@ public abstract class SubStringRevFilter extends RevFilter {
 	 */
 	protected abstract RawCharSequence text(RevCommit cmit);
 
+	/** {@inheritDoc} */
 	@Override
 	public RevFilter clone() {
 		return this; // Typically we are actually thread-safe.
 	}
 
+	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {

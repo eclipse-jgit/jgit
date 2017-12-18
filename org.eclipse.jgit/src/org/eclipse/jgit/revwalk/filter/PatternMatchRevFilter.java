@@ -56,7 +56,9 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.RawCharSequence;
 
-/** Abstract filter that searches text using extended regular expressions. */
+/**
+ * Abstract filter that searches text using extended regular expressions.
+ */
 public abstract class PatternMatchRevFilter extends RevFilter {
 	/**
 	 * Encode a string pattern for faster matching on byte arrays.
@@ -69,7 +71,7 @@ public abstract class PatternMatchRevFilter extends RevFilter {
 	 *            original pattern string supplied by the user or the
 	 *            application.
 	 * @return same pattern, but re-encoded to match our funny raw UTF-8
-	 *         character sequence {@link RawCharSequence}.
+	 *         character sequence {@link org.eclipse.jgit.util.RawCharSequence}.
 	 */
 	protected static final String forceToRaw(final String patternText) {
 		final byte[] b = Constants.encode(patternText);
@@ -97,7 +99,8 @@ public abstract class PatternMatchRevFilter extends RevFilter {
 	 *            should {@link #forceToRaw(String)} be applied to the pattern
 	 *            before compiling it?
 	 * @param flags
-	 *            flags from {@link Pattern} to control how matching performs.
+	 *            flags from {@link java.util.regex.Pattern} to control how
+	 *            matching performs.
 	 */
 	protected PatternMatchRevFilter(String pattern, final boolean innerString,
 			final boolean rawEncoding, final int flags) {
@@ -124,6 +127,7 @@ public abstract class PatternMatchRevFilter extends RevFilter {
 		return patternText;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean include(final RevWalk walker, final RevCommit cmit)
 			throws MissingObjectException, IncorrectObjectTypeException,
@@ -131,6 +135,7 @@ public abstract class PatternMatchRevFilter extends RevFilter {
 		return compiledPattern.reset(text(cmit)).matches();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean requiresCommitBody() {
 		return true;
@@ -145,6 +150,7 @@ public abstract class PatternMatchRevFilter extends RevFilter {
 	 */
 	protected abstract CharSequence text(RevCommit cmit);
 
+	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
