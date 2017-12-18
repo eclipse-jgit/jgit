@@ -77,6 +77,7 @@ public class FastIgnoreRule {
 	private final boolean dirOnly;
 
 	/**
+	 * Constructor for FastIgnoreRule
 	 *
 	 * @param pattern
 	 *            ignore pattern as described in <a href=
@@ -160,15 +161,18 @@ public class FastIgnoreRule {
 	}
 
 	/**
-	 * @return True if the pattern is just a file name and not a path
+	 * Whether the pattern is just a file name and not a path
+	 *
+	 * @return {@code true} if the pattern is just a file name and not a path
 	 */
 	public boolean getNameOnly() {
 		return !(matcher instanceof PathMatcher);
 	}
 
 	/**
+	 * Whether the pattern should match directories only
 	 *
-	 * @return True if the pattern should match directories only
+	 * @return {@code true} if the pattern should match directories only
 	 */
 	public boolean dirOnly() {
 		return dirOnly;
@@ -193,13 +197,17 @@ public class FastIgnoreRule {
 	}
 
 	/**
-	 * @return true if the rule never matches (comment line or broken pattern)
+	 * Whether the rule never matches
+	 *
+	 * @return {@code true} if the rule never matches (comment line or broken
+	 *         pattern)
 	 * @since 4.1
 	 */
 	public boolean isEmpty() {
 		return matcher == NO_MATCH;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
@@ -212,6 +220,7 @@ public class FastIgnoreRule {
 
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -222,6 +231,7 @@ public class FastIgnoreRule {
 		return result;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

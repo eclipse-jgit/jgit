@@ -71,6 +71,7 @@ public class NameMatcher extends AbstractMatcher {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean matches(String path, boolean assumeDirectory,
 			boolean pathMatch) {
@@ -120,6 +121,7 @@ public class NameMatcher extends AbstractMatcher {
 		return false;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean matches(String segment, int startIncl, int endExcl,
 			boolean assumeDirectory) {

@@ -61,12 +61,14 @@ public final class WildMatcher extends AbstractMatcher {
 		super(WILDMATCH, false);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public final boolean matches(String path, boolean assumeDirectory,
 			boolean pathMatch) {
 		return true;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public final boolean matches(String segment, int startIncl, int endExcl,
 			boolean assumeDirectory) {

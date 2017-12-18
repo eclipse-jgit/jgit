@@ -64,16 +64,19 @@ public abstract class AbstractMatcher implements IMatcher {
 		this.dirOnly = dirOnly;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		return pattern;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int hashCode() {
 		return pattern.hashCode();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
