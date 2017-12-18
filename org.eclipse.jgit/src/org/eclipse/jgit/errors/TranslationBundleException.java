@@ -43,7 +43,6 @@
 package org.eclipse.jgit.errors;
 
 import java.util.Locale;
-import java.util.ResourceBundle;
 
 /**
  * Common base class for all translation bundle related exceptions.
@@ -55,7 +54,8 @@ public abstract class TranslationBundleException extends RuntimeException {
 	private final Locale locale;
 
 	/**
-	 * To construct an instance of {@link TranslationBundleException}
+	 * Construct an instance of
+	 * {@link org.eclipse.jgit.errors.TranslationBundleException}
 	 *
 	 * @param message
 	 *            exception message
@@ -65,7 +65,7 @@ public abstract class TranslationBundleException extends RuntimeException {
 	 *            locale for which the exception occurred
 	 * @param cause
 	 *            original exception that caused this exception. Usually thrown
-	 *            from the {@link ResourceBundle} class.
+	 *            from the {@link java.util.ResourceBundle} class.
 	 */
 	protected TranslationBundleException(String message, Class bundleClass, Locale locale, Exception cause) {
 		super(message, cause);
@@ -74,6 +74,8 @@ public abstract class TranslationBundleException extends RuntimeException {
 	}
 
 	/**
+	 * Get bundle class
+	 *
 	 * @return bundle class for which the exception occurred
 	 */
 	final public Class getBundleClass() {
@@ -81,6 +83,8 @@ public abstract class TranslationBundleException extends RuntimeException {
 	}
 
 	/**
+	 * Get locale for which the exception occurred
+	 *
 	 * @return locale for which the exception occurred
 	 */
 	final public Locale getLocale() {

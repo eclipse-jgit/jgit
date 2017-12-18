@@ -43,13 +43,12 @@
  */
 package org.eclipse.jgit.errors;
 
-import org.eclipse.jgit.transport.CredentialItem;
-import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.URIish;
 
 /**
- * An exception thrown when a {@link CredentialItem} is requested from a
- * {@link CredentialsProvider} which is not supported by this provider.
+ * An exception thrown when a {@link org.eclipse.jgit.transport.CredentialItem}
+ * is requested from a {@link org.eclipse.jgit.transport.CredentialsProvider}
+ * which is not supported by this provider.
  */
 public class UnsupportedCredentialItem extends RuntimeException {
 	private static final long serialVersionUID = 1L;

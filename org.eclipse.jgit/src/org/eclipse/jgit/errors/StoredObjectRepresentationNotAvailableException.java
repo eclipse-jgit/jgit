@@ -45,7 +45,9 @@ package org.eclipse.jgit.errors;
 
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
 
-/** A previously selected representation is no longer available. */
+/**
+ * A previously selected representation is no longer available.
+ */
 public class StoredObjectRepresentationNotAvailableException extends Exception {
 	private static final long serialVersionUID = 1L;
 

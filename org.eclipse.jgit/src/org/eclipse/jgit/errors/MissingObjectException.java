@@ -100,7 +100,11 @@ public class MissingObjectException extends IOException {
 		missing = null;
 	}
 
-	/** @return the ObjectId that was not found. */
+	/**
+	 * Get the ObjectId that was not found
+	 *
+	 * @return the ObjectId that was not found
+	 */
 	public ObjectId getObjectId() {
 		return missing;
 	}

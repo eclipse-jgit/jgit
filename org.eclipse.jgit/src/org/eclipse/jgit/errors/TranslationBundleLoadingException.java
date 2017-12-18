@@ -43,7 +43,6 @@
 package org.eclipse.jgit.errors;
 
 import java.util.Locale;
-import java.util.ResourceBundle;
 
 /**
  * This exception will be thrown when a translation bundle loading
@@ -53,8 +52,9 @@ public class TranslationBundleLoadingException extends TranslationBundleExceptio
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Construct a {@link TranslationBundleLoadingException} for the specified
-	 * bundle class and locale.
+	 * Construct a
+	 * {@link org.eclipse.jgit.errors.TranslationBundleLoadingException} for the
+	 * specified bundle class and locale.
 	 *
 	 * @param bundleClass
 	 *            the bundle class for which the loading failed
@@ -62,7 +62,8 @@ public class TranslationBundleLoadingException extends TranslationBundleExceptio
 	 *            the locale for which the loading failed
 	 * @param cause
 	 *            the original exception thrown from the
-	 *            {@link ResourceBundle#getBundle(String, Locale)} method.
+	 *            {@link java.util.ResourceBundle#getBundle(String, Locale)}
+	 *            method.
 	 */
 	public TranslationBundleLoadingException(Class bundleClass, Locale locale, Exception cause) {
 		super("Loading of translation bundle failed for [" //$NON-NLS-1$

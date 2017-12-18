@@ -48,7 +48,9 @@ import java.text.MessageFormat;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.transport.URIish;
 
-/** Thrown when PackParser finds an object larger than a predefined limit */
+/**
+ * Thrown when PackParser finds an object larger than a predefined limit
+ */
 public class TooLargeObjectInPackException extends TransportException {
 	private static final long serialVersionUID = 1L;
 
@@ -72,7 +74,9 @@ public class TooLargeObjectInPackException extends TransportException {
 	 * too large object is known.
 	 *
 	 * @param objectSize
+	 *            a long.
 	 * @param maxObjectSizeLimit
+	 *            a long.
 	 */
 	public TooLargeObjectInPackException(long objectSize,
 			long maxObjectSizeLimit) {
