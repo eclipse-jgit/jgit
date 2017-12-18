@@ -53,6 +53,13 @@ abstract class AbstractHead implements Head {
 
 	private final boolean star;
 
+	/**
+	 * Whether the char matches
+	 *
+	 * @param c
+	 *            a char.
+	 * @return whether the char matches
+	 */
 	protected abstract boolean matches(char c);
 
 	AbstractHead(boolean star) {
@@ -60,9 +67,11 @@ abstract class AbstractHead implements Head {
 	}
 
 	/**
+	 * Set {@link org.eclipse.jgit.fnmatch.Head}s which will not be modified.
 	 *
 	 * @param newHeads
-	 *            a list of {@link Head}s which will not be modified.
+	 *            a list of {@link org.eclipse.jgit.fnmatch.Head}s which will
+	 *            not be modified.
 	 */
 	public final void setNewHeads(List<Head> newHeads) {
 		if (this.newHeads != null)
@@ -70,6 +79,7 @@ abstract class AbstractHead implements Head {
 		this.newHeads = newHeads;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public List<Head> getNextHeads(char c) {
 		if (matches(c))
