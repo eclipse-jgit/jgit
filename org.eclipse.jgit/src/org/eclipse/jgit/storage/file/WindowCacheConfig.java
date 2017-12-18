@@ -47,7 +47,9 @@ import org.eclipse.jgit.internal.storage.file.WindowCache;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.storage.pack.PackConfig;
 
-/** Configuration parameters for JVM-wide buffer cache used by JGit. */
+/**
+ * Configuration parameters for JVM-wide buffer cache used by JGit.
+ */
 public class WindowCacheConfig {
 	/** 1024 (number of bytes in one kibibyte/kilobyte) */
 	public static final int KB = 1024;
@@ -67,7 +69,9 @@ public class WindowCacheConfig {
 
 	private int streamFileThreshold;
 
-	/** Create a default configuration. */
+	/**
+	 * Create a default configuration.
+	 */
 	public WindowCacheConfig() {
 		packedGitOpenFiles = 128;
 		packedGitLimit = 10 * MB;
@@ -78,6 +82,8 @@ public class WindowCacheConfig {
 	}
 
 	/**
+	 * Get maximum number of streams to open at a time.
+	 *
 	 * @return maximum number of streams to open at a time. Open packs count
 	 *         against the process limits. <b>Default is 128.</b>
 	 */
@@ -86,6 +92,8 @@ public class WindowCacheConfig {
 	}
 
 	/**
+	 * Set maximum number of streams to open at a time.
+	 *
 	 * @param fdLimit
 	 *            maximum number of streams to open at a time. Open packs count
 	 *            against the process limits
@@ -95,6 +103,9 @@ public class WindowCacheConfig {
 	}
 
 	/**
+	 * Get maximum number bytes of heap memory to dedicate to caching pack file
+	 * data.
+	 *
 	 * @return maximum number bytes of heap memory to dedicate to caching pack
 	 *         file data. <b>Default is 10 MB.</b>
 	 */
@@ -103,6 +114,9 @@ public class WindowCacheConfig {
 	}
 
 	/**
+	 * Set maximum number bytes of heap memory to dedicate to caching pack file
+	 * data.
+	 *
 	 * @param newLimit
 	 *            maximum number bytes of heap memory to dedicate to caching
 	 *            pack file data.
@@ -112,6 +126,9 @@ public class WindowCacheConfig {
 	}
 
 	/**
+	 * Get size in bytes of a single window mapped or read in from the pack
+	 * file.
+	 *
 	 * @return size in bytes of a single window mapped or read in from the pack
 	 *         file. <b>Default is 8 KB.</b>
 	 */
@@ -120,6 +137,8 @@ public class WindowCacheConfig {
 	}
 
 	/**
+	 * Set size in bytes of a single window read in from the pack file.
+	 *
 	 * @param newSize
 	 *            size in bytes of a single window read in from the pack file.
 	 */
@@ -128,25 +147,32 @@ public class WindowCacheConfig {
 	}
 
 	/**
-	 * @return true enables use of Java NIO virtual memory mapping for windows;
-	 *         false reads entire window into a byte[] with standard read calls.
-	 *         <b>Default false.</b>
+	 * Whether to use Java NIO virtual memory mapping for windows
+	 *
+	 * @return {@code true} enables use of Java NIO virtual memory mapping for
+	 *         windows; false reads entire window into a byte[] with standard
+	 *         read calls. <b>Default false.</b>
 	 */
 	public boolean isPackedGitMMAP() {
 		return packedGitMMAP;
 	}
 
 	/**
+	 * Set whether to enable use of Java NIO virtual memory mapping for windows
+	 *
 	 * @param usemmap
-	 *            true enables use of Java NIO virtual memory mapping for
-	 *            windows; false reads entire window into a byte[] with standard
-	 *            read calls.
+	 *            {@code true} enables use of Java NIO virtual memory mapping
+	 *            for windows; false reads entire window into a byte[] with
+	 *            standard read calls.
 	 */
 	public void setPackedGitMMAP(final boolean usemmap) {
 		packedGitMMAP = usemmap;
 	}
 
 	/**
+	 * Get maximum number of bytes to cache in delta base cache for inflated,
+	 * recently accessed objects, without delta chains.
+	 *
 	 * @return maximum number of bytes to cache in delta base cache for
 	 *         inflated, recently accessed objects, without delta chains.
 	 *         <b>Default 10 MB.</b>
@@ -156,6 +182,9 @@ public class WindowCacheConfig {
 	}
 
 	/**
+	 * Set maximum number of bytes to cache in delta base cache for inflated,
+	 * recently accessed objects, without delta chains.
+	 *
 	 * @param newLimit
 	 *            maximum number of bytes to cache in delta base cache for
 	 *            inflated, recently accessed objects, without delta chains.
@@ -164,12 +193,18 @@ public class WindowCacheConfig {
 		deltaBaseCacheLimit = newLimit;
 	}
 
-	/** @return the size threshold beyond which objects must be streamed. */
+	/**
+	 * Get the size threshold beyond which objects must be streamed.
+	 *
+	 * @return the size threshold beyond which objects must be streamed.
+	 */
 	public int getStreamFileThreshold() {
 		return streamFileThreshold;
 	}
 
 	/**
+	 * Set new byte limit for objects that must be streamed.
+	 *
 	 * @param newLimit
 	 *            new byte limit for objects that must be streamed. Objects
 	 *            smaller than this size can be obtained as a contiguous byte

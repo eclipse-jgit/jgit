@@ -115,27 +115,29 @@ public class FileBasedConfig extends StoredConfig {
 		this.hash = ObjectId.zeroId();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected boolean notifyUponTransientChanges() {
 		// we will notify listeners upon save()
 		return false;
 	}
 
-	/** @return location of the configuration file on disk */
+	/**
+	 * Get location of the configuration file on disk
+	 *
+	 * @return location of the configuration file on disk
+	 */
 	public final File getFile() {
 		return configFile;
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * Load the configuration as a Git text style configuration file.
 	 * <p>
 	 * If the file does not exist, this configuration is cleared, and thus
 	 * behaves the same as though the file exists, but is empty.
-	 *
-	 * @throws IOException
-	 *             the file could not be read (but does exist).
-	 * @throws ConfigInvalidException
-	 *             the file is not a properly formatted configuration file.
 	 */
 	@Override
 	public void load() throws IOException, ConfigInvalidException {
@@ -178,6 +180,8 @@ public class FileBasedConfig extends StoredConfig {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * Save the configuration as a Git text style configuration file.
 	 * <p>
 	 * <b>Warning:</b> Although this method uses the traditional Git file
@@ -185,9 +189,6 @@ public class FileBasedConfig extends StoredConfig {
 	 * configuration file, it does not ensure that the file has not been
 	 * modified since the last read, which means updates performed by other
 	 * objects accessing the same backing file may be lost.
-	 *
-	 * @throws IOException
-	 *             the file could not be written.
 	 */
 	@Override
 	public void save() throws IOException {
@@ -221,6 +222,7 @@ public class FileBasedConfig extends StoredConfig {
 		fireConfigChangedEvent();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void clear() {
 		hash = hash(new byte[0]);
@@ -231,6 +233,7 @@ public class FileBasedConfig extends StoredConfig {
 		return ObjectId.fromRaw(Constants.newMessageDigest().digest(rawText));
 	}
 
+	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
@@ -238,14 +241,18 @@ public class FileBasedConfig extends StoredConfig {
 	}
 
 	/**
+	 * Whether the currently loaded configuration file is outdated
+	 *
 	 * @return returns true if the currently loaded configuration file is older
-	 * than the file on disk
+	 *         than the file on disk
 	 */
 	public boolean isOutdated() {
 		return snapshot.isModified(getFile());
 	}
 
 	/**
+	 * {@inheritDoc}
+	 *
 	 * @since 4.10
 	 */
 	@Override
