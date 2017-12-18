@@ -89,7 +89,10 @@ import org.junit.rules.TemporaryFolder;
 /**
  * Test reading of git config
  */
+@SuppressWarnings("boxing")
 public class ConfigTest {
+	// A non-ASCII whitespace character: U+2002 EN QUAD.
+	private static final char WS = '\u2002';
 
 	@Rule
 	public ExpectedException expectedEx = ExpectedException.none();
@@ -666,28 +669,6 @@ public class ConfigTest {
 		assertTrue("Subsection should contain \"B\"", names.contains("B"));
 	}
 
-	@Test
-	public void testQuotingForSubSectionNames() {
-		String resultPattern = "[testsection \"{0}\"]\n\ttestname = testvalue\n";
-		String result;
-
-		Config config = new Config();
-		config.setString("testsection", "testsubsection", "testname",
-				"testvalue");
-
-		result = MessageFormat.format(resultPattern, "testsubsection");
-		assertEquals(result, config.toText());
-		config.clear();
-
-		config.setString("testsection", "#quotable", "testname", "testvalue");
-		result = MessageFormat.format(resultPattern, "#quotable");
-		assertEquals(result, config.toText());
-		config.clear();
-
-		config.setString("testsection", "with\"quote", "testname", "testvalue");
-		result = MessageFormat.format(resultPattern, "with\\\"quote");
-		assertEquals(result, config.toText());
-	}
 
 	@Test
 	public void testNoFinalNewline() throws ConfigInvalidException {
@@ -956,53 +937,187 @@ public class ConfigTest {
 
 	@Test
 	public void testEscapeSpacesOnly() throws ConfigInvalidException {
+		// Empty string is read back as null, so this doesn't round-trip.
 		assertEquals("", Config.escapeValue(""));
-		assertEquals("\" \"", Config.escapeValue(" "));
-		assertEquals("\"  \"", Config.escapeValue("  "));
 
-		assertParseRoundTrip(" ");
-		assertParseRoundTrip("  ");
+		assertValueRoundTrip(" ", "\" \"");
+		assertValueRoundTrip("  ", "\"  \"");
 	}
 
 	@Test
 	public void testEscapeLeadingSpace() throws ConfigInvalidException {
-		assertEquals("x", Config.escapeValue("x"));
-		assertEquals("\" x\"", Config.escapeValue(" x"));
-		assertEquals("\"  x\"", Config.escapeValue("  x"));
-
-		assertParseRoundTrip("x");
-		assertParseRoundTrip(" x");
-		assertParseRoundTrip("  x");
+		assertValueRoundTrip("x", "x");
+		assertValueRoundTrip(" x", "\" x\"");
+		assertValueRoundTrip("  x", "\"  x\"");
 	}
 
 	@Test
 	public void testEscapeTrailingSpace() throws ConfigInvalidException {
-		assertEquals("x", Config.escapeValue("x"));
-		assertEquals("\"x  \"", Config.escapeValue("x  "));
-		assertEquals("x\" \"", Config.escapeValue("x "));
-
-		assertParseRoundTrip("x");
-		assertParseRoundTrip("x ");
-		assertParseRoundTrip("x  ");
+		assertValueRoundTrip("x", "x");
+		assertValueRoundTrip("x  ","\"x  \"");
+		assertValueRoundTrip("x ","\"x \"");
 	}
 
 	@Test
 	public void testEscapeLeadingAndTrailingSpace()
 			throws ConfigInvalidException {
-		assertEquals("\" x \"", Config.escapeValue(" x "));
-		assertEquals("\"  x \"", Config.escapeValue("  x "));
-		assertEquals("\" x  \"", Config.escapeValue(" x  "));
-		assertEquals("\"  x  \"", Config.escapeValue("  x  "));
-
-		assertParseRoundTrip(" x ");
-		assertParseRoundTrip(" x  ");
-		assertParseRoundTrip("  x ");
-		assertParseRoundTrip("  x  ");
+		assertValueRoundTrip(" x ", "\" x \"");
+		assertValueRoundTrip("  x ", "\"  x \"");
+		assertValueRoundTrip(" x  ", "\" x  \"");
+		assertValueRoundTrip("  x  ", "\"  x  \"");
 	}
 
-	private static void assertParseRoundTrip(String value)
+	@Test
+	public void testNoEscapeInternalSpaces() throws ConfigInvalidException {
+		assertValueRoundTrip("x y");
+		assertValueRoundTrip("x  y");
+		assertValueRoundTrip("x  y");
+		assertValueRoundTrip("x  y   z");
+		assertValueRoundTrip("x " + WS + " y");
+	}
+
+	@Test
+	public void testEscapeSpecialCharacters() throws ConfigInvalidException {
+		assertValueRoundTrip("x#y", "\"x#y\"");
+		assertValueRoundTrip("x;y", "\"x;y\"");
+		assertValueRoundTrip("x\\y", "\"x\\\\y\"");
+		assertValueRoundTrip("x\"y", "\"x\\\"y\"");
+		assertValueRoundTrip("x\ny", "\"x\\ny\"");
+		assertValueRoundTrip("x\ty", "\"x\\ty\"");
+		assertValueRoundTrip("x\by", "\"x\\by\"");
+	}
+
+	@Test
+	public void testEscapeValueInvalidCharacters() {
+		assertIllegalArgumentException(() -> Config.escapeSubsection("x\0y"));
+	}
+
+	@Test
+	public void testEscapeSubsectionInvalidCharacters() {
+		assertIllegalArgumentException(() -> Config.escapeSubsection("x\ny"));
+		assertIllegalArgumentException(() -> Config.escapeSubsection("x\0y"));
+	}
+
+	@Test
+	public void testParseMultipleQuotedRegions() throws ConfigInvalidException {
+		assertEquals("b a z; \n", parseEscapedValue("b\" a\"\" z; \\n\""));
+	}
+
+	@Test
+	public void testParseComments() throws ConfigInvalidException {
+		assertEquals("baz", parseEscapedValue("baz; comment"));
+		assertEquals("baz", parseEscapedValue("baz# comment"));
+		assertEquals("baz", parseEscapedValue("baz ; comment"));
+		assertEquals("baz", parseEscapedValue("baz # comment"));
+
+		assertEquals("baz", parseEscapedValue("baz ; comment"));
+		assertEquals("baz", parseEscapedValue("baz # comment"));
+		assertEquals("baz", parseEscapedValue("baz " + WS + " ; comment"));
+		assertEquals("baz", parseEscapedValue("baz " + WS + " # comment"));
+	}
+
+	@Test
+	public void testEscapeSubsection() throws ConfigInvalidException {
+		assertSubsectionRoundTrip("", "\"\"");
+		assertSubsectionRoundTrip("x", "\"x\"");
+		assertSubsectionRoundTrip(" x", "\" x\"");
+		assertSubsectionRoundTrip("x ", "\"x \"");
+		assertSubsectionRoundTrip(" x ", "\" x \"");
+		assertSubsectionRoundTrip("x y", "\"x y\"");
+		assertSubsectionRoundTrip("x  y", "\"x  y\"");
+		assertSubsectionRoundTrip("x\\y", "\"x\\\\y\"");
+		assertSubsectionRoundTrip("x\"y", "\"x\\\"y\"");
+
+		// Unlike for values, \b and \t are not escaped.
+		assertSubsectionRoundTrip("x\by", "\"x\by\"");
+		assertSubsectionRoundTrip("x\ty", "\"x\ty\"");
+	}
+
+	@Test
+	public void testParseInvalidValues() {
+		assertInvalidValue(JGitText.get().newlineInQuotesNotAllowed, "x\"\n\"y");
+		assertInvalidValue(JGitText.get().endOfFileInEscape, "x\\");
+		assertInvalidValue(
+				MessageFormat.format(JGitText.get().badEscape, 'q'), "x\\q");
+	}
+
+	@Test
+	public void testParseInvalidSubsections() {
+		assertInvalidSubsection(
+				JGitText.get().newlineInQuotesNotAllowed, "\"x\ny\"");
+		assertInvalidSubsection(
+				MessageFormat.format(JGitText.get().badEscape, 'q'), "\"x\\q\"");
+
+		// Unlike for values, \b, \n, and \t are not valid escape sequences.
+		assertInvalidSubsection(
+				MessageFormat.format(JGitText.get().badEscape, 'b'), "\"x\\b\"");
+		assertInvalidSubsection(
+				MessageFormat.format(JGitText.get().badEscape, 'n'), "\"x\\n\"");
+		assertInvalidSubsection(
+				MessageFormat.format(JGitText.get().badEscape, 't'), "\"x\\t\"");
+	}
+
+	private static void assertValueRoundTrip(String value)
 			throws ConfigInvalidException {
-		Config c = parse("[foo]\nbar = " + Config.escapeValue(value));
-		assertEquals(value, c.getString("foo", null, "bar"));
+		assertValueRoundTrip(value, value);
+	}
+
+	private static void assertValueRoundTrip(String value, String expectedEscaped)
+			throws ConfigInvalidException {
+		String escaped = Config.escapeValue(value);
+		assertEquals("escape failed;", expectedEscaped, escaped);
+		assertEquals("parse failed;", value, parseEscapedValue(escaped));
+	}
+
+	private static String parseEscapedValue(String escapedValue)
+			throws ConfigInvalidException {
+		String text = "[foo]\nbar=" + escapedValue;
+		Config c = parse(text);
+		return c.getString("foo", null, "bar");
+	}
+
+	private static void assertInvalidValue(String expectedMessage,
+			String escapedValue) {
+		try {
+			parseEscapedValue(escapedValue);
+			fail("expected ConfigInvalidException");
+		} catch (ConfigInvalidException e) {
+			assertEquals(expectedMessage, e.getMessage());
+		}
+	}
+
+	private static void assertSubsectionRoundTrip(String subsection,
+			String expectedEscaped) throws ConfigInvalidException {
+		String escaped = Config.escapeSubsection(subsection);
+		assertEquals("escape failed;", expectedEscaped, escaped);
+		assertEquals("parse failed;", subsection, parseEscapedSubsection(escaped));
+	}
+
+	private static String parseEscapedSubsection(String escapedSubsection)
+			throws ConfigInvalidException {
+		String text = "[foo " + escapedSubsection + "]\nbar = value";
+		Config c = parse(text);
+		Set<String> subsections = c.getSubsections("foo");
+		assertEquals("only one section", 1, subsections.size());
+		return subsections.iterator().next();
+	}
+
+	private static void assertIllegalArgumentException(Runnable r) {
+		try {
+			r.run();
+			fail("expected IllegalArgumentException");
+		} catch (IllegalArgumentException e) {
+			// Expected.
+		}
+	}
+
+	private static void assertInvalidSubsection(String expectedMessage,
+			String escapedSubsection) {
+		try {
+			parseEscapedSubsection(escapedSubsection);
+			fail("expected ConfigInvalidException");
+		} catch (ConfigInvalidException e) {
+			assertEquals(expectedMessage, e.getMessage());
+		}
 	}
 }

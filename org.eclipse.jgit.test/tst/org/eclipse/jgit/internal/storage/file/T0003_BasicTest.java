@@ -56,7 +56,6 @@ import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
@@ -83,6 +82,7 @@ import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
 import org.eclipse.jgit.util.FileUtils;
+import org.eclipse.jgit.util.IO;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -361,11 +361,15 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		assertEquals("a many line\ncomment\n to test", c.getString("user",
 				null, "defaultCheckInComment"));
 		c.save();
-		final FileReader fr = new FileReader(cfg);
-		final char[] cbuf = new char[configStr.length()];
-		fr.read(cbuf);
-		fr.close();
-		assertEquals(configStr, new String(cbuf));
+
+		// Saving normalizes out the weird "\\n\\\n" to a single escaped newline,
+		// and quotes the whole string.
+		final String expectedStr = "  [core];comment\n\tfilemode = yes\n"
+				+ "[user]\n"
+				+ "  email = A U Thor <thor@example.com> # Just an example...\n"
+				+ " name = \"A  Thor \\\\ \\\"\\t \"\n"
+				+ "    defaultCheckInComment = \"a many line\\ncomment\\n to test\"\n";
+		assertEquals(expectedStr, new String(IO.readFully(cfg), Constants.CHARSET));
 	}
 
 	@Test

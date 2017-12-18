@@ -144,56 +144,82 @@ public class Config {
 	 *            the value to escape
 	 * @return the escaped value
 	 */
-	static String escapeValue(final String x) {
+	static String escapeValue(String x) {
 		if (x.isEmpty()) {
 			return ""; //$NON-NLS-1$
 		}
-		boolean inquote = false;
-		int lineStart = 0;
-		final StringBuilder r = new StringBuilder(x.length());
+
+		boolean needQuote = x.charAt(0) == ' ' || x.charAt(x.length() - 1) == ' ';
+		StringBuilder r = new StringBuilder(x.length());
 		for (int k = 0; k < x.length(); k++) {
-			final char c = x.charAt(k);
+			char c = x.charAt(k);
+			boolean thisCharNeedsQuote = true;
+
+			// git-config(1) lists the limited set of supported escape sequences.
 			switch (c) {
+			case '\0':
+				// Unix command line calling convention cannot pass a '\0' as an
+				// argument, so there is no equivalent way in C git to store a null byte
+				// in a config value.
+				throw new IllegalArgumentException(
+						JGitText.get().configValueContainsNullByte);
+
 			case '\n':
-				if (inquote) {
-					r.append('"');
-					inquote = false;
-				}
-				r.append("\\n\\\n"); //$NON-NLS-1$
-				lineStart = r.length();
+				r.append('\\').append('n');
 				break;
 
 			case '\t':
-				r.append("\\t"); //$NON-NLS-1$
+				r.append('\\').append('t');
 				break;
 
 			case '\b':
-				r.append("\\b"); //$NON-NLS-1$
+				r.append('\\').append('b');
 				break;
 
 			case '\\':
-				r.append("\\\\"); //$NON-NLS-1$
-				break;
-
 			case '"':
-				r.append("\\\""); //$NON-NLS-1$
+				r.append('\\').append(c);
 				break;
 
-			case ';':
 			case '#':
-				if (!inquote) {
-					r.insert(lineStart, '"');
-					inquote = true;
-				}
+			case ';':
 				r.append(c);
 				break;
 
-			case ' ':
-				if (!inquote && (r.length() == 0 || r.charAt(r.length() - 1) == ' ')) {
-					r.insert(lineStart, '"');
-					inquote = true;
-				}
-				r.append(' ');
+			default:
+				thisCharNeedsQuote = false;
+				r.append(c);
+				break;
+			}
+			needQuote |= thisCharNeedsQuote;
+		}
+
+		return needQuote ? '"' + r.toString() + '"' : r.toString();
+	}
+
+	static String escapeSubsection(String x) {
+		if (x.isEmpty()) {
+			return "\"\""; //$NON-NLS-1$
+		}
+
+		StringBuilder r = new StringBuilder(x.length() + 2).append('"');
+		for (int k = 0; k < x.length(); k++) {
+			char c = x.charAt(k);
+
+			// git-config(1) lists the limited set of supported escape sequences
+			// (which is even more limited for subsection names than for values).
+			switch (c) {
+			case '\0':
+				throw new IllegalArgumentException(
+						JGitText.get().configSubsectionContainsNullByte);
+
+			case '\n':
+				throw new IllegalArgumentException(
+						JGitText.get().configSubsectionContainsNewline);
+
+			case '\\':
+			case '"':
+				r.append('\\').append(c);
 				break;
 
 			default:
@@ -202,23 +228,7 @@ public class Config {
 			}
 		}
 
-		if (!inquote) {
-			// Ensure any trailing whitespace is quoted.
-			int s = x.length();
-			while (s > 0 && x.charAt(s - 1) == ' ') {
-				s--;
-			}
-			if (s != x.length()) {
-				// Can't insert at lineStart since there may be intervening quotes.
-				r.insert(s, '"');
-				inquote = true;
-			}
-		}
-
-		if (inquote) {
-			r.append('"');
-		}
-		return r.toString();
+		return r.append('"').toString();
 	}
 
 	/**
@@ -1068,7 +1078,7 @@ public class Config {
 				e.section = readSectionName(in);
 				input = in.read();
 				if ('"' == input) {
-					e.subsection = readValue(in, true, '"');
+					e.subsection = readSubsectionName(in);
 					input = in.read();
 				}
 				if (']' != input)
@@ -1085,7 +1095,7 @@ public class Config {
 					e.name = e.name.substring(0, e.name.length() - 1);
 					e.value = MAGIC_EMPTY_VALUE;
 				} else
-					e.value = readValue(in, false, -1);
+					e.value = readValue(in);
 
 				if (e.section.equals("include")) { //$NON-NLS-1$
 					addIncludedConfig(newEntries, e, depth);
@@ -1252,10 +1262,9 @@ public class Config {
 		return name.toString();
 	}
 
-	private static String readValue(final StringReader in, boolean quote,
-			final int eol) throws ConfigInvalidException {
-		final StringBuilder value = new StringBuilder();
-		boolean space = false;
+	private static String readSubsectionName(StringReader in)
+			throws ConfigInvalidException {
+		StringBuilder r = new StringBuilder();
 		for (;;) {
 			int c = in.read();
 			if (c < 0) {
@@ -1263,30 +1272,80 @@ public class Config {
 			}
 
 			if ('\n' == c) {
-				if (quote)
-					throw new ConfigInvalidException(JGitText.get().newlineInQuotesNotAllowed);
+				throw new ConfigInvalidException(
+						JGitText.get().newlineInQuotesNotAllowed);
+			}
+			if ('\\' == c) {
+				c = in.read();
+				switch (c) {
+				case -1:
+					throw new ConfigInvalidException(JGitText.get().endOfFileInEscape);
+
+				case '\\':
+				case '"':
+					r.append((char) c);
+					continue;
+
+				default:
+					throw new ConfigInvalidException(MessageFormat.format(
+							JGitText.get().badEscape,
+							Character.valueOf(((char) c))));
+				}
+			}
+			if ('"' == c) {
+				break;
+			}
+
+			r.append((char) c);
+		}
+		return r.toString();
+	}
+
+	private static String readValue(final StringReader in)
+			throws ConfigInvalidException {
+		StringBuilder value = new StringBuilder();
+		StringBuilder trailingSpaces = null;
+		boolean quote = false;
+		boolean inLeadingSpace = true;
+
+		for (;;) {
+			int c = in.read();
+			if (c < 0) {
+				break;
+			}
+			if ('\n' == c) {
+				if (quote) {
+					throw new ConfigInvalidException(
+							JGitText.get().newlineInQuotesNotAllowed);
+				}
 				in.reset();
 				break;
 			}
 
-			if (eol == c)
+			if (!quote && (';' == c || '#' == c)) {
+				if (trailingSpaces != null) {
+					trailingSpaces.setLength(0);
+				}
+				in.reset();
 				break;
-
-			if (!quote) {
-				if (Character.isWhitespace((char) c)) {
-					space = true;
-					continue;
-				}
-				if (';' == c || '#' == c) {
-					in.reset();
-					break;
-				}
 			}
 
-			if (space) {
-				if (value.length() > 0)
-					value.append(' ');
-				space = false;
+			char cc = (char) c;
+			if (Character.isWhitespace(cc)) {
+				if (inLeadingSpace) {
+					continue;
+				}
+				if (trailingSpaces == null) {
+					trailingSpaces = new StringBuilder();
+				}
+				trailingSpaces.append(cc);
+				continue;
+			} else {
+				inLeadingSpace = false;
+				if (trailingSpaces != null) {
+					value.append(trailingSpaces);
+					trailingSpaces.setLength(0);
+				}
 			}
 
 			if ('\\' == c) {
@@ -1323,7 +1382,7 @@ public class Config {
 				continue;
 			}
 
-			value.append((char) c);
+			value.append(cc);
 		}
 		return value.length() > 0 ? value.toString() : null;
 	}
