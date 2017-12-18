@@ -69,6 +69,7 @@ class RefTreeRename extends RefRename {
 		this.refdb = refdb;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected Result doRename() throws IOException {
 		try (RevWalk rw = new RevWalk(refdb.getRepository())) {

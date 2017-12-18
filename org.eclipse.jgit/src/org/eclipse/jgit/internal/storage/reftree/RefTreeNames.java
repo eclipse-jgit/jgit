@@ -45,7 +45,9 @@ package org.eclipse.jgit.internal.storage.reftree;
 
 import org.eclipse.jgit.lib.RefDatabase;
 
-/** Magic reference name logic for RefTrees. */
+/**
+ * Magic reference name logic for RefTrees.
+ */
 public class RefTreeNames {
 	/**
 	 * Suffix used on a {@link RefTreeDatabase#getTxnNamespace()} for user data.

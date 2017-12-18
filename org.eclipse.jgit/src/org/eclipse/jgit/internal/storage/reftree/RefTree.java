@@ -74,7 +74,6 @@ import org.eclipse.jgit.errors.DirCacheNameConflictException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -92,11 +91,13 @@ import org.eclipse.jgit.util.RawParseUtils;
  * default reference {@code "refs/heads/master"} is stored at path
  * {@code "heads/master"} in a {@code RefTree}.
  * <p>
- * Normal references are stored as {@link FileMode#GITLINK} tree entries. The
- * ObjectId in the tree entry is the ObjectId the reference refers to.
+ * Normal references are stored as {@link org.eclipse.jgit.lib.FileMode#GITLINK}
+ * tree entries. The ObjectId in the tree entry is the ObjectId the reference
+ * refers to.
  * <p>
- * Symbolic references are stored as {@link FileMode#SYMLINK} entries, with the
- * blob storing the name of the target reference.
+ * Symbolic references are stored as
+ * {@link org.eclipse.jgit.lib.FileMode#SYMLINK} entries, with the blob storing
+ * the name of the target reference.
  * <p>
  * Annotated tags also store the peeled object using a {@code GITLINK} entry
  * with the suffix <code>" ^"</code> (space carrot), for example
@@ -127,13 +128,13 @@ public class RefTree {
 	 * @param tree
 	 *            the tree to read.
 	 * @return the ref tree read from the commit.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the repository cannot be accessed through the reader.
-	 * @throws CorruptObjectException
+	 * @throws org.eclipse.jgit.errors.CorruptObjectException
 	 *             a tree object is corrupt and cannot be read.
-	 * @throws IncorrectObjectTypeException
+	 * @throws org.eclipse.jgit.errors.IncorrectObjectTypeException
 	 *             a tree object wasn't actually a tree.
-	 * @throws MissingObjectException
+	 * @throws org.eclipse.jgit.errors.MissingObjectException
 	 *             a reference tree object doesn't exist.
 	 */
 	public static RefTree read(ObjectReader reader, RevTree tree)
@@ -152,9 +153,10 @@ public class RefTree {
 	/**
 	 * Read one reference.
 	 * <p>
-	 * References are always returned peeled ({@link Ref#isPeeled()} is true).
-	 * If the reference points to an annotated tag, the returned reference will
-	 * be peeled and contain {@link Ref#getPeeledObjectId()}.
+	 * References are always returned peeled
+	 * ({@link org.eclipse.jgit.lib.Ref#isPeeled()} is true). If the reference
+	 * points to an annotated tag, the returned reference will be peeled and
+	 * contain {@link org.eclipse.jgit.lib.Ref#getPeeledObjectId()}.
 	 * <p>
 	 * If the reference is a symbolic reference and the chain depth is less than
 	 * {@link org.eclipse.jgit.lib.RefDatabase#MAX_SYMBOLIC_REF_DEPTH} the
@@ -166,7 +168,7 @@ public class RefTree {
 	 * @param name
 	 *            name of the reference to read.
 	 * @return the reference; null if it does not exist.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             cannot read a symbolic reference target.
 	 */
 	@Nullable
@@ -378,7 +380,7 @@ public class RefTree {
 	 *            Caller is responsible for flushing the inserter before trying
 	 *            to read the objects, or exposing them through a reference.
 	 * @return the top level tree.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             a tree could not be written.
 	 */
 	public ObjectId writeTree(ObjectInserter inserter) throws IOException {
@@ -391,7 +393,11 @@ public class RefTree {
 		return contents.writeTree(inserter);
 	}
 
-	/** @return a deep copy of this RefTree. */
+	/**
+	 * Create a deep copy of this RefTree.
+	 *
+	 * @return a deep copy of this RefTree.
+	 */
 	public RefTree copy() {
 		RefTree r = new RefTree(DirCache.newInCore());
 		DirCacheBuilder b = r.contents.builder();
