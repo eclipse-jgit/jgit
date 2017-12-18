@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87929364_cb7cd5db",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-12-18T00:52:15Z",
+      "side": 1,
+      "message": "Are these intentionally added?  Seems they are all the same as the previous 5 lines.",
+      "range": {
+        "startLine": 264,
+        "startChar": 4,
+        "endLine": 283,
+        "endChar": 45
+      },
+      "revId": "799d8ffc126528d8ff8f1a6dc93ac008c6059148",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
