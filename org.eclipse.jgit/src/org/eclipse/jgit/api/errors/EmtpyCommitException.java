@@ -42,7 +42,7 @@ package org.eclipse.jgit.api.errors;
  *
  * @since 4.2
  */
-public class EmtpyCommitException extends GitAPIException {
+public class EmtpyCommitException extends GitAPIException { // TODO: Correct spelling of this class name in 5.0
 	private static final long serialVersionUID = 1L;
 
 	/**
