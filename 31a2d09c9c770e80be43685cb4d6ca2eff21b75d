@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87929364_bff89f3e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-12-18T23:16:14Z",
+      "side": 1,
+      "message": "optional: these \\ escapes don\u0027t require quoting. E.g.\n\n $ git config -f f.config x.y.z \"        \"\n $ cat f.config \n [x \"y\"]\n        z \u003d \\t",
+      "revId": "31a2d09c9c770e80be43685cb4d6ca2eff21b75d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
