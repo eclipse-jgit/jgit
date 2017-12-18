@@ -49,8 +49,9 @@ import java.text.MessageFormat;
 import org.eclipse.jgit.internal.JGitText;
 
 /**
- * This exception will be thrown from the {@link NoteMerger} when a conflict on
- * Notes content is found during merge.
+ * This exception will be thrown from the
+ * {@link org.eclipse.jgit.notes.NoteMerger} when a conflict on Notes content is
+ * found during merge.
  */
 public class NotesMergeConflictException extends IOException {
 	private static final long serialVersionUID = 1L;

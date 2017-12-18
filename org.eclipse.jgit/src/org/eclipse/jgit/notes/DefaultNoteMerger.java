@@ -53,7 +53,7 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.util.io.UnionInputStream;
 
 /**
- * Default implementation of the {@link NoteMerger}.
+ * Default implementation of the {@link org.eclipse.jgit.notes.NoteMerger}.
  * <p>
  * If ours and theirs are both non-null, which means they are either both edits
  * or both adds, then this merger will simply join the content of ours and
@@ -67,6 +67,7 @@ import org.eclipse.jgit.util.io.UnionInputStream;
  */
 public class DefaultNoteMerger implements NoteMerger {
 
+	/** {@inheritDoc} */
 	@Override
 	public Note merge(Note base, Note ours, Note theirs, ObjectReader reader,
 			ObjectInserter inserter) throws IOException {
