@@ -61,4 +61,19 @@ public class StoredObjectRepresentationNotAvailableException extends Exception {
 	public StoredObjectRepresentationNotAvailableException(ObjectToPack otp) {
 		// Do nothing.
 	}
+
+	/**
+	 * Construct an error for an object.
+	 *
+	 * @param otp
+	 *            the object whose current representation is no longer present.
+	 * @param cause
+	 *            cause
+	 * @since 4.10
+	 */
+	public StoredObjectRepresentationNotAvailableException(ObjectToPack otp,
+			Throwable cause) {
+		super(cause);
+		// Do nothing.
+	}
 }
