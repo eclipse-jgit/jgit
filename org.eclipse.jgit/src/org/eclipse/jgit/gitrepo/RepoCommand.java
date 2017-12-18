@@ -232,7 +232,10 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	}
 
 	/**
+	 * Constructor for RepoCommand
+	 *
 	 * @param repo
+	 *            the {@link org.eclipse.jgit.lib.Repository}
 	 */
 	public RepoCommand(Repository repo) {
 		super(repo);
@@ -258,7 +261,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	 * Setting inputStream will ignore the path set. It will be closed in
 	 * {@link #call}.
 	 *
-	 * @param inputStream
+	 * @param inputStream a {@link java.io.InputStream} object.
 	 * @return this command
 	 * @since 3.5
 	 */
@@ -271,10 +274,11 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	 * Set base URI of the paths inside the XML. This is typically the name of
 	 * the directory holding the manifest repository, eg. for
 	 * https://android.googlesource.com/platform/manifest, this should be
-	 * /platform (if you would run this on android.googlesource.com)
-	 * or https://android.googlesource.com/platform elsewhere.
+	 * /platform (if you would run this on android.googlesource.com) or
+	 * https://android.googlesource.com/platform elsewhere.
 	 *
 	 * @param uri
+	 *            the base URI
 	 * @return this command
 	 */
 	public RepoCommand setURI(String uri) {
@@ -319,6 +323,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	 * revision specified in project, this branch will be used.
 	 *
 	 * @param branch
+	 *            a branch name
 	 * @return this command
 	 */
 	public RepoCommand setBranch(String branch) {
@@ -336,6 +341,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	 * ignored.
 	 *
 	 * @param branch
+	 *            branch name
 	 * @return this command
 	 * @since 4.1
 	 */
@@ -404,6 +410,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	 *
 	 * @see org.eclipse.jgit.lib.NullProgressMonitor
 	 * @param monitor
+	 *            a {@link org.eclipse.jgit.lib.ProgressMonitor}
 	 * @return this command
 	 */
 	public RepoCommand setProgressMonitor(final ProgressMonitor monitor) {
@@ -438,6 +445,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	 * ignored.
 	 *
 	 * @param author
+	 *            the author's {@link org.eclipse.jgit.lib.PersonIdent}
 	 * @return this command
 	 */
 	public RepoCommand setAuthor(final PersonIdent author) {
@@ -451,6 +459,8 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	 * This is only used in bare repositories.
 	 *
 	 * @param callback
+	 *            a {@link org.eclipse.jgit.gitrepo.RepoCommand.RemoteReader}
+	 *            object.
 	 * @return this command
 	 */
 	public RepoCommand setRemoteReader(final RemoteReader callback) {
@@ -462,6 +472,9 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	 * Set the IncludedFileReader callback.
 	 *
 	 * @param reader
+	 *            a
+	 *            {@link org.eclipse.jgit.gitrepo.ManifestParser.IncludedFileReader}
+	 *            object.
 	 * @return this command
 	 * @since 4.0
 	 */
@@ -470,6 +483,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 		return this;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public RevCommit call() throws GitAPIException {
 		try {
