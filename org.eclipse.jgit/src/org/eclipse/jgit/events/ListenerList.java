@@ -48,12 +48,14 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-/** Manages a thread-safe list of {@link RepositoryListener}s. */
+/**
+ * Manages a thread-safe list of {@link org.eclipse.jgit.events.RepositoryListener}s.
+ */
 public class ListenerList {
 	private final ConcurrentMap<Class<? extends RepositoryListener>, CopyOnWriteArrayList<ListenerHandle>> lists = new ConcurrentHashMap<>();
 
 	/**
-	 * Register a {@link WorkingTreeModifiedListener}.
+	 * Register a {@link org.eclipse.jgit.events.WorkingTreeModifiedListener}.
 	 *
 	 * @param listener
 	 *            the listener implementation.
@@ -102,8 +104,6 @@ public class ListenerList {
 	/**
 	 * Add a listener to the list.
 	 *
-	 * @param <T>
-	 *            the type of listener being registered.
 	 * @param type
 	 *            type of listener being registered.
 	 * @param listener

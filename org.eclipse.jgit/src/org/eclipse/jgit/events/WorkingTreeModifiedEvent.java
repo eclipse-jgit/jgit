@@ -48,8 +48,9 @@ import java.util.Collections;
 import org.eclipse.jgit.annotations.NonNull;
 
 /**
- * A {@link RepositoryEvent} describing changes to the working tree. It is fired
- * whenever a {@link org.eclipse.jgit.dircache.DirCacheCheckout} modifies
+ * A {@link org.eclipse.jgit.events.RepositoryEvent} describing changes to the
+ * working tree. It is fired whenever a
+ * {@link org.eclipse.jgit.dircache.DirCacheCheckout} modifies
  * (adds/deletes/updates) files in the working tree.
  *
  * @since 4.9
@@ -62,8 +63,8 @@ public class WorkingTreeModifiedEvent
 	private Collection<String> deleted;
 
 	/**
-	 * Creates a new {@link WorkingTreeModifiedEvent} with the given
-	 * collections.
+	 * Creates a new {@link org.eclipse.jgit.events.WorkingTreeModifiedEvent}
+	 * with the given collections.
 	 *
 	 * @param modified
 	 *            repository-relative paths that were added or updated
@@ -88,8 +89,8 @@ public class WorkingTreeModifiedEvent
 	}
 
 	/**
-	 * Retrieves the {@link Collection} of repository-relative paths of files
-	 * that were modified (added or updated).
+	 * Retrieves the {@link java.util.Collection} of repository-relative paths
+	 * of files that were modified (added or updated).
 	 *
 	 * @return the set
 	 */
@@ -103,8 +104,8 @@ public class WorkingTreeModifiedEvent
 	}
 
 	/**
-	 * Retrieves the {@link Collection} of repository-relative paths of files
-	 * that were deleted.
+	 * Retrieves the {@link java.util.Collection} of repository-relative paths
+	 * of files that were deleted.
 	 *
 	 * @return the set
 	 */
@@ -117,11 +118,13 @@ public class WorkingTreeModifiedEvent
 		return result;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Class<WorkingTreeModifiedListener> getListenerType() {
 		return WorkingTreeModifiedListener.class;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void dispatch(WorkingTreeModifiedListener listener) {
 		listener.onWorkingTreeModified(this);

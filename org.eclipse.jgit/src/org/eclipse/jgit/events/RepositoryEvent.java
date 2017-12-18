@@ -59,7 +59,8 @@ public abstract class RepositoryEvent<T extends RepositoryListener> {
 	 * Set the repository this event occurred on.
 	 * <p>
 	 * This method should only be invoked once on each event object, and is
-	 * automatically set by {@link Repository#fireEvent(RepositoryEvent)}.
+	 * automatically set by
+	 * {@link org.eclipse.jgit.lib.Repository#fireEvent(RepositoryEvent)}.
 	 *
 	 * @param r
 	 *            the repository.
@@ -69,12 +70,20 @@ public abstract class RepositoryEvent<T extends RepositoryListener> {
 			repository = r;
 	}
 
-	/** @return the repository that was changed. */
+	/**
+	 * Get the repository that was changed
+	 *
+	 * @return the repository that was changed
+	 */
 	public Repository getRepository() {
 		return repository;
 	}
 
-	/** @return type of listener this event dispatches to. */
+	/**
+	 * Get type of listener this event dispatches to
+	 *
+	 * @return type of listener this event dispatches to
+	 */
 	public abstract Class<T> getListenerType();
 
 	/**
@@ -85,6 +94,7 @@ public abstract class RepositoryEvent<T extends RepositoryListener> {
 	 */
 	public abstract void dispatch(T listener);
 
+	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
