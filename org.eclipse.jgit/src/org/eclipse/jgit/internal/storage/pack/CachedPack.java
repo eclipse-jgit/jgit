@@ -45,13 +45,17 @@ package org.eclipse.jgit.internal.storage.pack;
 
 import java.io.IOException;
 
-/** Describes a pack file {@link ObjectReuseAsIs} can append onto a stream. */
+/**
+ * Describes a pack file
+ * {@link org.eclipse.jgit.internal.storage.pack.ObjectReuseAsIs} can append
+ * onto a stream.
+ */
 public abstract class CachedPack {
 	/**
 	 * Get the number of objects in this pack.
 	 *
 	 * @return the total object count for the pack.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             if the object count cannot be read.
 	 */
 	public abstract long getObjectCount() throws IOException;
@@ -70,7 +74,7 @@ public abstract class CachedPack {
 	 *
 	 * @return the number of deltas; 0 if the number is not known or there are
 	 *         no deltas.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             if the delta count cannot be read.
 	 */
 	public long getDeltaCount() throws IOException {
@@ -88,15 +92,16 @@ public abstract class CachedPack {
 	 * only and using its internal state to decide if this object is within this
 	 * pack. Implementors should ensure a representation from this cached pack
 	 * is tested as part of
-	 * {@link ObjectReuseAsIs#selectObjectRepresentation(PackWriter, org.eclipse.jgit.lib.ProgressMonitor, Iterable)}
+	 * {@link org.eclipse.jgit.internal.storage.pack.ObjectReuseAsIs#selectObjectRepresentation(PackWriter, org.eclipse.jgit.lib.ProgressMonitor, Iterable)}
 	 * , ensuring this method would eventually return true if the object would
 	 * be included by this cached pack.
 	 *
 	 * @param obj
 	 *            the object being packed. Can be used as an ObjectId.
 	 * @param rep
-	 *            representation from the {@link ObjectReuseAsIs} instance that
-	 *            originally supplied this CachedPack.
+	 *            representation from the
+	 *            {@link org.eclipse.jgit.internal.storage.pack.ObjectReuseAsIs}
+	 *            instance that originally supplied this CachedPack.
 	 * @return true if this pack contains this object.
 	 */
 	public abstract boolean hasObject(ObjectToPack obj,

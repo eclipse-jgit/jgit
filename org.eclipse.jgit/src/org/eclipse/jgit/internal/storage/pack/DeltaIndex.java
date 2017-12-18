@@ -51,8 +51,9 @@ import java.io.OutputStream;
  * <p>
  * The index can be passed a result buffer, and output an instruction sequence
  * that transforms the source buffer used by the index into the result buffer.
- * The instruction sequence can be executed by {@link BinaryDelta} to recreate
- * the result buffer.
+ * The instruction sequence can be executed by
+ * {@link org.eclipse.jgit.internal.storage.pack.BinaryDelta} to recreate the
+ * result buffer.
  * <p>
  * An index stores the entire contents of the source buffer, but also a table of
  * block identities mapped to locations where the block appears in the source
@@ -191,7 +192,11 @@ public class DeltaIndex {
 		}
 	}
 
-	/** @return size of the source buffer this index has scanned. */
+	/**
+	 * Get size of the source buffer this index has scanned.
+	 *
+	 * @return size of the source buffer this index has scanned.
+	 */
 	public long getSourceSize() {
 		return src.length;
 	}
@@ -244,7 +249,7 @@ public class DeltaIndex {
 	 *            the desired result buffer. The generated instructions will
 	 *            recreate this buffer when applied to the source buffer stored
 	 *            within this index.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the output stream refused to write the instructions.
 	 */
 	public void encode(OutputStream out, byte[] res) throws IOException {
@@ -274,7 +279,7 @@ public class DeltaIndex {
 	 * @return true if the delta is smaller than deltaSizeLimit; false if the
 	 *         encoder aborted because the encoded delta instructions would be
 	 *         longer than deltaSizeLimit bytes.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the output stream refused to write the instructions.
 	 */
 	public boolean encode(OutputStream out, byte[] res, int deltaSizeLimit)
@@ -421,6 +426,7 @@ public class DeltaIndex {
 		return start - resPtr;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	@SuppressWarnings("nls")
 	public String toString() {
