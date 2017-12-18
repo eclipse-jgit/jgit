@@ -47,7 +47,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Interface enabling to run tests repeatedly
+ * Annotation enabling to run tests repeatedly
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ java.lang.annotation.ElementType.METHOD })
