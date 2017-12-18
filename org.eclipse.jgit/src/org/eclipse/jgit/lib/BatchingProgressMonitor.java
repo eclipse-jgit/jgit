@@ -48,7 +48,9 @@ import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.lib.internal.WorkQueue;
 
-/** ProgressMonitor that batches update events. */
+/**
+ * ProgressMonitor that batches update events.
+ */
 public abstract class BatchingProgressMonitor implements ProgressMonitor {
 	private long delayStartTime;
 
@@ -70,11 +72,13 @@ public abstract class BatchingProgressMonitor implements ProgressMonitor {
 		delayStartUnit = unit;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void start(int totalTasks) {
 		// Ignore the number of tasks.
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void beginTask(String title, int work) {
 		endTask();
@@ -83,12 +87,14 @@ public abstract class BatchingProgressMonitor implements ProgressMonitor {
 			task.delay(delayStartTime, delayStartUnit);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void update(int completed) {
 		if (task != null)
 			task.update(this, completed);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void endTask() {
 		if (task != null) {
@@ -97,6 +103,7 @@ public abstract class BatchingProgressMonitor implements ProgressMonitor {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean isCancelled() {
 		return false;

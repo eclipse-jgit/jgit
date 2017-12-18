@@ -82,7 +82,9 @@ public abstract class FileMode {
 	/** Bit pattern for {@link #TYPE_MASK} matching {@link #MISSING}. */
 	public static final int TYPE_MISSING = 0000000;
 
-	/** Mode indicating an entry is a tree (aka directory). */
+	/**
+	 * Mode indicating an entry is a tree (aka directory).
+	 */
 	public static final FileMode TREE = new FileMode(TYPE_TREE,
 			Constants.OBJ_TREE) {
 		@Override
@@ -197,9 +199,11 @@ public abstract class FileMode {
 	}
 
 	/**
-	 * Test a file mode for equality with this {@link FileMode} object.
+	 * Test a file mode for equality with this
+	 * {@link org.eclipse.jgit.lib.FileMode} object.
 	 *
 	 * @param modebits
+	 *            a int.
 	 * @return true if the mode bits represent the same mode as this object
 	 */
 	public abstract boolean equals(final int modebits);
@@ -215,7 +219,7 @@ public abstract class FileMode {
 	 *
 	 * @param os
 	 *            stream to copy the mode to.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the stream encountered an error during the copy.
 	 */
 	public void copyTo(final OutputStream os) throws IOException {
@@ -240,6 +244,8 @@ public abstract class FileMode {
 	}
 
 	/**
+	 * Copy the number of bytes written by {@link #copyTo(OutputStream)}.
+	 *
 	 * @return the number of bytes written by {@link #copyTo(OutputStream)}.
 	 */
 	public int copyToLength() {
@@ -249,7 +255,7 @@ public abstract class FileMode {
 	/**
 	 * Get the object type that should appear for this type of mode.
 	 * <p>
-	 * See the object type constants in {@link Constants}.
+	 * See the object type constants in {@link org.eclipse.jgit.lib.Constants}.
 	 *
 	 * @return one of the well known object type constants.
 	 */
@@ -257,13 +263,19 @@ public abstract class FileMode {
 		return objectType;
 	}
 
-	/** Format this mode as an octal string (for debugging only). */
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * Format this mode as an octal string (for debugging only).
+	 */
 	@Override
 	public String toString() {
 		return Integer.toOctalString(modeBits);
 	}
 
 	/**
+	 * Get the mode bits as an integer.
+	 *
 	 * @return The mode bits as an integer.
 	 */
 	public int getBits() {

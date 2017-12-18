@@ -113,6 +113,8 @@ public class BranchConfig {
 	}
 
 	/**
+	 * Get the full tracking branch name
+	 *
 	 * @return the full tracking branch name or <code>null</code> if it could
 	 *         not be determined
 	 */
@@ -129,6 +131,8 @@ public class BranchConfig {
 	}
 
 	/**
+	 * Get the full remote-tracking branch name
+	 *
 	 * @return the full remote-tracking branch name or {@code null} if it could
 	 *         not be determined. If you also want local tracked branches use
 	 *         {@link #getTrackingBranch()} instead.
@@ -143,6 +147,9 @@ public class BranchConfig {
 	}
 
 	/**
+	 * Whether the "remote" setting points to the local repository (with
+	 * {@value #LOCAL_REPOSITORY})
+	 *
 	 * @return {@code true} if the "remote" setting points to the local
 	 *         repository (with {@value #LOCAL_REPOSITORY}), false otherwise
 	 * @since 3.5
@@ -152,6 +159,8 @@ public class BranchConfig {
 	}
 
 	/**
+	 * Get the remote this branch is configured to fetch from/push to>
+	 *
 	 * @return the remote this branch is configured to fetch from/push to, or
 	 *         {@code null} if not defined
 	 * @since 3.5
@@ -162,6 +171,8 @@ public class BranchConfig {
 	}
 
 	/**
+	 * Get the name of the upstream branch as it is called on the remote
+	 *
 	 * @return the name of the upstream branch as it is called on the remote, or
 	 *         {@code null} if not defined
 	 * @since 3.5
@@ -172,6 +183,8 @@ public class BranchConfig {
 	}
 
 	/**
+	 * Whether the branch is configured to be rebased
+	 *
 	 * @return {@code true} if the branch is configured to be rebased
 	 * @since 3.5
 	 */
@@ -182,7 +195,7 @@ public class BranchConfig {
 	/**
 	 * Retrieves the config value of branch.[name].rebase.
 	 *
-	 * @return the {@link BranchRebaseMode}
+	 * @return the {@link org.eclipse.jgit.lib.BranchConfig.BranchRebaseMode}
 	 * @since 4.5
 	 */
 	public BranchRebaseMode getRebaseMode() {

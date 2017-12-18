@@ -180,6 +180,8 @@ public class CoreConfig {
 	}
 
 	/**
+	 * Get the compression level to use when storing loose objects
+	 *
 	 * @return The compression level to use when storing loose objects
 	 */
 	public int getCompression() {
@@ -187,6 +189,8 @@ public class CoreConfig {
 	}
 
 	/**
+	 * Get the preferred pack index file format; 0 for oldest possible.
+	 *
 	 * @return the preferred pack index file format; 0 for oldest possible.
 	 */
 	public int getPackIndexVersion() {
@@ -194,6 +198,8 @@ public class CoreConfig {
 	}
 
 	/**
+	 * Whether to log all refUpdates
+	 *
 	 * @return whether to log all refUpdates
 	 */
 	public boolean isLogAllRefUpdates() {
@@ -201,6 +207,8 @@ public class CoreConfig {
 	}
 
 	/**
+	 * Get path of excludesfile
+	 *
 	 * @return path of excludesfile
 	 */
 	public String getExcludesFile() {
@@ -208,6 +216,8 @@ public class CoreConfig {
 	}
 
 	/**
+	 * Get path of attributesfile
+	 *
 	 * @return path of attributesfile
 	 * @since 3.7
 	 */

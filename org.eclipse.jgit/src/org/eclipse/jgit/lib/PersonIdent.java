@@ -65,6 +65,8 @@ public class PersonIdent implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * Get timezone object for the given offset.
+	 *
 	 * @param tzOffset
 	 *            timezone offset as in {@link #getTimeZoneOffset()}.
 	 * @return time zone object for the given offset.
@@ -163,38 +165,45 @@ public class PersonIdent implements Serializable {
 	 * This new PersonIdent gets the info from the default committer as available
 	 * from the configuration.
 	 *
-	 * @param repo
+	 * @param repo a {@link org.eclipse.jgit.lib.Repository} object.
 	 */
 	public PersonIdent(final Repository repo) {
 		this(repo.getConfig().get(UserConfig.KEY));
 	}
 
 	/**
-	 * Copy a {@link PersonIdent}.
+	 * Copy a {@link org.eclipse.jgit.lib.PersonIdent}.
 	 *
 	 * @param pi
-	 *            Original {@link PersonIdent}
+	 *            Original {@link org.eclipse.jgit.lib.PersonIdent}
 	 */
 	public PersonIdent(final PersonIdent pi) {
 		this(pi.getName(), pi.getEmailAddress());
 	}
 
 	/**
-	 * Construct a new {@link PersonIdent} with current time.
+	 * Construct a new {@link org.eclipse.jgit.lib.PersonIdent} with current
+	 * time.
 	 *
 	 * @param aName
+	 *            a {@link java.lang.String} object.
 	 * @param aEmailAddress
+	 *            a {@link java.lang.String} object.
 	 */
 	public PersonIdent(final String aName, final String aEmailAddress) {
 		this(aName, aEmailAddress, SystemReader.getInstance().getCurrentTime());
 	}
 
 	/**
-	 * Construct a new {@link PersonIdent} with current time.
+	 * Construct a new {@link org.eclipse.jgit.lib.PersonIdent} with current
+	 * time.
 	 *
 	 * @param aName
+	 *            a {@link java.lang.String} object.
 	 * @param aEmailAddress
+	 *            a {@link java.lang.String} object.
 	 * @param when
+	 *            a {@link org.eclipse.jgit.util.time.ProposedTimestamp} object.
 	 * @since 4.6
 	 */
 	public PersonIdent(String aName, String aEmailAddress,
@@ -206,7 +215,7 @@ public class PersonIdent implements Serializable {
 	 * Copy a PersonIdent, but alter the clone's time stamp
 	 *
 	 * @param pi
-	 *            original {@link PersonIdent}
+	 *            original {@link org.eclipse.jgit.lib.PersonIdent}
 	 * @param when
 	 *            local time
 	 * @param tz
@@ -217,10 +226,11 @@ public class PersonIdent implements Serializable {
 	}
 
 	/**
-	 * Copy a {@link PersonIdent}, but alter the clone's time stamp
+	 * Copy a {@link org.eclipse.jgit.lib.PersonIdent}, but alter the clone's
+	 * time stamp
 	 *
 	 * @param pi
-	 *            original {@link PersonIdent}
+	 *            original {@link org.eclipse.jgit.lib.PersonIdent}
 	 * @param aWhen
 	 *            local time
 	 */
@@ -231,8 +241,8 @@ public class PersonIdent implements Serializable {
 	/**
 	 * Construct a PersonIdent from simple data
 	 *
-	 * @param aName
-	 * @param aEmailAddress
+	 * @param aName a {@link java.lang.String} object.
+	 * @param aEmailAddress a {@link java.lang.String} object.
 	 * @param aWhen
 	 *            local time stamp
 	 * @param aTZ
@@ -248,7 +258,7 @@ public class PersonIdent implements Serializable {
 	 * Copy a PersonIdent, but alter the clone's time stamp
 	 *
 	 * @param pi
-	 *            original {@link PersonIdent}
+	 *            original {@link org.eclipse.jgit.lib.PersonIdent}
 	 * @param aWhen
 	 *            local time stamp
 	 * @param aTZ
@@ -269,7 +279,7 @@ public class PersonIdent implements Serializable {
 	}
 
 	/**
-	 * Construct a {@link PersonIdent}.
+	 * Construct a {@link org.eclipse.jgit.lib.PersonIdent}.
 	 * <p>
 	 * Whitespace in the name and email is preserved for the lifetime of this
 	 * object, but are trimmed by {@link #toExternalString()}. This means that
@@ -277,7 +287,9 @@ public class PersonIdent implements Serializable {
 	 * equivalent instance.
 	 *
 	 * @param aName
+	 *            a {@link java.lang.String} object.
 	 * @param aEmailAddress
+	 *            a {@link java.lang.String} object.
 	 * @param aWhen
 	 *            local time stamp
 	 * @param aTZ
@@ -298,6 +310,8 @@ public class PersonIdent implements Serializable {
 	}
 
 	/**
+	 * Get name of person
+	 *
 	 * @return Name of person
 	 */
 	public String getName() {
@@ -305,6 +319,8 @@ public class PersonIdent implements Serializable {
 	}
 
 	/**
+	 * Get email address of person
+	 *
 	 * @return email address of person
 	 */
 	public String getEmailAddress() {
@@ -312,6 +328,8 @@ public class PersonIdent implements Serializable {
 	}
 
 	/**
+	 * Get timestamp
+	 *
 	 * @return timestamp
 	 */
 	public Date getWhen() {
@@ -319,6 +337,8 @@ public class PersonIdent implements Serializable {
 	}
 
 	/**
+	 * Get this person's declared time zone
+	 *
 	 * @return this person's declared time zone; null if time zone is unknown.
 	 */
 	public TimeZone getTimeZone() {
@@ -326,6 +346,8 @@ public class PersonIdent implements Serializable {
 	}
 
 	/**
+	 * Get this person's declared time zone as minutes east of UTC.
+	 *
 	 * @return this person's declared time zone as minutes east of UTC. If the
 	 *         timezone is to the west of UTC it is negative.
 	 */
@@ -334,6 +356,8 @@ public class PersonIdent implements Serializable {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * Hashcode is based only on the email address and timestamp.
 	 */
 	@Override
@@ -344,6 +368,7 @@ public class PersonIdent implements Serializable {
 		return hc;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean equals(final Object o) {
 		if (o instanceof PersonIdent) {
@@ -372,6 +397,7 @@ public class PersonIdent implements Serializable {
 		return r.toString();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	@SuppressWarnings("nls")
 	public String toString() {

@@ -135,6 +135,9 @@ public class BatchRefUpdate {
 	}
 
 	/**
+	 * Whether the batch update will permit a non-fast-forward update to an
+	 * existing reference.
+	 *
 	 * @return true if the batch update will permit a non-fast-forward update to
 	 *         an existing reference.
 	 */
@@ -154,7 +157,11 @@ public class BatchRefUpdate {
 		return this;
 	}
 
-	/** @return identity of the user making the change in the reflog. */
+	/**
+	 * Get identity of the user making the change in the reflog.
+	 *
+	 * @return identity of the user making the change in the reflog.
+	 */
 	public PersonIdent getRefLogIdent() {
 		return refLogIdent;
 	}
@@ -193,7 +200,8 @@ public class BatchRefUpdate {
 	 * such as fast-forward or force-update.
 	 * <p>
 	 * Describes the default for commands in this batch that do not override it
-	 * with {@link ReceiveCommand#setRefLogMessage(String, boolean)}.
+	 * with
+	 * {@link org.eclipse.jgit.transport.ReceiveCommand#setRefLogMessage(String, boolean)}.
 	 *
 	 * @return true if the message should include the result.
 	 */
@@ -204,21 +212,23 @@ public class BatchRefUpdate {
 	/**
 	 * Set the message to include in the reflog.
 	 * <p>
-	 * Repository implementations may limit which reflogs are written by default,
-	 * based on the project configuration. If a repo is not configured to write
-	 * logs for this ref by default, setting the message alone may have no effect.
-	 * To indicate that the repo should write logs for this update in spite of
-	 * configured defaults, use {@link #setForceRefLog(boolean)}.
+	 * Repository implementations may limit which reflogs are written by
+	 * default, based on the project configuration. If a repo is not configured
+	 * to write logs for this ref by default, setting the message alone may have
+	 * no effect. To indicate that the repo should write logs for this update in
+	 * spite of configured defaults, use {@link #setForceRefLog(boolean)}.
 	 * <p>
 	 * Describes the default for commands in this batch that do not override it
-	 * with {@link ReceiveCommand#setRefLogMessage(String, boolean)}.
+	 * with
+	 * {@link org.eclipse.jgit.transport.ReceiveCommand#setRefLogMessage(String, boolean)}.
 	 *
 	 * @param msg
-	 *            the message to describe this change. If null and appendStatus is
-	 *            false, the reflog will not be updated.
+	 *            the message to describe this change. If null and appendStatus
+	 *            is false, the reflog will not be updated.
 	 * @param appendStatus
 	 *            true if the status of the ref change (fast-forward or
-	 *            forced-update) should be appended to the user supplied message.
+	 *            forced-update) should be appended to the user supplied
+	 *            message.
 	 * @return {@code this}.
 	 */
 	public BatchRefUpdate setRefLogMessage(String msg, boolean appendStatus) {
@@ -286,12 +296,15 @@ public class BatchRefUpdate {
 	 * {@code REJECTED_OTHER_REASON}.
 	 * <p>
 	 * This method only works if the underlying ref database supports atomic
-	 * transactions, i.e. {@link RefDatabase#performsAtomicTransactions()} returns
-	 * true. Calling this method with true if the underlying ref database does not
-	 * support atomic transactions will cause all commands to fail with {@code
+	 * transactions, i.e.
+	 * {@link org.eclipse.jgit.lib.RefDatabase#performsAtomicTransactions()}
+	 * returns true. Calling this method with true if the underlying ref
+	 * database does not support atomic transactions will cause all commands to
+	 * fail with {@code
 	 * REJECTED_OTHER_REASON}.
 	 *
-	 * @param atomic whether updates should be atomic.
+	 * @param atomic
+	 *            whether updates should be atomic.
 	 * @return {@code this}
 	 * @since 4.4
 	 */
@@ -301,6 +314,8 @@ public class BatchRefUpdate {
 	}
 
 	/**
+	 * Whether updates should be atomic.
+	 *
 	 * @return atomic whether updates should be atomic.
 	 * @since 4.4
 	 */
@@ -335,7 +350,11 @@ public class BatchRefUpdate {
 		return pushCert;
 	}
 
-	/** @return commands this update will process. */
+	/**
+	 * Get commands this update will process.
+	 *
+	 * @return commands this update will process.
+	 */
 	public List<ReceiveCommand> getCommands() {
 		return Collections.unmodifiableList(commands);
 	}
@@ -401,6 +420,8 @@ public class BatchRefUpdate {
 	}
 
 	/**
+	 * Get list of timestamps the batch must wait for.
+	 *
 	 * @return list of timestamps the batch must wait for.
 	 * @since 4.6
 	 */
@@ -415,6 +436,7 @@ public class BatchRefUpdate {
 	 * Request the batch to wait for the affected timestamps to resolve.
 	 *
 	 * @param ts
+	 *            a {@link org.eclipse.jgit.util.time.ProposedTimestamp} object.
 	 * @return {@code this}.
 	 * @since 4.6
 	 */
@@ -434,7 +456,7 @@ public class BatchRefUpdate {
 	 * <p>
 	 * Implementations must respect the atomicity requirements of the underlying
 	 * database as described in {@link #setAtomic(boolean)} and
-	 * {@link RefDatabase#performsAtomicTransactions()}.
+	 * {@link org.eclipse.jgit.lib.RefDatabase#performsAtomicTransactions()}.
 	 *
 	 * @param walk
 	 *            a RevWalk to parse tags in case the storage system wants to
@@ -443,7 +465,7 @@ public class BatchRefUpdate {
 	 *            progress monitor to receive update status on.
 	 * @param options
 	 *            a list of option strings; set null to execute without
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the database is unable to accept the update. Individual
 	 *             command status must be tested to determine if there is a
 	 *             partial failure, or a total failure.
@@ -601,7 +623,7 @@ public class BatchRefUpdate {
 	 *            store them pre-peeled, a common performance optimization.
 	 * @param monitor
 	 *            progress monitor to receive update status on.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the database is unable to accept the update. Individual
 	 *             command status must be tested to determine if there is a
 	 *             partial failure, or a total failure.
@@ -658,7 +680,7 @@ public class BatchRefUpdate {
 	 * @param cmd
 	 *            specific command the update should be created to copy.
 	 * @return a single reference update command.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the reference database cannot make a new update object for
 	 *             the given reference.
 	 */
@@ -746,6 +768,7 @@ public class BatchRefUpdate {
 				: isForceRefLog();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		StringBuilder r = new StringBuilder();

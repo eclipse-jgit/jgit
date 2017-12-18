@@ -79,15 +79,17 @@ public class MutableObjectId extends AnyObjectId {
 	 *
 	 * @param index
 	 *            index of the byte to set in the raw form of the ObjectId. Must
-	 *            be in range [0, {@link Constants#OBJECT_ID_LENGTH}).
+	 *            be in range [0,
+	 *            {@link org.eclipse.jgit.lib.Constants#OBJECT_ID_LENGTH}).
 	 * @param value
 	 *            the value of the specified byte at {@code index}. Values are
 	 *            unsigned and thus are in the range [0,255] rather than the
 	 *            signed byte range of [-128, 127].
-	 * @throws ArrayIndexOutOfBoundsException
+	 * @throws java.lang.ArrayIndexOutOfBoundsException
 	 *             {@code index} is less than 0, equal to
-	 *             {@link Constants#OBJECT_ID_LENGTH}, or greater than
-	 *             {@link Constants#OBJECT_ID_LENGTH}.
+	 *             {@link org.eclipse.jgit.lib.Constants#OBJECT_ID_LENGTH}, or
+	 *             greater than
+	 *             {@link org.eclipse.jgit.lib.Constants#OBJECT_ID_LENGTH}.
 	 */
 	public void setByte(int index, int value) {
 		switch (index >> 2) {
@@ -128,7 +130,9 @@ public class MutableObjectId extends AnyObjectId {
 		}
 	}
 
-	/** Make this id match {@link ObjectId#zeroId()}. */
+	/**
+	 * Make this id match {@link org.eclipse.jgit.lib.ObjectId#zeroId()}.
+	 */
 	public void clear() {
 		w1 = 0;
 		w2 = 0;
@@ -198,7 +202,6 @@ public class MutableObjectId extends AnyObjectId {
 	 *            must be available within this integers array.
 	 * @param p
 	 *            position to read the first integer of data from.
-	 *
 	 */
 	public void fromRaw(final int[] ints, final int p) {
 		w1 = ints[p];
@@ -212,10 +215,15 @@ public class MutableObjectId extends AnyObjectId {
 	 * Convert an ObjectId from binary representation expressed in integers.
 	 *
 	 * @param a
+	 *            an int.
 	 * @param b
+	 *            an int.
 	 * @param c
+	 *            an int.
 	 * @param d
+	 *            an int.
 	 * @param e
+	 *            an int.
 	 * @since 4.7
 	 */
 	public void set(int a, int b, int c, int d, int e) {
@@ -265,6 +273,7 @@ public class MutableObjectId extends AnyObjectId {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public ObjectId toObjectId() {
 		return new ObjectId(this);

@@ -48,7 +48,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * Wrapper around the general {@link ProgressMonitor} to make it thread safe.
+ * Wrapper around the general {@link org.eclipse.jgit.lib.ProgressMonitor} to
+ * make it thread safe.
  *
  * Updates to the underlying ProgressMonitor are made only from the thread that
  * allocated this wrapper. Callers are responsible for ensuring the allocating
@@ -87,6 +88,7 @@ public class ThreadSafeProgressMonitor implements ProgressMonitor {
 		this.process = new Semaphore(0);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void start(int totalTasks) {
 		if (!isMainThread())
@@ -94,6 +96,7 @@ public class ThreadSafeProgressMonitor implements ProgressMonitor {
 		pm.start(totalTasks);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void beginTask(String title, int totalWork) {
 		if (!isMainThread())
@@ -101,7 +104,9 @@ public class ThreadSafeProgressMonitor implements ProgressMonitor {
 		pm.beginTask(title, totalWork);
 	}
 
-	/** Notify the monitor a worker is starting. */
+	/**
+	 * Notify the monitor a worker is starting.
+	 */
 	public void startWorker() {
 		startWorkers(1);
 	}
@@ -116,7 +121,9 @@ public class ThreadSafeProgressMonitor implements ProgressMonitor {
 		workers.addAndGet(count);
 	}
 
-	/** Notify the monitor a worker is finished. */
+	/**
+	 * Notify the monitor a worker is finished.
+	 */
 	public void endWorker() {
 		if (workers.decrementAndGet() == 0)
 			process.release();
@@ -139,7 +146,7 @@ public class ThreadSafeProgressMonitor implements ProgressMonitor {
 	 * This method can only be invoked by the same thread that allocated this
 	 * ThreadSafeProgressMonior.
 	 *
-	 * @throws InterruptedException
+	 * @throws java.lang.InterruptedException
 	 *             if the main thread is interrupted while waiting for
 	 *             completion of workers.
 	 */
@@ -158,12 +165,14 @@ public class ThreadSafeProgressMonitor implements ProgressMonitor {
 			pm.update(cnt);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void update(int completed) {
 		if (0 == pendingUpdates.getAndAdd(completed))
 			process.release();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean isCancelled() {
 		lock.lock();
@@ -174,6 +183,7 @@ public class ThreadSafeProgressMonitor implements ProgressMonitor {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void endTask() {
 		if (!isMainThread())

@@ -68,23 +68,32 @@ public class RepositoryCacheConfig {
 
 	private long cleanupDelayMillis;
 
-	/** Create a default configuration. */
+	/**
+	 * Create a default configuration.
+	 */
 	public RepositoryCacheConfig() {
 		expireAfterMillis = TimeUnit.HOURS.toMillis(1);
 		cleanupDelayMillis = AUTO_CLEANUP_DELAY;
 	}
 
 	/**
-	 * @return the time an unused repository should expired and be evicted from
-	 *         the RepositoryCache in milliseconds. <b>Default is 1 hour.</b>
+	 * Get the time an unused repository should be expired and be evicted from
+	 * the RepositoryCache in milliseconds.
+	 *
+	 * @return the time an unused repository should be expired and be evicted
+	 *         from the RepositoryCache in milliseconds. <b>Default is 1
+	 *         hour.</b>
 	 */
 	public long getExpireAfter() {
 		return expireAfterMillis;
 	}
 
 	/**
+	 * Set the time an unused repository should be expired and be evicted from
+	 * the RepositoryCache in milliseconds.
+	 *
 	 * @param expireAfterMillis
-	 *            the time an unused repository should expired and be evicted
+	 *            the time an unused repository should be expired and be evicted
 	 *            from the RepositoryCache in milliseconds.
 	 */
 	public void setExpireAfter(long expireAfterMillis) {
@@ -92,6 +101,9 @@ public class RepositoryCacheConfig {
 	}
 
 	/**
+	 * Get the delay between the periodic cleanup of expired repository in
+	 * milliseconds.
+	 *
 	 * @return the delay between the periodic cleanup of expired repository in
 	 *         milliseconds. <b>Default is minimum of 1/10 of expireAfterMillis
 	 *         and 10 minutes</b>
@@ -105,6 +117,9 @@ public class RepositoryCacheConfig {
 	}
 
 	/**
+	 * Set the delay between the periodic cleanup of expired repository in
+	 * milliseconds.
+	 *
 	 * @param cleanupDelayMillis
 	 *            the delay between the periodic cleanup of expired repository
 	 *            in milliseconds. Set it to {@link #AUTO_CLEANUP_DELAY} to

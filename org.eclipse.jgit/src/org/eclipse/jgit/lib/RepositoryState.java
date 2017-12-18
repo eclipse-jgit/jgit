@@ -381,7 +381,9 @@ public enum RepositoryState {
 	};
 
 	/**
-	 * @return true if changing HEAD is sane.
+	 * Whether checkout can be done.
+	 *
+	 * @return whether checkout can be done.
 	 */
 	public abstract boolean canCheckout();
 
