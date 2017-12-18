@@ -46,7 +46,10 @@ public class RefNotAdvertisedException extends GitAPIException {
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * Constructor for RefNotAdvertisedException
+	 *
 	 * @param message
+	 *            error message
 	 */
 	public RefNotAdvertisedException(String message) {
 		super(message);

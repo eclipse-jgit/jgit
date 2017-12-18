@@ -98,27 +98,24 @@ public class RevertCommand extends GitCommand<RevCommit> {
 	private MergeStrategy strategy = MergeStrategy.RECURSIVE;
 
 	/**
+	 * <p>
+	 * Constructor for RevertCommand.
+	 * </p>
+	 *
 	 * @param repo
+	 *            the {@link org.eclipse.jgit.lib.Repository}
 	 */
 	protected RevertCommand(Repository repo) {
 		super(repo);
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * Executes the {@code revert} command with all the options and parameters
 	 * collected by the setter methods (e.g. {@link #include(Ref)} of this
 	 * class. Each instance of this class should only be used for one invocation
 	 * of the command. Don't call this method twice on an instance.
-	 *
-	 * @return on success the {@link RevCommit} pointed to by the new HEAD is
-	 *         returned. If a failure occurred during revert <code>null</code>
-	 *         is returned. The list of successfully reverted {@link Ref}'s can
-	 *         be obtained by calling {@link #getRevertedRefs()}
-	 * @throws GitAPIException
-	 * @throws WrongRepositoryStateException
-	 * @throws ConcurrentRefUpdateException
-	 * @throws UnmergedPathsException
-	 * @throws NoMessageException
 	 */
 	@Override
 	public RevCommit call() throws NoMessageException, UnmergedPathsException,
@@ -227,9 +224,10 @@ public class RevertCommand extends GitCommand<RevCommit> {
 	}
 
 	/**
+	 * Include a {@code Ref} to a commit to be reverted
+	 *
 	 * @param commit
-	 *            a reference to a commit which is reverted into the current
-	 *            head
+	 *            a reference to a commit to be reverted into the current head
 	 * @return {@code this}
 	 */
 	public RevertCommand include(Ref commit) {
@@ -239,8 +237,10 @@ public class RevertCommand extends GitCommand<RevCommit> {
 	}
 
 	/**
+	 * Include a commit to be reverted
+	 *
 	 * @param commit
-	 *            the Id of a commit which is reverted into the current head
+	 *            the Id of a commit to be reverted into the current head
 	 * @return {@code this}
 	 */
 	public RevertCommand include(AnyObjectId commit) {
@@ -248,8 +248,10 @@ public class RevertCommand extends GitCommand<RevCommit> {
 	}
 
 	/**
+	 * Include a commit to be reverted
+	 *
 	 * @param name
-	 *            a name given to the commit
+	 *            name of a {@code Ref} referring to the commit
 	 * @param commit
 	 *            the Id of a commit which is reverted into the current head
 	 * @return {@code this}
@@ -260,6 +262,8 @@ public class RevertCommand extends GitCommand<RevCommit> {
 	}
 
 	/**
+	 * Set the name to be used in the "OURS" place for conflict markers
+	 *
 	 * @param ourCommitName
 	 *            the name that should be used in the "OURS" place for conflict
 	 *            markers
@@ -280,16 +284,20 @@ public class RevertCommand extends GitCommand<RevCommit> {
 	}
 
 	/**
-	 * @return the list of successfully reverted {@link Ref}'s. Never
-	 *         <code>null</code> but maybe an empty list if no commit was
-	 *         successfully cherry-picked
+	 * Get the list of successfully reverted {@link org.eclipse.jgit.lib.Ref}'s.
+	 *
+	 * @return the list of successfully reverted
+	 *         {@link org.eclipse.jgit.lib.Ref}'s. Never <code>null</code> but
+	 *         maybe an empty list if no commit was successfully cherry-picked
 	 */
 	public List<Ref> getRevertedRefs() {
 		return revertedRefs;
 	}
 
 	/**
-	 * @return the result of the merge failure, <code>null</code> if no merge
+	 * Get the result of a merge failure
+	 *
+	 * @return the result of a merge failure, <code>null</code> if no merge
 	 *         failure occurred during the revert
 	 */
 	public MergeResult getFailingResult() {
@@ -297,6 +305,8 @@ public class RevertCommand extends GitCommand<RevCommit> {
 	}
 
 	/**
+	 * Get unmerged paths
+	 *
 	 * @return the unmerged paths, will be null if no merge conflicts
 	 */
 	public List<String> getUnmergedPaths() {
@@ -304,8 +314,10 @@ public class RevertCommand extends GitCommand<RevCommit> {
 	}
 
 	/**
+	 * Set the merge strategy to use for this revert command
+	 *
 	 * @param strategy
-	 *            The merge strategy to use during this revert command.
+	 *            The merge strategy to use for this revert command.
 	 * @return {@code this}
 	 * @since 3.4
 	 */

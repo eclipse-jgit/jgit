@@ -70,12 +70,13 @@ public class StashListCommand extends GitCommand<Collection<RevCommit>> {
 	/**
 	 * Create a new stash list command
 	 *
-	 * @param repo
+	 * @param repo a {@link org.eclipse.jgit.lib.Repository} object.
 	 */
 	public StashListCommand(final Repository repo) {
 		super(repo);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Collection<RevCommit> call() throws GitAPIException,
 			InvalidRefNameException {

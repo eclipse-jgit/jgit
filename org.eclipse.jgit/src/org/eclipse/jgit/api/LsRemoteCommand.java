@@ -83,6 +83,8 @@ public class LsRemoteCommand extends
 	private String uploadPack;
 
 	/**
+	 * Constructor for LsRemoteCommand
+	 *
 	 * @param repo
 	 *            local repository or null for operation without local
 	 *            repository
@@ -98,6 +100,7 @@ public class LsRemoteCommand extends
 	 *
 	 * @see Constants#DEFAULT_REMOTE_NAME
 	 * @param remote
+	 *            a {@link java.lang.String} object.
 	 * @return {@code this}
 	 */
 	public LsRemoteCommand setRemote(String remote) {
@@ -110,6 +113,7 @@ public class LsRemoteCommand extends
 	 * Include refs/heads in references results
 	 *
 	 * @param heads
+	 *            whether to include refs/heads
 	 * @return {@code this}
 	 */
 	public LsRemoteCommand setHeads(boolean heads) {
@@ -121,6 +125,7 @@ public class LsRemoteCommand extends
 	 * Include refs/tags in references results
 	 *
 	 * @param tags
+	 *            whether to include tags
 	 * @return {@code this}
 	 */
 	public LsRemoteCommand setTags(boolean tags) {
@@ -132,6 +137,8 @@ public class LsRemoteCommand extends
 	 * The full path of git-upload-pack on the remote host
 	 *
 	 * @param uploadPack
+	 *            the full path of executable providing the git-upload-pack
+	 *            service on remote host
 	 * @return {@code this}
 	 */
 	public LsRemoteCommand setUploadPack(String uploadPack) {
@@ -140,18 +147,12 @@ public class LsRemoteCommand extends
 	}
 
 	/**
-	 * Executes the {@code LsRemote} command with all the options and parameters
+	 * {@inheritDoc}
+	 * <p>
+	 * Execute the {@code LsRemote} command with all the options and parameters
 	 * collected by the setter methods (e.g. {@link #setHeads(boolean)}) of this
 	 * class. Each instance of this class should only be used for one invocation
 	 * of the command. Don't call this method twice on an instance.
-	 *
-	 * @return a collection of references in the remote repository
-	 * @throws GitAPIException
-	 *             or subclass thereof when an error occurs
-	 * @throws InvalidRemoteException
-	 *             when called with an invalid remote uri
-	 * @throws org.eclipse.jgit.api.errors.TransportException
-	 *             for errors that occurs during transport
 	 */
 	@Override
 	public Collection<Ref> call() throws GitAPIException,
@@ -164,9 +165,9 @@ public class LsRemoteCommand extends
 	 * Same as {@link #call()}, but return Map instead of Collection.
 	 *
 	 * @return a map from names to references in the remote repository
-	 * @throws GitAPIException
+	 * @throws org.eclipse.jgit.api.errors.GitAPIException
 	 *             or subclass thereof when an error occurs
-	 * @throws InvalidRemoteException
+	 * @throws org.eclipse.jgit.api.errors.InvalidRemoteException
 	 *             when called with an invalid remote uri
 	 * @throws org.eclipse.jgit.api.errors.TransportException
 	 *             for errors that occurs during transport

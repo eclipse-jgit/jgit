@@ -67,7 +67,10 @@ public class ReflogCommand extends GitCommand<Collection<ReflogEntry>> {
 	private String ref = Constants.HEAD;
 
 	/**
+	 * Constructor for ReflogCommand.
+	 *
 	 * @param repo
+	 *            the {@link org.eclipse.jgit.lib.Repository}
 	 */
 	public ReflogCommand(Repository repo) {
 		super(repo);
@@ -78,6 +81,7 @@ public class ReflogCommand extends GitCommand<Collection<ReflogEntry>> {
 	 * value of HEAD will be used.
 	 *
 	 * @param ref
+	 *            the name of the {@code Ref} to log
 	 * @return {@code this}
 	 */
 	public ReflogCommand setRef(String ref) {
@@ -87,10 +91,9 @@ public class ReflogCommand extends GitCommand<Collection<ReflogEntry>> {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * Run the reflog command
-	 *
-	 * @throws GitAPIException
-	 * @throws InvalidRefNameException
 	 */
 	@Override
 	public Collection<ReflogEntry> call() throws GitAPIException,

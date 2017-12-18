@@ -45,15 +45,22 @@ public class InvalidConfigurationException extends GitAPIException {
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * Constructor for InvalidConfigurationException
+	 *
 	 * @param message
+	 *            error message
 	 * @param cause
+	 *            a {@link java.lang.Throwable}
 	 */
 	public InvalidConfigurationException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
 	/**
+	 * Constructor for InvalidConfigurationException.
+	 *
 	 * @param message
+	 *            error message
 	 */
 	public InvalidConfigurationException(String message) {
 		super(message);

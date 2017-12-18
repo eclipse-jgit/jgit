@@ -68,7 +68,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 /**
  * Create/update an annotated tag object or a simple unannotated tag
  * <p>
- * Examples (<code>git</code> is a {@link Git} instance):
+ * Examples (<code>git</code> is a {@link org.eclipse.jgit.api.Git} instance):
  * <p>
  * Create a new tag for the current commit:
  *
@@ -104,21 +104,22 @@ public class TagCommand extends GitCommand<Ref> {
 	private boolean annotated = true;
 
 	/**
-	 * @param repo
+	 * <p>Constructor for TagCommand.</p>
+	 *
+	 * @param repo a {@link org.eclipse.jgit.lib.Repository} object.
 	 */
 	protected TagCommand(Repository repo) {
 		super(repo);
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * Executes the {@code tag} command with all the options and parameters
 	 * collected by the setter methods of this class. Each instance of this
 	 * class should only be used for one invocation of the command (means: one
 	 * call to {@link #call()})
 	 *
-	 * @return a {@link Ref} a ref pointing to a tag
-	 * @throws NoHeadException
-	 *             when called on a git repo without a HEAD reference
 	 * @since 2.0
 	 */
 	@Override
@@ -226,6 +227,8 @@ public class TagCommand extends GitCommand<Ref> {
 	}
 
 	/**
+	 * Set the tag <code>name</code>.
+	 *
 	 * @param name
 	 *            the tag name used for the {@code tag}
 	 * @return {@code this}
@@ -237,6 +240,8 @@ public class TagCommand extends GitCommand<Ref> {
 	}
 
 	/**
+	 * Get the tag <code>name</code>.
+	 *
 	 * @return the tag name used for the <code>tag</code>
 	 */
 	public String getName() {
@@ -244,6 +249,8 @@ public class TagCommand extends GitCommand<Ref> {
 	}
 
 	/**
+	 * Get the tag <code>message</code>.
+	 *
 	 * @return the tag message used for the <code>tag</code>
 	 */
 	public String getMessage() {
@@ -251,6 +258,8 @@ public class TagCommand extends GitCommand<Ref> {
 	}
 
 	/**
+	 * Set the tag <code>message</code>.
+	 *
 	 * @param message
 	 *            the tag message used for the {@code tag}
 	 * @return {@code this}
@@ -262,6 +271,8 @@ public class TagCommand extends GitCommand<Ref> {
 	}
 
 	/**
+	 * Whether this tag is signed
+	 *
 	 * @return whether the tag is signed
 	 */
 	public boolean isSigned() {
@@ -273,6 +284,7 @@ public class TagCommand extends GitCommand<Ref> {
 	 * corresponds to the parameter -s on the command line.
 	 *
 	 * @param signed
+	 *            a boolean.
 	 * @return {@code this}
 	 */
 	public TagCommand setSigned(boolean signed) {
@@ -285,6 +297,7 @@ public class TagCommand extends GitCommand<Ref> {
 	 * created from the info in the repository.
 	 *
 	 * @param tagger
+	 *            a {@link org.eclipse.jgit.lib.PersonIdent} object.
 	 * @return {@code this}
 	 */
 	public TagCommand setTagger(PersonIdent tagger) {
@@ -293,6 +306,8 @@ public class TagCommand extends GitCommand<Ref> {
 	}
 
 	/**
+	 * Get the <code>tagger</code> who created the tag.
+	 *
 	 * @return the tagger of the tag
 	 */
 	public PersonIdent getTagger() {
@@ -300,6 +315,8 @@ public class TagCommand extends GitCommand<Ref> {
 	}
 
 	/**
+	 * Get the tag's object id
+	 *
 	 * @return the object id of the tag
 	 */
 	public RevObject getObjectId() {
@@ -311,6 +328,7 @@ public class TagCommand extends GitCommand<Ref> {
 	 * pointed to from HEAD will be used.
 	 *
 	 * @param id
+	 *            a {@link org.eclipse.jgit.revwalk.RevObject} object.
 	 * @return {@code this}
 	 */
 	public TagCommand setObjectId(RevObject id) {
@@ -319,6 +337,8 @@ public class TagCommand extends GitCommand<Ref> {
 	}
 
 	/**
+	 * Whether this is a forced update
+	 *
 	 * @return is this a force update
 	 */
 	public boolean isForceUpdate() {
@@ -330,6 +350,7 @@ public class TagCommand extends GitCommand<Ref> {
 	 * corresponds to the parameter -f on the command line.
 	 *
 	 * @param forceUpdate
+	 *            whether this is a forced update
 	 * @return {@code this}
 	 */
 	public TagCommand setForceUpdate(boolean forceUpdate) {
@@ -338,7 +359,10 @@ public class TagCommand extends GitCommand<Ref> {
 	}
 
 	/**
+	 * Configure this tag to be created as an annotated tag
+	 *
 	 * @param annotated
+	 *            whether this shall be an annotated tag
 	 * @return {@code this}
 	 * @since 3.0
 	 */
@@ -348,6 +372,8 @@ public class TagCommand extends GitCommand<Ref> {
 	}
 
 	/**
+	 * Whether this will create an annotated command
+	 *
 	 * @return true if this command will create an annotated tag (default is
 	 *         true)
 	 * @since 3.0

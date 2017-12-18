@@ -103,23 +103,16 @@ public class CreateBranchCommand extends GitCommand<Ref> {
 	}
 
 	/**
+	 * Constructor for CreateBranchCommand
+	 *
 	 * @param repo
+	 *            the {@link org.eclipse.jgit.lib.Repository}
 	 */
 	protected CreateBranchCommand(Repository repo) {
 		super(repo);
 	}
 
-	/**
-	 * @throws RefAlreadyExistsException
-	 *             when trying to create (without force) a branch with a name
-	 *             that already exists
-	 * @throws RefNotFoundException
-	 *             if the start point can not be found
-	 * @throws InvalidRefNameException
-	 *             if the provided name is <code>null</code> or otherwise
-	 *             invalid
-	 * @return the newly created branch
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public Ref call() throws GitAPIException, RefAlreadyExistsException,
 			RefNotFoundException, InvalidRefNameException {
@@ -297,6 +290,8 @@ public class CreateBranchCommand extends GitCommand<Ref> {
 	}
 
 	/**
+	 * Set the name of the new branch
+	 *
 	 * @param name
 	 *            the name of the new branch
 	 * @return this instance
@@ -308,6 +303,8 @@ public class CreateBranchCommand extends GitCommand<Ref> {
 	}
 
 	/**
+	 * Set whether to create the branch forcefully
+	 *
 	 * @param force
 	 *            if <code>true</code> and the branch with the given name
 	 *            already exists, the start-point of an existing branch will be
@@ -322,6 +319,8 @@ public class CreateBranchCommand extends GitCommand<Ref> {
 	}
 
 	/**
+	 * Set the start point
+	 *
 	 * @param startPoint
 	 *            corresponds to the start-point option; if <code>null</code>,
 	 *            the current HEAD will be used
@@ -335,6 +334,8 @@ public class CreateBranchCommand extends GitCommand<Ref> {
 	}
 
 	/**
+	 * Set the start point
+	 *
 	 * @param startPoint
 	 *            corresponds to the start-point option; if <code>null</code>,
 	 *            the current HEAD will be used
@@ -348,6 +349,8 @@ public class CreateBranchCommand extends GitCommand<Ref> {
 	}
 
 	/**
+	 * Set the upstream mode
+	 *
 	 * @param mode
 	 *            corresponds to the --track/--no-track/--set-upstream options;
 	 *            may be <code>null</code>

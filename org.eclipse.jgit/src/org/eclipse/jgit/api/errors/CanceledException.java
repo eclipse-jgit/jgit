@@ -45,7 +45,9 @@ public class CanceledException extends GitAPIException {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * @param message
+	 * <p>Constructor for CanceledException.</p>
+	 *
+	 * @param message a {@link java.lang.String} object.
 	 */
 	public CanceledException(String message) {
 		super(message);

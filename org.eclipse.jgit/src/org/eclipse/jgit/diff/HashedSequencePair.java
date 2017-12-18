@@ -44,7 +44,8 @@
 package org.eclipse.jgit.diff;
 
 /**
- * Wraps two {@link Sequence} instances to cache their element hash codes.
+ * Wraps two {@link org.eclipse.jgit.diff.Sequence} instances to cache their
+ * element hash codes.
  * <p>
  * This pair wraps two sequences that contain cached hash codes for the input
  * sequences.
@@ -79,19 +80,31 @@ public class HashedSequencePair<S extends Sequence> {
 		this.baseB = b;
 	}
 
-	/** @return obtain a comparator that uses the cached hash codes. */
+	/**
+	 * Get comparator
+	 *
+	 * @return obtain a comparator that uses the cached hash codes
+	 */
 	public HashedSequenceComparator<S> getComparator() {
 		return new HashedSequenceComparator<>(cmp);
 	}
 
-	/** @return wrapper around A that includes cached hash codes. */
+	/**
+	 * Get A
+	 *
+	 * @return wrapper around A that includes cached hash codes
+	 */
 	public HashedSequence<S> getA() {
 		if (cachedA == null)
 			cachedA = wrap(baseA);
 		return cachedA;
 	}
 
-	/** @return wrapper around B that includes cached hash codes. */
+	/**
+	 * Get B
+	 *
+	 * @return wrapper around B that includes cached hash codes
+	 */
 	public HashedSequence<S> getB() {
 		if (cachedB == null)
 			cachedB = wrap(baseB);

@@ -45,7 +45,7 @@ package org.eclipse.jgit.api;
 import org.eclipse.jgit.transport.FetchResult;
 
 /**
- * Encapsulates the result of a {@link PullCommand}
+ * Encapsulates the result of a {@link org.eclipse.jgit.api.PullCommand}
  */
 public class PullResult {
 	private final FetchResult fetchResult;
@@ -73,6 +73,8 @@ public class PullResult {
 	}
 
 	/**
+	 * Get fetch result
+	 *
 	 * @return the fetch result, or <code>null</code>
 	 */
 	public FetchResult getFetchResult() {
@@ -80,6 +82,8 @@ public class PullResult {
 	}
 
 	/**
+	 * Get merge result
+	 *
 	 * @return the merge result, or <code>null</code>
 	 */
 	public MergeResult getMergeResult() {
@@ -87,6 +91,8 @@ public class PullResult {
 	}
 
 	/**
+	 * Get rebase result
+	 *
 	 * @return the rebase result, or <code>null</code>
 	 */
 	public RebaseResult getRebaseResult() {
@@ -94,6 +100,8 @@ public class PullResult {
 	}
 
 	/**
+	 * Get name of the remote configuration from which fetch was tried
+	 *
 	 * @return the name of the remote configuration from which fetch was tried,
 	 *         or <code>null</code>
 	 */
@@ -102,6 +110,8 @@ public class PullResult {
 	}
 
 	/**
+	 * Whether the pull was successful
+	 *
 	 * @return whether the pull was successful
 	 */
 	public boolean isSuccessful() {
@@ -112,6 +122,7 @@ public class PullResult {
 		return true;
 	}
 
+	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {

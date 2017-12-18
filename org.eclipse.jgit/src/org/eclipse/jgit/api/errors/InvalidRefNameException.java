@@ -44,15 +44,22 @@ public class InvalidRefNameException extends GitAPIException {
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * Constructor for InvalidRefNameException
+	 *
 	 * @param msg
+	 *            error message
 	 */
 	public InvalidRefNameException(String msg) {
 		super(msg);
 	}
 
 	/**
+	 * Constructor for InvalidRefNameException.
+	 *
 	 * @param msg
+	 *            error message
 	 * @param cause
+	 *            a {@link java.lang.Throwable}
 	 */
 	public InvalidRefNameException(String msg, Throwable cause) {
 		super(msg, cause);

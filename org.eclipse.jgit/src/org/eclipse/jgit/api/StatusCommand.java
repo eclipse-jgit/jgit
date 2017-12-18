@@ -64,9 +64,9 @@ import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
  * to finally execute the command. Each instance of this class should only be
  * used for one invocation of the command (means: one call to {@link #call()})
  *
- * @see <a
- *      href="http://www.kernel.org/pub/software/scm/git/docs/git-status.html"
- *      >Git documentation about Status</a>
+ * @see <a href=
+ *      "http://www.kernel.org/pub/software/scm/git/docs/git-status.html" >Git
+ *      documentation about Status</a>
  */
 public class StatusCommand extends GitCommand<Status> {
 	private WorkingTreeIterator workingTreeIt;
@@ -76,14 +76,21 @@ public class StatusCommand extends GitCommand<Status> {
 	private IgnoreSubmoduleMode ignoreSubmoduleMode = null;
 
 	/**
+	 * Constructor for StatusCommand.
+	 *
 	 * @param repo
+	 *            a {@link org.eclipse.jgit.lib.Repository} object.
 	 */
 	protected StatusCommand(Repository repo) {
 		super(repo);
 	}
 
 	/**
+	 * Whether to ignore submodules
+	 *
 	 * @param mode
+	 *            the
+	 *            {@link org.eclipse.jgit.submodule.SubmoduleWalk.IgnoreSubmoduleMode}
 	 * @return {@code this}
 	 * @since 3.6
 	 */
@@ -126,13 +133,12 @@ public class StatusCommand extends GitCommand<Status> {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * Executes the {@code Status} command with all the options and parameters
 	 * collected by the setter methods of this class. Each instance of this
 	 * class should only be used for one invocation of the command. Don't call
 	 * this method twice on an instance.
-	 *
-	 * @return a {@link Status} object telling about each path where working
-	 *         tree, index or HEAD differ from each other.
 	 */
 	@Override
 	public Status call() throws GitAPIException, NoWorkTreeException {
@@ -157,8 +163,9 @@ public class StatusCommand extends GitCommand<Status> {
 	}
 
 	/**
-	 * To set the {@link WorkingTreeIterator} which should be used. If this
-	 * method is not called a standard {@link FileTreeIterator} is used.
+	 * To set the {@link org.eclipse.jgit.treewalk.WorkingTreeIterator} which
+	 * should be used. If this method is not called a standard
+	 * {@link org.eclipse.jgit.treewalk.FileTreeIterator} is used.
 	 *
 	 * @param workingTreeIt
 	 *            a working tree iterator
@@ -170,10 +177,11 @@ public class StatusCommand extends GitCommand<Status> {
 	}
 
 	/**
-	 * To set the {@link ProgressMonitor} which contains callback methods to
-	 * inform you about the progress of this command.
+	 * To set the {@link org.eclipse.jgit.lib.ProgressMonitor} which contains
+	 * callback methods to inform you about the progress of this command.
 	 *
 	 * @param progressMonitor
+	 *            a {@link org.eclipse.jgit.lib.ProgressMonitor} object.
 	 * @return {@code this}
 	 * @since 3.1
 	 */
