@@ -46,9 +46,15 @@ package org.eclipse.jgit.internal.ketch;
 import org.eclipse.jgit.nls.NLS;
 import org.eclipse.jgit.nls.TranslationBundle;
 
-/** Translation bundle for the Ketch implementation. */
+/**
+ * Translation bundle for the Ketch implementation.
+ */
 public class KetchText extends TranslationBundle {
-	/** @return instance of this translation bundle. */
+	/**
+	 * Get an instance of this translation bundle.
+	 *
+	 * @return instance of this translation bundle.
+	 */
 	public static KetchText get() {
 		return NLS.getBundleFor(KetchText.class);
 	}

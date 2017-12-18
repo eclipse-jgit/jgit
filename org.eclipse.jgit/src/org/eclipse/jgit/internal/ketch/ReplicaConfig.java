@@ -65,7 +65,9 @@ import org.eclipse.jgit.internal.ketch.KetchReplica.CommitSpeed;
 import org.eclipse.jgit.internal.ketch.KetchReplica.Participation;
 import org.eclipse.jgit.lib.Config;
 
-/** Configures a {@link KetchReplica}. */
+/**
+ * Configures a {@link org.eclipse.jgit.internal.ketch.KetchReplica}.
+ */
 public class ReplicaConfig {
 	/**
 	 * Read a configuration from a config block.
@@ -86,17 +88,29 @@ public class ReplicaConfig {
 	private long minRetry = SECONDS.toMillis(5);
 	private long maxRetry = MINUTES.toMillis(1);
 
-	/** @return participation of the replica in the system. */
+	/**
+	 * Get participation of the replica in the system.
+	 *
+	 * @return participation of the replica in the system.
+	 */
 	public Participation getParticipation() {
 		return participation;
 	}
 
-	/** @return how Ketch should apply committed changes. */
+	/**
+	 * Get how Ketch should apply committed changes.
+	 *
+	 * @return how Ketch should apply committed changes.
+	 */
 	public CommitMethod getCommitMethod() {
 		return commitMethod;
 	}
 
-	/** @return how quickly should Ketch commit. */
+	/**
+	 * Get how quickly should Ketch commit.
+	 *
+	 * @return how quickly should Ketch commit.
+	 */
 	public CommitSpeed getCommitSpeed() {
 		return commitSpeed;
 	}

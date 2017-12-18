@@ -54,17 +54,18 @@ import org.eclipse.jgit.lib.ObjectId;
  * LogIndex provides a performance optimization for Ketch, the same information
  * can be obtained from {@link org.eclipse.jgit.revwalk.RevWalk}.
  * <p>
- * Index values are only valid within a single {@link KetchLeader} instance
- * after it has won an election. By restricting scope to a single leader new
- * leaders do not need to traverse the entire history to determine the next
- * {@code index} for new proposals. This differs from Raft, where leader
- * election uses the log index and the term number to determine which replica
- * holds a sufficiently up-to-date log. Since Ketch uses Git objects for storage
- * of its replicated log, it keeps the term number as Raft does but uses
- * standard Git operations to imply the log index.
+ * Index values are only valid within a single
+ * {@link org.eclipse.jgit.internal.ketch.KetchLeader} instance after it has won
+ * an election. By restricting scope to a single leader new leaders do not need
+ * to traverse the entire history to determine the next {@code index} for new
+ * proposals. This differs from Raft, where leader election uses the log index
+ * and the term number to determine which replica holds a sufficiently
+ * up-to-date log. Since Ketch uses Git objects for storage of its replicated
+ * log, it keeps the term number as Raft does but uses standard Git operations
+ * to imply the log index.
  * <p>
- * {@link Round#runAsync(AnyObjectId)} bumps the index as each new round is
- * constructed.
+ * {@link org.eclipse.jgit.internal.ketch.Round#runAsync(AnyObjectId)} bumps the
+ * index as each new round is constructed.
  */
 public class LogIndex extends ObjectId {
 	static LogIndex unknown(AnyObjectId id) {
@@ -82,7 +83,11 @@ public class LogIndex extends ObjectId {
 		return new LogIndex(id, index + 1);
 	}
 
-	/** @return index provided by the current leader instance. */
+	/**
+	 * Get index provided by the current leader instance.
+	 *
+	 * @return index provided by the current leader instance.
+	 */
 	public long getIndex() {
 		return index;
 	}
@@ -103,6 +108,9 @@ public class LogIndex extends ObjectId {
 	}
 
 	/**
+	 * Create string suitable for debug logging containing the log index and
+	 * abbreviated ObjectId.
+	 *
 	 * @return string suitable for debug logging containing the log index and
 	 *         abbreviated ObjectId.
 	 */
@@ -111,6 +119,7 @@ public class LogIndex extends ObjectId {
 		return String.format("%5d/%s", index, abbreviate(6).name()); //$NON-NLS-1$
 	}
 
+	/** {@inheritDoc} */
 	@SuppressWarnings("boxing")
 	@Override
 	public String toString() {

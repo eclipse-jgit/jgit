@@ -53,7 +53,9 @@ import java.util.List;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.lib.ObjectId;
 
-/** A snapshot of a leader and its view of the world. */
+/**
+ * A snapshot of a leader and its view of the world.
+ */
 public class LeaderSnapshot {
 	final List<ReplicaSnapshot> replicas = new ArrayList<>();
 	KetchLeader.State state;
@@ -65,17 +67,28 @@ public class LeaderSnapshot {
 	LeaderSnapshot() {
 	}
 
-	/** @return unmodifiable view of configured replicas. */
+	/**
+	 * Get unmodifiable view of configured replicas.
+	 *
+	 * @return unmodifiable view of configured replicas.
+	 */
 	public Collection<ReplicaSnapshot> getReplicas() {
 		return Collections.unmodifiableList(replicas);
 	}
 
-	/** @return current state of the leader. */
+	/**
+	 * Get current state of the leader.
+	 *
+	 * @return current state of the leader.
+	 */
 	public KetchLeader.State getState() {
 		return state;
 	}
 
 	/**
+	 * Whether the leader is not running a round to reach consensus, and has no
+	 * rounds queued.
+	 *
 	 * @return {@code true} if the leader is not running a round to reach
 	 *         consensus, and has no rounds queued.
 	 */
@@ -84,14 +97,19 @@ public class LeaderSnapshot {
 	}
 
 	/**
+	 * Get term of this leader
+	 *
 	 * @return term of this leader. Valid only if {@link #getState()} is
-	 *         currently {@link KetchLeader.State#LEADER}.
+	 *         currently
+	 *         {@link org.eclipse.jgit.internal.ketch.KetchLeader.State#LEADER}.
 	 */
 	public long getTerm() {
 		return term;
 	}
 
 	/**
+	 * Get end of the leader's log
+	 *
 	 * @return end of the leader's log; null if leader hasn't started up enough
 	 *         to begin its own election.
 	 */
@@ -101,6 +119,9 @@ public class LeaderSnapshot {
 	}
 
 	/**
+	 * Get state the leader knows is committed on a majority of participant
+	 * replicas
+	 *
 	 * @return state the leader knows is committed on a majority of participant
 	 *         replicas. Null until the leader instance has committed a log
 	 *         index within its own term.
@@ -110,6 +131,7 @@ public class LeaderSnapshot {
 		return committedIndex;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		StringBuilder s = new StringBuilder();
