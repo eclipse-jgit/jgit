@@ -52,6 +52,8 @@ import org.eclipse.jgit.nls.TranslationBundle;
 public class RepoText extends TranslationBundle {
 
 	/**
+	 * Get an instance of this translation bundle
+	 *
 	 * @return an instance of this translation bundle
 	 */
 	public static RepoText get() {

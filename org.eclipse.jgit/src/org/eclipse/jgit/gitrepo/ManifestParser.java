@@ -113,12 +113,22 @@ public class ManifestParser extends DefaultHandler {
 	}
 
 	/**
+	 * Constructor for ManifestParser
+	 *
 	 * @param includedReader
+	 *            a
+	 *            {@link org.eclipse.jgit.gitrepo.ManifestParser.IncludedFileReader}
+	 *            object.
 	 * @param filename
+	 *            a {@link java.lang.String} object.
 	 * @param defaultBranch
+	 *            a {@link java.lang.String} object.
 	 * @param baseUrl
+	 *            a {@link java.lang.String} object.
 	 * @param groups
+	 *            a {@link java.lang.String} object.
 	 * @param rootRepo
+	 *            a {@link org.eclipse.jgit.lib.Repository} object.
 	 */
 	public ManifestParser(IncludedFileReader includedReader, String filename,
 			String defaultBranch, String baseUrl, String groups,
@@ -153,7 +163,8 @@ public class ManifestParser extends DefaultHandler {
 	 * Read the xml file.
 	 *
 	 * @param inputStream
-	 * @throws IOException
+	 *            a {@link java.io.InputStream} object.
+	 * @throws java.io.IOException
 	 */
 	public void read(InputStream inputStream) throws IOException {
 		xmlInRead++;
@@ -174,6 +185,7 @@ public class ManifestParser extends DefaultHandler {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void startElement(
 			String uri,
@@ -246,6 +258,7 @@ public class ManifestParser extends DefaultHandler {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void endElement(
 			String uri,
@@ -257,6 +270,7 @@ public class ManifestParser extends DefaultHandler {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void endDocument() throws SAXException {
 		xmlInRead--;
