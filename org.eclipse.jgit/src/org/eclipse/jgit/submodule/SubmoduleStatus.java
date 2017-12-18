@@ -61,8 +61,12 @@ public class SubmoduleStatus {
 	 * Create submodule status
 	 *
 	 * @param type
+	 *            a {@link org.eclipse.jgit.submodule.SubmoduleStatusType}
+	 *            object.
 	 * @param path
+	 *            submodule path
 	 * @param indexId
+	 *            an {@link org.eclipse.jgit.lib.ObjectId} object.
 	 */
 	public SubmoduleStatus(final SubmoduleStatusType type, final String path,
 			final ObjectId indexId) {
@@ -73,9 +77,14 @@ public class SubmoduleStatus {
 	 * Create submodule status
 	 *
 	 * @param type
+	 *            a {@link org.eclipse.jgit.submodule.SubmoduleStatusType}
+	 *            object.
 	 * @param path
+	 *            submodule path
 	 * @param indexId
+	 *            index id
 	 * @param headId
+	 *            head id
 	 */
 	public SubmoduleStatus(final SubmoduleStatusType type, final String path,
 			final ObjectId indexId, final ObjectId headId) {
@@ -86,6 +95,8 @@ public class SubmoduleStatus {
 	}
 
 	/**
+	 * Get type
+	 *
 	 * @return type
 	 */
 	public SubmoduleStatusType getType() {
@@ -93,13 +104,17 @@ public class SubmoduleStatus {
 	}
 
 	/**
-	 * @return path
+	 * Get submodule path
+	 *
+	 * @return path submodule path
 	 */
 	public String getPath() {
 		return path;
 	}
 
 	/**
+	 * Get index object id
+	 *
 	 * @return index object id
 	 */
 	public ObjectId getIndexId() {
@@ -107,6 +122,8 @@ public class SubmoduleStatus {
 	}
 
 	/**
+	 * Get HEAD object id
+	 *
 	 * @return HEAD object id
 	 */
 	public ObjectId getHeadId() {
