@@ -47,7 +47,8 @@ import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
 
 /**
- * A reference that indirectly points at another {@link Ref}.
+ * A reference that indirectly points at another
+ * {@link org.eclipse.jgit.lib.Ref}.
  * <p>
  * A symbolic reference always derives its current value from the target
  * reference.
@@ -70,17 +71,20 @@ public class SymbolicRef implements Ref {
 		this.target = target;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	@NonNull
 	public String getName() {
 		return name;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean isSymbolic() {
 		return true;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	@NonNull
 	public Ref getLeaf() {
@@ -90,35 +94,41 @@ public class SymbolicRef implements Ref {
 		return dst;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	@NonNull
 	public Ref getTarget() {
 		return target;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	@Nullable
 	public ObjectId getObjectId() {
 		return getLeaf().getObjectId();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	@NonNull
 	public Storage getStorage() {
 		return Storage.LOOSE;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	@Nullable
 	public ObjectId getPeeledObjectId() {
 		return getLeaf().getPeeledObjectId();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean isPeeled() {
 		return getLeaf().isPeeled();
 	}
 
+	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {

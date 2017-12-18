@@ -83,28 +83,39 @@ public interface ReflogEntry {
 	public static final String PREFIX_FORCED_UPDATE = "forced-update"; //$NON-NLS-1$
 
 	/**
+	 * Get the commit id before the change
+	 *
 	 * @return the commit id before the change
 	 */
 	public abstract ObjectId getOldId();
 
 	/**
+	 * Get the commit id after the change
+	 *
 	 * @return the commit id after the change
 	 */
 	public abstract ObjectId getNewId();
 
 	/**
+	 * Get user performing the change
+	 *
 	 * @return user performing the change
 	 */
 	public abstract PersonIdent getWho();
 
 	/**
+	 * Get textual description of the change
+	 *
 	 * @return textual description of the change
 	 */
 	public abstract String getComment();
 
 	/**
-	 * @return a {@link CheckoutEntry} with parsed information about a branch
-	 *         switch, or null if the entry is not a checkout
+	 * Parse checkout
+	 *
+	 * @return a {@link org.eclipse.jgit.lib.CheckoutEntry} with parsed
+	 *         information about a branch switch, or null if the entry is not a
+	 *         checkout
 	 */
 	public abstract CheckoutEntry parseCheckout();
 

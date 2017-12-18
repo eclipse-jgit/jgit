@@ -52,10 +52,12 @@ import org.eclipse.jgit.errors.MissingObjectException;
  * Abstraction of arbitrary object storage.
  * <p>
  * An object database stores one or more Git objects, indexed by their unique
- * {@link ObjectId}.
+ * {@link org.eclipse.jgit.lib.ObjectId}.
  */
 public abstract class ObjectDatabase {
-	/** Initialize a new database instance for access. */
+	/**
+	 * Initialize a new database instance for access.
+	 */
 	protected ObjectDatabase() {
 		// Protected to force extension.
 	}
@@ -73,7 +75,7 @@ public abstract class ObjectDatabase {
 	/**
 	 * Initialize a new object database at this location.
 	 *
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the database could not be created.
 	 */
 	public void create() throws IOException {
@@ -116,7 +118,7 @@ public abstract class ObjectDatabase {
 	 * @param objectId
 	 *            identity of the object to test for existence of.
 	 * @return true if the specified object is stored in this database.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the object store cannot be accessed.
 	 */
 	public boolean has(final AnyObjectId objectId) throws IOException {
@@ -133,10 +135,10 @@ public abstract class ObjectDatabase {
 	 *
 	 * @param objectId
 	 *            identity of the object to open.
-	 * @return a {@link ObjectLoader} for accessing the object.
+	 * @return a {@link org.eclipse.jgit.lib.ObjectLoader} for accessing the object.
 	 * @throws MissingObjectException
 	 *             the object does not exist.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the object store cannot be accessed.
 	 */
 	public ObjectLoader open(final AnyObjectId objectId)
@@ -154,16 +156,17 @@ public abstract class ObjectDatabase {
 	 *            identity of the object to open.
 	 * @param typeHint
 	 *            hint about the type of object being requested, e.g.
-	 *            {@link Constants#OBJ_BLOB}; {@link ObjectReader#OBJ_ANY} if
-	 *            the object type is not known, or does not matter to the
-	 *            caller.
-	 * @return a {@link ObjectLoader} for accessing the object.
-	 * @throws MissingObjectException
+	 *            {@link org.eclipse.jgit.lib.Constants#OBJ_BLOB};
+	 *            {@link org.eclipse.jgit.lib.ObjectReader#OBJ_ANY} if the
+	 *            object type is not known, or does not matter to the caller.
+	 * @return a {@link org.eclipse.jgit.lib.ObjectLoader} for accessing the
+	 *         object.
+	 * @throws org.eclipse.jgit.errors.MissingObjectException
 	 *             the object does not exist.
-	 * @throws IncorrectObjectTypeException
+	 * @throws org.eclipse.jgit.errors.IncorrectObjectTypeException
 	 *             typeHint was not OBJ_ANY, and the object's actual type does
 	 *             not match typeHint.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the object store cannot be accessed.
 	 */
 	public ObjectLoader open(AnyObjectId objectId, int typeHint)

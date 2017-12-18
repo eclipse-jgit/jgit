@@ -142,8 +142,11 @@ public class RebaseTodoLine {
 	 * Create a new non-comment line
 	 *
 	 * @param action
+	 *            a {@link org.eclipse.jgit.lib.RebaseTodoLine.Action} object.
 	 * @param commit
+	 *            a {@link org.eclipse.jgit.lib.AbbreviatedObjectId} object.
 	 * @param shortMessage
+	 *            a {@link java.lang.String} object.
 	 */
 	public RebaseTodoLine(Action action, AbbreviatedObjectId commit,
 			String shortMessage) {
@@ -154,6 +157,8 @@ public class RebaseTodoLine {
 	}
 
 	/**
+	 * Get rebase action type
+	 *
 	 * @return rebase action type
 	 */
 	public Action getAction() {
@@ -167,7 +172,8 @@ public class RebaseTodoLine {
 	 * non-comment.
 	 *
 	 * @param newAction
-	 * @throws IllegalTodoFileModification
+	 *            a {@link org.eclipse.jgit.lib.RebaseTodoLine.Action} object.
+	 * @throws org.eclipse.jgit.errors.IllegalTodoFileModification
 	 *             on attempt to set a non-comment action on a line which was a
 	 *             comment line before.
 	 */
@@ -193,7 +199,7 @@ public class RebaseTodoLine {
 	/**
 	 * <p>
 	 * Set a comment for this line that is used if this line's
-	 * {@link RebaseTodoLine#action} is a {@link Action#COMMENT}
+	 * {@link org.eclipse.jgit.lib.RebaseTodoLine#action} is a {@link org.eclipse.jgit.lib.RebaseTodoLine.Action#COMMENT}
 	 * </p>
 	 * It's allowed to unset the comment by calling
 	 * <code>setComment(null)</code> <br>
@@ -230,6 +236,8 @@ public class RebaseTodoLine {
 	}
 
 	/**
+	 * Get abbreviated commit SHA-1 of commit that action will be performed on
+	 *
 	 * @return abbreviated commit SHA-1 of commit that action will be performed
 	 *         on
 	 */
@@ -238,6 +246,9 @@ public class RebaseTodoLine {
 	}
 
 	/**
+	 * Get the first line of the commit message of the commit the action will be
+	 * performed on.
+	 *
 	 * @return the first line of the commit message of the commit the action
 	 *         will be performed on.
 	 */
@@ -246,13 +257,18 @@ public class RebaseTodoLine {
 	}
 
 	/**
+	 * Set short message
+	 *
 	 * @param shortMessage
+	 *            a short message.
 	 */
 	public void setShortMessage(String shortMessage) {
 		this.shortMessage = shortMessage;
 	}
 
 	/**
+	 * Get a comment
+	 *
 	 * @return a comment. If the line is a comment line then the comment is
 	 *         returned. Lines starting with # or blank lines or lines
 	 *         containing only spaces and tabs are considered as comment lines.
@@ -262,6 +278,7 @@ public class RebaseTodoLine {
 		return comment;
 	}
 
+	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {

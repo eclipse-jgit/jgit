@@ -317,12 +317,12 @@ public class ObjectChecker {
 	 *
 	 * @param objType
 	 *            type of the object. Must be a valid object type code in
-	 *            {@link Constants}.
+	 *            {@link org.eclipse.jgit.lib.Constants}.
 	 * @param raw
 	 *            the raw data which comprises the object. This should be in the
 	 *            canonical format (that is the format used to generate the
 	 *            ObjectId of the object). The array is never modified.
-	 * @throws CorruptObjectException
+	 * @throws org.eclipse.jgit.errors.CorruptObjectException
 	 *             if an error is identified.
 	 */
 	public void check(int objType, byte[] raw)
@@ -337,12 +337,12 @@ public class ObjectChecker {
 	 *            identify of the object being checked.
 	 * @param objType
 	 *            type of the object. Must be a valid object type code in
-	 *            {@link Constants}.
+	 *            {@link org.eclipse.jgit.lib.Constants}.
 	 * @param raw
 	 *            the raw data which comprises the object. This should be in the
 	 *            canonical format (that is the format used to generate the
 	 *            ObjectId of the object). The array is never modified.
-	 * @throws CorruptObjectException
+	 * @throws org.eclipse.jgit.errors.CorruptObjectException
 	 *             if an error is identified.
 	 * @since 4.2
 	 */
@@ -449,7 +449,7 @@ public class ObjectChecker {
 	 *
 	 * @param raw
 	 *            the commit data. The array is never modified.
-	 * @throws CorruptObjectException
+	 * @throws org.eclipse.jgit.errors.CorruptObjectException
 	 *             if any error was detected.
 	 */
 	public void checkCommit(byte[] raw) throws CorruptObjectException {
@@ -463,7 +463,7 @@ public class ObjectChecker {
 	 *            identity of the object being checked.
 	 * @param raw
 	 *            the commit data. The array is never modified.
-	 * @throws CorruptObjectException
+	 * @throws org.eclipse.jgit.errors.CorruptObjectException
 	 *             if any error was detected.
 	 * @since 4.2
 	 */
@@ -503,7 +503,7 @@ public class ObjectChecker {
 	 *
 	 * @param raw
 	 *            the tag data. The array is never modified.
-	 * @throws CorruptObjectException
+	 * @throws org.eclipse.jgit.errors.CorruptObjectException
 	 *             if any error was detected.
 	 */
 	public void checkTag(byte[] raw) throws CorruptObjectException {
@@ -517,7 +517,7 @@ public class ObjectChecker {
 	 *            identity of the object being checked.
 	 * @param raw
 	 *            the tag data. The array is never modified.
-	 * @throws CorruptObjectException
+	 * @throws org.eclipse.jgit.errors.CorruptObjectException
 	 *             if any error was detected.
 	 * @since 4.2
 	 */
@@ -593,7 +593,7 @@ public class ObjectChecker {
 	 *
 	 * @param raw
 	 *            the raw tree data. The array is never modified.
-	 * @throws CorruptObjectException
+	 * @throws org.eclipse.jgit.errors.CorruptObjectException
 	 *             if any error was detected.
 	 */
 	public void checkTree(byte[] raw) throws CorruptObjectException {
@@ -607,7 +607,7 @@ public class ObjectChecker {
 	 *            identity of the object being checked.
 	 * @param raw
 	 *            the raw tree data. The array is never modified.
-	 * @throws CorruptObjectException
+	 * @throws org.eclipse.jgit.errors.CorruptObjectException
 	 *             if any error was detected.
 	 * @since 4.2
 	 */
@@ -739,11 +739,13 @@ public class ObjectChecker {
 	/**
 	 * Check tree path entry for validity.
 	 * <p>
-	 * Unlike {@link #checkPathSegment(byte[], int, int)}, this version
-	 * scans a multi-directory path string such as {@code "src/main.c"}.
+	 * Unlike {@link #checkPathSegment(byte[], int, int)}, this version scans a
+	 * multi-directory path string such as {@code "src/main.c"}.
 	 *
-	 * @param path path string to scan.
-	 * @throws CorruptObjectException path is invalid.
+	 * @param path
+	 *            path string to scan.
+	 * @throws org.eclipse.jgit.errors.CorruptObjectException
+	 *             path is invalid.
 	 * @since 3.6
 	 */
 	public void checkPath(String path) throws CorruptObjectException {
@@ -754,13 +756,17 @@ public class ObjectChecker {
 	/**
 	 * Check tree path entry for validity.
 	 * <p>
-	 * Unlike {@link #checkPathSegment(byte[], int, int)}, this version
-	 * scans a multi-directory path string such as {@code "src/main.c"}.
+	 * Unlike {@link #checkPathSegment(byte[], int, int)}, this version scans a
+	 * multi-directory path string such as {@code "src/main.c"}.
 	 *
-	 * @param raw buffer to scan.
-	 * @param ptr offset to first byte of the name.
-	 * @param end offset to one past last byte of name.
-	 * @throws CorruptObjectException path is invalid.
+	 * @param raw
+	 *            buffer to scan.
+	 * @param ptr
+	 *            offset to first byte of the name.
+	 * @param end
+	 *            offset to one past last byte of name.
+	 * @throws org.eclipse.jgit.errors.CorruptObjectException
+	 *             path is invalid.
 	 * @since 3.6
 	 */
 	public void checkPath(byte[] raw, int ptr, int end)
@@ -778,10 +784,14 @@ public class ObjectChecker {
 	/**
 	 * Check tree path entry for validity.
 	 *
-	 * @param raw buffer to scan.
-	 * @param ptr offset to first byte of the name.
-	 * @param end offset to one past last byte of name.
-	 * @throws CorruptObjectException name is invalid.
+	 * @param raw
+	 *            buffer to scan.
+	 * @param ptr
+	 *            offset to first byte of the name.
+	 * @param end
+	 *            offset to one past last byte of name.
+	 * @throws org.eclipse.jgit.errors.CorruptObjectException
+	 *             name is invalid.
 	 * @since 3.4
 	 */
 	public void checkPathSegment(byte[] raw, int ptr, int end)
@@ -1073,7 +1083,7 @@ public class ObjectChecker {
 	}
 
 	/**
-	 * Create a new {@link BlobObjectChecker}.
+	 * Create a new {@link org.eclipse.jgit.lib.BlobObjectChecker}.
 	 *
 	 * @return new BlobObjectChecker or null if it's not provided.
 	 * @since 4.9
@@ -1086,12 +1096,13 @@ public class ObjectChecker {
 	/**
 	 * Check a blob for errors.
 	 *
-	 * <p>This may not be called from PackParser in some cases. Use {@link
-	 * #newBlobObjectChecker} instead.
+	 * <p>
+	 * This may not be called from PackParser in some cases. Use
+	 * {@link #newBlobObjectChecker} instead.
 	 *
 	 * @param raw
 	 *            the blob data. The array is never modified.
-	 * @throws CorruptObjectException
+	 * @throws org.eclipse.jgit.errors.CorruptObjectException
 	 *             if any error was detected.
 	 */
 	public void checkBlob(final byte[] raw) throws CorruptObjectException {

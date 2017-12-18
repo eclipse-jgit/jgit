@@ -57,13 +57,15 @@ public interface ReflogReader {
 	 * Get the last entry in the reflog
 	 *
 	 * @return the latest reflog entry, or null if no log
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 */
 	public abstract ReflogEntry getLastEntry() throws IOException;
 
 	/**
+	 * Get all reflog entries in reverse order
+	 *
 	 * @return all reflog entries in reverse order
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 */
 	public abstract List<ReflogEntry> getReverseEntries() throws IOException;
 
@@ -71,17 +73,19 @@ public interface ReflogReader {
 	 * Get specific entry in the reflog relative to the last entry which is
 	 * considered entry zero.
 	 *
-	 * @param number
+	 * @param number a int.
 	 * @return reflog entry or null if not found
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 */
 	public abstract ReflogEntry getReverseEntry(int number) throws IOException;
 
 	/**
+	 * Get all reflog entries in reverse order
+	 *
 	 * @param max
 	 *            max number of entries to read
 	 * @return all reflog entries in reverse order
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 */
 	public abstract List<ReflogEntry> getReverseEntries(int max)
 			throws IOException;

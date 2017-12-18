@@ -63,7 +63,11 @@ public interface BitmapIndex {
 	 */
 	Bitmap getBitmap(AnyObjectId objectId);
 
-	/** @return a new {@code BitmapBuilder} based on the values in the index. */
+	/**
+	 * Create a new {@code BitmapBuilder} based on the values in the index.
+	 *
+	 * @return a new {@code BitmapBuilder} based on the values in the index.
+	 */
 	BitmapBuilder newBitmapBuilder();
 
 	/**

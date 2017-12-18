@@ -52,7 +52,7 @@ import org.eclipse.jgit.util.NB;
 import org.eclipse.jgit.util.RawParseUtils;
 
 /**
- * A prefix abbreviation of an {@link ObjectId}.
+ * A prefix abbreviation of an {@link org.eclipse.jgit.lib.ObjectId}.
  * <p>
  * Sometimes Git produces abbreviated SHA-1 strings, using sufficient leading
  * digits from the ObjectId name to still be unique within the repository the
@@ -109,13 +109,14 @@ public final class AbbreviatedObjectId implements Serializable {
 	}
 
 	/**
-	 * Convert an AbbreviatedObjectId from an {@link AnyObjectId}.
+	 * Convert an AbbreviatedObjectId from an
+	 * {@link org.eclipse.jgit.lib.AnyObjectId}.
 	 * <p>
 	 * This method copies over all bits of the Id, and is therefore complete
 	 * (see {@link #isComplete()}).
 	 *
 	 * @param id
-	 *            the {@link ObjectId} to convert from.
+	 *            the {@link org.eclipse.jgit.lib.ObjectId} to convert from.
 	 * @return the converted object id.
 	 */
 	public static final AbbreviatedObjectId fromObjectId(AnyObjectId id) {
@@ -205,17 +206,29 @@ public final class AbbreviatedObjectId implements Serializable {
 		w5 = new_5;
 	}
 
-	/** @return number of hex digits appearing in this id */
+	/**
+	 * Get number of hex digits appearing in this id.
+	 *
+	 * @return number of hex digits appearing in this id.
+	 */
 	public int length() {
 		return nibbles;
 	}
 
-	/** @return true if this ObjectId is actually a complete id. */
+	/**
+	 * Whether this ObjectId is actually a complete id.
+	 *
+	 * @return true if this ObjectId is actually a complete id.
+	 */
 	public boolean isComplete() {
 		return length() == Constants.OBJECT_ID_STRING_LENGTH;
 	}
 
-	/** @return a complete ObjectId; null if {@link #isComplete()} is false */
+	/**
+	 * A complete ObjectId; null if {@link #isComplete()} is false
+	 *
+	 * @return a complete ObjectId; null if {@link #isComplete()} is false
+	 */
 	public ObjectId toObjectId() {
 		return isComplete() ? new ObjectId(w1, w2, w3, w4, w5) : null;
 	}
@@ -325,7 +338,11 @@ public final class AbbreviatedObjectId implements Serializable {
 		return NB.compareUInt32(w5, mask(5, bs[p + 4]));
 	}
 
-	/** @return value for a fan-out style map, only valid of length &gt;= 2. */
+	/**
+	 * Get value for a fan-out style map, only valid of length &gt;= 2.
+	 *
+	 * @return value for a fan-out style map, only valid of length &gt;= 2.
+	 */
 	public final int getFirstByte() {
 		return w1 >>> 24;
 	}
@@ -334,11 +351,13 @@ public final class AbbreviatedObjectId implements Serializable {
 		return mask(nibbles, word, v);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int hashCode() {
 		return w1;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean equals(final Object o) {
 		if (o instanceof AbbreviatedObjectId) {
@@ -350,6 +369,8 @@ public final class AbbreviatedObjectId implements Serializable {
 	}
 
 	/**
+	 * Get string form of the abbreviation, in lower case hexadecimal.
+	 *
 	 * @return string form of the abbreviation, in lower case hexadecimal.
 	 */
 	public final String name() {
@@ -375,6 +396,7 @@ public final class AbbreviatedObjectId implements Serializable {
 		return new String(b, 0, nibbles);
 	}
 
+	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {

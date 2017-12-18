@@ -56,26 +56,31 @@ public class NullProgressMonitor implements ProgressMonitor {
 		// Do not let others instantiate
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void start(int totalTasks) {
 		// Do not report.
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void beginTask(String title, int totalWork) {
 		// Do not report.
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void update(int completed) {
 		// Do not report.
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean isCancelled() {
 		return false;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void endTask() {
 		// Do not report.

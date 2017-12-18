@@ -60,6 +60,7 @@ public class RefComparator implements Comparator<Ref> {
 	/** Singleton instance of RefComparator */
 	public static final RefComparator INSTANCE = new RefComparator();
 
+	/** {@inheritDoc} */
 	@Override
 	public int compare(final Ref o1, final Ref o2) {
 		return compareTo(o1, o2);

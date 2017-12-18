@@ -112,6 +112,7 @@ class ConfigLine {
 		return a.equals(b);
 	}
 
+	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {

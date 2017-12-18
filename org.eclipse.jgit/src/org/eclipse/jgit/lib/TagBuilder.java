@@ -72,12 +72,20 @@ public class TagBuilder {
 
 	private String message;
 
-	/** @return the type of object this tag refers to. */
+	/**
+	 * Get the type of object this tag refers to.
+	 *
+	 * @return the type of object this tag refers to.
+	 */
 	public int getObjectType() {
 		return type;
 	}
 
-	/** @return the object this tag refers to. */
+	/**
+	 * Get the object this tag refers to.
+	 *
+	 * @return the object this tag refers to.
+	 */
 	public ObjectId getObjectId() {
 		return object;
 	}
@@ -105,7 +113,11 @@ public class TagBuilder {
 		setObjectId(obj, obj.getType());
 	}
 
-	/** @return short name of the tag (no {@code refs/tags/} prefix). */
+	/**
+	 * Get short name of the tag (no {@code refs/tags/} prefix).
+	 *
+	 * @return short name of the tag (no {@code refs/tags/} prefix).
+	 */
 	public String getTag() {
 		return tag;
 	}
@@ -122,7 +134,11 @@ public class TagBuilder {
 		this.tag = shortName;
 	}
 
-	/** @return creator of this tag. May be null. */
+	/**
+	 * Get creator of this tag.
+	 *
+	 * @return creator of this tag. May be null.
+	 */
 	public PersonIdent getTagger() {
 		return tagger;
 	}
@@ -137,7 +153,11 @@ public class TagBuilder {
 		tagger = taggerIdent;
 	}
 
-	/** @return the complete commit message. */
+	/**
+	 * Get the complete commit message.
+	 *
+	 * @return the complete commit message.
+	 */
 	public String getMessage() {
 		return message;
 	}
@@ -203,6 +223,7 @@ public class TagBuilder {
 		return build();
 	}
 
+	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {

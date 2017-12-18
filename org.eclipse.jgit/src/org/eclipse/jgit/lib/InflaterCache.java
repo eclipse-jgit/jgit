@@ -46,7 +46,9 @@ package org.eclipse.jgit.lib;
 
 import java.util.zip.Inflater;
 
-/** Creates zlib based inflaters as necessary for object decompression. */
+/**
+ * Creates zlib based inflaters as necessary for object decompression.
+ */
 public class InflaterCache {
 	private static final int SZ = 4;
 

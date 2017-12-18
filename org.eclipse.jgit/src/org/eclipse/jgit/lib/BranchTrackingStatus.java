@@ -65,7 +65,7 @@ public class BranchTrackingStatus {
 	 * @param branchName
 	 *            the local branch
 	 * @return the tracking status, or null if it is not known
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 */
 	public static BranchTrackingStatus of(Repository repository, String branchName)
 			throws IOException {
@@ -119,6 +119,8 @@ public class BranchTrackingStatus {
 	}
 
 	/**
+	 * Get full remote-tracking branch name
+	 *
 	 * @return full remote-tracking branch name
 	 */
 	public String getRemoteTrackingBranch() {
@@ -126,6 +128,9 @@ public class BranchTrackingStatus {
 	}
 
 	/**
+	 * Get number of commits that the local branch is ahead of the
+	 * remote-tracking branch
+	 *
 	 * @return number of commits that the local branch is ahead of the
 	 *         remote-tracking branch
 	 */
@@ -134,6 +139,9 @@ public class BranchTrackingStatus {
 	}
 
 	/**
+	 * Get number of commits that the local branch is behind of the
+	 * remote-tracking branch
+	 *
 	 * @return number of commits that the local branch is behind of the
 	 *         remote-tracking branch
 	 */
