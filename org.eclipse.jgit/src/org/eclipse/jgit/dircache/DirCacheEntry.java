@@ -68,7 +68,8 @@ import org.eclipse.jgit.util.NB;
 import org.eclipse.jgit.util.SystemReader;
 
 /**
- * A single file (or stage of a file) in a {@link DirCache}.
+ * A single file (or stage of a file) in a
+ * {@link org.eclipse.jgit.dircache.DirCache}.
  * <p>
  * An entry represents exactly one stage of a file. If a file path is unmerged
  * then multiple DirCacheEntry instances may appear for the same path name.
@@ -221,7 +222,7 @@ public class DirCacheEntry {
 	 *
 	 * @param newPath
 	 *            name of the cache entry.
-	 * @throws IllegalArgumentException
+	 * @throws java.lang.IllegalArgumentException
 	 *             If the path starts or ends with "/", or contains "//" either
 	 *             "\0". These sequences are not permitted in a git tree object
 	 *             or DirCache file.
@@ -237,7 +238,7 @@ public class DirCacheEntry {
 	 *            name of the cache entry.
 	 * @param stage
 	 *            the stage index of the new entry.
-	 * @throws IllegalArgumentException
+	 * @throws java.lang.IllegalArgumentException
 	 *             If the path starts or ends with "/", or contains "//" either
 	 *             "\0". These sequences are not permitted in a git tree object
 	 *             or DirCache file.  Or if {@code stage} is outside of the
@@ -252,7 +253,7 @@ public class DirCacheEntry {
 	 *
 	 * @param newPath
 	 *            name of the cache entry, in the standard encoding.
-	 * @throws IllegalArgumentException
+	 * @throws java.lang.IllegalArgumentException
 	 *             If the path starts or ends with "/", or contains "//" either
 	 *             "\0". These sequences are not permitted in a git tree object
 	 *             or DirCache file.
@@ -268,7 +269,7 @@ public class DirCacheEntry {
 	 *            name of the cache entry, in the standard encoding.
 	 * @param stage
 	 *            the stage index of the new entry.
-	 * @throws IllegalArgumentException
+	 * @throws java.lang.IllegalArgumentException
 	 *             If the path starts or ends with "/", or contains "//" either
 	 *             "\0". These sequences are not permitted in a git tree object
 	 *             or DirCache file.  Or if {@code stage} is outside of the
@@ -378,8 +379,9 @@ public class DirCacheEntry {
 	/**
 	 * Check whether this entry has been smudged or not
 	 * <p>
-	 * If a blob has length 0 we know his id see {@link Constants#EMPTY_BLOB_ID}. If an entry
-	 * has length 0 and an ID different from the one for empty blob we know this
+	 * If a blob has length 0 we know its id, see
+	 * {@link org.eclipse.jgit.lib.Constants#EMPTY_BLOB_ID}. If an entry has
+	 * length 0 and an ID different from the one for empty blob we know this
 	 * entry was smudged.
 	 *
 	 * @return <code>true</code> if the entry is smudged, <code>false</code>
@@ -426,7 +428,9 @@ public class DirCacheEntry {
 	}
 
 	/**
-	 * @return true if this entry should be checked for changes
+	 * Whether this entry should be checked for changes
+	 *
+	 * @return {@code true} if this entry should be checked for changes
 	 */
 	public boolean isUpdateNeeded() {
 		return (inCoreFlags & UPDATE_NEEDED) != 0;
@@ -436,6 +440,7 @@ public class DirCacheEntry {
 	 * Set whether this entry must be checked for changes
 	 *
 	 * @param updateNeeded
+	 *            whether this entry must be checked for changes
 	 */
 	public void setUpdateNeeded(boolean updateNeeded) {
 		if (updateNeeded)
@@ -484,7 +489,7 @@ public class DirCacheEntry {
 	}
 
 	/**
-	 * Obtain the raw {@link FileMode} bits for this entry.
+	 * Obtain the raw {@link org.eclipse.jgit.lib.FileMode} bits for this entry.
 	 *
 	 * @return mode bits for the entry.
 	 * @see FileMode#fromBits(int)
@@ -494,7 +499,7 @@ public class DirCacheEntry {
 	}
 
 	/**
-	 * Obtain the {@link FileMode} for this entry.
+	 * Obtain the {@link org.eclipse.jgit.lib.FileMode} for this entry.
 	 *
 	 * @return the file mode singleton for this entry.
 	 */
@@ -507,10 +512,11 @@ public class DirCacheEntry {
 	 *
 	 * @param mode
 	 *            the new mode constant.
-	 * @throws IllegalArgumentException
-	 *             If {@code mode} is {@link FileMode#MISSING},
-	 *             {@link FileMode#TREE}, or any other type code not permitted
-	 *             in a tree object.
+	 * @throws java.lang.IllegalArgumentException
+	 *             If {@code mode} is
+	 *             {@link org.eclipse.jgit.lib.FileMode#MISSING},
+	 *             {@link org.eclipse.jgit.lib.FileMode#TREE}, or any other type
+	 *             code not permitted in a tree object.
 	 */
 	public void setFileMode(final FileMode mode) {
 		switch (mode.getBits() & FileMode.TYPE_MASK) {
@@ -629,7 +635,8 @@ public class DirCacheEntry {
 	 *
 	 * @param id
 	 *            new object identifier for the entry. May be
-	 *            {@link ObjectId#zeroId()} to remove the current identifier.
+	 *            {@link org.eclipse.jgit.lib.ObjectId#zeroId()} to remove the
+	 *            current identifier.
 	 */
 	public void setObjectId(final AnyObjectId id) {
 		id.copyRawTo(idBuffer(), idOffset());
@@ -676,6 +683,8 @@ public class DirCacheEntry {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * Use for debugging only !
 	 */
 	@SuppressWarnings("nls")
