@@ -81,7 +81,9 @@ public class IgnoreNode {
 	/** The rules that have been parsed into this node. */
 	private final List<FastIgnoreRule> rules;
 
-	/** Create an empty ignore node with no rules. */
+	/**
+	 * Create an empty ignore node with no rules.
+	 */
 	public IgnoreNode() {
 		rules = new ArrayList<>();
 	}
@@ -91,7 +93,7 @@ public class IgnoreNode {
 	 *
 	 * @param rules
 	 *            list of rules.
-	 **/
+	 */
 	public IgnoreNode(List<FastIgnoreRule> rules) {
 		this.rules = rules;
 	}
@@ -102,7 +104,7 @@ public class IgnoreNode {
 	 * @param in
 	 *            input stream holding the standard ignore format. The caller is
 	 *            responsible for closing the stream.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             Error thrown when reading an ignore file.
 	 */
 	public void parse(InputStream in) throws IOException {
@@ -122,7 +124,11 @@ public class IgnoreNode {
 		return new BufferedReader(new InputStreamReader(in, Constants.CHARSET));
 	}
 
-	/** @return list of all ignore rules held by this node. */
+	/**
+	 * Get list of all ignore rules held by this node
+	 *
+	 * @return list of all ignore rules held by this node
+	 */
 	public List<FastIgnoreRule> getRules() {
 		return Collections.unmodifiableList(rules);
 	}
@@ -194,6 +200,7 @@ public class IgnoreNode {
 		return MatchResult.CHECK_PARENT;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		return rules.toString();

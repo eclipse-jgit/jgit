@@ -50,7 +50,7 @@ import org.eclipse.jgit.errors.InvalidPatternException;
 
 /**
  * Matcher built from path segments containing wildcards. This matcher converts
- * glob wildcards to Java {@link Pattern}'s.
+ * glob wildcards to Java {@link java.util.regex.Pattern}'s.
  * <p>
  * This class is immutable and thread safe.
  */
@@ -64,6 +64,7 @@ public class WildCardMatcher extends NameMatcher {
 		p = convertGlob(subPattern);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean matches(String segment, int startIncl, int endExcl,
 			boolean assumeDirectory) {

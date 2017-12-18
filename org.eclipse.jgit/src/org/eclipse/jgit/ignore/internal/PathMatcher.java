@@ -105,14 +105,17 @@ public class PathMatcher extends AbstractMatcher {
 	}
 
 	/**
+	 * Create path matcher
 	 *
 	 * @param pattern
+	 *            a pattern
 	 * @param pathSeparator
 	 *            if this parameter isn't null then this character will not
 	 *            match at wildcards(* and ? are wildcards).
 	 * @param dirOnly
+	 *            a boolean.
 	 * @return never null
-	 * @throws InvalidPatternException
+	 * @throws org.eclipse.jgit.errors.InvalidPatternException
 	 */
 	public static IMatcher createPathMatcher(String pattern,
 			Character pathSeparator, boolean dirOnly)
@@ -170,6 +173,7 @@ public class PathMatcher extends AbstractMatcher {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean matches(String path, boolean assumeDirectory,
 			boolean pathMatch) {
@@ -212,6 +216,7 @@ public class PathMatcher extends AbstractMatcher {
 		return false;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean matches(String segment, int startIncl, int endExcl,
 			boolean assumeDirectory) {

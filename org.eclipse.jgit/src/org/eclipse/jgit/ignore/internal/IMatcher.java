@@ -74,9 +74,10 @@ public interface IMatcher {
 	 *            with a slash)
 	 * @param pathMatch
 	 *            {@code true} if the match is for the full path: prefix-only
-	 *            matches are not allowed, and {@link NameMatcher}s must match
-	 *            only the last component (if they can -- they may not, if they
-	 *            are anchored at the beginning)
+	 *            matches are not allowed, and
+	 *            {@link org.eclipse.jgit.ignore.internal.NameMatcher}s must
+	 *            match only the last component (if they can -- they may not, if
+	 *            they are anchored at the beginning)
 	 * @return true if this matcher pattern matches given string
 	 */
 	boolean matches(String path, boolean assumeDirectory, boolean pathMatch);
