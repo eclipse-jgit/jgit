@@ -52,7 +52,9 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 
-/** A binary file, or a symbolic link. */
+/**
+ * A binary file, or a symbolic link.
+ */
 public class RevBlob extends RevObject {
 	/**
 	 * Create a new blob reference.
@@ -64,6 +66,7 @@ public class RevBlob extends RevObject {
 		super(id);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public final int getType() {
 		return Constants.OBJ_BLOB;

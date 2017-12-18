@@ -66,7 +66,9 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.StringUtils;
 
-/** A commit reference to a commit in the DAG. */
+/**
+ * A commit reference to a commit in the DAG.
+ */
 public class RevCommit extends RevObject {
 	private static final int STACK_DEPTH = 500;
 
@@ -79,7 +81,8 @@ public class RevCommit extends RevObject {
 	 * will not have their headers loaded.
 	 *
 	 * Applications are discouraged from using this API. Callers usually need
-	 * more than one commit. Use {@link RevWalk#parseCommit(AnyObjectId)} to
+	 * more than one commit. Use
+	 * {@link org.eclipse.jgit.revwalk.RevWalk#parseCommit(AnyObjectId)} to
 	 * obtain a RevCommit from an existing repository.
 	 *
 	 * @param raw
@@ -115,7 +118,7 @@ public class RevCommit extends RevObject {
 	 *            modified by the caller.
 	 * @return the parsed commit, in an isolated revision pool that is not
 	 *         available to the caller.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             in case of RevWalk initialization fails
 	 */
 	public static RevCommit parse(RevWalk rw, byte[] raw) throws IOException {
@@ -220,6 +223,7 @@ public class RevCommit extends RevObject {
 		flags |= PARSED;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public final int getType() {
 		return Constants.OBJ_COMMIT;
@@ -315,7 +319,7 @@ public class RevCommit extends RevObject {
 	/**
 	 * Time from the "committer " line of the buffer.
 	 *
-	 * @return time, expressed as seconds since the epoch.
+	 * @return commit time
 	 */
 	public final int getCommitTime() {
 		return commitTime;
@@ -346,7 +350,7 @@ public class RevCommit extends RevObject {
 	 *            parent index to obtain. Must be in the range 0 through
 	 *            {@link #getParentCount()}-1.
 	 * @return the specified parent.
-	 * @throws ArrayIndexOutOfBoundsException
+	 * @throws java.lang.ArrayIndexOutOfBoundsException
 	 *             an invalid parent index was specified.
 	 */
 	public final RevCommit getParent(final int nth) {
@@ -394,9 +398,10 @@ public class RevCommit extends RevObject {
 	 * should cache the return value for as long as necessary to use all
 	 * information from it.
 	 * <p>
-	 * RevFilter implementations should try to use {@link RawParseUtils} to scan
-	 * the {@link #getRawBuffer()} instead, as this will allow faster evaluation
-	 * of commits.
+	 * RevFilter implementations should try to use
+	 * {@link org.eclipse.jgit.util.RawParseUtils} to scan the
+	 * {@link #getRawBuffer()} instead, as this will allow faster evaluation of
+	 * commits.
 	 *
 	 * @return identity of the author (name, email) and the time the commit was
 	 *         made by the author; null if no author line was found.
@@ -420,9 +425,10 @@ public class RevCommit extends RevObject {
 	 * should cache the return value for as long as necessary to use all
 	 * information from it.
 	 * <p>
-	 * RevFilter implementations should try to use {@link RawParseUtils} to scan
-	 * the {@link #getRawBuffer()} instead, as this will allow faster evaluation
-	 * of commits.
+	 * RevFilter implementations should try to use
+	 * {@link org.eclipse.jgit.util.RawParseUtils} to scan the
+	 * {@link #getRawBuffer()} instead, as this will allow faster evaluation of
+	 * commits.
 	 *
 	 * @return identity of the committer (name, email) and the time the commit
 	 *         was made by the committer; null if no committer line was found.
@@ -654,7 +660,7 @@ public class RevCommit extends RevObject {
 	 * time in {@link #getCommitTime()}. Accessing other properties such as
 	 * {@link #getAuthorIdent()}, {@link #getCommitterIdent()} or either message
 	 * function requires reloading the buffer by invoking
-	 * {@link RevWalk#parseBody(RevObject)}.
+	 * {@link org.eclipse.jgit.revwalk.RevWalk#parseBody(RevObject)}.
 	 *
 	 * @since 4.0
 	 */
@@ -662,6 +668,7 @@ public class RevCommit extends RevObject {
 		buffer = null;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		final StringBuilder s = new StringBuilder();

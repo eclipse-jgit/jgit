@@ -60,10 +60,12 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 
 /**
- * Filter applying a {@link TreeFilter} against changed paths in each commit.
+ * Filter applying a {@link org.eclipse.jgit.treewalk.filter.TreeFilter} against
+ * changed paths in each commit.
  * <p>
  * Each commit is differenced concurrently against all of its parents to look
- * for tree entries that are interesting to the {@link TreeFilter}.
+ * for tree entries that are interesting to the
+ * {@link org.eclipse.jgit.treewalk.filter.TreeFilter}.
  *
  * @since 3.5
  */
@@ -76,14 +78,15 @@ public class TreeRevFilter extends RevFilter {
 	private final TreeWalk pathFilter;
 
 	/**
-	 * Create a {@link RevFilter} from a {@link TreeFilter}.
+	 * Create a {@link org.eclipse.jgit.revwalk.filter.RevFilter} from a
+	 * {@link org.eclipse.jgit.treewalk.filter.TreeFilter}.
 	 *
 	 * @param walker
 	 *            walker used for reading trees.
 	 * @param t
-	 *            filter to compare against any changed paths in each commit. If a
-	 *            {@link FollowFilter}, will be replaced with a new filter
-	 *            following new paths after a rename.
+	 *            filter to compare against any changed paths in each commit. If
+	 *            a {@link org.eclipse.jgit.revwalk.FollowFilter}, will be
+	 *            replaced with a new filter following new paths after a rename.
 	 * @since 3.5
 	 */
 	public TreeRevFilter(final RevWalk walker, final TreeFilter t) {
@@ -121,11 +124,13 @@ public class TreeRevFilter extends RevFilter {
 		this.rewriteFlag = rewriteFlag;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public RevFilter clone() {
 		throw new UnsupportedOperationException();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean include(final RevWalk walker, final RevCommit c)
 			throws StopWalkException, MissingObjectException,
@@ -260,6 +265,7 @@ public class TreeRevFilter extends RevFilter {
 		return false;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean requiresCommitBody() {
 		return false;

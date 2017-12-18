@@ -64,7 +64,9 @@ import org.eclipse.jgit.util.MutableInteger;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.StringUtils;
 
-/** An annotated tag. */
+/**
+ * An annotated tag.
+ */
 public class RevTag extends RevObject {
 	/**
 	 * Parse an annotated tag from its canonical format.
@@ -75,14 +77,15 @@ public class RevTag extends RevObject {
 	 * not have its headers loaded.
 	 *
 	 * Applications are discouraged from using this API. Callers usually need
-	 * more than one object. Use {@link RevWalk#parseTag(AnyObjectId)} to obtain
+	 * more than one object. Use
+	 * {@link org.eclipse.jgit.revwalk.RevWalk#parseTag(AnyObjectId)} to obtain
 	 * a RevTag from an existing repository.
 	 *
 	 * @param raw
 	 *            the canonical formatted tag to be parsed.
 	 * @return the parsed tag, in an isolated revision pool that is not
 	 *         available to the caller.
-	 * @throws CorruptObjectException
+	 * @throws org.eclipse.jgit.errors.CorruptObjectException
 	 *             the tag contains a malformed header that cannot be handled.
 	 */
 	public static RevTag parse(byte[] raw) throws CorruptObjectException {
@@ -109,7 +112,7 @@ public class RevTag extends RevObject {
 	 *            modified by the caller.
 	 * @return the parsed tag, in an isolated revision pool that is not
 	 *         available to the caller.
-	 * @throws CorruptObjectException
+	 * @throws org.eclipse.jgit.errors.CorruptObjectException
 	 *             the tag contains a malformed header that cannot be handled.
 	 */
 	public static RevTag parse(RevWalk rw, byte[] raw)
@@ -173,6 +176,7 @@ public class RevTag extends RevObject {
 		flags |= PARSED;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public final int getType() {
 		return Constants.OBJ_TAG;
@@ -261,12 +265,15 @@ public class RevTag extends RevObject {
 	 * Get a reference to the object this tag was placed on.
 	 * <p>
 	 * Note that the returned object has only been looked up (see
-	 * {@link RevWalk#lookupAny(AnyObjectId, int)}. To access the contents it
-	 * needs to be parsed, see {@link RevWalk#parseHeaders(RevObject)} and
-	 * {@link RevWalk#parseBody(RevObject)}.
+	 * {@link org.eclipse.jgit.revwalk.RevWalk#lookupAny(AnyObjectId, int)}. To
+	 * access the contents it needs to be parsed, see
+	 * {@link org.eclipse.jgit.revwalk.RevWalk#parseHeaders(RevObject)} and
+	 * {@link org.eclipse.jgit.revwalk.RevWalk#parseBody(RevObject)}.
 	 * <p>
-	 * As an alternative, use {@link RevWalk#peel(RevObject)} and pass this
-	 * {@link RevTag} to peel it until the first non-tag object.
+	 * As an alternative, use
+	 * {@link org.eclipse.jgit.revwalk.RevWalk#peel(RevObject)} and pass this
+	 * {@link org.eclipse.jgit.revwalk.RevTag} to peel it until the first
+	 * non-tag object.
 	 *
 	 * @return object this tag refers to (only looked up, not parsed)
 	 */
@@ -290,7 +297,7 @@ public class RevTag extends RevObject {
 	 * only the {@link #getObject()} pointer and {@link #getTagName()}.
 	 * Accessing other properties such as {@link #getTaggerIdent()} or either
 	 * message function requires reloading the buffer by invoking
-	 * {@link RevWalk#parseBody(RevObject)}.
+	 * {@link org.eclipse.jgit.revwalk.RevWalk#parseBody(RevObject)}.
 	 *
 	 * @since 4.0
 	 */

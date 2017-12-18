@@ -52,7 +52,9 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdOwnerMap;
 
-/** Base object type accessed during revision walking. */
+/**
+ * Base object type accessed during revision walking.
+ */
 public abstract class RevObject extends ObjectIdOwnerMap.Entry {
 	static final int PARSED = 1;
 
@@ -69,7 +71,7 @@ public abstract class RevObject extends ObjectIdOwnerMap.Entry {
 			IncorrectObjectTypeException, IOException;
 
 	/**
-	 * Get Git object type. See {@link Constants}.
+	 * Get Git object type. See {@link org.eclipse.jgit.lib.Constants}.
 	 *
 	 * @return object type
 	 */
@@ -163,6 +165,7 @@ public abstract class RevObject extends ObjectIdOwnerMap.Entry {
 		flags &= ~set.mask;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		final StringBuilder s = new StringBuilder();
@@ -175,6 +178,8 @@ public abstract class RevObject extends ObjectIdOwnerMap.Entry {
 	}
 
 	/**
+	 * Append a debug description of core RevFlags to a buffer.
+	 *
 	 * @param s
 	 *            buffer to append a debug description of core RevFlags onto.
 	 */

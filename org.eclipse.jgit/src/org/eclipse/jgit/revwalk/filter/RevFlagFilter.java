@@ -52,7 +52,9 @@ import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevFlagSet;
 import org.eclipse.jgit.revwalk.RevWalk;
 
-/** Matches only commits with some/all RevFlags already set. */
+/**
+ * Matches only commits with some/all RevFlags already set.
+ */
 public abstract class RevFlagFilter extends RevFilter {
 	/**
 	 * Create a new filter that tests for a single flag.
@@ -123,11 +125,13 @@ public abstract class RevFlagFilter extends RevFilter {
 		flags = m;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public RevFilter clone() {
 		return this;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		return super.toString() + flags;

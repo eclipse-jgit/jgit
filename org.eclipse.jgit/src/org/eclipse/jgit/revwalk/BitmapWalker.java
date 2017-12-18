@@ -102,21 +102,27 @@ public final class BitmapWalker {
 	/**
 	 * Return, as a bitmap, the objects reachable from the objects in start.
 	 *
-	 * @param start the objects to start the object traversal from.
-	 * @param seen the objects to skip if encountered during traversal.
-	 * @param ignoreMissing true to ignore missing objects, false otherwise.
+	 * @param start
+	 *            the objects to start the object traversal from.
+	 * @param seen
+	 *            the objects to skip if encountered during traversal.
+	 * @param ignoreMissing
+	 *            true to ignore missing objects, false otherwise.
 	 * @return as a bitmap, the objects reachable from the objects in start.
-	 * @throws MissingObjectException
+	 * @throws org.eclipse.jgit.errors.MissingObjectException
 	 *             the object supplied is not available from the object
 	 *             database. This usually indicates the supplied object is
 	 *             invalid, but the reference was constructed during an earlier
-	 *             invocation to {@link RevWalk#lookupAny(AnyObjectId, int)}.
-	 * @throws IncorrectObjectTypeException
+	 *             invocation to
+	 *             {@link org.eclipse.jgit.revwalk.RevWalk#lookupAny(AnyObjectId, int)}.
+	 * @throws org.eclipse.jgit.errors.IncorrectObjectTypeException
 	 *             the object was not parsed yet and it was discovered during
 	 *             parsing that it is not actually the type of the instance
 	 *             passed in. This usually indicates the caller used the wrong
-	 *             type in a {@link RevWalk#lookupAny(AnyObjectId, int)} call.
-	 * @throws IOException
+	 *             type in a
+	 *             {@link org.eclipse.jgit.revwalk.RevWalk#lookupAny(AnyObjectId, int)}
+	 *             call.
+	 * @throws java.io.IOException
 	 *             a pack file or loose object could not be read.
 	 */
 	public BitmapBuilder findObjects(Iterable<? extends ObjectId> start, BitmapBuilder seen,

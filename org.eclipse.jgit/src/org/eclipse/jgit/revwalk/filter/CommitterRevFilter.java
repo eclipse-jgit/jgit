@@ -50,7 +50,9 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.util.RawCharSequence;
 import org.eclipse.jgit.util.RawParseUtils;
 
-/** Matches only commits whose committer name matches the pattern. */
+/**
+ * Matches only commits whose committer name matches the pattern.
+ */
 public class CommitterRevFilter {
 	/**
 	 * Create a new committer filter.
