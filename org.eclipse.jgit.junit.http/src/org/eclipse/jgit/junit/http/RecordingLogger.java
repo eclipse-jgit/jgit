@@ -163,9 +163,7 @@ public class RecordingLogger implements Logger {
 	 * @param arg0
 	 * @param arg1
 	 */
-	public void debug(@SuppressWarnings("unused") String msg,
-			          @SuppressWarnings("unused") Object arg0,
-			          @SuppressWarnings("unused") Object arg1) {
+	public void debug(String msg, Object arg0, Object arg1) {
 		// Ignore (not relevant to test failures)
 	}
 
@@ -181,7 +179,7 @@ public class RecordingLogger implements Logger {
 	 * @param msg
 	 *            debug message
 	 */
-	public void debug(@SuppressWarnings("unused") String msg) {
+	public void debug(String msg) {
 		// Ignore (not relevant to test failures)
 	}
 
@@ -192,9 +190,7 @@ public class RecordingLogger implements Logger {
 	 * @param arg0
 	 * @param arg1
 	 */
-	public void info(@SuppressWarnings("unused") String msg,
-			         @SuppressWarnings("unused") Object arg0,
-			         @SuppressWarnings("unused") Object arg1) {
+	public void info(String msg, Object arg0, Object arg1) {
 		// Ignore (not relevant to test failures)
 	}
 
@@ -203,7 +199,7 @@ public class RecordingLogger implements Logger {
 	 *
 	 * @param msg
 	 */
-	public void info(@SuppressWarnings("unused") String msg) {
+	public void info(String msg) {
 		// Ignore (not relevant to test failures)
 	}
 
