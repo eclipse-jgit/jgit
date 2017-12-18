@@ -90,7 +90,10 @@ import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
-/** {@link BatchRefUpdate} for {@link DfsReftableDatabase}. */
+/**
+ * {@link org.eclipse.jgit.lib.BatchRefUpdate} for
+ * {@link org.eclipse.jgit.internal.storage.dfs.DfsReftableDatabase}.
+ */
 public class ReftableBatchRefUpdate extends BatchRefUpdate {
 	private static final int AVG_BYTES = 36;
 
@@ -119,6 +122,7 @@ public class ReftableBatchRefUpdate extends BatchRefUpdate {
 		reftableConfig = refdb.getReftableConfig();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void execute(RevWalk rw, ProgressMonitor pm, List<String> options) {
 		List<ReceiveCommand> pending = getPending();

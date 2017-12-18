@@ -46,10 +46,10 @@ package org.eclipse.jgit.internal.storage.dfs;
 import org.eclipse.jgit.events.RepositoryEvent;
 
 /**
- * Describes the {@link DfsPackFile} just before its index is loaded. Currently,
- * DfsPackFile directly dispatches the event on
- * {@link org.eclipse.jgit.lib.Repository#getGlobalListenerList}. Which means
- * the call to {@link #getRepository} will always return null.
+ * Describes the {@link org.eclipse.jgit.internal.storage.dfs.DfsPackFile} just
+ * before its index is loaded. Currently, DfsPackFile directly dispatches the
+ * event on {@link org.eclipse.jgit.lib.Repository#getGlobalListenerList}. Which
+ * means the call to {@link #getRepository} will always return null.
  */
 public class BeforeDfsPackIndexLoadedEvent
 		extends RepositoryEvent<BeforeDfsPackIndexLoadedListener> {
@@ -65,16 +65,22 @@ public class BeforeDfsPackIndexLoadedEvent
 		this.pack = pack;
 	}
 
-	/** @return the PackFile containing the index that will be loaded. */
+	/**
+	 * Get the PackFile containing the index that will be loaded.
+	 *
+	 * @return the PackFile containing the index that will be loaded.
+	 */
 	public DfsPackFile getPackFile() {
 		return pack;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Class<BeforeDfsPackIndexLoadedListener> getListenerType() {
 		return BeforeDfsPackIndexLoadedListener.class;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void dispatch(BeforeDfsPackIndexLoadedListener listener) {
 		listener.onBeforeDfsPackIndexLoaded(this);

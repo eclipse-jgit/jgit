@@ -56,7 +56,9 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 
 /**
- * Caches slices of a {@link BlockBasedFile} in memory for faster read access.
+ * Caches slices of a
+ * {@link org.eclipse.jgit.internal.storage.dfs.BlockBasedFile} in memory for
+ * faster read access.
  * <p>
  * The DfsBlockCache serves as a Java based "buffer cache", loading segments of
  * a BlockBasedFile into the JVM heap prior to use. As JGit often wants to do
@@ -103,7 +105,7 @@ public final class DfsBlockCache {
 	 *
 	 * @param cfg
 	 *            the new window cache configuration.
-	 * @throws IllegalArgumentException
+	 * @throws java.lang.IllegalArgumentException
 	 *             the cache configuration contains one or more invalid
 	 *             settings, usually too low of a limit.
 	 */
@@ -111,7 +113,11 @@ public final class DfsBlockCache {
 		cache = new DfsBlockCache(cfg);
 	}
 
-	/** @return the currently active DfsBlockCache. */
+	/**
+	 * Get the currently active DfsBlockCache.
+	 *
+	 * @return the currently active DfsBlockCache.
+	 */
 	public static DfsBlockCache getInstance() {
 		return cache;
 	}
@@ -207,17 +213,27 @@ public final class DfsBlockCache {
 		return length <= maxStreamThroughCache;
 	}
 
-	/** @return total number of bytes in the cache, per pack file extension. */
+	/**
+	 * Get total number of bytes in the cache, per pack file extension.
+	 *
+	 * @return total number of bytes in the cache, per pack file extension.
+	 */
 	public long[] getCurrentSize() {
 		return getStatVals(liveBytes);
 	}
 
-	/** @return 0..100, defining how full the cache is. */
+	/**
+	 * Get 0..100, defining how full the cache is.
+	 *
+	 * @return 0..100, defining how full the cache is.
+	 */
 	public long getFillPercentage() {
 		return LongStream.of(getCurrentSize()).sum() * 100 / maxBytes;
 	}
 
 	/**
+	 * Get number of requests for items in the cache, per pack file extension.
+	 *
 	 * @return number of requests for items in the cache, per pack file
 	 *         extension.
 	 */
@@ -226,6 +242,9 @@ public final class DfsBlockCache {
 	}
 
 	/**
+	 * Get number of requests for items not in the cache, per pack file
+	 * extension.
+	 *
 	 * @return number of requests for items not in the cache, per pack file
 	 *         extension.
 	 */
@@ -234,6 +253,8 @@ public final class DfsBlockCache {
 	}
 
 	/**
+	 * Get total number of requests (hit + miss), per pack file extension.
+	 *
 	 * @return total number of requests (hit + miss), per pack file extension.
 	 */
 	public long[] getTotalRequestCount() {
@@ -250,7 +271,9 @@ public final class DfsBlockCache {
 	}
 
 	/**
-	 * @return 0..100, defining number of cache hits, per pack file extension.
+	 * Get hit ratios
+	 *
+	 * @return hit ratios
 	 */
 	public long[] getHitRatio() {
 		AtomicLong[] hit = statHit.get();
@@ -272,6 +295,9 @@ public final class DfsBlockCache {
 	}
 
 	/**
+	 * Get number of evictions performed due to cache being full, per pack file
+	 * extension.
+	 *
 	 * @return number of evictions performed due to cache being full, per pack
 	 *         file extension.
 	 */

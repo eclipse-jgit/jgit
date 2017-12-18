@@ -72,11 +72,13 @@ public abstract class DfsOutputStream extends OutputStream {
 		return 0;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void write(int b) throws IOException {
 		write(new byte[] { (byte) b });
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public abstract void write(byte[] buf, int off, int len) throws IOException;
 
@@ -91,7 +93,7 @@ public abstract class DfsOutputStream extends OutputStream {
 	 *            buffer to populate. Up to {@code buf.remaining()} bytes will
 	 *            be read from {@code position}.
 	 * @return number of bytes actually read.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             reading is not supported, or the read cannot be performed due
 	 *             to DFS errors.
 	 */

@@ -43,11 +43,15 @@
 
 package org.eclipse.jgit.internal.storage.dfs;
 
-/** A description of a Git repository on a DFS. */
+/**
+ * A description of a Git repository on a DFS.
+ */
 public class DfsRepositoryDescription {
 	private final String repositoryName;
 
-	/** Initialize a new, empty repository description. */
+	/**
+	 * Initialize a new, empty repository description.
+	 */
 	public DfsRepositoryDescription() {
 		this(null);
 	}
@@ -62,11 +66,16 @@ public class DfsRepositoryDescription {
 		this.repositoryName = repositoryName;
 	}
 
-	/** @return the name of the repository. */
+	/**
+	 * Get the name of the repository.
+	 *
+	 * @return the name of the repository.
+	 */
 	public String getRepositoryName() {
 		return repositoryName;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int hashCode() {
 		if (getRepositoryName() != null)
@@ -74,6 +83,7 @@ public class DfsRepositoryDescription {
 		return System.identityHashCode(this);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean equals(Object b) {
 		if (b instanceof DfsRepositoryDescription){
@@ -84,6 +94,7 @@ public class DfsRepositoryDescription {
 		return false;
 	}
 
+	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {

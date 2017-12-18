@@ -49,7 +49,6 @@ import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.eclipse.jgit.annotations.Nullable;
-import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.reftable.MergedReftable;
 import org.eclipse.jgit.internal.storage.reftable.RefCursor;
 import org.eclipse.jgit.internal.storage.reftable.Reftable;
@@ -64,12 +63,15 @@ import org.eclipse.jgit.util.RefList;
 import org.eclipse.jgit.util.RefMap;
 
 /**
- * A {@link DfsRefDatabase} that uses reftable for storage.
+ * A {@link org.eclipse.jgit.internal.storage.dfs.DfsRefDatabase} that uses
+ * reftable for storage.
  * <p>
  * A {@code DfsRefDatabase} instance is thread-safe.
  * <p>
- * Implementors may wish to use {@link DfsPackDescription#getMaxUpdateIndex()}
- * as the primary key identifier for a {@link PackExt#REFTABLE} only pack
+ * Implementors may wish to use
+ * {@link org.eclipse.jgit.internal.storage.dfs.DfsPackDescription#getMaxUpdateIndex()}
+ * as the primary key identifier for a
+ * {@link org.eclipse.jgit.internal.storage.pack.PackExt#REFTABLE} only pack
  * description, ensuring that when there are competing transactions one wins,
  * and one will fail.
  */
@@ -92,28 +94,40 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 		super(repo);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean performsAtomicTransactions() {
 		return true;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public BatchRefUpdate newBatchUpdate() {
 		DfsObjDatabase odb = getRepository().getObjectDatabase();
 		return new ReftableBatchRefUpdate(this, odb);
 	}
 
-	/** @return configuration to write new reftables with. */
+	/**
+	 * Get configuration to write new reftables with.
+	 *
+	 * @return configuration to write new reftables with.
+	 */
 	public ReftableConfig getReftableConfig() {
 		return new ReftableConfig(getRepository().getConfig());
 	}
 
-	/** @return the lock protecting this instance's state. */
+	/**
+	 * Get the lock protecting this instance's state.
+	 *
+	 * @return the lock protecting this instance's state.
+	 */
 	protected ReentrantLock getLock() {
 		return lock;
 	}
 
 	/**
+	 * Whether to compact reftable instead of extending the stack depth.
+	 *
 	 * @return {@code true} if commit of a new small reftable should try to
 	 *         replace a prior small reftable by performing a compaction,
 	 *         instead of extending the stack depth.
@@ -126,7 +140,7 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 	 * Obtain a handle to the merged reader.
 	 *
 	 * @return (possibly cached) handle to the merged reader.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             if tables cannot be opened.
 	 */
 	protected Reftable reader() throws IOException {
@@ -145,7 +159,7 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 	 * Obtain a handle to the stack of reftables.
 	 *
 	 * @return (possibly cached) handle to the stack.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             if tables cannot be opened.
 	 */
 	protected ReftableStack stack() throws IOException {
@@ -165,6 +179,7 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean isNameConflicting(String refName) throws IOException {
 		lock.lock();
@@ -187,6 +202,7 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Ref exactRef(String name) throws IOException {
 		lock.lock();
@@ -202,6 +218,7 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Ref getRef(String needle) throws IOException {
 		for (String prefix : SEARCH_PATH) {
@@ -213,6 +230,7 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 		return null;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Map<String, Ref> getRefs(String prefix) throws IOException {
 		RefList.Builder<Ref> all = new RefList.Builder<>();
@@ -236,6 +254,7 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 		return new RefMap(prefix, all.toRefList(), none, none);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Ref peel(Ref ref) throws IOException {
 		Ref oldLeaf = ref.getLeaf();
@@ -269,6 +288,7 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected boolean compareAndPut(Ref oldRef, @Nullable Ref newRef)
 			throws IOException {
@@ -340,11 +360,13 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 		return oldRef != null ? oldRef.getName() : newRef.getName();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected boolean compareAndRemove(Ref oldRef) throws IOException {
 		return compareAndPut(oldRef, null);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected RefCache scanAllRefs() throws IOException {
 		throw new UnsupportedOperationException();
@@ -360,6 +382,7 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 		// Unnecessary; ReftableBatchRefUpdate calls clearCache().
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void cachePeeledState(Ref oldLeaf, Ref newLeaf) {
 		// Do not cache peeled state in reftable.
