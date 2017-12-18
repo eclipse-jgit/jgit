@@ -57,14 +57,15 @@ import org.eclipse.jgit.merge.MergeChunk.ConflictState;
 
 /**
  * Provides the merge algorithm which does a three-way merge on content provided
- * as RawText. By default {@link HistogramDiff} is used as diff algorithm.
+ * as RawText. By default {@link org.eclipse.jgit.diff.HistogramDiff} is used as
+ * diff algorithm.
  */
 public final class MergeAlgorithm {
 	private final DiffAlgorithm diffAlg;
 
 	/**
-	 * Creates a new MergeAlgorithm which uses {@link HistogramDiff} as diff
-	 * algorithm
+	 * Creates a new MergeAlgorithm which uses
+	 * {@link org.eclipse.jgit.diff.HistogramDiff} as diff algorithm
 	 */
 	public MergeAlgorithm() {
 		this(new HistogramDiff());
@@ -88,8 +89,6 @@ public final class MergeAlgorithm {
 	/**
 	 * Does the three way merge between a common base and two sequences.
 	 *
-	 * @param <S>
-	 *            type of sequence.
 	 * @param cmp comparison method for this execution.
 	 * @param base the common base sequence
 	 * @param ours the first sequence to be merged

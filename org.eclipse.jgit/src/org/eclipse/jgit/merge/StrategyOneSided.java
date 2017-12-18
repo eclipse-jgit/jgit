@@ -76,21 +76,25 @@ public class StrategyOneSided extends MergeStrategy {
 		treeIndex = index;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String getName() {
 		return strategyName;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Merger newMerger(final Repository db) {
 		return new OneSide(db, treeIndex);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Merger newMerger(final Repository db, boolean inCore) {
 		return new OneSide(db, treeIndex);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Merger newMerger(final ObjectInserter inserter, final Config config) {
 		return new OneSide(inserter, treeIndex);
