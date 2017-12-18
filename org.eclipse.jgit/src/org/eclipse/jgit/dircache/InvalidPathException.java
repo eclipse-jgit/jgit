@@ -57,7 +57,10 @@ public class InvalidPathException extends IllegalArgumentException {
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * Constructor for InvalidPathException
+	 *
 	 * @param path
+	 *            the invalid path
 	 */
 	public InvalidPathException(String path) {
 		this(JGitText.get().invalidPath, path);

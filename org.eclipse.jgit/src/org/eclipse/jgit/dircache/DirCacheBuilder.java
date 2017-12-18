@@ -57,7 +57,8 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 
 /**
- * Updates a {@link DirCache} by adding individual {@link DirCacheEntry}s.
+ * Updates a {@link org.eclipse.jgit.dircache.DirCache} by adding individual
+ * {@link org.eclipse.jgit.dircache.DirCacheEntry}s.
  * <p>
  * A builder always starts from a clean slate and appends in every single
  * <code>DirCacheEntry</code> which the final updated index must have to reflect
@@ -98,7 +99,7 @@ public class DirCacheBuilder extends BaseDirCacheEditor {
 	 *
 	 * @param newEntry
 	 *            the new entry to add.
-	 * @throws IllegalArgumentException
+	 * @throws java.lang.IllegalArgumentException
 	 *             If the FileMode of the entry was not set by the caller.
 	 */
 	public void add(final DirCacheEntry newEntry) {
@@ -161,7 +162,7 @@ public class DirCacheBuilder extends BaseDirCacheEditor {
 	 *            under <code>pathPrefix</code>. The ObjectId must be that of a
 	 *            tree; the caller is responsible for dereferencing a tag or
 	 *            commit (if necessary).
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             a tree cannot be read to iterate through its entries.
 	 */
 	public void addTree(byte[] pathPrefix, int stage, ObjectReader reader,
@@ -218,6 +219,7 @@ public class DirCacheBuilder extends BaseDirCacheEditor {
 		return e;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void finish() {
 		if (!sorted)
