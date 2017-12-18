@@ -47,29 +47,45 @@ import java.io.IOException;
 
 import org.eclipse.jgit.lib.Ref;
 
-/** Iterator over references inside a {@link Reftable}. */
+/**
+ * Iterator over references inside a
+ * {@link org.eclipse.jgit.internal.storage.reftable.Reftable}.
+ */
 public abstract class RefCursor implements AutoCloseable {
 	/**
 	 * Check if another reference is available.
 	 *
 	 * @return {@code true} if there is another result.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             references cannot be read.
 	 */
 	public abstract boolean next() throws IOException;
 
-	/** @return reference at the current position. */
+	/**
+	 * Get reference at the current position.
+	 *
+	 * @return reference at the current position.
+	 */
 	public abstract Ref getRef();
 
-	/** @return updateIndex that last modified the current reference, */
+	/**
+	 * Get updateIndex that last modified the current reference.
+	 *
+	 * @return updateIndex that last modified the current reference.
+	 */
 	public abstract long getUpdateIndex();
 
-	/** @return {@code true} if the current reference was deleted. */
+	/**
+	 * Whether the current reference was deleted.
+	 *
+	 * @return {@code true} if the current reference was deleted.
+	 */
 	public boolean wasDeleted() {
 		Ref r = getRef();
 		return r.getStorage() == Ref.Storage.NEW && r.getObjectId() == null;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public abstract void close();
 }
