@@ -58,7 +58,10 @@ import org.eclipse.jgit.lib.Repository;
 public class MergeConfig {
 
 	/**
+	 * Get merge configuration for the current branch of the repository
+	 *
 	 * @param repo
+	 *            a {@link org.eclipse.jgit.lib.Repository} object.
 	 * @return merge configuration for the current branch of the repository
 	 */
 	public static MergeConfig getConfigForCurrentBranch(Repository repo) {
@@ -74,10 +77,14 @@ public class MergeConfig {
 	}
 
 	/**
+	 * Get a parser for use with
+	 * {@link org.eclipse.jgit.lib.Config#get(SectionParser)}
+	 *
 	 * @param branch
 	 *            short branch name to get the configuration for, as returned
-	 *            e.g. by {@link Repository#getBranch()}
-	 * @return a parser for use with {@link Config#get(SectionParser)}
+	 *            e.g. by {@link org.eclipse.jgit.lib.Repository#getBranch()}
+	 * @return a parser for use with
+	 *         {@link org.eclipse.jgit.lib.Config#get(SectionParser)}
 	 */
 	public static final SectionParser<MergeConfig> getParser(
 			final String branch) {
@@ -104,6 +111,8 @@ public class MergeConfig {
 	}
 
 	/**
+	 * Get the fast forward mode configured for this branch
+	 *
 	 * @return the fast forward mode configured for this branch
 	 */
 	public FastForwardMode getFastForwardMode() {
@@ -111,6 +120,9 @@ public class MergeConfig {
 	}
 
 	/**
+	 * Whether merges into this branch are configured to be squash merges, false
+	 * otherwise
+	 *
 	 * @return true if merges into this branch are configured to be squash
 	 *         merges, false otherwise
 	 */
@@ -119,8 +131,10 @@ public class MergeConfig {
 	}
 
 	/**
-	 * @return false if --no-commit is configured for this branch, true
-	 *         otherwise (event if --squash is configured)
+	 * Whether {@code --no-commit} option is not set.
+	 *
+	 * @return {@code false} if --no-commit is configured for this branch,
+	 *         {@code true} otherwise (even if --squash is configured)
 	 */
 	public boolean isCommit() {
 		return commit;

@@ -83,6 +83,7 @@ import org.eclipse.jgit.treewalk.WorkingTreeIterator;
  * - uses "Lists" instead of Arrays for chained types
  *
  * - recursively merges the merge bases together to compute a usable base
+ *
  * @since 3.0
  */
 public class RecursiveMerger extends ResolveMerger {
@@ -97,7 +98,9 @@ public class RecursiveMerger extends ResolveMerger {
 	 * inCore
 	 *
 	 * @param local
+	 *            a {@link org.eclipse.jgit.lib.Repository} object.
 	 * @param inCore
+	 *            a boolean.
 	 */
 	protected RecursiveMerger(Repository local, boolean inCore) {
 		super(local, inCore);
@@ -106,7 +109,7 @@ public class RecursiveMerger extends ResolveMerger {
 	/**
 	 * Normal recursive merge, implies not inCore
 	 *
-	 * @param local
+	 * @param local a {@link org.eclipse.jgit.lib.Repository} object.
 	 */
 	protected RecursiveMerger(Repository local) {
 		this(local, false);
@@ -116,7 +119,9 @@ public class RecursiveMerger extends ResolveMerger {
 	 * Normal recursive merge, implies inCore.
 	 *
 	 * @param inserter
+	 *            an {@link org.eclipse.jgit.lib.ObjectInserter} object.
 	 * @param config
+	 *            the repository configuration
 	 * @since 4.8
 	 */
 	protected RecursiveMerger(ObjectInserter inserter, Config config) {
@@ -124,12 +129,11 @@ public class RecursiveMerger extends ResolveMerger {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * Get a single base commit for two given commits. If the two source commits
 	 * have more than one base commit recursively merge the base commits
 	 * together until you end up with a single base commit.
-	 *
-	 * @throws IOException
-	 * @throws IncorrectObjectTypeException
 	 */
 	@Override
 	protected RevCommit getBaseCommit(RevCommit a, RevCommit b)
@@ -151,7 +155,7 @@ public class RecursiveMerger extends ResolveMerger {
 	 * @return the merge base of two commits. If a criss-cross merge required a
 	 *         synthetic merge base this commit is visible only the merger's
 	 *         RevWalk and will not be in the repository.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 * @throws IncorrectObjectTypeException
 	 *             one of the input objects is not a commit.
 	 * @throws NoMergeBaseException

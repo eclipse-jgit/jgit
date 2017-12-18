@@ -299,8 +299,12 @@ public class ResolveMerger extends ThreeWayMerger {
 	}
 
 	/**
+	 * Constructor for ResolveMerger.
+	 *
 	 * @param local
+	 *            the {@link org.eclipse.jgit.lib.Repository}.
 	 * @param inCore
+	 *            a boolean.
 	 */
 	protected ResolveMerger(Repository local, boolean inCore) {
 		super(local);
@@ -319,15 +323,22 @@ public class ResolveMerger extends ThreeWayMerger {
 	}
 
 	/**
+	 * Constructor for ResolveMerger.
+	 *
 	 * @param local
+	 *            the {@link org.eclipse.jgit.lib.Repository}.
 	 */
 	protected ResolveMerger(Repository local) {
 		this(local, false);
 	}
 
 	/**
+	 * Constructor for ResolveMerger.
+	 *
 	 * @param inserter
+	 *            an {@link org.eclipse.jgit.lib.ObjectInserter} object.
 	 * @param config
+	 *            the repository configuration
 	 * @since 4.8
 	 */
 	protected ResolveMerger(ObjectInserter inserter, Config config) {
@@ -339,6 +350,7 @@ public class ResolveMerger extends ThreeWayMerger {
 		dircache = DirCache.newInCore();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected boolean mergeImpl() throws IOException {
 		if (implicitDirCache)
@@ -379,9 +391,9 @@ public class ResolveMerger extends ThreeWayMerger {
 	 * contained only stage 0. In case if inCore operation just clear the
 	 * history of modified files.
 	 *
-	 * @throws IOException
-	 * @throws CorruptObjectException
-	 * @throws NoWorkTreeException
+	 * @throws java.io.IOException
+	 * @throws org.eclipse.jgit.errors.CorruptObjectException
+	 * @throws org.eclipse.jgit.errors.NoWorkTreeException
 	 * @since 3.4
 	 */
 	protected void cleanUp() throws NoWorkTreeException,
@@ -482,16 +494,15 @@ public class ResolveMerger extends ThreeWayMerger {
 	 *            the file in the working tree
 	 * @param ignoreConflicts
 	 *            see
-	 *            {@link ResolveMerger#mergeTrees(AbstractTreeIterator, RevTree, RevTree, boolean)}
+	 *            {@link org.eclipse.jgit.merge.ResolveMerger#mergeTrees(AbstractTreeIterator, RevTree, RevTree, boolean)}
 	 * @return <code>false</code> if the merge will fail because the index entry
 	 *         didn't match ours or the working-dir file was dirty and a
 	 *         conflict occurred
-	 * @throws MissingObjectException
-	 * @throws IncorrectObjectTypeException
-	 * @throws CorruptObjectException
-	 * @throws IOException
+	 * @throws org.eclipse.jgit.errors.MissingObjectException
+	 * @throws org.eclipse.jgit.errors.IncorrectObjectTypeException
+	 * @throws org.eclipse.jgit.errors.CorruptObjectException
+	 * @throws java.io.IOException
 	 * @since 3.5
-	 * @deprecated
 	 */
 	@Deprecated
 	protected boolean processEntry(CanonicalTreeParser base,
@@ -538,16 +549,16 @@ public class ResolveMerger extends ThreeWayMerger {
 	 *            the file in the working tree
 	 * @param ignoreConflicts
 	 *            see
-	 *            {@link ResolveMerger#mergeTrees(AbstractTreeIterator, RevTree, RevTree, boolean)}
+	 *            {@link org.eclipse.jgit.merge.ResolveMerger#mergeTrees(AbstractTreeIterator, RevTree, RevTree, boolean)}
 	 * @param attributes
 	 *            the attributes defined for this entry
 	 * @return <code>false</code> if the merge will fail because the index entry
 	 *         didn't match ours or the working-dir file was dirty and a
 	 *         conflict occurred
-	 * @throws MissingObjectException
-	 * @throws IncorrectObjectTypeException
-	 * @throws CorruptObjectException
-	 * @throws IOException
+	 * @throws org.eclipse.jgit.errors.MissingObjectException
+	 * @throws org.eclipse.jgit.errors.IncorrectObjectTypeException
+	 * @throws org.eclipse.jgit.errors.CorruptObjectException
+	 * @throws java.io.IOException
 	 * @since 4.9
 	 */
 	protected boolean processEntry(CanonicalTreeParser base,
@@ -977,12 +988,15 @@ public class ResolveMerger extends ThreeWayMerger {
 		return FileMode.GITLINK.equals(mode);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public ObjectId getResultTreeId() {
 		return (resultTree == null) ? null : resultTree.toObjectId();
 	}
 
 	/**
+	 * Set the names of the commits as they would appear in conflict markers
+	 *
 	 * @param commitNames
 	 *            the names of the commits as they would appear in conflict
 	 *            markers
@@ -992,6 +1006,8 @@ public class ResolveMerger extends ThreeWayMerger {
 	}
 
 	/**
+	 * Get the names of the commits as they would appear in conflict markers.
+	 *
 	 * @return the names of the commits as they would appear in conflict
 	 *         markers.
 	 */
@@ -1000,17 +1016,22 @@ public class ResolveMerger extends ThreeWayMerger {
 	}
 
 	/**
-	 * @return the paths with conflicts. This is a subset of the files listed
-	 *         by {@link #getModifiedFiles()}
+	 * Get the paths with conflicts. This is a subset of the files listed by
+	 * {@link #getModifiedFiles()}
+	 *
+	 * @return the paths with conflicts. This is a subset of the files listed by
+	 *         {@link #getModifiedFiles()}
 	 */
 	public List<String> getUnmergedPaths() {
 		return unmergedPaths;
 	}
 
 	/**
-	 * @return the paths of files which have been modified by this merge. A
-	 *         file will be modified if a content-merge works on this path or if
-	 *         the merge algorithm decides to take the theirs-version. This is a
+	 * Get the paths of files which have been modified by this merge.
+	 *
+	 * @return the paths of files which have been modified by this merge. A file
+	 *         will be modified if a content-merge works on this path or if the
+	 *         merge algorithm decides to take the theirs-version. This is a
 	 *         superset of the files listed by {@link #getUnmergedPaths()}.
 	 */
 	public List<String> getModifiedFiles() {
@@ -1018,6 +1039,10 @@ public class ResolveMerger extends ThreeWayMerger {
 	}
 
 	/**
+	 * Get a map which maps the paths of files which have to be checked out
+	 * because the merge created new fully-merged content for this file into the
+	 * index.
+	 *
 	 * @return a map which maps the paths of files which have to be checked out
 	 *         because the merge created new fully-merged content for this file
 	 *         into the index. This means: the merge wrote a new stage 0 entry
@@ -1028,6 +1053,8 @@ public class ResolveMerger extends ThreeWayMerger {
 	}
 
 	/**
+	 * Get the mergeResults
+	 *
 	 * @return the mergeResults
 	 */
 	public Map<String, MergeResult<? extends Sequence>> getMergeResults() {
@@ -1035,6 +1062,9 @@ public class ResolveMerger extends ThreeWayMerger {
 	}
 
 	/**
+	 * Get list of paths causing this merge to fail (not stopped because of a
+	 * conflict).
+	 *
 	 * @return lists paths causing this merge to fail (not stopped because of a
 	 *         conflict). <code>null</code> is returned if this merge didn't
 	 *         fail.
@@ -1059,10 +1089,10 @@ public class ResolveMerger extends ThreeWayMerger {
 	 * not set explicitly and if this merger doesn't work in-core, this merger
 	 * will implicitly get and lock a default DirCache. If the DirCache is
 	 * explicitly set the caller is responsible to lock it in advance. Finally
-	 * the merger will call {@link DirCache#commit()} which requires that the
-	 * DirCache is locked. If the {@link #mergeImpl()} returns without throwing
-	 * an exception the lock will be released. In case of exceptions the caller
-	 * is responsible to release the lock.
+	 * the merger will call {@link org.eclipse.jgit.dircache.DirCache#commit()}
+	 * which requires that the DirCache is locked. If the {@link #mergeImpl()}
+	 * returns without throwing an exception the lock will be released. In case
+	 * of exceptions the caller is responsible to release the lock.
 	 *
 	 * @param dc
 	 *            the DirCache to set
@@ -1092,8 +1122,12 @@ public class ResolveMerger extends ThreeWayMerger {
 	 * The resolve conflict way of three way merging
 	 *
 	 * @param baseTree
+	 *            a {@link org.eclipse.jgit.treewalk.AbstractTreeIterator}
+	 *            object.
 	 * @param headTree
+	 *            a {@link org.eclipse.jgit.revwalk.RevTree} object.
 	 * @param mergeTree
+	 *            a {@link org.eclipse.jgit.revwalk.RevTree} object.
 	 * @param ignoreConflicts
 	 *            Controls what to do in case a content-merge is done and a
 	 *            conflict is detected. The default setting for this should be
@@ -1110,11 +1144,11 @@ public class ResolveMerger extends ThreeWayMerger {
 	 *            other stages are filled. Means: there is no conflict on that
 	 *            path but the new content (including conflict markers) is
 	 *            stored as successful merge result. This is needed in the
-	 *            context of {@link RecursiveMerger} where when determining
-	 *            merge bases we don't want to deal with content-merge
-	 *            conflicts.
+	 *            context of {@link org.eclipse.jgit.merge.RecursiveMerger}
+	 *            where when determining merge bases we don't want to deal with
+	 *            content-merge conflicts.
 	 * @return whether the trees merged cleanly
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 * @since 3.5
 	 */
 	protected boolean mergeTrees(AbstractTreeIterator baseTree,
@@ -1177,9 +1211,9 @@ public class ResolveMerger extends ThreeWayMerger {
 	 *            The walk to iterate over.
 	 * @param ignoreConflicts
 	 *            see
-	 *            {@link ResolveMerger#mergeTrees(AbstractTreeIterator, RevTree, RevTree, boolean)}
+	 *            {@link org.eclipse.jgit.merge.ResolveMerger#mergeTrees(AbstractTreeIterator, RevTree, RevTree, boolean)}
 	 * @return Whether the trees merged cleanly.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 * @since 3.5
 	 */
 	protected boolean mergeTreeWalk(TreeWalk treeWalk, boolean ignoreConflicts)

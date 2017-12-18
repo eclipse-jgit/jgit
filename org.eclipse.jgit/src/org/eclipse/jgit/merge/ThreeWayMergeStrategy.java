@@ -45,11 +45,15 @@ package org.eclipse.jgit.merge;
 
 import org.eclipse.jgit.lib.Repository;
 
-/** A merge strategy to merge 2 trees, using a common base ancestor tree. */
+/**
+ * A merge strategy to merge 2 trees, using a common base ancestor tree.
+ */
 public abstract class ThreeWayMergeStrategy extends MergeStrategy {
+	/** {@inheritDoc} */
 	@Override
 	public abstract ThreeWayMerger newMerger(Repository db);
 
+	/** {@inheritDoc} */
 	@Override
 	public abstract ThreeWayMerger newMerger(Repository db, boolean inCore);
 }

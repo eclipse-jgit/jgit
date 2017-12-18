@@ -54,21 +54,25 @@ import org.eclipse.jgit.lib.Repository;
  */
 public class StrategyRecursive extends StrategyResolve {
 
+	/** {@inheritDoc} */
 	@Override
 	public ThreeWayMerger newMerger(Repository db) {
 		return new RecursiveMerger(db, false);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public ThreeWayMerger newMerger(Repository db, boolean inCore) {
 		return new RecursiveMerger(db, inCore);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public ThreeWayMerger newMerger(ObjectInserter inserter, Config config) {
 		return new RecursiveMerger(inserter, config);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String getName() {
 		return "recursive"; //$NON-NLS-1$

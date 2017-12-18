@@ -97,7 +97,8 @@ public class MergeChunk {
 	 *            merge result. All elements between begin (including begin) and
 	 *            this element are added.
 	 * @param conflictState
-	 *            the state of this chunk. See {@link ConflictState}
+	 *            the state of this chunk. See
+	 *            {@link org.eclipse.jgit.merge.MergeChunk.ConflictState}
 	 */
 	protected MergeChunk(int sequenceIndex, int begin, int end,
 			ConflictState conflictState) {
@@ -108,7 +109,9 @@ public class MergeChunk {
 	}
 
 	/**
-	 * @return the index of the sequence to which sequence this chunks belongs
+	 * Get the index of the sequence to which this sequence chunks belongs to.
+	 *
+	 * @return the index of the sequence to which this sequence chunks belongs
 	 *         to. Same as in {@link org.eclipse.jgit.merge.MergeResult#add}
 	 */
 	public int getSequenceIndex() {
@@ -116,6 +119,9 @@ public class MergeChunk {
 	}
 
 	/**
+	 * Get the first element from the specified sequence which should be
+	 * included in the merge result.
+	 *
 	 * @return the first element from the specified sequence which should be
 	 *         included in the merge result. Indexes start with 0.
 	 */
@@ -124,17 +130,22 @@ public class MergeChunk {
 	}
 
 	/**
-	 * @return the end of the range of this chunk. The element this index
-	 *         points to is the first element which not added to the merge
-	 *         result. All elements between begin (including begin) and this
-	 *         element are added.
+	 * Get the end of the range of this chunk.
+	 *
+	 * @return the end of the range of this chunk. The element this index points
+	 *         to is the first element which not added to the merge result. All
+	 *         elements between begin (including begin) and this element are
+	 *         added.
 	 */
 	public int getEnd() {
 		return end;
 	}
 
 	/**
-	 * @return the state of this chunk. See {@link ConflictState}
+	 * Get the state of this chunk.
+	 *
+	 * @return the state of this chunk. See
+	 *         {@link org.eclipse.jgit.merge.MergeChunk.ConflictState}
 	 */
 	public ConflictState getConflictState() {
 		return conflictState;
