@@ -533,10 +533,8 @@ public final class DfsPackFile extends BlockBasedFile {
 		try {
 			readFully(src.offset, buf, 0, 20, ctx);
 		} catch (IOException ioError) {
-			StoredObjectRepresentationNotAvailableException gone;
-			gone = new StoredObjectRepresentationNotAvailableException(src);
-			gone.initCause(ioError);
-			throw gone;
+			throw new StoredObjectRepresentationNotAvailableException(src,
+					ioError);
 		}
 		int c = buf[0] & 0xff;
 		final int typeCode = (c >> 4) & 7;
