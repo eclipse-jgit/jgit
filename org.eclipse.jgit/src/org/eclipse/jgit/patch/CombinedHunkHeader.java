@@ -54,7 +54,9 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.util.MutableInteger;
 
-/** Hunk header for a hunk appearing in a "diff --cc" style patch. */
+/**
+ * Hunk header for a hunk appearing in a "diff --cc" style patch.
+ */
 public class CombinedHunkHeader extends HunkHeader {
 	private static abstract class CombinedOldImage extends OldImage {
 		int nContext;
@@ -76,11 +78,13 @@ public class CombinedHunkHeader extends HunkHeader {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public CombinedFileHeader getFileHeader() {
 		return (CombinedFileHeader) super.getFileHeader();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public OldImage getOldImage() {
 		return getOldImage(0);

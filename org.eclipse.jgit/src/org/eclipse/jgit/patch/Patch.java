@@ -58,7 +58,10 @@ import java.util.List;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.util.TemporaryBuffer;
 
-/** A parsed collection of {@link FileHeader}s from a unified diff patch file */
+/**
+ * A parsed collection of {@link org.eclipse.jgit.patch.FileHeader}s from a
+ * unified diff patch file
+ */
 public class Patch {
 	static final byte[] DIFF_GIT = encodeASCII("diff --git "); //$NON-NLS-1$
 
@@ -81,7 +84,9 @@ public class Patch {
 	/** Formatting errors, if any were identified. */
 	private final List<FormatError> errors;
 
-	/** Create an empty patch. */
+	/**
+	 * Create an empty patch.
+	 */
 	public Patch() {
 		files = new ArrayList<>();
 		errors = new ArrayList<>(0);
@@ -100,7 +105,11 @@ public class Patch {
 		files.add(fh);
 	}
 
-	/** @return list of files described in the patch, in occurrence order. */
+	/**
+	 * Get list of files described in the patch, in occurrence order.
+	 *
+	 * @return list of files described in the patch, in occurrence order.
+	 */
 	public List<? extends FileHeader> getFiles() {
 		return files;
 	}
@@ -115,7 +124,11 @@ public class Patch {
 		errors.add(err);
 	}
 
-	/** @return collection of formatting errors, if any. */
+	/**
+	 * Get collection of formatting errors.
+	 *
+	 * @return collection of formatting errors, if any.
+	 */
 	public List<FormatError> getErrors() {
 		return errors;
 	}
@@ -130,7 +143,7 @@ public class Patch {
 	 * @param is
 	 *            the stream to read the patch data from. The stream is read
 	 *            until EOF is reached.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             there was an error reading from the input stream.
 	 */
 	public void parse(final InputStream is) throws IOException {

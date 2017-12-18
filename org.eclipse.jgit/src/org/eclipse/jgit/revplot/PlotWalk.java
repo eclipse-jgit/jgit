@@ -70,11 +70,14 @@ import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
 
-/** Specialized RevWalk for visualization of a commit graph. */
+/**
+ * Specialized RevWalk for visualization of a commit graph.
+ */
 public class PlotWalk extends RevWalk {
 
 	private Map<AnyObjectId, Set<Ref>> reverseRefMap;
 
+	/** {@inheritDoc} */
 	@Override
 	public void dispose() {
 		super.dispose();
@@ -98,8 +101,7 @@ public class PlotWalk extends RevWalk {
 	 *
 	 * @param refs
 	 *            additional refs
-	 *
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 */
 	public void addAdditionalRefs(Iterable<Ref> refs) throws IOException {
 		for (Ref ref : refs) {
@@ -114,6 +116,7 @@ public class PlotWalk extends RevWalk {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void sort(final RevSort s, final boolean use) {
 		if (s == RevSort.TOPO && !use)
@@ -121,11 +124,13 @@ public class PlotWalk extends RevWalk {
 		super.sort(s, use);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected RevCommit createCommit(final AnyObjectId id) {
 		return new PlotCommit(id);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public RevCommit next() throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
