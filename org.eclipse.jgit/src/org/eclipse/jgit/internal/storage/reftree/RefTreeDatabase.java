@@ -74,13 +74,15 @@ import org.eclipse.jgit.util.RefList;
 import org.eclipse.jgit.util.RefMap;
 
 /**
- * Reference database backed by a {@link RefTree}.
+ * Reference database backed by a
+ * {@link org.eclipse.jgit.internal.storage.reftree.RefTree}.
  * <p>
  * The storage for RefTreeDatabase has two parts. The main part is a native Git
  * tree object stored under the {@code refs/txn} namespace. To avoid cycles,
  * references to {@code refs/txn} are not stored in that tree object, but
- * instead in a "bootstrap" layer, which is a separate {@link RefDatabase} such
- * as {@link org.eclipse.jgit.internal.storage.file.RefDirectory} using local
+ * instead in a "bootstrap" layer, which is a separate
+ * {@link org.eclipse.jgit.lib.RefDatabase} such as
+ * {@link org.eclipse.jgit.internal.storage.file.RefDirectory} using local
  * reference files inside of {@code $GIT_DIR/refs}.
  */
 public class RefTreeDatabase extends RefDatabase {
@@ -99,7 +101,8 @@ public class RefTreeDatabase extends RefDatabase {
 	 *            the repository using references in this database.
 	 * @param bootstrap
 	 *            bootstrap reference database storing the references that
-	 *            anchor the {@link RefTree}.
+	 *            anchor the
+	 *            {@link org.eclipse.jgit.internal.storage.reftree.RefTree}.
 	 */
 	public RefTreeDatabase(Repository repo, RefDatabase bootstrap) {
 		Config cfg = repo.getConfig();
@@ -121,7 +124,8 @@ public class RefTreeDatabase extends RefDatabase {
 	 *            the repository using references in this database.
 	 * @param bootstrap
 	 *            bootstrap reference database storing the references that
-	 *            anchor the {@link RefTree}.
+	 *            anchor the
+	 *            {@link org.eclipse.jgit.internal.storage.reftree.RefTree}.
 	 * @param txnCommitted
 	 *            name of the bootstrap reference holding the committed RefTree.
 	 */
@@ -146,6 +150,8 @@ public class RefTreeDatabase extends RefDatabase {
 	}
 
 	/**
+	 * Get the bootstrap reference database
+	 *
 	 * @return the bootstrap reference database, which must be used to access
 	 *         {@link #getTxnCommitted()}, {@link #getTxnNamespace()}.
 	 */
@@ -153,41 +159,52 @@ public class RefTreeDatabase extends RefDatabase {
 		return bootstrap;
 	}
 
-	/** @return name of bootstrap reference anchoring committed RefTree. */
+	/**
+	 * Get name of bootstrap reference anchoring committed RefTree.
+	 *
+	 * @return name of bootstrap reference anchoring committed RefTree.
+	 */
 	public String getTxnCommitted() {
 		return txnCommitted;
 	}
 
 	/**
-	 * @return namespace used by bootstrap layer, e.g. {@code refs/txn/}.
-	 *         Always ends in {@code '/'}.
+	 * Get namespace used by bootstrap layer.
+	 *
+	 * @return namespace used by bootstrap layer, e.g. {@code refs/txn/}. Always
+	 *         ends in {@code '/'}.
 	 */
 	@Nullable
 	public String getTxnNamespace() {
 		return txnNamespace;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void create() throws IOException {
 		bootstrap.create();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean performsAtomicTransactions() {
 		return true;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void refresh() {
 		bootstrap.refresh();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		refs = null;
 		bootstrap.close();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Ref getRef(String name) throws IOException {
 		String[] needle = new String[SEARCH_PATH.length];
@@ -197,6 +214,7 @@ public class RefTreeDatabase extends RefDatabase {
 		return firstExactRef(needle);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Ref exactRef(String name) throws IOException {
 		if (!repo.isBare() && name.indexOf('/') < 0 && !HEAD.equals(name)) {
@@ -235,6 +253,7 @@ public class RefTreeDatabase extends RefDatabase {
 		return ""; //$NON-NLS-1$
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Map<String, Ref> getRefs(String prefix) throws IOException {
 		if (!prefix.isEmpty() && prefix.charAt(prefix.length() - 1) != '/') {
@@ -258,6 +277,7 @@ public class RefTreeDatabase extends RefDatabase {
 				: ObjectId.zeroId();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public List<Ref> getAdditionalRefs() throws IOException {
 		Collection<Ref> txnRefs;
@@ -279,6 +299,7 @@ public class RefTreeDatabase extends RefDatabase {
 		return all;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Ref peel(Ref ref) throws IOException {
 		Ref i = ref.getLeaf();
@@ -306,17 +327,20 @@ public class RefTreeDatabase extends RefDatabase {
 		return leaf;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean isNameConflicting(String name) throws IOException {
 		return conflictsWithBootstrap(name)
 				|| !getConflictingNames(name).isEmpty();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public BatchRefUpdate newBatchUpdate() {
 		return new RefTreeBatch(this);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public RefUpdate newUpdate(String name, boolean detach) throws IOException {
 		if (!repo.isBare() && name.indexOf('/') < 0 && !HEAD.equals(name)) {
@@ -343,6 +367,7 @@ public class RefTreeDatabase extends RefDatabase {
 		return u;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public RefRename newRename(String fromName, String toName)
 			throws IOException {

@@ -76,16 +76,19 @@ class RefTreeUpdate extends RefUpdate {
 		setCheckConflicting(false); // Done automatically by doUpdate.
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected RefDatabase getRefDatabase() {
 		return refdb;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected Repository getRepository() {
 		return refdb.getRepository();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected boolean tryLock(boolean deref) throws IOException {
 		rw = new RevWalk(getRepository());
@@ -100,6 +103,7 @@ class RefTreeUpdate extends RefUpdate {
 		return true;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void unlock() {
 		batch = null;
@@ -109,6 +113,7 @@ class RefTreeUpdate extends RefUpdate {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected Result doUpdate(Result desiredResult) throws IOException {
 		return run(newRef(getName(), getNewObjectId()), desiredResult);
@@ -124,11 +129,13 @@ class RefTreeUpdate extends RefUpdate {
 		return new ObjectIdRef.PeeledNonTag(LOOSE, name, id);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected Result doDelete(Result desiredResult) throws IOException {
 		return run(null, desiredResult);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected Result doLink(String target) throws IOException {
 		Ref dst = new ObjectIdRef.Unpeeled(NEW, target, null);

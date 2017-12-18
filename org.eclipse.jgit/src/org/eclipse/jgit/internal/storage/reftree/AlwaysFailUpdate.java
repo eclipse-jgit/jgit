@@ -61,36 +61,43 @@ class AlwaysFailUpdate extends RefUpdate {
 		setCheckConflicting(false);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected RefDatabase getRefDatabase() {
 		return refdb;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected Repository getRepository() {
 		return refdb.getRepository();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected boolean tryLock(boolean deref) throws IOException {
 		return false;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void unlock() {
 		// No locks are held here.
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected Result doUpdate(Result desiredResult) {
 		return Result.LOCK_FAILURE;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected Result doDelete(Result desiredResult) {
 		return Result.LOCK_FAILURE;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected Result doLink(String target) {
 		return Result.LOCK_FAILURE;
