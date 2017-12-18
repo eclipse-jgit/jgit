@@ -43,7 +43,9 @@
 
 package org.eclipse.jgit.internal.storage.pack;
 
-/** A pack file extension. */
+/**
+ * A pack file extension.
+ */
 public class PackExt {
 	private static volatile PackExt[] VALUES = new PackExt[] {};
 
@@ -62,7 +64,11 @@ public class PackExt {
 	/** A reftable file. */
 	public static final PackExt REFTABLE = newPackExt("ref"); //$NON-NLS-1$
 
-	/** @return all of the PackExt values. */
+	/**
+	 * Get all of the PackExt values.
+	 *
+	 * @return all of the PackExt values.
+	 */
 	public static PackExt[] values() {
 		return VALUES;
 	}
@@ -102,21 +108,34 @@ public class PackExt {
 		this.pos = pos;
 	}
 
-	/** @return the file extension. */
+	/**
+	 * Get the file extension.
+	 *
+	 * @return the file extension.
+	 */
 	public String getExtension() {
 		return ext;
 	}
 
-	/** @return the position of the extension in the values array. */
+	/**
+	 * Get the position of the extension in the values array.
+	 *
+	 * @return the position of the extension in the values array.
+	 */
 	public int getPosition() {
 		return pos;
 	}
 
-	/** @return the bit mask of the extension e.g {@code 1 << getPosition()}. */
+	/**
+	 * Get the bit mask of the extension e.g {@code 1 << getPosition()}.
+	 *
+	 * @return the bit mask of the extension e.g {@code 1 << getPosition()}.
+	 */
 	public int getBit() {
 		return 1 << getPosition();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		return String.format("PackExt[%s, bit=0x%s]", getExtension(), //$NON-NLS-1$

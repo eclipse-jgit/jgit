@@ -46,7 +46,9 @@ package org.eclipse.jgit.internal.storage.pack;
 import org.eclipse.jgit.lib.ObjectId;
 
 /**
- * An object representation {@link PackWriter} can consider for packing.
+ * An object representation
+ * {@link org.eclipse.jgit.internal.storage.pack.PackWriter} can consider for
+ * packing.
  */
 public class StoredObjectRepresentation {
 	/** Special unknown value for {@link #getWeight()}. */
@@ -62,6 +64,8 @@ public class StoredObjectRepresentation {
 	public static final int FORMAT_OTHER = 2;
 
 	/**
+	 * Get relative size of this object's packed form.
+	 *
 	 * @return relative size of this object's packed form. The special value
 	 *         {@link #WEIGHT_UNKNOWN} can be returned to indicate the
 	 *         implementation doesn't know, or cannot supply the weight up
@@ -72,6 +76,8 @@ public class StoredObjectRepresentation {
 	}
 
 	/**
+	 * Get the storage format type
+	 *
 	 * @return the storage format type, which must be one of
 	 *         {@link #PACK_DELTA}, {@link #PACK_WHOLE}, or
 	 *         {@link #FORMAT_OTHER}.
@@ -81,6 +87,9 @@ public class StoredObjectRepresentation {
 	}
 
 	/**
+	 * Get identity of the object this delta applies to in order to recover the
+	 * original object content.
+	 *
 	 * @return identity of the object this delta applies to in order to recover
 	 *         the original object content. This method should only be called if
 	 *         {@link #getFormat()} returned {@link #PACK_DELTA}.
@@ -90,6 +99,9 @@ public class StoredObjectRepresentation {
 	}
 
 	/**
+	 * Whether the current representation of the object has had delta
+	 * compression attempted on it.
+	 *
 	 * @return whether the current representation of the object has had delta
 	 *         compression attempted on it.
 	 */

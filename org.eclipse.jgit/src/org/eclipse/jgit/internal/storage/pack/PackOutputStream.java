@@ -57,7 +57,10 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.util.NB;
 
-/** Custom output stream to support {@link PackWriter}. */
+/**
+ * Custom output stream to support
+ * {@link org.eclipse.jgit.internal.storage.pack.PackWriter}.
+ */
 public final class PackOutputStream extends OutputStream {
 	private static final int BYTES_TO_WRITE_BEFORE_CANCEL_CHECK = 128 * 1024;
 
@@ -84,7 +87,8 @@ public final class PackOutputStream extends OutputStream {
 	 * <p>
 	 * This constructor is exposed to support debugging the JGit library only.
 	 * Application or storage level code should not create a PackOutputStream,
-	 * instead use {@link PackWriter}, and let the writer create the stream.
+	 * instead use {@link org.eclipse.jgit.internal.storage.pack.PackWriter},
+	 * and let the writer create the stream.
 	 *
 	 * @param writeMonitor
 	 *            monitor to update on object output progress.
@@ -101,6 +105,7 @@ public final class PackOutputStream extends OutputStream {
 		this.checkCancelAt = BYTES_TO_WRITE_BEFORE_CANCEL_CHECK;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public final void write(final int b) throws IOException {
 		count++;
@@ -108,6 +113,7 @@ public final class PackOutputStream extends OutputStream {
 		md.update((byte) b);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public final void write(final byte[] b, int off, int len)
 			throws IOException {
@@ -131,6 +137,7 @@ public final class PackOutputStream extends OutputStream {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void flush() throws IOException {
 		out.flush();
@@ -154,7 +161,7 @@ public final class PackOutputStream extends OutputStream {
 	 *
 	 * @param otp
 	 *            the object to write.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the object cannot be read from the object reader, or the
 	 *             output stream is no longer accepting output. Caller must
 	 *             examine the type of exception and possibly its message to
@@ -177,7 +184,7 @@ public final class PackOutputStream extends OutputStream {
 	 *            in whole object format, this is the same as the object size.
 	 *            For an object that is in a delta format, this is the size of
 	 *            the inflated delta instruction stream.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the underlying stream refused to accept the header.
 	 */
 	public final void writeHeader(ObjectToPack otp, long rawLength)
@@ -224,7 +231,11 @@ public final class PackOutputStream extends OutputStream {
 		return n;
 	}
 
-	/** @return a temporary buffer writers can use to copy data with. */
+	/**
+	 * Get a temporary buffer writers can use to copy data with.
+	 *
+	 * @return a temporary buffer writers can use to copy data with.
+	 */
 	public final byte[] getCopyBuffer() {
 		return copyBuffer;
 	}
@@ -233,7 +244,11 @@ public final class PackOutputStream extends OutputStream {
 		writeMonitor.update(1);
 	}
 
-	/** @return total number of bytes written since stream start. */
+	/**
+	 * Get total number of bytes written since stream start.
+	 *
+	 * @return total number of bytes written since stream start.
+	 */
 	public final long length() {
 		return count;
 	}
