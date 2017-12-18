@@ -51,7 +51,9 @@ import org.eclipse.jgit.errors.CorruptPackIndexException.ErrorType;
 import org.eclipse.jgit.lib.ObjectChecker;
 import org.eclipse.jgit.lib.ObjectId;
 
-/** Holds all fsck errors of a git repository. */
+/**
+ * Holds all fsck errors of a git repository.
+ */
 public class FsckError {
 	/** Represents a corrupt object. */
 	public static class CorruptObject {
@@ -130,22 +132,38 @@ public class FsckError {
 
 	private final Set<String> nonCommitHeads = new HashSet<>();
 
-	/** @return corrupt objects from all pack files. */
+	/**
+	 * Get corrupt objects from all pack files
+	 *
+	 * @return corrupt objects from all pack files
+	 */
 	public Set<CorruptObject> getCorruptObjects() {
 		return corruptObjects;
 	}
 
-	/** @return missing objects that should present in pack files. */
+	/**
+	 * Get missing objects that should present in pack files
+	 *
+	 * @return missing objects that should present in pack files
+	 */
 	public Set<ObjectId> getMissingObjects() {
 		return missingObjects;
 	}
 
-	/** @return corrupt index files associated with the packs. */
+	/**
+	 * Get corrupt index files associated with the packs
+	 *
+	 * @return corrupt index files associated with the packs
+	 */
 	public Set<CorruptIndex> getCorruptIndices() {
 		return corruptIndices;
 	}
 
-	/** @return refs/heads/* point to non-commit object. */
+	/**
+	 * Get refs/heads/* which point to non-commit object
+	 *
+	 * @return refs/heads/* which point to non-commit object
+	 */
 	public Set<String> getNonCommitHeads() {
 		return nonCommitHeads;
 	}
