@@ -48,7 +48,9 @@ import java.util.Locale;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.util.RawParseUtils;
 
-/** An error in a patch script */
+/**
+ * An error in a patch script
+ */
 public class FormatError {
 	/** Classification of an error. */
 	public static enum Severity {
@@ -75,32 +77,53 @@ public class FormatError {
 		message = msg;
 	}
 
-	/** @return the severity of the error. */
+	/**
+	 * Get the severity of the error.
+	 *
+	 * @return the severity of the error.
+	 */
 	public Severity getSeverity() {
 		return severity;
 	}
 
-	/** @return a message describing the error. */
+	/**
+	 * Get a message describing the error.
+	 *
+	 * @return a message describing the error.
+	 */
 	public String getMessage() {
 		return message;
 	}
 
-	/** @return the byte buffer holding the patch script. */
+	/**
+	 * Get the byte buffer holding the patch script.
+	 *
+	 * @return the byte buffer holding the patch script.
+	 */
 	public byte[] getBuffer() {
 		return buf;
 	}
 
-	/** @return byte offset within {@link #getBuffer()} where the error is */
+	/**
+	 * Get byte offset within {@link #getBuffer()} where the error is.
+	 *
+	 * @return byte offset within {@link #getBuffer()} where the error is.
+	 */
 	public int getOffset() {
 		return offset;
 	}
 
-	/** @return line of the patch script the error appears on. */
+	/**
+	 * Get line of the patch script the error appears on.
+	 *
+	 * @return line of the patch script the error appears on.
+	 */
 	public String getLineText() {
 		final int eol = RawParseUtils.nextLF(buf, offset);
 		return RawParseUtils.decode(Constants.CHARSET, buf, offset, eol);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		final StringBuilder r = new StringBuilder();

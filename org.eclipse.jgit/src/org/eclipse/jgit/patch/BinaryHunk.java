@@ -49,7 +49,9 @@ import static org.eclipse.jgit.util.RawParseUtils.match;
 import static org.eclipse.jgit.util.RawParseUtils.nextLF;
 import static org.eclipse.jgit.util.RawParseUtils.parseBase10;
 
-/** Part of a "GIT binary patch" to describe the pre-image or post-image */
+/**
+ * Part of a "GIT binary patch" to describe the pre-image or post-image
+ */
 public class BinaryHunk {
 	private static final byte[] LITERAL = encodeASCII("literal "); //$NON-NLS-1$
 
@@ -83,32 +85,56 @@ public class BinaryHunk {
 		startOffset = offset;
 	}
 
-	/** @return header for the file this hunk applies to */
+	/**
+	 * Get header for the file this hunk applies to.
+	 *
+	 * @return header for the file this hunk applies to.
+	 */
 	public FileHeader getFileHeader() {
 		return file;
 	}
 
-	/** @return the byte array holding this hunk's patch script. */
+	/**
+	 * Get the byte array holding this hunk's patch script.
+	 *
+	 * @return the byte array holding this hunk's patch script.
+	 */
 	public byte[] getBuffer() {
 		return file.buf;
 	}
 
-	/** @return offset the start of this hunk in {@link #getBuffer()}. */
+	/**
+	 * Get offset the start of this hunk in {@link #getBuffer()}.
+	 *
+	 * @return offset the start of this hunk in {@link #getBuffer()}.
+	 */
 	public int getStartOffset() {
 		return startOffset;
 	}
 
-	/** @return offset one past the end of the hunk in {@link #getBuffer()}. */
+	/**
+	 * Get offset one past the end of the hunk in {@link #getBuffer()}.
+	 *
+	 * @return offset one past the end of the hunk in {@link #getBuffer()}.
+	 */
 	public int getEndOffset() {
 		return endOffset;
 	}
 
-	/** @return type of this binary hunk */
+	/**
+	 * Get type of this binary hunk.
+	 *
+	 * @return type of this binary hunk.
+	 */
 	public Type getType() {
 		return type;
 	}
 
-	/** @return inflated size of this hunk's data */
+	/**
+	 * Get inflated size of this hunk's data.
+	 *
+	 * @return inflated size of this hunk's data.
+	 */
 	public int getSize() {
 		return length;
 	}

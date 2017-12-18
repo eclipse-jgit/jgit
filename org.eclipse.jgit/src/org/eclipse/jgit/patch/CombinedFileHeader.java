@@ -73,19 +73,29 @@ public class CombinedFileHeader extends FileHeader {
 		super(b, offset);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<? extends CombinedHunkHeader> getHunks() {
 		return (List<CombinedHunkHeader>) super.getHunks();
 	}
 
-	/** @return number of ancestor revisions mentioned in this diff. */
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 *
+	 * @return number of ancestor revisions mentioned in this diff.
+	 */
 	@Override
 	public int getParentCount() {
 		return oldIds.length;
 	}
 
-	/** @return get the file mode of the first parent. */
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * @return get the file mode of the first parent.
+	 */
 	@Override
 	public FileMode getOldMode() {
 		return getOldMode(0);
@@ -102,7 +112,12 @@ public class CombinedFileHeader extends FileHeader {
 		return oldModes[nthParent];
 	}
 
-	/** @return get the object id of the first parent. */
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 *
+	 * @return get the object id of the first parent.
+	 */
 	@Override
 	public AbbreviatedObjectId getOldId() {
 		return getOldId(0);
@@ -119,6 +134,7 @@ public class CombinedFileHeader extends FileHeader {
 		return oldIds[nthParent];
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String getScriptText(final Charset ocs, final Charset ncs) {
 		final Charset[] cs = new Charset[getParentCount() + 1];
@@ -128,15 +144,9 @@ public class CombinedFileHeader extends FileHeader {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * Convert the patch script for this file into a string.
-	 *
-	 * @param charsetGuess
-	 *            optional array to suggest the character set to use when
-	 *            decoding each file's line. If supplied the array must have a
-	 *            length of <code>{@link #getParentCount()} + 1</code>
-	 *            representing the old revision character sets and the new
-	 *            revision character set.
-	 * @return the patch script, as a Unicode string.
 	 */
 	@Override
 	public String getScriptText(final Charset[] charsetGuess) {
@@ -179,6 +189,7 @@ public class CombinedFileHeader extends FileHeader {
 		return ptr;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void parseIndexLine(int ptr, final int eol) {
 		// "index $asha1,$bsha1..$csha1"
@@ -200,6 +211,7 @@ public class CombinedFileHeader extends FileHeader {
 		oldModes = new FileMode[oldIds.length];
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void parseNewFileMode(final int ptr, final int eol) {
 		for (int i = 0; i < oldModes.length; i++)

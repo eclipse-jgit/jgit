@@ -57,13 +57,13 @@ import org.eclipse.jgit.revwalk.RevCommitList;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
- * An ordered list of {@link PlotCommit} subclasses.
+ * An ordered list of {@link org.eclipse.jgit.revplot.PlotCommit} subclasses.
  * <p>
  * Commits are allocated into lanes as they enter the list, based upon their
  * connections between descendant (child) commits and ancestor (parent) commits.
  * <p>
- * The source of the list must be a {@link PlotWalk} and {@link #fillTo(int)}
- * must be used to populate the list.
+ * The source of the list must be a {@link org.eclipse.jgit.revplot.PlotWalk}
+ * and {@link #fillTo(int)} must be used to populate the list.
  *
  * @param <L>
  *            type of lane used by the application.
@@ -82,6 +82,7 @@ public class PlotCommitList<L extends PlotLane> extends
 	private final HashMap<PlotLane, Integer> laneLength = new HashMap<>(
 			32);
 
+	/** {@inheritDoc} */
 	@Override
 	public void clear() {
 		super.clear();
@@ -91,6 +92,7 @@ public class PlotCommitList<L extends PlotLane> extends
 		laneLength.clear();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void source(final RevWalk w) {
 		if (!(w instanceof PlotWalk))
@@ -122,6 +124,7 @@ public class PlotCommitList<L extends PlotLane> extends
 			result.add((L) p);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void enter(final int index, final PlotCommit<L> currCommit) {
 		setupChildren(currCommit);
@@ -395,7 +398,11 @@ public class PlotCommitList<L extends PlotLane> extends
 	}
 
 	/**
-	 * @return a new Lane appropriate for this particular PlotList.
+	 * Create a new {@link PlotLane} appropriate for this particular
+	 * {@link PlotCommitList}.
+	 *
+	 * @return a new {@link PlotLane} appropriate for this particular
+	 *         {@link PlotCommitList}.
 	 */
 	@SuppressWarnings("unchecked")
 	protected L createLane() {
@@ -407,6 +414,7 @@ public class PlotCommitList<L extends PlotLane> extends
 	 * is no longer needed.
 	 *
 	 * @param lane
+	 *            a lane
 	 */
 	protected void recycleLane(final L lane) {
 		// Nothing.

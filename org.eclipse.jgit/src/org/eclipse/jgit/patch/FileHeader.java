@@ -69,7 +69,9 @@ import org.eclipse.jgit.util.QuotedString;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.TemporaryBuffer;
 
-/** Patch header describing an action for a single file path. */
+/**
+ * Patch header describing an action for a single file path.
+ */
 public class FileHeader extends DiffEntry {
 	private static final byte[] OLD_MODE = encodeASCII("old mode "); //$NON-NLS-1$
 
@@ -164,17 +166,30 @@ public class FileHeader extends DiffEntry {
 		return 1;
 	}
 
-	/** @return the byte array holding this file's patch script. */
+	/**
+	 * Get the byte array holding this file's patch script.
+	 *
+	 * @return the byte array holding this file's patch script.
+	 */
 	public byte[] getBuffer() {
 		return buf;
 	}
 
-	/** @return offset the start of this file's script in {@link #getBuffer()}. */
+	/**
+	 * Get offset of the start of this file's script in {@link #getBuffer()}.
+	 *
+	 * @return offset of the start of this file's script in
+	 *         {@link #getBuffer()}.
+	 */
 	public int getStartOffset() {
 		return startOffset;
 	}
 
-	/** @return offset one past the end of the file script. */
+	/**
+	 * Get offset one past the end of the file script.
+	 *
+	 * @return offset one past the end of the file script.
+	 */
 	public int getEndOffset() {
 		return endOffset;
 	}
@@ -182,8 +197,9 @@ public class FileHeader extends DiffEntry {
 	/**
 	 * Convert the patch script for this file into a string.
 	 * <p>
-	 * The default character encoding ({@link Constants#CHARSET}) is assumed for
-	 * both the old and new files.
+	 * The default character encoding
+	 * ({@link org.eclipse.jgit.lib.Constants#CHARSET}) is assumed for both the
+	 * old and new files.
 	 *
 	 * @return the patch script, as a Unicode string.
 	 */
@@ -284,17 +300,29 @@ public class FileHeader extends DiffEntry {
 		}
 	}
 
-	/** @return style of patch used to modify this file */
+	/**
+	 * Get style of patch used to modify this file.
+	 *
+	 * @return style of patch used to modify this file.
+	 */
 	public PatchType getPatchType() {
 		return patchType;
 	}
 
-	/** @return true if this patch modifies metadata about a file */
+	/**
+	 * Whether this patch modifies metadata about a file
+	 *
+	 * @return {@code true} if this patch modifies metadata about a file .
+	 */
 	public boolean hasMetaDataChanges() {
 		return changeType != ChangeType.MODIFY || newMode != oldMode;
 	}
 
-	/** @return hunks altering this file; in order of appearance in patch */
+	/**
+	 * Get hunks altering this file; in order of appearance in patch
+	 *
+	 * @return hunks altering this file; in order of appearance in patch.
+	 */
 	public List<? extends HunkHeader> getHunks() {
 		if (hunks == null)
 			return Collections.emptyList();
@@ -313,17 +341,33 @@ public class FileHeader extends DiffEntry {
 		return new HunkHeader(this, offset);
 	}
 
-	/** @return if a {@link PatchType#GIT_BINARY}, the new-image delta/literal */
+	/**
+	 * Get the new-image delta/literal if this is a
+	 * {@link PatchType#GIT_BINARY}.
+	 *
+	 * @return the new-image delta/literal if this is a
+	 *         {@link PatchType#GIT_BINARY}.
+	 */
 	public BinaryHunk getForwardBinaryHunk() {
 		return forwardBinaryHunk;
 	}
 
-	/** @return if a {@link PatchType#GIT_BINARY}, the old-image delta/literal */
+	/**
+	 * Get the old-image delta/literal if this is a
+	 * {@link PatchType#GIT_BINARY}.
+	 *
+	 * @return the old-image delta/literal if this is a
+	 *         {@link PatchType#GIT_BINARY}.
+	 */
 	public BinaryHunk getReverseBinaryHunk() {
 		return reverseBinaryHunk;
 	}
 
-	/** @return a list describing the content edits performed on this file. */
+	/**
+	 * Convert to a list describing the content edits performed on this file.
+	 *
+	 * @return a list describing the content edits performed on this file.
+	 */
 	public EditList toEditList() {
 		final EditList r = new EditList();
 		for (final HunkHeader hunk : hunks)
