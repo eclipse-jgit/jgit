@@ -62,8 +62,9 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 /**
  * Three-way note tree merge.
  * <p>
- * Direct implementation of NoteMap merger without using {@link TreeWalk} and
- * {@link AbstractTreeIterator}
+ * Direct implementation of NoteMap merger without using
+ * {@link org.eclipse.jgit.treewalk.TreeWalk} and
+ * {@link org.eclipse.jgit.treewalk.AbstractTreeIterator}
  */
 public class NoteMapMerger {
 	private static final FanoutBucket EMPTY_FANOUT = new FanoutBucket(0);
@@ -83,8 +84,9 @@ public class NoteMapMerger {
 	private final MutableObjectId objectIdPrefix;
 
 	/**
-	 * Constructs a NoteMapMerger with custom {@link NoteMerger} and custom
-	 * {@link MergeStrategy}.
+	 * Constructs a NoteMapMerger with custom
+	 * {@link org.eclipse.jgit.notes.NoteMerger} and custom
+	 * {@link org.eclipse.jgit.merge.MergeStrategy}.
 	 *
 	 * @param db
 	 *            Git repository
@@ -104,9 +106,10 @@ public class NoteMapMerger {
 	}
 
 	/**
-	 * Constructs a NoteMapMerger with {@link DefaultNoteMerger} as the merger
-	 * for notes and the {@link MergeStrategy#RESOLVE} as the strategy for
-	 * resolving conflicts on non-notes
+	 * Constructs a NoteMapMerger with
+	 * {@link org.eclipse.jgit.notes.DefaultNoteMerger} as the merger for notes
+	 * and the {@link org.eclipse.jgit.merge.MergeStrategy#RESOLVE} as the
+	 * strategy for resolving conflicts on non-notes
 	 *
 	 * @param db
 	 *            Git repository
@@ -125,7 +128,7 @@ public class NoteMapMerger {
 	 * @param theirs
 	 *            theirs version of the note tree
 	 * @return merge result as a new NoteMap
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 */
 	public NoteMap merge(NoteMap base, NoteMap ours, NoteMap theirs)
 			throws IOException {

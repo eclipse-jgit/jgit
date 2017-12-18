@@ -92,21 +92,22 @@ import org.eclipse.jgit.errors.TranslationStringMissingException;
  * </pre>
  *
  * The translated text is automatically injected into the public String fields
- * according to the locale set with {@link NLS#setLocale(Locale)}. However, the
- * {@link NLS#setLocale(Locale)} method defines only prefered locale which will
- * be honored only if it is supported by the provided resource bundle property
- * files. Basically, this class will use
- * {@link ResourceBundle#getBundle(String, Locale)} method to load a resource
- * bundle. See the documentation of this method for a detailed explanation of
- * resource bundle loading strategy. After a bundle is created the
- * {@link #effectiveLocale()} method can be used to determine whether the bundle
- * really corresponds to the requested locale or is a fallback.
+ * according to the locale set with
+ * {@link org.eclipse.jgit.nls.NLS#setLocale(Locale)}. However, the
+ * {@link org.eclipse.jgit.nls.NLS#setLocale(Locale)} method defines only
+ * prefered locale which will be honored only if it is supported by the provided
+ * resource bundle property files. Basically, this class will use
+ * {@link java.util.ResourceBundle#getBundle(String, Locale)} method to load a
+ * resource bundle. See the documentation of this method for a detailed
+ * explanation of resource bundle loading strategy. After a bundle is created
+ * the {@link #effectiveLocale()} method can be used to determine whether the
+ * bundle really corresponds to the requested locale or is a fallback.
  *
  * <p>
  * To load a String from a resource bundle property file this class uses the
- * {@link ResourceBundle#getString(String)}. This method can throw the
- * {@link MissingResourceException} and this class is not making any effort to
- * catch and/or translate this exception.
+ * {@link java.util.ResourceBundle#getString(String)}. This method can throw the
+ * {@link java.util.MissingResourceException} and this class is not making any
+ * effort to catch and/or translate this exception.
  *
  * <p>
  * To define a concrete translation bundle one has to:
@@ -125,15 +126,20 @@ public abstract class TranslationBundle {
 	private ResourceBundle resourceBundle;
 
 	/**
-	 * @return the locale locale used for loading the resource bundle from which
-	 *         the field values were taken
+	 * Get the locale used for loading the resource bundle from which the field
+	 * values were taken.
+	 *
+	 * @return the locale used for loading the resource bundle from which the
+	 *         field values were taken.
 	 */
 	public Locale effectiveLocale() {
 		return effectiveLocale;
 	}
 
 	/**
-	 * @return the resource bundle on which this translation bundle is based
+	 * Get the resource bundle on which this translation bundle is based.
+	 *
+	 * @return the resource bundle on which this translation bundle is based.
 	 */
 	public ResourceBundle resourceBundle() {
 		return resourceBundle;

@@ -63,10 +63,11 @@ import org.eclipse.jgit.revwalk.RevTree;
 /**
  * Index of notes from a note branch.
  *
- * This class is not thread-safe, and relies on an {@link ObjectReader} that it
- * borrows/shares with the caller. The reader can be used during any call, and
- * is not released by this class. The caller should arrange for releasing the
- * shared {@code ObjectReader} at the proper times.
+ * This class is not thread-safe, and relies on an
+ * {@link org.eclipse.jgit.lib.ObjectReader} that it borrows/shares with the
+ * caller. The reader can be used during any call, and is not released by this
+ * class. The caller should arrange for releasing the shared
+ * {@code ObjectReader} at the proper times.
  */
 public class NoteMap implements Iterable<Note> {
 	/**
@@ -81,10 +82,11 @@ public class NoteMap implements Iterable<Note> {
 	}
 
 	/**
-	 * Shorten the note ref name by trimming off the {@link Constants#R_NOTES}
-	 * prefix if it exists.
+	 * Shorten the note ref name by trimming off the
+	 * {@link org.eclipse.jgit.lib.Constants#R_NOTES} prefix if it exists.
 	 *
 	 * @param noteRefName
+	 *            a {@link java.lang.String} object.
 	 * @return a more user friendly note name
 	 */
 	public static String shortenRefName(String noteRefName) {
@@ -103,13 +105,13 @@ public class NoteMap implements Iterable<Note> {
 	 * @param commit
 	 *            the revision of the note branch to read.
 	 * @return the note map read from the commit.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the repository cannot be accessed through the reader.
-	 * @throws CorruptObjectException
+	 * @throws org.eclipse.jgit.errors.CorruptObjectException
 	 *             a tree object is corrupt and cannot be read.
-	 * @throws IncorrectObjectTypeException
+	 * @throws org.eclipse.jgit.errors.IncorrectObjectTypeException
 	 *             a tree object wasn't actually a tree.
-	 * @throws MissingObjectException
+	 * @throws org.eclipse.jgit.errors.MissingObjectException
 	 *             a reference tree object doesn't exist.
 	 */
 	public static NoteMap read(ObjectReader reader, RevCommit commit)
@@ -128,13 +130,13 @@ public class NoteMap implements Iterable<Note> {
 	 * @param tree
 	 *            the note tree to read.
 	 * @return the note map read from the tree.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the repository cannot be accessed through the reader.
-	 * @throws CorruptObjectException
+	 * @throws org.eclipse.jgit.errors.CorruptObjectException
 	 *             a tree object is corrupt and cannot be read.
-	 * @throws IncorrectObjectTypeException
+	 * @throws org.eclipse.jgit.errors.IncorrectObjectTypeException
 	 *             a tree object wasn't actually a tree.
-	 * @throws MissingObjectException
+	 * @throws org.eclipse.jgit.errors.MissingObjectException
 	 *             a reference tree object doesn't exist.
 	 */
 	public static NoteMap read(ObjectReader reader, RevTree tree)
@@ -153,13 +155,13 @@ public class NoteMap implements Iterable<Note> {
 	 * @param treeId
 	 *            the note tree to read.
 	 * @return the note map read from the tree.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the repository cannot be accessed through the reader.
-	 * @throws CorruptObjectException
+	 * @throws org.eclipse.jgit.errors.CorruptObjectException
 	 *             a tree object is corrupt and cannot be read.
-	 * @throws IncorrectObjectTypeException
+	 * @throws org.eclipse.jgit.errors.IncorrectObjectTypeException
 	 *             a tree object wasn't actually a tree.
-	 * @throws MissingObjectException
+	 * @throws org.eclipse.jgit.errors.MissingObjectException
 	 *             a reference tree object doesn't exist.
 	 */
 	public static NoteMap readTree(ObjectReader reader, ObjectId treeId)
@@ -197,10 +199,7 @@ public class NoteMap implements Iterable<Note> {
 		this.reader = reader;
 	}
 
-	/**
-	 * @return an iterator that iterates over notes of this NoteMap. Non note
-	 *         entries are ignored by this iterator.
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public Iterator<Note> iterator() {
 		try {
@@ -216,7 +215,7 @@ public class NoteMap implements Iterable<Note> {
 	 * @param id
 	 *            the object to look for.
 	 * @return the note's blob ObjectId, or null if no note exists.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             a portion of the note space is not accessible.
 	 */
 	public ObjectId get(AnyObjectId id) throws IOException {
@@ -230,7 +229,7 @@ public class NoteMap implements Iterable<Note> {
 	 * @param id
 	 *            the object to look for.
 	 * @return the note for the given object id, or null if no note exists.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             a portion of the note space is not accessible.
 	 */
 	public Note getNote(AnyObjectId id) throws IOException {
@@ -243,7 +242,7 @@ public class NoteMap implements Iterable<Note> {
 	 * @param id
 	 *            the object to look for.
 	 * @return true if a note exists; false if there is no note.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             a portion of the note space is not accessible.
 	 */
 	public boolean contains(AnyObjectId id) throws IOException {
@@ -269,11 +268,11 @@ public class NoteMap implements Iterable<Note> {
 	 *            larger than this limit, LargeObjectException will be thrown.
 	 * @return if a note is defined for {@code id}, the note content. If no note
 	 *         is defined, null.
-	 * @throws LargeObjectException
+	 * @throws org.eclipse.jgit.errors.LargeObjectException
 	 *             the note data is larger than {@code sizeLimit}.
-	 * @throws MissingObjectException
+	 * @throws org.eclipse.jgit.errors.MissingObjectException
 	 *             the note's blob does not exist in the repository.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the note's blob cannot be read from the repository
 	 */
 	public byte[] getCachedBytes(AnyObjectId id, int sizeLimit)
@@ -306,7 +305,7 @@ public class NoteMap implements Iterable<Note> {
 	 *            data to associate with the note. This must be the ObjectId of
 	 *            a blob that already exists in the repository. If null the note
 	 *            will be deleted, if present.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             a portion of the note space is not accessible.
 	 */
 	public void set(AnyObjectId noteOn, ObjectId noteData) throws IOException {
@@ -337,7 +336,7 @@ public class NoteMap implements Iterable<Note> {
 	 *            inserter to write the encoded {@code noteData} out as a blob.
 	 *            The caller must ensure the inserter is flushed before the
 	 *            updated note map is made available for reading.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the note data could not be stored in the repository.
 	 */
 	public void set(AnyObjectId noteOn, String noteData, ObjectInserter ins)
@@ -361,7 +360,7 @@ public class NoteMap implements Iterable<Note> {
 	 *
 	 * @param noteOn
 	 *            the object to remove the note from.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             a portion of the note space is not accessible.
 	 */
 	public void remove(AnyObjectId noteOn) throws IOException {
@@ -376,7 +375,7 @@ public class NoteMap implements Iterable<Note> {
 	 *            Caller is responsible for flushing the inserter before trying
 	 *            to read the objects, or exposing them through a reference.
 	 * @return the top level tree.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             a tree could not be written.
 	 */
 	public ObjectId writeTree(ObjectInserter inserter) throws IOException {
