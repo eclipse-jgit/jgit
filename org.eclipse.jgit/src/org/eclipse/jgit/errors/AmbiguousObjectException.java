@@ -51,7 +51,9 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 
-/** An {@link AbbreviatedObjectId} cannot be extended. */
+/**
+ * An {@link org.eclipse.jgit.lib.AbbreviatedObjectId} cannot be extended.
+ */
 public class AmbiguousObjectException extends IOException {
 	private static final long serialVersionUID = 1L;
 
@@ -76,12 +78,20 @@ public class AmbiguousObjectException extends IOException {
 		this.candidates = candidates;
 	}
 
-	/** @return the AbbreviatedObjectId that has more than one result. */
+	/**
+	 * Get the {@code AbbreviatedObjectId} that has more than one result
+	 *
+	 * @return the {@code AbbreviatedObjectId} that has more than one result
+	 */
 	public AbbreviatedObjectId getAbbreviatedObjectId() {
 		return missing;
 	}
 
-	/** @return the matching candidates (or at least a subset of them). */
+	/**
+	 * Get the matching candidates (or at least a subset of them)
+	 *
+	 * @return the matching candidates (or at least a subset of them)
+	 */
 	public Collection<ObjectId> getCandidates() {
 		return candidates;
 	}

@@ -49,7 +49,9 @@ import java.text.MessageFormat;
 
 import org.eclipse.jgit.internal.JGitText;
 
-/** Thrown when a PackFile previously failed and is known to be unusable */
+/**
+ * Thrown when a PackFile previously failed and is known to be unusable
+ */
 public class PackInvalidException extends IOException {
 	private static final long serialVersionUID = 1L;
 

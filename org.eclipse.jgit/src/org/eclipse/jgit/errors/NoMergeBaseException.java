@@ -118,6 +118,8 @@ public class NoMergeBaseException extends IOException {
 	}
 
 	/**
+	 * Get the reason why no merge base could be found
+	 *
 	 * @return the reason why no merge base could be found
 	 */
 	public MergeBaseFailureReason getReason() {

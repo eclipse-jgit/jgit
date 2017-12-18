@@ -50,7 +50,9 @@ import java.util.List;
 
 import org.eclipse.jgit.internal.JGitText;
 
-/** An exception detailing multiple reasons for failure. */
+/**
+ * An exception detailing multiple reasons for failure.
+ */
 public class CompoundException extends Exception {
 	private static final long serialVersionUID = 1L;
 

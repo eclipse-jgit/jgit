@@ -48,7 +48,9 @@ import java.text.MessageFormat;
 
 import org.eclipse.jgit.internal.JGitText;
 
-/** Indicates a local repository does not exist. */
+/**
+ * Indicates a local repository does not exist.
+ */
 public class RepositoryNotFoundException extends TransportException {
 	private static final long serialVersionUID = 1L;
 

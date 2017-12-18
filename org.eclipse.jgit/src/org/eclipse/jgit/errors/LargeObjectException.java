@@ -49,13 +49,17 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 
-/** An object is too big to load into memory as a single byte array. */
+/**
+ * An object is too big to load into memory as a single byte array.
+ */
 public class LargeObjectException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 
 	private ObjectId objectId;
 
-	/** Create a large object exception, where the object isn't known. */
+	/**
+	 * Create a large object exception, where the object isn't known.
+	 */
 	public LargeObjectException() {
 		// Do nothing.
 	}
@@ -71,12 +75,20 @@ public class LargeObjectException extends RuntimeException {
 		setObjectId(id);
 	}
 
-	/** @return identity of the object that is too large; may be null. */
+	/**
+	 * Get identity of the object that is too large; may be null
+	 *
+	 * @return identity of the object that is too large; may be null
+	 */
 	public ObjectId getObjectId() {
 		return objectId;
 	}
 
-	/** @return either the hex encoded name of the object, or 'unknown object'. */
+	/**
+	 * Get the hex encoded name of the object, or 'unknown object'
+	 *
+	 * @return either the hex encoded name of the object, or 'unknown object'
+	 */
 	protected String getObjectName() {
 		if (getObjectId() != null)
 			return getObjectId().name();
@@ -94,6 +106,7 @@ public class LargeObjectException extends RuntimeException {
 			objectId = id.copy();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String getMessage() {
 		return MessageFormat.format(JGitText.get().largeObjectException,

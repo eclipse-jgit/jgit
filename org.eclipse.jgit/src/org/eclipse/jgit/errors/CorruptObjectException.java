@@ -86,7 +86,9 @@ public class CorruptObjectException extends IOException {
 	 * object id
 	 *
 	 * @param id
+	 *            a {@link org.eclipse.jgit.lib.AnyObjectId}
 	 * @param why
+	 *            error message
 	 */
 	public CorruptObjectException(AnyObjectId id, String why) {
 		super(MessageFormat.format(JGitText.get().objectIsCorrupt, id.name(), why));
@@ -97,7 +99,9 @@ public class CorruptObjectException extends IOException {
 	 * object id
 	 *
 	 * @param id
+	 *            a {@link org.eclipse.jgit.lib.ObjectId}
 	 * @param why
+	 *            error message
 	 */
 	public CorruptObjectException(ObjectId id, String why) {
 		super(MessageFormat.format(JGitText.get().objectIsCorrupt, id.name(), why));
@@ -108,6 +112,7 @@ public class CorruptObjectException extends IOException {
 	 * with a specific object id.
 	 *
 	 * @param why
+	 *            error message
 	 */
 	public CorruptObjectException(String why) {
 		super(why);
@@ -129,7 +134,8 @@ public class CorruptObjectException extends IOException {
 	}
 
 	/**
-	 * Specific error condition identified by {@link ObjectChecker}.
+	 * Specific error condition identified by
+	 * {@link org.eclipse.jgit.lib.ObjectChecker}.
 	 *
 	 * @return error condition or null.
 	 * @since 4.2

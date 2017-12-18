@@ -62,6 +62,7 @@ public class CheckoutConflictException extends IOException {
 	 * Construct a CheckoutConflictException for the specified file
 	 *
 	 * @param file
+	 *            relative path of a file
 	 */
 	public CheckoutConflictException(String file) {
 		super(MessageFormat.format(JGitText.get().checkoutConflictWithFile, file));
@@ -72,6 +73,7 @@ public class CheckoutConflictException extends IOException {
 	 * Construct a CheckoutConflictException for the specified set of files
 	 *
 	 * @param files
+	 *            an array of relative file paths
 	 */
 	public CheckoutConflictException(String[] files) {
 		super(MessageFormat.format(JGitText.get().checkoutConflictWithFiles, buildList(files)));
@@ -79,6 +81,8 @@ public class CheckoutConflictException extends IOException {
 	}
 
 	/**
+	 * Get the relative paths of the conflicting files
+	 *
 	 * @return the relative paths of the conflicting files (relative to the
 	 *         working directory root).
 	 * @since 4.4

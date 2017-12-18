@@ -54,6 +54,8 @@ public class CommandFailedException extends Exception {
 	private int returnCode;
 
 	/**
+	 * Constructor for CommandFailedException
+	 *
 	 * @param returnCode
 	 *            return code returned by the command
 	 * @param message
@@ -65,6 +67,8 @@ public class CommandFailedException extends Exception {
 	}
 
 	/**
+	 * Constructor for CommandFailedException
+	 *
 	 * @param returnCode
 	 *            return code returned by the command
 	 * @param message
@@ -79,6 +83,8 @@ public class CommandFailedException extends Exception {
 	}
 
 	/**
+	 * Get return code returned by the command
+	 *
 	 * @return return code returned by the command
 	 */
 	public int getReturnCode() {

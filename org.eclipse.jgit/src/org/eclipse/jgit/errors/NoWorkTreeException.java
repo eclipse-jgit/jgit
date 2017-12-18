@@ -44,15 +44,17 @@
 package org.eclipse.jgit.errors;
 
 import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.lib.Repository;
 
 /**
- * Indicates a {@link Repository} has no working directory, and is thus bare.
+ * Indicates a {@link org.eclipse.jgit.lib.Repository} has no working directory,
+ * and is thus bare.
  */
 public class NoWorkTreeException extends IllegalStateException {
 	private static final long serialVersionUID = 1L;
 
-	/** Creates an exception indicating there is no work tree for a repository. */
+	/**
+	 * Creates an exception indicating there is no work tree for a repository.
+	 */
 	public NoWorkTreeException() {
 		super(JGitText.get().bareRepositoryNoWorkdirAndIndex);
 	}

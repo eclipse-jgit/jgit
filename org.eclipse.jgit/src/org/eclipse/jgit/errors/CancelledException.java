@@ -54,7 +54,10 @@ public class CancelledException extends IOException {
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * Constructor for CancelledException
+	 *
 	 * @param message
+	 *            error message
 	 */
 	public CancelledException(String message) {
 		super(message);

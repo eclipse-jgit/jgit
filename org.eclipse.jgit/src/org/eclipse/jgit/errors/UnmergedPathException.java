@@ -68,7 +68,11 @@ public class UnmergedPathException extends IOException {
 		entry = dce;
 	}
 
-	/** @return the first non-zero stage of the unmerged path */
+	/**
+	 * Get the first non-zero stage of the unmerged path
+	 *
+	 * @return the first non-zero stage of the unmerged path
+	 */
 	public DirCacheEntry getDirCacheEntry() {
 		return entry;
 	}

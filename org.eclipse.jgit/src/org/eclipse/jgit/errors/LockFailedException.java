@@ -57,12 +57,15 @@ public class LockFailedException extends IOException {
 	private File file;
 
 	/**
+	 * Constructor for LockFailedException
+	 *
 	 * @param file
 	 *            file that could not be locked
 	 * @param message
 	 *            exception message
 	 * @param cause
-	 *            cause, for later retrieval by {@link Throwable#getCause()}
+	 *            cause, for later retrieval by
+	 *            {@link java.lang.Throwable#getCause()}
 	 * @since 4.1
 	 */
 	public LockFailedException(File file, String message, Throwable cause) {
