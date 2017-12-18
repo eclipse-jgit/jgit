@@ -191,6 +191,9 @@ public class JGitText extends TranslationBundle {
 	/***/ public String commitOnRepoWithoutHEADCurrentlyNotSupported;
 	/***/ public String commitAmendOnInitialNotPossible;
 	/***/ public String compressingObjects;
+	/***/ public String configSubsectionContainsNewline;
+	/***/ public String configSubsectionContainsNullByte;
+	/***/ public String configValueContainsNullByte;
 	/***/ public String connectionFailed;
 	/***/ public String connectionTimeOut;
 	/***/ public String contextMustBeNonNegative;
