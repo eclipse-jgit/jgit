@@ -72,6 +72,8 @@ public class PrePushHook extends GitHook<String> {
 	private String refs;
 
 	/**
+	 * Constructor for PrePushHook
+	 *
 	 * @param repo
 	 *            The repository
 	 * @param outputStream
@@ -82,11 +84,13 @@ public class PrePushHook extends GitHook<String> {
 		super(repo, outputStream);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected String getStdinArgs() {
 		return refs;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String call() throws IOException, AbortedByHookException {
 		if (canRun()) {
@@ -102,12 +106,15 @@ public class PrePushHook extends GitHook<String> {
 		return true;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String getHookName() {
 		return NAME;
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * This hook receives two parameters, which is the name and the location of
 	 * the remote repository.
 	 */
@@ -120,21 +127,30 @@ public class PrePushHook extends GitHook<String> {
 	}
 
 	/**
+	 * Set remote name
+	 *
 	 * @param name
+	 *            remote name
 	 */
 	public void setRemoteName(String name) {
 		remoteName = name;
 	}
 
 	/**
+	 * Set remote location
+	 *
 	 * @param location
+	 *            a remote location
 	 */
 	public void setRemoteLocation(String location) {
 		remoteLocation = location;
 	}
 
 	/**
+	 * Set Refs
+	 *
 	 * @param toRefs
+	 *            a collection of {@code RemoteRefUpdate}s
 	 */
 	public void setRefs(Collection<RemoteRefUpdate> toRefs) {
 		StringBuilder b = new StringBuilder();
