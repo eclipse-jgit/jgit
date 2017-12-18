@@ -60,14 +60,16 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.util.Paths;
 
 /**
- * Updates a {@link DirCache} by supplying discrete edit commands.
+ * Updates a {@link org.eclipse.jgit.dircache.DirCache} by supplying discrete
+ * edit commands.
  * <p>
- * An editor updates a DirCache by taking a list of {@link PathEdit} commands
- * and executing them against the entries of the destination cache to produce a
- * new cache. This edit style allows applications to insert a few commands and
- * then have the editor compute the proper entry indexes necessary to perform an
+ * An editor updates a DirCache by taking a list of
+ * {@link org.eclipse.jgit.dircache.DirCacheEditor.PathEdit} commands and
+ * executing them against the entries of the destination cache to produce a new
+ * cache. This edit style allows applications to insert a few commands and then
+ * have the editor compute the proper entry indexes necessary to perform an
  * efficient in-order update of the index records. This can be easier to use
- * than {@link DirCacheBuilder}.
+ * than {@link org.eclipse.jgit.dircache.DirCacheBuilder}.
  * <p>
  *
  * @see DirCacheBuilder
@@ -113,6 +115,7 @@ public class DirCacheEditor extends BaseDirCacheEditor {
 		edits.add(edit);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean commit() throws IOException {
 		if (edits.isEmpty()) {
@@ -124,6 +127,7 @@ public class DirCacheEditor extends BaseDirCacheEditor {
 		return super.commit();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void finish() {
 		if (!edits.isEmpty()) {

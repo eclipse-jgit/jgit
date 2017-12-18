@@ -62,13 +62,14 @@ import org.eclipse.jgit.util.MutableInteger;
 import org.eclipse.jgit.util.RawParseUtils;
 
 /**
- * Single tree record from the 'TREE' {@link DirCache} extension.
+ * Single tree record from the 'TREE' {@link org.eclipse.jgit.dircache.DirCache}
+ * extension.
  * <p>
  * A valid cache tree record contains the object id of a tree object and the
- * total number of {@link DirCacheEntry} instances (counted recursively) from
- * the DirCache contained within the tree. This information facilitates faster
- * traversal of the index and quicker generation of tree objects prior to
- * creating a new commit.
+ * total number of {@link org.eclipse.jgit.dircache.DirCacheEntry} instances
+ * (counted recursively) from the DirCache contained within the tree. This
+ * information facilitates faster traversal of the index and quicker generation
+ * of tree objects prior to creating a new commit.
  * <p>
  * An invalid cache tree record indicates a known subtree whose file entries
  * have changed in ways that cause the tree to no longer have a known object id.
@@ -205,10 +206,11 @@ public class DirCacheTree {
 	/**
 	 * Determine if this cache is currently valid.
 	 * <p>
-	 * A valid cache tree knows how many {@link DirCacheEntry} instances from
-	 * the parent {@link DirCache} reside within this tree (recursively
-	 * enumerated). It also knows the object id of the tree, as the tree should
-	 * be readily available from the repository's object database.
+	 * A valid cache tree knows how many
+	 * {@link org.eclipse.jgit.dircache.DirCacheEntry} instances from the parent
+	 * {@link org.eclipse.jgit.dircache.DirCache} reside within this tree
+	 * (recursively enumerated). It also knows the object id of the tree, as the
+	 * tree should be readily available from the repository's object database.
 	 *
 	 * @return true if this tree is knows key details about itself; false if the
 	 *         tree needs to be regenerated.
@@ -563,6 +565,7 @@ public class DirCacheTree {
 		return -1;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		return getNameString();

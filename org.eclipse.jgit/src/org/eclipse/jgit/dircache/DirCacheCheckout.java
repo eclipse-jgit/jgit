@@ -159,6 +159,8 @@ public class DirCacheCheckout {
 	private boolean performingCheckout;
 
 	/**
+	 * Get list of updated paths and smudgeFilterCommands
+	 *
 	 * @return a list of updated paths and smudgeFilterCommands
 	 */
 	public Map<String, CheckoutMetadata> getUpdated() {
@@ -166,6 +168,8 @@ public class DirCacheCheckout {
 	}
 
 	/**
+	 * Get a list of conflicts created by this checkout
+	 *
 	 * @return a list of conflicts created by this checkout
 	 */
 	public List<String> getConflicts() {
@@ -173,19 +177,24 @@ public class DirCacheCheckout {
 	}
 
 	/**
+	 * Get list of paths of files which couldn't be deleted during last call to
+	 * {@link #checkout()}
+	 *
 	 * @return a list of paths (relative to the start of the working tree) of
 	 *         files which couldn't be deleted during last call to
 	 *         {@link #checkout()} . {@link #checkout()} detected that these
 	 *         files should be deleted but the deletion in the filesystem failed
 	 *         (e.g. because a file was locked). To have a consistent state of
 	 *         the working tree these files have to be deleted by the callers of
-	 *         {@link DirCacheCheckout}.
+	 *         {@link org.eclipse.jgit.dircache.DirCacheCheckout}.
 	 */
 	public List<String> getToBeDeleted() {
 		return toBeDeleted;
 	}
 
 	/**
+	 * Get list of all files removed by this checkout
+	 *
 	 * @return a list of all files removed by this checkout
 	 */
 	public List<String> getRemoved() {
@@ -206,7 +215,7 @@ public class DirCacheCheckout {
 	 *            the id of the tree we want to fast-forward to
 	 * @param workingTree
 	 *            an iterator over the repositories Working Tree
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 */
 	public DirCacheCheckout(Repository repo, ObjectId headCommitTree, DirCache dc,
 			ObjectId mergeCommitTree, WorkingTreeIterator workingTree)
@@ -222,7 +231,8 @@ public class DirCacheCheckout {
 	/**
 	 * Constructs a DirCacheCeckout for merging and checking out two trees (HEAD
 	 * and mergeCommitTree) and the index. As iterator over the working tree
-	 * this constructor creates a standard {@link FileTreeIterator}
+	 * this constructor creates a standard
+	 * {@link org.eclipse.jgit.treewalk.FileTreeIterator}
 	 *
 	 * @param repo
 	 *            the repository in which we do the checkout
@@ -232,7 +242,7 @@ public class DirCacheCheckout {
 	 *            the (already locked) Dircache for this repo
 	 * @param mergeCommitTree
 	 *            the id of the tree we want to fast-forward to
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 */
 	public DirCacheCheckout(Repository repo, ObjectId headCommitTree,
 			DirCache dc, ObjectId mergeCommitTree) throws IOException {
@@ -251,7 +261,7 @@ public class DirCacheCheckout {
 	 *            the id of the tree we want to fast-forward to
 	 * @param workingTree
 	 *            an iterator over the repositories Working Tree
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 */
 	public DirCacheCheckout(Repository repo, DirCache dc,
 			ObjectId mergeCommitTree, WorkingTreeIterator workingTree)
@@ -262,7 +272,7 @@ public class DirCacheCheckout {
 	/**
 	 * Constructs a DirCacheCeckout for checking out one tree, merging with the
 	 * index. As iterator over the working tree this constructor creates a
-	 * standard {@link FileTreeIterator}
+	 * standard {@link org.eclipse.jgit.treewalk.FileTreeIterator}
 	 *
 	 * @param repo
 	 *            the repository in which we do the checkout
@@ -270,7 +280,7 @@ public class DirCacheCheckout {
 	 *            the (already locked) Dircache for this repo
 	 * @param mergeCommitTree
 	 *            the id of the tree of the
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 */
 	public DirCacheCheckout(Repository repo, DirCache dc,
 			ObjectId mergeCommitTree) throws IOException {
@@ -281,8 +291,8 @@ public class DirCacheCheckout {
 	 * Scan head, index and merge tree. Used during normal checkout or merge
 	 * operations.
 	 *
-	 * @throws CorruptObjectException
-	 * @throws IOException
+	 * @throws org.eclipse.jgit.errors.CorruptObjectException
+	 * @throws java.io.IOException
 	 */
 	public void preScanTwoTrees() throws CorruptObjectException, IOException {
 		removed.clear();
@@ -318,10 +328,10 @@ public class DirCacheCheckout {
 	 * Scan index and merge tree (no HEAD). Used e.g. for initial checkout when
 	 * there is no head yet.
 	 *
-	 * @throws MissingObjectException
-	 * @throws IncorrectObjectTypeException
-	 * @throws CorruptObjectException
-	 * @throws IOException
+	 * @throws org.eclipse.jgit.errors.MissingObjectException
+	 * @throws org.eclipse.jgit.errors.IncorrectObjectTypeException
+	 * @throws org.eclipse.jgit.errors.CorruptObjectException
+	 * @throws java.io.IOException
 	 */
 	public void prescanOneTree()
 			throws MissingObjectException, IncorrectObjectTypeException,
@@ -439,7 +449,8 @@ public class DirCacheCheckout {
 	}
 
 	/**
-	 * Execute this checkout. A {@link WorkingTreeModifiedEvent} is fired if the
+	 * Execute this checkout. A
+	 * {@link org.eclipse.jgit.events.WorkingTreeModifiedEvent} is fired if the
 	 * working tree was modified; even if the checkout fails.
 	 *
 	 * @return <code>false</code> if this method could not delete all the files
@@ -449,8 +460,7 @@ public class DirCacheCheckout {
 	 *         Although <code>false</code> is returned the checkout was
 	 *         successful and the working tree was updated for all other files.
 	 *         <code>true</code> is returned when no such problem occurred
-	 *
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 */
 	public boolean checkout() throws IOException {
 		try {
@@ -1163,10 +1173,12 @@ public class DirCacheCheckout {
 
 	/**
 	 * If <code>true</code>, will scan first to see if it's possible to check
-	 * out, otherwise throw {@link CheckoutConflictException}. If
+	 * out, otherwise throw
+	 * {@link org.eclipse.jgit.errors.CheckoutConflictException}. If
 	 * <code>false</code>, it will silently deal with the problem.
 	 *
 	 * @param failOnConflict
+	 *            a boolean.
 	 */
 	public void setFailOnConflict(boolean failOnConflict) {
 		this.failOnConflict = failOnConflict;
@@ -1286,8 +1298,8 @@ public class DirCacheCheckout {
 	 * <p>
 	 * <b>Note:</b> if the entry path on local file system exists as a non-empty
 	 * directory, and the target entry type is a link or file, the checkout will
-	 * fail with {@link IOException} since existing non-empty directory cannot
-	 * be renamed to file or link without deleting it recursively.
+	 * fail with {@link java.io.IOException} since existing non-empty directory
+	 * cannot be renamed to file or link without deleting it recursively.
 	 * </p>
 	 *
 	 * <p>
@@ -1302,7 +1314,7 @@ public class DirCacheCheckout {
 	 *            the entry containing new mode and content
 	 * @param or
 	 *            object reader to use for checkout
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 * @since 3.6
 	 */
 	public static void checkoutEntry(Repository repo, DirCacheEntry entry,
@@ -1344,8 +1356,7 @@ public class DirCacheCheckout {
 	 *            checked out</li>
 	 *            <li>eolStreamType used for stream conversion</li>
 	 *            </ul>
-	 *
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 * @since 4.2
 	 */
 	public static void checkoutEntry(Repository repo, DirCacheEntry entry,
