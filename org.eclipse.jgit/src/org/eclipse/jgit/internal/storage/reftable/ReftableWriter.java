@@ -89,7 +89,9 @@ import org.eclipse.jgit.util.NB;
  * Writes a reftable formatted file.
  * <p>
  * A reftable can be written in a streaming fashion, provided the caller sorts
- * all references. A {@link ReftableWriter} is single-use, and not thread-safe.
+ * all references. A
+ * {@link org.eclipse.jgit.internal.storage.reftable.ReftableWriter} is
+ * single-use, and not thread-safe.
  */
 public class ReftableWriter {
 	private ReftableConfig config;
@@ -113,7 +115,9 @@ public class ReftableWriter {
 	private int objIdLen;
 	private Stats stats;
 
-	/** Initialize a writer with a default configuration. */
+	/**
+	 * Initialize a writer with a default configuration.
+	 */
 	public ReftableWriter() {
 		this(new ReftableConfig());
 	}
@@ -129,6 +133,8 @@ public class ReftableWriter {
 	}
 
 	/**
+	 * Set configuration for the writer.
+	 *
 	 * @param cfg
 	 *            configuration for the writer.
 	 * @return {@code this}
@@ -139,6 +145,9 @@ public class ReftableWriter {
 	}
 
 	/**
+	 * Set the minimum update index for log entries that appear in this
+	 * reftable.
+	 *
 	 * @param min
 	 *            the minimum update index for log entries that appear in this
 	 *            reftable. This should be 1 higher than the prior reftable's
@@ -151,6 +160,9 @@ public class ReftableWriter {
 	}
 
 	/**
+	 * Set the maximum update index for log entries that appear in this
+	 * reftable.
+	 *
 	 * @param max
 	 *            the maximum update index for log entries that appear in this
 	 *            reftable. This should be at least 1 higher than the prior
@@ -170,7 +182,7 @@ public class ReftableWriter {
 	 *            stream to write the table to. Caller is responsible for
 	 *            closing the stream after invoking {@link #finish()}.
 	 * @return {@code this}
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             if reftable header cannot be written.
 	 */
 	public ReftableWriter begin(OutputStream os) throws IOException {
@@ -208,7 +220,7 @@ public class ReftableWriter {
 	 * @param refsToPack
 	 *            references to sort and write.
 	 * @return {@code this}
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             if reftable cannot be written.
 	 */
 	public ReftableWriter sortAndWriteRefs(Collection<Ref> refsToPack)
@@ -232,7 +244,7 @@ public class ReftableWriter {
 	 *
 	 * @param ref
 	 *            the reference to store.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             if reftable cannot be written.
 	 */
 	public void writeRef(Ref ref) throws IOException {
@@ -249,7 +261,7 @@ public class ReftableWriter {
 	 * @param updateIndex
 	 *            the updateIndex that modified this reference. Must be
 	 *            {@code >= minUpdateIndex} for this file.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             if reftable cannot be written.
 	 */
 	public void writeRef(Ref ref, long updateIndex) throws IOException {
@@ -295,12 +307,14 @@ public class ReftableWriter {
 	 * @param who
 	 *            committer of the reflog entry.
 	 * @param oldId
-	 *            prior id; pass {@link ObjectId#zeroId()} for creations.
+	 *            prior id; pass {@link org.eclipse.jgit.lib.ObjectId#zeroId()}
+	 *            for creations.
 	 * @param newId
-	 *            new id; pass {@link ObjectId#zeroId()} for deletions.
+	 *            new id; pass {@link org.eclipse.jgit.lib.ObjectId#zeroId()}
+	 *            for deletions.
 	 * @param message
 	 *            optional message (may be null).
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             if reftable cannot be written.
 	 */
 	public void writeLog(String ref, long updateIndex, PersonIdent who,
@@ -327,7 +341,7 @@ public class ReftableWriter {
 	 *            the ref to delete (hide) a reflog entry from.
 	 * @param updateIndex
 	 *            the update index that must be hidden.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             if reftable cannot be written.
 	 */
 	public void deleteLog(String ref, long updateIndex) throws IOException {
@@ -345,10 +359,14 @@ public class ReftableWriter {
 	}
 
 	/**
+	 * Get an estimate of the current size in bytes of the reftable
+	 *
 	 * @return an estimate of the current size in bytes of the reftable, if it
 	 *         was finished right now. Estimate is only accurate if
-	 *         {@link ReftableConfig#setIndexObjects(boolean)} is {@code false}
-	 *         and {@link ReftableConfig#setMaxIndexLevels(int)} is {@code 1}.
+	 *         {@link org.eclipse.jgit.internal.storage.reftable.ReftableConfig#setIndexObjects(boolean)}
+	 *         is {@code false} and
+	 *         {@link org.eclipse.jgit.internal.storage.reftable.ReftableConfig#setMaxIndexLevels(int)}
+	 *         is {@code 1}.
 	 */
 	public long estimateTotalBytes() {
 		long bytes = out.size();
@@ -381,7 +399,7 @@ public class ReftableWriter {
 	 * Finish writing the reftable by writing its trailer.
 	 *
 	 * @return {@code this}
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             if reftable cannot be written.
 	 */
 	public ReftableWriter finish() throws IOException {
@@ -480,7 +498,11 @@ public class ReftableWriter {
 		return s != null && s.idx != null ? s.idx.rootPosition : 0;
 	}
 
-	/** @return statistics of the last written reftable. */
+	/**
+	 * Get statistics of the last written reftable.
+	 *
+	 * @return statistics of the last written reftable.
+	 */
 	public Stats getStats() {
 		return stats;
 	}

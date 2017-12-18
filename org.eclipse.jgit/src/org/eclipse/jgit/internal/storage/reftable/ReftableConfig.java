@@ -48,7 +48,9 @@ import static org.eclipse.jgit.internal.storage.reftable.ReftableConstants.MAX_B
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 
-/** Configuration used by a reftable writer when constructing the stream. */
+/**
+ * Configuration used by a reftable writer when constructing the stream.
+ */
 public class ReftableConfig {
 	private int refBlockSize = 4 << 10;
 	private int logBlockSize;
@@ -57,7 +59,9 @@ public class ReftableConfig {
 	private boolean alignBlocks = true;
 	private boolean indexObjects = true;
 
-	/** Create a default configuration. */
+	/**
+	 * Create a default configuration.
+	 */
 	public ReftableConfig() {
 	}
 
@@ -74,7 +78,8 @@ public class ReftableConfig {
 	}
 
 	/**
-	 * Create a configuration honoring settings in a {@link Config}.
+	 * Create a configuration honoring settings in a
+	 * {@link org.eclipse.jgit.lib.Config}.
 	 *
 	 * @param cfg
 	 *            the source to read settings from. The source is not retained
@@ -100,12 +105,18 @@ public class ReftableConfig {
 		this.indexObjects = cfg.indexObjects;
 	}
 
-	/** @return desired output block size for references, in bytes */
+	/**
+	 * Get desired output block size for references, in bytes.
+	 *
+	 * @return desired output block size for references, in bytes.
+	 */
 	public int getRefBlockSize() {
 		return refBlockSize;
 	}
 
 	/**
+	 * Set desired output block size for references, in bytes.
+	 *
 	 * @param szBytes
 	 *            desired output block size for references, in bytes.
 	 */
@@ -117,6 +128,8 @@ public class ReftableConfig {
 	}
 
 	/**
+	 * Get desired output block size for log entries, in bytes.
+	 *
 	 * @return desired output block size for log entries, in bytes. If 0 the
 	 *         writer will default to {@code 2 * getRefBlockSize()}.
 	 */
@@ -125,6 +138,8 @@ public class ReftableConfig {
 	}
 
 	/**
+	 * Set desired output block size for log entries, in bytes.
+	 *
 	 * @param szBytes
 	 *            desired output block size for log entries, in bytes. If 0 will
 	 *            default to {@code 2 * getRefBlockSize()}.
@@ -136,12 +151,18 @@ public class ReftableConfig {
 		logBlockSize = Math.max(0, szBytes);
 	}
 
-	/** @return number of references between binary search markers. */
+	/**
+	 * Get number of references between binary search markers.
+	 *
+	 * @return number of references between binary search markers.
+	 */
 	public int getRestartInterval() {
 		return restartInterval;
 	}
 
 	/**
+	 * <p>Setter for the field <code>restartInterval</code>.</p>
+	 *
 	 * @param interval
 	 *            number of references between binary search markers. If
 	 *            {@code interval} is 0 (default), the writer will select a
@@ -151,12 +172,18 @@ public class ReftableConfig {
 		restartInterval = Math.max(0, interval);
 	}
 
-	/** @return maximum depth of the index; 0 for unlimited. */
+	/**
+	 * Get maximum depth of the index; 0 for unlimited.
+	 *
+	 * @return maximum depth of the index; 0 for unlimited.
+	 */
 	public int getMaxIndexLevels() {
 		return maxIndexLevels;
 	}
 
 	/**
+	 * Set maximum number of levels to use in indexes.
+	 *
 	 * @param levels
 	 *            maximum number of levels to use in indexes. Lower levels of
 	 *            the index respect {@link #getRefBlockSize()}, and the highest
@@ -166,12 +193,19 @@ public class ReftableConfig {
 		maxIndexLevels = Math.max(0, levels);
 	}
 
-	/** @return {@code true} if the writer should align blocks. */
+	/**
+	 * Whether the writer should align blocks.
+	 *
+	 * @return {@code true} if the writer should align blocks.
+	 */
 	public boolean isAlignBlocks() {
 		return alignBlocks;
 	}
 
 	/**
+	 * Whether blocks are written aligned to multiples of
+	 * {@link #getRefBlockSize()}.
+	 *
 	 * @param align
 	 *            if {@code true} blocks are written aligned to multiples of
 	 *            {@link #getRefBlockSize()}. May increase file size due to NUL
@@ -181,12 +215,19 @@ public class ReftableConfig {
 		alignBlocks = align;
 	}
 
-	/** @return {@code true} if the writer should index object to ref. */
+	/**
+	 * Whether the writer should index object to ref.
+	 *
+	 * @return {@code true} if the writer should index object to ref.
+	 */
 	public boolean isIndexObjects() {
 		return indexObjects;
 	}
 
 	/**
+	 * Whether the reftable may include additional storage to efficiently map
+	 * from {@code ObjectId} to reference names.
+	 *
 	 * @param index
 	 *            if {@code true} the reftable may include additional storage to
 	 *            efficiently map from {@code ObjectId} to reference names. By

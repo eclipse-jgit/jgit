@@ -45,7 +45,10 @@ package org.eclipse.jgit.internal.storage.reftable;
 
 import java.io.IOException;
 
-/** Thrown if {@link ReftableWriter} cannot fit a reference. */
+/**
+ * Thrown if {@link org.eclipse.jgit.internal.storage.reftable.ReftableWriter}
+ * cannot fit a reference.
+ */
 public class BlockSizeTooSmallException extends IOException {
 	private static final long serialVersionUID = 1L;
 
@@ -55,7 +58,11 @@ public class BlockSizeTooSmallException extends IOException {
 		minBlockSize = b;
 	}
 
-	/** @return minimum block size in bytes reftable requires to write a ref. */
+	/**
+	 * Get minimum block size in bytes reftable requires to write a ref.
+	 *
+	 * @return minimum block size in bytes reftable requires to write a ref.
+	 */
 	public int getMinimumBlockSize() {
 		return minBlockSize;
 	}
