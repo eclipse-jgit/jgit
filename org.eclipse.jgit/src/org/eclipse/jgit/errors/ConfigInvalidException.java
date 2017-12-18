@@ -43,7 +43,9 @@
 
 package org.eclipse.jgit.errors;
 
-/** Indicates a text string is not a valid Git style configuration. */
+/**
+ * Indicates a text string is not a valid Git style configuration.
+ */
 public class ConfigInvalidException extends Exception {
 	private static final long serialVersionUID = 1L;
 

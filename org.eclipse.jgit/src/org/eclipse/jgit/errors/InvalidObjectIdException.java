@@ -69,8 +69,10 @@ public class InvalidObjectIdException extends IllegalArgumentException {
 	}
 
 	/**
-	 * @param id the invalid id.
+	 * Constructor for InvalidObjectIdException
 	 *
+	 * @param id
+	 *            the invalid id.
 	 * @since 4.1
 	 */
 	public InvalidObjectIdException(String id) {

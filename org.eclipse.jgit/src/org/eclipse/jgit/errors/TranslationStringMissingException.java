@@ -43,7 +43,6 @@
 package org.eclipse.jgit.errors;
 
 import java.util.Locale;
-import java.util.ResourceBundle;
 
 /**
  * This exception will be thrown when a translation string for a translation
@@ -55,8 +54,9 @@ public class TranslationStringMissingException extends TranslationBundleExceptio
 	private final String key;
 
 	/**
-	 * Construct a {@link TranslationStringMissingException} for the specified
-	 * bundle class, locale and translation key
+	 * Construct a
+	 * {@link org.eclipse.jgit.errors.TranslationStringMissingException} for the
+	 * specified bundle class, locale and translation key
 	 *
 	 * @param bundleClass
 	 *            the bundle class for which a translation string was missing
@@ -66,7 +66,7 @@ public class TranslationStringMissingException extends TranslationBundleExceptio
 	 *            the key of the missing translation string
 	 * @param cause
 	 *            the original exception thrown from the
-	 *            {@link ResourceBundle#getString(String)} method.
+	 *            {@link java.util.ResourceBundle#getString(String)} method.
 	 */
 	public TranslationStringMissingException(Class bundleClass, Locale locale, String key, Exception cause) {
 		super("Translation missing for [" + bundleClass.getName() + ", " //$NON-NLS-1$ //$NON-NLS-2$
@@ -76,6 +76,8 @@ public class TranslationStringMissingException extends TranslationBundleExceptio
 	}
 
 	/**
+	 * Get the key of the missing translation string
+	 *
 	 * @return the key of the missing translation string
 	 */
 	public String getKey() {

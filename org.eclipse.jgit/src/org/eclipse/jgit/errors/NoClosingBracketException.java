@@ -58,6 +58,8 @@ public class NoClosingBracketException extends InvalidPatternException {
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * Constructor for NoClosingBracketException
+	 *
 	 * @param indexOfOpeningBracket
 	 *            the position of the [ character which has no ] character.
 	 * @param openingBracket

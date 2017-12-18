@@ -53,8 +53,12 @@ public class DiffInterruptedException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * Constructor for DiffInterruptedException
+	 *
 	 * @param message
+	 *            error message
 	 * @param cause
+	 *            a {@link java.lang.Throwable}
 	 * @since 4.1
 	 */
 	public DiffInterruptedException(String message, Throwable cause) {
@@ -62,14 +66,19 @@ public class DiffInterruptedException extends RuntimeException {
 	}
 
 	/**
+	 * Constructor for DiffInterruptedException
+	 *
 	 * @param message
+	 *            error message
 	 * @since 4.1
 	 */
 	public DiffInterruptedException(String message) {
 		super(message);
 	}
 
-	/** Indicates that the thread computing a diff was interrupted. */
+	/**
+	 * Indicates that the thread computing a diff was interrupted.
+	 */
 	public DiffInterruptedException() {
 		super();
 	}

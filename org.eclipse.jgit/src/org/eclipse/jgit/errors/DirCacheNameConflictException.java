@@ -68,12 +68,20 @@ public class DirCacheNameConflictException extends IllegalStateException {
 		this.path2 = path2;
 	}
 
-	/** @return one of the paths that has a conflict. */
+	/**
+	 * Get one of the paths that has a conflict
+	 *
+	 * @return one of the paths that has a conflict
+	 */
 	public String getPath1() {
 		return path1;
 	}
 
-	/** @return another path that has a conflict. */
+	/**
+	 * Get another path that has a conflict
+	 *
+	 * @return another path that has a conflict
+	 */
 	public String getPath2() {
 		return path2;
 	}
