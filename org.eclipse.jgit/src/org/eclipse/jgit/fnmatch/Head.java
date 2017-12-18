@@ -48,6 +48,7 @@ import java.util.List;
 
 interface Head {
 	/**
+	 * Get the character which decides which heads are returned
 	 *
 	 * @param c
 	 *            the character which decides which heads are returned.
