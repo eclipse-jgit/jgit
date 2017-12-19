@@ -50,7 +50,8 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 
 /**
- * Skip {@link WorkingTreeIterator} entries that appear in gitignore files.
+ * Skip {@link org.eclipse.jgit.treewalk.WorkingTreeIterator} entries that
+ * appear in gitignore files.
  */
 public class NotIgnoredFilter extends TreeFilter {
 	private final int index;
@@ -65,6 +66,7 @@ public class NotIgnoredFilter extends TreeFilter {
 		this.index = workdirTreeIndex;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean include(TreeWalk tw) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
@@ -72,17 +74,20 @@ public class NotIgnoredFilter extends TreeFilter {
 		return i == null || !i.isEntryIgnored();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean shouldBeRecursive() {
 		return false;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public TreeFilter clone() {
 		// immutable
 		return this;
 	}
 
+	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {

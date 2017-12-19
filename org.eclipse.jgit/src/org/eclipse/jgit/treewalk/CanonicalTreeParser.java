@@ -66,7 +66,9 @@ import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 
-/** Parses raw Git trees from the canonical semi-text/semi-binary format. */
+/**
+ * Parses raw Git trees from the canonical semi-text/semi-binary format.
+ */
 public class CanonicalTreeParser extends AbstractTreeIterator {
 	private static final byte[] EMPTY = {};
 	private static final byte[] ATTRS = encode(DOT_GIT_ATTRIBUTES);
@@ -82,7 +84,9 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 	/** Offset one past the current entry (first byte of next entry). */
 	private int nextPtr;
 
-	/** Create a new parser. */
+	/**
+	 * Create a new parser.
+	 */
 	public CanonicalTreeParser() {
 		reset(EMPTY);
 	}
@@ -102,10 +106,10 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 	 *            messages if data corruption is found.
 	 * @throws MissingObjectException
 	 *             the object supplied is not available from the repository.
-	 * @throws IncorrectObjectTypeException
+	 * @throws org.eclipse.jgit.errors.IncorrectObjectTypeException
 	 *             the object supplied as an argument is not actually a tree and
 	 *             cannot be parsed as though it were a tree.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             a loose object or pack file could not be read.
 	 */
 	public CanonicalTreeParser(final byte[] prefix, final ObjectReader reader,
@@ -120,7 +124,9 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 	}
 
 	/**
-	 * @return the parent of this tree parser
+	 * Get the parent of this tree parser.
+	 *
+	 * @return the parent of this tree parser.
 	 * @deprecated internal use only
 	 */
 	@Deprecated
@@ -156,10 +162,10 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 	 * @return the root level parser.
 	 * @throws MissingObjectException
 	 *             the object supplied is not available from the repository.
-	 * @throws IncorrectObjectTypeException
+	 * @throws org.eclipse.jgit.errors.IncorrectObjectTypeException
 	 *             the object supplied as an argument is not actually a tree and
 	 *             cannot be parsed as though it were a tree.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             a loose object or pack file could not be read.
 	 */
 	public CanonicalTreeParser resetRoot(final ObjectReader reader,
@@ -172,7 +178,11 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 		return p;
 	}
 
-	/** @return this iterator, or its parent, if the tree is at eof. */
+	/**
+	 * Get this iterator, or its parent, if the tree is at eof.
+	 *
+	 * @return this iterator, or its parent, if the tree is at eof.
+	 */
 	public CanonicalTreeParser next() {
 		CanonicalTreeParser p = this;
 		for (;;) {
@@ -203,10 +213,10 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 	 *            messages if data corruption is found.
 	 * @throws MissingObjectException
 	 *             the object supplied is not available from the repository.
-	 * @throws IncorrectObjectTypeException
+	 * @throws org.eclipse.jgit.errors.IncorrectObjectTypeException
 	 *             the object supplied as an argument is not actually a tree and
 	 *             cannot be parsed as though it were a tree.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             a loose object or pack file could not be read.
 	 */
 	public void reset(final ObjectReader reader, final AnyObjectId id)
@@ -214,6 +224,7 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 		reset(reader.open(id, OBJ_TREE).getCachedBytes());
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public CanonicalTreeParser createSubtreeIterator(final ObjectReader reader,
 			final MutableObjectId idBuffer)
@@ -238,7 +249,7 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 	 * @param id
 	 *            ObjectId of the tree to open.
 	 * @return a new parser that walks over the current subtree.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             a loose object or pack file could not be read.
 	 */
 	public final CanonicalTreeParser createSubtreeIterator0(
@@ -249,43 +260,51 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 		return p;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public CanonicalTreeParser createSubtreeIterator(final ObjectReader reader)
 			throws IncorrectObjectTypeException, IOException {
 		return createSubtreeIterator(reader, new MutableObjectId());
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean hasId() {
 		return true;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public byte[] idBuffer() {
 		return raw;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int idOffset() {
 		return nextPtr - OBJECT_ID_LENGTH;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void reset() {
 		if (!first())
 			reset(raw);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean first() {
 		return currPtr == 0;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean eof() {
 		return currPtr == raw.length;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void next(int delta) {
 		if (delta == 1) {
@@ -315,6 +334,7 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 			parseEntry();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void back(int delta) {
 		if (delta == 1 && 0 <= prevPtr) {
@@ -381,12 +401,15 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 	}
 
 	/**
-	 * Retrieve the {@link AttributesNode} for the current entry.
+	 * Retrieve the {@link org.eclipse.jgit.attributes.AttributesNode} for the
+	 * current entry.
 	 *
 	 * @param reader
-	 *            {@link ObjectReader} used to parse the .gitattributes entry.
-	 * @return {@link AttributesNode} for the current entry.
-	 * @throws IOException
+	 *            {@link org.eclipse.jgit.lib.ObjectReader} used to parse the
+	 *            .gitattributes entry.
+	 * @return {@link org.eclipse.jgit.attributes.AttributesNode} for the
+	 *         current entry.
+	 * @throws java.io.IOException
 	 * @since 4.2
 	 */
 	public AttributesNode getEntryAttributesNode(ObjectReader reader)

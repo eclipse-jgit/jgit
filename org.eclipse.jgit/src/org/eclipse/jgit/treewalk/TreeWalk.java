@@ -81,7 +81,8 @@ import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.io.EolStreamTypeUtil;
 
 /**
- * Walks one or more {@link AbstractTreeIterator}s in parallel.
+ * Walks one or more {@link org.eclipse.jgit.treewalk.AbstractTreeIterator}s in
+ * parallel.
  * <p>
  * This class can perform n-way differences across as many trees as necessary.
  * <p>
@@ -97,8 +98,9 @@ import org.eclipse.jgit.util.io.EolStreamTypeUtil;
  * usage of a TreeWalk instance to a single thread, or implement their own
  * synchronization at a higher level.
  * <p>
- * Multiple simultaneous TreeWalk instances per {@link Repository} are
- * permitted, even from concurrent threads.
+ * Multiple simultaneous TreeWalk instances per
+ * {@link org.eclipse.jgit.lib.Repository} are permitted, even from concurrent
+ * threads.
  */
 public class TreeWalk implements AutoCloseable, AttributesProvider {
 	private static final AbstractTreeIterator[] NO_TREES = {};
@@ -131,7 +133,11 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	private Map<String, String> filterCommandsByNameDotType = new HashMap<>();
 
 	/**
+	 * Set the operation type of this walk
+	 *
 	 * @param operationType
+	 *            a {@link org.eclipse.jgit.treewalk.TreeWalk.OperationType}
+	 *            object.
 	 * @since 4.2
 	 */
 	public void setOperationType(OperationType operationType) {
@@ -153,14 +159,14 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 *            one or more trees to walk through, all with the same root.
 	 * @return a new tree walk configured for exactly this one path; null if no
 	 *         path was found in any of the trees.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             reading a pack file or loose object failed.
-	 * @throws CorruptObjectException
+	 * @throws org.eclipse.jgit.errors.CorruptObjectException
 	 *             an tree object could not be read as its data stream did not
 	 *             appear to be a tree, or could not be inflated.
-	 * @throws IncorrectObjectTypeException
+	 * @throws org.eclipse.jgit.errors.IncorrectObjectTypeException
 	 *             an object we expected to be a tree was not a tree.
-	 * @throws MissingObjectException
+	 * @throws org.eclipse.jgit.errors.MissingObjectException
 	 *             a tree object was not found.
 	 */
 	public static TreeWalk forPath(final ObjectReader reader, final String path,
@@ -178,7 +184,8 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 *
 	 * @param repo
 	 *            repository to read config data and
-	 *            {@link AttributesNodeProvider} from.
+	 *            {@link org.eclipse.jgit.attributes.AttributesNodeProvider}
+	 *            from.
 	 * @param reader
 	 *            the reader the walker will obtain tree data from.
 	 * @param path
@@ -187,14 +194,14 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 *            one or more trees to walk through, all with the same root.
 	 * @return a new tree walk configured for exactly this one path; null if no
 	 *         path was found in any of the trees.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             reading a pack file or loose object failed.
-	 * @throws CorruptObjectException
+	 * @throws org.eclipse.jgit.errors.CorruptObjectException
 	 *             an tree object could not be read as its data stream did not
 	 *             appear to be a tree, or could not be inflated.
-	 * @throws IncorrectObjectTypeException
+	 * @throws org.eclipse.jgit.errors.IncorrectObjectTypeException
 	 *             an object we expected to be a tree was not a tree.
-	 * @throws MissingObjectException
+	 * @throws org.eclipse.jgit.errors.MissingObjectException
 	 *             a tree object was not found.
 	 * @since 4.3
 	 */
@@ -234,14 +241,14 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 *            one or more trees to walk through, all with the same root.
 	 * @return a new tree walk configured for exactly this one path; null if no
 	 *         path was found in any of the trees.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             reading a pack file or loose object failed.
-	 * @throws CorruptObjectException
+	 * @throws org.eclipse.jgit.errors.CorruptObjectException
 	 *             an tree object could not be read as its data stream did not
 	 *             appear to be a tree, or could not be inflated.
-	 * @throws IncorrectObjectTypeException
+	 * @throws org.eclipse.jgit.errors.IncorrectObjectTypeException
 	 *             an object we expected to be a tree was not a tree.
-	 * @throws MissingObjectException
+	 * @throws org.eclipse.jgit.errors.MissingObjectException
 	 *             a tree object was not found.
 	 */
 	public static TreeWalk forPath(final Repository db, final String path,
@@ -267,14 +274,14 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 *            the single tree to walk through.
 	 * @return a new tree walk configured for exactly this one path; null if no
 	 *         path was found in any of the trees.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             reading a pack file or loose object failed.
-	 * @throws CorruptObjectException
+	 * @throws org.eclipse.jgit.errors.CorruptObjectException
 	 *             an tree object could not be read as its data stream did not
 	 *             appear to be a tree, or could not be inflated.
-	 * @throws IncorrectObjectTypeException
+	 * @throws org.eclipse.jgit.errors.IncorrectObjectTypeException
 	 *             an object we expected to be a tree was not a tree.
-	 * @throws MissingObjectException
+	 * @throws org.eclipse.jgit.errors.MissingObjectException
 	 *             a tree object was not found.
 	 */
 	public static TreeWalk forPath(final Repository db, final String path,
@@ -373,13 +380,19 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 		this.closeReader = closeReader;
 	}
 
-	/** @return the reader this walker is using to load objects. */
+	/**
+	 * Get the reader this walker is using to load objects.
+	 *
+	 * @return the reader this walker is using to load objects.
+	 */
 	public ObjectReader getObjectReader() {
 		return reader;
 	}
 
 	/**
-	 * @return the {@link OperationType}
+	 * Get the operation type
+	 *
+	 * @return the {@link org.eclipse.jgit.treewalk.TreeWalk.OperationType}
 	 * @since 4.3
 	 */
 	public OperationType getOperationType() {
@@ -387,6 +400,8 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * Release any resources used by this walker's reader.
 	 * <p>
 	 * A walker that has been released can be used again, but may need to be
@@ -421,12 +436,14 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 * Note that filters are not thread-safe and may not be shared by concurrent
 	 * TreeWalk instances. Every TreeWalk must be supplied its own unique
 	 * filter, unless the filter implementation specifically states it is (and
-	 * always will be) thread-safe. Callers may use {@link TreeFilter#clone()}
-	 * to create a unique filter tree for this TreeWalk instance.
+	 * always will be) thread-safe. Callers may use
+	 * {@link org.eclipse.jgit.treewalk.filter.TreeFilter#clone()} to create a
+	 * unique filter tree for this TreeWalk instance.
 	 *
 	 * @param newFilter
-	 *            the new filter. If null the special {@link TreeFilter#ALL}
-	 *            filter will be used instead, as it matches every entry.
+	 *            the new filter. If null the special
+	 *            {@link org.eclipse.jgit.treewalk.filter.TreeFilter#ALL} filter
+	 *            will be used instead, as it matches every entry.
 	 * @see org.eclipse.jgit.treewalk.filter.AndTreeFilter
 	 * @see org.eclipse.jgit.treewalk.filter.OrTreeFilter
 	 */
@@ -493,19 +510,23 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	}
 
 	/**
-	 * Sets the {@link AttributesNodeProvider} for this {@link TreeWalk}.
+	 * Sets the {@link org.eclipse.jgit.attributes.AttributesNodeProvider} for
+	 * this {@link org.eclipse.jgit.treewalk.TreeWalk}.
 	 * <p>
-	 * This is a requirement for a correct computation of the git attributes.
-	 * If this {@link TreeWalk} has been built using
+	 * This is a requirement for a correct computation of the git attributes. If
+	 * this {@link org.eclipse.jgit.treewalk.TreeWalk} has been built using
 	 * {@link #TreeWalk(Repository)} constructor, the
-	 * {@link AttributesNodeProvider} has already been set. Indeed,the
-	 * {@link Repository} can provide an {@link AttributesNodeProvider} using
-	 * {@link Repository#createAttributesNodeProvider()} method. Otherwise you
-	 * should provide one.
+	 * {@link org.eclipse.jgit.attributes.AttributesNodeProvider} has already
+	 * been set. Indeed,the {@link org.eclipse.jgit.lib.Repository} can provide
+	 * an {@link org.eclipse.jgit.attributes.AttributesNodeProvider} using
+	 * {@link org.eclipse.jgit.lib.Repository#createAttributesNodeProvider()}
+	 * method. Otherwise you should provide one.
 	 * </p>
 	 *
 	 * @see Repository#createAttributesNodeProvider()
 	 * @param provider
+	 *            a {@link org.eclipse.jgit.attributes.AttributesNodeProvider}
+	 *            object.
 	 * @since 4.2
 	 */
 	public void setAttributesNodeProvider(AttributesNodeProvider provider) {
@@ -513,7 +534,10 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	}
 
 	/**
-	 * @return the {@link AttributesNodeProvider} for this {@link TreeWalk}.
+	 * Get the attributes node provider
+	 *
+	 * @return the {@link org.eclipse.jgit.attributes.AttributesNodeProvider}
+	 *         for this {@link org.eclipse.jgit.treewalk.TreeWalk}.
 	 * @since 4.3
 	 */
 	public AttributesNodeProvider getAttributesNodeProvider() {
@@ -521,6 +545,8 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * Retrieve the git attributes for the current entry.
 	 *
 	 * <h4>Git attribute computation</h4>
@@ -556,7 +582,6 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 * provided it will fallback on the {@link DirCacheIterator}.
 	 * </p>
 	 *
-	 * @return a {@link Set} of {@link Attribute}s that match the current entry.
 	 * @since 4.2
 	 */
 	@Override
@@ -587,11 +612,15 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	}
 
 	/**
+	 * Get the EOL stream type of the current entry using the config and
+	 * {@link #getAttributes()}.
+	 *
 	 * @param opType
 	 *            the operationtype (checkin/checkout) which should be used
 	 * @return the EOL stream type of the current entry using the config and
-	 *         {@link #getAttributes()} Note that this method may return null if
-	 *         the {@link TreeWalk} is not based on a working tree
+	 *         {@link #getAttributes()}. Note that this method may return null
+	 *         if the {@link org.eclipse.jgit.treewalk.TreeWalk} is not based on
+	 *         a working tree
 	 * @since 4.10
 	 */
 	@Nullable
@@ -604,9 +633,13 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	}
 
 	/**
+	 * Get the EOL stream type of the current entry using the config and
+	 * {@link #getAttributes()}.
+	 *
 	 * @return the EOL stream type of the current entry using the config and
-	 *         {@link #getAttributes()} Note that this method may return null if
-	 *         the {@link TreeWalk} is not based on a working tree
+	 *         {@link #getAttributes()}. Note that this method may return null
+	 *         if the {@link org.eclipse.jgit.treewalk.TreeWalk} is not based on
+	 *         a working tree
 	 * @since 4.3
 	 * @deprecated use {@link #getEolStreamType(OperationType)} instead.
 	 */
@@ -615,7 +648,9 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 		return (getEolStreamType(operationType));
 	}
 
-	/** Reset this walker so new tree iterators can be added to it. */
+	/**
+	 * Reset this walker so new tree iterators can be added to it.
+	 */
 	public void reset() {
 		attrs = null;
 		attributesHandler = null;
@@ -630,16 +665,16 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 * @param id
 	 *            the tree we need to parse. The walker will execute over this
 	 *            single tree if the reset is successful.
-	 * @throws MissingObjectException
+	 * @throws org.eclipse.jgit.errors.MissingObjectException
 	 *             the given tree object does not exist in this repository.
-	 * @throws IncorrectObjectTypeException
+	 * @throws org.eclipse.jgit.errors.IncorrectObjectTypeException
 	 *             the given object id does not denote a tree, but instead names
 	 *             some other non-tree type of object. Note that commits are not
 	 *             trees, even if they are sometimes called a "tree-ish".
-	 * @throws CorruptObjectException
+	 * @throws org.eclipse.jgit.errors.CorruptObjectException
 	 *             the object claimed to be a tree, but its contents did not
 	 *             appear to be a tree. The repository may have data corruption.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             a loose object or pack file could not be read.
 	 */
 	public void reset(final AnyObjectId id) throws MissingObjectException,
@@ -671,16 +706,16 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 * @param ids
 	 *            the trees we need to parse. The walker will execute over this
 	 *            many parallel trees if the reset is successful.
-	 * @throws MissingObjectException
+	 * @throws org.eclipse.jgit.errors.MissingObjectException
 	 *             the given tree object does not exist in this repository.
-	 * @throws IncorrectObjectTypeException
+	 * @throws org.eclipse.jgit.errors.IncorrectObjectTypeException
 	 *             the given object id does not denote a tree, but instead names
 	 *             some other non-tree type of object. Note that commits are not
 	 *             trees, even if they are sometimes called a "tree-ish".
-	 * @throws CorruptObjectException
+	 * @throws org.eclipse.jgit.errors.CorruptObjectException
 	 *             the object claimed to be a tree, but its contents did not
 	 *             appear to be a tree. The repository may have data corruption.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             a loose object or pack file could not be read.
 	 */
 	public void reset(final AnyObjectId... ids) throws MissingObjectException,
@@ -726,16 +761,16 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 * @param id
 	 *            identity of the tree object the caller wants walked.
 	 * @return position of this tree within the walker.
-	 * @throws MissingObjectException
+	 * @throws org.eclipse.jgit.errors.MissingObjectException
 	 *             the given tree object does not exist in this repository.
-	 * @throws IncorrectObjectTypeException
+	 * @throws org.eclipse.jgit.errors.IncorrectObjectTypeException
 	 *             the given object id does not denote a tree, but instead names
 	 *             some other non-tree type of object. Note that commits are not
 	 *             trees, even if they are sometimes called a "tree-ish".
-	 * @throws CorruptObjectException
+	 * @throws org.eclipse.jgit.errors.CorruptObjectException
 	 *             the object claimed to be a tree, but its contents did not
 	 *             appear to be a tree. The repository may have data corruption.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             a loose object or pack file could not be read.
 	 */
 	public int addTree(final AnyObjectId id) throws MissingObjectException,
@@ -786,19 +821,19 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 *
 	 * @return true if there is an entry available; false if all entries have
 	 *         been walked and the walk of this set of tree iterators is over.
-	 * @throws MissingObjectException
+	 * @throws org.eclipse.jgit.errors.MissingObjectException
 	 *             {@link #isRecursive()} was enabled, a subtree was found, but
 	 *             the subtree object does not exist in this repository. The
 	 *             repository may be missing objects.
-	 * @throws IncorrectObjectTypeException
+	 * @throws org.eclipse.jgit.errors.IncorrectObjectTypeException
 	 *             {@link #isRecursive()} was enabled, a subtree was found, and
 	 *             the subtree id does not denote a tree, but instead names some
 	 *             other non-tree type of object. The repository may have data
 	 *             corruption.
-	 * @throws CorruptObjectException
+	 * @throws org.eclipse.jgit.errors.CorruptObjectException
 	 *             the contents of a tree did not appear to be a tree. The
 	 *             repository may have data corruption.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             a loose object or pack file could not be read.
 	 */
 	public boolean next() throws MissingObjectException,
@@ -873,8 +908,6 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 * iterators to manage only one list of items, with the diving handled by
 	 * recursive trees.
 	 *
-	 * @param <T>
-	 *            type of the tree iterator expected by the caller.
 	 * @param nth
 	 *            tree to obtain the current iterator of.
 	 * @param clazz
@@ -890,11 +923,13 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	}
 
 	/**
-	 * Obtain the raw {@link FileMode} bits for the current entry.
+	 * Obtain the raw {@link org.eclipse.jgit.lib.FileMode} bits for the current
+	 * entry.
 	 * <p>
 	 * Every added tree supplies mode bits, even if the tree does not contain
-	 * the current entry. In the latter case {@link FileMode#MISSING}'s mode
-	 * bits (0) are returned.
+	 * the current entry. In the latter case
+	 * {@link org.eclipse.jgit.lib.FileMode#MISSING}'s mode bits (0) are
+	 * returned.
 	 *
 	 * @param nth
 	 *            tree to obtain the mode bits from.
@@ -907,10 +942,11 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	}
 
 	/**
-	 * Obtain the {@link FileMode} for the current entry.
+	 * Obtain the {@link org.eclipse.jgit.lib.FileMode} for the current entry.
 	 * <p>
 	 * Every added tree supplies a mode, even if the tree does not contain the
-	 * current entry. In the latter case {@link FileMode#MISSING} is returned.
+	 * current entry. In the latter case
+	 * {@link org.eclipse.jgit.lib.FileMode#MISSING} is returned.
 	 *
 	 * @param nth
 	 *            tree to obtain the mode from.
@@ -921,7 +957,8 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	}
 
 	/**
-	 * Obtain the {@link FileMode} for the current entry on the currentHead tree
+	 * Obtain the {@link org.eclipse.jgit.lib.FileMode} for the current entry on
+	 * the currentHead tree
 	 *
 	 * @return mode for the current entry of the currentHead tree.
 	 * @since 4.3
@@ -939,11 +976,14 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 * whenever possible.
 	 * <p>
 	 * Every tree supplies an object id, even if the tree does not contain the
-	 * current entry. In the latter case {@link ObjectId#zeroId()} is returned.
+	 * current entry. In the latter case
+	 * {@link org.eclipse.jgit.lib.ObjectId#zeroId()} is returned.
 	 *
 	 * @param nth
 	 *            tree to obtain the object identifier from.
 	 * @return object identifier for the current tree entry.
+	 * @see #getObjectId(MutableObjectId, int)
+	 * @see #idEqual(int, int)
 	 * @see #getObjectId(MutableObjectId, int)
 	 * @see #idEqual(int, int)
 	 */
@@ -957,7 +997,8 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 * Obtain the ObjectId for the current entry.
 	 * <p>
 	 * Every tree supplies an object id, even if the tree does not contain the
-	 * current entry. In the latter case {@link ObjectId#zeroId()} is supplied.
+	 * current entry. In the latter case
+	 * {@link org.eclipse.jgit.lib.ObjectId#zeroId()} is supplied.
 	 * <p>
 	 * Applications should try to use {@link #idEqual(int, int)} when possible
 	 * as it avoids conversion overheads.
@@ -1055,6 +1096,8 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	}
 
 	/**
+	 * Get the path length of the current entry.
+	 *
 	 * @return The path length of the current entry.
 	 */
 	public int getPathLength() {
@@ -1243,17 +1286,17 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 * If the current entry is a subtree this method arranges for its children
 	 * to be returned before the next sibling following the subtree is returned.
 	 *
-	 * @throws MissingObjectException
+	 * @throws org.eclipse.jgit.errors.MissingObjectException
 	 *             a subtree was found, but the subtree object does not exist in
 	 *             this repository. The repository may be missing objects.
-	 * @throws IncorrectObjectTypeException
+	 * @throws org.eclipse.jgit.errors.IncorrectObjectTypeException
 	 *             a subtree was found, and the subtree id does not denote a
 	 *             tree, but instead names some other non-tree type of object.
 	 *             The repository may have data corruption.
-	 * @throws CorruptObjectException
+	 * @throws org.eclipse.jgit.errors.CorruptObjectException
 	 *             the contents of a tree did not appear to be a tree. The
 	 *             repository may have data corruption.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             a loose object or pack file could not be read.
 	 */
 	public void enterSubtree() throws MissingObjectException,
@@ -1359,10 +1402,14 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	}
 
 	/**
+	 * Get the tree of that type.
+	 *
 	 * @param type
 	 *            of the tree to be queried
-	 * @return the tree of that type or null if none is present
+	 * @return the tree of that type or null if none is present.
 	 * @since 4.3
+	 * @param <T>
+	 *            a tree type.
 	 */
 	public <T extends AbstractTreeIterator> T getTree(
 			Class<T> type) {
@@ -1383,7 +1430,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 *            which type of filterCommand should be executed. E.g. "clean",
 	 *            "smudge"
 	 * @return a filter command
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 * @since 4.2
 	 */
 	public String getFilterCommand(String filterCommandType)
