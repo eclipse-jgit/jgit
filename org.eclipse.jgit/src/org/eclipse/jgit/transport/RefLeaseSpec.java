@@ -47,6 +47,7 @@ import java.io.Serializable;
 
 /**
  * Describes the expected value for a ref being pushed.
+ *
  * @since 4.7
  */
 public class RefLeaseSpec implements Serializable {
@@ -59,6 +60,7 @@ public class RefLeaseSpec implements Serializable {
 	private final String expected;
 
 	/**
+	 * <p>Constructor for RefLeaseSpec.</p>
 	 *
 	 * @param ref
 	 *            ref being pushed
@@ -89,6 +91,7 @@ public class RefLeaseSpec implements Serializable {
 		return expected;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		final StringBuilder r = new StringBuilder();

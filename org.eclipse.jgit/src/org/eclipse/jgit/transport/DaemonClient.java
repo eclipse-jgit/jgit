@@ -54,7 +54,9 @@ import java.net.Socket;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 
-/** Active network client of {@link Daemon}. */
+/**
+ * Active network client of {@link org.eclipse.jgit.transport.Daemon}.
+ */
 public class DaemonClient {
 	private final Daemon daemon;
 
@@ -72,22 +74,38 @@ public class DaemonClient {
 		peer = ia;
 	}
 
-	/** @return the daemon which spawned this client. */
+	/**
+	 * Get the daemon which spawned this client.
+	 *
+	 * @return the daemon which spawned this client.
+	 */
 	public Daemon getDaemon() {
 		return daemon;
 	}
 
-	/** @return Internet address of the remote client. */
+	/**
+	 * Get Internet address of the remote client.
+	 *
+	 * @return Internet address of the remote client.
+	 */
 	public InetAddress getRemoteAddress() {
 		return peer;
 	}
 
-	/** @return input stream to read from the connected client. */
+	/**
+	 * Get input stream to read from the connected client.
+	 *
+	 * @return input stream to read from the connected client.
+	 */
 	public InputStream getInputStream() {
 		return rawIn;
 	}
 
-	/** @return output stream to send data to the connected client. */
+	/**
+	 * Get output stream to send data to the connected client.
+	 *
+	 * @return output stream to send data to the connected client.
+	 */
 	public OutputStream getOutputStream() {
 		return rawOut;
 	}

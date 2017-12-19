@@ -80,6 +80,8 @@ public class PackedObjectInfo extends ObjectIdOwnerMap.Entry {
 	}
 
 	/**
+	 * Get offset in pack when object has been already written
+	 *
 	 * @return offset in pack when object has been already written, or 0 if it
 	 *         has not been written yet
 	 */
@@ -98,6 +100,8 @@ public class PackedObjectInfo extends ObjectIdOwnerMap.Entry {
 	}
 
 	/**
+	 * Get the 32 bit CRC checksum for the packed data.
+	 *
 	 * @return the 32 bit CRC checksum for the packed data.
 	 */
 	public int getCRC() {
@@ -117,6 +121,8 @@ public class PackedObjectInfo extends ObjectIdOwnerMap.Entry {
 	}
 
 	/**
+	 * Get the object type.
+	 *
 	 * @return the object type. The default type is OBJ_BAD, which is considered
 	 *         as unknown or invalid type.
 	 * @since 4.9

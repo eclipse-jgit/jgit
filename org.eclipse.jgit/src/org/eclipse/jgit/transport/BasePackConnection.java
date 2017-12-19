@@ -170,9 +170,9 @@ abstract class BasePackConnection extends BaseConnection {
 	 * <p>
 	 * If any errors occur, this connection is automatically closed by invoking
 	 * {@link #close()} and the exception is wrapped (if necessary) and thrown
-	 * as a {@link TransportException}.
+	 * as a {@link org.eclipse.jgit.errors.TransportException}.
 	 *
-	 * @throws TransportException
+	 * @throws org.eclipse.jgit.errors.TransportException
 	 *             the reference list could not be scanned.
 	 */
 	protected void readAdvertisedRefs() throws TransportException {
@@ -267,10 +267,26 @@ abstract class BasePackConnection extends BaseConnection {
 		return new NoRemoteRepositoryException(uri, JGitText.get().notFound);
 	}
 
+	/**
+	 * Whether this option is supported
+	 *
+	 * @param option
+	 *            option string
+	 * @return whether this option is supported
+	 */
 	protected boolean isCapableOf(final String option) {
 		return remoteCapablities.contains(option);
 	}
 
+	/**
+	 * Request capability
+	 *
+	 * @param b
+	 *            buffer
+	 * @param option
+	 *            option we want
+	 * @return {@code true} if the requested option is supported
+	 */
 	protected boolean wantCapability(final StringBuilder b, final String option) {
 		if (!isCapableOf(option))
 			return false;
@@ -279,6 +295,12 @@ abstract class BasePackConnection extends BaseConnection {
 		return true;
 	}
 
+	/**
+	 * Add user agent capability
+	 *
+	 * @param b
+	 *            a {@link java.lang.StringBuilder} object.
+	 */
 	protected void addUserAgentCapability(StringBuilder b) {
 		String a = UserAgent.get();
 		if (a != null && UserAgent.hasAgent(remoteCapablities)) {
@@ -286,6 +308,7 @@ abstract class BasePackConnection extends BaseConnection {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String getPeerUserAgent() {
 		return UserAgent.getAgent(remoteCapablities, super.getPeerUserAgent());
@@ -295,6 +318,7 @@ abstract class BasePackConnection extends BaseConnection {
 		return new PackProtocolException(uri, MessageFormat.format(JGitText.get().duplicateAdvertisementsOf, name));
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		if (out != null) {
@@ -334,7 +358,9 @@ abstract class BasePackConnection extends BaseConnection {
 		}
 	}
 
-	/** Tell the peer we are disconnecting, if it cares to know. */
+	/**
+	 * Tell the peer we are disconnecting, if it cares to know.
+	 */
 	protected void endOut() {
 		if (outNeedsEnd && out != null) {
 			try {

@@ -95,6 +95,20 @@ abstract class WalkEncryption {
 	// consider permitting mixed ciphers to facilitate algorithm migration
 	// i.e. user keeps the password, but changes the algorithm
 	// then existing remote entries will still be readable
+	/**
+	 * Validate
+	 *
+	 * @param u
+	 *            a {@link java.net.HttpURLConnection} object.
+	 * @param prefix
+	 *            a {@link java.lang.String} object.
+	 * @param version
+	 *            a {@link java.lang.String} object.
+	 * @param name
+	 *            a {@link java.lang.String} object.
+	 * @throws java.io.IOException
+	 *             if any.
+	 */
 	protected void validateImpl(final HttpURLConnection u, final String prefix,
 			final String version, final String name) throws IOException {
 		String v;

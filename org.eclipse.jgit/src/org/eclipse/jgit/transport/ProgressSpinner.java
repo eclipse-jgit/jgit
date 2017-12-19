@@ -104,7 +104,9 @@ public class ProgressSpinner {
 		}
 	}
 
-	/** Update the spinner if it is showing. */
+	/**
+	 * Update the spinner if it is showing.
+	 */
 	public void update() {
 		long now = System.currentTimeMillis();
 		if (now >= nextUpdateMillis) {

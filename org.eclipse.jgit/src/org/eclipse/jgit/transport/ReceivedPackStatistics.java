@@ -46,7 +46,7 @@ package org.eclipse.jgit.transport;
 import org.eclipse.jgit.lib.Constants;
 
 /**
- * Statistics about {@link PackParser}.
+ * Statistics about {@link org.eclipse.jgit.transport.PackParser}.
  *
  * @since 4.6
  */
@@ -65,57 +65,101 @@ public class ReceivedPackStatistics {
 	private long numDeltaBlob;
 	private long numDeltaTag;
 
-	/** @return number of bytes read from the input stream */
+	/**
+	 * Get number of bytes read from the input stream
+	 *
+	 * @return number of bytes read from the input stream
+	 */
 	public long getNumBytesRead() {
 		return numBytesRead;
 	}
 
-	/** @return number of whole commit objects in the pack */
+	/**
+	 * Get number of whole commit objects in the pack
+	 *
+	 * @return number of whole commit objects in the pack
+	 */
 	public long getNumWholeCommit() {
 		return numWholeCommit;
 	}
 
-	/** @return number of whole tree objects in the pack */
+	/**
+	 * Get number of whole tree objects in the pack
+	 *
+	 * @return number of whole tree objects in the pack
+	 */
 	public long getNumWholeTree() {
 		return numWholeTree;
 	}
 
-	/** @return number of whole blob objects in the pack */
+	/**
+	 * Get number of whole blob objects in the pack
+	 *
+	 * @return number of whole blob objects in the pack
+	 */
 	public long getNumWholeBlob() {
 		return numWholeBlob;
 	}
 
-	/** @return number of whole tag objects in the pack */
+	/**
+	 * Get number of whole tag objects in the pack
+	 *
+	 * @return number of whole tag objects in the pack
+	 */
 	public long getNumWholeTag() {
 		return numWholeTag;
 	}
 
-	/** @return number of offset delta objects in the pack */
+	/**
+	 * Get number of offset delta objects in the pack
+	 *
+	 * @return number of offset delta objects in the pack
+	 */
 	public long getNumOfsDelta() {
 		return numOfsDelta;
 	}
 
-	/** @return number of ref delta objects in the pack */
+	/**
+	 * Get number of ref delta objects in the pack
+	 *
+	 * @return number of ref delta objects in the pack
+	 */
 	public long getNumRefDelta() {
 		return numRefDelta;
 	}
 
-	/** @return number of delta commit objects in the pack */
+	/**
+	 * Get number of delta commit objects in the pack
+	 *
+	 * @return number of delta commit objects in the pack
+	 */
 	public long getNumDeltaCommit() {
 		return numDeltaCommit;
 	}
 
-	/** @return number of delta tree objects in the pack */
+	/**
+	 * Get number of delta tree objects in the pack
+	 *
+	 * @return number of delta tree objects in the pack
+	 */
 	public long getNumDeltaTree() {
 		return numDeltaTree;
 	}
 
-	/** @return number of delta blob objects in the pack */
+	/**
+	 * Get number of delta blob objects in the pack
+	 *
+	 * @return number of delta blob objects in the pack
+	 */
 	public long getNumDeltaBlob() {
 		return numDeltaBlob;
 	}
 
-	/** @return number of delta tag objects in the pack */
+	/**
+	 * Get number of delta tag objects in the pack
+	 *
+	 * @return number of delta tag objects in the pack
+	 */
 	public long getNumDeltaTag() {
 		return numDeltaTag;
 	}

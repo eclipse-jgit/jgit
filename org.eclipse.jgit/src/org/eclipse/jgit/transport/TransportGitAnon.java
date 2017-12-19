@@ -121,16 +121,19 @@ class TransportGitAnon extends TcpTransport implements PackTransport {
 		super(uri);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public FetchConnection openFetch() throws TransportException {
 		return new TcpFetchConnection();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public PushConnection openPush() throws TransportException {
 		return new TcpPushConnection();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		// Resources must be established per-connection.

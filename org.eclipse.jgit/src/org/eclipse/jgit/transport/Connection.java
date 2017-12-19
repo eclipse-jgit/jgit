@@ -98,6 +98,8 @@ public interface Connection extends AutoCloseable {
 	public Ref getRef(final String name);
 
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * Close any resources used by this connection.
 	 * <p>
 	 * If the remote repository is contacted by a network socket this method

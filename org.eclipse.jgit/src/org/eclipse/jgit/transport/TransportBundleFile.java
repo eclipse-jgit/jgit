@@ -125,11 +125,20 @@ class TransportBundleFile extends Transport implements TransportBundle {
 		bundle = bundlePath;
 	}
 
+	/**
+	 * Constructor for TransportBundleFile.
+	 *
+	 * @param uri
+	 *            a {@link org.eclipse.jgit.transport.URIish} object.
+	 * @param bundlePath
+	 *            transport bundle path
+	 */
 	public TransportBundleFile(URIish uri, File bundlePath) {
 		super(uri);
 		bundle = bundlePath;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public FetchConnection openFetch() throws NotSupportedException,
 			TransportException {
@@ -142,12 +151,14 @@ class TransportBundleFile extends Transport implements TransportBundle {
 		return new BundleFetchConnection(this, src);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public PushConnection openPush() throws NotSupportedException {
 		throw new NotSupportedException(
 				JGitText.get().pushIsNotSupportedForBundleTransport);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		// Resources must be established per-connection.

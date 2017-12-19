@@ -46,14 +46,15 @@ package org.eclipse.jgit.transport;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
 
 /**
- * Logs activity that occurred within {@link UploadPack}.
+ * Logs activity that occurred within
+ * {@link org.eclipse.jgit.transport.UploadPack}.
  * <p>
  * Implementors of the interface are responsible for associating the current
  * thread to a particular connection, if they need to also include connection
  * information. One method is to use a {@link java.lang.ThreadLocal} to remember
  * the connection information before invoking UploadPack.
  *
- * @deprecated use {@link PostUploadHook} instead
+ * @deprecated use {@link org.eclipse.jgit.transport.PostUploadHook} instead
  */
 @Deprecated
 public interface UploadPackLogger { // TODO remove in JGit 5.0

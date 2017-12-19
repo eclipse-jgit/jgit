@@ -164,11 +164,13 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public FetchConnection openFetch() throws TransportException {
 		return new SshFetchConnection();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public PushConnection openPush() throws TransportException {
 		return new SshPushConnection();

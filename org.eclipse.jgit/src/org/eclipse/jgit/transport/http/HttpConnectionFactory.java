@@ -47,30 +47,33 @@ import java.net.Proxy;
 import java.net.URL;
 
 /**
- * The interface of a factory returning {@link HttpConnection}
+ * The interface of a factory returning
+ * {@link org.eclipse.jgit.transport.http.HttpConnection}
  *
  * @since 3.3
  */
 public interface HttpConnectionFactory {
 	/**
-	 * Creates a new connection to a destination defined by a {@link URL}
+	 * Creates a new connection to a destination defined by a
+	 * {@link java.net.URL}
 	 *
 	 * @param url
-	 * @return a {@link HttpConnection}
-	 * @throws IOException
+	 *            a {@link java.net.URL} object.
+	 * @return a {@link org.eclipse.jgit.transport.http.HttpConnection}
+	 * @throws java.io.IOException
 	 */
 	public HttpConnection create(URL url) throws IOException;
 
 	/**
-	 * Creates a new connection to a destination defined by a {@link URL} using
-	 * a proxy
+	 * Creates a new connection to a destination defined by a
+	 * {@link java.net.URL} using a proxy
 	 *
 	 * @param url
+	 *            a {@link java.net.URL} object.
 	 * @param proxy
 	 *            the proxy to be used
-	 * @return a {@link HttpConnection}
-	 *
-	 * @throws IOException
+	 * @return a {@link org.eclipse.jgit.transport.http.HttpConnection}
+	 * @throws java.io.IOException
 	 */
 	public HttpConnection create(URL url, Proxy proxy)
 			throws IOException;

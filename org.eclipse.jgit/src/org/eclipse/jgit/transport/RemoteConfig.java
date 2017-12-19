@@ -109,7 +109,7 @@ public class RemoteConfig implements Serializable {
 	 * @return all remotes configurations existing in provided repository
 	 *         configuration. Returned configurations are ordered
 	 *         lexicographically by names.
-	 * @throws URISyntaxException
+	 * @throws java.net.URISyntaxException
 	 *             one of the URIs within the remote's configuration is invalid.
 	 */
 	public static List<RemoteConfig> getAllRemoteConfigs(final Config rc)
@@ -157,7 +157,7 @@ public class RemoteConfig implements Serializable {
 	 *            The configuration must already be loaded into memory.
 	 * @param remoteName
 	 *            subsection key indicating the name of this remote.
-	 * @throws URISyntaxException
+	 * @throws java.net.URISyntaxException
 	 *             one of the URIs within the remote's configuration is invalid.
 	 */
 	public RemoteConfig(final Config rc, final String remoteName)
@@ -525,6 +525,8 @@ public class RemoteConfig implements Serializable {
 	}
 
 	/**
+	 * <p>isMirror.</p>
+	 *
 	 * @return true if pushing to the remote automatically deletes remote refs
 	 *         which don't exist on the source side.
 	 */
@@ -543,6 +545,11 @@ public class RemoteConfig implements Serializable {
 	}
 
 	/** @return timeout (in seconds) before aborting an IO operation. */
+	/**
+	 * <p>Getter for the field <code>timeout</code>.</p>
+	 *
+	 * @return a int.
+	 */
 	public int getTimeout() {
 		return timeout;
 	}

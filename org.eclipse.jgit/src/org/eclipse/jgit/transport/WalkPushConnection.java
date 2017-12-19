@@ -134,6 +134,7 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 		dest = w;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void push(final ProgressMonitor monitor,
 			final Map<String, RemoteRefUpdate> refUpdates)
@@ -141,6 +142,7 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 		push(monitor, refUpdates, null);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void push(final ProgressMonitor monitor,
 			final Map<String, RemoteRefUpdate> refUpdates, OutputStream out)
@@ -212,6 +214,7 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		dest.close();

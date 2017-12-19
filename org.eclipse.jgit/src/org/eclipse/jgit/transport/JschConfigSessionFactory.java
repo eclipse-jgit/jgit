@@ -70,7 +70,6 @@ import org.slf4j.LoggerFactory;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
-import com.jcraft.jsch.UserInfo;
 
 /**
  * The base session factory that loads known hosts and private keys from
@@ -81,8 +80,8 @@ import com.jcraft.jsch.UserInfo;
  * used by C Git.
  * <p>
  * The factory does not provide UI behavior. Override the method
- * {@link #configure(org.eclipse.jgit.transport.OpenSshConfig.Host, Session)}
- * to supply appropriate {@link UserInfo} to the session.
+ * {@link #configure(org.eclipse.jgit.transport.OpenSshConfig.Host, Session)} to
+ * supply appropriate {@link com.jcraft.jsch.UserInfo} to the session.
  */
 public abstract class JschConfigSessionFactory extends SshSessionFactory {
 
@@ -95,6 +94,7 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 
 	private OpenSshConfig config;
 
+	/** {@inheritDoc} */
 	@Override
 	public synchronized RemoteSession getSession(URIish uri,
 			CredentialsProvider credentialsProvider, FS fs, int tms)
@@ -248,7 +248,7 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 	 *            the file system abstraction which will be necessary to
 	 *            perform certain file system operations.
 	 * @return new session instance, but otherwise unconfigured.
-	 * @throws JSchException
+	 * @throws com.jcraft.jsch.JSchException
 	 *             the session could not be created.
 	 */
 	protected Session createSession(final OpenSshConfig.Host hc,
@@ -272,7 +272,8 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 
 	/**
 	 * Provide additional configuration for the session based on the host
-	 * information. This method could be used to supply {@link UserInfo}.
+	 * information. This method could be used to supply
+	 * {@link com.jcraft.jsch.UserInfo}.
 	 *
 	 * @param hc
 	 *            host configuration
@@ -290,7 +291,7 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 	 *            the file system abstraction which will be necessary to
 	 *            perform certain file system operations.
 	 * @return the JSch instance to use.
-	 * @throws JSchException
+	 * @throws com.jcraft.jsch.JSchException
 	 *             the user configuration could not be created.
 	 */
 	protected JSch getJSch(final OpenSshConfig.Host hc, FS fs) throws JSchException {
@@ -323,11 +324,13 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 	}
 
 	/**
+	 * Create default instance of jsch
+	 *
 	 * @param fs
-	 *            the file system abstraction which will be necessary to
-	 *            perform certain file system operations.
+	 *            the file system abstraction which will be necessary to perform
+	 *            certain file system operations.
 	 * @return the new default JSch implementation.
-	 * @throws JSchException
+	 * @throws com.jcraft.jsch.JSchException
 	 *             known host keys cannot be loaded.
 	 */
 	protected JSch createDefaultJSch(FS fs) throws JSchException {

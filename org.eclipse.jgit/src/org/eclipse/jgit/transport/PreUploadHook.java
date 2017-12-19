@@ -48,9 +48,11 @@ import java.util.Collection;
 import org.eclipse.jgit.lib.ObjectId;
 
 /**
- * Hook invoked by {@link UploadPack} before during critical phases.
+ * Hook invoked by {@link org.eclipse.jgit.transport.UploadPack} before during
+ * critical phases.
  * <p>
- * If any hook function throws {@link ServiceMayNotContinueException} then
+ * If any hook function throws
+ * {@link org.eclipse.jgit.transport.ServiceMayNotContinueException} then
  * processing stops immediately and the exception is thrown up the call stack.
  * Most phases of UploadPack will try to report the exception's message text to
  * the end-user over the client's protocol connection.
@@ -91,7 +93,7 @@ public interface PreUploadHook {
 	 *            the list of wanted objects.
 	 * @param cntOffered
 	 *            number of objects the client has offered.
-	 * @throws ServiceMayNotContinueException
+	 * @throws org.eclipse.jgit.transport.ServiceMayNotContinueException
 	 *             abort; the message will be sent to the user.
 	 */
 	public void onBeginNegotiateRound(UploadPack up,
@@ -115,7 +117,7 @@ public interface PreUploadHook {
 	 * @param ready
 	 *            true if a pack is ready to be sent (the commit graph was
 	 *            successfully cut).
-	 * @throws ServiceMayNotContinueException
+	 * @throws org.eclipse.jgit.transport.ServiceMayNotContinueException
 	 *             abort; the message will be sent to the user.
 	 */
 	public void onEndNegotiateRound(UploadPack up,
@@ -136,7 +138,7 @@ public interface PreUploadHook {
 	 *            the list of common objects. Empty on an initial clone request.
 	 *            These may be RevObject or RevCommit if the processed parsed
 	 *            them. Implementors should not rely on the values being parsed.
-	 * @throws ServiceMayNotContinueException
+	 * @throws org.eclipse.jgit.transport.ServiceMayNotContinueException
 	 *             abort; the message will be sent to the user.
 	 */
 	public void onSendPack(UploadPack up, Collection<? extends ObjectId> wants,

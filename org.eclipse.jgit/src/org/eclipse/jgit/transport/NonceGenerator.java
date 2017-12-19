@@ -55,6 +55,8 @@ import org.eclipse.jgit.transport.PushCertificate.NonceStatus;
 public interface NonceGenerator {
 
 	/**
+	 * Create nonce to be signed by the pusher
+	 *
 	 * @param db
 	 *            The repository which should be used to obtain a unique String
 	 *            such that the pusher cannot forge nonces by pushing to another
@@ -62,12 +64,14 @@ public interface NonceGenerator {
 	 * @param timestamp
 	 *            The current time in seconds.
 	 * @return The nonce to be signed by the pusher
-	 * @throws IllegalStateException
+	 * @throws java.lang.IllegalStateException
 	 */
 	public String createNonce(Repository db, long timestamp)
 			throws IllegalStateException;
 
 	/**
+	 * Verify trustworthiness of the received nonce.
+	 *
 	 * @param received
 	 *            The nonce which was received from the server
 	 * @param sent
@@ -76,7 +80,6 @@ public interface NonceGenerator {
 	 *            The repository which should be used to obtain a unique String
 	 *            such that the pusher cannot forge nonces by pushing to another
 	 *            repository at the same time as well and reusing the nonce.
-	 *
 	 * @param allowSlop
 	 *            If the receiving backend is is able to generate slop. This is
 	 *            the case for serving via http protocol using more than one
@@ -85,7 +88,6 @@ public interface NonceGenerator {
 	 * @param slop
 	 *            If `allowSlop` is true, this specifies the number of seconds
 	 *            which we allow as slop.
-	 *
 	 * @return a NonceStatus indicating the trustworthiness of the received
 	 *         nonce.
 	 */

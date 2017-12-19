@@ -70,7 +70,9 @@ public class FileResolver<C> implements RepositoryResolver<C> {
 
 	private final Collection<File> exportBase;
 
-	/** Initialize an empty file based resolver. */
+	/**
+	 * Initialize an empty file based resolver.
+	 */
 	public FileResolver() {
 		exports = new ConcurrentHashMap<>();
 		exportBase = new CopyOnWriteArrayList<>();
@@ -91,6 +93,7 @@ public class FileResolver<C> implements RepositoryResolver<C> {
 		setExportAll(exportAll);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Repository open(final C req, final String name)
 			throws RepositoryNotFoundException, ServiceNotEnabledException {
@@ -148,6 +151,9 @@ public class FileResolver<C> implements RepositoryResolver<C> {
 	}
 
 	/**
+	 * Whether <code>git-daemon-export-ok</code> is required to export a
+	 * repository
+	 *
 	 * @return false if <code>git-daemon-export-ok</code> is required to export
 	 *         a repository; true if <code>git-daemon-export-ok</code> is
 	 *         ignored.
@@ -167,7 +173,7 @@ public class FileResolver<C> implements RepositoryResolver<C> {
 	 * If true, all repositories are available through the daemon, whether or
 	 * not <code>git-daemon-export-ok</code> exists.
 	 *
-	 * @param export
+	 * @param export a boolean.
 	 */
 	public void setExportAll(final boolean export) {
 		exportAll = export;
@@ -214,7 +220,7 @@ public class FileResolver<C> implements RepositoryResolver<C> {
 	 * @param db
 	 *            the opened repository instance.
 	 * @return true if the repository is accessible; false if not.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the repository could not be accessed, the caller will claim
 	 *             the repository does not exist.
 	 */

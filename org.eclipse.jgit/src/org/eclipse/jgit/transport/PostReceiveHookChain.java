@@ -47,7 +47,8 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * {@link PostReceiveHook} that delegates to a list of other hooks.
+ * {@link org.eclipse.jgit.transport.PostReceiveHook} that delegates to a list
+ * of other hooks.
  * <p>
  * Hooks are run in the order passed to the constructor.
  */
@@ -77,6 +78,7 @@ public class PostReceiveHookChain implements PostReceiveHook {
 			return new PostReceiveHookChain(newHooks, i);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void onPostReceive(ReceivePack rp,
 			Collection<ReceiveCommand> commands) {
