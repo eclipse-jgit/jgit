@@ -111,10 +111,18 @@ public final class DfsBlockCache {
 		cache = new DfsBlockCache(cfg);
 	}
 
+	/** Clear the cache contents, reusing the previous configuration. */
+	public static void clear() {
+		reconfigure(cache.cfg);
+	}
+
 	/** @return the currently active DfsBlockCache. */
 	public static DfsBlockCache getInstance() {
 		return cache;
 	}
+
+	/** Config used to create this instance. */
+	private final DfsBlockCacheConfig cfg;
 
 	/** Number of entries in {@link #table}. */
 	private final int tableSize;
@@ -176,6 +184,9 @@ public final class DfsBlockCache {
 
 	@SuppressWarnings("unchecked")
 	private DfsBlockCache(final DfsBlockCacheConfig cfg) {
+		// Defensive copy since config is not immutable.
+		this.cfg = new DfsBlockCacheConfig(cfg);
+
 		tableSize = tableSize(cfg);
 		if (tableSize < 1)
 			throw new IllegalArgumentException(JGitText.get().tSizeMustBeGreaterOrEqual1);

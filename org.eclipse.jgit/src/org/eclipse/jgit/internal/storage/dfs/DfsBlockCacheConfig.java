@@ -77,6 +77,19 @@ public class DfsBlockCacheConfig {
 	}
 
 	/**
+	 * Create a configuration, copying values from another instance.
+	 *
+	 * @param cfg
+	 *            config to copy values from.
+	 */
+	public DfsBlockCacheConfig(DfsBlockCacheConfig cfg) {
+		setBlockLimit(cfg.getBlockLimit());
+		setBlockSize(cfg.getBlockSize());
+		setStreamRatio(cfg.getStreamRatio());
+		setConcurrencyLevel(cfg.getConcurrencyLevel());
+	}
+
+	/**
 	 * @return maximum number bytes of heap memory to dedicate to caching pack
 	 *         file data. <b>Default is 32 MB.</b>
 	 */
