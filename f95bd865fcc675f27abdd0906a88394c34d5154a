@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87929364_d409cd38",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeChunk.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-12-19T12:18:48Z",
+      "side": 1,
+      "message": "\"index of the sequence to which this\"",
+      "range": {
+        "startLine": 112,
+        "startChar": 12,
+        "endLine": 112,
+        "endChar": 56
+      },
+      "revId": "f95bd865fcc675f27abdd0906a88394c34d5154a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_f416c953",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeChunk.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-12-19T12:18:48Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 114,
+        "startChar": 16,
+        "endLine": 114,
+        "endChar": 55
+      },
+      "revId": "f95bd865fcc675f27abdd0906a88394c34d5154a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_1414354a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-12-19T12:18:48Z",
+      "side": 1,
+      "message": "Add a better description?",
+      "range": {
+        "startLine": 134,
+        "startChar": 4,
+        "endLine": 134,
+        "endChar": 20
+      },
+      "revId": "f95bd865fcc675f27abdd0906a88394c34d5154a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_342051a3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-12-19T12:18:48Z",
+      "side": 1,
+      "message": "an",
+      "range": {
+        "startLine": 122,
+        "startChar": 15,
+        "endLine": 122,
+        "endChar": 16
+      },
+      "revId": "f95bd865fcc675f27abdd0906a88394c34d5154a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_5425ddb1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-12-19T12:18:48Z",
+      "side": 1,
+      "message": "an",
+      "range": {
+        "startLine": 339,
+        "startChar": 15,
+        "endLine": 339,
+        "endChar": 16
+      },
+      "revId": "f95bd865fcc675f27abdd0906a88394c34d5154a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
