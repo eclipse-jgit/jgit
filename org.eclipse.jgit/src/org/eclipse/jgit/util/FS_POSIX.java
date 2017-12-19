@@ -86,7 +86,9 @@ public class FS_POSIX extends FS {
 		SUPPORTED, NOT_SUPPORTED, UNDEFINED
 	}
 
-	/** Default constructor. */
+	/**
+	 * Default constructor.
+	 */
 	protected FS_POSIX() {
 	}
 
@@ -134,6 +136,7 @@ public class FS_POSIX extends FS {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public FS newInstance() {
 		return new FS_POSIX(this);
@@ -181,6 +184,7 @@ public class FS_POSIX extends FS {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected File discoverGitExe() {
 		String path = SystemReader.getInstance().getenv("PATH"); //$NON-NLS-1$
@@ -211,21 +215,25 @@ public class FS_POSIX extends FS {
 		return gitExe;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean isCaseSensitive() {
 		return !SystemReader.getInstance().isMacOS();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean supportsExecute() {
 		return true;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean canExecute(File f) {
 		return FileUtils.canExecute(f);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean setExecute(File f, boolean canExecute) {
 		if (!isFile(f))
@@ -266,6 +274,7 @@ public class FS_POSIX extends FS {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public ProcessBuilder runInShell(String cmd, String[] args) {
 		List<String> argv = new ArrayList<>(4 + args.length);
@@ -279,9 +288,7 @@ public class FS_POSIX extends FS {
 		return proc;
 	}
 
-	/**
-	 * @since 4.0
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public ProcessResult runHookIfPresent(Repository repository, String hookName,
 			String[] args, PrintStream outRedirect, PrintStream errRedirect,
@@ -290,48 +297,43 @@ public class FS_POSIX extends FS {
 				errRedirect, stdinArgs);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean retryFailedLockFileCommit() {
 		return false;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean supportsSymlinks() {
 		return true;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void setHidden(File path, boolean hidden) throws IOException {
 		// no action on POSIX
 	}
 
-	/**
-	 * @since 3.3
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public Attributes getAttributes(File path) {
 		return FileUtils.getFileAttributesPosix(this, path);
 	}
 
-	/**
-	 * @since 3.3
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public File normalize(File file) {
 		return FileUtils.normalize(file);
 	}
 
-	/**
-	 * @since 3.3
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public String normalize(String name) {
 		return FileUtils.normalize(name);
 	}
 
-	/**
-	 * @since 3.7
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public File findHook(Repository repository, String hookName) {
 		final File gitdir = repository.getDirectory();
@@ -345,6 +347,7 @@ public class FS_POSIX extends FS {
 		return null;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean supportsAtomicCreateNewFile() {
 		if (supportsAtomicCreateNewFile == AtomicFileCreation.UNDEFINED) {
@@ -356,13 +359,15 @@ public class FS_POSIX extends FS {
 	@Override
 	@SuppressWarnings("boxing")
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * An implementation of the File#createNewFile() semantics which works also
 	 * on NFS. If the config option
 	 * {@code core.supportsAtomicCreateNewFile = true} (which is the default)
 	 * then simply File#createNewFile() is called.
 	 *
 	 * But if {@code core.supportsAtomicCreateNewFile = false} then after
-	 * successful creation of the lock file a hardlink to that lock file is
+	 * successful creation of the lock file a hard link to that lock file is
 	 * created and the attribute nlink of the lock file is checked to be 2. If
 	 * multiple clients manage to create the same lock file nlink would be
 	 * greater than 2 showing the error.

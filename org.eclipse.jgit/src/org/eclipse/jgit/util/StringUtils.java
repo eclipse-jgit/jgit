@@ -48,7 +48,9 @@ import java.util.Collection;
 
 import org.eclipse.jgit.internal.JGitText;
 
-/** Miscellaneous string comparison utility methods. */
+/**
+ * Miscellaneous string comparison utility methods.
+ */
 public final class StringUtils {
 	private static final char[] LC;
 
@@ -102,10 +104,12 @@ public final class StringUtils {
 	 *
 	 * <p>
 	 * Capitalizes a String changing the first letter to title case as per
-	 * {@link Character#toTitleCase(char)}. No other letters are changed.
+	 * {@link java.lang.Character#toTitleCase(char)}. No other letters are
+	 * changed.
 	 * </p>
 	 *
-	 * A <code>null</code> input String returns <code>null</code>.</p>
+	 * A <code>null</code> input String returns <code>null</code>.
+	 * </p>
 	 *
 	 * @param str
 	 *            the String to capitalize, may be null
@@ -156,9 +160,8 @@ public final class StringUtils {
 	 *            first string to compare.
 	 * @param b
 	 *            second string to compare.
-	 * @return negative, zero or positive if a sorts before, is equal to, or
-	 *         sorts after b.
 	 * @since 2.0
+	 * @return an int.
 	 */
 	public static int compareIgnoreCase(String a, String b) {
 		for (int i = 0; i < a.length() && i < b.length(); i++) {
@@ -179,9 +182,8 @@ public final class StringUtils {
 	 *            first string to compare.
 	 * @param b
 	 *            second string to compare.
-	 * @return negative, zero or positive if a sorts before, is equal to, or
-	 *         sorts after b.
 	 * @since 2.0
+	 * @return an int.
 	 */
 	public static int compareWithCase(String a, String b) {
 		for (int i = 0; i < a.length() && i < b.length(); i++) {
@@ -199,7 +201,7 @@ public final class StringUtils {
 	 * @param stringValue
 	 *            the string to parse.
 	 * @return the boolean interpretation of {@code value}.
-	 * @throws IllegalArgumentException
+	 * @throws java.lang.IllegalArgumentException
 	 *             if {@code value} is not recognized as one of the standard
 	 *             boolean names.
 	 */

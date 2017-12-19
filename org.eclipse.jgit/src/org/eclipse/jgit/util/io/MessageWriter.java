@@ -66,20 +66,24 @@ import org.eclipse.jgit.util.RawParseUtils;
  * {@link #toString()} returns all written data, after converting it to a String
  * under the assumption of UTF-8 encoding.
  * <p>
- * Internally {@link RawParseUtils#decode(byte[])} is used by {@code toString()}
- * tries to work out a reasonably correct character set for the raw data.
+ * Internally {@link org.eclipse.jgit.util.RawParseUtils#decode(byte[])} is used
+ * by {@code toString()} tries to work out a reasonably correct character set
+ * for the raw data.
  */
 public class MessageWriter extends Writer {
 	private final ByteArrayOutputStream buf;
 
 	private final OutputStreamWriter enc;
 
-	/** Create an empty writer. */
+	/**
+	 * Create an empty writer.
+	 */
 	public MessageWriter() {
 		buf = new ByteArrayOutputStream();
 		enc = new OutputStreamWriter(getRawStream(), Constants.CHARSET);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void write(char[] cbuf, int off, int len) throws IOException {
 		synchronized (buf) {
@@ -89,6 +93,9 @@ public class MessageWriter extends Writer {
 	}
 
 	/**
+	 * Get the underlying byte stream that character writes to this writer drop
+	 * into.
+	 *
 	 * @return the underlying byte stream that character writes to this writer
 	 *         drop into. Writes to this stream should should be in UTF-8.
 	 */
@@ -96,17 +103,20 @@ public class MessageWriter extends Writer {
 		return buf;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void close() throws IOException {
 		// Do nothing, we are buffered with no resources.
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void flush() throws IOException {
 		// Do nothing, we are buffered with no resources.
 	}
 
 	/** @return string version of all buffered data. */
+	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		return RawParseUtils.decode(buf.toByteArray());

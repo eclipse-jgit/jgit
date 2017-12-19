@@ -83,36 +83,43 @@ public class FS_Win32 extends FS {
 		super(src);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public FS newInstance() {
 		return new FS_Win32(this);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean supportsExecute() {
 		return false;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean canExecute(final File f) {
 		return false;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean setExecute(final File f, final boolean canExec) {
 		return false;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean isCaseSensitive() {
 		return false;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean retryFailedLockFileCommit() {
 		return true;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected File discoverGitExe() {
 		String path = SystemReader.getInstance().getenv("PATH"); //$NON-NLS-1$
@@ -141,6 +148,7 @@ public class FS_Win32 extends FS {
 		return gitExe;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected File userHomeImpl() {
 		String home = SystemReader.getInstance().getenv("HOME"); //$NON-NLS-1$
@@ -160,6 +168,7 @@ public class FS_Win32 extends FS {
 		return super.userHomeImpl();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public ProcessBuilder runInShell(String cmd, String[] args) {
 		List<String> argv = new ArrayList<>(3 + args.length);
@@ -172,6 +181,7 @@ public class FS_Win32 extends FS {
 		return proc;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean supportsSymlinks() {
 		if (supportSymlinks == null)
@@ -200,9 +210,7 @@ public class FS_Win32 extends FS {
 		}
 	}
 
-	/**
-	 * @since 3.3
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public Attributes getAttributes(File path) {
 		return FileUtils.getFileAttributesBasic(this, path);

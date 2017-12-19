@@ -151,12 +151,18 @@ public abstract class SystemReader {
 
 	private static SystemReader INSTANCE = DEFAULT;
 
-	/** @return the live instance to read system properties. */
+	/**
+	 * Get time since epoch, with up to millisecond resolution.
+	 *
+	 * @return time since epoch, with up to millisecond resolution.
+	 */
 	public static SystemReader getInstance() {
 		return INSTANCE;
 	}
 
 	/**
+	 * Set the new instance to use when accessing properties.
+	 *
 	 * @param newReader
 	 *            the new instance to use when accessing properties, or null for
 	 *            the default instance.
@@ -201,18 +207,26 @@ public abstract class SystemReader {
 	public abstract String getHostname();
 
 	/**
-	 * @param variable system variable to read
+	 * Get value of the system variable
+	 *
+	 * @param variable
+	 *            system variable to read
 	 * @return value of the system variable
 	 */
 	public abstract String getenv(String variable);
 
 	/**
-	 * @param key of the system property to read
+	 * Get value of the system property
+	 *
+	 * @param key
+	 *            of the system property to read
 	 * @return value of the system property
 	 */
 	public abstract String getProperty(String key);
 
 	/**
+	 * Open the git configuration found in the user home
+	 *
 	 * @param parent
 	 *            a config with values not found directly in the returned config
 	 * @param fs
@@ -223,6 +237,8 @@ public abstract class SystemReader {
 	public abstract FileBasedConfig openUserConfig(Config parent, FS fs);
 
 	/**
+	 * Open the gitonfig configuration found in the system-wide "etc" directory
+	 *
 	 * @param parent
 	 *            a config with values not found directly in the returned
 	 *            config. Null is a reasonable value here.
@@ -235,11 +251,15 @@ public abstract class SystemReader {
 	public abstract FileBasedConfig openSystemConfig(Config parent, FS fs);
 
 	/**
+	 * Get the current system time
+	 *
 	 * @return the current system time
 	 */
 	public abstract long getCurrentTime();
 
 	/**
+	 * Get clock instance preferred by this system.
+	 *
 	 * @return clock instance preferred by this system.
 	 * @since 4.6
 	 */
@@ -248,12 +268,17 @@ public abstract class SystemReader {
 	}
 
 	/**
-	 * @param when TODO
+	 * Get the local time zone
+	 *
+	 * @param when
+	 *            a system timestamp
 	 * @return the local time zone
 	 */
 	public abstract int getTimezone(long when);
 
 	/**
+	 * Get system time zone, possibly mocked for testing
+	 *
 	 * @return system time zone, possibly mocked for testing
 	 * @since 1.2
 	 */
@@ -262,6 +287,8 @@ public abstract class SystemReader {
 	}
 
 	/**
+	 * Get the locale to use
+	 *
 	 * @return the locale to use
 	 * @since 1.2
 	 */
@@ -274,7 +301,7 @@ public abstract class SystemReader {
 	 *
 	 * @param pattern
 	 *            the pattern as defined in
-	 *            {@link SimpleDateFormat#SimpleDateFormat(String)}
+	 *            {@link java.text.SimpleDateFormat#SimpleDateFormat(String)}
 	 * @return the simple date format
 	 * @since 2.0
 	 */
@@ -287,7 +314,7 @@ public abstract class SystemReader {
 	 *
 	 * @param pattern
 	 *            the pattern as defined in
-	 *            {@link SimpleDateFormat#SimpleDateFormat(String)}
+	 *            {@link java.text.SimpleDateFormat#SimpleDateFormat(String)}
 	 * @param locale
 	 *            locale to be used for the {@code SimpleDateFormat}
 	 * @return the simple date format
@@ -302,10 +329,10 @@ public abstract class SystemReader {
 	 *
 	 * @param dateStyle
 	 *            the date style as specified in
-	 *            {@link DateFormat#getDateTimeInstance(int, int)}
+	 *            {@link java.text.DateFormat#getDateTimeInstance(int, int)}
 	 * @param timeStyle
 	 *            the time style as specified in
-	 *            {@link DateFormat#getDateTimeInstance(int, int)}
+	 *            {@link java.text.DateFormat#getDateTimeInstance(int, int)}
 	 * @return the date format
 	 * @since 2.0
 	 */
@@ -314,7 +341,9 @@ public abstract class SystemReader {
 	}
 
 	/**
-	 * @return true if we are running on a Windows.
+	 * Whether we are running on Windows.
+	 *
+	 * @return true if we are running on Windows.
 	 */
 	public boolean isWindows() {
 		if (isWindows == null) {
@@ -325,6 +354,8 @@ public abstract class SystemReader {
 	}
 
 	/**
+	 * Whether we are running on Mac OS X
+	 *
 	 * @return true if we are running on Mac OS X
 	 */
 	public boolean isMacOS() {
@@ -351,7 +382,7 @@ public abstract class SystemReader {
 	 * Scans a multi-directory path string such as {@code "src/main.c"}.
 	 *
 	 * @param path path string to scan.
-	 * @throws CorruptObjectException path is invalid.
+	 * @throws org.eclipse.jgit.errors.CorruptObjectException path is invalid.
 	 * @since 3.6
 	 */
 	public void checkPath(String path) throws CorruptObjectException {
@@ -365,7 +396,7 @@ public abstract class SystemReader {
 	 *
 	 * @param path
 	 *            path string to scan.
-	 * @throws CorruptObjectException
+	 * @throws org.eclipse.jgit.errors.CorruptObjectException
 	 *             path is invalid.
 	 * @since 4.2
 	 */

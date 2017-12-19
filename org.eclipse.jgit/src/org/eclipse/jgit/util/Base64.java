@@ -19,14 +19,13 @@ import org.eclipse.jgit.internal.JGitText;
  * <p>
  * I am placing this code in the Public Domain. Do with it as you will. This
  * software comes with no guarantees or warranties but with plenty of
- * well-wishing instead! Please visit <a
- * href="http://iharder.net/base64">http://iharder.net/base64</a> periodically
- * to check for updates or to contribute improvements.
+ * well-wishing instead! Please visit
+ * <a href="http://iharder.net/base64">http://iharder.net/base64</a>
+ * periodically to check for updates or to contribute improvements.
  * </p>
  *
  * @author Robert Harder
  * @author rob@iharder.net
- * @version 2.1, stripped to minimum feature set used by JGit.
  */
 public class Base64 {
 	/** The equals sign (=) as a byte. */
@@ -248,7 +247,7 @@ public class Base64 {
 	 * @param len
 	 *            The length of characters to decode
 	 * @return decoded data
-	 * @throws IllegalArgumentException
+	 * @throws java.lang.IllegalArgumentException
 	 *             the input is not a valid Base64 sequence.
 	 */
 	public static byte[] decode(byte[] source, int off, int len) {

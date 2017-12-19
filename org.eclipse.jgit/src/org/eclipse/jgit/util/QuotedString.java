@@ -47,7 +47,9 @@ import java.util.Arrays;
 
 import org.eclipse.jgit.lib.Constants;
 
-/** Utility functions related to quoted string handling. */
+/**
+ * Utility functions related to quoted string handling.
+ */
 public abstract class QuotedString {
 	/** Quoting style that obeys the rules Git applies to file names */
 	public static final GitPathStyle GIT_PATH = new GitPathStyle();

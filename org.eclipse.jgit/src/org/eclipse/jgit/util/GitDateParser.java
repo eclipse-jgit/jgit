@@ -55,7 +55,7 @@ import java.util.Map;
 import org.eclipse.jgit.internal.JGitText;
 
 /**
- * Parses strings with time and date specifications into {@link Date}.
+ * Parses strings with time and date specifications into {@link java.util.Date}.
  *
  * When git needs to parse strings specified by the user this parser can be
  * used. One example is the parsing of the config parameter gc.pruneexpire. The
@@ -134,16 +134,17 @@ public class GitDateParser {
 	}
 
 	/**
-	 * Parses a string into a {@link Date} using the default locale. Since this
-	 * parser also supports relative formats (e.g. "yesterday") the caller can
-	 * specify the reference date. These types of strings can be parsed:
+	 * Parses a string into a {@link java.util.Date} using the default locale.
+	 * Since this parser also supports relative formats (e.g. "yesterday") the
+	 * caller can specify the reference date. These types of strings can be
+	 * parsed:
 	 * <ul>
 	 * <li>"never"</li>
 	 * <li>"now"</li>
 	 * <li>"yesterday"</li>
 	 * <li>"(x) years|months|weeks|days|hours|minutes|seconds ago"<br>
-	 * Multiple specs can be combined like in "2 weeks 3 days ago". Instead of
-	 * ' ' one can use '.' to seperate the words</li>
+	 * Multiple specs can be combined like in "2 weeks 3 days ago". Instead of '
+	 * ' one can use '.' to seperate the words</li>
 	 * <li>"yyyy-MM-dd HH:mm:ss Z" (ISO)</li>
 	 * <li>"EEE, dd MMM yyyy HH:mm:ss Z" (RFC)</li>
 	 * <li>"yyyy-MM-dd"</li>
@@ -161,11 +162,12 @@ public class GitDateParser {
 	 *            formats. E.g. if baseDate is "25.8.2012" then parsing of the
 	 *            string "1 week ago" would result in a date corresponding to
 	 *            "18.8.2012". This is used when a JGit command calls this
-	 *            parser often but wants a consistent starting point for calls.<br>
+	 *            parser often but wants a consistent starting point for
+	 *            calls.<br>
 	 *            If set to <code>null</code> then the current time will be used
 	 *            instead.
-	 * @return the parsed {@link Date}
-	 * @throws ParseException
+	 * @return the parsed {@link java.util.Date}
+	 * @throws java.text.ParseException
 	 *             if the given dateStr was not recognized
 	 */
 	public static Date parse(String dateStr, Calendar now)
@@ -174,16 +176,17 @@ public class GitDateParser {
 	}
 
 	/**
-	 * Parses a string into a {@link Date} using the given locale. Since this
-	 * parser also supports relative formats (e.g. "yesterday") the caller can
-	 * specify the reference date. These types of strings can be parsed:
+	 * Parses a string into a {@link java.util.Date} using the given locale.
+	 * Since this parser also supports relative formats (e.g. "yesterday") the
+	 * caller can specify the reference date. These types of strings can be
+	 * parsed:
 	 * <ul>
 	 * <li>"never"</li>
 	 * <li>"now"</li>
 	 * <li>"yesterday"</li>
 	 * <li>"(x) years|months|weeks|days|hours|minutes|seconds ago"<br>
-	 * Multiple specs can be combined like in "2 weeks 3 days ago". Instead of
-	 * ' ' one can use '.' to seperate the words</li>
+	 * Multiple specs can be combined like in "2 weeks 3 days ago". Instead of '
+	 * ' one can use '.' to seperate the words</li>
 	 * <li>"yyyy-MM-dd HH:mm:ss Z" (ISO)</li>
 	 * <li>"EEE, dd MMM yyyy HH:mm:ss Z" (RFC)</li>
 	 * <li>"yyyy-MM-dd"</li>
@@ -201,13 +204,14 @@ public class GitDateParser {
 	 *            formats. E.g. if baseDate is "25.8.2012" then parsing of the
 	 *            string "1 week ago" would result in a date corresponding to
 	 *            "18.8.2012". This is used when a JGit command calls this
-	 *            parser often but wants a consistent starting point for calls.<br>
+	 *            parser often but wants a consistent starting point for
+	 *            calls.<br>
 	 *            If set to <code>null</code> then the current time will be used
 	 *            instead.
 	 * @param locale
 	 *            locale to be used to parse the date string
-	 * @return the parsed {@link Date}
-	 * @throws ParseException
+	 * @return the parsed {@link java.util.Date}
+	 * @throws java.text.ParseException
 	 *             if the given dateStr was not recognized
 	 * @since 3.2
 	 */

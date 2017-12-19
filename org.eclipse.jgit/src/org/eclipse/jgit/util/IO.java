@@ -71,9 +71,9 @@ public class IO {
 	 * @param path
 	 *            location of the file to read.
 	 * @return complete contents of the requested local file.
-	 * @throws FileNotFoundException
+	 * @throws java.io.FileNotFoundException
 	 *             the file does not exist.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the file exists, but its contents cannot be read.
 	 */
 	public static final byte[] readFully(final File path)
@@ -91,9 +91,9 @@ public class IO {
 	 *            only the first limit number of bytes are returned
 	 * @return complete contents of the requested local file. If the contents
 	 *         exceeds the limit, then only the limit is returned.
-	 * @throws FileNotFoundException
+	 * @throws java.io.FileNotFoundException
 	 *             the file does not exist.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the file exists, but its contents cannot be read.
 	 */
 	public static final byte[] readSome(final File path, final int limit)
@@ -131,9 +131,9 @@ public class IO {
 	 *            maximum number of bytes to read, if the file is larger than
 	 *            this limit an IOException is thrown.
 	 * @return complete contents of the requested local file.
-	 * @throws FileNotFoundException
+	 * @throws java.io.FileNotFoundException
 	 *             the file does not exist.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the file exists, but its contents cannot be read.
 	 */
 	public static final byte[] readFully(final File path, final int max)
@@ -199,7 +199,7 @@ public class IO {
 	 *         on obtaining the underlying array for efficient data access. If
 	 *         {@code sizeHint} was too large, the array may be over-allocated,
 	 *         resulting in {@code limit() < array().length}.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             there was an error reading from the stream.
 	 */
 	public static ByteBuffer readWholeStream(InputStream in, int sizeHint)
@@ -238,7 +238,7 @@ public class IO {
 	 *            number of bytes that must be read.
 	 * @throws EOFException
 	 *             the stream ended before dst was fully populated.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             there was an error reading from the stream.
 	 */
 	public static void readFully(final InputStream fd, final byte[] dst,
@@ -264,7 +264,7 @@ public class IO {
 	 * @param len
 	 *            number of bytes that should be read.
 	 * @return number of bytes actually read.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             there was an error reading from the channel.
 	 */
 	public static int read(ReadableByteChannel channel, byte[] dst, int off,
@@ -293,7 +293,7 @@ public class IO {
 	 * @param off
 	 *            position within the buffer to start writing to.
 	 * @return number of bytes in buffer or stream, whichever is shortest
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             there was an error reading from the stream.
 	 */
 	public static int readFully(InputStream fd, byte[] dst, int off)
@@ -322,7 +322,7 @@ public class IO {
 	 * @throws EOFException
 	 *             the stream ended before the requested number of bytes were
 	 *             skipped.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             there was an error reading from the stream.
 	 */
 	public static void skipFully(final InputStream fd, long toSkip)
@@ -384,7 +384,7 @@ public class IO {
 	 *            hint for buffer sizing; 0 or negative for default.
 	 * @return the next line from the input, always ending in {@code \n} unless
 	 *         EOF was reached.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             there was an error reading from the stream.
 	 * @since 4.1
 	 */

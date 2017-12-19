@@ -46,14 +46,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import org.eclipse.jgit.attributes.Attributes;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.CoreConfig.EolStreamType;
 import org.eclipse.jgit.treewalk.TreeWalk.OperationType;
 import org.eclipse.jgit.treewalk.WorkingTreeOptions;
 
 /**
  * Utility used to create input and output stream wrappers for
- * {@link EolStreamType}
+ * {@link org.eclipse.jgit.lib.CoreConfig.EolStreamType}
  *
  * @since 4.3
  */
@@ -73,16 +72,21 @@ public final class EolStreamTypeUtil {
 	 * <li>working tree .gitattributes</li>
 	 *
 	 * @param op
-	 *            is the {@link OperationType} of the current traversal
+	 *            is the
+	 *            {@link org.eclipse.jgit.treewalk.TreeWalk.OperationType} of
+	 *            the current traversal
 	 * @param options
-	 *            are the {@link Config} options with key
-	 *            {@link WorkingTreeOptions#KEY}
+	 *            are the {@link org.eclipse.jgit.lib.Config} options with key
+	 *            {@link org.eclipse.jgit.treewalk.WorkingTreeOptions#KEY}
 	 * @param attrs
-	 *            are the {@link Attributes} of the file for which the
-	 *            {@link EolStreamType} is to be detected
-	 *
-	 * @return the stream conversion {@link EolStreamType} to be performed for
-	 *         the selected {@link OperationType}
+	 *            are the {@link org.eclipse.jgit.attributes.Attributes} of the
+	 *            file for which the
+	 *            {@link org.eclipse.jgit.lib.CoreConfig.EolStreamType} is to be
+	 *            detected
+	 * @return the stream conversion
+	 *         {@link org.eclipse.jgit.lib.CoreConfig.EolStreamType} to be
+	 *         performed for the selected
+	 *         {@link org.eclipse.jgit.treewalk.TreeWalk.OperationType}
 	 */
 	public static EolStreamType detectStreamType(OperationType op,
 			WorkingTreeOptions options, Attributes attrs) {
@@ -97,11 +101,15 @@ public final class EolStreamTypeUtil {
 	}
 
 	/**
+	 * Wrap the input stream depending on
+	 * {@link org.eclipse.jgit.lib.CoreConfig.EolStreamType}
+	 *
 	 * @param in
 	 *            original stream
 	 * @param conversion
 	 *            to be performed
-	 * @return the converted stream depending on {@link EolStreamType}
+	 * @return the converted stream depending on
+	 *         {@link org.eclipse.jgit.lib.CoreConfig.EolStreamType}
 	 */
 	public static InputStream wrapInputStream(InputStream in,
 			EolStreamType conversion) {
@@ -120,11 +128,15 @@ public final class EolStreamTypeUtil {
 	}
 
 	/**
+	 * Wrap the output stream depending on
+	 * {@link org.eclipse.jgit.lib.CoreConfig.EolStreamType}
+	 *
 	 * @param out
 	 *            original stream
 	 * @param conversion
 	 *            to be performed
-	 * @return the converted stream depending on {@link EolStreamType}
+	 * @return the converted stream depending on
+	 *         {@link org.eclipse.jgit.lib.CoreConfig.EolStreamType}
 	 */
 	public static OutputStream wrapOutputStream(OutputStream out,
 			EolStreamType conversion) {

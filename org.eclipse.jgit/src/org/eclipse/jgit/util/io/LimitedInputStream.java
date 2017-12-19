@@ -51,13 +51,13 @@ import java.io.InputStream;
 import org.eclipse.jgit.internal.JGitText;
 
 /**
- * Wraps a {@link InputStream}, limiting the number of bytes which can be
- * read.
+ * Wraps a {@link java.io.InputStream}, limiting the number of bytes which can
+ * be read.
  *
- * This class was copied and modifed from the Google Guava 16.0. Differently from
- * the original Guava code, when a caller tries to read from this stream past
- * the given limit and the wrapped stream hasn't yet reached its EOF this class
- * will call the limitExceeded method instead of returning EOF.
+ * This class was copied and modifed from the Google Guava 16.0. Differently
+ * from the original Guava code, when a caller tries to read from this stream
+ * past the given limit and the wrapped stream hasn't yet reached its EOF this
+ * class will call the limitExceeded method instead of returning EOF.
  *
  * @since 3.3
  */
@@ -80,18 +80,21 @@ public abstract class LimitedInputStream extends FilterInputStream {
 		this.limit = limit;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int available() throws IOException {
 		return (int) Math.min(in.available(), left);
 	}
 
 	// it's okay to mark even if mark isn't supported, as reset won't work
+	/** {@inheritDoc} */
 	@Override
 	public synchronized void mark(int readLimit) {
 		in.mark(readLimit);
 		mark = left;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int read() throws IOException {
 		if (left == 0) {
@@ -107,6 +110,7 @@ public abstract class LimitedInputStream extends FilterInputStream {
 		return result;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int read(byte[] b, int off, int len) throws IOException {
 		if (left == 0) {
@@ -123,6 +127,7 @@ public abstract class LimitedInputStream extends FilterInputStream {
 		return result;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public synchronized void reset() throws IOException {
 		if (!in.markSupported())
@@ -135,6 +140,7 @@ public abstract class LimitedInputStream extends FilterInputStream {
 		left = mark;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public long skip(long n) throws IOException {
 		n = Math.min(n, left);
@@ -147,10 +153,11 @@ public abstract class LimitedInputStream extends FilterInputStream {
 	 * Called when trying to read past the given {@link #limit} and the wrapped
 	 * InputStream {@link #in} hasn't yet reached its EOF
 	 *
-	 * @throws IOException
-	 *            subclasses can throw an IOException when the limit is exceeded.
-	 *            The throws IOException will be forwarded back to the caller of
-	 *            the read method which read the stream past the limit.
+	 * @throws java.io.IOException
+	 *             subclasses can throw an {@link java.io.IOException} when the
+	 *             limit is exceeded. The throws java.io.IOException will be
+	 *             forwarded back to the caller of the read method which read
+	 *             the stream past the limit.
 	 */
 	protected abstract void limitExceeded() throws IOException;
 }

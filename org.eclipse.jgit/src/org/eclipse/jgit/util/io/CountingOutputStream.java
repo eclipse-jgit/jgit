@@ -46,7 +46,9 @@ package org.eclipse.jgit.util.io;
 import java.io.IOException;
 import java.io.OutputStream;
 
-/** Counts the number of bytes written. */
+/**
+ * Counts the number of bytes written.
+ */
 public class CountingOutputStream extends OutputStream {
 	private final OutputStream out;
 	private long cnt;
@@ -61,28 +63,36 @@ public class CountingOutputStream extends OutputStream {
 		this.out = out;
 	}
 
-	/** @return current number of bytes written. */
+	/**
+	 * Get current number of bytes written.
+	 *
+	 * @return current number of bytes written.
+	 */
 	public long getCount() {
 		return cnt;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void write(int val) throws IOException {
 		out.write(val);
 		cnt++;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void write(byte[] buf, int off, int len) throws IOException {
 		out.write(buf, off, len);
 		cnt += len;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void flush() throws IOException {
 		out.flush();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void close() throws IOException {
 		out.close();

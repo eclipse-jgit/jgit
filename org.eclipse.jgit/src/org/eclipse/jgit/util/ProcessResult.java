@@ -86,6 +86,8 @@ public class ProcessResult {
 	}
 
 	/**
+	 * <p>Constructor for ProcessResult.</p>
+	 *
 	 * @param exitCode
 	 *            Exit code of the process.
 	 * @param status
@@ -97,6 +99,8 @@ public class ProcessResult {
 	}
 
 	/**
+	 * Get exit code of the process.
+	 *
 	 * @return The exit code of the process.
 	 */
 	public int getExitCode() {
@@ -104,6 +108,8 @@ public class ProcessResult {
 	}
 
 	/**
+	 * Get the status of the process' execution.
+	 *
 	 * @return The status of the process' execution.
 	 */
 	public Status getStatus() {
@@ -111,6 +117,8 @@ public class ProcessResult {
 	}
 
 	/**
+	 * Whether the execution occurred and resulted in an error
+	 *
 	 * @return <code>true</code> if the execution occurred and resulted in a
 	 *         return code different from 0, <code>false</code> otherwise.
 	 * @since 4.0

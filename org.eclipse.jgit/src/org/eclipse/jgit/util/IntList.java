@@ -44,13 +44,17 @@
 
 package org.eclipse.jgit.util;
 
-/** A more efficient List&lt;Integer&gt; using a primitive integer array. */
+/**
+ * A more efficient List&lt;Integer&gt; using a primitive integer array.
+ */
 public class IntList {
 	private int[] entries;
 
 	private int count;
 
-	/** Create an empty list with a default capacity. */
+	/**
+	 * Create an empty list with a default capacity.
+	 */
 	public IntList() {
 		this(10);
 	}
@@ -65,7 +69,11 @@ public class IntList {
 		entries = new int[capacity];
 	}
 
-	/** @return number of entries in this list */
+	/**
+	 * Get number of entries in this list.
+	 *
+	 * @return number of entries in this list.
+	 */
 	public int size() {
 		return count;
 	}
@@ -86,10 +94,12 @@ public class IntList {
 	}
 
 	/**
+	 * Get the value at the specified index
+	 *
 	 * @param i
 	 *            index to read, must be in the range [0, {@link #size()}).
 	 * @return the number at the specified index
-	 * @throws ArrayIndexOutOfBoundsException
+	 * @throws java.lang.ArrayIndexOutOfBoundsException
 	 *             the index outside the valid range
 	 */
 	public int get(final int i) {
@@ -98,7 +108,9 @@ public class IntList {
 		return entries[i];
 	}
 
-	/** Empty this list */
+	/**
+	 * Empty this list
+	 */
 	public void clear() {
 		count = 0;
 	}
@@ -153,6 +165,7 @@ public class IntList {
 		entries = n;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		final StringBuilder r = new StringBuilder();

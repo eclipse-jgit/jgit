@@ -48,7 +48,9 @@ import java.io.InputStream;
 import java.io.InterruptedIOException;
 import java.io.OutputStream;
 
-/** Thread to copy from an input stream to an output stream. */
+/**
+ * Thread to copy from an input stream to an output stream.
+ */
 public class StreamCopyThread extends Thread {
 	private static final int BUFFER_SIZE = 1024;
 
@@ -98,7 +100,7 @@ public class StreamCopyThread extends Thread {
 	 * This method signals to the copy thread that it should stop as soon as
 	 * there is no more IO occurring.
 	 *
-	 * @throws InterruptedException
+	 * @throws java.lang.InterruptedException
 	 *             the calling thread was interrupted.
 	 */
 	public void halt() throws InterruptedException {
@@ -112,6 +114,7 @@ public class StreamCopyThread extends Thread {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void run() {
 		try {

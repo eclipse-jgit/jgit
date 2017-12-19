@@ -54,7 +54,8 @@ import org.eclipse.jgit.lib.PersonIdent;
  * A utility for formatting dates according to the Git log.date formats plus
  * extensions.
  * <p>
- * The enum {@link Format} defines the available types.
+ * The enum {@link org.eclipse.jgit.util.GitDateFormatter.Format} defines the
+ * available types.
  */
 public class GitDateFormatter {
 
@@ -119,6 +120,8 @@ public class GitDateFormatter {
 	 * Create a new Git oriented date formatter
 	 *
 	 * @param format
+	 *            a {@link org.eclipse.jgit.util.GitDateFormatter.Format}
+	 *            object.
 	 */
 	public GitDateFormatter(Format format) {
 		this.format = format;
@@ -159,6 +162,7 @@ public class GitDateFormatter {
 	 * specification.
 	 *
 	 * @param ident
+	 *            a {@link org.eclipse.jgit.lib.PersonIdent} object.
 	 * @return formatted version of date, time and time zone
 	 */
 	@SuppressWarnings("boxing")
