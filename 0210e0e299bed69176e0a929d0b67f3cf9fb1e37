@@ -16,6 +16,23 @@
       "revId": "0210e0e299bed69176e0a929d0b67f3cf9fb1e37",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_d96f3e1f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TransportCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-12-19T19:42:12Z",
+      "side": 1,
+      "message": "What happened here?",
+      "revId": "0210e0e299bed69176e0a929d0b67f3cf9fb1e37",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
