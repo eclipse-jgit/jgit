@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87929364_b4e521ca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileBasedConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-12-19T12:30:10Z",
+      "side": 1,
+      "message": "Add a better description?",
+      "range": {
+        "startLine": 244,
+        "startChar": 4,
+        "endLine": 244,
+        "endChar": 22
+      },
+      "revId": "4f0676911fa9cae09645b4a35473baa47a7f6579",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_d4e2adbe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileBasedConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-12-19T12:30:10Z",
+      "side": 1,
+      "message": "whitespace",
+      "range": {
+        "startLine": 255,
+        "startChar": 3,
+        "endLine": 255,
+        "endChar": 4
+      },
+      "revId": "4f0676911fa9cae09645b4a35473baa47a7f6579",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_f4dfa9f7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/WindowCacheConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-12-19T12:30:10Z",
+      "side": 1,
+      "message": "Add a better description?",
+      "range": {
+        "startLine": 117,
+        "startChar": 4,
+        "endLine": 117,
+        "endChar": 60
+      },
+      "revId": "4f0676911fa9cae09645b4a35473baa47a7f6579",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_14dd1500",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/WindowCacheConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-12-19T12:30:10Z",
+      "side": 1,
+      "message": "\"Set\"?",
+      "range": {
+        "startLine": 160,
+        "startChar": 3,
+        "endLine": 160,
+        "endChar": 4
+      },
+      "revId": "4f0676911fa9cae09645b4a35473baa47a7f6579",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
