@@ -51,7 +51,6 @@ import java.nio.CharBuffer;
 
 import org.eclipse.jgit.attributes.AttributesHandler;
 import org.eclipse.jgit.attributes.AttributesNode;
-import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.lib.Constants;
@@ -59,7 +58,6 @@ import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
-import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.Paths;
 
 /**
@@ -154,7 +152,9 @@ public abstract class AbstractTreeIterator {
 	 */
 	protected int pathLen;
 
-	/** Create a new iterator with no parent. */
+	/**
+	 * Create a new iterator with no parent.
+	 */
 	protected AbstractTreeIterator() {
 		parent = null;
 		path = new byte[DEFAULT_PATH_SIZE];
@@ -341,7 +341,7 @@ public abstract class AbstractTreeIterator {
 	 * @param name
 	 *            file name to find (will not find a directory).
 	 * @return true if the file exists in this tree; false otherwise.
-	 * @throws CorruptObjectException
+	 * @throws org.eclipse.jgit.errors.CorruptObjectException
 	 *             tree is invalid.
 	 * @since 4.2
 	 */
@@ -355,7 +355,7 @@ public abstract class AbstractTreeIterator {
 	 * @param name
 	 *            file name to find (will not find a directory).
 	 * @return true if the file exists in this tree; false otherwise.
-	 * @throws CorruptObjectException
+	 * @throws org.eclipse.jgit.errors.CorruptObjectException
 	 *             tree is invalid.
 	 * @since 4.2
 	 */
@@ -425,7 +425,11 @@ public abstract class AbstractTreeIterator {
 				otherIterator.idBuffer(), otherIterator.idOffset());
 	}
 
-	/** @return true if the entry has a valid ObjectId. */
+	/**
+	 * Whether the entry has a valid ObjectId.
+	 *
+	 * @return {@code true} if the entry has a valid ObjectId.
+	 */
 	public abstract boolean hasId();
 
 	/**
@@ -447,17 +451,29 @@ public abstract class AbstractTreeIterator {
 		out.fromRaw(idBuffer(), idOffset());
 	}
 
-	/** @return the file mode of the current entry. */
+	/**
+	 * Get the file mode of the current entry.
+	 *
+	 * @return the file mode of the current entry.
+	 */
 	public FileMode getEntryFileMode() {
 		return FileMode.fromBits(mode);
 	}
 
-	/** @return the file mode of the current entry as bits */
+	/**
+	 * Get the file mode of the current entry as bits.
+	 *
+	 * @return the file mode of the current entry as bits.
+	 */
 	public int getEntryRawMode() {
 		return mode;
 	}
 
-	/** @return path of the current entry, as a string. */
+	/**
+	 * Get path of the current entry, as a string.
+	 *
+	 * @return path of the current entry, as a string.
+	 */
 	public String getEntryPathString() {
 		return TreeWalk.pathOf(this);
 	}
@@ -474,7 +490,11 @@ public abstract class AbstractTreeIterator {
 		return path;
 	}
 
-	/** @return length of the path in {@link #getEntryPathBuffer()}. */
+	/**
+	 * Get length of the path in {@link #getEntryPathBuffer()}.
+	 *
+	 * @return length of the path in {@link #getEntryPathBuffer()}.
+	 */
 	public int getEntryPathLength() {
 		return pathLen;
 	}
@@ -529,10 +549,10 @@ public abstract class AbstractTreeIterator {
 	 * @param reader
 	 *            reader to load the tree data from.
 	 * @return a new parser that walks over the current subtree.
-	 * @throws IncorrectObjectTypeException
+	 * @throws org.eclipse.jgit.errors.IncorrectObjectTypeException
 	 *             the current entry is not actually a tree and cannot be parsed
 	 *             as though it were a tree.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             a loose object or pack file could not be read.
 	 */
 	public abstract AbstractTreeIterator createSubtreeIterator(
@@ -560,10 +580,10 @@ public abstract class AbstractTreeIterator {
 	 * @param idBuffer
 	 *            temporary ObjectId buffer for use by this method.
 	 * @return a new parser that walks over the current subtree.
-	 * @throws IncorrectObjectTypeException
+	 * @throws org.eclipse.jgit.errors.IncorrectObjectTypeException
 	 *             the current entry is not actually a tree and cannot be parsed
 	 *             as though it were a tree.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             a loose object or pack file could not be read.
 	 */
 	public AbstractTreeIterator createSubtreeIterator(
@@ -580,7 +600,7 @@ public abstract class AbstractTreeIterator {
 	 * method of repositioning the iterator to its first entry, so subclasses
 	 * are strongly encouraged to override the method.
 	 *
-	 * @throws CorruptObjectException
+	 * @throws org.eclipse.jgit.errors.CorruptObjectException
 	 *             the tree is invalid.
 	 */
 	public void reset() throws CorruptObjectException {
@@ -629,7 +649,7 @@ public abstract class AbstractTreeIterator {
 	 * @param delta
 	 *            number of entries to move the iterator by. Must be a positive,
 	 *            non-zero integer.
-	 * @throws CorruptObjectException
+	 * @throws org.eclipse.jgit.errors.CorruptObjectException
 	 *             the tree is invalid.
 	 */
 	public abstract void next(int delta) throws CorruptObjectException;
@@ -653,7 +673,7 @@ public abstract class AbstractTreeIterator {
 	 * @param delta
 	 *            number of entries to move the iterator by. Must be a positive,
 	 *            non-zero integer.
-	 * @throws CorruptObjectException
+	 * @throws org.eclipse.jgit.errors.CorruptObjectException
 	 *             the tree is invalid.
 	 */
 	public abstract void back(int delta) throws CorruptObjectException;
@@ -662,11 +682,12 @@ public abstract class AbstractTreeIterator {
 	 * Advance to the next tree entry, populating this iterator with its data.
 	 * <p>
 	 * This method behaves like <code>seek(1)</code> but is called by
-	 * {@link TreeWalk} only if a {@link TreeFilter} was used and ruled out the
-	 * current entry from the results. In such cases this tree iterator may
-	 * perform special behavior.
+	 * {@link org.eclipse.jgit.treewalk.TreeWalk} only if a
+	 * {@link org.eclipse.jgit.treewalk.filter.TreeFilter} was used and ruled
+	 * out the current entry from the results. In such cases this tree iterator
+	 * may perform special behavior.
 	 *
-	 * @throws CorruptObjectException
+	 * @throws org.eclipse.jgit.errors.CorruptObjectException
 	 *             the tree is invalid.
 	 */
 	public void skip() throws CorruptObjectException {
@@ -685,7 +706,9 @@ public abstract class AbstractTreeIterator {
 	}
 
 	/**
-	 * @return true if the iterator implements {@link #stopWalk()}.
+	 * Whether the iterator implements {@link #stopWalk()}.
+	 *
+	 * @return {@code true} if the iterator implements {@link #stopWalk()}.
 	 * @since 4.2
 	 */
 	protected boolean needsStopWalk() {
@@ -693,14 +716,18 @@ public abstract class AbstractTreeIterator {
 	}
 
 	/**
-	 * @return the length of the name component of the path for the current entry
+	 * Get the length of the name component of the path for the current entry.
+	 *
+	 * @return the length of the name component of the path for the current
+	 *         entry.
 	 */
 	public int getNameLength() {
 		return pathLen - pathOffset;
 	}
 
 	/**
-	 * JGit internal API for use by {@link DirCacheCheckout}
+	 * JGit internal API for use by
+	 * {@link org.eclipse.jgit.dircache.DirCacheCheckout}
 	 *
 	 * @return start of name component part within {@link #getEntryPathBuffer()}
 	 * @since 2.0
@@ -724,6 +751,7 @@ public abstract class AbstractTreeIterator {
 		System.arraycopy(path, pathOffset, buffer, offset, pathLen - pathOffset);
 	}
 
+	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
@@ -731,8 +759,10 @@ public abstract class AbstractTreeIterator {
 	}
 
 	/**
-	 * @return whether or not this Iterator is iterating through the Work Tree
+	 * Whether or not this Iterator is iterating through the working tree.
 	 *
+	 * @return whether or not this Iterator is iterating through the working
+	 *         tree
 	 * @since 4.3
 	 */
 	public boolean isWorkTree() {

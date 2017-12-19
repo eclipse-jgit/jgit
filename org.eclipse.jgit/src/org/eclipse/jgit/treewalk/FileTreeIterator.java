@@ -63,7 +63,8 @@ import org.eclipse.jgit.util.FS;
  * Working directory iterator for standard Java IO.
  * <p>
  * This iterator uses the standard <code>java.io</code> package to read the
- * specified working directory as part of a {@link TreeWalk}.
+ * specified working directory as part of a
+ * {@link org.eclipse.jgit.treewalk.TreeWalk}.
  */
 public class FileTreeIterator extends WorkingTreeIterator {
 	/**
@@ -108,7 +109,6 @@ public class FileTreeIterator extends WorkingTreeIterator {
 	 * @param fileModeStrategy
 	 *            the strategy to use to determine the FileMode for a FileEntry;
 	 *            controls gitlinks etc.
-	 *
 	 * @since 4.3
 	 */
 	public FileTreeIterator(Repository repo, FileModeStrategy fileModeStrategy) {
@@ -148,7 +148,6 @@ public class FileTreeIterator extends WorkingTreeIterator {
 	 * @param fileModeStrategy
 	 *            the strategy to use to determine the FileMode for a FileEntry;
 	 *            controls gitlinks etc.
-	 *
 	 * @since 4.3
 	 */
 	public FileTreeIterator(final File root, FS fs, WorkingTreeOptions options,
@@ -192,7 +191,6 @@ public class FileTreeIterator extends WorkingTreeIterator {
 	 * @param fs
 	 *            the file system abstraction which will be necessary to perform
 	 *            certain file system operations.
-	 *
 	 * @since 4.3
 	 */
 	protected FileTreeIterator(final FileTreeIterator p, final File root,
@@ -215,7 +213,6 @@ public class FileTreeIterator extends WorkingTreeIterator {
 	 * @param fileModeStrategy
 	 *            the strategy to use to determine the FileMode for a given
 	 *            FileEntry.
-	 *
 	 * @since 4.3
 	 */
 	protected FileTreeIterator(final WorkingTreeIterator p, final File root,
@@ -227,6 +224,7 @@ public class FileTreeIterator extends WorkingTreeIterator {
 		init(entries());
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public AbstractTreeIterator createSubtreeIterator(final ObjectReader reader)
 			throws IncorrectObjectTypeException, IOException {
@@ -407,6 +405,8 @@ public class FileTreeIterator extends WorkingTreeIterator {
 	}
 
 	/**
+	 * <p>Getter for the field <code>directory</code>.</p>
+	 *
 	 * @return The root directory of this iterator
 	 */
 	public File getDirectory() {
@@ -414,6 +414,8 @@ public class FileTreeIterator extends WorkingTreeIterator {
 	}
 
 	/**
+	 * Get the location of the working file.
+	 *
 	 * @return The location of the working file. This is the same as {@code new
 	 *         File(getDirectory(), getEntryPath())} but may be faster by
 	 *         reusing an internal File instance.
@@ -422,11 +424,13 @@ public class FileTreeIterator extends WorkingTreeIterator {
 		return ((FileEntry) current()).getFile();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected byte[] idSubmodule(final Entry e) {
 		return idSubmodule(getDirectory(), e);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected String readSymlinkTarget(Entry entry) throws IOException {
 		return fs.readSymLink(getEntryFile());

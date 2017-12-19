@@ -58,26 +58,33 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 
 /**
- * A performance optimized variant of {@link TreeFilter#ANY_DIFF} which should
- * be used when among the walked trees there is a {@link DirCacheIterator} and a
- * {@link WorkingTreeIterator}. Please see the documentation of
- * {@link TreeFilter#ANY_DIFF} for a basic description of the semantics.
+ * A performance optimized variant of
+ * {@link org.eclipse.jgit.treewalk.filter.TreeFilter#ANY_DIFF} which should be
+ * used when among the walked trees there is a
+ * {@link org.eclipse.jgit.dircache.DirCacheIterator} and a
+ * {@link org.eclipse.jgit.treewalk.WorkingTreeIterator}. Please see the
+ * documentation of {@link org.eclipse.jgit.treewalk.filter.TreeFilter#ANY_DIFF}
+ * for a basic description of the semantics.
  * <p>
  * This filter tries to avoid computing content ids of the files in the
- * working-tree. In contrast to {@link TreeFilter#ANY_DIFF} this filter takes
- * care to first compare the entry from the {@link DirCacheIterator} with the
- * entries from all other iterators besides the {@link WorkingTreeIterator}.
- * Since all those entries have fast access to content ids that is very fast. If
- * a difference is detected in this step this filter decides to include that
- * path before even looking at the working-tree entry.
+ * working-tree. In contrast to
+ * {@link org.eclipse.jgit.treewalk.filter.TreeFilter#ANY_DIFF} this filter
+ * takes care to first compare the entry from the
+ * {@link org.eclipse.jgit.dircache.DirCacheIterator} with the entries from all
+ * other iterators besides the
+ * {@link org.eclipse.jgit.treewalk.WorkingTreeIterator}. Since all those
+ * entries have fast access to content ids that is very fast. If a difference is
+ * detected in this step this filter decides to include that path before even
+ * looking at the working-tree entry.
  * <p>
  * If no difference is found then we have to compare index and working-tree as
  * the last step. By making use of
- * {@link WorkingTreeIterator#isModified(org.eclipse.jgit.dircache.DirCacheEntry, boolean, ObjectReader)}
+ * {@link org.eclipse.jgit.treewalk.WorkingTreeIterator#isModified(org.eclipse.jgit.dircache.DirCacheEntry, boolean, ObjectReader)}
  * we can avoid the computation of the content id if the file is not dirty.
  * <p>
- * Instances of this filter should not be used for multiple {@link TreeWalk}s.
- * Always construct a new instance of this filter for each TreeWalk.
+ * Instances of this filter should not be used for multiple
+ * {@link org.eclipse.jgit.treewalk.TreeWalk}s. Always construct a new instance
+ * of this filter for each TreeWalk.
  */
 public class IndexDiffFilter extends TreeFilter {
 	private final int dirCache;
@@ -97,11 +104,13 @@ public class IndexDiffFilter extends TreeFilter {
 	 * filter in multiple treewalks.
 	 *
 	 * @param dirCacheIndex
-	 *            the index of the {@link DirCacheIterator} in the associated
-	 *            treewalk
+	 *            the index of the
+	 *            {@link org.eclipse.jgit.dircache.DirCacheIterator} in the
+	 *            associated treewalk
 	 * @param workingTreeIndex
-	 *            the index of the {@link WorkingTreeIterator} in the associated
-	 *            treewalk
+	 *            the index of the
+	 *            {@link org.eclipse.jgit.treewalk.WorkingTreeIterator} in the
+	 *            associated treewalk
 	 */
 	public IndexDiffFilter(int dirCacheIndex, int workingTreeIndex) {
 		this(dirCacheIndex, workingTreeIndex, true /* honor ignores */);
@@ -112,14 +121,16 @@ public class IndexDiffFilter extends TreeFilter {
 	 * filter in multiple treewalks.
 	 *
 	 * @param dirCacheIndex
-	 *            the index of the {@link DirCacheIterator} in the associated
-	 *            treewalk
+	 *            the index of the
+	 *            {@link org.eclipse.jgit.dircache.DirCacheIterator} in the
+	 *            associated treewalk
 	 * @param workingTreeIndex
-	 *            the index of the {@link WorkingTreeIterator} in the associated
-	 *            treewalk
+	 *            the index of the
+	 *            {@link org.eclipse.jgit.treewalk.WorkingTreeIterator} in the
+	 *            associated treewalk
 	 * @param honorIgnores
 	 *            true if the filter should skip working tree files that are
-	 *            declared as ignored by the standard exclude mechanisms..
+	 *            declared as ignored by the standard exclude mechanisms.
 	 */
 	public IndexDiffFilter(int dirCacheIndex, int workingTreeIndex,
 			boolean honorIgnores) {
@@ -128,6 +139,7 @@ public class IndexDiffFilter extends TreeFilter {
 		this.honorIgnores = honorIgnores;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean include(TreeWalk tw) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
@@ -255,6 +267,7 @@ public class IndexDiffFilter extends TreeFilter {
 		return tw.getTree(workingTree, WorkingTreeIterator.class);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean shouldBeRecursive() {
 		// We cannot compare subtrees in the working tree, so encourage
@@ -262,11 +275,13 @@ public class IndexDiffFilter extends TreeFilter {
 		return true;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public TreeFilter clone() {
 		return this;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		return "INDEX_DIFF_FILTER"; //$NON-NLS-1$
@@ -286,9 +301,11 @@ public class IndexDiffFilter extends TreeFilter {
 	}
 
 	/**
+	 * <p>Getter for the field <code>untrackedFolders</code>.</p>
+	 *
 	 * @return all paths of folders which contain only untracked files/folders.
 	 *         If on the associated treewalk postorder traversal was turned on
-	 *         (see {@link TreeWalk#setPostOrderTraversal(boolean)}) then an
+	 *         (see {@link org.eclipse.jgit.treewalk.TreeWalk#setPostOrderTraversal(boolean)}) then an
 	 *         empty list will be returned.
 	 */
 	public List<String> getUntrackedFolders() {

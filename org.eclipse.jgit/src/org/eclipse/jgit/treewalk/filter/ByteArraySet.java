@@ -213,6 +213,7 @@ class ByteArraySet {
 		table = new byte[sz][];
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
