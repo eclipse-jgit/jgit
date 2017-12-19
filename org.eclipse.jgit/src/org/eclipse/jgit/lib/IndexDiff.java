@@ -538,11 +538,9 @@ public class IndexDiff {
 							.equals(localIgnoreSubmoduleMode))
 						continue;
 				} catch (ConfigInvalidException e) {
-					IOException e1 = new IOException(MessageFormat.format(
+					throw new IOException(MessageFormat.format(
 							JGitText.get().invalidIgnoreParamSubmodule,
-							smw.getPath()));
-					e1.initCause(e);
-					throw e1;
+							smw.getPath()), e);
 				}
 				Repository subRepo = smw.getRepository();
 				if (subRepo != null) {

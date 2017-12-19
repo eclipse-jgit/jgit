@@ -1184,10 +1184,8 @@ public class RefDirectory extends RefDatabase {
 				n--;
 			String content = RawParseUtils.decode(buf, 0, n);
 
-			IOException ioException = new IOException(MessageFormat.format(JGitText.get().notARef,
-					name, content));
-			ioException.initCause(notRef);
-			throw ioException;
+			throw new IOException(MessageFormat.format(JGitText.get().notARef,
+					name, content), notRef);
 		}
 		return new LooseUnpeeled(otherSnapshot, name, id);
 	}

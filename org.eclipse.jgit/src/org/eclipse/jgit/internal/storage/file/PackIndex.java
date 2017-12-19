@@ -99,11 +99,10 @@ public abstract class PackIndex
 		try {
 			return read(fd);
 		} catch (IOException ioe) {
-			final String path = idxFile.getAbsolutePath();
-			final IOException err;
-			err = new IOException(MessageFormat.format(JGitText.get().unreadablePackIndex, path));
-			err.initCause(ioe);
-			throw err;
+			throw new IOException(MessageFormat
+					.format(JGitText.get().unreadablePackIndex,
+							idxFile.getAbsolutePath()),
+					ioe);
 		} finally {
 			try {
 				fd.close();

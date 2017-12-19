@@ -115,10 +115,9 @@ abstract class WalkEncryption {
 	}
 
 	IOException error(final Throwable why) {
-		final IOException e;
-		e = new IOException(MessageFormat.format(JGitText.get().encryptionError, why.getMessage()));
-		e.initCause(why);
-		return e;
+		return new IOException(MessageFormat
+				.format(JGitText.get().encryptionError,
+				why.getMessage()), why);
 	}
 
 	private static class NoEncryption extends WalkEncryption {
