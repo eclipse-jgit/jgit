@@ -66,7 +66,9 @@ import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
 
-/** Handy utility functions to parse raw object contents. */
+/**
+ * Handy utility functions to parse raw object contents.
+ */
 public final class RawParseUtils {
 	/**
 	 * UTF-8 charset constant.
@@ -306,7 +308,7 @@ public final class RawParseUtils {
 	 * @param p
 	 *            first position within the buffer to parse.
 	 * @return the integer value.
-	 * @throws ArrayIndexOutOfBoundsException
+	 * @throws java.lang.ArrayIndexOutOfBoundsException
 	 *             if the string is not hex formatted.
 	 */
 	public static final int parseHexInt16(final byte[] bs, final int p) {
@@ -336,7 +338,7 @@ public final class RawParseUtils {
 	 * @param p
 	 *            first position within the buffer to parse.
 	 * @return the integer value.
-	 * @throws ArrayIndexOutOfBoundsException
+	 * @throws java.lang.ArrayIndexOutOfBoundsException
 	 *             if the string is not hex formatted.
 	 */
 	public static final int parseHexInt32(final byte[] bs, final int p) {
@@ -377,7 +379,7 @@ public final class RawParseUtils {
 	 * @param p
 	 *            first position within the buffer to parse.
 	 * @return the integer value.
-	 * @throws ArrayIndexOutOfBoundsException
+	 * @throws java.lang.ArrayIndexOutOfBoundsException
 	 *             if the string is not hex formatted.
 	 * @since 4.3
 	 */
@@ -437,7 +439,7 @@ public final class RawParseUtils {
 	 * @param digit
 	 *            hex character to parse.
 	 * @return numeric value, in the range 0-15.
-	 * @throws ArrayIndexOutOfBoundsException
+	 * @throws java.lang.ArrayIndexOutOfBoundsException
 	 *             if the input digit is not a valid hex digit.
 	 */
 	public static final int parseHexInt4(final byte digit) {
@@ -610,7 +612,7 @@ public final class RawParseUtils {
 	 * Index the region between <code>[ptr, end)</code> to find line starts.
 	 * <p>
 	 * The returned list is 1 indexed. Index 0 contains
-	 * {@link Integer#MIN_VALUE} to pad the list out.
+	 * {@link java.lang.Integer#MIN_VALUE} to pad the list out.
 	 * <p>
 	 * Using a 1 indexed list means that line numbers can be directly accessed
 	 * from the list, so <code>list.get(1)</code> (aka get line 1) returns
@@ -619,8 +621,8 @@ public final class RawParseUtils {
 	 * The last element (index <code>map.size()-1</code>) always contains
 	 * <code>end</code>.
 	 * <p>
-	 * If the data contains a '\0' anywhere, the whole region is considered binary
-	 * and a LineMap corresponding to a single line is returned.
+	 * If the data contains a '\0' anywhere, the whole region is considered
+	 * binary and a LineMap corresponding to a single line is returned.
 	 * </p>
 	 *
 	 * @param buf
@@ -1076,7 +1078,7 @@ public final class RawParseUtils {
 	 *            data from.
 	 * @return a string representation of the range <code>[start,end)</code>,
 	 *         after decoding the region through the specified character set.
-	 * @throws CharacterCodingException
+	 * @throws java.nio.charset.CharacterCodingException
 	 *             the input is not in any of the tested character sets.
 	 */
 	public static String decodeNoFallback(final Charset cs,
@@ -1222,13 +1224,15 @@ public final class RawParseUtils {
 	}
 
 	/**
+	 * Get last index of {@code ch} in raw, trimming spaces.
+	 *
 	 * @param raw
 	 *            buffer to scan.
 	 * @param ch
 	 *            character to find.
 	 * @param pos
 	 *            starting position.
-	 * @return last index of ch in raw, trimming spaces.
+	 * @return last index of {@code ch} in raw, trimming spaces.
 	 * @since 4.1
 	 */
 	public static int lastIndexOfTrim(byte[] raw, char ch, int pos) {

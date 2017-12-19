@@ -82,9 +82,11 @@ public class ChangeIdUtil {
 	 * @param firstParentId
 	 *            parent id of previous commit or null
 	 * @param author
-	 *            the {@link PersonIdent} for the presumed author and time
+	 *            the {@link org.eclipse.jgit.lib.PersonIdent} for the presumed
+	 *            author and time
 	 * @param committer
-	 *            the {@link PersonIdent} for the presumed committer and time
+	 *            the {@link org.eclipse.jgit.lib.PersonIdent} for the presumed
+	 *            committer and time
 	 * @param message
 	 *            The commit message
 	 * @return the change id SHA1 string (without the 'I') or null if the
@@ -138,7 +140,9 @@ public class ChangeIdUtil {
 	 * line.
 	 *
 	 * @param message
+	 *            a message.
 	 * @param changeId
+	 *            a Change-Id.
 	 * @return a commit message with an inserted Change-Id line
 	 */
 	public static String insertId(String message, ObjectId changeId) {
@@ -148,18 +152,21 @@ public class ChangeIdUtil {
 	/**
 	 * Find the right place to insert a Change-Id and return it.
 	 * <p>
-	 * If no Change-Id is found the Change-Id is inserted before
-	 * the first footer line but after a Bug line.
+	 * If no Change-Id is found the Change-Id is inserted before the first
+	 * footer line but after a Bug line.
 	 *
-	 * If Change-Id is found and replaceExisting is set to false,
-	 * the message is unchanged.
+	 * If Change-Id is found and replaceExisting is set to false, the message is
+	 * unchanged.
 	 *
-	 * If Change-Id is found and replaceExisting is set to true,
-	 * the Change-Id is replaced with {@code changeId}.
+	 * If Change-Id is found and replaceExisting is set to true, the Change-Id
+	 * is replaced with {@code changeId}.
 	 *
 	 * @param message
+	 *            a message.
 	 * @param changeId
+	 *            a Change-Id.
 	 * @param replaceExisting
+	 *            a boolean.
 	 * @return a commit message with an inserted Change-Id line
 	 */
 	public static String insertId(String message, ObjectId changeId,
@@ -219,6 +226,7 @@ public class ChangeIdUtil {
 	 * only lines matching {@code footerPattern}.
 	 *
 	 * @param message
+	 *            a message.
 	 * @param delimiter
 	 *            the line delimiter, like "\n" or "\r\n", needed to find the
 	 *            footer

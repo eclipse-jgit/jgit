@@ -84,7 +84,9 @@ public class BlockList<T> extends AbstractList<T> {
 
 	private T[] tailBlock;
 
-	/** Initialize an empty list. */
+	/**
+	 * Initialize an empty list.
+	 */
 	public BlockList() {
 		directory = BlockList.<T> newDirectory(256);
 		directory[0] = BlockList.<T> newBlock();
@@ -106,11 +108,13 @@ public class BlockList<T> extends AbstractList<T> {
 		tailBlock = directory[0];
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int size() {
 		return size;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void clear() {
 		for (T[] block : directory) {
@@ -123,6 +127,7 @@ public class BlockList<T> extends AbstractList<T> {
 		tailBlock = directory[0];
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public T get(int index) {
 		if (index < 0 || size <= index)
@@ -130,6 +135,7 @@ public class BlockList<T> extends AbstractList<T> {
 		return directory[toDirectoryIndex(index)][toBlockIndex(index)];
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public T set(int index, T element) {
 		if (index < 0 || size <= index)
@@ -187,6 +193,7 @@ public class BlockList<T> extends AbstractList<T> {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean add(T element) {
 		int i = tailBlkIdx;
@@ -217,6 +224,7 @@ public class BlockList<T> extends AbstractList<T> {
 		return true;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void add(int index, T element) {
 		if (index == size) {
@@ -238,6 +246,7 @@ public class BlockList<T> extends AbstractList<T> {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public T remove(int index) {
 		if (index == size - 1) {
@@ -277,6 +286,7 @@ public class BlockList<T> extends AbstractList<T> {
 		tailBlock = directory[tailDirIdx];
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Iterator<T> iterator() {
 		return new MyIterator();

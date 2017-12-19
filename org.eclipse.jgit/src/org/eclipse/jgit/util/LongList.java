@@ -46,13 +46,17 @@ package org.eclipse.jgit.util;
 
 import java.util.Arrays;
 
-/** A more efficient List&lt;Long&gt; using a primitive long array. */
+/**
+ * A more efficient List&lt;Long&gt; using a primitive long array.
+ */
 public class LongList {
 	private long[] entries;
 
 	private int count;
 
-	/** Create an empty list with a default capacity. */
+	/**
+	 * Create an empty list with a default capacity.
+	 */
 	public LongList() {
 		this(10);
 	}
@@ -67,16 +71,22 @@ public class LongList {
 		entries = new long[capacity];
 	}
 
-	/** @return number of entries in this list */
+	/**
+	 * Get number of entries in this list
+	 *
+	 * @return number of entries in this list
+	 */
 	public int size() {
 		return count;
 	}
 
 	/**
+	 * Get the value at the specified index
+	 *
 	 * @param i
 	 *            index to read, must be in the range [0, {@link #size()}).
 	 * @return the number at the specified index
-	 * @throws ArrayIndexOutOfBoundsException
+	 * @throws java.lang.ArrayIndexOutOfBoundsException
 	 *             the index outside the valid range
 	 */
 	public long get(final int i) {
@@ -99,7 +109,9 @@ public class LongList {
 		return false;
 	}
 
-	/** Empty this list */
+	/**
+	 * Clear this list
+	 */
 	public void clear() {
 		count = 0;
 	}
@@ -148,7 +160,9 @@ public class LongList {
 			add(val);
 	}
 
-	/** Sort the list of longs according to their natural ordering. */
+	/**
+	 * Sort the list of longs according to their natural ordering.
+	 */
 	public void sort() {
 		Arrays.sort(entries, 0, count);
 	}
@@ -159,6 +173,7 @@ public class LongList {
 		entries = n;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		final StringBuilder r = new StringBuilder();

@@ -65,7 +65,9 @@ import javax.net.ssl.X509TrustManager;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.transport.http.HttpConnection;
 
-/** Extra utilities to support usage of HTTP. */
+/**
+ * Extra utilities to support usage of HTTP.
+ */
 public class HttpSupport {
 	/** The {@code GET} HTTP method. */
 	public static final String METHOD_GET = "GET"; //$NON-NLS-1$
@@ -192,8 +194,9 @@ public class HttpSupport {
 	 * @param c
 	 *            connection the code should be obtained from.
 	 * @return r HTTP status code, usually 200 to indicate success. See
-	 *         {@link HttpConnection} for other defined constants.
-	 * @throws IOException
+	 *         {@link org.eclipse.jgit.transport.http.HttpConnection} for other
+	 *         defined constants.
+	 * @throws java.io.IOException
 	 *             communications error prevented obtaining the response code.
 	 * @since 3.3
 	 */
@@ -220,8 +223,9 @@ public class HttpSupport {
 	 * @param c
 	 *            connection the code should be obtained from.
 	 * @return r HTTP status code, usually 200 to indicate success. See
-	 *         {@link HttpConnection} for other defined constants.
-	 * @throws IOException
+	 *         {@link org.eclipse.jgit.transport.http.HttpConnection} for other
+	 *         defined constants.
+	 * @throws java.io.IOException
 	 *             communications error prevented obtaining the response code.
 	 */
 	public static int response(final java.net.HttpURLConnection c)
@@ -248,7 +252,7 @@ public class HttpSupport {
 	 * @param headerName
 	 *            the header name
 	 * @return the header value
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             communications error prevented obtaining the header.
 	 * @since 4.7
 	 */
@@ -265,7 +269,7 @@ public class HttpSupport {
 	 * @param u
 	 *            location of the server caller wants to talk to.
 	 * @return proxy to communicate with the supplied URL.
-	 * @throws ConnectException
+	 * @throws java.net.ConnectException
 	 *             the proxy could not be computed as the supplied URL could not
 	 *             be read. This failure should never occur.
 	 */
@@ -285,7 +289,9 @@ public class HttpSupport {
 	 * Disable SSL and hostname verification for given HTTP connection
 	 *
 	 * @param conn
-	 * @throws IOException
+	 *            a {@link org.eclipse.jgit.transport.http.HttpConnection}
+	 *            object.
+	 * @throws java.io.IOException
 	 * @since 4.3
 	 */
 	public static void disableSslVerify(HttpConnection conn)

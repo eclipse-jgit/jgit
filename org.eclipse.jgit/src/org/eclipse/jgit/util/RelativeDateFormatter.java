@@ -67,10 +67,14 @@ public class RelativeDateFormatter {
 	final static long YEAR_IN_MILLIS = 365 * DAY_IN_MILLIS;
 
 	/**
+	 * Get age of given {@link java.util.Date} compared to now formatted in the
+	 * same relative format as returned by {@code git log --relative-date}
+	 *
 	 * @param when
-	 *            {@link Date} to format
-	 * @return age of given {@link Date} compared to now formatted in the same
-	 *         relative format as returned by {@code git log --relative-date}
+	 *            {@link java.util.Date} to format
+	 * @return age of given {@link java.util.Date} compared to now formatted in
+	 *         the same relative format as returned by
+	 *         {@code git log --relative-date}
 	 */
 	@SuppressWarnings("boxing")
 	public static String format(Date when) {

@@ -44,7 +44,6 @@
 package org.eclipse.jgit.util.time;
 
 import java.time.Duration;
-import java.util.concurrent.TimeUnit;
 
 /**
  * A provider of time.
@@ -53,7 +52,9 @@ import java.util.concurrent.TimeUnit;
  * source, such as the local system clock.
  * <p>
  * MonotonicClocks provide the following behavior, with the assertion always
- * being true if {@link ProposedTimestamp#blockUntil(Duration)} is used:
+ * being true if
+ * {@link org.eclipse.jgit.util.time.ProposedTimestamp#blockUntil(Duration)} is
+ * used:
  *
  * <pre>
  *   MonotonicClock clk = ...;
@@ -83,14 +84,11 @@ public interface MonotonicClock {
 	 * by NTP) and return that proposal, concurrently sending network messages
 	 * to closely collaborating peers in the same cluster to also ensure their
 	 * system clocks are ahead of this time. In such an implementation the
-	 * {@link ProposedTimestamp#blockUntil(Duration)} method would wait for
-	 * replies from the peers indicating their own system clocks have moved past
-	 * the proposed time.
+	 * {@link org.eclipse.jgit.util.time.ProposedTimestamp#blockUntil(Duration)}
+	 * method would wait for replies from the peers indicating their own system
+	 * clocks have moved past the proposed time.
 	 *
-	 * @return "now". The value can be immediately accessed by
-	 *         {@link ProposedTimestamp#read(TimeUnit)} and friends, but the
-	 *         caller must use {@link ProposedTimestamp#blockUntil(Duration)} to
-	 *         ensure ordering holds.
+	 * @return a {@link org.eclipse.jgit.util.time.ProposedTimestamp} object.
 	 */
 	ProposedTimestamp propose();
 }

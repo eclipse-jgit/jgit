@@ -46,11 +46,15 @@ import java.io.BufferedOutputStream;
 import java.io.OutputStream;
 
 /**
+ * <p>SafeBufferedOutputStream class.</p>
+ *
  * @deprecated use BufferedOutputStream in Java 8 and later.
  */
 @Deprecated
 public class SafeBufferedOutputStream extends BufferedOutputStream {
 	/**
+	 * <p>Constructor for SafeBufferedOutputStream.</p>
+	 *
 	 * @see BufferedOutputStream#BufferedOutputStream(OutputStream)
 	 * @param out
 	 *            underlying output stream
@@ -60,6 +64,8 @@ public class SafeBufferedOutputStream extends BufferedOutputStream {
 	}
 
 	/**
+	 * <p>Constructor for SafeBufferedOutputStream.</p>
+	 *
 	 * @see BufferedOutputStream#BufferedOutputStream(OutputStream, int)
 	 * @param out
 	 *            underlying output stream

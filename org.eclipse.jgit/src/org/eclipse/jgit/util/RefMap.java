@@ -59,17 +59,19 @@ import org.eclipse.jgit.lib.RefComparator;
  * Specialized Map to present a {@code RefDatabase} namespace.
  * <p>
  * Although not declared as a {@link java.util.SortedMap}, iterators from this
- * map's projections always return references in {@link RefComparator} ordering.
- * The map's internal representation is a sorted array of {@link Ref} objects,
+ * map's projections always return references in
+ * {@link org.eclipse.jgit.lib.RefComparator} ordering. The map's internal
+ * representation is a sorted array of {@link org.eclipse.jgit.lib.Ref} objects,
  * which means lookup and replacement is O(log N), while insertion and removal
  * can be as expensive as O(N + log N) while the list expands or contracts.
  * Since this is not a general map implementation, all entries must be keyed by
  * the reference name.
  * <p>
  * This class is really intended as a helper for {@code RefDatabase}, which
- * needs to perform a merge-join of three sorted {@link RefList}s in order to
- * present the unified namespace of the packed-refs file, the loose refs/
- * directory tree, and the resolved form of any symbolic references.
+ * needs to perform a merge-join of three sorted
+ * {@link org.eclipse.jgit.util.RefList}s in order to present the unified
+ * namespace of the packed-refs file, the loose refs/ directory tree, and the
+ * resolved form of any symbolic references.
  */
 public class RefMap extends AbstractMap<String, Ref> {
 	/**
@@ -109,7 +111,9 @@ public class RefMap extends AbstractMap<String, Ref> {
 
 	private Set<Entry<String, Ref>> entrySet;
 
-	/** Construct an empty map with a small initial capacity. */
+	/**
+	 * Construct an empty map with a small initial capacity.
+	 */
 	public RefMap() {
 		prefix = ""; //$NON-NLS-1$
 		packed = RefList.emptyList();
@@ -145,11 +149,13 @@ public class RefMap extends AbstractMap<String, Ref> {
 		this.resolved = (RefList<Ref>) resolved;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean containsKey(Object name) {
 		return get(name) != null;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Ref get(Object key) {
 		String name = toRefName((String) key);
@@ -161,6 +167,7 @@ public class RefMap extends AbstractMap<String, Ref> {
 		return ref;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Ref put(final String keyName, Ref value) {
 		String name = toRefName(keyName);
@@ -189,6 +196,7 @@ public class RefMap extends AbstractMap<String, Ref> {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Ref remove(Object key) {
 		String name = toRefName((String) key);
@@ -212,11 +220,13 @@ public class RefMap extends AbstractMap<String, Ref> {
 		return res;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean isEmpty() {
 		return entrySet().isEmpty();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Set<Entry<String, Ref>> entrySet() {
 		if (entrySet == null) {
@@ -258,6 +268,7 @@ public class RefMap extends AbstractMap<String, Ref> {
 		return entrySet;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		StringBuilder r = new StringBuilder();

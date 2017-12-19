@@ -45,7 +45,6 @@ package org.eclipse.jgit.util;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 
 import org.eclipse.jgit.util.FS.Attributes;
 
@@ -56,10 +55,14 @@ import org.eclipse.jgit.util.FS.Attributes;
 public class FileUtil {
 
 	/**
+	 * Read target path of a symlink.
+	 *
 	 * @param path
-	 * @return target path of the symlink
-	 * @throws IOException
-	 * @deprecated use {@link FileUtils#readSymLink(File)} instead
+	 *            a {@link java.io.File}.
+	 * @return target path of the symlink.
+	 * @throws java.io.IOException
+	 * @deprecated use {@link org.eclipse.jgit.util.FileUtils#readSymLink(File)}
+	 *             instead
 	 */
 	@Deprecated
 	public static String readSymlink(File path) throws IOException {
@@ -67,12 +70,16 @@ public class FileUtil {
 	}
 
 	/**
+	 * Create a symlink
+	 *
 	 * @param path
 	 *            path of the symlink to be created
 	 * @param target
 	 *            target of the symlink to be created
-	 * @throws IOException
-	 * @deprecated use {@link FileUtils#createSymLink(File, String)} instead
+	 * @throws java.io.IOException
+	 * @deprecated use
+	 *             {@link org.eclipse.jgit.util.FileUtils#createSymLink(File, String)}
+	 *             instead
 	 */
 	@Deprecated
 	public static void createSymLink(File path, String target)
@@ -81,9 +88,14 @@ public class FileUtil {
 	}
 
 	/**
+	 * Whether the passed file is a symlink
+	 *
 	 * @param path
+	 *            a {@link java.io.File} object.
 	 * @return {@code true} if the passed path is a symlink
-	 * @deprecated Use {@link Files#isSymbolicLink(java.nio.file.Path)} instead
+	 * @deprecated Use
+	 *             {@link java.nio.file.Files#isSymbolicLink(java.nio.file.Path)}
+	 *             instead
 	 */
 	@Deprecated
 	public static boolean isSymlink(File path) {
@@ -91,11 +103,14 @@ public class FileUtil {
 	}
 
 	/**
+	 * Get lastModified attribute for given path
+	 *
 	 * @param path
+	 *            a {@link java.io.File}.
 	 * @return lastModified attribute for given path
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 * @deprecated Use
-	 *             {@link Files#getLastModifiedTime(java.nio.file.Path, java.nio.file.LinkOption...)}
+	 *             {@link java.nio.file.Files#getLastModifiedTime(java.nio.file.Path, java.nio.file.LinkOption...)}
 	 *             instead
 	 */
 	@Deprecated
@@ -104,11 +119,15 @@ public class FileUtil {
 	}
 
 	/**
+	 * Set lastModified attribute for given path
+	 *
 	 * @param path
+	 *            a {@link java.io.File}.
 	 * @param time
-	 * @throws IOException
+	 *            a long.
+	 * @throws java.io.IOException
 	 * @deprecated Use
-	 *             {@link Files#setLastModifiedTime(java.nio.file.Path, java.nio.file.attribute.FileTime)}
+	 *             {@link java.nio.file.Files#setLastModifiedTime(java.nio.file.Path, java.nio.file.attribute.FileTime)}
 	 *             instead
 	 */
 	@Deprecated
@@ -117,10 +136,13 @@ public class FileUtil {
 	}
 
 	/**
+	 * Whether this file exists
+	 *
 	 * @param path
+	 *            a {@link java.io.File}.
 	 * @return {@code true} if the given path exists
 	 * @deprecated Use
-	 *             {@link Files#exists(java.nio.file.Path, java.nio.file.LinkOption...)}
+	 *             {@link java.nio.file.Files#exists(java.nio.file.Path, java.nio.file.LinkOption...)}
 	 *             instead
 	 */
 	@Deprecated
@@ -129,10 +151,14 @@ public class FileUtil {
 	}
 
 	/**
+	 * Whether this file is hidden
+	 *
 	 * @param path
+	 *            a {@link java.io.File}.
 	 * @return {@code true} if the given path is hidden
-	 * @throws IOException
-	 * @deprecated Use {@link Files#isHidden(java.nio.file.Path)} instead
+	 * @throws java.io.IOException
+	 * @deprecated Use {@link java.nio.file.Files#isHidden(java.nio.file.Path)}
+	 *             instead
 	 */
 	@Deprecated
 	public static boolean isHidden(File path) throws IOException {
@@ -140,10 +166,16 @@ public class FileUtil {
 	}
 
 	/**
+	 * Set this file hidden
+	 *
 	 * @param path
+	 *            a {@link java.io.File}.
 	 * @param hidden
-	 * @throws IOException
-	 * @deprecated Use {@link FileUtils#setHidden(File,boolean)} instead
+	 *            a boolean.
+	 * @throws java.io.IOException
+	 * @deprecated Use
+	 *             {@link org.eclipse.jgit.util.FileUtils#setHidden(File,boolean)}
+	 *             instead
 	 */
 	@Deprecated
 	public static void setHidden(File path, boolean hidden) throws IOException {
@@ -151,10 +183,14 @@ public class FileUtil {
 	}
 
 	/**
+	 * Get file length
+	 *
 	 * @param path
+	 *            a {@link java.io.File}.
 	 * @return length of the given file
-	 * @throws IOException
-	 * @deprecated Use {@link FileUtils#getLength(File)} instead
+	 * @throws java.io.IOException
+	 * @deprecated Use {@link org.eclipse.jgit.util.FileUtils#getLength(File)}
+	 *             instead
 	 */
 	@Deprecated
 	public static long getLength(File path) throws IOException {
@@ -162,10 +198,13 @@ public class FileUtil {
 	}
 
 	/**
+	 * Whether the given File is a directory
+	 *
 	 * @param path
-	 * @return {@code true} if the given file a directory
+	 *            a {@link java.io.File} object.
+	 * @return {@code true} if the given file is a directory
 	 * @deprecated Use
-	 *             {@link Files#isDirectory(java.nio.file.Path, java.nio.file.LinkOption...)}
+	 *             {@link java.nio.file.Files#isDirectory(java.nio.file.Path, java.nio.file.LinkOption...)}
 	 *             instead
 	 */
 	@Deprecated
@@ -174,10 +213,13 @@ public class FileUtil {
 	}
 
 	/**
+	 * Whether the given File is a file
+	 *
 	 * @param path
+	 *            a {@link java.io.File} object.
 	 * @return {@code true} if the given file is a file
 	 * @deprecated Use
-	 *             {@link Files#isRegularFile(java.nio.file.Path, java.nio.file.LinkOption...)}
+	 *             {@link java.nio.file.Files#isRegularFile(java.nio.file.Path, java.nio.file.LinkOption...)}
 	 *             instead
 	 */
 	@Deprecated
@@ -186,9 +228,13 @@ public class FileUtil {
 	}
 
 	/**
+	 * Whether the given file can be executed
+	 *
 	 * @param path
+	 *            a {@link java.io.File} object.
 	 * @return {@code true} if the given file can be executed
-	 * @deprecated Use {@link FileUtils#canExecute(File)} instead
+	 * @deprecated Use {@link org.eclipse.jgit.util.FileUtils#canExecute(File)}
+	 *             instead
 	 */
 	@Deprecated
 	public static boolean canExecute(File path) {
@@ -196,9 +242,12 @@ public class FileUtil {
 	}
 
 	/**
+	 * Delete the given file
+	 *
 	 * @param path
-	 * @throws IOException
-	 * @deprecated use {@link FileUtils#delete(File)}
+	 *            a {@link java.io.File} object.
+	 * @throws java.io.IOException
+	 * @deprecated use {@link org.eclipse.jgit.util.FileUtils#delete(File)}
 	 */
 	@Deprecated
 	public static void delete(File path) throws IOException {
@@ -206,10 +255,16 @@ public class FileUtil {
 	}
 
 	/**
+	 * Get file system attributes for the given file
+	 *
 	 * @param fs
+	 *            a {@link org.eclipse.jgit.util.FS} object.
 	 * @param path
+	 *            a {@link java.io.File} object.
 	 * @return file system attributes for the given file
-	 * @deprecated Use {@link FileUtils#getFileAttributesPosix(FS,File)} instead
+	 * @deprecated Use
+	 *             {@link org.eclipse.jgit.util.FileUtils#getFileAttributesPosix(FS,File)}
+	 *             instead
 	 */
 	@Deprecated
 	public static Attributes getFileAttributesPosix(FS fs, File path) {
@@ -217,9 +272,14 @@ public class FileUtil {
 	}
 
 	/**
+	 * NFC normalize File (on Mac), otherwise do nothing
+	 *
 	 * @param file
-	 * @return on Mac: NFC normalized {@link File}, otherwise the passed file
-	 * @deprecated Use {@link FileUtils#normalize(File)} instead
+	 *            a {@link java.io.File}.
+	 * @return on Mac: NFC normalized {@link java.io.File}, otherwise the passed
+	 *         file
+	 * @deprecated Use {@link org.eclipse.jgit.util.FileUtils#normalize(File)}
+	 *             instead
 	 */
 	@Deprecated
 	public static File normalize(File file) {
@@ -227,9 +287,13 @@ public class FileUtil {
 	}
 
 	/**
+	 * NFC normalize file name (on Mac), otherwise do nothing
+	 *
 	 * @param name
+	 *            a {@link java.lang.String} object.
 	 * @return on Mac: NFC normalized form of given name
-	 * @deprecated Use {@link FileUtils#normalize(String)} instead
+	 * @deprecated Use {@link org.eclipse.jgit.util.FileUtils#normalize(String)}
+	 *             instead
 	 */
 	@Deprecated
 	public static String normalize(String name) {

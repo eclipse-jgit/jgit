@@ -51,7 +51,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * A {@link MonotonicClock} based on {@code System.currentTimeMillis}.
+ * A {@link org.eclipse.jgit.util.time.MonotonicClock} based on
+ * {@code System.currentTimeMillis}.
  *
  * @since 4.6
  */
@@ -69,6 +70,7 @@ public class MonotonicSystemClock implements MonotonicClock {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public ProposedTimestamp propose() {
 		final long u = nowMicros();

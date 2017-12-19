@@ -49,7 +49,9 @@ import java.net.PasswordAuthentication;
 import java.util.Collection;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-/** Abstract authenticator which remembers prior authentications. */
+/**
+ * Abstract authenticator which remembers prior authentications.
+ */
 public abstract class CachedAuthenticator extends Authenticator {
 	private static final Collection<CachedAuthentication> cached = new CopyOnWriteArrayList<>();
 
@@ -63,6 +65,7 @@ public abstract class CachedAuthenticator extends Authenticator {
 		cached.add(ca);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected final PasswordAuthentication getPasswordAuthentication() {
 		final String host = getRequestingHost();

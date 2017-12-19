@@ -61,13 +61,17 @@ public class LongMap<V> {
 	/** Next {@link #size} to trigger a {@link #grow()}. */
 	private int growAt;
 
-	/** Initialize an empty LongMap. */
+	/**
+	 * Initialize an empty LongMap.
+	 */
 	public LongMap() {
 		table = createArray(64);
 		growAt = (int) (table.length * LOAD_FACTOR);
 	}
 
 	/**
+	 * Whether {@code key} is present in the map.
+	 *
 	 * @param key
 	 *            the key to find.
 	 * @return {@code true} if {@code key} is present in the map.
@@ -77,9 +81,11 @@ public class LongMap<V> {
 	}
 
 	/**
+	 * Get value for this {@code key}
+	 *
 	 * @param key
 	 *            the key to find.
-	 * @return stored value of the key, or {@code null}.
+	 * @return stored value for this key, or {@code null}.
 	 */
 	public V get(long key) {
 		for (Node<V> n = table[index(key)]; n != null; n = n.next) {
@@ -90,6 +96,8 @@ public class LongMap<V> {
 	}
 
 	/**
+	 * Remove an entry from the map
+	 *
 	 * @param key
 	 *            key to remove from the map.
 	 * @return old value of the key, or {@code null}.
@@ -113,6 +121,8 @@ public class LongMap<V> {
 	}
 
 	/**
+	 * Put a new entry into the map
+	 *
 	 * @param key
 	 *            key to store {@code value} under.
 	 * @param value

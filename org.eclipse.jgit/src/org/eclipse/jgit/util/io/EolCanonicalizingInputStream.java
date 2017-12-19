@@ -52,7 +52,7 @@ import java.io.InputStream;
  * Optionally, a binary check on the first 8000 bytes is performed and in case
  * of binary files, canonicalization is turned off (for the complete file).
  *
- * @deprecated use {@link AutoLFInputStream} instead
+ * @deprecated use {@link org.eclipse.jgit.util.io.AutoLFInputStream} instead
  */
 @Deprecated
 public class EolCanonicalizingInputStream extends AutoLFInputStream {

@@ -125,12 +125,14 @@ public class AutoLFInputStream extends InputStream {
 		this.abortIfBinary = abortIfBinary;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int read() throws IOException {
 		final int read = read(single, 0, 1);
 		return read == 1 ? single[0] & 0xff : -1;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int read(byte[] bs, final int off, final int len)
 			throws IOException {
@@ -171,6 +173,8 @@ public class AutoLFInputStream extends InputStream {
 	}
 
 	/**
+	 * <p>isBinary.</p>
+	 *
 	 * @return true if the stream has detected as a binary so far
 	 * @since 3.3
 	 */
@@ -178,6 +182,7 @@ public class AutoLFInputStream extends InputStream {
 		return isBinary;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void close() throws IOException {
 		in.close();
