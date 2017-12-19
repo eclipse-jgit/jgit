@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87929364_d46f0d1f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-12-19T13:52:16Z",
+      "side": 1,
+      "message": "Maybe this has the wrong semantics for a method called \"clear\", since it replaces the existing instance rather than just clearing its contents. I was hoping this didn\u0027t matter, but since we expose the configured instance via #getInstance() below, it\u0027s theoretically possible that a caller might notice.\n\nWe could always implement a clear() method on DfsBlockCache itself, I suppose. Or just rename this method to something that\u0027s not \"clear\"? Or just document the semantics.",
+      "revId": "9555a57cf63fcbee23baf8dcb926aa91635189e7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
