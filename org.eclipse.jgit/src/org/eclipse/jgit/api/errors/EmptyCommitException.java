@@ -40,30 +40,30 @@ package org.eclipse.jgit.api.errors;
 /**
  * Exception thrown when a newly created commit does not contain any changes
  *
- * @since 4.2
+ * @since 5.0
  */
-public class EmtpyCommitException extends GitAPIException { // TODO: Correct spelling of this class name in 5.0
+public class EmptyCommitException extends GitAPIException {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Constructor for EmtpyCommitException
+	 * Constructor for EmptyCommitException
 	 *
 	 * @param message
 	 *            error message
 	 * @param cause
 	 *            a {@link java.lang.Throwable}
 	 */
-	public EmtpyCommitException(String message, Throwable cause) {
+	public EmptyCommitException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
 	/**
-	 * Constructor for EmtpyCommitException.
+	 * Constructor for EmptyCommitException.
 	 *
 	 * @param message
 	 *            error message
 	 */
-	public EmtpyCommitException(String message) {
+	public EmptyCommitException(String message) {
 		super(message);
 	}
 }

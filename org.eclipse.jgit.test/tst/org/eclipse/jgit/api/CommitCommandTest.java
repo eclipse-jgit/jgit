@@ -54,7 +54,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-import org.eclipse.jgit.api.errors.EmtpyCommitException;
+import org.eclipse.jgit.api.errors.EmptyCommitException;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.dircache.DirCache;
@@ -553,8 +553,8 @@ public class CommitCommandTest extends RepositoryTestCase {
 				git.commit().setAuthor("New Author", "newauthor@example.org")
 						.setMessage("again no change").setAllowEmpty(false)
 						.call();
-				fail("Didn't get the expected EmtpyCommitException");
-			} catch (EmtpyCommitException e) {
+				fail("Didn't get the expected EmptyCommitException");
+			} catch (EmptyCommitException e) {
 				// expect this exception
 			}
 
