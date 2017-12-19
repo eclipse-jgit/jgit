@@ -82,7 +82,6 @@ import org.eclipse.jgit.errors.UnsupportedPackIndexVersionException;
 import org.eclipse.jgit.errors.UnsupportedPackVersionException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.BinaryDelta;
-import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
@@ -381,7 +380,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	final void copyAsIs(PackOutputStream out, LocalObjectToPack src,
 			boolean validate, WindowCursor curs) throws IOException,
 			StoredObjectRepresentationNotAvailableException {
-		beginCopyAsIs(src);
+		beginCopyAsIs();
 		try {
 			copyAsIs2(out, src, validate, curs);
 		} finally {
@@ -518,12 +517,11 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 							Long.valueOf(src.offset), getPackFile()),
 					dataFormat);
 
-			throw new StoredObjectRepresentationNotAvailableException(src,
+			throw new StoredObjectRepresentationNotAvailableException(
 					corruptObject);
 
 		} catch (IOException ioError) {
-			throw new StoredObjectRepresentationNotAvailableException(src,
-					ioError);
+			throw new StoredObjectRepresentationNotAvailableException(ioError);
 		}
 
 		if (quickCopy != null) {
@@ -602,13 +600,13 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 			throw new EOFException();
 	}
 
-	private synchronized void beginCopyAsIs(ObjectToPack otp)
+	private synchronized void beginCopyAsIs()
 			throws StoredObjectRepresentationNotAvailableException {
 		if (++activeCopyRawData == 1 && activeWindows == 0) {
 			try {
 				doOpen();
 			} catch (IOException thisPackNotValid) {
-				throw new StoredObjectRepresentationNotAvailableException(otp,
+				throw new StoredObjectRepresentationNotAvailableException(
 						thisPackNotValid);
 			}
 		}
