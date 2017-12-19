@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "87929364_54515daf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleStatus.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-19T13:03:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_54a23d84",
+      "range": {
+        "startLine": 69,
+        "startChar": 15,
+        "endLine": 69,
+        "endChar": 16
+      },
+      "revId": "643180854f7bb4f3c9decb95595f9c9c902e3cf6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_74a73993",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "87929364_b45fe1ba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-19T13:03:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_74a73993",
+      "range": {
+        "startLine": 540,
+        "startChar": 15,
+        "endLine": 540,
+        "endChar": 16
+      },
+      "revId": "643180854f7bb4f3c9decb95595f9c9c902e3cf6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_94aca577",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2017-12-19T12:31:24Z",
       "side": 1,
       "message": "an",
+      "range": {
+        "startLine": 555,
+        "startChar": 15,
+        "endLine": 555,
+        "endChar": 16
+      },
+      "revId": "643180854f7bb4f3c9decb95595f9c9c902e3cf6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_d45c6dc8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-19T13:03:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_94aca577",
       "range": {
         "startLine": 555,
         "startChar": 15,
