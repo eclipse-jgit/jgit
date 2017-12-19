@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87929364_7d89d502",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/AbstractTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 762,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-12-19T23:40:38Z",
+      "side": 1,
+      "message": "Should be rewritten",
+      "range": {
+        "startLine": 762,
+        "startChar": 4,
+        "endLine": 762,
+        "endChar": 22
+      },
+      "revId": "2ad1ffa5f2606e500a0c189dce1e0cfa84b940a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_9d7e815c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-12-19T23:40:38Z",
+      "side": 1,
+      "message": "Should be rewritten",
+      "range": {
+        "startLine": 417,
+        "startChar": 4,
+        "endLine": 417,
+        "endChar": 24
+      },
+      "revId": "2ad1ffa5f2606e500a0c189dce1e0cfa84b940a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
