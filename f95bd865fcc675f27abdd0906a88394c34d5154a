@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "87929364_1441950c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeChunk.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-19T12:48:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_d409cd38",
+      "range": {
+        "startLine": 112,
+        "startChar": 12,
+        "endLine": 112,
+        "endChar": 56
+      },
+      "revId": "f95bd865fcc675f27abdd0906a88394c34d5154a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_f416c953",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeChunk.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2017-12-19T12:18:48Z",
       "side": 1,
       "message": "same",
+      "range": {
+        "startLine": 114,
+        "startChar": 16,
+        "endLine": 114,
+        "endChar": 55
+      },
+      "revId": "f95bd865fcc675f27abdd0906a88394c34d5154a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_34c131fc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeChunk.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-19T12:48:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_f416c953",
       "range": {
         "startLine": 114,
         "startChar": 16,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "87929364_94d025c4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-19T12:48:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_1414354a",
+      "range": {
+        "startLine": 134,
+        "startChar": 4,
+        "endLine": 134,
+        "endChar": 20
+      },
+      "revId": "f95bd865fcc675f27abdd0906a88394c34d5154a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_342051a3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
         "patchSetId": 3
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "87929364_b4d441b7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-19T12:48:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_342051a3",
+      "range": {
+        "startLine": 122,
+        "startChar": 15,
+        "endLine": 122,
+        "endChar": 16
+      },
+      "revId": "f95bd865fcc675f27abdd0906a88394c34d5154a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_5425ddb1",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 3
@@ -105,6 +201,30 @@
       "writtenOn": "2017-12-19T12:18:48Z",
       "side": 1,
       "message": "an",
+      "range": {
+        "startLine": 339,
+        "startChar": 15,
+        "endLine": 339,
+        "endChar": 16
+      },
+      "revId": "f95bd865fcc675f27abdd0906a88394c34d5154a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_d4d1cdc5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-19T12:48:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_5425ddb1",
       "range": {
         "startLine": 339,
         "startChar": 15,
