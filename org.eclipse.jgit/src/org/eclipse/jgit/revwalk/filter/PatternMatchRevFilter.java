@@ -54,7 +54,6 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.util.RawCharSequence;
 
 /**
  * Abstract filter that searches text using extended regular expressions.
