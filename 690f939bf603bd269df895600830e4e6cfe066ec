@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "87929364_146a758e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/MutableObjectId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-19T12:44:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_14a275ad",
+      "range": {
+        "startLine": 217,
+        "startChar": 13,
+        "endLine": 217,
+        "endChar": 14
+      },
+      "revId": "690f939bf603bd269df895600830e4e6cfe066ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_348e913e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectId.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2017-12-19T12:12:25Z",
       "side": 1,
       "message": "why do we say \"word\" here, but \"int\" in MutableObjectId?",
+      "range": {
+        "startLine": 255,
+        "startChar": 17,
+        "endLine": 255,
+        "endChar": 21
+      },
+      "revId": "690f939bf603bd269df895600830e4e6cfe066ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_545b1d02",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-19T12:44:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_348e913e",
       "range": {
         "startLine": 255,
         "startChar": 17,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "87929364_745019dc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectInserter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-19T12:44:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_54931d61",
+      "range": {
+        "startLine": 457,
+        "startChar": 3,
+        "endLine": 457,
+        "endChar": 4
+      },
+      "revId": "690f939bf603bd269df895600830e4e6cfe066ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_b481a109",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Ref.java",
         "patchSetId": 2
@@ -82,6 +154,30 @@
       "writtenOn": "2017-12-19T12:12:25Z",
       "side": 1,
       "message": "Copy the description from @return ?",
+      "range": {
+        "startLine": 204,
+        "startChar": 4,
+        "endLine": 204,
+        "endChar": 20
+      },
+      "revId": "690f939bf603bd269df895600830e4e6cfe066ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_945585cd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Ref.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-19T12:44:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_b481a109",
       "range": {
         "startLine": 204,
         "startChar": 4,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "87929364_b449a13a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCacheConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-19T12:44:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_34f9318f",
+      "range": {
+        "startLine": 80,
+        "startChar": 45,
+        "endLine": 80,
+        "endChar": 52
+      },
+      "revId": "690f939bf603bd269df895600830e4e6cfe066ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_7403b91a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCacheConfig.java",
         "patchSetId": 2
@@ -128,6 +248,30 @@
       "writtenOn": "2017-12-19T12:12:25Z",
       "side": 1,
       "message": "be expired",
+      "range": {
+        "startLine": 83,
+        "startChar": 49,
+        "endLine": 83,
+        "endChar": 56
+      },
+      "revId": "690f939bf603bd269df895600830e4e6cfe066ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_d4462d27",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCacheConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-19T12:44:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_7403b91a",
       "range": {
         "startLine": 83,
         "startChar": 49,
