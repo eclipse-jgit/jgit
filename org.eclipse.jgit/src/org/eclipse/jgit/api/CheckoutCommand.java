@@ -731,7 +731,7 @@ public class CheckoutCommand extends GitCommand<Ref> {
 	}
 
 	/**
-	 * <p>getResult.</p>
+	 * Get the result, never <code>null</code>
 	 *
 	 * @return the result, never <code>null</code>
 	 */
