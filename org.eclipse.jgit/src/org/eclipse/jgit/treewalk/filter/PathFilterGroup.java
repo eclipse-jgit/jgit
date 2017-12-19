@@ -55,10 +55,11 @@ import org.eclipse.jgit.util.RawParseUtils;
 /**
  * Includes tree entries only if they match one or more configured paths.
  * <p>
- * Operates like {@link PathFilter} but causes the walk to abort as soon as the
- * tree can no longer match any of the paths within the group. This may bypass
- * the boolean logic of a higher level AND or OR group, but does improve
- * performance for the common case of examining one or more modified paths.
+ * Operates like {@link org.eclipse.jgit.treewalk.filter.PathFilter} but causes
+ * the walk to abort as soon as the tree can no longer match any of the paths
+ * within the group. This may bypass the boolean logic of a higher level AND or
+ * OR group, but does improve performance for the common case of examining one
+ * or more modified paths.
  * <p>
  * This filter is effectively an OR group around paths, with the early abort
  * feature described above.

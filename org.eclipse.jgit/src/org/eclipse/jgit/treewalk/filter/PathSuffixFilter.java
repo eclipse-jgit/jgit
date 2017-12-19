@@ -59,8 +59,8 @@ import org.eclipse.jgit.treewalk.TreeWalk;
  * paths ending in <code>.txt</code>.
  * <p>
  * Using this filter is recommended instead of filtering the entries using
- * {@link TreeWalk#getPathString()} and <code>endsWith</code> or some other type
- * of string match function.
+ * {@link org.eclipse.jgit.treewalk.TreeWalk#getPathString()} and
+ * <code>endsWith</code> or some other type of string match function.
  */
 public class PathSuffixFilter extends TreeFilter {
 
@@ -72,7 +72,7 @@ public class PathSuffixFilter extends TreeFilter {
 	 * @param path
 	 *            the path suffix to filter on. Must not be the empty string.
 	 * @return a new filter for the requested path.
-	 * @throws IllegalArgumentException
+	 * @throws java.lang.IllegalArgumentException
 	 *             the path supplied was the empty string.
 	 */
 	public static PathSuffixFilter create(String path) {
@@ -89,11 +89,13 @@ public class PathSuffixFilter extends TreeFilter {
 		pathRaw = Constants.encode(pathStr);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public TreeFilter clone() {
 		return this;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean include(TreeWalk walker) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
@@ -104,6 +106,7 @@ public class PathSuffixFilter extends TreeFilter {
 
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean shouldBeRecursive() {
 		return true;

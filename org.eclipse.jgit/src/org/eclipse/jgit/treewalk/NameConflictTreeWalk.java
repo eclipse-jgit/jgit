@@ -46,7 +46,6 @@ package org.eclipse.jgit.treewalk;
 import java.io.IOException;
 
 import org.eclipse.jgit.annotations.Nullable;
-import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -55,24 +54,26 @@ import org.eclipse.jgit.lib.Repository;
 /**
  * Specialized TreeWalk to detect directory-file (D/F) name conflicts.
  * <p>
- * Due to the way a Git tree is organized the standard {@link TreeWalk} won't
- * easily find a D/F conflict when merging two or more trees together. In the
- * standard TreeWalk the file will be returned first, and then much later the
- * directory will be returned. This makes it impossible for the application to
- * efficiently detect and handle the conflict.
+ * Due to the way a Git tree is organized the standard
+ * {@link org.eclipse.jgit.treewalk.TreeWalk} won't easily find a D/F conflict
+ * when merging two or more trees together. In the standard TreeWalk the file
+ * will be returned first, and then much later the directory will be returned.
+ * This makes it impossible for the application to efficiently detect and handle
+ * the conflict.
  * <p>
  * Using this walk implementation causes the directory to report earlier than
  * usual, at the same time as the non-directory entry. This permits the
  * application to handle the D/F conflict in a single step. The directory is
  * returned only once, so it does not get returned later in the iteration.
  * <p>
- * When a D/F conflict is detected {@link TreeWalk#isSubtree()} will return true
- * and {@link TreeWalk#enterSubtree()} will recurse into the subtree, no matter
- * which iterator originally supplied the subtree.
+ * When a D/F conflict is detected
+ * {@link org.eclipse.jgit.treewalk.TreeWalk#isSubtree()} will return true and
+ * {@link org.eclipse.jgit.treewalk.TreeWalk#enterSubtree()} will recurse into
+ * the subtree, no matter which iterator originally supplied the subtree.
  * <p>
  * Because conflicted directories report early, using this walk implementation
- * to populate a {@link DirCacheBuilder} may cause the automatic resorting to
- * run and fix the entry ordering.
+ * to populate a {@link org.eclipse.jgit.dircache.DirCacheBuilder} may cause the
+ * automatic resorting to run and fix the entry ordering.
  * <p>
  * This walk implementation requires more CPU to implement a look-ahead and a
  * look-behind to merge a D/F pair together, or to skip a previously reported

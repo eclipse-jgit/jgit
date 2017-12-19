@@ -49,8 +49,9 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 
 /**
  * A filter for extracting changes between two versions of the dircache. In
- * addition to what {@link TreeFilter#ANY_DIFF} would do, it also detects
- * changes that will affect decorations and show up in an attempt to commit.
+ * addition to what {@link org.eclipse.jgit.treewalk.filter.TreeFilter#ANY_DIFF}
+ * would do, it also detects changes that will affect decorations and show up in
+ * an attempt to commit.
  */
 public final class InterIndexDiffFilter extends TreeFilter {
 	private static final int baseTree = 0;
@@ -60,6 +61,7 @@ public final class InterIndexDiffFilter extends TreeFilter {
 	 */
 	public static final TreeFilter INSTANCE = new InterIndexDiffFilter();
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean include(final TreeWalk walker) {
 		final int n = walker.getTreeCount();
@@ -88,16 +90,19 @@ public final class InterIndexDiffFilter extends TreeFilter {
 		return false;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean shouldBeRecursive() {
 		return false;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public TreeFilter clone() {
 		return this;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		return "INTERINDEX_DIFF"; //$NON-NLS-1$

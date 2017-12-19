@@ -52,9 +52,13 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 
-/** Iterator over an empty tree (a directory with no files). */
+/**
+ * Iterator over an empty tree (a directory with no files).
+ */
 public class EmptyTreeIterator extends AbstractTreeIterator {
-	/** Create a new iterator with no parent. */
+	/**
+	 * Create a new iterator with no parent.
+	 */
 	public EmptyTreeIterator() {
 		// Create a root empty tree.
 	}
@@ -86,63 +90,75 @@ public class EmptyTreeIterator extends AbstractTreeIterator {
 		pathLen = childPathOffset - 1;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public AbstractTreeIterator createSubtreeIterator(final ObjectReader reader)
 			throws IncorrectObjectTypeException, IOException {
 		return new EmptyTreeIterator(this);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean hasId() {
 		return false;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public ObjectId getEntryObjectId() {
 		return ObjectId.zeroId();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public byte[] idBuffer() {
 		return zeroid;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int idOffset() {
 		return 0;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void reset() {
 		// Do nothing.
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean first() {
 		return true;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean eof() {
 		return true;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void next(final int delta) throws CorruptObjectException {
 		// Do nothing.
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void back(final int delta) throws CorruptObjectException {
 		// Do nothing.
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void stopWalk() {
 		if (parent != null)
 			parent.stopWalk();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected boolean needsStopWalk() {
 		return parent != null && parent.needsStopWalk();

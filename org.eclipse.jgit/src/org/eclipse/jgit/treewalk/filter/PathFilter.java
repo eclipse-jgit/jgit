@@ -51,9 +51,10 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 /**
  * Includes tree entries only if they match the configured path.
  * <p>
- * Applications should use {@link PathFilterGroup} to connect these into a tree
- * filter graph, as the group supports breaking out of traversal once it is
- * known the path can never match.
+ * Applications should use
+ * {@link org.eclipse.jgit.treewalk.filter.PathFilterGroup} to connect these
+ * into a tree filter graph, as the group supports breaking out of traversal
+ * once it is known the path can never match.
  */
 public class PathFilter extends TreeFilter {
 	/**
@@ -70,7 +71,7 @@ public class PathFilter extends TreeFilter {
 	 *            trailing '/' characters will be trimmed before string's length
 	 *            is checked or is used as part of the constructed filter.
 	 * @return a new filter for the requested path.
-	 * @throws IllegalArgumentException
+	 * @throws java.lang.IllegalArgumentException
 	 *             the path supplied was the empty string.
 	 */
 	public static PathFilter create(String path) {
@@ -90,21 +91,28 @@ public class PathFilter extends TreeFilter {
 		pathRaw = Constants.encode(pathStr);
 	}
 
-	/** @return the path this filter matches. */
+	/**
+	 * Get the path this filter matches.
+	 *
+	 * @return the path this filter matches.
+	 */
 	public String getPath() {
 		return pathStr;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean include(final TreeWalk walker) {
 		return matchFilter(walker) <= 0;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int matchFilter(final TreeWalk walker) {
 		return walker.isPathMatch(pathRaw, pathRaw.length);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean shouldBeRecursive() {
 		for (final byte b : pathRaw)
@@ -113,11 +121,13 @@ public class PathFilter extends TreeFilter {
 		return false;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public PathFilter clone() {
 		return this;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	@SuppressWarnings("nls")
 	public String toString() {
@@ -125,6 +135,9 @@ public class PathFilter extends TreeFilter {
 	}
 
 	/**
+	 * Whether the path length of this filter matches the length of the current
+	 * path of the supplied TreeWalk.
+	 *
 	 * @param walker
 	 *            The walk to check against.
 	 * @return {@code true} if the path length of this filter matches the length
