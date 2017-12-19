@@ -54,7 +54,7 @@ import org.eclipse.jgit.lib.AnyObjectId;
  * <p>
  * Typically visible only inside of the server implementation; clients are
  * usually looking at the text message from the server in a generic
- * {@link PackProtocolException}.
+ * {@link org.eclipse.jgit.errors.PackProtocolException}.
  *
  * @since 4.3
  */

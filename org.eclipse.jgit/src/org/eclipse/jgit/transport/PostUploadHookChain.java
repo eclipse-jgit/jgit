@@ -47,7 +47,8 @@ import java.util.List;
 import org.eclipse.jgit.storage.pack.PackStatistics;
 
 /**
- * {@link PostUploadHook} that delegates to a list of other hooks.
+ * {@link org.eclipse.jgit.transport.PostUploadHook} that delegates to a list of
+ * other hooks.
  * <p>
  * Hooks are run in the order passed to the constructor.
  *
@@ -78,6 +79,7 @@ public class PostUploadHookChain implements PostUploadHook {
 			return new PostUploadHookChain(newHooks, i);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void onPostUpload(PackStatistics stats) {
 		for (int i = 0; i < count; i++)

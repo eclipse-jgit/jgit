@@ -47,7 +47,8 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * {@link PreReceiveHook} that delegates to a list of other hooks.
+ * {@link org.eclipse.jgit.transport.PreReceiveHook} that delegates to a list of
+ * other hooks.
  * <p>
  * Hooks are run in the order passed to the constructor.
  */
@@ -76,6 +77,7 @@ public class PreReceiveHookChain implements PreReceiveHook {
 			return new PreReceiveHookChain(newHooks, i);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void onPreReceive(ReceivePack rp,
 			Collection<ReceiveCommand> commands) {

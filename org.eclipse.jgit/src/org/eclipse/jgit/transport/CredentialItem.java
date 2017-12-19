@@ -48,14 +48,19 @@ import java.util.Arrays;
 import org.eclipse.jgit.internal.JGitText;
 
 /**
- * A credential requested from a {@link CredentialsProvider}.
+ * A credential requested from a
+ * {@link org.eclipse.jgit.transport.CredentialsProvider}.
  *
  * Most users should work with the specialized subclasses:
  * <ul>
- * <li>{@link Username} for usernames</li>
- * <li>{@link Password} for passwords</li>
- * <li>{@link StringType} for other general string information</li>
- * <li>{@link CharArrayType} for other general secret information</li>
+ * <li>{@link org.eclipse.jgit.transport.CredentialItem.Username} for
+ * usernames</li>
+ * <li>{@link org.eclipse.jgit.transport.CredentialItem.Password} for
+ * passwords</li>
+ * <li>{@link org.eclipse.jgit.transport.CredentialItem.StringType} for other
+ * general string information</li>
+ * <li>{@link org.eclipse.jgit.transport.CredentialItem.CharArrayType} for other
+ * general secret information</li>
  * </ul>
  *
  * This class is not thread-safe. Applications should construct their own
@@ -83,17 +88,27 @@ public abstract class CredentialItem {
 		this.valueSecure = maskValue;
 	}
 
-	/** @return prompt to display to the user. */
+	/**
+	 * Get prompt to display to the user.
+	 *
+	 * @return prompt to display to the user.
+	 */
 	public String getPromptText() {
 		return promptText;
 	}
 
-	/** @return true if the value should be masked when entered. */
+	/**
+	 * Whether the value should be masked when entered.
+	 *
+	 * @return true if the value should be masked when entered.
+	 */
 	public boolean isValueSecure() {
 		return valueSecure;
 	}
 
-	/** Clear the stored value, destroying it as much as possible. */
+	/**
+	 * Clear the stored value, destroying it as much as possible.
+	 */
 	public abstract void clear();
 
 	/**

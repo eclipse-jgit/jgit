@@ -49,7 +49,9 @@ import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
 
-/** Update of a locally stored tracking branch. */
+/**
+ * Update of a locally stored tracking branch.
+ */
 public class TrackingRefUpdate {
 	private final String remoteName;
 	final String localName;
@@ -132,6 +134,8 @@ public class TrackingRefUpdate {
 	}
 
 	/**
+	 * Get this update wrapped by a ReceiveCommand.
+	 *
 	 * @return this update wrapped by a ReceiveCommand.
 	 * @since 3.4
 	 */
@@ -201,6 +205,7 @@ public class TrackingRefUpdate {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {

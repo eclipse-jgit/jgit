@@ -65,7 +65,9 @@ import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 import org.eclipse.jgit.transport.resolver.UploadPackFactory;
 
-/** Basic daemon for the anonymous <code>git://</code> transport protocol. */
+/**
+ * Basic daemon for the anonymous <code>git://</code> transport protocol.
+ */
 public class Daemon {
 	/** 9418: IANA assigned port number for Git. */
 	public static final int DEFAULT_PORT = 9418;
@@ -90,7 +92,9 @@ public class Daemon {
 
 	volatile ReceivePackFactory<DaemonClient> receivePackFactory;
 
-	/** Configure a daemon to listen on any available network port. */
+	/**
+	 * Configure a daemon to listen on any available network port.
+	 */
 	public Daemon() {
 		this(null);
 	}
@@ -175,7 +179,11 @@ public class Daemon {
 				} };
 	}
 
-	/** @return the address connections are received on. */
+	/**
+	 * Get the address connections are received on.
+	 *
+	 * @return the address connections are received on.
+	 */
 	public synchronized InetSocketAddress getAddress() {
 		return myAddress;
 	}
@@ -199,7 +207,11 @@ public class Daemon {
 		return null;
 	}
 
-	/** @return timeout (in seconds) before aborting an IO operation. */
+	/**
+	 * Get timeout (in seconds) before aborting an IO operation.
+	 *
+	 * @return timeout (in seconds) before aborting an IO operation.
+	 */
 	public int getTimeout() {
 		return timeout;
 	}
@@ -216,7 +228,11 @@ public class Daemon {
 		timeout = seconds;
 	}
 
-	/** @return configuration controlling packing, may be null. */
+	/**
+	 * Get configuration controlling packing, may be null.
+	 *
+	 * @return configuration controlling packing, may be null.
+	 */
 	public PackConfig getPackConfig() {
 		return packConfig;
 	}
@@ -333,9 +349,9 @@ public class Daemon {
 	/**
 	 * Start this daemon on a background thread.
 	 *
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the server socket could not be opened.
-	 * @throws IllegalStateException
+	 * @throws java.lang.IllegalStateException
 	 *             the daemon is already running.
 	 */
 	public synchronized void start() throws IOException {
@@ -359,7 +375,11 @@ public class Daemon {
 		acceptThread = null;
 	}
 
-	/** @return true if this daemon is receiving connections. */
+	/**
+	 * Whether this daemon is receiving connections.
+	 *
+	 * @return {@code true} if this daemon is receiving connections.
+	 */
 	public synchronized boolean isRunning() {
 		return acceptThread != null && acceptThread.isRunning();
 	}
@@ -376,9 +396,8 @@ public class Daemon {
 	/**
 	 * Stops this daemon and waits until it's acceptor thread has finished.
 	 *
-	 * @throws InterruptedException
+	 * @throws java.lang.InterruptedException
 	 *             if waiting for the acceptor thread is interrupted
-	 *
 	 * @since 4.9
 	 */
 	public void stopAndWait() throws InterruptedException {

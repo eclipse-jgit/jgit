@@ -58,18 +58,19 @@ import org.eclipse.jgit.util.RawParseUtils;
 /**
  * Identity in a push certificate.
  * <p>
- * This is similar to a {@link PersonIdent} in that it contains a name,
- * timestamp, and timezone offset, but differs in the following ways:
+ * This is similar to a {@link org.eclipse.jgit.lib.PersonIdent} in that it
+ * contains a name, timestamp, and timezone offset, but differs in the following
+ * ways:
  * <ul>
  * <li>It is always parsed from a UTF-8 string, rather than a raw commit
- *   buffer.</li>
+ * buffer.</li>
  * <li>It is not guaranteed to contain a name and email portion, since any UTF-8
- *   string is a valid OpenPGP User ID (RFC4880 5.1.1). The raw User ID is
- *   always available as {@link #getUserId()}, but {@link #getEmailAddress()}
- *   may return null.</li>
- * <li>The raw text from which the identity was parsed is available with {@link
- *   #getRaw()}. This is necessary for losslessly reconstructing the signed push
- *   certificate payload.</li>
+ * string is a valid OpenPGP User ID (RFC4880 5.1.1). The raw User ID is always
+ * available as {@link #getUserId()}, but {@link #getEmailAddress()} may return
+ * null.</li>
+ * <li>The raw text from which the identity was parsed is available with
+ * {@link #getRaw()}. This is necessary for losslessly reconstructing the signed
+ * push certificate payload.</li>
  * <li>
  * </ul>
  *
@@ -79,18 +80,18 @@ public class PushCertificateIdent {
 	/**
 	 * Parse an identity from a string.
 	 * <p>
-	 * Spaces are trimmed when parsing the timestamp and timezone offset, with one
-	 * exception. The timestamp must be preceded by a single space, and the rest
-	 * of the string prior to that space (including any additional whitespace) is
-	 * treated as the OpenPGP User ID.
+	 * Spaces are trimmed when parsing the timestamp and timezone offset, with
+	 * one exception. The timestamp must be preceded by a single space, and the
+	 * rest of the string prior to that space (including any additional
+	 * whitespace) is treated as the OpenPGP User ID.
 	 * <p>
-	 * If either the timestamp or timezone offsets are missing, mimics {@link
-	 * RawParseUtils#parsePersonIdent(String)} behavior and sets them both to
-	 * zero.
+	 * If either the timestamp or timezone offsets are missing, mimics
+	 * {@link RawParseUtils#parsePersonIdent(String)} behavior and sets them
+	 * both to zero.
 	 *
 	 * @param str
 	 *            string to parse.
-	 * @return identity, never null.
+	 * @return a {@link org.eclipse.jgit.transport.PushCertificateIdent} object.
 	 */
 	public static PushCertificateIdent parse(String str) {
 		MutableInteger p = new MutableInteger();
@@ -181,15 +182,21 @@ public class PushCertificateIdent {
 		return raw;
 	}
 
-	/** @return the OpenPGP User ID, which may be any string. */
+	/**
+	 * Get the OpenPGP User ID, which may be any string.
+	 *
+	 * @return the OpenPGP User ID, which may be any string.
+	 */
 	public String getUserId() {
 		return userId;
 	}
 
 	/**
+	 * Get the name portion of the User ID.
+	 *
 	 * @return the name portion of the User ID. If no email address would be
-	 *         parsed by {@link #getEmailAddress()}, returns the full User ID with
-	 *         spaces trimmed.
+	 *         parsed by {@link #getEmailAddress()}, returns the full User ID
+	 *         with spaces trimmed.
 	 */
 	public String getName() {
 		int nameEnd = userId.indexOf('<');
@@ -208,6 +215,8 @@ public class PushCertificateIdent {
 	}
 
 	/**
+	 * Get the email portion of the User ID
+	 *
 	 * @return the email portion of the User ID, if one was successfully parsed
 	 *         from {@link #getUserId()}, or null.
 	 */
@@ -223,19 +232,28 @@ public class PushCertificateIdent {
 		return userId.substring(emailBegin + 1, emailEnd);
 	}
 
-	/** @return the timestamp of the identity. */
+	/**
+	 * Get the timestamp of the identity.
+	 *
+	 * @return the timestamp of the identity.
+	 */
 	public Date getWhen() {
 		return new Date(when);
 	}
 
 	/**
-	 * @return this person's declared time zone; null if the timezone is unknown.
+	 * Get this person's declared time zone
+	 *
+	 * @return this person's declared time zone; null if the timezone is
+	 *         unknown.
 	 */
 	public TimeZone getTimeZone() {
 		return PersonIdent.getTimeZone(tzOffset);
 	}
 
 	/**
+	 * Get this person's declared time zone as minutes east of UTC.
+	 *
 	 * @return this person's declared time zone as minutes east of UTC. If the
 	 *         timezone is to the west of UTC it is negative.
 	 */
@@ -243,17 +261,20 @@ public class PushCertificateIdent {
 		return tzOffset;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean equals(Object o) {
 		return (o instanceof PushCertificateIdent)
 			&& raw.equals(((PushCertificateIdent) o).raw);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int hashCode() {
 		return raw.hashCode();
 	}
 
+	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {

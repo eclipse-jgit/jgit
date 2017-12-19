@@ -291,8 +291,11 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	}
 
 	/**
+	 * Set uri a {@link org.eclipse.jgit.transport.URIish} object.
+	 *
 	 * @param uri
-	 * @throws NotSupportedException
+	 *            a {@link org.eclipse.jgit.transport.URIish} object.
+	 * @throws org.eclipse.jgit.errors.NotSupportedException
 	 * @since 4.9
 	 */
 	protected void setURI(final URIish uri) throws NotSupportedException {
@@ -333,6 +336,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		useSmartHttp = on;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public FetchConnection openFetch() throws TransportException,
 			NotSupportedException {
@@ -427,6 +431,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		return new BufferedReader(new InputStreamReader(in, Constants.CHARSET));
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public PushConnection openPush() throws NotSupportedException,
 			TransportException {
@@ -465,6 +470,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		return p;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		// No explicit connections are maintained.
@@ -803,7 +809,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	 * @param method HTTP request method
 	 * @param u url of the HTTP connection
 	 * @return the HTTP connection
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 * @since 3.3
 	 * @deprecated use {@link #httpOpen(String, URL, AcceptEncoding)} instead.
 	 */
@@ -819,7 +825,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	 * @param u url of the HTTP connection
 	 * @param acceptEncoding accept-encoding header option
 	 * @return the HTTP connection
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 * @since 4.6
 	 */
 	protected HttpConnection httpOpen(String method, URL u,

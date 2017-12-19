@@ -57,6 +57,21 @@ import org.eclipse.jgit.transport.resolver.UploadPackFactory;
 class InternalFetchConnection<C> extends BasePackFetchConnection {
 	private Thread worker;
 
+	/**
+	 * Constructor for InternalFetchConnection.
+	 *
+	 * @param transport
+	 *            a {@link org.eclipse.jgit.transport.PackTransport}
+	 * @param uploadPackFactory
+	 *            a
+	 *            {@link org.eclipse.jgit.transport.resolver.UploadPackFactory}
+	 * @param req
+	 *            request
+	 * @param remote
+	 *            the remote {@link org.eclipse.jgit.lib.Repository}
+	 * @throws org.eclipse.jgit.errors.TransportException
+	 *             if any.
+	 */
 	public InternalFetchConnection(PackTransport transport,
 			final UploadPackFactory<C> uploadPackFactory,
 			final C req, final Repository remote) throws TransportException {
@@ -125,6 +140,7 @@ class InternalFetchConnection<C> extends BasePackFetchConnection {
 		readAdvertisedRefs();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		super.close();

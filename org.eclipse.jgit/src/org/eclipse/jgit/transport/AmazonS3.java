@@ -231,7 +231,6 @@ public class AmazonS3 {
 	 *
 	 * @param props
 	 *            connection properties.
-	 *
 	 */
 	public AmazonS3(final Properties props) {
 		domain = props.getProperty(Keys.DOMAIN, "s3.amazonaws.com"); //$NON-NLS-1$
@@ -281,7 +280,7 @@ public class AmazonS3 {
 	 * @return connection to stream the content of the object. The request
 	 *         properties of the connection may not be modified by the caller as
 	 *         the request parameters have already been signed.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             sending the request was not possible.
 	 */
 	public URLConnection get(final String bucket, final String key)
@@ -310,7 +309,7 @@ public class AmazonS3 {
 	 * @param u
 	 *            connection previously created by {@link #get(String, String)}}.
 	 * @return stream to read plain text from.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             decryption could not be configured.
 	 */
 	public InputStream decrypt(final URLConnection u) throws IOException {
@@ -333,7 +332,7 @@ public class AmazonS3 {
 	 * @return list of keys starting with <code>prefix</code>, after removing
 	 *         <code>prefix</code> (or <code>prefix + "/"</code>)from all
 	 *         of them.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             sending the request was not possible, or the response XML
 	 *             document could not be parsed properly.
 	 */
@@ -357,7 +356,7 @@ public class AmazonS3 {
 	 *            name of the bucket storing the object.
 	 * @param key
 	 *            key of the object within its bucket.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             deletion failed due to communications error.
 	 */
 	public void delete(final String bucket, final String key)
@@ -394,7 +393,7 @@ public class AmazonS3 {
 	 * @param data
 	 *            new data content for the object. Must not be null. Zero length
 	 *            array will create a zero length object.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             creation/updating failed due to communications error.
 	 */
 	public void put(final String bucket, final String key, final byte[] data)
@@ -463,7 +462,7 @@ public class AmazonS3 {
 	 * @param monitorTask
 	 *            (optional) task name to display during the close method.
 	 * @return a stream which accepts the new data, and transmits once closed.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             if encryption was enabled it could not be configured.
 	 */
 	public OutputStream beginPut(final String bucket, final String key,

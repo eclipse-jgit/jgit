@@ -54,9 +54,9 @@ import org.eclipse.jgit.util.FS;
  * communicating with the end-user as well as reading their personal SSH
  * configuration settings, such as known hosts and private keys.
  * <p>
- * A {@link RemoteSession} must be returned to the factory that created it.
- * Callers are encouraged to retain the SshSessionFactory for the duration of
- * the period they are using the Session.
+ * A {@link org.eclipse.jgit.transport.RemoteSession} must be returned to the
+ * factory that created it. Callers are encouraged to retain the
+ * SshSessionFactory for the duration of the period they are using the Session.
  */
 public abstract class SshSessionFactory {
 	private static SshSessionFactory INSTANCE = new DefaultSshSessionFactory();
@@ -106,7 +106,7 @@ public abstract class SshSessionFactory {
 	 * @param tms
 	 *            Timeout value, in milliseconds.
 	 * @return a session that can contact the remote host.
-	 * @throws TransportException
+	 * @throws org.eclipse.jgit.errors.TransportException
 	 *             the session could not be created.
 	 */
 	public abstract RemoteSession getSession(URIish uri,

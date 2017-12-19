@@ -49,7 +49,8 @@ import java.util.List;
 import org.eclipse.jgit.lib.ObjectId;
 
 /**
- * {@link PreUploadHook} that delegates to a list of other hooks.
+ * {@link org.eclipse.jgit.transport.PreUploadHook} that delegates to a list of
+ * other hooks.
  * <p>
  * Hooks are run in the order passed to the constructor. If running a method on
  * one hook throws an exception, execution of remaining hook methods is aborted.
@@ -79,6 +80,7 @@ public class PreUploadHookChain implements PreUploadHook {
 			return new PreUploadHookChain(newHooks, i);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void onBeginNegotiateRound(UploadPack up,
 			Collection<? extends ObjectId> wants, int cntOffered)
@@ -87,6 +89,7 @@ public class PreUploadHookChain implements PreUploadHook {
 			hooks[i].onBeginNegotiateRound(up, wants, cntOffered);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void onEndNegotiateRound(UploadPack up,
 			Collection<? extends ObjectId> wants, int cntCommon,
@@ -96,6 +99,7 @@ public class PreUploadHookChain implements PreUploadHook {
 			hooks[i].onEndNegotiateRound(up, wants, cntCommon, cntNotFound, ready);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void onSendPack(UploadPack up,
 			Collection<? extends ObjectId> wants,

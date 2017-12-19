@@ -64,6 +64,7 @@ import org.eclipse.jgit.lib.Ref;
  */
 abstract class BaseFetchConnection extends BaseConnection implements
 		FetchConnection {
+	/** {@inheritDoc} */
 	@Override
 	public final void fetch(final ProgressMonitor monitor,
 			final Collection<Ref> want, final Set<ObjectId> have)
@@ -71,6 +72,7 @@ abstract class BaseFetchConnection extends BaseConnection implements
 		fetch(monitor, want, have, null);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public final void fetch(final ProgressMonitor monitor,
 			final Collection<Ref> want, final Set<ObjectId> have,
@@ -80,6 +82,8 @@ abstract class BaseFetchConnection extends BaseConnection implements
 	}
 
 	/**
+	 * {@inheritDoc}
+	 *
 	 * Default implementation of {@link FetchConnection#didFetchIncludeTags()} -
 	 * returning false.
 	 */
@@ -98,7 +102,7 @@ abstract class BaseFetchConnection extends BaseConnection implements
 	 *            as in {@link #fetch(ProgressMonitor, Collection, Set)}
 	 * @param have
 	 *            as in {@link #fetch(ProgressMonitor, Collection, Set)}
-	 * @throws TransportException
+	 * @throws org.eclipse.jgit.errors.TransportException
 	 *             as in {@link #fetch(ProgressMonitor, Collection, Set)}, but
 	 *             implementation doesn't have to care about multiple
 	 *             {@link #fetch(ProgressMonitor, Collection, Set)} calls, as it

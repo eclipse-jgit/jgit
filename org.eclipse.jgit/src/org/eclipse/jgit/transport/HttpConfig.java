@@ -61,10 +61,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * A representation of the "http.*" config values in a git {@link Config}. git
- * provides for setting values for specific URLs through "http.<url>.*
- * subsections. git always considers only the initial original URL for such
- * settings, not any redirected URL.
+ * A representation of the "http.*" config values in a git
+ * {@link org.eclipse.jgit.lib.Config}. git provides for setting values for
+ * specific URLs through "http.<url>.* subsections. git always considers only
+ * the initial original URL for such settings, not any redirected URL.
  *
  * @since 4.9
  */
@@ -154,6 +154,8 @@ public class HttpConfig {
 	private int maxRedirects;
 
 	/**
+	 * Get the "http.postBuffer" setting
+	 *
 	 * @return the value of the "http.postBuffer" setting
 	 */
 	public int getPostBuffer() {
@@ -161,6 +163,8 @@ public class HttpConfig {
 	}
 
 	/**
+	 * Get the "http.sslVerify" setting
+	 *
 	 * @return the value of the "http.sslVerify" setting
 	 */
 	public boolean isSslVerify() {
@@ -168,6 +172,8 @@ public class HttpConfig {
 	}
 
 	/**
+	 * Get the "http.followRedirects" setting
+	 *
 	 * @return the value of the "http.followRedirects" setting
 	 */
 	public HttpRedirectMode getFollowRedirects() {
@@ -175,6 +181,8 @@ public class HttpConfig {
 	}
 
 	/**
+	 * Get the "http.maxRedirects" setting
+	 *
 	 * @return the value of the "http.maxRedirects" setting
 	 */
 	public int getMaxRedirects() {
@@ -182,10 +190,11 @@ public class HttpConfig {
 	}
 
 	/**
-	 * Creates a new {@link HttpConfig} tailored to the given {@link URIish}.
+	 * Creates a new {@link org.eclipse.jgit.transport.HttpConfig} tailored to
+	 * the given {@link org.eclipse.jgit.transport.URIish}.
 	 *
 	 * @param config
-	 *            to read the {@link HttpConfig} from
+	 *            to read the {@link org.eclipse.jgit.transport.HttpConfig} from
 	 * @param uri
 	 *            to get the configuration values for
 	 */
@@ -194,8 +203,8 @@ public class HttpConfig {
 	}
 
 	/**
-	 * Creates a {@link HttpConfig} that reads values solely from the user
-	 * config.
+	 * Creates a {@link org.eclipse.jgit.transport.HttpConfig} that reads values
+	 * solely from the user config.
 	 *
 	 * @param uri
 	 *            to get the configuration values for

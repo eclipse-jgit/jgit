@@ -132,6 +132,8 @@ public class PushCertificate {
 	}
 
 	/**
+	 * Get the certificate version string.
+	 *
 	 * @return the certificate version string.
 	 * @since 4.1
 	 */
@@ -140,6 +142,8 @@ public class PushCertificate {
 	}
 
 	/**
+	 * Get the raw line that signed the cert, as a string.
+	 *
 	 * @return the raw line that signed the cert, as a string.
 	 * @since 4.0
 	 */
@@ -148,6 +152,8 @@ public class PushCertificate {
 	}
 
 	/**
+	 * Get identity of the pusher who signed the cert.
+	 *
 	 * @return identity of the pusher who signed the cert.
 	 * @since 4.1
 	 */
@@ -156,6 +162,8 @@ public class PushCertificate {
 	}
 
 	/**
+	 * Get URL of the repository the push was originally sent to.
+	 *
 	 * @return URL of the repository the push was originally sent to.
 	 * @since 4.0
 	 */
@@ -164,6 +172,8 @@ public class PushCertificate {
 	}
 
 	/**
+	 * Get the raw nonce value that was presented by the pusher.
+	 *
 	 * @return the raw nonce value that was presented by the pusher.
 	 * @since 4.1
 	 */
@@ -172,6 +182,8 @@ public class PushCertificate {
 	}
 
 	/**
+	 * Get verification status of the nonce embedded in the certificate.
+	 *
 	 * @return verification status of the nonce embedded in the certificate.
 	 * @since 4.0
 	 */
@@ -180,6 +192,9 @@ public class PushCertificate {
 	}
 
 	/**
+	 * Get the list of commands as one string to be feed into the signature
+	 * verifier.
+	 *
 	 * @return the list of commands as one string to be feed into the signature
 	 *         verifier.
 	 * @since 4.1
@@ -189,9 +204,11 @@ public class PushCertificate {
 	}
 
 	/**
+	 * Get the raw signature
+	 *
 	 * @return the raw signature, consisting of the lines received between the
-	 *     lines {@code "----BEGIN GPG SIGNATURE-----\n"} and
-	 *     {@code "----END GPG SIGNATURE-----\n}", inclusive.
+	 *         lines {@code "----BEGIN GPG SIGNATURE-----\n"} and
+	 *         {@code "----END GPG SIGNATURE-----\n}", inclusive.
 	 * @since 4.0
 	 */
 	public String getSignature() {
@@ -199,6 +216,8 @@ public class PushCertificate {
 	}
 
 	/**
+	 * Get text payload of the certificate for the signature verifier.
+	 *
 	 * @return text payload of the certificate for the signature verifier.
 	 * @since 4.1
 	 */
@@ -207,8 +226,11 @@ public class PushCertificate {
 	}
 
 	/**
+	 * Get original text payload plus signature
+	 *
 	 * @return original text payload plus signature; the final output will be
-	 *     valid as input to {@link PushCertificateParser#fromString(String)}.
+	 *         valid as input to
+	 *         {@link org.eclipse.jgit.transport.PushCertificateParser#fromString(String)}.
 	 * @since 4.1
 	 */
 	public String toTextWithSignature() {
@@ -233,11 +255,13 @@ public class PushCertificate {
 		return sb;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int hashCode() {
 		return signature.hashCode();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean equals(Object o) {
 		if (!(o instanceof PushCertificate)) {
@@ -268,6 +292,7 @@ public class PushCertificate {
 		return true;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		return getClass().getSimpleName() + '['

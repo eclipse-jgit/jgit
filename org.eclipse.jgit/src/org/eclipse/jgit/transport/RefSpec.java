@@ -153,7 +153,7 @@ public class RefSpec implements Serializable {
 	 * @param mode
 	 *            whether to allow a wildcard on one side without a wildcard on
 	 *            the other.
-	 * @throws IllegalArgumentException
+	 * @throws java.lang.IllegalArgumentException
 	 *             the specification is invalid.
 	 * @since 4.5
 	 */
@@ -219,7 +219,7 @@ public class RefSpec implements Serializable {
 	 *
 	 * @param spec
 	 *            string describing the specification.
-	 * @throws IllegalArgumentException
+	 * @throws java.lang.IllegalArgumentException
 	 *             the specification is invalid.
 	 */
 	public RefSpec(final String spec) {
@@ -288,7 +288,7 @@ public class RefSpec implements Serializable {
 	 * @param source
 	 *            new value for source in the returned instance.
 	 * @return a new RefSpec with source as specified.
-	 * @throws IllegalStateException
+	 * @throws java.lang.IllegalStateException
 	 *             There is already a destination configured, and the wildcard
 	 *             status of the existing destination disagrees with the
 	 *             wildcard status of the new source.
@@ -327,7 +327,7 @@ public class RefSpec implements Serializable {
 	 * @param destination
 	 *            new value for destination in the returned instance.
 	 * @return a new RefSpec with destination as specified.
-	 * @throws IllegalStateException
+	 * @throws java.lang.IllegalStateException
 	 *             There is already a source configured, and the wildcard status
 	 *             of the existing source disagrees with the wildcard status of
 	 *             the new destination.
@@ -350,7 +350,7 @@ public class RefSpec implements Serializable {
 	 * @param destination
 	 *            new value for destination in the returned instance.
 	 * @return a new RefSpec with destination as specified.
-	 * @throws IllegalArgumentException
+	 * @throws java.lang.IllegalArgumentException
 	 *             The wildcard status of the new source disagrees with the
 	 *             wildcard status of the new destination.
 	 */
@@ -421,7 +421,7 @@ public class RefSpec implements Serializable {
 	 * @return a new specification expanded from provided ref name. Result
 	 *         specification is wildcard if and only if provided ref name is
 	 *         wildcard.
-	 * @throws IllegalStateException
+	 * @throws java.lang.IllegalStateException
 	 *             when the RefSpec was constructed with wildcard mode that
 	 *             doesn't require matching wildcards.
 	 */
@@ -453,7 +453,7 @@ public class RefSpec implements Serializable {
 	 * @return a new specification expanded from provided ref name. Result
 	 *         specification is wildcard if and only if provided ref name is
 	 *         wildcard.
-	 * @throws IllegalStateException
+	 * @throws java.lang.IllegalStateException
 	 *             when the RefSpec was constructed with wildcard mode that
 	 *             doesn't require matching wildcards.
 	 */
@@ -473,7 +473,7 @@ public class RefSpec implements Serializable {
 	 * @return a new specification expanded from provided ref name. Result
 	 *         specification is wildcard if and only if provided ref name is
 	 *         wildcard.
-	 * @throws IllegalStateException
+	 * @throws java.lang.IllegalStateException
 	 *             when the RefSpec was constructed with wildcard mode that
 	 *             doesn't require matching wildcards.
 	 */
@@ -504,7 +504,7 @@ public class RefSpec implements Serializable {
 	 * @return a new specification expanded from provided ref name. Result
 	 *         specification is wildcard if and only if provided ref name is
 	 *         wildcard.
-	 * @throws IllegalStateException
+	 * @throws java.lang.IllegalStateException
 	 *             when the RefSpec was constructed with wildcard mode that
 	 *             doesn't require matching wildcards.
 	 */
@@ -556,6 +556,7 @@ public class RefSpec implements Serializable {
 		return true;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int hashCode() {
 		int hc = 0;
@@ -566,6 +567,7 @@ public class RefSpec implements Serializable {
 		return hc;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean equals(final Object obj) {
 		if (!(obj instanceof RefSpec))
@@ -590,6 +592,7 @@ public class RefSpec implements Serializable {
 		return a.equals(b);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		final StringBuilder r = new StringBuilder();

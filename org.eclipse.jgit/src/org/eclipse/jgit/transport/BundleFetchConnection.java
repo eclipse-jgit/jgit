@@ -180,11 +180,13 @@ class BundleFetchConnection extends BaseFetchConnection {
 		return line.toString();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean didFetchTestConnectivity() {
 		return false;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void doFetch(final ProgressMonitor monitor,
 			final Collection<Ref> want, final Set<ObjectId> have)
@@ -208,11 +210,13 @@ class BundleFetchConnection extends BaseFetchConnection {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void setPackLockMessage(final String message) {
 		lockMessage = message;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Collection<PackLock> getPackLocks() {
 		if (packLock != null)
@@ -290,6 +294,7 @@ class BundleFetchConnection extends BaseFetchConnection {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		if (bin != null) {

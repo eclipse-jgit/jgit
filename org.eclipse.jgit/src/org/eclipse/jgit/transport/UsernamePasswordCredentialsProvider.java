@@ -48,7 +48,8 @@ import java.util.Arrays;
 import org.eclipse.jgit.errors.UnsupportedCredentialItem;
 
 /**
- * Simple {@link CredentialsProvider} that always uses the same information.
+ * Simple {@link org.eclipse.jgit.transport.CredentialsProvider} that always
+ * uses the same information.
  */
 public class UsernamePasswordCredentialsProvider extends CredentialsProvider {
 	private String username;
@@ -59,7 +60,9 @@ public class UsernamePasswordCredentialsProvider extends CredentialsProvider {
 	 * Initialize the provider with a single username and password.
 	 *
 	 * @param username
+	 *            user name
 	 * @param password
+	 *            password
 	 */
 	public UsernamePasswordCredentialsProvider(String username, String password) {
 		this(username, password.toCharArray());
@@ -69,18 +72,22 @@ public class UsernamePasswordCredentialsProvider extends CredentialsProvider {
 	 * Initialize the provider with a single username and password.
 	 *
 	 * @param username
+	 *            user name
 	 * @param password
+	 *            password
 	 */
 	public UsernamePasswordCredentialsProvider(String username, char[] password) {
 		this.username = username;
 		this.password = password;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean isInteractive() {
 		return false;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean supports(CredentialItem... items) {
 		for (CredentialItem i : items) {
@@ -96,6 +103,7 @@ public class UsernamePasswordCredentialsProvider extends CredentialsProvider {
 		return true;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean get(URIish uri, CredentialItem... items)
 			throws UnsupportedCredentialItem {
@@ -121,7 +129,9 @@ public class UsernamePasswordCredentialsProvider extends CredentialsProvider {
 		return true;
 	}
 
-	/** Destroy the saved username and password.. */
+	/**
+	 * Destroy the saved username and password..
+	 */
 	public void clear() {
 		username = null;
 

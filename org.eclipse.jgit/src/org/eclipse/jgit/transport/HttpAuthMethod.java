@@ -204,6 +204,12 @@ abstract class HttpAuthMethod {
 
 	protected final Type type;
 
+	/**
+	 * Constructor for HttpAuthMethod.
+	 *
+	 * @param type
+	 *            authentication method type
+	 */
 	protected HttpAuthMethod(Type type) {
 		this.type = type;
 	}

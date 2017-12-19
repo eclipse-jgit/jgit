@@ -67,7 +67,10 @@ import org.eclipse.jgit.lib.RefComparator;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.RefMap;
 
-/** Support for the start of {@link UploadPack} and {@link ReceivePack}. */
+/**
+ * Support for the start of {@link org.eclipse.jgit.transport.UploadPack} and
+ * {@link org.eclipse.jgit.transport.ReceivePack}.
+ */
 public abstract class RefAdvertiser {
 	/** Advertiser which frames lines in a {@link PacketLineOut} format. */
 	public static class PacketLineOutRefAdvertiser extends RefAdvertiser {
@@ -247,7 +250,6 @@ public abstract class RefAdvertiser {
 	 *            The symbolic ref, e.g. "HEAD"
 	 * @param to
 	 *            The real ref it points to, e.g. "refs/heads/master"
-	 *
 	 * @since 3.6
 	 */
 	public void addSymref(String from, String to) {
@@ -262,7 +264,7 @@ public abstract class RefAdvertiser {
 	 *            sorted before display if necessary, and therefore may appear
 	 *            in any order.
 	 * @return set of ObjectIds that were advertised to the client.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the underlying output stream failed to write out an
 	 *             advertisement record.
 	 */
@@ -305,7 +307,7 @@ public abstract class RefAdvertiser {
 	 *
 	 * @param id
 	 *            identity of the object that is assumed to exist.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the underlying output stream failed to write out an
 	 *             advertisement record.
 	 */
@@ -313,7 +315,11 @@ public abstract class RefAdvertiser {
 		advertiseAnyOnce(id, ".have"); //$NON-NLS-1$
 	}
 
-	/** @return true if no advertisements have been sent yet. */
+	/**
+	 * Whether no advertisements have been sent yet.
+	 *
+	 * @return true if no advertisements have been sent yet.
+	 */
 	public boolean isEmpty() {
 		return first;
 	}
@@ -341,7 +347,7 @@ public abstract class RefAdvertiser {
 	 * @param refName
 	 *            name of the reference to advertise the object as, can be any
 	 *            string not including the NUL byte.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the underlying output stream failed to write out an
 	 *             advertisement record.
 	 */
@@ -372,7 +378,7 @@ public abstract class RefAdvertiser {
 	 * @param line
 	 *            the advertisement line to be written. The line always ends
 	 *            with LF. Never null or the empty string.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the underlying output stream failed to write out an
 	 *             advertisement record.
 	 */
@@ -381,7 +387,7 @@ public abstract class RefAdvertiser {
 	/**
 	 * Mark the end of the advertisements.
 	 *
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the underlying output stream failed to write out an
 	 *             advertisement record.
 	 */

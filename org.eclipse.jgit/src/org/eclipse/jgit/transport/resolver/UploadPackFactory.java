@@ -47,13 +47,16 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.UploadPack;
 
 /**
- * Create and configure {@link UploadPack} service instance.
+ * Create and configure {@link org.eclipse.jgit.transport.UploadPack} service
+ * instance.
  *
  * @param <C>
  *            the connection type
  */
 public interface UploadPackFactory<C> {
-	/** A factory disabling the UploadPack service for all repositories. */
+	/**
+	 * A factory disabling the UploadPack service for all repositories.
+	 */
 	public static final UploadPackFactory<?> DISABLED = new UploadPackFactory<Object>() {
 		@Override
 		public UploadPack create(Object req, Repository db)

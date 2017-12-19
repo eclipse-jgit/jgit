@@ -52,7 +52,10 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 
-/** A service exposed by {@link Daemon} over anonymous <code>git://</code>. */
+/**
+ * A service exposed by {@link org.eclipse.jgit.transport.Daemon} over anonymous
+ * <code>git://</code>.
+ */
 public abstract class DaemonService {
 	private final String command;
 
@@ -77,34 +80,55 @@ public abstract class DaemonService {
 		}
 	}
 
-	/** @return is this service enabled for invocation? */
+	/**
+	 * Whether this service is enabled for invocation.
+	 *
+	 * @return whether this service is enabled for invocation.
+	 */
 	public boolean isEnabled() {
 		return enabled;
 	}
 
 	/**
+	 * Set if it is allowed to use this service
+	 *
 	 * @param on
-	 *            true to allow this service to be used; false to deny it.
+	 *            {@code true} to allow this service to be used; {@code false}
+	 *            to deny it.
 	 */
 	public void setEnabled(final boolean on) {
 		enabled = on;
 	}
 
 	/** @return can this service be configured in the repository config file? */
+	/**
+	 * Whether this service can be configured in the repository config file
+	 *
+	 * @return whether this service can be configured in the repository config
+	 *         file
+	 */
 	public boolean isOverridable() {
 		return overridable;
 	}
 
 	/**
+	 * Whether to permit repositories to override this service's enabled state
+	 * with the <code>daemon.servicename</code> config setting.
+	 *
 	 * @param on
-	 *            true to permit repositories to override this service's enabled
-	 *            state with the <code>daemon.servicename</code> config setting.
+	 *            {@code true} to permit repositories to override this service's
+	 *            enabled state with the <code>daemon.servicename</code> config
+	 *            setting.
 	 */
 	public void setOverridable(final boolean on) {
 		overridable = on;
 	}
 
-	/** @return name of the command requested by clients. */
+	/**
+	 * Get name of the command requested by clients.
+	 *
+	 * @return name of the command requested by clients.
+	 */
 	public String getCommandName() {
 		return command;
 	}

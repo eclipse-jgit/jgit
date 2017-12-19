@@ -47,16 +47,19 @@ import java.net.Proxy;
 import java.net.URL;
 
 /**
- * A factory returning instances of {@link JDKHttpConnection}
+ * A factory returning instances of
+ * {@link org.eclipse.jgit.transport.http.JDKHttpConnection}
  *
  * @since 3.3
  */
 public class JDKHttpConnectionFactory implements HttpConnectionFactory {
+	/** {@inheritDoc} */
 	@Override
 	public HttpConnection create(URL url) throws IOException {
 		return new JDKHttpConnection(url);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public HttpConnection create(URL url, Proxy proxy)
 			throws IOException {

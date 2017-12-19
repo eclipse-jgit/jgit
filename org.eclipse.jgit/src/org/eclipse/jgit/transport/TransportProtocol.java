@@ -72,11 +72,12 @@ import org.eclipse.jgit.lib.Repository;
  *
  * <p>
  * Applications may register additional protocols for use by JGit by calling
- * {@link Transport#register(TransportProtocol)}. Because that API holds onto
- * the protocol object by a WeakReference, applications must ensure their own
- * ClassLoader retains the TransportProtocol for the life of the application.
- * Using a static singleton pattern as above will ensure the protocol is valid
- * so long as the ClassLoader that defines it remains valid.
+ * {@link org.eclipse.jgit.transport.Transport#register(TransportProtocol)}.
+ * Because that API holds onto the protocol object by a WeakReference,
+ * applications must ensure their own ClassLoader retains the TransportProtocol
+ * for the life of the application. Using a static singleton pattern as above
+ * will ensure the protocol is valid so long as the ClassLoader that defines it
+ * remains valid.
  * <p>
  * Applications may automatically register additional protocols by filling in
  * the names of their TransportProtocol defining classes using the services file
@@ -102,25 +103,45 @@ public abstract class TransportProtocol {
 		PATH,
 	}
 
-	/** @return text name of the protocol suitable for display to a user. */
+	/**
+	 * Get text name of the protocol suitable for display to a user.
+	 *
+	 * @return text name of the protocol suitable for display to a user.
+	 */
 	public abstract String getName();
 
-	/** @return immutable set of schemes supported by this protocol. */
+	/**
+	 * Get immutable set of schemes supported by this protocol.
+	 *
+	 * @return immutable set of schemes supported by this protocol.
+	 */
 	public Set<String> getSchemes() {
 		return Collections.emptySet();
 	}
 
-	/** @return immutable set of URIishFields that must be filled in. */
+	/**
+	 * Get immutable set of URIishFields that must be filled in.
+	 *
+	 * @return immutable set of URIishFields that must be filled in.
+	 */
 	public Set<URIishField> getRequiredFields() {
 		return Collections.unmodifiableSet(EnumSet.of(URIishField.PATH));
 	}
 
-	/** @return immutable set of URIishFields that may be filled in. */
+	/**
+	 * Get immutable set of URIishFields that may be filled in.
+	 *
+	 * @return immutable set of URIishFields that may be filled in.
+	 */
 	public Set<URIishField> getOptionalFields() {
 		return Collections.emptySet();
 	}
 
-	/** @return if a port is supported, the default port, else -1. */
+	/**
+	 * Get the default port if the protocol supports a port, else -1.
+	 *
+	 * @return the default port if the protocol supports a port, else -1.
+	 */
 	public int getDefaultPort() {
 		return -1;
 	}
@@ -246,9 +267,9 @@ public abstract class TransportProtocol {
 	 *            name of the remote, if the remote as configured in
 	 *            {@code local}; otherwise null.
 	 * @return the transport.
-	 * @throws NotSupportedException
+	 * @throws org.eclipse.jgit.errors.NotSupportedException
 	 *             this protocol does not support the URI.
-	 * @throws TransportException
+	 * @throws org.eclipse.jgit.errors.TransportException
 	 *             the transport cannot open this URI.
 	 */
 	public abstract Transport open(URIish uri, Repository local,
@@ -260,9 +281,10 @@ public abstract class TransportProtocol {
 	 * configuration instead of reading from configuration files.
 	 *
 	 * @param uri
+	 *            a {@link org.eclipse.jgit.transport.URIish} object.
 	 * @return new Transport
-	 * @throws NotSupportedException
-	 * @throws TransportException
+	 * @throws org.eclipse.jgit.errors.NotSupportedException
+	 * @throws org.eclipse.jgit.errors.TransportException
 	 */
 	public Transport open(URIish uri)
 			throws NotSupportedException, TransportException {

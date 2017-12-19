@@ -86,8 +86,9 @@ import org.eclipse.jgit.lib.SymbolicRef;
  * extended HTTP/1.1 semantics. This make it possible to read or write Git data
  * from a remote repository that is stored on S3.
  * <p>
- * Unlike the HTTP variant (see {@link TransportHttp}) we rely upon being able
- * to list objects in a bucket, as the S3 API supports this function. By listing
+ * Unlike the HTTP variant (see
+ * {@link org.eclipse.jgit.transport.TransportHttp}) we rely upon being able to
+ * list objects in a bucket, as the S3 API supports this function. By listing
  * the bucket contents we can avoid relying on <code>objects/info/packs</code>
  * or <code>info/refs</code> in the remote repository.
  * <p>
@@ -201,6 +202,7 @@ public class TransportAmazonS3 extends HttpTransport implements WalkTransport {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public FetchConnection openFetch() throws TransportException {
 		final DatabaseS3 c = new DatabaseS3(bucket, keyPrefix + "/objects"); //$NON-NLS-1$
@@ -209,6 +211,7 @@ public class TransportAmazonS3 extends HttpTransport implements WalkTransport {
 		return r;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public PushConnection openPush() throws TransportException {
 		final DatabaseS3 c = new DatabaseS3(bucket, keyPrefix + "/objects"); //$NON-NLS-1$
@@ -217,6 +220,7 @@ public class TransportAmazonS3 extends HttpTransport implements WalkTransport {
 		return r;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		// No explicit connections are maintained.

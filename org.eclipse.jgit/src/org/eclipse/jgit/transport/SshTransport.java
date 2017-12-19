@@ -99,7 +99,7 @@ public abstract class SshTransport extends TcpTransport {
 	 *
 	 * @param factory
 	 *            a factory to set, must not be null
-	 * @throws IllegalStateException
+	 * @throws java.lang.IllegalStateException
 	 *             if session has been already created.
 	 */
 	public void setSshSessionFactory(SshSessionFactory factory) {
@@ -112,7 +112,10 @@ public abstract class SshTransport extends TcpTransport {
 	}
 
 	/**
-	 * @return the SSH session factory that will be used for creating SSH sessions
+	 * Get the SSH session factory
+	 *
+	 * @return the SSH session factory that will be used for creating SSH
+	 *         sessions
 	 */
 	public SshSessionFactory getSshSessionFactory() {
 		return sch;
@@ -122,7 +125,7 @@ public abstract class SshTransport extends TcpTransport {
 	 * Get the default SSH session
 	 *
 	 * @return a remote session
-	 * @throws TransportException
+	 * @throws org.eclipse.jgit.errors.TransportException
 	 *             in case of error with opening SSH session
 	 */
 	protected RemoteSession getSession() throws TransportException {
@@ -138,6 +141,7 @@ public abstract class SshTransport extends TcpTransport {
 		return sock;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		if (sock != null) {

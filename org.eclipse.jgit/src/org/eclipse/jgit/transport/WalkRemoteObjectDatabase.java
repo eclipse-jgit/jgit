@@ -417,7 +417,7 @@ abstract class WalkRemoteObjectDatabase {
 	 * @param avail
 	 *            return collection of references. Any existing entries will be
 	 *            replaced if they are found in the packed-refs file.
-	 * @throws TransportException
+	 * @throws org.eclipse.jgit.errors.TransportException
 	 *             an error occurred reading from the packed refs file.
 	 */
 	protected void readPackedRefs(final Map<String, Ref> avail)
