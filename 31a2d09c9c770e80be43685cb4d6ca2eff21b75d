@@ -16,6 +16,24 @@
       "revId": "31a2d09c9c770e80be43685cb4d6ca2eff21b75d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_d78e2fb8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2017-12-19T15:29:02Z",
+      "side": 1,
+      "message": "Huh, I guess I missed that. So is it the case that the only things you _need_ quotes for are leading/trailing whitespace and quoting comment characters?",
+      "parentUuid": "87929364_bff89f3e",
+      "revId": "31a2d09c9c770e80be43685cb4d6ca2eff21b75d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
