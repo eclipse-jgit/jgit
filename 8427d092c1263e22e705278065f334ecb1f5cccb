@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87929364_9da76192",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ChainingCredentialsProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-12-19T23:36:59Z",
+      "side": 1,
+      "message": "whitespace",
+      "range": {
+        "startLine": 98,
+        "startChar": 3,
+        "endLine": 98,
+        "endChar": 4
+      },
+      "revId": "8427d092c1263e22e705278065f334ecb1f5cccb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_ddb009c8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RemoteConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-12-19T23:36:59Z",
+      "side": 1,
+      "message": "Should be replaced",
+      "range": {
+        "startLine": 528,
+        "startChar": 4,
+        "endLine": 528,
+        "endChar": 20
+      },
+      "revId": "8427d092c1263e22e705278065f334ecb1f5cccb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_fdadc570",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RemoteConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 550,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-12-19T23:36:59Z",
+      "side": 1,
+      "message": "This is misformatted.",
+      "range": {
+        "startLine": 547,
+        "startChar": 1,
+        "endLine": 550,
+        "endChar": 3
+      },
+      "revId": "8427d092c1263e22e705278065f334ecb1f5cccb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_1dbb71aa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ServiceMayNotContinueException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-12-19T23:36:59Z",
+      "side": 1,
+      "message": "Misformatted",
+      "range": {
+        "startLine": 141,
+        "startChar": 1,
+        "endLine": 146,
+        "endChar": 4
+      },
+      "revId": "8427d092c1263e22e705278065f334ecb1f5cccb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_3db82dab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportProtocol.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-12-19T23:36:59Z",
+      "side": 1,
+      "message": "This should be rewritten.",
+      "range": {
+        "startLine": 141,
+        "startChar": 4,
+        "endLine": 141,
+        "endChar": 58
+      },
+      "revId": "8427d092c1263e22e705278065f334ecb1f5cccb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
