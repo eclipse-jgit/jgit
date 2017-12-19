@@ -515,8 +515,8 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 			CorruptObjectException corruptObject = new CorruptObjectException(
 					MessageFormat.format(
 							JGitText.get().objectAtHasBadZlibStream,
-							Long.valueOf(src.offset), getPackFile()));
-			corruptObject.initCause(dataFormat);
+							Long.valueOf(src.offset), getPackFile()),
+					dataFormat);
 
 			throw new StoredObjectRepresentationNotAvailableException(src,
 					corruptObject);
@@ -895,12 +895,11 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 			return new ObjectLoader.SmallObject(type, data);
 
 		} catch (DataFormatException dfe) {
-			CorruptObjectException coe = new CorruptObjectException(
+			throw new CorruptObjectException(
 					MessageFormat.format(
 							JGitText.get().objectAtHasBadZlibStream,
-							Long.valueOf(pos), getPackFile()));
-			coe.initCause(dfe);
-			throw coe;
+							Long.valueOf(pos), getPackFile()),
+					dfe);
 		}
 	}
 
