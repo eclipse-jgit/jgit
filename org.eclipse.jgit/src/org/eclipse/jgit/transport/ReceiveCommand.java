@@ -64,10 +64,11 @@ import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
- * A command being processed by {@link BaseReceivePack}.
+ * A command being processed by
+ * {@link org.eclipse.jgit.transport.BaseReceivePack}.
  * <p>
  * This command instance roughly translates to the server side representation of
- * the {@link RemoteRefUpdate} created by the client.
+ * the {@link org.eclipse.jgit.transport.RemoteRefUpdate} created by the client.
  */
 public class ReceiveCommand {
 	/** Type of operation requested. */
@@ -176,8 +177,10 @@ public class ReceiveCommand {
 	/**
 	 * Set unprocessed commands as failed due to transaction aborted.
 	 * <p>
-	 * If a command is still {@link Result#NOT_ATTEMPTED} it will be set to
-	 * {@link Result#REJECTED_OTHER_REASON}.
+	 * If a command is still
+	 * {@link org.eclipse.jgit.transport.ReceiveCommand.Result#NOT_ATTEMPTED} it
+	 * will be set to
+	 * {@link org.eclipse.jgit.transport.ReceiveCommand.Result#REJECTED_OTHER_REASON}.
 	 *
 	 * @param commands
 	 *            commands to mark as failed.
@@ -286,14 +289,17 @@ public class ReceiveCommand {
 	private Boolean forceRefLog;
 
 	/**
-	 * Create a new command for {@link BaseReceivePack}.
+	 * Create a new command for
+	 * {@link org.eclipse.jgit.transport.BaseReceivePack}.
 	 *
 	 * @param oldId
 	 *            the expected old object id; must not be null. Use
-	 *            {@link ObjectId#zeroId()} to indicate a ref creation.
+	 *            {@link org.eclipse.jgit.lib.ObjectId#zeroId()} to indicate a
+	 *            ref creation.
 	 * @param newId
 	 *            the new object id; must not be null. Use
-	 *            {@link ObjectId#zeroId()} to indicate a ref deletion.
+	 *            {@link org.eclipse.jgit.lib.ObjectId#zeroId()} to indicate a
+	 *            ref deletion.
 	 * @param name
 	 *            name of the ref being affected.
 	 */
@@ -327,20 +333,26 @@ public class ReceiveCommand {
 	}
 
 	/**
-	 * Create a new command for {@link BaseReceivePack}.
+	 * Create a new command for
+	 * {@link org.eclipse.jgit.transport.BaseReceivePack}.
 	 *
 	 * @param oldId
 	 *            the old object id; must not be null. Use
-	 *            {@link ObjectId#zeroId()} to indicate a ref creation.
+	 *            {@link org.eclipse.jgit.lib.ObjectId#zeroId()} to indicate a
+	 *            ref creation.
 	 * @param newId
 	 *            the new object id; must not be null. Use
-	 *            {@link ObjectId#zeroId()} to indicate a ref deletion.
+	 *            {@link org.eclipse.jgit.lib.ObjectId#zeroId()} to indicate a
+	 *            ref deletion.
 	 * @param name
 	 *            name of the ref being affected.
 	 * @param type
-	 *            type of the command. Must be {@link Type#CREATE} if {@code
-	 *            oldId} is zero, or {@link Type#DELETE} if {@code newId} is
-	 *            zero.
+	 *            type of the command. Must be
+	 *            {@link org.eclipse.jgit.transport.ReceiveCommand.Type#CREATE}
+	 *            if {@code
+	 *            oldId} is zero, or
+	 *            {@link org.eclipse.jgit.transport.ReceiveCommand.Type#DELETE}
+	 *            if {@code newId} is zero.
 	 * @since 2.0
 	 */
 	public ReceiveCommand(final ObjectId oldId, final ObjectId newId,
@@ -500,12 +512,18 @@ public class ReceiveCommand {
 		typeIsCorrect = true;
 	}
 
-	/** @return the old value the client thinks the ref has. */
+	/**
+	 * Get the old value the client thinks the ref has.
+	 *
+	 * @return the old value the client thinks the ref has.
+	 */
 	public ObjectId getOldId() {
 		return oldId;
 	}
 
 	/**
+	 * Get expected old target for a symbolic reference.
+	 *
 	 * @return expected old target for a symbolic reference.
 	 * @since 4.10
 	 */
@@ -514,12 +532,18 @@ public class ReceiveCommand {
 		return oldSymref;
 	}
 
-	/** @return the requested new value for this ref. */
+	/**
+	 * Get the requested new value for this ref.
+	 *
+	 * @return the requested new value for this ref.
+	 */
 	public ObjectId getNewId() {
 		return newId;
 	}
 
 	/**
+	 * Get requested new target for a symbolic reference.
+	 *
 	 * @return requested new target for a symbolic reference.
 	 * @since 4.10
 	 */
@@ -528,27 +552,47 @@ public class ReceiveCommand {
 		return newSymref;
 	}
 
-	/** @return the name of the ref being updated. */
+	/**
+	 * Get the name of the ref being updated.
+	 *
+	 * @return the name of the ref being updated.
+	 */
 	public String getRefName() {
 		return name;
 	}
 
-	/** @return the type of this command; see {@link Type}. */
+	/**
+	 * Get the type of this command; see {@link Type}.
+	 *
+	 * @return the type of this command; see {@link Type}.
+	 */
 	public Type getType() {
 		return type;
 	}
 
-	/** @return the ref, if this was advertised by the connection. */
+	/**
+	 * Get the ref, if this was advertised by the connection.
+	 *
+	 * @return the ref, if this was advertised by the connection.
+	 */
 	public Ref getRef() {
 		return ref;
 	}
 
-	/** @return the current status code of this command. */
+	/**
+	 * Get the current status code of this command.
+	 *
+	 * @return the current status code of this command.
+	 */
 	public Result getResult() {
 		return status;
 	}
 
-	/** @return the message associated with a failure status. */
+	/**
+	 * Get the message associated with a failure status.
+	 *
+	 * @return the message associated with a failure status.
+	 */
 	public String getMessage() {
 		return message;
 	}
@@ -692,12 +736,13 @@ public class ReceiveCommand {
 	 * If the command's current type is UPDATE, a merge test will be performed
 	 * using the supplied RevWalk to determine if {@link #getOldId()} is fully
 	 * merged into {@link #getNewId()}. If some commits are not merged the
-	 * update type is changed to {@link Type#UPDATE_NONFASTFORWARD}.
+	 * update type is changed to
+	 * {@link org.eclipse.jgit.transport.ReceiveCommand.Type#UPDATE_NONFASTFORWARD}.
 	 *
 	 * @param walk
 	 *            an instance to perform the merge test with. The caller must
 	 *            allocate and release this object.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             either oldId or newId is not accessible in the repository
 	 *             used by the RevWalk. This usually indicates data corruption,
 	 *             and the command cannot be processed.
@@ -837,6 +882,7 @@ public class ReceiveCommand {
 				JGitText.get().lockError, err.getMessage()));
 	}
 
+	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {

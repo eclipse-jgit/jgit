@@ -85,9 +85,11 @@ import com.jcraft.jsch.ConfigRepository;
  * </ul>
  * <p>
  * Therefore implement our own parser to read an OpenSSH configuration file. It
- * makes the critical options available to {@link SshSessionFactory} via
- * {@link Host} objects returned by {@link #lookup(String)}, and implements a
- * fully conforming {@link ConfigRepository} providing
+ * makes the critical options available to
+ * {@link org.eclipse.jgit.transport.SshSessionFactory} via
+ * {@link org.eclipse.jgit.transport.OpenSshConfig.Host} objects returned by
+ * {@link #lookup(String)}, and implements a fully conforming
+ * {@link com.jcraft.jsch.ConfigRepository} providing
  * {@link com.jcraft.jsch.ConfigRepository.Config}s via
  * {@link #getConfig(String)}.
  * </p>
@@ -104,7 +106,7 @@ import com.jcraft.jsch.ConfigRepository;
  * ConfigRepository OTOH treats all option values as plain strings, so any
  * validation must happen in Jsch outside of the parser. Thus this parser does
  * not validate option values, except for a few options when constructing a
- * {@link Host} object.
+ * {@link org.eclipse.jgit.transport.OpenSshConfig.Host} object.
  * </p>
  * <p>
  * This config does %-substitutions for the following tokens:
@@ -961,12 +963,11 @@ public class OpenSshConfig implements ConfigRepository {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * Retrieves the full {@link com.jcraft.jsch.ConfigRepository.Config Config}
 	 * for the given host name. Should be called only by Jsch and tests.
 	 *
-	 * @param hostName
-	 *            to get the config for
-	 * @return the configuration for the host
 	 * @since 4.9
 	 */
 	@Override
@@ -975,6 +976,7 @@ public class OpenSshConfig implements ConfigRepository {
 		return new JschBugFixingConfig(host.getConfig());
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	@SuppressWarnings("nls")
 	public String toString() {

@@ -66,8 +66,11 @@ public class HMACSHA1NonceGenerator implements NonceGenerator {
 	private Mac mac;
 
 	/**
+	 * Constructor for HMACSHA1NonceGenerator.
+	 *
 	 * @param seed
-	 * @throws IllegalStateException
+	 *            seed the generator
+	 * @throws java.lang.IllegalStateException
 	 */
 	public HMACSHA1NonceGenerator(String seed) throws IllegalStateException {
 		try {
@@ -82,6 +85,7 @@ public class HMACSHA1NonceGenerator implements NonceGenerator {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public synchronized String createNonce(Repository repo, long timestamp)
 			throws IllegalStateException {
@@ -102,6 +106,7 @@ public class HMACSHA1NonceGenerator implements NonceGenerator {
 		return Long.toString(timestamp) + "-" + toHex(rawHmac); //$NON-NLS-1$
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public NonceStatus verify(String received, String sent,
 			Repository db, boolean allowSlop, int slop) {

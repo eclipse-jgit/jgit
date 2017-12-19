@@ -46,13 +46,14 @@ package org.eclipse.jgit.transport;
 import java.util.List;
 
 /**
- * {@link AdvertiseRefsHook} that delegates to a list of other hooks.
+ * {@link org.eclipse.jgit.transport.AdvertiseRefsHook} that delegates to a list
+ * of other hooks.
  * <p>
  * Hooks are run in the order passed to the constructor. A hook may inspect or
  * modify the results of the previous hooks in the chain by calling
- * {@link UploadPack#getAdvertisedRefs()}, or
- * {@link BaseReceivePack#getAdvertisedRefs()} or
- * {@link BaseReceivePack#getAdvertisedObjects()}.
+ * {@link org.eclipse.jgit.transport.UploadPack#getAdvertisedRefs()}, or
+ * {@link org.eclipse.jgit.transport.BaseReceivePack#getAdvertisedRefs()} or
+ * {@link org.eclipse.jgit.transport.BaseReceivePack#getAdvertisedObjects()}.
  */
 public class AdvertiseRefsHookChain implements AdvertiseRefsHook {
 	private final AdvertiseRefsHook[] hooks;
@@ -79,6 +80,7 @@ public class AdvertiseRefsHookChain implements AdvertiseRefsHook {
 			return new AdvertiseRefsHookChain(newHooks, i);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void advertiseRefs(BaseReceivePack rp)
 			throws ServiceMayNotContinueException {
@@ -86,6 +88,7 @@ public class AdvertiseRefsHookChain implements AdvertiseRefsHook {
 			hooks[i].advertiseRefs(rp);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void advertiseRefs(UploadPack rp)
 			throws ServiceMayNotContinueException {

@@ -143,7 +143,9 @@ public class NetRC {
 		COMMAND, MACHINE, LOGIN, PASSWORD, DEFAULT, ACCOUNT, MACDEF
 	}
 
-	/** */
+	/**
+	 * <p>Constructor for NetRC.</p>
+	 */
 	public NetRC() {
 		netrc = getDefaultFile();
 		if (netrc != null)
@@ -151,6 +153,8 @@ public class NetRC {
 	}
 
 	/**
+	 * <p>Constructor for NetRC.</p>
+	 *
 	 * @param netrc
 	 *            the .netrc file
 	 */
@@ -176,6 +180,7 @@ public class NetRC {
 	 * Get entry by host name
 	 *
 	 * @param host
+	 *            the host name
 	 * @return entry associated with host name or null
 	 */
 	public NetRCEntry getEntry(String host) {
@@ -194,6 +199,8 @@ public class NetRC {
 	}
 
 	/**
+	 * Get all entries collected from .netrc file
+	 *
 	 * @return all entries collected from .netrc file
 	 */
 	public Collection<NetRCEntry> getEntries() {

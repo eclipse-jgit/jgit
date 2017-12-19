@@ -76,7 +76,6 @@ import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdOwnerMap;
 import org.eclipse.jgit.lib.ObjectIdSubclassMap;
-import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ObjectStream;
@@ -88,14 +87,16 @@ import org.eclipse.jgit.util.NB;
 import org.eclipse.jgit.util.sha1.SHA1;
 
 /**
- * Parses a pack stream and imports it for an {@link ObjectInserter}.
+ * Parses a pack stream and imports it for an
+ * {@link org.eclipse.jgit.lib.ObjectInserter}.
  * <p>
  * Applications can acquire an instance of a parser from ObjectInserter's
- * {@link ObjectInserter#newPackParser(InputStream)} method.
+ * {@link org.eclipse.jgit.lib.ObjectInserter#newPackParser(InputStream)}
+ * method.
  * <p>
- * Implementations of {@link ObjectInserter} should subclass this type and
- * provide their own logic for the various {@code on*()} event methods declared
- * to be abstract.
+ * Implementations of {@link org.eclipse.jgit.lib.ObjectInserter} should
+ * subclass this type and provide their own logic for the various {@code on*()}
+ * event methods declared to be abstract.
  */
 public abstract class PackParser {
 	/** Size of the internal stream buffer. */
@@ -213,7 +214,11 @@ public abstract class PackParser {
 		checkObjectCollisions = true;
 	}
 
-	/** @return true if a thin pack (missing base objects) is permitted. */
+	/**
+	 * Whether a thin pack (missing base objects) is permitted.
+	 *
+	 * @return {@code true} if a thin pack (missing base objects) is permitted.
+	 */
 	public boolean isAllowThin() {
 		return allowThin;
 	}
@@ -232,6 +237,8 @@ public abstract class PackParser {
 	}
 
 	/**
+	 * Whether received objects are verified to prevent collisions.
+	 *
 	 * @return if true received objects are verified to prevent collisions.
 	 * @since 4.1
 	 */
@@ -300,7 +307,11 @@ public abstract class PackParser {
 		this.needBaseObjectIds = b;
 	}
 
-	/** @return true if the EOF should be read from the input after the footer. */
+	/**
+	 * Whether the EOF should be read from the input after the footer.
+	 *
+	 * @return true if the EOF should be read from the input after the footer.
+	 */
 	public boolean isCheckEofAfterPackFooter() {
 		return checkEofAfterPackFooter;
 	}
@@ -315,12 +326,18 @@ public abstract class PackParser {
 		checkEofAfterPackFooter = b;
 	}
 
-	/** @return true if there is data expected after the pack footer. */
+	/**
+	 * Whether there is data expected after the pack footer.
+	 *
+	 * @return true if there is data expected after the pack footer.
+	 */
 	public boolean isExpectDataAfterPackFooter() {
 		return expectDataAfterPackFooter;
 	}
 
 	/**
+	 * Set if there is additional data in InputStream after pack.
+	 *
 	 * @param e
 	 *            true if there is additional data in InputStream after pack.
 	 *            This requires the InputStream to support the mark and reset
@@ -330,14 +347,22 @@ public abstract class PackParser {
 		expectDataAfterPackFooter = e;
 	}
 
-	/** @return the new objects that were sent by the user */
+	/**
+	 * Get the new objects that were sent by the user
+	 *
+	 * @return the new objects that were sent by the user
+	 */
 	public ObjectIdSubclassMap<ObjectId> getNewObjectIds() {
 		if (newObjectIds != null)
 			return newObjectIds;
 		return new ObjectIdSubclassMap<>();
 	}
 
-	/** @return set of objects the incoming pack assumed for delta purposes */
+	/**
+	 * Get set of objects the incoming pack assumed for delta purposes
+	 *
+	 * @return set of objects the incoming pack assumed for delta purposes
+	 */
 	public ObjectIdSubclassMap<ObjectId> getBaseObjectIds() {
 		if (baseObjectIds != null)
 			return baseObjectIds;
@@ -378,7 +403,11 @@ public abstract class PackParser {
 		setObjectChecker(on ? new ObjectChecker() : null);
 	}
 
-	/** @return the message to record with the pack lock. */
+	/**
+	 * Get the message to record with the pack lock.
+	 *
+	 * @return the message to record with the pack lock.
+	 */
 	public String getLockMessage() {
 		return lockMessage;
 	}
@@ -420,7 +449,7 @@ public abstract class PackParser {
 		return entryCount;
 	}
 
-	/***
+	/**
 	 * Get the information about the requested object.
 	 * <p>
 	 * The object information is only available after
@@ -477,7 +506,7 @@ public abstract class PackParser {
 	 * <p>
 	 * This should only be called after pack parsing is finished.
 	 *
-	 * @return {@link ReceivedPackStatistics}
+	 * @return {@link org.eclipse.jgit.transport.ReceivedPackStatistics}
 	 * @since 4.6
 	 */
 	public ReceivedPackStatistics getReceivedPackStatistics() {
@@ -489,10 +518,10 @@ public abstract class PackParser {
 	 *
 	 * @param progress
 	 *            callback to provide progress feedback during parsing. If null,
-	 *            {@link NullProgressMonitor} will be used.
+	 *            {@link org.eclipse.jgit.lib.NullProgressMonitor} will be used.
 	 * @return the pack lock, if one was requested by setting
 	 *         {@link #setLockMessage(String)}.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the stream is malformed, or contains corrupt objects.
 	 * @since 3.0
 	 */
@@ -505,13 +534,13 @@ public abstract class PackParser {
 	 *
 	 * @param receiving
 	 *            receives progress feedback during the initial receiving
-	 *            objects phase. If null, {@link NullProgressMonitor} will be
-	 *            used.
+	 *            objects phase. If null,
+	 *            {@link org.eclipse.jgit.lib.NullProgressMonitor} will be used.
 	 * @param resolving
 	 *            receives progress feedback during the resolving objects phase.
 	 * @return the pack lock, if one was requested by setting
 	 *         {@link #setLockMessage(String)}.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the stream is malformed, or contains corrupt objects.
 	 * @since 3.0
 	 */
@@ -737,7 +766,7 @@ public abstract class PackParser {
 	 * @param info
 	 *            the info object to populate.
 	 * @return {@code info}, after populating.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the size cannot be read.
 	 */
 	protected ObjectTypeAndSize readObjectHeader(ObjectTypeAndSize info)
@@ -1097,9 +1126,8 @@ public abstract class PackParser {
 	 *            the type of the object.
 	 * @param data
 	 *            raw content of the object.
-	 * @throws CorruptObjectException
+	 * @throws org.eclipse.jgit.errors.CorruptObjectException
 	 * @since 4.9
-	 *
 	 */
 	protected void verifySafeObject(final AnyObjectId id, final int type,
 			final byte[] data) throws CorruptObjectException {
@@ -1265,7 +1293,11 @@ public abstract class PackParser {
 		bOffset = 0;
 	}
 
-	/** @return a temporary byte array for use by the caller. */
+	/**
+	 * Get a temporary byte array for use by the caller.
+	 *
+	 * @return a temporary byte array for use by the caller.
+	 */
 	protected byte[] buffer() {
 		return tempBuffer;
 	}
@@ -1302,7 +1334,7 @@ public abstract class PackParser {
 	 * If external implementation wants to overwrite the expectedObjectCount,
 	 * they should call this method during {@link #onPackHeader(long)}.
 	 *
-	 * @param expectedObjectCount
+	 * @param expectedObjectCount a long.
 	 * @since 4.9
 	 */
 	protected void setExpectedObjectCount(long expectedObjectCount) {
@@ -1327,7 +1359,7 @@ public abstract class PackParser {
 	 *            first offset within the buffer that is valid.
 	 * @param len
 	 *            number of bytes in the buffer that are valid.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the stream cannot be archived.
 	 */
 	protected abstract void onStoreStream(byte[] raw, int pos, int len)
@@ -1347,7 +1379,7 @@ public abstract class PackParser {
 	 *            first offset within buffer that is valid.
 	 * @param len
 	 *            number of bytes in buffer that are valid.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the stream cannot be archived.
 	 */
 	protected abstract void onObjectHeader(Source src, byte[] raw, int pos,
@@ -1370,7 +1402,7 @@ public abstract class PackParser {
 	 *            first offset within buffer that is valid.
 	 * @param len
 	 *            number of bytes in buffer that are valid.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the stream cannot be archived.
 	 */
 	protected abstract void onObjectData(Source src, byte[] raw, int pos,
@@ -1385,7 +1417,7 @@ public abstract class PackParser {
 	 *            the type of the object.
 	 * @param data
 	 *            inflated data for the object.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the object cannot be archived.
 	 */
 	protected abstract void onInflatedObjectData(PackedObjectInfo obj,
@@ -1396,7 +1428,7 @@ public abstract class PackParser {
 	 *
 	 * @param objCnt
 	 *            number of objects expected in the stream.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the implementation refuses to work with this many objects.
 	 */
 	protected abstract void onPackHeader(long objCnt) throws IOException;
@@ -1407,7 +1439,7 @@ public abstract class PackParser {
 	 * @param hash
 	 *            the trailing 20 bytes of the pack, this is a SHA-1 checksum of
 	 *            all of the pack data.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the stream cannot be archived.
 	 */
 	protected abstract void onPackFooter(byte[] hash) throws IOException;
@@ -1430,7 +1462,7 @@ public abstract class PackParser {
 	 * @return true if the {@code info} should be included in the object list
 	 *         returned by {@link #getSortedObjectList(Comparator)}, false if it
 	 *         should not be included.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the base could not be included into the pack.
 	 */
 	protected abstract boolean onAppendBase(int typeCode, byte[] data,
@@ -1443,7 +1475,7 @@ public abstract class PackParser {
 	 * external from the pack. The event is called after all of those deltas
 	 * have been resolved.
 	 *
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the pack cannot be archived.
 	 */
 	protected abstract void onEndThinPack() throws IOException;
@@ -1460,7 +1492,7 @@ public abstract class PackParser {
 	 * @param info
 	 *            object to populate with type and size.
 	 * @return the {@code info} object.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the database cannot reposition to this location.
 	 */
 	protected abstract ObjectTypeAndSize seekDatabase(PackedObjectInfo obj,
@@ -1478,7 +1510,7 @@ public abstract class PackParser {
 	 * @param info
 	 *            object to populate with type and size.
 	 * @return the {@code info} object.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the database cannot reposition to this location.
 	 */
 	protected abstract ObjectTypeAndSize seekDatabase(UnresolvedDelta delta,
@@ -1495,7 +1527,7 @@ public abstract class PackParser {
 	 *            ideal target number of bytes to read. Actual read length may
 	 *            be shorter.
 	 * @return number of bytes stored.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the database cannot be accessed.
 	 */
 	protected abstract int readDatabase(byte[] dst, int pos, int cnt)
@@ -1525,13 +1557,15 @@ public abstract class PackParser {
 	 * @param streamPosition
 	 *            position of this object in the incoming stream.
 	 * @param type
-	 *            type of the object; one of {@link Constants#OBJ_COMMIT},
-	 *            {@link Constants#OBJ_TREE}, {@link Constants#OBJ_BLOB}, or
-	 *            {@link Constants#OBJ_TAG}.
+	 *            type of the object; one of
+	 *            {@link org.eclipse.jgit.lib.Constants#OBJ_COMMIT},
+	 *            {@link org.eclipse.jgit.lib.Constants#OBJ_TREE},
+	 *            {@link org.eclipse.jgit.lib.Constants#OBJ_BLOB}, or
+	 *            {@link org.eclipse.jgit.lib.Constants#OBJ_TAG}.
 	 * @param inflatedSize
 	 *            size of the object when fully inflated. The size stored within
 	 *            the pack may be larger or smaller, and is not yet known.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the object cannot be recorded.
 	 */
 	protected abstract void onBeginWholeObject(long streamPosition, int type,
@@ -1542,7 +1576,7 @@ public abstract class PackParser {
 	 *
 	 *@param info
 	 *            object information.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the object cannot be recorded.
 	 */
 	protected abstract void onEndWholeObject(PackedObjectInfo info)
@@ -1561,7 +1595,7 @@ public abstract class PackParser {
 	 * @param inflatedSize
 	 *            size of the delta when fully inflated. The size stored within
 	 *            the pack may be larger or smaller, and is not yet known.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the object cannot be recorded.
 	 */
 	protected abstract void onBeginOfsDelta(long deltaStreamPosition,
@@ -1579,7 +1613,7 @@ public abstract class PackParser {
 	 * @param inflatedSize
 	 *            size of the delta when fully inflated. The size stored within
 	 *            the pack may be larger or smaller, and is not yet known.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the object cannot be recorded.
 	 */
 	protected abstract void onBeginRefDelta(long deltaStreamPosition,
@@ -1590,7 +1624,7 @@ public abstract class PackParser {
 	 *
 	 *@return object information that must be populated with at least the
 	 *         offset.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the object cannot be recorded.
 	 */
 	protected UnresolvedDelta onEndDelta() throws IOException {

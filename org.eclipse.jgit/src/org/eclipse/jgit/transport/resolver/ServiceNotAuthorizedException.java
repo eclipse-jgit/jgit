@@ -56,8 +56,12 @@ public class ServiceNotAuthorizedException extends Exception {
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * Constructor for ServiceNotAuthorizedException.
+	 *
 	 * @param message
+	 *            error message
 	 * @param cause
+	 *            a {@link java.lang.Throwable} object.
 	 * @since 4.1
 	 */
 	public ServiceNotAuthorizedException(String message, Throwable cause) {
@@ -65,14 +69,19 @@ public class ServiceNotAuthorizedException extends Exception {
 	}
 
 	/**
+	 * Constructor for ServiceNotAuthorizedException.
+	 *
 	 * @param message
+	 *            error message
 	 * @since 4.1
 	 */
 	public ServiceNotAuthorizedException(String message) {
 		super(message);
 	}
 
-	/** Indicates that the requested service requires authentication. */
+	/**
+	 * Indicates that the requested service requires authentication.
+	 */
 	public ServiceNotAuthorizedException() {
 		super(JGitText.get().unauthorized);
 	}

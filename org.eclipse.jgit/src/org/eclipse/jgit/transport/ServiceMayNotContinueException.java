@@ -59,13 +59,17 @@ public class ServiceMayNotContinueException extends IOException {
 	private final int statusCode;
 	private boolean output;
 
-	/** Initialize with no message. */
+	/**
+	 * Initialize with no message.
+	 */
 	public ServiceMayNotContinueException() {
 		// Do not set a message.
 		statusCode = FORBIDDEN;
 	}
 
 	/**
+	 * <p>Constructor for ServiceMayNotContinueException.</p>
+	 *
 	 * @param msg
 	 *            a message explaining why it cannot continue. This message may
 	 *            be shown to an end-user.
@@ -76,6 +80,8 @@ public class ServiceMayNotContinueException extends IOException {
 	}
 
 	/**
+	 * <p>Constructor for ServiceMayNotContinueException.</p>
+	 *
 	 * @param msg
 	 *            a message explaining why it cannot continue. This message may
 	 *            be shown to an end-user.
@@ -89,6 +95,8 @@ public class ServiceMayNotContinueException extends IOException {
 	}
 
 	/**
+	 * <p>Constructor for ServiceMayNotContinueException.</p>
+	 *
 	 * @param msg
 	 *            a message explaining why it cannot continue. This message may
 	 *            be shown to an end-user.
@@ -102,6 +110,8 @@ public class ServiceMayNotContinueException extends IOException {
 	}
 
 	/**
+	 * <p>Constructor for ServiceMayNotContinueException.</p>
+	 *
 	 * @param msg
 	 *            a message explaining why it cannot continue. This message may
 	 *            be shown to an end-user.
@@ -128,17 +138,25 @@ public class ServiceMayNotContinueException extends IOException {
 		this(JGitText.get().internalServerError, cause);
 	}
 
-	/** @return true if the message was already output to the client. */
+	/**
+	 * Whether the message was already output to the client.
+	 *
+	 * @return {@code true} if the message was already output to the client.
+	 */
 	public boolean isOutput() {
 		return output;
 	}
 
-	/** Mark this message has being sent to the client. */
+	/**
+	 * Mark this message has being sent to the client.
+	 */
 	public void setOutput() {
 		output = true;
 	}
 
 	/**
+	 * Get status code
+	 *
 	 * @return true if the message was already output to the client.
 	 * @since 4.5
 	 */

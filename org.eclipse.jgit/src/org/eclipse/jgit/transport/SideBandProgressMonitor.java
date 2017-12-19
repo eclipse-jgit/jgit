@@ -60,6 +60,7 @@ class SideBandProgressMonitor extends BatchingProgressMonitor {
 		write = true;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void onUpdate(String taskName, int workCurr) {
 		StringBuilder s = new StringBuilder();
@@ -68,6 +69,7 @@ class SideBandProgressMonitor extends BatchingProgressMonitor {
 		send(s);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void onEndTask(String taskName, int workCurr) {
 		StringBuilder s = new StringBuilder();
@@ -82,6 +84,7 @@ class SideBandProgressMonitor extends BatchingProgressMonitor {
 		s.append(workCurr);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void onUpdate(String taskName, int cmp, int totalWork, int pcnt) {
 		StringBuilder s = new StringBuilder();
@@ -90,6 +93,7 @@ class SideBandProgressMonitor extends BatchingProgressMonitor {
 		send(s);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected void onEndTask(String taskName, int cmp, int totalWork, int pcnt) {
 		StringBuilder s = new StringBuilder();

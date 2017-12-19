@@ -57,6 +57,21 @@ import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 class InternalPushConnection<C> extends BasePackPushConnection {
 	private Thread worker;
 
+	/**
+	 * Constructor for InternalPushConnection.
+	 *
+	 * @param transport
+	 *            a {@link org.eclipse.jgit.transport.PackTransport}
+	 * @param receivePackFactory
+	 *            a
+	 *            {@link org.eclipse.jgit.transport.resolver.ReceivePackFactory}
+	 * @param req
+	 *            a request
+	 * @param remote
+	 *            the {@link org.eclipse.jgit.lib.Repository}
+	 * @throws org.eclipse.jgit.errors.TransportException
+	 *             if any.
+	 */
 	public InternalPushConnection(PackTransport transport,
 			final ReceivePackFactory<C> receivePackFactory,
 			final C req, final Repository remote) throws TransportException {
@@ -115,6 +130,7 @@ class InternalPushConnection<C> extends BasePackPushConnection {
 		readAdvertisedRefs();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		super.close();

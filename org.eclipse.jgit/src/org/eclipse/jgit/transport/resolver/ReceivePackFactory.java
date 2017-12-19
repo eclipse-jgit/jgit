@@ -47,13 +47,16 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.ReceivePack;
 
 /**
- * Create and configure {@link ReceivePack} service instance.
+ * Create and configure {@link org.eclipse.jgit.transport.ReceivePack} service
+ * instance.
  *
  * @param <C>
  *            type of connection
  */
 public interface ReceivePackFactory<C> {
-	/** A factory disabling the ReceivePack service for all repositories */
+	/**
+	 * A factory disabling the ReceivePack service for all repositories
+	 */
 	public static final ReceivePackFactory<?> DISABLED = new ReceivePackFactory<Object>() {
 		@Override
 		public ReceivePack create(Object req, Repository db)

@@ -46,11 +46,13 @@ package org.eclipse.jgit.transport;
 import java.util.Collection;
 
 /**
- * Hook invoked by {@link ReceivePack} after all updates are executed.
+ * Hook invoked by {@link org.eclipse.jgit.transport.ReceivePack} after all
+ * updates are executed.
  * <p>
  * The hook is called after all commands have been processed. Only commands with
- * a status of {@link ReceiveCommand.Result#OK} are passed into the hook. To get
- * all commands within the hook, see {@link ReceivePack#getAllCommands()}.
+ * a status of {@link org.eclipse.jgit.transport.ReceiveCommand.Result#OK} are
+ * passed into the hook. To get all commands within the hook, see
+ * {@link org.eclipse.jgit.transport.ReceivePack#getAllCommands()}.
  * <p>
  * Any post-receive hook implementation should not update the status of a
  * command, as the command has already completed or failed, and the status has

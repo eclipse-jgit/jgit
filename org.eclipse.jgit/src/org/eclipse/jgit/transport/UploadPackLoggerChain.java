@@ -52,7 +52,8 @@ import org.eclipse.jgit.internal.storage.pack.PackWriter;
  * <p>
  * loggers are run in the order passed to the constructor.
  *
- * @deprecated Use {@link PostUploadHookChain} instead.
+ * @deprecated Use {@link org.eclipse.jgit.transport.PostUploadHookChain}
+ *             instead.
  */
 @Deprecated
 public class UploadPackLoggerChain implements UploadPackLogger {
@@ -81,9 +82,7 @@ public class UploadPackLoggerChain implements UploadPackLogger {
 			return new UploadPackLoggerChain(newLoggers, i);
 	}
 
-	/**
-	 * @since 3.0
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public void onPackStatistics(PackWriter.Statistics stats) {
 		for (int i = 0; i < count; i++)

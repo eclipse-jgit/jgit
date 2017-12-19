@@ -81,7 +81,8 @@ import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
  * easily wrapped up into a local process pipe, anonymous TCP socket, or a
  * command executed through an SSH tunnel.
  * <p>
- * This implementation honors {@link Transport#isPushThin()} option.
+ * This implementation honors
+ * {@link org.eclipse.jgit.transport.Transport#isPushThin()} option.
  * <p>
  * Concrete implementations should just call
  * {@link #init(java.io.InputStream, java.io.OutputStream)} and
@@ -152,6 +153,7 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 		pushOptions = transport.getPushOptions();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void push(final ProgressMonitor monitor,
 			final Map<String, RemoteRefUpdate> refUpdates)
@@ -159,9 +161,7 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 		push(monitor, refUpdates, null);
 	}
 
-	/**
-	 * @since 3.0
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public void push(final ProgressMonitor monitor,
 			final Map<String, RemoteRefUpdate> refUpdates, OutputStream outputStream)
@@ -170,6 +170,7 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 		doPush(monitor, refUpdates, outputStream);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected TransportException noRepository() {
 		// Sadly we cannot tell the "invalid URI" case from "push not allowed".
@@ -202,7 +203,7 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 	 *            update commands to be applied to the remote repository.
 	 * @param outputStream
 	 *            output stream to write sideband messages to
-	 * @throws TransportException
+	 * @throws org.eclipse.jgit.errors.TransportException
 	 *             if any exception occurs.
 	 * @since 3.0
 	 */

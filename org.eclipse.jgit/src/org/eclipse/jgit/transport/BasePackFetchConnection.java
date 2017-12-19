@@ -94,10 +94,10 @@ import org.eclipse.jgit.util.TemporaryBuffer;
  * easily wrapped up into a local process pipe, anonymous TCP socket, or a
  * command executed through an SSH tunnel.
  * <p>
- * If {@link BasePackConnection#statelessRPC} is {@code true}, this connection
- * can be tunneled over a request-response style RPC system like HTTP.  The RPC
- * call boundary is determined by this class switching from writing to the
- * OutputStream to reading from the InputStream.
+ * If {@link org.eclipse.jgit.transport.BasePackConnection#statelessRPC} is
+ * {@code true}, this connection can be tunneled over a request-response style
+ * RPC system like HTTP. The RPC call boundary is determined by this class
+ * switching from writing to the OutputStream to reading from the InputStream.
  * <p>
  * Concrete implementations should just call
  * {@link #init(java.io.InputStream, java.io.OutputStream)} and
@@ -285,6 +285,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public final void fetch(final ProgressMonitor monitor,
 			final Collection<Ref> want, final Set<ObjectId> have)
@@ -292,9 +293,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		fetch(monitor, want, have, null);
 	}
 
-	/**
-	 * @since 3.0
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void fetch(final ProgressMonitor monitor,
 			final Collection<Ref> want, final Set<ObjectId> have,
@@ -303,21 +302,25 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		doFetch(monitor, want, have, outputStream);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean didFetchIncludeTags() {
 		return false;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean didFetchTestConnectivity() {
 		return false;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void setPackLockMessage(final String message) {
 		lockMessage = message;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Collection<PackLock> getPackLocks() {
 		if (packLock != null)
@@ -330,7 +333,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 	 *
 	 * @param monitor
 	 *            progress monitor to receive status updates. If the monitor is
-	 *            the {@link NullProgressMonitor#INSTANCE}, then the no-progress
+	 *            the {@link org.eclipse.jgit.lib.NullProgressMonitor#INSTANCE}, then the no-progress
 	 *            option enabled.
 	 * @param want
 	 *            the advertised remote references the caller wants to fetch.
@@ -340,7 +343,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 	 *            destination repository's references.
 	 * @param outputStream
 	 *            ouputStream to write sideband messages to
-	 * @throws TransportException
+	 * @throws org.eclipse.jgit.errors.TransportException
 	 *             if any exception occurs.
 	 * @since 3.0
 	 */
@@ -380,6 +383,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		if (walk != null)
@@ -776,7 +780,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 
 	/**
 	 * Notification event delivered just before the pack is received from the
-	 * network. This event can be used by RPC such as {@link TransportHttp} to
+	 * network. This event can be used by RPC such as {@link org.eclipse.jgit.transport.TransportHttp} to
 	 * disable its request magic and ensure the pack stream is read correctly.
 	 *
 	 * @since 2.0

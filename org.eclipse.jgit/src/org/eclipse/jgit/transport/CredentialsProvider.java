@@ -52,9 +52,10 @@ import org.eclipse.jgit.errors.UnsupportedCredentialItem;
  * Provide credentials for use in connecting to Git repositories.
  *
  * Implementors are strongly encouraged to support at least the minimal
- * {@link CredentialItem.Username} and {@link CredentialItem.Password} items.
- * More sophisticated implementors may implement additional types, such as
- * {@link CredentialItem.StringType}.
+ * {@link org.eclipse.jgit.transport.CredentialItem.Username} and
+ * {@link org.eclipse.jgit.transport.CredentialItem.Password} items. More
+ * sophisticated implementors may implement additional types, such as
+ * {@link org.eclipse.jgit.transport.CredentialItem.StringType}.
  *
  * CredentialItems are usually presented in bulk, allowing implementors to
  * combine them into a single UI widget and streamline the authentication
@@ -65,7 +66,11 @@ import org.eclipse.jgit.errors.UnsupportedCredentialItem;
 public abstract class CredentialsProvider {
 	private static volatile CredentialsProvider defaultProvider;
 
-	/** @return the default credentials provider, or null. */
+	/**
+	 * Get the default credentials provider, or null.
+	 *
+	 * @return the default credentials provider, or null.
+	 */
 	public static CredentialsProvider getDefault() {
 		return defaultProvider;
 	}
@@ -81,6 +86,8 @@ public abstract class CredentialsProvider {
 	}
 
 	/**
+	 * Whether any of the passed items is null
+	 *
 	 * @param items
 	 *            credential items to check
 	 * @return {@code true} if any of the passed items is null, {@code false}
@@ -106,12 +113,14 @@ public abstract class CredentialsProvider {
 	public abstract boolean isInteractive();
 
 	/**
-	 * Check if the provider can supply the necessary {@link CredentialItem}s.
+	 * Check if the provider can supply the necessary
+	 * {@link org.eclipse.jgit.transport.CredentialItem}s.
 	 *
 	 * @param items
 	 *            the items the application requires to complete authentication.
-	 * @return {@code true} if this {@link CredentialsProvider} supports all of
-	 *         the items supplied.
+	 * @return {@code true} if this
+	 *         {@link org.eclipse.jgit.transport.CredentialsProvider} supports
+	 *         all of the items supplied.
 	 */
 	public abstract boolean supports(CredentialItem... items);
 
@@ -125,7 +134,7 @@ public abstract class CredentialsProvider {
 	 * @return {@code true} if the request was successful and values were
 	 *         supplied; {@code false} if the user canceled the request and did
 	 *         not supply all requested values.
-	 * @throws UnsupportedCredentialItem
+	 * @throws org.eclipse.jgit.errors.UnsupportedCredentialItem
 	 *             if one of the items supplied is not supported.
 	 */
 	public abstract boolean get(URIish uri, CredentialItem... items)
@@ -141,7 +150,7 @@ public abstract class CredentialsProvider {
 	 * @return {@code true} if the request was successful and values were
 	 *         supplied; {@code false} if the user canceled the request and did
 	 *         not supply all requested values.
-	 * @throws UnsupportedCredentialItem
+	 * @throws org.eclipse.jgit.errors.UnsupportedCredentialItem
 	 *             if one of the items supplied is not supported.
 	 */
 	public boolean get(URIish uri, List<CredentialItem> items)
@@ -153,6 +162,7 @@ public abstract class CredentialsProvider {
 	 * Reset the credentials provider for the given URI
 	 *
 	 * @param uri
+	 *            a {@link org.eclipse.jgit.transport.URIish} object.
 	 */
 	public void reset(URIish uri) {
 		// default does nothing

@@ -90,6 +90,7 @@ public class TransportBundleStream extends Transport implements TransportBundle 
 		src = in;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public FetchConnection openFetch() throws TransportException {
 		if (src == null)
@@ -101,12 +102,14 @@ public class TransportBundleStream extends Transport implements TransportBundle 
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public PushConnection openPush() throws NotSupportedException {
 		throw new NotSupportedException(
 				JGitText.get().pushIsNotSupportedForBundleTransport);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		if (src != null) {

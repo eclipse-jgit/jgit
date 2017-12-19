@@ -157,6 +157,8 @@ public class TransferConfig {
 	}
 
 	/**
+	 * Create checker to verify fetched objects
+	 *
 	 * @return checker to verify fetched objects, or null if checking is not
 	 *         enabled in the repository configuration.
 	 * @since 3.6
@@ -167,6 +169,8 @@ public class TransferConfig {
 	}
 
 	/**
+	 * Create checker to verify objects pushed into this repository
+	 *
 	 * @return checker to verify objects pushed into this repository, or null if
 	 *         checking is not enabled in the repository configuration.
 	 * @since 4.2
@@ -196,6 +200,8 @@ public class TransferConfig {
 	}
 
 	/**
+	 * Whether to allow clients to request non-advertised tip SHA-1s
+	 *
 	 * @return allow clients to request non-advertised tip SHA-1s?
 	 * @since 3.1
 	 */
@@ -204,6 +210,8 @@ public class TransferConfig {
 	}
 
 	/**
+	 * Whether to allow clients to request non-tip SHA-1s
+	 *
 	 * @return allow clients to request non-tip SHA-1s?
 	 * @since 4.1
 	 */
@@ -212,7 +220,11 @@ public class TransferConfig {
 	}
 
 	/**
-	 * @return {@link RefFilter} respecting configured hidden refs.
+	 * Get {@link org.eclipse.jgit.transport.RefFilter} respecting configured
+	 * hidden refs.
+	 *
+	 * @return {@link org.eclipse.jgit.transport.RefFilter} respecting
+	 *         configured hidden refs.
 	 * @since 3.1
 	 */
 	public RefFilter getRefFilter() {

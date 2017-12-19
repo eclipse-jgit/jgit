@@ -148,7 +148,7 @@ public class PacketLineIn {
 	 *
 	 * @return the string. {@link #END} if the string was the magic flush
 	 *         packet.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the stream cannot be read.
 	 */
 	public String readString() throws IOException {
@@ -186,7 +186,7 @@ public class PacketLineIn {
 	 *
 	 * @return the string. {@link #END} if the string was the magic flush
 	 *         packet.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the stream cannot be read.
 	 */
 	public String readStringRaw() throws IOException {

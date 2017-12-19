@@ -70,10 +70,11 @@ public interface AdvertiseRefsHook {
 	/**
 	 * Advertise refs for upload-pack.
 	 *
-	 * @param uploadPack instance on which to call
-	 *            {@link UploadPack#setAdvertisedRefs(java.util.Map)}
+	 * @param uploadPack
+	 *            instance on which to call
+	 *            {@link org.eclipse.jgit.transport.UploadPack#setAdvertisedRefs(java.util.Map)}
 	 *            if necessary.
-	 * @throws ServiceMayNotContinueException
+	 * @throws org.eclipse.jgit.transport.ServiceMayNotContinueException
 	 *             abort; the message will be sent to the user.
 	 */
 	public void advertiseRefs(UploadPack uploadPack)
@@ -82,10 +83,11 @@ public interface AdvertiseRefsHook {
 	/**
 	 * Advertise refs for receive-pack.
 	 *
-	 * @param receivePack instance on which to call
-	 *            {@link BaseReceivePack#setAdvertisedRefs(java.util.Map,java.util.Set)}
+	 * @param receivePack
+	 *            instance on which to call
+	 *            {@link org.eclipse.jgit.transport.BaseReceivePack#setAdvertisedRefs(java.util.Map,java.util.Set)}
 	 *            if necessary.
-	 * @throws ServiceMayNotContinueException
+	 * @throws org.eclipse.jgit.transport.ServiceMayNotContinueException
 	 *             abort; the message will be sent to the user.
 	 */
 	public void advertiseRefs(BaseReceivePack receivePack)

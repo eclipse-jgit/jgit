@@ -62,7 +62,11 @@ public abstract class HttpTransport extends Transport {
 	protected static HttpConnectionFactory connectionFactory = new JDKHttpConnectionFactory();
 
 	/**
-	 * @return the {@link HttpConnectionFactory} used to create new connections
+	 * Get the {@link org.eclipse.jgit.transport.http.HttpConnectionFactory}
+	 * used to create new connections
+	 *
+	 * @return the {@link org.eclipse.jgit.transport.http.HttpConnectionFactory}
+	 *         used to create new connections
 	 * @since 3.3
 	 */
 	public static HttpConnectionFactory getConnectionFactory() {
@@ -70,10 +74,11 @@ public abstract class HttpTransport extends Transport {
 	}
 
 	/**
-	 * Set the {@link HttpConnectionFactory} to be used to create new
-	 * connections
+	 * Set the {@link org.eclipse.jgit.transport.http.HttpConnectionFactory} to
+	 * be used to create new connections
 	 *
 	 * @param cf
+	 *            connection factory
 	 * @since 3.3
 	 */
 	public static void setConnectionFactory(HttpConnectionFactory cf) {
@@ -98,7 +103,7 @@ public abstract class HttpTransport extends Transport {
 	/**
 	 * Create a minimal HTTP transport instance not tied to a single repository.
 	 *
-	 * @param uri
+	 * @param uri a {@link org.eclipse.jgit.transport.URIish} object.
 	 */
 	protected HttpTransport(URIish uri) {
 		super(uri);

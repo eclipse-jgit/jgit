@@ -51,7 +51,10 @@ import com.jcraft.jsch.Session;
 import com.jcraft.jsch.UIKeyboardInteractive;
 import com.jcraft.jsch.UserInfo;
 
-/** A JSch {@link UserInfo} adapter for a {@link CredentialsProvider}. */
+/**
+ * A JSch {@link com.jcraft.jsch.UserInfo} adapter for a
+ * {@link org.eclipse.jgit.transport.CredentialsProvider}.
+ */
 public class CredentialsProviderUserInfo implements UserInfo,
 		UIKeyboardInteractive {
 	private final URIish uri;
@@ -85,16 +88,19 @@ public class CredentialsProviderUserInfo implements UserInfo,
 		return uri;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String getPassword() {
 		return password;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String getPassphrase() {
 		return passphrase;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean promptPassphrase(String msg) {
 		CredentialItem.StringType v = newPrompt(msg);
@@ -107,6 +113,7 @@ public class CredentialsProviderUserInfo implements UserInfo,
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean promptPassword(String msg) {
 		CredentialItem.Password p = new CredentialItem.Password(msg);
@@ -123,17 +130,20 @@ public class CredentialsProviderUserInfo implements UserInfo,
 		return new CredentialItem.StringType(msg, true);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean promptYesNo(String msg) {
 		CredentialItem.YesNoType v = new CredentialItem.YesNoType(msg);
 		return provider.get(uri, v) && v.getValue();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void showMessage(String msg) {
 		provider.get(uri, new CredentialItem.InformationalMessage(msg));
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String[] promptKeyboardInteractive(String destination, String name,
 			String instruction, String[] prompt, boolean[] echo) {

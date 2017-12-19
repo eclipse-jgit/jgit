@@ -46,7 +46,8 @@ package org.eclipse.jgit.transport;
 import java.util.Collection;
 
 /**
- * Hook invoked by {@link ReceivePack} before any updates are executed.
+ * Hook invoked by {@link org.eclipse.jgit.transport.ReceivePack} before any
+ * updates are executed.
  * <p>
  * The hook is called with any commands that are deemed valid after parsing them
  * from the client and applying the standard receive configuration options to
@@ -57,23 +58,24 @@ import java.util.Collection;
  * </ul>
  * This means the hook will not receive a non-fast-forward update command if
  * denyNonFastForwards is set to true in the configuration file. To get all
- * commands within the hook, see {@link ReceivePack#getAllCommands()}.
+ * commands within the hook, see
+ * {@link org.eclipse.jgit.transport.ReceivePack#getAllCommands()}.
  * <p>
  * As the hook is invoked prior to the commands being executed, the hook may
  * choose to block any command by setting its result status with
- * {@link ReceiveCommand#setResult(ReceiveCommand.Result)}.
+ * {@link org.eclipse.jgit.transport.ReceiveCommand#setResult(ReceiveCommand.Result)}.
  * <p>
  * The hook may also choose to perform the command itself (or merely pretend
  * that it has performed the command), by setting the result status to
- * {@link ReceiveCommand.Result#OK}.
+ * {@link org.eclipse.jgit.transport.ReceiveCommand.Result#OK}.
  * <p>
  * Hooks should run quickly, as they block the caller thread and the client
  * process from completing.
  * <p>
  * Hooks may send optional messages back to the client via methods on
- * {@link ReceivePack}. Implementors should be aware that not all network
- * transports support this output, so some (or all) messages may simply be
- * discarded. These messages should be advisory only.
+ * {@link org.eclipse.jgit.transport.ReceivePack}. Implementors should be aware
+ * that not all network transports support this output, so some (or all)
+ * messages may simply be discarded. These messages should be advisory only.
  */
 public interface PreReceiveHook {
 	/** A simple no-op hook. */

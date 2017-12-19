@@ -346,12 +346,20 @@ public class UploadPack {
 		setTransferConfig(null);
 	}
 
-	/** @return the repository this upload is reading from. */
+	/**
+	 * Get the repository this upload is reading from.
+	 *
+	 * @return the repository this upload is reading from.
+	 */
 	public final Repository getRepository() {
 		return db;
 	}
 
-	/** @return the RevWalk instance used by this connection. */
+	/**
+	 * Get the RevWalk instance used by this connection.
+	 *
+	 * @return the RevWalk instance used by this connection.
+	 */
 	public final RevWalk getRevWalk() {
 		return walk;
 	}
@@ -369,14 +377,15 @@ public class UploadPack {
 	/**
 	 * Set the refs advertised by this UploadPack.
 	 * <p>
-	 * Intended to be called from a {@link PreUploadHook}.
+	 * Intended to be called from a
+	 * {@link org.eclipse.jgit.transport.PreUploadHook}.
 	 *
 	 * @param allRefs
 	 *            explicit set of references to claim as advertised by this
-	 *            UploadPack instance. This overrides any references that
-	 *            may exist in the source repository. The map is passed
-	 *            to the configured {@link #getRefFilter()}. If null, assumes
-	 *            all refs were advertised.
+	 *            UploadPack instance. This overrides any references that may
+	 *            exist in the source repository. The map is passed to the
+	 *            configured {@link #getRefFilter()}. If null, assumes all refs
+	 *            were advertised.
 	 */
 	public void setAdvertisedRefs(Map<String, Ref> allRefs) {
 		if (allRefs != null)
@@ -389,7 +398,11 @@ public class UploadPack {
 			refs = refFilter.filter(refs);
 	}
 
-	/** @return timeout (in seconds) before aborting an IO operation. */
+	/**
+	 * Get timeout (in seconds) before aborting an IO operation.
+	 *
+	 * @return timeout (in seconds) before aborting an IO operation.
+	 */
 	public int getTimeout() {
 		return timeout;
 	}
@@ -407,6 +420,9 @@ public class UploadPack {
 	}
 
 	/**
+	 * Whether this class expects a bi-directional pipe opened between the
+	 * client and itself.
+	 *
 	 * @return true if this class expects a bi-directional pipe opened between
 	 *         the client and itself. The default is true.
 	 */
@@ -415,6 +431,9 @@ public class UploadPack {
 	}
 
 	/**
+	 * Set whether this class will assume the socket is a fully bidirectional
+	 * pipe between the two peers
+	 *
 	 * @param twoWay
 	 *            if true, this class will assume the socket is a fully
 	 *            bidirectional pipe between the two peers and takes advantage
@@ -428,8 +447,10 @@ public class UploadPack {
 	}
 
 	/**
-	 * @return policy used by the service to validate client requests, or null for
-	 *         a custom request validator.
+	 * Get policy used by the service to validate client requests
+	 *
+	 * @return policy used by the service to validate client requests, or null
+	 *         for a custom request validator.
 	 */
 	public RequestPolicy getRequestPolicy() {
 		if (requestValidator instanceof AdvertisedRequestValidator)
@@ -446,15 +467,21 @@ public class UploadPack {
 	}
 
 	/**
+	 * Set the policy used to enforce validation of a client's want list.
+	 *
 	 * @param policy
 	 *            the policy used to enforce validation of a client's want list.
-	 *            By default the policy is {@link RequestPolicy#ADVERTISED},
+	 *            By default the policy is
+	 *            {@link org.eclipse.jgit.transport.UploadPack.RequestPolicy#ADVERTISED},
 	 *            which is the Git default requiring clients to only ask for an
-	 *            object that a reference directly points to. This may be relaxed
-	 *            to {@link RequestPolicy#REACHABLE_COMMIT} or
-	 *            {@link RequestPolicy#REACHABLE_COMMIT_TIP} when callers have
-	 *            {@link #setBiDirectionalPipe(boolean)} set to false.
-	 *            Overrides any policy specified in a {@link TransferConfig}.
+	 *            object that a reference directly points to. This may be
+	 *            relaxed to
+	 *            {@link org.eclipse.jgit.transport.UploadPack.RequestPolicy#REACHABLE_COMMIT}
+	 *            or
+	 *            {@link org.eclipse.jgit.transport.UploadPack.RequestPolicy#REACHABLE_COMMIT_TIP}
+	 *            when callers have {@link #setBiDirectionalPipe(boolean)} set
+	 *            to false. Overrides any policy specified in a
+	 *            {@link org.eclipse.jgit.transport.TransferConfig}.
 	 */
 	public void setRequestPolicy(RequestPolicy policy) {
 		switch (policy) {
@@ -478,6 +505,8 @@ public class UploadPack {
 	}
 
 	/**
+	 * Set custom validator for client want list.
+	 *
 	 * @param validator
 	 *            custom validator for client want list.
 	 * @since 3.1
@@ -487,12 +516,20 @@ public class UploadPack {
 				: new AdvertisedRequestValidator();
 	}
 
-	/** @return the hook used while advertising the refs to the client */
+	/**
+	 * Get the hook used while advertising the refs to the client.
+	 *
+	 * @return the hook used while advertising the refs to the client.
+	 */
 	public AdvertiseRefsHook getAdvertiseRefsHook() {
 		return advertiseRefsHook;
 	}
 
-	/** @return the filter used while advertising the refs to the client */
+	/**
+	 * Get the filter used while advertising the refs to the client.
+	 *
+	 * @return the filter used while advertising the refs to the client.
+	 */
 	public RefFilter getRefFilter() {
 		return refFilter;
 	}
@@ -500,9 +537,10 @@ public class UploadPack {
 	/**
 	 * Set the hook used while advertising the refs to the client.
 	 * <p>
-	 * If the {@link AdvertiseRefsHook} chooses to call
-	 * {@link #setAdvertisedRefs(Map)}, only refs set by this hook <em>and</em>
-	 * selected by the {@link RefFilter} will be shown to the client.
+	 * If the {@link org.eclipse.jgit.transport.AdvertiseRefsHook} chooses to
+	 * call {@link #setAdvertisedRefs(Map)}, only refs set by this hook
+	 * <em>and</em> selected by the {@link org.eclipse.jgit.transport.RefFilter}
+	 * will be shown to the client.
 	 *
 	 * @param advertiseRefsHook
 	 *            the hook; may be null to show all refs.
@@ -517,10 +555,11 @@ public class UploadPack {
 	/**
 	 * Set the filter used while advertising the refs to the client.
 	 * <p>
-	 * Only refs allowed by this filter will be sent to the client.
-	 * The filter is run against the refs specified by the
-	 * {@link AdvertiseRefsHook} (if applicable). If null or not set, uses the
-	 * filter implied by the {@link TransferConfig}.
+	 * Only refs allowed by this filter will be sent to the client. The filter
+	 * is run against the refs specified by the
+	 * {@link org.eclipse.jgit.transport.AdvertiseRefsHook} (if applicable). If
+	 * null or not set, uses the filter implied by the
+	 * {@link org.eclipse.jgit.transport.TransferConfig}.
 	 *
 	 * @param refFilter
 	 *            the filter; may be null to show all refs.
@@ -529,7 +568,11 @@ public class UploadPack {
 		this.refFilter = refFilter != null ? refFilter : RefFilter.DEFAULT;
 	}
 
-	/** @return the configured pre upload hook. */
+	/**
+	 * Get the configured pre upload hook.
+	 *
+	 * @return the configured pre upload hook.
+	 */
 	public PreUploadHook getPreUploadHook() {
 		return preUploadHook;
 	}
@@ -545,6 +588,8 @@ public class UploadPack {
 	}
 
 	/**
+	 * Get the configured post upload hook.
+	 *
 	 * @return the configured post upload hook.
 	 * @since 4.1
 	 */
@@ -575,6 +620,8 @@ public class UploadPack {
 	}
 
 	/**
+	 * Set configuration controlling transfer options.
+	 *
 	 * @param tc
 	 *            configuration controlling transfer options. If null the source
 	 *            repository's settings will be used.
@@ -592,8 +639,9 @@ public class UploadPack {
 	}
 
 	/**
-	 * @return the configured logger.
+	 * Get the configured logger.
 	 *
+	 * @return the configured logger.
 	 * @deprecated Use {@link #getPreUploadHook()}.
 	 */
 	@Deprecated
@@ -618,7 +666,7 @@ public class UploadPack {
 	 *
 	 * @return true if the client has advertised a side-band capability, false
 	 *     otherwise.
-	 * @throws RequestNotYetReadException
+	 * @throws org.eclipse.jgit.transport.RequestNotYetReadException
 	 *             if the client's request has not yet been read from the wire, so
 	 *             we do not know if they expect side-band. Note that the client
 	 *             may have already written the request, it just has not been
@@ -646,7 +694,7 @@ public class UploadPack {
 	 *            through. When run over SSH this should be tied back to the
 	 *            standard error channel of the command execution. For most
 	 *            other network connections this should be null.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 */
 	public void upload(final InputStream input, OutputStream output,
 			final OutputStream messages) throws IOException {
@@ -889,9 +937,9 @@ public class UploadPack {
 	 *
 	 * @param adv
 	 *            the advertisement formatter.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the formatter failed to write an advertisement.
-	 * @throws ServiceMayNotContinueException
+	 * @throws org.eclipse.jgit.transport.ServiceMayNotContinueException
 	 *             the hook denied advertisement.
 	 */
 	public void sendAdvertisedRefs(final RefAdvertiser adv) throws IOException,
@@ -957,6 +1005,8 @@ public class UploadPack {
 	}
 
 	/**
+	 * Get an underlying stream for sending messages to the client
+	 *
 	 * @return an underlying stream for sending messages to the client, or null.
 	 * @since 3.1
 	 */

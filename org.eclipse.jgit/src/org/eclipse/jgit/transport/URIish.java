@@ -200,10 +200,12 @@ public class URIish implements Serializable {
 	private String host;
 
 	/**
-	 * Parse and construct an {@link URIish} from a string
+	 * Parse and construct an {@link org.eclipse.jgit.transport.URIish} from a
+	 * string
 	 *
 	 * @param s
-	 * @throws URISyntaxException
+	 *            a {@link java.lang.String} object.
+	 * @throws java.net.URISyntaxException
 	 */
 	public URIish(String s) throws URISyntaxException {
 		if (StringUtils.isEmptyOrNull(s)) {
@@ -395,7 +397,9 @@ public class URIish implements Serializable {
 		host = u.getHost();
 	}
 
-	/** Create an empty, non-configured URI. */
+	/**
+	 * Create an empty, non-configured URI.
+	 */
 	public URIish() {
 		// Configure nothing.
 	}
@@ -411,6 +415,8 @@ public class URIish implements Serializable {
 	}
 
 	/**
+	 * Whether this URI references a repository on another system.
+	 *
 	 * @return true if this URI references a repository on another system.
 	 */
 	public boolean isRemote() {
@@ -418,6 +424,8 @@ public class URIish implements Serializable {
 	}
 
 	/**
+	 * Get host name part.
+	 *
 	 * @return host name part or null
 	 */
 	public String getHost() {
@@ -438,6 +446,8 @@ public class URIish implements Serializable {
 	}
 
 	/**
+	 * Get protocol name
+	 *
 	 * @return protocol name or null for local references
 	 */
 	public String getScheme() {
@@ -458,6 +468,8 @@ public class URIish implements Serializable {
 	}
 
 	/**
+	 * Get path name component
+	 *
 	 * @return path name component
 	 */
 	public String getPath() {
@@ -465,6 +477,8 @@ public class URIish implements Serializable {
 	}
 
 	/**
+	 * Get path name component
+	 *
 	 * @return path name component
 	 */
 	public String getRawPath() {
@@ -491,7 +505,7 @@ public class URIish implements Serializable {
 	 * @param n
 	 *            the new value for path.
 	 * @return a new URI with the updated value.
-	 * @throws URISyntaxException
+	 * @throws java.net.URISyntaxException
 	 */
 	public URIish setRawPath(final String n) throws URISyntaxException {
 		final URIish r = new URIish(this);
@@ -501,6 +515,8 @@ public class URIish implements Serializable {
 	}
 
 	/**
+	 * Get user name requested for transfer
+	 *
 	 * @return user name requested for transfer or null
 	 */
 	public String getUser() {
@@ -521,6 +537,8 @@ public class URIish implements Serializable {
 	}
 
 	/**
+	 * Get password requested for transfer
+	 *
 	 * @return password requested for transfer or null
 	 */
 	public String getPass() {
@@ -541,6 +559,8 @@ public class URIish implements Serializable {
 	}
 
 	/**
+	 * Get port number requested for transfer or -1 if not explicit
+	 *
 	 * @return port number requested for transfer or -1 if not explicit
 	 */
 	public int getPort() {
@@ -560,6 +580,7 @@ public class URIish implements Serializable {
 		return r;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int hashCode() {
 		int hc = 0;
@@ -578,6 +599,7 @@ public class URIish implements Serializable {
 		return hc;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean equals(final Object obj) {
 		if (!(obj instanceof URIish))
@@ -617,6 +639,7 @@ public class URIish implements Serializable {
 		return format(true, false);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		return format(false, false);
@@ -666,6 +689,8 @@ public class URIish implements Serializable {
 	}
 
 	/**
+	 * <Get the URI as an ASCII string.
+	 *
 	 * @return the URI as an ASCII string. Password is not included.
 	 */
 	public String toASCIIString() {
@@ -673,6 +698,9 @@ public class URIish implements Serializable {
 	}
 
 	/**
+	 * Convert the URI including password, formatted with only ASCII characters
+	 * such that it will be valid for use over the network.
+	 *
 	 * @return the URI including password, formatted with only ASCII characters
 	 *         such that it will be valid for use over the network.
 	 */
@@ -713,7 +741,7 @@ public class URIish implements Serializable {
 	 *
 	 * @return the "humanish" part of the path. May be an empty string. Never
 	 *         {@code null}.
-	 * @throws IllegalArgumentException
+	 * @throws java.lang.IllegalArgumentException
 	 *             if it's impossible to determine a humanish part, or path is
 	 *             {@code null} or empty
 	 * @see #getPath

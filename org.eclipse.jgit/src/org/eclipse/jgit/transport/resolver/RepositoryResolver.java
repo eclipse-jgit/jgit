@@ -48,13 +48,15 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.ServiceMayNotContinueException;
 
 /**
- * Locate a Git {@link Repository} by name from the URL.
+ * Locate a Git {@link org.eclipse.jgit.lib.Repository} by name from the URL.
  *
  * @param <C>
  *            type of connection.
  */
 public interface RepositoryResolver<C> {
-	/** Resolver configured to open nothing. */
+	/**
+	 * Resolver configured to open nothing.
+	 */
 	public static final RepositoryResolver<?> NONE = new RepositoryResolver<Object>() {
 		@Override
 		public Repository open(Object req, String name)

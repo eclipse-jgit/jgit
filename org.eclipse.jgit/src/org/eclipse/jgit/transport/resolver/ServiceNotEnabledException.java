@@ -45,13 +45,19 @@ package org.eclipse.jgit.transport.resolver;
 
 import org.eclipse.jgit.internal.JGitText;
 
-/** Indicates the request service is not enabled on a repository. */
+/**
+ * Indicates the request service is not enabled on a repository.
+ */
 public class ServiceNotEnabledException extends Exception {
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * Constructor for ServiceNotEnabledException.
+	 *
 	 * @param message
+	 *            error message
 	 * @param cause
+	 *            a {@link java.lang.Throwable} object.
 	 * @since 4.1
 	 */
 	public ServiceNotEnabledException(String message, Throwable cause) {
@@ -59,14 +65,19 @@ public class ServiceNotEnabledException extends Exception {
 	}
 
 	/**
+	 * Constructor for ServiceNotEnabledException.
+	 *
 	 * @param message
+	 *            error message
 	 * @since 4.1
 	 */
 	public ServiceNotEnabledException(String message) {
 		super(message);
 	}
 
-	/** Indicates the request service is not available. */
+	/**
+	 * Indicates the request service is not available.
+	 */
 	public ServiceNotEnabledException() {
 		super(JGitText.get().serviceNotEnabledNoName);
 	}

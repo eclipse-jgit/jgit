@@ -405,15 +405,27 @@ public abstract class BaseReceivePack {
 		}
 	}
 
-	/** @return the process name used for pack lock messages. */
+	/**
+	 * Get the process name used for pack lock messages.
+	 *
+	 * @return the process name used for pack lock messages.
+	 */
 	protected abstract String getLockMessageProcessName();
 
-	/** @return the repository this receive completes into. */
+	/**
+	 * Get the repository this receive completes into.
+	 *
+	 * @return the repository this receive completes into.
+	 */
 	public final Repository getRepository() {
 		return db;
 	}
 
-	/** @return the RevWalk instance used by this connection. */
+	/**
+	 * Get the RevWalk instance used by this connection.
+	 *
+	 * @return the RevWalk instance used by this connection.
+	 */
 	public final RevWalk getRevWalk() {
 		return walk;
 	}
@@ -431,14 +443,15 @@ public abstract class BaseReceivePack {
 	/**
 	 * Set the refs advertised by this ReceivePack.
 	 * <p>
-	 * Intended to be called from a {@link PreReceiveHook}.
+	 * Intended to be called from a
+	 * {@link org.eclipse.jgit.transport.PreReceiveHook}.
 	 *
 	 * @param allRefs
 	 *            explicit set of references to claim as advertised by this
-	 *            ReceivePack instance. This overrides any references that
-	 *            may exist in the source repository. The map is passed
-	 *            to the configured {@link #getRefFilter()}. If null, assumes
-	 *            all refs were advertised.
+	 *            ReceivePack instance. This overrides any references that may
+	 *            exist in the source repository. The map is passed to the
+	 *            configured {@link #getRefFilter()}. If null, assumes all refs
+	 *            were advertised.
 	 * @param additionalHaves
 	 *            explicit set of additional haves to claim as advertised. If
 	 *            null, assumes the default set of additional haves from the
@@ -475,6 +488,9 @@ public abstract class BaseReceivePack {
 	}
 
 	/**
+	 * Whether this instance will validate all referenced, but not supplied by
+	 * the client, objects are reachable from another reference.
+	 *
 	 * @return true if this instance will validate all referenced, but not
 	 *         supplied by the client, objects are reachable from another
 	 *         reference.
@@ -493,8 +509,9 @@ public abstract class BaseReceivePack {
 	 * This feature is useful when the application doesn't trust the client to
 	 * not provide a forged SHA-1 reference to an object, in an attempt to
 	 * access parts of the DAG that they aren't allowed to see and which have
-	 * been hidden from them via the configured {@link AdvertiseRefsHook} or
-	 * {@link RefFilter}.
+	 * been hidden from them via the configured
+	 * {@link org.eclipse.jgit.transport.AdvertiseRefsHook} or
+	 * {@link org.eclipse.jgit.transport.RefFilter}.
 	 * <p>
 	 * Enabling this feature may imply at least some, if not all, of the same
 	 * functionality performed by {@link #setCheckReceivedObjects(boolean)}.
@@ -508,6 +525,9 @@ public abstract class BaseReceivePack {
 	}
 
 	/**
+	 * Whether this class expects a bi-directional pipe opened between the
+	 * client and itself.
+	 *
 	 * @return true if this class expects a bi-directional pipe opened between
 	 *         the client and itself. The default is true.
 	 */
@@ -516,6 +536,10 @@ public abstract class BaseReceivePack {
 	}
 
 	/**
+	 * Whether this class will assume the socket is a fully bidirectional pipe
+	 * between the two peers and takes advantage of that by first transmitting
+	 * the known refs, then waiting to read commands.
+	 *
 	 * @param twoWay
 	 *            if true, this class will assume the socket is a fully
 	 *            bidirectional pipe between the two peers and takes advantage
@@ -528,32 +552,44 @@ public abstract class BaseReceivePack {
 		biDirectionalPipe = twoWay;
 	}
 
-	/** @return true if there is data expected after the pack footer. */
+	/**
+	 * Whether there is data expected after the pack footer.
+	 *
+	 * @return {@code true} if there is data expected after the pack footer.
+	 */
 	public boolean isExpectDataAfterPackFooter() {
 		return expectDataAfterPackFooter;
 	}
 
 	/**
+	 * Whether there is additional data in InputStream after pack.
+	 *
 	 * @param e
-	 *            true if there is additional data in InputStream after pack.
+	 *            {@code true} if there is additional data in InputStream after
+	 *            pack.
 	 */
 	public void setExpectDataAfterPackFooter(boolean e) {
 		expectDataAfterPackFooter = e;
 	}
 
 	/**
-	 * @return true if this instance will verify received objects are formatted
-	 *         correctly. Validating objects requires more CPU time on this side
-	 *         of the connection.
+	 * Whether this instance will verify received objects are formatted
+	 * correctly.
+	 *
+	 * @return {@code true} if this instance will verify received objects are
+	 *         formatted correctly. Validating objects requires more CPU time on
+	 *         this side of the connection.
 	 */
 	public boolean isCheckReceivedObjects() {
 		return objectChecker != null;
 	}
 
 	/**
+	 * Whether to enable checking received objects
+	 *
 	 * @param check
-	 *            true to enable checking received objects; false to assume all
-	 *            received objects are valid.
+	 *            {@code true} to enable checking received objects; false to
+	 *            assume all received objects are valid.
 	 * @see #setObjectChecker(ObjectChecker)
 	 */
 	public void setCheckReceivedObjects(final boolean check) {
@@ -564,42 +600,59 @@ public abstract class BaseReceivePack {
 	}
 
 	/**
-	 * @param impl if non-null the object checking instance to verify each
-	 *        received object with; null to disable object checking.
+	 * Set the object checking instance to verify each received object with
+	 *
+	 * @param impl
+	 *            if non-null the object checking instance to verify each
+	 *            received object with; null to disable object checking.
 	 * @since 3.4
 	 */
 	public void setObjectChecker(ObjectChecker impl) {
 		objectChecker = impl;
 	}
 
-	/** @return true if the client can request refs to be created. */
+	/**
+	 * Whether the client can request refs to be created.
+	 *
+	 * @return {@code true} if the client can request refs to be created.
+	 */
 	public boolean isAllowCreates() {
 		return allowCreates;
 	}
 
 	/**
+	 * Whether to permit create ref commands to be processed.
+	 *
 	 * @param canCreate
-	 *            true to permit create ref commands to be processed.
+	 *            {@code true} to permit create ref commands to be processed.
 	 */
 	public void setAllowCreates(final boolean canCreate) {
 		allowCreates = canCreate;
 	}
 
-	/** @return true if the client can request refs to be deleted. */
+	/**
+	 * Whether the client can request refs to be deleted.
+	 *
+	 * @return {@code true} if the client can request refs to be deleted.
+	 */
 	public boolean isAllowDeletes() {
 		return allowAnyDeletes;
 	}
 
 	/**
+	 * Whether to permit delete ref commands to be processed.
+	 *
 	 * @param canDelete
-	 *            true to permit delete ref commands to be processed.
+	 *            {@code true} to permit delete ref commands to be processed.
 	 */
 	public void setAllowDeletes(final boolean canDelete) {
 		allowAnyDeletes = canDelete;
 	}
 
 	/**
-	 * @return true if the client can delete from {@code refs/heads/}.
+	 * Whether the client can delete from {@code refs/heads/}.
+	 *
+	 * @return {@code true} if the client can delete from {@code refs/heads/}.
 	 * @since 3.6
 	 */
 	public boolean isAllowBranchDeletes() {
@@ -607,8 +660,11 @@ public abstract class BaseReceivePack {
 	}
 
 	/**
+	 * Configure whether to permit deletion of branches from the
+	 * {@code refs/heads/} namespace.
+	 *
 	 * @param canDelete
-	 *            true to permit deletion of branches from the
+	 *            {@code true} to permit deletion of branches from the
 	 *            {@code refs/heads/} namespace.
 	 * @since 3.6
 	 */
@@ -617,25 +673,34 @@ public abstract class BaseReceivePack {
 	}
 
 	/**
-	 * @return true if the client can request non-fast-forward updates of a ref,
-	 *         possibly making objects unreachable.
+	 * Whether the client can request non-fast-forward updates of a ref,
+	 * possibly making objects unreachable.
+	 *
+	 * @return {@code true} if the client can request non-fast-forward updates
+	 *         of a ref, possibly making objects unreachable.
 	 */
 	public boolean isAllowNonFastForwards() {
 		return allowNonFastForwards;
 	}
 
 	/**
+	 * Configure whether to permit the client to ask for non-fast-forward
+	 * updates of an existing ref.
+	 *
 	 * @param canRewind
-	 *            true to permit the client to ask for non-fast-forward updates
-	 *            of an existing ref.
+	 *            {@code true} to permit the client to ask for non-fast-forward
+	 *            updates of an existing ref.
 	 */
 	public void setAllowNonFastForwards(final boolean canRewind) {
 		allowNonFastForwards = canRewind;
 	}
 
 	/**
-	 * @return true if the client's commands should be performed as a single
-	 *         atomic transaction.
+	 * Whether the client's commands should be performed as a single atomic
+	 * transaction.
+	 *
+	 * @return {@code true} if the client's commands should be performed as a
+	 *         single atomic transaction.
 	 * @since 4.4
 	 */
 	public boolean isAtomic() {
@@ -643,16 +708,23 @@ public abstract class BaseReceivePack {
 	}
 
 	/**
+	 * Configure whether to perform the client's commands as a single atomic
+	 * transaction.
+	 *
 	 * @param atomic
-	 *            true to perform the client's commands as a single atomic
-	 *            transaction.
+	 *            {@code true} to perform the client's commands as a single
+	 *            atomic transaction.
 	 * @since 4.4
 	 */
 	public void setAtomic(boolean atomic) {
 		this.atomic = atomic;
 	}
 
-	/** @return identity of the user making the changes in the reflog. */
+	/**
+	 * Get identity of the user making the changes in the reflog.
+	 *
+	 * @return identity of the user making the changes in the reflog.
+	 */
 	public PersonIdent getRefLogIdent() {
 		return refLogIdent;
 	}
@@ -673,12 +745,20 @@ public abstract class BaseReceivePack {
 		refLogIdent = pi;
 	}
 
-	/** @return the hook used while advertising the refs to the client */
+	/**
+	 * Get the hook used while advertising the refs to the client
+	 *
+	 * @return the hook used while advertising the refs to the client
+	 */
 	public AdvertiseRefsHook getAdvertiseRefsHook() {
 		return advertiseRefsHook;
 	}
 
-	/** @return the filter used while advertising the refs to the client */
+	/**
+	 * Get the filter used while advertising the refs to the client
+	 *
+	 * @return the filter used while advertising the refs to the client
+	 */
 	public RefFilter getRefFilter() {
 		return refFilter;
 	}
@@ -686,12 +766,14 @@ public abstract class BaseReceivePack {
 	/**
 	 * Set the hook used while advertising the refs to the client.
 	 * <p>
-	 * If the {@link AdvertiseRefsHook} chooses to call
-	 * {@link #setAdvertisedRefs(Map,Set)}, only refs set by this hook
-	 * <em>and</em> selected by the {@link RefFilter} will be shown to the client.
-	 * Clients may still attempt to create or update a reference not advertised by
-	 * the configured {@link AdvertiseRefsHook}. These attempts should be rejected
-	 * by a matching {@link PreReceiveHook}.
+	 * If the {@link org.eclipse.jgit.transport.AdvertiseRefsHook} chooses to
+	 * call {@link #setAdvertisedRefs(Map,Set)}, only refs set by this hook
+	 * <em>and</em> selected by the {@link org.eclipse.jgit.transport.RefFilter}
+	 * will be shown to the client. Clients may still attempt to create or
+	 * update a reference not advertised by the configured
+	 * {@link org.eclipse.jgit.transport.AdvertiseRefsHook}. These attempts
+	 * should be rejected by a matching
+	 * {@link org.eclipse.jgit.transport.PreReceiveHook}.
 	 *
 	 * @param advertiseRefsHook
 	 *            the hook; may be null to show all refs.
@@ -706,9 +788,9 @@ public abstract class BaseReceivePack {
 	/**
 	 * Set the filter used while advertising the refs to the client.
 	 * <p>
-	 * Only refs allowed by this filter will be shown to the client.
-	 * The filter is run against the refs specified by the
-	 * {@link AdvertiseRefsHook} (if applicable).
+	 * Only refs allowed by this filter will be shown to the client. The filter
+	 * is run against the refs specified by the
+	 * {@link org.eclipse.jgit.transport.AdvertiseRefsHook} (if applicable).
 	 *
 	 * @param refFilter
 	 *            the filter; may be null to show all refs.
@@ -717,7 +799,11 @@ public abstract class BaseReceivePack {
 		this.refFilter = refFilter != null ? refFilter : RefFilter.DEFAULT;
 	}
 
-	/** @return timeout (in seconds) before aborting an IO operation. */
+	/**
+	 * Get timeout (in seconds) before aborting an IO operation.
+	 *
+	 * @return timeout (in seconds) before aborting an IO operation.
+	 */
 	public int getTimeout() {
 		return timeout;
 	}
@@ -786,7 +872,6 @@ public abstract class BaseReceivePack {
 	 *
 	 * @param limit
 	 *            the pack size limit, in bytes
-	 *
 	 * @since 3.3
 	 */
 	public void setMaxPackSizeLimit(final long limit) {
@@ -801,7 +886,7 @@ public abstract class BaseReceivePack {
 	 *
 	 * @return true if the client has advertised a side-band capability, false
 	 *     otherwise.
-	 * @throws RequestNotYetReadException
+	 * @throws org.eclipse.jgit.transport.RequestNotYetReadException
 	 *             if the client's request has not yet been read from the wire, so
 	 *             we do not know if they expect side-band. Note that the client
 	 *             may have already written the request, it just has not been
@@ -813,6 +898,8 @@ public abstract class BaseReceivePack {
 	}
 
 	/**
+	 * Whether clients may request avoiding noisy progress messages.
+	 *
 	 * @return true if clients may request avoiding noisy progress messages.
 	 * @since 4.0
 	 */
@@ -835,6 +922,8 @@ public abstract class BaseReceivePack {
 	}
 
 	/**
+	 * Whether the server supports receiving push options.
+	 *
 	 * @return true if the server supports receiving push options.
 	 * @since 4.5
 	 */
@@ -857,7 +946,7 @@ public abstract class BaseReceivePack {
 	 * True if the client wants less verbose output.
 	 *
 	 * @return true if the client has requested the server to be less verbose.
-	 * @throws RequestNotYetReadException
+	 * @throws org.eclipse.jgit.transport.RequestNotYetReadException
 	 *             if the client's request has not yet been read from the wire,
 	 *             so we do not know if they expect side-band. Note that the
 	 *             client may have already written the request, it just has not
@@ -908,7 +997,11 @@ public abstract class BaseReceivePack {
 		return UserAgent.getAgent(enabledCapabilities, userAgent);
 	}
 
-	/** @return all of the command received by the current request. */
+	/**
+	 * Get all of the command received by the current request.
+	 *
+	 * @return all of the command received by the current request.
+	 */
 	public List<ReceiveCommand> getAllCommands() {
 		return Collections.unmodifiableList(commands);
 	}
@@ -926,11 +1019,13 @@ public abstract class BaseReceivePack {
 	 * message will be discarded, with no other indication to the caller or to
 	 * the client.
 	 * <p>
-	 * {@link PreReceiveHook}s should always try to use
-	 * {@link ReceiveCommand#setResult(Result, String)} with a result status of
-	 * {@link Result#REJECTED_OTHER_REASON} to indicate any reasons for
-	 * rejecting an update. Messages attached to a command are much more likely
-	 * to be returned to the client.
+	 * {@link org.eclipse.jgit.transport.PreReceiveHook}s should always try to
+	 * use
+	 * {@link org.eclipse.jgit.transport.ReceiveCommand#setResult(Result, String)}
+	 * with a result status of
+	 * {@link org.eclipse.jgit.transport.ReceiveCommand.Result#REJECTED_OTHER_REASON}
+	 * to indicate any reasons for rejecting an update. Messages attached to a
+	 * command are much more likely to be returned to the client.
 	 *
 	 * @param what
 	 *            string describing the problem identified by the hook. The
@@ -973,7 +1068,11 @@ public abstract class BaseReceivePack {
 		msgOutWrapper.write(Constants.encode(what + "\n")); //$NON-NLS-1$
 	}
 
-	/** @return an underlying stream for sending messages to the client. */
+	/**
+	 * Get an underlying stream for sending messages to the client.
+	 *
+	 * @return an underlying stream for sending messages to the client.
+	 */
 	public OutputStream getMessageOutputStream() {
 		return msgOutWrapper;
 	}
@@ -984,7 +1083,7 @@ public abstract class BaseReceivePack {
 	 * This can only be called if the pack is already received.
 	 *
 	 * @return the size of the received pack including index size
-	 * @throws IllegalStateException
+	 * @throws java.lang.IllegalStateException
 	 *             if called before the pack has been received
 	 * @since 3.3
 	 */
@@ -1006,12 +1105,20 @@ public abstract class BaseReceivePack {
 		return clientShallowCommits;
 	}
 
-	/** @return true if any commands to be executed have been read. */
+	/**
+	 * Whether any commands to be executed have been read.
+	 *
+	 * @return {@code true} if any commands to be executed have been read.
+	 */
 	protected boolean hasCommands() {
 		return !commands.isEmpty();
 	}
 
-	/** @return true if an error occurred that should be advertised. */
+	/**
+	 * Whether an error occurred that should be advertised.
+	 *
+	 * @return true if an error occurred that should be advertised.
+	 */
 	protected boolean hasError() {
 		return advertiseError != null;
 	}
@@ -1059,7 +1166,11 @@ public abstract class BaseReceivePack {
 		commands = new ArrayList<>();
 	}
 
-	/** @return advertised refs, or the default if not explicitly advertised. */
+	/**
+	 * Get advertised refs, or the default if not explicitly advertised.
+	 *
+	 * @return advertised refs, or the default if not explicitly advertised.
+	 */
 	protected Map<String, Ref> getAdvertisedOrDefaultRefs() {
 		if (refs == null)
 			setAdvertisedRefs(null, null);
@@ -1069,7 +1180,7 @@ public abstract class BaseReceivePack {
 	/**
 	 * Receive a pack from the stream and check connectivity if necessary.
 	 *
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             an error occurred during unpacking or connectivity checking.
 	 */
 	protected void receivePackAndCheckConnectivity() throws IOException {
@@ -1082,7 +1193,7 @@ public abstract class BaseReceivePack {
 	/**
 	 * Unlock the pack written by this object.
 	 *
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the pack could not be unlocked.
 	 */
 	protected void unlockPack() throws IOException {
@@ -1097,9 +1208,9 @@ public abstract class BaseReceivePack {
 	 *
 	 * @param adv
 	 *            the advertisement formatter.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the formatter failed to write an advertisement.
-	 * @throws ServiceMayNotContinueException
+	 * @throws org.eclipse.jgit.transport.ServiceMayNotContinueException
 	 *             the hook denied advertisement.
 	 */
 	public void sendAdvertisedRefs(final RefAdvertiser adv)
@@ -1160,7 +1271,7 @@ public abstract class BaseReceivePack {
 	/**
 	 * Receive a list of commands from the input.
 	 *
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 */
 	protected void recvCommands() throws IOException {
 		PacketLineIn pck = maxCommandBytes > 0
@@ -1289,7 +1400,9 @@ public abstract class BaseReceivePack {
 		// Do nothing by default.
 	}
 
-	/** Enable capabilities based on a previously read capabilities line. */
+	/**
+	 * Enable capabilities based on a previously read capabilities line.
+	 */
 	protected void enableCapabilities() {
 		sideBand = isCapabilityEnabled(CAPABILITY_SIDE_BAND_64K);
 		quiet = allowQuiet && isCapabilityEnabled(CAPABILITY_QUIET);
@@ -1321,7 +1434,11 @@ public abstract class BaseReceivePack {
 			throw new RequestNotYetReadException();
 	}
 
-	/** @return true if a pack is expected based on the list of commands. */
+	/**
+	 * Whether a pack is expected based on the list of commands.
+	 *
+	 * @return {@code true} if a pack is expected based on the list of commands.
+	 */
 	protected boolean needPack() {
 		for (final ReceiveCommand cmd : commands) {
 			if (cmd.getType() != ReceiveCommand.Type.DELETE)
@@ -1475,7 +1592,9 @@ public abstract class BaseReceivePack {
 		}
 	}
 
-	/** Validate the command list. */
+	/**
+	 * Validate the command list.
+	 */
 	protected void validateCommands() {
 		for (final ReceiveCommand cmd : commands) {
 			final Ref ref = cmd.getRef();
@@ -1612,6 +1731,8 @@ public abstract class BaseReceivePack {
 	}
 
 	/**
+	 * Whether any commands have been rejected so far.
+	 *
 	 * @return if any commands have been rejected so far.
 	 * @since 3.6
 	 */
@@ -1625,6 +1746,7 @@ public abstract class BaseReceivePack {
 
 	/**
 	 * Set the result to fail for any command that was not processed yet.
+	 *
 	 * @since 3.6
 	 */
 	protected void failPendingCommands() {
@@ -1643,7 +1765,9 @@ public abstract class BaseReceivePack {
 		return ReceiveCommand.filter(commands, want);
 	}
 
-	/** Execute commands to update references. */
+	/**
+	 * Execute commands to update references.
+	 */
 	protected void executeCommands() {
 		List<ReceiveCommand> toApply = filterCommands(Result.NOT_ATTEMPTED);
 		if (toApply.isEmpty())
@@ -1683,7 +1807,7 @@ public abstract class BaseReceivePack {
 	 *            an error that occurred during unpacking, or {@code null}
 	 * @param out
 	 *            the reporter for sending the status strings.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             an error occurred writing the status report.
 	 */
 	protected void sendStatusReport(final boolean forClient,
@@ -1770,7 +1894,7 @@ public abstract class BaseReceivePack {
 	/**
 	 * Close and flush (if necessary) the underlying streams.
 	 *
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 */
 	protected void close() throws IOException {
 		if (sideBand) {
@@ -1802,7 +1926,7 @@ public abstract class BaseReceivePack {
 	/**
 	 * Release any resources used by this object.
 	 *
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the pack could not be unlocked.
 	 */
 	protected void release() throws IOException {

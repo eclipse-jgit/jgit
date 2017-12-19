@@ -72,11 +72,7 @@ public class ChainingCredentialsProvider extends CredentialsProvider {
 				Arrays.asList(providers));
 	}
 
-	/**
-	 * @return {@code true} if any of the credential providers in the list is
-	 *         interactive, otherwise {@code false}
-	 * @see org.eclipse.jgit.transport.CredentialsProvider#isInteractive()
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public boolean isInteractive() {
 		for (CredentialsProvider p : credentialProviders)
@@ -85,11 +81,7 @@ public class ChainingCredentialsProvider extends CredentialsProvider {
 		return false;
 	}
 
-	/**
-	 * @return {@code true} if any of the credential providers in the list
-	 *         supports the requested items, otherwise {@code false}
-	 * @see org.eclipse.jgit.transport.CredentialsProvider#supports(org.eclipse.jgit.transport.CredentialItem[])
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public boolean supports(CredentialItem... items) {
 		for (CredentialsProvider p : credentialProviders)
@@ -99,11 +91,11 @@ public class ChainingCredentialsProvider extends CredentialsProvider {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * Populates the credential items with the credentials provided by the first
 	 * credential provider in the list which populates them with non-null values
 	 *
-	 * @return {@code true} if any of the credential providers in the list
-	 *         supports the requested items, otherwise {@code false}
 	 * @see org.eclipse.jgit.transport.CredentialsProvider#supports(org.eclipse.jgit.transport.CredentialItem[])
 	 */
 	@Override

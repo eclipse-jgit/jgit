@@ -178,6 +178,7 @@ class TransportLocal extends Transport implements PackTransport {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public FetchConnection openFetch() throws TransportException {
 		final String up = getOptionUploadPack();
@@ -194,6 +195,7 @@ class TransportLocal extends Transport implements PackTransport {
 		return new InternalFetchConnection<>(this, upf, null, openRepo());
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public PushConnection openPush() throws TransportException {
 		final String rp = getOptionReceivePack();
@@ -210,11 +212,21 @@ class TransportLocal extends Transport implements PackTransport {
 		return new InternalPushConnection<>(this, rpf, null, openRepo());
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		// Resources must be established per-connection.
 	}
 
+	/**
+	 * Spawn process
+	 *
+	 * @param cmd
+	 *            command
+	 * @return a {@link java.lang.Process} object.
+	 * @throws org.eclipse.jgit.errors.TransportException
+	 *             if any.
+	 */
 	protected Process spawn(final String cmd)
 			throws TransportException {
 		try {

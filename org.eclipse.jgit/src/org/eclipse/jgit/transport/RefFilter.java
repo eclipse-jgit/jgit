@@ -50,14 +50,17 @@ import org.eclipse.jgit.lib.Ref;
 /**
  * Filters the list of refs that are advertised to the client.
  * <p>
- * The filter is called by {@link ReceivePack} and {@link UploadPack} to ensure
- * that the refs are filtered before they are advertised to the client.
+ * The filter is called by {@link org.eclipse.jgit.transport.ReceivePack} and
+ * {@link org.eclipse.jgit.transport.UploadPack} to ensure that the refs are
+ * filtered before they are advertised to the client.
  * <p>
  * This can be used by applications to control visibility of certain refs based
  * on a custom set of rules.
  */
 public interface RefFilter {
-	/** The default filter, allows all refs to be shown. */
+	/**
+	 * The default filter, allows all refs to be shown.
+	 */
 	public static final RefFilter DEFAULT = new RefFilter() {
 		@Override
 		public Map<String, Ref> filter (final Map<String, Ref> refs) {

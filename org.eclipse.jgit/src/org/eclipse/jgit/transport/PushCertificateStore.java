@@ -135,10 +135,12 @@ public class PushCertificateStore implements AutoCloseable {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * <p>
 	 * Close resources opened by this store.
 	 * <p>
-	 * If {@link #get(String)} was called, closes the cached object reader created
-	 * by that method. Does not close the underlying repository.
+	 * If {@link #get(String)} was called, closes the cached object reader
+	 * created by that method. Does not close the underlying repository.
 	 */
 	@Override
 	public void close() {
@@ -160,7 +162,7 @@ public class PushCertificateStore implements AutoCloseable {
 	 *            the ref name to get the certificate for.
 	 * @return last certificate affecting the ref, or null if no cert was recorded
 	 *         for the last update to this ref.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             if a problem occurred reading the repository.
 	 */
 	public PushCertificate get(String refName) throws IOException {
@@ -298,20 +300,20 @@ public class PushCertificateStore implements AutoCloseable {
 	/**
 	 * Put a certificate to be saved to the store.
 	 * <p>
-	 * Writes the contents of this certificate for each ref mentioned. It is up to
-	 * the caller to ensure this certificate accurately represents the state of
-	 * the ref.
+	 * Writes the contents of this certificate for each ref mentioned. It is up
+	 * to the caller to ensure this certificate accurately represents the state
+	 * of the ref.
 	 * <p>
-	 * Pending certificates added to this method are not returned by {@link
-	 * #get(String)} and {@link #getAll(String)} until after calling {@link
-	 * #save()}.
+	 * Pending certificates added to this method are not returned by
+	 * {@link #get(String)} and {@link #getAll(String)} until after calling
+	 * {@link #save()}.
 	 *
 	 * @param cert
 	 *            certificate to store.
 	 * @param ident
 	 *            identity for the commit that stores this certificate. Pending
-	 *            certificates are sorted by identity timestamp during {@link
-	 *            #save()}.
+	 *            certificates are sorted by identity timestamp during
+	 *            {@link #save()}.
 	 */
 	public void put(PushCertificate cert, PersonIdent ident) {
 		put(cert, ident, null);
@@ -325,16 +327,16 @@ public class PushCertificateStore implements AutoCloseable {
 	 * list that exactly matches the old/new values mentioned in the push
 	 * certificate.
 	 * <p>
-	 * Pending certificates added to this method are not returned by {@link
-	 * #get(String)} and {@link #getAll(String)} until after calling {@link
-	 * #save()}.
+	 * Pending certificates added to this method are not returned by
+	 * {@link #get(String)} and {@link #getAll(String)} until after calling
+	 * {@link #save()}.
 	 *
 	 * @param cert
 	 *            certificate to store.
 	 * @param ident
 	 *            identity for the commit that stores this certificate. Pending
-	 *            certificates are sorted by identity timestamp during {@link
-	 *            #save()}.
+	 *            certificates are sorted by identity timestamp during
+	 *            {@link #save()}.
 	 * @param matching
 	 *            only store certs for the refs listed in this list whose values
 	 *            match the commands in the cert.
@@ -347,15 +349,15 @@ public class PushCertificateStore implements AutoCloseable {
 	/**
 	 * Save pending certificates to the store.
 	 * <p>
-	 * One commit is created per certificate added with {@link
-	 * #put(PushCertificate, PersonIdent)}, in order of identity timestamps, and
-	 * a single ref update is performed.
+	 * One commit is created per certificate added with
+	 * {@link #put(PushCertificate, PersonIdent)}, in order of identity
+	 * timestamps, and a single ref update is performed.
 	 * <p>
-	 * The pending list is cleared if and only the ref update fails, which allows
-	 * for easy retries in case of lock failure.
+	 * The pending list is cleared if and only the ref update fails, which
+	 * allows for easy retries in case of lock failure.
 	 *
 	 * @return the result of attempting to update the ref.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             if there was an error reading from or writing to the
 	 *             repository.
 	 */
@@ -384,18 +386,19 @@ public class PushCertificateStore implements AutoCloseable {
 	/**
 	 * Save pending certificates to the store in an existing batch ref update.
 	 * <p>
-	 * One commit is created per certificate added with {@link
-	 * #put(PushCertificate, PersonIdent)}, in order of identity timestamps, all
-	 * commits are flushed, and a single command is added to the batch.
+	 * One commit is created per certificate added with
+	 * {@link #put(PushCertificate, PersonIdent)}, in order of identity
+	 * timestamps, all commits are flushed, and a single command is added to the
+	 * batch.
 	 * <p>
-	 * The cached ref value and pending list are <em>not</em> cleared. If the ref
-	 * update succeeds, the caller is responsible for calling {@link #close()}
-	 * and/or {@link #clear()}.
+	 * The cached ref value and pending list are <em>not</em> cleared. If the
+	 * ref update succeeds, the caller is responsible for calling
+	 * {@link #close()} and/or {@link #clear()}.
 	 *
 	 * @param batch
 	 *            update to save to.
 	 * @return whether a command was added to the batch.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             if there was an error reading from or writing to the
 	 *             repository.
 	 */
