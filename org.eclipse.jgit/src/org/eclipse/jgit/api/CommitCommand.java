@@ -54,7 +54,7 @@ import java.util.List;
 
 import org.eclipse.jgit.api.errors.AbortedByHookException;
 import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
-import org.eclipse.jgit.api.errors.EmtpyCommitException;
+import org.eclipse.jgit.api.errors.EmptyCommitException;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.NoFilepatternException;
@@ -238,7 +238,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 					RevCommit headCommit = rw.parseCommit(headId);
 					headCommit.getTree();
 					if (indexTreeId.equals(headCommit.getTree())) {
-						throw new EmtpyCommitException(
+						throw new EmptyCommitException(
 								JGitText.get().emptyCommit);
 					}
 				}
