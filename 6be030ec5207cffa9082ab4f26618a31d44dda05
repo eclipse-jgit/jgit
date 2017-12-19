@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "87929364_d4038dc5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/FileHeader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-19T12:57:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_142b5583",
+      "range": {
+        "startLine": 179,
+        "startChar": 4,
+        "endLine": 179,
+        "endChar": 27
+      },
+      "revId": "6be030ec5207cffa9082ab4f26618a31d44dda05",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_34cbf14e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/FileHeader.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-12-19T12:23:50Z",
       "side": 1,
       "message": "and here",
+      "range": {
+        "startLine": 181,
+        "startChar": 12,
+        "endLine": 181,
+        "endChar": 31
+      },
+      "revId": "6be030ec5207cffa9082ab4f26618a31d44dda05",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_f4108909",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/FileHeader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-19T12:57:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_34cbf14e",
       "range": {
         "startLine": 181,
         "startChar": 12,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "87929364_343a1184",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/FileHeader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-19T12:57:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_54d07df4",
+      "range": {
+        "startLine": 344,
+        "startChar": 4,
+        "endLine": 344,
+        "endChar": 70
+      },
+      "revId": "6be030ec5207cffa9082ab4f26618a31d44dda05",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_74d579e3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/FileHeader.java",
         "patchSetId": 1
@@ -82,6 +154,24 @@
       "writtenOn": "2017-12-19T12:23:50Z",
       "side": 1,
       "message": "Same here",
+      "revId": "6be030ec5207cffa9082ab4f26618a31d44dda05",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_543f9d72",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/FileHeader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-19T12:57:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_74d579e3",
       "revId": "6be030ec5207cffa9082ab4f26618a31d44dda05",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "87929364_74349994",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/HunkHeader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-19T12:57:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_d4bb8db8",
+      "range": {
+        "startLine": 172,
+        "startChar": 4,
+        "endLine": 172,
+        "endChar": 24
+      },
+      "revId": "6be030ec5207cffa9082ab4f26618a31d44dda05",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_f4c8894c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/HunkHeader.java",
         "patchSetId": 1
@@ -122,6 +236,30 @@
       "writtenOn": "2017-12-19T12:23:50Z",
       "side": 1,
       "message": "same",
+      "range": {
+        "startLine": 174,
+        "startChar": 12,
+        "endLine": 174,
+        "endChar": 28
+      },
+      "revId": "6be030ec5207cffa9082ab4f26618a31d44dda05",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_9439058e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/HunkHeader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-19T12:57:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_f4c8894c",
       "range": {
         "startLine": 174,
         "startChar": 12,
@@ -168,6 +306,54 @@
       "writtenOn": "2017-12-19T12:23:50Z",
       "side": 1,
       "message": "and this?",
+      "range": {
+        "startLine": 401,
+        "startChar": 54,
+        "endLine": 401,
+        "endChar": 62
+      },
+      "revId": "6be030ec5207cffa9082ab4f26618a31d44dda05",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_1425155d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revplot/PlotCommitList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-19T12:57:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_14c6f53d",
+      "range": {
+        "startLine": 401,
+        "startChar": 17,
+        "endLine": 401,
+        "endChar": 21
+      },
+      "revId": "6be030ec5207cffa9082ab4f26618a31d44dda05",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_3465b194",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revplot/PlotCommitList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-19T12:57:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_34f21193",
       "range": {
         "startLine": 401,
         "startChar": 54,
