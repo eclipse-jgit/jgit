@@ -88,7 +88,9 @@ public final class InterruptTimer {
 
 	final AutoKiller autoKiller;
 
-	/** Create a new timer with a default thread name. */
+	/**
+	 * Create a new timer with a default thread name.
+	 */
 	public InterruptTimer() {
 		this("JGit-InterruptTimer"); //$NON-NLS-1$
 	}
@@ -123,12 +125,16 @@ public final class InterruptTimer {
 		state.begin(timeout);
 	}
 
-	/** Disable the interrupt timer, as the operation is complete. */
+	/**
+	 * Disable the interrupt timer, as the operation is complete.
+	 */
 	public void end() {
 		state.end();
 	}
 
-	/** Shutdown the timer thread, and wait for it to terminate. */
+	/**
+	 * Shutdown the timer thread, and wait for it to terminate.
+	 */
 	public void terminate() {
 		state.terminate();
 		try {

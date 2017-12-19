@@ -76,14 +76,24 @@ public class AutoLFOutputStream extends OutputStream {
 	private boolean isBinary;
 
 	/**
+	 * <p>
+	 * Constructor for AutoLFOutputStream.
+	 * </p>
+	 *
 	 * @param out
+	 *            an {@link java.io.OutputStream} object.
 	 */
 	public AutoLFOutputStream(OutputStream out) {
 		this(out, true);
 	}
 
 	/**
+	 * <p>
+	 * Constructor for AutoLFOutputStream.
+	 * </p>
+	 *
 	 * @param out
+	 *            an {@link java.io.OutputStream} object.
 	 * @param detectBinary
 	 *            whether binaries should be detected
 	 */
@@ -92,12 +102,14 @@ public class AutoLFOutputStream extends OutputStream {
 		this.detectBinary = detectBinary;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void write(int b) throws IOException {
 		onebytebuf[0] = (byte) b;
 		write(onebytebuf, 0, 1);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void write(byte[] b) throws IOException {
 		int overflow = buffer(b, 0, b.length);
@@ -106,6 +118,7 @@ public class AutoLFOutputStream extends OutputStream {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void write(byte[] b, final int startOff, final int startLen)
 			throws IOException {
@@ -180,6 +193,7 @@ public class AutoLFOutputStream extends OutputStream {
 		write(binbuf, 0, cachedLen);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void flush() throws IOException {
 		if (binbufcnt <= binbuf.length) {
@@ -188,6 +202,7 @@ public class AutoLFOutputStream extends OutputStream {
 		out.flush();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void close() throws IOException {
 		flush();

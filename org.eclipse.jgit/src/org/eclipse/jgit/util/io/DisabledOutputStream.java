@@ -48,7 +48,9 @@ import java.io.OutputStream;
 
 import org.eclipse.jgit.internal.JGitText;
 
-/** An OutputStream which always throws IllegalStateExeption during write. */
+/**
+ * An OutputStream which always throws IllegalStateExeption during write.
+ */
 public final class DisabledOutputStream extends OutputStream {
 	/** The canonical instance which always throws IllegalStateException. */
 	public static final DisabledOutputStream INSTANCE = new DisabledOutputStream();
@@ -58,6 +60,7 @@ public final class DisabledOutputStream extends OutputStream {
 		// more than one instance from being created.
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void write(int b) throws IOException {
 		// We shouldn't be writing output at this stage, there

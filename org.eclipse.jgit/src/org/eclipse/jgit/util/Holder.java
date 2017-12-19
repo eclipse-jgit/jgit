@@ -45,14 +45,15 @@ package org.eclipse.jgit.util;
  * Holder of an object.
  *
  * @param <T>
- *            the type of value held by this {@link Holder}
- *
+ *            the type of value held by this {@link org.eclipse.jgit.util.Holder}
  * @since 4.3
  */
 public class Holder<T> {
 	private T value;
 
 	/**
+	 * <p>Constructor for Holder.</p>
+	 *
 	 * @param value
 	 *            is the initial value that is {@link #set(Object)}
 	 */
@@ -61,15 +62,20 @@ public class Holder<T> {
 	}
 
 	/**
-	 * @return the value held by this {@link Holder}
+	 * Get the value held by this {@link org.eclipse.jgit.util.Holder}
+	 *
+	 * @return the value held by this {@link org.eclipse.jgit.util.Holder}
 	 */
 	public T get() {
 		return value;
 	}
 
 	/**
+	 * Set a new value held by this {@link org.eclipse.jgit.util.Holder}
+	 *
 	 * @param value
-	 *            to be set as new value held by this {@link Holder}
+	 *            to be set as new value held by this
+	 *            {@link org.eclipse.jgit.util.Holder}
 	 */
 	public void set(T value) {
 		this.value = value;

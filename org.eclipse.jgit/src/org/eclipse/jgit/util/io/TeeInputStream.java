@@ -47,15 +47,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import org.eclipse.jgit.util.TemporaryBuffer;
-
 /**
  * Input stream that copies data read to another output stream.
  *
- * This stream is primarily useful with a {@link TemporaryBuffer}, where any
- * data read or skipped by the caller is also duplicated into the temporary
- * buffer. Later the temporary buffer can then be used instead of the original
- * source stream.
+ * This stream is primarily useful with a
+ * {@link org.eclipse.jgit.util.TemporaryBuffer}, where any data read or skipped
+ * by the caller is also duplicated into the temporary buffer. Later the
+ * temporary buffer can then be used instead of the original source stream.
  *
  * During close this stream copies any remaining data from the source stream
  * into the destination stream.
@@ -74,13 +72,14 @@ public class TeeInputStream extends InputStream {
 	 *            source stream to consume.
 	 * @param dst
 	 *            destination to copy the source to as it is consumed. Typically
-	 *            this is a {@link TemporaryBuffer}.
+	 *            this is a {@link org.eclipse.jgit.util.TemporaryBuffer}.
 	 */
 	public TeeInputStream(InputStream src, OutputStream dst) {
 		this.src = src;
 		this.dst = dst;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int read() throws IOException {
 		byte[] b = skipBuffer();
@@ -88,6 +87,7 @@ public class TeeInputStream extends InputStream {
 		return n == 1 ? b[0] & 0xff : -1;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public long skip(final long count) throws IOException {
 		long skipped = 0;
@@ -104,6 +104,7 @@ public class TeeInputStream extends InputStream {
 		return skipped;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public int read(byte[] b, int off, int len) throws IOException {
 		if (len == 0)
@@ -115,6 +116,7 @@ public class TeeInputStream extends InputStream {
 		return n;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void close() throws IOException {
 		byte[] b = skipBuffer();

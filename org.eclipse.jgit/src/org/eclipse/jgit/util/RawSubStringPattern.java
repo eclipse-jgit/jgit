@@ -131,6 +131,7 @@ public class RawSubStringPattern {
 		return needleString;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		return pattern();

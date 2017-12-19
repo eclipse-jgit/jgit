@@ -50,7 +50,9 @@ import java.text.MessageFormat;
 
 import org.eclipse.jgit.internal.JGitText;
 
-/** OutputStream with a configurable timeout. */
+/**
+ * OutputStream with a configurable timeout.
+ */
 public class TimeoutOutputStream extends OutputStream {
 	private final OutputStream dst;
 
@@ -73,14 +75,21 @@ public class TimeoutOutputStream extends OutputStream {
 		myTimer = timer;
 	}
 
-	/** @return number of milliseconds before aborting a write. */
+	/**
+	 * Get number of milliseconds before aborting a write.
+	 *
+	 * @return number of milliseconds before aborting a write.
+	 */
 	public int getTimeout() {
 		return timeout;
 	}
 
 	/**
+	 * Set number of milliseconds before aborting a write.
+	 *
 	 * @param millis
-	 *            number of milliseconds before aborting a write. Must be &gt; 0.
+	 *            number of milliseconds before aborting a write. Must be &gt;
+	 *            0.
 	 */
 	public void setTimeout(final int millis) {
 		if (millis < 0)
@@ -89,6 +98,7 @@ public class TimeoutOutputStream extends OutputStream {
 		timeout = millis;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void write(int b) throws IOException {
 		try {
@@ -101,11 +111,13 @@ public class TimeoutOutputStream extends OutputStream {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void write(byte[] buf) throws IOException {
 		write(buf, 0, buf.length);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void write(byte[] buf, int off, int len) throws IOException {
 		try {
@@ -118,6 +130,7 @@ public class TimeoutOutputStream extends OutputStream {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void flush() throws IOException {
 		try {
@@ -130,6 +143,7 @@ public class TimeoutOutputStream extends OutputStream {
 		}
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void close() throws IOException {
 		try {

@@ -57,16 +57,19 @@ public class NullOutputStream extends OutputStream {
 		// more than one instance from being created.
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void write(int b) {
 		// Discard.
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void write(byte[] buf) {
 		// Discard.
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void write(byte[] buf, int pos, int cnt) {
 		// Discard.

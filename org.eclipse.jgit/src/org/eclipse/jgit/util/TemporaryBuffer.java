@@ -114,6 +114,7 @@ public abstract class TemporaryBuffer extends OutputStream {
 		reset();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void write(final int b) throws IOException {
 		if (overflow != null) {
@@ -134,6 +135,7 @@ public abstract class TemporaryBuffer extends OutputStream {
 		s.buffer[s.count++] = (byte) b;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void write(final byte[] b, int off, int len) throws IOException {
 		if (overflow == null) {
@@ -162,7 +164,7 @@ public abstract class TemporaryBuffer extends OutputStream {
 	/**
 	 * Dumps the entire buffer into the overflow stream, and flushes it.
 	 *
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the overflow stream cannot be started, or the buffer contents
 	 *             cannot be written to it, or it failed to flush.
 	 */
@@ -177,7 +179,7 @@ public abstract class TemporaryBuffer extends OutputStream {
 	 *
 	 * @param in
 	 *            the stream to read from, until EOF is reached.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             an error occurred reading from the input stream, or while
 	 *             writing to a local temporary file.
 	 */
@@ -227,10 +229,8 @@ public abstract class TemporaryBuffer extends OutputStream {
 	 * The buffer is only complete after {@link #close()} has been invoked.
 	 *
 	 * @return the complete byte array; length matches {@link #length()}.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             an error occurred reading from a local temporary file
-	 * @throws OutOfMemoryError
-	 *             the buffer cannot fit in memory
 	 */
 	public byte[] toByteArray() throws IOException {
 		final long len = length();
@@ -253,13 +253,9 @@ public abstract class TemporaryBuffer extends OutputStream {
 	 *
 	 * @param limit
 	 *            the maximum number of bytes to be returned
-	 *
 	 * @return the byte array limited to {@code limit} bytes.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             an error occurred reading from a local temporary file
-	 * @throws OutOfMemoryError
-	 *             the buffer cannot fit in memory
-	 *
 	 * @since 4.2
 	 */
 	public byte[] toByteArray(int limit) throws IOException {
@@ -288,7 +284,7 @@ public abstract class TemporaryBuffer extends OutputStream {
 	 *            if not null progress updates are sent here. Caller should
 	 *            initialize the task and the number of work units to <code>
 	 *            {@link #length()}/1024</code>.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             an error occurred reading from a temporary file on the local
 	 *             system, or writing to the output stream.
 	 */
@@ -310,14 +306,16 @@ public abstract class TemporaryBuffer extends OutputStream {
 	 *
 	 * @return a stream to read from the buffer. The caller must close the
 	 *         stream when it is no longer useful.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             an error occurred opening the temporary file.
 	 */
 	public InputStream openInputStream() throws IOException {
 		return new BlockInputStream();
 	}
 
-	/** Reset this buffer for reuse, purging all buffered content. */
+	/**
+	 * Reset this buffer for reuse, purging all buffered content.
+	 */
 	public void reset() {
 		if (overflow != null) {
 			destroy();
@@ -334,7 +332,7 @@ public abstract class TemporaryBuffer extends OutputStream {
 	 *
 	 * @return the output stream to receive the buffered content, followed by
 	 *         the remaining output.
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the buffer cannot create the overflow stream.
 	 */
 	protected abstract OutputStream overflow() throws IOException;
@@ -363,6 +361,7 @@ public abstract class TemporaryBuffer extends OutputStream {
 		overflow.write(last.buffer, 0, last.count);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void close() throws IOException {
 		if (overflow != null) {
@@ -374,7 +373,9 @@ public abstract class TemporaryBuffer extends OutputStream {
 		}
 	}
 
-	/** Clear this buffer so it has no data, and cannot be used again. */
+	/**
+	 * Clear this buffer so it has no data, and cannot be used again.
+	 */
 	public void destroy() {
 		blocks = null;
 

@@ -70,8 +70,8 @@ import org.slf4j.LoggerFactory;
  * sha1collisiondetection</a> for more information.
  * <p>
  * When detectCollision is true (default), this implementation throws
- * {@link Sha1CollisionException} from any digest method if a potential
- * collision was detected.
+ * {@link org.eclipse.jgit.util.sha1.Sha1CollisionException} from any digest
+ * method if a potential collision was detected.
  *
  * @since 4.7
  */
@@ -85,7 +85,11 @@ public class SHA1 {
 		DETECT_COLLISIONS = v != null ? Boolean.parseBoolean(v) : true;
 	}
 
-	/** @return a new context to compute a SHA-1 hash of data. */
+	/**
+	 * Create a new context to compute a SHA-1 hash of data.
+	 *
+	 * @return a new context to compute a SHA-1 hash of data.
+	 */
 	public static SHA1 newInstance() {
 		return new SHA1();
 	}
@@ -121,6 +125,7 @@ public class SHA1 {
 	 * {@code -Dorg.eclipse.jgit.util.sha1.detectCollision=true}.
 	 *
 	 * @param detect
+	 *            a boolean.
 	 * @return {@code this}
 	 */
 	public SHA1 setDetectCollision(boolean detect) {
@@ -131,7 +136,7 @@ public class SHA1 {
 	/**
 	 * Update the digest computation by adding a byte.
 	 *
-	 * @param b
+	 * @param b a byte.
 	 */
 	public void update(byte b) {
 		int bufferLen = (int) (length & 63);
@@ -503,7 +508,7 @@ public class SHA1 {
 	 * Once {@code digest()} is called, this instance should be discarded.
 	 *
 	 * @return the bytes for the resulting hash.
-	 * @throws Sha1CollisionException
+	 * @throws org.eclipse.jgit.util.sha1.Sha1CollisionException
 	 *             if a collision was detected and safeHash is false.
 	 */
 	public byte[] digest() throws Sha1CollisionException {
@@ -524,7 +529,7 @@ public class SHA1 {
 	 * Once {@code digest()} is called, this instance should be discarded.
 	 *
 	 * @return the ObjectId for the resulting hash.
-	 * @throws Sha1CollisionException
+	 * @throws org.eclipse.jgit.util.sha1.Sha1CollisionException
 	 *             if a collision was detected and safeHash is false.
 	 */
 	public ObjectId toObjectId() throws Sha1CollisionException {
@@ -539,7 +544,7 @@ public class SHA1 {
 	 *
 	 * @param id
 	 *            destination to copy the digest to.
-	 * @throws Sha1CollisionException
+	 * @throws org.eclipse.jgit.util.sha1.Sha1CollisionException
 	 *             if a collision was detected and safeHash is false.
 	 */
 	public void digest(MutableObjectId id) throws Sha1CollisionException {
