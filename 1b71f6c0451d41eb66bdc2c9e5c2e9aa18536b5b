@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "87929364_a0596088",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-19T12:35:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_df272b65",
+      "range": {
+        "startLine": 250,
+        "startChar": 4,
+        "endLine": 250,
+        "endChar": 62
+      },
+      "revId": "1b71f6c0451d41eb66bdc2c9e5c2e9aa18536b5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_7f39d78a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackCompactor.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2017-12-18T23:33:36Z",
       "side": 1,
       "message": "This doesn\u0027t look properly formatted",
+      "range": {
+        "startLine": 368,
+        "startChar": 0,
+        "endLine": 369,
+        "endChar": 59
+      },
+      "revId": "1b71f6c0451d41eb66bdc2c9e5c2e9aa18536b5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_d4ad4d71",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackCompactor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-19T12:35:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_7f39d78a",
       "range": {
         "startLine": 368,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "87929364_14b8b5aa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackDescription.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-19T12:35:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_ff24e762",
+      "range": {
+        "startLine": 127,
+        "startChar": 26,
+        "endLine": 127,
+        "endChar": 36
+      },
+      "revId": "1b71f6c0451d41eb66bdc2c9e5c2e9aa18536b5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_1f653394",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackDescription.java",
         "patchSetId": 3
@@ -82,6 +154,30 @@
       "writtenOn": "2017-12-18T23:33:36Z",
       "side": 1,
       "message": "extension",
+      "range": {
+        "startLine": 131,
+        "startChar": 34,
+        "endLine": 131,
+        "endChar": 44
+      },
+      "revId": "1b71f6c0451d41eb66bdc2c9e5c2e9aa18536b5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_3484d1eb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackDescription.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-19T12:35:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_1f653394",
       "range": {
         "startLine": 131,
         "startChar": 34,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "87929364_9483c5e0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackDescription.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-19T12:35:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_7f747743",
+      "range": {
+        "startLine": 212,
+        "startChar": 39,
+        "endLine": 212,
+        "endChar": 45
+      },
+      "revId": "1b71f6c0451d41eb66bdc2c9e5c2e9aa18536b5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_9f784338",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackDescription.java",
         "patchSetId": 3
@@ -128,6 +248,30 @@
       "writtenOn": "2017-12-18T23:33:36Z",
       "side": 1,
       "message": "same",
+      "range": {
+        "startLine": 233,
+        "startChar": 39,
+        "endLine": 233,
+        "endChar": 45
+      },
+      "revId": "1b71f6c0451d41eb66bdc2c9e5c2e9aa18536b5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_747e595f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackDescription.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-19T12:35:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_9f784338",
       "range": {
         "startLine": 233,
         "startChar": 39,
@@ -157,6 +301,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_e059a8d5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReftableDatabase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-19T12:35:58Z",
+      "side": 1,
+      "message": "It\u0027s not added here since these methods are neither public nor protected but package private. These fixes are generated semi-automatically using the following mvn command:\n\n $ mvn javadoc:fix -DfixTags\u003dsince,param,return,throws,link -f org.eclipse.jgit\n\nI then edit the result of this command manually",
+      "parentUuid": "87929364_ff7f871a",
+      "revId": "1b71f6c0451d41eb66bdc2c9e5c2e9aa18536b5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_1f4c531c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsRepository.java",
         "patchSetId": 3
@@ -180,6 +342,30 @@
     },
     {
       "key": {
+        "uuid": "87929364_d4946d17",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsRepository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-19T12:35:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_1f4c531c",
+      "range": {
+        "startLine": 86,
+        "startChar": 8,
+        "endLine": 86,
+        "endChar": 9
+      },
+      "revId": "1b71f6c0451d41eb66bdc2c9e5c2e9aa18536b5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_3f510fb1",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsRepositoryBuilder.java",
         "patchSetId": 3
@@ -191,6 +377,30 @@
       "writtenOn": "2017-12-18T23:33:36Z",
       "side": 1,
       "message": "the",
+      "range": {
+        "startLine": 88,
+        "startChar": 8,
+        "endLine": 88,
+        "endChar": 9
+      },
+      "revId": "1b71f6c0451d41eb66bdc2c9e5c2e9aa18536b5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_148fd503",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsRepositoryBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-19T12:35:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_3f510fb1",
       "range": {
         "startLine": 88,
         "startChar": 8,
