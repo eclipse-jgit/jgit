@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "87929364_14dc35db",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/nls/TranslationBundle.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-19T12:49:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_941f4564",
+      "range": {
+        "startLine": 129,
+        "startChar": 12,
+        "endLine": 129,
+        "endChar": 25
+      },
+      "revId": "7c23f7267867680ac14d23e8ad93e64cf715909b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_b43361f9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/nls/TranslationBundle.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-12-19T12:20:05Z",
       "side": 1,
       "message": "and here",
+      "range": {
+        "startLine": 132,
+        "startChar": 16,
+        "endLine": 132,
+        "endChar": 30
+      },
+      "revId": "7c23f7267867680ac14d23e8ad93e64cf715909b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_34e85174",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/nls/TranslationBundle.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-19T12:49:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_b43361f9",
       "range": {
         "startLine": 132,
         "startChar": 16,
