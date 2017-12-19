@@ -129,11 +129,10 @@ public abstract class TransportCommand<C extends GitCommand, T> extends
 		return self();
 	}
 
-	/** @return {@code this} */
 	/**
-	 * Return this command
+	 * Return this command cast to {@code C}
 	 *
-	 * @return this command
+	 * @return {@code this} cast to {@code C}
 	 */
 	@SuppressWarnings("unchecked")
 	protected final C self() {
