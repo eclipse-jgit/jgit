@@ -65,6 +65,17 @@ public class LargeObjectException extends RuntimeException {
 	}
 
 	/**
+	 * Create a large object exception, where the object isn't known.
+	 *
+	 * @param cause
+	 *            the cause
+	 * @since 4.10
+	 */
+	public LargeObjectException(Throwable cause) {
+		initCause(cause);
+	}
+
+	/**
 	 * Create a large object exception, naming the object that is too big.
 	 *
 	 * @param id
