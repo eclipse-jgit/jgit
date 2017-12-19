@@ -518,16 +518,12 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 							Long.valueOf(src.offset), getPackFile()));
 			corruptObject.initCause(dataFormat);
 
-			StoredObjectRepresentationNotAvailableException gone;
-			gone = new StoredObjectRepresentationNotAvailableException(src);
-			gone.initCause(corruptObject);
-			throw gone;
+			throw new StoredObjectRepresentationNotAvailableException(src,
+					corruptObject);
 
 		} catch (IOException ioError) {
-			StoredObjectRepresentationNotAvailableException gone;
-			gone = new StoredObjectRepresentationNotAvailableException(src);
-			gone.initCause(ioError);
-			throw gone;
+			throw new StoredObjectRepresentationNotAvailableException(src,
+					ioError);
 		}
 
 		if (quickCopy != null) {
@@ -612,11 +608,8 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 			try {
 				doOpen();
 			} catch (IOException thisPackNotValid) {
-				StoredObjectRepresentationNotAvailableException gone;
-
-				gone = new StoredObjectRepresentationNotAvailableException(otp);
-				gone.initCause(thisPackNotValid);
-				throw gone;
+				throw new StoredObjectRepresentationNotAvailableException(otp,
+						thisPackNotValid);
 			}
 		}
 	}

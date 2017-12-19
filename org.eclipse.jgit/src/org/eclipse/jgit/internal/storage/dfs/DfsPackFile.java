@@ -660,16 +660,12 @@ public final class DfsPackFile extends BlockBasedFile {
 							Long.valueOf(src.offset), getFileName()));
 			corruptObject.initCause(dataFormat);
 
-			StoredObjectRepresentationNotAvailableException gone;
-			gone = new StoredObjectRepresentationNotAvailableException(src);
-			gone.initCause(corruptObject);
-			throw gone;
+			throw new StoredObjectRepresentationNotAvailableException(src,
+					corruptObject);
 
 		} catch (IOException ioError) {
-			StoredObjectRepresentationNotAvailableException gone;
-			gone = new StoredObjectRepresentationNotAvailableException(src);
-			gone.initCause(ioError);
-			throw gone;
+			throw new StoredObjectRepresentationNotAvailableException(src,
+					ioError);
 		}
 
 		if (quickCopy != null) {
