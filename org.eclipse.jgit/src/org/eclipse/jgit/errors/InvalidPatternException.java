@@ -67,6 +67,23 @@ public class InvalidPatternException extends Exception {
 	}
 
 	/**
+	 * Constructor for InvalidPatternException
+	 *
+	 * @param message
+	 *            explains what was wrong with the pattern.
+	 * @param pattern
+	 *            the invalid pattern.
+	 * @param cause
+	 *            the cause.
+	 * @since 4.10
+	 */
+	public InvalidPatternException(String message, String pattern,
+			Throwable cause) {
+		this(message, pattern);
+		initCause(cause);
+	}
+
+	/**
 	 * Get the invalid pattern
 	 *
 	 * @return the invalid pattern.
