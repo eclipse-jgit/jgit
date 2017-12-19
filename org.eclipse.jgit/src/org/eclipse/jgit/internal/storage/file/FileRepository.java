@@ -247,34 +247,30 @@ public class FileRepository extends Repository {
 	private void loadSystemConfig() throws IOException {
 		try {
 			systemConfig.load();
-		} catch (ConfigInvalidException e1) {
-			IOException e2 = new IOException(MessageFormat.format(JGitText
+		} catch (ConfigInvalidException e) {
+			throw new IOException(MessageFormat.format(JGitText
 					.get().systemConfigFileInvalid, systemConfig.getFile()
-					.getAbsolutePath(), e1));
-			e2.initCause(e1);
-			throw e2;
+							.getAbsolutePath(),
+					e), e);
 		}
 	}
 
 	private void loadUserConfig() throws IOException {
 		try {
 			userConfig.load();
-		} catch (ConfigInvalidException e1) {
-			IOException e2 = new IOException(MessageFormat.format(JGitText
+		} catch (ConfigInvalidException e) {
+			throw new IOException(MessageFormat.format(JGitText
 					.get().userConfigFileInvalid, userConfig.getFile()
-					.getAbsolutePath(), e1));
-			e2.initCause(e1);
-			throw e2;
+							.getAbsolutePath(),
+					e), e);
 		}
 	}
 
 	private void loadRepoConfig() throws IOException {
 		try {
 			repoConfig.load();
-		} catch (ConfigInvalidException e1) {
-			IOException e2 = new IOException(JGitText.get().unknownRepositoryFormat);
-			e2.initCause(e1);
-			throw e2;
+		} catch (ConfigInvalidException e) {
+			throw new IOException(JGitText.get().unknownRepositoryFormat, e);
 		}
 	}
 

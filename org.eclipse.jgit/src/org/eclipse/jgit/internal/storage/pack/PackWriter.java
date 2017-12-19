@@ -1484,9 +1484,7 @@ public class PackWriter implements AutoCloseable {
 			if (err instanceof IOException)
 				throw (IOException) err;
 
-			IOException fail = new IOException(err.getMessage());
-			fail.initCause(err);
-			throw fail;
+			throw new IOException(err.getMessage(), err);
 		}
 		endPhase(monitor);
 	}
