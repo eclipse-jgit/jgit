@@ -46,6 +46,30 @@
       "revId": "d6c8abdc1e41f5d4f27df3b9e152700b8f95b869",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_40a27c84",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/StoredObjectRepresentationNotAvailableException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-12-19T01:49:29Z",
+      "side": 1,
+      "message": "Rather than attempting to fix this now and deal with the API errors it\u0027ll cause, I\u0027ve added a TODO in a followup commit to fix this properly in 5.0.",
+      "parentUuid": "87929364_d4c8f24c",
+      "range": {
+        "startLine": 59,
+        "startChar": 56,
+        "endLine": 59,
+        "endChar": 68
+      },
+      "revId": "d6c8abdc1e41f5d4f27df3b9e152700b8f95b869",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
