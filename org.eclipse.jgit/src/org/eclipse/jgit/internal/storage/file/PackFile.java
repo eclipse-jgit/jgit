@@ -515,19 +515,15 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 			CorruptObjectException corruptObject = new CorruptObjectException(
 					MessageFormat.format(
 							JGitText.get().objectAtHasBadZlibStream,
-							Long.valueOf(src.offset), getPackFile()));
-			corruptObject.initCause(dataFormat);
+							Long.valueOf(src.offset), getPackFile()),
+					dataFormat);
 
-			StoredObjectRepresentationNotAvailableException gone;
-			gone = new StoredObjectRepresentationNotAvailableException(src);
-			gone.initCause(corruptObject);
-			throw gone;
+			throw new StoredObjectRepresentationNotAvailableException(src,
+					corruptObject);
 
 		} catch (IOException ioError) {
-			StoredObjectRepresentationNotAvailableException gone;
-			gone = new StoredObjectRepresentationNotAvailableException(src);
-			gone.initCause(ioError);
-			throw gone;
+			throw new StoredObjectRepresentationNotAvailableException(src,
+					ioError);
 		}
 
 		if (quickCopy != null) {
@@ -612,11 +608,8 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 			try {
 				doOpen();
 			} catch (IOException thisPackNotValid) {
-				StoredObjectRepresentationNotAvailableException gone;
-
-				gone = new StoredObjectRepresentationNotAvailableException(otp);
-				gone.initCause(thisPackNotValid);
-				throw gone;
+				throw new StoredObjectRepresentationNotAvailableException(otp,
+						thisPackNotValid);
 			}
 		}
 	}
@@ -902,12 +895,11 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 			return new ObjectLoader.SmallObject(type, data);
 
 		} catch (DataFormatException dfe) {
-			CorruptObjectException coe = new CorruptObjectException(
+			throw new CorruptObjectException(
 					MessageFormat.format(
 							JGitText.get().objectAtHasBadZlibStream,
-							Long.valueOf(pos), getPackFile()));
-			coe.initCause(dfe);
-			throw coe;
+							Long.valueOf(pos), getPackFile()),
+					dfe);
 		}
 	}
 

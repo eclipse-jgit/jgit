@@ -582,13 +582,12 @@ class PackInserter extends ObjectInserter {
 			try {
 				return packOut.inflate(zpos, sz);
 			} catch (DataFormatException dfe) {
-				CorruptObjectException coe = new CorruptObjectException(
+				throw new CorruptObjectException(
 						MessageFormat.format(
 								JGitText.get().objectAtHasBadZlibStream,
 								Long.valueOf(obj.getOffset()),
-								tmpPack.getAbsolutePath()));
-				coe.initCause(dfe);
-				throw coe;
+								tmpPack.getAbsolutePath()),
+						dfe);
 			}
 		}
 

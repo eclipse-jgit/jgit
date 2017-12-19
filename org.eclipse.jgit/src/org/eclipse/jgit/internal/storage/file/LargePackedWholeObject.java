@@ -101,9 +101,7 @@ class LargePackedWholeObject extends ObjectLoader {
 		try {
 			throw new LargeObjectException(getObjectId());
 		} catch (IOException cannotObtainId) {
-			LargeObjectException err = new LargeObjectException();
-			err.initCause(cannotObtainId);
-			throw err;
+			throw new LargeObjectException(cannotObtainId);
 		}
 	}
 

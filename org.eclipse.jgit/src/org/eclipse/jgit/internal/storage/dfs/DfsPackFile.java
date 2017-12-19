@@ -657,19 +657,15 @@ public final class DfsPackFile extends BlockBasedFile {
 			CorruptObjectException corruptObject = new CorruptObjectException(
 					MessageFormat.format(
 							JGitText.get().objectAtHasBadZlibStream,
-							Long.valueOf(src.offset), getFileName()));
-			corruptObject.initCause(dataFormat);
+							Long.valueOf(src.offset), getFileName()),
+					dataFormat);
 
-			StoredObjectRepresentationNotAvailableException gone;
-			gone = new StoredObjectRepresentationNotAvailableException(src);
-			gone.initCause(corruptObject);
-			throw gone;
+			throw new StoredObjectRepresentationNotAvailableException(src,
+					corruptObject);
 
 		} catch (IOException ioError) {
-			StoredObjectRepresentationNotAvailableException gone;
-			gone = new StoredObjectRepresentationNotAvailableException(src);
-			gone.initCause(ioError);
-			throw gone;
+			throw new StoredObjectRepresentationNotAvailableException(src,
+					ioError);
 		}
 
 		if (quickCopy != null) {
@@ -870,12 +866,11 @@ public final class DfsPackFile extends BlockBasedFile {
 			return new ObjectLoader.SmallObject(type, data);
 
 		} catch (DataFormatException dfe) {
-			CorruptObjectException coe = new CorruptObjectException(
+			throw new CorruptObjectException(
 					MessageFormat.format(
 							JGitText.get().objectAtHasBadZlibStream, Long.valueOf(pos),
-							getFileName()));
-			coe.initCause(dfe);
-			throw coe;
+							getFileName()),
+					dfe);
 		}
 	}
 
@@ -1018,12 +1013,11 @@ public final class DfsPackFile extends BlockBasedFile {
 		try {
 			return BinaryDelta.getResultSize(getDeltaHeader(ctx, deltaAt));
 		} catch (DataFormatException dfe) {
-			CorruptObjectException coe = new CorruptObjectException(
+			throw new CorruptObjectException(
 					MessageFormat.format(
 							JGitText.get().objectAtHasBadZlibStream, Long.valueOf(pos),
-							getFileName()));
-			coe.initCause(dfe);
-			throw coe;
+							getFileName()),
+					dfe);
 		}
 	}
 

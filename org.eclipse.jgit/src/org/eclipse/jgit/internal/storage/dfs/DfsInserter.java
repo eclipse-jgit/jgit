@@ -616,13 +616,12 @@ public class DfsInserter extends ObjectInserter {
 			try {
 				return packOut.inflate(ctx, zpos, sz);
 			} catch (DataFormatException dfe) {
-				CorruptObjectException coe = new CorruptObjectException(
+				throw new CorruptObjectException(
 						MessageFormat.format(
 								JGitText.get().objectAtHasBadZlibStream,
 								Long.valueOf(obj.getOffset()),
-								packDsc.getFileName(PackExt.PACK)));
-				coe.initCause(dfe);
-				throw coe;
+								packDsc.getFileName(PackExt.PACK)),
+						dfe);
 			}
 		}
 
