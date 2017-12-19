@@ -48,7 +48,7 @@ import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
 /**
  * A previously selected representation is no longer available.
  */
-public class StoredObjectRepresentationNotAvailableException extends Exception {
+public class StoredObjectRepresentationNotAvailableException extends Exception { //TODO remove unused ObjectToPack in 5.0
 	private static final long serialVersionUID = 1L;
 
 	/**
