@@ -178,10 +178,7 @@ public class ManifestParser extends DefaultHandler {
 		try {
 			xr.parse(new InputSource(inputStream));
 		} catch (SAXException e) {
-			IOException error = new IOException(
-						RepoText.get().errorParsingManifestFile);
-			error.initCause(e);
-			throw error;
+			throw new IOException(RepoText.get().errorParsingManifestFile, e);
 		}
 	}
 
