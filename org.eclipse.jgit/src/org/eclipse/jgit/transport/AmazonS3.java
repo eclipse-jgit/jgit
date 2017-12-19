@@ -707,10 +707,10 @@ public class AmazonS3 {
 					try {
 						xr.parse(new InputSource(in));
 					} catch (SAXException parsingError) {
-						final IOException p;
-						p = new IOException(MessageFormat.format(JGitText.get().errorListing, prefix));
-						p.initCause(parsingError);
-						throw p;
+						throw new IOException(
+								MessageFormat.format(
+										JGitText.get().errorListing, prefix),
+								parsingError);
 					} finally {
 						in.close();
 					}

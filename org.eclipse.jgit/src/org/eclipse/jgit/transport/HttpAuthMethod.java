@@ -549,9 +549,7 @@ abstract class HttpAuthMethod {
 				conn.setRequestProperty(HDR_AUTHORIZATION, getType().getSchemeName()
 						+ " " + Base64.encodeBytes(token)); //$NON-NLS-1$
 			} catch (GSSException e) {
-				IOException ioe = new IOException();
-				ioe.initCause(e);
-				throw ioe;
+				throw new IOException(e);
 			}
 		}
 	}
