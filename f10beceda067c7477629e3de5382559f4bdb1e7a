@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "87929364_c612fa92",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/Base64.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-20T18:58:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_dd972919",
+      "range": {
+        "startLine": 26,
+        "startChar": 2,
+        "endLine": 26,
+        "endChar": 3
+      },
+      "revId": "f10beceda067c7477629e3de5382559f4bdb1e7a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_fd94e516",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-12-19T23:49:57Z",
       "side": 1,
       "message": "Should be rewritten",
+      "range": {
+        "startLine": 869,
+        "startChar": 4,
+        "endLine": 869,
+        "endChar": 21
+      },
+      "revId": "f10beceda067c7477629e3de5382559f4bdb1e7a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_e6f616ca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 869,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-20T18:58:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_fd94e516",
       "range": {
         "startLine": 869,
         "startChar": 4,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "87929364_06f402c0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/StringUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-20T18:58:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_1d929128",
+      "range": {
+        "startLine": 164,
+        "startChar": 12,
+        "endLine": 164,
+        "endChar": 13
+      },
+      "revId": "f10beceda067c7477629e3de5382559f4bdb1e7a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_3d8f4d04",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/StringUtils.java",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2017-12-19T23:49:57Z",
       "side": 1,
       "message": "an",
+      "range": {
+        "startLine": 186,
+        "startChar": 12,
+        "endLine": 186,
+        "endChar": 13
+      },
+      "revId": "f10beceda067c7477629e3de5382559f4bdb1e7a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_2601fe3d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/StringUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-20T18:58:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_3d8f4d04",
       "range": {
         "startLine": 186,
         "startChar": 12,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "87929364_662a26b7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-20T18:58:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_5d6fb9a5",
+      "range": {
+        "startLine": 274,
+        "startChar": 15,
+        "endLine": 274,
+        "endChar": 19
+      },
+      "revId": "f10beceda067c7477629e3de5382559f4bdb1e7a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_7d747575",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/AutoLFInputStream.java",
         "patchSetId": 1
@@ -128,6 +248,30 @@
       "writtenOn": "2017-12-19T23:49:57Z",
       "side": 1,
       "message": "Rewrite",
+      "range": {
+        "startLine": 176,
+        "startChar": 3,
+        "endLine": 176,
+        "endChar": 20
+      },
+      "revId": "f10beceda067c7477629e3de5382559f4bdb1e7a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_c6291abf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/AutoLFInputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-20T18:58:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_7d747575",
       "range": {
         "startLine": 176,
         "startChar": 3,
