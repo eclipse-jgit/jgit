@@ -510,6 +510,7 @@
           <encoding>${project.build.sourceEncoding}</encoding>
           <quiet>true</quiet>
           <excludePackageNames>org.eclipse.jgit.http.test</excludePackageNames>
+          <additionalparam>-Xdoclint:-missing</additionalparam>
           <links>
             <link>http://docs.oracle.com/javase/8/docs/api</link>
           </links>
@@ -572,6 +573,7 @@
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>${maven-javadoc-plugin-version}</version>
         <configuration>
+          <failOnError>false</failOnError>
         </configuration>
       </plugin>
       <plugin>
@@ -725,36 +727,6 @@
   </distributionManagement>
 
   <profiles>
-    <profile>
-      <id>jgit.java8</id>
-      <activation>
-        <jdk>[1.8,)</jdk>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <configuration>
-              <additionalparam>-Xdoclint:-missing</additionalparam>
-              <failOnError>false</failOnError>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-      <reporting>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <configuration>
-              <additionalparam>-Xdoclint:-missing</additionalparam>
-              <failOnError>false</failOnError>
-            </configuration>
-          </plugin>
-        </plugins>
-      </reporting>
-    </profile>
     <profile>
       <id>static-checks</id>
       <build>
