@@ -428,6 +428,13 @@ public abstract class ObjectInserter implements AutoCloseable {
 	 * <p>
 	 * The returned reader should return this inserter instance from {@link
 	 * ObjectReader#getCreatedFromInserter()}.
+	 * <p>
+	 * Behavior is undefined if an insert method is called on the inserter in the
+	 * middle of reading from an {@link ObjectStream} opened from this reader. For
+	 * example, reading the remainder of the object may fail, or newly written
+	 * data may even be corrupted. Interleaving whole object reads (including
+	 * streaming reads) with inserts is fine, just not interleaving streaming
+	 * <em>partial</em> object reads with inserts.
 	 *
 	 * @since 3.5
 	 * @return reader for any object, including an object recently inserted by
