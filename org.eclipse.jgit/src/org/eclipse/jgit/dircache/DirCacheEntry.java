@@ -123,6 +123,7 @@ public class DirCacheEntry {
 
 	private static final int INFO_LEN = 62;
 	private static final int INFO_LEN_EXTENDED = 64;
+	private static final int INFO_LEN_EXTENDED_DELTA = INFO_LEN_EXTENDED - INFO_LEN;
 
 	private static final int EXTENDED = 0x40;
 	private static final int ASSUME_VALID = 0x80;
@@ -131,7 +132,7 @@ public class DirCacheEntry {
 	private static final int UPDATE_NEEDED = 0x1;
 
 	/** (Possibly shared) header information storage. */
-	private final byte[] info;
+	private byte[] info;
 
 	/** First location within {@link #info} where our header starts. */
 	private final int infoOffset;
@@ -153,7 +154,7 @@ public class DirCacheEntry {
 		final int len;
 		if (isExtended()) {
 			len = INFO_LEN_EXTENDED;
-			IO.readFully(in, info, infoOffset + INFO_LEN, INFO_LEN_EXTENDED - INFO_LEN);
+			IO.readFully(in, info, infoOffset + INFO_LEN, INFO_LEN_EXTENDED_DELTA);
 
 			if ((getExtendedFlags() & ~EXTENDED_FLAGS) != 0)
 				throw new IOException(MessageFormat.format(JGitText.get()
@@ -470,6 +471,37 @@ public class DirCacheEntry {
 	}
 
 	/**
+	 * Set the skip-worktree flag for this entry. This method will automatically
+	 * extend the index entry to accommodate the extended flag.
+	 *
+	 * @param skip
+	 *            When reading an entry, if it is marked as skip-worktree, then
+	 *            Git pretends its working directory version is up to date and
+	 *            reads the index version instead.
+	 * @since 4.10
+	 */
+	public void setSkipWorkTree(final boolean skip) {
+		if (!skip && !isExtended()) {
+			return;
+		}
+
+		if (!isExtended()) {
+			extend();
+			setExtended(true);
+		}
+
+		if (skip) {
+			int extendedFlags = getExtendedFlags();
+			extendedFlags |= SKIP_WORKTREE;
+			setExtendedFlags(extendedFlags);
+		} else {
+			int extendedFlags = getExtendedFlags();
+			extendedFlags &= ~SKIP_WORKTREE;
+			setExtendedFlags(extendedFlags);
+		}
+	}
+
+	/**
 	 * Returns whether this entry is intent to be added to the Index.
 	 *
 	 * @return true if this entry is intent to add.
@@ -741,6 +773,14 @@ public class DirCacheEntry {
 		return (info[infoOffset + P_FLAGS] & EXTENDED) != 0;
 	}
 
+	void setExtended(boolean extended) {
+		if (extended) {
+			info[infoOffset + P_FLAGS] |= EXTENDED;
+		} else {
+			info[infoOffset + P_FLAGS] &= ~EXTENDED;
+		}
+	}
+
 	private long decodeTS(final int pIdx) {
 		final int base = infoOffset + pIdx;
 		final int sec = NB.decodeInt32(info, base);
@@ -761,6 +801,16 @@ public class DirCacheEntry {
 			return 0;
 	}
 
+	private void setExtendedFlags(int flags) {
+		if (isExtended()) {
+			NB.encodeInt16(info, infoOffset + P_FLAGS2, flags >> 16);
+		} else {
+			String message = MessageFormat.format(
+					JGitText.get().indexEntryNotExtendable, getPathString());
+			throw new UnsupportedOperationException(message);
+		}
+	}
+
 	private static void checkPath(byte[] path) {
 		try {
 			SystemReader.getInstance().checkPath(path);
@@ -777,5 +827,22 @@ public class DirCacheEntry {
 
 	static int getMaximumInfoLength(boolean extended) {
 		return extended ? INFO_LEN_EXTENDED : INFO_LEN;
+	}
+
+	/**
+	 * Extend the buffer to match the 'Version 3' index standard. This does not
+	 * handle the 'Version 4' standard (yet). The
+	 * {@link DirCacheEntry#infoOffset} remains safe to use.
+	 *
+	 */
+	private void extend() {
+		final int entryEndPos = infoOffset + INFO_LEN;
+		byte[] extendedInfo = new byte[info.length + INFO_LEN_EXTENDED_DELTA];
+
+		System.arraycopy(info, 0, extendedInfo, 0, entryEndPos);
+		System.arraycopy(info, entryEndPos, extendedInfo,
+				infoOffset + INFO_LEN_EXTENDED, info.length - entryEndPos);
+
+		info = extendedInfo;
 	}
 }
