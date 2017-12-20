@@ -67,6 +67,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Random;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -440,6 +441,53 @@ public class PackInserterTest extends RepositoryTestCase {
 		}
 	}
 
+	@Test
+	public void readBackSmallObjectBeforeLargeObject() throws Exception {
+		WindowCacheConfig wcc = new WindowCacheConfig();
+		wcc.setStreamFileThreshold(1024);
+		wcc.install();
+
+		ObjectId blobId1;
+		ObjectId blobId2;
+		ObjectId largeId;
+		byte[] blob1 = Constants.encode("blob1");
+		byte[] blob2 = Constants.encode("blob2");
+		byte[] largeBlob = newLargeBlob();
+		try (PackInserter ins = newInserter()) {
+			assertThat(blob1.length, lessThan(ins.getBufferSize()));
+			assertThat(largeBlob.length, greaterThan(ins.getBufferSize()));
+
+			blobId1 = ins.insert(OBJ_BLOB, blob1);
+			largeId = ins.insert(OBJ_BLOB, largeBlob);
+
+			try (ObjectReader reader = ins.newReader()) {
+				// A previous bug did not reset the file pointer to EOF after reading
+				// back. We need to seek to something further back than a full buffer,
+				// since the read-back code eagerly reads a full buffer's worth of data
+				// from the file to pass to the inflater. If we seeked back just a small
+				// amount, this step would consume the rest of the file, so the file
+				// pointer would coincidentally end up back at EOF, hiding the bug.
+				assertBlob(reader, blobId1, blob1);
+			}
+
+			blobId2 = ins.insert(OBJ_BLOB, blob2);
+
+			try (ObjectReader reader = ins.newReader()) {
+				assertBlob(reader, blobId1, blob1);
+				assertBlob(reader, blobId2, blob2);
+				assertBlob(reader, largeId, largeBlob);
+			}
+
+			ins.flush();
+		}
+
+		try (ObjectReader reader = db.newObjectReader()) {
+				assertBlob(reader, blobId1, blob1);
+				assertBlob(reader, blobId2, blob2);
+				assertBlob(reader, largeId, largeBlob);
+		}
+	}
+
 	private List<PackFile> listPacks() throws Exception {
 		List<PackFile> fromOpenDb = listPacks(db);
 		List<PackFile> reopened;
@@ -470,9 +518,7 @@ public class PackInserterTest extends RepositoryTestCase {
 
 	private static byte[] newLargeBlob() {
 		byte[] blob = new byte[10240];
-		for (int i = 0; i < blob.length; i++) {
-			blob[i] = (byte) ('0' + (i % 10));
-		}
+		new Random(0).nextBytes(blob);
 		return blob;
 	}
 

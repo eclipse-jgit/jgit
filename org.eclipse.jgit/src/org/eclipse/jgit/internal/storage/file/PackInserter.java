@@ -52,6 +52,7 @@ import java.io.BufferedInputStream;
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -254,7 +255,6 @@ class PackInserter extends ObjectInserter {
 		try {
 			packHash = packOut.finishPack();
 		} finally {
-			packOut.close();
 			packOut = null;
 		}
 
@@ -359,6 +359,20 @@ class PackInserter extends ObjectInserter {
 		return cachedInflater;
 	}
 
+	/**
+	 * Stream that writes to a pack file.
+	 * <p>
+	 * Backed by two views of the same open file descriptor: a random-access file,
+	 * and an output stream. Seeking in the file causes subsequent writes to the
+	 * output stream to occur wherever the file pointer is pointing, so we need to
+	 * take care to always seek to the end of the file before writing a new
+	 * object.
+	 * <p>
+	 * Callers should always use {@link #seek(long)} to seek, rather than reaching
+	 * into the file member. As long as this contract is followed, calls to {@link
+	 * #write(byte[], int, int)} are guaranteed to write at the end of the file,
+	 * even if there have been intermediate seeks.
+	 */
 	private class PackStream extends OutputStream {
 		final byte[] hdrBuf;
 		final CRC32 crc32;
@@ -368,6 +382,8 @@ class PackInserter extends ObjectInserter {
 		private final CountingOutputStream out;
 		private final Deflater deflater;
 
+		private boolean atEnd;
+
 		PackStream(File pack) throws IOException {
 			file = new RandomAccessFile(pack, "rw"); //$NON-NLS-1$
 			out = new CountingOutputStream(new FileOutputStream(file.getFD()));
@@ -375,10 +391,21 @@ class PackInserter extends ObjectInserter {
 			compress = new DeflaterOutputStream(this, deflater, 8192);
 			hdrBuf = new byte[32];
 			crc32 = new CRC32();
+			atEnd = true;
 		}
 
 		long getOffset() {
+			// This value is accurate as long as we only ever write to the end of the
+			// file, and don't seek back to overwrite any previous segments. Although
+			// this is subtle, storing the stream counter this way is still preferable
+			// to returning file.length() here, as it avoids a syscall and possible
+			// IOException.
 			return out.getCount();
+		}
+
+		void seek(long offset) throws IOException {
+			file.seek(offset);
+			atEnd = false;
 		}
 
 		void beginObject(int objectType, long length) throws IOException {
@@ -409,34 +436,49 @@ class PackInserter extends ObjectInserter {
 		@Override
 		public void write(byte[] data, int off, int len) throws IOException {
 			crc32.update(data, off, len);
+			if (!atEnd) {
+				file.seek(file.length());
+				atEnd = true;
+			}
 			out.write(data, off, len);
 		}
 
 		byte[] finishPack() throws IOException {
-			// Overwrite placeholder header with actual object count, then hash.
-			file.seek(0);
-			write(hdrBuf, 0, writePackHeader(hdrBuf, objectList.size()));
+			// Overwrite placeholder header with actual object count, then hash. This
+			// method intentionally uses direct seek/write calls rather than the
+			// wrappers which keep track of atEnd. This leaves atEnd, the file
+			// pointer, and out's counter in an inconsistent state; that's ok, since
+			// this method closes the file anyway.
+			try {
+				file.seek(0);
+				out.write(hdrBuf, 0, writePackHeader(hdrBuf, objectList.size()));
 
-			byte[] buf = buffer();
-			SHA1 md = digest().reset();
-			file.seek(0);
-			while (true) {
-				int r = file.read(buf);
-				if (r < 0) {
-					break;
+				byte[] buf = buffer();
+				SHA1 md = digest().reset();
+				file.seek(0);
+				while (true) {
+					int r = file.read(buf);
+					if (r < 0) {
+						break;
+					}
+					md.update(buf, 0, r);
 				}
-				md.update(buf, 0, r);
+				byte[] packHash = md.digest();
+				out.write(packHash, 0, packHash.length);
+				return packHash;
+			} finally {
+				close();
 			}
-			byte[] packHash = md.digest();
-			out.write(packHash, 0, packHash.length);
-			return packHash;
 		}
 
 		@Override
 		public void close() throws IOException {
 			deflater.end();
-			out.close();
-			file.close();
+			try {
+				out.close();
+			} finally {
+				file.close();
+			}
 		}
 
 		byte[] inflate(long filePos, int len) throws IOException, DataFormatException {
@@ -467,7 +509,7 @@ class PackInserter extends ObjectInserter {
 		private int setInput(long filePos, Inflater inf, byte[] buf)
 				throws IOException {
 			if (file.getFilePointer() != filePos) {
-				file.seek(filePos);
+				seek(filePos);
 			}
 			int n = file.read(buf);
 			if (n < 0) {
@@ -528,9 +570,8 @@ class PackInserter extends ObjectInserter {
 			}
 
 			byte[] buf = buffer();
-			RandomAccessFile f = packOut.file;
-			f.seek(obj.getOffset());
-			int cnt = f.read(buf, 0, 20);
+			packOut.seek(obj.getOffset());
+			int cnt = packOut.file.read(buf, 0, 20);
 			if (cnt <= 0) {
 				throw new EOFException(JGitText.get().unexpectedEofInPack);
 			}
@@ -564,7 +605,7 @@ class PackInserter extends ObjectInserter {
 					return new ObjectLoader.SmallObject(type, data);
 				}
 			}
-			return new StreamLoader(f, type, sz, zpos);
+			return new StreamLoader(type, sz, zpos);
 		}
 
 		private byte[] inflate(PackedObjectInfo obj, long zpos, int sz)
@@ -593,13 +634,11 @@ class PackInserter extends ObjectInserter {
 		}
 
 		private class StreamLoader extends ObjectLoader {
-			private final RandomAccessFile file;
 			private final int type;
 			private final long size;
 			private final long pos;
 
-			StreamLoader(RandomAccessFile file, int type, long size, long pos) {
-				this.file = file;
+			StreamLoader(int type, long size, long pos) {
 				this.type = type;
 				this.size = size;
 				this.pos = pos;
@@ -609,14 +648,44 @@ class PackInserter extends ObjectInserter {
 			public ObjectStream openStream()
 					throws MissingObjectException, IOException {
 				int bufsz = buffer().length;
-				file.seek(pos);
+				packOut.seek(pos);
+
+				InputStream fileStream = new FilterInputStream(
+						Channels.newInputStream(packOut.file.getChannel())) {
+							// atEnd was already set to false by the previous seek, but it's
+							// technically possible for a caller to call insert on the
+							// inserter in the middle of reading from this stream. Behavior is
+							// undefined in this case, so it would arguably be ok to ignore,
+							// but it's not hard to at least make an attempt to not corrupt
+							// the data.
+							@Override
+							public int read() throws IOException {
+								packOut.atEnd = false;
+								return super.read();
+							}
+
+							@Override
+							public int read(byte[] b) throws IOException {
+								packOut.atEnd = false;
+								return super.read(b);
+							}
+
+							@Override
+							public int read(byte[] b, int off, int len) throws IOException {
+								packOut.atEnd = false;
+								return super.read(b,off,len);
+							}
+
+							@Override
+							public void close() {
+								// Never close underlying RandomAccessFile, which lasts the
+								// lifetime of the enclosing PackStream.
+							}
+						};
 				return new ObjectStream.Filter(
 						type, size,
 						new BufferedInputStream(
-								new InflaterInputStream(
-										Channels.newInputStream(packOut.file.getChannel()),
-										inflater(), bufsz),
-								bufsz));
+								new InflaterInputStream(fileStream, inflater(), bufsz), bufsz));
 			}
 
 			@Override
