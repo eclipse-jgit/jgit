@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87929364_80b61a24",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/attributes/CGitAttributesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-12-20T08:46:48Z",
+      "side": 1,
+      "message": "nit: this long line should be wrapped.",
+      "revId": "b8de61d3e09a0f915f87c16e06c219cb51695aa7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
