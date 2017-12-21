@@ -16,6 +16,24 @@
       "revId": "b8de61d3e09a0f915f87c16e06c219cb51695aa7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_26cbbeb8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/attributes/CGitAttributesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-12-21T01:25:33Z",
+      "side": 1,
+      "message": "Done in the cherry-pick.",
+      "parentUuid": "87929364_80b61a24",
+      "revId": "b8de61d3e09a0f915f87c16e06c219cb51695aa7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
