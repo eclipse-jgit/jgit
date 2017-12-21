@@ -368,7 +368,7 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 				+ "[user]\n"
 				+ "  email = A U Thor <thor@example.com> # Just an example...\n"
 				+ " name = \"A  Thor \\\\ \\\"\\t \"\n"
-				+ "    defaultCheckInComment = \"a many line\\ncomment\\n to test\"\n";
+				+ "    defaultCheckInComment = a many line\\ncomment\\n to test\n";
 		assertEquals(expectedStr, new String(IO.readFully(cfg), Constants.CHARSET));
 	}
 
