@@ -977,14 +977,25 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testEscapeSpecialCharacters() throws ConfigInvalidException {
+	public void testNoEscapeSpecialCharacters() throws ConfigInvalidException {
+		assertValueRoundTrip("x\\y", "x\\\\y");
+		assertValueRoundTrip("x\"y", "x\\\"y");
+		assertValueRoundTrip("x\ny", "x\\ny");
+		assertValueRoundTrip("x\ty", "x\\ty");
+		assertValueRoundTrip("x\by", "x\\by");
+	}
+
+	@Test
+	public void testParseLiteralBackspace() throws ConfigInvalidException {
+		// This is round-tripped with an escape sequence by JGit, but C git writes
+		// it out as a literal backslash.
+		assertEquals("x\by", parseEscapedValue("x\by"));
+	}
+
+	@Test
+	public void testEscapeCommentCharacters() throws ConfigInvalidException {
 		assertValueRoundTrip("x#y", "\"x#y\"");
 		assertValueRoundTrip("x;y", "\"x;y\"");
-		assertValueRoundTrip("x\\y", "\"x\\\\y\"");
-		assertValueRoundTrip("x\"y", "\"x\\\"y\"");
-		assertValueRoundTrip("x\ny", "\"x\\ny\"");
-		assertValueRoundTrip("x\ty", "\"x\\ty\"");
-		assertValueRoundTrip("x\by", "\"x\\by\"");
 	}
 
 	@Test
@@ -1014,6 +1025,11 @@ public class ConfigTest {
 		assertEquals("baz", parseEscapedValue("baz # comment"));
 		assertEquals("baz", parseEscapedValue("baz " + WS + " ; comment"));
 		assertEquals("baz", parseEscapedValue("baz " + WS + " # comment"));
+
+		assertEquals("baz ", parseEscapedValue("\"baz \"; comment"));
+		assertEquals("baz ", parseEscapedValue("\"baz \"# comment"));
+		assertEquals("baz ", parseEscapedValue("\"baz \" ; comment"));
+		assertEquals("baz ", parseEscapedValue("\"baz \" # comment"));
 	}
 
 	@Test
@@ -1045,16 +1061,17 @@ public class ConfigTest {
 	public void testParseInvalidSubsections() {
 		assertInvalidSubsection(
 				JGitText.get().newlineInQuotesNotAllowed, "\"x\ny\"");
-		assertInvalidSubsection(
-				MessageFormat.format(JGitText.get().badEscape, 'q'), "\"x\\q\"");
+	}
 
+	@Test
+	public void testDropBackslashFromInvalidEscapeSequenceInSubsectionName()
+			throws ConfigInvalidException {
+		assertEquals("x0", parseEscapedSubsection("\"x\\0\""));
+		assertEquals("xq", parseEscapedSubsection("\"x\\q\""));
 		// Unlike for values, \b, \n, and \t are not valid escape sequences.
-		assertInvalidSubsection(
-				MessageFormat.format(JGitText.get().badEscape, 'b'), "\"x\\b\"");
-		assertInvalidSubsection(
-				MessageFormat.format(JGitText.get().badEscape, 'n'), "\"x\\n\"");
-		assertInvalidSubsection(
-				MessageFormat.format(JGitText.get().badEscape, 't'), "\"x\\t\"");
+		assertEquals("xb", parseEscapedSubsection("\"x\\b\""));
+		assertEquals("xn", parseEscapedSubsection("\"x\\n\""));
+		assertEquals("xt", parseEscapedSubsection("\"x\\t\""));
 	}
 
 	private static void assertValueRoundTrip(String value)
