@@ -977,14 +977,25 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testEscapeSpecialCharacters() throws ConfigInvalidException {
+	public void testNoEscapeSpecialCharacters() throws ConfigInvalidException {
+		assertValueRoundTrip("x\\y", "x\\\\y");
+		assertValueRoundTrip("x\"y", "x\\\"y");
+		assertValueRoundTrip("x\ny", "x\\ny");
+		assertValueRoundTrip("x\ty", "x\\ty");
+		assertValueRoundTrip("x\by", "x\\by");
+	}
+
+	@Test
+	public void testParseLiteralBackspace() throws ConfigInvalidException {
+		// This is round-tripped with an escape sequence by JGit, but C git writes
+		// it out as a literal backslash.
+		assertEquals("x\by", parseEscapedValue("x\by"));
+	}
+
+	@Test
+	public void testEscapeCommentCharacters() throws ConfigInvalidException {
 		assertValueRoundTrip("x#y", "\"x#y\"");
 		assertValueRoundTrip("x;y", "\"x;y\"");
-		assertValueRoundTrip("x\\y", "\"x\\\\y\"");
-		assertValueRoundTrip("x\"y", "\"x\\\"y\"");
-		assertValueRoundTrip("x\ny", "\"x\\ny\"");
-		assertValueRoundTrip("x\ty", "\"x\\ty\"");
-		assertValueRoundTrip("x\by", "\"x\\by\"");
 	}
 
 	@Test

@@ -155,9 +155,18 @@ public class Config {
 		StringBuilder r = new StringBuilder(x.length());
 		for (int k = 0; k < x.length(); k++) {
 			char c = x.charAt(k);
-			boolean thisCharNeedsQuote = true;
-
-			// git-config(1) lists the limited set of supported escape sequences.
+			// git-config(1) lists the limited set of supported escape sequences, but
+			// the documentation is otherwise not especially normative. In particular,
+			// which ones of these produce and/or require escaping and/or quoting
+			// around them is not documented and was discovered by trial and error.
+			// In summary:
+			//
+			// * Quotes are only required if there is leading/trailing whitespace or a
+			//   comment character.
+			// * Bytes that have a supported escape sequence are escaped, except for
+			//   \b for some reason which isn't.
+			// * Needing an escape sequence is not sufficient reason to quote the
+			//   value.
 			switch (c) {
 			case '\0':
 				// Unix command line calling convention cannot pass a '\0' as an
@@ -175,25 +184,30 @@ public class Config {
 				break;
 
 			case '\b':
+				// Doesn't match `git config foo.bar $'x\by'`, which doesn't escape the
+				// \x08, but since both escaped and unescaped forms are readable, we'll
+				// prefer internal consistency here.
 				r.append('\\').append('b');
 				break;
 
 			case '\\':
+				r.append('\\').append('\\');
+				break;
+
 			case '"':
-				r.append('\\').append(c);
+				r.append('\\').append('"');
 				break;
 
 			case '#':
 			case ';':
+				needQuote = true;
 				r.append(c);
 				break;
 
 			default:
-				thisCharNeedsQuote = false;
 				r.append(c);
 				break;
 			}
-			needQuote |= thisCharNeedsQuote;
 		}
 
 		return needQuote ? '"' + r.toString() + '"' : r.toString();
