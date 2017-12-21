@@ -2,6 +2,7 @@ Bundle-Localization: plugin
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %plugin_name
+Automatic-Module-Name: org.eclipse.jgit.ui
 Bundle-SymbolicName: org.eclipse.jgit.ui
 Bundle-Version: 4.10.0.qualifier
 Bundle-Vendor: %provider_name
