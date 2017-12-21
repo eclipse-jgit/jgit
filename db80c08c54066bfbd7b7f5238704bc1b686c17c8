@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "87929364_b13b66f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-12-21T08:22:37Z",
+      "side": 1,
+      "message": "Rework this commit to only do this change, and do the removal of failOnError in a separate commit?",
+      "range": {
+        "startLine": 9,
+        "startChar": 5,
+        "endLine": 11,
+        "endChar": 44
+      },
+      "revId": "db80c08c54066bfbd7b7f5238704bc1b686c17c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_d1c4728a",
         "filename": "pom.xml",
         "patchSetId": 2
