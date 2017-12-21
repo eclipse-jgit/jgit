@@ -99,7 +99,7 @@ import org.eclipse.jgit.util.sha1.SHA1;
  * Object inserter that inserts one pack per call to {@link #flush()}, and never
  * inserts loose objects.
  */
-class PackInserter extends ObjectInserter {
+public class PackInserter extends ObjectInserter {
 	/** Always produce version 2 indexes, to get CRC data. */
 	private static final int INDEX_VERSION = 2;
 
