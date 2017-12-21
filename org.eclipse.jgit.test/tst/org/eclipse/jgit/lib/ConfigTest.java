@@ -1025,6 +1025,11 @@ public class ConfigTest {
 		assertEquals("baz", parseEscapedValue("baz # comment"));
 		assertEquals("baz", parseEscapedValue("baz " + WS + " ; comment"));
 		assertEquals("baz", parseEscapedValue("baz " + WS + " # comment"));
+
+		assertEquals("baz ", parseEscapedValue("\"baz \"; comment"));
+		assertEquals("baz ", parseEscapedValue("\"baz \"# comment"));
+		assertEquals("baz ", parseEscapedValue("\"baz \" ; comment"));
+		assertEquals("baz ", parseEscapedValue("\"baz \" # comment"));
 	}
 
 	@Test
