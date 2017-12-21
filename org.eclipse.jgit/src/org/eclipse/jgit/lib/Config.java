@@ -1315,9 +1315,10 @@ public class Config {
 					continue;
 
 				default:
-					throw new ConfigInvalidException(MessageFormat.format(
-							JGitText.get().badEscape,
-							Character.valueOf(((char) c))));
+					// C git simply drops backslashes if the escape sequence is not
+					// recognized.
+					r.append((char) c);
+					continue;
 				}
 			}
 			if ('"' == c) {

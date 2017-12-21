@@ -1056,16 +1056,17 @@ public class ConfigTest {
 	public void testParseInvalidSubsections() {
 		assertInvalidSubsection(
 				JGitText.get().newlineInQuotesNotAllowed, "\"x\ny\"");
-		assertInvalidSubsection(
-				MessageFormat.format(JGitText.get().badEscape, 'q'), "\"x\\q\"");
+	}
 
+	@Test
+	public void testDropBackslashFromInvalidEscapeSequenceInSubsectionName()
+			throws ConfigInvalidException {
+		assertEquals("x0", parseEscapedSubsection("\"x\\0\""));
+		assertEquals("xq", parseEscapedSubsection("\"x\\q\""));
 		// Unlike for values, \b, \n, and \t are not valid escape sequences.
-		assertInvalidSubsection(
-				MessageFormat.format(JGitText.get().badEscape, 'b'), "\"x\\b\"");
-		assertInvalidSubsection(
-				MessageFormat.format(JGitText.get().badEscape, 'n'), "\"x\\n\"");
-		assertInvalidSubsection(
-				MessageFormat.format(JGitText.get().badEscape, 't'), "\"x\\t\"");
+		assertEquals("xb", parseEscapedSubsection("\"x\\b\""));
+		assertEquals("xn", parseEscapedSubsection("\"x\\n\""));
+		assertEquals("xt", parseEscapedSubsection("\"x\\t\""));
 	}
 
 	private static void assertValueRoundTrip(String value)
