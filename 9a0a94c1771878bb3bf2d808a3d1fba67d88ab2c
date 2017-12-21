@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87929364_72849c63",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2017-12-21T23:33:07Z",
+      "side": 1,
+      "message": "Nit: this should be in the footer, i.e. with no blank line between this line and the Change-Id line.",
+      "revId": "9a0a94c1771878bb3bf2d808a3d1fba67d88ab2c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
