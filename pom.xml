@@ -507,6 +507,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
+          <additionalparam>-Xdoclint:-missing</additionalparam>
           <encoding>${project.build.sourceEncoding}</encoding>
           <quiet>true</quiet>
           <excludePackageNames>org.eclipse.jgit.http.test</excludePackageNames>
@@ -571,8 +572,6 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>${maven-javadoc-plugin-version}</version>
-        <configuration>
-        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -725,36 +724,6 @@
   </distributionManagement>
 
   <profiles>
-    <profile>
-      <id>jgit.java8</id>
-      <activation>
-        <jdk>[1.8,)</jdk>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <configuration>
-              <additionalparam>-Xdoclint:-missing</additionalparam>
-              <failOnError>false</failOnError>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-      <reporting>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <configuration>
-              <additionalparam>-Xdoclint:-missing</additionalparam>
-              <failOnError>false</failOnError>
-            </configuration>
-          </plugin>
-        </plugins>
-      </reporting>
-    </profile>
     <profile>
       <id>static-checks</id>
       <build>
