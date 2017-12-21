@@ -42,3 +42,4 @@ Export-Package: org.eclipse.jgit.junit.http;version="4.10.0";
    org.eclipse.jetty.server,
    org.eclipse.jetty.util.log,
    org.eclipse.jetty.servlet"
+Automatic-Module-Name: org.eclipse.jgit.junit.http

@@ -21,4 +21,5 @@ Import-Package: org.eclipse.jgit.internal.storage.dfs;version="[4.10.0,4.11.0)",
  org.junit.runner;version="[4.12,5.0.0)",
  org.junit.runners;version="[4.12,5.0.0)"
 Export-Package: org.eclipse.jgit.lfs.test;version="4.10.0";x-friends:="org.eclipse.jgit.lfs.server.test"
+Automatic-Module-Name: org.eclipse.jgit.lfs.test
 

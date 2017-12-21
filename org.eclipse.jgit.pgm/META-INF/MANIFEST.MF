@@ -91,3 +91,4 @@ Export-Package: org.eclipse.jgit.console;version="4.10.0";
    org.kohsuke.args4j"
 Main-Class: org.eclipse.jgit.pgm.Main
 Implementation-Title: JGit Command Line Interface
+Automatic-Module-Name: org.eclipse.jgit.pgm
