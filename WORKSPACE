@@ -101,8 +101,8 @@ maven_jar(
 
 maven_jar(
     name = "gson",
-    artifact = "com.google.code.gson:gson:2.2.4",
-    sha1 = "a60a5e993c98c864010053cb901b7eab25306568",
+    artifact = "com.google.code.gson:gson:2.8.2",
+    sha1 = "3edcfe49d2c6053a70a2a47e4e1c2f94998a49cf",
 )
 
 JETTY_VER = "9.4.8.v20171121"
