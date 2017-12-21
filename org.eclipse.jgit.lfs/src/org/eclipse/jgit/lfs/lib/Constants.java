@@ -133,14 +133,15 @@ public final class Constants {
 	}
 
 	/**
-	 * Content type used by LFS REST API as defined in
-	 * {@link "https://github.com/github/git-lfs/blob/master/docs/api/v1/http-v1-batch.md"}
+	 * Content type used by LFS REST API as defined in <a href=
+	 * "https://github.com/github/git-lfs/blob/master/docs/api/v1/http-v1-batch.md">
+	 * https://github.com/github/git-lfs/blob/master/docs/api/v1/http-v1-batch.md</a>
 	 */
 	public static final String CONTENT_TYPE_GIT_LFS_JSON = "application/vnd.git-lfs+json";
 
 	/**
-	 * "arbitrary binary data" as defined in RFC 2046
-	 * {@link "https://www.ietf.org/rfc/rfc2046.txt"}
+	 * "Arbitrary binary data" as defined in
+	 * <a href="https://www.ietf.org/rfc/rfc2046.txt">RFC 2046</a>
 	 */
 	public static final String HDR_APPLICATION_OCTET_STREAM = "application/octet-stream";
 }

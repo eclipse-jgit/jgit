@@ -58,7 +58,6 @@ package org.eclipse.jgit.attributes;
  * following (with lower priority) nodes from setting the attribute to a value
  * at all</li>
  * </ul>
- * </p>
  *
  * @since 3.7
  */

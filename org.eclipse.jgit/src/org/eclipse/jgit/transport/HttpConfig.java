@@ -63,8 +63,8 @@ import org.slf4j.LoggerFactory;
 /**
  * A representation of the "http.*" config values in a git
  * {@link org.eclipse.jgit.lib.Config}. git provides for setting values for
- * specific URLs through "http.<url>.* subsections. git always considers only
- * the initial original URL for such settings, not any redirected URL.
+ * specific URLs through "http.&lt;url&gt;.*" subsections. git always considers
+ * only the initial original URL for such settings, not any redirected URL.
  *
  * @since 4.9
  */

@@ -70,19 +70,19 @@ import org.junit.Test;
  * ---------------------------------------------------------------------
  *        | HEAD  DirCache  Worktree | HEAD  DirCache
  * ---------------------------------------------------------------------
- *  f1_1  |  -       -       c       |                => e: path unknown
- *  f1_2  |  -       c       -       |                => no changes
+ *  f1_1  |  -       -       c       |                =&gt; e: path unknown
+ *  f1_2  |  -       c       -       |                =&gt; no changes
  *  f1_3  |  c       -       -       |  -       -
  *  f1_4  |  -       c       c       |  c       c
  *  f1_5  |  c       c       -       |  -       -
- *  f1_6  |  c       -       c       |                => no changes
- *  f1_7  |  c       c       c       |                => no changes
+ *  f1_6  |  c       -       c       |                =&gt; no changes
+ *  f1_7  |  c       c       c       |                =&gt; no changes
  * ---------------------------------------------------------------------
  *  f1_8  |  -       c       c'      |  c'      c'
  *  f1_9  |  c       -       c'      |  c'      c'
  * f1_10  |  c       c'      -       |  -       -
  * f1_11  |  c       c       c'      |  c'      c'
- * f1_12  |  c       c'      c       |                => no changes
+ * f1_12  |  c       c'      c       |                =&gt; no changes
  * f1_13  |  c       c'      c'      |  c'      c'
  * ---------------------------------------------------------------------
  * f1_14  |  c       c'      c''     |  c''     c''
@@ -97,7 +97,7 @@ import org.junit.Test;
  * ---------------------------------------------------------------------------
  *              | HEAD  DirCache  Worktree | HEAD  DirCache
  * ---------------------------------------------------------------------------
- *  f1_1_f2_14  |  -       -       c       |                => e: path unknown
+ *  f1_1_f2_14  |  -       -       c       |                =&gt; e: path unknown
  *  f1_2_f2_14  |  -       c       -       |  -       -
  *  f1_6_f2_14  |  c       -       c       |  c       c
  *  f1_7_f2_14  |  c       c       c       |  c       c

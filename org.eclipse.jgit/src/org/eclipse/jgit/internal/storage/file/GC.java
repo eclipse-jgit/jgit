@@ -1448,7 +1448,7 @@ public class GC {
 	 * it exits without performing any work. Some JGit commands run
 	 * {@code gc --auto} after performing operations that could create many
 	 * loose objects.
-	 * <p/>
+	 * <p>
 	 * Housekeeping is required if there are too many loose objects or too many
 	 * packs in the repository. If the number of loose objects exceeds the value
 	 * of the gc.auto option JGit GC consolidates all existing packs into a
@@ -1456,13 +1456,13 @@ public class GC {
 	 * combine all loose objects into a single pack using {@code repack -d -l}.
 	 * Setting the value of {@code gc.auto} to 0 disables automatic packing of
 	 * loose objects.
-	 * <p/>
+	 * <p>
 	 * If the number of packs exceeds the value of {@code gc.autoPackLimit},
 	 * then existing packs (except those marked with a .keep file) are
 	 * consolidated into a single pack by using the {@code -A} option of repack.
 	 * Setting {@code gc.autoPackLimit} to 0 disables automatic consolidation of
 	 * packs.
-	 * <p/>
+	 * <p>
 	 * Like git the following jgit commands run auto gc:
 	 * <ul>
 	 * <li>fetch</li>

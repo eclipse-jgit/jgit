@@ -49,7 +49,7 @@ import java.nio.file.Path;
 import org.eclipse.jgit.lfs.lib.AnyLongObjectId;
 
 /**
- * Class which represents the lfs folder hierarchy inside a .git folder
+ * Class which represents the lfs folder hierarchy inside a {@code .git} folder
  *
  * @since 4.6
  */
@@ -64,7 +64,8 @@ public class Lfs {
 	 * Constructor for Lfs.
 	 *
 	 * @param root
-	 *            the path to the LFS media directory. Will be "<repo>/.git/lfs"
+	 *            the path to the LFS media directory. Will be
+	 *            {@code "<repo>/.git/lfs"}
 	 */
 	public Lfs(Path root) {
 		this.root = root;
@@ -110,9 +111,9 @@ public class Lfs {
 	 *
 	 * @param id
 	 *            the id of the mediafile
-	 * @return the file which stores the original content. This will be files
-	 *         underneath
-	 *         "<repo>/.git/lfs/objects/<firstTwoLettersOfID>/<remainingLettersOfID>"
+	 * @return the file which stores the original content. Its path will look
+	 *         like
+	 *         {@code "<repo>/.git/lfs/objects/<firstTwoLettersOfID>/<remainingLettersOfID>"}
 	 */
 	public Path getMediaFile(AnyLongObjectId id) {
 		String idStr = id.name();

@@ -575,7 +575,6 @@ public class FileUtils {
 	 * </pre>
 	 *
 	 * This will return "..\\another_project\\pom.xml".
-	 * </p>
 	 *
 	 * <p>
 	 * <b>Note</b> that this will return the empty String if <code>base</code>

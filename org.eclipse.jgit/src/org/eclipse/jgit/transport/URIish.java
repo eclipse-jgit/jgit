@@ -689,7 +689,7 @@ public class URIish implements Serializable {
 	}
 
 	/**
-	 * <Get the URI as an ASCII string.
+	 * Get the URI as an ASCII string.
 	 *
 	 * @return the URI as an ASCII string. Password is not included.
 	 */

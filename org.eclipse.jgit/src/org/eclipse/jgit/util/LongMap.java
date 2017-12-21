@@ -44,7 +44,7 @@
 package org.eclipse.jgit.util;
 
 /**
- * Simple Map<long,Object>.
+ * Simple Map&lt;long, Object&gt;.
  *
  * @param <V>
  *            type of the value instance.

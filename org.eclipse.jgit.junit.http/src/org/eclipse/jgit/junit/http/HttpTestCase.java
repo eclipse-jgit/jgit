@@ -92,7 +92,7 @@ public abstract class HttpTestCase extends LocalDiskRepositoryTestCase {
 	}
 
 	/**
-	 * Create the {@linkAppServer}.This default implementation creates a server
+	 * Create the {@link AppServer}.This default implementation creates a server
 	 * without SSLsupport listening for HTTP connections on a dynamically chosen
 	 * port, which can be gotten once the server has been started via its
 	 * {@link org.eclipse.jgit.junit.http.AppServer#getPort()} method.

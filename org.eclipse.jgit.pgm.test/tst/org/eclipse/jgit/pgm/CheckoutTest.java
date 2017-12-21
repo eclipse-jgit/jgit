@@ -502,7 +502,8 @@ public class CheckoutTest extends CLIRepositoryTestCase {
 	 * <li>Create branch '1'
 	 * <li>Modify file 'a'
 	 * <li>Commit
-	 * <li>Delete file 'a' & replace by folder 'a' in the working tree & index
+	 * <li>Delete file 'a' and replace by folder 'a' in the working tree and
+	 * index
 	 * <li>Checkout branch '1'
 	 * </ol>
 	 * <p>
@@ -555,7 +556,8 @@ public class CheckoutTest extends CLIRepositoryTestCase {
 	 * <li>Create branch '1'
 	 * <li>Modify file 'a'
 	 * <li>Commit
-	 * <li>Delete file 'a' & replace by folder 'a' in the working tree & index
+	 * <li>Delete file 'a' and replace by folder 'a' in the working tree and
+	 * index
 	 * <li>Checkout branch '1'
 	 * </ol>
 	 * <p>

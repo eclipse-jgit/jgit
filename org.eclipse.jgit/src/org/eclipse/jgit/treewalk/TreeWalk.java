@@ -549,7 +549,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 * <p>
 	 * Retrieve the git attributes for the current entry.
 	 *
-	 * <h4>Git attribute computation</h4>
+	 * <h3>Git attribute computation</h3>
 	 *
 	 * <ul>
 	 * <li>Get the attributes matching the current path entry from the info file
@@ -568,7 +568,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 * </ul>
 	 *
 	 *
-	 * <h4>Iterator constraints</h4>
+	 * <h3>Iterator constraints</h3>
 	 *
 	 * <p>
 	 * In order to have a correct list of attributes for the current entry, this

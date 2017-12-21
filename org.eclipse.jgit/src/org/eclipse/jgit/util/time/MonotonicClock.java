@@ -65,7 +65,7 @@ import java.time.Duration;
  *   }
  *
  *   try (ProposedTimestamp t2 = clk.propose()) {
- *   	assert t2.millis() > r1;
+ *   	assert t2.millis() &gt; r1;
  *   }
  * </pre>
  *

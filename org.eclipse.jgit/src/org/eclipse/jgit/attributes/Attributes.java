@@ -53,7 +53,6 @@ import org.eclipse.jgit.lib.Constants;
 
 /**
  * Represents a set of attributes for a path
- * <p>
  *
  * @since 4.2
  */

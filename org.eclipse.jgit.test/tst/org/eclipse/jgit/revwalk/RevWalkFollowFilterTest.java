@@ -145,8 +145,9 @@ public class RevWalkFollowFilterTest extends RevWalkTestCase {
 
 	/**
 	 * Assert which renames should have happened, in traversal order.
+	 *
 	 * @param expectedRenames
-	 *            the rename specs, each one in the form "srcPath->destPath"
+	 *            the rename specs, each one in the form "srcPath-&gt;destPath"
 	 */
 	protected void assertRenames(String... expectedRenames) {
 		Assert.assertEquals("Unexpected number of renames. Expected: " +

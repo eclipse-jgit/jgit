@@ -1431,10 +1431,10 @@ public abstract class Repository implements AutoCloseable {
 	 * Normalizes the passed branch name into a possible valid branch name. The
 	 * validity of the returned name should be checked by a subsequent call to
 	 * {@link #isValidRefName(String)}.
-	 * <p/>
+	 * <p>
 	 * Future implementations of this method could be more restrictive or more
 	 * lenient about the validity of specific characters in the returned name.
-	 * <p/>
+	 * <p>
 	 * The current implementation returns the trimmed input string if this is
 	 * already a valid branch name. Otherwise it returns a trimmed string with
 	 * special characters not allowed by {@link #isValidRefName(String)}
@@ -2079,7 +2079,7 @@ public abstract class Repository implements AutoCloseable {
 	 * collection; if not, exit without performing any work. Some JGit commands
 	 * run autoGC after performing operations that could create many loose
 	 * objects.
-	 * <p/>
+	 * <p>
 	 * Currently this option is supported for repositories of type
 	 * {@code FileRepository} only. See
 	 * {@link org.eclipse.jgit.internal.storage.file.GC#setAuto(boolean)} for

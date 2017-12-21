@@ -206,7 +206,7 @@ public class SymlinksTest extends RepositoryTestCase {
 	 * Steps: 1.Add file 'b' 2.Commit 3.Create branch '1' 4.Add symlink 'a'
 	 * 5.Commit 6.Checkout branch '1'
 	 *
-	 * The working tree should not contain 'a' -> FileMode.MISSING after the
+	 * The working tree should not contain 'a' -&gt; FileMode.MISSING after the
 	 * checkout.
 	 *
 	 * @throws Exception

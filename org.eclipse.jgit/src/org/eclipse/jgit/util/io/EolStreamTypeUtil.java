@@ -70,6 +70,7 @@ public final class EolStreamTypeUtil {
 	 * <li>global attributes</li>
 	 * <li>info attributes</li>
 	 * <li>working tree .gitattributes</li>
+	 * </ul>
 	 *
 	 * @param op
 	 *            is the

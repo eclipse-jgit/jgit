@@ -107,7 +107,7 @@ public final class StringUtils {
 	 * {@link java.lang.Character#toTitleCase(char)}. No other letters are
 	 * changed.
 	 * </p>
-	 *
+	 * <p>
 	 * A <code>null</code> input String returns <code>null</code>.
 	 * </p>
 	 *

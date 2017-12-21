@@ -46,11 +46,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * POJOs for Gson serialization/deserialization
+ * POJOs for Gson serialization/de-serialization.
  *
- * See
- * {@link <a href="https://github.com/github/git-lfs/tree/master/docs/api">LFS
- * API specification</a>}
+ * See the <a href="https://github.com/github/git-lfs/tree/master/docs/api">LFS
+ * API specification</a>
  *
  * @since 4.3
  */

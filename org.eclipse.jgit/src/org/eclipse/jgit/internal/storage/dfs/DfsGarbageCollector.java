@@ -289,7 +289,7 @@ public class DfsGarbageCollector {
 	 *
 	 * @return garbage packs older than this limit (in milliseconds) will be
 	 *         pruned as part of the garbage collection process if the value is
-	 *         > 0, otherwise garbage packs are retained.
+	 *         &gt; 0, otherwise garbage packs are retained.
 	 */
 	public long getGarbageTtlMillis() {
 		return garbageTtlMillis;

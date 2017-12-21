@@ -331,8 +331,7 @@ public class PushCommand extends
 	}
 
 	/**
-	 * Get <code>RefSpec</code>s.
-	 * </p>
+	 * Get {@code RefSpec}s.
 	 *
 	 * @return the ref specs
 	 */

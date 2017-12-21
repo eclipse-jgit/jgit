@@ -55,7 +55,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * "Fast" (compared with IgnoreRule) git ignore rule implementation supporting
- * also double star <code>**<code> pattern.
+ * also double star {@code **} pattern.
  * <p>
  * This class is immutable and thread safe.
  *

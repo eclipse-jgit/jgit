@@ -159,7 +159,7 @@ public class BranchConfig {
 	}
 
 	/**
-	 * Get the remote this branch is configured to fetch from/push to>
+	 * Get the remote this branch is configured to fetch from/push to
 	 *
 	 * @return the remote this branch is configured to fetch from/push to, or
 	 *         {@code null} if not defined

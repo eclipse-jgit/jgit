@@ -158,9 +158,9 @@ public class DescribeCommandTest extends RepositoryTestCase {
 	 * Make sure it finds a tag when not all ancestries include a tag.
 	 *
 	 * <pre>
-	 * c1 -+-> T  -
+	 * c1 -+-&gt; T  -
 	 *     |       |
-	 *     +-> c3 -+-> c4
+	 *     +-&gt; c3 -+-&gt; c4
 	 * </pre>
 	 *
 	 * @throws Exception
@@ -193,9 +193,9 @@ public class DescribeCommandTest extends RepositoryTestCase {
 	 * When t2 dominates t1, it's clearly preferable to describe by using t2.
 	 *
 	 * <pre>
-	 * t1 -+-> t2  -
+	 * t1 -+-&gt; t2  -
 	 *     |       |
-	 *     +-> c3 -+-> c4
+	 *     +-&gt; c3 -+-&gt; c4
 	 * </pre>
 	 *
 	 * @throws Exception
@@ -225,9 +225,9 @@ public class DescribeCommandTest extends RepositoryTestCase {
 	 * When t1 is nearer than t2, t2 should be found
 	 *
 	 * <pre>
-	 * c1 -+-> c2 -> t1 -+
+	 * c1 -+-&gt; c2 -&gt; t1 -+
 	 *     |             |
-	 *     +-> t2 -> c3 -+-> c4
+	 *     +-&gt; t2 -&gt; c3 -+-&gt; c4
 	 * </pre>
 	 *
 	 * @throws Exception
@@ -254,9 +254,9 @@ public class DescribeCommandTest extends RepositoryTestCase {
 	 * paths
 	 *
 	 * <pre>
-	 * c1 -+-> t1 -> c2 -+
+	 * c1 -+-&gt; t1 -&gt; c2 -+
 	 *     |             |
-	 *     +-> t2 -> c3 -+-> c4
+	 *     +-&gt; t2 -&gt; c3 -+-&gt; c4
 	 * </pre>
 	 *
 	 * @throws Exception

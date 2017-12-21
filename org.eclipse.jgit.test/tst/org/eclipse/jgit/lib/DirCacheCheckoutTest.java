@@ -218,8 +218,8 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 	/**
 	 * Reset hard from unclean condition.
 	 * <p>
-	 * WorkDir: Empty <br/>
-	 * Index: f/g <br/>
+	 * WorkDir: Empty <br>
+	 * Index: f/g <br>
 	 * Merge: x
 	 *
 	 * @throws Exception

@@ -66,7 +66,7 @@ import org.eclipse.jgit.util.FileUtils;
  * content with content of a so-called LFS pointer file. The pointer file
  * content will then be added to the git repository. Additionally this filter
  * writes the original content in a so-called 'media file' to '.git/lfs/objects/
- * <first-two-characters-of-contentid>/<rest-of-contentid>'
+ * &lt;first-two-characters-of-contentid&gt;/&lt;rest-of-contentid&gt;'
  *
  * @see <a href="https://github.com/github/git-lfs/blob/master/docs/spec.md">Git
  *      LFS Specification</a>

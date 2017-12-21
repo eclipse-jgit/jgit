@@ -81,7 +81,7 @@ import org.eclipse.jgit.util.FS;
 public class SubmoduleWalk implements AutoCloseable {
 
 	/**
-	 * The values for the config param submodule.<name>.ignore
+	 * The values for the config parameter submodule.&lt;name&gt;.ignore
 	 *
 	 * @since 3.6
 	 */
