@@ -1052,4 +1052,32 @@ public class URIishTest {
 		assertEquals("", u.getPath());
 		assertEquals(str, u.toString());
 	}
+
+	@Test
+	public void testEqualsHashcode() throws Exception
+	{
+		String[] urls = { "http://user:pass@example.com:8081/path", "../x",
+				"ssh://x.y:23/z", "ssh://example.com:/path", "D:\\m y",
+				"\\\\some\\place", "http://localhost:1234",
+				"user@example.com:some/p ath", "a",
+				"http://user:pwd@example.com:8081/path",
+				"http://user:pass@another.com:8081/path",
+				"http://user:pass@example.com:8083/path" };
+		URIish w = new URIish("http://user:pass@example.com:8081/path/x");
+		for (String s : urls) {
+			URIish u = new URIish(s);
+			URIish v = new URIish(s);
+			assertTrue(u.equals(v));
+			assertTrue(v.equals(u));
+
+			assertFalse(u.equals(null));
+			assertFalse(u.equals(new Object()));
+			assertFalse(new Object().equals(u));
+			assertFalse(u.equals(w));
+			assertFalse(w.equals(u));
+
+			assertTrue(u.hashCode() == v.hashCode());
+			assertFalse(u.hashCode() == new Object().hashCode());
+		}
+	}
 }
