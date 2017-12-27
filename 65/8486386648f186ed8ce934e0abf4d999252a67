@@ -1,0 +1,8 @@
+Code-Review+1: Michael Keppler <michael.keppler@gmx.de>
+Verified+1: Hudson CI
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-by: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-at: Wed, 27 Dec 2017 16:38:26 -0500
+Reviewed-on: https://git.eclipse.org/r/114755
+Project: jgit/jgit
+Branch: refs/heads/master
