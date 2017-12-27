@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_d01f0363",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleDeinitCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-27T23:55:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_d08d433f",
+      "revId": "7fbf395d3bf0e4b977b0639ebccfc84cf2ae624d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_d0b623f3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleDeinitCommand.java",
         "patchSetId": 4
@@ -53,6 +71,30 @@
       "writtenOn": "2017-12-27T23:47:33Z",
       "side": 1,
       "message": "externalize error message",
+      "range": {
+        "startLine": 135,
+        "startChar": 60,
+        "endLine": 135,
+        "endChar": 90
+      },
+      "revId": "7fbf395d3bf0e4b977b0639ebccfc84cf2ae624d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_f0331ff8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleDeinitCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-27T23:55:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_d0b623f3",
       "range": {
         "startLine": 135,
         "startChar": 60,
@@ -88,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "87929364_10318bf0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleDeinitCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-27T23:55:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_f09a3f7a",
+      "range": {
+        "startLine": 159,
+        "startChar": 44,
+        "endLine": 159,
+        "endChar": 95
+      },
+      "revId": "7fbf395d3bf0e4b977b0639ebccfc84cf2ae624d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_30a5a7b6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleDeinitCommand.java",
         "patchSetId": 4
@@ -99,6 +165,24 @@
       "writtenOn": "2017-12-27T23:47:33Z",
       "side": 1,
       "message": "missing null check: exactRef can return null",
+      "revId": "7fbf395d3bf0e4b977b0639ebccfc84cf2ae624d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_302e8794",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleDeinitCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-27T23:55:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_30a5a7b6",
       "revId": "7fbf395d3bf0e4b977b0639ebccfc84cf2ae624d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -122,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_502b1382",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleDeinitCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-27T23:55:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_f0815f08",
+      "revId": "7fbf395d3bf0e4b977b0639ebccfc84cf2ae624d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_1098ab80",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleDeinitCommand.java",
         "patchSetId": 4
@@ -133,6 +235,24 @@
       "writtenOn": "2017-12-27T23:47:33Z",
       "side": 1,
       "message": "missing javadoc",
+      "revId": "7fbf395d3bf0e4b977b0639ebccfc84cf2ae624d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_70cbaf4d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleDeinitCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-27T23:55:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_1098ab80",
       "revId": "7fbf395d3bf0e4b977b0639ebccfc84cf2ae624d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -156,6 +276,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_90d01bf6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleDeinitResult.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-27T23:55:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_107fcb87",
+      "revId": "7fbf395d3bf0e4b977b0639ebccfc84cf2ae624d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_50a233ae",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleDeinitResult.java",
         "patchSetId": 4
@@ -167,6 +305,24 @@
       "writtenOn": "2017-12-27T23:47:33Z",
       "side": 1,
       "message": "missing javadoc for public methods",
+      "revId": "7fbf395d3bf0e4b977b0639ebccfc84cf2ae624d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_b0d517e6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleDeinitResult.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-27T23:55:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_50a233ae",
       "revId": "7fbf395d3bf0e4b977b0639ebccfc84cf2ae624d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
