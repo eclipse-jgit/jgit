@@ -832,7 +832,7 @@ public class RefDirectory extends RefDatabase {
 
 	@Nullable
 	LockFile lockPackedRefs() throws IOException {
-		LockFile lck = new LockFile(packedRefsFile);
+		LockFile lck = new LockFile(FileUtils.resolveSymLinks(packedRefsFile));
 		for (int ms : getRetrySleepMs()) {
 			sleep(ms);
 			if (lck.lock()) {
@@ -921,6 +921,8 @@ public class RefDirectory extends RefDatabase {
 				ConfigConstants.CONFIG_KEY_TRUSTFOLDERSTAT, true);
 
 		final PackedRefList curList = packedRefs.get();
+		final File packedRefsFile = FileUtils
+				.resolveSymLinks(this.packedRefsFile);
 		if (trustFolderStat && !curList.snapshot.isModified(packedRefsFile)) {
 			return curList;
 		}
@@ -936,6 +938,8 @@ public class RefDirectory extends RefDatabase {
 	private PackedRefList readPackedRefs() throws IOException {
 		int maxStaleRetries = 5;
 		int retries = 0;
+		final File packedRefsFile = FileUtils
+				.resolveSymLinks(this.packedRefsFile);
 		while (true) {
 			final FileSnapshot snapshot = FileSnapshot.save(packedRefsFile);
 			final BufferedReader br;
