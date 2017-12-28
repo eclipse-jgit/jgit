@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87929364_2be61a23",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-12-28T18:41:05Z",
+      "side": 1,
+      "message": "Please put the main effect of the change in the subject line. The commit message body can go into more detail about the context.\n\nSo perhaps this is\n\n FileBasedConfig: preserve .git/config symlink\n\n This is for compatibility with ...\n\nCan you say more about the compatibility issue? I don\u0027t understand it based on the description here alone.",
+      "revId": "0e13c01b561eacfe8f6dbdf913470dfc3182c3c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
