@@ -66,6 +66,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
 
@@ -204,14 +205,16 @@ public class FileBasedConfig extends StoredConfig {
 			out = Constants.encode(text);
 		}
 
-		final LockFile lf = new LockFile(getFile());
+		final File file = FileUtils.resolveSymLinks(getFile());
+		final LockFile lf = new LockFile(file);
 		if (!lf.lock())
-			throw new LockFailedException(getFile());
+			throw new LockFailedException(file);
 		try {
 			lf.setNeedSnapshot(true);
 			lf.write(out);
 			if (!lf.commit())
-				throw new IOException(MessageFormat.format(JGitText.get().cannotCommitWriteTo, getFile()));
+				throw new IOException(MessageFormat
+						.format(JGitText.get().cannotCommitWriteTo, file));
 		} finally {
 			lf.unlock();
 		}
