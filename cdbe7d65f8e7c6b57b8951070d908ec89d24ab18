@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87929364_b0ec37b8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/ResolveMergerTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-28T00:32:51Z",
+      "side": 1,
+      "message": "unused import",
+      "revId": "cdbe7d65f8e7c6b57b8951070d908ec89d24ab18",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_90f73b81",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-28T00:32:51Z",
+      "side": 1,
+      "message": "potential NPE: db is @Nullable",
+      "range": {
+        "startLine": 374,
+        "startChar": 13,
+        "endLine": 374,
+        "endChar": 15
+      },
+      "revId": "cdbe7d65f8e7c6b57b8951070d908ec89d24ab18",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_70f2cf93",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/NameConflictTreeWalk.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-28T00:32:51Z",
+      "side": 1,
+      "message": "missing braces",
+      "revId": "cdbe7d65f8e7c6b57b8951070d908ec89d24ab18",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
