@@ -56,9 +56,11 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.junit.Assume.assumeTrue;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
@@ -78,6 +80,8 @@ import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTag;
+import org.eclipse.jgit.util.FileUtils;
+import org.eclipse.jgit.util.SystemReader;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -1302,6 +1306,63 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		}
 		Ref ref = refdir.getRef("refs/heads/master");
 		assertEquals(Storage.LOOSE, ref.getStorage());
+	}
+
+	@Test
+	public void testPreserveSymlinks() throws Exception {
+		assumeTrue(!SystemReader.getInstance().isWindows());
+
+		writePackedRefs(A.name() + " refs/heads/master\n");
+
+		final FileRepository linkRepo = createBareRepository();
+		final File orgObjects = new File(diskRepo.getDirectory(), "objects");
+		final File linkObjects = new File(linkRepo.getDirectory(), "objects");
+		final File orgRefs = new File(diskRepo.getDirectory(), "refs");
+		final File linkRefs = new File(linkRepo.getDirectory(), "refs");
+		final File orgPackedRefsFile = new File(diskRepo.getDirectory(),
+				"packed-refs");
+		final File linkPackedRefsFile = new File(linkRepo.getDirectory(),
+				"packed-refs");
+
+		linkObjects.delete();
+		FileUtils.createSymLink(linkObjects, orgObjects.getAbsolutePath());
+
+		linkRefs.delete();
+		FileUtils.createSymLink(linkRefs, orgRefs.getAbsolutePath());
+		assertTrue(Files.isSymbolicLink(linkRefs.toPath()));
+
+		linkPackedRefsFile.delete();
+		FileUtils.createSymLink(linkPackedRefsFile,
+				orgPackedRefsFile.getAbsolutePath());
+		assertTrue(Files.isSymbolicLink(linkPackedRefsFile.toPath()));
+
+		Map<String, Ref> all;
+		all = refdir.getRefs(RefDatabase.ALL);
+		assertEquals(2, all.size());
+		assertEquals(Storage.LOOSE, all.get(HEAD).getStorage());
+		assertEquals(Storage.PACKED, all.get("refs/heads/master").getStorage());
+		assertEquals(A.getId(), all.get("refs/heads/master").getObjectId());
+
+		write(new File(linkRepo.getDirectory(), "refs/heads/master"),
+				B.name() + "\n");
+
+		all = refdir.getRefs(RefDatabase.ALL);
+		assertEquals(2, all.size());
+		assertEquals(Storage.LOOSE, all.get(HEAD).getStorage());
+		assertEquals(Storage.LOOSE, all.get("refs/heads/master").getStorage());
+		assertEquals(B.getId(), all.get("refs/heads/master").getObjectId());
+
+		final RefDirectory rd = (RefDirectory) linkRepo.getRefDatabase();
+		rd.pack(new ArrayList<>(rd.getRefs(RefDatabase.ALL).keySet()));
+
+		assertTrue(Files.isSymbolicLink(linkRefs.toPath()));
+		assertTrue(Files.isSymbolicLink(linkPackedRefsFile.toPath()));
+
+		all = refdir.getRefs(RefDatabase.ALL);
+		assertEquals(2, all.size());
+		assertEquals(Storage.LOOSE, all.get(HEAD).getStorage());
+		assertEquals(Storage.PACKED, all.get("refs/heads/master").getStorage());
+		assertEquals(B.getId(), all.get("refs/heads/master").getObjectId());
 	}
 
 	private void writeLooseRef(String name, AnyObjectId id) throws IOException {
