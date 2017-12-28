@@ -47,17 +47,21 @@ import static org.eclipse.jgit.util.FileUtils.pathToString;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assume.assumeTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
+import org.eclipse.jgit.util.SystemReader;
 import org.junit.After;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -231,6 +235,33 @@ public class FileBasedConfigTest {
 		final FileBasedConfig config = new FileBasedConfig(file, fs);
 		config.load();
 		assertEquals(ALICE, config.getString(USER, null, NAME));
+	}
+
+	@Test
+	public void testPreserveSymlink()
+			throws IOException, ConfigInvalidException {
+		assumeTrue(!SystemReader.getInstance().isWindows());
+
+		final File file = createFile(CONTENT1.getBytes());
+		final File link = new File(file.getAbsolutePath() + ".link");
+		FileUtils.createSymLink(link, "./" + file.getName());
+
+		assertTrue(!Files.isSymbolicLink(file.toPath()));
+		assertTrue(Files.isSymbolicLink(link.toPath()));
+
+		FileBasedConfig config = new FileBasedConfig(link, FS.DETECTED);
+		config.load();
+		assertEquals(ALICE, config.getString(USER, null, NAME));
+
+		config.setString(USER, null, NAME, BOB);
+		config.save();
+
+		config = new FileBasedConfig(link, FS.DETECTED);
+		config.load();
+		assertEquals(BOB, config.getString(USER, null, NAME));
+
+		assertTrue(!Files.isSymbolicLink(file.toPath()));
+		assertTrue(Files.isSymbolicLink(link.toPath()));
 	}
 
 	private File createFile(byte[] content) throws IOException {
