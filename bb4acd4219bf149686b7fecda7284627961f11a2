@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87929364_6b03c24c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-12-28T18:42:07Z",
+      "side": 1,
+      "message": "Likewise: please put the effect of the change in the subject line and put context in the rest of the commit message.\n\nE.g.\n\n RefDirectory: preserve .git/packed-refs symlink\n\n This is for compatibility with ...\n\nPlease also give a little more context --- e.g. how was this issue discovered? Is there a bug in a bug tracker for it?",
+      "revId": "bb4acd4219bf149686b7fecda7284627961f11a2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
