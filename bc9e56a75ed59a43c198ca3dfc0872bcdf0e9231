@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87929364_cb083638",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileBasedConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-12-28T23:59:42Z",
+      "side": 1,
+      "message": "Interesting. If someone (e.g. an older version of JGit) concurrently replaces the symlink with an ordinary file then we won\u0027t notice since our lockfile is pointing somewhere else.\n\nI think that\u0027s okay, though: the lockfile represents the resource we are going to rename() to. And it\u0027s the same thing that Git does: https://kernel.googlesource.com/pub/scm/git/git/+/master/lockfile.c",
+      "revId": "bc9e56a75ed59a43c198ca3dfc0872bcdf0e9231",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_eb0c124b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-12-28T23:59:42Z",
+      "side": 1,
+      "message": "unnecessary \u0027final\u0027; please remove.",
+      "range": {
+        "startLine": 484,
+        "startChar": 36,
+        "endLine": 484,
+        "endChar": 41
+      },
+      "revId": "bc9e56a75ed59a43c198ca3dfc0872bcdf0e9231",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_2b17fa51",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-12-28T23:59:42Z",
+      "side": 1,
+      "message": "What should happen if the file doesn\u0027t exist (i.e. it\u0027s a dangling symlink)? Can iterated Files.readSymbolicLink help here? (That would be analogous to what Git does: readlink() at most 5 times.)",
+      "revId": "bc9e56a75ed59a43c198ca3dfc0872bcdf0e9231",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_0b0a3e2c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-12-28T23:59:42Z",
+      "side": 1,
+      "message": "Since we convert to a Path anyway, I wonder if this helper should take a Path. (In the long term, JGit is trying to move away from File-based to Path-based APIs.)",
+      "revId": "bc9e56a75ed59a43c198ca3dfc0872bcdf0e9231",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
