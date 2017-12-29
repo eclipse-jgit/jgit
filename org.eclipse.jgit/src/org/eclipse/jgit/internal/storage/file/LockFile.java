@@ -117,11 +117,9 @@ public class LockFile {
 		}
 	};
 
-	private final File ref;
+	private final File raw;
 
-	private final File lck;
-
-	private boolean haveLck;
+	private Files files;
 
 	FileOutputStream os;
 
@@ -145,8 +143,7 @@ public class LockFile {
 	 */
 	@Deprecated
 	public LockFile(final File f, final FS fs) {
-		ref = f;
-		lck = getLockFile(ref);
+		raw = f;
 	}
 
 	/**
@@ -156,8 +153,7 @@ public class LockFile {
 	 *            the file that will be locked.
 	 */
 	public LockFile(final File f) {
-		ref = f;
-		lck = getLockFile(ref);
+		raw = f;
 	}
 
 	/**
@@ -170,9 +166,11 @@ public class LockFile {
 	 *             does not hold the lock.
 	 */
 	public boolean lock() throws IOException {
+		File ref = FileUtils.resolveSymLinks(raw);
+		File lck = getLockFile(ref);
 		FileUtils.mkdirs(lck.getParentFile(), true);
 		if (FS.DETECTED.createNewFile(lck)) {
-			haveLck = true;
+			files = new Files(ref, lck);
 			try {
 				os = new FileOutputStream(lck);
 			} catch (IOException ioe) {
@@ -180,7 +178,7 @@ public class LockFile {
 				throw ioe;
 			}
 		}
-		return haveLck;
+		return files != null;
 	}
 
 	/**
@@ -219,9 +217,9 @@ public class LockFile {
 	 *             before throwing the underlying exception to the caller.
 	 */
 	public void copyCurrentContent() throws IOException {
-		requireLock();
+		final Files files = requireLock();
 		try {
-			final FileInputStream fis = new FileInputStream(ref);
+			final FileInputStream fis = new FileInputStream(files.ref);
 			try {
 				if (fsync) {
 					FileChannel in = fis.getChannel();
@@ -242,7 +240,7 @@ public class LockFile {
 				fis.close();
 			}
 		} catch (FileNotFoundException fnfe) {
-			if (ref.exists()) {
+			if (files.ref.exists()) {
 				unlock();
 				throw fnfe;
 			}
@@ -377,11 +375,17 @@ public class LockFile {
 		};
 	}
 
-	void requireLock() {
+	Files requireLock() {
 		if (os == null) {
 			unlock();
-			throw new IllegalStateException(MessageFormat.format(JGitText.get().lockOnNotHeld, ref));
+			throw new IllegalStateException(MessageFormat.format(JGitText.get().lockOnNotHeld, raw));
 		}
+		
+		if (files == null) {
+			throw new IllegalStateException();
+		}
+
+		return files;
 	}
 
 	/**
@@ -430,12 +434,16 @@ public class LockFile {
 	 *             the target file.
 	 */
 	public void waitForStatChange() throws InterruptedException {
-		FileSnapshot o = FileSnapshot.save(ref);
-		FileSnapshot n = FileSnapshot.save(lck);
+		if (files == null) {
+			throw new IllegalStateException();
+		}
+
+		FileSnapshot o = FileSnapshot.save(files.ref);
+		FileSnapshot n = FileSnapshot.save(files.lck);
 		while (o.equals(n)) {
 			Thread.sleep(25 /* milliseconds */);
-			lck.setLastModified(System.currentTimeMillis());
-			n = FileSnapshot.save(lck);
+			files.lck.setLastModified(System.currentTimeMillis());
+			n = FileSnapshot.save(files.lck);
 		}
 	}
 
@@ -451,15 +459,19 @@ public class LockFile {
 	 *             the lock is not held.
 	 */
 	public boolean commit() {
+		if (files == null) {
+			throw new IllegalStateException();
+		}
+
 		if (os != null) {
 			unlock();
-			throw new IllegalStateException(MessageFormat.format(JGitText.get().lockOnNotClosed, ref));
+			throw new IllegalStateException(MessageFormat.format(JGitText.get().lockOnNotClosed, raw));
 		}
 
 		saveStatInformation();
 		try {
-			FileUtils.rename(lck, ref, StandardCopyOption.ATOMIC_MOVE);
-			haveLck = false;
+			FileUtils.rename(files.lck, files.ref, StandardCopyOption.ATOMIC_MOVE);
+			files = null;
 			return true;
 		} catch (IOException e) {
 			unlock();
@@ -468,8 +480,12 @@ public class LockFile {
 	}
 
 	private void saveStatInformation() {
+		if (files == null) {
+			throw new IllegalStateException();
+		}
+
 		if (needSnapshot)
-			commitSnapshot = FileSnapshot.save(lck);
+			commitSnapshot = FileSnapshot.save(files.lck);
 	}
 
 	/**
@@ -497,6 +513,10 @@ public class LockFile {
 	 * while writing the index.
 	 */
 	public void createCommitSnapshot() {
+		if (files == null) {
+			throw new IllegalStateException();
+		}
+
 		saveStatInformation();
 	}
 
@@ -515,13 +535,13 @@ public class LockFile {
 			os = null;
 		}
 
-		if (haveLck) {
-			haveLck = false;
+		if (files != null) {
 			try {
-				FileUtils.delete(lck, FileUtils.RETRY);
+				FileUtils.delete(files.lck, FileUtils.RETRY);
 			} catch (IOException e) {
 				// couldn't delete the file even after retry.
 			}
+			files = null;
 		}
 	}
 
@@ -529,6 +549,21 @@ public class LockFile {
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
-		return "LockFile[" + lck + ", haveLck=" + haveLck + "]";
+		return "LockFile[" + files + "]";
+	}
+
+	private static final class Files {
+		private final File ref;
+		private final File lck;
+
+		public Files(File ref, File lck) {
+			this.ref = ref;
+			this.lck = lck;
+		}
+
+		@Override
+		public String toString() {
+			return "ref=" + ref + ", lck=" + lck;
+		}
 	}
 }

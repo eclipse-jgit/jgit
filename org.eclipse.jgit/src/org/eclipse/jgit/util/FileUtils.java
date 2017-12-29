@@ -472,6 +472,30 @@ public class FileUtils {
 	}
 
 	/**
+	 * Resolves symlinks and returns the "canonical" path for the specified
+	 * file.
+	 *
+	 * @param f
+	 *            file path to resolve symlinks for
+	 * @return canonical path
+	 * @throws java.io.IOException
+	 * @since 4.10
+	 */
+	public static File resolveSymLinks(final File f) throws IOException {
+		try {
+			if (!f.exists()) {
+				return f;
+			}
+
+			// JDK-8003887: File.getCanonicalFile() does not resolve symlinks on
+			// MS Windows
+			return f.toPath().toRealPath().toFile();
+		} catch (InvalidPathException ex) {
+			throw new IOException(ex);
+		}
+	}
+
+	/**
 	 * Create a temporary directory.
 	 *
 	 * @param prefix
