@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87929364_0b315ef0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportLocal.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2017-12-29T00:11:58Z",
+      "side": 1,
+      "message": "optional: can move this outside the \u0027try\u0027:\n\n  RepositoryBuilder builder \u003d new RepositoryBuilder();\n  if (local !\u003d null) {\n    builder.setFS(local.getFS());\n  }\n  builder.setGitDir(remoteGitDir);\n  try {\n    return builder.build();\n  } catch (...\n\nAlternatively, can avoid breaking the chaining of calls:\n\n  try {\n    return new RepositoryBuilder()\n      .setFS(local !\u003d null ? local.getFS() : FS.DETECTED)\n      .setGitDir(remoteGitDir)\n      .build();\n  } catch (...",
+      "revId": "5385b8cd63a04fb85b94f9e3a3a509209f838e2b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
