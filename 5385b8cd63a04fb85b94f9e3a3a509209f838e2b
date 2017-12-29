@@ -16,6 +16,24 @@
       "revId": "5385b8cd63a04fb85b94f9e3a3a509209f838e2b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_6b5662dc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportLocal.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2017-12-29T11:44:59Z",
+      "side": 1,
+      "message": "I like then chaining of calls -- it also makes explicit that the FS.DETECTED will be used here.",
+      "parentUuid": "87929364_0b315ef0",
+      "revId": "5385b8cd63a04fb85b94f9e3a3a509209f838e2b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
