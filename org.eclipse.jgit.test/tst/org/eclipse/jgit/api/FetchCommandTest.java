@@ -56,6 +56,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.FetchResult;
+import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.TagOpt;
 import org.eclipse.jgit.transport.TrackingRefUpdate;
@@ -269,5 +270,49 @@ public class FetchCommandTest extends RepositoryTestCase {
 				+ tagName);
 		assertEquals(RefUpdate.Result.FORCED, update.getResult());
 		assertEquals(tagRef2.getObjectId(), db.resolve(tagName));
+	}
+
+	@Test
+	public void fetchAddRefsWithDuplicateRefspec() throws Exception {
+		final String branchName = "branch";
+		final String remoteBranchName = "test/" + branchName;
+		remoteGit.commit().setMessage("commit").call();
+		Ref branchRef = remoteGit.branchCreate().setName(branchName).call();
+
+		final String spec1 = "+refs/heads/*:refs/remotes/test/*";
+		final String spec2 = "refs/heads/*:refs/remotes/test/*";
+		final StoredConfig config = db.getConfig();
+		RemoteConfig remoteConfig = new RemoteConfig(config, "test");
+		remoteConfig.addFetchRefSpec(new RefSpec(spec1));
+		remoteConfig.addFetchRefSpec(new RefSpec(spec2));
+		remoteConfig.update(config);
+
+		git.fetch().setRemote("test").setRefSpecs(spec1).call();
+		assertEquals(branchRef.getObjectId(), db.resolve(remoteBranchName));
+	}
+
+	@Test
+	public void fetchPruneRefsWithDuplicateRefspec()
+			throws Exception {
+		final String branchName = "branch";
+		final String remoteBranchName = "test/" + branchName;
+		remoteGit.commit().setMessage("commit").call();
+		Ref branchRef = remoteGit.branchCreate().setName(branchName).call();
+
+		final String spec1 = "+refs/heads/*:refs/remotes/test/*";
+		final String spec2 = "refs/heads/*:refs/remotes/test/*";
+		final StoredConfig config = db.getConfig();
+		RemoteConfig remoteConfig = new RemoteConfig(config, "test");
+		remoteConfig.addFetchRefSpec(new RefSpec(spec1));
+		remoteConfig.addFetchRefSpec(new RefSpec(spec2));
+		remoteConfig.update(config);
+
+		git.fetch().setRemote("test").setRefSpecs(spec1).call();
+		assertEquals(branchRef.getObjectId(), db.resolve(remoteBranchName));
+
+		remoteGit.branchDelete().setBranchNames(branchName).call();
+		git.fetch().setRemote("test").setRefSpecs(spec1)
+				.setRemoveDeletedRefs(true).call();
+		assertNull(db.resolve(remoteBranchName));
 	}
 }

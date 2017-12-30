@@ -481,12 +481,14 @@ class FetchProcess {
 
 	private void deleteStaleTrackingRefs(FetchResult result,
 			BatchRefUpdate batch) throws IOException {
+		final Set<Ref> processed = new HashSet<>();
 		for (final Ref ref : localRefs().values()) {
 			final String refname = ref.getName();
 			for (final RefSpec spec : toFetch) {
 				if (spec.matchDestination(refname)) {
 					final RefSpec s = spec.expandFromDestination(refname);
-					if (result.getAdvertisedRef(s.getSource()) == null) {
+					if (result.getAdvertisedRef(s.getSource()) == null
+							&& processed.add(ref)) {
 						deleteTrackingRef(result, batch, s, ref);
 					}
 				}
