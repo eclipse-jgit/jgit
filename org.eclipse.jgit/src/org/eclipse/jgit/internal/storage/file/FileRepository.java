@@ -356,7 +356,7 @@ public class FileRepository extends Repository {
 						ConfigConstants.CONFIG_KEY_WORKTREE, getWorkTree()
 								.getAbsolutePath());
 				LockFile dotGitLockFile = new LockFile(new File(workTree,
-						Constants.DOT_GIT));
+						Constants.DOT_GIT), getFS());
 				try {
 					if (dotGitLockFile.lock()) {
 						dotGitLockFile.write(Constants.encode(Constants.GITDIR
@@ -448,7 +448,7 @@ public class FileRepository extends Repository {
 		}
 
 		File path = descriptionFile();
-		LockFile lock = new LockFile(path);
+		LockFile lock = new LockFile(path, getFS());
 		if (!lock.lock()) {
 			throw new IOException(MessageFormat.format(JGitText.get().lockError,
 					path.getAbsolutePath()));

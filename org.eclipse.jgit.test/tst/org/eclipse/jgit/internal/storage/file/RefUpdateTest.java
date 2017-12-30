@@ -77,6 +77,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
+import org.eclipse.jgit.util.FS;
 import org.junit.Test;
 
 public class RefUpdateTest extends SampleDataRepositoryTestCase {
@@ -657,14 +658,16 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		ObjectId pid = db.resolve("refs/heads/master^");
 		RefUpdate updateRef = db.updateRef("refs/heads/master");
 		updateRef.setNewObjectId(pid);
+		FS fs = db.getFS();
 		LockFile lockFile1 = new LockFile(new File(db.getDirectory(),
-				"refs/heads/master"));
+				"refs/heads/master"), fs);
 		try {
 			assertTrue(lockFile1.lock()); // precondition to test
 			Result update = updateRef.update();
 			assertEquals(Result.LOCK_FAILURE, update);
 			assertEquals(opid, db.resolve("refs/heads/master"));
-			LockFile lockFile2 = new LockFile(new File(db.getDirectory(),"refs/heads/master"));
+			LockFile lockFile2 = new LockFile(
+					new File(db.getDirectory(), "refs/heads/master"), fs);
 			assertFalse(lockFile2.lock()); // was locked, still is
 		} finally {
 			lockFile1.unlock();
@@ -807,7 +810,8 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 				"logs/" + fromName).exists());
 
 		// "someone" has branch X locked
-		LockFile lockFile = new LockFile(new File(db.getDirectory(), toLock));
+		LockFile lockFile = new LockFile(new File(db.getDirectory(), toLock),
+				db.getFS());
 		try {
 			assertTrue(lockFile.lock());
 

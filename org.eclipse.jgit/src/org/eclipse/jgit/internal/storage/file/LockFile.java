@@ -119,6 +119,8 @@ public class LockFile {
 
 	private final File ref;
 
+	private final FS fs;
+
 	private final File lck;
 
 	private boolean haveLck;
@@ -139,14 +141,11 @@ public class LockFile {
 	 * @param fs
 	 *            the file system abstraction which will be necessary to perform
 	 *            certain file system operations.
-	 * @deprecated use
-	 *             {@link org.eclipse.jgit.internal.storage.file.LockFile#LockFile(File)}
-	 *             instead
 	 */
-	@Deprecated
 	public LockFile(final File f, final FS fs) {
 		ref = f;
 		lck = getLockFile(ref);
+		this.fs = fs != null ? fs : FS.DETECTED;
 	}
 
 	/**
@@ -154,10 +153,10 @@ public class LockFile {
 	 *
 	 * @param f
 	 *            the file that will be locked.
+	 * @deprecated use {@link LockFile#LockFile(File, FS)} instead
 	 */
 	public LockFile(final File f) {
-		ref = f;
-		lck = getLockFile(ref);
+		this(f, FS.DETECTED);
 	}
 
 	/**
@@ -171,7 +170,7 @@ public class LockFile {
 	 */
 	public boolean lock() throws IOException {
 		FileUtils.mkdirs(lck.getParentFile(), true);
-		if (FS.DETECTED.createNewFile(lck)) {
+		if (fs.createNewFile(lck)) {
 			haveLck = true;
 			try {
 				os = new FileOutputStream(lck);

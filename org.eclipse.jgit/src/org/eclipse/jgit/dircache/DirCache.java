@@ -333,6 +333,9 @@ public class DirCache {
 	/** Location of the current version of the index file. */
 	private final File liveFile;
 
+	/** File abstraction used to resolve paths. */
+	private final FS fs;
+
 	/** Individual file index entries, sorted by path name. */
 	private DirCacheEntry[] sortedEntries;
 
@@ -374,6 +377,7 @@ public class DirCache {
 	 */
 	public DirCache(final File indexLocation, final FS fs) {
 		liveFile = indexLocation;
+		this.fs = fs;
 		clear();
 	}
 
@@ -614,7 +618,7 @@ public class DirCache {
 	public boolean lock() throws IOException {
 		if (liveFile == null)
 			throw new IOException(JGitText.get().dirCacheDoesNotHaveABackingFile);
-		final LockFile tmp = new LockFile(liveFile);
+		final LockFile tmp = new LockFile(liveFile, fs);
 		if (tmp.lock()) {
 			tmp.setNeedStatInformation(true);
 			myLock = tmp;

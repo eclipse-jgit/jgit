@@ -783,7 +783,7 @@ public class RefDirectory extends RefDatabase {
 					LockFile rLck = heldLocks.get(refName);
 					boolean shouldUnlock;
 					if (rLck == null) {
-						rLck = new LockFile(refFile);
+						rLck = new LockFile(refFile, fs);
 						if (!rLck.lock()) {
 							continue;
 						}
@@ -832,7 +832,7 @@ public class RefDirectory extends RefDatabase {
 
 	@Nullable
 	LockFile lockPackedRefs() throws IOException {
-		LockFile lck = new LockFile(packedRefsFile);
+		LockFile lck = new LockFile(packedRefsFile, parent.getFS());
 		for (int ms : getRetrySleepMs()) {
 			sleep(ms);
 			if (lck.lock()) {

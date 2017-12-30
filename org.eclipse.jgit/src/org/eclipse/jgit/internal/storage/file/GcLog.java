@@ -87,7 +87,7 @@ class GcLog {
 	GcLog(FileRepository repo) {
 		this.repo = repo;
 		logFile = new File(repo.getDirectory(), "gc.log"); //$NON-NLS-1$
-		lock = new LockFile(logFile);
+		lock = new LockFile(logFile, repo.getFS());
 	}
 
 	private Instant getLogExpiry() throws ParseException {

@@ -76,6 +76,7 @@ import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
+import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.RefList;
 
 /**
@@ -329,6 +330,7 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 	@Nullable
 	private Map<String, LockFile> lockLooseRefs(List<ReceiveCommand> commands)
 			throws IOException {
+		final FS fs = refdb.getRepository().getFS();
 		ReceiveCommand failed = null;
 		Map<String, LockFile> locks = new HashMap<>();
 		try {
@@ -341,7 +343,7 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 
 				for (ReceiveCommand c : commands) {
 					String name = c.getRefName();
-					LockFile lock = new LockFile(refdb.fileFor(name));
+					LockFile lock = new LockFile(refdb.fileFor(name), fs);
 					if (locks.put(name, lock) != null) {
 						throw new IOException(
 								MessageFormat.format(JGitText.get().duplicateRef, name));

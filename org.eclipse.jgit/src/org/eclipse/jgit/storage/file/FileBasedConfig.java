@@ -132,6 +132,16 @@ public class FileBasedConfig extends StoredConfig {
 	}
 
 	/**
+	 * Get the file system abstraction, or null if not set.
+	 *
+	 * @return the file system abstraction, or null if not set.
+	 * @since 4.10
+	 */
+	public FS getFs() {
+		return fs;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 * <p>
 	 * Load the configuration as a Git text style configuration file.
@@ -204,7 +214,7 @@ public class FileBasedConfig extends StoredConfig {
 			out = Constants.encode(text);
 		}
 
-		final LockFile lf = new LockFile(getFile());
+		final LockFile lf = new LockFile(getFile(), fs);
 		if (!lf.lock())
 			throw new LockFailedException(getFile());
 		try {
