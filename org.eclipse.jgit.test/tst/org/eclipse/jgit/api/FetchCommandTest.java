@@ -102,6 +102,43 @@ public class FetchCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void fetchAddUpdateDeleteBranches() throws Exception {
+		final String branch1 = "b1";
+		final String branch2 = "b2";
+		final String remoteBranch1 = "test/" + branch1;
+		final String remoteBranch2 = "test/" + branch2;
+		remoteGit.commit().setMessage("commit").call();
+		Ref branchRef1 = remoteGit.branchCreate().setName(branch1).call();
+		remoteGit.commit().setMessage("commit").call();
+		Ref branchRef2 = remoteGit.branchCreate().setName(branch2).call();
+
+		String spec = "refs/heads/*:refs/remotes/test/*";
+		git.fetch().setRemote("test").setRefSpecs(spec).call();
+		assertEquals(branchRef1.getObjectId(), db.resolve(remoteBranch1));
+		assertEquals(branchRef2.getObjectId(), db.resolve(remoteBranch2));
+
+		// test don't delete branch if not explicitly enabled
+		remoteGit.branchDelete().setBranchNames(branch1).call();
+		git.fetch().setRemote("test").setRefSpecs(spec).call();
+		assertEquals(branchRef1.getObjectId(), db.resolve(remoteBranch1));
+		assertEquals(branchRef2.getObjectId(), db.resolve(remoteBranch2));
+
+		remoteGit.commit().setMessage("commit").call();
+		branchRef2 = remoteGit.branchCreate().setName(branch2).setForce(true).call();
+
+		final String branch3 = "b3";
+		final String remoteBranch3 = "test/" + branch3;
+		remoteGit.commit().setMessage("commit").call();
+		Ref branchRef3 = remoteGit.branchCreate().setName(branch3).setForce(true).call();
+
+		git.fetch().setRemote("test").setRefSpecs(spec)
+				.setRemoveDeletedRefs(true).call();
+		assertEquals(null, db.resolve(remoteBranch1));
+		assertEquals(branchRef2.getObjectId(), db.resolve(remoteBranch2));
+		assertEquals(branchRef3.getObjectId(), db.resolve(remoteBranch3));
+	}
+
+	@Test
 	public void fetchShouldAutoFollowTag() throws Exception {
 		remoteGit.commit().setMessage("commit").call();
 		Ref tagRef = remoteGit.tag().setName("foo").call();
@@ -180,8 +217,8 @@ public class FetchCommandTest extends RepositoryTestCase {
 
 		FetchResult result = git.fetch().setRemote("test").setRefSpecs(spec)
 				.setTagOpt(TagOpt.FETCH_TAGS).call();
-		TrackingRefUpdate update = result.getTrackingRefUpdate(Constants.R_TAGS
-				+ tagName);
+		TrackingRefUpdate update = result
+				.getTrackingRefUpdate(Constants.R_TAGS + tagName);
 		assertEquals(RefUpdate.Result.FORCED, update.getResult());
 		assertEquals(tagRef2.getObjectId(), db.resolve(tagName));
 	}
