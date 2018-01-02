@@ -54,8 +54,9 @@ import static org.junit.Assert.fail;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
 import java.security.MessageDigest;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -282,22 +283,16 @@ public class PackFileTest extends LocalDiskRepositoryTestCase {
 			File packName = new File(dir, idA.name() + ".pack");
 			File idxName = new File(dir, idA.name() + ".idx");
 
-			FileOutputStream f = new FileOutputStream(packName);
-			try {
+			try (OutputStream f = Files.newOutputStream(packName.toPath())) {
 				f.write(pack.toByteArray());
-			} finally {
-				f.close();
 			}
 
-			f = new FileOutputStream(idxName);
-			try {
+			try (OutputStream f = Files.newOutputStream(idxName.toPath())) {
 				List<PackedObjectInfo> list = new ArrayList<>();
 				list.add(a);
 				list.add(b);
 				Collections.sort(list);
 				new PackIndexWriterV1(f).write(list, footer);
-			} finally {
-				f.close();
 			}
 
 			PackFile packFile = new PackFile(packName, PackExt.INDEX.getBit());

@@ -47,8 +47,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
 import java.util.TreeSet;
 
 import org.eclipse.jgit.api.Git;
@@ -176,12 +177,9 @@ public class RacyGitTests extends RepositoryTestCase {
 
 	private File addToWorkDir(String path, String content) throws IOException {
 		File f = new File(db.getWorkTree(), path);
-		FileOutputStream fos = new FileOutputStream(f);
-		try {
+		try (OutputStream fos = Files.newOutputStream(f.toPath())) {
 			fos.write(content.getBytes(Constants.CHARACTER_ENCODING));
 			return f;
-		} finally {
-			fos.close();
 		}
 	}
 }

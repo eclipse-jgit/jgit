@@ -53,9 +53,9 @@ import static org.junit.Assert.fail;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.Files;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -239,12 +239,12 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 		NullProgressMonitor m = NullProgressMonitor.INSTANCE;
 
 		try (OutputStream out = new BufferedOutputStream(
-				new FileOutputStream(files[0]))) {
+				Files.newOutputStream(files[0].toPath()))) {
 			pw.writePack(m, m, out);
 		}
 
 		try (OutputStream out = new BufferedOutputStream(
-				new FileOutputStream(files[1]))) {
+				Files.newOutputStream(files[1].toPath()))) {
 			pw.writeIndex(out);
 		}
 

@@ -48,8 +48,9 @@ import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -853,17 +854,12 @@ class WalkFetchConnection extends BaseFetchConnection {
 			pm.beginTask("Get " + idxName.substring(0, 12) + "..idx", //$NON-NLS-1$ //$NON-NLS-2$
 					s.length < 0 ? ProgressMonitor.UNKNOWN
 							: (int) (s.length / 1024));
-			try {
-				final FileOutputStream fos = new FileOutputStream(tmpIdx);
-				try {
-					final byte[] buf = new byte[2048];
-					int cnt;
-					while (!pm.isCancelled() && (cnt = s.in.read(buf)) >= 0) {
-						fos.write(buf, 0, cnt);
-						pm.update(cnt / 1024);
-					}
-				} finally {
-					fos.close();
+			try (OutputStream fos = Files.newOutputStream(tmpIdx.toPath())) {
+				final byte[] buf = new byte[2048];
+				int cnt;
+				while (!pm.isCancelled() && (cnt = s.in.read(buf)) >= 0) {
+					fos.write(buf, 0, cnt);
+					pm.update(cnt / 1024);
 				}
 			} catch (IOException err) {
 				FileUtils.delete(tmpIdx);

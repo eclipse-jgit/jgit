@@ -48,9 +48,9 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,8 +75,9 @@ public class WindowCacheGetTest extends SampleDataRepositoryTestCase {
 
 		toLoad = new ArrayList<>();
 		final BufferedReader br = new BufferedReader(new InputStreamReader(
-				new FileInputStream(JGitTestUtil
-						.getTestResourceFile("all_packed_objects.txt")),
+				Files.newInputStream(JGitTestUtil
+						.getTestResourceFile("all_packed_objects.txt")
+						.toPath()),
 				Constants.CHARSET));
 		try {
 			String line;

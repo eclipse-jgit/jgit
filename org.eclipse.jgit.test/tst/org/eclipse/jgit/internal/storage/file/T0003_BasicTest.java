@@ -55,9 +55,9 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -416,14 +416,11 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		// Verify the commit we just wrote is in the correct format.
 		ObjectDatabase odb = db.getObjectDatabase();
 		assertTrue("is ObjectDirectory", odb instanceof ObjectDirectory);
-		final XInputStream xis = new XInputStream(new FileInputStream(
-				((ObjectDirectory) odb).fileFor(cmtid)));
-		try {
+		try (XInputStream xis = new XInputStream(Files.newInputStream(
+				((ObjectDirectory) odb).fileFor(cmtid).toPath()))) {
 			assertEquals(0x78, xis.readUInt8());
 			assertEquals(0x9c, xis.readUInt8());
 			assertEquals(0, 0x789c % 31);
-		} finally {
-			xis.close();
 		}
 
 		// Verify we can read it.

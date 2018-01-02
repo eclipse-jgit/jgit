@@ -48,10 +48,10 @@ import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.AtomicMoveNotSupportedException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
@@ -505,7 +505,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 	ObjectLoader openLooseObject(WindowCursor curs, AnyObjectId id)
 			throws IOException {
 		File path = fileFor(id);
-		try (FileInputStream in = new FileInputStream(path)) {
+		try (InputStream in = Files.newInputStream(path.toPath())) {
 			unpackedObjectCache.add(id);
 			return UnpackedObject.open(in, path, id, curs);
 		} catch (FileNotFoundException noFile) {
@@ -597,7 +597,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 	private long getLooseObjectSize(WindowCursor curs, AnyObjectId id)
 			throws IOException {
 		File f = fileFor(id);
-		try (FileInputStream in = new FileInputStream(f)) {
+		try (InputStream in = Files.newInputStream(f.toPath())) {
 			unpackedObjectCache.add(id);
 			return UnpackedObject.getSize(in, id, curs);
 		} catch (FileNotFoundException noFile) {

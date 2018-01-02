@@ -51,11 +51,10 @@ import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -633,9 +632,8 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 	}
 
 	private void assertMagic(long offset, byte[] magicBytes, File file) throws Exception {
-		BufferedInputStream in = new BufferedInputStream(
-				new FileInputStream(file));
-		try {
+		try (BufferedInputStream in = new BufferedInputStream(
+				Files.newInputStream(file.toPath()))) {
 			if (offset > 0) {
 				long skipped = in.skip(offset);
 				assertEquals(offset, skipped);
@@ -644,8 +642,6 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 			byte[] actual = new byte[magicBytes.length];
 			in.read(actual);
 			assertArrayEquals(magicBytes, actual);
-		} finally {
-			in.close();
 		}
 	}
 
@@ -686,11 +682,8 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 	private void writeRaw(String filename, byte[] data)
 			throws IOException {
 		File path = new File(db.getWorkTree(), filename);
-		OutputStream out = new FileOutputStream(path);
-		try {
+		try (OutputStream out = Files.newOutputStream(path.toPath())) {
 			out.write(data);
-		} finally {
-			out.close();
 		}
 	}
 

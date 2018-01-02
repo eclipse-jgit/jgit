@@ -43,10 +43,11 @@
 package org.eclipse.jgit.api;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -154,13 +155,9 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 				case COPY:
 					f = getFile(fh.getOldPath(), false);
 					byte[] bs = IO.readFully(f);
-					FileOutputStream fos = new FileOutputStream(getFile(
-							fh.getNewPath(),
-							true));
-					try {
+					try (OutputStream fos = Files.newOutputStream(
+							getFile(fh.getNewPath(), true).toPath())) {
 						fos.write(bs);
-					} finally {
-						fos.close();
 					}
 				}
 				r.addUpdatedFile(f);

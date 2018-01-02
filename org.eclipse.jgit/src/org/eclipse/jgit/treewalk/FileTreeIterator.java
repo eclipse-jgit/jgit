@@ -48,9 +48,9 @@ package org.eclipse.jgit.treewalk;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.lib.Constants;
@@ -391,7 +391,7 @@ public class FileTreeIterator extends WorkingTreeIterator {
 						.getBytes(
 						Constants.CHARACTER_ENCODING));
 			else
-				return new FileInputStream(getFile());
+				return Files.newInputStream(getFile().toPath());
 		}
 
 		/**

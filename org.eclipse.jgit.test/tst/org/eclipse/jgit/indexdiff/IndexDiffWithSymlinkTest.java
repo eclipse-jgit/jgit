@@ -52,7 +52,6 @@ import static org.junit.Assume.assumeTrue;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -129,7 +128,7 @@ public class IndexDiffWithSymlinkTest extends LocalDiskRepositoryTestCase {
 		// Use CGit to restore
 		File restoreScript = new File(testDir, name + ".sh");
 		try (OutputStream out = new BufferedOutputStream(
-				new FileOutputStream(restoreScript));
+				Files.newOutputStream(restoreScript.toPath()));
 				Writer writer = new OutputStreamWriter(out, UTF_8)) {
 			writer.write("echo `which git` 1>&2\n");
 			writer.write("echo `git --version` 1>&2\n");
@@ -161,7 +160,7 @@ public class IndexDiffWithSymlinkTest extends LocalDiskRepositoryTestCase {
 	}
 
 	private void copy(InputStream from, File to) throws IOException {
-		try (OutputStream out = new FileOutputStream(to)) {
+		try (OutputStream out = Files.newOutputStream(to.toPath())) {
 			byte[] buffer = new byte[4096];
 			int n;
 			while ((n = from.read(buffer)) > 0) {

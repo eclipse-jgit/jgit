@@ -48,8 +48,9 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -1923,18 +1924,20 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 				if (file.isFile()) {
 					assertNotNull("found unexpected file for path " + path
 							+ " in workdir", expectedValue);
-					FileInputStream is = new FileInputStream(file);
-					byte[] buffer = new byte[(int) file.length()];
-					int offset = 0;
-					int numRead = 0;
-					while (offset < buffer.length
-							&& (numRead = is.read(buffer, offset, buffer.length
-									- offset)) >= 0) {
-						offset += numRead;
+					try (InputStream is = Files.newInputStream(file.toPath())) {
+						byte[] buffer = new byte[(int) file.length()];
+						int offset = 0;
+						int numRead = 0;
+						while (offset < buffer.length
+								&& (numRead = is.read(buffer, offset,
+										buffer.length - offset)) >= 0) {
+							offset += numRead;
+						}
+						assertArrayEquals(
+								"unexpected content for path " + path
+										+ " in workDir. ",
+								buffer, i.get(path).getBytes());
 					}
-					is.close();
-					assertArrayEquals("unexpected content for path " + path
-							+ " in workDir. ", buffer, i.get(path).getBytes());
 					nrFiles++;
 				} else if (file.isDirectory()) {
 					String[] files = file.list();

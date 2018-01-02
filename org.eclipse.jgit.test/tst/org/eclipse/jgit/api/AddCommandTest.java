@@ -49,9 +49,10 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import java.nio.file.Files;
 import java.util.Set;
 
 import org.eclipse.jgit.api.errors.FilterFailedException;
@@ -1260,18 +1261,18 @@ public class AddCommandTest extends RepositoryTestCase {
 	private static DirCacheEntry addEntryToBuilder(String path, File file,
 			ObjectInserter newObjectInserter, DirCacheBuilder builder, int stage)
 			throws IOException {
-		FileInputStream inputStream = new FileInputStream(file);
-		ObjectId id = newObjectInserter.insert(
-				Constants.OBJ_BLOB, file.length(), inputStream);
-		inputStream.close();
-		DirCacheEntry entry = new DirCacheEntry(path, stage);
-		entry.setObjectId(id);
-		entry.setFileMode(FileMode.REGULAR_FILE);
-		entry.setLastModified(file.lastModified());
-		entry.setLength((int) file.length());
+		try (InputStream inputStream = Files.newInputStream(file.toPath())) {
+			ObjectId id = newObjectInserter.insert(Constants.OBJ_BLOB,
+					file.length(), inputStream);
+			DirCacheEntry entry = new DirCacheEntry(path, stage);
+			entry.setObjectId(id);
+			entry.setFileMode(FileMode.REGULAR_FILE);
+			entry.setLastModified(file.lastModified());
+			entry.setLength((int) file.length());
 
-		builder.add(entry);
-		return entry;
+			builder.add(entry);
+			return entry;
+		}
 	}
 
 	private void assumeUnchanged(String path) throws IOException {

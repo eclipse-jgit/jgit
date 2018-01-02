@@ -51,9 +51,10 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
 
 import org.eclipse.jgit.api.CreateBranchCommand.SetupUpstreamMode;
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
@@ -395,24 +396,17 @@ public class PullCommandWithRebaseTest extends RepositoryTestCase {
 
 	private static void writeToFile(File actFile, String string)
 			throws IOException {
-		FileOutputStream fos = null;
-		try {
-			fos = new FileOutputStream(actFile);
+		try (OutputStream fos = Files.newOutputStream(actFile.toPath())) {
 			fos.write(string.getBytes(UTF_8));
 			fos.close();
-		} finally {
-			if (fos != null)
-				fos.close();
 		}
 	}
 
 	private static void assertFileContentsEqual(File actFile, String string)
 			throws IOException {
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		FileInputStream fis = null;
 		byte[] buffer = new byte[100];
-		try {
-			fis = new FileInputStream(actFile);
+		try (InputStream fis = Files.newInputStream(actFile.toPath())) {
 			int read = fis.read(buffer);
 			while (read > 0) {
 				bos.write(buffer, 0, read);
@@ -420,9 +414,6 @@ public class PullCommandWithRebaseTest extends RepositoryTestCase {
 			}
 			String content = new String(bos.toByteArray(), "UTF-8");
 			assertEquals(string, content);
-		} finally {
-			if (fis != null)
-				fis.close();
 		}
 	}
 }

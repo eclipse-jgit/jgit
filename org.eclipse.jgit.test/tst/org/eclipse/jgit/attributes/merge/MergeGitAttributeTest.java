@@ -50,7 +50,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -313,7 +312,7 @@ public class MergeGitAttributeTest extends RepositoryTestCase {
 			WrongRepositoryStateException, NoMessageException, GitAPIException {
 
 		RevCommit disableCheckedCommit;
-		FileInputStream mergeResultFile = null;
+		InputStream mergeResultFile = null;
 		// Set up a git with conflict commits on images
 		try (Git git = new Git(db)) {
 			// First commit
@@ -352,9 +351,8 @@ public class MergeGitAttributeTest extends RepositoryTestCase {
 			assertEquals(MergeStatus.CONFLICTING, mergeResult.getMergeStatus());
 
 			// Check that the image was not modified (no conflict marker added)
-			mergeResultFile = new FileInputStream(
-					db.getWorkTree().toPath().resolve(ENABLED_CHECKED_GIF)
-							.toFile());
+			mergeResultFile = Files.newInputStream(
+					db.getWorkTree().toPath().resolve(ENABLED_CHECKED_GIF));
 			assertTrue(contentEquals(
 					getClass().getResourceAsStream(ENABLED_CHECKED_GIF),
 					mergeResultFile));
@@ -373,7 +371,7 @@ public class MergeGitAttributeTest extends RepositoryTestCase {
 			WrongRepositoryStateException, NoMessageException, GitAPIException {
 
 		RevCommit disableCheckedCommit;
-		FileInputStream mergeResultFile = null;
+		InputStream mergeResultFile = null;
 		// Set up a git whith conflict commits on images
 		try (Git git = new Git(db)) {
 			// First commit
@@ -412,8 +410,8 @@ public class MergeGitAttributeTest extends RepositoryTestCase {
 			assertEquals(MergeStatus.CONFLICTING, mergeResult.getMergeStatus());
 
 			// Check that the image was not modified (not conflict marker added)
-			mergeResultFile = new FileInputStream(db.getWorkTree().toPath()
-					.resolve(ENABLED_CHECKED_GIF).toFile());
+			mergeResultFile = Files.newInputStream(
+					db.getWorkTree().toPath().resolve(ENABLED_CHECKED_GIF));
 			assertTrue(contentEquals(
 					getClass().getResourceAsStream(ENABLED_CHECKED_GIF),
 					mergeResultFile));
@@ -432,7 +430,7 @@ public class MergeGitAttributeTest extends RepositoryTestCase {
 			NoMessageException, GitAPIException {
 
 		RevCommit disableCheckedCommit;
-		FileInputStream mergeResultFile = null;
+		InputStream mergeResultFile = null;
 		// Set up a git whith conflict commits on images
 		try (Git git = new Git(db)) {
 			// First commit
@@ -471,8 +469,8 @@ public class MergeGitAttributeTest extends RepositoryTestCase {
 			assertEquals(MergeStatus.CONFLICTING, mergeResult.getMergeStatus());
 
 			// Check that the image was not modified (not conflict marker added)
-			mergeResultFile = new FileInputStream(db.getWorkTree().toPath()
-					.resolve(ENABLED_CHECKED_GIF).toFile());
+			mergeResultFile = Files.newInputStream(
+					db.getWorkTree().toPath().resolve(ENABLED_CHECKED_GIF));
 			assertFalse(contentEquals(
 					getClass().getResourceAsStream(ENABLED_CHECKED_GIF),
 					mergeResultFile));

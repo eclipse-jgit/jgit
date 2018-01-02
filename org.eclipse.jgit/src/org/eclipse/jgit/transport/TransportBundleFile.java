@@ -47,9 +47,10 @@
 package org.eclipse.jgit.transport;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -144,9 +145,11 @@ class TransportBundleFile extends Transport implements TransportBundle {
 			TransportException {
 		final InputStream src;
 		try {
-			src = new FileInputStream(bundle);
+			src = Files.newInputStream(bundle.toPath());
 		} catch (FileNotFoundException err) {
 			throw new TransportException(uri, JGitText.get().notFound);
+		} catch (IOException e) {
+			throw new TransportException(e.getMessage(), e);
 		}
 		return new BundleFetchConnection(this, src);
 	}

@@ -49,12 +49,13 @@ package org.eclipse.jgit.junit;
 import static org.junit.Assert.assertEquals;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.Reader;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
 
@@ -93,20 +94,13 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 */
 	protected static void copyFile(final File src, final File dst)
 			throws IOException {
-		final FileInputStream fis = new FileInputStream(src);
-		try {
-			final FileOutputStream fos = new FileOutputStream(dst);
-			try {
-				final byte[] buf = new byte[4096];
-				int r;
-				while ((r = fis.read(buf)) > 0) {
-					fos.write(buf, 0, r);
-				}
-			} finally {
-				fos.close();
+		try (InputStream fis = Files.newInputStream(src.toPath());
+				OutputStream fos = Files.newOutputStream(dst.toPath())) {
+			final byte[] buf = new byte[4096];
+			int r;
+			while ((r = fis.read(buf)) > 0) {
+				fos.write(buf, 0, r);
 			}
-		} finally {
-			fis.close();
 		}
 	}
 
@@ -197,14 +191,12 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 */
 	protected static void checkFile(File f, final String checkData)
 			throws IOException {
-		Reader r = new InputStreamReader(new FileInputStream(f), "UTF-8");
-		try {
+		try (Reader r = new InputStreamReader(Files.newInputStream(f.toPath()),
+				"UTF-8")) {
 			char[] data = new char[checkData.length()];
 			if (checkData.length() != r.read(data))
 				throw new IOException("Internal error reading file data from "+f);
 			assertEquals(checkData, new String(data));
-		} finally {
-			r.close();
 		}
 	}
 
@@ -292,8 +284,8 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 				dce.setFileMode(treeItr.getEntryFileMode());
 				dce.setLastModified(treeItr.getEntryLastModified());
 				dce.setLength((int) len);
-				FileInputStream in = new FileInputStream(
-						treeItr.getEntryFile());
+				InputStream in = Files
+						.newInputStream(treeItr.getEntryFile().toPath());
 				dce.setObjectId(inserter.insert(Constants.OBJ_BLOB, len, in));
 				in.close();
 				builder.add(dce);
@@ -379,7 +371,7 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 			while (actTime <= startTime) {
 				Thread.sleep(sleepTime);
 				sleepTime *= 2;
-				FileOutputStream fos = new FileOutputStream(tmp);
+				OutputStream fos = Files.newOutputStream(tmp.toPath());
 				fos.close();
 				actTime = fs.lastModified(tmp);
 			}

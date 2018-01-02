@@ -51,10 +51,10 @@ package org.eclipse.jgit.lib;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
 import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Collections;
@@ -1963,11 +1963,8 @@ public abstract class Repository implements AutoCloseable {
 
 	private void writeCommitMsg(File msgFile, String msg) throws IOException {
 		if (msg != null) {
-			FileOutputStream fos = new FileOutputStream(msgFile);
-			try {
+			try (OutputStream fos = Files.newOutputStream(msgFile.toPath())) {
 				fos.write(msg.getBytes(Constants.CHARACTER_ENCODING));
-			} finally {
-				fos.close();
 			}
 		} else {
 			FileUtils.delete(msgFile, FileUtils.SKIP_MISSING);
@@ -2011,7 +2008,7 @@ public abstract class Repository implements AutoCloseable {
 		File headsFile = new File(getDirectory(), filename);
 		if (heads != null) {
 			try (OutputStream bos = new BufferedOutputStream(
-					new FileOutputStream(headsFile))) {
+					Files.newOutputStream(headsFile.toPath()))) {
 				for (ObjectId id : heads) {
 					id.copyTo(bos);
 					bos.write('\n');

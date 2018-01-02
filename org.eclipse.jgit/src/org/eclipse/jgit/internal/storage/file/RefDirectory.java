@@ -60,7 +60,6 @@ import static org.eclipse.jgit.lib.Ref.Storage.PACKED;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -942,7 +941,8 @@ public class RefDirectory extends RefDatabase {
 			final MessageDigest digest = Constants.newMessageDigest();
 			try {
 				br = new BufferedReader(new InputStreamReader(
-						new DigestInputStream(new FileInputStream(packedRefsFile),
+						new DigestInputStream(
+								Files.newInputStream(packedRefsFile.toPath()),
 								digest), CHARSET));
 			} catch (FileNotFoundException noPackedRefs) {
 				if (packedRefsFile.exists()) {

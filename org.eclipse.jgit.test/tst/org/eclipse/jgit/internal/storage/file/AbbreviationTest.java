@@ -53,9 +53,9 @@ import static org.junit.Assert.fail;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -183,11 +183,11 @@ public class AbbreviationTest extends LocalDiskRepositoryTestCase {
 		File packFile = new File(packDir, packName + ".pack");
 		FileUtils.mkdir(packDir, true);
 		try (OutputStream dst = new BufferedOutputStream(
-				new FileOutputStream(idxFile))) {
+				Files.newOutputStream(idxFile.toPath()))) {
 			PackIndexWriter writer = new PackIndexWriterV2(dst);
 			writer.write(objects, new byte[OBJECT_ID_LENGTH]);
 		}
-		new FileOutputStream(packFile).close();
+		Files.newOutputStream(packFile.toPath()).close();
 
 		assertEquals(id.abbreviate(20), reader.abbreviate(id, 2));
 

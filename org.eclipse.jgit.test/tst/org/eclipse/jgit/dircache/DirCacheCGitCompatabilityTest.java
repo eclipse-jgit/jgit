@@ -53,8 +53,8 @@ import static org.junit.Assert.fail;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -235,7 +235,8 @@ public class DirCacheCGitCompatabilityTest extends LocalDiskRepositoryTestCase {
 	private static Map<String, CGitIndexRecord> readLsFiles() throws Exception {
 		final LinkedHashMap<String, CGitIndexRecord> r = new LinkedHashMap<>();
 		final BufferedReader br = new BufferedReader(new InputStreamReader(
-				new FileInputStream(pathOf("gitgit.lsfiles")), "UTF-8"));
+				Files.newInputStream(pathOf("gitgit.lsfiles").toPath()),
+				"UTF-8"));
 		try {
 			String line;
 			while ((line = br.readLine()) != null) {
@@ -251,7 +252,8 @@ public class DirCacheCGitCompatabilityTest extends LocalDiskRepositoryTestCase {
 	private static Map<String, CGitLsTreeRecord> readLsTree() throws Exception {
 		final LinkedHashMap<String, CGitLsTreeRecord> r = new LinkedHashMap<>();
 		final BufferedReader br = new BufferedReader(new InputStreamReader(
-				new FileInputStream(pathOf("gitgit.lstree")), "UTF-8"));
+				Files.newInputStream(pathOf("gitgit.lstree").toPath()),
+				"UTF-8"));
 		try {
 			String line;
 			while ((line = br.readLine()) != null) {

@@ -45,9 +45,9 @@ package org.eclipse.jgit.dircache;
 import static org.eclipse.jgit.treewalk.TreeWalk.OperationType.CHECKOUT_OP;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -1399,7 +1399,8 @@ public class DirCacheCheckout {
 			nonNullEolStreamType = EolStreamType.DIRECT;
 		}
 		try (OutputStream channel = EolStreamTypeUtil.wrapOutputStream(
-				new FileOutputStream(tmpFile), nonNullEolStreamType)) {
+				Files.newOutputStream(tmpFile.toPath()),
+				nonNullEolStreamType)) {
 			if (checkoutMetadata.smudgeFilterCommand != null) {
 				if (FilterCommandRegistry
 						.isRegistered(checkoutMetadata.smudgeFilterCommand)) {

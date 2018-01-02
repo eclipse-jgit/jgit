@@ -47,9 +47,9 @@ import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -142,7 +142,8 @@ class RebuildCommitGraph extends TextBuiltin {
 		List<ToRewrite> queue = new ArrayList<>();
 		try (RevWalk rw = new RevWalk(db);
 				final BufferedReader br = new BufferedReader(
-						new InputStreamReader(new FileInputStream(graph),
+						new InputStreamReader(
+								Files.newInputStream(graph.toPath()),
 								Constants.CHARSET))) {
 			String line;
 			while ((line = br.readLine()) != null) {
@@ -282,7 +283,8 @@ class RebuildCommitGraph extends TextBuiltin {
 		final Map<String, Ref> refs = new HashMap<>();
 		try (RevWalk rw = new RevWalk(db);
 				BufferedReader br = new BufferedReader(
-						new InputStreamReader(new FileInputStream(refList),
+						new InputStreamReader(
+								Files.newInputStream(refList.toPath()),
 								Constants.CHARSET))) {
 			String line;
 			while ((line = br.readLine()) != null) {

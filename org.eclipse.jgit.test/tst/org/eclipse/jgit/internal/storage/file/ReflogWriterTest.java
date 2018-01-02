@@ -45,9 +45,10 @@ package org.eclipse.jgit.internal.storage.file;
 import static org.junit.Assert.assertEquals;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -87,11 +88,9 @@ public class ReflogWriterTest extends SampleDataRepositoryTestCase {
 					"oops, cannot create the directory for the test reflog file"
 							+ logfile);
 		}
-		FileInputStream fileInputStream = new FileInputStream(logfile);
-		try {
-			fileInputStream.read(buffer);
-		} finally {
-			fileInputStream.close();
+		try (InputStream in = Files
+				.newInputStream(logfile.toPath())) {
+			in.read(buffer);
 		}
 	}
 }

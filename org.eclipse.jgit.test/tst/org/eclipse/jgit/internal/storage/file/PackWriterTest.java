@@ -54,8 +54,9 @@ import static org.junit.Assert.fail;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -515,11 +516,8 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 
 		// Validate that an index written by PackWriter is the same.
 		final File idx2File = new File(indexFile.getAbsolutePath() + ".2");
-		final FileOutputStream is = new FileOutputStream(idx2File);
-		try {
+		try (OutputStream is = Files.newOutputStream(idx2File.toPath())) {
 			writer.writeIndex(is);
-		} finally {
-			is.close();
 		}
 		final PackIndex idx2 = PackIndex.open(idx2File);
 		assertTrue(idx2 instanceof PackIndexV2);
@@ -715,14 +713,15 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 			String id = pw.computeName().getName();
 			File packdir = repo.getObjectDatabase().getPackDirectory();
 			File packFile = new File(packdir, "pack-" + id + ".pack");
-			FileOutputStream packOS = new FileOutputStream(packFile);
-			pw.writePack(NullProgressMonitor.INSTANCE,
-					NullProgressMonitor.INSTANCE, packOS);
-			packOS.close();
+			try (OutputStream packOS = Files
+					.newOutputStream(packFile.toPath())) {
+				pw.writePack(NullProgressMonitor.INSTANCE,
+						NullProgressMonitor.INSTANCE, packOS);
+			}
 			File idxFile = new File(packdir, "pack-" + id + ".idx");
-			FileOutputStream idxOS = new FileOutputStream(idxFile);
-			pw.writeIndex(idxOS);
-			idxOS.close();
+			try (OutputStream idxOS = Files.newOutputStream(idxFile.toPath())) {
+				pw.writeIndex(idxOS);
+			}
 			return PackIndex.open(idxFile);
 		}
 	}

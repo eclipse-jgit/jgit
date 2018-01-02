@@ -52,10 +52,10 @@ import static org.junit.Assert.fail;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.zip.DeflaterOutputStream;
@@ -150,11 +150,8 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 
 		ObjectLoader ol;
 		{
-			FileInputStream fs = new FileInputStream(path(id));
-			try {
+			try (InputStream fs = Files.newInputStream(path(id).toPath())) {
 				ol = UnpackedObject.open(fs, path(id), id, wc);
-			} finally {
-				fs.close();
 			}
 		}
 
@@ -317,11 +314,8 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 
 		ObjectLoader ol;
 		{
-			FileInputStream fs = new FileInputStream(path(id));
-			try {
+			try (InputStream fs = Files.newInputStream(path(id).toPath())) {
 				ol = UnpackedObject.open(fs, path(id), id, wc);
-			} finally {
-				fs.close();
 			}
 		}
 
@@ -355,11 +349,8 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 
 		ObjectLoader ol;
 		{
-			FileInputStream fs = new FileInputStream(path(id));
-			try {
+			try (InputStream fs = Files.newInputStream(path(id).toPath())) {
 				ol = UnpackedObject.open(fs, path(id), id, wc);
-			} finally {
-				fs.close();
 			}
 		}
 
@@ -390,11 +381,8 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 
 		ObjectLoader ol;
 		{
-			FileInputStream fs = new FileInputStream(path(id));
-			try {
+			try (InputStream fs = Files.newInputStream(path(id).toPath())) {
 				ol = UnpackedObject.open(fs, path(id), id, wc);
-			} finally {
-				fs.close();
 			}
 		}
 
@@ -445,11 +433,8 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 
 		ObjectLoader ol;
 		{
-			FileInputStream fs = new FileInputStream(path(id));
-			try {
+			try (InputStream fs = Files.newInputStream(path(id).toPath())) {
 				ol = UnpackedObject.open(fs, path(id), id, wc);
-			} finally {
-				fs.close();
 			}
 		}
 
@@ -573,11 +558,8 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 	private void write(ObjectId id, byte[] data) throws IOException {
 		File path = path(id);
 		FileUtils.mkdirs(path.getParentFile());
-		FileOutputStream out = new FileOutputStream(path);
-		try {
+		try (OutputStream out = Files.newOutputStream(path.toPath())) {
 			out.write(data);
-		} finally {
-			out.close();
 		}
 	}
 

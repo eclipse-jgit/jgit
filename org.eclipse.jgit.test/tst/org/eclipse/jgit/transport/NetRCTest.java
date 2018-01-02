@@ -46,9 +46,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.nio.file.Files;
 
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.util.FileUtils;
@@ -74,10 +74,10 @@ public class NetRCTest extends RepositoryTestCase {
 	}
 
 	private void config(final String data) throws IOException {
-		final OutputStreamWriter fw = new OutputStreamWriter(
-				new FileOutputStream(configFile), "UTF-8");
-		fw.write(data);
-		fw.close();
+		try (OutputStreamWriter fw = new OutputStreamWriter(
+				Files.newOutputStream(configFile.toPath()), "UTF-8")) {
+			fw.write(data);
+		}
 	}
 
 	@Test

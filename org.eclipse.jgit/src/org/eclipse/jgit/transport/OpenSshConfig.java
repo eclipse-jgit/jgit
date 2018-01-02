@@ -45,10 +45,10 @@ package org.eclipse.jgit.transport;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.ArrayList;
@@ -228,7 +228,7 @@ public class OpenSshConfig implements ConfigRepository {
 		final long mtime = configFile.lastModified();
 		if (mtime != lastModified) {
 			State newState = new State();
-			try (FileInputStream in = new FileInputStream(configFile)) {
+			try (InputStream in = Files.newInputStream(configFile.toPath())) {
 				newState.entries = parse(in);
 			} catch (IOException none) {
 				// Ignore -- we'll set and return an empty state

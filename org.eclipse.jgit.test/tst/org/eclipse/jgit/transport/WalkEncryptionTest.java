@@ -290,7 +290,7 @@ public class WalkEncryptionTest {
 			File file = new File(path);
 			if (file.exists()) {
 				Properties props = new Properties();
-				props.load(new FileInputStream(file));
+				props.load(Files.newInputStream(file.toPath()));
 				if (checkTestProps(props)) {
 					return props;
 				} else {
