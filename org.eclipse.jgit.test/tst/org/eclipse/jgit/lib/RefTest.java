@@ -55,8 +55,9 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
 import java.util.Map;
 import java.util.TreeSet;
 
@@ -253,11 +254,11 @@ public class RefTest extends SampleDataRepositoryTestCase {
 			InterruptedException {
 		Ref ref = db.exactRef("refs/heads/master");
 		assertEquals(Storage.PACKED, ref.getStorage());
-		FileOutputStream os = new FileOutputStream(new File(db.getDirectory(),
-				"refs/heads/master"));
-		os.write(ref.getObjectId().name().getBytes());
-		os.write('\n');
-		os.close();
+		try (OutputStream os = Files.newOutputStream(
+				new File(db.getDirectory(), "refs/heads/master").toPath())) {
+			os.write(ref.getObjectId().name().getBytes());
+			os.write('\n');
+		}
 
 		ref = db.exactRef("refs/heads/master");
 		assertEquals(Storage.LOOSE, ref.getStorage());

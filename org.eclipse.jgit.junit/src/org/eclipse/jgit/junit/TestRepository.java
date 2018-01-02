@@ -49,9 +49,9 @@ import static org.junit.Assert.fail;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.Files;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -913,14 +913,16 @@ public class TestRepository<R extends Repository> {
 
 				pack = nameFor(odb, name, ".pack");
 				try (OutputStream out =
-						new BufferedOutputStream(new FileOutputStream(pack))) {
+						new BufferedOutputStream(
+								Files.newOutputStream(pack.toPath()))) {
 					pw.writePack(m, m, out);
 				}
 				pack.setReadOnly();
 
 				idx = nameFor(odb, name, ".idx");
 				try (OutputStream out =
-						new BufferedOutputStream(new FileOutputStream(idx))) {
+						new BufferedOutputStream(
+								Files.newOutputStream(idx.toPath()))) {
 					pw.writeIndex(out);
 				}
 				idx.setReadOnly();

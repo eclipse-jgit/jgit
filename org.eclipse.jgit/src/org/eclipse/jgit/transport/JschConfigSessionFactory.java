@@ -50,13 +50,14 @@
 package org.eclipse.jgit.transport;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.ConnectException;
 import java.net.UnknownHostException;
+import java.nio.file.Files;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
@@ -346,13 +347,8 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 		if (home == null)
 			return;
 		final File known_hosts = new File(new File(home, ".ssh"), "known_hosts"); //$NON-NLS-1$ //$NON-NLS-2$
-		try {
-			final FileInputStream in = new FileInputStream(known_hosts);
-			try {
+		try (InputStream in = Files.newInputStream(known_hosts.toPath())) {
 				sch.setKnownHosts(in);
-			} finally {
-				in.close();
-			}
 		} catch (FileNotFoundException none) {
 			// Oh well. They don't have a known hosts in home.
 		} catch (IOException err) {

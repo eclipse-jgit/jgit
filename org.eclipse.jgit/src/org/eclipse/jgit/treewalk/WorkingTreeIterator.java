@@ -48,7 +48,6 @@ package org.eclipse.jgit.treewalk;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -56,6 +55,7 @@ import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.CharsetEncoder;
+import java.nio.file.Files;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Collections;
@@ -1312,11 +1312,8 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		private static void loadRulesFromFile(IgnoreNode r, File exclude)
 				throws FileNotFoundException, IOException {
 			if (FS.DETECTED.exists(exclude)) {
-				FileInputStream in = new FileInputStream(exclude);
-				try {
+				try (InputStream in = Files.newInputStream(exclude.toPath())) {
 					r.parse(in);
-				} finally {
-					in.close();
 				}
 			}
 		}

@@ -48,10 +48,10 @@ package org.eclipse.jgit.internal.storage.file;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
 import java.util.zip.InflaterInputStream;
@@ -397,7 +397,7 @@ public class UnpackedObject {
 				IOException {
 			InputStream in;
 			try {
-				in = buffer(new FileInputStream(path));
+				in = buffer(Files.newInputStream(path.toPath()));
 			} catch (FileNotFoundException gone) {
 				if (path.exists()) {
 					throw gone;

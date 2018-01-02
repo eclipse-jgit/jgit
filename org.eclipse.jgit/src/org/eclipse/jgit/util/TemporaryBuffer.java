@@ -46,11 +46,10 @@ package org.eclipse.jgit.util;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
 import java.util.ArrayList;
 
 import org.eclipse.jgit.internal.JGitText;
@@ -446,7 +445,8 @@ public abstract class TemporaryBuffer extends OutputStream {
 		@Override
 		protected OutputStream overflow() throws IOException {
 			onDiskFile = File.createTempFile("jgit_", ".buf", directory); //$NON-NLS-1$ //$NON-NLS-2$
-			return new BufferedOutputStream(new FileOutputStream(onDiskFile));
+			return new BufferedOutputStream(
+					Files.newOutputStream(onDiskFile.toPath()));
 		}
 
 		@Override
@@ -467,11 +467,8 @@ public abstract class TemporaryBuffer extends OutputStream {
 			if (Integer.MAX_VALUE < len)
 				throw new OutOfMemoryError(JGitText.get().lengthExceedsMaximumArraySize);
 			final byte[] out = new byte[(int) len];
-			final FileInputStream in = new FileInputStream(onDiskFile);
-			try {
+			try (InputStream in = Files.newInputStream(onDiskFile.toPath())) {
 				IO.readFully(in, out, 0, (int) len);
-			} finally {
-				in.close();
 			}
 			return out;
 		}
@@ -485,16 +482,13 @@ public abstract class TemporaryBuffer extends OutputStream {
 			}
 			if (pm == null)
 				pm = NullProgressMonitor.INSTANCE;
-			final FileInputStream in = new FileInputStream(onDiskFile);
-			try {
+			try (InputStream in = Files.newInputStream(onDiskFile.toPath())) {
 				int cnt;
 				final byte[] buf = new byte[Block.SZ];
 				while ((cnt = in.read(buf)) >= 0) {
 					os.write(buf, 0, cnt);
 					pm.update(cnt / 1024);
 				}
-			} finally {
-				in.close();
 			}
 		}
 
@@ -502,7 +496,7 @@ public abstract class TemporaryBuffer extends OutputStream {
 		public InputStream openInputStream() throws IOException {
 			if (onDiskFile == null)
 				return super.openInputStream();
-			return new FileInputStream(onDiskFile);
+			return Files.newInputStream(onDiskFile.toPath());
 		}
 
 		@Override

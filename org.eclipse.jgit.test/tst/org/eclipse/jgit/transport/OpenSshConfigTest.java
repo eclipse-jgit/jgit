@@ -53,9 +53,9 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.nio.file.Files;
 
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.Constants;
@@ -93,7 +93,7 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 		long lastMtime = configFile.lastModified();
 		do {
 			try (final OutputStreamWriter fw = new OutputStreamWriter(
-					new FileOutputStream(configFile), "UTF-8")) {
+					Files.newOutputStream(configFile.toPath()), "UTF-8")) {
 				fw.write(data);
 			}
 		} while (lastMtime == configFile.lastModified());

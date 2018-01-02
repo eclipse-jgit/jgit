@@ -48,9 +48,10 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.nio.file.Files;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.dircache.DirCache;
@@ -817,7 +818,7 @@ public class RecursiveMergerTest extends RepositoryTestCase {
 
 	void modifyWorktree(WorktreeState worktreeState, String path, String other)
 			throws Exception {
-		FileOutputStream fos = null;
+		OutputStream fos = null;
 		ObjectId bloblId;
 
 		try {
@@ -831,12 +832,14 @@ public class RecursiveMergerTest extends RepositoryTestCase {
 				break;
 			case SameAsHead:
 				bloblId = contentId(Constants.HEAD, path);
-				fos = new FileOutputStream(new File(db.getWorkTree(), path));
+				fos = Files.newOutputStream(
+						new File(db.getWorkTree(), path).toPath());
 				db.newObjectReader().open(bloblId).copyTo(fos);
 				break;
 			case SameAsOther:
 				bloblId = contentId(other, path);
-				fos = new FileOutputStream(new File(db.getWorkTree(), path));
+				fos = Files.newOutputStream(
+						new File(db.getWorkTree(), path).toPath());
 				db.newObjectReader().open(bloblId).copyTo(fos);
 				break;
 			case Bare:

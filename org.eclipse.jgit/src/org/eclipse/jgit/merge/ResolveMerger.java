@@ -53,12 +53,11 @@ import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -890,11 +889,8 @@ public class ResolveMerger extends ThreeWayMerger {
 			long len = mergedFile.length();
 			dce.setLastModified(FS.DETECTED.lastModified(mergedFile));
 			dce.setLength((int) len);
-			InputStream is = new FileInputStream(mergedFile);
-			try {
+			try (InputStream is = Files.newInputStream(mergedFile.toPath())) {
 				dce.setObjectId(getObjectInserter().insert(OBJ_BLOB, len, is));
-			} finally {
-				is.close();
 			}
 		} else
 			dce.setObjectId(insertMergeResult(result));
@@ -919,7 +915,7 @@ public class ResolveMerger extends ThreeWayMerger {
 		if (!fs.exists(parentFolder))
 			parentFolder.mkdirs();
 		try (OutputStream os = new BufferedOutputStream(
-				new FileOutputStream(of))) {
+				Files.newOutputStream(of.toPath()))) {
 			new MergeFormatter().formatMerge(os, result,
 					Arrays.asList(commitNames), CHARACTER_ENCODING);
 		}

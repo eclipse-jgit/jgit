@@ -47,7 +47,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -57,6 +56,7 @@ import java.net.Proxy;
 import java.net.ProxySelector;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.file.Files;
 import java.security.DigestOutputStream;
 import java.security.GeneralSecurityException;
 import java.security.InvalidKeyException;
@@ -655,11 +655,8 @@ public class AmazonS3 {
 	static Properties properties(final File authFile)
 			throws FileNotFoundException, IOException {
 		final Properties p = new Properties();
-		final FileInputStream in = new FileInputStream(authFile);
-		try {
+		try (InputStream in = Files.newInputStream(authFile.toPath())) {
 			p.load(in);
-		} finally {
-			in.close();
 		}
 		return p;
 	}

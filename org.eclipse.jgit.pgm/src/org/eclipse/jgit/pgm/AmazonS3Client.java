@@ -48,12 +48,12 @@ import static java.lang.Integer.valueOf;
 
 import java.io.EOFException;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLConnection;
+import java.nio.file.Files;
 import java.text.MessageFormat;
 import java.util.Properties;
 
@@ -128,15 +128,10 @@ class AmazonS3Client extends TextBuiltin {
 	}
 
 	private Properties properties() {
-		try {
-			final InputStream in = new FileInputStream(propertyFile);
-			try {
-				final Properties p = new Properties();
-				p.load(in);
-				return p;
-			} finally {
-				in.close();
-			}
+		try (InputStream in = Files.newInputStream(propertyFile.toPath())) {
+			final Properties p = new Properties();
+			p.load(in);
+			return p;
 		} catch (FileNotFoundException e) {
 			throw die(MessageFormat.format(CLIText.get().noSuchFile, propertyFile), e);
 		} catch (IOException e) {

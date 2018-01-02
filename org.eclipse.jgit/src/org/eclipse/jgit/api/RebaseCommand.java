@@ -48,6 +48,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -1731,12 +1733,9 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 				String content)
 				throws IOException {
 			File file = new File(parentDir, name);
-			FileOutputStream fos = new FileOutputStream(file);
-			try {
+			try (OutputStream fos = Files.newOutputStream(file.toPath())) {
 				fos.write(content.getBytes(Constants.CHARACTER_ENCODING));
 				fos.write('\n');
-			} finally {
-				fos.close();
 			}
 		}
 

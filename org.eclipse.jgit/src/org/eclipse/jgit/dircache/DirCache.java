@@ -49,12 +49,12 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.EOFException;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
 import java.security.DigestOutputStream;
 import java.security.MessageDigest;
 import java.text.MessageFormat;
@@ -429,18 +429,10 @@ public class DirCache {
 		if (!liveFile.exists())
 			clear();
 		else if (snapshot == null || snapshot.isModified(liveFile)) {
-			try {
-				final FileInputStream inStream = new FileInputStream(liveFile);
-				try {
-					clear();
-					readFrom(inStream);
-				} finally {
-					try {
-						inStream.close();
-					} catch (IOException err2) {
-						// Ignore any close failures.
-					}
-				}
+			try (final InputStream inStream = Files
+					.newInputStream(liveFile.toPath())) {
+				clear();
+				readFrom(inStream);
 			} catch (FileNotFoundException fnfe) {
 				if (liveFile.exists()) {
 					// Panic: the index file exists but we can't read it

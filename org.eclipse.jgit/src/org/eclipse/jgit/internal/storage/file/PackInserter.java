@@ -58,6 +58,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.RandomAccessFile;
 import java.nio.channels.Channels;
+import java.nio.file.Files;
 import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Collections;
@@ -303,7 +304,7 @@ public class PackInserter extends ObjectInserter {
 
 	private static void writePackIndex(File idx, byte[] packHash,
 			List<PackedObjectInfo> list) throws IOException {
-		try (OutputStream os = new FileOutputStream(idx)) {
+		try (OutputStream os = Files.newOutputStream(idx.toPath())) {
 			PackIndexWriter w = PackIndexWriter.createVersion(os, INDEX_VERSION);
 			w.write(list, packHash);
 		}

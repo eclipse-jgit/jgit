@@ -43,10 +43,10 @@
 package org.eclipse.jgit.api;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -257,7 +257,7 @@ public class BlameCommand extends GitCommand<BlameResult> {
 			break;
 		case TRUE:
 			try (AutoLFInputStream in = new AutoLFInputStream(
-					new FileInputStream(inTree), true)) {
+					Files.newInputStream(inTree.toPath()), true)) {
 				// Canonicalization should lead to same or shorter length
 				// (CRLF to LF), so the file size on disk is an upper size bound
 				rawText = new RawText(toByteArray(in, (int) inTree.length()));

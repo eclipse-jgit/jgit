@@ -49,9 +49,10 @@ package org.eclipse.jgit.internal.storage.file;
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.HashSet;
@@ -620,11 +621,8 @@ public class FileRepository extends Repository {
 		static void loadRulesFromFile(AttributesNode r, File attrs)
 				throws FileNotFoundException, IOException {
 			if (attrs.exists()) {
-				FileInputStream in = new FileInputStream(attrs);
-				try {
+				try (InputStream in = Files.newInputStream(attrs.toPath())) {
 					r.parse(in);
-				} finally {
-					in.close();
 				}
 			}
 		}

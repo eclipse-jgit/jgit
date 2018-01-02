@@ -50,8 +50,9 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.Arrays;
 
 import org.eclipse.jgit.api.Git;
@@ -990,8 +991,8 @@ public class ResolveMergerTest extends RepositoryTestCase {
 		git.commit().setMessage("added c.txt").call();
 
 		// Get a handle to the the file so on windows it can't be deleted.
-		FileInputStream fis = new FileInputStream(new File(db.getWorkTree(),
-				"b.txt"));
+		InputStream fis = Files
+				.newInputStream(new File(db.getWorkTree(), "b.txt").toPath());
 		MergeResult mergeRes = git.merge().setStrategy(strategy)
 				.include(masterCommit).call();
 		if (mergeRes.getMergeStatus().equals(MergeStatus.FAILED)) {

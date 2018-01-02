@@ -46,8 +46,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
 
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.junit.Test;
@@ -66,12 +67,9 @@ public class SquashCommitMsgTest extends RepositoryTestCase {
 		db.writeSquashCommitMsg(null);
 		assertEquals(db.readSquashCommitMsg(), null);
 		assertFalse(new File(db.getDirectory(), Constants.SQUASH_MSG).exists());
-		FileOutputStream fos = new FileOutputStream(new File(db.getDirectory(),
-				Constants.SQUASH_MSG));
-		try {
+		try (OutputStream fos = Files.newOutputStream(
+				new File(db.getDirectory(), Constants.SQUASH_MSG).toPath())) {
 			fos.write(squashMsg.getBytes(Constants.CHARACTER_ENCODING));
-		} finally {
-			fos.close();
 		}
 		assertEquals(db.readSquashCommitMsg(), squashMsg);
 	}
