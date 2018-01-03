@@ -1617,6 +1617,10 @@ public class UploadPack {
 			if (options.contains(OPTION_INCLUDE_TAG) && refs != null) {
 				for (Ref ref : refs.values()) {
 					ObjectId objectId = ref.getObjectId();
+					if (objectId == null) {
+						// skip unborn branch
+						continue;
+					}
 
 					// If the object was already requested, skip it.
 					if (wantAll.isEmpty()) {
@@ -1632,12 +1636,13 @@ public class UploadPack {
 						ref = db.peel(ref);
 
 					ObjectId peeledId = ref.getPeeledObjectId();
-					if (peeledId == null)
+					objectId = ref.getObjectId();
+					if (peeledId == null || objectId == null)
 						continue;
 
-					objectId = ref.getObjectId();
-					if (pw.willInclude(peeledId) && !pw.willInclude(objectId))
+					if (pw.willInclude(peeledId) && !pw.willInclude(objectId)) {
 						pw.addObject(rw.parseAny(objectId));
+					}
 				}
 			}
 

@@ -1104,7 +1104,8 @@ public abstract class Repository implements AutoCloseable {
 	}
 
 	/**
-	 * Get mutable map of all known refs
+	 * Get mutable map of all known refs, including symrefs like HEAD that may
+	 * not point to any object yet.
 	 *
 	 * @return mutable map of all known refs (heads, tags, remotes).
 	 */
