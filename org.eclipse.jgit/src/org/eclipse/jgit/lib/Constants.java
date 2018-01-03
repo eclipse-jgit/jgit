@@ -681,6 +681,13 @@ public final class Constants {
 	public static final ObjectId EMPTY_BLOB_ID = ObjectId
 			.fromString("e69de29bb2d1d6434b8b29ae775ad8c2e48c5391");
 
+	/**
+	 * Sparse-checkout-file
+	 *
+	 * @since 4.10
+	 */
+	public static final String INFO_SPARSE_CHECKOUT = "info/sparse-checkout";
+
 	private Constants() {
 		// Hide the default constructor
 	}
