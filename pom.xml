@@ -193,6 +193,7 @@
 
     <jgit-last-release-version>4.9.2.201712150930-r</jgit-last-release-version>
     <jsch-version>0.1.54</jsch-version>
+    <jzlib-version>1.1.1</jzlib-version>
     <javaewah-version>1.1.6</javaewah-version>
     <junit-version>4.12</junit-version>
     <test-fork-count>1C</test-fork-count>
@@ -621,6 +622,12 @@
         <groupId>com.jcraft</groupId>
         <artifactId>jsch</artifactId>
         <version>${jsch-version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.jcraft</groupId>
+        <artifactId>jzlib</artifactId>
+        <version>${jzlib-version}</version>
       </dependency>
 
       <dependency>

@@ -41,4 +41,6 @@ location "http://download.eclipse.org/tools/orbit/downloads/drops/R2017091920193
 	org.slf4j.api.source [1.7.2.v20121108-1250,1.7.2.v20121108-1250]
 	org.slf4j.impl.log4j12 [1.7.2.v20131105-2200,1.7.2.v20131105-2200]
 	org.slf4j.impl.log4j12.source [1.7.2.v20131105-2200,1.7.2.v20131105-2200]
+	com.jcraft.jzlib [1.1.1.v201205102305,1.1.1.v201205102305]
+	com.jcraft.jzlib.source [1.1.1.v201205102305,1.1.1.v201205102305]
 }

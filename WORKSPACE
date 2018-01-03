@@ -16,6 +16,12 @@ maven_jar(
 )
 
 maven_jar(
+    name = "jzlib",
+    artifact = "com.jcraft:jzlib:1.1.1",
+    sha1 = "a1551373315ffc2f96130a0e5704f74e151777ba",
+)
+
+maven_jar(
     name = "javaewah",
     artifact = "com.googlecode.javaewah:JavaEWAH:1.1.6",
     sha1 = "94ad16d728b374d65bd897625f3fbb3da223a2b6",
