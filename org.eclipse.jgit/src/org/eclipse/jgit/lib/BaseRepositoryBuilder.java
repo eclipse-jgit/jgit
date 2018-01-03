@@ -134,6 +134,8 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 
 	private File indexFile;
 
+	private File sparseCheckoutFile;
+
 	private File workTree;
 
 	/** Directories limiting the search for a Git repository. */
@@ -682,6 +684,9 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 	protected void setupInternals() throws IOException {
 		if (getObjectDirectory() == null && getGitDir() != null)
 			setObjectDirectory(safeFS().resolve(getGitDir(), "objects")); //$NON-NLS-1$
+
+		sparseCheckoutFile = safeFS().resolve(getGitDir(),
+				Constants.INFO_SPARSE_CHECKOUT);
 	}
 
 	/**
@@ -779,5 +784,13 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 	@SuppressWarnings("unchecked")
 	protected final B self() {
 		return (B) this;
+	}
+
+	/**
+	 * @return the sparse-checkout file location, or null if not set.
+	 * @since 4.10
+	 */
+	public File getSparseCheckoutFile() {
+		return sparseCheckoutFile;
 	}
 }
