@@ -49,7 +49,11 @@ import static org.junit.Assert.fail;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.dircache.DirCacheBuilder;
+import org.eclipse.jgit.dircache.DirCacheEntry;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.CLIRepositoryTestCase;
+import org.eclipse.jgit.lib.Repository;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -110,5 +114,33 @@ public class AddTest extends CLIRepositoryTestCase {
 		DirCache cache = db.readDirCache();
 		assertNotNull(cache.getEntry("greeting"));
 		assertEquals(1, cache.getEntryCount());
+	}
+
+	@Test
+	public void testSkipWorktree() throws Exception {
+		TestRepository<Repository> db_t = new TestRepository<>(db);
+		DirCacheEntry e;
+		DirCacheBuilder dcBuilder = db.lockDirCache().builder();
+
+		writeTrashFile("a", "a-content");
+		e = db_t.file("a", db_t.blob("a-content"));
+		dcBuilder.add(e);
+
+		writeTrashFile("b", "b-content");
+		e = db_t.file("b", db_t.blob("b-content"));
+		e.setSkipWorkTree(true);
+		dcBuilder.add(e);
+
+		writeTrashFile("c", "c-content");
+		e = db_t.file("c", db_t.blob("c-content"));
+		e.setSkipWorkTree(false);
+		dcBuilder.add(e);
+
+		dcBuilder.commit();
+
+		String result = toString(execute("git status"));
+
+		assertEquals(toString("On branch master", "Changes to be committed:",
+				"new file:   a", "new file:   c"), result);
 	}
 }
