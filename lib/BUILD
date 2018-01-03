@@ -114,6 +114,15 @@ java_library(
 )
 
 java_library(
+    name = "jzlib",
+    visibility = [
+        "//org.eclipse.jgit:__pkg__",
+        "//org.eclipse.jgit.test:__pkg__",
+    ],
+    exports = ["@jzlib//jar"],
+)
+
+java_library(
     name = "junit",
     testonly = 1,
     visibility = ["//visibility:public"],

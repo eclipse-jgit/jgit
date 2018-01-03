@@ -20,6 +20,7 @@ java_library(
         ":insecure_cipher_factory",
         "//lib:javaewah",
         "//lib:jsch",
+        "//lib:jzlib",
         "//lib:slf4j-api",
     ],
 )
