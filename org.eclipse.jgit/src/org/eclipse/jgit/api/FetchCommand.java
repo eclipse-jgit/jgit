@@ -171,38 +171,42 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 			}
 			walk.setTree(revWalk.parseTree(fetchHead));
 			while (walk.next()) {
-				Repository submoduleRepo = walk.getRepository();
+				try (Repository submoduleRepo = walk.getRepository()) {
 
-				// Skip submodules that don't exist locally (have not been
-				// cloned), are not registered in the .gitmodules file, or
-				// not registered in the parent repository's config.
-				if (submoduleRepo == null || walk.getModulesPath() == null
-						|| walk.getConfigUrl() == null) {
-					continue;
-				}
-
-				FetchRecurseSubmodulesMode recurseMode = getRecurseMode(
-						walk.getPath());
-
-				// When the fetch mode is "yes" we always fetch. When the mode
-				// is "on demand", we only fetch if the submodule's revision was
-				// updated to an object that is not currently present in the
-				// submodule.
-				if ((recurseMode == FetchRecurseSubmodulesMode.ON_DEMAND
-						&& !submoduleRepo.hasObject(walk.getObjectId()))
-						|| recurseMode == FetchRecurseSubmodulesMode.YES) {
-					FetchCommand f = new FetchCommand(submoduleRepo)
-							.setProgressMonitor(monitor).setTagOpt(tagOption)
-							.setCheckFetchedObjects(checkFetchedObjects)
-							.setRemoveDeletedRefs(isRemoveDeletedRefs())
-							.setThin(thin).setRefSpecs(refSpecs)
-							.setDryRun(dryRun)
-							.setRecurseSubmodules(recurseMode);
-					configure(f);
-					if (callback != null) {
-						callback.fetchingSubmodule(walk.getPath());
+					// Skip submodules that don't exist locally (have not been
+					// cloned), are not registered in the .gitmodules file, or
+					// not registered in the parent repository's config.
+					if (submoduleRepo == null || walk.getModulesPath() == null
+							|| walk.getConfigUrl() == null) {
+						continue;
 					}
-					results.addSubmodule(walk.getPath(), f.call());
+
+					FetchRecurseSubmodulesMode recurseMode = getRecurseMode(
+							walk.getPath());
+
+					// When the fetch mode is "yes" we always fetch. When the
+					// mode
+					// is "on demand", we only fetch if the submodule's revision
+					// was
+					// updated to an object that is not currently present in the
+					// submodule.
+					if ((recurseMode == FetchRecurseSubmodulesMode.ON_DEMAND
+							&& !submoduleRepo.hasObject(walk.getObjectId()))
+							|| recurseMode == FetchRecurseSubmodulesMode.YES) {
+						FetchCommand f = new FetchCommand(submoduleRepo)
+								.setProgressMonitor(monitor)
+								.setTagOpt(tagOption)
+								.setCheckFetchedObjects(checkFetchedObjects)
+								.setRemoveDeletedRefs(isRemoveDeletedRefs())
+								.setThin(thin).setRefSpecs(refSpecs)
+								.setDryRun(dryRun)
+								.setRecurseSubmodules(recurseMode);
+						configure(f);
+						if (callback != null) {
+							callback.fetchingSubmodule(walk.getPath());
+						}
+						results.addSubmodule(walk.getPath(), f.call());
+					}
 				}
 			}
 		} catch (IOException e) {
