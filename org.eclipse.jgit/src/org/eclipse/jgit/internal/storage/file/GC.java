@@ -967,19 +967,19 @@ public class GC {
 	private void deleteTempPacksIdx() {
 		Path packDir = repo.getObjectDatabase().getPackDirectory().toPath();
 		Instant threshold = Instant.now().minus(1, ChronoUnit.DAYS);
-		try {
-			Files.newDirectoryStream(packDir, "gc_*_tmp") //$NON-NLS-1$
-					.forEach(t -> {
-						try {
-							Instant lastModified = Files.getLastModifiedTime(t)
-									.toInstant();
-							if (lastModified.isBefore(threshold)) {
-								Files.deleteIfExists(t);
-							}
-						} catch (IOException e) {
-							LOG.error(e.getMessage(), e);
-						}
-					});
+		try (DirectoryStream<Path> stream =
+				Files.newDirectoryStream(packDir, "gc_*_tmp")) { //$NON-NLS-1$
+			stream.forEach(t -> {
+				try {
+					Instant lastModified = Files.getLastModifiedTime(t)
+							.toInstant();
+					if (lastModified.isBefore(threshold)) {
+						Files.deleteIfExists(t);
+					}
+				} catch (IOException e) {
+					LOG.error(e.getMessage(), e);
+				}
+			});
 		} catch (IOException e) {
 			LOG.error(e.getMessage(), e);
 		}
