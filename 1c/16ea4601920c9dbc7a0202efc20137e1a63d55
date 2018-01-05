@@ -1,0 +1,8 @@
+Code-Review+1: Hector Oswaldo Caballero <hector.caballero@ericsson.com>
+Verified+1: Hudson CI
+Code-Review+2: Jonathan Nieder <jrn@google.com>
+Submitted-by: Jonathan Nieder <jrn@google.com>
+Submitted-at: Fri, 05 Jan 2018 18:49:11 -0500
+Reviewed-on: https://git.eclipse.org/r/115006
+Project: jgit/jgit
+Branch: refs/heads/master
