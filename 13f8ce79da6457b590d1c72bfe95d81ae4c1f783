@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87929364_bbac0ea9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-01-08T08:52:56Z",
+      "side": 1,
+      "message": "4.11",
+      "range": {
+        "startLine": 358,
+        "startChar": 11,
+        "endLine": 358,
+        "endChar": 15
+      },
+      "revId": "13f8ce79da6457b590d1c72bfe95d81ae4c1f783",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_fbb696f2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-01-08T08:52:56Z",
+      "side": 1,
+      "message": "why is this a TODO and not implemented here ?",
+      "revId": "13f8ce79da6457b590d1c72bfe95d81ae4c1f783",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_1b9b6280",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ResetCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-01-08T08:52:56Z",
+      "side": 1,
+      "message": "why is this a TODO and not implemented here ?",
+      "revId": "13f8ce79da6457b590d1c72bfe95d81ae4c1f783",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_3b981e81",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RevertCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-01-08T08:52:56Z",
+      "side": 1,
+      "message": "why is this a TODO and not implemented here ?",
+      "revId": "13f8ce79da6457b590d1c72bfe95d81ae4c1f783",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_dbb1dafc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-01-08T08:52:56Z",
+      "side": 1,
+      "message": "4.11",
+      "range": {
+        "startLine": 300,
+        "startChar": 11,
+        "endLine": 300,
+        "endChar": 15
+      },
+      "revId": "13f8ce79da6457b590d1c72bfe95d81ae4c1f783",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
