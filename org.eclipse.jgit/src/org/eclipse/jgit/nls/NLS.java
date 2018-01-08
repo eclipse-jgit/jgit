@@ -74,12 +74,7 @@ public class NLS {
 	 */
 	public static final Locale ROOT_LOCALE = new Locale("", "", ""); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
-	private static final InheritableThreadLocal<NLS> local = new InheritableThreadLocal<NLS>() {
-		@Override
-		protected NLS initialValue() {
-			return new NLS(Locale.getDefault());
-		}
-	};
+	private static final InheritableThreadLocal<NLS> local = new InheritableThreadLocal<>();
 
 	/**
 	 * Sets the locale for the calling thread.
@@ -122,7 +117,12 @@ public class NLS {
 	 *                {@link org.eclipse.jgit.errors.TranslationStringMissingException}
 	 */
 	public static <T extends TranslationBundle> T getBundleFor(Class<T> type) {
-		return local.get().get(type);
+		NLS b = local.get();
+		if (b == null) {
+			b = new NLS(Locale.getDefault());
+			local.set(b);
+		}
+		return b.get(type);
 	}
 
 	final private Locale locale;
