@@ -66,6 +66,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.InterruptedIOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.text.MessageFormat;
@@ -78,6 +79,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.stream.Stream;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
@@ -1220,7 +1222,9 @@ public class RefDirectory extends RefDatabase {
 	}
 
 	private boolean hasLooseRef() throws IOException {
-		return Files.walk(refsDir.toPath()).anyMatch(Files::isRegularFile);
+		try (Stream<Path> stream = Files.walk(refsDir.toPath())) {
+			return stream.anyMatch(Files::isRegularFile);
+		}
 	}
 
 	/** If the parent should fire listeners, fires them. */
