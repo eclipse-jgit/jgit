@@ -95,6 +95,8 @@ import org.junit.Test;
 public class PackInserterTest extends RepositoryTestCase {
 	private WindowCacheConfig origWindowCacheConfig;
 
+	private static final Random random = new Random(0);
+
 	@Before
 	public void setWindowCacheConfig() {
 		origWindowCacheConfig = new WindowCacheConfig();
@@ -518,7 +520,7 @@ public class PackInserterTest extends RepositoryTestCase {
 
 	private static byte[] newLargeBlob() {
 		byte[] blob = new byte[10240];
-		new Random(0).nextBytes(blob);
+		random.nextBytes(blob);
 		return blob;
 	}
 
