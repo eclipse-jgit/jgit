@@ -67,10 +67,16 @@ public class DfsReaderIoStats {
 		/** Total number of block cache hits. */
 		long blockCacheHit;
 
-		/** Total number of discrete blocks read from pack file(s). */
+		/**
+		 * Total number of discrete blocks actually read from pack file(s), that is,
+		 * block cache misses.
+		 */
 		long readBlock;
 
-		/** Total number of compressed bytes read as block sized units. */
+		/**
+		 * Total number of compressed bytes read during cache misses, as block sized
+		 * units.
+		 */
 		long readBlockBytes;
 
 		/** Total microseconds spent reading {@link #readBlock} blocks. */
@@ -144,7 +150,8 @@ public class DfsReaderIoStats {
 	}
 
 	/**
-	 * Get total number of discrete blocks read from pack file(s).
+	 * Get total number of discrete blocks actually read from pack file(s), that
+	 * is, block cache misses.
 	 *
 	 * @return total number of discrete blocks read from pack file(s).
 	 */
@@ -153,7 +160,8 @@ public class DfsReaderIoStats {
 	}
 
 	/**
-	 * Get total number of compressed bytes read as block sized units.
+	 * Get total number of compressed bytes read during cache misses, as block
+	 * sized units.
 	 *
 	 * @return total number of compressed bytes read as block sized units.
 	 */
@@ -162,7 +170,7 @@ public class DfsReaderIoStats {
 	}
 
 	/**
-	 * Get total microseconds spent reading blocks.
+	 * Get total microseconds spent reading blocks during cache misses.
 	 *
 	 * @return total microseconds spent reading blocks.
 	 */
