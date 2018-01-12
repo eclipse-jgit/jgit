@@ -59,7 +59,9 @@ import java.net.ConnectException;
 import java.net.UnknownHostException;
 import java.text.MessageFormat;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
@@ -67,6 +69,7 @@ import org.eclipse.jgit.util.FS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.jcraft.jsch.ConfigRepository;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
@@ -89,6 +92,14 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 	private static final Logger LOG = LoggerFactory
 			.getLogger(JschConfigSessionFactory.class);
 
+	/**
+	 * We use different Jsch instances for hosts that have an IdentityFile
+	 * configured in ~/.ssh/config. Jsch by default would cache decrypted keys
+	 * only per session, which results in repeated password prompts. Using
+	 * different Jsch instances, we can cache the keys on these instances so
+	 * that they will be re-used for successive sessions, and thus the user is
+	 * prompted for a key password only once while Eclipse runs.
+	 */
 	private final Map<String, JSch> byIdentityFile = new HashMap<>();
 
 	private JSch defaultJSch;
@@ -297,7 +308,8 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 		if (defaultJSch == null) {
 			defaultJSch = createDefaultJSch(fs);
 			if (defaultJSch.getConfigRepository() == null) {
-				defaultJSch.setConfigRepository(config);
+				defaultJSch.setConfigRepository(
+						new JschBugFixingConfigRepository(config));
 			}
 			for (Object name : defaultJSch.getIdentityNames())
 				byIdentityFile.put((String) name, defaultJSch);
@@ -375,6 +387,93 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 				sch.addIdentity(priv.getAbsolutePath());
 			} catch (JSchException e) {
 				// Instead, pretend the key doesn't exist.
+			}
+		}
+	}
+
+	private static class JschBugFixingConfigRepository
+			implements ConfigRepository {
+
+		private final ConfigRepository base;
+
+		public JschBugFixingConfigRepository(ConfigRepository base) {
+			this.base = base;
+		}
+
+		@Override
+		public Config getConfig(String host) {
+			return new JschBugFixingConfig(base.getConfig(host));
+		}
+
+		/**
+		 * A {@link com.jcraft.jsch.ConfigRepository.Config} that transforms
+		 * some values from the config file into the format Jsch 0.1.54 expects.
+		 * This is a work-around for bugs in Jsch.
+		 * <p>
+		 * Additionally, this config hides the IdentityFile config entries from
+		 * Jsch; we manage those ourselves. Otherwise Jsch would cache passwords
+		 * (or rather, decrypted keys) only for a single session, resulting in
+		 * multiple password prompts for user operations that use several Jsch
+		 * sessions.
+		 */
+		private static class JschBugFixingConfig implements Config {
+
+			private static final String[] NO_IDENTITIES = {};
+
+			private final Config real;
+
+			public JschBugFixingConfig(Config delegate) {
+				real = delegate;
+			}
+
+			@Override
+			public String getHostname() {
+				return real.getHostname();
+			}
+
+			@Override
+			public String getUser() {
+				return real.getUser();
+			}
+
+			@Override
+			public int getPort() {
+				return real.getPort();
+			}
+
+			@Override
+			public String getValue(String key) {
+				String k = key.toUpperCase(Locale.ROOT);
+				if ("IDENTITYFILE".equals(k)) { //$NON-NLS-1$
+					return null;
+				}
+				String result = real.getValue(key);
+				if (result != null) {
+					if ("SERVERALIVEINTERVAL".equals(k) //$NON-NLS-1$
+							|| "CONNECTTIMEOUT".equals(k)) { //$NON-NLS-1$
+						// These values are in seconds. Jsch 0.1.54 passes them
+						// on as is to java.net.Socket.setSoTimeout(), which
+						// expects milliseconds. So convert here to
+						// milliseconds.
+						try {
+							int timeout = Integer.parseInt(result);
+							result = Long.toString(
+									TimeUnit.SECONDS.toMillis(timeout));
+						} catch (NumberFormatException e) {
+							// Ignore
+						}
+					}
+				}
+				return result;
+			}
+
+			@Override
+			public String[] getValues(String key) {
+				String k = key.toUpperCase(Locale.ROOT);
+				if ("IDENTITYFILE".equals(k)) { //$NON-NLS-1$
+					return NO_IDENTITIES;
+				}
+				return real.getValues(key);
 			}
 		}
 	}
