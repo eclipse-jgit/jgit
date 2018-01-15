@@ -71,14 +71,14 @@ maven_jar(
 
 maven_jar(
     name = "commons_compress",
-    artifact = "org.apache.commons:commons-compress:1.6",
-    sha1 = "c7d9b580aff9e9f1998361f16578e63e5c064699",
+    artifact = "org.apache.commons:commons-compress:1.15",
+    sha1 = "b686cd04abaef1ea7bc5e143c080563668eec17e",
 )
 
 maven_jar(
     name = "tukaani_xz",
-    artifact = "org.tukaani:xz:1.3",
-    sha1 = "66db21c8484120cb6a51b5b3ea47b6f383942bec",
+    artifact = "org.tukaani:xz:1.6",
+    sha1 = "05b6f921f1810bdf90e25471968f741f87168b64",
 )
 
 maven_jar(
