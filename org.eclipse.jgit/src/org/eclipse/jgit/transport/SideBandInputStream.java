@@ -77,7 +77,7 @@ import org.eclipse.jgit.util.RawParseUtils;
  *
  * @see SideBandOutputStream
  */
-class SideBandInputStream extends InputStream {
+public class SideBandInputStream extends InputStream {
 	static final int CH_DATA = 1;
 	static final int CH_PROGRESS = 2;
 	static final int CH_ERROR = 3;
