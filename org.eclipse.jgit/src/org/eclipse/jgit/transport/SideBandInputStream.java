@@ -76,8 +76,9 @@ import org.eclipse.jgit.util.RawParseUtils;
  * an unrecoverable error.
  *
  * @see SideBandOutputStream
+ * @since 4.11
  */
-class SideBandInputStream extends InputStream {
+public class SideBandInputStream extends InputStream {
 	static final int CH_DATA = 1;
 	static final int CH_PROGRESS = 2;
 	static final int CH_ERROR = 3;
