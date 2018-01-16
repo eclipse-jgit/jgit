@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87929364_5eece604",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-01-16T08:15:27Z",
+      "side": 1,
+      "message": "That\u0027s the bit I was missing.  Thanks for fixing it.",
+      "range": {
+        "startLine": 10,
+        "startChar": 7,
+        "endLine": 12,
+        "endChar": 72
+      },
+      "revId": "49366278849bd4992e768847da93c1fb66a9fa60",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_7ee9a2f2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-01-16T08:15:27Z",
+      "side": 1,
+      "message": "How long does this typically take?",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 30
+      },
+      "revId": "49366278849bd4992e768847da93c1fb66a9fa60",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_9ee64e21",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-01-16T08:15:27Z",
+      "side": 1,
+      "message": "Note: this time I did try to create a CQ for the dependency upgrade, but following the links resulted in logging into a site that didn\u0027t respond and I gave up.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 9
+      },
+      "revId": "49366278849bd4992e768847da93c1fb66a9fa60",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
