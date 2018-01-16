@@ -22,6 +22,30 @@
       "revId": "edc4daf2e823354a3e6fbb8251ec173da961c4b5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_9e11ee0d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 793,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-01-16T11:37:39Z",
+      "side": 1,
+      "message": "From Spotbugs:\n\n This constructor reads a field which has not yet been assigned a value",
+      "parentUuid": "a7979753_00b3a804",
+      "range": {
+        "startLine": 793,
+        "startChar": 33,
+        "endLine": 793,
+        "endChar": 48
+      },
+      "revId": "edc4daf2e823354a3e6fbb8251ec173da961c4b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
