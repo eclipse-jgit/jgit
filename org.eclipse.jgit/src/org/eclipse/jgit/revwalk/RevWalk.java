@@ -53,6 +53,7 @@ import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.LargeObjectException;
@@ -784,7 +785,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @throws java.io.IOException
 	 *             a pack file or loose object could not be read.
 	 */
-	public RevCommit parseCommit(final AnyObjectId id)
+	public RevCommit parseCommit(@NonNull final AnyObjectId id)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
 		RevObject c = peel(parseAny(id));
@@ -811,7 +812,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @throws java.io.IOException
 	 *             a pack file or loose object could not be read.
 	 */
-	public RevTree parseTree(final AnyObjectId id)
+	public RevTree parseTree(@NonNull final AnyObjectId id)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
 		RevObject c = peel(parseAny(id));
@@ -845,7 +846,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @throws java.io.IOException
 	 *             a pack file or loose object could not be read.
 	 */
-	public RevTag parseTag(final AnyObjectId id) throws MissingObjectException,
+	public RevTag parseTag(@NonNull final AnyObjectId id) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
 		RevObject c = parseAny(id);
 		if (!(c instanceof RevTag))
@@ -870,7 +871,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @throws java.io.IOException
 	 *             a pack file or loose object could not be read.
 	 */
-	public RevObject parseAny(final AnyObjectId id)
+	public RevObject parseAny(@NonNull final AnyObjectId id)
 			throws MissingObjectException, IOException {
 		RevObject r = objects.get(id);
 		if (r == null)
@@ -880,7 +881,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		return r;
 	}
 
-	private RevObject parseNew(AnyObjectId id, ObjectLoader ldr)
+	private RevObject parseNew(@NonNull AnyObjectId id, ObjectLoader ldr)
 			throws LargeObjectException, CorruptObjectException,
 			MissingObjectException, IOException {
 		RevObject r;

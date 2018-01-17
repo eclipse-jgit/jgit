@@ -698,7 +698,9 @@ class WalkFetchConnection extends BaseFetchConnection {
 		}
 		for (final Ref r : refs.values()) {
 			try {
-				markLocalObjComplete(revWalk.parseAny(r.getObjectId()));
+				if (r.getObjectId() != null) {
+					markLocalObjComplete(revWalk.parseAny(r.getObjectId()));
+				}
 			} catch (IOException readError) {
 				throw new TransportException(MessageFormat.format(JGitText.get().localRefIsMissingObjects, r.getName()), readError);
 			}
