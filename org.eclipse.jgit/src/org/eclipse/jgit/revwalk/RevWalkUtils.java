@@ -162,6 +162,9 @@ public final class RevWalkUtils {
 		final int SKEW = 24*3600; // one day clock skew
 
 		for (Ref ref : refs) {
+			if (ref.getObjectId() == null) {
+				continue;
+			}
 			RevObject maybehead = revWalk.parseAny(ref.getObjectId());
 			if (!(maybehead instanceof RevCommit))
 				continue;

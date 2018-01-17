@@ -853,7 +853,9 @@ public class TestRepository<R extends Repository> {
 					ow.markStart(ow.parseAny(o));
 			} else {
 				for (Ref r : db.getAllRefs().values())
-					ow.markStart(ow.parseAny(r.getObjectId()));
+					if (r.getObjectId() != null) {
+						ow.markStart(ow.parseAny(r.getObjectId()));
+					}
 			}
 
 			ObjectChecker oc = new ObjectChecker();
