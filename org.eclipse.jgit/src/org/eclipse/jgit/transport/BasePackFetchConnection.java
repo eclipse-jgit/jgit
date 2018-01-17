@@ -395,6 +395,9 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		int maxTime = 0;
 		for (final Ref r : wants) {
 			try {
+				if (r.getObjectId() == null) {
+					continue;
+				}
 				final RevObject obj = walk.parseAny(r.getObjectId());
 				if (obj instanceof RevCommit) {
 					final int cTime = ((RevCommit) obj).getCommitTime();

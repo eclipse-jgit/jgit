@@ -339,8 +339,11 @@ class FetchProcess {
 			try (final ObjectWalk ow = new ObjectWalk(transport.local)) {
 				for (final ObjectId want : askFor.keySet())
 					ow.markStart(ow.parseAny(want));
-				for (final Ref ref : localRefs().values())
-					ow.markUninteresting(ow.parseAny(ref.getObjectId()));
+				for (final Ref ref : localRefs().values()) {
+					if (ref.getObjectId() != null) {
+						ow.markUninteresting(ow.parseAny(ref.getObjectId()));
+					}
+				}
 				ow.checkConnectivity();
 			}
 			return true;

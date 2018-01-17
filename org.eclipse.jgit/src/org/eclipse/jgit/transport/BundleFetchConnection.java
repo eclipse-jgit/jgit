@@ -262,7 +262,9 @@ class BundleFetchConnection extends BaseFetchConnection {
 			}
 			for (final Ref r : localRefs.values()) {
 				try {
-					rw.markStart(rw.parseCommit(r.getObjectId()));
+					if (r.getObjectId() != null) {
+						rw.markStart(rw.parseCommit(r.getObjectId()));
+					}
 				} catch (IOException readError) {
 					// If we cannot read the value of the ref skip it.
 				}
