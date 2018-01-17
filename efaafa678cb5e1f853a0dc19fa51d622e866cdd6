@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87929364_348f3b80",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SideBandInputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-01-17T06:58:46Z",
+      "side": 1,
+      "message": "This class need to have a \"@since 4.11\" javadoc tag.",
+      "revId": "efaafa678cb5e1f853a0dc19fa51d622e866cdd6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
