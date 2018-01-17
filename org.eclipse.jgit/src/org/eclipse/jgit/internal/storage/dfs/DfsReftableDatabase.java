@@ -241,7 +241,7 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 					: table.seekRef(prefix)) {
 				while (rc.next()) {
 					Ref ref = table.resolve(rc.getRef());
-					if (ref != null) {
+					if (ref != null && ref.getObjectId() != null) {
 						all.add(ref);
 					}
 				}
