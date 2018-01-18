@@ -42,16 +42,6 @@
  */
 package org.eclipse.jgit.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collection;
-
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.RefNotFoundException;
 import org.eclipse.jgit.errors.InvalidPatternException;
@@ -63,18 +53,45 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collection;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 @RunWith(Parameterized.class)
 public class DescribeCommandTest extends RepositoryTestCase {
 
-	private Git git;
-
-	@Parameter
+	@Parameter(0)
 	public boolean useAnnotatedTags;
+
+	@Parameter(1)
+	public boolean describeUseAllTags;
+
+	private Git git;
 
 	@Parameters
 	public static Collection<Boolean[]> getUseAnnotatedTagsValues() {
-		return Arrays.asList(new Boolean[][] { { Boolean.TRUE },
-				{ Boolean.FALSE } });
+		return Arrays.asList(new Boolean[][] {
+				{ Boolean.TRUE, Boolean.FALSE },
+				{ Boolean.FALSE, Boolean.FALSE },
+				{ Boolean.TRUE, Boolean.TRUE },
+				{ Boolean.FALSE, Boolean.TRUE }
+		});
+	}
+
+	private static void touch(File f, String contents) throws Exception {
+		FileWriter w = new FileWriter(f);
+		w.write(contents);
+		w.close();
+	}
+
+	private static void assertNameStartsWith(ObjectId c4, String prefix) {
+		assertTrue(c4.name(), c4.name().startsWith(prefix));
 	}
 
 	@Override
@@ -156,7 +173,7 @@ public class DescribeCommandTest extends RepositoryTestCase {
 
 	/**
 	 * Make sure it finds a tag when not all ancestries include a tag.
-	 *
+	 * <p>
 	 * <pre>
 	 * c1 -+-&gt; T  -
 	 *     |       |
@@ -191,7 +208,7 @@ public class DescribeCommandTest extends RepositoryTestCase {
 
 	/**
 	 * When t2 dominates t1, it's clearly preferable to describe by using t2.
-	 *
+	 * <p>
 	 * <pre>
 	 * t1 -+-&gt; t2  -
 	 *     |       |
@@ -222,8 +239,52 @@ public class DescribeCommandTest extends RepositoryTestCase {
 	}
 
 	/**
-	 * When t1 is nearer than t2, t2 should be found
+	 * When t1 annotated dominates t2 leightweight tag
+	 * <p>
+	 * <pre>
+	 * t1 -+-> t2  -
+	 *     |       |
+	 *     +-> c3 -+-> c4
+	 * </pre>
 	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void t1AnnotatedDominatesT2leightweight() throws Exception {
+		ObjectId c1 = modify("aaa");
+		tag("t1", useAnnotatedTags);
+
+		ObjectId c2 = modify("bbb");
+		tag("t2", !useAnnotatedTags);
+
+		assertNameStartsWith(c2, "3747db3");
+		if (useAnnotatedTags) {
+			assertEquals("t1-1-g3747db3",
+					describe(c2)); // 1 commits: t2 overridden by t1
+		} else {
+			assertEquals("t2", describe(c2)); // 1 commits: t2
+		}
+
+		branch("b", c1);
+
+		ObjectId c3 = modify("ccc");
+
+		ObjectId c4 = merge(c2);
+
+		assertNameStartsWith(c4, "119892b");
+		if (describeUseAllTags) {
+			assertEquals("t2-1-g119892b", describe(c4)); // 2 commits: c4 and c3
+		} else {
+			assertEquals("t1-3-g119892b", describe(c4)); // 2 commits: c4 and c3
+		}
+
+		assertNameStartsWith(c3, "0244e7f");
+		assertEquals("t1-1-g0244e7f", describe(c3));
+	}
+
+	/**
+	 * When t1 is nearer than t2, t2 should be found
+	 * <p>
 	 * <pre>
 	 * c1 -+-&gt; c2 -&gt; t1 -+
 	 *     |             |
@@ -252,7 +313,7 @@ public class DescribeCommandTest extends RepositoryTestCase {
 	/**
 	 * When t1 and t2 have same depth native git seems to add the depths of both
 	 * paths
-	 *
+	 * <p>
 	 * <pre>
 	 * c1 -+-&gt; t1 -&gt; c2 -+
 	 *     |             |
@@ -289,6 +350,11 @@ public class DescribeCommandTest extends RepositoryTestCase {
 	}
 
 	private void tag(String tag) throws GitAPIException {
+		tag(tag, this.useAnnotatedTags);
+	}
+
+	private void tag(String tag, Boolean useAnnotatedTags)
+			throws GitAPIException {
 		TagCommand tagCommand = git.tag().setName(tag)
 				.setAnnotated(useAnnotatedTags);
 		if (useAnnotatedTags)
@@ -296,26 +362,19 @@ public class DescribeCommandTest extends RepositoryTestCase {
 		tagCommand.call();
 	}
 
-	private static void touch(File f, String contents) throws Exception {
-		FileWriter w = new FileWriter(f);
-		w.write(contents);
-		w.close();
-	}
-
 	private String describe(ObjectId c1, boolean longDesc)
 			throws GitAPIException, IOException {
-		return git.describe().setTarget(c1).setLong(longDesc).call();
+		return git.describe().setTarget(c1).setAllTags(describeUseAllTags)
+				.setLong(longDesc).call();
 	}
 
 	private String describe(ObjectId c1) throws GitAPIException, IOException {
 		return describe(c1, false);
 	}
 
-	private String describe(ObjectId c1, String... patterns) throws GitAPIException, IOException, InvalidPatternException {
-		return git.describe().setTarget(c1).setMatch(patterns).call();
-	}
-
-	private static void assertNameStartsWith(ObjectId c4, String prefix) {
-		assertTrue(c4.name(), c4.name().startsWith(prefix));
+	private String describe(ObjectId c1, String... patterns)
+			throws GitAPIException, IOException, InvalidPatternException {
+		return git.describe().setTarget(c1).setAllTags(describeUseAllTags)
+				.setMatch(patterns).call();
 	}
 }
