@@ -53,6 +53,7 @@ import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.LargeObjectException;
@@ -513,6 +514,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 *
 	 * @return the current filter. Never null as a filter is always needed.
 	 */
+	@NonNull
 	public RevFilter getRevFilter() {
 		return filter;
 	}
@@ -552,6 +554,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 *         {@link org.eclipse.jgit.treewalk.filter.TreeFilter#ALL} is
 	 *         returned.
 	 */
+	@NonNull
 	public TreeFilter getTreeFilter() {
 		return treeFilter;
 	}
@@ -649,6 +652,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 *            name of the blob object.
 	 * @return reference to the blob object. Never null.
 	 */
+	@NonNull
 	public RevBlob lookupBlob(final AnyObjectId id) {
 		RevBlob c = (RevBlob) objects.get(id);
 		if (c == null) {
@@ -668,6 +672,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 *            name of the tree object.
 	 * @return reference to the tree object. Never null.
 	 */
+	@NonNull
 	public RevTree lookupTree(final AnyObjectId id) {
 		RevTree c = (RevTree) objects.get(id);
 		if (c == null) {
@@ -690,6 +695,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 *            name of the commit object.
 	 * @return reference to the commit object. Never null.
 	 */
+	@NonNull
 	public RevCommit lookupCommit(final AnyObjectId id) {
 		RevCommit c = (RevCommit) objects.get(id);
 		if (c == null) {
@@ -709,6 +715,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 *            name of the tag object.
 	 * @return reference to the tag object. Never null.
 	 */
+	@NonNull
 	public RevTag lookupTag(final AnyObjectId id) {
 		RevTag c = (RevTag) objects.get(id);
 		if (c == null) {
@@ -730,6 +737,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 *            type of the object. Must be a valid Git object type.
 	 * @return reference to the object. Never null.
 	 */
+	@NonNull
 	public RevObject lookupAny(final AnyObjectId id, final int type) {
 		RevObject r = objects.get(id);
 		if (r == null) {
@@ -784,6 +792,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @throws java.io.IOException
 	 *             a pack file or loose object could not be read.
 	 */
+	@NonNull
 	public RevCommit parseCommit(final AnyObjectId id)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
@@ -811,6 +820,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @throws java.io.IOException
 	 *             a pack file or loose object could not be read.
 	 */
+	@NonNull
 	public RevTree parseTree(final AnyObjectId id)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
@@ -845,6 +855,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @throws java.io.IOException
 	 *             a pack file or loose object could not be read.
 	 */
+	@NonNull
 	public RevTag parseTag(final AnyObjectId id) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
 		RevObject c = parseAny(id);
@@ -870,6 +881,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @throws java.io.IOException
 	 *             a pack file or loose object could not be read.
 	 */
+	@NonNull
 	public RevObject parseAny(final AnyObjectId id)
 			throws MissingObjectException, IOException {
 		RevObject r = objects.get(id);
