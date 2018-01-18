@@ -43,13 +43,6 @@
 
 package org.eclipse.jgit.api;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -64,62 +57,46 @@ import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Command to find human-readable names of revisions.
  *
  * @see <a
- *      href="http://www.kernel.org/pub/software/scm/git/docs/git-name-rev.html"
- *      >Git documentation about name-rev</a>
+ * href="http://www.kernel.org/pub/software/scm/git/docs/git-name-rev.html"
+ * >Git documentation about name-rev</a>
  * @since 3.0
  */
 public class NameRevCommand extends GitCommand<Map<ObjectId, String>> {
-	/** Amount of slop to allow walking past the earliest requested commit. */
+	/**
+	 * Amount of slop to allow walking past the earliest requested commit.
+	 */
 	private static final int COMMIT_TIME_SLOP = 60 * 60 * 24;
 
-	/** Cost of traversing a merge commit compared to a linear history. */
+	/**
+	 * Cost of traversing a merge commit compared to a linear history.
+	 */
 	private static final int MERGE_COST = 65535;
 
-	private static class NameRevCommit extends RevCommit {
-		private String tip;
-		private int distance;
-		private long cost;
-
-		private NameRevCommit(AnyObjectId id) {
-			super(id);
-		}
-
-		private StringBuilder format() {
-			StringBuilder sb = new StringBuilder(tip);
-			if (distance > 0)
-				sb.append('~').append(distance);
-			return sb;
-		}
-
-		@Override
-		public String toString() {
-			StringBuilder sb = new StringBuilder(getClass().getSimpleName())
-				.append('[');
-			if (tip != null)
-				sb.append(format());
-			else
-				sb.append((Object) null);
-			sb.append(',').append(cost).append(']').append(' ')
-				.append(super.toString()).toString();
-			return sb.toString();
-		}
-	}
-
 	private final RevWalk walk;
+
 	private final List<String> prefixes;
+
 	private final List<ObjectId> revs;
+
 	private List<Ref> refs;
+
 	private int mergeCost;
 
 	/**
 	 * Create a new name-rev command.
 	 *
-	 * @param repo
-	 *            the {@link org.eclipse.jgit.lib.Repository}
+	 * @param repo the {@link org.eclipse.jgit.lib.Repository}
 	 */
 	protected NameRevCommand(Repository repo) {
 		super(repo);
@@ -134,7 +111,19 @@ public class NameRevCommand extends GitCommand<Map<ObjectId, String>> {
 		};
 	}
 
-	/** {@inheritDoc} */
+	private static String simplify(String refName) {
+		if (refName.startsWith(Constants.R_HEADS))
+			return refName.substring(Constants.R_HEADS.length());
+		if (refName.startsWith(Constants.R_TAGS))
+			return refName.substring(Constants.R_TAGS.length());
+		if (refName.startsWith(Constants.R_REFS))
+			return refName.substring(Constants.R_REFS.length());
+		return refName;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Map<ObjectId, String> call() throws GitAPIException {
 		try {
@@ -154,11 +143,14 @@ public class NameRevCommand extends GitCommand<Map<ObjectId, String>> {
 				if (c.getCommitTime() < cutoff)
 					continue;
 				for (int i = 0; i < c.getParentCount(); i++) {
-					NameRevCommit p = (NameRevCommit) walk.parseCommit(c.getParent(i));
+					NameRevCommit p = (NameRevCommit) walk
+							.parseCommit(c.getParent(i));
 					long cost = c.cost + (i > 0 ? mergeCost : 1);
-					if (p.tip == null || compare(c.tip, cost, p.tip, p.cost) < 0) {
+					if (p.tip == null
+							|| compare(c.tip, cost, p.tip, p.cost) < 0) {
 						if (i > 0) {
-							p.tip = c.format().append('^').append(i + 1).toString();
+							p.tip = c.format().append('^').append(i + 1)
+									.toString();
 							p.distance = 0;
 						} else {
 							p.tip = c.tip;
@@ -171,7 +163,7 @@ public class NameRevCommand extends GitCommand<Map<ObjectId, String>> {
 			}
 
 			Map<ObjectId, String> result =
-				new LinkedHashMap<>(revs.size());
+					new LinkedHashMap<>(revs.size());
 			for (ObjectId id : revs) {
 				RevObject o = walk.parseAny(id);
 				if (o instanceof NameRevCommit) {
@@ -197,16 +189,13 @@ public class NameRevCommand extends GitCommand<Map<ObjectId, String>> {
 	/**
 	 * Add an object to search for.
 	 *
-	 * @param id
-	 *            object ID to add.
+	 * @param id object ID to add.
 	 * @return {@code this}
-	 * @throws org.eclipse.jgit.errors.MissingObjectException
-	 *             the object supplied is not available from the object
-	 *             database.
-	 * @throws org.eclipse.jgit.api.errors.JGitInternalException
-	 *             a low-level exception of JGit has occurred. The original
-	 *             exception can be retrieved by calling
-	 *             {@link java.lang.Exception#getCause()}.
+	 * @throws org.eclipse.jgit.errors.MissingObjectException    the object supplied is not available from the object
+	 *                                                           database.
+	 * @throws org.eclipse.jgit.api.errors.JGitInternalException a low-level exception of JGit has occurred. The original
+	 *                                                           exception can be retrieved by calling
+	 *                                                           {@link java.lang.Exception#getCause()}.
 	 */
 	public NameRevCommand add(ObjectId id) throws MissingObjectException,
 			JGitInternalException {
@@ -225,16 +214,13 @@ public class NameRevCommand extends GitCommand<Map<ObjectId, String>> {
 	/**
 	 * Add multiple objects to search for.
 	 *
-	 * @param ids
-	 *            object IDs to add.
+	 * @param ids object IDs to add.
 	 * @return {@code this}
-	 * @throws org.eclipse.jgit.errors.MissingObjectException
-	 *             the object supplied is not available from the object
-	 *             database.
-	 * @throws org.eclipse.jgit.api.errors.JGitInternalException
-	 *             a low-level exception of JGit has occurred. The original
-	 *             exception can be retrieved by calling
-	 *             {@link java.lang.Exception#getCause()}.
+	 * @throws org.eclipse.jgit.errors.MissingObjectException    the object supplied is not available from the object
+	 *                                                           database.
+	 * @throws org.eclipse.jgit.api.errors.JGitInternalException a low-level exception of JGit has occurred. The original
+	 *                                                           exception can be retrieved by calling
+	 *                                                           {@link java.lang.Exception#getCause()}.
 	 */
 	public NameRevCommand add(Iterable<ObjectId> ids)
 			throws MissingObjectException, JGitInternalException {
@@ -250,9 +236,8 @@ public class NameRevCommand extends GitCommand<Map<ObjectId, String>> {
 	 * added with {@link #addRef(Ref)} is preferred, or else the first matching
 	 * prefix added by {@link #addPrefix(String)}.
 	 *
-	 * @param prefix
-	 *            prefix to add; see
-	 *            {@link org.eclipse.jgit.lib.RefDatabase#getRefs(String)}
+	 * @param prefix prefix to add; see
+	 *               {@link org.eclipse.jgit.lib.RefDatabase#getRefs(String)}
 	 * @return {@code this}
 	 */
 	public NameRevCommand addPrefix(String prefix) {
@@ -269,17 +254,16 @@ public class NameRevCommand extends GitCommand<Map<ObjectId, String>> {
 	 * priority.
 	 *
 	 * @return {@code this}
-	 * @throws JGitInternalException
-	 *             a low-level exception of JGit has occurred. The original
-	 *             exception can be retrieved by calling
-	 *             {@link java.lang.Exception#getCause()}.
+	 * @throws JGitInternalException a low-level exception of JGit has occurred. The original
+	 *                               exception can be retrieved by calling
+	 *                               {@link java.lang.Exception#getCause()}.
 	 */
 	public NameRevCommand addAnnotatedTags() {
 		checkCallable();
 		if (refs == null)
 			refs = new ArrayList<>();
 		try {
-			for (Ref ref : repo.getRefDatabase().getRefs(Constants.R_TAGS).values()) {
+			for (Ref ref : repo.getTags().values()) {
 				ObjectId id = ref.getObjectId();
 				if (id != null && (walk.parseAny(id) instanceof RevTag))
 					addRef(ref);
@@ -297,8 +281,7 @@ public class NameRevCommand extends GitCommand<Map<ObjectId, String>> {
 	 * added with {@link #addRef(Ref)} is preferred, or else the first matching
 	 * prefix added by {@link #addPrefix(String)}.
 	 *
-	 * @param ref
-	 *            ref to add.
+	 * @param ref ref to add.
 	 * @return {@code this}
 	 */
 	public NameRevCommand addRef(Ref ref) {
@@ -366,7 +349,8 @@ public class NameRevCommand extends GitCommand<Map<ObjectId, String>> {
 		return min;
 	}
 
-	private long compare(String leftTip, long leftCost, String rightTip, long rightCost) {
+	private long compare(String leftTip, long leftCost, String rightTip,
+			long rightCost) {
 		long c = leftCost - rightCost;
 		if (c != 0 || prefixes.isEmpty())
 			return c;
@@ -384,13 +368,35 @@ public class NameRevCommand extends GitCommand<Map<ObjectId, String>> {
 		return li - ri;
 	}
 
-	private static String simplify(String refName) {
-		if (refName.startsWith(Constants.R_HEADS))
-			return refName.substring(Constants.R_HEADS.length());
-		if (refName.startsWith(Constants.R_TAGS))
-			return refName.substring(Constants.R_TAGS.length());
-		if (refName.startsWith(Constants.R_REFS))
-			return refName.substring(Constants.R_REFS.length());
-		return refName;
+	private static class NameRevCommit extends RevCommit {
+		private String tip;
+
+		private int distance;
+
+		private long cost;
+
+		private NameRevCommit(AnyObjectId id) {
+			super(id);
+		}
+
+		private StringBuilder format() {
+			StringBuilder sb = new StringBuilder(tip);
+			if (distance > 0)
+				sb.append('~').append(distance);
+			return sb;
+		}
+
+		@Override
+		public String toString() {
+			StringBuilder sb = new StringBuilder(getClass().getSimpleName())
+					.append('[');
+			if (tip != null)
+				sb.append(format());
+			else
+				sb.append((Object) null);
+			sb.append(',').append(cost).append(']').append(' ')
+					.append(super.toString()).toString();
+			return sb.toString();
+		}
 	}
 }
