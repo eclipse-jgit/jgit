@@ -1,0 +1,7 @@
+Verified+1: Hudson CI
+Code-Review+2: Jonathan Nieder <jrn@google.com>
+Submitted-by: David Pursehouse <david.pursehouse@gmail.com>
+Submitted-at: Thu, 18 Jan 2018 00:05:51 -0500
+Reviewed-on: https://git.eclipse.org/r/115581
+Project: jgit/jgit
+Branch: refs/heads/master
