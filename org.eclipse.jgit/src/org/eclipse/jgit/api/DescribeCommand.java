@@ -42,19 +42,6 @@
  */
 package org.eclipse.jgit.api;
 
-import static org.eclipse.jgit.lib.Constants.R_TAGS;
-
-import java.io.IOException;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.RefNotFoundException;
@@ -71,7 +58,20 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevFlagSet;
+import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
+
+import java.io.IOException;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
 /**
  * Given a commit, show the most recent tag that is reachable from a commit.
@@ -102,6 +102,11 @@ public class DescribeCommand extends GitCommand<String> {
 	 * Pattern matchers to be applied to tags under consideration
 	 */
 	private List<IMatcher> matchers = new ArrayList<>();
+
+        /**
+         * wheter to use all tags (incl. leightweight) or not
+         */
+        private boolean allTags = false;
 
 	/**
 	 * Constructor for DescribeCommand.
@@ -172,6 +177,19 @@ public class DescribeCommand extends GitCommand<String> {
 		this.longDesc = longDesc;
 		return this;
 	}
+
+        /**
+         * --tags
+         * Instead of using only the annotated tags, use any tag found in refs/tags namespace. This option enables matching a lightweight
+         * (non-annotated) tag.
+         *
+         * @param useAllTags <code>true</code> for as like setting --tags in c git
+         * @return {@code this}
+         */
+        public DescribeCommand setAllTags(boolean useAllTags) {
+                this.allTags = useAllTags;
+                return this;
+        }
 
 	private String longDescription(Ref tag, int depth, ObjectId tip)
 			throws IOException {
@@ -246,8 +264,15 @@ public class DescribeCommand extends GitCommand<String> {
 			if (target == null)
 				setTarget(Constants.HEAD);
 
-			Collection<Ref> tagList = repo.getRefDatabase().getRefs(R_TAGS).values();
-			Map<ObjectId, List<Ref>> tags = tagList.stream()
+                        Map<ObjectId, List<Ref>> tags = repo.getTags().values().stream()
+                                        .filter(ref -> {
+                                                ObjectId id = ref.getObjectId();
+                                                try {
+                                                        return Boolean.TRUE.equals(allTags) || (id != null && (w.parseAny(id) instanceof RevTag));
+                                                } catch (Exception e) {
+                                                        return false;
+                                                }
+                                        })
 					.collect(Collectors.groupingBy(this::getObjectIdFromRef));
 
 			// combined flags of all the candidate instances
