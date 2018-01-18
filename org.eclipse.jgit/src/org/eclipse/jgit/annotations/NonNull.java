@@ -56,7 +56,7 @@ import java.lang.annotation.Target;
 /**
  * JGit's replacement for the {@code javax.annotation.Nonnull}.
  * <p>
- * Denotes that a local variable, parameter, field, method return value expected
+ * Denotes that a local variable, parameter, field, method return value is expected
  * to be non {@code null}.
  *
  * @since 4.2
