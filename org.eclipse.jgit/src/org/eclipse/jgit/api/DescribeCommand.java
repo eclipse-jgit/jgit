@@ -42,19 +42,6 @@
  */
 package org.eclipse.jgit.api;
 
-import static org.eclipse.jgit.lib.Constants.R_TAGS;
-
-import java.io.IOException;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.RefNotFoundException;
@@ -72,6 +59,18 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevFlagSet;
 import org.eclipse.jgit.revwalk.RevWalk;
+
+import java.io.IOException;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
 /**
  * Given a commit, show the most recent tag that is reachable from a commit.
@@ -104,10 +103,14 @@ public class DescribeCommand extends GitCommand<String> {
 	private List<IMatcher> matchers = new ArrayList<>();
 
 	/**
+	 * wheter to use all tags (incl. leightweight) or not
+	 */
+	private boolean allTags = false;
+
+	/**
 	 * Constructor for DescribeCommand.
 	 *
-	 * @param repo
-	 *            the {@link org.eclipse.jgit.lib.Repository}
+	 * @param repo the {@link org.eclipse.jgit.lib.Repository}
 	 */
 	protected DescribeCommand(Repository repo) {
 		super(repo);
@@ -118,15 +121,11 @@ public class DescribeCommand extends GitCommand<String> {
 	/**
 	 * Sets the commit to be described.
 	 *
-	 * @param target
-	 * 		A non-null object ID to be described.
+	 * @param target A non-null object ID to be described.
 	 * @return {@code this}
-	 * @throws MissingObjectException
-	 *             the supplied commit does not exist.
-	 * @throws IncorrectObjectTypeException
-	 *             the supplied id is not a commit or an annotated tag.
-	 * @throws java.io.IOException
-	 *             a pack file or loose object could not be read.
+	 * @throws MissingObjectException       the supplied commit does not exist.
+	 * @throws IncorrectObjectTypeException the supplied id is not a commit or an annotated tag.
+	 * @throws java.io.IOException          a pack file or loose object could not be read.
 	 */
 	public DescribeCommand setTarget(ObjectId target) throws IOException {
 		this.target = w.parseCommit(target);
@@ -136,23 +135,20 @@ public class DescribeCommand extends GitCommand<String> {
 	/**
 	 * Sets the commit to be described.
 	 *
-	 * @param rev
-	 *            Commit ID, tag, branch, ref, etc. See
+	 * @param rev Commit ID, tag, branch, ref, etc. See
 	 *            {@link org.eclipse.jgit.lib.Repository#resolve(String)} for
 	 *            allowed syntax.
 	 * @return {@code this}
-	 * @throws IncorrectObjectTypeException
-	 *             the supplied id is not a commit or an annotated tag.
-	 * @throws org.eclipse.jgit.api.errors.RefNotFoundException
-	 *             the given rev didn't resolve to any object.
-	 * @throws java.io.IOException
-	 *             a pack file or loose object could not be read.
+	 * @throws IncorrectObjectTypeException                     the supplied id is not a commit or an annotated tag.
+	 * @throws org.eclipse.jgit.api.errors.RefNotFoundException the given rev didn't resolve to any object.
+	 * @throws java.io.IOException                              a pack file or loose object could not be read.
 	 */
 	public DescribeCommand setTarget(String rev) throws IOException,
 			RefNotFoundException {
 		ObjectId id = repo.resolve(rev);
 		if (id == null)
-			throw new RefNotFoundException(MessageFormat.format(JGitText.get().refNotResolved, rev));
+			throw new RefNotFoundException(
+					MessageFormat.format(JGitText.get().refNotResolved, rev));
 		return setTarget(id);
 	}
 
@@ -160,12 +156,11 @@ public class DescribeCommand extends GitCommand<String> {
 	 * Determine whether always to use the long format or not. When set to
 	 * <code>true</code> the long format is used even the commit matches a tag.
 	 *
-	 * @param longDesc
-	 *            <code>true</code> if always the long format should be used.
+	 * @param longDesc <code>true</code> if always the long format should be used.
 	 * @return {@code this}
 	 * @see <a
-	 *      href="https://www.kernel.org/pub/software/scm/git/docs/git-describe.html"
-	 *      >Git documentation about describe</a>
+	 * href="https://www.kernel.org/pub/software/scm/git/docs/git-describe.html"
+	 * >Git documentation about describe</a>
 	 * @since 4.0
 	 */
 	public DescribeCommand setLong(boolean longDesc) {
@@ -173,10 +168,24 @@ public class DescribeCommand extends GitCommand<String> {
 		return this;
 	}
 
+	/**
+	 * --tags
+	 * Instead of using only the annotated tags, use any tag found in refs/tags namespace. This option enables matching a lightweight
+	 * (non-annotated) tag.
+	 *
+	 * @param useAllTags <code>true</code> for as like setting --tags in c git
+	 * @return {@code this}
+	 */
+	public DescribeCommand setAllTags(boolean useAllTags) {
+		this.allTags = useAllTags;
+		return this;
+	}
+
 	private String longDescription(Ref tag, int depth, ObjectId tip)
 			throws IOException {
 		return String.format(
-				"%s-%d-g%s", tag.getName().substring(R_TAGS.length()), //$NON-NLS-1$
+				"%s-%d-g%s", tag.getName().substring(R_TAGS.length()),
+				//$NON-NLS-1$
 				Integer.valueOf(depth), w.getObjectReader().abbreviate(tip)
 						.name());
 	}
@@ -186,17 +195,16 @@ public class DescribeCommand extends GitCommand<String> {
 	 * considered. If multiple patterns are provided, tags only need match one
 	 * of them.
 	 *
-	 * @param patterns
-	 *            the {@code glob(7)} pattern or patterns
+	 * @param patterns the {@code glob(7)} pattern or patterns
 	 * @return {@code this}
-	 * @throws org.eclipse.jgit.errors.InvalidPatternException
-	 *             if the pattern passed in was invalid.
+	 * @throws org.eclipse.jgit.errors.InvalidPatternException if the pattern passed in was invalid.
 	 * @see <a href=
-	 *      "https://www.kernel.org/pub/software/scm/git/docs/git-describe.html"
-	 *      >Git documentation about describe</a>
+	 * "https://www.kernel.org/pub/software/scm/git/docs/git-describe.html"
+	 * >Git documentation about describe</a>
 	 * @since 4.9
 	 */
-	public DescribeCommand setMatch(String... patterns) throws InvalidPatternException {
+	public DescribeCommand setMatch(String... patterns)
+			throws InvalidPatternException {
 		for (String p : patterns) {
 			matchers.add(PathMatcher.createPathMatcher(p, null, false));
 		}
@@ -246,8 +254,16 @@ public class DescribeCommand extends GitCommand<String> {
 			if (target == null)
 				setTarget(Constants.HEAD);
 
-			Collection<Ref> tagList = repo.getRefDatabase().getRefs(R_TAGS).values();
-			Map<ObjectId, List<Ref>> tags = tagList.stream()
+			Map<ObjectId, List<Ref>> tags = repo.getTags().values().stream()
+					.filter(ref -> {
+						ObjectId id = ref.getObjectId();
+						try {
+							return Boolean.TRUE.equals(allTags) ||
+									(id != null && (w.parseTag(id) != null));
+						} catch (IOException e) {
+							return false;
+						}
+					})
 					.collect(Collectors.groupingBy(this::getObjectIdFromRef));
 
 			// combined flags of all the candidate instances
@@ -258,6 +274,7 @@ public class DescribeCommand extends GitCommand<String> {
 			 */
 			class Candidate {
 				final Ref tag;
+
 				final RevFlag flag;
 
 				/**
@@ -356,12 +373,13 @@ public class DescribeCommand extends GitCommand<String> {
 			if (candidates.isEmpty())
 				return null;
 
-			Candidate best = Collections.min(candidates, new Comparator<Candidate>() {
-				@Override
-				public int compare(Candidate o1, Candidate o2) {
-					return o1.depth - o2.depth;
-				}
-			});
+			Candidate best = Collections
+					.min(candidates, new Comparator<Candidate>() {
+						@Override
+						public int compare(Candidate o1, Candidate o2) {
+							return o1.depth - o2.depth;
+						}
+					});
 
 			return best.describe(target);
 		} catch (IOException e) {
