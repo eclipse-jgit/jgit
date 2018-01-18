@@ -140,8 +140,7 @@ public class CorruptObjectException extends IOException {
 	 * @return error condition or null.
 	 * @since 4.2
 	 */
-	@Nullable
-	public ObjectChecker.ErrorType getErrorType() {
+	public ObjectChecker.@Nullable ErrorType getErrorType() {
 		return errorType;
 	}
 }
