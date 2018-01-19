@@ -1,0 +1,7 @@
+Verified+1: Hudson CI
+Code-Review+2: Thomas Wolf <thomas.wolf@paranor.ch>
+Submitted-by: Jonathan Nieder <jrn@google.com>
+Submitted-at: Fri, 19 Jan 2018 11:34:54 -0500
+Reviewed-on: https://git.eclipse.org/r/115700
+Project: jgit/jgit
+Branch: refs/heads/master
