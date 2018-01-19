@@ -89,7 +89,8 @@ public class FsckError {
 		}
 
 		/** @return error type of the corruption. */
-		public ObjectChecker.@Nullable ErrorType getErrorType() {
+		@Nullable
+		public ObjectChecker.ErrorType getErrorType() {
 			return errorType;
 		}
 	}

@@ -265,7 +265,8 @@ public class TransferConfig {
 			}
 		}
 
-		static ObjectChecker.@Nullable ErrorType parse(String key) {
+		@Nullable
+		static ObjectChecker.ErrorType parse(String key) {
 			return errors.get(toLowerCase(key));
 		}
 
