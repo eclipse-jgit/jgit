@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87929364_3879e5e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-01-20T01:07:18Z",
+      "side": 1,
+      "message": "Avoid overly wide lines in commit messages, see contributor guide [1]\n\n[1] https://wiki.eclipse.org/EGit/Contributor_Guide#Commit_message_guidelines\n\nmove the bug reference to the footer of the commit message right above the ChangeId line, use the following format\n\nBug:  423206",
+      "revId": "bc35b6da7a8ebe125db0a851e90757af21bc6665",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_58679144",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-01-20T01:07:18Z",
+      "side": 1,
+      "message": "I think we could postpone changing the default in another change to 5.0, then we could already submit this change to enable support for explicitly setting allTags true or false already in 4.11",
+      "revId": "bc35b6da7a8ebe125db0a851e90757af21bc6665",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_786a8d0d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/DescribeCommandTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-01-20T01:07:18Z",
+      "side": 1,
+      "message": "use the Eclipse builtin formatter settings as described in the contributor guide",
+      "revId": "bc35b6da7a8ebe125db0a851e90757af21bc6665",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_b88dd587",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-01-20T01:07:18Z",
+      "side": 1,
+      "message": "looks like you don\u0027t use standard Eclipse builtin formatter settings which sorts java imports before other imports",
+      "revId": "bc35b6da7a8ebe125db0a851e90757af21bc6665",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_18a349fb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-01-20T01:07:18Z",
+      "side": 1,
+      "message": "revert all these unrelated formatting changes, more of these below",
+      "revId": "bc35b6da7a8ebe125db0a851e90757af21bc6665",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_f8a3ddf8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-01-20T01:07:18Z",
+      "side": 1,
+      "message": "missing since tag for new API method",
+      "revId": "bc35b6da7a8ebe125db0a851e90757af21bc6665",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_9861f92f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-01-20T01:07:18Z",
+      "side": 1,
+      "message": "use Eclipse builtin formatter",
+      "revId": "bc35b6da7a8ebe125db0a851e90757af21bc6665",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_b864f53d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-01-20T01:07:18Z",
+      "side": 1,
+      "message": "revert unrelated formatting changes",
+      "revId": "bc35b6da7a8ebe125db0a851e90757af21bc6665",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
