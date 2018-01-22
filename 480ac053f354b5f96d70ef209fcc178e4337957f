@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_40e0778d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/StreamCopyThread.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-01-22T23:02:31Z",
+      "side": 1,
+      "message": "Don\u0027t break API but deprecate the old constructor, add a new one adding the new Process parameter and fallback to the old behaviour if someone uses the old constructor.\n\nWe can remove deprecated methods in 5.0 soon after releasing 4.11.",
+      "parentUuid": "87929364_65cca565",
+      "revId": "480ac053f354b5f96d70ef209fcc178e4337957f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_e5b175ca",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/StreamCopyThread.java",
         "patchSetId": 1
