@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "87929364_0594c113",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-01-22T16:09:53Z",
+      "side": 1,
+      "message": "Should be \"Bug\". The \"genie\" that links Gerrit changes to bugzilla reports is mighty picky...",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 3
+      },
+      "revId": "480ac053f354b5f96d70ef209fcc178e4337957f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_65cca565",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/StreamCopyThread.java",
         "patchSetId": 1
