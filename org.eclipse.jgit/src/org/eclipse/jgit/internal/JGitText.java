@@ -102,6 +102,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String blameNotCommittedYet;
 	/***/ public String blobNotFound;
 	/***/ public String blobNotFoundForPath;
+	/***/ public String blockLimitNotMultipleOfBlockSize;
+	/***/ public String blockLimitNotPositive;
 	/***/ public String blockSizeNotPowerOf2;
 	/***/ public String bothRefTargetsMustNotBeNull;
 	/***/ public String branchNameInvalid;
