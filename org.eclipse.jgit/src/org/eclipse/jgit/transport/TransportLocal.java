@@ -265,7 +265,8 @@ class TransportLocal extends Transport implements PackTransport {
 			uploadPack = spawn(getOptionUploadPack());
 
 			final InputStream upErr = uploadPack.getErrorStream();
-			errorReaderThread = new StreamCopyThread(upErr, msg.getRawStream());
+			errorReaderThread = new StreamCopyThread(uploadPack, upErr,
+					msg.getRawStream());
 			errorReaderThread.start();
 
 			InputStream upIn = uploadPack.getInputStream();
@@ -318,7 +319,8 @@ class TransportLocal extends Transport implements PackTransport {
 			receivePack = spawn(getOptionReceivePack());
 
 			final InputStream rpErr = receivePack.getErrorStream();
-			errorReaderThread = new StreamCopyThread(rpErr, msg.getRawStream());
+			errorReaderThread = new StreamCopyThread(receivePack, rpErr,
+					msg.getRawStream());
 			errorReaderThread.start();
 
 			InputStream rpIn = receivePack.getInputStream();

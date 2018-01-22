@@ -283,7 +283,8 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 				setMessageWriter(msg);
 
 				final InputStream upErr = process.getErrorStream();
-				errorThread = new StreamCopyThread(upErr, msg.getRawStream());
+				errorThread = new StreamCopyThread(process, upErr,
+						msg.getRawStream());
 				errorThread.start();
 
 				init(process.getInputStream(), process.getOutputStream());
@@ -341,7 +342,8 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 				setMessageWriter(msg);
 
 				final InputStream rpErr = process.getErrorStream();
-				errorThread = new StreamCopyThread(rpErr, msg.getRawStream());
+				errorThread = new StreamCopyThread(process, rpErr,
+						msg.getRawStream());
 				errorThread.start();
 
 				init(process.getInputStream(), process.getOutputStream());
