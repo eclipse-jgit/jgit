@@ -95,13 +95,23 @@ public class DfsBlockCacheConfig {
 	/**
 	 * Set maximum number bytes of heap memory to dedicate to caching pack file
 	 * data.
+	 * <p>
+	 * It is strongly recommended to set the block limit to be an integer multiple
+	 * of the block size. This constraint is not enforced by this method (since
+	 * it may be called before {@link #setBlockSize(int)}), but it is enforced by
+	 * {@link #fromConfig(Config)}.
 	 *
 	 * @param newLimit
 	 *            maximum number bytes of heap memory to dedicate to caching
-	 *            pack file data.
+	 *            pack file data; must be positive.
 	 * @return {@code this}
 	 */
 	public DfsBlockCacheConfig setBlockLimit(final long newLimit) {
+		if (newLimit <= 0) {
+			throw new IllegalArgumentException(MessageFormat.format(
+					JGitText.get().blockLimitNotPositive,
+					Long.valueOf(newLimit)));
+		}
 		blockLimit = newLimit;
 		return this;
 	}
@@ -188,23 +198,34 @@ public class DfsBlockCacheConfig {
 	 * <p>
 	 * If a property is not defined in the configuration, then it is left
 	 * unmodified.
+	 * <p>
+	 * Enforces certain constraints on the combination of settings in the config,
+	 * for example that the block limit is a multiple of the block size.
 	 *
 	 * @param rc
 	 *            configuration to read properties from.
 	 * @return {@code this}
 	 */
 	public DfsBlockCacheConfig fromConfig(final Config rc) {
-		setBlockLimit(rc.getLong(
+		long cfgBlockLimit = rc.getLong(
 				CONFIG_CORE_SECTION,
 				CONFIG_DFS_SECTION,
 				CONFIG_KEY_BLOCK_LIMIT,
-				getBlockLimit()));
-
-		setBlockSize(rc.getInt(
+				getBlockLimit());
+		int cfgBlockSize = rc.getInt(
 				CONFIG_CORE_SECTION,
 				CONFIG_DFS_SECTION,
 				CONFIG_KEY_BLOCK_SIZE,
-				getBlockSize()));
+				getBlockSize());
+		if (cfgBlockLimit % cfgBlockSize != 0) {
+			throw new IllegalArgumentException(MessageFormat.format(
+					JGitText.get().blockLimitNotMultipleOfBlockSize,
+					Long.valueOf(cfgBlockLimit),
+					Long.valueOf(cfgBlockSize)));
+		}
+
+		setBlockLimit(cfgBlockLimit);
+		setBlockSize(cfgBlockSize);
 
 		setConcurrencyLevel(rc.getInt(
 				CONFIG_CORE_SECTION,
