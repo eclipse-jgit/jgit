@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87929364_65cca565",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/StreamCopyThread.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-01-22T16:08:28Z",
+      "side": 1,
+      "message": "This is a public API change.",
+      "revId": "480ac053f354b5f96d70ef209fcc178e4337957f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_e5b175ca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/StreamCopyThread.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-01-22T16:08:28Z",
+      "side": 1,
+      "message": "I\u0027m not convinced this is the right place to destroy that process. If join() throws an InterrupedException, the caller will have to deal with process destruction, if necessary, anyway.\n\nIf we hang in this loop in bug 529463 and bug 529380 and bug 470555, how about destroying the process before calling halt()? I notice that TransportLocal() first waits for the process and then halts the errorThread, whereas TransportGitSsh first tries to halt the errorThread and then destroys the process.\n\nJust an idea; didn\u0027t try it.",
+      "revId": "480ac053f354b5f96d70ef209fcc178e4337957f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
