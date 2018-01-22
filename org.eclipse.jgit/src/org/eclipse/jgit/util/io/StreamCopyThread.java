@@ -54,6 +54,8 @@ import java.io.OutputStream;
 public class StreamCopyThread extends Thread {
 	private static final int BUFFER_SIZE = 1024;
 
+	private final Process process;
+
 	private final InputStream src;
 
 	private final OutputStream dst;
@@ -66,6 +68,8 @@ public class StreamCopyThread extends Thread {
 	/**
 	 * Create a thread to copy data from an input stream to an output stream.
 	 *
+	 * @param p
+	 *            process being monitored to be able to close it.
 	 * @param i
 	 *            stream to copy from. The thread terminates when this stream
 	 *            reaches EOF. The thread closes this stream before it exits.
@@ -73,8 +77,10 @@ public class StreamCopyThread extends Thread {
 	 *            stream to copy into. The destination stream is automatically
 	 *            closed when the thread terminates.
 	 */
-	public StreamCopyThread(final InputStream i, final OutputStream o) {
+	public StreamCopyThread(final Process p, final InputStream i,
+			final OutputStream o) {
 		setName(Thread.currentThread().getName() + "-StreamCopy"); //$NON-NLS-1$
+		process = p;
 		src = i;
 		dst = o;
 		writeLock = new Object();
@@ -109,6 +115,7 @@ public class StreamCopyThread extends Thread {
 			if (isAlive()) {
 				done = true;
 				interrupt();
+				process.destroy();
 			} else
 				break;
 		}
