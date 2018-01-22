@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_c01e2721",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-01-22T23:52:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_9bcbd24c",
+      "revId": "13f8ce79da6457b590d1c72bfe95d81ae4c1f783",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_1b9b6280",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ResetCommand.java",
         "patchSetId": 8
@@ -119,6 +137,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_e021635d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ResetCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-01-22T23:52:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_bbd08ef5",
+      "revId": "13f8ce79da6457b590d1c72bfe95d81ae4c1f783",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_3b981e81",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RevertCommand.java",
         "patchSetId": 8
@@ -148,6 +184,24 @@
       "side": 1,
       "message": "same as before",
       "parentUuid": "87929364_3b981e81",
+      "revId": "13f8ce79da6457b590d1c72bfe95d81ae4c1f783",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_00082fe3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RevertCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-01-22T23:52:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_dbd55ae5",
       "revId": "13f8ce79da6457b590d1c72bfe95d81ae4c1f783",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
