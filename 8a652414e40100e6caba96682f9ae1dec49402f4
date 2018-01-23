@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "87929364_915aaffc",
+        "filename": "org.eclipse.jgit.lfs.server.test/tst/org/eclipse/jgit/lfs/server/fs/CheckoutTest.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-01-23T23:33:33Z",
+      "side": 1,
+      "message": "fix TODO ?",
+      "revId": "8a652414e40100e6caba96682f9ae1dec49402f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_40f15706",
         "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/FileLfsRepository.java",
         "patchSetId": 28
@@ -82,6 +99,23 @@
         "endLine": 14,
         "endChar": 47
       },
+      "revId": "8a652414e40100e6caba96682f9ae1dec49402f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_d15437d1",
+        "filename": "org.eclipse.jgit.lfs/META-INF/MANIFEST.MF",
+        "patchSetId": 28
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-01-23T23:33:33Z",
+      "side": 1,
+      "message": "same here",
       "revId": "8a652414e40100e6caba96682f9ae1dec49402f4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -242,6 +276,57 @@
         "endLine": 193,
         "endChar": 46
       },
+      "revId": "8a652414e40100e6caba96682f9ae1dec49402f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_91c54f09",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-01-23T23:33:33Z",
+      "side": 1,
+      "message": "fix TODO",
+      "revId": "8a652414e40100e6caba96682f9ae1dec49402f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_b1cc0b34",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 1444,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-01-23T23:33:33Z",
+      "side": 1,
+      "message": "revert this unrelated formatting change",
+      "revId": "8a652414e40100e6caba96682f9ae1dec49402f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_d1cfd724",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 1536,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-01-23T23:33:33Z",
+      "side": 1,
+      "message": "revert this unrelated formatting change",
       "revId": "8a652414e40100e6caba96682f9ae1dec49402f4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
