@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87929364_a0067b91",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/Protocol.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-01-23T06:30:14Z",
+      "side": 1,
+      "message": "This needs to be changed to 4.11.",
+      "revId": "a449e527bce2672cc5f5c38325b3b47dcc049b4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_e0008376",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/Protocol.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-01-23T06:30:14Z",
+      "side": 1,
+      "message": "Same here",
+      "revId": "a449e527bce2672cc5f5c38325b3b47dcc049b4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
