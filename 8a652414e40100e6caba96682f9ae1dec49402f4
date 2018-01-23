@@ -1,0 +1,296 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87929364_20f28b0d",
+        "filename": "org.eclipse.jgit.lfs.server.test/tst/org/eclipse/jgit/lfs/server/fs/CheckoutTest.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-01-23T06:39:11Z",
+      "side": 1,
+      "message": "nit: unnecessary blank lines",
+      "revId": "8a652414e40100e6caba96682f9ae1dec49402f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_40f15706",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/FileLfsRepository.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-01-23T06:39:11Z",
+      "side": 1,
+      "message": "4.11",
+      "range": {
+        "startLine": 185,
+        "startChar": 11,
+        "endLine": 185,
+        "endChar": 14
+      },
+      "revId": "8a652414e40100e6caba96682f9ae1dec49402f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_60ec9332",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/FileLfsRepository.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-01-23T06:39:11Z",
+      "side": 1,
+      "message": "4.11",
+      "range": {
+        "startLine": 194,
+        "startChar": 11,
+        "endLine": 194,
+        "endChar": 14
+      },
+      "revId": "8a652414e40100e6caba96682f9ae1dec49402f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_80aedfef",
+        "filename": "org.eclipse.jgit.lfs/META-INF/MANIFEST.MF",
+        "patchSetId": 28
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-01-23T06:39:11Z",
+      "side": 1,
+      "message": "gson was upgraded recently to 2.8.2, so this should be changed.",
+      "range": {
+        "startLine": 14,
+        "startChar": 42,
+        "endLine": 14,
+        "endChar": 47
+      },
+      "revId": "8a652414e40100e6caba96682f9ae1dec49402f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_a0b11b4e",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/InstallLfsCommand.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-01-23T06:39:11Z",
+      "side": 1,
+      "message": "Missing copyright/license header.",
+      "revId": "8a652414e40100e6caba96682f9ae1dec49402f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_c0b8e732",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/InstallLfsCommand.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-01-23T06:39:11Z",
+      "side": 1,
+      "message": "Missing @since tag",
+      "revId": "8a652414e40100e6caba96682f9ae1dec49402f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_e0bb232a",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/InstallLfsCommand.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-01-23T06:39:11Z",
+      "side": 1,
+      "message": "style nit: one-line if-blocks should also have parentheses.",
+      "revId": "8a652414e40100e6caba96682f9ae1dec49402f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_40ccf7ce",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/InstallLfsCommand.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-01-23T06:39:11Z",
+      "side": 1,
+      "message": "This should not be necessary.  IOException can take the cause as an argument.\n\nI.e. this entire block can be replaced with a single \"throw new IOException(...) rather than creating the instance, setting the cause on it, and then throwing it.\n\nSee for example the change I did here:\n\nhttps://git.eclipse.org/r/#/c/114363/4/org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/ManifestParser.java",
+      "range": {
+        "startLine": 77,
+        "startChar": 3,
+        "endLine": 77,
+        "endChar": 20
+      },
+      "revId": "8a652414e40100e6caba96682f9ae1dec49402f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_60c733aa",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/Lfs.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-01-23T06:39:11Z",
+      "side": 1,
+      "message": "This is a change to the public API.\n\nInstead of replacing the constructor, we should deprecate this one and add a new one that takes Repository.",
+      "revId": "8a652414e40100e6caba96682f9ae1dec49402f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_8095ff97",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/Protocol.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-01-23T06:39:11Z",
+      "side": 1,
+      "message": "4.11",
+      "range": {
+        "startLine": 53,
+        "startChar": 10,
+        "endLine": 53,
+        "endChar": 13
+      },
+      "revId": "8a652414e40100e6caba96682f9ae1dec49402f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_a0983bce",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-01-23T06:39:11Z",
+      "side": 1,
+      "message": "Can this be fixed instead of suppressed?",
+      "range": {
+        "startLine": 164,
+        "startChar": 1,
+        "endLine": 164,
+        "endChar": 28
+      },
+      "revId": "8a652414e40100e6caba96682f9ae1dec49402f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_c08f0786",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-01-23T06:39:11Z",
+      "side": 1,
+      "message": "request",
+      "range": {
+        "startLine": 193,
+        "startChar": 37,
+        "endLine": 193,
+        "endChar": 46
+      },
+      "revId": "8a652414e40100e6caba96682f9ae1dec49402f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_00a90fdc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-01-23T06:39:11Z",
+      "side": 1,
+      "message": "11",
+      "range": {
+        "startLine": 426,
+        "startChar": 13,
+        "endLine": 426,
+        "endChar": 15
+      },
+      "revId": "8a652414e40100e6caba96682f9ae1dec49402f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_609e53b6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-01-23T06:39:11Z",
+      "side": 1,
+      "message": "4.11",
+      "range": {
+        "startLine": 385,
+        "startChar": 11,
+        "endLine": 385,
+        "endChar": 14
+      },
+      "revId": "8a652414e40100e6caba96682f9ae1dec49402f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
