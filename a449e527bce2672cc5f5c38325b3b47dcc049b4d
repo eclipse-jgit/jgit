@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_d14a77fd",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/Protocol.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-01-24T00:06:53Z",
+      "side": 1,
+      "message": "this isn\u0027t public hence there is no need for a @since tag",
+      "parentUuid": "87929364_a0067b91",
+      "revId": "a449e527bce2672cc5f5c38325b3b47dcc049b4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_e0008376",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/Protocol.java",
         "patchSetId": 12
