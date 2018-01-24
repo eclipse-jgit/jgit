@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87929364_315bbbce",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/LfsHelper.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-01-24T00:09:22Z",
+      "side": 1,
+      "message": "missing @since 4.11 tag",
+      "revId": "89e5b263c5de2334e145f08ead66e5d93d230799",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
