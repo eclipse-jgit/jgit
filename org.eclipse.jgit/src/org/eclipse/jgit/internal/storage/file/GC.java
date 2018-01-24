@@ -57,6 +57,7 @@ import java.nio.channels.FileChannel;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.text.MessageFormat;
 import java.text.ParseException;
@@ -907,6 +908,7 @@ public class GC {
 			throw new IOException(e);
 		}
 		prunePacked();
+		deleteEmptyRefDirs();
 		deleteOrphans();
 		deleteTempPacksIdx();
 
@@ -980,6 +982,28 @@ public class GC {
 					LOG.error(e.getMessage(), e);
 				}
 			});
+		} catch (IOException e) {
+			LOG.error(e.getMessage(), e);
+		}
+	}
+
+	private void deleteEmptyRefDirs() {
+		Path objectsDir = Paths
+				.get(repo.getObjectsDirectory().getAbsolutePath());
+		try (DirectoryStream<Path> dirs = Files.newDirectoryStream(objectsDir,
+				Files::isDirectory)) {
+			dirs.forEach(this::deleteDir);
+		} catch (IOException e) {
+			LOG.error(e.getMessage(), e);
+		}
+	}
+
+	private void deleteDir(Path dir) {
+		try (Stream<Path> entries = Files.list(dir)) {
+			if (dir.getFileName().toString().length() == 2
+					&& entries.count() == 0) {
+				Files.deleteIfExists(dir);
+			}
 		} catch (IOException e) {
 			LOG.error(e.getMessage(), e);
 		}
