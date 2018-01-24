@@ -54,9 +54,11 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
+import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.text.MessageFormat;
 import java.text.ParseException;
@@ -907,6 +909,7 @@ public class GC {
 			throw new IOException(e);
 		}
 		prunePacked();
+		deleteEmptyObjectsDirs();
 		deleteOrphans();
 		deleteTempPacksIdx();
 
@@ -980,6 +983,32 @@ public class GC {
 					LOG.error(e.getMessage(), e);
 				}
 			});
+		} catch (IOException e) {
+			LOG.error(e.getMessage(), e);
+		}
+	}
+
+	private void deleteEmptyObjectsDirs() {
+		Path objectsDir = Paths
+				.get(repo.getObjectsDirectory().getAbsolutePath());
+		try (DirectoryStream<Path> dirs = Files.newDirectoryStream(objectsDir,
+				Files::isDirectory)) {
+			dirs.forEach(this::deleteDir);
+		} catch (IOException e) {
+			LOG.error(e.getMessage(), e);
+		}
+	}
+
+	private void deleteDir(Path dir) {
+		try (Stream<Path> entries = Files.list(dir)) {
+			if (dir.getFileName().toString().length() == 2
+					&& entries.count() == 0) {
+				Files.deleteIfExists(dir);
+			}
+		} catch (DirectoryNotEmptyException ignored) {
+			// Can be safely ignored as it means from the moment the evaluation
+			// of emptiness was done and the folder was about to be deleted,
+			// some content was added, i.e., the folder is no longer empty.
 		} catch (IOException e) {
 			LOG.error(e.getMessage(), e);
 		}
