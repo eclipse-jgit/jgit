@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87929364_7e28abb9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1005,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2018-01-25T02:46:20Z",
+      "side": 1,
+      "message": "I think DirectoryNotEmptyException should be handled differently that any other IOException.\n\nIt\u0027s possible between the time the content of the directory is listed and the time the directory is deleted that directory is no longer empty. In that case, we do not want an exception in the logs, I think it should simply be ignored.",
+      "range": {
+        "startLine": 1005,
+        "startChar": 4,
+        "endLine": 1005,
+        "endChar": 30
+      },
+      "revId": "fb2933eec28c121a6a44f34b6949cb4167c3e7e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
