@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "87929364_be1933af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-01-25T02:50:06Z",
+      "side": 1,
+      "message": "nit: \"slows down\"",
+      "range": {
+        "startLine": 11,
+        "startChar": 43,
+        "endLine": 11,
+        "endChar": 52
+      },
+      "revId": "fb2933eec28c121a6a44f34b6949cb4167c3e7e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_7e28abb9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
         "patchSetId": 2
