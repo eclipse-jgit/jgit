@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87929364_fe557b97",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 995,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-01-25T11:36:24Z",
+      "side": 1,
+      "message": "I would test for the name (length 2) here in the filter. No need to check the contents if the name already doesn\u0027t match the criteria.",
+      "revId": "4bfc4b055135646e1593a4e83dfffb56f8999fc6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_5e992fff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1005,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-01-25T11:36:24Z",
+      "side": 1,
+      "message": "Seems like a rather expensive way to determine whether the stream has any elements. How about\n\n  !entries.findAny().isPresent()\n\nor\n\n  !entries.anyMatch(e -\u003e true)\n\n?",
+      "range": {
+        "startLine": 1005,
+        "startChar": 8,
+        "endLine": 1005,
+        "endChar": 28
+      },
+      "revId": "4bfc4b055135646e1593a4e83dfffb56f8999fc6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_bea69341",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1011,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-01-25T11:36:24Z",
+      "side": 1,
+      "message": "Hmmmm... if this can happen, the inverse can also happen: some other thread/external git tries to create a file in that directory while we\u0027re here. I suppose such another thread would typically first create the directory (mkdirs()) and then write the file. If between these two steps this code here removes that still empty directory, that other thread will have a nasty surprise.",
+      "revId": "4bfc4b055135646e1593a4e83dfffb56f8999fc6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
