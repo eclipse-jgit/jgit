@@ -49,6 +49,7 @@ import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -64,6 +65,7 @@ import org.eclipse.jgit.api.Status;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.NoFilepatternException;
 import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.dircache.DirCacheCheckout.CheckoutMetadata;
 import org.eclipse.jgit.dircache.DirCacheEditor;
@@ -1951,4 +1953,793 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 			assertEquals("WorkDir has not the right size.", i.size(), nrFiles);
 		}
 	}
+
+	/**
+	 * Test a checkout when the spare-checkout is 'false' and there is no
+	 * sparse-checkout file present.
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testCheckoutWithNoFileAndSparseFalse() throws Exception {
+		ChangeRecorder recorder = new ChangeRecorder();
+		ListenerHandle handle = null;
+		try (Git git = new Git(db)) {
+			handle = db.getListenerList()
+					.addWorkingTreeModifiedListener(recorder);
+			TestRepository<Repository> db_t = new TestRepository<>(db);
+			StoredConfig config = db_t.getRepository().getConfig();
+			config.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+					ConfigConstants.CONFIG_KEY_SPARSECHECKOUT, false);
+			config.save();
+			BranchBuilder master = db_t.branch("master");
+			master.commit().add("f", "1").message("m0").create();
+			File file = new File(db.getWorkTree(), "f");
+			assertFalse(file.exists());
+			git.checkout().setName("master").call();
+			assertTrue(file.exists());
+			recorder.assertEvent(new String[] { "f" }, ChangeRecorder.EMPTY);
+		} finally {
+			if (handle != null) {
+				handle.remove();
+			}
+		}
+	}
+
+	/**
+	 * Test a checkout when the spare-checkout is 'true' and there is no
+	 * sparse-checkout file present.
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testCheckoutNoFileAndSparseTrue() throws Exception {
+		ChangeRecorder recorder = new ChangeRecorder();
+		ListenerHandle handle = null;
+		try (Git git = new Git(db)) {
+			handle = db.getListenerList()
+					.addWorkingTreeModifiedListener(recorder);
+
+			TestRepository<Repository> db_t = new TestRepository<>(db);
+			StoredConfig config = db_t.getRepository().getConfig();
+			config.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+					ConfigConstants.CONFIG_KEY_SPARSECHECKOUT, true);
+			config.save();
+
+			BranchBuilder master = db_t.branch("master");
+			master.commit().add("f", "1").message("m0").create();
+			File file = new File(db.getWorkTree(), "f");
+			assertFalse(file.exists());
+			git.checkout().setName("master").call();
+			assertTrue(file.exists());
+			recorder.assertEvent(new String[] { "f" }, ChangeRecorder.EMPTY);
+		} finally {
+			if (handle != null) {
+				handle.remove();
+			}
+		}
+	}
+
+	/**
+	 * Test a checkout when the spare-checkout is 'true' and there is an empty
+	 * sparse-checkout file present.
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testCheckoutWithEmptyFileAndSparseTrue() throws Exception {
+		ChangeRecorder recorder = new ChangeRecorder();
+		ListenerHandle handle = null;
+		try (Git git = new Git(db)) {
+			handle = db.getListenerList()
+					.addWorkingTreeModifiedListener(recorder);
+			File infoDir = new File(db.getDirectory(), "info");
+			infoDir.mkdirs();
+			File infoFile = new File(db.getDirectory(),
+					Constants.INFO_SPARSE_CHECKOUT);
+			infoFile.createNewFile();
+
+			TestRepository<Repository> db_t = new TestRepository<>(db);
+
+			StoredConfig config = db_t.getRepository().getConfig();
+			config.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+					ConfigConstants.CONFIG_KEY_SPARSECHECKOUT, true);
+			config.save();
+
+			BranchBuilder master = db_t.branch("master");
+			master.commit().add("f", "1").message("m0").create();
+			File file = new File(db.getWorkTree(), "f");
+			assertFalse(file.exists());
+			git.checkout().setName("master").call();
+			assertTrue(file.exists());
+			recorder.assertEvent(new String[] { "f" }, ChangeRecorder.EMPTY);
+		} finally {
+			if (handle != null) {
+				handle.remove();
+			}
+		}
+	}
+
+	/**
+	 * Test a checkout when the spare-checkout is 'true' and there is an empty
+	 * sparse-checkout with just a comment present.
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testCheckoutWithCommentInFileAndSparseTrue() throws Exception {
+		ChangeRecorder recorder = new ChangeRecorder();
+		ListenerHandle handle = null;
+		try (Git git = new Git(db)) {
+			handle = db.getListenerList()
+					.addWorkingTreeModifiedListener(recorder);
+			File infoDir = new File(db.getDirectory(), "info");
+			infoDir.mkdirs();
+			File infoFile = new File(db.getDirectory(),
+					Constants.INFO_SPARSE_CHECKOUT);
+			infoFile.createNewFile();
+
+			try (FileWriter fw = new FileWriter(infoFile)) {
+				fw.write("#comment");
+			}
+
+			TestRepository<Repository> db_t = new TestRepository<>(db);
+
+			StoredConfig config = db_t.getRepository().getConfig();
+			config.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+					ConfigConstants.CONFIG_KEY_SPARSECHECKOUT, true);
+			config.save();
+
+			BranchBuilder master = db_t.branch("master");
+			File file = new File(db.getWorkTree(), "f");
+			master.commit().add("f", "1").message("m0").create();
+			assertFalse(file.exists());
+			git.checkout().setName("master").call();
+			assertTrue(file.exists());
+			recorder.assertEvent(new String[] { "f" }, ChangeRecorder.EMPTY);
+		} finally {
+			if (handle != null) {
+				handle.remove();
+			}
+		}
+	}
+
+	/**
+	 * Test a checkout when the spare-checkout is 'true' and there is an empty
+	 * sparse-checkout with just a comment present.
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testCheckoutWithEmptyLineInFileAndSparseTrue()
+			throws Exception {
+		ChangeRecorder recorder = new ChangeRecorder();
+		ListenerHandle handle = null;
+		try (Git git = new Git(db)) {
+			handle = db.getListenerList()
+					.addWorkingTreeModifiedListener(recorder);
+			File infoDir = new File(db.getDirectory(), "info");
+			infoDir.mkdirs();
+			File sparseFile = new File(db.getDirectory(),
+					Constants.INFO_SPARSE_CHECKOUT);
+			sparseFile.createNewFile();
+
+			try (FileWriter fw = new FileWriter(sparseFile)) {
+				fw.write("");
+				fw.write("\n");
+			}
+
+			TestRepository<Repository> db_t = new TestRepository<>(db);
+			StoredConfig config = db_t.getRepository().getConfig();
+			config.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+					ConfigConstants.CONFIG_KEY_SPARSECHECKOUT, true);
+			config.save();
+
+			BranchBuilder master = db_t.branch("master");
+			master.commit().add("f", "1").message("m0").create();
+			File file = new File(db.getWorkTree(), "f");
+			assertFalse(file.exists());
+			git.checkout().setName("master").call();
+			assertTrue(file.exists());
+			recorder.assertEvent(new String[] { "f" }, ChangeRecorder.EMPTY);
+		} finally {
+			if (handle != null) {
+				handle.remove();
+			}
+		}
+	}
+
+	/**
+	 * Test a checkout when the spare-checkout is 'true' and there is a
+	 * sparse-checkout file with rules present.
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testCheckoutWithSparseTrue() throws Exception {
+		ChangeRecorder recorder = new ChangeRecorder();
+		ListenerHandle handle = null;
+		try (Git git = new Git(db)) {
+			handle = db.getListenerList()
+					.addWorkingTreeModifiedListener(recorder);
+			File infoDir = new File(db.getDirectory(), "info");
+			infoDir.mkdirs();
+			File file = new File(db.getDirectory(),
+					Constants.INFO_SPARSE_CHECKOUT);
+			file.createNewFile();
+
+			try (FileWriter fw = new FileWriter(file)) {
+				fw.write("checkout");
+				fw.write("\n!not-checkout");
+				fw.write("\nfile-does-not-exist");
+				fw.write("\n#comment.txt");
+				fw.write("\nnegated-a");
+				fw.write("\n!negated-a");
+				fw.write("\n!negated-b");
+				fw.write("\nnegated-b");
+				fw.write("\n!none-indexed-negated");
+				fw.write("\nnone-indexed");
+			}
+
+			TestRepository<Repository> db_t = new TestRepository<>(db);
+			StoredConfig config = db_t.getRepository().getConfig();
+			config.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+					ConfigConstants.CONFIG_KEY_SPARSECHECKOUT, true);
+			config.save();
+
+			BranchBuilder master = db_t.branch("master");
+			master.commit().add("checkout", "1").message("m0").create();
+			master.commit().add("not-checkout", "1").message("m0").create();
+			master.commit().add("comment.txt", "1").message("m0").create();
+			master.commit().add("negated-a", "1").message("m0").create();
+			master.commit().add("negated-b", "1").message("m0").create();
+
+			File noneIndexedFileNegated = new File(db.getWorkTree(),
+					"none-indexed-negated");
+			noneIndexedFileNegated.createNewFile();
+			File noneIndexedFile = new File(db.getWorkTree(), "none-indexed");
+			noneIndexedFile.createNewFile();
+
+			File fileToCheckout = new File(db.getWorkTree(), "checkout");
+			File fileToNotCheckout = new File(db.getWorkTree(), "not-checkout");
+			File fileComment = new File(db.getWorkTree(), "comment.txt");
+			File fileNegatedA = new File(db.getWorkTree(), "negated-a");
+			File fileNegatedB = new File(db.getWorkTree(), "negated-b");
+			File fileNotIndexedNegated = new File(db.getWorkTree(),
+					"none-indexed-negated");
+			File fileNotIndexed = new File(db.getWorkTree(), "none-indexed");
+
+			assertFalse(fileToCheckout.exists());
+			assertFalse(fileToNotCheckout.exists());
+			assertFalse(fileComment.exists());
+			assertFalse(fileNegatedA.exists());
+			assertFalse(fileNegatedB.exists());
+			assertTrue(fileNotIndexedNegated.exists());
+			assertTrue(fileNotIndexed.exists());
+
+			git.checkout().setName("master").call();
+
+			assertTrue(fileNotIndexedNegated.exists());
+			assertTrue(fileNotIndexed.exists());
+			assertTrue(fileToCheckout.exists());
+			assertFalse(fileToNotCheckout.exists());
+			assertFalse(fileComment.exists());
+			assertFalse(fileNegatedA.exists());
+			assertTrue(fileNegatedB.exists());
+		} finally {
+			if (handle != null) {
+				handle.remove();
+			}
+		}
+	}
+
+	/**
+	 * Test a checkout when the spare-checkout is 'false' and is toggled to
+	 * 'true'.
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testCheckoutToggleSparseCheckoutInConfig() throws Exception {
+		ChangeRecorder recorder = new ChangeRecorder();
+		ListenerHandle handle = null;
+		try (Git git = new Git(db)) {
+			handle = db.getListenerList()
+					.addWorkingTreeModifiedListener(recorder);
+			File infoDir = new File(db.getDirectory(), "info");
+			infoDir.mkdirs();
+			File sparseFile = new File(db.getDirectory(),
+					Constants.INFO_SPARSE_CHECKOUT);
+			sparseFile.createNewFile();
+
+			try (FileWriter fw = new FileWriter(sparseFile)) {
+				fw.write("checkout");
+				fw.write("\n!not-checkout");
+			}
+
+			TestRepository<Repository> db_t = new TestRepository<>(db);
+			StoredConfig config = db_t.getRepository().getConfig();
+			config.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+					ConfigConstants.CONFIG_KEY_SPARSECHECKOUT, true);
+			config.save();
+
+			BranchBuilder master = db_t.branch("master");
+			master.commit().add("checkout", "1").message("m0").create();
+			master.commit().add("not-checkout", "1").message("m0").create();
+
+			File fileToCheckout = new File(db.getWorkTree(), "checkout");
+			File fileToNotCheckout = new File(db.getWorkTree(), "not-checkout");
+			assertFalse(fileToCheckout.exists());
+			assertFalse(fileToNotCheckout.exists());
+
+			git.checkout().setName("master").call();
+
+			assertTrue(fileToCheckout.exists());
+			assertFalse(fileToNotCheckout.exists());
+
+			// reincludes all the files using '/*' rule.
+			try (FileWriter fw = new FileWriter(sparseFile, false)) {
+				fw.write("/*");
+			}
+
+			git.checkout().setName("master").call();
+			assertTrue(fileToCheckout.exists());
+			assertTrue(fileToNotCheckout.exists());
+
+			// Toggle the spareCheckout configuration
+			config = db_t.getRepository().getConfig();
+			config.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+					ConfigConstants.CONFIG_KEY_SPARSECHECKOUT, false);
+			config.save();
+			sparseFile.delete();
+
+			git.checkout().setName("master").call();
+			assertTrue(fileToCheckout.exists());
+			assertTrue(fileToNotCheckout.exists());
+
+		} finally {
+			if (handle != null) {
+				handle.remove();
+			}
+		}
+	}
+
+	/**
+	 * Test that if the 'skip-worktree' is already set then the sparse-checkout
+	 * does not interfere with its state by either removing it or un-setting the
+	 * flag.
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testSparseCheckoutFileWithSkipWorkTreeSet() throws Exception {
+		ChangeRecorder recorder = new ChangeRecorder();
+		ListenerHandle handle = null;
+		try (Git git = new Git(db)) {
+			handle = db.getListenerList()
+					.addWorkingTreeModifiedListener(recorder);
+
+			TestRepository<Repository> db_t = new TestRepository<>(db);
+			StoredConfig config = db_t.getRepository().getConfig();
+			config.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+					ConfigConstants.CONFIG_KEY_SPARSECHECKOUT, false);
+			config.save();
+
+			BranchBuilder master = db_t.branch("master");
+			master.commit().add("skip-worktree-set", "1").message("m0")
+					.create();
+			master.commit().add("skip-worktree-unset", "1").message("m0")
+					.create();
+
+			File fileSet = new File(db.getWorkTree(), "skip-worktree-set");
+			File fileUnSet = new File(db.getWorkTree(), "skip-worktree-unset");
+			assertFalse(fileSet.exists());
+			assertFalse(fileUnSet.exists());
+
+			git.checkout().setName("master").call();
+
+			DirCache dc = DirCache.read(db_t.getRepository());
+			if (dc.lock()) {
+				dc.read();
+				DirCacheEntry entry = dc
+						.getEntry("skip-worktree-set");
+				entry.setSkipWorkTree(true);
+				dc.write();
+				dc.commit();
+			} else {
+				fail("Unable to lock index file: '"
+						+ db.getIndexFile().getPath() + "'");
+			}
+
+			assertTrue(fileSet.exists());
+			assertTrue(fileUnSet.exists());
+
+			config = db_t.getRepository().getConfig();
+			config.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+					ConfigConstants.CONFIG_KEY_SPARSECHECKOUT, true);
+			config.save();
+
+			File infoDir = new File(db.getDirectory(), "info");
+			infoDir.mkdirs();
+			File file = new File(db.getDirectory(),
+					Constants.INFO_SPARSE_CHECKOUT);
+			file.createNewFile();
+
+			try (FileWriter fw = new FileWriter(file)) {
+				fw.write("skip-worktree-unset");
+			}
+
+			git.checkout().setName("master").call();
+			assertFalse(fileSet.exists());
+			assertTrue(fileUnSet.exists());
+
+		} finally {
+			if (handle != null) {
+				handle.remove();
+			}
+		}
+	}
+
+	/**
+	 * If a file is modified in the working tree and skip working tree flag is
+	 * toggled then the sparse-checkout will keep the user's modifications.
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testSparseCheckoutWorkingTreeFileWithSkipWorkTreeSet()
+			throws Exception {
+		ChangeRecorder recorder = new ChangeRecorder();
+		ListenerHandle handle = null;
+		try (Git git = new Git(db)) {
+			handle = db.getListenerList()
+					.addWorkingTreeModifiedListener(recorder);
+
+			TestRepository<Repository> db_t = new TestRepository<>(db);
+
+			BranchBuilder master = db_t.branch("master");
+			master.commit().add("modified", "1").message("m0")
+					.create();
+			master.commit().add("removed", "1").message("m0")
+					.create();
+			master.commit().add("unchanged", "1").message("m0")
+					.create();
+
+			File fileModified = new File(db.getWorkTree(), "modified");
+			File fileRemoved = new File(db.getWorkTree(), "removed");
+			File file = new File(db.getWorkTree(), "unchanged");
+
+			assertFalse(fileModified.exists());
+			assertFalse(fileRemoved.exists());
+			assertFalse(file.exists());
+
+			git.checkout().setName("master").call();
+
+			DirCache dc = DirCache.read(db_t.getRepository());
+			if (dc.lock()) {
+				dc.read();
+				DirCacheEntry entry = dc.getEntry("modified");
+				entry.setSkipWorkTree(true);
+
+				entry = dc.getEntry("removed");
+				entry.setSkipWorkTree(true);
+
+				entry = dc.getEntry("unchanged");
+				entry.setSkipWorkTree(true);
+				dc.write();
+				dc.commit();
+			} else {
+				fail("Unable to lock index file: '"
+						+ db.getIndexFile().getPath() + "'");
+			}
+
+			assertTrue(fileRemoved.exists());
+			assertTrue(fileModified.exists());
+			assertTrue(file.exists());
+			assertTrue(fileRemoved.delete());
+
+			StoredConfig config = db_t.getRepository().getConfig();
+			config.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+					ConfigConstants.CONFIG_KEY_SPARSECHECKOUT, true);
+			config.save();
+
+			File infoDir = new File(db.getDirectory(), "info");
+			infoDir.mkdirs();
+			File sparseFile = new File(db.getDirectory(),
+					Constants.INFO_SPARSE_CHECKOUT);
+			sparseFile.createNewFile();
+
+			try (FileWriter fw = new FileWriter(sparseFile)) {
+				fw.write("/*");
+			}
+
+			try (FileWriter fw = new FileWriter(fileModified)) {
+				fw.write("file-modified");
+			}
+
+			git.checkout().setName("master").call();
+			assertTrue(fileModified.exists());
+			assertTrue(fileRemoved.exists());
+			assertTrue(file.exists());
+
+			dc = DirCache.read(db_t.getRepository());
+			if (dc.lock()) {
+				dc.read();
+				DirCacheEntry modifiedEntry = dc.getEntry("modified");
+				DirCacheEntry removedEntry = dc.getEntry("removed");
+				DirCacheEntry entry = dc.getEntry("unchanged");
+				dc.unlock();
+
+				assertFalse(removedEntry.isSkipWorkTree());
+				assertFalse(entry.isSkipWorkTree());
+				assertTrue(modifiedEntry.isSkipWorkTree());
+			} else {
+				fail("Unable to lock index file: '"
+						+ db.getIndexFile().getPath() + "'");
+			}
+
+		} finally {
+			if (handle != null) {
+				handle.remove();
+			}
+		}
+	}
+
+	/**
+	 * Test a variety of scenarios where the file is not merged in the checked
+	 * out tree
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testSparseCheckoutOfUnMergedNotInWorkingTree()
+			throws Exception {
+		ChangeRecorder recorder = new ChangeRecorder();
+		ListenerHandle handle = null;
+		try (Git git = new Git(db)) {
+			handle = db.getListenerList()
+					.addWorkingTreeModifiedListener(recorder);
+
+			TestRepository<Repository> db_t = new TestRepository<>(db);
+			BranchBuilder master = db_t.branch("master");
+			master.commit().create();
+
+			File file = new File(db.getWorkTree(), "file");
+
+			DirCache dc = DirCache.read(db_t.getRepository());
+			if (dc.lock()) {
+				DirCacheBuilder builder = dc.builder();
+				DirCacheEntry unMergedEntry = new DirCacheEntry(file.getName(),
+						DirCacheEntry.STAGE_2);
+				unMergedEntry.setFileMode(FileMode.REGULAR_FILE);
+				unMergedEntry.setSkipWorkTree(true);
+				builder.add(unMergedEntry);
+				builder.finish();
+				dc.write();
+				dc.commit();
+			} else {
+				fail("Unable to lock index file: '"
+						+ db.getIndexFile().getPath() + "'");
+			}
+
+			assertFalse(file.exists());
+
+			StoredConfig config = db_t.getRepository().getConfig();
+			config.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+					ConfigConstants.CONFIG_KEY_SPARSECHECKOUT, true);
+			config.save();
+
+			File infoDir = new File(db.getDirectory(), "info");
+			infoDir.mkdirs();
+			File sparseFile = new File(db.getDirectory(),
+					Constants.INFO_SPARSE_CHECKOUT);
+			sparseFile.createNewFile();
+
+			try (FileWriter fw = new FileWriter(sparseFile)) {
+				fw.write("/*");
+			}
+
+			git.checkout().setName("master").call();
+			assertFalse(file.exists());
+
+			try (FileWriter fw = new FileWriter(sparseFile)) {
+				fw.write(file.getName());
+			}
+			git.checkout().setName("master").setForce(true).call();
+			assertFalse(file.exists());
+		} finally {
+			if (handle != null) {
+				handle.remove();
+			}
+		}
+	}
+
+	/**
+	 * Test a variety of scenarios where the file is not merged in the checked
+	 * out tree
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testSparseCheckoutOfUnMergedInWorkingTree()
+			throws Exception {
+		ChangeRecorder recorder = new ChangeRecorder();
+		ListenerHandle handle = null;
+		try (Git git = new Git(db)) {
+			handle = db.getListenerList()
+					.addWorkingTreeModifiedListener(recorder);
+
+			TestRepository<Repository> db_t = new TestRepository<>(db);
+			BranchBuilder master = db_t.branch("master");
+			master.commit().create();
+
+			File file = new File(db.getWorkTree(), "file");
+
+			DirCache dc = DirCache.read(db_t.getRepository());
+			if (dc.lock()) {
+				DirCacheBuilder builder = dc.builder();
+				DirCacheEntry unMergedEntry = new DirCacheEntry(file.getName(),
+						DirCacheEntry.STAGE_2);
+				unMergedEntry.setFileMode(FileMode.REGULAR_FILE);
+				unMergedEntry.setSkipWorkTree(true);
+				builder.add(unMergedEntry);
+				builder.finish();
+				dc.write();
+				dc.commit();
+			} else {
+				fail("Unable to lock index file: '"
+						+ db.getIndexFile().getPath() + "'");
+			}
+
+			assertFalse(file.exists());
+
+			StoredConfig config = db_t.getRepository().getConfig();
+			config.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+					ConfigConstants.CONFIG_KEY_SPARSECHECKOUT, true);
+			config.save();
+
+			File infoDir = new File(db.getDirectory(), "info");
+			infoDir.mkdirs();
+			File sparseFile = new File(db.getDirectory(),
+					Constants.INFO_SPARSE_CHECKOUT);
+			sparseFile.createNewFile();
+
+			try (FileWriter fw = new FileWriter(sparseFile)) {
+				fw.write("/*");
+			}
+
+			file.createNewFile();
+			assertTrue(file.exists());
+
+			git.checkout().setName("master").setForce(true).call();
+			assertFalse(file.exists());
+
+			try (FileWriter fw = new FileWriter(sparseFile, false)) {
+				fw.write("");
+			}
+
+			git.checkout().setName("master").setForce(true).call();
+			assertFalse(file.exists());
+
+		} finally {
+			if (handle != null) {
+				handle.remove();
+			}
+		}
+	}
+
+	/**
+	 * Test a variety of scenarios where the file is not merged in the checked
+	 * out tree
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testSparseCheckoutOfUnMergedInWorkingTreeFlagNotSet()
+			throws Exception {
+		ChangeRecorder recorder = new ChangeRecorder();
+		ListenerHandle handle = null;
+		try (Git git = new Git(db)) {
+			handle = db.getListenerList()
+					.addWorkingTreeModifiedListener(recorder);
+
+			TestRepository<Repository> db_t = new TestRepository<>(db);
+			BranchBuilder master = db_t.branch("master");
+			master.commit().create();
+
+			File fileA = new File(db.getWorkTree(), "file-a");
+			File fileB = new File(db.getWorkTree(), "file-b");
+
+			assertFalse(fileA.exists());
+			assertFalse(fileB.exists());
+
+			StoredConfig config = db_t.getRepository().getConfig();
+			config.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+					ConfigConstants.CONFIG_KEY_SPARSECHECKOUT, true);
+			config.save();
+
+			File infoDir = new File(db.getDirectory(), "info");
+			infoDir.mkdirs();
+			File sparseFile = new File(db.getDirectory(),
+					Constants.INFO_SPARSE_CHECKOUT);
+			sparseFile.createNewFile();
+
+			try (FileWriter fw = new FileWriter(sparseFile)) {
+				fw.write("/*");
+			}
+
+			fileB.createNewFile();
+			assertTrue(fileB.exists());
+
+			master.commit().add(fileA.getName(), "1").message("m0").create();
+			git.checkout().setName("master").setForce(true).call();
+			assertTrue(fileA.exists());
+			// TODO The DirCacheCheckout.processEntry() does not handle this
+			// properly.
+			// assertFalse(fileB.exists());
+		} finally {
+			if (handle != null) {
+				handle.remove();
+			}
+		}
+	}
+
+	/**
+	 * Test a variety of scenarios where the file merged in the checked out tree
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testSparseCheckoutWithWorkingTreeFlagSet() throws Exception {
+		ChangeRecorder recorder = new ChangeRecorder();
+		ListenerHandle handle = null;
+		try (Git git = new Git(db)) {
+			handle = db.getListenerList()
+					.addWorkingTreeModifiedListener(recorder);
+
+			TestRepository<Repository> db_t = new TestRepository<>(db);
+			BranchBuilder master = db_t.branch("master");
+			master.commit().create();
+
+			File fileA = new File(db.getWorkTree(), "file-a");
+
+			DirCache dc = DirCache.read(db_t.getRepository());
+			if (dc.lock()) {
+				DirCacheBuilder builder = dc.builder();
+				DirCacheEntry unMergedEntry = new DirCacheEntry(fileA.getName(),
+						DirCacheEntry.STAGE_2);
+				unMergedEntry.setFileMode(FileMode.REGULAR_FILE);
+				unMergedEntry.setSkipWorkTree(true);
+				builder.add(unMergedEntry);
+				builder.finish();
+				dc.write();
+				dc.commit();
+			} else {
+				fail("Unable to lock index file: '"
+						+ db.getIndexFile().getPath() + "'");
+			}
+
+			assertFalse(fileA.exists());
+
+			StoredConfig config = db_t.getRepository().getConfig();
+			config.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+					ConfigConstants.CONFIG_KEY_SPARSECHECKOUT, true);
+			config.save();
+
+			File infoDir = new File(db.getDirectory(), "info");
+			infoDir.mkdirs();
+			File sparseFile = new File(db.getDirectory(),
+					Constants.INFO_SPARSE_CHECKOUT);
+			sparseFile.createNewFile();
+
+			master.commit().add(fileA.getName(), "1").message("m0").create();
+			git.checkout().setName("master").setForce(true).call();
+			assertFalse(fileA.exists());
+		} finally {
+			if (handle != null) {
+				handle.remove();
+			}
+		}
+	}
+
 }
