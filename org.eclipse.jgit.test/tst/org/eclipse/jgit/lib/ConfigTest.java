@@ -808,8 +808,14 @@ public class ConfigTest {
 			fbConfig.load();
 			fail();
 		} catch (ConfigInvalidException cie) {
-			assertEquals(JGitText.get().tooManyIncludeRecursions,
-					cie.getCause().getMessage());
+			for (Throwable t = cie; t != null; t = t.getCause()) {
+				if (t.getMessage()
+						.equals(JGitText.get().tooManyIncludeRecursions)) {
+					return;
+				}
+			}
+			fail("Expected to find expected exception message: "
+					+ JGitText.get().tooManyIncludeRecursions);
 		}
 	}
 
@@ -822,6 +828,80 @@ public class ConfigTest {
 
 		Config parsed = parse("[include]\npath=" + pathToString(config) + "\n");
 		assertFalse(parsed.getBoolean("foo", "bar", false));
+	}
+
+	@Test
+	public void testIncludeCaseInsensitiveSection()
+			throws IOException, ConfigInvalidException {
+		File included = tmp.newFile("included");
+		String content = "[foo]\nbar=true\n";
+		Files.write(included.toPath(), content.getBytes());
+
+		File config = tmp.newFile("config");
+		content = "[Include]\npath=" + pathToString(included) + "\n";
+		Files.write(config.toPath(), content.getBytes());
+
+		FileBasedConfig fbConfig = new FileBasedConfig(null, config,
+				FS.DETECTED);
+		fbConfig.load();
+		assertTrue(fbConfig.getBoolean("foo", "bar", false));
+	}
+
+	@Test
+	public void testIncludeCaseInsensitiveKey()
+			throws IOException, ConfigInvalidException {
+		File included = tmp.newFile("included");
+		String content = "[foo]\nbar=true\n";
+		Files.write(included.toPath(), content.getBytes());
+
+		File config = tmp.newFile("config");
+		content = "[include]\nPath=" + pathToString(included) + "\n";
+		Files.write(config.toPath(), content.getBytes());
+
+		FileBasedConfig fbConfig = new FileBasedConfig(null, config,
+				FS.DETECTED);
+		fbConfig.load();
+		assertTrue(fbConfig.getBoolean("foo", "bar", false));
+	}
+
+	@Test
+	public void testIncludeExceptionContainsLine() {
+		try {
+			parse("[include]\npath=\n");
+			fail("Expected ConfigInvalidException");
+		} catch (ConfigInvalidException e) {
+			assertTrue(
+					"Expected to find the problem line in the exception message",
+					e.getMessage().contains("include.path"));
+		}
+	}
+
+	@Test
+	public void testIncludeExceptionContainsFile() throws IOException {
+		File included = tmp.newFile("included");
+		String includedPath = pathToString(included);
+		String content = "[include]\npath=\n";
+		Files.write(included.toPath(), content.getBytes());
+
+		File config = tmp.newFile("config");
+		String include = "[include]\npath=" + includedPath + "\n";
+		Files.write(config.toPath(), include.getBytes());
+		FileBasedConfig fbConfig = new FileBasedConfig(null, config,
+				FS.DETECTED);
+		try {
+			fbConfig.load();
+			fail("Expected ConfigInvalidException");
+		} catch (ConfigInvalidException e) {
+			// Check that there is some exception in the chain that contains
+			// includedPath
+			for (Throwable t = e; t != null; t = t.getCause()) {
+				if (t.getMessage().contains(includedPath)) {
+					return;
+				}
+			}
+			fail("Expected to find the path in the exception message: "
+					+ includedPath);
+		}
 	}
 
 	private static void assertReadLong(long exp) throws ConfigInvalidException {

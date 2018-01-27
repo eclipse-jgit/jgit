@@ -1125,7 +1125,7 @@ public class Config {
 				} else
 					e.value = readValue(in);
 
-				if (e.section.equals("include")) { //$NON-NLS-1$
+				if (e.section.equalsIgnoreCase("include")) { //$NON-NLS-1$
 					addIncludedConfig(newEntries, e, depth);
 				}
 			} else
@@ -1154,10 +1154,10 @@ public class Config {
 
 	private void addIncludedConfig(final List<ConfigLine> newEntries,
 			ConfigLine line, int depth) throws ConfigInvalidException {
-		if (!line.name.equals("path") || //$NON-NLS-1$
+		if (!line.name.equalsIgnoreCase("path") || //$NON-NLS-1$
 				line.value == null || line.value.equals(MAGIC_EMPTY_VALUE)) {
-			throw new ConfigInvalidException(
-					JGitText.get().invalidLineInConfigFile);
+			throw new ConfigInvalidException(MessageFormat.format(
+					JGitText.get().invalidLineInConfigFileWithParam, line));
 		}
 		byte[] bytes = readIncludedConfig(line.value);
 		if (bytes == null) {
@@ -1171,7 +1171,12 @@ public class Config {
 		} else {
 			decoded = RawParseUtils.decode(bytes);
 		}
-		newEntries.addAll(fromTextRecurse(decoded, depth + 1));
+		try {
+			newEntries.addAll(fromTextRecurse(decoded, depth + 1));
+		} catch (ConfigInvalidException e) {
+			throw new ConfigInvalidException(MessageFormat
+					.format(JGitText.get().cannotReadFile, line.value), e);
+		}
 	}
 
 	private ConfigSnapshot newState() {
