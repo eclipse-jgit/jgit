@@ -16,6 +16,24 @@
       "revId": "8a652414e40100e6caba96682f9ae1dec49402f4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_ea03eb81",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-01-30T15:37:08Z",
+      "side": 0,
+      "message": "Oups, by mistake. It\u0027s policy here in our company to not have it :)",
+      "parentUuid": "87929364_f1fcd334",
+      "revId": "8a652414e40100e6caba96682f9ae1dec49402f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }

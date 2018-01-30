@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "87929364_eadccb94",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPointer.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-01-30T15:37:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_11d15fc4",
+      "range": {
+        "startLine": 80,
+        "startChar": 40,
+        "endLine": 80,
+        "endChar": 44
+      },
+      "revId": "c03d818d6aa0deebe4f0a29233445922ec560e4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_31e01b8d",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
         "patchSetId": 16
@@ -36,6 +60,24 @@
       "writtenOn": "2018-01-23T23:51:59Z",
       "side": 1,
       "message": "missing @since 4.11 tag for new API",
+      "revId": "c03d818d6aa0deebe4f0a29233445922ec560e4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_0ae03741",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-01-30T15:37:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_31e01b8d",
       "revId": "c03d818d6aa0deebe4f0a29233445922ec560e4c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_2ae7b35b",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-01-30T15:37:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_51dbe7e3",
+      "revId": "c03d818d6aa0deebe4f0a29233445922ec560e4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_71e9c377",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
         "patchSetId": 16
@@ -70,6 +130,24 @@
       "writtenOn": "2018-01-23T23:51:59Z",
       "side": 1,
       "message": "missing braces",
+      "revId": "c03d818d6aa0deebe4f0a29233445922ec560e4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_4aea3f23",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-01-30T15:37:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_71e9c377",
       "revId": "c03d818d6aa0deebe4f0a29233445922ec560e4c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_6ad0db71",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-01-30T15:37:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_91ec6f89",
+      "revId": "c03d818d6aa0deebe4f0a29233445922ec560e4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_b1e32b95",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
         "patchSetId": 16
@@ -104,6 +200,24 @@
       "writtenOn": "2018-01-23T23:51:59Z",
       "side": 1,
       "message": "? how does this relate to the next lines ?",
+      "revId": "c03d818d6aa0deebe4f0a29233445922ec560e4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_8acb47c7",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-01-30T15:37:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_b1e32b95",
       "revId": "c03d818d6aa0deebe4f0a29233445922ec560e4c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -133,6 +247,30 @@
     },
     {
       "key": {
+        "uuid": "87929364_aadac38e",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-01-30T15:37:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_d1e6f7a4",
+      "range": {
+        "startLine": 203,
+        "startChar": 37,
+        "endLine": 203,
+        "endChar": 46
+      },
+      "revId": "c03d818d6aa0deebe4f0a29233445922ec560e4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_11f87f3c",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionHelper.java",
         "patchSetId": 16
@@ -144,6 +282,24 @@
       "writtenOn": "2018-01-23T23:51:59Z",
       "side": 1,
       "message": "fix TODO",
+      "revId": "c03d818d6aa0deebe4f0a29233445922ec560e4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_0ab2f750",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionHelper.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-01-30T15:37:08Z",
+      "side": 1,
+      "message": "tried to figure out the definitive way to do it, and it seems git-lfs also has no answer - see https://github.com/git-lfs/git-lfs/issues/1759. I adapted the comment though.",
+      "parentUuid": "87929364_11f87f3c",
       "revId": "c03d818d6aa0deebe4f0a29233445922ec560e4c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -167,6 +323,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_6ac29b9d",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionHelper.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-01-30T15:37:08Z",
+      "side": 1,
+      "message": "Analogous to the previous commit (https://git.eclipse.org/r/#/c/83506/28/org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java) I would like to here Christians thoughts on why he wrote this TODO before changing anything...",
+      "parentUuid": "87929364_31f73b4e",
+      "revId": "c03d818d6aa0deebe4f0a29233445922ec560e4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_9150efad",
         "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
         "patchSetId": 16
@@ -178,6 +352,24 @@
       "writtenOn": "2018-01-24T00:03:05Z",
       "side": 1,
       "message": "org.eclipse.jgit should not depend on the optional lfs bundle",
+      "revId": "c03d818d6aa0deebe4f0a29233445922ec560e4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_4a931faf",
+        "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
+        "patchSetId": 16
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-01-30T15:37:08Z",
+      "side": 1,
+      "message": "This is here due to the LFS pre push hook in Hooks. If I get an answer on the preferred way to implement pre-push hooks (other than the most likely temporary quick-fix in Hooks), I can probably remove this dependency - I\u0027m thinking of a registration system analogous to smudge filter and clean filter.",
+      "parentUuid": "87929364_9150efad",
       "revId": "c03d818d6aa0deebe4f0a29233445922ec560e4c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -201,6 +393,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_0a9917d1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/Hooks.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-01-30T15:37:08Z",
+      "side": 1,
+      "message": "I already asked a few times on the mailing list on what would be the correct way to implement this, but do not have an answer (yet?). What I would /want/ to have is a general pre-push hook concept where LFS registers itself. But i lack knowledge on what scenarios must be supported, and if it is OK to only support a single pre-push hook - or if it is even a requirement to only allow a single hook?",
+      "parentUuid": "87929364_51f2075c",
+      "revId": "c03d818d6aa0deebe4f0a29233445922ec560e4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_71146302",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/PrePushHook.java",
         "patchSetId": 16
@@ -212,6 +422,24 @@
       "writtenOn": "2018-01-23T23:51:59Z",
       "side": 1,
       "message": "missing @since 4.11 tag for new API",
+      "revId": "c03d818d6aa0deebe4f0a29233445922ec560e4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_6aa9bbdb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/PrePushHook.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-01-30T15:37:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_71146302",
       "revId": "c03d818d6aa0deebe4f0a29233445922ec560e4c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
