@@ -586,7 +586,6 @@ public class GC {
 					} catch (IllegalArgumentException notAnObject) {
 						// ignoring the file that does not represent loose
 						// object
-						continue;
 					}
 				}
 			}
