@@ -16,6 +16,24 @@
       "revId": "89e5b263c5de2334e145f08ead66e5d93d230799",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_0dacd1a6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/LfsHelper.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-01-30T16:01:52Z",
+      "side": 1,
+      "message": "The whole file received @since 4.11 in the previous commit now, so I regard this done...",
+      "parentUuid": "87929364_315bbbce",
+      "revId": "89e5b263c5de2334e145f08ead66e5d93d230799",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
