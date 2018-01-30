@@ -1490,8 +1490,8 @@ public class GC {
 	private boolean needGc() {
 		if (tooManyPacks()) {
 			addRepackAllOption();
-		} else if (!tooManyLooseObjects()) {
-			return false;
+		} else {
+			return tooManyLooseObjects();
 		}
 		// TODO run pre-auto-gc hook, if it fails return false
 		return true;
