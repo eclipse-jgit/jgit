@@ -931,11 +931,10 @@ public class GC {
 		List<String> fileNames = null;
 		try (Stream<Path> files = Files.list(packDir)) {
 			fileNames = files.map(path -> path.getFileName().toString())
-					.filter(name -> {
-						return (name.endsWith(PACK_EXT)
-								|| name.endsWith(BITMAP_EXT)
-								|| name.endsWith(INDEX_EXT));
-					}).sorted(Collections.reverseOrder())
+					.filter(name -> (name.endsWith(PACK_EXT)
+							|| name.endsWith(BITMAP_EXT)
+							|| name.endsWith(INDEX_EXT)))
+					.sorted(Collections.reverseOrder())
 					.collect(Collectors.toList());
 		} catch (IOException e1) {
 			// ignore
