@@ -768,18 +768,15 @@ public class GC {
 	}
 
 	private static boolean equals(Ref r1, Ref r2) {
-		if (r1 == null || r2 == null)
+		if (r1 == null || r2 == null) {
 			return false;
-		if (r1.isSymbolic()) {
-			if (!r2.isSymbolic())
-				return false;
-			return r1.getTarget().getName().equals(r2.getTarget().getName());
-		} else {
-			if (r2.isSymbolic()) {
-				return false;
-			}
-			return Objects.equals(r1.getObjectId(), r2.getObjectId());
 		}
+		if (r1.isSymbolic()) {
+			return r2.isSymbolic() && r1.getTarget().getName()
+					.equals(r2.getTarget().getName());
+		}
+		return !r2.isSymbolic()
+				&& Objects.equals(r1.getObjectId(), r2.getObjectId());
 	}
 
 	/**
