@@ -313,7 +313,7 @@ public class GC {
 		packRefs();
 		// TODO: implement reflog_expire(pm, repo);
 		Collection<PackFile> newPacks = repack();
-		prune(Collections.<ObjectId> emptySet());
+		prune(Collections.emptySet());
 		// TODO: implement rerere_gc(pm);
 		return newPacks;
 	}
@@ -999,7 +999,7 @@ public class GC {
 		List<ReflogEntry> rlEntries = reflogReader
 				.getReverseEntries();
 		if (rlEntries == null || rlEntries.isEmpty())
-			return Collections.<ObjectId> emptySet();
+			return Collections.emptySet();
 		Set<ObjectId> ret = new HashSet<>();
 		for (ReflogEntry e : rlEntries) {
 			if (e.getWho().getWhen().getTime() < minTime)
