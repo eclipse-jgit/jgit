@@ -65,7 +65,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -1099,23 +1098,21 @@ public class GC {
 			throws IOException {
 		checkCancelled();
 		File tmpPack = null;
-		Map<PackExt, File> tmpExts = new TreeMap<>(
-				new Comparator<PackExt>() {
-					@Override
-					public int compare(PackExt o1, PackExt o2) {
-						// INDEX entries must be returned last, so the pack
-						// scanner does pick up the new pack until all the
-						// PackExt entries have been written.
-						if (o1 == o2)
-							return 0;
-						if (o1 == PackExt.INDEX)
-							return 1;
-						if (o2 == PackExt.INDEX)
-							return -1;
-						return Integer.signum(o1.hashCode() - o2.hashCode());
-					}
-
-				});
+		Map<PackExt, File> tmpExts = new TreeMap<>((o1, o2) -> {
+			// INDEX entries must be returned last, so the pack
+			// scanner does pick up the new pack until all the
+			// PackExt entries have been written.
+			if (o1 == o2) {
+				return 0;
+			}
+			if (o1 == PackExt.INDEX) {
+				return 1;
+			}
+			if (o2 == PackExt.INDEX) {
+				return -1;
+			}
+			return Integer.signum(o1.hashCode() - o2.hashCode());
+		});
 		try (PackWriter pw = new PackWriter(
 				(pconfig == null) ? new PackConfig(repo) : pconfig,
 				repo.newObjectReader())) {
@@ -1531,19 +1528,14 @@ public class GC {
 		if (!Files.exists(dir)) {
 			return false;
 		}
-		try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir,
-				new DirectoryStream.Filter<Path>() {
-
-					@Override
-					public boolean accept(Path file) throws IOException {
-						Path fileName = file.getFileName();
-						return Files.isRegularFile(file) && fileName != null
-								&& PATTERN_LOOSE_OBJECT
-										.matcher(fileName.toString()).matches();
-					}
+		try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir, file -> {
+					Path fileName = file.getFileName();
+					return Files.isRegularFile(file) && fileName != null
+							&& PATTERN_LOOSE_OBJECT.matcher(fileName.toString())
+									.matches();
 				})) {
-			for (Iterator<Path> iter = stream.iterator(); iter.hasNext();
-					iter.next()) {
+			for (Iterator<Path> iter = stream.iterator(); iter.hasNext(); iter
+					.next()) {
 				if (++n > threshold) {
 					return true;
 				}
