@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_6a5b7b7f",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsBlobHelper.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-01-30T15:57:44Z",
+      "side": 1,
+      "message": "I\u0027m open to suggestions. What it is: a class providing static helper methods smudging/cleaning blobs if required for LFS.",
+      "parentUuid": "87929364_f10773d2",
+      "revId": "aaaab7a32aa2ccdb57dc889b75bc82590ad579cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_11031fc8",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsBlobLoader.java",
         "patchSetId": 22
@@ -30,6 +48,24 @@
       "writtenOn": "2018-01-24T00:02:49Z",
       "side": 1,
       "message": "missing @since 4.11 tag",
+      "revId": "aaaab7a32aa2ccdb57dc889b75bc82590ad579cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_edb22531",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsBlobLoader.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-01-30T15:57:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_11031fc8",
       "revId": "aaaab7a32aa2ccdb57dc889b75bc82590ad579cd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_6ded5500",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsBlobLoader.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-01-30T15:57:44Z",
+      "side": 1,
+      "message": "Hmm. not sure. Thing here is I checked whether it is large before. So i really (really) expect it to fit, and not throw a LargeObjectException... Throwing a LargeObjectException here might hide a very different problem...\n\nanyway, I changed it...",
+      "parentUuid": "87929364_b135eb91",
+      "revId": "aaaab7a32aa2ccdb57dc889b75bc82590ad579cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_d138b789",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
         "patchSetId": 22
@@ -64,6 +118,24 @@
       "writtenOn": "2018-01-24T00:02:49Z",
       "side": 1,
       "message": "style nit: trailing whitespace",
+      "revId": "aaaab7a32aa2ccdb57dc889b75bc82590ad579cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_8de8c1f0",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-01-30T15:57:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_d138b789",
       "revId": "aaaab7a32aa2ccdb57dc889b75bc82590ad579cd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_ed04e555",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-01-30T15:57:44Z",
+      "side": 1,
+      "message": "why? the method was\n* private\n* introducted in a change which is not yet merged :D",
+      "parentUuid": "87929364_f12e9344",
+      "revId": "aaaab7a32aa2ccdb57dc889b75bc82590ad579cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_112a3f30",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Candidate.java",
         "patchSetId": 22
@@ -98,6 +188,24 @@
       "writtenOn": "2018-01-24T00:02:49Z",
       "side": 1,
       "message": "jgit should not depend on the optional lfs bundle",
+      "revId": "aaaab7a32aa2ccdb57dc889b75bc82590ad579cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_8df361d8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Candidate.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-01-30T15:57:44Z",
+      "side": 1,
+      "message": "In the previous case it was a temporary workaround, but here I think it is really required.\n\nNote that LfsHelper is not in the optional LFS bundle. It is part of JGit itself but in turn of course depends on LFS. It exists solely to encapsulate away the fact that LFS could just be not there.\n\nThe only alternative to this would be abstract (non-lfs-specific) concepts for all functionality provided by the LfsHelper. Would this be more desirable? What would be the preferred way to implement this? A single \u0027hook\u0027-like interface which bundles all the methods required? An interface per use case? What about naming of those APIs?",
+      "parentUuid": "87929364_112a3f30",
       "revId": "aaaab7a32aa2ccdb57dc889b75bc82590ad579cd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_4d2979bc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffEntry.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-01-30T15:57:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_3129fb3a",
+      "revId": "aaaab7a32aa2ccdb57dc889b75bc82590ad579cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_5124c760",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffEntry.java",
         "patchSetId": 22
@@ -132,6 +258,24 @@
       "writtenOn": "2018-01-24T00:02:49Z",
       "side": 1,
       "message": "missing @since 4.11 tag",
+      "revId": "aaaab7a32aa2ccdb57dc889b75bc82590ad579cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_8d1a81a0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffEntry.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-01-30T15:57:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_5124c760",
       "revId": "aaaab7a32aa2ccdb57dc889b75bc82590ad579cd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_ed56a531",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 1064,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-01-30T15:57:44Z",
+      "side": 1,
+      "message": "See previous comment.",
+      "parentUuid": "87929364_716623a2",
+      "revId": "aaaab7a32aa2ccdb57dc889b75bc82590ad579cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_9169cf71",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
         "patchSetId": 22
@@ -166,6 +328,24 @@
       "writtenOn": "2018-01-24T00:02:49Z",
       "side": 1,
       "message": "missing @since 4.11 tag",
+      "revId": "aaaab7a32aa2ccdb57dc889b75bc82590ad579cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_0d5a1156",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-01-30T15:57:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_9169cf71",
       "revId": "aaaab7a32aa2ccdb57dc889b75bc82590ad579cd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_2d618d05",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/Hooks.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-01-30T15:57:44Z",
+      "side": 1,
+      "message": "this is not in the optional lfs bundle. see previous comments.",
+      "parentUuid": "87929364_b1708b50",
+      "revId": "aaaab7a32aa2ccdb57dc889b75bc82590ad579cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_d1735759",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
         "patchSetId": 22
@@ -200,6 +398,24 @@
       "writtenOn": "2018-01-24T00:02:49Z",
       "side": 1,
       "message": "4.11",
+      "revId": "aaaab7a32aa2ccdb57dc889b75bc82590ad579cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_8d652111",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-01-30T15:57:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_d1735759",
       "revId": "aaaab7a32aa2ccdb57dc889b75bc82590ad579cd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -223,6 +439,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_ad749dc0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-01-30T15:57:44Z",
+      "side": 1,
+      "message": "see previous comments",
+      "parentUuid": "87929364_f179333b",
+      "revId": "aaaab7a32aa2ccdb57dc889b75bc82590ad579cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_517f671c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/LfsHelper.java",
         "patchSetId": 22
@@ -234,6 +468,24 @@
       "writtenOn": "2018-01-24T00:02:49Z",
       "side": 1,
       "message": "* org.eclipse.jgit should not depend on the optional lfs bundle\n* can we find a better class name ?\n* missing @since 4.11 tag",
+      "revId": "aaaab7a32aa2ccdb57dc889b75bc82590ad579cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_2d38adf7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/LfsHelper.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-01-30T15:57:44Z",
+      "side": 1,
+      "message": "* see previous comments - accepting any better idea here :)\n* proposals? what the class does: it encapsulates optionally available functionality required to be able to support LFS at all in JGit.\n* Done",
+      "parentUuid": "87929364_517f671c",
       "revId": "aaaab7a32aa2ccdb57dc889b75bc82590ad579cd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
