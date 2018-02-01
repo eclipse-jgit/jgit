@@ -87,6 +87,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ConfigConstants;
+import org.eclipse.jgit.lib.CoreConfig.EolStreamType;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -99,10 +100,13 @@ import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.NameConflictTreeWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.TreeWalk.OperationType;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
+import org.eclipse.jgit.treewalk.WorkingTreeOptions;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.TemporaryBuffer;
+import org.eclipse.jgit.util.io.EolStreamTypeUtil;
 
 /**
  * A three-way merger performing a content-merge if necessary
@@ -277,8 +281,16 @@ public class ResolveMerger extends ThreeWayMerger {
 	protected MergeAlgorithm mergeAlgorithm;
 
 	/**
-	 * The size limit (bytes) which controls a file to be stored in {@code Heap} or
-	 * {@code LocalFile} during the merge.
+	 * The {@link WorkingTreeOptions} are needed to determine line endings for
+	 * merged files.
+	 *
+	 * @since 4.11
+	 */
+	protected WorkingTreeOptions workingTreeOptions;
+
+	/**
+	 * The size limit (bytes) which controls a file to be stored in {@code Heap}
+	 * or {@code LocalFile} during the merge.
 	 */
 	private int inCoreLimit;
 
@@ -319,6 +331,7 @@ public class ResolveMerger extends ThreeWayMerger {
 			dircache = DirCache.newInCore();
 		} else {
 			implicitDirCache = true;
+			workingTreeOptions = local.getConfig().get(WorkingTreeOptions.KEY);
 		}
 	}
 
@@ -916,10 +929,15 @@ public class ResolveMerger extends ThreeWayMerger {
 		FS fs = nonNullRepo().getFS();
 		File of = new File(workTree, tw.getPathString());
 		File parentFolder = of.getParentFile();
-		if (!fs.exists(parentFolder))
+		if (!fs.exists(parentFolder)) {
 			parentFolder.mkdirs();
-		try (OutputStream os = new BufferedOutputStream(
-				new FileOutputStream(of))) {
+		}
+		EolStreamType streamType = EolStreamTypeUtil.detectStreamType(
+				OperationType.CHECKOUT_OP, workingTreeOptions,
+				tw.getAttributes());
+		try (OutputStream os = EolStreamTypeUtil.wrapOutputStream(
+				new BufferedOutputStream(new FileOutputStream(of)),
+				streamType)) {
 			new MergeFormatter().formatMerge(os, result,
 					Arrays.asList(commitNames), CHARACTER_ENCODING);
 		}
