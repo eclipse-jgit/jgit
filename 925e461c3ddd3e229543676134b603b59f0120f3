@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "87929364_4699534d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-02-01T18:28:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_1ca31d30",
+      "range": {
+        "startLine": 11,
+        "startChar": 21,
+        "endLine": 11,
+        "endChar": 46
+      },
+      "revId": "925e461c3ddd3e229543676134b603b59f0120f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_fc9f31e5",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_66948f15",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-02-01T18:28:13Z",
+      "side": 1,
+      "message": "OK. Removed.",
+      "parentUuid": "87929364_fc9f31e5",
+      "revId": "925e461c3ddd3e229543676134b603b59f0120f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_fcb81164",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
         "patchSetId": 6
@@ -53,6 +95,30 @@
       "writtenOn": "2018-02-01T00:00:57Z",
       "side": 1,
       "message": "4.11",
+      "range": {
+        "startLine": 625,
+        "startChar": 11,
+        "endLine": 625,
+        "endChar": 15
+      },
+      "revId": "925e461c3ddd3e229543676134b603b59f0120f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_265527cb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 625,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-02-01T18:28:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_fcb81164",
       "range": {
         "startLine": 625,
         "startChar": 11,
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "87929364_464b1331",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-02-01T18:28:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_1cbcfd54",
+      "range": {
+        "startLine": 205,
+        "startChar": 11,
+        "endLine": 205,
+        "endChar": 15
+      },
+      "revId": "925e461c3ddd3e229543676134b603b59f0120f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_3cc379d3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/GitProtocolConstants.java",
         "patchSetId": 6
@@ -99,6 +189,30 @@
       "writtenOn": "2018-02-01T00:00:57Z",
       "side": 1,
       "message": "4.11",
+      "range": {
+        "startLine": 157,
+        "startChar": 11,
+        "endLine": 157,
+        "endChar": 15
+      },
+      "revId": "925e461c3ddd3e229543676134b603b59f0120f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_66464f29",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/GitProtocolConstants.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-02-01T18:28:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_3cc379d3",
       "range": {
         "startLine": 157,
         "startChar": 11,
@@ -128,6 +242,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_8645fb1b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1089,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-02-01T18:28:13Z",
+      "side": 1,
+      "message": "Done, and I\u0027ve checked the patch to ensure that there are no other mentions of 4.10.",
+      "parentUuid": "87929364_5cc685e2",
+      "revId": "925e461c3ddd3e229543676134b603b59f0120f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_9ca70d3f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 6
@@ -139,6 +271,24 @@
       "writtenOn": "2018-02-01T00:00:57Z",
       "side": 1,
       "message": "optional: add a TODO comment to remove this?",
+      "revId": "925e461c3ddd3e229543676134b603b59f0120f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_0652ebe3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 983,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-02-01T18:28:13Z",
+      "side": 1,
+      "message": "I don\u0027t think we will merge into JGit a commit that corresponds to a feature only in \"next\", so I\u0027ll leave it for now - when the time comes to merge it, I\u0027ll remove all \"blob-max-bytes\" support.",
+      "parentUuid": "87929364_9ca70d3f",
       "revId": "925e461c3ddd3e229543676134b603b59f0120f3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -162,6 +312,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_a669179b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1063,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-02-01T18:28:13Z",
+      "side": 1,
+      "message": "I\u0027ve expanded the comment on line 1070 to explain both that we need \"blob:none\" or \"blob:limit\u003d\", and if the latter, we need it to be nonnegative, and we throw if either is not true.",
+      "parentUuid": "87929364_dcb19577",
+      "revId": "925e461c3ddd3e229543676134b603b59f0120f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_bcb6896e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 6
@@ -173,6 +341,24 @@
       "writtenOn": "2018-02-01T00:00:57Z",
       "side": 1,
       "message": "What should happen for other filters (e.g. unrecognized filters)?",
+      "revId": "925e461c3ddd3e229543676134b603b59f0120f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_e65a3ffd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1069,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-02-01T18:28:13Z",
+      "side": 1,
+      "message": "The resolution for the previous comment also resolves this.",
+      "parentUuid": "87929364_bcb6896e",
       "revId": "925e461c3ddd3e229543676134b603b59f0120f3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
