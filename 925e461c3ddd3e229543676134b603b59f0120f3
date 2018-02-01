@@ -380,6 +380,24 @@
       "revId": "925e461c3ddd3e229543676134b603b59f0120f3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_467a3330",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1069,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-02-01T18:54:15Z",
+      "side": 1,
+      "message": "Ah...good catch. The specification in Git (pack-protocol.txt) says only one line is permitted, so I am checking for that instead. (A similar check should probably be done for \"deepen\" as well, but that\u0027s outside the scope of this patch.)",
+      "parentUuid": "87929364_c6e9c379",
+      "revId": "925e461c3ddd3e229543676134b603b59f0120f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
