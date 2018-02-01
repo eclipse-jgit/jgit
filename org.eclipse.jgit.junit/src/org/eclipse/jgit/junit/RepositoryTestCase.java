@@ -197,14 +197,14 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 */
 	protected static void checkFile(File f, final String checkData)
 			throws IOException {
-		Reader r = new InputStreamReader(new FileInputStream(f), "UTF-8");
-		try {
-			char[] data = new char[checkData.length()];
-			if (checkData.length() != r.read(data))
-				throw new IOException("Internal error reading file data from "+f);
-			assertEquals(checkData, new String(data));
-		} finally {
-			r.close();
+		try (Reader r = new InputStreamReader(new FileInputStream(f),
+				"UTF-8")) {
+			if (checkData.length() > 0) {
+				char[] data = new char[checkData.length()];
+				assertEquals(data.length, r.read(data));
+				assertEquals(checkData, new String(data));
+			}
+			assertEquals(-1, r.read());
 		}
 	}
 
