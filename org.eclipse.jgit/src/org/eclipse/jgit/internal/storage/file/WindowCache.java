@@ -171,7 +171,10 @@ public class WindowCache {
 		return streamFileThreshold;
 	}
 
-	static WindowCache getInstance() {
+	/**
+	 * @return the cached instance.
+	 */
+	public static WindowCache getInstance() {
 		return cache;
 	}
 
@@ -269,11 +272,17 @@ public class WindowCache {
 			throw new IllegalArgumentException(JGitText.get().windowSizeMustBeLesserThanLimit);
 	}
 
-	int getOpenFiles() {
+	/**
+	 * @return the number of open files.
+	 */
+	public int getOpenFiles() {
 		return openFiles.get();
 	}
 
-	long getOpenBytes() {
+	/**
+	 * @return the number of open bytes.
+	 */
+	public long getOpenBytes() {
 		return openBytes.get();
 	}
 
