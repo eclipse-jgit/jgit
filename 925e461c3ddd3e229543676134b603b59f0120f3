@@ -1,0 +1,181 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87929364_1ca31d30",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-02-01T00:00:57Z",
+      "side": 1,
+      "message": "commit id or subject line?",
+      "range": {
+        "startLine": 11,
+        "startChar": 21,
+        "endLine": 11,
+        "endChar": 46
+      },
+      "revId": "925e461c3ddd3e229543676134b603b59f0120f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_fc9f31e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-02-01T00:00:57Z",
+      "side": 1,
+      "message": "I wouldn\u0027t include this link --- in the jgit codebase, it can be assumed that the reader knows how to find standard Git",
+      "revId": "925e461c3ddd3e229543676134b603b59f0120f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_fcb81164",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 625,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-02-01T00:00:57Z",
+      "side": 1,
+      "message": "4.11",
+      "range": {
+        "startLine": 625,
+        "startChar": 11,
+        "endLine": 625,
+        "endChar": 15
+      },
+      "revId": "925e461c3ddd3e229543676134b603b59f0120f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_1cbcfd54",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-02-01T00:00:57Z",
+      "side": 1,
+      "message": "4.11",
+      "range": {
+        "startLine": 205,
+        "startChar": 11,
+        "endLine": 205,
+        "endChar": 15
+      },
+      "revId": "925e461c3ddd3e229543676134b603b59f0120f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_3cc379d3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/GitProtocolConstants.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-02-01T00:00:57Z",
+      "side": 1,
+      "message": "4.11",
+      "range": {
+        "startLine": 157,
+        "startChar": 11,
+        "endLine": 157,
+        "endChar": 15
+      },
+      "revId": "925e461c3ddd3e229543676134b603b59f0120f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_5cc685e2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1089,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-02-01T00:00:57Z",
+      "side": 1,
+      "message": "likewise (I\u0027ll stop mentioning these)",
+      "revId": "925e461c3ddd3e229543676134b603b59f0120f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_9ca70d3f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 983,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-02-01T00:00:57Z",
+      "side": 1,
+      "message": "optional: add a TODO comment to remove this?",
+      "revId": "925e461c3ddd3e229543676134b603b59f0120f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_dcb19577",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1063,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-02-01T00:00:57Z",
+      "side": 1,
+      "message": "should this throw when limit \u003c 0?",
+      "revId": "925e461c3ddd3e229543676134b603b59f0120f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_bcb6896e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1069,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-02-01T00:00:57Z",
+      "side": 1,
+      "message": "What should happen for other filters (e.g. unrecognized filters)?",
+      "revId": "925e461c3ddd3e229543676134b603b59f0120f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
