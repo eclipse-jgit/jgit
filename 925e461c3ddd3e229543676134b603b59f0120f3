@@ -362,6 +362,24 @@
       "revId": "925e461c3ddd3e229543676134b603b59f0120f3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_c6e9c379",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1069,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-02-01T18:33:51Z",
+      "side": 1,
+      "message": "Can\u0027t we hit this line without the check triggering if there are multiple \"filter\" pkt-lines?",
+      "parentUuid": "87929364_e65a3ffd",
+      "revId": "925e461c3ddd3e229543676134b603b59f0120f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
