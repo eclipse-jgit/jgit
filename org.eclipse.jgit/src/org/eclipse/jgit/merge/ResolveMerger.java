@@ -51,6 +51,7 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_ALGORITHM;
 import static org.eclipse.jgit.lib.Constants.CHARACTER_ENCODING;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -903,15 +904,52 @@ public class ResolveMerger extends ThreeWayMerger {
 			long len = mergedFile.length();
 			dce.setLastModified(FS.DETECTED.lastModified(mergedFile));
 			dce.setLength((int) len);
-			InputStream is = new FileInputStream(mergedFile);
-			try {
-				dce.setObjectId(getObjectInserter().insert(OBJ_BLOB, len, is));
-			} finally {
-				is.close();
+			EolStreamType streamType = EolStreamTypeUtil.detectStreamType(
+					OperationType.CHECKIN_OP, workingTreeOptions,
+					tw.getAttributes());
+			long blobLen = len == 0 ? 0
+					: getEntryContentLength(mergedFile, streamType);
+			// TODO: we read the file twice because insert() needs the blob
+			// length up front. C.f. AddCommand.
+			try (InputStream is = EolStreamTypeUtil.wrapInputStream(
+					new FileInputStream(mergedFile), streamType)) {
+				dce.setObjectId(
+						getObjectInserter().insert(OBJ_BLOB, blobLen, is));
 			}
 		} else
 			dce.setObjectId(insertMergeResult(result));
 		builder.add(dce);
+	}
+
+	/**
+	 * Computes the length of the index blob for a given file.
+	 *
+	 * @param file
+	 *            on disk
+	 * @param streamType
+	 *            specifying CRLF translation
+	 * @return the number of bytes after CRLF translations have been done.
+	 * @throws IOException
+	 *             if the file cannot be read
+	 */
+	private long getEntryContentLength(File file, EolStreamType streamType)
+			throws IOException {
+		if (streamType == EolStreamType.DIRECT) {
+			return file.length();
+		}
+		long length = 0;
+		try (InputStream is = EolStreamTypeUtil.wrapInputStream(
+				new BufferedInputStream(new FileInputStream(file)),
+				streamType)) {
+			for (;;) {
+				long n = is.skip(1 << 20);
+				if (n <= 0) {
+					break;
+				}
+				length += n;
+			}
+			return length;
+		}
 	}
 
 	/**

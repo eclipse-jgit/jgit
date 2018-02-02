@@ -414,6 +414,9 @@ public class ResolveMergerTest extends RepositoryTestCase {
 		assertEquals(MergeResult.MergeStatus.MERGED,
 				mergeResult.getMergeStatus());
 		checkFile(testFile, "a first line\r\na crlf file\r\na second line\r\n");
+		assertEquals(
+				"[crlf.txt, mode:100644, content:a first line\na crlf file\na second line\n]",
+				indexState(CONTENT));
 	}
 
 	/**
