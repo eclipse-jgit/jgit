@@ -22,6 +22,30 @@
       "revId": "9ac415aa95bdeab77142879a7f9196deb4ebefbe",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_a47d8f8e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 942,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-02-02T09:58:47Z",
+      "side": 1,
+      "message": "Doesn\u0027t really matter. Follow-up change https://git.eclipse.org/r/#/c/116584/ gets rid of this again and uses a TemporaryBuffer to keep the raw content merge.\n\nI\u0027d still like to have this as two separate commits; if the buffer change causes trouble, we could back it out and still have correct CRLF handling.",
+      "parentUuid": "87929364_e9069092",
+      "range": {
+        "startLine": 942,
+        "startChar": 8,
+        "endLine": 942,
+        "endChar": 27
+      },
+      "revId": "9ac415aa95bdeab77142879a7f9196deb4ebefbe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
