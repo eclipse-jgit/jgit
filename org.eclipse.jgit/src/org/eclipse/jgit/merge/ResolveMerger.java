@@ -3,6 +3,7 @@
  * Copyright (C) 2010-2012, Matthias Sohn <matthias.sohn@sap.com>
  * Copyright (C) 2012, Research In Motion Limited
  * Copyright (C) 2017, Obeo (mathieu.cartaud@obeo.fr)
+ * Copyright (C) 2018, Thomas Wolf <thomas.wolf@paranor.ch>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -51,10 +52,8 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_ALGORITHM;
 import static org.eclipse.jgit.lib.Constants.CHARACTER_ENCODING;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -874,94 +873,55 @@ public class ResolveMerger extends ThreeWayMerger {
 			CanonicalTreeParser ours, CanonicalTreeParser theirs,
 			MergeResult<RawText> result) throws FileNotFoundException,
 			IOException {
-		File mergedFile = !inCore ? writeMergedFile(result) : null;
-
-		if (result.containsConflicts()) {
-			// A conflict occurred, the file will contain conflict markers
-			// the index will be populated with the three stages and the
-			// workdir (if used) contains the halfway merged content.
-			add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, 0, 0);
-			add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, 0, 0);
-			add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, 0, 0);
-			mergeResults.put(tw.getPathString(), result);
-			return;
-		}
-
-		// No conflict occurred, the file will contain fully merged content.
-		// The index will be populated with the new merged version.
-		DirCacheEntry dce = new DirCacheEntry(tw.getPathString());
-
-		// Set the mode for the new content. Fall back to REGULAR_FILE if
-		// we can't merge modes of OURS and THEIRS.
-		int newMode = mergeFileModes(
-				tw.getRawMode(0),
-				tw.getRawMode(1),
-				tw.getRawMode(2));
-		dce.setFileMode(newMode == FileMode.MISSING.getBits()
-				? FileMode.REGULAR_FILE
-				: FileMode.fromBits(newMode));
-		if (mergedFile != null) {
-			long len = mergedFile.length();
-			dce.setLastModified(FS.DETECTED.lastModified(mergedFile));
-			dce.setLength((int) len);
-			EolStreamType streamType = EolStreamTypeUtil.detectStreamType(
-					OperationType.CHECKIN_OP, workingTreeOptions,
-					tw.getAttributes());
-			long blobLen = len == 0 ? 0
-					: getEntryContentLength(mergedFile, streamType);
-			// TODO: we read the file twice because insert() needs the blob
-			// length up front. C.f. AddCommand.
-			try (InputStream is = EolStreamTypeUtil.wrapInputStream(
-					new FileInputStream(mergedFile), streamType)) {
-				dce.setObjectId(
-						getObjectInserter().insert(OBJ_BLOB, blobLen, is));
+		TemporaryBuffer rawMerged = null;
+		try {
+			rawMerged = doMerge(result);
+			File mergedFile = inCore ? null : writeMergedFile(rawMerged);
+			if (result.containsConflicts()) {
+				// A conflict occurred, the file will contain conflict markers
+				// the index will be populated with the three stages and the
+				// workdir (if used) contains the halfway merged content.
+				add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, 0, 0);
+				add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, 0, 0);
+				add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, 0, 0);
+				mergeResults.put(tw.getPathString(), result);
+				return;
 			}
-		} else
-			dce.setObjectId(insertMergeResult(result));
-		builder.add(dce);
-	}
 
-	/**
-	 * Computes the length of the index blob for a given file.
-	 *
-	 * @param file
-	 *            on disk
-	 * @param streamType
-	 *            specifying CRLF translation
-	 * @return the number of bytes after CRLF translations have been done.
-	 * @throws IOException
-	 *             if the file cannot be read
-	 */
-	private long getEntryContentLength(File file, EolStreamType streamType)
-			throws IOException {
-		if (streamType == EolStreamType.DIRECT) {
-			return file.length();
-		}
-		long length = 0;
-		try (InputStream is = EolStreamTypeUtil.wrapInputStream(
-				new BufferedInputStream(new FileInputStream(file)),
-				streamType)) {
-			for (;;) {
-				long n = is.skip(1 << 20);
-				if (n <= 0) {
-					break;
-				}
-				length += n;
+			// No conflict occurred, the file will contain fully merged content.
+			// The index will be populated with the new merged version.
+			DirCacheEntry dce = new DirCacheEntry(tw.getPathString());
+
+			// Set the mode for the new content. Fall back to REGULAR_FILE if
+			// we can't merge modes of OURS and THEIRS.
+			int newMode = mergeFileModes(tw.getRawMode(0), tw.getRawMode(1),
+					tw.getRawMode(2));
+			dce.setFileMode(newMode == FileMode.MISSING.getBits()
+					? FileMode.REGULAR_FILE : FileMode.fromBits(newMode));
+			if (mergedFile != null) {
+				dce.setLastModified(
+						nonNullRepo().getFS().lastModified(mergedFile));
+				dce.setLength((int) mergedFile.length());
 			}
-			return length;
+			dce.setObjectId(insertMergeResult(rawMerged));
+			builder.add(dce);
+		} finally {
+			if (rawMerged != null) {
+				rawMerged.destroy();
+			}
 		}
 	}
 
 	/**
 	 * Writes merged file content to the working tree.
 	 *
-	 * @param result
-	 *            the result of the content merge
+	 * @param rawMerged
+	 *            the raw merged content
 	 * @return the working tree file to which the merged content was written.
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	private File writeMergedFile(MergeResult<RawText> result)
+	private File writeMergedFile(TemporaryBuffer rawMerged)
 			throws FileNotFoundException, IOException {
 		File workTree = nonNullRepo().getWorkTree();
 		FS fs = nonNullRepo().getFS();
@@ -976,13 +936,12 @@ public class ResolveMerger extends ThreeWayMerger {
 		try (OutputStream os = EolStreamTypeUtil.wrapOutputStream(
 				new BufferedOutputStream(new FileOutputStream(of)),
 				streamType)) {
-			new MergeFormatter().formatMerge(os, result,
-					Arrays.asList(commitNames), CHARACTER_ENCODING);
+			rawMerged.writeTo(os, null);
 		}
 		return of;
 	}
 
-	private ObjectId insertMergeResult(MergeResult<RawText> result)
+	private TemporaryBuffer doMerge(MergeResult<RawText> result)
 			throws IOException {
 		TemporaryBuffer.LocalFile buf = new TemporaryBuffer.LocalFile(
 				db != null ? nonNullRepo().getDirectory() : null, inCoreLimit);
@@ -990,11 +949,16 @@ public class ResolveMerger extends ThreeWayMerger {
 			new MergeFormatter().formatMerge(buf, result,
 					Arrays.asList(commitNames), CHARACTER_ENCODING);
 			buf.close();
-			try (InputStream in = buf.openInputStream()) {
-				return getObjectInserter().insert(OBJ_BLOB, buf.length(), in);
-			}
-		} finally {
+		} catch (IOException e) {
 			buf.destroy();
+			throw e;
+		}
+		return buf;
+	}
+
+	private ObjectId insertMergeResult(TemporaryBuffer buf) throws IOException {
+		try (InputStream in = buf.openInputStream()) {
+			return getObjectInserter().insert(OBJ_BLOB, buf.length(), in);
 		}
 	}
 
