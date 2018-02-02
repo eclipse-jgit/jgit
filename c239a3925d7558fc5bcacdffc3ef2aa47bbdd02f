@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87929364_843093ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 24
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-02-02T10:20:20Z",
+      "side": 1,
+      "message": "I don\u0027t have the time to do a full review; I\u0027ll leave that to the other reviewers. But for such a large change, the commit message should explain more. For instance, how one enables diff/merge for LFS files. Looks like one has to define the .gitattributes \"merge \u003d lfs\" or \"diff \u003d lfs\", so this change actually implements built-in merge/diff drivers that use then the default text diff/merge on the LFS content.",
+      "revId": "c239a3925d7558fc5bcacdffc3ef2aa47bbdd02f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
