@@ -16,6 +16,24 @@
       "revId": "fc7d407d0bd056534f2407d8532cc035617b08d6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_a9d56860",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 903,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-02-02T07:17:35Z",
+      "side": 1,
+      "message": "Done in https://git.eclipse.org/r/#/c/116574/ .",
+      "parentUuid": "87929364_499324de",
+      "revId": "fc7d407d0bd056534f2407d8532cc035617b08d6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
