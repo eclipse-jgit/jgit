@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87929364_499324de",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 903,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-02-02T06:01:44Z",
+      "side": 1,
+      "message": "Crap. I missed this. Will have to check, but I think now the index is wrong here: it\u0027ll have the CRLF in the blob when it should have only LFs with core.autocrlf\u003dtrue. This will need logic similar to AddCommand, lines 232ff.",
+      "revId": "fc7d407d0bd056534f2407d8532cc035617b08d6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
