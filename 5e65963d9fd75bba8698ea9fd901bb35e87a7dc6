@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87929364_09711c53",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/WindowCacheStats.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-02-02T03:32:19Z",
+      "side": 1,
+      "message": "4.11",
+      "range": {
+        "startLine": 51,
+        "startChar": 10,
+        "endLine": 51,
+        "endChar": 14
+      },
+      "revId": "5e65963d9fd75bba8698ea9fd901bb35e87a7dc6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
