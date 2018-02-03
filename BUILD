@@ -23,3 +23,11 @@ genrule(
         "zip -qr $$p/$@ .",
     ]),
 )
+
+java_plugin(
+    name = "nullaway",
+    deps = [
+        "@guava//jar",
+        "@nullaway//jar",
+    ],
+)

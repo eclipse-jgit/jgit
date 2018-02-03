@@ -1,0 +1,2 @@
+build --javacopt="-XepOpt:NullAway:AnnotatedPackages=org.eclipse -Xep:NullAway:WARN"
+# Use -Xep:NullAway:ERROR to fail the build
