@@ -154,3 +154,15 @@ maven_jar(
     sha1 = "d6ec1a1613c7fa72aa6bf5d8c204750afbc3df3b",
     src_sha1 = "a74ecb43f96b2e21852f6908604316d7348a16ad",
 )
+
+maven_jar(
+    name = "guava",
+    artifact = "com.google.guava:guava:23.6-jre",
+    sha1 = "c0b638df79e7b2e1ed98f8d68ac62538a715ab1d",
+)
+
+maven_jar(
+    name = "nullaway",
+    artifact = "com.uber.nullaway:nullaway:0.3.2",
+    sha1 = "cb4b7bd1f7c7f194d6a36353fc81681749cbc862",
+)

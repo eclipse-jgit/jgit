@@ -14,6 +14,9 @@ RESOURCES = glob(["resources/**"])
 java_library(
     name = "jgit",
     srcs = SRCS,
+    plugins = [
+        "//:nullaway",
+    ],
     resource_strip_prefix = "org.eclipse.jgit/resources",
     resources = RESOURCES,
     deps = [
