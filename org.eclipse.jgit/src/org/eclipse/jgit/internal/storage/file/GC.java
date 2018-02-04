@@ -1525,12 +1525,12 @@ public class GC {
 		int n = 0;
 		int threshold = (auto + 255) / 256;
 		Path dir = repo.getObjectsDirectory().toPath().resolve("17"); //$NON-NLS-1$
-		if (!Files.exists(dir)) {
+		if (!dir.toFile().exists()) {
 			return false;
 		}
 		try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir, file -> {
 					Path fileName = file.getFileName();
-					return Files.isRegularFile(file) && fileName != null
+					return file.toFile().isFile() && fileName != null
 							&& PATTERN_LOOSE_OBJECT.matcher(fileName.toString())
 									.matches();
 				})) {
