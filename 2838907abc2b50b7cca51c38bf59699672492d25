@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87929364_b9a85195",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/ResolveMergerTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1169,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-04T14:52:26Z",
+      "side": 1,
+      "message": "style nit: line is too wide",
+      "revId": "2838907abc2b50b7cca51c38bf59699672492d25",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_d9ab5d8e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/ResolveMergerTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1203,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-04T14:52:26Z",
+      "side": 1,
+      "message": "line is too wide",
+      "revId": "2838907abc2b50b7cca51c38bf59699672492d25",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_f9b2d9fe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 736,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-04T14:52:26Z",
+      "side": 1,
+      "message": "lines are too wide",
+      "revId": "2838907abc2b50b7cca51c38bf59699672492d25",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_b5505757",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleConflict.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-04T14:52:26Z",
+      "side": 1,
+      "message": "4.11",
+      "range": {
+        "startLine": 51,
+        "startChar": 10,
+        "endLine": 51,
+        "endChar": 14
+      },
+      "revId": "2838907abc2b50b7cca51c38bf59699672492d25",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
