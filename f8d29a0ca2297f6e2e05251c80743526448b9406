@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87929364_df3edd75",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsBlobHelper.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-02-05T15:28:54Z",
+      "side": 1,
+      "message": "Perhaps even buffer.destroy()? Otherwise we may be left with a partial on-disk file.",
+      "revId": "f8d29a0ca2297f6e2e05251c80743526448b9406",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_3f2fe142",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsBlobHelper.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-02-05T15:28:54Z",
+      "side": 1,
+      "message": "So you decided on run() closing the stream if it doesn\u0027t raise an exception.",
+      "revId": "f8d29a0ca2297f6e2e05251c80743526448b9406",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
