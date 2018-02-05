@@ -1,0 +1,141 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87929364_bc667f9e",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-02-05T11:19:08Z",
+      "side": 1,
+      "message": "That seems to be obsolete and wrong now.",
+      "range": {
+        "startLine": 96,
+        "startChar": 12,
+        "endLine": 98,
+        "endChar": 63
+      },
+      "revId": "5d1121ee937bc7275fa37f03a391dd2e8b3820e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_5c2afb30",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-02-05T11:19:08Z",
+      "side": 1,
+      "message": "The plural of \"path\" is \"paths\", not \"pathes\".\n\nDoes this _have_ to be a set? Seems to me that:\n\n- In the interface just returning Collection\u003cPath\u003e would be fine.\n- An ArrayList would suffice.\n\nBesides, the method is private, and the only call passes only one ref and ignores the result. So the Json result should have only one result, and there should be only one file written. I would change this to\n\n  private Path getLfsResource(Repository db, LfsPointer ptr)\n\nand also do the \"file already exists\" check inside.",
+      "range": {
+        "startLine": 166,
+        "startChar": 12,
+        "endLine": 166,
+        "endChar": 28
+      },
+      "revId": "5d1121ee937bc7275fa37f03a391dd2e8b3820e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_dcec2b8a",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-02-05T11:19:08Z",
+      "side": 1,
+      "message": "Errh... that looks very much like EGit\u0027s ConfigureGerritAfterCloneTask.runSshCommand(), except that there\u0027s no CredentialsProvider.\n\nTime to make this a public utility function (*with* the CredentialProvider), so that EGit could re-use it? I hate code duplication. If so, the javadoc should state that it returns only the first line sent, and that stderr is discarded.",
+      "revId": "5d1121ee937bc7275fa37f03a391dd2e8b3820e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_9c0d43f4",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-02-05T11:19:08Z",
+      "side": 1,
+      "message": "Hard-coded timeout. Can we avoid that? Make the timeout a parameter and pass it in.\n\nA possible way to get the value to pass in is to use the ConnectTimeout setting for the host from the OpenSshConfig (i.e., ~/.ssh/config), or a default value (5 seconds looks reasonable) if not set.",
+      "range": {
+        "startLine": 356,
+        "startChar": 15,
+        "endLine": 356,
+        "endChar": 20
+      },
+      "revId": "5d1121ee937bc7275fa37f03a391dd2e8b3820e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_7cf7b74c",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-02-05T11:19:08Z",
+      "side": 1,
+      "message": "Note that this errorThread halting and process.destroy() may need to be swapped. See https://git.eclipse.org/r/#/c/115802/",
+      "revId": "5d1121ee937bc7275fa37f03a391dd2e8b3820e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_5c03dbc6",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-02-05T11:19:08Z",
+      "side": 1,
+      "message": "Who is responsible for closing the streams? In the normal case, and when there are exceptions?",
+      "revId": "5d1121ee937bc7275fa37f03a391dd2e8b3820e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_3c7a8f2f",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-02-05T11:19:08Z",
+      "side": 1,
+      "message": "This doesn\u0027t correspond to the contract of FilterCommand. The javadoc says it returns the number of bytes read from in, so you\u0027d have to sum up length.\n\nAlso, the run() command of a filter is supposed to be called in a loop until it returns -1. I don\u0027t know why the interface was specified like that; personally, I would have left the looping responsibility to the filter itself, but returned a long. With int as return type and looping inside we\u0027re limited to 2GB max. If you want to be able to handle larger files, then don\u0027t loop in here but do rely on being called in a loop, as the contract says. Then it\u0027s the caller\u0027s responsibility to sum up the int values in a long.",
+      "revId": "5d1121ee937bc7275fa37f03a391dd2e8b3820e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
