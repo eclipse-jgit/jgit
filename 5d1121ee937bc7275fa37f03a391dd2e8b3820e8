@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "87929364_1cea3322",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-05T14:28:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_bc667f9e",
+      "range": {
+        "startLine": 96,
+        "startChar": 12,
+        "endLine": 98,
+        "endChar": 63
+      },
+      "revId": "5d1121ee937bc7275fa37f03a391dd2e8b3820e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_5c2afb30",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
         "patchSetId": 31
@@ -36,6 +60,30 @@
       "writtenOn": "2018-02-05T11:19:08Z",
       "side": 1,
       "message": "The plural of \"path\" is \"paths\", not \"pathes\".\n\nDoes this _have_ to be a set? Seems to me that:\n\n- In the interface just returning Collection\u003cPath\u003e would be fine.\n- An ArrayList would suffice.\n\nBesides, the method is private, and the only call passes only one ref and ignores the result. So the Json result should have only one result, and there should be only one file written. I would change this to\n\n  private Path getLfsResource(Repository db, LfsPointer ptr)\n\nand also do the \"file already exists\" check inside.",
+      "range": {
+        "startLine": 166,
+        "startChar": 12,
+        "endLine": 166,
+        "endChar": 28
+      },
+      "revId": "5d1121ee937bc7275fa37f03a391dd2e8b3820e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_bc03df82",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-05T14:28:04Z",
+      "side": 1,
+      "message": "Corrected most of this, thanks :)\n\nStill I would like to keep that method multi-file capable. Although it is not possible right now, this /will/ be one performance tuning option (multi-file download, parallel download, ...) in the future - git-lfs already has this with the filter-process, which is (unfortunately) not (yet) supported by jgit at all.",
+      "parentUuid": "87929364_5c2afb30",
       "range": {
         "startLine": 166,
         "startChar": 12,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_dc06eb92",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-05T14:28:04Z",
+      "side": 1,
+      "message": "OK. sounds good. Anybody step up and tell me where to put the code and parameter, and I will happily do the work :)",
+      "parentUuid": "87929364_dcec2b8a",
+      "revId": "5d1121ee937bc7275fa37f03a391dd2e8b3820e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_9c0d43f4",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
         "patchSetId": 31
@@ -76,6 +142,30 @@
       "writtenOn": "2018-02-05T11:19:08Z",
       "side": 1,
       "message": "Hard-coded timeout. Can we avoid that? Make the timeout a parameter and pass it in.\n\nA possible way to get the value to pass in is to use the ConnectTimeout setting for the host from the OpenSshConfig (i.e., ~/.ssh/config), or a default value (5 seconds looks reasonable) if not set.",
+      "range": {
+        "startLine": 356,
+        "startChar": 15,
+        "endLine": 356,
+        "endChar": 20
+      },
+      "revId": "5d1121ee937bc7275fa37f03a391dd2e8b3820e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_fcfd67e1",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-05T14:28:04Z",
+      "side": 1,
+      "message": "See above: sounds good. I just have no idea where/how :) If somebody tells me, I will do it.",
+      "parentUuid": "87929364_9c0d43f4",
       "range": {
         "startLine": 356,
         "startChar": 15,
@@ -105,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_1c015378",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-05T14:28:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_7cf7b74c",
+      "revId": "5d1121ee937bc7275fa37f03a391dd2e8b3820e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_5c03dbc6",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
         "patchSetId": 31
@@ -122,6 +230,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_3cf7efff",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-05T14:28:04Z",
+      "side": 1,
+      "message": "good question. it does not seem to be well-defined... :( but as the streams are both passed by the caller (actually the creator of the filter command), I\u0027d also expect responsibility for proper handling of IOExceptions (closing streams) with the caller.",
+      "parentUuid": "87929364_5c03dbc6",
+      "revId": "5d1121ee937bc7275fa37f03a391dd2e8b3820e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_3c7a8f2f",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
         "patchSetId": 31
@@ -133,6 +259,24 @@
       "writtenOn": "2018-02-05T11:19:08Z",
       "side": 1,
       "message": "This doesn\u0027t correspond to the contract of FilterCommand. The javadoc says it returns the number of bytes read from in, so you\u0027d have to sum up length.\n\nAlso, the run() command of a filter is supposed to be called in a loop until it returns -1. I don\u0027t know why the interface was specified like that; personally, I would have left the looping responsibility to the filter itself, but returned a long. With int as return type and looping inside we\u0027re limited to 2GB max. If you want to be able to handle larger files, then don\u0027t loop in here but do rely on being called in a loop, as the contract says. Then it\u0027s the caller\u0027s responsibility to sum up the int values in a long.",
+      "revId": "5d1121ee937bc7275fa37f03a391dd2e8b3820e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_9f78d59c",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-05T14:28:04Z",
+      "side": 1,
+      "message": "true that. not sure whether the definition of the api is good though ;)\n\nI would actually opt for (and implemented) a mix. How about copying a certain amount in one go, but not too much (like max 256MB or so) just to avoid the overhead of excessive buffer allocation, etc. for the small\u0027ish use cases.",
+      "parentUuid": "87929364_3c7a8f2f",
       "revId": "5d1121ee937bc7275fa37f03a391dd2e8b3820e8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
