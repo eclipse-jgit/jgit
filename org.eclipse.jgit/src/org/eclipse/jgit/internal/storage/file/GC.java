@@ -65,6 +65,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -902,6 +903,7 @@ public class GC {
 			throw new IOException(e);
 		}
 		prunePacked();
+		deleteEmptyRefsFolders();
 		deleteOrphans();
 		deleteTempPacksIdx();
 
@@ -916,6 +918,49 @@ public class GC {
 
 	private static boolean isTag(Ref ref) {
 		return ref.getName().startsWith(Constants.R_TAGS);
+	}
+
+	private void deleteEmptyRefsFolders() throws IOException {
+		Path refs = repo.getDirectory().toPath().resolve("refs"); //$NON-NLS-1$
+		try (Stream<Path> entries = Files.list(refs)) {
+			Iterator<Path> iterator = entries.iterator();
+			while (iterator.hasNext()) {
+				try (Stream<Path> s = Files.list(iterator.next())) {
+					s.forEach(this::deleteDir);
+				}
+			}
+		}
+	}
+
+	private void deleteDir(Path dir) {
+		try (Stream<Path> dirs = Files.walk(dir)) {
+			dirs.filter(this::isDirectory).sorted(Comparator.reverseOrder())
+					.forEach(this::delete);
+		} catch (IOException e) {
+			LOG.error(e.getMessage(), e);
+		}
+	}
+
+	private boolean isDirectory(Path p) {
+		return p.toFile().isDirectory();
+	}
+
+	private boolean delete(Path d) {
+		try {
+			// Avoid deleting a folder that was just created so that concurrent
+			// operations trying to create a reference are not impacted
+			Instant threshold = Instant.now().minus(30, ChronoUnit.SECONDS);
+			Instant lastModified = Files.getLastModifiedTime(d).toInstant();
+			if (lastModified.isBefore(threshold)) {
+				// If the folder is not empty, the delete operation will fail
+				// silently. This is a cheaper alternative to filtering the
+				// stream in the calling method.
+				return d.toFile().delete();
+			}
+		} catch (IOException e) {
+			LOG.error(e.getMessage(), e);
+		}
+		return false;
 	}
 
 	/**
