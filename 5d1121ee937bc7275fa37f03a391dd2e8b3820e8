@@ -167,6 +167,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_421f7693",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-02-05T17:09:54Z",
+      "side": 1,
+      "message": "Don\u0027t know :-) Take a look at my comments when I introduced this method over in EGit and Matthias asked for making it a general-purpose utility: https://git.eclipse.org/r/#/c/54653/3/org.eclipse.egit.core/src/org/eclipse/egit/core/op/ConfigureGerritAfterCloneTask.java@283\n\nFor a version that just gets the first line and discards stderr, maybe readLineViaSsh?\n\nAnd I just noticed that this method assumes that the reader.readLine() actually returns. If the remote hangs, so will this client.",
+      "parentUuid": "87929364_ff70f950",
+      "revId": "5d1121ee937bc7275fa37f03a391dd2e8b3820e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_9c0d43f4",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
         "patchSetId": 31
@@ -320,6 +338,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_a2149a73",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-02-05T17:09:54Z",
+      "side": 1,
+      "message": "Yes, that does make sense. BTW, in this version the swapped in stream will never be closed if there\u0027s an exception on out.write(). Don\u0027t know what that will do to the remote end, probably it\u0027ll just hang once transmission buffers are full.",
+      "parentUuid": "87929364_bf4d911a",
+      "revId": "5d1121ee937bc7275fa37f03a391dd2e8b3820e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_3c7a8f2f",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
         "patchSetId": 31
@@ -385,6 +421,24 @@
       "side": 1,
       "message": "There is progress reporting for \"Checking out files\" since a recent change. I don\u0027t think that it can get any more fine grained, can it? This would only be possible (AFAICT) if downloading/filtering would be a separate step in the chain. Right now, checking out files will stop at the point where it downloads a file and continue once the file has been checked out (whatever this means in reality - downloading it or taking from the lfs store).\n\nBuffer as a field could be done if progress reporting is of any use (or possible) here. until then I guess it\u0027s fine the way it is...?",
       "parentUuid": "87929364_ff51d9df",
+      "revId": "5d1121ee937bc7275fa37f03a391dd2e8b3820e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_8274fec0",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-02-05T17:09:54Z",
+      "side": 1,
+      "message": "Agreed. I didn\u0027t check if progress monitors are indeed passed down far enough so that they could get to the filtering. Anyway, JGit progress monitoring doesn\u0027t quite fit the needs of Eclipse, and EGit thus resorts to doing unbounded progress reporting for JGit operations. (If you\u0027re interested, see https://git.eclipse.org/r/#/c/88434/2/org.eclipse.egit.core/src/org/eclipse/egit/core/EclipseGitProgressTransformer.java@24 for some discussion on that.)",
+      "parentUuid": "87929364_ffc2b9cc",
       "revId": "5d1121ee937bc7275fa37f03a391dd2e8b3820e8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
