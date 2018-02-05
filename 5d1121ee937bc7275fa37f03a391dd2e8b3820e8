@@ -131,6 +131,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_df17bd03",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-02-05T15:21:18Z",
+      "side": 1,
+      "message": "Good question. I don\u0027t see any existing class where such a utility function would naturally fit. There is a org.eclipse.jgit.util.HttpSupport... maybe a new org.eclipse.jgit.util.SshSupport?\n\nOr does anyone know of a better place?\n\nAPI would need additional parameters:\n* CredentialsProvider credentialsProvider (may be null)\n* int timeout\n* TimeUnit timeUnit (of the timout)\n\nThen use TimeUnit.asMillis(timeout) instead of hard-coded 5000 below.\n\nAt least for Jsch, the JschConfigSessionFactory will already initialize the session with the ConnectTimeout from the config. Which then, however, gets overridden by the timeout passed here... that might need some re-thinking.",
+      "parentUuid": "87929364_dc06eb92",
+      "revId": "5d1121ee937bc7275fa37f03a391dd2e8b3820e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_9c0d43f4",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
         "patchSetId": 31
@@ -248,6 +266,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_ffa8f963",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-02-05T15:21:18Z",
+      "side": 1,
+      "message": "\u003e good question. it does not seem to be well-defined... :( but as the\n \u003e streams are both passed by the caller (actually the creator of the\n \u003e filter command), I\u0027d also expect responsibility for proper handling\n \u003e of IOExceptions (closing streams) with the caller.\n\nWeeelll... in this LFS case, you replace the stream with an internal one that the caller doesn\u0027t even know, so he can\u0027t close it.",
+      "parentUuid": "87929364_3cf7efff",
+      "revId": "5d1121ee937bc7275fa37f03a391dd2e8b3820e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_3c7a8f2f",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
         "patchSetId": 31
@@ -277,6 +313,24 @@
       "side": 1,
       "message": "true that. not sure whether the definition of the api is good though ;)\n\nI would actually opt for (and implemented) a mix. How about copying a certain amount in one go, but not too much (like max 256MB or so) just to avoid the overhead of excessive buffer allocation, etc. for the small\u0027ish use cases.",
       "parentUuid": "87929364_3c7a8f2f",
+      "revId": "5d1121ee937bc7275fa37f03a391dd2e8b3820e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_ff51d9df",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-02-05T15:21:18Z",
+      "side": 1,
+      "message": "\u003e true that. not sure whether the definition of the api is good though ;)\n\nIndeed. The more I think about this API the less happy I am. Even with this 8kB buffer, downloading a (typically large) LFS blob may take time. This method should have a progress monitor of some sorts being passed in. If that omission was the reason for the strange API (idea being that the caller would do the progress reporting in that ominous loop), that would still make for rather stuttering progress reporting if you downloaded 256MB chunks (to not overflow the int). Even 256MB may take noticeable time. Progress reporting is perhaps not so important for JGit, but if this gets used via EGit, smooth progress reporting would be good to have.\n\nRepeated allocation and GC of that 8kB buffer could be avoided by making it a field. Allocate once on the first call if still null, null out after read returned -1 or on exception.",
+      "parentUuid": "87929364_9f78d59c",
       "revId": "5d1121ee937bc7275fa37f03a391dd2e8b3820e8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
