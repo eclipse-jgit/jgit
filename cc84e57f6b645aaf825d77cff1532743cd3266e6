@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87929364_1c55d3ca",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsBlobHelper.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-02-05T11:19:49Z",
+      "side": 1,
+      "message": "Any reason why the interface is specific to LocalFile? Why not TemporaryBuffer?",
+      "range": {
+        "startLine": 114,
+        "startChar": 15,
+        "endLine": 114,
+        "endChar": 24
+      },
+      "revId": "cc84e57f6b645aaf825d77cff1532743cd3266e6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_5c5f5bf2",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsBlobHelper.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-02-05T11:19:49Z",
+      "side": 1,
+      "message": "Copy-paste error. It\u0027s f.run() here.",
+      "range": {
+        "startLine": 119,
+        "startChar": 22,
+        "endLine": 119,
+        "endChar": 35
+      },
+      "revId": "cc84e57f6b645aaf825d77cff1532743cd3266e6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_dc5a6bfd",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsBlobHelper.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-02-05T11:19:49Z",
+      "side": 1,
+      "message": "The javadoc of FilterCommand should probably state that when run returns -1, the out stream is closed. If that\u0027s always the case. If not, then it should state that, and then it\u0027s the caller\u0027s responsibility to close the out stream.\n\nGiven that there may be arbitrary exceptions during run() and I don\u0027t see either CleanFilter nor SmudgeFilter closing \"out\" on exceptions, it\u0027s probably better to let callers of run() close that stream... in that case, you\u0027ll need a buffer.close() here.",
+      "revId": "cc84e57f6b645aaf825d77cff1532743cd3266e6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_9c7f031c",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-02-05T11:19:49Z",
+      "side": 1,
+      "message": "Lfs lfs \u003d ... and move inside the if {} and delete the private *field* ?",
+      "range": {
+        "startLine": 130,
+        "startChar": 2,
+        "endLine": 130,
+        "endChar": 5
+      },
+      "revId": "cc84e57f6b645aaf825d77cff1532743cd3266e6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_7cbc17a1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 974,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-02-05T11:19:49Z",
+      "side": 1,
+      "message": "Since you\u0027re passing through the attributes to updateIndex() above you could also pass them on to writeMergedFile() and then use them here.",
+      "revId": "cc84e57f6b645aaf825d77cff1532743cd3266e6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
