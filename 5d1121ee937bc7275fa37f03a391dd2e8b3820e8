@@ -149,6 +149,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_ff70f950",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-05T15:52:18Z",
+      "side": 1,
+      "message": "Sounds like a plan. What would be a good name for that API? I\u0027d somehow like to reflect that it only returns the first line of output, as I would not actually expect that from a general \"runSshCommand\" method...",
+      "parentUuid": "87929364_df17bd03",
+      "revId": "5d1121ee937bc7275fa37f03a391dd2e8b3820e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_9c0d43f4",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
         "patchSetId": 31
@@ -284,6 +302,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_bf4d911a",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-05T15:52:18Z",
+      "side": 1,
+      "message": "Hm. I think that the caller should be responsible for handling the streams passed in to the filter command. the filter in turn is responsible to correctly handle any \u0027internal\u0027 additional resources required (like the swapped in stream in this case, and the aOut stream in the clean filter). Does that make sense?",
+      "parentUuid": "87929364_ffa8f963",
+      "revId": "5d1121ee937bc7275fa37f03a391dd2e8b3820e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_3c7a8f2f",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
         "patchSetId": 31
@@ -331,6 +367,24 @@
       "side": 1,
       "message": "\u003e true that. not sure whether the definition of the api is good though ;)\n\nIndeed. The more I think about this API the less happy I am. Even with this 8kB buffer, downloading a (typically large) LFS blob may take time. This method should have a progress monitor of some sorts being passed in. If that omission was the reason for the strange API (idea being that the caller would do the progress reporting in that ominous loop), that would still make for rather stuttering progress reporting if you downloaded 256MB chunks (to not overflow the int). Even 256MB may take noticeable time. Progress reporting is perhaps not so important for JGit, but if this gets used via EGit, smooth progress reporting would be good to have.\n\nRepeated allocation and GC of that 8kB buffer could be avoided by making it a field. Allocate once on the first call if still null, null out after read returned -1 or on exception.",
       "parentUuid": "87929364_9f78d59c",
+      "revId": "5d1121ee937bc7275fa37f03a391dd2e8b3820e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_ffc2b9cc",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-05T15:52:18Z",
+      "side": 1,
+      "message": "There is progress reporting for \"Checking out files\" since a recent change. I don\u0027t think that it can get any more fine grained, can it? This would only be possible (AFAICT) if downloading/filtering would be a separate step in the chain. Right now, checking out files will stop at the point where it downloads a file and continue once the file has been checked out (whatever this means in reality - downloading it or taking from the lfs store).\n\nBuffer as a field could be done if progress reporting is of any use (or possible) here. until then I guess it\u0027s fine the way it is...?",
+      "parentUuid": "87929364_ff51d9df",
       "revId": "5d1121ee937bc7275fa37f03a391dd2e8b3820e8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
