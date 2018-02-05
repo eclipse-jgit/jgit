@@ -16,6 +16,24 @@
       "revId": "78f03c228306fdfac94f27204a7c1116a6369dc0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_bfccb165",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionHelper.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-05T14:32:02Z",
+      "side": 1,
+      "message": "yup. same questions as over there.",
+      "parentUuid": "87929364_5c759b3b",
+      "revId": "78f03c228306fdfac94f27204a7c1116a6369dc0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
