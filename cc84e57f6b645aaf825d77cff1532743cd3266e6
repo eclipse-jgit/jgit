@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "87929364_7fca4944",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsBlobHelper.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-05T14:49:04Z",
+      "side": 1,
+      "message": "nope, my bad. done.",
+      "parentUuid": "87929364_1c55d3ca",
+      "range": {
+        "startLine": 114,
+        "startChar": 15,
+        "endLine": 114,
+        "endChar": 24
+      },
+      "revId": "cc84e57f6b645aaf825d77cff1532743cd3266e6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_5c5f5bf2",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsBlobHelper.java",
         "patchSetId": 25
@@ -36,6 +60,30 @@
       "writtenOn": "2018-02-05T11:19:49Z",
       "side": 1,
       "message": "Copy-paste error. It\u0027s f.run() here.",
+      "range": {
+        "startLine": 119,
+        "startChar": 22,
+        "endLine": 119,
+        "endChar": 35
+      },
+      "revId": "cc84e57f6b645aaf825d77cff1532743cd3266e6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_9fc53533",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsBlobHelper.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-05T14:49:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_5c5f5bf2",
       "range": {
         "startLine": 119,
         "startChar": 22,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_1face574",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsBlobHelper.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-05T14:49:04Z",
+      "side": 1,
+      "message": "True. Who defined the FilterCommand API, and what were the intentions? Pleas step up :D\n\nAs I wrote before (SmudgeFilter) I\u0027m convinced that the caller should make sure in any case that the streams are closed in any case... filters should probably not close anything in any case - thus the caller can use try with resources or a finally block. WDYT? I can make the according changes in a separate commit, i\u0027d suggest...",
+      "parentUuid": "87929364_dc5a6bfd",
+      "revId": "cc84e57f6b645aaf825d77cff1532743cd3266e6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_9c7f031c",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
         "patchSetId": 25
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "87929364_3fb281ce",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-05T14:49:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_9c7f031c",
+      "range": {
+        "startLine": 130,
+        "startChar": 2,
+        "endLine": 130,
+        "endChar": 5
+      },
+      "revId": "cc84e57f6b645aaf825d77cff1532743cd3266e6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_7cbc17a1",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 25
@@ -99,6 +189,24 @@
       "writtenOn": "2018-02-05T11:19:49Z",
       "side": 1,
       "message": "Since you\u0027re passing through the attributes to updateIndex() above you could also pass them on to writeMergedFile() and then use them here.",
+      "revId": "cc84e57f6b645aaf825d77cff1532743cd3266e6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_bf8591e9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 974,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-05T14:49:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_7cbc17a1",
       "revId": "cc84e57f6b645aaf825d77cff1532743cd3266e6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
