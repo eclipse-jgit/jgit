@@ -185,6 +185,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_ad8f2b38",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-06T06:50:01Z",
+      "side": 1,
+      "message": "I guess it does not work to just copy \u0026 paste your own arguments against a general purpose utilty from that comment over here? :D I\u0027ll work on that. I will push as a separate commit though - OK?",
+      "parentUuid": "87929364_421f7693",
+      "revId": "5d1121ee937bc7275fa37f03a391dd2e8b3820e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_9c0d43f4",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
         "patchSetId": 31
@@ -356,6 +374,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_cd92b75c",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-06T06:50:01Z",
+      "side": 1,
+      "message": "I changed handling in the later commit https://git.eclipse.org/r/#/c/111376/ now. I would actually squash all those commits, but they are getting too large...\n\nLooking a little closer at all callers I changed my mind and think that the only viable solution at the moment is to make filters handle all streams... :( Although I liked it better to leave it to the caller.",
+      "parentUuid": "87929364_a2149a73",
+      "revId": "5d1121ee937bc7275fa37f03a391dd2e8b3820e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_3c7a8f2f",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
         "patchSetId": 31
@@ -439,6 +475,24 @@
       "side": 1,
       "message": "Agreed. I didn\u0027t check if progress monitors are indeed passed down far enough so that they could get to the filtering. Anyway, JGit progress monitoring doesn\u0027t quite fit the needs of Eclipse, and EGit thus resorts to doing unbounded progress reporting for JGit operations. (If you\u0027re interested, see https://git.eclipse.org/r/#/c/88434/2/org.eclipse.egit.core/src/org/eclipse/egit/core/EclipseGitProgressTransformer.java@24 for some discussion on that.)",
       "parentUuid": "87929364_ffc2b9cc",
+      "revId": "5d1121ee937bc7275fa37f03a391dd2e8b3820e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_ed893333",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-06T06:50:01Z",
+      "side": 1,
+      "message": "Done - thanks for the pointer.",
+      "parentUuid": "87929364_8274fec0",
       "revId": "5d1121ee937bc7275fa37f03a391dd2e8b3820e8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
