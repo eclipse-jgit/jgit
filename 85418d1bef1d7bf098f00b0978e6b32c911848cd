@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87929364_6da623c4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/FilterCommand.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-06T06:45:03Z",
+      "side": 1,
+      "message": "I changed my mind looking at the according code pieces doing the actual filtering. It\u0027s all quite a mess, and streams leaked here and there... :|\n\nI think it\u0027s most safe to require filters to close /all/ streams. They are of no real use after processing anyway (right?).",
+      "range": {
+        "startLine": 70,
+        "startChar": 2,
+        "endLine": 72,
+        "endChar": 40
+      },
+      "revId": "85418d1bef1d7bf098f00b0978e6b32c911848cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_4d97a751",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/TemporaryBuffer.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-06T06:45:03Z",
+      "side": 1,
+      "message": "while going through usages of LocalFile, I noticed that there are quite some usages which would result in temporary file leaks in the case of overflowing to disk (in which case temporary files would be quite large, right? :)). I added this method and use it in cases where a TemporaryBuffer\u0027s last usage is passing an InputStream up the stack (in which case nobody every will destroy the buffer properly).",
+      "revId": "85418d1bef1d7bf098f00b0978e6b32c911848cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
