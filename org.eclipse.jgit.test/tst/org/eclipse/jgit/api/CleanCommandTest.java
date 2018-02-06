@@ -48,10 +48,12 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Set;
 import java.util.TreeSet;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.NoFilepatternException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.Repository;
@@ -295,5 +297,19 @@ public class CleanCommandTest extends RepositoryTestCase {
 
 		// The inner repository should be cleaned this time
 		assertTrue(forceCleanedFiles.contains(innerRepoName + "/"));
+	}
+
+	@Test
+	// To proof Bug 514434. No assertions, but before the bugfix
+	// this test was throwing Exceptions
+	public void testFilesShouldBeCleanedInSubSubFolders()
+			throws IOException, NoFilepatternException, GitAPIException {
+		writeTrashFile(".gitignore",
+				"/ignored-dir\n/sub-noclean/Ignored.txt\n/this_is_ok\n/this_is/not_ok\n");
+		git.add().addFilepattern(".gitignore").call();
+		git.commit().setMessage("adding .gitignore").call();
+		writeTrashFile("this_is_ok/more/subdirs/file.txt", "1");
+		writeTrashFile("this_is/not_ok/more/subdirs/file.txt", "2");
+		git.clean().setCleanDirectories(true).setIgnore(false).call();
 	}
 }

@@ -103,27 +103,25 @@ public class CleanCommand extends GitCommand<Set<String>> {
 			StatusCommand command = new StatusCommand(repo);
 			Status status = command.call();
 
-			Set<String> untrackedAndIgnoredFiles = new TreeSet<>(
-					status.getUntracked());
-			Set<String> untrackedAndIgnoredDirs = new TreeSet<>(
+			Set<String> untrackedFiles = new TreeSet<>(status.getUntracked());
+			Set<String> untrackedDirs = new TreeSet<>(
 					status.getUntrackedFolders());
 
 			FS fs = getRepository().getFS();
 			for (String p : status.getIgnoredNotInIndex()) {
 				File f = new File(repo.getWorkTree(), p);
-				if (fs.isFile(f) || fs.isSymLink(f))
-					untrackedAndIgnoredFiles.add(p);
-				else if (fs.isDirectory(f))
-					untrackedAndIgnoredDirs.add(p);
+				if (fs.isFile(f) || fs.isSymLink(f)) {
+					untrackedFiles.add(p);
+				} else if (fs.isDirectory(f)) {
+					untrackedDirs.add(p);
+				}
 			}
 
-			Set<String> filtered = filterFolders(untrackedAndIgnoredFiles,
-					untrackedAndIgnoredDirs);
+			Set<String> filtered = filterFolders(untrackedFiles, untrackedDirs);
 
 			Set<String> notIgnoredFiles = filterIgnorePaths(filtered,
 					status.getIgnoredNotInIndex(), true);
-			Set<String> notIgnoredDirs = filterIgnorePaths(
-					untrackedAndIgnoredDirs,
+			Set<String> notIgnoredDirs = filterIgnorePaths(untrackedDirs,
 					status.getIgnoredNotInIndex(), false);
 
 			for (String file : notIgnoredFiles)
@@ -174,20 +172,22 @@ public class CleanCommand extends GitCommand<Set<String>> {
 				if (new File(curFile, DOT_GIT).exists()) {
 					if (force) {
 						if (!dryRun) {
-							FileUtils.delete(curFile, FileUtils.RECURSIVE);
+							FileUtils.delete(curFile, FileUtils.RECURSIVE
+									| FileUtils.SKIP_MISSING);
 						}
 						inFiles.add(path + "/"); //$NON-NLS-1$
 					}
 				} else {
 					if (!dryRun) {
-						FileUtils.delete(curFile, FileUtils.RECURSIVE);
+						FileUtils.delete(curFile,
+								FileUtils.RECURSIVE | FileUtils.SKIP_MISSING);
 					}
 					inFiles.add(path + "/"); //$NON-NLS-1$
 				}
 			}
 		} else {
 			if (!dryRun) {
-				FileUtils.delete(curFile, FileUtils.NONE);
+				FileUtils.delete(curFile, FileUtils.SKIP_MISSING);
 			}
 			inFiles.add(path);
 		}
