@@ -751,17 +751,17 @@ public class GC {
 		RevObject ro = w.next();
 		while (ro != null) {
 			checkCancelled();
-			if (id2File.remove(ro.getId()) != null)
-				if (id2File.isEmpty())
-					return;
+			if (id2File.remove(ro.getId()) != null && id2File.isEmpty()) {
+				return;
+			}
 			ro = w.next();
 		}
 		ro = w.nextObject();
 		while (ro != null) {
 			checkCancelled();
-			if (id2File.remove(ro.getId()) != null)
-				if (id2File.isEmpty())
-					return;
+			if (id2File.remove(ro.getId()) != null && id2File.isEmpty()) {
+				return;
+			}
 			ro = w.nextObject();
 		}
 	}
