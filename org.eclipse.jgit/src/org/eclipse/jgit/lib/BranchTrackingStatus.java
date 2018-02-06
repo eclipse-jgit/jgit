@@ -87,22 +87,25 @@ public class BranchTrackingStatus {
 		if (local == null)
 			return null;
 
-		RevWalk walk = new RevWalk(repository);
+		try (RevWalk walk = new RevWalk(repository)) {
 
-		RevCommit localCommit = walk.parseCommit(local.getObjectId());
-		RevCommit trackingCommit = walk.parseCommit(tracking.getObjectId());
+			RevCommit localCommit = walk.parseCommit(local.getObjectId());
+			RevCommit trackingCommit = walk.parseCommit(tracking.getObjectId());
 
-		walk.setRevFilter(RevFilter.MERGE_BASE);
-		walk.markStart(localCommit);
-		walk.markStart(trackingCommit);
-		RevCommit mergeBase = walk.next();
+			walk.setRevFilter(RevFilter.MERGE_BASE);
+			walk.markStart(localCommit);
+			walk.markStart(trackingCommit);
+			RevCommit mergeBase = walk.next();
 
-		walk.reset();
-		walk.setRevFilter(RevFilter.ALL);
-		int aheadCount = RevWalkUtils.count(walk, localCommit, mergeBase);
-		int behindCount = RevWalkUtils.count(walk, trackingCommit, mergeBase);
+			walk.reset();
+			walk.setRevFilter(RevFilter.ALL);
+			int aheadCount = RevWalkUtils.count(walk, localCommit, mergeBase);
+			int behindCount = RevWalkUtils.count(walk, trackingCommit,
+					mergeBase);
 
-		return new BranchTrackingStatus(trackingBranch, aheadCount, behindCount);
+			return new BranchTrackingStatus(trackingBranch, aheadCount,
+					behindCount);
+		}
 	}
 
 	private final String remoteTrackingBranch;
