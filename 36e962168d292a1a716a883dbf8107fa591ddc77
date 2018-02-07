@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87929364_2e0ed141",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-07T00:23:06Z",
+      "side": 1,
+      "message": "that",
+      "range": {
+        "startLine": 10,
+        "startChar": 14,
+        "endLine": 10,
+        "endChar": 17
+      },
+      "revId": "36e962168d292a1a716a883dbf8107fa591ddc77",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_4e095d36",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-07T00:23:06Z",
+      "side": 1,
+      "message": "contains",
+      "range": {
+        "startLine": 10,
+        "startChar": 42,
+        "endLine": 10,
+        "endChar": 49
+      },
+      "revId": "36e962168d292a1a716a883dbf8107fa591ddc77",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_ee04c923",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-07T00:23:06Z",
+      "side": 1,
+      "message": "its",
+      "range": {
+        "startLine": 11,
+        "startChar": 18,
+        "endLine": 11,
+        "endChar": 21
+      },
+      "revId": "36e962168d292a1a716a883dbf8107fa591ddc77",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_0e083534",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-07T00:23:06Z",
+      "side": 1,
+      "message": "files and folders",
+      "range": {
+        "startLine": 14,
+        "startChar": 29,
+        "endLine": 14,
+        "endChar": 44
+      },
+      "revId": "36e962168d292a1a716a883dbf8107fa591ddc77",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_6e18d980",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CleanCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-07T00:23:06Z",
+      "side": 1,
+      "message": "also add braces here, otherwise we end up with a strange mix of using or not using braces in adjacent lines",
+      "revId": "36e962168d292a1a716a883dbf8107fa591ddc77",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
