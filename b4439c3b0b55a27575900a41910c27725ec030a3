@@ -16,6 +16,24 @@
       "revId": "b4439c3b0b55a27575900a41910c27725ec030a3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_b8068291",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 924,
+      "author": {
+        "id": 24046
+      },
+      "writtenOn": "2018-02-07T23:12:30Z",
+      "side": 1,
+      "message": "Well, in reality is done as a side effect of trying to delete the folder in line 955, given the operation will fail (and return false and not error) if the folder is not empty.\n\nIn a previous version of this change I was doing a more upfront filtering when walking the paths in line 937 by calling this method for each path being evaluated:\n\nprivate boolean isDirEmpty(Path directory) throws IOException {\n    try (DirectoryStream\u003cPath\u003e dirStream \u003d Files.newDirectoryStream(directory)) {\n      return !dirStream.iterator().hasNext();\n    }\n  }\n\nbut in the end I was a bit concerned about the performance implications of this check, not because of the check itself but by the fact of doing this in a possible very long list of folders.",
+      "parentUuid": "87929364_f82e4a15",
+      "revId": "b4439c3b0b55a27575900a41910c27725ec030a3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
