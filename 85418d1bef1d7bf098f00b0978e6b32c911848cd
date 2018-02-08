@@ -2,6 +2,264 @@
   "comments": [
     {
       "key": {
+        "uuid": "87929364_47193bab",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/CleanFilter.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-08T23:40:37Z",
+      "side": 1,
+      "message": "this rather looks like a fix for an earlier change than part of this feature",
+      "revId": "85418d1bef1d7bf098f00b0978e6b32c911848cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_d6fddfe1",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsBlobHelper.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-08T23:40:37Z",
+      "side": 1,
+      "message": "can we find a better name? Maybe LfsBlobFilter",
+      "range": {
+        "startLine": 62,
+        "startChar": 13,
+        "endLine": 62,
+        "endChar": 26
+      },
+      "revId": "85418d1bef1d7bf098f00b0978e6b32c911848cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_67147773",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsBlobHelper.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-08T23:40:37Z",
+      "side": 1,
+      "message": "use active form \"replace\"",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 12
+      },
+      "revId": "85418d1bef1d7bf098f00b0978e6b32c911848cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_a759ff62",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsBlobHelper.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-08T23:40:37Z",
+      "side": 1,
+      "message": "Run",
+      "range": {
+        "startLine": 103,
+        "startChar": 4,
+        "endLine": 103,
+        "endChar": 8
+      },
+      "revId": "85418d1bef1d7bf098f00b0978e6b32c911848cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_c760cb03",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsBlobHelper.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-08T23:40:37Z",
+      "side": 1,
+      "message": "return",
+      "range": {
+        "startLine": 103,
+        "startChar": 54,
+        "endLine": 103,
+        "endChar": 61
+      },
+      "revId": "85418d1bef1d7bf098f00b0978e6b32c911848cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_e763070b",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsBlobHelper.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-08T23:40:37Z",
+      "side": 1,
+      "message": "{@code LocalFile}\n\nmention that the caller is responsible to close or destroy the returned buffer ?",
+      "range": {
+        "startLine": 110,
+        "startChar": 14,
+        "endLine": 110,
+        "endChar": 23
+      },
+      "revId": "85418d1bef1d7bf098f00b0978e6b32c911848cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_076ad3e0",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsBlobLoader.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-08T23:40:37Z",
+      "side": 1,
+      "message": "An",
+      "range": {
+        "startLine": 59,
+        "startChar": 3,
+        "endLine": 59,
+        "endChar": 4
+      },
+      "revId": "85418d1bef1d7bf098f00b0978e6b32c911848cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_27650f0f",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsBlobLoader.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-08T23:40:37Z",
+      "side": 1,
+      "message": "Create",
+      "range": {
+        "startLine": 73,
+        "startChar": 4,
+        "endLine": 73,
+        "endChar": 11
+      },
+      "revId": "85418d1bef1d7bf098f00b0978e6b32c911848cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_36f2a30d",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-08T23:40:37Z",
+      "side": 1,
+      "message": "do this in try catch to ensure we also close in case some exception is hit ?",
+      "revId": "85418d1bef1d7bf098f00b0978e6b32c911848cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_76ec2b32",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-08T23:40:37Z",
+      "side": 1,
+      "message": "missing description",
+      "revId": "85418d1bef1d7bf098f00b0978e6b32c911848cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_4774dbbf",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-08T23:40:37Z",
+      "side": 1,
+      "message": "close in finally block",
+      "range": {
+        "startLine": 268,
+        "startChar": 0,
+        "endLine": 269,
+        "endChar": 16
+      },
+      "revId": "85418d1bef1d7bf098f00b0978e6b32c911848cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_676f17ef",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-08T23:40:37Z",
+      "side": 1,
+      "message": "do this in finally block since also required if no exception is thrown",
+      "range": {
+        "startLine": 275,
+        "startChar": 0,
+        "endLine": 276,
+        "endChar": 15
+      },
+      "revId": "85418d1bef1d7bf098f00b0978e6b32c911848cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_6da623c4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/FilterCommand.java",
         "patchSetId": 27
@@ -19,6 +277,311 @@
         "endLine": 72,
         "endChar": 40
       },
+      "revId": "85418d1bef1d7bf098f00b0978e6b32c911848cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_f6bbbb29",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/FilterCommand.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-08T23:40:37Z",
+      "side": 1,
+      "message": "sounds like a good idea",
+      "parentUuid": "87929364_6da623c4",
+      "range": {
+        "startLine": 70,
+        "startChar": 2,
+        "endLine": 72,
+        "endChar": 40
+      },
+      "revId": "85418d1bef1d7bf098f00b0978e6b32c911848cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_873de3ec",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/LfsHelper.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-08T23:40:37Z",
+      "side": 1,
+      "message": "Simplify",
+      "range": {
+        "startLine": 64,
+        "startChar": 3,
+        "endLine": 64,
+        "endChar": 8
+      },
+      "revId": "85418d1bef1d7bf098f00b0978e6b32c911848cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_36bd431e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/LfsHelper.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-08T23:40:37Z",
+      "side": 1,
+      "message": "naming classes *Helper\" sounds fishy, can we find a better name or home for this code ?",
+      "range": {
+        "startLine": 69,
+        "startChar": 13,
+        "endLine": 69,
+        "endChar": 22
+      },
+      "revId": "85418d1bef1d7bf098f00b0978e6b32c911848cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_a7401f5f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/LfsHelper.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-08T23:40:37Z",
+      "side": 1,
+      "message": "Apply",
+      "range": {
+        "startLine": 90,
+        "startChar": 4,
+        "endLine": 90,
+        "endChar": 11
+      },
+      "revId": "85418d1bef1d7bf098f00b0978e6b32c911848cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_c737eb06",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/LfsHelper.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-08T23:40:37Z",
+      "side": 1,
+      "message": "move this to @return tag documentation below ?",
+      "range": {
+        "startLine": 93,
+        "startChar": 4,
+        "endLine": 93,
+        "endChar": 11
+      },
+      "revId": "85418d1bef1d7bf098f00b0978e6b32c911848cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_e73a27ef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/LfsHelper.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-08T23:40:37Z",
+      "side": 1,
+      "message": "can we avoid reflection by adding a factory interface in jgit and a corresponding implementation in lfs bundle. Then we would only need to use reflection to load the factory by name (could be configurable by a git config option)",
+      "revId": "85418d1bef1d7bf098f00b0978e6b32c911848cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_0751f32c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/LfsHelper.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-08T23:40:37Z",
+      "side": 1,
+      "message": "Apply",
+      "range": {
+        "startLine": 125,
+        "startChar": 4,
+        "endLine": 125,
+        "endChar": 11
+      },
+      "revId": "85418d1bef1d7bf098f00b0978e6b32c911848cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_274c2f97",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/LfsHelper.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-08T23:40:37Z",
+      "side": 1,
+      "message": "Return",
+      "range": {
+        "startLine": 129,
+        "startChar": 4,
+        "endLine": 129,
+        "endChar": 11
+      },
+      "revId": "85418d1bef1d7bf098f00b0978e6b32c911848cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_a7abbf8e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/LfsHelper.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-08T23:40:37Z",
+      "side": 1,
+      "message": "see above",
+      "revId": "85418d1bef1d7bf098f00b0978e6b32c911848cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_c7b28bff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/LfsHelper.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-08T23:40:37Z",
+      "side": 1,
+      "message": "use constant",
+      "range": {
+        "startLine": 195,
+        "startChar": 27,
+        "endLine": 195,
+        "endChar": 30
+      },
+      "revId": "85418d1bef1d7bf098f00b0978e6b32c911848cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_e7b5c7e7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/LfsHelper.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-08T23:40:37Z",
+      "side": 1,
+      "message": "Encapsulate",
+      "range": {
+        "startLine": 261,
+        "startChar": 4,
+        "endLine": 261,
+        "endChar": 16
+      },
+      "revId": "85418d1bef1d7bf098f00b0978e6b32c911848cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_079c9375",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/LfsHelper.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-08T23:40:37Z",
+      "side": 1,
+      "message": "Create",
+      "range": {
+        "startLine": 276,
+        "startChar": 5,
+        "endLine": 276,
+        "endChar": 12
+      },
+      "revId": "85418d1bef1d7bf098f00b0978e6b32c911848cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_2797cf52",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/LfsHelper.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-08T23:40:37Z",
+      "side": 1,
+      "message": "Create",
+      "range": {
+        "startLine": 290,
+        "startChar": 5,
+        "endLine": 290,
+        "endChar": 12
+      },
+      "revId": "85418d1bef1d7bf098f00b0978e6b32c911848cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_47a69bc3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/TemporaryBuffer.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-08T23:40:37Z",
+      "side": 1,
+      "message": "couldn\u0027t we just change the implementation of openInputStream ?",
       "revId": "85418d1bef1d7bf098f00b0978e6b32c911848cd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
