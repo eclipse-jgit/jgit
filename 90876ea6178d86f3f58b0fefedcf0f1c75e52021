@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87929364_878fa338",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/Protocol.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-08T23:42:07Z",
+      "side": 1,
+      "message": "Describe",
+      "range": {
+        "startLine": 105,
+        "startChar": 4,
+        "endLine": 105,
+        "endChar": 13
+      },
+      "revId": "90876ea6178d86f3f58b0fefedcf0f1c75e52021",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
