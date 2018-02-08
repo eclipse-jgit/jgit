@@ -455,6 +455,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_1674c7f0",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-08T13:08:43Z",
+      "side": 1,
+      "message": "we could use mina sshd like gerrit, requires a CQ and adding it to Orbit which takes some time but should be doable. If you agree I can care for this part.",
+      "parentUuid": "87929364_b6b1334e",
+      "revId": "8917c66afd210b850aa30a9c062e37c2ff986d03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_56848fad",
         "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
         "patchSetId": 32
