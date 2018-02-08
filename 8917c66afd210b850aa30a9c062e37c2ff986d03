@@ -473,6 +473,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_71cb5596",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-02-08T13:22:37Z",
+      "side": 1,
+      "message": "You mean, for a test server? Basically a good idea. If the factored out version differs significantly from this code, then yes, would be good to have tests. Otherwise I suspect it will just delay this (already large) change series even more, and if the implementation remains basically the same, we could rely on the fact that such code is in production in EGit already for more than two years :-)",
+      "parentUuid": "87929364_1674c7f0",
+      "revId": "8917c66afd210b850aa30a9c062e37c2ff986d03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_56848fad",
         "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
         "patchSetId": 32
