@@ -109,6 +109,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_fe062d28",
+        "filename": "org.eclipse.jgit.lfs.server.test/tst/org/eclipse/jgit/lfs/server/fs/CheckoutTest.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2018-02-09T14:45:39Z",
+      "side": 1,
+      "message": "Ahh, great news. So the test really showed us a bug in the test code. Good we had the test and the comment.",
+      "parentUuid": "87929364_9e052952",
+      "revId": "8917c66afd210b850aa30a9c062e37c2ff986d03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_5b28380e",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/InstallLfsCommand.java",
         "patchSetId": 32
@@ -831,6 +849,24 @@
       "side": 1,
       "message": "Would it make a difference for the client if something is missing vs. something not connected vs. any other problem while downloading/writing?\n\nIMHO it is an atomic operation (from most perspectives ;)) to \"checkout\" the file. In this case there are more steps neccessary to checkout the file. In case any fails, it\u0027s dead anyway already. What would be the different reactions? I could imagine to ask for server configuration on demand, but I\u0027d rather like to have the client check configuration /before/ attempting to do something that will break... WDYT?",
       "parentUuid": "87929364_3be527c7",
+      "revId": "8917c66afd210b850aa30a9c062e37c2ff986d03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_3e3355fa",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2018-02-09T14:45:39Z",
+      "side": 1,
+      "message": "JGit is for example used inside IDE\u0027s (like Eclipse, ...) to offer git functionality. If the user is checking out the a branch on a LFS enabled project and ...\n\n- in one case the lfs communication fails because WIFI is off, Proxy is not set, LFS server is down\n\n- and in the second case the the operation fails because the user (or some IDE plugins) has manipulated the repo\u0027s config file and the very  essential information for lfs, the lfs server URL is now not there anymore\n\n... then I expect different error messages from the IDE in the two cases. Especially in case 2) the IDE can give the user very specific hints what he has to do. As IDE developer I would dislike that I have to parse the message of the IOException to find out about the difference.\n\nAnother reason:  in the first case it could make sense to retry the operation (because the network came up again) but in the second case it makes no sense to retry",
+      "parentUuid": "87929364_fbff1fd6",
       "revId": "8917c66afd210b850aa30a9c062e37c2ff986d03",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
