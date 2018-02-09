@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_9e052952",
+        "filename": "org.eclipse.jgit.lfs.server.test/tst/org/eclipse/jgit/lfs/server/fs/CheckoutTest.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-09T13:32:18Z",
+      "side": 1,
+      "message": "That was the problem. The pointer needs a trailing newline :)",
+      "parentUuid": "87929364_7eca3d93",
+      "revId": "8917c66afd210b850aa30a9c062e37c2ff986d03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_5b28380e",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/InstallLfsCommand.java",
         "patchSetId": 32
