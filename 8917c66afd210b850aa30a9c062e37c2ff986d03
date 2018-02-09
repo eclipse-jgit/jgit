@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_47b69b71",
+        "filename": "org.eclipse.jgit.lfs.server.test/tst/org/eclipse/jgit/lfs/server/fs/CheckoutTest.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-09T08:15:20Z",
+      "side": 1,
+      "message": "Can you maybe poke Christian about this? I have no real idea what this is, and what he intended here...\n\nIt seems that whatever manual tests I do, the behavior is as expected (by me, at least :D maybe my expectation is wrong)",
+      "parentUuid": "87929364_b65053ad",
+      "revId": "8917c66afd210b850aa30a9c062e37c2ff986d03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_5b28380e",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/InstallLfsCommand.java",
         "patchSetId": 32
@@ -30,6 +48,24 @@
       "writtenOn": "2018-02-08T12:35:56Z",
       "side": 1,
       "message": "missing license header",
+      "revId": "8917c66afd210b850aa30a9c062e37c2ff986d03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_67b1d775",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/InstallLfsCommand.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-09T08:15:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_5b28380e",
       "revId": "8917c66afd210b850aa30a9c062e37c2ff986d03",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_879fa3e6",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/InstallLfsCommand.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-09T08:15:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_7b233431",
+      "revId": "8917c66afd210b850aa30a9c062e37c2ff986d03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_9b31c077",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/InstallLfsCommand.java",
         "patchSetId": 32
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_a7a2df28",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/InstallLfsCommand.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-09T08:15:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_9b31c077",
+      "revId": "8917c66afd210b850aa30a9c062e37c2ff986d03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_5b3f583d",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
         "patchSetId": 32
@@ -81,6 +153,24 @@
       "writtenOn": "2018-02-08T12:35:56Z",
       "side": 1,
       "message": "remove unnecessary empty line",
+      "revId": "8917c66afd210b850aa30a9c062e37c2ff986d03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_278eefb8",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-09T08:15:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_5b3f583d",
       "revId": "8917c66afd210b850aa30a9c062e37c2ff986d03",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -110,6 +200,30 @@
     },
     {
       "key": {
+        "uuid": "87929364_478dbbb9",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-09T08:15:20Z",
+      "side": 1,
+      "message": "Used HttpConnection.HTTP_OK instead, as this is already using in this file. OK?",
+      "parentUuid": "87929364_fbe9e42d",
+      "range": {
+        "startLine": 182,
+        "startChar": 22,
+        "endLine": 182,
+        "endChar": 25
+      },
+      "revId": "8917c66afd210b850aa30a9c062e37c2ff986d03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_db8fc885",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
         "patchSetId": 32
@@ -121,6 +235,30 @@
       "writtenOn": "2018-02-08T12:35:56Z",
       "side": 1,
       "message": "add another constant to HttpConfig ?",
+      "range": {
+        "startLine": 220,
+        "startChar": 41,
+        "endLine": 220,
+        "endChar": 46
+      },
+      "revId": "8917c66afd210b850aa30a9c062e37c2ff986d03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_870a43af",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-09T08:15:20Z",
+      "side": 1,
+      "message": "not sure. https never appears in git config, right? HttpConfig constants are all keys which appear in http.* git config",
+      "parentUuid": "87929364_db8fc885",
       "range": {
         "startLine": 220,
         "startChar": 41,
@@ -179,6 +317,54 @@
     },
     {
       "key": {
+        "uuid": "87929364_a70d7fc9",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-09T08:15:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_3bbd2c1e",
+      "range": {
+        "startLine": 221,
+        "startChar": 27,
+        "endLine": 221,
+        "endChar": 36
+      },
+      "revId": "8917c66afd210b850aa30a9c062e37c2ff986d03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_c7144bd2",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-09T08:15:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_9b954098",
+      "range": {
+        "startLine": 221,
+        "startChar": 19,
+        "endLine": 221,
+        "endChar": 23
+      },
+      "revId": "8917c66afd210b850aa30a9c062e37c2ff986d03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_fb8d6486",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
         "patchSetId": 32
@@ -213,6 +399,54 @@
       "writtenOn": "2018-02-08T12:35:56Z",
       "side": 1,
       "message": "use Constants.LFS",
+      "range": {
+        "startLine": 284,
+        "startChar": 40,
+        "endLine": 284,
+        "endChar": 45
+      },
+      "revId": "8917c66afd210b850aa30a9c062e37c2ff986d03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_47285b0e",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-09T08:15:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_fb8d6486",
+      "range": {
+        "startLine": 284,
+        "startChar": 53,
+        "endLine": 284,
+        "endChar": 58
+      },
+      "revId": "8917c66afd210b850aa30a9c062e37c2ff986d03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_27198f05",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-09T08:15:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_3ba44c02",
       "range": {
         "startLine": 284,
         "startChar": 40,
@@ -271,6 +505,54 @@
     },
     {
       "key": {
+        "uuid": "87929364_67239731",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-09T08:15:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_963b5786",
+      "range": {
+        "startLine": 289,
+        "startChar": 36,
+        "endLine": 289,
+        "endChar": 39
+      },
+      "revId": "8917c66afd210b850aa30a9c062e37c2ff986d03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_87316377",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-09T08:15:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_b63e9374",
+      "range": {
+        "startLine": 289,
+        "startChar": 51,
+        "endLine": 289,
+        "endChar": 54
+      },
+      "revId": "8917c66afd210b850aa30a9c062e37c2ff986d03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_d635df90",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
         "patchSetId": 32
@@ -282,6 +564,30 @@
       "writtenOn": "2018-02-08T12:35:56Z",
       "side": 1,
       "message": "Constants.DEFAULT_REMOTE_NAME",
+      "range": {
+        "startLine": 291,
+        "startChar": 25,
+        "endLine": 291,
+        "endChar": 31
+      },
+      "revId": "8917c66afd210b850aa30a9c062e37c2ff986d03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_a7349f65",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-09T08:15:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_d635df90",
       "range": {
         "startLine": 291,
         "startChar": 25,
@@ -317,6 +623,30 @@
     },
     {
       "key": {
+        "uuid": "87929364_c72b6b05",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-09T08:15:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_b6693371",
+      "range": {
+        "startLine": 313,
+        "startChar": 33,
+        "endLine": 313,
+        "endChar": 42
+      },
+      "revId": "8917c66afd210b850aa30a9c062e37c2ff986d03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_f6381b89",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
         "patchSetId": 32
@@ -328,6 +658,30 @@
       "writtenOn": "2018-02-08T12:35:56Z",
       "side": 1,
       "message": "define constant in org.eclipse.jgit.lfs.Constants",
+      "range": {
+        "startLine": 319,
+        "startChar": 33,
+        "endLine": 319,
+        "endChar": 42
+      },
+      "revId": "8917c66afd210b850aa30a9c062e37c2ff986d03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_e72ea715",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-09T08:15:20Z",
+      "side": 1,
+      "message": "I put it in Protocol, as this is more a protocol related constant. OK?",
+      "parentUuid": "87929364_f6381b89",
       "range": {
         "startLine": 319,
         "startChar": 33,
@@ -357,6 +711,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_074573cb",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-09T08:15:20Z",
+      "side": 1,
+      "message": "Again, could you poke Christian about this? I\u0027m 90% sure that the IOException is fine here. A more specific exception would not add any value in any case I currently see. I might be wrong though, thats why I left the TODO here.",
+      "parentUuid": "87929364_162f6742",
+      "revId": "8917c66afd210b850aa30a9c062e37c2ff986d03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_362aa330",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
         "patchSetId": 32
@@ -368,6 +740,24 @@
       "writtenOn": "2018-02-08T12:35:56Z",
       "side": 1,
       "message": "externalize error message",
+      "revId": "8917c66afd210b850aa30a9c062e37c2ff986d03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_2740afb9",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-09T08:15:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_362aa330",
       "revId": "8917c66afd210b850aa30a9c062e37c2ff986d03",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -397,6 +787,30 @@
     },
     {
       "key": {
+        "uuid": "87929364_473f7b3d",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-09T08:15:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_5629ef38",
+      "range": {
+        "startLine": 327,
+        "startChar": 35,
+        "endLine": 327,
+        "endChar": 49
+      },
+      "revId": "8917c66afd210b850aa30a9c062e37c2ff986d03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_76242b61",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
         "patchSetId": 32
@@ -408,6 +822,30 @@
       "writtenOn": "2018-02-08T12:35:56Z",
       "side": 1,
       "message": "use existing constant",
+      "range": {
+        "startLine": 347,
+        "startChar": 21,
+        "endLine": 347,
+        "endChar": 25
+      },
+      "revId": "8917c66afd210b850aa30a9c062e37c2ff986d03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_673ab74d",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-09T08:15:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_76242b61",
       "range": {
         "startLine": 347,
         "startChar": 21,
@@ -509,6 +947,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_87dc0394",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-09T08:15:20Z",
+      "side": 1,
+      "message": "It is on my TODO list. Once the LFS changes are through, I can look into factoring out a more central utility.",
+      "parentUuid": "87929364_116a11e1",
+      "revId": "8917c66afd210b850aa30a9c062e37c2ff986d03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_56848fad",
         "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
         "patchSetId": 32
@@ -526,6 +982,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_e79ce7f1",
+        "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
+        "patchSetId": 32
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-09T08:15:20Z",
+      "side": 1,
+      "message": "Hm, obviously we dont :D",
+      "parentUuid": "87929364_56848fad",
+      "revId": "8917c66afd210b850aa30a9c062e37c2ff986d03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_964d171b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
         "patchSetId": 32
@@ -537,6 +1011,24 @@
       "writtenOn": "2018-02-08T12:35:56Z",
       "side": 1,
       "message": "shouldn\u0027t that reside in org.eclipse.jgit.lfs.Constants ?",
+      "revId": "8917c66afd210b850aa30a9c062e37c2ff986d03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_0793b3de",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-09T08:15:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_964d171b",
       "revId": "8917c66afd210b850aa30a9c062e37c2ff986d03",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
