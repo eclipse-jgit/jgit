@@ -198,8 +198,8 @@ public class MergedReftable extends Reftable {
 				ref = t.rc.getRef();
 				updateIndex = t.rc.getUpdateIndex();
 				boolean include = includeDeletes || !t.rc.wasDeleted();
-				skipShadowedRefs(ref.getName());
 				add(t);
+				skipShadowedRefs(ref.getName());
 				if (include) {
 					return true;
 				}
