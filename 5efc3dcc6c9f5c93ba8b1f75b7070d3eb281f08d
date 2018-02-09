@@ -22,6 +22,30 @@
       "revId": "5efc3dcc6c9f5c93ba8b1f75b7070d3eb281f08d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_0182bedc",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftable/MergedReftableTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2018-02-09T18:05:47Z",
+      "side": 1,
+      "message": "With the same updateIndex of 2000, the cursor will emit the first item and skip the next one with the same name.",
+      "parentUuid": "87929364_61b9c2af",
+      "range": {
+        "startLine": 233,
+        "startChar": 16,
+        "endLine": 233,
+        "endChar": 21
+      },
+      "revId": "5efc3dcc6c9f5c93ba8b1f75b7070d3eb281f08d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
