@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_7eca3d93",
+        "filename": "org.eclipse.jgit.lfs.server.test/tst/org/eclipse/jgit/lfs/server/fs/CheckoutTest.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-09T13:28:30Z",
+      "side": 1,
+      "message": "hey, wait a second :D (disregard the previous comment).\n\n1) we have a branch test with a.bin \u003d lfs pointer\n2) we have a branch test2 which does not have the file\n\nnow the test\n\n1) put the right content to the LFS server\n2) checkout the branch with the pointer\n3a) the comment is wrong, we expect the actual content (will fix that)\n3b) we /do/ see the right content in a.bin\n4) we see that downloading the file worked as expected\n5) we need to delete that file to change the branch?! I agree with the TODO: this should /never/ be neccessary. It works in all manual tests.\n\nlooking at the repo during the test:\n\ndiff --git a/a.bin b/a.bin\nindex a8610d6..313f4e0 100644\n--- a/a.bin\n+++ b/a.bin\n@@ -1,3 +1,3 @@\n version https://git-lfs.github.com/spec/v1\n oid sha256:8bb0cf6eb9b17d0f7d22b456f121257dc1254e1f01665370476383ea776df414\n-size 7\n\\ No newline at end of file\n+size 7",
+      "parentUuid": "87929364_dbfa63e8",
+      "revId": "8917c66afd210b850aa30a9c062e37c2ff986d03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_5b28380e",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/InstallLfsCommand.java",
         "patchSetId": 32
