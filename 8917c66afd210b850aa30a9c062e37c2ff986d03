@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_dbfa63e8",
+        "filename": "org.eclipse.jgit.lfs.server.test/tst/org/eclipse/jgit/lfs/server/fs/CheckoutTest.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-09T12:17:52Z",
+      "side": 1,
+      "message": "Thank you. I think I see what the problem is now. In the case that the checkout fails to filter properly (I had that in tests), the LFS pointer is written instead. In this case, the file will be regarded as dirty IIRC - don\u0027t know about the exact why :). You will have to delete/reset it to be able to proceed with a checkout - true. OTOH I\u0027m not sure whether this is wrong at all... It hints the user to the fact that LFS is broken and some kind of reset is necessary after fixing the config...",
+      "parentUuid": "87929364_db86e321",
+      "revId": "8917c66afd210b850aa30a9c062e37c2ff986d03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_5b28380e",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/InstallLfsCommand.java",
         "patchSetId": 32
@@ -759,6 +777,24 @@
       "side": 1,
       "message": "Not sure anymore. This is not always an IO Exception because we will also hit it if the git config doesn\u0027t contain a lfs server url. Users of the JGit API may want to behave differently when their network is broken or when the user has not configured a lfs server url - that\u0027s why I would spent a different type of exception",
       "parentUuid": "87929364_074573cb",
+      "revId": "8917c66afd210b850aa30a9c062e37c2ff986d03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_fbff1fd6",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-09T12:17:52Z",
+      "side": 1,
+      "message": "Would it make a difference for the client if something is missing vs. something not connected vs. any other problem while downloading/writing?\n\nIMHO it is an atomic operation (from most perspectives ;)) to \"checkout\" the file. In this case there are more steps neccessary to checkout the file. In case any fails, it\u0027s dead anyway already. What would be the different reactions? I could imagine to ask for server configuration on demand, but I\u0027d rather like to have the client check configuration /before/ attempting to do something that will break... WDYT?",
+      "parentUuid": "87929364_3be527c7",
       "revId": "8917c66afd210b850aa30a9c062e37c2ff986d03",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
