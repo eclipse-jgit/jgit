@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_db86e321",
+        "filename": "org.eclipse.jgit.lfs.server.test/tst/org/eclipse/jgit/lfs/server/fs/CheckoutTest.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2018-02-09T10:03:27Z",
+      "side": 1,
+      "message": "My intention in this area was to checkout the branch test2. This should be possible - but I tried it out and the checkout fails if line 137 is missing (and least on my MacOS machine). Thats the issue. \n\nManual tests often work because the timing is different. In our unit tests we have often the situation that we see smudged index entries - and in manual tests you don\u0027t see them because your are not fast enough.\n\nIt could be that this bug is not related to lfs - but I am not sure about that. I will try to recreate this problem without lfs ... if we see the same issue without lfs than we don\u0027t have to fix this here",
+      "parentUuid": "87929364_47b69b71",
+      "revId": "8917c66afd210b850aa30a9c062e37c2ff986d03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_5b28380e",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/InstallLfsCommand.java",
         "patchSetId": 32
@@ -729,6 +747,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_3be527c7",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2018-02-09T10:03:27Z",
+      "side": 1,
+      "message": "Not sure anymore. This is not always an IO Exception because we will also hit it if the git config doesn\u0027t contain a lfs server url. Users of the JGit API may want to behave differently when their network is broken or when the user has not configured a lfs server url - that\u0027s why I would spent a different type of exception",
+      "parentUuid": "87929364_074573cb",
+      "revId": "8917c66afd210b850aa30a9c062e37c2ff986d03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_362aa330",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
         "patchSetId": 32
@@ -959,6 +995,24 @@
       "side": 1,
       "message": "It is on my TODO list. Once the LFS changes are through, I can look into factoring out a more central utility.",
       "parentUuid": "87929364_116a11e1",
+      "revId": "8917c66afd210b850aa30a9c062e37c2ff986d03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_5bde73fe",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2018-02-09T10:03:27Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "87929364_87dc0394",
       "revId": "8917c66afd210b850aa30a9c062e37c2ff986d03",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
