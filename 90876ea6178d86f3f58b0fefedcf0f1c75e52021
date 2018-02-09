@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "87929364_bb1037dd",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/Protocol.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-09T11:45:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_878fa338",
+      "range": {
+        "startLine": 105,
+        "startChar": 4,
+        "endLine": 105,
+        "endChar": 13
+      },
+      "revId": "90876ea6178d86f3f58b0fefedcf0f1c75e52021",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_07d653be",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/Protocol.java",
         "patchSetId": 16
@@ -36,6 +60,30 @@
       "writtenOn": "2018-02-09T03:58:15Z",
       "side": 1,
       "message": "4.11",
+      "range": {
+        "startLine": 107,
+        "startChar": 11,
+        "endLine": 107,
+        "endChar": 15
+      },
+      "revId": "90876ea6178d86f3f58b0fefedcf0f1c75e52021",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_db1183e0",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/Protocol.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-09T11:45:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_07d653be",
       "range": {
         "startLine": 107,
         "startChar": 11,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "87929364_1b1f8bec",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/Protocol.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-09T11:45:28Z",
+      "side": 1,
+      "message": "the expiresAt is the counterpart of the LFS server implementation in: https://gerrit.googlesource.com/plugins/lfs/+/stable-2.15/src/main/java/com/googlesource/gerrit/plugins/lfs/ExpiringAction.java\n\nshall we support both?",
+      "parentUuid": "87929364_c7e36b94",
+      "range": {
+        "startLine": 110,
+        "startChar": 16,
+        "endLine": 110,
+        "endChar": 25
+      },
+      "revId": "90876ea6178d86f3f58b0fefedcf0f1c75e52021",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_27d18fc4",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/Protocol.java",
         "patchSetId": 16
@@ -82,6 +154,30 @@
       "writtenOn": "2018-02-09T03:58:15Z",
       "side": 1,
       "message": "4.11",
+      "range": {
+        "startLine": 149,
+        "startChar": 11,
+        "endLine": 149,
+        "endChar": 15
+      },
+      "revId": "90876ea6178d86f3f58b0fefedcf0f1c75e52021",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_3b1c47f5",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/Protocol.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-09T11:45:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_27d18fc4",
       "range": {
         "startLine": 149,
         "startChar": 11,
@@ -129,6 +225,30 @@
       "side": 1,
       "message": "Actually I just noticed that in the LFS documentation the timestamp example is formatted with \"Z\" so this is probably OK.",
       "parentUuid": "87929364_67db97e4",
+      "range": {
+        "startLine": 257,
+        "startChar": 30,
+        "endLine": 257,
+        "endChar": 31
+      },
+      "revId": "90876ea6178d86f3f58b0fefedcf0f1c75e52021",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_1bfeab2b",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionHelper.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-09T11:45:28Z",
+      "side": 1,
+      "message": "Yep, this should be ok.",
+      "parentUuid": "87929364_e7e6a7a4",
       "range": {
         "startLine": 257,
         "startChar": 30,
