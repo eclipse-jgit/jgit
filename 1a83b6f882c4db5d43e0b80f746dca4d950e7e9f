@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_47ccdbce",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPointer.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-09T09:18:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_368e23b9",
+      "revId": "1a83b6f882c4db5d43e0b80f746dca4d950e7e9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_f6173bd1",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
         "patchSetId": 20
@@ -30,6 +48,24 @@
       "writtenOn": "2018-02-08T12:50:52Z",
       "side": 1,
       "message": "can you factor out a couple of methods with good names to avoid adding so many comments to make the code readable ?",
+      "revId": "1a83b6f882c4db5d43e0b80f746dca4d950e7e9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_8795e397",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-09T09:18:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_f6173bd1",
       "revId": "1a83b6f882c4db5d43e0b80f746dca4d950e7e9f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_07a9f3db",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-09T09:18:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_d614ffd1",
+      "revId": "1a83b6f882c4db5d43e0b80f746dca4d950e7e9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_161e87ef",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
         "patchSetId": 20
@@ -64,6 +118,24 @@
       "writtenOn": "2018-02-08T12:50:52Z",
       "side": 1,
       "message": "fishy line break",
+      "revId": "1a83b6f882c4db5d43e0b80f746dca4d950e7e9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_47a3fbf9",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-09T09:18:39Z",
+      "side": 1,
+      "message": "Reformatted the whole file - the configured formatter insists on this formatting, even when I manually remove the line breaks in this statement.",
+      "parentUuid": "87929364_161e87ef",
       "revId": "1a83b6f882c4db5d43e0b80f746dca4d950e7e9f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -93,6 +165,30 @@
     },
     {
       "key": {
+        "uuid": "87929364_679e37b6",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-09T09:18:39Z",
+      "side": 1,
+      "message": "Again, used HttpConnection.HTTP_OK, as everywhere else.",
+      "parentUuid": "87929364_3619c305",
+      "range": {
+        "startLine": 193,
+        "startChar": 22,
+        "endLine": 193,
+        "endChar": 25
+      },
+      "revId": "1a83b6f882c4db5d43e0b80f746dca4d950e7e9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_3640e3b9",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
         "patchSetId": 20
@@ -110,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_1bc78b8d",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-09T09:18:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_3640e3b9",
+      "revId": "1a83b6f882c4db5d43e0b80f746dca4d950e7e9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_b634d365",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
         "patchSetId": 20
@@ -121,6 +235,30 @@
       "writtenOn": "2018-02-08T12:50:52Z",
       "side": 1,
       "message": "use existing constants",
+      "range": {
+        "startLine": 229,
+        "startChar": 49,
+        "endLine": 229,
+        "endChar": 68
+      },
+      "revId": "1a83b6f882c4db5d43e0b80f746dca4d950e7e9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_e78dc786",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-09T09:18:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_b634d365",
       "range": {
         "startLine": 229,
         "startChar": 49,
@@ -156,6 +294,30 @@
     },
     {
       "key": {
+        "uuid": "87929364_47da1b92",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionHelper.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-09T09:18:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_563f2f3d",
+      "range": {
+        "startLine": 77,
+        "startChar": 13,
+        "endLine": 77,
+        "endChar": 32
+      },
+      "revId": "1a83b6f882c4db5d43e0b80f746dca4d950e7e9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_b6df7385",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/Hooks.java",
         "patchSetId": 20
@@ -167,6 +329,24 @@
       "writtenOn": "2018-02-08T12:50:52Z",
       "side": 1,
       "message": "can we chain pre-push hooks to fix this ?",
+      "revId": "1a83b6f882c4db5d43e0b80f746dca4d950e7e9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_9bda9b5d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/Hooks.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-09T09:18:39Z",
+      "side": 1,
+      "message": "I don\u0027t actually think this is a good idea. There is no way to detect what a pre-push hook does. If command line LFS is installed, there might be a pre-push hook doing the same thing all over again... of course it will be \"fast\", as there should be nothing left to do... but still.\n\nIn native GIT it is easy, AFAIK; there might be only one pre-push hook (identified by script name) right?\n\nThe TODO also sounds a little overly dramatic :D It is only used (insead of any pre-push script) in the case that CONFIG_KEY_USEJGITBUILTIN is set.\n\nAnyway, I\u0027m open to suggestions, I have no idea what would be the best way to implement this. Also reversing the dependency might be desirable as previous reviews showed (i.e. LFS support should register the pre-push hook somehow, so that plain JGit does not need an (optional) dependency to (optional) LFS support.",
+      "parentUuid": "87929364_b6df7385",
       "revId": "1a83b6f882c4db5d43e0b80f746dca4d950e7e9f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
