@@ -81,6 +81,7 @@ import java.util.zip.Deflater;
 import java.util.zip.DeflaterOutputStream;
 
 import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.LargeObjectException;
@@ -355,6 +356,24 @@ public class PackWriter implements AutoCloseable {
 	 *            reader to read from the repository with.
 	 */
 	public PackWriter(final PackConfig config, final ObjectReader reader) {
+		this(config, reader, null);
+	}
+
+	/**
+	 * Create writer with a specified configuration.
+	 * <p>
+	 * Objects for packing are specified in {@link #preparePack(Iterator)} or
+	 * {@link #preparePack(ProgressMonitor, Set, Set)}.
+	 *
+	 * @param config
+	 *            configuration for the pack writer.
+	 * @param reader
+	 *            reader to read from the repository with.
+	 * @param statsAccumulator
+	 *            accumulator for statics
+	 */
+	public PackWriter(PackConfig config, final ObjectReader reader,
+			@Nullable PackStatistics.Accumulator statsAccumulator) {
 		this.config = config;
 		this.reader = reader;
 		if (reader instanceof ObjectReuseAsIs)
@@ -365,7 +384,8 @@ public class PackWriter implements AutoCloseable {
 		deltaBaseAsOffset = config.isDeltaBaseAsOffset();
 		reuseDeltas = config.isReuseDeltas();
 		reuseValidate = true; // be paranoid by default
-		stats = new PackStatistics.Accumulator();
+		stats = statsAccumulator != null ? statsAccumulator
+				: new PackStatistics.Accumulator();
 		state = new MutableState();
 		selfRef = new WeakReference<>(this);
 		instances.put(selfRef, Boolean.TRUE);

@@ -773,6 +773,7 @@ public class UploadPack {
 		boolean sendPack = false;
 		// If it's a non-bidi request, we need to read the entire request before
 		// writing a response. Buffer the response until then.
+		PackStatistics.Accumulator accumulator = new PackStatistics.Accumulator();
 		try {
 			if (biDirectionalPipe)
 				sendAdvertisedRefs(new PacketLineOutRefAdvertiser(pckOut));
@@ -781,12 +782,15 @@ public class UploadPack {
 			else
 				advertised = refIdSet(getAdvertisedOrDefaultRefs().values());
 
+			long negotiateStart = System.currentTimeMillis();
+			accumulator.advertised = advertised.size();
 			recvWants();
 			if (wantIds.isEmpty()) {
 				preUploadHook.onBeginNegotiateRound(this, wantIds, 0);
 				preUploadHook.onEndNegotiateRound(this, wantIds, 0, 0, false);
 				return;
 			}
+			accumulator.wants = wantIds.size();
 
 			if (options.contains(OPTION_MULTI_ACK_DETAILED)) {
 				multiAck = MultiAck.DETAILED;
@@ -802,7 +806,10 @@ public class UploadPack {
 				processShallow();
 			if (!clientShallowCommits.isEmpty())
 				walk.assumeShallow(clientShallowCommits);
-			sendPack = negotiate();
+			sendPack = negotiate(accumulator);
+			accumulator.timeNegotiating += System.currentTimeMillis()
+					- negotiateStart;
+
 			if (sendPack && !biDirectionalPipe) {
 				// Ensure the request was fully consumed. Any remaining input must
 				// be a protocol error. If we aren't at EOF the implementation is broken.
@@ -849,7 +856,7 @@ public class UploadPack {
 		}
 
 		if (sendPack)
-			sendPack();
+			sendPack(accumulator);
 	}
 
 	private static Set<ObjectId> refIdSet(Collection<Ref> refs) {
@@ -1093,7 +1100,8 @@ public class UploadPack {
 		return UserAgent.getAgent(options, userAgent);
 	}
 
-	private boolean negotiate() throws IOException {
+	private boolean negotiate(PackStatistics.Accumulator accumulator)
+			throws IOException {
 		okToGiveUp = Boolean.FALSE;
 
 		ObjectId last = ObjectId.zeroId();
@@ -1127,7 +1135,7 @@ public class UploadPack {
 
 			} else if (line.startsWith("have ") && line.length() == 45) { //$NON-NLS-1$
 				peerHas.add(ObjectId.fromString(line.substring(5)));
-
+				accumulator.haves++;
 			} else if (line.equals("done")) { //$NON-NLS-1$
 				last = processHaveLines(peerHas, last);
 
@@ -1485,12 +1493,13 @@ public class UploadPack {
 		return false;
 	}
 
-	private void sendPack() throws IOException {
+	private void sendPack(PackStatistics.Accumulator accumulator)
+			throws IOException {
 		final boolean sideband = options.contains(OPTION_SIDE_BAND)
 				|| options.contains(OPTION_SIDE_BAND_64K);
 		if (sideband) {
 			try {
-				sendPack(true);
+				sendPack(true, accumulator);
 			} catch (ServiceMayNotContinueException noPack) {
 				// This was already reported on (below).
 				throw noPack;
@@ -1511,7 +1520,7 @@ public class UploadPack {
 					throw err;
 			}
 		} else {
-			sendPack(false);
+			sendPack(false, accumulator);
 		}
 	}
 
@@ -1532,7 +1541,8 @@ public class UploadPack {
 	}
 
 	@SuppressWarnings("deprecation")
-	private void sendPack(final boolean sideband) throws IOException {
+	private void sendPack(final boolean sideband,
+			PackStatistics.Accumulator accumulator) throws IOException {
 		ProgressMonitor pm = NullProgressMonitor.INSTANCE;
 		OutputStream packOut = rawOut;
 
@@ -1573,7 +1583,8 @@ public class UploadPack {
 		PackConfig cfg = packConfig;
 		if (cfg == null)
 			cfg = new PackConfig(db);
-		final PackWriter pw = new PackWriter(cfg, walk.getObjectReader());
+		final PackWriter pw = new PackWriter(cfg, walk.getObjectReader(),
+				accumulator);
 		try {
 			pw.setIndexDisabled(true);
 			pw.setUseCachedPacks(true);

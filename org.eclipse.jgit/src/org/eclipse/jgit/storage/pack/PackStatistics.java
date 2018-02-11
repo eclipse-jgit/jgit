@@ -166,6 +166,36 @@ public class PackStatistics {
 	 * POJO for accumulating the statistics.
 	 */
 	public static class Accumulator {
+		/**
+		 * The count of references in the ref advertisement.
+		 *
+		 * @since 4.11
+		 */
+		public long advertised;
+
+		/**
+		 * The count of client wants.
+		 *
+		 * @since 4.11
+		 */
+		public long wants;
+
+		/**
+		 * The count of client haves.
+		 *
+		 * @since 4.11
+		 */
+		public long haves;
+
+		/**
+		 * Time in ms spent in the negotiation phase. For non-bidirectional
+		 * transports (e.g., HTTP), this is only for the final request that
+		 * sends back the pack file.
+		 *
+		 * @since 4.11
+		 */
+		public long timeNegotiating;
+
 		/** The set of objects to be included in the pack. */
 		public Set<ObjectId> interestingObjects;
 
@@ -268,6 +298,48 @@ public class PackStatistics {
 		 * is complete.
 		 */
 		statistics = accumulator;
+	}
+
+	/**
+	 * Get the count of references in the ref advertisement.
+	 *
+	 * @return count of refs in the ref advertisement.
+	 * @since 4.11
+	 */
+	public long getAdvertised() {
+		return statistics.advertised;
+	}
+
+	/**
+	 * Get the count of client wants.
+	 *
+	 * @return count of client wants.
+	 * @since 4.11
+	 */
+	public long getWants() {
+		return statistics.wants;
+	}
+
+	/**
+	 * Get the count of client haves.
+	 *
+	 * @return count of client haves.
+	 * @since 4.11
+	 */
+	public long getHaves() {
+		return statistics.haves;
+	}
+
+	/**
+	 * Time in ms spent in the negotiation phase. For non-bidirectional
+	 * transports (e.g., HTTP), this is only for the final request that sends
+	 * back the pack file.
+	 *
+	 * @return time for ref advertisement in ms.
+	 * @since 4.11
+	 */
+	public long getTimeNegotiating() {
+		return statistics.timeNegotiating;
 	}
 
 	/**
