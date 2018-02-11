@@ -54,6 +54,7 @@ import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.transport.BasePackFetchConnection.FetchConfig;
 import org.eclipse.jgit.transport.resolver.ReceivePackFactory;
 import org.eclipse.jgit.transport.resolver.UploadPackFactory;
 
@@ -77,6 +78,8 @@ import org.eclipse.jgit.transport.resolver.UploadPackFactory;
  */
 public class TestProtocol<C> extends TransportProtocol {
 	private static final String SCHEME = "test"; //$NON-NLS-1$
+
+	private static FetchConfig fetchConfig;
 
 	private class Handle {
 		final C req;
@@ -147,6 +150,10 @@ public class TestProtocol<C> extends TransportProtocol {
 		return Collections.emptySet();
 	}
 
+	static void setFetchConfig(FetchConfig c) {
+		fetchConfig = c;
+	}
+
 	/**
 	 * Register a repository connection over the internal test protocol.
 	 *
@@ -184,8 +191,14 @@ public class TestProtocol<C> extends TransportProtocol {
 		public FetchConnection openFetch() throws NotSupportedException,
 				TransportException {
 			handle.remote.incrementOpen();
-			return new InternalFetchConnection<>(
-					this, uploadPackFactory, handle.req, handle.remote);
+			return new InternalFetchConnection<C>(this, uploadPackFactory,
+					handle.req, handle.remote) {
+				@Override
+				FetchConfig getFetchConfig() {
+					return fetchConfig != null ? fetchConfig
+							: super.getFetchConfig();
+				}
+			};
 		}
 
 		@Override
