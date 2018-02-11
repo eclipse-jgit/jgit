@@ -60,6 +60,8 @@ import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.transport.BasePackFetchConnection.FetchConfig;
 import org.eclipse.jgit.transport.resolver.ReceivePackFactory;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.UploadPackFactory;
@@ -69,6 +71,9 @@ import org.junit.Test;
 
 public class TestProtocolTest {
 	private static final RefSpec HEADS = new RefSpec("+refs/heads/*:refs/heads/*");
+
+	private static final RefSpec MASTER = new RefSpec(
+			"+refs/heads/master:refs/heads/master");
 
 	private static class User {
 		private final String name;
@@ -147,6 +152,49 @@ public class TestProtocolTest {
 	}
 
 	@Test
+	public void testFullNegotiation() throws Exception {
+		TestProtocol<User> proto = registerDefault();
+		URIish uri = proto.register(new User("user"), remote.getRepository());
+
+		// Enough local branches to cause 10 rounds of negotiation,
+		// and a unique remote master branch.
+		for (int i = 0; i < 32 * 10; i++) {
+			local.branch("local-branch-" + i).commit().create();
+		}
+		RevCommit master = remote.branch("master").commit()
+				.add("readme.txt", "unique commit").create();
+
+		try (Git git = new Git(local.getRepository())) {
+			assertNull(local.getRepository().exactRef("refs/heads/master"));
+			git.fetch().setRemote(uri.toString()).setRefSpecs(MASTER).call();
+			assertEquals(master, local.getRepository()
+					.exactRef("refs/heads/master").getObjectId());
+		}
+	}
+
+	@Test
+	public void testMinimalNegotiation() throws Exception {
+		TestProtocol<User> proto = registerDefault();
+		URIish uri = proto.register(new User("user"), remote.getRepository());
+
+		// Enough local branches to cause 10 rounds of negotiation,
+		// and a unique remote master branch.
+		for (int i = 0; i < 32 * 10; i++) {
+			local.branch("local-branch-" + i).commit().create();
+		}
+		RevCommit master = remote.branch("master").commit()
+				.add("readme.txt", "unique commit").create();
+
+		TestProtocol.setFetchConfig(new FetchConfig(true, true));
+		try (Git git = new Git(local.getRepository())) {
+			assertNull(local.getRepository().exactRef("refs/heads/master"));
+			git.fetch().setRemote(uri.toString()).setRefSpecs(MASTER).call();
+			assertEquals(master, local.getRepository()
+					.exactRef("refs/heads/master").getObjectId());
+		}
+	}
+
+	@Test
 	public void testUploadPackFactory() throws Exception {
 		ObjectId master = remote.branch("master").commit().create();
 
@@ -171,7 +219,7 @@ public class TestProtocolTest {
 			try {
 				git.fetch()
 						.setRemote(user1Uri.toString())
-						.setRefSpecs(HEADS)
+						.setRefSpecs(MASTER)
 						.call();
 			} catch (InvalidRemoteException expected) {
 				// Expected.
@@ -181,7 +229,7 @@ public class TestProtocolTest {
 
 			git.fetch()
 					.setRemote(user2Uri.toString())
-					.setRefSpecs(HEADS)
+					.setRefSpecs(MASTER)
 					.call();
 			assertEquals(1, rejected.get());
 			assertEquals(master,
