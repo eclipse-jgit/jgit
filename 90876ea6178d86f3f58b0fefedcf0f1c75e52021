@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "a19910bd_fa8a6c8f",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/Protocol.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-02-11T08:19:16Z",
+      "side": 1,
+      "message": "It depends if this is intended to work with LFS server implementations other than gerrit.\n\nFWIW I think there are issues with gerrit\u0027s implementation of expires_at and I\u0027m going to look into fixing those next week.",
+      "parentUuid": "87929364_1b1f8bec",
+      "range": {
+        "startLine": 110,
+        "startChar": 16,
+        "endLine": 110,
+        "endChar": 25
+      },
+      "revId": "90876ea6178d86f3f58b0fefedcf0f1c75e52021",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_27d18fc4",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/Protocol.java",
         "patchSetId": 16
