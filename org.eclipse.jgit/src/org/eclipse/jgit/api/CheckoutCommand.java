@@ -164,6 +164,8 @@ public class CheckoutCommand extends GitCommand<Ref> {
 
 	private boolean force = false;
 
+	private boolean forceContent = false;
+
 	private boolean createBranch = false;
 
 	private boolean orphan = false;
@@ -270,6 +272,7 @@ public class CheckoutCommand extends GitCommand<Ref> {
 				dco = new DirCacheCheckout(repo, headTree, dc,
 						newCommit.getTree());
 				dco.setFailOnConflict(true);
+				dco.setForce(forceContent);
 				dco.setProgressMonitor(monitor);
 				try {
 					dco.checkout();
@@ -670,6 +673,19 @@ public class CheckoutCommand extends GitCommand<Ref> {
 	public CheckoutCommand setForce(boolean force) {
 		checkCallable();
 		this.force = force;
+		return this;
+	}
+
+	/**
+	 * Specify whether it is ok to overwrite dirty worktree files
+	 *
+	 * @param forceContent
+	 * @return this instance
+	 * @since 4.11
+	 */
+	public CheckoutCommand setForceContent(boolean forceContent) {
+		checkCallable();
+		this.forceContent = forceContent;
 		return this;
 	}
 

@@ -72,6 +72,10 @@ class Checkout extends TextBuiltin {
 	@Option(name = "--force", aliases = { "-f" }, usage = "usage_forceCheckout")
 	private boolean force = false;
 
+	@Option(name = "--forceContent", aliases = {
+			"-F" }, usage = "usage_forceCheckoutContent")
+	private boolean forceContent = false;
+
 	@Option(name = "--orphan", usage = "usage_orphan")
 	private boolean orphan = false;
 
@@ -104,6 +108,7 @@ class Checkout extends TextBuiltin {
 				command.setCreateBranch(createBranch);
 				command.setName(name);
 				command.setForce(force);
+				command.setForceContent(forceContent);
 				command.setOrphan(orphan);
 			}
 			try {
