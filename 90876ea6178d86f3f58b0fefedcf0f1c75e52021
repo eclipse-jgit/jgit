@@ -167,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "716d41cf_e0442461",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/Protocol.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-12T06:41:56Z",
+      "side": 1,
+      "message": "yes, it should work with more implementations, although I only tested against gerrit until now. What are the issues with expires_at?",
+      "parentUuid": "a19910bd_fa8a6c8f",
+      "range": {
+        "startLine": 110,
+        "startChar": 16,
+        "endLine": 110,
+        "endChar": 25
+      },
+      "revId": "90876ea6178d86f3f58b0fefedcf0f1c75e52021",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_27d18fc4",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/Protocol.java",
         "patchSetId": 16
