@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "463d020d_f9f70c80",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1078,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-02-12T23:31:19Z",
+      "side": 1,
+      "message": "nit: trailing space",
+      "revId": "1a1e370d0ef21b42e285209805f629025cf14ae2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
