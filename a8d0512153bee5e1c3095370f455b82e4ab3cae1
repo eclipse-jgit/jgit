@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e344fbb4_2b46d0dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-02-12T23:21:54Z",
+      "side": 1,
+      "message": "We don\u0027t need this backward compat support any more.",
+      "revId": "a8d0512153bee5e1c3095370f455b82e4ab3cae1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
