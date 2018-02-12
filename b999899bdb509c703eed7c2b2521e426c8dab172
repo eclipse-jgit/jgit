@@ -99,6 +99,24 @@
       "revId": "b999899bdb509c703eed7c2b2521e426c8dab172",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8c48da3d_fb0d3d7b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-02-12T23:49:15Z",
+      "side": 1,
+      "message": "I think https://storage.googleapis.com/gerrit-talks/summit/2015/Multimaster-Gerrit.pdf is the best resource I know of with what we\u0027ve shared about that.\n\nThe short answer is that we do a little of both (fetching and pushing).",
+      "parentUuid": "59bbd68a_74c199d3",
+      "revId": "b999899bdb509c703eed7c2b2521e426c8dab172",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
