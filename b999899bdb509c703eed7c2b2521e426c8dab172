@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3737c540_a2544c8c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2018-02-12T10:52:51Z",
+      "side": 1,
+      "message": "Could you please elaborate a bit more in the commit message about\nthis? For example:\n\n* is this change about minimizing negotiation for fetch, for push or for both?\n\n* is this change addressing the issue when JGit is used on the server side or on the client side?",
+      "revId": "b999899bdb509c703eed7c2b2521e426c8dab172",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a2f859c7_77569fdf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2018-02-12T10:52:51Z",
+      "side": 1,
+      "message": "rounds or refs?\n\nDo you really see \u003e100K of negotiation rounds or do you see client sending \u003e100K of .have lines?",
+      "range": {
+        "startLine": 9,
+        "startChar": 62,
+        "endLine": 9,
+        "endChar": 68
+      },
+      "revId": "b999899bdb509c703eed7c2b2521e426c8dab172",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
