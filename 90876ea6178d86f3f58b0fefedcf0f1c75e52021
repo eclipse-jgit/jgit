@@ -191,6 +191,30 @@
     },
     {
       "key": {
+        "uuid": "edabe156_a352cb05",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/Protocol.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-02-12T14:02:35Z",
+      "side": 1,
+      "message": "The expires_at field as documented in the LFS spec does not include the milliseconds, but the LFS plugin implementation emits timestamps with milliseconds.\n\nI\u0027m not 100% sure what the effect of this is in terms of client behaviour. So far I guess it\u0027s not causing any visible problems because noone has reported it.\n\nI\u0027m fixing the plugin to not include the milliseconds, and also to include the \"expires_in\" field.",
+      "parentUuid": "716d41cf_e0442461",
+      "range": {
+        "startLine": 110,
+        "startChar": 16,
+        "endLine": 110,
+        "endChar": 25
+      },
+      "revId": "90876ea6178d86f3f58b0fefedcf0f1c75e52021",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_27d18fc4",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/Protocol.java",
         "patchSetId": 16
