@@ -16,6 +16,24 @@
       "revId": "a8d0512153bee5e1c3095370f455b82e4ab3cae1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d02ba179_989b6357",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-02-12T23:27:50Z",
+      "side": 1,
+      "message": "Removed, and I uploaded a new patch set. I also took the opportunity to rebase this onto current master.",
+      "parentUuid": "e344fbb4_2b46d0dc",
+      "revId": "a8d0512153bee5e1c3095370f455b82e4ab3cae1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
