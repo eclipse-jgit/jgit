@@ -121,6 +121,24 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testNegationProblem() throws IOException {
+		writeIgnoreFile(".gitignore", "*", "!bld/", "!bld/x");
+		writeTrashFile("bld/x", "");
+		writeTrashFile("bld/y", "");
+
+		beginWalk();
+		assertEntry(F, ignored, ".gitignore");
+		assertEntry(D, tracked, "bld");
+		assertEntry(F, tracked, "bld/x");
+
+		// command line Git:
+		// $ git check-ignore -v -n bld/y
+		// .gitignore:1:*  bld/y
+		assertEntry(F, ignored, "bld/y");
+		endWalk();
+	}
+
+	@Test
 	public void testNegation() throws IOException {
 		// ignore all *.o files and ignore all "d" directories
 		writeIgnoreFile(".gitignore", "*.o", "d");
