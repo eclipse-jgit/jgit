@@ -81,6 +81,24 @@
       "revId": "b999899bdb509c703eed7c2b2521e426c8dab172",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59bbd68a_74c199d3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2018-02-12T23:00:47Z",
+      "side": 1,
+      "message": "Thanks for the explanation!\n\n\u003e We are seeing this poor negotiation behavior frequently in our JGit servers when one of our replicas falls behind and fetches content from an up-to-date server. \n\nMay I ask how do you replicate from Gerrit master to a replica?\nDo you let your replicas fetch from master instead of pushing from\nmaster to replica (like Gerrit\u0027s replication plugin does)?",
+      "parentUuid": "edf280c9_9b180bc1",
+      "revId": "b999899bdb509c703eed7c2b2521e426c8dab172",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
