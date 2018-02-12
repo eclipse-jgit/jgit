@@ -16,6 +16,24 @@
       "revId": "c9829a7adb508208dadce8fcdf8103d6bcfab8a0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb0fd1ec_475ed3b8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 635,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2018-02-12T21:07:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7d013ad_e2fe6dd6",
+      "revId": "c9829a7adb508208dadce8fcdf8103d6bcfab8a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
