@@ -155,6 +155,8 @@ public class DirCacheCheckout {
 
 	private boolean failOnConflict = true;
 
+	private boolean force = false;
+
 	private ArrayList<String> toBeDeleted = new ArrayList<>();
 
 	private boolean emptyDirCache;
@@ -427,11 +429,11 @@ public class DirCacheCheckout {
 					DirCacheEntry entry = i.getDirCacheEntry();
 					if (entry.getLastModified() == 0)
 						entry.setLastModified(f.getEntryLastModified());
-					keep(entry);
+					keep(entry, f);
 				}
 			} else
 				// The index contains a folder
-				keep(i.getDirCacheEntry());
+				keep(i.getDirCacheEntry(), f);
 		} else {
 			// There is no entry in the merge commit. Means: we want to delete
 			// what's currently in the index and working tree
@@ -794,14 +796,14 @@ public class DirCacheCheckout {
 
 				break;
 			case 0xDFD: // 3 4
-				keep(dce);
+				keep(dce, f);
 				break;
 			case 0xF0D: // 18
 				remove(name);
 				break;
 			case 0xDFF: // 5 5b 6 6b
 				if (equalIdAndMode(iId, iMode, mId, mMode))
-					keep(dce); // 5 6
+					keep(dce, f); // 5 6
 				else
 					conflict(name, dce, h, m); // 5b 6b
 				break;
@@ -831,7 +833,7 @@ public class DirCacheCheckout {
 					conflict(name, dce, h, m); // 9
 				break;
 			case 0xFD0: // keep without a rule
-				keep(dce);
+				keep(dce, f);
 				break;
 			case 0xFFD: // 12 13 14
 				if (equalIdAndMode(hId, hMode, iId, iMode))
@@ -851,7 +853,7 @@ public class DirCacheCheckout {
 					conflict(name, dce, h, m);
 				break;
 			default:
-				keep(dce);
+				keep(dce, f);
 			}
 			return;
 		}
@@ -937,7 +939,7 @@ public class DirCacheCheckout {
 					if (emptyDirCache)
 						update(name, mId, mMode);
 					else
-						keep(dce);
+						keep(dce, f);
 				} else
 					conflict(name, dce, h, m);
 			}
@@ -1000,7 +1002,7 @@ public class DirCacheCheckout {
 						// Nothing in Head
 						// Something in Index
 						// -> Merge contains nothing new. Keep the index.
-						keep(dce);
+						keep(dce, f);
 				} else
 					// Merge contains something and it is not the same as Index
 					// Nothing in Head
@@ -1149,7 +1151,7 @@ public class DirCacheCheckout {
 					// to the other one.
 					// -> In all three cases we don't touch index and file.
 
-					keep(dce);
+					keep(dce, f);
 				}
 			}
 		}
@@ -1198,9 +1200,15 @@ public class DirCacheCheckout {
 		}
 	}
 
-	private void keep(DirCacheEntry e) {
+	private void keep(DirCacheEntry e, WorkingTreeIterator f)
+			throws IOException {
 		if (e != null && !FileMode.TREE.equals(e.getFileMode()))
 			builder.add(e);
+		if (force) {
+			if (f.isModified(e, true, this.walk.getObjectReader())) {
+				checkoutEntry(repo, e, this.walk.getObjectReader());
+			}
+		}
 	}
 
 	private void remove(String path) {
@@ -1232,6 +1240,20 @@ public class DirCacheCheckout {
 	 */
 	public void setFailOnConflict(boolean failOnConflict) {
 		this.failOnConflict = failOnConflict;
+	}
+
+	/**
+	 * If <code>true</code>, dirty worktree files may be ovverriden. If
+	 * <code>false</code> dirty worktree files will not be overriden in order
+	 * not to delete unsaved content. This corresponds to native git's 'git
+	 * checkout -f' option. By default this option is set to false.
+	 *
+	 * @param force
+	 *                  a boolean.
+	 * @since 5.0
+	 */
+	public void setForce(boolean force) {
+		this.force = force;
 	}
 
 	/**

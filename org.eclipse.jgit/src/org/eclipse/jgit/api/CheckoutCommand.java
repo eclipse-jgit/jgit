@@ -162,7 +162,9 @@ public class CheckoutCommand extends GitCommand<Ref> {
 
 	private String name;
 
-	private boolean force = false;
+	private boolean forceRefUpdate = false;
+
+	private boolean forced = false;
 
 	private boolean createBranch = false;
 
@@ -270,6 +272,7 @@ public class CheckoutCommand extends GitCommand<Ref> {
 				dco = new DirCacheCheckout(repo, headTree, dc,
 						newCommit.getTree());
 				dco.setFailOnConflict(true);
+				dco.setForce(forced);
 				dco.setProgressMonitor(monitor);
 				try {
 					dco.checkout();
@@ -286,7 +289,7 @@ public class CheckoutCommand extends GitCommand<Ref> {
 				ref = null;
 			String toName = Repository.shortenRefName(name);
 			RefUpdate refUpdate = repo.updateRef(Constants.HEAD, ref == null);
-			refUpdate.setForceUpdate(force);
+			refUpdate.setForceUpdate(forceRefUpdate);
 			refUpdate.setRefLogMessage(refLogMessage + " to " + toName, false); //$NON-NLS-1$
 			Result updateResult;
 			if (ref != null)
@@ -660,16 +663,39 @@ public class CheckoutCommand extends GitCommand<Ref> {
 	/**
 	 * Specify to force the ref update in case of a branch switch.
 	 *
-	 * @param force
+	 * In releases prior to 5.0 this method was called setForce() but this name
+	 * was misunderstood to implement native git's --force option, which is not
+	 * true.
+	 *
+	 * @param forceRefUpdate
 	 *            if <code>true</code> and the branch with the given name
 	 *            already exists, the start-point of an existing branch will be
 	 *            set to a new start-point; if false, the existing branch will
 	 *            not be changed
 	 * @return this instance
+	 * @since 5.0
 	 */
-	public CheckoutCommand setForce(boolean force) {
+	public CheckoutCommand setForceRefUpdate(boolean forceRefUpdate) {
 		checkCallable();
-		this.force = force;
+		this.forceRefUpdate = forceRefUpdate;
+		return this;
+	}
+
+	/**
+	 * Allow a checkout even if the workingtree or index differs from HEAD. This
+	 * matches native git's '--force' option.
+	 *
+	 * @param forced
+	 *                   if set to <code>true</code> then allow the checkout
+	 *                   even if workingtree or index doesn't match HEAD.
+	 *                   Overwrite workingtree files and index content with the
+	 *                   new content in this case.
+	 * @return this instance
+	 * @since 5.0
+	 */
+	public CheckoutCommand setForced(boolean forced) {
+		checkCallable();
+		this.forced = forced;
 		return this;
 	}
 
