@@ -39,6 +39,48 @@
       "revId": "b999899bdb509c703eed7c2b2521e426c8dab172",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7bcb1326_be27aaff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2018-02-12T17:40:41Z",
+      "side": 1,
+      "message": "We have seen the client sending over 300k of have lines.",
+      "parentUuid": "a2f859c7_77569fdf",
+      "range": {
+        "startLine": 9,
+        "startChar": 62,
+        "endLine": 9,
+        "endChar": 68
+      },
+      "revId": "b999899bdb509c703eed7c2b2521e426c8dab172",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edf280c9_9b180bc1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2018-02-12T17:40:41Z",
+      "side": 1,
+      "message": "I updated the commit message with more explanation. I also found that somehow my updated test that used the new negotiation metrics in https://git.eclipse.org/r/#/c/117128 got reverted, so I restored those test updates.\n\nWe are seeing this poor negotiation behavior frequently in our JGit servers when one of our replicas falls behind and fetches content from an up-to-date server. In that case the lagging replica acts as a client, typically fetching a newly added Gerrit branch. It leads to our eventual consistency model having very poor performance, with lagging replicas consistently being \u003e10m to 1 hour behind.\n\nWithout https://git.eclipse.org/r/#/c/117128 to measure negotiation performance we don\u0027t know what percentage of client fetches are seeing this bad behavior. That said, through the use of a debugger I have seen \u003e300k have lines sent by a client. Our team that works on the Git C client knows that current negotiation is broken--it assigns no cost to the rounds of negotiation involved and does whatever it takes to generate a minimal pack file. Then plan to address this for both fetch and push in the v2 Git protocol.",
+      "parentUuid": "3737c540_a2544c8c",
+      "revId": "b999899bdb509c703eed7c2b2521e426c8dab172",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
