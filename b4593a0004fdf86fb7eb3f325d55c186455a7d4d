@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d869f4f1_8d8a1e0a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2018-02-12T21:07:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64fa69bf_a593b474",
+      "range": {
+        "startLine": 374,
+        "startChar": 19,
+        "endLine": 374,
+        "endChar": 24
+      },
+      "revId": "b4593a0004fdf86fb7eb3f325d55c186455a7d4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6eb24076_96ff4182",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "532041c3_87e2858e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2018-02-12T21:07:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6eb24076_96ff4182",
+      "range": {
+        "startLine": 375,
+        "startChar": 3,
+        "endLine": 375,
+        "endChar": 46
+      },
+      "revId": "b4593a0004fdf86fb7eb3f325d55c186455a7d4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87c9e696_31821b8d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackStatistics.java",
         "patchSetId": 1
@@ -68,6 +116,30 @@
       "revId": "b4593a0004fdf86fb7eb3f325d55c186455a7d4d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "038b0d5b_42b43c77",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackStatistics.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2018-02-12T21:07:23Z",
+      "side": 1,
+      "message": "Done\n\nGood catch on negotiation spanning multiple HTTP requests. PackStatistics only get logged when the pack is sent, so this will only record the final HTTP request that results in a pack being sent.\n\nAlso, UploadPackServlet splits out the negotiation from the main UploadPack.service() call, and UploadPack.biDirectionalPipe enforces that. Updated this description and the code to exclude the ref advertisement in bi-di connections. Ref advertisement can be added later if we want the time measurement for that. IIUC UploadPackServlet does maintain the same UploadPack instance over multiple HTTP requests, so we may be able to get the timing across all rounds of negotiation.\n\nI forgot to add the getTimeNegotiating() accessor in the enclosing class too, so that is now here.",
+      "parentUuid": "87c9e696_31821b8d",
+      "range": {
+        "startLine": 191,
+        "startChar": 48,
+        "endLine": 191,
+        "endChar": 56
+      },
+      "revId": "b4593a0004fdf86fb7eb3f325d55c186455a7d4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
