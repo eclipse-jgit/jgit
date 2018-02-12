@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "64fa69bf_a593b474",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-02-12T19:43:31Z",
+      "side": 1,
+      "message": "optional: no need for \u0027final\u0027 on these (optional since keeping it for consistency is okay).",
+      "range": {
+        "startLine": 374,
+        "startChar": 19,
+        "endLine": 374,
+        "endChar": 24
+      },
+      "revId": "b4593a0004fdf86fb7eb3f325d55c186455a7d4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6eb24076_96ff4182",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-02-12T19:43:31Z",
+      "side": 1,
+      "message": "@Nullable",
+      "range": {
+        "startLine": 375,
+        "startChar": 3,
+        "endLine": 375,
+        "endChar": 46
+      },
+      "revId": "b4593a0004fdf86fb7eb3f325d55c186455a7d4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87c9e696_31821b8d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackStatistics.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-02-12T19:43:31Z",
+      "side": 1,
+      "message": "including?\n\nWhat gets stored here when a fetch spans multiple HTTP requests?",
+      "range": {
+        "startLine": 191,
+        "startChar": 48,
+        "endLine": 191,
+        "endChar": 56
+      },
+      "revId": "b4593a0004fdf86fb7eb3f325d55c186455a7d4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
