@@ -69,8 +69,11 @@ class Checkout extends TextBuiltin {
 	@Option(name = "-b", usage = "usage_createBranchAndCheckout")
 	private boolean createBranch = false;
 
+	@Option(name = "-B", usage = "usage_forcedSwitchBranch")
+	private boolean forceSwitchBranch = false;
+
 	@Option(name = "--force", aliases = { "-f" }, usage = "usage_forceCheckout")
-	private boolean force = false;
+	private boolean forced = false;
 
 	@Option(name = "--orphan", usage = "usage_orphan")
 	private boolean orphan = false;
@@ -103,7 +106,8 @@ class Checkout extends TextBuiltin {
 			} else {
 				command.setCreateBranch(createBranch);
 				command.setName(name);
-				command.setForce(force);
+				command.setForceRefUpdate(forceSwitchBranch);
+				command.setForced(forced);
 				command.setOrphan(orphan);
 			}
 			try {
