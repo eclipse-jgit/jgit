@@ -123,7 +123,7 @@ public class GitCheckoutTask extends Task {
 		}
 
 		try {
-			checkout.setCreateBranch(createBranch).setForce(force)
+			checkout.setCreateBranch(createBranch).setForceRefUpdate(force)
 					.setName(branch);
 			checkout.call();
 		} catch (Exception e) {
