@@ -76,6 +76,8 @@ public class FastIgnoreRule {
 
 	private final boolean dirOnly;
 
+	private final boolean pathMatch;
+
 	/**
 	 * Constructor for FastIgnoreRule
 	 *
@@ -86,8 +88,15 @@ public class FastIgnoreRule {
 	 *            (comment), this rule doesn't match anything.
 	 */
 	public FastIgnoreRule(String pattern) {
+		this(pattern, false);
+	}
+
+	public FastIgnoreRule(String pattern, boolean pathMatch) {
 		if (pattern == null)
 			throw new IllegalArgumentException("Pattern must not be null!"); //$NON-NLS-1$
+
+		this.pathMatch = pathMatch;
+
 		if (pattern.length() == 0) {
 			dirOnly = false;
 			inverse = false;
@@ -156,7 +165,10 @@ public class FastIgnoreRule {
 			return false;
 		if (path.length() == 0)
 			return false;
-		boolean match = matcher.matches(path, directory, false);
+		if (path.endsWith("/")) {
+			path = path.substring(0, path.length() - 1);
+		}
+		boolean match = matcher.matches(path, directory, pathMatch);
 		return match;
 	}
 
