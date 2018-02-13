@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e9a50c7_88fdf4ab",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-02-13T11:30:41Z",
+      "side": 1,
+      "message": "Missing javadoc for public method.",
+      "revId": "71cde4038f13a222c10e30d693185c1b9720fea2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0753bce6_392cacf8",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/WWWAuthenticationFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-02-13T11:30:41Z",
+      "side": 1,
+      "message": "Missing license and copyright header.",
+      "revId": "71cde4038f13a222c10e30d693185c1b9720fea2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "111e8ce6_2fd93f65",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/WWWAuthenticationFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-02-13T11:30:41Z",
+      "side": 1,
+      "message": "Missing @since tag in the javadoc",
+      "revId": "71cde4038f13a222c10e30d693185c1b9720fea2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "216e191a_7ea2979c",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/SmartClientSmartServerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-02-13T11:30:41Z",
+      "side": 1,
+      "message": "Don\u0027t use wildcard imports",
+      "revId": "71cde4038f13a222c10e30d693185c1b9720fea2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4447292e_f8e826ae",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/SmartClientSmartServerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-02-13T11:30:41Z",
+      "side": 1,
+      "message": "optional: These 2 assertions are repeated in several places.  Factor them out to a utility method?",
+      "revId": "71cde4038f13a222c10e30d693185c1b9720fea2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
