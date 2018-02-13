@@ -424,6 +424,8 @@ public class FastIgnoreRuleTest {
 		assertNotMatched("!/**/*.zip", "c/a/b.zip");
 		assertNotMatched("!**/*.zip", "c/a/b.zip");
 		assertNotMatched("a/**/b", "a/c/bb");
+		assertNotMatched("**/src/new", "sub/src");
+		assertNotMatched("**/src/new", "sub/src/");
 	}
 
 	@SuppressWarnings("unused")
