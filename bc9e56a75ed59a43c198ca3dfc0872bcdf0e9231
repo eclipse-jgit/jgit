@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "e5936958_08ade6c8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2018-02-13T08:14:39Z",
+      "side": 1,
+      "message": "Will do.",
+      "parentUuid": "87929364_eb0c124b",
+      "range": {
+        "startLine": 484,
+        "startChar": 36,
+        "endLine": 484,
+        "endChar": 41
+      },
+      "revId": "bc9e56a75ed59a43c198ca3dfc0872bcdf0e9231",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_2b17fa51",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
         "patchSetId": 2
@@ -59,6 +83,24 @@
     },
     {
       "key": {
+        "uuid": "a9c10d31_c9988c97",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2018-02-13T08:14:39Z",
+      "side": 1,
+      "message": "I agree; I will implement that.",
+      "parentUuid": "87929364_2b17fa51",
+      "revId": "bc9e56a75ed59a43c198ca3dfc0872bcdf0e9231",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_0b0a3e2c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
         "patchSetId": 2
@@ -70,6 +112,24 @@
       "writtenOn": "2017-12-28T23:59:42Z",
       "side": 1,
       "message": "Since we convert to a Path anyway, I wonder if this helper should take a Path. (In the long term, JGit is trying to move away from File-based to Path-based APIs.)",
+      "revId": "bc9e56a75ed59a43c198ca3dfc0872bcdf0e9231",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6da51b64_f85aafc2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2018-02-13T08:14:39Z",
+      "side": 1,
+      "message": "As you prefer (I\u0027m using File-based API because currently callers provide Files).",
+      "parentUuid": "87929364_0b0a3e2c",
       "revId": "bc9e56a75ed59a43c198ca3dfc0872bcdf0e9231",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
