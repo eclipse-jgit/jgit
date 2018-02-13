@@ -112,7 +112,7 @@ public class IgnoreNode {
 		String txt;
 		while ((txt = br.readLine()) != null) {
 			if (txt.length() > 0 && !txt.startsWith("#") && !txt.equals("/")) { //$NON-NLS-1$ //$NON-NLS-2$
-				FastIgnoreRule rule = new FastIgnoreRule(txt);
+				FastIgnoreRule rule = new FastIgnoreRule(txt, true);
 				if (!rule.isEmpty()) {
 					rules.add(rule);
 				}
@@ -170,28 +170,34 @@ public class IgnoreNode {
 			else
 				return MatchResult.CHECK_PARENT;
 
-		// Parse rules in the reverse order that they were read
-		for (int i = rules.size() - 1; i > -1; i--) {
-			FastIgnoreRule rule = rules.get(i);
-			if (rule.isMatch(entryPath, isDirectory)) {
-				if (rule.getResult()) {
-					// rule matches: path could be ignored
-					if (negateFirstMatch)
-						// ignore current match, reset "negate" flag, continue
-						negateFirstMatch = false;
-					else
-						// valid match, just return
-						return MatchResult.IGNORED;
-				} else {
-					// found negated rule
-					if (negateFirstMatch)
-						// not possible to re-include excluded ignore rule
-						return MatchResult.NOT_IGNORED;
-					else
-						// set the flag and continue
-						negateFirstMatch = true;
+		while (entryPath != null) {
+			// Parse rules in the reverse order that they were read
+			for (int i = rules.size() - 1; i > -1; i--) {
+				FastIgnoreRule rule = rules.get(i);
+				if (rule.isMatch(entryPath, isDirectory)) {
+					if (rule.getResult()) {
+						// rule matches: path could be ignored
+						if (negateFirstMatch)
+							// ignore current match, reset "negate" flag, continue
+							negateFirstMatch = false;
+						else
+							// valid match, just return
+							return MatchResult.IGNORED;
+					} else {
+						// found negated rule
+						if (negateFirstMatch)
+							// not possible to re-include excluded ignore rule
+							return MatchResult.NOT_IGNORED;
+						else
+							// set the flag and continue
+							negateFirstMatch = true;
+					}
 				}
 			}
+
+			final int slashIndex = entryPath.lastIndexOf('/', entryPath.length() - 2);
+			entryPath = slashIndex > 0 ? entryPath.substring(0, slashIndex + 1) : null;
+			isDirectory = true;
 		}
 		if (negateFirstMatch)
 			// negated rule found but there is no previous rule in *this* file

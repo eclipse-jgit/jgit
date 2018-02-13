@@ -81,6 +81,141 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 	private TreeWalk walk;
 
 	@Test
+	public void testSimpleRootGitIgnoreGlobalIgnore() throws IOException {
+		writeIgnoreFile(".gitignore", "x");
+
+		writeTrashFile("a/x/file", "");
+		writeTrashFile("b/x", "");
+		writeTrashFile("x/file", "");
+
+		beginWalk();
+		assertEntry(F, tracked, ".gitignore");
+		assertEntry(D, tracked, "a");
+		assertEntry(D, ignored, "a/x");
+		assertEntry(F, ignored, "a/x/file");
+		assertEntry(D, tracked, "b");
+		assertEntry(F, ignored, "b/x");
+		assertEntry(D, ignored, "x");
+		assertEntry(F, ignored, "x/file");
+		endWalk();
+	}
+
+	@Test
+	public void testSimpleRootGitIgnoreGlobalDirIgnore() throws IOException {
+		writeIgnoreFile(".gitignore", "x/");
+
+		writeTrashFile("a/x/file", "");
+		writeTrashFile("x/file", "");
+
+		beginWalk();
+		assertEntry(F, tracked, ".gitignore");
+		assertEntry(D, tracked, "a");
+		assertEntry(D, ignored, "a/x");
+		assertEntry(F, ignored, "a/x/file");
+		assertEntry(D, ignored, "x");
+		assertEntry(F, ignored, "x/file");
+		endWalk();
+	}
+
+	@Test
+	public void testSimpleRootGitIgnoreWildMatcher() throws IOException {
+		writeIgnoreFile(".gitignore", "**");
+
+		writeTrashFile("a/x", "");
+		writeTrashFile("y", "");
+
+		beginWalk();
+		assertEntry(F, ignored, ".gitignore");
+		assertEntry(D, ignored, "a");
+		assertEntry(F, ignored, "a/x");
+		assertEntry(F, ignored, "y");
+		endWalk();
+	}
+
+	@Test
+	public void testSimpleRootGitIgnoreWildMatcherDirOnly() throws IOException {
+		writeIgnoreFile(".gitignore", "**/");
+
+		writeTrashFile("a/x", "");
+		writeTrashFile("y", "");
+
+		beginWalk();
+		assertEntry(F, tracked, ".gitignore");
+		assertEntry(D, ignored, "a");
+		assertEntry(F, ignored, "a/x");
+		assertEntry(F, tracked, "y");
+		endWalk();
+	}
+
+	@Test
+	public void testSimpleRootGitIgnoreGlobalNegation1() throws IOException {
+		writeIgnoreFile(".gitignore", "*", "!x*");
+		writeTrashFile("x1", "");
+		writeTrashFile("a/x2", "");
+		writeTrashFile("x3/y", "");
+
+		beginWalk();
+		assertEntry(F, ignored, ".gitignore");
+		assertEntry(D, ignored, "a");
+		assertEntry(F, ignored, "a/x2");
+		assertEntry(F, tracked, "x1");
+		assertEntry(D, tracked, "x3");
+		assertEntry(F, ignored, "x3/y");
+		endWalk();
+	}
+
+	@Test
+	public void testSimpleRootGitIgnoreGlobalNegation2() throws IOException {
+		writeIgnoreFile(".gitignore", "*", "!x*", "!/a");
+		writeTrashFile("x1", "");
+		writeTrashFile("a/x2", "");
+		writeTrashFile("x3/y", "");
+
+		beginWalk();
+		assertEntry(F, ignored, ".gitignore");
+		assertEntry(D, tracked, "a");
+		assertEntry(F, tracked, "a/x2");
+		assertEntry(F, tracked, "x1");
+		assertEntry(D, tracked, "x3");
+		assertEntry(F, ignored, "x3/y");
+		endWalk();
+	}
+
+	@Test
+	public void testSimpleRootGitIgnoreGlobalNegation3() throws IOException {
+		writeIgnoreFile(".gitignore", "*", "!x*", "!x*/**");
+		writeTrashFile("x1", "");
+		writeTrashFile("a/x2", "");
+		writeTrashFile("x3/y", "");
+
+		beginWalk();
+		assertEntry(F, ignored, ".gitignore");
+		assertEntry(D, ignored, "a");
+		assertEntry(F, ignored, "a/x2");
+		assertEntry(F, tracked, "x1");
+		assertEntry(D, tracked, "x3");
+		assertEntry(F, tracked, "x3/y");
+		endWalk();
+	}
+
+	@Test
+	public void testSimpleRootGitIgnoreGlobalNegation4() throws IOException {
+		writeIgnoreFile(".gitignore", "*", "!**/");
+		writeTrashFile("x1", "");
+		writeTrashFile("a/x2", "");
+		writeTrashFile("x3/y", "");
+
+		beginWalk();
+		assertEntry(F, ignored, ".gitignore");
+		assertEntry(D, tracked, "a");
+		assertEntry(F, ignored, "a/x2");
+		assertEntry(F, ignored, "x1");
+		assertEntry(D, tracked, "x3");
+		assertEntry(F, ignored, "x3/y");
+		endWalk();
+	}
+
+	@Test
 	public void testRules() throws IOException {
 		writeIgnoreFile(".git/info/exclude", "*~", "/out");
 
@@ -196,7 +331,7 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 
 		// ignore all files except java in src folder and all children folders.
 		// Last ignore rule breaks old jgit via bug 407475
-		writeIgnoreFile("src/.gitignore", "*", "!*.java", "!*/");
+		writeIgnoreFile("src/.gitignore", "*", "!*.java", "!*/", "!*/*");
 
 		writeTrashFile("src/keep.java", "");
 		writeTrashFile("src/nothere.o", "");
