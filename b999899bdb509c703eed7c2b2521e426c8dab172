@@ -117,6 +117,24 @@
       "revId": "b999899bdb509c703eed7c2b2521e426c8dab172",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e787e4d_a7a21609",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2018-02-13T00:43:23Z",
+      "side": 1,
+      "message": "\u003e The short answer is that we do a little of both (fetching and pushing).\n\nDon\u0027t you have a similar issue, like the one addressed with this change, when pushing? We observed that the the more refs exist on the client (pushing) side the more time it takes to perform a push.",
+      "parentUuid": "8c48da3d_fb0d3d7b",
+      "revId": "b999899bdb509c703eed7c2b2521e426c8dab172",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
