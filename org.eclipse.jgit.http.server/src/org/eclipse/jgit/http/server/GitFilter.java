@@ -86,6 +86,10 @@ import org.eclipse.jgit.util.StringUtils;
 public class GitFilter extends MetaFilter {
 	private volatile boolean initialized;
 
+	private String authMethod;
+
+	private String realmName;
+
 	private RepositoryResolver<HttpServletRequest> resolver;
 
 	private AsIsFileService asIs = new AsIsFileService();
@@ -106,6 +110,30 @@ public class GitFilter extends MetaFilter {
 	 */
 	public GitFilter() {
 		// Initialized above by field declarations.
+	}
+
+	/**
+	 * Sets the authentication method, e.g. basic, digest, etc.
+	 *
+	 * @param authMethod
+	 *            the method to be used in authentication header.
+	 *            If {@code null} basic method will be used.
+	 * @since 4.11
+	 */
+	public void setAuthMethod(String authMethod) {
+		this.authMethod= authMethod;
+	}
+
+	/**
+	 * Sets the realm name.
+	 *
+	 * @param realmName
+	 *            the name of the realm to use in authentication header.
+	 *            If {@code null} empty string will be used.
+	 * @since 4.11
+	 */
+	public void setRealmName(String realmName) {
+		this.realmName = realmName;
 	}
 
 	/**
@@ -203,6 +231,14 @@ public class GitFilter extends MetaFilter {
 			File root = getFile(filterConfig, "base-path");
 			boolean exportAll = getBoolean(filterConfig, "export-all");
 			setRepositoryResolver(new FileResolver<HttpServletRequest>(root, exportAll));
+		}
+
+		if (realmName == null) {
+			realmName = getString(filterConfig, "realm-name", "");
+		}
+
+		if (authMethod == null) {
+			authMethod = getString(filterConfig, "auth-method", HttpServletRequest.BASIC_AUTH);
 		}
 
 		initialized = true;
@@ -309,11 +345,17 @@ public class GitFilter extends MetaFilter {
 		}
 	}
 
+	private static String getString(FilterConfig cfg, String param, String defaultValue) {
+		final String s = cfg.getInitParameter(param);
+		return s == null ? defaultValue : s;
+	}
+
 	/** {@inheritDoc} */
 	@Override
 	protected ServletBinder register(ServletBinder binder) {
 		if (resolver == null)
 			throw new IllegalStateException(HttpServerText.get().noResolverAvailable);
+		binder = binder.through(new WWWAuthenticateFilter(authMethod, realmName));
 		binder = binder.through(new NoCacheFilter());
 		binder = binder.through(new RepositoryFilter(resolver));
 		return binder;

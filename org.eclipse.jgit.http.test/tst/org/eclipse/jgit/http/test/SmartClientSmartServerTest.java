@@ -47,6 +47,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.util.HttpSupport.HDR_CONTENT_ENCODING;
 import static org.eclipse.jgit.util.HttpSupport.HDR_CONTENT_LENGTH;
 import static org.eclipse.jgit.util.HttpSupport.HDR_CONTENT_TYPE;
+import static org.eclipse.jgit.util.HttpSupport.HDR_WWW_AUTHENTICATE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -722,6 +723,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		AccessEvent info = requests.get(0);
 		assertEquals("GET", info.getMethod());
 		assertEquals(401, info.getStatus());
+		assertStartsWithIgnoreCase(info.getResponseHeader(HDR_WWW_AUTHENTICATE), "basic realm=");
 
 		info = requests.get(1);
 		assertEquals("GET", info.getMethod());
@@ -767,6 +769,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		AccessEvent info = requests.get(0);
 		assertEquals("GET", info.getMethod());
 		assertEquals(401, info.getStatus());
+		assertStartsWithIgnoreCase(info.getResponseHeader(HDR_WWW_AUTHENTICATE), "basic realm=");
 	}
 
 	@Test
@@ -792,6 +795,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		for (AccessEvent event : requests) {
 			assertEquals("GET", event.getMethod());
 			assertEquals(401, event.getStatus());
+			assertStartsWithIgnoreCase(event.getResponseHeader(HDR_WWW_AUTHENTICATE), "basic realm=");
 		}
 	}
 
@@ -839,6 +843,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		assertEquals("GET", info.getMethod());
 		assertEquals(join(authURI, "info/refs"), info.getPath());
 		assertEquals(401, info.getStatus());
+		assertStartsWithIgnoreCase(info.getResponseHeader(HDR_WWW_AUTHENTICATE), "basic realm=");
 
 		info = requests.get(2);
 		assertEquals("GET", info.getMethod());
@@ -896,6 +901,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		assertEquals("POST", service.getMethod());
 		assertEquals(join(authOnPostURI, "git-upload-pack"), service.getPath());
 		assertEquals(401, service.getStatus());
+		assertStartsWithIgnoreCase(service.getResponseHeader(HDR_WWW_AUTHENTICATE), "basic realm=");
 
 		service = requests.get(2);
 		assertEquals("POST", service.getMethod());
@@ -1181,6 +1187,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		assertEquals(1, info.getParameters().size());
 		assertEquals("git-receive-pack", info.getParameter("service"));
 		assertEquals(401, info.getStatus());
+		assertStartsWithIgnoreCase(info.getResponseHeader(HDR_WWW_AUTHENTICATE), "basic realm=");
 	}
 
 	@Test
@@ -1312,6 +1319,12 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		final StoredConfig cfg = remoteRepository.getConfig();
 		cfg.setBoolean("http", null, "receivepack", true);
 		cfg.save();
+	}
+
+	private static void assertStartsWithIgnoreCase(String string, String prefix) {
+		assertNotNull(string);
+		assertNotNull(prefix);
+		assertTrue(string.toLowerCase().startsWith(prefix.toLowerCase()));
 	}
 
 }
