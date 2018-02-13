@@ -135,6 +135,24 @@
       "revId": "b999899bdb509c703eed7c2b2521e426c8dab172",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b0f9c95_5321708b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2018-02-13T01:40:25Z",
+      "side": 1,
+      "message": "To be a little more clear, on the initial receipt of data from a client the \"leader\" server attempts to make the data durable on multiple remote replicas before applying the change and reporting to the user that the push was successful. That happens _without_ using the git push protocol. \n\nIf for some reason replication to one of the replicas fails (e.g., network disconnect, timeout, other required objects are not present), we record that the remote replica is behind, and the remote replica attempts to fetch the data to get caught up, _using_ the git fetch protocol.\n\nYes we see a similar issue with pushes taking longer for repositories with more references, but as layers of the onion go, the fetch side is causing all of the visible pain. Once this is resolved we can dig deeper into direct-from-client push and fetch delays.",
+      "parentUuid": "0e787e4d_a7a21609",
+      "revId": "b999899bdb509c703eed7c2b2521e426c8dab172",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
