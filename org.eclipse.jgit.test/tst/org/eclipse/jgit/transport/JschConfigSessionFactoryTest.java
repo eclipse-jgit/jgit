@@ -185,6 +185,74 @@ public class JschConfigSessionFactoryTest {
 		assertEquals(TimeUnit.SECONDS.toMillis(10), session.getTimeout());
 	}
 
+	@Test
+	public void testAliasCaseDifferenceUpcase() throws Exception {
+		tmpConfigFile = createConfig("Host Bitbucket.org",
+				"Hostname bitbucket.org", "User foo", "Port 29418",
+				"ConnectTimeout 10", //
+				"Host bitbucket.org", "Hostname bitbucket.org", "User bar",
+				"Port 22", "ConnectTimeout 5");
+		tmpConfig = new OpenSshConfig(tmpConfigFile.getParentFile(),
+				tmpConfigFile);
+		factory.setConfig(tmpConfig);
+		Session session = createSession("ssh://Bitbucket.org/something");
+		assertEquals("bitbucket.org", session.getHost());
+		assertEquals("foo", session.getUserName());
+		assertEquals(29418, session.getPort());
+		assertEquals(TimeUnit.SECONDS.toMillis(10), session.getTimeout());
+	}
+
+	@Test
+	public void testAliasCaseDifferenceLowcase() throws Exception {
+		tmpConfigFile = createConfig("Host Bitbucket.org",
+				"Hostname bitbucket.org", "User foo", "Port 29418",
+				"ConnectTimeout 10", //
+				"Host bitbucket.org", "Hostname bitbucket.org", "User bar",
+				"Port 22", "ConnectTimeout 5");
+		tmpConfig = new OpenSshConfig(tmpConfigFile.getParentFile(),
+				tmpConfigFile);
+		factory.setConfig(tmpConfig);
+		Session session = createSession("ssh://bitbucket.org/something");
+		assertEquals("bitbucket.org", session.getHost());
+		assertEquals("bar", session.getUserName());
+		assertEquals(22, session.getPort());
+		assertEquals(TimeUnit.SECONDS.toMillis(5), session.getTimeout());
+	}
+
+	@Test
+	public void testAliasCaseDifferenceUpcaseInverted() throws Exception {
+		tmpConfigFile = createConfig("Host bitbucket.org",
+				"Hostname bitbucket.org", "User bar", "Port 22",
+				"ConnectTimeout 5", //
+				"Host Bitbucket.org", "Hostname bitbucket.org", "User foo",
+				"Port 29418", "ConnectTimeout 10");
+		tmpConfig = new OpenSshConfig(tmpConfigFile.getParentFile(),
+				tmpConfigFile);
+		factory.setConfig(tmpConfig);
+		Session session = createSession("ssh://Bitbucket.org/something");
+		assertEquals("bitbucket.org", session.getHost());
+		assertEquals("foo", session.getUserName());
+		assertEquals(29418, session.getPort());
+		assertEquals(TimeUnit.SECONDS.toMillis(10), session.getTimeout());
+	}
+
+	@Test
+	public void testAliasCaseDifferenceLowcaseInverted() throws Exception {
+		tmpConfigFile = createConfig("Host bitbucket.org",
+				"Hostname bitbucket.org", "User bar", "Port 22",
+				"ConnectTimeout 5", //
+				"Host Bitbucket.org", "Hostname bitbucket.org", "User foo",
+				"Port 29418", "ConnectTimeout 10");
+		tmpConfig = new OpenSshConfig(tmpConfigFile.getParentFile(),
+				tmpConfigFile);
+		factory.setConfig(tmpConfig);
+		Session session = createSession("ssh://bitbucket.org/something");
+		assertEquals("bitbucket.org", session.getHost());
+		assertEquals("bar", session.getUserName());
+		assertEquals(22, session.getPort());
+		assertEquals(TimeUnit.SECONDS.toMillis(5), session.getTimeout());
+	}
+
 	private File createConfig(String... lines) throws Exception {
 		File f = File.createTempFile("jsch", "test");
 		Files.write(f.toPath(), Arrays.asList(lines));
@@ -203,7 +271,6 @@ public class JschConfigSessionFactoryTest {
 		String password = uri.getPass();
 		int port = uri.getPort();
 		OpenSshConfig.Host hostConfig = tmpConfig.lookup(host);
-		host = hostConfig.getHostName();
 		if (port <= 0) {
 			port = hostConfig.getPort();
 		}

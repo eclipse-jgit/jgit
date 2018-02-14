@@ -121,7 +121,6 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 				config = OpenSshConfig.get(fs);
 
 			final OpenSshConfig.Host hc = config.lookup(host);
-			host = hc.getHostName();
 			if (port <= 0)
 				port = hc.getPort();
 			if (user == null)
