@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bff68b59_ef2bf672",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-02-14T00:02:54Z",
+      "side": 1,
+      "message": "Please add \"@since 4.11\" tag",
+      "revId": "b8a97b790c5de68e6d2d17bf096b0d510055fa47",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bea12f03_7b84921b",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/WWWAuthenticationFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-02-14T00:02:54Z",
+      "side": 1,
+      "message": "This should be 2018 and your name.",
+      "range": {
+        "startLine": 2,
+        "startChar": 3,
+        "endLine": 2,
+        "endChar": 39
+      },
+      "revId": "b8a97b790c5de68e6d2d17bf096b0d510055fa47",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91d90805_75280b63",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/WWWAuthenticationFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-02-14T00:02:54Z",
+      "side": 1,
+      "message": "Should this be final?",
+      "revId": "b8a97b790c5de68e6d2d17bf096b0d510055fa47",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
