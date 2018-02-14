@@ -75,6 +75,9 @@ public class InitCommand implements Callable<Git> {
 	 * {@inheritDoc}
 	 * <p>
 	 * Executes the {@code Init} command.
+	 *
+	 * @return a {@code Git} instance that owns the {@code Repository} that it
+	 *         wraps.
 	 */
 	@Override
 	public Git call() throws GitAPIException {
@@ -120,7 +123,7 @@ public class InitCommand implements Callable<Git> {
 			Repository repository = builder.build();
 			if (!repository.getObjectDatabase().exists())
 				repository.create(bare);
-			return new Git(repository);
+			return new Git(repository, true);
 		} catch (IOException e) {
 			throw new JGitInternalException(e.getMessage(), e);
 		}
