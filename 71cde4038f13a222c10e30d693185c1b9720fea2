@@ -84,6 +84,23 @@
       "revId": "71cde4038f13a222c10e30d693185c1b9720fea2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "093dbeae_1b251fa3",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/SmartClientSmartServerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 772,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-14T20:21:20Z",
+      "side": 1,
+      "message": "remove unnecessary blank line",
+      "revId": "71cde4038f13a222c10e30d693185c1b9720fea2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
