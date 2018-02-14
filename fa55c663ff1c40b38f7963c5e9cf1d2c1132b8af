@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e60c54d_a60e1719",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-02-14T23:22:38Z",
+      "side": 1,
+      "message": "Repository is auto-closeable.  It\u0027s not necessary to explicitly close if it\u0027s opened in try-with-resource at L249.",
+      "range": {
+        "startLine": 281,
+        "startChar": 2,
+        "endLine": 281,
+        "endChar": 15
+      },
+      "revId": "fa55c663ff1c40b38f7963c5e9cf1d2c1132b8af",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
