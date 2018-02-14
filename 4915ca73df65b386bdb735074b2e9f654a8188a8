@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "3af5d16b_c3bb63a3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-02-14T04:12:14Z",
+      "side": 1,
+      "message": "Done, but it required some more significant restructuring.",
+      "parentUuid": "4e4190d1_c70844ca",
+      "revId": "4915ca73df65b386bdb735074b2e9f654a8188a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "78b1ca9e_a3ad20f3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 1
