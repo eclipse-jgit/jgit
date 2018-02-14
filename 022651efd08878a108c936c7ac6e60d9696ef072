@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87d0a29f_d381c11b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2018-02-14T23:47:48Z",
+      "side": 1,
+      "message": "this is too deeply indented. Can\u0027t this be something like\n\n  List\u003cManifestProject\u003e projs\n  try { \n      if (inputstream \u003d\u003d null ) {\n         inputStream \u003d new FileInputStream(..)\n      }\n      \n      projs \u003d new ManifestParser(..).read(inputStream).projectList();\n  } catch (.. ) { \n\n  } finally { \n    inputstream.close()\n  }",
+      "range": {
+        "startLine": 510,
+        "startChar": 5,
+        "endLine": 510,
+        "endChar": 17
+      },
+      "revId": "022651efd08878a108c936c7ac6e60d9696ef072",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
