@@ -69,14 +69,14 @@ public class InitCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testInitRepository() throws IOException, JGitInternalException,
-			GitAPIException {
+	public void testInitRepository()
+			throws IOException, JGitInternalException, GitAPIException {
 		File directory = createTempDirectory("testInitRepository");
 		InitCommand command = new InitCommand();
 		command.setDirectory(directory);
-		Repository repository = command.call().getRepository();
-		addRepoToClose(repository);
-		assertNotNull(repository);
+		try (Git git = command.call()) {
+			assertNotNull(git.getRepository());
+		}
 	}
 
 	@Test
@@ -89,9 +89,9 @@ public class InitCommandTest extends RepositoryTestCase {
 		assertTrue(directory.listFiles().length > 0);
 		InitCommand command = new InitCommand();
 		command.setDirectory(directory);
-		Repository repository = command.call().getRepository();
-		addRepoToClose(repository);
-		assertNotNull(repository);
+		try (Git git = command.call()) {
+			assertNotNull(git.getRepository());
+		}
 	}
 
 	@Test
@@ -101,10 +101,11 @@ public class InitCommandTest extends RepositoryTestCase {
 		InitCommand command = new InitCommand();
 		command.setDirectory(directory);
 		command.setBare(true);
-		Repository repository = command.call().getRepository();
-		addRepoToClose(repository);
-		assertNotNull(repository);
-		assertTrue(repository.isBare());
+		try (Git git = command.call()) {
+			Repository repository = git.getRepository();
+			assertNotNull(repository);
+			assertTrue(repository.isBare());
+		}
 	}
 
 	// non-bare repos where gitDir and directory is set. Same as
@@ -117,11 +118,12 @@ public class InitCommandTest extends RepositoryTestCase {
 		InitCommand command = new InitCommand();
 		command.setDirectory(wt);
 		command.setGitDir(gitDir);
-		Repository repository = command.call().getRepository();
-		addRepoToClose(repository);
-		assertNotNull(repository);
-		assertEqualsFile(wt, repository.getWorkTree());
-		assertEqualsFile(gitDir, repository.getDirectory());
+		try (Git git = command.call()) {
+			Repository repository = git.getRepository();
+			assertNotNull(repository);
+			assertEqualsFile(wt, repository.getWorkTree());
+			assertEqualsFile(gitDir, repository.getDirectory());
+		}
 	}
 
 	// non-bare repos where only gitDir is set. Same as
@@ -135,12 +137,13 @@ public class InitCommandTest extends RepositoryTestCase {
 		File gitDir = createTempDirectory("testInitRepository/.git");
 		InitCommand command = new InitCommand();
 		command.setGitDir(gitDir);
-		Repository repository = command.call().getRepository();
-		addRepoToClose(repository);
-		assertNotNull(repository);
-		assertEqualsFile(gitDir, repository.getDirectory());
-		assertEqualsFile(new File(reader.getProperty("user.dir")),
-				repository.getWorkTree());
+		try (Git git = command.call()) {
+			Repository repository = git.getRepository();
+			assertNotNull(repository);
+			assertEqualsFile(gitDir, repository.getDirectory());
+			assertEqualsFile(new File(reader.getProperty("user.dir")),
+					repository.getWorkTree());
+		}
 	}
 
 	// Bare repos where gitDir and directory is set will only work if gitDir and
@@ -169,13 +172,14 @@ public class InitCommandTest extends RepositoryTestCase {
 				.getAbsolutePath());
 		InitCommand command = new InitCommand();
 		command.setBare(false);
-		Repository repository = command.call().getRepository();
-		addRepoToClose(repository);
-		assertNotNull(repository);
-		assertEqualsFile(new File(reader.getProperty("user.dir"), ".git"),
-				repository.getDirectory());
-		assertEqualsFile(new File(reader.getProperty("user.dir")),
-				repository.getWorkTree());
+		try (Git git = command.call()) {
+			Repository repository = git.getRepository();
+			assertNotNull(repository);
+			assertEqualsFile(new File(reader.getProperty("user.dir"), ".git"),
+					repository.getDirectory());
+			assertEqualsFile(new File(reader.getProperty("user.dir")),
+					repository.getWorkTree());
+		}
 	}
 
 	// If neither directory nor gitDir is set in a bare repo make sure
@@ -189,12 +193,13 @@ public class InitCommandTest extends RepositoryTestCase {
 				.getAbsolutePath());
 		InitCommand command = new InitCommand();
 		command.setBare(true);
-		Repository repository = command.call().getRepository();
-		addRepoToClose(repository);
-		assertNotNull(repository);
-		assertEqualsFile(new File(reader.getProperty("user.dir")),
-				repository.getDirectory());
-		assertNull(repository.getWorkTree());
+		try (Git git = command.call()) {
+			Repository repository = git.getRepository();
+			assertNotNull(repository);
+			assertEqualsFile(new File(reader.getProperty("user.dir")),
+					repository.getDirectory());
+			assertNull(repository.getWorkTree());
+		}
 	}
 
 	// In a non-bare repo when directory and gitDir is set then they shouldn't
