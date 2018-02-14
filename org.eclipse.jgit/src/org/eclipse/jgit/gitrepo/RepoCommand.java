@@ -643,6 +643,11 @@ public class RepoCommand extends GitCommand<RevCommit> {
 
 				// Create a Commit object, populate it and write it
 				ObjectId headId = repo.resolve(targetBranch + "^{commit}"); //$NON-NLS-1$
+				if (headId != null && rw.parseCommit(headId).getTree().getId().equals(treeId)) {
+					// No change. Do nothing.
+					return rw.parseCommit(headId);
+				}
+
 				CommitBuilder commit = new CommitBuilder();
 				commit.setTreeId(treeId);
 				if (headId != null)
