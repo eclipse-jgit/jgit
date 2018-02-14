@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a25b3e4_bf043a98",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-02-14T02:34:54Z",
+      "side": 1,
+      "message": "Should this be a try-with-resources?\n\nOtherwise Git would be leaked if an exception is thrown.",
+      "revId": "4915ca73df65b386bdb735074b2e9f654a8188a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "78b1ca9e_a3ad20f3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 716,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-02-14T02:34:54Z",
+      "side": 1,
+      "message": "maybe do the equivalent of checkNonNull instead (to throw IllegalArgumentException instead of AssertionError on failure).",
+      "revId": "4915ca73df65b386bdb735074b2e9f654a8188a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
