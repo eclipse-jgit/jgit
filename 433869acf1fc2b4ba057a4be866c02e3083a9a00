@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ec7f65c_8bc17f95",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-14T20:21:20Z",
+      "side": 1,
+      "message": "What if the server implements another authentication method different from basic authentication ? I think in that case we shouldn\u0027t set the Authentication header",
+      "revId": "433869acf1fc2b4ba057a4be866c02e3083a9a00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
