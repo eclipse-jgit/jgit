@@ -124,7 +124,6 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	private boolean ignoreRemoteFailures = false;
 
 	private List<RepoProject> bareProjects;
-	private Git git;
 	private ProgressMonitor monitor;
 
 	/**
@@ -486,6 +485,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	/** {@inheritDoc} */
 	@Override
 	public RevCommit call() throws GitAPIException {
+		Git git = null;
 		try {
 			checkCallable();
 			if (baseUri == null) {
@@ -509,8 +509,9 @@ public class RepoCommand extends GitCommand<RevCommit> {
 					author = new PersonIdent(repo);
 				if (callback == null)
 					callback = new DefaultRemoteReader();
-			} else
+			} else {
 				git = new Git(repo);
+			}
 
 			ManifestParser parser = new ManifestParser(
 					includedReader, manifestPath, branch, baseUri, groupsParam, repo);
@@ -523,7 +524,8 @@ public class RepoCommand extends GitCommand<RevCommit> {
 							proj.getCopyFiles(),
 							proj.getLinkFiles(),
 							proj.getGroups(),
-							proj.getRecommendShallow());
+							proj.getRecommendShallow(),
+							git);
 				}
 			} catch (GitAPIException | IOException e) {
 				throw new ManifestErrorException(e);
@@ -693,16 +695,17 @@ public class RepoCommand extends GitCommand<RevCommit> {
 				throw new ManifestErrorException(e);
 			}
 		} else {
-			return git
-				.commit()
-				.setMessage(RepoText.get().repoCommitMessage)
-				.call();
+			assert (git != null);
+			RevCommit commit = git.commit()
+					.setMessage(RepoText.get().repoCommitMessage).call();
+			git.close();
+			return commit;
 		}
 	}
 
 	private void addSubmodule(String url, String path, String revision,
 			List<CopyFile> copyfiles, List<LinkFile> linkfiles,
-			Set<String> groups, String recommendShallow)
+			Set<String> groups, String recommendShallow, Git git)
 			throws GitAPIException, IOException {
 		if (repo.isBare()) {
 			RepoProject proj = new RepoProject(url, path, revision, null, groups, recommendShallow);
@@ -710,6 +713,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 			proj.addLinkFiles(linkfiles);
 			bareProjects.add(proj);
 		} else {
+			assert (git != null);
 			if (!linkfiles.isEmpty()) {
 				throw new UnsupportedOperationException(
 						JGitText.get().nonBareLinkFilesNotSupported);
