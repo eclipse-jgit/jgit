@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4e4190d1_c70844ca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-02-14T03:46:57Z",
+      "side": 1,
+      "message": "Difficult to use t-w-r here because the Git is not always instantiated.",
+      "parentUuid": "2a25b3e4_bf043a98",
+      "revId": "4915ca73df65b386bdb735074b2e9f654a8188a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "78b1ca9e_a3ad20f3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2018-02-14T02:34:54Z",
       "side": 1,
       "message": "maybe do the equivalent of checkNonNull instead (to throw IllegalArgumentException instead of AssertionError on failure).",
+      "revId": "4915ca73df65b386bdb735074b2e9f654a8188a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0cbcc142_b4ce67dd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 716,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-02-14T03:46:57Z",
+      "side": 1,
+      "message": "It\u0027s not really an illegal argument though.  It\u0027s more of an unexpected state.\n\nAt this point it should never be null because it always gets created in the case that repo.isBare() is false (line 513).  The assert is only to prevent Eclipse warning about it not being initialized.",
+      "parentUuid": "78b1ca9e_a3ad20f3",
       "revId": "4915ca73df65b386bdb735074b2e9f654a8188a8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
