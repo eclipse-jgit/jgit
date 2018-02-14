@@ -33,6 +33,10 @@ def tests(tests):
       additional_deps = [
         '//lib:jsch',
       ]
+    if src.endswith("JschConfigSessionFactoryTest.java"):
+      additional_deps = [
+        '//lib:jsch',
+      ]
 
     junit_tests(
       name = name,
