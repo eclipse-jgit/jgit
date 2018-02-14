@@ -193,13 +193,18 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 		return e.getCause() == null && e.getMessage().equals("Auth cancel"); //$NON-NLS-1$
 	}
 
-	private Session createSession(CredentialsProvider credentialsProvider,
+	// Package visibility for tests
+	Session createSession(CredentialsProvider credentialsProvider,
 			FS fs, String user, final String pass, String host, int port,
 			final OpenSshConfig.Host hc) throws JSchException {
 		final Session session = createSession(hc, user, host, port, fs);
 		// Jsch will have overridden the explicit user by the one from the SSH
 		// config file...
 		setUserName(session, user);
+		// Jsch will also have overridden the port.
+		if (port > 0 && port != session.getPort()) {
+			session.setPort(port);
+		}
 		// We retry already in getSession() method. JSch must not retry
 		// on its own.
 		session.setConfig("MaxAuthTries", "1"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -476,5 +481,15 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 				return real.getValues(key);
 			}
 		}
+	}
+
+	/**
+	 * Set the {@link OpenSshConfig} to use. Intended for use in tests.
+	 *
+	 * @param config
+	 *            to use
+	 */
+	void setConfig(OpenSshConfig config) {
+		this.config = config;
 	}
 }
