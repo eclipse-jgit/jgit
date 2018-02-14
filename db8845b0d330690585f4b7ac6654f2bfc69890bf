@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b70be15d_65ccc579",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/InitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-02-14T02:36:59Z",
+      "side": 1,
+      "message": "Should this mention that the Git returned owns the created Repository?",
+      "revId": "db8845b0d330690585f4b7ac6654f2bfc69890bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
