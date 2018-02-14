@@ -124,7 +124,6 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	private boolean ignoreRemoteFailures = false;
 
 	private List<RepoProject> bareProjects;
-	private Git git;
 	private ProgressMonitor monitor;
 
 	/**
@@ -503,27 +502,215 @@ public class RepoCommand extends GitCommand<RevCommit> {
 				}
 			}
 
-			if (repo.isBare()) {
-				bareProjects = new ArrayList<>();
-				if (author == null)
-					author = new PersonIdent(repo);
-				if (callback == null)
-					callback = new DefaultRemoteReader();
-			} else
-				git = new Git(repo);
-
-			ManifestParser parser = new ManifestParser(
-					includedReader, manifestPath, branch, baseUri, groupsParam, repo);
+			ManifestParser parser = new ManifestParser(includedReader,
+					manifestPath, branch, baseUri, groupsParam, repo);
 			try {
 				parser.read(inputStream);
-				for (RepoProject proj : parser.getFilteredProjects()) {
-					addSubmodule(proj.getUrl(),
-							proj.getPath(),
-							proj.getRevision(),
-							proj.getCopyFiles(),
-							proj.getLinkFiles(),
-							proj.getGroups(),
-							proj.getRecommendShallow());
+				if (repo.isBare()) {
+					bareProjects = new ArrayList<>();
+					if (author == null)
+						author = new PersonIdent(repo);
+					if (callback == null)
+						callback = new DefaultRemoteReader();
+					for (RepoProject proj : parser.getFilteredProjects()) {
+						addSubmoduleBare(proj.getUrl(),
+								proj.getPath(),
+								proj.getRevision(),
+								proj.getCopyFiles(),
+								proj.getLinkFiles(),
+								proj.getGroups(),
+								proj.getRecommendShallow());
+					}
+					DirCache index = DirCache.newInCore();
+					DirCacheBuilder builder = index.builder();
+					ObjectInserter inserter = repo.newObjectInserter();
+					try (RevWalk rw = new RevWalk(repo)) {
+						Config cfg = new Config();
+						StringBuilder attributes = new StringBuilder();
+						for (RepoProject bareProj : bareProjects) {
+							String path = bareProj.getPath();
+							String nameUri = bareProj.getName();
+							ObjectId objectId;
+							if (ObjectId.isId(bareProj.getRevision())) {
+								objectId = ObjectId
+										.fromString(bareProj.getRevision());
+							} else {
+								objectId = callback.sha1(nameUri,
+										bareProj.getRevision());
+								if (objectId == null) {
+									if (ignoreRemoteFailures) {
+										continue;
+									}
+									throw new RemoteUnavailableException(
+											nameUri);
+								}
+								if (recordRemoteBranch) {
+									// can be branch or tag
+									cfg.setString("submodule", path, //$NON-NLS-1$
+											"branch", //$NON-NLS-1$
+											bareProj.getRevision());
+								}
+
+								if (recordShallowSubmodules && bareProj
+										.getRecommendShallow() != null) {
+									// The shallow recommendation is losing
+									// information.
+									// As the repo manifests stores the
+									// recommended
+									// depth in the 'clone-depth' field,
+									// while
+									// git core only uses a binary 'shallow
+									// = true/false'
+									// hint, we'll map any depth to 'shallow
+									// = true'
+									cfg.setBoolean("submodule", path, //$NON-NLS-1$
+											"shallow", //$NON-NLS-1$
+											true);
+								}
+							}
+							if (recordSubmoduleLabels) {
+								StringBuilder rec = new StringBuilder();
+								rec.append("/"); //$NON-NLS-1$
+								rec.append(path);
+								for (String group : bareProj.getGroups()) {
+									rec.append(" "); //$NON-NLS-1$
+									rec.append(group);
+								}
+								rec.append("\n"); //$NON-NLS-1$
+								attributes.append(rec.toString());
+							}
+
+							URI submodUrl = URI.create(nameUri);
+							if (targetUri != null) {
+								submodUrl = relativize(targetUri, submodUrl);
+							}
+							cfg.setString("submodule", path, "path", path); //$NON-NLS-1$ //$NON-NLS-2$
+							cfg.setString("submodule", path, "url", //$NON-NLS-1$ //$NON-NLS-2$
+									submodUrl.toString());
+
+							// create gitlink
+							DirCacheEntry dcEntry = new DirCacheEntry(path);
+							dcEntry.setObjectId(objectId);
+							dcEntry.setFileMode(FileMode.GITLINK);
+							builder.add(dcEntry);
+
+							for (CopyFile copyfile : bareProj.getCopyFiles()) {
+								byte[] src = callback.readFile(nameUri,
+										bareProj.getRevision(), copyfile.src);
+								objectId = inserter.insert(Constants.OBJ_BLOB,
+										src);
+								dcEntry = new DirCacheEntry(copyfile.dest);
+								dcEntry.setObjectId(objectId);
+								dcEntry.setFileMode(FileMode.REGULAR_FILE);
+								builder.add(dcEntry);
+							}
+							for (LinkFile linkfile : bareProj.getLinkFiles()) {
+								String link;
+								if (linkfile.dest.contains("/")) { //$NON-NLS-1$
+									link = FileUtils.relativizeGitPath(
+											linkfile.dest.substring(0,
+													linkfile.dest
+															.lastIndexOf('/')),
+											bareProj.getPath() + "/" //$NON-NLS-1$
+													+ linkfile.src);
+								} else {
+									link = bareProj.getPath() + "/" //$NON-NLS-1$
+											+ linkfile.src;
+								}
+
+								objectId = inserter.insert(Constants.OBJ_BLOB,
+										link.getBytes(
+												Constants.CHARACTER_ENCODING));
+								dcEntry = new DirCacheEntry(linkfile.dest);
+								dcEntry.setObjectId(objectId);
+								dcEntry.setFileMode(FileMode.SYMLINK);
+								builder.add(dcEntry);
+							}
+						}
+						String content = cfg.toText();
+
+						// create a new DirCacheEntry for .gitmodules file.
+						final DirCacheEntry dcEntry = new DirCacheEntry(
+								Constants.DOT_GIT_MODULES);
+						ObjectId objectId = inserter.insert(Constants.OBJ_BLOB,
+								content.getBytes(Constants.CHARACTER_ENCODING));
+						dcEntry.setObjectId(objectId);
+						dcEntry.setFileMode(FileMode.REGULAR_FILE);
+						builder.add(dcEntry);
+
+						if (recordSubmoduleLabels) {
+							// create a new DirCacheEntry for .gitattributes
+							// file.
+							final DirCacheEntry dcEntryAttr = new DirCacheEntry(
+									Constants.DOT_GIT_ATTRIBUTES);
+							ObjectId attrId = inserter.insert(
+									Constants.OBJ_BLOB,
+									attributes.toString().getBytes(
+											Constants.CHARACTER_ENCODING));
+							dcEntryAttr.setObjectId(attrId);
+							dcEntryAttr.setFileMode(FileMode.REGULAR_FILE);
+							builder.add(dcEntryAttr);
+						}
+
+						builder.finish();
+						ObjectId treeId = index.writeTree(inserter);
+
+						// Create a Commit object, populate it and write it
+						ObjectId headId = repo
+								.resolve(targetBranch + "^{commit}"); //$NON-NLS-1$
+						CommitBuilder commit = new CommitBuilder();
+						commit.setTreeId(treeId);
+						if (headId != null)
+							commit.setParentIds(headId);
+						commit.setAuthor(author);
+						commit.setCommitter(author);
+						commit.setMessage(RepoText.get().repoCommitMessage);
+
+						ObjectId commitId = inserter.insert(commit);
+						inserter.flush();
+
+						RefUpdate ru = repo.updateRef(targetBranch);
+						ru.setNewObjectId(commitId);
+						ru.setExpectedOldObjectId(
+								headId != null ? headId : ObjectId.zeroId());
+						Result rc = ru.update(rw);
+
+						switch (rc) {
+						case NEW:
+						case FORCED:
+						case FAST_FORWARD:
+							// Successful. Do nothing.
+							break;
+						case REJECTED:
+						case LOCK_FAILURE:
+							throw new ConcurrentRefUpdateException(MessageFormat
+									.format(JGitText.get().cannotLock,
+											targetBranch),
+									ru.getRef(), rc);
+						default:
+							throw new JGitInternalException(MessageFormat
+									.format(JGitText.get().updatingRefFailed,
+											targetBranch, commitId.name(), rc));
+						}
+
+						return rw.parseCommit(commitId);
+					} catch (IOException e) {
+						throw new ManifestErrorException(e);
+					}
+				} else {
+					try (Git git = new Git(repo)) {
+						for (RepoProject proj : parser.getFilteredProjects()) {
+							addSubmodule(proj.getUrl(),
+									proj.getPath(),
+									proj.getRevision(),
+									proj.getCopyFiles(),
+									proj.getLinkFiles(),
+									git);
+						}
+						return git.commit()
+								.setMessage(RepoText.get().repoCommitMessage)
+								.call();
+					}
 				}
 			} catch (GitAPIException | IOException e) {
 				throw new ManifestErrorException(e);
@@ -536,206 +723,45 @@ public class RepoCommand extends GitCommand<RevCommit> {
 				// Just ignore it, it's not important.
 			}
 		}
-
-		if (repo.isBare()) {
-			DirCache index = DirCache.newInCore();
-			DirCacheBuilder builder = index.builder();
-			ObjectInserter inserter = repo.newObjectInserter();
-			try (RevWalk rw = new RevWalk(repo)) {
-				Config cfg = new Config();
-				StringBuilder attributes = new StringBuilder();
-				for (RepoProject proj : bareProjects) {
-					String path = proj.getPath();
-					String nameUri = proj.getName();
-					ObjectId objectId;
-					if (ObjectId.isId(proj.getRevision())) {
-						objectId = ObjectId.fromString(proj.getRevision());
-					} else {
-						objectId = callback.sha1(nameUri, proj.getRevision());
-						if (objectId == null) {
-							if (ignoreRemoteFailures) {
-								continue;
-							}
-							throw new RemoteUnavailableException(nameUri);
-						}
-						if (recordRemoteBranch) {
-							// can be branch or tag
-							cfg.setString("submodule", path, "branch", //$NON-NLS-1$ //$NON-NLS-2$
-									proj.getRevision());
-						}
-
-						if (recordShallowSubmodules && proj.getRecommendShallow() != null) {
-							// The shallow recommendation is losing information.
-							// As the repo manifests stores the recommended
-							// depth in the 'clone-depth' field, while
-							// git core only uses a binary 'shallow = true/false'
-							// hint, we'll map any depth to 'shallow = true'
-							cfg.setBoolean("submodule", path, "shallow", //$NON-NLS-1$ //$NON-NLS-2$
-									true);
-						}
-					}
-					if (recordSubmoduleLabels) {
-						StringBuilder rec = new StringBuilder();
-						rec.append("/"); //$NON-NLS-1$
-						rec.append(path);
-						for (String group : proj.getGroups()) {
-							rec.append(" "); //$NON-NLS-1$
-							rec.append(group);
-						}
-						rec.append("\n"); //$NON-NLS-1$
-						attributes.append(rec.toString());
-					}
-
-					URI submodUrl = URI.create(nameUri);
-					if (targetUri != null) {
-						submodUrl = relativize(targetUri, submodUrl);
-					}
-					cfg.setString("submodule", path, "path", path); //$NON-NLS-1$ //$NON-NLS-2$
-					cfg.setString("submodule", path, "url", submodUrl.toString()); //$NON-NLS-1$ //$NON-NLS-2$
-
-					// create gitlink
-					DirCacheEntry dcEntry = new DirCacheEntry(path);
-					dcEntry.setObjectId(objectId);
-					dcEntry.setFileMode(FileMode.GITLINK);
-					builder.add(dcEntry);
-
-					for (CopyFile copyfile : proj.getCopyFiles()) {
-						byte[] src = callback.readFile(
-								nameUri, proj.getRevision(), copyfile.src);
-						objectId = inserter.insert(Constants.OBJ_BLOB, src);
-						dcEntry = new DirCacheEntry(copyfile.dest);
-						dcEntry.setObjectId(objectId);
-						dcEntry.setFileMode(FileMode.REGULAR_FILE);
-						builder.add(dcEntry);
-					}
-					for (LinkFile linkfile : proj.getLinkFiles()) {
-						String link;
-						if (linkfile.dest.contains("/")) { //$NON-NLS-1$
-							link = FileUtils.relativizeGitPath(
-									linkfile.dest.substring(0,
-											linkfile.dest.lastIndexOf('/')),
-									proj.getPath() + "/" + linkfile.src); //$NON-NLS-1$
-						} else {
-							link = proj.getPath() + "/" + linkfile.src; //$NON-NLS-1$
-						}
-
-						objectId = inserter.insert(Constants.OBJ_BLOB,
-								link.getBytes(
-										Constants.CHARACTER_ENCODING));
-						dcEntry = new DirCacheEntry(linkfile.dest);
-						dcEntry.setObjectId(objectId);
-						dcEntry.setFileMode(FileMode.SYMLINK);
-						builder.add(dcEntry);
-					}
-				}
-				String content = cfg.toText();
-
-				// create a new DirCacheEntry for .gitmodules file.
-				final DirCacheEntry dcEntry = new DirCacheEntry(Constants.DOT_GIT_MODULES);
-				ObjectId objectId = inserter.insert(Constants.OBJ_BLOB,
-						content.getBytes(Constants.CHARACTER_ENCODING));
-				dcEntry.setObjectId(objectId);
-				dcEntry.setFileMode(FileMode.REGULAR_FILE);
-				builder.add(dcEntry);
-
-				if (recordSubmoduleLabels) {
-					// create a new DirCacheEntry for .gitattributes file.
-					final DirCacheEntry dcEntryAttr = new DirCacheEntry(Constants.DOT_GIT_ATTRIBUTES);
-					ObjectId attrId = inserter.insert(Constants.OBJ_BLOB,
-							attributes.toString().getBytes(Constants.CHARACTER_ENCODING));
-					dcEntryAttr.setObjectId(attrId);
-					dcEntryAttr.setFileMode(FileMode.REGULAR_FILE);
-					builder.add(dcEntryAttr);
-				}
-
-				builder.finish();
-				ObjectId treeId = index.writeTree(inserter);
-
-				// Create a Commit object, populate it and write it
-				ObjectId headId = repo.resolve(targetBranch + "^{commit}"); //$NON-NLS-1$
-				CommitBuilder commit = new CommitBuilder();
-				commit.setTreeId(treeId);
-				if (headId != null)
-					commit.setParentIds(headId);
-				commit.setAuthor(author);
-				commit.setCommitter(author);
-				commit.setMessage(RepoText.get().repoCommitMessage);
-
-				ObjectId commitId = inserter.insert(commit);
-				inserter.flush();
-
-				RefUpdate ru = repo.updateRef(targetBranch);
-				ru.setNewObjectId(commitId);
-				ru.setExpectedOldObjectId(headId != null ? headId : ObjectId.zeroId());
-				Result rc = ru.update(rw);
-
-				switch (rc) {
-					case NEW:
-					case FORCED:
-					case FAST_FORWARD:
-						// Successful. Do nothing.
-						break;
-					case REJECTED:
-					case LOCK_FAILURE:
-						throw new ConcurrentRefUpdateException(
-								MessageFormat.format(
-										JGitText.get().cannotLock, targetBranch),
-								ru.getRef(),
-								rc);
-					default:
-						throw new JGitInternalException(MessageFormat.format(
-								JGitText.get().updatingRefFailed,
-								targetBranch, commitId.name(), rc));
-				}
-
-				return rw.parseCommit(commitId);
-			} catch (IOException e) {
-				throw new ManifestErrorException(e);
-			}
-		} else {
-			return git
-				.commit()
-				.setMessage(RepoText.get().repoCommitMessage)
-				.call();
-		}
 	}
 
 	private void addSubmodule(String url, String path, String revision,
-			List<CopyFile> copyfiles, List<LinkFile> linkfiles,
-			Set<String> groups, String recommendShallow)
+			List<CopyFile> copyfiles, List<LinkFile> linkfiles, Git git)
 			throws GitAPIException, IOException {
-		if (repo.isBare()) {
-			RepoProject proj = new RepoProject(url, path, revision, null, groups, recommendShallow);
-			proj.addCopyFiles(copyfiles);
-			proj.addLinkFiles(linkfiles);
-			bareProjects.add(proj);
-		} else {
-			if (!linkfiles.isEmpty()) {
-				throw new UnsupportedOperationException(
-						JGitText.get().nonBareLinkFilesNotSupported);
-			}
-
-			SubmoduleAddCommand add = git
-				.submoduleAdd()
-				.setPath(path)
-				.setURI(url);
-			if (monitor != null)
-				add.setProgressMonitor(monitor);
-
-			Repository subRepo = add.call();
-			if (revision != null) {
-				try (Git sub = new Git(subRepo)) {
-					sub.checkout().setName(findRef(revision, subRepo))
-							.call();
-				}
-				subRepo.close();
-				git.add().addFilepattern(path).call();
-			}
-			for (CopyFile copyfile : copyfiles) {
-				copyfile.copy();
-				git.add().addFilepattern(copyfile.dest).call();
-			}
+		assert (!repo.isBare());
+		assert (git != null);
+		if (!linkfiles.isEmpty()) {
+			throw new UnsupportedOperationException(
+					JGitText.get().nonBareLinkFilesNotSupported);
 		}
+
+		SubmoduleAddCommand add = git.submoduleAdd().setPath(path).setURI(url);
+		if (monitor != null)
+			add.setProgressMonitor(monitor);
+
+		Repository subRepo = add.call();
+		if (revision != null) {
+			try (Git sub = new Git(subRepo)) {
+				sub.checkout().setName(findRef(revision, subRepo)).call();
+			}
+			subRepo.close();
+			git.add().addFilepattern(path).call();
+		}
+		for (CopyFile copyfile : copyfiles) {
+			copyfile.copy();
+			git.add().addFilepattern(copyfile.dest).call();
+		}
+	}
+
+	private void addSubmoduleBare(String url, String path, String revision,
+			List<CopyFile> copyfiles, List<LinkFile> linkfiles,
+			Set<String> groups, String recommendShallow) {
+		assert (repo.isBare());
+		RepoProject proj = new RepoProject(url, path, revision, null, groups,
+				recommendShallow);
+		proj.addCopyFiles(copyfiles);
+		proj.addLinkFiles(linkfiles);
+		bareProjects.add(proj);
 	}
 
 	/*
