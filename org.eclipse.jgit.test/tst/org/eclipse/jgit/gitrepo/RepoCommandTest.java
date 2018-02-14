@@ -213,8 +213,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 		repos.put("platform/base", child);
 
 		RevCommit commit = cmd
-				.setInputStream(new ByteArrayInputStream(
-						xmlContent.toString().getBytes(UTF_8)))
+			.setInputStream(new ByteArrayInputStream(xmlContent.toString().getBytes(UTF_8)))
 			.setRemoteReader(repos)
 			.setURI("platform/")
 			.setTargetURI("platform/superproject")
@@ -236,6 +235,49 @@ public class RepoCommandTest extends RepositoryTestCase {
 		child.close();
 		dest.close();
 	}
+	@Test
+	public void recordUnreachableRemotes() throws Exception {
+		StringBuilder xmlContent = new StringBuilder();
+		xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+			.append("<manifest>")
+			.append("<remote name=\"remote1\" fetch=\"https://host.com/\" />")
+			.append("<default revision=\"master\" remote=\"remote1\" />")
+			.append("<project path=\"base\" name=\"platform/base\" />")
+			.append("</manifest>");
+
+		Repository dest = Git.cloneRepository()
+				.setURI(db.getDirectory().toURI().toString())
+				.setDirectory(createUniqueTestGitDir(true)).setBare(true).call()
+				.getRepository();
+
+		assertTrue(dest.isBare());
+
+		RevCommit commit = new RepoCommand(dest)
+			.setInputStream(new ByteArrayInputStream(
+				xmlContent.toString().getBytes(UTF_8)))
+			.setRemoteReader(new IndexedRepos())
+			.setURI("platform/")
+			.setTargetURI("platform/superproject")
+			.setRecordRemoteBranch(true)
+			.setIgnoreRemoteFailures(true)
+			.setRecordSubmoduleLabels(true)
+			.call();
+
+		String idStr = commit.getId().name() + ":" + ".gitmodules";
+		ObjectId modId = dest.resolve(idStr);
+
+		try (ObjectReader reader = dest.newObjectReader()) {
+			byte[] bytes = reader.open(modId).getCachedBytes(Integer.MAX_VALUE);
+			Config base = new Config();
+			BlobBasedConfig cfg = new BlobBasedConfig(base, bytes);
+			String subUrl = cfg.getString("submodule", "base", "url");
+			assertEquals(subUrl, "https://host.com/platform/base");
+		}
+
+		dest.close();
+	}
+
+
 
 	@Test
 	public void gerritSetup() throws Exception {
@@ -814,37 +856,6 @@ public class RepoCommandTest extends RepositoryTestCase {
 		assertEquals("submodule content should be as expected",
 				"master world", content);
 	}
-
-	@Test
-	public void testNonDefaultRemotes() throws Exception {
-		StringBuilder xmlContent = new StringBuilder();
-		xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
-			.append("<manifest>")
-			.append("<remote name=\"remote1\" fetch=\".\" />")
-			.append("<remote name=\"remote2\" fetch=\"")
-			.append(notDefaultUri)
-			.append("\" />")
-			.append("<default revision=\"master\" remote=\"remote1\" />")
-			.append("<project path=\"foo\" name=\"")
-			.append(defaultUri)
-			.append("\" />")
-			.append("<project path=\"bar\" name=\".\" remote=\"remote2\" />")
-			.append("</manifest>");
-
-		Repository localDb = createWorkRepository();
-		JGitTestUtil.writeTrashFile(
-				localDb, "manifest.xml", xmlContent.toString());
-		RepoCommand command = new RepoCommand(localDb);
-		command
-			.setPath(localDb.getWorkTree().getAbsolutePath() + "/manifest.xml")
-			.setURI(rootUri)
-			.call();
-		File file = new File(localDb.getWorkTree(), "foo/hello.txt");
-		assertTrue("We should have foo", file.exists());
-		file = new File(localDb.getWorkTree(), "bar/world.txt");
-		assertTrue("We should have bar", file.exists());
-	}
-
 	@Test
 	public void testRemoteAlias() throws Exception {
 		StringBuilder xmlContent = new StringBuilder();
