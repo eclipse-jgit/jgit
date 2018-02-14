@@ -124,7 +124,6 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	private boolean ignoreRemoteFailures = false;
 
 	private List<RepoProject> bareProjects;
-	private Git git;
 	private ProgressMonitor monitor;
 
 	/**
@@ -486,58 +485,50 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	/** {@inheritDoc} */
 	@Override
 	public RevCommit call() throws GitAPIException {
-		try {
-			checkCallable();
-			if (baseUri == null) {
-				baseUri = ""; //$NON-NLS-1$
-			}
-			if (inputStream == null) {
-				if (manifestPath == null || manifestPath.length() == 0)
-					throw new IllegalArgumentException(
-							JGitText.get().pathNotConfigured);
-				try {
-					inputStream = new FileInputStream(manifestPath);
-				} catch (IOException e) {
-					throw new IllegalArgumentException(
-							JGitText.get().pathNotConfigured);
-				}
-			}
-
-			if (repo.isBare()) {
-				bareProjects = new ArrayList<>();
-				if (author == null)
-					author = new PersonIdent(repo);
-				if (callback == null)
-					callback = new DefaultRemoteReader();
-			} else
-				git = new Git(repo);
-
-			ManifestParser parser = new ManifestParser(
-					includedReader, manifestPath, branch, baseUri, groupsParam, repo);
+		checkCallable();
+		if (baseUri == null) {
+			baseUri = ""; //$NON-NLS-1$
+		}
+		if (inputStream == null) {
+			if (manifestPath == null || manifestPath.length() == 0)
+				throw new IllegalArgumentException(
+						JGitText.get().pathNotConfigured);
 			try {
-				parser.read(inputStream);
-				for (RepoProject proj : parser.getFilteredProjects()) {
-					addSubmodule(proj.getUrl(),
-							proj.getPath(),
-							proj.getRevision(),
-							proj.getCopyFiles(),
-							proj.getLinkFiles(),
-							proj.getGroups(),
-							proj.getRecommendShallow());
-				}
-			} catch (GitAPIException | IOException e) {
-				throw new ManifestErrorException(e);
+				inputStream = new FileInputStream(manifestPath);
+			} catch (IOException e) {
+				throw new IllegalArgumentException(
+						JGitText.get().pathNotConfigured);
 			}
+		}
+
+		List<RepoProject> filteredProjects;
+		try {
+			ManifestParser parser = new ManifestParser(includedReader,
+					manifestPath, branch, baseUri, groupsParam, repo);
+			parser.read(inputStream);
+			filteredProjects = parser.getFilteredProjects();
+		} catch (IOException e) {
+			throw new ManifestErrorException(e);
 		} finally {
 			try {
-				if (inputStream != null)
-					inputStream.close();
+				inputStream.close();
 			} catch (IOException e) {
 				// Just ignore it, it's not important.
 			}
 		}
 
 		if (repo.isBare()) {
+			bareProjects = new ArrayList<>();
+			if (author == null)
+				author = new PersonIdent(repo);
+			if (callback == null)
+				callback = new DefaultRemoteReader();
+			for (RepoProject proj : filteredProjects) {
+				addSubmoduleBare(proj.getUrl(), proj.getPath(),
+						proj.getRevision(), proj.getCopyFiles(),
+						proj.getLinkFiles(), proj.getGroups(),
+						proj.getRecommendShallow());
+			}
 			DirCache index = DirCache.newInCore();
 			DirCacheBuilder builder = index.builder();
 			ObjectInserter inserter = repo.newObjectInserter();
@@ -689,53 +680,62 @@ public class RepoCommand extends GitCommand<RevCommit> {
 				}
 
 				return rw.parseCommit(commitId);
-			} catch (IOException e) {
+			} catch (GitAPIException | IOException e) {
 				throw new ManifestErrorException(e);
 			}
 		} else {
-			return git
-				.commit()
-				.setMessage(RepoText.get().repoCommitMessage)
-				.call();
+			try (Git git = new Git(repo)) {
+				for (RepoProject proj : filteredProjects) {
+					addSubmodule(proj.getUrl(), proj.getPath(),
+							proj.getRevision(), proj.getCopyFiles(),
+							proj.getLinkFiles(), git);
+				}
+				return git.commit().setMessage(RepoText.get().repoCommitMessage)
+						.call();
+			} catch (GitAPIException | IOException e) {
+				throw new ManifestErrorException(e);
+			}
 		}
 	}
 
 	private void addSubmodule(String url, String path, String revision,
-			List<CopyFile> copyfiles, List<LinkFile> linkfiles,
-			Set<String> groups, String recommendShallow)
+			List<CopyFile> copyfiles, List<LinkFile> linkfiles, Git git)
 			throws GitAPIException, IOException {
-		if (repo.isBare()) {
-			RepoProject proj = new RepoProject(url, path, revision, null, groups, recommendShallow);
-			proj.addCopyFiles(copyfiles);
-			proj.addLinkFiles(linkfiles);
-			bareProjects.add(proj);
-		} else {
-			if (!linkfiles.isEmpty()) {
-				throw new UnsupportedOperationException(
-						JGitText.get().nonBareLinkFilesNotSupported);
-			}
-
-			SubmoduleAddCommand add = git
-				.submoduleAdd()
-				.setPath(path)
-				.setURI(url);
-			if (monitor != null)
-				add.setProgressMonitor(monitor);
-
-			Repository subRepo = add.call();
-			if (revision != null) {
-				try (Git sub = new Git(subRepo)) {
-					sub.checkout().setName(findRef(revision, subRepo))
-							.call();
-				}
-				subRepo.close();
-				git.add().addFilepattern(path).call();
-			}
-			for (CopyFile copyfile : copyfiles) {
-				copyfile.copy();
-				git.add().addFilepattern(copyfile.dest).call();
-			}
+		assert (!repo.isBare());
+		assert (git != null);
+		if (!linkfiles.isEmpty()) {
+			throw new UnsupportedOperationException(
+					JGitText.get().nonBareLinkFilesNotSupported);
 		}
+
+		SubmoduleAddCommand add = git.submoduleAdd().setPath(path).setURI(url);
+		if (monitor != null)
+			add.setProgressMonitor(monitor);
+
+		Repository subRepo = add.call();
+		if (revision != null) {
+			try (Git sub = new Git(subRepo)) {
+				sub.checkout().setName(findRef(revision, subRepo)).call();
+			}
+			subRepo.close();
+			git.add().addFilepattern(path).call();
+		}
+		for (CopyFile copyfile : copyfiles) {
+			copyfile.copy();
+			git.add().addFilepattern(copyfile.dest).call();
+		}
+	}
+
+	private void addSubmoduleBare(String url, String path, String revision,
+			List<CopyFile> copyfiles, List<LinkFile> linkfiles,
+			Set<String> groups, String recommendShallow) {
+		assert (repo.isBare());
+		assert (bareProjects != null);
+		RepoProject proj = new RepoProject(url, path, revision, null, groups,
+				recommendShallow);
+		proj.addCopyFiles(copyfiles);
+		proj.addLinkFiles(linkfiles);
+		bareProjects.add(proj);
 	}
 
 	/*
