@@ -56,6 +56,24 @@
       "revId": "b8a97b790c5de68e6d2d17bf096b0d510055fa47",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a907e868_d9c689f9",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/WWWAuthenticationFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 172718
+      },
+      "writtenOn": "2018-02-15T03:31:50Z",
+      "side": 1,
+      "message": "It can be final, since there\u0027s no setter method.\n\nAlternatively, I can add a setter to make it more flexible.",
+      "parentUuid": "91d90805_75280b63",
+      "revId": "b8a97b790c5de68e6d2d17bf096b0d510055fa47",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
