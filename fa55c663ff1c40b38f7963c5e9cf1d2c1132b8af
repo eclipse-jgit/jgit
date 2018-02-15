@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "b96e1a18_960a7064",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-02-15T10:52:30Z",
+      "side": 1,
+      "message": "Can be inlined at L259",
+      "range": {
+        "startLine": 255,
+        "startChar": 20,
+        "endLine": 255,
+        "endChar": 41
+      },
+      "revId": "fa55c663ff1c40b38f7963c5e9cf1d2c1132b8af",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eff011be_e5156680",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-02-15T10:52:30Z",
+      "side": 1,
+      "message": "Can be inlined at L262",
+      "range": {
+        "startLine": 257,
+        "startChar": 23,
+        "endLine": 257,
+        "endChar": 41
+      },
+      "revId": "fa55c663ff1c40b38f7963c5e9cf1d2c1132b8af",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2e60c54d_a60e1719",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
         "patchSetId": 1
