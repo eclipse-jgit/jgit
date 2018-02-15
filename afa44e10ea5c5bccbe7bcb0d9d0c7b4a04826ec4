@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0eb5afe4_7ef771b3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-02-15T23:30:06Z",
+      "side": 1,
+      "message": "This change doesn\u0027t belong to this commit.  I assume this was mistakenly done instead of the one below following my comment on the previous patch set.",
+      "range": {
+        "startLine": 214,
+        "startChar": 2,
+        "endLine": 214,
+        "endChar": 42
+      },
+      "revId": "afa44e10ea5c5bccbe7bcb0d9d0c7b4a04826ec4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "331667e0_183bf267",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-02-15T23:30:06Z",
+      "side": 1,
+      "message": "Can be inlined at L255",
+      "range": {
+        "startLine": 253,
+        "startChar": 20,
+        "endLine": 253,
+        "endChar": 41
+      },
+      "revId": "afa44e10ea5c5bccbe7bcb0d9d0c7b4a04826ec4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
