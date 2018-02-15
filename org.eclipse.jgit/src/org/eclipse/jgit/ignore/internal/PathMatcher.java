@@ -61,7 +61,10 @@ import org.eclipse.jgit.ignore.internal.Strings.PatternState;
  */
 public class PathMatcher extends AbstractMatcher {
 
-	private static final WildMatcher WILD = WildMatcher.INSTANCE;
+	private static final WildMatcher WILD_NO_DIRECTORY = new WildMatcher(false);
+
+	private static final WildMatcher WILD_ONLY_DIRECTORY = new WildMatcher(
+			true);
 
 	private final List<IMatcher> matchers;
 
@@ -94,11 +97,14 @@ public class PathMatcher extends AbstractMatcher {
 		for (int i = 0; i < segments.size(); i++) {
 			String segment = segments.get(i);
 			IMatcher matcher = createNameMatcher0(segment, pathSeparator,
-					dirOnly);
-			if (matcher == WILD && i > 0
-					&& matchers.get(matchers.size() - 1) == WILD)
-				// collapse wildmatchers **/** is same as **
-				continue;
+					dirOnly, i == segments.size() - 1);
+			if (i > 0) {
+				final IMatcher last = matchers.get(matchers.size() - 1);
+				if (matcher == WILD_NO_DIRECTORY && last == WILD_NO_DIRECTORY)
+					// collapse wildmatchers **/** is same as **
+					continue;
+			}
+
 			matchers.add(matcher);
 		}
 		return matchers;
@@ -126,7 +132,7 @@ public class PathMatcher extends AbstractMatcher {
 		int slashIdx = pattern.indexOf(slash, 1);
 		if (slashIdx > 0 && slashIdx < pattern.length() - 1)
 			return new PathMatcher(pattern, pathSeparator, dirOnly);
-		return createNameMatcher0(pattern, pathSeparator, dirOnly);
+		return createNameMatcher0(pattern, pathSeparator, dirOnly, true);
 	}
 
 	/**
@@ -153,12 +159,13 @@ public class PathMatcher extends AbstractMatcher {
 	}
 
 	private static IMatcher createNameMatcher0(String segment,
-			Character pathSeparator, boolean dirOnly)
+			Character pathSeparator, boolean dirOnly, boolean lastSegment)
 			throws InvalidPatternException {
 		// check if we see /** or ** segments => double star pattern
 		if (WildMatcher.WILDMATCH.equals(segment)
 				|| WildMatcher.WILDMATCH2.equals(segment))
-			return WILD;
+			return dirOnly && lastSegment ? WILD_ONLY_DIRECTORY
+					: WILD_NO_DIRECTORY;
 
 		PatternState state = checkWildCards(segment);
 		switch (state) {
@@ -244,11 +251,11 @@ public class PathMatcher extends AbstractMatcher {
 							assumeDirectory);
 				} else {
 					// a/** should not match a/ or a
-					match = match && matchers.get(matcher) != WILD;
+					match = match && !isWild(matchers.get(matcher));
 				}
 				if (match) {
 					if (matcher < matchers.size() - 1
-							&& matchers.get(matcher) == WILD) {
+							&& isWild(matchers.get(matcher))) {
 						// ** can match *nothing*: a/**/b match also a/b
 						matcher++;
 						match = matches(matcher, path, left, endExcl,
@@ -271,7 +278,7 @@ public class PathMatcher extends AbstractMatcher {
 				continue;
 			}
 			if (match) {
-				boolean wasWild = matchers.get(matcher) == WILD;
+				boolean wasWild = isWild(matchers.get(matcher));
 				if (wasWild) {
 					lastWildmatch = matcher;
 					wildmatchBacktrackPos = -1;
@@ -321,5 +328,9 @@ public class PathMatcher extends AbstractMatcher {
 			boolean assumeDirectory) {
 		IMatcher matcher = matchers.get(matcherIdx);
 		return matcher.matches(path, startIncl, endExcl, assumeDirectory);
+	}
+
+	private static boolean isWild(IMatcher matcher) {
+		return matcher == WILD_NO_DIRECTORY || matcher == WILD_ONLY_DIRECTORY;
 	}
 }
