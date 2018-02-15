@@ -46,6 +46,30 @@
       "revId": "fa55c663ff1c40b38f7963c5e9cf1d2c1132b8af",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44679a97_acbad811",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-02-15T08:21:09Z",
+      "side": 1,
+      "message": "Generally we try to use t-w-r where possible.  It\u0027s only one level of indent, so I don\u0027t see it making this unreadable.",
+      "parentUuid": "060853e8_ce4ac13b",
+      "range": {
+        "startLine": 281,
+        "startChar": 2,
+        "endLine": 281,
+        "endChar": 15
+      },
+      "revId": "fa55c663ff1c40b38f7963c5e9cf1d2c1132b8af",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
