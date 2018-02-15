@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f2ed056_679ea218",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2018-02-15T07:53:46Z",
+      "side": 1,
+      "message": "thanks, much better. \n\nopt: downwards, parser is only accessed through its getFilteredProjects() member, so you could move l.504 into the try block too and capture the filtered projects just here.",
+      "range": {
+        "startLine": 508,
+        "startChar": 3,
+        "endLine": 508,
+        "endChar": 9
+      },
+      "revId": "7a466a3ed82dd64dcbd2efc4e16307c9638bf3d0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
