@@ -70,6 +70,30 @@
       "revId": "fa55c663ff1c40b38f7963c5e9cf1d2c1132b8af",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56098e7c_f3d21c9d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-02-15T10:49:51Z",
+      "side": 1,
+      "message": "Actually, I see now that in this test t-w-r is not being used, so I guess it\u0027s OK to also not use it here for consistency.",
+      "parentUuid": "44679a97_acbad811",
+      "range": {
+        "startLine": 281,
+        "startChar": 2,
+        "endLine": 281,
+        "endChar": 15
+      },
+      "revId": "fa55c663ff1c40b38f7963c5e9cf1d2c1132b8af",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
