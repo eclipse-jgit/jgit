@@ -22,6 +22,30 @@
       "revId": "7a466a3ed82dd64dcbd2efc4e16307c9638bf3d0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8fc59f2c_a1adbe6d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-02-15T08:06:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f2ed056_679ea218",
+      "range": {
+        "startLine": 508,
+        "startChar": 3,
+        "endLine": 508,
+        "endChar": 9
+      },
+      "revId": "7a466a3ed82dd64dcbd2efc4e16307c9638bf3d0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
