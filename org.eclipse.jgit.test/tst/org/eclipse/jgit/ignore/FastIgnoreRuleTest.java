@@ -410,6 +410,12 @@ public class FastIgnoreRuleTest {
 
 		assertMatched("a/**/b/**/c", "a/c/b/d/c");
 		assertMatched("a/**/**/b/**/**/c", "a/c/b/d/c");
+
+		assertMatched("**/", "a/");
+		assertMatched("**/**/", "a/");
+		assertMatched("**/**/", "a/b/");
+		assertMatched("x/**/", "x/a/b/");
+		assertMatched("**/x/", "a/b/x/");
 	}
 
 	@Test
@@ -424,6 +430,11 @@ public class FastIgnoreRuleTest {
 		assertNotMatched("!/**/*.zip", "c/a/b.zip");
 		assertNotMatched("!**/*.zip", "c/a/b.zip");
 		assertNotMatched("a/**/b", "a/c/bb");
+		assertNotMatched("**/", "a");
+		assertNotMatched("**/**/", "a");
+		assertNotMatched("**/**/", "a/b");
+		assertNotMatched("x/**/", "x/a/b");
+		assertNotMatched("**/x/", "a/b/x");
 	}
 
 	@SuppressWarnings("unused")

@@ -55,24 +55,22 @@ public final class WildMatcher extends AbstractMatcher {
 	// double star for the beginning of pattern
 	static final String WILDMATCH2 = "/**"; //$NON-NLS-1$
 
-	static final WildMatcher INSTANCE = new WildMatcher();
-
-	private WildMatcher() {
-		super(WILDMATCH, false);
+	WildMatcher(boolean dirOnly) {
+		super(WILDMATCH, dirOnly);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final boolean matches(String path, boolean assumeDirectory,
 			boolean pathMatch) {
-		return true;
+		return !dirOnly || assumeDirectory;
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final boolean matches(String segment, int startIncl, int endExcl,
 			boolean assumeDirectory) {
-		return true;
+		return !dirOnly || assumeDirectory;
 	}
 
 }
