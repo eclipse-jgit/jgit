@@ -58,8 +58,7 @@ public interface IMatcher {
 		}
 
 		@Override
-		public boolean matches(String segment, int startIncl, int endExcl,
-				boolean assumeDirectory) {
+		public boolean matches(String segment, int startIncl, int endExcl) {
 			return false;
 		}
 	};
@@ -91,11 +90,7 @@ public interface IMatcher {
 	 *            start index, inclusive
 	 * @param endExcl
 	 *            end index, exclusive
-	 * @param assumeDirectory
-	 *            true to assume this path as directory (even if it doesn't end
-	 *            with a slash)
 	 * @return true if this matcher pattern matches given string
 	 */
-	boolean matches(String segment, int startIncl, int endExcl,
-			boolean assumeDirectory);
+	boolean matches(String segment, int startIncl, int endExcl);
 }
