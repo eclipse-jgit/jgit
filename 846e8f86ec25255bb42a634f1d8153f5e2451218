@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9183b267_7f2ead3c",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-16T08:04:44Z",
+      "side": 1,
+      "message": "Done - I used your proposed method :)",
+      "parentUuid": "cbf27324_744cb678",
+      "revId": "846e8f86ec25255bb42a634f1d8153f5e2451218",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a6cb90e4_c3642488",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
         "patchSetId": 24
@@ -30,6 +48,24 @@
       "writtenOn": "2018-02-15T22:40:18Z",
       "side": 1,
       "message": "reuse the ObjectWalk",
+      "revId": "846e8f86ec25255bb42a634f1d8153f5e2451218",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a79bc87_e2335e16",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-16T08:04:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6cb90e4_c3642488",
       "revId": "846e8f86ec25255bb42a634f1d8153f5e2451218",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "f8ce69d9_17289872",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-16T08:04:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbeddcdb_d9dd476c",
+      "revId": "846e8f86ec25255bb42a634f1d8153f5e2451218",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "571ca544_4a268dd3",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
         "patchSetId": 24
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "1df36296_fc49d144",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-16T08:04:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "571ca544_4a268dd3",
+      "revId": "846e8f86ec25255bb42a634f1d8153f5e2451218",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "35c6d817_9d342c22",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
         "patchSetId": 24
@@ -81,6 +153,24 @@
       "writtenOn": "2018-02-15T22:40:18Z",
       "side": 1,
       "message": "findLfsPointers",
+      "revId": "846e8f86ec25255bb42a634f1d8153f5e2451218",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e0701351_0a0d1a67",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-16T08:04:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35c6d817_9d342c22",
       "revId": "846e8f86ec25255bb42a634f1d8153f5e2451218",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -110,6 +200,30 @@
     },
     {
       "key": {
+        "uuid": "6f9e473e_dc6eb349",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-16T08:04:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ffb08902_1f0598e2",
+      "range": {
+        "startLine": 190,
+        "startChar": 0,
+        "endLine": 218,
+        "endChar": 2
+      },
+      "revId": "846e8f86ec25255bb42a634f1d8153f5e2451218",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "305ac41e_f0098d16",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
         "patchSetId": 24
@@ -121,6 +235,24 @@
       "writtenOn": "2018-02-15T22:40:18Z",
       "side": 1,
       "message": "this method can be declared static",
+      "revId": "846e8f86ec25255bb42a634f1d8153f5e2451218",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa62fa5d_b7de3ebb",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-16T08:04:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "305ac41e_f0098d16",
       "revId": "846e8f86ec25255bb42a634f1d8153f5e2451218",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -144,6 +276,24 @@
     },
     {
       "key": {
+        "uuid": "459cb4ea_6937bdf8",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-16T08:04:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc664b12_ae631469",
+      "revId": "846e8f86ec25255bb42a634f1d8153f5e2451218",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb951482_13a48608",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
         "patchSetId": 24
@@ -155,6 +305,30 @@
       "writtenOn": "2018-02-15T22:40:18Z",
       "side": 1,
       "message": "private static void findLfsPointers(Set\u003cLfsPointer\u003e toPush, ObjectWalk walk)\n\tthrows MissingObjectException, IncorrectObjectTypeException,\n\tIOException {\n  RevObject obj;\n  ObjectReader r \u003d walk.getObjectReader();\n  while ((obj \u003d walk.nextObject()) !\u003d null) {\n    if (obj.getType() \u003d\u003d Constants.OBJ_BLOB \u0026\u0026 getObjectSize(walk,\n            obj) \u003c LfsPointer.SIZE_THRESHOLD) {\n      toPush.add(loadLfsPointer(r, obj));\n    }\n  }\n}\n\nprivate static long getObjectSize(ObjectWalk walk, RevObject obj)\n\tthrows IOException {\n  long objectSize \u003d walk.getObjectReader().getObjectSize(obj.getId(),\n\t\t\tConstants.OBJ_BLOB);\n  return objectSize;\n}\n\nprivate static LfsPointer loadLfsPointer(ObjectReader r, AnyObjectId obj)\n\tthrows IOException {\n  try (InputStream is \u003d r.open(obj, Constants.OBJ_BLOB).openStream()) {\n    return LfsPointer.parseLfsPointer(is);\n  }\n}",
+      "range": {
+        "startLine": 220,
+        "startChar": 0,
+        "endLine": 248,
+        "endChar": 2
+      },
+      "revId": "846e8f86ec25255bb42a634f1d8153f5e2451218",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aee2cc1_87ffcaa0",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-16T08:04:44Z",
+      "side": 1,
+      "message": "done, i optimized the code a little more.",
+      "parentUuid": "fb951482_13a48608",
       "range": {
         "startLine": 220,
         "startChar": 0,
@@ -190,6 +364,30 @@
     },
     {
       "key": {
+        "uuid": "dd073fdd_4fec34b4",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-16T08:04:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c66dec39_c2bd0686",
+      "range": {
+        "startLine": 250,
+        "startChar": 0,
+        "endLine": 267,
+        "endChar": 2
+      },
+      "revId": "846e8f86ec25255bb42a634f1d8153f5e2451218",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "230667f5_e3fd6198",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionFactory.java",
         "patchSetId": 24
@@ -201,6 +399,30 @@
       "writtenOn": "2018-02-15T22:40:18Z",
       "side": 1,
       "message": "* name this variable lfsUrl ?\n* extract a method URL getLfsUrl() for line 109 to 154\n* extract additional methods for each of the steps to determine the URL (you explain them in the javadoc) to improve readability",
+      "range": {
+        "startLine": 109,
+        "startChar": 6,
+        "endLine": 109,
+        "endChar": 17
+      },
+      "revId": "846e8f86ec25255bb42a634f1d8153f5e2451218",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "010884c4_cd89c83c",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionFactory.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-16T08:04:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "230667f5_e3fd6198",
       "range": {
         "startLine": 109,
         "startChar": 6,
@@ -236,6 +458,30 @@
     },
     {
       "key": {
+        "uuid": "050ecc48_4077c904",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionFactory.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-16T08:04:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e0abd1b3_3d948a13",
+      "range": {
+        "startLine": 197,
+        "startChar": 38,
+        "endLine": 197,
+        "endChar": 45
+      },
+      "revId": "846e8f86ec25255bb42a634f1d8153f5e2451218",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4fa2e79e_fec785ad",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/Hooks.java",
         "patchSetId": 24
@@ -247,6 +493,24 @@
       "writtenOn": "2018-02-15T22:40:18Z",
       "side": 1,
       "message": "maybe it\u0027s ok to support only one pre-push hook ?",
+      "revId": "846e8f86ec25255bb42a634f1d8153f5e2451218",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "905e4118_3ccc314d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/Hooks.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-16T08:04:44Z",
+      "side": 1,
+      "message": "I removed the todo, also this is refactored a little more in a later commit to avoid the jgit.lfs dependency.\n\nThe only difference to native GIT is, that one cannot easily manipulate the hook. OTOH you can disable built-in LFS support to restore native hooks, you just need to make sure that native LFS hooks are installed as well. So yes, I think it is OK as is for now at least.",
+      "parentUuid": "4fa2e79e_fec785ad",
       "revId": "846e8f86ec25255bb42a634f1d8153f5e2451218",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
