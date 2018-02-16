@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62d26006_44a6e730",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2018-02-16T10:27:21Z",
+      "side": 1,
+      "message": "Please add a reference to the bug via:\n\nBug: 409664",
+      "revId": "bea8a0ccaffe7851a6ed3a3956618ec77dec3f39",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
