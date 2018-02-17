@@ -118,20 +118,41 @@ public class CGitIgnoreTest extends RepositoryTestCase {
 		}
 	}
 
-	private LinkedHashSet<String> jgitIgnored() throws IOException {
+	private String[] cgitUntracked() throws Exception {
+		FS fs = db.getFS();
+		ProcessBuilder builder = fs.runInShell("git",
+				new String[] { "ls-files", "--exclude-standard", "-o" });
+		builder.directory(db.getWorkTree());
+		builder.environment().put("HOME", fs.userHome().getAbsolutePath());
+		ExecutionResult result = fs.execute(builder,
+				new ByteArrayInputStream(new byte[0]));
+		String errorOut = toString(result.getStderr());
+		assertEquals("External git failed", "exit 0\n",
+				"exit " + result.getRc() + '\n' + errorOut);
+		try (BufferedReader r = new BufferedReader(new InputStreamReader(
+				new BufferedInputStream(result.getStdout().openInputStream()),
+				Constants.CHARSET))) {
+			return r.lines().toArray(String[]::new);
+		}
+	}
+
+	private void jgitIgnoredAndUntracked(LinkedHashSet<String> ignored,
+			LinkedHashSet<String> untracked) throws IOException {
 		// Do a tree walk that does descend into ignored directories and return
 		// a list of all ignored files
-		LinkedHashSet<String> result = new LinkedHashSet<>();
 		try (TreeWalk walk = new TreeWalk(db)) {
 			walk.addTree(new FileTreeIterator(db));
 			walk.setRecursive(true);
 			while (walk.next()) {
 				if (walk.getTree(WorkingTreeIterator.class).isEntryIgnored()) {
-					result.add(walk.getPathString());
+					ignored.add(walk.getPathString());
+				} else {
+					// tests of this class won't add any files to the index,
+					// hence everything what is not ignored is untracked
+					untracked.add(walk.getPathString());
 				}
 			}
 		}
-		return result;
 	}
 
 	private void assertNoIgnoredVisited(Set<String> ignored) throws Exception {
@@ -150,9 +171,13 @@ public class CGitIgnoreTest extends RepositoryTestCase {
 	}
 
 	private void assertSameAsCGit(String... notIgnored) throws Exception {
-		LinkedHashSet<String> ignored = jgitIgnored();
+		LinkedHashSet<String> ignored = new LinkedHashSet<>();
+		LinkedHashSet<String> untracked = new LinkedHashSet<>();
+		jgitIgnoredAndUntracked(ignored, untracked);
 		String[] cgit = cgitIgnored();
+		String[] cgitUntracked = cgitUntracked();
 		assertArrayEquals(cgit, ignored.toArray());
+		assertArrayEquals(cgitUntracked, untracked.toArray());
 		for (String notExcluded : notIgnored) {
 			assertFalse("File " + notExcluded + " should not be ignored",
 					ignored.contains(notExcluded));
