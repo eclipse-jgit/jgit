@@ -321,4 +321,68 @@ public class CGitIgnoreTest extends RepositoryTestCase {
 		writeTrashFile(".gitignore", "[\\[\\]]\n");
 		assertSameAsCGit();
 	}
+
+	@Test
+	public void testSimpleRootGitIgnoreGlobalNegation1() throws Exception {
+		// see IgnoreNodeTest.testSimpleRootGitIgnoreGlobalNegation1
+		createFiles("x1", "a/x2", "x3/y");
+		writeTrashFile(".gitignore", "*\n!x*");
+		assertSameAsCGit();
+	}
+
+	@Test
+	public void testRepeatedNegationInDifferentFiles5() throws Exception {
+		// see IgnoreNodeTest.testRepeatedNegationInDifferentFiles5
+		createFiles("a/b/e/nothere.o");
+		writeTrashFile(".gitignore", "e");
+		writeTrashFile("a/.gitignore", "e");
+		writeTrashFile("a/b/.gitignore", "!e");
+		assertSameAsCGit();
+	}
+
+	@Test
+	public void testRepeatedNegationInDifferentFilesWithWildmatcher1()
+			throws Exception {
+		createFiles("e", "x/e/f", "a/e/x1", "a/e/x2", "a/e/y", "a/e/sub/y");
+		writeTrashFile(".gitignore", "a/e/**");
+		writeTrashFile("a/.gitignore", "!e/x*");
+		assertSameAsCGit();
+	}
+
+	@Test
+	public void testRepeatedNegationInDifferentFilesWithWildmatcher2()
+			throws Exception {
+		createFiles("e", "dir/f", "dir/g/h", "a/dir/i", "a/dir/j/k",
+				"a/b/dir/l", "a/b/dir/m/n", "a/b/dir/m/o/p", "a/q/dir/r",
+				"a/q/dir/dir/s", "c/d/dir/x", "c/d/dir/y");
+		writeTrashFile(".gitignore", "**/dir/*");
+		writeTrashFile("a/.gitignore", "!dir/*");
+		writeTrashFile("a/b/.gitignore", "!**/dir/*");
+		writeTrashFile("c/.gitignore", "!d/dir/x");
+		assertSameAsCGit();
+	}
+
+	@Test
+	public void testNegationForSubDirectoryWithinIgnoredDirectoryHasNoEffect1()
+			throws Exception {
+		createFiles("e", "a/f", "a/b/g", "a/b/h/i");
+		writeTrashFile(".gitignore", "a/b");
+		writeTrashFile("a/.gitignore", "!b/*");
+		assertSameAsCGit();
+	}
+
+	/*
+	 * See https://bugs.eclipse.org/bugs/show_bug.cgi?id=407475
+	 */
+	@Test
+	public void testNegationAllExceptJavaInSrcAndExceptChildDirInSrc()
+			throws Exception {
+		// see
+		// IgnoreNodeTest.testNegationAllExceptJavaInSrcAndExceptChildDirInSrc
+		createFiles("nothere.o", "src/keep.java", "src/nothere.o",
+				"src/a/keep.java", "src/a/keep.o");
+		writeTrashFile(".gitignore", "/*\n!/src/");
+		writeTrashFile("src/.gitignore", "*\n!*.java\n!*/");
+		assertSameAsCGit();
+	}
 }
