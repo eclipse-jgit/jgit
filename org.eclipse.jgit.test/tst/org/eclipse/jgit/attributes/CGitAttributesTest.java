@@ -366,6 +366,34 @@ public class CGitAttributesTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testDirectoryWildmatchDoesNotMatchFiles1() throws Exception {
+		createFiles("a", "dir/b", "dir/sub/c");
+		writeTrashFile(".gitattributes", "**/ bar\n");
+		assertSameAsCGit();
+	}
+
+	@Test
+	public void testDirectoryWildmatchDoesNotMatchFiles2() throws Exception {
+		createFiles("a", "dir/b", "dir/sub/c");
+		writeTrashFile(".gitattributes", "**/**/ bar\n");
+		assertSameAsCGit();
+	}
+
+	@Test
+	public void testDirectoryWildmatchDoesNotMatchFiles3() throws Exception {
+		createFiles("a", "x/b", "sub/x/c", "sub/x/d/e");
+		writeTrashFile(".gitattributes", "x/**/ bar\n");
+		assertSameAsCGit();
+	}
+
+	@Test
+	public void testDirectoryWildmatchDoesNotMatchFiles4() throws Exception {
+		createFiles("a", "dir/x", "dir/sub1/x", "dir/sub2/x/y");
+		writeTrashFile(".gitattributes", "x/**/ bar\n");
+		assertSameAsCGit();
+	}
+
+	@Test
 	public void testDirectoryMatchSubComplex() throws Exception {
 		createFiles("src/new/foo.txt", "foo/src/new/foo.txt", "sub/src/new");
 		writeTrashFile(".gitattributes", "s[rs]c/n*/ bar\n");
