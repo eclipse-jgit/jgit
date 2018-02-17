@@ -66,8 +66,7 @@ public class WildCardMatcher extends NameMatcher {
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean matches(String segment, int startIncl, int endExcl,
-			boolean assumeDirectory) {
+	public boolean matches(String segment, int startIncl, int endExcl) {
 		return p.matcher(segment.substring(startIncl, endExcl)).matches();
 	}
 }
