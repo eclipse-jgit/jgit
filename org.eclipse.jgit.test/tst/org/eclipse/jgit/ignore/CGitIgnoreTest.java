@@ -267,6 +267,34 @@ public class CGitIgnoreTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testDirectoryWildmatchDoesNotMatchFiles1() throws Exception {
+		createFiles("a", "dir/b", "dir/sub/c");
+		writeTrashFile(".gitignore", "**/\n");
+		assertSameAsCGit();
+	}
+
+	@Test
+	public void testDirectoryWildmatchDoesNotMatchFiles2() throws Exception {
+		createFiles("a", "dir/b", "dir/sub/c");
+		writeTrashFile(".gitignore", "**/**/\n");
+		assertSameAsCGit();
+	}
+
+	@Test
+	public void testDirectoryWildmatchDoesNotMatchFiles3() throws Exception {
+		createFiles("a", "x/b", "sub/x/c", "sub/x/d/e");
+		writeTrashFile(".gitignore", "x/**/\n");
+		assertSameAsCGit();
+	}
+
+	@Test
+	public void testDirectoryWildmatchDoesNotMatchFiles4() throws Exception {
+		createFiles("a", "dir/x", "dir/sub1/x", "dir/sub2/x/y");
+		writeTrashFile(".gitignore", "**/x/\n");
+		assertSameAsCGit();
+	}
+
+	@Test
 	public void testUnescapedBracketsInGroup() throws Exception {
 		createFiles("[", "]", "[]", "][", "[[]", "[]]", "[[]]");
 		writeTrashFile(".gitignore", "[[]]\n");
