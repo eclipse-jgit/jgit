@@ -61,7 +61,10 @@ import org.eclipse.jgit.ignore.internal.Strings.PatternState;
  */
 public class PathMatcher extends AbstractMatcher {
 
-	private static final WildMatcher WILD = WildMatcher.INSTANCE;
+	private static final WildMatcher WILD_NO_DIRECTORY = new WildMatcher(false);
+
+	private static final WildMatcher WILD_ONLY_DIRECTORY = new WildMatcher(
+			true);
 
 	private final List<IMatcher> matchers;
 
@@ -94,11 +97,15 @@ public class PathMatcher extends AbstractMatcher {
 		for (int i = 0; i < segments.size(); i++) {
 			String segment = segments.get(i);
 			IMatcher matcher = createNameMatcher0(segment, pathSeparator,
-					dirOnly);
-			if (matcher == WILD && i > 0
-					&& matchers.get(matchers.size() - 1) == WILD)
-				// collapse wildmatchers **/** is same as **
-				continue;
+					dirOnly, i == segments.size() - 1);
+			if (i > 0) {
+				final IMatcher last = matchers.get(matchers.size() - 1);
+				if (isWild(matcher) && isWild(last))
+					// collapse wildmatchers **/** is same as **, but preserve
+					// dirOnly flag (i.e. always use the last wildmatcher)
+					matchers.remove(matchers.size() - 1);
+			}
+
 			matchers.add(matcher);
 		}
 		return matchers;
@@ -126,7 +133,7 @@ public class PathMatcher extends AbstractMatcher {
 		int slashIdx = pattern.indexOf(slash, 1);
 		if (slashIdx > 0 && slashIdx < pattern.length() - 1)
 			return new PathMatcher(pattern, pathSeparator, dirOnly);
-		return createNameMatcher0(pattern, pathSeparator, dirOnly);
+		return createNameMatcher0(pattern, pathSeparator, dirOnly, true);
 	}
 
 	/**
@@ -153,12 +160,13 @@ public class PathMatcher extends AbstractMatcher {
 	}
 
 	private static IMatcher createNameMatcher0(String segment,
-			Character pathSeparator, boolean dirOnly)
+			Character pathSeparator, boolean dirOnly, boolean lastSegment)
 			throws InvalidPatternException {
 		// check if we see /** or ** segments => double star pattern
 		if (WildMatcher.WILDMATCH.equals(segment)
 				|| WildMatcher.WILDMATCH2.equals(segment))
-			return WILD;
+			return dirOnly && lastSegment ? WILD_ONLY_DIRECTORY
+					: WILD_NO_DIRECTORY;
 
 		PatternState state = checkWildCards(segment);
 		switch (state) {
@@ -218,8 +226,7 @@ public class PathMatcher extends AbstractMatcher {
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean matches(String segment, int startIncl, int endExcl,
-			boolean assumeDirectory) {
+	public boolean matches(String segment, int startIncl, int endExcl) {
 		throw new UnsupportedOperationException(
 				"Path matcher works only on entire paths"); //$NON-NLS-1$
 	}
@@ -241,18 +248,18 @@ public class PathMatcher extends AbstractMatcher {
 			if (right == -1) {
 				if (left < endExcl) {
 					match = matches(matcher, path, left, endExcl,
-							assumeDirectory);
+							assumeDirectory, pathMatch);
 				} else {
 					// a/** should not match a/ or a
-					match = match && matchers.get(matcher) != WILD;
+					match = match && !isWild(matchers.get(matcher));
 				}
 				if (match) {
 					if (matcher < matchers.size() - 1
-							&& matchers.get(matcher) == WILD) {
+							&& isWild(matchers.get(matcher))) {
 						// ** can match *nothing*: a/**/b match also a/b
 						matcher++;
 						match = matches(matcher, path, left, endExcl,
-								assumeDirectory);
+								assumeDirectory, pathMatch);
 					} else if (dirOnly && !assumeDirectory) {
 						// Directory expectations not met
 						return false;
@@ -264,14 +271,15 @@ public class PathMatcher extends AbstractMatcher {
 				wildmatchBacktrackPos = right;
 			}
 			if (right - left > 0) {
-				match = matches(matcher, path, left, right, assumeDirectory);
+				match = matches(matcher, path, left, right, assumeDirectory,
+						pathMatch);
 			} else {
 				// path starts with slash???
 				right++;
 				continue;
 			}
 			if (match) {
-				boolean wasWild = matchers.get(matcher) == WILD;
+				boolean wasWild = isWild(matchers.get(matcher));
 				if (wasWild) {
 					lastWildmatch = matcher;
 					wildmatchBacktrackPos = -1;
@@ -317,9 +325,19 @@ public class PathMatcher extends AbstractMatcher {
 	}
 
 	private boolean matches(int matcherIdx, String path, int startIncl,
-			int endExcl,
-			boolean assumeDirectory) {
+			int endExcl, boolean assumeDirectory, boolean pathMatch) {
 		IMatcher matcher = matchers.get(matcherIdx);
-		return matcher.matches(path, startIncl, endExcl, assumeDirectory);
+
+		final boolean matches = matcher.matches(path, startIncl, endExcl);
+		if (!matches || !pathMatch || matcherIdx < matchers.size() - 1
+				|| !(matcher instanceof AbstractMatcher)) {
+			return matches;
+		}
+
+		return assumeDirectory || !((AbstractMatcher) matcher).dirOnly;
+	}
+
+	private static boolean isWild(IMatcher matcher) {
+		return matcher == WILD_NO_DIRECTORY || matcher == WILD_ONLY_DIRECTORY;
 	}
 }

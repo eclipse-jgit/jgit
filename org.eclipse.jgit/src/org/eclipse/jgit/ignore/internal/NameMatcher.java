@@ -91,12 +91,12 @@ public class NameMatcher extends AbstractMatcher {
 			}
 			boolean match;
 			if (lastSlash < start) {
-				match = matches(path, start, stop, assumeDirectory);
+				match = matches(path, start, stop);
 			} else {
 				// Can't match if the path contains a slash if the pattern is
 				// anchored at the beginning
 				match = !beginning
-						&& matches(path, lastSlash + 1, stop, assumeDirectory);
+						&& matches(path, lastSlash + 1, stop);
 			}
 			if (match && dirOnly) {
 				match = assumeDirectory;
@@ -108,7 +108,7 @@ public class NameMatcher extends AbstractMatcher {
 			if (end < 0) {
 				end = stop;
 			}
-			if (end > start && matches(path, start, end, assumeDirectory)) {
+			if (end > start && matches(path, start, end)) {
 				// make sure the directory matches: either if we are done with
 				// segment and there is next one, or if the directory is assumed
 				return !dirOnly || assumeDirectory || end < stop;
@@ -123,8 +123,7 @@ public class NameMatcher extends AbstractMatcher {
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean matches(String segment, int startIncl, int endExcl,
-			boolean assumeDirectory) {
+	public boolean matches(String segment, int startIncl, int endExcl) {
 		// faster local access, same as in string.indexOf()
 		String s = subPattern;
 		int length = s.length();

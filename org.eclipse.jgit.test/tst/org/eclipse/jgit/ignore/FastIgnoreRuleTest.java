@@ -48,9 +48,17 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import org.junit.Before;
 import org.junit.Test;
 
 public class FastIgnoreRuleTest {
+
+	private boolean pathMatch;
+
+	@Before
+	public void setup() {
+		pathMatch = false;
+	}
 
 	@Test
 	public void testSimpleCharClass() {
@@ -410,6 +418,19 @@ public class FastIgnoreRuleTest {
 
 		assertMatched("a/**/b/**/c", "a/c/b/d/c");
 		assertMatched("a/**/**/b/**/**/c", "a/c/b/d/c");
+
+		assertMatched("**/", "a/");
+		assertMatched("**/", "a/b");
+		assertMatched("**/", "a/b/c");
+		assertMatched("**/**/", "a/");
+		assertMatched("**/**/", "a/b");
+		assertMatched("**/**/", "a/b/");
+		assertMatched("**/**/", "a/b/c");
+		assertMatched("x/**/", "x/a/");
+		assertMatched("x/**/", "x/a/b");
+		assertMatched("x/**/", "x/a/b/");
+		assertMatched("**/x/", "a/x/");
+		assertMatched("**/x/", "a/b/x/");
 	}
 
 	@Test
@@ -424,6 +445,10 @@ public class FastIgnoreRuleTest {
 		assertNotMatched("!/**/*.zip", "c/a/b.zip");
 		assertNotMatched("!**/*.zip", "c/a/b.zip");
 		assertNotMatched("a/**/b", "a/c/bb");
+
+		assertNotMatched("**/", "a");
+		assertNotMatched("**/**/", "a");
+		assertNotMatched("**/x/", "a/b/x");
 	}
 
 	@SuppressWarnings("unused")
@@ -463,6 +488,28 @@ public class FastIgnoreRuleTest {
 				.toArray());
 		assertArrayEquals(new String[] { "/a", "b", "c/" },
 				split("/a/b/c/", '/').toArray());
+	}
+
+	@Test
+	public void testPathMatch() {
+		pathMatch = true;
+		assertMatched("a", "a");
+		assertMatched("a/", "a/");
+		assertNotMatched("a/", "a/b");
+
+		assertMatched("**", "a");
+		assertMatched("**", "a/");
+		assertMatched("**", "a/b");
+
+		assertNotMatched("**/", "a");
+		assertNotMatched("**/", "a/b");
+		assertMatched("**/", "a/");
+		assertMatched("**/", "a/b/");
+
+		assertNotMatched("x/**/", "x/a");
+		assertNotMatched("x/**/", "x/a/b");
+		assertMatched("x/**/", "x/a/");
+		assertMatched("x/**/", "x/y/a/");
 	}
 
 	private void assertMatched(String pattern, String path) {
@@ -520,7 +567,7 @@ public class FastIgnoreRuleTest {
 		FastIgnoreRule r = new FastIgnoreRule(pattern);
 		// If speed of this test is ever an issue, we can use a presetRule field
 		// to avoid recompiling a pattern each time.
-		boolean match = r.isMatch(target, isDirectory);
+		boolean match = r.isMatch(target, isDirectory, pathMatch);
 		if (r.getNegation())
 			match = !match;
 		return match;
