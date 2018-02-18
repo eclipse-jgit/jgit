@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "125bfd26_22de6eeb",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPointer.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-18T23:44:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bbc14b2f_19dc2612",
+      "revId": "0255fa4509e3606946d9f44e896f839693e38d48",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f15d0da2_7b112d8a",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
         "patchSetId": 25
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "efc55077_d4e90ac3",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-18T23:44:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f15d0da2_7b112d8a",
+      "revId": "0255fa4509e3606946d9f44e896f839693e38d48",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f563c598_e42eeca3",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
         "patchSetId": 25
@@ -47,6 +83,24 @@
       "writtenOn": "2018-02-18T22:43:36Z",
       "side": 1,
       "message": "extract into a method",
+      "revId": "0255fa4509e3606946d9f44e896f839693e38d48",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f983aee8_bf132523",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-18T23:44:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f563c598_e42eeca3",
       "revId": "0255fa4509e3606946d9f44e896f839693e38d48",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -76,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "08cf87c4_001a5b5a",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-18T23:44:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "793efcb4_e335ee63",
+      "range": {
+        "startLine": 174,
+        "startChar": 16,
+        "endLine": 174,
+        "endChar": 27
+      },
+      "revId": "0255fa4509e3606946d9f44e896f839693e38d48",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86dcad28_f42c7c3b",
         "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
         "patchSetId": 25
@@ -87,6 +165,24 @@
       "writtenOn": "2018-02-18T22:43:36Z",
       "side": 1,
       "message": "don\u0027t add this dependency:\n* org.eclipse.jgit should not depend on org.eclipse.jgit.lfs hence you load the lfs hook using reflection\n* this introduces a cycle in bundle dependencies since org.eclipse.jgit.lfs already depends on org.eclipse.jgit.lib",
+      "revId": "0255fa4509e3606946d9f44e896f839693e38d48",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ef737c01_d0486fd3",
+        "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
+        "patchSetId": 25
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-18T23:44:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86dcad28_f42c7c3b",
       "revId": "0255fa4509e3606946d9f44e896f839693e38d48",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
