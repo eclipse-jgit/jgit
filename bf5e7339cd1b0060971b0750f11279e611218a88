@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9873cb57_b3389f1f",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/CleanFilter.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-18T23:42:59Z",
+      "side": 1,
+      "message": "this is a breaking change",
+      "revId": "bf5e7339cd1b0060971b0750f11279e611218a88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cbf0fef_fc136429",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/CleanFilter.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-18T23:42:59Z",
+      "side": 1,
+      "message": "looks like an unrelated fix",
+      "revId": "bf5e7339cd1b0060971b0750f11279e611218a88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b11db2fa_82db0ad3",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/CleanFilter.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-18T23:42:59Z",
+      "side": 1,
+      "message": "looks like an unrelated fix",
+      "revId": "bf5e7339cd1b0060971b0750f11279e611218a88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3303803_b3b28637",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsBlobLoader.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-18T23:42:59Z",
+      "side": 1,
+      "message": "how about an error message ?",
+      "revId": "bf5e7339cd1b0060971b0750f11279e611218a88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b739d994_579ab343",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-18T23:42:59Z",
+      "side": 1,
+      "message": "this is a breaking change",
+      "revId": "bf5e7339cd1b0060971b0750f11279e611218a88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "75745b18_81e6732c",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-18T23:42:59Z",
+      "side": 1,
+      "message": "looks like an unrelated fix",
+      "revId": "bf5e7339cd1b0060971b0750f11279e611218a88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "296d544b_bcb6525a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/LFS.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-18T23:42:59Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "bf5e7339cd1b0060971b0750f11279e611218a88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "20fa112e_c991d334",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/LFS.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-18T23:42:59Z",
+      "side": 1,
+      "message": "this leaks LFS support residing in its own optional bundle into org.eclipse.jgit",
+      "revId": "bf5e7339cd1b0060971b0750f11279e611218a88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ac843bc3_82ab011a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/LFS.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-18T23:42:59Z",
+      "side": 1,
+      "message": "shouldn\u0027t this be an interface instead of a class if it\u0027s not available in this bundle ?",
+      "revId": "bf5e7339cd1b0060971b0750f11279e611218a88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
