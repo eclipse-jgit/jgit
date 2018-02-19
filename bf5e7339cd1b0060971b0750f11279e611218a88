@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d01b763e_aeaeefe9",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/CleanFilter.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-19T08:05:32Z",
+      "side": 1,
+      "message": "true, egit is refactored accordingly, and I /assume/ that there are not many clients out there using it, since it was useless until the upcoming release. I can revert this change though, if you like.",
+      "parentUuid": "9873cb57_b3389f1f",
+      "revId": "bf5e7339cd1b0060971b0750f11279e611218a88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7cbf0fef_fc136429",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/CleanFilter.java",
         "patchSetId": 33
@@ -30,6 +48,24 @@
       "writtenOn": "2018-02-18T23:42:59Z",
       "side": 1,
       "message": "looks like an unrelated fix",
+      "revId": "bf5e7339cd1b0060971b0750f11279e611218a88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31482acf_ffe9b3de",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/CleanFilter.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-19T08:05:32Z",
+      "side": 1,
+      "message": "I rethought stream usage in this commit, as commented in some previous patchsets. I worked with Thomas Wolf on this. I will update the commit message to reflect this.",
+      "parentUuid": "7cbf0fef_fc136429",
       "revId": "bf5e7339cd1b0060971b0750f11279e611218a88",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "968d68bd_131308f2",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/CleanFilter.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-19T08:05:32Z",
+      "side": 1,
+      "message": "same",
+      "parentUuid": "b11db2fa_82db0ad3",
+      "revId": "bf5e7339cd1b0060971b0750f11279e611218a88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b3303803_b3b28637",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsBlobLoader.java",
         "patchSetId": 33
@@ -64,6 +118,24 @@
       "writtenOn": "2018-02-18T23:42:59Z",
       "side": 1,
       "message": "how about an error message ?",
+      "revId": "bf5e7339cd1b0060971b0750f11279e611218a88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7b717ae_73e45f4c",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsBlobLoader.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-19T08:05:32Z",
+      "side": 1,
+      "message": "LargeObjectException does not even have a constructor which would accept a String. All other occurences just throw new LargeObjectException().",
+      "parentUuid": "b3303803_b3b28637",
       "revId": "bf5e7339cd1b0060971b0750f11279e611218a88",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "ca21cc6f_7908e66f",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-19T08:05:32Z",
+      "side": 1,
+      "message": "same comment as in CleanFilter.",
+      "parentUuid": "b739d994_579ab343",
+      "revId": "bf5e7339cd1b0060971b0750f11279e611218a88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "75745b18_81e6732c",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
         "patchSetId": 33
@@ -98,6 +188,24 @@
       "writtenOn": "2018-02-18T23:42:59Z",
       "side": 1,
       "message": "looks like an unrelated fix",
+      "revId": "bf5e7339cd1b0060971b0750f11279e611218a88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb109fbc_c9a110a3",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-19T08:05:32Z",
+      "side": 1,
+      "message": "same comment as in CleanFilter",
+      "parentUuid": "75745b18_81e6732c",
       "revId": "bf5e7339cd1b0060971b0750f11279e611218a88",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "4aefca72_ee30b0c6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/LFS.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-19T08:05:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "296d544b_bcb6525a",
+      "revId": "bf5e7339cd1b0060971b0750f11279e611218a88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "20fa112e_c991d334",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/LFS.java",
         "patchSetId": 33
@@ -138,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "41ddedef_0919d855",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/LFS.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-19T08:05:32Z",
+      "side": 1,
+      "message": "I don\u0027t understand the comment. This decouples completely from jgit.lfs. It introduces the \u0027abstract concept\u0027 of LFS into jgit. pretty much like the lfs plugin support in gerrit which requires an implementing plugin to be present. If jgit.lfs is not present (as it\u0027s optional), this is mostly a no-op.\n\nI chose this over even more abstract extension points and or interfaces, as it makes many places more clear (as to why certain operations are performed).",
+      "parentUuid": "20fa112e_c991d334",
+      "revId": "bf5e7339cd1b0060971b0750f11279e611218a88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ac843bc3_82ab011a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/LFS.java",
         "patchSetId": 33
@@ -149,6 +293,24 @@
       "writtenOn": "2018-02-18T23:42:59Z",
       "side": 1,
       "message": "shouldn\u0027t this be an interface instead of a class if it\u0027s not available in this bundle ?",
+      "revId": "bf5e7339cd1b0060971b0750f11279e611218a88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3f99ffc_0e9f4115",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/LFS.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-19T08:05:32Z",
+      "side": 1,
+      "message": "implementing bundles (like jgit.lfs) can override this near-no-op default implementation. Otherwise there would be the need for an interface, and a no-op implementation, and some kind of registry to keep track of the current implementation. It seemed like a more simple way to me to do it this way.",
+      "parentUuid": "ac843bc3_82ab011a",
       "revId": "bf5e7339cd1b0060971b0750f11279e611218a88",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
