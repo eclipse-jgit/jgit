@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85b6f2cc_696527ff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 752,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-02-19T23:59:07Z",
+      "side": 1,
+      "message": "Can simplify using Objects.equals \u003chttps://docs.oracle.com/javase/7/docs/api/java/util/Objects.html#equals(java.lang.Object,%20java.lang.Object)\u003e",
+      "revId": "006ef8c18ee819637fd7e965bf85796472a1c9dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
