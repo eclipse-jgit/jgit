@@ -415,6 +415,14 @@ public class AttributesMatcherTest {
 		}
 	}
 
+	@Test
+	public void testFileNameWithLineTerminator() {
+		assertMatched("a?", "a\r");
+		assertMatched("a?", "dir/a\r");
+		assertMatched("*a", "\ra");
+		assertMatched("dir/*a*", "dir/\ra\r");
+	}
+
 	/**
 	 * Check for a match. If target ends with "/", match will assume that the
 	 * target is meant to be a directory.
