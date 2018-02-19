@@ -6,6 +6,7 @@ java_library(
     resource_strip_prefix = "org.eclipse.jgit.lfs/resources",
     resources = glob(["resources/**"]),
     deps = [
+        "//lib:gson",
         "//org.eclipse.jgit:jgit",
     ],
 )
