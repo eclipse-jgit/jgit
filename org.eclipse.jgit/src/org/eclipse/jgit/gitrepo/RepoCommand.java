@@ -54,6 +54,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.StringJoiner;
 
@@ -749,12 +750,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	 */
 	private static final String SLASH = "/"; //$NON-NLS-1$
 	static URI relativize(URI current, URI target) {
-
-		// We only handle bare paths for now.
-		if (!target.toString().equals(target.getPath())) {
-			return target;
-		}
-		if (!current.toString().equals(current.getPath())) {
+		if (!Objects.equals(current.getHost(), target.getHost())) {
 			return target;
 		}
 
