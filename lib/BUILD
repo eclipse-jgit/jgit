@@ -30,7 +30,10 @@ java_library(
 
 java_library(
     name = "gson",
-    visibility = ["//org.eclipse.jgit.lfs.server:__pkg__"],
+    visibility = [
+        "//org.eclipse.jgit.lfs.server:__pkg__",
+        "//org.eclipse.jgit.lfs:__pkg__",
+    ],
     exports = ["@gson//jar"],
 )
 

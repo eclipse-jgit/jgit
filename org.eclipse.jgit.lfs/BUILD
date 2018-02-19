@@ -7,5 +7,6 @@ java_library(
     resources = glob(["resources/**"]),
     deps = [
         "//org.eclipse.jgit:jgit",
+        "//lib:gson",
     ],
 )
