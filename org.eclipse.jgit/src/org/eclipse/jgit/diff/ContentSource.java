@@ -170,10 +170,11 @@ public abstract class ContentSource {
 		@Override
 		public ObjectLoader open(String path, ObjectId id) throws IOException {
 			seek(path);
+			long entrySize = ptr.getEntryContentLength();
 			return new ObjectLoader() {
 				@Override
 				public long getSize() {
-					return ptr.getEntryLength();
+					return entrySize;
 				}
 
 				@Override
@@ -184,7 +185,7 @@ public abstract class ContentSource {
 				@Override
 				public ObjectStream openStream() throws MissingObjectException,
 						IOException {
-					long contentLength = ptr.getEntryContentLength();
+					long contentLength = entrySize;
 					InputStream in = ptr.openEntryStream();
 					in = new BufferedInputStream(in);
 					return new ObjectStream.Filter(getType(), contentLength, in);
