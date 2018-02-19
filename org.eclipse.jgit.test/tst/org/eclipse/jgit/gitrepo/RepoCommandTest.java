@@ -439,6 +439,63 @@ public class RepoCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void absoluteRemoteURLAbsoluteTargetURL() throws Exception {
+		Repository child =
+			Git.cloneRepository().setURI(groupADb.getDirectory().toURI().toString())
+				.setDirectory(createUniqueTestGitDir(true))
+				.setBare(true).call().getRepository();
+		Repository dest = Git.cloneRepository()
+			.setURI(db.getDirectory().toURI().toString()).setDirectory(createUniqueTestGitDir(true))
+			.setBare(true).call().getRepository();
+		String abs = "https://chromium.googlesource.com";
+		String repoUrl = "https://chromium.googlesource.com/chromium/src";
+		boolean fetchSlash = false;
+		boolean baseSlash = false;
+		do {
+			do {
+				String fetchUrl = fetchSlash ? abs + "/" : abs;
+				String baseUrl = baseSlash ? abs + "/" : abs;
+
+				StringBuilder xmlContent = new StringBuilder();
+				xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+					.append("<manifest>")
+					.append("<remote name=\"origin\" fetch=\"" + fetchUrl + "\" />")
+					.append("<default revision=\"master\" remote=\"origin\" />")
+					.append("<project path=\"src\" name=\"chromium/src\" />")
+					.append("</manifest>");
+				RepoCommand cmd = new RepoCommand(dest);
+
+				IndexedRepos repos = new IndexedRepos();
+				repos.put(repoUrl, child);
+
+				RevCommit commit = cmd
+					.setInputStream(new ByteArrayInputStream(xmlContent.toString().getBytes(UTF_8)))
+					.setRemoteReader(repos)
+					.setURI(baseUrl)
+					.setTargetURI(abs + "/superproject")
+					.setRecordRemoteBranch(true)
+					.setRecordSubmoduleLabels(true)
+					.call();
+
+				String idStr = commit.getId().name() + ":" + ".gitmodules";
+				ObjectId modId = dest.resolve(idStr);
+
+				try (ObjectReader reader = dest.newObjectReader()) {
+					byte[] bytes = reader.open(modId).getCachedBytes(Integer.MAX_VALUE);
+					Config base = new Config();
+					BlobBasedConfig cfg = new BlobBasedConfig(base, bytes);
+					String subUrl = cfg.getString("submodule", "src", "url");
+					assertEquals("../chromium/src", subUrl);
+				}
+				fetchSlash = !fetchSlash;
+			} while (fetchSlash);
+			baseSlash = !baseSlash;
+		} while (baseSlash);
+		child.close();
+		dest.close();
+	}
+
+	@Test
 	public void testAddRepoManifest() throws Exception {
 		StringBuilder xmlContent = new StringBuilder();
 		xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
@@ -1188,5 +1245,6 @@ public class RepoCommandTest extends RepositoryTestCase {
 		testRelative("abc", "/bcd", "/bcd");
 		testRelative("http://a", "a/b", "a/b");
 		testRelative("http://base.com/a/", "http://child.com/a/b", "http://child.com/a/b");
+		testRelative("http://base.com/a/", "http://base.com/a/b", "b");
 	}
 }
