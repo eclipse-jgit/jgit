@@ -74,7 +74,7 @@ public class RawText extends Sequence {
 	public static final RawText EMPTY_TEXT = new RawText(new byte[0]);
 
 	/** Number of bytes to check for heuristics in {@link #isBinary(byte[])} */
-	private static final int FIRST_FEW_BYTES = 8000;
+	static final int FIRST_FEW_BYTES = 8000;
 
 	/** The file content for this sequence. */
 	protected final byte[] content;
