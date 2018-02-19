@@ -749,12 +749,11 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	 */
 	private static final String SLASH = "/"; //$NON-NLS-1$
 	static URI relativize(URI current, URI target) {
-
-		// We only handle bare paths for now.
-		if (!target.toString().equals(target.getPath())) {
+		if ((current.getHost() == null) != (target.getHost() == null)) {
 			return target;
 		}
-		if (!current.toString().equals(current.getPath())) {
+
+		if (current.getHost() != null && !current.getHost().equals(target.getHost())) {
 			return target;
 		}
 
