@@ -512,6 +512,15 @@ public class FastIgnoreRuleTest {
 		assertMatched("x/**/", "x/y/a/");
 	}
 
+	@Test
+	public void testFileNameWithLineTerminator() {
+		assertMatched("a?", "a\r");
+		assertMatched("a?", "dir/a\r");
+		assertMatched("a?", "a\r/file");
+		assertMatched("*a", "\ra");
+		assertMatched("dir/*a*", "dir/\ra\r");
+	}
+
 	private void assertMatched(String pattern, String path) {
 		boolean match = match(pattern, path);
 		String result = path + " is " + (match ? "ignored" : "not ignored")

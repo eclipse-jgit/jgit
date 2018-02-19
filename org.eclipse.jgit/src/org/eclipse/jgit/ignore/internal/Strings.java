@@ -443,7 +443,7 @@ public class Strings {
 		if (in_brackets > 0)
 			throw new InvalidPatternException("Not closed bracket?", pattern); //$NON-NLS-1$
 		try {
-			return Pattern.compile(sb.toString());
+			return Pattern.compile(sb.toString(), Pattern.DOTALL);
 		} catch (PatternSyntaxException e) {
 			throw new InvalidPatternException(
 					MessageFormat.format(JGitText.get().invalidIgnoreRule,
