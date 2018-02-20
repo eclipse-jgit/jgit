@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "322a6baa_aabaf51b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/CGitIgnoreTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-20T22:54:52Z",
+      "side": 1,
+      "message": "why both --others and -o, aren\u0027t these synonyms for the same option ?",
+      "revId": "4d3a594a2bcb72c9342c0651ccaeeaf218fb1d30",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
