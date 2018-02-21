@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ce55f2ca_2cc368af",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/FastIgnoreRuleTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2018-02-21T09:26:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8ea808f_76a035ee",
+      "revId": "938ced45c5ea5f4a70095972fc3073816ad4fceb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6a6a7716_3bd096dc",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/FastIgnoreRuleTest.java",
         "patchSetId": 7
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "dc53bd28_ecdb55e7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/FastIgnoreRuleTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2018-02-21T09:26:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a6a7716_3bd096dc",
+      "revId": "938ced45c5ea5f4a70095972fc3073816ad4fceb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f61f60c_f2368b96",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/FastIgnoreRule.java",
         "patchSetId": 7
@@ -47,6 +83,24 @@
       "writtenOn": "2018-02-20T23:28:23Z",
       "side": 1,
       "message": "missing @since tag for new api",
+      "revId": "938ced45c5ea5f4a70095972fc3073816ad4fceb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f15431a0_9c30acc7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/FastIgnoreRule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2018-02-21T09:26:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f61f60c_f2368b96",
       "revId": "938ced45c5ea5f4a70095972fc3073816ad4fceb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
