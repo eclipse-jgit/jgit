@@ -34,6 +34,24 @@
       "revId": "4d3a594a2bcb72c9342c0651ccaeeaf218fb1d30",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b8feac6_8f69e63f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/CGitIgnoreTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2018-02-21T08:52:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b260fc0_b69ef8a3",
+      "revId": "4d3a594a2bcb72c9342c0651ccaeeaf218fb1d30",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
