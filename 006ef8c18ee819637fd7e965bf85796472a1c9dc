@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "50ad2f0f_17b94bca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-02-21T01:36:54Z",
+      "side": 1,
+      "message": "nit: commit message subject should be a single line.",
+      "revId": "006ef8c18ee819637fd7e965bf85796472a1c9dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "85b6f2cc_696527ff",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 1
