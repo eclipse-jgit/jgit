@@ -63,7 +63,7 @@ class TestRequestLog extends HandlerWrapper {
 
 	private final List<AccessEvent> events = new ArrayList<>();
 
-	private final Semaphore active = new Semaphore(MAX);
+	private final Semaphore active = new Semaphore(MAX, true);
 
 	/** Reset the log back to its original empty state. */
 	void clear() {
