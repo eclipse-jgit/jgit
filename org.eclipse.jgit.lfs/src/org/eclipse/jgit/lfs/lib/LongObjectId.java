@@ -43,9 +43,6 @@
 
 package org.eclipse.jgit.lfs.lib;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 import org.eclipse.jgit.lfs.errors.InvalidLongObjectIdException;
@@ -291,19 +288,5 @@ public class LongObjectId extends AnyLongObjectId implements Serializable {
 	@Override
 	public LongObjectId toObjectId() {
 		return this;
-	}
-
-	private void writeObject(ObjectOutputStream os) throws IOException {
-		os.writeLong(w1);
-		os.writeLong(w2);
-		os.writeLong(w3);
-		os.writeLong(w4);
-	}
-
-	private void readObject(ObjectInputStream ois) throws IOException {
-		w1 = ois.readLong();
-		w2 = ois.readLong();
-		w3 = ois.readLong();
-		w4 = ois.readLong();
 	}
 }
