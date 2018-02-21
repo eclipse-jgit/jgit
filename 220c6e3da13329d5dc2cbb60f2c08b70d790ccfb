@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eeb3791c_933ef211",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/internal/WildMatcher.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2018-02-21T09:38:39Z",
+      "side": 1,
+      "message": "Can you please change it to \u0027/\u0027? This is faster.",
+      "range": {
+        "startLine": 77,
+        "startChar": 38,
+        "endLine": 77,
+        "endChar": 41
+      },
+      "revId": "220c6e3da13329d5dc2cbb60f2c08b70d790ccfb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
