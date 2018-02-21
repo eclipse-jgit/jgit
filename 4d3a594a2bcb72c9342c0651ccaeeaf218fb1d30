@@ -16,6 +16,24 @@
       "revId": "4d3a594a2bcb72c9342c0651ccaeeaf218fb1d30",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b260fc0_b69ef8a3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/CGitIgnoreTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-02-21T01:41:18Z",
+      "side": 1,
+      "message": "They are synonyms.\n\nThe invocation at L105-106 only includes -o so maybe do the same here?",
+      "parentUuid": "322a6baa_aabaf51b",
+      "revId": "4d3a594a2bcb72c9342c0651ccaeeaf218fb1d30",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
