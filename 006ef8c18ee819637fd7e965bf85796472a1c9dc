@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2a103294_f1e89bb7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2018-02-21T12:41:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50ad2f0f_17b94bca",
+      "revId": "006ef8c18ee819637fd7e965bf85796472a1c9dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "85b6f2cc_696527ff",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "006ef8c18ee819637fd7e965bf85796472a1c9dc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87123fd1_0dc77388",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 752,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2018-02-21T12:41:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85b6f2cc_696527ff",
+      "revId": "006ef8c18ee819637fd7e965bf85796472a1c9dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
