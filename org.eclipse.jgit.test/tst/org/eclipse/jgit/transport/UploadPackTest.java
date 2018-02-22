@@ -305,4 +305,19 @@ public class UploadPackTest {
 		assertThat(pckIn.readString(), is(tag.toObjectId().getName() + " refs/tags/tag"));
 		assertTrue(pckIn.readString() == PacketLineIn.END);
 	}
+
+	@Test
+	public void testV2LsRefsRefPrefix() throws Exception {
+		RevCommit tip = remote.commit().message("message").create();
+		remote.update("maste", tip);
+		remote.update("master", tip);
+		remote.update("other", tip);
+
+		ByteArrayInputStream recvStream = uploadPackV2("command=ls-refs\n", PacketLineIn.DELIM, "ref-prefix refs/heads/maste", PacketLineIn.END);
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+
+		assertThat(pckIn.readString(), is(tip.toObjectId().getName() + " refs/heads/maste"));
+		assertThat(pckIn.readString(), is(tip.toObjectId().getName() + " refs/heads/master"));
+		assertTrue(pckIn.readString() == PacketLineIn.END);
+	}
 }
