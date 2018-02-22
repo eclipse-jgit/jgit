@@ -53,6 +53,7 @@ import java.nio.CharBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.CharsetEncoder;
 import java.nio.charset.CoderResult;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -176,6 +177,11 @@ public abstract class RefAdvertiser {
 
 	boolean first = true;
 
+	private boolean useProtocolV2;
+
+	/* only used in protocol v2 */
+	private final Map<String, String> symrefs = new HashMap<>();
+
 	/**
 	 * Initialize this advertiser with a repository for peeling tags.
 	 *
@@ -184,6 +190,15 @@ public abstract class RefAdvertiser {
 	 */
 	public void init(Repository src) {
 		repository = src;
+	}
+
+	/**
+	 * @param b
+	 *            true if this advertiser should advertise using the
+	 *            protocol v2 format, false otherwise
+	 */
+	public void setUseProtocolV2(boolean b) {
+		useProtocolV2 = b;
 	}
 
 	/**
@@ -253,7 +268,11 @@ public abstract class RefAdvertiser {
 	 * @since 3.6
 	 */
 	public void addSymref(String from, String to) {
-		advertiseCapability(OPTION_SYMREF, from + ':' + to);
+		if (useProtocolV2) {
+			symrefs.put(from, to);
+		} else {
+			advertiseCapability(OPTION_SYMREF, from + ':' + to);
+		}
 	}
 
 	/**
@@ -272,6 +291,23 @@ public abstract class RefAdvertiser {
 		for (Ref ref : getSortedRefs(refs)) {
 			if (ref.getObjectId() == null)
 				continue;
+
+			if (useProtocolV2) {
+				String symrefPart = symrefs.containsKey(ref.getName())
+					? (" symref-target:" + symrefs.get(ref.getName()))
+					: "";
+				String peelPart = "";
+				if (derefTags) {
+					if (!ref.isPeeled() && repository != null) {
+						ref = repository.peel(ref);
+					}
+					if (ref.getPeeledObjectId() != null) {
+						peelPart = " peeled:" + ref.getPeeledObjectId().getName();
+					}
+				}
+				writeOne(ref.getObjectId().getName() + " " + ref.getName() + symrefPart + peelPart + "\n");
+				continue;
+			}
 
 			advertiseAny(ref.getObjectId(), ref.getName());
 
