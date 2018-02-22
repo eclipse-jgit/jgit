@@ -1,9 +1,13 @@
 package org.eclipse.jgit.transport;
 
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Collections;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.storage.dfs.DfsGarbageCollector;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
@@ -11,6 +15,7 @@ import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.Sets;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
@@ -316,4 +321,63 @@ public class UploadPackTest {
 					Collections.singletonList(new RefSpec(commit.name())));
 		}
 	}
+
+	private static ByteArrayInputStream send(String... lines) throws Exception {
+		ByteArrayOutputStream os = new ByteArrayOutputStream();
+		PacketLineOut pckOut = new PacketLineOut(os);
+		for (String line : lines) {
+			if (line == PacketLineIn.END) {
+				pckOut.end();
+			} else if (line == PacketLineIn.DELIM) {
+				pckOut.writeDelim();
+			} else {
+				pckOut.writeString(line);
+			}
+		}
+		byte[] a = os.toByteArray();
+		return new ByteArrayInputStream(a);
+	}
+
+	/*
+	 * Invokes UploadPack with protocol v2 and sends it the given lines.
+	 * Returns UploadPack's output stream, not including the capability
+	 * advertisement by the server.
+	 */
+	private ByteArrayInputStream uploadPackV2(String... inputLines) throws Exception {
+		ByteArrayOutputStream send = new ByteArrayOutputStream();
+		PacketLineOut pckOut = new PacketLineOut(send);
+		for (String line : inputLines) {
+			if (line == PacketLineIn.END) {
+				pckOut.end();
+			} else if (line == PacketLineIn.DELIM) {
+				pckOut.writeDelim();
+			} else {
+				pckOut.writeString(line);
+			}
+		}
+
+		server.getConfig().setString("protocol", null, "version", "2");
+		UploadPack up = new UploadPack(server);
+		up.setExtraParameters(Sets.of("version=2"));
+
+		ByteArrayOutputStream recv = new ByteArrayOutputStream();
+		up.upload(new ByteArrayInputStream(send.toByteArray()), recv, null);
+
+		ByteArrayInputStream recvStream = new ByteArrayInputStream(recv.toByteArray());
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+
+		// capability advertisement (always sent)
+		assertThat(pckIn.readString(), is("version 2"));
+		assertTrue(pckIn.readString() == PacketLineIn.END);
+		return recvStream;
+	}
+
+	@Test
+	public void testV2EmptyRequest() throws Exception {
+		ByteArrayInputStream recvStream = uploadPackV2(PacketLineIn.END);
+		// Verify that there is nothing more after the capability
+		// advertisement.
+		assertThat(recvStream.available(), is(0));
+	}
+
 }
