@@ -44,6 +44,7 @@
 package org.eclipse.jgit.transport;
 
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
+import static org.eclipse.jgit.transport.GitProtocolConstants.COMMAND_LS_REFS;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_AGENT;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_ALLOW_REACHABLE_SHA1_IN_WANT;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_ALLOW_TIP_SHA1_IN_WANT;
@@ -117,6 +118,7 @@ public class UploadPack {
 	// supports protocol version 2.
 	private static final String[] v2CapabilityAdvertisement = {
 		"version 2",
+		COMMAND_LS_REFS
 	};
 
 	/** Policy the server uses to validate client requests */
@@ -864,6 +866,35 @@ public class UploadPack {
 			sendPack(accumulator);
 	}
 
+	private void lsRefsV2() throws IOException {
+		PacketLineOutRefAdvertiser adv = new PacketLineOutRefAdvertiser(pckOut);
+		Map<String, Ref> refs = getAdvertisedOrDefaultRefs();
+		String line;
+
+		adv.setUseProtocolV2(true);
+
+		line = pckIn.readString();
+
+		// Currently, we do not support any capabilities, so the next
+		// line is DELIM if there are arguments or END if not.
+		if (line == PacketLineIn.DELIM) {
+			while ((line = pckIn.readString()) != PacketLineIn.END) {
+				if (line.equals("peel")) {
+					adv.setDerefTags(true);
+				} else if (line.equals("symrefs")) {
+					findSymrefs(adv, refs);
+				} else {
+					throw new PackProtocolException("unexpected " + line);
+				}
+			}
+		} else if (line != PacketLineIn.END) {
+			throw new PackProtocolException("unexpected " + line);
+		}
+
+		adv.send(refs);
+		adv.end();
+	}
+
 	/*
 	 * Returns true if this is the last command and we should tear down the
 	 * connection.
@@ -881,6 +912,10 @@ public class UploadPack {
 			// to the protocol; do nothing in this
 			// case.
 			return true;
+		}
+		if (command.equals("command=" + COMMAND_LS_REFS)) {
+			lsRefsV2();
+			return false;
 		}
 		throw new PackProtocolException("unknown command " + command);
 	}
