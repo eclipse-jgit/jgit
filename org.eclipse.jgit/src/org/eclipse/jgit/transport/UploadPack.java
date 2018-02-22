@@ -68,6 +68,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -887,6 +888,7 @@ public class UploadPack {
 		PacketLineOutRefAdvertiser adv = new PacketLineOutRefAdvertiser(pckOut);
 		Map<String, Ref> refs = getAdvertisedOrDefaultRefs();
 		String line;
+		ArrayList<String> refPrefixes = new ArrayList<>();
 
 		adv.setUseProtocolV2(true);
 
@@ -900,12 +902,27 @@ public class UploadPack {
 					adv.setDerefTags(true);
 				} else if (line.equals("symrefs")) {
 					findSymrefs(adv, refs);
+				} else if (line.startsWith("ref-prefix ")) {
+					refPrefixes.add(line.substring("ref-prefix ".length()));
 				} else {
 					throw new PackProtocolException("unexpected " + line);
 				}
 			}
 		} else if (line != PacketLineIn.END) {
 			throw new PackProtocolException("unexpected " + line);
+		}
+
+		if (!refPrefixes.isEmpty()) {
+			HashMap<String, Ref> refsToSend = new HashMap<>();
+			for (Map.Entry<String, Ref> entry : refs.entrySet()) {
+				for (String refPrefix : refPrefixes) {
+					if (entry.getKey().startsWith(refPrefix)) {
+						refsToSend.put(entry.getKey(), entry.getValue());
+						continue;
+					}
+				}
+			}
+			refs = refsToSend;
 		}
 
 		adv.send(refs);
