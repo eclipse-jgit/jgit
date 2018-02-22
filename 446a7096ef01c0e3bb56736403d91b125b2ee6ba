@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0fd0274_b7fb6566",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-02-22T03:41:42Z",
+      "side": 1,
+      "message": "can simplify by using \"continue\":\n\n  if (objectId \u003d\u003d null) {\n    // We were unable to read the submodule and we are ignoring remote failures.\n    continue;\n  }\n\n  // create gitlink",
+      "revId": "446a7096ef01c0e3bb56736403d91b125b2ee6ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
