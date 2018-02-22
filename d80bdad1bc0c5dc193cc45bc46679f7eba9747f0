@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6627d5cc_f49554b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-22T23:35:12Z",
+      "side": 1,
+      "message": "style nit: move the bug footer to the line above the Change-Id",
+      "revId": "d80bdad1bc0c5dc193cc45bc46679f7eba9747f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71e919e8_3ba2caa0",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/IgnoreNodeTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-22T23:35:12Z",
+      "side": 1,
+      "message": "unrelated formatting change",
+      "revId": "d80bdad1bc0c5dc193cc45bc46679f7eba9747f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db8ebc77_1e280865",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/IgnoreNodeTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 686,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-22T23:35:12Z",
+      "side": 1,
+      "message": "remove dead code",
+      "revId": "d80bdad1bc0c5dc193cc45bc46679f7eba9747f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2ee3115_9346e739",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/IgnoreNode.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-22T23:35:12Z",
+      "side": 1,
+      "message": "this is a new api method so tag it @since 4.11",
+      "revId": "d80bdad1bc0c5dc193cc45bc46679f7eba9747f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bbe3b1bc_4d50ce1c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-22T23:35:12Z",
+      "side": 1,
+      "message": "unrelated fix of bad formatting -\u003e move this to another change",
+      "revId": "d80bdad1bc0c5dc193cc45bc46679f7eba9747f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7d39f7c_43f97054",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-22T23:35:12Z",
+      "side": 1,
+      "message": "unrelated fix of bad formatting -\u003e move this to another change",
+      "revId": "d80bdad1bc0c5dc193cc45bc46679f7eba9747f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
