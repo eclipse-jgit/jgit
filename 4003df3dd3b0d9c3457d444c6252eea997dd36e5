@@ -22,6 +22,30 @@
       "revId": "4003df3dd3b0d9c3457d444c6252eea997dd36e5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37cc2c44_79014d28",
+        "filename": "org.eclipse.jgit.junit.http/src/org/eclipse/jgit/junit/http/TestRequestLog.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-22T22:18:41Z",
+      "side": 1,
+      "message": "yes, we use tabs, though the rest of this file should also use tabs",
+      "parentUuid": "21613e21_c8601d95",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 1
+      },
+      "revId": "4003df3dd3b0d9c3457d444c6252eea997dd36e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
