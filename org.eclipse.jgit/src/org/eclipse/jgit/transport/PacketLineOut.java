@@ -147,6 +147,20 @@ public class PacketLineOut {
 	}
 
 	/**
+	 * Write a packet delim marker (0001).
+	 *
+	 * @throws java.io.IOException
+	 *             the marker could not be written, the stream is corrupted
+	 *             as the marker may have been only partially written.
+	 * @since 5.0
+	 */
+	public void writeDelim() throws IOException {
+		formatLength(1);
+		out.write(lenbuffer, 0, 4);
+		log.debug("git> 0001"); //$NON-NLS-1$
+	}
+
+	/**
 	 * Write a packet end marker, sometimes referred to as a flush command.
 	 * <p>
 	 * Technically this is a magical packet type which can be detected
