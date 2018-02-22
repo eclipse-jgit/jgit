@@ -113,6 +113,12 @@ public class PacketLineOutTest {
 		assertEquals(1, flushCnt[0]);
 	}
 
+	@Test
+	public void testWriteDelim() throws IOException {
+		out.writeDelim();
+		assertBuffer("0001");
+	}
+
 	// writePacket
 
 	@Test
