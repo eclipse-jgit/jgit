@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "d6a3c885_e4281bff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-02-22T03:43:18Z",
+      "side": 1,
+      "message": "nit: probably worth updating this comment to say the repository will be included in .gitmodules and the tree entry is all that will be omitted.",
+      "revId": "446a7096ef01c0e3bb56736403d91b125b2ee6ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f0fd0274_b7fb6566",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 5
