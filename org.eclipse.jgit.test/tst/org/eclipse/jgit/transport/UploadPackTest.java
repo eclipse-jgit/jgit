@@ -19,6 +19,7 @@ import org.eclipse.jgit.lib.Sets;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
+import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.transport.UploadPack.RequestPolicy;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
@@ -368,6 +369,7 @@ public class UploadPackTest {
 
 		// capability advertisement (always sent)
 		assertThat(pckIn.readString(), is("version 2"));
+		assertThat(pckIn.readString(), is("ls-refs"));
 		assertTrue(pckIn.readString() == PacketLineIn.END);
 		return recvStream;
 	}
@@ -380,4 +382,83 @@ public class UploadPackTest {
 		assertThat(recvStream.available(), is(0));
 	}
 
+	@Test
+	public void testV2LsRefs() throws Exception {
+		RevCommit tip = remote.commit().message("message").create();
+		remote.update("master", tip);
+		server.updateRef("HEAD").link("refs/heads/master");
+		RevTag tag = remote.tag("tag", tip);
+		remote.update("refs/tags/tag", tag);
+
+		ByteArrayInputStream recvStream = uploadPackV2("command=ls-refs\n", PacketLineIn.END);
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+
+		assertThat(pckIn.readString(), is(tip.toObjectId().getName() + " HEAD"));
+		assertThat(pckIn.readString(), is(tip.toObjectId().getName() + " refs/heads/master"));
+		assertThat(pckIn.readString(), is(tag.toObjectId().getName() + " refs/tags/tag"));
+		assertTrue(pckIn.readString() == PacketLineIn.END);
+	}
+
+	@Test
+	public void testV2LsRefsSymrefs() throws Exception {
+		RevCommit tip = remote.commit().message("message").create();
+		remote.update("master", tip);
+		server.updateRef("HEAD").link("refs/heads/master");
+		RevTag tag = remote.tag("tag", tip);
+		remote.update("refs/tags/tag", tag);
+
+		ByteArrayInputStream recvStream = uploadPackV2("command=ls-refs\n", PacketLineIn.DELIM, "symrefs", PacketLineIn.END);
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+
+		assertThat(pckIn.readString(), is(tip.toObjectId().getName() + " HEAD symref-target:refs/heads/master"));
+		assertThat(pckIn.readString(), is(tip.toObjectId().getName() + " refs/heads/master"));
+		assertThat(pckIn.readString(), is(tag.toObjectId().getName() + " refs/tags/tag"));
+		assertTrue(pckIn.readString() == PacketLineIn.END);
+	}
+
+	@Test
+	public void testV2LsRefsPeel() throws Exception {
+		RevCommit tip = remote.commit().message("message").create();
+		remote.update("master", tip);
+		server.updateRef("HEAD").link("refs/heads/master");
+		RevTag tag = remote.tag("tag", tip);
+		remote.update("refs/tags/tag", tag);
+
+		ByteArrayInputStream recvStream = uploadPackV2("command=ls-refs\n", PacketLineIn.DELIM, "peel", PacketLineIn.END);
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+
+		assertThat(pckIn.readString(), is(tip.toObjectId().getName() + " HEAD"));
+		assertThat(pckIn.readString(), is(tip.toObjectId().getName() + " refs/heads/master"));
+		assertThat(
+			pckIn.readString(),
+			is(tag.toObjectId().getName() + " refs/tags/tag peeled:"
+				+ tip.toObjectId().getName()));
+		assertTrue(pckIn.readString() == PacketLineIn.END);
+	}
+
+	@Test
+	public void testV2LsRefsMultipleCommands() throws Exception {
+		RevCommit tip = remote.commit().message("message").create();
+		remote.update("master", tip);
+		server.updateRef("HEAD").link("refs/heads/master");
+		RevTag tag = remote.tag("tag", tip);
+		remote.update("refs/tags/tag", tag);
+
+		ByteArrayInputStream recvStream = uploadPackV2(
+			"command=ls-refs\n", PacketLineIn.DELIM, "symrefs", "peel", PacketLineIn.END,
+			"command=ls-refs\n", PacketLineIn.DELIM, PacketLineIn.END);
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+
+		assertThat(pckIn.readString(), is(tip.toObjectId().getName() + " HEAD symref-target:refs/heads/master"));
+		assertThat(pckIn.readString(), is(tip.toObjectId().getName() + " refs/heads/master"));
+		assertThat(
+			pckIn.readString(),
+			is(tag.toObjectId().getName() + " refs/tags/tag peeled:"
+				+ tip.toObjectId().getName()));
+		assertTrue(pckIn.readString() == PacketLineIn.END);
+		assertThat(pckIn.readString(), is(tip.toObjectId().getName() + " HEAD"));
+		assertThat(pckIn.readString(), is(tip.toObjectId().getName() + " refs/heads/master"));
+		assertThat(pckIn.readString(), is(tag.toObjectId().getName() + " refs/tags/tag"));
+		assertTrue(pckIn.readString() == PacketLineIn.END);
+	}
 }
