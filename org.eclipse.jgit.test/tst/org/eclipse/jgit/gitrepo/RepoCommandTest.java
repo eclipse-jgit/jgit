@@ -186,6 +186,59 @@ public class RepoCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void runTwiceIsNOP() throws Exception {
+		Repository child = Git.cloneRepository()
+			.setURI(groupADb.getDirectory().toURI().toString())
+			.setDirectory(createUniqueTestGitDir(true)).setBare(true).call()
+			.getRepository();
+
+		Repository dest = Git.cloneRepository()
+			.setURI(db.getDirectory().toURI().toString())
+			.setDirectory(createUniqueTestGitDir(true)).setBare(true).call()
+			.getRepository();
+
+		assertTrue(dest.isBare());
+		assertTrue(child.isBare());
+
+		StringBuilder xmlContent = new StringBuilder();
+		xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+			.append("<manifest>")
+			.append("<remote name=\"remote1\" fetch=\"..\" />")
+			.append("<default revision=\"master\" remote=\"remote1\" />")
+			.append("<project path=\"base\" name=\"platform/base\" />")
+			.append("</manifest>");
+		RepoCommand cmd = new RepoCommand(dest);
+
+		IndexedRepos repos = new IndexedRepos();
+		repos.put("platform/base", child);
+
+		RevCommit commit = cmd
+			.setInputStream(new ByteArrayInputStream(
+				xmlContent.toString().getBytes(UTF_8)))
+			.setRemoteReader(repos)
+			.setURI("platform/")
+			.setTargetURI("platform/superproject")
+			.setRecordRemoteBranch(true)
+			.setRecordSubmoduleLabels(true)
+			.call();
+
+		String firstIdStr = commit.getId().name() + ":" + ".gitmodules";
+		commit = new RepoCommand(dest)
+			.setInputStream(new ByteArrayInputStream(
+				xmlContent.toString().getBytes(UTF_8)))
+			.setRemoteReader(repos)
+			.setURI("platform/")
+			.setTargetURI("platform/superproject")
+			.setRecordRemoteBranch(true)
+			.setRecordSubmoduleLabels(true)
+			.call();
+		String idStr = commit.getId().name() + ":" + ".gitmodules";
+		assertEquals(firstIdStr, idStr);
+		child.close();
+		dest.close();
+	}
+
+	@Test
 	public void androidSetup() throws Exception {
 		Repository child = Git.cloneRepository()
 				.setURI(groupADb.getDirectory().toURI().toString())
@@ -213,8 +266,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 		repos.put("platform/base", child);
 
 		RevCommit commit = cmd
-				.setInputStream(new ByteArrayInputStream(
-						xmlContent.toString().getBytes(UTF_8)))
+			.setInputStream(new ByteArrayInputStream(xmlContent.toString().getBytes(UTF_8)))
 			.setRemoteReader(repos)
 			.setURI("platform/")
 			.setTargetURI("platform/superproject")
@@ -234,6 +286,48 @@ public class RepoCommandTest extends RepositoryTestCase {
 		}
 
 		child.close();
+		dest.close();
+	}
+
+	@Test
+	public void recordUnreachableRemotes() throws Exception {
+		StringBuilder xmlContent = new StringBuilder();
+		xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+			.append("<manifest>")
+			.append("<remote name=\"remote1\" fetch=\"https://host.com/\" />")
+			.append("<default revision=\"master\" remote=\"remote1\" />")
+			.append("<project path=\"base\" name=\"platform/base\" />")
+			.append("</manifest>");
+
+		Repository dest = Git.cloneRepository()
+				.setURI(db.getDirectory().toURI().toString())
+				.setDirectory(createUniqueTestGitDir(true)).setBare(true).call()
+				.getRepository();
+
+		assertTrue(dest.isBare());
+
+		RevCommit commit = new RepoCommand(dest)
+			.setInputStream(new ByteArrayInputStream(
+				xmlContent.toString().getBytes(UTF_8)))
+			.setRemoteReader(new IndexedRepos())
+			.setURI("platform/")
+			.setTargetURI("platform/superproject")
+			.setRecordRemoteBranch(true)
+			.setIgnoreRemoteFailures(true)
+			.setRecordSubmoduleLabels(true)
+			.call();
+
+		String idStr = commit.getId().name() + ":" + ".gitmodules";
+		ObjectId modId = dest.resolve(idStr);
+
+		try (ObjectReader reader = dest.newObjectReader()) {
+			byte[] bytes = reader.open(modId).getCachedBytes(Integer.MAX_VALUE);
+			Config base = new Config();
+			BlobBasedConfig cfg = new BlobBasedConfig(base, bytes);
+			String subUrl = cfg.getString("submodule", "base", "url");
+			assertEquals(subUrl, "https://host.com/platform/base");
+		}
+
 		dest.close();
 	}
 
@@ -335,6 +429,63 @@ public class RepoCommandTest extends RepositoryTestCase {
 					BlobBasedConfig cfg = new BlobBasedConfig(base, bytes);
 					String subUrl = cfg.getString("submodule", "src", "url");
 					assertEquals("https://chromium.googlesource.com/chromium/src", subUrl);
+				}
+				fetchSlash = !fetchSlash;
+			} while (fetchSlash);
+			baseSlash = !baseSlash;
+		} while (baseSlash);
+		child.close();
+		dest.close();
+	}
+
+	@Test
+	public void absoluteRemoteURLAbsoluteTargetURL() throws Exception {
+		Repository child =
+			Git.cloneRepository().setURI(groupADb.getDirectory().toURI().toString())
+				.setDirectory(createUniqueTestGitDir(true))
+				.setBare(true).call().getRepository();
+		Repository dest = Git.cloneRepository()
+			.setURI(db.getDirectory().toURI().toString()).setDirectory(createUniqueTestGitDir(true))
+			.setBare(true).call().getRepository();
+		String abs = "https://chromium.googlesource.com";
+		String repoUrl = "https://chromium.googlesource.com/chromium/src";
+		boolean fetchSlash = false;
+		boolean baseSlash = false;
+		do {
+			do {
+				String fetchUrl = fetchSlash ? abs + "/" : abs;
+				String baseUrl = baseSlash ? abs + "/" : abs;
+
+				StringBuilder xmlContent = new StringBuilder();
+				xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+					.append("<manifest>")
+					.append("<remote name=\"origin\" fetch=\"" + fetchUrl + "\" />")
+					.append("<default revision=\"master\" remote=\"origin\" />")
+					.append("<project path=\"src\" name=\"chromium/src\" />")
+					.append("</manifest>");
+				RepoCommand cmd = new RepoCommand(dest);
+
+				IndexedRepos repos = new IndexedRepos();
+				repos.put(repoUrl, child);
+
+				RevCommit commit = cmd
+					.setInputStream(new ByteArrayInputStream(xmlContent.toString().getBytes(UTF_8)))
+					.setRemoteReader(repos)
+					.setURI(baseUrl)
+					.setTargetURI(abs + "/superproject")
+					.setRecordRemoteBranch(true)
+					.setRecordSubmoduleLabels(true)
+					.call();
+
+				String idStr = commit.getId().name() + ":" + ".gitmodules";
+				ObjectId modId = dest.resolve(idStr);
+
+				try (ObjectReader reader = dest.newObjectReader()) {
+					byte[] bytes = reader.open(modId).getCachedBytes(Integer.MAX_VALUE);
+					Config base = new Config();
+					BlobBasedConfig cfg = new BlobBasedConfig(base, bytes);
+					String subUrl = cfg.getString("submodule", "src", "url");
+					assertEquals("../chromium/src", subUrl);
 				}
 				fetchSlash = !fetchSlash;
 			} while (fetchSlash);
@@ -814,37 +965,6 @@ public class RepoCommandTest extends RepositoryTestCase {
 		assertEquals("submodule content should be as expected",
 				"master world", content);
 	}
-
-	@Test
-	public void testNonDefaultRemotes() throws Exception {
-		StringBuilder xmlContent = new StringBuilder();
-		xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
-			.append("<manifest>")
-			.append("<remote name=\"remote1\" fetch=\".\" />")
-			.append("<remote name=\"remote2\" fetch=\"")
-			.append(notDefaultUri)
-			.append("\" />")
-			.append("<default revision=\"master\" remote=\"remote1\" />")
-			.append("<project path=\"foo\" name=\"")
-			.append(defaultUri)
-			.append("\" />")
-			.append("<project path=\"bar\" name=\".\" remote=\"remote2\" />")
-			.append("</manifest>");
-
-		Repository localDb = createWorkRepository();
-		JGitTestUtil.writeTrashFile(
-				localDb, "manifest.xml", xmlContent.toString());
-		RepoCommand command = new RepoCommand(localDb);
-		command
-			.setPath(localDb.getWorkTree().getAbsolutePath() + "/manifest.xml")
-			.setURI(rootUri)
-			.call();
-		File file = new File(localDb.getWorkTree(), "foo/hello.txt");
-		assertTrue("We should have foo", file.exists());
-		file = new File(localDb.getWorkTree(), "bar/world.txt");
-		assertTrue("We should have bar", file.exists());
-	}
-
 	@Test
 	public void testRemoteAlias() throws Exception {
 		StringBuilder xmlContent = new StringBuilder();
@@ -1125,5 +1245,6 @@ public class RepoCommandTest extends RepositoryTestCase {
 		testRelative("abc", "/bcd", "/bcd");
 		testRelative("http://a", "a/b", "a/b");
 		testRelative("http://base.com/a/", "http://child.com/a/b", "http://child.com/a/b");
+		testRelative("http://base.com/a/", "http://base.com/a/b", "b");
 	}
 }

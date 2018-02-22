@@ -54,6 +54,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.StringJoiner;
 
@@ -543,10 +544,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 						objectId = ObjectId.fromString(proj.getRevision());
 					} else {
 						objectId = callback.sha1(nameUri, proj.getRevision());
-						if (objectId == null) {
-							if (ignoreRemoteFailures) {
-								continue;
-							}
+						if (objectId == null && !ignoreRemoteFailures) {
 							throw new RemoteUnavailableException(nameUri);
 						}
 						if (recordRemoteBranch) {
@@ -585,38 +583,40 @@ public class RepoCommand extends GitCommand<RevCommit> {
 					cfg.setString("submodule", path, "url", submodUrl.toString()); //$NON-NLS-1$ //$NON-NLS-2$
 
 					// create gitlink
-					DirCacheEntry dcEntry = new DirCacheEntry(path);
-					dcEntry.setObjectId(objectId);
-					dcEntry.setFileMode(FileMode.GITLINK);
-					builder.add(dcEntry);
+					if (objectId != null) {
+						DirCacheEntry dcEntry = new DirCacheEntry(path);
+						dcEntry.setObjectId(objectId);
+						dcEntry.setFileMode(FileMode.GITLINK);
+						builder.add(dcEntry);
 
-					for (CopyFile copyfile : proj.getCopyFiles()) {
-						byte[] src = callback.readFile(
+						for (CopyFile copyfile : proj.getCopyFiles()) {
+							byte[] src = callback.readFile(
 								nameUri, proj.getRevision(), copyfile.src);
-						objectId = inserter.insert(Constants.OBJ_BLOB, src);
-						dcEntry = new DirCacheEntry(copyfile.dest);
-						dcEntry.setObjectId(objectId);
-						dcEntry.setFileMode(FileMode.REGULAR_FILE);
-						builder.add(dcEntry);
-					}
-					for (LinkFile linkfile : proj.getLinkFiles()) {
-						String link;
-						if (linkfile.dest.contains("/")) { //$NON-NLS-1$
-							link = FileUtils.relativizeGitPath(
-									linkfile.dest.substring(0,
-											linkfile.dest.lastIndexOf('/')),
-									proj.getPath() + "/" + linkfile.src); //$NON-NLS-1$
-						} else {
-							link = proj.getPath() + "/" + linkfile.src; //$NON-NLS-1$
+							objectId = inserter.insert(Constants.OBJ_BLOB, src);
+							dcEntry = new DirCacheEntry(copyfile.dest);
+							dcEntry.setObjectId(objectId);
+							dcEntry.setFileMode(FileMode.REGULAR_FILE);
+							builder.add(dcEntry);
 						}
+						for (LinkFile linkfile : proj.getLinkFiles()) {
+							String link;
+							if (linkfile.dest.contains("/")) { //$NON-NLS-1$
+								link = FileUtils.relativizeGitPath(
+									linkfile.dest.substring(0,
+										linkfile.dest.lastIndexOf('/')),
+									proj.getPath() + "/" + linkfile.src); //$NON-NLS-1$
+							} else {
+								link = proj.getPath() + "/" + linkfile.src; //$NON-NLS-1$
+							}
 
-						objectId = inserter.insert(Constants.OBJ_BLOB,
+							objectId = inserter.insert(Constants.OBJ_BLOB,
 								link.getBytes(
-										Constants.CHARACTER_ENCODING));
-						dcEntry = new DirCacheEntry(linkfile.dest);
-						dcEntry.setObjectId(objectId);
-						dcEntry.setFileMode(FileMode.SYMLINK);
-						builder.add(dcEntry);
+									Constants.CHARACTER_ENCODING));
+							dcEntry = new DirCacheEntry(linkfile.dest);
+							dcEntry.setObjectId(objectId);
+							dcEntry.setFileMode(FileMode.SYMLINK);
+							builder.add(dcEntry);
+						}
 					}
 				}
 				String content = cfg.toText();
@@ -644,6 +644,11 @@ public class RepoCommand extends GitCommand<RevCommit> {
 
 				// Create a Commit object, populate it and write it
 				ObjectId headId = repo.resolve(targetBranch + "^{commit}"); //$NON-NLS-1$
+				if (headId != null && rw.parseCommit(headId).getTree().getId().equals(treeId)) {
+					// No change. Do nothing.
+					return rw.parseCommit(headId);
+				}
+
 				CommitBuilder commit = new CommitBuilder();
 				commit.setTreeId(treeId);
 				if (headId != null)
@@ -745,12 +750,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	 */
 	private static final String SLASH = "/"; //$NON-NLS-1$
 	static URI relativize(URI current, URI target) {
-
-		// We only handle bare paths for now.
-		if (!target.toString().equals(target.getPath())) {
-			return target;
-		}
-		if (!current.toString().equals(current.getPath())) {
+		if (!Objects.equals(current.getHost(), target.getHost())) {
 			return target;
 		}
 
