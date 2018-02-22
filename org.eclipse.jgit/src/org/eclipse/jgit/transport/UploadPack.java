@@ -69,6 +69,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -868,8 +869,9 @@ public class UploadPack {
 
 	private void lsRefsV2() throws IOException {
 		PacketLineOutRefAdvertiser adv = new PacketLineOutRefAdvertiser(pckOut);
-		Map<String, Ref> refs = getAdvertisedOrDefaultRefs();
 		String line;
+		ArrayList<String> refPrefixes = new ArrayList<>();
+		boolean needToFindSymrefs = false;
 
 		adv.setUseProtocolV2(true);
 
@@ -882,7 +884,9 @@ public class UploadPack {
 				if (line.equals("peel")) {
 					adv.setDerefTags(true);
 				} else if (line.equals("symrefs")) {
-					findSymrefs(adv, refs);
+					needToFindSymrefs = true;
+				} else if (line.startsWith("ref-prefix ")) {
+					refPrefixes.add(line.substring("ref-prefix ".length()));
 				} else {
 					throw new PackProtocolException("unexpected " + line);
 				}
@@ -892,7 +896,23 @@ public class UploadPack {
 		}
 		rawOut.stopBuffering();
 
-		adv.send(refs);
+		Map<String, Ref> refsToSend;
+		if (refPrefixes.isEmpty()) {
+			refsToSend = getAdvertisedOrDefaultRefs();
+		} else {
+			refsToSend = new HashMap<>();
+			for (String refPrefix : refPrefixes) {
+				for (Ref ref : db.getRefDatabase().getRefsByPrefix(refPrefix)) {
+					refsToSend.put(ref.getName(), ref);
+				}
+			}
+		}
+
+		if (needToFindSymrefs) {
+			findSymrefs(adv, refsToSend);
+		}
+
+		adv.send(refsToSend);
 		adv.end();
 	}
 
