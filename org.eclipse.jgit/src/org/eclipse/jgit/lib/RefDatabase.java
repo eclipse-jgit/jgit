@@ -343,9 +343,49 @@ public abstract class RefDatabase {
 	 *         of each key. The map can be an unsorted map.
 	 * @throws java.io.IOException
 	 *             the reference space cannot be accessed.
+	 * @deprecated use {@link #getRefsByPrefix} instead
 	 */
 	@NonNull
+	@Deprecated
 	public abstract Map<String, Ref> getRefs(String prefix) throws IOException;
+
+	/**
+	 * Returns refs whose names start with a given prefix.
+	 * <p>
+	 * The default implementation uses {@link #getRefs}. Implementors of
+	 * {@link RefDatabase} should override this method directly if a better
+	 * implementation is possible.
+	 *
+	 * @param prefix string that names of refs should start with; may be
+	 *             empty (to return all refs).
+	 * @return modifiable list of all refs whose names start with {@code
+	 *             prefix}.
+	 * @throws java.io.IOException
+	 *             the reference space cannot be accessed.
+	 * @since 5.0
+	 */
+	@NonNull
+	public List<Ref> getRefsByPrefix(String prefix) throws IOException {
+		Map<String, Ref> coarseRefs;
+		int lastSlash = prefix.lastIndexOf('/');
+		if (lastSlash == -1) {
+			coarseRefs = getRefs(ALL);
+		} else {
+			coarseRefs = getRefs(prefix.substring(0, lastSlash + 1));
+		}
+
+		String unmatchedPrefix = prefix.substring(lastSlash + 1);
+		if (unmatchedPrefix.isEmpty()) {
+			return new ArrayList<>(coarseRefs.values());
+		}
+		ArrayList<Ref> filteredRefs = new ArrayList<>();
+		for (Map.Entry<String, Ref> entry : coarseRefs.entrySet()) {
+			if (entry.getKey().startsWith(unmatchedPrefix)) {
+				filteredRefs.add(entry.getValue());
+			}
+		}
+		return filteredRefs;
+	}
 
 	/**
 	 * Get the additional reference-like entities from the repository.
