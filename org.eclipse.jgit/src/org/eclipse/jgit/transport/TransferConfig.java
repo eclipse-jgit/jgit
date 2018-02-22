@@ -62,8 +62,8 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.SystemReader;
 
 /**
- * The standard "transfer", "fetch", "receive", and "uploadpack" configuration
- * parameters.
+ * The standard "transfer", "fetch", "protocol", "receive", and "uploadpack"
+ * configuration parameters.
  */
 public class TransferConfig {
 	private static final String FSCK = "fsck"; //$NON-NLS-1$
@@ -92,6 +92,33 @@ public class TransferConfig {
 		IGNORE;
 	}
 
+	/**
+	 * A git configuration variable for which versions of the Git protocol to prefer.
+	 * Used in protocol.version.
+	 */
+	enum ProtocolVersion {
+		V0("0"),
+		V2("2");
+
+		final String name;
+
+		ProtocolVersion(String name) {
+			this.name = name;
+		}
+
+		static @Nullable ProtocolVersion parse(@Nullable String name) {
+			if (name == null) {
+				return null;
+			}
+			for (ProtocolVersion v : ProtocolVersion.values()) {
+				if (v.name.equals(name)) {
+					return v;
+				}
+			}
+			return null;
+		}
+	}
+
 	private final boolean fetchFsck;
 	private final boolean receiveFsck;
 	private final String fsckSkipList;
@@ -102,6 +129,7 @@ public class TransferConfig {
 	private final boolean allowTipSha1InWant;
 	private final boolean allowReachableSha1InWant;
 	private final boolean allowFilter;
+	final @Nullable ProtocolVersion protocolVersion;
 	final String[] hideRefs;
 
 	TransferConfig(final Repository db) {
@@ -156,6 +184,7 @@ public class TransferConfig {
 				"uploadpack", "allowreachablesha1inwant", false); //$NON-NLS-1$ //$NON-NLS-2$
 		allowFilter = rc.getBoolean(
 				"uploadpack", "allowfilter", false); //$NON-NLS-1$ //$NON-NLS-2$
+		protocolVersion = ProtocolVersion.parse(rc.getString("protocol", null, "version"));
 		hideRefs = rc.getStringList("uploadpack", null, "hiderefs"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
