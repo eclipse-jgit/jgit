@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.transport;
 
+import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_AGENT;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_ALLOW_REACHABLE_SHA1_IN_WANT;
@@ -65,12 +66,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.MessageFormat;
+import java.util.stream.Stream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -103,6 +106,7 @@ import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.storage.pack.PackStatistics;
 import org.eclipse.jgit.transport.GitProtocolConstants.MultiAck;
 import org.eclipse.jgit.transport.RefAdvertiser.PacketLineOutRefAdvertiser;
+import org.eclipse.jgit.transport.TransferConfig.ProtocolVersion;
 import org.eclipse.jgit.util.io.InterruptTimer;
 import org.eclipse.jgit.util.io.NullOutputStream;
 import org.eclipse.jgit.util.io.TimeoutInputStream;
@@ -112,6 +116,12 @@ import org.eclipse.jgit.util.io.TimeoutOutputStream;
  * Implements the server side of a fetch connection, transmitting objects.
  */
 public class UploadPack {
+	// UploadPack sends these lines as the first response to a client that
+	// supports protocol version 2.
+	private static final String[] v2CapabilityAdvertisement = {
+		"version 2",
+	};
+
 	/** Policy the server uses to validate client requests */
 	public static enum RequestPolicy {
 		/** Client may only ask for objects the server advertised a reference for. */
@@ -237,6 +247,12 @@ public class UploadPack {
 
 	/** Timer to manage {@link #timeout}. */
 	private InterruptTimer timer;
+
+	/**
+	 * Whether the client requested to use protocol V2 through a side
+	 * channel (such as the Git-Protocol HTTP header).
+	 */
+	private boolean clientRequestedV2;
 
 	private InputStream rawIn;
 
@@ -657,7 +673,34 @@ public class UploadPack {
 	}
 
 	/**
+	 * Set the Extra Parameters provided by the client.
+	 *
+	 * <p>These are parameters passed by the client through a side channel
+	 * (such as the Git-Protocol HTTP header)., to allow a client to request
+	 * a newer response format while remaining compatible with older servers
+	 * that do not understand different request formats.
+	 *
+	 * @param params
+	 *            parameters supplied by the client, split at colons or NUL
+	 *            bytes.
+	 * @since 5.0
+	 */
+	public void setExtraParameters(Collection<String> params) {
+		this.clientRequestedV2 = params.contains("version=2"); // $NON-NLS-1$
+	}
+
+	private boolean useProtocolV2() {
+		return Objects.equals(transferConfig.protocolVersion,
+					ProtocolVersion.V2)
+				&& clientRequestedV2;
+	}
+
+	/**
 	 * Execute the upload task on the socket.
+	 *
+	 * <p>If the client passed extra parameters (e.g., "version=2") through a
+	 * side channel, the caller must call setExtraParameters first to supply
+	 * them.
 	 *
 	 * @param input
 	 *            raw input to read client commands from. Caller must ensure the
@@ -699,7 +742,11 @@ public class UploadPack {
 
 			pckIn = new PacketLineIn(rawIn);
 			pckOut = new PacketLineOut(rawOut);
-			service();
+			if (useProtocolV2()) {
+				serviceV2();
+			} else {
+				service();
+			}
 		} finally {
 			msgOut = NullOutputStream.INSTANCE;
 			walk.close();
@@ -821,6 +868,40 @@ public class UploadPack {
 			sendPack(accumulator);
 	}
 
+	private void serviceV2() throws IOException {
+		if (biDirectionalPipe) {
+			// Just like in service(), the capability advertisement
+			// is sent only if this is a bidirectional pipe. (If
+			// not, the client is expected to call
+			// sendAdvertisedRefs() on its own.)
+			for (String s : v2CapabilityAdvertisement) {
+				pckOut.writeString(s + "\n");
+			}
+			pckOut.end();
+		}
+
+		try {
+			while (true) {
+				String command;
+				try {
+					command = pckIn.readString();
+				} catch (EOFException eof) {
+					/* EOF when awaiting command is fine */
+					break;
+				}
+				if (command == PacketLineIn.END) {
+					// A blank request is valid according
+					// to the protocol; do nothing in this
+					// case.
+				} else {
+					throw new PackProtocolException("unknown command " + command);
+				}
+			}
+		} finally {
+			rawOut.stopBuffering();
+		}
+	}
+
 	private static Set<ObjectId> refIdSet(Collection<Ref> refs) {
 		Set<ObjectId> ids = new HashSet<>(refs.size());
 		for (Ref ref : refs) {
@@ -921,6 +1002,16 @@ public class UploadPack {
 				fail.setOutput();
 			}
 			throw fail;
+		}
+
+		if (useProtocolV2()) {
+			// The equivalent in v2 is only the capabilities
+			// advertisement.
+			for (String s : v2CapabilityAdvertisement) {
+				adv.writeOne(s);
+			}
+			adv.end();
+			return;
 		}
 
 		adv.init(db);
