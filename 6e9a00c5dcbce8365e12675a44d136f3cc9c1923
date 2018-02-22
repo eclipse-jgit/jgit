@@ -1,0 +1,158 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "341c1530_9991fb1a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/IgnoreNodeTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-22T23:35:12Z",
+      "side": 1,
+      "message": "unrelated formatting change",
+      "revId": "6e9a00c5dcbce8365e12675a44d136f3cc9c1923",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "954b4726_2b0b5631",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/IgnoreNodeTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 764,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-22T23:35:12Z",
+      "side": 1,
+      "message": "remove dead code",
+      "revId": "6e9a00c5dcbce8365e12675a44d136f3cc9c1923",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91b657b3_ec03f543",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/IgnoreNode.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-22T23:35:12Z",
+      "side": 1,
+      "message": "@since 4.11",
+      "revId": "6e9a00c5dcbce8365e12675a44d136f3cc9c1923",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "249f6234_d45a4cbc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-22T23:35:12Z",
+      "side": 1,
+      "message": "unrelated formatting change",
+      "revId": "6e9a00c5dcbce8365e12675a44d136f3cc9c1923",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab56346b_bb17f949",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-22T23:35:12Z",
+      "side": 1,
+      "message": "unrelated formatting fix, do it in separate change",
+      "revId": "6e9a00c5dcbce8365e12675a44d136f3cc9c1923",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8d7d75b_da728f78",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1383,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-22T23:35:12Z",
+      "side": 1,
+      "message": "directoryToIgnore",
+      "range": {
+        "startLine": 1383,
+        "startChar": 29,
+        "endLine": 1383,
+        "endChar": 47
+      },
+      "revId": "6e9a00c5dcbce8365e12675a44d136f3cc9c1923",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70d95863_76c1f8ef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1462,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-22T23:35:12Z",
+      "side": 1,
+      "message": "isDirectoryIgnored",
+      "range": {
+        "startLine": 1462,
+        "startChar": 17,
+        "endLine": 1462,
+        "endChar": 42
+      },
+      "revId": "6e9a00c5dcbce8365e12675a44d136f3cc9c1923",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4aee0d18_41122608",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1470,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-22T23:35:12Z",
+      "side": 1,
+      "message": "isDirectoryIgnored",
+      "range": {
+        "startLine": 1470,
+        "startChar": 17,
+        "endLine": 1470,
+        "endChar": 42
+      },
+      "revId": "6e9a00c5dcbce8365e12675a44d136f3cc9c1923",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
