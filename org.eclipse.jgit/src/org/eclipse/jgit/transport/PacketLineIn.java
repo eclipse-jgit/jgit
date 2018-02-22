@@ -74,6 +74,9 @@ public class PacketLineIn {
 	/** Magic return from {@link #readString()} when a flush packet is found. */
 	public static final String END = new StringBuilder(0).toString(); 	/* must not string pool */
 
+	/** Magic return from {@link #readString()} when a delim packet is found. */
+	public static final String DELIM = new StringBuilder(0).toString(); 	/* must not string pool */
+
 	static enum AckNackResult {
 		/** NAK */
 		NAK,
@@ -157,6 +160,10 @@ public class PacketLineIn {
 			log.debug("git< 0000"); //$NON-NLS-1$
 			return END;
 		}
+		if (len == 1) {
+			log.debug("git< 0001"); //$NON-NLS-1$
+			return DELIM;
+		}
 
 		len -= 4; // length header (4 bytes)
 		if (len == 0) {
@@ -232,6 +239,8 @@ public class PacketLineIn {
 
 		if (len == 0) {
 			return 0;
+		} else if (len == 1) {
+			return 1;
 		} else if (len < 4) {
 			throw invalidHeader();
 		}

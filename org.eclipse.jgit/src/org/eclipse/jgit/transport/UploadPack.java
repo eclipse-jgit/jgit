@@ -111,6 +111,14 @@ import org.eclipse.jgit.util.io.TimeoutOutputStream;
  * Implements the server side of a fetch connection, transmitting objects.
  */
 public class UploadPack {
+
+	// UploadPack sends these lines as the first response to a client that
+	// supports protocol version 2.
+	private static final String[] v2CapabilityAdvertisement = {
+		"version 2\n",
+		"ls-refs\n"
+	};
+
 	/** Policy the server uses to validate client requests */
 	public static enum RequestPolicy {
 		/** Client may only ask for objects the server advertised a reference for. */
@@ -320,6 +328,8 @@ public class UploadPack {
 	@SuppressWarnings("deprecation")
 	private UploadPackLogger logger = UploadPackLogger.NULL;
 
+	private boolean useProtocolV2 = false;
+
 	/**
 	 * Create a new pack upload for an open repository.
 	 *
@@ -344,6 +354,10 @@ public class UploadPack {
 		SAVE.add(SATISFIED);
 
 		setTransferConfig(null);
+	}
+
+	public void setUseProtocolV2(boolean b) {
+		useProtocolV2 = b;
 	}
 
 	/**
@@ -722,7 +736,11 @@ public class UploadPack {
 
 			pckIn = new PacketLineIn(rawIn);
 			pckOut = new PacketLineOut(rawOut);
-			service();
+			if (useProtocolV2) {
+				serviceV2();
+			} else {
+				service();
+			}
 		} finally {
 			msgOut = NullOutputStream.INSTANCE;
 			walk.close();
@@ -857,6 +875,59 @@ public class UploadPack {
 
 		if (sendPack)
 			sendPack(accumulator);
+	}
+
+	private void lsRefsV2() throws IOException {
+		PacketLineOutRefAdvertiser adv = new PacketLineOutRefAdvertiser(pckOut);
+		Map<String, Ref> refs = getAdvertisedOrDefaultRefs();
+		String line;
+
+		adv.setUseProtocolV2(true);
+
+		while ((line = pckIn.readString()) != PacketLineIn.END) {
+			if (line.equals("peel")) {
+				adv.setDerefTags(true);
+			} else if (line.equals("symrefs")) {
+				findSymrefs(adv, refs);
+			}
+		}
+		adv.send(refs);
+		adv.end();
+	}
+
+	private void serviceV2() throws IOException {
+		if (biDirectionalPipe) {
+			// Just like in service(), the capability advertisement
+			// is sent only if this is a bidirectional pipe. (If
+			// not, the client is expected to call
+			// sendAdvertisedRefs() on its own.)
+			for (String s : v2CapabilityAdvertisement) {
+				pckOut.writeString(s);
+			}
+			pckOut.end();
+		}
+
+		try {
+			while (true) {
+				String command;
+				try {
+					command = pckIn.readString();
+				} catch (EOFException eof) {
+					/* EOF when awaiting command is fine */
+					break;
+				}
+				while (pckIn.readString() != PacketLineIn.DELIM) {
+					// ignore all capabilities
+				}
+				if (command.equals("command=ls-refs")) {
+					lsRefsV2();
+				} else {
+					throw new PackProtocolException("unknown command " + command);
+				}
+			}
+		} finally {
+			rawOut.stopBuffering();
+		}
 	}
 
 	private static Set<ObjectId> refIdSet(Collection<Ref> refs) {

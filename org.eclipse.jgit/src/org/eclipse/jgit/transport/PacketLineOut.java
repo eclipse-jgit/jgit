@@ -146,6 +146,12 @@ public class PacketLineOut {
 		}
 	}
 
+	public void writeDelim() throws IOException {
+		formatLength(1);
+		out.write(lenbuffer, 0, 4);
+		log.debug("git> 0001"); //$NON-NLS-1$
+	}
+
 	/**
 	 * Write a packet end marker, sometimes referred to as a flush command.
 	 * <p>
