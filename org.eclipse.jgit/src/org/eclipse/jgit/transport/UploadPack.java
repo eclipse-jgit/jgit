@@ -44,6 +44,7 @@
 package org.eclipse.jgit.transport;
 
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
+import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_LS_REFS;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_AGENT;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_ALLOW_REACHABLE_SHA1_IN_WANT;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_ALLOW_TIP_SHA1_IN_WANT;
@@ -112,6 +113,14 @@ import org.eclipse.jgit.util.io.TimeoutOutputStream;
  * Implements the server side of a fetch connection, transmitting objects.
  */
 public class UploadPack {
+
+	// UploadPack sends these lines as the first response to a client that
+	// supports protocol version 2.
+	private static final String[] v2CapabilityAdvertisement = {
+		"version 2",
+		CAPABILITY_LS_REFS
+	};
+
 	/** Policy the server uses to validate client requests */
 	public static enum RequestPolicy {
 		/** Client may only ask for objects the server advertised a reference for. */
@@ -320,6 +329,8 @@ public class UploadPack {
 
 	private long filterBlobLimit = -1;
 
+	private boolean useProtocolV2 = false;
+
 	/**
 	 * Create a new pack upload for an open repository.
 	 *
@@ -344,6 +355,15 @@ public class UploadPack {
 		SAVE.add(SATISFIED);
 
 		setTransferConfig(null);
+	}
+
+	/**
+	 * @param b
+	 *            true if the protocol v2 request and response format
+	 *            should be used, false otherwise
+	 */
+	public void setUseProtocolV2(boolean b) {
+		useProtocolV2 = b;
 	}
 
 	/**
@@ -699,7 +719,11 @@ public class UploadPack {
 
 			pckIn = new PacketLineIn(rawIn);
 			pckOut = new PacketLineOut(rawOut);
-			service();
+			if (useProtocolV2) {
+				serviceV2();
+			} else {
+				service();
+			}
 		} finally {
 			msgOut = NullOutputStream.INSTANCE;
 			walk.close();
@@ -819,6 +843,71 @@ public class UploadPack {
 
 		if (sendPack)
 			sendPack(accumulator);
+	}
+
+	private void lsRefsV2() throws IOException {
+		PacketLineOutRefAdvertiser adv = new PacketLineOutRefAdvertiser(pckOut);
+		Map<String, Ref> refs = getAdvertisedOrDefaultRefs();
+		String line;
+
+		adv.setUseProtocolV2(true);
+
+		line = pckIn.readString();
+
+		// Currently, we do not support any capabilities, so the next
+		// line is DELIM if there are arguments or END if not.
+		if (line == PacketLineIn.DELIM) {
+			while ((line = pckIn.readString()) != PacketLineIn.END) {
+				if (line.equals("peel")) {
+					adv.setDerefTags(true);
+				} else if (line.equals("symrefs")) {
+					findSymrefs(adv, refs);
+				} else {
+					throw new PackProtocolException("unexpected " + line);
+				}
+			}
+		} else if (line != PacketLineIn.END) {
+			throw new PackProtocolException("unexpected " + line);
+		}
+
+		adv.send(refs);
+		adv.end();
+	}
+
+	private void serviceV2() throws IOException {
+		if (biDirectionalPipe) {
+			// Just like in service(), the capability advertisement
+			// is sent only if this is a bidirectional pipe. (If
+			// not, the client is expected to call
+			// sendAdvertisedRefs() on its own.)
+			for (String s : v2CapabilityAdvertisement) {
+				pckOut.writeString(s + "\n");
+			}
+			pckOut.end();
+		}
+
+		try {
+			while (true) {
+				String command;
+				try {
+					command = pckIn.readString();
+				} catch (EOFException eof) {
+					/* EOF when awaiting command is fine */
+					break;
+				}
+				if (command == PacketLineIn.END) {
+					// A blank request is valid according
+					// to the protocol; do nothing in this
+					// case.
+				} else if (command.equals("command=" + CAPABILITY_LS_REFS)) {
+					lsRefsV2();
+				} else {
+					throw new PackProtocolException("unknown command " + command);
+				}
+			}
+		} finally {
+			rawOut.stopBuffering();
+		}
 	}
 
 	private static Set<ObjectId> refIdSet(Collection<Ref> refs) {
