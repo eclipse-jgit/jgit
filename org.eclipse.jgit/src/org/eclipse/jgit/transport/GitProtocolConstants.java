@@ -229,6 +229,13 @@ public class GitProtocolConstants {
 	 */
 	public static final String COMMAND_LS_REFS = "ls-refs"; //$NON-NLS-1$
 
+	/**
+	 * The server supports fetch using protocol v2.
+	 *
+	 * @since 5.0
+	 */
+	public static final String COMMAND_FETCH = "fetch"; //$NON-NLS-1$
+
 	static enum MultiAck {
 		OFF, CONTINUE, DETAILED;
 	}
