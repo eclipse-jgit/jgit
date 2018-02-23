@@ -65,6 +65,23 @@
     },
     {
       "key": {
+        "uuid": "87929364_8ccffe57",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 127645
+      },
+      "writtenOn": "2018-02-23T06:02:46Z",
+      "side": 1,
+      "message": "die code formatter .. .die, yes I see .. too long ;/",
+      "revId": "dda18ba444f4b3680e228c601e344ea664a72698",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "46d50ce4_b0dbbeb4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
         "patchSetId": 8
