@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87929364_7ddc3f5a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 127645
+      },
+      "writtenOn": "2018-02-23T06:02:46Z",
+      "side": 1,
+      "message": "perhaps should be renamed to clarify --tags is meant not --all which implies --tags ?!",
+      "range": {
+        "startLine": 109,
+        "startChar": 17,
+        "endLine": 109,
+        "endChar": 24
+      },
+      "revId": "580ad254482d8710f6532deb901fb921d5d36239",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
