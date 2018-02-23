@@ -102,6 +102,30 @@
       "revId": "dda18ba444f4b3680e228c601e344ea664a72698",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23da7eda_c823e85f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 127645
+      },
+      "writtenOn": "2018-02-23T06:06:38Z",
+      "side": 1,
+      "message": "indeed, I\u0027m with you, that for clean code we should change this. Indeed, as a good boy scout, I would do this.\nBut unless I\u0027m forced to revert other boyscouts to \"keep focus\" I\u0027m not very happy with neither encouraged to do this ..\nI\u0027d be like to do some refactorings ... for 5.0 ?\nIn a seperate change without any behavioral changes?!",
+      "parentUuid": "46d50ce4_b0dbbeb4",
+      "range": {
+        "startLine": 270,
+        "startChar": 6,
+        "endLine": 275,
+        "endChar": 20
+      },
+      "revId": "dda18ba444f4b3680e228c601e344ea664a72698",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
