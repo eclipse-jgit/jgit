@@ -104,6 +104,11 @@ public class DescribeCommand extends GitCommand<String> {
 	private List<IMatcher> matchers = new ArrayList<>();
 
 	/**
+	 * Wheter to use all tags (incl. leightweight) or not
+	 */
+	private boolean allTags = false;
+
+	/**
 	 * Constructor for DescribeCommand.
 	 *
 	 * @param repo
@@ -170,6 +175,20 @@ public class DescribeCommand extends GitCommand<String> {
 	 */
 	public DescribeCommand setLong(boolean longDesc) {
 		this.longDesc = longDesc;
+		return this;
+	}
+
+	/**
+	 * --tags Instead of using only the annotated tags, use any tag found in
+	 * refs/tags namespace. This option enables matching a lightweight
+	 * (non-annotated) tag.
+	 *
+	 * @param useAllTags
+	 *            <code>true</code> for as like setting --tags in c git
+	 * @return {@code this}
+	 */
+	public DescribeCommand setAllTags(boolean useAllTags) {
+		this.allTags = useAllTags;
 		return this;
 	}
 
@@ -246,9 +265,16 @@ public class DescribeCommand extends GitCommand<String> {
 			if (target == null)
 				setTarget(Constants.HEAD);
 
-			Collection<Ref> tagList = repo.getRefDatabase().getRefs(R_TAGS).values();
-			Map<ObjectId, List<Ref>> tags = tagList.stream()
-					.collect(Collectors.groupingBy(this::getObjectIdFromRef));
+			Map<ObjectId, List<Ref>> tags = repo.getTags().values().stream()
+					.filter(ref -> {
+						ObjectId id = ref.getObjectId();
+						try {
+							return Boolean.TRUE.equals(allTags)
+									|| (id != null && (w.parseTag(id) != null));
+						} catch (IOException e) {
+							return false;
+						}
+					}).collect(Collectors.groupingBy(this::getObjectIdFromRef));
 
 			// combined flags of all the candidate instances
 			final RevFlagSet allFlags = new RevFlagSet();
