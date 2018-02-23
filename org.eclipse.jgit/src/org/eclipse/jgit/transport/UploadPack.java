@@ -44,6 +44,7 @@
 package org.eclipse.jgit.transport;
 
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
+import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_FETCH;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_LS_REFS;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_AGENT;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_ALLOW_REACHABLE_SHA1_IN_WANT;
@@ -119,7 +120,8 @@ public class UploadPack {
 	// supports protocol version 2.
 	private static final String[] v2CapabilityAdvertisement = {
 		"version 2",
-		CAPABILITY_LS_REFS
+		CAPABILITY_LS_REFS,
+		CAPABILITY_FETCH
 	};
 
 	/** Policy the server uses to validate client requests */
@@ -894,6 +896,65 @@ public class UploadPack {
 		adv.end();
 	}
 
+	private void fetchV2() throws IOException {
+		options = new HashSet<>();
+
+		// Packs are always sent multiplexed and using full 64K
+		// lengths.
+		options.add(OPTION_SIDE_BAND_64K);
+
+		// In v2, any object is allowed to be requested.
+		setRequestPolicy(RequestPolicy.ANY);
+		advertised = Collections.<ObjectId>emptySet();
+
+		String line;
+		List<ObjectId> peerHas = new ArrayList<>();
+		boolean doneReceived = false;
+
+		// Currently, we do not support any capabilities, so the next
+		// line is DELIM.
+		if ((line = pckIn.readString()) != PacketLineIn.DELIM) {
+			throw new PackProtocolException("unexpected " + line);
+		}
+
+		while ((line = pckIn.readString()) != PacketLineIn.END) {
+			if (line.startsWith("want ")) {
+				wantIds.add(ObjectId.fromString(line.substring(5)));
+			} else if (line.startsWith("have ")) {
+				peerHas.add(ObjectId.fromString(line.substring(5)));
+			} else if (line.equals("done")) {
+				doneReceived = true;
+			}
+			// else ignore it
+		}
+
+		boolean sectionSent = false;
+		if (doneReceived) {
+			processHaveLines(peerHas, ObjectId.zeroId(), new PacketLineOut(NullOutputStream.INSTANCE));
+		} else {
+			pckOut.writeString("acknowledgments\n");
+			for (ObjectId id : peerHas) {
+				if (walk.getObjectReader().has(id)) {
+					pckOut.writeString("ACK " + id.getName() + "\n");
+				}
+			}
+			processHaveLines(peerHas, ObjectId.zeroId(), new PacketLineOut(NullOutputStream.INSTANCE));
+			if (okToGiveUp()) {
+				pckOut.writeString("ready\n");
+			} else if (commonBase.isEmpty()) {
+				pckOut.writeString("NAK\n");
+			}
+			sectionSent = true;
+		}
+		if (doneReceived || okToGiveUp()) {
+			if (sectionSent)
+				pckOut.writeDelim();
+			pckOut.writeString("packfile\n");
+			sendPack(new PackStatistics.Accumulator());
+		}
+		pckOut.end();
+	}
+
 	private void serviceV2() throws IOException {
 		if (biDirectionalPipe) {
 			// Just like in service(), the capability advertisement
@@ -917,6 +978,8 @@ public class UploadPack {
 				}
 				if (command.equals("command=" + CAPABILITY_LS_REFS)) {
 					lsRefsV2();
+				} else if (command.equals("command=" + CAPABILITY_FETCH)) {
+					fetchV2();
 				} else {
 					throw new PackProtocolException("unknown command " + command);
 				}
@@ -1229,7 +1292,7 @@ public class UploadPack {
 			}
 
 			if (line == PacketLineIn.END) {
-				last = processHaveLines(peerHas, last);
+				last = processHaveLines(peerHas, last, pckOut);
 				if (commonBase.isEmpty() || multiAck != MultiAck.OFF)
 					pckOut.writeString("NAK\n"); //$NON-NLS-1$
 				if (noDone && sentReady) {
@@ -1244,7 +1307,7 @@ public class UploadPack {
 				peerHas.add(ObjectId.fromString(line.substring(5)));
 				accumulator.haves++;
 			} else if (line.equals("done")) { //$NON-NLS-1$
-				last = processHaveLines(peerHas, last);
+				last = processHaveLines(peerHas, last, pckOut);
 
 				if (commonBase.isEmpty())
 					pckOut.writeString("NAK\n"); //$NON-NLS-1$
@@ -1260,7 +1323,7 @@ public class UploadPack {
 		}
 	}
 
-	private ObjectId processHaveLines(List<ObjectId> peerHas, ObjectId last)
+	private ObjectId processHaveLines(List<ObjectId> peerHas, ObjectId last, PacketLineOut out)
 			throws IOException {
 		preUploadHook.onBeginNegotiateRound(this, wantIds, peerHas.size());
 		if (wantAll.isEmpty() && !wantIds.isEmpty())
@@ -1305,13 +1368,13 @@ public class UploadPack {
 				switch (multiAck) {
 				case OFF:
 					if (commonBase.size() == 1)
-						pckOut.writeString("ACK " + obj.name() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
+						out.writeString("ACK " + obj.name() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
 					break;
 				case CONTINUE:
-					pckOut.writeString("ACK " + obj.name() + " continue\n"); //$NON-NLS-1$ //$NON-NLS-2$
+					out.writeString("ACK " + obj.name() + " continue\n"); //$NON-NLS-1$ //$NON-NLS-2$
 					break;
 				case DETAILED:
-					pckOut.writeString("ACK " + obj.name() + " common\n"); //$NON-NLS-1$ //$NON-NLS-2$
+					out.writeString("ACK " + obj.name() + " common\n"); //$NON-NLS-1$ //$NON-NLS-2$
 					break;
 				}
 			}
@@ -1337,10 +1400,10 @@ public class UploadPack {
 						case OFF:
 							break;
 						case CONTINUE:
-							pckOut.writeString("ACK " + id.name() + " continue\n"); //$NON-NLS-1$ //$NON-NLS-2$
+							out.writeString("ACK " + id.name() + " continue\n"); //$NON-NLS-1$ //$NON-NLS-2$
 							break;
 						case DETAILED:
-							pckOut.writeString("ACK " + id.name() + " ready\n"); //$NON-NLS-1$ //$NON-NLS-2$
+							out.writeString("ACK " + id.name() + " ready\n"); //$NON-NLS-1$ //$NON-NLS-2$
 							sentReady = true;
 							break;
 						}
@@ -1352,7 +1415,7 @@ public class UploadPack {
 
 		if (multiAck == MultiAck.DETAILED && !didOkToGiveUp && okToGiveUp()) {
 			ObjectId id = peerHas.get(peerHas.size() - 1);
-			pckOut.writeString("ACK " + id.name() + " ready\n"); //$NON-NLS-1$ //$NON-NLS-2$
+			out.writeString("ACK " + id.name() + " ready\n"); //$NON-NLS-1$ //$NON-NLS-2$
 			sentReady = true;
 		}
 
