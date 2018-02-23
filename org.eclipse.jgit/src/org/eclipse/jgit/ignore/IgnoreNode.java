@@ -145,7 +145,12 @@ public class IgnoreNode {
 	 * @return status of the path.
 	 */
 	public MatchResult isIgnored(String entryPath, boolean isDirectory) {
-		return isIgnored(entryPath, isDirectory, false);
+		final Boolean result = checkIgnored(entryPath, isDirectory);
+		if (result == null) {
+			return MatchResult.CHECK_PARENT;
+		}
+
+		return result ? MatchResult.IGNORED : MatchResult.NOT_IGNORED;
 	}
 
 	/**
@@ -159,45 +164,47 @@ public class IgnoreNode {
 	 *            true if the target item is a directory.
 	 * @param negateFirstMatch
 	 *            true if the first match should be negated
+	 * @deprecated negateFirstMatch is not honored anymore
 	 * @return status of the path.
 	 * @since 3.6
 	 */
+	@Deprecated
 	public MatchResult isIgnored(String entryPath, boolean isDirectory,
 			boolean negateFirstMatch) {
-		if (rules.isEmpty())
-			if (negateFirstMatch)
-				return MatchResult.CHECK_PARENT_NEGATE_FIRST_MATCH;
-			else
-				return MatchResult.CHECK_PARENT;
+		final Boolean result = checkIgnored(entryPath, isDirectory);
+		if (result == null) {
+			return negateFirstMatch
+					? MatchResult.CHECK_PARENT_NEGATE_FIRST_MATCH
+					: MatchResult.CHECK_PARENT;
+		}
 
-		// Parse rules in the reverse order that they were read
+		return result ? MatchResult.IGNORED : MatchResult.NOT_IGNORED;
+	}
+
+	/**
+	 * Determine if an entry path matches an ignore rule.
+	 *
+	 * @param entryPath
+	 *            the path to test. The path must be relative to this ignore
+	 *            node's own repository path, and in repository path format
+	 *            (uses '/' and not '\').
+	 * @param isDirectory
+	 *            true if the target item is a directory.
+	 * @return Boolean.TRUE, if the entry is ignored; Boolean.FALSE, if the
+	 *         entry is forced to be not ignored (negated match); or null, if
+	 *         undetermined
+	 * @since 4.11
+	 */
+	public Boolean checkIgnored(String entryPath, boolean isDirectory) {
+		// Parse rules in the reverse order that they were read because later
+		// rules have higher priority
 		for (int i = rules.size() - 1; i > -1; i--) {
 			FastIgnoreRule rule = rules.get(i);
-			if (rule.isMatch(entryPath, isDirectory)) {
-				if (rule.getResult()) {
-					// rule matches: path could be ignored
-					if (negateFirstMatch)
-						// ignore current match, reset "negate" flag, continue
-						negateFirstMatch = false;
-					else
-						// valid match, just return
-						return MatchResult.IGNORED;
-				} else {
-					// found negated rule
-					if (negateFirstMatch)
-						// not possible to re-include excluded ignore rule
-						return MatchResult.NOT_IGNORED;
-					else
-						// set the flag and continue
-						negateFirstMatch = true;
-				}
+			if (rule.isMatch(entryPath, isDirectory, true)) {
+				return Boolean.valueOf(rule.getResult());
 			}
 		}
-		if (negateFirstMatch)
-			// negated rule found but there is no previous rule in *this* file
-			return MatchResult.CHECK_PARENT_NEGATE_FIRST_MATCH;
-		// *this* file has no matching rules
-		return MatchResult.CHECK_PARENT;
+		return null;
 	}
 
 	/** {@inheritDoc} */

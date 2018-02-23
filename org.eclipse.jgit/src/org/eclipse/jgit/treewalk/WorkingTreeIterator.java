@@ -60,6 +60,8 @@ import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.jgit.api.errors.FilterFailedException;
 import org.eclipse.jgit.attributes.AttributesNode;
@@ -661,54 +663,60 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	 *             a relevant ignore rule file exists but cannot be read.
 	 */
 	protected boolean isEntryIgnored(final int pLen) throws IOException {
-		return isEntryIgnored(pLen, mode, false);
+		return isEntryIgnored(pLen, mode);
 	}
 
 	/**
-	 * Determine if the entry path is ignored by an ignore rule. Consider
-	 * possible rule negation from child iterator.
+	 * Determine if the entry path is ignored by an ignore rule.
 	 *
 	 * @param pLen
 	 *            the length of the path in the path buffer.
 	 * @param fileMode
 	 *            the original iterator file mode
-	 * @param negatePrevious
-	 *            true if the previous matching iterator rule was negation
 	 * @return true if the entry is ignored by an ignore rule.
 	 * @throws IOException
 	 *             a relevant ignore rule file exists but cannot be read.
 	 */
-	private boolean isEntryIgnored(final int pLen, int fileMode,
-			boolean negatePrevious)
+	private boolean isEntryIgnored(final int pLen, int fileMode)
 			throws IOException {
-		IgnoreNode rules = getIgnoreNode();
-		if (rules != null) {
-			// The ignore code wants path to start with a '/' if possible.
-			// If we have the '/' in our path buffer because we are inside
-			// a subdirectory include it in the range we convert to string.
-			//
-			int pOff = pathOffset;
-			if (0 < pOff)
-				pOff--;
-			String p = TreeWalk.pathOf(path, pOff, pLen);
-			switch (rules.isIgnored(p, FileMode.TREE.equals(fileMode),
-					negatePrevious)) {
-			case IGNORED:
-				return true;
-			case NOT_IGNORED:
-				return false;
-			case CHECK_PARENT:
-				negatePrevious = false;
-				break;
-			case CHECK_PARENT_NEGATE_FIRST_MATCH:
-				negatePrevious = true;
-				break;
-			}
+		// The ignore code wants path to start with a '/' if possible.
+		// If we have the '/' in our path buffer because we are inside
+		// a sub-directory include it in the range we convert to string.
+		//
+		final int pOff = 0 < pathOffset ? pathOffset - 1 : pathOffset;
+		String pathRel = TreeWalk.pathOf(this.path, pOff, pLen);
+		String parentRel = getParentPath(pathRel);
+
+		// CGit is processing .gitignore files by starting at the root of the
+		// repository and then recursing into subdirectories. With this
+		// approach, top-level ignored directories will be processed first which
+		// allows to skip entire subtrees and further .gitignore-file processing
+		// within these subtrees.
+		//
+		// We will follow the same approach by marking directories as "ignored"
+		// here. This allows to have a simplified FastIgnore.checkIgnore()
+		// implementation (both in terms of code and computational complexity):
+		//
+		// Without the "ignored" flag, we would have to apply the ignore-check
+		// to a path and all of its parents always(!), to determine whether a
+		// path is ignored directly or by one of its parent directories; with
+		// the "ignored" flag, we know at this point that the parent directory
+		// is definitely not ignored, thus the path can only become ignored if
+		// there is a rule matching the path itself.
+		if (isDirectoryIgnored(parentRel)) {
+			return true;
 		}
-		if (parent instanceof WorkingTreeIterator)
-			return ((WorkingTreeIterator) parent).isEntryIgnored(pLen, fileMode,
-					negatePrevious);
-		return false;
+
+		IgnoreNode rules = getIgnoreNode();
+		final Boolean ignored = rules != null
+				? rules.checkIgnored(pathRel, FileMode.TREE.equals(fileMode))
+				: null;
+		if (ignored != null) {
+			return ignored.booleanValue();
+		}
+		return parent instanceof WorkingTreeIterator
+				&& ((WorkingTreeIterator) parent).isEntryIgnored(pLen,
+						fileMode);
 	}
 
 	private IgnoreNode getIgnoreNode() throws IOException {
@@ -1372,6 +1380,8 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		/** Position of the matching {@link DirCacheIterator}. */
 		int dirCacheTree;
 
+		final Map<String, Boolean> directoryToIgnored = new HashMap<>();
+
 		IteratorState(WorkingTreeOptions options) {
 			this.options = options;
 			this.nameEncoder = Constants.CHARSET.newEncoder();
@@ -1447,5 +1457,68 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 			eolStreamTypeHolder = new Holder<>(type);
 		}
 		return eolStreamTypeHolder.get();
+	}
+
+	private boolean isDirectoryIgnored(String pathRel) throws IOException {
+		final int pOff = 0 < pathOffset ? pathOffset - 1 : pathOffset;
+		final String base = TreeWalk.pathOf(this.path, 0, pOff);
+		final String pathAbs = concatPath(base, pathRel);
+		return isDirectoryIgnored(pathRel, pathAbs);
+	}
+
+	private boolean isDirectoryIgnored(String pathRel, String pathAbs)
+			throws IOException {
+		assert pathRel.length() == 0 || (pathRel.charAt(0) != '/'
+				&& pathRel.charAt(pathRel.length() - 1) != '/');
+		assert pathAbs.length() == 0 || (pathAbs.charAt(0) != '/'
+				&& pathAbs.charAt(pathAbs.length() - 1) != '/');
+		assert pathAbs.endsWith(pathRel);
+
+		Boolean ignored = state.directoryToIgnored.get(pathAbs);
+		if (ignored != null) {
+			return ignored;
+		}
+
+		final String parentRel = getParentPath(pathRel);
+		if (parentRel != null && isDirectoryIgnored(parentRel)) {
+			state.directoryToIgnored.put(pathAbs, Boolean.TRUE);
+			return true;
+		}
+
+		final IgnoreNode ignoreNode = getIgnoreNode();
+		for (String path = pathRel; ignoreNode != null
+				&& !"".equals(path); path = getParentPath(path)) {
+			ignored = ignoreNode.checkIgnored(path, true);
+			if (ignored != null) {
+				state.directoryToIgnored.put(pathAbs, ignored);
+				return ignored;
+			}
+		}
+
+		if (!(this.parent instanceof WorkingTreeIterator)) {
+			state.directoryToIgnored.put(pathAbs, Boolean.FALSE);
+			return false;
+		}
+
+		final WorkingTreeIterator wtParent = (WorkingTreeIterator) this.parent;
+		final String parentRelPath = concatPath(
+				TreeWalk.pathOf(this.path, wtParent.pathOffset, pathOffset - 1),
+				pathRel);
+		assert concatPath(TreeWalk.pathOf(wtParent.path, 0,
+				Math.max(0, wtParent.pathOffset - 1)), parentRelPath)
+						.equals(pathAbs);
+		return wtParent.isDirectoryIgnored(parentRelPath, pathAbs);
+	}
+
+	private static String getParentPath(String path) {
+		final int slashIndex = path.lastIndexOf('/', path.length() - 2);
+		if (slashIndex > 0) {
+			return path.substring(path.charAt(0) == '/' ? 1 : 0, slashIndex);
+		}
+		return path.length() > 0 ? "" : null;
+	}
+
+	private static String concatPath(String p1, String p2) {
+		return p1 + (p1.length() > 0 && p2.length() > 0 ? "/" : "") + p2;
 	}
 }
