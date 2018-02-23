@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_0c094e37",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 127645
+      },
+      "writtenOn": "2018-02-23T06:02:46Z",
+      "side": 1,
+      "message": "you\u0027re right, I didn\u0027t read this carefully enough",
+      "parentUuid": "87929364_3879e5e7",
+      "revId": "bc35b6da7a8ebe125db0a851e90757af21bc6665",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_58679144",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2018-01-20T01:07:18Z",
       "side": 1,
       "message": "I think we could postpone changing the default in another change to 5.0, then we could already submit this change to enable support for explicitly setting allTags true or false already in 4.11",
+      "revId": "bc35b6da7a8ebe125db0a851e90757af21bc6665",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_8cfd3e7c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 127645
+      },
+      "writtenOn": "2018-02-23T06:02:46Z",
+      "side": 1,
+      "message": "so what is your preferred workflow:\nfirst: doing a second change to set the default to true which then can be reverted for 5.0, or update the patch under review?\nsecond: file a 5.0 \"bug\" to track that needed default change or do we already have a 5.0 branch?",
+      "parentUuid": "87929364_58679144",
       "revId": "bc35b6da7a8ebe125db0a851e90757af21bc6665",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_6c3d72ea",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 127645
+      },
+      "writtenOn": "2018-02-23T06:02:46Z",
+      "side": 1,
+      "message": "yes, I believe in IntelliJ ;D\nBut I Imported the Eclipse formatter settings from tools, If s.th. is not defined there ...\nBut yes ... I can Startup an eclipse for that reformatting stuff.",
+      "parentUuid": "87929364_b88dd587",
+      "revId": "bc35b6da7a8ebe125db0a851e90757af21bc6665",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_18a349fb",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
         "patchSetId": 6
@@ -87,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "87929364_ac375a07",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 127645
+      },
+      "writtenOn": "2018-02-23T06:02:46Z",
+      "side": 1,
+      "message": "just for my interest: when is is appreciated to reformat a line and when not? just do when the line is affected? Commonly I reformat a class when touching it... just a question of boyscout rule of the project?! :)\n\nAnd just for your interest: It is that annoying to dismiss \"unwilling\" changes. Even using eclipse with the project formatter options will change a lot already included but wrong formatted lines. It took be more than twice the time to dismiss this whitespace stuff than writing the patch ... omgh ... to be said: I love code and conventions, but they must not disturb fun and ruin a community as I see this here, sorry for this rude words, but that\u0027s my feeling about this and I think I\u0027m not willing to contribute again to an eclipse project under this circumstances ;/",
+      "parentUuid": "87929364_18a349fb",
+      "revId": "bc35b6da7a8ebe125db0a851e90757af21bc6665",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_f8a3ddf8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
         "patchSetId": 6
@@ -98,6 +170,41 @@
       "writtenOn": "2018-01-20T01:07:18Z",
       "side": 1,
       "message": "missing since tag for new API method",
+      "revId": "bc35b6da7a8ebe125db0a851e90757af21bc6665",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_4c2a767f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 127645
+      },
+      "writtenOn": "2018-02-23T06:02:46Z",
+      "side": 1,
+      "message": "?! I don\u0027t understand",
+      "parentUuid": "87929364_f8a3ddf8",
+      "revId": "bc35b6da7a8ebe125db0a851e90757af21bc6665",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_7da19f7d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 127645
+      },
+      "writtenOn": "2018-02-23T06:02:46Z",
+      "side": 1,
+      "message": "so ugly flow command try catch, but don\u0027t know how to handle this elegant at this point",
       "revId": "bc35b6da7a8ebe125db0a851e90757af21bc6665",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
