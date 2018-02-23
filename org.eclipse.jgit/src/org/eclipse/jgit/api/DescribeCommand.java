@@ -104,6 +104,11 @@ public class DescribeCommand extends GitCommand<String> {
 	private List<IMatcher> matchers = new ArrayList<>();
 
 	/**
+	 * Whether to use all tags (incl. lightweight) or not
+	 */
+	private boolean useTags = false;
+
+	/**
 	 * Constructor for DescribeCommand.
 	 *
 	 * @param repo
@@ -170,6 +175,22 @@ public class DescribeCommand extends GitCommand<String> {
 	 */
 	public DescribeCommand setLong(boolean longDesc) {
 		this.longDesc = longDesc;
+		return this;
+	}
+
+	/**
+	 * Instead of using only the annotated tags, use any tag found in refs/tags
+	 * namespace. This option enables matching lightweight (non-annotated) tags
+	 * or not.
+	 *
+	 * @param tags
+	 *            <code>true</code> enables matching lightweight (non-annotated)
+	 *            tags like setting option --tags in c git
+	 * @return {@code this}
+	 * @since 5.0
+	 */
+	public DescribeCommand setTags(boolean tags) {
+		this.useTags = tags;
 		return this;
 	}
 
@@ -246,13 +267,14 @@ public class DescribeCommand extends GitCommand<String> {
 	public String call() throws GitAPIException {
 		try {
 			checkCallable();
-
-			if (target == null)
+			if (target == null) {
 				setTarget(Constants.HEAD);
+			}
 
 			Collection<Ref> tagList = repo.getRefDatabase()
 					.getRefsByPrefix(R_TAGS);
 			Map<ObjectId, List<Ref>> tags = tagList.stream()
+					.filter(this::filterLightweightTags)
 					.collect(Collectors.groupingBy(this::getObjectIdFromRef));
 
 			// combined flags of all the candidate instances
@@ -374,6 +396,24 @@ public class DescribeCommand extends GitCommand<String> {
 		} finally {
 			setCallable(false);
 			w.close();
+		}
+	}
+
+	/**
+	 * Whether we use lightweight tags or not for describe Candidates
+	 *
+	 * @param ref
+	 *            reference under inspection
+	 * @return true if it should be used for describe or not regarding
+	 *         {@link org.eclipse.jgit.api.DescribeCommand#useTags}
+	 */
+	@SuppressWarnings("null")
+	private boolean filterLightweightTags(Ref ref) {
+		ObjectId id = ref.getObjectId();
+		try {
+			return this.useTags || (id != null && (w.parseTag(id) != null));
+		} catch (IOException e) {
+			return false;
 		}
 	}
 }
