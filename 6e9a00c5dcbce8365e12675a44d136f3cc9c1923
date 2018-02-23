@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a2b5900b_3dc643e5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/IgnoreNodeTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2018-02-23T13:42:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "341c1530_9991fb1a",
+      "revId": "6e9a00c5dcbce8365e12675a44d136f3cc9c1923",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "954b4726_2b0b5631",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/IgnoreNodeTest.java",
         "patchSetId": 9
@@ -30,6 +48,24 @@
       "writtenOn": "2018-02-22T23:35:12Z",
       "side": 1,
       "message": "remove dead code",
+      "revId": "6e9a00c5dcbce8365e12675a44d136f3cc9c1923",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e6ce3c1_2aa3081e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/IgnoreNodeTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 764,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2018-02-23T13:42:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "954b4726_2b0b5631",
       "revId": "6e9a00c5dcbce8365e12675a44d136f3cc9c1923",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "9f6d0346_e05d2b0d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/IgnoreNode.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2018-02-23T13:42:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91b657b3_ec03f543",
+      "revId": "6e9a00c5dcbce8365e12675a44d136f3cc9c1923",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "249f6234_d45a4cbc",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 9
@@ -64,6 +118,24 @@
       "writtenOn": "2018-02-22T23:35:12Z",
       "side": 1,
       "message": "unrelated formatting change",
+      "revId": "6e9a00c5dcbce8365e12675a44d136f3cc9c1923",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "92316a33_cb17de60",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2018-02-23T13:42:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "249f6234_d45a4cbc",
       "revId": "6e9a00c5dcbce8365e12675a44d136f3cc9c1923",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "3944fb1a_df3dde5c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2018-02-23T13:42:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab56346b_bb17f949",
+      "revId": "6e9a00c5dcbce8365e12675a44d136f3cc9c1923",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e8d7d75b_da728f78",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 9
@@ -98,6 +188,30 @@
       "writtenOn": "2018-02-22T23:35:12Z",
       "side": 1,
       "message": "directoryToIgnore",
+      "range": {
+        "startLine": 1383,
+        "startChar": 29,
+        "endLine": 1383,
+        "endChar": 47
+      },
+      "revId": "6e9a00c5dcbce8365e12675a44d136f3cc9c1923",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94213883_e6b412f7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1383,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2018-02-23T13:42:07Z",
+      "side": 1,
+      "message": "It\u0027s about the \"ignored\" flag. The method is also called \"isDirectoryIgnored\", so I\u0027d leave as is.",
+      "parentUuid": "e8d7d75b_da728f78",
       "range": {
         "startLine": 1383,
         "startChar": 29,
@@ -133,6 +247,30 @@
     },
     {
       "key": {
+        "uuid": "f5083260_a45b2af7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1462,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2018-02-23T13:42:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70d95863_76c1f8ef",
+      "range": {
+        "startLine": 1462,
+        "startChar": 17,
+        "endLine": 1462,
+        "endChar": 42
+      },
+      "revId": "6e9a00c5dcbce8365e12675a44d136f3cc9c1923",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4aee0d18_41122608",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 9
@@ -144,6 +282,30 @@
       "writtenOn": "2018-02-22T23:35:12Z",
       "side": 1,
       "message": "isDirectoryIgnored",
+      "range": {
+        "startLine": 1470,
+        "startChar": 17,
+        "endLine": 1470,
+        "endChar": 42
+      },
+      "revId": "6e9a00c5dcbce8365e12675a44d136f3cc9c1923",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c818dc43_a940340b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1470,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2018-02-23T13:42:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4aee0d18_41122608",
       "range": {
         "startLine": 1470,
         "startChar": 17,
