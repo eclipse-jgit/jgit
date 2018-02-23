@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87929364_3d78f79a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/DescribeCommandTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 127645
+      },
+      "writtenOn": "2018-02-23T06:02:46Z",
+      "side": 1,
+      "message": "can\u0027t see why this test fails https://ci.eclipse.org/jgit/job/jgit.gerrit/12147/testReport/org.eclipse.jgit.api/DescribeCommandTest/testDescribe_git_tag__a_true__a__with_git_describe_false___tags__/",
+      "revId": "3291b4c704987f5a148009ceb74d06c7bdf25cdc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
