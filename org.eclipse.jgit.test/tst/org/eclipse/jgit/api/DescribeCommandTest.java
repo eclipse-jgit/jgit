@@ -143,7 +143,7 @@ public class DescribeCommandTest extends RepositoryTestCase {
 			assertEquals("bob-t2-1-g3e563c5", git.describe().setAllTags(false).call());
 			assertEquals("bob-t2-1-g3e563c5", git.describe().setAllTags(true).call());
 		} else {
-			assertEquals("bob-t2-1-g3e563c5", git.describe().call());
+			assertEquals(null, git.describe().call());
 			assertEquals(null, git.describe().setAllTags(false).call());
 			assertEquals("bob-t2-1-g3e563c5", git.describe().setAllTags(true).call());
 		}
