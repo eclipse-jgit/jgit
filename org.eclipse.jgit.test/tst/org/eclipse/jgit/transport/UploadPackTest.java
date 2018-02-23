@@ -1,19 +1,26 @@
 package org.eclipse.jgit.transport;
 
+import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.theInstance;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.StringWriter;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.storage.dfs.DfsGarbageCollector;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.Sets;
 import org.eclipse.jgit.revwalk.RevBlob;
@@ -24,6 +31,7 @@ import org.eclipse.jgit.transport.UploadPack.RequestPolicy;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 import org.eclipse.jgit.transport.resolver.UploadPackFactory;
+import org.eclipse.jgit.util.io.NullOutputStream;
 import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Before;
@@ -344,7 +352,8 @@ public class UploadPackTest {
 	 * Returns UploadPack's output stream, not including the capability
 	 * advertisement by the server.
 	 */
-	private ByteArrayInputStream uploadPackV2(String... inputLines) throws Exception {
+	private ByteArrayInputStream uploadPackV2(RequestPolicy requestPolicy,
+			RefFilter refFilter, String... inputLines) throws Exception {
 		ByteArrayOutputStream send = new ByteArrayOutputStream();
 		PacketLineOut pckOut = new PacketLineOut(send);
 		for (String line : inputLines) {
@@ -359,6 +368,10 @@ public class UploadPackTest {
 
 		server.getConfig().setString("protocol", null, "version", "2");
 		UploadPack up = new UploadPack(server);
+		if (requestPolicy != null)
+			up.setRequestPolicy(requestPolicy);
+		if (refFilter != null)
+			up.setRefFilter(refFilter);
 		up.setExtraParameters(Sets.of("version=2"));
 
 		ByteArrayOutputStream recv = new ByteArrayOutputStream();
@@ -369,9 +382,21 @@ public class UploadPackTest {
 
 		// capability advertisement (always sent)
 		assertThat(pckIn.readString(), is("version 2"));
-		assertThat(pckIn.readString(), is("ls-refs"));
+		assertThat(
+			Arrays.asList(pckIn.readString(), pckIn.readString()),
+			// TODO(jonathantanmy) This check is written this way
+			// to make it simple to see that we expect this list of
+			// capabilities, but probably should be loosened to
+			// allow additional commands to be added to the list,
+			// and additional capabilities to be added to existing
+			// commands without requiring test changes.
+			hasItems("ls-refs", "fetch"));
 		assertTrue(pckIn.readString() == PacketLineIn.END);
 		return recvStream;
+	}
+
+	private ByteArrayInputStream uploadPackV2(String... inputLines) throws Exception {
+		return uploadPackV2(null, null, inputLines);
 	}
 
 	@Test
@@ -500,4 +525,235 @@ public class UploadPackTest {
 		assertThat(pckIn.readString(), is(tip.toObjectId().getName() + " refs/heads/other"));
 		assertTrue(pckIn.readString() == PacketLineIn.END);
 	}
+
+	/*
+	 * Parse multiplexed packfile output from upload-pack using protocol V2
+	 * into the client repository.
+	 */
+	private void parsePack(ByteArrayInputStream recvStream) throws Exception {
+		SideBandInputStream sb = new SideBandInputStream(
+				recvStream, NullProgressMonitor.INSTANCE,
+				new StringWriter(), NullOutputStream.INSTANCE);
+		client.newObjectInserter().newPackParser(sb).parse(NullProgressMonitor.INSTANCE);
+	}
+
+	@Test
+	public void testV2FetchRequestPolicyAdvertised() throws Exception {
+		RevCommit advertized = remote.commit().message("x").create();
+		RevCommit unadvertized = remote.commit().message("y").create();
+		remote.update("branch1", advertized);
+
+		// This works
+		uploadPackV2(
+			RequestPolicy.ADVERTISED,
+			null,
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"want " + advertized.name() + "\n",
+			PacketLineIn.END);
+
+		// This doesn't
+		thrown.expect(TransportException.class);
+		thrown.expectMessage(Matchers.containsString(
+					"want " + unadvertized.name() + " not valid"));
+		uploadPackV2(
+			RequestPolicy.ADVERTISED,
+			null,
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"want " + unadvertized.name() + "\n",
+			PacketLineIn.END);
+	}
+
+	@Test
+	public void testV2FetchRequestPolicyReachableCommit() throws Exception {
+		RevCommit reachable = remote.commit().message("x").create();
+		RevCommit advertized = remote.commit().message("x").parent(reachable).create();
+		RevCommit unreachable = remote.commit().message("y").create();
+		remote.update("branch1", advertized);
+
+		// This works
+		uploadPackV2(
+			RequestPolicy.REACHABLE_COMMIT,
+			null,
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"want " + reachable.name() + "\n",
+			PacketLineIn.END);
+
+		// This doesn't
+		thrown.expect(TransportException.class);
+		thrown.expectMessage(Matchers.containsString(
+					"want " + unreachable.name() + " not valid"));
+		uploadPackV2(
+			RequestPolicy.REACHABLE_COMMIT,
+			null,
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"want " + unreachable.name() + "\n",
+			PacketLineIn.END);
+	}
+
+	@Test
+	public void testV2FetchRequestPolicyTip() throws Exception {
+		RevCommit parentOfTip = remote.commit().message("x").create();
+		RevCommit tip = remote.commit().message("y").parent(parentOfTip).create();
+		remote.update("secret", tip);
+
+		// This works
+		uploadPackV2(
+			RequestPolicy.TIP,
+			new RejectAllRefFilter(),
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"want " + tip.name() + "\n",
+			PacketLineIn.END);
+
+		// This doesn't
+		thrown.expect(TransportException.class);
+		thrown.expectMessage(Matchers.containsString(
+					"want " + parentOfTip.name() + " not valid"));
+		uploadPackV2(
+			RequestPolicy.TIP,
+			new RejectAllRefFilter(),
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"want " + parentOfTip.name() + "\n",
+			PacketLineIn.END);
+	}
+
+	@Test
+	public void testV2FetchRequestPolicyReachableCommitTip() throws Exception {
+		RevCommit parentOfTip = remote.commit().message("x").create();
+		RevCommit tip = remote.commit().message("y").parent(parentOfTip).create();
+		RevCommit unreachable = remote.commit().message("y").create();
+		remote.update("secret", tip);
+
+		// This works
+		uploadPackV2(
+			RequestPolicy.REACHABLE_COMMIT_TIP,
+			new RejectAllRefFilter(),
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"want " + parentOfTip.name() + "\n",
+			PacketLineIn.END);
+
+		// This doesn't
+		thrown.expect(TransportException.class);
+		thrown.expectMessage(Matchers.containsString(
+					"want " + unreachable.name() + " not valid"));
+		uploadPackV2(
+			RequestPolicy.REACHABLE_COMMIT_TIP,
+			new RejectAllRefFilter(),
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"want " + unreachable.name() + "\n",
+			PacketLineIn.END);
+	}
+
+	@Test
+	public void testV2FetchRequestPolicyAny() throws Exception {
+		RevCommit unreachable = remote.commit().message("y").create();
+
+		// Exercise to make sure that even unreachable commits can be fetched
+		uploadPackV2(
+			RequestPolicy.ANY,
+			null,
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"want " + unreachable.name() + "\n",
+			PacketLineIn.END);
+	}
+
+	@Test
+	public void testV2FetchServerDoesNotStopNegotiation() throws Exception {
+		RevCommit fooParent = remote.commit().message("x").create();
+		RevCommit fooChild = remote.commit().message("x").parent(fooParent).create();
+		RevCommit barParent = remote.commit().message("y").create();
+		RevCommit barChild = remote.commit().message("y").parent(barParent).create();
+		remote.update("branch1", fooChild);
+		remote.update("branch2", barChild);
+
+		ByteArrayInputStream recvStream = uploadPackV2(
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"want " + fooChild.toObjectId().getName() + "\n",
+			"want " + barChild.toObjectId().getName() + "\n",
+			"have " + fooParent.toObjectId().getName() + "\n",
+			PacketLineIn.END);
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+
+		assertThat(pckIn.readString(), is("acknowledgments"));
+		assertThat(pckIn.readString(), is("ACK " + fooParent.toObjectId().getName()));
+		assertThat(pckIn.readString(), theInstance(PacketLineIn.END));
+	}
+
+	@Test
+	public void testV2FetchServerStopsNegotiation() throws Exception {
+		RevCommit fooParent = remote.commit().message("x").create();
+		RevCommit fooChild = remote.commit().message("x").parent(fooParent).create();
+		RevCommit barParent = remote.commit().message("y").create();
+		RevCommit barChild = remote.commit().message("y").parent(barParent).create();
+		remote.update("branch1", fooChild);
+		remote.update("branch2", barChild);
+
+		ByteArrayInputStream recvStream = uploadPackV2(
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"want " + fooChild.toObjectId().getName() + "\n",
+			"want " + barChild.toObjectId().getName() + "\n",
+			"have " + fooParent.toObjectId().getName() + "\n",
+			"have " + barParent.toObjectId().getName() + "\n",
+			PacketLineIn.END);
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+
+		assertThat(pckIn.readString(), is("acknowledgments"));
+		assertThat(
+			Arrays.asList(pckIn.readString(), pckIn.readString()),
+			hasItems(
+				"ACK " + fooParent.toObjectId().getName(),
+				"ACK " + barParent.toObjectId().getName()));
+		assertThat(pckIn.readString(), is("ready"));
+		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
+		assertThat(pckIn.readString(), is("packfile"));
+		parsePack(recvStream);
+		assertFalse(client.hasObject(fooParent.toObjectId()));
+		assertTrue(client.hasObject(fooChild.toObjectId()));
+		assertFalse(client.hasObject(barParent.toObjectId()));
+		assertTrue(client.hasObject(barChild.toObjectId()));
+	}
+
+	@Test
+	public void testV2FetchClientStopsNegotiation() throws Exception {
+		RevCommit fooParent = remote.commit().message("x").create();
+		RevCommit fooChild = remote.commit().message("x").parent(fooParent).create();
+		RevCommit barParent = remote.commit().message("y").create();
+		RevCommit barChild = remote.commit().message("y").parent(barParent).create();
+		remote.update("branch1", fooChild);
+		remote.update("branch2", barChild);
+
+		ByteArrayInputStream recvStream = uploadPackV2(
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"want " + fooChild.toObjectId().getName() + "\n",
+			"want " + barChild.toObjectId().getName() + "\n",
+			"have " + fooParent.toObjectId().getName() + "\n",
+			"done\n",
+			PacketLineIn.END);
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+
+		assertThat(pckIn.readString(), is("packfile"));
+		parsePack(recvStream);
+		assertFalse(client.hasObject(fooParent.toObjectId()));
+		assertTrue(client.hasObject(fooChild.toObjectId()));
+		assertTrue(client.hasObject(barParent.toObjectId()));
+		assertTrue(client.hasObject(barChild.toObjectId()));
+	}
+
+	private static class RejectAllRefFilter implements RefFilter {
+		@Override
+		public Map<String, Ref> filter(Map<String, Ref> refs) {
+			return new HashMap<String, Ref>();
+		}
+	};
 }
