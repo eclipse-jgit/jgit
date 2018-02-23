@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9f84dc44_889d926d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2018-02-23T13:42:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6627d5cc_f49554b4",
+      "revId": "d80bdad1bc0c5dc193cc45bc46679f7eba9747f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4f80980_11b4c29e",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/IgnoreNodeTest.java",
         "patchSetId": 6
@@ -30,6 +48,30 @@
       "writtenOn": "2018-02-23T01:49:45Z",
       "side": 1,
       "message": "The naming of these test methods is not very useful.  It would be better to name them according to what they\u0027re actually testing, rather than with numeric suffixes.\n\nSince it\u0027s already like that in the methods with 1-4 suffixes it doesn\u0027t need to be fixed in this change. It can be done in a follow-up.",
+      "range": {
+        "startLine": 454,
+        "startChar": 13,
+        "endLine": 454,
+        "endChar": 50
+      },
+      "revId": "d80bdad1bc0c5dc193cc45bc46679f7eba9747f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ecc8a33_78a57471",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/IgnoreNodeTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2018-02-23T13:42:07Z",
+      "side": 1,
+      "message": "All methods 1-5 have a quite similar repository setup: same file names (though on different levels) and only slight variations in .gitignore files. It makes sense to have them sharing the same name. Also, it would be hard to describe the difference between them just by a few words (in the method name).\n\nThis is even more true for testIneffectiveNegationDifferentLevelsX.",
+      "parentUuid": "a4f80980_11b4c29e",
       "range": {
         "startLine": 454,
         "startChar": 13,
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "2a1e8fab_88e005d9",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/IgnoreNodeTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2018-02-23T13:42:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71e919e8_3ba2caa0",
+      "revId": "d80bdad1bc0c5dc193cc45bc46679f7eba9747f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db8ebc77_1e280865",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/IgnoreNodeTest.java",
         "patchSetId": 6
@@ -70,6 +130,24 @@
       "writtenOn": "2018-02-22T23:35:12Z",
       "side": 1,
       "message": "remove dead code",
+      "revId": "d80bdad1bc0c5dc193cc45bc46679f7eba9747f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cc4fc1_652775ff",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/IgnoreNodeTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 686,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2018-02-23T13:42:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db8ebc77_1e280865",
       "revId": "d80bdad1bc0c5dc193cc45bc46679f7eba9747f0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "19a985c4_65f48da6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/IgnoreNode.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2018-02-23T13:42:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2ee3115_9346e739",
+      "revId": "d80bdad1bc0c5dc193cc45bc46679f7eba9747f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bbe3b1bc_4d50ce1c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 6
@@ -110,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "04b4cff9_c70b0223",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2018-02-23T13:42:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bbe3b1bc_4d50ce1c",
+      "revId": "d80bdad1bc0c5dc193cc45bc46679f7eba9747f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7d39f7c_43f97054",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 6
@@ -121,6 +235,24 @@
       "writtenOn": "2018-02-22T23:35:12Z",
       "side": 1,
       "message": "unrelated fix of bad formatting -\u003e move this to another change",
+      "revId": "d80bdad1bc0c5dc193cc45bc46679f7eba9747f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db2278a5_514bc5b7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2018-02-23T13:42:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7d39f7c_43f97054",
       "revId": "d80bdad1bc0c5dc193cc45bc46679f7eba9747f0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
