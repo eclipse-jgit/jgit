@@ -42,16 +42,6 @@
  */
 package org.eclipse.jgit.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collection;
-
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.RefNotFoundException;
 import org.eclipse.jgit.errors.InvalidPatternException;
@@ -63,18 +53,33 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collection;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 @RunWith(Parameterized.class)
 public class DescribeCommandTest extends RepositoryTestCase {
 
 	private Git git;
 
-	@Parameter
+	@Parameter(0)
 	public boolean useAnnotatedTags;
 
-	@Parameters
+	@Parameter(1)
+	public boolean describeUseAllTags;
+
+	@Parameters(name = "git tag -a {0}?-a: with git describe {1}?--tags:")
 	public static Collection<Boolean[]> getUseAnnotatedTagsValues() {
-		return Arrays.asList(new Boolean[][] { { Boolean.TRUE },
-				{ Boolean.FALSE } });
+		return Arrays.asList(new Boolean[][] { { Boolean.TRUE, Boolean.FALSE },
+				{ Boolean.FALSE, Boolean.FALSE },
+				{ Boolean.TRUE, Boolean.TRUE },
+				{ Boolean.FALSE, Boolean.TRUE } });
 	}
 
 	@Override
@@ -99,35 +104,49 @@ public class DescribeCommandTest extends RepositoryTestCase {
 		tag("bob-t2");
 
 		ObjectId c4 = modify("ddd");
+		assertNameStartsWith(c4, "3e563c5");
 
 		assertNull(describe(c1));
 		assertNull(describe(c1, true));
 		assertNull(describe(c1, "a*", "b*", "c*"));
-
-		assertEquals("alice-t1", describe(c2));
-		assertEquals("alice-t1", describe(c2, "alice*"));
 		assertNull(describe(c2, "bob*"));
 		assertNull(describe(c2, "?ob*"));
-		assertEquals("alice-t1", describe(c2, "a*", "b*", "c*"));
 
-		assertEquals("bob-t2", describe(c3));
-		assertEquals("bob-t2-0-g44579eb", describe(c3, true));
-		assertEquals("alice-t1-1-g44579eb", describe(c3, "alice*"));
-		assertEquals("alice-t1-1-g44579eb", describe(c3, "a??c?-t*"));
-		assertEquals("bob-t2", describe(c3, "bob*"));
-		assertEquals("bob-t2", describe(c3, "?ob*"));
-		assertEquals("bob-t2", describe(c3, "a*", "b*", "c*"));
+		if (useAnnotatedTags || describeUseAllTags) {
+			assertEquals("alice-t1", describe(c2));
+			assertEquals("alice-t1", describe(c2, "alice*"));
+			assertEquals("alice-t1", describe(c2, "a*", "b*", "c*"));
 
-		assertNameStartsWith(c4, "3e563c5");
-		// the value verified with git-describe(1)
-		assertEquals("bob-t2-1-g3e563c5", describe(c4));
-		assertEquals("bob-t2-1-g3e563c5", describe(c4, true));
-		assertEquals("alice-t1-2-g3e563c5", describe(c4, "alice*"));
-		assertEquals("bob-t2-1-g3e563c5", describe(c4, "bob*"));
-		assertEquals("bob-t2-1-g3e563c5", describe(c4, "a*", "b*", "c*"));
+			assertEquals("bob-t2", describe(c3));
+			assertEquals("bob-t2-0-g44579eb", describe(c3, true));
+			assertEquals("alice-t1-1-g44579eb", describe(c3, "alice*"));
+			assertEquals("alice-t1-1-g44579eb", describe(c3, "a??c?-t*"));
+			assertEquals("bob-t2", describe(c3, "bob*"));
+			assertEquals("bob-t2", describe(c3, "?ob*"));
+			assertEquals("bob-t2", describe(c3, "a*", "b*", "c*"));
+
+			// the value verified with git-describe(1)
+			assertEquals("bob-t2-1-g3e563c5", describe(c4));
+			assertEquals("bob-t2-1-g3e563c5", describe(c4, true));
+			assertEquals("alice-t1-2-g3e563c5", describe(c4, "alice*"));
+			assertEquals("bob-t2-1-g3e563c5", describe(c4, "bob*"));
+			assertEquals("bob-t2-1-g3e563c5", describe(c4, "a*", "b*", "c*"));
+		} else {
+			assertEquals(null, describe(c2));
+			assertEquals(null, describe(c3));
+			assertEquals(null, describe(c4));
+		}
 
 		// test default target
-		assertEquals("bob-t2-1-g3e563c5", git.describe().call());
+		if (useAnnotatedTags) {
+			assertEquals("bob-t2-1-g3e563c5", git.describe().call());
+			assertEquals("bob-t2-1-g3e563c5", git.describe().setAllTags(false).call());
+			assertEquals("bob-t2-1-g3e563c5", git.describe().setAllTags(true).call());
+		} else {
+			assertEquals("bob-t2-1-g3e563c5", git.describe().call());
+			assertEquals(null, git.describe().setAllTags(false).call());
+			assertEquals("bob-t2-1-g3e563c5", git.describe().setAllTags(true).call());
+		}
 	}
 
 	@Test
@@ -137,7 +156,14 @@ public class DescribeCommandTest extends RepositoryTestCase {
 		tag("v1.1.1");
 		ObjectId c2 = modify("bbb");
 
-		// Ensure that if we're interested in any tags, we get the first match as per Git behaviour
+		if (!useAnnotatedTags && !describeUseAllTags) {
+			assertEquals(null, describe(c1));
+			assertEquals(null, describe(c2));
+			return;
+		}
+
+		// Ensure that if we're interested in any tags, we get the first match
+		// as per Git behaviour
 		assertEquals("v1.0.0", describe(c1));
 		assertEquals("v1.0.0-1-g3747db3", describe(c2));
 
@@ -179,7 +205,11 @@ public class DescribeCommandTest extends RepositoryTestCase {
 		ObjectId c4 = merge(c2);
 
 		assertNameStartsWith(c4, "119892b");
-		assertEquals("t-2-g119892b", describe(c4)); // 2 commits: c4 and c3
+		if (useAnnotatedTags || describeUseAllTags) {
+			assertEquals("2 commits: c4 and c3", "t-2-g119892b", describe(c4));
+		} else {
+			assertEquals(null, describe(c4));
+		}
 		assertNull(describe(c3));
 		assertNull(describe(c3, true));
 	}
@@ -211,14 +241,76 @@ public class DescribeCommandTest extends RepositoryTestCase {
 		branch("b", c1);
 
 		ObjectId c3 = modify("ccc");
+		assertNameStartsWith(c3, "0244e7f");
 
 		ObjectId c4 = merge(c2);
 
 		assertNameStartsWith(c4, "119892b");
-		assertEquals("t2-2-g119892b", describe(c4)); // 2 commits: c4 and c3
+
+		if (useAnnotatedTags || describeUseAllTags) {
+			assertEquals("t2-2-g119892b", describe(c4)); // 2 commits: c4 and c3
+			assertEquals("t1-1-g0244e7f", describe(c3));
+		} else {
+			assertEquals(null, describe(c4));
+			assertEquals(null, describe(c3));
+		}
+	}
+
+	/**
+	 * When t1 annotated dominates t2 lightweight tag
+	 *
+	 * <pre>
+	 * t1 -+-> t2  -
+	 *     |       |
+	 *     +-> c3 -+-> c4
+	 * </pre>
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void t1AnnotatedDominatesT2lightweight() throws Exception {
+		ObjectId c1 = modify("aaa");
+		tag("t1", useAnnotatedTags);
+
+		ObjectId c2 = modify("bbb");
+		tag("t2", false);
+
+		assertNameStartsWith(c2, "3747db3");
+		if (useAnnotatedTags && !describeUseAllTags) {
+			assertEquals(
+					"only annotated tag t1 expected to be used for describe",
+					"t1-1-g3747db3", describe(c2)); // 1 commits: t2 overridden
+													// by t1
+		} else if (!useAnnotatedTags && !describeUseAllTags) {
+			assertEquals("no commits to describe expected", null, describe(c2));
+		} else {
+			assertEquals("lightweight tag t2 expected in describe", "t2",
+					describe(c2));
+		}
+
+		branch("b", c1);
+
+		ObjectId c3 = modify("ccc");
 
 		assertNameStartsWith(c3, "0244e7f");
-		assertEquals("t1-1-g0244e7f", describe(c3));
+		if (useAnnotatedTags || describeUseAllTags) {
+			assertEquals("t1-1-g0244e7f", describe(c3));
+		}
+
+		ObjectId c4 = merge(c2);
+
+		assertNameStartsWith(c4, "119892b");
+		if (describeUseAllTags) {
+			assertEquals(
+					"2 commits for describe commit increment expected since lightweight tag: c4 and c3",
+					"t2-2-g119892b", describe(c4)); // 2 commits: c4 and c3
+		} else if (!useAnnotatedTags && !describeUseAllTags) {
+			assertEquals("no matching commits expected", null, describe(c4));
+		} else {
+			assertEquals(
+					"3 commits for describe commit increment expected since annotated tag: c4 and c3 and c2",
+					"t1-3-g119892b", describe(c4)); //
+		}
 	}
 
 	/**
@@ -246,7 +338,11 @@ public class DescribeCommandTest extends RepositoryTestCase {
 		ObjectId c4 = merge(t1);
 
 		assertNameStartsWith(c4, "bb389a4");
-		assertEquals("t1-3-gbb389a4", describe(c4));
+		if (useAnnotatedTags || describeUseAllTags) {
+			assertEquals("t1-3-gbb389a4", describe(c4));
+		} else {
+			assertEquals(null, describe(c4));
+		}
 	}
 
 	/**
@@ -275,7 +371,11 @@ public class DescribeCommandTest extends RepositoryTestCase {
 		ObjectId c4 = merge(c2);
 
 		assertNameStartsWith(c4, "bb389a4");
-		assertEquals("t2-4-gbb389a4", describe(c4));
+		if (useAnnotatedTags || describeUseAllTags) {
+			assertEquals("t2-4-gbb389a4", describe(c4));
+		} else {
+			assertEquals(null, describe(c4));
+		}
 	}
 
 	private ObjectId merge(ObjectId c2) throws GitAPIException {
@@ -289,6 +389,11 @@ public class DescribeCommandTest extends RepositoryTestCase {
 	}
 
 	private void tag(String tag) throws GitAPIException {
+		tag(tag, this.useAnnotatedTags);
+	}
+
+	private void tag(String tag, Boolean useAnnotatedTags)
+			throws GitAPIException {
 		TagCommand tagCommand = git.tag().setName(tag)
 				.setAnnotated(useAnnotatedTags);
 		if (useAnnotatedTags)
@@ -304,7 +409,8 @@ public class DescribeCommandTest extends RepositoryTestCase {
 
 	private String describe(ObjectId c1, boolean longDesc)
 			throws GitAPIException, IOException {
-		return git.describe().setTarget(c1).setLong(longDesc).call();
+		return git.describe().setTarget(c1).setAllTags(describeUseAllTags)
+				.setLong(longDesc).call();
 	}
 
 	private String describe(ObjectId c1) throws GitAPIException, IOException {
@@ -312,7 +418,8 @@ public class DescribeCommandTest extends RepositoryTestCase {
 	}
 
 	private String describe(ObjectId c1, String... patterns) throws GitAPIException, IOException, InvalidPatternException {
-		return git.describe().setTarget(c1).setMatch(patterns).call();
+		return git.describe().setTarget(c1).setAllTags(describeUseAllTags)
+				.setMatch(patterns).call();
 	}
 
 	private static void assertNameStartsWith(ObjectId c4, String prefix) {
