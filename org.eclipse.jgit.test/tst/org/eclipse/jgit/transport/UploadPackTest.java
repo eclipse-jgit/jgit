@@ -1,13 +1,17 @@
 package org.eclipse.jgit.transport;
 
+import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.theInstance;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.StringWriter;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.storage.dfs.DfsGarbageCollector;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
@@ -22,6 +26,7 @@ import org.eclipse.jgit.transport.UploadPack.RequestPolicy;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 import org.eclipse.jgit.transport.resolver.UploadPackFactory;
+import org.eclipse.jgit.util.io.NullOutputStream;
 import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Before;
@@ -221,7 +226,15 @@ public class UploadPackTest {
 
 		// capability advertisement (always sent)
 		assertThat(pckIn.readString(), is("version 2"));
-		assertThat(pckIn.readString(), is("ls-refs"));
+		assertThat(
+			Arrays.asList(pckIn.readString(), pckIn.readString()),
+			// TODO(jonathantanmy) This check is written this way
+			// to make it simple to see that we expect this list of
+			// capabilities, but probably should be loosened to
+			// allow additional commands to be added to the list,
+			// and additional capabilities to be added to existing
+			// commands without requiring test changes.
+			hasItems("ls-refs", "fetch"));
 		assertTrue(pckIn.readString() == PacketLineIn.END);
 		return recvStream;
 	}
@@ -343,5 +356,95 @@ public class UploadPackTest {
 		assertThat(pckIn.readString(), is(tip.toObjectId().getName() + " refs/heads/master"));
 		assertThat(pckIn.readString(), is(tip.toObjectId().getName() + " refs/heads/other"));
 		assertTrue(pckIn.readString() == PacketLineIn.END);
+	}
+
+	/*
+	 * Parse multiplexed packfile output from upload-pack using protocol V2
+	 * into the client repository.
+	 */
+	private void parsePack(ByteArrayInputStream recvStream) throws Exception {
+		SideBandInputStream sb = new SideBandInputStream(
+				recvStream, NullProgressMonitor.INSTANCE,
+				new StringWriter(), NullOutputStream.INSTANCE);
+		client.newObjectInserter().newPackParser(sb).parse(NullProgressMonitor.INSTANCE);
+	}
+
+	@Test
+	public void testV2FetchServerDoesNotStopNegotiation() throws Exception {
+		RevCommit fooParent = remote.commit().message("x").create();
+		RevCommit fooChild = remote.commit().message("x").parent(fooParent).create();
+		RevCommit barParent = remote.commit().message("y").create();
+		RevCommit barChild = remote.commit().message("y").parent(barParent).create();
+
+		ByteArrayInputStream recvStream = uploadPackV2(
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"want " + fooChild.toObjectId().getName() + "\n",
+			"want " + barChild.toObjectId().getName() + "\n",
+			"have " + fooParent.toObjectId().getName() + "\n",
+			PacketLineIn.END);
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+
+		assertThat(pckIn.readString(), is("acknowledgments"));
+		assertThat(pckIn.readString(), is("ACK " + fooParent.toObjectId().getName()));
+		assertThat(pckIn.readString(), theInstance(PacketLineIn.END));
+	}
+
+	@Test
+	public void testV2FetchServerStopsNegotiation() throws Exception {
+		RevCommit fooParent = remote.commit().message("x").create();
+		RevCommit fooChild = remote.commit().message("x").parent(fooParent).create();
+		RevCommit barParent = remote.commit().message("y").create();
+		RevCommit barChild = remote.commit().message("y").parent(barParent).create();
+
+		ByteArrayInputStream recvStream = uploadPackV2(
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"want " + fooChild.toObjectId().getName() + "\n",
+			"want " + barChild.toObjectId().getName() + "\n",
+			"have " + fooParent.toObjectId().getName() + "\n",
+			"have " + barParent.toObjectId().getName() + "\n",
+			PacketLineIn.END);
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+
+		assertThat(pckIn.readString(), is("acknowledgments"));
+		assertThat(
+			Arrays.asList(pckIn.readString(), pckIn.readString()),
+			hasItems(
+				"ACK " + fooParent.toObjectId().getName(),
+				"ACK " + barParent.toObjectId().getName()));
+		assertThat(pckIn.readString(), is("ready"));
+		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
+		assertThat(pckIn.readString(), is("packfile"));
+		parsePack(recvStream);
+		assertFalse(client.hasObject(fooParent.toObjectId()));
+		assertTrue(client.hasObject(fooChild.toObjectId()));
+		assertFalse(client.hasObject(barParent.toObjectId()));
+		assertTrue(client.hasObject(barChild.toObjectId()));
+	}
+
+	@Test
+	public void testV2FetchClientStopsNegotiation() throws Exception {
+		RevCommit fooParent = remote.commit().message("x").create();
+		RevCommit fooChild = remote.commit().message("x").parent(fooParent).create();
+		RevCommit barParent = remote.commit().message("y").create();
+		RevCommit barChild = remote.commit().message("y").parent(barParent).create();
+
+		ByteArrayInputStream recvStream = uploadPackV2(
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"want " + fooChild.toObjectId().getName() + "\n",
+			"want " + barChild.toObjectId().getName() + "\n",
+			"have " + fooParent.toObjectId().getName() + "\n",
+			"done\n",
+			PacketLineIn.END);
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+
+		assertThat(pckIn.readString(), is("packfile"));
+		parsePack(recvStream);
+		assertFalse(client.hasObject(fooParent.toObjectId()));
+		assertTrue(client.hasObject(fooChild.toObjectId()));
+		assertTrue(client.hasObject(barParent.toObjectId()));
+		assertTrue(client.hasObject(barChild.toObjectId()));
 	}
 }
