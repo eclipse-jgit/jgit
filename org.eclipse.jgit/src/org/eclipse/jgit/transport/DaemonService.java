@@ -65,6 +65,8 @@ public abstract class DaemonService {
 
 	private boolean overridable;
 
+	private boolean protocolV2Requested;
+
 	DaemonService(final String cmdName, final String cfgName) {
 		command = cmdName.startsWith("git-") ? cmdName : "git-" + cmdName; //$NON-NLS-1$ //$NON-NLS-2$
 		configKey = cfg -> new ServiceConfig(DaemonService.this, cfg, cfgName);
@@ -144,6 +146,22 @@ public abstract class DaemonService {
 		return command.length() + 1 < commandLine.length()
 				&& commandLine.charAt(command.length()) == ' '
 				&& commandLine.startsWith(command);
+	}
+
+	/**
+	 * @return true if protocol v2 was requested by the client
+	 * @since 5.0
+	 */
+	public boolean getProtocolV2Requested() {
+		return protocolV2Requested;
+	}
+
+	/**
+	 * @param b whether protocol v2 was requested by the client
+	 * @since 5.0
+	 */
+	public void setProtocolV2Requested(boolean b) {
+		protocolV2Requested = b;
 	}
 
 	void execute(final DaemonClient client, final String commandLine)

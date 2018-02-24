@@ -53,6 +53,7 @@ import java.net.Socket;
 import java.net.SocketAddress;
 import java.net.SocketException;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.Arrays;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.JGitText;
@@ -159,6 +160,16 @@ public class Daemon {
 						UploadPack up = uploadPackFactory.create(dc, db);
 						InputStream in = dc.getInputStream();
 						OutputStream out = dc.getOutputStream();
+
+						// TODO(jrn): propagate extra parameters instead of
+						// faking it.
+						if (getProtocolV2Requested()) {
+							up.setExtraParameters(
+									Arrays.asList(new String[] {
+										"version=2" // $NON-NLS-1$
+									}));
+						}
+
 						up.upload(in, out, null);
 					}
 				}, new DaemonService("receive-pack", "receivepack") { //$NON-NLS-1$ //$NON-NLS-2$
