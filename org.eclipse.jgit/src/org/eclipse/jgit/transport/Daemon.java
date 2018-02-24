@@ -53,7 +53,9 @@ import java.net.Socket;
 import java.net.SocketAddress;
 import java.net.SocketException;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.Collection;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -153,12 +155,17 @@ public class Daemon {
 
 					@Override
 					protected void execute(final DaemonClient dc,
-							final Repository db) throws IOException,
+							final Repository db,
+							@Nullable Collection<String> extraParameters)
+							throws IOException,
 							ServiceNotEnabledException,
 							ServiceNotAuthorizedException {
 						UploadPack up = uploadPackFactory.create(dc, db);
 						InputStream in = dc.getInputStream();
 						OutputStream out = dc.getOutputStream();
+						if (extraParameters != null) {
+							up.setExtraParameters(extraParameters);
+						}
 						up.upload(in, out, null);
 					}
 				}, new DaemonService("receive-pack", "receivepack") { //$NON-NLS-1$ //$NON-NLS-2$
@@ -168,7 +175,9 @@ public class Daemon {
 
 					@Override
 					protected void execute(final DaemonClient dc,
-							final Repository db) throws IOException,
+							final Repository db,
+							@Nullable Collection<String> extraParameters)
+							throws IOException,
 							ServiceNotEnabledException,
 							ServiceNotAuthorizedException {
 						ReceivePack rp = receivePackFactory.create(dc, db);
