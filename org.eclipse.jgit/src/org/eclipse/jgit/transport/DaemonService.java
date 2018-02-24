@@ -45,7 +45,9 @@
 package org.eclipse.jgit.transport;
 
 import java.io.IOException;
+import java.util.Collection;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Config.SectionParser;
 import org.eclipse.jgit.lib.Repository;
@@ -146,13 +148,14 @@ public abstract class DaemonService {
 				&& commandLine.startsWith(command);
 	}
 
-	void execute(final DaemonClient client, final String commandLine)
+	void execute(DaemonClient client, String commandLine,
+			@Nullable Collection<String> extraParameters)
 			throws IOException, ServiceNotEnabledException,
 			ServiceNotAuthorizedException {
 		final String name = commandLine.substring(command.length() + 1);
 		try (Repository db = client.getDaemon().openRepository(client, name)) {
 			if (isEnabledFor(db)) {
-				execute(client, db);
+				execute(client, db, extraParameters);
 			}
 		} catch (ServiceMayNotContinueException e) {
 			// An error when opening the repo means the client is expecting a ref
@@ -168,7 +171,8 @@ public abstract class DaemonService {
 		return isEnabled();
 	}
 
-	abstract void execute(DaemonClient client, Repository db)
+	abstract void execute(DaemonClient client, Repository db,
+			@Nullable Collection<String> extraParameters)
 			throws IOException, ServiceNotEnabledException,
 			ServiceNotAuthorizedException;
 }
