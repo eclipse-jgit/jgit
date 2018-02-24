@@ -159,6 +159,9 @@ public class Daemon {
 						UploadPack up = uploadPackFactory.create(dc, db);
 						InputStream in = dc.getInputStream();
 						OutputStream out = dc.getOutputStream();
+						if (db.getConfig().getInt("protocol", "version", 0) == 2) { //$NON-NLS-1$ //$NON-NLS-2$
+							up.setUseProtocolV2(getProtocolV2Requested());
+						}
 						up.upload(in, out, null);
 					}
 				}, new DaemonService("receive-pack", "receivepack") { //$NON-NLS-1$ //$NON-NLS-2$
