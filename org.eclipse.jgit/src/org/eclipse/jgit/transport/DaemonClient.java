@@ -50,7 +50,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.Arrays;
 
+import org.eclipse.jgit.transport.GitProtocolHelpers;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 
@@ -118,6 +120,16 @@ public class DaemonClient {
 		if (0 < daemon.getTimeout())
 			sock.setSoTimeout(daemon.getTimeout() * 1000);
 		String cmd = new PacketLineIn(rawIn).readStringRaw();
+
+		boolean useProtocolV2 = false;
+
+		int nulnul = cmd.indexOf("\0\0");
+		if (nulnul != -1) {
+			String[] extraParameters = cmd.substring(nulnul + 2).split("\0");
+			useProtocolV2 = GitProtocolHelpers.supportsVersion(
+				Arrays.asList(extraParameters), 2);
+		}
+
 		final int nul = cmd.indexOf('\0');
 		if (nul >= 0) {
 			// Newer clients hide a "host" header behind this byte.
@@ -130,6 +142,7 @@ public class DaemonClient {
 		final DaemonService srv = getDaemon().matchService(cmd);
 		if (srv == null)
 			return;
+		srv.setUseProtocolV2(useProtocolV2);
 		sock.setSoTimeout(0);
 		srv.execute(this, cmd);
 	}
