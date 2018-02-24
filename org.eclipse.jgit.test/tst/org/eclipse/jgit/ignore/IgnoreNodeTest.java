@@ -81,6 +81,141 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 	private TreeWalk walk;
 
 	@Test
+	public void testSimpleRootGitIgnoreGlobalIgnore() throws IOException {
+		writeIgnoreFile(".gitignore", "x");
+
+		writeTrashFile("a/x/file", "");
+		writeTrashFile("b/x", "");
+		writeTrashFile("x/file", "");
+
+		beginWalk();
+		assertEntry(F, tracked, ".gitignore");
+		assertEntry(D, tracked, "a");
+		assertEntry(D, ignored, "a/x");
+		assertEntry(F, ignored, "a/x/file");
+		assertEntry(D, tracked, "b");
+		assertEntry(F, ignored, "b/x");
+		assertEntry(D, ignored, "x");
+		assertEntry(F, ignored, "x/file");
+		endWalk();
+	}
+
+	@Test
+	public void testSimpleRootGitIgnoreGlobalDirIgnore() throws IOException {
+		writeIgnoreFile(".gitignore", "x/");
+
+		writeTrashFile("a/x/file", "");
+		writeTrashFile("x/file", "");
+
+		beginWalk();
+		assertEntry(F, tracked, ".gitignore");
+		assertEntry(D, tracked, "a");
+		assertEntry(D, ignored, "a/x");
+		assertEntry(F, ignored, "a/x/file");
+		assertEntry(D, ignored, "x");
+		assertEntry(F, ignored, "x/file");
+		endWalk();
+	}
+
+	@Test
+	public void testSimpleRootGitIgnoreWildMatcher() throws IOException {
+		writeIgnoreFile(".gitignore", "**");
+
+		writeTrashFile("a/x", "");
+		writeTrashFile("y", "");
+
+		beginWalk();
+		assertEntry(F, ignored, ".gitignore");
+		assertEntry(D, ignored, "a");
+		assertEntry(F, ignored, "a/x");
+		assertEntry(F, ignored, "y");
+		endWalk();
+	}
+
+	@Test
+	public void testSimpleRootGitIgnoreWildMatcherDirOnly() throws IOException {
+		writeIgnoreFile(".gitignore", "**/");
+
+		writeTrashFile("a/x", "");
+		writeTrashFile("y", "");
+
+		beginWalk();
+		assertEntry(F, tracked, ".gitignore");
+		assertEntry(D, ignored, "a");
+		assertEntry(F, ignored, "a/x");
+		assertEntry(F, tracked, "y");
+		endWalk();
+	}
+
+	@Test
+	public void testSimpleRootGitIgnoreGlobalNegation1() throws IOException {
+		writeIgnoreFile(".gitignore", "*", "!x*");
+		writeTrashFile("x1", "");
+		writeTrashFile("a/x2", "");
+		writeTrashFile("x3/y", "");
+
+		beginWalk();
+		assertEntry(F, ignored, ".gitignore");
+		assertEntry(D, ignored, "a");
+		assertEntry(F, ignored, "a/x2");
+		assertEntry(F, tracked, "x1");
+		assertEntry(D, tracked, "x3");
+		assertEntry(F, ignored, "x3/y");
+		endWalk();
+	}
+
+	@Test
+	public void testSimpleRootGitIgnoreGlobalNegation2() throws IOException {
+		writeIgnoreFile(".gitignore", "*", "!x*", "!/a");
+		writeTrashFile("x1", "");
+		writeTrashFile("a/x2", "");
+		writeTrashFile("x3/y", "");
+
+		beginWalk();
+		assertEntry(F, ignored, ".gitignore");
+		assertEntry(D, tracked, "a");
+		assertEntry(F, tracked, "a/x2");
+		assertEntry(F, tracked, "x1");
+		assertEntry(D, tracked, "x3");
+		assertEntry(F, ignored, "x3/y");
+		endWalk();
+	}
+
+	@Test
+	public void testSimpleRootGitIgnoreGlobalNegation3() throws IOException {
+		writeIgnoreFile(".gitignore", "*", "!x*", "!x*/**");
+		writeTrashFile("x1", "");
+		writeTrashFile("a/x2", "");
+		writeTrashFile("x3/y", "");
+
+		beginWalk();
+		assertEntry(F, ignored, ".gitignore");
+		assertEntry(D, ignored, "a");
+		assertEntry(F, ignored, "a/x2");
+		assertEntry(F, tracked, "x1");
+		assertEntry(D, tracked, "x3");
+		assertEntry(F, tracked, "x3/y");
+		endWalk();
+	}
+
+	@Test
+	public void testSimpleRootGitIgnoreGlobalNegation4() throws IOException {
+		writeIgnoreFile(".gitignore", "*", "!**/");
+		writeTrashFile("x1", "");
+		writeTrashFile("a/x2", "");
+		writeTrashFile("x3/y", "");
+
+		beginWalk();
+		assertEntry(F, ignored, ".gitignore");
+		assertEntry(D, tracked, "a");
+		assertEntry(F, ignored, "a/x2");
+		assertEntry(F, ignored, "x1");
+		assertEntry(D, tracked, "x3");
+		assertEntry(F, ignored, "x3/y");
+		endWalk();
+	}
+
+	@Test
 	public void testRules() throws IOException {
 		writeIgnoreFile(".git/info/exclude", "*~", "/out");
 
@@ -210,7 +345,7 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 		assertEntry(F, ignored, "src/.gitignore");
 		assertEntry(D, tracked, "src/a");
 		assertEntry(F, tracked, "src/a/keep.java");
-		assertEntry(F, tracked, "src/a/keep.o");
+		assertEntry(F, ignored, "src/a/keep.o");
 		assertEntry(F, tracked, "src/keep.java");
 		assertEntry(F, ignored, "src/nothere.o");
 		endWalk();
@@ -312,6 +447,102 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 		assertEntry(F, tracked, "a/b/c/.gitignore");
 		assertEntry(D, tracked, "a/b/c/e");
 		assertEntry(F, ignored, "a/b/c/e/nothere.o");
+		endWalk();
+	}
+
+	@Test
+	public void testRepeatedNegationInDifferentFiles5() throws IOException {
+		writeIgnoreFile(".gitignore", "e");
+		writeIgnoreFile("a/.gitignore", "e");
+		writeIgnoreFile("a/b/.gitignore", "!e");
+		writeTrashFile("a/b/e/nothere.o", "");
+
+		beginWalk();
+		assertEntry(F, tracked, ".gitignore");
+		assertEntry(D, tracked, "a");
+		assertEntry(F, tracked, "a/.gitignore");
+		assertEntry(D, tracked, "a/b");
+		assertEntry(F, tracked, "a/b/.gitignore");
+		assertEntry(D, tracked, "a/b/e");
+		assertEntry(F, tracked, "a/b/e/nothere.o");
+		endWalk();
+	}
+
+	@Test
+	public void testIneffectiveNegationDifferentLevels1() throws IOException {
+		writeIgnoreFile(".gitignore", "a/b/e/", "!a/b/e/*");
+		writeTrashFile("a/b/e/nothere.o", "");
+
+		beginWalk();
+		assertEntry(F, tracked, ".gitignore");
+		assertEntry(D, tracked, "a");
+		assertEntry(D, tracked, "a/b");
+		assertEntry(D, ignored, "a/b/e");
+		assertEntry(F, ignored, "a/b/e/nothere.o");
+		endWalk();
+	}
+
+	@Test
+	public void testIneffectiveNegationDifferentLevels2() throws IOException {
+		writeIgnoreFile(".gitignore", "a/b/e/");
+		writeIgnoreFile("a/.gitignore", "!b/e/*");
+		writeTrashFile("a/b/e/nothere.o", "");
+
+		beginWalk();
+		assertEntry(F, tracked, ".gitignore");
+		assertEntry(D, tracked, "a");
+		assertEntry(F, tracked, "a/.gitignore");
+		assertEntry(D, tracked, "a/b");
+		assertEntry(D, ignored, "a/b/e");
+		assertEntry(F, ignored, "a/b/e/nothere.o");
+		endWalk();
+	}
+
+	@Test
+	public void testIneffectiveNegationDifferentLevels3() throws IOException {
+		writeIgnoreFile(".gitignore", "a/b/e/");
+		writeIgnoreFile("a/b/.gitignore", "!e/*");
+		writeTrashFile("a/b/e/nothere.o", "");
+
+		beginWalk();
+		assertEntry(F, tracked, ".gitignore");
+		assertEntry(D, tracked, "a");
+		assertEntry(D, tracked, "a/b");
+		assertEntry(F, tracked, "a/b/.gitignore");
+		assertEntry(D, ignored, "a/b/e");
+		assertEntry(F, ignored, "a/b/e/nothere.o");
+		endWalk();
+	}
+
+	@Test
+	public void testIneffectiveNegationDifferentLevels4() throws IOException {
+		writeIgnoreFile(".gitignore", "a/b/e/");
+		writeIgnoreFile("a/b/e/.gitignore", "!*");
+		writeTrashFile("a/b/e/nothere.o", "");
+
+		beginWalk();
+		assertEntry(F, tracked, ".gitignore");
+		assertEntry(D, tracked, "a");
+		assertEntry(D, tracked, "a/b");
+		assertEntry(D, ignored, "a/b/e");
+		assertEntry(F, ignored, "a/b/e/.gitignore");
+		assertEntry(F, ignored, "a/b/e/nothere.o");
+		endWalk();
+	}
+
+	@Test
+	public void testIneffectiveNegationDifferentLevels5() throws IOException {
+		writeIgnoreFile("a/.gitignore", "b/e/");
+		writeIgnoreFile("a/b/.gitignore", "!e/*");
+		writeTrashFile("a/b/e/nothere.o", "");
+
+		beginWalk();
+		assertEntry(D, tracked, "a");
+		assertEntry(F, tracked, "a/.gitignore");
+		assertEntry(D, tracked, "a/b");
+		assertEntry(F, tracked, "a/b/.gitignore");
+		assertEntry(D, ignored, "a/b/e");
+		assertEntry(F, ignored, "a/b/e/nothere.o");
 		endWalk();
 	}
 
