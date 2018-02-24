@@ -118,6 +118,7 @@ public class DaemonClient {
 		if (0 < daemon.getTimeout())
 			sock.setSoTimeout(daemon.getTimeout() * 1000);
 		String cmd = new PacketLineIn(rawIn).readStringRaw();
+		boolean useProtocolV2 = cmd.contains("version=2");
 		final int nul = cmd.indexOf('\0');
 		if (nul >= 0) {
 			// Newer clients hide a "host" header behind this byte.
@@ -130,6 +131,7 @@ public class DaemonClient {
 		final DaemonService srv = getDaemon().matchService(cmd);
 		if (srv == null)
 			return;
+		srv.setUseProtocolV2(useProtocolV2);
 		sock.setSoTimeout(0);
 		srv.execute(this, cmd);
 	}
