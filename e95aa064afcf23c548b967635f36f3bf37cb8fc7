@@ -34,6 +34,24 @@
       "revId": "e95aa064afcf23c548b967635f36f3bf37cb8fc7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f40cec48_57f61880",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ObjectIdSerializerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-02-25T23:19:53Z",
+      "side": 1,
+      "message": "Thanks",
+      "parentUuid": "8d26a813_e4f854a9",
+      "revId": "e95aa064afcf23c548b967635f36f3bf37cb8fc7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
