@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6ce84824_bc14033d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectIdSerializer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-02-25T09:05:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "807cb011_f465e30e",
+      "range": {
+        "startLine": 92,
+        "startChar": 29,
+        "endLine": 92,
+        "endChar": 31
+      },
+      "revId": "fb1c8174243fd74651f16f215ec8d2e8d59fed41",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27fb4c02_f14da68e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectIdSerializer.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2018-02-24T09:58:57Z",
       "side": 1,
       "message": "Constants.OBJECT_ID_LENGTH",
+      "range": {
+        "startLine": 93,
+        "startChar": 26,
+        "endLine": 93,
+        "endChar": 28
+      },
+      "revId": "fb1c8174243fd74651f16f215ec8d2e8d59fed41",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eada420a_3f97acb4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectIdSerializer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-02-25T09:05:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27fb4c02_f14da68e",
       "range": {
         "startLine": 93,
         "startChar": 26,
