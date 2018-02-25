@@ -1487,7 +1487,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 
 		final IgnoreNode ignoreNode = getIgnoreNode();
 		for (String path = pathRel; ignoreNode != null
-				&& !"".equals(path); path = getParentPath(path)) {
+				&& !"".equals(path); path = getParentPath(path)) { //$NON-NLS-1$
 			ignored = ignoreNode.checkIgnored(path, true);
 			if (ignored != null) {
 				state.directoryToIgnored.put(pathAbs, ignored);
@@ -1515,10 +1515,10 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		if (slashIndex > 0) {
 			return path.substring(path.charAt(0) == '/' ? 1 : 0, slashIndex);
 		}
-		return path.length() > 0 ? "" : null;
+		return path.length() > 0 ? "" : null; //$NON-NLS-1$
 	}
 
 	private static String concatPath(String p1, String p2) {
-		return p1 + (p1.length() > 0 && p2.length() > 0 ? "/" : "") + p2;
+		return p1 + (p1.length() > 0 && p2.length() > 0 ? "/" : "") + p2; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 }
