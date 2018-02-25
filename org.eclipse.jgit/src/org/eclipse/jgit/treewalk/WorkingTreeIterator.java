@@ -1476,7 +1476,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 
 		Boolean ignored = state.directoryToIgnored.get(pathAbs);
 		if (ignored != null) {
-			return ignored;
+			return ignored.booleanValue();
 		}
 
 		final String parentRel = getParentPath(pathRel);
@@ -1491,7 +1491,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 			ignored = node.checkIgnored(p, true);
 			if (ignored != null) {
 				state.directoryToIgnored.put(pathAbs, ignored);
-				return ignored;
+				return ignored.booleanValue();
 			}
 		}
 

@@ -150,7 +150,8 @@ public class IgnoreNode {
 			return MatchResult.CHECK_PARENT;
 		}
 
-		return result ? MatchResult.IGNORED : MatchResult.NOT_IGNORED;
+		return result.booleanValue() ? MatchResult.IGNORED
+				: MatchResult.NOT_IGNORED;
 	}
 
 	/**
@@ -178,7 +179,8 @@ public class IgnoreNode {
 					: MatchResult.CHECK_PARENT;
 		}
 
-		return result ? MatchResult.IGNORED : MatchResult.NOT_IGNORED;
+		return result.booleanValue() ? MatchResult.IGNORED
+				: MatchResult.NOT_IGNORED;
 	}
 
 	/**
