@@ -1485,10 +1485,10 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 			return true;
 		}
 
-		final IgnoreNode ignoreNode = getIgnoreNode();
-		for (String path = pathRel; ignoreNode != null
-				&& !"".equals(path); path = getParentPath(path)) { //$NON-NLS-1$
-			ignored = ignoreNode.checkIgnored(path, true);
+		final IgnoreNode node = getIgnoreNode();
+		for (String p = pathRel; node != null
+				&& !"".equals(p); p = getParentPath(p)) { //$NON-NLS-1$
+			ignored = node.checkIgnored(p, true);
 			if (ignored != null) {
 				state.directoryToIgnored.put(pathAbs, ignored);
 				return ignored;
