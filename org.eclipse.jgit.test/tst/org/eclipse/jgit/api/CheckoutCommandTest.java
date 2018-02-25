@@ -824,7 +824,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	private File writeTempFile(String body) throws IOException {
-		File f = File.createTempFile("AddCommandTest_", "");
+		File f = File.createTempFile("CheckoutCommandTest_", "");
 		JGitTestUtil.write(f, body);
 		return f;
 	}
