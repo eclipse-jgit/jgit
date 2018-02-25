@@ -546,6 +546,7 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 		endWalk();
 	}
 
+	@SuppressWarnings("deprecation")
 	@Test
 	public void testEmptyIgnoreNode() {
 		// Rules are never empty: WorkingTreeIterator optimizes empty files away
