@@ -591,24 +591,16 @@ public class PullCommandTest extends RepositoryTestCase {
 
 	private static void writeToFile(File actFile, String string)
 			throws IOException {
-		FileOutputStream fos = null;
-		try {
-			fos = new FileOutputStream(actFile);
+		try (FileOutputStream fos = new FileOutputStream(actFile)) {
 			fos.write(string.getBytes(UTF_8));
-			fos.close();
-		} finally {
-			if (fos != null)
-				fos.close();
 		}
 	}
 
 	private static void assertFileContentsEqual(File actFile, String string)
 			throws IOException {
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		FileInputStream fis = null;
 		byte[] buffer = new byte[100];
-		try {
-			fis = new FileInputStream(actFile);
+		try (FileInputStream fis = new FileInputStream(actFile)) {
 			int read = fis.read(buffer);
 			while (read > 0) {
 				bos.write(buffer, 0, read);
@@ -616,9 +608,6 @@ public class PullCommandTest extends RepositoryTestCase {
 			}
 			String content = new String(bos.toByteArray(), "UTF-8");
 			assertEquals(string, content);
-		} finally {
-			if (fis != null)
-				fis.close();
 		}
 	}
 }
