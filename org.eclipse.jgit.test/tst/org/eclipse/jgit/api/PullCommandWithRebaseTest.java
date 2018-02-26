@@ -395,14 +395,8 @@ public class PullCommandWithRebaseTest extends RepositoryTestCase {
 
 	private static void writeToFile(File actFile, String string)
 			throws IOException {
-		FileOutputStream fos = null;
-		try {
-			fos = new FileOutputStream(actFile);
+		try (FileOutputStream fos = new FileOutputStream(actFile)) {
 			fos.write(string.getBytes(UTF_8));
-			fos.close();
-		} finally {
-			if (fos != null)
-				fos.close();
 		}
 	}
 
