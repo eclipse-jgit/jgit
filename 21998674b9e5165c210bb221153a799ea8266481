@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a628da6_479dde86",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-26T20:23:26Z",
+      "side": 1,
+      "message": "why ?\n\nstyle nit: subject should be first line, second line should be empty",
+      "revId": "21998674b9e5165c210bb221153a799ea8266481",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
