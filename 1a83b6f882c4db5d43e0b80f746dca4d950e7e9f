@@ -350,6 +350,24 @@
       "revId": "1a83b6f882c4db5d43e0b80f746dca4d950e7e9f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df05c6cc_befa20a7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/Hooks.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2018-02-26T16:33:06Z",
+      "side": 1,
+      "message": "I think this could be a problem. We have to at least warn the user that we have turned off an existing pre push hook. If no pre push hook is there - ok. But if there was a pre push hook it could be an important pre push hook which is completely unrelated to LFS. Imagine pre push hooks which scan the uploaded data for security relevant data (passwords) and stop a push if they find. Or pre push hooks which encrypt or anonymise some of the data before it is sent to the central server. And just by setting a JGit specific config variable we silently disable this features. That\u0027s surprising.\n\nWouldn\u0027t it be a solution that we simply throw an exception if such a hook is already configured. We could then leave it up to the user to disable existing hooks manually. It would be eve nicer if we check if the exisiting hook is one of the standard LFS pre-push hooks and allow turning on JGit based hooks in case the hook we overwrite is a well known lfs hook.",
+      "parentUuid": "87929364_9bda9b5d",
+      "revId": "1a83b6f882c4db5d43e0b80f746dca4d950e7e9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
