@@ -363,6 +363,48 @@ public class CGitIgnoreTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testDegeneratedWildmatch() throws Exception {
+		createFiles("a", "dir/x", "dir/sub1/x", "dir/sub2/x/y");
+		writeTrashFile(".gitignore", "dir/****/x");
+		assertSameAsCGit();
+	}
+
+	@Test
+	public void testValidWildmatch1() throws Exception {
+		createFiles("a", "dir/x", "dir/sub1/x", "dir/sub2/x/y");
+		writeTrashFile(".gitignore", "**dir");
+		assertSameAsCGit();
+	}
+
+	@Test
+	public void testValidWildmatch2() throws Exception {
+		createFiles("a", "dir/x", "dir/sub1/x", "dir/sub2/x/y");
+		writeTrashFile(".gitignore", "**dir/");
+		assertSameAsCGit();
+	}
+
+	@Test
+	public void testValidWildmatch3() throws Exception {
+		createFiles("a", "dir/x", "dir/sub1/x", "dir/sub2/x/y");
+		writeTrashFile(".gitignore", "**dir*/");
+		assertSameAsCGit();
+	}
+
+	@Test
+	public void testInvalidWildmatch1() throws Exception {
+		createFiles("a", "dir/x", "dir/sub1/x", "dir/sub2/x/y");
+		writeTrashFile(".gitignore", "/**dir");
+		assertSameAsCGit();
+	}
+
+	@Test
+	public void testInvalidWildmatch2() throws Exception {
+		createFiles("a", "dir/x", "dir/sub1/x", "dir/sub2/x/y");
+		writeTrashFile(".gitignore", "/**dir*");
+		assertSameAsCGit();
+	}
+
+	@Test
 	public void testNegationForSubDirectoryWithinIgnoredDirectoryHasNoEffect1()
 			throws Exception {
 		createFiles("e", "a/f", "a/b/g", "a/b/h/i");
