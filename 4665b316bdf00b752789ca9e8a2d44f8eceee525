@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bcb9d31e_36284405",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-02-26T21:17:25Z",
+      "side": 1,
+      "message": "Why? The git documentation says such a pattern was invalid.[1] I also see in wildmatch.c, line 87, code that looks as if they indeed do consider more than two asterisks as equivalent to two asterisks...[2] What gives?\n\nI think given this apparent discrepancy we should have tests for this in CGitIgnoreTest/CGitAttributesTest.\n\n[1] https://git-scm.com/docs/gitignore : \"Other consecutive asterisks are considered invalid.\"\n[2] https://github.com/git/git/blame/master/wildmatch.c#L87",
+      "revId": "4665b316bdf00b752789ca9e8a2d44f8eceee525",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a18dd4_89648d31",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/internal/PathMatcher.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-02-26T21:17:25Z",
+      "side": 1,
+      "message": "Is that efficient? Basically, if there\u0027s only asterisks following the initial WILDMATCH or WILDMATCH2, then we\u0027d return a WildMatcher. I think that can be done without the repeated replacing.",
+      "revId": "4665b316bdf00b752789ca9e8a2d44f8eceee525",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
