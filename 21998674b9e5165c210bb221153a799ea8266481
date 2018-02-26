@@ -16,6 +16,41 @@
       "revId": "21998674b9e5165c210bb221153a799ea8266481",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c87983a_0ddb6729",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-02-26T21:30:20Z",
+      "side": 1,
+      "message": "C git\u0027s wildmatch.c indeed never matches in this case, see https://github.com/git/git/blame/master/wildmatch.c#L71 ff.\n\nThe commit message should explain this. It should also clarify that this is about \"lone\" trailing backslashes (i.e., an odd number of backslashes at the end). We should have tests in CGitIgnoreTest for this, too, and also for patterns correctly ending in an even number of backslashes.",
+      "parentUuid": "4a628da6_479dde86",
+      "revId": "21998674b9e5165c210bb221153a799ea8266481",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7aa6047_8c02fed5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/FastIgnoreRule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-02-26T21:30:20Z",
+      "side": 1,
+      "message": "I think this is wrong. A pattern like \"foo\\\\\" is valid and must match a file named \"foo\\\" (quite possible on non-Windows). A pattern like \"foo\\\" or \"foo\\\\\\\" indeed will never match (backslash-escape followed by end of string).",
+      "revId": "21998674b9e5165c210bb221153a799ea8266481",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
