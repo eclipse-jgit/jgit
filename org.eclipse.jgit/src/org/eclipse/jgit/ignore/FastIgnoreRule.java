@@ -115,6 +115,11 @@ public class FastIgnoreRule {
 				pattern = pattern.substring(1);
 			}
 		}
+		if (pattern.length() > 0 && pattern.charAt(pattern.length() - 1) == '\\') {
+			this.matcher = NO_MATCH;
+			dirOnly = false;
+			return;
+		}
 		dirOnly = isDirectoryPattern(pattern);
 		if (dirOnly) {
 			pattern = stripTrailingWhitespace(pattern);

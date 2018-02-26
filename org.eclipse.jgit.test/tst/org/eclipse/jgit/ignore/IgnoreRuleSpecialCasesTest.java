@@ -878,18 +878,20 @@ public class IgnoreRuleSpecialCasesTest {
 
 	@Test
 	public void testBackslash() throws Exception {
-		assertMatch("a\\", "a", true);
 		assertMatch("\\a", "a", true);
-		assertMatch("a/\\", "a/", true);
-		assertMatch("a/b\\", "a/b", true);
 		assertMatch("\\a/b", "a/b", true);
 		assertMatch("/\\a", "/a", true);
-		assertMatch("\\a\\b\\c\\", "abc", true);
-		assertMatch("/\\a/\\b/\\c\\", "a/b/c", true);
+		assertMatch("\\a\\b\\c", "abc", true);
+		assertMatch("/\\a/\\b/\\c", "a/b/c", true);
 
 		// empty path segment doesn't match
 		assertMatch("\\/a", "/a", false);
 		assertMatch("\\/a", "a", false);
+		assertMatch("a\\", "a", false);
+		assertMatch("a/\\", "a/", false);
+		assertMatch("a/b\\", "a/b", false);
+		assertMatch("\\a\\b\\c\\", "abc", false);
+		assertMatch("/\\a/\\b/\\c\\", "a/b/c", false);
 	}
 
 	@Test
