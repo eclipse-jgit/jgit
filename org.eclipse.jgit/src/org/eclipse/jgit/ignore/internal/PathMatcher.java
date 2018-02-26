@@ -49,6 +49,7 @@ import static org.eclipse.jgit.ignore.internal.Strings.isWildCard;
 import static org.eclipse.jgit.ignore.internal.Strings.split;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.jgit.errors.InvalidPatternException;
@@ -97,7 +98,10 @@ public class PathMatcher extends AbstractMatcher {
 		for (int i = 0; i < segments.size(); i++) {
 			String segment = segments.get(i);
 			IMatcher matcher = createNameMatcher0(segment, pathSeparator,
-					dirOnly, i == segments.size() - 1);
+					dirOnly, i == segments.size() - 1, true);
+			if (matcher == null) {
+				return Collections.singletonList(NO_MATCH);
+			}
 			if (i > 0) {
 				final IMatcher last = matchers.get(matchers.size() - 1);
 				if (isWild(matcher) && isWild(last))
@@ -133,7 +137,9 @@ public class PathMatcher extends AbstractMatcher {
 		int slashIdx = pattern.indexOf(slash, 1);
 		if (slashIdx > 0 && slashIdx < pattern.length() - 1)
 			return new PathMatcher(pattern, pathSeparator, dirOnly);
-		return createNameMatcher0(pattern, pathSeparator, dirOnly, true);
+		final IMatcher matcher = createNameMatcher0(pattern, pathSeparator,
+				dirOnly, true, false);
+		return matcher != null ? matcher : NO_MATCH;
 	}
 
 	/**
@@ -160,13 +166,31 @@ public class PathMatcher extends AbstractMatcher {
 	}
 
 	private static IMatcher createNameMatcher0(String segment,
-			Character pathSeparator, boolean dirOnly, boolean lastSegment)
-			throws InvalidPatternException {
+			Character pathSeparator, boolean dirOnly, boolean lastSegment,
+			boolean pathMatch) throws InvalidPatternException {
 		// check if we see /** or ** segments => double star pattern
-		if (WildMatcher.WILDMATCH.equals(segment)
-				|| WildMatcher.WILDMATCH2.equals(segment))
+		// for non-path matches, Git handles combinations of "**" with other
+		// characters simply as if it would be a single "*"
+		// for path matches, "**" must not occur in combination with other
+		// characters (note that our notion of "pathMatch" is slightly different
+		// from that of Git, hence we have to check for slashIdx again)
+		int slashIdx = segment.indexOf(Strings.getPathSeparator(pathSeparator),
+				0);
+		if (!pathMatch && (slashIdx < 0 || slashIdx >= segment.length() - 1)) {
+			while (segment.contains(WildMatcher.WILDMATCH)) {
+				segment = segment.replace(WildMatcher.WILDMATCH, "*"); //$NON-NLS-1$
+			}
+		} else if (segment.startsWith(WildMatcher.WILDMATCH)
+				|| segment.startsWith(WildMatcher.WILDMATCH2)) {
+			final int start = segment.charAt(0) != '*' ? 1 : 0;
+			for (int pos = start; pos < segment.length(); pos++) {
+				if (segment.charAt(pos) != '*') {
+					return null;
+				}
+			}
 			return dirOnly && lastSegment ? WILD_ONLY_DIRECTORY
 					: WILD_NO_DIRECTORY;
+		}
 
 		PatternState state = checkWildCards(segment);
 		switch (state) {

@@ -431,6 +431,26 @@ public class FastIgnoreRuleTest {
 		assertMatched("x/**/", "x/a/b/");
 		assertMatched("**/x/", "a/x/");
 		assertMatched("**/x/", "a/b/x/");
+
+		assertMatched("**a", "a");
+		assertMatched("**a", "x/y/a");
+		assertMatched("a**", "a");
+		assertMatched("a**", "a/b");
+		assertMatched("/a**", "a/b");
+
+		assertMatched("***/a", "a/");
+		assertMatched("a/***/b", "a/b");
+		assertMatched("a/***/b", "a/c/b");
+		assertMatched("a/***", "a/b");
+
+		assertMatched("****/a", "a/");
+		assertMatched("a/****/b", "a/b");
+		assertMatched("a/****/b", "a/c/b");
+		assertMatched("a/****", "a/b");
+
+		assertMatched("**a", "a");
+		assertMatched("**a", "ba");
+		assertMatched("**a*", "ba");
 	}
 
 	@Test
@@ -449,6 +469,12 @@ public class FastIgnoreRuleTest {
 		assertNotMatched("**/", "a");
 		assertNotMatched("**/**/", "a");
 		assertNotMatched("**/x/", "a/b/x");
+
+		assertNotMatched("/**a", "a");
+		assertNotMatched("/**a", "ba");
+		assertNotMatched("/**a*", "ba");
+		assertNotMatched("/**a", "x/y/a");
+		assertNotMatched("/**a", "x/a");
 	}
 
 	@SuppressWarnings("unused")
