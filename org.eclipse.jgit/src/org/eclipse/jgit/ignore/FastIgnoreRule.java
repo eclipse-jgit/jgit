@@ -42,16 +42,16 @@
  */
 package org.eclipse.jgit.ignore;
 
-import static org.eclipse.jgit.ignore.internal.IMatcher.NO_MATCH;
-import static org.eclipse.jgit.ignore.internal.Strings.isDirectoryPattern;
-import static org.eclipse.jgit.ignore.internal.Strings.stripTrailing;
-import static org.eclipse.jgit.ignore.internal.Strings.stripTrailingWhitespace;
-
 import org.eclipse.jgit.errors.InvalidPatternException;
 import org.eclipse.jgit.ignore.internal.IMatcher;
 import org.eclipse.jgit.ignore.internal.PathMatcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static org.eclipse.jgit.ignore.internal.IMatcher.NO_MATCH;
+import static org.eclipse.jgit.ignore.internal.Strings.isDirectoryPattern;
+import static org.eclipse.jgit.ignore.internal.Strings.stripTrailing;
+import static org.eclipse.jgit.ignore.internal.Strings.stripTrailingWhitespace;
 
 /**
  * "Fast" (compared with IgnoreRule) git ignore rule implementation supporting
@@ -113,6 +113,22 @@ public class FastIgnoreRule {
 			if (next == '!' || next == '#') {
 				// remove backslash escaping first special characters
 				pattern = pattern.substring(1);
+			}
+		}
+		if (pattern.length() > 0 && pattern.charAt(pattern.length() - 1) == '\\') {
+			// if the number of backslashes is odd the pattern shouldn't match everything
+			int backslashesCount = 1;
+			for (int i = pattern.length() - 2; i >= 0; i--) {
+				if (pattern.charAt(i) == '\\') {
+					backslashesCount++;			    
+				} else {
+					break;
+				}
+			}
+			if (backslashesCount % 2 == 1) {
+				this.matcher = NO_MATCH;
+				dirOnly = false;
+				return;
 			}
 		}
 		dirOnly = isDirectoryPattern(pattern);
