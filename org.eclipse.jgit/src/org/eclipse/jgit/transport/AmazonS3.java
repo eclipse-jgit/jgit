@@ -402,9 +402,9 @@ public class AmazonS3 {
 			// We have to copy to produce the cipher text anyway so use
 			// the large object code path as it supports that behavior.
 			//
-			final OutputStream os = beginPut(bucket, key, null, null);
-			os.write(data);
-			os.close();
+			try (OutputStream os = beginPut(bucket, key, null, null)) {
+				os.write(data);
+			}
 			return;
 		}
 
@@ -418,11 +418,8 @@ public class AmazonS3 {
 			authorize(c);
 			c.setDoOutput(true);
 			c.setFixedLengthStreamingMode(data.length);
-			final OutputStream os = c.getOutputStream();
-			try {
+			try (OutputStream os = c.getOutputStream()) {
 				os.write(data);
-			} finally {
-				os.close();
 			}
 
 			switch (HttpSupport.response(c)) {
@@ -503,12 +500,10 @@ public class AmazonS3 {
 			authorize(c);
 			c.setDoOutput(true);
 			monitor.beginTask(monitorTask, (int) (len / 1024));
-			final OutputStream os = c.getOutputStream();
-			try {
+			try (OutputStream os = c.getOutputStream()) {
 				buf.writeTo(os, monitor);
 			} finally {
 				monitor.endTask();
-				os.close();
 			}
 
 			switch (HttpSupport.response(c)) {
