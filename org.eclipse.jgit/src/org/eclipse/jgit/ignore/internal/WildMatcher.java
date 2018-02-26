@@ -55,6 +55,8 @@ public final class WildMatcher extends AbstractMatcher {
 	// double star for the beginning of pattern
 	static final String WILDMATCH2 = "/**"; //$NON-NLS-1$
 
+	static final String WILDMATCH_DEGENERATED = "***"; //$NON-NLS-1$
+
 	WildMatcher(boolean dirOnly) {
 		super(WILDMATCH, dirOnly);
 	}
