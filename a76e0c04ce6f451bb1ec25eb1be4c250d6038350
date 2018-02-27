@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "64e2ae4e_a093fe15",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 29
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-27T13:42:40Z",
+      "side": 1,
+      "message": "rephrased - hopefully better :)",
+      "parentUuid": "8f5bd97c_2308bbb9",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 26
+      },
+      "revId": "a76e0c04ce6f451bb1ec25eb1be4c250d6038350",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fcc4d0ee_a2496458",
         "filename": "org.eclipse.jgit.lfs.server.test/tst/org/eclipse/jgit/lfs/server/fs/PushTest.java",
         "patchSetId": 29
@@ -36,6 +60,24 @@
       "writtenOn": "2018-02-27T10:56:08Z",
       "side": 1,
       "message": "missing license header",
+      "revId": "a76e0c04ce6f451bb1ec25eb1be4c250d6038350",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6e3f8d8b_b9e238ce",
+        "filename": "org.eclipse.jgit.lfs.server.test/tst/org/eclipse/jgit/lfs/server/fs/PushTest.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-27T13:42:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fcc4d0ee_a2496458",
       "revId": "a76e0c04ce6f451bb1ec25eb1be4c250d6038350",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "d49b7fb3_7ebb2bc0",
+        "filename": "org.eclipse.jgit.lfs.server.test/tst/org/eclipse/jgit/lfs/server/fs/PushTest.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-27T13:42:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ab81776_61b644b4",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 24
+      },
+      "revId": "a76e0c04ce6f451bb1ec25eb1be4c250d6038350",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2fda7074_adccf393",
         "filename": "org.eclipse.jgit.lfs.server.test/tst/org/eclipse/jgit/lfs/server/fs/PushTest.java",
         "patchSetId": 29
@@ -82,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "2e807ec9_7ae18169",
+        "filename": "org.eclipse.jgit.lfs.server.test/tst/org/eclipse/jgit/lfs/server/fs/PushTest.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-27T13:42:40Z",
+      "side": 1,
+      "message": "The call would have failed if the content would not have arrived successfully, no? I could do a complete round trip again by trying to clone and compare...",
+      "parentUuid": "2fda7074_adccf393",
+      "revId": "a76e0c04ce6f451bb1ec25eb1be4c250d6038350",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1dda5c91_acdfd38a",
         "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
         "patchSetId": 29
@@ -93,6 +177,24 @@
       "writtenOn": "2018-02-27T10:56:08Z",
       "side": 1,
       "message": "maybe mention how to resolve this conflict ? Either delete the hook script or disable builtin hook",
+      "revId": "a76e0c04ce6f451bb1ec25eb1be4c250d6038350",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90f5837d_57d773ae",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 29
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-27T13:42:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1dda5c91_acdfd38a",
       "revId": "a76e0c04ce6f451bb1ec25eb1be4c250d6038350",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -122,6 +224,30 @@
     },
     {
       "key": {
+        "uuid": "3ce60664_6b30bbbb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/Hooks.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-27T13:42:40Z",
+      "side": 1,
+      "message": "I need a PrePushHook instance to be able to ask the question (cannot make isNativeHookPresent static due to some required fields/methods in there), and I wanted to avaid the need to instantiate one just for the sake of the question (for nothing). Like it is done now, in case built-in is requested AND we could actually use it, we double check if there isn\u0027t a native hook as well. Note that this code looks a little better with the next follow up commit",
+      "parentUuid": "8b9b272f_81f6d3c5",
+      "range": {
+        "startLine": 132,
+        "startChar": 0,
+        "endLine": 134,
+        "endChar": 53
+      },
+      "revId": "a76e0c04ce6f451bb1ec25eb1be4c250d6038350",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4313eb37_eab52b0c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/PrePushHook.java",
         "patchSetId": 29
@@ -133,6 +259,24 @@
       "writtenOn": "2018-02-27T10:56:08Z",
       "side": 1,
       "message": "this is very generic and could be pulled up to class GitHook",
+      "revId": "a76e0c04ce6f451bb1ec25eb1be4c250d6038350",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bd10533_cfefda28",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/PrePushHook.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-27T13:42:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4313eb37_eab52b0c",
       "revId": "a76e0c04ce6f451bb1ec25eb1be4c250d6038350",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
