@@ -404,6 +404,24 @@
       "revId": "1a83b6f882c4db5d43e0b80f746dca4d950e7e9f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9d2ae9b9_12032197",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/Hooks.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2018-02-27T10:42:37Z",
+      "side": 1,
+      "message": "+1, let\u0027s just throw an exception if there is any pre-push hook installed. A check for well known lfs hooks could be added later - if required at all. We could the check the SHA1 of the script file against well known values (but would have to update this list when lfs changes ... ugly)",
+      "parentUuid": "a0e3850e_f70d0fde",
+      "revId": "1a83b6f882c4db5d43e0b80f746dca4d950e7e9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
