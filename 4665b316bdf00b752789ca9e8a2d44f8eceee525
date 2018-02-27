@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "84325609_7e3f23cc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2018-02-27T13:32:32Z",
+      "side": 1,
+      "message": "I agree. Looks like the handling of ** in combination with additional characters is quite tricky. My new patch addresses additional problems.",
+      "parentUuid": "bcb9d31e_36284405",
+      "revId": "4665b316bdf00b752789ca9e8a2d44f8eceee525",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d7a18dd4_89648d31",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/internal/PathMatcher.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2018-02-26T21:17:25Z",
       "side": 1,
       "message": "Is that efficient? Basically, if there\u0027s only asterisks following the initial WILDMATCH or WILDMATCH2, then we\u0027d return a WildMatcher. I think that can be done without the repeated replacing.",
+      "revId": "4665b316bdf00b752789ca9e8a2d44f8eceee525",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d225badc_22219d7d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/internal/PathMatcher.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2018-02-27T13:32:32Z",
+      "side": 1,
+      "message": "Should be obsolete with my new patch.",
+      "parentUuid": "d7a18dd4_89648d31",
       "revId": "4665b316bdf00b752789ca9e8a2d44f8eceee525",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
