@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "8f5bd97c_2308bbb9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 29
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2018-02-27T11:49:16Z",
+      "side": 1,
+      "message": "It will never replace a pre-push hook. It will configure a new one if no hook has been configured so far",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 26
+      },
+      "revId": "a76e0c04ce6f451bb1ec25eb1be4c250d6038350",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fcc4d0ee_a2496458",
         "filename": "org.eclipse.jgit.lfs.server.test/tst/org/eclipse/jgit/lfs/server/fs/PushTest.java",
         "patchSetId": 29
@@ -70,6 +93,29 @@
       "writtenOn": "2018-02-27T10:56:08Z",
       "side": 1,
       "message": "maybe mention how to resolve this conflict ? Either delete the hook script or disable builtin hook",
+      "revId": "a76e0c04ce6f451bb1ec25eb1be4c250d6038350",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b9b272f_81f6d3c5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/Hooks.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2018-02-27T11:49:16Z",
+      "side": 1,
+      "message": "shouldn\u0027t this go to before line 120 ?. Why doing Class.forName() and newInstance() if we know we don\u0027t want to install it.",
+      "range": {
+        "startLine": 132,
+        "startChar": 0,
+        "endLine": 134,
+        "endChar": 53
+      },
       "revId": "a76e0c04ce6f451bb1ec25eb1be4c250d6038350",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
