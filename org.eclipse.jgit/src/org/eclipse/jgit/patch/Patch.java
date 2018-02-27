@@ -152,10 +152,10 @@ public class Patch {
 	}
 
 	private static byte[] readFully(final InputStream is) throws IOException {
-		TemporaryBuffer b = new TemporaryBuffer.Heap(Integer.MAX_VALUE);
-		b.copy(is);
-		b.close();
-		return b.toByteArray();
+		try (TemporaryBuffer b = new TemporaryBuffer.Heap(Integer.MAX_VALUE)) {
+			b.copy(is);
+			return b.toByteArray();
+		}
 	}
 
 	/**
