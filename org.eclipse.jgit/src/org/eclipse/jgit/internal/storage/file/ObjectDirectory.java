@@ -796,8 +796,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 				|| shallowFileSnapshot.isModified(shallowFile)) {
 			shallowCommitsIds = new HashSet<>();
 
-			final BufferedReader reader = open(shallowFile);
-			try {
+			try (BufferedReader reader = open(shallowFile)) {
 				String line;
 				while ((line = reader.readLine()) != null) {
 					try {
@@ -807,8 +806,6 @@ public class ObjectDirectory extends FileObjectDatabase {
 								.format(JGitText.get().badShallowLine, line));
 					}
 				}
-			} finally {
-				reader.close();
 			}
 
 			shallowFileSnapshot = FileSnapshot.save(shallowFile);
@@ -1027,14 +1024,11 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	private AlternateHandle[] loadAlternates() throws IOException {
 		final List<AlternateHandle> l = new ArrayList<>(4);
-		final BufferedReader br = open(alternatesFile);
-		try {
+		try (BufferedReader br = open(alternatesFile)) {
 			String line;
 			while ((line = br.readLine()) != null) {
 				l.add(openAlternate(line));
 			}
-		} finally {
-			br.close();
 		}
 		return l.toArray(new AlternateHandle[l.size()]);
 	}
