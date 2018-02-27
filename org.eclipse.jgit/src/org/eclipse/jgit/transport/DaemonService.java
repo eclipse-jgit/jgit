@@ -150,23 +150,15 @@ public abstract class DaemonService {
 			throws IOException, ServiceNotEnabledException,
 			ServiceNotAuthorizedException {
 		final String name = commandLine.substring(command.length() + 1);
-		Repository db;
-		try {
-			db = client.getDaemon().openRepository(client, name);
+		try (Repository db = client.getDaemon().openRepository(client, name)) {
+			if (isEnabledFor(db)) {
+				execute(client, db);
+			}
 		} catch (ServiceMayNotContinueException e) {
 			// An error when opening the repo means the client is expecting a ref
 			// advertisement, so use that style of error.
 			PacketLineOut pktOut = new PacketLineOut(client.getOutputStream());
 			pktOut.writeString("ERR " + e.getMessage() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
-			db = null;
-		}
-		if (db == null)
-			return;
-		try {
-			if (isEnabledFor(db))
-				execute(client, db);
-		} finally {
-			db.close();
 		}
 	}
 
