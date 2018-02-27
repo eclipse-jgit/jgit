@@ -940,36 +940,33 @@ public class RefDirectory extends RefDatabase {
 		int retries = 0;
 		while (true) {
 			final FileSnapshot snapshot = FileSnapshot.save(packedRefsFile);
-			final BufferedReader br;
 			final MessageDigest digest = Constants.newMessageDigest();
-			try {
-				br = new BufferedReader(new InputStreamReader(
-						new DigestInputStream(new FileInputStream(packedRefsFile),
-								digest), CHARSET));
+			try (BufferedReader br = new BufferedReader(new InputStreamReader(
+					new DigestInputStream(new FileInputStream(packedRefsFile),
+							digest),
+					CHARSET))) {
+				try {
+					return new PackedRefList(parsePackedRefs(br), snapshot,
+							ObjectId.fromRaw(digest.digest()));
+				} catch (IOException e) {
+					if (FileUtils.isStaleFileHandleInCausalChain(e)
+							&& retries < maxStaleRetries) {
+						if (LOG.isDebugEnabled()) {
+							LOG.debug(MessageFormat.format(
+									JGitText.get().packedRefsHandleIsStale,
+									Integer.valueOf(retries)), e);
+						}
+						retries++;
+						continue;
+					}
+					throw e;
+				}
 			} catch (FileNotFoundException noPackedRefs) {
 				if (packedRefsFile.exists()) {
 					throw noPackedRefs;
 				}
 				// Ignore it and leave the new list empty.
 				return NO_PACKED_REFS;
-			}
-			try {
-				return new PackedRefList(parsePackedRefs(br), snapshot,
-						ObjectId.fromRaw(digest.digest()));
-			} catch (IOException e) {
-				if (FileUtils.isStaleFileHandleInCausalChain(e)
-						&& retries < maxStaleRetries) {
-					if (LOG.isDebugEnabled()) {
-						LOG.debug(MessageFormat.format(
-								JGitText.get().packedRefsHandleIsStale,
-								Integer.valueOf(retries)), e);
-					}
-					retries++;
-					continue;
-				}
-				throw e;
-			} finally {
-				br.close();
 			}
 		}
 	}
