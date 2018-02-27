@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e3cc0fd_2fed76aa",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/attributes/CGitAttributesTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-02-27T11:11:27Z",
+      "side": 1,
+      "message": "I think we need an attribute here. Otherwise there will be no differences anyway?",
+      "revId": "afa87ee189b9ac9ed1dec25489d13f44b1a3b3cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
