@@ -16,6 +16,24 @@
       "revId": "afa87ee189b9ac9ed1dec25489d13f44b1a3b3cc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01a1418a_0b1b3538",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/attributes/CGitAttributesTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2018-02-27T13:32:32Z",
+      "side": 1,
+      "message": "Thanks, copy\u0026paste error.",
+      "parentUuid": "3e3cc0fd_2fed76aa",
+      "revId": "afa87ee189b9ac9ed1dec25489d13f44b1a3b3cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
