@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fcc4d0ee_a2496458",
+        "filename": "org.eclipse.jgit.lfs.server.test/tst/org/eclipse/jgit/lfs/server/fs/PushTest.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-27T10:56:08Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "a76e0c04ce6f451bb1ec25eb1be4c250d6038350",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ab81776_61b644b4",
+        "filename": "org.eclipse.jgit.lfs.server.test/tst/org/eclipse/jgit/lfs/server/fs/PushTest.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-27T10:56:08Z",
+      "side": 1,
+      "message": "obscure names, I don\u0027t get semantics of prefixes t and r",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 24
+      },
+      "revId": "a76e0c04ce6f451bb1ec25eb1be4c250d6038350",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2fda7074_adccf393",
+        "filename": "org.eclipse.jgit.lfs.server.test/tst/org/eclipse/jgit/lfs/server/fs/PushTest.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-27T10:56:08Z",
+      "side": 1,
+      "message": "can we also check that the content arrived ?",
+      "revId": "a76e0c04ce6f451bb1ec25eb1be4c250d6038350",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1dda5c91_acdfd38a",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 29
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-27T10:56:08Z",
+      "side": 1,
+      "message": "maybe mention how to resolve this conflict ? Either delete the hook script or disable builtin hook",
+      "revId": "a76e0c04ce6f451bb1ec25eb1be4c250d6038350",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4313eb37_eab52b0c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/PrePushHook.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-27T10:56:08Z",
+      "side": 1,
+      "message": "this is very generic and could be pulled up to class GitHook",
+      "revId": "a76e0c04ce6f451bb1ec25eb1be4c250d6038350",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
