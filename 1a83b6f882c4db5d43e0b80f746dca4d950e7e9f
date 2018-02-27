@@ -368,6 +368,24 @@
       "revId": "1a83b6f882c4db5d43e0b80f746dca4d950e7e9f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9b60b20_822e188b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/Hooks.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-27T06:18:44Z",
+      "side": 1,
+      "message": "how would such a detection look like? it\u0027s a little hard to tell from a shell script whether it\u0027s \"lfs only\" just by looking at it? what if the lfs scripts evolve over time?\n\nThrowing an exception indeed looks like a possible route as a start. In this case we don\u0027t actually do any harm in any situation, and users can quite easily clear things up.",
+      "parentUuid": "df05c6cc_befa20a7",
+      "revId": "1a83b6f882c4db5d43e0b80f746dca4d950e7e9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
