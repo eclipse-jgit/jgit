@@ -386,6 +386,24 @@
       "revId": "1a83b6f882c4db5d43e0b80f746dca4d950e7e9f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0e3850e_f70d0fde",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/Hooks.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-27T06:48:02Z",
+      "side": 1,
+      "message": "I prepared at least throwing an exception. I would have wanted to throw a ConfigInvalidException, but that would cascade API changes all through all Transport constructors - not sure whether this is a good idea. So I sticked with an IllegalStateException for now.\n\nWhen using Remote \u003e Push... it does end in a usable error message. I think every user who can understand LFS, can also understand the message.",
+      "parentUuid": "f9b60b20_822e188b",
+      "revId": "1a83b6f882c4db5d43e0b80f746dca4d950e7e9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
