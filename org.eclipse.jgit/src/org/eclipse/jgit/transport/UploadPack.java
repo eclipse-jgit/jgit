@@ -1153,6 +1153,28 @@ public class UploadPack {
 	 */
 	public void sendAdvertisedRefs(RefAdvertiser adv) throws IOException,
 			ServiceMayNotContinueException {
+		sendAdvertisedRefs(adv, null);
+	}
+
+	/**
+	 * Generate an advertisement of available refs and capabilities.
+	 *
+	 * @param adv
+	 *            the advertisement formatter.
+	 * @param serviceName
+	 *            if not null, also output "# service=serviceName" followed by a
+	 *            flush packet before the advertisement. This is required
+	 *            by the HTTP protocol, described in Git's {@code
+	 *            Documentation/technical/http-protocol.txt}.
+	 * @throws java.io.IOException
+	 *             the formatter failed to write an advertisement.
+	 * @throws org.eclipse.jgit.transport.ServiceMayNotContinueException
+	 *             the hook denied advertisement.
+	 * @since 5.0
+	 */
+	public void sendAdvertisedRefs(final RefAdvertiser adv,
+			@Nullable String serviceName) throws IOException,
+			ServiceMayNotContinueException {
 		if (useProtocolV2()) {
 			// The equivalent in v2 is only the capabilities
 			// advertisement.
@@ -1173,6 +1195,10 @@ public class UploadPack {
 			throw fail;
 		}
 
+		if (serviceName != null) {
+			adv.writeOne("# service=" + serviceName + "\n");
+			adv.end();
+		}
 		adv.init(db);
 		adv.advertiseCapability(OPTION_INCLUDE_TAG);
 		adv.advertiseCapability(OPTION_MULTI_ACK_DETAILED);
