@@ -22,6 +22,30 @@
       "revId": "9530c10192cf033c021802a3b295b06864654464",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "314562f8_04ddfc70",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2018-02-28T23:17:32Z",
+      "side": 1,
+      "message": "Sorry about that. https://git.eclipse.org/r/118389",
+      "parentUuid": "3cf2afad_4a4e909d",
+      "range": {
+        "startLine": 637,
+        "startChar": 12,
+        "endLine": 637,
+        "endChar": 22
+      },
+      "revId": "9530c10192cf033c021802a3b295b06864654464",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
