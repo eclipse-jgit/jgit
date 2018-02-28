@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "052682c5_c1c47f11",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionFactory.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-28T10:30:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb461bb3_5e21f3d3",
+      "range": {
+        "startLine": 182,
+        "startChar": 40,
+        "endLine": 182,
+        "endChar": 66
+      },
+      "revId": "c6281368cc677ca03fb0c734a3619415b9a635ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf92517d_debb8f16",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionFactory.java",
         "patchSetId": 29
@@ -36,6 +60,30 @@
       "writtenOn": "2018-02-28T10:20:03Z",
       "side": 1,
       "message": "This should be a constant. Do we ever need to configure this?",
+      "range": {
+        "startLine": 331,
+        "startChar": 52,
+        "endLine": 331,
+        "endChar": 56
+      },
+      "revId": "c6281368cc677ca03fb0c734a3619415b9a635ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2536d21c_171b7b66",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionFactory.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-02-28T10:30:11Z",
+      "side": 1,
+      "message": "Now I look at this again, I would even remove the assumption completely. In case the server does not send a validity time, we should only use the token once. I will remove this.",
+      "parentUuid": "cf92517d_debb8f16",
       "range": {
         "startLine": 331,
         "startChar": 52,
