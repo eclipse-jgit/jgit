@@ -43,6 +43,8 @@
 
 package org.eclipse.jgit.http.server.resolver;
 
+import java.util.Arrays;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.eclipse.jgit.lib.Config;
@@ -73,9 +75,16 @@ public class DefaultUploadPackFactory implements
 	@Override
 	public UploadPack create(HttpServletRequest req, Repository db)
 			throws ServiceNotEnabledException, ServiceNotAuthorizedException {
-		if (db.getConfig().get(ServiceConfig::new).enabled)
-			return new UploadPack(db);
-		else
+		if (db.getConfig().get(ServiceConfig::new).enabled) {
+			UploadPack up = new UploadPack(db);
+			String header = req.getHeader("Git-Protocol"); //$NON-NLS-1$
+			if (header != null) {
+				String[] params = header.split(":"); //$NON-NLS-1$
+				up.setExtraParameters(Arrays.asList(params));
+			}
+			return up;
+		} else {
 			throw new ServiceNotEnabledException();
+		}
 	}
 }
