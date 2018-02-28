@@ -634,6 +634,9 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 						// Minimal negotiation was requested and we sent out our
 						// current reference values for our wants, so terminate
 						// negotiation early.
+						if (statelessRPC) {
+							state.writeTo(out, null);
+						}
 						break SEND_HAVES;
 					}
 					break READ_RESULT;
@@ -669,6 +672,9 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 					if (minimalNegotiationSet != null && minimalNegotiationSet.isEmpty()) {
 						// Minimal negotiation was requested and we sent out our current reference
 						// values for our wants, so terminate negotiation early.
+						if (statelessRPC) {
+							state.writeTo(out, null);
+						}
 						break SEND_HAVES;
 					}
 					break;
