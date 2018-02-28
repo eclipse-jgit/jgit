@@ -98,6 +98,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -801,6 +802,7 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
+	@Ignore
 	public void atomicUpdateRespectsInProcessLock() throws Exception {
 		assumeTrue(atomic);
 
