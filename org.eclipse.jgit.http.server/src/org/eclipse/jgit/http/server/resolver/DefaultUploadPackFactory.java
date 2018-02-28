@@ -73,9 +73,15 @@ public class DefaultUploadPackFactory implements
 	@Override
 	public UploadPack create(final HttpServletRequest req, final Repository db)
 			throws ServiceNotEnabledException, ServiceNotAuthorizedException {
-		if (db.getConfig().get(ServiceConfig::new).enabled)
-			return new UploadPack(db);
-		else
+		if (db.getConfig().get(ServiceConfig::new).enabled) {
+			UploadPack up = new UploadPack(db);
+			String header = req.getHeader("Git-Protocol");
+			if (db.getConfig().getInt("protocol", "version", 0) == 2 &&
+					(":" + header + ":").contains(":version=2:")) {
+				up.setUseProtocolV2(true);
+			}
+			return up;
+		} else
 			throw new ServiceNotEnabledException();
 	}
 }
