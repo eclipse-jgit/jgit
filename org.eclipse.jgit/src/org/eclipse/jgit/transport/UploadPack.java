@@ -1158,6 +1158,26 @@ public class UploadPack {
 	 */
 	public void sendAdvertisedRefs(final RefAdvertiser adv) throws IOException,
 			ServiceMayNotContinueException {
+		sendAdvertisedRefs(adv, null);
+	}
+
+	/**
+	 * Generate an advertisement of available refs and capabilities.
+	 *
+	 * @param adv
+	 *            the advertisement formatter.
+	 * @param serviceName
+	 *            if not null, also output "# service=serviceName" followed by a
+	 *            flush packet before the advertisement.
+	 * @throws java.io.IOException
+	 *             the formatter failed to write an advertisement.
+	 * @throws org.eclipse.jgit.transport.ServiceMayNotContinueException
+	 *             the hook denied advertisement.
+	 * @since 5.0
+	 */
+	public void sendAdvertisedRefs(final RefAdvertiser adv,
+			@Nullable String serviceName) throws IOException,
+			ServiceMayNotContinueException {
 		try {
 			advertiseRefsHook.advertiseRefs(this);
 		} catch (ServiceMayNotContinueException fail) {
@@ -1178,6 +1198,10 @@ public class UploadPack {
 			return;
 		}
 
+		if (serviceName != null) {
+			adv.writeOne("# service=" + serviceName + "\n");
+			adv.end();
+		}
 		adv.init(db);
 		adv.advertiseCapability(OPTION_INCLUDE_TAG);
 		adv.advertiseCapability(OPTION_MULTI_ACK_DETAILED);

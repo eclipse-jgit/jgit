@@ -76,6 +76,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.InternalHttpServerGlue;
+import org.eclipse.jgit.transport.PacketLineOut;
 import org.eclipse.jgit.transport.RefAdvertiser.PacketLineOutRefAdvertiser;
 import org.eclipse.jgit.transport.ServiceMayNotContinueException;
 import org.eclipse.jgit.transport.UploadPack;
@@ -116,6 +117,19 @@ class UploadPackServlet extends HttpServlet {
 			try {
 				up.setBiDirectionalPipe(false);
 				up.sendAdvertisedRefs(pck);
+			} finally {
+				up.getRevWalk().close();
+			}
+		}
+
+		@Override
+		protected void respond(HttpServletRequest req,
+				PacketLineOut pckOut, String serviceName) throws IOException,
+				ServiceNotEnabledException, ServiceNotAuthorizedException {
+			UploadPack up = (UploadPack) req.getAttribute(ATTRIBUTE_HANDLER);
+			try {
+				up.setBiDirectionalPipe(false);
+				up.sendAdvertisedRefs(new PacketLineOutRefAdvertiser(pckOut), serviceName);
 			} finally {
 				up.getRevWalk().close();
 			}
