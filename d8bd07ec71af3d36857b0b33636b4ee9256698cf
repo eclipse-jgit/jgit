@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e01ebec_2a99a18b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-02-28T23:22:20Z",
+      "side": 1,
+      "message": "Wrong commit.\n\nNit: commit ids are a slightly more stable identifier anyway (e.g. if the project moves hosting providers).",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 35
+      },
+      "revId": "d8bd07ec71af3d36857b0b33636b4ee9256698cf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
