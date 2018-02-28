@@ -1105,6 +1105,16 @@ public class UploadPack {
 			throw fail;
 		}
 
+		if (useProtocolV2) {
+			// The equivalent in v2 is only the capabilities
+			// advertisement.
+			for (String s : v2CapabilityAdvertisement) {
+				adv.writeOne(s);
+			}
+			adv.end();
+			return;
+		}
+
 		adv.init(db);
 		adv.advertiseCapability(OPTION_INCLUDE_TAG);
 		adv.advertiseCapability(OPTION_MULTI_ACK_DETAILED);
