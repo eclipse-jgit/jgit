@@ -22,6 +22,30 @@
       "revId": "d8bd07ec71af3d36857b0b33636b4ee9256698cf",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d56c16f4_80b025a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-02-28T23:24:01Z",
+      "side": 1,
+      "message": "Possible suggested text:\n\nCommit 9530c10192cf033c021802a3b295b06864654464 (2018-02-11) made fetch negotiation much cheaper for repos [etc]",
+      "parentUuid": "0e01ebec_2a99a18b",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 35
+      },
+      "revId": "d8bd07ec71af3d36857b0b33636b4ee9256698cf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
