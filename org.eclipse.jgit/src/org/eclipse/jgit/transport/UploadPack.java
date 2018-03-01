@@ -956,6 +956,8 @@ public class UploadPack {
 				doneReceived = true;
 			} else if (line.equals(OPTION_THIN_PACK)) {
 				options.add(OPTION_THIN_PACK);
+			} else if (line.equals(OPTION_NO_PROGRESS)) {
+				options.add(OPTION_NO_PROGRESS);
 			}
 			// else ignore it
 		}
