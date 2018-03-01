@@ -19,6 +19,8 @@ import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.ProgressMonitor;
+import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -333,9 +335,13 @@ public class UploadPackTest {
 	 * into the client repository.
 	 */
 	private void parsePack(ByteArrayInputStream recvStream) throws Exception {
+		parsePack(recvStream, NullProgressMonitor.INSTANCE);
+	}
+
+	private void parsePack(ByteArrayInputStream recvStream, ProgressMonitor pm)
+			throws Exception {
  		SideBandInputStream sb = new SideBandInputStream(
- 				recvStream, NullProgressMonitor.INSTANCE,
- 				new StringWriter(), NullOutputStream.INSTANCE);
+ 				recvStream, pm, new StringWriter(), NullOutputStream.INSTANCE);
 		client.newObjectInserter().newPackParser(sb).parse(NullProgressMonitor.INSTANCE);
  	}
 
@@ -445,5 +451,37 @@ public class UploadPackTest {
 		thrown.expect(IOException.class);
 		thrown.expectMessage("pack has unresolved deltas");
 		parsePack(recvStream);
+	}
+
+	@Test
+	public void testV2FetchNoProgress() throws Exception {
+		RevCommit commit = remote.commit().message("x").create();
+
+		// Without no-progress, progress is reported.
+		StringWriter sw = new StringWriter();
+		ByteArrayInputStream recvStream = uploadPackV2(
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"want " + commit.toObjectId().getName() + "\n",
+			"done\n",
+			PacketLineIn.END);
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+		assertThat(pckIn.readString(), is("packfile"));
+		parsePack(recvStream, new TextProgressMonitor(sw));
+		assertFalse(sw.toString().isEmpty());
+
+		// With no-progress, progress is not reported.
+		sw = new StringWriter();
+		recvStream = uploadPackV2(
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"want " + commit.toObjectId().getName() + "\n",
+			"no-progress\n",
+			"done\n",
+			PacketLineIn.END);
+		pckIn = new PacketLineIn(recvStream);
+		assertThat(pckIn.readString(), is("packfile"));
+		parsePack(recvStream, new TextProgressMonitor(sw));
+		assertTrue(sw.toString().isEmpty());
 	}
 }
