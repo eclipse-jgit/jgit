@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.StringWriter;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.storage.dfs.DfsGarbageCollector;
@@ -748,6 +749,36 @@ public class UploadPackTest {
 		assertTrue(client.hasObject(fooChild.toObjectId()));
 		assertTrue(client.hasObject(barParent.toObjectId()));
 		assertTrue(client.hasObject(barChild.toObjectId()));
+	}
+
+	@Test
+	public void testV2FetchThinPack() throws Exception {
+		String commonInBlob = "abcdefghijklmnopqrstuvwxyz";
+
+		RevBlob parentBlob = remote.blob(commonInBlob + "a");
+		RevCommit parent = remote.commit(remote.tree(remote.file("foo", parentBlob)));
+		RevBlob childBlob = remote.blob(commonInBlob + "b");
+		RevCommit child = remote.commit(remote.tree(remote.file("foo", childBlob)), parent);
+		remote.update("branch1", child);
+
+		// Pretend that we have parent to get a thin pack based on it.
+		ByteArrayInputStream recvStream = uploadPackV2(
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"want " + child.toObjectId().getName() + "\n",
+			"have " + parent.toObjectId().getName() + "\n",
+			"thin-pack\n",
+			"done\n",
+			PacketLineIn.END);
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+
+		assertThat(pckIn.readString(), is("packfile"));
+
+		// Verify that we received a thin pack by trying to apply it
+		// against the client repo, which does not have parent.
+		thrown.expect(IOException.class);
+		thrown.expectMessage("pack has unresolved deltas");
+		parsePack(recvStream);
 	}
 
 	private static class RejectAllRefFilter implements RefFilter {

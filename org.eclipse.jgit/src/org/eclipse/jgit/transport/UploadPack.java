@@ -954,6 +954,8 @@ public class UploadPack {
 				peerHas.add(ObjectId.fromString(line.substring(5)));
 			} else if (line.equals("done")) {
 				doneReceived = true;
+			} else if (line.equals(OPTION_THIN_PACK)) {
+				options.add(OPTION_THIN_PACK);
 			}
 			// else ignore it
 		}
