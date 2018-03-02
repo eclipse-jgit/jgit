@@ -116,23 +116,29 @@ public class SmudgeFilter extends FilterCommand {
 	 * @param db
 	 *            a {@link org.eclipse.jgit.lib.Repository} object.
 	 * @param in
-	 *            a {@link java.io.InputStream} object.
+	 *            a {@link java.io.InputStream} object. The stream is closed in
+	 *            any case.
 	 * @param out
 	 *            a {@link java.io.OutputStream} object.
 	 * @throws java.io.IOException
+	 *             in case of an error
 	 */
 	public SmudgeFilter(Repository db, InputStream in, OutputStream out)
 			throws IOException {
 		super(in, out);
-		Lfs lfs = new Lfs(db);
-		LfsPointer res = LfsPointer.parseLfsPointer(in);
-		if (res != null) {
-			AnyLongObjectId oid = res.getOid();
-			Path mediaFile = lfs.getMediaFile(oid);
-			if (!Files.exists(mediaFile)) {
-				downloadLfsResource(lfs, db, res);
+		try {
+			Lfs lfs = new Lfs(db);
+			LfsPointer res = LfsPointer.parseLfsPointer(in);
+			if (res != null) {
+				AnyLongObjectId oid = res.getOid();
+				Path mediaFile = lfs.getMediaFile(oid);
+				if (!Files.exists(mediaFile)) {
+					downloadLfsResource(lfs, db, res);
+				}
+				this.in = Files.newInputStream(mediaFile);
 			}
-			this.in = Files.newInputStream(mediaFile);
+		} finally {
+			in.close(); // make sure the swapped stream is closed properly.
 		}
 	}
 
@@ -147,6 +153,7 @@ public class SmudgeFilter extends FilterCommand {
 	 *            the objects to download
 	 * @return the paths of all mediafiles which have been downloaded
 	 * @throws IOException
+	 * @since 4.11
 	 */
 	public static Collection<Path> downloadLfsResource(Lfs lfs, Repository db,
 			LfsPointer... res) throws IOException {
@@ -228,33 +235,39 @@ public class SmudgeFilter extends FilterCommand {
 	/** {@inheritDoc} */
 	@Override
 	public int run() throws IOException {
-		int totalRead = 0;
-		int length = 0;
-		if (in != null) {
-			byte[] buf = new byte[8192];
-			while ((length = in.read(buf)) != -1) {
-				out.write(buf, 0, length);
-				totalRead += length;
+		try {
+			int totalRead = 0;
+			int length = 0;
+			if (in != null) {
+				byte[] buf = new byte[8192];
+				while ((length = in.read(buf)) != -1) {
+					out.write(buf, 0, length);
+					totalRead += length;
 
-				// when threshold reached, loop back to the caller. otherwise we
-				// could only support files up to 2GB (int return type)
-				// properly. we will be called again as long as we don't return
-				// -1 here.
-				if (totalRead >= MAX_COPY_BYTES) {
-					// leave streams open - we need them in the next call.
-					return totalRead;
+					// when threshold reached, loop back to the caller.
+					// otherwise we could only support files up to 2GB (int
+					// return type) properly. we will be called again as long as
+					// we don't return -1 here.
+					if (totalRead >= MAX_COPY_BYTES) {
+						// leave streams open - we need them in the next call.
+						return totalRead;
+					}
 				}
 			}
-		}
 
-		if (totalRead == 0 && length == -1) {
-			// we're totally done :)
-			in.close();
+			if (totalRead == 0 && length == -1) {
+				// we're totally done :) cleanup all streams
+				in.close();
+				out.close();
+				return length;
+			}
+
+			return totalRead;
+		} catch (IOException e) {
+			in.close(); // clean up - we swapped this stream.
 			out.close();
-			return length;
+			throw e;
 		}
-
-		return totalRead;
 	}
 
 }
