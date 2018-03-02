@@ -91,7 +91,7 @@ public class CleanFilter extends FilterCommand {
 	 * Registers this filter by calling
 	 * {@link FilterCommandRegistry#register(String, FilterCommandFactory)}
 	 */
-	public final static void register() {
+	static void register() {
 		FilterCommandRegistry
 				.register(org.eclipse.jgit.lib.Constants.BUILTIN_FILTER_PREFIX
 						+ Constants.ATTR_FILTER_DRIVER_PREFIX
