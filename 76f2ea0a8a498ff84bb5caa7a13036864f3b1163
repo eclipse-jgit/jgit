@@ -16,6 +16,24 @@
       "revId": "76f2ea0a8a498ff84bb5caa7a13036864f3b1163",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1fa0f692_636db1fc",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/CleanFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-03-02T12:00:52Z",
+      "side": 1,
+      "message": "No. Had that comment before :) The design of the filter commands is to return even through not all data has been read (also see past comments regarding int return type instead of long which makes it theoretically impossible to read large files in one go). The filter processes a small chunk, leaves all streams in place and relies on being called as long as there is data left to be processed.",
+      "parentUuid": "a9d4b679_3e6155fa",
+      "revId": "76f2ea0a8a498ff84bb5caa7a13036864f3b1163",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
