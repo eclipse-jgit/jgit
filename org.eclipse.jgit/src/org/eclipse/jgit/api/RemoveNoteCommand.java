@@ -46,13 +46,9 @@ import java.io.IOException;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
-import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
-import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.Note;
 import org.eclipse.jgit.notes.NoteMap;
@@ -99,7 +95,8 @@ public class RemoveNoteCommand extends GitCommand<Note> {
 				map = NoteMap.read(walk.getObjectReader(), notesCommit);
 			}
 			map.set(id, null, inserter);
-			commitNoteMap(walk, map, notesCommit, inserter,
+			AddNoteCommand.commitNoteMap(repo, notesRef, walk, map, notesCommit,
+					inserter,
 					"Notes removed by 'git notes remove'"); //$NON-NLS-1$
 			return map.getNote(id);
 		} catch (IOException e) {
@@ -119,30 +116,6 @@ public class RemoveNoteCommand extends GitCommand<Note> {
 		checkCallable();
 		this.id = id;
 		return this;
-	}
-
-	private void commitNoteMap(RevWalk walk, NoteMap map,
-			RevCommit notesCommit,
-			ObjectInserter inserter,
-			String msg)
-			throws IOException {
-		// commit the note
-		CommitBuilder builder = new CommitBuilder();
-		builder.setTreeId(map.writeTree(inserter));
-		builder.setAuthor(new PersonIdent(repo));
-		builder.setCommitter(builder.getAuthor());
-		builder.setMessage(msg);
-		if (notesCommit != null)
-			builder.setParentIds(notesCommit);
-		ObjectId commit = inserter.insert(builder);
-		inserter.flush();
-		RefUpdate refUpdate = repo.updateRef(notesRef);
-		if (notesCommit != null)
-			refUpdate.setExpectedOldObjectId(notesCommit);
-		else
-			refUpdate.setExpectedOldObjectId(ObjectId.zeroId());
-		refUpdate.setNewObjectId(commit);
-		refUpdate.update(walk);
 	}
 
 	/**
