@@ -180,8 +180,8 @@ public class TagBuilder {
 	 */
 	public byte[] build() {
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
-		OutputStreamWriter w = new OutputStreamWriter(os, Constants.CHARSET);
-		try {
+		try (OutputStreamWriter w = new OutputStreamWriter(os,
+				Constants.CHARSET)) {
 			w.write("object "); //$NON-NLS-1$
 			getObjectId().copyTo(w);
 			w.write('\n');
@@ -203,7 +203,6 @@ public class TagBuilder {
 			w.write('\n');
 			if (getMessage() != null)
 				w.write(getMessage());
-			w.close();
 		} catch (IOException err) {
 			// This should never occur, the only way to get it above is
 			// for the ByteArrayOutputStream to throw, but it doesn't.
