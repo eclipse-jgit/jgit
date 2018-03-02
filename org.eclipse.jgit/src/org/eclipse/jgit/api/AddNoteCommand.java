@@ -99,7 +99,7 @@ public class AddNoteCommand extends GitCommand<Note> {
 				map = NoteMap.read(walk.getObjectReader(), notesCommit);
 			}
 			map.set(id, message, inserter);
-			commitNoteMap(walk, map, notesCommit, inserter,
+			commitNoteMap(repo, notesRef, walk, map, notesCommit, inserter,
 					"Notes added by 'git notes add'"); //$NON-NLS-1$
 			return map.getNote(id);
 		} catch (IOException e) {
@@ -134,7 +134,8 @@ public class AddNoteCommand extends GitCommand<Note> {
 		return this;
 	}
 
-	private void commitNoteMap(RevWalk walk, NoteMap map,
+	static void commitNoteMap(Repository r, String ref, RevWalk walk,
+			NoteMap map,
 			RevCommit notesCommit,
 			ObjectInserter inserter,
 			String msg)
@@ -142,14 +143,14 @@ public class AddNoteCommand extends GitCommand<Note> {
 		// commit the note
 		CommitBuilder builder = new CommitBuilder();
 		builder.setTreeId(map.writeTree(inserter));
-		builder.setAuthor(new PersonIdent(repo));
+		builder.setAuthor(new PersonIdent(r));
 		builder.setCommitter(builder.getAuthor());
 		builder.setMessage(msg);
 		if (notesCommit != null)
 			builder.setParentIds(notesCommit);
 		ObjectId commit = inserter.insert(builder);
 		inserter.flush();
-		RefUpdate refUpdate = repo.updateRef(notesRef);
+		RefUpdate refUpdate = r.updateRef(ref);
 		if (notesCommit != null)
 			refUpdate.setExpectedOldObjectId(notesCommit);
 		else
