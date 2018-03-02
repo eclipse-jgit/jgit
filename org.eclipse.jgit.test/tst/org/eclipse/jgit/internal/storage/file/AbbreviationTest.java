@@ -187,7 +187,10 @@ public class AbbreviationTest extends LocalDiskRepositoryTestCase {
 			PackIndexWriter writer = new PackIndexWriterV2(dst);
 			writer.write(objects, new byte[OBJECT_ID_LENGTH]);
 		}
-		new FileOutputStream(packFile).close();
+
+		try (FileOutputStream unused = new FileOutputStream(packFile)) {
+			// unused
+		}
 
 		assertEquals(id.abbreviate(20), reader.abbreviate(id, 2));
 
