@@ -22,6 +22,30 @@
       "revId": "2d685221bbd169de83bd5af1883506eead4ba385",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "037e6b33_91b79623",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 41
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-03-02T11:58:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa44b918_5ec49dc2",
+      "range": {
+        "startLine": 441,
+        "startChar": 4,
+        "endLine": 441,
+        "endChar": 9
+      },
+      "revId": "2d685221bbd169de83bd5af1883506eead4ba385",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
