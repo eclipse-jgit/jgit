@@ -87,12 +87,12 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ConfigConstants;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig.EolStreamType;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectLoader;
-import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.storage.pack.PackConfig;
@@ -106,6 +106,8 @@ import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 import org.eclipse.jgit.treewalk.WorkingTreeOptions;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.LfsFactory;
+import org.eclipse.jgit.util.LfsFactory.LfsInputStream;
 import org.eclipse.jgit.util.TemporaryBuffer;
 import org.eclipse.jgit.util.io.EolStreamTypeUtil;
 
@@ -769,11 +771,12 @@ public class ResolveMerger extends ThreeWayMerger {
 				return false;
 			}
 
-			MergeResult<RawText> result = contentMerge(base, ours, theirs);
+			MergeResult<RawText> result = contentMerge(base, ours, theirs,
+					attributes);
 			if (ignoreConflicts) {
 				result.setContainsConflicts(false);
 			}
-			updateIndex(base, ours, theirs, result);
+			updateIndex(base, ours, theirs, result, attributes);
 			if (result.containsConflicts() && !ignoreConflicts)
 				unmergedPaths.add(tw.getPathString());
 			modifiedFiles.add(tw.getPathString());
@@ -781,7 +784,8 @@ public class ResolveMerger extends ThreeWayMerger {
 			// OURS or THEIRS has been deleted
 			if (((modeO != 0 && !tw.idEqual(T_BASE, T_OURS)) || (modeT != 0 && !tw
 					.idEqual(T_BASE, T_THEIRS)))) {
-				MergeResult<RawText> result = contentMerge(base, ours, theirs);
+				MergeResult<RawText> result = contentMerge(base, ours, theirs,
+						attributes);
 
 				add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, 0, 0);
 				add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, 0, 0);
@@ -816,12 +820,14 @@ public class ResolveMerger extends ThreeWayMerger {
 	 * @param base
 	 * @param ours
 	 * @param theirs
+	 * @param attributes
 	 *
 	 * @return the result of the content merge
 	 * @throws IOException
 	 */
 	private MergeResult<RawText> contentMerge(CanonicalTreeParser base,
-			CanonicalTreeParser ours, CanonicalTreeParser theirs)
+			CanonicalTreeParser ours, CanonicalTreeParser theirs,
+			Attributes attributes)
 			throws IOException {
 		RawText baseText;
 		RawText ourText;
@@ -829,11 +835,11 @@ public class ResolveMerger extends ThreeWayMerger {
 
 		try {
 			baseText = base == null ? RawText.EMPTY_TEXT : getRawText(
-				base.getEntryObjectId(), reader);
+							base.getEntryObjectId(), attributes);
 			ourText = ours == null ? RawText.EMPTY_TEXT : getRawText(
-				ours.getEntryObjectId(), reader);
+							ours.getEntryObjectId(), attributes);
 			theirsText = theirs == null ? RawText.EMPTY_TEXT : getRawText(
-				theirs.getEntryObjectId(), reader);
+							theirs.getEntryObjectId(), attributes);
 		} catch (BinaryBlobException e) {
 			MergeResult<RawText> r = new MergeResult<>(Collections.<RawText>emptyList());
 			r.setContainsConflicts(true);
@@ -897,17 +903,20 @@ public class ResolveMerger extends ThreeWayMerger {
 	 * @param ours
 	 * @param theirs
 	 * @param result
+	 * @param attributes
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
 	private void updateIndex(CanonicalTreeParser base,
 			CanonicalTreeParser ours, CanonicalTreeParser theirs,
-			MergeResult<RawText> result) throws FileNotFoundException,
+			MergeResult<RawText> result, Attributes attributes)
+			throws FileNotFoundException,
 			IOException {
 		TemporaryBuffer rawMerged = null;
 		try {
 			rawMerged = doMerge(result);
-			File mergedFile = inCore ? null : writeMergedFile(rawMerged);
+			File mergedFile = inCore ? null
+					: writeMergedFile(rawMerged, attributes);
 			if (result.containsConflicts()) {
 				// A conflict occurred, the file will contain conflict markers
 				// the index will be populated with the three stages and the
@@ -934,7 +943,7 @@ public class ResolveMerger extends ThreeWayMerger {
 						nonNullRepo().getFS().lastModified(mergedFile));
 				dce.setLength((int) mergedFile.length());
 			}
-			dce.setObjectId(insertMergeResult(rawMerged));
+			dce.setObjectId(insertMergeResult(rawMerged, attributes));
 			builder.add(dce);
 		} finally {
 			if (rawMerged != null) {
@@ -948,11 +957,14 @@ public class ResolveMerger extends ThreeWayMerger {
 	 *
 	 * @param rawMerged
 	 *            the raw merged content
+	 * @param attributes
+	 *            the files .gitattributes entries
 	 * @return the working tree file to which the merged content was written.
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	private File writeMergedFile(TemporaryBuffer rawMerged)
+	private File writeMergedFile(TemporaryBuffer rawMerged,
+			Attributes attributes)
 			throws FileNotFoundException, IOException {
 		File workTree = nonNullRepo().getWorkTree();
 		FS fs = nonNullRepo().getFS();
@@ -963,7 +975,7 @@ public class ResolveMerger extends ThreeWayMerger {
 		}
 		EolStreamType streamType = EolStreamTypeUtil.detectStreamType(
 				OperationType.CHECKOUT_OP, workingTreeOptions,
-				tw.getAttributes());
+				attributes);
 		try (OutputStream os = EolStreamTypeUtil.wrapOutputStream(
 				new BufferedOutputStream(new FileOutputStream(of)),
 				streamType)) {
@@ -987,9 +999,13 @@ public class ResolveMerger extends ThreeWayMerger {
 		return buf;
 	}
 
-	private ObjectId insertMergeResult(TemporaryBuffer buf) throws IOException {
-		try (InputStream in = buf.openInputStream()) {
-			return getObjectInserter().insert(OBJ_BLOB, buf.length(), in);
+	private ObjectId insertMergeResult(TemporaryBuffer buf,
+			Attributes attributes) throws IOException {
+		InputStream in = buf.openInputStream();
+		try (LfsInputStream is = LfsFactory.getInstance().applyCleanFilter(
+				getRepository(), in,
+				buf.length(), attributes.get(Constants.ATTR_MERGE))) {
+			return getObjectInserter().insert(OBJ_BLOB, is.getLength(), is);
 		}
 	}
 
@@ -1021,12 +1037,15 @@ public class ResolveMerger extends ThreeWayMerger {
 		return FileMode.MISSING.getBits();
 	}
 
-	private static RawText getRawText(ObjectId id, ObjectReader reader)
+	private RawText getRawText(ObjectId id,
+			Attributes attributes)
 			throws IOException, BinaryBlobException {
 		if (id.equals(ObjectId.zeroId()))
 			return new RawText(new byte[] {});
 
-		ObjectLoader loader = reader.open(id, OBJ_BLOB);
+		ObjectLoader loader = LfsFactory.getInstance().applySmudgeFilter(
+				getRepository(), reader.open(id, OBJ_BLOB),
+				attributes.get(Constants.ATTR_MERGE));
 		int threshold = PackConfig.DEFAULT_BIG_FILE_THRESHOLD;
 		return RawText.load(loader, threshold);
 	}

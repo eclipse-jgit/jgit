@@ -74,8 +74,7 @@ import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
-import org.eclipse.jgit.lfs.CleanFilter;
-import org.eclipse.jgit.lfs.SmudgeFilter;
+import org.eclipse.jgit.lfs.BuiltinLFS;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
@@ -102,8 +101,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 	@Override
 	@Before
 	public void setUp() throws Exception {
-		CleanFilter.register();
-		SmudgeFilter.register();
+		BuiltinLFS.register();
 		super.setUp();
 		git = new Git(db);
 		// commit something

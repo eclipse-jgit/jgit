@@ -100,17 +100,15 @@ public class SmudgeFilter extends FilterCommand {
 	};
 
 	/**
-	 * Registers this filter in JGit by calling
+	 * Register this filter in JGit
 	 */
-	public final static void register() {
+	static void register() {
 		FilterCommandRegistry
 				.register(org.eclipse.jgit.lib.Constants.BUILTIN_FILTER_PREFIX
 						+ Constants.ATTR_FILTER_DRIVER_PREFIX
 						+ org.eclipse.jgit.lib.Constants.ATTR_FILTER_TYPE_SMUDGE,
 						FACTORY);
 	}
-
-	private Lfs lfs;
 
 	/**
 	 * Constructor for SmudgeFilter.
@@ -126,13 +124,13 @@ public class SmudgeFilter extends FilterCommand {
 	public SmudgeFilter(Repository db, InputStream in, OutputStream out)
 			throws IOException {
 		super(in, out);
-		lfs = new Lfs(db);
+		Lfs lfs = new Lfs(db);
 		LfsPointer res = LfsPointer.parseLfsPointer(in);
 		if (res != null) {
 			AnyLongObjectId oid = res.getOid();
 			Path mediaFile = lfs.getMediaFile(oid);
 			if (!Files.exists(mediaFile)) {
-				downloadLfsResource(db, res);
+				downloadLfsResource(lfs, db, res);
 			}
 			this.in = Files.newInputStream(mediaFile);
 		}
@@ -141,6 +139,8 @@ public class SmudgeFilter extends FilterCommand {
 	/**
 	 * Download content which is hosted on a LFS server
 	 *
+	 * @param lfs
+	 *            local {@link Lfs} storage.
 	 * @param db
 	 *            the repository to work with
 	 * @param res
@@ -148,9 +148,8 @@ public class SmudgeFilter extends FilterCommand {
 	 * @return the paths of all mediafiles which have been downloaded
 	 * @throws IOException
 	 */
-	private Collection<Path> downloadLfsResource(Repository db,
-			LfsPointer... res)
-			throws IOException {
+	public static Collection<Path> downloadLfsResource(Lfs lfs, Repository db,
+			LfsPointer... res) throws IOException {
 		Collection<Path> downloadedPaths = new ArrayList<>();
 		Map<String, LfsPointer> oidStr2ptr = new HashMap<>();
 		for (LfsPointer p : res) {
