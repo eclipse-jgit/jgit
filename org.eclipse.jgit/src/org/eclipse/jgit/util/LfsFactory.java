@@ -259,7 +259,7 @@ public class LfsFactory {
 		 *             in case of an error opening the stream to the buffer.
 		 */
 		public LfsInputStream(TemporaryBuffer buffer) throws IOException {
-			this.stream = buffer.openInputStream();
+			this.stream = buffer.openInputStreamWithAutoDestroy();
 			this.length = buffer.length();
 		}
 

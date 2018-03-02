@@ -314,6 +314,26 @@ public abstract class TemporaryBuffer extends OutputStream {
 	}
 
 	/**
+	 * Same as {@link #openInputStream()} but handling destruction of any
+	 * associated resources automatically when closing the returned stream.
+	 *
+	 * @return an InputStream which will automatically destroy any associated
+	 *         temporary file on {@link #close()}
+	 * @throws IOException
+	 *             in case of an error.
+	 * @since 4.11
+	 */
+	public InputStream openInputStreamWithAutoDestroy() throws IOException {
+		return new BlockInputStream() {
+			@Override
+			public void close() throws IOException {
+				super.close();
+				destroy();
+			}
+		};
+	}
+
+	/**
 	 * Reset this buffer for reuse, purging all buffered content.
 	 */
 	public void reset() {
@@ -503,6 +523,20 @@ public abstract class TemporaryBuffer extends OutputStream {
 			if (onDiskFile == null)
 				return super.openInputStream();
 			return new FileInputStream(onDiskFile);
+		}
+
+		@Override
+		public InputStream openInputStreamWithAutoDestroy() throws IOException {
+			if (onDiskFile == null) {
+				return super.openInputStreamWithAutoDestroy();
+			}
+			return new FileInputStream(onDiskFile) {
+				@Override
+				public void close() throws IOException {
+					super.close();
+					destroy();
+				}
+			};
 		}
 
 		@Override
