@@ -166,6 +166,24 @@
     },
     {
       "key": {
+        "uuid": "15d9fa15_c50754a7",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/CleanFilter.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-03-02T09:16:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3083c54_62f36aa8",
+      "revId": "91e1e2ac0b711cb93975a0eb4b72e3f039bb9cdf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "346bfa22_7599fa0f",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsBlobLoader.java",
         "patchSetId": 40
@@ -253,6 +271,24 @@
     },
     {
       "key": {
+        "uuid": "002e86e2_95e9a557",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-03-02T09:16:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c17c3609_895fd095",
+      "revId": "91e1e2ac0b711cb93975a0eb4b72e3f039bb9cdf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7fa4abda_d2fc6fdf",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
         "patchSetId": 40
@@ -270,6 +306,24 @@
     },
     {
       "key": {
+        "uuid": "1bc25808_3921bdf0",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-03-02T09:16:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7fa4abda_d2fc6fdf",
+      "revId": "91e1e2ac0b711cb93975a0eb4b72e3f039bb9cdf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "56e7f949_325b7d2b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/FilterCommand.java",
         "patchSetId": 40
@@ -281,6 +335,24 @@
       "writtenOn": "2018-03-01T23:49:40Z",
       "side": 1,
       "message": "this goes with stream closing commit",
+      "revId": "91e1e2ac0b711cb93975a0eb4b72e3f039bb9cdf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df2e4a78_74440c39",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/FilterCommand.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-03-02T09:16:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56e7f949_325b7d2b",
       "revId": "91e1e2ac0b711cb93975a0eb4b72e3f039bb9cdf",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -428,6 +500,54 @@
     },
     {
       "key": {
+        "uuid": "bd1fb00a_6cba0ac1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 1008,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-03-02T09:16:46Z",
+      "side": 1,
+      "message": "same",
+      "parentUuid": "81cfbf2f_beba372d",
+      "range": {
+        "startLine": 1008,
+        "startChar": 50,
+        "endLine": 1008,
+        "endChar": 56
+      },
+      "revId": "91e1e2ac0b711cb93975a0eb4b72e3f039bb9cdf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7e13afe_947991ea",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 1008,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-03-02T09:16:46Z",
+      "side": 1,
+      "message": "i changed this according to your other comments in LfsInputStream. Done.",
+      "parentUuid": "e0609e1e_5ef15395",
+      "range": {
+        "startLine": 1008,
+        "startChar": 58,
+        "endLine": 1008,
+        "endChar": 67
+      },
+      "revId": "91e1e2ac0b711cb93975a0eb4b72e3f039bb9cdf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5019af3b_bad67a93",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 40
@@ -439,6 +559,30 @@
       "writtenOn": "2018-03-02T09:06:53Z",
       "side": 1,
       "message": "will also push this to the stream-fix commit.",
+      "range": {
+        "startLine": 479,
+        "startChar": 18,
+        "endLine": 479,
+        "endChar": 48
+      },
+      "revId": "91e1e2ac0b711cb93975a0eb4b72e3f039bb9cdf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1a157bd_09ec9f49",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-03-02T09:16:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5019af3b_bad67a93",
       "range": {
         "startLine": 479,
         "startChar": 18,
@@ -708,6 +852,24 @@
       "writtenOn": "2018-03-01T23:49:40Z",
       "side": 1,
       "message": "move this to the commit fixing unclosed streams",
+      "revId": "91e1e2ac0b711cb93975a0eb4b72e3f039bb9cdf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43faa405_d695ca66",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/TemporaryBuffer.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-03-02T09:16:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ffc7d0a_629d9629",
       "revId": "91e1e2ac0b711cb93975a0eb4b72e3f039bb9cdf",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
