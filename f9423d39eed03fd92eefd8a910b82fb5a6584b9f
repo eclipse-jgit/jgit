@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28e1710c_c1dc9c0b",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Main.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-03-03T22:37:25Z",
+      "side": 1,
+      "message": "remove this comment",
+      "revId": "f9423d39eed03fd92eefd8a910b82fb5a6584b9f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
