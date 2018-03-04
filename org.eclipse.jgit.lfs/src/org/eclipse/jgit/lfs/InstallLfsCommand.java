@@ -102,12 +102,16 @@ public class InstallLfsCommand implements Callable<Void>{
 	}
 
 	/**
+	 * Set the repository to install LFS for
+	 *
 	 * @param repo
 	 *            the repository to install LFS into locally instead of the user
 	 *            configuration
+	 * @return this command
 	 */
-	public void setRepository(Repository repo) {
+	public InstallLfsCommand setRepository(Repository repo) {
 		this.repository = repo;
+		return this;
 	}
 
 	private StoredConfig loadUserConfig() throws IOException {
