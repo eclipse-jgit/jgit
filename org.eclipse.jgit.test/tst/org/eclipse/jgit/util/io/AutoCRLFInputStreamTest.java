@@ -93,25 +93,24 @@ public class AutoCRLFInputStreamTest {
 		byte[] expectBytes = expect.getBytes();
 		for (int i = 0; i < 5; ++i) {
 			byte[] buf = new byte[i];
-			ByteArrayInputStream bis = new ByteArrayInputStream(inbytes);
-			InputStream in = new AutoCRLFInputStream(bis, true);
-			ByteArrayOutputStream out = new ByteArrayOutputStream();
-			if (i > 0) {
-				int n;
-				while ((n = in.read(buf)) >= 0) {
-					out.write(buf, 0, n);
+			try (ByteArrayInputStream bis = new ByteArrayInputStream(inbytes);
+					InputStream in = new AutoCRLFInputStream(bis, true);
+					ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+				if (i > 0) {
+					int n;
+					while ((n = in.read(buf)) >= 0) {
+						out.write(buf, 0, n);
+					}
+				} else {
+					int c;
+					while ((c = in.read()) != -1)
+						out.write(c);
 				}
-			} else {
-				int c;
-				while ((c = in.read()) != -1)
-					out.write(c);
+				out.flush();
+				byte[] actualBytes = out.toByteArray();
+				Assert.assertEquals("bufsize=" + i, encode(expectBytes),
+						encode(actualBytes));
 			}
-			out.flush();
-			in.close();
-			out.close();
-			byte[] actualBytes = out.toByteArray();
-			Assert.assertEquals("bufsize=" + i, encode(expectBytes),
-					encode(actualBytes));
 		}
 	}
 
