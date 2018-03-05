@@ -223,9 +223,9 @@ public class CommitCommandTest extends RepositoryTestCase {
 			assertEquals(uri, generator.getModulesUrl());
 			assertEquals(path, generator.getModulesPath());
 			assertEquals(uri, generator.getConfigUrl());
-			Repository subModRepo = generator.getRepository();
-			assertNotNull(subModRepo);
-			subModRepo.close();
+			try (Repository subModRepo = generator.getRepository()) {
+				assertNotNull(subModRepo);
+			}
 			assertEquals(commit, repo.resolve(Constants.HEAD));
 
 			RevCommit submoduleCommit = git.commit().setMessage("submodule add")
@@ -273,9 +273,9 @@ public class CommitCommandTest extends RepositoryTestCase {
 			assertEquals(uri, generator.getModulesUrl());
 			assertEquals(path, generator.getModulesPath());
 			assertEquals(uri, generator.getConfigUrl());
-			Repository subModRepo = generator.getRepository();
-			assertNotNull(subModRepo);
-			subModRepo.close();
+			try (Repository subModRepo = generator.getRepository()) {
+				assertNotNull(subModRepo);
+			}
 			assertEquals(commit2, repo.resolve(Constants.HEAD));
 
 			RevCommit submoduleAddCommit = git.commit().setMessage("submodule add")
