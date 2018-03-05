@@ -135,8 +135,7 @@ public class AdvertiseErrorTest extends HttpTestCase {
 		final RevCommit Q = src.commit().add("Q", Q_txt).create();
 		final Repository db = src.getRepository();
 		final String dstName = Constants.R_HEADS + "new.branch";
-		final Transport t = Transport.open(db, remoteURI);
-		try {
+		try (Transport t = Transport.open(db, remoteURI)) {
 			final String srcExpr = Q.name();
 			final boolean forceUpdate = false;
 			final String localName = null;
@@ -154,8 +153,6 @@ public class AdvertiseErrorTest extends HttpTestCase {
 						+ "come back next year!", //
 						error.getMessage());
 			}
-		} finally {
-			t.close();
 		}
 	}
 }
