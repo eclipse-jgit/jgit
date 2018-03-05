@@ -112,7 +112,8 @@ public class BuiltinLFS extends LfsFactory {
 	 *            the repository
 	 * @return whether LFS is requested for the given repo.
 	 */
-	private boolean isEnabled(Repository db) {
+	@Override
+	public boolean isEnabled(Repository db) {
 		if (db == null) {
 			return false;
 		}
@@ -136,6 +137,11 @@ public class BuiltinLFS extends LfsFactory {
 		}
 		return isEnabled(db) && ConfigConstants.CONFIG_SECTION_LFS
 				.equals(attribute.getValue());
+	}
+
+	@Override
+	public LfsInstallCommand getInstallCommand() {
+		return new InstallBuiltinLfsCommand();
 	}
 
 }

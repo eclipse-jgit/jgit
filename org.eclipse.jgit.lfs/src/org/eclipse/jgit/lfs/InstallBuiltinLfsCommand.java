@@ -44,7 +44,6 @@ package org.eclipse.jgit.lfs;
 
 import java.io.IOException;
 import java.text.MessageFormat;
-import java.util.concurrent.Callable;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lfs.internal.LfsText;
@@ -53,6 +52,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.LfsFactory.LfsInstallCommand;
 import org.eclipse.jgit.util.SystemReader;
 
 /**
@@ -61,7 +61,7 @@ import org.eclipse.jgit.util.SystemReader;
  *
  * @since 4.11
  */
-public class InstallLfsCommand implements Callable<Void>{
+public class InstallBuiltinLfsCommand implements LfsInstallCommand {
 
 	private static final String[] ARGS_USER = new String[] { "lfs", "install" }; //$NON-NLS-1$//$NON-NLS-2$
 
@@ -110,7 +110,8 @@ public class InstallLfsCommand implements Callable<Void>{
 	 *            configuration
 	 * @return this command
 	 */
-	public InstallLfsCommand setRepository(Repository repo) {
+	@Override
+	public LfsInstallCommand setRepository(Repository repo) {
 		this.repository = repo;
 		return this;
 	}
