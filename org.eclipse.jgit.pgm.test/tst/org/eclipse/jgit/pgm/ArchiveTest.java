@@ -633,9 +633,8 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 	}
 
 	private void assertMagic(long offset, byte[] magicBytes, File file) throws Exception {
-		BufferedInputStream in = new BufferedInputStream(
-				new FileInputStream(file));
-		try {
+		try (BufferedInputStream in = new BufferedInputStream(
+				new FileInputStream(file))) {
 			if (offset > 0) {
 				long skipped = in.skip(offset);
 				assertEquals(offset, skipped);
@@ -644,8 +643,6 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 			byte[] actual = new byte[magicBytes.length];
 			in.read(actual);
 			assertArrayEquals(magicBytes, actual);
-		} finally {
-			in.close();
 		}
 	}
 
@@ -686,23 +683,19 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 	private void writeRaw(String filename, byte[] data)
 			throws IOException {
 		File path = new File(db.getWorkTree(), filename);
-		OutputStream out = new FileOutputStream(path);
-		try {
+		try (OutputStream out = new FileOutputStream(path)) {
 			out.write(data);
-		} finally {
-			out.close();
 		}
 	}
 
 	private static String[] listZipEntries(byte[] zipData) throws IOException {
 		List<String> l = new ArrayList<>();
-		ZipInputStream in = new ZipInputStream(
-				new ByteArrayInputStream(zipData));
-
-		ZipEntry e;
-		while ((e = in.getNextEntry()) != null)
-			l.add(e.getName());
-		in.close();
+		try (ZipInputStream in = new ZipInputStream(
+				new ByteArrayInputStream(zipData))) {
+			ZipEntry e;
+			while ((e = in.getNextEntry()) != null)
+				l.add(e.getName());
+		}
 		return l.toArray(new String[l.size()]);
 	}
 
@@ -725,22 +718,22 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 	private String[] listTarEntries(byte[] tarData) throws Exception {
 		List<String> l = new ArrayList<>();
 		Process proc = spawnAssumingCommandPresent("tar", "tf", "-");
-		BufferedReader reader = readFromProcess(proc);
-		OutputStream out = proc.getOutputStream();
+		try (BufferedReader reader = readFromProcess(proc)) {
+			OutputStream out = proc.getOutputStream();
 
-		// Dump tarball to tar stdin in background
-		Future<?> writing = writeAsync(out, tarData);
+			// Dump tarball to tar stdin in background
+			Future<?> writing = writeAsync(out, tarData);
 
-		try {
-			String line;
-			while ((line = reader.readLine()) != null)
-				l.add(line);
+			try {
+				String line;
+				while ((line = reader.readLine()) != null)
+					l.add(line);
 
-			return l.toArray(new String[l.size()]);
-		} finally {
-			writing.get();
-			reader.close();
-			proc.destroy();
+				return l.toArray(new String[l.size()]);
+			} finally {
+				writing.get();
+				proc.destroy();
+			}
 		}
 	}
 
@@ -771,20 +764,20 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 			throws Exception {
 		List<String> l = new ArrayList<>();
 		Process proc = spawnAssumingCommandPresent("tar", "Oxf", "-", path);
-		BufferedReader reader = readFromProcess(proc);
-		OutputStream out = proc.getOutputStream();
-		Future<?> writing = writeAsync(out, tarData);
+		try (BufferedReader reader = readFromProcess(proc)) {
+			OutputStream out = proc.getOutputStream();
+			Future<?> writing = writeAsync(out, tarData);
 
-		try {
-			String line;
-			while ((line = reader.readLine()) != null)
-				l.add(line);
+			try {
+				String line;
+				while ((line = reader.readLine()) != null)
+					l.add(line);
 
-			return l.toArray(new String[l.size()]);
-		} finally {
-			writing.get();
-			reader.close();
-			proc.destroy();
+				return l.toArray(new String[l.size()]);
+			} finally {
+				writing.get();
+				proc.destroy();
+			}
 		}
 	}
 }
