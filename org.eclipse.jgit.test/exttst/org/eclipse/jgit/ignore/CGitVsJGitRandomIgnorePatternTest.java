@@ -187,10 +187,10 @@ public class CGitVsJGitRandomIgnorePatternTest {
 					"--no-index", "-v", "-n", "--stdin" };
 			Process proc = Runtime.getRuntime().exec(command, new String[0],
 					gitDir);
-			OutputStream out = proc.getOutputStream();
-			out.write((path + "\n").getBytes(UTF_8));
-			out.flush();
-			out.close();
+			try (OutputStream out = proc.getOutputStream()) {
+				out.write((path + "\n").getBytes(UTF_8));
+				out.flush();
+			}
 			return proc;
 		}
 
