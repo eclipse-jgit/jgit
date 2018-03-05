@@ -427,13 +427,8 @@ public class TransportSftp extends SshTransport implements WalkTransport {
 		private Ref readRef(final TreeMap<String, Ref> avail,
 				final String path, final String name) throws TransportException {
 			final String line;
-			try {
-				final BufferedReader br = openReader(path);
-				try {
-					line = br.readLine();
-				} finally {
-					br.close();
-				}
+			try (BufferedReader br = openReader(path)) {
+				line = br.readLine();
 			} catch (FileNotFoundException noRef) {
 				return null;
 			} catch (IOException err) {
