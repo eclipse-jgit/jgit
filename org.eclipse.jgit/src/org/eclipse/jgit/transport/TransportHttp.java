@@ -371,12 +371,9 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	private WalkFetchConnection newDumbConnection(InputStream in)
 			throws IOException, PackProtocolException {
 		HttpObjectDB d = new HttpObjectDB(objectsUrl);
-		BufferedReader br = toBufferedReader(in);
 		Map<String, Ref> refs;
-		try {
+		try (BufferedReader br = toBufferedReader(in)) {
 			refs = d.readAdvertisedImpl(br);
-		} finally {
-			br.close();
 		}
 
 		if (!refs.containsKey(HEAD)) {
@@ -391,8 +388,8 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			int status = HttpSupport.response(conn);
 			switch (status) {
 			case HttpConnection.HTTP_OK: {
-				br = toBufferedReader(openInputStream(conn));
-				try {
+				try (BufferedReader br = toBufferedReader(
+						openInputStream(conn))) {
 					String line = br.readLine();
 					if (line != null && line.startsWith(RefDirectory.SYMREF)) {
 						String target = line.substring(RefDirectory.SYMREF.length());
@@ -406,8 +403,6 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 								HEAD, ObjectId.fromString(line));
 						refs.put(r.getName(), r);
 					}
-				} finally {
-					br.close();
 				}
 				break;
 			}
@@ -438,8 +433,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		final String service = SVC_RECEIVE_PACK;
 		try {
 			final HttpConnection c = connect(service);
-			final InputStream in = openInputStream(c);
-			try {
+			try (InputStream in = openInputStream(c)) {
 				if (isSmartHttp(c, service)) {
 					return smartPush(service, c, in);
 				} else if (!useSmartHttp) {
@@ -450,8 +444,6 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 					final String msg = JGitText.get().remoteDoesNotSupportSmartHTTPPush;
 					throw new NotSupportedException(msg);
 				}
-			} finally {
-				in.close();
 			}
 		} catch (NotSupportedException err) {
 			throw err;
@@ -966,21 +958,16 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		@Override
 		Collection<String> getPackNames() throws IOException {
 			final Collection<String> packs = new ArrayList<>();
-			try {
-				final BufferedReader br = openReader(INFO_PACKS);
-				try {
-					for (;;) {
-						final String s = br.readLine();
-						if (s == null || s.length() == 0)
-							break;
-						if (!s.startsWith("P pack-") || !s.endsWith(".pack")) //$NON-NLS-1$ //$NON-NLS-2$
-							throw invalidAdvertisement(s);
-						packs.add(s.substring(2));
-					}
-					return packs;
-				} finally {
-					br.close();
+			try (BufferedReader br = openReader(INFO_PACKS)) {
+				for (;;) {
+					final String s = br.readLine();
+					if (s == null || s.length() == 0)
+						break;
+					if (!s.startsWith("P pack-") || !s.endsWith(".pack")) //$NON-NLS-1$ //$NON-NLS-2$
+						throw invalidAdvertisement(s);
+					packs.add(s.substring(2));
 				}
+				return packs;
 			} catch (FileNotFoundException err) {
 				return packs;
 			}
@@ -1165,10 +1152,8 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			// Try to compress the content, but only if that is smaller.
 			TemporaryBuffer buf = new TemporaryBuffer.Heap(
 					http.getPostBuffer());
-			try {
-				GZIPOutputStream gzip = new GZIPOutputStream(buf);
+			try (GZIPOutputStream gzip = new GZIPOutputStream(buf)) {
 				out.writeTo(gzip, null);
-				gzip.close();
 				if (out.length() < buf.length())
 					buf = out;
 			} catch (IOException err) {
