@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "792b60d4_f7d409fa",
+        "filename": "org.eclipse.jgit/.settings/.api_filters",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-03-05T23:37:27Z",
+      "side": 1,
+      "message": "Is this needed?  For the one above I\u0027m getting:\n\n The API problem filter for: \u0027The field org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_REQUIRED has been added to a class\u0027 is no longer used",
+      "revId": "e88f95146a6ddd825e2c5f01c3d4dbf46b9c95eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
