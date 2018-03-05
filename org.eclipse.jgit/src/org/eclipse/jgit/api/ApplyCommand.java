@@ -258,9 +258,9 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 		if (sb.length() > 0) {
 			sb.deleteCharAt(sb.length() - 1);
 		}
-		FileWriter fw = new FileWriter(f);
-		fw.write(sb.toString());
-		fw.close();
+		try (FileWriter fw = new FileWriter(f)) {
+			fw.write(sb.toString());
+		}
 
 		getRepository().getFS().setExecute(f, fh.getNewMode() == FileMode.EXECUTABLE_FILE);
 	}
