@@ -242,11 +242,8 @@ public class FileBasedConfigTest {
 		dir.mkdirs();
 
 		File f = File.createTempFile(getClass().getName(), null, dir);
-		FileOutputStream os = new FileOutputStream(f, true);
-		try {
+		try (FileOutputStream os = new FileOutputStream(f, true)) {
 			os.write(content);
-		} finally {
-			os.close();
 		}
 		return f;
 	}
