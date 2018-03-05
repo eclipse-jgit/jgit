@@ -48,7 +48,6 @@ import java.util.concurrent.Callable;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lfs.internal.LfsText;
-import org.eclipse.jgit.lfs.lib.Constants;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
@@ -81,9 +80,11 @@ public class InstallLfsCommand implements Callable<Void>{
 			cfg = repository.getConfig();
 		}
 
-		cfg.setBoolean(ConfigConstants.CONFIG_FILTER_SECTION, Constants.LFS,
+		cfg.setBoolean(ConfigConstants.CONFIG_FILTER_SECTION,
+				ConfigConstants.CONFIG_SECTION_LFS,
 				ConfigConstants.CONFIG_KEY_USEJGITBUILTIN, true);
-		cfg.setBoolean(ConfigConstants.CONFIG_FILTER_SECTION, Constants.LFS,
+		cfg.setBoolean(ConfigConstants.CONFIG_FILTER_SECTION,
+				ConfigConstants.CONFIG_SECTION_LFS,
 				ConfigConstants.CONFIG_KEY_REQUIRED, true);
 
 		cfg.save();

@@ -53,7 +53,6 @@ import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lfs.BuiltinLFS;
-import org.eclipse.jgit.lfs.lib.Constants;
 import org.eclipse.jgit.lfs.lib.LongObjectId;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Repository;
@@ -81,11 +80,13 @@ public class CheckoutTest extends LfsServerTest {
 				.create(tmp.resolve(".git").toFile());
 		db.create();
 		StoredConfig cfg = db.getConfig();
-		cfg.setBoolean(ConfigConstants.CONFIG_FILTER_SECTION, Constants.LFS,
+		cfg.setBoolean(ConfigConstants.CONFIG_FILTER_SECTION,
+				ConfigConstants.CONFIG_SECTION_LFS,
 				ConfigConstants.CONFIG_KEY_USEJGITBUILTIN, true);
-		cfg.setBoolean(ConfigConstants.CONFIG_FILTER_SECTION, Constants.LFS,
+		cfg.setBoolean(ConfigConstants.CONFIG_FILTER_SECTION,
+				ConfigConstants.CONFIG_SECTION_LFS,
 				ConfigConstants.CONFIG_KEY_REQUIRED, false);
-		cfg.setString(Constants.LFS, null, "url",
+		cfg.setString(ConfigConstants.CONFIG_SECTION_LFS, null, "url",
 				server.getURI().toString() + "/lfs");
 		cfg.save();
 
@@ -122,7 +123,8 @@ public class CheckoutTest extends LfsServerTest {
 	@Test(expected = JGitInternalException.class)
 	public void testUnknownContentRequired() throws Exception {
 		StoredConfig cfg = tdb.getRepository().getConfig();
-		cfg.setBoolean(ConfigConstants.CONFIG_FILTER_SECTION, Constants.LFS,
+		cfg.setBoolean(ConfigConstants.CONFIG_FILTER_SECTION,
+				ConfigConstants.CONFIG_SECTION_LFS,
 				ConfigConstants.CONFIG_KEY_REQUIRED, true);
 		cfg.save();
 

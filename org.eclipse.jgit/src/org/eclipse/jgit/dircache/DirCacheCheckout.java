@@ -1541,7 +1541,8 @@ public class DirCacheCheckout {
 			CheckoutMetadata checkoutMetadata, ObjectLoader ol,
 			OutputStream channel) throws MissingObjectException, IOException {
 		boolean isMandatory = repo.getConfig().getBoolean(
-				ConfigConstants.CONFIG_FILTER_SECTION, "lfs",
+				ConfigConstants.CONFIG_FILTER_SECTION,
+				ConfigConstants.CONFIG_SECTION_LFS,
 				ConfigConstants.CONFIG_KEY_REQUIRED, false);
 		FilterCommand command = null;
 		try {

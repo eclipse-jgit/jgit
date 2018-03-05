@@ -426,4 +426,10 @@ public class ConfigConstants {
 	 * @since 4.11
 	 */
 	public static final String CONFIG_KEY_REQUIRED = "required";
+
+	/**
+	 * The "lfs" section
+	 * @since 4.11
+	 */
+	public static final String CONFIG_SECTION_LFS = "lfs";
 }

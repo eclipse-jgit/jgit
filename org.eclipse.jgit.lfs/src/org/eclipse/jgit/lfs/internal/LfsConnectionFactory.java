@@ -61,7 +61,6 @@ import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.lfs.LfsPointer;
 import org.eclipse.jgit.lfs.Protocol;
 import org.eclipse.jgit.lfs.errors.LfsConfigInvalidException;
-import org.eclipse.jgit.lfs.lib.Constants;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
@@ -131,12 +130,14 @@ public class LfsConnectionFactory {
 			Map<String, String> additionalHeaders)
 			throws LfsConfigInvalidException {
 		StoredConfig config = db.getConfig();
-		String lfsUrl = config.getString(Constants.LFS, null,
+		String lfsUrl = config.getString(ConfigConstants.CONFIG_SECTION_LFS,
+				null,
 				ConfigConstants.CONFIG_KEY_URL);
 		if (lfsUrl == null) {
 			String remoteUrl = null;
 			for (String remote : db.getRemoteNames()) {
-				lfsUrl = config.getString(Constants.LFS, remote,
+				lfsUrl = config.getString(ConfigConstants.CONFIG_SECTION_LFS,
+						remote,
 						ConfigConstants.CONFIG_KEY_URL);
 				// This could be done better (more precise logic), but according
 				// to https://github.com/git-lfs/git-lfs/issues/1759 git-lfs

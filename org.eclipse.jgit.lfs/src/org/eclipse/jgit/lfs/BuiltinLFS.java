@@ -49,7 +49,6 @@ import java.io.PrintStream;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.attributes.Attribute;
 import org.eclipse.jgit.hooks.PrePushHook;
-import org.eclipse.jgit.lfs.lib.Constants;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Repository;
@@ -118,7 +117,8 @@ public class BuiltinLFS extends LfsFactory {
 			return false;
 		}
 		return db.getConfig().getBoolean(ConfigConstants.CONFIG_FILTER_SECTION,
-				Constants.LFS, ConfigConstants.CONFIG_KEY_USEJGITBUILTIN,
+				ConfigConstants.CONFIG_SECTION_LFS,
+				ConfigConstants.CONFIG_KEY_USEJGITBUILTIN,
 				false);
 	}
 
@@ -134,7 +134,8 @@ public class BuiltinLFS extends LfsFactory {
 		if (attribute == null) {
 			return false;
 		}
-		return isEnabled(db) && Constants.LFS.equals(attribute.getValue());
+		return isEnabled(db) && ConfigConstants.CONFIG_SECTION_LFS
+				.equals(attribute.getValue());
 	}
 
 }
