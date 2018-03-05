@@ -240,8 +240,9 @@ public class CleanCommandTest extends RepositoryTestCase {
 		command.setPath(path);
 		String uri = db.getDirectory().toURI().toString();
 		command.setURI(uri);
-		Repository repo = command.call();
-		repo.close();
+		try (Repository repo = command.call()) {
+			// Unused
+		}
 
 		Status beforeCleanStatus = git.status().call();
 		assertTrue(beforeCleanStatus.getAdded().contains(DOT_GIT_MODULES));
