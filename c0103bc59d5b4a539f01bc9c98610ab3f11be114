@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87c53ccc_92bbd3e2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 1544,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-03-05T01:52:07Z",
+      "side": 1,
+      "message": "This should use a constant.",
+      "range": {
+        "startLine": 1544,
+        "startChar": 43,
+        "endLine": 1544,
+        "endChar": 48
+      },
+      "revId": "c0103bc59d5b4a539f01bc9c98610ab3f11be114",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
