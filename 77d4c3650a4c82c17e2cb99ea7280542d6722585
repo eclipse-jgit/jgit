@@ -16,6 +16,24 @@
       "revId": "77d4c3650a4c82c17e2cb99ea7280542d6722585",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc47ef91_10f6e7d7",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/InstallBuiltinLfsCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-03-05T15:05:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f90e01cb_8ead34ee",
+      "revId": "77d4c3650a4c82c17e2cb99ea7280542d6722585",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
