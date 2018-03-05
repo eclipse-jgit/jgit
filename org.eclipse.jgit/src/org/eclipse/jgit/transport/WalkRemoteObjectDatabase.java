@@ -264,11 +264,8 @@ abstract class WalkRemoteObjectDatabase {
 	 *             failed, possibly due to permissions or remote disk full, etc.
 	 */
 	void writeFile(final String path, final byte[] data) throws IOException {
-		final OutputStream os = writeFile(path, null, null);
-		try {
+		try (OutputStream os = writeFile(path, null, null)) {
 			os.write(data);
-		} finally {
-			os.close();
 		}
 	}
 
@@ -394,8 +391,7 @@ abstract class WalkRemoteObjectDatabase {
 	 */
 	Collection<WalkRemoteObjectDatabase> readAlternates(final String listPath)
 			throws IOException {
-		final BufferedReader br = openReader(listPath);
-		try {
+		try (BufferedReader br = openReader(listPath)) {
 			final Collection<WalkRemoteObjectDatabase> alts = new ArrayList<>();
 			for (;;) {
 				String line = br.readLine();
@@ -406,8 +402,6 @@ abstract class WalkRemoteObjectDatabase {
 				alts.add(openAlternate(line));
 			}
 			return alts;
-		} finally {
-			br.close();
 		}
 	}
 
@@ -422,14 +416,8 @@ abstract class WalkRemoteObjectDatabase {
 	 */
 	protected void readPackedRefs(final Map<String, Ref> avail)
 			throws TransportException {
-		try {
-			final BufferedReader br = openReader(ROOT_DIR
-					+ Constants.PACKED_REFS);
-			try {
-				readPackedRefsImpl(avail, br);
-			} finally {
-				br.close();
-			}
+		try (BufferedReader br = openReader(ROOT_DIR + Constants.PACKED_REFS)) {
+			readPackedRefsImpl(avail, br);
 		} catch (FileNotFoundException notPacked) {
 			// Perhaps it wasn't worthwhile, or is just an older repository.
 		} catch (IOException e) {
