@@ -120,9 +120,9 @@ public class CommitAndLogCommandTest extends RepositoryTestCase {
 			// create first file
 			File file = new File(db.getWorkTree(), "a.txt");
 			FileUtils.createNewFile(file);
-			PrintWriter writer = new PrintWriter(file);
-			writer.print("content1");
-			writer.close();
+			try (PrintWriter writer = new PrintWriter(file)) {
+				writer.print("content1");
+			}
 
 			// First commit - a.txt file
 			git.add().addFilepattern("a.txt").call();
@@ -131,9 +131,9 @@ public class CommitAndLogCommandTest extends RepositoryTestCase {
 			// create second file
 			file = new File(db.getWorkTree(), "b.txt");
 			FileUtils.createNewFile(file);
-			writer = new PrintWriter(file);
-			writer.print("content2");
-			writer.close();
+			try (PrintWriter writer = new PrintWriter(file)) {
+				writer.print("content2");
+			}
 
 			// Second commit - b.txt file
 			git.add().addFilepattern("b.txt").call();
@@ -231,9 +231,9 @@ public class CommitAndLogCommandTest extends RepositoryTestCase {
 			JGitInternalException, GitAPIException {
 		File file = new File(db.getWorkTree(), "a.txt");
 		FileUtils.createNewFile(file);
-		PrintWriter writer = new PrintWriter(file);
-		writer.print("content");
-		writer.close();
+		try (PrintWriter writer = new PrintWriter(file)) {
+			writer.print("content");
+		}
 
 		try (Git git = new Git(db)) {
 			git.add().addFilepattern("a.txt").call();
@@ -242,9 +242,9 @@ public class CommitAndLogCommandTest extends RepositoryTestCase {
 			assertEquals("6b584e8ece562ebffc15d38808cd6b98fc3d97ea",
 					tw.getObjectId(0).getName());
 
-			writer = new PrintWriter(file);
-			writer.print("content2");
-			writer.close();
+			try (PrintWriter writer = new PrintWriter(file)) {
+				writer.print("content2");
+			}
 			commit = git.commit().setMessage("second commit").call();
 			tw = TreeWalk.forPath(db, "a.txt", commit.getTree());
 			assertEquals("6b584e8ece562ebffc15d38808cd6b98fc3d97ea",
@@ -265,9 +265,9 @@ public class CommitAndLogCommandTest extends RepositoryTestCase {
 			// create file
 			File file = new File(db.getWorkTree(), "a.txt");
 			FileUtils.createNewFile(file);
-			PrintWriter writer = new PrintWriter(file);
-			writer.print("content1");
-			writer.close();
+			try (PrintWriter writer = new PrintWriter(file)) {
+				writer.print("content1");
+			}
 
 			// First commit - a.txt file
 			git.add().addFilepattern("a.txt").call();
