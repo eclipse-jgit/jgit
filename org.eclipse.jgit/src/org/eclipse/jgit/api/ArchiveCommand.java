@@ -392,9 +392,10 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 	private <T extends Closeable> OutputStream writeArchive(Format<T> fmt) {
 		try {
 			try (TreeWalk walk = new TreeWalk(repo);
-					RevWalk rw = new RevWalk(walk.getObjectReader())) {
+					RevWalk rw = new RevWalk(walk.getObjectReader());
+					T outa = fmt.createArchiveOutputStream(out,
+							formatOptions)) {
 				String pfx = prefix == null ? "" : prefix; //$NON-NLS-1$
-				T outa = fmt.createArchiveOutputStream(out, formatOptions);
 				MutableObjectId idBuf = new MutableObjectId();
 				ObjectReader reader = walk.getObjectReader();
 
@@ -427,7 +428,6 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 					walk.getObjectId(idBuf, 0);
 					fmt.putEntry(outa, tree, name, mode, reader.open(idBuf));
 				}
-				outa.close();
 				return out;
 			} finally {
 				out.close();
