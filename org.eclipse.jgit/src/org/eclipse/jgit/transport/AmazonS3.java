@@ -650,11 +650,8 @@ public class AmazonS3 {
 	static Properties properties(final File authFile)
 			throws FileNotFoundException, IOException {
 		final Properties p = new Properties();
-		final FileInputStream in = new FileInputStream(authFile);
-		try {
+		try (FileInputStream in = new FileInputStream(authFile)) {
 			p.load(in);
-		} finally {
-			in.close();
 		}
 		return p;
 	}
@@ -697,16 +694,13 @@ public class AmazonS3 {
 						throw new IOException(JGitText.get().noXMLParserAvailable);
 					}
 					xr.setContentHandler(this);
-					final InputStream in = c.getInputStream();
-					try {
+					try (InputStream in = c.getInputStream()) {
 						xr.parse(new InputSource(in));
 					} catch (SAXException parsingError) {
 						throw new IOException(
 								MessageFormat.format(
 										JGitText.get().errorListing, prefix),
 								parsingError);
-					} finally {
-						in.close();
 					}
 					return;
 
