@@ -170,15 +170,12 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 	@Test
 	public void testCheckoutWithNonDeletedFiles() throws Exception {
 		File testFile = writeTrashFile("temp", "");
-		FileInputStream fis = new FileInputStream(testFile);
-		try {
+		try (FileInputStream fis = new FileInputStream(testFile)) {
 			FileUtils.delete(testFile);
 			return;
 		} catch (IOException e) {
 			// the test makes only sense if deletion of
 			// a file with open stream fails
-		} finally {
-			fis.close();
 		}
 		FileUtils.delete(testFile);
 		CheckoutCommand co = git.checkout();
@@ -192,15 +189,12 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 		git.checkout().setName("master").call();
 		assertTrue(testFile.exists());
 		// lock the file so it can't be deleted (in Windows, that is)
-		fis = new FileInputStream(testFile);
-		try {
+		try (FileInputStream fis = new FileInputStream(testFile)) {
 			assertEquals(Status.NOT_TRIED, co.getResult().getStatus());
 			co.setName("test").call();
 			assertTrue(testFile.exists());
 			assertEquals(Status.NONDELETED, co.getResult().getStatus());
 			assertTrue(co.getResult().getUndeletedList().contains("Test.txt"));
-		} finally {
-			fis.close();
 		}
 	}
 
