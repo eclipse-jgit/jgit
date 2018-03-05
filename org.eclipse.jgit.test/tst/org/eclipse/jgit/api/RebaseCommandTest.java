@@ -2103,9 +2103,8 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	private int countPicks() throws IOException {
 		int count = 0;
 		File todoFile = getTodoFile();
-		BufferedReader br = new BufferedReader(new InputStreamReader(
-				new FileInputStream(todoFile), "UTF-8"));
-		try {
+		try (BufferedReader br = new BufferedReader(new InputStreamReader(
+				new FileInputStream(todoFile), "UTF-8"))) {
 			String line = br.readLine();
 			while (line != null) {
 				int firstBlank = line.indexOf(' ');
@@ -2123,8 +2122,6 @@ public class RebaseCommandTest extends RepositoryTestCase {
 				line = br.readLine();
 			}
 			return count;
-		} finally {
-			br.close();
 		}
 	}
 
