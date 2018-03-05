@@ -118,9 +118,9 @@ public class AddCommandTest extends RepositoryTestCase {
 	public void testAddExistingSingleFile() throws IOException, GitAPIException {
 		File file = new File(db.getWorkTree(), "a.txt");
 		FileUtils.createNewFile(file);
-		PrintWriter writer = new PrintWriter(file);
-		writer.print("content");
-		writer.close();
+		try (PrintWriter writer = new PrintWriter(file)) {
+			writer.print("content");
+		}
 
 		try (Git git = new Git(db)) {
 			git.add().addFilepattern("a.txt").call();
@@ -489,9 +489,9 @@ public class AddCommandTest extends RepositoryTestCase {
 			GitAPIException {
 		File file = new File(db.getWorkTree(), "a.txt");
 		FileUtils.createNewFile(file);
-		PrintWriter writer = new PrintWriter(file);
-		writer.print("row1\r\nrow2");
-		writer.close();
+		try (PrintWriter writer = new PrintWriter(file)) {
+			writer.print("row1\r\nrow2");
+		}
 
 		try (Git git = new Git(db)) {
 			db.getConfig().setString("core", null, "autocrlf", "false");
@@ -519,9 +519,9 @@ public class AddCommandTest extends RepositoryTestCase {
 			data.append("row1\r\nrow2");
 		}
 		String crData = data.toString();
-		PrintWriter writer = new PrintWriter(file);
-		writer.print(crData);
-		writer.close();
+		try (PrintWriter writer = new PrintWriter(file)) {
+			writer.print(crData);
+		}
 		String lfData = data.toString().replaceAll("\r", "");
 		try (Git git = new Git(db)) {
 			db.getConfig().setString("core", null, "autocrlf", "false");
@@ -544,9 +544,9 @@ public class AddCommandTest extends RepositoryTestCase {
 			GitAPIException {
 		File file = new File(db.getWorkTree(), "a.txt");
 		FileUtils.createNewFile(file);
-		PrintWriter writer = new PrintWriter(file);
-		writer.print("row1\r\nrow2\u0000");
-		writer.close();
+		try (PrintWriter writer = new PrintWriter(file)) {
+			writer.print("row1\r\nrow2\u0000");
+		}
 
 		try (Git git = new Git(db)) {
 			db.getConfig().setString("core", null, "autocrlf", "false");
@@ -570,9 +570,9 @@ public class AddCommandTest extends RepositoryTestCase {
 		FileUtils.mkdir(new File(db.getWorkTree(), "sub"));
 		File file = new File(db.getWorkTree(), "sub/a.txt");
 		FileUtils.createNewFile(file);
-		PrintWriter writer = new PrintWriter(file);
-		writer.print("content");
-		writer.close();
+		try (PrintWriter writer = new PrintWriter(file)) {
+			writer.print("content");
+		}
 
 		try (Git git = new Git(db)) {
 			git.add().addFilepattern("sub/a.txt").call();
@@ -588,18 +588,18 @@ public class AddCommandTest extends RepositoryTestCase {
 			GitAPIException {
 		File file = new File(db.getWorkTree(), "a.txt");
 		FileUtils.createNewFile(file);
-		PrintWriter writer = new PrintWriter(file);
-		writer.print("content");
-		writer.close();
+		try (PrintWriter writer = new PrintWriter(file)) {
+			writer.print("content");
+		}
 
 		try (Git git = new Git(db)) {
 			DirCache dc = git.add().addFilepattern("a.txt").call();
 
 			dc.getEntry(0).getObjectId();
 
-			writer = new PrintWriter(file);
-			writer.print("other content");
-			writer.close();
+			try (PrintWriter writer = new PrintWriter(file)) {
+				writer.print("other content");
+			}
 
 			dc = git.add().addFilepattern("a.txt").call();
 
@@ -613,9 +613,9 @@ public class AddCommandTest extends RepositoryTestCase {
 	public void testAddExistingSingleFileTwiceWithCommit() throws Exception {
 		File file = new File(db.getWorkTree(), "a.txt");
 		FileUtils.createNewFile(file);
-		PrintWriter writer = new PrintWriter(file);
-		writer.print("content");
-		writer.close();
+		try (PrintWriter writer = new PrintWriter(file)) {
+			writer.print("content");
+		}
 
 		try (Git git = new Git(db)) {
 			DirCache dc = git.add().addFilepattern("a.txt").call();
@@ -624,9 +624,9 @@ public class AddCommandTest extends RepositoryTestCase {
 
 			git.commit().setMessage("commit a.txt").call();
 
-			writer = new PrintWriter(file);
-			writer.print("other content");
-			writer.close();
+			try (PrintWriter writer = new PrintWriter(file)) {
+				writer.print("other content");
+			}
 
 			dc = git.add().addFilepattern("a.txt").call();
 
@@ -640,9 +640,9 @@ public class AddCommandTest extends RepositoryTestCase {
 	public void testAddRemovedFile() throws Exception {
 		File file = new File(db.getWorkTree(), "a.txt");
 		FileUtils.createNewFile(file);
-		PrintWriter writer = new PrintWriter(file);
-		writer.print("content");
-		writer.close();
+		try (PrintWriter writer = new PrintWriter(file)) {
+			writer.print("content");
+		}
 
 		try (Git git = new Git(db)) {
 			DirCache dc = git.add().addFilepattern("a.txt").call();
@@ -663,9 +663,9 @@ public class AddCommandTest extends RepositoryTestCase {
 	public void testAddRemovedCommittedFile() throws Exception {
 		File file = new File(db.getWorkTree(), "a.txt");
 		FileUtils.createNewFile(file);
-		PrintWriter writer = new PrintWriter(file);
-		writer.print("content");
-		writer.close();
+		try (PrintWriter writer = new PrintWriter(file)) {
+			writer.print("content");
+		}
 
 		try (Git git = new Git(db)) {
 			DirCache dc = git.add().addFilepattern("a.txt").call();
@@ -690,15 +690,15 @@ public class AddCommandTest extends RepositoryTestCase {
 
 		File file = new File(db.getWorkTree(), "a.txt");
 		FileUtils.createNewFile(file);
-		PrintWriter writer = new PrintWriter(file);
-		writer.print("content");
-		writer.close();
+		try (PrintWriter writer = new PrintWriter(file)) {
+			writer.print("content");
+		}
 
 		File file2 = new File(db.getWorkTree(), "b.txt");
 		FileUtils.createNewFile(file2);
-		writer = new PrintWriter(file2);
-		writer.print("content b");
-		writer.close();
+		try (PrintWriter writer = new PrintWriter(file2)) {
+			writer.print("content b");
+		}
 
 		ObjectInserter newObjectInserter = db.newObjectInserter();
 		DirCache dc = db.lockDirCache();
@@ -707,14 +707,14 @@ public class AddCommandTest extends RepositoryTestCase {
 		addEntryToBuilder("b.txt", file2, newObjectInserter, builder, 0);
 		addEntryToBuilder("a.txt", file, newObjectInserter, builder, 1);
 
-		writer = new PrintWriter(file);
-		writer.print("other content");
-		writer.close();
+		try (PrintWriter writer = new PrintWriter(file)) {
+			writer.print("other content");
+		}
 		addEntryToBuilder("a.txt", file, newObjectInserter, builder, 3);
 
-		writer = new PrintWriter(file);
-		writer.print("our content");
-		writer.close();
+		try (PrintWriter writer = new PrintWriter(file)) {
+			writer.print("our content");
+		}
 		addEntryToBuilder("a.txt", file, newObjectInserter, builder, 2)
 				.getObjectId();
 
@@ -743,15 +743,15 @@ public class AddCommandTest extends RepositoryTestCase {
 	public void testAddTwoFiles() throws Exception  {
 		File file = new File(db.getWorkTree(), "a.txt");
 		FileUtils.createNewFile(file);
-		PrintWriter writer = new PrintWriter(file);
-		writer.print("content");
-		writer.close();
+		try (PrintWriter writer = new PrintWriter(file)) {
+			writer.print("content");
+		}
 
 		File file2 = new File(db.getWorkTree(), "b.txt");
 		FileUtils.createNewFile(file2);
-		writer = new PrintWriter(file2);
-		writer.print("content b");
-		writer.close();
+		try (PrintWriter writer = new PrintWriter(file2)) {
+			writer.print("content b");
+		}
 
 		try (Git git = new Git(db)) {
 			git.add().addFilepattern("a.txt").addFilepattern("b.txt").call();
@@ -767,15 +767,15 @@ public class AddCommandTest extends RepositoryTestCase {
 		FileUtils.mkdir(new File(db.getWorkTree(), "sub"));
 		File file = new File(db.getWorkTree(), "sub/a.txt");
 		FileUtils.createNewFile(file);
-		PrintWriter writer = new PrintWriter(file);
-		writer.print("content");
-		writer.close();
+		try (PrintWriter writer = new PrintWriter(file)) {
+			writer.print("content");
+		}
 
 		File file2 = new File(db.getWorkTree(), "sub/b.txt");
 		FileUtils.createNewFile(file2);
-		writer = new PrintWriter(file2);
-		writer.print("content b");
-		writer.close();
+		try (PrintWriter writer = new PrintWriter(file2)) {
+			writer.print("content b");
+		}
 
 		try (Git git = new Git(db)) {
 			git.add().addFilepattern("sub").call();
@@ -791,21 +791,21 @@ public class AddCommandTest extends RepositoryTestCase {
 		FileUtils.mkdir(new File(db.getWorkTree(), "sub"));
 		File file = new File(db.getWorkTree(), "sub/a.txt");
 		FileUtils.createNewFile(file);
-		PrintWriter writer = new PrintWriter(file);
-		writer.print("content");
-		writer.close();
+		try (PrintWriter writer = new PrintWriter(file)) {
+			writer.print("content");
+		}
 
 		File ignoreFile = new File(db.getWorkTree(), ".gitignore");
 		FileUtils.createNewFile(ignoreFile);
-		writer = new PrintWriter(ignoreFile);
-		writer.print("sub/b.txt");
-		writer.close();
+		try (PrintWriter writer = new PrintWriter(ignoreFile)) {
+			writer.print("sub/b.txt");
+		}
 
 		File file2 = new File(db.getWorkTree(), "sub/b.txt");
 		FileUtils.createNewFile(file2);
-		writer = new PrintWriter(file2);
-		writer.print("content b");
-		writer.close();
+		try (PrintWriter writer = new PrintWriter(file2)) {
+			writer.print("content b");
+		}
 
 		try (Git git = new Git(db)) {
 			git.add().addFilepattern("sub").call();
@@ -821,15 +821,15 @@ public class AddCommandTest extends RepositoryTestCase {
 		FileUtils.mkdir(new File(db.getWorkTree(), "sub"));
 		File file = new File(db.getWorkTree(), "sub/a.txt");
 		FileUtils.createNewFile(file);
-		PrintWriter writer = new PrintWriter(file);
-		writer.print("content");
-		writer.close();
+		try (PrintWriter writer = new PrintWriter(file)) {
+			writer.print("content");
+		}
 
 		File file2 = new File(db.getWorkTree(), "sub/b.txt");
 		FileUtils.createNewFile(file2);
-		writer = new PrintWriter(file2);
-		writer.print("content b");
-		writer.close();
+		try (PrintWriter writer = new PrintWriter(file2)) {
+			writer.print("content b");
+		}
 
 		try (Git git = new Git(db)) {
 			git.add().addFilepattern(".").call();
@@ -849,15 +849,15 @@ public class AddCommandTest extends RepositoryTestCase {
 		FileUtils.mkdir(new File(db.getWorkTree(), "sub"));
 		File file = new File(db.getWorkTree(), "sub/a.txt");
 		FileUtils.createNewFile(file);
-		PrintWriter writer = new PrintWriter(file);
-		writer.print("content");
-		writer.close();
+		try (PrintWriter writer = new PrintWriter(file)) {
+			writer.print("content");
+		}
 
 		File file2 = new File(db.getWorkTree(), "sub/b.txt");
 		FileUtils.createNewFile(file2);
-		writer = new PrintWriter(file2);
-		writer.print("content b");
-		writer.close();
+		try (PrintWriter writer = new PrintWriter(file2)) {
+			writer.print("content b");
+		}
 
 		try (Git git = new Git(db)) {
 			git.add().addFilepattern("sub").call();
@@ -872,14 +872,14 @@ public class AddCommandTest extends RepositoryTestCase {
 			// new unstaged file sub/c.txt
 			File file3 = new File(db.getWorkTree(), "sub/c.txt");
 			FileUtils.createNewFile(file3);
-			writer = new PrintWriter(file3);
-			writer.print("content c");
-			writer.close();
+			try (PrintWriter writer = new PrintWriter(file3)) {
+				writer.print("content c");
+			}
 
 			// file sub/a.txt is modified
-			writer = new PrintWriter(file);
-			writer.print("modified content");
-			writer.close();
+			try (PrintWriter writer = new PrintWriter(file)) {
+				writer.print("modified content");
+			}
 
 			// file sub/b.txt is deleted
 			FileUtils.delete(file2);
@@ -904,15 +904,15 @@ public class AddCommandTest extends RepositoryTestCase {
 		FileUtils.mkdir(new File(db.getWorkTree(), "sub"));
 		File file = new File(db.getWorkTree(), "sub/a.txt");
 		FileUtils.createNewFile(file);
-		PrintWriter writer = new PrintWriter(file);
-		writer.print("content");
-		writer.close();
+		try (PrintWriter writer = new PrintWriter(file)) {
+			writer.print("content");
+		}
 
 		File file2 = new File(db.getWorkTree(), "sub/b.txt");
 		FileUtils.createNewFile(file2);
-		writer = new PrintWriter(file2);
-		writer.print("content b");
-		writer.close();
+		try (PrintWriter writer = new PrintWriter(file2)) {
+			writer.print("content b");
+		}
 
 		try (Git git = new Git(db)) {
 			git.add().addFilepattern("sub").call();
@@ -927,14 +927,14 @@ public class AddCommandTest extends RepositoryTestCase {
 			// new unstaged file sub/c.txt
 			File file3 = new File(db.getWorkTree(), "sub/c.txt");
 			FileUtils.createNewFile(file3);
-			writer = new PrintWriter(file3);
-			writer.print("content c");
-			writer.close();
+			try (PrintWriter writer = new PrintWriter(file3)) {
+				writer.print("content c");
+			}
 
 			// file sub/a.txt is modified
-			writer = new PrintWriter(file);
-			writer.print("modified content");
-			writer.close();
+			try (PrintWriter writer = new PrintWriter(file)) {
+				writer.print("modified content");
+			}
 
 			FileUtils.delete(file2);
 
@@ -1258,10 +1258,11 @@ public class AddCommandTest extends RepositoryTestCase {
 	private static DirCacheEntry addEntryToBuilder(String path, File file,
 			ObjectInserter newObjectInserter, DirCacheBuilder builder, int stage)
 			throws IOException {
-		FileInputStream inputStream = new FileInputStream(file);
-		ObjectId id = newObjectInserter.insert(
+		ObjectId id;
+		try (FileInputStream inputStream = new FileInputStream(file)) {
+			id = newObjectInserter.insert(
 				Constants.OBJ_BLOB, file.length(), inputStream);
-		inputStream.close();
+		}
 		DirCacheEntry entry = new DirCacheEntry(path, stage);
 		entry.setObjectId(id);
 		entry.setFileMode(FileMode.REGULAR_FILE);
