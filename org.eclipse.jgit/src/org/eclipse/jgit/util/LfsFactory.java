@@ -46,6 +46,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.text.MessageFormat;
+import java.util.concurrent.Callable;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.attributes.Attribute;
@@ -154,6 +155,26 @@ public class LfsFactory {
 	public @Nullable PrePushHook getPrePushHook(Repository repo,
 			PrintStream outputStream) {
 		return null;
+	}
+
+	/**
+	 * Retrieve an {@link LfsInstallCommand} which can be used to enable LFS
+	 * support (if available) either per repository or for the user.
+	 *
+	 * @return a command to install LFS support.
+	 */
+	public @Nullable LfsInstallCommand getInstallCommand() {
+		return null;
+	}
+
+	/**
+	 * @param db
+	 *            the repository to check
+	 * @return whether LFS is enabled for the given repository locally or
+	 *         globally.
+	 */
+	public boolean isEnabled(Repository db) {
+		return false;
 	}
 
 	/**
@@ -279,6 +300,19 @@ public class LfsFactory {
 		public long getLength() {
 			return length;
 		}
+	}
+
+	/**
+	 * A command to enable LFS. Optionally set a {@link Repository} to enable
+	 * locally on the repository only.
+	 */
+	public interface LfsInstallCommand extends Callable<Void> {
+		/**
+		 * @param repo
+		 *            the repository to enable support for.
+		 * @return The {@link LfsInstallCommand} for chaining.
+		 */
+		public LfsInstallCommand setRepository(Repository repo);
 	}
 
 }
