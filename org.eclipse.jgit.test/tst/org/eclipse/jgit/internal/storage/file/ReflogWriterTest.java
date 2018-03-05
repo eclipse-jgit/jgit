@@ -87,11 +87,8 @@ public class ReflogWriterTest extends SampleDataRepositoryTestCase {
 					"oops, cannot create the directory for the test reflog file"
 							+ logfile);
 		}
-		FileInputStream fileInputStream = new FileInputStream(logfile);
-		try {
+		try (FileInputStream fileInputStream = new FileInputStream(logfile)) {
 			fileInputStream.read(buffer);
-		} finally {
-			fileInputStream.close();
 		}
 	}
 }
