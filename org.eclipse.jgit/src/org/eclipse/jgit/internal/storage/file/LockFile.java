@@ -221,8 +221,7 @@ public class LockFile {
 	public void copyCurrentContent() throws IOException {
 		requireLock();
 		try {
-			final FileInputStream fis = new FileInputStream(ref);
-			try {
+			try (FileInputStream fis = new FileInputStream(ref)) {
 				if (fsync) {
 					FileChannel in = fis.getChannel();
 					long pos = 0;
@@ -238,8 +237,6 @@ public class LockFile {
 					while ((r = fis.read(buf)) >= 0)
 						os.write(buf, 0, r);
 				}
-			} finally {
-				fis.close();
 			}
 		} catch (FileNotFoundException fnfe) {
 			if (ref.exists()) {
