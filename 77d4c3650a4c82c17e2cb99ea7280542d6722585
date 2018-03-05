@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f90e01cb_8ead34ee",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/InstallBuiltinLfsCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-03-05T15:02:03Z",
+      "side": 1,
+      "message": "I think this should just return an instance of the interface",
+      "revId": "77d4c3650a4c82c17e2cb99ea7280542d6722585",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
