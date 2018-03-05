@@ -89,8 +89,7 @@ class AmazonS3Client extends TextBuiltin {
 		if ("get".equals(op)) { //$NON-NLS-1$
 			final URLConnection c = s3.get(bucket, key);
 			int len = c.getContentLength();
-			final InputStream in = c.getInputStream();
-			try {
+			try (InputStream in = c.getInputStream()) {
 				outw.flush();
 				final byte[] tmp = new byte[2048];
 				while (len > 0) {
@@ -103,8 +102,6 @@ class AmazonS3Client extends TextBuiltin {
 					len -= n;
 				}
 				outs.flush();
-			} finally {
-				in.close();
 			}
 
 		} else if ("ls".equals(op) || "list".equals(op)) { //$NON-NLS-1$//$NON-NLS-2$
@@ -115,13 +112,12 @@ class AmazonS3Client extends TextBuiltin {
 			s3.delete(bucket, key);
 
 		} else if ("put".equals(op)) { //$NON-NLS-1$
-			final OutputStream os = s3.beginPut(bucket, key, null, null);
-			final byte[] tmp = new byte[2048];
-			int n;
-			while ((n = ins.read(tmp)) > 0)
-				os.write(tmp, 0, n);
-			os.close();
-
+			try (OutputStream os = s3.beginPut(bucket, key, null, null)) {
+				final byte[] tmp = new byte[2048];
+				int n;
+				while ((n = ins.read(tmp)) > 0)
+					os.write(tmp, 0, n);
+			}
 		} else {
 			throw die(MessageFormat.format(CLIText.get().unsupportedOperation, op));
 		}
@@ -129,13 +125,10 @@ class AmazonS3Client extends TextBuiltin {
 
 	private Properties properties() {
 		try {
-			final InputStream in = new FileInputStream(propertyFile);
-			try {
+			try (InputStream in = new FileInputStream(propertyFile)) {
 				final Properties p = new Properties();
 				p.load(in);
 				return p;
-			} finally {
-				in.close();
 			}
 		} catch (FileNotFoundException e) {
 			throw die(MessageFormat.format(CLIText.get().noSuchFile, propertyFile), e);
