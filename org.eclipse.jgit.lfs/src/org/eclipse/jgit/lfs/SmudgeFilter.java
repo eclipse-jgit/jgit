@@ -185,7 +185,8 @@ public class SmudgeFilter extends FilterCommand {
 				if (o.error != null) {
 					throw new IOException(
 							MessageFormat.format(LfsText.get().protocolError,
-									o.error.code, o.error.message));
+									Integer.valueOf(o.error.code),
+									o.error.message));
 				}
 				if (o.actions == null) {
 					continue;
