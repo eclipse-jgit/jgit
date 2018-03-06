@@ -123,28 +123,24 @@ public class GetTextTest {
 
 	private Patch parseTestPatchFile() throws IOException {
 		final String patchFile = JGitTestUtil.getName() + ".patch";
-		final InputStream in = getClass().getResourceAsStream(patchFile);
-		if (in == null) {
-			fail("No " + patchFile + " test vector");
-			return null; // Never happens
-		}
-		try {
+		try (InputStream in = getClass().getResourceAsStream(patchFile)) {
+			if (in == null) {
+				fail("No " + patchFile + " test vector");
+				return null; // Never happens
+			}
 			final Patch p = new Patch();
 			p.parse(in);
 			return p;
-		} finally {
-			in.close();
 		}
 	}
 
 	private String readTestPatchFile(final Charset cs) throws IOException {
 		final String patchFile = JGitTestUtil.getName() + ".patch";
-		final InputStream in = getClass().getResourceAsStream(patchFile);
-		if (in == null) {
-			fail("No " + patchFile + " test vector");
-			return null; // Never happens
-		}
-		try {
+		try (InputStream in = getClass().getResourceAsStream(patchFile)) {
+			if (in == null) {
+				fail("No " + patchFile + " test vector");
+				return null; // Never happens
+			}
 			final InputStreamReader r = new InputStreamReader(in, cs);
 			char[] tmp = new char[2048];
 			final StringBuilder s = new StringBuilder();
@@ -152,8 +148,6 @@ public class GetTextTest {
 			while ((n = r.read(tmp)) > 0)
 				s.append(tmp, 0, n);
 			return s.toString();
-		} finally {
-			in.close();
 		}
 	}
 }
