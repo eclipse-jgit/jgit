@@ -314,11 +314,8 @@ public class GitSmartHttpTools {
 		res.setStatus(HttpServletResponse.SC_OK);
 		res.setContentType(type);
 		res.setContentLength(buf.length);
-		OutputStream os = res.getOutputStream();
-		try {
+		try (OutputStream os = res.getOutputStream()) {
 			os.write(buf);
-		} finally {
-			os.close();
 		}
 	}
 
