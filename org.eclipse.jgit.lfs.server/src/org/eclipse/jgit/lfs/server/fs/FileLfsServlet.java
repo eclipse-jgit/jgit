@@ -178,10 +178,10 @@ public class FileLfsServlet extends HttpServlet {
 	protected static void sendError(HttpServletResponse rsp, int status, String message)
 			throws IOException {
 		rsp.setStatus(status);
-		PrintWriter writer = rsp.getWriter();
-		LfsGson.toJson(message, writer);
-		writer.flush();
-		writer.close();
+		try (PrintWriter writer = rsp.getWriter()) {
+			LfsGson.toJson(message, writer);
+			writer.flush();
+		}
 		rsp.flushBuffer();
 	}
 }
