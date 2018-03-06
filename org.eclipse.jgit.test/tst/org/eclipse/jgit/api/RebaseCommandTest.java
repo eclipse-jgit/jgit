@@ -2104,7 +2104,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		int count = 0;
 		File todoFile = getTodoFile();
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(
-				new FileInputStream(todoFile), "UTF-8"))) {
+				new FileInputStream(todoFile), UTF_8))) {
 			String line = br.readLine();
 			while (line != null) {
 				int firstBlank = line.indexOf(' ');
