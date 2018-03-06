@@ -203,7 +203,7 @@ public class EGitPatchHistoryTest {
 
 		void read() throws IOException, InterruptedException {
 			final BufferedReader in = new BufferedReader(new InputStreamReader(
-					proc.getInputStream(), "ISO-8859-1"));
+					proc.getInputStream(), ISO_8859_1));
 			String commitId = null;
 			TemporaryBuffer buf = null;
 			for (;;) {
