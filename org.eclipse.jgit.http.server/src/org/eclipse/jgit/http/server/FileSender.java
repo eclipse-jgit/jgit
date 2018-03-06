@@ -137,8 +137,7 @@ final class FileSender {
 		rsp.setHeader(HDR_CONTENT_LENGTH, Long.toString(end - pos));
 
 		if (sendBody) {
-			final OutputStream out = rsp.getOutputStream();
-			try {
+			try (OutputStream out = rsp.getOutputStream()) {
 				final byte[] buf = new byte[4096];
 				source.seek(pos);
 				while (pos < end) {
@@ -151,8 +150,6 @@ final class FileSender {
 					pos += n;
 				}
 				out.flush();
-			} finally {
-				out.close();
 			}
 		}
 	}
