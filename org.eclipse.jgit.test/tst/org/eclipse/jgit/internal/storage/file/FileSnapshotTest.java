@@ -135,11 +135,8 @@ public class FileSnapshotTest {
 	}
 
 	private static void append(File f, byte b) throws IOException {
-		FileOutputStream os = new FileOutputStream(f, true);
-		try {
+		try (FileOutputStream os = new FileOutputStream(f, true)) {
 			os.write(b);
-		} finally {
-			os.close();
 		}
 	}
 
