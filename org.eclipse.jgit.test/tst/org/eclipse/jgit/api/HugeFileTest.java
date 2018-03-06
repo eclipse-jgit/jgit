@@ -87,9 +87,9 @@ public class HugeFileTest extends RepositoryTestCase {
 	public void testAddHugeFile() throws Exception {
 		measure("Commencing test");
 		File file = new File(db.getWorkTree(), "a.txt");
-		RandomAccessFile rf = new RandomAccessFile(file, "rw");
-		rf.setLength(4429185024L);
-		rf.close();
+		try (RandomAccessFile rf = new RandomAccessFile(file, "rw")) {
+			rf.setLength(4429185024L);
+		}
 		measure("Created file");
 
 		git.add().addFilepattern("a.txt").call();
@@ -109,9 +109,9 @@ public class HugeFileTest extends RepositoryTestCase {
 		assertEquals(0, status.getUntracked().size());
 
 		// Does not change anything, but modified timestamp
-		rf = new RandomAccessFile(file, "rw");
-		rf.write(0);
-		rf.close();
+		try (RandomAccessFile rf = new RandomAccessFile(file, "rw")) {
+			rf.write(0);
+		}
 
 		status = git.status().call();
 		measure("Status after non-modifying update");
@@ -125,9 +125,9 @@ public class HugeFileTest extends RepositoryTestCase {
 		assertEquals(0, status.getUntracked().size());
 
 		// Change something
-		rf = new RandomAccessFile(file, "rw");
-		rf.write('a');
-		rf.close();
+		try (RandomAccessFile rf = new RandomAccessFile(file, "rw")) {
+			rf.write('a');
+		}
 
 		status = git.status().call();
 		measure("Status after modifying update");
@@ -141,10 +141,10 @@ public class HugeFileTest extends RepositoryTestCase {
 		assertEquals(0, status.getUntracked().size());
 
 		// Truncate mod 4G and re-establish equality
-		rf = new RandomAccessFile(file, "rw");
-		rf.setLength(134217728L);
-		rf.write(0);
-		rf.close();
+		try (RandomAccessFile rf = new RandomAccessFile(file, "rw")) {
+			rf.setLength(134217728L);
+			rf.write(0);
+		}
 
 		status = git.status().call();
 		measure("Status after truncating update");
@@ -158,9 +158,9 @@ public class HugeFileTest extends RepositoryTestCase {
 		assertEquals(0, status.getUntracked().size());
 
 		// Change something
-		rf = new RandomAccessFile(file, "rw");
-		rf.write('a');
-		rf.close();
+		try (RandomAccessFile rf = new RandomAccessFile(file, "rw")) {
+			rf.write('a');
+		}
 
 		status = git.status().call();
 		measure("Status after modifying and truncating update");
@@ -174,10 +174,10 @@ public class HugeFileTest extends RepositoryTestCase {
 		assertEquals(0, status.getUntracked().size());
 
 		// Truncate to entry length becomes negative int
-		rf = new RandomAccessFile(file, "rw");
-		rf.setLength(3429185024L);
-		rf.write(0);
-		rf.close();
+		try (RandomAccessFile rf = new RandomAccessFile(file, "rw")) {
+			rf.setLength(3429185024L);
+			rf.write(0);
+		}
 
 		git.add().addFilepattern("a.txt").call();
 		measure("Added truncated file");
@@ -197,9 +197,9 @@ public class HugeFileTest extends RepositoryTestCase {
 		assertEquals(0, status.getUntracked().size());
 
 		// Change something
-		rf = new RandomAccessFile(file, "rw");
-		rf.write('a');
-		rf.close();
+		try (RandomAccessFile rf = new RandomAccessFile(file, "rw")) {
+			rf.write('a');
+		}
 
 		status = git.status().call();
 		measure("Status after modifying and truncating update");
