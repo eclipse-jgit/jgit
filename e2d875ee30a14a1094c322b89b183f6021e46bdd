@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cfe5a90e_5f4ca67a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/DiffFormatterReflowTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-03-06T07:53:21Z",
+      "side": 0,
+      "message": "This probably shouldn\u0027t be removed",
+      "range": {
+        "startLine": 185,
+        "startChar": 2,
+        "endLine": 188,
+        "endChar": 3
+      },
+      "revId": "e2d875ee30a14a1094c322b89b183f6021e46bdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
