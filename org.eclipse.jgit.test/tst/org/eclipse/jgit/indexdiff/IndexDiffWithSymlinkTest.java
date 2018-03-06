@@ -111,14 +111,12 @@ public class IndexDiffWithSymlinkTest extends LocalDiskRepositoryTestCase {
 				&& FS.DETECTED.supportsSymlinks());
 		super.setUp();
 		File testDir = createTempDirectory(this.getClass().getSimpleName());
-		InputStream in = this.getClass().getClassLoader().getResourceAsStream(
+		try (InputStream in = this.getClass().getClassLoader()
+				.getResourceAsStream(
 				this.getClass().getPackage().getName().replace('.', '/') + '/'
-						+ FILEREPO + ".txt");
-		assertNotNull("Test repo file not found", in);
-		try {
+								+ FILEREPO + ".txt")) {
+			assertNotNull("Test repo file not found", in);
 			testRepoDir = restoreGitRepo(in, testDir, FILEREPO);
-		} finally {
-			in.close();
 		}
 	}
 
