@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.dircache;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.junit.Assert.assertEquals;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -235,7 +236,7 @@ public class DirCacheCGitCompatabilityTest extends LocalDiskRepositoryTestCase {
 	private static Map<String, CGitIndexRecord> readLsFiles() throws Exception {
 		final LinkedHashMap<String, CGitIndexRecord> r = new LinkedHashMap<>();
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(
-				new FileInputStream(pathOf("gitgit.lsfiles")), "UTF-8"))) {
+				new FileInputStream(pathOf("gitgit.lsfiles")), UTF_8))) {
 			String line;
 			while ((line = br.readLine()) != null) {
 				final CGitIndexRecord cr = new CGitIndexRecord(line);
@@ -248,7 +249,7 @@ public class DirCacheCGitCompatabilityTest extends LocalDiskRepositoryTestCase {
 	private static Map<String, CGitLsTreeRecord> readLsTree() throws Exception {
 		final LinkedHashMap<String, CGitLsTreeRecord> r = new LinkedHashMap<>();
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(
-				new FileInputStream(pathOf("gitgit.lstree")), "UTF-8"))) {
+				new FileInputStream(pathOf("gitgit.lstree")), UTF_8))) {
 			String line;
 			while ((line = br.readLine()) != null) {
 				final CGitLsTreeRecord cr = new CGitLsTreeRecord(line);

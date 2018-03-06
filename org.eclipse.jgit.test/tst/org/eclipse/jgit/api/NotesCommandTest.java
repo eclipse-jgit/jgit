@@ -42,6 +42,7 @@
  */
 package org.eclipse.jgit.api;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 
 import java.util.List;
@@ -87,7 +88,7 @@ public class NotesCommandTest extends RepositoryTestCase {
 		git.notesAdd().setObjectId(commit2).setMessage("data").call();
 		Note note = git.notesShow().setObjectId(commit2).call();
 		String content = new String(db.open(note.getData()).getCachedBytes(),
-				"UTF-8");
+				UTF_8);
 		assertEquals(content, "data");
 
 		git.notesRemove().setObjectId(commit2).call();

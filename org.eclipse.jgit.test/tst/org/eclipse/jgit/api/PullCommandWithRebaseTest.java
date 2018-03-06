@@ -410,7 +410,7 @@ public class PullCommandWithRebaseTest extends RepositoryTestCase {
 				bos.write(buffer, 0, read);
 				read = fis.read(buffer);
 			}
-			String content = new String(bos.toByteArray(), "UTF-8");
+			String content = new String(bos.toByteArray(), UTF_8);
 			assertEquals(string, content);
 		}
 	}
