@@ -104,6 +104,12 @@ public class DiffCommand extends GitCommand<List<DiffEntry>> {
 		super(repo);
 	}
 
+	private DiffFormatter getDiffFormatter() {
+		return out != null && !showNameAndStatusOnly
+				? new DiffFormatter(new BufferedOutputStream(out))
+				: new DiffFormatter(NullOutputStream.INSTANCE);
+	}
+
 	/**
 	 * {@inheritDoc}
 	 * <p>
@@ -114,14 +120,9 @@ public class DiffCommand extends GitCommand<List<DiffEntry>> {
 	 */
 	@Override
 	public List<DiffEntry> call() throws GitAPIException {
-		final DiffFormatter diffFmt;
-		if (out != null && !showNameAndStatusOnly)
-			diffFmt = new DiffFormatter(new BufferedOutputStream(out));
-		else
-			diffFmt = new DiffFormatter(NullOutputStream.INSTANCE);
-		diffFmt.setRepository(repo);
-		diffFmt.setProgressMonitor(monitor);
-		try {
+		try (DiffFormatter diffFmt = getDiffFormatter()) {
+			diffFmt.setRepository(repo);
+			diffFmt.setProgressMonitor(monitor);
 			if (cached) {
 				if (oldTree == null) {
 					ObjectId head = repo.resolve(HEAD + "^{tree}"); //$NON-NLS-1$
@@ -159,8 +160,6 @@ public class DiffCommand extends GitCommand<List<DiffEntry>> {
 			}
 		} catch (IOException e) {
 			throw new JGitInternalException(e.getMessage(), e);
-		} finally {
-			diffFmt.close();
 		}
 	}
 
