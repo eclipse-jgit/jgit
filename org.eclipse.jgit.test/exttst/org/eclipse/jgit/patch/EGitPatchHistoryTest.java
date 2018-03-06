@@ -202,28 +202,28 @@ public class EGitPatchHistoryTest {
 		}
 
 		void read() throws IOException, InterruptedException {
-			final BufferedReader in = new BufferedReader(new InputStreamReader(
-					proc.getInputStream(), ISO_8859_1));
-			String commitId = null;
-			TemporaryBuffer buf = null;
-			for (;;) {
-				String line = in.readLine();
-				if (line == null)
-					break;
-				if (line.startsWith("commit ")) {
-					if (buf != null) {
-						buf.close();
-						onCommit(commitId, buf.toByteArray());
-						buf.destroy();
+			try (BufferedReader in = new BufferedReader(
+					new InputStreamReader(proc.getInputStream(), ISO_8859_1))) {
+				String commitId = null;
+				TemporaryBuffer buf = null;
+				for (;;) {
+					String line = in.readLine();
+					if (line == null)
+						break;
+					if (line.startsWith("commit ")) {
+						if (buf != null) {
+							buf.close();
+							onCommit(commitId, buf.toByteArray());
+							buf.destroy();
+						}
+						commitId = line.substring("commit ".length());
+						buf = new TemporaryBuffer.LocalFile(null);
+					} else if (buf != null) {
+						buf.write(line.getBytes(ISO_8859_1));
+						buf.write('\n');
 					}
-					commitId = line.substring("commit ".length());
-					buf = new TemporaryBuffer.LocalFile(null);
-				} else if (buf != null) {
-					buf.write(line.getBytes(ISO_8859_1));
-					buf.write('\n');
 				}
 			}
-			in.close();
 			assertEquals(0, proc.waitFor());
 			proc = null;
 		}
