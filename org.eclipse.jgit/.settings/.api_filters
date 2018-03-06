@@ -15,6 +15,12 @@
                 <message_argument value="CONFIG_KEY_REQUIRED"/>
             </message_arguments>
         </filter>
+        <filter id="336658481">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.ConfigConstants"/>
+                <message_argument value="CONFIG_SECTION_LFS"/>
+            </message_arguments>
+        </filter>
     </resource>
     <resource path="src/org/eclipse/jgit/merge/ResolveMerger.java" type="org.eclipse.jgit.merge.ResolveMerger">
         <filter id="336658481">
