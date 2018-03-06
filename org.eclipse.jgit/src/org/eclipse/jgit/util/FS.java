@@ -1227,14 +1227,11 @@ public abstract class FS {
 	 */
 	public ExecutionResult execute(ProcessBuilder pb, InputStream in)
 			throws IOException, InterruptedException {
-		TemporaryBuffer stdout = new TemporaryBuffer.LocalFile(null);
-		TemporaryBuffer stderr = new TemporaryBuffer.Heap(1024, 1024 * 1024);
-		try {
+		try (TemporaryBuffer stdout = new TemporaryBuffer.LocalFile(null);
+				TemporaryBuffer stderr = new TemporaryBuffer.Heap(1024,
+						1024 * 1024)) {
 			int rc = runProcess(pb, stdout, stderr, in);
 			return new ExecutionResult(stdout, stderr, rc);
-		} finally {
-			stdout.close();
-			stderr.close();
 		}
 	}
 
