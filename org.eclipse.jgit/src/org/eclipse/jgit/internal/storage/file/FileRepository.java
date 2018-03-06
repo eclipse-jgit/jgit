@@ -620,11 +620,8 @@ public class FileRepository extends Repository {
 		static void loadRulesFromFile(AttributesNode r, File attrs)
 				throws FileNotFoundException, IOException {
 			if (attrs.exists()) {
-				FileInputStream in = new FileInputStream(attrs);
-				try {
+				try (FileInputStream in = new FileInputStream(attrs)) {
 					r.parse(in);
-				} finally {
-					in.close();
 				}
 			}
 		}
