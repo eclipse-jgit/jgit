@@ -43,6 +43,8 @@
 
 package org.eclipse.jgit.pgm;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -149,7 +151,7 @@ public class CommandCatalog {
 		final BufferedReader cIn;
 		try {
 			final InputStream in = cUrl.openStream();
-			cIn = new BufferedReader(new InputStreamReader(in, "UTF-8")); //$NON-NLS-1$
+			cIn = new BufferedReader(new InputStreamReader(in, UTF_8));
 		} catch (IOException err) {
 			// If we cannot read from the service list, go to the next.
 			//
