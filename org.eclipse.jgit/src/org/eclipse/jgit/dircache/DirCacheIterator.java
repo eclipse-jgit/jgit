@@ -329,11 +329,8 @@ public class DirCacheIterator extends AbstractTreeIterator {
 			AttributesNode r = new AttributesNode();
 			ObjectLoader loader = reader.open(objectId);
 			if (loader != null) {
-				InputStream in = loader.openStream();
-				try {
+				try (InputStream in = loader.openStream()) {
 					r.parse(in);
-				} finally {
-					in.close();
 				}
 			}
 			return r.getRules().isEmpty() ? null : r;
