@@ -43,7 +43,7 @@
 
 package org.eclipse.jgit.transport;
 
-import static org.eclipse.jgit.transport.WalkEncryptionTest.Util.UTF_8;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.transport.WalkEncryptionTest.Util.cryptoCipherListPBE;
 import static org.eclipse.jgit.transport.WalkEncryptionTest.Util.cryptoCipherListTrans;
 import static org.eclipse.jgit.transport.WalkEncryptionTest.Util.folderDelete;
@@ -77,7 +77,6 @@ import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.UnknownHostException;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.security.GeneralSecurityException;
 import java.security.Provider;
@@ -352,8 +351,6 @@ public class WalkEncryptionTest {
 	 * Collection of test utility methods.
 	 */
 	static class Util {
-
-		static final Charset UTF_8 = Charset.forName("UTF-8");
 
 		/**
 		 * Read UTF-8 encoded text file into string.
