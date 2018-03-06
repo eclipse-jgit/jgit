@@ -1189,27 +1189,21 @@ public class GC {
 						JGitText.get().cannotCreateIndexfile, tmpIdx.getPath()));
 
 			// write the packfile
-			FileOutputStream fos = new FileOutputStream(tmpPack);
-			FileChannel channel = fos.getChannel();
-			OutputStream channelStream = Channels.newOutputStream(channel);
-			try {
+			try (FileOutputStream fos = new FileOutputStream(tmpPack);
+					FileChannel channel = fos.getChannel();
+					OutputStream channelStream = Channels
+							.newOutputStream(channel)) {
 				pw.writePack(pm, pm, channelStream);
-			} finally {
 				channel.force(true);
-				channelStream.close();
-				fos.close();
 			}
 
 			// write the packindex
-			fos = new FileOutputStream(tmpIdx);
-			FileChannel idxChannel = fos.getChannel();
-			OutputStream idxStream = Channels.newOutputStream(idxChannel);
-			try {
+			try (FileOutputStream fos = new FileOutputStream(tmpIdx);
+					FileChannel idxChannel = fos.getChannel();
+					OutputStream idxStream = Channels
+							.newOutputStream(idxChannel)) {
 				pw.writeIndex(idxStream);
-			} finally {
 				idxChannel.force(true);
-				idxStream.close();
-				fos.close();
 			}
 
 			if (pw.prepareBitmapIndex(pm)) {
@@ -1221,15 +1215,12 @@ public class GC {
 							JGitText.get().cannotCreateIndexfile,
 							tmpBitmapIdx.getPath()));
 
-				fos = new FileOutputStream(tmpBitmapIdx);
-				idxChannel = fos.getChannel();
-				idxStream = Channels.newOutputStream(idxChannel);
-				try {
+				try (FileOutputStream fos = new FileOutputStream(tmpBitmapIdx);
+						FileChannel idxChannel = fos.getChannel();
+						OutputStream idxStream = Channels
+								.newOutputStream(idxChannel)) {
 					pw.writeBitmapIndex(idxStream);
-				} finally {
 					idxChannel.force(true);
-					idxStream.close();
-					fos.close();
 				}
 			}
 
