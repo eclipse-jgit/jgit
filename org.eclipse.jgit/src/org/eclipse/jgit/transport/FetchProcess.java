@@ -318,14 +318,12 @@ class FetchProcess {
 		final LockFile lock = new LockFile(new File(meta, "FETCH_HEAD")); //$NON-NLS-1$
 		try {
 			if (lock.lock()) {
-				final Writer w = new OutputStreamWriter(lock.getOutputStream());
-				try {
+				try (Writer w = new OutputStreamWriter(
+						lock.getOutputStream())) {
 					for (final FetchHeadRecord h : fetchHeadUpdates) {
 						h.write(w);
 						result.add(h);
 					}
-				} finally {
-					w.close();
 				}
 				lock.commit();
 			}
