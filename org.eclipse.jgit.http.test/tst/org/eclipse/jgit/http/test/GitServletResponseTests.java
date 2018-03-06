@@ -176,7 +176,6 @@ public class GitServletResponseTests extends HttpTestCase {
 		final RevCommit Q = client.commit().add("Q", Q_txt).create();
 		final Repository clientRepo = client.getRepository();
 		final String srvBranchName = Constants.R_HEADS + "new.branch";
-		Transport t;
 
 		maxPackSize = 0;
 		postHook = null;
@@ -188,8 +187,7 @@ public class GitServletResponseTests extends HttpTestCase {
 			}
 		};
 
-		t = Transport.open(clientRepo, srvURI);
-		try {
+		try (Transport t = Transport.open(clientRepo, srvURI)) {
 			RemoteRefUpdate update = new RemoteRefUpdate(clientRepo, Q.name(),
 					srvBranchName, false, null, null);
 			try {
@@ -199,8 +197,6 @@ public class GitServletResponseTests extends HttpTestCase {
 			} catch (Exception e) {
 				assertTrue(e instanceof TransportException);
 			}
-		} finally {
-			t.close();
 		}
 	}
 
@@ -218,7 +214,6 @@ public class GitServletResponseTests extends HttpTestCase {
 		final RevCommit Q = client.commit().add("Q", Q_txt).create();
 		final Repository clientRepo = client.getRepository();
 		final String srvBranchName = Constants.R_HEADS + "new.branch";
-		Transport t;
 
 		maxPackSize = 0;
 		postHook = null;
@@ -231,8 +226,7 @@ public class GitServletResponseTests extends HttpTestCase {
 			}
 		};
 
-		t = Transport.open(clientRepo, srvURI);
-		try {
+		try (Transport t = Transport.open(clientRepo, srvURI)) {
 			RemoteRefUpdate update = new RemoteRefUpdate(clientRepo, Q.name(),
 					srvBranchName, false, null, null);
 			try {
@@ -242,8 +236,6 @@ public class GitServletResponseTests extends HttpTestCase {
 			} catch (Exception e) {
 				assertTrue(e instanceof TransportException);
 			}
-		} finally {
-			t.close();
 		}
 	}
 
@@ -266,7 +258,6 @@ public class GitServletResponseTests extends HttpTestCase {
 		final RevCommit Q = client.commit().add("Q", Q_txt).create();
 		final Repository clientRepo = client.getRepository();
 		final String srvBranchName = Constants.R_HEADS + "new.branch";
-		Transport t;
 
 		// this maxPackSize leads to an unPackError
 		maxPackSize = 100;
@@ -283,8 +274,7 @@ public class GitServletResponseTests extends HttpTestCase {
 			}
 		};
 
-		t = Transport.open(clientRepo, srvURI);
-		try {
+		try (Transport t = Transport.open(clientRepo, srvURI)) {
 			RemoteRefUpdate update = new RemoteRefUpdate(clientRepo, Q.name(),
 					srvBranchName, false, null, null);
 			try {
@@ -294,8 +284,6 @@ public class GitServletResponseTests extends HttpTestCase {
 			} catch (Exception e) {
 				assertTrue(e instanceof TooLargePackException);
 			}
-		} finally {
-			t.close();
 		}
 	}
 }
