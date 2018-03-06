@@ -149,11 +149,9 @@ public class HookMessageTest extends HttpTestCase {
 		final RevCommit Q = src.commit().add("Q", Q_txt).create();
 		final Repository db = src.getRepository();
 		final String dstName = Constants.R_HEADS + "new.branch";
-		Transport t;
 		PushResult result;
 
-		t = Transport.open(db, remoteURI);
-		try {
+		try (Transport t = Transport.open(db, remoteURI)) {
 			final String srcExpr = Q.name();
 			final boolean forceUpdate = false;
 			final String localName = null;
@@ -163,8 +161,6 @@ public class HookMessageTest extends HttpTestCase {
 					srcExpr, dstName, forceUpdate, localName, oldId);
 			result = t.push(NullProgressMonitor.INSTANCE, Collections
 					.singleton(update));
-		} finally {
-			t.close();
 		}
 
 		assertTrue(remoteRepository.hasObject(Q_txt));
@@ -193,12 +189,10 @@ public class HookMessageTest extends HttpTestCase {
 		final RevCommit Q = src.commit().add("Q", Q_txt).create();
 		final Repository db = src.getRepository();
 		final String dstName = Constants.R_HEADS + "new.branch";
-		Transport t;
 		PushResult result;
 
-		t = Transport.open(db, remoteURI);
 		OutputStream out = new ByteArrayOutputStream();
-		try {
+		try (Transport t = Transport.open(db, remoteURI)) {
 			final String srcExpr = Q.name();
 			final boolean forceUpdate = false;
 			final String localName = null;
@@ -208,8 +202,6 @@ public class HookMessageTest extends HttpTestCase {
 					srcExpr, dstName, forceUpdate, localName, oldId);
 			result = t.push(NullProgressMonitor.INSTANCE,
 					Collections.singleton(update), out);
-		} finally {
-			t.close();
 		}
 
 		String expectedMessage = "message line 1\n" //
