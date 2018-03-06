@@ -1923,18 +1923,20 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 				if (file.isFile()) {
 					assertNotNull("found unexpected file for path " + path
 							+ " in workdir", expectedValue);
-					FileInputStream is = new FileInputStream(file);
-					byte[] buffer = new byte[(int) file.length()];
-					int offset = 0;
-					int numRead = 0;
-					while (offset < buffer.length
-							&& (numRead = is.read(buffer, offset, buffer.length
-									- offset)) >= 0) {
-						offset += numRead;
+					try (FileInputStream is = new FileInputStream(file)) {
+						byte[] buffer = new byte[(int) file.length()];
+						int offset = 0;
+						int numRead = 0;
+						while (offset < buffer.length
+								&& (numRead = is.read(buffer, offset,
+										buffer.length - offset)) >= 0) {
+							offset += numRead;
+						}
+						assertArrayEquals(
+								"unexpected content for path " + path
+										+ " in workDir. ",
+								buffer, i.get(path).getBytes());
 					}
-					is.close();
-					assertArrayEquals("unexpected content for path " + path
-							+ " in workDir. ", buffer, i.get(path).getBytes());
 					nrFiles++;
 				} else if (file.isDirectory()) {
 					String[] files = file.list();
