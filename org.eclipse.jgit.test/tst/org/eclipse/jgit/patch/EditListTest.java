@@ -90,17 +90,14 @@ public class EditListTest {
 	}
 
 	private Patch parseTestPatchFile(final String patchFile) throws IOException {
-		final InputStream in = getClass().getResourceAsStream(patchFile);
-		if (in == null) {
-			fail("No " + patchFile + " test vector");
-			return null; // Never happens
-		}
-		try {
+		try (InputStream in = getClass().getResourceAsStream(patchFile)) {
+			if (in == null) {
+				fail("No " + patchFile + " test vector");
+				return null; // Never happens
+			}
 			final Patch p = new Patch();
 			p.parse(in);
 			return p;
-		} finally {
-			in.close();
 		}
 	}
 }
