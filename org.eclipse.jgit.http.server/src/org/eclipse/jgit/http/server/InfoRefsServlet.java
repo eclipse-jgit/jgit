@@ -74,29 +74,30 @@ class InfoRefsServlet extends HttpServlet {
 		rsp.setCharacterEncoding(Constants.CHARACTER_ENCODING);
 
 		final Repository db = getRepository(req);
-		final OutputStreamWriter out = new OutputStreamWriter(
+		try (OutputStreamWriter out = new OutputStreamWriter(
 				new SmartOutputStream(req, rsp, true),
-				Constants.CHARSET);
-		final RefAdvertiser adv = new RefAdvertiser() {
-			@Override
-			protected void writeOne(final CharSequence line) throws IOException {
-				// Whoever decided that info/refs should use a different
-				// delimiter than the native git:// protocol shouldn't
-				// be allowed to design this sort of stuff. :-(
-				out.append(line.toString().replace(' ', '\t'));
-			}
+				Constants.CHARSET)) {
+			final RefAdvertiser adv = new RefAdvertiser() {
+				@Override
+				protected void writeOne(final CharSequence line)
+						throws IOException {
+					// Whoever decided that info/refs should use a different
+					// delimiter than the native git:// protocol shouldn't
+					// be allowed to design this sort of stuff. :-(
+					out.append(line.toString().replace(' ', '\t'));
+				}
 
-			@Override
-			protected void end() {
-				// No end marker required for info/refs format.
-			}
-		};
-		adv.init(db);
-		adv.setDerefTags(true);
+				@Override
+				protected void end() {
+					// No end marker required for info/refs format.
+				}
+			};
+			adv.init(db);
+			adv.setDerefTags(true);
 
-		Map<String, Ref> refs = db.getRefDatabase().getRefs(ALL);
-		refs.remove(Constants.HEAD);
-		adv.send(refs);
-		out.close();
+			Map<String, Ref> refs = db.getRefDatabase().getRefs(ALL);
+			refs.remove(Constants.HEAD);
+			adv.send(refs);
+		}
 	}
 }
