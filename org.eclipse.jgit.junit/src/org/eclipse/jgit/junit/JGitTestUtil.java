@@ -182,18 +182,11 @@ public abstract class JGitTestUtil {
 		URL url = cl().getResource(CLASSPATH_TO_RESOURCES + name);
 		if (url == null)
 			throw new FileNotFoundException(name);
-		InputStream in = url.openStream();
-		try {
-			FileOutputStream out = new FileOutputStream(dest);
-			try {
-				byte[] buf = new byte[4096];
-				for (int n; (n = in.read(buf)) > 0;)
-					out.write(buf, 0, n);
-			} finally {
-				out.close();
-			}
-		} finally {
-			in.close();
+		try (InputStream in = url.openStream();
+				FileOutputStream out = new FileOutputStream(dest)) {
+			byte[] buf = new byte[4096];
+			for (int n; (n = in.read(buf)) > 0;)
+				out.write(buf, 0, n);
 		}
 	}
 
@@ -252,11 +245,9 @@ public abstract class JGitTestUtil {
 	public static void write(final File f, final String body)
 			throws IOException {
 		FileUtils.mkdirs(f.getParentFile(), true);
-		Writer w = new OutputStreamWriter(new FileOutputStream(f), UTF_8);
-		try {
+		try (Writer w = new OutputStreamWriter(new FileOutputStream(f),
+				UTF_8)) {
 			w.write(body);
-		} finally {
-			w.close();
 		}
 	}
 
