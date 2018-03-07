@@ -71,6 +71,7 @@ public class WorkQueue {
 					public Thread newThread(Runnable taskBody) {
 						Thread thr = baseFactory.newThread(taskBody);
 						thr.setName("JGit-WorkQueue"); //$NON-NLS-1$
+						thr.setContextClassLoader(null);
 						thr.setDaemon(true);
 						return thr;
 					}
