@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2dfed27c_f08997ac",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/BuiltinLFS.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-03-07T21:06:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc24ab12_2dedbc83",
+      "revId": "14491b1362302fbd961cfb9a00593d176f91b514",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d017a33_f1bab9e3",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/BuiltinLFS.java",
         "patchSetId": 3
