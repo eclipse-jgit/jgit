@@ -237,9 +237,8 @@ public class MergeCommand extends GitCommand<MergeResult> {
 		fallBackToConfiguration();
 		checkParameters();
 
-		RevWalk revWalk = null;
 		DirCacheCheckout dco = null;
-		try {
+		try (RevWalk revWalk = new RevWalk(repo)) {
 			Ref head = repo.exactRef(Constants.HEAD);
 			if (head == null)
 				throw new NoHeadException(
@@ -247,7 +246,6 @@ public class MergeCommand extends GitCommand<MergeResult> {
 			StringBuilder refLogMessage = new StringBuilder("merge "); //$NON-NLS-1$
 
 			// Check for FAST_FORWARD, ALREADY_UP_TO_DATE
-			revWalk = new RevWalk(repo);
 
 			// we know for now there is only one commit
 			Ref ref = commits.get(0);
@@ -439,9 +437,6 @@ public class MergeCommand extends GitCommand<MergeResult> {
 					MessageFormat.format(
 							JGitText.get().exceptionCaughtDuringExecutionOfMergeCommand,
 							e), e);
-		} finally {
-			if (revWalk != null)
-				revWalk.close();
 		}
 	}
 
