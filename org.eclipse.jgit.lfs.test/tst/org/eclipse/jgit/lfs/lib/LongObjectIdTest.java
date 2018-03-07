@@ -392,9 +392,10 @@ public class LongObjectIdTest {
 	public void testCopyToWriter() throws IOException {
 		AnyLongObjectId id1 = LongObjectIdTestUtils.hash("test");
 		ByteArrayOutputStream os = new ByteArrayOutputStream(64);
-		OutputStreamWriter w = new OutputStreamWriter(os, Constants.CHARSET);
-		id1.copyTo(w);
-		w.close();
+		try (OutputStreamWriter w = new OutputStreamWriter(os,
+				Constants.CHARSET)) {
+			id1.copyTo(w);
+		}
 		assertEquals(id1, LongObjectId.fromString(os.toByteArray(), 0));
 	}
 
@@ -402,10 +403,11 @@ public class LongObjectIdTest {
 	public void testCopyToWriterWithBuf() throws IOException {
 		AnyLongObjectId id1 = LongObjectIdTestUtils.hash("test");
 		ByteArrayOutputStream os = new ByteArrayOutputStream(64);
-		OutputStreamWriter w = new OutputStreamWriter(os, Constants.CHARSET);
-		char[] buf = new char[64];
-		id1.copyTo(buf, w);
-		w.close();
+		try (OutputStreamWriter w = new OutputStreamWriter(os,
+				Constants.CHARSET)) {
+			char[] buf = new char[64];
+			id1.copyTo(buf, w);
+		}
 		assertEquals(id1, LongObjectId.fromString(os.toByteArray(), 0));
 	}
 
