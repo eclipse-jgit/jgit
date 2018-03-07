@@ -144,11 +144,9 @@ public class MeasurePackSizeTest extends HttpTestCase {
 		final RevCommit Q = src.commit().add("Q", Q_txt).create();
 		final Repository db = src.getRepository();
 		final String dstName = Constants.R_HEADS + "new.branch";
-		Transport t;
 		PushResult result;
 
-		t = Transport.open(db, remoteURI);
-		try {
+		try (Transport t = Transport.open(db, remoteURI)) {
 			final String srcExpr = Q.name();
 			final boolean forceUpdate = false;
 			final String localName = null;
@@ -158,8 +156,6 @@ public class MeasurePackSizeTest extends HttpTestCase {
 					srcExpr, dstName, forceUpdate, localName, oldId);
 			result = t.push(NullProgressMonitor.INSTANCE,
 					Collections.singleton(update));
-		} finally {
-			t.close();
 		}
 		assertEquals("expected 1 RemoteUpdate", 1, result.getRemoteUpdates()
 				.size());
