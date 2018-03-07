@@ -68,13 +68,11 @@ public class MergeHeadMsgTest extends RepositoryTestCase {
 		assertEquals(db.readMergeHeads().size(), 2);
 		assertEquals(db.readMergeHeads().get(0), ObjectId.zeroId());
 		assertEquals(db.readMergeHeads().get(1), ObjectId.fromString(sampleId));
+
 		// same test again, this time with lower-level io
-		FileOutputStream fos = new FileOutputStream(new File(db.getDirectory(),
-		"MERGE_HEAD"));
-		try {
+		try (FileOutputStream fos = new FileOutputStream(
+				new File(db.getDirectory(), "MERGE_HEAD"));) {
 			fos.write("0000000000000000000000000000000000000000\n1c6db447abdbb291b25f07be38ea0b1bf94947c5\n".getBytes(Constants.CHARACTER_ENCODING));
-		} finally {
-			fos.close();
 		}
 		assertEquals(db.readMergeHeads().size(), 2);
 		assertEquals(db.readMergeHeads().get(0), ObjectId.zeroId());
@@ -82,12 +80,9 @@ public class MergeHeadMsgTest extends RepositoryTestCase {
 		db.writeMergeHeads(Collections.<ObjectId> emptyList());
 		assertEquals(read(new File(db.getDirectory(), "MERGE_HEAD")), "");
 		assertEquals(db.readMergeHeads(), null);
-		fos = new FileOutputStream(new File(db.getDirectory(),
-				"MERGE_HEAD"));
-		try {
+		try (FileOutputStream fos = new FileOutputStream(
+				new File(db.getDirectory(), "MERGE_HEAD"))) {
 			fos.write(sampleId.getBytes(Constants.CHARACTER_ENCODING));
-		} finally {
-			fos.close();
 		}
 		assertEquals(db.readMergeHeads().size(), 1);
 		assertEquals(db.readMergeHeads().get(0), ObjectId.fromString(sampleId));
@@ -103,12 +98,9 @@ public class MergeHeadMsgTest extends RepositoryTestCase {
 		db.writeMergeCommitMsg(null);
 		assertEquals(db.readMergeCommitMsg(), null);
 		assertFalse(new File(db.getDirectory(), "MERGE_MSG").exists());
-		FileOutputStream fos = new FileOutputStream(new File(db.getDirectory(),
-				Constants.MERGE_MSG));
-		try {
+		try (FileOutputStream fos = new FileOutputStream(
+				new File(db.getDirectory(), Constants.MERGE_MSG))) {
 			fos.write(mergeMsg.getBytes(Constants.CHARACTER_ENCODING));
-		} finally {
-			fos.close();
 		}
 		assertEquals(db.readMergeCommitMsg(), mergeMsg);
 	}
