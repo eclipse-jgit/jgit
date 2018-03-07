@@ -362,13 +362,8 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 		if (home == null)
 			return;
 		final File known_hosts = new File(new File(home, ".ssh"), "known_hosts"); //$NON-NLS-1$ //$NON-NLS-2$
-		try {
-			final FileInputStream in = new FileInputStream(known_hosts);
-			try {
-				sch.setKnownHosts(in);
-			} finally {
-				in.close();
-			}
+		try (FileInputStream in = new FileInputStream(known_hosts)) {
+			sch.setKnownHosts(in);
 		} catch (FileNotFoundException none) {
 			// Oh well. They don't have a known hosts in home.
 		} catch (IOException err) {
