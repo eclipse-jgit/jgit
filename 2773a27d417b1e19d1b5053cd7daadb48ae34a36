@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87929364_844a6a2b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/StreamCopyThread.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-03-07T22:16:19Z",
+      "side": 1,
+      "message": "missing @since 4.11 tag for new public API method",
+      "revId": "2773a27d417b1e19d1b5053cd7daadb48ae34a36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_e43fae8a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/StreamCopyThread.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-03-07T22:16:19Z",
+      "side": 1,
+      "message": "also add braces in this other branch of the if statement",
+      "revId": "2773a27d417b1e19d1b5053cd7daadb48ae34a36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
