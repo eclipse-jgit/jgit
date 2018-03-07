@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "bc24ab12_2dedbc83",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/BuiltinLFS.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-03-07T17:32:53Z",
+      "side": 1,
+      "message": "missing @Override",
+      "revId": "14491b1362302fbd961cfb9a00593d176f91b514",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d017a33_f1bab9e3",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/BuiltinLFS.java",
         "patchSetId": 3
@@ -13,6 +30,24 @@
       "writtenOn": "2018-03-07T16:33:08Z",
       "side": 1,
       "message": "I don\u0027t get why this needs to be public (it\u0027s only called from this package), and why we need two public methods isAvaible() and isEnabled()",
+      "revId": "14491b1362302fbd961cfb9a00593d176f91b514",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "167d900e_f7f9e3fe",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/BuiltinLFS.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-03-07T17:32:53Z",
+      "side": 1,
+      "message": "ok, found usage here\nhttps://git.eclipse.org/r/#/c/76591/26/org.eclipse.egit.ui/src/org/eclipse/egit/ui/internal/preferences/GitPreferenceRoot.java\nwhich seems to make sense :-)",
+      "parentUuid": "0d017a33_f1bab9e3",
       "revId": "14491b1362302fbd961cfb9a00593d176f91b514",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
