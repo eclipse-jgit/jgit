@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d017a33_f1bab9e3",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/BuiltinLFS.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-03-07T16:33:08Z",
+      "side": 1,
+      "message": "I don\u0027t get why this needs to be public (it\u0027s only called from this package), and why we need two public methods isAvaible() and isEnabled()",
+      "revId": "14491b1362302fbd961cfb9a00593d176f91b514",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
