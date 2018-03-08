@@ -43,7 +43,7 @@
 package org.eclipse.jgit.transport;
 
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
-import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.Constants.CHARSET;
 
 import java.io.File;
 import java.security.InvalidKeyException;
@@ -102,7 +102,7 @@ public class HMACSHA1NonceGenerator implements NonceGenerator {
 		}
 
 		String input = path + ":" + String.valueOf(timestamp); //$NON-NLS-1$
-		byte[] rawHmac = mac.doFinal(input.getBytes(UTF_8));
+		byte[] rawHmac = mac.doFinal(input.getBytes(CHARSET));
 		return Long.toString(timestamp) + "-" + toHex(rawHmac); //$NON-NLS-1$
 	}
 

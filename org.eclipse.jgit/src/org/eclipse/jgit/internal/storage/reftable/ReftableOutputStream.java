@@ -43,7 +43,7 @@
 
 package org.eclipse.jgit.internal.storage.reftable;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.Constants.CHARSET;
 import static org.eclipse.jgit.internal.storage.reftable.ReftableConstants.FILE_HEADER_LEN;
 import static org.eclipse.jgit.internal.storage.reftable.ReftableConstants.INDEX_BLOCK_TYPE;
 import static org.eclipse.jgit.internal.storage.reftable.ReftableConstants.LOG_BLOCK_TYPE;
@@ -160,7 +160,7 @@ class ReftableOutputStream extends OutputStream {
 	}
 
 	void writeVarintString(String s) {
-		writeVarintString(s.getBytes(UTF_8));
+		writeVarintString(s.getBytes(CHARSET));
 	}
 
 	void writeVarintString(byte[] msg) {

@@ -43,7 +43,7 @@
 
 package org.eclipse.jgit.internal.storage.reftable;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.Constants.CHARSET;
 import static org.eclipse.jgit.internal.storage.reftable.ReftableConstants.FILE_HEADER_LEN;
 import static org.eclipse.jgit.internal.storage.reftable.ReftableConstants.INDEX_BLOCK_TYPE;
 import static org.eclipse.jgit.internal.storage.reftable.ReftableConstants.LOG_BLOCK_TYPE;
@@ -440,7 +440,7 @@ class BlockWriter {
 		}
 
 		private static byte[] nameUtf8(Ref ref) {
-			return ref.getName().getBytes(UTF_8);
+			return ref.getName().getBytes(CHARSET);
 		}
 	}
 
@@ -559,13 +559,13 @@ class BlockWriter {
 			this.newId = newId;
 			this.timeSecs = who.getWhen().getTime() / 1000L;
 			this.tz = (short) who.getTimeZoneOffset();
-			this.name = who.getName().getBytes(UTF_8);
-			this.email = who.getEmailAddress().getBytes(UTF_8);
-			this.msg = message.getBytes(UTF_8);
+			this.name = who.getName().getBytes(CHARSET);
+			this.email = who.getEmailAddress().getBytes(CHARSET);
+			this.msg = message.getBytes(CHARSET);
 		}
 
 		static byte[] key(String ref, long index) {
-			byte[] name = ref.getBytes(UTF_8);
+			byte[] name = ref.getBytes(CHARSET);
 			byte[] key = Arrays.copyOf(name, name.length + 1 + 8);
 			NB.encodeInt64(key, key.length - 8, reverseUpdateIndex(index));
 			return key;

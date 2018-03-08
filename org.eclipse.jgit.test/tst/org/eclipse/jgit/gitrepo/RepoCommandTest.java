@@ -42,7 +42,7 @@
  */
 package org.eclipse.jgit.gitrepo;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.Constants.CHARSET;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
@@ -214,7 +214,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 
 		RevCommit commit = cmd
 			.setInputStream(new ByteArrayInputStream(
-				xmlContent.toString().getBytes(UTF_8)))
+				xmlContent.toString().getBytes(CHARSET)))
 			.setRemoteReader(repos)
 			.setURI("platform/")
 			.setTargetURI("platform/superproject")
@@ -225,7 +225,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 		String firstIdStr = commit.getId().name() + ":" + ".gitmodules";
 		commit = new RepoCommand(dest)
 			.setInputStream(new ByteArrayInputStream(
-				xmlContent.toString().getBytes(UTF_8)))
+				xmlContent.toString().getBytes(CHARSET)))
 			.setRemoteReader(repos)
 			.setURI("platform/")
 			.setTargetURI("platform/superproject")
@@ -266,7 +266,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 		repos.put("platform/base", child);
 
 		RevCommit commit = cmd
-			.setInputStream(new ByteArrayInputStream(xmlContent.toString().getBytes(UTF_8)))
+			.setInputStream(new ByteArrayInputStream(xmlContent.toString().getBytes(CHARSET)))
 			.setRemoteReader(repos)
 			.setURI("platform/")
 			.setTargetURI("platform/superproject")
@@ -308,7 +308,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 
 		RevCommit commit = new RepoCommand(dest)
 			.setInputStream(new ByteArrayInputStream(
-				xmlContent.toString().getBytes(UTF_8)))
+				xmlContent.toString().getBytes(CHARSET)))
 			.setRemoteReader(new IndexedRepos())
 			.setURI("platform/")
 			.setTargetURI("platform/superproject")
@@ -358,7 +358,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 		repos.put("plugins/cookbook", child);
 
 		RevCommit commit = cmd
-			.setInputStream(new ByteArrayInputStream(xmlContent.toString().getBytes(UTF_8)))
+			.setInputStream(new ByteArrayInputStream(xmlContent.toString().getBytes(CHARSET)))
 			.setRemoteReader(repos)
 			.setURI("")
 			.setTargetURI("gerrit")
@@ -412,7 +412,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 				repos.put(repoUrl, child);
 
 				RevCommit commit = cmd
-					.setInputStream(new ByteArrayInputStream(xmlContent.toString().getBytes(UTF_8)))
+					.setInputStream(new ByteArrayInputStream(xmlContent.toString().getBytes(CHARSET)))
 					.setRemoteReader(repos)
 					.setURI(baseUrl)
 					.setTargetURI("gerrit")
@@ -469,7 +469,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 				repos.put(repoUrl, child);
 
 				RevCommit commit = cmd
-					.setInputStream(new ByteArrayInputStream(xmlContent.toString().getBytes(UTF_8)))
+					.setInputStream(new ByteArrayInputStream(xmlContent.toString().getBytes(CHARSET)))
 					.setRemoteReader(repos)
 					.setURI(baseUrl)
 					.setTargetURI(abs + "/superproject")

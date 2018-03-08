@@ -43,6 +43,8 @@
 
 package org.eclipse.jgit.util;
 
+import static org.eclipse.jgit.lib.Constants.CHARSET;
+
 import java.io.File;
 import java.io.PrintStream;
 import java.nio.file.Files;
@@ -124,7 +126,7 @@ public class FS_Win32_Cygwin extends FS_Win32 {
 			try {
 				w = readPipe(dir, //
 					new String[] { cygpath, "--windows", "--absolute", pn }, // //$NON-NLS-1$ //$NON-NLS-2$
-					"UTF-8"); //$NON-NLS-1$
+					CHARSET.name());
 			} catch (CommandFailedException e) {
 				LOG.warn(e.getMessage());
 				return null;
