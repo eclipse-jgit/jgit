@@ -45,6 +45,8 @@
 
 package org.eclipse.jgit.lib;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
@@ -226,10 +228,10 @@ public final class Constants {
 	public static final byte[] PACK_SIGNATURE = { 'P', 'A', 'C', 'K' };
 
 	/** Native character encoding for commit messages, file names... */
-	public static final String CHARACTER_ENCODING = "UTF-8";
+	public static final Charset CHARSET = UTF_8;
 
 	/** Native character encoding for commit messages, file names... */
-	public static final Charset CHARSET;
+	public static final String CHARACTER_ENCODING = CHARSET.name();
 
 	/** Default main branch name */
 	public static final String MASTER = "master";
@@ -652,7 +654,6 @@ public final class Constants {
 	static {
 		if (OBJECT_ID_LENGTH != newMessageDigest().getDigestLength())
 			throw new LinkageError(JGitText.get().incorrectOBJECT_ID_LENGTH);
-		CHARSET = Charset.forName(CHARACTER_ENCODING);
 	}
 
 	/** name of the file containing the commit msg for a merge commit */
