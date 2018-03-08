@@ -42,7 +42,7 @@
  */
 package org.eclipse.jgit.lfs;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.Constants.CHARSET;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -134,7 +134,7 @@ public class LfsPointer implements Comparable<LfsPointer> {
 	 */
 	public void encode(OutputStream out) {
 		try (PrintStream ps = new PrintStream(out, false,
-				UTF_8.name())) {
+				CHARSET.name())) {
 			ps.print("version "); //$NON-NLS-1$
 			ps.print(VERSION + "\n"); //$NON-NLS-1$
 			ps.print("oid " + HASH_FUNCTION_NAME + ":"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -143,7 +143,7 @@ public class LfsPointer implements Comparable<LfsPointer> {
 			ps.print(size + "\n"); //$NON-NLS-1$
 		} catch (UnsupportedEncodingException e) {
 			// should not happen, we are using a standard charset
-			throw new UnsupportedCharsetException(UTF_8.name());
+			throw new UnsupportedCharsetException(CHARSET.name());
 		}
 	}
 
@@ -165,7 +165,7 @@ public class LfsPointer implements Comparable<LfsPointer> {
 		long sz = -1;
 
 		try (BufferedReader br = new BufferedReader(
-				new InputStreamReader(in, UTF_8))) {
+				new InputStreamReader(in, CHARSET))) {
 			for (String s = br.readLine(); s != null; s = br.readLine()) {
 				if (s.startsWith("#") || s.length() == 0) { //$NON-NLS-1$
 					continue;

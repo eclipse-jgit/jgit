@@ -45,7 +45,7 @@
 
 package org.eclipse.jgit.transport;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.Constants.CHARSET;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -199,7 +199,7 @@ public class BundleWriterTest extends SampleDataRepositoryTestCase {
 			Ref ref = repo.exactRef(refName);
 			assertNotNull(ref);
 			assertEquals(id, ref.getObjectId());
-			assertEquals(data, new String(repo.open(id, OBJ_BLOB).getBytes(), UTF_8));
+			assertEquals(data, new String(repo.open(id, OBJ_BLOB).getBytes(), CHARSET));
 		}
 	}
 

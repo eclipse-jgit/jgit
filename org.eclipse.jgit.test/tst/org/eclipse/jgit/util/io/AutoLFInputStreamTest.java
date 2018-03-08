@@ -44,7 +44,7 @@
 
 package org.eclipse.jgit.util.io;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.Constants.CHARSET;
 import static org.junit.Assert.assertEquals;
 
 import java.io.ByteArrayInputStream;
@@ -129,6 +129,6 @@ public class AutoLFInputStreamTest {
 	}
 
 	private static byte[] asBytes(String in) {
-		return in.getBytes(UTF_8);
+		return in.getBytes(CHARSET);
 	}
 }

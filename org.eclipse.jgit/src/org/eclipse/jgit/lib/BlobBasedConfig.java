@@ -45,6 +45,8 @@
 
 package org.eclipse.jgit.lib;
 
+import static org.eclipse.jgit.lib.Constants.CHARSET;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -81,8 +83,7 @@ public class BlobBasedConfig extends Config {
 		super(base);
 		final String decoded;
 		if (isUtf8(blob)) {
-			decoded = RawParseUtils.decode(RawParseUtils.UTF8_CHARSET,
-					blob, 3, blob.length);
+			decoded = RawParseUtils.decode(CHARSET, blob, 3, blob.length);
 		} else {
 			decoded = RawParseUtils.decode(blob);
 		}

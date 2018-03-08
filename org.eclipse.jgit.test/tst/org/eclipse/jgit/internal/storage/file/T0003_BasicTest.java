@@ -47,7 +47,7 @@
 package org.eclipse.jgit.internal.storage.file;
 
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
-import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.Constants.CHARSET;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -522,7 +522,7 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 				4294967295000L, 60));
 		commit.setCommitter(new PersonIdent("Joe Hacker", "joe2@example.com",
 				4294967295000L, 60));
-		commit.setEncoding(UTF_8);
+		commit.setEncoding(CHARSET);
 		commit.setMessage("\u00dcbergeeks");
 		ObjectId cid = insertCommit(commit);
 		assertEquals("4680908112778718f37e686cbebcc912730b3154", cid.name());

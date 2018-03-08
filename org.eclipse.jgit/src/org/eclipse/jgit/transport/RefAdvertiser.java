@@ -43,7 +43,7 @@
 
 package org.eclipse.jgit.transport;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.Constants.CHARSET;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_STRING_LENGTH;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SYMREF;
 
@@ -74,7 +74,7 @@ import org.eclipse.jgit.util.RefMap;
 public abstract class RefAdvertiser {
 	/** Advertiser which frames lines in a {@link PacketLineOut} format. */
 	public static class PacketLineOutRefAdvertiser extends RefAdvertiser {
-		private final CharsetEncoder utf8 = UTF_8.newEncoder();
+		private final CharsetEncoder utf8 = CHARSET.newEncoder();
 		private final PacketLineOut pckOut;
 
 		private byte[] binArr = new byte[256];
