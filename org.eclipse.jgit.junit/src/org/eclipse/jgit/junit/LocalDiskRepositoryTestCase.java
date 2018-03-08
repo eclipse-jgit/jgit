@@ -45,7 +45,7 @@
 
 package org.eclipse.jgit.junit;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.Constants.CHARSET;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
@@ -352,7 +352,7 @@ public abstract class LocalDiskRepositoryTestCase {
 			if (0 != (includedOptions & CONTENT)) {
 				sb.append(", content:"
 						+ new String(repo.open(entry.getObjectId(),
-						Constants.OBJ_BLOB).getCachedBytes(), UTF_8));
+						Constants.OBJ_BLOB).getCachedBytes(), CHARSET));
 			}
 			if (0 != (includedOptions & ASSUME_UNCHANGED))
 				sb.append(", assume-unchanged:"

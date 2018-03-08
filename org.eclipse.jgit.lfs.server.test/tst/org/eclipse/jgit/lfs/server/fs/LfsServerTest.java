@@ -42,7 +42,7 @@
  */
 package org.eclipse.jgit.lfs.server.fs;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.Constants.CHARSET;
 import static org.junit.Assert.assertEquals;
 
 import java.io.BufferedInputStream;
@@ -211,11 +211,11 @@ public abstract class LfsServerTest {
 				if (buf.hasArray()) {
 					error = new String(buf.array(),
 							buf.arrayOffset() + buf.position(), buf.remaining(),
-							UTF_8);
+							CHARSET);
 				} else {
 					final byte[] b = new byte[buf.remaining()];
 					buf.duplicate().get(b);
-					error = new String(b, UTF_8);
+					error = new String(b, CHARSET);
 				}
 			} catch (IOException e) {
 				error = statusLine.getReasonPhrase();

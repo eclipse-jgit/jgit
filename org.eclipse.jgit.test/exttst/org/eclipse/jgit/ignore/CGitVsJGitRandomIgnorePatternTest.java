@@ -42,7 +42,7 @@
  */
 package org.eclipse.jgit.ignore;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.Constants.CHARSET;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -158,7 +158,7 @@ public class CGitVsJGitRandomIgnorePatternTest {
 			this.gitDir = gitDir;
 			this.pattern = pattern;
 			Files.write(FileUtils.toPath(new File(gitDir, ".gitignore")),
-					(pattern + "\n").getBytes(UTF_8), StandardOpenOption.CREATE,
+					(pattern + "\n").getBytes(CHARSET), StandardOpenOption.CREATE,
 					StandardOpenOption.TRUNCATE_EXISTING,
 					StandardOpenOption.WRITE);
 		}
@@ -188,7 +188,7 @@ public class CGitVsJGitRandomIgnorePatternTest {
 			Process proc = Runtime.getRuntime().exec(command, new String[0],
 					gitDir);
 			try (OutputStream out = proc.getOutputStream()) {
-				out.write((path + "\n").getBytes(UTF_8));
+				out.write((path + "\n").getBytes(CHARSET));
 				out.flush();
 			}
 			return proc;

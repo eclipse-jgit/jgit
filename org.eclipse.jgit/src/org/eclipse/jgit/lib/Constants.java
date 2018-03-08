@@ -228,10 +228,10 @@ public final class Constants {
 	public static final byte[] PACK_SIGNATURE = { 'P', 'A', 'C', 'K' };
 
 	/** Native character encoding for commit messages, file names... */
-	public static final Charset CHARSET = UTF_8;
+	public static final Charset CHARSET;
 
 	/** Native character encoding for commit messages, file names... */
-	public static final String CHARACTER_ENCODING = CHARSET.name();
+	public static final String CHARACTER_ENCODING;
 
 	/** Default main branch name */
 	public static final String MASTER = "master";
@@ -654,6 +654,8 @@ public final class Constants {
 	static {
 		if (OBJECT_ID_LENGTH != newMessageDigest().getDigestLength())
 			throw new LinkageError(JGitText.get().incorrectOBJECT_ID_LENGTH);
+		CHARSET = UTF_8;
+		CHARACTER_ENCODING = CHARSET.name();
 	}
 
 	/** name of the file containing the commit msg for a merge commit */

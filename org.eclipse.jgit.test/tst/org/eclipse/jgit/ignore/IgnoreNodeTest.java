@@ -42,7 +42,7 @@
  */
 package org.eclipse.jgit.ignore;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.Constants.CHARSET;
 import static org.eclipse.jgit.junit.Assert.assertEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -765,6 +765,6 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 		for (String line : rules) {
 			data.append(line + "\n");
 		}
-		return new ByteArrayInputStream(data.toString().getBytes(UTF_8));
+		return new ByteArrayInputStream(data.toString().getBytes(CHARSET));
 	}
 }

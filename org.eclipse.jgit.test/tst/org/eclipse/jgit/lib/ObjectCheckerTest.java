@@ -45,7 +45,7 @@
 package org.eclipse.jgit.lib;
 
 import static java.lang.Integer.valueOf;
-import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.Constants.CHARSET;
 import static org.eclipse.jgit.junit.JGitTestUtil.concat;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_LENGTH;
 import static org.eclipse.jgit.lib.Constants.OBJ_BAD;
@@ -1454,7 +1454,7 @@ public class ObjectCheckerTest {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 A");
 		entry(b, "100644 a");
-		byte[] data = b.toString().getBytes(UTF_8);
+		byte[] data = b.toString().getBytes(CHARSET);
 		checker.setSafeForWindows(true);
 		assertCorrupt("duplicate entry names", OBJ_TREE, data);
 		assertSkipListAccepts(OBJ_TREE, data);
@@ -1468,7 +1468,7 @@ public class ObjectCheckerTest {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 A");
 		entry(b, "100644 a");
-		byte[] data = b.toString().getBytes(UTF_8);
+		byte[] data = b.toString().getBytes(CHARSET);
 		checker.setSafeForMacOS(true);
 		assertCorrupt("duplicate entry names", OBJ_TREE, data);
 		assertSkipListAccepts(OBJ_TREE, data);
@@ -1482,7 +1482,7 @@ public class ObjectCheckerTest {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 \u0065\u0301");
 		entry(b, "100644 \u00e9");
-		byte[] data = b.toString().getBytes(UTF_8);
+		byte[] data = b.toString().getBytes(CHARSET);
 		checker.setSafeForMacOS(true);
 		assertCorrupt("duplicate entry names", OBJ_TREE, data);
 		assertSkipListAccepts(OBJ_TREE, data);
@@ -1496,7 +1496,7 @@ public class ObjectCheckerTest {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 A");
 		checker.setSafeForMacOS(true);
-		checker.checkTree(b.toString().getBytes(UTF_8));
+		checker.checkTree(b.toString().getBytes(CHARSET));
 	}
 
 	@Test

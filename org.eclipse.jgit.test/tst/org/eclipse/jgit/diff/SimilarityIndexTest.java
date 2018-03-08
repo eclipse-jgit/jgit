@@ -43,7 +43,7 @@
 
 package org.eclipse.jgit.diff;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.Constants.CHARSET;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -82,7 +82,7 @@ public class SimilarityIndexTest {
 				+ "A\n" //
 				+ "B\n" //
 				+ "B\n" //
-				+ "B\n").getBytes(UTF_8);
+				+ "B\n").getBytes(CHARSET);
 		SimilarityIndex si = new SimilarityIndex();
 		si.hash(new ByteArrayInputStream(in), in.length, false);
 		assertEquals(2, si.size());
@@ -130,12 +130,12 @@ public class SimilarityIndexTest {
 				+ "D\r\n" //
 				+ "B\r\n";
 		SimilarityIndex src = new SimilarityIndex();
-		byte[] bytes1 = text.getBytes(UTF_8);
+		byte[] bytes1 = text.getBytes(CHARSET);
 		src.hash(new ByteArrayInputStream(bytes1), bytes1.length, true);
 		src.sort();
 
 		SimilarityIndex dst = new SimilarityIndex();
-		byte[] bytes2 = text.replace("\r", "").getBytes(UTF_8);
+		byte[] bytes2 = text.replace("\r", "").getBytes(CHARSET);
 		dst.hash(new ByteArrayInputStream(bytes2), bytes2.length, true);
 		dst.sort();
 

@@ -43,7 +43,7 @@
 
 package org.eclipse.jgit.pgm.debug;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.Constants.CHARSET;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 import static org.eclipse.jgit.lib.Constants.MASTER;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
@@ -192,7 +192,7 @@ class WriteReftable extends TextBuiltin {
 	static List<Ref> readRefs(String inputFile) throws IOException {
 		List<Ref> refs = new ArrayList<>();
 		try (BufferedReader br = new BufferedReader(
-				new InputStreamReader(new FileInputStream(inputFile), UTF_8))) {
+				new InputStreamReader(new FileInputStream(inputFile), CHARSET))) {
 			String line;
 			while ((line = br.readLine()) != null) {
 				ObjectId id = ObjectId.fromString(line.substring(0, 40));
@@ -227,7 +227,7 @@ class WriteReftable extends TextBuiltin {
 
 		List<LogEntry> log = new ArrayList<>();
 		try (BufferedReader br = new BufferedReader(
-				new InputStreamReader(new FileInputStream(logPath), UTF_8))) {
+				new InputStreamReader(new FileInputStream(logPath), CHARSET))) {
 			@SuppressWarnings("nls")
 			Pattern pattern = Pattern.compile("([^,]+)" // 1: ref
 					+ ",([0-9]+(?:[.][0-9]+)?)" // 2: time

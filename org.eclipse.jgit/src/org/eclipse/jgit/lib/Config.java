@@ -51,6 +51,8 @@
 
 package org.eclipse.jgit.lib;
 
+import static org.eclipse.jgit.lib.Constants.CHARSET;
+
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -1166,8 +1168,7 @@ public class Config {
 
 		String decoded;
 		if (isUtf8(bytes)) {
-			decoded = RawParseUtils.decode(RawParseUtils.UTF8_CHARSET, bytes, 3,
-					bytes.length);
+			decoded = RawParseUtils.decode(CHARSET, bytes, 3, bytes.length);
 		} else {
 			decoded = RawParseUtils.decode(bytes);
 		}
