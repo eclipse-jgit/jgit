@@ -80,6 +80,7 @@ public class StreamCopyThread extends Thread {
 		writeLock = new Object();
 	}
 
+
 	/**
 	 * Request the thread to flush the output stream as soon as possible.
 	 * <p>
@@ -109,8 +110,9 @@ public class StreamCopyThread extends Thread {
 			if (isAlive()) {
 				done = true;
 				interrupt();
-			} else
+			} else {
 				break;
+			}
 		}
 	}
 
