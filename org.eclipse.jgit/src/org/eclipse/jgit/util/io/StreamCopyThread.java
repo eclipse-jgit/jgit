@@ -80,6 +80,7 @@ public class StreamCopyThread extends Thread {
 		writeLock = new Object();
 	}
 
+
 	/**
 	 * Request that the thread terminate, and wait for it.
 	 * <p>
@@ -95,8 +96,9 @@ public class StreamCopyThread extends Thread {
 			if (isAlive()) {
 				done = true;
 				interrupt();
-			} else
+			} else {
 				break;
+			}
 		}
 	}
 
