@@ -69,6 +69,24 @@
       "revId": "14491b1362302fbd961cfb9a00593d176f91b514",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ff5087c_e49891f4",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/BuiltinLFS.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-03-08T06:56:04Z",
+      "side": 1,
+      "message": "xD",
+      "parentUuid": "167d900e_f7f9e3fe",
+      "revId": "14491b1362302fbd961cfb9a00593d176f91b514",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
