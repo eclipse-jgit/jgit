@@ -45,7 +45,7 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.Constants.CHARSET;
 import static org.eclipse.jgit.junit.Assert.assertEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -252,7 +252,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 
 		ObjectId blobId;
 		try (ObjectInserter ins = bareRepo.newObjectInserter()) {
-			blobId = ins.insert(Constants.OBJ_BLOB, "contents".getBytes(UTF_8));
+			blobId = ins.insert(Constants.OBJ_BLOB, "contents".getBytes(CHARSET));
 			ins.flush();
 		}
 

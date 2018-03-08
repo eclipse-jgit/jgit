@@ -43,7 +43,7 @@
 
 package org.eclipse.jgit.lfs.lib;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.Constants.CHARACTER_ENCODING;
 import static org.junit.Assert.assertEquals;
 
 import java.io.ByteArrayOutputStream;
@@ -66,7 +66,7 @@ public class LFSPointerTest {
 			assertEquals(
 					"version https://git-lfs.github.com/spec/v1\noid sha256:"
 							+ s + "\nsize 4\n",
-					baos.toString(UTF_8.name()));
+					baos.toString(CHARACTER_ENCODING));
 		}
 	}
 }

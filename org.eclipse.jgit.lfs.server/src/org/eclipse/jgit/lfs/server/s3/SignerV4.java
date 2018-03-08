@@ -43,7 +43,7 @@
  */
 package org.eclipse.jgit.lfs.server.s3;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.Constants.CHARSET;
 import static org.eclipse.jgit.util.HttpSupport.HDR_AUTHORIZATION;
 
 import java.io.UnsupportedEncodingException;
@@ -359,13 +359,13 @@ class SignerV4 {
 
 	private static byte[] hash(String s) {
 		MessageDigest md = Constants.newMessageDigest();
-		md.update(s.getBytes(UTF_8));
+		md.update(s.getBytes(CHARSET));
 		return md.digest();
 	}
 
 	private static byte[] sign(String stringData, byte[] key) {
 		try {
-			byte[] data = stringData.getBytes(UTF_8);
+			byte[] data = stringData.getBytes(CHARSET);
 			Mac mac = Mac.getInstance(HMACSHA256);
 			mac.init(new SecretKeySpec(key, HMACSHA256));
 			return mac.doFinal(data);
@@ -395,7 +395,7 @@ class SignerV4 {
 	private static String urlEncode(String url, boolean keepPathSlash) {
 		String encoded;
 		try {
-			encoded = URLEncoder.encode(url, UTF_8.name());
+			encoded = URLEncoder.encode(url, CHARSET.name());
 		} catch (UnsupportedEncodingException e) {
 			throw new RuntimeException(LfsServerText.get().unsupportedUtf8, e);
 		}

@@ -43,7 +43,7 @@
 
 package org.eclipse.jgit.lib;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.Constants.CHARSET;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -183,7 +183,7 @@ public class RebaseTodoFile {
 			switch (tokenCount) {
 			case 0:
 				String actionToken = new String(buf, tokenBegin,
-						nextSpace - tokenBegin - 1, UTF_8);
+						nextSpace - tokenBegin - 1, CHARSET);
 				tokenBegin = nextSpace;
 				action = RebaseTodoLine.Action.parse(actionToken);
 				if (action == null)
@@ -192,7 +192,7 @@ public class RebaseTodoFile {
 			case 1:
 				nextSpace = RawParseUtils.next(buf, tokenBegin, ' ');
 				String commitToken = new String(buf, tokenBegin,
-						nextSpace - tokenBegin - 1, UTF_8);
+						nextSpace - tokenBegin - 1, CHARSET);
 				tokenBegin = nextSpace;
 				commit = AbbreviatedObjectId.fromString(commitToken);
 				break;

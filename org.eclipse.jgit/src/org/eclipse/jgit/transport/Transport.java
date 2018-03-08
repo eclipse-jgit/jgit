@@ -46,6 +46,7 @@
 
 package org.eclipse.jgit.transport;
 
+import static org.eclipse.jgit.lib.Constants.CHARSET;
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
 import java.io.BufferedReader;
@@ -147,7 +148,7 @@ public abstract class Transport implements AutoCloseable {
 		BufferedReader br;
 		try {
 			InputStream urlIn = url.openStream();
-			br = new BufferedReader(new InputStreamReader(urlIn, "UTF-8")); //$NON-NLS-1$
+			br = new BufferedReader(new InputStreamReader(urlIn, CHARSET));
 		} catch (IOException err) {
 			// If we cannot read from the service list, go to the next.
 			//

@@ -43,7 +43,7 @@
 
 package org.eclipse.jgit.transport;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.Constants.CHARSET;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -141,7 +141,7 @@ public class ProgressSpinner {
 	private void write(String s) {
 		if (write) {
 			try {
-				out.write(s.getBytes(UTF_8));
+				out.write(s.getBytes(CHARSET));
 				out.flush();
 			} catch (IOException e) {
 				write = false;

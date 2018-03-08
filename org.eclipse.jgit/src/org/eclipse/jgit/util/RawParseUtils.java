@@ -45,7 +45,7 @@
 package org.eclipse.jgit.util;
 
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
-import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.Constants.CHARSET;
 import static org.eclipse.jgit.lib.ObjectChecker.author;
 import static org.eclipse.jgit.lib.ObjectChecker.committer;
 import static org.eclipse.jgit.lib.ObjectChecker.encoding;
@@ -74,8 +74,11 @@ public final class RawParseUtils {
 	 * UTF-8 charset constant.
 	 *
 	 * @since 2.2
+	 *
+	 * @deprecated use {@code org.eclipse.jgit.lib.Constants.CHARSET} instead.
 	 */
-	public static final Charset UTF8_CHARSET = UTF_8;
+	@Deprecated
+	public static final Charset UTF8_CHARSET = CHARSET;
 
 	private static final byte[] digits10;
 
@@ -779,7 +782,7 @@ public final class RawParseUtils {
 			return null;
 		}
 		int lf = nextLF(b, enc);
-		return decode(UTF_8, b, enc, lf - 1);
+		return decode(CHARSET, b, enc, lf - 1);
 	}
 
 	/**
@@ -804,7 +807,7 @@ public final class RawParseUtils {
 	public static Charset parseEncoding(final byte[] b) {
 		String enc = parseEncodingName(b);
 		if (enc == null) {
-			return UTF_8;
+			return CHARSET;
 		}
 
 		String name = enc.trim();
@@ -860,7 +863,7 @@ public final class RawParseUtils {
 		} catch (IllegalCharsetNameException | UnsupportedCharsetException e) {
 			// Assume UTF-8 for person identities, usually this is correct.
 			// If not decode() will fall back to the ISO-8859-1 encoding.
-			cs = UTF_8;
+			cs = CHARSET;
 		}
 
 		final int emailB = nextLF(raw, nameB, '<');
@@ -1010,7 +1013,7 @@ public final class RawParseUtils {
 	 */
 	public static String decode(final byte[] buffer, final int start,
 			final int end) {
-		return decode(UTF_8, buffer, start, end);
+		return decode(CHARSET, buffer, start, end);
 	}
 
 	/**
@@ -1091,12 +1094,12 @@ public final class RawParseUtils {
 		// decoding will fail if the data is not actually encoded
 		// using that encoder.
 		try {
-			return decode(b, UTF_8);
+			return decode(b, CHARSET);
 		} catch (CharacterCodingException e) {
 			b.reset();
 		}
 
-		if (!cs.equals(UTF_8)) {
+		if (!cs.equals(CHARSET)) {
 			// Try the suggested encoding, it might be right since it was
 			// provided by the caller.
 			try {
@@ -1109,7 +1112,7 @@ public final class RawParseUtils {
 		// Try the default character set. A small group of people
 		// might actually use the same (or very similar) locale.
 		Charset defcs = Charset.defaultCharset();
-		if (!defcs.equals(cs) && !defcs.equals(UTF_8)) {
+		if (!defcs.equals(cs) && !defcs.equals(CHARSET)) {
 			try {
 				return decode(b, defcs);
 			} catch (CharacterCodingException e) {

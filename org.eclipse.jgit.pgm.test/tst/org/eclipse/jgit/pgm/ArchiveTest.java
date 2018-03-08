@@ -42,7 +42,7 @@
  */
 package org.eclipse.jgit.pgm;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.Constants.CHARSET;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -612,7 +612,7 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 
 	private BufferedReader readFromProcess(Process proc) throws Exception {
 		return new BufferedReader(
-				new InputStreamReader(proc.getInputStream(), UTF_8));
+				new InputStreamReader(proc.getInputStream(), CHARSET));
 	}
 
 	private void grepForEntry(String name, String mode, String... cmdline)
@@ -750,7 +750,7 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 			// found!
 			List<String> l = new ArrayList<>();
 			BufferedReader reader = new BufferedReader(
-					new InputStreamReader(in, UTF_8));
+					new InputStreamReader(in, CHARSET));
 			String line;
 			while ((line = reader.readLine()) != null)
 				l.add(line);

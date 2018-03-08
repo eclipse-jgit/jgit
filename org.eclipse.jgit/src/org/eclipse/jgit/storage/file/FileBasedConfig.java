@@ -49,6 +49,8 @@
 
 package org.eclipse.jgit.storage.file;
 
+import static org.eclipse.jgit.lib.Constants.CHARSET;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -154,7 +156,7 @@ public class FileBasedConfig extends StoredConfig {
 			} else {
 				final String decoded;
 				if (isUtf8(in)) {
-					decoded = RawParseUtils.decode(RawParseUtils.UTF8_CHARSET,
+					decoded = RawParseUtils.decode(CHARSET,
 							in, 3, in.length);
 					utf8Bom = true;
 				} else {
@@ -198,7 +200,7 @@ public class FileBasedConfig extends StoredConfig {
 			bos.write(0xEF);
 			bos.write(0xBB);
 			bos.write(0xBF);
-			bos.write(text.getBytes(RawParseUtils.UTF8_CHARSET.name()));
+			bos.write(text.getBytes(CHARSET));
 			out = bos.toByteArray();
 		} else {
 			out = Constants.encode(text);

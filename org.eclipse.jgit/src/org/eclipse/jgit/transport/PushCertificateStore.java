@@ -43,7 +43,7 @@
 
 package org.eclipse.jgit.transport;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.Constants.CHARSET;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.eclipse.jgit.lib.Constants.OBJ_COMMIT;
 import static org.eclipse.jgit.lib.FileMode.TYPE_FILE;
@@ -292,7 +292,7 @@ public class PushCertificateStore implements AutoCloseable {
 		ObjectLoader loader =
 				tw.getObjectReader().open(tw.getObjectId(0), OBJ_BLOB);
 		try (InputStream in = loader.openStream();
-				Reader r = new BufferedReader(new InputStreamReader(in, UTF_8))) {
+				Reader r = new BufferedReader(new InputStreamReader(in, CHARSET))) {
 			return PushCertificateParser.fromReader(r);
 		}
 	}
@@ -473,7 +473,7 @@ public class PushCertificateStore implements AutoCloseable {
 
 		DirCacheEditor editor = dc.editor();
 		String certText = pc.cert.toText() + pc.cert.getSignature();
-		final ObjectId certId = inserter.insert(OBJ_BLOB, certText.getBytes(UTF_8));
+		final ObjectId certId = inserter.insert(OBJ_BLOB, certText.getBytes(CHARSET));
 		boolean any = false;
 		for (ReceiveCommand cmd : pc.cert.getCommands()) {
 			if (byRef != null && !commandsEqual(cmd, byRef.get(cmd.getRefName()))) {

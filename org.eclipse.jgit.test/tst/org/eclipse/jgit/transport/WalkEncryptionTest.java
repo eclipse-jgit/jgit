@@ -43,7 +43,7 @@
 
 package org.eclipse.jgit.transport;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.Constants.CHARSET;
 import static org.eclipse.jgit.transport.WalkEncryptionTest.Util.cryptoCipherListPBE;
 import static org.eclipse.jgit.transport.WalkEncryptionTest.Util.cryptoCipherListTrans;
 import static org.eclipse.jgit.transport.WalkEncryptionTest.Util.folderDelete;
@@ -360,7 +360,7 @@ public class WalkEncryptionTest {
 		 * @throws Exception
 		 */
 		static String textRead(File file) throws Exception {
-			return new String(Files.readAllBytes(file.toPath()), UTF_8);
+			return new String(Files.readAllBytes(file.toPath()), CHARSET);
 		}
 
 		/**
@@ -371,7 +371,7 @@ public class WalkEncryptionTest {
 		 * @throws Exception
 		 */
 		static void textWrite(File file, String text) throws Exception {
-			Files.write(file.toPath(), text.getBytes(UTF_8));
+			Files.write(file.toPath(), text.getBytes(CHARSET));
 		}
 
 		static void verifyFileContent(File fileOne, File fileTwo)
@@ -741,7 +741,7 @@ public class WalkEncryptionTest {
 			AmazonS3 s3 = new AmazonS3(props);
 			String file = JGIT_USER + "-" + UUID.randomUUID().toString();
 			String path = JGIT_REMOTE_DIR + "/" + file;
-			s3.put(bucket, path, file.getBytes(UTF_8));
+			s3.put(bucket, path, file.getBytes(CHARSET));
 			s3.delete(bucket, path);
 		}
 
