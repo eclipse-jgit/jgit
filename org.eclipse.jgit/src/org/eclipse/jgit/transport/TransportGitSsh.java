@@ -311,6 +311,9 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 		public void close() {
 			endOut();
 
+			if (process != null) {
+				process.destroy();
+			}
 			if (errorThread != null) {
 				try {
 					errorThread.halt();
@@ -322,8 +325,6 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 			}
 
 			super.close();
-			if (process != null)
-				process.destroy();
 		}
 	}
 
@@ -377,6 +378,9 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 		public void close() {
 			endOut();
 
+			if (process != null) {
+				process.destroy();
+			}
 			if (errorThread != null) {
 				try {
 					errorThread.halt();
@@ -388,8 +392,6 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 			}
 
 			super.close();
-			if (process != null)
-				process.destroy();
 		}
 	}
 }
