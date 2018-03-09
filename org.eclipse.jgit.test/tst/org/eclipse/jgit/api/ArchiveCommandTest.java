@@ -229,11 +229,6 @@ public class ArchiveCommandTest extends RepositoryTestCase {
 		}
 
 		@Override
-		public void putEntry(MockOutputStream out, String path, FileMode mode, ObjectLoader loader) {
-			putEntry(out, null, path, mode, loader);
-		}
-
-		@Override
 		public void putEntry(MockOutputStream out, ObjectId tree, String path, FileMode mode, ObjectLoader loader) {
 			String content = mode != FileMode.TREE ? new String(loader.getBytes()) : null;
 			entries.put(path, content);

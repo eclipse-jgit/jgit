@@ -83,15 +83,6 @@ public final class TgzFormat extends BaseFormat implements
 	}
 
 	/** {@inheritDoc} */
-	@Deprecated
-	@Override
-	public void putEntry(ArchiveOutputStream out,
-			String path, FileMode mode, ObjectLoader loader)
-			throws IOException {
-		putEntry(out, null, path, mode,loader);
-	}
-
-	/** {@inheritDoc} */
 	@Override
 	public void putEntry(ArchiveOutputStream out,
 			ObjectId tree, String path, FileMode mode, ObjectLoader loader)
