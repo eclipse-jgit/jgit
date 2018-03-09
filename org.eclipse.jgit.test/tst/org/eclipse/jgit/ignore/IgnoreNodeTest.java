@@ -56,7 +56,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.eclipse.jgit.ignore.IgnoreNode.MatchResult;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
@@ -544,19 +543,6 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 		assertEntry(D, ignored, "a/b/e");
 		assertEntry(F, ignored, "a/b/e/nothere.o");
 		endWalk();
-	}
-
-	@SuppressWarnings("deprecation")
-	@Test
-	public void testEmptyIgnoreNode() {
-		// Rules are never empty: WorkingTreeIterator optimizes empty files away
-		// So we have to test it manually in case third party clients use
-		// IgnoreNode directly.
-		IgnoreNode node = new IgnoreNode();
-		assertEquals(MatchResult.CHECK_PARENT, node.isIgnored("", false));
-		assertEquals(MatchResult.CHECK_PARENT, node.isIgnored("", false, false));
-		assertEquals(MatchResult.CHECK_PARENT_NEGATE_FIRST_MATCH,
-				node.isIgnored("", false, true));
 	}
 
 	@Test
