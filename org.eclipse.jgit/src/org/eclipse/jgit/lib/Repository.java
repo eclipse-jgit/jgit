@@ -486,7 +486,7 @@ public abstract class Repository implements AutoCloseable {
 		try (RevWalk rw = new RevWalk(this)) {
 			Object resolved = resolve(rw, revstr);
 			if (resolved instanceof String) {
-				final Ref ref = getRef((String)resolved);
+				final Ref ref = findRef((String) resolved);
 				return ref != null ? ref.getLeaf().getObjectId() : null;
 			} else {
 				return (ObjectId) resolved;
@@ -709,7 +709,7 @@ public abstract class Repository implements AutoCloseable {
 									.format(JGitText.get().invalidRefName,
 											name),
 									revstr);
-						Ref ref = getRef(name);
+						Ref ref = findRef(name);
 						name = null;
 						if (ref == null)
 							return null;
@@ -762,7 +762,7 @@ public abstract class Repository implements AutoCloseable {
 									.format(JGitText.get().invalidRefName,
 											name),
 									revstr);
-						Ref ref = getRef(name);
+						Ref ref = findRef(name);
 						name = null;
 						if (ref == null)
 							return null;
@@ -813,7 +813,7 @@ public abstract class Repository implements AutoCloseable {
 			throw new RevisionSyntaxException(
 					MessageFormat.format(JGitText.get().invalidRefName, name),
 					revstr);
-		if (getRef(name) != null)
+		if (findRef(name) != null)
 			return name;
 		return resolveSimple(name);
 	}
@@ -1051,24 +1051,6 @@ public abstract class Repository implements AutoCloseable {
 	@NonNull
 	public Set<ObjectId> getAdditionalHaves() {
 		return Collections.emptySet();
-	}
-
-	/**
-	 * Get a ref by name.
-	 *
-	 * @param name
-	 *            the name of the ref to lookup. May be a short-hand form, e.g.
-	 *            "master" which is is automatically expanded to
-	 *            "refs/heads/master" if "refs/heads/master" already exists.
-	 * @return the Ref with the given name, or {@code null} if it does not exist
-	 * @throws java.io.IOException
-	 * @deprecated Use {@link #exactRef(String)} or {@link #findRef(String)}
-	 * instead.
-	 */
-	@Deprecated
-	@Nullable
-	public Ref getRef(final String name) throws IOException {
-		return findRef(name);
 	}
 
 	/**
