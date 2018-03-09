@@ -131,12 +131,6 @@ public abstract class LfsServerTest {
 
 			@Override
 			protected LargeFileRepository getLargeFileRepository(
-					LfsRequest request, String path) {
-				return repository;
-			}
-
-			@Override
-			protected LargeFileRepository getLargeFileRepository(
 					LfsRequest request, String path, String auth)
 					throws LfsException {
 				return repository;
