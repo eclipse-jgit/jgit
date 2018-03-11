@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc42ad6c_3dd95c58",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/FastIgnoreRule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-03-11T23:25:36Z",
+      "side": 1,
+      "message": "nit: static imports should be at the top.",
+      "revId": "27fac370a3ebba28557fe58d47a3c59609a03c3a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb504a3a_9d141781",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/FastIgnoreRule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-03-11T23:25:36Z",
+      "side": 1,
+      "message": "nit: trailing whitespace",
+      "range": {
+        "startLine": 123,
+        "startChar": 24,
+        "endLine": 123,
+        "endChar": 31
+      },
+      "revId": "27fac370a3ebba28557fe58d47a3c59609a03c3a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
