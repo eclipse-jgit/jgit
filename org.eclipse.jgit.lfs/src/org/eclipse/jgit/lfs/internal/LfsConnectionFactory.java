@@ -47,9 +47,7 @@ import static org.eclipse.jgit.util.HttpSupport.HDR_ACCEPT;
 import static org.eclipse.jgit.util.HttpSupport.HDR_ACCEPT_ENCODING;
 import static org.eclipse.jgit.util.HttpSupport.HDR_CONTENT_TYPE;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.ProxySelector;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -66,20 +64,17 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.transport.HttpConfig;
 import org.eclipse.jgit.transport.HttpTransport;
-import org.eclipse.jgit.transport.RemoteSession;
-import org.eclipse.jgit.transport.SshSessionFactory;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.transport.http.HttpConnection;
-import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.HttpSupport;
-import org.eclipse.jgit.util.io.MessageWriter;
-import org.eclipse.jgit.util.io.StreamCopyThread;
+import org.eclipse.jgit.util.SshSupport;
 
 /**
  * Provides means to get a valid LFS connection for a given repository.
  */
 public class LfsConnectionFactory {
 
+	private static final int SSH_AUTH_TIMEOUT_SECONDS = 5;
 	private static final String SCHEME_HTTPS = "https"; //$NON-NLS-1$
 	private static final String SCHEME_SSH = "ssh"; //$NON-NLS-1$
 	private static final Map<String, AuthCache> sshAuthCache = new TreeMap<>();
@@ -193,10 +188,11 @@ public class LfsConnectionFactory {
 			// discover and authenticate; git-lfs does "ssh
 			// -p <port> -- <host> git-lfs-authenticate
 			// <project> <upload/download>"
-			String json = runSshCommand(u.setPath(""), //$NON-NLS-1$
-					db.getFS(),
+			String json = SshSupport.runSshCommand(u.setPath(""), //$NON-NLS-1$
+					null, db.getFS(),
 					"git-lfs-authenticate " + extractProjectName(u) + " " //$NON-NLS-1$//$NON-NLS-2$
-							+ purpose);
+							+ purpose,
+					SSH_AUTH_TIMEOUT_SECONDS);
 
 			action = Protocol.gson().fromJson(json,
 					Protocol.ExpiringAction.class);
@@ -250,42 +246,6 @@ public class LfsConnectionFactory {
 			return path.substring(0, path.length() - 4);
 		} else {
 			return path;
-		}
-	}
-
-	private static String runSshCommand(URIish sshUri, FS fs, String command)
-			throws IOException {
-		RemoteSession session = null;
-		Process process = null;
-		StreamCopyThread errorThread = null;
-		try (MessageWriter stderr = new MessageWriter()) {
-			session = SshSessionFactory.getInstance().getSession(sshUri, null,
-					fs, 5_000);
-			process = session.exec(command, 0);
-			errorThread = new StreamCopyThread(process.getErrorStream(),
-					stderr.getRawStream());
-			errorThread.start();
-			try (BufferedReader reader = new BufferedReader(
-					new InputStreamReader(process.getInputStream(),
-							org.eclipse.jgit.lib.Constants.CHARSET))) {
-				return reader.readLine();
-			}
-		} finally {
-			if (process != null) {
-				process.destroy();
-			}
-			if (errorThread != null) {
-				try {
-					errorThread.halt();
-				} catch (InterruptedException e) {
-					// Stop waiting and return anyway.
-				} finally {
-					errorThread = null;
-				}
-			}
-			if (session != null) {
-				SshSessionFactory.getInstance().releaseSession(session);
-			}
 		}
 	}
 
