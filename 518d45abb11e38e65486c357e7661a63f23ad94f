@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "74240a81_43c4acb5",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-03-12T00:02:40Z",
+      "side": 1,
+      "message": "why do you change the timeout from 5 to 10 seconds ?",
+      "revId": "518d45abb11e38e65486c357e7661a63f23ad94f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9874ebde_c891f759",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SshSupport.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-03-12T00:02:40Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "518d45abb11e38e65486c357e7661a63f23ad94f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7205a799_3ba036ea",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SshSupport.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-03-12T00:02:40Z",
+      "side": 1,
+      "message": "missing @since 5.0 tag for new api",
+      "revId": "518d45abb11e38e65486c357e7661a63f23ad94f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
