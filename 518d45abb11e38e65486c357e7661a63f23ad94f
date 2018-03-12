@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "24469380_c03a6230",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-03-12T06:53:45Z",
+      "side": 1,
+      "message": "Reverted. Was not really intentional :D",
+      "parentUuid": "74240a81_43c4acb5",
+      "revId": "518d45abb11e38e65486c357e7661a63f23ad94f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9874ebde_c891f759",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SshSupport.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "ff9b8f41_27761fb0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SshSupport.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-03-12T06:53:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9874ebde_c891f759",
+      "revId": "518d45abb11e38e65486c357e7661a63f23ad94f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7205a799_3ba036ea",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SshSupport.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2018-03-12T00:02:40Z",
       "side": 1,
       "message": "missing @since 5.0 tag for new api",
+      "revId": "518d45abb11e38e65486c357e7661a63f23ad94f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b08bf67_2e0cf83f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SshSupport.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-03-12T06:53:45Z",
+      "side": 1,
+      "message": "Done. Should I move this change to 4.11?",
+      "parentUuid": "7205a799_3ba036ea",
       "revId": "518d45abb11e38e65486c357e7661a63f23ad94f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
