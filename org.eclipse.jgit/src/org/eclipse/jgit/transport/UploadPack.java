@@ -1499,7 +1499,6 @@ public class UploadPack {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	private void sendPack(final boolean sideband,
 			PackStatistics.Accumulator accumulator) throws IOException {
 		ProgressMonitor pm = NullProgressMonitor.INSTANCE;
