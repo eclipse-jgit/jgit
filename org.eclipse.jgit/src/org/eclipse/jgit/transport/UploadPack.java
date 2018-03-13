@@ -967,6 +967,8 @@ public class UploadPack {
 			} else if (line.equals(OPTION_INCLUDE_TAG)) {
 				options.add(OPTION_INCLUDE_TAG);
 				includeTag = true;
+			} else if (line.equals(OPTION_OFS_DELTA)) {
+				options.add(OPTION_OFS_DELTA);
 			}
 			// else ignore it
 		}
