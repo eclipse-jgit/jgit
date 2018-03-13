@@ -519,18 +519,18 @@ public class UploadPackTest {
 	 * Parse multiplexed packfile output from upload-pack using protocol V2
 	 * into the client repository.
 	 */
-	private void parsePack(ByteArrayInputStream recvStream) throws Exception {
-		SideBandInputStream sb = new SideBandInputStream(
-				recvStream, NullProgressMonitor.INSTANCE,
-				new StringWriter(), NullOutputStream.INSTANCE);
-		parsePack(recvStream, NullProgressMonitor.INSTANCE);
+	private ReceivedPackStatistics parsePack(ByteArrayInputStream recvStream) throws Exception {
+		return parsePack(recvStream, NullProgressMonitor.INSTANCE);
 	}
 
-	private void parsePack(ByteArrayInputStream recvStream, ProgressMonitor pm)
+	private ReceivedPackStatistics parsePack(ByteArrayInputStream recvStream, ProgressMonitor pm)
 			throws Exception {
 		SideBandInputStream sb = new SideBandInputStream(
-				recvStream, pm, new StringWriter(), NullOutputStream.INSTANCE);
-		client.newObjectInserter().newPackParser(sb).parse(NullProgressMonitor.INSTANCE);
+				recvStream, pm,
+				new StringWriter(), NullOutputStream.INSTANCE);
+		PackParser pp = client.newObjectInserter().newPackParser(sb);
+		pp.parse(NullProgressMonitor.INSTANCE);
+		return pp.getReceivedPackStatistics();
 	}
 
 	@Test
@@ -703,5 +703,40 @@ public class UploadPackTest {
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
 		assertTrue(client.hasObject(tag.toObjectId()));
+	}
+
+	@Test
+	public void testV2FetchOfsDelta() throws Exception {
+		String commonInBlob = "abcdefghijklmnopqrstuvwxyz";
+
+		RevBlob parentBlob = remote.blob(commonInBlob + "a");
+		RevCommit parent = remote.commit(remote.tree(remote.file("foo", parentBlob)));
+		RevBlob childBlob = remote.blob(commonInBlob + "b");
+		RevCommit child = remote.commit(remote.tree(remote.file("foo", childBlob)), parent);
+
+		// Without ofs-delta.
+		ByteArrayInputStream recvStream = uploadPackV2(
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"want " + child.toObjectId().getName() + "\n",
+			"done\n",
+			PacketLineIn.END);
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+		assertThat(pckIn.readString(), is("packfile"));
+		ReceivedPackStatistics stats = parsePack(recvStream);
+		assertTrue(stats.getNumOfsDelta() == 0);
+
+		// With ofs-delta.
+		recvStream = uploadPackV2(
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"want " + child.toObjectId().getName() + "\n",
+			"ofs-delta\n",
+			"done\n",
+			PacketLineIn.END);
+		pckIn = new PacketLineIn(recvStream);
+		assertThat(pckIn.readString(), is("packfile"));
+		stats = parsePack(recvStream);
+		assertTrue(stats.getNumOfsDelta() != 0);
 	}
 }
