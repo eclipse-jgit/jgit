@@ -1033,19 +1033,21 @@ public class ResolveMergerTest extends RepositoryTestCase {
 		git.commit().setMessage("added c.txt").call();
 
 		// Get a handle to the the file so on windows it can't be deleted.
-		FileInputStream fis = new FileInputStream(new File(db.getWorkTree(),
-				"b.txt"));
-		MergeResult mergeRes = git.merge().setStrategy(strategy)
-				.include(masterCommit).call();
-		if (mergeRes.getMergeStatus().equals(MergeStatus.FAILED)) {
-			// probably windows
-			assertEquals(1, mergeRes.getFailingPaths().size());
-			assertEquals(MergeFailureReason.COULD_NOT_DELETE, mergeRes
-					.getFailingPaths().get("b.txt"));
+		try (FileInputStream fis = new FileInputStream(
+				new File(db.getWorkTree(), "b.txt"))) {
+			MergeResult mergeRes = git.merge().setStrategy(strategy)
+					.include(masterCommit).call();
+			if (mergeRes.getMergeStatus().equals(MergeStatus.FAILED)) {
+				// probably windows
+				assertEquals(1, mergeRes.getFailingPaths().size());
+				assertEquals(MergeFailureReason.COULD_NOT_DELETE,
+						mergeRes.getFailingPaths().get("b.txt"));
+			}
+			assertEquals(
+					"[a.txt, mode:100644, content:master]"
+							+ "[c.txt, mode:100644, content:side]",
+					indexState(CONTENT));
 		}
-		assertEquals("[a.txt, mode:100644, content:master]"
-				+ "[c.txt, mode:100644, content:side]", indexState(CONTENT));
-		fis.close();
 	}
 
 	@Theory

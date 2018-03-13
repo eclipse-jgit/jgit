@@ -1642,17 +1642,17 @@ public abstract class PackParser {
 
 	private void inflateAndSkip(final Source src, final long inflatedSize)
 			throws IOException {
-		final InputStream inf = inflate(src, inflatedSize);
-		IO.skipFully(inf, inflatedSize);
-		inf.close();
+		try (InputStream inf = inflate(src, inflatedSize)) {
+			IO.skipFully(inf, inflatedSize);
+		}
 	}
 
 	private byte[] inflateAndReturn(final Source src, final long inflatedSize)
 			throws IOException {
 		final byte[] dst = new byte[(int) inflatedSize];
-		final InputStream inf = inflate(src, inflatedSize);
-		IO.readFully(inf, dst, 0, dst.length);
-		inf.close();
+		try (InputStream inf = inflate(src, inflatedSize)) {
+			IO.readFully(inf, dst, 0, dst.length);
+		}
 		return dst;
 	}
 

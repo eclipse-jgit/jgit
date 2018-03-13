@@ -339,11 +339,8 @@ public class TransportAmazonS3 extends HttpTransport implements WalkTransport {
 			final String s;
 			String ref = ROOT_DIR + rn;
 			try {
-				final BufferedReader br = openReader(ref);
-				try {
+				try (BufferedReader br = openReader(ref)) {
 					s = br.readLine();
-				} finally {
-					br.close();
 				}
 			} catch (FileNotFoundException noRef) {
 				return null;

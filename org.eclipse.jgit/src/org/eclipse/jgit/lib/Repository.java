@@ -1946,11 +1946,8 @@ public abstract class Repository implements AutoCloseable {
 
 	private void writeCommitMsg(File msgFile, String msg) throws IOException {
 		if (msg != null) {
-			FileOutputStream fos = new FileOutputStream(msgFile);
-			try {
+			try (FileOutputStream fos = new FileOutputStream(msgFile)) {
 				fos.write(msg.getBytes(Constants.CHARACTER_ENCODING));
-			} finally {
-				fos.close();
 			}
 		} else {
 			FileUtils.delete(msgFile, FileUtils.SKIP_MISSING);

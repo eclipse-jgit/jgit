@@ -121,10 +121,10 @@ public class SubmoduleUpdateTest extends RepositoryTestCase {
 
 		SubmoduleWalk generator = SubmoduleWalk.forIndex(db);
 		assertTrue(generator.next());
-		Repository subRepo = generator.getRepository();
-		assertNotNull(subRepo);
-		assertEquals(commit, subRepo.resolve(Constants.HEAD));
-		subRepo.close();
+		try (Repository subRepo = generator.getRepository()) {
+			assertNotNull(subRepo);
+			assertEquals(commit, subRepo.resolve(Constants.HEAD));
+		}
 	}
 
 	@Test

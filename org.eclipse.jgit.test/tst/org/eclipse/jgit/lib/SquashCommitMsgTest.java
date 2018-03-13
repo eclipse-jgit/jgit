@@ -66,12 +66,9 @@ public class SquashCommitMsgTest extends RepositoryTestCase {
 		db.writeSquashCommitMsg(null);
 		assertEquals(db.readSquashCommitMsg(), null);
 		assertFalse(new File(db.getDirectory(), Constants.SQUASH_MSG).exists());
-		FileOutputStream fos = new FileOutputStream(new File(db.getDirectory(),
-				Constants.SQUASH_MSG));
-		try {
+		try (FileOutputStream fos = new FileOutputStream(
+				new File(db.getDirectory(), Constants.SQUASH_MSG))) {
 			fos.write(squashMsg.getBytes(Constants.CHARACTER_ENCODING));
-		} finally {
-			fos.close();
 		}
 		assertEquals(db.readSquashCommitMsg(), squashMsg);
 	}

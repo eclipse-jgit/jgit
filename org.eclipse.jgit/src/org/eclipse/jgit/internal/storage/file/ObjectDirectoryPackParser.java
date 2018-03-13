@@ -429,8 +429,7 @@ public class ObjectDirectoryPackParser extends PackParser {
 
 	private void writeIdx() throws IOException {
 		List<PackedObjectInfo> list = getSortedObjectList(null /* by ObjectId */);
-		final FileOutputStream os = new FileOutputStream(tmpIdx);
-		try {
+		try (FileOutputStream os = new FileOutputStream(tmpIdx)) {
 			final PackIndexWriter iw;
 			if (indexVersion <= 0)
 				iw = PackIndexWriter.createOldestPossible(os, list);
@@ -438,8 +437,6 @@ public class ObjectDirectoryPackParser extends PackParser {
 				iw = PackIndexWriter.createVersion(os, indexVersion);
 			iw.write(list, packHash);
 			os.getChannel().force(true);
-		} finally {
-			os.close();
 		}
 	}
 

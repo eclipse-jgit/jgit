@@ -147,19 +147,13 @@ public class SimilarityIndex {
 
 	private void hashLargeObject(ObjectLoader obj) throws IOException,
 			TableFullException {
-		ObjectStream in1 = obj.openStream();
 		boolean text;
-		try {
+		try (ObjectStream in1 = obj.openStream()) {
 			text = !RawText.isBinary(in1);
-		} finally {
-			in1.close();
 		}
 
-		ObjectStream in2 = obj.openStream();
-		try {
+		try (ObjectStream in2 = obj.openStream()) {
 			hash(in2, in2.getSize(), text);
-		} finally {
-			in2.close();
 		}
 	}
 

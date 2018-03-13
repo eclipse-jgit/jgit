@@ -93,8 +93,7 @@ public class PackParserTest extends RepositoryTestCase {
 	@Test
 	public void test1() throws  IOException {
 		File packFile = JGitTestUtil.getTestResourceFile("pack-34be9032ac282b11fa9babdc2b2a93ca996c9c2f.pack");
-		final InputStream is = new FileInputStream(packFile);
-		try {
+		try (InputStream is = new FileInputStream(packFile)) {
 			ObjectDirectoryPackParser p = (ObjectDirectoryPackParser) index(is);
 			p.parse(NullProgressMonitor.INSTANCE);
 			PackFile file = p.getPackFile();
@@ -107,8 +106,6 @@ public class PackParserTest extends RepositoryTestCase {
 			assertTrue(file.hasObject(ObjectId.fromString("902d5476fa249b7abc9d84c611577a81381f0327")));
 			assertTrue(file.hasObject(ObjectId.fromString("aabf2ffaec9b497f0950352b3e582d73035c2035")));
 			assertTrue(file.hasObject(ObjectId.fromString("c59759f143fb1fe21c197981df75a7ee00290799")));
-		} finally {
-			is.close();
 		}
 	}
 
@@ -121,8 +118,7 @@ public class PackParserTest extends RepositoryTestCase {
 	@Test
 	public void test2() throws  IOException {
 		File packFile = JGitTestUtil.getTestResourceFile("pack-df2982f284bbabb6bdb59ee3fcc6eb0983e20371.pack");
-		final InputStream is = new FileInputStream(packFile);
-		try {
+		try (InputStream is = new FileInputStream(packFile)) {
 			ObjectDirectoryPackParser p = (ObjectDirectoryPackParser) index(is);
 			p.parse(NullProgressMonitor.INSTANCE);
 			PackFile file = p.getPackFile();
@@ -140,8 +136,6 @@ public class PackParserTest extends RepositoryTestCase {
 			assertTrue(file.hasObject(ObjectId.fromString("20a8ade77639491ea0bd667bf95de8abf3a434c8")));
 			assertTrue(file.hasObject(ObjectId.fromString("2675188fd86978d5bc4d7211698b2118ae3bf658")));
 			// and lots more...
-		} finally {
-			is.close();
 		}
 	}
 

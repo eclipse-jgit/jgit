@@ -487,11 +487,8 @@ public abstract class TemporaryBuffer extends OutputStream {
 			if (Integer.MAX_VALUE < len)
 				throw new OutOfMemoryError(JGitText.get().lengthExceedsMaximumArraySize);
 			final byte[] out = new byte[(int) len];
-			final FileInputStream in = new FileInputStream(onDiskFile);
-			try {
+			try (FileInputStream in = new FileInputStream(onDiskFile)) {
 				IO.readFully(in, out, 0, (int) len);
-			} finally {
-				in.close();
 			}
 			return out;
 		}
@@ -505,16 +502,13 @@ public abstract class TemporaryBuffer extends OutputStream {
 			}
 			if (pm == null)
 				pm = NullProgressMonitor.INSTANCE;
-			final FileInputStream in = new FileInputStream(onDiskFile);
-			try {
+			try (FileInputStream in = new FileInputStream(onDiskFile)) {
 				int cnt;
 				final byte[] buf = new byte[Block.SZ];
 				while ((cnt = in.read(buf)) >= 0) {
 					os.write(buf, 0, cnt);
 					pm.update(cnt / 1024);
 				}
-			} finally {
-				in.close();
 			}
 		}
 

@@ -96,32 +96,31 @@ public class AutoCRLFOutputStreamTest {
 		for (int i = -4; i < 5; ++i) {
 			int size = Math.abs(i);
 			byte[] buf = new byte[size];
-			InputStream in = new ByteArrayInputStream(inbytes);
-			ByteArrayOutputStream bos = new ByteArrayOutputStream();
-			OutputStream out = new AutoCRLFOutputStream(bos);
-			if (i > 0) {
-				int n;
-				while ((n = in.read(buf)) >= 0) {
-					out.write(buf, 0, n);
+			try (InputStream in = new ByteArrayInputStream(inbytes);
+					ByteArrayOutputStream bos = new ByteArrayOutputStream();
+					OutputStream out = new AutoCRLFOutputStream(bos)) {
+				if (i > 0) {
+					int n;
+					while ((n = in.read(buf)) >= 0) {
+						out.write(buf, 0, n);
+					}
+				} else if (i < 0) {
+					int n;
+					while ((n = in.read(buf)) >= 0) {
+						byte[] b = new byte[n];
+						System.arraycopy(buf, 0, b, 0, n);
+						out.write(b);
+					}
+				} else {
+					int c;
+					while ((c = in.read()) != -1)
+						out.write(c);
 				}
-			} else if (i < 0) {
-				int n;
-				while ((n = in.read(buf)) >= 0) {
-					byte[] b = new byte[n];
-					System.arraycopy(buf, 0, b, 0, n);
-					out.write(b);
-				}
-			} else {
-				int c;
-				while ((c = in.read()) != -1)
-					out.write(c);
+				out.flush();
+				byte[] actualBytes = bos.toByteArray();
+				Assert.assertEquals("bufsize=" + size, encode(expectBytes),
+						encode(actualBytes));
 			}
-			out.flush();
-			in.close();
-			out.close();
-			byte[] actualBytes = bos.toByteArray();
-			Assert.assertEquals("bufsize=" + size, encode(expectBytes),
-					encode(actualBytes));
 		}
 	}
 

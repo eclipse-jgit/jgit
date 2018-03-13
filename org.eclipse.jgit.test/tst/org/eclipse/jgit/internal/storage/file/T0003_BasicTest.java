@@ -137,10 +137,10 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 	@Test
 	public void test000_openrepo_default_gitDirSet() throws IOException {
 		File repo1Parent = new File(trash.getParentFile(), "r1");
-		Repository repo1initial = new FileRepository(new File(repo1Parent,
-				Constants.DOT_GIT));
-		repo1initial.create();
-		repo1initial.close();
+		try (Repository repo1initial = new FileRepository(
+				new File(repo1Parent, Constants.DOT_GIT))) {
+			repo1initial.create();
+		}
 
 		File theDir = new File(repo1Parent, Constants.DOT_GIT);
 		FileRepository r = (FileRepository) new FileRepositoryBuilder()
@@ -162,10 +162,10 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 	public void test000_openrepo_default_gitDirAndWorkTreeSet()
 			throws IOException {
 		File repo1Parent = new File(trash.getParentFile(), "r1");
-		Repository repo1initial = new FileRepository(new File(repo1Parent,
-				Constants.DOT_GIT));
-		repo1initial.create();
-		repo1initial.close();
+		try (Repository repo1initial = new FileRepository(
+				new File(repo1Parent, Constants.DOT_GIT))) {
+			repo1initial.create();
+		}
 
 		File theDir = new File(repo1Parent, Constants.DOT_GIT);
 		FileRepository r = (FileRepository) new FileRepositoryBuilder()
@@ -187,10 +187,10 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 	@Test
 	public void test000_openrepo_default_workDirSet() throws IOException {
 		File repo1Parent = new File(trash.getParentFile(), "r1");
-		Repository repo1initial = new FileRepository(new File(repo1Parent,
-				Constants.DOT_GIT));
-		repo1initial.create();
-		repo1initial.close();
+		try (Repository repo1initial = new FileRepository(
+				new File(repo1Parent, Constants.DOT_GIT))) {
+			repo1initial.create();
+		}
 
 		File theDir = new File(repo1Parent, Constants.DOT_GIT);
 		FileRepository r = (FileRepository) new FileRepositoryBuilder()
@@ -213,13 +213,13 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		File repo1Parent = new File(trash.getParentFile(), "r1");
 		File workdir = new File(trash.getParentFile(), "rw");
 		FileUtils.mkdir(workdir);
-		FileRepository repo1initial = new FileRepository(new File(repo1Parent,
-				Constants.DOT_GIT));
-		repo1initial.create();
-		final FileBasedConfig cfg = repo1initial.getConfig();
-		cfg.setString("core", null, "worktree", workdir.getAbsolutePath());
-		cfg.save();
-		repo1initial.close();
+		try (FileRepository repo1initial = new FileRepository(
+				new File(repo1Parent, Constants.DOT_GIT))) {
+			repo1initial.create();
+			final FileBasedConfig cfg = repo1initial.getConfig();
+			cfg.setString("core", null, "worktree", workdir.getAbsolutePath());
+			cfg.save();
+		}
 
 		File theDir = new File(repo1Parent, Constants.DOT_GIT);
 		FileRepository r = (FileRepository) new FileRepositoryBuilder()
@@ -242,13 +242,13 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		File repo1Parent = new File(trash.getParentFile(), "r1");
 		File workdir = new File(trash.getParentFile(), "rw");
 		FileUtils.mkdir(workdir);
-		FileRepository repo1initial = new FileRepository(new File(repo1Parent,
-				Constants.DOT_GIT));
-		repo1initial.create();
-		final FileBasedConfig cfg = repo1initial.getConfig();
-		cfg.setString("core", null, "worktree", "../../rw");
-		cfg.save();
-		repo1initial.close();
+		try (FileRepository repo1initial = new FileRepository(
+				new File(repo1Parent, Constants.DOT_GIT))) {
+			repo1initial.create();
+			final FileBasedConfig cfg = repo1initial.getConfig();
+			cfg.setString("core", null, "worktree", "../../rw");
+			cfg.save();
+		}
 
 		File theDir = new File(repo1Parent, Constants.DOT_GIT);
 		FileRepository r = (FileRepository) new FileRepositoryBuilder()
@@ -273,26 +273,24 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		File indexFile = new File(trash, "idx");
 		File objDir = new File(trash, "../obj");
 		File altObjDir = db.getObjectDatabase().getDirectory();
-		Repository repo1initial = new FileRepository(new File(repo1Parent,
-				Constants.DOT_GIT));
-		repo1initial.create();
-		repo1initial.close();
+		try (Repository repo1initial = new FileRepository(
+				new File(repo1Parent, Constants.DOT_GIT))) {
+			repo1initial.create();
+		}
 
 		File theDir = new File(repo1Parent, Constants.DOT_GIT);
-		FileRepository r = (FileRepository) new FileRepositoryBuilder() //
+		try (FileRepository r = (FileRepository) new FileRepositoryBuilder() //
 				.setGitDir(theDir).setObjectDirectory(objDir) //
 				.addAlternateObjectDirectory(altObjDir) //
 				.setIndexFile(indexFile) //
-				.build();
-		assertEqualsPath(theDir, r.getDirectory());
-		assertEqualsPath(theDir.getParentFile(), r.getWorkTree());
-		assertEqualsPath(indexFile, r.getIndexFile());
-		assertEqualsPath(objDir, r.getObjectDatabase().getDirectory());
-		assertNotNull(r.open(ObjectId
-				.fromString("6db9c2ebf75590eef973081736730a9ea169a0c4")));
-		// Must close or the default repo pack files created by this test gets
-		// locked via the alternate object directories on Windows.
-		r.close();
+				.build()) {
+			assertEqualsPath(theDir, r.getDirectory());
+			assertEqualsPath(theDir.getParentFile(), r.getWorkTree());
+			assertEqualsPath(indexFile, r.getIndexFile());
+			assertEqualsPath(objDir, r.getObjectDatabase().getDirectory());
+			assertNotNull(r.open(ObjectId
+					.fromString("6db9c2ebf75590eef973081736730a9ea169a0c4")));
+		}
 	}
 
 	protected void assertEqualsPath(File expected, File actual)
@@ -417,14 +415,11 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		// Verify the commit we just wrote is in the correct format.
 		ObjectDatabase odb = db.getObjectDatabase();
 		assertTrue("is ObjectDirectory", odb instanceof ObjectDirectory);
-		final XInputStream xis = new XInputStream(new FileInputStream(
-				((ObjectDirectory) odb).fileFor(cmtid)));
-		try {
+		try (XInputStream xis = new XInputStream(
+				new FileInputStream(((ObjectDirectory) odb).fileFor(cmtid)))) {
 			assertEquals(0x78, xis.readUInt8());
 			assertEquals(0x9c, xis.readUInt8());
 			assertEquals(0, 0x789c % 31);
-		} finally {
-			xis.close();
 		}
 
 		// Verify we can read it.
