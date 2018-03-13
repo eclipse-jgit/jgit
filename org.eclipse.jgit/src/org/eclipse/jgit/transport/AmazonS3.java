@@ -524,12 +524,11 @@ public class AmazonS3 {
 				JGitText.get().amazonS3ActionFailed, action, key,
 				Integer.valueOf(HttpSupport.response(c)),
 				c.getResponseMessage()));
-		final InputStream errorStream = c.getErrorStream();
-		if (errorStream == null) {
+		if (c.getErrorStream() == null) {
 			return err;
 		}
 
-		try {
+		try (InputStream errorStream = c.getErrorStream()) {
 			final ByteArrayOutputStream b = new ByteArrayOutputStream();
 			byte[] buf = new byte[2048];
 			for (;;) {
@@ -545,8 +544,6 @@ public class AmazonS3 {
 			if (buf.length > 0) {
 				err.initCause(new IOException("\n" + new String(buf))); //$NON-NLS-1$
 			}
-		} finally {
-			errorStream.close();
 		}
 		return err;
 	}
