@@ -47,7 +47,6 @@ package org.eclipse.jgit.util;
 
 import java.io.EOFException;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -59,6 +58,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.util.io.SilentFileInputStream;
 
 /**
  * Input/Output utilities
@@ -98,8 +98,7 @@ public class IO {
 	 */
 	public static final byte[] readSome(final File path, final int limit)
 			throws FileNotFoundException, IOException {
-		FileInputStream in = new FileInputStream(path);
-		try {
+		try (SilentFileInputStream in = new SilentFileInputStream(path)) {
 			byte[] buf = new byte[limit];
 			int cnt = 0;
 			for (;;) {
@@ -113,12 +112,6 @@ public class IO {
 			byte[] res = new byte[cnt];
 			System.arraycopy(buf, 0, res, 0, cnt);
 			return res;
-		} finally {
-			try {
-				in.close();
-			} catch (IOException ignored) {
-				// do nothing
-			}
 		}
 	}
 
@@ -138,8 +131,7 @@ public class IO {
 	 */
 	public static final byte[] readFully(final File path, final int max)
 			throws FileNotFoundException, IOException {
-		final FileInputStream in = new FileInputStream(path);
-		try {
+		try (SilentFileInputStream in = new SilentFileInputStream(path)) {
 			long sz = Math.max(path.length(), 1);
 			if (sz > max)
 				throw new IOException(MessageFormat.format(
@@ -173,12 +165,6 @@ public class IO {
 				buf = nb;
 			}
 			return buf;
-		} finally {
-			try {
-				in.close();
-			} catch (IOException ignored) {
-				// ignore any close errors, this was a read only stream
-			}
 		}
 	}
 

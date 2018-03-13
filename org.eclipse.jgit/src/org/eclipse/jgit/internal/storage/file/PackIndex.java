@@ -45,7 +45,6 @@
 package org.eclipse.jgit.internal.storage.file;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -64,6 +63,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdSet;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.NB;
+import org.eclipse.jgit.util.io.SilentFileInputStream;
 
 /**
  * Access path to locate objects by {@link org.eclipse.jgit.lib.ObjectId} in a
@@ -95,20 +95,14 @@ public abstract class PackIndex
 	 *             unrecognized data version, or unexpected data corruption.
 	 */
 	public static PackIndex open(final File idxFile) throws IOException {
-		final FileInputStream fd = new FileInputStream(idxFile);
-		try {
-			return read(fd);
+		try (SilentFileInputStream fd = new SilentFileInputStream(
+				idxFile)) {
+				return read(fd);
 		} catch (IOException ioe) {
-			throw new IOException(MessageFormat
-					.format(JGitText.get().unreadablePackIndex,
+			throw new IOException(
+					MessageFormat.format(JGitText.get().unreadablePackIndex,
 							idxFile.getAbsolutePath()),
 					ioe);
-		} finally {
-			try {
-				fd.close();
-			} catch (IOException err2) {
-				// ignore
-			}
 		}
 	}
 
