@@ -51,7 +51,6 @@ import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -145,17 +144,8 @@ public abstract class Transport implements AutoCloseable {
 	}
 
 	private static void scan(ClassLoader ldr, URL url) {
-		BufferedReader br;
-		try {
-			InputStream urlIn = url.openStream();
-			br = new BufferedReader(new InputStreamReader(urlIn, CHARSET));
-		} catch (IOException err) {
-			// If we cannot read from the service list, go to the next.
-			//
-			return;
-		}
-
-		try {
+		try (BufferedReader br = new BufferedReader(
+				new InputStreamReader(url.openStream(), CHARSET))) {
 			String line;
 			while ((line = br.readLine()) != null) {
 				line = line.trim();
@@ -168,15 +158,8 @@ public abstract class Transport implements AutoCloseable {
 					line = line.substring(0, comment).trim();
 				load(ldr, line);
 			}
-		} catch (IOException err) {
-			// If we failed during a read, ignore the error.
-			//
-		} finally {
-			try {
-				br.close();
-			} catch (IOException e) {
-				// Ignore the close error; we are only reading.
-			}
+		} catch (IOException e) {
+			// Ignore errors
 		}
 	}
 
