@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.transport;
 
+import static org.eclipse.jgit.lib.Constants.R_TAGS;
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 import static org.eclipse.jgit.transport.GitProtocolConstants.COMMAND_FETCH;
 import static org.eclipse.jgit.transport.GitProtocolConstants.COMMAND_LS_REFS;
@@ -951,6 +952,7 @@ public class UploadPack {
 					.format(JGitText.get().unexpectedPacketLine, line));
 		}
 
+		boolean includeTag = false;
 		while ((line = pckIn.readString()) != PacketLineIn.END) {
 			if (line.startsWith("want ")) { //$NON-NLS-1$
 				wantIds.add(ObjectId.fromString(line.substring(5)));
@@ -962,6 +964,9 @@ public class UploadPack {
 				options.add(OPTION_THIN_PACK);
 			} else if (line.equals(OPTION_NO_PROGRESS)) {
 				options.add(OPTION_NO_PROGRESS);
+			} else if (line.equals(OPTION_INCLUDE_TAG)) {
+				options.add(OPTION_INCLUDE_TAG);
+				includeTag = true;
 			}
 			// else ignore it
 		}
@@ -990,7 +995,9 @@ public class UploadPack {
 				pckOut.writeDelim();
 			pckOut.writeString("packfile\n"); //$NON-NLS-1$
 			sendPack(new PackStatistics.Accumulator(),
-					refs == null ? null : refs.values());
+					includeTag
+						? db.getRefDatabase().getRefsByPrefix(R_TAGS)
+						: null);
 		}
 		pckOut.end();
 	}
