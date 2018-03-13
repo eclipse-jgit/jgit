@@ -947,6 +947,7 @@ public class UploadPack {
 			throw new PackProtocolException("unexpected " + line);
 		}
 
+		boolean includeTag = false;
 		while ((line = pckIn.readString()) != PacketLineIn.END) {
 			if (line.startsWith("want ")) {
 				wantIds.add(ObjectId.fromString(line.substring(5)));
@@ -958,6 +959,9 @@ public class UploadPack {
 				options.add(OPTION_THIN_PACK);
 			} else if (line.equals(OPTION_NO_PROGRESS)) {
 				options.add(OPTION_NO_PROGRESS);
+			} else if (line.equals(OPTION_INCLUDE_TAG)) {
+				options.add(OPTION_INCLUDE_TAG);
+				includeTag = true;
 			}
 			// else ignore it
 		}
@@ -985,7 +989,15 @@ public class UploadPack {
 			if (sectionSent)
 				pckOut.writeDelim();
 			pckOut.writeString("packfile\n");
-			sendPack(new PackStatistics.Accumulator(), refs == null ? null : refs.values());
+
+			Collection<Ref> allTags = refs == null ? null : refs.values();
+			if (includeTag && allTags == null) {
+				// In v2, a pack may be requested without any
+				// setting of #refs. Ensure that we pass a list
+				// of tags if this scenario occurs.
+				allTags = db.getRefDatabase().getRefsByPrefix("refs/tags/");
+			}
+			sendPack(new PackStatistics.Accumulator(), allTags);
 		}
 		pckOut.end();
 	}
