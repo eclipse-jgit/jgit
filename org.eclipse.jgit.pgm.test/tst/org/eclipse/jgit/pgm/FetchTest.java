@@ -92,6 +92,19 @@ public class FetchTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
+	public void testFetchForceUpdate() throws Exception {
+		String[] result = execute(
+				"git fetch test refs/heads/master:refs/remotes/origin/master");
+		assertEquals(" * [new branch]      master     -> origin/master",
+				result[1]);
+		assertEquals(" * [new tag]         tag        -> tag", result[2]);
+		remoteGit.commit().setAmend(true).setMessage("amended").call();
+		result = execute(
+				"git fetch -f test refs/heads/master:refs/remotes/origin/master");
+		assertEquals("", result[0]);
+	}
+
+	@Test
 	public void testFetchNoTags() throws Exception {
 		String[] result = execute("git fetch --no-tags test refs/heads/master:refs/remotes/origin/master");
 		assertEquals(" * [new branch]      master     -> origin/master",

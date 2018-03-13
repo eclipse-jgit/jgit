@@ -105,6 +105,8 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 
 	private Callback callback;
 
+	private boolean isForceUpdate;
+
 	/**
 	 * Callback for status of fetch operation.
 	 *
@@ -198,7 +200,8 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 								.setTagOpt(tagOption)
 								.setCheckFetchedObjects(checkFetchedObjects)
 								.setRemoveDeletedRefs(isRemoveDeletedRefs())
-								.setThin(thin).setRefSpecs(refSpecs)
+								.setThin(thin)
+								.setRefSpecs(applyOptions(refSpecs))
 								.setDryRun(dryRun)
 								.setRecurseSubmodules(recurseMode);
 						configure(f);
@@ -237,8 +240,8 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 				transport.setTagOpt(tagOption);
 			transport.setFetchThin(thin);
 			configure(transport);
-
-			FetchResult result = transport.fetch(monitor, refSpecs);
+			FetchResult result = transport.fetch(monitor,
+					applyOptions(refSpecs));
 			if (!repo.isBare()) {
 				fetchSubmodules(result);
 			}
@@ -259,6 +262,17 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 					e);
 		}
 
+	}
+
+	private List<RefSpec> applyOptions(List<RefSpec> refSpecs2) {
+		if (!isForceUpdate()) {
+			return refSpecs2;
+		}
+		List<RefSpec> updated = new ArrayList<>(3);
+		for (RefSpec refSpec : refSpecs2) {
+			updated.add(refSpec.setForceUpdate(true));
+		}
+		return updated;
 	}
 
 	/**
@@ -515,6 +529,29 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 	 */
 	public FetchCommand setCallback(Callback callback) {
 		this.callback = callback;
+		return this;
+	}
+
+	/**
+	 * Whether fetch --force option is enabled
+	 *
+	 * @return whether refs affected by the fetch are updated forcefully
+	 * @since 5.0
+	 */
+	public boolean isForceUpdate() {
+		return this.isForceUpdate;
+	}
+
+	/**
+	 * Set fetch --force option
+	 *
+	 * @param force
+	 *            whether to update refs affected by the fetch forcefully
+	 * @return this command
+	 * @since 5.0
+	 */
+	public FetchCommand setForceUpdate(boolean force) {
+		this.isForceUpdate = force;
 		return this;
 	}
 }

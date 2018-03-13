@@ -100,6 +100,9 @@ class Fetch extends AbstractFetchCommand implements FetchCommand.Callback {
 		tags = Boolean.FALSE;
 	}
 
+	@Option(name = "--force", usage = "usage_forcedFetch", aliases = { "-f" })
+	private Boolean force;
+
 	private FetchRecurseSubmodulesMode recurseSubmodules;
 
 	@Option(name = "--recurse-submodules", usage = "usage_recurseSubmodules")
@@ -155,6 +158,9 @@ class Fetch extends AbstractFetchCommand implements FetchCommand.Callback {
 			if (quiet == null || !quiet.booleanValue())
 				fetch.setProgressMonitor(new TextProgressMonitor(errw));
 			fetch.setRecurseSubmodules(recurseSubmodules).setCallback(this);
+			if (force != null) {
+				fetch.setForceUpdate(force.booleanValue());
+			}
 
 			FetchResult result = fetch.call();
 			if (result.getTrackingRefUpdates().isEmpty()
