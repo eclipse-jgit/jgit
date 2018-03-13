@@ -654,9 +654,9 @@ public class WalkEncryptionTest {
 			Properties props = Props.discover();
 			props.put(AmazonS3.Keys.PASSWORD, JGIT_PASS);
 			props.put(AmazonS3.Keys.CRYPTO_ALG, algorithm);
-			PrintWriter writer = new PrintWriter(JGIT_CONF_FILE);
-			props.store(writer, "JGIT S3 connection configuration file.");
-			writer.close();
+			try (PrintWriter writer = new PrintWriter(JGIT_CONF_FILE)) {
+				props.store(writer, "JGIT S3 connection configuration file.");
+			}
 		}
 
 		/**
@@ -668,9 +668,9 @@ public class WalkEncryptionTest {
 		static void configCreate(Properties source) throws Exception {
 			Properties target = Props.discover();
 			target.putAll(source);
-			PrintWriter writer = new PrintWriter(JGIT_CONF_FILE);
-			target.store(writer, "JGIT S3 connection configuration file.");
-			writer.close();
+			try (PrintWriter writer = new PrintWriter(JGIT_CONF_FILE)) {
+				target.store(writer, "JGIT S3 connection configuration file.");
+			}
 		}
 
 		/**
