@@ -45,7 +45,6 @@
 package org.eclipse.jgit.internal.storage.file;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -95,20 +94,14 @@ public abstract class PackIndex
 	 *             unrecognized data version, or unexpected data corruption.
 	 */
 	public static PackIndex open(final File idxFile) throws IOException {
-		final FileInputStream fd = new FileInputStream(idxFile);
-		try {
+		try (PackIndexFileInputStream fd = new PackIndexFileInputStream(
+				idxFile)) {
 			return read(fd);
 		} catch (IOException ioe) {
 			throw new IOException(MessageFormat
 					.format(JGitText.get().unreadablePackIndex,
 							idxFile.getAbsolutePath()),
 					ioe);
-		} finally {
-			try {
-				fd.close();
-			} catch (IOException err2) {
-				// ignore
-			}
 		}
 	}
 
