@@ -1076,7 +1076,6 @@ public abstract class PackParser {
 		final byte[] data;
 		if (type == Constants.OBJ_BLOB) {
 			byte[] readBuffer = buffer();
-			InputStream inf = inflate(Source.INPUT, sz);
 			BlobObjectChecker checker = null;
 			if (objCheck != null) {
 				checker = objCheck.newBlobObjectChecker();
@@ -1085,15 +1084,16 @@ public abstract class PackParser {
 				checker = BlobObjectChecker.NULL_CHECKER;
 			}
 			long cnt = 0;
-			while (cnt < sz) {
-				int r = inf.read(readBuffer);
-				if (r <= 0)
-					break;
-				objectDigest.update(readBuffer, 0, r);
-				checker.update(readBuffer, 0, r);
-				cnt += r;
+			try (InputStream inf = inflate(Source.INPUT, sz)) {
+				while (cnt < sz) {
+					int r = inf.read(readBuffer);
+					if (r <= 0)
+						break;
+					objectDigest.update(readBuffer, 0, r);
+					checker.update(readBuffer, 0, r);
+					cnt += r;
+				}
 			}
-			inf.close();
 			objectDigest.digest(tempObjectId);
 			checker.endBlob(tempObjectId);
 			data = null;
@@ -1162,33 +1162,29 @@ public abstract class PackParser {
 		final byte[] readBuffer = buffer();
 		final byte[] curBuffer = new byte[readBuffer.length];
 		long sz = info.size;
-		InputStream pck = null;
 		try (ObjectStream cur = readCurs.open(obj, info.type).openStream()) {
 			if (cur.getSize() != sz) {
 				throw new IOException(MessageFormat.format(
 						JGitText.get().collisionOn, obj.name()));
 			}
-			pck = inflate(Source.DATABASE, sz);
-			while (0 < sz) {
-				int n = (int) Math.min(readBuffer.length, sz);
-				IO.readFully(cur, curBuffer, 0, n);
-				IO.readFully(pck, readBuffer, 0, n);
-				for (int i = 0; i < n; i++) {
-					if (curBuffer[i] != readBuffer[i]) {
-						throw new IOException(MessageFormat.format(JGitText
-								.get().collisionOn, obj.name()));
+			try (InputStream pck = inflate(Source.DATABASE, sz)) {
+				while (0 < sz) {
+					int n = (int) Math.min(readBuffer.length, sz);
+					IO.readFully(cur, curBuffer, 0, n);
+					IO.readFully(pck, readBuffer, 0, n);
+					for (int i = 0; i < n; i++) {
+						if (curBuffer[i] != readBuffer[i]) {
+							throw new IOException(MessageFormat.format(
+									JGitText.get().collisionOn, obj.name()));
+						}
 					}
+					sz -= n;
 				}
-				sz -= n;
 			}
 		} catch (MissingObjectException notLocal) {
 			// This is OK, we don't have a copy of the object locally
-			// but the API throws when we try to read it as usually its
+			// but the API throws when we try to read it as usually it's
 			// an error to read something that doesn't exist.
-		} finally {
-			if (pck != null) {
-				pck.close();
-			}
 		}
 	}
 
