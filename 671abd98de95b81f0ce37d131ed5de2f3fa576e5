@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8c5d31c3_a8b6468c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 758,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-03-13T23:21:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "745efd7d_3674834d",
+      "revId": "671abd98de95b81f0ce37d131ed5de2f3fa576e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f152e55_08887dcd",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2018-03-13T21:14:11Z",
       "side": 1,
       "message": "add braces",
+      "revId": "671abd98de95b81f0ce37d131ed5de2f3fa576e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28ace9b8_dffe2ff5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 772,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-03-13T23:21:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f152e55_08887dcd",
       "revId": "671abd98de95b81f0ce37d131ed5de2f3fa576e5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
