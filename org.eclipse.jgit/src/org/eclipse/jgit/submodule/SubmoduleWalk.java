@@ -754,13 +754,11 @@ public class SubmoduleWalk implements AutoCloseable {
 	 * @throws java.io.IOException
 	 */
 	public ObjectId getHead() throws IOException {
-		Repository subRepo = getRepository();
-		if (subRepo == null)
-			return null;
-		try {
+		try (Repository subRepo = getRepository()) {
+			if (subRepo == null) {
+				return null;
+			}
 			return subRepo.resolve(Constants.HEAD);
-		} finally {
-			subRepo.close();
 		}
 	}
 
@@ -771,14 +769,12 @@ public class SubmoduleWalk implements AutoCloseable {
 	 * @throws java.io.IOException
 	 */
 	public String getHeadRef() throws IOException {
-		Repository subRepo = getRepository();
-		if (subRepo == null)
-			return null;
-		try {
+		try (Repository subRepo = getRepository()) {
+			if (subRepo == null) {
+				return null;
+			}
 			Ref head = subRepo.exactRef(Constants.HEAD);
 			return head != null ? head.getLeaf().getName() : null;
-		} finally {
-			subRepo.close();
 		}
 	}
 
