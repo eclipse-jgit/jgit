@@ -267,9 +267,9 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 				final HttpServletResponse r = (HttpServletResponse) response;
 				r.setContentType("text/plain");
 				r.setCharacterEncoding("UTF-8");
-				PrintWriter w = r.getWriter();
-				w.print("OK");
-				w.close();
+				try (PrintWriter w = r.getWriter()) {
+					w.print("OK");
+				}
 			}
 
 			@Override
@@ -397,11 +397,8 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 			assertTrue("isa TransportHttp", t instanceof TransportHttp);
 			assertTrue("isa HttpTransport", t instanceof HttpTransport);
 
-			FetchConnection c = t.openFetch();
-			try {
+			try (FetchConnection c = t.openFetch()) {
 				map = c.getRefsMap();
-			} finally {
-				c.close();
 			}
 		}
 

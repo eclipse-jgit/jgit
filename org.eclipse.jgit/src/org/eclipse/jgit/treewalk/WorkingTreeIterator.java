@@ -1280,11 +1280,8 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 
 		IgnoreNode load() throws IOException {
 			IgnoreNode r = new IgnoreNode();
-			InputStream in = entry.openInputStream();
-			try {
+			try (InputStream in = entry.openInputStream()) {
 				r.parse(in);
-			} finally {
-				in.close();
 			}
 			return r.getRules().isEmpty() ? null : r;
 		}
@@ -1332,11 +1329,8 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		private static void loadRulesFromFile(IgnoreNode r, File exclude)
 				throws FileNotFoundException, IOException {
 			if (FS.DETECTED.exists(exclude)) {
-				FileInputStream in = new FileInputStream(exclude);
-				try {
+				try (FileInputStream in = new FileInputStream(exclude)) {
 					r.parse(in);
-				} finally {
-					in.close();
 				}
 			}
 		}
@@ -1353,11 +1347,8 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 
 		AttributesNode load() throws IOException {
 			AttributesNode r = new AttributesNode();
-			InputStream in = entry.openInputStream();
-			try {
+			try (InputStream in = entry.openInputStream()) {
 				r.parse(in);
-			} finally {
-				in.close();
 			}
 			return r.getRules().isEmpty() ? null : r;
 		}

@@ -100,39 +100,39 @@ public class ResetCommandTest extends RepositoryTestCase {
 		File nestedFile = new File(dir, "b.txt");
 		FileUtils.createNewFile(nestedFile);
 
-		PrintWriter nesterFileWriter = new PrintWriter(nestedFile);
-		nesterFileWriter.print("content");
-		nesterFileWriter.flush();
+		try (PrintWriter nestedFileWriter = new PrintWriter(nestedFile)) {
+			nestedFileWriter.print("content");
+			nestedFileWriter.flush();
 
-		// create file
-		indexFile = new File(db.getWorkTree(), "a.txt");
-		FileUtils.createNewFile(indexFile);
-		PrintWriter writer = new PrintWriter(indexFile);
-		writer.print("content");
-		writer.flush();
+			// create file
+			indexFile = new File(db.getWorkTree(), "a.txt");
+			FileUtils.createNewFile(indexFile);
+			try (PrintWriter writer = new PrintWriter(indexFile)) {
+				writer.print("content");
+				writer.flush();
 
-		// add file and commit it
-		git.add().addFilepattern("dir").addFilepattern("a.txt").call();
-		secondCommit = git.commit().setMessage("adding a.txt and dir/b.txt")
-				.call();
+				// add file and commit it
+				git.add().addFilepattern("dir").addFilepattern("a.txt").call();
+				secondCommit = git.commit()
+						.setMessage("adding a.txt and dir/b.txt").call();
 
-		prestage = DirCache.read(db.getIndexFile(), db.getFS()).getEntry(
-				indexFile.getName());
+				prestage = DirCache.read(db.getIndexFile(), db.getFS())
+						.getEntry(indexFile.getName());
 
-		// modify file and add to index
-		writer.print("new content");
-		writer.close();
-		nesterFileWriter.print("new content");
-		nesterFileWriter.close();
+				// modify file and add to index
+				writer.print("new content");
+			}
+			nestedFileWriter.print("new content");
+		}
 		git.add().addFilepattern("a.txt").addFilepattern("dir").call();
 
 		// create a file not added to the index
 		untrackedFile = new File(db.getWorkTree(),
 				"notAddedToIndex.txt");
 		FileUtils.createNewFile(untrackedFile);
-		PrintWriter writer2 = new PrintWriter(untrackedFile);
-		writer2.print("content");
-		writer2.close();
+		try (PrintWriter writer2 = new PrintWriter(untrackedFile)) {
+			writer2.print("content");
+		}
 	}
 
 	@Test

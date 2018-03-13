@@ -419,12 +419,9 @@ public class WalkEncryptionTest {
 				URLConnection c = url.openConnection();
 				c.setConnectTimeout(500);
 				c.setReadTimeout(500);
-				BufferedReader reader = new BufferedReader(
-						new InputStreamReader(c.getInputStream()));
-				try {
+				try (BufferedReader reader = new BufferedReader(
+						new InputStreamReader(c.getInputStream()))) {
 					return reader.readLine();
-				} finally {
-					reader.close();
 				}
 			} catch (UnknownHostException | SocketTimeoutException e) {
 				return "Can't reach http://checkip.amazonaws.com to"
@@ -654,9 +651,9 @@ public class WalkEncryptionTest {
 			Properties props = Props.discover();
 			props.put(AmazonS3.Keys.PASSWORD, JGIT_PASS);
 			props.put(AmazonS3.Keys.CRYPTO_ALG, algorithm);
-			PrintWriter writer = new PrintWriter(JGIT_CONF_FILE);
-			props.store(writer, "JGIT S3 connection configuration file.");
-			writer.close();
+			try (PrintWriter writer = new PrintWriter(JGIT_CONF_FILE)) {
+				props.store(writer, "JGIT S3 connection configuration file.");
+			}
 		}
 
 		/**
@@ -668,9 +665,9 @@ public class WalkEncryptionTest {
 		static void configCreate(Properties source) throws Exception {
 			Properties target = Props.discover();
 			target.putAll(source);
-			PrintWriter writer = new PrintWriter(JGIT_CONF_FILE);
-			target.store(writer, "JGIT S3 connection configuration file.");
-			writer.close();
+			try (PrintWriter writer = new PrintWriter(JGIT_CONF_FILE)) {
+				target.store(writer, "JGIT S3 connection configuration file.");
+			}
 		}
 
 		/**
@@ -836,10 +833,10 @@ public class WalkEncryptionTest {
 			{
 				byte[] origin = sourceText.getBytes(charset);
 				ByteArrayOutputStream target = new ByteArrayOutputStream();
-				OutputStream source = crypto.encrypt(target);
-				source.write(origin);
-				source.flush();
-				source.close();
+				try (OutputStream source = crypto.encrypt(target)) {
+					source.write(origin);
+					source.flush();
+				}
 				cipherText = target.toByteArray();
 			}
 			{
@@ -1074,10 +1071,10 @@ public class WalkEncryptionTest {
 				remoteConfig.update(config);
 				config.save();
 
-				Git git = Git.open(dirOne);
-				git.checkout().setName("master").call();
-				git.push().setRemote(remote).setRefSpecs(specs).call();
-				git.close();
+				try (Git git = Git.open(dirOne)) {
+					git.checkout().setName("master").call();
+					git.push().setRemote(remote).setRefSpecs(specs).call();
+				}
 
 				File fileStatic = new File(dirOne, nameStatic);
 				assertTrue("Provided by setup", fileStatic.exists());
@@ -1089,11 +1086,11 @@ public class WalkEncryptionTest {
 				File fileStatic = new File(dirTwo, nameStatic);
 				assertFalse("Not Provided by setup", fileStatic.exists());
 
-				Git git = Git.cloneRepository().setURI(uri).setDirectory(dirTwo)
-						.call();
-				git.close();
+				try (Git git = Git.cloneRepository().setURI(uri)
+						.setDirectory(dirTwo).call()) {
+					assertTrue("Provided by clone", fileStatic.exists());
+				}
 
-				assertTrue("Provided by clone", fileStatic.exists());
 			}
 
 			{ // Verify static file content.
@@ -1111,11 +1108,11 @@ public class WalkEncryptionTest {
 				assertTrue("Provided by create", fileDynamic.exists());
 				assertTrue("Need content to encrypt", fileDynamic.length() > 0);
 
-				Git git = Git.open(dirOne);
-				git.add().addFilepattern(nameDynamic).call();
-				git.commit().setMessage(nameDynamic).call();
-				git.push().setRemote(remote).setRefSpecs(specs).call();
-				git.close();
+				try (Git git = Git.open(dirOne)) {
+					git.add().addFilepattern(nameDynamic).call();
+					git.commit().setMessage(nameDynamic).call();
+					git.push().setRemote(remote).setRefSpecs(specs).call();
+				}
 
 			}
 
@@ -1124,9 +1121,9 @@ public class WalkEncryptionTest {
 				File fileDynamic = new File(dirTwo, nameDynamic);
 				assertFalse("Not Provided by setup", fileDynamic.exists());
 
-				Git git = Git.open(dirTwo);
-				git.pull().call();
-				git.close();
+				try (Git git = Git.open(dirTwo)) {
+					git.pull().call();
+				}
 
 				assertTrue("Provided by pull", fileDynamic.exists());
 			}

@@ -88,12 +88,12 @@ public class TemporaryBufferTest {
 				assertEquals(test, r[0]);
 			}
 			{
-				final ByteArrayOutputStream o = new ByteArrayOutputStream();
-				b.writeTo(o, null);
-				o.close();
-				final byte[] r = o.toByteArray();
-				assertEquals(1, r.length);
-				assertEquals(test, r[0]);
+				try (ByteArrayOutputStream o = new ByteArrayOutputStream()) {
+					b.writeTo(o, null);
+					final byte[] r = o.toByteArray();
+					assertEquals(1, r.length);
+					assertEquals(test, r[0]);
+				}
 			}
 		} finally {
 			b.destroy();
@@ -119,12 +119,12 @@ public class TemporaryBufferTest {
 				assertArrayEquals(test, r);
 			}
 			{
-				final ByteArrayOutputStream o = new ByteArrayOutputStream();
-				b.writeTo(o, null);
-				o.close();
-				final byte[] r = o.toByteArray();
-				assertEquals(test.length, r.length);
-				assertArrayEquals(test, r);
+				try (ByteArrayOutputStream o = new ByteArrayOutputStream()) {
+					b.writeTo(o, null);
+					final byte[] r = o.toByteArray();
+					assertEquals(test.length, r.length);
+					assertArrayEquals(test, r);
+				}
 			}
 		} finally {
 			b.destroy();
@@ -150,12 +150,12 @@ public class TemporaryBufferTest {
 				assertArrayEquals(test, r);
 			}
 			{
-				final ByteArrayOutputStream o = new ByteArrayOutputStream();
-				b.writeTo(o, null);
-				o.close();
-				final byte[] r = o.toByteArray();
-				assertEquals(test.length, r.length);
-				assertArrayEquals(test, r);
+				try (ByteArrayOutputStream o = new ByteArrayOutputStream()) {
+					b.writeTo(o, null);
+					final byte[] r = o.toByteArray();
+					assertEquals(test.length, r.length);
+					assertArrayEquals(test, r);
+				}
 			}
 		} finally {
 			b.destroy();
@@ -179,12 +179,12 @@ public class TemporaryBufferTest {
 				assertArrayEquals(test, r);
 			}
 			{
-				final ByteArrayOutputStream o = new ByteArrayOutputStream();
-				b.writeTo(o, null);
-				o.close();
-				final byte[] r = o.toByteArray();
-				assertEquals(test.length, r.length);
-				assertArrayEquals(test, r);
+				try (ByteArrayOutputStream o = new ByteArrayOutputStream()) {
+					b.writeTo(o, null);
+					final byte[] r = o.toByteArray();
+					assertEquals(test.length, r.length);
+					assertArrayEquals(test, r);
+				}
 			}
 		} finally {
 			b.destroy();
@@ -209,12 +209,12 @@ public class TemporaryBufferTest {
 				assertArrayEquals(test, r);
 			}
 			{
-				final ByteArrayOutputStream o = new ByteArrayOutputStream();
-				b.writeTo(o, null);
-				o.close();
-				final byte[] r = o.toByteArray();
-				assertEquals(test.length, r.length);
-				assertArrayEquals(test, r);
+				try (ByteArrayOutputStream o = new ByteArrayOutputStream()) {
+					b.writeTo(o, null);
+					final byte[] r = o.toByteArray();
+					assertEquals(test.length, r.length);
+					assertArrayEquals(test, r);
+				}
 			}
 		} finally {
 			b.destroy();
@@ -237,12 +237,12 @@ public class TemporaryBufferTest {
 				assertArrayEquals(test, r);
 			}
 			{
-				final ByteArrayOutputStream o = new ByteArrayOutputStream();
-				b.writeTo(o, null);
-				o.close();
-				final byte[] r = o.toByteArray();
-				assertEquals(test.length, r.length);
-				assertArrayEquals(test, r);
+				try (ByteArrayOutputStream o = new ByteArrayOutputStream()) {
+					b.writeTo(o, null);
+					final byte[] r = o.toByteArray();
+					assertEquals(test.length, r.length);
+					assertArrayEquals(test, r);
+				}
 			}
 		} finally {
 			b.destroy();
@@ -280,12 +280,12 @@ public class TemporaryBufferTest {
 				assertArrayEquals(test, r);
 			}
 			{
-				final ByteArrayOutputStream o = new ByteArrayOutputStream();
-				b.writeTo(o, null);
-				o.close();
-				final byte[] r = o.toByteArray();
-				assertEquals(test.length, r.length);
-				assertArrayEquals(test, r);
+				try (ByteArrayOutputStream o = new ByteArrayOutputStream()) {
+					b.writeTo(o, null);
+					final byte[] r = o.toByteArray();
+					assertEquals(test.length, r.length);
+					assertArrayEquals(test, r);
+				}
 			}
 		} finally {
 			b.destroy();
@@ -309,12 +309,12 @@ public class TemporaryBufferTest {
 				assertArrayEquals(test, r);
 			}
 			{
-				final ByteArrayOutputStream o = new ByteArrayOutputStream();
-				b.writeTo(o, null);
-				o.close();
-				final byte[] r = o.toByteArray();
-				assertEquals(test.length, r.length);
-				assertArrayEquals(test, r);
+				try (ByteArrayOutputStream o = new ByteArrayOutputStream()) {
+					b.writeTo(o, null);
+					final byte[] r = o.toByteArray();
+					assertEquals(test.length, r.length);
+					assertArrayEquals(test, r);
+				}
 			}
 		} finally {
 			b.destroy();
@@ -341,12 +341,12 @@ public class TemporaryBufferTest {
 				assertArrayEquals(test, r);
 			}
 			{
-				final ByteArrayOutputStream o = new ByteArrayOutputStream();
-				b.writeTo(o, null);
-				o.close();
-				final byte[] r = o.toByteArray();
-				assertEquals(test.length, r.length);
-				assertArrayEquals(test, r);
+				try (ByteArrayOutputStream o = new ByteArrayOutputStream()) {
+					b.writeTo(o, null);
+					final byte[] r = o.toByteArray();
+					assertEquals(test.length, r.length);
+					assertArrayEquals(test, r);
+				}
 			}
 		} finally {
 			b.destroy();
@@ -400,12 +400,12 @@ public class TemporaryBufferTest {
 				assertArrayEquals(expect, r);
 			}
 			{
-				final ByteArrayOutputStream o = new ByteArrayOutputStream();
-				b.writeTo(o, null);
-				o.close();
-				final byte[] r = o.toByteArray();
-				assertEquals(expect.length, r.length);
-				assertArrayEquals(expect, r);
+				try (ByteArrayOutputStream o = new ByteArrayOutputStream()) {
+					b.writeTo(o, null);
+					final byte[] r = o.toByteArray();
+					assertEquals(expect.length, r.length);
+					assertArrayEquals(expect, r);
+				}
 			}
 		} finally {
 			b.destroy();

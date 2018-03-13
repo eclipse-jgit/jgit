@@ -253,11 +253,11 @@ public class RefTest extends SampleDataRepositoryTestCase {
 			InterruptedException {
 		Ref ref = db.exactRef("refs/heads/master");
 		assertEquals(Storage.PACKED, ref.getStorage());
-		FileOutputStream os = new FileOutputStream(new File(db.getDirectory(),
-				"refs/heads/master"));
-		os.write(ref.getObjectId().name().getBytes());
-		os.write('\n');
-		os.close();
+		try (FileOutputStream os = new FileOutputStream(
+				new File(db.getDirectory(), "refs/heads/master"))) {
+			os.write(ref.getObjectId().name().getBytes());
+			os.write('\n');
+		}
 
 		ref = db.exactRef("refs/heads/master");
 		assertEquals(Storage.LOOSE, ref.getStorage());

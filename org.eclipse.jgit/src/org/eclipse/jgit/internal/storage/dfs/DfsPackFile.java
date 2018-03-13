@@ -209,8 +209,7 @@ public final class DfsPackFile extends BlockBasedFile {
 			try {
 				ctx.stats.readIdx++;
 				long start = System.nanoTime();
-				ReadableChannel rc = ctx.db.openFile(desc, INDEX);
-				try {
+				try (ReadableChannel rc = ctx.db.openFile(desc, INDEX)) {
 					InputStream in = Channels.newInputStream(rc);
 					int wantSize = 8192;
 					int bs = rc.blockSize();
@@ -221,7 +220,6 @@ public final class DfsPackFile extends BlockBasedFile {
 					idx = PackIndex.read(new BufferedInputStream(in, bs));
 					ctx.stats.readIdxBytes += rc.position();
 				} finally {
-					rc.close();
 					ctx.stats.readIdxMicros += elapsedMicros(start);
 				}
 			} catch (EOFException e) {

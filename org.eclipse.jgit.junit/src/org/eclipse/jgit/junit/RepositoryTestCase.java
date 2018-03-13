@@ -94,20 +94,13 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 */
 	protected static void copyFile(final File src, final File dst)
 			throws IOException {
-		final FileInputStream fis = new FileInputStream(src);
-		try {
-			final FileOutputStream fos = new FileOutputStream(dst);
-			try {
-				final byte[] buf = new byte[4096];
-				int r;
-				while ((r = fis.read(buf)) > 0) {
-					fos.write(buf, 0, r);
-				}
-			} finally {
-				fos.close();
+		try (FileInputStream fis = new FileInputStream(src);
+				FileOutputStream fos = new FileOutputStream(dst)) {
+			final byte[] buf = new byte[4096];
+			int r;
+			while ((r = fis.read(buf)) > 0) {
+				fos.write(buf, 0, r);
 			}
-		} finally {
-			fis.close();
 		}
 	}
 
@@ -293,10 +286,11 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 				dce.setFileMode(treeItr.getEntryFileMode());
 				dce.setLastModified(treeItr.getEntryLastModified());
 				dce.setLength((int) len);
-				FileInputStream in = new FileInputStream(
-						treeItr.getEntryFile());
-				dce.setObjectId(inserter.insert(Constants.OBJ_BLOB, len, in));
-				in.close();
+				try (FileInputStream in = new FileInputStream(
+						treeItr.getEntryFile())) {
+					dce.setObjectId(
+							inserter.insert(Constants.OBJ_BLOB, len, in));
+				}
 				builder.add(dce);
 				treeItr.next(1);
 			}
@@ -380,8 +374,9 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 			while (actTime <= startTime) {
 				Thread.sleep(sleepTime);
 				sleepTime *= 2;
-				FileOutputStream fos = new FileOutputStream(tmp);
-				fos.close();
+				try (FileOutputStream fos = new FileOutputStream(tmp)) {
+					// Do nothing
+				}
 				actTime = fs.lastModified(tmp);
 			}
 			return actTime;

@@ -176,12 +176,9 @@ public class RacyGitTests extends RepositoryTestCase {
 
 	private File addToWorkDir(String path, String content) throws IOException {
 		File f = new File(db.getWorkTree(), path);
-		FileOutputStream fos = new FileOutputStream(f);
-		try {
+		try (FileOutputStream fos = new FileOutputStream(f)) {
 			fos.write(content.getBytes(Constants.CHARACTER_ENCODING));
 			return f;
-		} finally {
-			fos.close();
 		}
 	}
 }
