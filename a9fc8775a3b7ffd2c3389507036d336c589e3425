@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4b92a3c7_f7259ee0",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/submodule/SubmoduleAddTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-03-13T21:19:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "52ed49fe_b63f8788",
+      "revId": "a9fc8775a3b7ffd2c3389507036d336c589e3425",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ffdb3f95_9c2e88ce",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/submodule/SubmoduleSyncTest.java",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "9874dc3f_cc034ed7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/submodule/SubmoduleSyncTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-03-13T21:19:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ffdb3f95_9c2e88ce",
+      "revId": "a9fc8775a3b7ffd2c3389507036d336c589e3425",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "099fff10_68768850",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/TemporaryBufferTest.java",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2018-03-13T21:15:55Z",
       "side": 1,
       "message": "with the try block we don\u0027t need the extra surrounding block anymore. More of these below",
+      "revId": "a9fc8775a3b7ffd2c3389507036d336c589e3425",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f1ef10c_e5c5df2c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/TemporaryBufferTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-03-13T21:19:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "099fff10_68768850",
       "revId": "a9fc8775a3b7ffd2c3389507036d336c589e3425",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
