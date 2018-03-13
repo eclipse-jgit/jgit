@@ -484,4 +484,36 @@ public class UploadPackTest {
 		parsePack(recvStream, new TextProgressMonitor(sw));
 		assertTrue(sw.toString().isEmpty());
 	}
+
+	@Test
+	public void testV2FetchIncludeTag() throws Exception {
+		RevCommit commit = remote.commit().message("x").create();
+		RevTag tag = remote.tag("tag", commit);
+		remote.update("refs/tags/tag", tag);
+
+		// Without include-tag.
+		ByteArrayInputStream recvStream = uploadPackV2(
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"want " + commit.toObjectId().getName() + "\n",
+			"done\n",
+			PacketLineIn.END);
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+		assertThat(pckIn.readString(), is("packfile"));
+		parsePack(recvStream);
+		assertFalse(client.hasObject(tag.toObjectId()));
+
+		// With tag.
+		recvStream = uploadPackV2(
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"want " + commit.toObjectId().getName() + "\n",
+			"include-tag\n",
+			"done\n",
+			PacketLineIn.END);
+		pckIn = new PacketLineIn(recvStream);
+		assertThat(pckIn.readString(), is("packfile"));
+		parsePack(recvStream);
+		assertTrue(client.hasObject(tag.toObjectId()));
+	}
 }

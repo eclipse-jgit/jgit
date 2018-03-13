@@ -961,6 +961,9 @@ public class UploadPack {
 				options.add(OPTION_THIN_PACK);
 			} else if (line.equals(OPTION_NO_PROGRESS)) {
 				options.add(OPTION_NO_PROGRESS);
+			} else if (line.equals(OPTION_INCLUDE_TAG)) {
+				refs = getAdvertisedOrDefaultRefs();
+				options.add(OPTION_INCLUDE_TAG);
 			}
 			// else ignore it
 		}
