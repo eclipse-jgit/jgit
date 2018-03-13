@@ -436,6 +436,7 @@ public class FastIgnoreRuleTest {
 	@Test
 	public void testWildmatchDoNotMatch() {
 		assertNotMatched("a/**", "a/");
+		assertNotMatched("a/b/**", "a/b");
 		assertNotMatched("a/b/**", "a/b/");
 		assertNotMatched("a/**", "a");
 		assertNotMatched("a/b/**", "a/b");

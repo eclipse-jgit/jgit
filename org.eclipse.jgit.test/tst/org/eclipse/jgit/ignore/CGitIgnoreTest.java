@@ -45,6 +45,7 @@ package org.eclipse.jgit.ignore;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assume.assumeTrue;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -136,6 +137,22 @@ public class CGitIgnoreTest extends RepositoryTestCase {
 		}
 	}
 
+	private static String toCGitFormat(String path) {
+		if (!path.contains("\\")) {
+			return path;
+		}
+		final StringBuilder pathBuilder = new StringBuilder("\"");
+		for (int i = 0; i < path.length(); i++) {
+			final char c = path.charAt(i);
+			if (c == '\\') {
+				pathBuilder.append('\\');
+			}
+			pathBuilder.append(c);
+		}
+		pathBuilder.append('"');
+		return pathBuilder.toString();
+	}
+
 	private void jgitIgnoredAndUntracked(LinkedHashSet<String> ignored,
 			LinkedHashSet<String> untracked) throws IOException {
 		// Do a tree walk that does descend into ignored directories and return
@@ -145,11 +162,11 @@ public class CGitIgnoreTest extends RepositoryTestCase {
 			walk.setRecursive(true);
 			while (walk.next()) {
 				if (walk.getTree(WorkingTreeIterator.class).isEntryIgnored()) {
-					ignored.add(walk.getPathString());
+					ignored.add(toCGitFormat(walk.getPathString()));
 				} else {
 					// tests of this class won't add any files to the index,
 					// hence everything what is not ignored is untracked
-					untracked.add(walk.getPathString());
+					untracked.add(toCGitFormat(walk.getPathString()));
 				}
 			}
 		}
@@ -383,6 +400,19 @@ public class CGitIgnoreTest extends RepositoryTestCase {
 				"src/a/keep.java", "src/a/keep.o");
 		writeTrashFile(".gitignore", "/*\n!/src/");
 		writeTrashFile("src/.gitignore", "*\n!*.java\n!*/");
+		assertSameAsCGit();
+	}
+
+	@Test
+	public void testBackslashAtFilenameEnd()
+			throws Exception {
+		assumeTrue(File.separatorChar != '\\');
+		createFiles("a/backslash", "a/backslash\\", "a/backslash\\\\");
+		writeTrashFile("a/.gitignore", "backslash");
+		createFiles("b/backslash", "b/backslash\\", "b/backslash\\\\");
+		writeTrashFile("b/.gitignore", "backslash\\");
+		createFiles("c/backslash", "c/backslash\\", "c/backslash\\\\");
+		writeTrashFile("c/.gitignore", "backslash\\\\");
 		assertSameAsCGit();
 	}
 }
