@@ -211,9 +211,7 @@ public class NetRC {
 		this.hosts.clear();
 		this.lastModified = this.netrc.lastModified();
 
-		BufferedReader r = null;
-		try {
-			r = new BufferedReader(new FileReader(netrc));
+		try (BufferedReader r = new BufferedReader(new FileReader(netrc))) {
 			String line = null;
 
 			NetRCEntry entry = new NetRCEntry();
@@ -315,13 +313,6 @@ public class NetRC {
 				hosts.put(entry.machine, entry);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
-		} finally {
-			try {
-				if (r != null)
-					r.close();
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
 		}
 	}
 }
