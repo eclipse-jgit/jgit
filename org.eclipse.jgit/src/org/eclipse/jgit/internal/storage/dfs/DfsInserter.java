@@ -68,6 +68,7 @@ import java.util.zip.DeflaterOutputStream;
 import java.util.zip.Inflater;
 import java.util.zip.InflaterInputStream;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.LargeObjectException;
@@ -309,6 +310,15 @@ public class DfsInserter extends ObjectInserter {
 		Collections.sort(objectList);
 	}
 
+	@Nullable
+	private TemporaryBuffer.Heap maybeGetTemporaryBuffer(
+			List<PackedObjectInfo> list) {
+		if (list.size() <= 58000) {
+			return new TemporaryBuffer.Heap(2 << 20);
+		}
+		return null;
+	}
+
 	PackIndex writePackIndex(DfsPackDescription pack, byte[] packHash,
 			List<PackedObjectInfo> list) throws IOException {
 		pack.setIndexVersion(INDEX_VERSION);
@@ -317,27 +327,20 @@ public class DfsInserter extends ObjectInserter {
 		// If there are less than 58,000 objects, the entire index fits in under
 		// 2 MiB. Callers will probably need the index immediately, so buffer
 		// the index in process and load from the buffer.
-		TemporaryBuffer.Heap buf = null;
 		PackIndex packIndex = null;
-		if (list.size() <= 58000) {
-			buf = new TemporaryBuffer.Heap(2 << 20);
-			index(buf, packHash, list);
-			packIndex = PackIndex.read(buf.openInputStream());
-		}
-
-		try (DfsOutputStream os = db.writeFile(pack, INDEX)) {
-			CountingOutputStream cnt = new CountingOutputStream(os);
-			if (buf != null)
+		try (TemporaryBuffer.Heap buf = maybeGetTemporaryBuffer(list);
+				DfsOutputStream os = db.writeFile(pack, INDEX);
+				CountingOutputStream cnt = new CountingOutputStream(os)) {
+			if (buf != null) {
+				index(buf, packHash, list);
+				packIndex = PackIndex.read(buf.openInputStream());
 				buf.writeTo(cnt, null);
-			else
+			} else {
 				index(cnt, packHash, list);
+			}
 			pack.addFileExt(INDEX);
 			pack.setBlockSize(INDEX, os.blockSize());
 			pack.setFileSize(INDEX, cnt.getCount());
-		} finally {
-			if (buf != null) {
-				buf.close();
-			}
 		}
 		return packIndex;
 	}
