@@ -42,6 +42,7 @@
 
 package org.eclipse.jgit.transport;
 
+import static org.eclipse.jgit.lib.Constants.CHARSET;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -75,7 +76,7 @@ public class NetRCTest extends RepositoryTestCase {
 
 	private void config(final String data) throws IOException {
 		try (OutputStreamWriter fw = new OutputStreamWriter(
-				new FileOutputStream(configFile), "UTF-8")) {
+				new FileOutputStream(configFile), CHARSET)) {
 			fw.write(data);
 		}
 	}
