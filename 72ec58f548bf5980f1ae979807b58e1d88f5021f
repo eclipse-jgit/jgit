@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c80c34f_9e130491",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/RepositoryFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-03-13T21:12:24Z",
+      "side": 1,
+      "message": "I think this second try block can be squashed into the one above",
+      "revId": "72ec58f548bf5980f1ae979807b58e1d88f5021f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
