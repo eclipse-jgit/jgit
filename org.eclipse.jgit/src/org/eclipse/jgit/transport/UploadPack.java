@@ -936,6 +936,8 @@ public class UploadPack {
 				// #refs, so just set it to contain all tags.
 				refs = db.getRefDatabase().getRefs("refs/tags/");
 				options.add(OPTION_INCLUDE_TAG);
+			} else if (line.equals(OPTION_OFS_DELTA)) {
+				options.add(OPTION_OFS_DELTA);
 			}
 			// else ignore it
 		}
