@@ -97,35 +97,38 @@ public class AutoLFInputStreamTest {
 
 	private static void test(byte[] input, byte[] expected,
 			boolean detectBinary) throws IOException {
-		final InputStream bis1 = new ByteArrayInputStream(input);
-		final InputStream cis1 = new AutoLFInputStream(bis1, detectBinary);
-		int index1 = 0;
-		for (int b = cis1.read(); b != -1; b = cis1.read()) {
-			assertEquals(expected[index1], (byte) b);
-			index1++;
-		}
-
-		assertEquals(expected.length, index1);
-
-		for (int bufferSize = 1; bufferSize < 10; bufferSize++) {
-			final byte[] buffer = new byte[bufferSize];
-			final InputStream bis2 = new ByteArrayInputStream(input);
-			final InputStream cis2 = new AutoLFInputStream(bis2, detectBinary);
-
-			int read = 0;
-			for (int readNow = cis2.read(buffer, 0, buffer.length); readNow != -1
-					&& read < expected.length; readNow = cis2.read(buffer, 0,
-					buffer.length)) {
-				for (int index2 = 0; index2 < readNow; index2++) {
-					assertEquals(expected[read + index2], buffer[index2]);
-				}
-				read += readNow;
+		try (InputStream bis1 = new ByteArrayInputStream(input);
+				InputStream cis1 = new AutoLFInputStream(bis1, detectBinary)) {
+			int index1 = 0;
+			for (int b = cis1.read(); b != -1; b = cis1.read()) {
+				assertEquals(expected[index1], (byte) b);
+				index1++;
 			}
 
-			assertEquals(expected.length, read);
-			cis2.close();
+			assertEquals(expected.length, index1);
+
+			for (int bufferSize = 1; bufferSize < 10; bufferSize++) {
+				final byte[] buffer = new byte[bufferSize];
+				try (InputStream bis2 = new ByteArrayInputStream(input);
+						InputStream cis2 = new AutoLFInputStream(bis2,
+								detectBinary)) {
+
+					int read = 0;
+					for (int readNow = cis2.read(buffer, 0,
+							buffer.length); readNow != -1
+									&& read < expected.length; readNow = cis2
+											.read(buffer, 0, buffer.length)) {
+						for (int index2 = 0; index2 < readNow; index2++) {
+							assertEquals(expected[read + index2],
+									buffer[index2]);
+						}
+						read += readNow;
+					}
+
+					assertEquals(expected.length, read);
+				}
+			}
 		}
-		cis1.close();
 	}
 
 	private static byte[] asBytes(String in) {
