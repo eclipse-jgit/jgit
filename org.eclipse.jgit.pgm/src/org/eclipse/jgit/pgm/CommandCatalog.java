@@ -47,7 +47,6 @@ import static org.eclipse.jgit.lib.Constants.CHARSET;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
@@ -148,31 +147,15 @@ public class CommandCatalog {
 	}
 
 	private void scan(final URL cUrl) {
-		final BufferedReader cIn;
-		try {
-			final InputStream in = cUrl.openStream();
-			cIn = new BufferedReader(new InputStreamReader(in, CHARSET));
-		} catch (IOException err) {
-			// If we cannot read from the service list, go to the next.
-			//
-			return;
-		}
-
-		try {
+		try (BufferedReader cIn = new BufferedReader(
+				new InputStreamReader(cUrl.openStream(), CHARSET))) {
 			String line;
 			while ((line = cIn.readLine()) != null) {
 				if (line.length() > 0 && !line.startsWith("#")) //$NON-NLS-1$
 					load(line);
 			}
-		} catch (IOException err) {
-			// If we failed during a read, ignore the error.
-			//
-		} finally {
-			try {
-				cIn.close();
-			} catch (IOException e) {
-				// Ignore the close error; we are only reading.
-			}
+		} catch (IOException e) {
+			// Ignore errors
 		}
 	}
 
