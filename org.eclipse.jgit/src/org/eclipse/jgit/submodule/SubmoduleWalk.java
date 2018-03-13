@@ -115,11 +115,13 @@ public class SubmoduleWalk implements AutoCloseable {
 	 *
 	 * @param repository
 	 *            a {@link org.eclipse.jgit.lib.Repository} object.
-	 * @return generator over submodule index entries
+	 * @return generator over submodule index entries. The caller is responsible
+	 *         for calling {@link #close()}.
 	 * @throws java.io.IOException
 	 */
 	public static SubmoduleWalk forIndex(Repository repository)
 			throws IOException {
+		@SuppressWarnings("resource") // The caller closes it
 		SubmoduleWalk generator = new SubmoduleWalk(repository);
 		try {
 			DirCache index = repository.readDirCache();
