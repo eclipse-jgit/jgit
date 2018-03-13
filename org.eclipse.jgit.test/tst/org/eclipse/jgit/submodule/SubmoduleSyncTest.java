@@ -135,12 +135,14 @@ public class SubmoduleSyncTest extends RepositoryTestCase {
 		generator = SubmoduleWalk.forIndex(db);
 		assertTrue(generator.next());
 		assertEquals(url, generator.getConfigUrl());
-		Repository subModRepository = generator.getRepository();
-		StoredConfig submoduleConfig = subModRepository.getConfig();
-		subModRepository.close();
-		assertEquals(url, submoduleConfig.getString(
-				ConfigConstants.CONFIG_REMOTE_SECTION,
-				Constants.DEFAULT_REMOTE_NAME, ConfigConstants.CONFIG_KEY_URL));
+		try (Repository subModRepository = generator.getRepository()) {
+			StoredConfig submoduleConfig = subModRepository.getConfig();
+			assertEquals(url,
+					submoduleConfig.getString(
+							ConfigConstants.CONFIG_REMOTE_SECTION,
+							Constants.DEFAULT_REMOTE_NAME,
+							ConfigConstants.CONFIG_KEY_URL));
+		}
 	}
 
 	@Test
@@ -208,11 +210,13 @@ public class SubmoduleSyncTest extends RepositoryTestCase {
 		generator = SubmoduleWalk.forIndex(db);
 		assertTrue(generator.next());
 		assertEquals("git://server/sub.git", generator.getConfigUrl());
-		Repository subModRepository1 = generator.getRepository();
-		StoredConfig submoduleConfig = subModRepository1.getConfig();
-		subModRepository1.close();
-		assertEquals("git://server/sub.git", submoduleConfig.getString(
-				ConfigConstants.CONFIG_REMOTE_SECTION,
-				Constants.DEFAULT_REMOTE_NAME, ConfigConstants.CONFIG_KEY_URL));
+		try (Repository subModRepository1 = generator.getRepository()) {
+			StoredConfig submoduleConfig = subModRepository1.getConfig();
+			assertEquals("git://server/sub.git",
+					submoduleConfig.getString(
+							ConfigConstants.CONFIG_REMOTE_SECTION,
+							Constants.DEFAULT_REMOTE_NAME,
+							ConfigConstants.CONFIG_KEY_URL));
+		}
 	}
 }

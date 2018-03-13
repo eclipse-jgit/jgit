@@ -146,15 +146,15 @@ public class PackFileTest extends LocalDiskRepositoryTestCase {
 		assertFalse("is not large", ol.isLarge());
 		assertTrue("same content", Arrays.equals(data, ol.getCachedBytes()));
 
-		ObjectStream in = ol.openStream();
-		assertNotNull("have stream", in);
-		assertEquals(type, in.getType());
-		assertEquals(data.length, in.getSize());
-		byte[] data2 = new byte[data.length];
-		IO.readFully(in, data2, 0, data.length);
-		assertTrue("same content", Arrays.equals(data2, data));
-		assertEquals("stream at EOF", -1, in.read());
-		in.close();
+		try (ObjectStream in = ol.openStream()) {
+			assertNotNull("have stream", in);
+			assertEquals(type, in.getType());
+			assertEquals(data.length, in.getSize());
+			byte[] data2 = new byte[data.length];
+			IO.readFully(in, data2, 0, data.length);
+			assertTrue("same content", Arrays.equals(data2, data));
+			assertEquals("stream at EOF", -1, in.read());
+		}
 	}
 
 	@Test
@@ -180,15 +180,15 @@ public class PackFileTest extends LocalDiskRepositoryTestCase {
 					.getMessage());
 		}
 
-		ObjectStream in = ol.openStream();
-		assertNotNull("have stream", in);
-		assertEquals(type, in.getType());
-		assertEquals(data.length, in.getSize());
-		byte[] data2 = new byte[data.length];
-		IO.readFully(in, data2, 0, data.length);
-		assertTrue("same content", Arrays.equals(data2, data));
-		assertEquals("stream at EOF", -1, in.read());
-		in.close();
+		try (ObjectStream in = ol.openStream()) {
+			assertNotNull("have stream", in);
+			assertEquals(type, in.getType());
+			assertEquals(data.length, in.getSize());
+			byte[] data2 = new byte[data.length];
+			IO.readFully(in, data2, 0, data.length);
+			assertTrue("same content", Arrays.equals(data2, data));
+			assertEquals("stream at EOF", -1, in.read());
+		}
 	}
 
 	@Test
@@ -239,15 +239,15 @@ public class PackFileTest extends LocalDiskRepositoryTestCase {
 			assertNotNull(ol.getCachedBytes());
 			assertArrayEquals(data3, ol.getCachedBytes());
 
-			ObjectStream in = ol.openStream();
-			assertNotNull("have stream", in);
-			assertEquals(Constants.OBJ_BLOB, in.getType());
-			assertEquals(data3.length, in.getSize());
-			byte[] act = new byte[data3.length];
-			IO.readFully(in, act, 0, data3.length);
-			assertTrue("same content", Arrays.equals(act, data3));
-			assertEquals("stream at EOF", -1, in.read());
-			in.close();
+			try (ObjectStream in = ol.openStream()) {
+				assertNotNull("have stream", in);
+				assertEquals(Constants.OBJ_BLOB, in.getType());
+				assertEquals(data3.length, in.getSize());
+				byte[] act = new byte[data3.length];
+				IO.readFully(in, act, 0, data3.length);
+				assertTrue("same content", Arrays.equals(act, data3));
+				assertEquals("stream at EOF", -1, in.read());
+			}
 		}
 	}
 
@@ -282,22 +282,16 @@ public class PackFileTest extends LocalDiskRepositoryTestCase {
 			File packName = new File(dir, idA.name() + ".pack");
 			File idxName = new File(dir, idA.name() + ".idx");
 
-			FileOutputStream f = new FileOutputStream(packName);
-			try {
+			try (FileOutputStream f = new FileOutputStream(packName)) {
 				f.write(pack.toByteArray());
-			} finally {
-				f.close();
 			}
 
-			f = new FileOutputStream(idxName);
-			try {
+			try (FileOutputStream f = new FileOutputStream(idxName)) {
 				List<PackedObjectInfo> list = new ArrayList<>();
 				list.add(a);
 				list.add(b);
 				Collections.sort(list);
 				new PackIndexWriterV1(f).write(list, footer);
-			} finally {
-				f.close();
 			}
 
 			PackFile packFile = new PackFile(packName, PackExt.INDEX.getBit());
@@ -321,16 +315,17 @@ public class PackFileTest extends LocalDiskRepositoryTestCase {
 		assertTrue("has blob", wc.has(id));
 
 		ObjectLoader ol = wc.open(id);
-		ObjectStream in = ol.openStream();
-		assertTrue(in instanceof ObjectStream.SmallStream);
-		assertEquals(300, in.available());
-		in.close();
+		try (ObjectStream in = ol.openStream()) {
+			assertTrue(in instanceof ObjectStream.SmallStream);
+			assertEquals(300, in.available());
+		}
 
 		wc.setStreamFileThreshold(299);
 		ol = wc.open(id);
-		in = ol.openStream();
-		assertTrue(in instanceof ObjectStream.Filter);
-		assertEquals(1, in.available());
+		try (ObjectStream in = ol.openStream()) {
+			assertTrue(in instanceof ObjectStream.Filter);
+			assertEquals(1, in.available());
+		}
 	}
 
 	private static byte[] clone(int first, byte[] base) {

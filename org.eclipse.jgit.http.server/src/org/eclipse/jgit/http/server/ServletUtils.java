@@ -220,12 +220,9 @@ public final class ServletUtils {
 	public static void send(byte[] content, final HttpServletRequest req,
 			final HttpServletResponse rsp) throws IOException {
 		content = sendInit(content, req, rsp);
-		final OutputStream out = rsp.getOutputStream();
-		try {
+		try (OutputStream out = rsp.getOutputStream()) {
 			out.write(content);
 			out.flush();
-		} finally {
-			out.close();
 		}
 	}
 

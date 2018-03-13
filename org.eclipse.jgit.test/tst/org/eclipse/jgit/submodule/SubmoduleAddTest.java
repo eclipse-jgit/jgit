@@ -129,10 +129,11 @@ public class SubmoduleAddTest extends RepositoryTestCase {
 			command.setPath(path);
 			String uri = db.getDirectory().toURI().toString();
 			command.setURI(uri);
-			Repository repo = command.call();
-			assertNotNull(repo);
-			ObjectId subCommit = repo.resolve(Constants.HEAD);
-			repo.close();
+			ObjectId subCommit;
+			try (Repository repo = command.call()) {
+				assertNotNull(repo);
+				subCommit = repo.resolve(Constants.HEAD);
+			}
 
 			SubmoduleWalk generator = SubmoduleWalk.forIndex(db);
 			assertTrue(generator.next());
@@ -141,10 +142,10 @@ public class SubmoduleAddTest extends RepositoryTestCase {
 			assertEquals(uri, generator.getModulesUrl());
 			assertEquals(path, generator.getModulesPath());
 			assertEquals(uri, generator.getConfigUrl());
-			Repository subModRepo = generator.getRepository();
-			assertNotNull(subModRepo);
-			assertEquals(subCommit, commit);
-			subModRepo.close();
+			try (Repository subModRepo = generator.getRepository()) {
+				assertNotNull(subModRepo);
+				assertEquals(subCommit, commit);
+			}
 
 			Status status = Git.wrap(db).status().call();
 			assertTrue(status.getAdded().contains(Constants.DOT_GIT_MODULES));
@@ -209,16 +210,14 @@ public class SubmoduleAddTest extends RepositoryTestCase {
 				fullUri = fullUri.replace('\\', '/');
 			}
 			assertEquals(fullUri, generator.getConfigUrl());
-			Repository subModRepo = generator.getRepository();
-			assertNotNull(subModRepo);
-			assertEquals(
-					fullUri,
-					subModRepo
-							.getConfig()
-							.getString(ConfigConstants.CONFIG_REMOTE_SECTION,
-									Constants.DEFAULT_REMOTE_NAME,
-									ConfigConstants.CONFIG_KEY_URL));
-			subModRepo.close();
+			try (Repository subModRepo = generator.getRepository()) {
+				assertNotNull(subModRepo);
+				assertEquals(fullUri,
+						subModRepo.getConfig().getString(
+								ConfigConstants.CONFIG_REMOTE_SECTION,
+								Constants.DEFAULT_REMOTE_NAME,
+								ConfigConstants.CONFIG_KEY_URL));
+			}
 			assertEquals(commit, repo.resolve(Constants.HEAD));
 
 			Status status = Git.wrap(db).status().call();

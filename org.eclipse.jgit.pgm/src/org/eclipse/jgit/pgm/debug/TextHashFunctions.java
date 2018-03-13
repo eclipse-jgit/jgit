@@ -288,11 +288,8 @@ class TextHashFunctions extends TextBuiltin {
 			else
 				rb.findGitDir(dir);
 
-			Repository repo = rb.build();
-			try {
+			try (Repository repo = rb.build()) {
 				run(repo);
-			} finally {
-				repo.close();
 			}
 		}
 	}

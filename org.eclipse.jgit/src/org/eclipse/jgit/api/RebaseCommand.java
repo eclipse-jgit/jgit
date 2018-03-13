@@ -1734,23 +1734,17 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 				String content)
 				throws IOException {
 			File file = new File(parentDir, name);
-			FileOutputStream fos = new FileOutputStream(file);
-			try {
+			try (FileOutputStream fos = new FileOutputStream(file)) {
 				fos.write(content.getBytes(Constants.CHARACTER_ENCODING));
 				fos.write('\n');
-			} finally {
-				fos.close();
 			}
 		}
 
 		private static void appendToFile(File file, String content)
 				throws IOException {
-			FileOutputStream fos = new FileOutputStream(file, true);
-			try {
+			try (FileOutputStream fos = new FileOutputStream(file, true)) {
 				fos.write(content.getBytes(Constants.CHARACTER_ENCODING));
 				fos.write('\n');
-			} finally {
-				fos.close();
 			}
 		}
 	}

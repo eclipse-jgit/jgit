@@ -303,12 +303,9 @@ public class StashCreateCommand extends GitCommand<RevCommit> {
 						entry.setLastModified(wtIter.getEntryLastModified());
 						entry.setFileMode(wtIter.getEntryFileMode());
 						long contentLength = wtIter.getEntryContentLength();
-						InputStream in = wtIter.openEntryStream();
-						try {
+						try (InputStream in = wtIter.openEntryStream()) {
 							entry.setObjectId(inserter.insert(
 									Constants.OBJ_BLOB, contentLength, in));
-						} finally {
-							in.close();
 						}
 
 						if (indexIter == null && headIter == null)

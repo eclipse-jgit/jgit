@@ -107,8 +107,7 @@ public class SetAdditionalHeadersTest extends HttpTestCase {
 
 		assertEquals("http", remoteURI.getScheme());
 
-		Transport t = Transport.open(dst, remoteURI);
-		try {
+		try (Transport t = Transport.open(dst, remoteURI)) {
 			assertTrue("isa TransportHttp", t instanceof TransportHttp);
 			assertTrue("isa HttpTransport", t instanceof HttpTransport);
 
@@ -117,8 +116,6 @@ public class SetAdditionalHeadersTest extends HttpTestCase {
 			headers.put("AnotherKey", "someValue");
 			((TransportHttp) t).setAdditionalHeaders(headers);
 			t.openFetch();
-		} finally {
-			t.close();
 		}
 
 		List<AccessEvent> requests = getRequests();

@@ -74,11 +74,10 @@ public class WindowCacheGetTest extends SampleDataRepositoryTestCase {
 		super.setUp();
 
 		toLoad = new ArrayList<>();
-		final BufferedReader br = new BufferedReader(new InputStreamReader(
+		try (BufferedReader br = new BufferedReader(new InputStreamReader(
 				new FileInputStream(JGitTestUtil
 						.getTestResourceFile("all_packed_objects.txt")),
-				Constants.CHARSET));
-		try {
+				Constants.CHARSET))) {
 			String line;
 			while ((line = br.readLine()) != null) {
 				final String[] parts = line.split(" {1,}");
@@ -90,8 +89,6 @@ public class WindowCacheGetTest extends SampleDataRepositoryTestCase {
 				// parts[4] is the offset in the pack
 				toLoad.add(o);
 			}
-		} finally {
-			br.close();
 		}
 		assertEquals(96, toLoad.size());
 	}

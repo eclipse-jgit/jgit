@@ -130,15 +130,15 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 		assertFalse("is not large", ol.isLarge());
 		assertTrue("same content", Arrays.equals(data, ol.getCachedBytes()));
 
-		ObjectStream in = ol.openStream();
-		assertNotNull("have stream", in);
-		assertEquals(type, in.getType());
-		assertEquals(data.length, in.getSize());
-		byte[] data2 = new byte[data.length];
-		IO.readFully(in, data2, 0, data.length);
-		assertTrue("same content", Arrays.equals(data2, data));
-		assertEquals("stream at EOF", -1, in.read());
-		in.close();
+		try (ObjectStream in = ol.openStream()) {
+			assertNotNull("have stream", in);
+			assertEquals(type, in.getType());
+			assertEquals(data.length, in.getSize());
+			byte[] data2 = new byte[data.length];
+			IO.readFully(in, data2, 0, data.length);
+			assertTrue("same content", Arrays.equals(data2, data));
+			assertEquals("stream at EOF", -1, in.read());
+		}
 	}
 
 	@Test
@@ -150,11 +150,8 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 
 		ObjectLoader ol;
 		{
-			FileInputStream fs = new FileInputStream(path(id));
-			try {
+			try (FileInputStream fs = new FileInputStream(path(id))) {
 				ol = UnpackedObject.open(fs, path(id), id, wc);
-			} finally {
-				fs.close();
 			}
 		}
 
@@ -171,15 +168,15 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 					.getMessage());
 		}
 
-		ObjectStream in = ol.openStream();
-		assertNotNull("have stream", in);
-		assertEquals(type, in.getType());
-		assertEquals(data.length, in.getSize());
-		byte[] data2 = new byte[data.length];
-		IO.readFully(in, data2, 0, data.length);
-		assertTrue("same content", Arrays.equals(data2, data));
-		assertEquals("stream at EOF", -1, in.read());
-		in.close();
+		try (ObjectStream in = ol.openStream()) {
+			assertNotNull("have stream", in);
+			assertEquals(type, in.getType());
+			assertEquals(data.length, in.getSize());
+			byte[] data2 = new byte[data.length];
+			IO.readFully(in, data2, 0, data.length);
+			assertTrue("same content", Arrays.equals(data2, data));
+			assertEquals("stream at EOF", -1, in.read());
+		}
 	}
 
 	@Test
@@ -316,23 +313,13 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 		write(id, gz);
 
 		ObjectLoader ol;
-		{
-			FileInputStream fs = new FileInputStream(path(id));
-			try {
-				ol = UnpackedObject.open(fs, path(id), id, wc);
-			} finally {
-				fs.close();
-			}
+		try (FileInputStream fs = new FileInputStream(path(id))) {
+			ol = UnpackedObject.open(fs, path(id), id, wc);
 		}
 
-		try {
-			byte[] tmp = new byte[data.length];
-			InputStream in = ol.openStream();
-			try {
-				IO.readFully(in, tmp, 0, tmp.length);
-			} finally {
-				in.close();
-			}
+		byte[] tmp = new byte[data.length];
+		try (InputStream in = ol.openStream()) {
+			IO.readFully(in, tmp, 0, tmp.length);
 			fail("Did not throw CorruptObjectException");
 		} catch (CorruptObjectException coe) {
 			assertEquals(MessageFormat.format(JGitText.get().objectIsCorrupt,
@@ -354,16 +341,12 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 		write(id, tr);
 
 		ObjectLoader ol;
-		{
-			FileInputStream fs = new FileInputStream(path(id));
-			try {
-				ol = UnpackedObject.open(fs, path(id), id, wc);
-			} finally {
-				fs.close();
-			}
+		try (FileInputStream fs = new FileInputStream(path(id))) {
+			ol = UnpackedObject.open(fs, path(id), id, wc);
 		}
 
 		byte[] tmp = new byte[data.length];
+		@SuppressWarnings("resource") // We are testing that the close() method throws
 		InputStream in = ol.openStream();
 		IO.readFully(in, tmp, 0, tmp.length);
 		try {
@@ -389,16 +372,12 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 		write(id, tr);
 
 		ObjectLoader ol;
-		{
-			FileInputStream fs = new FileInputStream(path(id));
-			try {
-				ol = UnpackedObject.open(fs, path(id), id, wc);
-			} finally {
-				fs.close();
-			}
+		try (FileInputStream fs = new FileInputStream(path(id))) {
+			ol = UnpackedObject.open(fs, path(id), id, wc);
 		}
 
 		byte[] tmp = new byte[data.length];
+		@SuppressWarnings("resource") // We are testing that the close() method throws
 		InputStream in = ol.openStream();
 		IO.readFully(in, tmp, 0, tmp.length);
 		try {
@@ -426,14 +405,15 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 		assertFalse("is not large", ol.isLarge());
 		assertTrue("same content", Arrays.equals(data, ol.getCachedBytes()));
 
-		ObjectStream in = ol.openStream();
-		assertNotNull("have stream", in);
-		assertEquals(type, in.getType());
-		assertEquals(data.length, in.getSize());
-		byte[] data2 = new byte[data.length];
-		IO.readFully(in, data2, 0, data.length);
-		assertTrue("same content", Arrays.equals(data, ol.getCachedBytes()));
-		in.close();
+		try (ObjectStream in = ol.openStream()) {
+			assertNotNull("have stream", in);
+			assertEquals(type, in.getType());
+			assertEquals(data.length, in.getSize());
+			byte[] data2 = new byte[data.length];
+			IO.readFully(in, data2, 0, data.length);
+			assertTrue("same content",
+					Arrays.equals(data, ol.getCachedBytes()));
+		}
 	}
 
 	@Test
@@ -444,13 +424,8 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 		write(id, compressPackFormat(type, data));
 
 		ObjectLoader ol;
-		{
-			FileInputStream fs = new FileInputStream(path(id));
-			try {
-				ol = UnpackedObject.open(fs, path(id), id, wc);
-			} finally {
-				fs.close();
-			}
+		try (FileInputStream fs = new FileInputStream(path(id))) {
+			ol = UnpackedObject.open(fs, path(id), id, wc);
 		}
 
 		assertNotNull("created loader", ol);
@@ -466,15 +441,15 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 					.getMessage());
 		}
 
-		ObjectStream in = ol.openStream();
-		assertNotNull("have stream", in);
-		assertEquals(type, in.getType());
-		assertEquals(data.length, in.getSize());
-		byte[] data2 = new byte[data.length];
-		IO.readFully(in, data2, 0, data.length);
-		assertTrue("same content", Arrays.equals(data2, data));
-		assertEquals("stream at EOF", -1, in.read());
-		in.close();
+		try (ObjectStream in = ol.openStream()) {
+			assertNotNull("have stream", in);
+			assertEquals(type, in.getType());
+			assertEquals(data.length, in.getSize());
+			byte[] data2 = new byte[data.length];
+			IO.readFully(in, data2, 0, data.length);
+			assertTrue("same content", Arrays.equals(data2, data));
+			assertEquals("stream at EOF", -1, in.read());
+		}
 	}
 
 	@Test
@@ -573,11 +548,8 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 	private void write(ObjectId id, byte[] data) throws IOException {
 		File path = path(id);
 		FileUtils.mkdirs(path.getParentFile());
-		FileOutputStream out = new FileOutputStream(path);
-		try {
+		try (FileOutputStream out = new FileOutputStream(path)) {
 			out.write(data);
-		} finally {
-			out.close();
 		}
 	}
 

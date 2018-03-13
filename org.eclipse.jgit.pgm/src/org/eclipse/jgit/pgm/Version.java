@@ -96,14 +96,9 @@ class Version extends TextBuiltin {
 	}
 
 	private static String getBundleVersion(URL url) {
-		try {
-			InputStream is = url.openStream();
-			try {
-				Manifest manifest = new Manifest(is);
-				return manifest.getMainAttributes().getValue("Bundle-Version"); //$NON-NLS-1$
-			} finally {
-				is.close();
-			}
+		try (InputStream is = url.openStream()) {
+			Manifest manifest = new Manifest(is);
+			return manifest.getMainAttributes().getValue("Bundle-Version"); //$NON-NLS-1$
 		} catch (IOException e) {
 			// do nothing - will return null
 		}

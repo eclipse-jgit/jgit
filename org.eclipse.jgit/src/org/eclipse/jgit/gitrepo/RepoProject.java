@@ -131,18 +131,10 @@ public class RepoProject implements Comparable<RepoProject> {
 			File srcFile = new File(repo.getWorkTree(),
 					path + "/" + src); //$NON-NLS-1$
 			File destFile = new File(repo.getWorkTree(), dest);
-			FileInputStream input = new FileInputStream(srcFile);
-			try {
-				FileOutputStream output = new FileOutputStream(destFile);
-				try {
-					FileChannel channel = input.getChannel();
-					output.getChannel().transferFrom(
-							channel, 0, channel.size());
-				} finally {
-					output.close();
-				}
-			} finally {
-				input.close();
+			try (FileInputStream input = new FileInputStream(srcFile);
+					FileOutputStream output = new FileOutputStream(destFile)) {
+				FileChannel channel = input.getChannel();
+				output.getChannel().transferFrom(channel, 0, channel.size());
 			}
 		}
 	}

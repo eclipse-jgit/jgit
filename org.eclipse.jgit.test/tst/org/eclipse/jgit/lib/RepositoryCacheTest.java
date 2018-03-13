@@ -94,24 +94,25 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 
 	@Test
 	public void testFileKeyOpenExisting() throws IOException {
-		Repository r;
+		try (Repository r = new FileKey(db.getDirectory(), db.getFS())
+				.open(true)) {
+			assertNotNull(r);
+			assertEqualsFile(db.getDirectory(), r.getDirectory());
+		}
 
-		r = new FileKey(db.getDirectory(), db.getFS()).open(true);
-		assertNotNull(r);
-		assertEqualsFile(db.getDirectory(), r.getDirectory());
-		r.close();
-
-		r = new FileKey(db.getDirectory(), db.getFS()).open(false);
-		assertNotNull(r);
-		assertEqualsFile(db.getDirectory(), r.getDirectory());
-		r.close();
+		try (Repository r = new FileKey(db.getDirectory(), db.getFS())
+				.open(false)) {
+			assertNotNull(r);
+			assertEqualsFile(db.getDirectory(), r.getDirectory());
+		}
 	}
 
 	@Test
 	public void testFileKeyOpenNew() throws IOException {
-		final Repository n = createRepository(true, false);
-		final File gitdir = n.getDirectory();
-		n.close();
+		File gitdir;
+		try (Repository n = createRepository(true, false)) {
+			gitdir = n.getDirectory();
+		}
 		recursiveDelete(gitdir);
 		assertFalse(gitdir.exists());
 
@@ -143,6 +144,7 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 	@Test
 	public void testCacheOpen() throws Exception {
 		final FileKey loc = FileKey.exact(db.getDirectory(), db.getFS());
+		@SuppressWarnings("resource") // We are testing the close() method
 		final Repository d2 = RepositoryCache.open(loc);
 		assertNotSame(db, d2);
 		assertSame(d2, RepositoryCache.open(FileKey.exact(loc.getFile(), db.getFS())));
@@ -176,6 +178,7 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 	@Test
 	public void testRepositoryUsageCount() throws Exception {
 		FileKey loc = FileKey.exact(db.getDirectory(), db.getFS());
+		@SuppressWarnings("resource") // We are testing the close() method
 		Repository d2 = RepositoryCache.open(loc);
 		assertEquals(1, d2.useCnt.get());
 		RepositoryCache.open(FileKey.exact(loc.getFile(), db.getFS()));
@@ -189,6 +192,7 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 	@Test
 	public void testRepositoryUsageCountWithRegisteredRepository()
 			throws IOException {
+		@SuppressWarnings("resource") // We are testing the close() method
 		Repository repo = createRepository(false, false);
 		assertEquals(1, repo.useCnt.get());
 		RepositoryCache.register(repo);
@@ -200,6 +204,7 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 	@Test
 	public void testRepositoryNotUnregisteringWhenClosing() throws Exception {
 		FileKey loc = FileKey.exact(db.getDirectory(), db.getFS());
+		@SuppressWarnings("resource") // We are testing the close() method
 		Repository d2 = RepositoryCache.open(loc);
 		assertEquals(1, d2.useCnt.get());
 		assertThat(RepositoryCache.getRegisteredKeys(),
@@ -214,6 +219,7 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 	@Test
 	public void testRepositoryUnregisteringWhenExpiredAndUsageCountNegative()
 			throws Exception {
+		@SuppressWarnings("resource") // We are testing the close() method
 		Repository repoA = createBareRepository();
 		RepositoryCache.register(repoA);
 
@@ -234,7 +240,9 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 
 	@Test
 	public void testRepositoryUnregisteringWhenExpired() throws Exception {
+		@SuppressWarnings("resource") // We are testing the close() method
 		Repository repoA = createRepository(true, false);
+		@SuppressWarnings("resource") // We are testing the close() method
 		Repository repoB = createRepository(true, false);
 		Repository repoC = createBareRepository();
 		RepositoryCache.register(repoA);
@@ -268,6 +276,7 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 
 	@Test
 	public void testReconfigure() throws InterruptedException, IOException {
+		@SuppressWarnings("resource") // We are testing the close() method
 		Repository repo = createRepository(false, false);
 		RepositoryCache.register(repo);
 		assertTrue(RepositoryCache.isCached(repo));

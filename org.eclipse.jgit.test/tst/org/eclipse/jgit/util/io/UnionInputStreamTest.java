@@ -58,13 +58,13 @@ import org.junit.Test;
 public class UnionInputStreamTest {
 	@Test
 	public void testEmptyStream() throws IOException {
-		final UnionInputStream u = new UnionInputStream();
-		assertTrue(u.isEmpty());
-		assertEquals(-1, u.read());
-		assertEquals(-1, u.read(new byte[1], 0, 1));
-		assertEquals(0, u.available());
-		assertEquals(0, u.skip(1));
-		u.close();
+		try (UnionInputStream u = new UnionInputStream()) {
+			assertTrue(u.isEmpty());
+			assertEquals(-1, u.read());
+			assertEquals(-1, u.read(new byte[1], 0, 1));
+			assertEquals(0, u.available());
+			assertEquals(0, u.skip(1));
+		}
 	}
 
 	@Test
@@ -211,25 +211,24 @@ public class UnionInputStreamTest {
 
 	@Test
 	public void testCloseDuringClose() throws IOException {
-		final UnionInputStream u = new UnionInputStream();
 		final boolean closed[] = new boolean[2];
-		u.add(new ByteArrayInputStream(new byte[] { 1 }) {
-			@Override
-			public void close() {
-				closed[0] = true;
-			}
-		});
-		u.add(new ByteArrayInputStream(new byte[] { 2 }) {
-			@Override
-			public void close() {
-				closed[1] = true;
-			}
-		});
+		try (UnionInputStream u = new UnionInputStream()) {
+			u.add(new ByteArrayInputStream(new byte[] { 1 }) {
+				@Override
+				public void close() {
+					closed[0] = true;
+				}
+			});
+			u.add(new ByteArrayInputStream(new byte[] { 2 }) {
+				@Override
+				public void close() {
+					closed[1] = true;
+				}
+			});
 
-		assertFalse(closed[0]);
-		assertFalse(closed[1]);
-
-		u.close();
+			assertFalse(closed[0]);
+			assertFalse(closed[1]);
+		}
 
 		assertTrue(closed[0]);
 		assertTrue(closed[1]);
@@ -237,6 +236,7 @@ public class UnionInputStreamTest {
 
 	@Test
 	public void testExceptionDuringClose() {
+		@SuppressWarnings("resource") // We are testing the close() method
 		final UnionInputStream u = new UnionInputStream();
 		u.add(new ByteArrayInputStream(new byte[] { 1 }) {
 			@Override

@@ -149,19 +149,15 @@ public class ProtocolErrorTest extends HttpTestCase {
 			c.setRequestProperty("Content-Type",
 					GitSmartHttpTools.RECEIVE_PACK_REQUEST_TYPE);
 			c.setFixedLengthStreamingMode(reqbin.length);
-			OutputStream out = c.getOutputStream();
-			try {
+			try (OutputStream out = c.getOutputStream()) {
 				out.write(reqbin);
-			} finally {
-				out.close();
 			}
 
 			assertEquals(200, c.getResponseCode());
 			assertEquals(GitSmartHttpTools.RECEIVE_PACK_RESULT_TYPE,
 					c.getContentType());
 
-			InputStream rawin = c.getInputStream();
-			try {
+			try (InputStream rawin = c.getInputStream()) {
 				PacketLineIn pckin = new PacketLineIn(rawin);
 				assertEquals("unpack error "
 						+ JGitText.get().packfileIsTruncatedNoParam,
@@ -169,8 +165,6 @@ public class ProtocolErrorTest extends HttpTestCase {
 				assertEquals("ng refs/objects/A n/a (unpacker error)",
 						pckin.readString());
 				assertSame(PacketLineIn.END, pckin.readString());
-			} finally {
-				rawin.close();
 			}
 		} finally {
 			c.disconnect();
