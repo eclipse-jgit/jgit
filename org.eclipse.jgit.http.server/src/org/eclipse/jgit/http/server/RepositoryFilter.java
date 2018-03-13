@@ -140,9 +140,9 @@ public class RepositoryFilter implements Filter {
 			return;
 		}
 
-		final Repository db;
-		try {
-			db = resolver.open(req, name);
+		try (Repository db = resolver.open(req, name)) {
+			request.setAttribute(ATTRIBUTE_REPOSITORY, db);
+			chain.doFilter(request, response);
 		} catch (RepositoryNotFoundException e) {
 			sendError(req, res, SC_NOT_FOUND);
 			return;
@@ -155,13 +155,8 @@ public class RepositoryFilter implements Filter {
 		} catch (ServiceMayNotContinueException e) {
 			sendError(req, res, e.getStatusCode(), e.getMessage());
 			return;
-		}
-		try {
-			request.setAttribute(ATTRIBUTE_REPOSITORY, db);
-			chain.doFilter(request, response);
 		} finally {
 			request.removeAttribute(ATTRIBUTE_REPOSITORY);
-			db.close();
 		}
 	}
 }
