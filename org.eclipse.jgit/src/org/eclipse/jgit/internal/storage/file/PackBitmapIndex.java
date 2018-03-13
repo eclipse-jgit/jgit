@@ -44,7 +44,6 @@
 package org.eclipse.jgit.internal.storage.file;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
@@ -93,19 +92,16 @@ public abstract class PackBitmapIndex {
 	public static PackBitmapIndex open(
 			File idxFile, PackIndex packIndex, PackReverseIndex reverseIndex)
 			throws IOException {
-		final FileInputStream fd = new FileInputStream(idxFile);
-		try {
-			return read(fd, packIndex, reverseIndex);
-		} catch (IOException ioe) {
-			throw new IOException(MessageFormat
-					.format(JGitText.get().unreadablePackIndex,
-							idxFile.getAbsolutePath()),
-					ioe);
-		} finally {
+		try (PackIndexFileInputStream fd = new PackIndexFileInputStream(
+				idxFile)) {
 			try {
-				fd.close();
-			} catch (IOException err2) {
-				// ignore
+				return read(fd, packIndex, reverseIndex);
+
+			} catch (IOException ioe) {
+				throw new IOException(
+						MessageFormat.format(JGitText.get().unreadablePackIndex,
+								idxFile.getAbsolutePath()),
+						ioe);
 			}
 		}
 	}
