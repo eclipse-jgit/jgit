@@ -928,6 +928,14 @@ public class UploadPack {
 				options.add(OPTION_THIN_PACK);
 			} else if (line.equals(OPTION_NO_PROGRESS)) {
 				options.add(OPTION_NO_PROGRESS);
+			} else if (line.equals(OPTION_INCLUDE_TAG)) {
+				// If OPTION_INCLUDE_TAG is set, #sendPack
+				// checks the tags in #refs to see if any of
+				// them need to be included in the returned
+				// packfile. We do not need any other ref in
+				// #refs, so just set it to contain all tags.
+				refs = db.getRefDatabase().getRefs("refs/tags/");
+				options.add(OPTION_INCLUDE_TAG);
 			}
 			// else ignore it
 		}
