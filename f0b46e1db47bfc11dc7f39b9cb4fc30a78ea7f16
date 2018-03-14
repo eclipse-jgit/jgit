@@ -16,6 +16,24 @@
       "revId": "f0b46e1db47bfc11dc7f39b9cb4fc30a78ea7f16",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "acb1ba04_61663945",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectIdSerializer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-03-14T18:49:17Z",
+      "side": 1,
+      "message": "(Or some clearer name like writeWithoutTag.)",
+      "parentUuid": "eb8fca80_0287a3f4",
+      "revId": "f0b46e1db47bfc11dc7f39b9cb4fc30a78ea7f16",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
