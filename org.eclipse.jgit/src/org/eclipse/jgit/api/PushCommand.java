@@ -153,7 +153,8 @@ public class PushCommand extends
 
 			final List<Transport> transports;
 			transports = Transport.openAll(repo, remote, Transport.Operation.PUSH);
-			for (final Transport transport : transports) {
+			for (@SuppressWarnings("resource") // Explicitly closed in finally
+					final Transport transport : transports) {
 				transport.setPushThin(thin);
 				transport.setPushAtomic(atomic);
 				if (receivePack != null)
