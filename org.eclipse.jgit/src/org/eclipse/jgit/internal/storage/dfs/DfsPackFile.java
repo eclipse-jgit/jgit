@@ -274,10 +274,9 @@ public final class DfsPackFile extends BlockBasedFile {
 
 			long size;
 			PackBitmapIndex idx;
-			try {
-				ctx.stats.readBitmap++;
-				long start = System.nanoTime();
-				ReadableChannel rc = ctx.db.openFile(desc, BITMAP_INDEX);
+			ctx.stats.readBitmap++;
+			long start = System.nanoTime();
+			try (ReadableChannel rc = ctx.db.openFile(desc, BITMAP_INDEX)) {
 				try {
 					InputStream in = Channels.newInputStream(rc);
 					int wantSize = 8192;
@@ -291,7 +290,6 @@ public final class DfsPackFile extends BlockBasedFile {
 							in, idx(ctx), getReverseIdx(ctx));
 				} finally {
 					size = rc.position();
-					rc.close();
 					ctx.stats.readIdxBytes += size;
 					ctx.stats.readIdxMicros += elapsedMicros(start);
 				}
@@ -441,6 +439,7 @@ public final class DfsPackFile extends BlockBasedFile {
 
 	private void copyPackThroughCache(PackOutputStream out, DfsReader ctx)
 			throws IOException {
+		@SuppressWarnings("resource") // Explicitly closed in finally block
 		ReadableChannel rc = null;
 		try {
 			long position = 12;
