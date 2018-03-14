@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b5b3622a_99024adb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-03-14T21:35:32Z",
+      "side": 1,
+      "message": "This was intentional.  Without the nesting, the concurrent GC test was failing (see the CI failure on PS1).",
+      "parentUuid": "a3fad6dc_e4e2fdd3",
+      "revId": "de484971f69abfb737837465db434e656389d225",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7086c0f4_56daaa2d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackIndex.java",
         "patchSetId": 5
