@@ -340,30 +340,22 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	 * @return non-null submodule id
 	 */
 	protected byte[] idSubmodule(File directory, Entry e) {
-		final Repository submoduleRepo;
-		try {
-			submoduleRepo = SubmoduleWalk.getSubmoduleRepository(directory,
-					e.getName(),
-					repository != null ? repository.getFS() : FS.DETECTED);
+		try (Repository submoduleRepo = SubmoduleWalk.getSubmoduleRepository(
+				directory, e.getName(),
+				repository != null ? repository.getFS() : FS.DETECTED)) {
+			if (submoduleRepo == null) {
+				return zeroid;
+			}
+			ObjectId head = submoduleRepo.resolve(Constants.HEAD);
+			if (head == null) {
+				return zeroid;
+			}
+			byte[] id = new byte[Constants.OBJECT_ID_LENGTH];
+			head.copyRawTo(id, 0);
+			return id;
 		} catch (IOException exception) {
 			return zeroid;
 		}
-		if (submoduleRepo == null)
-			return zeroid;
-
-		final ObjectId head;
-		try {
-			head = submoduleRepo.resolve(Constants.HEAD);
-		} catch (IOException exception) {
-			return zeroid;
-		} finally {
-			submoduleRepo.close();
-		}
-		if (head == null)
-			return zeroid;
-		final byte[] id = new byte[Constants.OBJECT_ID_LENGTH];
-		head.copyRawTo(id, 0);
-		return id;
 	}
 
 	private static final byte[] digits = { '0', '1', '2', '3', '4', '5', '6',
