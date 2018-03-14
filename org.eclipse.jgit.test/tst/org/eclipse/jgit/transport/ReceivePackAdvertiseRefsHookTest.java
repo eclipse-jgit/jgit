@@ -199,6 +199,23 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 		assertFalse(haves.get().contains(P));
 	}
 
+	private TransportLocal newTransportLocalWithStrictValidation()
+			throws Exception {
+		return new TransportLocal(src, uriOf(dst), dst.getDirectory()) {
+			@Override
+			ReceivePack createReceivePack(final Repository db) {
+				db.close();
+				dst.incrementOpen();
+
+				final ReceivePack rp = super.createReceivePack(dst);
+				rp.setCheckReceivedObjects(true);
+				rp.setCheckReferencedObjectsAreReachable(true);
+				rp.setAdvertiseRefsHook(new HidePrivateHook());
+				return rp;
+			}
+		};
+	}
+
 	@Test
 	public void testSuccess() throws Exception {
 		// Manually force a delta of an object so we reuse it later.
@@ -230,19 +247,7 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 
 		// Push this new content to the remote, doing strict validation.
 		//
-		TransportLocal t = new TransportLocal(src, uriOf(dst), dst.getDirectory()) {
-			@Override
-			ReceivePack createReceivePack(final Repository db) {
-				db.close();
-				dst.incrementOpen();
-
-				final ReceivePack rp = super.createReceivePack(dst);
-				rp.setCheckReceivedObjects(true);
-				rp.setCheckReferencedObjectsAreReachable(true);
-				rp.setAdvertiseRefsHook(new HidePrivateHook());
-				return rp;
-			}
-		};
+		PushResult r;
 		RemoteRefUpdate u = new RemoteRefUpdate( //
 				src, //
 				R_MASTER, // src name
@@ -251,12 +256,9 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 				null, // local tracking branch
 				null // expected id
 		);
-		PushResult r;
-		try {
+		try (TransportLocal t = newTransportLocalWithStrictValidation()) {
 			t.setPushThin(true);
 			r = t.push(PM, Collections.singleton(u));
-		} finally {
-			t.close();
 		}
 
 		assertNotNull("have result", r);
