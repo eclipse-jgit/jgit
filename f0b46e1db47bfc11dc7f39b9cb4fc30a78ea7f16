@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb8fca80_0287a3f4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectIdSerializer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-03-14T18:48:29Z",
+      "side": 1,
+      "message": "Should we expose this as writeNotNull like Gerrit\u0027s ObjectIdSerialization did? See the comments at https://gerrit-review.googlesource.com/c/gerrit/+/165851 for context.",
+      "revId": "f0b46e1db47bfc11dc7f39b9cb4fc30a78ea7f16",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
