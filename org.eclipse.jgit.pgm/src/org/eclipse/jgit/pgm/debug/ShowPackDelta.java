@@ -125,12 +125,13 @@ class ShowPackDelta extends TextBuiltin {
 			ptr++;
 		ptr++;
 
-		@SuppressWarnings("resource" /* java 7 */)
-		TemporaryBuffer.Heap raw = new TemporaryBuffer.Heap(bufArray.length);
-		InflaterInputStream inf = new InflaterInputStream(
-				new ByteArrayInputStream(bufArray, ptr, bufArray.length));
-		raw.copy(inf);
-		inf.close();
-		return raw.toByteArray();
+		try (TemporaryBuffer.Heap raw = new TemporaryBuffer.Heap(
+				bufArray.length);
+				InflaterInputStream inf = new InflaterInputStream(
+						new ByteArrayInputStream(bufArray, ptr,
+								bufArray.length))) {
+			raw.copy(inf);
+			return raw.toByteArray();
+		}
 	}
 }
