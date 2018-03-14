@@ -34,6 +34,24 @@
       "revId": "f0b46e1db47bfc11dc7f39b9cb4fc30a78ea7f16",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df150c7d_4215daa2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectIdSerializer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-03-14T21:47:00Z",
+      "side": 1,
+      "message": "This is included in the 4.11 release, so we\u0027ll need to make sure it\u0027s fixed in a way that doesn\u0027t break the API.",
+      "parentUuid": "acb1ba04_61663945",
+      "revId": "f0b46e1db47bfc11dc7f39b9cb4fc30a78ea7f16",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
