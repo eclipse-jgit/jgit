@@ -268,8 +268,7 @@ public class DfsPackCompactor {
 		pc.setReuseDeltas(true);
 		pc.setReuseObjects(true);
 
-		PackWriter pw = new PackWriter(pc, ctx);
-		try {
+		try (PackWriter pw = new PackWriter(pc, ctx)) {
 			pw.setDeltaBaseAsOffset(true);
 			pw.setReuseDeltaCommits(false);
 
@@ -285,8 +284,6 @@ public class DfsPackCompactor {
 				writeIndex(objdb, outDesc, pw);
 
 				PackStatistics stats = pw.getStatistics();
-				pw.close();
-				pw = null;
 
 				outDesc.setPackStats(stats);
 				newStats = stats;
@@ -295,10 +292,6 @@ public class DfsPackCompactor {
 				if (rollback) {
 					objdb.rollbackPack(Collections.singletonList(outDesc));
 				}
-			}
-		} finally {
-			if (pw != null) {
-				pw.close();
 			}
 		}
 	}
