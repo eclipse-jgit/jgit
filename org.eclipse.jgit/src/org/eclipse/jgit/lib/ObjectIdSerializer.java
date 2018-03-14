@@ -51,55 +51,108 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.util.IO;
 
 /**
  * Helper to serialize {@link ObjectId} instances. {@link ObjectId} is already
- * serializable, but this class provides a more optimal implementation. It
- * writes out a flag (0 or 1) followed by the object's words, or nothing if it
- * was a null id.
+ * serializable, but this class provides methods to handle null and non-null
+ * instances.
  *
  * @since 4.11
  */
 public class ObjectIdSerializer {
+	/*
+	 * Marker to indicate a null ObjectId instance.
+	 */
+	private static final byte NULL_MARKER = 0;
+
+	/*
+	 * Marker to indicate a non-null ObjectId instance.
+	 */
+	private static final byte NON_NULL_MARKER = 1;
+
 	/**
+	 * Write a possibly null {@link ObjectId} to the stream, using markers to
+	 * differentiate null and non-null instances.
+	 *
+	 * <p>
+	 * If the id is non-null, writes a {@link #NON_NULL_MARKER} followed by the
+	 * id's words. If it is null, writes a {@link #NULL_MARKER} and nothing
+	 * else.
+	 *
 	 * @param out
 	 *            the output stream
 	 * @param id
-	 *            the object id to serialize
+	 *            the object id to serialize; may be null
 	 * @throws IOException
 	 *             the stream writing failed
 	 */
 	public static void write(OutputStream out, @Nullable AnyObjectId id)
 			throws IOException {
 		if (id != null) {
-			out.write((byte) 1);
-			id.copyRawTo(out);
+			out.write(NON_NULL_MARKER);
+			writeWithoutMarker(out, id);
 		} else {
-			out.write((byte) 0);
+			out.write(NULL_MARKER);
 		}
 	}
 
 	/**
+	 * Write a non-null {@link ObjectId} to the stream.
+	 *
+	 * @param out
+	 *            the output stream
+	 * @param id
+	 *            the object id to serialize; never null
+	 * @throws IOException
+	 *             the stream writing failed
+	 */
+	public static void writeWithoutMarker(OutputStream out, @NonNull AnyObjectId id)
+			throws IOException {
+		id.copyRawTo(out);
+	}
+
+	/**
+	 * Read a possibly null {@link ObjectId} from the stream.
+	 *
+	 * Reads the first byte of the stream, which is expected to be either
+	 * {@link #NON_NULL_MARKER} or {@link #NULL_MARKER}.
+	 *
 	 * @param in
 	 *            the input stream
-	 * @return the object id
+	 * @return the object id, or null
 	 * @throws IOException
 	 *             there was an error reading the stream
 	 */
 	@Nullable
 	public static ObjectId read(InputStream in) throws IOException {
-		switch (in.read()) {
-		case 0:
+		byte marker = (byte) in.read();
+		switch (marker) {
+		case NULL_MARKER:
 			return null;
-		case 1:
-			final byte[] b = new byte[OBJECT_ID_LENGTH];
-			IO.readFully(in, b, 0, OBJECT_ID_LENGTH);
-			return ObjectId.fromRaw(b);
+		case NON_NULL_MARKER:
+			return readWithoutMarker(in);
 		default:
-			throw new IOException("Invalid flag before ObjectId"); //$NON-NLS-1$
+			throw new IOException("Invalid flag before ObjectId: " + marker); //$NON-NLS-1$
 		}
+	}
+
+	/**
+	 * Read a non-null {@link ObjectId} from the stream.
+	 *
+	 * @param in
+	 *            the input stream
+	 * @return the object id; never null
+	 * @throws IOException
+	 *             there was an error reading the stream
+	 */
+	@NonNull
+	public static ObjectId readWithoutMarker(InputStream in) throws IOException {
+		final byte[] b = new byte[OBJECT_ID_LENGTH];
+		IO.readFully(in, b, 0, OBJECT_ID_LENGTH);
+		return ObjectId.fromRaw(b);
 	}
 
 	private ObjectIdSerializer() {
