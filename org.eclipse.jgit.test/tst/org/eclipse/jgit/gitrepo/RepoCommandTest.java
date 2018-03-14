@@ -185,108 +185,93 @@ public class RepoCommandTest extends RepositoryTestCase {
 		}
 	}
 
+	private Repository cloneRepository(Repository repo, boolean bare)
+			throws Exception {
+		Repository r = Git.cloneRepository()
+				.setURI(repo.getDirectory().toURI().toString())
+				.setDirectory(createUniqueTestGitDir(true)).setBare(bare).call()
+				.getRepository();
+		if (bare) {
+			assertTrue(r.isBare());
+		} else {
+			assertFalse(r.isBare());
+		}
+		return r;
+	}
+
 	@Test
 	public void runTwiceIsNOP() throws Exception {
-		Repository child = Git.cloneRepository()
-			.setURI(groupADb.getDirectory().toURI().toString())
-			.setDirectory(createUniqueTestGitDir(true)).setBare(true).call()
-			.getRepository();
+		try (Repository child = cloneRepository(groupADb, true);
+				Repository dest = cloneRepository(db, true)) {
+			StringBuilder xmlContent = new StringBuilder();
+			xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+					.append("<manifest>")
+					.append("<remote name=\"remote1\" fetch=\"..\" />")
+					.append("<default revision=\"master\" remote=\"remote1\" />")
+					.append("<project path=\"base\" name=\"platform/base\" />")
+					.append("</manifest>");
+			RepoCommand cmd = new RepoCommand(dest);
 
-		Repository dest = Git.cloneRepository()
-			.setURI(db.getDirectory().toURI().toString())
-			.setDirectory(createUniqueTestGitDir(true)).setBare(true).call()
-			.getRepository();
+			IndexedRepos repos = new IndexedRepos();
+			repos.put("platform/base", child);
 
-		assertTrue(dest.isBare());
-		assertTrue(child.isBare());
+			RevCommit commit = cmd
+					.setInputStream(new ByteArrayInputStream(
+							xmlContent.toString().getBytes(CHARSET)))
+					.setRemoteReader(repos).setURI("platform/")
+					.setTargetURI("platform/superproject")
+					.setRecordRemoteBranch(true).setRecordSubmoduleLabels(true)
+					.call();
 
-		StringBuilder xmlContent = new StringBuilder();
-		xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
-			.append("<manifest>")
-			.append("<remote name=\"remote1\" fetch=\"..\" />")
-			.append("<default revision=\"master\" remote=\"remote1\" />")
-			.append("<project path=\"base\" name=\"platform/base\" />")
-			.append("</manifest>");
-		RepoCommand cmd = new RepoCommand(dest);
-
-		IndexedRepos repos = new IndexedRepos();
-		repos.put("platform/base", child);
-
-		RevCommit commit = cmd
-			.setInputStream(new ByteArrayInputStream(
-				xmlContent.toString().getBytes(CHARSET)))
-			.setRemoteReader(repos)
-			.setURI("platform/")
-			.setTargetURI("platform/superproject")
-			.setRecordRemoteBranch(true)
-			.setRecordSubmoduleLabels(true)
-			.call();
-
-		String firstIdStr = commit.getId().name() + ":" + ".gitmodules";
-		commit = new RepoCommand(dest)
-			.setInputStream(new ByteArrayInputStream(
-				xmlContent.toString().getBytes(CHARSET)))
-			.setRemoteReader(repos)
-			.setURI("platform/")
-			.setTargetURI("platform/superproject")
-			.setRecordRemoteBranch(true)
-			.setRecordSubmoduleLabels(true)
-			.call();
-		String idStr = commit.getId().name() + ":" + ".gitmodules";
-		assertEquals(firstIdStr, idStr);
-		child.close();
-		dest.close();
+			String firstIdStr = commit.getId().name() + ":" + ".gitmodules";
+			commit = new RepoCommand(dest)
+					.setInputStream(new ByteArrayInputStream(
+							xmlContent.toString().getBytes(CHARSET)))
+					.setRemoteReader(repos).setURI("platform/")
+					.setTargetURI("platform/superproject")
+					.setRecordRemoteBranch(true).setRecordSubmoduleLabels(true)
+					.call();
+			String idStr = commit.getId().name() + ":" + ".gitmodules";
+			assertEquals(firstIdStr, idStr);
+		}
 	}
 
 	@Test
 	public void androidSetup() throws Exception {
-		Repository child = Git.cloneRepository()
-				.setURI(groupADb.getDirectory().toURI().toString())
-				.setDirectory(createUniqueTestGitDir(true)).setBare(true).call()
-				.getRepository();
+		try (Repository child = cloneRepository(groupADb, true);
+				Repository dest = cloneRepository(db, true)) {
+			StringBuilder xmlContent = new StringBuilder();
+			xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+					.append("<manifest>")
+					.append("<remote name=\"remote1\" fetch=\"..\" />")
+					.append("<default revision=\"master\" remote=\"remote1\" />")
+					.append("<project path=\"base\" name=\"platform/base\" />")
+					.append("</manifest>");
+			RepoCommand cmd = new RepoCommand(dest);
 
-		Repository dest = Git.cloneRepository()
-				.setURI(db.getDirectory().toURI().toString())
-				.setDirectory(createUniqueTestGitDir(true)).setBare(true).call()
-				.getRepository();
+			IndexedRepos repos = new IndexedRepos();
+			repos.put("platform/base", child);
 
-		assertTrue(dest.isBare());
-		assertTrue(child.isBare());
+			RevCommit commit = cmd
+					.setInputStream(new ByteArrayInputStream(
+							xmlContent.toString().getBytes(CHARSET)))
+					.setRemoteReader(repos).setURI("platform/")
+					.setTargetURI("platform/superproject")
+					.setRecordRemoteBranch(true).setRecordSubmoduleLabels(true)
+					.call();
 
-		StringBuilder xmlContent = new StringBuilder();
-		xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
-			.append("<manifest>")
-			.append("<remote name=\"remote1\" fetch=\"..\" />")
-			.append("<default revision=\"master\" remote=\"remote1\" />")
-			.append("<project path=\"base\" name=\"platform/base\" />")
-			.append("</manifest>");
-		RepoCommand cmd = new RepoCommand(dest);
+			String idStr = commit.getId().name() + ":" + ".gitmodules";
+			ObjectId modId = dest.resolve(idStr);
 
-		IndexedRepos repos = new IndexedRepos();
-		repos.put("platform/base", child);
-
-		RevCommit commit = cmd
-			.setInputStream(new ByteArrayInputStream(xmlContent.toString().getBytes(CHARSET)))
-			.setRemoteReader(repos)
-			.setURI("platform/")
-			.setTargetURI("platform/superproject")
-			.setRecordRemoteBranch(true)
-			.setRecordSubmoduleLabels(true)
-			.call();
-
-		String idStr = commit.getId().name() + ":" + ".gitmodules";
-		ObjectId modId = dest.resolve(idStr);
-
-		try (ObjectReader reader = dest.newObjectReader()) {
-			byte[] bytes = reader.open(modId).getCachedBytes(Integer.MAX_VALUE);
-			Config base = new Config();
-			BlobBasedConfig cfg = new BlobBasedConfig(base, bytes);
-			String subUrl = cfg.getString("submodule", "base", "url");
-			assertEquals(subUrl, "../base");
+			try (ObjectReader reader = dest.newObjectReader()) {
+				byte[] bytes = reader.open(modId)
+						.getCachedBytes(Integer.MAX_VALUE);
+				Config base = new Config();
+				BlobBasedConfig cfg = new BlobBasedConfig(base, bytes);
+				String subUrl = cfg.getString("submodule", "base", "url");
+				assertEquals(subUrl, "../base");
+			}
 		}
-
-		child.close();
-		dest.close();
 	}
 
 	@Test
@@ -299,200 +284,174 @@ public class RepoCommandTest extends RepositoryTestCase {
 			.append("<project path=\"base\" name=\"platform/base\" />")
 			.append("</manifest>");
 
-		Repository dest = Git.cloneRepository()
-				.setURI(db.getDirectory().toURI().toString())
-				.setDirectory(createUniqueTestGitDir(true)).setBare(true).call()
-				.getRepository();
+		try (Repository dest = cloneRepository(db, true)) {
+			RevCommit commit = new RepoCommand(dest)
+					.setInputStream(new ByteArrayInputStream(
+							xmlContent.toString().getBytes(CHARSET)))
+					.setRemoteReader(new IndexedRepos()).setURI("platform/")
+					.setTargetURI("platform/superproject")
+					.setRecordRemoteBranch(true).setIgnoreRemoteFailures(true)
+					.setRecordSubmoduleLabels(true).call();
 
-		assertTrue(dest.isBare());
+			String idStr = commit.getId().name() + ":" + ".gitmodules";
+			ObjectId modId = dest.resolve(idStr);
 
-		RevCommit commit = new RepoCommand(dest)
-			.setInputStream(new ByteArrayInputStream(
-				xmlContent.toString().getBytes(CHARSET)))
-			.setRemoteReader(new IndexedRepos())
-			.setURI("platform/")
-			.setTargetURI("platform/superproject")
-			.setRecordRemoteBranch(true)
-			.setIgnoreRemoteFailures(true)
-			.setRecordSubmoduleLabels(true)
-			.call();
-
-		String idStr = commit.getId().name() + ":" + ".gitmodules";
-		ObjectId modId = dest.resolve(idStr);
-
-		try (ObjectReader reader = dest.newObjectReader()) {
-			byte[] bytes = reader.open(modId).getCachedBytes(Integer.MAX_VALUE);
-			Config base = new Config();
-			BlobBasedConfig cfg = new BlobBasedConfig(base, bytes);
-			String subUrl = cfg.getString("submodule", "base", "url");
-			assertEquals(subUrl, "https://host.com/platform/base");
+			try (ObjectReader reader = dest.newObjectReader()) {
+				byte[] bytes = reader.open(modId)
+						.getCachedBytes(Integer.MAX_VALUE);
+				Config base = new Config();
+				BlobBasedConfig cfg = new BlobBasedConfig(base, bytes);
+				String subUrl = cfg.getString("submodule", "base", "url");
+				assertEquals(subUrl, "https://host.com/platform/base");
+			}
 		}
-
-		dest.close();
 	}
 
 	@Test
 	public void gerritSetup() throws Exception {
-		Repository child =
-			Git.cloneRepository().setURI(groupADb.getDirectory().toURI().toString())
-				.setDirectory(createUniqueTestGitDir(true))
-				.setBare(true).call().getRepository();
+		try (Repository child = cloneRepository(groupADb, true);
+				Repository dest = cloneRepository(db, true)) {
+			StringBuilder xmlContent = new StringBuilder();
+			xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+					.append("<manifest>")
+					.append("<remote name=\"remote1\" fetch=\".\" />")
+					.append("<default revision=\"master\" remote=\"remote1\" />")
+					.append("<project path=\"plugins/cookbook\" name=\"plugins/cookbook\" />")
+					.append("</manifest>");
+			RepoCommand cmd = new RepoCommand(dest);
 
-		Repository dest = Git.cloneRepository()
-			.setURI(db.getDirectory().toURI().toString()).setDirectory(createUniqueTestGitDir(true))
-			.setBare(true).call().getRepository();
+			IndexedRepos repos = new IndexedRepos();
+			repos.put("plugins/cookbook", child);
 
-		assertTrue(dest.isBare());
-		assertTrue(child.isBare());
+			RevCommit commit = cmd
+					.setInputStream(new ByteArrayInputStream(
+							xmlContent.toString().getBytes(CHARSET)))
+					.setRemoteReader(repos).setURI("").setTargetURI("gerrit")
+					.setRecordRemoteBranch(true).setRecordSubmoduleLabels(true)
+					.call();
 
-		StringBuilder xmlContent = new StringBuilder();
-		xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
-			.append("<manifest>")
-			.append("<remote name=\"remote1\" fetch=\".\" />")
-			.append("<default revision=\"master\" remote=\"remote1\" />")
-			.append("<project path=\"plugins/cookbook\" name=\"plugins/cookbook\" />")
-			.append("</manifest>");
-		RepoCommand cmd = new RepoCommand(dest);
+			String idStr = commit.getId().name() + ":" + ".gitmodules";
+			ObjectId modId = dest.resolve(idStr);
 
-		IndexedRepos repos = new IndexedRepos();
-		repos.put("plugins/cookbook", child);
-
-		RevCommit commit = cmd
-			.setInputStream(new ByteArrayInputStream(xmlContent.toString().getBytes(CHARSET)))
-			.setRemoteReader(repos)
-			.setURI("")
-			.setTargetURI("gerrit")
-			.setRecordRemoteBranch(true)
-			.setRecordSubmoduleLabels(true)
-			.call();
-
-		String idStr = commit.getId().name() + ":" + ".gitmodules";
-		ObjectId modId = dest.resolve(idStr);
-
-		try (ObjectReader reader = dest.newObjectReader()) {
-			byte[] bytes = reader.open(modId).getCachedBytes(Integer.MAX_VALUE);
-			Config base = new Config();
-			BlobBasedConfig cfg = new BlobBasedConfig(base, bytes);
-			String subUrl = cfg.getString("submodule", "plugins/cookbook", "url");
-			assertEquals(subUrl, "../plugins/cookbook");
+			try (ObjectReader reader = dest.newObjectReader()) {
+				byte[] bytes = reader.open(modId)
+						.getCachedBytes(Integer.MAX_VALUE);
+				Config base = new Config();
+				BlobBasedConfig cfg = new BlobBasedConfig(base, bytes);
+				String subUrl = cfg.getString("submodule", "plugins/cookbook",
+						"url");
+				assertEquals(subUrl, "../plugins/cookbook");
+			}
 		}
-
-		child.close();
-		dest.close();
 	}
 
 	@Test
 	public void absoluteRemoteURL() throws Exception {
-		Repository child =
-			Git.cloneRepository().setURI(groupADb.getDirectory().toURI().toString())
-				.setDirectory(createUniqueTestGitDir(true))
-				.setBare(true).call().getRepository();
-		Repository dest = Git.cloneRepository()
-			.setURI(db.getDirectory().toURI().toString()).setDirectory(createUniqueTestGitDir(true))
-			.setBare(true).call().getRepository();
-		String abs = "https://chromium.googlesource.com";
-		String repoUrl = "https://chromium.googlesource.com/chromium/src";
-		boolean fetchSlash = false;
-		boolean baseSlash = false;
-		do {
+		try (Repository child = cloneRepository(groupADb, true);
+				Repository dest = cloneRepository(db, true)) {
+			String abs = "https://chromium.googlesource.com";
+			String repoUrl = "https://chromium.googlesource.com/chromium/src";
+			boolean fetchSlash = false;
+			boolean baseSlash = false;
 			do {
-				String fetchUrl = fetchSlash ? abs + "/" : abs;
-				String baseUrl = baseSlash ? abs + "/" : abs;
+				do {
+					String fetchUrl = fetchSlash ? abs + "/" : abs;
+					String baseUrl = baseSlash ? abs + "/" : abs;
 
-				StringBuilder xmlContent = new StringBuilder();
-				xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
-					.append("<manifest>")
-					.append("<remote name=\"origin\" fetch=\"" + fetchUrl + "\" />")
-					.append("<default revision=\"master\" remote=\"origin\" />")
-					.append("<project path=\"src\" name=\"chromium/src\" />")
-					.append("</manifest>");
-				RepoCommand cmd = new RepoCommand(dest);
+					StringBuilder xmlContent = new StringBuilder();
+					xmlContent.append(
+							"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+							.append("<manifest>")
+							.append("<remote name=\"origin\" fetch=\""
+									+ fetchUrl + "\" />")
+							.append("<default revision=\"master\" remote=\"origin\" />")
+							.append("<project path=\"src\" name=\"chromium/src\" />")
+							.append("</manifest>");
+					RepoCommand cmd = new RepoCommand(dest);
 
-				IndexedRepos repos = new IndexedRepos();
-				repos.put(repoUrl, child);
+					IndexedRepos repos = new IndexedRepos();
+					repos.put(repoUrl, child);
 
-				RevCommit commit = cmd
-					.setInputStream(new ByteArrayInputStream(xmlContent.toString().getBytes(CHARSET)))
-					.setRemoteReader(repos)
-					.setURI(baseUrl)
-					.setTargetURI("gerrit")
-					.setRecordRemoteBranch(true)
-					.setRecordSubmoduleLabels(true)
-					.call();
+					RevCommit commit = cmd
+							.setInputStream(new ByteArrayInputStream(
+									xmlContent.toString().getBytes(CHARSET)))
+							.setRemoteReader(repos).setURI(baseUrl)
+							.setTargetURI("gerrit").setRecordRemoteBranch(true)
+							.setRecordSubmoduleLabels(true).call();
 
-				String idStr = commit.getId().name() + ":" + ".gitmodules";
-				ObjectId modId = dest.resolve(idStr);
+					String idStr = commit.getId().name() + ":" + ".gitmodules";
+					ObjectId modId = dest.resolve(idStr);
 
-				try (ObjectReader reader = dest.newObjectReader()) {
-					byte[] bytes = reader.open(modId).getCachedBytes(Integer.MAX_VALUE);
-					Config base = new Config();
-					BlobBasedConfig cfg = new BlobBasedConfig(base, bytes);
-					String subUrl = cfg.getString("submodule", "src", "url");
-					assertEquals("https://chromium.googlesource.com/chromium/src", subUrl);
-				}
-				fetchSlash = !fetchSlash;
-			} while (fetchSlash);
-			baseSlash = !baseSlash;
-		} while (baseSlash);
-		child.close();
-		dest.close();
+					try (ObjectReader reader = dest.newObjectReader()) {
+						byte[] bytes = reader.open(modId)
+								.getCachedBytes(Integer.MAX_VALUE);
+						Config base = new Config();
+						BlobBasedConfig cfg = new BlobBasedConfig(base, bytes);
+						String subUrl = cfg.getString("submodule", "src",
+								"url");
+						assertEquals(
+								"https://chromium.googlesource.com/chromium/src",
+								subUrl);
+					}
+					fetchSlash = !fetchSlash;
+				} while (fetchSlash);
+				baseSlash = !baseSlash;
+			} while (baseSlash);
+		}
 	}
 
 	@Test
 	public void absoluteRemoteURLAbsoluteTargetURL() throws Exception {
-		Repository child =
-			Git.cloneRepository().setURI(groupADb.getDirectory().toURI().toString())
-				.setDirectory(createUniqueTestGitDir(true))
-				.setBare(true).call().getRepository();
-		Repository dest = Git.cloneRepository()
-			.setURI(db.getDirectory().toURI().toString()).setDirectory(createUniqueTestGitDir(true))
-			.setBare(true).call().getRepository();
-		String abs = "https://chromium.googlesource.com";
-		String repoUrl = "https://chromium.googlesource.com/chromium/src";
-		boolean fetchSlash = false;
-		boolean baseSlash = false;
-		do {
+		try (Repository child = cloneRepository(groupADb, true);
+				Repository dest = cloneRepository(db, true)) {
+			String abs = "https://chromium.googlesource.com";
+			String repoUrl = "https://chromium.googlesource.com/chromium/src";
+			boolean fetchSlash = false;
+			boolean baseSlash = false;
 			do {
-				String fetchUrl = fetchSlash ? abs + "/" : abs;
-				String baseUrl = baseSlash ? abs + "/" : abs;
+				do {
+					String fetchUrl = fetchSlash ? abs + "/" : abs;
+					String baseUrl = baseSlash ? abs + "/" : abs;
 
-				StringBuilder xmlContent = new StringBuilder();
-				xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
-					.append("<manifest>")
-					.append("<remote name=\"origin\" fetch=\"" + fetchUrl + "\" />")
-					.append("<default revision=\"master\" remote=\"origin\" />")
-					.append("<project path=\"src\" name=\"chromium/src\" />")
-					.append("</manifest>");
-				RepoCommand cmd = new RepoCommand(dest);
+					StringBuilder xmlContent = new StringBuilder();
+					xmlContent.append(
+							"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+							.append("<manifest>")
+							.append("<remote name=\"origin\" fetch=\""
+									+ fetchUrl + "\" />")
+							.append("<default revision=\"master\" remote=\"origin\" />")
+							.append("<project path=\"src\" name=\"chromium/src\" />")
+							.append("</manifest>");
+					RepoCommand cmd = new RepoCommand(dest);
 
-				IndexedRepos repos = new IndexedRepos();
-				repos.put(repoUrl, child);
+					IndexedRepos repos = new IndexedRepos();
+					repos.put(repoUrl, child);
 
-				RevCommit commit = cmd
-					.setInputStream(new ByteArrayInputStream(xmlContent.toString().getBytes(CHARSET)))
-					.setRemoteReader(repos)
-					.setURI(baseUrl)
-					.setTargetURI(abs + "/superproject")
-					.setRecordRemoteBranch(true)
-					.setRecordSubmoduleLabels(true)
-					.call();
+					RevCommit commit = cmd
+							.setInputStream(new ByteArrayInputStream(
+									xmlContent.toString().getBytes(CHARSET)))
+							.setRemoteReader(repos).setURI(baseUrl)
+							.setTargetURI(abs + "/superproject")
+							.setRecordRemoteBranch(true)
+							.setRecordSubmoduleLabels(true).call();
 
-				String idStr = commit.getId().name() + ":" + ".gitmodules";
-				ObjectId modId = dest.resolve(idStr);
+					String idStr = commit.getId().name() + ":" + ".gitmodules";
+					ObjectId modId = dest.resolve(idStr);
 
-				try (ObjectReader reader = dest.newObjectReader()) {
-					byte[] bytes = reader.open(modId).getCachedBytes(Integer.MAX_VALUE);
-					Config base = new Config();
-					BlobBasedConfig cfg = new BlobBasedConfig(base, bytes);
-					String subUrl = cfg.getString("submodule", "src", "url");
-					assertEquals("../chromium/src", subUrl);
-				}
-				fetchSlash = !fetchSlash;
-			} while (fetchSlash);
-			baseSlash = !baseSlash;
-		} while (baseSlash);
-		child.close();
-		dest.close();
+					try (ObjectReader reader = dest.newObjectReader()) {
+						byte[] bytes = reader.open(modId)
+								.getCachedBytes(Integer.MAX_VALUE);
+						Config base = new Config();
+						BlobBasedConfig cfg = new BlobBasedConfig(base, bytes);
+						String subUrl = cfg.getString("submodule", "src",
+								"url");
+						assertEquals("../chromium/src", subUrl);
+					}
+					fetchSlash = !fetchSlash;
+				} while (fetchSlash);
+				baseSlash = !baseSlash;
+			} while (baseSlash);
+		}
 	}
 
 	@Test
@@ -513,11 +472,12 @@ public class RepoCommandTest extends RepositoryTestCase {
 			.call();
 		File hello = new File(db.getWorkTree(), "foo/hello.txt");
 		assertTrue("submodule should be checked out", hello.exists());
-		BufferedReader reader = new BufferedReader(new FileReader(hello));
-		String content = reader.readLine();
-		reader.close();
-		assertEquals("submodule content should be as expected",
-				"master world", content);
+		try (BufferedReader reader = new BufferedReader(
+				new FileReader(hello))) {
+			String content = reader.readLine();
+			assertEquals("submodule content should be as expected",
+					"master world", content);
+		}
 	}
 
 	@Test
@@ -603,19 +563,21 @@ public class RepoCommandTest extends RepositoryTestCase {
 		// The original file should exist
 		File hello = new File(localDb.getWorkTree(), "foo/hello.txt");
 		assertTrue("The original file should exist", hello.exists());
-		BufferedReader reader = new BufferedReader(new FileReader(hello));
-		String content = reader.readLine();
-		reader.close();
-		assertEquals("The original file should have expected content",
-				"master world", content);
+		try (BufferedReader reader = new BufferedReader(
+				new FileReader(hello))) {
+			String content = reader.readLine();
+			assertEquals("The original file should have expected content",
+					"master world", content);
+		}
 		// The dest file should also exist
 		hello = new File(localDb.getWorkTree(), "Hello");
 		assertTrue("The destination file should exist", hello.exists());
-		reader = new BufferedReader(new FileReader(hello));
-		content = reader.readLine();
-		reader.close();
-		assertEquals("The destination file should have expected content",
-				"master world", content);
+		try (BufferedReader reader = new BufferedReader(
+				new FileReader(hello))) {
+			String content = reader.readLine();
+			assertEquals("The destination file should have expected content",
+					"master world", content);
+		}
 	}
 
 	@Test
@@ -638,24 +600,27 @@ public class RepoCommandTest extends RepositoryTestCase {
 				.setURI(rootUri).call();
 		// Clone it
 		File directory = createTempDirectory("testBareRepo");
-		Repository localDb = Git.cloneRepository().setDirectory(directory)
+		try (Repository localDb = Git.cloneRepository().setDirectory(directory)
 				.setURI(remoteDb.getDirectory().toURI().toString()).call()
-				.getRepository();
-		// The .gitmodules file should exist
-		File gitmodules = new File(localDb.getWorkTree(), ".gitmodules");
-		assertTrue("The .gitmodules file should exist", gitmodules.exists());
-		// The first line of .gitmodules file should be expected
-		BufferedReader reader = new BufferedReader(new FileReader(gitmodules));
-		String content = reader.readLine();
-		reader.close();
-		assertEquals("The first line of .gitmodules file should be as expected",
-				"[submodule \"foo\"]", content);
-		// The gitlink should be the same as remote head sha1
-		String gitlink = localDb.resolve(Constants.HEAD + ":foo").name();
-		localDb.close();
-		String remote = defaultDb.resolve(Constants.HEAD).name();
-		assertEquals("The gitlink should be the same as remote head", remote,
-				gitlink);
+				.getRepository()) {
+			// The .gitmodules file should exist
+			File gitmodules = new File(localDb.getWorkTree(), ".gitmodules");
+			assertTrue("The .gitmodules file should exist",
+					gitmodules.exists());
+			// The first line of .gitmodules file should be expected
+			try (BufferedReader reader = new BufferedReader(
+					new FileReader(gitmodules))) {
+				String content = reader.readLine();
+				assertEquals(
+						"The first line of .gitmodules file should be as expected",
+						"[submodule \"foo\"]", content);
+			}
+			// The gitlink should be the same as remote head sha1
+			String gitlink = localDb.resolve(Constants.HEAD + ":foo").name();
+			String remote = defaultDb.resolve(Constants.HEAD).name();
+			assertEquals("The gitlink should be the same as remote head",
+					remote, gitlink);
+		}
 	}
 
 	@Test
@@ -677,11 +642,12 @@ public class RepoCommandTest extends RepositoryTestCase {
 			.setURI(rootUri)
 			.call();
 		File hello = new File(db.getWorkTree(), "foo/hello.txt");
-		BufferedReader reader = new BufferedReader(new FileReader(hello));
-		String content = reader.readLine();
-		reader.close();
-		assertEquals("submodule content should be as expected",
-				"branch world", content);
+		try (BufferedReader reader = new BufferedReader(
+				new FileReader(hello))) {
+			String content = reader.readLine();
+			assertEquals("submodule content should be as expected",
+					"branch world", content);
+		}
 	}
 
 	@Test
@@ -703,11 +669,12 @@ public class RepoCommandTest extends RepositoryTestCase {
 			.setURI(rootUri)
 			.call();
 		File hello = new File(db.getWorkTree(), "foo/hello.txt");
-		BufferedReader reader = new BufferedReader(new FileReader(hello));
-		String content = reader.readLine();
-		reader.close();
-		assertEquals("submodule content should be as expected",
-				"branch world", content);
+		try (BufferedReader reader = new BufferedReader(
+				new FileReader(hello))) {
+			String content = reader.readLine();
+			assertEquals("submodule content should be as expected",
+					"branch world", content);
+		}
 	}
 
 	@Test
@@ -729,11 +696,12 @@ public class RepoCommandTest extends RepositoryTestCase {
 			.setURI(rootUri)
 			.call();
 		File hello = new File(db.getWorkTree(), "foo/hello.txt");
-		BufferedReader reader = new BufferedReader(new FileReader(hello));
-		String content = reader.readLine();
-		reader.close();
-		assertEquals("submodule content should be as expected",
-				"branch world", content);
+		try (BufferedReader reader = new BufferedReader(
+				new FileReader(hello))) {
+			String content = reader.readLine();
+			assertEquals("submodule content should be as expected",
+					"branch world", content);
+		}
 	}
 
 	@Test
@@ -757,14 +725,14 @@ public class RepoCommandTest extends RepositoryTestCase {
 				.setURI(rootUri).call();
 		// Clone it
 		File directory = createTempDirectory("testRevisionBare");
-		Repository localDb = Git.cloneRepository().setDirectory(directory)
+		try (Repository localDb = Git.cloneRepository().setDirectory(directory)
 				.setURI(remoteDb.getDirectory().toURI().toString()).call()
-				.getRepository();
-		// The gitlink should be the same as oldCommitId
-		String gitlink = localDb.resolve(Constants.HEAD + ":foo").name();
-		localDb.close();
-		assertEquals("The gitlink is same as remote head", oldCommitId.name(),
-				gitlink);
+				.getRepository()) {
+			// The gitlink should be the same as oldCommitId
+			String gitlink = localDb.resolve(Constants.HEAD + ":foo").name();
+			assertEquals("The gitlink is same as remote head",
+					oldCommitId.name(), gitlink);
+		}
 	}
 
 	@Test
@@ -790,22 +758,24 @@ public class RepoCommandTest extends RepositoryTestCase {
 				.setURI(rootUri).call();
 		// Clone it
 		File directory = createTempDirectory("testCopyFileBare");
-		Repository localDb = Git.cloneRepository().setDirectory(directory)
+		try (Repository localDb = Git.cloneRepository().setDirectory(directory)
 				.setURI(remoteDb.getDirectory().toURI().toString()).call()
-				.getRepository();
-		// The Hello file should exist
-		File hello = new File(localDb.getWorkTree(), "Hello");
-		assertTrue("The Hello file should exist", hello.exists());
-		// The foo/Hello file should be skipped.
-		File foohello = new File(localDb.getWorkTree(), "foo/Hello");
-		assertFalse("The foo/Hello file should be skipped", foohello.exists());
-		localDb.close();
-		// The content of Hello file should be expected
-		BufferedReader reader = new BufferedReader(new FileReader(hello));
-		String content = reader.readLine();
-		reader.close();
-		assertEquals("The Hello file should have expected content",
-				"branch world", content);
+				.getRepository()) {
+			// The Hello file should exist
+			File hello = new File(localDb.getWorkTree(), "Hello");
+			assertTrue("The Hello file should exist", hello.exists());
+			// The foo/Hello file should be skipped.
+			File foohello = new File(localDb.getWorkTree(), "foo/Hello");
+			assertFalse("The foo/Hello file should be skipped",
+					foohello.exists());
+			// The content of Hello file should be expected
+			try (BufferedReader reader = new BufferedReader(
+					new FileReader(hello))) {
+				String content = reader.readLine();
+				assertEquals("The Hello file should have expected content",
+						"branch world", content);
+			}
+		}
 	}
 
 	@Test
@@ -841,36 +811,38 @@ public class RepoCommandTest extends RepositoryTestCase {
 				.setURI(rootUri).call();
 		// Clone it
 		File directory = createTempDirectory("testReplaceManifestBare");
-		Repository localDb = Git.cloneRepository().setDirectory(directory)
+		File dotmodules;
+		try (Repository localDb = Git.cloneRepository().setDirectory(directory)
 				.setURI(remoteDb.getDirectory().toURI().toString()).call()
-				.getRepository();
-		// The Hello file should not exist
-		File hello = new File(localDb.getWorkTree(), "Hello");
-		assertFalse("The Hello file shouldn't exist", hello.exists());
-		// The Hello.txt file should exist
-		File hellotxt = new File(localDb.getWorkTree(), "Hello.txt");
-		assertTrue("The Hello.txt file should exist", hellotxt.exists());
+				.getRepository()) {
+			// The Hello file should not exist
+			File hello = new File(localDb.getWorkTree(), "Hello");
+			assertFalse("The Hello file shouldn't exist", hello.exists());
+			// The Hello.txt file should exist
+			File hellotxt = new File(localDb.getWorkTree(), "Hello.txt");
+			assertTrue("The Hello.txt file should exist", hellotxt.exists());
+			dotmodules = new File(localDb.getWorkTree(),
+					Constants.DOT_GIT_MODULES);
+		}
 		// The .gitmodules file should have 'submodule "bar"' and shouldn't
 		// have
 		// 'submodule "foo"' lines.
-		File dotmodules = new File(localDb.getWorkTree(),
-				Constants.DOT_GIT_MODULES);
-		localDb.close();
-		BufferedReader reader = new BufferedReader(new FileReader(dotmodules));
-		boolean foo = false;
-		boolean bar = false;
-		while (true) {
-			String line = reader.readLine();
-			if (line == null)
-				break;
-			if (line.contains("submodule \"foo\""))
-				foo = true;
-			if (line.contains("submodule \"bar\""))
-				bar = true;
+		try (BufferedReader reader = new BufferedReader(
+				new FileReader(dotmodules))) {
+			boolean foo = false;
+			boolean bar = false;
+			while (true) {
+				String line = reader.readLine();
+				if (line == null)
+					break;
+				if (line.contains("submodule \"foo\""))
+					foo = true;
+				if (line.contains("submodule \"bar\""))
+					bar = true;
+			}
+			assertTrue("The bar submodule should exist", bar);
+			assertFalse("The foo submodule shouldn't exist", foo);
 		}
-		reader.close();
-		assertTrue("The bar submodule should exist", bar);
-		assertFalse("The foo submodule shouldn't exist", foo);
 	}
 
 	@Test
@@ -896,34 +868,37 @@ public class RepoCommandTest extends RepositoryTestCase {
 				.setURI(rootUri).call();
 		// Clone it
 		File directory = createTempDirectory("testRemoveOverlappingBare");
-		Repository localDb = Git.cloneRepository().setDirectory(directory)
+		File dotmodules;
+		try (Repository localDb = Git.cloneRepository().setDirectory(directory)
 				.setURI(remoteDb.getDirectory().toURI().toString()).call()
-				.getRepository();
+				.getRepository()) {
+			dotmodules = new File(localDb.getWorkTree(),
+				Constants.DOT_GIT_MODULES);
+		}
+
 		// The .gitmodules file should have 'submodule "foo"' and shouldn't
 		// have
 		// 'submodule "foo/bar"' lines.
-		File dotmodules = new File(localDb.getWorkTree(),
-				Constants.DOT_GIT_MODULES);
-		localDb.close();
-		BufferedReader reader = new BufferedReader(new FileReader(dotmodules));
-		boolean foo = false;
-		boolean foobar = false;
-		boolean a = false;
-		while (true) {
-			String line = reader.readLine();
-			if (line == null)
-				break;
-			if (line.contains("submodule \"foo\""))
-				foo = true;
-			if (line.contains("submodule \"foo/bar\""))
-				foobar = true;
-			if (line.contains("submodule \"a\""))
-				a = true;
+		try (BufferedReader reader = new BufferedReader(
+				new FileReader(dotmodules))) {
+			boolean foo = false;
+			boolean foobar = false;
+			boolean a = false;
+			while (true) {
+				String line = reader.readLine();
+				if (line == null)
+					break;
+				if (line.contains("submodule \"foo\""))
+					foo = true;
+				if (line.contains("submodule \"foo/bar\""))
+					foobar = true;
+				if (line.contains("submodule \"a\""))
+					a = true;
+			}
+			assertTrue("The foo submodule should exist", foo);
+			assertFalse("The foo/bar submodule shouldn't exist", foobar);
+			assertTrue("The a submodule should exist", a);
 		}
-		reader.close();
-		assertTrue("The foo submodule should exist", foo);
-		assertFalse("The foo/bar submodule shouldn't exist", foobar);
-		assertTrue("The a submodule should exist", a);
 	}
 
 	@Test
@@ -959,11 +934,12 @@ public class RepoCommandTest extends RepositoryTestCase {
 			.call();
 		File hello = new File(localDb.getWorkTree(), "foo/hello.txt");
 		assertTrue("submodule should be checked out", hello.exists());
-		BufferedReader reader = new BufferedReader(new FileReader(hello));
-		String content = reader.readLine();
-		reader.close();
-		assertEquals("submodule content should be as expected",
-				"master world", content);
+		try (BufferedReader reader = new BufferedReader(
+				new FileReader(hello))) {
+			String content = reader.readLine();
+			assertEquals("submodule content should be as expected",
+					"master world", content);
+		}
 	}
 	@Test
 	public void testRemoteAlias() throws Exception {
@@ -1165,11 +1141,12 @@ public class RepoCommandTest extends RepositoryTestCase {
 			.setURI(rootUri)
 			.call();
 		File hello = new File(db.getWorkTree(), "foo/hello.txt");
-		BufferedReader reader = new BufferedReader(new FileReader(hello));
-		String content = reader.readLine();
-		reader.close();
-		assertEquals("submodule content should be as expected",
-				"branch world", content);
+		try (BufferedReader reader = new BufferedReader(
+				new FileReader(hello))) {
+			String content = reader.readLine();
+			assertEquals("submodule content should be as expected",
+					"branch world", content);
+		}
 	}
 
 	@Test
@@ -1191,11 +1168,12 @@ public class RepoCommandTest extends RepositoryTestCase {
 			.setURI(rootUri)
 			.call();
 		File hello = new File(db.getWorkTree(), "foo/hello.txt");
-		BufferedReader reader = new BufferedReader(new FileReader(hello));
-		String content = reader.readLine();
-		reader.close();
-		assertEquals("submodule content should be as expected",
-				"branch world", content);
+		try (BufferedReader reader = new BufferedReader(
+				new FileReader(hello))) {
+			String content = reader.readLine();
+			assertEquals("submodule content should be as expected",
+					"branch world", content);
+		}
 	}
 
 	private void resolveRelativeUris() {
