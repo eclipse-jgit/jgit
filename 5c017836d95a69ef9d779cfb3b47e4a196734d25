@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1108c47a_53699274",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 2088,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-03-14T00:31:54Z",
+      "side": 1,
+      "message": "optional: can simplify by eliminating the variable:\n\n if (filterBlobLimit \u003c 0 ||\n     type !\u003d OBJ_BLOB ||\n     reader.getObjectSize(src, OBJ_BLOB) \u003c\u003d filterBlobLimit) {\n   addObject(...);\n }",
+      "revId": "5c017836d95a69ef9d779cfb3b47e4a196734d25",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ebd4d93_a4869bbc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-03-14T00:31:54Z",
+      "side": 1,
+      "message": "This returns a boolean. What should happen when the remote end lacks this capability?",
+      "revId": "5c017836d95a69ef9d779cfb3b47e4a196734d25",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
