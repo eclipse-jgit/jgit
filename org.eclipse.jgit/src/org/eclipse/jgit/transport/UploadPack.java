@@ -1541,6 +1541,8 @@ public class UploadPack {
 		PackConfig cfg = packConfig;
 		if (cfg == null)
 			cfg = new PackConfig(db);
+		@SuppressWarnings("resource") // PackWriter is referenced in the finally
+										// block, and is closed there
 		final PackWriter pw = new PackWriter(cfg, walk.getObjectReader(),
 				accumulator);
 		try {
