@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "62007d09_7abe8750",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectIdSerializer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-03-14T23:42:03Z",
+      "side": 1,
+      "message": "optional: how about something like writeWithoutMarker? That way, it\u0027s more obvious at the call site that this is a different serialization format.",
+      "range": {
+        "startLine": 112,
+        "startChar": 20,
+        "endLine": 112,
+        "endChar": 32
+      },
+      "revId": "25f5c2c0fbbd7cd25059ea754157e82cdb27000b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3fd2ec25_d24b1629",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectIdSerializer.java",
         "patchSetId": 1
