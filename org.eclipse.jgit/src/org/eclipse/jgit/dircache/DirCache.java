@@ -702,6 +702,8 @@ public class DirCache {
 		}
 
 		if (writeTree) {
+			@SuppressWarnings("resource") // Explicitly closed in try block, and
+											// destroyed in finally
 			TemporaryBuffer bb = new TemporaryBuffer.LocalFile(dir, 5 << 20);
 			try {
 				tree.write(tmp, bb);
