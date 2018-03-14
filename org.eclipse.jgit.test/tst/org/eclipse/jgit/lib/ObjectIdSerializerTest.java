@@ -79,10 +79,18 @@ public class ObjectIdSerializerTest {
 			throws Exception {
 		File file = File.createTempFile("ObjectIdSerializerTest_", "");
 		try (OutputStream out = new FileOutputStream(file)) {
-			ObjectIdSerializer.write(out, objectId);
+			if (objectId == null) {
+				ObjectIdSerializer.write(out, objectId);
+			} else {
+				ObjectIdSerializer.writeWithoutMarker(out, objectId);
+			}
 		}
 		try (InputStream in = new FileInputStream(file)) {
-			return ObjectIdSerializer.read(in);
+			if (objectId == null) {
+				return ObjectIdSerializer.read(in);
+			} else {
+				return ObjectIdSerializer.readWithoutMarker(in);
+			}
 		}
 	}
 }
