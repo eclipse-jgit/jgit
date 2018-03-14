@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c091c74_79723521",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-03-14T01:38:06Z",
+      "side": 1,
+      "message": "See comments on https://git.eclipse.org/r/#/c/119294/3/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackIndexFileInputStream.java",
+      "revId": "d9ae4a9d9d31ae35f785c25159ee7f402aa80d0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
