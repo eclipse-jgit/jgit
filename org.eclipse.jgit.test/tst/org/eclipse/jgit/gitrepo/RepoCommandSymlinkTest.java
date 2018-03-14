@@ -119,45 +119,47 @@ public class RepoCommandSymlinkTest extends RepositoryTestCase {
 					.setURI(rootUri).call();
 			// Clone it
 			File directory = createTempDirectory("testCopyFileBare");
-			Repository localDb = Git.cloneRepository().setDirectory(directory)
+			try (Repository localDb = Git.cloneRepository()
+					.setDirectory(directory)
 					.setURI(remoteDb.getDirectory().toURI().toString()).call()
-					.getRepository();
+					.getRepository()) {
 
-			// The LinkedHello symlink should exist.
-			File linkedhello = new File(localDb.getWorkTree(), "LinkedHello");
-			assertTrue("The LinkedHello file should exist",
-					localDb.getFS().exists(linkedhello));
-			assertTrue("The LinkedHello file should be a symlink",
-					localDb.getFS().isSymLink(linkedhello));
-			assertEquals("foo/hello.txt",
-					localDb.getFS().readSymLink(linkedhello));
+				// The LinkedHello symlink should exist.
+				File linkedhello = new File(localDb.getWorkTree(),
+						"LinkedHello");
+				assertTrue("The LinkedHello file should exist",
+						localDb.getFS().exists(linkedhello));
+				assertTrue("The LinkedHello file should be a symlink",
+						localDb.getFS().isSymLink(linkedhello));
+				assertEquals("foo/hello.txt",
+						localDb.getFS().readSymLink(linkedhello));
 
-			// The foo/LinkedHello file should be skipped.
-			File linkedfoohello = new File(localDb.getWorkTree(), "foo/LinkedHello");
-			assertFalse("The foo/LinkedHello file should be skipped",
-					localDb.getFS().exists(linkedfoohello));
+				// The foo/LinkedHello file should be skipped.
+				File linkedfoohello = new File(localDb.getWorkTree(),
+						"foo/LinkedHello");
+				assertFalse("The foo/LinkedHello file should be skipped",
+						localDb.getFS().exists(linkedfoohello));
 
-			// The subdir/LinkedHello file should use a relative ../
-			File linkedsubdirhello = new File(localDb.getWorkTree(),
-					"subdir/LinkedHello");
-			assertTrue("The subdir/LinkedHello file should exist",
-					localDb.getFS().exists(linkedsubdirhello));
-			assertTrue("The subdir/LinkedHello file should be a symlink",
-					localDb.getFS().isSymLink(linkedsubdirhello));
-			assertEquals("../foo/hello.txt",
-					localDb.getFS().readSymLink(linkedsubdirhello));
+				// The subdir/LinkedHello file should use a relative ../
+				File linkedsubdirhello = new File(localDb.getWorkTree(),
+						"subdir/LinkedHello");
+				assertTrue("The subdir/LinkedHello file should exist",
+						localDb.getFS().exists(linkedsubdirhello));
+				assertTrue("The subdir/LinkedHello file should be a symlink",
+						localDb.getFS().isSymLink(linkedsubdirhello));
+				assertEquals("../foo/hello.txt",
+						localDb.getFS().readSymLink(linkedsubdirhello));
 
-			// The bar/foo/LinkedHello file should use a single relative ../
-			File linkedbarfoohello = new File(localDb.getWorkTree(),
-					"bar/foo/LinkedHello");
-			assertTrue("The bar/foo/LinkedHello file should exist",
-					localDb.getFS().exists(linkedbarfoohello));
-			assertTrue("The bar/foo/LinkedHello file should be a symlink",
-					localDb.getFS().isSymLink(linkedbarfoohello));
-			assertEquals("../baz/hello.txt",
-					localDb.getFS().readSymLink(linkedbarfoohello));
-
-			localDb.close();
+				// The bar/foo/LinkedHello file should use a single relative ../
+				File linkedbarfoohello = new File(localDb.getWorkTree(),
+						"bar/foo/LinkedHello");
+				assertTrue("The bar/foo/LinkedHello file should exist",
+						localDb.getFS().exists(linkedbarfoohello));
+				assertTrue("The bar/foo/LinkedHello file should be a symlink",
+						localDb.getFS().isSymLink(linkedbarfoohello));
+				assertEquals("../baz/hello.txt",
+						localDb.getFS().readSymLink(linkedbarfoohello));
+			}
 		}
 	}
 }
