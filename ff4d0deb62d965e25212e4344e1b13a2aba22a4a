@@ -16,6 +16,24 @@
       "revId": "ff4d0deb62d965e25212e4344e1b13a2aba22a4a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4237f4f_8a0e87e5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackIndexFileInputStream.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-03-14T01:43:38Z",
+      "side": 1,
+      "message": "Actually, there are a few other places where it could be reused, so I do think it\u0027s worth changing this.",
+      "parentUuid": "bd40f92d_b46f7093",
+      "revId": "ff4d0deb62d965e25212e4344e1b13a2aba22a4a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
