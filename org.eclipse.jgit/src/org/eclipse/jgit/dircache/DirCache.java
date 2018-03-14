@@ -429,18 +429,18 @@ public class DirCache {
 		if (!liveFile.exists())
 			clear();
 		else if (snapshot == null || snapshot.isModified(liveFile)) {
-			try {
-				final FileInputStream inStream = new FileInputStream(liveFile);
-				try {
-					clear();
-					readFrom(inStream);
-				} finally {
+			try (FileInputStream inStream = new FileInputStream(liveFile) {
+				@Override
+				public void close() {
 					try {
-						inStream.close();
-					} catch (IOException err2) {
-						// Ignore any close failures.
+						super.close();
+					} catch (IOException e) {
+						// Ignore
 					}
 				}
+			}) {
+				clear();
+				readFrom(inStream);
 			} catch (FileNotFoundException fnfe) {
 				if (liveFile.exists()) {
 					// Panic: the index file exists but we can't read it
@@ -710,6 +710,8 @@ public class DirCache {
 		}
 
 		if (writeTree) {
+			@SuppressWarnings("resource") // Explicitly closed in try block, and
+											// destroyed in finally
 			TemporaryBuffer bb = new TemporaryBuffer.LocalFile(dir, 5 << 20);
 			try {
 				tree.write(tmp, bb);
