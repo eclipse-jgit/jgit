@@ -542,10 +542,9 @@ public class IndexDiff {
 							JGitText.get().invalidIgnoreParamSubmodule,
 							smw.getPath()), e);
 				}
-				Repository subRepo = smw.getRepository();
-				if (subRepo != null) {
-					String subRepoPath = smw.getPath();
-					try {
+				try (Repository subRepo = smw.getRepository()) {
+					if (subRepo != null) {
+						String subRepoPath = smw.getPath();
 						ObjectId subHead = subRepo.resolve("HEAD"); //$NON-NLS-1$
 						if (subHead != null
 								&& !subHead.equals(smw.getObjectId())) {
@@ -574,8 +573,6 @@ public class IndexDiff {
 								recordFileMode(subRepoPath, FileMode.GITLINK);
 							}
 						}
-					} finally {
-						subRepo.close();
 					}
 				}
 			}
