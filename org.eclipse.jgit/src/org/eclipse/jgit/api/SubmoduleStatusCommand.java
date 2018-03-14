@@ -130,16 +130,14 @@ public class SubmoduleStatusCommand extends
 					id);
 
 		// Report uninitialized if no submodule repository
-		Repository subRepo = generator.getRepository();
-		if (subRepo == null)
-			return new SubmoduleStatus(SubmoduleStatusType.UNINITIALIZED, path,
-					id);
+		ObjectId headId = null;
+		try (Repository subRepo = generator.getRepository()) {
+			if (subRepo == null) {
+				return new SubmoduleStatus(SubmoduleStatusType.UNINITIALIZED,
+						path, id);
+			}
 
-		ObjectId headId;
-		try {
 			headId = subRepo.resolve(Constants.HEAD);
-		} finally {
-			subRepo.close();
 		}
 
 		// Report uninitialized if no HEAD commit in submodule repository
