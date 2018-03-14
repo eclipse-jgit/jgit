@@ -52,6 +52,24 @@
       "revId": "f0b46e1db47bfc11dc7f39b9cb4fc30a78ea7f16",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f66d549_155a66e5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectIdSerializer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-03-14T21:53:32Z",
+      "side": 1,
+      "message": "Hence the suggestions that involve adding new methods instead of modifying the existing one. :)",
+      "parentUuid": "df150c7d_4215daa2",
+      "revId": "f0b46e1db47bfc11dc7f39b9cb4fc30a78ea7f16",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
