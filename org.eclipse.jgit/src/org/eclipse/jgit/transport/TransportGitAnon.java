@@ -142,6 +142,7 @@ class TransportGitAnon extends TcpTransport implements PackTransport {
 	Socket openConnection() throws TransportException {
 		final int tms = getTimeout() > 0 ? getTimeout() * 1000 : 0;
 		final int port = uri.getPort() > 0 ? uri.getPort() : GIT_PORT;
+		@SuppressWarnings("resource") // Closed by the caller
 		final Socket s = new Socket();
 		try {
 			final InetAddress host = InetAddress.getByName(uri.getHost());
