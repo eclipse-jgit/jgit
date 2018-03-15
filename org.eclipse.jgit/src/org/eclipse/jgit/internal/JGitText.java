@@ -285,6 +285,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String credentialUsername;
 	/***/ public String daemonAlreadyRunning;
 	/***/ public String daysAgo;
+	/***/ public String deepenNotWithDeepen;
+	/***/ public String deepenSinceWithDeepen;
 	/***/ public String deleteBranchUnexpectedResult;
 	/***/ public String deleteFileFailed;
 	/***/ public String deleteRequiresZeroNewId;
@@ -455,6 +457,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String invalidSystemProperty;
 	/***/ public String invalidTagOption;
 	/***/ public String invalidTimeout;
+	/***/ public String invalidTimestamp;
 	/***/ public String invalidTimeUnitValue2;
 	/***/ public String invalidTimeUnitValue3;
 	/***/ public String invalidTreeZeroLengthName;
