@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "10ceed01_156fd18a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-03-15T17:33:00Z",
+      "side": 1,
+      "message": "nit: trailing whitespace",
+      "revId": "df1da246a814366a90a398b704f7366bfdc96d09",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3c28841d_781545ec",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
         "patchSetId": 11
