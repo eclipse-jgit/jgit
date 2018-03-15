@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "75b1e092_3476ff2e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-03-15T16:03:33Z",
+      "side": 1,
+      "message": "Thanks, that\u0027s good to know and matches what I had guessed. So once the old UI goes away, that problem will go away *phew*",
+      "parentUuid": "668a638b_46bc3035",
+      "range": {
+        "startLine": 10,
+        "startChar": 7,
+        "endLine": 10,
+        "endChar": 17
+      },
+      "revId": "397fbfec1432ae850ba44bd1b2c2b5aa222ccb20",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9701c1f6_e592d80b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectIdSerializer.java",
         "patchSetId": 2
