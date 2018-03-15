@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f83bb278_3188eaaf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 2088,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-03-15T16:05:30Z",
+      "side": 1,
+      "message": "Since you marked this as optional, I\u0027ll leave it as-is - I find it slightly easier to read in this way without having to mentally apply De Morgan\u0027s law.",
+      "parentUuid": "1108c47a_53699274",
+      "revId": "5c017836d95a69ef9d779cfb3b47e4a196734d25",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8ebd4d93_a4869bbc",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
         "patchSetId": 10
@@ -33,6 +51,24 @@
       "revId": "5c017836d95a69ef9d779cfb3b47e4a196734d25",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "278a2dee_938f52e8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-03-15T16:05:30Z",
+      "side": 1,
+      "message": "Good catch. I\u0027ve made it throw an exception (which is tested by the test you requested, in which the client wants a filter but the server doesn\u0027t advertise it).",
+      "parentUuid": "8ebd4d93_a4869bbc",
+      "revId": "5c017836d95a69ef9d779cfb3b47e4a196734d25",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
