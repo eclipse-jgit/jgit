@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "94ab477c_86363b6a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-03-15T00:50:57Z",
+      "side": 1,
+      "message": "Done (I wonder why a message of \"Done\" doesn\u0027t automatically set the resolved state. Could be worth fixing in Gerrit, but maybe it doesn\u0027t matter since it would mostly only affect the old UI.)",
+      "parentUuid": "fbf35674_4428bce6",
+      "range": {
+        "startLine": 10,
+        "startChar": 7,
+        "endLine": 10,
+        "endChar": 17
+      },
+      "revId": "397fbfec1432ae850ba44bd1b2c2b5aa222ccb20",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9701c1f6_e592d80b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectIdSerializer.java",
         "patchSetId": 2
@@ -84,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "57166622_09386908",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectIdSerializer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-03-15T00:50:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebd50eda_8678ad26",
+      "revId": "397fbfec1432ae850ba44bd1b2c2b5aa222ccb20",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9addc11_ae536b0c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectIdSerializer.java",
         "patchSetId": 2
@@ -116,6 +158,24 @@
       "revId": "397fbfec1432ae850ba44bd1b2c2b5aa222ccb20",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8dc37cf8_fd7980d7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectIdSerializer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-03-15T00:50:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73c86a82_509a8c59",
+      "revId": "397fbfec1432ae850ba44bd1b2c2b5aa222ccb20",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
