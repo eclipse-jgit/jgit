@@ -50,6 +50,7 @@ import static org.eclipse.jgit.transport.GitProtocolConstants.COMMAND_LS_REFS;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_AGENT;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_ALLOW_REACHABLE_SHA1_IN_WANT;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_ALLOW_TIP_SHA1_IN_WANT;
+import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_DEEPEN_RELATIVE;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_FILTER;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_INCLUDE_TAG;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_MULTI_ACK;
@@ -123,7 +124,7 @@ public class UploadPack {
 	private static final String[] v2CapabilityAdvertisement = {
 		"version 2", //$NON-NLS-1$
 		COMMAND_LS_REFS,
-		COMMAND_FETCH
+		COMMAND_FETCH + '=' + OPTION_SHALLOW
 	};
 
 	/** Policy the server uses to validate client requests */
@@ -301,6 +302,19 @@ public class UploadPack {
 
 	/** Desired depth from the client on a shallow request. */
 	private int depth;
+
+	/**
+	 * Commit time of the newest objects the client has asked us using
+	 * --shallow-since not to send. Cannot be nonzero if depth is nonzero.
+	 */
+	private int shallowSince;
+
+	/**
+	 * (Possibly short) ref names, ancestors of which the client has asked us
+	 * not to send using --shallow-exclude. Cannot be non-null if depth is
+	 * nonzero.
+	 */
+	private @Nullable List<String> shallowExcludeRefs;
 
 	/** Commit time of the oldest common commit, in seconds. */
 	private int oldestTime;
@@ -813,7 +827,7 @@ public class UploadPack {
 			if (!clientShallowCommits.isEmpty())
 				verifyClientShallow();
 			if (depth != 0)
-				processShallow(unshallowCommits);
+				processShallow(null, unshallowCommits, true);
 			if (!clientShallowCommits.isEmpty())
 				walk.assumeShallow(clientShallowCommits);
 			sendPack = negotiate(accumulator);
@@ -968,12 +982,65 @@ public class UploadPack {
 				includeTag = true;
 			} else if (line.equals(OPTION_OFS_DELTA)) {
 				options.add(OPTION_OFS_DELTA);
+			} else if (line.startsWith("shallow ")) { //$NON-NLS-1$
+				clientShallowCommits.add(ObjectId.fromString(line.substring(8)));
+			} else if (line.startsWith("deepen ")) { //$NON-NLS-1$
+				depth = Integer.parseInt(line.substring(7));
+				if (depth <= 0) {
+					throw new PackProtocolException(
+							MessageFormat.format(JGitText.get().invalidDepth,
+									Integer.valueOf(depth)));
+				}
+				if (shallowSince != 0) {
+					throw new PackProtocolException(
+							JGitText.get().deepenSinceWithDeepen);
+				}
+				if (shallowExcludeRefs != null) {
+					throw new PackProtocolException(
+							JGitText.get().deepenNotWithDeepen);
+				}
+			} else if (line.startsWith("deepen-not ")) { //$NON-NLS-1$
+				List<String> exclude = shallowExcludeRefs;
+				if (exclude == null) {
+					exclude = shallowExcludeRefs = new ArrayList<>();
+				}
+				exclude.add(line.substring(11));
+				if (depth != 0) {
+					throw new PackProtocolException(
+							JGitText.get().deepenNotWithDeepen);
+				}
+			} else if (line.equals(OPTION_DEEPEN_RELATIVE)) {
+				options.add(OPTION_DEEPEN_RELATIVE);
+			} else if (line.startsWith("deepen-since ")) { //$NON-NLS-1$
+				shallowSince = Integer.parseInt(line.substring(13));
+				if (shallowSince <= 0) {
+					throw new PackProtocolException(
+							MessageFormat.format(
+									JGitText.get().invalidTimestamp, line));
+				}
+				if (depth !=  0) {
+					throw new PackProtocolException(
+							JGitText.get().deepenSinceWithDeepen);
+				}
 			}
 			// else ignore it
 		}
 		rawOut.stopBuffering();
 
 		boolean sectionSent = false;
+		@Nullable List<ObjectId> shallowCommits = null;
+		List<ObjectId> unshallowCommits = new ArrayList<>();
+
+		if (!clientShallowCommits.isEmpty()) {
+			verifyClientShallow();
+		}
+		if (depth != 0 || shallowSince != 0 || shallowExcludeRefs != null) {
+			shallowCommits = new ArrayList<ObjectId>();
+			processShallow(shallowCommits, unshallowCommits, false);
+		}
+		if (!clientShallowCommits.isEmpty())
+			walk.assumeShallow(clientShallowCommits);
+
 		if (doneReceived) {
 			processHaveLines(peerHas, ObjectId.zeroId(), new PacketLineOut(NullOutputStream.INSTANCE));
 		} else {
@@ -991,7 +1058,21 @@ public class UploadPack {
 			}
 			sectionSent = true;
 		}
+
 		if (doneReceived || okToGiveUp()) {
+			if (shallowCommits != null) {
+				if (sectionSent)
+					pckOut.writeDelim();
+				pckOut.writeString("shallow-info\n"); //$NON-NLS-1$
+				for (ObjectId o : shallowCommits) {
+					pckOut.writeString("shallow " + o.getName() + '\n'); //$NON-NLS-1$
+				}
+				for (ObjectId o : unshallowCommits) {
+					pckOut.writeString("unshallow " + o.getName() + '\n'); //$NON-NLS-1$
+				}
+				sectionSent = true;
+			}
+
 			if (sectionSent)
 				pckOut.writeDelim();
 			pckOut.writeString("packfile\n"); //$NON-NLS-1$
@@ -1078,9 +1159,21 @@ public class UploadPack {
 
 	/*
 	 * Determines what "shallow" and "unshallow" lines to send to the user.
-	 * The information is written to pckOut and unshallowCommits.
+	 * The information is written to shallowCommits (if not null) and
+	 * unshallowCommits, and also written to #pckOut (if writeToPckOut is
+	 * true).
 	 */
-	private void processShallow(List<ObjectId> unshallowCommits) throws IOException {
+	private void processShallow(@Nullable List<ObjectId> shallowCommits,
+			List<ObjectId> unshallowCommits,
+			boolean writeToPckOut) throws IOException {
+		if (options.contains(OPTION_DEEPEN_RELATIVE) ||
+				shallowSince != 0 ||
+				shallowExcludeRefs != null) {
+			// TODO(jonathantanmy): Implement deepen-relative, deepen-since,
+			// and deepen-not.
+			throw new UnsupportedOperationException();
+		}
+
 		int walkDepth = depth - 1;
 		try (DepthWalk.RevWalk depthWalk = new DepthWalk.RevWalk(
 				walk.getObjectReader(), walkDepth)) {
@@ -1101,19 +1194,29 @@ public class UploadPack {
 				// Commits at the boundary which aren't already shallow in
 				// the client need to be marked as such
 				if (c.getDepth() == walkDepth
-						&& !clientShallowCommits.contains(c))
-					pckOut.writeString("shallow " + o.name()); //$NON-NLS-1$
+						&& !clientShallowCommits.contains(c)) {
+					if (shallowCommits != null) {
+						shallowCommits.add(c.copy());
+					}
+					if (writeToPckOut) {
+						pckOut.writeString("shallow " + o.name()); //$NON-NLS-1$
+					}
+				}
 
 				// Commits not on the boundary which are shallow in the client
 				// need to become unshallowed
 				if (c.getDepth() < walkDepth
 						&& clientShallowCommits.remove(c)) {
 					unshallowCommits.add(c.copy());
-					pckOut.writeString("unshallow " + c.name()); //$NON-NLS-1$
+					if (writeToPckOut) {
+						pckOut.writeString("unshallow " + c.name()); //$NON-NLS-1$
+					}
 				}
 			}
 		}
-		pckOut.end();
+		if (writeToPckOut) {
+			pckOut.end();
+		}
 	}
 
 	private void verifyClientShallow()
