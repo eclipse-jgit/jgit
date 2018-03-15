@@ -219,6 +219,22 @@ public class ReflogWriter {
 		return Constants.encode(r.toString());
 	}
 
+	private FileOutputStream getFileOutputStream(File log) throws IOException {
+		try {
+			return new FileOutputStream(log, true);
+		} catch (FileNotFoundException err) {
+			File dir = log.getParentFile();
+			if (dir.exists()) {
+				throw err;
+			}
+			if (!dir.mkdirs() && !dir.isDirectory()) {
+				throw new IOException(MessageFormat
+						.format(JGitText.get().cannotCreateDirectory, dir));
+			}
+			return new FileOutputStream(log, true);
+		}
+	}
+
 	private ReflogWriter log(String refName, byte[] rec) throws IOException {
 		File log = refdb.logFor(refName);
 		boolean write = forceWrite
@@ -228,29 +244,17 @@ public class ReflogWriter {
 			return this;
 
 		WriteConfig wc = refdb.getRepository().getConfig().get(WriteConfig.KEY);
-		FileOutputStream out;
-		try {
-			out = new FileOutputStream(log, true);
-		} catch (FileNotFoundException err) {
-			File dir = log.getParentFile();
-			if (dir.exists())
-				throw err;
-			if (!dir.mkdirs() && !dir.isDirectory())
-				throw new IOException(MessageFormat.format(
-						JGitText.get().cannotCreateDirectory, dir));
-			out = new FileOutputStream(log, true);
-		}
-		try {
+		try (FileOutputStream out = getFileOutputStream(log)) {
 			if (wc.getFSyncRefFiles()) {
 				FileChannel fc = out.getChannel();
 				ByteBuffer buf = ByteBuffer.wrap(rec);
-				while (0 < buf.remaining())
+				while (0 < buf.remaining()) {
 					fc.write(buf);
+				}
 				fc.force(true);
-			} else
+			} else {
 				out.write(rec);
-		} finally {
-			out.close();
+			}
 		}
 		return this;
 	}
