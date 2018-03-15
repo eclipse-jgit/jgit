@@ -121,7 +121,7 @@ public class UploadPack {
 	private static final String[] v2CapabilityAdvertisement = {
 		"version 2",
 		CAPABILITY_LS_REFS,
-		CAPABILITY_FETCH
+		CAPABILITY_FETCH + "=" + OPTION_SHALLOW
 	};
 
 	/** Policy the server uses to validate client requests */
@@ -792,7 +792,7 @@ public class UploadPack {
 			if (!clientShallowCommits.isEmpty())
 				verifyClientShallow();
 			if (depth != 0)
-				processShallow();
+				processShallow(null);
 			if (!clientShallowCommits.isEmpty())
 				walk.assumeShallow(clientShallowCommits);
 			sendPack = negotiate(accumulator);
@@ -938,11 +938,31 @@ public class UploadPack {
 				options.add(OPTION_INCLUDE_TAG);
 			} else if (line.equals(OPTION_OFS_DELTA)) {
 				options.add(OPTION_OFS_DELTA);
+			} else if (line.startsWith("shallow ")) { //$NON-NLS-1$
+				clientShallowCommits.add(ObjectId.fromString(line.substring(8)));
+			} else if (line.startsWith("deepen ")) { //$NON-NLS-1$
+				depth = Integer.parseInt(line.substring(7));
+				if (depth <= 0) {
+					throw new PackProtocolException(
+							MessageFormat.format(JGitText.get().invalidDepth,
+									Integer.valueOf(depth)));
+				}
 			}
 			// else ignore it
 		}
 
 		boolean sectionSent = false;
+		List<ObjectId> shallowCommits = null;
+
+		if (!clientShallowCommits.isEmpty())
+			verifyClientShallow();
+		if (depth != 0) {
+			shallowCommits = new ArrayList<ObjectId>();
+			processShallow(shallowCommits);
+		}
+		if (!clientShallowCommits.isEmpty())
+			walk.assumeShallow(clientShallowCommits);
+
 		if (doneReceived) {
 			processHaveLines(peerHas, ObjectId.zeroId(), new PacketLineOut(NullOutputStream.INSTANCE));
 		} else {
@@ -960,6 +980,20 @@ public class UploadPack {
 			}
 			sectionSent = true;
 		}
+
+		if (shallowCommits != null) {
+			if (sectionSent)
+				pckOut.writeDelim();
+			pckOut.writeString("shallow-info\n"); //$NON-NLS-1$
+			for (ObjectId o : shallowCommits) {
+				pckOut.writeString("shallow " + o.getName() + "\n"); //$NON-NLS-1$
+			}
+			for (ObjectId o : unshallowCommits) {
+				pckOut.writeString("unshallow " + o.getName() + "\n"); //$NON-NLS-1$
+			}
+			sectionSent = true;
+		}
+
 		if (doneReceived || okToGiveUp()) {
 			if (sectionSent)
 				pckOut.writeDelim();
@@ -1018,7 +1052,12 @@ public class UploadPack {
 		return ids;
 	}
 
-	private void processShallow() throws IOException {
+	/*
+	 * Determines what "shallow" and "unshallow" lines to send to the user.
+	 * If shallowCommits is not null, buffers the lines instead of writing
+	 * them directly using pckOut.
+	 */
+	private void processShallow(List<ObjectId> shallowCommits) throws IOException {
 		int walkDepth = depth - 1;
 		try (DepthWalk.RevWalk depthWalk = new DepthWalk.RevWalk(
 				walk.getObjectReader(), walkDepth)) {
@@ -1039,19 +1078,25 @@ public class UploadPack {
 				// Commits at the boundary which aren't already shallow in
 				// the client need to be marked as such
 				if (c.getDepth() == walkDepth
-						&& !clientShallowCommits.contains(c))
-					pckOut.writeString("shallow " + o.name()); //$NON-NLS-1$
+						&& !clientShallowCommits.contains(c)) {
+					if (shallowCommits == null)
+						pckOut.writeString("shallow " + o.name()); //$NON-NLS-1$
+					else
+						shallowCommits.add(c.copy());
+				}
 
 				// Commits not on the boundary which are shallow in the client
 				// need to become unshallowed
 				if (c.getDepth() < walkDepth
 						&& clientShallowCommits.remove(c)) {
 					unshallowCommits.add(c.copy());
-					pckOut.writeString("unshallow " + c.name()); //$NON-NLS-1$
+					if (shallowCommits == null)
+						pckOut.writeString("unshallow " + c.name()); //$NON-NLS-1$
 				}
 			}
 		}
-		pckOut.end();
+		if (shallowCommits == null)
+			pckOut.end();
 	}
 
 	private void verifyClientShallow()
