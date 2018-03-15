@@ -52,6 +52,24 @@
       "revId": "d92d6058cff9f0fb5004d6e10260b5f9d3f04468",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e459ce2c_bdb5a0d2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PushCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-03-15T00:37:07Z",
+      "side": 1,
+      "message": "Looks like the only way to stop it wrapping is to manually un-wrap it, but then it\u0027ll just wrap again when this line is changed in future.\n\nOtherwise, it can be fixed by adding the suppression at method scope, but I\u0027d rather not do that because it\u0027ll hide any other resource warnings in future.",
+      "parentUuid": "ed17009e_398d8fe9",
+      "revId": "d92d6058cff9f0fb5004d6e10260b5f9d3f04468",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
