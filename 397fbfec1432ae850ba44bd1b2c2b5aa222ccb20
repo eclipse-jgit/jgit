@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fbf35674_4428bce6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-03-15T00:40:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fdf80172_ec69da02",
+      "range": {
+        "startLine": 10,
+        "startChar": 7,
+        "endLine": 10,
+        "endChar": 17
+      },
+      "revId": "397fbfec1432ae850ba44bd1b2c2b5aa222ccb20",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9701c1f6_e592d80b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectIdSerializer.java",
         "patchSetId": 2
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "ebd50eda_8678ad26",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectIdSerializer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-03-15T00:40:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9701c1f6_e592d80b",
+      "revId": "397fbfec1432ae850ba44bd1b2c2b5aa222ccb20",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d9addc11_ae536b0c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectIdSerializer.java",
         "patchSetId": 2
@@ -53,6 +95,24 @@
       "writtenOn": "2018-03-15T00:36:29Z",
       "side": 1,
       "message": "optional: likewise, can call readWithoutMarker",
+      "revId": "397fbfec1432ae850ba44bd1b2c2b5aa222ccb20",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73c86a82_509a8c59",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectIdSerializer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-03-15T00:40:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9addc11_ae536b0c",
       "revId": "397fbfec1432ae850ba44bd1b2c2b5aa222ccb20",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
