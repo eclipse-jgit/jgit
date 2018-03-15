@@ -149,6 +149,38 @@ public class SubmoduleUpdateCommand extends
 		return this;
 	}
 
+	private Repository getOrCloneSubmodule(SubmoduleWalk generator, String url)
+			throws IOException, GitAPIException {
+		Repository repository = generator.getRepository();
+		if (repository == null) {
+			if (callback != null) {
+				callback.cloningSubmodule(generator.getPath());
+			}
+			CloneCommand clone = Git.cloneRepository();
+			configure(clone);
+			clone.setURI(url);
+			clone.setDirectory(generator.getDirectory());
+			clone.setGitDir(
+					new File(new File(repo.getDirectory(), Constants.MODULES),
+							generator.getPath()));
+			if (monitor != null) {
+				clone.setProgressMonitor(monitor);
+			}
+			repository = clone.call().getRepository();
+		} else if (this.fetch) {
+			if (fetchCallback != null) {
+				fetchCallback.fetchingSubmodule(generator.getPath());
+			}
+			FetchCommand fetchCommand = Git.wrap(repository).fetch();
+			if (monitor != null) {
+				fetchCommand.setProgressMonitor(monitor);
+			}
+			configure(fetchCommand);
+			fetchCommand.call();
+		}
+		return repository;
+	}
+
 	/**
 	 * {@inheritDoc}
 	 *
@@ -175,34 +207,8 @@ public class SubmoduleUpdateCommand extends
 				if (url == null)
 					continue;
 
-				Repository submoduleRepo = generator.getRepository();
-				// Clone repository if not present
-				if (submoduleRepo == null) {
-					if (callback != null) {
-						callback.cloningSubmodule(generator.getPath());
-					}
-					CloneCommand clone = Git.cloneRepository();
-					configure(clone);
-					clone.setURI(url);
-					clone.setDirectory(generator.getDirectory());
-					clone.setGitDir(new File(new File(repo.getDirectory(),
-							Constants.MODULES), generator.getPath()));
-					if (monitor != null)
-						clone.setProgressMonitor(monitor);
-					submoduleRepo = clone.call().getRepository();
-				} else if (this.fetch) {
-					if (fetchCallback != null) {
-						fetchCallback.fetchingSubmodule(generator.getPath());
-					}
-					FetchCommand fetchCommand = Git.wrap(submoduleRepo).fetch();
-					if (monitor != null) {
-						fetchCommand.setProgressMonitor(monitor);
-					}
-					configure(fetchCommand);
-					fetchCommand.call();
-				}
-
-				try (RevWalk walk = new RevWalk(submoduleRepo)) {
+				try (Repository submoduleRepo = getOrCloneSubmodule(generator,
+						url); RevWalk walk = new RevWalk(submoduleRepo)) {
 					RevCommit commit = walk
 							.parseCommit(generator.getObjectId());
 
@@ -237,8 +243,6 @@ public class SubmoduleUpdateCommand extends
 									generator.getPath());
 						}
 					}
-				} finally {
-					submoduleRepo.close();
 				}
 				updated.add(generator.getPath());
 			}
