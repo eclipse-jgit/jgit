@@ -377,7 +377,7 @@ public class UploadPackTest {
 			// allow additional commands to be added to the list,
 			// and additional capabilities to be added to existing
 			// commands without requiring test changes.
-			hasItems("ls-refs", "fetch"));
+			hasItems("ls-refs", "fetch=shallow"));
 		assertTrue(pckIn.readString() == PacketLineIn.END);
 		return recvStream;
 	}
@@ -875,6 +875,102 @@ public class UploadPackTest {
 		assertThat(pckIn.readString(), is("packfile"));
 		stats = parsePack(recvStream);
 		assertTrue(stats.getNumOfsDelta() != 0);
+	}
+
+	@Test
+	public void testV2FetchShallow() throws Exception {
+		RevCommit commonParent = remote.commit().message("parent").create();
+		RevCommit fooChild = remote.commit().message("x").parent(commonParent).create();
+		RevCommit barChild = remote.commit().message("y").parent(commonParent).create();
+		remote.update("branch1", barChild);
+
+		// Without shallow, the server thinks that we have
+		// commonParent, so it doesn't send it.
+		ByteArrayInputStream recvStream = uploadPackV2(
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"want " + barChild.toObjectId().getName() + "\n",
+			"have " + fooChild.toObjectId().getName() + "\n",
+			"done\n",
+			PacketLineIn.END);
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+		assertThat(pckIn.readString(), is("packfile"));
+		parsePack(recvStream);
+		assertTrue(client.hasObject(barChild.toObjectId()));
+		assertFalse(client.hasObject(commonParent.toObjectId()));
+
+		// With shallow, the server knows that we don't have
+		// commonParent, so it sends it.
+		recvStream = uploadPackV2(
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"want " + barChild.toObjectId().getName() + "\n",
+			"have " + fooChild.toObjectId().getName() + "\n",
+			"shallow " + fooChild.toObjectId().getName() + "\n",
+			"done\n",
+			PacketLineIn.END);
+		pckIn = new PacketLineIn(recvStream);
+		assertThat(pckIn.readString(), is("packfile"));
+		parsePack(recvStream);
+		assertTrue(client.hasObject(commonParent.toObjectId()));
+	}
+
+	@Test
+	public void testV2FetchDeepenAndDone() throws Exception {
+		RevCommit parent = remote.commit().message("parent").create();
+		RevCommit child = remote.commit().message("x").parent(parent).create();
+		remote.update("branch1", child);
+
+		// "deepen 1" sends only the child.
+		ByteArrayInputStream recvStream = uploadPackV2(
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"want " + child.toObjectId().getName() + "\n",
+			"deepen 1\n",
+			"done\n",
+			PacketLineIn.END);
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+		assertThat(pckIn.readString(), is("shallow-info"));
+		assertThat(pckIn.readString(), is("shallow " + child.toObjectId().getName()));
+		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
+		assertThat(pckIn.readString(), is("packfile"));
+		parsePack(recvStream);
+		assertTrue(client.hasObject(child.toObjectId()));
+		assertFalse(client.hasObject(parent.toObjectId()));
+
+		// Without that, the parent is sent too.
+		recvStream = uploadPackV2(
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"want " + child.toObjectId().getName() + "\n",
+			"done\n",
+			PacketLineIn.END);
+		pckIn = new PacketLineIn(recvStream);
+		assertThat(pckIn.readString(), is("packfile"));
+		parsePack(recvStream);
+		assertTrue(client.hasObject(parent.toObjectId()));
+	}
+
+	@Test
+	public void testV2FetchDeepenWithoutDone() throws Exception {
+		RevCommit parent = remote.commit().message("parent").create();
+		RevCommit child = remote.commit().message("x").parent(parent).create();
+		remote.update("branch1", child);
+
+		ByteArrayInputStream recvStream = uploadPackV2(
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"want " + child.toObjectId().getName() + "\n",
+			"deepen 1\n",
+			PacketLineIn.END);
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+
+		// Verify that only the correct section is sent. "shallow-info"
+		// is not sent because, according to the specification, it is
+		// sent only if a packfile is sent.
+		assertThat(pckIn.readString(), is("acknowledgments"));
+		assertThat(pckIn.readString(), is("NAK"));
+		assertThat(pckIn.readString(), theInstance(PacketLineIn.END));
 	}
 
 	private static class RejectAllRefFilter implements RefFilter {
