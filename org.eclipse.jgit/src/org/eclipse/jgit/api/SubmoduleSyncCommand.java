@@ -132,30 +132,31 @@ public class SubmoduleSyncCommand extends GitCommand<Map<String, String>> {
 						path, ConfigConstants.CONFIG_KEY_URL, remoteUrl);
 				synced.put(path, remoteUrl);
 
-				Repository subRepo = generator.getRepository();
-				if (subRepo == null)
-					continue;
+				try (Repository subRepo = generator.getRepository()) {
+					if (subRepo == null) {
+						continue;
+					}
 
-				StoredConfig subConfig;
-				String branch;
-				try {
+					StoredConfig subConfig;
+					String branch;
+
 					subConfig = subRepo.getConfig();
 					// Get name of remote associated with current branch and
 					// fall back to default remote name as last resort
 					branch = getHeadBranch(subRepo);
 					String remote = null;
-					if (branch != null)
+					if (branch != null) {
 						remote = subConfig.getString(
 								ConfigConstants.CONFIG_BRANCH_SECTION, branch,
 								ConfigConstants.CONFIG_KEY_REMOTE);
-					if (remote == null)
+					}
+					if (remote == null) {
 						remote = Constants.DEFAULT_REMOTE_NAME;
+					}
 
 					subConfig.setString(ConfigConstants.CONFIG_REMOTE_SECTION,
 							remote, ConfigConstants.CONFIG_KEY_URL, remoteUrl);
 					subConfig.save();
-				} finally {
-					subRepo.close();
 				}
 			}
 			if (!synced.isEmpty())
