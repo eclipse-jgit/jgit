@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c28841d_781545ec",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-03-15T17:31:21Z",
+      "side": 1,
+      "message": "optional: can simplify by avoiding these nested ifs:\n\n  if (filterBlobLimit \u003e\u003d 0 \u0026\u0026 !wantCapability(...)) {\n    throw ...\n  }",
+      "revId": "df1da246a814366a90a398b704f7366bfdc96d09",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b0a5fa0_98b3f96d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransferConfig.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-03-15T17:31:21Z",
+      "side": 1,
+      "message": "Looks good.\n\nallowTipSha1InWant and allowReachableSha1InWant match the names of the corresponding capabilities:\n\n allow-tip-sha1-in-want\n allow-reachable-sha1-in-want\n\nBy contrast, the filter capability is just called \"filter\" in the protocol. Upstream Git calls this uploadpack.allowFilter, so it makes sense that we follow suit.",
+      "range": {
+        "startLine": 158,
+        "startChar": 19,
+        "endLine": 158,
+        "endChar": 30
+      },
+      "revId": "df1da246a814366a90a398b704f7366bfdc96d09",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d111035b_fa11d1b1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1021,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-03-15T17:31:21Z",
+      "side": 1,
+      "message": "If a \"filter \" line is encountered and allowFilter is false, this falls through and it\u0027s diagnosed as a protocol error. Good.\n\nPersonally I wouldn\u0027t mind if we processed the \"filter \" line anyway: it\u0027s not particularly expensive for the server. That\u0027s also what Git does (and in that context it *is* expensive for the server because of the third filter type variant, so I plan to raise this upstream there). Anyway, erroring out is a fine behavior.",
+      "revId": "df1da246a814366a90a398b704f7366bfdc96d09",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
