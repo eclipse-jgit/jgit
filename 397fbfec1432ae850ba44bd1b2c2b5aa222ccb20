@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "668a638b_46bc3035",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-03-15T00:56:34Z",
+      "side": 1,
+      "message": "Not sure if it makes any difference but I\u0027m still using the old UI on this site.",
+      "parentUuid": "94ab477c_86363b6a",
+      "range": {
+        "startLine": 10,
+        "startChar": 7,
+        "endLine": 10,
+        "endChar": 17
+      },
+      "revId": "397fbfec1432ae850ba44bd1b2c2b5aa222ccb20",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9701c1f6_e592d80b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectIdSerializer.java",
         "patchSetId": 2
