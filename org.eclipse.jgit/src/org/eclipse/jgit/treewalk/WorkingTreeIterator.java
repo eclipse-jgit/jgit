@@ -1165,8 +1165,12 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		return contentDigest.digest();
 	}
 
-	/** A single entry within a working directory tree. */
-	protected static abstract class Entry {
+	/**
+	 * A single entry within a working directory tree.
+	 *
+	 * @since 5.0
+	 */
+	public static abstract class Entry {
 		byte[] encodedName;
 
 		int encodedNameLen;
