@@ -71,6 +71,9 @@ import org.eclipse.jgit.errors.CommandFailedException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.treewalk.FileTreeIterator.FileEntry;
+import org.eclipse.jgit.treewalk.FileTreeIterator.FileModeStrategy;
+import org.eclipse.jgit.treewalk.WorkingTreeIterator.Entry;
 import org.eclipse.jgit.util.ProcessResult.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -80,6 +83,14 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class FS {
 	private static final Logger LOG = LoggerFactory.getLogger(FS.class);
+
+	/**
+	 * An empty array of entries, suitable as a return value for
+	 * {@link #list(File, FileModeStrategy)}.
+	 *
+	 * @since 5.0
+	 */
+	protected static final Entry[] NO_ENTRIES = {};
 
 	/**
 	 * This class creates FS instances. It will be overridden by a Java7 variant
@@ -884,6 +895,29 @@ public abstract class FS {
 	 */
 	public String relativize(String base, String other) {
 		return FileUtils.relativizePath(base, other, File.separator, this.isCaseSensitive());
+	}
+
+	/**
+	 * Enumerates children of a directory.
+	 *
+	 * @param directory
+	 *            to get the children of
+	 * @param fileModeStrategy
+	 *            to use to calculate the git mode of a child
+	 * @return an array of entries for the children
+	 *
+	 * @since 5.0
+	 */
+	public Entry[] list(File directory, FileModeStrategy fileModeStrategy) {
+		final File[] all = directory.listFiles();
+		if (all == null) {
+			return NO_ENTRIES;
+		}
+		final Entry[] result = new Entry[all.length];
+		for (int i = 0; i < result.length; i++) {
+			result[i] = new FileEntry(all[i], this, fileModeStrategy);
+		}
+		return result;
 	}
 
 	/**
