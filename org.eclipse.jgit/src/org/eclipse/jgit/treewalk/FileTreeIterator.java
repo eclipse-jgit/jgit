@@ -211,13 +211,7 @@ public class FileTreeIterator extends WorkingTreeIterator {
 	}
 
 	private Entry[] entries() {
-		final File[] all = directory.listFiles();
-		if (all == null)
-			return EOF;
-		final Entry[] r = new Entry[all.length];
-		for (int i = 0; i < r.length; i++)
-			r[i] = new FileEntry(all[i], fs, fileModeStrategy);
-		return r;
+		return fs.list(directory, fileModeStrategy);
 	}
 
 	/**
@@ -246,7 +240,7 @@ public class FileTreeIterator extends WorkingTreeIterator {
 	 *
 	 * @since 4.3
 	 */
-	static public class DefaultFileModeStrategy implements FileModeStrategy {
+	public static class DefaultFileModeStrategy implements FileModeStrategy {
 		/**
 		 * a singleton instance of the default FileModeStrategy
 		 */
@@ -279,7 +273,7 @@ public class FileTreeIterator extends WorkingTreeIterator {
 	 *
 	 * @since 4.3
 	 */
-	static public class NoGitlinksStrategy implements FileModeStrategy {
+	public static class NoGitlinksStrategy implements FileModeStrategy {
 
 		/**
 		 * a singleton instance of the default FileModeStrategy
@@ -304,7 +298,7 @@ public class FileTreeIterator extends WorkingTreeIterator {
 	/**
 	 * Wrapper for a standard Java IO file
 	 */
-	static public class FileEntry extends Entry {
+	public static class FileEntry extends Entry {
 		private final FileMode mode;
 
 		private FS.Attributes attributes;
@@ -343,6 +337,29 @@ public class FileTreeIterator extends WorkingTreeIterator {
 			mode = fileModeStrategy.getMode(f, attributes);
 		}
 
+		/**
+		 * Create a new file entry given the specified FileModeStrategy
+		 *
+		 * @param f
+		 *            file
+		 * @param fs
+		 *            file system
+		 * @param attributes
+		 *            of the file
+		 * @param fileModeStrategy
+		 *            the strategy to use when determining the FileMode of a
+		 *            file; controls gitlinks etc.
+		 *
+		 * @since 5.0
+		 */
+		public FileEntry(File f, FS fs, FS.Attributes attributes,
+				FileModeStrategy fileModeStrategy) {
+			this.fs = fs;
+			this.attributes = attributes;
+			f = fs.normalize(f);
+			mode = fileModeStrategy.getMode(f, attributes);
+		}
+
 		@Override
 		public FileMode getMode() {
 			return mode;
@@ -365,12 +382,12 @@ public class FileTreeIterator extends WorkingTreeIterator {
 
 		@Override
 		public InputStream openInputStream() throws IOException {
-			if (fs.isSymLink(getFile()))
+			if (attributes.isSymbolicLink()) {
 				return new ByteArrayInputStream(fs.readSymLink(getFile())
-						.getBytes(
-						Constants.CHARACTER_ENCODING));
-			else
+						.getBytes(Constants.CHARACTER_ENCODING));
+			} else {
 				return new FileInputStream(getFile());
+			}
 		}
 
 		/**
