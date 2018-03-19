@@ -175,14 +175,14 @@ public class UploadPackTest {
 	@Test
 	public void testFetchWithBlobNoneFilter() throws Exception {
 		InMemoryRepository server2 = newRepo("server2");
-		TestRepository<InMemoryRepository> remote =
+		TestRepository<InMemoryRepository> remote2 =
 				new TestRepository<>(server2);
-		RevBlob blob1 = remote.blob("foobar");
-		RevBlob blob2 = remote.blob("fooba");
-		RevTree tree = remote.tree(
-				remote.file("1", blob1), remote.file("2", blob2));
-		RevCommit commit = remote.commit(tree);
-		remote.update("master", commit);
+		RevBlob blob1 = remote2.blob("foobar");
+		RevBlob blob2 = remote2.blob("fooba");
+		RevTree tree = remote2.tree(remote2.file("1", blob1),
+				remote2.file("2", blob2));
+		RevCommit commit = remote2.commit(tree);
+		remote2.update("master", commit);
 
 		server2.getConfig().setBoolean("uploadpack", null, "allowfilter", true);
 
@@ -211,14 +211,14 @@ public class UploadPackTest {
 	@Test
 	public void testFetchWithBlobLimitFilter() throws Exception {
 		InMemoryRepository server2 = newRepo("server2");
-		TestRepository<InMemoryRepository> remote =
+		TestRepository<InMemoryRepository> remote2 =
 				new TestRepository<>(server2);
-		RevBlob longBlob = remote.blob("foobar");
-		RevBlob shortBlob = remote.blob("fooba");
-		RevTree tree = remote.tree(
-				remote.file("1", longBlob), remote.file("2", shortBlob));
-		RevCommit commit = remote.commit(tree);
-		remote.update("master", commit);
+		RevBlob longBlob = remote2.blob("foobar");
+		RevBlob shortBlob = remote2.blob("fooba");
+		RevTree tree = remote2.tree(remote2.file("1", longBlob),
+				remote2.file("2", shortBlob));
+		RevCommit commit = remote2.commit(tree);
+		remote2.update("master", commit);
 
 		server2.getConfig().setBoolean("uploadpack", null, "allowfilter", true);
 
@@ -246,14 +246,14 @@ public class UploadPackTest {
 	@Test
 	public void testFetchWithBlobLimitFilterAndBitmaps() throws Exception {
 		InMemoryRepository server2 = newRepo("server2");
-		TestRepository<InMemoryRepository> remote =
+		TestRepository<InMemoryRepository> remote2 =
 				new TestRepository<>(server2);
-		RevBlob longBlob = remote.blob("foobar");
-		RevBlob shortBlob = remote.blob("fooba");
-		RevTree tree = remote.tree(
-				remote.file("1", longBlob), remote.file("2", shortBlob));
-		RevCommit commit = remote.commit(tree);
-		remote.update("master", commit);
+		RevBlob longBlob = remote2.blob("foobar");
+		RevBlob shortBlob = remote2.blob("fooba");
+		RevTree tree = remote2.tree(remote2.file("1", longBlob),
+				remote2.file("2", shortBlob));
+		RevCommit commit = remote2.commit(tree);
+		remote2.update("master", commit);
 
 		server2.getConfig().setBoolean("uploadpack", null, "allowfilter", true);
 
@@ -285,12 +285,12 @@ public class UploadPackTest {
 	@Test
 	public void testFetchWithNonSupportingServer() throws Exception {
 		InMemoryRepository server2 = newRepo("server2");
-		TestRepository<InMemoryRepository> remote =
+		TestRepository<InMemoryRepository> remote2 =
 				new TestRepository<>(server2);
-		RevBlob blob = remote.blob("foo");
-		RevTree tree = remote.tree(remote.file("1", blob));
-		RevCommit commit = remote.commit(tree);
-		remote.update("master", commit);
+		RevBlob blob = remote2.blob("foo");
+		RevTree tree = remote2.tree(remote2.file("1", blob));
+		RevCommit commit = remote2.commit(tree);
+		remote2.update("master", commit);
 
 		server2.getConfig().setBoolean("uploadpack", null, "allowfilter", false);
 
