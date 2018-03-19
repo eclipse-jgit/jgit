@@ -97,7 +97,7 @@ import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
 
 @RunWith(Theories.class)
-public class ResolveMergerTest extends RepositoryTestCase {
+public class MergerTest extends RepositoryTestCase {
 
 	@DataPoints
 	public static MergeStrategy[] strategiesUnderTest = new MergeStrategy[] {

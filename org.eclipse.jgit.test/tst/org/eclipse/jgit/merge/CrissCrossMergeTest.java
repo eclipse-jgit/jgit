@@ -83,7 +83,7 @@ import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
 
 @RunWith(Theories.class)
-public class RecursiveMergerTest extends RepositoryTestCase {
+public class CrissCrossMergeTest extends RepositoryTestCase {
 	static int counter = 0;
 
 	@DataPoints
