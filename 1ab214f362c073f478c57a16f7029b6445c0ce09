@@ -33,6 +33,24 @@
       "revId": "1ab214f362c073f478c57a16f7029b6445c0ce09",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6e9911e9_2aeb552e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2079,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-03-19T16:50:44Z",
+      "side": 1,
+      "message": "If the project is OK with private methods not having javadoc, this could be converted to a non-javadoc instead, I guess.",
+      "parentUuid": "6c3d82a2_79affc39",
+      "revId": "1ab214f362c073f478c57a16f7029b6445c0ce09",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
