@@ -16,6 +16,24 @@
       "revId": "61e4f1665221626cfd31a5826bff527ef7ce5719",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79c6e968_6366a099",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectIdSerializer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-03-19T07:15:31Z",
+      "side": 1,
+      "message": "I think we usually suppress these warnings/errors.",
+      "parentUuid": "effcecdd_d74e8f62",
+      "revId": "61e4f1665221626cfd31a5826bff527ef7ce5719",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
