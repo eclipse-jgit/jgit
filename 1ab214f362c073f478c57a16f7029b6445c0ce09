@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6c3d82a2_79affc39",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2079,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-03-19T09:23:12Z",
+      "side": 1,
+      "message": "If we\u0027re OK with having tags without a description we should maybe change the project settings to not require tags at all.",
+      "revId": "1ab214f362c073f478c57a16f7029b6445c0ce09",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
