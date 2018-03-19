@@ -2076,6 +2076,15 @@ public class PackWriter implements AutoCloseable {
 	 * Adds the given object as an object to be packed, first performing
 	 * filtering on blobs at or exceeding a given size.
 	 *
+	 * @param src
+	 *            id of the object to be added
+	 * @param type
+	 *            of the object
+	 * @param pathHashCode
+	 *            hash code of the path
+	 * @throws IOException
+	 *             if an error occurs
+	 *
 	 * @see #setFilterBlobLimit
 	 */
 	private void filterAndAddObject(@NonNull AnyObjectId src, int type,
