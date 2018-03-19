@@ -2072,14 +2072,11 @@ public class PackWriter implements AutoCloseable {
 		objectsMap.add(otp);
 	}
 
-	/**
-	 * Adds the given object as an object to be packed, first performing
-	 * filtering on blobs at or exceeding a given size.
-	 *
-	 * @see #setFilterBlobLimit
-	 */
+	// Adds the given object as an object to be packed, first performing
+	// filtering on blobs at or exceeding a given size.
 	private void filterAndAddObject(@NonNull AnyObjectId src, int type,
 			int pathHashCode) throws IOException {
+
 		// Check if this object needs to be rejected, doing the cheaper
 		// checks first.
 		boolean reject = filterBlobLimit >= 0 &&
