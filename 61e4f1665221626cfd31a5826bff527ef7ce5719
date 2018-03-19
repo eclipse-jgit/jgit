@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "effcecdd_d74e8f62",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectIdSerializer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-03-19T07:01:52Z",
+      "side": 1,
+      "message": "This is new API added after 4.11.0 on the 4.11 branch. We need a new release 4.11.1 that we can set as API baseline in Eclipse, otherwise we\u0027ll get errors about that the \"@since\" should be \"@since 5.0\" because this is not in 4.11.0 (our current API baseline) and thus appears as new in 5.0.",
+      "revId": "61e4f1665221626cfd31a5826bff527ef7ce5719",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
