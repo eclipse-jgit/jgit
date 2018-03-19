@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "d38a9d09_4b641a78",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Daemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-03-19T07:32:14Z",
+      "side": 1,
+      "message": "Add NON-NLS suppressions?\n\nOr should these be using constants that are defined somewhere?",
+      "revId": "0672271051744e449282608896c3d8a2b4937c99",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e905354_197744e4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/DaemonClient.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-03-19T07:32:14Z",
+      "side": 1,
+      "message": "NON-NLS suppression?",
+      "revId": "0672271051744e449282608896c3d8a2b4937c99",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39170d79_e8098af1",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/DaemonService.java",
         "patchSetId": 1
