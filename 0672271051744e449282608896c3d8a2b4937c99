@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39170d79_e8098af1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/DaemonService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-03-19T07:15:00Z",
+      "side": 1,
+      "message": "New API, needs Javadoc and @since 5.0.",
+      "revId": "0672271051744e449282608896c3d8a2b4937c99",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
