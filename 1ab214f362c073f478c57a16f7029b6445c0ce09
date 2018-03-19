@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dcf6b771_6b6d5ff8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-03-19T23:30:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96d3193f_688e30d4",
+      "revId": "1ab214f362c073f478c57a16f7029b6445c0ce09",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6c3d82a2_79affc39",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
         "patchSetId": 1
@@ -84,6 +102,24 @@
       "side": 1,
       "message": "IIRC it does, but only for missing/malformed javadoc on public methods, while this is a private method.\n\nI had considered just dropping the javadoc completely (the other private methods in this module don\u0027t have them).",
       "parentUuid": "063eebe0_1a8d0be4",
+      "revId": "1ab214f362c073f478c57a16f7029b6445c0ce09",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3b9dcc4_79cc1c72",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2079,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-03-19T23:30:19Z",
+      "side": 1,
+      "message": "\u003e this could be converted to a non-javadoc instead,\n\nDone",
+      "parentUuid": "6e9911e9_2aeb552e",
       "revId": "1ab214f362c073f478c57a16f7029b6445c0ce09",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
