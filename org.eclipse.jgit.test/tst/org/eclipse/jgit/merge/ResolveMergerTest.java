@@ -91,7 +91,7 @@ import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.junit.Assert;
-import org.junit.experimental.theories.DataPoint;
+import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
@@ -99,11 +99,9 @@ import org.junit.runner.RunWith;
 @RunWith(Theories.class)
 public class ResolveMergerTest extends RepositoryTestCase {
 
-	@DataPoint
-	public static MergeStrategy resolve = MergeStrategy.RESOLVE;
-
-	@DataPoint
-	public static MergeStrategy recursive = MergeStrategy.RECURSIVE;
+	@DataPoints
+	public static MergeStrategy[] strategiesUnderTest = new MergeStrategy[] {
+			MergeStrategy.RECURSIVE, MergeStrategy.RESOLVE };
 
 	@Theory
 	public void failingDeleteOfDirectoryWithUntrackedContent(
