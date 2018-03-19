@@ -69,6 +69,24 @@
       "revId": "1ab214f362c073f478c57a16f7029b6445c0ce09",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baea96e9_94b8685d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2079,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-03-19T23:24:04Z",
+      "side": 1,
+      "message": "IIRC it does, but only for missing/malformed javadoc on public methods, while this is a private method.\n\nI had considered just dropping the javadoc completely (the other private methods in this module don\u0027t have them).",
+      "parentUuid": "063eebe0_1a8d0be4",
+      "revId": "1ab214f362c073f478c57a16f7029b6445c0ce09",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
