@@ -669,6 +669,7 @@ public class DfsInserter extends ObjectInserter {
 
 		@Override
 		public ObjectStream openStream() throws IOException {
+			@SuppressWarnings("resource") // Explicitly closed below
 			final DfsReader ctx = db.newReader();
 			if (srcPack != packKey) {
 				try {
