@@ -191,12 +191,12 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 			throw new InvalidRemoteException(
 					MessageFormat.format(JGitText.get().invalidURL, uri));
 		}
-		Repository repository = null;
+		@SuppressWarnings("resource") // Closed by caller
+		Repository repository = init();
 		FetchResult fetchResult = null;
 		Thread cleanupHook = new Thread(() -> cleanup());
 		Runtime.getRuntime().addShutdownHook(cleanupHook);
 		try {
-			repository = init();
 			fetchResult = fetch(repository, u);
 		} catch (IOException ioe) {
 			if (repository != null) {
