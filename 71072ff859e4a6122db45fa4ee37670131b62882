@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "208bc87b_345de872",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-03-20T08:05:43Z",
+      "side": 1,
+      "message": "Unrelated formatting change?",
+      "revId": "71072ff859e4a6122db45fa4ee37670131b62882",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "541b70e8_f036c20f",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-03-20T08:05:43Z",
+      "side": 1,
+      "message": "Unrelated formatting changes here and in the lines below.",
+      "revId": "71072ff859e4a6122db45fa4ee37670131b62882",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
