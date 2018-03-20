@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "758e0d89_d56fd5c1",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 167549
+      },
+      "writtenOn": "2018-03-20T11:04:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8616831_228c756b",
+      "range": {
+        "startLine": 190,
+        "startChar": 0,
+        "endLine": 190,
+        "endChar": 8
+      },
+      "revId": "a3b1b516c45bfdce8c9515e89d9b3f6412415b88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "49ee08e5_3292dbae",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2018-03-15T08:37:51Z",
       "side": 1,
       "message": "Is this auto-closeable?  If so, it should be in a try-with-resource",
+      "range": {
+        "startLine": 203,
+        "startChar": 8,
+        "endLine": 203,
+        "endChar": 29
+      },
+      "revId": "a3b1b516c45bfdce8c9515e89d9b3f6412415b88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da0f1e49_e1c3f83f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 167549
+      },
+      "writtenOn": "2018-03-20T11:04:12Z",
+      "side": 1,
+      "message": "Yes, as every output stream, even this is auto-closeable. Obviously closing in-memory ByteArrayOutputStream does not have any effect. Anyway I\u0027m going to change that as suggested.",
+      "parentUuid": "49ee08e5_3292dbae",
       "range": {
         "startLine": 203,
         "startChar": 8,
