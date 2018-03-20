@@ -95,6 +95,7 @@ import com.google.gson.stream.JsonReader;
 public class LfsPrePushHook extends PrePushHook {
 
 	private static final String EMPTY = ""; //$NON-NLS-1$
+
 	private Collection<RemoteRefUpdate> refs;
 
 	/**
@@ -180,6 +181,10 @@ public class LfsPrePushHook extends PrePushHook {
 			if (oid == null) {
 				oid = r.getObjectId();
 			}
+			if (oid == null) {
+				// ignore (e.g. symbolic, ...)
+				continue;
+			}
 			RevObject o = walk.parseAny(oid);
 			if (o.getType() == Constants.OBJ_COMMIT
 					|| o.getType() == Constants.OBJ_TAG) {
@@ -203,8 +208,8 @@ public class LfsPrePushHook extends PrePushHook {
 			oidStr2ptr.put(p.getOid().name(), p);
 		}
 		Gson gson = Protocol.gson();
-		api.getOutputStream().write(
-				gson.toJson(toRequest(OPERATION_UPLOAD, res)).getBytes(CHARSET));
+		api.getOutputStream().write(gson
+				.toJson(toRequest(OPERATION_UPLOAD, res)).getBytes(CHARSET));
 		int responseCode = api.getResponseCode();
 		if (responseCode != HTTP_OK) {
 			throw new IOException(
@@ -249,15 +254,13 @@ public class LfsPrePushHook extends PrePushHook {
 		return resp.objects;
 	}
 
-	private void uploadFile(Protocol.ObjectInfo o,
-			Protocol.Action uploadAction, Path path)
-			throws IOException, CorruptMediaFile {
+	private void uploadFile(Protocol.ObjectInfo o, Protocol.Action uploadAction,
+			Path path) throws IOException, CorruptMediaFile {
 		HttpConnection contentServer = LfsConnectionFactory
 				.getLfsContentConnection(getRepository(), uploadAction,
 						METHOD_PUT);
 		contentServer.setDoOutput(true);
-		try (OutputStream out = contentServer
-				.getOutputStream()) {
+		try (OutputStream out = contentServer.getOutputStream()) {
 			long size = Files.copy(path, out);
 			if (size != o.size) {
 				throw new CorruptMediaFile(path, o.size, size);
