@@ -336,6 +336,22 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		useSmartHttp = on;
 	}
 
+	@SuppressWarnings("resource") // Closed by caller
+	private FetchConnection getConnection(HttpConnection c, InputStream in,
+			String service) throws IOException {
+		BaseConnection f;
+		if (isSmartHttp(c, service)) {
+			readSmartHeaders(in, service);
+			f = new SmartHttpFetchConnection(in);
+		} else {
+			// Assume this server doesn't support smart HTTP fetch
+			// and fall back on dumb object walking.
+			f = newDumbConnection(in);
+		}
+		f.setPeerUserAgent(c.getHeaderField(HttpSupport.HDR_SERVER));
+		return (FetchConnection) f;
+	}
+
 	/** {@inheritDoc} */
 	@Override
 	public FetchConnection openFetch() throws TransportException,
@@ -343,21 +359,8 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		final String service = SVC_UPLOAD_PACK;
 		try {
 			final HttpConnection c = connect(service);
-			final InputStream in = openInputStream(c);
-			try {
-				BaseConnection f;
-				if (isSmartHttp(c, service)) {
-					readSmartHeaders(in, service);
-					f = new SmartHttpFetchConnection(in);
-				} else {
-					// Assume this server doesn't support smart HTTP fetch
-					// and fall back on dumb object walking.
-					f = newDumbConnection(in);
-				}
-				f.setPeerUserAgent(c.getHeaderField(HttpSupport.HDR_SERVER));
-				return (FetchConnection) f;
-			} finally {
-				in.close();
+			try (InputStream in = openInputStream(c)) {
+				return getConnection(c, in, service);
 			}
 		} catch (NotSupportedException err) {
 			throw err;
