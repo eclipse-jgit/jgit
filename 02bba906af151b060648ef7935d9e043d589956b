@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1bf53199_6fc22693",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-03-21T17:12:50Z",
+      "side": 1,
+      "message": "Probably worth a pointer to Documentation/technical/protocol-v2.txt[1] somewhere in the commit message.\n\n[1] https://kernel.googlesource.com/pub/scm/git/git/+/pu/Documentation/technical/protocol-v2.txt",
+      "range": {
+        "startLine": 9,
+        "startChar": 22,
+        "endLine": 9,
+        "endChar": 33
+      },
+      "revId": "02bba906af151b060648ef7935d9e043d589956b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
