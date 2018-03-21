@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9908f4c2_9d63f70d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PacketLineInTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2018-03-21T22:13:35Z",
+      "side": 0,
+      "message": "Shouldn\u0027t this be replaced by a DELIM test?",
+      "range": {
+        "startLine": 119,
+        "startChar": 13,
+        "endLine": 119,
+        "endChar": 35
+      },
+      "revId": "9530c10192cf033c021802a3b295b06864654464",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}

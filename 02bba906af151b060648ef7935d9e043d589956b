@@ -22,6 +22,259 @@
       "revId": "02bba906af151b060648ef7935d9e043d589956b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ad29450_2befcbc2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2018-03-21T22:13:35Z",
+      "side": 1,
+      "message": "is DELIM needed here?",
+      "range": {
+        "startLine": 237,
+        "startChar": 70,
+        "endLine": 237,
+        "endChar": 88
+      },
+      "revId": "02bba906af151b060648ef7935d9e043d589956b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a2c979e4_7ea59823",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2018-03-21T22:13:35Z",
+      "side": 1,
+      "message": "why doesn\u0027t this include the symref-target: part?",
+      "range": {
+        "startLine": 278,
+        "startChar": 37,
+        "endLine": 278,
+        "endChar": 58
+      },
+      "revId": "02bba906af151b060648ef7935d9e043d589956b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b1682842_7da66450",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineIn.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2018-03-21T22:13:35Z",
+      "side": 1,
+      "message": "Please add a similar comment for DELIM, thanks!",
+      "range": {
+        "startLine": 152,
+        "startChar": 24,
+        "endLine": 152,
+        "endChar": 36
+      },
+      "revId": "02bba906af151b060648ef7935d9e043d589956b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "223ca844_6a8c437c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineOut.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2018-03-21T22:13:35Z",
+      "side": 1,
+      "message": "Please add a comment, thanks!",
+      "range": {
+        "startLine": 149,
+        "startChar": 1,
+        "endLine": 149,
+        "endChar": 7
+      },
+      "revId": "02bba906af151b060648ef7935d9e043d589956b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b962f3e5_29aabca7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefAdvertiser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2018-03-21T22:13:35Z",
+      "side": 1,
+      "message": "Please add description, thanks!",
+      "range": {
+        "startLine": 195,
+        "startChar": 1,
+        "endLine": 195,
+        "endChar": 7
+      },
+      "revId": "02bba906af151b060648ef7935d9e043d589956b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68d4e73f_32050c0d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefAdvertiser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2018-03-21T22:13:35Z",
+      "side": 1,
+      "message": "Should this be declared in GitProtocolConstants.java?",
+      "range": {
+        "startLine": 292,
+        "startChar": 10,
+        "endLine": 292,
+        "endChar": 23
+      },
+      "revId": "02bba906af151b060648ef7935d9e043d589956b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "76637c00_692601d2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefAdvertiser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2018-03-21T22:13:35Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 300,
+        "startChar": 19,
+        "endLine": 300,
+        "endChar": 25
+      },
+      "revId": "02bba906af151b060648ef7935d9e043d589956b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "382a8f02_36912063",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefAdvertiser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2018-03-21T22:13:35Z",
+      "side": 1,
+      "message": "Could this be implemented using advertiseCapability() instead?",
+      "range": {
+        "startLine": 303,
+        "startChar": 4,
+        "endLine": 303,
+        "endChar": 12
+      },
+      "revId": "02bba906af151b060648ef7935d9e043d589956b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad3ae408_f509b330",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2018-03-21T22:13:35Z",
+      "side": 1,
+      "message": "Please add a comment, thanks!",
+      "range": {
+        "startLine": 359,
+        "startChar": 1,
+        "endLine": 359,
+        "endChar": 7
+      },
+      "revId": "02bba906af151b060648ef7935d9e043d589956b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39ff56a7_6877a6ac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 880,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2018-03-21T22:13:35Z",
+      "side": 1,
+      "message": "Move to a separate file?  UploadPack.java is getting pretty big...",
+      "range": {
+        "startLine": 880,
+        "startChar": 14,
+        "endLine": 880,
+        "endChar": 22
+      },
+      "revId": "02bba906af151b060648ef7935d9e043d589956b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b470c592_7d7dfcbd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 922,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2018-03-21T22:13:35Z",
+      "side": 1,
+      "message": "Define a string constant for this?",
+      "range": {
+        "startLine": 922,
+        "startChar": 32,
+        "endLine": 922,
+        "endChar": 39
+      },
+      "revId": "02bba906af151b060648ef7935d9e043d589956b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
