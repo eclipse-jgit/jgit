@@ -87,6 +87,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ConfigConstants;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig.EolStreamType;
 import org.eclipse.jgit.lib.FileMode;
@@ -320,8 +321,11 @@ public class ResolveMerger extends ThreeWayMerger {
 	 *            the {@link org.eclipse.jgit.lib.Repository}.
 	 * @param inCore
 	 *            a boolean.
+	 * @throws ConfigIllegalValueException
+	 *             in case of an invalid value in the repo's Git config
 	 */
-	protected ResolveMerger(Repository local, boolean inCore) {
+	protected ResolveMerger(Repository local, boolean inCore)
+			throws ConfigIllegalValueException {
 		super(local);
 		Config config = local.getConfig();
 		mergeAlgorithm = getMergeAlgorithm(config);
@@ -343,8 +347,11 @@ public class ResolveMerger extends ThreeWayMerger {
 	 *
 	 * @param local
 	 *            the {@link org.eclipse.jgit.lib.Repository}.
+	 * @throws ConfigIllegalValueException
+	 *             in case of an invalid value in the repo's Git config
 	 */
-	protected ResolveMerger(Repository local) {
+	protected ResolveMerger(Repository local)
+			throws ConfigIllegalValueException {
 		this(local, false);
 	}
 

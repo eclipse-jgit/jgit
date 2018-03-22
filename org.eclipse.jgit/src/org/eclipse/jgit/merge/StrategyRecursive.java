@@ -44,6 +44,7 @@
 package org.eclipse.jgit.merge;
 
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
 
@@ -56,13 +57,15 @@ public class StrategyRecursive extends StrategyResolve {
 
 	/** {@inheritDoc} */
 	@Override
-	public ThreeWayMerger newMerger(Repository db) {
+	public ThreeWayMerger newMerger(Repository db)
+			throws ConfigIllegalValueException {
 		return new RecursiveMerger(db, false);
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public ThreeWayMerger newMerger(Repository db, boolean inCore) {
+	public ThreeWayMerger newMerger(Repository db, boolean inCore)
+			throws ConfigIllegalValueException {
 		return new RecursiveMerger(db, inCore);
 	}
 

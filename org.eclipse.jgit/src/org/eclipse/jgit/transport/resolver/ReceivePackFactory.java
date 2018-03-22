@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.transport.resolver;
 
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.ReceivePack;
 
@@ -80,7 +81,9 @@ public interface ReceivePackFactory<C> {
 	 * @throws ServiceNotAuthorizedException
 	 *             this factory refuses to create the instance for this HTTP
 	 *             request and repository, such as due to a permission error.
+	 * @throws ConfigIllegalValueException
+	 *             in case of an invalid value in the repo's Git config
 	 */
 	ReceivePack create(C req, Repository db) throws ServiceNotEnabledException,
-			ServiceNotAuthorizedException;
+			ServiceNotAuthorizedException, ConfigIllegalValueException;
 }

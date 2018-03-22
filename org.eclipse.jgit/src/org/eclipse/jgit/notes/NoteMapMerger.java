@@ -48,6 +48,7 @@ import java.io.IOException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -92,9 +93,12 @@ public class NoteMapMerger {
 	 *            note merger for merging conflicting changes on a note
 	 * @param nonNotesMergeStrategy
 	 *            merge strategy for merging non-note entries
+	 * @throws ConfigIllegalValueException
+	 *             in case of an invalid value in the repo's Git config
 	 */
 	public NoteMapMerger(Repository db, NoteMerger noteMerger,
-			MergeStrategy nonNotesMergeStrategy) {
+			MergeStrategy nonNotesMergeStrategy)
+			throws ConfigIllegalValueException {
 		this.db = db;
 		this.reader = db.newObjectReader();
 		this.inserter = db.newObjectInserter();
@@ -111,8 +115,10 @@ public class NoteMapMerger {
 	 *
 	 * @param db
 	 *            Git repository
+	 * @throws ConfigIllegalValueException
+	 *             in case of an invalid value in the repo's Git config
 	 */
-	public NoteMapMerger(Repository db) {
+	public NoteMapMerger(Repository db) throws ConfigIllegalValueException {
 		this(db, new DefaultNoteMerger(), MergeStrategy.RESOLVE);
 	}
 

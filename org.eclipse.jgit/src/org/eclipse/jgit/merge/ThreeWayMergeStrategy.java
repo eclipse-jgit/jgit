@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.merge;
 
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Repository;
 
 /**
@@ -51,9 +52,11 @@ import org.eclipse.jgit.lib.Repository;
 public abstract class ThreeWayMergeStrategy extends MergeStrategy {
 	/** {@inheritDoc} */
 	@Override
-	public abstract ThreeWayMerger newMerger(Repository db);
+	public abstract ThreeWayMerger newMerger(Repository db)
+			throws ConfigIllegalValueException;
 
 	/** {@inheritDoc} */
 	@Override
-	public abstract ThreeWayMerger newMerger(Repository db, boolean inCore);
+	public abstract ThreeWayMerger newMerger(Repository db, boolean inCore)
+			throws ConfigIllegalValueException;
 }

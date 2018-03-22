@@ -64,6 +64,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.RemoteConfig;
@@ -259,9 +260,11 @@ public class KetchSystem {
 	 * @return leader instance.
 	 * @throws java.net.URISyntaxException
 	 *             a follower configuration contains an unsupported URI.
+	 * @throws ConfigIllegalValueException
+	 *             in case of an invalid value in the repo's Git config
 	 */
 	public KetchLeader createLeader(Repository repo)
-			throws URISyntaxException {
+			throws URISyntaxException, ConfigIllegalValueException {
 		KetchLeader leader = new KetchLeader(this) {
 			@Override
 			protected Repository openRepository() {
@@ -285,9 +288,12 @@ public class KetchSystem {
 	 * @return collection of replicas for the specified repository.
 	 * @throws java.net.URISyntaxException
 	 *             a configured URI is invalid.
+	 * @throws ConfigIllegalValueException
+	 *             in case of an invalid value in the repo's Git config
 	 */
 	protected List<KetchReplica> createReplicas(KetchLeader leader,
-			Repository repo) throws URISyntaxException {
+			Repository repo)
+			throws URISyntaxException, ConfigIllegalValueException {
 		List<KetchReplica> replicas = new ArrayList<>();
 		Config cfg = repo.getConfig();
 		String localName = getLocalName(cfg);

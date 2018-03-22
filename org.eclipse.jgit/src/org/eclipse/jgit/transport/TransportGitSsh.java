@@ -131,7 +131,7 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 
 		@Override
 		public Transport open(URIish uri, Repository local, String remoteName)
-				throws NotSupportedException {
+				throws NotSupportedException, TransportException {
 			return new TransportGitSsh(local, uri);
 		}
 
@@ -141,7 +141,8 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 		}
 	};
 
-	TransportGitSsh(final Repository local, final URIish uri) {
+	TransportGitSsh(final Repository local, final URIish uri)
+			throws TransportException {
 		super(local, uri);
 		initSshSessionFactory();
 	}

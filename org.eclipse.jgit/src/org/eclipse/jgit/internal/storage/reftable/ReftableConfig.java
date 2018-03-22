@@ -46,6 +46,7 @@ package org.eclipse.jgit.internal.storage.reftable;
 import static org.eclipse.jgit.internal.storage.reftable.ReftableConstants.MAX_BLOCK_SIZE;
 
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Repository;
 
 /**
@@ -72,8 +73,10 @@ public class ReftableConfig {
 	 *            the repository to read settings from. The repository is not
 	 *            retained by the new configuration, instead its settings are
 	 *            copied during the constructor.
+	 * @throws ConfigIllegalValueException
+	 *             in case of an invalid value in the repo's Git config
 	 */
-	public ReftableConfig(Repository db) {
+	public ReftableConfig(Repository db) throws ConfigIllegalValueException {
 		fromConfig(db.getConfig());
 	}
 
@@ -85,8 +88,10 @@ public class ReftableConfig {
 	 *            the source to read settings from. The source is not retained
 	 *            by the new configuration, instead its settings are copied
 	 *            during the constructor.
+	 * @throws ConfigIllegalValueException
+	 *             in case of an invalid value in the repo's Git config
 	 */
-	public ReftableConfig(Config cfg) {
+	public ReftableConfig(Config cfg) throws ConfigIllegalValueException {
 		fromConfig(cfg);
 	}
 
@@ -245,8 +250,10 @@ public class ReftableConfig {
 	 *
 	 * @param rc
 	 *            configuration to read properties from.
+	 * @throws ConfigIllegalValueException
+	 *             in case of an invalid value in the repo's Git config
 	 */
-	public void fromConfig(Config rc) {
+	public void fromConfig(Config rc) throws ConfigIllegalValueException {
 		refBlockSize = rc.getInt("reftable", "blockSize", refBlockSize); //$NON-NLS-1$ //$NON-NLS-2$
 		logBlockSize = rc.getInt("reftable", "logBlockSize", logBlockSize); //$NON-NLS-1$ //$NON-NLS-2$
 		restartInterval = rc.getInt("reftable", "restartInterval", restartInterval); //$NON-NLS-1$ //$NON-NLS-2$

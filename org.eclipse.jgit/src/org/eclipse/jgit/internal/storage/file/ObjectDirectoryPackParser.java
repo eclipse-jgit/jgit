@@ -61,6 +61,7 @@ import java.util.zip.Deflater;
 import org.eclipse.jgit.errors.LockFailedException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig;
 import org.eclipse.jgit.lib.ObjectId;
@@ -122,7 +123,8 @@ public class ObjectDirectoryPackParser extends PackParser {
 	/** The pack that was created, if parsing was successful. */
 	private PackFile newPack;
 
-	ObjectDirectoryPackParser(FileObjectDatabase odb, InputStream src) {
+	ObjectDirectoryPackParser(FileObjectDatabase odb, InputStream src)
+			throws ConfigIllegalValueException {
 		super(odb, src);
 		this.db = odb;
 		this.crc = new CRC32();

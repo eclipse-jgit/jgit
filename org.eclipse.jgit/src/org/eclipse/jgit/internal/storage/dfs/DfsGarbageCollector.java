@@ -80,6 +80,7 @@ import org.eclipse.jgit.internal.storage.reftable.ReftableConfig;
 import org.eclipse.jgit.internal.storage.reftable.ReftableWriter;
 import org.eclipse.jgit.internal.storage.reftree.RefTreeNames;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
@@ -136,8 +137,11 @@ public class DfsGarbageCollector {
 	 *
 	 * @param repository
 	 *            repository objects to be packed will be read from.
+	 * @throws ConfigIllegalValueException
+	 *             in case of an invalid value in the repo's Git config
 	 */
-	public DfsGarbageCollector(DfsRepository repository) {
+	public DfsGarbageCollector(DfsRepository repository)
+			throws ConfigIllegalValueException {
 		repo = repository;
 		refdb = repo.getRefDatabase();
 		objdb = repo.getObjectDatabase();

@@ -81,7 +81,8 @@ public class SpiTransport extends Transport {
 		}
 	};
 
-	private SpiTransport(Repository local, URIish uri) {
+	private SpiTransport(Repository local, URIish uri)
+			throws TransportException {
 		super(local, uri);
 	}
 

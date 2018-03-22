@@ -49,6 +49,7 @@ import java.io.IOException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
@@ -70,8 +71,11 @@ public abstract class ThreeWayMerger extends Merger {
 	 *
 	 * @param local
 	 *            the repository this merger will read and write data on.
+	 * @throws ConfigIllegalValueException
+	 *             in case of an invalid value in the repo's Git config
 	 */
-	protected ThreeWayMerger(Repository local) {
+	protected ThreeWayMerger(Repository local)
+			throws ConfigIllegalValueException {
 		super(local);
 	}
 
@@ -82,8 +86,11 @@ public abstract class ThreeWayMerger extends Merger {
 	 *            the repository this merger will read and write data on.
 	 * @param inCore
 	 *            perform the merge in core with no working folder involved
+	 * @throws ConfigIllegalValueException
+	 *             in case of an invalid value in the repo's Git config
 	 */
-	protected ThreeWayMerger(Repository local, boolean inCore) {
+	protected ThreeWayMerger(Repository local, boolean inCore)
+			throws ConfigIllegalValueException {
 		this(local);
 	}
 

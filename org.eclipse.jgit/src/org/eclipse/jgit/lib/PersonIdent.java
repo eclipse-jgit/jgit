@@ -165,9 +165,13 @@ public class PersonIdent implements Serializable {
 	 * This new PersonIdent gets the info from the default committer as available
 	 * from the configuration.
 	 *
-	 * @param repo a {@link org.eclipse.jgit.lib.Repository} object.
+	 * @param repo
+	 *            a {@link org.eclipse.jgit.lib.Repository} object.
+	 * @throws ConfigIllegalValueException
+	 *             in case of an invalid value in the repo's Git config
 	 */
-	public PersonIdent(Repository repo) {
+	public PersonIdent(Repository repo)
+			throws ConfigIllegalValueException {
 		this(repo.getConfig().get(UserConfig.KEY));
 	}
 
