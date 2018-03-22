@@ -22,6 +22,30 @@
       "revId": "9530c10192cf033c021802a3b295b06864654464",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae66fd97_5c964b69",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PacketLineInTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-03-22T18:28:06Z",
+      "side": 0,
+      "message": "Done - added testReadString_Delim",
+      "parentUuid": "9908f4c2_9d63f70d",
+      "range": {
+        "startLine": 119,
+        "startChar": 13,
+        "endLine": 119,
+        "endChar": 35
+      },
+      "revId": "9530c10192cf033c021802a3b295b06864654464",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }

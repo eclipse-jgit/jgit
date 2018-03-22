@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4cfe9d4a_b4921061",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-03-22T18:28:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1bf53199_6fc22693",
+      "range": {
+        "startLine": 9,
+        "startChar": 22,
+        "endLine": 9,
+        "endChar": 33
+      },
+      "revId": "02bba906af151b060648ef7935d9e043d589956b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6ad29450_2befcbc2",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2018-03-21T22:13:35Z",
       "side": 1,
       "message": "is DELIM needed here?",
+      "range": {
+        "startLine": 237,
+        "startChar": 70,
+        "endLine": 237,
+        "endChar": 88
+      },
+      "revId": "02bba906af151b060648ef7935d9e043d589956b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d2373ac_578dfe59",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-03-22T18:28:06Z",
+      "side": 1,
+      "message": "Good catch. I took a look at the protocol v2 documentation again and saw that DELIM is optional if there are no arguments. I\u0027ve updated the production code and removed DELIM here.",
+      "parentUuid": "6ad29450_2befcbc2",
       "range": {
         "startLine": 237,
         "startChar": 70,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "4932d8af_837e1492",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-03-22T18:28:06Z",
+      "side": 1,
+      "message": "Because refs/tags/tag is not a symref. (Symrefs are tested in the test above.)",
+      "parentUuid": "a2c979e4_7ea59823",
+      "range": {
+        "startLine": 278,
+        "startChar": 37,
+        "endLine": 278,
+        "endChar": 58
+      },
+      "revId": "02bba906af151b060648ef7935d9e043d589956b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b1682842_7da66450",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineIn.java",
         "patchSetId": 1
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "04550dfa_0877c817",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineIn.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-03-22T18:28:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1682842_7da66450",
+      "range": {
+        "startLine": 152,
+        "startChar": 24,
+        "endLine": 152,
+        "endChar": 36
+      },
+      "revId": "02bba906af151b060648ef7935d9e043d589956b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "223ca844_6a8c437c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineOut.java",
         "patchSetId": 1
@@ -105,6 +201,30 @@
       "writtenOn": "2018-03-21T22:13:35Z",
       "side": 1,
       "message": "Please add a comment, thanks!",
+      "range": {
+        "startLine": 149,
+        "startChar": 1,
+        "endLine": 149,
+        "endChar": 7
+      },
+      "revId": "02bba906af151b060648ef7935d9e043d589956b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f4dbda17_ae5b07fb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineOut.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-03-22T18:28:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "223ca844_6a8c437c",
       "range": {
         "startLine": 149,
         "startChar": 1,
@@ -163,6 +283,30 @@
     },
     {
       "key": {
+        "uuid": "07f6fa14_36ccff57",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefAdvertiser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-03-22T18:28:06Z",
+      "side": 1,
+      "message": "That\u0027s possible, but this is neither an option nor a capability (which GitProtocolConstants seems to only contain). But if we want to start moving response strings to that file too, let me know and I can do that.",
+      "parentUuid": "68d4e73f_32050c0d",
+      "range": {
+        "startLine": 292,
+        "startChar": 10,
+        "endLine": 292,
+        "endChar": 23
+      },
+      "revId": "02bba906af151b060648ef7935d9e043d589956b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "76637c00_692601d2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefAdvertiser.java",
         "patchSetId": 1
@@ -174,6 +318,30 @@
       "writtenOn": "2018-03-21T22:13:35Z",
       "side": 1,
       "message": "same here",
+      "range": {
+        "startLine": 300,
+        "startChar": 19,
+        "endLine": 300,
+        "endChar": 25
+      },
+      "revId": "02bba906af151b060648ef7935d9e043d589956b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4dab1aab_f0e2ddbc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefAdvertiser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-03-22T18:28:06Z",
+      "side": 1,
+      "message": "Same answer as above.",
+      "parentUuid": "76637c00_692601d2",
       "range": {
         "startLine": 300,
         "startChar": 19,
@@ -209,6 +377,30 @@
     },
     {
       "key": {
+        "uuid": "27b2251f_163d7f62",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefAdvertiser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-03-22T18:28:06Z",
+      "side": 1,
+      "message": "Maybe, but this is not a capability (but an informational response from the server), so I didn\u0027t want to use a method with that name.",
+      "parentUuid": "382a8f02_36912063",
+      "range": {
+        "startLine": 303,
+        "startChar": 4,
+        "endLine": 303,
+        "endChar": 12
+      },
+      "revId": "02bba906af151b060648ef7935d9e043d589956b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad3ae408_f509b330",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1
@@ -220,6 +412,30 @@
       "writtenOn": "2018-03-21T22:13:35Z",
       "side": 1,
       "message": "Please add a comment, thanks!",
+      "range": {
+        "startLine": 359,
+        "startChar": 1,
+        "endLine": 359,
+        "endChar": 7
+      },
+      "revId": "02bba906af151b060648ef7935d9e043d589956b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d21fbc5_3c259c46",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-03-22T18:28:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad3ae408_f509b330",
       "range": {
         "startLine": 359,
         "startChar": 1,
@@ -255,6 +471,30 @@
     },
     {
       "key": {
+        "uuid": "3644502b_7cc20095",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 880,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-03-22T18:28:06Z",
+      "side": 1,
+      "message": "That\u0027s true, and it would also allow me to more clearly show which instance variables are being used by v2-related code (and which are not). However, this would affect almost all the other patches, which have already undergone some review. Let me know what you think.",
+      "parentUuid": "39ff56a7_6877a6ac",
+      "range": {
+        "startLine": 880,
+        "startChar": 14,
+        "endLine": 880,
+        "endChar": 22
+      },
+      "revId": "02bba906af151b060648ef7935d9e043d589956b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b470c592_7d7dfcbd",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1
@@ -266,6 +506,30 @@
       "writtenOn": "2018-03-21T22:13:35Z",
       "side": 1,
       "message": "Define a string constant for this?",
+      "range": {
+        "startLine": 922,
+        "startChar": 32,
+        "endLine": 922,
+        "endChar": 39
+      },
+      "revId": "02bba906af151b060648ef7935d9e043d589956b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9881be08_ded95c64",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 922,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-03-22T18:28:06Z",
+      "side": 1,
+      "message": "I made \"ls-refs\" a constant and put it in GitProtocolConstants, since this also appears in the capability advertisement (in addition to being a possible request from the user).",
+      "parentUuid": "b470c592_7d7dfcbd",
       "range": {
         "startLine": 922,
         "startChar": 32,
