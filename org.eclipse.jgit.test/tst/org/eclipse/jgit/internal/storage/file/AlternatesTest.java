@@ -58,6 +58,7 @@ import org.eclipse.jgit.api.errors.NoMessageException;
 import org.eclipse.jgit.api.errors.UnmergedPathsException;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.junit.JGitTestUtil;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
@@ -123,13 +124,14 @@ public class AlternatesTest extends SampleDataRepositoryTestCase {
 		return c;
 	}
 
-	private void assertCommit(RevCommit c) {
+	private void assertCommit(RevCommit c) throws ConfigIllegalValueException {
 		ObjectDirectory od = db2.getObjectDatabase();
 		assertTrue("can't find expected commit" + c.name(),
 				od.has(c.toObjectId()));
 	}
 
-	private void assertAlternateObjects(FileRepository repo) {
+	private void assertAlternateObjects(FileRepository repo)
+			throws ConfigIllegalValueException {
 		// check some objects in alternate
 		final ObjectId alternateObjects[] = new ObjectId[] {
 				ObjectId.fromString("49322bb17d3acc9146f98c97d078513228bbf3c0"),

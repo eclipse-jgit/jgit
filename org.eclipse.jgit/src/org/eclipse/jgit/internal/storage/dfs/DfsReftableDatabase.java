@@ -54,6 +54,7 @@ import org.eclipse.jgit.internal.storage.reftable.RefCursor;
 import org.eclipse.jgit.internal.storage.reftable.Reftable;
 import org.eclipse.jgit.internal.storage.reftable.ReftableConfig;
 import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -102,7 +103,7 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 
 	/** {@inheritDoc} */
 	@Override
-	public BatchRefUpdate newBatchUpdate() {
+	public BatchRefUpdate newBatchUpdate() throws ConfigIllegalValueException {
 		DfsObjDatabase odb = getRepository().getObjectDatabase();
 		return new ReftableBatchRefUpdate(this, odb);
 	}
@@ -111,8 +112,11 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 	 * Get configuration to write new reftables with.
 	 *
 	 * @return configuration to write new reftables with.
+	 * @throws ConfigIllegalValueException
+	 *             in case of an invalid value in the repo's Git config
 	 */
-	public ReftableConfig getReftableConfig() {
+	public ReftableConfig getReftableConfig()
+			throws ConfigIllegalValueException {
 		return new ReftableConfig(getRepository().getConfig());
 	}
 

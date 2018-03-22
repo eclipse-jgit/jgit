@@ -66,6 +66,7 @@ import org.eclipse.jgit.errors.StopWalkException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ConfigConstants;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig.EolStreamType;
 import org.eclipse.jgit.lib.FileMode;
@@ -621,10 +622,13 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 *         {@link #getAttributes()}. Note that this method may return null
 	 *         if the {@link org.eclipse.jgit.treewalk.TreeWalk} is not based on
 	 *         a working tree
+	 * @throws ConfigIllegalValueException
+	 *             in case of an invalid value in the repo's Git config
 	 * @since 4.10
 	 */
 	@Nullable
-	public EolStreamType getEolStreamType(OperationType opType) {
+	public EolStreamType getEolStreamType(OperationType opType)
+			throws ConfigIllegalValueException {
 		if (attributesNodeProvider == null || config == null)
 			return null;
 		return EolStreamTypeUtil.detectStreamType(
@@ -1454,9 +1458,11 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 *            May be "clean" or "smudge".
 	 * @return the definition of the command to be executed for this filter
 	 *         driver and filter command
+	 * @throws ConfigIllegalValueException
+	 *             in case of an invalid value in the repo's Git config
 	 */
 	private String getFilterCommandDefinition(String filterDriverName,
-			String filterCommandType) {
+			String filterCommandType) throws ConfigIllegalValueException {
 		String key = filterDriverName + "." + filterCommandType; //$NON-NLS-1$
 		String filterCommand = filterCommandsByNameDotType.get(key);
 		if (filterCommand != null)

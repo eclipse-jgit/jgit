@@ -63,6 +63,7 @@ import org.eclipse.jgit.http.server.resolver.DefaultReceivePackFactory;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.junit.http.AccessEvent;
 import org.eclipse.jgit.junit.http.HttpTestCase;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
@@ -115,7 +116,7 @@ public class HookMessageTest extends HttpTestCase {
 			@Override
 			public ReceivePack create(HttpServletRequest req, Repository db)
 					throws ServiceNotEnabledException,
-					ServiceNotAuthorizedException {
+					ServiceNotAuthorizedException, ConfigIllegalValueException {
 				ReceivePack recv = super.create(req, db);
 				recv.setPreReceiveHook(new PreReceiveHook() {
 					@Override

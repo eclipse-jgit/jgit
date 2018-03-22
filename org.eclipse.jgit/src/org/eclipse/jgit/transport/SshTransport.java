@@ -75,8 +75,10 @@ public abstract class SshTransport extends TcpTransport {
 	 * @param uri
 	 *            the URI used to access the remote repository. This must be the
 	 *            URI passed to {@link #open(Repository, URIish)}.
+	 * @throws TransportException
 	 */
-	protected SshTransport(Repository local, URIish uri) {
+	protected SshTransport(Repository local, URIish uri)
+			throws TransportException {
 		super(local, uri);
 		sch = SshSessionFactory.getInstance();
 	}

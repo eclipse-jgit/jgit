@@ -12,6 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.reftable.ReftableConfig;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.RefDatabase;
 
 /**
@@ -284,7 +285,8 @@ public class InMemoryRepository extends DfsRepository {
 		}
 
 		@Override
-		public ReftableConfig getReftableConfig() {
+		public ReftableConfig getReftableConfig()
+				throws ConfigIllegalValueException {
 			ReftableConfig cfg = new ReftableConfig();
 			cfg.setAlignBlocks(false);
 			cfg.setIndexObjects(false);

@@ -55,6 +55,7 @@ import javax.servlet.http.HttpServletRequestWrapper;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jgit.http.server.resolver.DefaultUploadPackFactory;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.transport.UploadPack;
@@ -80,7 +81,8 @@ public class DefaultUploadPackFactoryTest extends LocalDiskRepositoryTestCase {
 
 	@SuppressWarnings("unchecked")
 	@Test
-	public void testDisabledSingleton() throws ServiceNotAuthorizedException {
+	public void testDisabledSingleton()
+			throws ServiceNotAuthorizedException, ConfigIllegalValueException {
 		factory = (UploadPackFactory<HttpServletRequest>) UploadPackFactory.DISABLED;
 
 		try {
@@ -107,7 +109,7 @@ public class DefaultUploadPackFactoryTest extends LocalDiskRepositoryTestCase {
 
 	@Test
 	public void testCreate_Default() throws ServiceNotEnabledException,
-			ServiceNotAuthorizedException {
+			ServiceNotAuthorizedException, ConfigIllegalValueException {
 		UploadPack up;
 
 		up = factory.create(new R(null, "1.2.3.4"), db);
@@ -143,7 +145,7 @@ public class DefaultUploadPackFactoryTest extends LocalDiskRepositoryTestCase {
 
 	@Test
 	public void testCreate_Enabled() throws ServiceNotEnabledException,
-			ServiceNotAuthorizedException {
+			ServiceNotAuthorizedException, ConfigIllegalValueException {
 		db.getConfig().setBoolean("http", null, "uploadpack", true);
 		UploadPack up;
 

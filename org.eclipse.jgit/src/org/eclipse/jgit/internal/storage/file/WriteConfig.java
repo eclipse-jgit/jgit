@@ -45,6 +45,7 @@ package org.eclipse.jgit.internal.storage.file;
 
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Config.SectionParser;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.CoreConfig;
 
 class WriteConfig {
@@ -57,7 +58,7 @@ class WriteConfig {
 
 	private final boolean fsyncRefFiles;
 
-	private WriteConfig(Config rc) {
+	private WriteConfig(Config rc) throws ConfigIllegalValueException {
 		compression = rc.get(CoreConfig.KEY).getCompression();
 		fsyncObjectFiles = rc.getBoolean("core", "fsyncobjectfiles", false); //$NON-NLS-1$ //$NON-NLS-2$
 		fsyncRefFiles = rc.getBoolean("core", "fsyncreffiles", false); //$NON-NLS-1$ //$NON-NLS-2$

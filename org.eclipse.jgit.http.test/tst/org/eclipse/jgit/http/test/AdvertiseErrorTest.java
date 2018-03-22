@@ -58,6 +58,7 @@ import org.eclipse.jgit.http.server.GitServlet;
 import org.eclipse.jgit.http.server.resolver.DefaultReceivePackFactory;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.junit.http.HttpTestCase;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
@@ -107,7 +108,7 @@ public class AdvertiseErrorTest extends HttpTestCase {
 			@Override
 			public ReceivePack create(HttpServletRequest req, Repository db)
 					throws ServiceNotEnabledException,
-					ServiceNotAuthorizedException {
+					ServiceNotAuthorizedException, ConfigIllegalValueException {
 				ReceivePack rp = super.create(req, db);
 				rp.sendError("message line 1");
 				rp.sendError("no soup for you!");
