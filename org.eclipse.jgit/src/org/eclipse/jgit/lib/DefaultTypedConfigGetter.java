@@ -64,10 +64,13 @@ import org.eclipse.jgit.util.StringUtils;
  */
 public class DefaultTypedConfigGetter implements TypedConfigGetter {
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean getBoolean(Config config, String section, String subsection,
-			String name, boolean defaultValue) {
+			String name, boolean defaultValue)
+			throws ConfigIllegalValueException {
 		String n = config.getRawString(section, subsection, name);
 		if (n == null) {
 			return defaultValue;
@@ -78,7 +81,7 @@ public class DefaultTypedConfigGetter implements TypedConfigGetter {
 		try {
 			return StringUtils.toBoolean(n);
 		} catch (IllegalArgumentException err) {
-			throw new IllegalArgumentException(MessageFormat.format(
+			throw new ConfigIllegalValueException(MessageFormat.format(
 					JGitText.get().invalidBooleanValue, section, name, n));
 		}
 	}

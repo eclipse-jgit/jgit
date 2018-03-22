@@ -47,11 +47,13 @@ import java.text.MessageFormat;
 
 import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.InvalidConfigurationException;
 import org.eclipse.jgit.api.errors.InvalidTagNameException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.api.errors.RefAlreadyExistsException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -128,7 +130,11 @@ public class TagCommand extends GitCommand<Ref> {
 		checkCallable();
 
 		RepositoryState state = repo.getRepositoryState();
-		processOptions(state);
+		try {
+			processOptions(state);
+		} catch (ConfigIllegalValueException e) {
+			throw new InvalidConfigurationException(e);
+		}
 
 		try (RevWalk revWalk = new RevWalk(repo)) {
 			// if no id is set, we should attempt to use HEAD
@@ -210,11 +216,13 @@ public class TagCommand extends GitCommand<Ref> {
 	 *
 	 * @throws InvalidTagNameException
 	 *             if the tag name is null or invalid
+	 * @throws ConfigIllegalValueException
+	 *             in case of an invalid value in the repo's Git config
 	 * @throws UnsupportedOperationException
 	 *             if the tag is signed (not supported yet)
 	 */
 	private void processOptions(RepositoryState state)
-			throws InvalidTagNameException {
+			throws InvalidTagNameException, ConfigIllegalValueException {
 		if (tagger == null && annotated)
 			tagger = new PersonIdent(repo);
 		if (name == null || !Repository.isValidRefName(Constants.R_TAGS + name))

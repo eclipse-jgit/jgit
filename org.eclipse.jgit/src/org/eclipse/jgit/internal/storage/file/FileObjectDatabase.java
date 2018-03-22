@@ -53,6 +53,7 @@ import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
@@ -72,7 +73,8 @@ abstract class FileObjectDatabase extends ObjectDatabase {
 
 	/** {@inheritDoc} */
 	@Override
-	public ObjectDirectoryInserter newInserter() {
+	public ObjectDirectoryInserter newInserter()
+			throws ConfigIllegalValueException {
 		return new ObjectDirectoryInserter(this, getConfig());
 	}
 

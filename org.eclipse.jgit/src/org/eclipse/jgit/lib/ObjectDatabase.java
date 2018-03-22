@@ -90,8 +90,11 @@ public abstract class ObjectDatabase {
 	 * thread-safe.
 	 *
 	 * @return writer the caller can use to create objects in this database.
+	 * @throws ConfigIllegalValueException
+	 *             in case of an invalid value in the repo's Git config
 	 */
-	public abstract ObjectInserter newInserter();
+	public abstract ObjectInserter newInserter()
+			throws ConfigIllegalValueException;
 
 	/**
 	 * Create a new {@code ObjectReader} to read existing objects.

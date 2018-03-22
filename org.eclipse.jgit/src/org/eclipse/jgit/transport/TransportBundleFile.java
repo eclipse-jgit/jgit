@@ -120,7 +120,8 @@ class TransportBundleFile extends Transport implements TransportBundle {
 
 	private final File bundle;
 
-	TransportBundleFile(Repository local, URIish uri, File bundlePath) {
+	TransportBundleFile(Repository local, URIish uri, File bundlePath)
+			throws TransportException {
 		super(local, uri);
 		bundle = bundlePath;
 	}

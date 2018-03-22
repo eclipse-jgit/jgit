@@ -103,7 +103,7 @@ class TransportGitAnon extends TcpTransport implements PackTransport {
 
 		@Override
 		public Transport open(URIish uri, Repository local, String remoteName)
-				throws NotSupportedException {
+				throws NotSupportedException, TransportException {
 			return new TransportGitAnon(local, uri);
 		}
 
@@ -113,7 +113,8 @@ class TransportGitAnon extends TcpTransport implements PackTransport {
 		}
 	};
 
-	TransportGitAnon(final Repository local, final URIish uri) {
+	TransportGitAnon(final Repository local, final URIish uri)
+			throws TransportException {
 		super(local, uri);
 	}
 

@@ -46,6 +46,7 @@ package org.eclipse.jgit.http.server.resolver;
 import javax.servlet.http.HttpServletRequest;
 
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.ReceivePack;
@@ -74,7 +75,13 @@ public class DefaultReceivePackFactory implements
 
 		final boolean enabled;
 
-		ServiceConfig(final Config cfg) {
+		/**
+		 * @param cfg
+		 *            underlying Git config
+		 * @throws ConfigIllegalValueException
+		 *             in case of an invalid value in the repo's Git config
+		 */
+		ServiceConfig(final Config cfg) throws ConfigIllegalValueException {
 			set = cfg.getString("http", null, "receivepack") != null;
 			enabled = cfg.getBoolean("http", "receivepack", false);
 		}
@@ -83,7 +90,8 @@ public class DefaultReceivePackFactory implements
 	/** {@inheritDoc} */
 	@Override
 	public ReceivePack create(HttpServletRequest req, Repository db)
-			throws ServiceNotEnabledException, ServiceNotAuthorizedException {
+			throws ServiceNotEnabledException, ServiceNotAuthorizedException,
+			ConfigIllegalValueException {
 		final ServiceConfig cfg = db.getConfig().get(ServiceConfig::new);
 		String user = req.getRemoteUser();
 
@@ -102,7 +110,8 @@ public class DefaultReceivePackFactory implements
 	}
 
 	private static ReceivePack createFor(final HttpServletRequest req,
-			final Repository db, final String user) {
+			final Repository db, final String user)
+			throws ConfigIllegalValueException {
 		final ReceivePack rp = new ReceivePack(db);
 		rp.setRefLogIdent(toPersonIdent(req, user));
 		return rp;

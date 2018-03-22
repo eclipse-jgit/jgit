@@ -46,7 +46,9 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.InvalidConfigurationException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.RemoteConfig;
 
@@ -82,13 +84,16 @@ public class RemoteListCommand extends GitCommand<List<RemoteConfig>> {
 	 * collected by the setter methods of this class.
 	 */
 	@Override
-	public List<RemoteConfig> call() throws GitAPIException {
+	public List<RemoteConfig> call()
+			throws GitAPIException {
 		checkCallable();
 
 		try {
 			return RemoteConfig.getAllRemoteConfigs(repo.getConfig());
 		} catch (URISyntaxException e) {
 			throw new JGitInternalException(e.getMessage(), e);
+		} catch (ConfigIllegalValueException e) {
+			throw new InvalidConfigurationException(e);
 		}
 	}
 

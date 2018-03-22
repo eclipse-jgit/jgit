@@ -117,8 +117,10 @@ public class BranchConfig {
 	 *
 	 * @return the full tracking branch name or <code>null</code> if it could
 	 *         not be determined
+	 * @throws ConfigIllegalValueException
+	 *             in case of an invalid value in the repo's Git config
 	 */
-	public String getTrackingBranch() {
+	public String getTrackingBranch() throws ConfigIllegalValueException {
 		String remote = getRemoteOrDefault();
 		String mergeRef = getMerge();
 		if (remote == null || mergeRef == null)
@@ -136,8 +138,10 @@ public class BranchConfig {
 	 * @return the full remote-tracking branch name or {@code null} if it could
 	 *         not be determined. If you also want local tracked branches use
 	 *         {@link #getTrackingBranch()} instead.
+	 * @throws ConfigIllegalValueException
+	 *             in case of an invalid value in the repo's Git config
 	 */
-	public String getRemoteTrackingBranch() {
+	public String getRemoteTrackingBranch() throws ConfigIllegalValueException {
 		String remote = getRemoteOrDefault();
 		String mergeRef = getMerge();
 		if (remote == null || mergeRef == null)
@@ -213,8 +217,11 @@ public class BranchConfig {
 	 *            merge Ref of the local branch tracking the remote tracking
 	 *            branch
 	 * @return full remote tracking branch name or null
+	 * @throws ConfigIllegalValueException
+	 *             in case of an invalid value in the repo's Git config
 	 */
-	private String findRemoteTrackingBranch(String remote, String mergeRef) {
+	private String findRemoteTrackingBranch(String remote, String mergeRef)
+			throws ConfigIllegalValueException {
 		RemoteConfig remoteConfig;
 		try {
 			remoteConfig = new RemoteConfig(config, remote);

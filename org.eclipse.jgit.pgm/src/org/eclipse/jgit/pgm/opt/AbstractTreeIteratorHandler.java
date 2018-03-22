@@ -52,6 +52,7 @@ import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.pgm.internal.CLIText;
@@ -102,10 +103,13 @@ public class AbstractTreeIteratorHandler extends
 		final String name = params.getParameter(0);
 
 		if (new File(name).isDirectory()) {
-			setter.addValue(new FileTreeIterator(
-				new File(name),
-				FS.DETECTED,
-				clp.getRepository().getConfig().get(WorkingTreeOptions.KEY)));
+			try {
+				setter.addValue(new FileTreeIterator(new File(name),
+						FS.DETECTED, clp.getRepository().getConfig()
+								.get(WorkingTreeOptions.KEY)));
+			} catch (ConfigIllegalValueException e) {
+				throw new CmdLineException(clp, e);
+			}
 			return 1;
 		}
 

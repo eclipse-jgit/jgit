@@ -60,6 +60,7 @@ import java.nio.channels.FileChannel;
 import java.text.MessageFormat;
 
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig;
 import org.eclipse.jgit.lib.ObjectId;
@@ -259,7 +260,7 @@ public class ReflogWriter {
 		return this;
 	}
 
-	private boolean isLogAllRefUpdates() {
+	private boolean isLogAllRefUpdates() throws ConfigIllegalValueException {
 		return refdb.getRepository().getConfig().get(CoreConfig.KEY)
 				.isLogAllRefUpdates();
 	}
