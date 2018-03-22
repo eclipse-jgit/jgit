@@ -59,7 +59,6 @@ import java.util.Set;
 
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.errors.CommandFailedException;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
@@ -131,7 +130,7 @@ public class FS_POSIX extends FS {
 			return StringUtils.toBoolean(value)
 					? AtomicFileCreation.SUPPORTED
 					: AtomicFileCreation.NOT_SUPPORTED;
-		} catch (IOException | ConfigInvalidException e) {
+		} catch (IOException e) {
 			return AtomicFileCreation.SUPPORTED;
 		}
 	}

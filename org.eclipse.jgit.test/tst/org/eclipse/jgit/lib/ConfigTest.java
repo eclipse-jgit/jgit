@@ -820,7 +820,7 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testIncludeIsNoop() throws IOException, ConfigInvalidException {
+	public void testIncludeIsNoop() throws IOException {
 		File config = tmp.newFile("config");
 
 		String fooBar = "[foo]\nbar=true\n";
@@ -832,7 +832,7 @@ public class ConfigTest {
 
 	@Test
 	public void testIncludeCaseInsensitiveSection()
-			throws IOException, ConfigInvalidException {
+			throws IOException {
 		File included = tmp.newFile("included");
 		String content = "[foo]\nbar=true\n";
 		Files.write(included.toPath(), content.getBytes());
@@ -849,7 +849,7 @@ public class ConfigTest {
 
 	@Test
 	public void testIncludeCaseInsensitiveKey()
-			throws IOException, ConfigInvalidException {
+			throws IOException {
 		File included = tmp.newFile("included");
 		String content = "[foo]\nbar=true\n";
 		Files.write(included.toPath(), content.getBytes());

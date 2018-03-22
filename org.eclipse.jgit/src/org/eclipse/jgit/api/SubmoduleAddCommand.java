@@ -49,7 +49,6 @@ import java.text.MessageFormat;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.NoFilepatternException;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
@@ -212,8 +211,6 @@ public class SubmoduleAddCommand extends
 					path, ConfigConstants.CONFIG_KEY_URL, uri);
 			modulesConfig.save();
 		} catch (IOException e) {
-			throw new JGitInternalException(e.getMessage(), e);
-		} catch (ConfigInvalidException e) {
 			throw new JGitInternalException(e.getMessage(), e);
 		}
 

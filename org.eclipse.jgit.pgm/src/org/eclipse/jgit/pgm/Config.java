@@ -41,7 +41,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Set;
 
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.StoredConfig;
@@ -78,7 +77,7 @@ class Config extends TextBuiltin {
 					"only --list option is currently supported"); //$NON-NLS-1$
 	}
 
-	private void list() throws IOException, ConfigInvalidException {
+	private void list() throws IOException {
 		final FS fs = getRepository().getFS();
 		if (configFile != null) {
 			list(new FileBasedConfig(configFile, fs));
@@ -100,8 +99,7 @@ class Config extends TextBuiltin {
 		return !system && !global && !local && configFile == null;
 	}
 
-	private void list(StoredConfig config) throws IOException,
-			ConfigInvalidException {
+	private void list(StoredConfig config) throws IOException {
 		config.load();
 		Set<String> sections = config.getSections();
 		for (String section : sections) {

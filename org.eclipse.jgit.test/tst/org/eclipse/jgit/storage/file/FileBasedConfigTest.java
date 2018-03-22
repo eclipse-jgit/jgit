@@ -53,7 +53,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
@@ -92,7 +91,7 @@ public class FileBasedConfigTest {
 	}
 
 	@Test
-	public void testSystemEncoding() throws IOException, ConfigInvalidException {
+	public void testSystemEncoding() throws IOException {
 		final File file = createFile(CONTENT1.getBytes());
 		final FileBasedConfig config = new FileBasedConfig(file, FS.DETECTED);
 		config.load();
@@ -104,7 +103,7 @@ public class FileBasedConfigTest {
 	}
 
 	@Test
-	public void testUTF8withoutBOM() throws IOException, ConfigInvalidException {
+	public void testUTF8withoutBOM() throws IOException {
 		final File file = createFile(CONTENT1.getBytes(CHARSET));
 		final FileBasedConfig config = new FileBasedConfig(file, FS.DETECTED);
 		config.load();
@@ -116,7 +115,7 @@ public class FileBasedConfigTest {
 	}
 
 	@Test
-	public void testUTF8withBOM() throws IOException, ConfigInvalidException {
+	public void testUTF8withBOM() throws IOException {
 		final ByteArrayOutputStream bos1 = new ByteArrayOutputStream();
 		bos1.write(0xEF);
 		bos1.write(0xBB);
@@ -140,7 +139,7 @@ public class FileBasedConfigTest {
 	}
 
 	@Test
-	public void testLeadingWhitespaces() throws IOException, ConfigInvalidException {
+	public void testLeadingWhitespaces() throws IOException {
 		final ByteArrayOutputStream bos1 = new ByteArrayOutputStream();
 		bos1.write(" \n\t".getBytes());
 		bos1.write(CONTENT1.getBytes());
@@ -161,7 +160,7 @@ public class FileBasedConfigTest {
 
 	@Test
 	public void testIncludeAbsolute()
-			throws IOException, ConfigInvalidException {
+			throws IOException {
 		final File includedFile = createFile(CONTENT1.getBytes());
 		final ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		bos.write("[include]\npath=".getBytes());
@@ -175,7 +174,7 @@ public class FileBasedConfigTest {
 
 	@Test
 	public void testIncludeRelativeDot()
-			throws IOException, ConfigInvalidException {
+			throws IOException {
 		final File includedFile = createFile(CONTENT1.getBytes(), "dir1");
 		final ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		bos.write("[include]\npath=".getBytes());
@@ -189,7 +188,7 @@ public class FileBasedConfigTest {
 
 	@Test
 	public void testIncludeRelativeDotDot()
-			throws IOException, ConfigInvalidException {
+			throws IOException {
 		final File includedFile = createFile(CONTENT1.getBytes(), "dir1");
 		final ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		bos.write("[include]\npath=".getBytes());
@@ -204,7 +203,7 @@ public class FileBasedConfigTest {
 
 	@Test
 	public void testIncludeRelativeDotDotNotFound()
-			throws IOException, ConfigInvalidException {
+			throws IOException {
 		final File includedFile = createFile(CONTENT1.getBytes());
 		final ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		bos.write("[include]\npath=".getBytes());
@@ -218,7 +217,7 @@ public class FileBasedConfigTest {
 
 	@Test
 	public void testIncludeWithTilde()
-			throws IOException, ConfigInvalidException {
+			throws IOException {
 		final File includedFile = createFile(CONTENT1.getBytes(), "home");
 		final ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		bos.write("[include]\npath=".getBytes());

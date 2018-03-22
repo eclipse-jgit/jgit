@@ -61,7 +61,6 @@ import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lfs.server.LargeFileRepository;
 import org.eclipse.jgit.lfs.server.LfsProtocolServlet;
 import org.eclipse.jgit.lfs.server.fs.FileLfsRepository;
@@ -282,7 +281,7 @@ class LfsStore extends TextBuiltin {
 		}
 	}
 
-	private void readAWSKeys() throws IOException, ConfigInvalidException {
+	private void readAWSKeys() throws IOException {
 		String credentialsPath = System.getProperty("user.home") //$NON-NLS-1$
 				+ "/.aws/credentials"; //$NON-NLS-1$
 		FileBasedConfig c = new FileBasedConfig(new File(credentialsPath),

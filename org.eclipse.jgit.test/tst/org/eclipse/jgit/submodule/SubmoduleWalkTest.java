@@ -63,7 +63,6 @@ import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheEditor;
 import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
 import org.eclipse.jgit.dircache.DirCacheEntry;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.junit.RepositoryTestCase;
@@ -111,7 +110,7 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 
 	@Test
 	public void repositoryWithRootLevelSubmodule() throws IOException,
-			ConfigInvalidException, NoWorkTreeException, GitAPIException {
+			NoWorkTreeException, GitAPIException {
 		final ObjectId id = ObjectId
 				.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
 		final String path = "sub";
@@ -146,7 +145,7 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 	@SuppressWarnings("resource" /* java 7 */)
 	@Test
 	public void repositoryWithRootLevelSubmoduleAbsoluteRef()
-			throws IOException, ConfigInvalidException {
+			throws IOException {
 		final ObjectId id = ObjectId
 				.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
 		final String path = "sub";
@@ -198,7 +197,7 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 	@SuppressWarnings("resource" /* java 7 */)
 	@Test
 	public void repositoryWithRootLevelSubmoduleRelativeRef()
-			throws IOException, ConfigInvalidException {
+			throws IOException {
 		final ObjectId id = ObjectId
 				.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
 		final String path = "sub";
@@ -248,8 +247,7 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void repositoryWithNestedSubmodule() throws IOException,
-			ConfigInvalidException {
+	public void repositoryWithNestedSubmodule() throws IOException {
 		final ObjectId id = ObjectId
 				.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
 		final String path = "sub/dir/final";

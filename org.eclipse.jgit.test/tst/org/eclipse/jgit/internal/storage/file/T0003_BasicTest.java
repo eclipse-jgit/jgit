@@ -60,7 +60,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
@@ -341,8 +340,7 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void test006_ReadUglyConfig() throws IOException,
-			ConfigInvalidException {
+	public void test006_ReadUglyConfig() throws IOException {
 		final File cfg = new File(db.getDirectory(), Constants.CONFIG);
 		final FileBasedConfig c = new FileBasedConfig(cfg, db.getFS());
 		final String configStr = "  [core];comment\n\tfilemode = yes\n"

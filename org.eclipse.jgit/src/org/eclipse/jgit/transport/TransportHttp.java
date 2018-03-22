@@ -92,7 +92,6 @@ import java.util.zip.GZIPOutputStream;
 
 import javax.net.ssl.SSLHandshakeException;
 
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.NoRemoteRepositoryException;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.PackProtocolException;
@@ -704,7 +703,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		try {
 			userConfig.load();
 			updateSslVerify(userConfig, value);
-		} catch (IOException | ConfigInvalidException e) {
+		} catch (IOException e) {
 			// Log it, but otherwise ignore here.
 			LOG.error(MessageFormat.format(JGitText.get().userConfigFileInvalid,
 					userConfig.getFile().getAbsolutePath(), e));

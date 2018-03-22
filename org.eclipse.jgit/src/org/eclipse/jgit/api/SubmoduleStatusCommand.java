@@ -50,7 +50,6 @@ import java.util.Map;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -110,13 +109,11 @@ public class SubmoduleStatusCommand extends
 			return statuses;
 		} catch (IOException e) {
 			throw new JGitInternalException(e.getMessage(), e);
-		} catch (ConfigInvalidException e) {
-			throw new JGitInternalException(e.getMessage(), e);
 		}
 	}
 
 	private SubmoduleStatus getStatus(SubmoduleWalk generator)
-			throws IOException, ConfigInvalidException {
+			throws IOException {
 		ObjectId id = generator.getObjectId();
 		String path = generator.getPath();
 

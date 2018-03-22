@@ -49,7 +49,6 @@ import java.util.List;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
@@ -129,8 +128,6 @@ public class SubmoduleInitCommand extends GitCommand<Collection<String>> {
 				config.save();
 			return initialized;
 		} catch (IOException e) {
-			throw new JGitInternalException(e.getMessage(), e);
-		} catch (ConfigInvalidException e) {
 			throw new JGitInternalException(e.getMessage(), e);
 		}
 	}

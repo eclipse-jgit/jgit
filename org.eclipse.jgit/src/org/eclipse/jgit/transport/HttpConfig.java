@@ -50,7 +50,6 @@ import java.text.MessageFormat;
 import java.util.Set;
 import java.util.function.Supplier;
 
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
@@ -214,7 +213,7 @@ public class HttpConfig {
 				.openUserConfig(null, FS.DETECTED);
 		try {
 			userConfig.load();
-		} catch (IOException | ConfigInvalidException e) {
+		} catch (IOException e) {
 			// Log it and then work with default values.
 			LOG.error(MessageFormat.format(JGitText.get().userConfigFileInvalid,
 					userConfig.getFile().getAbsolutePath(), e));

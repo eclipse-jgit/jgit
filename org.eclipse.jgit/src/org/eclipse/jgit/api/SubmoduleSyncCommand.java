@@ -50,7 +50,6 @@ import java.util.Map;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
@@ -162,8 +161,6 @@ public class SubmoduleSyncCommand extends GitCommand<Map<String, String>> {
 				config.save();
 			return synced;
 		} catch (IOException e) {
-			throw new JGitInternalException(e.getMessage(), e);
-		} catch (ConfigInvalidException e) {
 			throw new JGitInternalException(e.getMessage(), e);
 		}
 	}

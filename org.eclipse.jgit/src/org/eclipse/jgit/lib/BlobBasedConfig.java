@@ -105,7 +105,7 @@ public class BlobBasedConfig extends Config {
 	 *             the blob is not a valid configuration format.
 	 */
 	public BlobBasedConfig(Config base, Repository db, AnyObjectId objectId)
-			throws IOException, ConfigInvalidException {
+			throws IOException {
 		this(base, read(db, objectId));
 	}
 
@@ -143,8 +143,7 @@ public class BlobBasedConfig extends Config {
 	 *             the blob is not a valid configuration format.
 	 */
 	public BlobBasedConfig(Config base, Repository db, AnyObjectId treeish,
-			String path) throws FileNotFoundException, IOException,
-			ConfigInvalidException {
+			String path) throws FileNotFoundException, IOException {
 		this(base, read(db, treeish, path));
 	}
 

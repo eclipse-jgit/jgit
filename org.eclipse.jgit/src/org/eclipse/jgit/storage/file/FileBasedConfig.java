@@ -142,7 +142,7 @@ public class FileBasedConfig extends StoredConfig {
 	 * behaves the same as though the file exists, but is empty.
 	 */
 	@Override
-	public void load() throws IOException, ConfigInvalidException {
+	public void load() throws IOException {
 		final FileSnapshot oldSnapshot = snapshot;
 		final FileSnapshot newSnapshot = FileSnapshot.save(getFile());
 		try {
@@ -172,11 +172,11 @@ public class FileBasedConfig extends StoredConfig {
 			}
 			clear();
 			snapshot = newSnapshot;
+		} catch (ConfigInvalidException e) {
+			throw new ConfigInvalidException(MessageFormat.format(JGitText.get().cannotReadFile, getFile()), e);
 		} catch (IOException e) {
 			throw new IOException(MessageFormat
 					.format(JGitText.get().cannotReadFile, getFile()), e);
-		} catch (ConfigInvalidException e) {
-			throw new ConfigInvalidException(MessageFormat.format(JGitText.get().cannotReadFile, getFile()), e);
 		}
 	}
 
