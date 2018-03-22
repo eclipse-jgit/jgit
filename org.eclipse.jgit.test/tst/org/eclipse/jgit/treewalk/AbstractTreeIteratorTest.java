@@ -54,6 +54,7 @@ import java.io.IOException;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -67,7 +68,8 @@ public class AbstractTreeIteratorTest {
 	}
 
 	public class FakeTreeIterator extends WorkingTreeIterator {
-		public FakeTreeIterator(String pathName, FileMode fileMode) {
+		public FakeTreeIterator(String pathName, FileMode fileMode)
+				throws ConfigIllegalValueException {
 			super(prefix(pathName), new Config().get(WorkingTreeOptions.KEY));
 			mode = fileMode.getBits();
 
@@ -149,7 +151,7 @@ public class AbstractTreeIteratorTest {
 	}
 
 	@Test
-	public void testEntryFileMode() {
+	public void testEntryFileMode() throws ConfigIllegalValueException {
 		for (FileMode m : new FileMode[] { FileMode.TREE,
 				FileMode.REGULAR_FILE, FileMode.EXECUTABLE_FILE,
 				FileMode.GITLINK, FileMode.SYMLINK }) {
@@ -160,7 +162,7 @@ public class AbstractTreeIteratorTest {
 	}
 
 	@Test
-	public void testEntryPath() {
+	public void testEntryPath() throws ConfigIllegalValueException {
 		FakeTreeIterator i = new FakeTreeIterator("a/b/cd", FileMode.TREE);
 		assertEquals("a/b/cd", i.getEntryPathString());
 		assertEquals(2, i.getNameLength());
@@ -173,7 +175,8 @@ public class AbstractTreeIteratorTest {
 	}
 
 	@Test
-	public void testCreateEmptyTreeIterator() {
+	public void testCreateEmptyTreeIterator()
+			throws ConfigIllegalValueException {
 		FakeTreeIterator i = new FakeTreeIterator("a/b/cd", FileMode.TREE);
 		EmptyTreeIterator e = i.createEmptyTreeIterator();
 		assertNotNull(e);

@@ -57,6 +57,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
@@ -730,7 +731,7 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 						.toString());
 	}
 
-	private void beginWalk() {
+	private void beginWalk() throws ConfigIllegalValueException {
 		walk = new TreeWalk(db);
 		walk.addTree(new FileTreeIterator(db));
 	}

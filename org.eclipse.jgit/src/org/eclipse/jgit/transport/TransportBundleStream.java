@@ -83,9 +83,10 @@ public class TransportBundleStream extends Transport implements TransportBundle 
 	 *            exception reporting.
 	 * @param in
 	 *            the stream to read the bundle from.
+	 * @throws TransportException
 	 */
 	public TransportBundleStream(final Repository db, final URIish uri,
-			final InputStream in) {
+			final InputStream in) throws TransportException {
 		super(db, uri);
 		src = in;
 	}

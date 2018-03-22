@@ -65,6 +65,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.RefDirectory.PackedRefList;
 import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -426,7 +427,8 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 		return b.toRefList();
 	}
 
-	private void writeReflog(List<ReceiveCommand> commands) {
+	private void writeReflog(List<ReceiveCommand> commands)
+			throws ConfigIllegalValueException {
 		PersonIdent ident = getRefLogIdent();
 		if (ident == null) {
 			ident = new PersonIdent(refdb.getRepository());

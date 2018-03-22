@@ -58,6 +58,7 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -88,7 +89,8 @@ public class TestProtocolTest {
 
 	private static class DefaultUpload implements UploadPackFactory<User> {
 		@Override
-		public UploadPack create(User req, Repository db) {
+		public UploadPack create(User req, Repository db)
+				throws ConfigIllegalValueException {
 			UploadPack up = new UploadPack(db);
 			up.setPostUploadHook(new PostUploadHook() {
 				@Override
@@ -102,7 +104,8 @@ public class TestProtocolTest {
 
 	private static class DefaultReceive implements ReceivePackFactory<User> {
 		@Override
-		public ReceivePack create(User req, Repository db) {
+		public ReceivePack create(User req, Repository db)
+				throws ConfigIllegalValueException {
 			return new ReceivePack(db);
 		}
 	}
@@ -233,7 +236,8 @@ public class TestProtocolTest {
 		TestProtocol<User> proto = registerProto(new UploadPackFactory<User>() {
 			@Override
 			public UploadPack create(User req, Repository db)
-					throws ServiceNotAuthorizedException {
+					throws ServiceNotAuthorizedException,
+					ConfigIllegalValueException {
 				if (!"user2".equals(req.name)) {
 					rejected.incrementAndGet();
 					throw new ServiceNotAuthorizedException();
@@ -277,7 +281,8 @@ public class TestProtocolTest {
 				new ReceivePackFactory<User>() {
 					@Override
 					public ReceivePack create(User req, Repository db)
-							throws ServiceNotAuthorizedException {
+							throws ServiceNotAuthorizedException,
+							ConfigIllegalValueException {
 						if (!"user2".equals(req.name)) {
 							rejected.incrementAndGet();
 							throw new ServiceNotAuthorizedException();

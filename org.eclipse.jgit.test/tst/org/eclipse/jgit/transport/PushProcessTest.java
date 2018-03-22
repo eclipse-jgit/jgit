@@ -396,7 +396,7 @@ public class PushProcessTest extends SampleDataRepositoryTestCase {
 	}
 
 	private class MockTransport extends Transport {
-		MockTransport(Repository local, URIish uri) {
+		MockTransport(Repository local, URIish uri) throws TransportException {
 			super(local, uri);
 		}
 

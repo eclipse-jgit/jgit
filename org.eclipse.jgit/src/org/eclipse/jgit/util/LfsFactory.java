@@ -53,6 +53,7 @@ import org.eclipse.jgit.attributes.Attribute;
 import org.eclipse.jgit.attributes.Attributes;
 import org.eclipse.jgit.hooks.PrePushHook;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -151,9 +152,11 @@ public class LfsFactory {
 	 *            the {@link Repository} the hook is applied to.
 	 * @param outputStream
 	 * @return a {@link PrePushHook} implementation or <code>null</code>
+	 * @throws ConfigIllegalValueException
+	 *             in case of an invalid value in the repo's Git config
 	 */
 	public @Nullable PrePushHook getPrePushHook(Repository repo,
-			PrintStream outputStream) {
+			PrintStream outputStream) throws ConfigIllegalValueException {
 		return null;
 	}
 
@@ -172,8 +175,10 @@ public class LfsFactory {
 	 *            the repository to check
 	 * @return whether LFS is enabled for the given repository locally or
 	 *         globally.
+	 * @throws ConfigIllegalValueException
+	 *             in case of an invalid value in the repo's Git config
 	 */
-	public boolean isEnabled(Repository db) {
+	public boolean isEnabled(Repository db) throws ConfigIllegalValueException {
 		return false;
 	}
 

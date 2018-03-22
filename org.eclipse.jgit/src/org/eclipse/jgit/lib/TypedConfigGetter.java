@@ -72,9 +72,12 @@ public interface TypedConfigGetter {
 	 *            default value to return if no value was present.
 	 * @return true if any value or defaultValue is true, false for missing or
 	 *         explicit false
+	 * @throws ConfigIllegalValueException
+	 *             if an illegal value was encountered
 	 */
 	boolean getBoolean(Config config, String section, String subsection,
-			String name, boolean defaultValue);
+			String name, boolean defaultValue)
+			throws ConfigIllegalValueException;
 
 	/**
 	 * Parse an enumeration from a git {@link org.eclipse.jgit.lib.Config}.

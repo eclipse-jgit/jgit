@@ -61,6 +61,7 @@ import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -123,13 +124,15 @@ public class PushCertificateParserTest {
 		db = new InMemoryRepository(new DfsRepositoryDescription("repo"));
 	}
 
-	private static SignedPushConfig newEnabledConfig() {
+	private static SignedPushConfig newEnabledConfig()
+			throws ConfigIllegalValueException {
 		Config cfg = new Config();
 		cfg.setString("receive", null, "certnonceseed", "sekret");
 		return SignedPushConfig.KEY.parse(cfg);
 	}
 
-	private static SignedPushConfig newDisabledConfig() {
+	private static SignedPushConfig newDisabledConfig()
+			throws ConfigIllegalValueException {
 		return SignedPushConfig.KEY.parse(new Config());
 	}
 
