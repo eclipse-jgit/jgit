@@ -46,6 +46,7 @@ package org.eclipse.jgit.treewalk;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Config.SectionParser;
 import org.eclipse.jgit.lib.ConfigConstants;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.CoreConfig.AutoCRLF;
 import org.eclipse.jgit.lib.CoreConfig.CheckStat;
 import org.eclipse.jgit.lib.CoreConfig.EOL;
@@ -74,7 +75,8 @@ public class WorkingTreeOptions {
 
 	private final boolean dirNoGitLinks;
 
-	private WorkingTreeOptions(final Config rc) {
+	private WorkingTreeOptions(final Config rc)
+			throws ConfigIllegalValueException {
 		fileMode = rc.getBoolean(ConfigConstants.CONFIG_CORE_SECTION,
 				ConfigConstants.CONFIG_KEY_FILEMODE, true);
 		autoCRLF = rc.getEnum(ConfigConstants.CONFIG_CORE_SECTION, null,

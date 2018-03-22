@@ -49,6 +49,7 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Config.SectionParser;
 import org.eclipse.jgit.lib.ConfigConstants;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.util.StringUtils;
 
 /**
@@ -76,7 +77,7 @@ public class DiffConfig {
 
 	private final int renameLimit;
 
-	private DiffConfig(final Config rc) {
+	private DiffConfig(final Config rc) throws ConfigIllegalValueException {
 		noPrefix = rc.getBoolean(ConfigConstants.CONFIG_DIFF_SECTION,
 				ConfigConstants.CONFIG_KEY_NOPREFIX, false);
 		renameDetectionType = parseRenameDetectionType(rc.getString(

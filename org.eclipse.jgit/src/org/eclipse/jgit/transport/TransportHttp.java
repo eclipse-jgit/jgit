@@ -98,6 +98,7 @@ import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.RefDirectory;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
@@ -202,12 +203,13 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 		@Override
 		public Transport open(URIish uri, Repository local, String remoteName)
-				throws NotSupportedException {
+				throws NotSupportedException, TransportException {
 			return new TransportHttp(local, uri);
 		}
 
 		@Override
-		public Transport open(URIish uri) throws NotSupportedException {
+		public Transport open(URIish uri)
+				throws NotSupportedException, TransportException {
 			return new TransportHttp(uri);
 		}
 	};
@@ -242,7 +244,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 		@Override
 		public Transport open(URIish uri, Repository local, String remoteName)
-				throws NotSupportedException {
+				throws NotSupportedException, TransportException {
 			return new TransportHttp(local, uri);
 		}
 	};
@@ -273,10 +275,14 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	private boolean sslFailure = false;
 
 	TransportHttp(final Repository local, final URIish uri)
-			throws NotSupportedException {
+			throws NotSupportedException, TransportException {
 		super(local, uri);
 		setURI(uri);
-		http = new HttpConfig(local.getConfig(), uri);
+		try {
+			http = new HttpConfig(local.getConfig(), uri);
+		} catch (ConfigIllegalValueException e) {
+			throw new TransportException(e.getMessage(), e);
+		}
 		proxySelector = ProxySelector.getDefault();
 		sslVerify = http.isSslVerify();
 	}
@@ -312,11 +318,17 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	 *
 	 * @param uri
 	 * @throws NotSupportedException
+	 * @throws TransportException
 	 */
-	TransportHttp(final URIish uri) throws NotSupportedException {
+	TransportHttp(final URIish uri)
+			throws NotSupportedException, TransportException {
 		super(uri);
 		setURI(uri);
-		http = new HttpConfig(uri);
+		try {
+			http = new HttpConfig(uri);
+		} catch (ConfigIllegalValueException e) {
+			throw new TransportException(e.getMessage(), e);
+		}
 		proxySelector = ProxySelector.getDefault();
 		sslVerify = http.isSslVerify();
 	}

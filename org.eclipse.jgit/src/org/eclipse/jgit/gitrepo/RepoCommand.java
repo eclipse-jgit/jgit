@@ -64,6 +64,7 @@ import org.eclipse.jgit.api.GitCommand;
 import org.eclipse.jgit.api.SubmoduleAddCommand;
 import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.InvalidConfigurationException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
@@ -75,6 +76,7 @@ import org.eclipse.jgit.gitrepo.internal.RepoText;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
@@ -520,8 +522,13 @@ public class RepoCommand extends GitCommand<RevCommit> {
 
 		if (repo.isBare()) {
 			bareProjects = new ArrayList<>();
-			if (author == null)
-				author = new PersonIdent(repo);
+			if (author == null) {
+				try {
+					author = new PersonIdent(repo);
+				} catch (ConfigIllegalValueException e) {
+					throw new InvalidConfigurationException(e);
+				}
+			}
 			if (callback == null)
 				callback = new DefaultRemoteReader();
 			for (RepoProject proj : filteredProjects) {
@@ -532,7 +539,13 @@ public class RepoCommand extends GitCommand<RevCommit> {
 			}
 			DirCache index = DirCache.newInCore();
 			DirCacheBuilder builder = index.builder();
-			ObjectInserter inserter = repo.newObjectInserter();
+			ObjectInserter inserter;
+			try {
+				inserter = repo.newObjectInserter();
+			} catch (ConfigIllegalValueException e) {
+				throw new InvalidConfigurationException(e);
+			}
+
 			try (RevWalk rw = new RevWalk(repo)) {
 				Config cfg = new Config();
 				StringBuilder attributes = new StringBuilder();

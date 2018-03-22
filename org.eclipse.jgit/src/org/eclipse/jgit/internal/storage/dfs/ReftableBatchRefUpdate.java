@@ -78,6 +78,7 @@ import org.eclipse.jgit.internal.storage.reftable.ReftableReader;
 import org.eclipse.jgit.internal.storage.reftable.ReftableWriter;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -112,9 +113,10 @@ public class ReftableBatchRefUpdate extends BatchRefUpdate {
 	 *            database the update will modify.
 	 * @param odb
 	 *            object database to store the reftable.
+	 * @throws ConfigIllegalValueException
 	 */
 	protected ReftableBatchRefUpdate(DfsReftableDatabase refdb,
-			DfsObjDatabase odb) {
+			DfsObjDatabase odb) throws ConfigIllegalValueException {
 		super(refdb);
 		this.refdb = refdb;
 		this.odb = odb;

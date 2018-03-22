@@ -50,6 +50,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.eclipse.jgit.internal.storage.dfs.DfsRepository;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Repository;
 
 /**
@@ -84,9 +85,10 @@ public class KetchLeaderCache {
 	 * @return the leader instance for the repository.
 	 * @throws java.net.URISyntaxException
 	 *             remote configuration contains an invalid URL.
+	 * @throws ConfigIllegalValueException
 	 */
 	public KetchLeader get(Repository repo)
-			throws URISyntaxException {
+			throws URISyntaxException, ConfigIllegalValueException {
 		String key = computeKey(repo);
 		KetchLeader leader = leaders.get(key);
 		if (leader != null) {
@@ -96,7 +98,7 @@ public class KetchLeaderCache {
 	}
 
 	private KetchLeader startLeader(String key, Repository repo)
-			throws URISyntaxException {
+			throws URISyntaxException, ConfigIllegalValueException {
 		startLock.lock();
 		try {
 			KetchLeader leader = leaders.get(key);

@@ -50,6 +50,7 @@ import java.util.HashMap;
 
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
 
@@ -160,8 +161,10 @@ public abstract class MergeStrategy {
 	 *            repository database the merger will read from, and eventually
 	 *            write results back to.
 	 * @return the new merge instance which implements this strategy.
+	 * @throws ConfigIllegalValueException
 	 */
-	public abstract Merger newMerger(Repository db);
+	public abstract Merger newMerger(Repository db)
+			throws ConfigIllegalValueException;
 
 	/**
 	 * Create a new merge instance.
@@ -174,8 +177,10 @@ public abstract class MergeStrategy {
 	 *            modified, in case of a non-trivial merge that requires manual
 	 *            resolution, the merger will fail.
 	 * @return the new merge instance which implements this strategy.
+	 * @throws ConfigIllegalValueException
 	 */
-	public abstract Merger newMerger(Repository db, boolean inCore);
+	public abstract Merger newMerger(Repository db, boolean inCore)
+			throws ConfigIllegalValueException;
 
 	/**
 	 * Create a new merge instance.

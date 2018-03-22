@@ -64,6 +64,7 @@ import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.BranchConfig.BranchRebaseMode;
 import org.eclipse.jgit.lib.ConfigConstants;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -285,7 +286,8 @@ public class CloneCommandTest extends RepositoryTestCase {
 				.getString("branch", "test", "remote"));
 	}
 
-	public static RefSpec fetchRefSpec(Repository r) throws URISyntaxException {
+	public static RefSpec fetchRefSpec(Repository r)
+			throws URISyntaxException, ConfigIllegalValueException {
 		RemoteConfig remoteConfig =
 				new RemoteConfig(r.getConfig(), Constants.DEFAULT_REMOTE_NAME);
 		return remoteConfig.getFetchRefSpecs().get(0);

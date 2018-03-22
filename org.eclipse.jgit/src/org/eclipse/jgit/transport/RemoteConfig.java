@@ -55,6 +55,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 
 /**
  * A remembered remote repository, including URLs and RefSpecs.
@@ -111,9 +112,10 @@ public class RemoteConfig implements Serializable {
 	 *         lexicographically by names.
 	 * @throws java.net.URISyntaxException
 	 *             one of the URIs within the remote's configuration is invalid.
+	 * @throws ConfigIllegalValueException
 	 */
 	public static List<RemoteConfig> getAllRemoteConfigs(final Config rc)
-			throws URISyntaxException {
+			throws URISyntaxException, ConfigIllegalValueException {
 		final List<String> names = new ArrayList<>(rc
 				.getSubsections(SECTION));
 		Collections.sort(names);
@@ -159,9 +161,10 @@ public class RemoteConfig implements Serializable {
 	 *            subsection key indicating the name of this remote.
 	 * @throws java.net.URISyntaxException
 	 *             one of the URIs within the remote's configuration is invalid.
+	 * @throws ConfigIllegalValueException
 	 */
 	public RemoteConfig(final Config rc, final String remoteName)
-			throws URISyntaxException {
+			throws URISyntaxException, ConfigIllegalValueException {
 		name = remoteName;
 
 		String[] vlst;

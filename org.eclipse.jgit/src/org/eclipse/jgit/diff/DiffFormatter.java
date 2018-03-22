@@ -75,6 +75,7 @@ import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ConfigConstants;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
@@ -173,8 +174,10 @@ public class DiffFormatter implements AutoCloseable {
 	 *
 	 * @param repository
 	 *            source repository holding referenced objects.
+	 * @throws ConfigIllegalValueException
 	 */
-	public void setRepository(Repository repository) {
+	public void setRepository(Repository repository)
+			throws ConfigIllegalValueException {
 		this.repository = repository;
 		setReader(repository.newObjectReader(), repository.getConfig(), true);
 	}
@@ -187,13 +190,16 @@ public class DiffFormatter implements AutoCloseable {
 	 *            for closing the reader.
 	 * @param cfg
 	 *            config specifying diff algorithm and rename detection options.
+	 * @throws ConfigIllegalValueException
 	 * @since 4.5
 	 */
-	public void setReader(ObjectReader reader, Config cfg) {
+	public void setReader(ObjectReader reader, Config cfg)
+			throws ConfigIllegalValueException {
 		setReader(reader, cfg, false);
 	}
 
-	private void setReader(ObjectReader reader, Config cfg, boolean closeReader) {
+	private void setReader(ObjectReader reader, Config cfg, boolean closeReader)
+			throws ConfigIllegalValueException {
 		close();
 		this.closeReader = closeReader;
 		this.reader = reader;

@@ -59,6 +59,7 @@ import org.eclipse.jgit.diff.DiffEntry.ChangeType;
 import org.eclipse.jgit.diff.SimilarityIndex.TableFullException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -137,8 +138,9 @@ public class RenameDetector {
 	 *
 	 * @param repo
 	 *            the repository to use for rename detection
+	 * @throws ConfigIllegalValueException
 	 */
-	public RenameDetector(Repository repo) {
+	public RenameDetector(Repository repo) throws ConfigIllegalValueException {
 		this(repo.newObjectReader(), repo.getConfig().get(DiffConfig.KEY));
 	}
 

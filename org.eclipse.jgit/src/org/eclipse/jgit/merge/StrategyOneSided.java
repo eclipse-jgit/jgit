@@ -47,6 +47,7 @@ package org.eclipse.jgit.merge;
 import java.io.IOException;
 
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
@@ -84,13 +85,15 @@ public class StrategyOneSided extends MergeStrategy {
 
 	/** {@inheritDoc} */
 	@Override
-	public Merger newMerger(final Repository db) {
+	public Merger newMerger(final Repository db)
+			throws ConfigIllegalValueException {
 		return new OneSide(db, treeIndex);
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public Merger newMerger(final Repository db, boolean inCore) {
+	public Merger newMerger(final Repository db, boolean inCore)
+			throws ConfigIllegalValueException {
 		return new OneSide(db, treeIndex);
 	}
 
@@ -103,7 +106,8 @@ public class StrategyOneSided extends MergeStrategy {
 	static class OneSide extends Merger {
 		private final int treeIndex;
 
-		protected OneSide(final Repository local, final int index) {
+		protected OneSide(final Repository local, final int index)
+				throws ConfigIllegalValueException {
 			super(local);
 			treeIndex = index;
 		}

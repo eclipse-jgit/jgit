@@ -73,6 +73,7 @@ import org.eclipse.jgit.internal.storage.file.ObjectDirectory.AlternateRepositor
 import org.eclipse.jgit.internal.storage.reftree.RefTreeDatabase;
 import org.eclipse.jgit.lib.BaseRepositoryBuilder;
 import org.eclipse.jgit.lib.ConfigConstants;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig.HideDotFiles;
 import org.eclipse.jgit.lib.CoreConfig.SymLinks;
@@ -628,14 +629,15 @@ public class FileRepository extends Repository {
 
 	}
 
-	private boolean shouldAutoDetach() {
+	private boolean shouldAutoDetach() throws ConfigIllegalValueException {
 		return getConfig().getBoolean(ConfigConstants.CONFIG_GC_SECTION,
 				ConfigConstants.CONFIG_KEY_AUTODETACH, true);
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public void autoGC(ProgressMonitor monitor) {
+	public void autoGC(ProgressMonitor monitor)
+			throws ConfigIllegalValueException {
 		GC gc = new GC(this);
 		gc.setPackConfig(new PackConfig(this));
 		gc.setProgressMonitor(monitor);

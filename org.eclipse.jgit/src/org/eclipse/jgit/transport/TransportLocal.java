@@ -61,6 +61,7 @@ import org.eclipse.jgit.errors.NoRemoteRepositoryException;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryBuilder;
 import org.eclipse.jgit.lib.RepositoryCache;
@@ -119,7 +120,7 @@ class TransportLocal extends Transport implements PackTransport {
 
 		@Override
 		public Transport open(URIish uri, Repository local, String remoteName)
-				throws NoRemoteRepositoryException {
+				throws TransportException {
 			File localPath = local.isBare() ? local.getDirectory() : local.getWorkTree();
 			File path = local.getFS().resolve(localPath, uri.getPath());
 			// If the reference is to a local file, C Git behavior says
@@ -152,7 +153,8 @@ class TransportLocal extends Transport implements PackTransport {
 
 	private final File remoteGitDir;
 
-	TransportLocal(Repository local, URIish uri, File gitDir) {
+	TransportLocal(Repository local, URIish uri, File gitDir)
+			throws TransportException {
 		super(local, uri);
 		remoteGitDir = gitDir;
 	}
@@ -162,11 +164,13 @@ class TransportLocal extends Transport implements PackTransport {
 		remoteGitDir = gitDir;
 	}
 
-	UploadPack createUploadPack(final Repository dst) {
+	UploadPack createUploadPack(final Repository dst)
+			throws ConfigIllegalValueException {
 		return new UploadPack(dst);
 	}
 
-	ReceivePack createReceivePack(final Repository dst) {
+	ReceivePack createReceivePack(final Repository dst)
+			throws ConfigIllegalValueException {
 		return new ReceivePack(dst);
 	}
 
@@ -190,7 +194,8 @@ class TransportLocal extends Transport implements PackTransport {
 
 		UploadPackFactory<Void> upf = new UploadPackFactory<Void>() {
 			@Override
-			public UploadPack create(Void req, Repository db) {
+			public UploadPack create(Void req, Repository db)
+					throws ConfigIllegalValueException {
 				return createUploadPack(db);
 			}
 		};
@@ -207,7 +212,8 @@ class TransportLocal extends Transport implements PackTransport {
 
 		ReceivePackFactory<Void> rpf = new ReceivePackFactory<Void>() {
 			@Override
-			public ReceivePack create(Void req, Repository db) {
+			public ReceivePack create(Void req, Repository db)
+					throws ConfigIllegalValueException {
 				return createReceivePack(db);
 			}
 		};

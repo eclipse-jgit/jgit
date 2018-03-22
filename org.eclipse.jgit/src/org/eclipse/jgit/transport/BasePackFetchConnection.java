@@ -64,6 +64,7 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.PackLock;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -257,12 +258,20 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 	 *
 	 * @param packTransport
 	 *            the transport.
+	 * @throws TransportException
 	 */
-	public BasePackFetchConnection(final PackTransport packTransport) {
+	public BasePackFetchConnection(final PackTransport packTransport)
+			throws TransportException {
 		super(packTransport);
 
 		if (local != null) {
-			final FetchConfig cfg = getFetchConfig();
+			FetchConfig cfg;
+			try {
+				cfg = getFetchConfig();
+			} catch (ConfigIllegalValueException e) {
+				throw new TransportException(e.getMessage(), e);
+			}
+
 			allowOfsDelta = cfg.allowOfsDelta;
 			if (cfg.minimalNegotiation) {
 				minimalNegotiationSet = new HashSet<>();
@@ -299,7 +308,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 
 		final boolean minimalNegotiation;
 
-		FetchConfig(final Config c) {
+		FetchConfig(final Config c) throws ConfigIllegalValueException {
 			allowOfsDelta = c.getBoolean("repack", "usedeltabaseoffset", true); //$NON-NLS-1$ //$NON-NLS-2$
 			minimalNegotiation = c.getBoolean("fetch", "useminimalnegotiation", //$NON-NLS-1$ //$NON-NLS-2$
 					false);
@@ -417,7 +426,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		super.close();
 	}
 
-	FetchConfig getFetchConfig() {
+	FetchConfig getFetchConfig() throws ConfigIllegalValueException {
 		return local.getConfig().get(FetchConfig::new);
 	}
 

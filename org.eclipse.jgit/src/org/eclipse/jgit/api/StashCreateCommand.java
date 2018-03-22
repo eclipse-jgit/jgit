@@ -51,6 +51,7 @@ import java.util.List;
 
 import org.eclipse.jgit.api.ResetCommand.ResetType;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.InvalidConfigurationException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.api.errors.UnmergedPathsException;
@@ -65,6 +66,7 @@ import org.eclipse.jgit.errors.UnmergedPathException;
 import org.eclipse.jgit.events.WorkingTreeModifiedEvent;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
@@ -116,10 +118,16 @@ public class StashCreateCommand extends GitCommand<RevCommit> {
 	 *
 	 * @param repo
 	 *            a {@link org.eclipse.jgit.lib.Repository} object.
+	 * @throws GitAPIException
 	 */
-	public StashCreateCommand(Repository repo) {
+	public StashCreateCommand(Repository repo)
+			throws GitAPIException {
 		super(repo);
-		person = new PersonIdent(repo);
+		try {
+			person = new PersonIdent(repo);
+		} catch (ConfigIllegalValueException e) {
+			throw new InvalidConfigurationException(e);
+		}
 	}
 
 	/**
@@ -200,7 +208,7 @@ public class StashCreateCommand extends GitCommand<RevCommit> {
 		}
 	}
 
-	private CommitBuilder createBuilder() {
+	private CommitBuilder createBuilder() throws ConfigIllegalValueException {
 		CommitBuilder builder = new CommitBuilder();
 		PersonIdent author = person;
 		if (author == null)

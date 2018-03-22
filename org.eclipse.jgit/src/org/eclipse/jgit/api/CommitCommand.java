@@ -74,6 +74,7 @@ import org.eclipse.jgit.hooks.PostCommitHook;
 import org.eclipse.jgit.hooks.PreCommitHook;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
@@ -517,9 +518,10 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	 *
 	 * @throws NoMessageException
 	 *             if the commit message has not been specified
+	 * @throws ConfigIllegalValueException
 	 */
 	private void processOptions(RepositoryState state, RevWalk rw)
-			throws NoMessageException {
+			throws NoMessageException, ConfigIllegalValueException {
 		if (committer == null)
 			committer = new PersonIdent(repo);
 		if (author == null && !amend)

@@ -80,6 +80,7 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.lib.BitmapIndex;
 import org.eclipse.jgit.lib.BitmapIndex.BitmapBuilder;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
@@ -325,8 +326,10 @@ public class UploadPack {
 	 *
 	 * @param copyFrom
 	 *            the source repository.
+	 * @throws ConfigIllegalValueException
 	 */
-	public UploadPack(final Repository copyFrom) {
+	public UploadPack(final Repository copyFrom)
+			throws ConfigIllegalValueException {
 		db = copyFrom;
 		walk = new RevWalk(db);
 		walk.setRetainBody(false);
@@ -625,9 +628,11 @@ public class UploadPack {
 	 * @param tc
 	 *            configuration controlling transfer options. If null the source
 	 *            repository's settings will be used.
+	 * @throws ConfigIllegalValueException
 	 * @since 3.1
 	 */
-	public void setTransferConfig(TransferConfig tc) {
+	public void setTransferConfig(TransferConfig tc)
+			throws ConfigIllegalValueException {
 		this.transferConfig = tc != null ? tc : new TransferConfig(db);
 		if (transferConfig.isAllowTipSha1InWant()) {
 			setRequestPolicy(transferConfig.isAllowReachableSha1InWant()

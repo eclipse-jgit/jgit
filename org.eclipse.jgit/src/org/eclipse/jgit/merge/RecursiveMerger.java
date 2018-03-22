@@ -62,6 +62,7 @@ import org.eclipse.jgit.errors.NoMergeBaseException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -101,17 +102,22 @@ public class RecursiveMerger extends ResolveMerger {
 	 *            a {@link org.eclipse.jgit.lib.Repository} object.
 	 * @param inCore
 	 *            a boolean.
+	 * @throws ConfigIllegalValueException
 	 */
-	protected RecursiveMerger(Repository local, boolean inCore) {
+	protected RecursiveMerger(Repository local, boolean inCore)
+			throws ConfigIllegalValueException {
 		super(local, inCore);
 	}
 
 	/**
 	 * Normal recursive merge, implies not inCore
 	 *
-	 * @param local a {@link org.eclipse.jgit.lib.Repository} object.
+	 * @param local
+	 *            a {@link org.eclipse.jgit.lib.Repository} object.
+	 * @throws ConfigIllegalValueException
 	 */
-	protected RecursiveMerger(Repository local) {
+	protected RecursiveMerger(Repository local)
+			throws ConfigIllegalValueException {
 		this(local, false);
 	}
 

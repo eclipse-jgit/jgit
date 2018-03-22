@@ -329,9 +329,10 @@ public class Config {
 	 *            default value to return if no value was present.
 	 * @return true if any value or defaultValue is true, false for missing or
 	 *         explicit false
+	 * @throws ConfigIllegalValueException
 	 */
 	public boolean getBoolean(final String section, final String name,
-			final boolean defaultValue) {
+			final boolean defaultValue) throws ConfigIllegalValueException {
 		return typedGetter.getBoolean(this, section, null, name, defaultValue);
 	}
 
@@ -348,9 +349,11 @@ public class Config {
 	 *            default value to return if no value was present.
 	 * @return true if any value or defaultValue is true, false for missing or
 	 *         explicit false
+	 * @throws ConfigIllegalValueException
 	 */
 	public boolean getBoolean(final String section, String subsection,
-			final String name, final boolean defaultValue) {
+			final String name, final boolean defaultValue)
+			throws ConfigIllegalValueException {
 		return typedGetter.getBoolean(this, section, subsection, name,
 				defaultValue);
 	}
@@ -599,9 +602,11 @@ public class Config {
 	 *            as the key into a cache and must obey the hashCode and equals
 	 *            contract in order to reuse a parsed model.
 	 * @return the parsed object instance, which is cached inside this config.
+	 * @throws ConfigIllegalValueException
 	 */
 	@SuppressWarnings("unchecked")
-	public <T> T get(final SectionParser<T> parser) {
+	public <T> T get(final SectionParser<T> parser)
+			throws ConfigIllegalValueException {
 		final ConfigSnapshot myState = getState();
 		T obj = (T) myState.cache.get(parser);
 		if (obj == null) {
@@ -1443,8 +1448,9 @@ public class Config {
 		 * @param cfg
 		 *            the configuration to read values from.
 		 * @return the application model instance.
+		 * @throws ConfigIllegalValueException
 		 */
-		T parse(Config cfg);
+		T parse(Config cfg) throws ConfigIllegalValueException;
 	}
 
 	private static class StringReader {

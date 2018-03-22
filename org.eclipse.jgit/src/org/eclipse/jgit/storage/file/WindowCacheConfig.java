@@ -45,6 +45,7 @@ package org.eclipse.jgit.storage.file;
 
 import org.eclipse.jgit.internal.storage.file.WindowCache;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.storage.pack.PackConfig;
 
 /**
@@ -224,9 +225,11 @@ public class WindowCacheConfig {
 	 * @param rc
 	 *            configuration to read properties from.
 	 * @return {@code this}.
+	 * @throws ConfigIllegalValueException
 	 * @since 3.0
 	 */
-	public WindowCacheConfig fromConfig(final Config rc) {
+	public WindowCacheConfig fromConfig(final Config rc)
+			throws ConfigIllegalValueException {
 		setPackedGitOpenFiles(rc.getInt(
 				"core", null, "packedgitopenfiles", getPackedGitOpenFiles())); //$NON-NLS-1$ //$NON-NLS-2$
 		setPackedGitLimit(rc.getLong(

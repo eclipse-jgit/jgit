@@ -45,7 +45,9 @@ package org.eclipse.jgit.hooks;
 import java.io.PrintStream;
 import java.text.MessageFormat;
 
+import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.LfsFactory;
 
@@ -107,12 +109,20 @@ public class Hooks {
 	 * @param outputStream
 	 *            The output stream, or {@code null} to use {@code System.out}
 	 * @return The pre-push hook for the given repository.
+	 * @throws TransportException
 	 * @since 4.2
 	 */
-	public static PrePushHook prePush(Repository repo, PrintStream outputStream) {
+	public static PrePushHook prePush(Repository repo, PrintStream outputStream)
+			throws TransportException {
 		if (LfsFactory.getInstance().isAvailable()) {
-			PrePushHook hook = LfsFactory.getInstance().getPrePushHook(repo,
-					outputStream);
+			PrePushHook hook;
+			try {
+				hook = LfsFactory.getInstance().getPrePushHook(repo,
+						outputStream);
+			} catch (ConfigIllegalValueException e) {
+				throw new TransportException(e.getMessage(), e);
+			}
+
 			if (hook != null) {
 				if (hook.isNativeHookPresent()) {
 					throw new IllegalStateException(MessageFormat

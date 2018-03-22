@@ -53,6 +53,7 @@ import java.util.Set;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.BasePackFetchConnection.FetchConfig;
 import org.eclipse.jgit.transport.resolver.ReceivePackFactory;
@@ -182,7 +183,8 @@ public class TestProtocol<C> extends TransportProtocol {
 	private class TransportInternal extends Transport implements PackTransport {
 		private final Handle handle;
 
-		TransportInternal(Repository local, URIish uri, Handle handle) {
+		TransportInternal(Repository local, URIish uri, Handle handle)
+				throws TransportException {
 			super(local, uri);
 			this.handle = handle;
 		}
@@ -194,7 +196,8 @@ public class TestProtocol<C> extends TransportProtocol {
 			return new InternalFetchConnection<C>(this, uploadPackFactory,
 					handle.req, handle.remote) {
 				@Override
-				FetchConfig getFetchConfig() {
+				FetchConfig getFetchConfig()
+						throws ConfigIllegalValueException {
 					return fetchConfig != null ? fetchConfig
 							: super.getFetchConfig();
 				}

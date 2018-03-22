@@ -65,6 +65,7 @@ import org.eclipse.jgit.diff.RawTextComparator;
 import org.eclipse.jgit.diff.RenameDetector;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
@@ -158,8 +159,10 @@ public class BlameGenerator implements AutoCloseable {
 	 * @param path
 	 *            initial path of the file to start scanning (relative to the
 	 *            repository).
+	 * @throws ConfigIllegalValueException
 	 */
-	public BlameGenerator(Repository repository, String path) {
+	public BlameGenerator(Repository repository, String path)
+			throws ConfigIllegalValueException {
 		this.repository = repository;
 		this.resultPath = PathFilter.create(path);
 
@@ -241,8 +244,10 @@ public class BlameGenerator implements AutoCloseable {
 	 * @param follow
 	 *            enable following.
 	 * @return {@code this}
+	 * @throws ConfigIllegalValueException
 	 */
-	public BlameGenerator setFollowFileRenames(boolean follow) {
+	public BlameGenerator setFollowFileRenames(boolean follow)
+			throws ConfigIllegalValueException {
 		if (follow)
 			renameDetector = new RenameDetector(getRepository());
 		else

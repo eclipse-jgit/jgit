@@ -72,6 +72,7 @@ import org.eclipse.jgit.internal.storage.file.LockFile;
 import org.eclipse.jgit.internal.storage.file.PackLock;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.BatchingProgressMonitor;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
@@ -194,10 +195,16 @@ class FetchProcess {
 			closeConnection(result);
 		}
 
-		BatchRefUpdate batch = transport.local.getRefDatabase()
-				.newBatchUpdate()
-				.setAllowNonFastForwards(true)
-				.setRefLogMessage("fetch", true); //$NON-NLS-1$
+		BatchRefUpdate batch;
+		try {
+			batch = transport.local.getRefDatabase()
+					.newBatchUpdate()
+					.setAllowNonFastForwards(true)
+					.setRefLogMessage("fetch", true);
+		} catch (ConfigIllegalValueException e) {
+			throw new TransportException(e.getMessage(), e);
+		}
+
 		try (final RevWalk walk = new RevWalk(transport.local)) {
 			if (monitor instanceof BatchingProgressMonitor) {
 				((BatchingProgressMonitor) monitor).setDelayStart(

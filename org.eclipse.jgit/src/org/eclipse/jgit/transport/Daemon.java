@@ -56,6 +56,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.pack.PackConfig;
@@ -117,7 +118,7 @@ public class Daemon {
 			@Override
 			public UploadPack create(DaemonClient req, Repository db)
 					throws ServiceNotEnabledException,
-					ServiceNotAuthorizedException {
+					ServiceNotAuthorizedException, ConfigIllegalValueException {
 				UploadPack up = new UploadPack(db);
 				up.setTimeout(getTimeout());
 				up.setPackConfig(getPackConfig());
@@ -129,7 +130,7 @@ public class Daemon {
 			@Override
 			public ReceivePack create(DaemonClient req, Repository db)
 					throws ServiceNotEnabledException,
-					ServiceNotAuthorizedException {
+					ServiceNotAuthorizedException, ConfigIllegalValueException {
 				ReceivePack rp = new ReceivePack(db);
 
 				InetAddress peer = req.getRemoteAddress();

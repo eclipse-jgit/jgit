@@ -49,6 +49,7 @@ import java.util.zip.Deflater;
 
 import org.eclipse.jgit.internal.storage.file.PackIndexWriter;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Repository;
 
 /**
@@ -276,8 +277,9 @@ public class PackConfig {
 	 *            the repository to read settings from. The repository is not
 	 *            retained by the new configuration, instead its settings are
 	 *            copied during the constructor.
+	 * @throws ConfigIllegalValueException
 	 */
-	public PackConfig(Repository db) {
+	public PackConfig(Repository db) throws ConfigIllegalValueException {
 		fromConfig(db.getConfig());
 	}
 
@@ -289,8 +291,9 @@ public class PackConfig {
 	 *            the source to read settings from. The source is not retained
 	 *            by the new configuration, instead its settings are copied
 	 *            during the constructor.
+	 * @throws ConfigIllegalValueException
 	 */
-	public PackConfig(Config cfg) {
+	public PackConfig(Config cfg) throws ConfigIllegalValueException {
 		fromConfig(cfg);
 	}
 
@@ -1038,8 +1041,9 @@ public class PackConfig {
 	 *
 	 * @param rc
 	 *            configuration to read properties from.
+	 * @throws ConfigIllegalValueException
 	 */
-	public void fromConfig(final Config rc) {
+	public void fromConfig(final Config rc) throws ConfigIllegalValueException {
 		setMaxDeltaDepth(rc.getInt("pack", "depth", getMaxDeltaDepth())); //$NON-NLS-1$ //$NON-NLS-2$
 		setDeltaSearchWindowSize(rc.getInt(
 				"pack", "window", getDeltaSearchWindowSize())); //$NON-NLS-1$ //$NON-NLS-2$

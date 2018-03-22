@@ -53,6 +53,7 @@ import org.eclipse.jgit.errors.NoMergeBaseException;
 import org.eclipse.jgit.errors.NoMergeBaseException.MergeBaseFailureReason;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -112,8 +113,10 @@ public abstract class Merger {
 	 *
 	 * @param local
 	 *            the repository this merger will read and write data on.
+	 * @throws ConfigIllegalValueException
 	 */
-	protected Merger(final Repository local) {
+	protected Merger(final Repository local)
+			throws ConfigIllegalValueException {
 		if (local == null) {
 			throw new NullPointerException(JGitText.get().repositoryIsRequired);
 		}

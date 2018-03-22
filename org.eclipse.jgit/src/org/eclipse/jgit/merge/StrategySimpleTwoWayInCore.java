@@ -50,6 +50,7 @@ import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.errors.UnmergedPathException;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -84,13 +85,15 @@ public class StrategySimpleTwoWayInCore extends ThreeWayMergeStrategy {
 
 	/** {@inheritDoc} */
 	@Override
-	public ThreeWayMerger newMerger(final Repository db) {
+	public ThreeWayMerger newMerger(final Repository db)
+			throws ConfigIllegalValueException {
 		return new InCoreMerger(db);
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public ThreeWayMerger newMerger(Repository db, boolean inCore) {
+	public ThreeWayMerger newMerger(Repository db, boolean inCore)
+			throws ConfigIllegalValueException {
 		// This class is always inCore, so ignore the parameter
 		return newMerger(db);
 	}
@@ -116,7 +119,8 @@ public class StrategySimpleTwoWayInCore extends ThreeWayMergeStrategy {
 
 		private ObjectId resultTree;
 
-		InCoreMerger(final Repository local) {
+		InCoreMerger(final Repository local)
+				throws ConfigIllegalValueException {
 			super(local);
 			tw = new NameConflictTreeWalk(local, reader);
 			cache = DirCache.newInCore();

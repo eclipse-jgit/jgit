@@ -77,6 +77,7 @@ import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.hooks.Hooks;
 import org.eclipse.jgit.hooks.PrePushHook;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectChecker;
 import org.eclipse.jgit.lib.ObjectId;
@@ -303,7 +304,13 @@ public abstract class Transport implements AutoCloseable {
 			final Operation op) throws NotSupportedException,
 			URISyntaxException, TransportException {
 		if (local != null) {
-			final RemoteConfig cfg = new RemoteConfig(local.getConfig(), remote);
+			RemoteConfig cfg;
+			try {
+				cfg = new RemoteConfig(local.getConfig(), remote);
+			} catch (ConfigIllegalValueException e) {
+				throw new TransportException(e.getMessage(), e);
+			}
+
 			if (doesNotExist(cfg))
 				return open(local, new URIish(remote), null);
 			return open(local, cfg, op);
@@ -364,7 +371,13 @@ public abstract class Transport implements AutoCloseable {
 			final String remote, final Operation op)
 			throws NotSupportedException, URISyntaxException,
 			TransportException {
-		final RemoteConfig cfg = new RemoteConfig(local.getConfig(), remote);
+		RemoteConfig cfg;
+		try {
+			cfg = new RemoteConfig(local.getConfig(), remote);
+		} catch (ConfigIllegalValueException e) {
+			throw new TransportException(e.getMessage(), e);
+		}
+
 		if (doesNotExist(cfg)) {
 			final ArrayList<Transport> transports = new ArrayList<>(1);
 			transports.add(open(local, new URIish(remote), null));
@@ -808,6 +821,7 @@ public abstract class Transport implements AutoCloseable {
 	private PrintStream hookOutRedirect;
 
 	private PrePushHook prePush;
+
 	/**
 	 * Create a new transport instance.
 	 *
@@ -818,9 +832,17 @@ public abstract class Transport implements AutoCloseable {
 	 * @param uri
 	 *            the URI used to access the remote repository. This must be the
 	 *            URI passed to {@link #open(Repository, URIish)}.
+	 * @throws TransportException
 	 */
-	protected Transport(final Repository local, final URIish uri) {
-		final TransferConfig tc = local.getConfig().get(TransferConfig.KEY);
+	protected Transport(final Repository local, final URIish uri)
+			throws TransportException {
+		TransferConfig tc;
+		try {
+			tc = local.getConfig().get(TransferConfig.KEY);
+		} catch (ConfigIllegalValueException e) {
+			throw new TransportException(e.getMessage(), e);
+		}
+
 		this.local = local;
 		this.uri = uri;
 		this.objectChecker = tc.newObjectChecker();
@@ -1152,8 +1174,9 @@ public abstract class Transport implements AutoCloseable {
 	 * repository's settings.
 	 *
 	 * @return the pack configuration. Never null.
+	 * @throws ConfigIllegalValueException
 	 */
-	public PackConfig getPackConfig() {
+	public PackConfig getPackConfig() throws ConfigIllegalValueException {
 		if (packConfig == null)
 			packConfig = new PackConfig(local);
 		return packConfig;
@@ -1271,7 +1294,11 @@ public abstract class Transport implements AutoCloseable {
 		final FetchResult result = new FetchResult();
 		new FetchProcess(this, toFetch).execute(monitor, result);
 
-		local.autoGC(monitor);
+		try {
+			local.autoGC(monitor);
+		} catch (ConfigIllegalValueException e) {
+			throw new TransportException(e.getMessage(), e);
+		}
 
 		return result;
 	}

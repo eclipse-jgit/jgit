@@ -46,6 +46,8 @@ package org.eclipse.jgit.api;
 import java.io.File;
 import java.io.IOException;
 
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryBuilder;
 import org.eclipse.jgit.lib.RepositoryCache;
@@ -677,9 +679,10 @@ public class Git implements AutoCloseable {
 	 * Return a command object used to create a stashed commit
 	 *
 	 * @return a {@link org.eclipse.jgit.api.StashCreateCommand}
+	 * @throws GitAPIException
 	 * @since 2.0
 	 */
-	public StashCreateCommand stashCreate() {
+	public StashCreateCommand stashCreate() throws GitAPIException {
 		return new StashCreateCommand(repo);
 	}
 
@@ -727,9 +730,10 @@ public class Git implements AutoCloseable {
 	 * @return a {@link org.eclipse.jgit.api.GarbageCollectCommand} used to
 	 *         collect all optional parameters and to finally execute the
 	 *         {@code gc} command
+	 * @throws ConfigIllegalValueException
 	 * @since 2.2
 	 */
-	public GarbageCollectCommand gc() {
+	public GarbageCollectCommand gc() throws ConfigIllegalValueException {
 		return new GarbageCollectCommand(repo);
 	}
 

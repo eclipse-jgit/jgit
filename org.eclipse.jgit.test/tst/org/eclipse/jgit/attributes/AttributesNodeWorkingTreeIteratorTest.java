@@ -58,6 +58,7 @@ import java.util.List;
 import org.eclipse.jgit.attributes.Attribute.State;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
@@ -254,7 +255,7 @@ public class AttributesNodeWorkingTreeIteratorTest extends RepositoryTestCase {
 		writeTrashFile(name, data.toString());
 	}
 
-	private TreeWalk beginWalk() {
+	private TreeWalk beginWalk() throws ConfigIllegalValueException {
 		TreeWalk newWalk = new TreeWalk(db);
 		newWalk.addTree(new FileTreeIterator(db));
 		return newWalk;

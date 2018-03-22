@@ -205,9 +205,10 @@ public abstract class RefDatabase {
 	 * The default implementation performs a sequential update of each command.
 	 *
 	 * @return a new batch update object.
+	 * @throws ConfigIllegalValueException
 	 */
 	@NonNull
-	public BatchRefUpdate newBatchUpdate() {
+	public BatchRefUpdate newBatchUpdate() throws ConfigIllegalValueException {
 		return new BatchRefUpdate(this);
 	}
 

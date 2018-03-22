@@ -57,6 +57,7 @@ import java.util.List;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.UnpackException;
 import org.eclipse.jgit.lib.ConfigConstants;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
@@ -87,8 +88,10 @@ public class ReceivePack extends BaseReceivePack {
 	 *
 	 * @param into
 	 *            the destination repository.
+	 * @throws ConfigIllegalValueException
 	 */
-	public ReceivePack(final Repository into) {
+	public ReceivePack(final Repository into)
+			throws ConfigIllegalValueException {
 		super(into);
 		preReceive = PreReceiveHook.NULL;
 		postReceive = PostReceiveHook.NULL;
@@ -330,7 +333,7 @@ public class ReceivePack extends BaseReceivePack {
 		}
 	}
 
-	private void autoGc() {
+	private void autoGc() throws ConfigIllegalValueException {
 		Repository repo = getRepository();
 		if (!repo.getConfig().getBoolean(ConfigConstants.CONFIG_RECEIVE_SECTION,
 				ConfigConstants.CONFIG_KEY_AUTOGC, true)) {

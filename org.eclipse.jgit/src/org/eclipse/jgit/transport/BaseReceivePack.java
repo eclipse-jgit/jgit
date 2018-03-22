@@ -78,6 +78,7 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.PackLock;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectChecker;
@@ -305,8 +306,10 @@ public abstract class BaseReceivePack {
 	 *
 	 * @param into
 	 *            the destination repository.
+	 * @throws ConfigIllegalValueException
 	 */
-	protected BaseReceivePack(final Repository into) {
+	protected BaseReceivePack(final Repository into)
+			throws ConfigIllegalValueException {
 		db = into;
 		walk = new RevWalk(db);
 
@@ -340,7 +343,7 @@ public abstract class BaseReceivePack {
 		final long maxDiscardBytes;
 		final SignedPushConfig signedPush;
 
-		ReceiveConfig(final Config config) {
+		ReceiveConfig(final Config config) throws ConfigIllegalValueException {
 			allowCreates = true;
 			allowDeletes = !config.getBoolean("receive", "denydeletes", false); //$NON-NLS-1$ //$NON-NLS-2$
 			allowNonFastForwards = !config.getBoolean("receive", //$NON-NLS-1$
@@ -1767,8 +1770,10 @@ public abstract class BaseReceivePack {
 
 	/**
 	 * Execute commands to update references.
+	 * 
+	 * @throws ConfigIllegalValueException
 	 */
-	protected void executeCommands() {
+	protected void executeCommands() throws ConfigIllegalValueException {
 		List<ReceiveCommand> toApply = filterCommands(Result.NOT_ATTEMPTED);
 		if (toApply.isEmpty())
 			return;

@@ -55,6 +55,7 @@ import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.internal.storage.file.LazyObjectIdSetFile;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Config.SectionParser;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.ObjectChecker;
 import org.eclipse.jgit.lib.ObjectIdSet;
 import org.eclipse.jgit.lib.Ref;
@@ -104,11 +105,11 @@ public class TransferConfig {
 	private final boolean allowFilter;
 	final String[] hideRefs;
 
-	TransferConfig(final Repository db) {
+	TransferConfig(final Repository db) throws ConfigIllegalValueException {
 		this(db.getConfig());
 	}
 
-	TransferConfig(final Config rc) {
+	TransferConfig(final Config rc) throws ConfigIllegalValueException {
 		boolean fsck = rc.getBoolean("transfer", "fsckobjects", false); //$NON-NLS-1$ //$NON-NLS-2$
 		fetchFsck = rc.getBoolean("fetch", "fsckobjects", fsck); //$NON-NLS-1$ //$NON-NLS-2$
 		receiveFsck = rc.getBoolean("receive", "fsckobjects", fsck); //$NON-NLS-1$ //$NON-NLS-2$

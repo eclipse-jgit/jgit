@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.transport.resolver;
 
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.UploadPack;
 
@@ -80,7 +81,8 @@ public interface UploadPackFactory<C> {
 	 * @throws ServiceNotAuthorizedException
 	 *             this factory refuses to create the instance for this HTTP
 	 *             request and repository, such as due to a permission error.
+	 * @throws ConfigIllegalValueException
 	 */
 	UploadPack create(C req, Repository db) throws ServiceNotEnabledException,
-			ServiceNotAuthorizedException;
+			ServiceNotAuthorizedException, ConfigIllegalValueException;
 }

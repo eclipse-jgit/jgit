@@ -79,6 +79,7 @@ import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ConfigConstants;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.ObjectId;
@@ -229,7 +230,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	/** {@inheritDoc} */
 	@Override
-	public ObjectDirectoryInserter newInserter() {
+	public ObjectDirectoryInserter newInserter()
+			throws ConfigIllegalValueException {
 		return new ObjectDirectoryInserter(this, config);
 	}
 
@@ -310,14 +312,15 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean has(AnyObjectId objectId) {
+	public boolean has(AnyObjectId objectId)
+			throws ConfigIllegalValueException {
 		return unpackedObjectCache.isUnpacked(objectId)
 				|| hasPackedInSelfOrAlternate(objectId, null)
 				|| hasLooseInSelfOrAlternate(objectId, null);
 	}
 
 	private boolean hasPackedInSelfOrAlternate(AnyObjectId objectId,
-			Set<AlternateHandle.Id> skips) {
+			Set<AlternateHandle.Id> skips) throws ConfigIllegalValueException {
 		if (hasPackedObject(objectId)) {
 			return true;
 		}
@@ -348,7 +351,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 		return false;
 	}
 
-	boolean hasPackedObject(AnyObjectId objectId) {
+	boolean hasPackedObject(AnyObjectId objectId)
+			throws ConfigIllegalValueException {
 		PackList pList;
 		do {
 			pList = packList.get();
@@ -440,7 +444,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 	}
 
 	private ObjectLoader openPackedFromSelfOrAlternate(WindowCursor curs,
-			AnyObjectId objectId, Set<AlternateHandle.Id> skips) {
+			AnyObjectId objectId, Set<AlternateHandle.Id> skips)
+			throws ConfigIllegalValueException {
 		ObjectLoader ldr = openPackedObject(curs, objectId);
 		if (ldr != null) {
 			return ldr;
@@ -476,7 +481,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 		return null;
 	}
 
-	ObjectLoader openPackedObject(WindowCursor curs, AnyObjectId objectId) {
+	ObjectLoader openPackedObject(WindowCursor curs, AnyObjectId objectId)
+			throws ConfigIllegalValueException {
 		PackList pList;
 		do {
 			SEARCH: for (;;) {
@@ -534,7 +540,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 	}
 
 	private long getPackedSizeFromSelfOrAlternate(WindowCursor curs,
-			AnyObjectId id, Set<AlternateHandle.Id> skips) {
+			AnyObjectId id, Set<AlternateHandle.Id> skips)
+			throws ConfigIllegalValueException {
 		long len = getPackedObjectSize(curs, id);
 		if (0 <= len) {
 			return len;
@@ -569,7 +576,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 		return -1;
 	}
 
-	private long getPackedObjectSize(WindowCursor curs, AnyObjectId id) {
+	private long getPackedObjectSize(WindowCursor curs, AnyObjectId id)
+			throws ConfigIllegalValueException {
 		PackList pList;
 		do {
 			SEARCH: for (;;) {
@@ -762,7 +770,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 		return InsertLooseObjectResult.FAILURE;
 	}
 
-	private boolean searchPacksAgain(PackList old) {
+	private boolean searchPacksAgain(PackList old)
+			throws ConfigIllegalValueException {
 		// Whether to trust the pack folder's modification time. If set
 		// to false we will always scan the .git/objects/pack folder to
 		// check for new pack files. If set to true (default) we use the

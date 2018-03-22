@@ -247,9 +247,11 @@ public abstract class Repository implements AutoCloseable {
 	 * Create a new inserter to create objects in {@link #getObjectDatabase()}.
 	 *
 	 * @return a new inserter to create objects in {@link #getObjectDatabase()}.
+	 * @throws ConfigIllegalValueException
 	 */
 	@NonNull
-	public ObjectInserter newObjectInserter() {
+	public ObjectInserter newObjectInserter()
+			throws ConfigIllegalValueException {
 		return getObjectDatabase().newInserter();
 	}
 
@@ -2067,9 +2069,11 @@ public abstract class Repository implements AutoCloseable {
 	 *
 	 * @param monitor
 	 *            to report progress
+	 * @throws ConfigIllegalValueException
 	 * @since 4.6
 	 */
-	public void autoGC(ProgressMonitor monitor) {
+	public void autoGC(ProgressMonitor monitor)
+			throws ConfigIllegalValueException {
 		// default does nothing
 	}
 }

@@ -51,6 +51,7 @@ import org.eclipse.jgit.diff.DiffConfig;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.junit.TestRepository.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -75,7 +76,8 @@ public class RevWalkFollowFilterTest extends RevWalkTestCase {
 		diffCollector = new DiffCollector();
 	}
 
-	protected FollowFilter follow(final String followPath) {
+	protected FollowFilter follow(final String followPath)
+			throws ConfigIllegalValueException {
 		FollowFilter followFilter =
 			FollowFilter.create(followPath, new Config().get(DiffConfig.KEY));
 		followFilter.setRenameCallback(diffCollector);

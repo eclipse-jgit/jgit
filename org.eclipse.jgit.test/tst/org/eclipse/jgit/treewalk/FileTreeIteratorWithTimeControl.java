@@ -47,6 +47,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.FS;
@@ -81,13 +82,13 @@ public class FileTreeIteratorWithTimeControl extends FileTreeIterator {
 	}
 
 	public FileTreeIteratorWithTimeControl(Repository repo,
-			TreeSet<Long> modTimes) {
+			TreeSet<Long> modTimes) throws ConfigIllegalValueException {
 		super(repo);
 		this.modTimes = modTimes;
 	}
 
 	public FileTreeIteratorWithTimeControl(File f, FS fs,
-			TreeSet<Long> modTimes) {
+			TreeSet<Long> modTimes) throws ConfigIllegalValueException {
 		super(f, fs, new Config().get(WorkingTreeOptions.KEY));
 		this.modTimes = modTimes;
 	}

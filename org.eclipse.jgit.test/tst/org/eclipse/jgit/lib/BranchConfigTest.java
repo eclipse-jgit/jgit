@@ -55,7 +55,8 @@ import org.junit.Test;
 public class BranchConfigTest {
 
 	@Test
-	public void getRemoteTrackingBranchShouldHandleNormalCase() {
+	public void getRemoteTrackingBranchShouldHandleNormalCase()
+			throws ConfigIllegalValueException {
 		Config c = parse("" //
 				+ "[remote \"origin\"]\n"
 				+ "  fetch = +refs/heads/*:refs/remotes/origin/*\n"
@@ -69,7 +70,8 @@ public class BranchConfigTest {
 	}
 
 	@Test
-	public void getRemoteTrackingBranchShouldHandleOtherMapping() {
+	public void getRemoteTrackingBranchShouldHandleOtherMapping()
+			throws ConfigIllegalValueException {
 		Config c = parse("" //
 				+ "[remote \"test\"]\n"
 				+ "  fetch = +refs/foo/*:refs/remotes/origin/foo/*\n"
@@ -85,7 +87,8 @@ public class BranchConfigTest {
 	}
 
 	@Test
-	public void getRemoteTrackingBranchShouldReturnNullWithoutFetchSpec() {
+	public void getRemoteTrackingBranchShouldReturnNullWithoutFetchSpec()
+			throws ConfigIllegalValueException {
 		Config c = parse("" //
 				+ "[remote \"origin\"]\n"
 				+ "  fetch = +refs/heads/onlyone:refs/remotes/origin/onlyone\n"
@@ -97,7 +100,8 @@ public class BranchConfigTest {
 	}
 
 	@Test
-	public void getRemoteTrackingBranchShouldReturnNullWithoutMergeBranch() {
+	public void getRemoteTrackingBranchShouldReturnNullWithoutMergeBranch()
+			throws ConfigIllegalValueException {
 		Config c = parse("" //
 				+ "[remote \"origin\"]\n"
 				+ "  fetch = +refs/heads/onlyone:refs/remotes/origin/onlyone\n"
@@ -108,7 +112,8 @@ public class BranchConfigTest {
 	}
 
 	@Test
-	public void getTrackingBranchShouldReturnMergeBranchForLocalBranch() {
+	public void getTrackingBranchShouldReturnMergeBranchForLocalBranch()
+			throws ConfigIllegalValueException {
 		Config c = parse("" //
 				+ "[remote \"origin\"]\n"
 				+ "  fetch = +refs/heads/*:refs/remotes/origin/*\n"
@@ -122,7 +127,8 @@ public class BranchConfigTest {
 	}
 
 	@Test
-	public void getTrackingBranchShouldReturnNullWithoutMergeBranchForLocalBranch() {
+	public void getTrackingBranchShouldReturnNullWithoutMergeBranchForLocalBranch()
+			throws ConfigIllegalValueException {
 		Config c = parse("" //
 				+ "[remote \"origin\"]\n"
 				+ "  fetch = +refs/heads/onlyone:refs/remotes/origin/onlyone\n"
@@ -133,7 +139,8 @@ public class BranchConfigTest {
 	}
 
 	@Test
-	public void getTrackingBranchShouldHandleNormalCaseForRemoteTrackingBranch() {
+	public void getTrackingBranchShouldHandleNormalCaseForRemoteTrackingBranch()
+			throws ConfigIllegalValueException {
 		Config c = parse("" //
 				+ "[remote \"origin\"]\n"
 				+ "  fetch = +refs/heads/*:refs/remotes/origin/*\n"

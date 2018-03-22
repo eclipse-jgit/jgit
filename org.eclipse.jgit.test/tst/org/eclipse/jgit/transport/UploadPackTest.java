@@ -9,6 +9,7 @@ import org.eclipse.jgit.internal.storage.dfs.DfsGarbageCollector;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevBlob;
@@ -72,7 +73,8 @@ public class UploadPackTest {
 					@Override
 					public UploadPack create(Object req, Repository db)
 							throws ServiceNotEnabledException,
-							ServiceNotAuthorizedException {
+							ServiceNotAuthorizedException,
+							ConfigIllegalValueException {
 						UploadPack up = new UploadPack(db);
 						up.setRequestPolicy(RequestPolicy.REACHABLE_COMMIT);
 						return up;
@@ -92,7 +94,8 @@ public class UploadPackTest {
 					@Override
 					public UploadPack create(Object req, Repository db)
 							throws ServiceNotEnabledException,
-							ServiceNotAuthorizedException {
+							ServiceNotAuthorizedException,
+							ConfigIllegalValueException {
 						UploadPack up = new UploadPack(db);
 						up.setRequestPolicy(RequestPolicy.REACHABLE_COMMIT);
 						// assume client has a shallow commit
@@ -191,7 +194,8 @@ public class UploadPackTest {
 					@Override
 					public UploadPack create(Object req, Repository db)
 							throws ServiceNotEnabledException,
-							ServiceNotAuthorizedException {
+							ServiceNotAuthorizedException,
+							ConfigIllegalValueException {
 						UploadPack up = new UploadPack(db);
 						return up;
 					}
@@ -227,7 +231,8 @@ public class UploadPackTest {
 					@Override
 					public UploadPack create(Object req, Repository db)
 							throws ServiceNotEnabledException,
-							ServiceNotAuthorizedException {
+							ServiceNotAuthorizedException,
+							ConfigIllegalValueException {
 						UploadPack up = new UploadPack(db);
 						return up;
 					}
@@ -266,7 +271,8 @@ public class UploadPackTest {
 					@Override
 					public UploadPack create(Object req, Repository db)
 							throws ServiceNotEnabledException,
-							ServiceNotAuthorizedException {
+							ServiceNotAuthorizedException,
+							ConfigIllegalValueException {
 						UploadPack up = new UploadPack(db);
 						return up;
 					}
@@ -299,7 +305,8 @@ public class UploadPackTest {
 					@Override
 					public UploadPack create(Object req, Repository db)
 							throws ServiceNotEnabledException,
-							ServiceNotAuthorizedException {
+							ServiceNotAuthorizedException,
+							ConfigIllegalValueException {
 						UploadPack up = new UploadPack(db);
 						return up;
 					}

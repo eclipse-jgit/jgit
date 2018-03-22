@@ -64,6 +64,7 @@ import java.util.TreeMap;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
@@ -125,7 +126,7 @@ public class TransportAmazonS3 extends HttpTransport implements WalkTransport {
 
 		@Override
 		public Transport open(URIish uri, Repository local, String remoteName)
-				throws NotSupportedException {
+				throws NotSupportedException, TransportException {
 			return new TransportAmazonS3(local, uri);
 		}
 	};
@@ -150,7 +151,7 @@ public class TransportAmazonS3 extends HttpTransport implements WalkTransport {
 	private final String keyPrefix;
 
 	TransportAmazonS3(final Repository local, final URIish uri)
-			throws NotSupportedException {
+			throws NotSupportedException, TransportException {
 		super(local, uri);
 
 		Properties props = loadProperties();
@@ -206,7 +207,12 @@ public class TransportAmazonS3 extends HttpTransport implements WalkTransport {
 	@Override
 	public FetchConnection openFetch() throws TransportException {
 		final DatabaseS3 c = new DatabaseS3(bucket, keyPrefix + "/objects"); //$NON-NLS-1$
-		final WalkFetchConnection r = new WalkFetchConnection(this, c);
+		WalkFetchConnection r;
+		try {
+			r = new WalkFetchConnection(this, c);
+		} catch (ConfigIllegalValueException e) {
+			throw new TransportException(e.getMessage(), e);
+		}
 		r.available(c.readAdvertisedRefs());
 		return r;
 	}

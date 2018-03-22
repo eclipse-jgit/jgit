@@ -61,6 +61,7 @@ import java.util.zip.DeflaterOutputStream;
 import org.eclipse.jgit.errors.ObjectWritingException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -78,7 +79,8 @@ class ObjectDirectoryInserter extends ObjectInserter {
 
 	private Deflater deflate;
 
-	ObjectDirectoryInserter(final FileObjectDatabase dest, final Config cfg) {
+	ObjectDirectoryInserter(final FileObjectDatabase dest, final Config cfg)
+			throws ConfigIllegalValueException {
 		db = dest;
 		config = cfg.get(WriteConfig.KEY);
 	}

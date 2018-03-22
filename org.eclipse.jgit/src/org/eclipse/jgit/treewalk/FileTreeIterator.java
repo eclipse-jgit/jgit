@@ -53,6 +53,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.NoWorkTreeException;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -93,8 +95,10 @@ public class FileTreeIterator extends WorkingTreeIterator {
 	 *
 	 * @param repo
 	 *            the repository whose working tree will be scanned.
+	 * @throws ConfigIllegalValueException
 	 */
-	public FileTreeIterator(Repository repo) {
+	public FileTreeIterator(Repository repo)
+			throws ConfigIllegalValueException {
 		this(repo,
 				repo.getConfig().get(WorkingTreeOptions.KEY).isDirNoGitLinks() ?
 						NoGitlinksStrategy.INSTANCE :
@@ -109,9 +113,12 @@ public class FileTreeIterator extends WorkingTreeIterator {
 	 * @param fileModeStrategy
 	 *            the strategy to use to determine the FileMode for a FileEntry;
 	 *            controls gitlinks etc.
+	 * @throws ConfigIllegalValueException
+	 * @throws NoWorkTreeException
 	 * @since 4.3
 	 */
-	public FileTreeIterator(Repository repo, FileModeStrategy fileModeStrategy) {
+	public FileTreeIterator(Repository repo, FileModeStrategy fileModeStrategy)
+			throws NoWorkTreeException, ConfigIllegalValueException {
 		this(repo.getWorkTree(), repo.getFS(),
 				repo.getConfig().get(WorkingTreeOptions.KEY),
 				fileModeStrategy);

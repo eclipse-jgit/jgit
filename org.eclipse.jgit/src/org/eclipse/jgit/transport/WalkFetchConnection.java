@@ -71,6 +71,7 @@ import org.eclipse.jgit.internal.storage.file.PackIndex;
 import org.eclipse.jgit.internal.storage.file.PackLock;
 import org.eclipse.jgit.internal.storage.file.UnpackedObject;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.MutableObjectId;
@@ -190,7 +191,8 @@ class WalkFetchConnection extends BaseFetchConnection {
 	/** Inserter to read objects from {@link #local}. */
 	private final ObjectReader reader;
 
-	WalkFetchConnection(final WalkTransport t, final WalkRemoteObjectDatabase w) {
+	WalkFetchConnection(final WalkTransport t, final WalkRemoteObjectDatabase w)
+			throws ConfigIllegalValueException {
 		Transport wt = (Transport)t;
 		local = wt.local;
 		objCheck = wt.getObjectChecker();
