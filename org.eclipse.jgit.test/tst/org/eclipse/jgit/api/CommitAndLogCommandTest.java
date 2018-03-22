@@ -58,6 +58,7 @@ import org.eclipse.jgit.api.errors.NoMessageException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -290,7 +291,7 @@ public class CommitAndLogCommandTest extends RepositoryTestCase {
 	@Test
 	public void testCommitRange() throws GitAPIException,
 			JGitInternalException, MissingObjectException,
-			IncorrectObjectTypeException {
+			IncorrectObjectTypeException, ConfigIllegalValueException {
 		// do 4 commits and set the range to the second and fourth one
 		try (Git git = new Git(db)) {
 			git.commit().setMessage("first commit").call();

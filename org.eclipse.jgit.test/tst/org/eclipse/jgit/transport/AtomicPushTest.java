@@ -55,6 +55,7 @@ import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
@@ -86,7 +87,8 @@ public class AtomicPushTest {
 					@Override
 					public ReceivePack create(Object req, Repository db)
 							throws ServiceNotEnabledException,
-							ServiceNotAuthorizedException {
+							ServiceNotAuthorizedException,
+							ConfigIllegalValueException {
 						return new ReceivePack(db);
 					}
 				});

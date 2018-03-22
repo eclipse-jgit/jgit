@@ -46,6 +46,7 @@ package org.eclipse.jgit.http.server.resolver;
 import javax.servlet.http.HttpServletRequest;
 
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.UploadPack;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
@@ -64,7 +65,7 @@ public class DefaultUploadPackFactory implements
 	private static class ServiceConfig {
 		final boolean enabled;
 
-		ServiceConfig(final Config cfg) {
+		ServiceConfig(final Config cfg) throws ConfigIllegalValueException {
 			enabled = cfg.getBoolean("http", "uploadpack", true);
 		}
 	}
@@ -72,7 +73,8 @@ public class DefaultUploadPackFactory implements
 	/** {@inheritDoc} */
 	@Override
 	public UploadPack create(HttpServletRequest req, Repository db)
-			throws ServiceNotEnabledException, ServiceNotAuthorizedException {
+			throws ServiceNotEnabledException, ServiceNotAuthorizedException,
+			ConfigIllegalValueException {
 		if (db.getConfig().get(ServiceConfig::new).enabled)
 			return new UploadPack(db);
 		else

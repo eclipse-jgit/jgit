@@ -50,6 +50,7 @@ import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.attributes.Attribute;
 import org.eclipse.jgit.hooks.PrePushHook;
 import org.eclipse.jgit.lib.ConfigConstants;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.LfsFactory;
@@ -100,7 +101,7 @@ public class BuiltinLFS extends LfsFactory {
 
 	@Override
 	public @Nullable PrePushHook getPrePushHook(Repository repo,
-			PrintStream outputStream) {
+			PrintStream outputStream) throws ConfigIllegalValueException {
 		if (isEnabled(repo)) {
 			return new LfsPrePushHook(repo, outputStream);
 		}
@@ -113,7 +114,7 @@ public class BuiltinLFS extends LfsFactory {
 	 * @return whether LFS is requested for the given repo.
 	 */
 	@Override
-	public boolean isEnabled(Repository db) {
+	public boolean isEnabled(Repository db) throws ConfigIllegalValueException {
 		if (db == null) {
 			return false;
 		}
@@ -130,8 +131,11 @@ public class BuiltinLFS extends LfsFactory {
 	 *            the attribute to check
 	 * @return whether LFS filter is enabled for the given .gitattribute
 	 *         attribute.
+	 * @throws ConfigIllegalValueException
+	 *             in case of an invalid value in the repo's Git config
 	 */
-	private boolean isEnabled(Repository db, Attribute attribute) {
+	private boolean isEnabled(Repository db, Attribute attribute)
+			throws ConfigIllegalValueException {
 		if (attribute == null) {
 			return false;
 		}

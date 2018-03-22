@@ -62,6 +62,7 @@ import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
@@ -99,7 +100,8 @@ public class PushOptionsTest extends RepositoryTestCase {
 					@Override
 					public ReceivePack create(Object req, Repository git)
 							throws ServiceNotEnabledException,
-							ServiceNotAuthorizedException {
+							ServiceNotAuthorizedException,
+							ConfigIllegalValueException {
 						receivePack = new ReceivePack(git);
 						receivePack.setAllowPushOptions(true);
 						receivePack.setAtomic(true);

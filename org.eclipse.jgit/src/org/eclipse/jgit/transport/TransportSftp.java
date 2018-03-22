@@ -62,6 +62,7 @@ import java.util.TreeMap;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
@@ -129,12 +130,13 @@ public class TransportSftp extends SshTransport implements WalkTransport {
 
 		@Override
 		public Transport open(URIish uri, Repository local, String remoteName)
-				throws NotSupportedException {
+				throws NotSupportedException, TransportException {
 			return new TransportSftp(local, uri);
 		}
 	};
 
-	TransportSftp(final Repository local, final URIish uri) {
+	TransportSftp(final Repository local, final URIish uri)
+			throws TransportException {
 		super(local, uri);
 	}
 
@@ -142,7 +144,12 @@ public class TransportSftp extends SshTransport implements WalkTransport {
 	@Override
 	public FetchConnection openFetch() throws TransportException {
 		final SftpObjectDB c = new SftpObjectDB(uri.getPath());
-		final WalkFetchConnection r = new WalkFetchConnection(this, c);
+		WalkFetchConnection r;
+		try {
+			r = new WalkFetchConnection(this, c);
+		} catch (ConfigIllegalValueException e) {
+			throw new TransportException(e.getMessage(), e);
+		}
 		r.available(c.readAdvertisedRefs());
 		return r;
 	}

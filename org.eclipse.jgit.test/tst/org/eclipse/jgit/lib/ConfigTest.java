@@ -164,7 +164,7 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void test007_readUserConfig() {
+	public void test007_readUserConfig() throws ConfigIllegalValueException {
 		final MockSystemReader mockSystemReader = new MockSystemReader();
 		SystemReader.setInstance(mockSystemReader);
 		final String hostname = mockSystemReader.getHostname();
@@ -254,7 +254,8 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testReadUserConfigWithInvalidCharactersStripped() {
+	public void testReadUserConfigWithInvalidCharactersStripped()
+			throws ConfigIllegalValueException {
 		final MockSystemReader mockSystemReader = new MockSystemReader();
 		final Config localConfig = new Config(mockSystemReader.openUserConfig(
 				null, FS.DETECTED));

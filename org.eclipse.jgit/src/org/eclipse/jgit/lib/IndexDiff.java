@@ -342,13 +342,17 @@ public class IndexDiff {
 		 * @param repo
 		 *            the repository
 		 * @return working tree iterator
+		 * @throws ConfigIllegalValueException
+		 *             in case of an invalid value in the repo's Git config
 		 */
-		public WorkingTreeIterator getWorkingTreeIterator(Repository repo);
+		public WorkingTreeIterator getWorkingTreeIterator(Repository repo)
+				throws ConfigIllegalValueException;
 	}
 
 	private WorkingTreeIteratorFactory wTreeIt = new WorkingTreeIteratorFactory() {
 		@Override
-		public WorkingTreeIterator getWorkingTreeIterator(Repository repo) {
+		public WorkingTreeIterator getWorkingTreeIterator(Repository repo)
+				throws ConfigIllegalValueException {
 			return new FileTreeIterator(repo);
 		}
 	};

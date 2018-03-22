@@ -97,6 +97,7 @@ import org.eclipse.jgit.lib.BatchingProgressMonitor;
 import org.eclipse.jgit.lib.BitmapIndex;
 import org.eclipse.jgit.lib.BitmapIndex.BitmapBuilder;
 import org.eclipse.jgit.lib.BitmapObject;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
@@ -313,8 +314,11 @@ public class PackWriter implements AutoCloseable {
 	 *
 	 * @param repo
 	 *            repository where objects are stored.
+	 * @throws ConfigIllegalValueException
+	 *             in case of an invalid value in the repo's Git config
 	 */
-	public PackWriter(Repository repo) {
+	public PackWriter(Repository repo)
+			throws ConfigIllegalValueException {
 		this(repo, repo.newObjectReader());
 	}
 
@@ -341,8 +345,11 @@ public class PackWriter implements AutoCloseable {
 	 *            repository where objects are stored.
 	 * @param reader
 	 *            reader to read from the repository with.
+	 * @throws ConfigIllegalValueException
+	 *             in case of an invalid value in the repo's Git config
 	 */
-	public PackWriter(Repository repo, ObjectReader reader) {
+	public PackWriter(Repository repo, ObjectReader reader)
+			throws ConfigIllegalValueException {
 		this(new PackConfig(repo), reader);
 	}
 

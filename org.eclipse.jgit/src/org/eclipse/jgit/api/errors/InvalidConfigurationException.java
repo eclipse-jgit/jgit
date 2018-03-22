@@ -38,6 +38,8 @@
  */
 package org.eclipse.jgit.api.errors;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
+
 /**
  * Exception thrown when a command fails due to an invalid configuration
  */
@@ -64,5 +66,15 @@ public class InvalidConfigurationException extends GitAPIException {
 	 */
 	public InvalidConfigurationException(String message) {
 		super(message);
+	}
+
+	/**
+	 * Constructor for InvalidConfigurationException.
+	 *
+	 * @param cause
+	 *            a {@link java.lang.Throwable}
+	 */
+	public InvalidConfigurationException(ConfigInvalidException cause) {
+		super(cause.getMessage(), cause);
 	}
 }

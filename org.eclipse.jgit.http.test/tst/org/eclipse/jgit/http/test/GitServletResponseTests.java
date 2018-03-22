@@ -61,6 +61,7 @@ import org.eclipse.jgit.http.server.resolver.DefaultReceivePackFactory;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.junit.http.HttpTestCase;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectChecker;
@@ -134,7 +135,7 @@ public class GitServletResponseTests extends HttpTestCase {
 			@Override
 			public ReceivePack create(HttpServletRequest req, Repository db)
 					throws ServiceNotEnabledException,
-					ServiceNotAuthorizedException {
+					ServiceNotAuthorizedException, ConfigIllegalValueException {
 				ReceivePack recv = super.create(req, db);
 				if (maxPackSize > 0)
 					recv.setMaxPackSizeLimit(maxPackSize);
