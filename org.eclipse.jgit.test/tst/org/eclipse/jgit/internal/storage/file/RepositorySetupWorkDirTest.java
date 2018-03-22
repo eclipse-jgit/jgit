@@ -52,7 +52,6 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.IOException;
 
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.lib.ConfigConstants;
@@ -196,8 +195,7 @@ public class RepositorySetupWorkDirTest extends LocalDiskRepositoryTestCase {
 		return dir;
 	}
 
-	private void setBare(File gitDir, boolean bare) throws IOException,
-			ConfigInvalidException {
+	private void setBare(File gitDir, boolean bare) throws IOException {
 		FileBasedConfig cfg = configFor(gitDir);
 		cfg.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
 				ConfigConstants.CONFIG_KEY_BARE, bare);
@@ -205,8 +203,7 @@ public class RepositorySetupWorkDirTest extends LocalDiskRepositoryTestCase {
 	}
 
 	private void setWorkTree(File gitDir, File workTree)
-			throws IOException,
-			ConfigInvalidException {
+			throws IOException {
 		String path = workTree.getAbsolutePath();
 		FileBasedConfig cfg = configFor(gitDir);
 		cfg.setString(ConfigConstants.CONFIG_CORE_SECTION, null,
@@ -214,8 +211,7 @@ public class RepositorySetupWorkDirTest extends LocalDiskRepositoryTestCase {
 		cfg.save();
 	}
 
-	private FileBasedConfig configFor(File gitDir) throws IOException,
-			ConfigInvalidException {
+	private FileBasedConfig configFor(File gitDir) throws IOException {
 		File configPath = new File(gitDir, Constants.CONFIG);
 		FileBasedConfig cfg = new FileBasedConfig(configPath, FS.DETECTED);
 		cfg.load();

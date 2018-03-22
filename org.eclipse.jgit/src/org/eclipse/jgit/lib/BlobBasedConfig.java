@@ -101,11 +101,9 @@ public class BlobBasedConfig extends Config {
 	 *            the object identifier
 	 * @throws java.io.IOException
 	 *             the blob cannot be read from the repository.
-	 * @throws org.eclipse.jgit.errors.ConfigInvalidException
-	 *             the blob is not a valid configuration format.
 	 */
 	public BlobBasedConfig(Config base, Repository db, AnyObjectId objectId)
-			throws IOException, ConfigInvalidException {
+			throws IOException {
 		this(base, read(db, objectId));
 	}
 
@@ -139,12 +137,9 @@ public class BlobBasedConfig extends Config {
 	 *             the path does not exist in the commit's tree.
 	 * @throws java.io.IOException
 	 *             the tree and/or blob cannot be accessed.
-	 * @throws org.eclipse.jgit.errors.ConfigInvalidException
-	 *             the blob is not a valid configuration format.
 	 */
 	public BlobBasedConfig(Config base, Repository db, AnyObjectId treeish,
-			String path) throws FileNotFoundException, IOException,
-			ConfigInvalidException {
+			String path) throws FileNotFoundException, IOException {
 		this(base, read(db, treeish, path));
 	}
 

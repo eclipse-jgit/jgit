@@ -148,7 +148,7 @@ public class FileBasedConfig extends StoredConfig {
 	 * behaves the same as though the file exists, but is empty.
 	 */
 	@Override
-	public void load() throws IOException, ConfigInvalidException {
+	public void load() throws IOException {
 		final int maxStaleRetries = 5;
 		int retries = 0;
 		while (true) {
@@ -184,6 +184,9 @@ public class FileBasedConfig extends StoredConfig {
 				clear();
 				snapshot = newSnapshot;
 				return;
+			} catch (ConfigInvalidException e) {
+				throw new ConfigInvalidException(MessageFormat
+						.format(JGitText.get().cannotReadFile, getFile()), e);
 			} catch (IOException e) {
 				if (FileUtils.isStaleFileHandle(e)
 						&& retries < maxStaleRetries) {
@@ -196,9 +199,6 @@ public class FileBasedConfig extends StoredConfig {
 					continue;
 				}
 				throw new IOException(MessageFormat
-						.format(JGitText.get().cannotReadFile, getFile()), e);
-			} catch (ConfigInvalidException e) {
-				throw new ConfigInvalidException(MessageFormat
 						.format(JGitText.get().cannotReadFile, getFile()), e);
 			}
 		}

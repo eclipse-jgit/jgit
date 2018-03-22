@@ -247,10 +247,10 @@ public class SubmoduleUpdateCommand extends
 				updated.add(generator.getPath());
 			}
 			return updated;
-		} catch (IOException e) {
-			throw new JGitInternalException(e.getMessage(), e);
 		} catch (ConfigInvalidException e) {
 			throw new InvalidConfigurationException(e.getMessage(), e);
+		} catch (IOException e) {
+			throw new JGitInternalException(e.getMessage(), e);
 		}
 	}
 

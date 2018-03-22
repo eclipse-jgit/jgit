@@ -50,7 +50,6 @@ import java.util.Map;
 
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheIterator;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -448,9 +447,8 @@ public class SubmoduleWalk implements AutoCloseable {
 	 * @return this generator
 	 * @throws java.io.IOException
 	 *             if an error occurred, or if the repository is bare
-	 * @throws org.eclipse.jgit.errors.ConfigInvalidException
 	 */
-	public SubmoduleWalk loadModulesConfig() throws IOException, ConfigInvalidException {
+	public SubmoduleWalk loadModulesConfig() throws IOException {
 		if (rootTree == null) {
 			File modulesFile = new File(repository.getWorkTree(),
 					Constants.DOT_GIT_MODULES);
@@ -530,7 +528,7 @@ public class SubmoduleWalk implements AutoCloseable {
 		return (modulesFile.exists());
 	}
 
-	private void lazyLoadModulesConfig() throws IOException, ConfigInvalidException {
+	private void lazyLoadModulesConfig() throws IOException {
 		if (modulesConfig == null) {
 			loadModulesConfig();
 		}
@@ -659,10 +657,9 @@ public class SubmoduleWalk implements AutoCloseable {
 	 * the .gitmodules file in the current repository's working tree.
 	 *
 	 * @return configured path
-	 * @throws org.eclipse.jgit.errors.ConfigInvalidException
 	 * @throws java.io.IOException
 	 */
-	public String getModulesPath() throws IOException, ConfigInvalidException {
+	public String getModulesPath() throws IOException {
 		lazyLoadModulesConfig();
 		return modulesConfig.getString(ConfigConstants.CONFIG_SUBMODULE_SECTION,
 				getModuleName(), ConfigConstants.CONFIG_KEY_PATH);
@@ -673,10 +670,9 @@ public class SubmoduleWalk implements AutoCloseable {
 	 * from the repository's config.
 	 *
 	 * @return configured URL
-	 * @throws org.eclipse.jgit.errors.ConfigInvalidException
 	 * @throws java.io.IOException
 	 */
-	public String getConfigUrl() throws IOException, ConfigInvalidException {
+	public String getConfigUrl() throws IOException {
 		return repoConfig.getString(ConfigConstants.CONFIG_SUBMODULE_SECTION,
 				getModuleName(), ConfigConstants.CONFIG_KEY_URL);
 	}
@@ -686,10 +682,9 @@ public class SubmoduleWalk implements AutoCloseable {
 	 * from the .gitmodules file in the current repository's working tree.
 	 *
 	 * @return configured URL
-	 * @throws org.eclipse.jgit.errors.ConfigInvalidException
 	 * @throws java.io.IOException
 	 */
-	public String getModulesUrl() throws IOException, ConfigInvalidException {
+	public String getModulesUrl() throws IOException {
 		lazyLoadModulesConfig();
 		return modulesConfig.getString(ConfigConstants.CONFIG_SUBMODULE_SECTION,
 				getModuleName(), ConfigConstants.CONFIG_KEY_URL);
@@ -700,10 +695,9 @@ public class SubmoduleWalk implements AutoCloseable {
 	 * from the repository's config.
 	 *
 	 * @return update value
-	 * @throws org.eclipse.jgit.errors.ConfigInvalidException
 	 * @throws java.io.IOException
 	 */
-	public String getConfigUpdate() throws IOException, ConfigInvalidException {
+	public String getConfigUpdate() throws IOException {
 		return repoConfig.getString(ConfigConstants.CONFIG_SUBMODULE_SECTION,
 				getModuleName(), ConfigConstants.CONFIG_KEY_UPDATE);
 	}
@@ -713,10 +707,9 @@ public class SubmoduleWalk implements AutoCloseable {
 	 * from the .gitmodules file in the current repository's working tree.
 	 *
 	 * @return update value
-	 * @throws org.eclipse.jgit.errors.ConfigInvalidException
 	 * @throws java.io.IOException
 	 */
-	public String getModulesUpdate() throws IOException, ConfigInvalidException {
+	public String getModulesUpdate() throws IOException {
 		lazyLoadModulesConfig();
 		return modulesConfig.getString(ConfigConstants.CONFIG_SUBMODULE_SECTION,
 				getModuleName(), ConfigConstants.CONFIG_KEY_UPDATE);
@@ -727,12 +720,10 @@ public class SubmoduleWalk implements AutoCloseable {
 	 * value from the .gitmodules file in the current repository's working tree.
 	 *
 	 * @return ignore value
-	 * @throws org.eclipse.jgit.errors.ConfigInvalidException
 	 * @throws java.io.IOException
 	 * @since 3.6
 	 */
-	public IgnoreSubmoduleMode getModulesIgnore() throws IOException,
-			ConfigInvalidException {
+	public IgnoreSubmoduleMode getModulesIgnore() throws IOException {
 		lazyLoadModulesConfig();
 		return modulesConfig.getEnum(IgnoreSubmoduleMode.values(),
 				ConfigConstants.CONFIG_SUBMODULE_SECTION, getModuleName(),
@@ -788,9 +779,8 @@ public class SubmoduleWalk implements AutoCloseable {
 	 *
 	 * @return resolved remote URL
 	 * @throws java.io.IOException
-	 * @throws org.eclipse.jgit.errors.ConfigInvalidException
 	 */
-	public String getRemoteUrl() throws IOException, ConfigInvalidException {
+	public String getRemoteUrl() throws IOException {
 		String url = getModulesUrl();
 		return url != null ? getSubmoduleRemoteUrl(repository, url) : null;
 	}

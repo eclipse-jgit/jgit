@@ -59,7 +59,6 @@ import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheEditor;
 import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
 import org.eclipse.jgit.dircache.DirCacheEntry;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
@@ -83,7 +82,7 @@ public class SubmoduleInitTest extends RepositoryTestCase {
 
 	@Test
 	public void repositoryWithUninitializedModule() throws IOException,
-			ConfigInvalidException, GitAPIException {
+			GitAPIException {
 		final String path = addSubmoduleToIndex();
 
 		SubmoduleWalk generator = SubmoduleWalk.forIndex(db);
@@ -157,7 +156,7 @@ public class SubmoduleInitTest extends RepositoryTestCase {
 
 	@Test
 	public void resolveOneLevelHigherRelativeUrl() throws IOException,
-			ConfigInvalidException, GitAPIException {
+			GitAPIException {
 		final String path = addSubmoduleToIndex();
 
 		String base = "git://server/repo.git";
@@ -198,7 +197,7 @@ public class SubmoduleInitTest extends RepositoryTestCase {
 
 	@Test
 	public void resolveTwoLevelHigherRelativeUrl() throws IOException,
-			ConfigInvalidException, GitAPIException {
+			GitAPIException {
 		final String path = addSubmoduleToIndex();
 
 		String base = "git://server/repo.git";
@@ -239,7 +238,7 @@ public class SubmoduleInitTest extends RepositoryTestCase {
 
 	@Test
 	public void resolveWorkingDirectoryRelativeUrl() throws IOException,
-			GitAPIException, ConfigInvalidException {
+			GitAPIException {
 		final String path = addSubmoduleToIndex();
 
 		String base = db.getWorkTree().getAbsolutePath();
@@ -281,7 +280,7 @@ public class SubmoduleInitTest extends RepositoryTestCase {
 
 	@Test
 	public void resolveInvalidParentUrl() throws IOException,
-			ConfigInvalidException, GitAPIException {
+			GitAPIException {
 		final String path = addSubmoduleToIndex();
 
 		String base = "no_slash";
