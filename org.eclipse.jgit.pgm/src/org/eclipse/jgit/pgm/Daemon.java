@@ -56,6 +56,7 @@ import org.eclipse.jgit.internal.ketch.KetchLeaderCache;
 import org.eclipse.jgit.internal.ketch.KetchPreReceive;
 import org.eclipse.jgit.internal.ketch.KetchSystem;
 import org.eclipse.jgit.internal.ketch.KetchText;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.pgm.internal.CLIText;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
@@ -192,7 +193,7 @@ class Daemon extends TextBuiltin {
 			@Override
 			public ReceivePack create(DaemonClient req, Repository repo)
 					throws ServiceNotEnabledException,
-					ServiceNotAuthorizedException {
+					ServiceNotAuthorizedException, ConfigIllegalValueException {
 				ReceivePack rp = factory.create(req, repo);
 				KetchLeader leader;
 				try {

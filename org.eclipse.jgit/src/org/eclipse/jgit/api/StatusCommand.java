@@ -47,8 +47,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.InvalidConfigurationException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.IndexDiff;
 import org.eclipse.jgit.lib.ProgressMonitor;
@@ -142,8 +144,13 @@ public class StatusCommand extends GitCommand<Status> {
 	 */
 	@Override
 	public Status call() throws GitAPIException, NoWorkTreeException {
-		if (workingTreeIt == null)
-			workingTreeIt = new FileTreeIterator(repo);
+		if (workingTreeIt == null) {
+			try {
+				workingTreeIt = new FileTreeIterator(repo);
+			} catch (ConfigIllegalValueException e) {
+				throw new InvalidConfigurationException(e);
+			}
+		}
 
 		try {
 			IndexDiff diff = new IndexDiff(repo, Constants.HEAD, workingTreeIt);

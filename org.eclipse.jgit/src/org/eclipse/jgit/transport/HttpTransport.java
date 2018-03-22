@@ -45,6 +45,7 @@
 
 package org.eclipse.jgit.transport;
 
+import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.http.HttpConnectionFactory;
 import org.eclipse.jgit.transport.http.JDKHttpConnectionFactory;
@@ -95,8 +96,10 @@ public abstract class HttpTransport extends Transport {
 	 * @param uri
 	 *            the URI used to access the remote repository. This must be the
 	 *            URI passed to {@link #open(Repository, URIish)}.
+	 * @throws TransportException
 	 */
-	protected HttpTransport(Repository local, URIish uri) {
+	protected HttpTransport(Repository local, URIish uri)
+			throws TransportException {
 		super(local, uri);
 	}
 

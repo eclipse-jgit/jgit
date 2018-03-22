@@ -68,6 +68,7 @@ import org.eclipse.jgit.internal.storage.file.ObjectDirectory;
 import org.eclipse.jgit.internal.storage.pack.BinaryDelta;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
@@ -136,7 +137,8 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 		try (TransportLocal t = new TransportLocal(src, uriOf(dst),
 				dst.getDirectory()) {
 			@Override
-			ReceivePack createReceivePack(final Repository db) {
+			ReceivePack createReceivePack(final Repository db)
+					throws ConfigIllegalValueException {
 				db.close();
 				dst.incrementOpen();
 
@@ -166,7 +168,8 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 		try (TransportLocal t = new TransportLocal(src, uriOf(dst),
 				dst.getDirectory()) {
 			@Override
-			ReceivePack createReceivePack(Repository db) {
+			ReceivePack createReceivePack(Repository db)
+					throws ConfigIllegalValueException {
 				dst.incrementOpen();
 
 				ReceivePack rp = super.createReceivePack(dst);
@@ -203,7 +206,8 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 			throws Exception {
 		return new TransportLocal(src, uriOf(dst), dst.getDirectory()) {
 			@Override
-			ReceivePack createReceivePack(final Repository db) {
+			ReceivePack createReceivePack(final Repository db)
+					throws ConfigIllegalValueException {
 				db.close();
 				dst.incrementOpen();
 

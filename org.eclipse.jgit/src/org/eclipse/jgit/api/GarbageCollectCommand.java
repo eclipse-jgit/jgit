@@ -57,6 +57,7 @@ import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.internal.storage.file.GC;
 import org.eclipse.jgit.internal.storage.file.GC.RepoStatistics;
 import org.eclipse.jgit.lib.ConfigConstants;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
@@ -100,8 +101,11 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 	 *
 	 * @param repo
 	 *            a {@link org.eclipse.jgit.lib.Repository} object.
+	 * @throws ConfigIllegalValueException
+	 *             in case of an invalid value in the repo's Git config
 	 */
-	protected GarbageCollectCommand(Repository repo) {
+	protected GarbageCollectCommand(Repository repo)
+			throws ConfigIllegalValueException {
 		super(repo);
 		pconfig = new PackConfig(repo);
 	}
@@ -145,8 +149,11 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 	 * @param aggressive
 	 *            whether to turn on or off aggressive mode
 	 * @return this instance
+	 * @throws ConfigIllegalValueException
+	 *             in case of an invalid value in the repo's Git config
 	 */
-	public GarbageCollectCommand setAggressive(boolean aggressive) {
+	public GarbageCollectCommand setAggressive(boolean aggressive)
+			throws ConfigIllegalValueException {
 		if (aggressive) {
 			StoredConfig repoConfig = repo.getConfig();
 			pconfig.setDeltaSearchWindowSize(repoConfig.getInt(
@@ -170,8 +177,11 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 	 * @param preserveOldPacks
 	 *            whether to preserve old pack files
 	 * @return this instance
+	 * @throws ConfigIllegalValueException
+	 *             in case of an invalid value in the repo's Git config
 	 */
-	public GarbageCollectCommand setPreserveOldPacks(boolean preserveOldPacks) {
+	public GarbageCollectCommand setPreserveOldPacks(boolean preserveOldPacks)
+			throws ConfigIllegalValueException {
 		if (pconfig == null)
 			pconfig = new PackConfig(repo);
 
@@ -186,8 +196,11 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 	 * @param prunePreserved
 	 *            whether to prune preserved pack files
 	 * @return this instance
+	 * @throws ConfigIllegalValueException
+	 *             in case of an invalid value in the repo's Git config
 	 */
-	public GarbageCollectCommand setPrunePreserved(boolean prunePreserved) {
+	public GarbageCollectCommand setPrunePreserved(boolean prunePreserved)
+			throws ConfigIllegalValueException {
 		if (pconfig == null)
 			pconfig = new PackConfig(repo);
 

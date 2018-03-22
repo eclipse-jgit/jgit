@@ -50,6 +50,7 @@ import java.util.Collection;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Config.SectionParser;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
@@ -77,7 +78,7 @@ public abstract class DaemonService {
 		final boolean enabled;
 
 		ServiceConfig(final DaemonService service, final Config cfg,
-				final String name) {
+				final String name) throws ConfigIllegalValueException {
 			enabled = cfg.getBoolean("daemon", name, service.isEnabled()); //$NON-NLS-1$
 		}
 	}
@@ -165,7 +166,8 @@ public abstract class DaemonService {
 		}
 	}
 
-	private boolean isEnabledFor(Repository db) {
+	private boolean isEnabledFor(Repository db)
+			throws ConfigIllegalValueException {
 		if (isOverridable())
 			return db.getConfig().get(configKey).enabled;
 		return isEnabled();

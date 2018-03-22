@@ -54,6 +54,7 @@ import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
@@ -113,7 +114,7 @@ public class InterIndexDiffFilterTest extends LocalDiskRepositoryTestCase {
 		}
 	}
 
-	private ObjectId id(String data) {
+	private ObjectId id(String data) throws ConfigIllegalValueException {
 		byte[] bytes = data.getBytes();
 		return db.newObjectInserter().idFor(Constants.OBJ_BLOB, bytes);
 	}

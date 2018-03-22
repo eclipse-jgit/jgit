@@ -62,6 +62,7 @@ import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.ConfigConstants;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
@@ -260,6 +261,9 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 			throw new JGitInternalException(
 					JGitText.get().exceptionCaughtDuringExecutionOfFetchCommand,
 					e);
+		} catch (ConfigIllegalValueException e) {
+			throw new org.eclipse.jgit.api.errors.TransportException(
+					e.getMessage(), e);
 		}
 
 	}
@@ -357,8 +361,10 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 	 * Whether to remove refs which no longer exist in the source
 	 *
 	 * @return whether to remove refs which no longer exist in the source
+	 * @throws ConfigIllegalValueException
+	 *             in case of an invalid value in the repo's Git config
 	 */
-	public boolean isRemoveDeletedRefs() {
+	public boolean isRemoveDeletedRefs() throws ConfigIllegalValueException {
 		if (removeDeletedRefs != null)
 			return removeDeletedRefs.booleanValue();
 		else { // fall back to configuration

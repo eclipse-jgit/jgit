@@ -52,6 +52,7 @@ import java.util.function.Supplier;
 
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.StringUtils;
@@ -196,8 +197,11 @@ public class HttpConfig {
 	 *            to read the {@link org.eclipse.jgit.transport.HttpConfig} from
 	 * @param uri
 	 *            to get the configuration values for
+	 * @throws ConfigIllegalValueException
+	 *             in case of an invalid value in the repo's Git config
 	 */
-	public HttpConfig(Config config, URIish uri) {
+	public HttpConfig(Config config, URIish uri)
+			throws ConfigIllegalValueException {
 		init(config, uri);
 	}
 
@@ -207,8 +211,10 @@ public class HttpConfig {
 	 *
 	 * @param uri
 	 *            to get the configuration values for
+	 * @throws ConfigIllegalValueException
+	 *             in case of an invalid value in the repo's Git config
 	 */
-	public HttpConfig(URIish uri) {
+	public HttpConfig(URIish uri) throws ConfigIllegalValueException {
 		FileBasedConfig userConfig = SystemReader.getInstance()
 				.openUserConfig(null, FS.DETECTED);
 		try {
@@ -223,7 +229,8 @@ public class HttpConfig {
 		init(userConfig, uri);
 	}
 
-	private void init(Config config, URIish uri) {
+	private void init(Config config, URIish uri)
+			throws ConfigIllegalValueException {
 		// Set defaults from the section first
 		int postBufferSize = config.getInt(HTTP, POST_BUFFER_KEY,
 				1 * 1024 * 1024);

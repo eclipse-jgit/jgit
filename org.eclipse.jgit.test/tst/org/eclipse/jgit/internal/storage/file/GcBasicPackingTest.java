@@ -56,6 +56,7 @@ import java.util.List;
 
 import org.eclipse.jgit.junit.TestRepository.BranchBuilder;
 import org.eclipse.jgit.lib.ConfigConstants;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
@@ -327,7 +328,8 @@ public class GcBasicPackingTest extends GcTestCase {
 		assertTrue(preservePackFile.exists());
 	}
 
-	private PackConfig configureGc(GC myGc, boolean aggressive) {
+	private PackConfig configureGc(GC myGc, boolean aggressive)
+			throws ConfigIllegalValueException {
 		PackConfig pconfig = new PackConfig(repo);
 		if (aggressive) {
 			pconfig.setDeltaSearchWindowSize(250);

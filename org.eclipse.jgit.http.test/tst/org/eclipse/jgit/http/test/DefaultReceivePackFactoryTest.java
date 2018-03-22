@@ -56,6 +56,7 @@ import javax.servlet.http.HttpServletRequestWrapper;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jgit.http.server.resolver.DefaultReceivePackFactory;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
@@ -82,7 +83,8 @@ public class DefaultReceivePackFactoryTest extends LocalDiskRepositoryTestCase {
 
 	@SuppressWarnings("unchecked")
 	@Test
-	public void testDisabledSingleton() throws ServiceNotAuthorizedException {
+	public void testDisabledSingleton()
+			throws ServiceNotAuthorizedException, ConfigIllegalValueException {
 		factory = (ReceivePackFactory<HttpServletRequest>) ReceivePackFactory.DISABLED;
 
 		try {
@@ -108,7 +110,8 @@ public class DefaultReceivePackFactoryTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
-	public void testCreate_NullUser() throws ServiceNotEnabledException {
+	public void testCreate_NullUser()
+			throws ServiceNotEnabledException, ConfigIllegalValueException {
 		try {
 			factory.create(new R(null, "localhost"), db);
 			fail("Created session for anonymous user: null");
@@ -118,7 +121,8 @@ public class DefaultReceivePackFactoryTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
-	public void testCreate_EmptyStringUser() throws ServiceNotEnabledException {
+	public void testCreate_EmptyStringUser()
+			throws ServiceNotEnabledException, ConfigIllegalValueException {
 		try {
 			factory.create(new R("", "localhost"), db);
 			fail("Created session for anonymous user: \"\"");
@@ -129,7 +133,7 @@ public class DefaultReceivePackFactoryTest extends LocalDiskRepositoryTestCase {
 
 	@Test
 	public void testCreate_AuthUser() throws ServiceNotEnabledException,
-			ServiceNotAuthorizedException {
+			ServiceNotAuthorizedException, ConfigIllegalValueException {
 		ReceivePack rp;
 		rp = factory.create(new R("bob", "1.2.3.4"), db);
 		assertNotNull("have ReceivePack", rp);
@@ -146,8 +150,8 @@ public class DefaultReceivePackFactoryTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
-	public void testCreate_Disabled() throws ServiceNotAuthorizedException,
-			IOException {
+	public void testCreate_Disabled()
+			throws ServiceNotAuthorizedException, IOException {
 		final StoredConfig cfg = db.getConfig();
 		cfg.setBoolean("http", null, "receivepack", false);
 		cfg.save();

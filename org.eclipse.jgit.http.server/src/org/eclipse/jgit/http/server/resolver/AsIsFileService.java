@@ -46,6 +46,7 @@ package org.eclipse.jgit.http.server.resolver;
 import javax.servlet.http.HttpServletRequest;
 
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ConfigIllegalValueException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
@@ -73,7 +74,11 @@ public class AsIsFileService {
 	private static class ServiceConfig {
 		final boolean enabled;
 
-		ServiceConfig(final Config cfg) {
+		/**
+		 * @throws ConfigIllegalValueException
+		 *             in case of an invalid value in the repo's Git config
+		 */
+		ServiceConfig(final Config cfg) throws ConfigIllegalValueException {
 			enabled = cfg.getBoolean("http", "getanyfile", true);
 		}
 	}
@@ -86,8 +91,11 @@ public class AsIsFileService {
 	 * @return {@code false} if {@code http.getanyfile} was explicitly set to
 	 *         {@code false} in the repository's configuration file; otherwise
 	 *         {@code true}.
+	 * @throws ConfigIllegalValueException
+	 *             in case of an invalid value in the repo's Git config
 	 */
-	protected static boolean isEnabled(Repository db) {
+	protected static boolean isEnabled(Repository db)
+			throws ConfigIllegalValueException {
 		return db.getConfig().get(ServiceConfig::new).enabled;
 	}
 
@@ -114,9 +122,12 @@ public class AsIsFileService {
 	 * @throws ServiceNotAuthorizedException
 	 *             bare file access is not allowed for this HTTP request and
 	 *             repository, such as due to a permission error.
+	 * @throws ConfigIllegalValueException
+	 *             in case of an invalid value in the repo's Git config
 	 */
 	public void access(HttpServletRequest req, Repository db)
-			throws ServiceNotEnabledException, ServiceNotAuthorizedException {
+			throws ServiceNotEnabledException, ServiceNotAuthorizedException,
+			ConfigIllegalValueException {
 		if (!isEnabled(db))
 			throw new ServiceNotEnabledException();
 	}
