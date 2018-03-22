@@ -212,10 +212,10 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 					}
 				}
 			}
-		} catch (IOException e) {
-			throw new JGitInternalException(e.getMessage(), e);
 		} catch (ConfigInvalidException e) {
 			throw new InvalidConfigurationException(e.getMessage(), e);
+		} catch (IOException e) {
+			throw new JGitInternalException(e.getMessage(), e);
 		}
 	}
 

@@ -45,8 +45,6 @@ package org.eclipse.jgit.lib;
 
 import java.io.IOException;
 
-import org.eclipse.jgit.errors.ConfigInvalidException;
-
 /**
  * Persistent configuration that can be stored and loaded from a location.
  */
@@ -77,10 +75,8 @@ public abstract class StoredConfig extends Config {
 	 *
 	 * @throws java.io.IOException
 	 *             the configuration could not be read (but does exist).
-	 * @throws org.eclipse.jgit.errors.ConfigInvalidException
-	 *             the configuration is not properly formatted.
 	 */
-	public abstract void load() throws IOException, ConfigInvalidException;
+	public abstract void load() throws IOException;
 
 	/**
 	 * Save the configuration to the persistent store.

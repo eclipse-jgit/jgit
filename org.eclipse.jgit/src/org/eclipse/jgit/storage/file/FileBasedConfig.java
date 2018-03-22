@@ -184,6 +184,9 @@ public class FileBasedConfig extends StoredConfig {
 				clear();
 				snapshot = newSnapshot;
 				return;
+			} catch (ConfigInvalidException e) {
+				throw new ConfigInvalidException(MessageFormat
+						.format(JGitText.get().cannotReadFile, getFile()), e);
 			} catch (IOException e) {
 				if (FileUtils.isStaleFileHandle(e)
 						&& retries < maxStaleRetries) {
@@ -196,9 +199,6 @@ public class FileBasedConfig extends StoredConfig {
 					continue;
 				}
 				throw new IOException(MessageFormat
-						.format(JGitText.get().cannotReadFile, getFile()), e);
-			} catch (ConfigInvalidException e) {
-				throw new ConfigInvalidException(MessageFormat
 						.format(JGitText.get().cannotReadFile, getFile()), e);
 			}
 		}

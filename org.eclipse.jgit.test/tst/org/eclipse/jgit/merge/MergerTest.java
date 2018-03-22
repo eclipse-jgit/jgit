@@ -66,7 +66,6 @@ import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheEditor;
 import org.eclipse.jgit.dircache.DirCacheEntry;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.NoMergeBaseException;
 import org.eclipse.jgit.errors.NoMergeBaseException.MergeBaseFailureReason;
 import org.eclipse.jgit.junit.RepositoryTestCase;
@@ -1246,7 +1245,7 @@ public class MergerTest extends RepositoryTestCase {
 	}
 
 	private void writeSubmodule(String path, ObjectId commit)
-			throws IOException, ConfigInvalidException {
+			throws IOException {
 		addSubmoduleToIndex(path, commit);
 		new File(db.getWorkTree(), path).mkdir();
 

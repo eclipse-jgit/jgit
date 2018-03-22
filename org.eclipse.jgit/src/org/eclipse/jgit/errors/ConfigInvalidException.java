@@ -43,10 +43,12 @@
 
 package org.eclipse.jgit.errors;
 
+import java.io.IOException;
+
 /**
  * Indicates a text string is not a valid Git style configuration.
  */
-public class ConfigInvalidException extends Exception {
+public class ConfigInvalidException extends IOException {
 	private static final long serialVersionUID = 1L;
 
 	/**

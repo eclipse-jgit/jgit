@@ -76,7 +76,7 @@ public class MockSystemReader extends SystemReader {
 		}
 
 		@Override
-		public void load() throws IOException, ConfigInvalidException {
+		public void load() throws IOException {
 			// Do nothing
 		}
 
