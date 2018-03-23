@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "699ff490_b7976edd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 965,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2018-03-23T04:10:46Z",
+      "side": 1,
+      "message": "Is there any relationship between the Tag refs and the wantIds?  Anyway to avoid fetching all the refs?",
+      "range": {
+        "startLine": 965,
+        "startChar": 4,
+        "endLine": 965,
+        "endChar": 8
+      },
+      "revId": "f87ef16dbd963f59f6f218565efd9aa7151ef2b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
