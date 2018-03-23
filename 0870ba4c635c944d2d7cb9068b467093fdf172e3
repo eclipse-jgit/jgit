@@ -140,6 +140,30 @@
       "revId": "0870ba4c635c944d2d7cb9068b467093fdf172e3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4445181a_5b979a30",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 918,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2018-03-23T22:58:40Z",
+      "side": 1,
+      "message": "I really think that the prefixes should be passed through.  There are few strategies to solve the / suffix issue.\n1. Adding / to known prefixes like refs/heads, refs/tags, refs/changes...\n2. Truncating to the last /, ie refs/foo/bar becomes refs/foo and blah becomes \"\" or ALL, then filter the list out like it is doing.\n\nI assume majority of the use cases would be the known prefixes, so this is worthwhile.",
+      "parentUuid": "ff101636_d5c93615",
+      "range": {
+        "startLine": 918,
+        "startChar": 24,
+        "endLine": 918,
+        "endChar": 34
+      },
+      "revId": "0870ba4c635c944d2d7cb9068b467093fdf172e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
