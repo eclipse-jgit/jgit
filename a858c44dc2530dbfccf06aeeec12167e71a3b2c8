@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a9eccd1b_7401f4f1",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2018-03-23T04:45:25Z",
+      "side": 1,
+      "message": "Let\u0027s add a constant for \"version 2\"",
+      "range": {
+        "startLine": 231,
+        "startChar": 37,
+        "endLine": 231,
+        "endChar": 46
+      },
+      "revId": "a858c44dc2530dbfccf06aeeec12167e71a3b2c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d5a7674_07d3c4aa",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2018-03-23T04:45:25Z",
+      "side": 1,
+      "message": "same as CAPABILITY_LS_REFS?",
+      "range": {
+        "startLine": 232,
+        "startChar": 37,
+        "endLine": 232,
+        "endChar": 44
+      },
+      "revId": "a858c44dc2530dbfccf06aeeec12167e71a3b2c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c04651d_5296e546",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2018-03-23T04:45:25Z",
+      "side": 1,
+      "message": "Another string constant?",
+      "range": {
+        "startLine": 233,
+        "startChar": 37,
+        "endLine": 233,
+        "endChar": 50
+      },
+      "revId": "a858c44dc2530dbfccf06aeeec12167e71a3b2c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf0ad0c2_c7cf830f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2018-03-23T04:45:25Z",
+      "side": 1,
+      "message": "adding CAPABILITY_SHALLOW_FETCH instead?",
+      "range": {
+        "startLine": 123,
+        "startChar": 2,
+        "endLine": 123,
+        "endChar": 41
+      },
+      "revId": "a858c44dc2530dbfccf06aeeec12167e71a3b2c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ebe06a1_975ec17d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 969,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2018-03-23T04:45:25Z",
+      "side": 1,
+      "message": "//NON-NLS-1$ ?",
+      "range": {
+        "startLine": 969,
+        "startChar": 31,
+        "endLine": 969,
+        "endChar": 38
+      },
+      "revId": "a858c44dc2530dbfccf06aeeec12167e71a3b2c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb11f7d0_c1ff1cd3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1015,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2018-03-23T04:45:25Z",
+      "side": 1,
+      "message": "same here?",
+      "range": {
+        "startLine": 1015,
+        "startChar": 22,
+        "endLine": 1015,
+        "endChar": 38
+      },
+      "revId": "a858c44dc2530dbfccf06aeeec12167e71a3b2c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7439535_948fd555",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1017,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2018-03-23T04:45:25Z",
+      "side": 1,
+      "message": "and here?",
+      "range": {
+        "startLine": 1017,
+        "startChar": 23,
+        "endLine": 1017,
+        "endChar": 33
+      },
+      "revId": "a858c44dc2530dbfccf06aeeec12167e71a3b2c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c5c54d6_3e9424e0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1020,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2018-03-23T04:45:25Z",
+      "side": 1,
+      "message": "or here?",
+      "range": {
+        "startLine": 1020,
+        "startChar": 23,
+        "endLine": 1020,
+        "endChar": 35
+      },
+      "revId": "a858c44dc2530dbfccf06aeeec12167e71a3b2c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3696e2be_2539db5f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1087,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2018-03-23T04:45:25Z",
+      "side": 1,
+      "message": "use javadoc for method and parameter?",
+      "range": {
+        "startLine": 1083,
+        "startChar": 1,
+        "endLine": 1087,
+        "endChar": 4
+      },
+      "revId": "a858c44dc2530dbfccf06aeeec12167e71a3b2c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
