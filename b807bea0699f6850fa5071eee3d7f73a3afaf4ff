@@ -22,6 +22,30 @@
       "revId": "b807bea0699f6850fa5071eee3d7f73a3afaf4ff",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55170437_88701dd3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-03-23T20:42:20Z",
+      "side": 1,
+      "message": "I just want to check that at least one OfsDelta is being sent. The implementation could use OfsDelta for a tree too, for example (in which case the number would be more than 1).",
+      "parentUuid": "2bcb2d56_6e4b3eee",
+      "range": {
+        "startLine": 555,
+        "startChar": 36,
+        "endLine": 555,
+        "endChar": 40
+      },
+      "revId": "b807bea0699f6850fa5071eee3d7f73a3afaf4ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
