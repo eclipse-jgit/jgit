@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f407f1cd_97c6a50b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 898,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2018-03-23T02:57:28Z",
+      "side": 1,
+      "message": "Need to update the comment?",
+      "range": {
+        "startLine": 897,
+        "startChar": 2,
+        "endLine": 898,
+        "endChar": 56
+      },
+      "revId": "0870ba4c635c944d2d7cb9068b467093fdf172e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b21dc997_bd003fbd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2018-03-23T02:57:28Z",
+      "side": 1,
+      "message": "can there be multiple ref-prefix?  If so refPrefix would get overwritten.  Also can there be more than one DELIM on a line?",
+      "range": {
+        "startLine": 906,
+        "startChar": 5,
+        "endLine": 906,
+        "endChar": 14
+      },
+      "revId": "0870ba4c635c944d2d7cb9068b467093fdf172e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01e3a14b_ce2b4349",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 918,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2018-03-23T02:57:28Z",
+      "side": 1,
+      "message": "Is there anyway to push the refPrefix into getAdvertisedOrDefaultRefs() call above to filter at lower level. I\u0027m pretty sure reftable can do prefix filtering, much more efficient than this.",
+      "range": {
+        "startLine": 918,
+        "startChar": 24,
+        "endLine": 918,
+        "endChar": 34
+      },
+      "revId": "0870ba4c635c944d2d7cb9068b467093fdf172e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
