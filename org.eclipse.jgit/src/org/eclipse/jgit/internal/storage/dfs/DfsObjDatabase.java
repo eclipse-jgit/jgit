@@ -546,7 +546,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 			}
 		}
 
-		if (newPacks.isEmpty())
+		if (newPacks.isEmpty() && newReftables.isEmpty())
 			return new PackListImpl(NO_PACKS.packs, NO_PACKS.reftables);
 		if (!foundNew) {
 			old.clearDirty();
