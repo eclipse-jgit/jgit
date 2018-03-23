@@ -46,6 +46,30 @@
       "revId": "bb08920f7a87519bc1729c07be57c44ed3d45d89",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb64b821_d988ccc8",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/HttpClientTests.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2018-03-23T23:34:58Z",
+      "side": 1,
+      "message": "How does this test check for the presence of END?  Isn\u0027t end is just an empty line?",
+      "parentUuid": "771ff514_fa14d481",
+      "range": {
+        "startLine": 378,
+        "startChar": 24,
+        "endLine": 378,
+        "endChar": 55
+      },
+      "revId": "bb08920f7a87519bc1729c07be57c44ed3d45d89",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
