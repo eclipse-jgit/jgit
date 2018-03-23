@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "a6124810_c8802e55",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2018-03-23T23:36:15Z",
+      "side": 1,
+      "message": "Normally the constants would be in the code and visible to the tests somehow.",
+      "parentUuid": "6037f57a_a9266db0",
+      "range": {
+        "startLine": 231,
+        "startChar": 37,
+        "endLine": 231,
+        "endChar": 46
+      },
+      "revId": "a858c44dc2530dbfccf06aeeec12167e71a3b2c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d5a7674_07d3c4aa",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
         "patchSetId": 1
