@@ -46,6 +46,30 @@
       "revId": "f87ef16dbd963f59f6f218565efd9aa7151ef2b7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b29a666_620ddcdd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 965,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2018-03-23T23:03:58Z",
+      "side": 1,
+      "message": "woud refs\u003dgetRefs(\"refs/tags/\") work?",
+      "parentUuid": "2ce34c04_25c366d4",
+      "range": {
+        "startLine": 965,
+        "startChar": 4,
+        "endLine": 965,
+        "endChar": 8
+      },
+      "revId": "f87ef16dbd963f59f6f218565efd9aa7151ef2b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
