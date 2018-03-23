@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9257cf3d_b6b46ee5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/DaemonClient.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-03-23T20:42:24Z",
+      "side": 1,
+      "message": "The best thing to do is probably to parse it properly and support any version higher than 2 - if I were to do that, where would I put such a helper method? In a new file GitProtocolHelpers.java? (And if yes, what should I put in the copyright message at the top?)",
+      "parentUuid": "023cdd83_82719800",
+      "range": {
+        "startLine": 121,
+        "startChar": 40,
+        "endLine": 121,
+        "endChar": 49
+      },
+      "revId": "34f08a74129e427d3229ef1aca65e93e6bbc5590",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "99cfe93b_6c4c6af4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/DaemonClient.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2018-03-23T04:23:31Z",
       "side": 1,
       "message": "You could probably eliminate useProtocolV2 variable and inline it.",
+      "range": {
+        "startLine": 134,
+        "startChar": 23,
+        "endLine": 134,
+        "endChar": 36
+      },
+      "revId": "34f08a74129e427d3229ef1aca65e93e6bbc5590",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3500c40_40e37f18",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/DaemonClient.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-03-23T20:42:24Z",
+      "side": 1,
+      "message": "I\u0027ll leave this until we decide what to do with the \"version\u003d2\" constant above.",
+      "parentUuid": "99cfe93b_6c4c6af4",
       "range": {
         "startLine": 134,
         "startChar": 23,
