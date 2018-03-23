@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "023cdd83_82719800",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/DaemonClient.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2018-03-23T04:23:31Z",
+      "side": 1,
+      "message": "I\u0027ve seen this \"version\u003d2\" in a quite a few places, maybe a constant would be good to avoid typos.",
+      "range": {
+        "startLine": 121,
+        "startChar": 40,
+        "endLine": 121,
+        "endChar": 49
+      },
+      "revId": "34f08a74129e427d3229ef1aca65e93e6bbc5590",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99cfe93b_6c4c6af4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/DaemonClient.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2018-03-23T04:23:31Z",
+      "side": 1,
+      "message": "You could probably eliminate useProtocolV2 variable and inline it.",
+      "range": {
+        "startLine": 134,
+        "startChar": 23,
+        "endLine": 134,
+        "endChar": 36
+      },
+      "revId": "34f08a74129e427d3229ef1aca65e93e6bbc5590",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
