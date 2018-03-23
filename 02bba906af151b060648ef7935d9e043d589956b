@@ -519,6 +519,30 @@
     },
     {
       "key": {
+        "uuid": "a214e7ce_463cbbb3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 880,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-03-23T20:41:55Z",
+      "side": 1,
+      "message": "OK, I\u0027ll leave it as-is for now.",
+      "parentUuid": "21e33e91_8d8eae00",
+      "range": {
+        "startLine": 880,
+        "startChar": 14,
+        "endLine": 880,
+        "endChar": 22
+      },
+      "revId": "02bba906af151b060648ef7935d9e043d589956b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b470c592_7d7dfcbd",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1
