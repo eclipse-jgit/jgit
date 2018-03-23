@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "41a26874_7a8d35df",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 898,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-03-23T20:42:00Z",
+      "side": 1,
+      "message": "\"ref-prefix\" is an argument, not a capability.",
+      "parentUuid": "f407f1cd_97c6a50b",
+      "range": {
+        "startLine": 897,
+        "startChar": 2,
+        "endLine": 898,
+        "endChar": 56
+      },
+      "revId": "0870ba4c635c944d2d7cb9068b467093fdf172e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b21dc997_bd003fbd",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "9340c353_dadc6175",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-03-23T20:42:00Z",
+      "side": 1,
+      "message": "Ah...good catch. Yes, there can be multiple ref-prefix. I\u0027ve changed the code and added a test for this.",
+      "parentUuid": "b21dc997_bd003fbd",
+      "range": {
+        "startLine": 906,
+        "startChar": 5,
+        "endLine": 906,
+        "endChar": 14
+      },
+      "revId": "0870ba4c635c944d2d7cb9068b467093fdf172e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "01e3a14b_ce2b4349",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2018-03-23T02:57:28Z",
       "side": 1,
       "message": "Is there anyway to push the refPrefix into getAdvertisedOrDefaultRefs() call above to filter at lower level. I\u0027m pretty sure reftable can do prefix filtering, much more efficient than this.",
+      "range": {
+        "startLine": 918,
+        "startChar": 24,
+        "endLine": 918,
+        "endChar": 34
+      },
+      "revId": "0870ba4c635c944d2d7cb9068b467093fdf172e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff101636_d5c93615",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 918,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-03-23T20:42:00Z",
+      "side": 1,
+      "message": "I checked, and (as discussed) RefDatabase indeed has something that can filter out refs by prefixes. But RefDatabase requires that the prefix end with \u0027/\u0027, and as of the time of writing, the protocol allows any prefix. So I\u0027d prefer to leave the code as-is and let the optimization (to use RefDatabase as a coarse filter) be done in a later patch.",
+      "parentUuid": "01e3a14b_ce2b4349",
       "range": {
         "startLine": 918,
         "startChar": 24,
