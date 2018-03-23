@@ -22,6 +22,30 @@
       "revId": "f87ef16dbd963f59f6f218565efd9aa7151ef2b7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2ce34c04_25c366d4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 965,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-03-23T20:42:17Z",
+      "side": 1,
+      "message": "I don\u0027t think so - a commit could be pointed to by a wantId (directly or indirectly) and an annotated tag, and both of them may not be related. I think that we do have to scan all the refs, see which of them are pointing to annotated tags, and see which of those tags point to a commit being sent.",
+      "parentUuid": "699ff490_b7976edd",
+      "range": {
+        "startLine": 965,
+        "startChar": 4,
+        "endLine": 965,
+        "endChar": 8
+      },
+      "revId": "f87ef16dbd963f59f6f218565efd9aa7151ef2b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
