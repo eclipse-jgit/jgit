@@ -536,9 +536,9 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			return false;
 		}
 		if (filterBlobLimit == 0) {
-			p.writeString(OPTION_FILTER + " blob:none");
+			p.writeString(OPTION_FILTER + " blob:none"); //$NON-NLS-1$
 		} else if (filterBlobLimit > 0) {
-			p.writeString(OPTION_FILTER + " blob:limit=" + filterBlobLimit);
+			p.writeString(OPTION_FILTER + " blob:limit=" + filterBlobLimit); //$NON-NLS-1$
 		}
 		p.end();
 		outNeedsEnd = false;

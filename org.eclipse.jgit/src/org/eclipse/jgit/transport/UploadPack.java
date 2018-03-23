@@ -1026,11 +1026,12 @@ public class UploadPack {
 				}
 				filterReceived = true;
 
-				if (arg.equals("blob:none")) {
+				if (arg.equals("blob:none")) { //$NON-NLS-1$
 					filterBlobLimit = 0;
-				} else if (arg.startsWith("blob:limit=")) {
+				} else if (arg.startsWith("blob:limit=")) { //$NON-NLS-1$
 					try {
-						filterBlobLimit = Long.parseLong(arg.substring("blob:limit=".length()));
+						filterBlobLimit = Long.parseLong(
+								arg.substring("blob:limit=".length())); //$NON-NLS-1$
 					} catch (NumberFormatException e) {
 						throw new PackProtocolException(
 								MessageFormat.format(JGitText.get().invalidFilter,
