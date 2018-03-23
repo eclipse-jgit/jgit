@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fb0ebe72_ae7cf787",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-03-23T20:42:07Z",
+      "side": 1,
+      "message": "Not guaranteed by the protocol. The fix is simple (use hasItems()) so I\u0027ve updated it.",
+      "parentUuid": "1407c025_54955eae",
+      "range": {
+        "startLine": 229,
+        "startChar": 2,
+        "endLine": 230,
+        "endChar": 46
+      },
+      "revId": "87d3139772b5e635cdecafa623d3f24c3aa0447e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9175781_9313310c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2018-03-23T03:57:24Z",
       "side": 1,
       "message": "Same name as member variable pckOut.  Please change.",
+      "range": {
+        "startLine": 1319,
+        "startChar": 88,
+        "endLine": 1319,
+        "endChar": 94
+      },
+      "revId": "87d3139772b5e635cdecafa623d3f24c3aa0447e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d55f90d4_241bf380",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1319,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-03-23T20:42:07Z",
+      "side": 1,
+      "message": "Changed.\n\nI wasn\u0027t sure of the best way to do this - I wanted to make processHaveLines have the option of suppressing output, without unnecessarily changing too many lines. OK - I\u0027ve renamed this to \"out\".",
+      "parentUuid": "d9175781_9313310c",
       "range": {
         "startLine": 1319,
         "startChar": 88,
