@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27654d53_36cbb973",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/HttpClientTests.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2018-03-23T04:31:30Z",
+      "side": 1,
+      "message": "Doesn\u0027t pckIn.readString() always returns END at the end?",
+      "range": {
+        "startLine": 378,
+        "startChar": 24,
+        "endLine": 378,
+        "endChar": 55
+      },
+      "revId": "bb08920f7a87519bc1729c07be57c44ed3d45d89",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
