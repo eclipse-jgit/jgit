@@ -22,6 +22,30 @@
       "revId": "5a118162ddacbe621e026b26a486a32147c8ef9d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3070d39_a847ee88",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-03-23T20:42:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5bf39f7f_a7360cc5",
+      "range": {
+        "startLine": 343,
+        "startChar": 0,
+        "endLine": 344,
+        "endChar": 1
+      },
+      "revId": "5a118162ddacbe621e026b26a486a32147c8ef9d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
