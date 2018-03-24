@@ -108,6 +108,7 @@ public class ObjectIdSerializer {
 	 *            the object id to serialize; never null
 	 * @throws IOException
 	 *             the stream writing failed
+	 * @since 5.0
 	 */
 	public static void writeWithoutMarker(OutputStream out, @NonNull AnyObjectId id)
 			throws IOException {
@@ -147,6 +148,7 @@ public class ObjectIdSerializer {
 	 * @return the object id; never null
 	 * @throws IOException
 	 *             there was an error reading the stream
+	 * @since 5.0
 	 */
 	@NonNull
 	public static ObjectId readWithoutMarker(InputStream in) throws IOException {
