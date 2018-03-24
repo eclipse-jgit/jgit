@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7eb81b6f_7965d658",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-03-24T21:32:16Z",
+      "side": 1,
+      "message": "Isn\u0027t that closed in the caller by BasePackConnection.close() ? If we already close it here the BasePackConnection will not be able to read from the stream",
+      "range": {
+        "startLine": 362,
+        "startChar": 8,
+        "endLine": 362,
+        "endChar": 22
+      },
+      "revId": "b37609b0229c342934bf4784b73e04a88ea483ac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
