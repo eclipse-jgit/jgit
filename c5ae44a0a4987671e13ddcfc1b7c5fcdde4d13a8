@@ -22,6 +22,30 @@
       "revId": "c5ae44a0a4987671e13ddcfc1b7c5fcdde4d13a8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c2a66634_94a52670",
+        "filename": "org.eclipse.jgit.test/exttst/org/eclipse/jgit/treewalk/FileTreeIteratorPerformanceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-03-24T18:59:17Z",
+      "side": 1,
+      "message": ":-) Of course. Should have been µs. Done.",
+      "parentUuid": "12b79f1c_46886158",
+      "range": {
+        "startLine": 74,
+        "startChar": 38,
+        "endLine": 74,
+        "endChar": 50
+      },
+      "revId": "c5ae44a0a4987671e13ddcfc1b7c5fcdde4d13a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
