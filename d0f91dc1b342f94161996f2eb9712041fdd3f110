@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "758da80b_9c1941dc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_Win32.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2018-03-24T19:31:58Z",
+      "side": 1,
+      "message": "This is constant, so can be set outside the loop.",
+      "range": {
+        "startLine": 147,
+        "startChar": 9,
+        "endLine": 147,
+        "endChar": 29
+      },
+      "revId": "d0f91dc1b342f94161996f2eb9712041fdd3f110",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
