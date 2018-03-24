@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12b79f1c_46886158",
+        "filename": "org.eclipse.jgit.test/exttst/org/eclipse/jgit/treewalk/FileTreeIteratorPerformanceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-03-24T17:42:05Z",
+      "side": 1,
+      "message": "no, 1000000ns \u003d 1ms",
+      "range": {
+        "startLine": 74,
+        "startChar": 38,
+        "endLine": 74,
+        "endChar": 50
+      },
+      "revId": "c5ae44a0a4987671e13ddcfc1b7c5fcdde4d13a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
