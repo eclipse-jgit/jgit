@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "ae0165eb_709346c4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-03-26T18:06:00Z",
+      "side": 1,
+      "message": "\u003e I\u0027m of two minds. On one hand, using constants means it\u0027s easier to avoid typos in tests, makes the test easier to read, makes the test easier to change if the behavior changes, etc.\n\nWell, I dispute all the points :-P\n\n- avoid typos: tests are executed often, so any typo will be noticed in a test failure (unlike in production code, where static checks are more useful)\n- easier to read: I think it\u0027s easier to read when the expected string is right there in the file, without needing to look up what the string is. This is especially for protocol things when we sometimes need to compare against a protocol document from an external source.\n- makes the test easier to change: I think that the test *should* change if the behavior changes.\n\n\u003e My main worry is something else: the next couple of lines seem like a change-detector test that would break if the implementation starts advertising capabilities in a different order. Can the test collect the caps in a list and use Truth to test the list without caring about order?\n\nMinh raised the same issue (introduced in a previous patch) - I have fixed this using hasItems. (To avoid noise, I\u0027ll upload the updated version only once this comment is resolved.)\n\n\u003e I also wonder about what should happen when we start advertising more capabilities. Is this test meant to be updated with each new capability, or should it check list containment instead of (unsorted) equality?\n\nRight now, I do expect this test to be updated with each new capability. This check is in a helper method used by all the tests (so far), so at least it will only need to be changed once.\n\nI\u0027m OK with also checking list containment, although I don\u0027t know of a simple way to write it, especially since not only the list itself but also every element is extensible.",
+      "parentUuid": "1e7cc421_c43f089a",
+      "range": {
+        "startLine": 231,
+        "startChar": 37,
+        "endLine": 231,
+        "endChar": 46
+      },
+      "revId": "a858c44dc2530dbfccf06aeeec12167e71a3b2c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1d5a7674_07d3c4aa",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
         "patchSetId": 1
