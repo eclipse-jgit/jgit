@@ -70,6 +70,30 @@
       "revId": "bb08920f7a87519bc1729c07be57c44ed3d45d89",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66fd84ce_c032b4ca",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/HttpClientTests.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-03-26T17:51:40Z",
+      "side": 1,
+      "message": "The condition in the while loop checks for that (!\u003d PacketLineIn.END). Notice the identity comparison. not the usual string comparison done through #equals.",
+      "parentUuid": "bb64b821_d988ccc8",
+      "range": {
+        "startLine": 378,
+        "startChar": 24,
+        "endLine": 378,
+        "endChar": 55
+      },
+      "revId": "bb08920f7a87519bc1729c07be57c44ed3d45d89",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
