@@ -164,6 +164,30 @@
       "revId": "0870ba4c635c944d2d7cb9068b467093fdf172e3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a2665056_8f751213",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 918,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-03-26T17:12:37Z",
+      "side": 1,
+      "message": "OK - I went ahead and implemented this.\n\n(I re-concatenated the prefix to the keys of the returned Map\u003cString, Ref\u003e because findSymrefs() relies on correct keys in order to identify the HEAD symref.)",
+      "parentUuid": "4445181a_5b979a30",
+      "range": {
+        "startLine": 918,
+        "startChar": 24,
+        "endLine": 918,
+        "endChar": 34
+      },
+      "revId": "0870ba4c635c944d2d7cb9068b467093fdf172e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
