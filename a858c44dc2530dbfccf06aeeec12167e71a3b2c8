@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "e52131ba_89ee21ce",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-03-26T18:54:23Z",
+      "side": 1,
+      "message": "I agree that building in a full parser here would be overkill. Maybe it\u0027s worth a TODO comment saying that it would be nice to loosen the check. That way, if someone adds new capabilities (perhaps conditionally advertised, etc) and sees this test failing, then they can see that the tightness was for simplicity as opposed to being a strong design goal.\n\n \u003e makes the test easier to change: I think that the test *should* change if the behavior changes.\n\nThe goal, which can be difficult to fulfill, is that when a particular behavior changes, only the tests that were designed specifically to test that behavior start failing. That makes diagnosing the regression easier. More importantly, it improves incentives: when a behavior improvement makes too many tests fail, it can be daunting to track down and update them all, which can lead people to avoid making behavior improvements. That said, I agree that it\u0027s better than having no test coverage.",
+      "parentUuid": "ae0165eb_709346c4",
+      "range": {
+        "startLine": 231,
+        "startChar": 37,
+        "endLine": 231,
+        "endChar": 46
+      },
+      "revId": "a858c44dc2530dbfccf06aeeec12167e71a3b2c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1d5a7674_07d3c4aa",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
         "patchSetId": 1
