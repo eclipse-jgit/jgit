@@ -70,6 +70,30 @@
       "revId": "f87ef16dbd963f59f6f218565efd9aa7151ef2b7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c635031b_5d5ea26c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 965,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-03-26T17:12:41Z",
+      "side": 1,
+      "message": "Yes, that would work - \"refs\" is subsequently used only by sendPack which indeed only requires the tags. I\u0027ve changed it, and added an explanatory comment. I also updated the commit message to explain why filtering on \"refs/tags/\" is sufficient (I checked the C code and it does that too).",
+      "parentUuid": "8b29a666_620ddcdd",
+      "range": {
+        "startLine": 965,
+        "startChar": 4,
+        "endLine": 965,
+        "endChar": 8
+      },
+      "revId": "f87ef16dbd963f59f6f218565efd9aa7151ef2b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
