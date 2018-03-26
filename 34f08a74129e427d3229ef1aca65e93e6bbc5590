@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "407ddf1c_4d0abd12",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/DaemonClient.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-03-26T17:50:40Z",
+      "side": 1,
+      "message": "I ended up using GitProtocolHelpers because subsequent helpers might not be version-specific. I just reused the Copyright message with the new company name (Google LLC).",
+      "parentUuid": "0b462214_35d680f1",
+      "range": {
+        "startLine": 121,
+        "startChar": 40,
+        "endLine": 121,
+        "endChar": 49
+      },
+      "revId": "34f08a74129e427d3229ef1aca65e93e6bbc5590",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99cfe93b_6c4c6af4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/DaemonClient.java",
         "patchSetId": 2
