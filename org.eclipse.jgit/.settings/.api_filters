@@ -5,6 +5,13 @@
             <message_arguments>
                 <message_argument value="4.11"/>
                 <message_argument value="5.0"/>
+                <message_argument value="readWithoutMarker(InputStream)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="4.11"/>
+                <message_argument value="5.0"/>
                 <message_argument value="writeWithoutMarker(OutputStream, AnyObjectId)"/>
             </message_arguments>
         </filter>
