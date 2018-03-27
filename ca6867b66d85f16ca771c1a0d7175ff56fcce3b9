@@ -46,6 +46,30 @@
       "revId": "ca6867b66d85f16ca771c1a0d7175ff56fcce3b9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32b5a272_9fc7e7cc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 921,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-03-27T19:34:38Z",
+      "side": 1,
+      "message": "After an in-office discussion, we decided to add a method to RefDatabase that does not require the final slash when searching for refs, thus sidestepping this issue (that is, both \"refs/heads/\" and \"refs/heads\" can be searched with almost equal performance). Reftable does not require the final slash when doing prefix searching, and will be able to take advantage of this optimization.",
+      "parentUuid": "f2557d31_c5fb51a2",
+      "range": {
+        "startLine": 921,
+        "startChar": 4,
+        "endLine": 921,
+        "endChar": 47
+      },
+      "revId": "ca6867b66d85f16ca771c1a0d7175ff56fcce3b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
