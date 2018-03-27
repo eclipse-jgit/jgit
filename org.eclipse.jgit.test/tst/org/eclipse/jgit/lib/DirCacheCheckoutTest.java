@@ -78,8 +78,10 @@ import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.junit.TestRepository.BranchBuilder;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.junit.Assume;
@@ -1902,6 +1904,117 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 		checkout();
 		assertNoConflicts();
 		assertUpdated(longFileName);
+	}
+
+	@Test
+	public void testIgnoredDirectory() throws Exception {
+		writeTrashFile(".gitignore", "src/ignored");
+		writeTrashFile("src/ignored/sub/foo.txt", "1");
+		try (Git git = new Git(db)) {
+			git.add().addFilepattern(".").call();
+			RevCommit commit = git.commit().setMessage("adding .gitignore")
+					.call();
+			writeTrashFile("foo.txt", "2");
+			writeTrashFile("zzz.txt", "3");
+			git.add().addFilepattern("foo.txt").call();
+			git.commit().setMessage("add file").call();
+			assertEquals("Should not have entered ignored directory", 1,
+					resetHardAndCount(commit));
+		}
+	}
+
+	@Test
+	public void testIgnoredDirectoryWithTrackedContent() throws Exception {
+		writeTrashFile("src/ignored/sub/foo.txt", "1");
+		try (Git git = new Git(db)) {
+			git.add().addFilepattern(".").call();
+			git.commit().setMessage("adding foo.txt").call();
+			writeTrashFile(".gitignore", "src/ignored");
+			writeTrashFile("src/ignored/sub/foo.txt", "2");
+			writeTrashFile("src/ignored/other/bar.txt", "3");
+			git.add().addFilepattern(".").call();
+			RevCommit commit = git.commit().setMessage("adding .gitignore")
+					.call();
+			writeTrashFile("foo.txt", "2");
+			writeTrashFile("zzz.txt", "3");
+			git.add().addFilepattern("foo.txt").call();
+			git.commit().setMessage("add file").call();
+			File file = writeTrashFile("src/ignored/sub/foo.txt", "3");
+			assertEquals("Should have entered ignored directory", 3,
+					resetHardAndCount(commit));
+			checkFile(file, "2");
+		}
+	}
+
+	@Test
+	public void testResetWithChangeInGitignore() throws Exception {
+		writeTrashFile(".gitignore", "src/ignored");
+		writeTrashFile("src/ignored/sub/foo.txt", "1");
+		try (Git git = new Git(db)) {
+			git.add().addFilepattern(".").call();
+			RevCommit initial = git.commit().setMessage("initial").call();
+			writeTrashFile("src/newignored/foo.txt", "2");
+			writeTrashFile("src/.gitignore", "newignored");
+			git.add().addFilepattern(".").call();
+			RevCommit commit = git.commit().setMessage("newignored").call();
+			assertEquals("Should not have entered src/newignored directory", 1,
+					resetHardAndCount(initial));
+			assertEquals("Should have entered src/newignored directory", 2,
+					resetHardAndCount(commit));
+			deleteTrashFile("src/.gitignore");
+			git.rm().addFilepattern("src/.gitignore").call();
+			RevCommit top = git.commit().setMessage("Unignore newignore")
+					.call();
+			assertEquals("Should have entered src/newignored directory", 2,
+					resetHardAndCount(initial));
+			assertEquals("Should have entered src/newignored directory", 2,
+					resetHardAndCount(commit));
+			assertEquals("Should not have entered src/newignored directory", 1,
+					resetHardAndCount(top));
+
+		}
+	}
+
+	private static class TestFileTreeIterator extends FileTreeIterator {
+
+		// For assertions only
+		private final int[] count;
+
+		public TestFileTreeIterator(Repository repo, int[] count) {
+			super(repo);
+			this.count = count;
+		}
+
+		protected TestFileTreeIterator(final WorkingTreeIterator p,
+				final File root, FS fs, FileModeStrategy fileModeStrategy,
+				int[] count) {
+			super(p, root, fs, fileModeStrategy);
+			this.count = count;
+		}
+
+		@Override
+		protected AbstractTreeIterator enterSubtree() {
+			count[0] += 1;
+			return new TestFileTreeIterator(this,
+					((FileEntry) current()).getFile(), fs, fileModeStrategy,
+					count);
+		}
+	}
+
+	private int resetHardAndCount(RevCommit commit) throws Exception {
+		int[] callCount = { 0 };
+		DirCache cache = db.lockDirCache();
+		FileTreeIterator workingTreeIterator = new TestFileTreeIterator(db,
+				callCount);
+		try {
+			DirCacheCheckout checkout = new DirCacheCheckout(db, null, cache,
+					commit.getTree().getId(), workingTreeIterator);
+			checkout.setFailOnConflict(false);
+			checkout.checkout();
+		} finally {
+			cache.unlock();
+		}
+		return callCount[0];
 	}
 
 	public void assertWorkDir(Map<String, String> i)
