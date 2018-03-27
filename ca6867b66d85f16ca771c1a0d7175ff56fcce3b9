@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "23aff23c_d25bb330",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 921,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2018-03-27T18:04:06Z",
+      "side": 1,
+      "message": "if the input is \"refs/heads\", shouldn\u0027t we want to getRefs(\"refs/heads/\") instead of getRefs(\"refs/\")?  Same thing for \"refs/tags\" and \"refs/changes\".\n\nWhat does the CGit client send for prefixes?  Can we make it send the / suffix when appropriate?",
+      "range": {
+        "startLine": 921,
+        "startChar": 4,
+        "endLine": 921,
+        "endChar": 47
+      },
+      "revId": "ca6867b66d85f16ca771c1a0d7175ff56fcce3b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
