@@ -22,6 +22,30 @@
       "revId": "ca6867b66d85f16ca771c1a0d7175ff56fcce3b9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2557d31_c5fb51a2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 921,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-03-27T18:07:11Z",
+      "side": 1,
+      "message": "It sends whatever the user provides, possibly with some DWIM-ing (e.g. \"ls-remote master\" would send a few prefixes - \"master\", \"refs/heads/master\", \"refs/tags/master\" and so on). I don\u0027t think we can automatically append any slashes, as that would change the meaning of what the user sent.",
+      "parentUuid": "23aff23c_d25bb330",
+      "range": {
+        "startLine": 921,
+        "startChar": 4,
+        "endLine": 921,
+        "endChar": 47
+      },
+      "revId": "ca6867b66d85f16ca771c1a0d7175ff56fcce3b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
