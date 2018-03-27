@@ -732,7 +732,9 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 
 	private void beginWalk() {
 		walk = new TreeWalk(db);
-		walk.addTree(new FileTreeIterator(db));
+		FileTreeIterator iter = new FileTreeIterator(db);
+		iter.setWalkIgnoredDirectories(true);
+		walk.addTree(iter);
 	}
 
 	private void endWalk() throws IOException {
