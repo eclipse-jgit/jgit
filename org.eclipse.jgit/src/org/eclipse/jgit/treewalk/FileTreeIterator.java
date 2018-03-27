@@ -52,6 +52,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
@@ -67,6 +68,7 @@ import org.eclipse.jgit.util.FS;
  * {@link org.eclipse.jgit.treewalk.TreeWalk}.
  */
 public class FileTreeIterator extends WorkingTreeIterator {
+
 	/**
 	 * the starting directory of this Iterator. All entries are located directly
 	 * in this directory.
@@ -207,7 +209,33 @@ public class FileTreeIterator extends WorkingTreeIterator {
 	@Override
 	public AbstractTreeIterator createSubtreeIterator(ObjectReader reader)
 			throws IncorrectObjectTypeException, IOException {
-		return new FileTreeIterator(this, ((FileEntry) current()).getFile(), fs, fileModeStrategy);
+		if (!walksIgnoredDirectories() && isEntryIgnored()) {
+			DirCacheIterator iterator = getDirCacheIterator();
+			if (iterator == null) {
+				return new EmptyTreeIterator(this);
+			}
+			// Only enter if we have an associated DirCacheIterator that is
+			// at the same entry (which indicates there is some already
+			// tracked file underneath this directory). Otherwise the
+			// directory is indeed ignored and can be skipped entirely.
+		}
+		return enterSubtree();
+	}
+
+
+	/**
+	 * Create a new iterator for the current entry's subtree.
+	 * <p>
+	 * The parent reference of the iterator must be <code>this</code>, otherwise
+	 * the caller would not be able to exit out of the subtree iterator
+	 * correctly and return to continue walking <code>this</code>.
+	 *
+	 * @return a new iterator that walks over the current subtree.
+	 * @since 5.0
+	 */
+	protected AbstractTreeIterator enterSubtree() {
+		return new FileTreeIterator(this, ((FileEntry) current()).getFile(), fs,
+				fileModeStrategy);
 	}
 
 	private Entry[] entries() {
