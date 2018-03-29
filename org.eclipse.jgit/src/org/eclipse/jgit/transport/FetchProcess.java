@@ -198,6 +198,9 @@ class FetchProcess {
 				.newBatchUpdate()
 				.setAllowNonFastForwards(true)
 				.setRefLogMessage("fetch", true); //$NON-NLS-1$
+		if (transport.isFetchAtomic().isPresent()) {
+			batch.setAtomic(transport.isFetchAtomic().get());
+		}
 		try (final RevWalk walk = new RevWalk(transport.local)) {
 			if (monitor instanceof BatchingProgressMonitor) {
 				((BatchingProgressMonitor) monitor).setDelayStart(

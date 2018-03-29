@@ -68,6 +68,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Vector;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -767,6 +768,9 @@ public abstract class Transport implements AutoCloseable {
 	 */
 	private TagOpt tagopt = TagOpt.NO_TAGS;
 
+	/** Should fetch be all-or-nothing atomic behavior? */
+	private Optional<Boolean> fetchAtomic = Optional.empty();
+
 	/** Should fetch request thin-pack if remote repository can produce it. */
 	private boolean fetchThin = DEFAULT_FETCH_THIN;
 
@@ -891,6 +895,26 @@ public abstract class Transport implements AutoCloseable {
 	 */
 	public void setTagOpt(final TagOpt option) {
 		tagopt = option != null ? option : TagOpt.AUTO_FOLLOW;
+	}
+
+	/**
+	 * If not explicitly set, use the atomic capability of underlying RefDatabase.
+	 *
+	 * @return true if fetch requires all-or-nothing atomic behavior.
+	 */
+	public Optional<Boolean> isFetchAtomic() {
+		return fetchAtomic;
+	}
+
+	/**
+	 * Request atomic fetch (all references succeed, or none do).
+	 *
+	 * @param atomic
+	 *            true when fetch should be an all-or-nothing operation.
+	 * @see PackTransport
+	 */
+	public void setFetchAtomic(final boolean atomic) {
+		this.fetchAtomic = Optional.of(atomic);
 	}
 
 	/**
