@@ -115,7 +115,8 @@ public class Hooks {
 					outputStream);
 			if (hook != null) {
 				if (hook.isNativeHookPresent()) {
-					throw new IllegalStateException(MessageFormat
+					(outputStream == null ? System.out : outputStream).println(
+							MessageFormat
 							.format(JGitText.get().lfsHookConflict, repo));
 				}
 				return hook;
