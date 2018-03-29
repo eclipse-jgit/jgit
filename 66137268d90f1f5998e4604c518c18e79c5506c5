@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ac634576_16177791",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 772,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-03-29T20:24:28Z",
+      "side": 1,
+      "message": "Can we avoid this tristate by initializing to local.supportsAtomicTransactions() at construction time?",
+      "revId": "66137268d90f1f5998e4604c518c18e79c5506c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94fcf1b5_3cf79683",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 904,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-03-29T20:24:28Z",
+      "side": 1,
+      "message": "nit: needs @since",
+      "revId": "66137268d90f1f5998e4604c518c18e79c5506c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41257239_d773c385",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 914,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-03-29T20:24:28Z",
+      "side": 1,
+      "message": "nit: needs @since",
+      "revId": "66137268d90f1f5998e4604c518c18e79c5506c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d97b0d17_10b50303",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 916,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-03-29T20:24:28Z",
+      "side": 1,
+      "message": "nit. unnecessary \u0027final\u0027",
+      "range": {
+        "startLine": 916,
+        "startChar": 28,
+        "endLine": 916,
+        "endChar": 33
+      },
+      "revId": "66137268d90f1f5998e4604c518c18e79c5506c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
