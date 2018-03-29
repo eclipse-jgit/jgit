@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "74ac86c9_7d188131",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/Hooks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-03-29T20:43:27Z",
+      "side": 1,
+      "message": "I feel like this would be more readable with an if-else rather than the ternary operator.",
+      "revId": "36b7b869f5c3a16b12a76b280fa18dfb0ff5e329",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
