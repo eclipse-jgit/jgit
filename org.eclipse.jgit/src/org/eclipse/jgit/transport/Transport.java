@@ -767,6 +767,9 @@ public abstract class Transport implements AutoCloseable {
 	 */
 	private TagOpt tagopt = TagOpt.NO_TAGS;
 
+	/** Should fetch be all-or-nothing atomic behavior? */
+	private boolean fetchAtomic;
+
 	/** Should fetch request thin-pack if remote repository can produce it. */
 	private boolean fetchThin = DEFAULT_FETCH_THIN;
 
@@ -826,6 +829,7 @@ public abstract class Transport implements AutoCloseable {
 		this.objectChecker = tc.newObjectChecker();
 		this.credentialsProvider = CredentialsProvider.getDefault();
 		prePush = Hooks.prePush(local, hookOutRedirect);
+		this.fetchAtomic = local.getRefDatabase().performsAtomicTransactions();
 	}
 
 	/**
@@ -891,6 +895,28 @@ public abstract class Transport implements AutoCloseable {
 	 */
 	public void setTagOpt(final TagOpt option) {
 		tagopt = option != null ? option : TagOpt.AUTO_FOLLOW;
+	}
+
+	/**
+	 * If not explicitly set, use the atomic capability of underlying RefDatabase.
+	 *
+	 * @return true if fetch requires all-or-nothing atomic behavior.
+	 * @since 4.11
+	 */
+	public boolean isFetchAtomic() {
+		return fetchAtomic;
+	}
+
+	/**
+	 * Request atomic fetch (all references succeed, or none do).
+	 *
+	 * @param atomic
+	 *            true when fetch should be an all-or-nothing operation.
+	 * @see PackTransport
+	 * @since 4.11
+	 */
+	public void setFetchAtomic(boolean atomic) {
+		this.fetchAtomic = atomic;
 	}
 
 	/**
