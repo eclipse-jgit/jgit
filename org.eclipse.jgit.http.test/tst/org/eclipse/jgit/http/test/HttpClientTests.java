@@ -44,6 +44,7 @@
 package org.eclipse.jgit.http.test;
 
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -414,5 +415,39 @@ public class HttpClientTests extends HttpTestCase {
 		}
 
 		assertThat(c.getResponseCode(), is(200));
+	}
+
+	@Test
+	public void testV2HttpFirstResponseUnadvertised() throws Exception {
+		remoteRepository.getRepository().getConfig().setInt(
+				"protocol", null, "version", 2);
+		remoteRepository.getRepository().getConfig().setBoolean(
+				"uploadpack", null, "advertisev2", false);
+
+		JDKHttpConnectionFactory f = new JDKHttpConnectionFactory();
+		String url = smartAuthNoneURI.toString() + "/info/refs?service=git-upload-pack";
+		HttpConnection c = f.create(new URL(url));
+		c.setRequestMethod("GET");
+		c.setRequestProperty("Git-Protocol", "version=2");
+		c.connect();
+		assertThat(c.getResponseCode(), is(200));
+
+		PacketLineIn pckIn = new PacketLineIn(c.getInputStream());
+		assertThat(pckIn.readString(), is("# service=git-upload-pack"));
+		assertThat(pckIn.readString(), is(""));
+
+		// Check that we get a legacy ref advertisement. The first ref
+		// advertised is HEAD with a list of capabilities including a
+		// "symref" capability indicating which ref it points to.
+		assertTrue(pckIn.readString().matches(
+			"[0-9a-f]{40} HEAD.*symref=HEAD:refs/heads/master.*"));
+	}
+
+	@Test
+	public void testV2HttpSubsequentResponseUnadvertised() throws Exception {
+		remoteRepository.getRepository().getConfig().setBoolean(
+				"uploadpack", null, "advertisev2", false);
+		// Make sure that everything still works
+		testV2HttpSubsequentResponse();
 	}
 }

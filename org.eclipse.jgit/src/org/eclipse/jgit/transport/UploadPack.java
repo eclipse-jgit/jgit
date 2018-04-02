@@ -1207,7 +1207,7 @@ public class UploadPack {
 			throw fail;
 		}
 
-		if (useProtocolV2()) {
+		if (useProtocolV2() && db.getConfig().getBoolean("uploadpack", null, "advertisev2", true)) {
 			// The equivalent in v2 is only the capabilities
 			// advertisement.
 			for (String s : v2CapabilityAdvertisement) {
