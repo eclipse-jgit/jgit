@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1987ba8e_038f8b15",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SvnRemoteConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2018-04-03T09:27:46Z",
+      "side": 1,
+      "message": "I would review these copyright lines. Only put yourself unless you have\na good reason",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 60
+      },
+      "revId": "923e4601f21a40911e50861c8343a42e361c75b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56dc9492_e6160087",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SvnRemoteConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2018-04-03T09:27:46Z",
+      "side": 1,
+      "message": "You just added this class and it is not used anywhere. Before this can be reviewed you would have to add the code which uses this class and\nsome tests.",
+      "range": {
+        "startLine": 64,
+        "startChar": 13,
+        "endLine": 64,
+        "endChar": 28
+      },
+      "revId": "923e4601f21a40911e50861c8343a42e361c75b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
