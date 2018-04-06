@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0e1fa4bb_8fc412c5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-04-06T22:58:44Z",
+      "side": 1,
+      "message": "Good idea - I\u0027ll do that.",
+      "parentUuid": "fb232e84_391982a1",
+      "revId": "0277dc788494702493cbaad76979f7593298e720",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "23b47935_d93db596",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
         "patchSetId": 5
@@ -39,6 +57,30 @@
       "revId": "0277dc788494702493cbaad76979f7593298e720",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f9cfe0b_ce605126",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-04-06T22:58:44Z",
+      "side": 1,
+      "message": "Unmodifiable list does make sense - a ref backend that stores its refs as a sorted Java list, for example, could then just return the sublist. I\u0027ve changed the implementation of getRefsByPrefix to use Collections.unmodifiableList, and removed the word \"modifiable\" from the documentation. (I don\u0027t think it\u0027s worth adding \"unmodifiable\" in the documentation, but let me know if it should be added.)",
+      "parentUuid": "23b47935_d93db596",
+      "range": {
+        "startLine": 361,
+        "startChar": 12,
+        "endLine": 361,
+        "endChar": 28
+      },
+      "revId": "0277dc788494702493cbaad76979f7593298e720",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
