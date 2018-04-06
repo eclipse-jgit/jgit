@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5fe5769e_78698cad",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RefTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-04-06T23:29:49Z",
+      "side": 1,
+      "message": "I have some faint memories of printing a java List producing a memory address instead of a list of values. Am I remembering correctly?",
+      "range": {
+        "startLine": 317,
+        "startChar": 17,
+        "endLine": 317,
+        "endChar": 25
+      },
+      "revId": "7da5eeb008d7adfa238db5fbc3160430e57128ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f6857be_2bca076b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-04-06T23:29:49Z",
+      "side": 1,
+      "message": "can avoid a copy now that the contract has the result being immutable",
+      "revId": "7da5eeb008d7adfa238db5fbc3160430e57128ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
