@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "554cf404_13aebd32",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Daemon.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-04-06T23:11:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2da7c536_06a7d7db",
+      "revId": "59e2042a77f7b4308caad3537175515dbbe1ab84",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7dc9eba5_aaaac1a2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/DaemonService.java",
         "patchSetId": 5
@@ -33,6 +51,24 @@
       "revId": "59e2042a77f7b4308caad3537175515dbbe1ab84",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f370ec6d_9f06337b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/DaemonService.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-04-06T23:11:36Z",
+      "side": 1,
+      "message": "Good catch. This is the one requested by the client. I\u0027ve renamed it to getProtocolV2Requested (and likewise the other methods and field) to better reflect its purpose.",
+      "parentUuid": "7dc9eba5_aaaac1a2",
+      "revId": "59e2042a77f7b4308caad3537175515dbbe1ab84",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
