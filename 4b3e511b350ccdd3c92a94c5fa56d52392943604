@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ce4d73b_02b3b694",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-04-06T22:47:07Z",
+      "side": 1,
+      "message": "Note to self so I don\u0027t forget: Git\u0027s protocol docs (Documentation/technical/protocol-v2.txt) say this requires support for\n\n shallow \u003coid\u003e\n deepen \u003cdepth\u003e\n deepen-relative\n deepen-since \u003cts\u003e\n deepen-not \u003crev\u003e\n\nSo this implementation is incomplete and we technically aren\u0027t supposed to advertise the capability.\n\nI think it\u0027s fine to defer the missing support for followup commits, though.",
+      "revId": "4b3e511b350ccdd3c92a94c5fa56d52392943604",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
