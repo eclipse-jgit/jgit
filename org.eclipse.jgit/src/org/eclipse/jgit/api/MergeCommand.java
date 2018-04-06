@@ -112,6 +112,8 @@ public class MergeCommand extends GitCommand<MergeResult> {
 
 	private String message;
 
+	private boolean insertChangeId;
+
 	private ProgressMonitor monitor = NullProgressMonitor.INSTANCE;
 
 	/**
@@ -392,6 +394,7 @@ public class MergeCommand extends GitCommand<MergeResult> {
 						try (Git git = new Git(getRepository())) {
 							newHeadId = git.commit()
 									.setReflogComment(refLogMessage.toString())
+									.setInsertChangeId(insertChangeId)
 									.call().getId();
 						}
 						mergeStatus = MergeStatus.MERGED;
@@ -615,6 +618,23 @@ public class MergeCommand extends GitCommand<MergeResult> {
 	 */
 	public MergeCommand setMessage(String message) {
 		this.message = message;
+		return this;
+	}
+
+	/**
+	 * If set to true a change id will be inserted into the commit message
+	 *
+	 * An existing change id is not replaced. An initial change id (I000...)
+	 * will be replaced by the change id.
+	 *
+	 * @param insertChangeId
+	 *            whether to insert a change id
+	 * @return {@code this}
+	 * @since 5.0
+	 */
+	public MergeCommand setInsertChangeId(boolean insertChangeId) {
+		checkCallable();
+		this.insertChangeId = insertChangeId;
 		return this;
 	}
 
