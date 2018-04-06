@@ -43,6 +43,8 @@
 
 package org.eclipse.jgit.lib;
 
+import static java.util.stream.Collectors.toList;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -343,9 +345,48 @@ public abstract class RefDatabase {
 	 *         of each key. The map can be an unsorted map.
 	 * @throws java.io.IOException
 	 *             the reference space cannot be accessed.
+	 * @deprecated use {@link #getRefsByPrefix} instead
 	 */
 	@NonNull
+	@Deprecated
 	public abstract Map<String, Ref> getRefs(String prefix) throws IOException;
+
+	/**
+	 * Returns refs whose names start with a given prefix.
+	 * <p>
+	 * The default implementation uses {@link #getRefs}. Implementors of
+	 * {@link RefDatabase} should override this method directly if a better
+	 * implementation is possible.
+	 *
+	 * @param prefix string that names of refs should start with; may be
+	 *             empty (to return all refs).
+	 * @return immutable list of refs whose names start with {@code prefix}.
+	 * @throws java.io.IOException
+	 *             the reference space cannot be accessed.
+	 * @since 5.0
+	 */
+	@NonNull
+	public List<Ref> getRefsByPrefix(String prefix) throws IOException {
+		Map<String, Ref> coarseRefs;
+		int lastSlash = prefix.lastIndexOf('/');
+		if (lastSlash == -1) {
+			coarseRefs = getRefs(ALL);
+		} else {
+			coarseRefs = getRefs(prefix.substring(0, lastSlash + 1));
+		}
+
+		List<Ref> result;
+		if (lastSlash + 1 == prefix.length()) {
+			result = coarseRefs.values().stream().collect(toList());
+		} else {
+			String p = prefix.substring(lastSlash + 1);
+			result = coarseRefs.entrySet().stream()
+					.filter(e -> e.getKey().startsWith(p))
+					.map(e -> e.getValue())
+					.collect(toList());
+		}
+		return Collections.unmodifiableList(result);
+	}
 
 	/**
 	 * Get the additional reference-like entities from the repository.
