@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "88c09b83_38773692",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-04-06T22:42:40Z",
+      "side": 1,
+      "message": "nit: jgit style is to leave out the \"\u003d false\" since it\u0027s the default.",
+      "revId": "ee487e354f7ac986f52e8881083ea091fbca95ed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8b91ee4_c73c02b7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 878,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-04-06T22:42:40Z",
+      "side": 1,
+      "message": "Not your fault, but this feels messy.\n\nMaybe worth a TODO comment to make the bidi and unidirectional cases more similar?",
+      "revId": "ee487e354f7ac986f52e8881083ea091fbca95ed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
