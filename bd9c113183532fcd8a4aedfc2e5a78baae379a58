@@ -16,6 +16,24 @@
       "revId": "bd9c113183532fcd8a4aedfc2e5a78baae379a58",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "943743c2_9258b115",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1153,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-04-06T23:22:11Z",
+      "side": 1,
+      "message": "Yes, it does. I\u0027ve updated the test to show that this is true, including the fact that the symref is advertised (as a capability).",
+      "parentUuid": "2077db5d_fda22c0d",
+      "revId": "bd9c113183532fcd8a4aedfc2e5a78baae379a58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
