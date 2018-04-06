@@ -16,6 +16,23 @@
       "revId": "59e2042a77f7b4308caad3537175515dbbe1ab84",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7dc9eba5_aaaac1a2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/DaemonService.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-04-06T22:31:41Z",
+      "side": 1,
+      "message": "nit: would be useful to explain how this interacts with the protocol.version configuration. Does this represent the protocol version requested by the client or by the git configuration?",
+      "revId": "59e2042a77f7b4308caad3537175515dbbe1ab84",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
