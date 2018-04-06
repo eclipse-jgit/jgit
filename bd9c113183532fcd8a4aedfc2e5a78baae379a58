@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2077db5d_fda22c0d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1153,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-04-06T22:34:22Z",
+      "side": 1,
+      "message": "When advertisev2 is false, does the RefAdvertiser know not to use protocol v2?\n\nI ask because I\u0027m wondering whether it\u0027s going to forget to advertise the HEAD symref in the ref advertisement.",
+      "revId": "bd9c113183532fcd8a4aedfc2e5a78baae379a58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
