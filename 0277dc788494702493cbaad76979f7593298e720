@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fb232e84_391982a1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-04-06T22:26:15Z",
+      "side": 1,
+      "message": "Can this part of the change (introducing getRefsByPrefix to replace getRefs) go in a separate commit? I\u0027d like to merge it separately, since I think it\u0027s a good API change in its own right.",
+      "revId": "0277dc788494702493cbaad76979f7593298e720",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23b47935_d93db596",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-04-06T22:26:15Z",
+      "side": 1,
+      "message": "I wonder if it would make sense to make this return an unmodifiable list. What do you think?",
+      "range": {
+        "startLine": 361,
+        "startChar": 12,
+        "endLine": 361,
+        "endChar": 28
+      },
+      "revId": "0277dc788494702493cbaad76979f7593298e720",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
