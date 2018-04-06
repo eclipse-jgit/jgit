@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2da7c536_06a7d7db",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Daemon.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-04-06T22:27:40Z",
+      "side": 1,
+      "message": "This should use exact comparison instead of \u003e\u003d. The git-config(1) manpage explains:\n\n Experimental. If set, clients will attempt to communicate with a server using the specified protocol version",
+      "revId": "59e2042a77f7b4308caad3537175515dbbe1ab84",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
