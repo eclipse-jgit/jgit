@@ -180,6 +180,10 @@ public class LfsPrePushHook extends PrePushHook {
 			if (oid == null) {
 				oid = r.getObjectId();
 			}
+			if (oid == null) {
+				// ignore (e.g. symbolic, ...)
+				continue;
+			}
 			RevObject o = walk.parseAny(oid);
 			if (o.getType() == Constants.OBJ_COMMIT
 					|| o.getType() == Constants.OBJ_TAG) {
