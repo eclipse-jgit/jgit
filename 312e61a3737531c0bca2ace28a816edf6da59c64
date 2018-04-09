@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7aecf25b_1c69dd33",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-09T07:01:21Z",
+      "side": 1,
+      "message": "why not SymbolicRef.getTarget().getPeeledObjectId() if it\u0027s a symbolic ref ?",
+      "revId": "312e61a3737531c0bca2ace28a816edf6da59c64",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
