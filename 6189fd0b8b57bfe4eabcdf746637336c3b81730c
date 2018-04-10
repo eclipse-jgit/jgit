@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bee1929c_92744911",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-10T21:53:30Z",
+      "side": 1,
+      "message": "do you mean file handle ?",
+      "range": {
+        "startLine": 9,
+        "startChar": 38,
+        "endLine": 9,
+        "endChar": 42
+      },
+      "revId": "6189fd0b8b57bfe4eabcdf746637336c3b81730c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "15a0aaa9_f9c9d74b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-10T21:53:30Z",
+      "side": 1,
+      "message": "how is NFS involved if you use a local filesystem ?",
+      "range": {
+        "startLine": 9,
+        "startChar": 4,
+        "endLine": 9,
+        "endChar": 21
+      },
+      "revId": "6189fd0b8b57bfe4eabcdf746637336c3b81730c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6e6705dc_cf079a5f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-10T21:53:30Z",
+      "side": 1,
+      "message": "NFS client ?",
+      "range": {
+        "startLine": 10,
+        "startChar": 20,
+        "endLine": 10,
+        "endChar": 26
+      },
+      "revId": "6189fd0b8b57bfe4eabcdf746637336c3b81730c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46f19953_a62912d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-10T21:53:30Z",
+      "side": 1,
+      "message": "I am confused what you mean by file / file handle in this paragraph, it\u0027s unclear to me where you mean NFS client side file handle and where you mean the actual file on the storage being accessed via NFS",
+      "range": {
+        "startLine": 12,
+        "startChar": 17,
+        "endLine": 12,
+        "endChar": 37
+      },
+      "revId": "6189fd0b8b57bfe4eabcdf746637336c3b81730c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "00f41855_4b7ee1fd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-10T21:53:30Z",
+      "side": 1,
+      "message": "I guess the actual config file isn\u0027t deleted but stale file handles in NFS client might get gc\u0027ed and lead to stale file handle exceptions ?",
+      "range": {
+        "startLine": 14,
+        "startChar": 37,
+        "endLine": 14,
+        "endChar": 62
+      },
+      "revId": "6189fd0b8b57bfe4eabcdf746637336c3b81730c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8db9a9d_0d7ab150",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-10T21:53:30Z",
+      "side": 1,
+      "message": "do you mean file handle used by NFS client ?",
+      "range": {
+        "startLine": 22,
+        "startChar": 42,
+        "endLine": 22,
+        "endChar": 46
+      },
+      "revId": "6189fd0b8b57bfe4eabcdf746637336c3b81730c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b5e48812_0ced1d64",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-10T21:53:30Z",
+      "side": 1,
+      "message": "file handle",
+      "range": {
+        "startLine": 126,
+        "startChar": 27,
+        "endLine": 126,
+        "endChar": 33
+      },
+      "revId": "6189fd0b8b57bfe4eabcdf746637336c3b81730c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abd77940_ca093630",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileBasedConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-10T21:53:30Z",
+      "side": 1,
+      "message": "pass e2 as second parameter and use constructor  IOException(String, Throwable) in line above ?",
+      "range": {
+        "startLine": 189,
+        "startChar": 4,
+        "endLine": 189,
+        "endChar": 20
+      },
+      "revId": "6189fd0b8b57bfe4eabcdf746637336c3b81730c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62fb7cd7_4ab600c5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileBasedConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-10T21:53:30Z",
+      "side": 1,
+      "message": "break ?",
+      "range": {
+        "startLine": 195,
+        "startChar": 3,
+        "endLine": 195,
+        "endChar": 9
+      },
+      "revId": "6189fd0b8b57bfe4eabcdf746637336c3b81730c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
