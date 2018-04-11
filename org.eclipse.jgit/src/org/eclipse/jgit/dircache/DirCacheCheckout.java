@@ -44,9 +44,13 @@ package org.eclipse.jgit.dircache;
 
 import static org.eclipse.jgit.treewalk.TreeWalk.OperationType.CHECKOUT_OP;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.nio.file.StandardCopyOption;
 import java.text.MessageFormat;
@@ -66,6 +70,7 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.IndexWriteException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.events.WorkingTreeModifiedEvent;
+import org.eclipse.jgit.ignore.FastIgnoreRule;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
@@ -163,6 +168,12 @@ public class DirCacheCheckout {
 
 	private ProgressMonitor monitor = NullProgressMonitor.INSTANCE;
 
+	private final ArrayList<FastIgnoreRule> sparseRules;
+
+	private final boolean isSparseCheckout;
+
+	private boolean sparseCheckoutFileExists;
+
 	/**
 	 * Get list of updated paths and smudgeFilterCommands
 	 *
@@ -231,6 +242,12 @@ public class DirCacheCheckout {
 		this.mergeCommitTree = mergeCommitTree;
 		this.workingTree = workingTree;
 		this.emptyDirCache = (dc == null) || (dc.getEntryCount() == 0);
+		this.sparseRules = new ArrayList<>();
+		this.isSparseCheckout = repo.getConfig().getBoolean(
+				ConfigConstants.CONFIG_CORE_SECTION,
+				ConfigConstants.CONFIG_KEY_SPARSECHECKOUT, false);
+		this.sparseCheckoutFileExists = FS.DETECTED
+				.exists(repo.getSparseCheckoutFile());
 	}
 
 	/**
@@ -387,6 +404,7 @@ public class DirCacheCheckout {
 	void processEntry(CanonicalTreeParser m, DirCacheBuildIterator i,
 			WorkingTreeIterator f) throws IOException {
 		if (m != null) {
+			DirCacheEntry dce = i != null ? i.getDirCacheEntry() : null;
 			checkValidPath(m);
 			// There is an entry in the merge commit. Means: we want to update
 			// what's currently in the index and working-tree to that one
@@ -401,16 +419,17 @@ public class DirCacheCheckout {
 						// failOnConflict is false. Putting something to conflicts
 						// would mean we delete it. Instead we want the mergeCommit
 						// content to be checked out.
-						update(m.getEntryPathString(), m.getEntryObjectId(),
+						update(dce, m.getEntryPathString(),
+								m.getEntryObjectId(),
 								m.getEntryFileMode());
 					}
 				} else
-					update(m.getEntryPathString(), m.getEntryObjectId(),
+					update(dce, m.getEntryPathString(), m.getEntryObjectId(),
 						m.getEntryFileMode());
 			} else if (f == null || !m.idEqual(i)) {
 				// The working tree file is missing or the merge content differs
 				// from index content
-				update(m.getEntryPathString(), m.getEntryObjectId(),
+				update(dce, m.getEntryPathString(), m.getEntryObjectId(),
 						m.getEntryFileMode());
 			} else if (i.getDirCacheEntry() != null) {
 				// The index contains a file (and not a folder)
@@ -419,7 +438,7 @@ public class DirCacheCheckout {
 						|| i.getDirCacheEntry().getStage() != 0)
 					// The working tree file is dirty or the index contains a
 					// conflict
-					update(m.getEntryPathString(), m.getEntryObjectId(),
+					update(dce, m.getEntryPathString(), m.getEntryObjectId(),
 							m.getEntryFileMode());
 				else {
 					// update the timestamp of the index with the one from the
@@ -504,6 +523,7 @@ public class DirCacheCheckout {
 	private boolean doCheckout() throws CorruptObjectException, IOException,
 			MissingObjectException, IncorrectObjectTypeException,
 			CheckoutConflictException, IndexWriteException, CanceledException {
+		loadSparseCheckoutRules();
 		toBeDeleted.clear();
 		try (ObjectReader objectReader = repo.getObjectDatabase().newReader()) {
 			if (headCommitTree != null)
@@ -789,7 +809,7 @@ public class DirCacheCheckout {
 				if (f != null && isModifiedSubtree_IndexWorkingtree(name)) {
 					conflict(name, dce, h, m); // 1
 				} else {
-					update(name, mId, mMode); // 2
+					update(dce, name, mId, mMode); // 2
 				}
 
 				break;
@@ -815,7 +835,7 @@ public class DirCacheCheckout {
 				// are found later
 				break;
 			case 0xD0F: // 19
-				update(name, mId, mMode);
+				update(dce, name, mId, mMode);
 				break;
 			case 0xDF0: // conflict without a rule
 			case 0x0FD: // 15
@@ -826,7 +846,7 @@ public class DirCacheCheckout {
 					if (isModifiedSubtree_IndexWorkingtree(name))
 						conflict(name, dce, h, m); // 8
 					else
-						update(name, mId, mMode); // 7
+						update(dce, name, mId, mMode); // 7
 				} else
 					conflict(name, dce, h, m); // 9
 				break;
@@ -846,7 +866,7 @@ public class DirCacheCheckout {
 				break;
 			case 0x0DF: // 16 17
 				if (!isModifiedSubtree_IndexWorkingtree(name))
-					update(name, mId, mMode);
+					update(dce, name, mId, mMode);
 				else
 					conflict(name, dce, h, m);
 				break;
@@ -917,7 +937,7 @@ public class DirCacheCheckout {
 				// At least one of Head, Index, Merge is not empty
 				// -> only Merge contains something for this path. Use it!
 				// Potentially update the file
-				update(name, mId, mMode); // 1
+				update(dce, name, mId, mMode); // 1
 			else if (m == null)
 				// Nothing in Merge
 				// Something in Head
@@ -935,7 +955,7 @@ public class DirCacheCheckout {
 				// find in Merge. Potentially updates the file.
 				if (equalIdAndMode(hId, hMode, mId, mMode)) {
 					if (emptyDirCache)
-						update(name, mId, mMode);
+						update(dce, name, mId, mMode);
 					else
 						keep(dce);
 				} else
@@ -999,8 +1019,15 @@ public class DirCacheCheckout {
 						// Merge contains nothing or the same as Index
 						// Nothing in Head
 						// Something in Index
-						// -> Merge contains nothing new. Keep the index.
+						// -> Merge contains nothing new.
+					if (m == null) {
+						//remove the file
+						remove(name);
+					} else {
+						//Keep the index.
 						keep(dce);
+					}
+
 				} else
 					// Merge contains something and it is not the same as Index
 					// Nothing in Head
@@ -1115,7 +1142,7 @@ public class DirCacheCheckout {
 
 						// TODO check that we don't overwrite some unsaved
 						// file content
-						update(name, mId, mMode);
+						update(dce, name, mId, mMode);
 					} else if (dce != null
 							&& (f != null && f.isModified(dce, true,
 									this.walk.getObjectReader()))) {
@@ -1134,7 +1161,7 @@ public class DirCacheCheckout {
 						// -> Standard case when switching between branches:
 						// Nothing new in index but something different in
 						// Merge. Update index and file
-						update(name, mId, mMode);
+						update(dce, name, mId, mMode);
 					}
 				} else {
 					// Head differs from index or merge is same as index
@@ -1147,9 +1174,14 @@ public class DirCacheCheckout {
 					// Can be formulated as: Either all three states are
 					// equal or Merge is equal to Head or Index and differs
 					// to the other one.
-					// -> In all three cases we don't touch index and file.
-
-					keep(dce);
+					// -> In all three cases we don't touch index.
+					if (f != null) {
+						// keep existing file
+						keep(dce);
+					} else {
+						// update file in the working tree
+						update(dce, name, mId, mMode);
+					}
 				}
 			}
 		}
@@ -1198,26 +1230,70 @@ public class DirCacheCheckout {
 		}
 	}
 
-	private void keep(DirCacheEntry e) {
-		if (e != null && !FileMode.TREE.equals(e.getFileMode()))
-			builder.add(e);
+	private void keep(DirCacheEntry entry) throws IOException {
+		if (entry != null && !FileMode.TREE.equals(entry.getFileMode())) {
+			if (entry.isSkipWorkTree()) {
+
+				boolean isEntryModified = entry.getLastModified() != 0
+						&& workingTree.findFile(entry.getPathString())
+						&& workingTree.isModified(entry, true,
+								this.walk.getObjectReader());
+
+				if (skipSparse(entry.getPathString())) {
+					if (!isEntryModified) {
+						entry.setSkipWorkTree(true);
+						removed.add(entry.getPathString());
+					}
+				} else {
+					if (!isEntryModified) {
+						entry.setSkipWorkTree(false);
+
+						if (entry.isMerged()) {
+							updated.put(entry.getPathString(),
+									new CheckoutMetadata(
+											walk.getEolStreamType(CHECKOUT_OP),
+											walk.getFilterCommand(
+													Constants.ATTR_FILTER_TYPE_SMUDGE)));
+						} else {
+							removed.add(entry.getPathString());
+						}
+					}
+				}
+			} else {
+				if (skipSparse(entry.getPathString())) {
+					entry.setSkipWorkTree(true);
+					removed.add(entry.getPathString());
+				}
+			}
+			builder.add(entry);
+		}
 	}
 
 	private void remove(String path) {
 		removed.add(path);
 	}
 
-	private void update(String path, ObjectId mId, FileMode mode)
+	private void update(DirCacheEntry entry, String path, ObjectId mId,
+			FileMode mode)
 			throws IOException {
 		if (!FileMode.TREE.equals(mode)) {
-			updated.put(path, new CheckoutMetadata(
-					walk.getEolStreamType(CHECKOUT_OP),
-					walk.getFilterCommand(Constants.ATTR_FILTER_TYPE_SMUDGE)));
+			DirCacheEntry entryForUpdate = new DirCacheEntry(path,
+					DirCacheEntry.STAGE_0);
+			entryForUpdate.setFileMode(mode);
+			entryForUpdate.setObjectId(mId);
 
-			DirCacheEntry entry = new DirCacheEntry(path, DirCacheEntry.STAGE_0);
-			entry.setObjectId(mId);
-			entry.setFileMode(mode);
-			builder.add(entry);
+			if ((entry == null || !entry.isSkipWorkTree())
+					&& skipSparse(path)) {
+				entryForUpdate.setSkipWorkTree(true);
+				removed.add(path);
+			} else {
+				updated.put(path,
+						new CheckoutMetadata(walk.getEolStreamType(CHECKOUT_OP),
+								walk.getFilterCommand(
+										Constants.ATTR_FILTER_TYPE_SMUDGE)));
+			}
+
+			builder.add(entryForUpdate);
 		}
 	}
 
@@ -1588,6 +1664,75 @@ public class DirCacheCheckout {
 			InvalidPathException i = new InvalidPathException(path);
 			i.initCause(err);
 			throw i;
+		}
+	}
+
+	/**
+	 * Check the sparse-checkout rules to see if the path should be checked out.
+	 *
+	 * @param path
+	 *            The Index entry's path to test the sparse checkout rules
+	 *            against.
+	 * @return indicates if path should be checked out
+	 * @since 4.10
+	 */
+	private boolean skipSparse(String path) {
+		if (sparseRules.isEmpty()) {
+			return false;
+		}
+
+		boolean skip = sparseRules.isEmpty() ? false : true;
+		// final boolean isDirectory =
+		// FileMode.TREE.equals(entry.getFileMode());
+
+		for (int i = sparseRules.size() - 1; i >= 0; i--) {
+			// rules are processed in reverse order as the later rules take
+			// precedence.
+			final FastIgnoreRule sparseRule = sparseRules.get(i);
+
+			if (sparseRule.isMatch(path, false)) {
+				skip = !sparseRule.getResult();
+				break;
+			}
+		}
+
+		return skip;
+	}
+
+	/**
+	 * Loads the sparse-checkout files rules into
+	 * {@link DirCacheCheckout#sparseRules} if the repository is configured with
+	 * the 'core.sparsecheckout' set to 'true'.
+	 *
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
+	private void loadSparseCheckoutRules()
+			throws FileNotFoundException, IOException {
+		sparseRules.clear();
+		final File sparseCheckoutFile = repo.getSparseCheckoutFile();
+		sparseCheckoutFileExists = FS.DETECTED.exists(sparseCheckoutFile);
+
+		if (!isSparseCheckout || !sparseCheckoutFileExists) {
+			return;
+		}
+
+		if (isSparseCheckout && FS.DETECTED.exists(sparseCheckoutFile)) {
+			try (FileInputStream in = new FileInputStream(sparseCheckoutFile);
+					BufferedReader br = new BufferedReader(
+							new InputStreamReader(in, Constants.CHARSET))) {
+				String line;
+
+				while ((line = br.readLine()) != null) {
+					if (!line.isEmpty() && !line.startsWith("#")) { //$NON-NLS-1$
+						FastIgnoreRule rule = new FastIgnoreRule(line.trim());
+
+						if (!rule.isEmpty()) {
+							sparseRules.add(rule);
+						}
+					}
+				}
+			}
 		}
 	}
 }
