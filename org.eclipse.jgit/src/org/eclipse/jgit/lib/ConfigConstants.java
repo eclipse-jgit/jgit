@@ -432,4 +432,12 @@ public class ConfigConstants {
 	 * @since 4.11
 	 */
 	public static final String CONFIG_SECTION_LFS = "lfs";
+
+	/**
+	 * The "sparseCheckout" key
+	 *
+	 * @since 5.0
+	 */
+	public static final String CONFIG_KEY_SPARSECHECKOUT = "sparseCheckout";
+
 }

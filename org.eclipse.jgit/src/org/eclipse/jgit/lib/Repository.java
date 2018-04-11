@@ -157,6 +157,12 @@ public abstract class Repository implements AutoCloseable {
 	private final File indexFile;
 
 	/**
+	 * If not bare, the sparse-checkout file indicates which resources can be
+	 * ignored on checkout.
+	 */
+	private final File sparseCheckoutFile;
+
+	/**
 	 * Initialize a new repository instance.
 	 *
 	 * @param options
@@ -167,6 +173,7 @@ public abstract class Repository implements AutoCloseable {
 		fs = options.getFS();
 		workTree = options.getWorkTree();
 		indexFile = options.getIndexFile();
+		sparseCheckoutFile = options.getSparseCheckoutFile();
 	}
 
 	/**
@@ -1185,6 +1192,22 @@ public abstract class Repository implements AutoCloseable {
 		if (isBare())
 			throw new NoWorkTreeException();
 		return indexFile;
+	}
+
+	/**
+	 * @return the sparse-checkout file location or {@code null} if no
+	 *         sparse-checkout exists.
+	 * @throws NoWorkTreeException
+	 *             if this is bare, which implies it has no working directory.
+	 *             See {@link #isBare()}.
+	 * @since 5.0
+	 */
+	@NonNull
+	public File getSparseCheckoutFile() throws NoWorkTreeException {
+		if (isBare()) {
+			throw new NoWorkTreeException();
+		}
+		return sparseCheckoutFile;
 	}
 
 	/**
