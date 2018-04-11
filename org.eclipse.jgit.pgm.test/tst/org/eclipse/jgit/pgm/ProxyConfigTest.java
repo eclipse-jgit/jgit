@@ -47,6 +47,7 @@ import java.net.MalformedURLException;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.jgit.lib.Constants;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -203,7 +204,7 @@ public class ProxyConfigTest {
 			while ((length = inputStream.read(buffer)) != -1) {
 				result.write(buffer, 0, length);
 			}
-			return result.toString("UTF-8");
+			return result.toString(Constants.CHARACTER_ENCODING);
 		}
 	}
 }

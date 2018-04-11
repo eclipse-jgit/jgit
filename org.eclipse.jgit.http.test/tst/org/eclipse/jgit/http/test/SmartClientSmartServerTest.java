@@ -266,7 +266,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 					throws IOException, ServletException {
 				final HttpServletResponse r = (HttpServletResponse) response;
 				r.setContentType("text/plain");
-				r.setCharacterEncoding("UTF-8");
+				r.setCharacterEncoding(Constants.CHARACTER_ENCODING);
 				try (PrintWriter w = r.getWriter()) {
 					w.print("OK");
 				}
