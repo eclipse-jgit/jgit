@@ -45,6 +45,8 @@
 
 package org.eclipse.jgit.dircache;
 
+import static java.nio.charset.StandardCharsets.ISO_8859_1;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.EOFException;
@@ -53,7 +55,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.security.DigestOutputStream;
 import java.security.MessageDigest;
 import java.text.MessageFormat;
@@ -580,9 +581,8 @@ public class DirCache {
 		}
 	}
 
-	private static String formatExtensionName(final byte[] hdr)
-			throws UnsupportedEncodingException {
-		return "'" + new String(hdr, 0, 4, "ISO-8859-1") + "'"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	private static String formatExtensionName(final byte[] hdr) {
+		return "'" + new String(hdr, 0, 4, ISO_8859_1) + "'"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	private static boolean is_DIRC(final byte[] hdr) {
