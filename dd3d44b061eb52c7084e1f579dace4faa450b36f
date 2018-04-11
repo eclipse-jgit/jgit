@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "44fd6fb4_550d0eee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2018-04-11T10:04:21Z",
+      "side": 1,
+      "message": "I think that setNameForced is too generic to be understood easily. I suggest to call it setForceRefUpdate",
+      "parentUuid": "38503905_de1ce0b1",
+      "revId": "dd3d44b061eb52c7084e1f579dace4faa450b36f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c76a5e6b_c0847ee5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2018-04-10T12:02:18Z",
       "side": 1,
       "message": "this should be named setForced() since this is the equivalent to native git\u0027s -f option. In order to notify users expecting the old behavior which is inconsistent with semantics of -f in native git I would name this method setForced() and not setForce() so that users of the old setForce() get a compile error when updating to 5.0 so they see the behavior change and can adapt their own code accordingly",
+      "revId": "dd3d44b061eb52c7084e1f579dace4faa450b36f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9345fc16_a2c5458f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 686,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2018-04-11T10:04:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c76a5e6b_c0847ee5",
       "revId": "dd3d44b061eb52c7084e1f579dace4faa450b36f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
