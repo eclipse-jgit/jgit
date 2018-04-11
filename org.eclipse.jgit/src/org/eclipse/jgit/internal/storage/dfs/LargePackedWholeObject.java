@@ -104,32 +104,26 @@ final class LargePackedWholeObject extends ObjectLoader {
 	/** {@inheritDoc} */
 	@Override
 	public ObjectStream openStream() throws MissingObjectException, IOException {
-		DfsReader ctx = db.newReader();
 		InputStream in;
-		try {
-			in = new PackInputStream(pack, objectOffset + headerLength, ctx);
-		} catch (IOException packGone) {
-			// If the pack file cannot be pinned into the cursor, it
-			// probably was repacked recently. Go find the object
-			// again and open the stream from that location instead.
-			//
+		try (DfsReader ctx = db.newReader()) {
 			try {
+				in = new PackInputStream(pack, objectOffset + headerLength, ctx);
+			} catch (IOException packGone) {
+				// If the pack file cannot be pinned into the cursor, it
+				// probably was repacked recently. Go find the object
+				// again and open the stream from that location instead.
+				//
 				ObjectId obj = pack.getReverseIdx(ctx).findObject(objectOffset);
 				return ctx.open(obj, type).openStream();
-			} finally {
-				ctx.close();
 			}
-		} finally {
-			ctx.close();
-		}
 
-		// Align buffer to inflater size, at a larger than default block.
-		// This reduces the number of context switches from the
-		// caller down into the pack stream inflation.
-		int bufsz = 8192;
-		in = new BufferedInputStream(
-				new InflaterInputStream(in, ctx.inflater(), bufsz),
-				bufsz);
-		return new ObjectStream.Filter(type, size, in);
+			// Align buffer to inflater size, at a larger than default block.
+			// This reduces the number of context switches from the
+			// caller down into the pack stream inflation.
+			int bufsz = 8192;
+			in = new BufferedInputStream(
+					new InflaterInputStream(in, ctx.inflater(), bufsz), bufsz);
+			return new ObjectStream.Filter(type, size, in);
+		}
 	}
 }
