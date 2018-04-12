@@ -16,6 +16,24 @@
       "revId": "73ca8e3836dd9af9a17984cd6b64fadafbf6e843",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c54af6c_61b6302c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 900,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-04-12T18:32:29Z",
+      "side": 1,
+      "message": "Thanks - added this functionality and a test. I assume you mean protocol-v2.txt.\n\nI read that document (protocol-v2.txt) and it does not prescribe anything that the server should do if the client sends an empty-request, so I decided to just tolerate and ignore it. (If the client then drops the connection, everything should still work as expected.)",
+      "parentUuid": "4bf5bc69_8a0c9c95",
+      "revId": "73ca8e3836dd9af9a17984cd6b64fadafbf6e843",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
