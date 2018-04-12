@@ -64,7 +64,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -690,7 +690,7 @@ public abstract class Transport implements AutoCloseable {
 			final Repository db, final Collection<RefSpec> specs)
 			throws IOException {
 		final Map<String, Ref> localRefs = db.getRefDatabase().getRefs(ALL);
-		final Collection<RefSpec> procRefs = new HashSet<>();
+		final Collection<RefSpec> procRefs = new LinkedHashSet<>();
 
 		for (final RefSpec spec : specs) {
 			if (spec.isWildcard()) {

@@ -48,15 +48,20 @@ import static org.eclipse.jgit.transport.BasePackPushConnection.CAPABILITY_SIDE_
 import static org.eclipse.jgit.transport.RemoteRefUpdate.Status.REJECTED_OTHER_REASON;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+import static java.util.stream.Collectors.toList;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
@@ -76,6 +81,7 @@ public class PushConnectionTest {
 	private Object ctx = new Object();
 	private InMemoryRepository server;
 	private InMemoryRepository client;
+	private List<ReceiveCommand> commands;
 	private ObjectId obj1;
 	private ObjectId obj2;
 	private ObjectId obj3;
@@ -85,6 +91,7 @@ public class PushConnectionTest {
 	public void setUp() throws Exception {
 		server = newRepo("server");
 		client = newRepo("client");
+		commands = new ArrayList<>();
 		testProtocol = new TestProtocol<>(
 				null,
 				new ReceivePackFactory<Object>() {
@@ -92,7 +99,9 @@ public class PushConnectionTest {
 					public ReceivePack create(Object req, Repository db)
 							throws ServiceNotEnabledException,
 							ServiceNotAuthorizedException {
-						return new ReceivePack(db);
+						ReceivePack rp = new ReceivePack(db);
+						rp.setPreReceiveHook((r, cmds) -> commands.addAll(cmds));
+						return rp;
 					}
 				});
 		uri = testProtocol.register(ctx, server);
@@ -195,5 +204,42 @@ public class PushConnectionTest {
 				assertEquals("remote: Too many commands", msg);
 			}
 		}
+	}
+
+	@Test
+	public void commandOrder() throws Exception {
+		TestRepository<?> tr = new TestRepository<>(client);
+		List<RemoteRefUpdate> updates = new ArrayList<>();
+		// Arbitrary non-sorted order.
+		for (int i = 9; i >= 0; i--) {
+			String name = "refs/heads/b" + i;
+			tr.branch(name).commit().create();
+			RemoteRefUpdate rru = new RemoteRefUpdate(client, name, name, false, null,
+					ObjectId.zeroId());
+			updates.add(rru);
+		}
+
+		PushResult result;
+		try (Transport tn = testProtocol.open(uri, client, "server")) {
+			result = tn.push(NullProgressMonitor.INSTANCE, updates);
+		}
+
+		for (RemoteRefUpdate remoteUpdate : result.getRemoteUpdates()) {
+			assertEquals(
+					"update should suceed on " + remoteUpdate.getRemoteName(),
+					RemoteRefUpdate.Status.OK, remoteUpdate.getStatus());
+		}
+
+		List<String> expected = remoteRefNames(updates);
+		assertEquals(
+				"ref names processed by ReceivePack should match input ref names in order",
+				expected, commands.stream().map(c -> c.getRefName()).collect(toList()));
+		assertEquals(
+				"remote ref names should match input ref names in order",
+				expected, remoteRefNames(result.getRemoteUpdates()));
+	}
+
+	private static List<String> remoteRefNames(Collection<RemoteRefUpdate> updates) {
+		return updates.stream().map(u -> u.getRemoteName()).collect(toList());
 	}
 }
