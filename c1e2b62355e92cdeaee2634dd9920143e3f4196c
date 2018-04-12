@@ -16,6 +16,24 @@
       "revId": "c1e2b62355e92cdeaee2634dd9920143e3f4196c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "751a4756_a2160d1a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2018-04-12T08:16:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84d3bc33_cbd2488d",
+      "revId": "c1e2b62355e92cdeaee2634dd9920143e3f4196c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
