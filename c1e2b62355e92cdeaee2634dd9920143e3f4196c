@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84d3bc33_cbd2488d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-12T06:04:27Z",
+      "side": 1,
+      "message": "I think we should mention also here that this was renamed from setForce to setForced to notify users of the old implementation that we change semantics to make it consistent with native git",
+      "revId": "c1e2b62355e92cdeaee2634dd9920143e3f4196c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
