@@ -324,6 +324,8 @@ public class RepositoryResolveTest extends SampleDataRepositoryTestCase {
 		assertFalse(Repository.isValidRefName("x/a\\b"));
 		assertFalse(Repository.isValidRefName("x/a\u0000"));
 
+		db.resolve("x/a@");
+
 		assertUnparseable(".");
 		assertUnparseable("x@{3");
 		assertUnparseable("x[b");

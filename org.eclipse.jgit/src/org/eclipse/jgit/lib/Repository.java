@@ -686,6 +686,8 @@ public abstract class Repository implements AutoCloseable {
 			case '@':
 				if (rev != null)
 					throw new RevisionSyntaxException(revstr);
+				if (i + 1 == revChars.length)
+					continue;
 				if (i + 1 < revChars.length && revChars[i + 1] != '{')
 					continue;
 				int m;
