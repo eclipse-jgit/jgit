@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4bf5bc69_8a0c9c95",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 900,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-04-12T03:36:52Z",
+      "side": 1,
+      "message": "Documentation/technical/pack-protocol.txt describes:\n\n    request \u003d empty-request | command-request\n    empty-request \u003d flush-pkt\n    command-request \u003d command\n                      capability-list\n                      [command-args]\n                      flush-pkt\n\nThis code handles command-request, but it\u0027s missing the empty-request case. Noticed in production by reading logs. Fortunately the rawOut.stopBuffering() line below triggers so the response is an HTTP 200 and the client doesn\u0027t notice. :)",
+      "revId": "73ca8e3836dd9af9a17984cd6b64fadafbf6e843",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
