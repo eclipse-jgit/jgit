@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62504d87_dd8f4c3a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-04-12T08:11:36Z",
+      "side": 1,
+      "message": "From this description I assumed the patch was going to change isValidRefName behavior.\n\nBut in fact it changes resolve behavior. Can you e.g. give an example (e.g. of an action of EGit, or an API call, etc) illustrating what wasn\u0027t possible before and becomes possible now?",
+      "revId": "45599ae86d33d2a681acb8723e01c9b42e4fd335",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
