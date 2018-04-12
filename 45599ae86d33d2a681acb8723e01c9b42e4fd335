@@ -16,6 +16,24 @@
       "revId": "45599ae86d33d2a681acb8723e01c9b42e4fd335",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5c47793_3d472ee1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2018-04-12T08:37:59Z",
+      "side": 1,
+      "message": "This was reported in https://www.eclipse.org/forums/index.php/t/1092676/. One way to see it is to remove the change in Repository.java and run the modified test. \u0027db.resolve(\"x/a@\")\u0027 will throw exceptions without my fix (regardless whether this ref exists or not). I think the resolve() method has more ways to fail parsing a ref than what is found by isValidRefName().\n\nAlso the old code in https://github.com/eclipse/jgit/blob/v4.11.0.201803080745-r/org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java#L689-690 looks like it was forgotten to handle this case. We test that if what comes after @ is no { and if this is true everything is fine. But we didn\u0027t handle the case that there is nothing after @.",
+      "parentUuid": "62504d87_dd8f4c3a",
+      "revId": "45599ae86d33d2a681acb8723e01c9b42e4fd335",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
