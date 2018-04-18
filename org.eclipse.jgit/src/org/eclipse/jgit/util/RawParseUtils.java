@@ -63,6 +63,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.errors.BinaryBlobException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
 
@@ -632,11 +633,37 @@ public final class RawParseUtils {
 	 *            line 1.
 	 * @param end
 	 *            1 past the end of the content within <code>buf</code>.
-	 * @return a line map indexing the start position of each line.
+	 * @return a line map indexing the start position of each line, or a map representing the entire
+	 *            array as a single line if a '\0' is found.
 	 */
 	public static final IntList lineMap(final byte[] buf, int ptr, int end) {
-		int start = ptr;
+		IntList map;
+		try {
+		  map = lineMapOrBinary(buf, ptr, end);
+		} catch (BinaryBlobException e) {
+			map = new IntList(3);
+			map.add(Integer.MIN_VALUE);
+			map.add(ptr);
+			map.add(end);
+		}
+		return map;
+	}
 
+	/**
+	 * Like {@link #lineMap(byte[], int, int)} but throw {@link BinaryBlobException} if a null char
+	 * is encountered.
+	 * @param buf  buffer to scan.
+	 * @param ptr position within the buffer corresponding to the first byte of
+	 *            line 1.
+	 * @param end  1 past the end of the content within <code>buf</code>.
+	 * @return a line map indexing the start position of each line, or a map representing the entire
+	 *            array as a single line if a '\0' is found.
+	 * @throws BinaryBlobException
+	 *
+	 * @since 5.0
+	 */
+	public static final IntList lineMapOrBinary(final byte[] buf, int ptr, int end)
+			throws BinaryBlobException {
 		// Experimentally derived from multiple source repositories
 		// the average number of bytes/line is 36. Its a rough guess
 		// to initially size our map close to the target.
@@ -649,11 +676,15 @@ public final class RawParseUtils {
 			}
 
 			if (buf[ptr] == '\0') {
-				// binary data.
-				map = new IntList(3);
-				map.add(Integer.MIN_VALUE);
-				map.add(start);
-				break;
+				throw new BinaryBlobException() {
+
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public Throwable fillInStackTrace() {
+						return this;
+					}
+				};
 			}
 
 			foundLF = (buf[ptr] == '\n');
