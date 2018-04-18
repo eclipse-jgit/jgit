@@ -46,19 +46,22 @@ package org.eclipse.jgit.util;
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertNotNull;
+import java.io.UnsupportedEncodingException;
+
+import org.eclipse.jgit.errors.BinaryBlobException;
 
 import org.junit.Test;
 
 public class RawParseUtils_LineMapTest {
 	@Test
-	public void testEmpty() {
+	public void testEmpty() throws Exception {
 		final IntList map = RawParseUtils.lineMap(new byte[] {}, 0, 0);
 		assertNotNull(map);
 		assertArrayEquals(new int[]{Integer.MIN_VALUE, 0}, asInts(map));
 	}
 
 	@Test
-	public void testOneBlankLine() {
+	public void testOneBlankLine() throws Exception  {
 		final IntList map = RawParseUtils.lineMap(new byte[] { '\n' }, 0, 1);
 		assertArrayEquals(new int[]{Integer.MIN_VALUE, 0, 1}, asInts(map));
 	}
