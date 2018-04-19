@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c29a54b5_7a019696",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/RawParseUtils_LineMapTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-04-19T06:59:29Z",
+      "side": 1,
+      "message": "Unused imports?",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 51
+      },
+      "revId": "0867a9668d200503bf41cdc3633c011405f43cf5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88e4258a_2f152717",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-04-19T06:59:29Z",
+      "side": 1,
+      "message": "Missing @since tag for new public constructor.",
+      "revId": "0867a9668d200503bf41cdc3633c011405f43cf5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f29a3c91_f5c9a790",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-04-19T06:59:29Z",
+      "side": 1,
+      "message": "Trailing whitespace.",
+      "revId": "0867a9668d200503bf41cdc3633c011405f43cf5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67a6728c_08971293",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 655,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-04-19T06:59:29Z",
+      "side": 1,
+      "message": "Missing @since tag",
+      "revId": "0867a9668d200503bf41cdc3633c011405f43cf5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8be63b3_0c453c13",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-04-19T06:59:29Z",
+      "side": 1,
+      "message": "Too long line?",
+      "revId": "0867a9668d200503bf41cdc3633c011405f43cf5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
