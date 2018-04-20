@@ -890,6 +890,7 @@ public class UploadPack {
 		} else if (line != PacketLineIn.END) {
 			throw new PackProtocolException("unexpected " + line);
 		}
+		rawOut.stopBuffering();
 
 		adv.send(refs);
 		adv.end();
