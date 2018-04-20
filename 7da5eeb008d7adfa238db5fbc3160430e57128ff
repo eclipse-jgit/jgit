@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "38e3b448_566fb826",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RefTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-04-20T18:31:11Z",
+      "side": 1,
+      "message": "The error message is\n\n java.lang.AssertionError: list [Ref[refs/heads/prefix/a\u003d175d5b80bd9768884d8fced02e9bd33488174396]] does not contain ref Ref[refs/heads/g\u003d175d5b80bd9768884d8fced02e9bd33488174396]\n\nwhich looks good enough for me (i.e. my memory was wrong).",
+      "parentUuid": "5fe5769e_78698cad",
+      "range": {
+        "startLine": 317,
+        "startChar": 17,
+        "endLine": 317,
+        "endChar": 25
+      },
+      "revId": "7da5eeb008d7adfa238db5fbc3160430e57128ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f6857be_2bca076b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
         "patchSetId": 1
@@ -39,6 +63,24 @@
       "revId": "7da5eeb008d7adfa238db5fbc3160430e57128ff",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "675678ba_a88f4082",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-04-20T18:31:11Z",
+      "side": 1,
+      "message": "Alas, the copy is necessary since a Collection is not a List.",
+      "parentUuid": "5f6857be_2bca076b",
+      "revId": "7da5eeb008d7adfa238db5fbc3160430e57128ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
