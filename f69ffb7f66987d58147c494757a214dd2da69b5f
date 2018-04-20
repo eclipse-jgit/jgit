@@ -22,6 +22,30 @@
       "revId": "f69ffb7f66987d58147c494757a214dd2da69b5f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98c60e6a_41502e96",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-04-20T23:15:53Z",
+      "side": 1,
+      "message": "Good call. Done.",
+      "parentUuid": "aa857cc1_58978641",
+      "range": {
+        "startLine": 693,
+        "startChar": 55,
+        "endLine": 693,
+        "endChar": 0
+      },
+      "revId": "f69ffb7f66987d58147c494757a214dd2da69b5f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
