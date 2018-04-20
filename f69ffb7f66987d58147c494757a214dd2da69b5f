@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa857cc1_58978641",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-04-20T23:13:25Z",
+      "side": 1,
+      "message": "Optional: Can be written as ProtocolVersion.V2.equals(transferConfig.protocolVersion), since we know that ProtocolVersion.V2 is never null.",
+      "range": {
+        "startLine": 693,
+        "startChar": 55,
+        "endLine": 693,
+        "endChar": 0
+      },
+      "revId": "f69ffb7f66987d58147c494757a214dd2da69b5f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
