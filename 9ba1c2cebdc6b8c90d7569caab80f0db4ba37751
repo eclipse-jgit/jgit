@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fbab4677_5627a972",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 909,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-04-20T03:53:05Z",
+      "side": 1,
+      "message": "stopBuffering() should be called as soon as possible once we\u0027re done reading from pckIn.\n\nCalling it this late means that output is fully buffered before it gets sent back to the client. In particular, I am seeing\n\n java.lang.OutOfMemoryError\n        at java.io.ByteArrayOutputStream.hugeCapacity(ByteArrayOutputStream.java:123)\n        at java.io.ByteArrayOutputStream.grow(ByteArrayOutputStream.java:117)\n        at java.io.ByteArrayOutputStream.ensureCapacity(ByteArrayOutputStream.java:93)\n        at java.io.ByteArrayOutputStream.write(ByteArrayOutputStream.java:153)\n        at org.eclipse.jgit.transport.UploadPack$ResponseBufferedOutputStream.write(UploadPack.java:1955)\n        at org.eclipse.jgit.transport.SideBandOutputStream.writeBuffer(SideBandOutputStream.java:174)\n        at org.eclipse.jgit.transport.SideBandOutputStream.write(SideBandOutputStream.java:153)\n        at org.eclipse.jgit.internal.storage.pack.PackOutputStream.write(PackOutputStream.java:132)\n        at org.eclipse.jgit.internal.storage.dfs.DfsPackFile.copyPackBypassCache(DfsPackFile.java:510)\n        at org.eclipse.jgit.internal.storage.dfs.DfsPackFile.copyPackAsIs(DfsPackFile.java:437)\n        at org.eclipse.jgit.internal.storage.dfs.DfsCachedPack.copyAsIs(DfsCachedPack.java:91)\n        at org.eclipse.jgit.internal.storage.dfs.DfsReader.copyPackAsIs(DfsReader.java:709)\n        at org.eclipse.jgit.internal.storage.pack.PackWriter.writePack(PackWriter.java:1169)\n        at org.eclipse.jgit.transport.UploadPack.sendPack(UploadPack.java:1905)\n        at org.eclipse.jgit.transport.UploadPack.sendPack(UploadPack.java:1741)\n        at org.eclipse.jgit.transport.UploadPack.fetchV2(UploadPack.java:1001)\n        at org.eclipse.jgit.transport.UploadPack.serviceV2(UploadPack.java:1030)\n        at org.eclipse.jgit.transport.UploadPack.upload(UploadPack.java:726)\n        at org.eclipse.jgit.http.server.UploadPackServlet.doPost(UploadPackServlet.java:195)\n        at javax.servlet.http.HttpServlet.service(HttpServlet.java:637)\n\nin production when a packfile exceeds 2 GiB; presumably the same would happen when a ref advertisement exceeds 2 GiB as well.",
+      "revId": "9ba1c2cebdc6b8c90d7569caab80f0db4ba37751",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
