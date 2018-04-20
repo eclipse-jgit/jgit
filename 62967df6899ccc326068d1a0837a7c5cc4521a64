@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "55ec0cad_60211cbe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/GitProtocolConstants.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-04-20T23:51:10Z",
+      "side": 1,
+      "message": "optional: COMMAND_LS_REFS, maybe?",
+      "range": {
+        "startLine": 230,
+        "startChar": 28,
+        "endLine": 230,
+        "endChar": 46
+      },
+      "revId": "62967df6899ccc326068d1a0837a7c5cc4521a64",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
