@@ -16,6 +16,24 @@
       "revId": "cd87f0c1aa18d878dfb9167438e3ec7efd83be40",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "053fbed1_814c7b1e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/GitProtocolConstants.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-04-21T01:07:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58a528c5_59e4cc23",
+      "revId": "cd87f0c1aa18d878dfb9167438e3ec7efd83be40",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
