@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "c9b64a44_e4a72ac7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-04-21T01:08:55Z",
+      "side": 1,
+      "message": "Done in https://git.eclipse.org/r/120873. Thanks!",
+      "parentUuid": "0e1fa4bb_8fc412c5",
+      "revId": "0277dc788494702493cbaad76979f7593298e720",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "23b47935_d93db596",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
         "patchSetId": 5
