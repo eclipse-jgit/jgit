@@ -929,11 +929,13 @@ public class UploadPack {
 		// require that advertised be set. Set it only in the required
 		// circumstances (to avoid a full ref lookup in the case that
 		// we don't need it).
-		if (requestValidator instanceof ReachableCommitRequestValidator ||
-				requestValidator instanceof AdvertisedRequestValidator)
-			advertised = refIdSet(getAdvertisedOrDefaultRefs().values());
-		else
+		if (requestValidator instanceof TipRequestValidator ||
+				requestValidator instanceof ReachableCommitTipRequestValidator ||
+				requestValidator instanceof AnyRequestValidator) {
 			advertised = Collections.emptySet();
+		} else {
+			advertised = refIdSet(getAdvertisedOrDefaultRefs().values());
+		}
 
 		String line;
 		List<ObjectId> peerHas = new ArrayList<>();
