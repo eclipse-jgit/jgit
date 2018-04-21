@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3702f6a1_6b6c3b53",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/DaemonService.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-04-21T00:24:46Z",
+      "side": 1,
+      "message": "Unlike UploadPack, I think this is a singleton per service. That means it\u0027s not safe to store this state in it.",
+      "revId": "d0ca47771f9e3b50aaae25660c2bdeec01e50412",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
