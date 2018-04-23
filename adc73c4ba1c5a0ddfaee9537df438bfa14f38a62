@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c798a58_dac34850",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 926,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-04-23T18:51:18Z",
+      "side": 1,
+      "message": "This doesn\u0027t get exposed to callers, so we can clean it up in a later patch. Good.",
+      "revId": "adc73c4ba1c5a0ddfaee9537df438bfa14f38a62",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
