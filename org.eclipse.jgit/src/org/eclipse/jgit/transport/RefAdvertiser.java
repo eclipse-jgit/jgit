@@ -194,8 +194,9 @@ public abstract class RefAdvertiser {
 
 	/**
 	 * @param b
-	 *            true if this advertiser should advertise using the
-	 *            protocol v2 format, false otherwise
+	 *              true if this advertiser should advertise using the protocol
+	 *              v2 format, false otherwise
+	 * @since 5.0
 	 */
 	public void setUseProtocolV2(boolean b) {
 		useProtocolV2 = b;
@@ -289,8 +290,10 @@ public abstract class RefAdvertiser {
 	 */
 	public Set<ObjectId> send(Map<String, Ref> refs) throws IOException {
 		for (Ref ref : getSortedRefs(refs)) {
-			if (ref.getObjectId() == null)
+			ObjectId objectId = ref.getObjectId();
+			if (objectId == null) {
 				continue;
+			}
 
 			if (useProtocolV2) {
 				String symrefPart = symrefs.containsKey(ref.getName())
@@ -301,15 +304,16 @@ public abstract class RefAdvertiser {
 					if (!ref.isPeeled() && repository != null) {
 						ref = repository.peel(ref);
 					}
-					if (ref.getPeeledObjectId() != null) {
-						peelPart = " peeled:" + ref.getPeeledObjectId().getName();
+					ObjectId peeledObjectId = ref.getPeeledObjectId();
+					if (peeledObjectId != null) {
+						peelPart = " peeled:" + peeledObjectId.getName();
 					}
 				}
-				writeOne(ref.getObjectId().getName() + " " + ref.getName() + symrefPart + peelPart + "\n");
+				writeOne(objectId.getName() + " " + ref.getName() + symrefPart + peelPart + "\n");
 				continue;
 			}
 
-			advertiseAny(ref.getObjectId(), ref.getName());
+			advertiseAny(objectId, ref.getName());
 
 			if (!derefTags)
 				continue;
