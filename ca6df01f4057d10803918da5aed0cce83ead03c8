@@ -34,6 +34,24 @@
       "revId": "ca6df01f4057d10803918da5aed0cce83ead03c8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac533ded_544f8522",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1000,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-04-23T20:16:33Z",
+      "side": 1,
+      "message": "I decided to make sendPack not use #refs anymore, but use a parameter instead for this. This will appear as a patch before this patch once I upload the new patch set.",
+      "parentUuid": "594bf954_b543b3a2",
+      "revId": "ca6df01f4057d10803918da5aed0cce83ead03c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
