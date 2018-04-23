@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e14a64f_713477b2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Daemon.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-04-23T19:00:35Z",
+      "side": 1,
+      "message": "@Nullable",
+      "revId": "b052d78f94b3f55c422675041b71bf12fd5e7675",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b794914_20186134",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Daemon.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-04-23T19:00:35Z",
+      "side": 1,
+      "message": "@Nullable",
+      "revId": "b052d78f94b3f55c422675041b71bf12fd5e7675",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d249c59c_8e0ad738",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/DaemonClient.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-04-23T19:00:35Z",
+      "side": 1,
+      "message": "needs NON-NLS comment. Also, we can combine this with the NUL handling below:\n\n  Collection\u003cString\u003e extraParameters \u003d null;\n  int nul \u003d cmd.indexOf(\u0027\\0\u0027);\n  if (nul \u003e\u003d 0) {\n    // comment comment\n    cmd \u003d cmd.substring(0, nul);\n    int nulnul \u003d cmd.indexOf(\"\\0\\0\", nul); // $NON-NLS-1$\n    if (nulnul !\u003d -1) {\n      extraParameters \u003d ...;\n    }\n  }",
+      "revId": "b052d78f94b3f55c422675041b71bf12fd5e7675",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74deabdd_eca83fdd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/DaemonService.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-04-23T19:00:35Z",
+      "side": 1,
+      "message": "optional: as long as we\u0027re modifying this line, can remove the unnecessary \"final\"s",
+      "range": {
+        "startLine": 150,
+        "startChar": 14,
+        "endLine": 150,
+        "endChar": 19
+      },
+      "revId": "b052d78f94b3f55c422675041b71bf12fd5e7675",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4870e769_b0d46207",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/DaemonService.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-04-23T19:00:35Z",
+      "side": 1,
+      "message": "@Nullable",
+      "revId": "b052d78f94b3f55c422675041b71bf12fd5e7675",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "263589da_562a05a5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/DaemonService.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-04-23T19:00:35Z",
+      "side": 1,
+      "message": "likewise: @Nullable",
+      "revId": "b052d78f94b3f55c422675041b71bf12fd5e7675",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
