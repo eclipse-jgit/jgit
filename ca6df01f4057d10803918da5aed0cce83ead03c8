@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "05dbc720_30fa4836",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1000,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-04-23T18:54:33Z",
+      "side": 1,
+      "message": "Hm. Why does sendPack use advertisedRefs for this? Can we teach it to look up refs/tags/ instead?\n\nI\u0027m asking because the effect of the \u0027refs\u0027 instance variable is subtle (e.g. what if we have already set \u0027refs\u0027 while processing an ls-refs command using a ref-prefix, in the stateful case?).",
+      "revId": "ca6df01f4057d10803918da5aed0cce83ead03c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
