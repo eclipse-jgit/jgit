@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc82ab11_7a399d71",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-23T23:34:43Z",
+      "side": 1,
+      "message": "this private method seems unused which causes an error in Eclipse",
+      "revId": "2661bc081340ae83d2a2ecba11994d3e8d56586b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
