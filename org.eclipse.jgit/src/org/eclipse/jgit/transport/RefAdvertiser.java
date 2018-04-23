@@ -289,7 +289,8 @@ public abstract class RefAdvertiser {
 	 */
 	public Set<ObjectId> send(Map<String, Ref> refs) throws IOException {
 		for (Ref ref : getSortedRefs(refs)) {
-			if (ref.getObjectId() == null)
+			ObjectId objectId = ref.getObjectId();
+			if (objectId == null)
 				continue;
 
 			if (useProtocolV2) {
@@ -301,15 +302,16 @@ public abstract class RefAdvertiser {
 					if (!ref.isPeeled() && repository != null) {
 						ref = repository.peel(ref);
 					}
-					if (ref.getPeeledObjectId() != null) {
-						peelPart = " peeled:" + ref.getPeeledObjectId().getName();
+					ObjectId peeledObjectId = ref.getPeeledObjectId();
+					if (peeledObjectId != null) {
+						peelPart = " peeled:" + peeledObjectId.getName();
 					}
 				}
-				writeOne(ref.getObjectId().getName() + " " + ref.getName() + symrefPart + peelPart + "\n");
+				writeOne(objectId.getName() + " " + ref.getName() + symrefPart + peelPart + "\n");
 				continue;
 			}
 
-			advertiseAny(ref.getObjectId(), ref.getName());
+			advertiseAny(objectId, ref.getName());
 
 			if (!derefTags)
 				continue;
