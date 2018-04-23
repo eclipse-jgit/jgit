@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a1c1fe03_c48306db",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1733,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-04-23T20:56:15Z",
+      "side": 1,
+      "message": "@Nullable",
+      "range": {
+        "startLine": 1733,
+        "startChar": 63,
+        "endLine": 1733,
+        "endChar": 86
+      },
+      "revId": "7d2075698380a2b69cfc0e00e4905c2693607287",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f9d15f9_fb286f44",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1782,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-04-23T20:56:15Z",
+      "side": 1,
+      "message": "optional: naming this \u0027tags\u0027 might be clearer",
+      "range": {
+        "startLine": 1782,
+        "startChar": 19,
+        "endLine": 1782,
+        "endChar": 26
+      },
+      "revId": "7d2075698380a2b69cfc0e00e4905c2693607287",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a39ce5f_4fe3a4f8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1782,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-04-23T20:56:15Z",
+      "side": 1,
+      "message": "@Nullable",
+      "range": {
+        "startLine": 1782,
+        "startChar": 3,
+        "endLine": 1782,
+        "endChar": 26
+      },
+      "revId": "7d2075698380a2b69cfc0e00e4905c2693607287",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "211f5ec8_2a215b33",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1849,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-04-23T20:56:15Z",
+      "side": 1,
+      "message": "not a new problem, just asking since we\u0027re here: this case appears to be about branches, not tags. Do you know what it\u0027s trying to do?",
+      "revId": "7d2075698380a2b69cfc0e00e4905c2693607287",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
