@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "86a1c7e5_ca965ab7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 993,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-04-23T20:57:48Z",
+      "side": 1,
+      "message": "optional: should this filter to refs/tags/ to produce more consistent behavior?",
+      "range": {
+        "startLine": 993,
+        "startChar": 51,
+        "endLine": 993,
+        "endChar": 64
+      },
+      "revId": "4b74c1fef87301562e7ba220552ae336a6786758",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
