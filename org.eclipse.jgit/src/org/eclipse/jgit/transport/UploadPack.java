@@ -866,7 +866,7 @@ public class UploadPack {
 		}
 
 		if (sendPack)
-			sendPack(accumulator);
+			sendPack(accumulator, refs == null ? null : refs.values());
 	}
 
 	private void lsRefsV2() throws IOException {
@@ -985,7 +985,7 @@ public class UploadPack {
 			if (sectionSent)
 				pckOut.writeDelim();
 			pckOut.writeString("packfile\n");
-			sendPack(new PackStatistics.Accumulator());
+			sendPack(new PackStatistics.Accumulator(), refs == null ? null : refs.values());
 		}
 		pckOut.end();
 	}
@@ -1730,13 +1730,13 @@ public class UploadPack {
 		return false;
 	}
 
-	private void sendPack(PackStatistics.Accumulator accumulator)
+	private void sendPack(PackStatistics.Accumulator accumulator, Collection<Ref> allTags)
 			throws IOException {
 		final boolean sideband = options.contains(OPTION_SIDE_BAND)
 				|| options.contains(OPTION_SIDE_BAND_64K);
 		if (sideband) {
 			try {
-				sendPack(true, accumulator);
+				sendPack(true, accumulator, allTags);
 			} catch (ServiceMayNotContinueException noPack) {
 				// This was already reported on (below).
 				throw noPack;
@@ -1757,7 +1757,7 @@ public class UploadPack {
 					throw err;
 			}
 		} else {
-			sendPack(false, accumulator);
+			sendPack(false, accumulator, allTags);
 		}
 	}
 
@@ -1778,7 +1778,8 @@ public class UploadPack {
 	}
 
 	private void sendPack(final boolean sideband,
-			PackStatistics.Accumulator accumulator) throws IOException {
+			PackStatistics.Accumulator accumulator,
+			Collection<Ref> allTags) throws IOException {
 		ProgressMonitor pm = NullProgressMonitor.INSTANCE;
 		OutputStream packOut = rawOut;
 
@@ -1838,9 +1839,9 @@ public class UploadPack {
 			pw.setThin(options.contains(OPTION_THIN_PACK));
 			pw.setReuseValidatingObjects(false);
 
-			if (commonBase.isEmpty() && refs != null) {
+			if (commonBase.isEmpty() && allTags != null) {
 				Set<ObjectId> tagTargets = new HashSet<>();
-				for (Ref ref : refs.values()) {
+				for (Ref ref : allTags) {
 					if (ref.getPeeledObjectId() != null)
 						tagTargets.add(ref.getPeeledObjectId());
 					else if (ref.getObjectId() == null)
@@ -1868,8 +1869,8 @@ public class UploadPack {
 				rw = ow;
 			}
 
-			if (options.contains(OPTION_INCLUDE_TAG) && refs != null) {
-				for (Ref ref : refs.values()) {
+			if (options.contains(OPTION_INCLUDE_TAG) && allTags != null) {
+				for (Ref ref : allTags) {
 					ObjectId objectId = ref.getObjectId();
 					if (objectId == null) {
 						// skip unborn branch
