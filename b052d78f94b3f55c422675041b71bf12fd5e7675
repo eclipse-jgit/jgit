@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "279d40e2_48439bf4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Daemon.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-04-23T20:21:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e14a64f_713477b2",
+      "revId": "b052d78f94b3f55c422675041b71bf12fd5e7675",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b794914_20186134",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Daemon.java",
         "patchSetId": 10
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "87ab4ced_ccd0f8df",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Daemon.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-04-23T20:21:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b794914_20186134",
+      "revId": "b052d78f94b3f55c422675041b71bf12fd5e7675",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d249c59c_8e0ad738",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/DaemonClient.java",
         "patchSetId": 10
@@ -50,6 +86,24 @@
       "revId": "b052d78f94b3f55c422675041b71bf12fd5e7675",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18054bbe_bb2c35e1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/DaemonClient.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-04-23T20:21:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d249c59c_8e0ad738",
+      "revId": "b052d78f94b3f55c422675041b71bf12fd5e7675",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -76,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "791812bb_ddb0923b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/DaemonService.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-04-23T20:21:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74deabdd_eca83fdd",
+      "range": {
+        "startLine": 150,
+        "startChar": 14,
+        "endLine": 150,
+        "endChar": 19
+      },
+      "revId": "b052d78f94b3f55c422675041b71bf12fd5e7675",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4870e769_b0d46207",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/DaemonService.java",
         "patchSetId": 10
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "6fba2ba2_dafc51c9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/DaemonService.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-04-23T20:21:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4870e769_b0d46207",
+      "revId": "b052d78f94b3f55c422675041b71bf12fd5e7675",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "263589da_562a05a5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/DaemonService.java",
         "patchSetId": 10
@@ -107,6 +203,24 @@
       "revId": "b052d78f94b3f55c422675041b71bf12fd5e7675",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23c349e1_af1a948c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/DaemonService.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-04-23T20:21:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "263589da_562a05a5",
+      "revId": "b052d78f94b3f55c422675041b71bf12fd5e7675",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
