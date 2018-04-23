@@ -16,6 +16,24 @@
       "revId": "ca6df01f4057d10803918da5aed0cce83ead03c8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "594bf954_b543b3a2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1000,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-04-23T19:03:07Z",
+      "side": 1,
+      "message": "We could, but I wanted to preserve the performance properties of the existing code as much as possible (the existing code reuses advertisedRefs, so it does not need to read from the ref DB twice).\n\nIn the specific case you describe (invoking ls-refs with ref-prefix), lsRefsV2() does not touch \"refs\" at all (I strove to make sure of that), so we should be safe. But we will run into this problem if we call anything after fetchV2(), since \"refs\" would now be set to something unexpected. I\u0027ll take a look and see what I can do.",
+      "parentUuid": "05dbc720_30fa4836",
+      "revId": "ca6df01f4057d10803918da5aed0cce83ead03c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
