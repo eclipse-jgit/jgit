@@ -809,5 +809,5 @@ public class UploadPackTest {
 		public Map<String, Ref> filter(Map<String, Ref> refs) {
 			return new HashMap<>();
 		}
-	};
+	}
 }
