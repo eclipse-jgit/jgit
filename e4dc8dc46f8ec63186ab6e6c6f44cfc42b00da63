@@ -16,6 +16,24 @@
       "revId": "e4dc8dc46f8ec63186ab6e6c6f44cfc42b00da63",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9cb30efb_d5277fc3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-04-24T20:49:36Z",
+      "side": 0,
+      "message": "It shouldn\u0027t link to getRefsByPrefix because this class invokes getRefs under the hood, and an implementation of RefDatabase might require that the prefix end with a slash. I\u0027ve updated the javadoc to clarify that it must end with a slash.",
+      "parentUuid": "818cf1cd_48313101",
+      "revId": "e4dc8dc46f8ec63186ab6e6c6f44cfc42b00da63",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
