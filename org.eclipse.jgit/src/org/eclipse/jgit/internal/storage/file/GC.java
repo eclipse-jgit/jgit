@@ -785,7 +785,8 @@ public class GC {
 	 * @throws java.io.IOException
 	 */
 	public void packRefs() throws IOException {
-		Collection<Ref> refs = repo.getRefDatabase().getRefs(Constants.R_REFS).values();
+		Collection<Ref> refs = repo.getRefDatabase()
+				.getRefsByPrefix(Constants.R_REFS);
 		List<String> refsToBePacked = new ArrayList<>(refs.size());
 		pm.beginTask(JGitText.get().packRefs, refs.size());
 		try {
@@ -1067,7 +1068,7 @@ public class GC {
 	 */
 	private Collection<Ref> getAllRefs() throws IOException {
 		RefDatabase refdb = repo.getRefDatabase();
-		Collection<Ref> refs = refdb.getRefs(RefDatabase.ALL).values();
+		Collection<Ref> refs = refdb.getRefsByPrefix(RefDatabase.ALL);
 		List<Ref> addl = refdb.getAdditionalRefs();
 		if (!addl.isEmpty()) {
 			List<Ref> all = new ArrayList<>(refs.size() + addl.size());
@@ -1375,7 +1376,7 @@ public class GC {
 		}
 
 		RefDatabase refDb = repo.getRefDatabase();
-		for (Ref r : refDb.getRefs(RefDatabase.ALL).values()) {
+		for (Ref r : refDb.getRefsByPrefix(RefDatabase.ALL)) {
 			Storage storage = r.getStorage();
 			if (storage == Storage.LOOSE || storage == Storage.LOOSE_PACKED)
 				ret.numberOfLooseRefs++;

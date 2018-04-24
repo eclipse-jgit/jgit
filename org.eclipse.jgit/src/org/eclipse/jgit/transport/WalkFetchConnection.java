@@ -58,7 +58,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.jgit.errors.CompoundException;
@@ -690,13 +689,13 @@ class WalkFetchConnection extends BaseFetchConnection {
 	}
 
 	private void markLocalRefsComplete(final Set<ObjectId> have) throws TransportException {
-		Map<String, Ref> refs;
+		List<Ref> refs;
 		try {
-			refs = local.getRefDatabase().getRefs(ALL);
+			refs = local.getRefDatabase().getRefsByPrefix(ALL);
 		} catch (IOException e) {
 			throw new TransportException(e.getMessage(), e);
 		}
-		for (final Ref r : refs.values()) {
+		for (final Ref r : refs) {
 			try {
 				markLocalObjComplete(revWalk.parseAny(r.getObjectId()));
 			} catch (IOException readError) {

@@ -1582,7 +1582,8 @@ public class UploadPack {
 				new ReachableCommitTipRequestValidator().checkWants(up, wants);
 			else if (!wants.isEmpty()) {
 				Set<ObjectId> refIds =
-					refIdSet(up.getRepository().getRefDatabase().getRefs(ALL).values());
+						refIdSet(up.getRepository().getRefDatabase()
+								.getRefsByPrefix(ALL));
 				for (ObjectId obj : wants) {
 					if (!refIds.contains(obj))
 						throw new WantNotValidException(obj);
@@ -1602,7 +1603,8 @@ public class UploadPack {
 		public void checkWants(UploadPack up, List<ObjectId> wants)
 				throws PackProtocolException, IOException {
 			checkNotAdvertisedWants(up, wants,
-					refIdSet(up.getRepository().getRefDatabase().getRefs(ALL).values()));
+					refIdSet(up.getRepository().getRefDatabase()
+							.getRefsByPrefix(ALL)));
 		}
 	}
 

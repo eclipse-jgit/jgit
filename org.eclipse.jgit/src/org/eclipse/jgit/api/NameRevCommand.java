@@ -278,7 +278,8 @@ public class NameRevCommand extends GitCommand<Map<ObjectId, String>> {
 		if (refs == null)
 			refs = new ArrayList<>();
 		try {
-			for (Ref ref : repo.getRefDatabase().getRefs(Constants.R_TAGS).values()) {
+			for (Ref ref : repo.getRefDatabase()
+					.getRefsByPrefix(Constants.R_TAGS)) {
 				ObjectId id = ref.getObjectId();
 				if (id != null && (walk.parseAny(id) instanceof RevTag))
 					addRef(ref);
@@ -324,7 +325,7 @@ public class NameRevCommand extends GitCommand<Map<ObjectId, String>> {
 
 	private void addPrefix(String prefix, Map<ObjectId, String> nonCommits,
 			FIFORevQueue pending) throws IOException {
-		for (Ref ref : repo.getRefDatabase().getRefs(prefix).values())
+		for (Ref ref : repo.getRefDatabase().getRefsByPrefix(prefix))
 			addRef(ref, nonCommits, pending);
 	}
 

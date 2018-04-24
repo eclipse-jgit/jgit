@@ -689,12 +689,12 @@ public abstract class Transport implements AutoCloseable {
 	private static Collection<RefSpec> expandPushWildcardsFor(
 			final Repository db, final Collection<RefSpec> specs)
 			throws IOException {
-		final Map<String, Ref> localRefs = db.getRefDatabase().getRefs(ALL);
+		final List<Ref> localRefs = db.getRefDatabase().getRefsByPrefix(ALL);
 		final Collection<RefSpec> procRefs = new LinkedHashSet<>();
 
 		for (final RefSpec spec : specs) {
 			if (spec.isWildcard()) {
-				for (final Ref localRef : localRefs.values()) {
+				for (final Ref localRef : localRefs) {
 					if (spec.matchSource(localRef))
 						procRefs.add(spec.expandFromSource(localRef));
 				}
