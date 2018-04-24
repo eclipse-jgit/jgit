@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "818cf1cd_48313101",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-04-24T20:20:41Z",
+      "side": 0,
+      "message": "Should this link to getRefsByPrefix instead?\n\nAlso, I wonder if the prefix argument is required to end with a slash. Can the javadoc clarify that?",
+      "revId": "e4dc8dc46f8ec63186ab6e6c6f44cfc42b00da63",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
