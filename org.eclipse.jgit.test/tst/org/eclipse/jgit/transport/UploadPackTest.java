@@ -387,6 +387,7 @@ public class UploadPackTest {
 	}
 
 	@Test
+	@SuppressWarnings("boxing")
 	public void testV2EmptyRequest() throws Exception {
 		ByteArrayInputStream recvStream = uploadPackV2(PacketLineIn.END);
 		// Verify that there is nothing more after the capability
