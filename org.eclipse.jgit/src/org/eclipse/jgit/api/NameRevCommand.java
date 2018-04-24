@@ -251,8 +251,7 @@ public class NameRevCommand extends GitCommand<Map<ObjectId, String>> {
 	 * prefix added by {@link #addPrefix(String)}.
 	 *
 	 * @param prefix
-	 *            prefix to add; see
-	 *            {@link org.eclipse.jgit.lib.RefDatabase#getRefs(String)}
+	 *            prefix to add; the prefix must end with a slash
 	 * @return {@code this}
 	 */
 	public NameRevCommand addPrefix(String prefix) {
