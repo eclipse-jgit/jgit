@@ -334,22 +334,6 @@ public class UploadPackTest {
 		}
 	}
 
-	private static ByteArrayInputStream send(String... lines) throws Exception {
-		ByteArrayOutputStream os = new ByteArrayOutputStream();
-		PacketLineOut pckOut = new PacketLineOut(os);
-		for (String line : lines) {
-			if (line == PacketLineIn.END) {
-				pckOut.end();
-			} else if (line == PacketLineIn.DELIM) {
-				pckOut.writeDelim();
-			} else {
-				pckOut.writeString(line);
-			}
-		}
-		byte[] a = os.toByteArray();
-		return new ByteArrayInputStream(a);
-	}
-
 	/*
 	 * Invokes UploadPack with protocol v2 and sends it the given lines.
 	 * Returns UploadPack's output stream, not including the capability
@@ -534,9 +518,6 @@ public class UploadPackTest {
 	 * into the client repository.
 	 */
 	private void parsePack(ByteArrayInputStream recvStream) throws Exception {
-		SideBandInputStream sb = new SideBandInputStream(
-				recvStream, NullProgressMonitor.INSTANCE,
-				new StringWriter(), NullOutputStream.INSTANCE);
 		parsePack(recvStream, NullProgressMonitor.INSTANCE);
 	}
 
@@ -826,7 +807,7 @@ public class UploadPackTest {
 	private static class RejectAllRefFilter implements RefFilter {
 		@Override
 		public Map<String, Ref> filter(Map<String, Ref> refs) {
-			return new HashMap<String, Ref>();
+			return new HashMap<>();
 		}
 	};
 }
