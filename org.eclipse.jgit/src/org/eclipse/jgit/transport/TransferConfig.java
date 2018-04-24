@@ -97,8 +97,8 @@ public class TransferConfig {
 	 * Used in protocol.version.
 	 */
 	enum ProtocolVersion {
-		V0("0"),
-		V2("2");
+		V0("0"), //$NON-NLS-1$
+		V2("2"); //$NON-NLS-1$
 
 		final String name;
 
@@ -136,26 +136,28 @@ public class TransferConfig {
 		this(db.getConfig());
 	}
 
+	@SuppressWarnings("nls")
 	TransferConfig(final Config rc) {
-		boolean fsck = rc.getBoolean("transfer", "fsckobjects", false); //$NON-NLS-1$ //$NON-NLS-2$
-		fetchFsck = rc.getBoolean("fetch", "fsckobjects", fsck); //$NON-NLS-1$ //$NON-NLS-2$
-		receiveFsck = rc.getBoolean("receive", "fsckobjects", fsck); //$NON-NLS-1$ //$NON-NLS-2$
-		fsckSkipList = rc.getString(FSCK, null, "skipList"); //$NON-NLS-1$
-		allowInvalidPersonIdent = rc.getBoolean(FSCK, "allowInvalidPersonIdent", false); //$NON-NLS-1$
-		safeForWindows = rc.getBoolean(FSCK, "safeForWindows", //$NON-NLS-1$
+		boolean fsck = rc.getBoolean("transfer", "fsckobjects", false);
+		fetchFsck = rc.getBoolean("fetch", "fsckobjects", fsck);
+		receiveFsck = rc.getBoolean("receive", "fsckobjects", fsck);
+		fsckSkipList = rc.getString(FSCK, null, "skipList");
+		allowInvalidPersonIdent = rc.getBoolean(FSCK, "allowInvalidPersonIdent",
+				false);
+		safeForWindows = rc.getBoolean(FSCK, "safeForWindows",
 						SystemReader.getInstance().isWindows());
-		safeForMacOS = rc.getBoolean(FSCK, "safeForMacOS", //$NON-NLS-1$
+		safeForMacOS = rc.getBoolean(FSCK, "safeForMacOS",
 						SystemReader.getInstance().isMacOS());
 
 		ignore = EnumSet.noneOf(ObjectChecker.ErrorType.class);
 		EnumSet<ObjectChecker.ErrorType> set = EnumSet
 				.noneOf(ObjectChecker.ErrorType.class);
 		for (String key : rc.getNames(FSCK)) {
-			if (equalsIgnoreCase(key, "skipList") //$NON-NLS-1$
-					|| equalsIgnoreCase(key, "allowLeadingZeroFileMode") //$NON-NLS-1$
-					|| equalsIgnoreCase(key, "allowInvalidPersonIdent") //$NON-NLS-1$
-					|| equalsIgnoreCase(key, "safeForWindows") //$NON-NLS-1$
-					|| equalsIgnoreCase(key, "safeForMacOS")) { //$NON-NLS-1$
+			if (equalsIgnoreCase(key, "skipList")
+					|| equalsIgnoreCase(key, "allowLeadingZeroFileMode")
+					|| equalsIgnoreCase(key, "allowInvalidPersonIdent")
+					|| equalsIgnoreCase(key, "safeForWindows")
+					|| equalsIgnoreCase(key, "safeForMacOS")) {
 				continue;
 			}
 
@@ -174,18 +176,18 @@ public class TransferConfig {
 			}
 		}
 		if (!set.contains(ObjectChecker.ErrorType.ZERO_PADDED_FILEMODE)
-				&& rc.getBoolean(FSCK, "allowLeadingZeroFileMode", false)) { //$NON-NLS-1$
+				&& rc.getBoolean(FSCK, "allowLeadingZeroFileMode", false)) {
 			ignore.add(ObjectChecker.ErrorType.ZERO_PADDED_FILEMODE);
 		}
 
 		allowTipSha1InWant = rc.getBoolean(
-				"uploadpack", "allowtipsha1inwant", false); //$NON-NLS-1$ //$NON-NLS-2$
+				"uploadpack", "allowtipsha1inwant", false);
 		allowReachableSha1InWant = rc.getBoolean(
-				"uploadpack", "allowreachablesha1inwant", false); //$NON-NLS-1$ //$NON-NLS-2$
+				"uploadpack", "allowreachablesha1inwant", false);
 		allowFilter = rc.getBoolean(
-				"uploadpack", "allowfilter", false); //$NON-NLS-1$ //$NON-NLS-2$
+				"uploadpack", "allowfilter", false);
 		protocolVersion = ProtocolVersion.parse(rc.getString("protocol", null, "version"));
-		hideRefs = rc.getStringList("uploadpack", null, "hiderefs"); //$NON-NLS-1$ //$NON-NLS-2$
+		hideRefs = rc.getStringList("uploadpack", null, "hiderefs");
 	}
 
 	/**

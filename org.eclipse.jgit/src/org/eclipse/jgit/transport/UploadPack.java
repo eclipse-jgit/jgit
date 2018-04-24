@@ -44,8 +44,8 @@
 package org.eclipse.jgit.transport;
 
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
-import static org.eclipse.jgit.transport.GitProtocolConstants.COMMAND_LS_REFS;
 import static org.eclipse.jgit.transport.GitProtocolConstants.COMMAND_FETCH;
+import static org.eclipse.jgit.transport.GitProtocolConstants.COMMAND_LS_REFS;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_AGENT;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_ALLOW_REACHABLE_SHA1_IN_WANT;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_ALLOW_TIP_SHA1_IN_WANT;
@@ -75,6 +75,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -119,7 +120,7 @@ public class UploadPack {
 	// UploadPack sends these lines as the first response to a client that
 	// supports protocol version 2.
 	private static final String[] v2CapabilityAdvertisement = {
-		"version 2",
+		"version 2", //$NON-NLS-1$
 		COMMAND_LS_REFS,
 		COMMAND_FETCH
 	};
@@ -688,7 +689,7 @@ public class UploadPack {
 	 * @since 5.0
 	 */
 	public void setExtraParameters(Collection<String> params) {
-		this.clientRequestedV2 = params.contains("version=2"); // $NON-NLS-1$
+		this.clientRequestedV2 = params.contains("version=2"); //$NON-NLS-1$
 	}
 
 	private boolean useProtocolV2() {
@@ -883,18 +884,20 @@ public class UploadPack {
 		// line is DELIM if there are arguments or END if not.
 		if (line == PacketLineIn.DELIM) {
 			while ((line = pckIn.readString()) != PacketLineIn.END) {
-				if (line.equals("peel")) {
+				if (line.equals("peel")) { //$NON-NLS-1$
 					adv.setDerefTags(true);
-				} else if (line.equals("symrefs")) {
+				} else if (line.equals("symrefs")) { //$NON-NLS-1$
 					needToFindSymrefs = true;
-				} else if (line.startsWith("ref-prefix ")) {
-					refPrefixes.add(line.substring("ref-prefix ".length()));
+				} else if (line.startsWith("ref-prefix ")) { //$NON-NLS-1$
+					refPrefixes.add(line.substring("ref-prefix ".length())); //$NON-NLS-1$
 				} else {
-					throw new PackProtocolException("unexpected " + line);
+					throw new PackProtocolException(MessageFormat
+							.format(JGitText.get().unexpectedPacketLine, line));
 				}
 			}
 		} else if (line != PacketLineIn.END) {
-			throw new PackProtocolException("unexpected " + line);
+			throw new PackProtocolException(MessageFormat
+					.format(JGitText.get().unexpectedPacketLine, line));
 		}
 		rawOut.stopBuffering();
 
@@ -944,15 +947,16 @@ public class UploadPack {
 		// Currently, we do not support any capabilities, so the next
 		// line is DELIM.
 		if ((line = pckIn.readString()) != PacketLineIn.DELIM) {
-			throw new PackProtocolException("unexpected " + line);
+			throw new PackProtocolException(MessageFormat
+					.format(JGitText.get().unexpectedPacketLine, line));
 		}
 
 		while ((line = pckIn.readString()) != PacketLineIn.END) {
-			if (line.startsWith("want ")) {
+			if (line.startsWith("want ")) { //$NON-NLS-1$
 				wantIds.add(ObjectId.fromString(line.substring(5)));
-			} else if (line.startsWith("have ")) {
+			} else if (line.startsWith("have ")) { //$NON-NLS-1$
 				peerHas.add(ObjectId.fromString(line.substring(5)));
-			} else if (line.equals("done")) {
+			} else if (line.equals("done")) { //$NON-NLS-1$
 				doneReceived = true;
 			} else if (line.equals(OPTION_THIN_PACK)) {
 				options.add(OPTION_THIN_PACK);
@@ -967,24 +971,24 @@ public class UploadPack {
 		if (doneReceived) {
 			processHaveLines(peerHas, ObjectId.zeroId(), new PacketLineOut(NullOutputStream.INSTANCE));
 		} else {
-			pckOut.writeString("acknowledgments\n");
+			pckOut.writeString("acknowledgments\n"); //$NON-NLS-1$
 			for (ObjectId id : peerHas) {
 				if (walk.getObjectReader().has(id)) {
-					pckOut.writeString("ACK " + id.getName() + "\n");
+					pckOut.writeString("ACK " + id.getName() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
 				}
 			}
 			processHaveLines(peerHas, ObjectId.zeroId(), new PacketLineOut(NullOutputStream.INSTANCE));
 			if (okToGiveUp()) {
-				pckOut.writeString("ready\n");
+				pckOut.writeString("ready\n"); //$NON-NLS-1$
 			} else if (commonBase.isEmpty()) {
-				pckOut.writeString("NAK\n");
+				pckOut.writeString("NAK\n"); //$NON-NLS-1$
 			}
 			sectionSent = true;
 		}
 		if (doneReceived || okToGiveUp()) {
 			if (sectionSent)
 				pckOut.writeDelim();
-			pckOut.writeString("packfile\n");
+			pckOut.writeString("packfile\n"); //$NON-NLS-1$
 			sendPack(new PackStatistics.Accumulator());
 		}
 		pckOut.end();
@@ -1008,15 +1012,16 @@ public class UploadPack {
 			// case.
 			return true;
 		}
-		if (command.equals("command=" + COMMAND_LS_REFS)) {
+		if (command.equals("command=" + COMMAND_LS_REFS)) { //$NON-NLS-1$
 			lsRefsV2();
 			return false;
 		}
-		if (command.equals("command=" + COMMAND_FETCH)) {
+		if (command.equals("command=" + COMMAND_FETCH)) { //$NON-NLS-1$
 			fetchV2();
 			return false;
 		}
-		throw new PackProtocolException("unknown command " + command);
+		throw new PackProtocolException(MessageFormat
+				.format(JGitText.get().unknownTransportCommand, command));
 	}
 
 	private void serviceV2() throws IOException {
@@ -1026,7 +1031,7 @@ public class UploadPack {
 			// not, the client is expected to call
 			// sendAdvertisedRefs() on its own.)
 			for (String s : v2CapabilityAdvertisement) {
-				pckOut.writeString(s + "\n");
+				pckOut.writeString(s + "\n"); //$NON-NLS-1$
 			}
 			pckOut.end();
 

@@ -769,6 +769,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String unexpectedEofInPack;
 	/***/ public String unexpectedHunkTrailer;
 	/***/ public String unexpectedOddResult;
+	/***/ public String unexpectedPacketLine;
 	/***/ public String unexpectedRefReport;
 	/***/ public String unexpectedReportLine;
 	/***/ public String unexpectedReportLine2;
@@ -783,6 +784,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String unknownObjectType2;
 	/***/ public String unknownRepositoryFormat;
 	/***/ public String unknownRepositoryFormat2;
+	/***/ public String unknownTransportCommand;
 	/***/ public String unknownZlibError;
 	/***/ public String unmergedPath;
 	/***/ public String unmergedPaths;

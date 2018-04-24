@@ -297,19 +297,20 @@ public abstract class RefAdvertiser {
 
 			if (useProtocolV2) {
 				String symrefPart = symrefs.containsKey(ref.getName())
-					? (" symref-target:" + symrefs.get(ref.getName()))
-					: "";
-				String peelPart = "";
+						? (" symref-target:" + symrefs.get(ref.getName())) //$NON-NLS-1$
+						: ""; //$NON-NLS-1$
+				String peelPart = ""; //$NON-NLS-1$
 				if (derefTags) {
 					if (!ref.isPeeled() && repository != null) {
 						ref = repository.peel(ref);
 					}
 					ObjectId peeledObjectId = ref.getPeeledObjectId();
 					if (peeledObjectId != null) {
-						peelPart = " peeled:" + peeledObjectId.getName();
+						peelPart = " peeled:" + peeledObjectId.getName(); //$NON-NLS-1$
 					}
 				}
-				writeOne(objectId.getName() + " " + ref.getName() + symrefPart + peelPart + "\n");
+				writeOne(objectId.getName() + " " + ref.getName() + symrefPart //$NON-NLS-1$
+						+ peelPart + "\n"); //$NON-NLS-1$
 				continue;
 			}
 
