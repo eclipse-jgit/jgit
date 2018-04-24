@@ -49,7 +49,6 @@ import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -74,8 +73,8 @@ class RevParse extends TextBuiltin {
 	@Override
 	protected void run() throws Exception {
 		if (all) {
-			Map<String, Ref> allRefs = db.getRefDatabase().getRefs(ALL);
-			for (final Ref r : allRefs.values()) {
+			List<Ref> allRefs = db.getRefDatabase().getRefsByPrefix(ALL);
+			for (final Ref r : allRefs) {
 				ObjectId objectId = r.getObjectId();
 				// getRefs skips dangling symrefs, so objectId should never be
 				// null.

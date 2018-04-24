@@ -47,7 +47,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
@@ -78,11 +77,11 @@ public class ListTagCommand extends GitCommand<List<Ref>> {
 	@Override
 	public List<Ref> call() throws GitAPIException {
 		checkCallable();
-		Map<String, Ref> refList;
 		List<Ref> tags = new ArrayList<>();
 		try (RevWalk revWalk = new RevWalk(repo)) {
-			refList = repo.getRefDatabase().getRefs(Constants.R_TAGS);
-			for (Ref ref : refList.values()) {
+			List<Ref> refList = repo.getRefDatabase()
+					.getRefsByPrefix(Constants.R_TAGS);
+			for (Ref ref : refList) {
 				tags.add(ref);
 			}
 		} catch (IOException e) {

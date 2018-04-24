@@ -246,7 +246,8 @@ public class DescribeCommand extends GitCommand<String> {
 			if (target == null)
 				setTarget(Constants.HEAD);
 
-			Collection<Ref> tagList = repo.getRefDatabase().getRefs(R_TAGS).values();
+			Collection<Ref> tagList = repo.getRefDatabase()
+					.getRefsByPrefix(R_TAGS);
 			Map<ObjectId, List<Ref>> tags = tagList.stream()
 					.collect(Collectors.groupingBy(this::getObjectIdFromRef));
 

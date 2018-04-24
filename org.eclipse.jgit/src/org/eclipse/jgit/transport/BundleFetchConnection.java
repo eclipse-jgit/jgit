@@ -254,13 +254,14 @@ class BundleFetchConnection extends BaseFetchConnection {
 				throw new MissingBundlePrerequisiteException(transport.uri,
 						missing);
 
-			Map<String, Ref> localRefs;
+			List<Ref> localRefs;
 			try {
-				localRefs = transport.local.getRefDatabase().getRefs(ALL);
+				localRefs = transport.local.getRefDatabase()
+						.getRefsByPrefix(ALL);
 			} catch (IOException e) {
 				throw new TransportException(transport.uri, e.getMessage(), e);
 			}
-			for (final Ref r : localRefs.values()) {
+			for (final Ref r : localRefs) {
 				try {
 					rw.markStart(rw.parseCommit(r.getObjectId()));
 				} catch (IOException readError) {

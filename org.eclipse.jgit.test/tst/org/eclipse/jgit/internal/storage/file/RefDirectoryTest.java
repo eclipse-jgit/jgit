@@ -1271,7 +1271,7 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 					@Override
 					public void onRefsChanged(RefsChangedEvent event) {
 						try {
-							refDb.getRefs("ref");
+							refDb.getRefsByPrefix("ref");
 							changeCount.incrementAndGet();
 						} catch (StackOverflowError soe) {
 							error.set(soe);
@@ -1280,8 +1280,8 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 						}
 					}
 				});
-		refDb.getRefs("ref");
-		refDb.getRefs("ref");
+		refDb.getRefsByPrefix("ref");
+		refDb.getRefsByPrefix("ref");
 		assertNull(error.get());
 		assertNull(exception.get());
 		assertEquals(1, changeCount.get());

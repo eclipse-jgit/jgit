@@ -282,7 +282,7 @@ public class RefTreeDatabase extends RefDatabase {
 	public List<Ref> getAdditionalRefs() throws IOException {
 		Collection<Ref> txnRefs;
 		if (txnNamespace != null) {
-			txnRefs = bootstrap.getRefs(txnNamespace).values();
+			txnRefs = bootstrap.getRefsByPrefix(txnNamespace);
 		} else {
 			Ref r = bootstrap.exactRef(txnCommitted);
 			if (r != null && r.getObjectId() != null) {

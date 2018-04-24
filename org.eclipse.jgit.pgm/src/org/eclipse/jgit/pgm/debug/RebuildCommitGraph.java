@@ -117,7 +117,7 @@ class RebuildCommitGraph extends TextBuiltin {
 	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
-		if (!really && !db.getRefDatabase().getRefs(ALL).isEmpty()) {
+		if (!really && !db.getRefDatabase().getRefsByPrefix(ALL).isEmpty()) {
 			File directory = db.getDirectory();
 			String absolutePath = directory == null ? "null" //$NON-NLS-1$
 					: directory.getAbsolutePath();
@@ -247,8 +247,8 @@ class RebuildCommitGraph extends TextBuiltin {
 
 	private void deleteAllRefs() throws Exception {
 		final RevWalk rw = new RevWalk(db);
-		Map<String, Ref> refs = db.getRefDatabase().getRefs(ALL);
-		for (final Ref r : refs.values()) {
+		List<Ref> refs = db.getRefDatabase().getRefsByPrefix(ALL);
+		for (final Ref r : refs) {
 			if (Constants.HEAD.equals(r.getName()))
 				continue;
 			final RefUpdate u = db.updateRef(r.getName());

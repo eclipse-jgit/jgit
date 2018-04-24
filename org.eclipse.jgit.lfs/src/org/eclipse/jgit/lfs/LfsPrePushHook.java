@@ -174,8 +174,8 @@ public class LfsPrePushHook extends PrePushHook {
 
 	private void excludeRemoteRefs(ObjectWalk walk) throws IOException {
 		RefDatabase refDatabase = getRepository().getRefDatabase();
-		Map<String, Ref> remoteRefs = refDatabase.getRefs(remote());
-		for (Ref r : remoteRefs.values()) {
+		List<Ref> remoteRefs = refDatabase.getRefsByPrefix(remote());
+		for (Ref r : remoteRefs) {
 			ObjectId oid = r.getPeeledObjectId();
 			if (oid == null) {
 				oid = r.getObjectId();

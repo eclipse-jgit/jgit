@@ -48,13 +48,11 @@ package org.eclipse.jgit.pgm;
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
 import java.io.IOException;
-import java.util.Map;
-import java.util.SortedMap;
+import java.util.List;
 
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefComparator;
-import org.eclipse.jgit.util.RefMap;
 
 @Command(usage = "usage_ShowRef")
 class ShowRef extends TextBuiltin {
@@ -69,11 +67,10 @@ class ShowRef extends TextBuiltin {
 	}
 
 	private Iterable<Ref> getSortedRefs() throws Exception {
-		Map<String, Ref> all = db.getRefDatabase().getRefs(ALL);
-		if (all instanceof RefMap
-				|| (all instanceof SortedMap && ((SortedMap) all).comparator() == null))
-			return all.values();
-		return RefComparator.sort(all.values());
+		List<Ref> all = db.getRefDatabase().getRefsByPrefix(ALL);
+		// TODO(jrn) check if we can reintroduce fast-path by e.g. implementing
+		// SortedList
+		return RefComparator.sort(all);
 	}
 
 	private void show(final AnyObjectId id, final String name)

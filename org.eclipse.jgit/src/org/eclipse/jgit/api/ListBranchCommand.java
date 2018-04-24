@@ -187,6 +187,6 @@ public class ListBranchCommand extends GitCommand<List<Ref>> {
 	}
 
 	private Collection<Ref> getRefs(String prefix) throws IOException {
-		return repo.getRefDatabase().getRefs(prefix).values();
+		return repo.getRefDatabase().getRefsByPrefix(prefix);
 	}
 }

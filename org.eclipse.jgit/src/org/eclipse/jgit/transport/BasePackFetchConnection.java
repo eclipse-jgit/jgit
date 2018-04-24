@@ -55,7 +55,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.jgit.errors.PackProtocolException;
@@ -440,8 +439,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 
 	private void markReachable(final Set<ObjectId> have, final int maxTime)
 			throws IOException {
-		Map<String, Ref> refs = local.getRefDatabase().getRefs(ALL);
-		for (final Ref r : refs.values()) {
+		for (Ref r : local.getRefDatabase().getRefsByPrefix(ALL)) {
 			ObjectId id = r.getPeeledObjectId();
 			if (id == null)
 				id = r.getObjectId();
