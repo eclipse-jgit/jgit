@@ -22,6 +22,30 @@
       "revId": "02645ae0dac61f73a571079d1e84bf93ea5c7d4f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "845292bf_fc9919c1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 440
+      },
+      "writtenOn": "2018-04-24T15:44:12Z",
+      "side": 1,
+      "message": "I didn\u0027t. That\u0027s the formatter (which is set to format changed lines in egit, if I remember right).",
+      "parentUuid": "bbd843ea_ab6e8d8a",
+      "range": {
+        "startLine": 254,
+        "startChar": 15,
+        "endLine": 254,
+        "endChar": 22
+      },
+      "revId": "02645ae0dac61f73a571079d1e84bf93ea5c7d4f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
