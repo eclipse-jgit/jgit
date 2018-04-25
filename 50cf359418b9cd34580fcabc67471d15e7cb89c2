@@ -22,6 +22,30 @@
       "revId": "50cf359418b9cd34580fcabc67471d15e7cb89c2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d24b7cf8_8d70c634",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/DaemonClient.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-04-25T22:47:08Z",
+      "side": 1,
+      "message": "Actually I had to revert this to an earlier version - by this line, cmd has already been stripped of everything after the NUL byte.",
+      "parentUuid": "78d59f6a_4f6b309a",
+      "range": {
+        "startLine": 134,
+        "startChar": 20,
+        "endLine": 134,
+        "endChar": 35
+      },
+      "revId": "50cf359418b9cd34580fcabc67471d15e7cb89c2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
