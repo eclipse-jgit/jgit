@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "274ceaa8_2d8bf298",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1733,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-04-25T22:46:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1c1fe03_c48306db",
+      "range": {
+        "startLine": 1733,
+        "startChar": 63,
+        "endLine": 1733,
+        "endChar": 86
+      },
+      "revId": "7d2075698380a2b69cfc0e00e4905c2693607287",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f9d15f9_fb286f44",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1
@@ -71,6 +95,54 @@
     },
     {
       "key": {
+        "uuid": "8790891e_3a249ba5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1782,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-04-25T22:46:56Z",
+      "side": 1,
+      "message": "This takes all tags, not just the tags that are to be returned. I\u0027m not sure how best to name it - I\u0027ll stick with allTags for now.",
+      "parentUuid": "2f9d15f9_fb286f44",
+      "range": {
+        "startLine": 1782,
+        "startChar": 19,
+        "endLine": 1782,
+        "endChar": 26
+      },
+      "revId": "7d2075698380a2b69cfc0e00e4905c2693607287",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2581c883_2f23a92f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1782,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-04-25T22:46:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a39ce5f_4fe3a4f8",
+      "range": {
+        "startLine": 1782,
+        "startChar": 3,
+        "endLine": 1782,
+        "endChar": 26
+      },
+      "revId": "7d2075698380a2b69cfc0e00e4905c2693607287",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "211f5ec8_2a215b33",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1
@@ -85,6 +157,24 @@
       "revId": "7d2075698380a2b69cfc0e00e4905c2693607287",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b9d71d5_72839fe9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1849,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-04-25T22:46:56Z",
+      "side": 1,
+      "message": "This forms the argument to setTagTargets, the javadoc of which reads:\n\n\t/**\n\t * Set the tag targets that should be hoisted earlier during packing.\n\t * \u003cp\u003e\n\t * Callers may put objects into this set before invoking any of the\n\t * preparePack methods to influence where an annotated tag\u0027s target is\n\t * stored within the resulting pack. Typically these will be clustered\n\t * together, and hoisted earlier in the file even if they are ancient\n\t * revisions, allowing readers to find tag targets with better locality.\n\t *\n\t * @param objects\n\t *            objects that annotated tags point at.\n\t */\n\nIt seems that it\u0027s meant for tags (see the @param), but the objects don\u0027t have to be necessarily pointed to by tags. This is an optimization introduced by 8f865bfffe (\"PackWriter: Hoist and cluster reference targets\", 2011-02-18).\n\nAfter looking at all this, I now think that it\u0027s better to stick to using \"refs\" here to preserve the bistate of \"if refs had to be fetched for some other reason, perform this optimization\" and \"if refs didn\u0027t need to be fetched, don\u0027t do this optimization\". And that I should not expand it to a tristate also including \"if refs didn\u0027t need to be fetched, but tags did, perform this optimization on the tags only\". I\u0027ll also explain in the commit message why this instance of refs was not changed to allTags. Thanks for catching this.",
+      "parentUuid": "211f5ec8_2a215b33",
+      "revId": "7d2075698380a2b69cfc0e00e4905c2693607287",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
