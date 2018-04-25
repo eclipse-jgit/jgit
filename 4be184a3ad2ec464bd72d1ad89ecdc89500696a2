@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "8ff12100_cc447c46",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/ShowRef.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-04-25T02:11:29Z",
+      "side": 1,
+      "message": "Thanks. Marking resolved.",
+      "parentUuid": "75e4f323_49afcdf3",
+      "revId": "4be184a3ad2ec464bd72d1ad89ecdc89500696a2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1dda3fa1_d4ba8d22",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ListTagCommand.java",
         "patchSetId": 1
@@ -69,6 +87,24 @@
       "revId": "4be184a3ad2ec464bd72d1ad89ecdc89500696a2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc0b65cd_44e75a5b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ListTagCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-04-25T02:11:29Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "00e85584_ba72c155",
+      "revId": "4be184a3ad2ec464bd72d1ad89ecdc89500696a2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -116,6 +152,30 @@
       "revId": "4be184a3ad2ec464bd72d1ad89ecdc89500696a2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "219e0317_70eaaf99",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-04-25T02:11:29Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "1c1196e8_a3694909",
+      "range": {
+        "startLine": 442,
+        "startChar": 7,
+        "endLine": 442,
+        "endChar": 12
+      },
+      "revId": "4be184a3ad2ec464bd72d1ad89ecdc89500696a2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
