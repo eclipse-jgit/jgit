@@ -22,6 +22,30 @@
       "revId": "4b74c1fef87301562e7ba220552ae336a6786758",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad7622cf_e4664ab5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 993,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-04-25T22:47:00Z",
+      "side": 1,
+      "message": "I want to preserve existing functionality as much as possible so I\u0027ll leave it as-is.",
+      "parentUuid": "86a1c7e5_ca965ab7",
+      "range": {
+        "startLine": 993,
+        "startChar": 51,
+        "endLine": 993,
+        "endChar": 64
+      },
+      "revId": "4b74c1fef87301562e7ba220552ae336a6786758",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
