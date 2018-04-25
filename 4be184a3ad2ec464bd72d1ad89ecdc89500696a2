@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "22397a79_a34bb0b4",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/ShowRef.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-04-25T00:38:57Z",
+      "side": 1,
+      "message": "all is a List and there doesn\u0027t appear to be a SortedList analogous to SortedMap, alas.\n\nI think we can just get rid of this fast-path for now. Feel free to add a \u0027// TODO(jrn)\u0027 comment to revive it (perhaps by introducing our own SortedList interface).",
+      "revId": "4be184a3ad2ec464bd72d1ad89ecdc89500696a2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1dda3fa1_d4ba8d22",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ListTagCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-04-25T00:38:57Z",
+      "side": 1,
+      "message": "optional: can narrow scope",
+      "revId": "4be184a3ad2ec464bd72d1ad89ecdc89500696a2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e732dff_57eece74",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-04-25T00:38:57Z",
+      "side": 1,
+      "message": "optional: while at it, can remove the unnecessary \"final\".\n\nOr if aiming for a minimal change, can keep the \u0027refs\u0027 local var.",
+      "range": {
+        "startLine": 442,
+        "startChar": 7,
+        "endLine": 442,
+        "endChar": 12
+      },
+      "revId": "4be184a3ad2ec464bd72d1ad89ecdc89500696a2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
