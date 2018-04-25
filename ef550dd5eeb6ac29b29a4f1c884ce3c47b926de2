@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf74736a_1c57ea23",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-04-25T02:20:49Z",
+      "side": 1,
+      "message": "nit: indent with 2 spaces",
+      "range": {
+        "startLine": 279,
+        "startChar": 12,
+        "endLine": 279,
+        "endChar": 16
+      },
+      "revId": "ef550dd5eeb6ac29b29a4f1c884ce3c47b926de2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
