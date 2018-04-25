@@ -270,55 +270,27 @@
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.7.0</version>
           <configuration>
+            <compilerId>eclipse</compilerId>
             <encoding>UTF-8</encoding>
             <source>1.8</source>
             <target>1.8</target>
+            <!-- Passing arguments is a trainwreck, see https://issues.apache.org/jira/browse/MCOMPILER-123 -->
+            <compilerArguments>
+              <properties>${project.basedir}/.settings/org.eclipse.jdt.core.prefs</properties>
+            </compilerArguments>
+            <showWarnings>true</showWarnings>
+            <showDeprecation>true</showDeprecation>
           </configuration>
-          <executions>
-            <execution>
-              <id>default-compile</id>
-              <phase>compile</phase>
-              <goals>
-                <goal>compile</goal>
-              </goals>
-              <configuration>
-                <includes>
-                  <include>org/eclipse/jgit/transport/InsecureCipherFactory.java</include>
-                </includes>
-              </configuration>
-            </execution>
-            <execution>
-              <id>compile-with-errorprone</id>
-              <phase>compile</phase>
-              <goals>
-                <goal>compile</goal>
-              </goals>
-              <configuration>
-                <compilerId>javac-with-errorprone</compilerId>
-                <forceJavacCompilerUse>true</forceJavacCompilerUse>
-                <excludes>
-                  <exclude>org/eclipse/jgit/transport/InsecureCipherFactory.java</exclude>
-                </excludes>
-              </configuration>
-            </execution>
-          </executions>
           <dependencies>
             <dependency>
               <groupId>org.codehaus.plexus</groupId>
-              <artifactId>plexus-compiler-javac</artifactId>
-              <version>2.8.2</version>
-            </dependency>
-            <dependency>
-              <groupId>org.codehaus.plexus</groupId>
-              <artifactId>plexus-compiler-javac-errorprone</artifactId>
+              <artifactId>plexus-compiler-eclipse</artifactId>
               <version>2.8.4</version>
             </dependency>
-            <!-- override plexus-compiler-javac-errorprone's dependency on
-                 Error Prone with the latest version -->
             <dependency>
-              <groupId>com.google.errorprone</groupId>
-              <artifactId>error_prone_core</artifactId>
-              <version>2.3.1</version>
+              <groupId>org.eclipse.jdt</groupId>
+              <artifactId>ecj</artifactId>
+              <version>3.13.102</version>
             </dependency>
           </dependencies>
         </plugin>
