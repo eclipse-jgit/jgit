@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "75e4f323_49afcdf3",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/ShowRef.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-25T01:35:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22397a79_a34bb0b4",
+      "revId": "4be184a3ad2ec464bd72d1ad89ecdc89500696a2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1dda3fa1_d4ba8d22",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ListTagCommand.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "00e85584_ba72c155",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ListTagCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-25T01:35:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1dda3fa1_d4ba8d22",
+      "revId": "4be184a3ad2ec464bd72d1ad89ecdc89500696a2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8e732dff_57eece74",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
         "patchSetId": 1
@@ -47,6 +83,30 @@
       "writtenOn": "2018-04-25T00:38:57Z",
       "side": 1,
       "message": "optional: while at it, can remove the unnecessary \"final\".\n\nOr if aiming for a minimal change, can keep the \u0027refs\u0027 local var.",
+      "range": {
+        "startLine": 442,
+        "startChar": 7,
+        "endLine": 442,
+        "endChar": 12
+      },
+      "revId": "4be184a3ad2ec464bd72d1ad89ecdc89500696a2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c1196e8_a3694909",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-25T01:35:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e732dff_57eece74",
       "range": {
         "startLine": 442,
         "startChar": 7,
