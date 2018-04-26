@@ -16,6 +16,24 @@
       "revId": "b0ac5f9c8907a4034612543a92eb465e88a9c6f2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "364a42e4_fdf8c86b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/LargePackedWholeObject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-04-26T22:05:16Z",
+      "side": 1,
+      "message": "Ok, I understand it now.\n\nInflaterCache maintainers a collection of zlib Inflaters to allow them to be reused (avoiding some repeated initialization overhead). The semantics are that a caller is supposed to get() to acquire one and release() to return it.\n\nA DfsReader has an inflater that it owns. It is acquired using InflaterCache.get() on first use and released on close. So far so good.\n\nThe preimage code acquires and releases inflaters multiple times:\n 1. First we construct a PackInputStream. It uses ctx to obtain the first window. It also holds a reference to ctx and owns it.\n 2. If that fails, the PackInputStream does not release ctx. I think that\u0027s fine, since it does not own ctx until successful construction.\n 3. In the exception handler, we use ctx to produce an ObjectLoader, then release ctx. I don\u0027t believe the ObjectLoader holds any reference to ctx. We release it when done.\n 4. Finally, we release ctx to clean up after construction of the PackInputStream. This is of questionable utility, since the PackInputStream still holds a reference to ctx.\n 5. Then we set up an InflaterInputStream wrapping the PackInputStream. We call ctx.inflater(), which acquires a new inflater from the InflaterCache, never to be released.\n\nThis change swapped the order of 4 and 5, so that (1) on one hand, we don\u0027t leak the Inflater any more but (2) on the other hand, we release it before we stop using it.",
+      "parentUuid": "71203172_fec5cbbf",
+      "revId": "b0ac5f9c8907a4034612543a92eb465e88a9c6f2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
