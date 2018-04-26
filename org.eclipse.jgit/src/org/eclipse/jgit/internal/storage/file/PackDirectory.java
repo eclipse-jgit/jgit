@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
+import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 
 import java.io.File;
@@ -59,6 +60,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.ConcurrentHashMap;
+
 
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.PackInvalidException;
@@ -151,16 +154,30 @@ class PackDirectory {
 	 *
 	 * @param objectId
 	 *            identity of the object to test for existence of.
-	 * @return true if the specified object is stored in this PackDirectory.
+	 * @return {@code true} if the specified object is stored in this PackDirectory.
 	 */
 	boolean has(AnyObjectId objectId) {
+		return getPackFile(objectId) != null;
+	}
+
+	/**
+	 * Get the {@link org.eclipse.jgit.internal.storage.file.PackFile} for the
+	 * specified object if it is stored in this PackDirectory.
+	 *
+	 * @param objectId
+	 *            identity of the object to find the PackFile for.
+	 * @return {@link org.eclipse.jgit.internal.storage.file.PackFile} which
+	 *            contains the specified object or {@code null} if it is not
+	 *            stored in this PackDirectory.
+	 */
+	PackFile getPackFile(AnyObjectId objectId) {
 		PackList pList;
 		do {
 			pList = packList.get();
 			for (PackFile p : pList.packs) {
 				try {
 					if (p.hasObject(objectId))
-						return true;
+						return p;
 				} catch (IOException e) {
 					// The hasObject call should have only touched the index,
 					// so any failure here indicates the index is unreadable
@@ -169,7 +186,7 @@ class PackDirectory {
 				}
 			}
 		} while (searchPacksAgain(pList));
-		return false;
+		return null;
 	}
 
 	boolean resolve(Set<ObjectId> matches, AbbreviatedObjectId id,
@@ -408,19 +425,20 @@ class PackDirectory {
 		final List<PackFile> list = new ArrayList<>(names.size() >> 2);
 		boolean foundNew = false;
 		for (final String indexName : names) {
-			// Must match "pack-[0-9a-f]{40}.idx" to be an index.
-			//
-			if (indexName.length() != 49 || !indexName.endsWith(".idx")) //$NON-NLS-1$
+			PackFileName name = new PackFileName(directory, indexName);
+			if (!indexName.equals(name.create(INDEX).getName()))
 				continue;
 
-			final String base = indexName.substring(0, indexName.length() - 3);
-			int extensions = 0;
+			ConcurrentHashMap<PackExt, PackFileName> found = new ConcurrentHashMap<>();
 			for (PackExt ext : PackExt.values()) {
-				if (names.contains(base + ext.getExtension()))
-					extensions |= ext.getBit();
+				PackFileName other = name.create(ext);
+				if (names.contains(other.getName())) {
+					found.put(ext, other);
+				}
 			}
 
-			if ((extensions & PACK.getBit()) == 0) {
+			PackFileName packName = found.get(PACK);
+			if (packName == null) {
 				// Sometimes C Git's HTTP fetch transport leaves a
 				// .idx file behind and does not download the .pack.
 				// We have to skip over such useless indexes.
@@ -428,15 +446,13 @@ class PackDirectory {
 				continue;
 			}
 
-			final String packName = base + PACK.getExtension();
-			final PackFile oldPack = forReuse.remove(packName);
+			final PackFile oldPack = forReuse.remove(packName.getName());
 			if (oldPack != null) {
 				list.add(oldPack);
 				continue;
 			}
 
-			final File packFile = new File(directory, packName);
-			list.add(new PackFile(packFile, extensions));
+			list.add(new PackFile(found));
 			foundNew = true;
 		}
 
