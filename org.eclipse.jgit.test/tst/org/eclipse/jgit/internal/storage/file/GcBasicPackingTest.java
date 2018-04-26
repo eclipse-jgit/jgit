@@ -56,6 +56,7 @@ import java.util.List;
 
 import org.eclipse.jgit.junit.TestRepository.BranchBuilder;
 import org.eclipse.jgit.lib.ConfigConstants;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
@@ -325,6 +326,56 @@ public class GcBasicPackingTest extends GcTestCase {
 				oldPackFileName.lastIndexOf('.')) + ".old-pack";  //$NON-NLS-1$
 		File preservePackFile = new File(oldPackDir, oldPackName);
 		assertTrue(preservePackFile.exists());
+	}
+
+	@Test
+	public void testPruneAndRestoreOldPacks() throws Exception {
+		String tempRef = "refs/heads/soon-to-be-unreferenced";
+		BranchBuilder bb = tr.branch(tempRef);
+		bb.commit().add("A", "A").add("B", "B").create();
+
+		// Verify setup conditions
+		stats = gc.getStatistics();
+		assertEquals(4, stats.numberOfLooseObjects);
+		assertEquals(0, stats.numberOfPackedObjects);
+
+		// Force all referenced objects into packs (to avoid having loose objects)
+		configureGc(gc, false);
+		gc.setExpireAgeMillis(0);
+		gc.setPackExpireAgeMillis(0);
+		gc.gc();
+		stats = gc.getStatistics();
+		assertEquals(0, stats.numberOfLooseObjects);
+		assertEquals(4, stats.numberOfPackedObjects);
+		assertEquals(1, stats.numberOfPackFiles);
+
+		// Delete the temp ref, orphaning its commit
+		RefUpdate update = tr.getRepository().getRefDatabase().newUpdate(tempRef, false);
+		update.setForceUpdate(true);
+		ObjectId objectId = update.getOldObjectId(); // remember it so we can restore it!
+		RefUpdate.Result result = update.delete();
+		assertEquals(RefUpdate.Result.FORCED, result);
+
+		fsTick();
+
+		// Repack with only orphaned commit, so packfile will be pruned
+		configureGc(gc, false).setPreserveOldPacks(true);
+		gc.gc();
+		stats = gc.getStatistics();
+		assertEquals(0, stats.numberOfLooseObjects);
+		assertEquals(0, stats.numberOfPackedObjects);
+		assertEquals(0, stats.numberOfPackFiles);
+
+		// Restore the temp ref to the deleted commit, should restore old-packs!
+		update = tr.getRepository().getRefDatabase().newUpdate(tempRef, false);
+		update.setNewObjectId(objectId);
+		update.setExpectedOldObjectId(null);
+		result = update.update();
+		assertEquals(RefUpdate.Result.NEW, result);
+
+		stats = gc.getStatistics();
+		assertEquals(4, stats.numberOfPackedObjects);
+		assertEquals(1, stats.numberOfPackFiles);
 	}
 
 	private PackConfig configureGc(GC myGc, boolean aggressive) {
