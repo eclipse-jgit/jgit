@@ -48,13 +48,9 @@ import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.AtomicMoveNotSupportedException;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -72,7 +68,6 @@ import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
@@ -80,8 +75,6 @@ import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Traditional file system based {@link org.eclipse.jgit.lib.ObjectDatabase}.
@@ -102,9 +95,6 @@ import org.slf4j.LoggerFactory;
  * considered.
  */
 public class ObjectDirectory extends FileObjectDatabase {
-	private final static Logger LOG = LoggerFactory
-			.getLogger(ObjectDirectory.class);
-
 	/** Maximum number of candidates offered as resolutions of abbreviation. */
 	private static final int RESOLVE_ABBREV_LIMIT = 256;
 
@@ -116,6 +106,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	private final File infoDirectory;
 
+	private final LooseObjects loose;
+
 	private final PackDirectory packed;
 
 	private final File preservedDirectory;
@@ -125,8 +117,6 @@ public class ObjectDirectory extends FileObjectDatabase {
 	private final FS fs;
 
 	private final AtomicReference<AlternateHandle[]> alternates;
-
-	private final UnpackedObjectCache unpackedObjectCache;
 
 	private final File shallowFile;
 
@@ -160,8 +150,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 		File packDirectory = new File(objects, "pack"); //$NON-NLS-1$
 		preservedDirectory = new File(packDirectory, "preserved"); //$NON-NLS-1$
 		alternatesFile = new File(infoDirectory, "alternates"); //$NON-NLS-1$
+		loose = new LooseObjects(objects);
 		packed = new PackDirectory(config, packDirectory);
-		unpackedObjectCache = new UnpackedObjectCache();
 		this.fs = fs;
 		this.shallowFile = shallowFile;
 
@@ -179,7 +169,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 	/** {@inheritDoc} */
 	@Override
 	public final File getDirectory() {
-		return objects;
+		return loose.getDirectory();
 	}
 
 	/**
@@ -210,7 +200,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 	/** {@inheritDoc} */
 	@Override
 	public void create() throws IOException {
-		FileUtils.mkdirs(objects);
+		loose.create();
 		FileUtils.mkdir(infoDirectory);
 		packed.create();
 	}
@@ -234,7 +224,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 	/** {@inheritDoc} */
 	@Override
 	public void close() {
-		unpackedObjectCache.clear();
+		loose.close();
 
 		packed.close();
 
@@ -291,7 +281,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 	/** {@inheritDoc} */
 	@Override
 	public boolean has(AnyObjectId objectId) {
-		return unpackedObjectCache.isUnpacked(objectId)
+		return loose.hasCached(objectId)
 				|| hasPackedInSelfOrAlternate(objectId, null)
 				|| hasLooseInSelfOrAlternate(objectId, null);
 	}
@@ -314,7 +304,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	private boolean hasLooseInSelfOrAlternate(AnyObjectId objectId,
 			Set<AlternateHandle.Id> skips) {
-		if (fileFor(objectId).exists()) {
+		if (loose.has(objectId)) {
 			return true;
 		}
 		skips = addMe(skips);
@@ -344,23 +334,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 		if (!packed.resolve(matches, id, RESOLVE_ABBREV_LIMIT))
 			return;
 
-		String fanOut = id.name().substring(0, 2);
-		String[] entries = new File(getDirectory(), fanOut).list();
-		if (entries != null) {
-			for (String e : entries) {
-				if (e.length() != Constants.OBJECT_ID_STRING_LENGTH - 2)
-					continue;
-				try {
-					ObjectId entId = ObjectId.fromString(fanOut + e);
-					if (id.prefixCompare(entId) == 0)
-						matches.add(entId);
-				} catch (IllegalArgumentException notId) {
-					continue;
-				}
-				if (matches.size() > RESOLVE_ABBREV_LIMIT)
-					return;
-			}
-		}
+		if (!loose.resolve(matches, id, RESOLVE_ABBREV_LIMIT))
+			return;
 
 		skips = addMe(skips);
 		for (AlternateHandle alt : myAlternates()) {
@@ -376,7 +351,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 	@Override
 	ObjectLoader openObject(WindowCursor curs, AnyObjectId objectId)
 			throws IOException {
-		if (unpackedObjectCache.isUnpacked(objectId)) {
+		if (loose.hasCached(objectId)) {
 			ObjectLoader ldr = openLooseObject(curs, objectId);
 			if (ldr != null) {
 				return ldr;
@@ -433,24 +408,14 @@ public class ObjectDirectory extends FileObjectDatabase {
 	@Override
 	ObjectLoader openLooseObject(WindowCursor curs, AnyObjectId id)
 			throws IOException {
-		File path = fileFor(id);
-		try (FileInputStream in = new FileInputStream(path)) {
-			unpackedObjectCache.add(id);
-			return UnpackedObject.open(in, path, id, curs);
-		} catch (FileNotFoundException noFile) {
-			if (path.exists()) {
-				throw noFile;
-			}
-			unpackedObjectCache.remove(id);
-			return null;
-		}
+		return loose.open(curs, id);
 	}
 
 	@Override
 	long getObjectSize(WindowCursor curs, AnyObjectId id)
 			throws IOException {
-		if (unpackedObjectCache.isUnpacked(id)) {
-			long len = getLooseObjectSize(curs, id);
+		if (loose.hasCached(id)) {
+			long len = loose.getSize(curs, id);
 			if (0 <= len) {
 				return len;
 			}
@@ -482,7 +447,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	private long getLooseSizeFromSelfOrAlternate(WindowCursor curs,
 			AnyObjectId id, Set<AlternateHandle.Id> skips) throws IOException {
-		long len = getLooseObjectSize(curs, id);
+		long len = loose.getSize(curs, id);
 		if (0 <= len) {
 			return len;
 		}
@@ -496,21 +461,6 @@ public class ObjectDirectory extends FileObjectDatabase {
 			}
 		}
 		return -1;
-	}
-
-	private long getLooseObjectSize(WindowCursor curs, AnyObjectId id)
-			throws IOException {
-		File f = fileFor(id);
-		try (FileInputStream in = new FileInputStream(f)) {
-			unpackedObjectCache.add(id);
-			return UnpackedObject.getSize(in, id, curs);
-		} catch (FileNotFoundException noFile) {
-			if (f.exists()) {
-				throw noFile;
-			}
-			unpackedObjectCache.remove(id);
-			return -1;
-		}
 	}
 
 	@Override
@@ -536,7 +486,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 			boolean createDuplicate) throws IOException {
 		// If the object is already in the repository, remove temporary file.
 		//
-		if (unpackedObjectCache.isUnpacked(id)) {
+		if (loose.hasCached(id)) {
 			FileUtils.delete(tmp, FileUtils.RETRY);
 			return InsertLooseObjectResult.EXISTS_LOOSE;
 		}
@@ -545,42 +495,9 @@ public class ObjectDirectory extends FileObjectDatabase {
 			return InsertLooseObjectResult.EXISTS_PACKED;
 		}
 
-		final File dst = fileFor(id);
-		if (dst.exists()) {
-			// We want to be extra careful and avoid replacing an object
-			// that already exists. We can't be sure renameTo() would
-			// fail on all platforms if dst exists, so we check first.
-			//
-			FileUtils.delete(tmp, FileUtils.RETRY);
-			return InsertLooseObjectResult.EXISTS_LOOSE;
-		}
-		try {
-			Files.move(FileUtils.toPath(tmp), FileUtils.toPath(dst),
-					StandardCopyOption.ATOMIC_MOVE);
-			dst.setReadOnly();
-			unpackedObjectCache.add(id);
-			return InsertLooseObjectResult.INSERTED;
-		} catch (AtomicMoveNotSupportedException e) {
-			LOG.error(e.getMessage(), e);
-		} catch (IOException e) {
-			// ignore
-		}
-
-		// Maybe the directory doesn't exist yet as the object
-		// directories are always lazily created. Note that we
-		// try the rename first as the directory likely does exist.
-		//
-		FileUtils.mkdir(dst.getParentFile(), true);
-		try {
-			Files.move(FileUtils.toPath(tmp), FileUtils.toPath(dst),
-					StandardCopyOption.ATOMIC_MOVE);
-			dst.setReadOnly();
-			unpackedObjectCache.add(id);
-			return InsertLooseObjectResult.INSERTED;
-		} catch (AtomicMoveNotSupportedException e) {
-			LOG.error(e.getMessage(), e);
-		} catch (IOException e) {
-			LOG.debug(e.getMessage(), e);
+		InsertLooseObjectResult result = loose.insert(tmp, id);
+		if (result != InsertLooseObjectResult.FAILURE) {
+		  return result;
 		}
 
 		if (!createDuplicate && has(id)) {
@@ -710,16 +627,11 @@ public class ObjectDirectory extends FileObjectDatabase {
 	}
 
 	/**
-	 * {@inheritDoc}
-	 * <p>
 	 * Compute the location of a loose object file.
 	 */
 	@Override
 	public File fileFor(AnyObjectId objectId) {
-		String n = objectId.name();
-		String d = n.substring(0, 2);
-		String f = n.substring(2);
-		return new File(new File(getDirectory(), d), f);
+	  return loose.fileFor(objectId);
 	}
 
 	static class AlternateHandle {
