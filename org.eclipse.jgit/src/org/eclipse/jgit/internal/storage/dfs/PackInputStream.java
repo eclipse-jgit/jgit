@@ -47,7 +47,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 final class PackInputStream extends InputStream {
-	private final DfsReader ctx;
+	final DfsReader ctx;
 
 	private final DfsPackFile pack;
 
