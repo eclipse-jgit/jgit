@@ -226,6 +226,10 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		return names.get(PACK);
 	}
 
+	Map<PackExt, PackFileName> getPackFileNames() {
+		return names;
+	}
+
 	/**
 	 * Get the index for this pack file.
 	 *
