@@ -93,6 +93,7 @@ import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.LongList;
 import org.eclipse.jgit.util.NB;
 import org.eclipse.jgit.util.RawParseUtils;
@@ -227,6 +228,10 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		return names.get(PACK);
 	}
 
+	Map<PackExt, PackFileName> getPackFileNames() {
+		return names;
+	}
+
 	/**
 	 * Get the index for this pack file.
 	 *
@@ -244,6 +249,34 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	 */
 	public String getPackName() {
 		return names.get(PACK).getId();
+	}
+
+	/**
+	 * Delete files associated with a single pack file. First try to delete the
+	 * ".pack" file because on some platforms the ".pack" file may be locked and
+	 * can't be deleted. In such a case it is better to detect this early and
+	 * give up on deleting files for this packfile. Otherwise we may delete the
+	 * ".index" file and when failing to delete the ".pack" file we are left
+	 * with a ".pack" file without a ".index" file.
+	 */
+	public void delete() {
+		try {
+			// Delete the .pack file first and if this fails give up on deleting
+			// the other files
+			int deleteOptions = FileUtils.RETRY | FileUtils.SKIP_MISSING;
+			FileUtils.delete(names.get(PACK), deleteOptions);
+
+			// The .pack file has been deleted. Delete as many as the other
+			// files as you can.
+			deleteOptions |= FileUtils.IGNORE_ERRORS;
+			for (PackFileName name : names.values()) {
+				if (!PACK.equals(name.getPackExt())) {
+					FileUtils.delete(name, deleteOptions);
+				}
+			}
+		} catch (IOException e) {
+			// Deletion of the .pack file failed (ignored errors on other deletes). Silently return.
+		}
 	}
 
 	/**
