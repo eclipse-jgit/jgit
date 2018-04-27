@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46e07dd0_ed592f56",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/RebuildCommitGraph.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-04-27T01:54:04Z",
+      "side": 1,
+      "message": "not about this change: this hints at another missing method in the RefDatabase API",
+      "revId": "b3ade643904e39524e9dc7690a12c3b4d686e5ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a9e4797f_317ecd6c",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/RebuildCommitGraph.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-04-27T01:54:04Z",
+      "side": 1,
+      "message": "optional: can avoid unnecessary \u0027final\u0027",
+      "range": {
+        "startLine": 248,
+        "startChar": 7,
+        "endLine": 248,
+        "endChar": 12
+      },
+      "revId": "b3ade643904e39524e9dc7690a12c3b4d686e5ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "192d8a43_81c3974e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-04-27T01:54:04Z",
+      "side": 1,
+      "message": "I think we don\u0027t need to mention this implementation detail. In fact for a typical RefDatabase implementation I\u0027d expect getRefsByPrefix(ALL) to be a reasonably good implementation.\n\nCould this say something along the lines of \"Callers interested in only a portion of the ref hierarchy can call {@link #getRefsByPrefix} instead\" to nudge callers toward that optimization?",
+      "revId": "b3ade643904e39524e9dc7690a12c3b4d686e5ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5eaa8789_393276be",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 778,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-04-27T01:54:04Z",
+      "side": 1,
+      "message": "getAllRefs",
+      "range": {
+        "startLine": 778,
+        "startChar": 41,
+        "endLine": 778,
+        "endChar": 53
+      },
+      "revId": "b3ade643904e39524e9dc7690a12c3b4d686e5ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
