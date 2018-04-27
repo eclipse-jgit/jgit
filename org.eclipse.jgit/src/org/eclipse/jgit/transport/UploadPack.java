@@ -90,7 +90,6 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.AsyncRevObjectQueue;
 import org.eclipse.jgit.revwalk.BitmapWalker;
@@ -776,7 +775,7 @@ public class UploadPack {
 
 	private Map<String, Ref> getAdvertisedOrDefaultRefs() throws IOException {
 		if (refs == null)
-			setAdvertisedRefs(db.getRefDatabase().getRefs(RefDatabase.ALL));
+			setAdvertisedRefs(db.getRefDatabase().getRefs(ALL));
 		return refs;
 	}
 
@@ -1583,7 +1582,7 @@ public class UploadPack {
 			else if (!wants.isEmpty()) {
 				Set<ObjectId> refIds =
 						refIdSet(up.getRepository().getRefDatabase()
-								.getRefsByPrefix(ALL));
+								.getAllRefs());
 				for (ObjectId obj : wants) {
 					if (!refIds.contains(obj))
 						throw new WantNotValidException(obj);
@@ -1603,8 +1602,7 @@ public class UploadPack {
 		public void checkWants(UploadPack up, List<ObjectId> wants)
 				throws PackProtocolException, IOException {
 			checkNotAdvertisedWants(up, wants,
-					refIdSet(up.getRepository().getRefDatabase()
-							.getRefsByPrefix(ALL)));
+					refIdSet(up.getRepository().getRefDatabase().getAllRefs()));
 		}
 	}
 

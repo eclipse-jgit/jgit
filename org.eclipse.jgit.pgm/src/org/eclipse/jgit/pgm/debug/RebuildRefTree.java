@@ -154,7 +154,7 @@ class RebuildRefTree extends TextBuiltin {
 					head));
 		}
 
-		for (Ref r : refdb.getRefsByPrefix(RefDatabase.ALL)) {
+		for (Ref r : refdb.getAllRefs()) {
 			if (r.getName().equals(txnCommitted) || r.getName().equals(HEAD)
 					|| r.getName().startsWith(txnNamespace)) {
 				continue;

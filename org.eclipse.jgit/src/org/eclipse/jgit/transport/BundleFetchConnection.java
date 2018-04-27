@@ -47,8 +47,6 @@
 
 package org.eclipse.jgit.transport;
 
-import static org.eclipse.jgit.lib.RefDatabase.ALL;
-
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -256,8 +254,7 @@ class BundleFetchConnection extends BaseFetchConnection {
 
 			List<Ref> localRefs;
 			try {
-				localRefs = transport.local.getRefDatabase()
-						.getRefsByPrefix(ALL);
+				localRefs = transport.local.getRefDatabase().getAllRefs();
 			} catch (IOException e) {
 				throw new TransportException(transport.uri, e.getMessage(), e);
 			}

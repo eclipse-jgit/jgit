@@ -45,8 +45,6 @@
 
 package org.eclipse.jgit.pgm;
 
-import static org.eclipse.jgit.lib.RefDatabase.ALL;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -67,7 +65,7 @@ class ShowRef extends TextBuiltin {
 	}
 
 	private Iterable<Ref> getSortedRefs() throws Exception {
-		List<Ref> all = db.getRefDatabase().getRefsByPrefix(ALL);
+		List<Ref> all = db.getRefDatabase().getAllRefs();
 		// TODO(jrn) check if we can reintroduce fast-path by e.g. implementing
 		// SortedList
 		return RefComparator.sort(all);
