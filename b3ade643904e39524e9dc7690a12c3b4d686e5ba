@@ -145,6 +145,30 @@
       "revId": "b3ade643904e39524e9dc7690a12c3b4d686e5ba",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74ac9336_19ddf9ea",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 778,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-04-27T02:24:18Z",
+      "side": 1,
+      "message": "Ah, I see. I misread the preimage. Sorry for the noise.",
+      "parentUuid": "227ae86f_9cd78b11",
+      "range": {
+        "startLine": 778,
+        "startChar": 41,
+        "endLine": 778,
+        "endChar": 53
+      },
+      "revId": "b3ade643904e39524e9dc7690a12c3b4d686e5ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
