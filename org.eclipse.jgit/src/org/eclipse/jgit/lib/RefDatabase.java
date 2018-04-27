@@ -91,7 +91,10 @@ public abstract class RefDatabase {
 	 */
 	public static final int MAX_SYMBOLIC_REF_DEPTH = 5;
 
-	/** Magic value for {@link #getRefs(String)} to return all references. */
+	/**
+	 * Magic value for {@link #getRefsByPrefix(String)} to return all
+	 * references.
+	 */
 	public static final String ALL = "";//$NON-NLS-1$
 
 	/**
