@@ -73,17 +73,19 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 		if (firstObjectId == secondObjectId)
 			return true;
 
-		// We test word 2 first as odds are someone already used our
-		// word 1 as a hash code, and applying that came up with these
-		// two instances we are comparing for equality. Therefore the
-		// first two words are very likely to be identical. We want to
-		// break away from collisions as quickly as possible.
+		// We test word 3 first since the git file-based ODB
+		// uses the first byte of w1, and we use w2 as the
+		// hash code, one of those probably came up with these
+		// two instances which we are comparing for equality.
+		// Therefore the first two words are very likely to be
+		// identical. We want to break away from collisions as
+		// quickly as possible.
 		//
-		return firstObjectId.w2 == secondObjectId.w2
-				&& firstObjectId.w3 == secondObjectId.w3
+		return firstObjectId.w3 == secondObjectId.w3
 				&& firstObjectId.w4 == secondObjectId.w4
 				&& firstObjectId.w5 == secondObjectId.w5
-				&& firstObjectId.w1 == secondObjectId.w1;
+				&& firstObjectId.w1 == secondObjectId.w1
+				&& firstObjectId.w2 == secondObjectId.w2;
 	}
 
 	int w1;
