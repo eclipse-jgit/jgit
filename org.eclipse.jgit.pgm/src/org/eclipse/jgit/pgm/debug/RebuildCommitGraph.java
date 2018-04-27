@@ -115,7 +115,7 @@ class RebuildCommitGraph extends TextBuiltin {
 	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
-		if (!really && !db.getRefDatabase().getAllRefs().isEmpty()) {
+		if (!really && db.getRefDatabase().hasRefs()) {
 			File directory = db.getDirectory();
 			String absolutePath = directory == null ? "null" //$NON-NLS-1$
 					: directory.getAbsolutePath();

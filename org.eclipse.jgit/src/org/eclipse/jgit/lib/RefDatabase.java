@@ -408,6 +408,18 @@ public abstract class RefDatabase {
 	}
 
 	/**
+	 * Check if any refs exist in the ref database.
+	 *
+	 * @return true if the database has refs.
+	 * @throws java.io.IOException
+	 *             the reference space cannot be accessed.
+	 * @since 5.0
+	 */
+	public boolean hasRefs() throws IOException {
+		return !getAllRefs().isEmpty();
+	}
+
+	/**
 	 * Get the additional reference-like entities from the repository.
 	 * <p>
 	 * The result list includes non-ref items such as MERGE_HEAD and
