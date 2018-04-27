@@ -45,8 +45,6 @@
 
 package org.eclipse.jgit.transport;
 
-import static org.eclipse.jgit.lib.RefDatabase.ALL;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -439,7 +437,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 
 	private void markReachable(final Set<ObjectId> have, final int maxTime)
 			throws IOException {
-		for (Ref r : local.getRefDatabase().getRefsByPrefix(ALL)) {
+		for (Ref r : local.getRefDatabase().getAllRefs()) {
 			ObjectId id = r.getPeeledObjectId();
 			if (id == null)
 				id = r.getObjectId();

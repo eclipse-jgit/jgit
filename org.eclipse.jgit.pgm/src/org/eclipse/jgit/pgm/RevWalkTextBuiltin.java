@@ -53,7 +53,6 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.pgm.internal.CLIText;
 import org.eclipse.jgit.pgm.opt.PathTreeFilterHandler;
 import org.eclipse.jgit.revwalk.FollowFilter;
@@ -170,8 +169,7 @@ abstract class RevWalkTextBuiltin extends TextBuiltin {
 			walk.setRevFilter(AndRevFilter.create(revLimiter));
 
 		if (all) {
-			List<Ref> refs =
-					db.getRefDatabase().getRefsByPrefix(RefDatabase.ALL);
+			List<Ref> refs = db.getRefDatabase().getAllRefs();
 			for (Ref a : refs) {
 				ObjectId oid = a.getPeeledObjectId();
 				if (oid == null)

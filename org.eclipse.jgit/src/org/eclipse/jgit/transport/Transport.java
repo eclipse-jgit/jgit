@@ -47,7 +47,6 @@
 package org.eclipse.jgit.transport;
 
 import static org.eclipse.jgit.lib.Constants.CHARSET;
-import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -689,7 +688,7 @@ public abstract class Transport implements AutoCloseable {
 	private static Collection<RefSpec> expandPushWildcardsFor(
 			final Repository db, final Collection<RefSpec> specs)
 			throws IOException {
-		final List<Ref> localRefs = db.getRefDatabase().getRefsByPrefix(ALL);
+		final List<Ref> localRefs = db.getRefDatabase().getAllRefs();
 		final Collection<RefSpec> procRefs = new LinkedHashSet<>();
 
 		for (final RefSpec spec : specs) {

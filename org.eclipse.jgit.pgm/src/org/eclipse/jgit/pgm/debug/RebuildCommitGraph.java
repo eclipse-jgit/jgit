@@ -43,8 +43,6 @@
 
 package org.eclipse.jgit.pgm.debug;
 
-import static org.eclipse.jgit.lib.RefDatabase.ALL;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -117,7 +115,7 @@ class RebuildCommitGraph extends TextBuiltin {
 	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
-		if (!really && !db.getRefDatabase().getRefsByPrefix(ALL).isEmpty()) {
+		if (!really && !db.getRefDatabase().getAllRefs().isEmpty()) {
 			File directory = db.getDirectory();
 			String absolutePath = directory == null ? "null" //$NON-NLS-1$
 					: directory.getAbsolutePath();
@@ -247,8 +245,7 @@ class RebuildCommitGraph extends TextBuiltin {
 
 	private void deleteAllRefs() throws Exception {
 		final RevWalk rw = new RevWalk(db);
-		List<Ref> refs = db.getRefDatabase().getRefsByPrefix(ALL);
-		for (final Ref r : refs) {
+		for (Ref r : db.getRefDatabase().getAllRefs()) {
 			if (Constants.HEAD.equals(r.getName()))
 				continue;
 			final RefUpdate u = db.updateRef(r.getName());

@@ -44,8 +44,6 @@
 
 package org.eclipse.jgit.transport;
 
-import static org.eclipse.jgit.lib.RefDatabase.ALL;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -691,7 +689,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 	private void markLocalRefsComplete(final Set<ObjectId> have) throws TransportException {
 		List<Ref> refs;
 		try {
-			refs = local.getRefDatabase().getRefsByPrefix(ALL);
+			refs = local.getRefDatabase().getAllRefs();
 		} catch (IOException e) {
 			throw new TransportException(e.getMessage(), e);
 		}
