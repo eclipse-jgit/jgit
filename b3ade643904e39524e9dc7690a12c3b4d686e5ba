@@ -66,6 +66,30 @@
     },
     {
       "key": {
+        "uuid": "c1bee945_65ba8402",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/RebuildCommitGraph.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-04-27T02:25:01Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "14e70380_6f737d6f",
+      "range": {
+        "startLine": 248,
+        "startChar": 7,
+        "endLine": 248,
+        "endChar": 12
+      },
+      "revId": "b3ade643904e39524e9dc7690a12c3b4d686e5ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "192d8a43_81c3974e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
         "patchSetId": 1
@@ -98,6 +122,24 @@
       "revId": "b3ade643904e39524e9dc7690a12c3b4d686e5ba",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c65e53c_d37a027d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-04-27T02:25:01Z",
+      "side": 1,
+      "message": "Marking resolved.",
+      "parentUuid": "a75b6040_b24fbc43",
+      "revId": "b3ade643904e39524e9dc7690a12c3b4d686e5ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
