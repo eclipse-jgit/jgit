@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "14e70380_6f737d6f",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/RebuildCommitGraph.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-04-27T02:15:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9e4797f_317ecd6c",
+      "range": {
+        "startLine": 248,
+        "startChar": 7,
+        "endLine": 248,
+        "endChar": 12
+      },
+      "revId": "b3ade643904e39524e9dc7690a12c3b4d686e5ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "192d8a43_81c3974e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
         "patchSetId": 1
@@ -59,6 +83,24 @@
     },
     {
       "key": {
+        "uuid": "a75b6040_b24fbc43",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-04-27T02:15:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "192d8a43_81c3974e",
+      "revId": "b3ade643904e39524e9dc7690a12c3b4d686e5ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5eaa8789_393276be",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1
@@ -70,6 +112,30 @@
       "writtenOn": "2018-04-27T01:54:04Z",
       "side": 1,
       "message": "getAllRefs",
+      "range": {
+        "startLine": 778,
+        "startChar": 41,
+        "endLine": 778,
+        "endChar": 53
+      },
+      "revId": "b3ade643904e39524e9dc7690a12c3b4d686e5ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "227ae86f_9cd78b11",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 778,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-04-27T02:15:56Z",
+      "side": 1,
+      "message": "No, that doesn\u0027t work because getRefs is returning Map\u003cString, Ref\u003e which is what setAdvertisedRefs expects, while getAllRefs returns List\u003cString\u003e.\n\nThe only reason this line is changed is to use the static imported ALL constant consistent with below, rather than RefDatabase.ALL.",
+      "parentUuid": "5eaa8789_393276be",
       "range": {
         "startLine": 778,
         "startChar": 41,
