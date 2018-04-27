@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "06076b7e_1b5dc843",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/RebuildCommitGraph.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-04-27T13:01:41Z",
+      "side": 1,
+      "message": "I\u0027ve done this and will push it for review later.  Currently not able to push because it says I\u0027m not a committer and don\u0027t have a CLA :/\n\nWhen I was trying to report a bug about the above, logging into bugzilla failed with an error about the LDAP connection, so I guess that\u0027s probably the cause of my push problem too.",
+      "parentUuid": "46e07dd0_ed592f56",
+      "revId": "b3ade643904e39524e9dc7690a12c3b4d686e5ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a9e4797f_317ecd6c",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/RebuildCommitGraph.java",
         "patchSetId": 1
