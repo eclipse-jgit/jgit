@@ -958,6 +958,7 @@ public class UploadPack {
 		}
 
 		boolean includeTag = false;
+		boolean filterReceived = false;
 		while ((line = pckIn.readString()) != PacketLineIn.END) {
 			if (line.startsWith("want ")) { //$NON-NLS-1$
 				wantIds.add(ObjectId.fromString(line.substring(5)));
@@ -1014,6 +1015,13 @@ public class UploadPack {
 					throw new PackProtocolException(
 							JGitText.get().deepenSinceWithDeepen);
 				}
+			} else if (transferConfig.isAllowFilter()
+					&& line.startsWith(OPTION_FILTER + ' ')) {
+				if (filterReceived) {
+					throw new PackProtocolException(JGitText.get().tooManyFilters);
+				}
+				filterReceived = true;
+				parseFilter(line.substring(OPTION_FILTER.length() + 1));
 			} else {
 				throw new PackProtocolException(MessageFormat
 						.format(JGitText.get().unexpectedPacketLine, line));
@@ -1113,7 +1121,10 @@ public class UploadPack {
 		ArrayList<String> caps = new ArrayList<>();
 		caps.add("version 2"); //$NON-NLS-1$
 		caps.add(COMMAND_LS_REFS);
-		caps.add(COMMAND_FETCH + '=' + OPTION_SHALLOW);
+		caps.add(
+				COMMAND_FETCH + '=' +
+				(transferConfig.isAllowFilter() ? OPTION_FILTER + ' ' : "") + //$NON-NLS-1$
+				OPTION_SHALLOW);
 		return caps;
 	}
 
