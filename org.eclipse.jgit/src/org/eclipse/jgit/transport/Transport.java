@@ -688,7 +688,7 @@ public abstract class Transport implements AutoCloseable {
 	private static Collection<RefSpec> expandPushWildcardsFor(
 			final Repository db, final Collection<RefSpec> specs)
 			throws IOException {
-		final List<Ref> localRefs = db.getRefDatabase().getAllRefs();
+		final List<Ref> localRefs = db.getRefDatabase().getRefs();
 		final Collection<RefSpec> procRefs = new LinkedHashSet<>();
 
 		for (final RefSpec spec : specs) {

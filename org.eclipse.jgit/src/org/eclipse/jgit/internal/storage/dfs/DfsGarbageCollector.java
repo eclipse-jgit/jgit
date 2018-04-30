@@ -403,7 +403,7 @@ public class DfsGarbageCollector {
 	}
 
 	private Collection<Ref> getAllRefs() throws IOException {
-		Collection<Ref> refs = refdb.getAllRefs();
+		Collection<Ref> refs = refdb.getRefs();
 		List<Ref> addl = refdb.getAdditionalRefs();
 		if (!addl.isEmpty()) {
 			List<Ref> all = new ArrayList<>(refs.size() + addl.size());

@@ -1068,7 +1068,7 @@ public class GC {
 	 */
 	private Collection<Ref> getAllRefs() throws IOException {
 		RefDatabase refdb = repo.getRefDatabase();
-		Collection<Ref> refs = refdb.getAllRefs();
+		Collection<Ref> refs = refdb.getRefs();
 		List<Ref> addl = refdb.getAdditionalRefs();
 		if (!addl.isEmpty()) {
 			List<Ref> all = new ArrayList<>(refs.size() + addl.size());
@@ -1376,7 +1376,7 @@ public class GC {
 		}
 
 		RefDatabase refDb = repo.getRefDatabase();
-		for (Ref r : refDb.getAllRefs()) {
+		for (Ref r : refDb.getRefs()) {
 			Storage storage = r.getStorage();
 			if (storage == Storage.LOOSE || storage == Storage.LOOSE_PACKED)
 				ret.numberOfLooseRefs++;

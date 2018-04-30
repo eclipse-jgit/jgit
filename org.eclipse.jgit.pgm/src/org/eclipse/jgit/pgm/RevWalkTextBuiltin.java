@@ -169,8 +169,7 @@ abstract class RevWalkTextBuiltin extends TextBuiltin {
 			walk.setRevFilter(AndRevFilter.create(revLimiter));
 
 		if (all) {
-			List<Ref> refs = db.getRefDatabase().getAllRefs();
-			for (Ref a : refs) {
+			for (Ref a : db.getRefDatabase().getRefs()) {
 				ObjectId oid = a.getPeeledObjectId();
 				if (oid == null)
 					oid = a.getObjectId();

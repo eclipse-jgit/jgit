@@ -337,6 +337,29 @@ public abstract class RefDatabase {
 	}
 
 	/**
+	 * Returns all refs.
+	 * <p>
+	 * This includes {@code HEAD}, branches under {@code ref/heads/}, tags
+	 * under {@code refs/tags/}, etc. It does not include pseudo-refs like
+	 * {@code FETCH_HEAD}; for those, see {@link #getAdditionalRefs}.
+	 * <p>
+	 * Symbolic references to a non-existent ref (for example,
+	 * {@code HEAD} pointing to a branch yet to be born) are not included.
+	 * <p>
+	 * Callers interested in only a portion of the ref hierarchy can call
+	 * {@link #getRefsByPrefix} instead.
+	 *
+	 * @return immutable list of all refs.
+	 * @throws java.io.IOException
+	 *             the reference space cannot be accessed.
+	 * @since 5.0
+	 */
+	@NonNull
+	public List<Ref> getRefs() throws IOException {
+		return getRefsByPrefix(ALL);
+	}
+
+	/**
 	 * Get a section of the reference namespace.
 	 *
 	 * @param prefix
@@ -357,7 +380,7 @@ public abstract class RefDatabase {
 	/**
 	 * Returns refs whose names start with a given prefix.
 	 * <p>
-	 * The default implementation uses {@link #getRefs}. Implementors of
+	 * The default implementation uses {@link #getRefs(String)}. Implementors of
 	 * {@link RefDatabase} should override this method directly if a better
 	 * implementation is possible.
 	 *
@@ -392,23 +415,13 @@ public abstract class RefDatabase {
 	}
 
 	/**
-	 * Returns all refs.
-	 * <p>
-	 * Callers interested in only a portion of the ref hierarchy can call
-	 * {@link #getRefsByPrefix} instead.
-	 *
-	 * @return immutable list of all refs.
-	 * @throws java.io.IOException
-	 *             the reference space cannot be accessed.
-	 * @since 5.0
-	 */
-	@NonNull
-	public List<Ref> getAllRefs() throws IOException {
-		return getRefsByPrefix(ALL);
-	}
-
-	/**
 	 * Check if any refs exist in the ref database.
+	 * <p>
+	 * This uses the same definition of refs as {@link #getRefs()}. In
+	 * particular, returns {@code false} in a new repository with no refs
+	 * under {@code refs/} and {@code HEAD} pointing to a branch yet to be
+	 * born, and returns {@code true} in a repository with no refs under
+	 * {@code refs/} and a detached {@code HEAD} pointing to history.
 	 *
 	 * @return true if the database has refs.
 	 * @throws java.io.IOException
@@ -416,7 +429,7 @@ public abstract class RefDatabase {
 	 * @since 5.0
 	 */
 	public boolean hasRefs() throws IOException {
-		return !getAllRefs().isEmpty();
+		return !getRefs().isEmpty();
 	}
 
 	/**
@@ -424,7 +437,7 @@ public abstract class RefDatabase {
 	 * <p>
 	 * The result list includes non-ref items such as MERGE_HEAD and
 	 * FETCH_RESULT cast to be refs. The names of these refs are not returned by
-	 * <code>getRefs(ALL)</code> but are accepted by {@link #getRef(String)}
+	 * <code>getRefs()</code> but are accepted by {@link #getRef(String)}
 	 * and {@link #exactRef(String)}.
 	 *
 	 * @return a list of additional refs

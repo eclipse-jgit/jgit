@@ -65,7 +65,7 @@ class ShowRef extends TextBuiltin {
 	}
 
 	private Iterable<Ref> getSortedRefs() throws Exception {
-		List<Ref> all = db.getRefDatabase().getAllRefs();
+		List<Ref> all = db.getRefDatabase().getRefs();
 		// TODO(jrn) check if we can reintroduce fast-path by e.g. implementing
 		// SortedList
 		return RefComparator.sort(all);
