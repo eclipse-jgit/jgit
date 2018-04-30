@@ -245,7 +245,7 @@ class RebuildCommitGraph extends TextBuiltin {
 
 	private void deleteAllRefs() throws Exception {
 		final RevWalk rw = new RevWalk(db);
-		for (Ref r : db.getRefDatabase().getAllRefs()) {
+		for (Ref r : db.getRefDatabase().getRefs()) {
 			if (Constants.HEAD.equals(r.getName()))
 				continue;
 			final RefUpdate u = db.updateRef(r.getName());

@@ -437,7 +437,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 
 	private void markReachable(final Set<ObjectId> have, final int maxTime)
 			throws IOException {
-		for (Ref r : local.getRefDatabase().getAllRefs()) {
+		for (Ref r : local.getRefDatabase().getRefs()) {
 			ObjectId id = r.getPeeledObjectId();
 			if (id == null)
 				id = r.getObjectId();

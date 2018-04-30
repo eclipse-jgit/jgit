@@ -272,7 +272,7 @@ public class LogCommand extends GitCommand<Iterable<RevCommit>> {
 	 *             the references could not be accessed
 	 */
 	public LogCommand all() throws IOException {
-		for (Ref ref : getRepository().getRefDatabase().getAllRefs()) {
+		for (Ref ref : getRepository().getRefDatabase().getRefs()) {
 			if(!ref.isPeeled())
 				ref = getRepository().peel(ref);
 

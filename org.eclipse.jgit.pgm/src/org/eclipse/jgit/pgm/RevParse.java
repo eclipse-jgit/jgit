@@ -71,8 +71,7 @@ class RevParse extends TextBuiltin {
 	@Override
 	protected void run() throws Exception {
 		if (all) {
-			List<Ref> allRefs = db.getRefDatabase().getAllRefs();
-			for (final Ref r : allRefs) {
+			for (Ref r : db.getRefDatabase().getRefs()) {
 				ObjectId objectId = r.getObjectId();
 				// getRefs skips dangling symrefs, so objectId should never be
 				// null.

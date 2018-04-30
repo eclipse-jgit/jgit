@@ -689,7 +689,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 	private void markLocalRefsComplete(final Set<ObjectId> have) throws TransportException {
 		List<Ref> refs;
 		try {
-			refs = local.getRefDatabase().getAllRefs();
+			refs = local.getRefDatabase().getRefs();
 		} catch (IOException e) {
 			throw new TransportException(e.getMessage(), e);
 		}

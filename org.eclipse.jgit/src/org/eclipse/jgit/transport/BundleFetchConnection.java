@@ -254,7 +254,7 @@ class BundleFetchConnection extends BaseFetchConnection {
 
 			List<Ref> localRefs;
 			try {
-				localRefs = transport.local.getRefDatabase().getAllRefs();
+				localRefs = transport.local.getRefDatabase().getRefs();
 			} catch (IOException e) {
 				throw new TransportException(transport.uri, e.getMessage(), e);
 			}
