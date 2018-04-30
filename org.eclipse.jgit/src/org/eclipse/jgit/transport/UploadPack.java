@@ -1371,6 +1371,33 @@ public class UploadPack {
 		return msgOut;
 	}
 
+	private void parseFilter(String arg) throws PackProtocolException {
+		if (arg.equals("blob:none")) { //$NON-NLS-1$
+			filterBlobLimit = 0;
+		} else if (arg.startsWith("blob:limit=")) { //$NON-NLS-1$
+			try {
+				filterBlobLimit = Long.parseLong(
+						arg.substring("blob:limit=".length())); //$NON-NLS-1$
+			} catch (NumberFormatException e) {
+				throw new PackProtocolException(
+						MessageFormat.format(JGitText.get().invalidFilter,
+								arg));
+			}
+		}
+		/*
+		 * We must have (1) either "blob:none" or
+		 * "blob:limit=" set (because we only support
+		 * blob size limits for now), and (2) if the
+		 * latter, then it must be nonnegative. Throw
+		 * if (1) or (2) is not met.
+		 */
+		if (filterBlobLimit < 0) {
+			throw new PackProtocolException(
+					MessageFormat.format(JGitText.get().invalidFilter,
+							arg));
+		}
+	}
+
 	private void recvWants() throws IOException {
 		boolean isFirst = true;
 		boolean filterReceived = false;
@@ -1411,30 +1438,7 @@ public class UploadPack {
 				}
 				filterReceived = true;
 
-				if (arg.equals("blob:none")) { //$NON-NLS-1$
-					filterBlobLimit = 0;
-				} else if (arg.startsWith("blob:limit=")) { //$NON-NLS-1$
-					try {
-						filterBlobLimit = Long.parseLong(
-								arg.substring("blob:limit=".length())); //$NON-NLS-1$
-					} catch (NumberFormatException e) {
-						throw new PackProtocolException(
-								MessageFormat.format(JGitText.get().invalidFilter,
-										arg));
-					}
-				}
-				/*
-				 * We must have (1) either "blob:none" or
-				 * "blob:limit=" set (because we only support
-				 * blob size limits for now), and (2) if the
-				 * latter, then it must be nonnegative. Throw
-				 * if (1) or (2) is not met.
-				 */
-				if (filterBlobLimit < 0) {
-					throw new PackProtocolException(
-							MessageFormat.format(JGitText.get().invalidFilter,
-									arg));
-				}
+				parseFilter(arg);
 				continue;
 			}
 
