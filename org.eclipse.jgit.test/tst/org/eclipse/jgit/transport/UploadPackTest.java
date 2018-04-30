@@ -410,6 +410,22 @@ public class UploadPackTest {
 	}
 
 	@Test
+	public void testV2CapabilitiesAllowFilter() throws Exception {
+		server.getConfig().setBoolean("uploadpack", null, "allowfilter", true);
+		ByteArrayInputStream recvStream =
+			uploadPackV2Setup(null, null, PacketLineIn.END);
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+
+		assertThat(pckIn.readString(), is("version 2"));
+		assertThat(
+			Arrays.asList(pckIn.readString(), pckIn.readString()),
+			// TODO(jonathantanmy) This check overspecifies the
+			// order of the capabilities of "fetch".
+			hasItems("ls-refs", "fetch=filter shallow"));
+		assertTrue(pckIn.readString() == PacketLineIn.END);
+	}
+
+	@Test
 	@SuppressWarnings("boxing")
 	public void testV2EmptyRequest() throws Exception {
 		ByteArrayInputStream recvStream = uploadPackV2(PacketLineIn.END);
@@ -1015,6 +1031,50 @@ public class UploadPackTest {
 			"command=fetch\n",
 			PacketLineIn.DELIM,
 			"invalid-argument\n",
+			PacketLineIn.END);
+	}
+
+	@Test
+	public void testV2FetchFilter() throws Exception {
+		RevBlob big = remote.blob("foobar");
+		RevBlob small = remote.blob("fooba");
+		RevTree tree = remote.tree(remote.file("1", big),
+				remote.file("2", small));
+		RevCommit commit = remote.commit(tree);
+		remote.update("master", commit);
+
+		server.getConfig().setBoolean("uploadpack", null, "allowfilter", true);
+
+		ByteArrayInputStream recvStream = uploadPackV2(
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"want " + commit.toObjectId().getName() + "\n",
+			"filter blob:limit=5\n",
+			"done\n",
+			PacketLineIn.END);
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+		assertThat(pckIn.readString(), is("packfile"));
+		parsePack(recvStream);
+
+		assertFalse(client.hasObject(big.toObjectId()));
+		assertTrue(client.hasObject(small.toObjectId()));
+	}
+
+	@Test
+	public void testV2FetchFilterWhenNotAllowed() throws Exception {
+		RevCommit commit = remote.commit().message("0").create();
+		remote.update("master", commit);
+
+		server.getConfig().setBoolean("uploadpack", null, "allowfilter", false);
+
+		thrown.expect(PackProtocolException.class);
+		thrown.expectMessage("unexpected filter blob:limit=5");
+		uploadPackV2(
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"want " + commit.toObjectId().getName() + "\n",
+			"filter blob:limit=5\n",
+			"done\n",
 			PacketLineIn.END);
 	}
 
