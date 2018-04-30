@@ -946,6 +946,7 @@ public class UploadPack {
 		}
 
 		boolean includeTag = false;
+		boolean filterReceived = false;
 		while ((line = pckIn.readString()) != PacketLineIn.END) {
 			if (line.startsWith("want ")) { //$NON-NLS-1$
 				wantIds.add(ObjectId.fromString(line.substring(5)));
@@ -971,6 +972,17 @@ public class UploadPack {
 							MessageFormat.format(JGitText.get().invalidDepth,
 									Integer.valueOf(depth)));
 				}
+			} else if (transferConfig.isAllowFilter()
+					&& line.startsWith(OPTION_FILTER + " ")) { //$NON-NLS-1$
+				String arg = line.substring(OPTION_FILTER.length() + 1);
+
+				if (filterReceived) {
+					throw new PackProtocolException(JGitText.get().tooManyFilters);
+				}
+				filterReceived = true;
+
+				parseFilter(arg);
+				continue;
 			} else {
 				throw new PackProtocolException(MessageFormat
 						.format(JGitText.get().unexpectedPacketLine, line));
@@ -1070,7 +1082,10 @@ public class UploadPack {
 		caps.add(COMMAND_LS_REFS);
 		// TODO(jonathantanmy): Also implement the deepen,
 		// deepen-relative, deepen-since, and deepen-not arguments.
-		caps.add(COMMAND_FETCH + "=" + OPTION_SHALLOW);
+		caps.add(
+				COMMAND_FETCH + "=" + 
+				(transferConfig.isAllowFilter() ? OPTION_FILTER + " " : "") +
+				OPTION_SHALLOW);
 		return caps;
 	}
 
