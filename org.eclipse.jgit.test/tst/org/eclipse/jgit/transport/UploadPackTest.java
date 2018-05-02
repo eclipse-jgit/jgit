@@ -336,12 +336,12 @@ public class UploadPackTest {
 	}
 
 	/*
-	 * Invokes UploadPack with protocol v2 and sends it the given lines.
-	 * Returns UploadPack's output stream, not including the capability
-	 * advertisement by the server.
+	 * Invokes UploadPack with protocol v2 and sends it the given lines,
+	 * and returns UploadPack's output stream.
 	 */
-	private ByteArrayInputStream uploadPackV2(RequestPolicy requestPolicy,
+	private ByteArrayInputStream uploadPackV2Setup(RequestPolicy requestPolicy,
 			RefFilter refFilter, String... inputLines) throws Exception {
+
 		ByteArrayOutputStream send = new ByteArrayOutputStream();
 		PacketLineOut pckOut = new PacketLineOut(send);
 		for (String line : inputLines) {
@@ -365,10 +365,37 @@ public class UploadPackTest {
 		ByteArrayOutputStream recv = new ByteArrayOutputStream();
 		up.upload(new ByteArrayInputStream(send.toByteArray()), recv, null);
 
-		ByteArrayInputStream recvStream = new ByteArrayInputStream(recv.toByteArray());
+		return new ByteArrayInputStream(recv.toByteArray());
+	}
+
+	/*
+	 * Invokes UploadPack with protocol v2 and sends it the given lines.
+	 * Returns UploadPack's output stream, not including the capability
+	 * advertisement by the server.
+	 */
+	private ByteArrayInputStream uploadPackV2(RequestPolicy requestPolicy,
+			RefFilter refFilter, String... inputLines) throws Exception {
+		ByteArrayInputStream recvStream =
+			uploadPackV2Setup(requestPolicy, refFilter, inputLines);
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
-		// capability advertisement (always sent)
+		// drain capabilities
+		while (pckIn.readString() != PacketLineIn.END) {
+			// do nothing
+		}
+		return recvStream;
+	}
+
+	private ByteArrayInputStream uploadPackV2(String... inputLines) throws Exception {
+		return uploadPackV2(null, null, inputLines);
+	}
+
+	@Test
+	public void testV2Capabilities() throws Exception {
+		ByteArrayInputStream recvStream =
+			uploadPackV2Setup(null, null, PacketLineIn.END);
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+
 		assertThat(pckIn.readString(), is("version 2"));
 		assertThat(
 			Arrays.asList(pckIn.readString(), pckIn.readString()),
@@ -380,11 +407,6 @@ public class UploadPackTest {
 			// commands without requiring test changes.
 			hasItems("ls-refs", "fetch=shallow"));
 		assertTrue(pckIn.readString() == PacketLineIn.END);
-		return recvStream;
-	}
-
-	private ByteArrayInputStream uploadPackV2(String... inputLines) throws Exception {
-		return uploadPackV2(null, null, inputLines);
 	}
 
 	@Test
