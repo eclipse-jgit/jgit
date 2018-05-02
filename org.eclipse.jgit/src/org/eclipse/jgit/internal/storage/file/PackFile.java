@@ -108,13 +108,11 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		}
 	};
 
-	private final File packFile;
+	private final PackFileName packFileName;
 
 	private final int extensions;
 
-	private File keepFile;
-
-	private volatile String packName;
+	private PackFileName keepFile;
 
 	final int hash;
 
@@ -162,9 +160,9 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	 * @param extensions
 	 *            additional pack file extensions with the same base as the pack
 	 */
-	public PackFile(final File packFile, int extensions) {
-		this.packFile = packFile;
-		this.packLastModified = (int) (packFile.lastModified() >> 10);
+	public PackFile(File packFile, int extensions) {
+		this.packFileName = new PackFileName(packFile);
+		this.packLastModified = (int) (packFileName.lastModified() >> 10);
 		this.extensions = extensions;
 
 		// Multiply by 31 here so we can more directly combine with another
@@ -177,17 +175,17 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	private synchronized PackIndex idx() throws IOException {
 		if (loadedIdx == null) {
 			if (invalid)
-				throw new PackInvalidException(packFile);
+				throw new PackInvalidException(packFileName);
 
 			try {
-				final PackIndex idx = PackIndex.open(extFile(INDEX));
+				final PackIndex idx = PackIndex.open(packFileName.create(INDEX));
 
 				if (packChecksum == null) {
 					packChecksum = idx.packChecksum;
 				} else if (!Arrays.equals(packChecksum, idx.packChecksum)) {
 					throw new PackMismatchException(MessageFormat.format(
 							JGitText.get().packChecksumMismatch,
-							packFile.getPath()));
+							packFileName.getPath()));
 				}
 				loadedIdx = idx;
 			} catch (InterruptedIOException e) {
@@ -207,7 +205,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	 * @return the File object which locates this pack on disk.
 	 */
 	public File getPackFile() {
-		return packFile;
+		return packFileName;
 	}
 
 	/**
@@ -226,16 +224,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	 * @return name extracted from {@code pack-*.pack} pattern.
 	 */
 	public String getPackName() {
-		String name = packName;
-		if (name == null) {
-			name = getPackFile().getName();
-			if (name.startsWith("pack-")) //$NON-NLS-1$
-				name = name.substring("pack-".length()); //$NON-NLS-1$
-			if (name.endsWith(".pack")) //$NON-NLS-1$
-				name = name.substring(0, name.length() - ".pack".length()); //$NON-NLS-1$
-			packName = name;
-		}
-		return name;
+		return packFileName.getId();
 	}
 
 	/**
@@ -263,7 +252,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	 */
 	public boolean shouldBeKept() {
 		if (keepFile == null)
-			keepFile = extFile(KEEP);
+			keepFile = packFileName.create(KEEP);
 		return keepFile.exists();
 	}
 
@@ -638,9 +627,9 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	private void doOpen() throws IOException {
 		try {
 			if (invalid)
-				throw new PackInvalidException(packFile);
+				throw new PackInvalidException(packFileName);
 			synchronized (readLock) {
-				fd = new RandomAccessFile(packFile, "r"); //$NON-NLS-1$
+				fd = new RandomAccessFile(packFileName, "r"); //$NON-NLS-1$
 				length = fd.length();
 				onOpenPack();
 			}
@@ -652,7 +641,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 			// don't invalidate the pack if opening an existing file failed
 			// since it may be related to a temporary lack of resources (e.g.
 			// max open files)
-			openFail(!packFile.exists());
+			openFail(!packFileName.exists());
 			throw fn;
 		} catch (EOFException | AccessDeniedException | NoSuchFileException
 				| CorruptObjectException | NoPackSignatureException
@@ -1112,7 +1101,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		if (bitmapIdx == null && hasExt(BITMAP_INDEX)) {
 			final PackBitmapIndex idx;
 			try {
-				idx = PackBitmapIndex.open(extFile(BITMAP_INDEX), idx(),
+				idx = PackBitmapIndex.open(packFileName.create(BITMAP_INDEX), idx(),
 						getReverseIdx());
 			} catch (FileNotFoundException e) {
 				// Once upon a time this bitmap file existed. Now it
@@ -1160,13 +1149,6 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		synchronized (list) {
 			list.add(offset);
 		}
-	}
-
-	private File extFile(PackExt ext) {
-		String p = packFile.getName();
-		int dot = p.lastIndexOf('.');
-		String b = (dot < 0) ? p : p.substring(0, dot);
-		return new File(packFile.getParentFile(), b + '.' + ext.getExtension());
 	}
 
 	private boolean hasExt(PackExt ext) {
