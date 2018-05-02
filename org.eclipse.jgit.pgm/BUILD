@@ -25,6 +25,12 @@ java_library(
     ],
 )
 
+java_binary(
+    name = "jgit",
+    runtime_deps = [":pgm"],
+    main_class = "org.eclipse.jgit.pgm.Main",
+)
+
 java_import(
     name = "services",
     jars = [":services_jar"],
