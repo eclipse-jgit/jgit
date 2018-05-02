@@ -78,13 +78,11 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	public static final Comparator<PackFile> SORT = (a, b) -> b.packLastModified
 			.compareTo(a.packLastModified);
 
-	private final File packFile;
+	private final PackFileName packFileName;
 
 	private final int extensions;
 
-	private File keepFile;
-
-	private volatile String packName;
+	private PackFileName keepFile;
 
 	final int hash;
 
@@ -137,7 +135,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	 *            additional pack file extensions with the same base as the pack
 	 */
 	public PackFile(File packFile, int extensions) {
-		this.packFile = packFile;
+		this.packFileName = new PackFileName(packFile);
 		this.fileSnapshot = PackFileSnapshot.save(packFile);
 		this.packLastModified = fileSnapshot.lastModifiedInstant();
 		this.extensions = extensions;
@@ -156,16 +154,17 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 				idx = loadedIdx;
 				if (idx == null) {
 					if (invalid) {
-						throw new PackInvalidException(packFile, invalidatingCause);
+						throw new PackInvalidException(packFileName, invalidatingCause);
 					}
 					try {
 						long start = System.currentTimeMillis();
-						idx = PackIndex.open(extFile(INDEX));
+						PackFileName idxFileName = packFileName.create(INDEX);
+						idx = PackIndex.open(idxFileName);
 						if (LOG.isDebugEnabled()) {
 							LOG.debug(String.format(
 									"Opening pack index %s, size %.3f MB took %d ms", //$NON-NLS-1$
-									extFile(INDEX).getAbsolutePath(),
-									Float.valueOf(extFile(INDEX).length()
+									idxFileName.getAbsolutePath(),
+									Float.valueOf(idxFileName.length()
 											/ (1024f * 1024)),
 									Long.valueOf(System.currentTimeMillis()
 											- start)));
@@ -179,7 +178,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 								idx.packChecksum)) {
 							throw new PackMismatchException(MessageFormat
 									.format(JGitText.get().packChecksumMismatch,
-											packFile.getPath(),
+											packFileName.getPath(),
 											ObjectId.fromRaw(packChecksum)
 													.name(),
 											ObjectId.fromRaw(idx.packChecksum)
@@ -206,7 +205,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	 * @return the File object which locates this pack on disk.
 	 */
 	public File getPackFile() {
-		return packFile;
+		return packFileName;
 	}
 
 	/**
@@ -225,16 +224,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	 * @return name extracted from {@code pack-*.pack} pattern.
 	 */
 	public String getPackName() {
-		String name = packName;
-		if (name == null) {
-			name = getPackFile().getName();
-			if (name.startsWith("pack-")) //$NON-NLS-1$
-				name = name.substring("pack-".length()); //$NON-NLS-1$
-			if (name.endsWith(".pack")) //$NON-NLS-1$
-				name = name.substring(0, name.length() - ".pack".length()); //$NON-NLS-1$
-			packName = name;
-		}
-		return name;
+		return packFileName.getId();
 	}
 
 	/**
@@ -262,7 +252,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	 */
 	public boolean shouldBeKept() {
 		if (keepFile == null)
-			keepFile = extFile(KEEP);
+			keepFile = packFileName.create(KEEP);
 		return keepFile.exists();
 	}
 
@@ -651,11 +641,11 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	private void doOpen() throws IOException {
 		if (invalid) {
 			openFail(true, invalidatingCause);
-			throw new PackInvalidException(packFile, invalidatingCause);
+			throw new PackInvalidException(packFileName, invalidatingCause);
 		}
 		try {
 			synchronized (readLock) {
-				fd = new RandomAccessFile(packFile, "r"); //$NON-NLS-1$
+				fd = new RandomAccessFile(packFileName, "r"); //$NON-NLS-1$
 				length = fd.length();
 				onOpenPack();
 			}
@@ -667,7 +657,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 			// don't invalidate the pack if opening an existing file failed
 			// since it may be related to a temporary lack of resources (e.g.
 			// max open files)
-			openFail(!packFile.exists(), fn);
+			openFail(!packFileName.exists(), fn);
 			throw fn;
 		} catch (EOFException | AccessDeniedException | NoSuchFileException
 				| CorruptObjectException | NoPackSignatureException
@@ -716,7 +706,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 				// Detect the situation and throw a proper exception so that can be properly
 				// managed by the main packfile search loop and the Git client won't receive
 				// any failures.
-				throw new PackInvalidException(packFile, invalidatingCause);
+				throw new PackInvalidException(packFileName, invalidatingCause);
 			}
 			if (length < pos + size)
 				size = (int) (length - pos);
@@ -1137,7 +1127,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		if (bitmapIdx == null && hasExt(BITMAP_INDEX)) {
 			final PackBitmapIndex idx;
 			try {
-				idx = PackBitmapIndex.open(extFile(BITMAP_INDEX), idx(),
+				idx = PackBitmapIndex.open(packFileName.create(BITMAP_INDEX), idx(),
 						getReverseIdx());
 			} catch (FileNotFoundException e) {
 				// Once upon a time this bitmap file existed. Now it
@@ -1187,13 +1177,6 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		}
 	}
 
-	private File extFile(PackExt ext) {
-		String p = packFile.getName();
-		int dot = p.lastIndexOf('.');
-		String b = (dot < 0) ? p : p.substring(0, dot);
-		return new File(packFile.getParentFile(), b + '.' + ext.getExtension());
-	}
-
 	private boolean hasExt(PackExt ext) {
 		return (extensions & ext.getBit()) != 0;
 	}
@@ -1201,8 +1184,8 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
-		return "PackFile [packFileName=" + packFile.getName() + ", length="
-				+ packFile.length() + ", packChecksum="
+		return "PackFile [packFileName=" + packFileName.getName() + ", length="
+				+ packFileName.length() + ", packChecksum="
 				+ ObjectId.fromRaw(packChecksum).name() + "]";
 	}
 }
