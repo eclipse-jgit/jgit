@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3606dc96_faefb37d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-02T15:09:51Z",
+      "side": 1,
+      "message": "nit: can this commit message name which subsystem is involved? E.g.\n\n ssh: Kill the external process when ...",
+      "revId": "ee8597e397426fa206f37dec09c8650d8310eee6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6fe23b1e_1905a744",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/StreamCopyThread.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-02T15:09:51Z",
+      "side": 1,
+      "message": "Unrelated changes?",
+      "revId": "ee8597e397426fa206f37dec09c8650d8310eee6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
