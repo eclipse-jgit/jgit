@@ -119,14 +119,6 @@ import org.eclipse.jgit.util.io.TimeoutOutputStream;
  * Implements the server side of a fetch connection, transmitting objects.
  */
 public class UploadPack {
-	// UploadPack sends these lines as the first response to a client that
-	// supports protocol version 2.
-	private static final String[] v2CapabilityAdvertisement = {
-		"version 2", //$NON-NLS-1$
-		COMMAND_LS_REFS,
-		COMMAND_FETCH + '=' + OPTION_SHALLOW
-	};
-
 	/** Policy the server uses to validate client requests */
 	public static enum RequestPolicy {
 		/** Client may only ask for objects the server advertised a reference for. */
@@ -1117,13 +1109,21 @@ public class UploadPack {
 				.format(JGitText.get().unknownTransportCommand, command));
 	}
 
+	private List<String> getV2CapabilityAdvertisement() {
+		ArrayList<String> caps = new ArrayList<>();
+		caps.add("version 2"); //$NON-NLS-1$
+		caps.add(COMMAND_LS_REFS);
+		caps.add(COMMAND_FETCH + '=' + OPTION_SHALLOW);
+		return caps;
+	}
+
 	private void serviceV2() throws IOException {
 		if (biDirectionalPipe) {
 			// Just like in service(), the capability advertisement
 			// is sent only if this is a bidirectional pipe. (If
 			// not, the client is expected to call
 			// sendAdvertisedRefs() on its own.)
-			for (String s : v2CapabilityAdvertisement) {
+			for (String s : getV2CapabilityAdvertisement()) {
 				pckOut.writeString(s + "\n"); //$NON-NLS-1$
 			}
 			pckOut.end();
@@ -1287,7 +1287,7 @@ public class UploadPack {
 		if (useProtocolV2()) {
 			// The equivalent in v2 is only the capabilities
 			// advertisement.
-			for (String s : v2CapabilityAdvertisement) {
+			for (String s : getV2CapabilityAdvertisement()) {
 				adv.writeOne(s);
 			}
 			adv.end();
