@@ -19,6 +19,10 @@ def tests(tests):
     if 'lib' not in labels:
       labels.append('lib')
 
+    # TODO(http://eclip.se/534285): Make this test pass reliably
+    # and remove the flaky attribute.
+    flaky = src.endswith("CrissCrossMergeTest.java"):
+
     additional_deps = []
     if src.endswith("RootLocaleTest.java"):
       additional_deps = [
@@ -52,5 +56,6 @@ def tests(tests):
         '//org.eclipse.jgit.junit:junit',
         '//org.eclipse.jgit.lfs:jgit-lfs',
       ],
+      flaky = flaky,
       jvm_flags = ["-Xmx256m", "-Dfile.encoding=UTF-8"],
     )
