@@ -1,3 +1,9 @@
+java_binary(
+    name = "jgit",
+    runtime_deps = [":pgm"],
+    main_class = "org.eclipse.jgit.pgm.Main",
+)
+
 java_library(
     name = "pgm",
     srcs = glob(["src/**/*.java"]),
