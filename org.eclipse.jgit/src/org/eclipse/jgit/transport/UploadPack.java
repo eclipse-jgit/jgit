@@ -1023,8 +1023,10 @@ public class UploadPack {
 					throw new PackProtocolException(
 							JGitText.get().deepenSinceWithDeepen);
 				}
+			} else {
+				throw new PackProtocolException(MessageFormat
+						.format(JGitText.get().unexpectedPacketLine, line));
 			}
-			// else ignore it
 		}
 		rawOut.stopBuffering();
 
