@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "38659535_f09fe551",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2018-05-03T23:02:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15a0aaa9_f9c9d74b",
+      "range": {
+        "startLine": 9,
+        "startChar": 4,
+        "endLine": 9,
+        "endChar": 21
+      },
+      "revId": "6189fd0b8b57bfe4eabcdf746637336c3b81730c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3553c4e_69a5bfa3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2018-05-03T23:02:34Z",
+      "side": 1,
+      "message": "No, this is referring to the file itself.",
+      "parentUuid": "bee1929c_92744911",
+      "range": {
+        "startLine": 9,
+        "startChar": 38,
+        "endLine": 9,
+        "endChar": 42
+      },
+      "revId": "6189fd0b8b57bfe4eabcdf746637336c3b81730c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6e6705dc_cf079a5f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2018-04-10T21:53:30Z",
       "side": 1,
       "message": "NFS client ?",
+      "range": {
+        "startLine": 10,
+        "startChar": 20,
+        "endLine": 10,
+        "endChar": 26
+      },
+      "revId": "6189fd0b8b57bfe4eabcdf746637336c3b81730c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bbd1b7f8_9d2064b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2018-05-03T23:02:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e6705dc_cf079a5f",
       "range": {
         "startLine": 10,
         "startChar": 20,
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "a76b0239_2834ac3e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2018-05-03T23:02:34Z",
+      "side": 1,
+      "message": "Yeah, re-reading it I agree. Trying to improve it.",
+      "parentUuid": "46f19953_a62912d9",
+      "range": {
+        "startLine": 12,
+        "startChar": 17,
+        "endLine": 12,
+        "endChar": 37
+      },
+      "revId": "6189fd0b8b57bfe4eabcdf746637336c3b81730c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "00f41855_4b7ee1fd",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -105,6 +201,30 @@
       "writtenOn": "2018-04-10T21:53:30Z",
       "side": 1,
       "message": "I guess the actual config file isn\u0027t deleted but stale file handles in NFS client might get gc\u0027ed and lead to stale file handle exceptions ?",
+      "range": {
+        "startLine": 14,
+        "startChar": 37,
+        "endLine": 14,
+        "endChar": 62
+      },
+      "revId": "6189fd0b8b57bfe4eabcdf746637336c3b81730c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e48cc1f9_1136443d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2018-05-03T23:02:34Z",
+      "side": 1,
+      "message": "The file on disk is replaced. New clients get a handle to the new file and old clients still have a handle to the old file. When the old file is garbage collected (by filesystem, not JVM GC) on the NFS server, old clients get a stale file handle error.",
+      "parentUuid": "00f41855_4b7ee1fd",
       "range": {
         "startLine": 14,
         "startChar": 37,
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "ec75ba4d_d4c79b89",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2018-05-03T23:02:34Z",
+      "side": 1,
+      "message": "No, the actual file could be replaced. That replacement would cause a stale file handle error on any clients with a file handle still open to the old file.",
+      "parentUuid": "b8db9a9d_0d7ab150",
+      "range": {
+        "startLine": 22,
+        "startChar": 42,
+        "endLine": 22,
+        "endChar": 46
+      },
+      "revId": "6189fd0b8b57bfe4eabcdf746637336c3b81730c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b5e48812_0ced1d64",
         "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
         "patchSetId": 1
@@ -151,6 +295,30 @@
       "writtenOn": "2018-04-10T21:53:30Z",
       "side": 1,
       "message": "file handle",
+      "range": {
+        "startLine": 126,
+        "startChar": 27,
+        "endLine": 126,
+        "endChar": 33
+      },
+      "revId": "6189fd0b8b57bfe4eabcdf746637336c3b81730c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b24ec36_0af33f3d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2018-05-03T23:02:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5e48812_0ced1d64",
       "range": {
         "startLine": 126,
         "startChar": 27,
@@ -186,6 +354,30 @@
     },
     {
       "key": {
+        "uuid": "cc915e46_10e7d59a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileBasedConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2018-05-03T23:02:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abd77940_ca093630",
+      "range": {
+        "startLine": 189,
+        "startChar": 4,
+        "endLine": 189,
+        "endChar": 20
+      },
+      "revId": "6189fd0b8b57bfe4eabcdf746637336c3b81730c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "62fb7cd7_4ab600c5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileBasedConfig.java",
         "patchSetId": 1
@@ -197,6 +389,30 @@
       "writtenOn": "2018-04-10T21:53:30Z",
       "side": 1,
       "message": "break ?",
+      "range": {
+        "startLine": 195,
+        "startChar": 3,
+        "endLine": 195,
+        "endChar": 9
+      },
+      "revId": "6189fd0b8b57bfe4eabcdf746637336c3b81730c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ebded56_fd031542",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileBasedConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2018-05-03T23:02:34Z",
+      "side": 1,
+      "message": "Realized this isn\u0027t the clearest spot for the return. I\u0027ll return explicitly on the success cases.",
+      "parentUuid": "62fb7cd7_4ab600c5",
       "range": {
         "startLine": 195,
         "startChar": 3,
