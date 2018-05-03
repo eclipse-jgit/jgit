@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c61373f2_c057dd32",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-03T21:27:38Z",
+      "side": 1,
+      "message": "this class is an implementation detail of ObjectDirectory, I think there is no need to make this class public, also it doesn\u0027t need public methods. Package visibility should be sufficient",
+      "revId": "0a27ae6573066c089c72448e6afa9179e23988d5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
