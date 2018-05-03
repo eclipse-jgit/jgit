@@ -15,6 +15,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringWriter;
+import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.storage.dfs.DfsGarbageCollector;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
@@ -514,6 +515,17 @@ public class UploadPackTest {
 		assertTrue(pckIn.readString() == PacketLineIn.END);
 	}
 
+	@Test
+	public void testV2LsRefsUnrecognizedArgument() throws Exception {
+		thrown.expect(PackProtocolException.class);
+		thrown.expectMessage("unexpected invalid-argument");
+		uploadPackV2(
+			"command=ls-refs\n",
+			PacketLineIn.DELIM,
+			"invalid-argument\n",
+			PacketLineIn.END);
+	}
+
 	/*
 	 * Parse multiplexed packfile output from upload-pack using protocol V2
 	 * into the client repository.
@@ -971,6 +983,17 @@ public class UploadPackTest {
 		assertThat(pckIn.readString(), is("acknowledgments"));
 		assertThat(pckIn.readString(), is("NAK"));
 		assertThat(pckIn.readString(), theInstance(PacketLineIn.END));
+	}
+
+	@Test
+	public void testV2FetchUnrecognizedArgument() throws Exception {
+		thrown.expect(PackProtocolException.class);
+		thrown.expectMessage("unexpected invalid-argument");
+		uploadPackV2(
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"invalid-argument\n",
+			PacketLineIn.END);
 	}
 
 	private static class RejectAllRefFilter implements RefFilter {
