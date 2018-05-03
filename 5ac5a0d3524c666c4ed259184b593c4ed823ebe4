@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "815caeb8_8eb84ef0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-03T21:24:19Z",
+      "side": 1,
+      "message": "why is this protected ? What\u0027s the purpose of subclassing ObjectDirectory ?",
+      "revId": "5ac5a0d3524c666c4ed259184b593c4ed823ebe4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8203b7e6_cc3700c1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-03T21:24:19Z",
+      "side": 1,
+      "message": "In Eclipse I get 28 javadoc errors on this class most for missing javadoc on protected methods",
+      "revId": "5ac5a0d3524c666c4ed259184b593c4ed823ebe4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44b42f30_7d5b71a9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-03T21:24:19Z",
+      "side": 1,
+      "message": "Looks like there is no need to make this class public, looks like it should rather have package visibility only, same for all methods\n\nSplitting out this class is an implementation detail and ObjectDirectory\u0027s public API does not expose the type PackDirectory",
+      "revId": "5ac5a0d3524c666c4ed259184b593c4ed823ebe4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6c406116_2d83a567",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-03T21:24:19Z",
+      "side": 1,
+      "message": "why all these protected fields and methods ?",
+      "revId": "5ac5a0d3524c666c4ed259184b593c4ed823ebe4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
