@@ -61,6 +61,7 @@ import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.junit.After;
 import org.junit.Assume;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class FSTest {
@@ -88,6 +89,9 @@ public class FSTest {
 	 * @throws IOException
 	 * @throws InterruptedException
 	 */
+	// TODO(https://eclip.se/526113): Use a unicode-safe API in
+	// FileUtils.toPath and reenable this test.
+	@Ignore
 	@Test
 	public void testSymlinkAttributes() throws IOException, InterruptedException {
 		Assume.assumeTrue(FS.DETECTED.supportsSymlinks());

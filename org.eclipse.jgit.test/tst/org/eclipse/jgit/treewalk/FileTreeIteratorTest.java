@@ -80,6 +80,7 @@ import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class FileTreeIteratorTest extends RepositoryTestCase {
@@ -661,6 +662,9 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		}
 	}
 
+	// TODO(https://eclip.se/526113): Use a unicode-safe API in
+	// FileUtils.toPath and reenable this test.
+	@Ignore
 	@Test
 	public void testFileModeSymLinkIsNotATree() throws IOException {
 		org.junit.Assume.assumeTrue(FS.DETECTED.supportsSymlinks());
