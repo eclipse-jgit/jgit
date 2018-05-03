@@ -980,8 +980,10 @@ public class UploadPack {
 							MessageFormat.format(JGitText.get().invalidDepth,
 									Integer.valueOf(depth)));
 				}
+			} else {
+				throw new PackProtocolException(MessageFormat
+						.format(JGitText.get().unexpectedPacketLine, line));
 			}
-			// else ignore it
 		}
 		rawOut.stopBuffering();
 
