@@ -54,7 +54,7 @@ import javax.crypto.NoSuchPaddingException;
  * This is a hack for {@link WalkEncryption} to create any cipher configured by
  * the end-user. Using this class allows JGit to violate ErrorProne's security
  * recommendations (<a
- * href="http://errorprone.info/bugpattern/InsecureCryptoUsage"
+ * href="https://errorprone.info/bugpattern/InsecureCryptoUsage"
  * >InsecureCryptoUsage</a>), which is not secure.
  */
 class InsecureCipherFactory {
