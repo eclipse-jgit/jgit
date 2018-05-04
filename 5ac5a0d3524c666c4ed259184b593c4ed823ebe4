@@ -19,6 +19,29 @@
     },
     {
       "key": {
+        "uuid": "332e372e_6c8587ff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-05-04T06:15:34Z",
+      "side": 1,
+      "message": "LOG is no longer defined because it was removed -- see L112 on the left side.\n\n  Compilation failure: Compilation failure: \n  [ERROR] /jobs/genie.jgit/jgit.gerrit/workspace/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java:[559,25] cannot find symbol\n  [ERROR]   symbol:   variable LOG",
+      "range": {
+        "startLine": 559,
+        "startChar": 3,
+        "endLine": 559,
+        "endChar": 6
+      },
+      "revId": "5ac5a0d3524c666c4ed259184b593c4ed823ebe4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8203b7e6_cc3700c1",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
         "patchSetId": 1
