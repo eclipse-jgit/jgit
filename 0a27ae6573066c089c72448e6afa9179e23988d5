@@ -16,6 +16,24 @@
       "revId": "0a27ae6573066c089c72448e6afa9179e23988d5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "575a66a0_475c6d39",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2018-05-07T17:09:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c61373f2_c057dd32",
+      "revId": "0a27ae6573066c089c72448e6afa9179e23988d5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
