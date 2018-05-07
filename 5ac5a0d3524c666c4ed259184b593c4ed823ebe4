@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "be30fe26_c1d1f8b8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2018-05-07T17:29:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "815caeb8_8eb84ef0",
+      "revId": "5ac5a0d3524c666c4ed259184b593c4ed823ebe4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "332e372e_6c8587ff",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2018-05-04T06:15:34Z",
       "side": 1,
       "message": "LOG is no longer defined because it was removed -- see L112 on the left side.\n\n  Compilation failure: Compilation failure: \n  [ERROR] /jobs/genie.jgit/jgit.gerrit/workspace/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java:[559,25] cannot find symbol\n  [ERROR]   symbol:   variable LOG",
+      "range": {
+        "startLine": 559,
+        "startChar": 3,
+        "endLine": 559,
+        "endChar": 6
+      },
+      "revId": "5ac5a0d3524c666c4ed259184b593c4ed823ebe4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0385337_017fdb26",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2018-05-07T17:29:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "332e372e_6c8587ff",
       "range": {
         "startLine": 559,
         "startChar": 3,
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "967a4c0f_0128d6ca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2018-05-07T17:29:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8203b7e6_cc3700c1",
+      "revId": "5ac5a0d3524c666c4ed259184b593c4ed823ebe4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44b42f30_7d5b71a9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
         "patchSetId": 1
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "14fdd018_8d1f30ce",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2018-05-07T17:29:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44b42f30_7d5b71a9",
+      "revId": "5ac5a0d3524c666c4ed259184b593c4ed823ebe4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6c406116_2d83a567",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
         "patchSetId": 1
@@ -87,6 +165,24 @@
       "writtenOn": "2018-05-03T21:24:19Z",
       "side": 1,
       "message": "why all these protected fields and methods ?",
+      "revId": "5ac5a0d3524c666c4ed259184b593c4ed823ebe4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09d39e45_5828cdf7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2018-05-07T17:29:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c406116_2d83a567",
       "revId": "5ac5a0d3524c666c4ed259184b593c4ed823ebe4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
