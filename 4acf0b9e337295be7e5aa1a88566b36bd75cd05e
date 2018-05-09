@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c96d491a_8f2b4651",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2018-05-09T10:05:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63a515cc_e0060b26",
+      "range": {
+        "startLine": 109,
+        "startChar": 11,
+        "endLine": 109,
+        "endChar": 15
+      },
+      "revId": "4acf0b9e337295be7e5aa1a88566b36bd75cd05e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "06bad907_d1a80be7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "8477fbb8_8c4ff23d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2018-05-09T10:05:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06bad907_d1a80be7",
+      "range": {
+        "startLine": 656,
+        "startChar": 11,
+        "endLine": 656,
+        "endChar": 15
+      },
+      "revId": "4acf0b9e337295be7e5aa1a88566b36bd75cd05e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "445b54be_a63ad358",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
         "patchSetId": 3
@@ -59,6 +107,30 @@
       "writtenOn": "2018-04-29T21:51:22Z",
       "side": 1,
       "message": "add an empty fillInStackTrace() implementation to avoid runtime penalty for constructing stack trace ?\n\n {\n       @Override\n        public Throwable fillInStackTrace() {\n               return this;\n        }\n  };",
+      "range": {
+        "startLine": 672,
+        "startChar": 35,
+        "endLine": 672,
+        "endChar": 36
+      },
+      "revId": "4acf0b9e337295be7e5aa1a88566b36bd75cd05e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "207b3ae8_b016c164",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 672,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2018-05-09T10:05:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "445b54be_a63ad358",
       "range": {
         "startLine": 672,
         "startChar": 35,
