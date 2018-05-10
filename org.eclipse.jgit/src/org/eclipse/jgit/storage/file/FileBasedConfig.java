@@ -68,13 +68,19 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The configuration file that is stored in the file of the file system.
  */
 public class FileBasedConfig extends StoredConfig {
+	private final static Logger LOG = LoggerFactory
+			.getLogger(FileBasedConfig.class);
+
 	private final File configFile;
 
 	private final FS fs;
@@ -143,40 +149,58 @@ public class FileBasedConfig extends StoredConfig {
 	 */
 	@Override
 	public void load() throws IOException, ConfigInvalidException {
-		final FileSnapshot oldSnapshot = snapshot;
-		final FileSnapshot newSnapshot = FileSnapshot.save(getFile());
-		try {
-			final byte[] in = IO.readFully(getFile());
-			final ObjectId newHash = hash(in);
-			if (hash.equals(newHash)) {
-				if (oldSnapshot.equals(newSnapshot))
-					oldSnapshot.setClean(newSnapshot);
-				else
-					snapshot = newSnapshot;
-			} else {
-				final String decoded;
-				if (isUtf8(in)) {
-					decoded = RawParseUtils.decode(CHARSET,
-							in, 3, in.length);
-					utf8Bom = true;
+		final int maxStaleRetries = 5;
+		int retries = 0;
+		while (true) {
+			final FileSnapshot oldSnapshot = snapshot;
+			final FileSnapshot newSnapshot = FileSnapshot.save(getFile());
+			try {
+				final byte[] in = IO.readFully(getFile());
+				final ObjectId newHash = hash(in);
+				if (hash.equals(newHash)) {
+					if (oldSnapshot.equals(newSnapshot)) {
+						oldSnapshot.setClean(newSnapshot);
+					} else {
+						snapshot = newSnapshot;
+					}
 				} else {
-					decoded = RawParseUtils.decode(in);
+					final String decoded;
+					if (isUtf8(in)) {
+						decoded = RawParseUtils.decode(CHARSET,
+								in, 3, in.length);
+						utf8Bom = true;
+					} else {
+						decoded = RawParseUtils.decode(in);
+					}
+					fromText(decoded);
+					snapshot = newSnapshot;
+					hash = newHash;
 				}
-				fromText(decoded);
+				return;
+			} catch (FileNotFoundException noFile) {
+				if (configFile.exists()) {
+					throw noFile;
+				}
+				clear();
 				snapshot = newSnapshot;
-				hash = newHash;
+				return;
+			} catch (IOException e) {
+				if (FileUtils.isStaleFileHandle(e)
+						&& retries < maxStaleRetries) {
+					if (LOG.isDebugEnabled()) {
+						LOG.debug(MessageFormat.format(
+								JGitText.get().configHandleIsStale,
+								Integer.valueOf(retries)), e);
+					}
+					retries++;
+					continue;
+				}
+				throw new IOException(MessageFormat
+						.format(JGitText.get().cannotReadFile, getFile()), e);
+			} catch (ConfigInvalidException e) {
+				throw new ConfigInvalidException(MessageFormat
+						.format(JGitText.get().cannotReadFile, getFile()), e);
 			}
-		} catch (FileNotFoundException noFile) {
-			if (configFile.exists()) {
-				throw noFile;
-			}
-			clear();
-			snapshot = newSnapshot;
-		} catch (IOException e) {
-			throw new IOException(MessageFormat
-					.format(JGitText.get().cannotReadFile, getFile()), e);
-		} catch (ConfigInvalidException e) {
-			throw new ConfigInvalidException(MessageFormat.format(JGitText.get().cannotReadFile, getFile()), e);
 		}
 	}
 
