@@ -51,6 +51,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -59,7 +60,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Random;
 
 import org.eclipse.jgit.transport.http.HttpConnection;
 import org.eclipse.jgit.util.Base64;
@@ -323,7 +323,7 @@ abstract class HttpAuthMethod {
 
 	/** Performs HTTP digest authentication. */
 	private static class Digest extends HttpAuthMethod {
-		private static final Random PRNG = new Random();
+		private static final SecureRandom PRNG = new SecureRandom();
 
 		private final Map<String, String> params;
 
