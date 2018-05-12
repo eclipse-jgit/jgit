@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "834e201e_38570cd2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-12T08:57:24Z",
+      "side": 1,
+      "message": "name this directory like in PackDirectory ?",
+      "range": {
+        "startLine": 76,
+        "startChar": 20,
+        "endLine": 76,
+        "endChar": 27
+      },
+      "revId": "e1a2576b2109627953a5ff29e7317cc4a0b51f78",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ce80e3a_c1ac4bad",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-12T08:57:24Z",
+      "side": 1,
+      "message": "maybe document meaning of this parameter since constant which has documentation now resides in a different class\n\nMaximum number of candidates offered as resolutions of abbreviation",
+      "range": {
+        "startLine": 130,
+        "startChar": 3,
+        "endLine": 130,
+        "endChar": 12
+      },
+      "revId": "e1a2576b2109627953a5ff29e7317cc4a0b51f78",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
