@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca1a8bda_ac158ceb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-12T09:13:34Z",
+      "side": 1,
+      "message": "remove extra blank",
+      "range": {
+        "startLine": 11,
+        "startChar": 15,
+        "endLine": 11,
+        "endChar": 16
+      },
+      "revId": "dd5607e085391559be52a1c4ee36ab4105511fee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72bdc6fa_92a5db19",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-12T09:13:34Z",
+      "side": 1,
+      "message": "this field name is confusing since the parameter passed to the constructor is a File but this is a PackFileName, maybe better packFileName",
+      "range": {
+        "startLine": 164,
+        "startChar": 7,
+        "endLine": 164,
+        "endChar": 15
+      },
+      "revId": "dd5607e085391559be52a1c4ee36ab4105511fee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae30380a_fc629027",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-12T09:13:34Z",
+      "side": 1,
+      "message": "why not use the field directly ?",
+      "range": {
+        "startLine": 178,
+        "startChar": 35,
+        "endLine": 178,
+        "endChar": 48
+      },
+      "revId": "dd5607e085391559be52a1c4ee36ab4105511fee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0eb9f64c_5221f4fe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-12T09:13:34Z",
+      "side": 1,
+      "message": "why should we use the getter to access the field ?",
+      "range": {
+        "startLine": 630,
+        "startChar": 35,
+        "endLine": 630,
+        "endChar": 48
+      },
+      "revId": "dd5607e085391559be52a1c4ee36ab4105511fee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
