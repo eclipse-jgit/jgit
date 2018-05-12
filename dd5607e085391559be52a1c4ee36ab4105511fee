@@ -91,6 +91,23 @@
       "revId": "dd5607e085391559be52a1c4ee36ab4105511fee",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "370cb64b_ef1b9dc0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFileName.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-12T09:26:03Z",
+      "side": 1,
+      "message": "please fix warnings raised by Eclipse on this class",
+      "revId": "dd5607e085391559be52a1c4ee36ab4105511fee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
