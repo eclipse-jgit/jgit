@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ac80bb9_8026530c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-12T09:25:26Z",
+      "side": 1,
+      "message": "couldn\u0027t this be declared as a Map ?",
+      "range": {
+        "startLine": 170,
+        "startChar": 17,
+        "endLine": 170,
+        "endChar": 34
+      },
+      "revId": "19005a6c87e5113085b4798aca9937e4da79179e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe60af2a_b4b3a381",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-12T09:25:26Z",
+      "side": 1,
+      "message": "couldn\u0027t this be declared as a Map ?",
+      "range": {
+        "startLine": 182,
+        "startChar": 16,
+        "endLine": 182,
+        "endChar": 33
+      },
+      "revId": "19005a6c87e5113085b4798aca9937e4da79179e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
