@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "b7839795_4d77b23c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-12T09:04:51Z",
+      "side": 1,
+      "message": "directory",
+      "range": {
+        "startLine": 111,
+        "startChar": 27,
+        "endLine": 111,
+        "endChar": 41
+      },
+      "revId": "e1a2576b2109627953a5ff29e7317cc4a0b51f78",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ce80e3a_c1ac4bad",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
         "patchSetId": 2
@@ -41,6 +64,75 @@
         "startChar": 3,
         "endLine": 130,
         "endChar": 12
+      },
+      "revId": "e1a2576b2109627953a5ff29e7317cc4a0b51f78",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83edcfa0_e812ec8a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-12T09:04:51Z",
+      "side": 1,
+      "message": "compiler complains this method doesn\u0027t throw IOException",
+      "range": {
+        "startLine": 130,
+        "startChar": 14,
+        "endLine": 130,
+        "endChar": 32
+      },
+      "revId": "e1a2576b2109627953a5ff29e7317cc4a0b51f78",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "778ea3bd_366194eb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-12T09:04:51Z",
+      "side": 1,
+      "message": "directory",
+      "range": {
+        "startLine": 132,
+        "startChar": 30,
+        "endLine": 132,
+        "endChar": 44
+      },
+      "revId": "e1a2576b2109627953a5ff29e7317cc4a0b51f78",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2367c9da_9bb5592a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-12T09:04:51Z",
+      "side": 1,
+      "message": "unused parameter",
+      "range": {
+        "startLine": 182,
+        "startChar": 3,
+        "endLine": 182,
+        "endChar": 26
       },
       "revId": "e1a2576b2109627953a5ff29e7317cc4a0b51f78",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
