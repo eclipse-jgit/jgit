@@ -737,12 +737,14 @@ public class DirCache {
 		final LockFile tmp = myLock;
 		requireLocked(tmp);
 		myLock = null;
-		if (!tmp.commit())
+		if (!tmp.commit()) {
 			return false;
+		}
 		snapshot = tmp.getCommitSnapshot();
 		if (indexChangedListener != null
-				&& !Arrays.equals(readIndexChecksum, writeIndexChecksum))
-			indexChangedListener.onIndexChanged(new IndexChangedEvent());
+				&& !Arrays.equals(readIndexChecksum, writeIndexChecksum)) {
+			indexChangedListener.onIndexChanged(new IndexChangedEvent(true));
+		}
 		return true;
 	}
 
