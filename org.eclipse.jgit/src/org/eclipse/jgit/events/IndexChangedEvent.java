@@ -47,6 +47,28 @@ package org.eclipse.jgit.events;
  * Describes a change to one or more paths in the index file.
  */
 public class IndexChangedEvent extends RepositoryEvent<IndexChangedListener> {
+	private boolean internal;
+
+	/**
+	 * Notify that the index changed
+	 *
+	 * @param internal
+	 *                     {@code true} if the index was changed by the same
+	 *                     JGit process
+	 * @since 5.0
+	 */
+	public IndexChangedEvent(boolean internal) {
+		this.internal = internal;
+	}
+
+	/**
+	 * @return {@code true} if the index was changed by the same JGit process
+	 * @since 5.0
+	 */
+	public boolean isInternal() {
+		return internal;
+	}
+
 	/** {@inheritDoc} */
 	@Override
 	public Class<IndexChangedListener> getListenerType() {

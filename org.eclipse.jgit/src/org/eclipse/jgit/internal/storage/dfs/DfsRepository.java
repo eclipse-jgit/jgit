@@ -133,7 +133,7 @@ public abstract class DfsRepository extends Repository {
 
 	/** {@inheritDoc} */
 	@Override
-	public void notifyIndexChanged() {
+	public void notifyIndexChanged(boolean internal) {
 		// Do not send notifications.
 		// There is no index, as there is no working tree.
 	}

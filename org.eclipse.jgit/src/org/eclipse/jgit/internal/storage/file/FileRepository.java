@@ -58,6 +58,7 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.errors.JGitInternalException;
@@ -125,7 +126,8 @@ public class FileRepository extends Repository {
 	private final FileBasedConfig repoConfig;
 	private final RefDatabase refs;
 	private final ObjectDirectory objectDatabase;
-	private FileSnapshot snapshot;
+
+	private AtomicReference<FileSnapshot> snapshot = new AtomicReference<>();
 
 	/**
 	 * Construct a representation of a Git repository.
@@ -241,7 +243,7 @@ public class FileRepository extends Repository {
 		}
 
 		if (!isBare())
-			snapshot = FileSnapshot.save(getIndexFile());
+			snapshot.getAndSet(FileSnapshot.save(getIndexFile()));
 	}
 
 	private void loadSystemConfig() throws IOException {
@@ -544,21 +546,23 @@ public class FileRepository extends Repository {
 
 	/** Detect index changes. */
 	private void detectIndexChanges() {
-		if (isBare())
+		if (isBare()) {
 			return;
+		}
 
 		File indexFile = getIndexFile();
-		if (snapshot == null)
-			snapshot = FileSnapshot.save(indexFile);
-		else if (snapshot.isModified(indexFile))
-			notifyIndexChanged();
+		if (snapshot.get() == null) {
+			snapshot.getAndSet(FileSnapshot.save(indexFile));
+		} else if (snapshot.get().isModified(indexFile)) {
+			notifyIndexChanged(false);
+		}
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public void notifyIndexChanged() {
-		snapshot = FileSnapshot.save(getIndexFile());
-		fireEvent(new IndexChangedEvent());
+	public void notifyIndexChanged(boolean internal) {
+		snapshot.getAndSet(FileSnapshot.save(getIndexFile()));
+		fireEvent(new IndexChangedEvent(internal));
 	}
 
 	/** {@inheritDoc} */

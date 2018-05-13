@@ -1267,7 +1267,7 @@ public abstract class Repository implements AutoCloseable {
 		IndexChangedListener l = new IndexChangedListener() {
 			@Override
 			public void onIndexChanged(IndexChangedEvent event) {
-				notifyIndexChanged();
+				notifyIndexChanged(true);
 			}
 		};
 		return DirCache.lock(this, l);
@@ -1560,16 +1560,22 @@ public abstract class Repository implements AutoCloseable {
 	}
 
 	/**
-	 * Force a scan for changed refs.
+	 * Force a scan for changed refs. Fires an IndexChangedEvent(false) if
+	 * changes are detected.
 	 *
 	 * @throws java.io.IOException
 	 */
 	public abstract void scanForRepoChanges() throws IOException;
 
 	/**
-	 * Notify that the index changed
+	 * Notify that the index changed by firing an IndexChangedEvent.
+	 *
+	 * @param internal
+	 *                     {@code true} if the index was changed by the same
+	 *                     JGit process
+	 * @since 5.0
 	 */
-	public abstract void notifyIndexChanged();
+	public abstract void notifyIndexChanged(boolean internal);
 
 	/**
 	 * Get a shortened more user friendly ref name
