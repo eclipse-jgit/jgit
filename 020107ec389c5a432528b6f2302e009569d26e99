@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4863f1ba_4c84fd86",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1563,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-05-13T20:22:06Z",
+      "side": 1,
+      "message": "This Javadoc should state that this fires an IndexChangedEvent(false) if changes are detected.\n\nWhen I started with this refresh handling in EGit, I was initially puzzled as to how I\u0027d get the result. Cleared up quickly, but I had to read the implementation code :-).",
+      "revId": "020107ec389c5a432528b6f2302e009569d26e99",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46f879d0_0fc0350a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1570,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-05-13T20:22:06Z",
+      "side": 1,
+      "message": "... by firing an IndexChangedEvent.",
+      "revId": "020107ec389c5a432528b6f2302e009569d26e99",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
