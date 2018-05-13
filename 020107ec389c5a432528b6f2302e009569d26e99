@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6e07c853_ef39fc85",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1563,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-13T20:39:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4863f1ba_4c84fd86",
+      "revId": "020107ec389c5a432528b6f2302e009569d26e99",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "46f879d0_0fc0350a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2018-05-13T20:22:06Z",
       "side": 1,
       "message": "... by firing an IndexChangedEvent.",
+      "revId": "020107ec389c5a432528b6f2302e009569d26e99",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ccec992_0fba00bb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1570,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-13T20:39:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46f879d0_0fc0350a",
       "revId": "020107ec389c5a432528b6f2302e009569d26e99",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
