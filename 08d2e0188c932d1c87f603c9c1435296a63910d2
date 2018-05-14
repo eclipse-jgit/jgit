@@ -308,6 +308,24 @@
     },
     {
       "key": {
+        "uuid": "6267c37a_96b159ba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2018-05-14T15:49:01Z",
+      "side": 1,
+      "message": "If you do that, we\u0027ll have to thread @Nullable through the call stack, eg.\n\n https://eclipse.googlesource.com/jgit/jgit/+/e9e150fdd24dbeb54df614a4d47da3074c766b28/org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java#1066\n\nI think the exception is more explicit and self-explanatory.",
+      "parentUuid": "5dc02283_3d4b0a71",
+      "revId": "08d2e0188c932d1c87f603c9c1435296a63910d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a892301e_3c35eba9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
         "patchSetId": 6
