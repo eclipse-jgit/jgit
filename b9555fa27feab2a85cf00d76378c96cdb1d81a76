@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "41374688_f07175bd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2018-05-14T17:53:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4cdbf9e7_9f18d2b5",
+      "range": {
+        "startLine": 176,
+        "startChar": 15,
+        "endLine": 176,
+        "endChar": 33
+      },
+      "revId": "b9555fa27feab2a85cf00d76378c96cdb1d81a76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "25a87eea_4abb6bf3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2018-05-12T08:25:49Z",
       "side": 1,
       "message": "the compiler warns that this exception isn\u0027t thrown by this method",
+      "range": {
+        "startLine": 248,
+        "startChar": 22,
+        "endLine": 248,
+        "endChar": 40
+      },
+      "revId": "b9555fa27feab2a85cf00d76378c96cdb1d81a76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9819fd83_395b401a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2018-05-14T17:53:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25a87eea_4abb6bf3",
       "range": {
         "startLine": 248,
         "startChar": 22,
