@@ -153,7 +153,7 @@ public abstract class RefAdvertiser {
 		}
 
 		@Override
-		protected void writeOne(final CharSequence line) throws IOException {
+		protected void writeOne(CharSequence line) throws IOException {
 			pckOut.writeString(line.toString());
 		}
 
@@ -215,7 +215,7 @@ public abstract class RefAdvertiser {
 	 *            true to show the dereferenced value of a tag as the special
 	 *            ref <code>$tag^{}</code> ; false to omit it from the output.
 	 */
-	public void setDerefTags(final boolean deref) {
+	public void setDerefTags(boolean deref) {
 		derefTags = deref;
 	}
 
@@ -365,13 +365,13 @@ public abstract class RefAdvertiser {
 		return first;
 	}
 
-	private void advertiseAnyOnce(AnyObjectId obj, final String refName)
+	private void advertiseAnyOnce(AnyObjectId obj, String refName)
 			throws IOException {
 		if (!sent.contains(obj))
 			advertiseAny(obj, refName);
 	}
 
-	private void advertiseAny(AnyObjectId obj, final String refName)
+	private void advertiseAny(AnyObjectId obj, String refName)
 			throws IOException {
 		sent.add(obj.toObjectId());
 		advertiseId(obj, refName);
@@ -392,7 +392,7 @@ public abstract class RefAdvertiser {
 	 *             the underlying output stream failed to write out an
 	 *             advertisement record.
 	 */
-	public void advertiseId(final AnyObjectId id, final String refName)
+	public void advertiseId(AnyObjectId id, String refName)
 			throws IOException {
 		tmpLine.setLength(0);
 		id.copyTo(tmpId, tmpLine);

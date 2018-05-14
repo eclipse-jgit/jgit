@@ -55,7 +55,7 @@ public class ConfigInvalidException extends Exception {
 	 * @param message
 	 *            why the configuration is invalid.
 	 */
-	public ConfigInvalidException(final String message) {
+	public ConfigInvalidException(String message) {
 		super(message);
 	}
 
@@ -67,7 +67,7 @@ public class ConfigInvalidException extends Exception {
 	 * @param cause
 	 *            root cause of the error.
 	 */
-	public ConfigInvalidException(final String message, final Throwable cause) {
+	public ConfigInvalidException(String message, Throwable cause) {
 		super(message, cause);
 	}
 }

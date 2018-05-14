@@ -88,7 +88,7 @@ public class SubmoduleAddCommand extends
 	 * @param repo
 	 *            a {@link org.eclipse.jgit.lib.Repository} object.
 	 */
-	public SubmoduleAddCommand(final Repository repo) {
+	public SubmoduleAddCommand(Repository repo) {
 		super(repo);
 	}
 
@@ -99,7 +99,7 @@ public class SubmoduleAddCommand extends
 	 *            (with <code>/</code> as separator)
 	 * @return this command
 	 */
-	public SubmoduleAddCommand setPath(final String path) {
+	public SubmoduleAddCommand setPath(String path) {
 		this.path = path;
 		return this;
 	}
@@ -111,7 +111,7 @@ public class SubmoduleAddCommand extends
 	 *            a {@link java.lang.String} object.
 	 * @return this command
 	 */
-	public SubmoduleAddCommand setURI(final String uri) {
+	public SubmoduleAddCommand setURI(String uri) {
 		this.uri = uri;
 		return this;
 	}
@@ -125,7 +125,7 @@ public class SubmoduleAddCommand extends
 	 *            a {@link org.eclipse.jgit.lib.ProgressMonitor} object.
 	 * @return this command
 	 */
-	public SubmoduleAddCommand setProgressMonitor(final ProgressMonitor monitor) {
+	public SubmoduleAddCommand setProgressMonitor(ProgressMonitor monitor) {
 		this.monitor = monitor;
 		return this;
 	}

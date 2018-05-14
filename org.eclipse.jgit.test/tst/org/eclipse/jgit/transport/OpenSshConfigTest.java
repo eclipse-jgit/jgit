@@ -90,7 +90,7 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 		osc = new OpenSshConfig(home, configFile);
 	}
 
-	private void config(final String data) throws IOException {
+	private void config(String data) throws IOException {
 		long lastMtime = configFile.lastModified();
 		do {
 			try (final OutputStreamWriter fw = new OutputStreamWriter(

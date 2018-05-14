@@ -180,7 +180,7 @@ public class PostOrderTreeWalkTest extends RepositoryTestCase {
 		}
 	}
 
-	private DirCacheEntry makeFile(final String path) throws Exception {
+	private DirCacheEntry makeFile(String path) throws Exception {
 		return createEntry(path, REGULAR_FILE);
 	}
 

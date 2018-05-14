@@ -167,7 +167,7 @@ class Show extends TextBuiltin {
 
 	/** {@inheritDoc} */
 	@Override
-	protected void init(final Repository repository, final String gitDir) {
+	protected void init(Repository repository, String gitDir) {
 		super.init(repository, gitDir);
 		diffFmt = new DiffFormatter(new BufferedOutputStream(outs));
 	}
@@ -273,7 +273,7 @@ class Show extends TextBuiltin {
 		}
 	}
 
-	private void show(RevWalk rw, final RevCommit c) throws Exception {
+	private void show(RevWalk rw, RevCommit c) throws Exception {
 		char[] outbuffer = new char[Constants.OBJECT_ID_LENGTH * 2];
 
 		outw.print(CLIText.get().commitLabel);

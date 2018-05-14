@@ -61,13 +61,13 @@ public class NotTreeFilter extends TreeFilter {
 	 *            filter to negate.
 	 * @return a filter that does the reverse of <code>a</code>.
 	 */
-	public static TreeFilter create(final TreeFilter a) {
+	public static TreeFilter create(TreeFilter a) {
 		return new NotTreeFilter(a);
 	}
 
 	private final TreeFilter a;
 
-	private NotTreeFilter(final TreeFilter one) {
+	private NotTreeFilter(TreeFilter one) {
 		a = one;
 	}
 
@@ -79,7 +79,7 @@ public class NotTreeFilter extends TreeFilter {
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean include(final TreeWalk walker)
+	public boolean include(TreeWalk walker)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
 		return matchFilter(walker) == 0;

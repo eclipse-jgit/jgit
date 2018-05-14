@@ -68,7 +68,7 @@ public final class RawCharSequence implements CharSequence {
 	 * @param end
 	 *            ending position for the sequence.
 	 */
-	public RawCharSequence(final byte[] buf, final int start, final int end) {
+	public RawCharSequence(byte[] buf, int start, int end) {
 		buffer = buf;
 		startPtr = start;
 		endPtr = end;
@@ -76,7 +76,7 @@ public final class RawCharSequence implements CharSequence {
 
 	/** {@inheritDoc} */
 	@Override
-	public char charAt(final int index) {
+	public char charAt(int index) {
 		return (char) (buffer[startPtr + index] & 0xff);
 	}
 
@@ -88,7 +88,7 @@ public final class RawCharSequence implements CharSequence {
 
 	/** {@inheritDoc} */
 	@Override
-	public CharSequence subSequence(final int start, final int end) {
+	public CharSequence subSequence(int start, int end) {
 		return new RawCharSequence(buffer, startPtr + start, startPtr + end);
 	}
 

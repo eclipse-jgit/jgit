@@ -58,7 +58,7 @@ public class ObjectWritingException extends IOException {
 	 *
 	 * @param s message
 	 */
-	public ObjectWritingException(final String s) {
+	public ObjectWritingException(String s) {
 		super(s);
 	}
 
@@ -68,7 +68,7 @@ public class ObjectWritingException extends IOException {
 	 * @param s message
 	 * @param cause root cause exception
 	 */
-	public ObjectWritingException(final String s, final Throwable cause) {
+	public ObjectWritingException(String s, Throwable cause) {
 		super(s);
 		initCause(cause);
 	}

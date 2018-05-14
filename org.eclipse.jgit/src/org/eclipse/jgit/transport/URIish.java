@@ -387,7 +387,7 @@ public class URIish implements Serializable {
 	 * @param u
 	 *            the source URL to convert from.
 	 */
-	public URIish(final URL u) {
+	public URIish(URL u) {
 		scheme = u.getProtocol();
 		path = u.getPath();
 		path = cleanLeadingSlashes(path, scheme);
@@ -416,7 +416,7 @@ public class URIish implements Serializable {
 		// Configure nothing.
 	}
 
-	private URIish(final URIish u) {
+	private URIish(URIish u) {
 		this.scheme = u.scheme;
 		this.rawPath = u.rawPath;
 		this.path = u.path;
@@ -451,7 +451,7 @@ public class URIish implements Serializable {
 	 *            the new value for host.
 	 * @return a new URI with the updated value.
 	 */
-	public URIish setHost(final String n) {
+	public URIish setHost(String n) {
 		final URIish r = new URIish(this);
 		r.host = n;
 		return r;
@@ -473,7 +473,7 @@ public class URIish implements Serializable {
 	 *            the new value for scheme.
 	 * @return a new URI with the updated value.
 	 */
-	public URIish setScheme(final String n) {
+	public URIish setScheme(String n) {
 		final URIish r = new URIish(this);
 		r.scheme = n;
 		return r;
@@ -504,7 +504,7 @@ public class URIish implements Serializable {
 	 *            the new value for path.
 	 * @return a new URI with the updated value.
 	 */
-	public URIish setPath(final String n) {
+	public URIish setPath(String n) {
 		final URIish r = new URIish(this);
 		r.path = n;
 		r.rawPath = n;
@@ -519,7 +519,7 @@ public class URIish implements Serializable {
 	 * @return a new URI with the updated value.
 	 * @throws java.net.URISyntaxException
 	 */
-	public URIish setRawPath(final String n) throws URISyntaxException {
+	public URIish setRawPath(String n) throws URISyntaxException {
 		final URIish r = new URIish(this);
 		r.path = unescape(n);
 		r.rawPath = n;
@@ -542,7 +542,7 @@ public class URIish implements Serializable {
 	 *            the new value for user.
 	 * @return a new URI with the updated value.
 	 */
-	public URIish setUser(final String n) {
+	public URIish setUser(String n) {
 		final URIish r = new URIish(this);
 		r.user = n;
 		return r;
@@ -564,7 +564,7 @@ public class URIish implements Serializable {
 	 *            the new value for password.
 	 * @return a new URI with the updated value.
 	 */
-	public URIish setPass(final String n) {
+	public URIish setPass(String n) {
 		final URIish r = new URIish(this);
 		r.pass = n;
 		return r;
@@ -586,7 +586,7 @@ public class URIish implements Serializable {
 	 *            the new value for port.
 	 * @return a new URI with the updated value.
 	 */
-	public URIish setPort(final int n) {
+	public URIish setPort(int n) {
 		final URIish r = new URIish(this);
 		r.port = n > 0 ? n : -1;
 		return r;
@@ -613,7 +613,7 @@ public class URIish implements Serializable {
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean equals(final Object obj) {
+	public boolean equals(Object obj) {
 		if (!(obj instanceof URIish))
 			return false;
 		final URIish b = (URIish) obj;
@@ -632,7 +632,7 @@ public class URIish implements Serializable {
 		return true;
 	}
 
-	private static boolean eq(final String a, final String b) {
+	private static boolean eq(String a, String b) {
 		if (a == b)
 			return true;
 		if (StringUtils.isEmptyOrNull(a) && StringUtils.isEmptyOrNull(b))
@@ -657,7 +657,7 @@ public class URIish implements Serializable {
 		return format(false, false);
 	}
 
-	private String format(final boolean includePassword, boolean escapeNonAscii) {
+	private String format(boolean includePassword, boolean escapeNonAscii) {
 		final StringBuilder r = new StringBuilder();
 		if (getScheme() != null) {
 			r.append(getScheme());

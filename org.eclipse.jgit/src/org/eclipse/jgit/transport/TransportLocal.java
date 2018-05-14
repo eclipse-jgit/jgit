@@ -229,7 +229,7 @@ class TransportLocal extends Transport implements PackTransport {
 	 * @throws org.eclipse.jgit.errors.TransportException
 	 *             if any.
 	 */
-	protected Process spawn(final String cmd)
+	protected Process spawn(String cmd)
 			throws TransportException {
 		try {
 			String[] args = { "." }; //$NON-NLS-1$

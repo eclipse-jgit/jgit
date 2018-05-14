@@ -56,7 +56,7 @@ import org.eclipse.jgit.internal.JGitText;
 public class CompoundException extends Exception {
 	private static final long serialVersionUID = 1L;
 
-	private static String format(final Collection<Throwable> causes) {
+	private static String format(Collection<Throwable> causes) {
 		final StringBuilder msg = new StringBuilder();
 		msg.append(JGitText.get().failureDueToOneOfTheFollowing);
 		for (final Throwable c : causes) {
@@ -75,7 +75,7 @@ public class CompoundException extends Exception {
 	 * @param why
 	 *            Two or more exceptions that may have been the problem.
 	 */
-	public CompoundException(final Collection<Throwable> why) {
+	public CompoundException(Collection<Throwable> why) {
 		super(format(why));
 		causeList = Collections.unmodifiableList(new ArrayList<>(why));
 	}

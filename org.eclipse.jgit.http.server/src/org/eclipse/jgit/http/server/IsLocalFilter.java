@@ -88,7 +88,7 @@ class IsLocalFilter implements Filter {
 			((HttpServletResponse) response).sendError(SC_FORBIDDEN);
 	}
 
-	private static boolean isLocal(final Repository db) {
+	private static boolean isLocal(Repository db) {
 		return db.getObjectDatabase() instanceof ObjectDirectory;
 	}
 }

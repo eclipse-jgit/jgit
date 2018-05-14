@@ -64,7 +64,7 @@ public class BinaryDelta {
 	 *            the delta stream, or at least the header of it.
 	 * @return the base object's size.
 	 */
-	public static long getBaseSize(final byte[] delta) {
+	public static long getBaseSize(byte[] delta) {
 		int p = 0;
 		long baseLen = 0;
 		int c, shift = 0;
@@ -83,7 +83,7 @@ public class BinaryDelta {
 	 *            the delta stream, or at least the header of it.
 	 * @return the resulting object's size.
 	 */
-	public static long getResultSize(final byte[] delta) {
+	public static long getResultSize(byte[] delta) {
 		int p = 0;
 
 		// Skip length of the base object.
@@ -114,7 +114,7 @@ public class BinaryDelta {
 	 *            another.
 	 * @return patched base
 	 */
-	public static final byte[] apply(final byte[] base, final byte[] delta) {
+	public static final byte[] apply(byte[] base, byte[] delta) {
 		return apply(base, delta, null);
 	}
 

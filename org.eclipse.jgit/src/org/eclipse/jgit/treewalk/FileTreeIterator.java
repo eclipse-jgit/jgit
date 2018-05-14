@@ -130,7 +130,7 @@ public class FileTreeIterator extends WorkingTreeIterator {
 	 * @param options
 	 *            working tree options to be used
 	 */
-	public FileTreeIterator(final File root, FS fs, WorkingTreeOptions options) {
+	public FileTreeIterator(File root, FS fs, WorkingTreeOptions options) {
 		this(root, fs, options, DefaultFileModeStrategy.INSTANCE);
 	}
 
@@ -205,7 +205,7 @@ public class FileTreeIterator extends WorkingTreeIterator {
 
 	/** {@inheritDoc} */
 	@Override
-	public AbstractTreeIterator createSubtreeIterator(final ObjectReader reader)
+	public AbstractTreeIterator createSubtreeIterator(ObjectReader reader)
 			throws IncorrectObjectTypeException, IOException {
 		return new FileTreeIterator(this, ((FileEntry) current()).getFile(), fs, fileModeStrategy);
 	}
@@ -422,7 +422,7 @@ public class FileTreeIterator extends WorkingTreeIterator {
 
 	/** {@inheritDoc} */
 	@Override
-	protected byte[] idSubmodule(final Entry e) {
+	protected byte[] idSubmodule(Entry e) {
 		return idSubmodule(getDirectory(), e);
 	}
 

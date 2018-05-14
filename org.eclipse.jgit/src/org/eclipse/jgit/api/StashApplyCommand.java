@@ -111,7 +111,7 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 	 *            the {@link org.eclipse.jgit.lib.Repository} to apply the stash
 	 *            to
 	 */
-	public StashApplyCommand(final Repository repo) {
+	public StashApplyCommand(Repository repo) {
 		super(repo);
 	}
 
@@ -125,7 +125,7 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 	 *            name of the stash {@code Ref} to apply
 	 * @return {@code this}
 	 */
-	public StashApplyCommand setStashRef(final String stashRef) {
+	public StashApplyCommand setStashRef(String stashRef) {
 		this.stashRef = stashRef;
 		return this;
 	}

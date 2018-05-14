@@ -107,13 +107,13 @@ public class FS_Win32 extends FS {
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean canExecute(final File f) {
+	public boolean canExecute(File f) {
 		return false;
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean setExecute(final File f, final boolean canExec) {
+	public boolean setExecute(File f, boolean canExec) {
 		return false;
 	}
 

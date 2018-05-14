@@ -86,7 +86,7 @@ public class PathFilter extends TreeFilter {
 
 	final byte[] pathRaw;
 
-	private PathFilter(final String s) {
+	private PathFilter(String s) {
 		pathStr = s;
 		pathRaw = Constants.encode(pathStr);
 	}
@@ -102,13 +102,13 @@ public class PathFilter extends TreeFilter {
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean include(final TreeWalk walker) {
+	public boolean include(TreeWalk walker) {
 		return matchFilter(walker) <= 0;
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public int matchFilter(final TreeWalk walker) {
+	public int matchFilter(TreeWalk walker) {
 		return walker.isPathMatch(pathRaw, pathRaw.length);
 	}
 
@@ -143,7 +143,7 @@ public class PathFilter extends TreeFilter {
 	 * @return {@code true} if the path length of this filter matches the length
 	 *         of the current path of the supplied TreeWalk.
 	 */
-	public boolean isDone(final TreeWalk walker) {
+	public boolean isDone(TreeWalk walker) {
 		return pathRaw.length == walker.getPathLength();
 	}
 }

@@ -121,7 +121,7 @@ public abstract class ObjectDatabase {
 	 * @throws java.io.IOException
 	 *             the object store cannot be accessed.
 	 */
-	public boolean has(final AnyObjectId objectId) throws IOException {
+	public boolean has(AnyObjectId objectId) throws IOException {
 		try (final ObjectReader or = newReader()) {
 			return or.has(objectId);
 		}
@@ -141,7 +141,7 @@ public abstract class ObjectDatabase {
 	 * @throws java.io.IOException
 	 *             the object store cannot be accessed.
 	 */
-	public ObjectLoader open(final AnyObjectId objectId)
+	public ObjectLoader open(AnyObjectId objectId)
 			throws IOException {
 		return open(objectId, ObjectReader.OBJ_ANY);
 	}

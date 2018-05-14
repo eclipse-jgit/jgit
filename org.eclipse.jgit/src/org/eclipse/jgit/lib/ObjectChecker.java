@@ -1105,7 +1105,7 @@ public class ObjectChecker {
 	 * @throws org.eclipse.jgit.errors.CorruptObjectException
 	 *             if any error was detected.
 	 */
-	public void checkBlob(final byte[] raw) throws CorruptObjectException {
+	public void checkBlob(byte[] raw) throws CorruptObjectException {
 		// We can always assume the blob is valid.
 	}
 

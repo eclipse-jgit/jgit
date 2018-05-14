@@ -103,7 +103,7 @@ public abstract class RevFilter {
 
 	private static final class AllFilter extends RevFilter {
 		@Override
-		public boolean include(final RevWalk walker, final RevCommit c) {
+		public boolean include(RevWalk walker, RevCommit c) {
 			return true;
 		}
 
@@ -128,7 +128,7 @@ public abstract class RevFilter {
 
 	private static final class NoneFilter extends RevFilter {
 		@Override
-		public boolean include(final RevWalk walker, final RevCommit c) {
+		public boolean include(RevWalk walker, RevCommit c) {
 			return false;
 		}
 
@@ -184,7 +184,7 @@ public abstract class RevFilter {
 
 	private static final class NoMergesFilter extends RevFilter {
 		@Override
-		public boolean include(final RevWalk walker, final RevCommit c) {
+		public boolean include(RevWalk walker, RevCommit c) {
 			return c.getParentCount() < 2;
 		}
 
@@ -216,7 +216,7 @@ public abstract class RevFilter {
 
 	private static final class MergeBaseFilter extends RevFilter {
 		@Override
-		public boolean include(final RevWalk walker, final RevCommit c) {
+		public boolean include(RevWalk walker, RevCommit c) {
 			throw new UnsupportedOperationException(JGitText.get().cannotBeCombined);
 		}
 

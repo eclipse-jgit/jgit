@@ -119,7 +119,7 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 		reset(reader, treeId);
 	}
 
-	private CanonicalTreeParser(final CanonicalTreeParser p) {
+	private CanonicalTreeParser(CanonicalTreeParser p) {
 		super(p);
 	}
 
@@ -140,7 +140,7 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 	 * @param treeData
 	 *            the raw tree content.
 	 */
-	public void reset(final byte[] treeData) {
+	public void reset(byte[] treeData) {
 		attributesNode = null;
 		raw = treeData;
 		prevPtr = -1;
@@ -219,7 +219,7 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 	 * @throws java.io.IOException
 	 *             a loose object or pack file could not be read.
 	 */
-	public void reset(final ObjectReader reader, final AnyObjectId id)
+	public void reset(ObjectReader reader, AnyObjectId id)
 			throws IncorrectObjectTypeException, IOException {
 		reset(reader.open(id, OBJ_TREE).getCachedBytes());
 	}
@@ -262,7 +262,7 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 
 	/** {@inheritDoc} */
 	@Override
-	public CanonicalTreeParser createSubtreeIterator(final ObjectReader reader)
+	public CanonicalTreeParser createSubtreeIterator(ObjectReader reader)
 			throws IncorrectObjectTypeException, IOException {
 		return createSubtreeIterator(reader, new MutableObjectId());
 	}

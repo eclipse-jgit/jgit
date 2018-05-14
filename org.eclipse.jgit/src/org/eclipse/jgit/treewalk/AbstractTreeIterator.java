@@ -176,7 +176,7 @@ public abstract class AbstractTreeIterator {
 	 *            root of the repository. A trailing slash ('/') is
 	 *            automatically appended if the prefix does not end in '/'.
 	 */
-	protected AbstractTreeIterator(final String prefix) {
+	protected AbstractTreeIterator(String prefix) {
 		parent = null;
 
 		if (prefix != null && prefix.length() > 0) {
@@ -210,7 +210,7 @@ public abstract class AbstractTreeIterator {
 	 *            root of the repository. A trailing slash ('/') is
 	 *            automatically appended if the prefix does not end in '/'.
 	 */
-	protected AbstractTreeIterator(final byte[] prefix) {
+	protected AbstractTreeIterator(byte[] prefix) {
 		parent = null;
 
 		if (prefix != null && prefix.length > 0) {
@@ -232,7 +232,7 @@ public abstract class AbstractTreeIterator {
 	 * @param p
 	 *            parent tree iterator.
 	 */
-	protected AbstractTreeIterator(final AbstractTreeIterator p) {
+	protected AbstractTreeIterator(AbstractTreeIterator p) {
 		parent = p;
 		path = p.path;
 		pathOffset = p.pathLen + 1;
@@ -275,7 +275,7 @@ public abstract class AbstractTreeIterator {
 	 *            number of live bytes in the path buffer. This many bytes will
 	 *            be moved into the larger buffer.
 	 */
-	protected void growPath(final int len) {
+	protected void growPath(int len) {
 		setPathCapacity(path.length << 1, len);
 	}
 
@@ -287,7 +287,7 @@ public abstract class AbstractTreeIterator {
 	 * @param len
 	 *            the amount of live bytes in path buffer
 	 */
-	protected void ensurePathCapacity(final int capacity, final int len) {
+	protected void ensurePathCapacity(int capacity, int len) {
 		if (path.length >= capacity)
 			return;
 		final byte[] o = path;
@@ -322,7 +322,7 @@ public abstract class AbstractTreeIterator {
 	 * @return -1 if this entry sorts first; 0 if the entries are equal; 1 if
 	 *         p's entry sorts first.
 	 */
-	public int pathCompare(final AbstractTreeIterator p) {
+	public int pathCompare(AbstractTreeIterator p) {
 		return pathCompare(p, p.mode);
 	}
 
@@ -420,7 +420,7 @@ public abstract class AbstractTreeIterator {
 	 *            the other iterator to test against.
 	 * @return true if both iterators have the same object id; false otherwise.
 	 */
-	public boolean idEqual(final AbstractTreeIterator otherIterator) {
+	public boolean idEqual(AbstractTreeIterator otherIterator) {
 		return ObjectId.equals(idBuffer(), idOffset(),
 				otherIterator.idBuffer(), otherIterator.idOffset());
 	}
@@ -447,7 +447,7 @@ public abstract class AbstractTreeIterator {
 	 * @param out
 	 *            buffer to copy the object id into.
 	 */
-	public void getEntryObjectId(final MutableObjectId out) {
+	public void getEntryObjectId(MutableObjectId out) {
 		out.fromRaw(idBuffer(), idOffset());
 	}
 

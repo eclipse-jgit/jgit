@@ -111,7 +111,7 @@ public class CmdLineParser extends org.kohsuke.args4j.CmdLineParser {
 	 *             if the option bean class is using args4j annotations
 	 *             incorrectly.
 	 */
-	public CmdLineParser(final Object bean) {
+	public CmdLineParser(Object bean) {
 		this(bean, null);
 	}
 
@@ -130,7 +130,7 @@ public class CmdLineParser extends org.kohsuke.args4j.CmdLineParser {
 	 *             if the option bean class is using args4j annotations
 	 *             incorrectly.
 	 */
-	public CmdLineParser(final Object bean, Repository repo) {
+	public CmdLineParser(Object bean, Repository repo) {
 		super(bean);
 		if (bean instanceof TextBuiltin) {
 			cmd = (TextBuiltin) bean;
@@ -143,7 +143,7 @@ public class CmdLineParser extends org.kohsuke.args4j.CmdLineParser {
 
 	/** {@inheritDoc} */
 	@Override
-	public void parseArgument(final String... args) throws CmdLineException {
+	public void parseArgument(String... args) throws CmdLineException {
 		final ArrayList<String> tmp = new ArrayList<>(args.length);
 		for (int argi = 0; argi < args.length; argi++) {
 			final String str = args[argi];
@@ -232,7 +232,7 @@ public class CmdLineParser extends org.kohsuke.args4j.CmdLineParser {
 	 * @return true if the given array contains help option
 	 * @since 4.2
 	 */
-	protected boolean containsHelp(final String... args) {
+	protected boolean containsHelp(String... args) {
 		return TextBuiltin.containsHelp(args);
 	}
 

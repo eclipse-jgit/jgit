@@ -64,7 +64,7 @@ public abstract class CommitTimeRevFilter extends RevFilter {
 	 *            the point in time to cut on.
 	 * @return a new filter to select commits on or before <code>ts</code>.
 	 */
-	public static final RevFilter before(final Date ts) {
+	public static final RevFilter before(Date ts) {
 		return before(ts.getTime());
 	}
 
@@ -75,7 +75,7 @@ public abstract class CommitTimeRevFilter extends RevFilter {
 	 *            the point in time to cut on, in milliseconds
 	 * @return a new filter to select commits on or before <code>ts</code>.
 	 */
-	public static final RevFilter before(final long ts) {
+	public static final RevFilter before(long ts) {
 		return new Before(ts);
 	}
 
@@ -86,7 +86,7 @@ public abstract class CommitTimeRevFilter extends RevFilter {
 	 *            the point in time to cut on.
 	 * @return a new filter to select commits on or after <code>ts</code>.
 	 */
-	public static final RevFilter after(final Date ts) {
+	public static final RevFilter after(Date ts) {
 		return after(ts.getTime());
 	}
 
@@ -97,7 +97,7 @@ public abstract class CommitTimeRevFilter extends RevFilter {
 	 *            the point in time to cut on, in milliseconds.
 	 * @return a new filter to select commits on or after <code>ts</code>.
 	 */
-	public static final RevFilter after(final long ts) {
+	public static final RevFilter after(long ts) {
 		return new After(ts);
 	}
 
@@ -109,7 +109,7 @@ public abstract class CommitTimeRevFilter extends RevFilter {
 	 * @param until the point in time to cut off.
 	 * @return a new filter to select commits between the given date/times.
 	 */
-	public static final RevFilter between(final Date since, final Date until) {
+	public static final RevFilter between(Date since, Date until) {
 		return between(since.getTime(), until.getTime());
 	}
 
@@ -121,7 +121,7 @@ public abstract class CommitTimeRevFilter extends RevFilter {
 	 * @param until the point in time to cut off, in millisconds.
 	 * @return a new filter to select commits between the given date/times.
 	 */
-	public static final RevFilter between(final long since, final long until) {
+	public static final RevFilter between(long since, long until) {
 		return new Between(since, until);
 	}
 
@@ -149,7 +149,7 @@ public abstract class CommitTimeRevFilter extends RevFilter {
 		}
 
 		@Override
-		public boolean include(final RevWalk walker, final RevCommit cmit)
+		public boolean include(RevWalk walker, RevCommit cmit)
 				throws StopWalkException, MissingObjectException,
 				IncorrectObjectTypeException, IOException {
 			return cmit.getCommitTime() <= when;
@@ -168,7 +168,7 @@ public abstract class CommitTimeRevFilter extends RevFilter {
 		}
 
 		@Override
-		public boolean include(final RevWalk walker, final RevCommit cmit)
+		public boolean include(RevWalk walker, RevCommit cmit)
 				throws StopWalkException, MissingObjectException,
 				IncorrectObjectTypeException, IOException {
 			// Since the walker sorts commits by commit time we can be
@@ -196,7 +196,7 @@ public abstract class CommitTimeRevFilter extends RevFilter {
 		}
 
 		@Override
-		public boolean include(final RevWalk walker, final RevCommit cmit)
+		public boolean include(RevWalk walker, RevCommit cmit)
 				throws StopWalkException, MissingObjectException,
 				IncorrectObjectTypeException, IOException {
 			return cmit.getCommitTime() <= until && cmit.getCommitTime() >= when;

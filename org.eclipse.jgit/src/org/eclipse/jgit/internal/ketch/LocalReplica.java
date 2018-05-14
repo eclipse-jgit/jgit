@@ -122,7 +122,7 @@ public class LocalReplica extends KetchReplica {
 
 	/** {@inheritDoc} */
 	@Override
-	protected void startPush(final ReplicaPushRequest req) {
+	protected void startPush(ReplicaPushRequest req) {
 		getSystem().getExecutor().execute(new Runnable() {
 			@Override
 			public void run() {

@@ -217,7 +217,7 @@ final class FileSender {
 		return true;
 	}
 
-	private static Enumeration<String> getRange(final HttpServletRequest req) {
+	private static Enumeration<String> getRange(HttpServletRequest req) {
 		return req.getHeaders(HDR_RANGE);
 	}
 }

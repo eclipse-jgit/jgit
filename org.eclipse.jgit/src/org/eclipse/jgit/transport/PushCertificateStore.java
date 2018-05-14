@@ -192,7 +192,7 @@ public class PushCertificateStore implements AutoCloseable {
 	 * @return iterable over certificates; must be fully iterated in order to
 	 *         close resources.
 	 */
-	public Iterable<PushCertificate> getAll(final String refName) {
+	public Iterable<PushCertificate> getAll(String refName) {
 		return new Iterable<PushCertificate>() {
 			@Override
 			public Iterator<PushCertificate> iterator() {

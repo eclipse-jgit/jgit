@@ -85,7 +85,7 @@ abstract class BlockRevQueue extends AbstractRevQueue {
 	 * sharing the same free list are doing so from only a single thread.
 	 */
 	@Override
-	public void shareFreeList(final BlockRevQueue q) {
+	public void shareFreeList(BlockRevQueue q) {
 		free = q.free;
 	}
 

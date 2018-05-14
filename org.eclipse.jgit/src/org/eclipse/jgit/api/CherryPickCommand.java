@@ -288,7 +288,7 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 	 * @return {@code this}
 	 * @since 3.1
 	 */
-	public CherryPickCommand setReflogPrefix(final String prefix) {
+	public CherryPickCommand setReflogPrefix(String prefix) {
 		this.reflogPrefix = prefix;
 		return this;
 	}

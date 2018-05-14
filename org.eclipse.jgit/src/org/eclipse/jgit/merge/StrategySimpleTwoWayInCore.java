@@ -84,7 +84,7 @@ public class StrategySimpleTwoWayInCore extends ThreeWayMergeStrategy {
 
 	/** {@inheritDoc} */
 	@Override
-	public ThreeWayMerger newMerger(final Repository db) {
+	public ThreeWayMerger newMerger(Repository db) {
 		return new InCoreMerger(db);
 	}
 
@@ -182,11 +182,11 @@ public class StrategySimpleTwoWayInCore extends ThreeWayMergeStrategy {
 			}
 		}
 
-		private static boolean nonTree(final int mode) {
+		private static boolean nonTree(int mode) {
 			return mode != 0 && !FileMode.TREE.equals(mode);
 		}
 
-		private void add(final int tree, final int stage) throws IOException {
+		private void add(int tree, int stage) throws IOException {
 			final AbstractTreeIterator i = getTree(tree);
 			if (i != null) {
 				if (FileMode.TREE.equals(tw.getRawMode(tree))) {
@@ -203,7 +203,7 @@ public class StrategySimpleTwoWayInCore extends ThreeWayMergeStrategy {
 			}
 		}
 
-		private AbstractTreeIterator getTree(final int tree) {
+		private AbstractTreeIterator getTree(int tree) {
 			return tw.getTree(tree, AbstractTreeIterator.class);
 		}
 

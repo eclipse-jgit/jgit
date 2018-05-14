@@ -113,7 +113,7 @@ public abstract class Merger {
 	 * @param local
 	 *            the repository this merger will read and write data on.
 	 */
-	protected Merger(final Repository local) {
+	protected Merger(Repository local) {
 		if (local == null) {
 			throw new NullPointerException(JGitText.get().repositoryIsRequired);
 		}
@@ -215,7 +215,7 @@ public abstract class Merger {
 	 *             one or more sources could not be read, or outputs could not
 	 *             be written to the Repository.
 	 */
-	public boolean merge(final AnyObjectId... tips) throws IOException {
+	public boolean merge(AnyObjectId... tips) throws IOException {
 		return merge(true, tips);
 	}
 
@@ -243,7 +243,7 @@ public abstract class Merger {
 	 *             one or more sources could not be read, or outputs could not
 	 *             be written to the Repository.
 	 */
-	public boolean merge(final boolean flush, final AnyObjectId... tips)
+	public boolean merge(boolean flush, AnyObjectId... tips)
 			throws IOException {
 		sourceObjects = new RevObject[tips.length];
 		for (int i = 0; i < tips.length; i++)
@@ -328,7 +328,7 @@ public abstract class Merger {
 	 * @throws java.io.IOException
 	 *             the tree object is not found or cannot be read.
 	 */
-	protected AbstractTreeIterator openTree(final AnyObjectId treeId)
+	protected AbstractTreeIterator openTree(AnyObjectId treeId)
 			throws IncorrectObjectTypeException, IOException {
 		return new CanonicalTreeParser(null, reader, treeId);
 	}

@@ -114,7 +114,7 @@ public class CommitGraphPane extends JTable {
 
 	/** {@inheritDoc} */
 	@Override
-	public void setModel(final TableModel dataModel) {
+	public void setModel(TableModel dataModel) {
 		if (dataModel != null && !(dataModel instanceof CommitTableModel))
 			throw new ClassCastException(UIText.get().mustBeSpecialTableModel);
 		super.setModel(dataModel);
@@ -161,7 +161,7 @@ public class CommitGraphPane extends JTable {
 		}
 
 		@Override
-		public Object getValueAt(final int rowIndex, final int columnIndex) {
+		public Object getValueAt(int rowIndex, int columnIndex) {
 			final PlotCommit<SwingLane> c = allCommits.get(rowIndex);
 			switch (columnIndex) {
 			case 0:
@@ -244,7 +244,7 @@ public class CommitGraphPane extends JTable {
 		}
 
 		@Override
-		protected void paintComponent(final Graphics inputGraphics) {
+		protected void paintComponent(Graphics inputGraphics) {
 			if (inputGraphics == null)
 				return;
 			renderer.paint(inputGraphics, commit);

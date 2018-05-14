@@ -94,7 +94,7 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 		untrackedFile = writeTrashFile("untracked.txt", "content");
 	}
 
-	private void validateStashedCommit(final RevCommit commit)
+	private void validateStashedCommit(RevCommit commit)
 			throws IOException {
 		validateStashedCommit(commit, 2);
 	}
@@ -140,7 +140,7 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 		return walk;
 	}
 
-	private List<DiffEntry> diffWorkingAgainstHead(final RevCommit commit)
+	private List<DiffEntry> diffWorkingAgainstHead(RevCommit commit)
 			throws IOException {
 		try (TreeWalk walk = createTreeWalk()) {
 			walk.addTree(commit.getParent(0).getTree());
@@ -149,7 +149,7 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 		}
 	}
 
-	private List<DiffEntry> diffIndexAgainstHead(final RevCommit commit)
+	private List<DiffEntry> diffIndexAgainstHead(RevCommit commit)
 			throws IOException {
 		try (TreeWalk walk = createTreeWalk()) {
 			walk.addTree(commit.getParent(0).getTree());
@@ -158,7 +158,7 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 		}
 	}
 
-	private List<DiffEntry> diffIndexAgainstWorking(final RevCommit commit)
+	private List<DiffEntry> diffIndexAgainstWorking(RevCommit commit)
 			throws IOException {
 		try (TreeWalk walk = createTreeWalk()) {
 			walk.addTree(commit.getParent(1).getTree());

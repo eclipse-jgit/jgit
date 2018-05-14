@@ -82,7 +82,7 @@ public class PushResult extends OperationResult {
 	 *            remote ref name
 	 * @return status of remote ref update
 	 */
-	public RemoteRefUpdate getRemoteUpdate(final String refName) {
+	public RemoteRefUpdate getRemoteUpdate(String refName) {
 		return remoteUpdates.get(refName);
 	}
 

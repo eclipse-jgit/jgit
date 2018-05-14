@@ -74,7 +74,7 @@ public final class StringUtils {
 	 *            the input character.
 	 * @return lowercase version of the input.
 	 */
-	public static char toLowerCase(final char c) {
+	public static char toLowerCase(char c) {
 		return c <= 'Z' ? LC[c] : c;
 	}
 
@@ -91,7 +91,7 @@ public final class StringUtils {
 	 * @return a copy of the input string, after converting characters in the
 	 *         range 'A'..'Z' to 'a'..'z'.
 	 */
-	public static String toLowerCase(final String in) {
+	public static String toLowerCase(String in) {
 		final StringBuilder r = new StringBuilder(in.length());
 		for (int i = 0; i < in.length(); i++)
 			r.append(toLowerCase(in.charAt(i)));
@@ -138,7 +138,7 @@ public final class StringUtils {
 	 *            second string to compare.
 	 * @return true if a equals b
 	 */
-	public static boolean equalsIgnoreCase(final String a, final String b) {
+	public static boolean equalsIgnoreCase(String a, String b) {
 		if (a == b)
 			return true;
 		if (a.length() != b.length())
@@ -205,7 +205,7 @@ public final class StringUtils {
 	 *             if {@code value} is not recognized as one of the standard
 	 *             boolean names.
 	 */
-	public static boolean toBoolean(final String stringValue) {
+	public static boolean toBoolean(String stringValue) {
 		if (stringValue == null)
 			throw new NullPointerException(JGitText.get().expectedBooleanStringValue);
 
@@ -232,7 +232,7 @@ public final class StringUtils {
 	 * @return the boolean interpretation of {@code value} or null in case the
 	 *         string does not represent a boolean value
 	 */
-	public static Boolean toBooleanOrNull(final String stringValue) {
+	public static Boolean toBooleanOrNull(String stringValue) {
 		if (stringValue == null)
 			return null;
 

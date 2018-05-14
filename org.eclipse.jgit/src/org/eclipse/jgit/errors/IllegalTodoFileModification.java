@@ -56,7 +56,7 @@ public class IllegalTodoFileModification extends Exception {
 	 * @param msg
 	 *            error message
 	 */
-	public IllegalTodoFileModification(final String msg) {
+	public IllegalTodoFileModification(String msg) {
 		super(msg);
 	}
 }

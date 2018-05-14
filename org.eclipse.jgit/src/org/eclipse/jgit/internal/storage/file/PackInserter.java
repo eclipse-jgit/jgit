@@ -438,7 +438,7 @@ public class PackInserter extends ObjectInserter {
 		}
 
 		@Override
-		public void write(final int b) throws IOException {
+		public void write(int b) throws IOException {
 			hdrBuf[0] = (byte) b;
 			write(hdrBuf, 0, 1);
 		}

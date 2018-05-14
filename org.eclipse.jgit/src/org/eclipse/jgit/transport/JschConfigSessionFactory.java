@@ -309,7 +309,7 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 	 * @throws com.jcraft.jsch.JSchException
 	 *             the user configuration could not be created.
 	 */
-	protected JSch getJSch(final OpenSshConfig.Host hc, FS fs) throws JSchException {
+	protected JSch getJSch(OpenSshConfig.Host hc, FS fs) throws JSchException {
 		if (defaultJSch == null) {
 			defaultJSch = createDefaultJSch(fs);
 			if (defaultJSch.getConfigRepository() == null) {
@@ -357,7 +357,7 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 		return jsch;
 	}
 
-	private static void knownHosts(final JSch sch, FS fs) throws JSchException {
+	private static void knownHosts(JSch sch, FS fs) throws JSchException {
 		final File home = fs.userHome();
 		if (home == null)
 			return;
@@ -371,7 +371,7 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 		}
 	}
 
-	private static void identities(final JSch sch, FS fs) {
+	private static void identities(JSch sch, FS fs) {
 		final File home = fs.userHome();
 		if (home == null)
 			return;
@@ -383,7 +383,7 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 		}
 	}
 
-	private static void loadIdentity(final JSch sch, final File priv) {
+	private static void loadIdentity(JSch sch, File priv) {
 		if (priv.isFile()) {
 			try {
 				sch.addIdentity(priv.getAbsolutePath());

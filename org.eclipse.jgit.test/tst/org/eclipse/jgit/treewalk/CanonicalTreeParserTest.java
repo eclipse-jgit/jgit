@@ -91,7 +91,7 @@ public class CanonicalTreeParserTest {
 				hash_sometree), entry(m644, "foo", hash_foo));
 	}
 
-	private static byte[] mktree(final byte[]... data) throws Exception {
+	private static byte[] mktree(byte[]... data) throws Exception {
 		final ByteArrayOutputStream out = new ByteArrayOutputStream();
 		for (final byte[] e : data)
 			out.write(e);

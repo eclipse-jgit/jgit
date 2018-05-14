@@ -63,7 +63,7 @@ public class Die extends RuntimeException {
 	 * @param why
 	 *            the message to show to the end-user.
 	 */
-	public Die(final String why) {
+	public Die(String why) {
 		super(why);
 	}
 
@@ -75,7 +75,7 @@ public class Die extends RuntimeException {
 	 * @param cause
 	 *            why the command has failed.
 	 */
-	public Die(final String why, final Throwable cause) {
+	public Die(String why, Throwable cause) {
 		super(why, cause);
 	}
 
@@ -100,7 +100,7 @@ public class Die extends RuntimeException {
 	 *            can be null
 	 * @since 4.2
 	 */
-	public Die(boolean aborted, final Throwable cause) {
+	public Die(boolean aborted, Throwable cause) {
 		super(cause != null ? cause.getMessage() : null, cause);
 		this.aborted = aborted;
 	}

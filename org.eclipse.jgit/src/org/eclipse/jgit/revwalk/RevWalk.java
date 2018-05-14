@@ -209,7 +209,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 *            ObjectReader will be created by the walker, and will be closed
 	 *            when the walker is closed.
 	 */
-	public RevWalk(final Repository repo) {
+	public RevWalk(Repository repo) {
 		this(repo.newObjectReader(), true);
 	}
 
@@ -294,7 +294,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @throws java.io.IOException
 	 *             a pack file or loose object could not be read.
 	 */
-	public void markStart(final RevCommit c) throws MissingObjectException,
+	public void markStart(RevCommit c) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
 		if ((c.flags & SEEN) != 0)
 			return;
@@ -324,7 +324,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @throws java.io.IOException
 	 *             a pack file or loose object could not be read.
 	 */
-	public void markStart(final Collection<RevCommit> list)
+	public void markStart(Collection<RevCommit> list)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
 		for (final RevCommit c : list)
@@ -364,7 +364,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @throws java.io.IOException
 	 *             a pack file or loose object could not be read.
 	 */
-	public void markUninteresting(final RevCommit c)
+	public void markUninteresting(RevCommit c)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
 		c.flags |= UNINTERESTING;
@@ -402,7 +402,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @throws java.io.IOException
 	 *             a pack file or loose object could not be read.
 	 */
-	public boolean isMergedInto(final RevCommit base, final RevCommit tip)
+	public boolean isMergedInto(RevCommit base, RevCommit tip)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
 		final RevFilter oldRF = filter;
@@ -475,7 +475,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @param s
 	 *            a sorting strategy to enable.
 	 */
-	public void sort(final RevSort s) {
+	public void sort(RevSort s) {
 		assertNotStarted();
 		sorting.clear();
 		sorting.add(s);
@@ -496,7 +496,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 *            true if this strategy should be used, false if it should be
 	 *            removed.
 	 */
-	public void sort(final RevSort s, final boolean use) {
+	public void sort(RevSort s, boolean use) {
 		assertNotStarted();
 		if (use)
 			sorting.add(s);
@@ -541,7 +541,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @see org.eclipse.jgit.revwalk.filter.AndRevFilter
 	 * @see org.eclipse.jgit.revwalk.filter.OrRevFilter
 	 */
-	public void setRevFilter(final RevFilter newFilter) {
+	public void setRevFilter(RevFilter newFilter) {
 		assertNotStarted();
 		filter = newFilter != null ? newFilter : RevFilter.ALL;
 	}
@@ -582,7 +582,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 *            will be used instead, as it matches everything.
 	 * @see org.eclipse.jgit.treewalk.filter.PathFilter
 	 */
-	public void setTreeFilter(final TreeFilter newFilter) {
+	public void setTreeFilter(TreeFilter newFilter) {
 		assertNotStarted();
 		treeFilter = newFilter != null ? newFilter : TreeFilter.ALL;
 	}
@@ -638,7 +638,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @param retain
 	 *            true to retain bodies; false to discard them early.
 	 */
-	public void setRetainBody(final boolean retain) {
+	public void setRetainBody(boolean retain) {
 		retainBody = retain;
 	}
 
@@ -653,7 +653,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @return reference to the blob object. Never null.
 	 */
 	@NonNull
-	public RevBlob lookupBlob(final AnyObjectId id) {
+	public RevBlob lookupBlob(AnyObjectId id) {
 		RevBlob c = (RevBlob) objects.get(id);
 		if (c == null) {
 			c = new RevBlob(id);
@@ -673,7 +673,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @return reference to the tree object. Never null.
 	 */
 	@NonNull
-	public RevTree lookupTree(final AnyObjectId id) {
+	public RevTree lookupTree(AnyObjectId id) {
 		RevTree c = (RevTree) objects.get(id);
 		if (c == null) {
 			c = new RevTree(id);
@@ -696,7 +696,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @return reference to the commit object. Never null.
 	 */
 	@NonNull
-	public RevCommit lookupCommit(final AnyObjectId id) {
+	public RevCommit lookupCommit(AnyObjectId id) {
 		RevCommit c = (RevCommit) objects.get(id);
 		if (c == null) {
 			c = createCommit(id);
@@ -716,7 +716,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @return reference to the tag object. Never null.
 	 */
 	@NonNull
-	public RevTag lookupTag(final AnyObjectId id) {
+	public RevTag lookupTag(AnyObjectId id) {
 		RevTag c = (RevTag) objects.get(id);
 		if (c == null) {
 			c = new RevTag(id);
@@ -738,7 +738,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @return reference to the object. Never null.
 	 */
 	@NonNull
-	public RevObject lookupAny(final AnyObjectId id, final int type) {
+	public RevObject lookupAny(AnyObjectId id, int type) {
 		RevObject r = objects.get(id);
 		if (r == null) {
 			switch (type) {
@@ -793,7 +793,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 *             a pack file or loose object could not be read.
 	 */
 	@NonNull
-	public RevCommit parseCommit(final AnyObjectId id)
+	public RevCommit parseCommit(AnyObjectId id)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
 		RevObject c = peel(parseAny(id));
@@ -821,7 +821,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 *             a pack file or loose object could not be read.
 	 */
 	@NonNull
-	public RevTree parseTree(final AnyObjectId id)
+	public RevTree parseTree(AnyObjectId id)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
 		RevObject c = peel(parseAny(id));
@@ -856,7 +856,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 *             a pack file or loose object could not be read.
 	 */
 	@NonNull
-	public RevTag parseTag(final AnyObjectId id) throws MissingObjectException,
+	public RevTag parseTag(AnyObjectId id) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
 		RevObject c = parseAny(id);
 		if (!(c instanceof RevTag))
@@ -882,7 +882,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 *             a pack file or loose object could not be read.
 	 */
 	@NonNull
-	public RevObject parseAny(final AnyObjectId id)
+	public RevObject parseAny(AnyObjectId id)
 			throws MissingObjectException, IOException {
 		RevObject r = objects.get(id);
 		if (r == null)
@@ -1040,7 +1040,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @throws java.io.IOException
 	 *             a pack file or loose object could not be read.
 	 */
-	public void parseHeaders(final RevObject obj)
+	public void parseHeaders(RevObject obj)
 			throws MissingObjectException, IOException {
 		if ((obj.flags & PARSED) == 0)
 			obj.parseHeaders(this);
@@ -1059,7 +1059,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @throws java.io.IOException
 	 *             a pack file or loose object could not be read.
 	 */
-	public void parseBody(final RevObject obj)
+	public void parseBody(RevObject obj)
 			throws MissingObjectException, IOException {
 		obj.parseBody(this);
 	}
@@ -1100,7 +1100,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @throws java.lang.IllegalArgumentException
 	 *             too many flags have been reserved on this revision walker.
 	 */
-	public RevFlag newFlag(final String name) {
+	public RevFlag newFlag(String name) {
 		final int m = allocFlag();
 		return new RevFlag(this, name, m);
 	}
@@ -1124,7 +1124,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @param flag
 	 *            the flag to carry onto parents, if set on a descendant.
 	 */
-	public void carry(final RevFlag flag) {
+	public void carry(RevFlag flag) {
 		if ((freeFlags & flag.mask) != 0)
 			throw new IllegalArgumentException(MessageFormat.format(JGitText.get().flagIsDisposed, flag.name));
 		if (flag.walker != this)
@@ -1141,7 +1141,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @param set
 	 *            the flags to carry onto parents, if set on a descendant.
 	 */
-	public void carry(final Collection<RevFlag> set) {
+	public void carry(Collection<RevFlag> set) {
 		for (final RevFlag flag : set)
 			carry(flag);
 	}
@@ -1200,7 +1200,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @param flag
 	 *            the to recycle.
 	 */
-	public void disposeFlag(final RevFlag flag) {
+	public void disposeFlag(RevFlag flag) {
 		freeFlag(flag.mask);
 	}
 
@@ -1244,7 +1244,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 *            application flags that should <b>not</b> be cleared from
 	 *            existing commit objects.
 	 */
-	public final void resetRetain(final RevFlagSet retainFlags) {
+	public final void resetRetain(RevFlagSet retainFlags) {
 		reset(retainFlags.mask);
 	}
 
@@ -1262,7 +1262,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 *            application flags that should <b>not</b> be cleared from
 	 *            existing commit objects.
 	 */
-	public final void resetRetain(final RevFlag... retainFlags) {
+	public final void resetRetain(RevFlag... retainFlags) {
 		int mask = 0;
 		for (final RevFlag flag : retainFlags)
 			mask |= flag.mask;
@@ -1435,7 +1435,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 *            the object this walker requires a commit reference for.
 	 * @return a new unparsed reference for the object.
 	 */
-	protected RevCommit createCommit(final AnyObjectId id) {
+	protected RevCommit createCommit(AnyObjectId id) {
 		return new RevCommit(id);
 	}
 

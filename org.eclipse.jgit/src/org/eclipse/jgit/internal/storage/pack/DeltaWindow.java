@@ -266,7 +266,7 @@ final class DeltaWindow {
 		deltaBuf = null;
 	}
 
-	private boolean delta(final DeltaWindowEntry src)
+	private boolean delta(DeltaWindowEntry src)
 			throws IOException {
 		// If the sizes are radically different, this is a bad pairing.
 		if (res.size() < src.size() >>> 4)

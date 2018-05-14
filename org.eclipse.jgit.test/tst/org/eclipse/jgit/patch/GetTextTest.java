@@ -134,7 +134,7 @@ public class GetTextTest {
 		}
 	}
 
-	private String readTestPatchFile(final Charset cs) throws IOException {
+	private String readTestPatchFile(Charset cs) throws IOException {
 		final String patchFile = JGitTestUtil.getName() + ".patch";
 		try (InputStream in = getClass().getResourceAsStream(patchFile)) {
 			if (in == null) {

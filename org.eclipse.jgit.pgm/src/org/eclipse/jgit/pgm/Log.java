@@ -186,7 +186,7 @@ class Log extends RevWalkTextBuiltin {
 
 	/** {@inheritDoc} */
 	@Override
-	protected void init(final Repository repository, final String gitDir) {
+	protected void init(Repository repository, String gitDir) {
 		super.init(repository, gitDir);
 		diffFmt = new DiffFormatter(new BufferedOutputStream(outs));
 	}
@@ -241,7 +241,7 @@ class Log extends RevWalkTextBuiltin {
 
 	/** {@inheritDoc} */
 	@Override
-	protected void show(final RevCommit c) throws Exception {
+	protected void show(RevCommit c) throws Exception {
 		outw.print(CLIText.get().commitLabel);
 		outw.print(" "); //$NON-NLS-1$
 		c.getId().copyTo(outbuffer, outw);

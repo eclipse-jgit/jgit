@@ -631,7 +631,7 @@ public class RefTreeDatabaseTest {
 				name);
 	}
 
-	private void symref(final String name, final String dst)
+	private void symref(String name, String dst)
 			throws IOException {
 		commit(new Function() {
 			@Override
@@ -648,7 +648,7 @@ public class RefTreeDatabaseTest {
 		});
 	}
 
-	private void update(final String name, final ObjectId id)
+	private void update(String name, ObjectId id)
 			throws IOException {
 		commit(new Function() {
 			@Override

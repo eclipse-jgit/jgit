@@ -67,7 +67,7 @@ class InfoPacksServlet extends HttpServlet {
 		sendPlainText(packList(req), req, rsp);
 	}
 
-	private static String packList(final HttpServletRequest req) {
+	private static String packList(HttpServletRequest req) {
 		final StringBuilder out = new StringBuilder();
 		final ObjectDatabase db = getRepository(req).getObjectDatabase();
 		if (db instanceof ObjectDirectory) {

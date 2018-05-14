@@ -413,7 +413,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	 *            a {@link org.eclipse.jgit.lib.ProgressMonitor}
 	 * @return this command
 	 */
-	public RepoCommand setProgressMonitor(final ProgressMonitor monitor) {
+	public RepoCommand setProgressMonitor(ProgressMonitor monitor) {
 		this.monitor = monitor;
 		return this;
 	}
@@ -448,7 +448,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	 *            the author's {@link org.eclipse.jgit.lib.PersonIdent}
 	 * @return this command
 	 */
-	public RepoCommand setAuthor(final PersonIdent author) {
+	public RepoCommand setAuthor(PersonIdent author) {
 		this.author = author;
 		return this;
 	}
@@ -463,7 +463,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	 *            object.
 	 * @return this command
 	 */
-	public RepoCommand setRemoteReader(final RemoteReader callback) {
+	public RepoCommand setRemoteReader(RemoteReader callback) {
 		this.callback = callback;
 		return this;
 	}

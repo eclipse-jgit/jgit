@@ -218,7 +218,7 @@ class LeafBucket extends InMemoryNoteBucket {
 		return fmt;
 	}
 
-	private int treeSize(final int nameLen) {
+	private int treeSize(int nameLen) {
 		int sz = cnt * TreeFormatter.entrySize(REGULAR_FILE, nameLen);
 		for (NonNoteEntry e = nonNotes; e != null; e = e.next)
 			sz += e.treeEntrySize();

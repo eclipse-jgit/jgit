@@ -54,14 +54,14 @@ import org.eclipse.jgit.lib.Constants;
 import org.junit.Test;
 
 public class QuotedStringGitPathStyleTest {
-	private static void assertQuote(final String exp, final String in) {
+	private static void assertQuote(String exp, String in) {
 		final String r = GIT_PATH.quote(in);
 		assertNotSame(in, r);
 		assertFalse(in.equals(r));
 		assertEquals('"' + exp + '"', r);
 	}
 
-	private static void assertDequote(final String exp, final String in) {
+	private static void assertDequote(String exp, String in) {
 		final byte[] b = ('"' + in + '"').getBytes(ISO_8859_1);
 		final String r = GIT_PATH.dequote(b, 0, b.length);
 		assertEquals(exp, r);

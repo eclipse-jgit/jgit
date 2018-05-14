@@ -90,7 +90,7 @@ public final class ServletUtils {
 	 *             the filter runs before the servlet.
 	 * @see #ATTRIBUTE_REPOSITORY
 	 */
-	public static Repository getRepository(final ServletRequest req) {
+	public static Repository getRepository(ServletRequest req) {
 		Repository db = (Repository) req.getAttribute(ATTRIBUTE_REPOSITORY);
 		if (db == null)
 			throw new IllegalStateException(HttpServerText.get().expectedRepositoryAttribute);
@@ -110,7 +110,7 @@ public final class ServletUtils {
 	 * @throws IOException
 	 *             if an input or output exception occurred.
 	 */
-	public static InputStream getInputStream(final HttpServletRequest req)
+	public static InputStream getInputStream(HttpServletRequest req)
 			throws IOException {
 		InputStream in = req.getInputStream();
 		final String enc = req.getHeader(HDR_CONTENT_ENCODING);
@@ -258,7 +258,7 @@ public final class ServletUtils {
 		return false;
 	}
 
-	private static byte[] compress(final byte[] raw) throws IOException {
+	private static byte[] compress(byte[] raw) throws IOException {
 		final int maxLen = raw.length + 32;
 		final ByteArrayOutputStream out = new ByteArrayOutputStream(maxLen);
 		final GZIPOutputStream gz = new GZIPOutputStream(out);
@@ -268,7 +268,7 @@ public final class ServletUtils {
 		return out.toByteArray();
 	}
 
-	private static String etag(final byte[] content) {
+	private static String etag(byte[] content) {
 		final MessageDigest md = Constants.newMessageDigest();
 		md.update(content);
 		return ObjectId.fromRaw(md.digest()).getName();

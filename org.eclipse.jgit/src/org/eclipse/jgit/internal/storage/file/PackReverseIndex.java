@@ -88,7 +88,7 @@ public class PackReverseIndex {
 	 * @param packIndex
 	 *            forward index - entries to (reverse) index.
 	 */
-	public PackReverseIndex(final PackIndex packIndex) {
+	public PackReverseIndex(PackIndex packIndex) {
 		index = packIndex;
 
 		final long cnt = index.getObjectCount();
@@ -155,7 +155,7 @@ public class PackReverseIndex {
 	 *            start offset of object to find.
 	 * @return object id for this offset, or null if no object was found.
 	 */
-	public ObjectId findObject(final long offset) {
+	public ObjectId findObject(long offset) {
 		final int ith = binarySearch(offset);
 		if (ith < 0)
 			return null;
@@ -177,7 +177,7 @@ public class PackReverseIndex {
 	 * @throws org.eclipse.jgit.errors.CorruptObjectException
 	 *             when there is no object with the provided offset.
 	 */
-	public long findNextOffset(final long offset, final long maxOffset)
+	public long findNextOffset(long offset, long maxOffset)
 			throws CorruptObjectException {
 		final int ith = binarySearch(offset);
 		if (ith < 0)
@@ -195,7 +195,7 @@ public class PackReverseIndex {
 		return binarySearch(offset);
 	}
 
-	private int binarySearch(final long offset) {
+	private int binarySearch(long offset) {
 		int bucket = (int) (offset / bucketSize);
 		int low = bucket == 0 ? 0 : offsetIndex[bucket - 1];
 		int high = offsetIndex[bucket];

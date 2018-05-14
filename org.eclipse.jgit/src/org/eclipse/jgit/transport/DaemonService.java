@@ -96,7 +96,7 @@ public abstract class DaemonService {
 	 *            {@code true} to allow this service to be used; {@code false}
 	 *            to deny it.
 	 */
-	public void setEnabled(final boolean on) {
+	public void setEnabled(boolean on) {
 		enabled = on;
 	}
 
@@ -120,7 +120,7 @@ public abstract class DaemonService {
 	 *            enabled state with the <code>daemon.servicename</code> config
 	 *            setting.
 	 */
-	public void setOverridable(final boolean on) {
+	public void setOverridable(boolean on) {
 		overridable = on;
 	}
 
@@ -140,7 +140,7 @@ public abstract class DaemonService {
 	 *            input line from the client.
 	 * @return true if this command can accept the given command line.
 	 */
-	public boolean handles(final String commandLine) {
+	public boolean handles(String commandLine) {
 		return command.length() + 1 < commandLine.length()
 				&& commandLine.charAt(command.length()) == ' '
 				&& commandLine.startsWith(command);
@@ -162,7 +162,7 @@ public abstract class DaemonService {
 		}
 	}
 
-	private boolean isEnabledFor(final Repository db) {
+	private boolean isEnabledFor(Repository db) {
 		if (isOverridable())
 			return db.getConfig().get(configKey).enabled;
 		return isEnabled();

@@ -109,7 +109,7 @@ public class MockSystemReader extends SystemReader {
 		setCurrentPlatform();
 	}
 
-	private void init(final String n) {
+	private void init(String n) {
 		setProperty(n, n);
 	}
 
@@ -197,7 +197,7 @@ public class MockSystemReader extends SystemReader {
 	 *            number of seconds to add to the current time.
 	 * @since 4.2
 	 */
-	public void tick(final int secDelta) {
+	public void tick(int secDelta) {
 		now += secDelta * 1000L;
 	}
 

@@ -80,7 +80,7 @@ class TextFileServlet extends HttpServlet {
 		}
 	}
 
-	private byte[] read(final HttpServletRequest req) throws IOException {
+	private byte[] read(HttpServletRequest req) throws IOException {
 		final File gitdir = getRepository(req).getDirectory();
 		if (gitdir == null)
 			throw new FileNotFoundException(fileName);

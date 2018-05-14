@@ -119,7 +119,7 @@ public class FS_Win32_Cygwin extends FS_Win32 {
 
 	/** {@inheritDoc} */
 	@Override
-	public File resolve(final File dir, final String pn) {
+	public File resolve(File dir, String pn) {
 		String useCygPath = System.getProperty("jgit.usecygpath"); //$NON-NLS-1$
 		if (useCygPath != null && useCygPath.equals("true")) { //$NON-NLS-1$
 			String w;

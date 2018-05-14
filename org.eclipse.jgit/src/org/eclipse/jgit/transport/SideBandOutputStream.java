@@ -102,7 +102,7 @@ public class SideBandOutputStream extends OutputStream {
 	 *            stream that the packets are written onto. This stream should
 	 *            be attached to a SideBandInputStream on the remote side.
 	 */
-	public SideBandOutputStream(final int chan, final int sz, final OutputStream os) {
+	public SideBandOutputStream(int chan, int sz, OutputStream os) {
 		if (chan <= 0 || chan > 255)
 			throw new IllegalArgumentException(MessageFormat.format(
 					JGitText.get().channelMustBeInRange1_255,
@@ -136,7 +136,7 @@ public class SideBandOutputStream extends OutputStream {
 
 	/** {@inheritDoc} */
 	@Override
-	public void write(final byte[] b, int off, int len) throws IOException {
+	public void write(byte[] b, int off, int len) throws IOException {
 		while (0 < len) {
 			int capacity = buffer.length - cnt;
 			if (cnt == HDR_SIZE && capacity < len) {
@@ -163,7 +163,7 @@ public class SideBandOutputStream extends OutputStream {
 
 	/** {@inheritDoc} */
 	@Override
-	public void write(final int b) throws IOException {
+	public void write(int b) throws IOException {
 		if (cnt == buffer.length)
 			writeBuffer();
 		buffer[cnt++] = (byte) b;

@@ -87,7 +87,7 @@ public class CommandCatalog {
 	 *            was derived from the DashLowerCaseForm class name.
 	 * @return the command instance; null if no command exists by that name.
 	 */
-	public static CommandRef get(final String name) {
+	public static CommandRef get(String name) {
 		return INSTANCE.commands.get(name);
 	}
 
@@ -113,11 +113,11 @@ public class CommandCatalog {
 		return toSortedArray(common);
 	}
 
-	private static CommandRef[] toSortedArray(final Collection<CommandRef> c) {
+	private static CommandRef[] toSortedArray(Collection<CommandRef> c) {
 		final CommandRef[] r = c.toArray(new CommandRef[c.size()]);
 		Arrays.sort(r, new Comparator<CommandRef>() {
 			@Override
-			public int compare(final CommandRef o1, final CommandRef o2) {
+			public int compare(CommandRef o1, CommandRef o2) {
 				return o1.getName().compareTo(o2.getName());
 			}
 		});
@@ -146,7 +146,7 @@ public class CommandCatalog {
 		}
 	}
 
-	private void scan(final URL cUrl) {
+	private void scan(URL cUrl) {
 		try (BufferedReader cIn = new BufferedReader(
 				new InputStreamReader(cUrl.openStream(), CHARSET))) {
 			String line;
@@ -159,7 +159,7 @@ public class CommandCatalog {
 		}
 	}
 
-	private void load(final String cn) {
+	private void load(String cn) {
 		final Class<? extends TextBuiltin> clazz;
 		try {
 			clazz = Class.forName(cn, false, ldr).asSubclass(TextBuiltin.class);

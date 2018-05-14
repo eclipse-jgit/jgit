@@ -80,7 +80,7 @@ public abstract class SshSessionFactory {
 	 *            factory for future sessions to be created through. If null the
 	 *            default factory will be restored.s
 	 */
-	public static void setInstance(final SshSessionFactory newFactory) {
+	public static void setInstance(SshSessionFactory newFactory) {
 		if (newFactory != null)
 			INSTANCE = newFactory;
 		else
@@ -121,7 +121,7 @@ public abstract class SshSessionFactory {
 	 *            {@link #getSession(URIish, CredentialsProvider, FS, int)}
 	 *            method.
 	 */
-	public void releaseSession(final RemoteSession session) {
+	public void releaseSession(RemoteSession session) {
 		session.disconnect();
 	}
 }

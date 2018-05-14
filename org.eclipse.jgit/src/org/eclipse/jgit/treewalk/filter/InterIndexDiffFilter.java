@@ -63,7 +63,7 @@ public final class InterIndexDiffFilter extends TreeFilter {
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean include(final TreeWalk walker) {
+	public boolean include(TreeWalk walker) {
 		final int n = walker.getTreeCount();
 		if (n == 1) // Assume they meant difference to empty tree.
 			return true;

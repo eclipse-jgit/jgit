@@ -107,7 +107,7 @@ public final class PackOutputStream extends OutputStream {
 
 	/** {@inheritDoc} */
 	@Override
-	public final void write(final int b) throws IOException {
+	public final void write(int b) throws IOException {
 		count++;
 		out.write(b);
 		md.update((byte) b);
@@ -115,7 +115,7 @@ public final class PackOutputStream extends OutputStream {
 
 	/** {@inheritDoc} */
 	@Override
-	public final void write(final byte[] b, int off, int len)
+	public final void write(byte[] b, int off, int len)
 			throws IOException {
 		while (0 < len) {
 			final int n = Math.min(len, BYTES_TO_WRITE_BEFORE_CANCEL_CHECK);

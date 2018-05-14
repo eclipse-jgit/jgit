@@ -390,7 +390,7 @@ public abstract class FS {
 	 * @return the translated path. <code>new File(dir,name)</code> if this
 	 *         platform does not require path name translation.
 	 */
-	public File resolve(final File dir, final String name) {
+	public File resolve(File dir, String name) {
 		final File abspn = new File(name);
 		if (abspn.isAbsolute())
 			return abspn;
@@ -466,7 +466,7 @@ public abstract class FS {
 	 * @return the first match found, or null
 	 * @since 3.0
 	 */
-	protected static File searchPath(final String path, final String... lookFor) {
+	protected static File searchPath(String path, String... lookFor) {
 		if (path == null)
 			return null;
 
@@ -1057,7 +1057,7 @@ public abstract class FS {
 	 *         exists in the given repository, <code>null</code> otherwise.
 	 * @since 4.0
 	 */
-	public File findHook(Repository repository, final String hookName) {
+	public File findHook(Repository repository, String hookName) {
 		File gitDir = repository.getDirectory();
 		if (gitDir == null)
 			return null;

@@ -122,7 +122,7 @@ public class FileUtils {
 	 *             {@link java.nio.file.InvalidPathException})
 	 * @since 4.10
 	 */
-	public static Path toPath(final File f) throws IOException {
+	public static Path toPath(File f) throws IOException {
 		try {
 			return f.toPath();
 		} catch (InvalidPathException ex) {
@@ -141,7 +141,7 @@ public class FileUtils {
 	 *             cause java.io.IOExceptions during race conditions when
 	 *             multiple concurrent threads all try to delete the same file.
 	 */
-	public static void delete(final File f) throws IOException {
+	public static void delete(File f) throws IOException {
 		delete(f, NONE);
 	}
 
@@ -162,7 +162,7 @@ public class FileUtils {
 	 *             multiple concurrent threads all try to delete the same file.
 	 *             This exception is not thrown when IGNORE_ERRORS is set.
 	 */
-	public static void delete(final File f, int options) throws IOException {
+	public static void delete(File f, int options) throws IOException {
 		FS fs = FS.DETECTED;
 		if ((options & SKIP_MISSING) != 0 && !fs.exists(f))
 			return;
@@ -241,7 +241,7 @@ public class FileUtils {
 	 *             if the rename has failed
 	 * @since 3.0
 	 */
-	public static void rename(final File src, final File dst)
+	public static void rename(File src, File dst)
 			throws IOException {
 		rename(src, dst, StandardCopyOption.REPLACE_EXISTING);
 	}
@@ -321,7 +321,7 @@ public class FileUtils {
 	 *             multiple concurrent threads all try to create the same
 	 *             directory.
 	 */
-	public static void mkdir(final File d)
+	public static void mkdir(File d)
 			throws IOException {
 		mkdir(d, false);
 	}
@@ -341,7 +341,7 @@ public class FileUtils {
 	 *             multiple concurrent threads all try to create the same
 	 *             directory.
 	 */
-	public static void mkdir(final File d, boolean skipExisting)
+	public static void mkdir(File d, boolean skipExisting)
 			throws IOException {
 		if (!d.mkdir()) {
 			if (skipExisting && d.isDirectory())
@@ -366,7 +366,7 @@ public class FileUtils {
 	 *             multiple concurrent threads all try to create the same
 	 *             directory.
 	 */
-	public static void mkdirs(final File d) throws IOException {
+	public static void mkdirs(File d) throws IOException {
 		mkdirs(d, false);
 	}
 
@@ -388,7 +388,7 @@ public class FileUtils {
 	 *             multiple concurrent threads all try to create the same
 	 *             directory.
 	 */
-	public static void mkdirs(final File d, boolean skipExisting)
+	public static void mkdirs(File d, boolean skipExisting)
 			throws IOException {
 		if (!d.mkdirs()) {
 			if (skipExisting && d.isDirectory())

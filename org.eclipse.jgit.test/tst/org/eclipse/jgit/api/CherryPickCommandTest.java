@@ -338,7 +338,7 @@ public class CherryPickCommandTest extends RepositoryTestCase {
 		}
 	}
 
-	private RevCommit prepareCherryPick(final Git git) throws Exception {
+	private RevCommit prepareCherryPick(Git git) throws Exception {
 		// create, add and commit file a
 		writeTrashFile("a", "a");
 		git.add().addFilepattern("a").call();

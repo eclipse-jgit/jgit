@@ -239,7 +239,7 @@ class FetchProcess {
 		}
 	}
 
-	private void fetchObjects(final ProgressMonitor monitor)
+	private void fetchObjects(ProgressMonitor monitor)
 			throws TransportException {
 		try {
 			conn.setPackLockMessage("jgit fetch " + transport.uri); //$NON-NLS-1$
@@ -253,7 +253,7 @@ class FetchProcess {
 					JGitText.get().peerDidNotSupplyACompleteObjectGraph);
 	}
 
-	private void closeConnection(final FetchResult result) {
+	private void closeConnection(FetchResult result) {
 		if (conn != null) {
 			conn.close();
 			result.addMessages(conn.getMessages());
@@ -293,7 +293,7 @@ class FetchProcess {
 		}
 	}
 
-	private void removeTrackingRefUpdate(final ObjectId want) {
+	private void removeTrackingRefUpdate(ObjectId want) {
 		final Iterator<TrackingRefUpdate> i = localUpdates.iterator();
 		while (i.hasNext()) {
 			final TrackingRefUpdate u = i.next();
@@ -302,7 +302,7 @@ class FetchProcess {
 		}
 	}
 
-	private void removeFetchHeadRecord(final ObjectId want) {
+	private void removeFetchHeadRecord(ObjectId want) {
 		final Iterator<FetchHeadRecord> i = fetchHeadUpdates.iterator();
 		while (i.hasNext()) {
 			final FetchHeadRecord fh = i.next();
@@ -311,7 +311,7 @@ class FetchProcess {
 		}
 	}
 
-	private void updateFETCH_HEAD(final FetchResult result) throws IOException {
+	private void updateFETCH_HEAD(FetchResult result) throws IOException {
 		File meta = transport.local.getDirectory();
 		if (meta == null)
 			return;
@@ -349,7 +349,7 @@ class FetchProcess {
 		}
 	}
 
-	private void expandWildcard(final RefSpec spec, final Set<Ref> matched)
+	private void expandWildcard(RefSpec spec, Set<Ref> matched)
 			throws TransportException {
 		for (final Ref src : conn.getRefs()) {
 			if (spec.matchSource(src) && matched.add(src))
@@ -357,7 +357,7 @@ class FetchProcess {
 		}
 	}
 
-	private void expandSingle(final RefSpec spec, final Set<Ref> matched)
+	private void expandSingle(RefSpec spec, Set<Ref> matched)
 			throws TransportException {
 		String want = spec.getSource();
 		if (ObjectId.isId(want)) {
@@ -416,12 +416,12 @@ class FetchProcess {
 		}
 	}
 
-	private void wantTag(final Ref r) throws TransportException {
+	private void wantTag(Ref r) throws TransportException {
 		want(r, new RefSpec().setSource(r.getName())
 				.setDestination(r.getName()).setForceUpdate(true));
 	}
 
-	private void want(final Ref src, final RefSpec spec)
+	private void want(Ref src, RefSpec spec)
 			throws TransportException {
 		final ObjectId newId = src.getObjectId();
 		if (newId == null) {
@@ -506,11 +506,11 @@ class FetchProcess {
 		batch.addCommand(update.asReceiveCommand());
 	}
 
-	private static boolean isTag(final Ref r) {
+	private static boolean isTag(Ref r) {
 		return isTag(r.getName());
 	}
 
-	private static boolean isTag(final String name) {
+	private static boolean isTag(String name) {
 		return name.startsWith(Constants.R_TAGS);
 	}
 

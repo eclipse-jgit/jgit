@@ -99,7 +99,7 @@ public class IsolatedOutputStream extends OutputStream {
 
 	/** {@inheritDoc} */
 	@Override
-	public void write(final byte[] buf, final int pos, final int cnt)
+	public void write(byte[] buf, int pos, int cnt)
 			throws IOException {
 		checkClosed();
 		execute(new Callable<Void>() {

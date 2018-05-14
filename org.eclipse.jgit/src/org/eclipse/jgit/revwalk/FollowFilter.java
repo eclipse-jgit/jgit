@@ -112,7 +112,7 @@ public class FollowFilter extends TreeFilter {
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean include(final TreeWalk walker)
+	public boolean include(TreeWalk walker)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
 		return path.include(walker) && ANY_DIFF.include(walker);

@@ -100,13 +100,13 @@ public class RepositoryFilter implements Filter {
 	 *            {@link org.eclipse.jgit.lib.Repository} instance for the
 	 *            current web request.
 	 */
-	public RepositoryFilter(final RepositoryResolver<HttpServletRequest> resolver) {
+	public RepositoryFilter(RepositoryResolver<HttpServletRequest> resolver) {
 		this.resolver = resolver;
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public void init(final FilterConfig config) throws ServletException {
+	public void init(FilterConfig config) throws ServletException {
 		context = config.getServletContext();
 	}
 

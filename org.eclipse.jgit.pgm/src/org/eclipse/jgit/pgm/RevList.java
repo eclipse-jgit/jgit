@@ -53,7 +53,7 @@ import org.eclipse.jgit.revwalk.RevTree;
 class RevList extends RevWalkTextBuiltin {
 	/** {@inheritDoc} */
 	@Override
-	protected void show(final RevCommit c) throws Exception {
+	protected void show(RevCommit c) throws Exception {
 		if (c.has(RevFlag.UNINTERESTING))
 			outw.print('-');
 		c.getId().copyTo(outbuffer, outw);
@@ -67,7 +67,7 @@ class RevList extends RevWalkTextBuiltin {
 
 	/** {@inheritDoc} */
 	@Override
-	protected void show(final ObjectWalk ow, final RevObject obj)
+	protected void show(ObjectWalk ow, RevObject obj)
 			throws Exception {
 		if (obj.has(RevFlag.UNINTERESTING))
 			outw.print('-');

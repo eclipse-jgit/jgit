@@ -76,13 +76,13 @@ public class CommandRef {
 		common = cmd.common();
 	}
 
-	private CommandRef(final Class<? extends TextBuiltin> clazz, final String cn) {
+	private CommandRef(Class<? extends TextBuiltin> clazz, String cn) {
 		impl = clazz;
 		name = cn;
 		usage = ""; //$NON-NLS-1$
 	}
 
-	private static String guessName(final Class<? extends TextBuiltin> clazz) {
+	private static String guessName(Class<? extends TextBuiltin> clazz) {
 		final StringBuilder s = new StringBuilder();
 		if (clazz.getName().startsWith("org.eclipse.jgit.pgm.debug.")) //$NON-NLS-1$
 			s.append("debug-"); //$NON-NLS-1$

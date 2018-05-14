@@ -100,7 +100,7 @@ public abstract class MergeStrategy {
 	 * @throws java.lang.IllegalArgumentException
 	 *             a strategy by the same name has already been registered.
 	 */
-	public static void register(final MergeStrategy imp) {
+	public static void register(MergeStrategy imp) {
 		register(imp.getName(), imp);
 	}
 
@@ -129,7 +129,7 @@ public abstract class MergeStrategy {
 	 *            name of the strategy to locate.
 	 * @return the strategy instance; null if no strategy matches the name.
 	 */
-	public static synchronized MergeStrategy get(final String name) {
+	public static synchronized MergeStrategy get(String name) {
 		return STRATEGIES.get(name);
 	}
 

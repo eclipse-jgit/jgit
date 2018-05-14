@@ -72,7 +72,7 @@ public abstract class OrRevFilter extends RevFilter {
 	 *            second filter to test.
 	 * @return a filter that must match at least one input filter.
 	 */
-	public static RevFilter create(final RevFilter a, final RevFilter b) {
+	public static RevFilter create(RevFilter a, RevFilter b) {
 		if (a == ALL || b == ALL)
 			return ALL;
 		return new Binary(a, b);
@@ -86,7 +86,7 @@ public abstract class OrRevFilter extends RevFilter {
 	 *            filters.
 	 * @return a filter that must match at least one input filter.
 	 */
-	public static RevFilter create(final RevFilter[] list) {
+	public static RevFilter create(RevFilter[] list) {
 		if (list.length == 2)
 			return create(list[0], list[1]);
 		if (list.length < 2)
@@ -104,7 +104,7 @@ public abstract class OrRevFilter extends RevFilter {
 	 *            filters.
 	 * @return a filter that must match at least one input filter.
 	 */
-	public static RevFilter create(final Collection<RevFilter> list) {
+	public static RevFilter create(Collection<RevFilter> list) {
 		if (list.size() < 2)
 			throw new IllegalArgumentException(JGitText.get().atLeastTwoFiltersNeeded);
 		final RevFilter[] subfilters = new RevFilter[list.size()];
@@ -129,7 +129,7 @@ public abstract class OrRevFilter extends RevFilter {
 		}
 
 		@Override
-		public boolean include(final RevWalk walker, final RevCommit c)
+		public boolean include(RevWalk walker, RevCommit c)
 				throws MissingObjectException, IncorrectObjectTypeException,
 				IOException {
 			return a.include(walker, c) || b.include(walker, c);
@@ -167,7 +167,7 @@ public abstract class OrRevFilter extends RevFilter {
 		}
 
 		@Override
-		public boolean include(final RevWalk walker, final RevCommit c)
+		public boolean include(RevWalk walker, RevCommit c)
 				throws MissingObjectException, IncorrectObjectTypeException,
 				IOException {
 			for (final RevFilter f : subfilters) {

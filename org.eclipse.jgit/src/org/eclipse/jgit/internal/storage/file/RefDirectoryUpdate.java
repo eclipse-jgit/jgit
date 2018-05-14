@@ -106,7 +106,7 @@ class RefDirectoryUpdate extends RefUpdate {
 
 	/** {@inheritDoc} */
 	@Override
-	protected Result doUpdate(final Result status) throws IOException {
+	protected Result doUpdate(Result status) throws IOException {
 		WriteConfig wc = database.getRepository().getConfig()
 				.get(WriteConfig.KEY);
 
@@ -148,7 +148,7 @@ class RefDirectoryUpdate extends RefUpdate {
 
 	/** {@inheritDoc} */
 	@Override
-	protected Result doDelete(final Result status) throws IOException {
+	protected Result doDelete(Result status) throws IOException {
 		if (getRef().getStorage() != Ref.Storage.NEW)
 			database.delete(this);
 		return status;
@@ -156,7 +156,7 @@ class RefDirectoryUpdate extends RefUpdate {
 
 	/** {@inheritDoc} */
 	@Override
-	protected Result doLink(final String target) throws IOException {
+	protected Result doLink(String target) throws IOException {
 		WriteConfig wc = database.getRepository().getConfig()
 				.get(WriteConfig.KEY);
 

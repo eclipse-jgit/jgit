@@ -71,7 +71,7 @@ public class DefaultUploadPackFactory implements
 
 	/** {@inheritDoc} */
 	@Override
-	public UploadPack create(final HttpServletRequest req, final Repository db)
+	public UploadPack create(HttpServletRequest req, Repository db)
 			throws ServiceNotEnabledException, ServiceNotAuthorizedException {
 		if (db.getConfig().get(ServiceConfig::new).enabled)
 			return new UploadPack(db);

@@ -72,7 +72,7 @@ public abstract class PatternMatchRevFilter extends RevFilter {
 	 * @return same pattern, but re-encoded to match our funny raw UTF-8
 	 *         character sequence {@link org.eclipse.jgit.util.RawCharSequence}.
 	 */
-	protected static final String forceToRaw(final String patternText) {
+	protected static final String forceToRaw(String patternText) {
 		final byte[] b = Constants.encode(patternText);
 		final StringBuilder needle = new StringBuilder(b.length);
 		for (int i = 0; i < b.length; i++)
@@ -128,7 +128,7 @@ public abstract class PatternMatchRevFilter extends RevFilter {
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean include(final RevWalk walker, final RevCommit cmit)
+	public boolean include(RevWalk walker, RevCommit cmit)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
 		return compiledPattern.reset(text(cmit)).matches();

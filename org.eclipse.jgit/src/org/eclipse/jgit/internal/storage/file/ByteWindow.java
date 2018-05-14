@@ -76,7 +76,7 @@ abstract class ByteWindow {
 	 * @param n
 	 *            size of the byte window
 	 */
-	protected ByteWindow(final PackFile p, final long s, final int n) {
+	protected ByteWindow(PackFile p, long s, int n) {
 		pack = p;
 		start = s;
 		end = start + n;

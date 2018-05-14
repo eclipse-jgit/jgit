@@ -243,7 +243,7 @@ public class CommitBuilder {
 	 * @param newMessage
 	 *            the commit message. Should not be null.
 	 */
-	public void setMessage(final String newMessage) {
+	public void setMessage(String newMessage) {
 		message = newMessage;
 	}
 

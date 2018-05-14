@@ -210,14 +210,14 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 		config.install();
 	}
 
-	private RevObject parse(final AnyObjectId id)
+	private RevObject parse(AnyObjectId id)
 			throws MissingObjectException, IOException {
 		try (RevWalk rw = new RevWalk(db)) {
 			return rw.parseAny(id);
 		}
 	}
 
-	private File[] pack(final Repository src, final RevObject... list)
+	private File[] pack(Repository src, RevObject... list)
 			throws IOException {
 		try (PackWriter pw = new PackWriter(src)) {
 			for (final RevObject o : list) {
@@ -233,7 +233,7 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 		}
 	}
 
-	private static void write(final File[] files, final PackWriter pw)
+	private static void write(File[] files, PackWriter pw)
 			throws IOException {
 		final long begin = files[0].getParentFile().lastModified();
 		NullProgressMonitor m = NullProgressMonitor.INSTANCE;
@@ -251,7 +251,7 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 		touch(begin, files[0].getParentFile());
 	}
 
-	private static void delete(final File[] list) throws IOException {
+	private static void delete(File[] list) throws IOException {
 		final long begin = list[0].getParentFile().lastModified();
 		for (final File f : list) {
 			FileUtils.delete(f);
@@ -260,7 +260,7 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 		touch(begin, list[0].getParentFile());
 	}
 
-	private static void touch(final long begin, final File dir) {
+	private static void touch(long begin, File dir) {
 		while (begin >= dir.lastModified()) {
 			try {
 				Thread.sleep(25);
@@ -271,12 +271,12 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 		}
 	}
 
-	private File fullPackFileName(final ObjectId name, final String suffix) {
+	private File fullPackFileName(ObjectId name, String suffix) {
 		final File packdir = db.getObjectDatabase().getPackDirectory();
 		return new File(packdir, "pack-" + name.name() + suffix);
 	}
 
-	private RevObject writeBlob(final Repository repo, final String data)
+	private RevObject writeBlob(Repository repo, String data)
 			throws IOException {
 		final byte[] bytes = Constants.encode(data);
 		final ObjectId id;

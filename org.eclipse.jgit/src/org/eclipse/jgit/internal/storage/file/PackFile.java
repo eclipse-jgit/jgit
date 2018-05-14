@@ -103,7 +103,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	/** Sorts PackFiles to be most recently created to least recently created. */
 	public static final Comparator<PackFile> SORT = new Comparator<PackFile>() {
 		@Override
-		public int compare(final PackFile a, final PackFile b) {
+		public int compare(PackFile a, PackFile b) {
 			return b.packLastModified - a.packLastModified;
 		}
 	};
@@ -162,7 +162,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	 * @param extensions
 	 *            additional pack file extensions with the same base as the pack
 	 */
-	public PackFile(final File packFile, int extensions) {
+	public PackFile(File packFile, int extensions) {
 		this.packFile = packFile;
 		this.packLastModified = (int) (packFile.lastModified() >> 10);
 		this.extensions = extensions;
@@ -251,7 +251,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	 * @throws java.io.IOException
 	 *             the index file cannot be loaded into memory.
 	 */
-	public boolean hasObject(final AnyObjectId id) throws IOException {
+	public boolean hasObject(AnyObjectId id) throws IOException {
 		final long offset = idx().findOffset(id);
 		return 0 < offset && !isCorrupt(offset);
 	}
@@ -1100,7 +1100,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		}
 	}
 
-	private long findEndOffset(final long startOffset)
+	private long findEndOffset(long startOffset)
 			throws IOException, CorruptObjectException {
 		final long maxOffset = length - 20;
 		return getReverseIdx().findNextOffset(startOffset, maxOffset);

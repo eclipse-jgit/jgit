@@ -71,7 +71,7 @@ public abstract class OrTreeFilter extends TreeFilter {
 	 *            second filter to test.
 	 * @return a filter that must match at least one input filter.
 	 */
-	public static TreeFilter create(final TreeFilter a, final TreeFilter b) {
+	public static TreeFilter create(TreeFilter a, TreeFilter b) {
 		if (a == ALL || b == ALL)
 			return ALL;
 		return new Binary(a, b);
@@ -85,7 +85,7 @@ public abstract class OrTreeFilter extends TreeFilter {
 	 *            filters.
 	 * @return a filter that must match at least one input filter.
 	 */
-	public static TreeFilter create(final TreeFilter[] list) {
+	public static TreeFilter create(TreeFilter[] list) {
 		if (list.length == 2)
 			return create(list[0], list[1]);
 		if (list.length < 2)
@@ -103,7 +103,7 @@ public abstract class OrTreeFilter extends TreeFilter {
 	 *            filters.
 	 * @return a filter that must match at least one input filter.
 	 */
-	public static TreeFilter create(final Collection<TreeFilter> list) {
+	public static TreeFilter create(Collection<TreeFilter> list) {
 		if (list.size() < 2)
 			throw new IllegalArgumentException(JGitText.get().atLeastTwoFiltersNeeded);
 		final TreeFilter[] subfilters = new TreeFilter[list.size()];
@@ -124,7 +124,7 @@ public abstract class OrTreeFilter extends TreeFilter {
 		}
 
 		@Override
-		public boolean include(final TreeWalk walker)
+		public boolean include(TreeWalk walker)
 				throws MissingObjectException, IncorrectObjectTypeException,
 				IOException {
 			return matchFilter(walker) <= 0;
@@ -173,7 +173,7 @@ public abstract class OrTreeFilter extends TreeFilter {
 		}
 
 		@Override
-		public boolean include(final TreeWalk walker)
+		public boolean include(TreeWalk walker)
 				throws MissingObjectException, IncorrectObjectTypeException,
 				IOException {
 			return matchFilter(walker) <= 0;

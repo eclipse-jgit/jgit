@@ -361,7 +361,7 @@ public abstract class ObjectInserter implements AutoCloseable {
 	 * @throws java.io.IOException
 	 *             the object could not be stored.
 	 */
-	public ObjectId insert(final int type, final byte[] data)
+	public ObjectId insert(int type, byte[] data)
 			throws IOException {
 		return insert(type, data, 0, data.length);
 	}

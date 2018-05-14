@@ -98,7 +98,7 @@ public class AbstractTreeIteratorHandler extends
 
 	/** {@inheritDoc} */
 	@Override
-	public int parseArguments(final Parameters params) throws CmdLineException {
+	public int parseArguments(Parameters params) throws CmdLineException {
 		final String name = params.getParameter(0);
 
 		if (new File(name).isDirectory()) {

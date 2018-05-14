@@ -244,7 +244,7 @@ public class TestRepository<R extends Repository> {
 	 * @param secDelta
 	 *            number of seconds to add to the current time.
 	 */
-	public void tick(final int secDelta) {
+	public void tick(int secDelta) {
 		mockSystemReader.tick(secDelta);
 	}
 
@@ -267,7 +267,7 @@ public class TestRepository<R extends Repository> {
 	 * @return reference to the blob.
 	 * @throws Exception
 	 */
-	public RevBlob blob(final String content) throws Exception {
+	public RevBlob blob(String content) throws Exception {
 		return blob(content.getBytes(CHARSET));
 	}
 
@@ -279,7 +279,7 @@ public class TestRepository<R extends Repository> {
 	 * @return reference to the blob.
 	 * @throws Exception
 	 */
-	public RevBlob blob(final byte[] content) throws Exception {
+	public RevBlob blob(byte[] content) throws Exception {
 		ObjectId id;
 		try (ObjectInserter ins = inserter) {
 			id = ins.insert(Constants.OBJ_BLOB, content);
@@ -298,7 +298,7 @@ public class TestRepository<R extends Repository> {
 	 * @return the entry.
 	 * @throws Exception
 	 */
-	public DirCacheEntry file(final String path, final RevBlob blob)
+	public DirCacheEntry file(String path, RevBlob blob)
 			throws Exception {
 		final DirCacheEntry e = new DirCacheEntry(path);
 		e.setFileMode(FileMode.REGULAR_FILE);
@@ -315,7 +315,7 @@ public class TestRepository<R extends Repository> {
 	 * @return reference to the tree specified by the entry list.
 	 * @throws Exception
 	 */
-	public RevTree tree(final DirCacheEntry... entries) throws Exception {
+	public RevTree tree(DirCacheEntry... entries) throws Exception {
 		final DirCache dc = DirCache.newInCore();
 		final DirCacheBuilder b = dc.builder();
 		for (final DirCacheEntry e : entries)
@@ -339,7 +339,7 @@ public class TestRepository<R extends Repository> {
 	 * @return the parsed object entry at this path, never null.
 	 * @throws Exception
 	 */
-	public RevObject get(final RevTree tree, final String path)
+	public RevObject get(RevTree tree, String path)
 			throws Exception {
 		try (TreeWalk tw = new TreeWalk(pool.getObjectReader())) {
 			tw.setFilter(PathFilterGroup.createFromStrings(Collections
@@ -370,7 +370,7 @@ public class TestRepository<R extends Repository> {
 	 * @return the new commit.
 	 * @throws Exception
 	 */
-	public RevCommit commit(final RevCommit... parents) throws Exception {
+	public RevCommit commit(RevCommit... parents) throws Exception {
 		return commit(1, tree(), parents);
 	}
 
@@ -386,7 +386,7 @@ public class TestRepository<R extends Repository> {
 	 * @return the new commit.
 	 * @throws Exception
 	 */
-	public RevCommit commit(final RevTree tree, final RevCommit... parents)
+	public RevCommit commit(RevTree tree, RevCommit... parents)
 			throws Exception {
 		return commit(1, tree, parents);
 	}
@@ -404,7 +404,7 @@ public class TestRepository<R extends Repository> {
 	 * @return the new commit.
 	 * @throws Exception
 	 */
-	public RevCommit commit(final int secDelta, final RevCommit... parents)
+	public RevCommit commit(int secDelta, RevCommit... parents)
 			throws Exception {
 		return commit(secDelta, tree(), parents);
 	}
@@ -470,7 +470,7 @@ public class TestRepository<R extends Repository> {
 	 * @return the annotated tag object.
 	 * @throws Exception
 	 */
-	public RevTag tag(final String name, final RevObject dst) throws Exception {
+	public RevTag tag(String name, RevObject dst) throws Exception {
 		final TagBuilder t = new TagBuilder();
 		t.setObjectId(dst);
 		t.setTag(name);
@@ -759,7 +759,7 @@ public class TestRepository<R extends Repository> {
 			final FileRepository fr = (FileRepository) db;
 			RefWriter rw = new RefWriter(fr.getAllRefs().values()) {
 				@Override
-				protected void writeFile(final String name, final byte[] bin)
+				protected void writeFile(String name, byte[] bin)
 						throws IOException {
 					File path = new File(fr.getDirectory(), name);
 					TestRepository.this.writeFile(path, bin);
@@ -791,7 +791,7 @@ public class TestRepository<R extends Repository> {
 	 * @return {@code object}
 	 * @throws Exception
 	 */
-	public <T extends RevObject> T parseBody(final T object) throws Exception {
+	public <T extends RevObject> T parseBody(T object) throws Exception {
 		pool.parseBody(object);
 		return object;
 	}
@@ -944,7 +944,7 @@ public class TestRepository<R extends Repository> {
 		return new File(packdir, "pack-" + name.name() + t);
 	}
 
-	private void writeFile(final File p, final byte[] bin) throws IOException,
+	private void writeFile(File p, byte[] bin) throws IOException,
 			ObjectWritingException {
 		final LockFile lck = new LockFile(p);
 		if (!lck.lock())
@@ -1093,7 +1093,7 @@ public class TestRepository<R extends Repository> {
 			return add(path, blob(content));
 		}
 
-		public CommitBuilder add(String path, final RevBlob id)
+		public CommitBuilder add(String path, RevBlob id)
 				throws Exception {
 			return edit(new PathEdit(path) {
 				@Override

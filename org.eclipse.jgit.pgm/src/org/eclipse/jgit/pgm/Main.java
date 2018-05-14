@@ -141,7 +141,7 @@ public class Main {
 	 *            arguments.
 	 * @throws java.lang.Exception
 	 */
-	public static void main(final String[] argv) throws Exception {
+	public static void main(String[] argv) throws Exception {
 		// make sure built-in filters are registered
 		BuiltinLFS.register();
 
@@ -165,7 +165,7 @@ public class Main {
 	 *            arguments.
 	 * @throws java.lang.Exception
 	 */
-	protected void run(final String[] argv) throws Exception {
+	protected void run(String[] argv) throws Exception {
 		writer = createErrorWriter();
 		try {
 			if (!installConsole()) {
@@ -230,7 +230,7 @@ public class Main {
 		return new PrintWriter(new OutputStreamWriter(System.err, CHARSET));
 	}
 
-	private void execute(final String[] argv) throws Exception {
+	private void execute(String[] argv) throws Exception {
 		final CmdLineParser clp = new SubcommandLineParser(this);
 
 		try {
@@ -360,7 +360,7 @@ public class Main {
 		}
 	}
 
-	private static void install(final String name)
+	private static void install(String name)
 			throws IllegalAccessException, InvocationTargetException,
 			NoSuchMethodException, ClassNotFoundException {
 		try {

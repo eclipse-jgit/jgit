@@ -82,7 +82,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 		testOneType(Constants.OBJ_TAG);
 	}
 
-	private void testOneType(final int typeCode) throws Exception {
+	private void testOneType(int typeCode) throws Exception {
 		final ObjectId id = id("9788669ad918b6fcce64af8882fc9a81cb6aba67");
 		final StringBuilder b = new StringBuilder();
 		b.append("object " + id.name() + "\n");
@@ -202,7 +202,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 		assertNull(c.getTaggerIdent());
 	}
 
-	private RevTag create(final String msg) throws Exception {
+	private RevTag create(String msg) throws Exception {
 		final StringBuilder b = new StringBuilder();
 		b.append("object 9788669ad918b6fcce64af8882fc9a81cb6aba67\n");
 		b.append("type tree\n");
@@ -480,7 +480,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 		assertEquals(src.getMessage(), p.getFullMessage());
 	}
 
-	private static ObjectId id(final String str) {
+	private static ObjectId id(String str) {
 		return ObjectId.fromString(str);
 	}
 }

@@ -64,7 +64,7 @@ public class ApplyCommandTest extends RepositoryTestCase {
 
 	private RawText b;
 
-	private ApplyResult init(final String name) throws Exception {
+	private ApplyResult init(String name) throws Exception {
 		return init(name, true, true);
 	}
 
@@ -273,7 +273,7 @@ public class ApplyCommandTest extends RepositoryTestCase {
 		assertFalse(new File(db.getWorkTree(), "NonASCIIDel").exists());
 	}
 
-	private static byte[] readFile(final String patchFile) throws IOException {
+	private static byte[] readFile(String patchFile) throws IOException {
 		final InputStream in = getTestResource(patchFile);
 		if (in == null) {
 			fail("No " + patchFile + " test vector");
@@ -291,7 +291,7 @@ public class ApplyCommandTest extends RepositoryTestCase {
 		}
 	}
 
-	private static InputStream getTestResource(final String patchFile) {
+	private static InputStream getTestResource(String patchFile) {
 		return ApplyCommandTest.class.getClassLoader()
 				.getResourceAsStream("org/eclipse/jgit/diff/" + patchFile);
 	}

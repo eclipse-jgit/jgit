@@ -306,7 +306,7 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 		return command.call();
 	}
 
-	private List<RefSpec> calculateRefSpecs(final String dst) {
+	private List<RefSpec> calculateRefSpecs(String dst) {
 		RefSpec wcrs = new RefSpec();
 		wcrs = wcrs.setForceUpdate(true);
 		wcrs = wcrs.setSourceDestination(Constants.R_HEADS + "*", dst); //$NON-NLS-1$
@@ -440,7 +440,7 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 		clonedRepo.getConfig().save();
 	}
 
-	private RevCommit parseCommit(final Repository clonedRepo, final Ref ref)
+	private RevCommit parseCommit(Repository clonedRepo, Ref ref)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
 		final RevCommit commit;

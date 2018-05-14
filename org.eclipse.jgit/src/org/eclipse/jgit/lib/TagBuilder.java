@@ -168,7 +168,7 @@ public class TagBuilder {
 	 * @param newMessage
 	 *            the tag's message.
 	 */
-	public void setMessage(final String newMessage) {
+	public void setMessage(String newMessage) {
 		message = newMessage;
 	}
 

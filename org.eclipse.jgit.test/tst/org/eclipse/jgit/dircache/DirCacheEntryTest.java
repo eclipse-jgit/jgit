@@ -183,7 +183,7 @@ public class DirCacheEntryTest {
 		copyMetaDataHelper(true);
 	}
 
-	private static void copyMetaDataHelper(final boolean keepStage) {
+	private static void copyMetaDataHelper(boolean keepStage) {
 		DirCacheEntry e = new DirCacheEntry("some/path", DirCacheEntry.STAGE_2);
 		e.setAssumeValid(false);
 		e.setCreationTime(2L);

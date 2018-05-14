@@ -61,7 +61,7 @@ public class PackInvalidException extends IOException {
 	 * @param path
 	 *            path of the invalid pack file.
 	 */
-	public PackInvalidException(final File path) {
+	public PackInvalidException(File path) {
 		this(path.getAbsolutePath());
 	}
 
@@ -71,7 +71,7 @@ public class PackInvalidException extends IOException {
 	 * @param path
 	 *            path of the invalid pack file.
 	 */
-	public PackInvalidException(final String path) {
+	public PackInvalidException(String path) {
 		super(MessageFormat.format(JGitText.get().packFileInvalid, path));
 	}
 }

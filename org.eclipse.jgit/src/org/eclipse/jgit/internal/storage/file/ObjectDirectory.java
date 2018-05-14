@@ -278,7 +278,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 	 * Add a single existing pack to the list of available pack files.
 	 */
 	@Override
-	public PackFile openPack(final File pack)
+	public PackFile openPack(File pack)
 			throws IOException {
 		final String p = pack.getName();
 		if (p.length() != 50 || !p.startsWith("pack-") || !p.endsWith(".pack")) //$NON-NLS-1$ //$NON-NLS-2$
@@ -814,7 +814,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		return shallowCommitsIds;
 	}
 
-	private void insertPack(final PackFile pf) {
+	private void insertPack(PackFile pf) {
 		PackList o, n;
 		do {
 			o = packList.get();
@@ -837,7 +837,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		} while (!packList.compareAndSet(o, n));
 	}
 
-	private void removePack(final PackFile deadPack) {
+	private void removePack(PackFile deadPack) {
 		PackList o, n;
 		do {
 			o = packList.get();
@@ -855,7 +855,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		deadPack.close();
 	}
 
-	private static int indexOf(final PackFile[] list, final PackFile pack) {
+	private static int indexOf(PackFile[] list, PackFile pack) {
 		for (int i = 0; i < list.length; i++) {
 			if (list[i] == pack)
 				return i;
@@ -863,7 +863,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		return -1;
 	}
 
-	private PackList scanPacks(final PackList original) {
+	private PackList scanPacks(PackList original) {
 		synchronized (packList) {
 			PackList o, n;
 			do {
@@ -882,7 +882,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		}
 	}
 
-	private PackList scanPacksImpl(final PackList old) {
+	private PackList scanPacksImpl(PackList old) {
 		final Map<String, PackFile> forReuse = reuseMap(old);
 		final FileSnapshot snapshot = FileSnapshot.save(packDirectory);
 		final Set<String> names = listPackDirectory();
@@ -943,7 +943,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		return new PackList(snapshot, r);
 	}
 
-	private static Map<String, PackFile> reuseMap(final PackList old) {
+	private static Map<String, PackFile> reuseMap(PackList old) {
 		final Map<String, PackFile> forReuse = new HashMap<>();
 		for (final PackFile p : old.packs) {
 			if (p.invalid()) {
@@ -1033,12 +1033,12 @@ public class ObjectDirectory extends FileObjectDatabase {
 		return l.toArray(new AlternateHandle[l.size()]);
 	}
 
-	private static BufferedReader open(final File f)
+	private static BufferedReader open(File f)
 			throws FileNotFoundException {
 		return new BufferedReader(new FileReader(f));
 	}
 
-	private AlternateHandle openAlternate(final String location)
+	private AlternateHandle openAlternate(String location)
 			throws IOException {
 		final File objdir = fs.resolve(objects, location);
 		return openAlternate(objdir);

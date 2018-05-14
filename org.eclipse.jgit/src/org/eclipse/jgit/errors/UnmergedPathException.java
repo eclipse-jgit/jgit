@@ -63,7 +63,7 @@ public class UnmergedPathException extends IOException {
 	 * @param dce
 	 *            the first non-zero stage of the unmerged path.
 	 */
-	public UnmergedPathException(final DirCacheEntry dce) {
+	public UnmergedPathException(DirCacheEntry dce) {
 		super(MessageFormat.format(JGitText.get().unmergedPath, dce.getPathString()));
 		entry = dce;
 	}

@@ -146,7 +146,7 @@ class Remote extends TextBuiltin {
 
 	/** {@inheritDoc} */
 	@Override
-	public void printUsage(final String message, final CmdLineParser clp)
+	public void printUsage(String message, CmdLineParser clp)
 			throws IOException {
 		errw.println(message);
 		errw.println("jgit remote [--verbose (-v)] [--help (-h)]"); //$NON-NLS-1$

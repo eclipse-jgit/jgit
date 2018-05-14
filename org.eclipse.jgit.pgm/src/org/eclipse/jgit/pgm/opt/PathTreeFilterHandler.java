@@ -84,7 +84,7 @@ public class PathTreeFilterHandler extends OptionHandler<TreeFilter> {
 
 	/** {@inheritDoc} */
 	@Override
-	public int parseArguments(final Parameters params) throws CmdLineException {
+	public int parseArguments(Parameters params) throws CmdLineException {
 		final List<PathFilter> filters = new ArrayList<>();
 		for (int idx = 0;; idx++) {
 			final String path;

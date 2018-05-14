@@ -85,7 +85,7 @@ public abstract class BaseConnection implements Connection {
 
 	/** {@inheritDoc} */
 	@Override
-	public final Ref getRef(final String name) {
+	public final Ref getRef(String name) {
 		return advertisedRefs.get(name);
 	}
 
@@ -132,7 +132,7 @@ public abstract class BaseConnection implements Connection {
 	 *            will be wrapped in an unmodifiable way to protect it, but it
 	 *            does not get copied.
 	 */
-	protected void available(final Map<String, Ref> all) {
+	protected void available(Map<String, Ref> all) {
 		advertisedRefs = Collections.unmodifiableMap(all);
 	}
 

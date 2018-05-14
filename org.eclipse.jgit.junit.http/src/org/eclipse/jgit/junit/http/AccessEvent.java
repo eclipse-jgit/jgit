@@ -77,7 +77,7 @@ public class AccessEvent {
 		responseHeaders = cloneHeaders(rsp);
 	}
 
-	private static Map<String, String> cloneHeaders(final Request req) {
+	private static Map<String, String> cloneHeaders(Request req) {
 		Map<String, String> r = new TreeMap<>();
 		Enumeration hn = req.getHeaderNames();
 		while (hn.hasMoreElements()) {
@@ -89,7 +89,7 @@ public class AccessEvent {
 		return Collections.unmodifiableMap(r);
 	}
 
-	private static Map<String, String> cloneHeaders(final Response rsp) {
+	private static Map<String, String> cloneHeaders(Response rsp) {
 		Map<String, String> r = new TreeMap<>();
 		Enumeration<String> hn = rsp.getHttpFields().getFieldNames();
 		while (hn.hasMoreElements()) {

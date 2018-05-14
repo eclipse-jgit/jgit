@@ -76,7 +76,7 @@ public class IO {
 	 * @throws java.io.IOException
 	 *             the file exists, but its contents cannot be read.
 	 */
-	public static final byte[] readFully(final File path)
+	public static final byte[] readFully(File path)
 			throws FileNotFoundException, IOException {
 		return IO.readFully(path, Integer.MAX_VALUE);
 	}
@@ -96,7 +96,7 @@ public class IO {
 	 * @throws java.io.IOException
 	 *             the file exists, but its contents cannot be read.
 	 */
-	public static final byte[] readSome(final File path, final int limit)
+	public static final byte[] readSome(File path, int limit)
 			throws FileNotFoundException, IOException {
 		try (SilentFileInputStream in = new SilentFileInputStream(path)) {
 			byte[] buf = new byte[limit];
@@ -129,7 +129,7 @@ public class IO {
 	 * @throws java.io.IOException
 	 *             the file exists, but its contents cannot be read.
 	 */
-	public static final byte[] readFully(final File path, final int max)
+	public static final byte[] readFully(File path, int max)
 			throws FileNotFoundException, IOException {
 		try (SilentFileInputStream in = new SilentFileInputStream(path)) {
 			long sz = Math.max(path.length(), 1);
@@ -311,7 +311,7 @@ public class IO {
 	 * @throws java.io.IOException
 	 *             there was an error reading from the stream.
 	 */
-	public static void skipFully(final InputStream fd, long toSkip)
+	public static void skipFully(InputStream fd, long toSkip)
 			throws IOException {
 		while (toSkip > 0) {
 			final long r = fd.skip(toSkip);
@@ -329,7 +329,7 @@ public class IO {
 	 * @return the string divided into lines
 	 * @since 2.0
 	 */
-	public static List<String> readLines(final String s) {
+	public static List<String> readLines(String s) {
 		List<String> l = new ArrayList<>();
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < s.length(); i++) {

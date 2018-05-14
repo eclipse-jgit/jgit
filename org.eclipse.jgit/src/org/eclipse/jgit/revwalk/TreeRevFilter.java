@@ -89,7 +89,7 @@ public class TreeRevFilter extends RevFilter {
 	 *            replaced with a new filter following new paths after a rename.
 	 * @since 3.5
 	 */
-	public TreeRevFilter(final RevWalk walker, final TreeFilter t) {
+	public TreeRevFilter(RevWalk walker, TreeFilter t) {
 		this(walker, t, 0);
 	}
 
@@ -132,7 +132,7 @@ public class TreeRevFilter extends RevFilter {
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean include(final RevWalk walker, final RevCommit c)
+	public boolean include(RevWalk walker, RevCommit c)
 			throws StopWalkException, MissingObjectException,
 			IncorrectObjectTypeException, IOException {
 		// Reset the tree filter to scan this commit and parents.

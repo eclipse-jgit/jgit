@@ -52,7 +52,7 @@ class DeltaBaseCache {
 
 	static final SoftReference<Entry> DEAD;
 
-	private static int hash(final long position) {
+	private static int hash(long position) {
 		return (((int) position) << 22) >>> 22;
 	}
 
@@ -136,7 +136,7 @@ class DeltaBaseCache {
 		}
 	}
 
-	private void moveToHead(final Slot e) {
+	private void moveToHead(Slot e) {
 		unlink(e);
 		e.lruPrev = null;
 		e.lruNext = lruHead;
@@ -147,7 +147,7 @@ class DeltaBaseCache {
 		lruHead = e;
 	}
 
-	private void unlink(final Slot e) {
+	private void unlink(Slot e) {
 		final Slot prev = e.lruPrev;
 		final Slot next = e.lruNext;
 		if (prev != null)
@@ -156,7 +156,7 @@ class DeltaBaseCache {
 			next.lruPrev = prev;
 	}
 
-	private void clearEntry(final Slot e) {
+	private void clearEntry(Slot e) {
 		openByteCount -= e.sz;
 		e.provider = null;
 		e.data = DEAD;

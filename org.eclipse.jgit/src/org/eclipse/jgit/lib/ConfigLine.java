@@ -96,7 +96,7 @@ class ConfigLine {
 				&& eqSameCase(subsection, aSubsection);
 	}
 
-	private static boolean eqIgnoreCase(final String a, final String b) {
+	private static boolean eqIgnoreCase(String a, String b) {
 		if (a == null && b == null)
 			return true;
 		if (a == null || b == null)
@@ -104,7 +104,7 @@ class ConfigLine {
 		return StringUtils.equalsIgnoreCase(a, b);
 	}
 
-	private static boolean eqSameCase(final String a, final String b) {
+	private static boolean eqSameCase(String a, String b) {
 		if (a == null && b == null)
 			return true;
 		if (a == null || b == null)

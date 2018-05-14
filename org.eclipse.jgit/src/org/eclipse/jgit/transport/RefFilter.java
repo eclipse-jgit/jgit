@@ -63,7 +63,7 @@ public interface RefFilter {
 	 */
 	public static final RefFilter DEFAULT = new RefFilter() {
 		@Override
-		public Map<String, Ref> filter (final Map<String, Ref> refs) {
+		public Map<String, Ref> filter (Map<String, Ref> refs) {
 			return refs;
 		}
 	};

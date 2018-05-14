@@ -148,7 +148,7 @@ class RewriteGenerator extends Generator {
 		}
 	}
 
-	private RevCommit[] cleanup(final RevCommit[] oldList) {
+	private RevCommit[] cleanup(RevCommit[] oldList) {
 		// Remove any duplicate parents caused due to rewrites (e.g. a merge
 		// with two sides that both simplified back into the merge base).
 		// We also may have deleted a parent by marking it null.

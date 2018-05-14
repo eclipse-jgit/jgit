@@ -62,7 +62,7 @@ public class UnsupportedPackIndexVersionException extends IOException {
 	 * @param version
 	 *            pack index version
 	 */
-	public UnsupportedPackIndexVersionException(final int version) {
+	public UnsupportedPackIndexVersionException(int version) {
 		super(MessageFormat.format(JGitText.get().unsupportedPackIndexVersion,
 				Integer.valueOf(version)));
 	}

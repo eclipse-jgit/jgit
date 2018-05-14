@@ -81,7 +81,7 @@ public class DirCacheLargePathTest extends RepositoryTestCase {
 		testLongPath(16384);
 	}
 
-	private void testLongPath(final int len) throws CorruptObjectException,
+	private void testLongPath(int len) throws CorruptObjectException,
 			IOException {
 		final String longPath = makeLongPath(len);
 		final String shortPath = "~~~ shorter-path";
@@ -119,7 +119,7 @@ public class DirCacheLargePathTest extends RepositoryTestCase {
 		}
 	}
 
-	private static String makeLongPath(final int len) {
+	private static String makeLongPath(int len) {
 		final StringBuilder r = new StringBuilder(len);
 		for (int i = 0; i < len; i++)
 			r.append('a' + (i % 26));

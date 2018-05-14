@@ -93,7 +93,7 @@ public abstract class RevObject extends ObjectIdOwnerMap.Entry {
 	 *            the flag to test.
 	 * @return true if the flag has been added to this object; false if not.
 	 */
-	public final boolean has(final RevFlag flag) {
+	public final boolean has(RevFlag flag) {
 		return (flags & flag.mask) != 0;
 	}
 
@@ -105,7 +105,7 @@ public abstract class RevObject extends ObjectIdOwnerMap.Entry {
 	 * @return true if any flag in the set has been added to this object; false
 	 *         if not.
 	 */
-	public final boolean hasAny(final RevFlagSet set) {
+	public final boolean hasAny(RevFlagSet set) {
 		return (flags & set.mask) != 0;
 	}
 
@@ -117,7 +117,7 @@ public abstract class RevObject extends ObjectIdOwnerMap.Entry {
 	 * @return true if all flags of the set have been added to this object;
 	 *         false if some or none have been added.
 	 */
-	public final boolean hasAll(final RevFlagSet set) {
+	public final boolean hasAll(RevFlagSet set) {
 		return (flags & set.mask) == set.mask;
 	}
 
@@ -129,7 +129,7 @@ public abstract class RevObject extends ObjectIdOwnerMap.Entry {
 	 * @param flag
 	 *            the flag to mark on this object, for later testing.
 	 */
-	public final void add(final RevFlag flag) {
+	public final void add(RevFlag flag) {
 		flags |= flag.mask;
 	}
 
@@ -139,7 +139,7 @@ public abstract class RevObject extends ObjectIdOwnerMap.Entry {
 	 * @param set
 	 *            the set of flags to mark on this object, for later testing.
 	 */
-	public final void add(final RevFlagSet set) {
+	public final void add(RevFlagSet set) {
 		flags |= set.mask;
 	}
 
@@ -151,7 +151,7 @@ public abstract class RevObject extends ObjectIdOwnerMap.Entry {
 	 * @param flag
 	 *            the flag to remove from this object.
 	 */
-	public final void remove(final RevFlag flag) {
+	public final void remove(RevFlag flag) {
 		flags &= ~flag.mask;
 	}
 
@@ -161,7 +161,7 @@ public abstract class RevObject extends ObjectIdOwnerMap.Entry {
 	 * @param set
 	 *            the flag to remove from this object.
 	 */
-	public final void remove(final RevFlagSet set) {
+	public final void remove(RevFlagSet set) {
 		flags &= ~set.mask;
 	}
 
@@ -183,7 +183,7 @@ public abstract class RevObject extends ObjectIdOwnerMap.Entry {
 	 * @param s
 	 *            buffer to append a debug description of core RevFlags onto.
 	 */
-	protected void appendCoreFlags(final StringBuilder s) {
+	protected void appendCoreFlags(StringBuilder s) {
 		s.append((flags & RevWalk.TOPO_DELAY) != 0 ? 'o' : '-');
 		s.append((flags & RevWalk.TEMP_MARK) != 0 ? 't' : '-');
 		s.append((flags & RevWalk.REWRITE) != 0 ? 'r' : '-');

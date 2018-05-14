@@ -255,7 +255,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 	 * @param packTransport
 	 *            the transport.
 	 */
-	public BasePackFetchConnection(final PackTransport packTransport) {
+	public BasePackFetchConnection(PackTransport packTransport) {
 		super(packTransport);
 
 		if (local != null) {
@@ -339,7 +339,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 
 	/** {@inheritDoc} */
 	@Override
-	public void setPackLockMessage(final String message) {
+	public void setPackLockMessage(String message) {
 		lockMessage = message;
 	}
 
@@ -418,7 +418,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		return local.getConfig().get(FetchConfig::new);
 	}
 
-	private int maxTimeWanted(final Collection<Ref> wants) {
+	private int maxTimeWanted(Collection<Ref> wants) {
 		int maxTime = 0;
 		for (final Ref r : wants) {
 			try {
@@ -435,7 +435,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		return maxTime;
 	}
 
-	private void markReachable(final Set<ObjectId> have, final int maxTime)
+	private void markReachable(Set<ObjectId> have, int maxTime)
 			throws IOException {
 		for (Ref r : local.getRefDatabase().getRefs()) {
 			ObjectId id = r.getPeeledObjectId();
@@ -489,7 +489,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		}
 	}
 
-	private boolean sendWants(final Collection<Ref> want) throws IOException {
+	private boolean sendWants(Collection<Ref> want) throws IOException {
 		final PacketLineOut p = statelessRPC ? pckState : pckOut;
 		boolean first = true;
 		for (final Ref r : want) {
@@ -585,7 +585,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		return line.toString();
 	}
 
-	private void negotiate(final ProgressMonitor monitor) throws IOException,
+	private void negotiate(ProgressMonitor monitor) throws IOException,
 			CancelledException {
 		final MutableObjectId ackId = new MutableObjectId();
 		int resultsPending = 0;
@@ -785,7 +785,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			}
 
 			@Override
-			public boolean include(final RevWalk walker, final RevCommit c) {
+			public boolean include(RevWalk walker, RevCommit c) {
 				final boolean remoteKnowsIsCommon = c.has(COMMON);
 				if (c.has(ADVERTISED)) {
 					// Remote advertised this, and we have it, hence common.
@@ -813,7 +813,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		}
 	}
 
-	private void markAdvertised(final AnyObjectId id) {
+	private void markAdvertised(AnyObjectId id) {
 		try {
 			walk.parseAny(id).add(ADVERTISED);
 		} catch (IOException readError) {
@@ -821,7 +821,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		}
 	}
 
-	private void markCommon(final RevObject obj, final AckNackResult anr)
+	private void markCommon(RevObject obj, AckNackResult anr)
 			throws IOException {
 		if (statelessRPC && anr == AckNackResult.ACK_COMMON && !obj.has(STATE)) {
 			StringBuilder s;

@@ -75,7 +75,7 @@ class Glog extends RevWalkTextBuiltin {
 		frame = new JFrame();
 		frame.addWindowListener(new WindowAdapter() {
 			@Override
-			public void windowClosing(final WindowEvent e) {
+			public void windowClosing(WindowEvent e) {
 				frame.dispose();
 			}
 		});
@@ -116,7 +116,7 @@ class Glog extends RevWalkTextBuiltin {
 
 	/** {@inheritDoc} */
 	@Override
-	protected void show(final RevCommit c) throws Exception {
+	protected void show(RevCommit c) throws Exception {
 		throw new UnsupportedOperationException();
 	}
 
