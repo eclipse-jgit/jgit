@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "59f971d0_8d5dad2c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2018-05-14T17:54:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "834e201e_38570cd2",
+      "range": {
+        "startLine": 76,
+        "startChar": 20,
+        "endLine": 76,
+        "endChar": 27
+      },
+      "revId": "e1a2576b2109627953a5ff29e7317cc4a0b51f78",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b7839795_4d77b23c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2018-05-12T09:04:51Z",
       "side": 1,
       "message": "directory",
+      "range": {
+        "startLine": 111,
+        "startChar": 27,
+        "endLine": 111,
+        "endChar": 41
+      },
+      "revId": "e1a2576b2109627953a5ff29e7317cc4a0b51f78",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9f7f6f4_0098cd6a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2018-05-14T17:54:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7839795_4d77b23c",
       "range": {
         "startLine": 111,
         "startChar": 27,
@@ -94,6 +142,54 @@
     },
     {
       "key": {
+        "uuid": "c62406da_4793ac30",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2018-05-14T17:54:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83edcfa0_e812ec8a",
+      "range": {
+        "startLine": 130,
+        "startChar": 14,
+        "endLine": 130,
+        "endChar": 32
+      },
+      "revId": "e1a2576b2109627953a5ff29e7317cc4a0b51f78",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7748ffd_5092f464",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2018-05-14T17:54:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ce80e3a_c1ac4bad",
+      "range": {
+        "startLine": 130,
+        "startChar": 3,
+        "endLine": 130,
+        "endChar": 12
+      },
+      "revId": "e1a2576b2109627953a5ff29e7317cc4a0b51f78",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "778ea3bd_366194eb",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
         "patchSetId": 2
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "789aec1e_27d58112",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2018-05-14T17:54:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "778ea3bd_366194eb",
+      "range": {
+        "startLine": 132,
+        "startChar": 30,
+        "endLine": 132,
+        "endChar": 44
+      },
+      "revId": "e1a2576b2109627953a5ff29e7317cc4a0b51f78",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2367c9da_9bb5592a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
         "patchSetId": 2
@@ -128,6 +248,30 @@
       "writtenOn": "2018-05-12T09:04:51Z",
       "side": 1,
       "message": "unused parameter",
+      "range": {
+        "startLine": 182,
+        "startChar": 3,
+        "endLine": 182,
+        "endChar": 26
+      },
+      "revId": "e1a2576b2109627953a5ff29e7317cc4a0b51f78",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "54852318_77d6db2f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2018-05-14T17:54:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2367c9da_9bb5592a",
       "range": {
         "startLine": 182,
         "startChar": 3,
