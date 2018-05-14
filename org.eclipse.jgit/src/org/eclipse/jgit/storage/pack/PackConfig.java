@@ -1039,7 +1039,7 @@ public class PackConfig {
 	 * @param rc
 	 *            configuration to read properties from.
 	 */
-	public void fromConfig(final Config rc) {
+	public void fromConfig(Config rc) {
 		setMaxDeltaDepth(rc.getInt("pack", "depth", getMaxDeltaDepth())); //$NON-NLS-1$ //$NON-NLS-2$
 		setDeltaSearchWindowSize(rc.getInt(
 				"pack", "window", getDeltaSearchWindowSize())); //$NON-NLS-1$ //$NON-NLS-2$

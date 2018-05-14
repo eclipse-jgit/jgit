@@ -75,7 +75,7 @@ public class RegexGroupFilter implements Filter {
 	 * @param groupIdx
 	 *            capture group number, 1 through the number of groups.
 	 */
-	public RegexGroupFilter(final int groupIdx) {
+	public RegexGroupFilter(int groupIdx) {
 		if (groupIdx < 1)
 			throw new IllegalArgumentException(MessageFormat.format(
 					HttpServerText.get().invalidIndex, valueOf(groupIdx)));
@@ -108,7 +108,7 @@ public class RegexGroupFilter implements Filter {
 					valueOf(groupIdx + 1)));
 	}
 
-	private static WrappedRequest[] groupsFor(final ServletRequest r) {
+	private static WrappedRequest[] groupsFor(ServletRequest r) {
 		return (WrappedRequest[]) r.getAttribute(MetaFilter.REGEX_GROUPS);
 	}
 }

@@ -176,7 +176,7 @@ class PackIndexV2 extends PackIndex {
 		return offset64.length / 8;
 	}
 
-	private int findLevelOne(final long nthPosition) {
+	private int findLevelOne(long nthPosition) {
 		int levelOne = Arrays.binarySearch(fanoutTable, nthPosition + 1);
 		if (levelOne >= 0) {
 			// If we hit the bucket exactly the item is in the bucket, or
@@ -193,14 +193,14 @@ class PackIndexV2 extends PackIndex {
 		return levelOne;
 	}
 
-	private int getLevelTwo(final long nthPosition, final int levelOne) {
+	private int getLevelTwo(long nthPosition, int levelOne) {
 		final long base = levelOne > 0 ? fanoutTable[levelOne - 1] : 0;
 		return (int) (nthPosition - base);
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public ObjectId getObjectId(final long nthPosition) {
+	public ObjectId getObjectId(long nthPosition) {
 		final int levelOne = findLevelOne(nthPosition);
 		final int p = getLevelTwo(nthPosition, levelOne);
 		final int p4 = p << 2;
@@ -209,7 +209,7 @@ class PackIndexV2 extends PackIndex {
 
 	/** {@inheritDoc} */
 	@Override
-	public long getOffset(final long nthPosition) {
+	public long getOffset(long nthPosition) {
 		final int levelOne = findLevelOne(nthPosition);
 		final int levelTwo = getLevelTwo(nthPosition, levelOne);
 		return getOffset(levelOne, levelTwo);
@@ -217,7 +217,7 @@ class PackIndexV2 extends PackIndex {
 
 	/** {@inheritDoc} */
 	@Override
-	public long findOffset(final AnyObjectId objId) {
+	public long findOffset(AnyObjectId objId) {
 		final int levelOne = objId.getFirstByte();
 		final int levelTwo = binarySearchLevelTwo(objId, levelOne);
 		if (levelTwo == -1)
@@ -225,7 +225,7 @@ class PackIndexV2 extends PackIndex {
 		return getOffset(levelOne, levelTwo);
 	}
 
-	private long getOffset(final int levelOne, final int levelTwo) {
+	private long getOffset(int levelOne, int levelTwo) {
 		final long p = NB.decodeUInt32(offset32[levelOne], levelTwo << 2);
 		if ((p & IS_O64) != 0)
 			return NB.decodeUInt64(offset64, (8 * (int) (p & ~IS_O64)));
@@ -290,7 +290,7 @@ class PackIndexV2 extends PackIndex {
 		return (p << 2) + p; // p * 5
 	}
 
-	private int binarySearchLevelTwo(final AnyObjectId objId, final int levelOne) {
+	private int binarySearchLevelTwo(AnyObjectId objId, int levelOne) {
 		final int[] data = names[levelOne];
 		int high = offset32[levelOne].length >>> 2;
 		if (high == 0)

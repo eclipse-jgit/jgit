@@ -82,7 +82,7 @@ public class JschSession implements RemoteSession {
 	 * @param uri
 	 *            the URI information for the remote connection
 	 */
-	public JschSession(final Session session, URIish uri) {
+	public JschSession(Session session, URIish uri) {
 		sock = session;
 		this.uri = uri;
 	}

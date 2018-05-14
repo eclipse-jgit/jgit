@@ -88,7 +88,7 @@ public abstract class FileMode {
 	public static final FileMode TREE = new FileMode(TYPE_TREE,
 			Constants.OBJ_TREE) {
 		@Override
-		public boolean equals(final int modeBits) {
+		public boolean equals(int modeBits) {
 			return (modeBits & TYPE_MASK) == TYPE_TREE;
 		}
 	};
@@ -97,7 +97,7 @@ public abstract class FileMode {
 	public static final FileMode SYMLINK = new FileMode(TYPE_SYMLINK,
 			Constants.OBJ_BLOB) {
 		@Override
-		public boolean equals(final int modeBits) {
+		public boolean equals(int modeBits) {
 			return (modeBits & TYPE_MASK) == TYPE_SYMLINK;
 		}
 	};
@@ -106,7 +106,7 @@ public abstract class FileMode {
 	public static final FileMode REGULAR_FILE = new FileMode(0100644,
 			Constants.OBJ_BLOB) {
 		@Override
-		public boolean equals(final int modeBits) {
+		public boolean equals(int modeBits) {
 			return (modeBits & TYPE_MASK) == TYPE_FILE && (modeBits & 0111) == 0;
 		}
 	};
@@ -115,7 +115,7 @@ public abstract class FileMode {
 	public static final FileMode EXECUTABLE_FILE = new FileMode(0100755,
 			Constants.OBJ_BLOB) {
 		@Override
-		public boolean equals(final int modeBits) {
+		public boolean equals(int modeBits) {
 			return (modeBits & TYPE_MASK) == TYPE_FILE && (modeBits & 0111) != 0;
 		}
 	};
@@ -124,7 +124,7 @@ public abstract class FileMode {
 	public static final FileMode GITLINK = new FileMode(TYPE_GITLINK,
 			Constants.OBJ_COMMIT) {
 		@Override
-		public boolean equals(final int modeBits) {
+		public boolean equals(int modeBits) {
 			return (modeBits & TYPE_MASK) == TYPE_GITLINK;
 		}
 	};
@@ -133,7 +133,7 @@ public abstract class FileMode {
 	public static final FileMode MISSING = new FileMode(TYPE_MISSING,
 			Constants.OBJ_BAD) {
 		@Override
-		public boolean equals(final int modeBits) {
+		public boolean equals(int modeBits) {
 			return modeBits == 0;
 		}
 	};
@@ -145,7 +145,7 @@ public abstract class FileMode {
 	 *            the mode bits the caller has somehow obtained.
 	 * @return the FileMode instance that represents the given bits.
 	 */
-	public static final FileMode fromBits(final int bits) {
+	public static final FileMode fromBits(int bits) {
 		switch (bits & TYPE_MASK) {
 		case TYPE_MISSING:
 			if (bits == 0)
@@ -165,7 +165,7 @@ public abstract class FileMode {
 
 		return new FileMode(bits, Constants.OBJ_BAD) {
 			@Override
-			public boolean equals(final int a) {
+			public boolean equals(int a) {
 				return bits == a;
 			}
 		};
@@ -177,7 +177,7 @@ public abstract class FileMode {
 
 	private final int objectType;
 
-	private FileMode(int mode, final int expType) {
+	private FileMode(int mode, int expType) {
 		modeBits = mode;
 		objectType = expType;
 		if (mode != 0) {
@@ -206,7 +206,7 @@ public abstract class FileMode {
 	 *            a int.
 	 * @return true if the mode bits represent the same mode as this object
 	 */
-	public abstract boolean equals(final int modebits);
+	public abstract boolean equals(int modebits);
 
 	/**
 	 * Copy this mode as a sequence of octal US-ASCII bytes.
@@ -222,7 +222,7 @@ public abstract class FileMode {
 	 * @throws java.io.IOException
 	 *             the stream encountered an error during the copy.
 	 */
-	public void copyTo(final OutputStream os) throws IOException {
+	public void copyTo(OutputStream os) throws IOException {
 		os.write(octalBytes);
 	}
 

@@ -81,7 +81,7 @@ public class RawParseUtils_HexParseTest {
 		assertNotHex('.');
 	}
 
-	private static void assertNotHex(final char c) {
+	private static void assertNotHex(char c) {
 		try {
 			RawParseUtils.parseHexInt4((byte) c);
 			fail("Incorrectly acccepted " + c);

@@ -433,30 +433,30 @@ public class FileHeaderTest {
 		assertTrue(ObjectId.fromString(nid).startsWith(fh.getNewId()));
 	}
 
-	private static void assertParse(final FileHeader fh) {
+	private static void assertParse(FileHeader fh) {
 		int ptr = fh.parseGitFileName(0, fh.buf.length);
 		assertTrue(ptr > 0);
 		ptr = fh.parseGitHeaders(ptr, fh.buf.length);
 		assertTrue(ptr > 0);
 	}
 
-	private static FileHeader data(final String in) {
+	private static FileHeader data(String in) {
 		return new FileHeader(Constants.encodeASCII(in), 0);
 	}
 
-	private static FileHeader header(final String path) {
+	private static FileHeader header(String path) {
 		return data(gitLine(path) + "--- " + path + "\n");
 	}
 
-	private static String gitLine(final String path) {
+	private static String gitLine(String path) {
 		return "a/" + path + " b/" + path + "\n";
 	}
 
-	private static FileHeader dqHeader(final String path) {
+	private static FileHeader dqHeader(String path) {
 		return data(dqGitLine(path) + "--- " + path + "\n");
 	}
 
-	private static String dqGitLine(final String path) {
+	private static String dqGitLine(String path) {
 		return "\"a/" + path + "\" \"b/" + path + "\"\n";
 	}
 }

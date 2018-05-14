@@ -306,7 +306,7 @@ public abstract class BaseReceivePack {
 	 * @param into
 	 *            the destination repository.
 	 */
-	protected BaseReceivePack(final Repository into) {
+	protected BaseReceivePack(Repository into) {
 		db = into;
 		walk = new RevWalk(db);
 
@@ -548,7 +548,7 @@ public abstract class BaseReceivePack {
 	 *            commands before writing output and does not perform the
 	 *            initial advertising.
 	 */
-	public void setBiDirectionalPipe(final boolean twoWay) {
+	public void setBiDirectionalPipe(boolean twoWay) {
 		biDirectionalPipe = twoWay;
 	}
 
@@ -592,7 +592,7 @@ public abstract class BaseReceivePack {
 	 *            assume all received objects are valid.
 	 * @see #setObjectChecker(ObjectChecker)
 	 */
-	public void setCheckReceivedObjects(final boolean check) {
+	public void setCheckReceivedObjects(boolean check) {
 		if (check && objectChecker == null)
 			setObjectChecker(new ObjectChecker());
 		else if (!check && objectChecker != null)
@@ -626,7 +626,7 @@ public abstract class BaseReceivePack {
 	 * @param canCreate
 	 *            {@code true} to permit create ref commands to be processed.
 	 */
-	public void setAllowCreates(final boolean canCreate) {
+	public void setAllowCreates(boolean canCreate) {
 		allowCreates = canCreate;
 	}
 
@@ -645,7 +645,7 @@ public abstract class BaseReceivePack {
 	 * @param canDelete
 	 *            {@code true} to permit delete ref commands to be processed.
 	 */
-	public void setAllowDeletes(final boolean canDelete) {
+	public void setAllowDeletes(boolean canDelete) {
 		allowAnyDeletes = canDelete;
 	}
 
@@ -691,7 +691,7 @@ public abstract class BaseReceivePack {
 	 *            {@code true} to permit the client to ask for non-fast-forward
 	 *            updates of an existing ref.
 	 */
-	public void setAllowNonFastForwards(final boolean canRewind) {
+	public void setAllowNonFastForwards(boolean canRewind) {
 		allowNonFastForwards = canRewind;
 	}
 
@@ -741,7 +741,7 @@ public abstract class BaseReceivePack {
 	 *            automatically determined based on the repository
 	 *            configuration.
 	 */
-	public void setRefLogIdent(final PersonIdent pi) {
+	public void setRefLogIdent(PersonIdent pi) {
 		refLogIdent = pi;
 	}
 
@@ -778,7 +778,7 @@ public abstract class BaseReceivePack {
 	 * @param advertiseRefsHook
 	 *            the hook; may be null to show all refs.
 	 */
-	public void setAdvertiseRefsHook(final AdvertiseRefsHook advertiseRefsHook) {
+	public void setAdvertiseRefsHook(AdvertiseRefsHook advertiseRefsHook) {
 		if (advertiseRefsHook != null)
 			this.advertiseRefsHook = advertiseRefsHook;
 		else
@@ -795,7 +795,7 @@ public abstract class BaseReceivePack {
 	 * @param refFilter
 	 *            the filter; may be null to show all refs.
 	 */
-	public void setRefFilter(final RefFilter refFilter) {
+	public void setRefFilter(RefFilter refFilter) {
 		this.refFilter = refFilter != null ? refFilter : RefFilter.DEFAULT;
 	}
 
@@ -816,7 +816,7 @@ public abstract class BaseReceivePack {
 	 *            before aborting an IO read or write operation with the
 	 *            connected client.
 	 */
-	public void setTimeout(final int seconds) {
+	public void setTimeout(int seconds) {
 		timeout = seconds;
 	}
 
@@ -861,7 +861,7 @@ public abstract class BaseReceivePack {
 	 * @param limit
 	 *            the Git object size limit. If zero then there is not limit.
 	 */
-	public void setMaxObjectSizeLimit(final long limit) {
+	public void setMaxObjectSizeLimit(long limit) {
 		maxObjectSizeLimit = limit;
 	}
 
@@ -874,7 +874,7 @@ public abstract class BaseReceivePack {
 	 *            the pack size limit, in bytes
 	 * @since 3.3
 	 */
-	public void setMaxPackSizeLimit(final long limit) {
+	public void setMaxPackSizeLimit(long limit) {
 		if (limit < 0)
 			throw new IllegalArgumentException(MessageFormat.format(
 					JGitText.get().receivePackInvalidLimit, Long.valueOf(limit)));
@@ -1031,7 +1031,7 @@ public abstract class BaseReceivePack {
 	 *            string describing the problem identified by the hook. The
 	 *            string must not end with an LF, and must not contain an LF.
 	 */
-	public void sendError(final String what) {
+	public void sendError(String what) {
 		if (refs == null) {
 			if (advertiseError == null)
 				advertiseError = new StringBuilder();
@@ -1064,7 +1064,7 @@ public abstract class BaseReceivePack {
 	 *            string describing the problem identified by the hook. The
 	 *            string must not end with an LF, and must not contain an LF.
 	 */
-	public void sendMessage(final String what) {
+	public void sendMessage(String what) {
 		msgOutWrapper.write(Constants.encode(what + "\n")); //$NON-NLS-1$
 	}
 
@@ -1213,7 +1213,7 @@ public abstract class BaseReceivePack {
 	 * @throws org.eclipse.jgit.transport.ServiceMayNotContinueException
 	 *             the hook denied advertisement.
 	 */
-	public void sendAdvertisedRefs(final RefAdvertiser adv)
+	public void sendAdvertisedRefs(RefAdvertiser adv)
 			throws IOException, ServiceMayNotContinueException {
 		if (advertiseError != null) {
 			adv.writeOne("ERR " + advertiseError); //$NON-NLS-1$
@@ -1761,7 +1761,7 @@ public abstract class BaseReceivePack {
 	 * @return a copy of the command list containing only those commands with the
 	 *         desired status.
 	 */
-	protected List<ReceiveCommand> filterCommands(final Result want) {
+	protected List<ReceiveCommand> filterCommands(Result want) {
 		return ReceiveCommand.filter(commands, want);
 	}
 

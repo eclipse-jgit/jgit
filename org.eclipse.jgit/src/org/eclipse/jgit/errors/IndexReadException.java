@@ -63,7 +63,7 @@ public class IndexReadException extends IOException {
 	 * @param s
 	 *            message
 	 */
-	public IndexReadException(final String s) {
+	public IndexReadException(String s) {
 		super(s);
 	}
 
@@ -75,7 +75,7 @@ public class IndexReadException extends IOException {
 	 * @param cause
 	 *            root cause exception
 	 */
-	public IndexReadException(final String s, final Throwable cause) {
+	public IndexReadException(String s, Throwable cause) {
 		super(s);
 		initCause(cause);
 	}

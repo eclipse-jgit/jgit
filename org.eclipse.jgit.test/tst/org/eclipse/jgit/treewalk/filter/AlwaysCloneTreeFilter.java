@@ -52,7 +52,7 @@ class AlwaysCloneTreeFilter extends TreeFilter {
 	}
 
 	@Override
-	public boolean include(final TreeWalk walker) {
+	public boolean include(TreeWalk walker) {
 		return false;
 	}
 

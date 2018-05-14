@@ -783,7 +783,7 @@ public class CrissCrossMergeTest extends RepositoryTestCase {
 		}
 	}
 
-	private void setIndex(final ObjectId id, String path)
+	private void setIndex(ObjectId id, String path)
 			throws MissingObjectException, IOException {
 		DirCache lockedDircache;
 		DirCacheEditor dcedit;

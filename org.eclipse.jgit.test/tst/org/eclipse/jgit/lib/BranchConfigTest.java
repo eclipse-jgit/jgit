@@ -160,7 +160,7 @@ public class BranchConfigTest {
 		assertTrue(new BranchConfig(c, "true").isRebase());
 	}
 
-	private static Config parse(final String content) {
+	private static Config parse(String content) {
 		final Config c = new Config(null);
 		try {
 			c.fromText(content);

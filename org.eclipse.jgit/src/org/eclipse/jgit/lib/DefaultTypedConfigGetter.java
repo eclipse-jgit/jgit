@@ -270,7 +270,7 @@ public class DefaultTypedConfigGetter implements TypedConfigGetter {
 		}
 	}
 
-	private static boolean match(final String a, final String... cases) {
+	private static boolean match(String a, String... cases) {
 		for (final String b : cases) {
 			if (b != null && b.equalsIgnoreCase(a)) {
 				return true;

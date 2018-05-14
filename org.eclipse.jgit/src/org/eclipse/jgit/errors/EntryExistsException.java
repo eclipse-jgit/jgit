@@ -61,7 +61,7 @@ public class EntryExistsException extends IOException {
 	 *
 	 * @param name workdir relative file name
 	 */
-	public EntryExistsException(final String name) {
+	public EntryExistsException(String name) {
 		super(MessageFormat.format(JGitText.get().treeEntryAlreadyExists, name));
 	}
 }

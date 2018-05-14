@@ -79,7 +79,7 @@ public class SubmoduleSyncCommand extends GitCommand<Map<String, String>> {
 	 * @param repo
 	 *            a {@link org.eclipse.jgit.lib.Repository} object.
 	 */
-	public SubmoduleSyncCommand(final Repository repo) {
+	public SubmoduleSyncCommand(Repository repo) {
 		super(repo);
 		paths = new ArrayList<>();
 	}
@@ -91,7 +91,7 @@ public class SubmoduleSyncCommand extends GitCommand<Map<String, String>> {
 	 *            (with <code>/</code> as separator)
 	 * @return this command
 	 */
-	public SubmoduleSyncCommand addPath(final String path) {
+	public SubmoduleSyncCommand addPath(String path) {
 		paths.add(path);
 		return this;
 	}
@@ -104,7 +104,7 @@ public class SubmoduleSyncCommand extends GitCommand<Map<String, String>> {
 	 * @return shortened branch name, null on failures
 	 * @throws java.io.IOException
 	 */
-	protected String getHeadBranch(final Repository subRepo) throws IOException {
+	protected String getHeadBranch(Repository subRepo) throws IOException {
 		Ref head = subRepo.exactRef(Constants.HEAD);
 		if (head != null && head.isSymbolic())
 			return Repository.shortenRefName(head.getLeaf().getName());

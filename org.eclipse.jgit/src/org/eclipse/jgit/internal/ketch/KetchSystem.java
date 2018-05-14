@@ -260,7 +260,7 @@ public class KetchSystem {
 	 * @throws java.net.URISyntaxException
 	 *             a follower configuration contains an unsupported URI.
 	 */
-	public KetchLeader createLeader(final Repository repo)
+	public KetchLeader createLeader(Repository repo)
 			throws URISyntaxException {
 		KetchLeader leader = new KetchLeader(this) {
 			@Override

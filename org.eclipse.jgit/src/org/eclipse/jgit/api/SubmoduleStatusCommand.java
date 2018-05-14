@@ -77,7 +77,7 @@ public class SubmoduleStatusCommand extends
 	 * @param repo
 	 *            a {@link org.eclipse.jgit.lib.Repository} object.
 	 */
-	public SubmoduleStatusCommand(final Repository repo) {
+	public SubmoduleStatusCommand(Repository repo) {
 		super(repo);
 		paths = new ArrayList<>();
 	}
@@ -89,7 +89,7 @@ public class SubmoduleStatusCommand extends
 	 *            (with <code>/</code> as separator)
 	 * @return this command
 	 */
-	public SubmoduleStatusCommand addPath(final String path) {
+	public SubmoduleStatusCommand addPath(String path) {
 		paths.add(path);
 		return this;
 	}

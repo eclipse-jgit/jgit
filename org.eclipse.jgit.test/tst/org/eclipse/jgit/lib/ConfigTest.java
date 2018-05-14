@@ -914,12 +914,12 @@ public class ConfigTest {
 		assertEquals(exp, c.getLong("s", null, "a", 0L));
 	}
 
-	private static Config parse(final String content)
+	private static Config parse(String content)
 			throws ConfigInvalidException {
 		return parse(content, null);
 	}
 
-	private static Config parse(final String content, Config baseConfig)
+	private static Config parse(String content, Config baseConfig)
 			throws ConfigInvalidException {
 		final Config c = new Config(baseConfig);
 		c.fromText(content);

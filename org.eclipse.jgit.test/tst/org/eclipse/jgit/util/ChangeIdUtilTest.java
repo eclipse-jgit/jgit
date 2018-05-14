@@ -680,15 +680,15 @@ public class ChangeIdUtilTest {
 				"\n"));
 	}
 
-	private void hookDoesNotModify(final String in) throws Exception {
+	private void hookDoesNotModify(String in) throws Exception {
 		assertEquals(in, call(in));
 	}
 
-	private String call(final String body) throws Exception {
+	private String call(String body) throws Exception {
 		return call(body, false);
 	}
 
-	private String call(final String body, boolean replaceExisting) throws Exception {
+	private String call(String body, boolean replaceExisting) throws Exception {
 		ObjectId computeChangeId = ChangeIdUtil.computeChangeId(treeId1,
 				parentId1, author, committer, body);
 		if (computeChangeId == null)

@@ -227,7 +227,7 @@ public abstract class RefUpdate {
 	 * @param ref
 	 *            the reference that will be updated by this operation.
 	 */
-	protected RefUpdate(final Ref ref) {
+	protected RefUpdate(Ref ref) {
 		this.ref = ref;
 		oldValue = ref.getObjectId();
 		refLogMessage = ""; //$NON-NLS-1$
@@ -350,7 +350,7 @@ public abstract class RefUpdate {
 	 * @param id
 	 *            the new value.
 	 */
-	public void setNewObjectId(final AnyObjectId id) {
+	public void setNewObjectId(AnyObjectId id) {
 		newValue = id.copy();
 	}
 
@@ -377,7 +377,7 @@ public abstract class RefUpdate {
 	 *            Use {@link org.eclipse.jgit.lib.ObjectId#zeroId()} to indicate
 	 *            expectation of a non-existant ref.
 	 */
-	public void setExpectedOldObjectId(final AnyObjectId id) {
+	public void setExpectedOldObjectId(AnyObjectId id) {
 		expValue = id != null ? id.toObjectId() : null;
 	}
 
@@ -396,7 +396,7 @@ public abstract class RefUpdate {
 	 * @param b
 	 *            true if this update should ignore merge tests.
 	 */
-	public void setForceUpdate(final boolean b) {
+	public void setForceUpdate(boolean b) {
 		force = b;
 	}
 
@@ -421,7 +421,7 @@ public abstract class RefUpdate {
 	 *            automatically determined based on the repository
 	 *            configuration.
 	 */
-	public void setRefLogIdent(final PersonIdent pi) {
+	public void setRefLogIdent(PersonIdent pi) {
 		refLogIdent = pi;
 	}
 
@@ -461,7 +461,7 @@ public abstract class RefUpdate {
 	 *            forced-update) should be appended to the user supplied
 	 *            message.
 	 */
-	public void setRefLogMessage(final String msg, final boolean appendStatus) {
+	public void setRefLogMessage(String msg, boolean appendStatus) {
 		if (msg == null && !appendStatus)
 			disableRefLog();
 		else if (msg == null && appendStatus) {
@@ -615,7 +615,7 @@ public abstract class RefUpdate {
 	 * @throws java.io.IOException
 	 *             an unexpected IO error occurred while writing changes.
 	 */
-	public Result update(final RevWalk walk) throws IOException {
+	public Result update(RevWalk walk) throws IOException {
 		requireCanDoUpdate();
 		try {
 			return result = updateImpl(walk, new Store() {
@@ -659,7 +659,7 @@ public abstract class RefUpdate {
 	 * @return the result status of the delete.
 	 * @throws java.io.IOException
 	 */
-	public Result delete(final RevWalk walk) throws IOException {
+	public Result delete(RevWalk walk) throws IOException {
 		final String myName = detachingSymbolicRef
 				? getRef().getName()
 				: getRef().getLeaf().getName();
@@ -731,7 +731,7 @@ public abstract class RefUpdate {
 		}
 	}
 
-	private Result updateImpl(final RevWalk walk, final Store store)
+	private Result updateImpl(RevWalk walk, Store store)
 			throws IOException {
 		RevObject newObj;
 		RevObject oldObj;

@@ -107,7 +107,7 @@ public class Daemon {
 	 *            port will be chosen on all network interfaces.
 	 */
 	@SuppressWarnings("unchecked")
-	public Daemon(final InetSocketAddress addr) {
+	public Daemon(InetSocketAddress addr) {
 		myAddress = addr;
 		processors = new ThreadGroup("Git-Daemon"); //$NON-NLS-1$
 
@@ -224,7 +224,7 @@ public class Daemon {
 	 *            before aborting an IO read or write operation with the
 	 *            connected client.
 	 */
-	public void setTimeout(final int seconds) {
+	public void setTimeout(int seconds) {
 		timeout = seconds;
 	}
 

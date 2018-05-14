@@ -94,7 +94,7 @@ public abstract class PackIndex
 	 *             the file exists but could not be read due to security errors,
 	 *             unrecognized data version, or unexpected data corruption.
 	 */
-	public static PackIndex open(final File idxFile) throws IOException {
+	public static PackIndex open(File idxFile) throws IOException {
 		try (SilentFileInputStream fd = new SilentFileInputStream(
 				idxFile)) {
 				return read(fd);
@@ -139,7 +139,7 @@ public abstract class PackIndex
 		return new PackIndexV1(fd, hdr);
 	}
 
-	private static boolean isTOC(final byte[] h) {
+	private static boolean isTOC(byte[] h) {
 		final byte[] toc = PackIndexWriter.TOC;
 		for (int i = 0; i < toc.length; i++)
 			if (h[i] != toc[i])
@@ -157,7 +157,7 @@ public abstract class PackIndex
 	 *            the object to look for. Must not be null.
 	 * @return true if the object is listed in this index; false otherwise.
 	 */
-	public boolean hasObject(final AnyObjectId id) {
+	public boolean hasObject(AnyObjectId id) {
 		return findOffset(id) != -1;
 	}
 
@@ -241,7 +241,7 @@ public abstract class PackIndex
 	 *            negative, but still valid.
 	 * @return the ObjectId for the corresponding entry.
 	 */
-	public final ObjectId getObjectId(final int nthPosition) {
+	public final ObjectId getObjectId(int nthPosition) {
 		if (nthPosition >= 0)
 			return getObjectId((long) nthPosition);
 		final int u31 = nthPosition >>> 1;

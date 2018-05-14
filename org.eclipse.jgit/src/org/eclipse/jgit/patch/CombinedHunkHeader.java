@@ -97,7 +97,7 @@ public class CombinedHunkHeader extends HunkHeader {
 	 *            the ancestor to get the old image data of
 	 * @return image data of the requested ancestor.
 	 */
-	public OldImage getOldImage(final int nthParent) {
+	public OldImage getOldImage(int nthParent) {
 		return old[nthParent];
 	}
 

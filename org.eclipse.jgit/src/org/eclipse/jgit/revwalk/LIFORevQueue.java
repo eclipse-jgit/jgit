@@ -69,7 +69,7 @@ public class LIFORevQueue extends BlockRevQueue {
 
 	/** {@inheritDoc} */
 	@Override
-	public void add(final RevCommit c) {
+	public void add(RevCommit c) {
 		Block b = head;
 		if (b == null || !b.canUnpop()) {
 			b = free.newBlock();

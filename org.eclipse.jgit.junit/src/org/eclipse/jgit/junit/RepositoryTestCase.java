@@ -92,7 +92,7 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 * @param dst
 	 * @throws IOException
 	 */
-	protected static void copyFile(final File src, final File dst)
+	protected static void copyFile(File src, File dst)
 			throws IOException {
 		try (FileInputStream fis = new FileInputStream(src);
 				FileOutputStream fos = new FileOutputStream(dst)) {
@@ -112,7 +112,7 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 * @return the trash file
 	 * @throws IOException
 	 */
-	protected File writeTrashFile(final String name, final String data)
+	protected File writeTrashFile(String name, String data)
 			throws IOException {
 		return JGitTestUtil.writeTrashFile(db, name, data);
 	}
@@ -128,7 +128,7 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 * @throws Exception
 	 * @since 4.2
 	 */
-	protected Path writeLink(final String link, final String target)
+	protected Path writeLink(String link, String target)
 			throws Exception {
 		return JGitTestUtil.writeLink(db, link, target);
 	}
@@ -155,7 +155,7 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 * @return the file's content
 	 * @throws IOException
 	 */
-	protected String read(final String name) throws IOException {
+	protected String read(String name) throws IOException {
 		return JGitTestUtil.read(db, name);
 	}
 
@@ -166,7 +166,7 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 *            file name
 	 * @return if the file exists
 	 */
-	protected boolean check(final String name) {
+	protected boolean check(String name) {
 		return JGitTestUtil.check(db, name);
 	}
 
@@ -177,7 +177,7 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 *            file name
 	 * @throws IOException
 	 */
-	protected void deleteTrashFile(final String name) throws IOException {
+	protected void deleteTrashFile(String name) throws IOException {
 		JGitTestUtil.deleteTrashFile(db, name);
 	}
 
@@ -189,7 +189,7 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 *            expected content
 	 * @throws IOException
 	 */
-	protected static void checkFile(File f, final String checkData)
+	protected static void checkFile(File f, String checkData)
 			throws IOException {
 		try (Reader r = new InputStreamReader(new FileInputStream(f),
 				CHARSET)) {
@@ -500,7 +500,7 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 * @param mode
 	 * @return the DirCacheEntry
 	 */
-	protected DirCacheEntry createEntry(final String path, final FileMode mode) {
+	protected DirCacheEntry createEntry(String path, FileMode mode) {
 		return createEntry(path, mode, DirCacheEntry.STAGE_0, path);
 	}
 

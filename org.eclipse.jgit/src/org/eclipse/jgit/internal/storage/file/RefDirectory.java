@@ -345,7 +345,7 @@ public class RefDirectory extends RefDatabase {
 
 	/** {@inheritDoc} */
 	@Override
-	public Ref getRef(final String needle) throws IOException {
+	public Ref getRef(String needle) throws IOException {
 		final RefList<Ref> packed = getPackedRefs();
 		Ref ref = null;
 		for (String prefix : SEARCH_PATH) {
@@ -545,7 +545,7 @@ public class RefDirectory extends RefDatabase {
 
 	/** {@inheritDoc} */
 	@Override
-	public Ref peel(final Ref ref) throws IOException {
+	public Ref peel(Ref ref) throws IOException {
 		final Ref leaf = ref.getLeaf();
 		if (leaf.isPeeled() || leaf.getObjectId() == null)
 			return ref;
@@ -567,7 +567,7 @@ public class RefDirectory extends RefDatabase {
 		return recreate(ref, newLeaf);
 	}
 
-	private ObjectIdRef doPeel(final Ref leaf) throws MissingObjectException,
+	private ObjectIdRef doPeel(Ref leaf) throws MissingObjectException,
 			IOException {
 		try (RevWalk rw = new RevWalk(getRepository())) {
 			RevObject obj = rw.parseAny(leaf.getObjectId());
@@ -581,7 +581,7 @@ public class RefDirectory extends RefDatabase {
 		}
 	}
 
-	private static Ref recreate(final Ref old, final ObjectIdRef leaf) {
+	private static Ref recreate(Ref old, ObjectIdRef leaf) {
 		if (old.isSymbolic()) {
 			Ref dst = recreate(old.getTarget(), leaf);
 			return new SymbolicRef(old.getName(), dst);
@@ -971,7 +971,7 @@ public class RefDirectory extends RefDatabase {
 		}
 	}
 
-	private RefList<Ref> parsePackedRefs(final BufferedReader br)
+	private RefList<Ref> parsePackedRefs(BufferedReader br)
 			throws IOException {
 		RefList.Builder<Ref> all = new RefList.Builder<>();
 		Ref last = null;
@@ -1023,7 +1023,7 @@ public class RefDirectory extends RefDatabase {
 		return all.toRefList();
 	}
 
-	private static String copy(final String src, final int off, final int end) {
+	private static String copy(String src, int off, int end) {
 		// Don't use substring since it could leave a reference to the much
 		// larger existing string. Force construction of a full new object.
 		return new StringBuilder(end - off).append(src, off, end).toString();
@@ -1189,7 +1189,7 @@ public class RefDirectory extends RefDatabase {
 		return new LooseUnpeeled(otherSnapshot, name, id);
 	}
 
-	private static boolean isSymRef(final byte[] buf, int n) {
+	private static boolean isSymRef(byte[] buf, int n) {
 		if (n < 6)
 			return false;
 		return /**/buf[0] == 'r' //
@@ -1273,7 +1273,7 @@ public class RefDirectory extends RefDatabase {
 		delete(file, depth, null);
 	}
 
-	private static void delete(final File file, final int depth, LockFile rLck)
+	private static void delete(File file, int depth, LockFile rLck)
 			throws IOException {
 		if (!file.delete() && file.isFile()) {
 			throw new IOException(MessageFormat.format(

@@ -258,7 +258,7 @@ class RebuildCommitGraph extends TextBuiltin {
 		final Map<String, Ref> refs = computeNewRefs();
 		new RefWriter(refs.values()) {
 			@Override
-			protected void writeFile(final String name, final byte[] content)
+			protected void writeFile(String name, byte[] content)
 					throws IOException {
 				final File file = new File(db.getDirectory(), name);
 				final LockFile lck = new LockFile(file);

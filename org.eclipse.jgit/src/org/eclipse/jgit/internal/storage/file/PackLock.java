@@ -65,7 +65,7 @@ public class PackLock {
 	 * @param fs
 	 *            the filesystem abstraction used by the repository.
 	 */
-	public PackLock(final File packFile, final FS fs) {
+	public PackLock(File packFile, FS fs) {
 		final File p = packFile.getParentFile();
 		final String n = packFile.getName();
 		keepFile = new File(p, n.substring(0, n.length() - 5) + ".keep"); //$NON-NLS-1$

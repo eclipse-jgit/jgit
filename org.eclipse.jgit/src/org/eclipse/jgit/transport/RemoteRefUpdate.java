@@ -501,7 +501,7 @@ public class RemoteRefUpdate {
 	 * @throws java.io.IOException
 	 *             when I/O error occurred during update
 	 */
-	protected void updateTrackingRef(final RevWalk walk) throws IOException {
+	protected void updateTrackingRef(RevWalk walk) throws IOException {
 		if (isDelete())
 			trackingRefUpdate.setResult(localUpdate.delete(walk));
 		else

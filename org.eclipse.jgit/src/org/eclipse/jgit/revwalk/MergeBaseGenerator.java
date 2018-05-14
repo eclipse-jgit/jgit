@@ -119,7 +119,7 @@ class MergeBaseGenerator extends Generator {
 		}
 	}
 
-	private void add(final RevCommit c) {
+	private void add(RevCommit c) {
 		final int flag = walker.allocFlag();
 		branchMask |= flag;
 		if ((c.flags & branchMask) != 0) {

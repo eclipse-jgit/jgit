@@ -89,7 +89,7 @@ public class TeeInputStream extends InputStream {
 
 	/** {@inheritDoc} */
 	@Override
-	public long skip(final long count) throws IOException {
+	public long skip(long count) throws IOException {
 		long skipped = 0;
 		long cnt = count;
 		final byte[] b = skipBuffer();

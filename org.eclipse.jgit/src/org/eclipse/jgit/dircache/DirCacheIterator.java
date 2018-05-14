@@ -114,7 +114,7 @@ public class DirCacheIterator extends AbstractTreeIterator {
 	 * @param dc
 	 *            the cache to walk. It must be already loaded into memory.
 	 */
-	public DirCacheIterator(final DirCache dc) {
+	public DirCacheIterator(DirCache dc) {
 		cache = dc;
 		tree = dc.getCacheTree(true);
 		treeStart = 0;
@@ -137,7 +137,7 @@ public class DirCacheIterator extends AbstractTreeIterator {
 
 	/** {@inheritDoc} */
 	@Override
-	public AbstractTreeIterator createSubtreeIterator(final ObjectReader reader)
+	public AbstractTreeIterator createSubtreeIterator(ObjectReader reader)
 			throws IncorrectObjectTypeException, IOException {
 		if (currentSubtree == null)
 			throw new IncorrectObjectTypeException(getEntryObjectId(),

@@ -700,7 +700,7 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 		return l.toArray(new String[l.size()]);
 	}
 
-	private static Future<Object> writeAsync(final OutputStream stream, final byte[] data) {
+	private static Future<Object> writeAsync(OutputStream stream, byte[] data) {
 		ExecutorService executor = Executors.newSingleThreadExecutor();
 
 		return executor.submit(new Callable<Object>() {

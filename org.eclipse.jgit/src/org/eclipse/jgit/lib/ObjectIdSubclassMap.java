@@ -96,7 +96,7 @@ public class ObjectIdSubclassMap<V extends ObjectId>
 	 *            the object identifier to find.
 	 * @return the instance mapped to toFind, or null if no mapping exists.
 	 */
-	public V get(final AnyObjectId toFind) {
+	public V get(AnyObjectId toFind) {
 		final int msk = mask;
 		int i = toFind.w1 & msk;
 		final V[] tbl = table;
@@ -116,7 +116,7 @@ public class ObjectIdSubclassMap<V extends ObjectId>
 	 * Returns true if this map contains the specified object.
 	 */
 	@Override
-	public boolean contains(final AnyObjectId toFind) {
+	public boolean contains(AnyObjectId toFind) {
 		return get(toFind) != null;
 	}
 
@@ -131,7 +131,7 @@ public class ObjectIdSubclassMap<V extends ObjectId>
 	 * @param newValue
 	 *            the object to store.
 	 */
-	public <Q extends V> void add(final Q newValue) {
+	public <Q extends V> void add(Q newValue) {
 		if (++size == grow)
 			grow();
 		insert(newValue);
@@ -155,7 +155,7 @@ public class ObjectIdSubclassMap<V extends ObjectId>
 	 *         that would have been returned had the caller used
 	 *         {@code get(newValue)} first.
 	 */
-	public <Q extends V> V addIfAbsent(final Q newValue) {
+	public <Q extends V> V addIfAbsent(Q newValue) {
 		final int msk = mask;
 		int i = newValue.w1 & msk;
 		final V[] tbl = table;
@@ -226,7 +226,7 @@ public class ObjectIdSubclassMap<V extends ObjectId>
 		};
 	}
 
-	private void insert(final V newValue) {
+	private void insert(V newValue) {
 		final int msk = mask;
 		int j = newValue.w1 & msk;
 		final V[] tbl = table;
@@ -254,7 +254,7 @@ public class ObjectIdSubclassMap<V extends ObjectId>
 	}
 
 	@SuppressWarnings("unchecked")
-	private final V[] createArray(final int sz) {
+	private final V[] createArray(int sz) {
 		return (V[]) new ObjectId[sz];
 	}
 }

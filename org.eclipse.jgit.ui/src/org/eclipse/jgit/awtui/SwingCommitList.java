@@ -79,7 +79,7 @@ class SwingCommitList extends PlotCommitList<SwingCommitList.SwingLane> {
 
 	/** {@inheritDoc} */
 	@Override
-	protected void recycleLane(final SwingLane lane) {
+	protected void recycleLane(SwingLane lane) {
 		colors.add(lane.color);
 	}
 

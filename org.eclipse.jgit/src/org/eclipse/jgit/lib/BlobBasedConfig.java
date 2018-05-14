@@ -78,7 +78,7 @@ public class BlobBasedConfig extends Config {
 	 * @throws org.eclipse.jgit.errors.ConfigInvalidException
 	 *             the byte array is not a valid configuration format.
 	 */
-	public BlobBasedConfig(Config base, final byte[] blob)
+	public BlobBasedConfig(Config base, byte[] blob)
 			throws ConfigInvalidException {
 		super(base);
 		final String decoded;

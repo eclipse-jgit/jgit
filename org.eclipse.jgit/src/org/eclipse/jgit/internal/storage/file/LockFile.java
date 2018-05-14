@@ -88,7 +88,7 @@ public class LockFile {
 	 *            a {@link java.io.File} object.
 	 * @return true if unlocked, false if unlocking failed
 	 */
-	public static boolean unlock(final File file) {
+	public static boolean unlock(File file) {
 		final File lockFile = getLockFile(file);
 		final int flags = FileUtils.RETRY | FileUtils.SKIP_MISSING;
 		try {
@@ -137,7 +137,7 @@ public class LockFile {
 	 * @param f
 	 *            the file that will be locked.
 	 */
-	public LockFile(final File f) {
+	public LockFile(File f) {
 		ref = f;
 		lck = getLockFile(ref);
 	}
@@ -253,7 +253,7 @@ public class LockFile {
 	 *             the temporary file could not be written. The lock is released
 	 *             before throwing the underlying exception to the caller.
 	 */
-	public void write(final ObjectId id) throws IOException {
+	public void write(ObjectId id) throws IOException {
 		byte[] buf = new byte[Constants.OBJECT_ID_STRING_LENGTH + 1];
 		id.copyTo(buf, 0);
 		buf[Constants.OBJECT_ID_STRING_LENGTH] = '\n';
@@ -274,7 +274,7 @@ public class LockFile {
 	 *             the temporary file could not be written. The lock is released
 	 *             before throwing the underlying exception to the caller.
 	 */
-	public void write(final byte[] content) throws IOException {
+	public void write(byte[] content) throws IOException {
 		requireLock();
 		try {
 			if (fsync) {
@@ -320,18 +320,18 @@ public class LockFile {
 
 		return new OutputStream() {
 			@Override
-			public void write(final byte[] b, final int o, final int n)
+			public void write(byte[] b, int o, int n)
 					throws IOException {
 				out.write(b, o, n);
 			}
 
 			@Override
-			public void write(final byte[] b) throws IOException {
+			public void write(byte[] b) throws IOException {
 				out.write(b);
 			}
 
 			@Override
-			public void write(final int b) throws IOException {
+			public void write(int b) throws IOException {
 				out.write(b);
 			}
 
@@ -371,7 +371,7 @@ public class LockFile {
 	 * @param on
 	 *            true if the commit method must remember the modification time.
 	 */
-	public void setNeedStatInformation(final boolean on) {
+	public void setNeedStatInformation(boolean on) {
 		setNeedSnapshot(on);
 	}
 
@@ -382,7 +382,7 @@ public class LockFile {
 	 * @param on
 	 *            true if the commit method must remember the FileSnapshot.
 	 */
-	public void setNeedSnapshot(final boolean on) {
+	public void setNeedSnapshot(boolean on) {
 		needSnapshot = on;
 	}
 
@@ -392,7 +392,7 @@ public class LockFile {
 	 * @param on
 	 *            true if dirty data should be forced to the drive.
 	 */
-	public void setFSync(final boolean on) {
+	public void setFSync(boolean on) {
 		fsync = on;
 	}
 

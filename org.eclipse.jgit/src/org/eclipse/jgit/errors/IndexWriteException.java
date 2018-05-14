@@ -60,7 +60,7 @@ public class IndexWriteException extends IOException {
 	 *
 	 * @param s message
 	 */
-	public IndexWriteException(final String s) {
+	public IndexWriteException(String s) {
 		super(s);
 	}
 
@@ -70,7 +70,7 @@ public class IndexWriteException extends IOException {
 	 * @param s message
 	 * @param cause root cause exception
 	 */
-	public IndexWriteException(final String s, final Throwable cause) {
+	public IndexWriteException(String s, Throwable cause) {
 		super(s);
 		initCause(cause);
 	}

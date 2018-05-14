@@ -117,7 +117,7 @@ class ObjectDirectoryInserter extends ObjectInserter {
 
 	/** {@inheritDoc} */
 	@Override
-	public ObjectId insert(final int type, long len, final InputStream is)
+	public ObjectId insert(int type, long len, InputStream is)
 			throws IOException {
 		return insert(type, len, is, false);
 	}

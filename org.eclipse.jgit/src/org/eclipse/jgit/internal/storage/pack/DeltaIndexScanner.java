@@ -89,7 +89,7 @@ class DeltaIndexScanner {
 		}
 	}
 
-	private void scan(byte[] raw, final int end) {
+	private void scan(byte[] raw, int end) {
 		// We scan the input backwards, and always insert onto the
 		// front of the chain. This ensures that chains will have lower
 		// offsets at the front of the chain, allowing us to prefer the
@@ -120,7 +120,7 @@ class DeltaIndexScanner {
 		} while (0 <= ptr);
 	}
 
-	private static int tableSize(final int worstCaseBlockCnt) {
+	private static int tableSize(int worstCaseBlockCnt) {
 		int shift = 32 - Integer.numberOfLeadingZeros(worstCaseBlockCnt);
 		int sz = 1 << (shift - 1);
 		if (sz < worstCaseBlockCnt)

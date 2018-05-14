@@ -835,7 +835,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		verifyOpenPack(thin);
 	}
 
-	private void createVerifyOpenPack(final List<RevObject> objectSource)
+	private void createVerifyOpenPack(List<RevObject> objectSource)
 			throws MissingObjectException, IOException {
 		NullProgressMonitor m = NullProgressMonitor.INSTANCE;
 		writer = new PackWriter(config, db.newObjectReader());
@@ -846,7 +846,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		verifyOpenPack(false);
 	}
 
-	private void verifyOpenPack(final boolean thin) throws IOException {
+	private void verifyOpenPack(boolean thin) throws IOException {
 		final byte[] packData = os.toByteArray();
 
 		if (thin) {
@@ -868,13 +868,13 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		assertNotNull("have PackFile after parsing", pack);
 	}
 
-	private PackParser index(final byte[] packData) throws IOException {
+	private PackParser index(byte[] packData) throws IOException {
 		if (inserter == null)
 			inserter = dst.newObjectInserter();
 		return inserter.newPackParser(new ByteArrayInputStream(packData));
 	}
 
-	private void verifyObjectsOrder(final ObjectId objectsOrder[]) {
+	private void verifyObjectsOrder(ObjectId objectsOrder[]) {
 		final List<PackIndex.MutableEntry> entries = new ArrayList<>();
 
 		for (MutableEntry me : pack) {

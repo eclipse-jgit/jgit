@@ -74,7 +74,7 @@ public final class AbbreviatedObjectId implements Serializable {
 	 *            the string to test.
 	 * @return true if the string can converted into an AbbreviatedObjectId.
 	 */
-	public static final boolean isId(final String id) {
+	public static final boolean isId(String id) {
 		if (id.length() < 2 || Constants.OBJECT_ID_STRING_LENGTH < id.length())
 			return false;
 		try {
@@ -131,7 +131,7 @@ public final class AbbreviatedObjectId implements Serializable {
 	 *            the string to read from. Must be &lt;= 40 characters.
 	 * @return the converted object id.
 	 */
-	public static final AbbreviatedObjectId fromString(final String str) {
+	public static final AbbreviatedObjectId fromString(String str) {
 		if (str.length() > Constants.OBJECT_ID_STRING_LENGTH)
 			throw new IllegalArgumentException(MessageFormat.format(JGitText.get().invalidId, str));
 		final byte[] b = Constants.encodeASCII(str);
@@ -244,7 +244,7 @@ public final class AbbreviatedObjectId implements Serializable {
 	 *         &gt;0 if this abbreviation names an object that is after
 	 *         <code>other</code>.
 	 */
-	public final int prefixCompare(final AnyObjectId other) {
+	public final int prefixCompare(AnyObjectId other) {
 		int cmp;
 
 		cmp = NB.compareUInt32(w1, mask(1, other.w1));
@@ -280,7 +280,7 @@ public final class AbbreviatedObjectId implements Serializable {
 	 *         &gt;0 if this abbreviation names an object that is after
 	 *         <code>other</code>.
 	 */
-	public final int prefixCompare(final byte[] bs, final int p) {
+	public final int prefixCompare(byte[] bs, int p) {
 		int cmp;
 
 		cmp = NB.compareUInt32(w1, mask(1, NB.decodeInt32(bs, p)));
@@ -316,7 +316,7 @@ public final class AbbreviatedObjectId implements Serializable {
 	 *         &gt;0 if this abbreviation names an object that is after
 	 *         <code>other</code>.
 	 */
-	public final int prefixCompare(final int[] bs, final int p) {
+	public final int prefixCompare(int[] bs, int p) {
 		int cmp;
 
 		cmp = NB.compareUInt32(w1, mask(1, bs[p]));
@@ -347,7 +347,7 @@ public final class AbbreviatedObjectId implements Serializable {
 		return w1 >>> 24;
 	}
 
-	private int mask(final int word, final int v) {
+	private int mask(int word, int v) {
 		return mask(nibbles, word, v);
 	}
 
@@ -359,7 +359,7 @@ public final class AbbreviatedObjectId implements Serializable {
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean equals(final Object o) {
+	public boolean equals(Object o) {
 		if (o instanceof AbbreviatedObjectId) {
 			final AbbreviatedObjectId b = (AbbreviatedObjectId) o;
 			return nibbles == b.nibbles && w1 == b.w1 && w2 == b.w2

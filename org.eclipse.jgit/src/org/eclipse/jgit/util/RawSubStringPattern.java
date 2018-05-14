@@ -66,7 +66,7 @@ public class RawSubStringPattern {
 	 *            meta-characters are supported by this implementation. The
 	 *            string may not be the empty string.
 	 */
-	public RawSubStringPattern(final String patternText) {
+	public RawSubStringPattern(String patternText) {
 		if (patternText.length() == 0)
 			throw new IllegalArgumentException(JGitText.get().cannotMatchOnEmptyString);
 		needleString = patternText;
@@ -87,7 +87,7 @@ public class RawSubStringPattern {
 	 *         pattern; -1 if this pattern does not appear at any position of
 	 *         <code>rcs</code>.
 	 */
-	public int match(final RawCharSequence rcs) {
+	public int match(RawCharSequence rcs) {
 		final int needleLen = needle.length;
 		final byte first = needle[0];
 
@@ -114,11 +114,11 @@ public class RawSubStringPattern {
 		return -1;
 	}
 
-	private static final boolean neq(final byte a, final byte b) {
+	private static final boolean neq(byte a, byte b) {
 		return a != b && a != lc(b);
 	}
 
-	private static final byte lc(final byte q) {
+	private static final byte lc(byte q) {
 		return (byte) StringUtils.toLowerCase((char) (q & 0xff));
 	}
 

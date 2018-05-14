@@ -144,7 +144,7 @@ public class LongMap<V> {
 		return null;
 	}
 
-	private void insert(final Node<V> n) {
+	private void insert(Node<V> n) {
 		final int idx = index(n.key);
 		n.next = table[idx];
 		table[idx] = n;
@@ -166,14 +166,14 @@ public class LongMap<V> {
 		}
 	}
 
-	private final int index(final long key) {
+	private final int index(long key) {
 		int h = ((int) key) >>> 1;
 		h ^= (h >>> 20) ^ (h >>> 12);
 		return h & (table.length - 1);
 	}
 
 	@SuppressWarnings("unchecked")
-	private static final <V> Node<V>[] createArray(final int sz) {
+	private static final <V> Node<V>[] createArray(int sz) {
 		return new Node[sz];
 	}
 

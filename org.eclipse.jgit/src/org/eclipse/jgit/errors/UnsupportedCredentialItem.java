@@ -62,7 +62,7 @@ public class UnsupportedCredentialItem extends RuntimeException {
 	 * @param s
 	 *            message
 	 */
-	public UnsupportedCredentialItem(final URIish uri, final String s) {
+	public UnsupportedCredentialItem(URIish uri, String s) {
 		super(uri.setPass(null) + ": " + s); //$NON-NLS-1$
 	}
 }

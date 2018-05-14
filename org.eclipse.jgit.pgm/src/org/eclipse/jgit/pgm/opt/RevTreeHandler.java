@@ -87,7 +87,7 @@ public class RevTreeHandler extends OptionHandler<RevTree> {
 
 	/** {@inheritDoc} */
 	@Override
-	public int parseArguments(final Parameters params) throws CmdLineException {
+	public int parseArguments(Parameters params) throws CmdLineException {
 		final String name = params.getParameter(0);
 		final ObjectId id;
 		try {

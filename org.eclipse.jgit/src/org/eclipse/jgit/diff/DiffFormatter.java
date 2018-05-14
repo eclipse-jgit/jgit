@@ -222,7 +222,7 @@ public class DiffFormatter implements AutoCloseable {
 	 *            modification and after the last modification within a hunk of
 	 *            the modified file.
 	 */
-	public void setContext(final int lineCount) {
+	public void setContext(int lineCount) {
 		if (lineCount < 0)
 			throw new IllegalArgumentException(
 					JGitText.get().contextMustBeNonNegative);
@@ -235,7 +235,7 @@ public class DiffFormatter implements AutoCloseable {
 	 * @param count
 	 *            number of digits to show in an ObjectId.
 	 */
-	public void setAbbreviationLength(final int count) {
+	public void setAbbreviationLength(int count) {
 		if (count < 0)
 			throw new IllegalArgumentException(
 					JGitText.get().abbreviationLengthMustBeNonNegative);
@@ -742,7 +742,7 @@ public class DiffFormatter implements AutoCloseable {
 	 * @throws java.io.IOException
 	 *             writing to the supplied stream failed.
 	 */
-	public void format(final FileHeader head, final RawText a, final RawText b)
+	public void format(FileHeader head, RawText a, RawText b)
 			throws IOException {
 		// Reuse the existing FileHeader as-is by blindly copying its
 		// header lines, but avoiding its hunks. Instead we recreate
@@ -768,7 +768,7 @@ public class DiffFormatter implements AutoCloseable {
 	 *            the text B which was compared
 	 * @throws java.io.IOException
 	 */
-	public void format(final EditList edits, final RawText a, final RawText b)
+	public void format(EditList edits, RawText a, RawText b)
 			throws IOException {
 		for (int curIdx = 0; curIdx < edits.size();) {
 			Edit curEdit = edits.get(curIdx);
@@ -816,12 +816,12 @@ public class DiffFormatter implements AutoCloseable {
 	 *            the line number within text
 	 * @throws java.io.IOException
 	 */
-	protected void writeContextLine(final RawText text, final int line)
+	protected void writeContextLine(RawText text, int line)
 			throws IOException {
 		writeLine(' ', text, line);
 	}
 
-	private static boolean isEndOfLineMissing(final RawText text, final int line) {
+	private static boolean isEndOfLineMissing(RawText text, int line) {
 		return line + 1 == text.size() && text.isMissingNewlineAtEnd();
 	}
 
@@ -834,7 +834,7 @@ public class DiffFormatter implements AutoCloseable {
 	 *            the line number within text
 	 * @throws java.io.IOException
 	 */
-	protected void writeAddedLine(final RawText text, final int line)
+	protected void writeAddedLine(RawText text, int line)
 			throws IOException {
 		writeLine('+', text, line);
 	}
@@ -848,7 +848,7 @@ public class DiffFormatter implements AutoCloseable {
 	 *            the line number within text
 	 * @throws java.io.IOException
 	 */
-	protected void writeRemovedLine(final RawText text, final int line)
+	protected void writeRemovedLine(RawText text, int line)
 			throws IOException {
 		writeLine('-', text, line);
 	}
@@ -878,7 +878,7 @@ public class DiffFormatter implements AutoCloseable {
 		out.write('\n');
 	}
 
-	private void writeRange(final char prefix, final int begin, final int cnt)
+	private void writeRange(char prefix, int begin, int cnt)
 			throws IOException {
 		out.write(' ');
 		out.write(prefix);
@@ -1213,7 +1213,7 @@ public class DiffFormatter implements AutoCloseable {
 		o.write(encode("+++ " + newp + "\n")); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
-	private int findCombinedEnd(final List<Edit> edits, final int i) {
+	private int findCombinedEnd(List<Edit> edits, int i) {
 		int end = i + 1;
 		while (end < edits.size()
 				&& (combineA(edits, end) || combineB(edits, end)))
@@ -1221,15 +1221,15 @@ public class DiffFormatter implements AutoCloseable {
 		return end - 1;
 	}
 
-	private boolean combineA(final List<Edit> e, final int i) {
+	private boolean combineA(List<Edit> e, int i) {
 		return e.get(i).getBeginA() - e.get(i - 1).getEndA() <= 2 * context;
 	}
 
-	private boolean combineB(final List<Edit> e, final int i) {
+	private boolean combineB(List<Edit> e, int i) {
 		return e.get(i).getBeginB() - e.get(i - 1).getEndB() <= 2 * context;
 	}
 
-	private static boolean end(final Edit edit, final int a, final int b) {
+	private static boolean end(Edit edit, int a, int b) {
 		return edit.getEndA() <= a && edit.getEndB() <= b;
 	}
 }

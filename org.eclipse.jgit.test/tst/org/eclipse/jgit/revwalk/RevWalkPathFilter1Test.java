@@ -54,7 +54,7 @@ import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.junit.Test;
 
 public class RevWalkPathFilter1Test extends RevWalkTestCase {
-	protected void filter(final String path) {
+	protected void filter(String path) {
 		rw.setTreeFilter(AndTreeFilter.create(PathFilterGroup
 				.createFromStrings(Collections.singleton(path)),
 				TreeFilter.ANY_DIFF));

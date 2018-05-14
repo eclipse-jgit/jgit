@@ -71,7 +71,7 @@ public abstract class ThreeWayMerger extends Merger {
 	 * @param local
 	 *            the repository this merger will read and write data on.
 	 */
-	protected ThreeWayMerger(final Repository local) {
+	protected ThreeWayMerger(Repository local) {
 		super(local);
 	}
 
@@ -83,7 +83,7 @@ public abstract class ThreeWayMerger extends Merger {
 	 * @param inCore
 	 *            perform the merge in core with no working folder involved
 	 */
-	protected ThreeWayMerger(final Repository local, boolean inCore) {
+	protected ThreeWayMerger(Repository local, boolean inCore) {
 		this(local);
 	}
 
@@ -112,7 +112,7 @@ public abstract class ThreeWayMerger extends Merger {
 	 * @throws java.io.IOException
 	 *             the object could not be read.
 	 */
-	public void setBase(final AnyObjectId id) throws MissingObjectException,
+	public void setBase(AnyObjectId id) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
 		if (id != null) {
 			baseTree = walk.parseTree(id);
@@ -123,7 +123,7 @@ public abstract class ThreeWayMerger extends Merger {
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean merge(final AnyObjectId... tips) throws IOException {
+	public boolean merge(AnyObjectId... tips) throws IOException {
 		if (tips.length != 2)
 			return false;
 		return super.merge(tips);

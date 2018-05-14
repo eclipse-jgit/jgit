@@ -107,7 +107,7 @@ public class BranchConfig {
 	 * @param branchName
 	 *            the short branch name of the section to read
 	 */
-	public BranchConfig(final Config config, String branchName) {
+	public BranchConfig(Config config, String branchName) {
 		this.config = config;
 		this.branchName = branchName;
 	}

@@ -65,7 +65,7 @@ public class IntList {
 	 * @param capacity
 	 *            number of entries the list can initially hold.
 	 */
-	public IntList(final int capacity) {
+	public IntList(int capacity) {
 		entries = new int[capacity];
 	}
 
@@ -102,7 +102,7 @@ public class IntList {
 	 * @throws java.lang.ArrayIndexOutOfBoundsException
 	 *             the index outside the valid range
 	 */
-	public int get(final int i) {
+	public int get(int i) {
 		if (count <= i)
 			throw new ArrayIndexOutOfBoundsException(i);
 		return entries[i];
@@ -121,7 +121,7 @@ public class IntList {
 	 * @param n
 	 *            the number to add.
 	 */
-	public void add(final int n) {
+	public void add(int n) {
 		if (count == entries.length)
 			grow();
 		entries[count++] = n;
@@ -135,7 +135,7 @@ public class IntList {
 	 * @param n
 	 *            value to store at the position.
 	 */
-	public void set(final int index, final int n) {
+	public void set(int index, int n) {
 		if (count < index)
 			throw new ArrayIndexOutOfBoundsException(index);
 		else if (count == index)
@@ -154,7 +154,7 @@ public class IntList {
 	 * @param val
 	 *            value to insert into padded positions.
 	 */
-	public void fillTo(int toIndex, final int val) {
+	public void fillTo(int toIndex, int val) {
 		while (count < toIndex)
 			add(val);
 	}

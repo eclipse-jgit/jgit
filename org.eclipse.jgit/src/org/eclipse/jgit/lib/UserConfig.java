@@ -71,7 +71,7 @@ public class UserConfig {
 
 	private boolean isCommitterEmailImplicit;
 
-	private UserConfig(final Config rc) {
+	private UserConfig(Config rc) {
 		authorName = getNameInternal(rc, Constants.GIT_AUTHOR_NAME_KEY);
 		if (authorName == null) {
 			authorName = getDefaultUserName();

@@ -148,7 +148,7 @@ public class RevCommit extends RevObject {
 	 * @param id
 	 *            object name for the commit.
 	 */
-	protected RevCommit(final AnyObjectId id) {
+	protected RevCommit(AnyObjectId id) {
 		super(id);
 	}
 
@@ -310,7 +310,7 @@ public class RevCommit extends RevObject {
 	 * @param flag
 	 *            the single flag value to carry back onto parents.
 	 */
-	public void carry(final RevFlag flag) {
+	public void carry(RevFlag flag) {
 		final int carry = flags & flag.mask;
 		if (carry != 0)
 			carryFlags(this, carry);
@@ -353,7 +353,7 @@ public class RevCommit extends RevObject {
 	 * @throws java.lang.ArrayIndexOutOfBoundsException
 	 *             an invalid parent index was specified.
 	 */
-	public final RevCommit getParent(final int nth) {
+	public final RevCommit getParent(int nth) {
 		return parents[nth];
 	}
 
@@ -615,7 +615,7 @@ public class RevCommit extends RevObject {
 	 *         with the specified key, or there are no footers at all.
 	 * @see #getFooterLines()
 	 */
-	public final List<String> getFooterLines(final String keyName) {
+	public final List<String> getFooterLines(String keyName) {
 		return getFooterLines(new FooterKey(keyName));
 	}
 
@@ -630,7 +630,7 @@ public class RevCommit extends RevObject {
 	 *         with the specified key, or there are no footers at all.
 	 * @see #getFooterLines()
 	 */
-	public final List<String> getFooterLines(final FooterKey keyName) {
+	public final List<String> getFooterLines(FooterKey keyName) {
 		final List<FooterLine> src = getFooterLines();
 		if (src.isEmpty())
 			return Collections.emptyList();

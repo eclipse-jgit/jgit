@@ -254,7 +254,7 @@ public class FileBasedConfig extends StoredConfig {
 		super.clear();
 	}
 
-	private static ObjectId hash(final byte[] rawText) {
+	private static ObjectId hash(byte[] rawText) {
 		return ObjectId.fromRaw(Constants.newMessageDigest().digest(rawText));
 	}
 

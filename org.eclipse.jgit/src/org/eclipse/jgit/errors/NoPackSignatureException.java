@@ -60,7 +60,7 @@ public class NoPackSignatureException extends IOException {
 	 * @param why
 	 *            description of the type of error.
 	 */
-	public NoPackSignatureException(final String why) {
+	public NoPackSignatureException(String why) {
 		super(why);
 	}
 }

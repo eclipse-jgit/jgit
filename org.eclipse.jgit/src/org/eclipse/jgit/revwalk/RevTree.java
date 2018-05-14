@@ -62,7 +62,7 @@ public class RevTree extends RevObject {
 	 * @param id
 	 *            object name for the tree.
 	 */
-	protected RevTree(final AnyObjectId id) {
+	protected RevTree(AnyObjectId id) {
 		super(id);
 	}
 

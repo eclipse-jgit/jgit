@@ -230,7 +230,7 @@ final class HistogramDiffIndex<S extends Sequence> {
 		return true;
 	}
 
-	private int tryLongestCommonSequence(final int bPtr) {
+	private int tryLongestCommonSequence(int bPtr) {
 		int bNext = bPtr + 1;
 		int rIdx = table[hash(b, bPtr)];
 		for (long rec; rIdx != 0; rIdx = recNext(rec)) {
@@ -328,7 +328,7 @@ final class HistogramDiffIndex<S extends Sequence> {
 		return ((int) rec) & REC_CNT_MASK;
 	}
 
-	private static int tableBits(final int sz) {
+	private static int tableBits(int sz) {
 		int bits = 31 - Integer.numberOfLeadingZeros(sz);
 		if (bits == 0)
 			bits = 1;

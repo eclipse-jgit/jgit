@@ -85,7 +85,7 @@ abstract class BaseDirCacheEditor {
 	 *            estimated number of entries the editor will have upon
 	 *            completion. This sizes the initial entry table.
 	 */
-	protected BaseDirCacheEditor(final DirCache dc, final int ecnt) {
+	protected BaseDirCacheEditor(DirCache dc, int ecnt) {
 		cache = dc;
 		entries = new DirCacheEntry[ecnt];
 	}
@@ -111,7 +111,7 @@ abstract class BaseDirCacheEditor {
 	 * @param newEntry
 	 *            the new entry to add.
 	 */
-	protected void fastAdd(final DirCacheEntry newEntry) {
+	protected void fastAdd(DirCacheEntry newEntry) {
 		if (entries.length == entryCnt) {
 			final DirCacheEntry[] n = new DirCacheEntry[(entryCnt + 16) * 3 / 2];
 			System.arraycopy(entries, 0, n, 0, entryCnt);
@@ -140,7 +140,7 @@ abstract class BaseDirCacheEditor {
 	 * @param cnt
 	 *            number of entries to copy.
 	 */
-	protected void fastKeep(final int pos, int cnt) {
+	protected void fastKeep(int pos, int cnt) {
 		if (entryCnt + cnt > entries.length) {
 			final int m1 = (entryCnt + 16) * 3 / 2;
 			final int m2 = entryCnt + cnt;

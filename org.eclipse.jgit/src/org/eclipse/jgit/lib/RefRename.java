@@ -73,7 +73,7 @@ public abstract class RefRename {
 	 * @param dst
 	 *            operation to create (or overwrite) the destination.
 	 */
-	protected RefRename(final RefUpdate src, final RefUpdate dst) {
+	protected RefRename(RefUpdate src, RefUpdate dst) {
 		source = src;
 		destination = dst;
 
@@ -107,7 +107,7 @@ public abstract class RefRename {
 	 *            automatically determined based on the repository
 	 *            configuration.
 	 */
-	public void setRefLogIdent(final PersonIdent pi) {
+	public void setRefLogIdent(PersonIdent pi) {
 		destination.setRefLogIdent(pi);
 	}
 
@@ -127,7 +127,7 @@ public abstract class RefRename {
 	 * @param msg
 	 *            the message to describe this change.
 	 */
-	public void setRefLogMessage(final String msg) {
+	public void setRefLogMessage(String msg) {
 		if (msg == null)
 			disableRefLog();
 		else

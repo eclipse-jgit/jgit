@@ -52,14 +52,14 @@ import org.eclipse.jgit.lib.Constants;
 import org.junit.Test;
 
 public class QuotedStringBourneUserPathStyleTest {
-	private static void assertQuote(final String in, final String exp) {
+	private static void assertQuote(String in, String exp) {
 		final String r = BOURNE_USER_PATH.quote(in);
 		assertNotSame(in, r);
 		assertFalse(in.equals(r));
 		assertEquals('\'' + exp + '\'', r);
 	}
 
-	private static void assertDequote(final String exp, final String in) {
+	private static void assertDequote(String exp, String in) {
 		final byte[] b = Constants.encode('\'' + in + '\'');
 		final String r = BOURNE_USER_PATH.dequote(b, 0, b.length);
 		assertEquals(exp, r);

@@ -91,7 +91,7 @@ public abstract class TemporaryBuffer extends OutputStream {
 	 *            maximum number of bytes to store in memory before entering the
 	 *            overflow output path; also used as the estimated size.
 	 */
-	protected TemporaryBuffer(final int limit) {
+	protected TemporaryBuffer(int limit) {
 		this(limit, limit);
 	}
 
@@ -106,7 +106,7 @@ public abstract class TemporaryBuffer extends OutputStream {
 	 *            overflow output path.
 	 * @since 4.0
 	 */
-	protected TemporaryBuffer(final int estimatedSize, final int limit) {
+	protected TemporaryBuffer(int estimatedSize, int limit) {
 		if (estimatedSize > limit)
 			throw new IllegalArgumentException();
 		this.inCoreLimit = limit;
@@ -116,7 +116,7 @@ public abstract class TemporaryBuffer extends OutputStream {
 
 	/** {@inheritDoc} */
 	@Override
-	public void write(final int b) throws IOException {
+	public void write(int b) throws IOException {
 		if (overflow != null) {
 			overflow.write(b);
 			return;
@@ -137,7 +137,7 @@ public abstract class TemporaryBuffer extends OutputStream {
 
 	/** {@inheritDoc} */
 	@Override
-	public void write(final byte[] b, int off, int len) throws IOException {
+	public void write(byte[] b, int off, int len) throws IOException {
 		if (overflow == null) {
 			while (len > 0) {
 				Block s = last();
@@ -183,7 +183,7 @@ public abstract class TemporaryBuffer extends OutputStream {
 	 *             an error occurred reading from the input stream, or while
 	 *             writing to a local temporary file.
 	 */
-	public void copy(final InputStream in) throws IOException {
+	public void copy(InputStream in) throws IOException {
 		if (blocks != null) {
 			for (;;) {
 				Block s = last();
@@ -288,7 +288,7 @@ public abstract class TemporaryBuffer extends OutputStream {
 	 *             an error occurred reading from a temporary file on the local
 	 *             system, or writing to the output stream.
 	 */
-	public void writeTo(final OutputStream os, ProgressMonitor pm)
+	public void writeTo(OutputStream os, ProgressMonitor pm)
 			throws IOException {
 		if (pm == null)
 			pm = NullProgressMonitor.INSTANCE;
@@ -442,7 +442,7 @@ public abstract class TemporaryBuffer extends OutputStream {
 		 *            system default temporary directory (for example /tmp) will
 		 *            be used instead.
 		 */
-		public LocalFile(final File directory) {
+		public LocalFile(File directory) {
 			this(directory, DEFAULT_IN_CORE_LIMIT);
 		}
 
@@ -458,7 +458,7 @@ public abstract class TemporaryBuffer extends OutputStream {
 		 *            maximum number of bytes to store in memory. Storage beyond
 		 *            this limit will use the local file.
 		 */
-		public LocalFile(final File directory, final int inCoreLimit) {
+		public LocalFile(File directory, int inCoreLimit) {
 			super(inCoreLimit);
 			this.directory = directory;
 		}
@@ -494,7 +494,7 @@ public abstract class TemporaryBuffer extends OutputStream {
 		}
 
 		@Override
-		public void writeTo(final OutputStream os, ProgressMonitor pm)
+		public void writeTo(OutputStream os, ProgressMonitor pm)
 				throws IOException {
 			if (onDiskFile == null) {
 				super.writeTo(os, pm);
@@ -563,7 +563,7 @@ public abstract class TemporaryBuffer extends OutputStream {
 		 *            also used as the estimated size. Storing beyond this many
 		 *            will cause an IOException to be thrown during write.
 		 */
-		public Heap(final int limit) {
+		public Heap(int limit) {
 			super(limit);
 		}
 
@@ -579,7 +579,7 @@ public abstract class TemporaryBuffer extends OutputStream {
 		 *            thrown during write.
 		 * @since 4.0
 		 */
-		public Heap(final int estimatedSize, final int limit) {
+		public Heap(int estimatedSize, int limit) {
 			super(estimatedSize, limit);
 		}
 

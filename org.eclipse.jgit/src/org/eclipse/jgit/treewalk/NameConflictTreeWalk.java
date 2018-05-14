@@ -99,7 +99,7 @@ public class NameConflictTreeWalk extends TreeWalk {
 	 * @param repo
 	 *            the repository the walker will obtain data from.
 	 */
-	public NameConflictTreeWalk(final Repository repo) {
+	public NameConflictTreeWalk(Repository repo) {
 		super(repo);
 	}
 
@@ -112,7 +112,7 @@ public class NameConflictTreeWalk extends TreeWalk {
 	 *            the reader the walker will obtain tree data from.
 	 * @since 4.3
 	 */
-	public NameConflictTreeWalk(@Nullable Repository repo, final ObjectReader or) {
+	public NameConflictTreeWalk(@Nullable Repository repo, ObjectReader or) {
 		super(repo, or);
 	}
 
@@ -122,7 +122,7 @@ public class NameConflictTreeWalk extends TreeWalk {
 	 * @param or
 	 *            the reader the walker will obtain tree data from.
 	 */
-	public NameConflictTreeWalk(final ObjectReader or) {
+	public NameConflictTreeWalk(ObjectReader or) {
 		super(or);
 	}
 
@@ -222,11 +222,11 @@ public class NameConflictTreeWalk extends TreeWalk {
 		return FileMode.GITLINK.equals(p.mode);
 	}
 
-	private static boolean isTree(final AbstractTreeIterator p) {
+	private static boolean isTree(AbstractTreeIterator p) {
 		return FileMode.TREE.equals(p.mode);
 	}
 
-	private boolean skipEntry(final AbstractTreeIterator minRef)
+	private boolean skipEntry(AbstractTreeIterator minRef)
 			throws CorruptObjectException {
 		// A tree D/F may have been handled earlier. We need to
 		// not report this path if it has already been reported.
@@ -260,7 +260,7 @@ public class NameConflictTreeWalk extends TreeWalk {
 		return false;
 	}
 
-	private AbstractTreeIterator combineDF(final AbstractTreeIterator minRef)
+	private AbstractTreeIterator combineDF(AbstractTreeIterator minRef)
 			throws CorruptObjectException {
 		// Look for a possible D/F conflict forward in the tree(s)
 		// as there may be a "$path/" which matches "$path". Make

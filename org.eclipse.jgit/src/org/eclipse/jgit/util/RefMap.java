@@ -169,7 +169,7 @@ public class RefMap extends AbstractMap<String, Ref> {
 
 	/** {@inheritDoc} */
 	@Override
-	public Ref put(final String keyName, Ref value) {
+	public Ref put(String keyName, Ref value) {
 		String name = toRefName(keyName);
 
 		if (!name.equals(value.getName()))
@@ -355,7 +355,7 @@ public class RefMap extends AbstractMap<String, Ref> {
 			return null;
 		}
 
-		private Ref resolveLoose(final Ref l) {
+		private Ref resolveLoose(Ref l) {
 			if (resolvedIdx < resolved.size()) {
 				Ref r = resolved.get(resolvedIdx);
 				int cmp = RefComparator.compareTo(l, r);

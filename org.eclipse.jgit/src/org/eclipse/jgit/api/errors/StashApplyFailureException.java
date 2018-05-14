@@ -26,7 +26,7 @@ public class StashApplyFailureException extends GitAPIException {
 	 * @param message
 	 *            error message
 	 */
-	public StashApplyFailureException(final String message) {
+	public StashApplyFailureException(String message) {
 		super(message);
 	}
 

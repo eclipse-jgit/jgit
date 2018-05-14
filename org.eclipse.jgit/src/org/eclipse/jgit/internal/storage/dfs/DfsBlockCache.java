@@ -181,7 +181,7 @@ public final class DfsBlockCache {
 	private Ref clockHand;
 
 	@SuppressWarnings("unchecked")
-	private DfsBlockCache(final DfsBlockCacheConfig cfg) {
+	private DfsBlockCache(DfsBlockCacheConfig cfg) {
 		tableSize = tableSize(cfg);
 		if (tableSize < 1)
 			throw new IllegalArgumentException(JGitText.get().tSizeMustBeGreaterOrEqual1);
@@ -330,7 +330,7 @@ public final class DfsBlockCache {
 		return blockSize;
 	}
 
-	private static int tableSize(final DfsBlockCacheConfig cfg) {
+	private static int tableSize(DfsBlockCacheConfig cfg) {
 		final int wsz = cfg.getBlockSize();
 		final long limit = cfg.getBlockLimit();
 		if (wsz <= 0)

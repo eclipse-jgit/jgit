@@ -74,7 +74,7 @@ public class WorkingTreeOptions {
 
 	private final boolean dirNoGitLinks;
 
-	private WorkingTreeOptions(final Config rc) {
+	private WorkingTreeOptions(Config rc) {
 		fileMode = rc.getBoolean(ConfigConstants.CONFIG_CORE_SECTION,
 				ConfigConstants.CONFIG_KEY_FILEMODE, true);
 		autoCRLF = rc.getEnum(ConfigConstants.CONFIG_CORE_SECTION, null,

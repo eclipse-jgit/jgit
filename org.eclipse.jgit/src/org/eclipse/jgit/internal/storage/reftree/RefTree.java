@@ -279,7 +279,7 @@ public class RefTree {
 		return HEAD.equals(n) || Repository.isValidRefName(n);
 	}
 
-	private void apply(DirCacheEditor ed, final Command cmd) {
+	private void apply(DirCacheEditor ed, Command cmd) {
 		String path = refPath(cmd.getRefName());
 		Ref oldRef = cmd.getOldRef();
 		final Ref newRef = cmd.getNewRef();

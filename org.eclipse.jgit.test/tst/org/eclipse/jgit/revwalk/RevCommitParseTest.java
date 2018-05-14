@@ -138,7 +138,7 @@ public class RevCommitParseTest extends RepositoryTestCase {
 		assertEquals(TimeZone.getTimeZone("GMT" + committerTimeZone), cCommitter.getTimeZone());
 	}
 
-	private RevCommit create(final String msg) throws Exception {
+	private RevCommit create(String msg) throws Exception {
 		final StringBuilder b = new StringBuilder();
 		b.append("tree 9788669ad918b6fcce64af8882fc9a81cb6aba67\n");
 		b.append("author A U. Thor <a_u_thor@example.com> 1218123387 +0700\n");
@@ -483,7 +483,7 @@ public class RevCommitParseTest extends RepositoryTestCase {
 		assertEquals(shortMsg, c.getShortMessage());
 	}
 
-	private static ObjectId id(final String str) {
+	private static ObjectId id(String str) {
 		return ObjectId.fromString(str);
 	}
 }

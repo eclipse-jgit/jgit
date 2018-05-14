@@ -421,7 +421,7 @@ public class HttpClientConnection implements HttpConnection {
 
 	/** {@inheritDoc} */
 	@Override
-	public void setHostnameVerifier(final HostnameVerifier hostnameverifier) {
+	public void setHostnameVerifier(HostnameVerifier hostnameverifier) {
 		this.hostnameverifier = hostnameverifier;
 	}
 

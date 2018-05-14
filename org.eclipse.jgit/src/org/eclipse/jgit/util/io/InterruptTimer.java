@@ -103,7 +103,7 @@ public final class InterruptTimer {
 	 * @param threadName
 	 *            name of the timer thread.
 	 */
-	public InterruptTimer(final String threadName) {
+	public InterruptTimer(String threadName) {
 		state = new AlarmState();
 		autoKiller = new AutoKiller(state);
 		thread = new AlarmThread(threadName, state);
@@ -117,7 +117,7 @@ public final class InterruptTimer {
 	 *            number of milliseconds before the interrupt should trigger.
 	 *            Must be &gt; 0.
 	 */
-	public void begin(final int timeout) {
+	public void begin(int timeout) {
 		if (timeout <= 0)
 			throw new IllegalArgumentException(MessageFormat.format(
 					JGitText.get().invalidTimeout, Integer.valueOf(timeout)));

@@ -62,7 +62,7 @@ public class NotIgnoredFilter extends TreeFilter {
 	 * @param workdirTreeIndex
 	 *            index of the workdir tree in the tree walk
 	 */
-	public NotIgnoredFilter(final int workdirTreeIndex) {
+	public NotIgnoredFilter(int workdirTreeIndex) {
 		this.index = workdirTreeIndex;
 	}
 

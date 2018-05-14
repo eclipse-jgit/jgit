@@ -403,7 +403,7 @@ public class SimpleMergeTest extends SampleDataRepositoryTestCase {
 		assertFalse(merge);
 	}
 
-	private static void assertCorrectId(final DirCache treeT, final TreeWalk tw) {
+	private static void assertCorrectId(DirCache treeT, TreeWalk tw) {
 		assertEquals(treeT.getEntry(tw.getPathString()).getObjectId(), tw
 				.getObjectId(0));
 	}

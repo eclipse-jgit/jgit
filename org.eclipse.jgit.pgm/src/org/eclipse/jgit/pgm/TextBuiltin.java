@@ -176,7 +176,7 @@ public abstract class TextBuiltin {
 	 *            value of the {@code --git-dir} command line option, if
 	 *            {@code repository} is null.
 	 */
-	protected void init(final Repository repository, final String gitDir) {
+	protected void init(Repository repository, String gitDir) {
 		try {
 			final String outputEncoding = repository != null ? repository
 					.getConfig().getString("i18n", null, "logOutputEncoding") : null; //$NON-NLS-1$ //$NON-NLS-2$
@@ -239,7 +239,7 @@ public abstract class TextBuiltin {
 	 *            the arguments supplied on the command line, if any.
 	 * @throws java.io.IOException
 	 */
-	protected void parseArguments(final String[] args) throws IOException {
+	protected void parseArguments(String[] args) throws IOException {
 		final CmdLineParser clp = new CmdLineParser(this);
 		help = containsHelp(args);
 		try {
@@ -267,7 +267,7 @@ public abstract class TextBuiltin {
 	 *            a {@link org.eclipse.jgit.pgm.opt.CmdLineParser} object.
 	 * @throws java.io.IOException
 	 */
-	public void printUsageAndExit(final CmdLineParser clp) throws IOException {
+	public void printUsageAndExit(CmdLineParser clp) throws IOException {
 		printUsageAndExit("", clp); //$NON-NLS-1$
 	}
 
@@ -280,7 +280,7 @@ public abstract class TextBuiltin {
 	 *            a {@link org.eclipse.jgit.pgm.opt.CmdLineParser} object.
 	 * @throws java.io.IOException
 	 */
-	public void printUsageAndExit(final String message, final CmdLineParser clp) throws IOException {
+	public void printUsageAndExit(String message, CmdLineParser clp) throws IOException {
 		printUsage(message, clp);
 		throw die(true);
 	}
@@ -295,7 +295,7 @@ public abstract class TextBuiltin {
 	 * @throws java.io.IOException
 	 * @since 4.2
 	 */
-	protected void printUsage(final String message, final CmdLineParser clp)
+	protected void printUsage(String message, CmdLineParser clp)
 			throws IOException {
 		errw.println(message);
 		errw.print("jgit "); //$NON-NLS-1$
@@ -375,7 +375,7 @@ public abstract class TextBuiltin {
 	 *            textual explanation
 	 * @return a runtime exception the caller is expected to throw
 	 */
-	protected static Die die(final String why) {
+	protected static Die die(String why) {
 		return new Die(why);
 	}
 
@@ -388,7 +388,7 @@ public abstract class TextBuiltin {
 	 *            why the command has failed.
 	 * @return a runtime exception the caller is expected to throw
 	 */
-	protected static Die die(final String why, final Throwable cause) {
+	protected static Die die(String why, Throwable cause) {
 		return new Die(why, cause);
 	}
 
@@ -416,7 +416,7 @@ public abstract class TextBuiltin {
 	 * @return a runtime exception the caller is expected to throw
 	 * @since 4.2
 	 */
-	protected static Die die(boolean aborted, final Throwable cause) {
+	protected static Die die(boolean aborted, Throwable cause) {
 		return new Die(aborted, cause);
 	}
 

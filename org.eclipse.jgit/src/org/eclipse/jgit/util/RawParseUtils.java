@@ -126,7 +126,7 @@ public final class RawParseUtils {
 	 *            the buffer to test for equality with b.
 	 * @return ptr + src.length if b[ptr..src.length] == src; else -1.
 	 */
-	public static final int match(final byte[] b, int ptr, final byte[] src) {
+	public static final int match(byte[] b, int ptr, byte[] src) {
 		if (ptr + src.length > b.length)
 			return -1;
 		for (int i = 0; i < src.length; i++, ptr++)
@@ -462,7 +462,7 @@ public final class RawParseUtils {
 	 *            position within buffer to start parsing digits at.
 	 * @return the timezone at this location, expressed in minutes.
 	 */
-	public static final int parseTimeZoneOffset(final byte[] b, int ptr) {
+	public static final int parseTimeZoneOffset(byte[] b, int ptr) {
 		return parseTimeZoneOffset(b, ptr, null);
 	}
 
@@ -501,7 +501,7 @@ public final class RawParseUtils {
 	 *            character to find.
 	 * @return new position just after chrA.
 	 */
-	public static final int next(final byte[] b, int ptr, final char chrA) {
+	public static final int next(byte[] b, int ptr, char chrA) {
 		final int sz = b.length;
 		while (ptr < sz) {
 			if (b[ptr++] == chrA)
@@ -521,7 +521,7 @@ public final class RawParseUtils {
 	 *            position within buffer to start looking for LF at.
 	 * @return new position just after the first LF found.
 	 */
-	public static final int nextLF(final byte[] b, int ptr) {
+	public static final int nextLF(byte[] b, int ptr) {
 		return next(b, ptr, '\n');
 	}
 
@@ -538,7 +538,7 @@ public final class RawParseUtils {
 	 *            character to find.
 	 * @return new position just after the first chrA or LF to be found.
 	 */
-	public static final int nextLF(final byte[] b, int ptr, final char chrA) {
+	public static final int nextLF(byte[] b, int ptr, char chrA) {
 		final int sz = b.length;
 		while (ptr < sz) {
 			final byte c = b[ptr++];
@@ -559,7 +559,7 @@ public final class RawParseUtils {
 	 *            character to find.
 	 * @return new position just before chrA, -1 for not found
 	 */
-	public static final int prev(final byte[] b, int ptr, final char chrA) {
+	public static final int prev(byte[] b, int ptr, char chrA) {
 		if (ptr == b.length)
 			--ptr;
 		while (ptr >= 0) {
@@ -580,7 +580,7 @@ public final class RawParseUtils {
 	 *            position within buffer to start looking for LF at.
 	 * @return new position just before the first LF found, -1 for not found
 	 */
-	public static final int prevLF(final byte[] b, int ptr) {
+	public static final int prevLF(byte[] b, int ptr) {
 		return prev(b, ptr, '\n');
 	}
 
@@ -598,7 +598,7 @@ public final class RawParseUtils {
 	 * @return new position just before the first chrA or LF to be found, -1 for
 	 *         not found
 	 */
-	public static final int prevLF(final byte[] b, int ptr, final char chrA) {
+	public static final int prevLF(byte[] b, int ptr, char chrA) {
 		if (ptr == b.length)
 			--ptr;
 		while (ptr >= 0) {
@@ -636,7 +636,7 @@ public final class RawParseUtils {
 	 * @return a line map indexing the start position of each line, or a map representing the entire
 	 *            array as a single line if a '\0' is found.
 	 */
-	public static final IntList lineMap(final byte[] buf, int ptr, int end) {
+	public static final IntList lineMap(byte[] buf, int ptr, int end) {
 		IntList map;
 		try {
 		  map = lineMapOrBinary(buf, ptr, end);
@@ -662,7 +662,7 @@ public final class RawParseUtils {
 	 *
 	 * @since 5.0
 	 */
-	public static final IntList lineMapOrBinary(final byte[] buf, int ptr, int end)
+	public static final IntList lineMapOrBinary(byte[] buf, int ptr, int end)
 			throws BinaryBlobException {
 		// Experimentally derived from multiple source repositories
 		// the average number of bytes/line is 36. Its a rough guess
@@ -706,7 +706,7 @@ public final class RawParseUtils {
 	 *         character of the author's name. If no author header can be
 	 *         located -1 is returned.
 	 */
-	public static final int author(final byte[] b, int ptr) {
+	public static final int author(byte[] b, int ptr) {
 		final int sz = b.length;
 		if (ptr == 0)
 			ptr += 46; // skip the "tree ..." line.
@@ -728,7 +728,7 @@ public final class RawParseUtils {
 	 *         character of the committer's name. If no committer header can be
 	 *         located -1 is returned.
 	 */
-	public static final int committer(final byte[] b, int ptr) {
+	public static final int committer(byte[] b, int ptr) {
 		final int sz = b.length;
 		if (ptr == 0)
 			ptr += 46; // skip the "tree ..." line.
@@ -752,7 +752,7 @@ public final class RawParseUtils {
 	 *         character of the tagger's name. If no tagger header can be
 	 *         located -1 is returned.
 	 */
-	public static final int tagger(final byte[] b, int ptr) {
+	public static final int tagger(byte[] b, int ptr) {
 		final int sz = b.length;
 		if (ptr == 0)
 			ptr += 48; // skip the "object ..." line.
@@ -780,7 +780,7 @@ public final class RawParseUtils {
 	 *         character of the encoding's name. If no encoding header can be
 	 *         located -1 is returned (and UTF-8 should be assumed).
 	 */
-	public static final int encoding(final byte[] b, int ptr) {
+	public static final int encoding(byte[] b, int ptr) {
 		final int sz = b.length;
 		while (ptr < sz) {
 			if (b[ptr] == '\n')
@@ -804,7 +804,7 @@ public final class RawParseUtils {
 	 * @since 4.2
 	 */
 	@Nullable
-	public static String parseEncodingName(final byte[] b) {
+	public static String parseEncodingName(byte[] b) {
 		int enc = encoding(b, 0);
 		if (enc < 0) {
 			return null;
@@ -832,7 +832,7 @@ public final class RawParseUtils {
 	 *             if the JRE does not support the character set requested by
 	 *             the encoding header.
 	 */
-	public static Charset parseEncoding(final byte[] b) {
+	public static Charset parseEncoding(byte[] b) {
 		String enc = parseEncodingName(b);
 		if (enc == null) {
 			return UTF_8;
@@ -862,7 +862,7 @@ public final class RawParseUtils {
 	 * @return the parsed identity or null in case the identity could not be
 	 *         parsed.
 	 */
-	public static PersonIdent parsePersonIdent(final String in) {
+	public static PersonIdent parsePersonIdent(String in) {
 		return parsePersonIdent(Constants.encode(in), 0);
 	}
 
@@ -884,7 +884,7 @@ public final class RawParseUtils {
 	 * @return the parsed identity or null in case the identity could not be
 	 *         parsed.
 	 */
-	public static PersonIdent parsePersonIdent(final byte[] raw, final int nameB) {
+	public static PersonIdent parsePersonIdent(byte[] raw, int nameB) {
 		Charset cs;
 		try {
 			cs = parseEncoding(raw);
@@ -992,7 +992,7 @@ public final class RawParseUtils {
 	 * @return position of the ':' which terminates the footer line key if this
 	 *         is otherwise a valid footer line key; otherwise -1.
 	 */
-	public static int endOfFooterLineKey(final byte[] raw, int ptr) {
+	public static int endOfFooterLineKey(byte[] raw, int ptr) {
 		try {
 			for (;;) {
 				final byte c = raw[ptr];
@@ -1019,7 +1019,7 @@ public final class RawParseUtils {
 	 * @return a string representation of the range <code>[start,end)</code>,
 	 *         after decoding the region through the specified character set.
 	 */
-	public static String decode(final byte[] buffer) {
+	public static String decode(byte[] buffer) {
 		return decode(buffer, 0, buffer.length);
 	}
 
@@ -1057,7 +1057,7 @@ public final class RawParseUtils {
 	 * @return a string representation of the range <code>[start,end)</code>,
 	 *         after decoding the region through the specified character set.
 	 */
-	public static String decode(final Charset cs, final byte[] buffer) {
+	public static String decode(Charset cs, byte[] buffer) {
 		return decode(cs, buffer, 0, buffer.length);
 	}
 
@@ -1174,7 +1174,7 @@ public final class RawParseUtils {
 		return r.toString();
 	}
 
-	private static String decode(final ByteBuffer b, final Charset charset)
+	private static String decode(ByteBuffer b, Charset charset)
 			throws CharacterCodingException {
 		final CharsetDecoder d = charset.newDecoder();
 		d.onMalformedInput(CodingErrorAction.REPORT);
@@ -1193,7 +1193,7 @@ public final class RawParseUtils {
 	 *            commit buffer.
 	 * @return position of the user's message buffer.
 	 */
-	public static final int commitMessage(final byte[] b, int ptr) {
+	public static final int commitMessage(byte[] b, int ptr) {
 		final int sz = b.length;
 		if (ptr == 0)
 			ptr += 46; // skip the "tree ..." line.
@@ -1217,7 +1217,7 @@ public final class RawParseUtils {
 	 *            buffer.
 	 * @return position of the user's message buffer.
 	 */
-	public static final int tagMessage(final byte[] b, int ptr) {
+	public static final int tagMessage(byte[] b, int ptr) {
 		final int sz = b.length;
 		if (ptr == 0)
 			ptr += 48; // skip the "object ..." line.
@@ -1242,7 +1242,7 @@ public final class RawParseUtils {
 	 * @return position of the LF at the end of the paragraph;
 	 *         <code>b.length</code> if no paragraph end could be located.
 	 */
-	public static final int endOfParagraph(final byte[] b, final int start) {
+	public static final int endOfParagraph(byte[] b, int start) {
 		int ptr = start;
 		final int sz = b.length;
 		while (ptr < sz && (b[ptr] != '\n' && b[ptr] != '\r'))

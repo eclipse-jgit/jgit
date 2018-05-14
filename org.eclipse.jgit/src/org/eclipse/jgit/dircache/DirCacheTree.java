@@ -82,7 +82,7 @@ public class DirCacheTree {
 
 	private static final Comparator<DirCacheTree> TREE_CMP = new Comparator<DirCacheTree>() {
 		@Override
-		public int compare(final DirCacheTree o1, final DirCacheTree o2) {
+		public int compare(DirCacheTree o1, DirCacheTree o2) {
 			final byte[] a = o1.encodedName;
 			final byte[] b = o2.encodedName;
 			final int aLen = a.length;
@@ -248,7 +248,7 @@ public class DirCacheTree {
 	 *            index of the child to obtain.
 	 * @return the child tree.
 	 */
-	public DirCacheTree getChild(final int i) {
+	public DirCacheTree getChild(int i) {
 		return children[i];
 	}
 
@@ -389,7 +389,7 @@ public class DirCacheTree {
 		return size;
 	}
 
-	private void appendName(final StringBuilder r) {
+	private void appendName(StringBuilder r) {
 		if (parent != null) {
 			parent.appendName(r);
 			r.append(getNameString());
@@ -503,7 +503,7 @@ public class DirCacheTree {
 			removeChild(childCnt - 1);
 	}
 
-	private void insertChild(final int stIdx, final DirCacheTree st) {
+	private void insertChild(int stIdx, DirCacheTree st) {
 		final DirCacheTree[] c = children;
 		if (childCnt + 1 <= c.length) {
 			if (stIdx < childCnt)
@@ -524,7 +524,7 @@ public class DirCacheTree {
 		childCnt++;
 	}
 
-	private void removeChild(final int stIdx) {
+	private void removeChild(int stIdx) {
 		final int n = --childCnt;
 		if (stIdx < n)
 			System.arraycopy(children, stIdx + 1, children, stIdx, n - stIdx);
@@ -540,7 +540,7 @@ public class DirCacheTree {
 		return true;
 	}
 
-	private static int namecmp(final byte[] a, int aPos, final DirCacheTree ct) {
+	private static int namecmp(byte[] a, int aPos, DirCacheTree ct) {
 		if (ct == null)
 			return -1;
 		final byte[] b = ct.encodedName;
@@ -557,7 +557,7 @@ public class DirCacheTree {
 		return aLen - bLen;
 	}
 
-	private static int slash(final byte[] a, int aPos) {
+	private static int slash(byte[] a, int aPos) {
 		final int aLen = a.length;
 		for (; aPos < aLen; aPos++)
 			if (a[aPos] == '/')

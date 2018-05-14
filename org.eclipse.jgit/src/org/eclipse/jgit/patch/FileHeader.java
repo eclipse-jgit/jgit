@@ -146,7 +146,7 @@ public class FileHeader extends DiffEntry {
 	 * @param type
 	 *            the type of patch used to modify this file
 	 */
-	public FileHeader(final byte[] headerLines, EditList edits, PatchType type) {
+	public FileHeader(byte[] headerLines, EditList edits, PatchType type) {
 		this(headerLines, 0);
 		endOffset = headerLines.length;
 		int ptr = parseGitFileName(Patch.DIFF_GIT.length, headerLines.length);
@@ -269,7 +269,7 @@ public class FileHeader extends DiffEntry {
 		return r.toString();
 	}
 
-	private static boolean trySimpleConversion(final Charset[] charsetGuess) {
+	private static boolean trySimpleConversion(Charset[] charsetGuess) {
 		if (charsetGuess == null)
 			return true;
 		for (int i = 1; i < charsetGuess.length; i++) {
@@ -279,7 +279,7 @@ public class FileHeader extends DiffEntry {
 		return true;
 	}
 
-	private String[] extractFileLines(final Charset[] csGuess) {
+	private String[] extractFileLines(Charset[] csGuess) {
 		final TemporaryBuffer[] tmp = new TemporaryBuffer[getParentCount() + 1];
 		try {
 			for (int i = 0; i < tmp.length; i++)
@@ -555,7 +555,7 @@ public class FileHeader extends DiffEntry {
 		return ptr;
 	}
 
-	private String parseName(final String expect, int ptr, final int end) {
+	private String parseName(String expect, int ptr, int end) {
 		if (ptr == end)
 			return expect;
 

@@ -371,7 +371,7 @@ public class SubmoduleWalk implements AutoCloseable {
 	 *            the {@link org.eclipse.jgit.lib.Repository}.
 	 * @throws java.io.IOException
 	 */
-	public SubmoduleWalk(final Repository repository) throws IOException {
+	public SubmoduleWalk(Repository repository) throws IOException {
 		this.repository = repository;
 		repoConfig = repository.getConfig();
 		walk = new TreeWalk(repository);
@@ -388,7 +388,7 @@ public class SubmoduleWalk implements AutoCloseable {
 	 *            .gitmodules config object
 	 * @return this generator
 	 */
-	public SubmoduleWalk setModulesConfig(final Config config) {
+	public SubmoduleWalk setModulesConfig(Config config) {
 		modulesConfig = config;
 		loadPathNames();
 		return this;
@@ -407,7 +407,7 @@ public class SubmoduleWalk implements AutoCloseable {
 	 *            tree containing .gitmodules
 	 * @return this generator
 	 */
-	public SubmoduleWalk setRootTree(final AbstractTreeIterator tree) {
+	public SubmoduleWalk setRootTree(AbstractTreeIterator tree) {
 		rootTree = tree;
 		modulesConfig = null;
 		pathToName = null;
@@ -428,7 +428,7 @@ public class SubmoduleWalk implements AutoCloseable {
 	 * @return this generator
 	 * @throws java.io.IOException
 	 */
-	public SubmoduleWalk setRootTree(final AnyObjectId id) throws IOException {
+	public SubmoduleWalk setRootTree(AnyObjectId id) throws IOException {
 		final CanonicalTreeParser p = new CanonicalTreeParser();
 		p.reset(walk.getObjectReader(), id);
 		rootTree = p;
@@ -562,7 +562,7 @@ public class SubmoduleWalk implements AutoCloseable {
 	 * @return this generator
 	 * @throws org.eclipse.jgit.errors.CorruptObjectException
 	 */
-	public SubmoduleWalk setTree(final AbstractTreeIterator iterator)
+	public SubmoduleWalk setTree(AbstractTreeIterator iterator)
 			throws CorruptObjectException {
 		walk.addTree(iterator);
 		return this;
@@ -580,7 +580,7 @@ public class SubmoduleWalk implements AutoCloseable {
 	 * @throws MissingObjectException
 	 *             if any.
 	 */
-	public SubmoduleWalk setTree(final AnyObjectId treeId) throws IOException {
+	public SubmoduleWalk setTree(AnyObjectId treeId) throws IOException {
 		walk.addTree(treeId);
 		return this;
 	}

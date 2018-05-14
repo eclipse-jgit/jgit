@@ -59,7 +59,7 @@ public class NoRemoteRepositoryException extends TransportException {
 	 * @param s
 	 *            message
 	 */
-	public NoRemoteRepositoryException(final URIish uri, final String s) {
+	public NoRemoteRepositoryException(URIish uri, String s) {
 		super(uri, s);
 	}
 }

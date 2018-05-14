@@ -180,7 +180,7 @@ public abstract class PackIndexWriter {
 	 *            the stream this instance outputs to. If not already buffered
 	 *            it will be automatically wrapped in a buffered stream.
 	 */
-	protected PackIndexWriter(final OutputStream dst) {
+	protected PackIndexWriter(OutputStream dst) {
 		out = new DigestOutputStream(dst instanceof BufferedOutputStream ? dst
 				: new BufferedOutputStream(dst),
 				Constants.newMessageDigest());
@@ -250,7 +250,7 @@ public abstract class PackIndexWriter {
 	 * @throws java.io.IOException
 	 *             an error occurred while writing to the output stream.
 	 */
-	protected void writeTOC(final int version) throws IOException {
+	protected void writeTOC(int version) throws IOException {
 		out.write(TOC);
 		NB.encodeInt32(tmp, 0, version);
 		out.write(tmp, 0, 4);

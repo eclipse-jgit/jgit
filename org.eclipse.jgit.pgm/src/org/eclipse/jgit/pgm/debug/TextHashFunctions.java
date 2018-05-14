@@ -499,7 +499,7 @@ class TextHashFunctions extends TextBuiltin {
 		}
 	}
 
-	private static int tableBits(final int sz) {
+	private static int tableBits(int sz) {
 		int bits = 31 - Integer.numberOfLeadingZeros(sz);
 		if (bits == 0)
 			bits = 1;

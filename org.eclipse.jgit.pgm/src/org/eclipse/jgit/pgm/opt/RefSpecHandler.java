@@ -78,7 +78,7 @@ public class RefSpecHandler extends OptionHandler<RefSpec> {
 
 	/** {@inheritDoc} */
 	@Override
-	public int parseArguments(final Parameters params) throws CmdLineException {
+	public int parseArguments(Parameters params) throws CmdLineException {
 		setter.addValue(new RefSpec(params.getParameter(0)));
 		return 1;
 	}

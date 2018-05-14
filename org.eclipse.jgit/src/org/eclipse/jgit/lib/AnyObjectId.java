@@ -161,7 +161,7 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 	 * Compare this ObjectId to another and obtain a sort ordering.
 	 */
 	@Override
-	public final int compareTo(final AnyObjectId other) {
+	public final int compareTo(AnyObjectId other) {
 		if (this == other)
 			return 0;
 
@@ -197,7 +197,7 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 	 * @return a negative integer, zero, or a positive integer as this object is
 	 *         less than, equal to, or greater than the specified object.
 	 */
-	public final int compareTo(final byte[] bs, final int p) {
+	public final int compareTo(byte[] bs, int p) {
 		int cmp;
 
 		cmp = NB.compareUInt32(w1, NB.decodeInt32(bs, p));
@@ -230,7 +230,7 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 	 * @return a negative integer, zero, or a positive integer as this object is
 	 *         less than, equal to, or greater than the specified object.
 	 */
-	public final int compareTo(final int[] bs, final int p) {
+	public final int compareTo(int[] bs, int p) {
 		int cmp;
 
 		cmp = NB.compareUInt32(w1, bs[p]);
@@ -259,7 +259,7 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 	 *            the abbreviation.
 	 * @return true if this ObjectId begins with the abbreviation; else false.
 	 */
-	public boolean startsWith(final AbbreviatedObjectId abbr) {
+	public boolean startsWith(AbbreviatedObjectId abbr) {
 		return abbr.prefixCompare(this) == 0;
 	}
 
@@ -276,13 +276,13 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 	 *            the other id to compare to. May be null.
 	 * @return true only if both ObjectIds have identical bits.
 	 */
-	public final boolean equals(final AnyObjectId other) {
+	public final boolean equals(AnyObjectId other) {
 		return other != null ? equals(this, other) : false;
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public final boolean equals(final Object o) {
+	public final boolean equals(Object o) {
 		if (o instanceof AnyObjectId)
 			return equals((AnyObjectId) o);
 		else
@@ -295,7 +295,7 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 	 * @param w
 	 *            the buffer to copy to. Must be in big endian order.
 	 */
-	public void copyRawTo(final ByteBuffer w) {
+	public void copyRawTo(ByteBuffer w) {
 		w.putInt(w1);
 		w.putInt(w2);
 		w.putInt(w3);
@@ -311,7 +311,7 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 	 * @param o
 	 *            the offset within b to write at.
 	 */
-	public void copyRawTo(final byte[] b, final int o) {
+	public void copyRawTo(byte[] b, int o) {
 		NB.encodeInt32(b, o, w1);
 		NB.encodeInt32(b, o + 4, w2);
 		NB.encodeInt32(b, o + 8, w3);
@@ -327,7 +327,7 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 	 * @param o
 	 *            the offset within b to write at.
 	 */
-	public void copyRawTo(final int[] b, final int o) {
+	public void copyRawTo(int[] b, int o) {
 		b[o] = w1;
 		b[o + 1] = w2;
 		b[o + 2] = w3;
@@ -343,7 +343,7 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 	 * @throws java.io.IOException
 	 *             the stream writing failed.
 	 */
-	public void copyRawTo(final OutputStream w) throws IOException {
+	public void copyRawTo(OutputStream w) throws IOException {
 		writeRawInt(w, w1);
 		writeRawInt(w, w2);
 		writeRawInt(w, w3);
@@ -351,7 +351,7 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 		writeRawInt(w, w5);
 	}
 
-	private static void writeRawInt(final OutputStream w, int v)
+	private static void writeRawInt(OutputStream w, int v)
 			throws IOException {
 		w.write(v >>> 24);
 		w.write(v >>> 16);
@@ -367,7 +367,7 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 	 * @throws java.io.IOException
 	 *             the stream writing failed.
 	 */
-	public void copyTo(final OutputStream w) throws IOException {
+	public void copyTo(OutputStream w) throws IOException {
 		w.write(toHexByteArray());
 	}
 
@@ -410,7 +410,7 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 	private static final byte[] hexbyte = { '0', '1', '2', '3', '4', '5', '6',
 			'7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 
-	private static void formatHexByte(final byte[] dst, final int p, int w) {
+	private static void formatHexByte(byte[] dst, int p, int w) {
 		int o = p + 7;
 		while (o >= p && w != 0) {
 			dst[o--] = hexbyte[w & 0xf];
@@ -428,7 +428,7 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 	 * @throws java.io.IOException
 	 *             the stream writing failed.
 	 */
-	public void copyTo(final Writer w) throws IOException {
+	public void copyTo(Writer w) throws IOException {
 		w.write(toHexCharArray());
 	}
 
@@ -444,7 +444,7 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 	 * @throws java.io.IOException
 	 *             the stream writing failed.
 	 */
-	public void copyTo(final char[] tmp, final Writer w) throws IOException {
+	public void copyTo(char[] tmp, Writer w) throws IOException {
 		toHexCharArray(tmp);
 		w.write(tmp, 0, Constants.OBJECT_ID_STRING_LENGTH);
 	}
@@ -459,7 +459,7 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 	 * @param w
 	 *            the string to append onto.
 	 */
-	public void copyTo(final char[] tmp, final StringBuilder w) {
+	public void copyTo(char[] tmp, StringBuilder w) {
 		toHexCharArray(tmp);
 		w.append(tmp, 0, Constants.OBJECT_ID_STRING_LENGTH);
 	}
@@ -470,7 +470,7 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 		return dst;
 	}
 
-	private void toHexCharArray(final char[] dst) {
+	private void toHexCharArray(char[] dst) {
 		formatHexChar(dst, 0, w1);
 		formatHexChar(dst, 8, w2);
 		formatHexChar(dst, 16, w3);
@@ -529,7 +529,7 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 	 *            length of the abbreviated string.
 	 * @return SHA-1 abbreviation.
 	 */
-	public AbbreviatedObjectId abbreviate(final int len) {
+	public AbbreviatedObjectId abbreviate(int len) {
 		final int a = AbbreviatedObjectId.mask(len, 1, w1);
 		final int b = AbbreviatedObjectId.mask(len, 2, w2);
 		final int c = AbbreviatedObjectId.mask(len, 3, w3);

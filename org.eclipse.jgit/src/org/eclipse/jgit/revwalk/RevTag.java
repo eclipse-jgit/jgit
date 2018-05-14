@@ -137,7 +137,7 @@ public class RevTag extends RevObject {
 	 * @param id
 	 *            object name for the tag.
 	 */
-	protected RevTag(final AnyObjectId id) {
+	protected RevTag(AnyObjectId id) {
 		super(id);
 	}
 

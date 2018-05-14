@@ -96,7 +96,7 @@ public class CommitterRevFilter {
 		}
 
 		@Override
-		protected CharSequence text(final RevCommit cmit) {
+		protected CharSequence text(RevCommit cmit) {
 			return textFor(cmit);
 		}
 
@@ -112,7 +112,7 @@ public class CommitterRevFilter {
 		}
 
 		@Override
-		protected RawCharSequence text(final RevCommit cmit) {
+		protected RawCharSequence text(RevCommit cmit) {
 			return textFor(cmit);
 		}
 	}

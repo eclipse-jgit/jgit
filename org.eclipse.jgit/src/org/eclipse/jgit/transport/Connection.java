@@ -95,7 +95,7 @@ public interface Connection extends AutoCloseable {
 	 *            name of the ref to obtain.
 	 * @return the requested ref; null if the remote did not advertise this ref.
 	 */
-	public Ref getRef(final String name);
+	public Ref getRef(String name);
 
 	/**
 	 * {@inheritDoc}

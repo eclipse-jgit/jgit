@@ -73,7 +73,7 @@ public class RevFlagSet extends AbstractSet<RevFlag> {
 	 * @param s
 	 *            the set to copy flags from.
 	 */
-	public RevFlagSet(final RevFlagSet s) {
+	public RevFlagSet(RevFlagSet s) {
 		mask = s.mask;
 		active = new ArrayList<>(s.active);
 	}
@@ -84,14 +84,14 @@ public class RevFlagSet extends AbstractSet<RevFlag> {
 	 * @param s
 	 *            the collection to copy flags from.
 	 */
-	public RevFlagSet(final Collection<RevFlag> s) {
+	public RevFlagSet(Collection<RevFlag> s) {
 		this();
 		addAll(s);
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean contains(final Object o) {
+	public boolean contains(Object o) {
 		if (o instanceof RevFlag)
 			return (mask & ((RevFlag) o).mask) != 0;
 		return false;
@@ -99,7 +99,7 @@ public class RevFlagSet extends AbstractSet<RevFlag> {
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean containsAll(final Collection<?> c) {
+	public boolean containsAll(Collection<?> c) {
 		if (c instanceof RevFlagSet) {
 			final int cMask = ((RevFlagSet) c).mask;
 			return (mask & cMask) == cMask;
@@ -109,7 +109,7 @@ public class RevFlagSet extends AbstractSet<RevFlag> {
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean add(final RevFlag flag) {
+	public boolean add(RevFlag flag) {
 		if ((mask & flag.mask) != 0)
 			return false;
 		mask |= flag.mask;
@@ -122,7 +122,7 @@ public class RevFlagSet extends AbstractSet<RevFlag> {
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean remove(final Object o) {
+	public boolean remove(Object o) {
 		final RevFlag flag = (RevFlag) o;
 		if ((mask & flag.mask) == 0)
 			return false;

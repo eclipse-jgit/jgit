@@ -75,7 +75,7 @@ public class RevWalkFollowFilterTest extends RevWalkTestCase {
 		diffCollector = new DiffCollector();
 	}
 
-	protected FollowFilter follow(final String followPath) {
+	protected FollowFilter follow(String followPath) {
 		FollowFilter followFilter =
 			FollowFilter.create(followPath, new Config().get(DiffConfig.KEY));
 		followFilter.setRenameCallback(diffCollector);

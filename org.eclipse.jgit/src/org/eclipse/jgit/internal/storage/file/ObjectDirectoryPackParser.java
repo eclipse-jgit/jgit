@@ -153,7 +153,7 @@ public class ObjectDirectoryPackParser extends PackParser {
 	 * @param empty
 	 *            true to enable keeping an empty pack.
 	 */
-	public void setKeepEmpty(final boolean empty) {
+	public void setKeepEmpty(boolean empty) {
 		keepEmpty = empty;
 	}
 
@@ -440,7 +440,7 @@ public class ObjectDirectoryPackParser extends PackParser {
 		}
 	}
 
-	private PackLock renameAndOpenPack(final String lockMessage)
+	private PackLock renameAndOpenPack(String lockMessage)
 			throws IOException {
 		if (!keepEmpty && getObjectCount() == 0) {
 			cleanupTemporaryFiles();

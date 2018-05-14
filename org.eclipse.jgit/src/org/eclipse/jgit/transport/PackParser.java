@@ -200,7 +200,7 @@ public abstract class PackParser {
 	 * @param src
 	 *            the stream the parser will read.
 	 */
-	protected PackParser(final ObjectDatabase odb, final InputStream src) {
+	protected PackParser(ObjectDatabase odb, InputStream src) {
 		objectDatabase = odb.newCachedDatabase();
 		in = src;
 
@@ -232,7 +232,7 @@ public abstract class PackParser {
 	 * @param allow
 	 *            true to enable a thin pack.
 	 */
-	public void setAllowThin(final boolean allow) {
+	public void setAllowThin(boolean allow) {
 		allowThin = allow;
 	}
 
@@ -379,7 +379,7 @@ public abstract class PackParser {
 	 * @param oc
 	 *            the checker instance; null to disable object checking.
 	 */
-	public void setObjectChecker(final ObjectChecker oc) {
+	public void setObjectChecker(ObjectChecker oc) {
 		objCheck = oc;
 	}
 
@@ -399,7 +399,7 @@ public abstract class PackParser {
 	 * @param on
 	 *            true to enable the default checker; false to disable it.
 	 */
-	public void setObjectChecking(final boolean on) {
+	public void setObjectChecking(boolean on) {
 		setObjectChecker(on ? new ObjectChecker() : null);
 	}
 
@@ -629,7 +629,7 @@ public abstract class PackParser {
 		resolving.endTask();
 	}
 
-	private void resolveDeltas(final ProgressMonitor progress)
+	private void resolveDeltas(ProgressMonitor progress)
 			throws IOException {
 		final int last = entryCount;
 		for (int i = 0; i < last; i++) {
@@ -819,7 +819,7 @@ public abstract class PackParser {
 		return info;
 	}
 
-	private UnresolvedDelta removeBaseById(final AnyObjectId id) {
+	private UnresolvedDelta removeBaseById(AnyObjectId id) {
 		final DeltaChain d = baseById.get(id);
 		return d != null ? d.remove() : null;
 	}
@@ -865,7 +865,7 @@ public abstract class PackParser {
 		return first;
 	}
 
-	private void resolveDeltasWithExternalBases(final ProgressMonitor progress)
+	private void resolveDeltasWithExternalBases(ProgressMonitor progress)
 			throws IOException {
 		growEntries(baseById.size());
 
@@ -1065,7 +1065,7 @@ public abstract class PackParser {
 		}
 	}
 
-	private void whole(final long pos, final int type, final long sz)
+	private void whole(long pos, int type, long sz)
 			throws IOException {
 		SHA1 objectDigest = objectHasher.reset();
 		objectDigest.update(Constants.encodedTypeString(type));
@@ -1224,7 +1224,7 @@ public abstract class PackParser {
 	}
 
 	// Consume exactly one byte from the buffer and return it.
-	private int readFrom(final Source src) throws IOException {
+	private int readFrom(Source src) throws IOException {
 		if (bAvail == 0)
 			fill(src, 1);
 		bAvail--;
@@ -1636,14 +1636,14 @@ public abstract class PackParser {
 		public long size;
 	}
 
-	private void inflateAndSkip(final Source src, final long inflatedSize)
+	private void inflateAndSkip(Source src, long inflatedSize)
 			throws IOException {
 		try (InputStream inf = inflate(src, inflatedSize)) {
 			IO.skipFully(inf, inflatedSize);
 		}
 	}
 
-	private byte[] inflateAndReturn(final Source src, final long inflatedSize)
+	private byte[] inflateAndReturn(Source src, long inflatedSize)
 			throws IOException {
 		final byte[] dst = new byte[(int) inflatedSize];
 		try (InputStream inf = inflate(src, inflatedSize)) {
@@ -1652,7 +1652,7 @@ public abstract class PackParser {
 		return dst;
 	}
 
-	private InputStream inflate(final Source src, final long inflatedSize)
+	private InputStream inflate(Source src, long inflatedSize)
 			throws IOException {
 		inflater.open(src, inflatedSize);
 		return inflater;

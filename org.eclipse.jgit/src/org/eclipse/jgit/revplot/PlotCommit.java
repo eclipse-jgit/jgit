@@ -79,7 +79,7 @@ public class PlotCommit<L extends PlotLane> extends RevCommit {
 	 * @param id
 	 *            the identity of this commit.
 	 */
-	protected PlotCommit(final AnyObjectId id) {
+	protected PlotCommit(AnyObjectId id) {
 		super(id);
 		forkingOffLanes = NO_LANES;
 		passingLanes = NO_LANES;
@@ -100,7 +100,7 @@ public class PlotCommit<L extends PlotLane> extends RevCommit {
 		mergingLanes = addLane(m, mergingLanes);
 	}
 
-	private static PlotLane[] addLane(final PlotLane l, PlotLane[] lanes) {
+	private static PlotLane[] addLane(PlotLane l, PlotLane[] lanes) {
 		final int cnt = lanes.length;
 		if (cnt == 0)
 			lanes = new PlotLane[] { l };
@@ -152,7 +152,7 @@ public class PlotCommit<L extends PlotLane> extends RevCommit {
 	 * @throws java.lang.ArrayIndexOutOfBoundsException
 	 *             an invalid child index was specified.
 	 */
-	public final PlotCommit getChild(final int nth) {
+	public final PlotCommit getChild(int nth) {
 		return children[nth];
 	}
 
@@ -163,7 +163,7 @@ public class PlotCommit<L extends PlotLane> extends RevCommit {
 	 *            the commit to test.
 	 * @return true if the given commit built on top of this commit.
 	 */
-	public final boolean isChild(final PlotCommit c) {
+	public final boolean isChild(PlotCommit c) {
 		for (final PlotCommit a : children)
 			if (a == c)
 				return true;
@@ -189,7 +189,7 @@ public class PlotCommit<L extends PlotLane> extends RevCommit {
 	 * @throws java.lang.ArrayIndexOutOfBoundsException
 	 *             an invalid ref index was specified.
 	 */
-	public final Ref getRef(final int nth) {
+	public final Ref getRef(int nth) {
 		return refs[nth];
 	}
 

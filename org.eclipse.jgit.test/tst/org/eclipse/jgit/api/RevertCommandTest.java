@@ -379,7 +379,7 @@ public class RevertCommandTest extends RepositoryTestCase {
 		}
 	}
 
-	private RevCommit prepareRevert(final Git git) throws Exception {
+	private RevCommit prepareRevert(Git git) throws Exception {
 		// create, add and commit file a
 		writeTrashFile("a", "a");
 		git.add().addFilepattern("a").call();

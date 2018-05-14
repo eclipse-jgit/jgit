@@ -1607,7 +1607,7 @@ public class ObjectCheckerTest {
 		checker.checkTree(encodeASCII(b.toString()));
 	}
 
-	private static void entry(StringBuilder b, final String modeName) {
+	private static void entry(StringBuilder b, String modeName) {
 		b.append(modeName);
 		b.append('\0');
 		for (int i = 0; i < OBJECT_ID_LENGTH; i++)
@@ -1647,7 +1647,7 @@ public class ObjectCheckerTest {
 		checker.setSkipList(null);
 	}
 
-	private static ObjectIdSet set(final ObjectId... ids) {
+	private static ObjectIdSet set(ObjectId... ids) {
 		return new ObjectIdSet() {
 			@Override
 			public boolean contains(AnyObjectId objectId) {

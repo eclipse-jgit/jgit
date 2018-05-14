@@ -71,7 +71,7 @@ public class StrategyOneSided extends MergeStrategy {
 	 * @param index
 	 *            the position of the input tree to accept as the result.
 	 */
-	protected StrategyOneSided(final String name, final int index) {
+	protected StrategyOneSided(String name, int index) {
 		strategyName = name;
 		treeIndex = index;
 	}
@@ -84,31 +84,31 @@ public class StrategyOneSided extends MergeStrategy {
 
 	/** {@inheritDoc} */
 	@Override
-	public Merger newMerger(final Repository db) {
+	public Merger newMerger(Repository db) {
 		return new OneSide(db, treeIndex);
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public Merger newMerger(final Repository db, boolean inCore) {
+	public Merger newMerger(Repository db, boolean inCore) {
 		return new OneSide(db, treeIndex);
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public Merger newMerger(final ObjectInserter inserter, final Config config) {
+	public Merger newMerger(ObjectInserter inserter, Config config) {
 		return new OneSide(inserter, treeIndex);
 	}
 
 	static class OneSide extends Merger {
 		private final int treeIndex;
 
-		protected OneSide(final Repository local, final int index) {
+		protected OneSide(Repository local, int index) {
 			super(local);
 			treeIndex = index;
 		}
 
-		protected OneSide(final ObjectInserter inserter, final int index) {
+		protected OneSide(ObjectInserter inserter, int index) {
 			super(inserter);
 			treeIndex = index;
 		}

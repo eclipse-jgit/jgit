@@ -298,7 +298,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	 * @throws org.eclipse.jgit.errors.NotSupportedException
 	 * @since 4.9
 	 */
-	protected void setURI(final URIish uri) throws NotSupportedException {
+	protected void setURI(URIish uri) throws NotSupportedException {
 		try {
 			currentUri = uri;
 			baseUrl = toURL(uri);
@@ -332,7 +332,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	 * @param on
 	 *            if {@code true} (default), smart HTTP is enabled.
 	 */
-	public void setUseSmartHttp(final boolean on) {
+	public void setUseSmartHttp(boolean on) {
 		useSmartHttp = on;
 	}
 
@@ -483,7 +483,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		this.headers = headers;
 	}
 
-	private HttpConnection connect(final String service)
+	private HttpConnection connect(String service)
 			throws TransportException, NotSupportedException {
 		URL u = getServiceURL(service);
 		int authAttempts = 1;
@@ -775,7 +775,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		return true;
 	}
 
-	private URL getServiceURL(final String service)
+	private URL getServiceURL(String service)
 			throws NotSupportedException {
 		try {
 			final StringBuilder b = new StringBuilder();
@@ -861,18 +861,18 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		return new TransportException(uri, why);
 	}
 
-	private boolean isSmartHttp(final HttpConnection c, final String service) {
+	private boolean isSmartHttp(HttpConnection c, String service) {
 		final String expType = "application/x-" + service + "-advertisement"; //$NON-NLS-1$ //$NON-NLS-2$
 		final String actType = c.getContentType();
 		return expType.equals(actType);
 	}
 
-	private boolean isGzipContent(final HttpConnection c) {
+	private boolean isGzipContent(HttpConnection c) {
 		return ENCODING_GZIP.equals(c.getHeaderField(HDR_CONTENT_ENCODING))
 				|| ENCODING_X_GZIP.equals(c.getHeaderField(HDR_CONTENT_ENCODING));
 	}
 
-	private void readSmartHeaders(final InputStream in, final String service)
+	private void readSmartHeaders(InputStream in, String service)
 			throws IOException {
 		// A smart reply will have a '#' after the first 4 bytes, but
 		// a dumb reply cannot contain a '#' until after byte 41. Do a
@@ -1030,15 +1030,15 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			return avail;
 		}
 
-		private PackProtocolException outOfOrderAdvertisement(final String n) {
+		private PackProtocolException outOfOrderAdvertisement(String n) {
 			return new PackProtocolException(MessageFormat.format(JGitText.get().advertisementOfCameBefore, n, n));
 		}
 
-		private PackProtocolException invalidAdvertisement(final String n) {
+		private PackProtocolException invalidAdvertisement(String n) {
 			return new PackProtocolException(MessageFormat.format(JGitText.get().invalidAdvertisementOf, n));
 		}
 
-		private PackProtocolException duplicateAdvertisement(final String n) {
+		private PackProtocolException duplicateAdvertisement(String n) {
 			return new PackProtocolException(MessageFormat.format(JGitText.get().duplicateAdvertisementsOf, n));
 		}
 

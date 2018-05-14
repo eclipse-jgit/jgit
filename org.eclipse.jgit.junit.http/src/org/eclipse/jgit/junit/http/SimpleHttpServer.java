@@ -134,7 +134,7 @@ public class SimpleHttpServer {
 		return secureUri;
 	}
 
-	private ServletContextHandler smart(final String path) {
+	private ServletContextHandler smart(String path) {
 		GitServlet gs = new GitServlet();
 		gs.setRepositoryResolver(new RepositoryResolver<HttpServletRequest>() {
 			@Override
@@ -154,7 +154,7 @@ public class SimpleHttpServer {
 		return ctx;
 	}
 
-	private static String nameOf(final Repository db) {
+	private static String nameOf(Repository db) {
 		return db.getDirectory().getName();
 	}
 

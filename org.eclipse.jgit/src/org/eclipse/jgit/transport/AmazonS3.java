@@ -128,12 +128,12 @@ public class AmazonS3 {
 		SIGNED_HEADERS.add("date"); //$NON-NLS-1$
 	}
 
-	private static boolean isSignedHeader(final String name) {
+	private static boolean isSignedHeader(String name) {
 		final String nameLC = StringUtils.toLowerCase(name);
 		return SIGNED_HEADERS.contains(nameLC) || nameLC.startsWith("x-amz-"); //$NON-NLS-1$
 	}
 
-	private static String toCleanString(final List<String> list) {
+	private static String toCleanString(List<String> list) {
 		final StringBuilder s = new StringBuilder();
 		for (final String v : list) {
 			if (s.length() > 0)
@@ -143,7 +143,7 @@ public class AmazonS3 {
 		return s.toString();
 	}
 
-	private static String remove(final Map<String, String> m, final String k) {
+	private static String remove(Map<String, String> m, String k) {
 		final String r = m.remove(k);
 		return r != null ? r : ""; //$NON-NLS-1$
 	}
@@ -283,7 +283,7 @@ public class AmazonS3 {
 	 * @throws java.io.IOException
 	 *             sending the request was not possible.
 	 */
-	public URLConnection get(final String bucket, final String key)
+	public URLConnection get(String bucket, String key)
 			throws IOException {
 		for (int curAttempt = 0; curAttempt < maxAttempts; curAttempt++) {
 			final HttpURLConnection c = open("GET", bucket, key); //$NON-NLS-1$
@@ -312,7 +312,7 @@ public class AmazonS3 {
 	 * @throws java.io.IOException
 	 *             decryption could not be configured.
 	 */
-	public InputStream decrypt(final URLConnection u) throws IOException {
+	public InputStream decrypt(URLConnection u) throws IOException {
 		return encryption.decrypt(u.getInputStream());
 	}
 
@@ -336,7 +336,7 @@ public class AmazonS3 {
 	 *             sending the request was not possible, or the response XML
 	 *             document could not be parsed properly.
 	 */
-	public List<String> list(final String bucket, String prefix)
+	public List<String> list(String bucket, String prefix)
 			throws IOException {
 		if (prefix.length() > 0 && !prefix.endsWith("/")) //$NON-NLS-1$
 			prefix += "/"; //$NON-NLS-1$
@@ -359,7 +359,7 @@ public class AmazonS3 {
 	 * @throws java.io.IOException
 	 *             deletion failed due to communications error.
 	 */
-	public void delete(final String bucket, final String key)
+	public void delete(String bucket, String key)
 			throws IOException {
 		for (int curAttempt = 0; curAttempt < maxAttempts; curAttempt++) {
 			final HttpURLConnection c = open("DELETE", bucket, key); //$NON-NLS-1$
@@ -396,7 +396,7 @@ public class AmazonS3 {
 	 * @throws java.io.IOException
 	 *             creation/updating failed due to communications error.
 	 */
-	public void put(final String bucket, final String key, final byte[] data)
+	public void put(String bucket, String key, byte[] data)
 			throws IOException {
 		if (encryption != WalkEncryption.NONE) {
 			// We have to copy to produce the cipher text anyway so use
@@ -727,7 +727,7 @@ public class AmazonS3 {
 		}
 
 		@Override
-		public void characters(final char[] ch, final int s, final int n)
+		public void characters(char[] ch, int s, int n)
 				throws SAXException {
 			if (data != null)
 				data.append(ch, s, n);

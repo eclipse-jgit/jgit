@@ -201,7 +201,7 @@ public class OpenSshConfig implements ConfigRepository {
 	 *            configuration file.
 	 * @return r configuration for the requested name. Never null.
 	 */
-	public Host lookup(final String hostName) {
+	public Host lookup(String hostName) {
 		final State cache = refresh();
 		Host h = cache.hosts.get(hostName);
 		if (h != null) {
@@ -238,7 +238,7 @@ public class OpenSshConfig implements ConfigRepository {
 		return state;
 	}
 
-	private Map<String, HostEntry> parse(final InputStream in)
+	private Map<String, HostEntry> parse(InputStream in)
 			throws IOException {
 		final Map<String, HostEntry> m = new LinkedHashMap<>();
 		final BufferedReader br = new BufferedReader(new InputStreamReader(in));
@@ -332,14 +332,14 @@ public class OpenSshConfig implements ConfigRepository {
 		}
 	}
 
-	private static String dequote(final String value) {
+	private static String dequote(String value) {
 		if (value.startsWith("\"") && value.endsWith("\"") //$NON-NLS-1$ //$NON-NLS-2$
 				&& value.length() > 1)
 			return value.substring(1, value.length() - 1);
 		return value;
 	}
 
-	private static String nows(final String value) {
+	private static String nows(String value) {
 		final StringBuilder b = new StringBuilder();
 		for (int i = 0; i < value.length(); i++) {
 			if (!Character.isSpaceChar(value.charAt(i)))
@@ -348,7 +348,7 @@ public class OpenSshConfig implements ConfigRepository {
 		return b.toString();
 	}
 
-	private static Boolean yesno(final String value) {
+	private static Boolean yesno(String value) {
 		if (StringUtils.equalsIgnoreCase("yes", value)) //$NON-NLS-1$
 			return Boolean.TRUE;
 		return Boolean.FALSE;
@@ -365,7 +365,7 @@ public class OpenSshConfig implements ConfigRepository {
 		return new File(home, path);
 	}
 
-	private static int positive(final String value) {
+	private static int positive(String value) {
 		if (value != null) {
 			try {
 				return Integer.parseUnsignedInt(value);

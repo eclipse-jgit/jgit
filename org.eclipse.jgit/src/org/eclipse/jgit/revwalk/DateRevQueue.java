@@ -88,7 +88,7 @@ public class DateRevQueue extends AbstractRevQueue {
 
 	/** {@inheritDoc} */
 	@Override
-	public void add(final RevCommit c) {
+	public void add(RevCommit c) {
 		sinceLastIndex++;
 		if (++inQueue > REBUILD_INDEX_COUNT
 				&& sinceLastIndex > REBUILD_INDEX_COUNT)
@@ -212,7 +212,7 @@ public class DateRevQueue extends AbstractRevQueue {
 		return s.toString();
 	}
 
-	private Entry newEntry(final RevCommit c) {
+	private Entry newEntry(RevCommit c) {
 		Entry r = free;
 		if (r == null)
 			r = new Entry();
@@ -222,7 +222,7 @@ public class DateRevQueue extends AbstractRevQueue {
 		return r;
 	}
 
-	private void freeEntry(final Entry e) {
+	private void freeEntry(Entry e) {
 		e.next = free;
 		free = e;
 	}

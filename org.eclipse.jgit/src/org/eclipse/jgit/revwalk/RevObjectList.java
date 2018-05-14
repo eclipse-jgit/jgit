@@ -82,7 +82,7 @@ public class RevObjectList<E extends RevObject> extends AbstractList<E> {
 
 	/** {@inheritDoc} */
 	@Override
-	public void add(final int index, final E element) {
+	public void add(int index, E element) {
 		if (index != size)
 			throw new UnsupportedOperationException(MessageFormat.format(
 					JGitText.get().unsupportedOperationNotAddAtEnd,

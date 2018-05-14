@@ -167,7 +167,7 @@ public class PersonIdent implements Serializable {
 	 *
 	 * @param repo a {@link org.eclipse.jgit.lib.Repository} object.
 	 */
-	public PersonIdent(final Repository repo) {
+	public PersonIdent(Repository repo) {
 		this(repo.getConfig().get(UserConfig.KEY));
 	}
 
@@ -177,7 +177,7 @@ public class PersonIdent implements Serializable {
 	 * @param pi
 	 *            Original {@link org.eclipse.jgit.lib.PersonIdent}
 	 */
-	public PersonIdent(final PersonIdent pi) {
+	public PersonIdent(PersonIdent pi) {
 		this(pi.getName(), pi.getEmailAddress());
 	}
 
@@ -190,7 +190,7 @@ public class PersonIdent implements Serializable {
 	 * @param aEmailAddress
 	 *            a {@link java.lang.String} object.
 	 */
-	public PersonIdent(final String aName, final String aEmailAddress) {
+	public PersonIdent(String aName, String aEmailAddress) {
 		this(aName, aEmailAddress, SystemReader.getInstance().getCurrentTime());
 	}
 
@@ -221,7 +221,7 @@ public class PersonIdent implements Serializable {
 	 * @param tz
 	 *            time zone
 	 */
-	public PersonIdent(final PersonIdent pi, final Date when, final TimeZone tz) {
+	public PersonIdent(PersonIdent pi, Date when, TimeZone tz) {
 		this(pi.getName(), pi.getEmailAddress(), when, tz);
 	}
 
@@ -234,7 +234,7 @@ public class PersonIdent implements Serializable {
 	 * @param aWhen
 	 *            local time
 	 */
-	public PersonIdent(final PersonIdent pi, final Date aWhen) {
+	public PersonIdent(PersonIdent pi, Date aWhen) {
 		this(pi.getName(), pi.getEmailAddress(), aWhen.getTime(), pi.tzOffset);
 	}
 
@@ -264,7 +264,7 @@ public class PersonIdent implements Serializable {
 	 * @param aTZ
 	 *            time zone
 	 */
-	public PersonIdent(final PersonIdent pi, final long aWhen, final int aTZ) {
+	public PersonIdent(PersonIdent pi, long aWhen, int aTZ) {
 		this(pi.getName(), pi.getEmailAddress(), aWhen, aTZ);
 	}
 
@@ -274,7 +274,7 @@ public class PersonIdent implements Serializable {
 				.getTimezone(when));
 	}
 
-	private PersonIdent(final UserConfig config) {
+	private PersonIdent(UserConfig config) {
 		this(config.getCommitterName(), config.getCommitterEmail());
 	}
 
@@ -370,7 +370,7 @@ public class PersonIdent implements Serializable {
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean equals(final Object o) {
+	public boolean equals(Object o) {
 		if (o instanceof PersonIdent) {
 			final PersonIdent p = (PersonIdent) o;
 			return getName().equals(p.getName())

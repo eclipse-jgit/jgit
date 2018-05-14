@@ -79,7 +79,7 @@ class InfoRefsServlet extends HttpServlet {
 				Constants.CHARSET)) {
 			final RefAdvertiser adv = new RefAdvertiser() {
 				@Override
-				protected void writeOne(final CharSequence line)
+				protected void writeOne(CharSequence line)
 						throws IOException {
 					// Whoever decided that info/refs should use a different
 					// delimiter than the native git:// protocol shouldn't

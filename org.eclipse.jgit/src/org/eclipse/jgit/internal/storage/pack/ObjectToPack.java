@@ -103,7 +103,7 @@ public class ObjectToPack extends PackedObjectInfo {
 	 * @param type
 	 *            real type code of the object, not its in-pack type.
 	 */
-	public ObjectToPack(AnyObjectId src, final int type) {
+	public ObjectToPack(AnyObjectId src, int type) {
 		super(src);
 		flags = type << TYPE_SHIFT;
 	}

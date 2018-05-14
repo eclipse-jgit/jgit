@@ -70,7 +70,7 @@ public class FIFORevQueue extends BlockRevQueue {
 
 	/** {@inheritDoc} */
 	@Override
-	public void add(final RevCommit c) {
+	public void add(RevCommit c) {
 		Block b = tail;
 		if (b == null) {
 			b = free.newBlock();
@@ -92,7 +92,7 @@ public class FIFORevQueue extends BlockRevQueue {
 	 * @param c
 	 *            the commit to insert into the queue.
 	 */
-	public void unpop(final RevCommit c) {
+	public void unpop(RevCommit c) {
 		Block b = head;
 		if (b == null) {
 			b = free.newBlock();

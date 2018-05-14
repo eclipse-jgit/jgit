@@ -241,7 +241,7 @@ public class HookTest extends RepositoryTestCase {
 		}
 	}
 
-	private File writeHookFile(final String name, final String data)
+	private File writeHookFile(String name, String data)
 			throws IOException {
 		File path = new File(db.getWorkTree() + "/.git/hooks/", name);
 		JGitTestUtil.write(path, data);

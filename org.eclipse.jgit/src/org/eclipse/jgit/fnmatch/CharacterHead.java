@@ -53,14 +53,14 @@ final class CharacterHead extends AbstractHead {
 	 * @param expectedCharacter
 	 *            expected {@code char}
 	 */
-	protected CharacterHead(final char expectedCharacter) {
+	protected CharacterHead(char expectedCharacter) {
 		super(false);
 		this.expectedCharacter = expectedCharacter;
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	protected final boolean matches(final char c) {
+	protected final boolean matches(char c) {
 		return c == expectedCharacter;
 	}
 

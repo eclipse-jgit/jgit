@@ -70,7 +70,7 @@ public class IncorrectObjectTypeException extends IOException {
 	 * @param id SHA-1
 	 * @param type object type
 	 */
-	public IncorrectObjectTypeException(final ObjectId id, final String type) {
+	public IncorrectObjectTypeException(ObjectId id, String type) {
 		super(MessageFormat.format(JGitText.get().objectIsNotA, id.name(), type));
 	}
 
@@ -82,7 +82,7 @@ public class IncorrectObjectTypeException extends IOException {
 	 * @param id SHA-1
 	 * @param type object type
 	 */
-	public IncorrectObjectTypeException(final ObjectId id, final int type) {
+	public IncorrectObjectTypeException(ObjectId id, int type) {
 		this(id, Constants.typeString(type));
 	}
 }

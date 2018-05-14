@@ -344,7 +344,7 @@ public class UploadPack {
 	 * @param copyFrom
 	 *            the source repository.
 	 */
-	public UploadPack(final Repository copyFrom) {
+	public UploadPack(Repository copyFrom) {
 		db = copyFrom;
 		walk = new RevWalk(db);
 		walk.setRetainBody(false);
@@ -433,7 +433,7 @@ public class UploadPack {
 	 *            before aborting an IO read or write operation with the
 	 *            connected client.
 	 */
-	public void setTimeout(final int seconds) {
+	public void setTimeout(int seconds) {
 		timeout = seconds;
 	}
 
@@ -460,7 +460,7 @@ public class UploadPack {
 	 *            commands before writing output and does not perform the
 	 *            initial advertising.
 	 */
-	public void setBiDirectionalPipe(final boolean twoWay) {
+	public void setBiDirectionalPipe(boolean twoWay) {
 		biDirectionalPipe = twoWay;
 	}
 
@@ -563,7 +563,7 @@ public class UploadPack {
 	 * @param advertiseRefsHook
 	 *            the hook; may be null to show all refs.
 	 */
-	public void setAdvertiseRefsHook(final AdvertiseRefsHook advertiseRefsHook) {
+	public void setAdvertiseRefsHook(AdvertiseRefsHook advertiseRefsHook) {
 		if (advertiseRefsHook != null)
 			this.advertiseRefsHook = advertiseRefsHook;
 		else
@@ -582,7 +582,7 @@ public class UploadPack {
 	 * @param refFilter
 	 *            the filter; may be null to show all refs.
 	 */
-	public void setRefFilter(final RefFilter refFilter) {
+	public void setRefFilter(RefFilter refFilter) {
 		this.refFilter = refFilter != null ? refFilter : RefFilter.DEFAULT;
 	}
 
@@ -1140,7 +1140,7 @@ public class UploadPack {
 	 * @throws org.eclipse.jgit.transport.ServiceMayNotContinueException
 	 *             the hook denied advertisement.
 	 */
-	public void sendAdvertisedRefs(final RefAdvertiser adv) throws IOException,
+	public void sendAdvertisedRefs(RefAdvertiser adv) throws IOException,
 			ServiceMayNotContinueException {
 		try {
 			advertiseRefsHook.advertiseRefs(this);
@@ -1684,7 +1684,7 @@ public class UploadPack {
 		}
 	}
 
-	private void addCommonBase(final RevObject o) {
+	private void addCommonBase(RevObject o) {
 		if (!o.has(COMMON)) {
 			o.add(COMMON);
 			commonBase.add(o);
@@ -1713,7 +1713,7 @@ public class UploadPack {
 		}
 	}
 
-	private boolean wantSatisfied(final RevObject want) throws IOException {
+	private boolean wantSatisfied(RevObject want) throws IOException {
 		if (want.has(SATISFIED))
 			return true;
 

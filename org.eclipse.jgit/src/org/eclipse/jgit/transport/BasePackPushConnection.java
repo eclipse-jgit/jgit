@@ -146,7 +146,7 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 	 * @param packTransport
 	 *            the transport.
 	 */
-	public BasePackPushConnection(final PackTransport packTransport) {
+	public BasePackPushConnection(PackTransport packTransport) {
 		super(packTransport);
 		thinPack = transport.isPushThin();
 		atomic = transport.isPushAtomic();
@@ -365,7 +365,7 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 		}
 	}
 
-	private void readStatusReport(final Map<String, RemoteRefUpdate> refUpdates)
+	private void readStatusReport(Map<String, RemoteRefUpdate> refUpdates)
 			throws IOException {
 		final String unpackLine = readStringLongTimeout();
 		if (!unpackLine.startsWith("unpack ")) //$NON-NLS-1$

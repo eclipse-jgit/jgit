@@ -65,7 +65,7 @@ public class RevWalkException extends RuntimeException {
 	 * @param cause
 	 *            the checked exception that describes why the walk failed.
 	 */
-	public RevWalkException(final Throwable cause) {
+	public RevWalkException(Throwable cause) {
 		super(JGitText.get().walkFailure, cause);
 	}
 }

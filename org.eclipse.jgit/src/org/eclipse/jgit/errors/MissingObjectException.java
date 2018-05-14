@@ -69,7 +69,7 @@ public class MissingObjectException extends IOException {
 	 * @param id SHA-1
 	 * @param type object type
 	 */
-	public MissingObjectException(final ObjectId id, final String type) {
+	public MissingObjectException(ObjectId id, String type) {
 		super(MessageFormat.format(JGitText.get().missingObject, type, id.name()));
 		missing = id.copy();
 	}
@@ -81,7 +81,7 @@ public class MissingObjectException extends IOException {
 	 * @param id SHA-1
 	 * @param type object type
 	 */
-	public MissingObjectException(final ObjectId id, final int type) {
+	public MissingObjectException(ObjectId id, int type) {
 		this(id, Constants.typeString(type));
 	}
 
@@ -94,7 +94,7 @@ public class MissingObjectException extends IOException {
 	 * @param type
 	 *            object type
 	 */
-	public MissingObjectException(final AbbreviatedObjectId id, final int type) {
+	public MissingObjectException(AbbreviatedObjectId id, int type) {
 		super(MessageFormat.format(JGitText.get().missingObject, Constants
 				.typeString(type), id.name()));
 		missing = null;

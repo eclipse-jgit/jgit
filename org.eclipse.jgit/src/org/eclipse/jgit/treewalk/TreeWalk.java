@@ -332,7 +332,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 *            ObjectReader will be created by the walker, and will be closed
 	 *            when the walker is closed.
 	 */
-	public TreeWalk(final Repository repo) {
+	public TreeWalk(Repository repo) {
 		this(repo, repo.newObjectReader(), true);
 	}
 
@@ -348,7 +348,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 *            is not closed when the walker is closed.
 	 * @since 4.3
 	 */
-	public TreeWalk(final @Nullable Repository repo, final ObjectReader or) {
+	public TreeWalk(@Nullable Repository repo, ObjectReader or) {
 		this(repo, or, false);
 	}
 
@@ -359,7 +359,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 *            the reader the walker will obtain tree data from. The reader
 	 *            is not closed when the walker is closed.
 	 */
-	public TreeWalk(final ObjectReader or) {
+	public TreeWalk(ObjectReader or) {
 		this(null, or, false);
 	}
 
@@ -447,7 +447,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 * @see org.eclipse.jgit.treewalk.filter.AndTreeFilter
 	 * @see org.eclipse.jgit.treewalk.filter.OrTreeFilter
 	 */
-	public void setFilter(final TreeFilter newFilter) {
+	public void setFilter(TreeFilter newFilter) {
 		filter = newFilter != null ? newFilter : TreeFilter.ALL;
 	}
 
@@ -475,7 +475,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 * @param b
 	 *            true to skip subtree nodes and only obtain files nodes.
 	 */
-	public void setRecursive(final boolean b) {
+	public void setRecursive(boolean b) {
 		recursive = b;
 	}
 
@@ -505,7 +505,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 *            true to get trees after their children.
 	 * @see #isPostOrderTraversal()
 	 */
-	public void setPostOrderTraversal(final boolean b) {
+	public void setPostOrderTraversal(boolean b) {
 		postOrderTraversal = b;
 	}
 
@@ -661,7 +661,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 * @throws java.io.IOException
 	 *             a loose object or pack file could not be read.
 	 */
-	public void reset(final AnyObjectId id) throws MissingObjectException,
+	public void reset(AnyObjectId id) throws MissingObjectException,
 			IncorrectObjectTypeException, CorruptObjectException, IOException {
 		if (trees.length == 1) {
 			AbstractTreeIterator o = trees[0];
@@ -702,7 +702,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 * @throws java.io.IOException
 	 *             a loose object or pack file could not be read.
 	 */
-	public void reset(final AnyObjectId... ids) throws MissingObjectException,
+	public void reset(AnyObjectId... ids) throws MissingObjectException,
 			IncorrectObjectTypeException, CorruptObjectException, IOException {
 		final int oldLen = trees.length;
 		final int newLen = ids.length;
@@ -757,7 +757,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 * @throws java.io.IOException
 	 *             a loose object or pack file could not be read.
 	 */
-	public int addTree(final AnyObjectId id) throws MissingObjectException,
+	public int addTree(AnyObjectId id) throws MissingObjectException,
 			IncorrectObjectTypeException, CorruptObjectException, IOException {
 		return addTree(parserFor(id));
 	}
@@ -920,7 +920,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 * @return mode bits for the current entry of the nth tree.
 	 * @see FileMode#fromBits(int)
 	 */
-	public int getRawMode(final int nth) {
+	public int getRawMode(int nth) {
 		final AbstractTreeIterator t = trees[nth];
 		return t.matches == currentHead ? t.mode : 0;
 	}
@@ -936,7 +936,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 *            tree to obtain the mode from.
 	 * @return mode for the current entry of the nth tree.
 	 */
-	public FileMode getFileMode(final int nth) {
+	public FileMode getFileMode(int nth) {
 		return FileMode.fromBits(getRawMode(nth));
 	}
 
@@ -971,7 +971,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 * @see #getObjectId(MutableObjectId, int)
 	 * @see #idEqual(int, int)
 	 */
-	public ObjectId getObjectId(final int nth) {
+	public ObjectId getObjectId(int nth) {
 		final AbstractTreeIterator t = trees[nth];
 		return t.matches == currentHead ? t.getEntryObjectId() : ObjectId
 				.zeroId();
@@ -993,7 +993,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 *            tree to obtain the object identifier from.
 	 * @see #idEqual(int, int)
 	 */
-	public void getObjectId(final MutableObjectId out, final int nth) {
+	public void getObjectId(MutableObjectId out, int nth) {
 		final AbstractTreeIterator t = trees[nth];
 		if (t.matches == currentHead)
 			t.getEntryObjectId(out);
@@ -1012,7 +1012,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 *         <code>getObjectId(nthA).equals(getObjectId(nthB))</code>.
 	 * @see #getObjectId(int)
 	 */
-	public boolean idEqual(final int nthA, final int nthB) {
+	public boolean idEqual(int nthA, int nthB) {
 		final AbstractTreeIterator ch = currentHead;
 		final AbstractTreeIterator a = trees[nthA];
 		final AbstractTreeIterator b = trees[nthB];
@@ -1110,7 +1110,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 *         again on this tree walk.
 	 * @since 4.7
 	 */
-	public int isPathMatch(final byte[] p, final int pLen) {
+	public int isPathMatch(byte[] p, int pLen) {
 		final AbstractTreeIterator t = currentHead;
 		final byte[] c = t.path;
 		final int cLen = t.pathLen;
@@ -1163,7 +1163,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 *         path; 1 if the current path is past p and p will never match
 	 *         again on this tree walk.
 	 */
-	public int isPathPrefix(final byte[] p, final int pLen) {
+	public int isPathPrefix(byte[] p, int pLen) {
 		final AbstractTreeIterator t = currentHead;
 		final byte[] c = t.path;
 		final int cLen = t.pathLen;
@@ -1213,7 +1213,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 * @return true if p is suffix of the current path;
 	 *         false if otherwise
 	 */
-	public boolean isPathSuffix(final byte[] p, final int pLen) {
+	public boolean isPathSuffix(byte[] p, int pLen) {
 		final AbstractTreeIterator t = currentHead;
 		final byte[] c = t.path;
 		final int cLen = t.pathLen;
@@ -1370,7 +1370,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 		currentHead = minRef;
 	}
 
-	private CanonicalTreeParser parserFor(final AnyObjectId id)
+	private CanonicalTreeParser parserFor(AnyObjectId id)
 			throws IncorrectObjectTypeException, IOException {
 		final CanonicalTreeParser p = new CanonicalTreeParser();
 		p.reset(reader, id);

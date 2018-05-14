@@ -157,7 +157,7 @@ public class WindowCache {
 	 *             settings, usually too low of a limit.
 	 */
 	@Deprecated
-	public static void reconfigure(final WindowCacheConfig cfg) {
+	public static void reconfigure(WindowCacheConfig cfg) {
 		final WindowCache nc = new WindowCache(cfg);
 		final WindowCache oc = cache;
 		if (oc != null)
@@ -232,7 +232,7 @@ public class WindowCache {
 
 	private final AtomicLong openBytes;
 
-	private WindowCache(final WindowCacheConfig cfg) {
+	private WindowCache(WindowCacheConfig cfg) {
 		tableSize = tableSize(cfg);
 		final int lockCount = lockCount(cfg);
 		if (tableSize < 1)
@@ -286,11 +286,11 @@ public class WindowCache {
 		return openBytes.get();
 	}
 
-	private int hash(final int packHash, final long off) {
+	private int hash(int packHash, long off) {
 		return packHash + (int) (off >>> windowSizeShift);
 	}
 
-	private ByteWindow load(final PackFile pack, final long offset)
+	private ByteWindow load(PackFile pack, long offset)
 			throws IOException {
 		if (pack.beginWindowCache())
 			openFiles.incrementAndGet();
@@ -310,18 +310,18 @@ public class WindowCache {
 		}
 	}
 
-	private Ref createRef(final PackFile p, final long o, final ByteWindow v) {
+	private Ref createRef(PackFile p, long o, ByteWindow v) {
 		final Ref ref = new Ref(p, o, v, queue);
 		openBytes.addAndGet(ref.size);
 		return ref;
 	}
 
-	private void clear(final Ref ref) {
+	private void clear(Ref ref) {
 		openBytes.addAndGet(-ref.size);
 		close(ref.pack);
 	}
 
-	private void close(final PackFile pack) {
+	private void close(PackFile pack) {
 		if (pack.endWindowCache())
 			openFiles.decrementAndGet();
 	}
@@ -330,11 +330,11 @@ public class WindowCache {
 		return maxFiles < openFiles.get() || maxBytes < openBytes.get();
 	}
 
-	private long toStart(final long offset) {
+	private long toStart(long offset) {
 		return (offset >>> windowSizeShift) << windowSizeShift;
 	}
 
-	private static int tableSize(final WindowCacheConfig cfg) {
+	private static int tableSize(WindowCacheConfig cfg) {
 		final int wsz = cfg.getPackedGitWindowSize();
 		final long limit = cfg.getPackedGitLimit();
 		if (wsz <= 0)
@@ -344,7 +344,7 @@ public class WindowCache {
 		return (int) Math.min(5 * (limit / wsz) / 2, 2000000000);
 	}
 
-	private static int lockCount(final WindowCacheConfig cfg) {
+	private static int lockCount(WindowCacheConfig cfg) {
 		return Math.max(cfg.getPackedGitOpenFiles(), 32);
 	}
 
@@ -360,7 +360,7 @@ public class WindowCache {
 	 *             the object reference was not in the cache and could not be
 	 *             obtained by {@link #load(PackFile, long)}.
 	 */
-	private ByteWindow getOrLoad(final PackFile pack, final long position)
+	private ByteWindow getOrLoad(PackFile pack, long position)
 			throws IOException {
 		final int slot = slot(pack, position);
 		final Entry e1 = table.get(slot);
@@ -399,7 +399,7 @@ public class WindowCache {
 		return v;
 	}
 
-	private ByteWindow scan(Entry n, final PackFile pack, final long position) {
+	private ByteWindow scan(Entry n, PackFile pack, long position) {
 		for (; n != null; n = n.next) {
 			final Ref r = n.ref;
 			if (r.pack == pack && r.position == position) {
@@ -415,7 +415,7 @@ public class WindowCache {
 		return null;
 	}
 
-	private void hit(final Ref r) {
+	private void hit(Ref r) {
 		// We don't need to be 100% accurate here. Its sufficient that at least
 		// one thread performs the increment. Any other concurrent access at
 		// exactly the same time can simply use the same clock value.
@@ -487,7 +487,7 @@ public class WindowCache {
 	 * @param pack
 	 *            the file to purge all entries of.
 	 */
-	private void removeAll(final PackFile pack) {
+	private void removeAll(PackFile pack) {
 		for (int s = 0; s < tableSize; s++) {
 			final Entry e1 = table.get(s);
 			boolean hasDead = false;
@@ -521,11 +521,11 @@ public class WindowCache {
 		}
 	}
 
-	private int slot(final PackFile pack, final long position) {
+	private int slot(PackFile pack, long position) {
 		return (hash(pack.hash, position) >>> 1) % tableSize;
 	}
 
-	private Lock lock(final PackFile pack, final long position) {
+	private Lock lock(PackFile pack, long position) {
 		return locks[(hash(pack.hash, position) >>> 1) % locks.length];
 	}
 

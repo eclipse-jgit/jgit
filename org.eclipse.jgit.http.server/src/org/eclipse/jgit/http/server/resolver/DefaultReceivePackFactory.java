@@ -82,7 +82,7 @@ public class DefaultReceivePackFactory implements
 
 	/** {@inheritDoc} */
 	@Override
-	public ReceivePack create(final HttpServletRequest req, final Repository db)
+	public ReceivePack create(HttpServletRequest req, Repository db)
 			throws ServiceNotEnabledException, ServiceNotAuthorizedException {
 		final ServiceConfig cfg = db.getConfig().get(ServiceConfig::new);
 		String user = req.getRemoteUser();

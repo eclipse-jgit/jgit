@@ -107,7 +107,7 @@ public abstract class OperationResult {
 	 *            name of the ref to obtain.
 	 * @return the requested ref; null if the remote did not advertise this ref.
 	 */
-	public final Ref getAdvertisedRef(final String name) {
+	public final Ref getAdvertisedRef(String name) {
 		return advertisedRefs.get(name);
 	}
 
@@ -129,7 +129,7 @@ public abstract class OperationResult {
 	 * @return status of the local ref; null if this local ref was not touched
 	 *         during this operation.
 	 */
-	public TrackingRefUpdate getTrackingRefUpdate(final String localName) {
+	public TrackingRefUpdate getTrackingRefUpdate(String localName) {
 		return updates.get(localName);
 	}
 

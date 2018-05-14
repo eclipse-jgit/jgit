@@ -747,7 +747,7 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		}
 	}
 
-	private ObjectId insertCommit(final CommitBuilder builder)
+	private ObjectId insertCommit(CommitBuilder builder)
 			throws IOException, UnsupportedEncodingException {
 		try (ObjectInserter oi = db.newObjectInserter()) {
 			ObjectId id = oi.insert(builder);
@@ -764,7 +764,7 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		}
 	}
 
-	private ObjectId insertTag(final TagBuilder tag) throws IOException,
+	private ObjectId insertTag(TagBuilder tag) throws IOException,
 			UnsupportedEncodingException {
 		try (ObjectInserter oi = db.newObjectInserter()) {
 			ObjectId id = oi.insert(tag);
