@@ -152,6 +152,24 @@
     },
     {
       "key": {
+        "uuid": "ce0ede1d_874fe80c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-14T15:40:05Z",
+      "side": 1,
+      "message": "I understand. For performance, I wonder if we should expose a variant that returns @Nullable IntList.\n\nI\u0027ll send a demonstration change to make the discussion more concrete.",
+      "parentUuid": "5e7dd900_279e274e",
+      "revId": "08d2e0188c932d1c87f603c9c1435296a63910d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a892301e_3c35eba9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
         "patchSetId": 6
