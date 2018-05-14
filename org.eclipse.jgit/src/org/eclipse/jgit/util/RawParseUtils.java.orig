@@ -637,8 +637,20 @@ public final class RawParseUtils {
 	 *            array as a single line if a '\0' is found.
 	 */
 	public static final IntList lineMap(final byte[] buf, int ptr, int end) {
+<<<<<<< HEAD
 		IntList map = lineMapOrNull(buf, ptr, end);
 		if (map == null) {
+||||||| parent of db77fe46b... Fixup javadoc and formatting in RawText and RawParseUtils
+		IntList map;
+		try {
+		  map = lineMapOrBinary(buf, ptr, end);
+		} catch (BinaryBlobException e) {
+=======
+		IntList map;
+		try {
+			map = lineMapOrBinary(buf, ptr, end);
+		} catch (BinaryBlobException e) {
+>>>>>>> db77fe46b... Fixup javadoc and formatting in RawText and RawParseUtils
 			map = new IntList(3);
 			map.add(Integer.MIN_VALUE);
 			map.add(ptr);
