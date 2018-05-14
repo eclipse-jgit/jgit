@@ -134,6 +134,24 @@
     },
     {
       "key": {
+        "uuid": "5e7dd900_279e274e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-14T15:18:09Z",
+      "side": 1,
+      "message": "I was just looking at the performance implications, if you think we should better have a stack trace I am open to remove the fillInStackTrace implementation.",
+      "parentUuid": "c43a11dc_8d1485e5",
+      "revId": "08d2e0188c932d1c87f603c9c1435296a63910d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a892301e_3c35eba9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
         "patchSetId": 6
