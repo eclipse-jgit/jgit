@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "de7812f1_176472f8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-14T23:20:39Z",
+      "side": 1,
+      "message": "Readers might wonder:\n\n* why \u0027final\u0027 in parameter lists is more important than for other locals\n* whether this represents a complete ban on \u0027final\u0027 in parameter lists or whether there are some exceptions\n\nHopefully https://dev.eclipse.org/mhonarc/lists/jgit-dev/threads.html#03568 will end up with docs addressing the latter. For the former, I think the main reason is that parameter lists often get copy/pasted (e.g. when adding a new overload, or when overriding a method).\n\noptional: a few words in the commit message about (1) the rationale for this change and (2) how it handles such questions would help.",
+      "revId": "66e2348ce20b3c66ad6cf4974429f9cc24d69ad7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f1c4ec74_45951804",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/ShowRef.java",
         "patchSetId": 2
