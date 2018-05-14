@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f1c4ec74_45951804",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/ShowRef.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-14T22:12:03Z",
+      "side": 1,
+      "message": "optional: can unwrap line",
+      "revId": "66e2348ce20b3c66ad6cf4974429f9cc24d69ad7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2a59245_513e47b3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/StashCreateCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-14T22:12:03Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "66e2348ce20b3c66ad6cf4974429f9cc24d69ad7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d950ab08_8365f6b4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftree/RefTreeDatabaseTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 634,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-14T22:12:03Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "66e2348ce20b3c66ad6cf4974429f9cc24d69ad7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2ace775_0322d3fc",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftree/RefTreeDatabaseTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-14T22:12:03Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "66e2348ce20b3c66ad6cf4974429f9cc24d69ad7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67ca5fce_71ed90a7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ConfigTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 917,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-14T22:12:03Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "66e2348ce20b3c66ad6cf4974429f9cc24d69ad7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50cc233c_61c69f99",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkTestCase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-14T22:12:03Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "66e2348ce20b3c66ad6cf4974429f9cc24d69ad7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f35258a_fc28ffaf",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/HookTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-14T22:12:03Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "66e2348ce20b3c66ad6cf4974429f9cc24d69ad7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
