@@ -1,0 +1,176 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba2d8ab3_aae69cb1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-14T20:09:19Z",
+      "side": 1,
+      "message": "optional: can clarify further: \"an array with 1-based offsets for the start of each line.\"",
+      "range": {
+        "startLine": 106,
+        "startChar": 15,
+        "endLine": 106,
+        "endChar": 78
+      },
+      "revId": "a086fe705c848a5e444fbf6ed1dd197d479e2a22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad8416cc_293d8a99",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-14T20:09:19Z",
+      "side": 1,
+      "message": "optional: What is an array end? Is this the array size?",
+      "range": {
+        "startLine": 107,
+        "startChar": 80,
+        "endLine": 107,
+        "endChar": 93
+      },
+      "revId": "a086fe705c848a5e444fbf6ed1dd197d479e2a22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90801ccd_a3ac0e7a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-14T20:09:19Z",
+      "side": 1,
+      "message": "optional nit: would be more common to use a double-tab for line continuation",
+      "revId": "a086fe705c848a5e444fbf6ed1dd197d479e2a22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63d4eea6_fcd1f00a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-14T20:09:19Z",
+      "side": 1,
+      "message": "nit: doesn\u0027t line up.\n\nalso: \"if a \u0027\\0\u0027 is found\" might be more clearly stated as \"if \u003ccode\u003ebuf\u003c/code\u003e contains a NUL byte\"",
+      "range": {
+        "startLine": 636,
+        "startChar": 0,
+        "endLine": 638,
+        "endChar": 0
+      },
+      "revId": "a086fe705c848a5e444fbf6ed1dd197d479e2a22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c0d10df_9717876e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-14T20:09:19Z",
+      "side": 1,
+      "message": "optional: NUL byte?",
+      "range": {
+        "startLine": 651,
+        "startChar": 91,
+        "endLine": 651,
+        "endChar": 95
+      },
+      "revId": "a086fe705c848a5e444fbf6ed1dd197d479e2a22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd03ae89_4791855f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-14T20:09:19Z",
+      "side": 1,
+      "message": "likewise: doesn\u0027t line up, and might be clearer to describe in terms of \u003ccode\u003ebuf\u003c/code\u003e",
+      "range": {
+        "startLine": 661,
+        "startChar": 0,
+        "endLine": 663,
+        "endChar": 0
+      },
+      "revId": "a086fe705c848a5e444fbf6ed1dd197d479e2a22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ff57977_35e36355",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-14T20:09:19Z",
+      "side": 1,
+      "message": "Since https://git.eclipse.org/r/c/122600/, this isn\u0027t true any more (the \"lacks a stacktrace\" part, I mean).",
+      "range": {
+        "startLine": 663,
+        "startChar": 56,
+        "endLine": 664,
+        "endChar": 38
+      },
+      "revId": "a086fe705c848a5e444fbf6ed1dd197d479e2a22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3cfc2da_4bfb4a15",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 665,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-14T20:09:19Z",
+      "side": 1,
+      "message": "nit: not need for this blank line",
+      "revId": "a086fe705c848a5e444fbf6ed1dd197d479e2a22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
