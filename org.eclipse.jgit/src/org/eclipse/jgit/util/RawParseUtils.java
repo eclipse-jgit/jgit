@@ -637,10 +637,8 @@ public final class RawParseUtils {
 	 *            array as a single line if a '\0' is found.
 	 */
 	public static final IntList lineMap(final byte[] buf, int ptr, int end) {
-		IntList map;
-		try {
-		  map = lineMapOrBinary(buf, ptr, end);
-		} catch (BinaryBlobException e) {
+		IntList map = lineMapOrNull(buf, ptr, end);
+		if (map == null) {
 			map = new IntList(3);
 			map.add(Integer.MIN_VALUE);
 			map.add(ptr);
@@ -664,6 +662,14 @@ public final class RawParseUtils {
 	 */
 	public static final IntList lineMapOrBinary(final byte[] buf, int ptr, int end)
 			throws BinaryBlobException {
+		IntList map = lineMapOrNull(buf, ptr, end);
+		if (map == null) {
+			throw new BinaryBlobException();
+		}
+		return map;
+	}
+
+	private static @Nullable IntList lineMapOrNull(byte[] buf, int ptr, int end) {
 		// Experimentally derived from multiple source repositories
 		// the average number of bytes/line is 36. Its a rough guess
 		// to initially size our map close to the target.
@@ -676,15 +682,7 @@ public final class RawParseUtils {
 			}
 
 			if (buf[ptr] == '\0') {
-				throw new BinaryBlobException() {
-
-					private static final long serialVersionUID = 1L;
-
-					@Override
-					public Throwable fillInStackTrace() {
-						return this;
-					}
-				};
+				return null;
 			}
 
 			foundLF = (buf[ptr] == '\n');
