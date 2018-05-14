@@ -237,6 +237,30 @@
     },
     {
       "key": {
+        "uuid": "f6239131_19a7536c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-14T15:59:32Z",
+      "side": 1,
+      "message": "Current JGit style is to omit the unnecessary \"final\" in new code. If you wanted to follow the old style, you\u0027d need to make lineMap final, too.\n\nIf there\u0027s a tool to remove the old-style \"final\" throughout JGit that we could run once, that would be great.",
+      "parentUuid": "c739570a_0a9c743a",
+      "range": {
+        "startLine": 111,
+        "startChar": 16,
+        "endLine": 111,
+        "endChar": 21
+      },
+      "revId": "08d2e0188c932d1c87f603c9c1435296a63910d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c43a11dc_8d1485e5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
         "patchSetId": 6
@@ -320,6 +344,47 @@
       "side": 1,
       "message": "If you do that, we\u0027ll have to thread @Nullable through the call stack, eg.\n\n https://eclipse.googlesource.com/jgit/jgit/+/e9e150fdd24dbeb54df614a4d47da3074c766b28/org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java#1066\n\nI think the exception is more explicit and self-explanatory.",
       "parentUuid": "5dc02283_3d4b0a71",
+      "revId": "08d2e0188c932d1c87f603c9c1435296a63910d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "707d66b4_97cb6123",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-14T15:59:32Z",
+      "side": 1,
+      "message": "In that case, should line 373 be also changed to avoid producing a stack trace? Or should BinaryBlobException itself be modified that way centrally?\n\nhttps://git.eclipse.org/r/122600 is the promised change illustrating what I mean.",
+      "parentUuid": "6267c37a_96b159ba",
+      "revId": "08d2e0188c932d1c87f603c9c1435296a63910d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e71a639d_5fad03fe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 642,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-14T15:59:32Z",
+      "side": 1,
+      "message": "nit: should be tab instead of spaces",
+      "range": {
+        "startLine": 642,
+        "startChar": 2,
+        "endLine": 642,
+        "endChar": 4
+      },
       "revId": "08d2e0188c932d1c87f603c9c1435296a63910d2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
