@@ -368,6 +368,29 @@
     },
     {
       "key": {
+        "uuid": "6273a13f_eb3c82a8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-14T16:02:23Z",
+      "side": 1,
+      "message": "not about this change: static final methods are strange, since static methods are associated to a particular class and cannot be overridden. I wonder why the \u0027final\u0027 snuck in.",
+      "range": {
+        "startLine": 639,
+        "startChar": 8,
+        "endLine": 639,
+        "endChar": 20
+      },
+      "revId": "08d2e0188c932d1c87f603c9c1435296a63910d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e71a639d_5fad03fe",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
         "patchSetId": 6
