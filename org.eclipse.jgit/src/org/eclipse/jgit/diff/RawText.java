@@ -88,27 +88,27 @@ public class RawText extends Sequence {
 	 * The entire array (indexes 0 through length-1) is used as the content.
 	 *
 	 * @param input
-	 *            the content array. The array is never modified, so passing
-	 *            through cached arrays is safe.
+	 *            the content array. The object retains a reference to this
+	 *            array, so it should be immutable.
 	 */
-	public RawText(final byte[] input) {
+	public RawText(byte[] input) {
 		this(input, RawParseUtils.lineMap(input, 0, input.length));
 	}
 
 	/**
-	 * Create a new sequence from the existing content byte array, and the line
+	 * Create a new sequence from the existing content byte array and the line
 	 * map indicating line boundaries.
 	 *
 	 * @param input
-	 *            the content array. The array is never modified, so passing
-	 *            through cached arrays is safe.
+	 *            the content array. The object retains a reference to this
+	 *            array, so it should be immutable.
 	 * @param lineMap
-	 *            an array with the line starts of the input, in 1-based offset.
-	 *            The first and last entry should be {@link Integer#MIN_VALUE}, and the array end
-	 *            respectively.
+	 *            an array with 1-based offsets for the start of each line.
+	 *            The first and last entries should be {@link Integer#MIN_VALUE}
+	 *            and an offset one past the end of the last line, respectively.
 	 * @since 5.0
 	 */
-	public RawText(final byte[] input, IntList lineMap) {
+	public RawText(byte[] input, IntList lineMap) {
 		content = input;
 		lines = lineMap;
 	}
@@ -164,7 +164,7 @@ public class RawText extends Sequence {
 	 * @throws java.io.IOException
 	 *             the stream write operation failed.
 	 */
-	public void writeLine(final OutputStream out, final int i)
+	public void writeLine(OutputStream out, int i)
 			throws IOException {
 		int start = getStart(i);
 		int end = getEnd(i);
@@ -238,11 +238,11 @@ public class RawText extends Sequence {
 		return RawParseUtils.decode(content, start, end);
 	}
 
-	private int getStart(final int i) {
+	private int getStart(int i) {
 		return lines.get(i + 1);
 	}
 
-	private int getEnd(final int i) {
+	private int getEnd(int i) {
 		return lines.get(i + 2);
 	}
 
@@ -342,7 +342,8 @@ public class RawText extends Sequence {
 	 * @throws java.io.IOException
 	 *             if the input could not be read.
 	 */
-	public static RawText load(ObjectLoader ldr, int threshold) throws IOException, BinaryBlobException {
+	public static RawText load(ObjectLoader ldr, int threshold)
+			throws IOException, BinaryBlobException {
 		long sz = ldr.getSize();
 
 		if (sz > threshold) {

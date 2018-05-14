@@ -633,8 +633,9 @@ public final class RawParseUtils {
 	 *            line 1.
 	 * @param end
 	 *            1 past the end of the content within <code>buf</code>.
-	 * @return a line map indexing the start position of each line, or a map representing the entire
-	 *            array as a single line if a '\0' is found.
+	 * @return a line map indicating the starting position of each line, or a
+	 *         map representing the entire buffer as a single line if
+	 *         <code>buf</code> contains a NUL byte.
 	 */
 	public static final IntList lineMap(final byte[] buf, int ptr, int end) {
 		IntList map = lineMapOrNull(buf, ptr, end);
@@ -648,19 +649,22 @@ public final class RawParseUtils {
 	}
 
 	/**
-	 * Like {@link #lineMap(byte[], int, int)} but throw {@link BinaryBlobException} if a null char
-	 * is encountered.
-	 * @param buf  buffer to scan.
-	 * @param ptr position within the buffer corresponding to the first byte of
-	 *            line 1.
-	 * @param end  1 past the end of the content within <code>buf</code>.
-	 * @return a line map indexing the start position of each line, or a map representing the entire
-	 *            array as a single line if a '\0' is found.
-	 * @throws BinaryBlobException
+	 * Like {@link #lineMap(byte[], int, int)} but throw
+	 * {@link BinaryBlobException} if a NUL byte is encountered.
 	 *
+	 * @param buf
+	 *            buffer to scan.
+	 * @param ptr
+	 *            position within the buffer corresponding to the first byte of
+	 *            line 1.
+	 * @param end
+	 *            1 past the end of the content within <code>buf</code>.
+	 * @return a line map indicating the starting position of each line.
+	 * @throws BinaryBlobException
+	 *            if a NUL byte is found.
 	 * @since 5.0
 	 */
-	public static final IntList lineMapOrBinary(final byte[] buf, int ptr, int end)
+	public static final IntList lineMapOrBinary(byte[] buf, int ptr, int end)
 			throws BinaryBlobException {
 		IntList map = lineMapOrNull(buf, ptr, end);
 		if (map == null) {
