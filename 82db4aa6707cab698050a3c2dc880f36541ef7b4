@@ -16,6 +16,24 @@
       "revId": "82db4aa6707cab698050a3c2dc880f36541ef7b4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d6d6816_46d07323",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java.orig",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-14T20:00:38Z",
+      "side": 1,
+      "message": "yes, backup file created by p4merge, removed in next patchset",
+      "parentUuid": "930f7608_47058f8f",
+      "revId": "82db4aa6707cab698050a3c2dc880f36541ef7b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
