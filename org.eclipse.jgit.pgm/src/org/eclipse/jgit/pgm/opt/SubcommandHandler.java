@@ -84,7 +84,7 @@ public class SubcommandHandler extends OptionHandler<TextBuiltin> {
 
 	/** {@inheritDoc} */
 	@Override
-	public int parseArguments(final Parameters params) throws CmdLineException {
+	public int parseArguments(Parameters params) throws CmdLineException {
 		final String name = params.getParameter(0);
 		final CommandRef cr = CommandCatalog.get(name);
 		if (cr == null)

@@ -239,7 +239,7 @@ public class FileSnapshot {
 				+ ", read: " + f.format(new Date(lastRead)) + "]"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
-	private boolean notRacyClean(final long read) {
+	private boolean notRacyClean(long read) {
 		// The last modified time granularity of FAT filesystems is 2 seconds.
 		// Using 2.5 seconds here provides a reasonably high assurance that
 		// a modification was not missed.
@@ -247,7 +247,7 @@ public class FileSnapshot {
 		return read - lastModified > 2500;
 	}
 
-	private boolean isModified(final long currLastModified) {
+	private boolean isModified(long currLastModified) {
 		// Any difference indicates the path was modified.
 		//
 		if (lastModified != currLastModified)

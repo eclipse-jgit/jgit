@@ -151,7 +151,7 @@ public class BundleWriter {
 	 * @param id
 	 *            object to pack. Multiple refs may point to the same object.
 	 */
-	public void include(final String name, final AnyObjectId id) {
+	public void include(String name, AnyObjectId id) {
 		boolean validRefName = Repository.isValidRefName(name) || Constants.HEAD.equals(name);
 		if (!validRefName)
 			throw new IllegalArgumentException(MessageFormat.format(JGitText.get().invalidRefName, name));
@@ -169,7 +169,7 @@ public class BundleWriter {
 	 * @param r
 	 *            the ref to include.
 	 */
-	public void include(final Ref r) {
+	public void include(Ref r) {
 		include(r.getName(), r.getObjectId());
 
 		if (r.getPeeledObjectId() != null)
@@ -192,7 +192,7 @@ public class BundleWriter {
 	 *            parsed and not disposed in order to maximize the amount of
 	 *            debugging information available in the bundle stream.
 	 */
-	public void assume(final RevCommit c) {
+	public void assume(RevCommit c) {
 		if (c != null)
 			assume.add(c);
 	}

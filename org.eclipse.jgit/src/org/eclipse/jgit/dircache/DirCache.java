@@ -113,7 +113,7 @@ public class DirCache {
 
 	static final Comparator<DirCacheEntry> ENT_CMP = new Comparator<DirCacheEntry>() {
 		@Override
-		public int compare(final DirCacheEntry o1, final DirCacheEntry o2) {
+		public int compare(DirCacheEntry o1, DirCacheEntry o2) {
 			final int cr = cmp(o1, o2);
 			if (cr != 0)
 				return cr;
@@ -189,7 +189,7 @@ public class DirCache {
 	 *             the index file is using a format or extension that this
 	 *             library does not support.
 	 */
-	public static DirCache read(final Repository repository)
+	public static DirCache read(Repository repository)
 			throws CorruptObjectException, IOException {
 		final DirCache c = read(repository.getIndexFile(), repository.getFS());
 		c.repository = repository;
@@ -216,7 +216,7 @@ public class DirCache {
 	 *             the index file is using a format or extension that this
 	 *             library does not support.
 	 */
-	public static DirCache read(final File indexLocation, final FS fs)
+	public static DirCache read(File indexLocation, FS fs)
 			throws CorruptObjectException, IOException {
 		final DirCache c = new DirCache(indexLocation, fs);
 		c.read();
@@ -245,7 +245,7 @@ public class DirCache {
 	 *             the index file is using a format or extension that this
 	 *             library does not support.
 	 */
-	public static DirCache lock(final File indexLocation, final FS fs)
+	public static DirCache lock(File indexLocation, FS fs)
 			throws CorruptObjectException, IOException {
 		final DirCache c = new DirCache(indexLocation, fs);
 		if (!c.lock())
@@ -373,7 +373,7 @@ public class DirCache {
 	 *            the file system abstraction which will be necessary to perform
 	 *            certain file system operations.
 	 */
-	public DirCache(final File indexLocation, final FS fs) {
+	public DirCache(File indexLocation, FS fs) {
 		liveFile = indexLocation;
 		clear();
 	}
@@ -473,7 +473,7 @@ public class DirCache {
 		readIndexChecksum = NO_CHECKSUM;
 	}
 
-	private void readFrom(final InputStream inStream) throws IOException,
+	private void readFrom(InputStream inStream) throws IOException,
 			CorruptObjectException {
 		final BufferedInputStream in = new BufferedInputStream(inStream);
 		final MessageDigest md = Constants.newMessageDigest();
@@ -581,11 +581,11 @@ public class DirCache {
 		}
 	}
 
-	private static String formatExtensionName(final byte[] hdr) {
+	private static String formatExtensionName(byte[] hdr) {
 		return "'" + new String(hdr, 0, 4, ISO_8859_1) + "'"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
-	private static boolean is_DIRC(final byte[] hdr) {
+	private static boolean is_DIRC(byte[] hdr) {
 		if (hdr.length < SIG_DIRC.length)
 			return false;
 		for (int i = 0; i < SIG_DIRC.length; i++)
@@ -748,7 +748,7 @@ public class DirCache {
 		return true;
 	}
 
-	private void requireLocked(final LockFile tmp) {
+	private void requireLocked(LockFile tmp) {
 		if (liveFile == null)
 			throw new IllegalStateException(JGitText.get().dirCacheIsNotLocked);
 		if (tmp == null)
@@ -779,7 +779,7 @@ public class DirCache {
 	 *         the index; pass to {@link #getEntry(int)} to obtain the entry
 	 *         information. If &lt; 0 the entry does not exist in the index.
 	 */
-	public int findEntry(final String path) {
+	public int findEntry(String path) {
 		final byte[] p = Constants.encode(path);
 		return findEntry(p, p.length);
 	}
@@ -835,7 +835,7 @@ public class DirCache {
 	 *            entry position of the path that should be skipped.
 	 * @return position of the next entry whose path is after the input.
 	 */
-	public int nextEntry(final int position) {
+	public int nextEntry(int position) {
 		DirCacheEntry last = sortedEntries[position];
 		int nextIdx = position + 1;
 		while (nextIdx < entryCnt) {
@@ -882,7 +882,7 @@ public class DirCache {
 	 *            position of the entry to get.
 	 * @return the entry at position <code>i</code>.
 	 */
-	public DirCacheEntry getEntry(final int i) {
+	public DirCacheEntry getEntry(int i) {
 		return sortedEntries[i];
 	}
 
@@ -893,7 +893,7 @@ public class DirCache {
 	 *            the path to search for.
 	 * @return the entry for the given <code>path</code>.
 	 */
-	public DirCacheEntry getEntry(final String path) {
+	public DirCacheEntry getEntry(String path) {
 		final int i = findEntry(path);
 		return i < 0 ? null : sortedEntries[i];
 	}
@@ -942,7 +942,7 @@ public class DirCache {
 	 * @return the cache tree; null if there is no current cache tree available
 	 *         and <code>build</code> was false.
 	 */
-	public DirCacheTree getCacheTree(final boolean build) {
+	public DirCacheTree getCacheTree(boolean build) {
 		if (build) {
 			if (tree == null)
 				tree = new DirCacheTree();
@@ -968,7 +968,7 @@ public class DirCache {
 	 * @throws java.io.IOException
 	 *             an unexpected error occurred writing to the object store.
 	 */
-	public ObjectId writeTree(final ObjectInserter ow)
+	public ObjectId writeTree(ObjectInserter ow)
 			throws UnmergedPathException, IOException {
 		return getCacheTree(true).writeTree(sortedEntries, 0, 0, ow);
 	}

@@ -63,7 +63,7 @@ public abstract class RevFlagFilter extends RevFilter {
 	 *            the flag to test.
 	 * @return filter that selects only commits with flag <code>a</code>.
 	 */
-	public static RevFilter has(final RevFlag a) {
+	public static RevFilter has(RevFlag a) {
 		final RevFlagSet s = new RevFlagSet();
 		s.add(a);
 		return new HasAll(s);
@@ -76,7 +76,7 @@ public abstract class RevFlagFilter extends RevFilter {
 	 *            set of flags to test.
 	 * @return filter that selects only commits with all flags in <code>a</code>.
 	 */
-	public static RevFilter hasAll(final RevFlag... a) {
+	public static RevFilter hasAll(RevFlag... a) {
 		final RevFlagSet set = new RevFlagSet();
 		for (final RevFlag flag : a)
 			set.add(flag);
@@ -90,7 +90,7 @@ public abstract class RevFlagFilter extends RevFilter {
 	 *            set of flags to test.
 	 * @return filter that selects only commits with all flags in <code>a</code>.
 	 */
-	public static RevFilter hasAll(final RevFlagSet a) {
+	public static RevFilter hasAll(RevFlagSet a) {
 		return new HasAll(new RevFlagSet(a));
 	}
 
@@ -101,7 +101,7 @@ public abstract class RevFlagFilter extends RevFilter {
 	 *            set of flags to test.
 	 * @return filter that selects only commits with any flag in <code>a</code>.
 	 */
-	public static RevFilter hasAny(final RevFlag... a) {
+	public static RevFilter hasAny(RevFlag... a) {
 		final RevFlagSet set = new RevFlagSet();
 		for (final RevFlag flag : a)
 			set.add(flag);
@@ -115,7 +115,7 @@ public abstract class RevFlagFilter extends RevFilter {
 	 *            set of flags to test.
 	 * @return filter that selects only commits with any flag in <code>a</code>.
 	 */
-	public static RevFilter hasAny(final RevFlagSet a) {
+	public static RevFilter hasAny(RevFlagSet a) {
 		return new HasAny(new RevFlagSet(a));
 	}
 
@@ -143,7 +143,7 @@ public abstract class RevFlagFilter extends RevFilter {
 		}
 
 		@Override
-		public boolean include(final RevWalk walker, final RevCommit c)
+		public boolean include(RevWalk walker, RevCommit c)
 				throws MissingObjectException, IncorrectObjectTypeException,
 				IOException {
 			return c.hasAll(flags);
@@ -161,7 +161,7 @@ public abstract class RevFlagFilter extends RevFilter {
 		}
 
 		@Override
-		public boolean include(final RevWalk walker, final RevCommit c)
+		public boolean include(RevWalk walker, RevCommit c)
 				throws MissingObjectException, IncorrectObjectTypeException,
 				IOException {
 			return c.hasAny(flags);

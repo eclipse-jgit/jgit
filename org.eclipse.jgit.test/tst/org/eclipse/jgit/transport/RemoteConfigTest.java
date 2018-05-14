@@ -67,12 +67,12 @@ public class RemoteConfigTest {
 		config = new Config();
 	}
 
-	private void readConfig(final String dat) throws ConfigInvalidException {
+	private void readConfig(String dat) throws ConfigInvalidException {
 		config = new Config();
 		config.fromText(dat);
 	}
 
-	private void checkConfig(final String exp) {
+	private void checkConfig(String exp) {
 		assertEquals(exp, config.toText());
 	}
 

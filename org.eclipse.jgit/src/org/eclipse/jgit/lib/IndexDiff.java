@@ -742,7 +742,7 @@ public class IndexDiff {
 	 * @param path a {@link java.lang.String} object.
 	 * @return file mode
 	 */
-	public FileMode getIndexMode(final String path) {
+	public FileMode getIndexMode(String path) {
 		final DirCacheEntry entry = dirCache.getEntry(path);
 		return entry != null ? entry.getFileMode() : FileMode.MISSING;
 	}
@@ -756,7 +756,7 @@ public class IndexDiff {
 	 *         the given file mode
 	 * @since 3.6
 	 */
-	public Set<String> getPathsWithIndexMode(final FileMode mode) {
+	public Set<String> getPathsWithIndexMode(FileMode mode) {
 		Set<String> paths = fileModes.get(mode);
 		if (paths == null)
 			paths = new HashSet<>();

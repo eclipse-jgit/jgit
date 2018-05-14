@@ -259,7 +259,7 @@ public class SideBandOutputStreamTest {
 		}
 	}
 
-	private void assertBuffer(final String exp) throws IOException {
+	private void assertBuffer(String exp) throws IOException {
 		assertEquals(exp, new String(rawOut.toByteArray(),
 				Constants.CHARACTER_ENCODING));
 	}

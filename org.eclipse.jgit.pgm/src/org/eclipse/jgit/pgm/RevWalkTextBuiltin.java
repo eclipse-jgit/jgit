@@ -91,7 +91,7 @@ abstract class RevWalkTextBuiltin extends TextBuiltin {
 
 	private final EnumSet<RevSort> sorting = EnumSet.noneOf(RevSort.class);
 
-	private void enableRevSort(final RevSort type, final boolean on) {
+	private void enableRevSort(RevSort type, boolean on) {
 		if (on)
 			sorting.add(type);
 		else
@@ -260,7 +260,7 @@ abstract class RevWalkTextBuiltin extends TextBuiltin {
 	 *            The current {@link org.eclipse.jgit.revwalk.RevCommit}
 	 * @throws java.lang.Exception
 	 */
-	protected abstract void show(final RevCommit c) throws Exception;
+	protected abstract void show(RevCommit c) throws Exception;
 
 	/**
 	 * "Show" the current RevCommit when called from the main processing loop.

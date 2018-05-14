@@ -61,7 +61,7 @@ public abstract class CachedAuthenticator extends Authenticator {
 	 * @param ca
 	 *            the information we should remember.
 	 */
-	public static void add(final CachedAuthentication ca) {
+	public static void add(CachedAuthentication ca) {
 		cached.add(ca);
 	}
 

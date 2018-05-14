@@ -106,7 +106,7 @@ public class DfsBlockCacheConfig {
 	 *            pack file data; must be positive.
 	 * @return {@code this}
 	 */
-	public DfsBlockCacheConfig setBlockLimit(final long newLimit) {
+	public DfsBlockCacheConfig setBlockLimit(long newLimit) {
 		if (newLimit <= 0) {
 			throw new IllegalArgumentException(MessageFormat.format(
 					JGitText.get().blockLimitNotPositive,
@@ -135,7 +135,7 @@ public class DfsBlockCacheConfig {
 	 *            The value must be a power of 2.
 	 * @return {@code this}
 	 */
-	public DfsBlockCacheConfig setBlockSize(final int newSize) {
+	public DfsBlockCacheConfig setBlockSize(int newSize) {
 		int size = Math.max(512, newSize);
 		if ((size & (size - 1)) != 0) {
 			throw new IllegalArgumentException(
@@ -206,7 +206,7 @@ public class DfsBlockCacheConfig {
 	 *            configuration to read properties from.
 	 * @return {@code this}
 	 */
-	public DfsBlockCacheConfig fromConfig(final Config rc) {
+	public DfsBlockCacheConfig fromConfig(Config rc) {
 		long cfgBlockLimit = rc.getLong(
 				CONFIG_CORE_SECTION,
 				CONFIG_DFS_SECTION,

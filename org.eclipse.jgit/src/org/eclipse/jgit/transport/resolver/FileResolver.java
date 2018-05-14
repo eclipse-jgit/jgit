@@ -87,7 +87,7 @@ public class FileResolver<C> implements RepositoryResolver<C> {
 	 *            if true, exports all repositories, ignoring the check for the
 	 *            {@code git-daemon-export-ok} files.
 	 */
-	public FileResolver(final File basePath, final boolean exportAll) {
+	public FileResolver(File basePath, boolean exportAll) {
 		this();
 		exportDirectory(basePath);
 		setExportAll(exportAll);
@@ -95,7 +95,7 @@ public class FileResolver<C> implements RepositoryResolver<C> {
 
 	/** {@inheritDoc} */
 	@Override
-	public Repository open(final C req, final String name)
+	public Repository open(C req, String name)
 			throws RepositoryNotFoundException, ServiceNotEnabledException {
 		if (isUnreasonableName(name))
 			throw new RepositoryNotFoundException(name);
@@ -175,7 +175,7 @@ public class FileResolver<C> implements RepositoryResolver<C> {
 	 *
 	 * @param export a boolean.
 	 */
-	public void setExportAll(final boolean export) {
+	public void setExportAll(boolean export) {
 		exportAll = export;
 	}
 
@@ -202,7 +202,7 @@ public class FileResolver<C> implements RepositoryResolver<C> {
 	 *            git repository, but any directory below it which has a file
 	 *            named <code>git-daemon-export-ok</code> will be published.
 	 */
-	public void exportDirectory(final File dir) {
+	public void exportDirectory(File dir) {
 		exportBase.add(dir);
 	}
 
@@ -240,7 +240,7 @@ public class FileResolver<C> implements RepositoryResolver<C> {
 		return name + Constants.DOT_GIT_EXT;
 	}
 
-	private static boolean isUnreasonableName(final String name) {
+	private static boolean isUnreasonableName(String name) {
 		if (name.length() == 0)
 			return true; // no empty paths
 

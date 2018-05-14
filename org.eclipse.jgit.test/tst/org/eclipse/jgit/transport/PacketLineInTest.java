@@ -326,7 +326,7 @@ public class PacketLineInTest {
 
 	// test support
 
-	private void init(final String msg) {
+	private void init(String msg) {
 		rawIn = new ByteArrayInputStream(Constants.encodeASCII(msg));
 		in = new PacketLineIn(rawIn);
 	}

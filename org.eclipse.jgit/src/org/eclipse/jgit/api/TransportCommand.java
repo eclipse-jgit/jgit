@@ -80,7 +80,7 @@ public abstract class TransportCommand<C extends GitCommand, T> extends
 	 *
 	 * @param repo a {@link org.eclipse.jgit.lib.Repository} object.
 	 */
-	protected TransportCommand(final Repository repo) {
+	protected TransportCommand(Repository repo) {
 		super(repo);
 		setCredentialsProvider(CredentialsProvider.getDefault());
 	}
@@ -147,7 +147,7 @@ public abstract class TransportCommand<C extends GitCommand, T> extends
 	 *            a {@link org.eclipse.jgit.transport.Transport} object.
 	 * @return {@code this}
 	 */
-	protected C configure(final Transport transport) {
+	protected C configure(Transport transport) {
 		if (credentialsProvider != null)
 			transport.setCredentialsProvider(credentialsProvider);
 		transport.setTimeout(timeout);
@@ -164,7 +164,7 @@ public abstract class TransportCommand<C extends GitCommand, T> extends
 	 *            a {@link org.eclipse.jgit.api.TransportCommand} object.
 	 * @return {@code this}
 	 */
-	protected C configure(final TransportCommand childCommand) {
+	protected C configure(TransportCommand childCommand) {
 		childCommand.setCredentialsProvider(credentialsProvider);
 		childCommand.setTimeout(timeout);
 		childCommand.setTransportConfigCallback(transportConfigCallback);

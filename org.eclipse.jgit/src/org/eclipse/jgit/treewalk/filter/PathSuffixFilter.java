@@ -84,7 +84,7 @@ public class PathSuffixFilter extends TreeFilter {
 	final String pathStr;
 	final byte[] pathRaw;
 
-	private PathSuffixFilter(final String s) {
+	private PathSuffixFilter(String s) {
 		pathStr = s;
 		pathRaw = Constants.encode(pathStr);
 	}

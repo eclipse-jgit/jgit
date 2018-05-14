@@ -105,7 +105,7 @@ public interface Ref {
 
 		private final boolean packed;
 
-		private Storage(final boolean l, final boolean p) {
+		private Storage(boolean l, boolean p) {
 			loose = l;
 			packed = p;
 		}

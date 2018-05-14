@@ -61,13 +61,13 @@ public class NotRevFilter extends RevFilter {
 	 *            filter to negate.
 	 * @return a filter that does the reverse of <code>a</code>.
 	 */
-	public static RevFilter create(final RevFilter a) {
+	public static RevFilter create(RevFilter a) {
 		return new NotRevFilter(a);
 	}
 
 	private final RevFilter a;
 
-	private NotRevFilter(final RevFilter one) {
+	private NotRevFilter(RevFilter one) {
 		a = one;
 	}
 
@@ -79,7 +79,7 @@ public class NotRevFilter extends RevFilter {
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean include(final RevWalk walker, final RevCommit c)
+	public boolean include(RevWalk walker, RevCommit c)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
 		return !a.include(walker, c);

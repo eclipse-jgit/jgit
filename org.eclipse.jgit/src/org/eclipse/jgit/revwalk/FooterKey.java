@@ -70,7 +70,7 @@ public final class FooterKey {
 	 * @param keyName
 	 *            name of the footer line.
 	 */
-	public FooterKey(final String keyName) {
+	public FooterKey(String keyName) {
 		name = keyName;
 		raw = Constants.encode(keyName.toLowerCase(Locale.ROOT));
 	}

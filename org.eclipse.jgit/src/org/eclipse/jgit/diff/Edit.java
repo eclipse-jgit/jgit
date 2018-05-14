@@ -94,7 +94,7 @@ public class Edit {
 	 * @param bs
 	 *            beginB: start and end of region in sequence B; 0 based.
 	 */
-	public Edit(final int as, final int bs) {
+	public Edit(int as, int bs) {
 		this(as, as, bs, bs);
 	}
 
@@ -110,7 +110,7 @@ public class Edit {
 	 * @param be
 	 *            endB: end of region in sequence B; must be &gt; = bs.
 	 */
-	public Edit(final int as, final int ae, final int bs, final int be) {
+	public Edit(int as, int ae, int bs, int be) {
 		beginA = as;
 		endA = ae;
 
@@ -279,7 +279,7 @@ public class Edit {
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean equals(final Object o) {
+	public boolean equals(Object o) {
 		if (o instanceof Edit) {
 			final Edit e = (Edit) o;
 			return this.beginA == e.beginA && this.endA == e.endA

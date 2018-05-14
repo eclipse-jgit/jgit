@@ -77,7 +77,7 @@ public abstract class RawTextComparator extends SequenceComparator<RawText> {
 		}
 
 		@Override
-		protected int hashRegion(final byte[] raw, int ptr, final int end) {
+		protected int hashRegion(byte[] raw, int ptr, int end) {
 			int hash = 5381;
 			for (; ptr < end; ptr++)
 				hash = ((hash << 5) + hash) + (raw[ptr] & 0xff);
@@ -164,7 +164,7 @@ public abstract class RawTextComparator extends SequenceComparator<RawText> {
 		}
 
 		@Override
-		protected int hashRegion(final byte[] raw, int ptr, int end) {
+		protected int hashRegion(byte[] raw, int ptr, int end) {
 			int hash = 5381;
 			ptr = trimLeadingWhitespace(raw, ptr, end);
 			for (; ptr < end; ptr++)
@@ -199,7 +199,7 @@ public abstract class RawTextComparator extends SequenceComparator<RawText> {
 		}
 
 		@Override
-		protected int hashRegion(final byte[] raw, int ptr, int end) {
+		protected int hashRegion(byte[] raw, int ptr, int end) {
 			int hash = 5381;
 			end = trimTrailingWhitespace(raw, ptr, end);
 			for (; ptr < end; ptr++)
@@ -244,7 +244,7 @@ public abstract class RawTextComparator extends SequenceComparator<RawText> {
 		}
 
 		@Override
-		protected int hashRegion(final byte[] raw, int ptr, int end) {
+		protected int hashRegion(byte[] raw, int ptr, int end) {
 			int hash = 5381;
 			end = trimTrailingWhitespace(raw, ptr, end);
 			while (ptr < end) {

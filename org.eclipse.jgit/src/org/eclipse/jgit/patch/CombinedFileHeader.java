@@ -108,7 +108,7 @@ public class CombinedFileHeader extends FileHeader {
 	 *            the ancestor to get the mode of
 	 * @return the mode of the requested ancestor.
 	 */
-	public FileMode getOldMode(final int nthParent) {
+	public FileMode getOldMode(int nthParent) {
 		return oldModes[nthParent];
 	}
 
@@ -130,13 +130,13 @@ public class CombinedFileHeader extends FileHeader {
 	 *            the ancestor to get the object id of
 	 * @return the id of the requested ancestor.
 	 */
-	public AbbreviatedObjectId getOldId(final int nthParent) {
+	public AbbreviatedObjectId getOldId(int nthParent) {
 		return oldIds[nthParent];
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public String getScriptText(final Charset ocs, final Charset ncs) {
+	public String getScriptText(Charset ocs, Charset ncs) {
 		final Charset[] cs = new Charset[getParentCount() + 1];
 		Arrays.fill(cs, ocs);
 		cs[getParentCount()] = ncs;
@@ -149,7 +149,7 @@ public class CombinedFileHeader extends FileHeader {
 	 * Convert the patch script for this file into a string.
 	 */
 	@Override
-	public String getScriptText(final Charset[] charsetGuess) {
+	public String getScriptText(Charset[] charsetGuess) {
 		return super.getScriptText(charsetGuess);
 	}
 
@@ -191,7 +191,7 @@ public class CombinedFileHeader extends FileHeader {
 
 	/** {@inheritDoc} */
 	@Override
-	protected void parseIndexLine(int ptr, final int eol) {
+	protected void parseIndexLine(int ptr, int eol) {
 		// "index $asha1,$bsha1..$csha1"
 		//
 		final List<AbbreviatedObjectId> ids = new ArrayList<>();
@@ -213,7 +213,7 @@ public class CombinedFileHeader extends FileHeader {
 
 	/** {@inheritDoc} */
 	@Override
-	protected void parseNewFileMode(final int ptr, final int eol) {
+	protected void parseNewFileMode(int ptr, int eol) {
 		for (int i = 0; i < oldModes.length; i++)
 			oldModes[i] = FileMode.MISSING;
 		super.parseNewFileMode(ptr, eol);
@@ -224,7 +224,7 @@ public class CombinedFileHeader extends FileHeader {
 		return new CombinedHunkHeader(this, offset);
 	}
 
-	private void parseModeLine(int ptr, final int eol) {
+	private void parseModeLine(int ptr, int eol) {
 		// "mode $amode,$bmode..$cmode"
 		//
 		int n = 0;
@@ -240,7 +240,7 @@ public class CombinedFileHeader extends FileHeader {
 		newMode = parseFileMode(dot2 + 1, eol);
 	}
 
-	private void parseDeletedFileMode(int ptr, final int eol) {
+	private void parseDeletedFileMode(int ptr, int eol) {
 		// "deleted file mode $amode,$bmode"
 		//
 		changeType = ChangeType.DELETE;

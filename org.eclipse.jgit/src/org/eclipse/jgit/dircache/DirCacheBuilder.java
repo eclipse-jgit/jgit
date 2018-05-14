@@ -83,7 +83,7 @@ public class DirCacheBuilder extends BaseDirCacheEditor {
 	 *            estimated number of entries the builder will have upon
 	 *            completion. This sizes the initial entry table.
 	 */
-	protected DirCacheBuilder(final DirCache dc, final int ecnt) {
+	protected DirCacheBuilder(DirCache dc, int ecnt) {
 		super(dc, ecnt);
 	}
 
@@ -102,7 +102,7 @@ public class DirCacheBuilder extends BaseDirCacheEditor {
 	 * @throws java.lang.IllegalArgumentException
 	 *             If the FileMode of the entry was not set by the caller.
 	 */
-	public void add(final DirCacheEntry newEntry) {
+	public void add(DirCacheEntry newEntry) {
 		if (newEntry.getRawMode() == 0)
 			throw new IllegalArgumentException(MessageFormat.format(
 					JGitText.get().fileModeNotSetForPath,
@@ -131,7 +131,7 @@ public class DirCacheBuilder extends BaseDirCacheEditor {
 	 * @param cnt
 	 *            number of entries to copy.
 	 */
-	public void keep(final int pos, int cnt) {
+	public void keep(int pos, int cnt) {
 		beforeAdd(cache.getEntry(pos));
 		fastKeep(pos, cnt);
 	}
@@ -227,7 +227,7 @@ public class DirCacheBuilder extends BaseDirCacheEditor {
 		replace();
 	}
 
-	private void beforeAdd(final DirCacheEntry newEntry) {
+	private void beforeAdd(DirCacheEntry newEntry) {
 		if (sorted && entryCnt > 0) {
 			final DirCacheEntry lastEntry = entries[entryCnt - 1];
 			final int cr = DirCache.cmp(lastEntry, newEntry);

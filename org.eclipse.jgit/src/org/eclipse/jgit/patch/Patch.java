@@ -101,7 +101,7 @@ public class Patch {
 	 * @param fh
 	 *            the header of the file.
 	 */
-	public void addFile(final FileHeader fh) {
+	public void addFile(FileHeader fh) {
 		files.add(fh);
 	}
 
@@ -120,7 +120,7 @@ public class Patch {
 	 * @param err
 	 *            the error description.
 	 */
-	public void addError(final FormatError err) {
+	public void addError(FormatError err) {
 		errors.add(err);
 	}
 
@@ -146,12 +146,12 @@ public class Patch {
 	 * @throws java.io.IOException
 	 *             there was an error reading from the input stream.
 	 */
-	public void parse(final InputStream is) throws IOException {
+	public void parse(InputStream is) throws IOException {
 		final byte[] buf = readFully(is);
 		parse(buf, 0, buf.length);
 	}
 
-	private static byte[] readFully(final InputStream is) throws IOException {
+	private static byte[] readFully(InputStream is) throws IOException {
 		try (TemporaryBuffer b = new TemporaryBuffer.Heap(Integer.MAX_VALUE)) {
 			b.copy(is);
 			return b.toByteArray();
@@ -173,12 +173,12 @@ public class Patch {
 	 *            1 past the last position to end parsing. The total length to
 	 *            be parsed is <code>end - ptr</code>.
 	 */
-	public void parse(final byte[] buf, int ptr, final int end) {
+	public void parse(byte[] buf, int ptr, int end) {
 		while (ptr < end)
 			ptr = parseFile(buf, ptr, end);
 	}
 
-	private int parseFile(final byte[] buf, int c, final int end) {
+	private int parseFile(byte[] buf, int c, int end) {
 		while (c < end) {
 			if (isHunkHdr(buf, c, end) >= 1) {
 				// If we find a disconnected hunk header we might
@@ -234,7 +234,7 @@ public class Patch {
 		return c;
 	}
 
-	private int parseDiffGit(final byte[] buf, final int start, final int end) {
+	private int parseDiffGit(byte[] buf, int start, int end) {
 		final FileHeader fh = new FileHeader(buf, start);
 		int ptr = fh.parseGitFileName(start + DIFF_GIT.length, end);
 		if (ptr < 0)
@@ -271,14 +271,14 @@ public class Patch {
 		return ptr;
 	}
 
-	private static int skipFile(final byte[] buf, int ptr) {
+	private static int skipFile(byte[] buf, int ptr) {
 		ptr = nextLF(buf, ptr);
 		if (match(buf, ptr, OLD_NAME) >= 0)
 			ptr = nextLF(buf, ptr);
 		return ptr;
 	}
 
-	private int parseHunks(final FileHeader fh, int c, final int end) {
+	private int parseHunks(FileHeader fh, int c, int end) {
 		final byte[] buf = fh.buf;
 		while (c < end) {
 			// If we see a file header at this point, we have all of the
@@ -349,7 +349,7 @@ public class Patch {
 		return c;
 	}
 
-	private int parseGitBinary(final FileHeader fh, int c, final int end) {
+	private int parseGitBinary(FileHeader fh, int c, int end) {
 		final BinaryHunk postImage = new BinaryHunk(fh, c);
 		final int nEnd = postImage.parseHunk(c, end);
 		if (nEnd < 0) {

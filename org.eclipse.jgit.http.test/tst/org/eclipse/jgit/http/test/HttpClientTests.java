@@ -118,7 +118,7 @@ public class HttpClientTests extends HttpTestCase {
 		smartAuthBasicURI = toURIish(sBasic, srcName);
 	}
 
-	private ServletContextHandler dumb(final String path) {
+	private ServletContextHandler dumb(String path) {
 		final File srcGit = remoteRepository.getRepository().getDirectory();
 		final URI base = srcGit.getParentFile().toURI();
 
@@ -130,7 +130,7 @@ public class HttpClientTests extends HttpTestCase {
 		return ctx;
 	}
 
-	private ServletContextHandler smart(final String path) {
+	private ServletContextHandler smart(String path) {
 		GitServlet gs = new GitServlet();
 		gs.setRepositoryResolver(new RepositoryResolver<HttpServletRequest>() {
 			@Override
@@ -151,7 +151,7 @@ public class HttpClientTests extends HttpTestCase {
 		return ctx;
 	}
 
-	private static String nameOf(final Repository db) {
+	private static String nameOf(Repository db) {
 		return db.getDirectory().getName();
 	}
 

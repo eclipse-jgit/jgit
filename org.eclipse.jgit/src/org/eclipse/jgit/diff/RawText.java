@@ -91,7 +91,7 @@ public class RawText extends Sequence {
 	 *            the content array. The array is never modified, so passing
 	 *            through cached arrays is safe.
 	 */
-	public RawText(final byte[] input) {
+	public RawText(byte[] input) {
 		this(input, RawParseUtils.lineMap(input, 0, input.length));
 	}
 
@@ -108,7 +108,7 @@ public class RawText extends Sequence {
 	 *            respectively.
 	 * @since 5.0
 	 */
-	public RawText(final byte[] input, IntList lineMap) {
+	public RawText(byte[] input, IntList lineMap) {
 		content = input;
 		lines = lineMap;
 	}
@@ -164,7 +164,7 @@ public class RawText extends Sequence {
 	 * @throws java.io.IOException
 	 *             the stream write operation failed.
 	 */
-	public void writeLine(final OutputStream out, final int i)
+	public void writeLine(OutputStream out, int i)
 			throws IOException {
 		int start = getStart(i);
 		int end = getEnd(i);
@@ -238,11 +238,11 @@ public class RawText extends Sequence {
 		return RawParseUtils.decode(content, start, end);
 	}
 
-	private int getStart(final int i) {
+	private int getStart(int i) {
 		return lines.get(i + 1);
 	}
 
-	private int getEnd(final int i) {
+	private int getEnd(int i) {
 		return lines.get(i + 2);
 	}
 

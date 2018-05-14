@@ -96,7 +96,7 @@ public class DirCacheBuildIterator extends DirCacheIterator {
 	 *            the cache builder for the cache to walk. The cache must be
 	 *            already loaded into memory.
 	 */
-	public DirCacheBuildIterator(final DirCacheBuilder dcb) {
+	public DirCacheBuildIterator(DirCacheBuilder dcb) {
 		super(dcb.getDirCache());
 		builder = dcb;
 	}
@@ -109,7 +109,7 @@ public class DirCacheBuildIterator extends DirCacheIterator {
 
 	/** {@inheritDoc} */
 	@Override
-	public AbstractTreeIterator createSubtreeIterator(final ObjectReader reader)
+	public AbstractTreeIterator createSubtreeIterator(ObjectReader reader)
 			throws IncorrectObjectTypeException, IOException {
 		if (currentSubtree == null)
 			throw new IncorrectObjectTypeException(getEntryObjectId(),

@@ -62,7 +62,7 @@ public class RevBlob extends RevObject {
 	 * @param id
 	 *            object name for the blob.
 	 */
-	protected RevBlob(final AnyObjectId id) {
+	protected RevBlob(AnyObjectId id) {
 		super(id);
 	}
 

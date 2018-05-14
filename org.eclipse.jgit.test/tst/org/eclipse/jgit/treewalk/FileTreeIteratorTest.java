@@ -821,7 +821,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		assertEquals(sha1string, tw.getObjectId(1).getName() /* 1=filetree here */);
 	}
 
-	private static String nameOf(final AbstractTreeIterator i) {
+	private static String nameOf(AbstractTreeIterator i) {
 		return RawParseUtils.decode(Constants.CHARSET, i.path, 0, i.pathLen);
 	}
 }

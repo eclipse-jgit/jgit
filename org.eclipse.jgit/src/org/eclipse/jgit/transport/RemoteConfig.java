@@ -112,7 +112,7 @@ public class RemoteConfig implements Serializable {
 	 * @throws java.net.URISyntaxException
 	 *             one of the URIs within the remote's configuration is invalid.
 	 */
-	public static List<RemoteConfig> getAllRemoteConfigs(final Config rc)
+	public static List<RemoteConfig> getAllRemoteConfigs(Config rc)
 			throws URISyntaxException {
 		final List<String> names = new ArrayList<>(rc
 				.getSubsections(SECTION));
@@ -160,7 +160,7 @@ public class RemoteConfig implements Serializable {
 	 * @throws java.net.URISyntaxException
 	 *             one of the URIs within the remote's configuration is invalid.
 	 */
-	public RemoteConfig(final Config rc, final String remoteName)
+	public RemoteConfig(Config rc, String remoteName)
 			throws URISyntaxException {
 		name = remoteName;
 
@@ -223,7 +223,7 @@ public class RemoteConfig implements Serializable {
 	 * @param rc
 	 *            the configuration file to store ourselves into.
 	 */
-	public void update(final Config rc) {
+	public void update(Config rc) {
 		final List<String> vlst = new ArrayList<>();
 
 		vlst.clear();
@@ -277,7 +277,7 @@ public class RemoteConfig implements Serializable {
 			rc.setInt(SECTION, getName(), key, currentValue);
 	}
 
-	private void unset(final Config rc, final String key) {
+	private void unset(Config rc, String key) {
 		rc.unset(SECTION, getName(), key);
 	}
 
@@ -335,7 +335,7 @@ public class RemoteConfig implements Serializable {
 	 *            the new URI to add to this remote.
 	 * @return true if the URI was added; false if it already exists.
 	 */
-	public boolean addURI(final URIish toAdd) {
+	public boolean addURI(URIish toAdd) {
 		if (uris.contains(toAdd))
 			return false;
 		return uris.add(toAdd);
@@ -348,7 +348,7 @@ public class RemoteConfig implements Serializable {
 	 *            the URI to remove from this remote.
 	 * @return true if the URI was added; false if it already exists.
 	 */
-	public boolean removeURI(final URIish toRemove) {
+	public boolean removeURI(URIish toRemove) {
 		return uris.remove(toRemove);
 	}
 
@@ -368,7 +368,7 @@ public class RemoteConfig implements Serializable {
 	 *            the new URI to add to this remote.
 	 * @return true if the URI was added; false if it already exists.
 	 */
-	public boolean addPushURI(final URIish toAdd) {
+	public boolean addPushURI(URIish toAdd) {
 		if (pushURIs.contains(toAdd))
 			return false;
 		return pushURIs.add(toAdd);
@@ -381,7 +381,7 @@ public class RemoteConfig implements Serializable {
 	 *            the URI to remove from this remote.
 	 * @return true if the URI was added; false if it already exists.
 	 */
-	public boolean removePushURI(final URIish toRemove) {
+	public boolean removePushURI(URIish toRemove) {
 		return pushURIs.remove(toRemove);
 	}
 
@@ -401,7 +401,7 @@ public class RemoteConfig implements Serializable {
 	 *            the new specification to add.
 	 * @return true if the specification was added; false if it already exists.
 	 */
-	public boolean addFetchRefSpec(final RefSpec s) {
+	public boolean addFetchRefSpec(RefSpec s) {
 		if (fetch.contains(s))
 			return false;
 		return fetch.add(s);
@@ -414,7 +414,7 @@ public class RemoteConfig implements Serializable {
 	 *            list of fetch specifications to set. List is copied, it can be
 	 *            modified after this call.
 	 */
-	public void setFetchRefSpecs(final List<RefSpec> specs) {
+	public void setFetchRefSpecs(List<RefSpec> specs) {
 		fetch.clear();
 		fetch.addAll(specs);
 	}
@@ -426,7 +426,7 @@ public class RemoteConfig implements Serializable {
 	 *            list of push specifications to set. List is copied, it can be
 	 *            modified after this call.
 	 */
-	public void setPushRefSpecs(final List<RefSpec> specs) {
+	public void setPushRefSpecs(List<RefSpec> specs) {
 		push.clear();
 		push.addAll(specs);
 	}
@@ -438,7 +438,7 @@ public class RemoteConfig implements Serializable {
 	 *            the specification to remove.
 	 * @return true if the specification existed and was removed.
 	 */
-	public boolean removeFetchRefSpec(final RefSpec s) {
+	public boolean removeFetchRefSpec(RefSpec s) {
 		return fetch.remove(s);
 	}
 
@@ -458,7 +458,7 @@ public class RemoteConfig implements Serializable {
 	 *            the new specification to add.
 	 * @return true if the specification was added; false if it already exists.
 	 */
-	public boolean addPushRefSpec(final RefSpec s) {
+	public boolean addPushRefSpec(RefSpec s) {
 		if (push.contains(s))
 			return false;
 		return push.add(s);
@@ -471,7 +471,7 @@ public class RemoteConfig implements Serializable {
 	 *            the specification to remove.
 	 * @return true if the specification existed and was removed.
 	 */
-	public boolean removePushRefSpec(final RefSpec s) {
+	public boolean removePushRefSpec(RefSpec s) {
 		return push.remove(s);
 	}
 
@@ -520,7 +520,7 @@ public class RemoteConfig implements Serializable {
 	 * @param option
 	 *            method to use when handling annotated tags.
 	 */
-	public void setTagOpt(final TagOpt option) {
+	public void setTagOpt(TagOpt option) {
 		tagopt = option != null ? option : TagOpt.AUTO_FOLLOW;
 	}
 
@@ -541,7 +541,7 @@ public class RemoteConfig implements Serializable {
 	 * @param m
 	 *            true to automatically delete remote refs during push.
 	 */
-	public void setMirror(final boolean m) {
+	public void setMirror(boolean m) {
 		mirror = m;
 	}
 
@@ -562,7 +562,7 @@ public class RemoteConfig implements Serializable {
 	 *            before aborting an IO read or write operation with this
 	 *            remote.  A timeout of 0 will block indefinitely.
 	 */
-	public void setTimeout(final int seconds) {
+	public void setTimeout(int seconds) {
 		timeout = seconds;
 	}
 }

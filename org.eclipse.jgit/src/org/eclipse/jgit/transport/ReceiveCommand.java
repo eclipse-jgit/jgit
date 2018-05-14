@@ -713,7 +713,7 @@ public class ReceiveCommand {
 	 * @param s
 	 *            the new status code for this command.
 	 */
-	public void setResult(final Result s) {
+	public void setResult(Result s) {
 		setResult(s, null);
 	}
 
@@ -725,7 +725,7 @@ public class ReceiveCommand {
 	 * @param m
 	 *            optional message explaining the new status.
 	 */
-	public void setResult(final Result s, final String m) {
+	public void setResult(Result s, String m) {
 		status = s;
 		message = m;
 	}
@@ -770,7 +770,7 @@ public class ReceiveCommand {
 	 *            receive-pack session.
 	 * @since 2.0
 	 */
-	public void execute(final BaseReceivePack rp) {
+	public void execute(BaseReceivePack rp) {
 		try {
 			String expTarget = getOldSymref();
 			boolean detach = getNewSymref() != null

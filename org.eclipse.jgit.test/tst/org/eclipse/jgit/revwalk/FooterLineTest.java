@@ -353,7 +353,7 @@ public class FooterLineTest extends RepositoryTestCase {
 		assertFalse("not CC", line.matches(FooterKey.CC));
 	}
 
-	private RevCommit parse(final String msg) throws IOException {
+	private RevCommit parse(String msg) throws IOException {
 		final StringBuilder buf = new StringBuilder();
 		buf.append("tree " + ObjectId.zeroId().name() + "\n");
 		buf.append("author A. U. Thor <a@example.com> 1 +0000\n");

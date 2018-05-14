@@ -271,7 +271,7 @@ public abstract class Transport implements AutoCloseable {
 	 * @throws org.eclipse.jgit.errors.TransportException
 	 *             the transport cannot open this URI.
 	 */
-	public static Transport open(final Repository local, final String remote)
+	public static Transport open(Repository local, String remote)
 			throws NotSupportedException, URISyntaxException,
 			TransportException {
 		return open(local, remote, Operation.FETCH);
@@ -393,7 +393,7 @@ public abstract class Transport implements AutoCloseable {
 	 *             if provided remote configuration doesn't have any URI
 	 *             associated.
 	 */
-	public static Transport open(final Repository local, final RemoteConfig cfg)
+	public static Transport open(Repository local, RemoteConfig cfg)
 			throws NotSupportedException, TransportException {
 		return open(local, cfg, Operation.FETCH);
 	}
@@ -502,7 +502,7 @@ public abstract class Transport implements AutoCloseable {
 		}
 	}
 
-	private static boolean doesNotExist(final RemoteConfig cfg) {
+	private static boolean doesNotExist(RemoteConfig cfg) {
 		return cfg.getURIs().isEmpty() && cfg.getPushURIs().isEmpty();
 	}
 
@@ -519,7 +519,7 @@ public abstract class Transport implements AutoCloseable {
 	 * @throws org.eclipse.jgit.errors.TransportException
 	 *             the transport cannot open this URI.
 	 */
-	public static Transport open(final Repository local, final URIish uri)
+	public static Transport open(Repository local, URIish uri)
 			throws NotSupportedException, TransportException {
 		return open(local, uri, null);
 	}
@@ -818,7 +818,7 @@ public abstract class Transport implements AutoCloseable {
 	 *            the URI used to access the remote repository. This must be the
 	 *            URI passed to {@link #open(Repository, URIish)}.
 	 */
-	protected Transport(final Repository local, final URIish uri) {
+	protected Transport(Repository local, URIish uri) {
 		final TransferConfig tc = local.getConfig().get(TransferConfig.KEY);
 		this.local = local;
 		this.uri = uri;
@@ -833,7 +833,7 @@ public abstract class Transport implements AutoCloseable {
 	 * @param uri
 	 *            a {@link org.eclipse.jgit.transport.URIish} object.
 	 */
-	protected Transport(final URIish uri) {
+	protected Transport(URIish uri) {
 		this.uri = uri;
 		this.local = null;
 		this.objectChecker = new ObjectChecker();
@@ -866,7 +866,7 @@ public abstract class Transport implements AutoCloseable {
 	 * @param where
 	 *            name of the executable.
 	 */
-	public void setOptionUploadPack(final String where) {
+	public void setOptionUploadPack(String where) {
 		if (where != null && where.length() > 0)
 			optionUploadPack = where;
 		else
@@ -888,7 +888,7 @@ public abstract class Transport implements AutoCloseable {
 	 * @param option
 	 *            method to use when handling annotated tags.
 	 */
-	public void setTagOpt(final TagOpt option) {
+	public void setTagOpt(TagOpt option) {
 		tagopt = option != null ? option : TagOpt.AUTO_FOLLOW;
 	}
 
@@ -912,7 +912,7 @@ public abstract class Transport implements AutoCloseable {
 	 *            when it shouldn't
 	 * @see PackTransport
 	 */
-	public void setFetchThin(final boolean fetchThin) {
+	public void setFetchThin(boolean fetchThin) {
 		this.fetchThin = fetchThin;
 	}
 
@@ -935,7 +935,7 @@ public abstract class Transport implements AutoCloseable {
 	 *            received objects are valid.
 	 * @see #setObjectChecker(ObjectChecker)
 	 */
-	public void setCheckFetchedObjects(final boolean check) {
+	public void setCheckFetchedObjects(boolean check) {
 		if (check && objectChecker == null)
 			setObjectChecker(new ObjectChecker());
 		else if (!check && objectChecker != null)
@@ -1010,7 +1010,7 @@ public abstract class Transport implements AutoCloseable {
 	 *            false when it shouldn't
 	 * @see PackTransport
 	 */
-	public void setPushThin(final boolean pushThin) {
+	public void setPushThin(boolean pushThin) {
 		this.pushThin = pushThin;
 	}
 
@@ -1035,7 +1035,7 @@ public abstract class Transport implements AutoCloseable {
 	 * @see PackTransport
 	 * @since 4.2
 	 */
-	public void setPushAtomic(final boolean atomic) {
+	public void setPushAtomic(boolean atomic) {
 		this.pushAtomic = atomic;
 	}
 
@@ -1062,7 +1062,7 @@ public abstract class Transport implements AutoCloseable {
 	 *
 	 * @param remove true to remove refs that no longer exist.
 	 */
-	public void setRemoveDeletedRefs(final boolean remove) {
+	public void setRemoveDeletedRefs(boolean remove) {
 		removeDeletedRefs = remove;
 	}
 
@@ -1079,7 +1079,7 @@ public abstract class Transport implements AutoCloseable {
 	 * @param bytes exclude blobs of size greater than this
 	 * @since 5.0
 	 */
-	public void setFilterBlobLimit(final long bytes) {
+	public void setFilterBlobLimit(long bytes) {
 		filterBlobLimit = bytes;
 	}
 
@@ -1089,7 +1089,7 @@ public abstract class Transport implements AutoCloseable {
 	 * @param cfg
 	 *            configuration to apply on this transport.
 	 */
-	public void applyConfig(final RemoteConfig cfg) {
+	public void applyConfig(RemoteConfig cfg) {
 		setOptionUploadPack(cfg.getUploadPack());
 		setOptionReceivePack(cfg.getReceivePack());
 		setTagOpt(cfg.getTagOpt());
@@ -1118,7 +1118,7 @@ public abstract class Transport implements AutoCloseable {
 	 *            and not really update remote refs, false otherwise - when push
 	 *            should act normally.
 	 */
-	public void setDryRun(final boolean dryRun) {
+	public void setDryRun(boolean dryRun) {
 		this.dryRun = dryRun;
 	}
 
@@ -1139,7 +1139,7 @@ public abstract class Transport implements AutoCloseable {
 	 *            before aborting an IO read or write operation with this
 	 *            remote.
 	 */
-	public void setTimeout(final int seconds) {
+	public void setTimeout(int seconds) {
 		timeout = seconds;
 	}
 
@@ -1206,7 +1206,7 @@ public abstract class Transport implements AutoCloseable {
 	 *            null if push options are unsupported
 	 * @since 4.5
 	 */
-	public void setPushOptions(final List<String> pushOptions) {
+	public void setPushOptions(List<String> pushOptions) {
 		this.pushOptions = pushOptions;
 	}
 

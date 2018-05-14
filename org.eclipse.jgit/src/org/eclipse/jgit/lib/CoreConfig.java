@@ -166,7 +166,7 @@ public class CoreConfig {
 		DOTGITONLY
 	}
 
-	private CoreConfig(final Config rc) {
+	private CoreConfig(Config rc) {
 		compression = rc.getInt(ConfigConstants.CONFIG_CORE_SECTION,
 				ConfigConstants.CONFIG_KEY_COMPRESSION, DEFAULT_COMPRESSION);
 		packIndexVersion = rc.getInt(ConfigConstants.CONFIG_PACK_SECTION,

@@ -90,7 +90,7 @@ public class LongObjectId extends AnyLongObjectId implements Serializable {
 	 *            the string to test.
 	 * @return true if the string can converted into an LongObjectId.
 	 */
-	public static final boolean isId(final String id) {
+	public static final boolean isId(String id) {
 		if (id.length() != Constants.LONG_OBJECT_ID_STRING_LENGTH)
 			return false;
 		try {
@@ -110,7 +110,7 @@ public class LongObjectId extends AnyLongObjectId implements Serializable {
 	 *            the id to convert. May be null.
 	 * @return the hex string conversion of this id's content.
 	 */
-	public static final String toString(final LongObjectId i) {
+	public static final String toString(LongObjectId i) {
 		return i != null ? i.name() : ZEROID_STR;
 	}
 
@@ -173,7 +173,7 @@ public class LongObjectId extends AnyLongObjectId implements Serializable {
 	 *            available within this byte array.
 	 * @return the converted object id.
 	 */
-	public static final LongObjectId fromRaw(final byte[] bs) {
+	public static final LongObjectId fromRaw(byte[] bs) {
 		return fromRaw(bs, 0);
 	}
 
@@ -187,7 +187,7 @@ public class LongObjectId extends AnyLongObjectId implements Serializable {
 	 *            position to read the first byte of data from.
 	 * @return the converted object id.
 	 */
-	public static final LongObjectId fromRaw(final byte[] bs, final int p) {
+	public static final LongObjectId fromRaw(byte[] bs, int p) {
 		final long a = NB.decodeInt64(bs, p);
 		final long b = NB.decodeInt64(bs, p + 8);
 		final long c = NB.decodeInt64(bs, p + 16);
@@ -203,7 +203,7 @@ public class LongObjectId extends AnyLongObjectId implements Serializable {
 	 *            available within this long array.
 	 * @return the converted object id.
 	 */
-	public static final LongObjectId fromRaw(final long[] is) {
+	public static final LongObjectId fromRaw(long[] is) {
 		return fromRaw(is, 0);
 	}
 
@@ -217,7 +217,7 @@ public class LongObjectId extends AnyLongObjectId implements Serializable {
 	 *            position to read the first long of data from.
 	 * @return the converted object id.
 	 */
-	public static final LongObjectId fromRaw(final long[] is, final int p) {
+	public static final LongObjectId fromRaw(long[] is, int p) {
 		return new LongObjectId(is[p], is[p + 1], is[p + 2], is[p + 3]);
 	}
 
@@ -231,7 +231,7 @@ public class LongObjectId extends AnyLongObjectId implements Serializable {
 	 *            position to read the first character from.
 	 * @return the converted object id.
 	 */
-	public static final LongObjectId fromString(final byte[] buf, final int offset) {
+	public static final LongObjectId fromString(byte[] buf, int offset) {
 		return fromHexString(buf, offset);
 	}
 
@@ -242,14 +242,14 @@ public class LongObjectId extends AnyLongObjectId implements Serializable {
 	 *            the string to read from. Must be 64 characters long.
 	 * @return the converted object id.
 	 */
-	public static LongObjectId fromString(final String str) {
+	public static LongObjectId fromString(String str) {
 		if (str.length() != Constants.LONG_OBJECT_ID_STRING_LENGTH)
 			throw new InvalidLongObjectIdException(str);
 		return fromHexString(org.eclipse.jgit.lib.Constants.encodeASCII(str),
 				0);
 	}
 
-	private static final LongObjectId fromHexString(final byte[] bs, int p) {
+	private static final LongObjectId fromHexString(byte[] bs, int p) {
 		try {
 			final long a = RawParseUtils.parseHexInt64(bs, p);
 			final long b = RawParseUtils.parseHexInt64(bs, p + 16);
@@ -280,7 +280,7 @@ public class LongObjectId extends AnyLongObjectId implements Serializable {
 	 * @param src
 	 *            another already parsed LongObjectId to copy the value out of.
 	 */
-	protected LongObjectId(final AnyLongObjectId src) {
+	protected LongObjectId(AnyLongObjectId src) {
 		w1 = src.w1;
 		w2 = src.w2;
 		w3 = src.w3;

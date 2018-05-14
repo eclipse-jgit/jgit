@@ -477,7 +477,7 @@ public final class Constants {
 	 * @param typeCode the type code, from a pack representation.
 	 * @return the canonical string name of this type.
 	 */
-	public static String typeString(final int typeCode) {
+	public static String typeString(int typeCode) {
 		switch (typeCode) {
 		case OBJ_COMMIT:
 			return TYPE_COMMIT;
@@ -502,7 +502,7 @@ public final class Constants {
 	 * @param typeCode the type code, from a pack representation.
 	 * @return the canonical ASCII encoded name of this type.
 	 */
-	public static byte[] encodedTypeString(final int typeCode) {
+	public static byte[] encodedTypeString(int typeCode) {
 		switch (typeCode) {
 		case OBJ_COMMIT:
 			return ENCODED_TYPE_COMMIT;
@@ -601,7 +601,7 @@ public final class Constants {
 	 * @return a decimal representation of the input integer. The returned array
 	 *         is the smallest array that will hold the value.
 	 */
-	public static byte[] encodeASCII(final long s) {
+	public static byte[] encodeASCII(long s) {
 		return encodeASCII(Long.toString(s));
 	}
 
@@ -617,7 +617,7 @@ public final class Constants {
 	 *             the input string contains one or more characters outside of
 	 *             the 7-bit ASCII character space.
 	 */
-	public static byte[] encodeASCII(final String s) {
+	public static byte[] encodeASCII(String s) {
 		final byte[] r = new byte[s.length()];
 		for (int k = r.length - 1; k >= 0; k--) {
 			final char c = s.charAt(k);
@@ -637,7 +637,7 @@ public final class Constants {
 	 *         default character encoding (UTF-8).
 	 * @see #CHARACTER_ENCODING
 	 */
-	public static byte[] encode(final String str) {
+	public static byte[] encode(String str) {
 		final ByteBuffer bb = Constants.CHARSET.encode(str);
 		final int len = bb.limit();
 		if (bb.hasArray() && bb.arrayOffset() == 0) {

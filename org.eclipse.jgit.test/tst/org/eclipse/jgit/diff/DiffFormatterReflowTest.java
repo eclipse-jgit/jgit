@@ -146,7 +146,7 @@ public class DiffFormatterReflowTest {
 		assertFormatted("Z.patch");
 	}
 
-	private void init(final String name) throws IOException {
+	private void init(String name) throws IOException {
 		a = new RawText(readFile(name + "_PreImage"));
 		b = new RawText(readFile(name + "_PostImage"));
 		file = parseTestPatchFile(name + ".patch").getFiles().get(0);
@@ -156,13 +156,13 @@ public class DiffFormatterReflowTest {
 		assertFormatted(JGitTestUtil.getName() + ".out");
 	}
 
-	private void assertFormatted(final String name) throws IOException {
+	private void assertFormatted(String name) throws IOException {
 		fmt.format(file, a, b);
 		final String exp = RawParseUtils.decode(readFile(name));
 		assertEquals(exp, RawParseUtils.decode(out.toByteArray()));
 	}
 
-	private byte[] readFile(final String patchFile) throws IOException {
+	private byte[] readFile(String patchFile) throws IOException {
 		final InputStream in = getClass().getResourceAsStream(patchFile);
 		if (in == null) {
 			fail("No " + patchFile + " test vector");
@@ -180,7 +180,7 @@ public class DiffFormatterReflowTest {
 		}
 	}
 
-	private Patch parseTestPatchFile(final String patchFile) throws IOException {
+	private Patch parseTestPatchFile(String patchFile) throws IOException {
 		try (InputStream in = getClass().getResourceAsStream(patchFile)) {
 			if (in == null) {
 				fail("No " + patchFile + " test vector");

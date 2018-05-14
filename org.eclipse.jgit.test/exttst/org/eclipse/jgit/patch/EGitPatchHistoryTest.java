@@ -147,7 +147,7 @@ public class EGitPatchHistoryTest {
 			assertTrue("Missed files in " + cid, files.isEmpty());
 		}
 
-		private static void dump(final byte[] buf) {
+		private static void dump(byte[] buf) {
 			String str;
 			try {
 				str = new String(buf, 0, buf.length - 1, "ISO-8859-1");

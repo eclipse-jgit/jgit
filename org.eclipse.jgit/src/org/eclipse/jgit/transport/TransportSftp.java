@@ -261,7 +261,7 @@ public class TransportSftp extends SshTransport implements WalkTransport {
 
 				Collections.sort(packs, new Comparator<String>() {
 					@Override
-					public int compare(final String o1, final String o2) {
+					public int compare(String o1, String o2) {
 						return mtimes.get(o2).intValue()
 								- mtimes.get(o1).intValue();
 					}
@@ -464,7 +464,7 @@ public class TransportSftp extends SshTransport implements WalkTransport {
 					MessageFormat.format(JGitText.get().badRef, name, line));
 		}
 
-		private Storage loose(final Ref r) {
+		private Storage loose(Ref r) {
 			if (r != null && r.getStorage() == Storage.PACKED)
 				return Storage.LOOSE_PACKED;
 			return Storage.LOOSE;

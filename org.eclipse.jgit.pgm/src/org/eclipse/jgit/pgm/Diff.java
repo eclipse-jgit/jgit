@@ -170,7 +170,7 @@ class Diff extends TextBuiltin {
 
 	/** {@inheritDoc} */
 	@Override
-	protected void init(final Repository repository, final String gitDir) {
+	protected void init(Repository repository, String gitDir) {
 		super.init(repository, gitDir);
 		diffFmt = new DiffFormatter(new BufferedOutputStream(outs));
 	}

@@ -107,7 +107,7 @@ public class StashDropCommand extends GitCommand<ObjectId> {
 	 *            the 0-based index of the stash reference
 	 * @return {@code this}
 	 */
-	public StashDropCommand setStashRef(final int stashRef) {
+	public StashDropCommand setStashRef(int stashRef) {
 		if (stashRef < 0)
 			throw new IllegalArgumentException();
 
@@ -124,7 +124,7 @@ public class StashDropCommand extends GitCommand<ObjectId> {
 	 *            {@link #setStashRef(int)}
 	 * @return {@code this}
 	 */
-	public StashDropCommand setAll(final boolean all) {
+	public StashDropCommand setAll(boolean all) {
 		this.all = all;
 		return this;
 	}
@@ -138,7 +138,7 @@ public class StashDropCommand extends GitCommand<ObjectId> {
 		}
 	}
 
-	private RefUpdate createRefUpdate(final Ref stashRef) throws IOException {
+	private RefUpdate createRefUpdate(Ref stashRef) throws IOException {
 		RefUpdate update = repo.updateRef(R_STASH);
 		update.disableRefLog();
 		update.setExpectedOldObjectId(stashRef.getObjectId());
@@ -146,7 +146,7 @@ public class StashDropCommand extends GitCommand<ObjectId> {
 		return update;
 	}
 
-	private void deleteRef(final Ref stashRef) {
+	private void deleteRef(Ref stashRef) {
 		try {
 			Result result = createRefUpdate(stashRef).delete();
 			if (Result.FORCED != result)

@@ -105,7 +105,7 @@ public class FileNameMatcher {
 	 * @param headsStartValue
 	 *            must be a list which will never be modified.
 	 */
-	private FileNameMatcher(final List<Head> headsStartValue) {
+	private FileNameMatcher(List<Head> headsStartValue) {
 		this(headsStartValue, headsStartValue);
 	}
 
@@ -315,7 +315,7 @@ public class FileNameMatcher {
 	 * @param c new character to append
 	 * @return true to continue, false if the matcher can stop appending
 	 */
-	private boolean extendStringToMatchByOneCharacter(final char c) {
+	private boolean extendStringToMatchByOneCharacter(char c) {
 		final List<Head> newHeads = listForLocalUseage;
 		newHeads.clear();
 		List<Head> lastAddedHeads = null;
@@ -357,7 +357,7 @@ public class FileNameMatcher {
 	 *            extends the string which is matched against the patterns of
 	 *            this class.
 	 */
-	public void append(final String stringToMatch) {
+	public void append(String stringToMatch) {
 		for (int i = 0; i < stringToMatch.length(); i++) {
 			final char c = stringToMatch.charAt(i);
 			if (!extendStringToMatchByOneCharacter(c))

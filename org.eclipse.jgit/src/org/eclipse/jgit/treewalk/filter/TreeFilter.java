@@ -91,7 +91,7 @@ public abstract class TreeFilter {
 
 	private static final class AllFilter extends TreeFilter {
 		@Override
-		public boolean include(final TreeWalk walker) {
+		public boolean include(TreeWalk walker) {
 			return true;
 		}
 
@@ -133,7 +133,7 @@ public abstract class TreeFilter {
 		private static final int baseTree = 0;
 
 		@Override
-		public boolean include(final TreeWalk walker) {
+		public boolean include(TreeWalk walker) {
 			final int n = walker.getTreeCount();
 			if (n == 1) // Assume they meant difference to empty tree.
 				return true;
@@ -221,7 +221,7 @@ public abstract class TreeFilter {
 	 *             as thrown by {@link #include(TreeWalk)}
 	 * @since 4.7
 	 */
-	public int matchFilter(final TreeWalk walker)
+	public int matchFilter(TreeWalk walker)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException
 	{

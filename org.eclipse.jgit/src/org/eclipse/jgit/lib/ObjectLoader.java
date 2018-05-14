@@ -271,7 +271,7 @@ public abstract class ObjectLoader {
 		}
 	}
 
-	private static byte[] cloneArray(final byte[] data) {
+	private static byte[] cloneArray(byte[] data) {
 		final byte[] copy = new byte[data.length];
 		System.arraycopy(data, 0, copy, 0, data.length);
 		return copy;

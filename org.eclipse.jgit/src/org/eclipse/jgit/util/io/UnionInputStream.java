@@ -107,7 +107,7 @@ public class UnionInputStream extends InputStream {
 	 * @param in
 	 *            the stream to add; must not be null.
 	 */
-	public void add(final InputStream in) {
+	public void add(InputStream in) {
 		streams.add(in);
 	}
 
@@ -164,7 +164,7 @@ public class UnionInputStream extends InputStream {
 
 	/** {@inheritDoc} */
 	@Override
-	public long skip(final long count) throws IOException {
+	public long skip(long count) throws IOException {
 		long skipped = 0;
 		long cnt = count;
 		while (0 < cnt) {

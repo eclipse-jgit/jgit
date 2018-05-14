@@ -77,7 +77,7 @@ public class SubmoduleInitCommand extends GitCommand<Collection<String>> {
 	 * @param repo
 	 *            a {@link org.eclipse.jgit.lib.Repository} object.
 	 */
-	public SubmoduleInitCommand(final Repository repo) {
+	public SubmoduleInitCommand(Repository repo) {
 		super(repo);
 		paths = new ArrayList<>();
 	}
@@ -89,7 +89,7 @@ public class SubmoduleInitCommand extends GitCommand<Collection<String>> {
 	 *            (with <code>/</code> as separator)
 	 * @return this command
 	 */
-	public SubmoduleInitCommand addPath(final String path) {
+	public SubmoduleInitCommand addPath(String path) {
 		paths.add(path);
 		return this;
 	}

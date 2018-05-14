@@ -78,7 +78,7 @@ public class PacketLineOut {
 	 * @param outputStream
 	 *            stream.
 	 */
-	public PacketLineOut(final OutputStream outputStream) {
+	public PacketLineOut(OutputStream outputStream) {
 		out = outputStream;
 		lenbuffer = new byte[5];
 		flushOnEnd = true;
@@ -104,7 +104,7 @@ public class PacketLineOut {
 	 *             the packet could not be written, the stream is corrupted as
 	 *             the packet may have been only partially written.
 	 */
-	public void writeString(final String s) throws IOException {
+	public void writeString(String s) throws IOException {
 		writePacket(Constants.encode(s));
 	}
 

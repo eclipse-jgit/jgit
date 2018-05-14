@@ -162,7 +162,7 @@ public abstract class Repository implements AutoCloseable {
 	 * @param options
 	 *            options to configure the repository.
 	 */
-	protected Repository(final BaseRepositoryBuilder options) {
+	protected Repository(BaseRepositoryBuilder options) {
 		gitDir = options.getGitDir();
 		fs = options.getFS();
 		workTree = options.getWorkTree();
@@ -342,7 +342,7 @@ public abstract class Repository implements AutoCloseable {
 	 *             the object store cannot be accessed.
 	 */
 	@NonNull
-	public ObjectLoader open(final AnyObjectId objectId)
+	public ObjectLoader open(AnyObjectId objectId)
 			throws MissingObjectException, IOException {
 		return getObjectDatabase().open(objectId);
 	}
@@ -390,7 +390,7 @@ public abstract class Repository implements AutoCloseable {
 	 *             to the base ref, as the symbolic ref could not be read.
 	 */
 	@NonNull
-	public RefUpdate updateRef(final String ref) throws IOException {
+	public RefUpdate updateRef(String ref) throws IOException {
 		return updateRef(ref, false);
 	}
 
@@ -409,7 +409,7 @@ public abstract class Repository implements AutoCloseable {
 	 *             to the base ref, as the symbolic ref could not be read.
 	 */
 	@NonNull
-	public RefUpdate updateRef(final String ref, final boolean detach) throws IOException {
+	public RefUpdate updateRef(String ref, boolean detach) throws IOException {
 		return getRefDatabase().newUpdate(ref, detach);
 	}
 
@@ -425,7 +425,7 @@ public abstract class Repository implements AutoCloseable {
 	 *             the rename could not be performed.
 	 */
 	@NonNull
-	public RefRename renameRef(final String fromRef, final String toRef) throws IOException {
+	public RefRename renameRef(String fromRef, String toRef) throws IOException {
 		return getRefDatabase().newRename(fromRef, toRef);
 	}
 
@@ -480,7 +480,7 @@ public abstract class Repository implements AutoCloseable {
 	 *             on serious errors
 	 */
 	@Nullable
-	public ObjectId resolve(final String revstr)
+	public ObjectId resolve(String revstr)
 			throws AmbiguousObjectException, IncorrectObjectTypeException,
 			RevisionSyntaxException, IOException {
 		try (RevWalk rw = new RevWalk(this)) {
@@ -507,7 +507,7 @@ public abstract class Repository implements AutoCloseable {
 	 * @throws java.io.IOException
 	 */
 	@Nullable
-	public String simplify(final String revstr)
+	public String simplify(String revstr)
 			throws AmbiguousObjectException, IOException {
 		try (RevWalk rw = new RevWalk(this)) {
 			Object resolved = resolve(rw, revstr);
@@ -521,7 +521,7 @@ public abstract class Repository implements AutoCloseable {
 	}
 
 	@Nullable
-	private Object resolve(final RevWalk rw, final String revstr)
+	private Object resolve(RevWalk rw, String revstr)
 			throws IOException {
 		char[] revChars = revstr.toCharArray();
 		RevObject rev = null;
@@ -841,7 +841,7 @@ public abstract class Repository implements AutoCloseable {
 	}
 
 	@Nullable
-	private ObjectId resolveSimple(final String revstr) throws IOException {
+	private ObjectId resolveSimple(String revstr) throws IOException {
 		if (ObjectId.isId(revstr))
 			return ObjectId.fromString(revstr);
 
@@ -911,7 +911,7 @@ public abstract class Repository implements AutoCloseable {
 	}
 
 	@Nullable
-	private ObjectId resolveAbbreviation(final String revstr) throws IOException,
+	private ObjectId resolveAbbreviation(String revstr) throws IOException,
 			AmbiguousObjectException {
 		AbbreviatedObjectId id = AbbreviatedObjectId.fromString(revstr);
 		try (ObjectReader reader = newObjectReader()) {
@@ -1133,7 +1133,7 @@ public abstract class Repository implements AutoCloseable {
 	 *         (or null).
 	 */
 	@NonNull
-	public Ref peel(final Ref ref) {
+	public Ref peel(Ref ref) {
 		try {
 			return getRefDatabase().peel(ref);
 		} catch (IOException e) {
@@ -1360,7 +1360,7 @@ public abstract class Repository implements AutoCloseable {
 	 * @param refName a {@link java.lang.String} object.
 	 * @return true if refName is a valid ref name
 	 */
-	public static boolean isValidRefName(final String refName) {
+	public static boolean isValidRefName(String refName) {
 		final int len = refName.length();
 		if (len == 0)
 			return false;

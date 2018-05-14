@@ -93,7 +93,7 @@ public class FileTreeIteratorWithTimeControl extends FileTreeIterator {
 	}
 
 	@Override
-	public AbstractTreeIterator createSubtreeIterator(final ObjectReader reader) {
+	public AbstractTreeIterator createSubtreeIterator(ObjectReader reader) {
 		return new FileTreeIteratorWithTimeControl(this,
 				((FileEntry) current()).getFile(), fs, modTimes);
 	}

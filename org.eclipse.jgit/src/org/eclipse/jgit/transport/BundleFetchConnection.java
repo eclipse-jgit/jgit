@@ -153,12 +153,12 @@ class BundleFetchConnection extends BaseFetchConnection {
 		available(avail);
 	}
 
-	private PackProtocolException duplicateAdvertisement(final String name) {
+	private PackProtocolException duplicateAdvertisement(String name) {
 		return new PackProtocolException(transport.uri,
 				MessageFormat.format(JGitText.get().duplicateAdvertisementsOf, name));
 	}
 
-	private String readLine(final byte[] hdrbuf) throws IOException {
+	private String readLine(byte[] hdrbuf) throws IOException {
 		StringBuilder line = new StringBuilder();
 		boolean done = false;
 		while (!done) {
@@ -210,7 +210,7 @@ class BundleFetchConnection extends BaseFetchConnection {
 
 	/** {@inheritDoc} */
 	@Override
-	public void setPackLockMessage(final String message) {
+	public void setPackLockMessage(String message) {
 		lockMessage = message;
 	}
 

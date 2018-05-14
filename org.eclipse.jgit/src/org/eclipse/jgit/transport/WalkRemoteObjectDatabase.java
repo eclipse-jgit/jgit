@@ -414,7 +414,7 @@ abstract class WalkRemoteObjectDatabase {
 	 * @throws org.eclipse.jgit.errors.TransportException
 	 *             an error occurred reading from the packed refs file.
 	 */
-	protected void readPackedRefs(final Map<String, Ref> avail)
+	protected void readPackedRefs(Map<String, Ref> avail)
 			throws TransportException {
 		try (BufferedReader br = openReader(ROOT_DIR + Constants.PACKED_REFS)) {
 			readPackedRefsImpl(avail, br);

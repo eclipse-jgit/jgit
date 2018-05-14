@@ -314,7 +314,7 @@ public class PackWriter implements AutoCloseable {
 	 * @param repo
 	 *            repository where objects are stored.
 	 */
-	public PackWriter(final Repository repo) {
+	public PackWriter(Repository repo) {
 		this(repo, repo.newObjectReader());
 	}
 
@@ -327,7 +327,7 @@ public class PackWriter implements AutoCloseable {
 	 * @param reader
 	 *            reader to read from the repository with.
 	 */
-	public PackWriter(final ObjectReader reader) {
+	public PackWriter(ObjectReader reader) {
 		this(new PackConfig(), reader);
 	}
 
@@ -342,7 +342,7 @@ public class PackWriter implements AutoCloseable {
 	 * @param reader
 	 *            reader to read from the repository with.
 	 */
-	public PackWriter(final Repository repo, final ObjectReader reader) {
+	public PackWriter(Repository repo, ObjectReader reader) {
 		this(new PackConfig(repo), reader);
 	}
 
@@ -357,7 +357,7 @@ public class PackWriter implements AutoCloseable {
 	 * @param reader
 	 *            reader to read from the repository with.
 	 */
-	public PackWriter(final PackConfig config, final ObjectReader reader) {
+	public PackWriter(PackConfig config, ObjectReader reader) {
 		this(config, reader, null);
 	}
 
@@ -512,7 +512,7 @@ public class PackWriter implements AutoCloseable {
 	 *            determined by set; this kind of pack is used only for
 	 *            transport; true - to produce thin pack, false - otherwise.
 	 */
-	public void setThin(final boolean packthin) {
+	public void setThin(boolean packthin) {
 		thin = packthin;
 	}
 
@@ -603,7 +603,7 @@ public class PackWriter implements AutoCloseable {
 	 *            pack; false otherwise - non existing uninteresting objects may
 	 *            cause {@link org.eclipse.jgit.errors.MissingObjectException}
 	 */
-	public void setIgnoreMissingUninteresting(final boolean ignore) {
+	public void setIgnoreMissingUninteresting(boolean ignore) {
 		ignoreMissingUninteresting = ignore;
 	}
 
@@ -924,7 +924,7 @@ public class PackWriter implements AutoCloseable {
 	 * @throws java.io.IOException
 	 *             a cached pack cannot be examined.
 	 */
-	public boolean willInclude(final AnyObjectId id) throws IOException {
+	public boolean willInclude(AnyObjectId id) throws IOException {
 		ObjectToPack obj = objectsMap.get(id);
 		return obj != null && !obj.isEdge();
 	}
@@ -991,7 +991,7 @@ public class PackWriter implements AutoCloseable {
 	 * @throws java.io.IOException
 	 *             the index data could not be written to the supplied stream.
 	 */
-	public void writeIndex(final OutputStream indexStream) throws IOException {
+	public void writeIndex(OutputStream indexStream) throws IOException {
 		if (isIndexDisabled())
 			throw new IOException(JGitText.get().cachedPacksPreventsIndexCreation);
 
@@ -1013,7 +1013,7 @@ public class PackWriter implements AutoCloseable {
 	 * @throws java.io.IOException
 	 *             the index data could not be written to the supplied stream.
 	 */
-	public void writeBitmapIndex(final OutputStream bitmapIndexStream)
+	public void writeBitmapIndex(OutputStream bitmapIndexStream)
 			throws IOException {
 		if (writeBitmaps == null)
 			throw new IOException(JGitText.get().bitmapsMustBePrepared);
@@ -1733,7 +1733,7 @@ public class PackWriter implements AutoCloseable {
 		typeStats.deltaBytes += out.length() - otp.getOffset();
 	}
 
-	private TemporaryBuffer.Heap delta(final ObjectToPack otp)
+	private TemporaryBuffer.Heap delta(ObjectToPack otp)
 			throws IOException {
 		DeltaIndex index = new DeltaIndex(buffer(otp.getDeltaBaseId()));
 		byte[] res = buffer(otp);
@@ -2050,13 +2050,13 @@ public class PackWriter implements AutoCloseable {
 	 * @throws org.eclipse.jgit.errors.IncorrectObjectTypeException
 	 *             the object is an unsupported type.
 	 */
-	public void addObject(final RevObject object)
+	public void addObject(RevObject object)
 			throws IncorrectObjectTypeException {
 		if (!exclude(object))
 			addObject(object, 0);
 	}
 
-	private void addObject(final RevObject object, final int pathHashCode) {
+	private void addObject(RevObject object, int pathHashCode) {
 		addObject(object, object.getType(), pathHashCode);
 	}
 

@@ -142,7 +142,7 @@ public abstract class JGitTestUtil {
 	 * @param fileName
 	 * @return the test resource file
 	 */
-	public static File getTestResourceFile(final String fileName) {
+	public static File getTestResourceFile(String fileName) {
 		if (fileName == null || fileName.length() <= 0) {
 			return null;
 		}
@@ -242,7 +242,7 @@ public abstract class JGitTestUtil {
 	 * @throws IOException
 	 *             the file could not be written.
 	 */
-	public static void write(final File f, final String body)
+	public static void write(File f, String body)
 			throws IOException {
 		FileUtils.mkdirs(f.getParentFile(), true);
 		try (Writer w = new OutputStreamWriter(new FileOutputStream(f),
@@ -261,7 +261,7 @@ public abstract class JGitTestUtil {
 	 * @throws IOException
 	 *             the file does not exist, or could not be read.
 	 */
-	public static String read(final File file) throws IOException {
+	public static String read(File file) throws IOException {
 		final byte[] body = IO.readFully(file);
 		return new String(body, 0, body.length, CHARSET);
 	}
@@ -274,7 +274,7 @@ public abstract class JGitTestUtil {
 	 * @return the content of the file
 	 * @throws IOException
 	 */
-	public static String read(final Repository db, final String name)
+	public static String read(Repository db, String name)
 			throws IOException {
 		File file = new File(db.getWorkTree(), name);
 		return read(file);
@@ -288,7 +288,7 @@ public abstract class JGitTestUtil {
 	 *            name of the file
 	 * @return {@code true} if the file exists
 	 */
-	public static boolean check(final Repository db, final String name) {
+	public static boolean check(Repository db, String name) {
 		File file = new File(db.getWorkTree(), name);
 		return file.exists();
 	}

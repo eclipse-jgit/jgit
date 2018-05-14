@@ -61,7 +61,7 @@ import com.jcraft.jsch.Session;
 class DefaultSshSessionFactory extends JschConfigSessionFactory {
 	/** {@inheritDoc} */
 	@Override
-	protected void configure(final OpenSshConfig.Host hc, final Session session) {
+	protected void configure(OpenSshConfig.Host hc, Session session) {
 		// No additional configuration required.
 	}
 }

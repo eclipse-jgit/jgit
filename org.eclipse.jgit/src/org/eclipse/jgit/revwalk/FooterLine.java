@@ -86,7 +86,7 @@ public final class FooterLine {
 	 *            key to test this line's key name against.
 	 * @return true if {@code key.getName().equalsIgnorecase(getKey())}.
 	 */
-	public boolean matches(final FooterKey key) {
+	public boolean matches(FooterKey key) {
 		final byte[] kRaw = key.raw;
 		final int len = kRaw.length;
 		int bPtr = keyStart;

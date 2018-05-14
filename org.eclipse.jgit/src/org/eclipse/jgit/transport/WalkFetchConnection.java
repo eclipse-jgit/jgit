@@ -256,7 +256,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 
 	/** {@inheritDoc} */
 	@Override
-	public void setPackLockMessage(final String message) {
+	public void setPackLockMessage(String message) {
 		lockMessage = message;
 	}
 
@@ -273,7 +273,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 			r.close();
 	}
 
-	private void queueWants(final Collection<Ref> want)
+	private void queueWants(Collection<Ref> want)
 			throws TransportException {
 		final HashSet<ObjectId> inWorkQueue = new HashSet<>();
 		for (final Ref r : want) {
@@ -299,7 +299,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 		}
 	}
 
-	private void process(final ObjectId id) throws TransportException {
+	private void process(ObjectId id) throws TransportException {
 		final RevObject obj;
 		try {
 			if (id instanceof RevObject) {
@@ -339,7 +339,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 		fetchErrors.remove(id);
 	}
 
-	private void processBlob(final RevObject obj) throws TransportException {
+	private void processBlob(RevObject obj) throws TransportException {
 		try {
 			if (reader.has(obj, Constants.OBJ_BLOB))
 				obj.add(COMPLETE);
@@ -353,7 +353,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 		}
 	}
 
-	private void processTree(final RevObject obj) throws TransportException {
+	private void processTree(RevObject obj) throws TransportException {
 		try {
 			treeWalk.reset(obj);
 			while (treeWalk.next()) {
@@ -381,7 +381,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 		obj.add(COMPLETE);
 	}
 
-	private void processCommit(final RevObject obj) throws TransportException {
+	private void processCommit(RevObject obj) throws TransportException {
 		final RevCommit commit = (RevCommit) obj;
 		markLocalCommitsComplete(commit.getCommitTime());
 		needs(commit.getTree());
@@ -390,13 +390,13 @@ class WalkFetchConnection extends BaseFetchConnection {
 		obj.add(COMPLETE);
 	}
 
-	private void processTag(final RevObject obj) {
+	private void processTag(RevObject obj) {
 		final RevTag tag = (RevTag) obj;
 		needs(tag.getObject());
 		obj.add(COMPLETE);
 	}
 
-	private void needs(final RevObject obj) {
+	private void needs(RevObject obj) {
 		if (obj.has(COMPLETE))
 			return;
 		if (!obj.has(IN_WORK_QUEUE)) {
@@ -405,7 +405,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 		}
 	}
 
-	private void downloadObject(final ProgressMonitor pm, final AnyObjectId id)
+	private void downloadObject(ProgressMonitor pm, AnyObjectId id)
 			throws TransportException {
 		if (alreadyHave(id))
 			return;
@@ -495,7 +495,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 		}
 	}
 
-	private boolean alreadyHave(final AnyObjectId id) throws TransportException {
+	private boolean alreadyHave(AnyObjectId id) throws TransportException {
 		try {
 			return reader.has(id);
 		} catch (IOException error) {
@@ -686,7 +686,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 		return null;
 	}
 
-	private void markLocalRefsComplete(final Set<ObjectId> have) throws TransportException {
+	private void markLocalRefsComplete(Set<ObjectId> have) throws TransportException {
 		List<Ref> refs;
 		try {
 			refs = local.getRefDatabase().getRefs();
@@ -729,7 +729,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 		}
 	}
 
-	private void markLocalCommitsComplete(final int until)
+	private void markLocalCommitsComplete(int until)
 			throws TransportException {
 		try {
 			for (;;) {
@@ -747,7 +747,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 		}
 	}
 
-	private void pushLocalCommit(final RevCommit p)
+	private void pushLocalCommit(RevCommit p)
 			throws MissingObjectException, IOException {
 		if (p.has(LOCALLY_SEEN))
 			return;
@@ -758,7 +758,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 		localCommitQueue.add(p);
 	}
 
-	private void markTreeComplete(final RevTree tree) throws IOException {
+	private void markTreeComplete(RevTree tree) throws IOException {
 		if (tree.has(COMPLETE))
 			return;
 		tree.add(COMPLETE);
@@ -792,7 +792,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 		}
 	}
 
-	private void recordError(final AnyObjectId id, final Throwable what) {
+	private void recordError(AnyObjectId id, Throwable what) {
 		final ObjectId objId = id.copy();
 		List<Throwable> errors = fetchErrors.get(objId);
 		if (errors == null) {

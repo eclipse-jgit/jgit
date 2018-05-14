@@ -76,7 +76,7 @@ public class DiffConfig {
 
 	private final int renameLimit;
 
-	private DiffConfig(final Config rc) {
+	private DiffConfig(Config rc) {
 		noPrefix = rc.getBoolean(ConfigConstants.CONFIG_DIFF_SECTION,
 				ConfigConstants.CONFIG_KEY_NOPREFIX, false);
 		renameDetectionType = parseRenameDetectionType(rc.getString(

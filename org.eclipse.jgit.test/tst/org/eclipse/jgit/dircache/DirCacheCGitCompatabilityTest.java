@@ -229,7 +229,7 @@ public class DirCacheCGitCompatabilityTest extends LocalDiskRepositoryTestCase {
 		assertEquals(intentToAdd, entry.isIntentToAdd());
 	}
 
-	private static File pathOf(final String name) {
+	private static File pathOf(String name) {
 		return JGitTestUtil.getTestResourceFile(name);
 	}
 

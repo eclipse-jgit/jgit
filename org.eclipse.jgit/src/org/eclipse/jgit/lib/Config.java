@@ -376,7 +376,7 @@ public class Config {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static <T> T[] allValuesOf(final T value) {
+	private static <T> T[] allValuesOf(T value) {
 		try {
 			return (T[]) value.getClass().getMethod("values").invoke(null); //$NON-NLS-1$
 		} catch (Exception err) {
@@ -515,7 +515,7 @@ public class Config {
 	 *         order they are declared by the configuration starting from this
 	 *         instance and progressing through the base.
 	 */
-	public Set<String> getSubsections(final String section) {
+	public Set<String> getSubsections(String section) {
 		return getState().getSubsections(section);
 	}
 
@@ -601,7 +601,7 @@ public class Config {
 	 * @return the parsed object instance, which is cached inside this config.
 	 */
 	@SuppressWarnings("unchecked")
-	public <T> T get(final SectionParser<T> parser) {
+	public <T> T get(SectionParser<T> parser) {
 		final ConfigSnapshot myState = getState();
 		T obj = (T) myState.cache.get(parser);
 		if (obj == null) {
@@ -621,7 +621,7 @@ public class Config {
 	 *            parser used to obtain the configuration object.
 	 * @see #get(SectionParser)
 	 */
-	public void uncache(final SectionParser<?> parser) {
+	public void uncache(SectionParser<?> parser) {
 		state.get().cache.remove(parser);
 	}
 
@@ -1059,11 +1059,11 @@ public class Config {
 	 *             the text supplied is not formatted correctly. No changes were
 	 *             made to {@code this}.
 	 */
-	public void fromText(final String text) throws ConfigInvalidException {
+	public void fromText(String text) throws ConfigInvalidException {
 		state.set(newState(fromTextRecurse(text, 1)));
 	}
 
-	private List<ConfigLine> fromTextRecurse(final String text, int depth)
+	private List<ConfigLine> fromTextRecurse(String text, int depth)
 			throws ConfigInvalidException {
 		if (depth > MAX_DEPTH) {
 			throw new ConfigInvalidException(
@@ -1185,7 +1185,7 @@ public class Config {
 				getBaseState());
 	}
 
-	private ConfigSnapshot newState(final List<ConfigLine> entries) {
+	private ConfigSnapshot newState(List<ConfigLine> entries) {
 		return new ConfigSnapshot(Collections.unmodifiableList(entries),
 				getBaseState());
 	}
@@ -1210,7 +1210,7 @@ public class Config {
 				&& bytes[1] == (byte) 0xBB && bytes[2] == (byte) 0xBF;
 	}
 
-	private static String readSectionName(final StringReader in)
+	private static String readSectionName(StringReader in)
 			throws ConfigInvalidException {
 		final StringBuilder name = new StringBuilder();
 		for (;;) {
@@ -1249,7 +1249,7 @@ public class Config {
 		return name.toString();
 	}
 
-	private static String readKeyName(final StringReader in)
+	private static String readKeyName(StringReader in)
 			throws ConfigInvalidException {
 		final StringBuilder name = new StringBuilder();
 		for (;;) {
@@ -1336,7 +1336,7 @@ public class Config {
 		return r.toString();
 	}
 
-	private static String readValue(final StringReader in)
+	private static String readValue(StringReader in)
 			throws ConfigInvalidException {
 		StringBuilder value = new StringBuilder();
 		StringBuilder trailingSpaces = null;

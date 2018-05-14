@@ -67,7 +67,7 @@ public class LongList {
 	 * @param capacity
 	 *            number of entries the list can initially hold.
 	 */
-	public LongList(final int capacity) {
+	public LongList(int capacity) {
 		entries = new long[capacity];
 	}
 
@@ -89,7 +89,7 @@ public class LongList {
 	 * @throws java.lang.ArrayIndexOutOfBoundsException
 	 *             the index outside the valid range
 	 */
-	public long get(final int i) {
+	public long get(int i) {
 		if (count <= i)
 			throw new ArrayIndexOutOfBoundsException(i);
 		return entries[i];
@@ -102,7 +102,7 @@ public class LongList {
 	 *            the value to search for.
 	 * @return true of {@code value} appears in this list.
 	 */
-	public boolean contains(final long value) {
+	public boolean contains(long value) {
 		for (int i = 0; i < count; i++)
 			if (entries[i] == value)
 				return true;
@@ -122,7 +122,7 @@ public class LongList {
 	 * @param n
 	 *            the number to add.
 	 */
-	public void add(final long n) {
+	public void add(long n) {
 		if (count == entries.length)
 			grow();
 		entries[count++] = n;
@@ -136,7 +136,7 @@ public class LongList {
 	 * @param n
 	 *            value to store at the position.
 	 */
-	public void set(final int index, final long n) {
+	public void set(int index, long n) {
 		if (count < index)
 			throw new ArrayIndexOutOfBoundsException(index);
 		else if (count == index)
@@ -155,7 +155,7 @@ public class LongList {
 	 * @param val
 	 *            value to insert into padded positions.
 	 */
-	public void fillTo(int toIndex, final long val) {
+	public void fillTo(int toIndex, long val) {
 		while (count < toIndex)
 			add(val);
 	}

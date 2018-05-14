@@ -367,7 +367,7 @@ public class PackFileTest extends LocalDiskRepositoryTestCase {
 		pack.write(buf, 0, n);
 	}
 
-	private static void deflate(TemporaryBuffer.Heap pack, final byte[] content)
+	private static void deflate(TemporaryBuffer.Heap pack, byte[] content)
 			throws IOException {
 		final Deflater deflater = new Deflater();
 		final byte[] buf = new byte[128];

@@ -211,7 +211,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	 * @param p
 	 *            parent tree iterator.
 	 */
-	protected WorkingTreeIterator(final WorkingTreeIterator p) {
+	protected WorkingTreeIterator(WorkingTreeIterator p) {
 		super(p);
 		state = p.state;
 		repository = p.repository;
@@ -364,7 +364,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	private static final byte[] hblob = Constants
 			.encodedTypeString(Constants.OBJ_BLOB);
 
-	private byte[] idBufferBlob(final Entry e) {
+	private byte[] idBufferBlob(Entry e) {
 		try {
 			final InputStream is = e.openInputStream();
 			if (is == null)
@@ -422,7 +422,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		return filterClean(is, opType);
 	}
 
-	private static void safeClose(final InputStream in) {
+	private static void safeClose(InputStream in) {
 		try {
 			in.close();
 		} catch (IOException err2) {
@@ -540,7 +540,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 
 	/** {@inheritDoc} */
 	@Override
-	public void next(final int delta) throws CorruptObjectException {
+	public void next(int delta) throws CorruptObjectException {
 		ptr += delta;
 		if (!eof()) {
 			parseEntry();
@@ -549,7 +549,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 
 	/** {@inheritDoc} */
 	@Override
-	public void back(final int delta) throws CorruptObjectException {
+	public void back(int delta) throws CorruptObjectException {
 		ptr -= delta;
 		parseEntry();
 	}
@@ -654,7 +654,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	 * @throws java.io.IOException
 	 *             a relevant ignore rule file exists but cannot be read.
 	 */
-	protected boolean isEntryIgnored(final int pLen) throws IOException {
+	protected boolean isEntryIgnored(int pLen) throws IOException {
 		return isEntryIgnored(pLen, mode);
 	}
 
@@ -669,7 +669,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	 * @throws IOException
 	 *             a relevant ignore rule file exists but cannot be read.
 	 */
-	private boolean isEntryIgnored(final int pLen, int fileMode)
+	private boolean isEntryIgnored(int pLen, int fileMode)
 			throws IOException {
 		// The ignore code wants path to start with a '/' if possible.
 		// If we have the '/' in our path buffer because we are inside
@@ -748,7 +748,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	 *            files in the subtree of the work tree this iterator operates
 	 *            on
 	 */
-	protected void init(final Entry[] list) {
+	protected void init(Entry[] list) {
 		// Filter out nulls, . and .. as these are not valid tree entries,
 		// also cache the encoded forms of the path names for efficient use
 		// later on during sorting and iteration.
@@ -830,7 +830,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	 *            an int.
 	 * @return true if different, false otherwise
 	 */
-	public boolean isModeDifferent(final int rawMode) {
+	public boolean isModeDifferent(int rawMode) {
 		// Determine difference in mode-bits of file and index-entry. In the
 		// bitwise presentation of modeDiff we'll have a '1' when the two modes
 		// differ at this position.
@@ -984,7 +984,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	 *            available at this iterator's current entry
 	 * @return index file mode
 	 */
-	public FileMode getIndexFileMode(final DirCacheIterator indexIter) {
+	public FileMode getIndexFileMode(DirCacheIterator indexIter) {
 		final FileMode wtMode = getEntryFileMode();
 		if (indexIter == null) {
 			return wtMode;

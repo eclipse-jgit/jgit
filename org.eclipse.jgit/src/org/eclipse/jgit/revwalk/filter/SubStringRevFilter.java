@@ -65,7 +65,7 @@ public abstract class SubStringRevFilter extends RevFilter {
 	 *         if {@link org.eclipse.jgit.revwalk.filter.PatternMatchRevFilter}
 	 *         must be used instead.
 	 */
-	public static boolean safe(final String pattern) {
+	public static boolean safe(String pattern) {
 		for (int i = 0; i < pattern.length(); i++) {
 			final char c = pattern.charAt(i);
 			switch (c) {
@@ -96,13 +96,13 @@ public abstract class SubStringRevFilter extends RevFilter {
 	 *            the {@link #safe(String)} as regular expression meta
 	 *            characters are treated as literals.
 	 */
-	protected SubStringRevFilter(final String patternText) {
+	protected SubStringRevFilter(String patternText) {
 		pattern = new RawSubStringPattern(patternText);
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean include(final RevWalk walker, final RevCommit cmit)
+	public boolean include(RevWalk walker, RevCommit cmit)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
 		return pattern.match(text(cmit)) >= 0;

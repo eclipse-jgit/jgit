@@ -120,7 +120,7 @@ public class AutoLFOutputStream extends OutputStream {
 
 	/** {@inheritDoc} */
 	@Override
-	public void write(byte[] b, final int startOff, final int startLen)
+	public void write(byte[] b, int startOff, int startLen)
 			throws IOException {
 		final int overflow = buffer(b, startOff, startLen);
 		if (overflow < 0) {

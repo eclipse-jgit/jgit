@@ -74,7 +74,7 @@ abstract class AbstractRevQueue extends Generator {
 	 * @param queueControl
 	 *            flag that controls admission to the queue.
 	 */
-	public final void add(final RevCommit c, final RevFlag queueControl) {
+	public final void add(RevCommit c, RevFlag queueControl) {
 		if (!c.has(queueControl)) {
 			c.add(queueControl);
 			add(c);
@@ -94,7 +94,7 @@ abstract class AbstractRevQueue extends Generator {
 	 * @param queueControl
 	 *            flag that controls admission to the queue.
 	 */
-	public final void addParents(final RevCommit c, final RevFlag queueControl) {
+	public final void addParents(RevCommit c, RevFlag queueControl) {
 		final RevCommit[] pList = c.parents;
 		if (pList == null)
 			return;
@@ -132,7 +132,7 @@ abstract class AbstractRevQueue extends Generator {
 	 * @param c
 	 *            a {@link org.eclipse.jgit.revwalk.RevCommit}
 	 */
-	protected static void describe(final StringBuilder s, final RevCommit c) {
+	protected static void describe(StringBuilder s, RevCommit c) {
 		s.append(c.toString());
 		s.append('\n');
 	}

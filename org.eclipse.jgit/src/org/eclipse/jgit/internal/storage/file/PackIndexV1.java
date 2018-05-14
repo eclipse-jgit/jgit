@@ -120,7 +120,7 @@ class PackIndexV1 extends PackIndex {
 		return n64;
 	}
 
-	private int findLevelOne(final long nthPosition) {
+	private int findLevelOne(long nthPosition) {
 		int levelOne = Arrays.binarySearch(idxHeader, nthPosition + 1);
 		if (levelOne >= 0) {
 			// If we hit the bucket exactly the item is in the bucket, or
@@ -137,14 +137,14 @@ class PackIndexV1 extends PackIndex {
 		return levelOne;
 	}
 
-	private int getLevelTwo(final long nthPosition, final int levelOne) {
+	private int getLevelTwo(long nthPosition, int levelOne) {
 		final long base = levelOne > 0 ? idxHeader[levelOne - 1] : 0;
 		return (int) (nthPosition - base);
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public ObjectId getObjectId(final long nthPosition) {
+	public ObjectId getObjectId(long nthPosition) {
 		final int levelOne = findLevelOne(nthPosition);
 		final int p = getLevelTwo(nthPosition, levelOne);
 		final int dataIdx = idOffset(p);
@@ -161,7 +161,7 @@ class PackIndexV1 extends PackIndex {
 
 	/** {@inheritDoc} */
 	@Override
-	public long findOffset(final AnyObjectId objId) {
+	public long findOffset(AnyObjectId objId) {
 		final int levelOne = objId.getFirstByte();
 		byte[] data = idxdata[levelOne];
 		if (data == null)

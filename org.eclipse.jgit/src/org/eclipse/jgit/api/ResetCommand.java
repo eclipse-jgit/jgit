@@ -245,7 +245,7 @@ public class ResetCommand extends GitCommand<Ref> {
 		}
 	}
 
-	private RevCommit parseCommit(final ObjectId commitId) {
+	private RevCommit parseCommit(ObjectId commitId) {
 		try (RevWalk rw = new RevWalk(repo)) {
 			return rw.parseCommit(commitId);
 		} catch (IOException e) {

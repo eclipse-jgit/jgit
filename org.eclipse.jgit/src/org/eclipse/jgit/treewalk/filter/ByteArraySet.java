@@ -77,7 +77,7 @@ class ByteArraySet {
 		initTable(1 << Integer.highestOneBit((capacity * 2) - 1));
 	}
 
-	private byte[] get(final byte[] toFind, int length, int hash) {
+	private byte[] get(byte[] toFind, int length, int hash) {
 		final int msk = mask;
 		int i = hash & msk;
 		final byte[][] tbl = table;
@@ -180,7 +180,7 @@ class ByteArraySet {
 		return size == 0;
 	}
 
-	private void insert(final byte[] newValue, int hash) {
+	private void insert(byte[] newValue, int hash) {
 		final int msk = mask;
 		int j = hash & msk;
 		final byte[][] tbl = table;

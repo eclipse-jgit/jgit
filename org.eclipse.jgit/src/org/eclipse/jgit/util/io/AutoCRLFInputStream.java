@@ -100,7 +100,7 @@ public class AutoCRLFInputStream extends InputStream {
 
 	/** {@inheritDoc} */
 	@Override
-	public int read(byte[] bs, final int off, final int len) throws IOException {
+	public int read(byte[] bs, int off, int len) throws IOException {
 		if (len == 0)
 			return 0;
 

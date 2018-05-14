@@ -134,7 +134,7 @@ public class ObjectIdOwnerMap<V extends ObjectIdOwnerMap.Entry>
 	 * @return the instance mapped to toFind, or null if no mapping exists.
 	 */
 	@SuppressWarnings("unchecked")
-	public V get(final AnyObjectId toFind) {
+	public V get(AnyObjectId toFind) {
 		int h = toFind.w1;
 		V obj = directory[h & mask][h >>> SEGMENT_SHIFT];
 		for (; obj != null; obj = (V) obj.next)
@@ -149,7 +149,7 @@ public class ObjectIdOwnerMap<V extends ObjectIdOwnerMap.Entry>
 	 * Returns true if this map contains the specified object.
 	 */
 	@Override
-	public boolean contains(final AnyObjectId toFind) {
+	public boolean contains(AnyObjectId toFind) {
 		return get(toFind) != null;
 	}
 
@@ -163,7 +163,7 @@ public class ObjectIdOwnerMap<V extends ObjectIdOwnerMap.Entry>
 	 * @param newValue
 	 *            the object to store.
 	 */
-	public <Q extends V> void add(final Q newValue) {
+	public <Q extends V> void add(Q newValue) {
 		if (++size == grow)
 			grow();
 
@@ -194,7 +194,7 @@ public class ObjectIdOwnerMap<V extends ObjectIdOwnerMap.Entry>
 	 *         {@code get(newValue)} first.
 	 */
 	@SuppressWarnings("unchecked")
-	public <Q extends V> V addIfAbsent(final Q newValue) {
+	public <Q extends V> V addIfAbsent(Q newValue) {
 		int h = newValue.w1;
 		V[] table = directory[h & mask];
 		h >>>= SEGMENT_SHIFT;

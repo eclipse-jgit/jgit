@@ -58,7 +58,7 @@ public class NotSupportedException extends IOException {
 	 *
 	 * @param s message describing the issue
 	 */
-	public NotSupportedException(final String s) {
+	public NotSupportedException(String s) {
 		super(s);
 	}
 
@@ -70,7 +70,7 @@ public class NotSupportedException extends IOException {
 	 * @param why
 	 *            a lower level implementation specific issue.
 	 */
-	public NotSupportedException(final String s, final Throwable why) {
+	public NotSupportedException(String s, Throwable why) {
 		super(s);
 		initCause(why);
 	}

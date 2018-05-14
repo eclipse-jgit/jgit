@@ -995,11 +995,11 @@ public class ResolveMerger extends ThreeWayMerger {
 		return RawText.load(loader, threshold);
 	}
 
-	private static boolean nonTree(final int mode) {
+	private static boolean nonTree(int mode) {
 		return mode != 0 && !FileMode.TREE.equals(mode);
 	}
 
-	private static boolean isGitLink(final int mode) {
+	private static boolean isGitLink(int mode) {
 		return FileMode.GITLINK.equals(mode);
 	}
 

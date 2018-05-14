@@ -93,13 +93,13 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		}
 	}
 
-	private RefUpdate updateRef(final String name) throws IOException {
+	private RefUpdate updateRef(String name) throws IOException {
 		final RefUpdate ref = db.updateRef(name);
 		ref.setNewObjectId(db.resolve(Constants.HEAD));
 		return ref;
 	}
 
-	private void delete(final RefUpdate ref, final Result expected)
+	private void delete(RefUpdate ref, Result expected)
 			throws IOException {
 		delete(ref, expected, true, true);
 	}

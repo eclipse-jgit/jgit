@@ -103,7 +103,7 @@ public class SubmoduleUpdateCommand extends
 	 * @param repo
 	 *            a {@link org.eclipse.jgit.lib.Repository} object.
 	 */
-	public SubmoduleUpdateCommand(final Repository repo) {
+	public SubmoduleUpdateCommand(Repository repo) {
 		super(repo);
 		paths = new ArrayList<>();
 	}
@@ -132,7 +132,7 @@ public class SubmoduleUpdateCommand extends
 	 * @return this command
 	 * @since 4.9
 	 */
-	public SubmoduleUpdateCommand setFetch(final boolean fetch) {
+	public SubmoduleUpdateCommand setFetch(boolean fetch) {
 		this.fetch = fetch;
 		return this;
 	}
@@ -144,7 +144,7 @@ public class SubmoduleUpdateCommand extends
 	 *            (with <code>/</code> as separator)
 	 * @return this command
 	 */
-	public SubmoduleUpdateCommand addPath(final String path) {
+	public SubmoduleUpdateCommand addPath(String path) {
 		paths.add(path);
 		return this;
 	}

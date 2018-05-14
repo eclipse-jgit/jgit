@@ -51,7 +51,7 @@ import org.eclipse.jgit.util.SystemReader;
 import org.junit.Test;
 
 public class ValidRefNameTest {
-	private static void assertValid(final boolean exp, final String name) {
+	private static void assertValid(boolean exp, String name) {
 		SystemReader instance = SystemReader.getInstance();
 		try {
 			setUnixSystemReader();
@@ -81,7 +81,7 @@ public class ValidRefNameTest {
 		});
 	}
 
-	private static void assertInvalidOnWindows(final String name) {
+	private static void assertInvalidOnWindows(String name) {
 		SystemReader instance = SystemReader.getInstance();
 		try {
 			setUnixSystemReader();

@@ -302,7 +302,7 @@ class Branch extends TextBuiltin {
 		}
 	}
 
-	private void addRefs(final Collection<Ref> refs, final String prefix) {
+	private void addRefs(Collection<Ref> refs, String prefix) {
 		for (final Ref ref : RefComparator.sort(refs)) {
 			final String name = ref.getName();
 			if (name.startsWith(prefix))
@@ -310,7 +310,7 @@ class Branch extends TextBuiltin {
 		}
 	}
 
-	private void addRef(final String name, final Ref ref) {
+	private void addRef(String name, Ref ref) {
 		printRefs.put(name, ref);
 		maxNameLength = Math.max(maxNameLength, name.length());
 	}

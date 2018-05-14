@@ -179,7 +179,7 @@ public class BatchRefUpdate {
 	 *            configuration.
 	 * @return {@code this}.
 	 */
-	public BatchRefUpdate setRefLogIdent(final PersonIdent pi) {
+	public BatchRefUpdate setRefLogIdent(PersonIdent pi) {
 		refLogIdent = pi;
 		return this;
 	}

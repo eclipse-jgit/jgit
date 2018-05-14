@@ -338,7 +338,7 @@ public class NBTest {
 		assertOutput(b(0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff), out, 3);
 	}
 
-	private static void prepareOutput(final byte[] buf) {
+	private static void prepareOutput(byte[] buf) {
 		for (int i = 0; i < buf.length; i++)
 			buf[i] = (byte) (0x77 + i);
 	}
@@ -353,11 +353,11 @@ public class NBTest {
 			assertEquals((byte) (0x77 + i), buf[i]);
 	}
 
-	private static byte[] b(final int a, final int b) {
+	private static byte[] b(int a, int b) {
 		return new byte[] { (byte) a, (byte) b };
 	}
 
-	private static byte[] padb(final int len, final int a, final int b) {
+	private static byte[] padb(int len, int a, int b) {
 		final byte[] r = new byte[len + 2];
 		for (int i = 0; i < len; i++)
 			r[i] = (byte) 0xaf;
@@ -370,7 +370,7 @@ public class NBTest {
 		return new byte[] { (byte) a, (byte) b, (byte) c };
 	}
 
-	private static byte[] b(final int a, final int b, final int c, final int d) {
+	private static byte[] b(int a, int b, int c, int d) {
 		return new byte[] { (byte) a, (byte) b, (byte) c, (byte) d };
 	}
 

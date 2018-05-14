@@ -74,7 +74,7 @@ public class NetRCTest extends RepositoryTestCase {
 		configFile = new File(home, ".netrc");
 	}
 
-	private void config(final String data) throws IOException {
+	private void config(String data) throws IOException {
 		try (OutputStreamWriter fw = new OutputStreamWriter(
 				new FileOutputStream(configFile), CHARSET)) {
 			fw.write(data);

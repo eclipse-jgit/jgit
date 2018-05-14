@@ -274,7 +274,7 @@ abstract class BasePackConnection extends BaseConnection {
 	 *            option string
 	 * @return whether this option is supported
 	 */
-	protected boolean isCapableOf(final String option) {
+	protected boolean isCapableOf(String option) {
 		return remoteCapablities.contains(option);
 	}
 
@@ -287,7 +287,7 @@ abstract class BasePackConnection extends BaseConnection {
 	 *            option we want
 	 * @return {@code true} if the requested option is supported
 	 */
-	protected boolean wantCapability(final StringBuilder b, final String option) {
+	protected boolean wantCapability(StringBuilder b, String option) {
 		if (!isCapableOf(option))
 			return false;
 		b.append(' ');
@@ -314,7 +314,7 @@ abstract class BasePackConnection extends BaseConnection {
 		return UserAgent.getAgent(remoteCapablities, super.getPeerUserAgent());
 	}
 
-	private PackProtocolException duplicateAdvertisement(final String name) {
+	private PackProtocolException duplicateAdvertisement(String name) {
 		return new PackProtocolException(uri, MessageFormat.format(JGitText.get().duplicateAdvertisementsOf, name));
 	}
 

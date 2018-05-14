@@ -92,7 +92,7 @@ public class EmptyTreeIterator extends AbstractTreeIterator {
 
 	/** {@inheritDoc} */
 	@Override
-	public AbstractTreeIterator createSubtreeIterator(final ObjectReader reader)
+	public AbstractTreeIterator createSubtreeIterator(ObjectReader reader)
 			throws IncorrectObjectTypeException, IOException {
 		return new EmptyTreeIterator(this);
 	}
@@ -141,13 +141,13 @@ public class EmptyTreeIterator extends AbstractTreeIterator {
 
 	/** {@inheritDoc} */
 	@Override
-	public void next(final int delta) throws CorruptObjectException {
+	public void next(int delta) throws CorruptObjectException {
 		// Do nothing.
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public void back(final int delta) throws CorruptObjectException {
+	public void back(int delta) throws CorruptObjectException {
 		// Do nothing.
 	}
 

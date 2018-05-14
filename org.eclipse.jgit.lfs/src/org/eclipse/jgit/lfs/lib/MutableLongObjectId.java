@@ -167,7 +167,7 @@ public class MutableLongObjectId extends AnyLongObjectId {
 	 *            the raw byte buffer to read from. At least 32 bytes must be
 	 *            available within this byte array.
 	 */
-	public void fromRaw(final byte[] bs) {
+	public void fromRaw(byte[] bs) {
 		fromRaw(bs, 0);
 	}
 
@@ -180,7 +180,7 @@ public class MutableLongObjectId extends AnyLongObjectId {
 	 * @param p
 	 *            position to read the first byte of data from.
 	 */
-	public void fromRaw(final byte[] bs, final int p) {
+	public void fromRaw(byte[] bs, int p) {
 		w1 = NB.decodeInt64(bs, p);
 		w2 = NB.decodeInt64(bs, p + 8);
 		w3 = NB.decodeInt64(bs, p + 16);
@@ -194,7 +194,7 @@ public class MutableLongObjectId extends AnyLongObjectId {
 	 *            the raw long buffer to read from. At least 4 longs must be
 	 *            available within this longs array.
 	 */
-	public void fromRaw(final long[] longs) {
+	public void fromRaw(long[] longs) {
 		fromRaw(longs, 0);
 	}
 
@@ -207,7 +207,7 @@ public class MutableLongObjectId extends AnyLongObjectId {
 	 * @param p
 	 *            position to read the first integer of data from.
 	 */
-	public void fromRaw(final long[] longs, final int p) {
+	public void fromRaw(long[] longs, int p) {
 		w1 = longs[p];
 		w2 = longs[p + 1];
 		w3 = longs[p + 2];
@@ -223,7 +223,7 @@ public class MutableLongObjectId extends AnyLongObjectId {
 	 * @param offset
 	 *            position to read the first character from.
 	 */
-	public void fromString(final byte[] buf, final int offset) {
+	public void fromString(byte[] buf, int offset) {
 		fromHexString(buf, offset);
 	}
 
@@ -233,14 +233,14 @@ public class MutableLongObjectId extends AnyLongObjectId {
 	 * @param str
 	 *            the string to read from. Must be 64 characters long.
 	 */
-	public void fromString(final String str) {
+	public void fromString(String str) {
 		if (str.length() != Constants.LONG_OBJECT_ID_STRING_LENGTH)
 			throw new IllegalArgumentException(
 					MessageFormat.format(LfsText.get().invalidLongId, str));
 		fromHexString(org.eclipse.jgit.lib.Constants.encodeASCII(str), 0);
 	}
 
-	private void fromHexString(final byte[] bs, int p) {
+	private void fromHexString(byte[] bs, int p) {
 		try {
 			w1 = RawParseUtils.parseHexInt64(bs, p);
 			w2 = RawParseUtils.parseHexInt64(bs, p + 16);

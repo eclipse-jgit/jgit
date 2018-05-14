@@ -119,7 +119,7 @@ public class ObjectWalk extends RevWalk {
 	 * @param repo
 	 *            the repository the walker will obtain data from.
 	 */
-	public ObjectWalk(final Repository repo) {
+	public ObjectWalk(Repository repo) {
 		this(repo.newObjectReader());
 	}
 
@@ -699,7 +699,7 @@ public class ObjectWalk extends RevWalk {
 
 	/** {@inheritDoc} */
 	@Override
-	protected void reset(final int retainFlags) {
+	protected void reset(int retainFlags) {
 		super.reset(retainFlags);
 
 		for (RevObject obj : rootObjects)
@@ -711,7 +711,7 @@ public class ObjectWalk extends RevWalk {
 		freeVisit = null;
 	}
 
-	private void addObject(final RevObject o) {
+	private void addObject(RevObject o) {
 		if ((o.flags & IN_PENDING) == 0) {
 			o.flags |= IN_PENDING;
 			rootObjects.add(o);
@@ -719,7 +719,7 @@ public class ObjectWalk extends RevWalk {
 		}
 	}
 
-	private void markTreeUninteresting(final RevTree tree)
+	private void markTreeUninteresting(RevTree tree)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
 		if ((tree.flags & UNINTERESTING) != 0)

@@ -136,7 +136,7 @@ public class BlameCommandTest extends RepositoryTestCase {
 		testRename("subdir/file1.txt", "otherdir/file1.txt");
 	}
 
-	private void testRename(final String sourcePath, final String destPath)
+	private void testRename(String sourcePath, String destPath)
 			throws Exception {
 		try (Git git = new Git(db)) {
 			String[] content1 = new String[] { "a", "b", "c" };

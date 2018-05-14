@@ -88,7 +88,7 @@ public class RevCommitHandler extends OptionHandler<RevCommit> {
 
 	/** {@inheritDoc} */
 	@Override
-	public int parseArguments(final Parameters params) throws CmdLineException {
+	public int parseArguments(Parameters params) throws CmdLineException {
 		String name = params.getParameter(0);
 
 		boolean interesting = true;
@@ -115,7 +115,7 @@ public class RevCommitHandler extends OptionHandler<RevCommit> {
 		return 1;
 	}
 
-	private void addOne(final String name, final boolean interesting)
+	private void addOne(String name, boolean interesting)
 			throws CmdLineException {
 		final ObjectId id;
 		try {

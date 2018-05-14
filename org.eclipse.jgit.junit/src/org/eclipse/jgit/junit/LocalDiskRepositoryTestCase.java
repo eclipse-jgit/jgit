@@ -225,7 +225,7 @@ public abstract class LocalDiskRepositoryTestCase {
 	 * @param dir
 	 *            the recursively directory to delete, if present.
 	 */
-	protected void recursiveDelete(final File dir) {
+	protected void recursiveDelete(File dir) {
 		recursiveDelete(dir, false, true);
 	}
 
@@ -540,7 +540,7 @@ public abstract class LocalDiskRepositoryTestCase {
 	 * @throws IOException
 	 *             the file could not be written.
 	 */
-	protected File write(final String body) throws IOException {
+	protected File write(String body) throws IOException {
 		final File f = File.createTempFile("temp", "txt", tmp);
 		try {
 			write(f, body);
@@ -571,7 +571,7 @@ public abstract class LocalDiskRepositoryTestCase {
 	 * @throws IOException
 	 *             the file could not be written.
 	 */
-	protected void write(final File f, final String body) throws IOException {
+	protected void write(File f, String body) throws IOException {
 		JGitTestUtil.write(f, body);
 	}
 
@@ -583,11 +583,11 @@ public abstract class LocalDiskRepositoryTestCase {
 	 * @return the content of the file
 	 * @throws IOException
 	 */
-	protected String read(final File f) throws IOException {
+	protected String read(File f) throws IOException {
 		return JGitTestUtil.read(f);
 	}
 
-	private static String[] toEnvArray(final Map<String, String> env) {
+	private static String[] toEnvArray(Map<String, String> env) {
 		final String[] envp = new String[env.size()];
 		int i = 0;
 		for (Map.Entry<String, String> e : env.entrySet())

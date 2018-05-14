@@ -75,7 +75,7 @@ public class PackedObjectInfo extends ObjectIdOwnerMap.Entry {
 	 * @param id
 	 *            the identity of the object the new instance tracks.
 	 */
-	public PackedObjectInfo(final AnyObjectId id) {
+	public PackedObjectInfo(AnyObjectId id) {
 		super(id);
 	}
 
@@ -95,7 +95,7 @@ public class PackedObjectInfo extends ObjectIdOwnerMap.Entry {
 	 * @param offset
 	 *            offset where written object starts
 	 */
-	public void setOffset(final long offset) {
+	public void setOffset(long offset) {
 		this.offset = offset;
 	}
 
@@ -116,7 +116,7 @@ public class PackedObjectInfo extends ObjectIdOwnerMap.Entry {
 	 *            inflated length and delta base reference) as computed by
 	 *            {@link java.util.zip.CRC32}.
 	 */
-	public void setCRC(final int crc) {
+	public void setCRC(int crc) {
 		this.crc = crc;
 	}
 

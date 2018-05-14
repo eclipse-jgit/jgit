@@ -115,7 +115,7 @@ public class DfsReaderOptions {
 	 *            {@link org.eclipse.jgit.lib.ObjectStream}.
 	 * @return {@code this}
 	 */
-	public DfsReaderOptions setStreamFileThreshold(final int newLimit) {
+	public DfsReaderOptions setStreamFileThreshold(int newLimit) {
 		streamFileThreshold = Math.max(0, newLimit);
 		return this;
 	}

@@ -456,7 +456,7 @@ public class RefListTest {
 		return b.toRefList();
 	}
 
-	private static Ref newRef(final String name) {
+	private static Ref newRef(String name) {
 		return new ObjectIdRef.Unpeeled(Ref.Storage.LOOSE, name, ID);
 	}
 }

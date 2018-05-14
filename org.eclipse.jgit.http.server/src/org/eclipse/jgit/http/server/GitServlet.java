@@ -183,7 +183,7 @@ public class GitServlet extends MetaServlet {
 
 	/** {@inheritDoc} */
 	@Override
-	public void init(final ServletConfig config) throws ServletException {
+	public void init(ServletConfig config) throws ServletException {
 		gitFilter.init(new FilterConfig() {
 			@Override
 			public String getFilterName() {

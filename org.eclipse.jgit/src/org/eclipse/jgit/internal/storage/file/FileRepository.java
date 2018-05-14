@@ -149,7 +149,7 @@ public class FileRepository extends Repository {
 	 *             accessed.
 	 * @see FileRepositoryBuilder
 	 */
-	public FileRepository(final File gitDir) throws IOException {
+	public FileRepository(File gitDir) throws IOException {
 		this(new FileRepositoryBuilder().setGitDir(gitDir).setup());
 	}
 
@@ -163,7 +163,7 @@ public class FileRepository extends Repository {
 	 *             accessed.
 	 * @see FileRepositoryBuilder
 	 */
-	public FileRepository(final String gitDir) throws IOException {
+	public FileRepository(String gitDir) throws IOException {
 		this(new File(gitDir));
 	}
 
@@ -176,7 +176,7 @@ public class FileRepository extends Repository {
 	 *             the user configuration file or repository configuration file
 	 *             cannot be accessed.
 	 */
-	public FileRepository(final BaseRepositoryBuilder options) throws IOException {
+	public FileRepository(BaseRepositoryBuilder options) throws IOException {
 		super(options);
 
 		if (StringUtils.isEmptyOrNull(SystemReader.getInstance().getenv(
@@ -533,7 +533,7 @@ public class FileRepository extends Repository {
 	 *             index file could not be opened, read, or is not recognized as
 	 *             a Git pack file index.
 	 */
-	public void openPack(final File pack) throws IOException {
+	public void openPack(File pack) throws IOException {
 		objectDatabase.openPack(pack);
 	}
 

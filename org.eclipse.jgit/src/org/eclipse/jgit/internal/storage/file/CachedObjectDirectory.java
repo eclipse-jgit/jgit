@@ -181,11 +181,11 @@ class CachedObjectDirectory extends FileObjectDatabase {
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean has(final AnyObjectId objectId) throws IOException {
+	public boolean has(AnyObjectId objectId) throws IOException {
 		return has(objectId, null);
 	}
 
-	private boolean has(final AnyObjectId objectId, Set<AlternateHandle.Id> skips)
+	private boolean has(AnyObjectId objectId, Set<AlternateHandle.Id> skips)
 			throws IOException {
 		if (unpackedObjects.contains(objectId)) {
 			return true;

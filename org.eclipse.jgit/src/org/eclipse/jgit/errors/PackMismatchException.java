@@ -57,7 +57,7 @@ public class PackMismatchException extends IOException {
 	 * @param why
 	 *            description of the type of error.
 	 */
-	public PackMismatchException(final String why) {
+	public PackMismatchException(String why) {
 		super(why);
 	}
 }

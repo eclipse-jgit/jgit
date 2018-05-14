@@ -58,7 +58,7 @@ public class SymlinksNotSupportedException extends IOException {
 	 *
 	 * @param s name of link in tree or workdir
 	 */
-	public SymlinksNotSupportedException(final String s) {
+	public SymlinksNotSupportedException(String s) {
 		super(s);
 	}
 }

@@ -64,7 +64,7 @@ public class ErrorServlet extends HttpServlet {
 	 * @param status
 	 *            the HTTP status code to always send.
 	 */
-	public ErrorServlet(final int status) {
+	public ErrorServlet(int status) {
 		this.status = status;
 	}
 

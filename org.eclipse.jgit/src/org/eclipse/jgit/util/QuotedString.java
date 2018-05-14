@@ -99,7 +99,7 @@ public abstract class QuotedString {
 	 * @return the cleaned string.
 	 * @see #dequote(byte[], int, int)
 	 */
-	public String dequote(final String in) {
+	public String dequote(String in) {
 		final byte[] b = Constants.encode(in);
 		return dequote(b, 0, b.length);
 	}
@@ -137,7 +137,7 @@ public abstract class QuotedString {
 	 */
 	public static class BourneStyle extends QuotedString {
 		@Override
-		public String quote(final String in) {
+		public String quote(String in) {
 			final StringBuilder r = new StringBuilder();
 			r.append('\'');
 			int start = 0, i = 0;
@@ -160,7 +160,7 @@ public abstract class QuotedString {
 		}
 
 		@Override
-		public String dequote(final byte[] in, int ip, final int ie) {
+		public String dequote(byte[] in, int ip, int ie) {
 			boolean inquote = false;
 			final byte[] r = new byte[ie - ip];
 			int rPtr = 0;
@@ -188,7 +188,7 @@ public abstract class QuotedString {
 	/** Bourne style, but permits <code>~user</code> at the start of the string. */
 	public static class BourneUserPathStyle extends BourneStyle {
 		@Override
-		public String quote(final String in) {
+		public String quote(String in) {
 			if (in.matches("^~[A-Za-z0-9_-]+$")) { //$NON-NLS-1$
 				// If the string is just "~user" we can assume they
 				// mean "~user/".
@@ -255,7 +255,7 @@ public abstract class QuotedString {
 		}
 
 		@Override
-		public String quote(final String instr) {
+		public String quote(String instr) {
 			if (instr.length() == 0)
 				return "\"\""; //$NON-NLS-1$
 			boolean reuse = true;
@@ -291,13 +291,13 @@ public abstract class QuotedString {
 		}
 
 		@Override
-		public String dequote(final byte[] in, final int inPtr, final int inEnd) {
+		public String dequote(byte[] in, int inPtr, int inEnd) {
 			if (2 <= inEnd - inPtr && in[inPtr] == '"' && in[inEnd - 1] == '"')
 				return dq(in, inPtr + 1, inEnd - 1);
 			return RawParseUtils.decode(Constants.CHARSET, in, inPtr, inEnd);
 		}
 
-		private static String dq(final byte[] in, int inPtr, final int inEnd) {
+		private static String dq(byte[] in, int inPtr, int inEnd) {
 			final byte[] r = new byte[inEnd - inPtr];
 			int rPtr = 0;
 			while (inPtr < inEnd) {

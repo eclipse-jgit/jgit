@@ -62,7 +62,7 @@ public class RefComparator implements Comparator<Ref> {
 
 	/** {@inheritDoc} */
 	@Override
-	public int compare(final Ref o1, final Ref o2) {
+	public int compare(Ref o1, Ref o2) {
 		return compareTo(o1, o2);
 	}
 
@@ -73,7 +73,7 @@ public class RefComparator implements Comparator<Ref> {
 	 *            collection to be sorted
 	 * @return sorted collection of refs
 	 */
-	public static Collection<Ref> sort(final Collection<Ref> refs) {
+	public static Collection<Ref> sort(Collection<Ref> refs) {
 		final List<Ref> r = new ArrayList<>(refs);
 		Collections.sort(r, INSTANCE);
 		return r;
@@ -101,7 +101,7 @@ public class RefComparator implements Comparator<Ref> {
 	 *            the other reference instance.
 	 * @return standard Comparator result of &lt; 0, 0, &gt; 0.
 	 */
-	public static int compareTo(final Ref o1, final Ref o2) {
+	public static int compareTo(Ref o1, Ref o2) {
 		return o1.getName().compareTo(o2.getName());
 	}
 }

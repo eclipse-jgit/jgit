@@ -89,7 +89,7 @@ public class EditListTest {
 		assertEquals(new Edit(23 - 1, 25 - 1, 22 - 1, 28 - 1), e.get(2));
 	}
 
-	private Patch parseTestPatchFile(final String patchFile) throws IOException {
+	private Patch parseTestPatchFile(String patchFile) throws IOException {
 		try (InputStream in = getClass().getResourceAsStream(patchFile)) {
 			if (in == null) {
 				fail("No " + patchFile + " test vector");

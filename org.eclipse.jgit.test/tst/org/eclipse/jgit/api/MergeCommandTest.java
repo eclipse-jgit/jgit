@@ -1699,7 +1699,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 				.getWorkTree(), path));
 	}
 
-	private static RevCommit addAllAndCommit(final Git git) throws Exception {
+	private static RevCommit addAllAndCommit(Git git) throws Exception {
 		git.add().addFilepattern(".").call();
 		return git.commit().setMessage("message").call();
 	}

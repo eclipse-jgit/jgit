@@ -98,7 +98,7 @@ public class WindowCacheConfig {
 	 *            maximum number of streams to open at a time. Open packs count
 	 *            against the process limits
 	 */
-	public void setPackedGitOpenFiles(final int fdLimit) {
+	public void setPackedGitOpenFiles(int fdLimit) {
 		packedGitOpenFiles = fdLimit;
 	}
 
@@ -121,7 +121,7 @@ public class WindowCacheConfig {
 	 *            maximum number bytes of heap memory to dedicate to caching
 	 *            pack file data.
 	 */
-	public void setPackedGitLimit(final long newLimit) {
+	public void setPackedGitLimit(long newLimit) {
 		packedGitLimit = newLimit;
 	}
 
@@ -142,7 +142,7 @@ public class WindowCacheConfig {
 	 * @param newSize
 	 *            size in bytes of a single window read in from the pack file.
 	 */
-	public void setPackedGitWindowSize(final int newSize) {
+	public void setPackedGitWindowSize(int newSize) {
 		packedGitWindowSize = newSize;
 	}
 
@@ -165,7 +165,7 @@ public class WindowCacheConfig {
 	 *            for windows; false reads entire window into a byte[] with
 	 *            standard read calls.
 	 */
-	public void setPackedGitMMAP(final boolean usemmap) {
+	public void setPackedGitMMAP(boolean usemmap) {
 		packedGitMMAP = usemmap;
 	}
 
@@ -189,7 +189,7 @@ public class WindowCacheConfig {
 	 *            maximum number of bytes to cache in delta base cache for
 	 *            inflated, recently accessed objects, without delta chains.
 	 */
-	public void setDeltaBaseCacheLimit(final int newLimit) {
+	public void setDeltaBaseCacheLimit(int newLimit) {
 		deltaBaseCacheLimit = newLimit;
 	}
 
@@ -211,7 +211,7 @@ public class WindowCacheConfig {
 	 *            array, while objects bigger than this size require using an
 	 *            {@link org.eclipse.jgit.lib.ObjectStream}.
 	 */
-	public void setStreamFileThreshold(final int newLimit) {
+	public void setStreamFileThreshold(int newLimit) {
 		streamFileThreshold = newLimit;
 	}
 
@@ -226,7 +226,7 @@ public class WindowCacheConfig {
 	 * @return {@code this}.
 	 * @since 3.0
 	 */
-	public WindowCacheConfig fromConfig(final Config rc) {
+	public WindowCacheConfig fromConfig(Config rc) {
 		setPackedGitOpenFiles(rc.getInt(
 				"core", null, "packedgitopenfiles", getPackedGitOpenFiles())); //$NON-NLS-1$ //$NON-NLS-2$
 		setPackedGitLimit(rc.getLong(

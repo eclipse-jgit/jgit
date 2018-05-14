@@ -84,7 +84,7 @@ public enum TagOpt {
 
 	private final String option;
 
-	private TagOpt(final String o) {
+	private TagOpt(String o) {
 		option = o;
 	}
 
@@ -104,7 +104,7 @@ public enum TagOpt {
 	 *            the configuration file text value.
 	 * @return the option that matches the passed parameter.
 	 */
-	public static TagOpt fromOption(final String o) {
+	public static TagOpt fromOption(String o) {
 		if (o == null || o.length() == 0)
 			return AUTO_FOLLOW;
 		for (final TagOpt tagopt : values()) {

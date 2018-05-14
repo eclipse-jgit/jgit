@@ -170,7 +170,7 @@ public class FileLfsRepository implements LargeFileRepository {
 	private static final char[] hexchar = { '0', '1', '2', '3', '4', '5', '6',
 			'7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 
-	private static void formatHexChar(final char[] dst, final int p, int b) {
+	private static void formatHexChar(char[] dst, int p, int b) {
 		int o = p + 1;
 		while (o >= p && b != 0) {
 			dst[o--] = hexchar[b & 0xf];

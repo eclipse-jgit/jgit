@@ -65,7 +65,7 @@ final class ByteArrayWindow extends ByteWindow {
 
 	/** {@inheritDoc} */
 	@Override
-	protected int copy(final int p, final byte[] b, final int o, int n) {
+	protected int copy(int p, byte[] b, int o, int n) {
 		n = Math.min(array.length - p, n);
 		System.arraycopy(array, p, b, o, n);
 		return n;
@@ -73,7 +73,7 @@ final class ByteArrayWindow extends ByteWindow {
 
 	/** {@inheritDoc} */
 	@Override
-	protected int setInput(final int pos, final Inflater inf)
+	protected int setInput(int pos, Inflater inf)
 			throws DataFormatException {
 		int n = array.length - pos;
 		inf.setInput(array, pos, n);

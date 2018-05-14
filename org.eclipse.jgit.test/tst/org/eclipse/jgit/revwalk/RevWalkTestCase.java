@@ -74,38 +74,38 @@ public abstract class RevWalkTestCase extends RepositoryTestCase {
 		return util.getDate();
 	}
 
-	protected void tick(final int secDelta) {
+	protected void tick(int secDelta) {
 		util.tick(secDelta);
 	}
 
-	protected RevBlob blob(final String content) throws Exception {
+	protected RevBlob blob(String content) throws Exception {
 		return util.blob(content);
 	}
 
-	protected DirCacheEntry file(final String path, final RevBlob blob)
+	protected DirCacheEntry file(String path, RevBlob blob)
 			throws Exception {
 		return util.file(path, blob);
 	}
 
-	protected RevTree tree(final DirCacheEntry... entries) throws Exception {
+	protected RevTree tree(DirCacheEntry... entries) throws Exception {
 		return util.tree(entries);
 	}
 
-	protected RevObject get(final RevTree tree, final String path)
+	protected RevObject get(RevTree tree, String path)
 			throws Exception {
 		return util.get(tree, path);
 	}
 
-	protected RevCommit commit(final RevCommit... parents) throws Exception {
+	protected RevCommit commit(RevCommit... parents) throws Exception {
 		return util.commit(parents);
 	}
 
-	protected RevCommit commit(final RevTree tree, final RevCommit... parents)
+	protected RevCommit commit(RevTree tree, RevCommit... parents)
 			throws Exception {
 		return util.commit(tree, parents);
 	}
 
-	protected RevCommit commit(final int secDelta, final RevCommit... parents)
+	protected RevCommit commit(int secDelta, RevCommit... parents)
 			throws Exception {
 		return util.commit(secDelta, parents);
 	}
@@ -115,7 +115,7 @@ public abstract class RevWalkTestCase extends RepositoryTestCase {
 		return util.commit(secDelta, tree, parents);
 	}
 
-	protected RevTag tag(final String name, final RevObject dst)
+	protected RevTag tag(String name, RevObject dst)
 			throws Exception {
 		return util.tag(name, dst);
 	}
@@ -125,19 +125,19 @@ public abstract class RevWalkTestCase extends RepositoryTestCase {
 		return util.commit();
 	}
 
-	protected <T extends RevObject> T parseBody(final T t) throws Exception {
+	protected <T extends RevObject> T parseBody(T t) throws Exception {
 		return util.parseBody(t);
 	}
 
-	protected void markStart(final RevCommit commit) throws Exception {
+	protected void markStart(RevCommit commit) throws Exception {
 		rw.markStart(commit);
 	}
 
-	protected void markUninteresting(final RevCommit commit) throws Exception {
+	protected void markUninteresting(RevCommit commit) throws Exception {
 		rw.markUninteresting(commit);
 	}
 
-	protected void assertCommit(final RevCommit exp, final RevCommit act) {
+	protected void assertCommit(RevCommit exp, RevCommit act) {
 		assertSame(exp, act);
 	}
 }

@@ -107,7 +107,7 @@ public class RecordingLogger implements Logger {
 	 *
 	 * @param name
 	 */
-	public RecordingLogger(final String name) {
+	public RecordingLogger(String name) {
 		this.name = name;
 	}
 

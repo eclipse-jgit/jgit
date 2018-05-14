@@ -295,7 +295,7 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 		}
 	}
 
-	private void safeDelete(final String path) {
+	private void safeDelete(String path) {
 		if (path != null) {
 			try {
 				dest.deleteFile(path);
@@ -307,7 +307,7 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 		}
 	}
 
-	private void deleteCommand(final RemoteRefUpdate u) {
+	private void deleteCommand(RemoteRefUpdate u) {
 		final Ref r = newRefs.remove(u.getRemoteName());
 		if (r == null) {
 			// Already gone.
@@ -337,7 +337,7 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 		}
 	}
 
-	private void updateCommand(final RemoteRefUpdate u) {
+	private void updateCommand(RemoteRefUpdate u) {
 		try {
 			dest.writeRef(u.getRemoteName(), u.getNewObjectId());
 			newRefs.put(u.getRemoteName(), new ObjectIdRef.Unpeeled(
@@ -354,7 +354,7 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 				&& packNames.isEmpty();
 	}
 
-	private void createNewRepository(final List<RemoteRefUpdate> updates)
+	private void createNewRepository(List<RemoteRefUpdate> updates)
 			throws TransportException {
 		try {
 			final String ref = "ref: " + pickHEAD(updates) + "\n"; //$NON-NLS-1$ //$NON-NLS-2$
@@ -374,7 +374,7 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 		}
 	}
 
-	private static String pickHEAD(final List<RemoteRefUpdate> updates) {
+	private static String pickHEAD(List<RemoteRefUpdate> updates) {
 		// Try to use master if the user is pushing that, it is the
 		// default branch and is likely what they want to remain as
 		// the default on the new remote.

@@ -94,7 +94,7 @@ public class PlotCommitList<L extends PlotLane> extends
 
 	/** {@inheritDoc} */
 	@Override
-	public void source(final RevWalk w) {
+	public void source(RevWalk w) {
 		if (!(w instanceof PlotWalk))
 			throw new ClassCastException(MessageFormat.format(JGitText.get().classCastNotA, PlotWalk.class.getName()));
 		super.source(w);
@@ -126,7 +126,7 @@ public class PlotCommitList<L extends PlotLane> extends
 
 	/** {@inheritDoc} */
 	@Override
-	protected void enter(final int index, final PlotCommit<L> currCommit) {
+	protected void enter(int index, PlotCommit<L> currCommit) {
 		setupChildren(currCommit);
 
 		final int nChildren = currCommit.getChildCount();
@@ -202,7 +202,7 @@ public class PlotCommitList<L extends PlotLane> extends
 			closeLane(currCommit.lane);
 	}
 
-	private void continueActiveLanes(final PlotCommit currCommit) {
+	private void continueActiveLanes(PlotCommit currCommit) {
 		for (PlotLane lane : activeLanes)
 			if (lane != currCommit.lane)
 				currCommit.addPassingLane(lane);
@@ -356,7 +356,7 @@ public class PlotCommitList<L extends PlotLane> extends
 		}
 	}
 
-	private void setupChildren(final PlotCommit<L> currCommit) {
+	private void setupChildren(PlotCommit<L> currCommit) {
 		final int nParents = currCommit.getParentCount();
 		for (int i = 0; i < nParents; i++)
 			((PlotCommit) currCommit.getParent(i)).addChild(currCommit);
@@ -416,7 +416,7 @@ public class PlotCommitList<L extends PlotLane> extends
 	 * @param lane
 	 *            a lane
 	 */
-	protected void recycleLane(final L lane) {
+	protected void recycleLane(L lane) {
 		// Nothing.
 	}
 }

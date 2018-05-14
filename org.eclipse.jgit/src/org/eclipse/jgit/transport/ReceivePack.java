@@ -88,7 +88,7 @@ public class ReceivePack extends BaseReceivePack {
 	 * @param into
 	 *            the destination repository.
 	 */
-	public ReceivePack(final Repository into) {
+	public ReceivePack(Repository into) {
 		super(into);
 		preReceive = PreReceiveHook.NULL;
 		postReceive = PostReceiveHook.NULL;
@@ -154,7 +154,7 @@ public class ReceivePack extends BaseReceivePack {
 	 * @param h
 	 *            the hook instance; may be null to disable the hook.
 	 */
-	public void setPreReceiveHook(final PreReceiveHook h) {
+	public void setPreReceiveHook(PreReceiveHook h) {
 		preReceive = h != null ? h : PreReceiveHook.NULL;
 	}
 
@@ -178,7 +178,7 @@ public class ReceivePack extends BaseReceivePack {
 	 * @param h
 	 *            the hook instance; may be null to disable the hook.
 	 */
-	public void setPostReceiveHook(final PostReceiveHook h) {
+	public void setPostReceiveHook(PostReceiveHook h) {
 		postReceive = h != null ? h : PostReceiveHook.NULL;
 	}
 

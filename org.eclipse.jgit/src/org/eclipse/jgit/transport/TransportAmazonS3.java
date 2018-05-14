@@ -323,7 +323,7 @@ public class TransportAmazonS3 extends HttpTransport implements WalkTransport {
 			return avail;
 		}
 
-		private void readLooseRefs(final TreeMap<String, Ref> avail)
+		private void readLooseRefs(TreeMap<String, Ref> avail)
 				throws TransportException {
 			try {
 				for (final String n : s3.list(bucket, resolveKey(ROOT_DIR
@@ -334,7 +334,7 @@ public class TransportAmazonS3 extends HttpTransport implements WalkTransport {
 			}
 		}
 
-		private Ref readRef(final TreeMap<String, Ref> avail, final String rn)
+		private Ref readRef(TreeMap<String, Ref> avail, String rn)
 				throws TransportException {
 			final String s;
 			String ref = ROOT_DIR + rn;
@@ -374,7 +374,7 @@ public class TransportAmazonS3 extends HttpTransport implements WalkTransport {
 			throw new TransportException(getURI(), MessageFormat.format(JGitText.get().transportExceptionBadRef, rn, s));
 		}
 
-		private Storage loose(final Ref r) {
+		private Storage loose(Ref r) {
 			if (r != null && r.getStorage() == Storage.PACKED)
 				return Storage.LOOSE_PACKED;
 			return Storage.LOOSE;

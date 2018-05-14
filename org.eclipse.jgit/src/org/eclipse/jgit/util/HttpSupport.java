@@ -177,7 +177,7 @@ public class HttpSupport {
 	 * @param key
 	 *            value which must be encoded to protected special characters.
 	 */
-	public static void encode(final StringBuilder urlstr, final String key) {
+	public static void encode(StringBuilder urlstr, String key) {
 		if (key == null || key.length() == 0)
 			return;
 		try {
@@ -202,7 +202,7 @@ public class HttpSupport {
 	 *             communications error prevented obtaining the response code.
 	 * @since 3.3
 	 */
-	public static int response(final HttpConnection c) throws IOException {
+	public static int response(HttpConnection c) throws IOException {
 		try {
 			return c.getResponseCode();
 		} catch (ConnectException ce) {
@@ -230,7 +230,7 @@ public class HttpSupport {
 	 * @throws java.io.IOException
 	 *             communications error prevented obtaining the response code.
 	 */
-	public static int response(final java.net.HttpURLConnection c)
+	public static int response(java.net.HttpURLConnection c)
 			throws IOException {
 		try {
 			return c.getResponseCode();
@@ -275,7 +275,7 @@ public class HttpSupport {
 	 *             the proxy could not be computed as the supplied URL could not
 	 *             be read. This failure should never occur.
 	 */
-	public static Proxy proxyFor(final ProxySelector proxySelector, final URL u)
+	public static Proxy proxyFor(ProxySelector proxySelector, URL u)
 			throws ConnectException {
 		try {
 			return proxySelector.select(u.toURI()).get(0);
