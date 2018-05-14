@@ -650,15 +650,20 @@ public final class RawParseUtils {
 	}
 
 	/**
-	 * Like {@link #lineMap(byte[], int, int)} but throw {@link BinaryBlobException} if a null char
+	 * Like {@link #lineMap(byte[], int, int)} but throw {@link BinaryBlobException} if a NUL char
 	 * is encountered.
-	 * @param buf  buffer to scan.
-	 * @param ptr position within the buffer corresponding to the first byte of
+	 *
+	 * @param buf
+	 *            buffer to scan.
+	 * @param ptr
+	 *            position within the buffer corresponding to the first byte of
 	 *            line 1.
-	 * @param end  1 past the end of the content within <code>buf</code>.
+	 * @param end
+	 *            1 past the end of the content within <code>buf</code>.
 	 * @return a line map indexing the start position of each line, or a map representing the entire
 	 *            array as a single line if a '\0' is found.
-	 * @throws BinaryBlobException
+	 * @throws BinaryBlobException if a NUL char is found. The exception is intended for control flow,
+	 *            and lacks a stacktrace.
 	 *
 	 * @since 5.0
 	 */

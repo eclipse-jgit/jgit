@@ -88,23 +88,23 @@ public class RawText extends Sequence {
 	 * The entire array (indexes 0 through length-1) is used as the content.
 	 *
 	 * @param input
-	 *            the content array. The array is never modified, so passing
-	 *            through cached arrays is safe.
+	 *            the content array. The object retains a reference to this array, so it should
+	 *            be immutable.
 	 */
 	public RawText(final byte[] input) {
 		this(input, RawParseUtils.lineMap(input, 0, input.length));
 	}
 
 	/**
-	 * Create a new sequence from the existing content byte array, and the line
+	 * Create a new sequence from the existing content byte array and the line
 	 * map indicating line boundaries.
 	 *
 	 * @param input
-	 *            the content array. The array is never modified, so passing
-	 *            through cached arrays is safe.
+	 *            the content array. The object retains a reference to this array, so it should
+	 *            be immutable.
 	 * @param lineMap
-	 *            an array with the line starts of the input, in 1-based offset.
-	 *            The first and last entry should be {@link Integer#MIN_VALUE}, and the array end
+	 *            an array with the line starts of the input, as 1-based offsets.
+	 *            The first and last entry should be {@link Integer#MIN_VALUE} and the array end
 	 *            respectively.
 	 * @since 5.0
 	 */
@@ -342,7 +342,8 @@ public class RawText extends Sequence {
 	 * @throws java.io.IOException
 	 *             if the input could not be read.
 	 */
-	public static RawText load(ObjectLoader ldr, int threshold) throws IOException, BinaryBlobException {
+	public static RawText load(ObjectLoader ldr, int threshold)
+		throws IOException, BinaryBlobException {
 		long sz = ldr.getSize();
 
 		if (sz > threshold) {
