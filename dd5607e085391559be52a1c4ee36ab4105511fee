@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c5bc3db8_35fc4920",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2018-05-14T17:58:56Z",
+      "side": 1,
+      "message": "Well, I am 48. :)  https://www.cultofpedagogy.com/two-spaces-after-period/   although in my defense, most of us read code and commit messages with fixed fonts where the double space actually still helps.",
+      "parentUuid": "ca1a8bda_ac158ceb",
+      "range": {
+        "startLine": 11,
+        "startChar": 15,
+        "endLine": 11,
+        "endChar": 16
+      },
+      "revId": "dd5607e085391559be52a1c4ee36ab4105511fee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "72bdc6fa_92a5db19",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2018-05-12T09:13:34Z",
       "side": 1,
       "message": "this field name is confusing since the parameter passed to the constructor is a File but this is a PackFileName, maybe better packFileName",
+      "range": {
+        "startLine": 164,
+        "startChar": 7,
+        "endLine": 164,
+        "endChar": 15
+      },
+      "revId": "dd5607e085391559be52a1c4ee36ab4105511fee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64ff8aab_8a325139",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2018-05-14T17:58:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72bdc6fa_92a5db19",
       "range": {
         "startLine": 164,
         "startChar": 7,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "a6d9d29a_d6aabbca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2018-05-14T17:58:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae30380a_fc629027",
+      "range": {
+        "startLine": 178,
+        "startChar": 35,
+        "endLine": 178,
+        "endChar": 48
+      },
+      "revId": "dd5607e085391559be52a1c4ee36ab4105511fee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0eb9f64c_5221f4fe",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
         "patchSetId": 1
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "c578359b_41e95151",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2018-05-14T17:58:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0eb9f64c_5221f4fe",
+      "range": {
+        "startLine": 630,
+        "startChar": 35,
+        "endLine": 630,
+        "endChar": 48
+      },
+      "revId": "dd5607e085391559be52a1c4ee36ab4105511fee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "370cb64b_ef1b9dc0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFileName.java",
         "patchSetId": 1
@@ -105,6 +201,24 @@
       "writtenOn": "2018-05-12T09:26:03Z",
       "side": 1,
       "message": "please fix warnings raised by Eclipse on this class",
+      "revId": "dd5607e085391559be52a1c4ee36ab4105511fee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65561bff_a2bcca0a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFileName.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2018-05-14T17:58:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "370cb64b_ef1b9dc0",
       "revId": "dd5607e085391559be52a1c4ee36ab4105511fee",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
