@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "35ff0852_7d49219c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1578,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2018-05-14T14:11:51Z",
+      "side": 1,
+      "message": "this breaks backward compatibility with code that subclasses Repository. Is that intended?",
+      "range": {
+        "startLine": 1578,
+        "startChar": 22,
+        "endLine": 1578,
+        "endChar": 40
+      },
+      "revId": "e9e150fdd24dbeb54df614a4d47da3074c766b28",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
