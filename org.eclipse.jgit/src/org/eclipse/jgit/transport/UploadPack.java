@@ -1153,16 +1153,6 @@ public class UploadPack {
 	 */
 	public void sendAdvertisedRefs(RefAdvertiser adv) throws IOException,
 			ServiceMayNotContinueException {
-		try {
-			advertiseRefsHook.advertiseRefs(this);
-		} catch (ServiceMayNotContinueException fail) {
-			if (fail.getMessage() != null) {
-				adv.writeOne("ERR " + fail.getMessage()); //$NON-NLS-1$
-				fail.setOutput();
-			}
-			throw fail;
-		}
-
 		if (useProtocolV2()) {
 			// The equivalent in v2 is only the capabilities
 			// advertisement.
@@ -1171,6 +1161,16 @@ public class UploadPack {
 			}
 			adv.end();
 			return;
+		}
+
+		try {
+			advertiseRefsHook.advertiseRefs(this);
+		} catch (ServiceMayNotContinueException fail) {
+			if (fail.getMessage() != null) {
+				adv.writeOne("ERR " + fail.getMessage()); //$NON-NLS-1$
+				fail.setOutput();
+			}
+			throw fail;
 		}
 
 		adv.init(db);
