@@ -639,7 +639,7 @@ public final class RawParseUtils {
 	public static final IntList lineMap(final byte[] buf, int ptr, int end) {
 		IntList map;
 		try {
-		  map = lineMapOrBinary(buf, ptr, end);
+			map = lineMapOrBinary(buf, ptr, end);
 		} catch (BinaryBlobException e) {
 			map = new IntList(3);
 			map.add(Integer.MIN_VALUE);
@@ -650,19 +650,24 @@ public final class RawParseUtils {
 	}
 
 	/**
-	 * Like {@link #lineMap(byte[], int, int)} but throw {@link BinaryBlobException} if a null char
+	 * Like {@link #lineMap(byte[], int, int)} but throw {@link BinaryBlobException} if a NUL char
 	 * is encountered.
-	 * @param buf  buffer to scan.
-	 * @param ptr position within the buffer corresponding to the first byte of
+	 *
+	 * @param buf
+	 *            buffer to scan.
+	 * @param ptr
+	 *            position within the buffer corresponding to the first byte of
 	 *            line 1.
-	 * @param end  1 past the end of the content within <code>buf</code>.
+	 * @param end
+	 *            1 past the end of the content within <code>buf</code>.
 	 * @return a line map indexing the start position of each line, or a map representing the entire
 	 *            array as a single line if a '\0' is found.
-	 * @throws BinaryBlobException
+	 * @throws BinaryBlobException if a NUL char is found. The exception is intended for control flow,
+	 *            and lacks a stacktrace.
 	 *
 	 * @since 5.0
 	 */
-	public static final IntList lineMapOrBinary(final byte[] buf, int ptr, int end)
+	public static final IntList lineMapOrBinary(byte[] buf, int ptr, int end)
 			throws BinaryBlobException {
 		// Experimentally derived from multiple source repositories
 		// the average number of bytes/line is 36. Its a rough guess
