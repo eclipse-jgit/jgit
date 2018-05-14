@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "db19f047_d41dea7e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2018-05-14T17:18:49Z",
+      "side": 1,
+      "message": "It feels like overkill, but if we really want to allow any Map here, we could take in the Map, check to see if it is a ConcurrentHashMap and copy it if it is not?",
+      "parentUuid": "f008490a_bc586626",
+      "range": {
+        "startLine": 170,
+        "startChar": 17,
+        "endLine": 170,
+        "endChar": 34
+      },
+      "revId": "19005a6c87e5113085b4798aca9937e4da79179e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fe60af2a_b4b3a381",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
         "patchSetId": 2
