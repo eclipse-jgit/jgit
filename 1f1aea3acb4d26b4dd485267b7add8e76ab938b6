@@ -93,6 +93,30 @@
       "revId": "1f1aea3acb4d26b4dd485267b7add8e76ab938b6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84837249_c0ea2654",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-05-15T04:38:46Z",
+      "side": 1,
+      "message": "\u003e how about Collectors.toCollection(HashSet::new)?\n\nDone\n\n\u003e I think getRefs().stream().map(Ref::getName) is more self-explanatory\n\nOK, let\u0027s leave it like this.  I\u0027ll abandon the other change.",
+      "parentUuid": "4b17ab49_5b066180",
+      "range": {
+        "startLine": 532,
+        "startChar": 50,
+        "endLine": 534,
+        "endChar": 24
+      },
+      "revId": "1f1aea3acb4d26b4dd485267b7add8e76ab938b6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
