@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d54462b_30184499",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-05-15T00:59:03Z",
+      "side": 1,
+      "message": "I can see this construct being used in several places.  It might be better to put it in a RefDatabase method.",
+      "range": {
+        "startLine": 532,
+        "startChar": 50,
+        "endLine": 534,
+        "endChar": 24
+      },
+      "revId": "1f1aea3acb4d26b4dd485267b7add8e76ab938b6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
