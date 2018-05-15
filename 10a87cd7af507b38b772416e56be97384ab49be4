@@ -22,6 +22,30 @@
       "revId": "10a87cd7af507b38b772416e56be97384ab49be4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b5daa982_2f7c6c8e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 127645
+      },
+      "writtenOn": "2018-05-15T04:16:36Z",
+      "side": 1,
+      "message": "see https://git.eclipse.org/r/#/c/115690/8/org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java@275",
+      "parentUuid": "23b1420f_41210e76",
+      "range": {
+        "startLine": 273,
+        "startChar": 14,
+        "endLine": 273,
+        "endChar": 42
+      },
+      "revId": "10a87cd7af507b38b772416e56be97384ab49be4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
