@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "d595daeb_e43e5448",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/ShowRef.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2018-05-15T07:48:05Z",
+      "side": 1,
+      "message": "this is all automated, so I\u0027d rather leave it alone.\n\nMaybe we can discuss using automated formatting (google-java-format?) as well.",
+      "parentUuid": "f1c4ec74_45951804",
+      "revId": "66e2348ce20b3c66ad6cf4974429f9cc24d69ad7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b2a59245_513e47b3",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/StashCreateCommandTest.java",
         "patchSetId": 2
