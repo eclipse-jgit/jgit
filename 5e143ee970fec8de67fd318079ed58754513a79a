@@ -22,6 +22,30 @@
       "revId": "5e143ee970fec8de67fd318079ed58754513a79a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6f2a3c0b_d73cf31e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-15T01:09:27Z",
+      "side": 1,
+      "message": "toList() doesn\u0027t guarantee mutability.",
+      "parentUuid": "03a958fd_e4c26083",
+      "range": {
+        "startLine": 375,
+        "startChar": 12,
+        "endLine": 375,
+        "endChar": 34
+      },
+      "revId": "5e143ee970fec8de67fd318079ed58754513a79a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
