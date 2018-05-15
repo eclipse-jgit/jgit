@@ -360,6 +360,29 @@ public abstract class RefDatabase {
 	}
 
 	/**
+	 * Returns all ref names.
+	 * <p>
+	 * This includes {@code HEAD}, branches under {@code ref/heads/}, tags under
+	 * {@code refs/tags/}, etc. It does not include pseudo-refs like
+	 * {@code FETCH_HEAD}; for those, see {@link #getAdditionalRefs}.
+	 * <p>
+	 * Symbolic references to a non-existent ref (for example, {@code HEAD}
+	 * pointing to a branch yet to be born) are not included.
+	 * <p>
+	 * Callers interested in only a portion of the ref hierarchy can call
+	 * {@link #getRefsByPrefix} instead.
+	 *
+	 * @return list of all ref names.
+	 * @throws java.io.IOException
+	 *             the reference space cannot be accessed.
+	 * @since 5.0
+	 */
+	@NonNull
+	public List<String> getRefNames() throws IOException {
+		return getRefs().stream().map(Ref::getName).collect(toList());
+	}
+
+	/**
 	 * Get a section of the reference namespace.
 	 *
 	 * @param prefix
