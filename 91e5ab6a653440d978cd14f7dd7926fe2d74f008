@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c68ec2b_15773cae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-05-15T07:22:49Z",
+      "side": 1,
+      "message": "This is now unused.",
+      "range": {
+        "startLine": 50,
+        "startChar": 17,
+        "endLine": 50,
+        "endChar": 27
+      },
+      "revId": "91e5ab6a653440d978cd14f7dd7926fe2d74f008",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "491c9cd1_6ef20473",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-05-15T07:22:49Z",
+      "side": 1,
+      "message": "Whether",
+      "range": {
+        "startLine": 107,
+        "startChar": 4,
+        "endLine": 107,
+        "endChar": 10
+      },
+      "revId": "91e5ab6a653440d978cd14f7dd7926fe2d74f008",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d4c1df5_958d0a3c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-05-15T07:22:49Z",
+      "side": 1,
+      "message": "lightweight",
+      "range": {
+        "startLine": 107,
+        "startChar": 34,
+        "endLine": 107,
+        "endChar": 46
+      },
+      "revId": "91e5ab6a653440d978cd14f7dd7926fe2d74f008",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f004a6ed_76ead3c5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-05-15T07:22:49Z",
+      "side": 1,
+      "message": "This can just be `allTags` as mentioned in the previous PS.",
+      "range": {
+        "startLine": 272,
+        "startChar": 14,
+        "endLine": 272,
+        "endChar": 42
+      },
+      "revId": "91e5ab6a653440d978cd14f7dd7926fe2d74f008",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70de648a_00845918",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-05-15T07:22:49Z",
+      "side": 1,
+      "message": "This null check is redundant; parseTag does not return null (it\u0027s annotated as @NonNull).",
+      "range": {
+        "startLine": 273,
+        "startChar": 28,
+        "endLine": 273,
+        "endChar": 51
+      },
+      "revId": "91e5ab6a653440d978cd14f7dd7926fe2d74f008",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
