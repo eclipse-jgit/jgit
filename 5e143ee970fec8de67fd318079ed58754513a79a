@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03a958fd_e4c26083",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-05-15T01:07:34Z",
+      "side": 1,
+      "message": "Note:  contrary to #getRefs this does not return an immutable list.  There are callers that want to mutate the result.\n\nWould it be better to make this immutable and let the caller create a copy if they want to mutate it?",
+      "range": {
+        "startLine": 375,
+        "startChar": 12,
+        "endLine": 375,
+        "endChar": 34
+      },
+      "revId": "5e143ee970fec8de67fd318079ed58754513a79a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
