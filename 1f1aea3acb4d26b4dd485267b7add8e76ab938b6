@@ -46,6 +46,53 @@
       "revId": "1f1aea3acb4d26b4dd485267b7add8e76ab938b6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b17ab49_5b066180",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-15T01:06:19Z",
+      "side": 1,
+      "message": "You mean something like Stream\u003cString\u003e getRefNames()?\n\nI think getRefs().stream().map(Ref::getName) is more self-explanatory, but I could be convinced otherwise.",
+      "parentUuid": "4d54462b_30184499",
+      "range": {
+        "startLine": 532,
+        "startChar": 50,
+        "endLine": 534,
+        "endChar": 24
+      },
+      "revId": "1f1aea3acb4d26b4dd485267b7add8e76ab938b6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e2b70c61_1e768783",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-15T01:06:19Z",
+      "side": 1,
+      "message": "This is mostly used with contains() checks, so I suspect toSet would be a better collector to use.\n\n... except that the collection also needs to be mutable. So how about Collectors.toCollection(HashSet::new)?",
+      "range": {
+        "startLine": 534,
+        "startChar": 14,
+        "endLine": 534,
+        "endChar": 20
+      },
+      "revId": "1f1aea3acb4d26b4dd485267b7add8e76ab938b6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
