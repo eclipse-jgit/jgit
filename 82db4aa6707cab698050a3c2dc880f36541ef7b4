@@ -34,6 +34,24 @@
       "revId": "82db4aa6707cab698050a3c2dc880f36541ef7b4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3d6281e_615e6991",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java.orig",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-15T00:43:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d6d6816_46d07323",
+      "revId": "82db4aa6707cab698050a3c2dc880f36541ef7b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
