@@ -46,6 +46,7 @@ package org.eclipse.jgit.lib;
 
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.NOT_ATTEMPTED;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_REASON;
+import static java.util.stream.Collectors.toCollection;
 
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -528,8 +529,9 @@ public class BatchRefUpdate {
 		}
 		if (!commands2.isEmpty()) {
 			// What part of the name space is already taken
-			Collection<String> takenNames = new HashSet<>(refdb.getRefs(
-					RefDatabase.ALL).keySet());
+			Collection<String> takenNames = refdb.getRefs().stream()
+					.map(Ref::getName)
+					.collect(toCollection(HashSet::new));
 			Collection<String> takenPrefixes = getTakenPrefixes(takenNames);
 
 			// Now to the update that may require more room in the name space
