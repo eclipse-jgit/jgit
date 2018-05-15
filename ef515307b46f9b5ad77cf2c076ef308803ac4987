@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c445bf85_d5dde752",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-15T22:01:14Z",
+      "side": 1,
+      "message": "We could avoid the full ref scan by doing something like the following:\n\n  HashSet\u003cString\u003e takenNames \u003d new HashSet\u003c\u003e();\n  HashSet\u003cString\u003e takenPrefixes \u003d new HashSet\u003c\u003e();\n  ...\n     String name \u003d cmd.getRefName();\n     for (String prefix : getPrefixes(name)) {\n       if (taken.contains(prefix) || refdb.exactRef(prefix) !\u003d null) {\n         taken.add(prefix);\n         ...\n       }\n     }\n     if (takenPrefixes.contains(name) || !refdb.getRefNamesByPrefix(name+\u0027/\u0027).isEmpty()) {\n       takenPrefixes.addAll(getPrefixes(name));\n       ...\n     }\n     ...\n\nAnyway, that\u0027s out of scope for this change, more a possibility for the future.",
+      "revId": "ef515307b46f9b5ad77cf2c076ef308803ac4987",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
