@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "075ecb48_023062b3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 127645
+      },
+      "writtenOn": "2018-05-15T04:16:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c665dc0_0d69fd09",
+      "range": {
+        "startLine": 2,
+        "startChar": 19,
+        "endLine": 2,
+        "endChar": 33
+      },
+      "revId": "dda18ba444f4b3680e228c601e344ea664a72698",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cfb267aa_de5ffd95",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
         "patchSetId": 8
@@ -36,6 +60,30 @@
       "writtenOn": "2018-02-19T08:12:17Z",
       "side": 1,
       "message": "Whether",
+      "range": {
+        "startLine": 107,
+        "startChar": 4,
+        "endLine": 107,
+        "endChar": 10
+      },
+      "revId": "dda18ba444f4b3680e228c601e344ea664a72698",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6cbae0a6_1d03d359",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 127645
+      },
+      "writtenOn": "2018-05-15T04:16:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cfb267aa_de5ffd95",
       "range": {
         "startLine": 107,
         "startChar": 4,
