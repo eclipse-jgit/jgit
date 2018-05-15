@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "b602613a_995f34ec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 127645
+      },
+      "writtenOn": "2018-05-15T04:16:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_0c094e37",
+      "revId": "bc35b6da7a8ebe125db0a851e90757af21bc6665",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_58679144",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -72,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "8d419ce8_f58ef8da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 127645
+      },
+      "writtenOn": "2018-05-15T04:16:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_8cfd3e7c",
+      "revId": "bc35b6da7a8ebe125db0a851e90757af21bc6665",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_786a8d0d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/DescribeCommandTest.java",
         "patchSetId": 6
@@ -83,6 +119,24 @@
       "writtenOn": "2018-01-20T01:07:18Z",
       "side": 1,
       "message": "use the Eclipse builtin formatter settings as described in the contributor guide",
+      "revId": "bc35b6da7a8ebe125db0a851e90757af21bc6665",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ec609cd_0c75273d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/DescribeCommandTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 127645
+      },
+      "writtenOn": "2018-05-15T04:16:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_786a8d0d",
       "revId": "bc35b6da7a8ebe125db0a851e90757af21bc6665",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -124,6 +178,24 @@
     },
     {
       "key": {
+        "uuid": "8ce3a898_4c646587",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 127645
+      },
+      "writtenOn": "2018-05-15T04:16:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_6c3d72ea",
+      "revId": "bc35b6da7a8ebe125db0a851e90757af21bc6665",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_18a349fb",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
         "patchSetId": 6
@@ -153,6 +225,24 @@
       "side": 1,
       "message": "just for my interest: when is is appreciated to reformat a line and when not? just do when the line is affected? Commonly I reformat a class when touching it... just a question of boyscout rule of the project?! :)\n\nAnd just for your interest: It is that annoying to dismiss \"unwilling\" changes. Even using eclipse with the project formatter options will change a lot already included but wrong formatted lines. It took be more than twice the time to dismiss this whitespace stuff than writing the patch ... omgh ... to be said: I love code and conventions, but they must not disturb fun and ruin a community as I see this here, sorry for this rude words, but that\u0027s my feeling about this and I think I\u0027m not willing to contribute again to an eclipse project under this circumstances ;/",
       "parentUuid": "87929364_18a349fb",
+      "revId": "bc35b6da7a8ebe125db0a851e90757af21bc6665",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8c08daba_0de2b38a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 127645
+      },
+      "writtenOn": "2018-05-15T04:16:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_ac375a07",
       "revId": "bc35b6da7a8ebe125db0a851e90757af21bc6665",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -194,6 +284,24 @@
     },
     {
       "key": {
+        "uuid": "59880597_a9618af0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 127645
+      },
+      "writtenOn": "2018-05-15T04:16:36Z",
+      "side": 1,
+      "message": "@Matthias Sohn ... still I don\u0027t get it ;)",
+      "parentUuid": "87929364_4c2a767f",
+      "revId": "bc35b6da7a8ebe125db0a851e90757af21bc6665",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_7da19f7d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
         "patchSetId": 6
@@ -228,6 +336,24 @@
     },
     {
       "key": {
+        "uuid": "d98c2a80_90a2a6c7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 127645
+      },
+      "writtenOn": "2018-05-15T04:16:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_9861f92f",
+      "revId": "bc35b6da7a8ebe125db0a851e90757af21bc6665",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_b864f53d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
         "patchSetId": 6
@@ -239,6 +365,24 @@
       "writtenOn": "2018-01-20T01:07:18Z",
       "side": 1,
       "message": "revert unrelated formatting changes",
+      "revId": "bc35b6da7a8ebe125db0a851e90757af21bc6665",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d38a1b4_a0450916",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 127645
+      },
+      "writtenOn": "2018-05-15T04:16:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_b864f53d",
       "revId": "bc35b6da7a8ebe125db0a851e90757af21bc6665",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
