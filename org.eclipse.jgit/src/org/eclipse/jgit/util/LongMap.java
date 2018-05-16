@@ -182,7 +182,7 @@ public class LongMap<V> {
 		V value;
 		Node<V> next;
 
-		Node(final long k, final V v) {
+		Node(long k, V v) {
 			key = k;
 			value = v;
 		}

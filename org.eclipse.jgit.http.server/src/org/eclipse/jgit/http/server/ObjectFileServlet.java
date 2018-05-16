@@ -75,7 +75,7 @@ abstract class ObjectFileServlet extends HttpServlet {
 		}
 
 		@Override
-		String etag(final FileSender sender) throws IOException {
+		String etag(FileSender sender) throws IOException {
 			return Long.toHexString(sender.getLastModified());
 		}
 	}
@@ -88,7 +88,7 @@ abstract class ObjectFileServlet extends HttpServlet {
 		}
 
 		@Override
-		String etag(final FileSender sender) throws IOException {
+		String etag(FileSender sender) throws IOException {
 			return sender.getTailChecksum();
 		}
 	}
@@ -111,7 +111,7 @@ abstract class ObjectFileServlet extends HttpServlet {
 
 	private final String contentType;
 
-	ObjectFileServlet(final String contentType) {
+	ObjectFileServlet(String contentType) {
 		this.contentType = contentType;
 	}
 

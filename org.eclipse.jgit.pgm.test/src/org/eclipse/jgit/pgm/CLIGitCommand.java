@@ -157,7 +157,7 @@ public class CLIGitCommand extends Main {
 	}
 
 	@Override
-	void init(final TextBuiltin cmd) throws IOException {
+	void init(TextBuiltin cmd) throws IOException {
 		cmd.outs = result.out;
 		cmd.errs = result.err;
 		super.init(cmd);

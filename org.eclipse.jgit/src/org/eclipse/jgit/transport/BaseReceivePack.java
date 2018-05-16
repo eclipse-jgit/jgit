@@ -340,7 +340,7 @@ public abstract class BaseReceivePack {
 		final long maxDiscardBytes;
 		final SignedPushConfig signedPush;
 
-		ReceiveConfig(final Config config) {
+		ReceiveConfig(Config config) {
 			allowCreates = true;
 			allowDeletes = !config.getBoolean("receive", "denydeletes", false); //$NON-NLS-1$ //$NON-NLS-2$
 			allowNonFastForwards = !config.getBoolean("receive", //$NON-NLS-1$
@@ -1440,7 +1440,7 @@ public abstract class BaseReceivePack {
 	 * @return {@code true} if a pack is expected based on the list of commands.
 	 */
 	protected boolean needPack() {
-		for (final ReceiveCommand cmd : commands) {
+		for (ReceiveCommand cmd : commands) {
 			if (cmd.getType() != ReceiveCommand.Type.DELETE)
 				return true;
 		}
@@ -1526,21 +1526,21 @@ public abstract class BaseReceivePack {
 		}
 		parser = null;
 
-		try (final ObjectWalk ow = new ObjectWalk(db)) {
+		try (ObjectWalk ow = new ObjectWalk(db)) {
 			if (baseObjects != null) {
 				ow.sort(RevSort.TOPO);
 				if (!baseObjects.isEmpty())
 					ow.sort(RevSort.BOUNDARY, true);
 			}
 
-			for (final ReceiveCommand cmd : commands) {
+			for (ReceiveCommand cmd : commands) {
 				if (cmd.getResult() != Result.NOT_ATTEMPTED)
 					continue;
 				if (cmd.getType() == ReceiveCommand.Type.DELETE)
 					continue;
 				ow.markStart(ow.parseAny(cmd.getNewId()));
 			}
-			for (final ObjectId have : advertisedHaves) {
+			for (ObjectId have : advertisedHaves) {
 				RevObject o = ow.parseAny(have);
 				ow.markUninteresting(o);
 
@@ -1596,7 +1596,7 @@ public abstract class BaseReceivePack {
 	 * Validate the command list.
 	 */
 	protected void validateCommands() {
-		for (final ReceiveCommand cmd : commands) {
+		for (ReceiveCommand cmd : commands) {
 			final Ref ref = cmd.getRef();
 			if (cmd.getResult() != Result.NOT_ATTEMPTED)
 				continue;
@@ -1815,7 +1815,7 @@ public abstract class BaseReceivePack {
 		if (unpackError != null) {
 			out.sendString("unpack error " + unpackError.getMessage()); //$NON-NLS-1$
 			if (forClient) {
-				for (final ReceiveCommand cmd : commands) {
+				for (ReceiveCommand cmd : commands) {
 					out.sendString("ng " + cmd.getRefName() //$NON-NLS-1$
 							+ " n/a (unpacker error)"); //$NON-NLS-1$
 				}
@@ -1825,7 +1825,7 @@ public abstract class BaseReceivePack {
 
 		if (forClient)
 			out.sendString("unpack ok"); //$NON-NLS-1$
-		for (final ReceiveCommand cmd : commands) {
+		for (ReceiveCommand cmd : commands) {
 			if (cmd.getResult() == Result.OK) {
 				if (forClient)
 					out.sendString("ok " + cmd.getRefName()); //$NON-NLS-1$

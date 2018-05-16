@@ -155,7 +155,7 @@ public class FileHeader extends DiffEntry {
 		addHunk(new HunkHeader(this, edits));
 	}
 
-	FileHeader(final byte[] b, final int offset) {
+	FileHeader(byte[] b, int offset) {
 		buf = b;
 		startOffset = offset;
 		changeType = ChangeType.MODIFY; // unless otherwise designated
@@ -264,7 +264,7 @@ public class FileHeader extends DiffEntry {
 
 		final String[] files = extractFileLines(charsetGuess);
 		final int[] offsets = new int[files.length];
-		for (final HunkHeader h : getHunks())
+		for (HunkHeader h : getHunks())
 			h.extractFileLines(r, files, offsets);
 		return r.toString();
 	}
@@ -284,7 +284,7 @@ public class FileHeader extends DiffEntry {
 		try {
 			for (int i = 0; i < tmp.length; i++)
 				tmp[i] = new TemporaryBuffer.Heap(Integer.MAX_VALUE);
-			for (final HunkHeader h : getHunks())
+			for (HunkHeader h : getHunks())
 				h.extractFileLines(tmp);
 
 			final String[] r = new String[tmp.length];
@@ -329,7 +329,7 @@ public class FileHeader extends DiffEntry {
 		return hunks;
 	}
 
-	void addHunk(final HunkHeader h) {
+	void addHunk(HunkHeader h) {
 		if (h.getFileHeader() != this)
 			throw new IllegalArgumentException(JGitText.get().hunkBelongsToAnotherFile);
 		if (hunks == null)
@@ -337,7 +337,7 @@ public class FileHeader extends DiffEntry {
 		hunks.add(h);
 	}
 
-	HunkHeader newHunkHeader(final int offset) {
+	HunkHeader newHunkHeader(int offset) {
 		return new HunkHeader(this, offset);
 	}
 
@@ -370,7 +370,7 @@ public class FileHeader extends DiffEntry {
 	 */
 	public EditList toEditList() {
 		final EditList r = new EditList();
-		for (final HunkHeader hunk : hunks)
+		for (HunkHeader hunk : hunks)
 			r.addAll(hunk.toEditList());
 		return r;
 	}
@@ -384,7 +384,7 @@ public class FileHeader extends DiffEntry {
 	 *            one past the last position to parse.
 	 * @return first character after the LF at the end of the line; -1 on error.
 	 */
-	int parseGitFileName(int ptr, final int end) {
+	int parseGitFileName(int ptr, int end) {
 		final int eol = nextLF(buf, ptr);
 		final int bol = ptr;
 		if (eol >= end) {
@@ -444,7 +444,7 @@ public class FileHeader extends DiffEntry {
 		return eol;
 	}
 
-	int parseGitHeaders(int ptr, final int end) {
+	int parseGitHeaders(int ptr, int end) {
 		while (ptr < end) {
 			final int eol = nextLF(buf, ptr);
 			if (isHunkHdr(buf, ptr, eol) >= 1) {
@@ -514,25 +514,25 @@ public class FileHeader extends DiffEntry {
 		return ptr;
 	}
 
-	void parseOldName(int ptr, final int eol) {
+	void parseOldName(int ptr, int eol) {
 		oldPath = p1(parseName(oldPath, ptr + OLD_NAME.length, eol));
 		if (oldPath == DEV_NULL)
 			changeType = ChangeType.ADD;
 	}
 
-	void parseNewName(int ptr, final int eol) {
+	void parseNewName(int ptr, int eol) {
 		newPath = p1(parseName(newPath, ptr + NEW_NAME.length, eol));
 		if (newPath == DEV_NULL)
 			changeType = ChangeType.DELETE;
 	}
 
-	void parseNewFileMode(int ptr, final int eol) {
+	void parseNewFileMode(int ptr, int eol) {
 		oldMode = FileMode.MISSING;
 		newMode = parseFileMode(ptr + NEW_FILE_MODE.length, eol);
 		changeType = ChangeType.ADD;
 	}
 
-	int parseTraditionalHeaders(int ptr, final int end) {
+	int parseTraditionalHeaders(int ptr, int end) {
 		while (ptr < end) {
 			final int eol = nextLF(buf, ptr);
 			if (isHunkHdr(buf, ptr, eol) >= 1) {
@@ -585,7 +585,7 @@ public class FileHeader extends DiffEntry {
 		return s > 0 ? r.substring(s + 1) : r;
 	}
 
-	FileMode parseFileMode(int ptr, final int end) {
+	FileMode parseFileMode(int ptr, int end) {
 		int tmp = 0;
 		while (ptr < end - 1) {
 			tmp <<= 3;
@@ -594,7 +594,7 @@ public class FileHeader extends DiffEntry {
 		return FileMode.fromBits(tmp);
 	}
 
-	void parseIndexLine(int ptr, final int end) {
+	void parseIndexLine(int ptr, int end) {
 		// "index $asha1..$bsha1[ $mode]" where $asha1 and $bsha1
 		// can be unique abbreviations
 		//
@@ -636,7 +636,7 @@ public class FileHeader extends DiffEntry {
 	 *         for a 3 way-merge returns 3. If this is not a hunk header, 0 is
 	 *         returned instead.
 	 */
-	static int isHunkHdr(final byte[] buf, final int start, final int end) {
+	static int isHunkHdr(byte[] buf, int start, int end) {
 		int ptr = start;
 		while (ptr < end && buf[ptr] == '@')
 			ptr++;

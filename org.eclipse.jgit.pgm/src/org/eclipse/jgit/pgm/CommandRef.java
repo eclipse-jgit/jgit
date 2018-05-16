@@ -66,11 +66,11 @@ public class CommandRef {
 
 	boolean common;
 
-	CommandRef(final Class<? extends TextBuiltin> clazz) {
+	CommandRef(Class<? extends TextBuiltin> clazz) {
 		this(clazz, guessName(clazz));
 	}
 
-	CommandRef(final Class<? extends TextBuiltin> clazz, final Command cmd) {
+	CommandRef(Class<? extends TextBuiltin> clazz, Command cmd) {
 		this(clazz, cmd.name().length() > 0 ? cmd.name() : guessName(clazz));
 		usage = cmd.usage();
 		common = cmd.common();
@@ -88,7 +88,7 @@ public class CommandRef {
 			s.append("debug-"); //$NON-NLS-1$
 
 		boolean lastWasDash = true;
-		for (final char c : clazz.getSimpleName().toCharArray()) {
+		for (char c : clazz.getSimpleName().toCharArray()) {
 			if (Character.isUpperCase(c)) {
 				if (!lastWasDash)
 					s.append('-');

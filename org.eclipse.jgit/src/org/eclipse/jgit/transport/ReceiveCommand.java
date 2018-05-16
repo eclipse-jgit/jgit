@@ -818,11 +818,11 @@ public class ReceiveCommand {
 		}
 	}
 
-	void setRef(final Ref r) {
+	void setRef(Ref r) {
 		ref = r;
 	}
 
-	void setType(final Type t) {
+	void setType(Type t) {
 		type = t;
 	}
 

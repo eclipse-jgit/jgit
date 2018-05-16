@@ -106,12 +106,12 @@ class FetchProcess {
 
 	private Map<String, Ref> localRefs;
 
-	FetchProcess(final Transport t, final Collection<RefSpec> f) {
+	FetchProcess(Transport t, Collection<RefSpec> f) {
 		transport = t;
 		toFetch = f;
 	}
 
-	void execute(final ProgressMonitor monitor, final FetchResult result)
+	void execute(ProgressMonitor monitor, FetchResult result)
 			throws NotSupportedException, TransportException {
 		askFor.clear();
 		localUpdates.clear();
@@ -123,7 +123,7 @@ class FetchProcess {
 			executeImp(monitor, result);
 		} finally {
 			try {
-			for (final PackLock lock : packLocks)
+			for (PackLock lock : packLocks)
 				lock.unlock();
 			} catch (IOException e) {
 				throw new TransportException(e.getMessage(), e);
@@ -139,7 +139,7 @@ class FetchProcess {
 			result.setAdvertisedRefs(transport.getURI(), conn.getRefsMap());
 			result.peerUserAgent = conn.getPeerUserAgent();
 			final Set<Ref> matched = new HashSet<>();
-			for (final RefSpec spec : toFetch) {
+			for (RefSpec spec : toFetch) {
 				if (spec.getSource() == null)
 					throw new TransportException(MessageFormat.format(
 							JGitText.get().sourceRefNotSpecifiedForRefspec, spec));
@@ -176,7 +176,7 @@ class FetchProcess {
 				//
 				have.addAll(askFor.keySet());
 				askFor.clear();
-				for (final Ref r : additionalTags) {
+				for (Ref r : additionalTags) {
 					ObjectId id = r.getPeeledObjectId();
 					if (id == null)
 						id = r.getObjectId();
@@ -198,7 +198,7 @@ class FetchProcess {
 				.newBatchUpdate()
 				.setAllowNonFastForwards(true)
 				.setRefLogMessage("fetch", true); //$NON-NLS-1$
-		try (final RevWalk walk = new RevWalk(transport.local)) {
+		try (RevWalk walk = new RevWalk(transport.local)) {
 			if (monitor instanceof BatchingProgressMonitor) {
 				((BatchingProgressMonitor) monitor).setDelayStart(
 						250, TimeUnit.MILLISECONDS);
@@ -277,12 +277,12 @@ class FetchProcess {
 		// new connection has offered to us.
 		//
 		final HashMap<ObjectId, Ref> avail = new HashMap<>();
-		for (final Ref r : conn.getRefs())
+		for (Ref r : conn.getRefs())
 			avail.put(r.getObjectId(), r);
 
 		final Collection<Ref> wants = new ArrayList<>(askFor.values());
 		askFor.clear();
-		for (final Ref want : wants) {
+		for (Ref want : wants) {
 			final Ref newRef = avail.get(want.getObjectId());
 			if (newRef != null) {
 				askFor.put(newRef.getObjectId(), newRef);
@@ -320,7 +320,7 @@ class FetchProcess {
 			if (lock.lock()) {
 				try (Writer w = new OutputStreamWriter(
 						lock.getOutputStream())) {
-					for (final FetchHeadRecord h : fetchHeadUpdates) {
+					for (FetchHeadRecord h : fetchHeadUpdates) {
 						h.write(w);
 						result.add(h);
 					}
@@ -334,10 +334,10 @@ class FetchProcess {
 
 	private boolean askForIsComplete() throws TransportException {
 		try {
-			try (final ObjectWalk ow = new ObjectWalk(transport.local)) {
-				for (final ObjectId want : askFor.keySet())
+			try (ObjectWalk ow = new ObjectWalk(transport.local)) {
+				for (ObjectId want : askFor.keySet())
 					ow.markStart(ow.parseAny(want));
-				for (final Ref ref : localRefs().values())
+				for (Ref ref : localRefs().values())
 					ow.markUninteresting(ow.parseAny(ref.getObjectId()));
 				ow.checkConnectivity();
 			}
@@ -351,7 +351,7 @@ class FetchProcess {
 
 	private void expandWildcard(RefSpec spec, Set<Ref> matched)
 			throws TransportException {
-		for (final Ref src : conn.getRefs()) {
+		for (Ref src : conn.getRefs()) {
 			if (spec.matchSource(src) && matched.add(src))
 				want(src, spec.expandFromSource(src));
 		}
@@ -377,7 +377,7 @@ class FetchProcess {
 	private Collection<Ref> expandAutoFollowTags() throws TransportException {
 		final Collection<Ref> additionalTags = new ArrayList<>();
 		final Map<String, Ref> haveRefs = localRefs();
-		for (final Ref r : conn.getRefs()) {
+		for (Ref r : conn.getRefs()) {
 			if (!isTag(r))
 				continue;
 
@@ -401,7 +401,7 @@ class FetchProcess {
 
 	private void expandFetchTags() throws TransportException {
 		final Map<String, Ref> haveRefs = localRefs();
-		for (final Ref r : conn.getRefs()) {
+		for (Ref r : conn.getRefs()) {
 			if (!isTag(r)) {
 				continue;
 			}
@@ -479,9 +479,9 @@ class FetchProcess {
 
 	private void deleteStaleTrackingRefs(FetchResult result,
 			BatchRefUpdate batch) throws IOException {
-		for (final Ref ref : localRefs().values()) {
+		for (Ref ref : localRefs().values()) {
 			final String refname = ref.getName();
-			for (final RefSpec spec : toFetch) {
+			for (RefSpec spec : toFetch) {
 				if (spec.matchDestination(refname)) {
 					final RefSpec s = spec.expandFromDestination(refname);
 					if (result.getAdvertisedRef(s.getSource()) == null) {

@@ -173,7 +173,7 @@ public final class AbbreviatedLongObjectId implements Serializable {
 		return r << (16 - n) * 4;
 	}
 
-	static long mask(final int nibbles, final long word, final long v) {
+	static long mask(int nibbles, long word, long v) {
 		final long b = (word - 1) * 16;
 		if (b + 16 <= nibbles) {
 			// We have all of the bits required for this word.

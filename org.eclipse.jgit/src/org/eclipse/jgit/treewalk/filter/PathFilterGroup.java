@@ -88,7 +88,7 @@ public class PathFilterGroup {
 					JGitText.get().atLeastOnePathIsRequired);
 		final PathFilter[] p = new PathFilter[paths.size()];
 		int i = 0;
-		for (final String s : paths)
+		for (String s : paths)
 			p[i++] = PathFilter.create(s);
 		return create(p);
 	}

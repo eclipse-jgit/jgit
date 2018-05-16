@@ -296,7 +296,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 
 		final boolean minimalNegotiation;
 
-		FetchConfig(final Config c) {
+		FetchConfig(Config c) {
 			allowOfsDelta = c.getBoolean("repack", "usedeltabaseoffset", true); //$NON-NLS-1$ //$NON-NLS-2$
 			minimalNegotiation = c.getBoolean("fetch", "useminimalnegotiation", //$NON-NLS-1$ //$NON-NLS-2$
 					false);
@@ -420,7 +420,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 
 	private int maxTimeWanted(Collection<Ref> wants) {
 		int maxTime = 0;
-		for (final Ref r : wants) {
+		for (Ref r : wants) {
 			try {
 				final RevObject obj = walk.parseAny(r.getObjectId());
 				if (obj instanceof RevCommit) {
@@ -492,7 +492,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 	private boolean sendWants(Collection<Ref> want) throws IOException {
 		final PacketLineOut p = statelessRPC ? pckState : pckOut;
 		boolean first = true;
-		for (final Ref r : want) {
+		for (Ref r : want) {
 			ObjectId objectId = r.getObjectId();
 			if (objectId == null) {
 				continue;
@@ -806,7 +806,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 	}
 
 	private void markRefsAdvertised() {
-		for (final Ref r : getRefs()) {
+		for (Ref r : getRefs()) {
 			markAdvertised(r.getObjectId());
 			if (r.getPeeledObjectId() != null)
 				markAdvertised(r.getPeeledObjectId());

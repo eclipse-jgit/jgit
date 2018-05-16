@@ -79,7 +79,7 @@ abstract class UrlPipeline {
 	/** Instance that must generate the response; never null. */
 	private final HttpServlet servlet;
 
-	UrlPipeline(final Filter[] filters, final HttpServlet servlet) {
+	UrlPipeline(Filter[] filters, HttpServlet servlet) {
 		this.filters = filters;
 		this.servlet = servlet;
 	}
@@ -99,7 +99,7 @@ abstract class UrlPipeline {
 	 * @throws ServletException
 	 *             a filter or servlet is unable to initialize.
 	 */
-	void init(final ServletContext context, final Set<Object> inited)
+	void init(ServletContext context, Set<Object> inited)
 			throws ServletException {
 		for (Filter ref : filters)
 			initFilter(ref, context, inited);
@@ -165,7 +165,7 @@ abstract class UrlPipeline {
 	 *            destroyed a second time. Filters and servlets that are first
 	 *            destroyed by this pipeline will be added to this set.
 	 */
-	void destroy(final Set<Object> destroyed) {
+	void destroy(Set<Object> destroyed) {
 		for (Filter ref : filters)
 			destroyFilter(ref, destroyed);
 		destroyServlet(servlet, destroyed);
@@ -230,7 +230,7 @@ abstract class UrlPipeline {
 
 		private int filterIdx;
 
-		Chain(final Filter[] filters, final HttpServlet servlet) {
+		Chain(Filter[] filters, HttpServlet servlet) {
 			this.filters = filters;
 			this.servlet = servlet;
 		}

@@ -305,7 +305,7 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		// object (as it already exists in the pack).
 		//
 		final Repository newdb = createBareRepository();
-		try (final ObjectInserter oi = newdb.newObjectInserter()) {
+		try (ObjectInserter oi = newdb.newObjectInserter()) {
 			final ObjectId treeId = oi.insert(new TreeFormatter());
 			assertEquals("4b825dc642cb6eb9a060e54bf8d69288fbee4904",
 					treeId.name());
@@ -373,7 +373,7 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 
 	@Test
 	public void test007_Open() throws IOException {
-		try (final FileRepository db2 = new FileRepository(db.getDirectory())) {
+		try (FileRepository db2 = new FileRepository(db.getDirectory())) {
 			assertEquals(db.getDirectory(), db2.getDirectory());
 			assertEquals(db.getObjectDatabase().getDirectory(), db2
 					.getObjectDatabase().getDirectory());
@@ -557,7 +557,7 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 	@Test
 	public void test026_CreateCommitMultipleparents() throws IOException {
 		final ObjectId treeId;
-		try (final ObjectInserter oi = db.newObjectInserter()) {
+		try (ObjectInserter oi = db.newObjectInserter()) {
 			final ObjectId blobId = oi.insert(Constants.OBJ_BLOB,
 					"and this is the data in me\n".getBytes(Constants.CHARSET
 							.name()));

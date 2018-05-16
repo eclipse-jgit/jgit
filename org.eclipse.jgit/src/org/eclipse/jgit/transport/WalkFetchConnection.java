@@ -187,7 +187,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 	/** Inserter to read objects from {@link #local}. */
 	private final ObjectReader reader;
 
-	WalkFetchConnection(final WalkTransport t, final WalkRemoteObjectDatabase w) {
+	WalkFetchConnection(WalkTransport t, WalkRemoteObjectDatabase w) {
 		Transport wt = (Transport)t;
 		local = wt.local;
 		objCheck = wt.getObjectChecker();
@@ -265,18 +265,18 @@ class WalkFetchConnection extends BaseFetchConnection {
 	public void close() {
 		inserter.close();
 		reader.close();
-		for (final RemotePack p : unfetchedPacks) {
+		for (RemotePack p : unfetchedPacks) {
 			if (p.tmpIdx != null)
 				p.tmpIdx.delete();
 		}
-		for (final WalkRemoteObjectDatabase r : remotes)
+		for (WalkRemoteObjectDatabase r : remotes)
 			r.close();
 	}
 
 	private void queueWants(Collection<Ref> want)
 			throws TransportException {
 		final HashSet<ObjectId> inWorkQueue = new HashSet<>();
-		for (final Ref r : want) {
+		for (Ref r : want) {
 			final ObjectId id = r.getObjectId();
 			if (id == null) {
 				throw new NullPointerException(MessageFormat.format(
@@ -385,7 +385,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 		final RevCommit commit = (RevCommit) obj;
 		markLocalCommitsComplete(commit.getCommitTime());
 		needs(commit.getTree());
-		for (final RevCommit p : commit.getParents())
+		for (RevCommit p : commit.getParents())
 			needs(p);
 		obj.add(COMPLETE);
 	}
@@ -459,7 +459,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 
 				if (packNameList == null || packNameList.isEmpty())
 					continue;
-				for (final String packName : packNameList) {
+				for (String packName : packNameList) {
 					if (packsConsidered.add(packName))
 						unfetchedPacks.add(new RemotePack(wrr, packName));
 				}
@@ -471,7 +471,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 			//
 			Collection<WalkRemoteObjectDatabase> al = expandOneAlternate(id, pm);
 			if (al != null && !al.isEmpty()) {
-				for (final WalkRemoteObjectDatabase alt : al) {
+				for (WalkRemoteObjectDatabase alt : al) {
 					remotes.add(alt);
 					noPacksYet.add(alt);
 					noAlternatesYet.add(alt);
@@ -693,14 +693,14 @@ class WalkFetchConnection extends BaseFetchConnection {
 		} catch (IOException e) {
 			throw new TransportException(e.getMessage(), e);
 		}
-		for (final Ref r : refs) {
+		for (Ref r : refs) {
 			try {
 				markLocalObjComplete(revWalk.parseAny(r.getObjectId()));
 			} catch (IOException readError) {
 				throw new TransportException(MessageFormat.format(JGitText.get().localRefIsMissingObjects, r.getName()), readError);
 			}
 		}
-		for (final ObjectId id : have) {
+		for (ObjectId id : have) {
 			try {
 				markLocalObjComplete(revWalk.parseAny(id));
 			} catch (IOException readError) {
@@ -739,7 +739,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 				localCommitQueue.next();
 
 				markTreeComplete(c.getTree());
-				for (final RevCommit p : c.getParents())
+				for (RevCommit p : c.getParents())
 					pushLocalCommit(p);
 			}
 		} catch (IOException err) {
@@ -813,7 +813,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 
 		PackIndex index;
 
-		RemotePack(final WalkRemoteObjectDatabase c, final String pn) {
+		RemotePack(WalkRemoteObjectDatabase c, String pn) {
 			connection = c;
 			packName = pn;
 			idxName = packName.substring(0, packName.length() - 5) + ".idx"; //$NON-NLS-1$
@@ -831,7 +831,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 			}
 		}
 
-		void openIndex(final ProgressMonitor pm) throws IOException {
+		void openIndex(ProgressMonitor pm) throws IOException {
 			if (index != null)
 				return;
 			if (tmpIdx == null)
@@ -850,7 +850,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 			pm.beginTask("Get " + idxName.substring(0, 12) + "..idx", //$NON-NLS-1$ //$NON-NLS-2$
 					s.length < 0 ? ProgressMonitor.UNKNOWN
 							: (int) (s.length / 1024));
-			try (final FileOutputStream fos = new FileOutputStream(tmpIdx)) {
+			try (FileOutputStream fos = new FileOutputStream(tmpIdx)) {
 				final byte[] buf = new byte[2048];
 				int cnt;
 				while (!pm.isCancelled() && (cnt = s.in.read(buf)) >= 0) {
@@ -878,7 +878,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 			}
 		}
 
-		void downloadPack(final ProgressMonitor monitor) throws IOException {
+		void downloadPack(ProgressMonitor monitor) throws IOException {
 			String name = "pack/" + packName; //$NON-NLS-1$
 			WalkRemoteObjectDatabase.FileStream s = connection.open(name);
 			try {

@@ -55,7 +55,7 @@ class SideBandProgressMonitor extends BatchingProgressMonitor {
 
 	private boolean write;
 
-	SideBandProgressMonitor(final OutputStream os) {
+	SideBandProgressMonitor(OutputStream os) {
 		out = os;
 		write = true;
 	}

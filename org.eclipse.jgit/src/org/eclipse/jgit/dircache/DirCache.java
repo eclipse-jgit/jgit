@@ -121,11 +121,11 @@ public class DirCache {
 		}
 	};
 
-	static int cmp(final DirCacheEntry a, final DirCacheEntry b) {
+	static int cmp(DirCacheEntry a, DirCacheEntry b) {
 		return cmp(a.path, a.path.length, b);
 	}
 
-	static int cmp(final byte[] aPath, final int aLen, final DirCacheEntry b) {
+	static int cmp(byte[] aPath, int aLen, DirCacheEntry b) {
 		return cmp(aPath, aLen, b.path, b.path.length);
 	}
 
@@ -404,7 +404,7 @@ public class DirCache {
 		return new DirCacheEditor(this, entryCnt + 16);
 	}
 
-	void replace(final DirCacheEntry[] e, final int cnt) {
+	void replace(DirCacheEntry[] e, int cnt) {
 		sortedEntries = e;
 		entryCnt = cnt;
 		tree = null;
@@ -648,7 +648,7 @@ public class DirCache {
 		}
 	}
 
-	void writeTo(File dir, final OutputStream os) throws IOException {
+	void writeTo(File dir, OutputStream os) throws IOException {
 		final MessageDigest foot = Constants.newMessageDigest();
 		final DigestOutputStream dos = new DigestOutputStream(os, foot);
 
@@ -848,7 +848,7 @@ public class DirCache {
 		return nextIdx;
 	}
 
-	int nextEntry(final byte[] p, final int pLen, int nextIdx) {
+	int nextEntry(byte[] p, int pLen, int nextIdx) {
 		while (nextIdx < entryCnt) {
 			final DirCacheEntry next = sortedEntries[nextIdx];
 			if (!DirCacheTree.peq(p, next.path, pLen))

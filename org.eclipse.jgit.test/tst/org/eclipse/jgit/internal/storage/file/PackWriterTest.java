@@ -368,7 +368,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 				ObjectId.fromString("902d5476fa249b7abc9d84c611577a81381f0327"),
 				ObjectId.fromString("6ff87c4664981e4397625791c8ea3bbb5f2279a3") ,
 				ObjectId.fromString("5b6e7c66c276e7610d4a73c70ec1a1f7c1003259") };
-		try (final RevWalk parser = new RevWalk(db)) {
+		try (RevWalk parser = new RevWalk(db)) {
 			final RevObject forcedOrderRevs[] = new RevObject[forcedOrder.length];
 			for (int i = 0; i < forcedOrder.length; i++)
 				forcedOrderRevs[i] = parser.parseAny(forcedOrder[i]);

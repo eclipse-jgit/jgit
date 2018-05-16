@@ -95,7 +95,7 @@ public class FollowFilter extends TreeFilter {
 
 	private RenameCallback renameCallback;
 
-	FollowFilter(final PathFilter path, final DiffConfig cfg) {
+	FollowFilter(PathFilter path, DiffConfig cfg) {
 		this.path = path;
 		this.cfg = cfg;
 	}

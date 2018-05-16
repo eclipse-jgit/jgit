@@ -58,7 +58,7 @@ import org.eclipse.jgit.util.NB;
  * @see PackIndexV1
  */
 class PackIndexWriterV1 extends PackIndexWriter {
-	static boolean canStore(final PackedObjectInfo oe) {
+	static boolean canStore(PackedObjectInfo oe) {
 		// We are limited to 4 GB per pack as offset is 32 bit unsigned int.
 		//
 		return oe.getOffset() >>> 1 < Integer.MAX_VALUE;
@@ -73,7 +73,7 @@ class PackIndexWriterV1 extends PackIndexWriter {
 	protected void writeImpl() throws IOException {
 		writeFanOutTable();
 
-		for (final PackedObjectInfo oe : entries) {
+		for (PackedObjectInfo oe : entries) {
 			if (!canStore(oe))
 				throw new IOException(JGitText.get().packTooLargeForIndexVersion1);
 			NB.encodeInt32(tmp, 0, (int) oe.getOffset());

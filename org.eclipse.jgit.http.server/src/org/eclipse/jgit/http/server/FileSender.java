@@ -84,7 +84,7 @@ final class FileSender {
 
 	private long end;
 
-	FileSender(final File path) throws FileNotFoundException {
+	FileSender(File path) throws FileNotFoundException {
 		this.path = path;
 		this.source = new RandomAccessFile(path, "r");
 

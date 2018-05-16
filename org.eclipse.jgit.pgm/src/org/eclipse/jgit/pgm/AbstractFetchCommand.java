@@ -77,7 +77,7 @@ abstract class AbstractFetchCommand extends TextBuiltin {
 	protected void showFetchResult(FetchResult r) throws IOException {
 		try (ObjectReader reader = db.newObjectReader()) {
 			boolean shownURI = false;
-			for (final TrackingRefUpdate u : r.getTrackingRefUpdates()) {
+			for (TrackingRefUpdate u : r.getTrackingRefUpdates()) {
 				if (!verbose && u.getResult() == RefUpdate.Result.NO_CHANGE)
 					continue;
 

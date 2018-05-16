@@ -360,7 +360,7 @@ public class ResetCommand extends GitCommand<Ref> {
 
 	private void resetIndexForPaths(ObjectId commitTree) {
 		DirCache dc = null;
-		try (final TreeWalk tw = new TreeWalk(repo)) {
+		try (TreeWalk tw = new TreeWalk(repo)) {
 			dc = repo.lockDirCache();
 			DirCacheBuilder builder = dc.builder();
 

@@ -147,7 +147,7 @@ public class RevObjectList<E extends RevObject> extends AbstractList<E> {
 
 		final int shift;
 
-		Block(final int s) {
+		Block(int s) {
 			shift = s;
 		}
 	}

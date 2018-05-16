@@ -318,7 +318,7 @@ public class TestRepository<R extends Repository> {
 	public RevTree tree(DirCacheEntry... entries) throws Exception {
 		final DirCache dc = DirCache.newInCore();
 		final DirCacheBuilder b = dc.builder();
-		for (final DirCacheEntry e : entries)
+		for (DirCacheEntry e : entries)
 			b.add(e);
 		b.finish();
 		ObjectId root;
@@ -962,7 +962,7 @@ public class TestRepository<R extends Repository> {
 	public class BranchBuilder {
 		private final String ref;
 
-		BranchBuilder(final String ref) {
+		BranchBuilder(String ref) {
 			this.ref = ref;
 		}
 

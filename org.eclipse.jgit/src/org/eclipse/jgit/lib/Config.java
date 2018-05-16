@@ -1010,7 +1010,7 @@ public class Config {
 	 */
 	public String toText() {
 		final StringBuilder out = new StringBuilder();
-		for (final ConfigLine e : state.get().entryList) {
+		for (ConfigLine e : state.get().entryList) {
 			if (e.prefix != null)
 				out.append(e.prefix);
 			if (e.section != null && e.name == null) {
@@ -1452,7 +1452,7 @@ public class Config {
 
 		private int pos;
 
-		StringReader(final String in) {
+		StringReader(String in) {
 			buf = in.toCharArray();
 		}
 

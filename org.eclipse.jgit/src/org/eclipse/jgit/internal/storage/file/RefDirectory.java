@@ -208,7 +208,7 @@ public class RefDirectory extends RefDatabase {
 
 	private List<Integer> retrySleepMs = RETRY_SLEEP_MS;
 
-	RefDirectory(final FileRepository db) {
+	RefDirectory(FileRepository db) {
 		final FS fs = db.getFS();
 		parent = db;
 		gitDir = db.getDirectory();
@@ -434,7 +434,7 @@ public class RefDirectory extends RefDatabase {
 
 		RefList.Builder<LooseRef> newLoose;
 
-		LooseScanner(final RefList<LooseRef> curLoose) {
+		LooseScanner(RefList<LooseRef> curLoose) {
 			this.curLoose = curLoose;
 		}
 
@@ -1262,14 +1262,14 @@ public class RefDirectory extends RefDatabase {
 		return new File(gitDir, name);
 	}
 
-	static int levelsIn(final String name) {
+	static int levelsIn(String name) {
 		int count = 0;
 		for (int p = name.indexOf('/'); p >= 0; p = name.indexOf('/', p + 1))
 			count++;
 		return count;
 	}
 
-	static void delete(final File file, final int depth) throws IOException {
+	static void delete(File file, int depth) throws IOException {
 		delete(file, depth, null);
 	}
 

@@ -70,7 +70,7 @@ public abstract class CachedAuthenticator extends Authenticator {
 	protected final PasswordAuthentication getPasswordAuthentication() {
 		final String host = getRequestingHost();
 		final int port = getRequestingPort();
-		for (final CachedAuthentication ca : cached) {
+		for (CachedAuthentication ca : cached) {
 			if (ca.host.equals(host) && ca.port == port)
 				return ca.toPasswordAuthentication();
 		}

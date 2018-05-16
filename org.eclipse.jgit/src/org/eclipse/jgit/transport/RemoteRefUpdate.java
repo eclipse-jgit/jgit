@@ -481,7 +481,7 @@ public class RemoteRefUpdate {
 		expectedOldObjectId = id;
 	}
 
-	void setStatus(final Status status) {
+	void setStatus(Status status) {
 		this.status = status;
 	}
 
@@ -489,7 +489,7 @@ public class RemoteRefUpdate {
 		this.fastForward = fastForward;
 	}
 
-	void setMessage(final String message) {
+	void setMessage(String message) {
 		this.message = message;
 	}
 

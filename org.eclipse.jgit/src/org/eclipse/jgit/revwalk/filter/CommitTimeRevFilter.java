@@ -127,7 +127,7 @@ public abstract class CommitTimeRevFilter extends RevFilter {
 
 	final int when;
 
-	CommitTimeRevFilter(final long ts) {
+	CommitTimeRevFilter(long ts) {
 		when = (int) (ts / 1000);
 	}
 
@@ -144,7 +144,7 @@ public abstract class CommitTimeRevFilter extends RevFilter {
 	}
 
 	private static class Before extends CommitTimeRevFilter {
-		Before(final long ts) {
+		Before(long ts) {
 			super(ts);
 		}
 
@@ -163,7 +163,7 @@ public abstract class CommitTimeRevFilter extends RevFilter {
 	}
 
 	private static class After extends CommitTimeRevFilter {
-		After(final long ts) {
+		After(long ts) {
 			super(ts);
 		}
 
@@ -190,7 +190,7 @@ public abstract class CommitTimeRevFilter extends RevFilter {
 	private static class Between extends CommitTimeRevFilter {
 		private final int until;
 
-		Between(final long since, final long until) {
+		Between(long since, long until) {
 			super(since);
 			this.until = (int) (until / 1000);
 		}

@@ -108,7 +108,7 @@ final class ReverseWalk extends RevWalk {
 			return children.length;
 		}
 
-		ReverseCommit getChild(final int nth) {
+		ReverseCommit getChild(int nth) {
 			return children[nth];
 		}
 	}

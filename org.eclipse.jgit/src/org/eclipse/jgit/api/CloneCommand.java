@@ -315,7 +315,7 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 			specs.add(wcrs);
 		else if (branchesToClone != null
 				&& branchesToClone.size() > 0) {
-			for (final String selectedRef : branchesToClone)
+			for (String selectedRef : branchesToClone)
 				if (wcrs.matchSource(selectedRef))
 					specs.add(wcrs.expandFromSource(selectedRef));
 		}
@@ -410,7 +410,7 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 		}
 
 		Ref foundBranch = null;
-		for (final Ref r : result.getAdvertisedRefs()) {
+		for (Ref r : result.getAdvertisedRefs()) {
 			final String n = r.getName();
 			if (!n.startsWith(Constants.R_HEADS))
 				continue;
@@ -444,7 +444,7 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
 		final RevCommit commit;
-		try (final RevWalk rw = new RevWalk(clonedRepo)) {
+		try (RevWalk rw = new RevWalk(clonedRepo)) {
 			commit = rw.parseCommit(ref.getObjectId());
 		}
 		return commit;

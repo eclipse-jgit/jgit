@@ -73,7 +73,7 @@ class ConfigLine {
 	/** The text content after entry. */
 	String suffix;
 
-	ConfigLine forValue(final String newValue) {
+	ConfigLine forValue(String newValue) {
 		final ConfigLine e = new ConfigLine();
 		e.prefix = prefix;
 		e.section = section;
@@ -91,7 +91,7 @@ class ConfigLine {
 				&& eqIgnoreCase(name, aKey);
 	}
 
-	boolean match(final String aSection, final String aSubsection) {
+	boolean match(String aSection, String aSubsection) {
 		return eqIgnoreCase(section, aSection)
 				&& eqSameCase(subsection, aSubsection);
 	}

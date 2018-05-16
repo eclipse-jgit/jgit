@@ -105,14 +105,14 @@ public class RevWalkPathFilter6012Test extends RevWalkTestCase {
 	protected void check(RevCommit... order) throws Exception {
 		markStart(i);
 		final StringBuilder act = new StringBuilder();
-		for (final RevCommit z : rw) {
+		for (RevCommit z : rw) {
 			final String name = byName.get(z);
 			assertNotNull(name);
 			act.append(name);
 			act.append(' ');
 		}
 		final StringBuilder exp = new StringBuilder();
-		for (final RevCommit z : order) {
+		for (RevCommit z : order) {
 			final String name = byName.get(z);
 			assertNotNull(name);
 			exp.append(name);

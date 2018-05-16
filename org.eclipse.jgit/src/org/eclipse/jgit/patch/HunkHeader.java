@@ -120,7 +120,7 @@ public class HunkHeader {
 
 	private EditList editList;
 
-	HunkHeader(final FileHeader fh, final int offset) {
+	HunkHeader(FileHeader fh, int offset) {
 		this(fh, offset, new OldImage() {
 			@Override
 			public AbbreviatedObjectId getId() {
@@ -129,13 +129,13 @@ public class HunkHeader {
 		});
 	}
 
-	HunkHeader(final FileHeader fh, final int offset, final OldImage oi) {
+	HunkHeader(FileHeader fh, int offset, OldImage oi) {
 		file = fh;
 		startOffset = offset;
 		old = oi;
 	}
 
-	HunkHeader(final FileHeader fh, final EditList editList) {
+	HunkHeader(FileHeader fh, EditList editList) {
 		this(fh, fh.buf.length);
 		this.editList = editList;
 		endOffset = startOffset;
@@ -293,7 +293,7 @@ public class HunkHeader {
 			newLineCount = 1;
 	}
 
-	int parseBody(final Patch script, final int end) {
+	int parseBody(Patch script, int end) {
 		final byte[] buf = file.buf;
 		int c = nextLF(buf, startOffset), last = c;
 
@@ -359,7 +359,7 @@ public class HunkHeader {
 		return c;
 	}
 
-	void extractFileLines(final OutputStream[] out) throws IOException {
+	void extractFileLines(OutputStream[] out) throws IOException {
 		final byte[] buf = file.buf;
 		int ptr = startOffset;
 		int eol = nextLF(buf, ptr);

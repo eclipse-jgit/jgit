@@ -142,13 +142,13 @@ public class RevTag extends RevObject {
 	}
 
 	@Override
-	void parseHeaders(final RevWalk walk) throws MissingObjectException,
+	void parseHeaders(RevWalk walk) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
 		parseCanonical(walk, walk.getCachedBytes(this));
 	}
 
 	@Override
-	void parseBody(final RevWalk walk) throws MissingObjectException,
+	void parseBody(RevWalk walk) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
 		if (buffer == null) {
 			buffer = walk.getCachedBytes(this);
@@ -157,7 +157,7 @@ public class RevTag extends RevObject {
 		}
 	}
 
-	void parseCanonical(final RevWalk walk, final byte[] rawTag)
+	void parseCanonical(RevWalk walk, byte[] rawTag)
 			throws CorruptObjectException {
 		final MutableInteger pos = new MutableInteger();
 		final int oType;

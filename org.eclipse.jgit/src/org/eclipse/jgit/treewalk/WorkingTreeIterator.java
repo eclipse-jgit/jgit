@@ -1175,7 +1175,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 
 		int encodedNameLen;
 
-		void encodeName(final CharsetEncoder enc) {
+		void encodeName(CharsetEncoder enc) {
 			final ByteBuffer b;
 			try {
 				b = enc.encode(CharBuffer.wrap(getName()));

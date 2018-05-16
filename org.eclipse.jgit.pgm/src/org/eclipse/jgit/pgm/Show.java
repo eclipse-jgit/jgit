@@ -248,7 +248,7 @@ class Show extends TextBuiltin {
 
 		outw.println();
 		final String[] lines = tag.getFullMessage().split("\n"); //$NON-NLS-1$
-		for (final String s : lines) {
+		for (String s : lines) {
 			outw.print("    "); //$NON-NLS-1$
 			outw.print(s);
 			outw.println();
@@ -259,7 +259,7 @@ class Show extends TextBuiltin {
 
 	private void show(RevTree obj) throws MissingObjectException,
 			IncorrectObjectTypeException, CorruptObjectException, IOException {
-		try (final TreeWalk walk = new TreeWalk(db)) {
+		try (TreeWalk walk = new TreeWalk(db)) {
 			walk.reset();
 			walk.addTree(obj);
 
@@ -292,7 +292,7 @@ class Show extends TextBuiltin {
 
 		outw.println();
 		final String[] lines = c.getFullMessage().split("\n"); //$NON-NLS-1$
-		for (final String s : lines) {
+		for (String s : lines) {
 			outw.print("    "); //$NON-NLS-1$
 			outw.print(s);
 			outw.println();

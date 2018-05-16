@@ -80,7 +80,7 @@ public class BinaryHunk {
 	/** Inflated length of the data. */
 	private int length;
 
-	BinaryHunk(final FileHeader fh, final int offset) {
+	BinaryHunk(FileHeader fh, int offset) {
 		file = fh;
 		startOffset = offset;
 	}
@@ -139,7 +139,7 @@ public class BinaryHunk {
 		return length;
 	}
 
-	int parseHunk(int ptr, final int end) {
+	int parseHunk(int ptr, int end) {
 		final byte[] buf = file.buf;
 
 		if (match(buf, ptr, LITERAL) >= 0) {

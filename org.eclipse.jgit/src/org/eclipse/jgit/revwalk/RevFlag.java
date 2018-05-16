@@ -85,7 +85,7 @@ public class RevFlag {
 
 	final int mask;
 
-	RevFlag(final RevWalk w, final String n, final int m) {
+	RevFlag(RevWalk w, String n, int m) {
 		walker = w;
 		name = n;
 		mask = m;
@@ -107,7 +107,7 @@ public class RevFlag {
 	}
 
 	static class StaticRevFlag extends RevFlag {
-		StaticRevFlag(final String n, final int m) {
+		StaticRevFlag(String n, int m) {
 			super(null, n, m);
 		}
 

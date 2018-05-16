@@ -279,7 +279,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	 * @throws IOException
 	 *             the pack file or the index could not be read.
 	 */
-	ObjectLoader get(final WindowCursor curs, final AnyObjectId id)
+	ObjectLoader get(WindowCursor curs, AnyObjectId id)
 			throws IOException {
 		final long offset = idx().findOffset(id);
 		return 0 < offset && !isCorrupt(offset) ? load(curs, offset) : null;
@@ -344,7 +344,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	 * @throws IOException
 	 *             the index file cannot be loaded into memory.
 	 */
-	ObjectId findObjectForOffset(final long offset) throws IOException {
+	ObjectId findObjectForOffset(long offset) throws IOException {
 		return getReverseIdx().findObject(offset);
 	}
 
@@ -692,7 +692,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		}
 	}
 
-	ByteArrayWindow read(final long pos, int size) throws IOException {
+	ByteArrayWindow read(long pos, int size) throws IOException {
 		synchronized (readLock) {
 			if (length < pos + size)
 				size = (int) (length - pos);
@@ -703,7 +703,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		}
 	}
 
-	ByteWindow mmap(final long pos, int size) throws IOException {
+	ByteWindow mmap(long pos, int size) throws IOException {
 		synchronized (readLock) {
 			if (length < pos + size)
 				size = (int) (length - pos);
@@ -760,7 +760,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		}
 	}
 
-	ObjectLoader load(final WindowCursor curs, long pos)
+	ObjectLoader load(WindowCursor curs, long pos)
 			throws IOException, LargeObjectException {
 		try {
 			final byte[] ib = curs.tempId;
@@ -949,7 +949,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		return hdr;
 	}
 
-	int getObjectType(final WindowCursor curs, long pos) throws IOException {
+	int getObjectType(WindowCursor curs, long pos) throws IOException {
 		final byte[] ib = curs.tempId;
 		for (;;) {
 			readFully(pos, ib, 0, 20, curs);
@@ -996,13 +996,13 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		}
 	}
 
-	long getObjectSize(final WindowCursor curs, final AnyObjectId id)
+	long getObjectSize(WindowCursor curs, AnyObjectId id)
 			throws IOException {
 		final long offset = idx().findOffset(id);
 		return 0 < offset ? getObjectSize(curs, offset) : -1;
 	}
 
-	long getObjectSize(final WindowCursor curs, final long pos)
+	long getObjectSize(WindowCursor curs, long pos)
 			throws IOException {
 		final byte[] ib = curs.tempId;
 		readFully(pos, ib, 0, 20, curs);

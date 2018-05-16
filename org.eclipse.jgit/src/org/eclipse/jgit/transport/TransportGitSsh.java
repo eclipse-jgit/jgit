@@ -141,12 +141,12 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 		}
 	};
 
-	TransportGitSsh(final Repository local, final URIish uri) {
+	TransportGitSsh(Repository local, URIish uri) {
 		super(local, uri);
 		initSshSessionFactory();
 	}
 
-	TransportGitSsh(final URIish uri) {
+	TransportGitSsh(URIish uri) {
 		super(uri);
 		initSshSessionFactory();
 	}
@@ -176,7 +176,7 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 		return new SshPushConnection();
 	}
 
-	String commandFor(final String exe) {
+	String commandFor(String exe) {
 		String path = uri.getPath();
 		if (uri.getScheme() != null && uri.getPath().startsWith("/~")) //$NON-NLS-1$
 			path = (uri.getPath().substring(1));

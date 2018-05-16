@@ -162,11 +162,11 @@ class TransportLocal extends Transport implements PackTransport {
 		remoteGitDir = gitDir;
 	}
 
-	UploadPack createUploadPack(final Repository dst) {
+	UploadPack createUploadPack(Repository dst) {
 		return new UploadPack(dst);
 	}
 
-	ReceivePack createReceivePack(final Repository dst) {
+	ReceivePack createReceivePack(Repository dst) {
 		return new ReceivePack(dst);
 	}
 

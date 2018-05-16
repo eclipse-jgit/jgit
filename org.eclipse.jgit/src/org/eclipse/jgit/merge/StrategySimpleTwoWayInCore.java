@@ -116,13 +116,13 @@ public class StrategySimpleTwoWayInCore extends ThreeWayMergeStrategy {
 
 		private ObjectId resultTree;
 
-		InCoreMerger(final Repository local) {
+		InCoreMerger(Repository local) {
 			super(local);
 			tw = new NameConflictTreeWalk(local, reader);
 			cache = DirCache.newInCore();
 		}
 
-		InCoreMerger(final ObjectInserter inserter) {
+		InCoreMerger(ObjectInserter inserter) {
 			super(inserter);
 			tw = new NameConflictTreeWalk(null, reader);
 			cache = DirCache.newInCore();

@@ -122,7 +122,7 @@ abstract class BasePackConnection extends BaseConnection {
 	/** Extra objects the remote has, but which aren't offered as refs. */
 	protected final Set<ObjectId> additionalHaves = new HashSet<>();
 
-	BasePackConnection(final PackTransport packTransport) {
+	BasePackConnection(PackTransport packTransport) {
 		transport = (Transport) packTransport;
 		local = transport.local;
 		uri = transport.uri;

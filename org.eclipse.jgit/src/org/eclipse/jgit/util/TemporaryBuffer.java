@@ -238,7 +238,7 @@ public abstract class TemporaryBuffer extends OutputStream {
 			throw new OutOfMemoryError(JGitText.get().lengthExceedsMaximumArraySize);
 		final byte[] out = new byte[(int) len];
 		int outPtr = 0;
-		for (final Block b : blocks) {
+		for (Block b : blocks) {
 			System.arraycopy(b.buffer, 0, out, outPtr, b.count);
 			outPtr += b.count;
 		}
@@ -265,7 +265,7 @@ public abstract class TemporaryBuffer extends OutputStream {
 					JGitText.get().lengthExceedsMaximumArraySize);
 		final byte[] out = new byte[(int) len];
 		int outPtr = 0;
-		for (final Block b : blocks) {
+		for (Block b : blocks) {
 			System.arraycopy(b.buffer, 0, out, outPtr, b.count);
 			outPtr += b.count;
 		}
@@ -292,7 +292,7 @@ public abstract class TemporaryBuffer extends OutputStream {
 			throws IOException {
 		if (pm == null)
 			pm = NullProgressMonitor.INSTANCE;
-		for (final Block b : blocks) {
+		for (Block b : blocks) {
 			os.write(b.buffer, 0, b.count);
 			pm.update(b.count / 1024);
 		}
@@ -373,7 +373,7 @@ public abstract class TemporaryBuffer extends OutputStream {
 		overflow = overflow();
 
 		final Block last = blocks.remove(blocks.size() - 1);
-		for (final Block b : blocks)
+		for (Block b : blocks)
 			overflow.write(b.buffer, 0, b.count);
 		blocks = null;
 

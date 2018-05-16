@@ -66,7 +66,7 @@ import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 class AsIsFileFilter implements Filter {
 	private final AsIsFileService asIs;
 
-	AsIsFileFilter(final AsIsFileService getAnyFile) {
+	AsIsFileFilter(AsIsFileService getAnyFile) {
 		this.asIs = getAnyFile;
 	}
 

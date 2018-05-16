@@ -142,7 +142,7 @@ public class TransportTest extends SampleDataRepositoryTestCase {
 		assertEquals(12, result.size());
 		boolean foundA = false;
 		boolean foundB = false;
-		for (final RemoteRefUpdate rru : result) {
+		for (RemoteRefUpdate rru : result) {
 			if ("refs/heads/a".equals(rru.getSrcRef())
 					&& "refs/heads/test/a".equals(rru.getRemoteName()))
 				foundA = true;
@@ -174,7 +174,7 @@ public class TransportTest extends SampleDataRepositoryTestCase {
 		assertEquals(2, result.size());
 		boolean foundA = false;
 		boolean foundC = false;
-		for (final RemoteRefUpdate rru : result) {
+		for (RemoteRefUpdate rru : result) {
 			if ("refs/heads/a".equals(rru.getSrcRef())
 					&& "refs/heads/b".equals(rru.getRemoteName()))
 				foundA = true;
@@ -233,7 +233,7 @@ public class TransportTest extends SampleDataRepositoryTestCase {
 		assertEquals(2, result.size());
 		boolean foundA = false;
 		boolean foundC = false;
-		for (final RemoteRefUpdate rru : result) {
+		for (RemoteRefUpdate rru : result) {
 			if ("refs/heads/a".equals(rru.getSrcRef())
 					&& "refs/heads/b".equals(rru.getRemoteName())) {
 				foundA = true;

@@ -481,7 +481,7 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 	private static final char[] hexchar = { '0', '1', '2', '3', '4', '5', '6',
 			'7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 
-	static void formatHexChar(final char[] dst, final int p, int w) {
+	static void formatHexChar(char[] dst, int p, int w) {
 		int o = p + 7;
 		while (o >= p && w != 0) {
 			dst[o--] = hexchar[w & 0xf];

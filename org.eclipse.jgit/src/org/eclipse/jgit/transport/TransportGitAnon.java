@@ -113,11 +113,11 @@ class TransportGitAnon extends TcpTransport implements PackTransport {
 		}
 	};
 
-	TransportGitAnon(final Repository local, final URIish uri) {
+	TransportGitAnon(Repository local, URIish uri) {
 		super(local, uri);
 	}
 
-	TransportGitAnon(final URIish uri) {
+	TransportGitAnon(URIish uri) {
 		super(uri);
 	}
 
@@ -163,7 +163,7 @@ class TransportGitAnon extends TcpTransport implements PackTransport {
 		return s;
 	}
 
-	void service(final String name, final PacketLineOut pckOut)
+	void service(String name, PacketLineOut pckOut)
 			throws IOException {
 		final StringBuilder cmd = new StringBuilder();
 		cmd.append(name);

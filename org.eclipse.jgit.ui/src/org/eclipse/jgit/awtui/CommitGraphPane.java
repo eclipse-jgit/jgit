@@ -175,7 +175,7 @@ public class CommitGraphPane extends JTable {
 			}
 		}
 
-		PersonIdent authorFor(final PlotCommit<SwingLane> c) {
+		PersonIdent authorFor(PlotCommit<SwingLane> c) {
 			if (c != lastCommit) {
 				lastCommit = c;
 				lastAuthor = c.getAuthorIdent();
@@ -259,7 +259,7 @@ public class CommitGraphPane extends JTable {
 			strokeCache[i] = new BasicStroke(i);
 	}
 
-	static Stroke stroke(final int width) {
+	static Stroke stroke(int width) {
 		if (width < strokeCache.length)
 			return strokeCache[width];
 		return new BasicStroke(width);

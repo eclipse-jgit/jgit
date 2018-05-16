@@ -267,7 +267,7 @@ public class TransportAmazonS3 extends HttpTransport implements WalkTransport {
 		}
 
 		@Override
-		WalkRemoteObjectDatabase openAlternate(final String location)
+		WalkRemoteObjectDatabase openAlternate(String location)
 				throws IOException {
 			return new DatabaseS3(bucketName, resolveKey(location));
 		}
@@ -278,7 +278,7 @@ public class TransportAmazonS3 extends HttpTransport implements WalkTransport {
 			have.addAll(s3.list(bucket, resolveKey("pack"))); //$NON-NLS-1$
 
 			final Collection<String> packs = new ArrayList<>();
-			for (final String n : have) {
+			for (String n : have) {
 				if (!n.startsWith("pack-") || !n.endsWith(".pack")) //$NON-NLS-1$ //$NON-NLS-2$
 					continue;
 
@@ -290,7 +290,7 @@ public class TransportAmazonS3 extends HttpTransport implements WalkTransport {
 		}
 
 		@Override
-		FileStream open(final String path) throws IOException {
+		FileStream open(String path) throws IOException {
 			final URLConnection c = s3.get(bucket, resolveKey(path));
 			final InputStream raw = c.getInputStream();
 			final InputStream in = s3.decrypt(c);
@@ -299,7 +299,7 @@ public class TransportAmazonS3 extends HttpTransport implements WalkTransport {
 		}
 
 		@Override
-		void deleteFile(final String path) throws IOException {
+		void deleteFile(String path) throws IOException {
 			s3.delete(bucket, resolveKey(path));
 		}
 
@@ -311,7 +311,7 @@ public class TransportAmazonS3 extends HttpTransport implements WalkTransport {
 		}
 
 		@Override
-		void writeFile(final String path, final byte[] data) throws IOException {
+		void writeFile(String path, byte[] data) throws IOException {
 			s3.put(bucket, resolveKey(path), data);
 		}
 

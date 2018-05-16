@@ -107,7 +107,7 @@ public class CommandCatalog {
 	 */
 	public static CommandRef[] common() {
 		final ArrayList<CommandRef> common = new ArrayList<>();
-		for (final CommandRef c : INSTANCE.commands.values())
+		for (CommandRef c : INSTANCE.commands.values())
 			if (c.isCommon())
 				common.add(c);
 		return toSortedArray(common);

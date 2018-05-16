@@ -1526,7 +1526,7 @@ public class PackWriter implements AutoCloseable {
 			// The caller gave us an executor, but it might not do
 			// asynchronous execution.  Wrap everything and hope it
 			// can schedule these for us.
-			for (final DeltaTask task : taskBlock.tasks) {
+			for (DeltaTask task : taskBlock.tasks) {
 				executor.execute(new Runnable() {
 					@Override
 					public void run() {

@@ -58,7 +58,7 @@ abstract class BlockRevQueue extends AbstractRevQueue {
 		free = new BlockFreeList();
 	}
 
-	BlockRevQueue(final Generator s) throws MissingObjectException,
+	BlockRevQueue(Generator s) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
 		free = new BlockFreeList();
 		outputType = s.outputType();
@@ -101,7 +101,7 @@ abstract class BlockRevQueue extends AbstractRevQueue {
 			return b;
 		}
 
-		void freeBlock(final Block b) {
+		void freeBlock(Block b) {
 			b.next = next;
 			next = b;
 		}
@@ -138,11 +138,11 @@ abstract class BlockRevQueue extends AbstractRevQueue {
 			return headIndex > 0;
 		}
 
-		void add(final RevCommit c) {
+		void add(RevCommit c) {
 			commits[tailIndex++] = c;
 		}
 
-		void unpop(final RevCommit c) {
+		void unpop(RevCommit c) {
 			commits[--headIndex] = c;
 		}
 

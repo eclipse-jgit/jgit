@@ -60,7 +60,7 @@ class RefDirectoryUpdate extends RefUpdate {
 	private boolean shouldDeref;
 	private LockFile lock;
 
-	RefDirectoryUpdate(final RefDirectory r, final Ref ref) {
+	RefDirectoryUpdate(RefDirectory r, Ref ref) {
 		super(ref);
 		database = r;
 	}

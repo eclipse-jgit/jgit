@@ -248,7 +248,7 @@ public class TemporaryBufferTest {
 	public void testInCoreInputStream() throws IOException {
 		final int cnt = 256;
 		final byte[] test = new TestRng(getName()).nextBytes(cnt);
-		try (final TemporaryBuffer.Heap b = new TemporaryBuffer.Heap(cnt + 4)) {
+		try (TemporaryBuffer.Heap b = new TemporaryBuffer.Heap(cnt + 4)) {
 			b.write(test);
 			InputStream in = b.openInputStream();
 			byte[] act = new byte[cnt];

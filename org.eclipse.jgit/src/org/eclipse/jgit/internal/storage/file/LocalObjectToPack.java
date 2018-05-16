@@ -58,7 +58,7 @@ class LocalObjectToPack extends ObjectToPack {
 	/** Length of the data section of the object. */
 	long length;
 
-	LocalObjectToPack(AnyObjectId src, final int type) {
+	LocalObjectToPack(AnyObjectId src, int type) {
 		super(src, type);
 	}
 

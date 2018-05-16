@@ -165,7 +165,7 @@ public final class AbbreviatedObjectId implements Serializable {
 		return r << (8 - n) * 4;
 	}
 
-	static int mask(final int nibbles, final int word, final int v) {
+	static int mask(int nibbles, int word, int v) {
 		final int b = (word - 1) * 8;
 		if (b + 8 <= nibbles) {
 			// We have all of the bits required for this word.

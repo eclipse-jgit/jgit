@@ -359,7 +359,7 @@ if (k < beginK || k > endK)
 			abstract int getLeft(int x);
 			abstract int getRight(int x);
 			abstract boolean isBetter(int left, int right);
-			abstract void adjustMinMaxK(final int k, final int x);
+			abstract void adjustMinMaxK(int k, int x);
 			abstract boolean meets(int d, int k, int x, long snake);
 
 			final long newSnake(int k, int x) {
@@ -469,22 +469,22 @@ if (k < beginK || k > endK)
 			}
 
 			@Override
-			final int getLeft(final int x) {
+			final int getLeft(int x) {
 				return x;
 			}
 
 			@Override
-			final int getRight(final int x) {
+			final int getRight(int x) {
 				return x + 1;
 			}
 
 			@Override
-			final boolean isBetter(final int left, final int right) {
+			final boolean isBetter(int left, int right) {
 				return left > right;
 			}
 
 			@Override
-			final void adjustMinMaxK(final int k, final int x) {
+			final void adjustMinMaxK(int k, int x) {
 				if (x >= endA || k + x >= endB) {
 					if (k > backward.middleK)
 						maxK = k;
@@ -517,22 +517,22 @@ if (k < beginK || k > endK)
 			}
 
 			@Override
-			final int getLeft(final int x) {
+			final int getLeft(int x) {
 				return x - 1;
 			}
 
 			@Override
-			final int getRight(final int x) {
+			final int getRight(int x) {
 				return x;
 			}
 
 			@Override
-			final boolean isBetter(final int left, final int right) {
+			final boolean isBetter(int left, int right) {
 				return left < right;
 			}
 
 			@Override
-			final void adjustMinMaxK(final int k, final int x) {
+			final void adjustMinMaxK(int k, int x) {
 				if (x <= beginA || k + x <= beginB) {
 					if (k > forward.middleK)
 						maxK = k;

@@ -68,7 +68,7 @@ class MergeBase extends TextBuiltin {
 	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
-		for (final RevCommit c : commits)
+		for (RevCommit c : commits)
 			argWalk.markStart(c);
 		argWalk.setRevFilter(RevFilter.MERGE_BASE);
 		int max = all ? Integer.MAX_VALUE : 1;

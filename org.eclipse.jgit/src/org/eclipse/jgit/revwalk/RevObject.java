@@ -60,7 +60,7 @@ public abstract class RevObject extends ObjectIdOwnerMap.Entry {
 
 	int flags;
 
-	RevObject(final AnyObjectId name) {
+	RevObject(AnyObjectId name) {
 		super(name);
 	}
 

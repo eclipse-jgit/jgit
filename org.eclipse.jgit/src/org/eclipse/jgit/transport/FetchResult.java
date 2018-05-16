@@ -68,7 +68,7 @@ public class FetchResult extends OperationResult {
 		submodules = new HashMap<>();
 	}
 
-	void add(final FetchHeadRecord r) {
+	void add(FetchHeadRecord r) {
 		if (!r.notForMerge)
 			forMerge.add(r);
 	}

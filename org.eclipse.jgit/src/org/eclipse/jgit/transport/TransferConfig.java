@@ -132,12 +132,12 @@ public class TransferConfig {
 	final @Nullable ProtocolVersion protocolVersion;
 	final String[] hideRefs;
 
-	TransferConfig(final Repository db) {
+	TransferConfig(Repository db) {
 		this(db.getConfig());
 	}
 
 	@SuppressWarnings("nls")
-	TransferConfig(final Config rc) {
+	TransferConfig(Config rc) {
 		boolean fsck = rc.getBoolean("transfer", "fsckobjects", false);
 		fetchFsck = rc.getBoolean("fetch", "fsckobjects", fsck);
 		receiveFsck = rc.getBoolean("receive", "fsckobjects", fsck);

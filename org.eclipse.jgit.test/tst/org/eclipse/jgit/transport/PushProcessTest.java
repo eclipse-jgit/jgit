@@ -422,7 +422,7 @@ public class PushProcessTest extends SampleDataRepositoryTestCase {
 			PushConnection {
 		MockPushConnection() {
 			final Map<String, Ref> refsMap = new HashMap<>();
-			for (final Ref r : advertisedRefs)
+			for (Ref r : advertisedRefs)
 				refsMap.put(r.getName(), r);
 			available(refsMap);
 		}
@@ -443,7 +443,7 @@ public class PushProcessTest extends SampleDataRepositoryTestCase {
 		public void push(ProgressMonitor monitor,
 				Map<String, RemoteRefUpdate> refsToUpdate)
 				throws TransportException {
-			for (final RemoteRefUpdate rru : refsToUpdate.values()) {
+			for (RemoteRefUpdate rru : refsToUpdate.values()) {
 				assertEquals(Status.NOT_ATTEMPTED, rru.getStatus());
 				rru.setStatus(connectionUpdateStatus);
 			}

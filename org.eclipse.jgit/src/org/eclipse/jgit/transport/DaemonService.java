@@ -65,7 +65,7 @@ public abstract class DaemonService {
 
 	private boolean overridable;
 
-	DaemonService(final String cmdName, final String cfgName) {
+	DaemonService(String cmdName, String cfgName) {
 		command = cmdName.startsWith("git-") ? cmdName : "git-" + cmdName; //$NON-NLS-1$ //$NON-NLS-2$
 		configKey = cfg -> new ServiceConfig(DaemonService.this, cfg, cfgName);
 		overridable = true;
@@ -146,7 +146,7 @@ public abstract class DaemonService {
 				&& commandLine.startsWith(command);
 	}
 
-	void execute(final DaemonClient client, final String commandLine)
+	void execute(DaemonClient client, String commandLine)
 			throws IOException, ServiceNotEnabledException,
 			ServiceNotAuthorizedException {
 		final String name = commandLine.substring(command.length() + 1);
