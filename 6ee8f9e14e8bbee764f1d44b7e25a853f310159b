@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa4b7cc4_9aa5162e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-16T23:23:29Z",
+      "side": 1,
+      "message": "Needs a TODO somewhere to reflect that we haven\u0027t actually implemented the fetch\u003dshallow capability, since we\u0027re missing\n\n deepen \u003cdepth\u003e\n deepen-relative\n deepen-since \u003cts\u003e\n deepen-not \u003crev\u003e",
+      "revId": "6ee8f9e14e8bbee764f1d44b7e25a853f310159b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a32d2372_3e19ea58",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 988,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-16T23:23:29Z",
+      "side": 1,
+      "message": "nit: needs braces around \"if\" body (https://wiki.eclipse.org/EGit/Contributor_Guide#Braces_for_one-line_statements)",
+      "revId": "6ee8f9e14e8bbee764f1d44b7e25a853f310159b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
