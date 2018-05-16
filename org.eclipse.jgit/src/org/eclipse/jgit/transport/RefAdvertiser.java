@@ -53,12 +53,12 @@ import java.nio.CharBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.CharsetEncoder;
 import java.nio.charset.CoderResult;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.SortedMap;
 
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
@@ -66,7 +66,6 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefComparator;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.util.RefMap;
 
 /**
  * Support for the start of {@link org.eclipse.jgit.transport.UploadPack} and
@@ -287,9 +286,30 @@ public abstract class RefAdvertiser {
 	 * @throws java.io.IOException
 	 *             the underlying output stream failed to write out an
 	 *             advertisement record.
+	 * @deprecated use {@link #send(Collection)} instead.
 	 */
+	@Deprecated
 	public Set<ObjectId> send(Map<String, Ref> refs) throws IOException {
-		for (Ref ref : getSortedRefs(refs)) {
+		return send(refs.values());
+	}
+
+	/**
+	 * Format an advertisement for the supplied refs.
+	 *
+	 * @param refs
+	 *            zero or more refs to format for the client. The collection is
+	 *            sorted before display if necessary, and therefore may appear
+	 *            in any order.
+	 * @return set of ObjectIds that were advertised to the client.
+	 * @throws java.io.IOException
+	 *             the underlying output stream failed to write out an
+	 *             advertisement record.
+	 * @since 5.0
+	 */
+	public Set<ObjectId> send(Collection<Ref> refs) throws IOException {
+		for (Ref ref : RefComparator.sort(refs)) {
+			// TODO(jrn) revive the SortedMap optimization e.g. by introducing
+			// SortedList
 			ObjectId objectId = ref.getObjectId();
 			if (objectId == null) {
 				continue;
@@ -329,13 +349,6 @@ public abstract class RefAdvertiser {
 				advertiseAny(ref.getPeeledObjectId(), ref.getName() + "^{}"); //$NON-NLS-1$
 		}
 		return sent;
-	}
-
-	private Iterable<Ref> getSortedRefs(Map<String, Ref> all) {
-		if (all instanceof RefMap
-				|| (all instanceof SortedMap && ((SortedMap) all).comparator() == null))
-			return all.values();
-		return RefComparator.sort(all.values());
 	}
 
 	/**
