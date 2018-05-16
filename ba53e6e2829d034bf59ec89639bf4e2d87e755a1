@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85e1f9b6_5af03556",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/InfoRefsServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-16T03:27:05Z",
+      "side": 1,
+      "message": "getRefs(). Or could we simplify this to\n\n  adv.send(db.getRefDatabase().getRefsByPrefix(R_REFS))\n\n?",
+      "range": {
+        "startLine": 99,
+        "startChar": 40,
+        "endLine": 99,
+        "endChar": 60
+      },
+      "revId": "ba53e6e2829d034bf59ec89639bf4e2d87e755a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
