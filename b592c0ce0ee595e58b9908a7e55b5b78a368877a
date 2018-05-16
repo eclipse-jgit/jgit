@@ -16,6 +16,24 @@
       "revId": "b592c0ce0ee595e58b9908a7e55b5b78a368877a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "934983ab_bdb51ae4",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/SmartServiceInfoRefs.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-16T23:04:18Z",
+      "side": 1,
+      "message": "Oh, the class itself is package-private so the \"protected\" has no effect. I can clean up in a separate commit.",
+      "parentUuid": "bb4f9ba5_1ca0066d",
+      "revId": "b592c0ce0ee595e58b9908a7e55b5b78a368877a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
