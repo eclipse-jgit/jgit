@@ -127,7 +127,7 @@ class PushProcess {
 		this.toPush = new LinkedHashMap<>();
 		this.out = out;
 		this.pushOptions = transport.getPushOptions();
-		for (final RemoteRefUpdate rru : toPush) {
+		for (RemoteRefUpdate rru : toPush) {
 			if (this.toPush.put(rru.getRemoteName(), rru) != null)
 				throw new TransportException(MessageFormat.format(
 						JGitText.get().duplicateRemoteRefUpdateIsIllegal, rru.getRemoteName()));
@@ -150,7 +150,7 @@ class PushProcess {
 	 *             when some error occurred during operation, like I/O, protocol
 	 *             error, or local database consistency error.
 	 */
-	PushResult execute(final ProgressMonitor monitor)
+	PushResult execute(ProgressMonitor monitor)
 			throws NotSupportedException, TransportException {
 		try {
 			monitor.beginTask(PROGRESS_OPENING_CONNECTION,
@@ -176,7 +176,7 @@ class PushProcess {
 			}
 			if (!transport.isDryRun())
 				updateTrackingRefs();
-			for (final RemoteRefUpdate rru : toPush.values()) {
+			for (RemoteRefUpdate rru : toPush.values()) {
 				final TrackingRefUpdate tru = rru.getTrackingRefUpdate();
 				if (tru != null)
 					res.add(tru);
@@ -191,7 +191,7 @@ class PushProcess {
 			throws TransportException {
 		boolean atomic = transport.isPushAtomic();
 		final Map<String, RemoteRefUpdate> result = new LinkedHashMap<>();
-		for (final RemoteRefUpdate rru : toPush.values()) {
+		for (RemoteRefUpdate rru : toPush.values()) {
 			final Ref advertisedRef = connection.getRef(rru.getRemoteName());
 			ObjectId advertisedOld = null;
 			if (advertisedRef != null) {
@@ -277,13 +277,13 @@ class PushProcess {
 	}
 
 	private void modifyUpdatesForDryRun() {
-		for (final RemoteRefUpdate rru : toPush.values())
+		for (RemoteRefUpdate rru : toPush.values())
 			if (rru.getStatus() == Status.NOT_ATTEMPTED)
 				rru.setStatus(Status.OK);
 	}
 
 	private void updateTrackingRefs() {
-		for (final RemoteRefUpdate rru : toPush.values()) {
+		for (RemoteRefUpdate rru : toPush.values()) {
 			final Status status = rru.getStatus();
 			if (rru.hasTrackingRefUpdate()
 					&& (status == Status.UP_TO_DATE || status == Status.OK)) {

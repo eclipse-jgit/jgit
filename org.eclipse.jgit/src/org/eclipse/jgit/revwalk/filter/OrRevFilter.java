@@ -121,7 +121,7 @@ public abstract class OrRevFilter extends RevFilter {
 
 		private final boolean requiresCommitBody;
 
-		Binary(final RevFilter one, final RevFilter two) {
+		Binary(RevFilter one, RevFilter two) {
 			a = one;
 			b = two;
 			requiresCommitBody = a.requiresCommitBody()
@@ -157,7 +157,7 @@ public abstract class OrRevFilter extends RevFilter {
 
 		private final boolean requiresCommitBody;
 
-		List(final RevFilter[] list) {
+		List(RevFilter[] list) {
 			subfilters = list;
 
 			boolean rcb = false;
@@ -170,7 +170,7 @@ public abstract class OrRevFilter extends RevFilter {
 		public boolean include(RevWalk walker, RevCommit c)
 				throws MissingObjectException, IncorrectObjectTypeException,
 				IOException {
-			for (final RevFilter f : subfilters) {
+			for (RevFilter f : subfilters) {
 				if (f.include(walker, c))
 					return true;
 			}

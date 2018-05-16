@@ -153,13 +153,13 @@ public class RevCommit extends RevObject {
 	}
 
 	@Override
-	void parseHeaders(final RevWalk walk) throws MissingObjectException,
+	void parseHeaders(RevWalk walk) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
 		parseCanonical(walk, walk.getCachedBytes(this));
 	}
 
 	@Override
-	void parseBody(final RevWalk walk) throws MissingObjectException,
+	void parseBody(RevWalk walk) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
 		if (buffer == null) {
 			buffer = walk.getCachedBytes(this);
@@ -168,7 +168,7 @@ public class RevCommit extends RevObject {
 		}
 	}
 
-	void parseCanonical(final RevWalk walk, final byte[] raw)
+	void parseCanonical(RevWalk walk, byte[] raw)
 			throws IOException {
 		if (!walk.shallowCommitsInitialized)
 			walk.initializeShallowCommits();
@@ -490,7 +490,7 @@ public class RevCommit extends RevObject {
 		return str;
 	}
 
-	static boolean hasLF(final byte[] r, int b, final int e) {
+	static boolean hasLF(byte[] r, int b, int e) {
 		while (b < e)
 			if (r[b++] == '\n')
 				return true;
@@ -635,7 +635,7 @@ public class RevCommit extends RevObject {
 		if (src.isEmpty())
 			return Collections.emptyList();
 		final ArrayList<String> r = new ArrayList<>(src.size());
-		for (final FooterLine f : src) {
+		for (FooterLine f : src) {
 			if (f.matches(keyName))
 				r.add(f.getValue());
 		}

@@ -1361,7 +1361,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 			trees[i] = trees[i].parent;
 
 		AbstractTreeIterator minRef = null;
-		for (final AbstractTreeIterator t : trees) {
+		for (AbstractTreeIterator t : trees) {
 			if (t.matches != t)
 				continue;
 			if (minRef == null || t.pathCompare(minRef) < 0)
@@ -1377,11 +1377,11 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 		return p;
 	}
 
-	static String pathOf(final AbstractTreeIterator t) {
+	static String pathOf(AbstractTreeIterator t) {
 		return RawParseUtils.decode(Constants.CHARSET, t.path, 0, t.pathLen);
 	}
 
-	static String pathOf(final byte[] buf, int pos, int end) {
+	static String pathOf(byte[] buf, int pos, int end) {
 		return RawParseUtils.decode(Constants.CHARSET, buf, pos, end);
 	}
 

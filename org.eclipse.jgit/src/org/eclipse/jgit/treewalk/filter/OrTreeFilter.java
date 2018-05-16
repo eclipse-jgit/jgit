@@ -118,7 +118,7 @@ public abstract class OrTreeFilter extends TreeFilter {
 
 		private final TreeFilter b;
 
-		Binary(final TreeFilter one, final TreeFilter two) {
+		Binary(TreeFilter one, TreeFilter two) {
 			a = one;
 			b = two;
 		}
@@ -168,7 +168,7 @@ public abstract class OrTreeFilter extends TreeFilter {
 	private static class List extends OrTreeFilter {
 		private final TreeFilter[] subfilters;
 
-		List(final TreeFilter[] list) {
+		List(TreeFilter[] list) {
 			subfilters = list;
 		}
 
@@ -184,7 +184,7 @@ public abstract class OrTreeFilter extends TreeFilter {
 				throws MissingObjectException, IncorrectObjectTypeException,
 				IOException {
 			int m = 1;
-			for (final TreeFilter f : subfilters) {
+			for (TreeFilter f : subfilters) {
 				int r = f.matchFilter(walker);
 				if (r == 0) {
 					return 0;
@@ -198,7 +198,7 @@ public abstract class OrTreeFilter extends TreeFilter {
 
 		@Override
 		public boolean shouldBeRecursive() {
-			for (final TreeFilter f : subfilters)
+			for (TreeFilter f : subfilters)
 				if (f.shouldBeRecursive())
 					return true;
 			return false;

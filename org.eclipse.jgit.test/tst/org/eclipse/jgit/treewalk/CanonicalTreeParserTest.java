@@ -93,7 +93,7 @@ public class CanonicalTreeParserTest {
 
 	private static byte[] mktree(byte[]... data) throws Exception {
 		final ByteArrayOutputStream out = new ByteArrayOutputStream();
-		for (final byte[] e : data)
+		for (byte[] e : data)
 			out.write(e);
 		return out.toByteArray();
 	}

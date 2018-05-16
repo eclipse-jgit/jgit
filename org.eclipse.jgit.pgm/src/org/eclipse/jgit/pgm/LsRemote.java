@@ -83,7 +83,7 @@ class LsRemote extends TextBuiltin {
 			}
 		});
 		refs.addAll(command.call());
-		for (final Ref r : refs) {
+		for (Ref r : refs) {
 			show(r.getObjectId(), r.getName());
 			if (r.getPeeledObjectId() != null)
 				show(r.getPeeledObjectId(), r.getName() + "^{}"); //$NON-NLS-1$

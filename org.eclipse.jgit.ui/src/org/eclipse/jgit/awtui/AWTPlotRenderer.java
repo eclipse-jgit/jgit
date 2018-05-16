@@ -66,11 +66,11 @@ final class AWTPlotRenderer extends AbstractPlotRenderer<SwingLane, Color>
 
 	transient Graphics2D g;
 
-	AWTPlotRenderer(final GraphCellRender c) {
+	AWTPlotRenderer(GraphCellRender c) {
 		cell = c;
 	}
 
-	void paint(final Graphics in, final PlotCommit<SwingLane> commit) {
+	void paint(Graphics in, PlotCommit<SwingLane> commit) {
 		g = (Graphics2D) in.create();
 		try {
 			final int h = cell.getHeight();
@@ -138,7 +138,7 @@ final class AWTPlotRenderer extends AbstractPlotRenderer<SwingLane, Color>
 		return myLane != null ? myLane.color : Color.black;
 	}
 
-	void paintTriangleDown(final int cx, final int y, final int h) {
+	void paintTriangleDown(int cx, int y, int h) {
 		final int tipX = cx;
 		final int tipY = y + h;
 		final int baseX1 = cx - 10 / 2;

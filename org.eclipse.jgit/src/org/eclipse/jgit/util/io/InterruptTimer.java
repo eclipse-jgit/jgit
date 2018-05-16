@@ -145,7 +145,7 @@ public final class InterruptTimer {
 	}
 
 	static final class AlarmThread extends Thread {
-		AlarmThread(final String name, final AlarmState q) {
+		AlarmThread(String name, AlarmState q) {
 			super(q);
 			setName(name);
 			setDaemon(true);
@@ -161,7 +161,7 @@ public final class InterruptTimer {
 	private static final class AutoKiller {
 		private final AlarmState state;
 
-		AutoKiller(final AlarmState s) {
+		AutoKiller(AlarmState s) {
 			state = s;
 		}
 
@@ -203,7 +203,7 @@ public final class InterruptTimer {
 			}
 		}
 
-		synchronized void begin(final int timeout) {
+		synchronized void begin(int timeout) {
 			if (terminated)
 				throw new IllegalStateException(JGitText.get().timerAlreadyTerminated);
 			callingThread = Thread.currentThread();

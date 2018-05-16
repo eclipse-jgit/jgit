@@ -154,7 +154,7 @@ public class RmCommand extends GitCommand<DirCache> {
 		DirCache dc = null;
 
 		List<String> actuallyDeletedFiles = new ArrayList<>();
-		try (final TreeWalk tw = new TreeWalk(repo)) {
+		try (TreeWalk tw = new TreeWalk(repo)) {
 			dc = repo.lockDirCache();
 			DirCacheBuilder builder = dc.builder();
 			tw.reset(); // drop the first empty tree, which we do not need here

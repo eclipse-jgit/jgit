@@ -133,12 +133,12 @@ public abstract class OperationResult {
 		return updates.get(localName);
 	}
 
-	void setAdvertisedRefs(final URIish u, final Map<String, Ref> ar) {
+	void setAdvertisedRefs(URIish u, Map<String, Ref> ar) {
 		uri = u;
 		advertisedRefs = ar;
 	}
 
-	void add(final TrackingRefUpdate u) {
+	void add(TrackingRefUpdate u) {
 		updates.put(u.getLocalName(), u);
 	}
 
@@ -158,7 +158,7 @@ public abstract class OperationResult {
 		return messageBuffer != null ? messageBuffer.toString() : ""; //$NON-NLS-1$
 	}
 
-	void addMessages(final String msg) {
+	void addMessages(String msg) {
 		if (msg != null && msg.length() > 0) {
 			if (messageBuffer == null)
 				messageBuffer = new StringBuilder();

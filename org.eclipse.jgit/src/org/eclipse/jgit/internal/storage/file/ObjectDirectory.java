@@ -257,7 +257,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		// Fully close all loaded alternates and clear the alternate list.
 		AlternateHandle[] alt = alternates.get();
 		if (alt != null && alternates.compareAndSet(alt, null)) {
-			for(final AlternateHandle od : alt)
+			for(AlternateHandle od : alt)
 				od.close();
 		}
 	}
@@ -619,7 +619,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 			WindowCursor curs, Set<AlternateHandle.Id> skips) throws IOException {
 		PackList pList = packList.get();
 		SEARCH: for (;;) {
-			for (final PackFile p : pList.packs) {
+			for (PackFile p : pList.packs) {
 				try {
 					LocalObjectRepresentation rep = p.representation(curs, otp);
 					p.resetTransientErrorCount();
@@ -888,7 +888,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		final Set<String> names = listPackDirectory();
 		final List<PackFile> list = new ArrayList<>(names.size() >> 2);
 		boolean foundNew = false;
-		for (final String indexName : names) {
+		for (String indexName : names) {
 			// Must match "pack-[0-9a-f]{40}.idx" to be an index.
 			//
 			if (indexName.length() != 49 || !indexName.endsWith(".idx")) //$NON-NLS-1$
@@ -931,7 +931,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 			return old;
 		}
 
-		for (final PackFile p : forReuse.values()) {
+		for (PackFile p : forReuse.values()) {
 			p.close();
 		}
 
@@ -945,7 +945,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	private static Map<String, PackFile> reuseMap(PackList old) {
 		final Map<String, PackFile> forReuse = new HashMap<>();
-		for (final PackFile p : old.packs) {
+		for (PackFile p : old.packs) {
 			if (p.invalid()) {
 				// The pack instance is corrupted, and cannot be safely used
 				// again. Do not include it in our reuse map.
@@ -974,7 +974,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		if (nameList == null)
 			return Collections.emptySet();
 		final Set<String> nameSet = new HashSet<>(nameList.length << 1);
-		for (final String name : nameList) {
+		for (String name : nameList) {
 			if (name.startsWith("pack-")) //$NON-NLS-1$
 				nameSet.add(name);
 		}
@@ -1076,7 +1076,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		/** All known packs, sorted by {@link PackFile#SORT}. */
 		final PackFile[] packs;
 
-		PackList(final FileSnapshot monitor, final PackFile[] packs) {
+		PackList(FileSnapshot monitor, PackFile[] packs) {
 			this.snapshot = monitor;
 			this.packs = packs;
 		}

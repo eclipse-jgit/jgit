@@ -68,11 +68,11 @@ public class DaemonClient {
 
 	private OutputStream rawOut;
 
-	DaemonClient(final Daemon d) {
+	DaemonClient(Daemon d) {
 		daemon = d;
 	}
 
-	void setRemoteAddress(final InetAddress ia) {
+	void setRemoteAddress(InetAddress ia) {
 		peer = ia;
 	}
 
@@ -112,7 +112,7 @@ public class DaemonClient {
 		return rawOut;
 	}
 
-	void execute(final Socket sock) throws IOException,
+	void execute(Socket sock) throws IOException,
 			ServiceNotEnabledException, ServiceNotAuthorizedException {
 		rawIn = new BufferedInputStream(sock.getInputStream());
 		rawOut = new BufferedOutputStream(sock.getOutputStream());

@@ -82,7 +82,7 @@ class DeltaBaseCache {
 		cache = new Slot[CACHE_SZ];
 	}
 
-	Entry get(final PackFile pack, final long position) {
+	Entry get(PackFile pack, long position) {
 		Slot e = cache[hash(position)];
 		if (e == null)
 			return null;
@@ -168,7 +168,7 @@ class DeltaBaseCache {
 
 		final int type;
 
-		Entry(final byte[] aData, final int aType) {
+		Entry(byte[] aData, int aType) {
 			data = aData;
 			type = aType;
 		}

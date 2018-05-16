@@ -288,7 +288,7 @@ public class ReceivePack extends BaseReceivePack {
 				if (echoCommandFailures && msgOut != null) {
 					sendStatusReport(false, unpackError, new Reporter() {
 						@Override
-						void sendString(final String s) throws IOException {
+						void sendString(String s) throws IOException {
 							msgOut.write(Constants.encode(s + "\n")); //$NON-NLS-1$
 						}
 					});
@@ -301,7 +301,7 @@ public class ReceivePack extends BaseReceivePack {
 				}
 				sendStatusReport(true, unpackError, new Reporter() {
 					@Override
-					void sendString(final String s) throws IOException {
+					void sendString(String s) throws IOException {
 						pckOut.writeString(s + "\n"); //$NON-NLS-1$
 					}
 				});
@@ -309,7 +309,7 @@ public class ReceivePack extends BaseReceivePack {
 			} else if (msgOut != null) {
 				sendStatusReport(false, unpackError, new Reporter() {
 					@Override
-					void sendString(final String s) throws IOException {
+					void sendString(String s) throws IOException {
 						msgOut.write(Constants.encode(s + "\n")); //$NON-NLS-1$
 					}
 				});

@@ -478,7 +478,7 @@ public abstract class Transport implements AutoCloseable {
 			throws NotSupportedException, TransportException {
 		final List<URIish> uris = getURIs(cfg, op);
 		final List<Transport> transports = new ArrayList<>(uris.size());
-		for (final URIish uri : uris) {
+		for (URIish uri : uris) {
 			final Transport tn = open(local, uri, cfg.getName());
 			tn.applyConfig(cfg);
 			transports.add(tn);
@@ -621,7 +621,7 @@ public abstract class Transport implements AutoCloseable {
 		final List<RemoteRefUpdate> result = new LinkedList<>();
 		final Collection<RefSpec> procRefs = expandPushWildcardsFor(db, specs);
 
-		for (final RefSpec spec : procRefs) {
+		for (RefSpec spec : procRefs) {
 			String srcSpec = spec.getSource();
 			final Ref srcRef = db.findRef(srcSpec);
 			if (srcRef != null)
@@ -691,9 +691,9 @@ public abstract class Transport implements AutoCloseable {
 		final List<Ref> localRefs = db.getRefDatabase().getRefs();
 		final Collection<RefSpec> procRefs = new LinkedHashSet<>();
 
-		for (final RefSpec spec : specs) {
+		for (RefSpec spec : specs) {
 			if (spec.isWildcard()) {
-				for (final Ref localRef : localRefs) {
+				for (Ref localRef : localRefs) {
 					if (spec.matchSource(localRef))
 						procRefs.add(spec.expandFromSource(localRef));
 				}
@@ -707,7 +707,7 @@ public abstract class Transport implements AutoCloseable {
 	private static String findTrackingRefName(final String remoteName,
 			final Collection<RefSpec> fetchSpecs) {
 		// try to find matching tracking refs
-		for (final RefSpec fetchSpec : fetchSpecs) {
+		for (RefSpec fetchSpec : fetchSpecs) {
 			if (fetchSpec.matchSource(remoteName)) {
 				if (fetchSpec.isWildcard())
 					return fetchSpec.expandFromSource(remoteName)
@@ -1253,9 +1253,9 @@ public abstract class Transport implements AutoCloseable {
 			// object transfer overheads.
 			//
 			final Collection<RefSpec> tmp = new ArrayList<>(toFetch);
-			for (final RefSpec requested : toFetch) {
+			for (RefSpec requested : toFetch) {
 				final String reqSrc = requested.getSource();
-				for (final RefSpec configured : fetch) {
+				for (RefSpec configured : fetch) {
 					final String cfgSrc = configured.getSource();
 					final String cfgDst = configured.getDestination();
 					if (cfgSrc.equals(reqSrc) && cfgDst != null) {

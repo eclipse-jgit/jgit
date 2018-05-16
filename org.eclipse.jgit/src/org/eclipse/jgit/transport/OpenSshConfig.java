@@ -186,7 +186,7 @@ public class OpenSshConfig implements ConfigRepository {
 	/** State read from the config file, plus {@link Host}s created from it. */
 	private State state;
 
-	OpenSshConfig(final File h, final File cfg) {
+	OpenSshConfig(File h, File cfg) {
 		home = h;
 		configFile = cfg;
 		state = new State();
@@ -211,7 +211,7 @@ public class OpenSshConfig implements ConfigRepository {
 		// Initialize with default entries at the top of the file, before the
 		// first Host block.
 		fullConfig.merge(cache.entries.get(HostEntry.DEFAULT_NAME));
-		for (final Map.Entry<String, HostEntry> e : cache.entries.entrySet()) {
+		for (Map.Entry<String, HostEntry> e : cache.entries.entrySet()) {
 			String key = e.getKey();
 			if (isHostMatch(key, hostName)) {
 				fullConfig.merge(e.getValue());

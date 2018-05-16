@@ -157,7 +157,7 @@ public class SimilarityIndex {
 		}
 	}
 
-	void hash(byte[] raw, int ptr, final int end) throws TableFullException {
+	void hash(byte[] raw, int ptr, int end) throws TableFullException {
 		final boolean text = !RawText.isBinary(raw);
 		hashedCnt = 0;
 		while (ptr < end) {

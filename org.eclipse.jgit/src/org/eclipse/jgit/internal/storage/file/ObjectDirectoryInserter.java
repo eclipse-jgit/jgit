@@ -78,7 +78,7 @@ class ObjectDirectoryInserter extends ObjectInserter {
 
 	private Deflater deflate;
 
-	ObjectDirectoryInserter(final FileObjectDatabase dest, final Config cfg) {
+	ObjectDirectoryInserter(FileObjectDatabase dest, Config cfg) {
 		db = dest;
 		config = cfg.get(WriteConfig.KEY);
 	}
@@ -267,7 +267,7 @@ class ObjectDirectoryInserter extends ObjectInserter {
 		}
 	}
 
-	void writeHeader(OutputStream out, final int type, long len)
+	void writeHeader(OutputStream out, int type, long len)
 			throws IOException {
 		out.write(Constants.encodedTypeString(type));
 		out.write((byte) ' ');
@@ -279,7 +279,7 @@ class ObjectDirectoryInserter extends ObjectInserter {
 		return File.createTempFile("noz", null, db.getDirectory()); //$NON-NLS-1$
 	}
 
-	DeflaterOutputStream compress(final OutputStream out) {
+	DeflaterOutputStream compress(OutputStream out) {
 		if (deflate == null)
 			deflate = new Deflater(config.getCompression());
 		else

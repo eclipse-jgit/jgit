@@ -209,7 +209,7 @@ public class Daemon {
 	public synchronized DaemonService getService(String name) {
 		if (!name.startsWith("git-")) //$NON-NLS-1$
 			name = "git-" + name; //$NON-NLS-1$
-		for (final DaemonService s : services) {
+		for (DaemonService s : services) {
 			if (s.getCommandName().equals(name))
 				return s;
 		}
@@ -420,7 +420,7 @@ public class Daemon {
 		}
 	}
 
-	void startClient(final Socket s) {
+	void startClient(Socket s) {
 		final DaemonClient dc = new DaemonClient(this);
 
 		final SocketAddress peer = s.getRemoteSocketAddress();
@@ -454,8 +454,8 @@ public class Daemon {
 		}.start();
 	}
 
-	synchronized DaemonService matchService(final String cmd) {
-		for (final DaemonService d : services) {
+	synchronized DaemonService matchService(String cmd) {
+		for (DaemonService d : services) {
 			if (d.handles(cmd))
 				return d;
 		}

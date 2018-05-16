@@ -873,7 +873,7 @@ public abstract class PackParser {
 			baseObjectIds = new ObjectIdSubclassMap<>();
 
 		final List<DeltaChain> missing = new ArrayList<>(64);
-		for (final DeltaChain baseId : baseById) {
+		for (DeltaChain baseId : baseById) {
 			if (baseId.head == null)
 				continue;
 
@@ -905,7 +905,7 @@ public abstract class PackParser {
 						JGitText.get().downloadCancelledDuringIndexing);
 		}
 
-		for (final DeltaChain base : missing) {
+		for (DeltaChain base : missing) {
 			if (base.head != null)
 				throw new MissingObjectException(base, "delta base"); //$NON-NLS-1$
 		}
@@ -1232,13 +1232,13 @@ public abstract class PackParser {
 	}
 
 	// Consume cnt bytes from the buffer.
-	void use(final int cnt) {
+	void use(int cnt) {
 		bOffset += cnt;
 		bAvail -= cnt;
 	}
 
 	// Ensure at least need bytes are available in in {@link #buf}.
-	int fill(final Source src, final int need) throws IOException {
+	int fill(Source src, int need) throws IOException {
 		while (bAvail < need) {
 			int next = bOffset + bAvail;
 			int free = buf.length - next;
@@ -1661,7 +1661,7 @@ public abstract class PackParser {
 	private static class DeltaChain extends ObjectIdOwnerMap.Entry {
 		UnresolvedDelta head;
 
-		DeltaChain(final AnyObjectId id) {
+		DeltaChain(AnyObjectId id) {
 			super(id);
 		}
 
@@ -1672,7 +1672,7 @@ public abstract class PackParser {
 			return r;
 		}
 
-		void add(final UnresolvedDelta d) {
+		void add(UnresolvedDelta d) {
 			d.next = head;
 			head = d;
 		}

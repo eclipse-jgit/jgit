@@ -86,7 +86,7 @@ abstract class ByteWindow {
 		return (int) (end - start);
 	}
 
-	final boolean contains(final PackFile neededFile, final long neededPos) {
+	final boolean contains(PackFile neededFile, long neededPos) {
 		return pack == neededFile && start <= neededPos && neededPos < end;
 	}
 

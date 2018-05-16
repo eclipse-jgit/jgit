@@ -195,7 +195,7 @@ public class StashCreateCommand extends GitCommand<RevCommit> {
 
 	private RevCommit parseCommit(final ObjectReader reader,
 			final ObjectId headId) throws IOException {
-		try (final RevWalk walk = new RevWalk(reader)) {
+		try (RevWalk walk = new RevWalk(reader)) {
 			return walk.parseCommit(headId);
 		}
 	}

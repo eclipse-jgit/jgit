@@ -122,7 +122,7 @@ public class PacketLineIn {
 		this.limit = limit;
 	}
 
-	AckNackResult readACK(final MutableObjectId returnedId) throws IOException {
+	AckNackResult readACK(MutableObjectId returnedId) throws IOException {
 		final String line = readString();
 		if (line.length() == 0)
 			throw new PackProtocolException(JGitText.get().expectedACKNAKFoundEOF);

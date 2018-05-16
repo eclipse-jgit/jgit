@@ -99,7 +99,7 @@ public class DirCacheCGitCompatabilityTest extends LocalDiskRepositoryTestCase {
 		assertEquals(ls.size(), dc.getEntryCount());
 		{
 			final Iterator<CGitIndexRecord> rItr = ls.values().iterator();
-			try (final TreeWalk tw = new TreeWalk(db)) {
+			try (TreeWalk tw = new TreeWalk(db)) {
 				tw.setRecursive(true);
 				tw.addTree(new DirCacheIterator(dc));
 				while (rItr.hasNext()) {
@@ -180,7 +180,7 @@ public class DirCacheCGitCompatabilityTest extends LocalDiskRepositoryTestCase {
 		assertEquals(cList.size(), jTree.getEntrySpan());
 
 		final ArrayList<CGitLsTreeRecord> subtrees = new ArrayList<>();
-		for (final CGitLsTreeRecord r : cTree.values()) {
+		for (CGitLsTreeRecord r : cTree.values()) {
 			if (FileMode.TREE.equals(r.mode))
 				subtrees.add(r);
 		}
@@ -268,7 +268,7 @@ public class DirCacheCGitCompatabilityTest extends LocalDiskRepositoryTestCase {
 
 		final String path;
 
-		CGitIndexRecord(final String line) {
+		CGitIndexRecord(String line) {
 			final int tab = line.indexOf('\t');
 			final int sp1 = line.indexOf(' ');
 			final int sp2 = line.indexOf(' ', sp1 + 1);
@@ -286,7 +286,7 @@ public class DirCacheCGitCompatabilityTest extends LocalDiskRepositoryTestCase {
 
 		final String path;
 
-		CGitLsTreeRecord(final String line) {
+		CGitLsTreeRecord(String line) {
 			final int tab = line.indexOf('\t');
 			final int sp1 = line.indexOf(' ');
 			final int sp2 = line.indexOf(' ', sp1 + 1);

@@ -145,7 +145,7 @@ public class JschSession implements RemoteSession {
 		 * @throws IOException
 		 *             on problems opening streams
 		 */
-		JschProcess(final String commandName, int tms)
+		JschProcess(String commandName, int tms)
 				throws TransportException, IOException {
 			timeout = tms;
 			try {

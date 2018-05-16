@@ -129,7 +129,7 @@ public abstract class TextBuiltin {
 	/** RevWalk used during command line parsing, if it was required. */
 	protected RevWalk argWalk;
 
-	final void setCommandName(final String name) {
+	final void setCommandName(String name) {
 		commandName = name;
 	}
 
@@ -361,7 +361,7 @@ public abstract class TextBuiltin {
 		return db;
 	}
 
-	ObjectId resolve(final String s) throws IOException {
+	ObjectId resolve(String s) throws IOException {
 		final ObjectId r = db.resolve(s);
 		if (r == null)
 			throw die(MessageFormat.format(CLIText.get().notARevision, s));

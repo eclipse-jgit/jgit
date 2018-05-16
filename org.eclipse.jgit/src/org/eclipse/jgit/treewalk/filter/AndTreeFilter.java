@@ -120,7 +120,7 @@ public abstract class AndTreeFilter extends TreeFilter {
 
 		private final TreeFilter b;
 
-		Binary(final TreeFilter one, final TreeFilter two) {
+		Binary(TreeFilter one, TreeFilter two) {
 			a = one;
 			b = two;
 		}
@@ -170,7 +170,7 @@ public abstract class AndTreeFilter extends TreeFilter {
 	private static class List extends AndTreeFilter {
 		private final TreeFilter[] subfilters;
 
-		List(final TreeFilter[] list) {
+		List(TreeFilter[] list) {
 			subfilters = list;
 		}
 
@@ -186,7 +186,7 @@ public abstract class AndTreeFilter extends TreeFilter {
 				throws MissingObjectException, IncorrectObjectTypeException,
 				IOException {
 			int m = 0;
-			for (final TreeFilter f : subfilters) {
+			for (TreeFilter f : subfilters) {
 				int r = f.matchFilter(walker);
 				if (r == 1) {
 					return 1;
@@ -200,7 +200,7 @@ public abstract class AndTreeFilter extends TreeFilter {
 
 		@Override
 		public boolean shouldBeRecursive() {
-			for (final TreeFilter f : subfilters)
+			for (TreeFilter f : subfilters)
 				if (f.shouldBeRecursive())
 					return true;
 			return false;

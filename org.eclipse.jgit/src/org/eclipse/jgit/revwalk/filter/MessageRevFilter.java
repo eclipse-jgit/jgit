@@ -81,7 +81,7 @@ public class MessageRevFilter {
 		// Don't permit us to be created.
 	}
 
-	static RawCharSequence textFor(final RevCommit cmit) {
+	static RawCharSequence textFor(RevCommit cmit) {
 		final byte[] raw = cmit.getRawBuffer();
 		final int b = RawParseUtils.commitMessage(raw, 0);
 		if (b < 0)
@@ -90,7 +90,7 @@ public class MessageRevFilter {
 	}
 
 	private static class PatternSearch extends PatternMatchRevFilter {
-		PatternSearch(final String patternText) {
+		PatternSearch(String patternText) {
 			super(patternText, true, true, Pattern.CASE_INSENSITIVE
 					| Pattern.DOTALL);
 		}
@@ -107,7 +107,7 @@ public class MessageRevFilter {
 	}
 
 	private static class SubStringSearch extends SubStringRevFilter {
-		SubStringSearch(final String patternText) {
+		SubStringSearch(String patternText) {
 			super(patternText);
 		}
 

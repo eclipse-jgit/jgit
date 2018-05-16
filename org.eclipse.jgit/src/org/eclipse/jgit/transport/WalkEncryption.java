@@ -128,7 +128,7 @@ abstract class WalkEncryption {
 			throw new IOException(MessageFormat.format(JGitText.get().unsupportedEncryptionAlgorithm, v));
 	}
 
-	IOException error(final Throwable why) {
+	IOException error(Throwable why) {
 		return new IOException(MessageFormat
 				.format(JGitText.get().encryptionError,
 				why.getMessage()), why);
@@ -141,7 +141,7 @@ abstract class WalkEncryption {
 		}
 
 		@Override
-		void validate(final HttpURLConnection u, final String prefix)
+		void validate(HttpURLConnection u, String prefix)
 				throws IOException {
 			validateImpl(u, prefix, "", ""); //$NON-NLS-1$ //$NON-NLS-2$
 		}
@@ -240,19 +240,19 @@ abstract class WalkEncryption {
 		}
 
 		@Override
-		void request(final HttpURLConnection u, final String prefix) {
+		void request(HttpURLConnection u, String prefix) {
 			u.setRequestProperty(prefix + JETS3T_CRYPTO_VER, CRYPTO_VER);
 			u.setRequestProperty(prefix + JETS3T_CRYPTO_ALG, cryptoAlg);
 		}
 
 		@Override
-		void validate(final HttpURLConnection u, final String prefix)
+		void validate(HttpURLConnection u, String prefix)
 				throws IOException {
 			validateImpl(u, prefix, CRYPTO_VER, cryptoAlg);
 		}
 
 		@Override
-		OutputStream encrypt(final OutputStream os) throws IOException {
+		OutputStream encrypt(OutputStream os) throws IOException {
 			try {
 				final Cipher cipher = InsecureCipherFactory.create(cryptoAlg);
 				cipher.init(Cipher.ENCRYPT_MODE, secretKey, paramSpec);
@@ -263,7 +263,7 @@ abstract class WalkEncryption {
 		}
 
 		@Override
-		InputStream decrypt(final InputStream in) throws IOException {
+		InputStream decrypt(InputStream in) throws IOException {
 			try {
 				final Cipher cipher = InsecureCipherFactory.create(cryptoAlg);
 				cipher.init(Cipher.DECRYPT_MODE, secretKey, paramSpec);

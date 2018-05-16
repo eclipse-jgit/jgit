@@ -476,7 +476,7 @@ public abstract class AnyLongObjectId implements Comparable<AnyLongObjectId> {
 	private static final char[] hexchar = { '0', '1', '2', '3', '4', '5', '6',
 			'7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 
-	static void formatHexChar(final char[] dst, final int p, long w) {
+	static void formatHexChar(char[] dst, int p, long w) {
 		int o = p + 15;
 		while (o >= p && w != 0) {
 			dst[o--] = hexchar[(int) (w & 0xf)];

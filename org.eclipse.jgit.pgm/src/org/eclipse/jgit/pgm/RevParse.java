@@ -87,7 +87,7 @@ class RevParse extends TextBuiltin {
 						CLIText.format(CLIText.get().needSingleRevision));
 			}
 
-			for (final ObjectId o : commits) {
+			for (ObjectId o : commits) {
 				outw.println(o.name());
 			}
 		}

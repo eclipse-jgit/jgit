@@ -205,7 +205,7 @@ class CachedObjectDirectory extends FileObjectDatabase {
 	}
 
 	@Override
-	ObjectLoader openObject(final WindowCursor curs, final AnyObjectId objectId)
+	ObjectLoader openObject(WindowCursor curs, AnyObjectId objectId)
 			throws IOException {
 		return openObject(curs, objectId, null);
 	}

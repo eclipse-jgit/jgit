@@ -266,7 +266,7 @@ class Log extends RevWalkTextBuiltin {
 
 		outw.println();
 		final String[] lines = c.getFullMessage().split("\n"); //$NON-NLS-1$
-		for (final String s : lines) {
+		for (String s : lines) {
 			outw.print("    "); //$NON-NLS-1$
 			outw.print(s);
 			outw.println();

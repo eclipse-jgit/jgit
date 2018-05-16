@@ -107,7 +107,7 @@ public class PackReverseIndex {
 
 		long maxOffset = 0;
 		int ith = 0;
-		for (final MutableEntry me : index) {
+		for (MutableEntry me : index) {
 			final long o = me.getOffset();
 			offsetsBySha1[ith++] = o;
 			if (o > maxOffset)

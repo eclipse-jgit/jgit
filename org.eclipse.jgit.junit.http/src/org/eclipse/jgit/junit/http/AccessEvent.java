@@ -67,7 +67,7 @@ public class AccessEvent {
 
 	private final Map<String, String> responseHeaders;
 
-	AccessEvent(final Request req, final Response rsp) {
+	AccessEvent(Request req, Response rsp) {
 		method = req.getMethod();
 		uri = req.getRequestURI();
 		requestHeaders = cloneHeaders(req);

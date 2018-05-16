@@ -134,7 +134,7 @@ public class TransportSftp extends SshTransport implements WalkTransport {
 		}
 	};
 
-	TransportSftp(final Repository local, final URIish uri) {
+	TransportSftp(Repository local, URIish uri) {
 		super(local, uri);
 	}
 
@@ -195,7 +195,7 @@ public class TransportSftp extends SshTransport implements WalkTransport {
 			}
 		}
 
-		SftpObjectDB(final SftpObjectDB parent, final String p)
+		SftpObjectDB(SftpObjectDB parent, String p)
 				throws TransportException {
 			try {
 				ftp = newSftp();
@@ -227,7 +227,7 @@ public class TransportSftp extends SshTransport implements WalkTransport {
 		}
 
 		@Override
-		WalkRemoteObjectDatabase openAlternate(final String location)
+		WalkRemoteObjectDatabase openAlternate(String location)
 				throws IOException {
 			return new SftpObjectDB(this, location);
 		}
@@ -244,9 +244,9 @@ public class TransportSftp extends SshTransport implements WalkTransport {
 				files = new HashMap<>();
 				mtimes = new HashMap<>();
 
-				for (final ChannelSftp.LsEntry ent : list)
+				for (ChannelSftp.LsEntry ent : list)
 					files.put(ent.getFilename(), ent);
-				for (final ChannelSftp.LsEntry ent : list) {
+				for (ChannelSftp.LsEntry ent : list) {
 					final String n = ent.getFilename();
 					if (!n.startsWith("pack-") || !n.endsWith(".pack")) //$NON-NLS-1$ //$NON-NLS-2$
 						continue;
@@ -276,7 +276,7 @@ public class TransportSftp extends SshTransport implements WalkTransport {
 		}
 
 		@Override
-		FileStream open(final String path) throws IOException {
+		FileStream open(String path) throws IOException {
 			try {
 				final SftpATTRS a = ftp.lstat(path);
 				return new FileStream(ftp.get(path), a.getSize());
@@ -290,7 +290,7 @@ public class TransportSftp extends SshTransport implements WalkTransport {
 		}
 
 		@Override
-		void deleteFile(final String path) throws IOException {
+		void deleteFile(String path) throws IOException {
 			try {
 				ftp.rm(path);
 			} catch (SftpException je) {
@@ -343,7 +343,7 @@ public class TransportSftp extends SshTransport implements WalkTransport {
 		}
 
 		@Override
-		void writeFile(final String path, final byte[] data) throws IOException {
+		void writeFile(String path, byte[] data) throws IOException {
 			final String lock = path + ".lock"; //$NON-NLS-1$
 			try {
 				super.writeFile(lock, data);
@@ -411,7 +411,7 @@ public class TransportSftp extends SshTransport implements WalkTransport {
 						je.getMessage()), je);
 			}
 
-			for (final ChannelSftp.LsEntry ent : list) {
+			for (ChannelSftp.LsEntry ent : list) {
 				final String n = ent.getFilename();
 				if (".".equals(n) || "..".equals(n)) //$NON-NLS-1$ //$NON-NLS-2$
 					continue;

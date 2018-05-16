@@ -292,7 +292,7 @@ class Branch extends TextBuiltin {
 				addRefs(refs, Constants.R_REMOTES);
 
 				try (ObjectReader reader = db.newObjectReader()) {
-					for (final Entry<String, Ref> e : printRefs.entrySet()) {
+					for (Entry<String, Ref> e : printRefs.entrySet()) {
 						final Ref ref = e.getValue();
 						printHead(reader, e.getKey(),
 								current.equals(ref.getName()), ref);
@@ -303,7 +303,7 @@ class Branch extends TextBuiltin {
 	}
 
 	private void addRefs(Collection<Ref> refs, String prefix) {
-		for (final Ref ref : RefComparator.sort(refs)) {
+		for (Ref ref : RefComparator.sort(refs)) {
 			final String name = ref.getName();
 			if (name.startsWith(prefix))
 				addRef(name.substring(name.indexOf('/', 5) + 1), ref);

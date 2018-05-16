@@ -47,7 +47,7 @@ package org.eclipse.jgit.fnmatch;
 final class RestrictedWildCardHead extends AbstractHead {
 	private final char excludedCharacter;
 
-	RestrictedWildCardHead(final char excludedCharacter, final boolean star) {
+	RestrictedWildCardHead(char excludedCharacter, boolean star) {
 		super(star);
 		this.excludedCharacter = excludedCharacter;
 	}

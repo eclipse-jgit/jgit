@@ -76,12 +76,12 @@ class PackIndexWriterV2 extends PackIndexWriter {
 	}
 
 	private void writeObjectNames() throws IOException {
-		for (final PackedObjectInfo oe : entries)
+		for (PackedObjectInfo oe : entries)
 			oe.copyRawTo(out);
 	}
 
 	private void writeCRCs() throws IOException {
-		for (final PackedObjectInfo oe : entries) {
+		for (PackedObjectInfo oe : entries) {
 			NB.encodeInt32(tmp, 0, oe.getCRC());
 			out.write(tmp, 0, 4);
 		}
@@ -89,7 +89,7 @@ class PackIndexWriterV2 extends PackIndexWriter {
 
 	private void writeOffset32() throws IOException {
 		int o64 = 0;
-		for (final PackedObjectInfo oe : entries) {
+		for (PackedObjectInfo oe : entries) {
 			final long o = oe.getOffset();
 			if (o <= MAX_OFFSET_32)
 				NB.encodeInt32(tmp, 0, (int) o);
@@ -100,7 +100,7 @@ class PackIndexWriterV2 extends PackIndexWriter {
 	}
 
 	private void writeOffset64() throws IOException {
-		for (final PackedObjectInfo oe : entries) {
+		for (PackedObjectInfo oe : entries) {
 			final long o = oe.getOffset();
 			if (MAX_OFFSET_32 < o) {
 				NB.encodeInt64(tmp, 0, o);

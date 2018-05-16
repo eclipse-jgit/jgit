@@ -75,9 +75,9 @@ class DiffTree extends TextBuiltin {
 	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
-		try (final TreeWalk walk = new TreeWalk(db)) {
+		try (TreeWalk walk = new TreeWalk(db)) {
 			walk.setRecursive(recursive);
-			for (final AbstractTreeIterator i : trees)
+			for (AbstractTreeIterator i : trees)
 				walk.addTree(i);
 			walk.setFilter(AndTreeFilter.create(TreeFilter.ANY_DIFF, pathFilter));
 

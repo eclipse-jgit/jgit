@@ -256,12 +256,12 @@ public class Main {
 				writer.println(CLIText.get().mostCommonlyUsedCommandsAre);
 				final CommandRef[] common = CommandCatalog.common();
 				int width = 0;
-				for (final CommandRef c : common) {
+				for (CommandRef c : common) {
 					width = Math.max(width, c.getName().length());
 				}
 				width += 2;
 
-				for (final CommandRef c : common) {
+				for (CommandRef c : common) {
 					writer.print(' ');
 					writer.print(c.getName());
 					for (int i = c.getName().length(); i < width; i++) {
@@ -296,7 +296,7 @@ public class Main {
 		}
 	}
 
-	void init(final TextBuiltin cmd) throws IOException {
+	void init(TextBuiltin cmd) throws IOException {
 		if (cmd.requiresRepository()) {
 			cmd.init(openGitDir(gitdir), null);
 		} else {

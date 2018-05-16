@@ -273,7 +273,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 	private boolean sslFailure = false;
 
-	TransportHttp(final Repository local, final URIish uri)
+	TransportHttp(Repository local, URIish uri)
 			throws NotSupportedException {
 		super(local, uri);
 		setURI(uri);
@@ -314,7 +314,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	 * @param uri
 	 * @throws NotSupportedException
 	 */
-	TransportHttp(final URIish uri) throws NotSupportedException {
+	TransportHttp(URIish uri) throws NotSupportedException {
 		super(uri);
 		setURI(uri);
 		http = new HttpConfig(uri);
@@ -903,7 +903,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	class HttpObjectDB extends WalkRemoteObjectDatabase {
 		private final URL httpObjectsUrl;
 
-		HttpObjectDB(final URL b) {
+		HttpObjectDB(URL b) {
 			httpObjectsUrl = b;
 		}
 
@@ -930,7 +930,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		}
 
 		@Override
-		WalkRemoteObjectDatabase openAlternate(final String location)
+		WalkRemoteObjectDatabase openAlternate(String location)
 				throws IOException {
 			return new HttpObjectDB(new URL(httpObjectsUrl, location));
 		}
@@ -962,7 +962,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		}
 
 		@Override
-		FileStream open(final String path) throws IOException {
+		FileStream open(String path) throws IOException {
 			return open(path, AcceptEncoding.UNSPECIFIED);
 		}
 
@@ -1051,7 +1051,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	class SmartHttpFetchConnection extends BasePackFetchConnection {
 		private MultiRequestService svc;
 
-		SmartHttpFetchConnection(final InputStream advertisement)
+		SmartHttpFetchConnection(InputStream advertisement)
 				throws TransportException {
 			super(TransportHttp.this);
 			statelessRPC = true;
@@ -1081,7 +1081,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	}
 
 	class SmartHttpPushConnection extends BasePackPushConnection {
-		SmartHttpPushConnection(final InputStream advertisement)
+		SmartHttpPushConnection(InputStream advertisement)
 				throws TransportException {
 			super(TransportHttp.this);
 			statelessRPC = true;
@@ -1384,7 +1384,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	class MultiRequestService extends Service {
 		boolean finalRequest;
 
-		MultiRequestService(final String serviceName) {
+		MultiRequestService(String serviceName) {
 			super(serviceName);
 		}
 

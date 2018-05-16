@@ -85,7 +85,7 @@ public class EGitPatchHistoryTest {
 
 		int errors;
 
-		PatchReader(final HashMap<String, HashMap<String, StatInfo>> s)
+		PatchReader(HashMap<String, HashMap<String, StatInfo>> s)
 				throws IOException {
 			super(new String[] { "-p" });
 			stats = s;
@@ -103,7 +103,7 @@ public class EGitPatchHistoryTest {
 			p.parse(buf, 0, buf.length - 1);
 			assertEquals("File count " + cid, files.size(), p.getFiles().size());
 			if (!p.getErrors().isEmpty()) {
-				for (final FormatError e : p.getErrors()) {
+				for (FormatError e : p.getErrors()) {
 					System.out.println("error " + e.getMessage());
 					System.out.println("  at " + e.getLineText());
 				}
@@ -111,7 +111,7 @@ public class EGitPatchHistoryTest {
 				fail("Unexpected error in " + cid);
 			}
 
-			for (final FileHeader fh : p.getFiles()) {
+			for (FileHeader fh : p.getFiles()) {
 				final String fileName;
 				if (fh.getChangeType() != FileHeader.ChangeType.DELETE)
 					fileName = fh.getNewPath();
@@ -121,7 +121,7 @@ public class EGitPatchHistoryTest {
 				final String nid = fileName + " in " + cid;
 				assertNotNull("No " + nid, s);
 				int added = 0, deleted = 0;
-				for (final HunkHeader h : fh.getHunks()) {
+				for (HunkHeader h : fh.getHunks()) {
 					added += h.getOldImage().getLinesAdded();
 					deleted += h.getOldImage().getLinesDeleted();
 				}
@@ -188,7 +188,7 @@ public class EGitPatchHistoryTest {
 	static abstract class CommitReader {
 		private Process proc;
 
-		CommitReader(final String[] args) throws IOException {
+		CommitReader(String[] args) throws IOException {
 			final String[] realArgs = new String[3 + args.length + 1];
 			realArgs[0] = "git";
 			realArgs[1] = "log";

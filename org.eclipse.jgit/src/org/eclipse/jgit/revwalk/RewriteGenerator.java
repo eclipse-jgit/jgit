@@ -76,12 +76,12 @@ class RewriteGenerator extends Generator {
 
 	private final Generator source;
 
-	RewriteGenerator(final Generator s) {
+	RewriteGenerator(Generator s) {
 		source = s;
 	}
 
 	@Override
-	void shareFreeList(final BlockRevQueue q) {
+	void shareFreeList(BlockRevQueue q) {
 		source.shareFreeList(q);
 	}
 
@@ -167,14 +167,14 @@ class RewriteGenerator extends Generator {
 		}
 
 		if (newCnt == oldList.length) {
-			for (final RevCommit p : oldList)
+			for (RevCommit p : oldList)
 				p.flags &= ~DUPLICATE;
 			return oldList;
 		}
 
 		final RevCommit[] newList = new RevCommit[newCnt];
 		newCnt = 0;
-		for (final RevCommit p : oldList) {
+		for (RevCommit p : oldList) {
 			if (p != null) {
 				newList[newCnt++] = p;
 				p.flags &= ~DUPLICATE;

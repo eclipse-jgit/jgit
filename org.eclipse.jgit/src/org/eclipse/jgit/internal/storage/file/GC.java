@@ -852,7 +852,7 @@ public class GC {
 		}
 
 		List<ObjectIdSet> excluded = new LinkedList<>();
-		for (final PackFile f : repo.getObjectDatabase().getPacks()) {
+		for (PackFile f : repo.getObjectDatabase().getPacks()) {
 			checkCancelled();
 			if (f.shouldBeKept())
 				excluded.add(f.getIndex());

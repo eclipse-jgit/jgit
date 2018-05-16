@@ -58,7 +58,7 @@ import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
 final class ByteArrayWindow extends ByteWindow {
 	private final byte[] array;
 
-	ByteArrayWindow(final PackFile pack, final long o, final byte[] b) {
+	ByteArrayWindow(PackFile pack, long o, byte[] b) {
 		super(pack, o, b.length);
 		array = b;
 	}

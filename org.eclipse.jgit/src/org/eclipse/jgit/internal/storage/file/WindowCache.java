@@ -178,7 +178,7 @@ public class WindowCache {
 		return cache;
 	}
 
-	static final ByteWindow get(final PackFile pack, final long offset)
+	static final ByteWindow get(PackFile pack, long offset)
 			throws IOException {
 		final WindowCache c = cache;
 		final ByteWindow r = c.getOrLoad(pack, c.toStart(offset));
@@ -193,7 +193,7 @@ public class WindowCache {
 		return r;
 	}
 
-	static final void purge(final PackFile pack) {
+	static final void purge(PackFile pack) {
 		cache.removeAll(pack);
 	}
 
@@ -556,7 +556,7 @@ public class WindowCache {
 		 */
 		volatile boolean dead;
 
-		Entry(final Entry n, final Ref r) {
+		Entry(Entry n, Ref r) {
 			next = n;
 			ref = r;
 		}

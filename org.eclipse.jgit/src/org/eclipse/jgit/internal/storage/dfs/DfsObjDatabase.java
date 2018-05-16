@@ -497,7 +497,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		} while (!packList.compareAndSet(o, n));
 	}
 
-	PackList scanPacks(final PackList original) throws IOException {
+	PackList scanPacks(PackList original) throws IOException {
 		PackList o, n;
 		synchronized (packList) {
 			do {

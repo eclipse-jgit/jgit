@@ -88,15 +88,15 @@ public class PlotCommit<L extends PlotLane> extends RevCommit {
 		refs = NO_REFS;
 	}
 
-	void addForkingOffLane(final PlotLane f) {
+	void addForkingOffLane(PlotLane f) {
 		forkingOffLanes = addLane(f, forkingOffLanes);
 	}
 
-	void addPassingLane(final PlotLane c) {
+	void addPassingLane(PlotLane c) {
 		passingLanes = addLane(c, passingLanes);
 	}
 
-	void addMergingLane(final PlotLane m) {
+	void addMergingLane(PlotLane m) {
 		mergingLanes = addLane(m, mergingLanes);
 	}
 
@@ -115,7 +115,7 @@ public class PlotCommit<L extends PlotLane> extends RevCommit {
 		return lanes;
 	}
 
-	void addChild(final PlotCommit c) {
+	void addChild(PlotCommit c) {
 		final int cnt = children.length;
 		if (cnt == 0)
 			children = new PlotCommit[] { c };
@@ -164,7 +164,7 @@ public class PlotCommit<L extends PlotLane> extends RevCommit {
 	 * @return true if the given commit built on top of this commit.
 	 */
 	public final boolean isChild(PlotCommit c) {
-		for (final PlotCommit a : children)
+		for (PlotCommit a : children)
 			if (a == c)
 				return true;
 		return false;

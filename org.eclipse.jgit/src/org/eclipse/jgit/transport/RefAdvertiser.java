@@ -402,7 +402,7 @@ public abstract class RefAdvertiser {
 			first = false;
 			if (!capablities.isEmpty()) {
 				tmpLine.append('\0');
-				for (final String capName : capablities) {
+				for (String capName : capablities) {
 					tmpLine.append(' ');
 					tmpLine.append(capName);
 				}
