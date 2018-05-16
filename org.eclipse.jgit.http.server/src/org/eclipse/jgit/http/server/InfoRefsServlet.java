@@ -43,12 +43,13 @@
 
 package org.eclipse.jgit.http.server;
 
+import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.http.server.ServletUtils.getRepository;
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.util.Map;
+import java.util.List;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -95,8 +96,9 @@ class InfoRefsServlet extends HttpServlet {
 			adv.init(db);
 			adv.setDerefTags(true);
 
-			Map<String, Ref> refs = db.getRefDatabase().getRefs(ALL);
-			refs.remove(Constants.HEAD);
+			List<Ref> refs = db.getRefDatabase().getRefsByPrefix(ALL).stream()
+					.filter(r -> !r.getName().equals(Constants.HEAD))
+					.collect(toList());
 			adv.send(refs);
 		}
 	}
