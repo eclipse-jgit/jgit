@@ -16,6 +16,24 @@
       "revId": "4faec31c0a9ff92efdac10d1bd5db1a929ce74a2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "76780fda_477888bb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-16T02:29:33Z",
+      "side": 1,
+      "message": "Yes.\n\n* FetchProcess is just memoizing the result of calling getRefs(ALL). It stores the result as a map but a list works equally well for it.\n* RefAdvertiser#send immediately converts the map from its caller to a list. We can add a new overload that takes something like Iterable\u003cRef\u003e or Collection\u003cRef\u003e\n* KetchReplica#prepareCommit converts the refs passed in to a HashMap. It could take a List and do the same. See below.\n* The Repository helpers that forward to RefDatabase and return a Map should be deprecated. I\u0027m not sure whether we should add similar helpers with the new API or encourage callers to use RefDatabase directly.\n* UploadPack#setAdvertisedRefs is discussed at https://git.eclipse.org/r/c/122726/. I\u0027m tempted to deprecate it for other reasons: in protocol v2, not all requests have a full set of refs they advertise so this property is less meaningful. That said, this is one of the more difficult ones, since we can\u0027t get rid of it right away.\n\nTo convert from a List to a Map: getRefsByPrefix(prefix).stream().collect(toMap(Ref::getName, Functions.identity(), null, HashMap::new)).\n\nWe should probably open a bug to track this.",
+      "parentUuid": "058e530c_2ea44d3f",
+      "revId": "4faec31c0a9ff92efdac10d1bd5db1a929ce74a2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
