@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb4f9ba5_1ca0066d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/SmartServiceInfoRefs.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-16T22:31:30Z",
+      "side": 1,
+      "message": "Needs @since.\n\nCan we make it package-private instead?",
+      "revId": "b592c0ce0ee595e58b9908a7e55b5b78a368877a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
