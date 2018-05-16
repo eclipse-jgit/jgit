@@ -44,18 +44,15 @@
 package org.eclipse.jgit.http.server;
 
 import static org.eclipse.jgit.http.server.ServletUtils.getRepository;
-import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.util.Map;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.RefAdvertiser;
 import org.eclipse.jgit.util.HttpSupport;
@@ -94,10 +91,7 @@ class InfoRefsServlet extends HttpServlet {
 			};
 			adv.init(db);
 			adv.setDerefTags(true);
-
-			Map<String, Ref> refs = db.getRefDatabase().getRefs(ALL);
-			refs.remove(Constants.HEAD);
-			adv.send(refs);
+			adv.send(db.getRefDatabase().getRefsByPrefix(Constants.R_REFS));
 		}
 	}
 }
