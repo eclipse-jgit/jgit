@@ -271,6 +271,7 @@ public class CheckoutCommand extends GitCommand<Ref> {
 						newCommit.getTree());
 				dco.setFailOnConflict(true);
 				dco.setProgressMonitor(monitor);
+				dco.setForce(force);
 				try {
 					dco.checkout();
 				} catch (org.eclipse.jgit.errors.CheckoutConflictException e) {
