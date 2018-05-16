@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46e73c79_8cd7b5c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-16T03:24:22Z",
+      "side": 1,
+      "message": "Bug: 534731",
+      "revId": "249d751624af0c089364b742bb0cb98ae554ab80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0fc9d3e_d9efe56a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefAdvertiser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-16T03:24:22Z",
+      "side": 1,
+      "message": "can add a TODO(jrn) comment to revive the SortedMap optimization e.g. by introducing SortedList (like https://eclipse.googlesource.com/jgit/jgit/+/6d370d837c5faa7caff2e6e3e4723b887f2fbdca/org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/ShowRef.java#69)",
+      "revId": "249d751624af0c089364b742bb0cb98ae554ab80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
