@@ -16,6 +16,24 @@
       "revId": "05cfdeb4ef99e49ec9d3d644f07318a959e1c20b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b62f75b7_f402b160",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2018-05-16T19:06:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6092efc2_d19ca748",
+      "revId": "05cfdeb4ef99e49ec9d3d644f07318a959e1c20b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
