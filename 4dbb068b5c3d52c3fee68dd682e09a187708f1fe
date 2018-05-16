@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f2aba6c0_dd1c257c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 997,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-16T02:06:54Z",
+      "side": 1,
+      "message": "I\u0027m having trouble keeping track of the state. As an example: suppose I\u0027m doing `git fetch origin` over stateful transport. That means:\n\n* I invoke upload-pack to get capabilities\n* I use the ls-refs command with ref-prefix refs/heads/\n* I use the fetch command to request the branches I learned about\n\nNaively, I\u0027d expect the ls-refs command to result in `refs` being set to only include branches. The javadoc says \"The refs we advertised as existing at the start of the connection\", but we didn\u0027t really advertise any refs at the start of the connection. So I think refs would be either all refs or null, and in either case this would work okay (but with a subtle behavior difference according to which case applied).\n\n(In a separate change) can the javadoc for refs be updated to describe what it means in this new world?\n\nI also suspect setAdvertisedRefs bears a large part of the blame for how confusing this is. Callers like Gerrit tend to use a custom RefDatabase to filter their refs instead of calling setAdvertisedRefs so maybe we can deprecate it and get rid of the source of confusion. Then we could stop having two cases here and always pass in refs/tags/* when OPTION_INCLUDE_TAG is provided.",
+      "revId": "4dbb068b5c3d52c3fee68dd682e09a187708f1fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
