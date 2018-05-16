@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "058e530c_2ea44d3f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-05-16T02:01:35Z",
+      "side": 1,
+      "message": "Most of the callers of this method, that didn\u0027t need the Map and just iterated it to get a List of refs, have already been refactored to use the new methods that return List\u003cString\u003e.\n\nHowever there are still 6 callers of this method [1] that expect to get a Map, and that Map gets passed down deeper into the implementation. Reworking those doesn\u0027t seem trivial.  Did you have a plan to tackle them later?\n\n[1] http://paste.openstack.org/show/721056/",
+      "revId": "4faec31c0a9ff92efdac10d1bd5db1a929ce74a2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
