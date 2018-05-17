@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "65f8ba62_562fce3c",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/UploadPackServlet.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-05-17T19:18:35Z",
+      "side": 1,
+      "message": "I\u0027ve added a TODO comment.\n\nClosing the RevWalk in this odd place was first done in 515deaf7e5 (\"Ensure RevWalk is released when done\", 2010-06-29), and there, it would have probably been better to do as you said (close RevWalk in #sendAdvertisedRefs) - in particular, RevWalk#upload does perform the closing. I also read some of the related code, and it seems safe to move the closing to #sendAdvertisedRefs, but I wasn\u0027t sure. In particular, UploadPack seems to be a one-use thing (although its API could be better clarified to show that) and both RevWalk and the underlying ObjectReader are documented to be reusable after #close (which, as far as I know, is unusual, which added to my lack of assurance).",
+      "parentUuid": "ceadba60_eba86886",
+      "revId": "9aa2a3efa9e8cbab5940296e961280bcc98c6533",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f2f60324_aecced8a",
         "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/DefaultUploadPackFactory.java",
         "patchSetId": 14
@@ -33,6 +51,24 @@
       "revId": "9aa2a3efa9e8cbab5940296e961280bcc98c6533",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04b173bd_b7a1d14e",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/DefaultUploadPackFactory.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-05-17T19:18:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2f60324_aecced8a",
+      "revId": "9aa2a3efa9e8cbab5940296e961280bcc98c6533",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +107,30 @@
       "side": 1,
       "message": "Should add a pointer to Git\u0027s Documentation/technical/http-protocol.txt",
       "parentUuid": "4862954c_1aa26df3",
+      "range": {
+        "startLine": 1168,
+        "startChar": 4,
+        "endLine": 1170,
+        "endChar": 53
+      },
+      "revId": "9aa2a3efa9e8cbab5940296e961280bcc98c6533",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a957797_e8babe64",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 1170,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-05-17T19:18:35Z",
+      "side": 1,
+      "message": "Thanks - added the pointer as Jonathan Nieder suggested.",
+      "parentUuid": "24f3aa10_a3c7f3e2",
       "range": {
         "startLine": 1168,
         "startChar": 4,
