@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "321978ab_b46949f9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/events/IndexChangedEvent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-17T05:20:41Z",
+      "side": 1,
+      "message": "yes, should be final",
+      "parentUuid": "273f80aa_875cae69",
+      "revId": "e9e150fdd24dbeb54df614a4d47da3074c766b28",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "caa3e463_405f7a8f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2018-05-17T02:13:01Z",
       "side": 1,
       "message": "also can be final",
+      "revId": "e9e150fdd24dbeb54df614a4d47da3074c766b28",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e316670_d053e9d7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-17T05:20:41Z",
+      "side": 1,
+      "message": "yes, you are right, the reference can be final we want to change its state but need not assign a new instance",
+      "parentUuid": "caa3e463_405f7a8f",
       "revId": "e9e150fdd24dbeb54df614a4d47da3074c766b28",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "06b1b6cf_bb751cd6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-17T05:20:41Z",
+      "side": 1,
+      "message": "he\u0027s right this can happen. EGit has a background thread periodically calling detectIndexChanges to detect if another process has modified the git index so that we can refresh the state displayed in the UI, at the same time another thread running in the same JGit process could run a command modifying the git index. See [1].\n\nOops, I think it\u0027s wrong that EGit fires these events, we should move firing of these events to the corresponding JGit command\u0027s execution. I will look into this.\n\nIf we use locking instead we need to ensure that the FiileLock acquired to change the index and the transient lock for FileSnapshot are always acquired in the same order otherwise I think this may deadlock.\n\n[1] https://git.eclipse.org/r/#/c/122549/",
+      "parentUuid": "2b65cf35_0683a69e",
+      "revId": "e9e150fdd24dbeb54df614a4d47da3074c766b28",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b0938f36_2fa44ebd",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
         "patchSetId": 2
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "c898b8ab_09f1069b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-17T05:20:41Z",
+      "side": 1,
+      "message": "yes, you are right",
+      "parentUuid": "b0938f36_2fa44ebd",
+      "revId": "e9e150fdd24dbeb54df614a4d47da3074c766b28",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "35ff0852_7d49219c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 2
@@ -81,6 +153,30 @@
       "writtenOn": "2018-05-14T14:11:51Z",
       "side": 1,
       "message": "this breaks backward compatibility with code that subclasses Repository. Is that intended?",
+      "range": {
+        "startLine": 1578,
+        "startChar": 22,
+        "endLine": 1578,
+        "endChar": 40
+      },
+      "revId": "e9e150fdd24dbeb54df614a4d47da3074c766b28",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6b8a8c2_22a686dd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1578,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-17T05:20:41Z",
+      "side": 1,
+      "message": "youare right, as also Jonathan pointed out we may avoid this",
+      "parentUuid": "35ff0852_7d49219c",
       "range": {
         "startLine": 1578,
         "startChar": 22,
