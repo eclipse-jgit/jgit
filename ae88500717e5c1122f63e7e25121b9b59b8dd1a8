@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77ce7351_350a8ebd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-05-17T04:52:52Z",
+      "side": 1,
+      "message": "Nice.  Would you mind uploading this script somewhere so it can more easily be used? \n\nMaybe under the contrib folder in the gerrit project, if there isn\u0027t anywhere else appropriate.",
+      "range": {
+        "startLine": 17,
+        "startChar": 19,
+        "endLine": 17,
+        "endChar": 47
+      },
+      "revId": "ae88500717e5c1122f63e7e25121b9b59b8dd1a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cae7e3b_25353b77",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-05-17T04:52:52Z",
+      "side": 1,
+      "message": "Note it would be better to do:\n\n with open(fn, \u0027w\u0027) as dest:\n   for l in input:\n     l \u003d methodDecl(...\n     dest.write(l)\n\nbecause otherwise if an exception occurs on one of those lines in the for-loop then dest.close() doesn\u0027t get called.",
+      "range": {
+        "startLine": 34,
+        "startChar": 2,
+        "endLine": 37,
+        "endChar": 14
+      },
+      "revId": "ae88500717e5c1122f63e7e25121b9b59b8dd1a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
