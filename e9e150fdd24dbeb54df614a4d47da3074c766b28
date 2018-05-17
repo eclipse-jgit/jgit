@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "2b65cf35_0683a69e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-17T02:11:51Z",
+      "side": 1,
+      "message": "Minh Thai noticed this is racy: for example, two threads can race to update snapshot. Is that okay?\n\nCan this be simplified to use locking instead of AtomicReference?",
+      "revId": "e9e150fdd24dbeb54df614a4d47da3074c766b28",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "35ff0852_7d49219c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 2
