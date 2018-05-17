@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "2878dbbc_b8763fc9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2018-05-17T08:55:16Z",
+      "side": 1,
+      "message": "It\u0027s a throwaway script. Once this change is in, there is no point in keeping this script around. \n\nI\u0027d rather not spend any further time on it.",
+      "parentUuid": "adaa2b2f_d8f887f0",
+      "range": {
+        "startLine": 17,
+        "startChar": 19,
+        "endLine": 17,
+        "endChar": 47
+      },
+      "revId": "ae88500717e5c1122f63e7e25121b9b59b8dd1a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9cae7e3b_25353b77",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
