@@ -52,6 +52,24 @@
       "revId": "ca6df01f4057d10803918da5aed0cce83ead03c8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5602d4ec_8a0a8645",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1000,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-17T00:19:04Z",
+      "side": 1,
+      "message": "Thanks. That makes the code much clearer.",
+      "parentUuid": "ac533ded_544f8522",
+      "revId": "ca6df01f4057d10803918da5aed0cce83ead03c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
