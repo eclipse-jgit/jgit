@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "adaa2b2f_d8f887f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-17T08:36:42Z",
+      "side": 1,
+      "message": "add it to the tools folder in the jgit repository",
+      "parentUuid": "77ce7351_350a8ebd",
+      "range": {
+        "startLine": 17,
+        "startChar": 19,
+        "endLine": 17,
+        "endChar": 47
+      },
+      "revId": "ae88500717e5c1122f63e7e25121b9b59b8dd1a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9cae7e3b_25353b77",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
