@@ -16,6 +16,24 @@
       "revId": "4dbb068b5c3d52c3fee68dd682e09a187708f1fe",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c876c749_f631b57f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 997,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-17T00:19:04Z",
+      "side": 1,
+      "message": "Simplified to always use refs/tags/.\n\nWe already don\u0027t make use of this.refs in lsRefsV2, and looking at the AdvertiseRefsHooks I can find in the wild, I think that\u0027s fine. I think we should deprecate setAdvertisedRefs.",
+      "parentUuid": "f2aba6c0_dd1c257c",
+      "revId": "4dbb068b5c3d52c3fee68dd682e09a187708f1fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
