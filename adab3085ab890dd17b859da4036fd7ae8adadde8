@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec572cb4_9e3b6ddb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-18T17:27:04Z",
+      "side": 1,
+      "message": "Bug: 534847",
+      "revId": "adab3085ab890dd17b859da4036fd7ae8adadde8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce9525e8_5a53eb15",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LsRefsV2Request.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-18T17:27:04Z",
+      "side": 1,
+      "message": "Needs license header",
+      "revId": "adab3085ab890dd17b859da4036fd7ae8adadde8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "472a92f7_5a9dd7f1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LsRefsV2Request.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-18T17:27:04Z",
+      "side": 1,
+      "message": "Can this say a little about how the class is used? E.g. is this mostly used as input for the hook or does it have other purposes?",
+      "revId": "adab3085ab890dd17b859da4036fd7ae8adadde8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5f89143_e798545d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LsRefsV2Request.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-18T17:27:04Z",
+      "side": 1,
+      "message": "Can/should the class be final?",
+      "revId": "adab3085ab890dd17b859da4036fd7ae8adadde8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4fd6af2_0ab155fd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LsRefsV2Request.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-18T17:27:04Z",
+      "side": 1,
+      "message": "Should the default constructor be made private, or are callers expected to be able to construct these?",
+      "revId": "adab3085ab890dd17b859da4036fd7ae8adadde8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "758dce4e_c21d024f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-18T17:27:04Z",
+      "side": 1,
+      "message": "optional microoptimization: can making a shared noop instance (ProtocolV2Hook.DEFAULT)",
+      "revId": "adab3085ab890dd17b859da4036fd7ae8adadde8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
