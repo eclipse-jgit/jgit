@@ -69,6 +69,24 @@
       "revId": "6ee8f9e14e8bbee764f1d44b7e25a853f310159b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1db49f7d_4d76350d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 988,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-18T04:11:31Z",
+      "side": 1,
+      "message": "Needed some similar braces elsewhere, added them.",
+      "parentUuid": "2c5d70a5_65f04396",
+      "revId": "6ee8f9e14e8bbee764f1d44b7e25a853f310159b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
