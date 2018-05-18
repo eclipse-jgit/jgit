@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "2fa10e6a_56882c85",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/UploadPackServlet.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-18T02:56:11Z",
+      "side": 1,
+      "message": "Thanks. A TODO comment for the preexisting issue makes sense.",
+      "parentUuid": "65f8ba62_562fce3c",
+      "revId": "9aa2a3efa9e8cbab5940296e961280bcc98c6533",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f2f60324_aecced8a",
         "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/DefaultUploadPackFactory.java",
         "patchSetId": 14
@@ -140,6 +158,30 @@
       "revId": "9aa2a3efa9e8cbab5940296e961280bcc98c6533",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "097b98de_73a8b646",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 1170,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-18T02:56:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4a957797_e8babe64",
+      "range": {
+        "startLine": 1168,
+        "startChar": 4,
+        "endLine": 1170,
+        "endChar": 53
+      },
+      "revId": "9aa2a3efa9e8cbab5940296e961280bcc98c6533",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
