@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9cb9248c_0bc1112a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-18T01:00:39Z",
+      "side": 1,
+      "message": "Can you explain the threading model here (or even better, in comments in the code)?\n\nCurrently the javadoc comment simply says\n\n This class is thread-safe.\n\nThat suggests I should be able to call scanForRepoChanges() simultaneously in multiple threads. Is that permitted? Should scanForRepoChanges be declared \"synchronized\"? The code\n\n if (snapshot \u003d\u003d null)\n    snapshot \u003d FileSnapshot.save(indexFile);\n  else if (snapshot.isModified(indexFile))\n    notifyIndexChanged();\n\nsuggests a time of check/time of use race to me: couldn\u0027t two threads both observe snapshot to be null, causing notifyIndexChanged() not to be called? What do we want to guarantee --- is that race harmless?",
+      "revId": "00bca04dda66988dcb4c827627ed33e99e16a9c2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
