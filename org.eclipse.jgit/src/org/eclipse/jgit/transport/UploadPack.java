@@ -264,6 +264,10 @@ public class UploadPack {
 	/** The refs we advertised as existing at the start of the connection. */
 	private Map<String, Ref> refs;
 
+	/** Hook used while processing Git protocol v2 requests. */
+	private ProtocolV2Hook protocolV2Hook = new ProtocolV2Hook() {
+	};
+
 	/** Hook used while advertising the refs to the client. */
 	private AdvertiseRefsHook advertiseRefsHook = AdvertiseRefsHook.DEFAULT;
 
@@ -878,25 +882,18 @@ public class UploadPack {
 	}
 
 	private void lsRefsV2() throws IOException {
-		PacketLineOutRefAdvertiser adv = new PacketLineOutRefAdvertiser(pckOut);
-		String line;
-		ArrayList<String> refPrefixes = new ArrayList<>();
-		boolean needToFindSymrefs = false;
-
-		adv.setUseProtocolV2(true);
-
-		line = pckIn.readString();
-
+		LsRefsV2Request req = new LsRefsV2Request();
+		String line = pckIn.readString();
 		// Currently, we do not support any capabilities, so the next
 		// line is DELIM if there are arguments or END if not.
 		if (line == PacketLineIn.DELIM) {
 			while ((line = pckIn.readString()) != PacketLineIn.END) {
 				if (line.equals("peel")) { //$NON-NLS-1$
-					adv.setDerefTags(true);
+					req.peel = true;
 				} else if (line.equals("symrefs")) { //$NON-NLS-1$
-					needToFindSymrefs = true;
+					req.symrefs = true;
 				} else if (line.startsWith("ref-prefix ")) { //$NON-NLS-1$
-					refPrefixes.add(line.substring("ref-prefix ".length())); //$NON-NLS-1$
+					req.refPrefixes.add(line.substring("ref-prefix ".length())); //$NON-NLS-1$
 				} else {
 					throw new PackProtocolException(MessageFormat
 							.format(JGitText.get().unexpectedPacketLine, line));
@@ -906,21 +903,27 @@ public class UploadPack {
 			throw new PackProtocolException(MessageFormat
 					.format(JGitText.get().unexpectedPacketLine, line));
 		}
-		rawOut.stopBuffering();
 
+		protocolV2Hook.onLsRefs(req);
+
+		rawOut.stopBuffering();
+		PacketLineOutRefAdvertiser adv = new PacketLineOutRefAdvertiser(pckOut);
+		adv.setUseProtocolV2(true);
+		if (req.peel) {
+			adv.setDerefTags(true);
+		}
 		Map<String, Ref> refsToSend;
-		if (refPrefixes.isEmpty()) {
+		if (req.refPrefixes.isEmpty()) {
 			refsToSend = getAdvertisedOrDefaultRefs();
 		} else {
 			refsToSend = new HashMap<>();
-			for (String refPrefix : refPrefixes) {
+			for (String refPrefix : req.refPrefixes) {
 				for (Ref ref : db.getRefDatabase().getRefsByPrefix(refPrefix)) {
 					refsToSend.put(ref.getName(), ref);
 				}
 			}
 		}
-
-		if (needToFindSymrefs) {
+		if (req.symrefs) {
 			findSymrefs(adv, refsToSend);
 		}
 
@@ -1133,6 +1136,7 @@ public class UploadPack {
 			// is sent only if this is a bidirectional pipe. (If
 			// not, the client is expected to call
 			// sendAdvertisedRefs() on its own.)
+			protocolV2Hook.onCapabilities();
 			for (String s : getV2CapabilityAdvertisement()) {
 				pckOut.writeString(s + "\n"); //$NON-NLS-1$
 			}
@@ -1292,6 +1296,7 @@ public class UploadPack {
 		if (useProtocolV2()) {
 			// The equivalent in v2 is only the capabilities
 			// advertisement.
+			protocolV2Hook.onCapabilities();
 			for (String s : getV2CapabilityAdvertisement()) {
 				adv.writeOne(s);
 			}
