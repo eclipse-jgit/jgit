@@ -1568,16 +1568,6 @@ public abstract class Repository implements AutoCloseable {
 	public abstract void scanForRepoChanges() throws IOException;
 
 	/**
-	 * Backward compatibility synonym for {@code notifyIndexChanged(true)}.
-	 *
-	 * @deprecated replaced by {@link #notifyIndexChanged(boolean)}
-	 */
-	@Deprecated
-	public final void notifyIndexChanged() {
-		notifyIndexChanged(true);
-	}
-
-	/**
 	 * Notify that the index changed by firing an IndexChangedEvent.
 	 *
 	 * @param internal
