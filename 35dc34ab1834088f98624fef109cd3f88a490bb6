@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c8f5650_aca9b3b3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 1160,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-18T04:11:31Z",
+      "side": 1,
+      "message": "Thanks for the comment!\n\nThere\u0027s an odd asymmetry between shallowCommits and unshallowCommits. The method always appends to unshallowCommits. The method only appends to shallowCommits if it\u0027s passed in (of course). The method decides whether to write to pckOut based on whether shallowCommits is null.\n\nI wonder if it would be easier to understand with three arguments: shallowCommits, unshallowCommits, and a third parameter indicating whether to write to pckOut (maybe a @Nullable param that can be pckOut or null). What do you think?",
+      "revId": "35dc34ab1834088f98624fef109cd3f88a490bb6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
