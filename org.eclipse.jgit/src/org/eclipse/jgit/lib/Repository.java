@@ -112,12 +112,6 @@ import org.slf4j.LoggerFactory;
  * <li>{@code FileRepository} is thread-safe.
  * <li>{@code DfsRepository} thread-safety is determined by its subclass.
  * </ul>
- * <p>
- * <i>Note to implementors:</i> Make sure to override
- * {@link #notifyIndexChanged(boolean)} or {@link #notifyIndexChanged()}, or
- * else both will throw {@code StackOverflowException}. In the next JGit minor
- * release, {@link #notifyIndexChanged(boolean)} will be abstract and {@link
- * #notifyIndexChanged()} will be final.
  */
 public abstract class Repository implements AutoCloseable {
 	private static final Logger LOG = LoggerFactory.getLogger(Repository.class);
@@ -1579,25 +1573,19 @@ public abstract class Repository implements AutoCloseable {
 	 * @deprecated replaced by {@link #notifyIndexChanged(boolean)}
 	 */
 	@Deprecated
-	public void notifyIndexChanged() {
+	public final void notifyIndexChanged() {
 		notifyIndexChanged(true);
 	}
 
 	/**
 	 * Notify that the index changed by firing an IndexChangedEvent.
-	 * <p>
-	 * The default implementation calls {@link #notifyIndexChanged()} for
-	 * backward compatibility but will no longer do so in the next JGit minor
-	 * release. Implementors should override this method directly instead.
 	 *
 	 * @param internal
 	 *                     {@code true} if the index was changed by the same
 	 *                     JGit process
 	 * @since 5.0
 	 */
-	public void notifyIndexChanged(boolean internal) {
-		notifyIndexChanged();
-	}
+	public abstract void notifyIndexChanged(boolean internal);
 
 	/**
 	 * Get a shortened more user friendly ref name
