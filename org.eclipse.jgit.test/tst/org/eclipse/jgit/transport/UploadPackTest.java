@@ -3,20 +3,22 @@ package org.eclipse.jgit.transport;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.theInstance;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.storage.dfs.DfsGarbageCollector;
@@ -31,8 +33,8 @@ import org.eclipse.jgit.lib.Sets;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevTag;
+import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.transport.UploadPack.RequestPolicy;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
@@ -421,7 +423,8 @@ public class UploadPackTest {
 	 * and returns UploadPack's output stream.
 	 */
 	private ByteArrayInputStream uploadPackV2Setup(RequestPolicy requestPolicy,
-			RefFilter refFilter, String... inputLines) throws Exception {
+			RefFilter refFilter, ProtocolV2Hook hook, String... inputLines)
+			throws Exception {
 
 		ByteArrayOutputStream send = new ByteArrayOutputStream();
 		PacketLineOut pckOut = new PacketLineOut(send);
@@ -442,6 +445,9 @@ public class UploadPackTest {
 		if (refFilter != null)
 			up.setRefFilter(refFilter);
 		up.setExtraParameters(Sets.of("version=2"));
+		if (hook != null) {
+			up.setProtocolV2Hook(hook);
+		}
 
 		ByteArrayOutputStream recv = new ByteArrayOutputStream();
 		up.upload(new ByteArrayInputStream(send.toByteArray()), recv, null);
@@ -455,9 +461,10 @@ public class UploadPackTest {
 	 * advertisement by the server.
 	 */
 	private ByteArrayInputStream uploadPackV2(RequestPolicy requestPolicy,
-			RefFilter refFilter, String... inputLines) throws Exception {
+			RefFilter refFilter, ProtocolV2Hook hook, String... inputLines)
+			throws Exception {
 		ByteArrayInputStream recvStream =
-			uploadPackV2Setup(requestPolicy, refFilter, inputLines);
+				uploadPackV2Setup(requestPolicy, refFilter, hook, inputLines);
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
 		// drain capabilities
@@ -468,15 +475,33 @@ public class UploadPackTest {
 	}
 
 	private ByteArrayInputStream uploadPackV2(String... inputLines) throws Exception {
-		return uploadPackV2(null, null, inputLines);
+		return uploadPackV2(null, null, null, inputLines);
+	}
+
+	private static class TestV2Hook implements ProtocolV2Hook {
+		private CapabilitiesV2Request capabilitiesRequest;
+
+		private LsRefsV2Request lsRefsRequest;
+
+		@Override
+		public void onCapabilities(CapabilitiesV2Request req) {
+			capabilitiesRequest = req;
+		}
+
+		@Override
+		public void onLsRefs(LsRefsV2Request req) {
+			lsRefsRequest = req;
+		}
 	}
 
 	@Test
 	public void testV2Capabilities() throws Exception {
+		TestV2Hook hook = new TestV2Hook();
 		ByteArrayInputStream recvStream =
-			uploadPackV2Setup(null, null, PacketLineIn.END);
+				uploadPackV2Setup(null, null, hook, PacketLineIn.END);
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
+		assertThat(hook.capabilitiesRequest, notNullValue());
 		assertThat(pckIn.readString(), is("version 2"));
 		assertThat(
 			Arrays.asList(pckIn.readString(), pckIn.readString()),
@@ -494,7 +519,7 @@ public class UploadPackTest {
 	public void testV2CapabilitiesAllowFilter() throws Exception {
 		server.getConfig().setBoolean("uploadpack", null, "allowfilter", true);
 		ByteArrayInputStream recvStream =
-			uploadPackV2Setup(null, null, PacketLineIn.END);
+				uploadPackV2Setup(null, null, null, PacketLineIn.END);
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
 		assertThat(pckIn.readString(), is("version 2"));
@@ -510,7 +535,7 @@ public class UploadPackTest {
 	public void testV2CapabilitiesRefInWant() throws Exception {
 		server.getConfig().setBoolean("uploadpack", null, "allowrefinwant", true);
 		ByteArrayInputStream recvStream =
-			uploadPackV2Setup(null, null, PacketLineIn.END);
+				uploadPackV2Setup(null, null, null, PacketLineIn.END);
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
 		assertThat(pckIn.readString(), is("version 2"));
@@ -526,7 +551,7 @@ public class UploadPackTest {
 	public void testV2CapabilitiesRefInWantNotAdvertisedIfUnallowed() throws Exception {
 		server.getConfig().setBoolean("uploadpack", null, "allowrefinwant", false);
 		ByteArrayInputStream recvStream =
-			uploadPackV2Setup(null, null, PacketLineIn.END);
+				uploadPackV2Setup(null, null, null, PacketLineIn.END);
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
 		assertThat(pckIn.readString(), is("version 2"));
@@ -541,7 +566,7 @@ public class UploadPackTest {
 		server.getConfig().setBoolean("uploadpack", null, "allowrefinwant", true);
 		server.getConfig().setBoolean("uploadpack", null, "advertiserefinwant", false);
 		ByteArrayInputStream recvStream =
-			uploadPackV2Setup(null, null, PacketLineIn.END);
+				uploadPackV2Setup(null, null, null, PacketLineIn.END);
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
 		assertThat(pckIn.readString(), is("version 2"));
@@ -568,9 +593,12 @@ public class UploadPackTest {
 		RevTag tag = remote.tag("tag", tip);
 		remote.update("refs/tags/tag", tag);
 
-		ByteArrayInputStream recvStream = uploadPackV2("command=ls-refs\n", PacketLineIn.END);
+		TestV2Hook hook = new TestV2Hook();
+		ByteArrayInputStream recvStream = uploadPackV2(null, null, hook,
+				"command=ls-refs\n", PacketLineIn.END);
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
+		assertThat(hook.lsRefsRequest, notNullValue());
 		assertThat(pckIn.readString(), is(tip.toObjectId().getName() + " HEAD"));
 		assertThat(pckIn.readString(), is(tip.toObjectId().getName() + " refs/heads/master"));
 		assertThat(pckIn.readString(), is(tag.toObjectId().getName() + " refs/tags/tag"));
@@ -722,6 +750,7 @@ public class UploadPackTest {
 		uploadPackV2(
 			RequestPolicy.ADVERTISED,
 			null,
+			null,
 			"command=fetch\n",
 			PacketLineIn.DELIM,
 			"want " + advertized.name() + "\n",
@@ -733,6 +762,7 @@ public class UploadPackTest {
 					"want " + unadvertized.name() + " not valid"));
 		uploadPackV2(
 			RequestPolicy.ADVERTISED,
+			null,
 			null,
 			"command=fetch\n",
 			PacketLineIn.DELIM,
@@ -751,6 +781,7 @@ public class UploadPackTest {
 		uploadPackV2(
 			RequestPolicy.REACHABLE_COMMIT,
 			null,
+			null,
 			"command=fetch\n",
 			PacketLineIn.DELIM,
 			"want " + reachable.name() + "\n",
@@ -762,6 +793,7 @@ public class UploadPackTest {
 					"want " + unreachable.name() + " not valid"));
 		uploadPackV2(
 			RequestPolicy.REACHABLE_COMMIT,
+			null,
 			null,
 			"command=fetch\n",
 			PacketLineIn.DELIM,
@@ -779,6 +811,7 @@ public class UploadPackTest {
 		uploadPackV2(
 			RequestPolicy.TIP,
 			new RejectAllRefFilter(),
+			null,
 			"command=fetch\n",
 			PacketLineIn.DELIM,
 			"want " + tip.name() + "\n",
@@ -791,6 +824,7 @@ public class UploadPackTest {
 		uploadPackV2(
 			RequestPolicy.TIP,
 			new RejectAllRefFilter(),
+			null,
 			"command=fetch\n",
 			PacketLineIn.DELIM,
 			"want " + parentOfTip.name() + "\n",
@@ -808,6 +842,7 @@ public class UploadPackTest {
 		uploadPackV2(
 			RequestPolicy.REACHABLE_COMMIT_TIP,
 			new RejectAllRefFilter(),
+			null,
 			"command=fetch\n",
 			PacketLineIn.DELIM,
 			"want " + parentOfTip.name() + "\n",
@@ -820,6 +855,7 @@ public class UploadPackTest {
 		uploadPackV2(
 			RequestPolicy.REACHABLE_COMMIT_TIP,
 			new RejectAllRefFilter(),
+			null,
 			"command=fetch\n",
 			PacketLineIn.DELIM,
 			"want " + unreachable.name() + "\n",
@@ -833,6 +869,7 @@ public class UploadPackTest {
 		// Exercise to make sure that even unreachable commits can be fetched
 		uploadPackV2(
 			RequestPolicy.ANY,
+			null,
 			null,
 			"command=fetch\n",
 			PacketLineIn.DELIM,
