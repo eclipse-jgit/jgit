@@ -16,6 +16,24 @@
       "revId": "4b3e511b350ccdd3c92a94c5fa56d52392943604",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "591bb7cc_3178097d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-18T04:11:31Z",
+      "side": 1,
+      "message": "Added parsing but left implementation as a TODO for now",
+      "parentUuid": "4ce4d73b_02b3b694",
+      "revId": "4b3e511b350ccdd3c92a94c5fa56d52392943604",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
