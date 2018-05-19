@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "030f0325_fe623ce5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1582,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-19T07:30:15Z",
+      "side": 1,
+      "message": "how about declaring both methods abstract ? Then we force new implementors to implement both but avoid that they might miss overriding them which would cause stack overflow exception. We could advise them in javadoc to put their implementation into notifyIndexChanged(boolean) and use this default implementation for notifyIndexChanged()",
+      "revId": "ca79b3d4af748c626d2b35d7404ef49983dfe917",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
