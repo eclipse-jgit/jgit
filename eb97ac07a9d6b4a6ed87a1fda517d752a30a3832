@@ -34,6 +34,24 @@
       "revId": "eb97ac07a9d6b4a6ed87a1fda517d752a30a3832",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bef5872_ee14f005",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-21T23:26:15Z",
+      "side": 1,
+      "message": "Drat, okay.\n\nI can look closer this week at how this interface is used and what it would take to get rid of it.",
+      "parentUuid": "90945d01_58fdcada",
+      "revId": "eb97ac07a9d6b4a6ed87a1fda517d752a30a3832",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
