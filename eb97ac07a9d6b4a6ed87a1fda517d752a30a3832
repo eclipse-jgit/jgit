@@ -16,6 +16,24 @@
       "revId": "eb97ac07a9d6b4a6ed87a1fda517d752a30a3832",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90945d01_58fdcada",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-05-21T23:23:52Z",
+      "side": 1,
+      "message": "Deprecating the entire interface causes a lot of Javadoc errors where it\u0027s referenced.\n\nAlso I\u0027m not sure how to replace the deprecated uses in UploadPack and BaseReceivePack.",
+      "parentUuid": "93443309_1ee6f585",
+      "revId": "eb97ac07a9d6b4a6ed87a1fda517d752a30a3832",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
