@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "14186784_d375cfec",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1134,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-21T18:29:55Z",
+      "side": 1,
+      "message": "getRefsByPrefix returns an immutable list. Should this return a mutable copy?\n\nAlternatively, I wonder if one of the following would make sense:\n\n* having callers use getRefDatabase() directly, for less duplication in the API, or\n* providing a forwarding getRefsByPrefix method so calls can use repo.getRefsByPrefix(R_TAGS), or\n* providing getAllTags which is a simply an abbreviation for repo.getRefsByPrefix(R_TAGS). It could even be declared final.",
+      "revId": "9346abc974e7ebcb2df353e2676d922107bf7b20",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
