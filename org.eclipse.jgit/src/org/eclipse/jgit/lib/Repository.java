@@ -1108,7 +1108,9 @@ public abstract class Repository implements AutoCloseable {
 	 * @return mutable map of all tags; key is short tag name ("v1.0") and value
 	 *         of the entry contains the ref with the full tag name
 	 *         ("refs/tags/v1.0").
+	 * @deprecated use {@code getRefDatabase().getRefsByPrefix(R_TAGS)} instead
 	 */
+	@Deprecated
 	@NonNull
 	public Map<String, Ref> getTags() {
 		try {
