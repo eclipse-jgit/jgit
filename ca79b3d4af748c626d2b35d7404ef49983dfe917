@@ -16,6 +16,24 @@
       "revId": "ca79b3d4af748c626d2b35d7404ef49983dfe917",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae10d9c1_9f5ab1d5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1582,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-21T19:19:16Z",
+      "side": 1,
+      "message": "This commit is meant to be a minimally invasive first step. https://git.eclipse.org/r/c/122971 does what you\u0027re looking for if I\u0027m understanding correctly.",
+      "parentUuid": "030f0325_fe623ce5",
+      "revId": "ca79b3d4af748c626d2b35d7404ef49983dfe917",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
