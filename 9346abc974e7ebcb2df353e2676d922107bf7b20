@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1371c937_46dcbfeb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1134,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-05-21T23:14:52Z",
+      "side": 1,
+      "message": "\u003e having callers use getRefDatabase() directly\n\nThis was the solution I initially looked into.  I wasn\u0027t sure if it was OK to simply deprecate/remove all these methods though.",
+      "parentUuid": "14186784_d375cfec",
+      "revId": "9346abc974e7ebcb2df353e2676d922107bf7b20",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c5627db0_e9725aa1",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2018-05-21T18:42:07Z",
       "side": 1,
       "message": "By the way: this catch-and-return-empty pattern is very dangerous. In new code, we need to throw IOException or some other checked exception instead.",
+      "revId": "9346abc974e7ebcb2df353e2676d922107bf7b20",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "635bacea_b04ab188",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1135,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-05-21T23:14:52Z",
+      "side": 1,
+      "message": "I assumed this was the reason for Repository having these wrapper methods.",
+      "parentUuid": "c5627db0_e9725aa1",
       "revId": "9346abc974e7ebcb2df353e2676d922107bf7b20",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
