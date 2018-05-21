@@ -42,7 +42,12 @@
  */
 package org.eclipse.jgit.pgm;
 
+import static org.eclipse.jgit.lib.Constants.R_TAGS;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import java.util.stream.Stream;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.CLIRepositoryTestCase;
@@ -72,16 +77,21 @@ public class TagTest extends CLIRepositoryTestCase {
 				executeUnchecked("git tag test")[0]);
 	}
 
+	private Stream<Ref> getTags() throws Exception {
+		return git.getRepository().getRefDatabase().getRefsByPrefix(R_TAGS)
+				.stream();
+	}
+
 	@Test
 	public void testTagDelete() throws Exception {
 		git.tag().setName("test").call();
 
-		Ref ref = git.getRepository().getTags().get("test");
-		assertEquals("refs/tags/test", ref.getName());
+		assertTrue(getTags().filter(r -> r.getName().equals("refs/tags/test"))
+				.findAny().isPresent());
 
 		assertEquals("", executeUnchecked("git tag -d test")[0]);
-		Ref deletedRef = git.getRepository().getTags().get("test");
-		assertEquals(null, deletedRef);
+		assertFalse(getTags().filter(r -> r.getName().equals("refs/tags/test"))
+				.findAny().isPresent());
 	}
 
 	@Test
