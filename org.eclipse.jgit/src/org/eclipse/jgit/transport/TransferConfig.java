@@ -47,9 +47,12 @@ import static org.eclipse.jgit.util.StringUtils.equalsIgnoreCase;
 import static org.eclipse.jgit.util.StringUtils.toLowerCase;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.internal.storage.file.LazyObjectIdSetFile;
@@ -278,17 +281,32 @@ public class TransferConfig {
 			public Map<String, Ref> filter(Map<String, Ref> refs) {
 				Map<String, Ref> result = new HashMap<>();
 				for (Map.Entry<String, Ref> e : refs.entrySet()) {
-					boolean add = true;
-					for (String hide : hideRefs) {
-						if (e.getKey().equals(hide) || prefixMatch(hide, e.getKey())) {
-							add = false;
-							break;
-						}
-					}
-					if (add)
+					if (add(e.getValue())) {
 						result.put(e.getKey(), e.getValue());
+					}
 				}
 				return result;
+			}
+
+			@Override
+			public Collection<Ref> filter(Collection<Ref> refs) {
+				Set<Ref> result = new HashSet<>();
+				for (Ref ref : refs) {
+					if (add(ref)) {
+						result.add(ref);
+					}
+				}
+				return result;
+			}
+
+			private boolean add(Ref ref) {
+				for (String hide : hideRefs) {
+					if (ref.getName().equals(hide)
+							|| prefixMatch(hide, ref.getName())) {
+						return false;
+					}
+				}
+				return true;
 			}
 
 			private boolean prefixMatch(String p, String s) {

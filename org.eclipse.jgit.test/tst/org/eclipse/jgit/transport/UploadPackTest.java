@@ -7,7 +7,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -881,6 +883,11 @@ public class UploadPackTest {
 		@Override
 		public Map<String, Ref> filter(Map<String, Ref> refs) {
 			return new HashMap<>();
+		}
+
+		@Override
+		public Collection<Ref> filter(Collection<Ref> refs) {
+			return new ArrayList<>();
 		}
 	}
 }

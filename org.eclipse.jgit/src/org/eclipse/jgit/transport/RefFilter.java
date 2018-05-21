@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.transport;
 
+import java.util.Collection;
 import java.util.Map;
 
 import org.eclipse.jgit.lib.Ref;
@@ -66,6 +67,11 @@ public interface RefFilter {
 		public Map<String, Ref> filter (Map<String, Ref> refs) {
 			return refs;
 		}
+
+		@Override
+		public Collection<Ref> filter(Collection<Ref> refs) {
+			return refs;
+		}
 	};
 
 	/**
@@ -73,8 +79,19 @@ public interface RefFilter {
 	 *
 	 * @param refs
 	 *            the refs which this method need to consider.
-	 * @return
-	 *            the filtered map of refs.
+	 * @return the filtered map of refs.
+	 * @deprecated use {@link #filter(Collection) instead}.
 	 */
+	@Deprecated
 	public Map<String, Ref> filter(Map<String, Ref> refs);
+
+	/**
+	 * Filters a {@code Collection} of refs before it is advertised to the
+	 * client.
+	 *
+	 * @param refs
+	 *            the refs which this method need to consider.
+	 * @return the filtered collection of refs.
+	 */
+	public Collection<Ref> filter(Collection<Ref> refs);
 }
