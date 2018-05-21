@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "7ac9943f_a20a857b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1134,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-21T23:18:50Z",
+      "side": 1,
+      "message": "Given the low number of getTags() callers, I think that\u0027s my preference (i.e. to say \u0027@deprecated use {@code getRefDatabase().getRefsByPefix(R_TAGS) instead\u0027).\n\nIf we later decide we want an abbreviation, we can add a forwarding method at that point. Adding API is much easier than removing it.",
+      "parentUuid": "1371c937_46dcbfeb",
+      "revId": "9346abc974e7ebcb2df353e2676d922107bf7b20",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c5627db0_e9725aa1",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 1
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "I assumed this was the reason for Repository having these wrapper methods.",
       "parentUuid": "c5627db0_e9725aa1",
+      "revId": "9346abc974e7ebcb2df353e2676d922107bf7b20",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec95bab5_dba32aa8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1135,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-21T23:18:50Z",
+      "side": 1,
+      "message": "I don\u0027t know what the initial rationale was, but I know it has caused me a lot of debugging pain over the years.\n\nSee https://dev.eclipse.org/mhonarc/lists/jgit-dev/msg03582.html for more discussion.",
+      "parentUuid": "635bacea_b04ab188",
       "revId": "9346abc974e7ebcb2df353e2676d922107bf7b20",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
