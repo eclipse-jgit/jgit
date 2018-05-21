@@ -56,6 +56,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URISyntaxException;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -1108,13 +1109,31 @@ public abstract class Repository implements AutoCloseable {
 	 * @return mutable map of all tags; key is short tag name ("v1.0") and value
 	 *         of the entry contains the ref with the full tag name
 	 *         ("refs/tags/v1.0").
+	 * @deprecated use {@link #getAllTags()} instead.
 	 */
+	@Deprecated
 	@NonNull
 	public Map<String, Ref> getTags() {
 		try {
 			return getRefDatabase().getRefs(Constants.R_TAGS);
 		} catch (IOException e) {
 			return new HashMap<>();
+		}
+	}
+
+	/**
+	 * Get mutable collection of all tags
+	 *
+	 * @return mutable collection of all tags; each entry contains the ref with
+	 *         the full tag name ("refs/tags/v1.0").
+	 * @Since 5.0
+	 */
+	@NonNull
+	public Collection<Ref> getAllTags() {
+		try {
+			return getRefDatabase().getRefsByPrefix(Constants.R_TAGS);
+		} catch (IOException e) {
+			return new ArrayList<>();
 		}
 	}
 
