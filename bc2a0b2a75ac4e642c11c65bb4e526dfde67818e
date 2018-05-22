@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b671894f_b662967b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-22T02:47:56Z",
+      "side": 1,
+      "message": "... since it doesn\u0027t swallow IOException.",
+      "revId": "bc2a0b2a75ac4e642c11c65bb4e526dfde67818e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
