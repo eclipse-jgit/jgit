@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f2943f45_cb0712af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-05-22T01:22:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e337ebd_3cc172a7",
+      "revId": "2a2fd91f364fb48908021065ee1e694fb913254c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3e8b6903_d6dddb35",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 2
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "0d360a25_3593be5f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1070,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-05-22T01:22:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e8b6903_d6dddb35",
+      "range": {
+        "startLine": 1070,
+        "startChar": 1,
+        "endLine": 1070,
+        "endChar": 13
+      },
+      "revId": "2a2fd91f364fb48908021065ee1e694fb913254c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "35319bdd_39485b2b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 2
@@ -53,6 +95,24 @@
       "writtenOn": "2018-05-22T01:15:56Z",
       "side": 1,
       "message": "likewise",
+      "revId": "2a2fd91f364fb48908021065ee1e694fb913254c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4f431b3_f015b42f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1086,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-05-22T01:22:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35319bdd_39485b2b",
       "revId": "2a2fd91f364fb48908021065ee1e694fb913254c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
