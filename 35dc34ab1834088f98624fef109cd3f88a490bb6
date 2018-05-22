@@ -39,6 +39,24 @@
       "revId": "35dc34ab1834088f98624fef109cd3f88a490bb6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8799ea8_df847918",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 1160,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-05-22T21:56:56Z",
+      "side": 1,
+      "message": "I\u0027m reluctant to shadow 2 instance variables (unshallowCommits, pckOut) in this way, and think that having one parameter with a relatively complicated, albeit documented, semantic is the lesser evil. However I can see the advantages of both, so either is fine.",
+      "parentUuid": "5c8f5650_aca9b3b3",
+      "revId": "35dc34ab1834088f98624fef109cd3f88a490bb6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
