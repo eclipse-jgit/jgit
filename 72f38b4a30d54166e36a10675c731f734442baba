@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7b33b408_990891bc",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/TagTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-05-22T00:41:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9ec3f5c_c14a31d9",
+      "revId": "72f38b4a30d54166e36a10675c731f734442baba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0a9189d8_90138083",
         "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/TagTest.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2018-05-22T00:13:13Z",
       "side": 1,
       "message": "likewise",
+      "revId": "72f38b4a30d54166e36a10675c731f734442baba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07c97fe4_4853843b",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/TagTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-05-22T00:41:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a9189d8_90138083",
       "revId": "72f38b4a30d54166e36a10675c731f734442baba",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
