@@ -116,7 +116,7 @@ public class LogCommandTest extends RepositoryTestCase {
 		Iterator<RevCommit> log = git.log().all().call().iterator();
 		assertTrue(log.hasNext());
 		RevCommit commit = log.next();
-		tag = db.peel(tag);
+		tag = db.getRefDatabase().peel(tag);
 
 		assertEquals(commit.getName(), tag.getPeeledObjectId().getName());
 		assertTrue(commits.contains(commit));

@@ -1932,7 +1932,7 @@ public class UploadPack {
 					}
 
 					if (!ref.isPeeled())
-						ref = db.peel(ref);
+						ref = db.getRefDatabase().peel(ref);
 
 					ObjectId peeledId = ref.getPeeledObjectId();
 					objectId = ref.getObjectId();

@@ -160,7 +160,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 				Ref ref = r.findRef(refname);
 				if (ref == null) return null;
 
-				ref = r.peel(ref);
+				ref = r.getRefDatabase().peel(ref);
 				ObjectId id = ref.getObjectId();
 				return id;
 			} catch (IOException e) {
