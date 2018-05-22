@@ -299,9 +299,6 @@ public class UploadPack {
 	/** Shallow commits the client already has. */
 	private final Set<ObjectId> clientShallowCommits = new HashSet<>();
 
-	/** Shallow commits on the client which are now becoming unshallow */
-	private final List<ObjectId> unshallowCommits = new ArrayList<>();
-
 	/** Desired depth from the client on a shallow request. */
 	private int depth;
 
@@ -786,6 +783,7 @@ public class UploadPack {
 		// If it's a non-bidi request, we need to read the entire request before
 		// writing a response. Buffer the response until then.
 		PackStatistics.Accumulator accumulator = new PackStatistics.Accumulator();
+		List<ObjectId> unshallowCommits = new ArrayList<>();
 		try {
 			if (biDirectionalPipe)
 				sendAdvertisedRefs(new PacketLineOutRefAdvertiser(pckOut));
@@ -815,7 +813,7 @@ public class UploadPack {
 			if (!clientShallowCommits.isEmpty())
 				verifyClientShallow();
 			if (depth != 0)
-				processShallow();
+				processShallow(unshallowCommits);
 			if (!clientShallowCommits.isEmpty())
 				walk.assumeShallow(clientShallowCommits);
 			sendPack = negotiate(accumulator);
@@ -867,8 +865,9 @@ public class UploadPack {
 			rawOut.stopBuffering();
 		}
 
-		if (sendPack)
-			sendPack(accumulator, refs == null ? null : refs.values());
+		if (sendPack) {
+			sendPack(accumulator, refs == null ? null : refs.values(), unshallowCommits);
+		}
 	}
 
 	private void lsRefsV2() throws IOException {
@@ -999,7 +998,8 @@ public class UploadPack {
 			sendPack(new PackStatistics.Accumulator(),
 					includeTag
 						? db.getRefDatabase().getRefsByPrefix(R_TAGS)
-						: null);
+						: null,
+					new ArrayList<ObjectId>());
 		}
 		pckOut.end();
 	}
@@ -1076,7 +1076,11 @@ public class UploadPack {
 		return ids;
 	}
 
-	private void processShallow() throws IOException {
+	/*
+	 * Determines what "shallow" and "unshallow" lines to send to the user.
+	 * The information is written to pckOut and unshallowCommits.
+	 */
+	private void processShallow(List<ObjectId> unshallowCommits) throws IOException {
 		int walkDepth = depth - 1;
 		try (DepthWalk.RevWalk depthWalk = new DepthWalk.RevWalk(
 				walk.getObjectReader(), walkDepth)) {
@@ -1780,16 +1784,20 @@ public class UploadPack {
 	 *                refs to search for annotated tags to include in the pack
 	 *                if the {@link #OPTION_INCLUDE_TAG} capability was
 	 *                requested.
+	 * @param unshallowCommits
+	 *                shallow commits on the client that are now becoming
+	 *                unshallow
 	 * @throws IOException
 	 *                if an error occured while generating or writing the pack.
 	 */
 	private void sendPack(PackStatistics.Accumulator accumulator,
-			@Nullable Collection<Ref> allTags) throws IOException {
+			@Nullable Collection<Ref> allTags,
+			List<ObjectId> unshallowCommits) throws IOException {
 		final boolean sideband = options.contains(OPTION_SIDE_BAND)
 				|| options.contains(OPTION_SIDE_BAND_64K);
 		if (sideband) {
 			try {
-				sendPack(true, accumulator, allTags);
+				sendPack(true, accumulator, allTags, unshallowCommits);
 			} catch (ServiceMayNotContinueException noPack) {
 				// This was already reported on (below).
 				throw noPack;
@@ -1810,7 +1818,7 @@ public class UploadPack {
 					throw err;
 			}
 		} else {
-			sendPack(false, accumulator, allTags);
+			sendPack(false, accumulator, allTags, unshallowCommits);
 		}
 	}
 
@@ -1842,12 +1850,16 @@ public class UploadPack {
 	 *                refs to search for annotated tags to include in the pack
 	 *                if the {@link #OPTION_INCLUDE_TAG} capability was
 	 *                requested.
+	 * @param unshallowCommits
+	 *                shallow commits on the client that are now becoming
+	 *                unshallow
 	 * @throws IOException
 	 *                if an error occured while generating or writing the pack.
 	 */
 	private void sendPack(final boolean sideband,
 			PackStatistics.Accumulator accumulator,
-			@Nullable Collection<Ref> allTags) throws IOException {
+			@Nullable Collection<Ref> allTags,
+			List<ObjectId> unshallowCommits) throws IOException {
 		ProgressMonitor pm = NullProgressMonitor.INSTANCE;
 		OutputStream packOut = rawOut;
 
