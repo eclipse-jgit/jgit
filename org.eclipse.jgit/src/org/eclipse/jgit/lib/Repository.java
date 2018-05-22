@@ -486,7 +486,7 @@ public abstract class Repository implements AutoCloseable {
 		try (RevWalk rw = new RevWalk(this)) {
 			Object resolved = resolve(rw, revstr);
 			if (resolved instanceof String) {
-				final Ref ref = findRef((String) resolved);
+				final Ref ref = getRefDatabase().getRef((String) resolved);
 				return ref != null ? ref.getLeaf().getObjectId() : null;
 			} else {
 				return (ObjectId) resolved;
@@ -711,7 +711,7 @@ public abstract class Repository implements AutoCloseable {
 									.format(JGitText.get().invalidRefName,
 											name),
 									revstr);
-						Ref ref = findRef(name);
+						Ref ref = getRefDatabase().getRef(name);
 						name = null;
 						if (ref == null)
 							return null;
@@ -764,7 +764,7 @@ public abstract class Repository implements AutoCloseable {
 									.format(JGitText.get().invalidRefName,
 											name),
 									revstr);
-						Ref ref = findRef(name);
+						Ref ref = getRefDatabase().getRef(name);
 						name = null;
 						if (ref == null)
 							return null;
@@ -1006,7 +1006,7 @@ public abstract class Repository implements AutoCloseable {
 	 */
 	@Nullable
 	public String getFullBranch() throws IOException {
-		Ref head = exactRef(Constants.HEAD);
+		Ref head = getRefDatabase().exactRef(Constants.HEAD);
 		if (head == null) {
 			return null;
 		}
@@ -1065,7 +1065,9 @@ public abstract class Repository implements AutoCloseable {
 	 * @return the Ref with the given name, or {@code null} if it does not exist
 	 * @throws java.io.IOException
 	 * @since 4.2
+	 * @deprecated use {@code getRefDatabase().exactRef(name)} instead
 	 */
+	@Deprecated
 	@Nullable
 	public Ref exactRef(String name) throws IOException {
 		return getRefDatabase().exactRef(name);
@@ -1081,7 +1083,9 @@ public abstract class Repository implements AutoCloseable {
 	 * @return the Ref with the given name, or {@code null} if it does not exist
 	 * @throws java.io.IOException
 	 * @since 4.2
+	 * @deprecated use {@code getRefDatabase().findRef(name)} instead
 	 */
+	@Deprecated
 	@Nullable
 	public Ref findRef(String name) throws IOException {
 		return getRefDatabase().getRef(name);
