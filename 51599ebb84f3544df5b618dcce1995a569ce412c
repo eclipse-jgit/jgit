@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e757451a_64100258",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-05-22T03:11:28Z",
+      "side": 1,
+      "message": "I thought it better to throw IOException here, but see below.",
+      "range": {
+        "startLine": 227,
+        "startChar": 51,
+        "endLine": 227,
+        "endChar": 72
+      },
+      "revId": "51599ebb84f3544df5b618dcce1995a569ce412c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af804f0_df665ffc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-05-22T03:11:28Z",
+      "side": 1,
+      "message": "The compiler doesn\u0027t like this if getObjectIdFromRef throws IOException. Although this is inside the try block which handles IOException (see L372) it still complains about unhandled exception.",
+      "range": {
+        "startLine": 256,
+        "startChar": 36,
+        "endLine": 256,
+        "endChar": 60
+      },
+      "revId": "51599ebb84f3544df5b618dcce1995a569ce412c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
