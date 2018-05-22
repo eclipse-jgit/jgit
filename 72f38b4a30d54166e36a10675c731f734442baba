@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9ec3f5c_c14a31d9",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/TagTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-22T00:13:13Z",
+      "side": 1,
+      "message": "optional: can use exactRef",
+      "revId": "72f38b4a30d54166e36a10675c731f734442baba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a9189d8_90138083",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/TagTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-22T00:13:13Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "72f38b4a30d54166e36a10675c731f734442baba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
