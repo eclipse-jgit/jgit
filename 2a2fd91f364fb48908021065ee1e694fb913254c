@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e337ebd_3cc172a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-22T01:15:56Z",
+      "side": 1,
+      "message": "Can say a little about the rationale. E.g.:\n\nThis means less cognitive overhead for both implementors and callers, since this way we can guarantee that they are always synonyms for RefDatabase#exactRef and RefDatabase#findRef, respectively.",
+      "revId": "2a2fd91f364fb48908021065ee1e694fb913254c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e8b6903_d6dddb35",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1070,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-22T01:15:56Z",
+      "side": 1,
+      "message": "public final",
+      "range": {
+        "startLine": 1070,
+        "startChar": 1,
+        "endLine": 1070,
+        "endChar": 13
+      },
+      "revId": "2a2fd91f364fb48908021065ee1e694fb913254c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35319bdd_39485b2b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1086,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-22T01:15:56Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "2a2fd91f364fb48908021065ee1e694fb913254c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
