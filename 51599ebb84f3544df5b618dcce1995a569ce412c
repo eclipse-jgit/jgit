@@ -45,6 +45,30 @@
       "revId": "51599ebb84f3544df5b618dcce1995a569ce412c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7dcd065f_4776a1fb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-22T03:22:25Z",
+      "side": 1,
+      "message": "Guava introduced TunnelException \u003chttps://github.com/google/guava/issues/2828#issuecomment-304187823\u003e to handle this kind of case. Since the IOException gets converted to a RuntimeException (JGitInternlaException) eventually anyway, I think your workaround here is reasonable enough.",
+      "parentUuid": "7af804f0_df665ffc",
+      "range": {
+        "startLine": 256,
+        "startChar": 36,
+        "endLine": 256,
+        "endChar": 60
+      },
+      "revId": "51599ebb84f3544df5b618dcce1995a569ce412c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
