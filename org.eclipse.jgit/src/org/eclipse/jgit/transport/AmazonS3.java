@@ -135,7 +135,7 @@ public class AmazonS3 {
 
 	private static String toCleanString(List<String> list) {
 		final StringBuilder s = new StringBuilder();
-		for (final String v : list) {
+		for (String v : list) {
 			if (s.length() > 0)
 				s.append(',');
 			s.append(v.replaceAll("\n", "").trim()); //$NON-NLS-1$ //$NON-NLS-2$
@@ -548,7 +548,7 @@ public class AmazonS3 {
 		return err;
 	}
 
-	IOException maxAttempts(final String action, final String key) {
+	IOException maxAttempts(String action, String key) {
 		return new IOException(MessageFormat.format(
 				JGitText.get().amazonS3ActionFailedGivingUp, action, key,
 				Integer.valueOf(maxAttempts)));
@@ -597,10 +597,10 @@ public class AmazonS3 {
 		return c;
 	}
 
-	void authorize(final HttpURLConnection c) throws IOException {
+	void authorize(HttpURLConnection c) throws IOException {
 		final Map<String, List<String>> reqHdr = c.getRequestProperties();
 		final SortedMap<String, String> sigHdr = new TreeMap<>();
-		for (final Map.Entry<String, List<String>> entry : reqHdr.entrySet()) {
+		for (Map.Entry<String, List<String>> entry : reqHdr.entrySet()) {
 			final String hdr = entry.getKey();
 			if (isSignedHeader(hdr))
 				sigHdr.put(StringUtils.toLowerCase(hdr), toCleanString(entry.getValue()));
@@ -619,7 +619,7 @@ public class AmazonS3 {
 		s.append(remove(sigHdr, "date")); //$NON-NLS-1$
 		s.append('\n');
 
-		for (final Map.Entry<String, String> e : sigHdr.entrySet()) {
+		for (Map.Entry<String, String> e : sigHdr.entrySet()) {
 			s.append(e.getKey());
 			s.append(':');
 			s.append(e.getValue());
@@ -644,7 +644,7 @@ public class AmazonS3 {
 		c.setRequestProperty("Authorization", "AWS " + publicKey + ":" + sec); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}
 
-	static Properties properties(final File authFile)
+	static Properties properties(File authFile)
 			throws FileNotFoundException, IOException {
 		final Properties p = new Properties();
 		try (FileInputStream in = new FileInputStream(authFile)) {
@@ -664,7 +664,7 @@ public class AmazonS3 {
 
 		private StringBuilder data;
 
-		ListParser(final String bn, final String p) {
+		ListParser(String bn, String p) {
 			bucket = bn;
 			prefix = p;
 		}

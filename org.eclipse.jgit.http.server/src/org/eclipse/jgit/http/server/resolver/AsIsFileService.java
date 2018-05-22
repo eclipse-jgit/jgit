@@ -73,7 +73,7 @@ public class AsIsFileService {
 	private static class ServiceConfig {
 		final boolean enabled;
 
-		ServiceConfig(final Config cfg) {
+		ServiceConfig(Config cfg) {
 			enabled = cfg.getBoolean("http", "getanyfile", true);
 		}
 	}

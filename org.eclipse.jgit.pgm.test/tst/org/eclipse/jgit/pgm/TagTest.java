@@ -43,10 +43,11 @@
 package org.eclipse.jgit.pgm;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.CLIRepositoryTestCase;
-import org.eclipse.jgit.lib.Ref;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -75,13 +76,9 @@ public class TagTest extends CLIRepositoryTestCase {
 	@Test
 	public void testTagDelete() throws Exception {
 		git.tag().setName("test").call();
-
-		Ref ref = git.getRepository().getTags().get("test");
-		assertEquals("refs/tags/test", ref.getName());
-
+		assertNotNull(git.getRepository().exactRef("refs/tags/test"));
 		assertEquals("", executeUnchecked("git tag -d test")[0]);
-		Ref deletedRef = git.getRepository().getTags().get("test");
-		assertEquals(null, deletedRef);
+		assertNull(git.getRepository().exactRef("refs/tags/test"));
 	}
 
 	@Test

@@ -42,6 +42,7 @@
  */
 package org.eclipse.jgit.api;
 
+import static org.eclipse.jgit.lib.Constants.R_TAGS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
@@ -66,19 +67,22 @@ public class TagCommandTest extends RepositoryTestCase {
 				RevWalk walk = new RevWalk(db)) {
 			RevCommit commit = git.commit().setMessage("initial commit").call();
 			Ref tagRef = git.tag().setName("tag").call();
-			assertEquals(commit.getId(), db.peel(tagRef).getPeeledObjectId());
+			assertEquals(commit.getId(),
+					db.getRefDatabase().peel(tagRef).getPeeledObjectId());
 			assertEquals("tag", walk.parseTag(tagRef.getObjectId()).getTagName());
 		}
 	}
 
 	@Test
-	public void testTagging() throws GitAPIException, JGitInternalException {
+	public void testTagging()
+			throws GitAPIException, JGitInternalException, IOException {
 		try (Git git = new Git(db)) {
 			git.commit().setMessage("initial commit").call();
 			RevCommit commit = git.commit().setMessage("second commit").call();
 			git.commit().setMessage("third commit").call();
 			Ref tagRef = git.tag().setObjectId(commit).setName("tag").call();
-			assertEquals(commit.getId(), db.peel(tagRef).getPeeledObjectId());
+			assertEquals(commit.getId(),
+					db.getRefDatabase().peel(tagRef).getPeeledObjectId());
 		}
 	}
 
@@ -135,26 +139,30 @@ public class TagCommandTest extends RepositoryTestCase {
 		}
 	}
 
+	private List<Ref> getTags() throws Exception {
+		return db.getRefDatabase().getRefsByPrefix(R_TAGS);
+	}
+
 	@Test
 	public void testDelete() throws Exception {
 		try (Git git = new Git(db)) {
 			git.commit().setMessage("initial commit").call();
 			Ref tagRef = git.tag().setName("tag").call();
-			assertEquals(1, db.getTags().size());
+			assertEquals(1, getTags().size());
 
 			List<String> deleted = git.tagDelete().setTags(tagRef.getName())
 					.call();
 			assertEquals(1, deleted.size());
 			assertEquals(tagRef.getName(), deleted.get(0));
-			assertEquals(0, db.getTags().size());
+			assertEquals(0, getTags().size());
 
 			Ref tagRef1 = git.tag().setName("tag1").call();
 			Ref tagRef2 = git.tag().setName("tag2").call();
-			assertEquals(2, db.getTags().size());
+			assertEquals(2, getTags().size());
 			deleted = git.tagDelete().setTags(tagRef1.getName(), tagRef2.getName())
 					.call();
 			assertEquals(2, deleted.size());
-			assertEquals(0, db.getTags().size());
+			assertEquals(0, getTags().size());
 		}
 	}
 
@@ -163,13 +171,13 @@ public class TagCommandTest extends RepositoryTestCase {
 		try (Git git = new Git(db)) {
 			git.commit().setMessage("initial commit").call();
 			Ref tagRef = git.tag().setName("tag").call();
-			assertEquals(1, db.getTags().size());
+			assertEquals(1, getTags().size());
 
 			List<String> deleted = git.tagDelete()
 					.setTags(Repository.shortenRefName(tagRef.getName())).call();
 			assertEquals(1, deleted.size());
 			assertEquals(tagRef.getName(), deleted.get(0));
-			assertEquals(0, db.getTags().size());
+			assertEquals(0, getTags().size());
 		}
 	}
 

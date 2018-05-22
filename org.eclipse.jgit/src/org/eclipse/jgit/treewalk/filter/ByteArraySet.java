@@ -112,7 +112,7 @@ class ByteArraySet {
 	 *            pre-computed hash of toFind
 	 * @return true if the mapping exists for this byte array; false otherwise.
 	 */
-	boolean contains(final byte[] toFind, int length, int hash) {
+	boolean contains(byte[] toFind, int length, int hash) {
 		return get(toFind, length, hash) != null;
 	}
 

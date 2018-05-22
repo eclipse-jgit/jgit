@@ -74,7 +74,7 @@ public class DefaultReceivePackFactory implements
 
 		final boolean enabled;
 
-		ServiceConfig(final Config cfg) {
+		ServiceConfig(Config cfg) {
 			set = cfg.getString("http", null, "receivepack") != null;
 			enabled = cfg.getBoolean("http", "receivepack", false);
 		}

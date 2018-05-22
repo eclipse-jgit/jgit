@@ -76,7 +76,7 @@ public class DateRevQueue extends AbstractRevQueue {
 		super();
 	}
 
-	DateRevQueue(final Generator s) throws MissingObjectException,
+	DateRevQueue(Generator s) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
 		for (;;) {
 			final RevCommit c = s.next();
@@ -181,7 +181,7 @@ public class DateRevQueue extends AbstractRevQueue {
 	}
 
 	@Override
-	boolean everbodyHasFlag(final int f) {
+	boolean everbodyHasFlag(int f) {
 		for (Entry q = head; q != null; q = q.next) {
 			if ((q.commit.flags & f) == 0)
 				return false;
@@ -190,7 +190,7 @@ public class DateRevQueue extends AbstractRevQueue {
 	}
 
 	@Override
-	boolean anybodyHasFlag(final int f) {
+	boolean anybodyHasFlag(int f) {
 		for (Entry q = head; q != null; q = q.next) {
 			if ((q.commit.flags & f) != 0)
 				return true;

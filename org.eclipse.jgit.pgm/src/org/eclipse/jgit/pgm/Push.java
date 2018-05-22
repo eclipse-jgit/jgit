@@ -149,7 +149,7 @@ class Push extends TextBuiltin {
 		boolean everythingUpToDate = true;
 
 		// at first, print up-to-date ones...
-		for (final RemoteRefUpdate rru : result.getRemoteUpdates()) {
+		for (RemoteRefUpdate rru : result.getRemoteUpdates()) {
 			if (rru.getStatus() == Status.UP_TO_DATE) {
 				if (verbose)
 					printRefUpdateResult(reader, uri, result, rru);
@@ -157,13 +157,13 @@ class Push extends TextBuiltin {
 				everythingUpToDate = false;
 		}
 
-		for (final RemoteRefUpdate rru : result.getRemoteUpdates()) {
+		for (RemoteRefUpdate rru : result.getRemoteUpdates()) {
 			// ...then successful updates...
 			if (rru.getStatus() == Status.OK)
 				printRefUpdateResult(reader, uri, result, rru);
 		}
 
-		for (final RemoteRefUpdate rru : result.getRemoteUpdates()) {
+		for (RemoteRefUpdate rru : result.getRemoteUpdates()) {
 			// ...finally, others (problematic)
 			if (rru.getStatus() != Status.OK
 					&& rru.getStatus() != Status.UP_TO_DATE)

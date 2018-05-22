@@ -46,8 +46,6 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
-import static org.eclipse.jgit.lib.RefDatabase.ALL;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -540,7 +538,7 @@ public class FileRepository extends Repository {
 	/** {@inheritDoc} */
 	@Override
 	public void scanForRepoChanges() throws IOException {
-		getRefDatabase().getRefs(ALL); // This will look for changes to refs
+		getRefDatabase().getRefs(); // This will look for changes to refs
 		detectIndexChanges();
 	}
 

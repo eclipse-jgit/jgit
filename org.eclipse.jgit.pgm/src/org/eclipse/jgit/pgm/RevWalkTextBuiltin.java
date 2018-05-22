@@ -99,22 +99,22 @@ abstract class RevWalkTextBuiltin extends TextBuiltin {
 	}
 
 	@Option(name = "--date-order")
-	void enableDateOrder(final boolean on) {
+	void enableDateOrder(boolean on) {
 		enableRevSort(RevSort.COMMIT_TIME_DESC, on);
 	}
 
 	@Option(name = "--topo-order")
-	void enableTopoOrder(final boolean on) {
+	void enableTopoOrder(boolean on) {
 		enableRevSort(RevSort.TOPO, on);
 	}
 
 	@Option(name = "--reverse")
-	void enableReverse(final boolean on) {
+	void enableReverse(boolean on) {
 		enableRevSort(RevSort.REVERSE, on);
 	}
 
 	@Option(name = "--boundary")
-	void enableBoundary(final boolean on) {
+	void enableBoundary(boolean on) {
 		enableRevSort(RevSort.BOUNDARY, on);
 	}
 
@@ -130,17 +130,17 @@ abstract class RevWalkTextBuiltin extends TextBuiltin {
 	private final List<RevFilter> revLimiter = new ArrayList<>();
 
 	@Option(name = "--author")
-	void addAuthorRevFilter(final String who) {
+	void addAuthorRevFilter(String who) {
 		revLimiter.add(AuthorRevFilter.create(who));
 	}
 
 	@Option(name = "--committer")
-	void addCommitterRevFilter(final String who) {
+	void addCommitterRevFilter(String who) {
 		revLimiter.add(CommitterRevFilter.create(who));
 	}
 
 	@Option(name = "--grep")
-	void addCMessageRevFilter(final String msg) {
+	void addCMessageRevFilter(String msg) {
 		revLimiter.add(MessageRevFilter.create(msg));
 	}
 
@@ -151,7 +151,7 @@ abstract class RevWalkTextBuiltin extends TextBuiltin {
 	@Override
 	protected void run() throws Exception {
 		walk = createWalk();
-		for (final RevSort s : sorting)
+		for (RevSort s : sorting)
 			walk.sort(s, true);
 
 		if (pathFilter == TreeFilter.ALL) {
@@ -187,7 +187,7 @@ abstract class RevWalkTextBuiltin extends TextBuiltin {
 				throw die(MessageFormat.format(CLIText.get().cannotResolve, Constants.HEAD));
 			commits.add(walk.parseCommit(head));
 		}
-		for (final RevCommit c : commits) {
+		for (RevCommit c : commits) {
 			final RevCommit real = argWalk == walk ? c : walk.parseCommit(c);
 			if (c.has(RevFlag.UNINTERESTING))
 				walk.markUninteresting(real);
@@ -233,7 +233,7 @@ abstract class RevWalkTextBuiltin extends TextBuiltin {
 	 */
 	protected int walkLoop() throws Exception {
 		int n = 0;
-		for (final RevCommit c : walk) {
+		for (RevCommit c : walk) {
 			if (++n > maxCount && maxCount >= 0)
 				break;
 			show(c);

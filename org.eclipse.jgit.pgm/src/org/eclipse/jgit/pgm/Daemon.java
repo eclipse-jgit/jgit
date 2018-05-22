@@ -142,7 +142,7 @@ class Daemon extends TextBuiltin {
 			packConfig.setExecutor(Executors.newFixedThreadPool(threads));
 
 		final FileResolver<DaemonClient> resolver = new FileResolver<>();
-		for (final File f : directory) {
+		for (File f : directory) {
 			outw.println(MessageFormat.format(CLIText.get().exporting, f.getAbsolutePath()));
 			resolver.exportDirectory(f);
 		}
@@ -157,14 +157,14 @@ class Daemon extends TextBuiltin {
 		if (0 <= timeout)
 			d.setTimeout(timeout);
 
-		for (final String n : enable)
+		for (String n : enable)
 			service(d, n).setEnabled(true);
-		for (final String n : disable)
+		for (String n : disable)
 			service(d, n).setEnabled(false);
 
-		for (final String n : canOverride)
+		for (String n : canOverride)
 			service(d, n).setOverridable(true);
-		for (final String n : forbidOverride)
+		for (String n : forbidOverride)
 			service(d, n).setOverridable(false);
 		if (ketchServerType == KetchServerType.LEADER) {
 			startKetchLeader(d);

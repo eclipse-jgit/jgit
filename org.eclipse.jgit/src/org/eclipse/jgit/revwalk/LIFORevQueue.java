@@ -62,7 +62,7 @@ public class LIFORevQueue extends BlockRevQueue {
 		super();
 	}
 
-	LIFORevQueue(final Generator s) throws MissingObjectException,
+	LIFORevQueue(Generator s) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
 		super(s);
 	}
@@ -103,7 +103,7 @@ public class LIFORevQueue extends BlockRevQueue {
 	}
 
 	@Override
-	boolean everbodyHasFlag(final int f) {
+	boolean everbodyHasFlag(int f) {
 		for (Block b = head; b != null; b = b.next) {
 			for (int i = b.headIndex; i < b.tailIndex; i++)
 				if ((b.commits[i].flags & f) == 0)
@@ -113,7 +113,7 @@ public class LIFORevQueue extends BlockRevQueue {
 	}
 
 	@Override
-	boolean anybodyHasFlag(final int f) {
+	boolean anybodyHasFlag(int f) {
 		for (Block b = head; b != null; b = b.next) {
 			for (int i = b.headIndex; i < b.tailIndex; i++)
 				if ((b.commits[i].flags & f) != 0)

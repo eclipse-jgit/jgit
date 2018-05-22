@@ -105,7 +105,7 @@ class AmazonS3Client extends TextBuiltin {
 			}
 
 		} else if ("ls".equals(op) || "list".equals(op)) { //$NON-NLS-1$//$NON-NLS-2$
-			for (final String k : s3.list(bucket, key))
+			for (String k : s3.list(bucket, key))
 				outw.println(k);
 
 		} else if ("rm".equals(op) || "delete".equals(op)) { //$NON-NLS-1$ //$NON-NLS-2$

@@ -518,15 +518,18 @@ public class UploadPackTest {
 	 * Parse multiplexed packfile output from upload-pack using protocol V2
 	 * into the client repository.
 	 */
-	private void parsePack(ByteArrayInputStream recvStream) throws Exception {
-		parsePack(recvStream, NullProgressMonitor.INSTANCE);
+	private ReceivedPackStatistics parsePack(ByteArrayInputStream recvStream) throws Exception {
+		return parsePack(recvStream, NullProgressMonitor.INSTANCE);
 	}
 
-	private void parsePack(ByteArrayInputStream recvStream, ProgressMonitor pm)
+	private ReceivedPackStatistics parsePack(ByteArrayInputStream recvStream, ProgressMonitor pm)
 			throws Exception {
 		SideBandInputStream sb = new SideBandInputStream(
-				recvStream, pm, new StringWriter(), NullOutputStream.INSTANCE);
-		client.newObjectInserter().newPackParser(sb).parse(NullProgressMonitor.INSTANCE);
+				recvStream, pm,
+				new StringWriter(), NullOutputStream.INSTANCE);
+		PackParser pp = client.newObjectInserter().newPackParser(sb);
+		pp.parse(NullProgressMonitor.INSTANCE);
+		return pp.getReceivedPackStatistics();
 	}
 
 	@Test
@@ -803,6 +806,75 @@ public class UploadPackTest {
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream, new TextProgressMonitor(sw));
 		assertTrue(sw.toString().isEmpty());
+	}
+
+	@Test
+	public void testV2FetchIncludeTag() throws Exception {
+		RevCommit commit = remote.commit().message("x").create();
+		RevTag tag = remote.tag("tag", commit);
+		remote.update("branch1", commit);
+		remote.update("refs/tags/tag", tag);
+
+		// Without include-tag.
+		ByteArrayInputStream recvStream = uploadPackV2(
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"want " + commit.toObjectId().getName() + "\n",
+			"done\n",
+			PacketLineIn.END);
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+		assertThat(pckIn.readString(), is("packfile"));
+		parsePack(recvStream);
+		assertFalse(client.hasObject(tag.toObjectId()));
+
+		// With tag.
+		recvStream = uploadPackV2(
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"want " + commit.toObjectId().getName() + "\n",
+			"include-tag\n",
+			"done\n",
+			PacketLineIn.END);
+		pckIn = new PacketLineIn(recvStream);
+		assertThat(pckIn.readString(), is("packfile"));
+		parsePack(recvStream);
+		assertTrue(client.hasObject(tag.toObjectId()));
+	}
+
+	@Test
+	public void testV2FetchOfsDelta() throws Exception {
+		String commonInBlob = "abcdefghijklmnopqrstuvwxyz";
+
+		RevBlob parentBlob = remote.blob(commonInBlob + "a");
+		RevCommit parent = remote.commit(remote.tree(remote.file("foo", parentBlob)));
+		RevBlob childBlob = remote.blob(commonInBlob + "b");
+		RevCommit child = remote.commit(remote.tree(remote.file("foo", childBlob)), parent);
+		remote.update("branch1", child);
+
+		// Without ofs-delta.
+		ByteArrayInputStream recvStream = uploadPackV2(
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"want " + child.toObjectId().getName() + "\n",
+			"done\n",
+			PacketLineIn.END);
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+		assertThat(pckIn.readString(), is("packfile"));
+		ReceivedPackStatistics stats = parsePack(recvStream);
+		assertTrue(stats.getNumOfsDelta() == 0);
+
+		// With ofs-delta.
+		recvStream = uploadPackV2(
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"want " + child.toObjectId().getName() + "\n",
+			"ofs-delta\n",
+			"done\n",
+			PacketLineIn.END);
+		pckIn = new PacketLineIn(recvStream);
+		assertThat(pckIn.readString(), is("packfile"));
+		stats = parsePack(recvStream);
+		assertTrue(stats.getNumOfsDelta() != 0);
 	}
 
 	private static class RejectAllRefFilter implements RefFilter {

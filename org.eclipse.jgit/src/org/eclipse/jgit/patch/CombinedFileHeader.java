@@ -69,7 +69,7 @@ public class CombinedFileHeader extends FileHeader {
 
 	private FileMode[] oldModes;
 
-	CombinedFileHeader(final byte[] b, final int offset) {
+	CombinedFileHeader(byte[] b, int offset) {
 		super(b, offset);
 	}
 
@@ -154,7 +154,7 @@ public class CombinedFileHeader extends FileHeader {
 	}
 
 	@Override
-	int parseGitHeaders(int ptr, final int end) {
+	int parseGitHeaders(int ptr, int end) {
 		while (ptr < end) {
 			final int eol = nextLF(buf, ptr);
 			if (isHunkHdr(buf, ptr, end) >= 1) {
@@ -220,7 +220,7 @@ public class CombinedFileHeader extends FileHeader {
 	}
 
 	@Override
-	HunkHeader newHunkHeader(final int offset) {
+	HunkHeader newHunkHeader(int offset) {
 		return new CombinedHunkHeader(this, offset);
 	}
 

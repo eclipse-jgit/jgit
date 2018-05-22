@@ -326,7 +326,7 @@ public abstract class AbstractTreeIterator {
 		return pathCompare(p, p.mode);
 	}
 
-	int pathCompare(final AbstractTreeIterator p, final int pMode) {
+	int pathCompare(AbstractTreeIterator p, int pMode) {
 		// Its common when we are a subtree for both parents to match;
 		// when this happens everything in path[0..cPos] is known to
 		// be equal and does not require evaluation again.

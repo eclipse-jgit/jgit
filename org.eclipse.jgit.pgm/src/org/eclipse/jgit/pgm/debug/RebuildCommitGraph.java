@@ -222,7 +222,7 @@ class RebuildCommitGraph extends TextBuiltin {
 
 		ObjectId newId;
 
-		ToRewrite(final ObjectId o, final long t, final ObjectId[] p) {
+		ToRewrite(ObjectId o, long t, ObjectId[] p) {
 			oldId = o;
 			commitTime = t;
 			oldParents = p;

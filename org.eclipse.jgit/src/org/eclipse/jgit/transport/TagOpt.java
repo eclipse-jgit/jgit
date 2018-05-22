@@ -107,7 +107,7 @@ public enum TagOpt {
 	public static TagOpt fromOption(String o) {
 		if (o == null || o.length() == 0)
 			return AUTO_FOLLOW;
-		for (final TagOpt tagopt : values()) {
+		for (TagOpt tagopt : values()) {
 			if (tagopt.option().equals(o))
 				return tagopt;
 		}

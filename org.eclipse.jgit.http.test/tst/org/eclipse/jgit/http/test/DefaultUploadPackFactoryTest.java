@@ -161,7 +161,7 @@ public class DefaultUploadPackFactoryTest extends LocalDiskRepositoryTestCase {
 
 		private final String host;
 
-		R(final String user, final String host) {
+		R(String user, String host) {
 			super(new Request(null, null) /* can't pass null, sigh */);
 			this.user = user;
 			this.host = host;

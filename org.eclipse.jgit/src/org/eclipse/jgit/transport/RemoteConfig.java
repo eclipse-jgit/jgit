@@ -120,7 +120,7 @@ public class RemoteConfig implements Serializable {
 
 		final List<RemoteConfig> result = new ArrayList<>(names
 				.size());
-		for (final String name : names)
+		for (String name : names)
 			result.add(new RemoteConfig(rc, name));
 		return result;
 	}
@@ -170,12 +170,12 @@ public class RemoteConfig implements Serializable {
 		vlst = rc.getStringList(SECTION, name, KEY_URL);
 		Map<String, String> insteadOf = getReplacements(rc, KEY_INSTEADOF);
 		uris = new ArrayList<>(vlst.length);
-		for (final String s : vlst) {
+		for (String s : vlst) {
 			uris.add(new URIish(replaceUri(s, insteadOf)));
 		}
 		String[] plst = rc.getStringList(SECTION, name, KEY_PUSHURL);
 		pushURIs = new ArrayList<>(plst.length);
-		for (final String s : plst) {
+		for (String s : plst) {
 			pushURIs.add(new URIish(s));
 		}
 		if (pushURIs.isEmpty()) {
@@ -227,22 +227,22 @@ public class RemoteConfig implements Serializable {
 		final List<String> vlst = new ArrayList<>();
 
 		vlst.clear();
-		for (final URIish u : getURIs())
+		for (URIish u : getURIs())
 			vlst.add(u.toPrivateString());
 		rc.setStringList(SECTION, getName(), KEY_URL, vlst);
 
 		vlst.clear();
-		for (final URIish u : getPushURIs())
+		for (URIish u : getPushURIs())
 			vlst.add(u.toPrivateString());
 		rc.setStringList(SECTION, getName(), KEY_PUSHURL, vlst);
 
 		vlst.clear();
-		for (final RefSpec u : getFetchRefSpecs())
+		for (RefSpec u : getFetchRefSpecs())
 			vlst.add(u.toString());
 		rc.setStringList(SECTION, getName(), KEY_FETCH, vlst);
 
 		vlst.clear();
-		for (final RefSpec u : getPushRefSpecs())
+		for (RefSpec u : getPushRefSpecs())
 			vlst.add(u.toString());
 		rc.setStringList(SECTION, getName(), KEY_PUSH, vlst);
 

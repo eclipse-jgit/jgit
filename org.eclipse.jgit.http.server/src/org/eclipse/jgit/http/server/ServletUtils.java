@@ -238,7 +238,7 @@ public final class ServletUtils {
 		return content;
 	}
 
-	static boolean acceptsGzipEncoding(final HttpServletRequest req) {
+	static boolean acceptsGzipEncoding(HttpServletRequest req) {
 		return acceptsGzipEncoding(req.getHeader(HDR_ACCEPT_ENCODING));
 	}
 

@@ -271,7 +271,7 @@ public class DefaultTypedConfigGetter implements TypedConfigGetter {
 	}
 
 	private static boolean match(String a, String... cases) {
-		for (final String b : cases) {
+		for (String b : cases) {
 			if (b != null && b.equalsIgnoreCase(a)) {
 				return true;
 			}

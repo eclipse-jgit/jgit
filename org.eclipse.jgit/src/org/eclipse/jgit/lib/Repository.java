@@ -1067,7 +1067,7 @@ public abstract class Repository implements AutoCloseable {
 	 * @since 4.2
 	 */
 	@Nullable
-	public Ref exactRef(String name) throws IOException {
+	public final Ref exactRef(String name) throws IOException {
 		return getRefDatabase().exactRef(name);
 	}
 
@@ -1083,7 +1083,7 @@ public abstract class Repository implements AutoCloseable {
 	 * @since 4.2
 	 */
 	@Nullable
-	public Ref findRef(String name) throws IOException {
+	public final Ref findRef(String name) throws IOException {
 		return getRefDatabase().getRef(name);
 	}
 
@@ -1108,7 +1108,9 @@ public abstract class Repository implements AutoCloseable {
 	 * @return mutable map of all tags; key is short tag name ("v1.0") and value
 	 *         of the entry contains the ref with the full tag name
 	 *         ("refs/tags/v1.0").
+	 * @deprecated use {@code getRefDatabase().getRefsByPrefix(R_TAGS)} instead
 	 */
+	@Deprecated
 	@NonNull
 	public Map<String, Ref> getTags() {
 		try {
@@ -1131,7 +1133,9 @@ public abstract class Repository implements AutoCloseable {
 	 *         new Ref object representing the same data as Ref, but isPeeled()
 	 *         will be true and getPeeledObjectId will contain the peeled object
 	 *         (or null).
+	 * @deprecated use {@code getRefDatabase().peel(ref)} instead.
 	 */
+	@Deprecated
 	@NonNull
 	public Ref peel(Ref ref) {
 		try {

@@ -67,7 +67,7 @@ class SuffixPipeline extends UrlPipeline {
 	static class Binder extends ServletBinderImpl {
 		private final String suffix;
 
-		Binder(final String suffix) {
+		Binder(String suffix) {
 			this.suffix = suffix;
 		}
 
@@ -89,7 +89,7 @@ class SuffixPipeline extends UrlPipeline {
 	}
 
 	@Override
-	boolean match(final HttpServletRequest req) {
+	boolean match(HttpServletRequest req) {
 		final String pathInfo = req.getPathInfo();
 		return pathInfo != null && pathInfo.endsWith(suffix);
 	}

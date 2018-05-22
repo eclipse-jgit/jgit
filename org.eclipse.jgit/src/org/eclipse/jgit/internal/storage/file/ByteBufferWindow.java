@@ -60,7 +60,7 @@ import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
 final class ByteBufferWindow extends ByteWindow {
 	private final ByteBuffer buffer;
 
-	ByteBufferWindow(final PackFile pack, final long o, final ByteBuffer b) {
+	ByteBufferWindow(PackFile pack, long o, ByteBuffer b) {
 		super(pack, o, b.capacity());
 		buffer = b;
 	}

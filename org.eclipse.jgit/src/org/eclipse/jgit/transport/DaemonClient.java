@@ -50,6 +50,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.Arrays;
+import java.util.Collection;
 
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
@@ -66,11 +68,11 @@ public class DaemonClient {
 
 	private OutputStream rawOut;
 
-	DaemonClient(final Daemon d) {
+	DaemonClient(Daemon d) {
 		daemon = d;
 	}
 
-	void setRemoteAddress(final InetAddress ia) {
+	void setRemoteAddress(InetAddress ia) {
 		peer = ia;
 	}
 
@@ -110,7 +112,7 @@ public class DaemonClient {
 		return rawOut;
 	}
 
-	void execute(final Socket sock) throws IOException,
+	void execute(Socket sock) throws IOException,
 			ServiceNotEnabledException, ServiceNotAuthorizedException {
 		rawIn = new BufferedInputStream(sock.getInputStream());
 		rawOut = new BufferedOutputStream(sock.getOutputStream());
@@ -118,6 +120,14 @@ public class DaemonClient {
 		if (0 < daemon.getTimeout())
 			sock.setSoTimeout(daemon.getTimeout() * 1000);
 		String cmd = new PacketLineIn(rawIn).readStringRaw();
+
+		Collection<String> extraParameters = null;
+
+		int nulnul = cmd.indexOf("\0\0"); //$NON-NLS-1$
+		if (nulnul != -1) {
+			extraParameters = Arrays.asList(cmd.substring(nulnul + 2).split("\0")); //$NON-NLS-1$
+		}
+
 		final int nul = cmd.indexOf('\0');
 		if (nul >= 0) {
 			// Newer clients hide a "host" header behind this byte.
@@ -131,6 +141,6 @@ public class DaemonClient {
 		if (srv == null)
 			return;
 		sock.setSoTimeout(0);
-		srv.execute(this, cmd);
+		srv.execute(this, cmd, extraParameters);
 	}
 }

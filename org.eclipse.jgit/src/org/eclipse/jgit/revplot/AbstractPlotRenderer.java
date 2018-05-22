@@ -99,7 +99,7 @@ public abstract class AbstractPlotRenderer<TLane extends PlotLane, TColor> {
 		final TColor myColor = laneColor(myLane);
 
 		int maxCenter = myLaneX;
-		for (final TLane passingLane : (TLane[]) commit.passingLanes) {
+		for (TLane passingLane : (TLane[]) commit.passingLanes) {
 			final int cx = laneC(passingLane);
 			final TColor c = laneColor(passingLane);
 			drawLine(c, cx, 0, cx, h, LINE_WIDTH);

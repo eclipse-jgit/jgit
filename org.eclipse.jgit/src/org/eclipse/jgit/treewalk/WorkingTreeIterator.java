@@ -256,6 +256,45 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		state.dirCacheTree = treeId;
 	}
 
+	/**
+	 * Retrieves the {@link DirCacheIterator} at the current entry if
+	 * {@link #setDirCacheIterator(TreeWalk, int)} was called.
+	 *
+	 * @return the DirCacheIterator, or {@code null} if not set or not at the
+	 *         current entry
+	 * @since 5.0
+	 */
+	protected DirCacheIterator getDirCacheIterator() {
+		if (state.dirCacheTree >= 0 && state.walk != null) {
+			return state.walk.getTree(state.dirCacheTree,
+					DirCacheIterator.class);
+		}
+		return null;
+	}
+
+	/**
+	 * Defines whether this {@link WorkingTreeIterator} walks ignored
+	 * directories.
+	 *
+	 * @param includeIgnored
+	 *            {@code false} to skip ignored directories, if possible;
+	 *            {@code true} to always include them in the walk
+	 * @since 5.0
+	 */
+	public void setWalkIgnoredDirectories(boolean includeIgnored) {
+		state.walkIgnored = includeIgnored;
+	}
+
+	/**
+	 * Tells whether this {@link WorkingTreeIterator} walks ignored directories.
+	 *
+	 * @return {@code true} if it does, {@code false} otherwise
+	 * @since 5.0
+	 */
+	public boolean walksIgnoredDirectories() {
+		return state.walkIgnored;
+	}
+
 	/** {@inheritDoc} */
 	@Override
 	public boolean hasId() {
@@ -1175,7 +1214,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 
 		int encodedNameLen;
 
-		void encodeName(final CharsetEncoder enc) {
+		void encodeName(CharsetEncoder enc) {
 			final ByteBuffer b;
 			try {
 				b = enc.encode(CharBuffer.wrap(getName()));
@@ -1365,7 +1404,10 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		TreeWalk walk;
 
 		/** Position of the matching {@link DirCacheIterator}. */
-		int dirCacheTree;
+		int dirCacheTree = -1;
+
+		/** Whether the iterator shall walk ignored directories. */
+		boolean walkIgnored = false;
 
 		final Map<String, Boolean> directoryToIgnored = new HashMap<>();
 

@@ -96,7 +96,7 @@ class BundleFetchConnection extends BaseFetchConnection {
 
 	private PackLock packLock;
 
-	BundleFetchConnection(Transport transportBundle, final InputStream src) throws TransportException {
+	BundleFetchConnection(Transport transportBundle, InputStream src) throws TransportException {
 		transport = transportBundle;
 		bin = new BufferedInputStream(src);
 		try {
@@ -226,13 +226,13 @@ class BundleFetchConnection extends BaseFetchConnection {
 		if (prereqs.isEmpty())
 			return;
 
-		try (final RevWalk rw = new RevWalk(transport.local)) {
+		try (RevWalk rw = new RevWalk(transport.local)) {
 			final RevFlag PREREQ = rw.newFlag("PREREQ"); //$NON-NLS-1$
 			final RevFlag SEEN = rw.newFlag("SEEN"); //$NON-NLS-1$
 
 			final Map<ObjectId, String> missing = new HashMap<>();
 			final List<RevObject> commits = new ArrayList<>();
-			for (final Map.Entry<ObjectId, String> e : prereqs.entrySet()) {
+			for (Map.Entry<ObjectId, String> e : prereqs.entrySet()) {
 				ObjectId p = e.getKey();
 				try {
 					final RevCommit c = rw.parseCommit(p);
@@ -258,7 +258,7 @@ class BundleFetchConnection extends BaseFetchConnection {
 			} catch (IOException e) {
 				throw new TransportException(transport.uri, e.getMessage(), e);
 			}
-			for (final Ref r : localRefs) {
+			for (Ref r : localRefs) {
 				try {
 					rw.markStart(rw.parseCommit(r.getObjectId()));
 				} catch (IOException readError) {
@@ -282,7 +282,7 @@ class BundleFetchConnection extends BaseFetchConnection {
 			}
 
 			if (remaining > 0) {
-				for (final RevObject o : commits) {
+				for (RevObject o : commits) {
 					if (!o.has(SEEN))
 						missing.put(o, prereqs.get(o));
 				}

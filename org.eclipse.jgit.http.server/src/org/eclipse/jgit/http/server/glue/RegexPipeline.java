@@ -87,11 +87,11 @@ class RegexPipeline extends UrlPipeline {
 	static class Binder extends ServletBinderImpl {
 		private final Pattern pattern;
 
-		Binder(final String p) {
+		Binder(String p) {
 			pattern = Pattern.compile(p);
 		}
 
-		Binder(final Pattern p) {
+		Binder(Pattern p) {
 			pattern = p;
 		}
 
@@ -110,7 +110,7 @@ class RegexPipeline extends UrlPipeline {
 	}
 
 	@Override
-	boolean match(final HttpServletRequest req) {
+	boolean match(HttpServletRequest req) {
 		final String pathInfo = req.getPathInfo();
 		return pathInfo != null && pattern.matcher(pathInfo).matches();
 	}

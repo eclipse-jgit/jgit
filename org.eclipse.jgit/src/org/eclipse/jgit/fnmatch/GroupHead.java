@@ -61,7 +61,7 @@ final class GroupHead extends AbstractHead {
 
 	private final boolean inverse;
 
-	GroupHead(String pattern, final String wholePattern)
+	GroupHead(String pattern, String wholePattern)
 			throws InvalidPatternException {
 		super(false);
 		this.characterClasses = new ArrayList<>();
@@ -214,7 +214,7 @@ final class GroupHead extends AbstractHead {
 	private static final class OneCharacterPattern implements CharacterPattern {
 		private char expectedCharacter;
 
-		OneCharacterPattern(final char c) {
+		OneCharacterPattern(char c) {
 			this.expectedCharacter = c;
 		}
 

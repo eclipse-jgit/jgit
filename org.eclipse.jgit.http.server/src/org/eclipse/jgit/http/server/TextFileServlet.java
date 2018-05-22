@@ -64,7 +64,7 @@ class TextFileServlet extends HttpServlet {
 
 	private final String fileName;
 
-	TextFileServlet(final String name) {
+	TextFileServlet(String name) {
 		this.fileName = name;
 	}
 

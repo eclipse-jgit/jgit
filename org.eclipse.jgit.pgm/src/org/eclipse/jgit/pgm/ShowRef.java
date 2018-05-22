@@ -57,7 +57,7 @@ class ShowRef extends TextBuiltin {
 	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
-		for (final Ref r : getSortedRefs()) {
+		for (Ref r : getSortedRefs()) {
 			show(r.getObjectId(), r.getName());
 			if (r.getPeeledObjectId() != null)
 				show(r.getPeeledObjectId(), r.getName() + "^{}"); //$NON-NLS-1$

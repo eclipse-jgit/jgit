@@ -327,7 +327,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	public void markStart(Collection<RevCommit> list)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
-		for (final RevCommit c : list)
+		for (RevCommit c : list)
 			markStart(c);
 	}
 
@@ -1142,7 +1142,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 *            the flags to carry onto parents, if set on a descendant.
 	 */
 	public void carry(Collection<RevFlag> set) {
-		for (final RevFlag flag : set)
+		for (RevFlag flag : set)
 			carry(flag);
 	}
 
@@ -1204,7 +1204,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		freeFlag(flag.mask);
 	}
 
-	void freeFlag(final int mask) {
+	void freeFlag(int mask) {
 		retainOnReset &= ~mask;
 		if (isNotStarted()) {
 			freeFlags |= mask;
@@ -1264,7 +1264,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 */
 	public final void resetRetain(RevFlag... retainFlags) {
 		int mask = 0;
-		for (final RevFlag flag : retainFlags)
+		for (RevFlag flag : retainFlags)
 			mask |= flag.mask;
 		reset(mask);
 	}
@@ -1286,7 +1286,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		final int clearFlags = ~retainFlags;
 
 		final FIFORevQueue q = new FIFORevQueue();
-		for (final RevCommit c : roots) {
+		for (RevCommit c : roots) {
 			if ((c.flags & clearFlags) == 0)
 				continue;
 			c.flags &= retainFlags;
@@ -1300,7 +1300,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 				break;
 			if (c.parents == null)
 				continue;
-			for (final RevCommit p : c.parents) {
+			for (RevCommit p : c.parents) {
 				if ((p.flags & clearFlags) == 0)
 					continue;
 				p.flags &= retainFlags;
@@ -1439,7 +1439,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		return new RevCommit(id);
 	}
 
-	void carryFlagsImpl(final RevCommit c) {
+	void carryFlagsImpl(RevCommit c) {
 		final int carry = c.flags & carryFlags;
 		if (carry != 0)
 			RevCommit.carryFlags(c, carry);

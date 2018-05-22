@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.transport;
 
+import static org.eclipse.jgit.lib.Constants.R_TAGS;
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 import static org.eclipse.jgit.transport.GitProtocolConstants.COMMAND_FETCH;
 import static org.eclipse.jgit.transport.GitProtocolConstants.COMMAND_LS_REFS;
@@ -76,6 +77,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -866,7 +868,7 @@ public class UploadPack {
 		}
 
 		if (sendPack)
-			sendPack(accumulator);
+			sendPack(accumulator, refs == null ? null : refs.values());
 	}
 
 	private void lsRefsV2() throws IOException {
@@ -950,6 +952,7 @@ public class UploadPack {
 					.format(JGitText.get().unexpectedPacketLine, line));
 		}
 
+		boolean includeTag = false;
 		while ((line = pckIn.readString()) != PacketLineIn.END) {
 			if (line.startsWith("want ")) { //$NON-NLS-1$
 				wantIds.add(ObjectId.fromString(line.substring(5)));
@@ -961,6 +964,11 @@ public class UploadPack {
 				options.add(OPTION_THIN_PACK);
 			} else if (line.equals(OPTION_NO_PROGRESS)) {
 				options.add(OPTION_NO_PROGRESS);
+			} else if (line.equals(OPTION_INCLUDE_TAG)) {
+				options.add(OPTION_INCLUDE_TAG);
+				includeTag = true;
+			} else if (line.equals(OPTION_OFS_DELTA)) {
+				options.add(OPTION_OFS_DELTA);
 			}
 			// else ignore it
 		}
@@ -988,7 +996,10 @@ public class UploadPack {
 			if (sectionSent)
 				pckOut.writeDelim();
 			pckOut.writeString("packfile\n"); //$NON-NLS-1$
-			sendPack(new PackStatistics.Accumulator());
+			sendPack(new PackStatistics.Accumulator(),
+					includeTag
+						? db.getRefDatabase().getRefsByPrefix(R_TAGS)
+						: null);
 		}
 		pckOut.end();
 	}
@@ -1142,16 +1153,6 @@ public class UploadPack {
 	 */
 	public void sendAdvertisedRefs(RefAdvertiser adv) throws IOException,
 			ServiceMayNotContinueException {
-		try {
-			advertiseRefsHook.advertiseRefs(this);
-		} catch (ServiceMayNotContinueException fail) {
-			if (fail.getMessage() != null) {
-				adv.writeOne("ERR " + fail.getMessage()); //$NON-NLS-1$
-				fail.setOutput();
-			}
-			throw fail;
-		}
-
 		if (useProtocolV2()) {
 			// The equivalent in v2 is only the capabilities
 			// advertisement.
@@ -1160,6 +1161,16 @@ public class UploadPack {
 			}
 			adv.end();
 			return;
+		}
+
+		try {
+			advertiseRefsHook.advertiseRefs(this);
+		} catch (ServiceMayNotContinueException fail) {
+			if (fail.getMessage() != null) {
+				adv.writeOne("ERR " + fail.getMessage()); //$NON-NLS-1$
+				fail.setOutput();
+			}
+			throw fail;
 		}
 
 		adv.init(db);
@@ -1734,13 +1745,25 @@ public class UploadPack {
 		return false;
 	}
 
-	private void sendPack(PackStatistics.Accumulator accumulator)
-			throws IOException {
+	/**
+	 * Send the requested objects to the client.
+	 *
+	 * @param accumulator
+	 *                where to write statistics about the content of the pack.
+	 * @param allTags
+	 *                refs to search for annotated tags to include in the pack
+	 *                if the {@link #OPTION_INCLUDE_TAG} capability was
+	 *                requested.
+	 * @throws IOException
+	 *                if an error occured while generating or writing the pack.
+	 */
+	private void sendPack(PackStatistics.Accumulator accumulator,
+			@Nullable Collection<Ref> allTags) throws IOException {
 		final boolean sideband = options.contains(OPTION_SIDE_BAND)
 				|| options.contains(OPTION_SIDE_BAND_64K);
 		if (sideband) {
 			try {
-				sendPack(true, accumulator);
+				sendPack(true, accumulator, allTags);
 			} catch (ServiceMayNotContinueException noPack) {
 				// This was already reported on (below).
 				throw noPack;
@@ -1761,7 +1784,7 @@ public class UploadPack {
 					throw err;
 			}
 		} else {
-			sendPack(false, accumulator);
+			sendPack(false, accumulator, allTags);
 		}
 	}
 
@@ -1781,8 +1804,24 @@ public class UploadPack {
 		}
 	}
 
+	/**
+	 * Send the requested objects to the client.
+	 *
+	 * @param sideband
+	 *                whether to wrap the pack in side-band pkt-lines,
+	 *                interleaved with progress messages and errors.
+	 * @param accumulator
+	 *                where to write statistics about the content of the pack.
+	 * @param allTags
+	 *                refs to search for annotated tags to include in the pack
+	 *                if the {@link #OPTION_INCLUDE_TAG} capability was
+	 *                requested.
+	 * @throws IOException
+	 *                if an error occured while generating or writing the pack.
+	 */
 	private void sendPack(final boolean sideband,
-			PackStatistics.Accumulator accumulator) throws IOException {
+			PackStatistics.Accumulator accumulator,
+			@Nullable Collection<Ref> allTags) throws IOException {
 		ProgressMonitor pm = NullProgressMonitor.INSTANCE;
 		OutputStream packOut = rawOut;
 
@@ -1842,6 +1881,8 @@ public class UploadPack {
 			pw.setThin(options.contains(OPTION_THIN_PACK));
 			pw.setReuseValidatingObjects(false);
 
+			// Objects named directly by references go at the beginning
+			// of the pack.
 			if (commonBase.isEmpty() && refs != null) {
 				Set<ObjectId> tagTargets = new HashSet<>();
 				for (Ref ref : refs.values()) {
@@ -1872,8 +1913,8 @@ public class UploadPack {
 				rw = ow;
 			}
 
-			if (options.contains(OPTION_INCLUDE_TAG) && refs != null) {
-				for (Ref ref : refs.values()) {
+			if (options.contains(OPTION_INCLUDE_TAG) && allTags != null) {
+				for (Ref ref : allTags) {
 					ObjectId objectId = ref.getObjectId();
 					if (objectId == null) {
 						// skip unborn branch
@@ -1891,7 +1932,7 @@ public class UploadPack {
 					}
 
 					if (!ref.isPeeled())
-						ref = db.peel(ref);
+						ref = db.getRefDatabase().peel(ref);
 
 					ObjectId peeledId = ref.getPeeledObjectId();
 					objectId = ref.getObjectId();

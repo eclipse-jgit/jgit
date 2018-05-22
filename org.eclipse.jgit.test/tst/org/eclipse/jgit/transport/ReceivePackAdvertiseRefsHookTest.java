@@ -136,7 +136,7 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 		try (TransportLocal t = new TransportLocal(src, uriOf(dst),
 				dst.getDirectory()) {
 			@Override
-			ReceivePack createReceivePack(final Repository db) {
+			ReceivePack createReceivePack(Repository db) {
 				db.close();
 				dst.incrementOpen();
 
@@ -203,7 +203,7 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 			throws Exception {
 		return new TransportLocal(src, uriOf(dst), dst.getDirectory()) {
 			@Override
-			ReceivePack createReceivePack(final Repository db) {
+			ReceivePack createReceivePack(Repository db) {
 				db.close();
 				dst.incrementOpen();
 

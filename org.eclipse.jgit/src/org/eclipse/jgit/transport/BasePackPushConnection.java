@@ -256,7 +256,7 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 							pushOptions.toString()));
 		}
 
-		for (final RemoteRefUpdate rru : refUpdates) {
+		for (RemoteRefUpdate rru : refUpdates) {
 			if (!capableDeleteRefs && rru.isDelete()) {
 				rru.setStatus(Status.REJECTED_NODELETE);
 				continue;
@@ -294,7 +294,7 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 	}
 
 	private void transmitOptions() throws IOException {
-		for (final String pushOption : pushOptions) {
+		for (String pushOption : pushOptions) {
 			pckOut.writeString(pushOption);
 		}
 
@@ -332,17 +332,17 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 		Set<ObjectId> remoteObjects = new HashSet<>();
 		Set<ObjectId> newObjects = new HashSet<>();
 
-		try (final PackWriter writer = new PackWriter(transport.getPackConfig(),
+		try (PackWriter writer = new PackWriter(transport.getPackConfig(),
 				local.newObjectReader())) {
 
-			for (final Ref r : getRefs()) {
+			for (Ref r : getRefs()) {
 				// only add objects that we actually have
 				ObjectId oid = r.getObjectId();
 				if (local.hasObject(oid))
 					remoteObjects.add(oid);
 			}
 			remoteObjects.addAll(additionalHaves);
-			for (final RemoteRefUpdate r : refUpdates.values()) {
+			for (RemoteRefUpdate r : refUpdates.values()) {
 				if (!ObjectId.zeroId().equals(r.getNewObjectId()))
 					newObjects.add(r.getNewObjectId());
 			}
@@ -411,7 +411,7 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 				rru.setMessage(message);
 			}
 		}
-		for (final RemoteRefUpdate rru : refUpdates.values()) {
+		for (RemoteRefUpdate rru : refUpdates.values()) {
 			if (rru.getStatus() == Status.AWAITING_REPORT)
 				throw new PackProtocolException(MessageFormat.format(
 						JGitText.get().expectedReportForRefNotReceived , uri, rru.getRemoteName()));

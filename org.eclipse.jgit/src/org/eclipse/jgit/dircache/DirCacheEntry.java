@@ -312,7 +312,7 @@ public class DirCacheEntry {
 		System.arraycopy(src.info, src.infoOffset, info, 0, INFO_LEN);
 	}
 
-	void write(final OutputStream os) throws IOException {
+	void write(OutputStream os) throws IOException {
 		final int len = isExtended() ? INFO_LEN_EXTENDED : INFO_LEN;
 		final int pathLen = path.length;
 		os.write(info, infoOffset, len);
@@ -719,7 +719,7 @@ public class DirCacheEntry {
 	 * @param keepStage
 	 *            if true, the stage attribute will not be copied
 	 */
-	void copyMetaData(final DirCacheEntry src, boolean keepStage) {
+	void copyMetaData(DirCacheEntry src, boolean keepStage) {
 		int origflags = NB.decodeUInt16(info, infoOffset + P_FLAGS);
 		int newflags = NB.decodeUInt16(src.info, src.infoOffset + P_FLAGS);
 		System.arraycopy(src.info, src.infoOffset, info, infoOffset, INFO_LEN);
@@ -771,7 +771,7 @@ public class DirCacheEntry {
 		}
 	}
 
-	static String toString(final byte[] path) {
+	static String toString(byte[] path) {
 		return Constants.CHARSET.decode(ByteBuffer.wrap(path)).toString();
 	}
 

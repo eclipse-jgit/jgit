@@ -113,7 +113,7 @@ class PackIndexV1 extends PackIndex {
 	@Override
 	public long getOffset64Count() {
 		long n64 = 0;
-		for (final MutableEntry e : this) {
+		for (MutableEntry e : this) {
 			if (e.getOffset() >= Integer.MAX_VALUE)
 				n64++;
 		}

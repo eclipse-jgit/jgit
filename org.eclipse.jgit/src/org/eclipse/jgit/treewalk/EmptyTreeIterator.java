@@ -63,7 +63,7 @@ public class EmptyTreeIterator extends AbstractTreeIterator {
 		// Create a root empty tree.
 	}
 
-	EmptyTreeIterator(final AbstractTreeIterator p) {
+	EmptyTreeIterator(AbstractTreeIterator p) {
 		super(p);
 		pathLen = pathOffset;
 	}

@@ -60,7 +60,7 @@ class DfsObjectToPack extends ObjectToPack {
 	/** Length of the data section of the object. */
 	long length;
 
-	DfsObjectToPack(AnyObjectId src, final int type) {
+	DfsObjectToPack(AnyObjectId src, int type) {
 		super(src, type);
 	}
 

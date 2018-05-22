@@ -220,7 +220,7 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 	private File[] pack(Repository src, RevObject... list)
 			throws IOException {
 		try (PackWriter pw = new PackWriter(src)) {
-			for (final RevObject o : list) {
+			for (RevObject o : list) {
 				pw.addObject(o);
 			}
 
@@ -253,7 +253,7 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 
 	private static void delete(File[] list) throws IOException {
 		final long begin = list[0].getParentFile().lastModified();
-		for (final File f : list) {
+		for (File f : list) {
 			FileUtils.delete(f);
 			assertFalse(f + " was removed", f.exists());
 		}

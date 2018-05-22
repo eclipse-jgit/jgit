@@ -202,7 +202,7 @@ abstract class WalkRemoteObjectDatabase {
 	 * @throws IOException
 	 *             deletion is not supported, or deletion failed.
 	 */
-	void deleteFile(final String path) throws IOException {
+	void deleteFile(String path) throws IOException {
 		throw new IOException(MessageFormat.format(JGitText.get().deletingNotSupported, path));
 	}
 
@@ -263,7 +263,7 @@ abstract class WalkRemoteObjectDatabase {
 	 *             writing is not supported, or attempting to write the file
 	 *             failed, possibly due to permissions or remote disk full, etc.
 	 */
-	void writeFile(final String path, final byte[] data) throws IOException {
+	void writeFile(String path, byte[] data) throws IOException {
 		try (OutputStream os = writeFile(path, null, null)) {
 			os.write(data);
 		}
@@ -278,7 +278,7 @@ abstract class WalkRemoteObjectDatabase {
 	 * @throws IOException
 	 *             deletion is not supported, or deletion failed.
 	 */
-	void deleteRef(final String name) throws IOException {
+	void deleteRef(String name) throws IOException {
 		deleteFile(ROOT_DIR + name);
 	}
 
@@ -291,7 +291,7 @@ abstract class WalkRemoteObjectDatabase {
 	 * @throws IOException
 	 *             deletion is not supported, or deletion failed.
 	 */
-	void deleteRefLog(final String name) throws IOException {
+	void deleteRefLog(String name) throws IOException {
 		deleteFile(ROOT_DIR + Constants.LOGS + "/" + name); //$NON-NLS-1$
 	}
 
@@ -309,7 +309,7 @@ abstract class WalkRemoteObjectDatabase {
 	 *             writing is not supported, or attempting to write the file
 	 *             failed, possibly due to permissions or remote disk full, etc.
 	 */
-	void writeRef(final String name, final ObjectId value) throws IOException {
+	void writeRef(String name, ObjectId value) throws IOException {
 		final ByteArrayOutputStream b;
 
 		b = new ByteArrayOutputStream(Constants.OBJECT_ID_STRING_LENGTH + 1);
@@ -333,9 +333,9 @@ abstract class WalkRemoteObjectDatabase {
 	 *             writing is not supported, or attempting to write the file
 	 *             failed, possibly due to permissions or remote disk full, etc.
 	 */
-	void writeInfoPacks(final Collection<String> packNames) throws IOException {
+	void writeInfoPacks(Collection<String> packNames) throws IOException {
 		final StringBuilder w = new StringBuilder();
-		for (final String n : packNames) {
+		for (String n : packNames) {
 			w.append("P "); //$NON-NLS-1$
 			w.append(n);
 			w.append('\n');
@@ -361,7 +361,7 @@ abstract class WalkRemoteObjectDatabase {
 	 *             exists, or after it was determined to exist but before the
 	 *             stream could be created.
 	 */
-	BufferedReader openReader(final String path) throws IOException {
+	BufferedReader openReader(String path) throws IOException {
 		final InputStream is = open(path).in;
 		return new BufferedReader(new InputStreamReader(is, Constants.CHARSET));
 	}
@@ -475,7 +475,7 @@ abstract class WalkRemoteObjectDatabase {
 		 *            stream containing the file data. This stream will be
 		 *            closed by the caller when reading is complete.
 		 */
-		FileStream(final InputStream i) {
+		FileStream(InputStream i) {
 			in = i;
 			length = -1;
 		}
@@ -490,7 +490,7 @@ abstract class WalkRemoteObjectDatabase {
 		 *            total number of bytes available for reading through
 		 *            <code>i</code>.
 		 */
-		FileStream(final InputStream i, final long n) {
+		FileStream(InputStream i, long n) {
 			in = i;
 			length = n;
 		}

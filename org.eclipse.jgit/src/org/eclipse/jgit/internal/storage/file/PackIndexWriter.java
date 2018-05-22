@@ -123,7 +123,7 @@ public abstract class PackIndexWriter {
 	 */
 	public static int oldestPossibleFormat(
 			final List<? extends PackedObjectInfo> objs) {
-		for (final PackedObjectInfo oe : objs) {
+		for (PackedObjectInfo oe : objs) {
 			if (!PackIndexWriterV1.canStore(oe))
 				return 2;
 		}
@@ -269,11 +269,11 @@ public abstract class PackIndexWriter {
 	 */
 	protected void writeFanOutTable() throws IOException {
 		final int[] fanout = new int[256];
-		for (final PackedObjectInfo po : entries)
+		for (PackedObjectInfo po : entries)
 			fanout[po.getFirstByte() & 0xff]++;
 		for (int i = 1; i < 256; i++)
 			fanout[i] += fanout[i - 1];
-		for (final int n : fanout) {
+		for (int n : fanout) {
 			NB.encodeInt32(tmp, 0, n);
 			out.write(tmp, 0, 4);
 		}

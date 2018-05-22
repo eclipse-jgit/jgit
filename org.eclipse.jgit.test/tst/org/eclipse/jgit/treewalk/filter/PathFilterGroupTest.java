@@ -254,7 +254,7 @@ public class PathFilterGroupTest {
 		}
 	}
 
-	TreeWalk fakeWalk(final String path) throws IOException {
+	TreeWalk fakeWalk(String path) throws IOException {
 		DirCache dc = DirCache.newInCore();
 		DirCacheEditor dce = dc.editor();
 		dce.add(new DirCacheEditor.PathEdit(path) {
@@ -274,7 +274,7 @@ public class PathFilterGroupTest {
 		return ret;
 	}
 
-	TreeWalk fakeWalkAtSubtree(final String path) throws IOException {
+	TreeWalk fakeWalkAtSubtree(String path) throws IOException {
 		DirCache dc = DirCache.newInCore();
 		DirCacheEditor dce = dc.editor();
 		dce.add(new DirCacheEditor.PathEdit(path + "/README") {

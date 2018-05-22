@@ -133,7 +133,7 @@ public class WindowCacheGetTest extends SampleDataRepositoryTestCase {
 	}
 
 	private void doCacheTests() throws IOException {
-		for (final TestObject o : toLoad) {
+		for (TestObject o : toLoad) {
 			final ObjectLoader or = db.open(o.id, o.type);
 			assertNotNull(or);
 			assertEquals(o.type, or.getType());
@@ -145,7 +145,7 @@ public class WindowCacheGetTest extends SampleDataRepositoryTestCase {
 
 		int type;
 
-		void setType(final String typeStr) throws CorruptObjectException {
+		void setType(String typeStr) throws CorruptObjectException {
 			final byte[] typeRaw = Constants.encode(typeStr + " ");
 			final MutableInteger ptr = new MutableInteger();
 			type = Constants.decodeTypeString(id, typeRaw, (byte) ' ', ptr);

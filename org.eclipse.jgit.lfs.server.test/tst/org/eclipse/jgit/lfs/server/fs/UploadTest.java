@@ -122,7 +122,7 @@ public class UploadTest extends LfsServerTest {
 
 		ExecutorService e = Executors.newFixedThreadPool(count);
 		try {
-			for (final Path p : paths) {
+			for (Path p : paths) {
 				e.submit(new Callable<Void>() {
 					@Override
 					public Void call() throws Exception {

@@ -141,7 +141,9 @@ public class CGitIgnoreTest extends RepositoryTestCase {
 		// Do a tree walk that does descend into ignored directories and return
 		// a list of all ignored files
 		try (TreeWalk walk = new TreeWalk(db)) {
-			walk.addTree(new FileTreeIterator(db));
+			FileTreeIterator iter = new FileTreeIterator(db);
+			iter.setWalkIgnoredDirectories(true);
+			walk.addTree(iter);
 			walk.setRecursive(true);
 			while (walk.next()) {
 				if (walk.getTree(WorkingTreeIterator.class).isEntryIgnored()) {

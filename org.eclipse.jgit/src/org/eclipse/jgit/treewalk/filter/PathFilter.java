@@ -115,7 +115,7 @@ public class PathFilter extends TreeFilter {
 	/** {@inheritDoc} */
 	@Override
 	public boolean shouldBeRecursive() {
-		for (final byte b : pathRaw)
+		for (byte b : pathRaw)
 			if (b == '/')
 				return true;
 		return false;

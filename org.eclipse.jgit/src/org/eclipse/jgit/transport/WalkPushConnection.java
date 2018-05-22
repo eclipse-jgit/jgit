@@ -157,7 +157,7 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 		// ref using the directory name being created.
 		//
 		final List<RemoteRefUpdate> updates = new ArrayList<>();
-		for (final RemoteRefUpdate u : refUpdates.values()) {
+		for (RemoteRefUpdate u : refUpdates.values()) {
 			final String n = u.getRemoteName();
 			if (!n.startsWith("refs/") || !Repository.isValidRefName(n)) { //$NON-NLS-1$
 				u.setStatus(Status.REJECTED_OTHER_REASON);
@@ -177,7 +177,7 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 		//
 		if (!updates.isEmpty())
 			sendpack(updates, monitor);
-		for (final RemoteRefUpdate u : updates)
+		for (RemoteRefUpdate u : updates)
 			updateCommand(u);
 
 		// Is this a new repository? If so we should create additional
@@ -196,10 +196,10 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 		if (!packedRefUpdates.isEmpty()) {
 			try {
 				refWriter.writePackedRefs();
-				for (final RemoteRefUpdate u : packedRefUpdates)
+				for (RemoteRefUpdate u : packedRefUpdates)
 					u.setStatus(Status.OK);
 			} catch (IOException err) {
-				for (final RemoteRefUpdate u : packedRefUpdates) {
+				for (RemoteRefUpdate u : packedRefUpdates) {
 					u.setStatus(Status.REJECTED_OTHER_REASON);
 					u.setMessage(err.getMessage());
 				}
@@ -225,14 +225,14 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 		String pathPack = null;
 		String pathIdx = null;
 
-		try (final PackWriter writer = new PackWriter(transport.getPackConfig(),
+		try (PackWriter writer = new PackWriter(transport.getPackConfig(),
 				local.newObjectReader())) {
 
 			final Set<ObjectId> need = new HashSet<>();
 			final Set<ObjectId> have = new HashSet<>();
-			for (final RemoteRefUpdate r : updates)
+			for (RemoteRefUpdate r : updates)
 				need.add(r.getNewObjectId());
-			for (final Ref r : getRefs()) {
+			for (Ref r : getRefs()) {
 				have.add(r.getObjectId());
 				if (r.getPeeledObjectId() != null)
 					have.add(r.getPeeledObjectId());
@@ -247,7 +247,7 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 				return;
 
 			packNames = new LinkedHashMap<>();
-			for (final String n : dest.getPackNames())
+			for (String n : dest.getPackNames())
 				packNames.put(n, n);
 
 			final String base = "pack-" + writer.computeName().name(); //$NON-NLS-1$
@@ -379,7 +379,7 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 		// default branch and is likely what they want to remain as
 		// the default on the new remote.
 		//
-		for (final RemoteRefUpdate u : updates) {
+		for (RemoteRefUpdate u : updates) {
 			final String n = u.getRemoteName();
 			if (n.equals(Constants.R_HEADS + Constants.MASTER))
 				return n;
@@ -388,7 +388,7 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 		// Pick any branch, under the assumption the user pushed only
 		// one to the remote side.
 		//
-		for (final RemoteRefUpdate u : updates) {
+		for (RemoteRefUpdate u : updates) {
 			final String n = u.getRemoteName();
 			if (n.startsWith(Constants.R_HEADS))
 				return n;

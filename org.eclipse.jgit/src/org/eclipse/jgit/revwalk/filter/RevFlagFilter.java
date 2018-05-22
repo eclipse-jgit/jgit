@@ -78,7 +78,7 @@ public abstract class RevFlagFilter extends RevFilter {
 	 */
 	public static RevFilter hasAll(RevFlag... a) {
 		final RevFlagSet set = new RevFlagSet();
-		for (final RevFlag flag : a)
+		for (RevFlag flag : a)
 			set.add(flag);
 		return new HasAll(set);
 	}
@@ -103,7 +103,7 @@ public abstract class RevFlagFilter extends RevFilter {
 	 */
 	public static RevFilter hasAny(RevFlag... a) {
 		final RevFlagSet set = new RevFlagSet();
-		for (final RevFlag flag : a)
+		for (RevFlag flag : a)
 			set.add(flag);
 		return new HasAny(set);
 	}
@@ -121,7 +121,7 @@ public abstract class RevFlagFilter extends RevFilter {
 
 	final RevFlagSet flags;
 
-	RevFlagFilter(final RevFlagSet m) {
+	RevFlagFilter(RevFlagSet m) {
 		flags = m;
 	}
 
@@ -138,7 +138,7 @@ public abstract class RevFlagFilter extends RevFilter {
 	}
 
 	private static class HasAll extends RevFlagFilter {
-		HasAll(final RevFlagSet m) {
+		HasAll(RevFlagSet m) {
 			super(m);
 		}
 
@@ -156,7 +156,7 @@ public abstract class RevFlagFilter extends RevFilter {
 	}
 
 	private static class HasAny extends RevFlagFilter {
-		HasAny(final RevFlagSet m) {
+		HasAny(RevFlagSet m) {
 			super(m);
 		}
 

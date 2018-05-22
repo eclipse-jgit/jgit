@@ -53,7 +53,7 @@ import org.eclipse.jgit.util.NB;
 class XInputStream extends BufferedInputStream {
 	private final byte[] intbuf = new byte[8];
 
-	XInputStream(final InputStream s) {
+	XInputStream(InputStream s) {
 		super(s);
 	}
 
@@ -63,7 +63,7 @@ class XInputStream extends BufferedInputStream {
 		return b;
 	}
 
-	synchronized void readFully(final byte[] b, int o, int len)
+	synchronized void readFully(byte[] b, int o, int len)
 			throws IOException {
 		int r;
 		while (len > 0 && (r = read(b, o, len)) > 0) {

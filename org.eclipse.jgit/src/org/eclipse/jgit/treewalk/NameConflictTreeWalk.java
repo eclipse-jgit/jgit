@@ -135,7 +135,7 @@ public class NameConflictTreeWalk extends TreeWalk {
 
 			if (isTree(minRef)) {
 				if (skipEntry(minRef)) {
-					for (final AbstractTreeIterator t : trees) {
+					for (AbstractTreeIterator t : trees) {
 						if (t.matches == minRef) {
 							t.next(1);
 							t.matches = null;
@@ -231,7 +231,7 @@ public class NameConflictTreeWalk extends TreeWalk {
 		// A tree D/F may have been handled earlier. We need to
 		// not report this path if it has already been reported.
 		//
-		for (final AbstractTreeIterator t : trees) {
+		for (AbstractTreeIterator t : trees) {
 			if (t.matches == minRef || t.first())
 				continue;
 
@@ -267,7 +267,7 @@ public class NameConflictTreeWalk extends TreeWalk {
 		// such entries match this entry.
 		//
 		AbstractTreeIterator treeMatch = null;
-		for (final AbstractTreeIterator t : trees) {
+		for (AbstractTreeIterator t : trees) {
 			if (t.matches == minRef || t.eof())
 				continue;
 
@@ -306,7 +306,7 @@ public class NameConflictTreeWalk extends TreeWalk {
 			// matching iterators instead of the file iterator.
 			// This way isSubtree is true and isRecursive works.
 			//
-			for (final AbstractTreeIterator t : trees)
+			for (AbstractTreeIterator t : trees)
 				if (t.matches == minRef)
 					t.matches = treeMatch;
 

@@ -1289,7 +1289,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 		return null;
 	}
 
-	static private String getHead(final Git git, final String path)
+	static private String getHead(Git git, String path)
 			throws Exception {
 		try {
 			final Repository repo = git.getRepository();

@@ -120,7 +120,7 @@ public class PlotCommitList<L extends PlotLane> extends
 	@SuppressWarnings("unchecked")
 	public void findPassingThrough(final PlotCommit<L> currCommit,
 			final Collection<L> result) {
-		for (final PlotLane p : currCommit.passingLanes)
+		for (PlotLane p : currCommit.passingLanes)
 			result.add((L) p);
 	}
 

@@ -185,7 +185,7 @@ public class DirCacheTree {
 		childCnt = subcnt;
 	}
 
-	void write(final byte[] tmp, final OutputStream os) throws IOException {
+	void write(byte[] tmp, OutputStream os) throws IOException {
 		int ptr = tmp.length;
 		tmp[--ptr] = '\n';
 		ptr = RawParseUtils.formatBase10(tmp, ptr, childCnt);
@@ -404,7 +404,7 @@ public class DirCacheTree {
 		return encodedName.length;
 	}
 
-	final boolean contains(final byte[] a, int aOff, final int aLen) {
+	final boolean contains(byte[] a, int aOff, int aLen) {
 		final byte[] e = encodedName;
 		final int eLen = e.length;
 		for (int eOff = 0; eOff < eLen && aOff < aLen; eOff++, aOff++)
@@ -531,7 +531,7 @@ public class DirCacheTree {
 		children[n] = null;
 	}
 
-	static boolean peq(final byte[] a, final byte[] b, int aLen) {
+	static boolean peq(byte[] a, byte[] b, int aLen) {
 		if (b.length < aLen)
 			return false;
 		for (aLen--; aLen >= 0; aLen--)

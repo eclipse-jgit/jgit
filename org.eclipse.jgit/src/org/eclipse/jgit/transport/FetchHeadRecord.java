@@ -63,7 +63,7 @@ class FetchHeadRecord {
 
 	URIish sourceURI;
 
-	void write(final Writer pw) throws IOException {
+	void write(Writer pw) throws IOException {
 		final String type;
 		final String name;
 		if (sourceName.startsWith(R_HEADS)) {

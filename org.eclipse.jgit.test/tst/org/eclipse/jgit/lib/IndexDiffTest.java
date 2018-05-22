@@ -470,7 +470,8 @@ public class IndexDiffTest extends RepositoryTestCase {
 	}
 
 	/**
-	 * Test that ignored folders aren't listed as untracked
+	 * Test that ignored folders aren't listed as untracked, but are listed as
+	 * ignored.
 	 *
 	 * @throws Exception
 	 */
@@ -499,6 +500,8 @@ public class IndexDiffTest extends RepositoryTestCase {
 			diff.diff();
 			assertEquals(new HashSet<>(Arrays.asList("src")),
 					diff.getUntrackedFolders());
+			assertEquals(new HashSet<>(Arrays.asList("sr", "target")),
+					diff.getIgnoredNotInIndex());
 
 			git.add().addFilepattern("src").call();
 			writeTrashFile("sr/com/X1.java", "");

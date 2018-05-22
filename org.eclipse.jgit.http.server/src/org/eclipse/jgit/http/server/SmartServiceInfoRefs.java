@@ -75,7 +75,7 @@ abstract class SmartServiceInfoRefs implements Filter {
 
 	private final Filter[] filters;
 
-	SmartServiceInfoRefs(final String service, final List<Filter> filters) {
+	SmartServiceInfoRefs(String service, List<Filter> filters) {
 		this.svc = service;
 		this.filters = filters.toArray(new Filter[filters.size()]);
 	}

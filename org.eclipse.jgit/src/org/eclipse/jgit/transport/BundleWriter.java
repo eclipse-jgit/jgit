@@ -221,7 +221,7 @@ public class BundleWriter {
 			final HashSet<ObjectId> inc = new HashSet<>();
 			final HashSet<ObjectId> exc = new HashSet<>();
 			inc.addAll(include.values());
-			for (final RevCommit r : assume)
+			for (RevCommit r : assume)
 				exc.add(r.getId());
 			packWriter.setIndexDisabled(true);
 			packWriter.setDeltaBaseAsOffset(true);
@@ -236,7 +236,7 @@ public class BundleWriter {
 			w.write('\n');
 
 			final char[] tmp = new char[Constants.OBJECT_ID_STRING_LENGTH];
-			for (final RevCommit a : assume) {
+			for (RevCommit a : assume) {
 				w.write('-');
 				a.copyTo(tmp, w);
 				if (a.getRawBuffer() != null) {
@@ -245,7 +245,7 @@ public class BundleWriter {
 				}
 				w.write('\n');
 			}
-			for (final Map.Entry<String, ObjectId> e : include.entrySet()) {
+			for (Map.Entry<String, ObjectId> e : include.entrySet()) {
 				e.getValue().copyTo(tmp, w);
 				w.write(' ');
 				w.write(e.getKey());

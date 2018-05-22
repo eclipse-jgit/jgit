@@ -266,7 +266,7 @@ public class UnpackedObject {
 		}
 	}
 
-	static boolean isStandardFormat(final byte[] hdr) {
+	static boolean isStandardFormat(byte[] hdr) {
 		/*
 		 * We must determine if the buffer contains the standard
 		 * zlib-deflated stream or the experimental format based

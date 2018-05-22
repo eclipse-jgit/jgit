@@ -124,7 +124,7 @@ public class DirCacheIterator extends AbstractTreeIterator {
 			parseEntry();
 	}
 
-	DirCacheIterator(final DirCacheIterator p, final DirCacheTree dct) {
+	DirCacheIterator(DirCacheIterator p, DirCacheTree dct) {
 		super(p, p.path, p.pathLen + 1);
 		cache = p.cache;
 		tree = dct;

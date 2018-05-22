@@ -373,17 +373,17 @@ public class Patch {
 		return c;
 	}
 
-	void warn(final byte[] buf, final int ptr, final String msg) {
+	void warn(byte[] buf, int ptr, String msg) {
 		addError(new FormatError(buf, ptr, FormatError.Severity.WARNING, msg));
 	}
 
-	void error(final byte[] buf, final int ptr, final String msg) {
+	void error(byte[] buf, int ptr, String msg) {
 		addError(new FormatError(buf, ptr, FormatError.Severity.ERROR, msg));
 	}
 
 	private static boolean matchAny(final byte[] buf, final int c,
 			final byte[][] srcs) {
-		for (final byte[] s : srcs) {
+		for (byte[] s : srcs) {
 			if (match(buf, c, s) >= 0)
 				return true;
 		}

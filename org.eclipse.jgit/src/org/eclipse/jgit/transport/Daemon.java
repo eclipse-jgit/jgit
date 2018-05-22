@@ -53,7 +53,9 @@ import java.net.Socket;
 import java.net.SocketAddress;
 import java.net.SocketException;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.Collection;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -153,12 +155,17 @@ public class Daemon {
 
 					@Override
 					protected void execute(final DaemonClient dc,
-							final Repository db) throws IOException,
+							final Repository db,
+							@Nullable Collection<String> extraParameters)
+							throws IOException,
 							ServiceNotEnabledException,
 							ServiceNotAuthorizedException {
 						UploadPack up = uploadPackFactory.create(dc, db);
 						InputStream in = dc.getInputStream();
 						OutputStream out = dc.getOutputStream();
+						if (extraParameters != null) {
+							up.setExtraParameters(extraParameters);
+						}
 						up.upload(in, out, null);
 					}
 				}, new DaemonService("receive-pack", "receivepack") { //$NON-NLS-1$ //$NON-NLS-2$
@@ -168,7 +175,9 @@ public class Daemon {
 
 					@Override
 					protected void execute(final DaemonClient dc,
-							final Repository db) throws IOException,
+							final Repository db,
+							@Nullable Collection<String> extraParameters)
+							throws IOException,
 							ServiceNotEnabledException,
 							ServiceNotAuthorizedException {
 						ReceivePack rp = receivePackFactory.create(dc, db);
@@ -200,7 +209,7 @@ public class Daemon {
 	public synchronized DaemonService getService(String name) {
 		if (!name.startsWith("git-")) //$NON-NLS-1$
 			name = "git-" + name; //$NON-NLS-1$
-		for (final DaemonService s : services) {
+		for (DaemonService s : services) {
 			if (s.getCommandName().equals(name))
 				return s;
 		}
@@ -411,7 +420,7 @@ public class Daemon {
 		}
 	}
 
-	void startClient(final Socket s) {
+	void startClient(Socket s) {
 		final DaemonClient dc = new DaemonClient(this);
 
 		final SocketAddress peer = s.getRemoteSocketAddress();
@@ -445,8 +454,8 @@ public class Daemon {
 		}.start();
 	}
 
-	synchronized DaemonService matchService(final String cmd) {
-		for (final DaemonService d : services) {
+	synchronized DaemonService matchService(String cmd) {
+		for (DaemonService d : services) {
 			if (d.handles(cmd))
 				return d;
 		}

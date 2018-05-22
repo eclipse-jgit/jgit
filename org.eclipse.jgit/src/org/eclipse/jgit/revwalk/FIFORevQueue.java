@@ -63,7 +63,7 @@ public class FIFORevQueue extends BlockRevQueue {
 		super();
 	}
 
-	FIFORevQueue(final Generator s) throws MissingObjectException,
+	FIFORevQueue(Generator s) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
 		super(s);
 	}
@@ -139,7 +139,7 @@ public class FIFORevQueue extends BlockRevQueue {
 	}
 
 	@Override
-	boolean everbodyHasFlag(final int f) {
+	boolean everbodyHasFlag(int f) {
 		for (Block b = head; b != null; b = b.next) {
 			for (int i = b.headIndex; i < b.tailIndex; i++)
 				if ((b.commits[i].flags & f) == 0)
@@ -149,7 +149,7 @@ public class FIFORevQueue extends BlockRevQueue {
 	}
 
 	@Override
-	boolean anybodyHasFlag(final int f) {
+	boolean anybodyHasFlag(int f) {
 		for (Block b = head; b != null; b = b.next) {
 			for (int i = b.headIndex; i < b.tailIndex; i++)
 				if ((b.commits[i].flags & f) != 0)
@@ -158,7 +158,7 @@ public class FIFORevQueue extends BlockRevQueue {
 		return false;
 	}
 
-	void removeFlag(final int f) {
+	void removeFlag(int f) {
 		final int not_f = ~f;
 		for (Block b = head; b != null; b = b.next) {
 			for (int i = b.headIndex; i < b.tailIndex; i++)

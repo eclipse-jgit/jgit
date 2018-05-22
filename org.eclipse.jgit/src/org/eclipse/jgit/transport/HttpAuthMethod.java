@@ -160,10 +160,10 @@ abstract class HttpAuthMethod {
 		final Map<String, List<String>> headers = conn.getHeaderFields();
 		HttpAuthMethod authentication = Type.NONE.method(EMPTY_STRING);
 
-		for (final Entry<String, List<String>> entry : headers.entrySet()) {
+		for (Entry<String, List<String>> entry : headers.entrySet()) {
 			if (HDR_WWW_AUTHENTICATE.equalsIgnoreCase(entry.getKey())) {
 				if (entry.getValue() != null) {
-					for (final String value : entry.getValue()) {
+					for (String value : entry.getValue()) {
 						if (value != null && value.length() != 0) {
 							final String[] valuePart = value.split(
 									SCHEMA_NAME_SEPARATOR, 2);
@@ -307,13 +307,13 @@ abstract class HttpAuthMethod {
 		}
 
 		@Override
-		void authorize(final String username, final String password) {
+		void authorize(String username, String password) {
 			this.user = username;
 			this.pass = password;
 		}
 
 		@Override
-		void configureRequest(final HttpConnection conn) throws IOException {
+		void configureRequest(HttpConnection conn) throws IOException {
 			String ident = user + ":" + pass; //$NON-NLS-1$
 			String enc = Base64.encodeBytes(ident.getBytes(CHARSET));
 			conn.setRequestProperty(HDR_AUTHORIZATION, type.getSchemeName()
@@ -346,14 +346,14 @@ abstract class HttpAuthMethod {
 		}
 
 		@Override
-		void authorize(final String username, final String password) {
+		void authorize(String username, String password) {
 			this.user = username;
 			this.pass = password;
 		}
 
 		@SuppressWarnings("boxing")
 		@Override
-		void configureRequest(final HttpConnection conn) throws IOException {
+		void configureRequest(HttpConnection conn) throws IOException {
 			final Map<String, String> r = new LinkedHashMap<>();
 
 			final String realm = params.get("realm"); //$NON-NLS-1$

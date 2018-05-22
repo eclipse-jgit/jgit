@@ -65,11 +65,11 @@ class ShowCommands extends TextBuiltin {
 		final CommandRef[] list = CommandCatalog.all();
 
 		int width = 0;
-		for (final CommandRef c : list)
+		for (CommandRef c : list)
 			width = Math.max(width, c.getName().length());
 		width += 2;
 
-		for (final CommandRef c : list) {
+		for (CommandRef c : list) {
 			errw.print(c.isCommon() ? '*' : ' ');
 			errw.print(' ');
 
@@ -87,7 +87,7 @@ class ShowCommands extends TextBuiltin {
 		/** */
 		USAGE {
 			@Override
-			void print(ThrowingPrintWriter err, final CommandRef c) throws IOException {
+			void print(ThrowingPrintWriter err, CommandRef c) throws IOException {
 				String usage = c.getUsage();
 				if (usage != null && usage.length() > 0)
 					err.print(CLIText.get().resourceBundle().getString(usage));
@@ -97,7 +97,7 @@ class ShowCommands extends TextBuiltin {
 		/** */
 		CLASSES {
 			@Override
-			void print(ThrowingPrintWriter err, final CommandRef c) throws IOException {
+			void print(ThrowingPrintWriter err, CommandRef c) throws IOException {
 				err.print(c.getImplementationClassName());
 			}
 		},
@@ -105,7 +105,7 @@ class ShowCommands extends TextBuiltin {
 		/** */
 		URLS {
 			@Override
-			void print(ThrowingPrintWriter err, final CommandRef c) throws IOException {
+			void print(ThrowingPrintWriter err, CommandRef c) throws IOException {
 				final ClassLoader ldr = c.getImplementationClassLoader();
 
 				String cn = c.getImplementationClassName();
