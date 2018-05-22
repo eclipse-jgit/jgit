@@ -161,7 +161,7 @@ class RebuildRefTree extends TextBuiltin {
 			}
 			cmds.add(new org.eclipse.jgit.internal.storage.reftree.Command(
 					null,
-					db.peel(r)));
+					db.getRefDatabase().peel(r)));
 		}
 		tree.apply(cmds);
 		return tree;

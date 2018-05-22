@@ -274,7 +274,7 @@ public class LogCommand extends GitCommand<Iterable<RevCommit>> {
 	public LogCommand all() throws IOException {
 		for (Ref ref : getRepository().getRefDatabase().getRefs()) {
 			if(!ref.isPeeled())
-				ref = getRepository().peel(ref);
+				ref = getRepository().getRefDatabase().peel(ref);
 
 			ObjectId objectId = ref.getPeeledObjectId();
 			if (objectId == null)

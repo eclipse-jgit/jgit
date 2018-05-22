@@ -322,7 +322,7 @@ public abstract class RefAdvertiser {
 				String peelPart = ""; //$NON-NLS-1$
 				if (derefTags) {
 					if (!ref.isPeeled() && repository != null) {
-						ref = repository.peel(ref);
+						ref = repository.getRefDatabase().peel(ref);
 					}
 					ObjectId peeledObjectId = ref.getPeeledObjectId();
 					if (peeledObjectId != null) {
@@ -342,7 +342,7 @@ public abstract class RefAdvertiser {
 			if (!ref.isPeeled()) {
 				if (repository == null)
 					continue;
-				ref = repository.peel(ref);
+				ref = repository.getRefDatabase().peel(ref);
 			}
 
 			if (ref.getPeeledObjectId() != null)

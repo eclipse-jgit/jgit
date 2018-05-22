@@ -67,19 +67,22 @@ public class TagCommandTest extends RepositoryTestCase {
 				RevWalk walk = new RevWalk(db)) {
 			RevCommit commit = git.commit().setMessage("initial commit").call();
 			Ref tagRef = git.tag().setName("tag").call();
-			assertEquals(commit.getId(), db.peel(tagRef).getPeeledObjectId());
+			assertEquals(commit.getId(),
+					db.getRefDatabase().peel(tagRef).getPeeledObjectId());
 			assertEquals("tag", walk.parseTag(tagRef.getObjectId()).getTagName());
 		}
 	}
 
 	@Test
-	public void testTagging() throws GitAPIException, JGitInternalException {
+	public void testTagging()
+			throws GitAPIException, JGitInternalException, IOException {
 		try (Git git = new Git(db)) {
 			git.commit().setMessage("initial commit").call();
 			RevCommit commit = git.commit().setMessage("second commit").call();
 			git.commit().setMessage("third commit").call();
 			Ref tagRef = git.tag().setObjectId(commit).setName("tag").call();
-			assertEquals(commit.getId(), db.peel(tagRef).getPeeledObjectId());
+			assertEquals(commit.getId(),
+					db.getRefDatabase().peel(tagRef).getPeeledObjectId());
 		}
 	}
 
