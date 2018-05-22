@@ -1067,7 +1067,7 @@ public abstract class Repository implements AutoCloseable {
 	 * @since 4.2
 	 */
 	@Nullable
-	public Ref exactRef(String name) throws IOException {
+	public final Ref exactRef(String name) throws IOException {
 		return getRefDatabase().exactRef(name);
 	}
 
@@ -1083,7 +1083,7 @@ public abstract class Repository implements AutoCloseable {
 	 * @since 4.2
 	 */
 	@Nullable
-	public Ref findRef(String name) throws IOException {
+	public final Ref findRef(String name) throws IOException {
 		return getRefDatabase().getRef(name);
 	}
 
