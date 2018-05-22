@@ -16,6 +16,23 @@
       "revId": "00bca04dda66988dcb4c827627ed33e99e16a9c2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0cfdf668_301d706e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-22T00:55:00Z",
+      "side": 1,
+      "message": "I think the intention is to ensure that notifyIndexChanged gets called every time we call FileSnapshot.save, except the first.\n\nAny locking overhead would be dwarfed by the I/O that FileSnapshot.save and FileSnapshot.isNotified performs, so I\u0027d recommend protecting snapshot with a lock (either this.monitor or an explicit Lock). For example:\n\n private FileSnapshot snapshot;\n ...\n private void detectIndexChanges() {\n   if (isBare()) {\n    return;\n   }\n\n   boolean notify \u003d false;\n   synchronized (this) {\n      if (snapshot \u003d\u003d null) {\n        snapshot \u003d ...;\n        return;\n      }\n      if (!snapshot.isModified(indexFile)) {\n        return;\n      }\n   }\n   notifyIndexChanged(false);\n }\n\n  publc void notifyIndexChanged(boolean internal) {\n    File indexFile \u003d getIndexFile();\n    synchronized (this) {\n       snapshot \u003d FileSnapshot.save(indexFile);\n    }\n    fireEvent(...);\n  }\n\nEven better would be if the complexity is encapsulated in a helper object with methods matching what we need from it. FileSnapshot appears to be an immutable object; should we add a concurrency-safe mutable variant?",
+      "revId": "00bca04dda66988dcb4c827627ed33e99e16a9c2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
