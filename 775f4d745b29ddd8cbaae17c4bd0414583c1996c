@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c2b2a668_d2f44029",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefUpdateTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-05-23T05:55:57Z",
+      "side": 1,
+      "message": "testDeleteHeadInBareRepo fails when using exactRef.\n\n java.lang.AssertionError: expected null, but was:\u003cSymbolicRef[HEAD -\u003e refs/heads/master\u003d0000000000000000000000000000000000000000]\u003e",
+      "parentUuid": "cf11c989_cffaabc5",
+      "revId": "775f4d745b29ddd8cbaae17c4bd0414583c1996c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6acad8e5_406cbaba",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefUpdateTest.java",
         "patchSetId": 1
