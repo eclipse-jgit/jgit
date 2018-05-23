@@ -62,6 +62,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
@@ -110,11 +111,21 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		delete(db, ref, expected, exists, removed);
 	}
 
-	private void delete(Repository repo, final RefUpdate ref, final Result expected,
-			final boolean exists, final boolean removed) throws IOException {
-		assertEquals(exists, repo.getAllRefs().containsKey(ref.getName()));
+	private void delete(Repository repo, final RefUpdate ref,
+			final Result expected, final boolean exists, final boolean removed)
+			throws IOException {
+		assertEquals(exists, getRef(repo, ref.getName()).isPresent());
 		assertEquals(expected, ref.delete());
-		assertEquals(!removed, repo.getAllRefs().containsKey(ref.getName()));
+		assertEquals(!removed, getRef(repo, ref.getName()).isPresent());
+	}
+
+	private Optional<Ref> getRef(Repository repo, String name)
+			throws IOException {
+		return getRef(repo.getRefDatabase().getRefs(), name);
+	}
+
+	private Optional<Ref> getRef(List<Ref> refs, String name) {
+		return refs.stream().filter(r -> r.getName().equals(name)).findAny();
 	}
 
 	@Test
@@ -125,8 +136,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		ru.setNewObjectId(newid);
 		Result update = ru.update();
 		assertEquals(Result.NEW, update);
-		final Ref r = db.getAllRefs().get(newRef);
-		assertNotNull(r);
+		final Ref r = getRef(db, newRef).get();
 		assertEquals(newRef, r.getName());
 		assertNotNull(r.getObjectId());
 		assertNotSame(newid, r.getObjectId());
@@ -378,10 +388,10 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 
 	@Test
 	public void testRefKeySameAsName() {
+		@SuppressWarnings("deprecation")
 		Map<String, Ref> allRefs = db.getAllRefs();
 		for (Entry<String, Ref> e : allRefs.entrySet()) {
 			assertEquals(e.getKey(), e.getValue().getName());
-
 		}
 	}
 
@@ -520,8 +530,8 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 	 */
 	@Test
 	public void testRefsCacheAfterUpdate() throws Exception {
-		// Do not use the defalt repo for this case.
-		Map<String, Ref> allRefs = db.getAllRefs();
+		// Do not use the default repo for this case.
+		List<Ref> allRefs = db.getRefDatabase().getRefs();
 		ObjectId oldValue = db.resolve("HEAD");
 		ObjectId newValue = db.resolve("HEAD^");
 		// first make HEAD refer to loose ref
@@ -537,9 +547,9 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		update = updateRef.update();
 		assertEquals(Result.FAST_FORWARD, update);
 
-		allRefs = db.getAllRefs();
-		Ref master = allRefs.get("refs/heads/master");
-		Ref head = allRefs.get("HEAD");
+		allRefs = db.getRefDatabase().getRefs();
+		Ref master = getRef(allRefs, "refs/heads/master").get();
+		Ref head = getRef(allRefs, "HEAD").get();
 		assertEquals("refs/heads/master", master.getName());
 		assertEquals("HEAD", head.getName());
 		assertTrue("is symbolic reference", head.isSymbolic());
@@ -557,8 +567,8 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 	 */
 	@Test
 	public void testRefsCacheAfterUpdateLooseOnly() throws Exception {
-		// Do not use the defalt repo for this case.
-		Map<String, Ref> allRefs = db.getAllRefs();
+		// Do not use the default repo for this case.
+		List<Ref> allRefs = db.getRefDatabase().getRefs();
 		ObjectId oldValue = db.resolve("HEAD");
 		writeSymref(Constants.HEAD, "refs/heads/newref");
 		RefUpdate updateRef = db.updateRef(Constants.HEAD);
@@ -567,9 +577,9 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		Result update = updateRef.update();
 		assertEquals(Result.NEW, update);
 
-		allRefs = db.getAllRefs();
-		Ref head = allRefs.get("HEAD");
-		Ref newref = allRefs.get("refs/heads/newref");
+		allRefs = db.getRefDatabase().getRefs();
+		Ref head = getRef(allRefs, "HEAD").get();
+		Ref newref = getRef(allRefs, "refs/heads/newref").get();
 		assertEquals("refs/heads/newref", newref.getName());
 		assertEquals("HEAD", head.getName());
 		assertTrue("is symbolic reference", head.isSymbolic());
