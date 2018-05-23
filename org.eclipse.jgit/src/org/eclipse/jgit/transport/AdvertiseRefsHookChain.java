@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.transport;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -83,7 +84,7 @@ public class AdvertiseRefsHookChain implements AdvertiseRefsHook {
 	/** {@inheritDoc} */
 	@Override
 	public void advertiseRefs(BaseReceivePack rp)
-			throws ServiceMayNotContinueException {
+			throws ServiceMayNotContinueException, IOException {
 		for (int i = 0; i < count; i++)
 			hooks[i].advertiseRefs(rp);
 	}

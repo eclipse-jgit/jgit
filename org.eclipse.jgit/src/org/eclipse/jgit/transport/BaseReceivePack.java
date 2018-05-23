@@ -456,8 +456,11 @@ public abstract class BaseReceivePack {
 	 *            explicit set of additional haves to claim as advertised. If
 	 *            null, assumes the default set of additional haves from the
 	 *            repository.
+	 * @throws java.io.IOException
+	 *             the reference space cannot be accessed.
 	 */
-	public void setAdvertisedRefs(Map<String, Ref> allRefs, Set<ObjectId> additionalHaves) {
+	public void setAdvertisedRefs(Map<String, Ref> allRefs,
+			Set<ObjectId> additionalHaves) throws IOException {
 		refs = allRefs != null ? allRefs : db.getAllRefs();
 		refs = refFilter.filter(refs);
 		advertisedHaves.clear();
@@ -1170,8 +1173,10 @@ public abstract class BaseReceivePack {
 	 * Get advertised refs, or the default if not explicitly advertised.
 	 *
 	 * @return advertised refs, or the default if not explicitly advertised.
+	 * @throws java.io.IOException
+	 *             the reference space cannot be accessed.
 	 */
-	protected Map<String, Ref> getAdvertisedOrDefaultRefs() {
+	protected Map<String, Ref> getAdvertisedOrDefaultRefs() throws IOException {
 		if (refs == null)
 			setAdvertisedRefs(null, null);
 		return refs;
