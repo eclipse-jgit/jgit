@@ -94,6 +94,7 @@ import org.eclipse.jgit.lib.SymbolicRef;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
@@ -175,9 +176,12 @@ public class RefDirectory extends RefDatabase {
 	 */
 	private final AtomicInteger lastNotifiedModCnt = new AtomicInteger();
 
+	private final FileBasedConfig config;
+
 	RefDirectory(final FileRepository db) {
 		final FS fs = db.getFS();
 		parent = db;
+		config = db.getConfig();
 		gitDir = db.getDirectory();
 		logWriter = new ReflogWriter(db);
 		refsDir = fs.resolve(gitDir, R_REFS);
@@ -633,7 +637,6 @@ public class RefDirectory extends RefDatabase {
 	public void pack(List<String> refs) throws IOException {
 		if (refs.size() == 0)
 			return;
-		FS fs = parent.getFS();
 
 		// Lock the packed refs file and read the content
 		LockFile lck = new LockFile(packedRefsFile);
@@ -665,7 +668,7 @@ public class RefDirectory extends RefDatabase {
 			for (String refName : refs) {
 				// Lock the loose ref
 				File refFile = fileFor(refName);
-				if (!fs.exists(refFile))
+				if (!refFile.exists())
 					continue;
 				LockFile rLck = new LockFile(refFile);
 				if (!rLck.lock())
@@ -1054,9 +1057,9 @@ public class RefDirectory extends RefDatabase {
 	File fileFor(String name) {
 		if (name.startsWith(R_REFS)) {
 			name = name.substring(R_REFS.length());
-			return new File(refsDir, name);
+			return parent.getFS().createFile(refsDir, name, config);
 		}
-		return new File(gitDir, name);
+		return parent.getFS().createFile(gitDir, name, config);
 	}
 
 	static int levelsIn(final String name) {
