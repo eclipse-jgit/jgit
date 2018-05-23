@@ -402,6 +402,14 @@ public class FS_POSIX extends FS {
 				SystemReader.getInstance().openUserConfig(null, this));
 	}
 
+	@Override
+	public File resolve(File dir, String name) {
+		final File abspn = createFile(name);
+		if (abspn.isAbsolute())
+			return abspn;
+		return createFile(dir, name);
+	}
+
 	/**
 	 * NFSFile extends {@link java.io.File} to provide accurate functionality on
 	 * NFS filesystems where file attributes and existence are cached.

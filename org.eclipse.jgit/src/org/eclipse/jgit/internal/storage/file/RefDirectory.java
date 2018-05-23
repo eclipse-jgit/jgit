@@ -633,7 +633,6 @@ public class RefDirectory extends RefDatabase {
 	public void pack(List<String> refs) throws IOException {
 		if (refs.size() == 0)
 			return;
-		FS fs = parent.getFS();
 
 		// Lock the packed refs file and read the content
 		LockFile lck = new LockFile(packedRefsFile);
@@ -665,7 +664,7 @@ public class RefDirectory extends RefDatabase {
 			for (String refName : refs) {
 				// Lock the loose ref
 				File refFile = fileFor(refName);
-				if (!fs.exists(refFile))
+				if (!refFile.exists())
 					continue;
 				LockFile rLck = new LockFile(refFile);
 				if (!rLck.lock())
@@ -1054,9 +1053,9 @@ public class RefDirectory extends RefDatabase {
 	File fileFor(String name) {
 		if (name.startsWith(R_REFS)) {
 			name = name.substring(R_REFS.length());
-			return new File(refsDir, name);
+			return parent.getFS().createFile(refsDir, name);
 		}
-		return new File(gitDir, name);
+		return parent.getFS().createFile(gitDir, name);
 	}
 
 	static int levelsIn(final String name) {
