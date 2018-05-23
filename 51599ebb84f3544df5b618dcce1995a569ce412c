@@ -45,6 +45,30 @@
       "revId": "51599ebb84f3544df5b618dcce1995a569ce412c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6e5e4fd9_b5e3eefc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-23T03:46:25Z",
+      "side": 0,
+      "message": "The javadoc is saying that these objects aren\u0027t listed when I call getRefs() in the current repository. The implementation is getting refs from alternate repositories. So it should be okay to update the javadoc without updating the implementation yet.\n\nThat said, we do also want to update the implementation. I\u0027ll send you a couple commits for fixing the getAdditionalHaves API. (Sorry for the slow turnarounds; been swamped lately.)\n\nAll that said, I like patch set 2 since it gets the deprecation in quick, so we can be sure it happens in time for 5.0.",
+      "parentUuid": "634fa236_e4bfac17",
+      "range": {
+        "startLine": 513,
+        "startChar": 19,
+        "endLine": 513,
+        "endChar": 46
+      },
+      "revId": "51599ebb84f3544df5b618dcce1995a569ce412c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
