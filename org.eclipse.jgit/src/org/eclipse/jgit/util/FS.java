@@ -372,10 +372,10 @@ public abstract class FS {
 	 *         platform does not require path name translation.
 	 */
 	public File resolve(final File dir, final String name) {
-		final File abspn = new File(name);
+		final File abspn = createFile(name);
 		if (abspn.isAbsolute())
 			return abspn;
-		return new File(dir, name);
+		return createFile(dir, name);
 	}
 
 	/**
