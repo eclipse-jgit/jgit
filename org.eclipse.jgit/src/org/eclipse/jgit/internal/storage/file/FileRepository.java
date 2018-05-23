@@ -477,7 +477,7 @@ public class FileRepository extends Repository {
 	/**
 	 * {@inheritDoc}
 	 * <p>
-	 * Objects known to exist but not expressed by {@link #getAllRefs()}.
+	 * Objects known to exist but not expressed by {@code #getAllRefs()}.
 	 * <p>
 	 * When a repository borrows objects from another repository, it can
 	 * advertise that it safely has that other repository's references, without
@@ -490,12 +490,12 @@ public class FileRepository extends Repository {
 	}
 
 	/**
-	 * Objects known to exist but not expressed by {@link #getAllRefs()}.
+	 * Objects known to exist but not expressed by {@code #getAllRefs()}.
 	 * <p>
 	 * When a repository borrows objects from another repository, it can
 	 * advertise that it safely has that other repository's references, without
-	 * exposing any other details about the other repository.  This may help
-	 * a client trying to push changes avoid pushing more than it needs to.
+	 * exposing any other details about the other repository. This may help a
+	 * client trying to push changes avoid pushing more than it needs to.
 	 *
 	 * @param skips
 	 *            Set of AlternateHandle Ids already seen
