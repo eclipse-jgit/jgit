@@ -163,9 +163,9 @@ public class ObjectDirectory extends FileObjectDatabase {
 			File[] alternatePaths, FS fs, File shallowFile) throws IOException {
 		config = cfg;
 		objects = dir;
-		infoDirectory = new File(objects, "info"); //$NON-NLS-1$
-		packDirectory = new File(objects, "pack"); //$NON-NLS-1$
-		alternatesFile = new File(infoDirectory, "alternates"); //$NON-NLS-1$
+		infoDirectory = fs.createFile(objects, "info", config); //$NON-NLS-1$
+		packDirectory = fs.createFile(objects, "pack", config); //$NON-NLS-1$
+		alternatesFile = fs.createFile(infoDirectory, "alternates", config); //$NON-NLS-1$
 		packList = new AtomicReference<PackList>(NO_PACKS);
 		unpackedObjectCache = new UnpackedObjectCache();
 		this.fs = fs;
@@ -264,7 +264,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		for (PackExt ext : PackExt.values()) {
 			if ((extensions & ext.getBit()) == 0) {
 				final String name = base + ext.getExtension();
-				if (new File(pack.getParentFile(), name).exists())
+				if (fs.createFile(pack.getParentFile(), name, config).exists())
 					extensions |= ext.getBit();
 			}
 		}
@@ -826,7 +826,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 				continue;
 			}
 
-			final File packFile = new File(packDirectory, packName);
+			final File packFile = fs.createFile(packDirectory, packName,
+					config);
 			list.add(new PackFile(packFile, extensions));
 			foundNew = true;
 		}
@@ -957,7 +958,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		String n = objectId.name();
 		String d = n.substring(0, 2);
 		String f = n.substring(2);
-		return new File(new File(getDirectory(), d), f);
+		return fs.createFile(new File(getDirectory(), d), f, config);
 	}
 
 	private static final class PackList {

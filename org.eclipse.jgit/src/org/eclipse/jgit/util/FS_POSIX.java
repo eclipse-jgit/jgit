@@ -48,6 +48,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.nio.charset.Charset;
+import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -60,6 +61,7 @@ import java.util.Set;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.errors.CommandFailedException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
@@ -76,6 +78,9 @@ public class FS_POSIX extends FS {
 	private final static Logger LOG = LoggerFactory.getLogger(FS_POSIX.class);
 
 	private static final int DEFAULT_UMASK = 0022;
+
+	private static volatile Boolean nfsSupportEnabled;
+
 	private volatile int umask = -1;
 
 	private volatile boolean supportsUnixNLink = true;
@@ -385,6 +390,132 @@ public class FS_POSIX extends FS {
 			return true;
 		} finally {
 			Files.delete(link);
+		}
+	}
+
+	@Override
+	public File createFile(String pathname, Config config) {
+		return isNfsSupportEnabled(config) ? new NFSFile(pathname, config)
+				: new File(pathname);
+	}
+
+	@Override
+	public File createFile(File parent, String child, Config config) {
+		return isNfsSupportEnabled(config) ? new NFSFile(parent, child, config)
+				: new File(parent, child);
+	}
+
+	private boolean isNfsSupportEnabled(Config config) {
+		if (config == null) {
+			return false;
+		}
+		Boolean result = nfsSupportEnabled;
+		if (result == null) {
+			nfsSupportEnabled = result = Boolean.valueOf(
+					config.getBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+							ConfigConstants.ENABLE_NFS_SUPPORT, false));
+		}
+		return result.booleanValue();
+	}
+
+	/**
+	 * NFSFile extends {@link java.io.File} to provide accurate functionality on
+	 * NFS filesystems where file attributes and existence are cached.
+	 *
+	 */
+	private static class NFSFile extends File {
+		private static final long serialVersionUID = 1L;
+
+		private static volatile Boolean refreshFolderStats;
+
+		private final Config config;
+
+		/**
+		 * Wraps {@link File#File(File, String)}
+		 *
+		 * @param config
+		 * @param parent
+		 *            The parent pathname string
+		 * @param child
+		 *            The child pathname string
+		 * @throws NullPointerException
+		 *             If {@code child} is {@code null}
+		 */
+		public NFSFile(File parent, String child, Config config) {
+			super(parent, child);
+			this.config = config;
+		}
+
+		/**
+		 * Wraps {@link File#File(String)}
+		 *
+		 * @param config
+		 * @param pathname
+		 *            A pathname string
+		 * @throws NullPointerException
+		 *             If the {@code pathname} argument is {@code null}
+		 */
+		public NFSFile(String pathname, Config config) {
+			super(pathname);
+			this.config = config;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * <p>
+		 * Uses the value of
+		 * {@code ConfigConstants.CONFIG_KEY_REFRESHFOLDERSTAT} to optionally
+		 * flush the NFS cache before checking file existence.
+		 */
+		@Override
+		public boolean exists() {
+			try {
+				refreshFolderStats();
+			} catch (IOException e) {
+				return false; // contract of exists says to return false for any
+								// I/O
+								// error
+			}
+			return super.exists();
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * <p>
+		 * Uses the value of
+		 * {@code ConfigConstants.CONFIG_KEY_REFRESHFOLDERSTAT} to optionally
+		 * flush the NFS cache before checking the modification time.
+		 */
+		@Override
+		public long lastModified() {
+			try {
+				refreshFolderStats();
+			} catch (IOException e) {
+				return 0L; // contract of lastModified says to return 0L for any
+							// I/O
+							// error
+			}
+			return super.lastModified();
+		}
+
+		private void refreshFolderStats() throws IOException {
+			if (shouldRefreshFolderStat()) {
+				try (DirectoryStream<Path> stream = Files
+						.newDirectoryStream(this.toPath().getParent())) {
+					// open and close the directory to invalidate NFS attribute
+					// cache
+				}
+			}
+		}
+
+		private boolean shouldRefreshFolderStat() {
+			Boolean result = refreshFolderStats;
+			if (result == null) {
+				refreshFolderStats = result = Boolean.valueOf(config.getBoolean(
+						ConfigConstants.CONFIG_CORE_SECTION,
+						ConfigConstants.CONFIG_KEY_REFRESHFOLDERSTAT, false));
+			}
+			return result.booleanValue();
 		}
 	}
 }
