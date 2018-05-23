@@ -1397,4 +1397,27 @@ public abstract class FS {
 			return null;
 		}
 	}
+
+	/**
+	 * Wrapper around {@link java.io.File#File(String)} that FS implementations
+	 * can override.
+	 *
+	 * @param pathname
+	 * @return {@link java.io.File}
+	 */
+	public File createFile(String pathname) {
+		return new File(pathname);
+	}
+
+	/**
+	 * Wrapper around {@link java.io.File#File(File,String)} that FS
+	 * implementations can override.
+	 *
+	 * @param parent
+	 * @param child
+	 * @return {@link java.io.File}
+	 */
+	public File createFile(File parent, String child) {
+		return new File(parent, child);
+	}
 }
