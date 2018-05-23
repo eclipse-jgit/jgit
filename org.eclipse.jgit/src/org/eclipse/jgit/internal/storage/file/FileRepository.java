@@ -477,32 +477,40 @@ public class FileRepository extends Repository {
 	/**
 	 * {@inheritDoc}
 	 * <p>
-	 * Objects known to exist but not expressed by {@link #getAllRefs()}.
+	 * Objects known to exist but not expressed by
+	 * {@link RefDatabase#getRefs()}.
 	 * <p>
 	 * When a repository borrows objects from another repository, it can
 	 * advertise that it safely has that other repository's references, without
 	 * exposing any other details about the other repository. This may help a
 	 * client trying to push changes avoid pushing more than it needs to.
+	 *
+	 * @throws java.io.IOException
+	 *             the reference space cannot be accessed.
 	 */
 	@Override
-	public Set<ObjectId> getAdditionalHaves() {
+	public Set<ObjectId> getAdditionalHaves() throws IOException {
 		return getAdditionalHaves(null);
 	}
 
 	/**
-	 * Objects known to exist but not expressed by {@link #getAllRefs()}.
+	 * Objects known to exist but not expressed by
+	 * {@link RefDatabase#getRefs()}.
 	 * <p>
 	 * When a repository borrows objects from another repository, it can
 	 * advertise that it safely has that other repository's references, without
-	 * exposing any other details about the other repository.  This may help
-	 * a client trying to push changes avoid pushing more than it needs to.
+	 * exposing any other details about the other repository. This may help a
+	 * client trying to push changes avoid pushing more than it needs to.
 	 *
 	 * @param skips
 	 *            Set of AlternateHandle Ids already seen
 	 *
 	 * @return unmodifiable collection of other known objects.
+	 * @throws java.io.IOException
+	 *             the reference space cannot be accessed.
 	 */
-	private Set<ObjectId> getAdditionalHaves(Set<AlternateHandle.Id> skips) {
+	private Set<ObjectId> getAdditionalHaves(Set<AlternateHandle.Id> skips)
+			throws IOException {
 		HashSet<ObjectId> r = new HashSet<>();
 		skips = objectDatabase.addMe(skips);
 		for (AlternateHandle d : objectDatabase.myAlternates()) {
@@ -510,7 +518,7 @@ public class FileRepository extends Repository {
 				FileRepository repo;
 
 				repo = ((AlternateRepository) d).repository;
-				for (Ref ref : repo.getAllRefs().values()) {
+				for (Ref ref : repo.getRefDatabase().getRefs()) {
 					if (ref.getObjectId() != null)
 						r.add(ref.getObjectId());
 					if (ref.getPeeledObjectId() != null)
