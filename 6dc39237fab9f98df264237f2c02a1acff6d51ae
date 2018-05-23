@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f1122f4_3ff6202c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RefTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-23T02:57:52Z",
+      "side": 0,
+      "message": "I think this test is intending to test getAllRefs. db.getObjectDatabase().getRefs() should work as a replacement.",
+      "revId": "6dc39237fab9f98df264237f2c02a1acff6d51ae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
