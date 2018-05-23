@@ -70,6 +70,7 @@ import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.errors.CommandFailedException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.ProcessResult.Status;
@@ -1396,5 +1397,53 @@ public abstract class FS {
 			}
 			return null;
 		}
+	}
+
+	/**
+	 * Wrapper around {@link java.io.File#File(String)} that FS implementations
+	 * can override.
+	 *
+	 * @param pathname
+	 * @return {@link java.io.File}
+	 */
+	public File createFile(String pathname) {
+		return createFile(pathname, null);
+	}
+
+	/**
+	 * Wrapper around {@link java.io.File#File(String)} that FS implementations
+	 * can override.
+	 *
+	 * @param config
+	 * @param pathname
+	 * @return {@link java.io.File}
+	 */
+	public File createFile(String pathname, Config config) {
+		return new File(pathname);
+	}
+
+	/**
+	 * Wrapper around {@link java.io.File#File(File,String)} that FS
+	 * implementations can override.
+	 *
+	 * @param parent
+	 * @param child
+	 * @return {@link java.io.File}
+	 */
+	public File createFile(File parent, String child) {
+		return createFile(parent, child, null);
+	}
+
+	/**
+	 * Wrapper around {@link java.io.File#File(File,String)} that FS
+	 * implementations can override.
+	 *
+	 * @param config
+	 * @param parent
+	 * @param child
+	 * @return {@link java.io.File}
+	 */
+	public File createFile(File parent, String child, Config config) {
+		return new File(parent, child);
 	}
 }
