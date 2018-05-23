@@ -16,6 +16,24 @@
       "revId": "6dc39237fab9f98df264237f2c02a1acff6d51ae",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1754b738_5ef061da",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1056,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-05-23T03:22:07Z",
+      "side": 1,
+      "message": "See my comments in FileRepository about why this was needed.\n\nThis can be removed if we can live with not having @link in the Javadoc of FileRepository.",
+      "parentUuid": "50c7d226_93daa054",
+      "revId": "6dc39237fab9f98df264237f2c02a1acff6d51ae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }

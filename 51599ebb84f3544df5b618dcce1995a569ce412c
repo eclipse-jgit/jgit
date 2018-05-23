@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "af7824d0_9be44479",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-05-23T03:22:07Z",
+      "side": 0,
+      "message": "Deprecating getAllRefs causes a Javadoc error here.\n\nAn alternative way of fixing it would be to change @link to @code",
+      "range": {
+        "startLine": 480,
+        "startChar": 48,
+        "endLine": 480,
+        "endChar": 70
+      },
+      "revId": "51599ebb84f3544df5b618dcce1995a569ce412c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "634fa236_e4bfac17",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-05-23T03:22:07Z",
+      "side": 0,
+      "message": "I changed this to make it aligned with the Javadoc change above.\n\nThis is what causes the method to require \"throws IOException\", and propagates up to the other methods including the one you commented on.",
+      "range": {
+        "startLine": 513,
+        "startChar": 19,
+        "endLine": 513,
+        "endChar": 46
+      },
+      "revId": "51599ebb84f3544df5b618dcce1995a569ce412c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
