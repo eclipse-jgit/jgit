@@ -58,7 +58,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 import java.util.TreeSet;
 
 import org.eclipse.jgit.lib.Ref.Storage;
@@ -148,14 +147,13 @@ public class RefTest extends SampleDataRepositoryTestCase {
 		ObjectId r = db.resolve("refs/remotes/origin/HEAD");
 		assertEquals(masterId, r);
 
-		Map<String, Ref> allRefs = db.getAllRefs();
-		Ref refHEAD = allRefs.get("refs/remotes/origin/HEAD");
+		Ref refHEAD = db.exactRef("refs/remotes/origin/HEAD");
 		assertNotNull(refHEAD);
 		assertEquals(masterId, refHEAD.getObjectId());
 		assertFalse(refHEAD.isPeeled());
 		assertNull(refHEAD.getPeeledObjectId());
 
-		Ref refmaster = allRefs.get("refs/remotes/origin/master");
+		Ref refmaster = db.exactRef("refs/remotes/origin/master");
 		assertEquals(masterId, refmaster.getObjectId());
 		assertFalse(refmaster.isPeeled());
 		assertNull(refmaster.getPeeledObjectId());
