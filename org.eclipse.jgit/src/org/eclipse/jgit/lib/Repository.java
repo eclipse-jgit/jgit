@@ -1092,7 +1092,9 @@ public abstract class Repository implements AutoCloseable {
 	 * not point to any object yet.
 	 *
 	 * @return mutable map of all known refs (heads, tags, remotes).
+	 * @deprecated use {@code getRefDatabase().getRefs()} instead.
 	 */
+	@Deprecated
 	@NonNull
 	public Map<String, Ref> getAllRefs() {
 		try {
