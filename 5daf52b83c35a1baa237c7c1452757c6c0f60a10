@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7eec4be9_5f2f87c9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LsRefsV2Request.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-23T18:57:47Z",
+      "side": 1,
+      "message": "nit: LLC",
+      "range": {
+        "startLine": 2,
+        "startChar": 30,
+        "endLine": 2,
+        "endChar": 33
+      },
+      "revId": "5daf52b83c35a1baa237c7c1452757c6c0f60a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7949434_70f19091",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LsRefsV2Request.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-23T18:57:47Z",
+      "side": 1,
+      "message": "can/should this object be immutable (i.e. like an AutoValue, except that JGit doesn\u0027t have any autovalue deps today)?",
+      "revId": "5daf52b83c35a1baa237c7c1452757c6c0f60a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f681539_110a978f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LsRefsV2Request.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-23T18:57:47Z",
+      "side": 1,
+      "message": "nit: should describe how the property is meant to be used --- e.g.\n\n Add a ref prefix that the client requested to be returned",
+      "revId": "5daf52b83c35a1baa237c7c1452757c6c0f60a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dbb6323b_184cc1ce",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LsRefsV2Request.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-23T18:57:47Z",
+      "side": 1,
+      "message": "likewise --- e.g.\n\n Record that the client requested symrefs.\n\nDo we need a corresponding unsetSymrefs function? Alternatively, can there be a constructor or factory method that sets all fields at once?\n\nIf we want the construction function to be public, a builder might be the simplest way, since it lets us add new fields later.",
+      "revId": "5daf52b83c35a1baa237c7c1452757c6c0f60a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "337a6ae0_0f56c992",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Hook.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-23T18:57:47Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "5daf52b83c35a1baa237c7c1452757c6c0f60a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7d1a1eb_0536530e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Hook.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-23T18:57:47Z",
+      "side": 1,
+      "message": "Please also add a pointer to the method I\u0027d use to register my hook to be used.",
+      "revId": "5daf52b83c35a1baa237c7c1452757c6c0f60a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "061dcd75_39348770",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Hook.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-23T18:57:47Z",
+      "side": 1,
+      "message": "optional: should this take a parameter (which can be an empty struct for now) in case we want to add parameters later?",
+      "revId": "5daf52b83c35a1baa237c7c1452757c6c0f60a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
