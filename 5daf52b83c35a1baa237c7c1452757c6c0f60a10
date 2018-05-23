@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "ad8c4942_43321569",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-23T18:59:07Z",
+      "side": 1,
+      "message": "UploadPack",
+      "range": {
+        "startLine": 14,
+        "startChar": 20,
+        "endLine": 14,
+        "endChar": 30
+      },
+      "revId": "5daf52b83c35a1baa237c7c1452757c6c0f60a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4f49ba4_e25a92b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-23T18:59:07Z",
+      "side": 1,
+      "message": "Another benefit is that this makes it clearer what parameters the hook is counting on, instead of having to keep track of the hook using getters from UploadPack / ReceivePack.",
+      "revId": "5daf52b83c35a1baa237c7c1452757c6c0f60a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7eec4be9_5f2f87c9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LsRefsV2Request.java",
         "patchSetId": 2
