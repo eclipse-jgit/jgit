@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50c7d226_93daa054",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1056,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-23T02:56:18Z",
+      "side": 1,
+      "message": "Can this change go in a separate commit from the getAllRefs deprecation?\n\nThis breaks API, which I think is ok since this is a major release (but I\u0027m not sure about the details --- do we document them somewhere?).\n\nI also wonder whether this should be moved to the RefDatabase class. That\u0027s where I would have expected to find this functionality.",
+      "revId": "6dc39237fab9f98df264237f2c02a1acff6d51ae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
