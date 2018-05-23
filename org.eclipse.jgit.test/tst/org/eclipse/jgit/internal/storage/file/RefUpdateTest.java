@@ -113,9 +113,17 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 	private void delete(Repository repo, final RefUpdate ref,
 			final Result expected, final boolean exists, final boolean removed)
 			throws IOException {
-		assertEquals(exists, getRef(repo, ref.getName()).isPresent());
+		if (exists) {
+			assertNotNull(repo.getRefDatabase().exactRef(ref.getName()));
+		} else {
+			assertNull(repo.getRefDatabase().exactRef(ref.getName()));
+		}
 		assertEquals(expected, ref.delete());
-		assertEquals(!removed, getRef(repo, ref.getName()).isPresent());
+		if (removed) {
+			assertNull(repo.getRefDatabase().exactRef(ref.getName()));
+		} else {
+			assertNotNull(repo.getRefDatabase().exactRef(ref.getName()));
+		}
 	}
 
 	private Optional<Ref> getRef(Repository repo, String name)
