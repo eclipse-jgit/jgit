@@ -290,6 +290,19 @@ public class ConfigConstants {
 	public static final String CONFIG_KEY_TRUSTFOLDERSTAT = "trustfolderstat";
 
 	/**
+	 * The "refreshfolderstat" key in the "core section"
+	 * @since 4.5
+	 */
+	public static final String CONFIG_KEY_REFRESHFOLDERSTAT = "refreshfolderstat";
+
+	/**
+	 * The "enableNFSSupport" key
+	 *
+	 * @since 4.5
+	 */
+	public static final String ENABLE_NFS_SUPPORT = "enableNFSSupport";
+
+	/**
 	 * The "supportsAtomicFileCreation" key in the "core section"
 	 *
 	 * @since 4.5
