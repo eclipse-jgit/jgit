@@ -115,7 +115,7 @@ public class RevWalkUtilsReachableTest extends RevWalkTestCase {
 	}
 
 	private void assertContains(RevCommit commit, Collection<Ref> refsThatShouldContainCommit) throws Exception {
-		Collection<Ref> allRefs = db.getAllRefs().values();
+		Collection<Ref> allRefs = db.getRefDatabase().getRefs();
 		Collection<Ref> sortedRefs = RefComparator.sort(allRefs);
 		List<Ref> actual = RevWalkUtils.findBranchesReachableFrom(commit,
 				rw, sortedRefs);

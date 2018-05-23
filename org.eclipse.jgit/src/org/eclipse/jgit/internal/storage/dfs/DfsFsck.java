@@ -146,7 +146,7 @@ public class DfsFsck {
 			throws IOException {
 		pm.beginTask(JGitText.get().countingObjects, ProgressMonitor.UNKNOWN);
 		try (ObjectWalk ow = new ObjectWalk(repo)) {
-			for (Ref r : repo.getAllRefs().values()) {
+			for (Ref r : repo.getRefDatabase().getRefs()) {
 				ObjectId objectId = r.getObjectId();
 				if (objectId == null) {
 					// skip unborn branch

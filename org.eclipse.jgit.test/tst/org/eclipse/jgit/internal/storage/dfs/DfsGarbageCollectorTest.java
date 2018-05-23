@@ -972,7 +972,7 @@ public class DfsGarbageCollectorTest {
 	private static boolean isReachable(Repository repo, AnyObjectId id)
 			throws IOException {
 		try (RevWalk rw = new RevWalk(repo)) {
-			for (Ref ref : repo.getAllRefs().values()) {
+			for (Ref ref : repo.getRefDatabase().getRefs()) {
 				rw.markStart(rw.parseCommit(ref.getObjectId()));
 			}
 			for (RevCommit next; (next = rw.next()) != null;) {

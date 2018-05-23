@@ -757,7 +757,7 @@ public class TestRepository<R extends Repository> {
 	public void updateServerInfo() throws Exception {
 		if (db instanceof FileRepository) {
 			final FileRepository fr = (FileRepository) db;
-			RefWriter rw = new RefWriter(fr.getAllRefs().values()) {
+			RefWriter rw = new RefWriter(fr.getRefDatabase().getRefs()) {
 				@Override
 				protected void writeFile(String name, byte[] bin)
 						throws IOException {
@@ -852,7 +852,7 @@ public class TestRepository<R extends Repository> {
 				for (RevObject o : tips)
 					ow.markStart(ow.parseAny(o));
 			} else {
-				for (Ref r : db.getAllRefs().values())
+				for (Ref r : db.getRefDatabase().getRefs())
 					ow.markStart(ow.parseAny(r.getObjectId()));
 			}
 
@@ -905,7 +905,7 @@ public class TestRepository<R extends Repository> {
 			final File pack, idx;
 			try (PackWriter pw = new PackWriter(db)) {
 				Set<ObjectId> all = new HashSet<>();
-				for (Ref r : db.getAllRefs().values())
+				for (Ref r : db.getRefDatabase().getRefs())
 					all.add(r.getObjectId());
 				pw.preparePack(m, all, PackWriter.NONE);
 

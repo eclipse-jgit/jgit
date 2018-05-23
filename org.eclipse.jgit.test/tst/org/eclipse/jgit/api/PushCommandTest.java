@@ -245,7 +245,7 @@ public class PushCommandTest extends RepositoryTestCase {
 				git.add().addFilepattern("f" + i).call();
 				commit = git.commit().setMessage("adding f" + i).call();
 				git.push().setRemote("test").call();
-				git2.getRepository().getAllRefs();
+				git2.getRepository().getRefDatabase().getRefs();
 				assertEquals("failed to update on attempt " + i, commit.getId(),
 						git2.getRepository().resolve("refs/heads/test"));
 			}
