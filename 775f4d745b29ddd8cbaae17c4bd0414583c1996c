@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "d243f508_770bfc79",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefUpdateTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-05-24T06:59:23Z",
+      "side": 1,
+      "message": "See [1] for the error when using exactRef.\n\n[1] https://git.eclipse.org/r/#/c/123129/",
+      "parentUuid": "c2b2a668_d2f44029",
+      "revId": "775f4d745b29ddd8cbaae17c4bd0414583c1996c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6acad8e5_406cbaba",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefUpdateTest.java",
         "patchSetId": 1
