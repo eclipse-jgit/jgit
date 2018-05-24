@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6422ff9f_a0d544e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2018-05-24T00:10:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad8c4942_43321569",
+      "range": {
+        "startLine": 14,
+        "startChar": 20,
+        "endLine": 14,
+        "endChar": 30
+      },
+      "revId": "5daf52b83c35a1baa237c7c1452757c6c0f60a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b4f49ba4_e25a92b1",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -39,6 +63,24 @@
       "revId": "5daf52b83c35a1baa237c7c1452757c6c0f60a10",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59d5206c_4314aee8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2018-05-24T00:10:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4f49ba4_e25a92b1",
+      "revId": "5daf52b83c35a1baa237c7c1452757c6c0f60a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "5fc8cc6f_4909aadf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LsRefsV2Request.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2018-05-24T00:10:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7eec4be9_5f2f87c9",
+      "range": {
+        "startLine": 2,
+        "startChar": 30,
+        "endLine": 2,
+        "endChar": 33
+      },
+      "revId": "5daf52b83c35a1baa237c7c1452757c6c0f60a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7949434_70f19091",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LsRefsV2Request.java",
         "patchSetId": 2
@@ -79,6 +145,24 @@
       "revId": "5daf52b83c35a1baa237c7c1452757c6c0f60a10",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf082671_a112cd81",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LsRefsV2Request.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2018-05-24T00:10:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7949434_70f19091",
+      "revId": "5daf52b83c35a1baa237c7c1452757c6c0f60a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -99,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "31eda777_630da452",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LsRefsV2Request.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2018-05-24T00:10:36Z",
+      "side": 1,
+      "message": "Like this?",
+      "parentUuid": "2f681539_110a978f",
+      "revId": "5daf52b83c35a1baa237c7c1452757c6c0f60a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dbb6323b_184cc1ce",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LsRefsV2Request.java",
         "patchSetId": 2
@@ -113,6 +215,24 @@
       "revId": "5daf52b83c35a1baa237c7c1452757c6c0f60a10",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b19992ea_9dc6fa1b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LsRefsV2Request.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2018-05-24T00:10:36Z",
+      "side": 1,
+      "message": "How about this? This would be almost same as AutoValue.Builder result.",
+      "parentUuid": "dbb6323b_184cc1ce",
+      "revId": "5daf52b83c35a1baa237c7c1452757c6c0f60a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -133,6 +253,24 @@
     },
     {
       "key": {
+        "uuid": "81490725_6041afa6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Hook.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2018-05-24T00:10:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "337a6ae0_0f56c992",
+      "revId": "5daf52b83c35a1baa237c7c1452757c6c0f60a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7d1a1eb_0536530e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Hook.java",
         "patchSetId": 2
@@ -150,6 +288,24 @@
     },
     {
       "key": {
+        "uuid": "aa79e127_4503372c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Hook.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2018-05-24T00:10:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7d1a1eb_0536530e",
+      "revId": "5daf52b83c35a1baa237c7c1452757c6c0f60a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "061dcd75_39348770",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Hook.java",
         "patchSetId": 2
@@ -164,6 +320,24 @@
       "revId": "5daf52b83c35a1baa237c7c1452757c6c0f60a10",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "643bfd27_46ec9d24",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Hook.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2018-05-24T00:10:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "061dcd75_39348770",
+      "revId": "5daf52b83c35a1baa237c7c1452757c6c0f60a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
