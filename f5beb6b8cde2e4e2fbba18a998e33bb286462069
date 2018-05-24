@@ -22,6 +22,29 @@
       "revId": "f5beb6b8cde2e4e2fbba18a998e33bb286462069",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d24e23b_c27454a4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2018-05-24T20:26:25Z",
+      "side": 1,
+      "message": "The config value is named this way because we could do something like FileSnapshot does and remember the \u0027read\u0027 time. If the read time is \u003e NFS-caching time, then we could skip the refresh. If we don\u0027t think we\u0027re likely to ever pursue that, then maybe this would be better as a boolean without the suffix \u0027before\u0027.",
+      "range": {
+        "startLine": 296,
+        "startChar": 66,
+        "endLine": 296,
+        "endChar": 89
+      },
+      "revId": "f5beb6b8cde2e4e2fbba18a998e33bb286462069",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
