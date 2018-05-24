@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "58c26958_d3427ce6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2018-05-24T00:10:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "221bf316_0cbaf32b",
+      "revId": "adab3085ab890dd17b859da4036fd7ae8adadde8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce9525e8_5a53eb15",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LsRefsV2Request.java",
         "patchSetId": 1
