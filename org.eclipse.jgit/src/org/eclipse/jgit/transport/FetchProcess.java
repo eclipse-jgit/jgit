@@ -480,6 +480,9 @@ class FetchProcess {
 	private void deleteStaleTrackingRefs(FetchResult result,
 			BatchRefUpdate batch) throws IOException {
 		for (Ref ref : localRefs().values()) {
+			if (ref.isSymbolic()) {
+				continue;
+			}
 			final String refname = ref.getName();
 			for (RefSpec spec : toFetch) {
 				if (spec.matchDestination(refname)) {
