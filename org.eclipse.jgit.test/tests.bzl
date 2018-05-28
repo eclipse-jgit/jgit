@@ -57,5 +57,5 @@ def tests(tests):
         '//org.eclipse.jgit.lfs:jgit-lfs',
       ],
       flaky = flaky,
-      jvm_flags = ["-Xmx256m", "-Dfile.encoding=UTF-8"],
+      jvm_flags = ["-Xmx512m", "-Dfile.encoding=UTF-8"],
     )
