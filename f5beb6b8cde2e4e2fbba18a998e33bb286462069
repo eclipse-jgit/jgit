@@ -2,6 +2,63 @@
   "comments": [
     {
       "key": {
+        "uuid": "1199b227_e9946775",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/NFSFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-28T13:58:11Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "f5beb6b8cde2e4e2fbba18a998e33bb286462069",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7389fd36_9ccd942b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/NFSFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-28T13:58:11Z",
+      "side": 1,
+      "message": "this is pretty generic, please describe which improvements this class provides",
+      "range": {
+        "startLine": 13,
+        "startChar": 43,
+        "endLine": 13,
+        "endChar": 73
+      },
+      "revId": "f5beb6b8cde2e4e2fbba18a998e33bb286462069",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63f6664c_ebc422df",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/NFSFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-28T13:58:11Z",
+      "side": 1,
+      "message": "how about also overriding list() which is called by ObjectDirectory.listPackDirectory() ?",
+      "revId": "f5beb6b8cde2e4e2fbba18a998e33bb286462069",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31261fc1_a59964e9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
         "patchSetId": 1
@@ -13,6 +70,30 @@
       "writtenOn": "2018-05-24T20:24:22Z",
       "side": 1,
       "message": "An alternative to this I discussed with Martin was to add a createFile() method to FS, have a default implementation as a passthrough to new File(), and in FS_POSIX have it always create NFSFile. NFSFile could then become an inner class of FS_POSIX (or move somewhere else).\n\nIf folks are interested in that approach, I\u0027d be willing to make the changes.",
+      "range": {
+        "startLine": 167,
+        "startChar": 22,
+        "endLine": 167,
+        "endChar": 29
+      },
+      "revId": "f5beb6b8cde2e4e2fbba18a998e33bb286462069",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "328fbc77_3b3e43ef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-28T13:58:11Z",
+      "side": 1,
+      "message": "I like the proposal to hide this new class behind a factory method in FS_POSIX",
+      "parentUuid": "31261fc1_a59964e9",
       "range": {
         "startLine": 167,
         "startChar": 22,
