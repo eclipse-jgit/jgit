@@ -22,6 +22,30 @@
       "revId": "f36fcff7a82eff92a310f37a2dce4c4a6a1172f1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a853ba22_5e11ed4f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/HugeCommitMessageTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-05-28T10:39:25Z",
+      "side": 1,
+      "message": "Doh! Of course. But in fact I need a message larger than the default streamFileThreshold, which is 50M... let\u0027s hope that mvn doesn\u0027t run into an OOME again if I increase that.",
+      "parentUuid": "a79620e7_9dfffe87",
+      "range": {
+        "startLine": 57,
+        "startChar": 50,
+        "endLine": 57,
+        "endChar": 54
+      },
+      "revId": "f36fcff7a82eff92a310f37a2dce4c4a6a1172f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
