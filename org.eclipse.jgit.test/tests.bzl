@@ -42,6 +42,10 @@ def tests(tests):
         '//lib:jsch',
       ]
 
+    heap_size = "-Xmx256m"
+    if src.endswith("HugeCommitMessageTest.java"):
+      heap_size = "-Xmx512m"
+
     junit_tests(
       name = name,
       tags = labels,
@@ -57,5 +61,5 @@ def tests(tests):
         '//org.eclipse.jgit.lfs:jgit-lfs',
       ],
       flaky = flaky,
-      jvm_flags = ["-Xmx256m", "-Dfile.encoding=UTF-8"],
+      jvm_flags = [heap_size, "-Dfile.encoding=UTF-8"],
     )
