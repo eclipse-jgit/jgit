@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a79620e7_9dfffe87",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/HugeCommitMessageTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 24046
+      },
+      "writtenOn": "2018-05-28T10:20:09Z",
+      "side": 1,
+      "message": "1024?",
+      "range": {
+        "startLine": 57,
+        "startChar": 50,
+        "endLine": 57,
+        "endChar": 54
+      },
+      "revId": "f36fcff7a82eff92a310f37a2dce4c4a6a1172f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
