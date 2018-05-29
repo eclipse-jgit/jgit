@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "78d8d24a_15e4c218",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/HugeCommitMessageTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-05-29T00:52:18Z",
+      "side": 1,
+      "message": "This is calculating the character count in each iteration.  Would it be better to calculate the required size in advance?",
+      "range": {
+        "startLine": 89,
+        "startChar": 9,
+        "endLine": 89,
+        "endChar": 19
+      },
+      "revId": "b0f120fc85ab6f783470ea6d2c4b2fded685c4d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
