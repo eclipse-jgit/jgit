@@ -22,6 +22,30 @@
       "revId": "b0f120fc85ab6f783470ea6d2c4b2fded685c4d9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f27097a_e7d09c92",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/HugeCommitMessageTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-05-29T05:19:40Z",
+      "side": 1,
+      "message": "I don\u0027t get that. The builder _is_ created with HUGE_SIZE, a StringBuilder keeps a running count of the actual characters added, and length() is a simple \"return count\". I don\u0027t see any inefficiency here.\n\nBut I see that the builder should be created not with HUGE_SIZE but with HUGE_SIZE + oneLine.size() to avoid that the last append() allocates a new array twice as big.",
+      "parentUuid": "78d8d24a_15e4c218",
+      "range": {
+        "startLine": 89,
+        "startChar": 9,
+        "endLine": 89,
+        "endChar": 19
+      },
+      "revId": "b0f120fc85ab6f783470ea6d2c4b2fded685c4d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
