@@ -66,6 +66,30 @@
     },
     {
       "key": {
+        "uuid": "00fd698e_25c68c20",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.feature/feature.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-29T15:47:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3345db8a_4321c042",
+      "range": {
+        "startLine": 72,
+        "startChar": 9,
+        "endLine": 72,
+        "endChar": 12
+      },
+      "revId": "b803bf9ca190f7f3eba86dd45eaa925347d8e019",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d4cd497_f3e8e0e0",
         "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.feature/license.html",
         "patchSetId": 2
@@ -125,6 +149,30 @@
       "side": 1,
       "message": "Likely. With curl, you get \u0026trade; here. And a content-type with charset ISO-8859-1.",
       "parentUuid": "93239eb6_c3e32a1d",
+      "range": {
+        "startLine": 50,
+        "startChar": 15,
+        "endLine": 50,
+        "endChar": 16
+      },
+      "revId": "b803bf9ca190f7f3eba86dd45eaa925347d8e019",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "beffba88_4f67b5ad",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.feature/license.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-29T15:47:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07e05d2c_7ae0584b",
       "range": {
         "startLine": 50,
         "startChar": 15,
