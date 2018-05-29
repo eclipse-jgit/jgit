@@ -1,0 +1,7 @@
+Code-Review+2: Thomas Wolf <thomas.wolf@paranor.ch>
+Verified+1: CI Bot
+Submitted-by: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-at: Tue, 29 May 2018 19:36:23 -0400
+Reviewed-on: https://git.eclipse.org/r/123531
+Project: jgit/jgit
+Branch: refs/heads/stable-5.0
