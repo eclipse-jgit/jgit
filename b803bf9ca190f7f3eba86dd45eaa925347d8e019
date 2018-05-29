@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "21b64755_085caa1d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-29T15:48:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a27488c_3e28ab51",
+      "revId": "b803bf9ca190f7f3eba86dd45eaa925347d8e019",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "00b4d937_3fd7267e",
         "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.feature/feature.properties",
         "patchSetId": 2
