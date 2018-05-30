@@ -589,7 +589,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 			DfsPackDescription b = fb.getPackDescription();
 
 			// GC, COMPACT reftables first by higher category.
-			int c = category(b) - category(a);
+			int c = b.getPackSource().category - a.getPackSource().category;
 			if (c != 0) {
 				return c;
 			}
@@ -603,11 +603,6 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 			// Older reftable first.
 			return Long.signum(a.getLastModified() - b.getLastModified());
 		};
-	}
-
-	static int category(DfsPackDescription d) {
-		PackSource s = d.getPackSource();
-		return s != null ? s.category : 0;
 	}
 
 	/**

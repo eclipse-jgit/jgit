@@ -619,7 +619,7 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 			PackSource as = ad.getPackSource();
 			PackSource bs = bd.getPackSource();
 
-			if (as != null && as == bs && DfsPackDescription.isGC(as)) {
+			if (as == bs && DfsPackDescription.isGC(as)) {
 				// Push smaller GC files last; these likely have higher quality
 				// delta compression and the contained representation should be
 				// favored over other files.
