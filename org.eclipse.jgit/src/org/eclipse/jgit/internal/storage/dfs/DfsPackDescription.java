@@ -76,8 +76,26 @@ public class DfsPackDescription {
 	 * @return comparator.
 	 */
 	public static Comparator<DfsPackDescription> defaultComparator() {
+		return defaultComparator(PackSource.DEFAULT_COMPARATOR);
+	}
+
+	/**
+	 * Comparator comparing packs according to the default lookup ordering.
+	 * <p>
+	 * This comparator tries to position packs in the order readers should examine
+	 * them when looking for objects by SHA-1. The default tries to sort packs
+	 * with more recent modification dates before older packs, and packs with
+	 * fewer objects before packs with more objects.
+	 *
+	 * @param packSourceComparator
+	 *            comparator for the {@link PackSource}, used as the first step in
+	 *            comparison.
+	 * @return comparator.
+	 */
+	public static Comparator<DfsPackDescription> defaultComparator(
+			Comparator<PackSource> packSourceComparator) {
 		return Comparator.comparing(
-					DfsPackDescription::getPackSource, PackSource.DEFAULT_COMPARATOR)
+					DfsPackDescription::getPackSource, packSourceComparator)
 			.thenComparing((a, b) -> {
 				PackSource as = a.getPackSource();
 				PackSource bs = b.getPackSource();
