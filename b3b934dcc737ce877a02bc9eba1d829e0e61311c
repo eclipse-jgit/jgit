@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bbe2e99c_6687c036",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackDescription.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-30T21:48:55Z",
+      "side": 1,
+      "message": "it feels strange to call this defaultComparator when it takes an argument make it non-default.\n\nI\u0027d be okay with that anyway if it weren\u0027t public, but since it\u0027s public, can it be renamed?",
+      "range": {
+        "startLine": 95,
+        "startChar": 46,
+        "endLine": 95,
+        "endChar": 63
+      },
+      "revId": "b3b934dcc737ce877a02bc9eba1d829e0e61311c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
