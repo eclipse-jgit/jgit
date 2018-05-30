@@ -240,6 +240,8 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 
 	private DfsReaderOptions readerOptions;
 
+	private Comparator<DfsPackDescription> packComparator;
+
 	/**
 	 * Initialize an object database for our repository.
 	 *
@@ -253,6 +255,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		this.repository = repository;
 		this.packList = new AtomicReference<>(NO_PACKS);
 		this.readerOptions = options;
+		this.packComparator = DfsPackDescription.objectLookupComparator();
 	}
 
 	/**
@@ -262,6 +265,21 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	 */
 	public DfsReaderOptions getReaderOptions() {
 		return readerOptions;
+	}
+
+	/**
+	 * Set the comparator used when searching for objects across packs.
+	 * <p>
+	 * An optimal comparator will find more objects without having to load large
+	 * idx files from storage only to find that they don't contain the object.
+	 * See {@link DfsPackDescription#objectLookupComparator()} for the default
+	 * heuristics.
+	 *
+	 * @param packComparator
+	 *            comparator.
+	 */
+	public void setPackComparator(Comparator<DfsPackDescription> packComparator) {
+		this.packComparator = packComparator;
 	}
 
 	/** {@inheritDoc} */
@@ -607,7 +625,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		Map<DfsPackDescription, DfsReftable> reftables = reftableMap(old);
 
 		List<DfsPackDescription> scanned = listPacks();
-		Collections.sort(scanned, DfsPackDescription.objectLookupComparator());
+		Collections.sort(scanned, packComparator);
 
 		List<DfsPackFile> newPacks = new ArrayList<>(scanned.size());
 		List<DfsReftable> newReftables = new ArrayList<>(scanned.size());

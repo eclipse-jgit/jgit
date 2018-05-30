@@ -46,8 +46,10 @@ package org.eclipse.jgit.internal.storage.dfs;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.COMPACT;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC_REST;
+import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC_TXN;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.INSERT;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.RECEIVE;
+import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.UNREACHABLE_GARBAGE;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 import static org.junit.Assert.assertEquals;
@@ -99,6 +101,24 @@ public final class DfsPackDescriptionTest {
 		b.setObjectCount(1);
 
 		assertComparesLessThan(DfsPackDescription.objectLookupComparator(), a, b);
+	}
+
+	@Test
+	public void objectLookupComparatorCustomPackSourceComparator()
+			throws Exception {
+		DfsPackDescription a = create(GC);
+
+		DfsPackDescription b = create(COMPACT);
+
+		assertComparesLessThan(DfsPackDescription.objectLookupComparator(), b, a);
+		assertComparesLessThan(
+				DfsPackDescription.objectLookupComparator(
+					new PackSource.ComparatorBuilder()
+						.add(GC)
+						.add(INSERT, RECEIVE, GC_REST, GC_TXN, UNREACHABLE_GARBAGE)
+						.add(COMPACT)
+						.build()),
+				a, b);
 	}
 
 	@Test
