@@ -72,13 +72,32 @@ public class DfsPackDescription {
 	 * with more recent modification dates before older packs, and packs with
 	 * fewer objects before packs with more objects.
 	 * <p>
-	 * Uses {@link PackSource#DEFAULT_COMPARATOR} for sorting sources.
+	 * Uses {@link PackSource#DEFAULT_COMPARATOR} for the portion of comparison
+	 * where packs are sorted by source.
 	 *
 	 * @return comparator.
 	 */
 	public static Comparator<DfsPackDescription> objectLookupComparator() {
+		return objectLookupComparator(PackSource.DEFAULT_COMPARATOR);
+	}
+
+	/**
+	 * Comparator for packs when looking up objects in indexes.
+	 * <p>
+	 * This comparator tries to position packs in the order readers should examine
+	 * them when looking for objects by SHA-1. The default tries to sort packs
+	 * with more recent modification dates before older packs, and packs with
+	 * fewer objects before packs with more objects.
+	 *
+	 * @param packSourceComparator
+	 *            comparator for the {@link PackSource}, used as the first step in
+	 *            comparison.
+	 * @return comparator.
+	 */
+	public static Comparator<DfsPackDescription> objectLookupComparator(
+			Comparator<PackSource> packSourceComparator) {
 		return Comparator.comparing(
-					DfsPackDescription::getPackSource, PackSource.DEFAULT_COMPARATOR)
+					DfsPackDescription::getPackSource, packSourceComparator)
 			.thenComparing((a, b) -> {
 				PackSource as = a.getPackSource();
 				PackSource bs = b.getPackSource();
