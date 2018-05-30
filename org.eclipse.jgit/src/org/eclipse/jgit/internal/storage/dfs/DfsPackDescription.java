@@ -476,7 +476,7 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 		// Cluster by PackSource, pushing UNREACHABLE_GARBAGE to the end.
 		PackSource as = getPackSource();
 		PackSource bs = b.getPackSource();
-		int cmp = as.category - bs.category;
+		int cmp = PackSource.DEFAULT_COMPARATOR.compare(as, bs);
 		if (cmp != 0) {
 			return cmp;
 		}
