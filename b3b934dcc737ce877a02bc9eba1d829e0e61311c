@@ -22,6 +22,30 @@
       "revId": "b3b934dcc737ce877a02bc9eba1d829e0e61311c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c169328_a611e860",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackDescription.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2018-05-30T21:51:54Z",
+      "side": 1,
+      "message": "The reason I used \"default\" was the default order is:\n\n* first, sort sources\n* then, smallest GC packs\n* then, newer packs\n* then, smaller packs\n\nChanging the specific way in which we sort the sources is not really changing the general idea, just a small piece of it.\n\nI\u0027m not saying I disagree with you, it does feel strange. I\u0027m just having a hard time coming up with \"default except treating pack sources in a different way\"",
+      "parentUuid": "bbe2e99c_6687c036",
+      "range": {
+        "startLine": 95,
+        "startChar": 46,
+        "endLine": 95,
+        "endChar": 63
+      },
+      "revId": "b3b934dcc737ce877a02bc9eba1d829e0e61311c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
