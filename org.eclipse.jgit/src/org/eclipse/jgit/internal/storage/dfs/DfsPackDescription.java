@@ -93,11 +93,15 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 	 *            name of the pack file. Must end with ".pack".
 	 * @param repoDesc
 	 *            description of the repo containing the pack file.
+	 * @param packSource
+	 *            the source of the pack; must not be null.
 	 */
-	public DfsPackDescription(DfsRepositoryDescription repoDesc, String name) {
+	public DfsPackDescription(DfsRepositoryDescription repoDesc, String name,
+			PackSource packSource) {
 		this.repoDesc = repoDesc;
 		int dot = name.lastIndexOf('.');
 		this.packName = (dot < 0) ? name : name.substring(0, dot);
+		setPackSource(packSource);
 
 		int extCnt = PackExt.values().length;
 		sizeMap = new long[extCnt];
@@ -160,7 +164,7 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 	/**
 	 * Get the source of the pack.
 	 *
-	 * @return the source of the pack.
+	 * @return the source of the pack; never null.
 	 */
 	public PackSource getPackSource() {
 		return packSource;
@@ -170,10 +174,13 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 	 * Set the source of the pack.
 	 *
 	 * @param source
-	 *            the source of the pack.
+	 *            the source of the pack; must not be null.
 	 * @return {@code this}
 	 */
 	public DfsPackDescription setPackSource(PackSource source) {
+		if (source == null) {
+			throw new NullPointerException();
+		}
 		packSource = source;
 		return this;
 	}
@@ -470,25 +477,24 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 		// Cluster by PackSource, pushing UNREACHABLE_GARBAGE to the end.
 		PackSource as = getPackSource();
 		PackSource bs = b.getPackSource();
-		if (as != null && bs != null) {
-			int cmp = as.category - bs.category;
-			if (cmp != 0)
-				return cmp;
+		int cmp = as.category - bs.category;
+		if (cmp != 0) {
+			return cmp;
 		}
 
 		// Tie break GC type packs by smallest first. There should be at most
 		// one of each source, but when multiple exist concurrent GCs may have
 		// run. Preferring the smaller file selects higher quality delta
 		// compression, placing less demand on the DfsBlockCache.
-		if (as != null && as == bs && isGC(as)) {
-			int cmp = Long.signum(getFileSize(PACK) - b.getFileSize(PACK));
+		if (as == bs && isGC(as)) {
+			cmp = Long.signum(getFileSize(PACK) - b.getFileSize(PACK));
 			if (cmp != 0) {
 				return cmp;
 			}
 		}
 
 		// Newer packs should sort first.
-		int cmp = Long.signum(b.getLastModified() - getLastModified());
+		cmp = Long.signum(b.getLastModified() - getLastModified());
 		if (cmp != 0)
 			return cmp;
 
