@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4573b3dd_a939a5c0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackDescription.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-30T21:51:10Z",
+      "side": 1,
+      "message": "Can this assign directly? That way I don\u0027t have to worry about what the subclass\u0027s overridden setPackSource does.",
+      "revId": "e819957bfbe1ef7a2b9c54062f8052e75ff4e7c2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49439fb2_3425208a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackDescription.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-05-30T21:51:10Z",
+      "side": 1,
+      "message": "You can use @NonNull.\n\nMy preferred style is to have packages with @NonNullByDefault, but we\u0027re not there yet so in the meantime we\u0027ve been sprinkling @NonNull as we go.",
+      "revId": "e819957bfbe1ef7a2b9c54062f8052e75ff4e7c2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
