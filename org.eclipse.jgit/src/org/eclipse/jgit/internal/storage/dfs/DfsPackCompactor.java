@@ -404,12 +404,11 @@ public class DfsPackCompactor {
 		// Sort packs by description ordering, this places newer packs before
 		// older packs, allowing the PackWriter to be handed newer objects
 		// first and older objects last.
-		Collections.sort(srcPacks, new Comparator<DfsPackFile>() {
-			@Override
-			public int compare(DfsPackFile a, DfsPackFile b) {
-				return a.getPackDescription().compareTo(b.getPackDescription());
-			}
-		});
+		Collections.sort(
+				srcPacks,
+				Comparator.comparing(
+						DfsPackFile::getPackDescription,
+						DfsPackDescription.objectLookupComparator()));
 
 		rw = new RevWalk(ctx);
 		added = rw.newFlag("ADDED"); //$NON-NLS-1$

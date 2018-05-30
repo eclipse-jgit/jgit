@@ -47,6 +47,7 @@ import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.REFTABLE;
 
 import java.util.Arrays;
+import java.util.Comparator;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
@@ -62,7 +63,88 @@ import org.eclipse.jgit.storage.pack.PackStatistics;
  * Instances of this class are cached with the DfsPackFile, and should not be
  * modified once initialized and presented to the JGit DFS library.
  */
-public class DfsPackDescription implements Comparable<DfsPackDescription> {
+public class DfsPackDescription {
+	/**
+	 * Comparator for packs when looking up objects in indexes.
+	 * <p>
+	 * This comparator tries to position packs in the order readers should examine
+	 * them when looking for objects by SHA-1. The default tries to sort packs
+	 * with more recent modification dates before older packs, and packs with
+	 * fewer objects before packs with more objects.
+	 * <p>
+	 * Uses {@link PackSource#DEFAULT_COMPARATOR} for sorting sources.
+	 *
+	 * @return comparator.
+	 */
+	public static Comparator<DfsPackDescription> objectLookupComparator() {
+		return Comparator.comparing(
+					DfsPackDescription::getPackSource, PackSource.DEFAULT_COMPARATOR)
+			.thenComparing((a, b) -> {
+				PackSource as = a.getPackSource();
+				PackSource bs = b.getPackSource();
+
+				// Tie break GC type packs by smallest first. There should be at most
+				// one of each source, but when multiple exist concurrent GCs may have
+				// run. Preferring the smaller file selects higher quality delta
+				// compression, placing less demand on the DfsBlockCache.
+				if (as == bs && isGC(as)) {
+					int cmp = Long.signum(a.getFileSize(PACK) - b.getFileSize(PACK));
+					if (cmp != 0) {
+						return cmp;
+					}
+				}
+
+				// Newer packs should sort first.
+				int cmp = Long.signum(b.getLastModified() - a.getLastModified());
+				if (cmp != 0) {
+					return cmp;
+				}
+
+				// Break ties on smaller index. Readers may get lucky and find
+				// the object they care about in the smaller index. This also pushes
+				// big historical packs to the end of the list, due to more objects.
+				return Long.signum(a.getObjectCount() - b.getObjectCount());
+			});
+	}
+
+	static Comparator<DfsPackDescription> reftableComparator() {
+		return (a, b) -> {
+				// GC, COMPACT reftables first by reversing default order.
+				int c = PackSource.DEFAULT_COMPARATOR.reversed()
+						.compare(a.getPackSource(), b.getPackSource());
+				if (c != 0) {
+					return c;
+				}
+
+				// Lower maxUpdateIndex first.
+				c = Long.signum(a.getMaxUpdateIndex() - b.getMaxUpdateIndex());
+				if (c != 0) {
+					return c;
+				}
+
+				// Older reftable first.
+				return Long.signum(a.getLastModified() - b.getLastModified());
+			};
+	}
+
+	static Comparator<DfsPackDescription> reuseComparator() {
+		return (a, b) -> {
+			PackSource as = a.getPackSource();
+			PackSource bs = b.getPackSource();
+
+			if (as == bs && DfsPackDescription.isGC(as)) {
+				// Push smaller GC files last; these likely have higher quality
+				// delta compression and the contained representation should be
+				// favored over other files.
+				return Long.signum(b.getFileSize(PACK) - a.getFileSize(PACK));
+			}
+
+			// DfsPackDescription.compareTo already did a reasonable sort.
+			// Rely on Arrays.sort being stable, leaving equal elements.
+			return 0;
+		};
+	}
+
 	private final DfsRepositoryDescription repoDesc;
 	private final String packName;
 	private PackSource packSource;
@@ -459,48 +541,6 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 					getRepositoryDescription().equals(desc.getRepositoryDescription());
 		}
 		return false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * <p>
-	 * Sort packs according to the optimal lookup ordering.
-	 * <p>
-	 * This method tries to position packs in the order readers should examine
-	 * them when looking for objects by SHA-1. The default tries to sort packs
-	 * with more recent modification dates before older packs, and packs with
-	 * fewer objects before packs with more objects.
-	 */
-	@Override
-	public int compareTo(DfsPackDescription b) {
-		// Cluster by PackSource, pushing UNREACHABLE_GARBAGE to the end.
-		PackSource as = getPackSource();
-		PackSource bs = b.getPackSource();
-		int cmp = PackSource.DEFAULT_COMPARATOR.compare(as, bs);
-		if (cmp != 0) {
-			return cmp;
-		}
-
-		// Tie break GC type packs by smallest first. There should be at most
-		// one of each source, but when multiple exist concurrent GCs may have
-		// run. Preferring the smaller file selects higher quality delta
-		// compression, placing less demand on the DfsBlockCache.
-		if (as == bs && isGC(as)) {
-			cmp = Long.signum(getFileSize(PACK) - b.getFileSize(PACK));
-			if (cmp != 0) {
-				return cmp;
-			}
-		}
-
-		// Newer packs should sort first.
-		cmp = Long.signum(b.getLastModified() - getLastModified());
-		if (cmp != 0)
-			return cmp;
-
-		// Break ties on smaller index. Readers may get lucky and find
-		// the object they care about in the smaller index. This also pushes
-		// big historical packs to the end of the list, due to more objects.
-		return Long.signum(getObjectCount() - b.getObjectCount());
 	}
 
 	static boolean isGC(PackSource s) {
