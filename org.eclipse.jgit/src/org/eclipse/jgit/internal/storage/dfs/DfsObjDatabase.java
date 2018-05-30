@@ -607,7 +607,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		Map<DfsPackDescription, DfsReftable> reftables = reftableMap(old);
 
 		List<DfsPackDescription> scanned = listPacks();
-		Collections.sort(scanned);
+		Collections.sort(scanned, DfsPackDescription.objectLookupComparator());
 
 		List<DfsPackFile> newPacks = new ArrayList<>(scanned.size());
 		List<DfsReftable> newReftables = new ArrayList<>(scanned.size());
@@ -668,26 +668,9 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	 * @return comparator to sort {@link DfsReftable} by priority.
 	 */
 	protected Comparator<DfsReftable> reftableComparator() {
-		return (fa, fb) -> {
-			DfsPackDescription a = fa.getPackDescription();
-			DfsPackDescription b = fb.getPackDescription();
-
-			// GC, COMPACT reftables first by reversing default order.
-			int c = PackSource.DEFAULT_COMPARATOR.reversed()
-					.compare(a.getPackSource(), b.getPackSource());
-			if (c != 0) {
-				return c;
-			}
-
-			// Lower maxUpdateIndex first.
-			c = Long.signum(a.getMaxUpdateIndex() - b.getMaxUpdateIndex());
-			if (c != 0) {
-				return c;
-			}
-
-			// Older reftable first.
-			return Long.signum(a.getLastModified() - b.getLastModified());
-		};
+		return Comparator.comparing(
+				DfsReftable::getPackDescription,
+				DfsPackDescription.reftableComparator());
 	}
 
 	/**
