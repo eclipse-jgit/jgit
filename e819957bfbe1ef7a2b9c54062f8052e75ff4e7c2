@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "be3f2344_b5fed323",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackDescription.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2018-05-30T21:53:36Z",
+      "side": 1,
+      "message": "I was just trying to avoid having to repeat the null check, but I don\u0027t feel strongly.\n\n(I could also avoid this by making setPackSource final, but doing so just to preserve my ability to write this line would be pretty non-obvious.)",
+      "parentUuid": "4573b3dd_a939a5c0",
+      "revId": "e819957bfbe1ef7a2b9c54062f8052e75ff4e7c2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "49439fb2_3425208a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackDescription.java",
         "patchSetId": 1
