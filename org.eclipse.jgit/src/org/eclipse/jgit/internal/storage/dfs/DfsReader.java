@@ -45,7 +45,6 @@
 package org.eclipse.jgit.internal.storage.dfs;
 
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.UNREACHABLE_GARBAGE;
-import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_LENGTH;
 
 import java.io.IOException;
@@ -66,7 +65,6 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackList;
-import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
 import org.eclipse.jgit.internal.storage.file.BitmapIndexImpl;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
 import org.eclipse.jgit.internal.storage.file.PackIndex;
@@ -611,26 +609,9 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 		}
 	}
 
-	private static final Comparator<DfsPackFile> PACK_SORT_FOR_REUSE = new Comparator<DfsPackFile>() {
-		@Override
-		public int compare(DfsPackFile af, DfsPackFile bf) {
-			DfsPackDescription ad = af.getPackDescription();
-			DfsPackDescription bd = bf.getPackDescription();
-			PackSource as = ad.getPackSource();
-			PackSource bs = bd.getPackSource();
-
-			if (as == bs && DfsPackDescription.isGC(as)) {
-				// Push smaller GC files last; these likely have higher quality
-				// delta compression and the contained representation should be
-				// favored over other files.
-				return Long.signum(bd.getFileSize(PACK) - ad.getFileSize(PACK));
-			}
-
-			// DfsPackDescription.compareTo already did a reasonable sort.
-			// Rely on Arrays.sort being stable, leaving equal elements.
-			return 0;
-		}
-	};
+	private static final Comparator<DfsPackFile> PACK_SORT_FOR_REUSE =
+		Comparator.comparing(
+				DfsPackFile::getPackDescription, DfsPackDescription.reuseComparator());
 
 	private List<DfsPackFile> sortPacksForSelectRepresentation()
 			throws IOException {
