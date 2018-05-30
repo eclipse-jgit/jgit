@@ -43,13 +43,17 @@
 
 package org.eclipse.jgit.internal.storage.dfs;
 
+import static java.util.stream.Collectors.joining;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -86,10 +90,16 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		}
 	};
 
-	/** Sources for a pack file. */
+	/**
+	 * Sources for a pack file.
+	 * <p>
+	 * <strong>Note:</strong> When sorting packs by source, do not use the default
+	 * comparator based on {@link Enum#compareTo}. Prefer {@link
+	 * #DEFAULT_COMPARATOR} or your own {@link ComparatorBuilder}.
+	 */
 	public static enum PackSource {
 		/** The pack is created by ObjectInserter due to local activity. */
-		INSERT(0),
+		INSERT,
 
 		/**
 		 * The pack is created by PackParser due to a network event.
@@ -100,7 +110,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		 * storage layout preferred by this version. Received packs are likely
 		 * to be either compacted or garbage collected in the future.
 		 */
-		RECEIVE(0),
+		RECEIVE,
 
 		/**
 		 * The pack was created by compacting multiple packs together.
@@ -111,7 +121,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		 *
 		 * @see DfsPackCompactor
 		 */
-		COMPACT(1),
+		COMPACT,
 
 		/**
 		 * Pack was created by Git garbage collection by this implementation.
@@ -122,17 +132,17 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		 *
 		 * @see DfsGarbageCollector
 		 */
-		GC(2),
+		GC,
 
 		/** Created from non-heads by {@link DfsGarbageCollector}. */
-		GC_REST(3),
+		GC_REST,
 
 		/**
 		 * RefTreeGraph pack was created by Git garbage collection.
 		 *
 		 * @see DfsGarbageCollector
 		 */
-		GC_TXN(4),
+		GC_TXN,
 
 		/**
 		 * Pack was created by Git garbage collection.
@@ -141,12 +151,86 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		 * last GC pass. It is retained in a new pack until it is safe to prune
 		 * these objects from the repository.
 		 */
-		UNREACHABLE_GARBAGE(5);
+		UNREACHABLE_GARBAGE;
 
-		final int category;
+		/**
+		 * Default comparator for sources.
+		 * <p>
+		 * Sorts generally newer, smaller types such as {@code INSERT} and {@code
+		 * RECEIVE} earlier; older, larger types such as {@code GC} later; and
+		 * {@code UNREACHABLE_GARBAGE} at the end.
+		 */
+		public static final Comparator<PackSource> DEFAULT_COMPARATOR =
+				new ComparatorBuilder()
+						.add(INSERT, RECEIVE)
+						.add(COMPACT)
+						.add(GC)
+						.add(GC_REST)
+						.add(GC_TXN)
+						.add(UNREACHABLE_GARBAGE)
+						.build();
 
-		PackSource(int category) {
-			this.category = category;
+		/**
+		 * Builder for describing {@link PackSource} ordering where some values are
+		 * explicitly considered equal to others.
+		 */
+		public static class ComparatorBuilder {
+			private final Map<PackSource, Integer> ranks = new HashMap<>();
+			private int counter;
+
+			/**
+			 * Add a collection of sources that should sort as equal.
+			 * <p>
+			 * Sources in the input will sort after sources listed in previous calls
+			 * to this method.
+			 *
+			 * @param sources
+			 *            sources in this equivalence class.
+			 * @return this.
+			 */
+			public ComparatorBuilder add(PackSource... sources) {
+				for (PackSource s : sources) {
+					ranks.put(s, Integer.valueOf(counter));
+				}
+				counter++;
+				return this;
+			}
+
+			/**
+			 * Build the comparator.
+			 *
+			 * @return new comparator instance.
+			 * @throws IllegalArgumentException
+			 *             not all {@link PackSource} instances were explicitly assigned
+			 *             an equivalence class.
+			 */
+			public Comparator<PackSource> build() {
+				return new PackSourceComparator(ranks);
+			}
+		}
+
+		private static class PackSourceComparator implements Comparator<PackSource> {
+			private final Map<PackSource, Integer> ranks;
+
+			private PackSourceComparator(Map<PackSource, Integer> ranks) {
+				if (!ranks.keySet().equals(
+							new HashSet<>(Arrays.asList(PackSource.values())))) {
+					throw new IllegalArgumentException();
+				}
+				this.ranks = new HashMap<>(ranks);
+			}
+
+			@Override
+			public int compare(PackSource a, PackSource b) {
+				return ranks.get(a).compareTo(ranks.get(b));
+			}
+
+			@Override
+			public String toString() {
+				return Arrays.stream(PackSource.values())
+						.map(s -> s + "=" + ranks.get(s)) //$NON-NLS-1$
+						.collect(joining(", ", getClass().getSimpleName() + "{", "}")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			}
 		}
 	}
 
@@ -588,8 +672,9 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 			DfsPackDescription a = fa.getPackDescription();
 			DfsPackDescription b = fb.getPackDescription();
 
-			// GC, COMPACT reftables first by higher category.
-			int c = b.getPackSource().category - a.getPackSource().category;
+			// GC, COMPACT reftables first by reversing default order.
+			int c = PackSource.DEFAULT_COMPARATOR.reversed()
+					.compare(a.getPackSource(), b.getPackSource());
 			if (c != 0) {
 				return c;
 			}
