@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6c7a7a8d_c4f13881",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RemoteAddCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-05-31T13:02:22Z",
+      "side": 1,
+      "message": "This is an API change.  Maybe better to do this on stable-5.0 so it\u0027s for the 5.0 release?",
+      "revId": "658c6055b7eebd488d3d36ff6956fc8eb1d27d3e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
