@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "177e527a_090821d3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2018-05-31T15:24:13Z",
+      "side": 1,
+      "message": "I don\u0027t. I\u0027ll try to get some, but I\u0027m not sure what a good way to gather that data would be. I\u0027ll have some anecdotal data once I enable this is in prod env (should be today).",
+      "parentUuid": "f7399e9e_d5d057f4",
+      "revId": "f5beb6b8cde2e4e2fbba18a998e33bb286462069",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1199b227_e9946775",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/NFSFile.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2018-05-28T13:58:11Z",
       "side": 1,
       "message": "missing license header",
+      "revId": "f5beb6b8cde2e4e2fbba18a998e33bb286462069",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43f55309_92242ff7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/NFSFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2018-05-31T15:24:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1199b227_e9946775",
       "revId": "f5beb6b8cde2e4e2fbba18a998e33bb286462069",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "39875782_88eff242",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/NFSFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2018-05-31T15:24:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7389fd36_9ccd942b",
+      "range": {
+        "startLine": 13,
+        "startChar": 43,
+        "endLine": 13,
+        "endChar": 73
+      },
+      "revId": "f5beb6b8cde2e4e2fbba18a998e33bb286462069",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "63f6664c_ebc422df",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/NFSFile.java",
         "patchSetId": 1
@@ -70,6 +130,24 @@
       "writtenOn": "2018-05-28T13:58:11Z",
       "side": 1,
       "message": "how about also overriding list() which is called by ObjectDirectory.listPackDirectory() ?",
+      "revId": "f5beb6b8cde2e4e2fbba18a998e33bb286462069",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e62d1c38_d4aac321",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/NFSFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2018-05-31T15:24:13Z",
+      "side": 1,
+      "message": "\u003e how about also overriding list() which is called by\n \u003e ObjectDirectory.listPackDirectory() ?\n\nAs far as NFS caching goes, list() \"Just Works\". Doing a directory listing flushes the cache.",
+      "parentUuid": "63f6664c_ebc422df",
       "revId": "f5beb6b8cde2e4e2fbba18a998e33bb286462069",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -123,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "415617cc_32e602e3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2018-05-31T15:24:13Z",
+      "side": 1,
+      "message": "Ok, I\u0027ll take a stab at that in a later patchset.",
+      "parentUuid": "328fbc77_3b3e43ef",
+      "range": {
+        "startLine": 167,
+        "startChar": 22,
+        "endLine": 167,
+        "endChar": 29
+      },
+      "revId": "f5beb6b8cde2e4e2fbba18a998e33bb286462069",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7d24e23b_c27454a4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
         "patchSetId": 1
@@ -134,6 +236,30 @@
       "writtenOn": "2018-05-24T20:26:25Z",
       "side": 1,
       "message": "The config value is named this way because we could do something like FileSnapshot does and remember the \u0027read\u0027 time. If the read time is \u003e NFS-caching time, then we could skip the refresh. If we don\u0027t think we\u0027re likely to ever pursue that, then maybe this would be better as a boolean without the suffix \u0027before\u0027.",
+      "range": {
+        "startLine": 296,
+        "startChar": 66,
+        "endLine": 296,
+        "endChar": 89
+      },
+      "revId": "f5beb6b8cde2e4e2fbba18a998e33bb286462069",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a255324_9191058a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2018-05-31T15:24:13Z",
+      "side": 1,
+      "message": "I renamed this. I don\u0027t think the idea I had to use it as an int would ever be safe.",
+      "parentUuid": "7d24e23b_c27454a4",
       "range": {
         "startLine": 296,
         "startChar": 66,
