@@ -46,6 +46,29 @@
       "revId": "549c11f78cca715c0aa7ad1c7d93a644c9fde638",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a456239a_0f887601",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackDescription.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2018-06-01T16:43:16Z",
+      "side": 1,
+      "message": "Does this imply repoDesc and name is nullable?",
+      "range": {
+        "startLine": 101,
+        "startChar": 4,
+        "endLine": 101,
+        "endChar": 11
+      },
+      "revId": "549c11f78cca715c0aa7ad1c7d93a644c9fde638",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
