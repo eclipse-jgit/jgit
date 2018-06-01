@@ -93,6 +93,30 @@
       "revId": "549c11f78cca715c0aa7ad1c7d93a644c9fde638",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3951105f_9b1247bd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackDescription.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2018-06-01T17:32:20Z",
+      "side": 1,
+      "message": "I guess I could have stated my question more directly since repoDesc and name should not be null, else NPE on line 103 (name.lastIndexOf...).  In the context of this change, @NonNull makes it clear on packSource.  Out of this context, however, I might erroneously conclude that the other parameters can take null.",
+      "parentUuid": "94129f59_100edda6",
+      "range": {
+        "startLine": 101,
+        "startChar": 4,
+        "endLine": 101,
+        "endChar": 11
+      },
+      "revId": "549c11f78cca715c0aa7ad1c7d93a644c9fde638",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
