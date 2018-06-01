@@ -46,6 +46,30 @@
       "revId": "6629e2167b985b37f721f3883f3cb8c033a1c18a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "658f5a94_5eead935",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsPackDescriptionTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-01T20:04:07Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2f49d6b0_4ac8e90c",
+      "range": {
+        "startLine": 2,
+        "startChar": 30,
+        "endLine": 2,
+        "endChar": 33
+      },
+      "revId": "6629e2167b985b37f721f3883f3cb8c033a1c18a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
