@@ -22,6 +22,30 @@
       "revId": "e7bacf0a7f8d4e6faf63d87705da07a13389e41c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d75232b8_3f98758a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2018-06-01T17:43:25Z",
+      "side": 1,
+      "message": "Supporting ties is certainly a must-have for preserving the old behavior, since the LHS has category\u003d0 for both INSERT and RECEIVE.",
+      "parentUuid": "ba286120_cec7debb",
+      "range": {
+        "startLine": 178,
+        "startChar": 17,
+        "endLine": 178,
+        "endChar": 47
+      },
+      "revId": "e7bacf0a7f8d4e6faf63d87705da07a13389e41c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
