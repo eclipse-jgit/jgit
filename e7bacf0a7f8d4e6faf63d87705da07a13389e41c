@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba286120_cec7debb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2018-06-01T17:36:44Z",
+      "side": 1,
+      "message": "Is this a map to allow tie?  Is tie a must-have?  If not, can this be an array/list?",
+      "range": {
+        "startLine": 178,
+        "startChar": 17,
+        "endLine": 178,
+        "endChar": 47
+      },
+      "revId": "e7bacf0a7f8d4e6faf63d87705da07a13389e41c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
