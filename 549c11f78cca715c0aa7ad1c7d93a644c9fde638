@@ -69,6 +69,30 @@
       "revId": "549c11f78cca715c0aa7ad1c7d93a644c9fde638",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94129f59_100edda6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackDescription.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2018-06-01T17:23:29Z",
+      "side": 1,
+      "message": "I\u0027m not 100% sure but I think the answer is no. Specifically, assuming no enclosing declaration (class, package, etc.) is @NonNullByDefault, then the absence of @NonNull/@Nullable means that nullability is unspecified for this variable one way or the other.",
+      "parentUuid": "a456239a_0f887601",
+      "range": {
+        "startLine": 101,
+        "startChar": 4,
+        "endLine": 101,
+        "endChar": 11
+      },
+      "revId": "549c11f78cca715c0aa7ad1c7d93a644c9fde638",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
