@@ -87,6 +87,24 @@
       "revId": "e819957bfbe1ef7a2b9c54062f8052e75ff4e7c2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "477540d9_fa254d81",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackDescription.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-01T16:07:34Z",
+      "side": 1,
+      "message": "Nowadays we use ecj for the actual build, and I know it fails the build for some nullness issues, so I think we\u0027re okay.\n\n(Of course I\u0027d be happy to use checker-framework too, or even *instead* [i.e. turning off the eclipse nullness errors once we have a good enough checker-framework setup in place].)",
+      "parentUuid": "a05d1d33_4ee77bd1",
+      "revId": "e819957bfbe1ef7a2b9c54062f8052e75ff4e7c2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
