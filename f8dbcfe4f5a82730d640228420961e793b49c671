@@ -16,6 +16,24 @@
       "revId": "f8dbcfe4f5a82730d640228420961e793b49c671",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb10b609_96a19f56",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2018-06-01T15:35:44Z",
+      "side": 1,
+      "message": "\u003e optional: can avoid the jargon by saying something like \"Add a collection of pack sources that should sort as equal\" or \"Add a collection of pack sources of equal rank\".\n\nDone\n\n\u003e What is used as the tie-breaker? Pack date?\n\nThere is no pack date, this is a Comparator\u003cPackSource\u003e. There\u0027s no tiebreaker, it\u0027s a partial order. I reworde the class Javadoc to try to make this clearer, while avoiding the \"partial order\" jargon.",
+      "parentUuid": "8167ca85_6bc24c94",
+      "revId": "f8dbcfe4f5a82730d640228420961e793b49c671",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
