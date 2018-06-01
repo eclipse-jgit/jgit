@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "89f91e2c_e912702a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackDescription.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2018-06-01T15:35:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be3f2344_b5fed323",
+      "revId": "e819957bfbe1ef7a2b9c54062f8052e75ff4e7c2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "49439fb2_3425208a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackDescription.java",
         "patchSetId": 1
@@ -48,6 +66,24 @@
       "writtenOn": "2018-05-30T21:51:10Z",
       "side": 1,
       "message": "You can use @NonNull.\n\nMy preferred style is to have packages with @NonNullByDefault, but we\u0027re not there yet so in the meantime we\u0027ve been sprinkling @NonNull as we go.",
+      "revId": "e819957bfbe1ef7a2b9c54062f8052e75ff4e7c2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a05d1d33_4ee77bd1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackDescription.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2018-06-01T15:35:42Z",
+      "side": 1,
+      "message": "Done.\n\n(I see that this also means with our current Eclipse warning configuration that the \"if (packSource \u003d\u003d null)\" checks are flagged as dead code, which does allow us to remove some code, so that\u0027s nice.\n\nI don\u0027t know if we use the Checker Framework to turn these into compile errors during the actual build process, though. If we don\u0027t, I think I would slightly prefer to keep the \"dead code\"--better a guaranteed immediate NPE than a possible NPE at some indeterminate point in the future. But this preference is not enough to make me want to check something in that Eclipse is flagging as a warning.)",
+      "parentUuid": "49439fb2_3425208a",
       "revId": "e819957bfbe1ef7a2b9c54062f8052e75ff4e7c2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
