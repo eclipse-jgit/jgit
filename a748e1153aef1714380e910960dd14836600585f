@@ -46,6 +46,30 @@
       "revId": "a748e1153aef1714380e910960dd14836600585f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ecfcffcb_60e69b42",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/PackSourceTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-01T20:02:55Z",
+      "side": 1,
+      "message": "Marking resolved.",
+      "parentUuid": "324921ec_266c13ae",
+      "range": {
+        "startLine": 2,
+        "startChar": 30,
+        "endLine": 2,
+        "endChar": 33
+      },
+      "revId": "a748e1153aef1714380e910960dd14836600585f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
