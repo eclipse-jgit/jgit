@@ -225,6 +225,30 @@
     },
     {
       "key": {
+        "uuid": "bfe077ad_d517b5ba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2018-06-01T19:43:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "415617cc_32e602e3",
+      "range": {
+        "startLine": 167,
+        "startChar": 22,
+        "endLine": 167,
+        "endChar": 29
+      },
+      "revId": "f5beb6b8cde2e4e2fbba18a998e33bb286462069",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7d24e23b_c27454a4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
         "patchSetId": 1
