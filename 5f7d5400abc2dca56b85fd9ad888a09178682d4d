@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36711305_9ec06636",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-06-03T19:00:52Z",
+      "side": 1,
+      "message": "This will call fireEvent() while the monitor is held, which will synchronously invoke registered event listeners. Invoking callbacks from a synchronized block is... risky.",
+      "revId": "5f7d5400abc2dca56b85fd9ad888a09178682d4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
