@@ -33,6 +33,24 @@
       "revId": "00bca04dda66988dcb4c827627ed33e99e16a9c2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91992983_cee0c625",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-06-03T11:34:21Z",
+      "side": 1,
+      "message": "done in https://git.eclipse.org/r/#/c/123892/ moved to stable-5.0",
+      "parentUuid": "0cfdf668_301d706e",
+      "revId": "00bca04dda66988dcb4c827627ed33e99e16a9c2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
