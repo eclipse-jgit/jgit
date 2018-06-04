@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "42863bee_a83318a3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2018-06-04T21:26:49Z",
+      "side": 1,
+      "message": "Just do this in FS.java, then we don\u0027t need to override in FS_POSIX.",
+      "range": {
+        "startLine": 407,
+        "startChar": 21,
+        "endLine": 407,
+        "endChar": 38
+      },
+      "revId": "cc458481de407491e41b4dfb2d4363c03b9a5a03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
