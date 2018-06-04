@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "13a129e8_1ab4ab53",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-06-04T21:59:22Z",
+      "side": 1,
+      "message": "if we first check config here we could avoid wrapping if the option is switched off and create a standard java.ioFile instead",
+      "revId": "cca4adee904529b9ea51cedbbcfd1e57348dbe7c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0ec2cd5_83bc3449",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-06-04T21:59:22Z",
+      "side": 1,
+      "message": "private or package private",
+      "range": {
+        "startLine": 410,
+        "startChar": 1,
+        "endLine": 410,
+        "endChar": 7
+      },
+      "revId": "cca4adee904529b9ea51cedbbcfd1e57348dbe7c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
