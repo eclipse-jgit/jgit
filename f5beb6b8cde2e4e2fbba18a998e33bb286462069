@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "d945695c_4b1163ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2018-06-04T20:14:06Z",
+      "side": 1,
+      "message": "Looking at the last 3 months of data and seeing from where we enabled this, I don\u0027t see any performance impact.",
+      "parentUuid": "177e527a_090821d3",
+      "revId": "f5beb6b8cde2e4e2fbba18a998e33bb286462069",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1199b227_e9946775",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/NFSFile.java",
         "patchSetId": 1
