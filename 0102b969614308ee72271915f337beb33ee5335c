@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "67b39440_b672cde4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2018-06-04T18:41:38Z",
+      "side": 1,
+      "message": "\u003e same question as for the other change for ObjectDirectory: can you\n \u003e provide data on performance impact ?\n\nNot yet. I\u0027ll try to get that in a day or two.",
+      "parentUuid": "f49ee205_81593f9e",
+      "revId": "0102b969614308ee72271915f337beb33ee5335c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ada7048f_d8fd0b8a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2018-06-04T18:05:57Z",
       "side": 1,
       "message": "missing braces",
+      "revId": "0102b969614308ee72271915f337beb33ee5335c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0fed4a5b_3b84a7ca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2018-06-04T18:41:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ada7048f_d8fd0b8a",
       "revId": "0102b969614308ee72271915f337beb33ee5335c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
