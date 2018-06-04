@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f49ee205_81593f9e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-06-04T18:05:57Z",
+      "side": 1,
+      "message": "same question as for the other change for ObjectDirectory: can you provide data on performance impact ?",
+      "revId": "0102b969614308ee72271915f337beb33ee5335c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ada7048f_d8fd0b8a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-06-04T18:05:57Z",
+      "side": 1,
+      "message": "missing braces",
+      "revId": "0102b969614308ee72271915f337beb33ee5335c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
