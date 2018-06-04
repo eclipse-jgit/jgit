@@ -22,6 +22,30 @@
       "revId": "cc458481de407491e41b4dfb2d4363c03b9a5a03",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10ee1d89_ef43b923",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2018-06-04T21:58:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42863bee_a83318a3",
+      "range": {
+        "startLine": 407,
+        "startChar": 21,
+        "endLine": 407,
+        "endChar": 38
+      },
+      "revId": "cc458481de407491e41b4dfb2d4363c03b9a5a03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
