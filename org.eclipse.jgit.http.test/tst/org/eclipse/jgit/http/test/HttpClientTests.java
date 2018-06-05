@@ -43,15 +43,20 @@
 
 package org.eclipse.jgit.http.test;
 
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.theInstance;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
+import java.io.OutputStream;
 import java.net.URI;
+import java.net.URL;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -75,9 +80,13 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.FetchConnection;
+import org.eclipse.jgit.transport.PacketLineIn;
+import org.eclipse.jgit.transport.PacketLineOut;
 import org.eclipse.jgit.transport.Transport;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
+import org.eclipse.jgit.transport.http.HttpConnection;
+import org.eclipse.jgit.transport.http.JDKHttpConnectionFactory;
 import org.eclipse.jgit.transport.resolver.RepositoryResolver;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 import org.junit.Before;
@@ -344,5 +353,83 @@ public class HttpClientTests extends HttpTestCase {
 			Ref head = c.getRef(Constants.HEAD);
 			assertNotNull(head);
 		}
+	}
+
+	@Test
+	public void testHttpClientWantsV2ButServerNotConfigured() throws Exception {
+		JDKHttpConnectionFactory f = new JDKHttpConnectionFactory();
+		String url = smartAuthNoneURI.toString() + "/info/refs?service=git-upload-pack";
+		HttpConnection c = f.create(new URL(url));
+		c.setRequestMethod("GET");
+		c.setRequestProperty("Git-Protocol", "version=2");
+		c.connect();
+		assertThat(c.getResponseCode(), is(200));
+
+		PacketLineIn pckIn = new PacketLineIn(c.getInputStream());
+
+		// Check that we get a v0 response.
+		assertThat(pckIn.readString(), is("# service=git-upload-pack"));
+		assertThat(pckIn.readString(), theInstance(PacketLineIn.END));
+		assertTrue(pckIn.readString().matches("[0-9a-f]{40} HEAD.*"));
+	}
+
+	@Test
+	public void testV2HttpFirstResponse() throws Exception {
+		remoteRepository.getRepository().getConfig().setInt(
+				"protocol", null, "version", 2);
+
+		JDKHttpConnectionFactory f = new JDKHttpConnectionFactory();
+		String url = smartAuthNoneURI.toString() + "/info/refs?service=git-upload-pack";
+		HttpConnection c = f.create(new URL(url));
+		c.setRequestMethod("GET");
+		c.setRequestProperty("Git-Protocol", "version=2");
+		c.connect();
+		assertThat(c.getResponseCode(), is(200));
+
+		PacketLineIn pckIn = new PacketLineIn(c.getInputStream());
+		assertThat(pckIn.readString(), is("version 2"));
+
+		// What remains are capabilities - ensure that all of them are
+		// non-empty strings, and that we see END at the end.
+		String s;
+		while ((s = pckIn.readString()) != PacketLineIn.END) {
+			assertTrue(!s.isEmpty());
+		}
+	}
+
+	@Test
+	public void testV2HttpSubsequentResponse() throws Exception {
+		remoteRepository.getRepository().getConfig().setInt(
+				"protocol", null, "version", 2);
+
+		JDKHttpConnectionFactory f = new JDKHttpConnectionFactory();
+		String url = smartAuthNoneURI.toString() + "/git-upload-pack";
+		HttpConnection c = f.create(new URL(url));
+		c.setRequestMethod("POST");
+		c.setRequestProperty("Content-Type", "application/x-git-upload-pack-request");
+		c.setRequestProperty("Git-Protocol", "version=2");
+		c.setDoOutput(true);
+		c.connect();
+
+		// Test ls-refs to verify that everything is connected
+		// properly. Tests for other commands go in
+		// UploadPackTest.java.
+
+		OutputStream os = c.getOutputStream();
+		PacketLineOut pckOut = new PacketLineOut(os);
+		pckOut.writeString("command=ls-refs");
+		pckOut.writeDelim();
+		pckOut.end();
+		os.close();
+
+		PacketLineIn pckIn = new PacketLineIn(c.getInputStream());
+
+		// Just check that we get what looks like a ref advertisement.
+		String s;
+		while ((s = pckIn.readString()) != PacketLineIn.END) {
+			assertTrue(s.matches("[0-9a-f]{40} [A-Za-z/]*"));
+		}
+
+		assertThat(c.getResponseCode(), is(200));
 	}
 }
