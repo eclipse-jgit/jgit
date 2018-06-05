@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c66fe17_81330d09",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/DefaultUploadPackFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-05T04:33:09Z",
+      "side": 1,
+      "message": "missing $NON-NLS comment",
+      "revId": "cb570c8434ec9f158df6c7c7b419aa2a2678b6cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7274ec0_b8aeb11b",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/DefaultUploadPackFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-05T04:33:09Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "cb570c8434ec9f158df6c7c7b419aa2a2678b6cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92ef9447_4209080d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1199,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-05T04:33:09Z",
+      "side": 1,
+      "message": "missing $NON-NLS comment",
+      "revId": "cb570c8434ec9f158df6c7c7b419aa2a2678b6cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
