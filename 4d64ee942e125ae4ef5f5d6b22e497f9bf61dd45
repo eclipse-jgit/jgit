@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8e643959_d0019d81",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/SmartServiceInfoRefs.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-05T05:10:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "914f7022_fc173ae5",
+      "range": {
+        "startLine": 193,
+        "startChar": 2,
+        "endLine": 193,
+        "endChar": 9
+      },
+      "revId": "4d64ee942e125ae4ef5f5d6b22e497f9bf61dd45",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ddc77e6f_953d67e2",
         "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/SmartServiceInfoRefs.java",
         "patchSetId": 1
@@ -74,6 +98,24 @@
       "revId": "4d64ee942e125ae4ef5f5d6b22e497f9bf61dd45",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a21d013_286b3c2e",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/SmartServiceInfoRefs.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-05T05:10:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "034fbfc7_eafdbfa9",
+      "revId": "4d64ee942e125ae4ef5f5d6b22e497f9bf61dd45",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
