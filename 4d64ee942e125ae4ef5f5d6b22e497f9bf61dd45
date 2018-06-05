@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "914f7022_fc173ae5",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/SmartServiceInfoRefs.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-05T04:29:35Z",
+      "side": 1,
+      "message": "should use spaces instead of tab (and likewise below)",
+      "range": {
+        "startLine": 193,
+        "startChar": 2,
+        "endLine": 193,
+        "endChar": 9
+      },
+      "revId": "4d64ee942e125ae4ef5f5d6b22e497f9bf61dd45",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ddc77e6f_953d67e2",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/SmartServiceInfoRefs.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-05T04:29:35Z",
+      "side": 1,
+      "message": "missing @since comment",
+      "revId": "4d64ee942e125ae4ef5f5d6b22e497f9bf61dd45",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "034fbfc7_eafdbfa9",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/SmartServiceInfoRefs.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-05T04:29:35Z",
+      "side": 1,
+      "message": "missing $NON-NLS comment",
+      "revId": "4d64ee942e125ae4ef5f5d6b22e497f9bf61dd45",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
