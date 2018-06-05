@@ -108,6 +108,14 @@ public class GitProtocolConstants {
 	public static final String OPTION_SHALLOW = "shallow"; //$NON-NLS-1$
 
 	/**
+	 * The client wants the "deepen" command to be interpreted as relative to
+	 * the client's shallow commits.
+	 *
+	 * @since 5.0
+	 */
+	public static final String OPTION_DEEPEN_RELATIVE = "deepen-relative"; //$NON-NLS-1$
+
+	/**
 	 * The client does not want progress messages and will ignore them.
 	 *
 	 * @since 3.2
