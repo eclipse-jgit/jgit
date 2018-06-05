@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1f1958d9_655ba1c1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 869,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-05T04:37:40Z",
+      "side": 1,
+      "message": "optional nit: while we\u0027re here, can add braces around 1-line \"if\" body",
+      "revId": "5b4f988ace54e3c02e711523741f686369f71c67",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81adf7f4_1df2e723",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1001,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-05T04:37:40Z",
+      "side": 1,
+      "message": "nit: no need for this comment, since we\u0027re not promising support for shallow yet",
+      "revId": "5b4f988ace54e3c02e711523741f686369f71c67",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64c0a6bf_bfb0f543",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1081,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-05T04:37:40Z",
+      "side": 1,
+      "message": "should add a comment mentioning that unshallowCommits is an output parameter",
+      "revId": "5b4f988ace54e3c02e711523741f686369f71c67",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3911d3dc_266105fd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1786,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-05T04:37:40Z",
+      "side": 1,
+      "message": "these tabs should be spaces",
+      "range": {
+        "startLine": 1786,
+        "startChar": 3,
+        "endLine": 1786,
+        "endChar": 4
+      },
+      "revId": "5b4f988ace54e3c02e711523741f686369f71c67",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3a5327d_ab69ea98",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1852,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-05T04:37:40Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "5b4f988ace54e3c02e711523741f686369f71c67",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
