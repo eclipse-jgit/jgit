@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "131bbeca_ffa8cf02",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-06-05T22:46:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc827083_bb4cf369",
+      "revId": "f53d106adbdf25eb18e753cf828cfbe48e177303",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "24387f73_c3c461fd",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2018-06-05T18:36:12Z",
       "side": 1,
       "message": "Can we have an explicit ReentrantLock for this?\n\nThat way, the mutual exclusion won\u0027t conflict with anyone else using a \u0027synchronized (repo)\u0027 block for whatever reason.",
+      "revId": "f53d106adbdf25eb18e753cf828cfbe48e177303",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "944f45dd_93468801",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-06-05T22:46:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24387f73_c3c461fd",
       "revId": "f53d106adbdf25eb18e753cf828cfbe48e177303",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
