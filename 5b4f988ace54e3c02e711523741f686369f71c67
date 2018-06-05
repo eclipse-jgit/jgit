@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "47c0c47b_b07380f0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1081,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-05T04:43:18Z",
+      "side": 1,
+      "message": "https://git.eclipse.org/r/c/123956/1/org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java#1162 has a comment we can take some text from.",
+      "parentUuid": "64c0a6bf_bfb0f543",
+      "revId": "5b4f988ace54e3c02e711523741f686369f71c67",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3911d3dc_266105fd",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1
