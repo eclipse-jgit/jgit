@@ -16,6 +16,24 @@
       "revId": "9f4c22e665e7028ba9a0bf2d69d18602a05b30bf",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ac7cd1b8_4a8eff4c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2018-06-06T08:40:00Z",
+      "side": 1,
+      "message": "+1. I have the same concerns about performance impact. I do not use NFS, and must not suffer from any performance degradation in such a central place on JGit/Gerrit stack.",
+      "parentUuid": "b7cec776_d327084a",
+      "revId": "9f4c22e665e7028ba9a0bf2d69d18602a05b30bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
