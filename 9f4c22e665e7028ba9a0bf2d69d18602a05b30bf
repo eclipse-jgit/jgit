@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b7cec776_d327084a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2018-06-06T07:04:11Z",
+      "side": 1,
+      "message": "Everybody running on POSIX filesystems will now under the hood use this class named NFSFile even if there is no NFS in his environment. Since this class adds quite a few additional filesystem calls (e.g.  config.getBoolean has to check wether repo or global or system config has changed) I would like to give users not using NFS the chance not to use this class. \n\nThis change forces non-NFS users to do instead of  \n\n- File.exists() \n\nthe following\n\n- potentially check 3 config files whether they have changed\n- check the merged configuration whether it contains CONFIG_KEY_REFRESHFOLDERSTAT \n- if not call \"File.exists()\"\n\nA config option like \"EnableNFSSupport\" could do this trick. That could be a config option read once and stored in a static field. Only if that field is true we instantiate NFSFile. Otherwise we simply use the super() implementations of createFile().",
+      "revId": "9f4c22e665e7028ba9a0bf2d69d18602a05b30bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
