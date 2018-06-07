@@ -231,6 +231,24 @@
       "revId": "9f4c22e665e7028ba9a0bf2d69d18602a05b30bf",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cfa74eeb_9f45935a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2018-06-07T21:57:37Z",
+      "side": 1,
+      "message": "Martin and I are wondering if using FileSnapshots for the config files (to skip re-reading them if unmodified) would be enough of an improvement that this becomes unnoticeable. I\u0027m off for a vacation today and back on the 19th. If no one else tries out that approach before then, I\u0027ll try it when I\u0027m back.",
+      "parentUuid": "384b0c6a_5fe4efba",
+      "revId": "9f4c22e665e7028ba9a0bf2d69d18602a05b30bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
