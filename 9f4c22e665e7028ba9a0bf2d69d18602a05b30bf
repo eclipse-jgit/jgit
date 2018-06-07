@@ -52,6 +52,24 @@
       "revId": "9f4c22e665e7028ba9a0bf2d69d18602a05b30bf",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "974a61e2_270b545b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-06-07T13:35:12Z",
+      "side": 1,
+      "message": "This class is not used for all file access but for access to pack files and for access to refs. \n\nIf the NFS cached view of the pack directory is incomplete we may miss new packfiles in multi-node setup if a new packfile arrived on another node, for refs we may miss new refs, updates or deletes.\n\nAnother issue is visibility of file locks implemented by FileLock between processes running on different nodes.",
+      "parentUuid": "86f09f90_81fc6c01",
+      "revId": "9f4c22e665e7028ba9a0bf2d69d18602a05b30bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
