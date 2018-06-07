@@ -34,6 +34,24 @@
       "revId": "9f4c22e665e7028ba9a0bf2d69d18602a05b30bf",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86f09f90_81fc6c01",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2018-06-07T13:05:45Z",
+      "side": 1,
+      "message": "We are using NFS but I am still concerned about using such a global hack for all files accesses.\nWe can\u0027t accept a global performance degradation on all nodes only to fix a single scenario: in-memory cache invalidation.\n\nIs there a way to instead control this from the external? Something like Repository.refreshRefs().\n\nJust to clarify: the data is visible but only the files attributes are cached for files that have been modified. All Git files are immutable, with the exception of refs.\n\nIf we introduce a \"refreshRefs()\" to be called by Gerrit (or whoever uses JGit) only when needed, we won\u0027t have anymore a global performance impact on all the JGit calls and we will still achieve the goal of being able to invalidate the cache.\n\nHow does it sound?\n\nLuca.",
+      "parentUuid": "ac7cd1b8_4a8eff4c",
+      "revId": "9f4c22e665e7028ba9a0bf2d69d18602a05b30bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
