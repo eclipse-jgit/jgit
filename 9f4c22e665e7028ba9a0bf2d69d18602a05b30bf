@@ -70,6 +70,24 @@
       "revId": "9f4c22e665e7028ba9a0bf2d69d18602a05b30bf",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ae4efcf_631c6e6d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2018-06-07T13:42:24Z",
+      "side": 1,
+      "message": "\u003e This class is not used for all file access but for access to pack files and for access to refs. \n\nrefs are still read a lot of times ... do we have numbers of the performance degradation?\n\n\u003e If the NFS cached view of the pack directory is incomplete we may miss new packfiles in multi-node setup if a new packfile arrived on another node\n\nYes, saw that and the trustfolderstats flag addresses that, correct? It is then a non-problem anymore.\n\n\u003e for refs we may miss new refs, updates or deletes.\n\nYes, we saw that as well. For packed refs a fix has been merged already. For loose refs the problem is outstanding.\n\n\u003e Another issue is visibility of file locks implemented by FileLock between processes running on different nodes.\n\nIs this addressing FileLock as well?",
+      "parentUuid": "974a61e2_270b545b",
+      "revId": "9f4c22e665e7028ba9a0bf2d69d18602a05b30bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
