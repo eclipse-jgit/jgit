@@ -249,6 +249,24 @@
       "revId": "9f4c22e665e7028ba9a0bf2d69d18602a05b30bf",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b574f1d0_aa149012",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2018-06-07T22:15:04Z",
+      "side": 1,
+      "message": "\u003e Martin and I are wondering if using FileSnapshots for the config files (to skip re-reading them if unmodified) would be enough of an improvement that this becomes unnoticeable. I\u0027m off for a vacation today and back on the 19th. If no one else tries out that approach before then, I\u0027ll try it when I\u0027m back.\n\nSee below the breakdown of calls per type:\n#1: 2.4M refs/changes/NN/NNN/meta\n#1: 350k objects/pack\n#2: 52k config\n\nThis is *specific* to Gerrit 2.5 use-case with NoteDb, where the Git repository used *all the times* for reading change data. Every time that a ChangeNote is used, JGit needs to de-reference the ref to a SHA1 and, because the RefDatabase has a cached set of values, checks if the underlying loose refs have changed.\n\nWith this hack, every time than anyone touches anything on the GUI, we call this refresh hack. That\u0027s the reason behind those astronomic numbers :-(\n\nThe situation with Gerrit \u003c 2.15 could be *very different*. Maybe Hugo could run some tests in production on v2.14.x and share the results.\n\nHowever, sooner or later, we will end up with Gerrit v2.15 and we will hit this problem :-(",
+      "parentUuid": "cfa74eeb_9f45935a",
+      "revId": "9f4c22e665e7028ba9a0bf2d69d18602a05b30bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
