@@ -49,6 +49,23 @@
     },
     {
       "key": {
+        "uuid": "a936ecc9_ee29974b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/DescribeCommandTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-06-07T13:55:25Z",
+      "side": 1,
+      "message": "unrelated formatting change",
+      "revId": "dda18ba444f4b3680e228c601e344ea664a72698",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cfb267aa_de5ffd95",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
         "patchSetId": 8
@@ -107,6 +124,23 @@
       "writtenOn": "2018-02-19T08:12:17Z",
       "side": 1,
       "message": "Missing @Since tag in the javadoc",
+      "revId": "dda18ba444f4b3680e228c601e344ea664a72698",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87929364_ef98744c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-06-07T13:55:25Z",
+      "side": 1,
+      "message": "missing @since 4.11 tag for new API",
       "revId": "dda18ba444f4b3680e228c601e344ea664a72698",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
