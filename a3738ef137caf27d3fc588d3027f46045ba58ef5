@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c474bd7a_cf546e70",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2018-06-07T23:28:37Z",
+      "side": 1,
+      "message": "Could this be renamed to something more specific like indexFileSnapshot or indexSnapshot?  If so, snapshotLock needs rename too.  Thanks.",
+      "range": {
+        "startLine": 131,
+        "startChar": 22,
+        "endLine": 131,
+        "endChar": 30
+      },
+      "revId": "a3738ef137caf27d3fc588d3027f46045ba58ef5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9990277_20c59428",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2018-06-07T23:28:37Z",
+      "side": 1,
+      "message": "Why is this checked here but not on line 578?",
+      "range": {
+        "startLine": 565,
+        "startChar": 3,
+        "endLine": 565,
+        "endChar": 46
+      },
+      "revId": "a3738ef137caf27d3fc588d3027f46045ba58ef5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
