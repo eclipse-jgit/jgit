@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fc096348_1dcc94ea",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-06-07T15:43:41Z",
+      "side": 1,
+      "message": "good catch, I didn\u0027t spot this\n\nI think we should use the repository level configuration like we do for core.trustfolderstat\n\nwe could pass that as another parameter of the createFile method",
+      "parentUuid": "70fb2b03_a0c6ae51",
+      "revId": "9f4c22e665e7028ba9a0bf2d69d18602a05b30bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b7cec776_d327084a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
         "patchSetId": 4
