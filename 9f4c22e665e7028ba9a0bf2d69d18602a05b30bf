@@ -159,6 +159,24 @@
       "revId": "9f4c22e665e7028ba9a0bf2d69d18602a05b30bf",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ecafee61_9a2f293f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2018-06-07T17:13:49Z",
+      "side": 1,
+      "message": "It has been live for 10 mins \u003d\u003e 1.7M calls\nI have to say that we have 15k active users and over 40k repositories.\n\nThe project cache warm-up consumed 1M of those calls. Let\u0027s say then that the average number of calls per minute was 70k /minute.\n\nSee below my ioping stats:\n4 KiB \u003c\u003c\u003c /var/gerrit/git (nfs4 10.0.20.2:/var/gerrit/git): request\u003d2 time\u003d499.9 us\n\nWhilst on the local FS the ioping stats are:\n4 KiB \u003c\u003c\u003c /var/gerrit (ext4 /dev/root): request\u003d3 time\u003d258.2 us\n\nEven though the number of calls is significant (1100 TPS of calls to the refresh stats) the end user performance are still good. I suspect that I am generating however quite a bit of network I/O. Will leave it running on the failover node for 2-3h and give the final results as feedback to this change.",
+      "parentUuid": "8dc06b5c_c22a3c78",
+      "revId": "9f4c22e665e7028ba9a0bf2d69d18602a05b30bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
