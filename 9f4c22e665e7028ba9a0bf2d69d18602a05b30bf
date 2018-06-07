@@ -195,6 +195,24 @@
       "revId": "9f4c22e665e7028ba9a0bf2d69d18602a05b30bf",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1b6e223_44704782",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2018-06-07T20:46:30Z",
+      "side": 1,
+      "message": "\u003e Yes, I think you are right about #4, I didn\u0027t realize those were even being cached!  For #4 the lastModified() is being used.  A difficult, but potential improvement could be to only refresh the dir once per ref directory,\n\nExactly, and I wanted to expose it upstream as an API to be used by Gerrit.\nGerrit *knows* when the ref directory needs to be checked with a refreshed set of access data:\n- When a index sync is received\n- When a replication needs to be triggered\n- Before and after a GC cycle\n\nBy having the tool available (Repository.refreshRefs()) upstream, we could get all the benefits without any overload in terms of CPU or I/O to the NFS share.\n\n\u003e but I don\u0027t think the code layout would make that very doable. \n\nLet me try a patch on top of stable-4.9 (the one used in Gerrit 2.15)\n\n\u003e I would be concerned about this use case if it is a \"bulk\" operation that is used during ref advertisement?\n\nSee below the stats of 2h of production load with this hack:\n- 7.3M calls to refresh stats over 9.5k repositories, an average of 768 calls per repo\n- The most active repo (spdk/spdk - 30k refs) had 3.4M calls\n\nBear in mind that if we expose the API upstream, we DO NOT need to call it all the times for all operations.\n\nExample:\nIt is absolutely acceptable that a regular from a failover node gets a not 100% up-to-date ref value. However, when you push, you always want to make sure to have the latest version.\n\nThat would allow to massively reduce the number of calls to the API.",
+      "parentUuid": "7d8b4df0_afc17fb1",
+      "revId": "9f4c22e665e7028ba9a0bf2d69d18602a05b30bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
