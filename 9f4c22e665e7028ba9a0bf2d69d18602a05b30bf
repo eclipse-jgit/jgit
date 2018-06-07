@@ -213,6 +213,24 @@
       "revId": "9f4c22e665e7028ba9a0bf2d69d18602a05b30bf",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "384b0c6a_5fe4efba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2018-06-07T21:07:14Z",
+      "side": 1,
+      "message": "More stats about %CPU usage and system load:\n- Avg Baseline: CPU \u003d 2%, System Load \u003d 1.3\n- Avg w/ refresh stats: CPU \u003d 30%, System Load \u003d 3\n\nBecause we have plenty of over-capacity on GerritHub.io on both NFS bandwidth, CPU and cores, the additional load did not generate any significant delay anywhere.\n\nHowever, if you are applying this patch to a more overloaded server that is running at 50% of the available capacity, the performance penalties would be noticeable.",
+      "parentUuid": "a1b6e223_44704782",
+      "revId": "9f4c22e665e7028ba9a0bf2d69d18602a05b30bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
