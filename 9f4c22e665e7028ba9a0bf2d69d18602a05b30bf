@@ -177,6 +177,24 @@
       "revId": "9f4c22e665e7028ba9a0bf2d69d18602a05b30bf",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d8b4df0_afc17fb1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2018-06-07T17:42:45Z",
+      "side": 1,
+      "message": "Yes, I think you are right about #4, I didn\u0027t realize those were even being cached!  For #4 the lastModified() is being used.  A difficult, but potential improvement could be to only refresh the dir once per ref directory, but I don\u0027t think the code layout would make that very doable.  I would be concerned about this use case if it is a \"bulk\" operation that is used during ref advertisement?",
+      "parentUuid": "ecafee61_9a2f293f",
+      "revId": "9f4c22e665e7028ba9a0bf2d69d18602a05b30bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
