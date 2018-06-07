@@ -268,6 +268,11 @@ public class RefDirectory extends RefDatabase {
 	}
 
 	@Override
+	public boolean refreshAttributeCache() {
+		return FileUtils.refreshAttributeCache(refsDir.toPath());
+	}
+
+	@Override
 	public boolean isNameConflicting(String name) throws IOException {
 		RefList<Ref> packed = getPackedRefs();
 		RefList<LooseRef> loose = getLooseRefs();

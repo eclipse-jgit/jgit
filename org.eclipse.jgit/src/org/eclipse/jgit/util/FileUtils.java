@@ -48,12 +48,7 @@ package org.eclipse.jgit.util;
 import java.io.File;
 import java.io.IOException;
 import java.nio.channels.FileLock;
-import java.nio.file.AtomicMoveNotSupportedException;
-import java.nio.file.CopyOption;
-import java.nio.file.Files;
-import java.nio.file.LinkOption;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributeView;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
@@ -71,11 +66,14 @@ import java.util.regex.Pattern;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.util.FS.Attributes;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * File Utilities
  */
 public class FileUtils {
+	private static final Logger log = LoggerFactory.getLogger(FileUtils.class);
 
 	/**
 	 * Option to delete given {@code File}
@@ -646,6 +644,33 @@ public class FileUtils {
 	static long lastModified(File file) throws IOException {
 		return Files.getLastModifiedTime(file.toPath(), LinkOption.NOFOLLOW_LINKS)
 				.toMillis();
+	}
+
+
+	/**
+	 * Refresh the NFS files attributes caching.
+	 *
+	 * To improve performance, NFS clients cache file attributes. Every few seconds,
+	 * an NFS client checks the server's version of each file's attributes for updates.
+	 * Changes that occur on the server in those small intervals remain undetected until
+	 * the client checks the server again.
+	 *
+	 * By calling this method, flush the caching of the attributes of all files in the
+	 * specified directory path and forces the reload from the remote NFS server.
+	 *
+	 * @param filePath path of the directory to be flushed
+	 * @return true if no errors have been detected during the flush, false otherwise
+	 */
+	public static boolean refreshAttributeCache(Path filePath) {
+		try (DirectoryStream<Path> stream = Files
+				.newDirectoryStream(filePath)) {
+			log.info("Refreshing stats for {}", filePath);
+			// open and close the directory is a hack to invalidate NFS attribute cache
+			return true;
+		} catch (IOException e) {
+			log.warn("I/O error while trying to flush attributes for path {}", filePath, e);
+			return false;
+		}
 	}
 
 	/**

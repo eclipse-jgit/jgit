@@ -581,4 +581,15 @@ public class FileUtilsTest {
 		assertTrue(FileUtils
 				.isStaleFileHandleInCausalChain(IO_EXCEPTION_WITH_CAUSE));
 	}
+
+	@Test
+	public void testRefreshAttributeCache() throws IOException {
+		File f = new File(trash, "test");
+		FileUtils.createNewFile(f);
+		long lastmod = f.lastModified();
+
+		assertTrue(FileUtils.refreshAttributeCache(trash.toPath()));
+
+		assertEquals(lastmod, f.lastModified());
+	}
 }

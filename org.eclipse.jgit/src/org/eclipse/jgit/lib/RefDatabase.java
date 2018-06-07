@@ -390,6 +390,20 @@ public abstract class RefDatabase {
 	}
 
 	/**
+	 * Refresh all the attributes of the underlying filesystem.
+	 * <p>
+	 * In case the RefDatabase implementation uses filesystems with attribute caching
+	 * like NFS, this will make sure that all these attribute caches are cleared.
+	 * <p>
+	 * Implementors should overwrite this method if they use any kind of attribute caches.
+	 *
+	 * @return true if the refresh was successful, false otherwise
+	 */
+	public boolean refreshAttributeCache() {
+		return true;
+	}
+
+	/**
 	 * Try to find the specified name in the ref map using {@link #SEARCH_PATH}.
 	 *
 	 * @param map
