@@ -966,9 +966,8 @@ public class GC {
 		Path packDir = Paths.get(repo.getObjectsDirectory().getAbsolutePath(),
 				"pack"); //$NON-NLS-1$
 		Instant threshold = Instant.now().minus(1, ChronoUnit.DAYS);
-		try {
-			Files.newDirectoryStream(packDir, "gc_*_tmp") //$NON-NLS-1$
-					.forEach(t -> {
+		try (DirectoryStream<Path> stream = Files.newDirectoryStream(packDir, "gc_*_tmp")) { //$NON-NLS-1$
+			stream.forEach(t -> {
 						try {
 							Instant lastModified = Files.getLastModifiedTime(t)
 									.toInstant();
