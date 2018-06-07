@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "126adf5e_a325a06f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-06-07T23:14:28Z",
+      "side": 1,
+      "message": "why is this needed ? This method is used from a lot of places...",
+      "revId": "082767048274ac69459895c132c827f760aa8a52",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
