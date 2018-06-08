@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b0b36f4_dd039cb5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2018-06-08T09:34:13Z",
+      "side": 0,
+      "message": "I am wondering why ReentrantLock was chosen and whether we are sure that we don\u0027t need the additional feature of being able to reenter the locked block from the same thread. [1] tells how ReentrantLock and synchronized{} differ.\n\n[1] https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/locks/ReentrantLock.html",
+      "revId": "b782518caedc7b20e3d568f78a5a1d2b0aa17424",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
