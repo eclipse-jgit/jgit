@@ -16,6 +16,24 @@
       "revId": "b782518caedc7b20e3d568f78a5a1d2b0aa17424",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6c6d2071_c5d7a8e3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-06-08T10:20:38Z",
+      "side": 0,
+      "message": "Quoting: \"A reentrant mutual exclusion Lock with the same basic behavior and semantics as the implicit monitor lock accessed using synchronized methods and statements, but with extended capabilities.\" We don\u0027t need the extended capabilities like fairness, hold count, etc. The same thread _can_ re-enter a synchronized block, so that\u0027s not one of the \"extended capabilities\".\n\nBut maybe Jonathan, who suggested the ReentrantLock, would like to comment?",
+      "parentUuid": "9b0b36f4_dd039cb5",
+      "revId": "b782518caedc7b20e3d568f78a5a1d2b0aa17424",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
