@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4b26e19d_a3f50c64",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CreateBranchCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-08T23:37:16Z",
+      "side": 1,
+      "message": "Marking resolved.",
+      "parentUuid": "0614193c_db41b779",
+      "revId": "6cfa0e269ea89031d848467c54cadd0a87644b51",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c74b05f8_8351b89d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CreateBranchCommand.java",
         "patchSetId": 5
@@ -87,6 +105,30 @@
       "revId": "6cfa0e269ea89031d848467c54cadd0a87644b51",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8460258b_97396f8d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CreateBranchCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-08T23:37:16Z",
+      "side": 1,
+      "message": "Thanks.",
+      "parentUuid": "1edc4802_9e47365a",
+      "range": {
+        "startLine": 305,
+        "startChar": 23,
+        "endLine": 305,
+        "endChar": 42
+      },
+      "revId": "6cfa0e269ea89031d848467c54cadd0a87644b51",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
