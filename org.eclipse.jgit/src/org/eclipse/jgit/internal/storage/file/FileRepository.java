@@ -56,7 +56,6 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.locks.ReentrantLock;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.errors.JGitInternalException;
@@ -125,7 +124,7 @@ public class FileRepository extends Repository {
 	private final RefDatabase refs;
 	private final ObjectDirectory objectDatabase;
 
-	private final ReentrantLock snapshotLock = new ReentrantLock();
+	private final Object snapshotLock = new Object();
 
 	// protected by snapshotLock
 	private FileSnapshot snapshot;
@@ -553,29 +552,23 @@ public class FileRepository extends Repository {
 		}
 
 		File indexFile = getIndexFile();
-		snapshotLock.lock();
-		try {
+		synchronized (snapshotLock) {
 			if (snapshot == null) {
 				snapshot = FileSnapshot.save(indexFile);
-			} else if (snapshot.isModified(indexFile)) {
-				snapshotLock.unlock();
-				notifyIndexChanged(false);
+				return;
 			}
-		} finally {
-			if (snapshotLock.isHeldByCurrentThread()) {
-				snapshotLock.unlock();
+			if (!snapshot.isModified(indexFile)) {
+				return;
 			}
 		}
+		notifyIndexChanged(false);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public void notifyIndexChanged(boolean internal) {
-		snapshotLock.lock();
-		try {
+		synchronized (snapshotLock) {
 			snapshot = FileSnapshot.save(getIndexFile());
-		} finally {
-			snapshotLock.unlock();
 		}
 		fireEvent(new IndexChangedEvent(internal));
 	}
