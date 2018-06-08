@@ -69,6 +69,30 @@
       "revId": "a3738ef137caf27d3fc588d3027f46045ba58ef5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29f0461c_9d10fb81",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-06-08T06:06:50Z",
+      "side": 1,
+      "message": "Sorry to be late for the party, but...\n\nI don\u0027t understand why this needs a ReentrantLock. A separate object\u0027s monitor would be simpler, wouldn\u0027t it?\n\n  privat final Object snapshotLock \u003d new Object();\n\nand then just\n\n  boolean notify \u003d false;\n  synchronized(snapshotLock) {\n    if (snapshot \u003d\u003d null) {\n      snapshot \u003d FileSnapshot.save(indexFile);\n    } else if (snapshot.isModified(indexFile)) {\n      notify \u003d true;\n    }\n  }\n  if (notify) {\n    notifyIndexChanged(false);\n  }\n\nwould do the trick, wouldn\u0027t it? And below\n\n  synchronized(snapshotLock) {\n    snapshot \u003d FileSnapshot.save(getIndexFile());\n  }\n  fireEvent(new IndexChangedEvent(internal));\n\nLooks simpler to me...",
+      "parentUuid": "9542bc46_232b884f",
+      "range": {
+        "startLine": 565,
+        "startChar": 3,
+        "endLine": 565,
+        "endChar": 46
+      },
+      "revId": "a3738ef137caf27d3fc588d3027f46045ba58ef5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
