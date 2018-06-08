@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0614193c_db41b779",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CreateBranchCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-08T20:33:24Z",
+      "side": 1,
+      "message": "optional: could statically import this too",
+      "revId": "6cfa0e269ea89031d848467c54cadd0a87644b51",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c74b05f8_8351b89d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CreateBranchCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-08T20:33:24Z",
+      "side": 1,
+      "message": "optional: I think it would be easier to understand if reversed, to be isValidBranchName.\n\nThat would be more consistent with Repository#isValidRefName, too.",
+      "range": {
+        "startLine": 305,
+        "startChar": 23,
+        "endLine": 305,
+        "endChar": 42
+      },
+      "revId": "6cfa0e269ea89031d848467c54cadd0a87644b51",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
