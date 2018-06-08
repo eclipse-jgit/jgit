@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "88b0e9b5_d20f7ba6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-08T20:33:24Z",
+      "side": 1,
+      "message": "v2.15.0-rc1-3 doesn\u0027t uniquely identify a version, since it requires walking forward in history (e.g. I could make a new patch series based against v2.15.0-rc1 today).\n\nLess importantly, it suggests that the change would be available in 2.15.0-rc2, when 2.16.0-rc0 is the first release with that change.",
+      "parentUuid": "6d87ef86_6ff7685f",
+      "revId": "f803e7165442a2a41d5bce3b86816a7f020ab5c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e2150a46_ee02c15d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/BranchCommandTest.java",
         "patchSetId": 3
@@ -106,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "f68c059f_92d6e50e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CreateBranchCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-08T20:33:24Z",
+      "side": 1,
+      "message": "marking resolved",
+      "parentUuid": "ac43e312_2f68844e",
+      "revId": "f803e7165442a2a41d5bce3b86816a7f020ab5c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1f0013e5_8f79f028",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CreateBranchCommand.java",
         "patchSetId": 3
@@ -135,6 +171,24 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "1f0013e5_8f79f028",
+      "revId": "f803e7165442a2a41d5bce3b86816a7f020ab5c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "693003ea_416c664d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CreateBranchCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-08T20:33:24Z",
+      "side": 1,
+      "message": "Doesn\u0027t appear to have changed.",
+      "parentUuid": "abc06db7_8b96b95f",
       "revId": "f803e7165442a2a41d5bce3b86816a7f020ab5c1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
