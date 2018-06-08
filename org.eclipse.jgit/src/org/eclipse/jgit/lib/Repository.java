@@ -83,6 +83,7 @@ import org.eclipse.jgit.events.IndexChangedListener;
 import org.eclipse.jgit.events.ListenerList;
 import org.eclipse.jgit.events.RepositoryEvent;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.file.LockFile;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -1366,10 +1367,12 @@ public abstract class Repository implements AutoCloseable {
 	 */
 	public static boolean isValidRefName(String refName) {
 		final int len = refName.length();
-		if (len == 0)
+		if (len == 0) {
 			return false;
-		if (refName.endsWith(".lock")) //$NON-NLS-1$
+		}
+		if (refName.endsWith(LockFile.SUFFIX)) {
 			return false;
+		}
 
 		// Refs may be stored as loose files so invalid paths
 		// on the local system must also be invalid refs.

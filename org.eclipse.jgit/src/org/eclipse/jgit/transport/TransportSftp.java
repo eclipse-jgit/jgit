@@ -62,6 +62,7 @@ import java.util.TreeMap;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.file.LockFile;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
@@ -344,7 +345,7 @@ public class TransportSftp extends SshTransport implements WalkTransport {
 
 		@Override
 		void writeFile(String path, byte[] data) throws IOException {
-			final String lock = path + ".lock"; //$NON-NLS-1$
+			final String lock = path + LockFile.SUFFIX;
 			try {
 				super.writeFile(lock, data);
 				try {
