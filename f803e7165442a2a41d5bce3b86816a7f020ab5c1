@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "32f42113_5b2850db",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-06-08T21:14:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88b0e9b5_d20f7ba6",
+      "revId": "f803e7165442a2a41d5bce3b86816a7f020ab5c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e2150a46_ee02c15d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/BranchCommandTest.java",
         "patchSetId": 3
@@ -83,6 +101,24 @@
       "writtenOn": "2018-06-08T17:14:02Z",
       "side": 1,
       "message": "How about\n\n  @Test(expected \u003d InvalidRefNameException.class)\n\ninstead of try-fail-catch?",
+      "revId": "f803e7165442a2a41d5bce3b86816a7f020ab5c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9079911_e4c72701",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/BranchCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-06-08T21:14:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8e0cf8b_8d9961ea",
       "revId": "f803e7165442a2a41d5bce3b86816a7f020ab5c1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -189,6 +225,24 @@
       "side": 1,
       "message": "Doesn\u0027t appear to have changed.",
       "parentUuid": "abc06db7_8b96b95f",
+      "revId": "f803e7165442a2a41d5bce3b86816a7f020ab5c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3704acc1_7f11b693",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CreateBranchCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-06-08T21:14:45Z",
+      "side": 1,
+      "message": "my fault, now done",
+      "parentUuid": "693003ea_416c664d",
       "revId": "f803e7165442a2a41d5bce3b86816a7f020ab5c1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
