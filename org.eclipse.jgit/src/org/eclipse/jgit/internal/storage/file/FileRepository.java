@@ -557,15 +557,15 @@ public class FileRepository extends Repository {
 		try {
 			if (snapshot == null) {
 				snapshot = FileSnapshot.save(indexFile);
-			} else if (snapshot.isModified(indexFile)) {
-				snapshotLock.unlock();
-				notifyIndexChanged(false);
+				return;
+			}
+			if (!snapshot.isModified(indexFile)) {
+				return;
 			}
 		} finally {
-			if (snapshotLock.isHeldByCurrentThread()) {
-				snapshotLock.unlock();
-			}
+			snapshotLock.unlock();
 		}
+		notifyIndexChanged(false);
 	}
 
 	/** {@inheritDoc} */
