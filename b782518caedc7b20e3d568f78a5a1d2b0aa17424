@@ -34,6 +34,24 @@
       "revId": "b782518caedc7b20e3d568f78a5a1d2b0aa17424",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc727dcc_853d8f1d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-08T16:34:30Z",
+      "side": 0,
+      "message": "This change LGTM.\n\nObject.monitor *is* a ReentrantLock, so functionally this doesn\u0027t change behavior.",
+      "parentUuid": "6c6d2071_c5d7a8e3",
+      "revId": "b782518caedc7b20e3d568f78a5a1d2b0aa17424",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
