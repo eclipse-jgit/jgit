@@ -16,6 +16,24 @@
       "revId": "2c2eab16eaba69af50faa33c4471c0d70657140f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6ea80ea_0c5aa09f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2018-06-08T21:33:42Z",
+      "side": 1,
+      "message": "I was about to test it in the failover node to see if it is enough or not.",
+      "parentUuid": "b5c90071_2a4f5f66",
+      "revId": "2c2eab16eaba69af50faa33c4471c0d70657140f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
