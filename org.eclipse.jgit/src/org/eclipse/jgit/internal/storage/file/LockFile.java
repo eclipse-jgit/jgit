@@ -44,6 +44,8 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
+import static org.eclipse.jgit.lib.Constants.LOCK_SUFFIX;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -75,7 +77,6 @@ import org.eclipse.jgit.util.FileUtils;
  * name.
  */
 public class LockFile {
-	static final String SUFFIX = ".lock"; //$NON-NLS-1$
 
 	/**
 	 * Unlock the given file.
@@ -105,14 +106,15 @@ public class LockFile {
 	 * @return lock file
 	 */
 	static File getLockFile(File file) {
-		return new File(file.getParentFile(), file.getName() + SUFFIX);
+		return new File(file.getParentFile(),
+				file.getName() + LOCK_SUFFIX);
 	}
 
 	/** Filter to skip over active lock files when listing a directory. */
 	static final FilenameFilter FILTER = new FilenameFilter() {
 		@Override
 		public boolean accept(File dir, String name) {
-			return !name.endsWith(SUFFIX);
+			return !name.endsWith(LOCK_SUFFIX);
 		}
 	};
 
