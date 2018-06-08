@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "923d702c_1567cf00",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LockFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-08T16:37:52Z",
+      "side": 1,
+      "message": "optional: I wonder if this should go in org.eclipse.jgit.lib.Constants instead (toward a goal of minimizing build-time dependencies e.g. when running a particular unit test).",
+      "revId": "9b825f3a480ffabe952e6e6915d83f24c5c068b8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
