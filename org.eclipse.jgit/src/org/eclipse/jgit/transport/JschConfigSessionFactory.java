@@ -70,6 +70,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.jcraft.jsch.ConfigRepository;
+import com.jcraft.jsch.ConfigRepository.Config;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
@@ -222,8 +223,28 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 			session.setUserInfo(new CredentialsProviderUserInfo(session,
 					credentialsProvider));
 		}
+		safeConfig(session, hc.getConfig());
 		configure(hc, session);
 		return session;
+	}
+
+	private void safeConfig(Session session, Config cfg) {
+		// Ensure that Jsch checks all configured algorithms, not just its
+		// built-in ones. Otherwise it may propose an algorithm for which it
+		// doesn't have an implementation, and then run into an NPE if that
+		// algorithm ends up being chosen.
+		copyConfigValueToSession(session, cfg, "Ciphers", "CheckCiphers"); //$NON-NLS-1$ //$NON-NLS-2$
+		copyConfigValueToSession(session, cfg, "KexAlgorithms", "CheckKexes"); //$NON-NLS-1$ //$NON-NLS-2$
+		copyConfigValueToSession(session, cfg, "HostKeyAlgorithms", //$NON-NLS-1$
+				"CheckSignatures"); //$NON-NLS-1$
+	}
+
+	private void copyConfigValueToSession(Session session, Config cfg,
+			String from, String to) {
+		String value = cfg.getValue(from);
+		if (value != null) {
+			session.setConfig(to, value);
+		}
 	}
 
 	private void setUserName(Session session, String userName) {
