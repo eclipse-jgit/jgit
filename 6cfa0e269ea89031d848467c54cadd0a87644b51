@@ -39,6 +39,30 @@
       "revId": "6cfa0e269ea89031d848467c54cadd0a87644b51",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ba4a334_c5201868",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CreateBranchCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-08T21:58:34Z",
+      "side": 1,
+      "message": "Thoughts on this suggestion? I just want to make sure it didn\u0027t get lost.",
+      "parentUuid": "c74b05f8_8351b89d",
+      "range": {
+        "startLine": 305,
+        "startChar": 23,
+        "endLine": 305,
+        "endChar": 42
+      },
+      "revId": "6cfa0e269ea89031d848467c54cadd0a87644b51",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
