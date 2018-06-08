@@ -45,8 +45,9 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
-import static org.eclipse.jgit.lib.Constants.CHARSET;
 import static org.eclipse.jgit.junit.Assert.assertEquals;
+import static org.eclipse.jgit.lib.Constants.CHARSET;
+import static org.eclipse.jgit.lib.Constants.LOCK_SUFFIX;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -819,11 +820,11 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 			// Check that the involved refs are the same despite the failure
 			assertExists(false, toName);
 			if (!toLock.equals(toName))
-				assertExists(false, toName + ".lock");
-			assertExists(true, toLock + ".lock");
+				assertExists(false, toName + LOCK_SUFFIX);
+			assertExists(true, toLock + LOCK_SUFFIX);
 			if (!toLock.equals(fromName))
-				assertExists(false, "logs/" + fromName + ".lock");
-			assertExists(false, "logs/" + toName + ".lock");
+				assertExists(false, "logs/" + fromName + LOCK_SUFFIX);
+			assertExists(false, "logs/" + toName + LOCK_SUFFIX);
 			assertEquals(oldHeadId, db.resolve(Constants.HEAD));
 			assertEquals(oldfromId, db.resolve(fromName));
 			assertNull(db.resolve(toName));

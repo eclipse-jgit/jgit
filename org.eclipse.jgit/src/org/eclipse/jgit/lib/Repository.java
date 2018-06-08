@@ -48,6 +48,8 @@
 
 package org.eclipse.jgit.lib;
 
+import static org.eclipse.jgit.lib.Constants.LOCK_SUFFIX;
+
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -1366,10 +1368,12 @@ public abstract class Repository implements AutoCloseable {
 	 */
 	public static boolean isValidRefName(String refName) {
 		final int len = refName.length();
-		if (len == 0)
+		if (len == 0) {
 			return false;
-		if (refName.endsWith(".lock")) //$NON-NLS-1$
+		}
+		if (refName.endsWith(LOCK_SUFFIX)) {
 			return false;
+		}
 
 		// Refs may be stored as loose files so invalid paths
 		// on the local system must also be invalid refs.
