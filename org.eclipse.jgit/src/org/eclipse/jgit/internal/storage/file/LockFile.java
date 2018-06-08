@@ -74,7 +74,12 @@ import org.eclipse.jgit.util.FileUtils;
  * name.
  */
 public class LockFile {
-	static final String SUFFIX = ".lock"; //$NON-NLS-1$
+	/**
+	 * Suffix of lock file name
+	 *
+	 * @since 5.0
+	 */
+	public static final String SUFFIX = ".lock"; //$NON-NLS-1$
 
 	/**
 	 * Unlock the given file.

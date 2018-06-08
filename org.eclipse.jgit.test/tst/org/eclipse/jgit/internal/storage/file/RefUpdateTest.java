@@ -819,11 +819,11 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 			// Check that the involved refs are the same despite the failure
 			assertExists(false, toName);
 			if (!toLock.equals(toName))
-				assertExists(false, toName + ".lock");
-			assertExists(true, toLock + ".lock");
+				assertExists(false, toName + LockFile.SUFFIX);
+			assertExists(true, toLock + LockFile.SUFFIX);
 			if (!toLock.equals(fromName))
-				assertExists(false, "logs/" + fromName + ".lock");
-			assertExists(false, "logs/" + toName + ".lock");
+				assertExists(false, "logs/" + fromName + LockFile.SUFFIX);
+			assertExists(false, "logs/" + toName + LockFile.SUFFIX);
 			assertEquals(oldHeadId, db.resolve(Constants.HEAD));
 			assertEquals(oldfromId, db.resolve(fromName));
 			assertNull(db.resolve(toName));
