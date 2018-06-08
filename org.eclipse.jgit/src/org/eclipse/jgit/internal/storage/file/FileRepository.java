@@ -56,7 +56,7 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.errors.JGitInternalException;
@@ -125,7 +125,10 @@ public class FileRepository extends Repository {
 	private final RefDatabase refs;
 	private final ObjectDirectory objectDatabase;
 
-	private AtomicReference<FileSnapshot> snapshot = new AtomicReference<>();
+	private final ReentrantLock snapshotLock = new ReentrantLock();
+
+	// protected by snapshotLock
+	private FileSnapshot snapshot;
 
 	/**
 	 * Construct a representation of a Git repository.
@@ -240,8 +243,9 @@ public class FileRepository extends Repository {
 						Long.valueOf(repositoryFormatVersion)));
 		}
 
-		if (!isBare())
-			snapshot.getAndSet(FileSnapshot.save(getIndexFile()));
+		if (!isBare()) {
+			snapshot = FileSnapshot.save(getIndexFile());
+		}
 	}
 
 	private void loadSystemConfig() throws IOException {
@@ -549,17 +553,30 @@ public class FileRepository extends Repository {
 		}
 
 		File indexFile = getIndexFile();
-		if (snapshot.get() == null) {
-			snapshot.getAndSet(FileSnapshot.save(indexFile));
-		} else if (snapshot.get().isModified(indexFile)) {
-			notifyIndexChanged(false);
+		snapshotLock.lock();
+		try {
+			if (snapshot == null) {
+				snapshot = FileSnapshot.save(indexFile);
+			} else if (snapshot.isModified(indexFile)) {
+				snapshotLock.unlock();
+				notifyIndexChanged(false);
+			}
+		} finally {
+			if (snapshotLock.isHeldByCurrentThread()) {
+				snapshotLock.unlock();
+			}
 		}
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public void notifyIndexChanged(boolean internal) {
-		snapshot.getAndSet(FileSnapshot.save(getIndexFile()));
+		snapshotLock.lock();
+		try {
+			snapshot = FileSnapshot.save(getIndexFile());
+		} finally {
+			snapshotLock.unlock();
+		}
 		fireEvent(new IndexChangedEvent(internal));
 	}
 
