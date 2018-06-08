@@ -19,6 +19,40 @@
     },
     {
       "key": {
+        "uuid": "e2150a46_ee02c15d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/BranchCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-06-08T17:14:02Z",
+      "side": 1,
+      "message": "Make this two test methods, one for each case.",
+      "revId": "f803e7165442a2a41d5bce3b86816a7f020ab5c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8e0cf8b_8d9961ea",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/BranchCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-06-08T17:14:02Z",
+      "side": 1,
+      "message": "How about\n\n  @Test(expected \u003d InvalidRefNameException.class)\n\ninstead of try-fail-catch?",
+      "revId": "f803e7165442a2a41d5bce3b86816a7f020ab5c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa375319_64f6f485",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CreateBranchCommand.java",
         "patchSetId": 3
@@ -50,6 +84,23 @@
       "revId": "f803e7165442a2a41d5bce3b86816a7f020ab5c1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b169983_663c29a0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CreateBranchCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-06-08T17:14:02Z",
+      "side": 1,
+      "message": "Can MERGE_HEAD, CHERRY_PICK_HEAD, FETCH_HEAD, ORIG_HEAD etc. cause similar troubles?\n\nI guess if we allowed a branch refs/heads/FETCH_HEAD, somebody doing a repo.resolve() with the short name may be in for some fun. :-)",
+      "revId": "f803e7165442a2a41d5bce3b86816a7f020ab5c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
