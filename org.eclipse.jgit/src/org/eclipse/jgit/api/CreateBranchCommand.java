@@ -43,6 +43,9 @@
  */
 package org.eclipse.jgit.api;
 
+import static org.eclipse.jgit.lib.Constants.HEAD;
+import static org.eclipse.jgit.lib.Constants.R_HEADS;
+
 import java.io.IOException;
 import java.text.MessageFormat;
 
@@ -78,7 +81,7 @@ public class CreateBranchCommand extends GitCommand<Ref> {
 
 	private SetupUpstreamMode upstreamMode;
 
-	private String startPoint = Constants.HEAD;
+	private String startPoint = HEAD;
 
 	private RevCommit startCommit;
 
@@ -284,9 +287,20 @@ public class CreateBranchCommand extends GitCommand<Ref> {
 
 	private void processOptions() throws InvalidRefNameException {
 		if (name == null
-				|| !Repository.isValidRefName(Constants.R_HEADS + name))
+				|| !Repository.isValidRefName(Constants.R_HEADS + name)
+				|| isInValidBranchName(name))
 			throw new InvalidRefNameException(MessageFormat.format(JGitText
 					.get().branchNameInvalid, name == null ? "<null>" : name)); //$NON-NLS-1$
+	}
+
+	private boolean isInValidBranchName(String n) {
+		if (HEAD.equals(n)) {
+			return true;
+		}
+		if ((R_HEADS + HEAD).equals(n)) {
+			return true;
+		}
+		return n.startsWith("-"); //$NON-NLS-1$
 	}
 
 	/**
