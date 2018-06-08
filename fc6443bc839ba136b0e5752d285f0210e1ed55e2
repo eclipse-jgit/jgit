@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f79c35ed_309aecac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 970,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2018-06-08T05:43:22Z",
+      "side": 1,
+      "message": "Is this the root cause for too many open files issue: [1]?\n\n* [1] https://groups.google.com/d/topic/repo-discuss/y2zp8bgLV-0/discussion",
+      "revId": "fc6443bc839ba136b0e5752d285f0210e1ed55e2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
