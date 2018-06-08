@@ -34,6 +34,24 @@
       "revId": "9b825f3a480ffabe952e6e6915d83f24c5c068b8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ce51ed8_fab73465",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LockFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-08T20:38:44Z",
+      "side": 1,
+      "message": "marking resolved",
+      "parentUuid": "3d0fed02_37a0953c",
+      "revId": "9b825f3a480ffabe952e6e6915d83f24c5c068b8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
