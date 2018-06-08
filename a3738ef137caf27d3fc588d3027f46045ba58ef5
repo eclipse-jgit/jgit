@@ -45,6 +45,30 @@
       "revId": "a3738ef137caf27d3fc588d3027f46045ba58ef5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9542bc46_232b884f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-08T05:33:51Z",
+      "side": 1,
+      "message": "I think it\u0027s because of the unlock() call above.\n\nThis would work fine now (since we know the caller isn\u0027t holding the lock) but the construct is error-prone (since nothing guarantees that, given that the lock is reentrant). How about:\n\n  snapshotLock.lock();\n  try {\n    if (snapshot \u003d\u003d null) {\n      snapshot \u003d FileSnapshot.save(indexFile);\n      return;\n    }\n    if (!snapshot.isModified(indexFile)) {\n      return;\n    }\n  } finally {\n    snapshotLock.unlock();\n  }\n  notifyIndexChanged(false);",
+      "parentUuid": "b9990277_20c59428",
+      "range": {
+        "startLine": 565,
+        "startChar": 3,
+        "endLine": 565,
+        "endChar": 46
+      },
+      "revId": "a3738ef137caf27d3fc588d3027f46045ba58ef5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
