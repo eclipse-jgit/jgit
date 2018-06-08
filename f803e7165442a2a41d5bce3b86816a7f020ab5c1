@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6d87ef86_6ff7685f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-06-08T20:05:29Z",
+      "side": 1,
+      "message": "why not v2.15.0-rc1-3 ?",
+      "parentUuid": "79be1aa4_5de4da3f",
+      "revId": "f803e7165442a2a41d5bce3b86816a7f020ab5c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e2150a46_ee02c15d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/BranchCommandTest.java",
         "patchSetId": 3
@@ -70,6 +88,24 @@
     },
     {
       "key": {
+        "uuid": "ac43e312_2f68844e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CreateBranchCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-06-08T20:05:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa375319_64f6f485",
+      "revId": "f803e7165442a2a41d5bce3b86816a7f020ab5c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1f0013e5_8f79f028",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CreateBranchCommand.java",
         "patchSetId": 3
@@ -87,6 +123,24 @@
     },
     {
       "key": {
+        "uuid": "abc06db7_8b96b95f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CreateBranchCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-06-08T20:05:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f0013e5_8f79f028",
+      "revId": "f803e7165442a2a41d5bce3b86816a7f020ab5c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1b169983_663c29a0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CreateBranchCommand.java",
         "patchSetId": 3
@@ -98,6 +152,24 @@
       "writtenOn": "2018-06-08T17:14:02Z",
       "side": 1,
       "message": "Can MERGE_HEAD, CHERRY_PICK_HEAD, FETCH_HEAD, ORIG_HEAD etc. cause similar troubles?\n\nI guess if we allowed a branch refs/heads/FETCH_HEAD, somebody doing a repo.resolve() with the short name may be in for some fun. :-)",
+      "revId": "f803e7165442a2a41d5bce3b86816a7f020ab5c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "598c1aab_92b33243",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CreateBranchCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-06-08T20:05:29Z",
+      "side": 1,
+      "message": "native git allows these branch names",
+      "parentUuid": "1b169983_663c29a0",
       "revId": "f803e7165442a2a41d5bce3b86816a7f020ab5c1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
