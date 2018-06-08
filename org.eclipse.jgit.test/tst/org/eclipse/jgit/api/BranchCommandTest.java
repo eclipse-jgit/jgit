@@ -192,6 +192,32 @@ public class BranchCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testInvalidBranchHEAD() throws Exception {
+		try {
+			git.branchCreate().setName("HEAD").call();
+			fail("Create branch with invalid ref name should fail");
+		} catch (InvalidRefNameException e) {
+			// expected
+		}
+		try {
+			git.branchCreate().setName("refs/heads/HEAD").call();
+			fail("Create branch with invalid ref name should fail");
+		} catch (InvalidRefNameException e) {
+			// expected
+		}
+	}
+
+	@Test
+	public void testInvalidBranchDash() throws Exception {
+		try {
+			git.branchCreate().setName("-x").call();
+			fail("Create branch with invalid ref name should fail");
+		} catch (InvalidRefNameException e) {
+			// expected
+		}
+	}
+
+	@Test
 	public void testListAllBranchesShouldNotDie() throws Exception {
 		setUpRepoWithRemote().branchList().setListMode(ListMode.ALL).call();
 	}
