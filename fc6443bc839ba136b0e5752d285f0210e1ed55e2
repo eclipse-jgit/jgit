@@ -34,6 +34,24 @@
       "revId": "fc6443bc839ba136b0e5752d285f0210e1ed55e2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "285e0806_63ee927e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 970,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-06-08T21:04:13Z",
+      "side": 1,
+      "message": "run\n\n $ ls -l /proc/\u003cgerrit pid\u003e/fd | wc -l\n\nto count files kept open by gerrit",
+      "parentUuid": "3dd653a0_d58b08ea",
+      "revId": "fc6443bc839ba136b0e5752d285f0210e1ed55e2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
