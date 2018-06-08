@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79be1aa4_5de4da3f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-08T16:42:55Z",
+      "side": 1,
+      "message": "optional nit: could add\n\n \"Since v2.16.0-rc0~89^2~1 (branch: correctly reject refs/heads/{-dash,HEAD}, 2017-11-14),\"\n\nto make it easier for people to find the corresponding discussion in the Git project.",
+      "revId": "f803e7165442a2a41d5bce3b86816a7f020ab5c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa375319_64f6f485",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CreateBranchCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-08T16:42:55Z",
+      "side": 1,
+      "message": "Can this be static?",
+      "revId": "f803e7165442a2a41d5bce3b86816a7f020ab5c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f0013e5_8f79f028",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CreateBranchCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-08T16:42:55Z",
+      "side": 1,
+      "message": "This would reject refs/heads/refs/heads/HEAD (as created by e.g. \"jgit branch refs/heads/HEAD\"), making it stricter than git if I understand correctly:\n\n $ git branch HEAD\n fatal: \u0027HEAD\u0027 is not a valid branch name.\n $ git branch refs/heads/HEAD\n $ echo $?\n 0\n\nIntended?",
+      "revId": "f803e7165442a2a41d5bce3b86816a7f020ab5c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
