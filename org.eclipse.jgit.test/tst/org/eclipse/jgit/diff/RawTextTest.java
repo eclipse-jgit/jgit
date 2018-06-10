@@ -45,6 +45,7 @@
 package org.eclipse.jgit.diff;
 
 import static org.eclipse.jgit.lib.Constants.CHARSET;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
@@ -69,7 +70,7 @@ public class RawTextTest {
 		String input = "foo-a\nf\0o-b\n";
 		byte[] data = Constants.encodeASCII(input);
 		final RawText a = new RawText(data);
-		assertEquals(a.content, data);
+		assertArrayEquals(a.content, data);
 		assertEquals(a.size(), 1);
 		assertEquals(a.getString(0, 1, false), input);
 	}
