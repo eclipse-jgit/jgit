@@ -273,7 +273,7 @@ public class LfsConnectionFactory {
 	}
 
 	private static final class AuthCache {
-		private static final long AUTH_CACHE_EAGER_TIMEOUT = 100;
+		private static final long AUTH_CACHE_EAGER_TIMEOUT = 500;
 
 		private static final SimpleDateFormat ISO_FORMAT = new SimpleDateFormat(
 				"yyyy-MM-dd'T'HH:mm:ss.SSSX"); //$NON-NLS-1$
@@ -290,8 +290,9 @@ public class LfsConnectionFactory {
 			this.cachedAction = action;
 			try {
 				if (action.expiresIn != null && !action.expiresIn.isEmpty()) {
-					this.validUntil = System.currentTimeMillis()
-							+ Long.parseLong(action.expiresIn);
+					this.validUntil = (System.currentTimeMillis()
+							+ Long.parseLong(action.expiresIn))
+							- AUTH_CACHE_EAGER_TIMEOUT;
 				} else if (action.expiresAt != null
 						&& !action.expiresAt.isEmpty()) {
 					this.validUntil = ISO_FORMAT.parse(action.expiresAt)

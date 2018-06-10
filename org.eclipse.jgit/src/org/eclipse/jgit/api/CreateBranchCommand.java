@@ -43,6 +43,9 @@
  */
 package org.eclipse.jgit.api;
 
+import static org.eclipse.jgit.lib.Constants.HEAD;
+import static org.eclipse.jgit.lib.Constants.R_HEADS;
+
 import java.io.IOException;
 import java.text.MessageFormat;
 
@@ -78,7 +81,7 @@ public class CreateBranchCommand extends GitCommand<Ref> {
 
 	private SetupUpstreamMode upstreamMode;
 
-	private String startPoint = Constants.HEAD;
+	private String startPoint = HEAD;
 
 	private RevCommit startCommit;
 
@@ -121,7 +124,7 @@ public class CreateBranchCommand extends GitCommand<Ref> {
 		try (RevWalk revWalk = new RevWalk(repo)) {
 			Ref refToCheck = repo.findRef(name);
 			boolean exists = refToCheck != null
-					&& refToCheck.getName().startsWith(Constants.R_HEADS);
+					&& refToCheck.getName().startsWith(R_HEADS);
 			if (!force && exists)
 				throw new RefAlreadyExistsException(MessageFormat.format(
 						JGitText.get().refAlreadyExists1, name));
@@ -153,7 +156,7 @@ public class CreateBranchCommand extends GitCommand<Ref> {
 				else
 					refLogMessage = "branch: Created from commit " + baseCommit; //$NON-NLS-1$
 
-			} else if (startPointFullName.startsWith(Constants.R_HEADS)
+			} else if (startPointFullName.startsWith(R_HEADS)
 					|| startPointFullName.startsWith(Constants.R_REMOTES)) {
 				baseBranch = startPointFullName;
 				if (exists)
@@ -171,7 +174,7 @@ public class CreateBranchCommand extends GitCommand<Ref> {
 							+ startPointFullName;
 			}
 
-			RefUpdate updateRef = repo.updateRef(Constants.R_HEADS + name);
+			RefUpdate updateRef = repo.updateRef(R_HEADS + name);
 			updateRef.setNewObjectId(startAt);
 			updateRef.setRefLogMessage(refLogMessage, false);
 			Result updateResult;
@@ -279,14 +282,31 @@ public class CreateBranchCommand extends GitCommand<Ref> {
 	}
 
 	private String getStartPointOrHead() {
-		return startPoint != null ? startPoint : Constants.HEAD;
+		return startPoint != null ? startPoint : HEAD;
 	}
 
 	private void processOptions() throws InvalidRefNameException {
 		if (name == null
-				|| !Repository.isValidRefName(Constants.R_HEADS + name))
+				|| !Repository.isValidRefName(R_HEADS + name)
+				|| !isValidBranchName(name))
 			throw new InvalidRefNameException(MessageFormat.format(JGitText
 					.get().branchNameInvalid, name == null ? "<null>" : name)); //$NON-NLS-1$
+	}
+
+	/**
+	 * Check if the given branch name is valid
+	 *
+	 * @param branchName
+	 *            branch name to check
+	 * @return {@code true} if the branch name is valid
+	 *
+	 * @since 5.0
+	 */
+	public static boolean isValidBranchName(String branchName) {
+		if (HEAD.equals(branchName)) {
+			return false;
+		}
+		return !branchName.startsWith("-"); //$NON-NLS-1$
 	}
 
 	/**
