@@ -237,7 +237,7 @@ public abstract class SystemReader {
 	public abstract FileBasedConfig openUserConfig(Config parent, FS fs);
 
 	/**
-	 * Open the gitonfig configuration found in the system-wide "etc" directory
+	 * Open the gitconfig configuration found in the system-wide "etc" directory
 	 *
 	 * @param parent
 	 *            a config with values not found directly in the returned
@@ -245,7 +245,7 @@ public abstract class SystemReader {
 	 * @param fs
 	 *            the file system abstraction which will be necessary to perform
 	 *            certain file system operations.
-	 * @return the gitonfig configuration found in the system-wide "etc"
+	 * @return the gitconfig configuration found in the system-wide "etc"
 	 *         directory
 	 */
 	public abstract FileBasedConfig openSystemConfig(Config parent, FS fs);
