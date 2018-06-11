@@ -147,6 +147,24 @@
     },
     {
       "key": {
+        "uuid": "61ab7406_cd02a04d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-06-11T05:17:06Z",
+      "side": 1,
+      "message": "This is on master, so should it be @since 5.0?",
+      "parentUuid": "87929364_ef98744c",
+      "revId": "dda18ba444f4b3680e228c601e344ea664a72698",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_8ccffe57",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
         "patchSetId": 8
