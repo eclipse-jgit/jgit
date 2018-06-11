@@ -60,6 +60,7 @@ public class LfsText extends TranslationBundle {
 	}
 
 	// @formatter:off
+	/***/ public String cannotDiscoverLfs;
 	/***/ public String corruptLongObject;
 	/***/ public String inconsistentMediafileLength;
 	/***/ public String inconsistentContentLength;

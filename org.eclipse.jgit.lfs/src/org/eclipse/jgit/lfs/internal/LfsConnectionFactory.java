@@ -68,13 +68,18 @@ import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.transport.http.HttpConnection;
 import org.eclipse.jgit.util.HttpSupport;
 import org.eclipse.jgit.util.SshSupport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Provides means to get a valid LFS connection for a given repository.
  */
 public class LfsConnectionFactory {
 
-	private static final int SSH_AUTH_TIMEOUT_SECONDS = 5;
+	private static final Logger log = LoggerFactory
+			.getLogger(LfsConnectionFactory.class);
+
+	private static final int SSH_AUTH_TIMEOUT_SECONDS = 30;
 	private static final String SCHEME_HTTPS = "https"; //$NON-NLS-1$
 	private static final String SCHEME_SSH = "ssh"; //$NON-NLS-1$
 	private static final Map<String, AuthCache> sshAuthCache = new TreeMap<>();
@@ -162,7 +167,7 @@ public class LfsConnectionFactory {
 			Map<String, String> additionalHeaders, String remoteUrl) {
 		try {
 			URIish u = new URIish(remoteUrl);
-			if (SCHEME_SSH.equals(u.getScheme())) {
+			if (u.getScheme() == null || SCHEME_SSH.equals(u.getScheme())) {
 				Protocol.ExpiringAction action = getSshAuthentication(
 						db, purpose, remoteUrl, u);
 				additionalHeaders.putAll(action.header);
@@ -171,6 +176,7 @@ public class LfsConnectionFactory {
 				return remoteUrl + Protocol.INFO_LFS_ENDPOINT;
 			}
 		} catch (Exception e) {
+			log.error(LfsText.get().cannotDiscoverLfs, e);
 			return null; // could not discover
 		}
 	}
@@ -226,8 +232,10 @@ public class LfsConnectionFactory {
 				.create(contentUrl, HttpSupport
 						.proxyFor(ProxySelector.getDefault(), contentUrl));
 		contentServerConn.setRequestMethod(method);
-		action.header
-				.forEach((k, v) -> contentServerConn.setRequestProperty(k, v));
+		if (action.header != null) {
+			action.header.forEach(
+					(k, v) -> contentServerConn.setRequestProperty(k, v));
+		}
 		if (contentUrl.getProtocol().equals(SCHEME_HTTPS)
 				&& !repo.getConfig().getBoolean(HttpConfig.HTTP,
 						HttpConfig.SSL_VERIFY_KEY, true)) {
@@ -241,7 +249,13 @@ public class LfsConnectionFactory {
 	}
 
 	private static String extractProjectName(URIish u) {
-		String path = u.getPath().substring(1);
+		String path = u.getPath();
+
+		// begins with a slash if the url contains a port (gerrit vs. github).
+		if (path.startsWith("/")) { //$NON-NLS-1$
+			path = path.substring(1);
+		}
+
 		if (path.endsWith(org.eclipse.jgit.lib.Constants.DOT_GIT)) {
 			return path.substring(0, path.length() - 4);
 		} else {
