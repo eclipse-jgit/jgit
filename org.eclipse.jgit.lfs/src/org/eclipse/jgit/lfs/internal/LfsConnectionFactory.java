@@ -74,7 +74,7 @@ import org.eclipse.jgit.util.SshSupport;
  */
 public class LfsConnectionFactory {
 
-	private static final int SSH_AUTH_TIMEOUT_SECONDS = 5;
+	private static final int SSH_AUTH_TIMEOUT_SECONDS = 30;
 	private static final String SCHEME_HTTPS = "https"; //$NON-NLS-1$
 	private static final String SCHEME_SSH = "ssh"; //$NON-NLS-1$
 	private static final Map<String, AuthCache> sshAuthCache = new TreeMap<>();
@@ -162,7 +162,7 @@ public class LfsConnectionFactory {
 			Map<String, String> additionalHeaders, String remoteUrl) {
 		try {
 			URIish u = new URIish(remoteUrl);
-			if (SCHEME_SSH.equals(u.getScheme())) {
+			if (u.getScheme() == null || SCHEME_SSH.equals(u.getScheme())) {
 				Protocol.ExpiringAction action = getSshAuthentication(
 						db, purpose, remoteUrl, u);
 				additionalHeaders.putAll(action.header);
@@ -171,6 +171,7 @@ public class LfsConnectionFactory {
 				return remoteUrl + Protocol.INFO_LFS_ENDPOINT;
 			}
 		} catch (Exception e) {
+			e.printStackTrace(); // better ideas?
 			return null; // could not discover
 		}
 	}
@@ -241,7 +242,13 @@ public class LfsConnectionFactory {
 	}
 
 	private static String extractProjectName(URIish u) {
-		String path = u.getPath().substring(1);
+		String path = u.getPath();
+
+		// begins with a slash if the url contains a port (gerrit vs. github).
+		if (path.startsWith("/")) { //$NON-NLS-1$
+			path = path.substring(1);
+		}
+
 		if (path.endsWith(org.eclipse.jgit.lib.Constants.DOT_GIT)) {
 			return path.substring(0, path.length() - 4);
 		} else {
