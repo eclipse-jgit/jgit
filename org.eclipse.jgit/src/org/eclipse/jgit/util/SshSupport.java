@@ -42,12 +42,9 @@
  */
 package org.eclipse.jgit.util;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 import org.eclipse.jgit.annotations.Nullable;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.RemoteSession;
 import org.eclipse.jgit.transport.SshSessionFactory;
@@ -76,8 +73,9 @@ public class SshSupport {
 	 * @param command
 	 *            the remote command to execute.
 	 * @param timeout
-	 *            a timeout in seconds.
-	 * @return The first line of output read from stdout. Stderr is discarded.
+	 *            a timeout in seconds. The timeout may be exceeded in corner
+	 *            cases.
+	 * @return The entire output read from stdout. Stderr is discarded.
 	 * @throws IOException
 	 */
 	public static String runSshCommand(URIish sshUri,
@@ -86,17 +84,28 @@ public class SshSupport {
 		RemoteSession session = null;
 		Process process = null;
 		StreamCopyThread errorThread = null;
-		try (MessageWriter stderr = new MessageWriter()) {
+		StreamCopyThread outThread = null;
+		try (MessageWriter stderr = new MessageWriter();
+				MessageWriter stdout = new MessageWriter()) {
 			session = SshSessionFactory.getInstance().getSession(sshUri,
 					provider, fs, 1000 * timeout);
 			process = session.exec(command, 0);
 			errorThread = new StreamCopyThread(process.getErrorStream(),
 					stderr.getRawStream());
 			errorThread.start();
-			try (BufferedReader reader = new BufferedReader(
-					new InputStreamReader(process.getInputStream(),
-							Constants.CHARSET))) {
-				return reader.readLine();
+			outThread = new StreamCopyThread(process.getInputStream(),
+					stdout.getRawStream());
+			outThread.start();
+			try {
+				// waitFor with timeout has a bug - JSch' exitValue() throws the
+				// wrong exception type :(
+				if (process.waitFor() == 0) {
+					return stdout.toString();
+				} else {
+					return null; // still running after timeout
+				}
+			} catch (InterruptedException e) {
+				return null; // error
 			}
 		} finally {
 			if (errorThread != null) {
@@ -106,6 +115,15 @@ public class SshSupport {
 					// Stop waiting and return anyway.
 				} finally {
 					errorThread = null;
+				}
+			}
+			if (outThread != null) {
+				try {
+					outThread.halt();
+				} catch (InterruptedException e) {
+					// Stop waiting and return anyway.
+				} finally {
+					outThread = null;
 				}
 			}
 			if (process != null) {
