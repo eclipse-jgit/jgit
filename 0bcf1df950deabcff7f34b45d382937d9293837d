@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cffba77e_d4c68abe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-12T04:11:47Z",
+      "side": 1,
+      "message": "Peculiar: this looks like a merge that doesn\u0027t bring in any changes.",
+      "revId": "0bcf1df950deabcff7f34b45d382937d9293837d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
