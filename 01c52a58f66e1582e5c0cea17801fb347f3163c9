@@ -22,6 +22,30 @@
       "revId": "01c52a58f66e1582e5c0cea17801fb347f3163c9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "42545251_7831a290",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-06-12T13:18:32Z",
+      "side": 1,
+      "message": "apparently not, I had 2 errors in server side lfs configuration:\n\nthis permission in lfs.config does not match project lfsdemo\n\n [lfs \"?/*\"]\n   enabled \u003d true\n   maxObjectSize \u003d 500m\n\nand I missed to set lfs.plugin\u003dlfs in etc/gerrit.config\n\nnow it works with ssh against Gerrit with lfs plugin :-)\n\nthe http authentication code for built-in filters is probably just missing, I guess earlier when using the external filters we relied on git lfs using a git external credentials helper",
+      "parentUuid": "c46a9f97_2b1c59a2",
+      "range": {
+        "startLine": 197,
+        "startChar": 3,
+        "endLine": 201,
+        "endChar": 31
+      },
+      "revId": "01c52a58f66e1582e5c0cea17801fb347f3163c9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
