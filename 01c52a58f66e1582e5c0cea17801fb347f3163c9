@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c46a9f97_2b1c59a2",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-06-12T12:26:15Z",
+      "side": 1,
+      "message": "This is the relevant part doing the git-lfs-authenticate call against gerrit. I tested this against two Gerrit installations here (2.15 and 2.16) and it seems to work properly. Are you sure the LFS plugin is setup correctly for the project you are testing with?",
+      "range": {
+        "startLine": 197,
+        "startChar": 3,
+        "endLine": 201,
+        "endChar": 31
+      },
+      "revId": "01c52a58f66e1582e5c0cea17801fb347f3163c9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
