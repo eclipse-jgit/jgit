@@ -63,4 +63,17 @@ public class LfsConfigInvalidException extends IOException {
 		super(msg);
 	}
 
+	/**
+	 * Constructor for LfsConfigInvalidException.
+	 *
+	 * @param msg
+	 *            the error description
+	 * @param e
+	 *            cause of this exception
+	 * @since 5.0
+	 */
+	public LfsConfigInvalidException(String msg, Exception e) {
+		super(msg, e);
+	}
+
 }

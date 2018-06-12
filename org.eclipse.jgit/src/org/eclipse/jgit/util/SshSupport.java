@@ -43,8 +43,11 @@
 package org.eclipse.jgit.util;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 
 import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.errors.CommandFailedException;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.RemoteSession;
 import org.eclipse.jgit.transport.SshSessionFactory;
@@ -75,18 +78,23 @@ public class SshSupport {
 	 * @param timeout
 	 *            a timeout in seconds. The timeout may be exceeded in corner
 	 *            cases.
-	 * @return The entire output read from stdout. Stderr is discarded.
+	 * @return The entire output read from stdout.
 	 * @throws IOException
+	 * @throws CommandFailedException
+	 *             if the ssh command execution failed, error message contains
+	 *             the content of stderr.
 	 */
 	public static String runSshCommand(URIish sshUri,
 			@Nullable CredentialsProvider provider, FS fs, String command,
-			int timeout) throws IOException {
+			int timeout) throws IOException, CommandFailedException {
 		RemoteSession session = null;
 		Process process = null;
 		StreamCopyThread errorThread = null;
 		StreamCopyThread outThread = null;
-		try (MessageWriter stderr = new MessageWriter();
-				MessageWriter stdout = new MessageWriter()) {
+		CommandFailedException failure = null;
+		@SuppressWarnings("resource")
+		MessageWriter stderr = new MessageWriter();
+		try (MessageWriter stdout = new MessageWriter()) {
 			session = SshSessionFactory.getInstance().getSession(sshUri,
 					provider, fs, 1000 * timeout);
 			process = session.exec(command, 0);
@@ -127,10 +135,20 @@ public class SshSupport {
 				}
 			}
 			if (process != null) {
+				if (process.exitValue() != 0) {
+					failure = new CommandFailedException(process.exitValue(),
+							MessageFormat.format(
+							JGitText.get().sshCommandFailed, command,
+							stderr.toString()));
+				}
 				process.destroy();
 			}
+			stderr.close();
 			if (session != null) {
 				SshSessionFactory.getInstance().releaseSession(session);
+			}
+			if (failure != null) {
+				throw failure;
 			}
 		}
 	}
