@@ -22,6 +22,30 @@
       "revId": "30198f4d76308fe2a4d7c999888aece979f87e22",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07ed1312_0947f41e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SshSupport.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-06-12T13:22:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e980e82_9334ce7f",
+      "range": {
+        "startLine": 81,
+        "startChar": 48,
+        "endLine": 81,
+        "endChar": 67
+      },
+      "revId": "30198f4d76308fe2a4d7c999888aece979f87e22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
