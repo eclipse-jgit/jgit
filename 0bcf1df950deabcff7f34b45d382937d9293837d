@@ -16,6 +16,24 @@
       "revId": "0bcf1df950deabcff7f34b45d382937d9293837d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d2f04ba_e19e2e07",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-12T04:12:50Z",
+      "side": 1,
+      "message": "Oh, it\u0027s meant to bring in https://git.eclipse.org/r/c/124321?\n\nCould the commit message say something about it?",
+      "parentUuid": "cffba77e_d4c68abe",
+      "revId": "0bcf1df950deabcff7f34b45d382937d9293837d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
