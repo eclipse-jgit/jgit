@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e980e82_9334ce7f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SshSupport.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2018-06-12T12:29:25Z",
+      "side": 1,
+      "message": "no longer true, i guess. it\u0027s instead propagated through the exception in case of an error.",
+      "range": {
+        "startLine": 81,
+        "startChar": 48,
+        "endLine": 81,
+        "endChar": 67
+      },
+      "revId": "30198f4d76308fe2a4d7c999888aece979f87e22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
