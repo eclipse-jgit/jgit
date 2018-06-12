@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6824b90d_d182ec21",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 127645
+      },
+      "writtenOn": "2018-06-12T07:59:13Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0c68ec2b_15773cae",
+      "range": {
+        "startLine": 50,
+        "startChar": 17,
+        "endLine": 50,
+        "endChar": 27
+      },
+      "revId": "91e5ab6a653440d978cd14f7dd7926fe2d74f008",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "491c9cd1_6ef20473",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
         "patchSetId": 11
@@ -71,6 +95,54 @@
     },
     {
       "key": {
+        "uuid": "7b995254_85f452cd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 127645
+      },
+      "writtenOn": "2018-06-12T07:59:13Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3d4c1df5_958d0a3c",
+      "range": {
+        "startLine": 107,
+        "startChar": 34,
+        "endLine": 107,
+        "endChar": 46
+      },
+      "revId": "91e5ab6a653440d978cd14f7dd7926fe2d74f008",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aec7e512_7296bf91",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 127645
+      },
+      "writtenOn": "2018-06-12T07:59:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "491c9cd1_6ef20473",
+      "range": {
+        "startLine": 107,
+        "startChar": 4,
+        "endLine": 107,
+        "endChar": 10
+      },
+      "revId": "91e5ab6a653440d978cd14f7dd7926fe2d74f008",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f004a6ed_76ead3c5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
         "patchSetId": 11
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "ea4794ae_4c72c97c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 127645
+      },
+      "writtenOn": "2018-06-12T07:59:13Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f004a6ed_76ead3c5",
+      "range": {
+        "startLine": 272,
+        "startChar": 14,
+        "endLine": 272,
+        "endChar": 42
+      },
+      "revId": "91e5ab6a653440d978cd14f7dd7926fe2d74f008",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70de648a_00845918",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
         "patchSetId": 11
@@ -105,6 +201,30 @@
       "writtenOn": "2018-05-15T07:22:49Z",
       "side": 1,
       "message": "This null check is redundant; parseTag does not return null (it\u0027s annotated as @NonNull).",
+      "range": {
+        "startLine": 273,
+        "startChar": 28,
+        "endLine": 273,
+        "endChar": 51
+      },
+      "revId": "91e5ab6a653440d978cd14f7dd7926fe2d74f008",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be5153fd_70f4436f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 127645
+      },
+      "writtenOn": "2018-06-12T07:59:13Z",
+      "side": 1,
+      "message": "right, but as you can see in latest patch, I can\u0027t remove this check without noicy code, I can replace this by  `instanceof Object` but leads to another redundant message while  `instanceof RevTag` fails due to checked type... any other ideas on latest patch welcome",
+      "parentUuid": "70de648a_00845918",
       "range": {
         "startLine": 273,
         "startChar": 28,
