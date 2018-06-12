@@ -113,6 +113,30 @@
     },
     {
       "key": {
+        "uuid": "98bee6b2_ed3a0324",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 127645
+      },
+      "writtenOn": "2018-06-12T07:59:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6cbae0a6_1d03d359",
+      "range": {
+        "startLine": 107,
+        "startChar": 4,
+        "endLine": 107,
+        "endChar": 10
+      },
+      "revId": "dda18ba444f4b3680e228c601e344ea664a72698",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2c8d078a_7ae97f5a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
         "patchSetId": 8
@@ -124,6 +148,24 @@
       "writtenOn": "2018-02-19T08:12:17Z",
       "side": 1,
       "message": "Missing @Since tag in the javadoc",
+      "revId": "dda18ba444f4b3680e228c601e344ea664a72698",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8ceac3e_0cd4470c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 127645
+      },
+      "writtenOn": "2018-06-12T07:59:13Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2c8d078a_7ae97f5a",
       "revId": "dda18ba444f4b3680e228c601e344ea664a72698",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -183,6 +225,24 @@
     },
     {
       "key": {
+        "uuid": "afe4fdc3_cac69adf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 127645
+      },
+      "writtenOn": "2018-06-12T07:59:13Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "53de65a4_c7d3459c",
+      "revId": "dda18ba444f4b3680e228c601e344ea664a72698",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87929364_8ccffe57",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
         "patchSetId": 8
@@ -194,6 +254,24 @@
       "writtenOn": "2018-02-23T06:02:46Z",
       "side": 1,
       "message": "die code formatter .. .die, yes I see .. too long ;/",
+      "revId": "dda18ba444f4b3680e228c601e344ea664a72698",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e039188_7c8c6e0b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 127645
+      },
+      "writtenOn": "2018-06-12T07:59:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87929364_8ccffe57",
       "revId": "dda18ba444f4b3680e228c601e344ea664a72698",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -235,6 +313,30 @@
       "side": 1,
       "message": "indeed, I\u0027m with you, that for clean code we should change this. Indeed, as a good boy scout, I would do this.\nBut unless I\u0027m forced to revert other boyscouts to \"keep focus\" I\u0027m not very happy with neither encouraged to do this ..\nI\u0027d be like to do some refactorings ... for 5.0 ?\nIn a seperate change without any behavioral changes?!",
       "parentUuid": "46d50ce4_b0dbbeb4",
+      "range": {
+        "startLine": 270,
+        "startChar": 6,
+        "endLine": 275,
+        "endChar": 20
+      },
+      "revId": "dda18ba444f4b3680e228c601e344ea664a72698",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "540fa7b2_ccd99cc7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 127645
+      },
+      "writtenOn": "2018-06-12T07:59:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23da7eda_c823e85f",
       "range": {
         "startLine": 270,
         "startChar": 6,
