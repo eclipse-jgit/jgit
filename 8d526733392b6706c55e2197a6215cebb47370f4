@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b4befdfd_78ecd74e",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-06-12T03:56:13Z",
+      "side": 1,
+      "message": "This timeout increase is not mentioned in the commit message.\n\nEither update the commit message, or move this to a separate change.",
+      "range": {
+        "startLine": 77,
+        "startChar": 51,
+        "endLine": 77,
+        "endChar": 56
+      },
+      "revId": "8d526733392b6706c55e2197a6215cebb47370f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6c5bb4e_41326038",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-06-12T03:56:13Z",
+      "side": 1,
+      "message": "Use Logger.error",
+      "range": {
+        "startLine": 174,
+        "startChar": 3,
+        "endLine": 174,
+        "endChar": 40
+      },
+      "revId": "8d526733392b6706c55e2197a6215cebb47370f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86245621_5e8af49a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SshSupport.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-06-12T03:56:13Z",
+      "side": 1,
+      "message": "The",
+      "range": {
+        "startLine": 76,
+        "startChar": 37,
+        "endLine": 76,
+        "endChar": 40
+      },
+      "revId": "8d526733392b6706c55e2197a6215cebb47370f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a9c9bf7_e5683645",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SshSupport.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-06-12T03:56:13Z",
+      "side": 1,
+      "message": "Is there any upstream jsch bug report for this?\n\nNote: Jsch seems to be a dead project.  See discussion [1] on the gerrit issue tracker.\n\n[1] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d7377",
+      "range": {
+        "startLine": 100,
+        "startChar": 4,
+        "endLine": 101,
+        "endChar": 30
+      },
+      "revId": "8d526733392b6706c55e2197a6215cebb47370f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
