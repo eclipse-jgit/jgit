@@ -49,6 +49,7 @@ import static org.eclipse.jgit.util.HttpSupport.HDR_CONTENT_TYPE;
 
 import java.io.IOException;
 import java.net.ProxySelector;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.LinkedList;
@@ -56,6 +57,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.errors.CommandFailedException;
 import org.eclipse.jgit.lfs.LfsPointer;
 import org.eclipse.jgit.lfs.Protocol;
 import org.eclipse.jgit.lfs.errors.LfsConfigInvalidException;
@@ -74,7 +76,7 @@ import org.eclipse.jgit.util.SshSupport;
  */
 public class LfsConnectionFactory {
 
-	private static final int SSH_AUTH_TIMEOUT_SECONDS = 5;
+	private static final int SSH_AUTH_TIMEOUT_SECONDS = 30;
 	private static final String SCHEME_HTTPS = "https"; //$NON-NLS-1$
 	private static final String SCHEME_SSH = "ssh"; //$NON-NLS-1$
 	private static final Map<String, AuthCache> sshAuthCache = new TreeMap<>();
@@ -128,6 +130,7 @@ public class LfsConnectionFactory {
 		String lfsUrl = config.getString(ConfigConstants.CONFIG_SECTION_LFS,
 				null,
 				ConfigConstants.CONFIG_KEY_URL);
+		Exception ex = null;
 		if (lfsUrl == null) {
 			String remoteUrl = null;
 			for (String remote : db.getRemoteNames()) {
@@ -146,38 +149,44 @@ public class LfsConnectionFactory {
 				break;
 			}
 			if (lfsUrl == null && remoteUrl != null) {
-				lfsUrl = discoverLfsUrl(db, purpose, additionalHeaders,
-						remoteUrl);
+				try {
+					lfsUrl = discoverLfsUrl(db, purpose, additionalHeaders,
+							remoteUrl);
+				} catch (URISyntaxException | IOException
+						| CommandFailedException e) {
+					ex = e;
+				}
 			} else {
 				lfsUrl = lfsUrl + Protocol.INFO_LFS_ENDPOINT;
 			}
 		}
 		if (lfsUrl == null) {
+			if (ex != null) {
+				throw new LfsConfigInvalidException(
+						LfsText.get().lfsNoDownloadUrl, ex);
+			}
 			throw new LfsConfigInvalidException(LfsText.get().lfsNoDownloadUrl);
 		}
 		return lfsUrl;
 	}
 
 	private static String discoverLfsUrl(Repository db, String purpose,
-			Map<String, String> additionalHeaders, String remoteUrl) {
-		try {
-			URIish u = new URIish(remoteUrl);
-			if (SCHEME_SSH.equals(u.getScheme())) {
-				Protocol.ExpiringAction action = getSshAuthentication(
-						db, purpose, remoteUrl, u);
-				additionalHeaders.putAll(action.header);
-				return action.href;
-			} else {
-				return remoteUrl + Protocol.INFO_LFS_ENDPOINT;
-			}
-		} catch (Exception e) {
-			return null; // could not discover
+			Map<String, String> additionalHeaders, String remoteUrl)
+			throws URISyntaxException, IOException, CommandFailedException {
+		URIish u = new URIish(remoteUrl);
+		if (u.getScheme() == null || SCHEME_SSH.equals(u.getScheme())) {
+			Protocol.ExpiringAction action = getSshAuthentication(db, purpose,
+					remoteUrl, u);
+			additionalHeaders.putAll(action.header);
+			return action.href;
+		} else {
+			return remoteUrl + Protocol.INFO_LFS_ENDPOINT;
 		}
 	}
 
 	private static Protocol.ExpiringAction getSshAuthentication(
 			Repository db, String purpose, String remoteUrl, URIish u)
-			throws IOException {
+			throws IOException, CommandFailedException {
 		AuthCache cached = sshAuthCache.get(remoteUrl);
 		Protocol.ExpiringAction action = null;
 		if (cached != null && cached.validUntil > System.currentTimeMillis()) {
@@ -226,8 +235,10 @@ public class LfsConnectionFactory {
 				.create(contentUrl, HttpSupport
 						.proxyFor(ProxySelector.getDefault(), contentUrl));
 		contentServerConn.setRequestMethod(method);
-		action.header
-				.forEach((k, v) -> contentServerConn.setRequestProperty(k, v));
+		if (action.header != null) {
+			action.header.forEach(
+					(k, v) -> contentServerConn.setRequestProperty(k, v));
+		}
 		if (contentUrl.getProtocol().equals(SCHEME_HTTPS)
 				&& !repo.getConfig().getBoolean(HttpConfig.HTTP,
 						HttpConfig.SSL_VERIFY_KEY, true)) {
@@ -241,7 +252,13 @@ public class LfsConnectionFactory {
 	}
 
 	private static String extractProjectName(URIish u) {
-		String path = u.getPath().substring(1);
+		String path = u.getPath();
+
+		// begins with a slash if the url contains a port (gerrit vs. github).
+		if (path.startsWith("/")) { //$NON-NLS-1$
+			path = path.substring(1);
+		}
+
 		if (path.endsWith(org.eclipse.jgit.lib.Constants.DOT_GIT)) {
 			return path.substring(0, path.length() - 4);
 		} else {
