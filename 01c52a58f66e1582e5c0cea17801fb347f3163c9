@@ -16,6 +16,24 @@
       "revId": "01c52a58f66e1582e5c0cea17801fb347f3163c9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65cbee83_715b9179",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-06-13T07:45:39Z",
+      "side": 0,
+      "message": "I checked in org.eclipse.jgit and found we typically do not log errors if we throw an exception to let the caller handle the problem",
+      "parentUuid": "d678ab0b_607430c6",
+      "revId": "01c52a58f66e1582e5c0cea17801fb347f3163c9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
