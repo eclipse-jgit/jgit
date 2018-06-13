@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c4a72680_39340697",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-06-13T07:34:33Z",
+      "side": 1,
+      "message": "here @since is not needed since it\u0027s not public API but a private field",
+      "parentUuid": "c45afe2d_97238d91",
+      "revId": "5098ddfaf20172453b815b59d78d5d2e47092bc4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "caf9671a_1cdec3f3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2018-06-13T07:02:21Z",
       "side": 1,
       "message": "A minor thing: I personally like when the names of the options match exactly what cgit understands on the command line. This helps when discussing about semantics with new users, just send them to the man pages and let them use the option names they see there. CGit understands \u0027--all\u0027 and \u0027--tags\u0027 and we are adding here \u0027setAllTags()\u0027 but it should have the semantics of \u0027--tags\u0027.\nI would vote for calling this method setTags(). Additionally (not so important) I would rename the field to useTags or even just tags.",
+      "revId": "5098ddfaf20172453b815b59d78d5d2e47092bc4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0729303_b0c13fe1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-06-13T07:34:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "caf9671a_1cdec3f3",
       "revId": "5098ddfaf20172453b815b59d78d5d2e47092bc4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
