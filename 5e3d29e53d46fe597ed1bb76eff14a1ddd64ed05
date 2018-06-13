@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c0c9ff60_21cc9b36",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/DescribeCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 127645
+      },
+      "writtenOn": "2018-06-13T03:58:27Z",
+      "side": 0,
+      "message": "I\u0027m not a fan of generic \"Exception\" but .. ok",
+      "revId": "5e3d29e53d46fe597ed1bb76eff14a1ddd64ed05",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
