@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d678ab0b_607430c6",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/LfsConnectionFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2018-06-13T07:34:10Z",
+      "side": 0,
+      "message": "I don\u0027t get why we remove error logging. Are we sure that the user of this method does the logging and we would log twice if we don\u0027t remove it? If not, we could leave the logging in and rethrow the exception.",
+      "revId": "01c52a58f66e1582e5c0cea17801fb347f3163c9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}

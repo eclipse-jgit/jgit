@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "18280a97_124183ef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SshSupport.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2018-06-13T07:34:10Z",
+      "side": 1,
+      "message": "Just a question: as long as rc\u003d0 we don\u0027t have a chance to inspect the stderr content, right? I don\u0027t think thats a problem. But processes are allowed to write diagnostic output to stderr although rc\u003d0.",
+      "revId": "5e3d29e53d46fe597ed1bb76eff14a1ddd64ed05",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
