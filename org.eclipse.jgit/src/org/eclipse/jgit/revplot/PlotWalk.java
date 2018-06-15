@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2009, Robin Rosenberg <robin.rosenberg@dewire.com>
+ * Copyright (C) 2008-2018, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
  * and other copyright owners as documented in the project's IP log.
  *
@@ -53,6 +53,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -75,13 +76,25 @@ import org.eclipse.jgit.revwalk.RevWalk;
  */
 public class PlotWalk extends RevWalk {
 
+	private Map<AnyObjectId, Set<Ref>> additionalRefMap;
+
 	private Map<AnyObjectId, Set<Ref>> reverseRefMap;
+
+	private Repository repository;
 
 	/** {@inheritDoc} */
 	@Override
 	public void dispose() {
 		super.dispose();
-		reverseRefMap.clear();
+		if (reverseRefMap != null) {
+			reverseRefMap.clear();
+			reverseRefMap = null;
+		}
+		if (additionalRefMap != null) {
+			additionalRefMap.clear();
+			additionalRefMap = null;
+		}
+		repository = null;
 	}
 
 	/**
@@ -93,7 +106,8 @@ public class PlotWalk extends RevWalk {
 	public PlotWalk(Repository repo) {
 		super(repo);
 		super.sort(RevSort.TOPO, true);
-		reverseRefMap = repo.getAllRefsByPeeledObjectId();
+		additionalRefMap = new HashMap<>();
+		repository = repo;
 	}
 
 	/**
@@ -105,14 +119,14 @@ public class PlotWalk extends RevWalk {
 	 */
 	public void addAdditionalRefs(Iterable<Ref> refs) throws IOException {
 		for (Ref ref : refs) {
-			Set<Ref> set = reverseRefMap.get(ref.getObjectId());
+			Set<Ref> set = additionalRefMap.get(ref.getObjectId());
 			if (set == null)
 				set = Collections.singleton(ref);
 			else {
 				set = new HashSet<>(set);
 				set.add(ref);
 			}
-			reverseRefMap.put(ref.getObjectId(), set);
+			additionalRefMap.put(ref.getObjectId(), set);
 		}
 	}
 
@@ -141,10 +155,28 @@ public class PlotWalk extends RevWalk {
 	}
 
 	private Ref[] getRefs(AnyObjectId commitId) {
+		if (reverseRefMap == null) {
+			reverseRefMap = repository.getAllRefsByPeeledObjectId();
+			for (Map.Entry<AnyObjectId, Set<Ref>> entry : additionalRefMap
+					.entrySet()) {
+				Set<Ref> set = reverseRefMap.get(entry.getKey());
+				Set<Ref> additional = entry.getValue();
+				if (set != null) {
+					if (additional.size() == 1) {
+						// It's an unmodifiable singleton set...
+						additional = new HashSet<>(additional);
+					}
+					additional.addAll(set);
+				}
+				reverseRefMap.put(entry.getKey(), additional);
+			}
+			additionalRefMap.clear();
+			additionalRefMap = null;
+		}
 		Collection<Ref> list = reverseRefMap.get(commitId);
-		if (list == null)
+		if (list == null) {
 			return PlotCommit.NO_REFS;
-		else {
+		} else {
 			Ref[] tags = list.toArray(new Ref[list.size()]);
 			Arrays.sort(tags, new PlotRefComparator());
 			return tags;
