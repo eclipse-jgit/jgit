@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ac6e1cb7_3b41d8ec",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevCommitParseTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-06-15T11:20:31Z",
+      "side": 1,
+      "message": "Why this?",
+      "revId": "147ceef212adac01911108704447b9b61c0d4f0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71c2652e_e64d94f4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevCommitParseTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-06-15T11:20:31Z",
+      "side": 1,
+      "message": "This test is not good enough. It would also succeed if gpgSig.equals(\"-----BEGIN PGP SIGNATURE-----\").",
+      "revId": "147ceef212adac01911108704447b9b61c0d4f0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c31fad1_4e6a3910",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-06-15T11:20:31Z",
+      "side": 1,
+      "message": "I find this name a bit unfortunate. Assuming ptr is on a header start, this returns the position just after that header\u0027s end. That\u0027s not necessarily another header: could also be the empty line before the commit message.",
+      "range": {
+        "startLine": 561,
+        "startChar": 25,
+        "endLine": 561,
+        "endChar": 35
+      },
+      "revId": "147ceef212adac01911108704447b9b61c0d4f0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fe55765_52e25f1a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-06-15T11:20:31Z",
+      "side": 1,
+      "message": "What is chrA?",
+      "range": {
+        "startLine": 574,
+        "startChar": 62,
+        "endLine": 574,
+        "endChar": 66
+      },
+      "revId": "147ceef212adac01911108704447b9b61c0d4f0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf095f7f_d826da8a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-06-15T11:20:31Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 579,
+        "startChar": 22,
+        "endLine": 579,
+        "endChar": 31
+      },
+      "revId": "147ceef212adac01911108704447b9b61c0d4f0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dceadef7_0e2bab72",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 583,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-06-15T11:20:31Z",
+      "side": 1,
+      "message": "Missing @since 5.1",
+      "revId": "147ceef212adac01911108704447b9b61c0d4f0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
