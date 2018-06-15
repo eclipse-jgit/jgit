@@ -549,6 +549,62 @@ public final class RawParseUtils {
 	}
 
 	/**
+	 * Locate the end of the header.  Note that headers may be
+	 * more than one line long.
+	 * @param b
+	 *            buffer to scan.
+	 * @param ptr
+	 *            position within buffer to start looking for the end-of-header.
+	 * @return new position just after the header.  This is either
+	 * b.length, or the index of the header's terminating newline.
+	 * @since 5.1
+	 */
+	public static final int headerEnd(final byte[] b, int ptr) {
+		final int sz = b.length;
+		while (ptr < sz) {
+			final byte c = b[ptr++];
+			if (c == '\n' && (ptr == sz || b[ptr] != ' ')) {
+				return ptr - 1;
+			}
+		}
+		return ptr - 1;
+	}
+
+	/**
+	 * Find the start of the contents of a given header.
+	 *
+	 * @param b
+	 *            buffer to scan.
+	 * @param headerName
+	 *            header to search for
+	 * @param ptr
+	 *            position within buffer to start looking for header at.
+	 * @return new position at the start of the header's contents, -1 for
+	 *         not found
+	 * @since 5.1
+	 */
+	public static final int headerStart(byte[] headerName, byte[] b, int ptr) {
+		// Start by advancing to just past a LF or buffer start
+		if (ptr != 0) {
+			ptr = nextLF(b, ptr - 1);
+		}
+		while (ptr < b.length - (headerName.length + 1)) {
+			boolean found = true;
+			for (int i = 0; i < headerName.length; i++) {
+				if (headerName[i] != b[ptr++]) {
+					found = false;
+					break;
+				}
+			}
+			if (found && b[ptr++] == ' ') {
+				return ptr;
+			}
+			ptr = nextLF(b, ptr);
+		}
+		return -1;
+	}
+
+	/**
 	 * Locate the first position before a given character.
 	 *
 	 * @param b
