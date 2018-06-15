@@ -37,6 +37,42 @@
     },
     {
       "key": {
+        "uuid": "4e469ac6_003f5529",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 24046
+      },
+      "writtenOn": "2018-06-15T10:38:21Z",
+      "side": 1,
+      "message": "If we go this way, shouldn\u0027t we need some kind of API to set this configuration? I mean, similar with what is done with, for example, the window cache or ReceivePack, we would need a way to pass this from Gerrit to JGit, no?",
+      "parentUuid": "70fb2b03_a0c6ae51",
+      "revId": "9f4c22e665e7028ba9a0bf2d69d18602a05b30bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e1327a58_6bc804dd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 24046
+      },
+      "writtenOn": "2018-06-15T10:38:21Z",
+      "side": 1,
+      "message": "I\u0027ve done just that in this change:\n\n  https://git.eclipse.org/r/#/c/124593/\n\nBTW, could you, please, or any of the other maintainers to push that change as a new patch set of this one?\n\nSame for this one:\n  \n  https://git.eclipse.org/r/#/c/124594/\n\nas a new patch set of the follow-up change by Nasser.\n\nThanks",
+      "parentUuid": "fc096348_1dcc94ea",
+      "revId": "9f4c22e665e7028ba9a0bf2d69d18602a05b30bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b7cec776_d327084a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
         "patchSetId": 4
@@ -264,6 +300,42 @@
       "side": 1,
       "message": "\u003e Martin and I are wondering if using FileSnapshots for the config files (to skip re-reading them if unmodified) would be enough of an improvement that this becomes unnoticeable. I\u0027m off for a vacation today and back on the 19th. If no one else tries out that approach before then, I\u0027ll try it when I\u0027m back.\n\nSee below the breakdown of calls per type:\n#1: 2.4M refs/changes/NN/NNN/meta\n#1: 350k objects/pack\n#2: 52k config\n\nThis is *specific* to Gerrit 2.5 use-case with NoteDb, where the Git repository used *all the times* for reading change data. Every time that a ChangeNote is used, JGit needs to de-reference the ref to a SHA1 and, because the RefDatabase has a cached set of values, checks if the underlying loose refs have changed.\n\nWith this hack, every time than anyone touches anything on the GUI, we call this refresh hack. That\u0027s the reason behind those astronomic numbers :-(\n\nThe situation with Gerrit \u003c 2.15 could be *very different*. Maybe Hugo could run some tests in production on v2.14.x and share the results.\n\nHowever, sooner or later, we will end up with Gerrit v2.15 and we will hit this problem :-(",
       "parentUuid": "cfa74eeb_9f45935a",
+      "revId": "9f4c22e665e7028ba9a0bf2d69d18602a05b30bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "49ecf670_868f4911",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 24046
+      },
+      "writtenOn": "2018-06-15T10:38:21Z",
+      "side": 1,
+      "message": "I proposed just to read it once and \"cache\" the value in a static variable.",
+      "parentUuid": "cfa74eeb_9f45935a",
+      "revId": "9f4c22e665e7028ba9a0bf2d69d18602a05b30bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7bddc37b_d6d7b29f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 24046
+      },
+      "writtenOn": "2018-06-15T10:38:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7cec776_d327084a",
       "revId": "9f4c22e665e7028ba9a0bf2d69d18602a05b30bf",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
