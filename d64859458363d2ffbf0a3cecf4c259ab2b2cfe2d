@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e69a7cc4_7eae974f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-06-18T10:01:02Z",
+      "side": 1,
+      "message": "Clarify here what \"after the header\" means. (I.e., either the value is \u003d b.length, or it is the index of the newline terminating the header.)",
+      "revId": "d64859458363d2ffbf0a3cecf4c259ab2b2cfe2d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a03db4b_056156f6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-06-18T10:01:02Z",
+      "side": 1,
+      "message": "Missing curly braces.",
+      "revId": "d64859458363d2ffbf0a3cecf4c259ab2b2cfe2d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d40e902_af019b0c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-06-18T10:01:02Z",
+      "side": 1,
+      "message": "Is that correct? Isn\u0027t it the position of the first byte of the header\u0027s content?",
+      "range": {
+        "startLine": 580,
+        "startChar": 25,
+        "endLine": 580,
+        "endChar": 36
+      },
+      "revId": "d64859458363d2ffbf0a3cecf4c259ab2b2cfe2d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
