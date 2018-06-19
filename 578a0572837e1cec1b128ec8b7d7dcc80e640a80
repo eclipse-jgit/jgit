@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef14cf29_39556a54",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2018-06-19T09:01:01Z",
+      "side": 1,
+      "message": "Have you thought about why we use fs.createFile() for creating .pack files but we don\u0027t use it for .info or .alternates files. Are inaccurate lastModified() or exists() results more acceptable on those files?",
+      "revId": "578a0572837e1cec1b128ec8b7d7dcc80e640a80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee7d1538_c2d821fd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2018-06-19T09:01:01Z",
+      "side": 1,
+      "message": "if the method checking this value is called \u0027isNfsSupportEnabled()\u0027 then I would name this field \u0027nfsSupportEnabled\u0027 (or \u0027nfsEnabled\u0027)",
+      "range": {
+        "startLine": 82,
+        "startChar": 33,
+        "endLine": 82,
+        "endChar": 52
+      },
+      "revId": "578a0572837e1cec1b128ec8b7d7dcc80e640a80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64ef2987_489a9cec",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2018-06-19T09:01:01Z",
+      "side": 1,
+      "message": "you could put the check for config\u003d\u003dnull into isNfsSupportEnabled. If config\u003d\u003dnull then isNfsSupportEnabled would return false",
+      "range": {
+        "startLine": 398,
+        "startChar": 6,
+        "endLine": 398,
+        "endChar": 51
+      },
+      "revId": "578a0572837e1cec1b128ec8b7d7dcc80e640a80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "870b4e12_44fa67d8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2018-06-19T09:01:01Z",
+      "side": 1,
+      "message": "see above",
+      "range": {
+        "startLine": 406,
+        "startChar": 6,
+        "endLine": 406,
+        "endChar": 51
+      },
+      "revId": "578a0572837e1cec1b128ec8b7d7dcc80e640a80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d0bce7d_62e82e09",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2018-06-19T09:01:01Z",
+      "side": 1,
+      "message": "why this extra variable?\n\n\t\tif (isNfsSupportEnabled \u003d\u003d null) {\n\t\t\tisNfsSupportEnabled \u003d Boolean.valueOf(\n\t\t\t\t\tconfig.getBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,\n\t\t\t\t\t\t\tConfigConstants.ENABLE_NFS_SUPPORT, false));\n\t\t}\n\t\treturn isNfsSupportEnabled.booleanValue();",
+      "range": {
+        "startLine": 413,
+        "startChar": 10,
+        "endLine": 413,
+        "endChar": 16
+      },
+      "revId": "578a0572837e1cec1b128ec8b7d7dcc80e640a80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "252fe401_b516ffcc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2018-06-19T09:01:01Z",
+      "side": 1,
+      "message": "same question as in isNfsSupportEnabled()",
+      "range": {
+        "startLine": 513,
+        "startChar": 3,
+        "endLine": 513,
+        "endChar": 10
+      },
+      "revId": "578a0572837e1cec1b128ec8b7d7dcc80e640a80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
