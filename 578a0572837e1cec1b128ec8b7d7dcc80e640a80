@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5ddc8a17_c1602c6f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 24046
+      },
+      "writtenOn": "2018-06-19T10:09:44Z",
+      "side": 1,
+      "message": "This is a very good question. I don\u0027t think we can say that and for the sake of being consistent, I believe we should use the same method for creating those two.",
+      "parentUuid": "ef14cf29_39556a54",
+      "revId": "578a0572837e1cec1b128ec8b7d7dcc80e640a80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee7d1538_c2d821fd",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2018-06-19T09:01:01Z",
       "side": 1,
       "message": "if the method checking this value is called \u0027isNfsSupportEnabled()\u0027 then I would name this field \u0027nfsSupportEnabled\u0027 (or \u0027nfsEnabled\u0027)",
+      "range": {
+        "startLine": 82,
+        "startChar": 33,
+        "endLine": 82,
+        "endChar": 52
+      },
+      "revId": "578a0572837e1cec1b128ec8b7d7dcc80e640a80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3161e766_b6803418",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 24046
+      },
+      "writtenOn": "2018-06-19T10:09:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee7d1538_c2d821fd",
       "range": {
         "startLine": 82,
         "startChar": 33,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "debb77c4_a5bf42da",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 24046
+      },
+      "writtenOn": "2018-06-19T10:09:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64ef2987_489a9cec",
+      "range": {
+        "startLine": 398,
+        "startChar": 6,
+        "endLine": 398,
+        "endChar": 51
+      },
+      "revId": "578a0572837e1cec1b128ec8b7d7dcc80e640a80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "870b4e12_44fa67d8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
         "patchSetId": 1
@@ -76,6 +142,30 @@
       "writtenOn": "2018-06-19T09:01:01Z",
       "side": 1,
       "message": "see above",
+      "range": {
+        "startLine": 406,
+        "startChar": 6,
+        "endLine": 406,
+        "endChar": 51
+      },
+      "revId": "578a0572837e1cec1b128ec8b7d7dcc80e640a80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af686ab4_07451fe6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 24046
+      },
+      "writtenOn": "2018-06-19T10:09:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "870b4e12_44fa67d8",
       "range": {
         "startLine": 406,
         "startChar": 6,
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "52bffb89_4d3ffb61",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 24046
+      },
+      "writtenOn": "2018-06-19T10:09:44Z",
+      "side": 1,
+      "message": "In Effective Java 3rd. Edition, Item 83, Joshua Bloch proposes using this additional variable with this explanation:\n\n\"This code may appear a bit convoluted. In particular, the need for the local variable (result) may be unclear. What this variable does is to ensure that field is read only once in the common case where it’s already initialized. While not strictly necessary, this may improve performance and is more elegant by the standards applied to low-level concurrent programming. On my machine, the method above is about 1.4 times as fast as the obvious version without a local variable.\"\n\nAs he says, it is not strictly necessary, so I can remove it if you prefer or if you think removing it makes the code clearer.",
+      "parentUuid": "4d0bce7d_62e82e09",
+      "range": {
+        "startLine": 413,
+        "startChar": 10,
+        "endLine": 413,
+        "endChar": 16
+      },
+      "revId": "578a0572837e1cec1b128ec8b7d7dcc80e640a80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "252fe401_b516ffcc",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
         "patchSetId": 1
@@ -122,6 +236,30 @@
       "writtenOn": "2018-06-19T09:01:01Z",
       "side": 1,
       "message": "same question as in isNfsSupportEnabled()",
+      "range": {
+        "startLine": 513,
+        "startChar": 3,
+        "endLine": 513,
+        "endChar": 10
+      },
+      "revId": "578a0572837e1cec1b128ec8b7d7dcc80e640a80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79d122cd_570c3cc4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 24046
+      },
+      "writtenOn": "2018-06-19T10:09:44Z",
+      "side": 1,
+      "message": "Please see explanation above.",
+      "parentUuid": "252fe401_b516ffcc",
       "range": {
         "startLine": 513,
         "startChar": 3,
