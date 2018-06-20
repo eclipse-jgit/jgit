@@ -48,7 +48,13 @@ import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.StoredConfig;
 
-final class DfsConfig extends StoredConfig {
+/**
+ * Config implementation used by DFS repositories.
+ * <p>
+ * The current implementation acts as if there is no persistent storage: loading
+ * simply clears the config, and saving does nothing.
+ */
+public final class DfsConfig extends StoredConfig {
 	/** {@inheritDoc} */
 	@Override
 	public void load() throws IOException, ConfigInvalidException {
