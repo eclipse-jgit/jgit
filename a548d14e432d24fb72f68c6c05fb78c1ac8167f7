@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8f6f488_1ded76a9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-06-20T23:02:56Z",
+      "side": 1,
+      "message": "If it\u0027s intended to be used by implementers, should we move it out of .internal. to the public API?",
+      "range": {
+        "startLine": 9,
+        "startChar": 23,
+        "endLine": 9,
+        "endChar": 50
+      },
+      "revId": "a548d14e432d24fb72f68c6c05fb78c1ac8167f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
