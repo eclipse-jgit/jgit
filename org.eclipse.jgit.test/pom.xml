@@ -62,6 +62,10 @@
     JUnit tests for the core library.
   </description>
 
+  <properties>
+    <maven.javadoc.skip>true</maven.javadoc.skip>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
