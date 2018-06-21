@@ -1082,7 +1082,7 @@ public class UploadPack {
 					includeTag
 						? db.getRefDatabase().getRefsByPrefix(R_TAGS)
 						: null,
-					new ArrayList<ObjectId>());
+					unshallowCommits);
 		}
 		pckOut.end();
 	}
