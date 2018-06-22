@@ -98,10 +98,5 @@ public class RevWalkCullTest extends RevWalkTestCase {
 		markUninteresting(b);
 		assertCommit(c, rw.next());
 		assertNull(rw.next());
-
-		// We should have aborted before we got back so far that "a"
-		// would be parsed. Thus, its parents shouldn't be allocated.
-		//
-		assertNull(a.parents);
 	}
 }

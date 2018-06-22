@@ -50,8 +50,10 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.errors.CorruptObjectException;
@@ -200,6 +202,8 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	private boolean rewriteParents = true;
 
 	boolean shallowCommitsInitialized;
+
+	private Set<ObjectId> shallowIds = new HashSet<>();
 
 	/**
 	 * Create a new revision walker for a given repository.
@@ -901,6 +905,9 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		case Constants.OBJ_COMMIT: {
 			final RevCommit c = createCommit(id);
 			c.parseCanonical(this, getCachedBytes(c, ldr));
+			if (shallowIds.contains(c.toObjectId())) {
+				c.parents = RevCommit.NO_PARENTS;
+			}
 			r = c;
 			break;
 		}
@@ -1461,16 +1468,24 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	}
 
 	void initializeShallowCommits() throws IOException {
-		if (shallowCommitsInitialized)
+		if (shallowCommitsInitialized) {
 			throw new IllegalStateException(
 					JGitText.get().shallowCommitsAlreadyInitialized);
+		}
 
 		shallowCommitsInitialized = true;
 
-		if (reader == null)
+		if (reader == null) {
 			return;
+		}
 
 		for (ObjectId id : reader.getShallowCommits())
-			lookupCommit(id).parents = RevCommit.NO_PARENTS;
+		{
+			if (objects.contains(id)) {
+				lookupCommit(id).parents = RevCommit.NO_PARENTS;
+			} else {
+				shallowIds.add(id);
+			}
+		}
 	}
 }

@@ -285,7 +285,7 @@ public class TestRepository<R extends Repository> {
 			id = ins.insert(Constants.OBJ_BLOB, content);
 			ins.flush();
 		}
-		return pool.lookupBlob(id);
+		return (RevBlob) pool.parseAny(id);
 	}
 
 	/**
@@ -326,7 +326,7 @@ public class TestRepository<R extends Repository> {
 			root = dc.writeTree(ins);
 			ins.flush();
 		}
-		return pool.lookupTree(root);
+		return pool.parseTree(root);
 	}
 
 	/**
@@ -442,7 +442,7 @@ public class TestRepository<R extends Repository> {
 			id = ins.insert(c);
 			ins.flush();
 		}
-		return pool.lookupCommit(id);
+		return pool.parseCommit(id);
 	}
 
 	/**
@@ -481,7 +481,7 @@ public class TestRepository<R extends Repository> {
 			id = ins.insert(t);
 			ins.flush();
 		}
-		return (RevTag) pool.lookupAny(id, Constants.OBJ_TAG);
+		return pool.parseTag(id);
 	}
 
 	/**
@@ -1197,7 +1197,7 @@ public class TestRepository<R extends Repository> {
 					commitId = ins.insert(c);
 					ins.flush();
 				}
-				self = pool.lookupCommit(commitId);
+				self = pool.parseCommit(commitId);
 
 				if (branch != null)
 					branch.update(self);
