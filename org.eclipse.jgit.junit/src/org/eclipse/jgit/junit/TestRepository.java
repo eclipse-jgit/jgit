@@ -285,7 +285,7 @@ public class TestRepository<R extends Repository> {
 			id = ins.insert(Constants.OBJ_BLOB, content);
 			ins.flush();
 		}
-		return pool.lookupBlob(id);
+		return (RevBlob) pool.parseAny(id);
 	}
 
 	/**
@@ -1197,7 +1197,7 @@ public class TestRepository<R extends Repository> {
 					commitId = ins.insert(c);
 					ins.flush();
 				}
-				self = pool.lookupCommit(commitId);
+				self = (RevCommit) pool.parseAny(commitId);
 
 				if (branch != null)
 					branch.update(self);
