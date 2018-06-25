@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4cfa8f6b_8015f1e1",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/pack/GcCommitSelectionTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-25T16:56:01Z",
+      "side": 1,
+      "message": "newPreparer?",
+      "range": {
+        "startLine": 367,
+        "startChar": 34,
+        "endLine": 367,
+        "endChar": 44
+      },
+      "revId": "e7742374013e862f605894616a29ad965835fd4f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
