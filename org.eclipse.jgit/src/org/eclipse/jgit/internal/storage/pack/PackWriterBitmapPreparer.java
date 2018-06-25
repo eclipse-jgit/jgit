@@ -91,11 +91,10 @@ class PackWriterBitmapPreparer {
 
 	private static final int DAY_IN_SECONDS = 24 * 60 * 60;
 
-	private static final Comparator<BitmapBuilderEntry> ORDER_BY_CARDINALITY = new Comparator<BitmapBuilderEntry>() {
+	private static final Comparator<RevCommit> ORDER_BY_REVERSE_TIMESTAMP = new Comparator<RevCommit>() {
 		@Override
-		public int compare(BitmapBuilderEntry a, BitmapBuilderEntry b) {
-			return Integer.signum(a.getBuilder().cardinality()
-					- b.getBuilder().cardinality());
+		public int compare(RevCommit a, RevCommit b) {
+			return Integer.signum(b.getCommitTime() - a.getCommitTime());
 		}
 	};
 
@@ -164,154 +163,177 @@ class PackWriterBitmapPreparer {
 		 * the cache hits for clients that are close to HEAD, which is the
 		 * majority of calculations performed.
 		 */
-		pm.beginTask(JGitText.get().selectingCommits, ProgressMonitor.UNKNOWN);
-		RevWalk rw = new RevWalk(reader);
-		rw.setRetainBody(false);
-		CommitSelectionHelper selectionHelper = setupTipCommitBitmaps(rw,
-				expectedCommitCount, excludeFromBitmapSelection);
-		pm.endTask();
+		try (RevWalk rw = new RevWalk(reader);
+				RevWalk rw2 = new RevWalk(reader)) {
+			pm.beginTask(JGitText.get().selectingCommits,
+					ProgressMonitor.UNKNOWN);
+			rw.setRetainBody(false);
+			CommitSelectionHelper selectionHelper = captureOldAndNewCommits(rw,
+					expectedCommitCount, excludeFromBitmapSelection);
+			pm.endTask();
 
-		int totCommits = selectionHelper.getCommitCount();
-		BlockList<BitmapCommit> selections = new BlockList<>(
-				totCommits / recentCommitSpan + 1);
-		for (BitmapCommit reuse : selectionHelper.reusedCommits) {
-			selections.add(reuse);
-		}
-
-		if (totCommits == 0) {
-			for (AnyObjectId id : selectionHelper.peeledWants) {
-				selections.add(new BitmapCommit(id, false, 0));
-			}
-			return selections;
-		}
-
-		pm.beginTask(JGitText.get().selectingCommits, totCommits);
-		int totalWants = selectionHelper.peeledWants.size();
-
-		for (BitmapBuilderEntry entry : selectionHelper.tipCommitBitmaps) {
-			BitmapBuilder bitmap = entry.getBuilder();
-			int cardinality = bitmap.cardinality();
-
-			// Within this branch, keep ordered lists of commits representing
-			// chains in its history, where each chain is a "sub-branch".
-			// Ordering commits by these chains makes for fewer differences
-			// between consecutive selected commits, which in turn provides
-			// better compression/on the run-length encoding of the XORs between
-			// them.
-			List<List<BitmapCommit>> chains =
-					new ArrayList<>();
-
-			// Mark the current branch as inactive if its tip commit isn't
-			// recent and there are an excessive number of branches, to
-			// prevent memory bloat of computing too many bitmaps for stale
-			// branches.
-			boolean isActiveBranch = true;
-			if (totalWants > excessiveBranchCount
-					&& !isRecentCommit(entry.getCommit())) {
-				isActiveBranch = false;
+			// Add reused bitmaps from the previous GC pack's bitmap indices.
+			// Currently they are always fully reused, even if their spans don't
+			// match this run's PackConfig values.
+			int newCommits = selectionHelper.getCommitCount();
+			BlockList<BitmapCommit> selections = new BlockList<>(
+					selectionHelper.reusedCommits.size()
+							+ newCommits / recentCommitSpan + 1);
+			for (BitmapCommit reuse : selectionHelper.reusedCommits) {
+				selections.add(reuse);
 			}
 
-			// Insert bitmaps at the offsets suggested by the
-			// nextSelectionDistance() heuristic. Only reuse bitmaps created
-			// for more distant commits.
-			int index = -1;
-			int nextIn = nextSpan(cardinality);
-			int nextFlg = nextIn == distantCommitSpan
-					? PackBitmapIndex.FLAG_REUSE : 0;
+			if (newCommits == 0) {
+				for (AnyObjectId id : selectionHelper.newWants) {
+					selections.add(new BitmapCommit(id, false, 0));
+				}
+				return selections;
+			}
 
-			// For the current branch, iterate through all commits from oldest
-			// to newest.
-			for (RevCommit c : selectionHelper) {
-				// Optimization: if we have found all the commits for this
-				// branch, stop searching
-				int distanceFromTip = cardinality - index - 1;
-				if (distanceFromTip == 0) {
-					break;
+			pm.beginTask(JGitText.get().selectingCommits, newCommits);
+			int totalWants = want.size();
+			BitmapBuilder seen = commitBitmapIndex.newBitmapBuilder();
+			seen.or(selectionHelper.reusedCommitsBitmap);
+			rw2.setRetainBody(false);
+			rw2.setRevFilter(new NotInBitmapFilter(seen));
+
+			// For each branch, do a revwalk to enumerate its commits. Exclude
+			// both reused commits and any commits seen in a previous branch.
+			// Then iterate through all new commits from oldest to newest,
+			// selecting well-spaced commits in this branch.
+			for (RevCommit rc : selectionHelper.newWantsByNewest) {
+				BitmapBuilder tipBitmap = commitBitmapIndex.newBitmapBuilder();
+				rw2.markStart((RevCommit) rw2.peel(rw2.parseAny(rc)));
+				RevCommit rc2;
+				while ((rc2 = rw2.next()) != null) {
+					tipBitmap.addObject(rc2, Constants.OBJ_COMMIT);
+				}
+				int cardinality = tipBitmap.cardinality();
+				seen.or(tipBitmap);
+
+				// Within this branch, keep ordered lists of commits
+				// representing chains in its history, where each chain is a
+				// "sub-branch". Ordering commits by these chains makes for
+				// fewer differences between consecutive selected commits, which
+				// in turn provides better compression/on the run-length
+				// encoding of the XORs between them.
+				List<List<BitmapCommit>> chains = new ArrayList<>();
+
+				// Mark the current branch as inactive if its tip commit isn't
+				// recent and there are an excessive number of branches, to
+				// prevent memory bloat of computing too many bitmaps for stale
+				// branches.
+				boolean isActiveBranch = true;
+				if (totalWants > excessiveBranchCount && !isRecentCommit(rc)) {
+					isActiveBranch = false;
 				}
 
-				// Ignore commits that are not in this branch
-				if (!bitmap.contains(c)) {
-					continue;
-				}
+				// Insert bitmaps at the offsets suggested by the
+				// nextSelectionDistance() heuristic. Only reuse bitmaps created
+				// for more distant commits.
+				int index = -1;
+				int nextIn = nextSpan(cardinality);
+				int nextFlg = nextIn == distantCommitSpan
+						? PackBitmapIndex.FLAG_REUSE
+						: 0;
 
-				index++;
-				nextIn--;
-				pm.update(1);
-
-				// Always pick the items in wants, prefer merge commits.
-				if (selectionHelper.peeledWants.remove(c)) {
-					if (nextIn > 0) {
-						nextFlg = 0;
+				// For the current branch, iterate through all commits from
+				// oldest to newest.
+				for (RevCommit c : selectionHelper) {
+					// Optimization: if we have found all the commits for this
+					// branch, stop searching
+					int distanceFromTip = cardinality - index - 1;
+					if (distanceFromTip == 0) {
+						break;
 					}
-				} else {
-					boolean stillInSpan = nextIn >= 0;
-					boolean isMergeCommit = c.getParentCount() > 1;
-					// Force selection if:
-					// a) we have exhausted the window looking for merges
-					// b) we are in the top commits of an active branch
-					// c) we are at a branch tip
-					boolean mustPick = (nextIn <= -recentCommitSpan)
-							|| (isActiveBranch
-									&& (distanceFromTip <= contiguousCommitCount))
-							|| (distanceFromTip == 1); // most recent commit
-					if (!mustPick && (stillInSpan || !isMergeCommit)) {
+
+					// Ignore commits that are not in this branch
+					if (!tipBitmap.contains(c)) {
 						continue;
 					}
-				}
 
-				// This commit is selected.
-				// Calculate where to look for the next one.
-				int flags = nextFlg;
-				nextIn = nextSpan(distanceFromTip);
-				nextFlg = nextIn == distantCommitSpan
-						? PackBitmapIndex.FLAG_REUSE : 0;
+					index++;
+					nextIn--;
+					pm.update(1);
 
-				BitmapBuilder fullBitmap = commitBitmapIndex.newBitmapBuilder();
-				rw.reset();
-				rw.markStart(c);
-				rw.setRevFilter(new AddUnseenToBitmapFilter(
-						selectionHelper.reusedCommitsBitmap, fullBitmap));
-
-				while (rw.next() != null) {
-					// The RevFilter adds the reachable commits from this
-					// selected commit to fullBitmap.
-				}
-
-				// Sort the commits by independent chains in this branch's
-				// history, yielding better compression when building bitmaps.
-				List<BitmapCommit> longestAncestorChain = null;
-				for (List<BitmapCommit> chain : chains) {
-					BitmapCommit mostRecentCommit = chain.get(chain.size() - 1);
-					if (fullBitmap.contains(mostRecentCommit)) {
-						if (longestAncestorChain == null
-								|| longestAncestorChain.size() < chain.size()) {
-							longestAncestorChain = chain;
+					// Always pick the items in wants, prefer merge commits.
+					if (selectionHelper.newWants.remove(c)) {
+						if (nextIn > 0) {
+							nextFlg = 0;
+						}
+					} else {
+						boolean stillInSpan = nextIn >= 0;
+						boolean isMergeCommit = c.getParentCount() > 1;
+						// Force selection if:
+						// a) we have exhausted the window looking for merges
+						// b) we are in the top commits of an active branch
+						// c) we are at a branch tip
+						boolean mustPick = (nextIn <= -recentCommitSpan)
+								|| (isActiveBranch
+										&& (distanceFromTip <= contiguousCommitCount))
+								|| (distanceFromTip == 1); // most recent commit
+						if (!mustPick && (stillInSpan || !isMergeCommit)) {
+							continue;
 						}
 					}
+
+					// This commit is selected.
+					// Calculate where to look for the next one.
+					int flags = nextFlg;
+					nextIn = nextSpan(distanceFromTip);
+					nextFlg = nextIn == distantCommitSpan
+							? PackBitmapIndex.FLAG_REUSE
+							: 0;
+
+					// Create the commit bitmap for the current commit
+					BitmapBuilder bitmap = commitBitmapIndex.newBitmapBuilder();
+					rw.reset();
+					rw.markStart(c);
+					rw.setRevFilter(new AddUnseenToBitmapFilter(
+							selectionHelper.reusedCommitsBitmap, bitmap));
+					while (rw.next() != null) {
+						// The filter adds the reachable commits to bitmap.
+					}
+
+					// Sort the commits by independent chains in this branch's
+					// history, yielding better compression when building
+					// bitmaps.
+					List<BitmapCommit> longestAncestorChain = null;
+					for (List<BitmapCommit> chain : chains) {
+						BitmapCommit mostRecentCommit = chain
+								.get(chain.size() - 1);
+						if (bitmap.contains(mostRecentCommit)) {
+							if (longestAncestorChain == null
+									|| longestAncestorChain.size() < chain
+											.size()) {
+								longestAncestorChain = chain;
+							}
+						}
+					}
+
+					if (longestAncestorChain == null) {
+						longestAncestorChain = new ArrayList<>();
+						chains.add(longestAncestorChain);
+					}
+					longestAncestorChain.add(new BitmapCommit(c,
+							!longestAncestorChain.isEmpty(), flags));
+					writeBitmaps.addBitmap(c, bitmap, 0);
 				}
 
-				if (longestAncestorChain == null) {
-					longestAncestorChain = new ArrayList<>();
-					chains.add(longestAncestorChain);
+				for (List<BitmapCommit> chain : chains) {
+					selections.addAll(chain);
 				}
-				longestAncestorChain.add(new BitmapCommit(
-						c, !longestAncestorChain.isEmpty(), flags));
-				writeBitmaps.addBitmap(c, fullBitmap, 0);
+			}
+			writeBitmaps.clearBitmaps(); // Remove the temporary commit bitmaps.
+
+			// Add the remaining peeledWant
+			for (AnyObjectId remainingWant : selectionHelper.newWants) {
+				selections.add(new BitmapCommit(remainingWant, false, 0));
 			}
 
-			for (List<BitmapCommit> chain : chains) {
-				selections.addAll(chain);
-			}
+			pm.endTask();
+			return selections;
 		}
-		writeBitmaps.clearBitmaps(); // Remove the temporary commit bitmaps.
-
-		// Add the remaining peeledWant
-		for (AnyObjectId remainingWant : selectionHelper.peeledWants) {
-			selections.add(new BitmapCommit(remainingWant, false, 0));
-		}
-
-		pm.endTask();
-		return selections;
 	}
 
 	private boolean isRecentCommit(RevCommit revCommit) {
@@ -358,9 +380,8 @@ class PackWriterBitmapPreparer {
 	}
 
 	/**
-	 * For each of the {@code want}s, which represent the tip commit of each
-	 * branch, set up an initial {@link BitmapBuilder}. Reuse previously built
-	 * bitmaps if possible.
+	 * Records which of the {@code wants} can be found in the previous GC pack's
+	 * bitmap indices and which are new.
 	 *
 	 * @param rw
 	 *            a {@link RevWalk} to find reachable objects in this repository
@@ -369,8 +390,9 @@ class PackWriterBitmapPreparer {
 	 *            unreachable garbage.
 	 * @param excludeFromBitmapSelection
 	 *            commits that should be excluded from bitmap selection
-	 * @return a {@link CommitSelectionHelper} containing bitmaps for the tip
-	 *         commits
+	 * @return a {@link CommitSelectionHelper} capturing which commits are
+	 *         covered by a previous pack's bitmaps and which new commits need
+	 *         bitmap coverage
 	 * @throws IncorrectObjectTypeException
 	 *             if any of the processed objects is not a commit
 	 * @throws IOException
@@ -378,11 +400,12 @@ class PackWriterBitmapPreparer {
 	 * @throws MissingObjectException
 	 *             if an expected object is missing
 	 */
-	private CommitSelectionHelper setupTipCommitBitmaps(RevWalk rw,
+	private CommitSelectionHelper captureOldAndNewCommits(RevWalk rw,
 			int expectedCommitCount,
 			Set<? extends ObjectId> excludeFromBitmapSelection)
 			throws IncorrectObjectTypeException, IOException,
 			MissingObjectException {
+		// Track bitmaps and commits from the previous GC pack bitmap indices.
 		BitmapBuilder reuse = commitBitmapIndex.newBitmapBuilder();
 		List<BitmapCommit> reuseCommits = new ArrayList<>();
 		for (PackBitmapIndexRemapper.Entry entry : bitmapRemapper) {
@@ -404,11 +427,10 @@ class PackWriterBitmapPreparer {
 			}
 		}
 
-		// Add branch tips that are not represented in old bitmap indices. Set
-		// up the RevWalk to walk the new commits not in the old packs.
-		List<BitmapBuilderEntry> tipCommitBitmaps = new ArrayList<>(
-				want.size());
-		Set<RevCommit> peeledWant = new HashSet<>(want.size());
+		// Add branch tips that are not represented in a previous pack's bitmap
+		// indices. Set up a RevWalk to find new commits not in the old packs.
+		List<RevCommit> newWantsByNewest = new ArrayList<>(want.size());
+		Set<RevCommit> newWants = new HashSet<>(want.size());
 		for (AnyObjectId objectId : want) {
 			RevObject ro = rw.peel(rw.parseAny(objectId));
 			if (!(ro instanceof RevCommit) || reuse.contains(ro)
@@ -417,59 +439,25 @@ class PackWriterBitmapPreparer {
 			}
 
 			RevCommit rc = (RevCommit) ro;
-			peeledWant.add(rc);
 			rw.markStart(rc);
-
-			BitmapBuilder bitmap = commitBitmapIndex.newBitmapBuilder();
-			bitmap.addObject(rc, Constants.OBJ_COMMIT);
-			tipCommitBitmaps.add(new BitmapBuilderEntry(rc, bitmap));
+			newWants.add(rc);
+			newWantsByNewest.add(rc);
 		}
 
-		// Create a list of commits in reverse order (older to newer).
-		// For each branch that contains the commit, mark its parents as being
-		// in the bitmap.
+		// Create a list of commits in reverse order (older to newer) that are
+		// not in the previous bitmap indices and are reachable.
 		rw.setRevFilter(new NotInBitmapFilter(reuse));
 		RevCommit[] commits = new RevCommit[expectedCommitCount];
 		int pos = commits.length;
 		RevCommit rc;
 		while ((rc = rw.next()) != null && pos > 0) {
 			commits[--pos] = rc;
-			for (BitmapBuilderEntry entry : tipCommitBitmaps) {
-				BitmapBuilder bitmap = entry.getBuilder();
-				if (!bitmap.contains(rc)) {
-					continue;
-				}
-				for (RevCommit c : rc.getParents()) {
-					if (reuse.contains(c)) {
-						continue;
-					}
-					bitmap.addObject(c, Constants.OBJ_COMMIT);
-				}
-			}
-			pm.update(1);
 		}
 
-		// Sort the tip commit bitmaps. Find the one containing the most
-		// commits, remove those commits from the remaining bitmaps, resort and
-		// repeat.
-		List<BitmapBuilderEntry> orderedTipCommitBitmaps = new ArrayList<>(
-				tipCommitBitmaps.size());
-		while (!tipCommitBitmaps.isEmpty()) {
-			BitmapBuilderEntry largest =
-					Collections.max(tipCommitBitmaps, ORDER_BY_CARDINALITY);
-			tipCommitBitmaps.remove(largest);
-			orderedTipCommitBitmaps.add(largest);
-
-			// Update the remaining paths, by removing the objects from
-			// the path that was just added.
-			for (int i = tipCommitBitmaps.size() - 1; i >= 0; i--) {
-				tipCommitBitmaps.get(i).getBuilder()
-						.andNot(largest.getBuilder());
-			}
-		}
-
-		return new CommitSelectionHelper(peeledWant, commits, pos,
-				orderedTipCommitBitmaps, reuse, reuseCommits);
+		// Sort the new wants by reverse commit time.
+		Collections.sort(newWantsByNewest, ORDER_BY_REVERSE_TIMESTAMP);
+		return new CommitSelectionHelper(newWants, commits, pos,
+				newWantsByNewest, reuse, reuseCommits);
 	}
 
 	/*-
@@ -537,54 +525,36 @@ class PackWriterBitmapPreparer {
 	}
 
 	/**
-	 * A POJO representing a Pair<RevCommit, BitmapBuidler>.
-	 */
-	private static final class BitmapBuilderEntry {
-		private final RevCommit commit;
-		private final BitmapBuilder builder;
-
-		BitmapBuilderEntry(RevCommit commit, BitmapBuilder builder) {
-			this.commit = commit;
-			this.builder = builder;
-		}
-
-		RevCommit getCommit() {
-			return commit;
-		}
-
-		BitmapBuilder getBuilder() {
-			return builder;
-		}
-	}
-
-	/**
 	 * Container for state used in the first phase of selecting commits, which
-	 * walks all of the reachable commits via the branch tips (
-	 * {@code peeledWants}), stores them in {@code commitsByOldest}, and sets up
-	 * bitmaps for each branch tip ({@code tipCommitBitmaps}).
-	 * {@code commitsByOldest} is initialized with an expected size of all
-	 * commits, but may be smaller if some commits are unreachable, in which
-	 * case {@code commitStartPos} will contain a positive offset to the root
-	 * commit.
+	 * walks all of the reachable commits via the branch tips that are not
+	 * covered by a previous pack's bitmaps ({@code newWants}) and stores them
+	 * in {@code newCommitsByOldest}. {@code newCommitsByOldest} is initialized
+	 * with an expected size of all commits, but may be smaller if some commits
+	 * are unreachable and/or some commits are covered by a previous pack's
+	 * bitmaps. {@code commitStartPos} will contain a positive offset to either
+	 * the root commit or the oldest commit not covered by previous bitmaps.
 	 */
 	private static final class CommitSelectionHelper implements Iterable<RevCommit> {
-		final Set<? extends ObjectId> peeledWants;
-		final List<BitmapBuilderEntry> tipCommitBitmaps;
+		final Set<? extends ObjectId> newWants;
 
+		final List<RevCommit> newWantsByNewest;
 		final BitmapBuilder reusedCommitsBitmap;
-		final Iterable<BitmapCommit> reusedCommits;
-		final RevCommit[] commitsByOldest;
-		final int commitStartPos;
 
-		CommitSelectionHelper(Set<? extends ObjectId> peeledWant,
+		final List<BitmapCommit> reusedCommits;
+
+		final RevCommit[] newCommitsByOldest;
+
+		final int newCommitStartPos;
+
+		CommitSelectionHelper(Set<? extends ObjectId> newWants,
 				RevCommit[] commitsByOldest, int commitStartPos,
-				List<BitmapBuilderEntry> bitmapEntries,
+				List<RevCommit> newWantsByNewest,
 				BitmapBuilder reusedCommitsBitmap,
-				Iterable<BitmapCommit> reuse) {
-			this.peeledWants = peeledWant;
-			this.commitsByOldest = commitsByOldest;
-			this.commitStartPos = commitStartPos;
-			this.tipCommitBitmaps = bitmapEntries;
+				List<BitmapCommit> reuse) {
+			this.newWants = newWants;
+			this.newCommitsByOldest = commitsByOldest;
+			this.newCommitStartPos = commitStartPos;
+			this.newWantsByNewest = newWantsByNewest;
 			this.reusedCommitsBitmap = reusedCommitsBitmap;
 			this.reusedCommits = reuse;
 		}
@@ -594,16 +564,16 @@ class PackWriterBitmapPreparer {
 			// Member variables referenced by this iterator will have synthetic
 			// accessors generated for them if they are made private.
 			return new Iterator<RevCommit>() {
-				int pos = commitStartPos;
+				int pos = newCommitStartPos;
 
 				@Override
 				public boolean hasNext() {
-					return pos < commitsByOldest.length;
+					return pos < newCommitsByOldest.length;
 				}
 
 				@Override
 				public RevCommit next() {
-					return commitsByOldest[pos++];
+					return newCommitsByOldest[pos++];
 				}
 
 				@Override
@@ -614,7 +584,7 @@ class PackWriterBitmapPreparer {
 		}
 
 		int getCommitCount() {
-			return commitsByOldest.length - commitStartPos;
+			return newCommitsByOldest.length - newCommitStartPos;
 		}
 	}
 }
