@@ -22,6 +22,30 @@
       "revId": "61eba9d26538a85c5dbb8f36a7179cfda3f443b8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c181072_055b45e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2018-06-26T16:25:43Z",
+      "side": 1,
+      "message": "I was using EGit to amend and it was misconfigured and my replaced laptop (may have been grabbing it from the global config, but I\u0027ve updated both). Thanks.",
+      "parentUuid": "613330ad_503af8d7",
+      "range": {
+        "startLine": 13,
+        "startChar": 15,
+        "endLine": 13,
+        "endChar": 22
+      },
+      "revId": "61eba9d26538a85c5dbb8f36a7179cfda3f443b8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
