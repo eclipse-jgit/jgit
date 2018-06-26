@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d837d5f0_da981688",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1482,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-26T03:46:52Z",
+      "side": 1,
+      "message": "style nit: \"{\" should go on the same line as \"for\"",
+      "revId": "1eb426777ce65de0b71fb1b3a65fa3bda21f7894",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9a0c01b_72ad95e1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1484,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-26T03:46:52Z",
+      "side": 1,
+      "message": "Hm. In the old code, we do\n\n  lookupCommit(id)\n\nwhich allocates an object if one doesn\u0027t already exist and sets the parents field. Later, when parsing the commit, we notice that parents is set and don\u0027t overwrite it. So I don\u0027t think this should be needed.",
+      "revId": "1eb426777ce65de0b71fb1b3a65fa3bda21f7894",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
