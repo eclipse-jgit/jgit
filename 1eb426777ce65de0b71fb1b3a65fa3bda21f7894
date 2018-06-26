@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "12511bde_aa618303",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkShallowTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-06-26T07:04:02Z",
+      "side": 1,
+      "message": "Or can we call rw.reset() instead of creating a new one?",
+      "parentUuid": "2368641f_66df7582",
+      "revId": "1eb426777ce65de0b71fb1b3a65fa3bda21f7894",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d837d5f0_da981688",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
         "patchSetId": 2
