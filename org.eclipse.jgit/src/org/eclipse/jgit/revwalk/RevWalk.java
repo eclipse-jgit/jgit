@@ -1460,17 +1460,44 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 			lookupCommit(id).parents = RevCommit.NO_PARENTS;
 	}
 
-	void initializeShallowCommits() throws IOException {
-		if (shallowCommitsInitialized)
+	/**
+	 * Reads the "shallow" file and applies it by setting the parents of shallow
+	 * commits to an empty array.
+	 * <p>
+	 * There is a sequencing problem if the first commit being parsed is a
+	 * shallow commit, since {@link RevCommit#parseCanonical(RevWalk, byte[])}
+	 * calls this method before its callers add the new commit to the
+	 * {@link RevWalk#objects} map. That means a call from this method to
+	 * {@link #lookupCommit(AnyObjectId)} fails to find that commit and creates
+	 * a new one, which is promptly discarded.
+	 * <p>
+	 * To avoid that, {@link RevCommit#parseCanonical(RevWalk, byte[])} passes
+	 * its commit to this method, so that this method can apply the shallow
+	 * state to it directly and avoid creating the duplicate commit object.
+	 *
+	 * @param rc
+	 *            the initial commit being parsed
+	 * @throws IOException
+	 *             if the shallow commits file can't be read
+	 */
+	void initializeShallowCommits(RevCommit rc) throws IOException {
+		if (shallowCommitsInitialized) {
 			throw new IllegalStateException(
 					JGitText.get().shallowCommitsAlreadyInitialized);
+		}
 
 		shallowCommitsInitialized = true;
 
-		if (reader == null)
+		if (reader == null) {
 			return;
+		}
 
-		for (ObjectId id : reader.getShallowCommits())
-			lookupCommit(id).parents = RevCommit.NO_PARENTS;
+		for (ObjectId id : reader.getShallowCommits()) {
+			if (id.equals(rc.getId())) {
+				rc.parents = RevCommit.NO_PARENTS;
+			} else {
+				lookupCommit(id).parents = RevCommit.NO_PARENTS;
+			}
+		}
 	}
 }
