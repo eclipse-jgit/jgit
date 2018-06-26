@@ -50,6 +50,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -243,7 +244,8 @@ public class GcCommitSelectionTest extends GcTestCase {
 
 		List<RevCommit> commits = Arrays.asList(m0, m1, m2, b3, m4, b5, m6, b7,
 				m8, m9);
-		PackWriterBitmapPreparer preparer = newPeparer(m9, commits);
+		PackWriterBitmapPreparer preparer = newPreparer(
+				Collections.singleton(m9), commits, new PackConfig());
 		List<BitmapCommit> selection = new ArrayList<>(
 				preparer.selectCommits(commits.size(), PackWriter.NONE));
 
@@ -267,15 +269,108 @@ public class GcCommitSelectionTest extends GcTestCase {
 		return commit.create();
 	}
 
-	private PackWriterBitmapPreparer newPeparer(RevCommit want,
-			List<RevCommit> commits)
-			throws IOException {
+	@Test
+	public void testDistributionOnMultipleBranches() throws Exception {
+		BranchBuilder[] branches = { tr.branch("refs/heads/main"),
+				tr.branch("refs/heads/a"), tr.branch("refs/heads/b"),
+				tr.branch("refs/heads/c") };
+		RevCommit[] tips = new RevCommit[branches.length];
+		List<RevCommit> commits = createHistory(branches, tips);
+		PackConfig config = new PackConfig();
+		config.setBitmapContiguousCommitCount(1);
+		config.setBitmapRecentCommitSpan(5);
+		config.setBitmapDistantCommitSpan(20);
+		config.setBitmapRecentCommitCount(100);
+		Set<RevCommit> wants = new HashSet<>(Arrays.asList(tips));
+		PackWriterBitmapPreparer preparer = newPreparer(wants, commits, config);
+		List<BitmapCommit> selection = new ArrayList<>(
+				preparer.selectCommits(commits.size(), PackWriter.NONE));
+		Set<ObjectId> selected = new HashSet<>();
+		for (BitmapCommit c : selection) {
+			selected.add(c.toObjectId());
+		}
+
+		// Verify that each branch has uniform bitmap selection coverage
+		for (RevCommit c : wants) {
+			assertTrue(selected.contains(c.toObjectId()));
+			int count = 1;
+			int selectedCount = 1;
+			RevCommit parent = c;
+			while (parent.getParentCount() != 0) {
+				parent = parent.getParent(0);
+				count++;
+				if (selected.contains(parent.toObjectId())) {
+					selectedCount++;
+				}
+			}
+			// The selection algorithm prefers merges and will look in the
+			// current range plus the recent commit span before selecting a
+			// commit. Since this history has no merges, we expect the recent
+			// span should have 100/10=10 and distant commit spans should have
+			// 100/25=4 per 100 commit range.
+			int expectedCount = 10 + (count - 100 - 24) / 25;
+			assertTrue(expectedCount <= selectedCount);
+		}
+	}
+
+	private List<RevCommit> createHistory(BranchBuilder[] branches,
+			RevCommit[] tips) throws Exception {
+		/*-
+		 * Create a history like this, where branches a, b and c branch off of the main branch
+		 * at commits 100, 200 and 300, and where commit times move forward alternating between
+		 * branches.
+		 *
+		 * o...o...o...o...o      commits root,m0,m1,...,m399
+		 *      \   \   \
+		 *       \   \   o...     commits branch_c,c300,c301,...,c399
+		 *        \   \
+		 *         \   o...o...   commits branch_b,b200,b201,...,b399
+		 *          \
+		 *           o...o...o... commits branch_a,b100,b101,...,a399
+		 */
+		List<RevCommit> commits = new ArrayList<>();
+		String[] prefixes = { "m", "a", "b", "c" };
+		int branchCount = branches.length;
+		tips[0] = addCommit(commits, branches[0], "root");
+		int counter = 0;
+
+		for (int b = 0; b < branchCount; b++) {
+			for (int i = 0; i < 100; i++, counter++) {
+				for (int j = 0; j <= b; j++) {
+					tips[j] = addCommit(commits, branches[j],
+							prefixes[j] + counter);
+				}
+			}
+			// Create a new branch from current value of the master branch
+			if (b < branchCount - 1) {
+				tips[b + 1] = addCommit(branches[b + 1],
+						"branch_" + prefixes[b + 1], tips[0]);
+			}
+		}
+		return commits;
+	}
+
+	private RevCommit addCommit(List<RevCommit> commits, BranchBuilder bb,
+			String msg, RevCommit... parents) throws Exception {
+		CommitBuilder commit = bb.commit().message(msg).add(msg, msg).tick(1);
+		if (parents.length > 0) {
+			commit.noParents();
+			for (RevCommit parent : parents) {
+				commit.parent(parent);
+			}
+		}
+		RevCommit c = commit.create();
+		tr.parseBody(c);
+		commits.add(c);
+		return c;
+	}
+
+	private PackWriterBitmapPreparer newPreparer(Set<RevCommit> wants,
+			List<RevCommit> commits, PackConfig config) throws IOException {
 		List<ObjectToPack> objects = new ArrayList<>(commits.size());
 		for (RevCommit commit : commits) {
 			objects.add(new ObjectToPack(commit, Constants.OBJ_COMMIT));
 		}
-		Set<ObjectId> wants = Collections.singleton((ObjectId) want);
-		PackConfig config = new PackConfig();
 		PackBitmapIndexBuilder builder = new PackBitmapIndexBuilder(objects);
 		return new PackWriterBitmapPreparer(
 				tr.getRepository().newObjectReader(), builder,
