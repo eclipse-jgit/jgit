@@ -136,7 +136,7 @@ public class CleanCommand extends GitCommand<Set<String>> {
 		} catch (IOException e) {
 			throw new JGitInternalException(e.getMessage(), e);
 		} finally {
-			if (!files.isEmpty()) {
+			if (!dryRun && !files.isEmpty()) {
 				repo.fireEvent(new WorkingTreeModifiedEvent(null, files));
 			}
 		}
