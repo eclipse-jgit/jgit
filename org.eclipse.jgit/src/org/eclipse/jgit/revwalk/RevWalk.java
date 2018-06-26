@@ -1460,17 +1460,24 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 			lookupCommit(id).parents = RevCommit.NO_PARENTS;
 	}
 
-	void initializeShallowCommits() throws IOException {
-		if (shallowCommitsInitialized)
+	void initializeShallowCommits(RevCommit rc) throws IOException {
+		if (shallowCommitsInitialized) {
 			throw new IllegalStateException(
 					JGitText.get().shallowCommitsAlreadyInitialized);
+		}
 
 		shallowCommitsInitialized = true;
 
-		if (reader == null)
+		if (reader == null) {
 			return;
+		}
 
-		for (ObjectId id : reader.getShallowCommits())
-			lookupCommit(id).parents = RevCommit.NO_PARENTS;
+		for (ObjectId id : reader.getShallowCommits()) {
+			if (id.equals(rc.getId())) {
+				rc.parents = RevCommit.NO_PARENTS;
+			} else {
+				lookupCommit(id).parents = RevCommit.NO_PARENTS;
+			}
+		}
 	}
 }

@@ -184,6 +184,22 @@ public class RevWalkShallowTest extends RevWalkTestCase {
 		assertNull(rw.next());
 	}
 
+	@Test
+	public void testShallowCommitParse() throws Exception {
+		RevCommit a = commit();
+		RevCommit b = commit(a);
+
+		createShallowFile(b);
+
+		rw.close();
+		rw = createRevWalk();
+		b = rw.parseCommit(b);
+
+		markStart(b);
+		assertCommit(b, rw.next());
+		assertNull(rw.next());
+	}
+
 	private void createShallowFile(ObjectId... shallowCommits)
 			throws IOException {
 		final StringBuilder builder = new StringBuilder();
