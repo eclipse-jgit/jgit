@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "613330ad_503af8d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-26T16:18:43Z",
+      "side": 1,
+      "message": "probably want to spell out your name here\n\nYou can use \"git config --global user.name \u0027Terry Parker\u0027\" to ensure git gets this right for new commits. For this one, you might want to use \"git commit --amend --reset-author\" to ensure the author field gets updated too.",
+      "range": {
+        "startLine": 13,
+        "startChar": 15,
+        "endLine": 13,
+        "endChar": 22
+      },
+      "revId": "61eba9d26538a85c5dbb8f36a7179cfda3f443b8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
