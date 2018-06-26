@@ -168,10 +168,10 @@ public class RevCommit extends RevObject {
 		}
 	}
 
-	void parseCanonical(RevWalk walk, byte[] raw)
-			throws IOException {
-		if (!walk.shallowCommitsInitialized)
-			walk.initializeShallowCommits();
+	void parseCanonical(RevWalk walk, byte[] raw) throws IOException {
+		if (!walk.shallowCommitsInitialized) {
+			walk.initializeShallowCommits(this);
+		}
 
 		final MutableObjectId idBuffer = walk.idBuffer;
 		idBuffer.fromString(raw, 5);
@@ -182,13 +182,14 @@ public class RevCommit extends RevObject {
 			RevCommit[] pList = new RevCommit[1];
 			int nParents = 0;
 			for (;;) {
-				if (raw[ptr] != 'p')
+				if (raw[ptr] != 'p') {
 					break;
+				}
 				idBuffer.fromString(raw, ptr + 7);
 				final RevCommit p = walk.lookupCommit(idBuffer);
-				if (nParents == 0)
+				if (nParents == 0) {
 					pList[nParents++] = p;
-				else if (nParents == 1) {
+				} else if (nParents == 1) {
 					pList = new RevCommit[] { pList[0], p };
 					nParents = 2;
 				} else {
@@ -218,8 +219,9 @@ public class RevCommit extends RevObject {
 			commitTime = RawParseUtils.parseBase10(raw, ptr, null);
 		}
 
-		if (walk.isRetainBody())
+		if (walk.isRetainBody()) {
 			buffer = raw;
+		}
 		flags |= PARSED;
 	}
 
