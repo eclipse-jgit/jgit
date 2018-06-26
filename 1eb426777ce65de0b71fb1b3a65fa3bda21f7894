@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "af3aa317_5ef5567f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkShallowTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-26T16:14:11Z",
+      "side": 1,
+      "message": "Interesting. For what it\u0027s worth, I think I liked the original change that makes TestRepository more aggressively take care of parsing to make writing tests easier. I just was fishing for the symptom so I could understand the change better. In other words, there are three layers:\n\n  RevWalk\n  TestRepository\n  ... your test here ...\n\nAt the RevWalk level, methods like lookupAny are allowed to return unparsed objects. Getters should probably parse on demand (so e.g. a modification to RevComment#getParents to call parseHeaders sounds to me like a good change). At the TestRepository level, we can change the API to do whatever is convenient, and more eager parsing is probably a good thing.",
+      "parentUuid": "5f3b603d_21ea9436",
+      "revId": "1eb426777ce65de0b71fb1b3a65fa3bda21f7894",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d837d5f0_da981688",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
         "patchSetId": 2
