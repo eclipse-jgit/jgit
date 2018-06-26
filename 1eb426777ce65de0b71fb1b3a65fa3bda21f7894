@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "958dc842_69ddd0cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-26T03:53:49Z",
+      "side": 1,
+      "message": "What is the symptom? RevWalk.lookupObject is supposed to be able to return an unparsed object; the caller is responsible for calling appropriate methods (parseHeaders or parseBody) before relying on the object having all fields populated. Any getters are supposed to call that automatically if the object hasn\u0027t been parsed.",
+      "revId": "1eb426777ce65de0b71fb1b3a65fa3bda21f7894",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2368641f_66df7582",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkShallowTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-26T03:53:49Z",
+      "side": 1,
+      "message": "Should this call rw.close() first to close the old ObjectReader?",
+      "revId": "1eb426777ce65de0b71fb1b3a65fa3bda21f7894",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d837d5f0_da981688",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
         "patchSetId": 2
