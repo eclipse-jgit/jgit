@@ -22,6 +22,30 @@
       "revId": "e7742374013e862f605894616a29ad965835fd4f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92d96624_d530813d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/pack/GcCommitSelectionTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2018-06-26T02:18:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4cfa8f6b_8015f1e1",
+      "range": {
+        "startLine": 367,
+        "startChar": 34,
+        "endLine": 367,
+        "endChar": 44
+      },
+      "revId": "e7742374013e862f605894616a29ad965835fd4f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
