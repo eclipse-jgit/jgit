@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2d51ad94_658e37ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2018-06-26T15:48:02Z",
+      "side": 1,
+      "message": "My expectation was that TestRepository.commit()/tree()/blob() would always return fully parsed objects. I can see now that I can adjust my new GcCommitSelectionTest to account for that and explicitly parse where needed. I\u0027ll revert this whole change.",
+      "parentUuid": "958dc842_69ddd0cb",
+      "revId": "1eb426777ce65de0b71fb1b3a65fa3bda21f7894",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2368641f_66df7582",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkShallowTest.java",
         "patchSetId": 2
@@ -54,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "5f3b603d_21ea9436",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkShallowTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2018-06-26T15:48:02Z",
+      "side": 1,
+      "message": "Neither rw.close() nor rw.reset() resets the RevWalk.shallowCommitsInitialized state, so in a test environment where eager parsing of an object invokes RevWalk.initializeShallowCommits() before the \"shallow\" file is updated, a new RevWalk must be used. The \"shallow\" file may be expensive to parse and should normally be stable in any scenario where a RevWalk is reused so I think leaving RevWalk the way it is is fine.\n\nNow that I understand that the burden for full parsing should be borne by individual tests rather than the framework, I\u0027m reverting this whole change.",
+      "parentUuid": "12511bde_aa618303",
+      "revId": "1eb426777ce65de0b71fb1b3a65fa3bda21f7894",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d837d5f0_da981688",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
         "patchSetId": 2
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "c6c2fb4e_d01da19f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1482,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2018-06-26T15:48:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d837d5f0_da981688",
+      "revId": "1eb426777ce65de0b71fb1b3a65fa3bda21f7894",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a9a0c01b_72ad95e1",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
         "patchSetId": 2
@@ -82,6 +136,24 @@
       "writtenOn": "2018-06-26T03:46:52Z",
       "side": 1,
       "message": "Hm. In the old code, we do\n\n  lookupCommit(id)\n\nwhich allocates an object if one doesn\u0027t already exist and sets the parents field. Later, when parsing the commit, we notice that parents is set and don\u0027t overwrite it. So I don\u0027t think this should be needed.",
+      "revId": "1eb426777ce65de0b71fb1b3a65fa3bda21f7894",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a1d2cb0_ca11733f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1484,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2018-06-26T15:48:02Z",
+      "side": 1,
+      "message": "The scenario I\u0027m fixing is when the first value parsed is a shallow commit:\n1) Client sets up a new RevWalk. RevWalk.shallowCommitsInitialized is not set. RevWalk.objects is empty.\n2) Client calls RevWalk.parseAny(id), where ID is one of the shallow commits.\n3) RevWalk.parseAny() -\u003e RevWalk.parseNew(), which creates RevCommit \"r1\" and starts populating it by calling RevCommit.parseCanonical()\n4) RevCommit.parseCanonical() immediately calls this method, which calls lookupCommit(id), creating and adding a \"r2\" parentless version of this commit object to RevWalk.objects.\n5) lookupCommit() returns to parseCanonical(), which populates the current \"r1\" RevCommit with parents.\n6) parseCanonical() returns to parseNew(), which overwrites \"r1\" with \"r2\" in RevWalk.objects.\n\nMy updated test setup in RevWalkShallowTest fortuitously avoids this by looking up (and not parsing) commits in the new RevWalk, assuring that RevWalk.objects is fully populated before any call to parseCanonical. Since tests still work without this change I\u0027m going to back it out and make it a change on its own (with a test that fails before the change).\n\nTo fix this situation only requires detecting whether the new commit that is generating this initialization is a shallow commit, so I can limit the scope of this change a bit more.",
+      "parentUuid": "a9a0c01b_72ad95e1",
       "revId": "1eb426777ce65de0b71fb1b3a65fa3bda21f7894",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
