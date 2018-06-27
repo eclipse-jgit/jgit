@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c674335_5e62996d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1467,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-27T01:31:03Z",
+      "side": 1,
+      "message": "nit: should have \u003cp\u003e for each paragraph",
+      "revId": "310d3436f63490d9f0d8cb0f78002dce8318daca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
