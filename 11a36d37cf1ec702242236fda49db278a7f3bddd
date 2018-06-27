@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0e5216f9_a48932ae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2018-06-27T01:23:40Z",
+      "side": 1,
+      "message": "Yes, RevWalk#createCommit() is a protected method that is frequently overridden in subclasses and it is public API, so it isn\u0027t a good candidate for enforcing this. Given that it is public API I don\u0027t see an easy way to enforce that all clients call a wrapper around it.\n\nThe RevCommit#parents field is left null until parseCanonical or initializeShallowCommits sets it. So as long as parseCanonical and initializeShallowCommits cooperate, we are ok. I don\u0027t think that is a worse situation than having all createCommit call sites cooperate.",
+      "parentUuid": "bf86c766_c136101a",
+      "revId": "11a36d37cf1ec702242236fda49db278a7f3bddd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "140e4239_29058bdb",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "11a36d37cf1ec702242236fda49db278a7f3bddd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c9839e5_e14cbb5a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1463,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2018-06-27T01:23:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "140e4239_29058bdb",
+      "revId": "11a36d37cf1ec702242236fda49db278a7f3bddd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
