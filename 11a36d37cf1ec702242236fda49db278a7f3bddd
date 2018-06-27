@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf86c766_c136101a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-27T00:37:33Z",
+      "side": 1,
+      "message": "An alternative we discussed is to move this call to RevWalk#createCommit. That way, it\u0027s not possible to create a RevCommit without shallow commits being initialized first.\n\nI think I\u0027d be more comfortable with that approach because of that guarantee. Is the problem that subclasses that override createCommit would lose the check? If so, would it make sense to move this call to a wrapper around createCommit or put calls at all createCommit call sites?\n\nLooking over those call sites, I see only three: lookupCommit, lookupAny, and parseNew. Looking at where the parents field gets written, I see RevCommit#parseCanonical, RewriteGenerator#next, and TreeRevFilter#include (twice). I *think* that this place captures all cases, but if any new call sites are introduced then the problem could occur again. Should the javadoc comment for createCommit discuss this issue?",
+      "revId": "11a36d37cf1ec702242236fda49db278a7f3bddd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "140e4239_29058bdb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1463,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-27T00:37:33Z",
+      "side": 1,
+      "message": "This is subtle, so it deserves a comment.",
+      "revId": "11a36d37cf1ec702242236fda49db278a7f3bddd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
