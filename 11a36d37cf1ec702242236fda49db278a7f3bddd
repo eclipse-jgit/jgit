@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1439204d_c103874f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkShallowTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-27T00:41:03Z",
+      "side": 0,
+      "message": "Likewise.",
+      "revId": "11a36d37cf1ec702242236fda49db278a7f3bddd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
