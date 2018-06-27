@@ -1,0 +1,7 @@
+Code-Review+2: Jonathan Nieder <jrn@google.com>
+Verified+1: CI Bot
+Submitted-by: Jonathan Nieder <jrn@google.com>
+Submitted-at: Tue, 26 Jun 2018 23:59:01 -0400
+Reviewed-on: https://git.eclipse.org/r/125064
+Project: jgit/jgit
+Branch: refs/heads/master
