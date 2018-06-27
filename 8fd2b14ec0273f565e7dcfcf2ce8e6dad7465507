@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39e68118_6a08e1fc",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkShallowTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-27T01:33:37Z",
+      "side": 1,
+      "message": "Leaks an ObjectReader.",
+      "revId": "8fd2b14ec0273f565e7dcfcf2ce8e6dad7465507",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
