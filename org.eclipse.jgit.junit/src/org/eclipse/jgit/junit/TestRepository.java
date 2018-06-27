@@ -276,7 +276,7 @@ public class TestRepository<R extends Repository> {
 	 *
 	 * @param content
 	 *            binary file content.
-	 * @return reference to the blob.
+	 * @return the new, fully parsed blob.
 	 * @throws Exception
 	 */
 	public RevBlob blob(byte[] content) throws Exception {
@@ -285,7 +285,7 @@ public class TestRepository<R extends Repository> {
 			id = ins.insert(Constants.OBJ_BLOB, content);
 			ins.flush();
 		}
-		return pool.lookupBlob(id);
+		return (RevBlob) pool.parseAny(id);
 	}
 
 	/**
@@ -312,21 +312,22 @@ public class TestRepository<R extends Repository> {
 	 * @param entries
 	 *            the files to include in the tree. The collection does not need
 	 *            to be sorted properly and may be empty.
-	 * @return reference to the tree specified by the entry list.
+	 * @return the new, fully parsed tree specified by the entry list.
 	 * @throws Exception
 	 */
 	public RevTree tree(DirCacheEntry... entries) throws Exception {
 		final DirCache dc = DirCache.newInCore();
 		final DirCacheBuilder b = dc.builder();
-		for (DirCacheEntry e : entries)
+		for (DirCacheEntry e : entries) {
 			b.add(e);
+		}
 		b.finish();
 		ObjectId root;
 		try (ObjectInserter ins = inserter) {
 			root = dc.writeTree(ins);
 			ins.flush();
 		}
-		return pool.lookupTree(root);
+		return pool.parseTree(root);
 	}
 
 	/**
@@ -422,7 +423,7 @@ public class TestRepository<R extends Repository> {
 	 *            the root tree for the commit.
 	 * @param parents
 	 *            zero or more parents of the commit.
-	 * @return the new commit.
+	 * @return the new, fully parsed commit.
 	 * @throws Exception
 	 */
 	public RevCommit commit(final int secDelta, final RevTree tree,
@@ -442,7 +443,7 @@ public class TestRepository<R extends Repository> {
 			id = ins.insert(c);
 			ins.flush();
 		}
-		return pool.lookupCommit(id);
+		return pool.parseCommit(id);
 	}
 
 	/**
@@ -467,7 +468,7 @@ public class TestRepository<R extends Repository> {
 	 *            with {@code refs/tags/}.
 	 * @param dst
 	 *            object the tag should be pointed at.
-	 * @return the annotated tag object.
+	 * @return the new, fully parsed annotated tag object.
 	 * @throws Exception
 	 */
 	public RevTag tag(String name, RevObject dst) throws Exception {
@@ -481,7 +482,7 @@ public class TestRepository<R extends Repository> {
 			id = ins.insert(t);
 			ins.flush();
 		}
-		return (RevTag) pool.lookupAny(id, Constants.OBJ_TAG);
+		return pool.parseTag(id);
 	}
 
 	/**
@@ -705,8 +706,8 @@ public class TestRepository<R extends Repository> {
 	 *
 	 * @param id
 	 *            commit-ish to cherry-pick.
-	 * @return newly created commit, or null if no work was done due to the
-	 *         resulting tree being identical.
+	 * @return the new, fully parsed commit, or null if no work was done due to
+	 *         the resulting tree being identical.
 	 * @throws Exception
 	 */
 	public RevCommit cherryPick(AnyObjectId id) throws Exception {
@@ -1197,7 +1198,7 @@ public class TestRepository<R extends Repository> {
 					commitId = ins.insert(c);
 					ins.flush();
 				}
-				self = pool.lookupCommit(commitId);
+				self = pool.parseCommit(commitId);
 
 				if (branch != null)
 					branch.update(self);

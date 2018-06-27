@@ -85,7 +85,7 @@ public class RevWalkCullTest extends RevWalkTestCase {
 
 	@Test
 	public void testProperlyCullAllAncestors_LongHistory() throws Exception {
-		final RevCommit a = commit();
+		RevCommit a = commit();
 		RevCommit b = commit(a);
 		for (int i = 0; i < 24; i++) {
 			b = commit(b);
@@ -94,6 +94,12 @@ public class RevWalkCullTest extends RevWalkTestCase {
 		}
 		final RevCommit c = commit(b);
 
+		// TestRepository eagerly parses newly created objects. The current rw
+		// is caching that parsed state. To verify that RevWalk itself is lazy,
+		// set up a new one.
+		rw.close();
+		rw = createRevWalk();
+		RevCommit a2 = rw.lookupCommit(a);
 		markStart(c);
 		markUninteresting(b);
 		assertCommit(c, rw.next());
@@ -102,6 +108,6 @@ public class RevWalkCullTest extends RevWalkTestCase {
 		// We should have aborted before we got back so far that "a"
 		// would be parsed. Thus, its parents shouldn't be allocated.
 		//
-		assertNull(a.parents);
+		assertNull(a2.parents);
 	}
 }
