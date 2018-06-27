@@ -144,13 +144,13 @@ public class RevObjectTest extends RevWalkTestCase {
 		final RevCommit a = commit();
 		final RevFlag flag1 = rw.newFlag("flag1");
 		final RevFlag flag2 = rw.newFlag("flag2");
-		assertEquals(0, a.flags);
+		assertEquals(RevWalk.PARSED, a.flags);
 
 		a.add(flag1);
-		assertEquals(flag1.mask, a.flags);
+		assertEquals(RevWalk.PARSED | flag1.mask, a.flags);
 
 		a.add(flag2);
-		assertEquals(flag1.mask | flag2.mask, a.flags);
+		assertEquals(RevWalk.PARSED | flag1.mask | flag2.mask, a.flags);
 	}
 
 	@Test
@@ -162,10 +162,10 @@ public class RevObjectTest extends RevWalkTestCase {
 		s.add(flag1);
 		s.add(flag2);
 
-		assertEquals(0, a.flags);
+		assertEquals(RevWalk.PARSED, a.flags);
 
 		a.add(s);
-		assertEquals(flag1.mask | flag2.mask, a.flags);
+		assertEquals(RevWalk.PARSED | flag1.mask | flag2.mask, a.flags);
 	}
 
 	@Test
@@ -175,9 +175,9 @@ public class RevObjectTest extends RevWalkTestCase {
 		final RevFlag flag2 = rw.newFlag("flag2");
 		a.add(flag1);
 		a.add(flag2);
-		assertEquals(flag1.mask | flag2.mask, a.flags);
+		assertEquals(RevWalk.PARSED | flag1.mask | flag2.mask, a.flags);
 		a.remove(flag2);
-		assertEquals(flag1.mask, a.flags);
+		assertEquals(RevWalk.PARSED | flag1.mask, a.flags);
 	}
 
 	@Test
@@ -191,8 +191,8 @@ public class RevObjectTest extends RevWalkTestCase {
 		s.add(flag2);
 		a.add(flag3);
 		a.add(s);
-		assertEquals(flag1.mask | flag2.mask | flag3.mask, a.flags);
+		assertEquals(RevWalk.PARSED | flag1.mask | flag2.mask | flag3.mask, a.flags);
 		a.remove(s);
-		assertEquals(flag3.mask, a.flags);
+		assertEquals(RevWalk.PARSED | flag3.mask, a.flags);
 	}
 }
