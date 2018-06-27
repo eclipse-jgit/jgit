@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "a0d946b8_9f77eee7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-27T01:31:03Z",
+      "side": 1,
+      "message": "Indeed RevWalk#createCommit is protected, so we couldn\u0027t easily change the implementer contract for it without e.g. changing its name.\n\nOn the other hand, we could do something like\n\n  RevCommit newCommit(AnyObjectId id) {\n    if (!walk.shallowCommitsInitialized) {\n      walk.initializeShallowCommits();\n    }\n    return createCommit(id);\n  }\n\nThen the three createCommit call sites could switch to using newCommit instead.\n\nThe createCommit call sites having to cooperate doesn\u0027t seem so bad to me; after all, ill behaved callers can also call `new RevCommit(id)` directly, but they don\u0027t.\n\nWith the comment you added to initializeShallowCommits, I think the code is already clear enough. Thanks for the patient explanations.",
+      "parentUuid": "0e5216f9_a48932ae",
+      "revId": "11a36d37cf1ec702242236fda49db278a7f3bddd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "140e4239_29058bdb",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
         "patchSetId": 1
