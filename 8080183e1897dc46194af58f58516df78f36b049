@@ -16,6 +16,24 @@
       "revId": "8080183e1897dc46194af58f58516df78f36b049",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "647f8391_c5e2ca3a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkShallowTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-06-27T00:46:08Z",
+      "side": 1,
+      "message": "Copied forward.",
+      "parentUuid": "464415cd_1048b596",
+      "revId": "8080183e1897dc46194af58f58516df78f36b049",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
