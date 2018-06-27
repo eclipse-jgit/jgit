@@ -360,7 +360,6 @@ public class GcCommitSelectionTest extends GcTestCase {
 			}
 		}
 		RevCommit c = commit.create();
-		tr.parseBody(c);
 		commits.add(c);
 		return c;
 	}
