@@ -451,6 +451,7 @@ class PackWriterBitmapPreparer {
 		int pos = commits.length;
 		RevCommit rc;
 		while ((rc = rw.next()) != null && pos > 0) {
+			pm.update(1);
 			commits[--pos] = rc;
 		}
 
