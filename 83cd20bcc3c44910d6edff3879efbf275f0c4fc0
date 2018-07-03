@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e49ac6cf_a8b5bf05",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-07-03T11:44:35Z",
+      "side": 1,
+      "message": "It would be better to use a local variable rather than assigning to the parameter.",
+      "range": {
+        "startLine": 489,
+        "startChar": 3,
+        "endLine": 489,
+        "endChar": 9
+      },
+      "revId": "83cd20bcc3c44910d6edff3879efbf275f0c4fc0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82a49d0e_ff15d82e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-07-03T11:44:35Z",
+      "side": 1,
+      "message": "The abortWhenNotFound method always throws.  Is this break needed?",
+      "range": {
+        "startLine": 526,
+        "startChar": 5,
+        "endLine": 526,
+        "endChar": 10
+      },
+      "revId": "83cd20bcc3c44910d6edff3879efbf275f0c4fc0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
