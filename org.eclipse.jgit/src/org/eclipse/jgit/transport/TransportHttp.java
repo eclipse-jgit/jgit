@@ -483,6 +483,18 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		this.headers = headers;
 	}
 
+	private NoRemoteRepositoryException createNotFoundException(URIish u,
+			URL url, String msg) {
+		String text;
+		if (msg != null && !msg.isEmpty()) {
+			text = MessageFormat.format(JGitText.get().uriNotFoundWithMessage,
+					url, msg);
+		} else {
+			text = MessageFormat.format(JGitText.get().uriNotFound, url);
+		}
+		return new NoRemoteRepositoryException(u, text);
+	}
+
 	private HttpConnection connect(String service)
 			throws TransportException, NotSupportedException {
 		URL u = getServiceURL(service);
@@ -511,8 +523,8 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 					return conn;
 
 				case HttpConnection.HTTP_NOT_FOUND:
-					throw new NoRemoteRepositoryException(uri,
-							MessageFormat.format(JGitText.get().uriNotFound, u));
+					throw createNotFoundException(uri, u,
+							conn.getResponseMessage());
 
 				case HttpConnection.HTTP_UNAUTHORIZED:
 					authMethod = HttpAuthMethod.scanResponse(conn, ignoreTypes);
@@ -1180,9 +1192,8 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 						return;
 
 					case HttpConnection.HTTP_NOT_FOUND:
-						throw new NoRemoteRepositoryException(uri,
-								MessageFormat.format(JGitText.get().uriNotFound,
-										conn.getURL()));
+						throw createNotFoundException(uri, conn.getURL(),
+								conn.getResponseMessage());
 
 					case HttpConnection.HTTP_FORBIDDEN:
 						throw new TransportException(uri,

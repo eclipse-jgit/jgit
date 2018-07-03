@@ -175,7 +175,9 @@ public class HttpClientTests extends HttpTestCase {
 			} catch (NoRemoteRepositoryException err) {
 				String exp = uri + ": " + uri
 						+ "/info/refs?service=git-upload-pack not found";
-				assertEquals(exp, err.getMessage());
+				assertNotNull(err.getMessage());
+				assertTrue("Unexpected error message",
+						err.getMessage().startsWith(exp));
 			}
 		}
 	}
@@ -191,7 +193,9 @@ public class HttpClientTests extends HttpTestCase {
 			} catch (NoRemoteRepositoryException err) {
 				String exp = uri + ": " + uri
 						+ "/info/refs?service=git-upload-pack not found";
-				assertEquals(exp, err.getMessage());
+				assertNotNull(err.getMessage());
+				assertTrue("Unexpected error message",
+						err.getMessage().startsWith(exp));
 			}
 		}
 	}
