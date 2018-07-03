@@ -816,8 +816,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String upstreamBranchName;
 	/***/ public String uriNotConfigured;
 	/***/ public String uriNotFound;
+	/***/ public String uriNotFoundWithMessage;
 	/***/ public String URINotSupported;
-	/***/ public String URLNotFound;
 	/***/ public String userConfigFileInvalid;
 	/***/ public String walkFailure;
 	/***/ public String wantNotValid;
