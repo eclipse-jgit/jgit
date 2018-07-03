@@ -1,0 +1,8 @@
+Verified+1: CI Bot
+Code-Review+1: Hugo Arès <hugo.ares@ericsson.com>
+Code-Review+2: Christian Halstrick <christian.halstrick@sap.com>
+Submitted-by: David Pursehouse <david.pursehouse@gmail.com>
+Submitted-at: Tue, 03 Jul 2018 11:02:30 -0400
+Reviewed-on: https://git.eclipse.org/r/124860
+Project: jgit/jgit
+Branch: refs/heads/stable-4.7
