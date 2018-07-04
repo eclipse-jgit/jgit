@@ -434,7 +434,7 @@ public class ResolveMerger extends ThreeWayMerger {
 	 * @return the entry which was added to the index
 	 */
 	private DirCacheEntry keep(DirCacheEntry e) {
-		DirCacheEntry newEntry = new DirCacheEntry(e.getPathString(),
+		DirCacheEntry newEntry = new DirCacheEntry(e.getRawPath(),
 				e.getStage());
 		newEntry.setFileMode(e.getFileMode());
 		newEntry.setObjectId(e.getObjectId());
