@@ -908,7 +908,7 @@ public class GC {
 		return p.toFile().isDirectory();
 	}
 
-	private boolean delete(Path d) {
+	private void delete(Path d) {
 		try {
 			// Avoid deleting a folder that was just created so that concurrent
 			// operations trying to create a reference are not impacted
@@ -918,12 +918,11 @@ public class GC {
 				// If the folder is not empty, the delete operation will fail
 				// silently. This is a cheaper alternative to filtering the
 				// stream in the calling method.
-				return d.toFile().delete();
+				Files.delete(d);
 			}
 		} catch (IOException e) {
-			LOG.error(e.getMessage(), e);
+			LOG.error("Unable to delete path {}", d, e);
 		}
-		return false;
 	}
 
 	/**
