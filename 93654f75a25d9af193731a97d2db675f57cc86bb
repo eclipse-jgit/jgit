@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "215c87fa_535634d0",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcDeleteEmptyRefsFoldersTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2018-07-07T23:09:42Z",
+      "side": 1,
+      "message": "There is a bug here, or better a \"missing test\" :-)\n\nIf you have the typical Gerrit changes refs (refs/changes/NN/NNNN/PP) the algorithm doesn\u0027t work for the following reasons:\n\n- Files.walk() returns the directories in depth-first order\n- the first directory to be removed is refs/changes/NN/NNNN/PP\n- the parent directories lastModifiedTime is updated\n- the second directory to be removed is refs/changes/NN/NNNN that is skipped because is too recent\n- the third directory to be removed is refs/changes/NN that is skipped because is too recent\n\nBottom line: the empty directories are only marginally pruned :-(",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 50
+      },
+      "revId": "93654f75a25d9af193731a97d2db675f57cc86bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
