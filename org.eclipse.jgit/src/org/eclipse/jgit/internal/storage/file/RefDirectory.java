@@ -63,6 +63,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.text.MessageFormat;
@@ -1090,8 +1091,11 @@ public class RefDirectory extends RefDatabase {
 		}
 		File dir = file.getParentFile();
 		for (int i = 0; i < depth; ++i) {
-			if (!dir.delete()) {
-				break; // ignore problem here
+			try {
+				Files.delete(dir.toPath());
+			} catch (IOException e) {
+				LOG.warn("Unable to remove path {}", dir, e);
+				break;
 			}
 			dir = dir.getParentFile();
 		}
