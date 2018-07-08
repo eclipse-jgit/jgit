@@ -34,6 +34,24 @@
       "revId": "8d02c73643b9d2213a1f24ee9c997b4f9b7b7fd8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f396a1bb_06692ae2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 888,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-07-08T21:29:07Z",
+      "side": 1,
+      "message": "\u003e Yes, that may happen. The client will get an error and hopefully\n \u003e the person that tried the push will try again.\n\nNot only push. This can also happen in the client (for instance in EGit in Eclipse), if GC runs concurrently (as it does by default). Creating a branch or tag might fail, giving the user an error he\u0027d not understand.\n\n \u003e \u003e Second, if I\u0027m reading the code of RefDirectory.pack() correctly,\n \u003e empty ref directories should be removed there already?\n \u003e \n \u003e That is what I thought, but wasn\u0027t working.\n \u003e I was about to try to fix that code when it was pointed out that\n \u003e Hector fixed it already. That\u0027s why I concentrated my efforts in\n \u003e using Hector\u0027s approach.\n\nBut now that I\u0027ve looked at Hector\u0027s approach and your modification of it in detail I have the impression that this whole approach is in the wrong place and it would indeed be better to figure out why the deletion in RefDirectory.pack() doesn\u0027t work, and then fix it there, and remove this attempt here altogether. (Though RefDirectory will do it only for freshly packed refs, so if there are a lot of old empty folders, some additional cleanup would be needed anyway... and RefDirectory has a similar race condition...)\n\nWhat does the C implementation of git do? I suppose they would have the same issues. How is this solved there?",
+      "parentUuid": "9f8ab4d5_d436d238",
+      "revId": "8d02c73643b9d2213a1f24ee9c997b4f9b7b7fd8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
