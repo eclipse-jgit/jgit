@@ -70,6 +70,24 @@
       "revId": "8d02c73643b9d2213a1f24ee9c997b4f9b7b7fd8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f768a975_b30e7931",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 888,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-07-08T22:55:53Z",
+      "side": 1,
+      "message": "\u003e Honestly I believe CGit doesn\u0027t do a good job anyway: I tried a gc\n \u003e pack-refs and many obsolete empty dirs were not removed.\n\nInteresting. Looking at the code in C git ([1] called via [2]) they seem to do basically the same as we do in RefDirectory.pack(). So why would that leave empty directories behind?\n\n[1] https://github.com/git/git/blob/50f08db/refs/files-backend.c#L986\n[2] https://github.com/git/git/blob/50f08db/refs/files-backend.c#L2816",
+      "parentUuid": "0587e679_3c9c934b",
+      "revId": "8d02c73643b9d2213a1f24ee9c997b4f9b7b7fd8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
