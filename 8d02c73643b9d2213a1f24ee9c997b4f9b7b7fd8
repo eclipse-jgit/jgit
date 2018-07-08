@@ -16,6 +16,24 @@
       "revId": "8d02c73643b9d2213a1f24ee9c997b4f9b7b7fd8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f8ab4d5_d436d238",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 888,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2018-07-08T21:04:47Z",
+      "side": 1,
+      "message": "\u003e Maybe I\u0027m missing something obvious as I\u0027m not familiar with this code. But I don\u0027t understand all this code (both Hector\u0027s original version and this changed version).\n\nMy code is simply the fix of Hector\u0027s code.\n\n\u003e First, isn\u0027t there still a race condition between asynchronous GC removing a directory and some other thread (or even external git) concurrently trying to create a new loose ref? What if the directory deletion here happens _between_ the mkdirs() and the createNewFile() in LockFile.lock()? Then creating the new ref would fail because GC just removed the directory that LockFile thought it had just ensured that it existed. (Since the directory exists already, the mkdirs() would not even have changed the timestamp...)\n\nYes, that may happen. The client will get an error and hopefully the person that tried the push will try again.\n\n\u003e Second, if I\u0027m reading the code of RefDirectory.pack() correctly, empty ref directories should be removed there already?\n\nThat is what I thought, but wasn\u0027t working.\nI was about to try to fix that code when it was pointed out that Hector fixed it already. That\u0027s why I concentrated my efforts in using Hector\u0027s approach.",
+      "parentUuid": "b627e6c4_cb2bae4e",
+      "revId": "8d02c73643b9d2213a1f24ee9c997b4f9b7b7fd8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
