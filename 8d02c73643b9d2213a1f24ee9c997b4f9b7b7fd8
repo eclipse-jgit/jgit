@@ -124,6 +124,24 @@
       "revId": "8d02c73643b9d2213a1f24ee9c997b4f9b7b7fd8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "668245af_a0ba6200",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 888,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2018-07-09T14:20:17Z",
+      "side": 1,
+      "message": "Real-life example with numbers for a repo with 500k changes, and an average of 3 PS per change.\n\nBefore the prune: 500k * 2 *  (3 + 1) \u003d 4M of directories\nAfter the  prune: 500k * 2 \u003d 1M of directories\n\nYes, there is a reduction, but still, it will take a while to navigate 1M of directories, to find out eventually that none of them has any loose refs.\n\nWith the extra follow-up fix that I pushed, after the prune, only the refs/{changes,heads,tags,meta} were still present, and all the other empty sub-directories were removed.\n\nWe have noticed a significant improvement in performance for Git clones and pushes. (2 to 3 times faster)",
+      "parentUuid": "eb54c51f_682a2d8e",
+      "revId": "8d02c73643b9d2213a1f24ee9c997b4f9b7b7fd8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
