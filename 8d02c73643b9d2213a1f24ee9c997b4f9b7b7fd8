@@ -142,6 +142,24 @@
       "revId": "8d02c73643b9d2213a1f24ee9c997b4f9b7b7fd8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ffb7fc77_728fe7b1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 888,
+      "author": {
+        "id": 24046
+      },
+      "writtenOn": "2018-07-09T15:02:40Z",
+      "side": 1,
+      "message": "I just reproduced the case you\u0027re citing and you\u0027re right. I didn\u0027t realize the timestamp could affect the deletion of the hierarchy, but with this change, all the empty (unwanted) folders are gone.",
+      "parentUuid": "668245af_a0ba6200",
+      "revId": "8d02c73643b9d2213a1f24ee9c997b4f9b7b7fd8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
