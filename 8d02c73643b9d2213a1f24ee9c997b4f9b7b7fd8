@@ -88,6 +88,24 @@
       "revId": "8d02c73643b9d2213a1f24ee9c997b4f9b7b7fd8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "862bb052_d1a6e557",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 888,
+      "author": {
+        "id": 24046
+      },
+      "writtenOn": "2018-07-09T12:16:03Z",
+      "side": 1,
+      "message": "We\u0027ve been using this code in production since some months ago and the performance issue associated with lots of empty refs folders is gone. I can also confirm that cgit gc leaves behind those empty folders, at least it did last time I tried it (git 2.15)",
+      "parentUuid": "f768a975_b30e7931",
+      "revId": "8d02c73643b9d2213a1f24ee9c997b4f9b7b7fd8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
