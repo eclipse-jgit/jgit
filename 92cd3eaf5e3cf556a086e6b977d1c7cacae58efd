@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b546508b_4e3af87f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-07-10T18:09:46Z",
+      "side": 1,
+      "message": "The javadoc for EWAHCompressedBitmap#xor recommends trimming, so looks good.",
+      "revId": "92cd3eaf5e3cf556a086e6b977d1c7cacae58efd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "081c67f9_1bbf48eb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexRemapper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-07-10T18:09:46Z",
+      "side": 1,
+      "message": "I wouldn\u0027t expect this to have any effect, but it can\u0027t hurt.",
+      "revId": "92cd3eaf5e3cf556a086e6b977d1c7cacae58efd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
