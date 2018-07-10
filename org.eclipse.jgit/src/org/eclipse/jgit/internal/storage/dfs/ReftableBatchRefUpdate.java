@@ -240,11 +240,7 @@ public class ReftableBatchRefUpdate extends BatchRefUpdate {
 	private boolean checkExpected(Reftable table, List<ReceiveCommand> pending)
 			throws IOException {
 		for (ReceiveCommand cmd : pending) {
-			Ref ref;
-			try (RefCursor rc = table.seekRef(cmd.getRefName())) {
-				ref = rc.next() ? rc.getRef() : null;
-			}
-			if (!matchOld(cmd, ref)) {
+			if (!matchOld(cmd, table.exactRef(cmd.getRefName()))) {
 				cmd.setResult(LOCK_FAILURE);
 				if (isAtomic()) {
 					ReceiveCommand.abort(pending);
