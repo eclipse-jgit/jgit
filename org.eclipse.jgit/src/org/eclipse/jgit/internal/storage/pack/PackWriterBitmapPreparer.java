@@ -452,6 +452,7 @@ class PackWriterBitmapPreparer {
 		RevCommit rc;
 		while ((rc = rw.next()) != null && pos > 0) {
 			commits[--pos] = rc;
+			pm.update(1);
 		}
 
 		// Sort the new wants by reverse commit time.
