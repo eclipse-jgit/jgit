@@ -190,7 +190,7 @@ public class ReftableReader extends Reftable {
 
 	/** {@inheritDoc} */
 	@Override
-	public RefCursor seekPrefix(String prefix) throws IOException {
+	public RefCursor seekRefsWithPrefix(String prefix) throws IOException {
 		initRefIndex();
 
 		byte[] key = prefix.getBytes(CHARSET);
