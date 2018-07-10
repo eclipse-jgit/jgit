@@ -70,7 +70,6 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
 import org.eclipse.jgit.internal.storage.io.BlockSource;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
-import org.eclipse.jgit.internal.storage.reftable.RefCursor;
 import org.eclipse.jgit.internal.storage.reftable.Reftable;
 import org.eclipse.jgit.internal.storage.reftable.ReftableCompactor;
 import org.eclipse.jgit.internal.storage.reftable.ReftableConfig;
@@ -240,11 +239,7 @@ public class ReftableBatchRefUpdate extends BatchRefUpdate {
 	private boolean checkExpected(Reftable table, List<ReceiveCommand> pending)
 			throws IOException {
 		for (ReceiveCommand cmd : pending) {
-			Ref ref;
-			try (RefCursor rc = table.seekRef(cmd.getRefName())) {
-				ref = rc.next() ? rc.getRef() : null;
-			}
-			if (!matchOld(cmd, ref)) {
+			if (!matchOld(cmd, table.exactRef(cmd.getRefName()))) {
 				cmd.setResult(LOCK_FAILURE);
 				if (isAtomic()) {
 					ReceiveCommand.abort(pending);
