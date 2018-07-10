@@ -113,10 +113,10 @@ public class MergedReftable extends Reftable {
 
 	/** {@inheritDoc} */
 	@Override
-	public RefCursor seekPrefix(String prefix) throws IOException {
+	public RefCursor seekRefsWithPrefix(String prefix) throws IOException {
 		MergedRefCursor m = new MergedRefCursor();
 		for (int i = 0; i < tables.length; i++) {
-			m.add(new RefQueueEntry(tables[i].seekPrefix(prefix), i));
+			m.add(new RefQueueEntry(tables[i].seekRefsWithPrefix(prefix), i));
 		}
 		return m;
 	}
