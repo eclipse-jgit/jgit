@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b46a0039_869d5945",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/Reftable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-07-10T22:38:06Z",
+      "side": 1,
+      "message": "optional: if this change renamed this function (e.g. to seekExact or something) then it would be easier to audit callers.\n\nThat said, continuing to call it seekRef seems fine to me, especially given how few callers there are.",
+      "revId": "598728e24456674f712ac74866fef6df59e4ea4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6ca3552_b13c38cc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/Reftable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-07-10T22:38:06Z",
+      "side": 1,
+      "message": "optional: can this have a TODO comment to get rid of the \"/\" special-case? I don\u0027t think any callers rely on it.",
+      "revId": "598728e24456674f712ac74866fef6df59e4ea4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
