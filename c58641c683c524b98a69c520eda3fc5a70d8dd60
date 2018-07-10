@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa7f846d_044e3d49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-07-10T19:54:48Z",
+      "side": 1,
+      "message": "Can this say something about the motivation? E.g. do you have any stats using \"perf stat\" illustrating the performance improvement? (See https://public-inbox.org/git/20170128020207.179015-1-bmwill@google.com/ for an example.)",
+      "revId": "c58641c683c524b98a69c520eda3fc5a70d8dd60",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f67d848d_1f4c361a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReftableDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-07-10T19:54:48Z",
+      "side": 1,
+      "message": "Please add a comment or javadoc describing the meaning of the new prefix parameter.",
+      "revId": "c58641c683c524b98a69c520eda3fc5a70d8dd60",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6c08f93_734ae3e8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReftableDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-07-10T19:54:48Z",
+      "side": 1,
+      "message": "I don\u0027t understand this conditional. Could getRefs use the same seeking behavior?",
+      "revId": "c58641c683c524b98a69c520eda3fc5a70d8dd60",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "876856ca_2ce0dfad",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/Reftable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-07-10T19:54:48Z",
+      "side": 1,
+      "message": "Should this be merged with seekRef? It could mean to seek either to a reference, or the first reference starting with that prefix, regardless of whether the prefix ends with \"/\".\n\nAlternatively, should seekRef lose the ending-with-\"/\" special case and callers be adapted to use seekPrefix?",
+      "revId": "c58641c683c524b98a69c520eda3fc5a70d8dd60",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
