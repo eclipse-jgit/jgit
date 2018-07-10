@@ -200,6 +200,7 @@ public class PackBitmapIndexRemapper extends PackBitmapIndex
 		for (IntIterator i = oldBitmap.getBitmap().intIterator(); i.hasNext();)
 			inflated.set(prevToNewMapping[i.next()]);
 		bitmap = inflated.toEWAHCompressedBitmap();
+		bitmap.trim();
 		convertedBitmaps.add(
 				new StoredBitmap(objectId, bitmap, null, oldBitmap.getFlags()));
 		return bitmap;
