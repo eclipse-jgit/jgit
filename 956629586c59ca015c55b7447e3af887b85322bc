@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b2ffd76_4d04d77f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/Reftable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-07-10T23:39:55Z",
+      "side": 1,
+      "message": "optional: can this have a TODO comment to get rid of the \"/\" special-case? I don\u0027t think any callers rely on it.",
+      "revId": "956629586c59ca015c55b7447e3af887b85322bc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
