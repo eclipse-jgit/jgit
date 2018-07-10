@@ -101,7 +101,7 @@ public class ReftableTest {
 		try (RefCursor rc = t.seekRef(HEAD)) {
 			assertFalse(rc.next());
 		}
-		try (RefCursor rc = t.seekPrefix(R_HEADS)) {
+		try (RefCursor rc = t.seekRefsWithPrefix(R_HEADS)) {
 			assertFalse(rc.next());
 		}
 		try (LogCursor rc = t.allLogs()) {
@@ -317,10 +317,10 @@ public class ReftableTest {
 	public void namespaceNotFound() throws IOException {
 		Ref exp = ref(MASTER, 1);
 		ReftableReader t = read(write(exp));
-		try (RefCursor rc = t.seekPrefix("refs/changes/")) {
+		try (RefCursor rc = t.seekRefsWithPrefix("refs/changes/")) {
 			assertFalse(rc.next());
 		}
-		try (RefCursor rc = t.seekPrefix("refs/tags/")) {
+		try (RefCursor rc = t.seekRefsWithPrefix("refs/tags/")) {
 			assertFalse(rc.next());
 		}
 	}
@@ -332,12 +332,12 @@ public class ReftableTest {
 		Ref v1 = tag(V1_0, 3, 4);
 
 		ReftableReader t = read(write(master, next, v1));
-		try (RefCursor rc = t.seekPrefix("refs/tags/")) {
+		try (RefCursor rc = t.seekRefsWithPrefix("refs/tags/")) {
 			assertTrue(rc.next());
 			assertEquals(V1_0, rc.getRef().getName());
 			assertFalse(rc.next());
 		}
-		try (RefCursor rc = t.seekPrefix("refs/heads/")) {
+		try (RefCursor rc = t.seekRefsWithPrefix("refs/heads/")) {
 			assertTrue(rc.next());
 			assertEquals(MASTER, rc.getRef().getName());
 
@@ -484,7 +484,7 @@ public class ReftableTest {
 		try (RefCursor rc = t.allRefs()) {
 			assertFalse(rc.next());
 		}
-		try (RefCursor rc = t.seekPrefix("refs/heads/")) {
+		try (RefCursor rc = t.seekRefsWithPrefix("refs/heads/")) {
 			assertFalse(rc.next());
 		}
 		try (LogCursor lc = t.allLogs()) {

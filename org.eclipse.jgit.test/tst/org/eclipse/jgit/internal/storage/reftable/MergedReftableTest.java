@@ -80,7 +80,7 @@ public class MergedReftableTest {
 		try (RefCursor rc = mr.seekRef(HEAD)) {
 			assertFalse(rc.next());
 		}
-		try (RefCursor rc = mr.seekPrefix(R_HEADS)) {
+		try (RefCursor rc = mr.seekRefsWithPrefix(R_HEADS)) {
 			assertFalse(rc.next());
 		}
 	}
@@ -94,7 +94,7 @@ public class MergedReftableTest {
 		try (RefCursor rc = mr.seekRef(HEAD)) {
 			assertFalse(rc.next());
 		}
-		try (RefCursor rc = mr.seekPrefix(R_HEADS)) {
+		try (RefCursor rc = mr.seekRefsWithPrefix(R_HEADS)) {
 			assertFalse(rc.next());
 		}
 	}
@@ -108,7 +108,7 @@ public class MergedReftableTest {
 		try (RefCursor rc = mr.seekRef(HEAD)) {
 			assertFalse(rc.next());
 		}
-		try (RefCursor rc = mr.seekPrefix(R_HEADS)) {
+		try (RefCursor rc = mr.seekRefsWithPrefix(R_HEADS)) {
 			assertFalse(rc.next());
 		}
 	}
