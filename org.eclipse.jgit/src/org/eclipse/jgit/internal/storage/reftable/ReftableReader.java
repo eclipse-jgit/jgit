@@ -180,14 +180,15 @@ public class ReftableReader extends Reftable {
 	/** {@inheritDoc} */
 	@Override
 	public RefCursor seekRef(String refName) throws IOException {
-		initRefIndex();
-
 		byte[] key = refName.getBytes(CHARSET);
 		boolean prefix = key[key.length - 1] == '/';
+		return seekRef(key, prefix);
+	}
 
-		RefCursorImpl i = new RefCursorImpl(refEnd, key, prefix);
-		i.block = seek(REF_BLOCK_TYPE, key, refIndex, 0, refEnd);
-		return i;
+	/** {@inheritDoc} */
+	@Override
+	public RefCursor seekPrefix(String prefix) throws IOException {
+		return seekRef(prefix.getBytes(CHARSET), true);
 	}
 
 	/** {@inheritDoc} */
@@ -229,6 +230,13 @@ public class ReftableReader extends Reftable {
 			return i;
 		}
 		return new EmptyLogCursor();
+	}
+
+	private RefCursor seekRef(byte[] key, boolean prefix) throws IOException {
+		initRefIndex();
+		RefCursorImpl i = new RefCursorImpl(refEnd, key, prefix);
+		i.block = seek(REF_BLOCK_TYPE, key, refIndex, 0, refEnd);
+		return i;
 	}
 
 	private BlockReader seek(byte blockType, byte[] key, BlockReader idx,

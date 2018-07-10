@@ -45,6 +45,7 @@ package org.eclipse.jgit.internal.storage.dfs;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -233,12 +234,25 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 	/** {@inheritDoc} */
 	@Override
 	public Map<String, Ref> getRefs(String prefix) throws IOException {
+		RefList<Ref> none = RefList.emptyList();
+		return new RefMap(prefix, getRefs(prefix, false), none, none);
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public List<Ref> getRefsByPrefix(String prefix) throws IOException {
+		return getRefs(prefix, true).asList();
+	}
+
+	private RefList<Ref> getRefs(String refName, boolean prefix)
+			throws IOException {
 		RefList.Builder<Ref> all = new RefList.Builder<>();
 		lock.lock();
 		try {
 			Reftable table = reader();
-			try (RefCursor rc = ALL.equals(prefix) ? table.allRefs()
-					: table.seekRef(prefix)) {
+			try (RefCursor rc = ALL.equals(refName) ? table.allRefs()
+					: (prefix ? table.seekPrefix(refName)
+							: table.seekRef(refName))) {
 				while (rc.next()) {
 					Ref ref = table.resolve(rc.getRef());
 					if (ref != null && ref.getObjectId() != null) {
@@ -250,8 +264,7 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 			lock.unlock();
 		}
 
-		RefList<Ref> none = RefList.emptyList();
-		return new RefMap(prefix, all.toRefList(), none, none);
+		return all.toRefList();
 	}
 
 	/** {@inheritDoc} */

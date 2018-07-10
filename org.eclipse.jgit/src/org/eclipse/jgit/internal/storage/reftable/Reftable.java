@@ -127,6 +127,21 @@ public abstract class Reftable implements AutoCloseable {
 	public abstract RefCursor seekRef(String refName) throws IOException;
 
 	/**
+	 * Seek references with prefix.
+	 * <p>
+	 * The method will seek all the references starting with {@code prefix} as a
+	 * prefix. If no references start with this prefix, an empty cursor is
+	 * returned.
+	 *
+	 * @param prefix
+	 *            prefix to find.
+	 * @return cursor to iterate; empty cursor if no references match.
+	 * @throws java.io.IOException
+	 *             if references cannot be read.
+	 */
+	public abstract RefCursor seekPrefix(String prefix) throws IOException;
+
+	/**
 	 * Match references pointing to a specific object.
 	 *
 	 * @param id
