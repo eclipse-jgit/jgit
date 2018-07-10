@@ -183,9 +183,18 @@ public class ReftableReader extends Reftable {
 		initRefIndex();
 
 		byte[] key = refName.getBytes(CHARSET);
-		boolean prefix = key[key.length - 1] == '/';
+		RefCursorImpl i = new RefCursorImpl(refEnd, key, false);
+		i.block = seek(REF_BLOCK_TYPE, key, refIndex, 0, refEnd);
+		return i;
+	}
 
-		RefCursorImpl i = new RefCursorImpl(refEnd, key, prefix);
+	/** {@inheritDoc} */
+	@Override
+	public RefCursor seekPrefix(String prefix) throws IOException {
+		initRefIndex();
+
+		byte[] key = prefix.getBytes(CHARSET);
+		RefCursorImpl i = new RefCursorImpl(refEnd, key, true);
 		i.block = seek(REF_BLOCK_TYPE, key, refIndex, 0, refEnd);
 		return i;
 	}

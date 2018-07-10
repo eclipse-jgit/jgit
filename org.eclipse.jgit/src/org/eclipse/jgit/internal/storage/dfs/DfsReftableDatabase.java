@@ -45,6 +45,9 @@ package org.eclipse.jgit.internal.storage.dfs;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -238,7 +241,8 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 		try {
 			Reftable table = reader();
 			try (RefCursor rc = ALL.equals(prefix) ? table.allRefs()
-					: table.seekRef(prefix)) {
+					: (prefix.endsWith("/") ? table.seekPrefix(prefix) //$NON-NLS-1$
+							: table.seekRef(prefix))) {
 				while (rc.next()) {
 					Ref ref = table.resolve(rc.getRef());
 					if (ref != null && ref.getObjectId() != null) {
@@ -252,6 +256,29 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 
 		RefList<Ref> none = RefList.emptyList();
 		return new RefMap(prefix, all.toRefList(), none, none);
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public List<Ref> getRefsByPrefix(String prefix) throws IOException {
+		List<Ref> all = new ArrayList<>();
+		lock.lock();
+		try {
+			Reftable table = reader();
+			try (RefCursor rc = ALL.equals(prefix) ? table.allRefs()
+					: table.seekPrefix(prefix)) {
+				while (rc.next()) {
+					Ref ref = table.resolve(rc.getRef());
+					if (ref != null && ref.getObjectId() != null) {
+						all.add(ref);
+					}
+				}
+			}
+		} finally {
+			lock.unlock();
+		}
+
+		return Collections.unmodifiableList(all);
 	}
 
 	/** {@inheritDoc} */

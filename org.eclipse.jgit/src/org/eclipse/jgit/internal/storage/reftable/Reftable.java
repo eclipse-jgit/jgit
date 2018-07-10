@@ -108,23 +108,34 @@ public abstract class Reftable implements AutoCloseable {
 	public abstract RefCursor allRefs() throws IOException;
 
 	/**
-	 * Seek either to a reference, or a reference subtree.
+	 * Seek to a reference.
 	 * <p>
-	 * If {@code refName} ends with {@code "/"} the method will seek to the
-	 * subtree of all references starting with {@code refName} as a prefix. If
-	 * no references start with this prefix, an empty cursor is returned.
-	 * <p>
-	 * Otherwise exactly {@code refName} will be looked for. If present, the
+	 * This method will seek to the reference {@code refName}. If present, the
 	 * returned cursor will iterate exactly one entry. If not found, an empty
 	 * cursor is returned.
 	 *
 	 * @param refName
-	 *            reference name or subtree to find.
+	 *            reference name.
 	 * @return cursor to iterate; empty cursor if no references match.
 	 * @throws java.io.IOException
 	 *             if references cannot be read.
 	 */
 	public abstract RefCursor seekRef(String refName) throws IOException;
+
+	/**
+	 * Seek references with prefix.
+	 * <p>
+	 * The method will seek all the references starting with {@code prefix} as a
+	 * prefix. If no references start with this prefix, an empty cursor is
+	 * returned.
+	 *
+	 * @param prefix
+	 *            prefix to find.
+	 * @return cursor to iterate; empty cursor if no references match.
+	 * @throws java.io.IOException
+	 *             if references cannot be read.
+	 */
+	public abstract RefCursor seekPrefix(String prefix) throws IOException;
 
 	/**
 	 * Match references pointing to a specific object.
@@ -206,8 +217,9 @@ public abstract class Reftable implements AutoCloseable {
 	 *             if references cannot be read.
 	 */
 	public boolean hasRef(String refName) throws IOException {
-		try (RefCursor rc = seekRef(refName)) {
-			return rc.next();
+		try (RefCursor rc = seekPrefix(refName)) {
+			return rc.next() && (refName.endsWith("/") //$NON-NLS-1$
+					|| refName.equals(rc.getRef().getName()));
 		}
 	}
 
