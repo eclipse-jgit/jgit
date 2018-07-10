@@ -33,6 +33,24 @@
       "revId": "598728e24456674f712ac74866fef6df59e4ea4c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f798d4a9_38bf2ebd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/Reftable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-07-10T23:39:55Z",
+      "side": 1,
+      "message": "copying forward",
+      "parentUuid": "f6ca3552_b13c38cc",
+      "revId": "598728e24456674f712ac74866fef6df59e4ea4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
