@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d16d2672_7984d4ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-07-10T22:39:46Z",
+      "side": 1,
+      "message": "Done, though I still think a sample command would be nice.",
+      "parentUuid": "fa7f846d_044e3d49",
+      "revId": "c58641c683c524b98a69c520eda3fc5a70d8dd60",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f67d848d_1f4c361a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReftableDatabase.java",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "c58641c683c524b98a69c520eda3fc5a70d8dd60",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51bea083_145be8ff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReftableDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-07-10T22:39:46Z",
+      "side": 1,
+      "message": "Refactored away.",
+      "parentUuid": "f67d848d_1f4c361a",
+      "revId": "c58641c683c524b98a69c520eda3fc5a70d8dd60",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "f588d8c7_033d7109",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReftableDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-07-10T22:39:46Z",
+      "side": 1,
+      "message": "Fixed.",
+      "parentUuid": "b6c08f93_734ae3e8",
+      "revId": "c58641c683c524b98a69c520eda3fc5a70d8dd60",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "876856ca_2ce0dfad",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/Reftable.java",
         "patchSetId": 1
@@ -67,6 +121,24 @@
       "revId": "c58641c683c524b98a69c520eda3fc5a70d8dd60",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e035f3b8_c3b1d24a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/Reftable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-07-10T22:39:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "876856ca_2ce0dfad",
+      "revId": "c58641c683c524b98a69c520eda3fc5a70d8dd60",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
