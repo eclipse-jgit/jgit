@@ -70,7 +70,7 @@ class ReadReftable extends TextBuiltin {
 				BlockSource src = BlockSource.from(in);
 				ReftableReader reader = new ReftableReader(src)) {
 			try (RefCursor rc = ref != null
-					? reader.seekPrefix(ref)
+					? reader.seekRefsWithPrefix(ref)
 					: reader.allRefs()) {
 				while (rc.next()) {
 					write(rc.getRef());

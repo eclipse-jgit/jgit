@@ -135,7 +135,7 @@ public abstract class Reftable implements AutoCloseable {
 	 * @throws java.io.IOException
 	 *             if references cannot be read.
 	 */
-	public abstract RefCursor seekPrefix(String prefix) throws IOException;
+	public abstract RefCursor seekRefsWithPrefix(String prefix) throws IOException;
 
 	/**
 	 * Match references pointing to a specific object.
@@ -202,24 +202,32 @@ public abstract class Reftable implements AutoCloseable {
 	}
 
 	/**
-	 * Test if a reference or reference subtree exists.
-	 * <p>
-	 * If {@code refName} ends with {@code "/"}, the method tests if any
-	 * reference starts with {@code refName} as a prefix.
-	 * <p>
-	 * Otherwise, the method checks if {@code refName} exists.
+	 * Test if a reference exists.
 	 *
 	 * @param refName
 	 *            reference name or subtree to find.
-	 * @return {@code true} if the reference exists, or at least one reference
-	 *         exists in the subtree.
+	 * @return {@code true} if the reference exists.
 	 * @throws java.io.IOException
 	 *             if references cannot be read.
 	 */
 	public boolean hasRef(String refName) throws IOException {
-		try (RefCursor rc = seekPrefix(refName)) {
-			return rc.next() && (refName.endsWith("/") //$NON-NLS-1$
-					|| refName.equals(rc.getRef().getName()));
+		try (RefCursor rc = seekRef(refName)) {
+			return rc.next();
+		}
+	}
+
+	/**
+	 * Test if any reference starts with {@code prefix} as a prefix.
+	 *
+	 * @param prefix
+	 *            prefix to find.
+	 * @return {@code true} if at least one reference exists with prefix.
+	 * @throws java.io.IOException
+	 *             if references cannot be read.
+	 */
+	public boolean hasRefsWithPrefix(String prefix) throws IOException {
+		try (RefCursor rc = seekRefsWithPrefix(prefix)) {
+			return rc.next();
 		}
 	}
 

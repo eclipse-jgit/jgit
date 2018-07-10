@@ -199,7 +199,7 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 			}
 
 			// Cannot be the container of an existing reference.
-			return table.hasRef(refName + '/');
+			return table.hasRefsWithPrefix(refName + '/');
 		} finally {
 			lock.unlock();
 		}
@@ -241,7 +241,7 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 		try {
 			Reftable table = reader();
 			try (RefCursor rc = ALL.equals(prefix) ? table.allRefs()
-					: (prefix.endsWith("/") ? table.seekPrefix(prefix) //$NON-NLS-1$
+					: (prefix.endsWith("/") ? table.seekRefsWithPrefix(prefix) //$NON-NLS-1$
 							: table.seekRef(prefix))) {
 				while (rc.next()) {
 					Ref ref = table.resolve(rc.getRef());
@@ -266,7 +266,7 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 		try {
 			Reftable table = reader();
 			try (RefCursor rc = ALL.equals(prefix) ? table.allRefs()
-					: table.seekPrefix(prefix)) {
+					: table.seekRefsWithPrefix(prefix)) {
 				while (rc.next()) {
 					Ref ref = table.resolve(rc.getRef());
 					if (ref != null && ref.getObjectId() != null) {
