@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "125578af_d725f917",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-07-11T21:03:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0762ad2_5bc686ad",
+      "revId": "0119b4d2f4365b5eb329fa71d4d7eec1bae75824",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "33191b6d_16228beb",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReftableDatabase.java",
         "patchSetId": 3
