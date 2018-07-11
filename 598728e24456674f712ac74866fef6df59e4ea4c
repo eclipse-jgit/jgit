@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "2bf17a5d_2cb4669a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/Reftable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-07-11T00:07:20Z",
+      "side": 1,
+      "message": "Ah, that would mean calling it something like seekExactRef. What you have here is already fine.",
+      "parentUuid": "1a9e4186_a762c9cd",
+      "revId": "598728e24456674f712ac74866fef6df59e4ea4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6ca3552_b13c38cc",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/Reftable.java",
         "patchSetId": 2
@@ -84,6 +102,24 @@
       "side": 1,
       "message": "DfsReftableDatabase.isNameConflicting() relies on the \"/\" special case.  If it no longer handles the special case, seekPrefix() would be used instead.  Might as well removing the whole method.",
       "parentUuid": "f6ca3552_b13c38cc",
+      "revId": "598728e24456674f712ac74866fef6df59e4ea4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0cf5165_a7549d2e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/Reftable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-07-11T00:07:20Z",
+      "side": 1,
+      "message": "This interface is a bit idiosyncratic. If we want to keep it as is, then I agree it would be better to make it private and move it to DfsReftableDatabase.java.\n\nIf we want to keep it public, we could do something like\n\n  public RefCursor seekRef(String refName) throws IOException;\n  public RefCursor seekRefsWithPrefix(String prefix) throws IOException;\n  public boolean hasRef(String refName) throws IOException;\n  public boolean hasRefWithPrefix(String prefix) throws IOException;\n\nand then the first call in isNameConflicting would use hasRef and the second would use hasRefWithPrefix.",
+      "parentUuid": "7ac34998_33d4844e",
       "revId": "598728e24456674f712ac74866fef6df59e4ea4c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
