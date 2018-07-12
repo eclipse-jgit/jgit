@@ -16,6 +16,24 @@
       "revId": "ee9535d771d28509ba161f8265cd54100f3ddf59",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a805fca3_030703ef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleAddCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2018-07-12T18:27:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e912c18_e863d0dc",
+      "revId": "ee9535d771d28509ba161f8265cd54100f3ddf59",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
