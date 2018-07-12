@@ -1970,7 +1970,7 @@ public class PackWriter implements AutoCloseable {
 				byte[] pathBuf = walker.getPathBuffer();
 				int pathLen = walker.getPathLength();
 				bases.addBase(o.getType(), pathBuf, pathLen, pathHash);
-				filterAndAddObject(o, o.getType(), pathHash);
+				filterAndAddObject(o, o.getType(), pathHash, want);
 				countingMonitor.update(1);
 			}
 		} else {
@@ -1980,7 +1980,7 @@ public class PackWriter implements AutoCloseable {
 					continue;
 				if (exclude(o))
 					continue;
-				filterAndAddObject(o, o.getType(), walker.getPathHashCode());
+				filterAndAddObject(o, o.getType(), walker.getPathHashCode(), want);
 				countingMonitor.update(1);
 			}
 		}
@@ -2013,7 +2013,7 @@ public class PackWriter implements AutoCloseable {
 				needBitmap.remove(objectId);
 				continue;
 			}
-			filterAndAddObject(objectId, obj.getType(), 0);
+			filterAndAddObject(objectId, obj.getType(), 0, want);
 		}
 
 		if (thin)
@@ -2075,12 +2075,14 @@ public class PackWriter implements AutoCloseable {
 	// Adds the given object as an object to be packed, first performing
 	// filtering on blobs at or exceeding a given size.
 	private void filterAndAddObject(@NonNull AnyObjectId src, int type,
-			int pathHashCode) throws IOException {
+			int pathHashCode, @NonNull Set<? extends AnyObjectId> want)
+			throws IOException {
 
 		// Check if this object needs to be rejected, doing the cheaper
 		// checks first.
 		boolean reject = filterBlobLimit >= 0 &&
 			type == OBJ_BLOB &&
+			!want.contains(src) &&
 			reader.getObjectSize(src, OBJ_BLOB) > filterBlobLimit;
 		if (!reject) {
 			addObject(src, type, pathHashCode);
