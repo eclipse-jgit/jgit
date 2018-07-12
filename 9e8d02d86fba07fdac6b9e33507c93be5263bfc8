@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6131e461_229f35bf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleAddCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-07-12T18:25:23Z",
+      "side": 1,
+      "message": "Should this happen in the setter? (I don\u0027t have a strong opinion; I\u0027m looking for yours.)\n\nOr could the check happen in both places, with a helper called by both?\n\n(I\u0027m afraid that strings like \"/..\\\\\" can be exploited as well, but that\u0027s a subject for another day.)",
+      "revId": "9e8d02d86fba07fdac6b9e33507c93be5263bfc8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
