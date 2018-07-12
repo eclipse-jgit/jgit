@@ -16,6 +16,24 @@
       "revId": "9e8d02d86fba07fdac6b9e33507c93be5263bfc8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09678ba8_b20d1a54",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleAddCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2018-07-12T18:27:51Z",
+      "side": 1,
+      "message": "this.name \u003d path happens in this method. So having this check here is safer.",
+      "parentUuid": "6131e461_229f35bf",
+      "revId": "9e8d02d86fba07fdac6b9e33507c93be5263bfc8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
