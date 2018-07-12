@@ -437,6 +437,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String invalidLineInConfigFileWithParam;
 	/***/ public String invalidModeFor;
 	/***/ public String invalidModeForPath;
+	/***/ public String invalidNameContainsDotDot;
 	/***/ public String invalidObject;
 	/***/ public String invalidOldIdSent;
 	/***/ public String invalidPacketLineHeader;
