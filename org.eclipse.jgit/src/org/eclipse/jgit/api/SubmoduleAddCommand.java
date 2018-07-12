@@ -76,6 +76,8 @@ import org.eclipse.jgit.treewalk.filter.TreeFilter;
 public class SubmoduleAddCommand extends
 		TransportCommand<SubmoduleAddCommand, Repository> {
 
+	private String name;
+
 	private String path;
 
 	private String uri;
@@ -90,6 +92,18 @@ public class SubmoduleAddCommand extends
 	 */
 	public SubmoduleAddCommand(Repository repo) {
 		super(repo);
+	}
+
+	/**
+	 * Set the submodule name
+	 *
+	 * @param name
+	 * @return this command
+	 * @since 5.1
+	 */
+	public SubmoduleAddCommand setName(String name) {
+		this.name = name;
+		return this;
 	}
 
 	/**
@@ -160,6 +174,12 @@ public class SubmoduleAddCommand extends
 			throw new IllegalArgumentException(JGitText.get().pathNotConfigured);
 		if (uri == null || uri.length() == 0)
 			throw new IllegalArgumentException(JGitText.get().uriNotConfigured);
+		if (name == null || name.length() == 0) {
+			// setName was introduced since 5.1. Until then, path was used as
+			// the submodule name. This is a fallback to maintain the
+			// compatibility.
+			name = path;
+		}
 
 		try {
 			if (submoduleExists())
@@ -193,7 +213,7 @@ public class SubmoduleAddCommand extends
 
 		// Save submodule URL to parent repository's config
 		StoredConfig config = repo.getConfig();
-		config.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
+		config.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, name,
 				ConfigConstants.CONFIG_KEY_URL, resolvedUri);
 		try {
 			config.save();
@@ -207,9 +227,9 @@ public class SubmoduleAddCommand extends
 		try {
 			modulesConfig.load();
 			modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION,
-					path, ConfigConstants.CONFIG_KEY_PATH, path);
+					name, ConfigConstants.CONFIG_KEY_PATH, path);
 			modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION,
-					path, ConfigConstants.CONFIG_KEY_URL, uri);
+					name, ConfigConstants.CONFIG_KEY_URL, uri);
 			modulesConfig.save();
 		} catch (IOException e) {
 			throw new JGitInternalException(e.getMessage(), e);
