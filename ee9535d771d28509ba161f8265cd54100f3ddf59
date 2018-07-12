@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6e912c18_e863d0dc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleAddCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-07-12T15:41:47Z",
+      "side": 1,
+      "message": "This is a good default, not just a backward-compat thing.\n\nActually I think we ought to have a default for path, too (based on the uri). But that\u0027s a subject for a separate change.",
+      "revId": "ee9535d771d28509ba161f8265cd54100f3ddf59",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
