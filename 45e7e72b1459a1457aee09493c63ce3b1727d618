@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "92b319df_4c9e596f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-07-14T22:19:47Z",
+      "side": 1,
+      "message": "updates",
+      "range": {
+        "startLine": 10,
+        "startChar": 31,
+        "endLine": 10,
+        "endChar": 42
+      },
+      "revId": "45e7e72b1459a1457aee09493c63ce3b1727d618",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a25d116_b2d4052b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-07-14T22:19:47Z",
+      "side": 1,
+      "message": "I think the reference to the Git commit is enough, since its commit message explains this pretty well.",
+      "revId": "45e7e72b1459a1457aee09493c63ce3b1727d618",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
