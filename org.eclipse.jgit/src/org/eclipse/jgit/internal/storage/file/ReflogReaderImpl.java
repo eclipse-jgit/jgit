@@ -31,11 +31,11 @@ class ReflogReaderImpl implements ReflogReader {
 	private File logName;
 
 	/**
-	 * @param db
+	 * @param repo
 	 * @param refname
 	 */
-	ReflogReaderImpl(Repository db, String refname) {
-		logName = new File(db.getDirectory(), Constants.LOGS + '/' + refname);
+	ReflogReaderImpl(Repository repo, String refname) {
+		logName = new File(repo.getDirectory(), Constants.L_LOGS + refname);
 	}
 
 	/* (non-Javadoc)
