@@ -95,14 +95,14 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 	@Test
 	public void test001_Initalize() {
 		final File gitdir = new File(trash, Constants.DOT_GIT);
-		final File hooks = new File(gitdir, "hooks");
-		final File objects = new File(gitdir, "objects");
+		final File hooks = new File(gitdir, Constants.HOOKS);
+		final File objects = new File(gitdir, Constants.OBJECTS);
 		final File objects_pack = new File(objects, "pack");
 		final File objects_info = new File(objects, "info");
-		final File refs = new File(gitdir, "refs");
+		final File refs = new File(gitdir, Constants.REFS);
 		final File refs_heads = new File(refs, "heads");
 		final File refs_tags = new File(refs, "tags");
-		final File HEAD = new File(gitdir, "HEAD");
+		final File HEAD = new File(gitdir, Constants.HEAD);
 
 		assertTrue("Exists " + trash, trash.isDirectory());
 		assertTrue("Exists " + hooks, hooks.isDirectory());
@@ -147,8 +147,9 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 				.setGitDir(theDir).build();
 		assertEqualsPath(theDir, r.getDirectory());
 		assertEqualsPath(repo1Parent, r.getWorkTree());
-		assertEqualsPath(new File(theDir, "index"), r.getIndexFile());
-		assertEqualsPath(new File(theDir, "objects"), r.getObjectDatabase()
+		assertEqualsPath(new File(theDir, Constants.INDEX), r.getIndexFile());
+		assertEqualsPath(new File(theDir, Constants.OBJECTS),
+				r.getObjectDatabase()
 				.getDirectory());
 	}
 
@@ -173,8 +174,9 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 				.build();
 		assertEqualsPath(theDir, r.getDirectory());
 		assertEqualsPath(repo1Parent.getParentFile(), r.getWorkTree());
-		assertEqualsPath(new File(theDir, "index"), r.getIndexFile());
-		assertEqualsPath(new File(theDir, "objects"), r.getObjectDatabase()
+		assertEqualsPath(new File(theDir, Constants.INDEX), r.getIndexFile());
+		assertEqualsPath(new File(theDir, Constants.OBJECTS),
+				r.getObjectDatabase()
 				.getDirectory());
 	}
 
@@ -197,8 +199,9 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 				.setWorkTree(repo1Parent).build();
 		assertEqualsPath(theDir, r.getDirectory());
 		assertEqualsPath(repo1Parent, r.getWorkTree());
-		assertEqualsPath(new File(theDir, "index"), r.getIndexFile());
-		assertEqualsPath(new File(theDir, "objects"), r.getObjectDatabase()
+		assertEqualsPath(new File(theDir, Constants.INDEX), r.getIndexFile());
+		assertEqualsPath(new File(theDir, Constants.OBJECTS),
+				r.getObjectDatabase()
 				.getDirectory());
 	}
 
@@ -226,8 +229,9 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 				.setGitDir(theDir).build();
 		assertEqualsPath(theDir, r.getDirectory());
 		assertEqualsPath(workdir, r.getWorkTree());
-		assertEqualsPath(new File(theDir, "index"), r.getIndexFile());
-		assertEqualsPath(new File(theDir, "objects"), r.getObjectDatabase()
+		assertEqualsPath(new File(theDir, Constants.INDEX), r.getIndexFile());
+		assertEqualsPath(new File(theDir, Constants.OBJECTS),
+				r.getObjectDatabase()
 				.getDirectory());
 	}
 
@@ -255,8 +259,9 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 				.setGitDir(theDir).build();
 		assertEqualsPath(theDir, r.getDirectory());
 		assertEqualsPath(workdir, r.getWorkTree());
-		assertEqualsPath(new File(theDir, "index"), r.getIndexFile());
-		assertEqualsPath(new File(theDir, "objects"), r.getObjectDatabase()
+		assertEqualsPath(new File(theDir, Constants.INDEX), r.getIndexFile());
+		assertEqualsPath(new File(theDir, Constants.OBJECTS),
+				r.getObjectDatabase()
 				.getDirectory());
 	}
 
@@ -312,7 +317,8 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		}
 
 		final File o = new File(new File(new File(newdb.getDirectory(),
-				"objects"), "4b"), "825dc642cb6eb9a060e54bf8d69288fbee4904");
+				Constants.OBJECTS), "4b"),
+				"825dc642cb6eb9a060e54bf8d69288fbee4904");
 		assertTrue("Exists " + o, o.isFile());
 		assertTrue("Read-only " + o, !o.canWrite());
 	}
@@ -324,7 +330,7 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		final ObjectId treeId = insertTree(new TreeFormatter());
 		assertEquals("4b825dc642cb6eb9a060e54bf8d69288fbee4904", treeId.name());
 		final File o = new File(new File(
-				new File(db.getDirectory(), "objects"), "4b"),
+				new File(db.getDirectory(), Constants.OBJECTS), "4b"),
 				"825dc642cb6eb9a060e54bf8d69288fbee4904");
 		assertFalse("Exists " + o, o.isFile());
 	}

@@ -53,6 +53,7 @@ import java.nio.file.Paths;
 import java.nio.file.attribute.FileTime;
 import java.time.Instant;
 
+import static org.eclipse.jgit.lib.Constants.REFS;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -68,7 +69,7 @@ public class GcDeleteEmptyRefsFoldersTest extends GcTestCase {
 	public void setUp() throws Exception {
 		super.setUp();
 		refsDir = Paths.get(repo.getDirectory().getAbsolutePath())
-				.resolve("refs");
+				.resolve(REFS);
 		heads = refsDir.resolve("heads");
 	}
 
