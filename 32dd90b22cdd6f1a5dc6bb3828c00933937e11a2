@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e791658_a47b9b11",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-07-18T08:57:58Z",
+      "side": 1,
+      "message": "An probably even rightly so. Especially if deletions are concerned; see the uses of ChangeRecorder in DirCacheCheckoutTest.\n\nNot sure yet how I\u0027ll deal with that. Either omit them from the event, or make sure that in the event the do get the trailing slash (see discussion in bug 536880), or figure out a way in EGit\u0027s use of these events to deal better with directories in the list.",
+      "range": {
+        "startLine": 18,
+        "startChar": 5,
+        "endLine": 19,
+        "endChar": 26
+      },
+      "revId": "32dd90b22cdd6f1a5dc6bb3828c00933937e11a2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "33ce422b_66f4a647",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 624,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-07-18T08:57:58Z",
+      "side": 1,
+      "message": "Unrelated to bug 536880 and the purpose of this change: is it possible here that !nonTree(modeB) \u003d\u003d true, i.e., base and ours contain a folder, but theirs a file? If so, that case doesn\u0027t seem to be handled?",
+      "revId": "32dd90b22cdd6f1a5dc6bb3828c00933937e11a2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97e0bf8f_b0bd2bbe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 641,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-07-18T08:57:58Z",
+      "side": 1,
+      "message": "Since the working tree is clean, I think this check is sufficient. The working tree cannot contain a file here. And the case where modeB \u003d\u003d modeO \u003d\u003d modeT \u003d\u003d 0 is handled in line 541 above.",
+      "revId": "32dd90b22cdd6f1a5dc6bb3828c00933937e11a2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
