@@ -277,9 +277,11 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 	 *
 	 * @param applyIndex
 	 *            true (default) if the command should restore the index state
+	 * @return {@code this}
 	 */
-	public void setApplyIndex(boolean applyIndex) {
+	public StashApplyCommand setApplyIndex(boolean applyIndex) {
 		this.applyIndex = applyIndex;
+		return this;
 	}
 
 	/**
@@ -301,10 +303,12 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 	 *
 	 * @param applyUntracked
 	 *            true (default) if the command should restore untracked files
+	 * @return {@code this}
 	 * @since 3.4
 	 */
-	public void setApplyUntracked(boolean applyUntracked) {
+	public StashApplyCommand setApplyUntracked(boolean applyUntracked) {
 		this.applyUntracked = applyUntracked;
+		return this;
 	}
 
 	private void resetIndex(RevTree tree) throws IOException {
