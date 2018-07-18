@@ -65,7 +65,7 @@ import org.junit.Test;
 public class DirCacheBasicTest extends RepositoryTestCase {
 	@Test
 	public void testReadMissing_RealIndex() throws Exception {
-		final File idx = new File(db.getDirectory(), "index");
+		final File idx = new File(db.getDirectory(), Constants.INDEX);
 		assertFalse(idx.exists());
 
 		final DirCache dc = db.readDirCache();
@@ -85,8 +85,8 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 
 	@Test
 	public void testLockMissing_RealIndex() throws Exception {
-		final File idx = new File(db.getDirectory(), "index");
-		final File lck = new File(db.getDirectory(), "index.lock");
+		final File idx = new File(db.getDirectory(), Constants.INDEX);
+		final File lck = new File(db.getDirectory(), Constants.INDEX_LOCK);
 		assertFalse(idx.exists());
 		assertFalse(lck.exists());
 
@@ -121,8 +121,8 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 
 	@Test
 	public void testWriteEmptyUnlock_RealIndex() throws Exception {
-		final File idx = new File(db.getDirectory(), "index");
-		final File lck = new File(db.getDirectory(), "index.lock");
+		final File idx = new File(db.getDirectory(), Constants.INDEX);
+		final File lck = new File(db.getDirectory(), Constants.INDEX_LOCK);
 		assertFalse(idx.exists());
 		assertFalse(lck.exists());
 
@@ -138,8 +138,8 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 
 	@Test
 	public void testWriteEmptyCommit_RealIndex() throws Exception {
-		final File idx = new File(db.getDirectory(), "index");
-		final File lck = new File(db.getDirectory(), "index.lock");
+		final File idx = new File(db.getDirectory(), Constants.INDEX);
+		final File lck = new File(db.getDirectory(), Constants.INDEX_LOCK);
 		assertFalse(idx.exists());
 		assertFalse(lck.exists());
 
@@ -156,8 +156,8 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 
 	@Test
 	public void testWriteEmptyReadEmpty_RealIndex() throws Exception {
-		final File idx = new File(db.getDirectory(), "index");
-		final File lck = new File(db.getDirectory(), "index.lock");
+		final File idx = new File(db.getDirectory(), Constants.INDEX);
+		final File lck = new File(db.getDirectory(), Constants.INDEX_LOCK);
 		assertFalse(idx.exists());
 		assertFalse(lck.exists());
 		{
@@ -174,8 +174,8 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 
 	@Test
 	public void testWriteEmptyLockEmpty_RealIndex() throws Exception {
-		final File idx = new File(db.getDirectory(), "index");
-		final File lck = new File(db.getDirectory(), "index.lock");
+		final File idx = new File(db.getDirectory(), Constants.INDEX);
+		final File lck = new File(db.getDirectory(), Constants.INDEX_LOCK);
 		assertFalse(idx.exists());
 		assertFalse(lck.exists());
 		{
