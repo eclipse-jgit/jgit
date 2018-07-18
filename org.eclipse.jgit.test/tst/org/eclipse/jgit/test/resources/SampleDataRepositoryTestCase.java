@@ -52,6 +52,7 @@ import java.io.IOException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.lib.Constants;
 
 
 /** Test case which includes C Git generated pack files for testing. */
@@ -85,7 +86,7 @@ public abstract class SampleDataRepositoryTestCase extends RepositoryTestCase {
 			JGitTestUtil.copyTestResource(n + ".idx", new File(packDir, n + ".idx"));
 		}
 
-		JGitTestUtil.copyTestResource("packed-refs",
-				new File(repo.getDirectory(), "packed-refs"));
+		JGitTestUtil.copyTestResource(Constants.PACKED_REFS,
+				new File(repo.getDirectory(), Constants.PACKED_REFS));
 	}
 }
