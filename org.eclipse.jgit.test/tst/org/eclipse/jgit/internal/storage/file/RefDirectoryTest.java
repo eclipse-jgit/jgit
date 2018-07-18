@@ -11,6 +11,10 @@
 package org.eclipse.jgit.internal.storage.file;
 
 import static org.eclipse.jgit.lib.Constants.HEAD;
+import static org.eclipse.jgit.lib.Constants.LOGS;
+import static org.eclipse.jgit.lib.Constants.PACKED_REFS;
+import static org.eclipse.jgit.lib.Constants.REFS;
+import static org.eclipse.jgit.lib.Constants.LOGS_REFS;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
 import static org.eclipse.jgit.lib.Ref.Storage.LOOSE;
@@ -87,14 +91,14 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		File d = diskRepo.getDirectory();
 		assertSame(diskRepo, refdir.getRepository());
 
-		assertTrue(new File(d, "refs").isDirectory());
-		assertTrue(new File(d, "logs").isDirectory());
-		assertTrue(new File(d, "logs/refs").isDirectory());
-		assertFalse(new File(d, "packed-refs").exists());
+		assertTrue(new File(d, REFS).isDirectory());
+		assertTrue(new File(d, LOGS).isDirectory());
+		assertTrue(new File(d, LOGS_REFS).isDirectory());
+		assertFalse(new File(d, PACKED_REFS).exists());
 
 		assertTrue(new File(d, "refs/heads").isDirectory());
 		assertTrue(new File(d, "refs/tags").isDirectory());
-		assertEquals(2, new File(d, "refs").list().length);
+		assertEquals(2, new File(d, REFS).list().length);
 		assertEquals(0, new File(d, "refs/heads").list().length);
 		assertEquals(0, new File(d, "refs/tags").list().length);
 
@@ -1277,7 +1281,8 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	public void testRefsChangedStackOverflow() throws Exception {
 		final FileRepository newRepo = createBareRepository();
 		final RefDatabase refDb = newRepo.getRefDatabase();
-		File packedRefs = new File(newRepo.getDirectory(), "packed-refs");
+		File packedRefs = new File(newRepo.getDirectory(),
+				PACKED_REFS);
 		assertTrue(packedRefs.createNewFile());
 		final AtomicReference<StackOverflowError> error = new AtomicReference<>();
 		final AtomicReference<IOException> exception = new AtomicReference<>();
@@ -1330,7 +1335,7 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	}
 
 	private void writePackedRefs(String content) throws IOException {
-		File pr = new File(diskRepo.getDirectory(), "packed-refs");
+		File pr = new File(diskRepo.getDirectory(), PACKED_REFS);
 		write(pr, content);
 		FS fs = diskRepo.getFS();
 		fs.setLastModified(pr.toPath(), Instant.now().minusSeconds(3600));
