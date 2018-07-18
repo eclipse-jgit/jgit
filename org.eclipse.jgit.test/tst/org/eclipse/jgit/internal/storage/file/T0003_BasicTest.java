@@ -61,14 +61,14 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 	@Test
 	public void test001_Initalize() {
 		final File gitdir = new File(trash, Constants.DOT_GIT);
-		final File hooks = new File(gitdir, "hooks");
+		final File hooks = new File(gitdir, Constants.HOOKS);
 		final File objects = new File(gitdir, Constants.OBJECTS);
 		final File objects_pack = new File(objects, "pack");
 		final File objects_info = new File(objects, "info");
-		final File refs = new File(gitdir, "refs");
-		final File refs_heads = new File(refs, "heads");
-		final File refs_tags = new File(refs, "tags");
-		final File HEAD = new File(gitdir, "HEAD");
+		final File refs = new File(gitdir, Constants.REFS);
+		final File refs_heads = new File(refs, Constants.HEADS);
+		final File refs_tags = new File(refs, Constants.TAGS);
+		final File HEAD = new File(gitdir, Constants.HEAD);
 
 		assertTrue("Exists " + trash, trash.isDirectory());
 		assertTrue("Exists " + hooks, hooks.isDirectory());
@@ -113,7 +113,8 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 				.setGitDir(theDir).build()) {
 			assertEqualsPath(theDir, r.getDirectory());
 			assertEqualsPath(repo1Parent, r.getWorkTree());
-			assertEqualsPath(new File(theDir, "index"), r.getIndexFile());
+			assertEqualsPath(new File(theDir, Constants.INDEX),
+					r.getIndexFile());
 			assertEqualsPath(new File(theDir, Constants.OBJECTS),
 					r.getObjectDatabase().getDirectory());
 		}
@@ -140,7 +141,8 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 				.build()) {
 			assertEqualsPath(theDir, r.getDirectory());
 			assertEqualsPath(repo1Parent.getParentFile(), r.getWorkTree());
-			assertEqualsPath(new File(theDir, "index"), r.getIndexFile());
+			assertEqualsPath(new File(theDir, Constants.INDEX),
+					r.getIndexFile());
 			assertEqualsPath(new File(theDir, Constants.OBJECTS),
 					r.getObjectDatabase().getDirectory());
 		}
@@ -165,7 +167,8 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 				.setWorkTree(repo1Parent).build()) {
 			assertEqualsPath(theDir, r.getDirectory());
 			assertEqualsPath(repo1Parent, r.getWorkTree());
-			assertEqualsPath(new File(theDir, "index"), r.getIndexFile());
+			assertEqualsPath(new File(theDir, Constants.INDEX),
+					r.getIndexFile());
 			assertEqualsPath(new File(theDir, Constants.OBJECTS),
 					r.getObjectDatabase().getDirectory());
 		}
@@ -195,7 +198,8 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 				.setGitDir(theDir).build()) {
 			assertEqualsPath(theDir, r.getDirectory());
 			assertEqualsPath(workdir, r.getWorkTree());
-			assertEqualsPath(new File(theDir, "index"), r.getIndexFile());
+			assertEqualsPath(new File(theDir, Constants.INDEX),
+					r.getIndexFile());
 			assertEqualsPath(new File(theDir, Constants.OBJECTS),
 					r.getObjectDatabase().getDirectory());
 		}
@@ -225,7 +229,8 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 				.setGitDir(theDir).build()) {
 			assertEqualsPath(theDir, r.getDirectory());
 			assertEqualsPath(workdir, r.getWorkTree());
-			assertEqualsPath(new File(theDir, "index"), r.getIndexFile());
+			assertEqualsPath(new File(theDir, Constants.INDEX),
+					r.getIndexFile());
 			assertEqualsPath(new File(theDir, Constants.OBJECTS),
 					r.getObjectDatabase().getDirectory());
 		}
@@ -649,7 +654,7 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		writeTrashFile(".git/packed-refs",
 				id1.name() + " refs/heads/foobar");
 		writeTrashFile(".git/HEAD", "ref: refs/heads/foobar\n");
-		BUG_WorkAroundRacyGitIssues("packed-refs");
+		BUG_WorkAroundRacyGitIssues(Constants.PACKED_REFS);
 		BUG_WorkAroundRacyGitIssues("HEAD");
 
 		ObjectId resolve = db.resolve("HEAD");

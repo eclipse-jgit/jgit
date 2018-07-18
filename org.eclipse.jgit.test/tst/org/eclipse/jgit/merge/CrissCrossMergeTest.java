@@ -9,8 +9,10 @@
  */
 package org.eclipse.jgit.merge;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.Constants.HEAD;
+import static org.eclipse.jgit.lib.Constants.INDEX;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -34,7 +36,6 @@ import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.junit.TestRepository.BranchBuilder;
 import org.eclipse.jgit.lib.AnyObjectId;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
@@ -727,7 +728,7 @@ public class CrissCrossMergeTest extends RepositoryTestCase {
 			setIndex(null, path);
 			break;
 		case SameAsHead:
-			setIndex(contentId(Constants.HEAD, path), path);
+			setIndex(contentId(HEAD, path), path);
 			break;
 		case SameAsOther:
 			setIndex(contentId(other, path), path);
@@ -741,7 +742,7 @@ public class CrissCrossMergeTest extends RepositoryTestCase {
 			setIndex(blob, path);
 			break;
 		case Bare:
-			File file = new File(db.getDirectory(), "index");
+			File file = new File(db.getDirectory(), INDEX);
 			if (!file.exists())
 				return;
 			db.close();
@@ -797,7 +798,7 @@ public class CrissCrossMergeTest extends RepositoryTestCase {
 		case SameAsHead:
 			try (FileOutputStream fos = new FileOutputStream(
 					new File(db.getWorkTree(), path))) {
-				db.newObjectReader().open(contentId(Constants.HEAD, path))
+				db.newObjectReader().open(contentId(HEAD, path))
 						.copyTo(fos);
 			}
 			break;

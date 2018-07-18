@@ -11,6 +11,7 @@
 
 package org.eclipse.jgit.dircache;
 
+import static org.eclipse.jgit.lib.Constants.INDEX_LOCK;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -143,7 +144,8 @@ public class DirCacheBuilderTest extends RepositoryTestCase {
 			assertTrue(b.commit());
 			assertEquals(1, dc.getEntryCount());
 			assertSame(entOrig, dc.getEntry(0));
-			assertFalse(new File(db.getDirectory(), "index.lock").exists());
+			assertFalse(
+					new File(db.getDirectory(), INDEX_LOCK).exists());
 		}
 		{
 			final DirCache dc = db.readDirCache();

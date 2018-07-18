@@ -10,6 +10,9 @@
  */
 package org.eclipse.jgit.api;
 
+import static org.eclipse.jgit.lib.Constants.REBASE_APPLY;
+import static org.eclipse.jgit.lib.Constants.REBASE_MERGE;
+
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.ByteArrayOutputStream;
@@ -88,15 +91,6 @@ import org.eclipse.jgit.util.RawParseUtils;
  *      >Git documentation about Rebase</a>
  */
 public class RebaseCommand extends GitCommand<RebaseResult> {
-	/**
-	 * The name of the "rebase-merge" folder for interactive rebases.
-	 */
-	public static final String REBASE_MERGE = "rebase-merge"; //$NON-NLS-1$
-
-	/**
-	 * The name of the "rebase-apply" folder for non-interactive rebases.
-	 */
-	private static final String REBASE_APPLY = "rebase-apply"; //$NON-NLS-1$
 
 	/**
 	 * The name of the "stopped-sha" file

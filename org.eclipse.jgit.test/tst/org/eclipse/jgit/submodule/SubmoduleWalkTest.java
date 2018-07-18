@@ -14,6 +14,8 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PATH;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_URL;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_SUBMODULE_SECTION;
 import static org.eclipse.jgit.lib.Constants.DOT_GIT_MODULES;
+import static org.eclipse.jgit.lib.Constants.DOT_GIT;
+import static org.eclipse.jgit.lib.Constants.MODULES;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -38,7 +40,6 @@ import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -121,12 +122,12 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 				.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
 		final String path = "sub";
 		File dotGit = new File(db.getWorkTree(), path + File.separatorChar
-				+ Constants.DOT_GIT);
+				+ DOT_GIT);
 		if (!dotGit.getParentFile().exists())
 			dotGit.getParentFile().mkdirs();
 
 		File modulesGitDir = new File(db.getDirectory(),
-				"modules" + File.separatorChar + path);
+				MODULES + File.separatorChar + path);
 		try (BufferedWriter fw = Files.newBufferedWriter(dotGit.toPath(),
 				UTF_8)) {
 			fw.append("gitdir: " + modulesGitDir.getAbsolutePath());
@@ -174,16 +175,18 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 		final ObjectId id = ObjectId
 				.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
 		final String path = "sub";
-		File dotGit = new File(db.getWorkTree(), path + File.separatorChar
-				+ Constants.DOT_GIT);
+		File dotGit = new File(db.getWorkTree(),
+				path + File.separatorChar
+				+ DOT_GIT);
 		if (!dotGit.getParentFile().exists())
 			dotGit.getParentFile().mkdirs();
 
-		File modulesGitDir = new File(db.getDirectory(), "modules"
+		File modulesGitDir = new File(db.getDirectory(),
+				MODULES
 				+ File.separatorChar + path);
 		try (BufferedWriter fw = Files.newBufferedWriter(dotGit.toPath(),
 				UTF_8)) {
-			fw.append("gitdir: " + "../" + Constants.DOT_GIT + "/modules/"
+			fw.append("gitdir: " + "../" + DOT_GIT + "/modules/"
 					+ path);
 		}
 		FileRepositoryBuilder builder = new FileRepositoryBuilder();
