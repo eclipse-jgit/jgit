@@ -90,13 +90,16 @@ import org.eclipse.jgit.util.RawParseUtils;
 public class RebaseCommand extends GitCommand<RebaseResult> {
 	/**
 	 * The name of the "rebase-merge" folder for interactive rebases.
+	 *
+	 * ATTENTION: this is used in EGit and is API cannot be removed --> just use
+	 * value from Constants
 	 */
-	public static final String REBASE_MERGE = "rebase-merge"; //$NON-NLS-1$
+	public static final String REBASE_MERGE = Constants.REBASE_MERGE;
 
 	/**
 	 * The name of the "rebase-apply" folder for non-interactive rebases.
 	 */
-	private static final String REBASE_APPLY = "rebase-apply"; //$NON-NLS-1$
+	private static final String REBASE_APPLY = Constants.REBASE_APPLY;
 
 	/**
 	 * The name of the "stopped-sha" file

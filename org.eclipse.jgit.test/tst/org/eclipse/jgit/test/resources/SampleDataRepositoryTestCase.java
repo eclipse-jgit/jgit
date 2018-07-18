@@ -13,6 +13,8 @@
 
 package org.eclipse.jgit.test.resources;
 
+import static org.eclipse.jgit.lib.Constants.PACKED_REFS;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -52,7 +54,7 @@ public abstract class SampleDataRepositoryTestCase extends RepositoryTestCase {
 			JGitTestUtil.copyTestResource(n + ".idx", new File(packDir, n + ".idx"));
 		}
 
-		JGitTestUtil.copyTestResource("packed-refs",
-				new File(repo.getDirectory(), "packed-refs"));
+		JGitTestUtil.copyTestResource(PACKED_REFS,
+				new File(repo.getDirectory(), PACKED_REFS));
 	}
 }

@@ -1286,16 +1286,19 @@ public abstract class Repository implements AutoCloseable {
 			return RepositoryState.REBASING_INTERACTIVE;
 
 		// From 1.6 onwards
-		if (new File(getDirectory(),"rebase-apply/rebasing").exists()) //$NON-NLS-1$
+		if (new File(getDirectory(), Constants.R_REBASE_APPLY + "rebasing") //$NON-NLS-1$
+				.exists())
 			return RepositoryState.REBASING_REBASING;
-		if (new File(getDirectory(),"rebase-apply/applying").exists()) //$NON-NLS-1$
+		if (new File(getDirectory(), Constants.R_REBASE_APPLY + "applying") //$NON-NLS-1$
+				.exists())
 			return RepositoryState.APPLY;
-		if (new File(getDirectory(),"rebase-apply").exists()) //$NON-NLS-1$
+		if (new File(getDirectory(), Constants.REBASE_APPLY).exists())
 			return RepositoryState.REBASING;
 
-		if (new File(getDirectory(),"rebase-merge/interactive").exists()) //$NON-NLS-1$
+		if (new File(getDirectory(), Constants.R_REBASE_MERGE + "interactive") //$NON-NLS-1$
+				.exists())
 			return RepositoryState.REBASING_INTERACTIVE;
-		if (new File(getDirectory(),"rebase-merge").exists()) //$NON-NLS-1$
+		if (new File(getDirectory(), Constants.REBASE_MERGE).exists())
 			return RepositoryState.REBASING_MERGE;
 
 		// Both versions
@@ -1312,7 +1315,7 @@ public abstract class Repository implements AutoCloseable {
 			return RepositoryState.MERGING;
 		}
 
-		if (new File(getDirectory(), "BISECT_LOG").exists()) //$NON-NLS-1$
+		if (new File(getDirectory(), Constants.BISECT_LOG).exists())
 			return RepositoryState.BISECTING;
 
 		if (new File(getDirectory(), Constants.CHERRY_PICK_HEAD).exists()) {

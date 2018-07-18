@@ -27,6 +27,7 @@ import org.eclipse.jgit.internal.storage.file.FileReftableStack.Segment;
 import org.eclipse.jgit.internal.storage.reftable.MergedReftable;
 import org.eclipse.jgit.internal.storage.reftable.RefCursor;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.Ref;
@@ -78,8 +79,8 @@ public class FileReftableStackTest {
 
 	public void testCompaction(int N) throws Exception {
 		try (FileReftableStack stack = new FileReftableStack(
-				new File(reftableDir, "refs"), reftableDir, null,
-				() -> new Config())) {
+				new File(reftableDir, Constants.REFS), reftableDir,
+				null, () -> new Config())) {
 			writeBranches(stack, "refs/heads/branch%d", 0, N);
 			MergedReftable table = stack.getMergedReftable();
 			for (int i = 1; i < N; i++) {
@@ -117,8 +118,8 @@ public class FileReftableStackTest {
 	@Test
 	public void missingReftable() throws Exception {
 		try (FileReftableStack stack = new FileReftableStack(
-				new File(reftableDir, "refs"), reftableDir, null,
-				() -> new Config())) {
+				new File(reftableDir, Constants.REFS), reftableDir,
+				null, () -> new Config())) {
 			outer: for (int i = 0; i < 10; i++) {
 				final long next = stack.getMergedReftable().maxUpdateIndex()
 						+ 1;
@@ -141,8 +142,9 @@ public class FileReftableStackTest {
 			}
 		}
 		assertThrows(FileNotFoundException.class,
-				() -> new FileReftableStack(new File(reftableDir, "refs"),
-						reftableDir, null, () -> new Config()));
+				() -> new FileReftableStack(new File(reftableDir,
+						Constants.REFS), reftableDir, null,
+						() -> new Config()));
 	}
 
 	@Test

@@ -354,7 +354,7 @@ public class TransportSftp extends SshTransport implements WalkTransport {
 			final TreeMap<String, Ref> avail = new TreeMap<>();
 			readPackedRefs(avail);
 			readRef(avail, ROOT_DIR + Constants.HEAD, Constants.HEAD);
-			readLooseRefs(avail, ROOT_DIR + "refs", "refs/"); //$NON-NLS-1$ //$NON-NLS-2$
+			readLooseRefs(avail, ROOT_DIR + Constants.REFS, Constants.R_REFS);
 			return avail;
 		}
 

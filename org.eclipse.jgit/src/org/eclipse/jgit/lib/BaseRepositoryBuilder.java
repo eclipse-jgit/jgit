@@ -13,6 +13,7 @@ package org.eclipse.jgit.lib;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_CORE_SECTION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BARE;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_WORKTREE;
+import static org.eclipse.jgit.lib.Constants.CONFIG;
 import static org.eclipse.jgit.lib.Constants.DOT_GIT;
 import static org.eclipse.jgit.lib.Constants.GIT_ALTERNATE_OBJECT_DIRECTORIES_KEY;
 import static org.eclipse.jgit.lib.Constants.GIT_CEILING_DIRECTORIES_KEY;
@@ -20,6 +21,8 @@ import static org.eclipse.jgit.lib.Constants.GIT_DIR_KEY;
 import static org.eclipse.jgit.lib.Constants.GIT_INDEX_FILE_KEY;
 import static org.eclipse.jgit.lib.Constants.GIT_OBJECT_DIRECTORY_KEY;
 import static org.eclipse.jgit.lib.Constants.GIT_WORK_TREE_KEY;
+import static org.eclipse.jgit.lib.Constants.OBJECTS;
+import static org.eclipse.jgit.lib.Constants.INDEX;
 
 import java.io.File;
 import java.io.IOException;
@@ -640,7 +643,7 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 			if (getGitDir() == null)
 				setGitDir(getWorkTree().getParentFile());
 			if (getIndexFile() == null)
-				setIndexFile(new File(getGitDir(), "index")); //$NON-NLS-1$
+				setIndexFile(new File(getGitDir(), INDEX));
 		}
 	}
 
@@ -652,7 +655,7 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 	 */
 	protected void setupInternals() throws IOException {
 		if (getObjectDirectory() == null && getGitDir() != null)
-			setObjectDirectory(safeFS().resolve(getGitDir(), Constants.OBJECTS));
+			setObjectDirectory(safeFS().resolve(getGitDir(), OBJECTS));
 	}
 
 	/**
@@ -684,7 +687,7 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 			// the user file, as these parameters must be unique to this
 			// repository and not inherited from other files.
 			//
-			File path = safeFS().resolve(getGitDir(), Constants.CONFIG);
+			File path = safeFS().resolve(getGitDir(), CONFIG);
 			FileBasedConfig cfg = new FileBasedConfig(path, safeFS());
 			try {
 				cfg.load();
