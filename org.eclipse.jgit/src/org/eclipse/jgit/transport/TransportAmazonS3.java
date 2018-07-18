@@ -298,8 +298,8 @@ public class TransportAmazonS3 extends HttpTransport implements WalkTransport {
 				throws TransportException {
 			try {
 				for (final String n : s3.list(bucket, resolveKey(ROOT_DIR
-						+ "refs"))) //$NON-NLS-1$
-					readRef(avail, "refs/" + n); //$NON-NLS-1$
+						+ Constants.REFS)))
+					readRef(avail, Constants.R_REFS + n);
 			} catch (IOException e) {
 				throw new TransportException(getURI(), JGitText.get().cannotListRefs, e);
 			}

@@ -218,32 +218,114 @@ public final class Constants {
 	/** Default stash branch name */
 	public static final String STASH = "stash";
 
+	/**
+	 * The file separator.
+	 *
+	 * @since 5.10
+	 */
+	public static final String FILE_SEPARATOR = "/";
+
+	/**
+	 * The bisect log directory.
+	 *
+	 * @since 5.10
+	 */
+	public static final String BISECT_LOG = "BISECT_LOG";
+
+	/**
+	 * Name of the folder (inside gitDir) where the branches are stored.
+	 *
+	 * This directory is ignored if $GIT_COMMON_DIR is set and
+	 * "$GIT_COMMON_DIR/branches" will be used instead.
+	 *
+	 * @since 5.10
+	 */
+	public static final String BRANCHES = "branches";
+
+	/**
+	 * Name of the file (inside gitDir) where the description of repo is stored.
+	 *
+	 * @since 5.10
+	 */
+	public static final String DESCRIPTION = "description";
+
+	/**
+	 * Remotes-file
+	 *
+	 * This directory is ignored if $GIT_COMMON_DIR is set and
+	 * "$GIT_COMMON_DIR/remotes" will be used instead.
+	 *
+	 * @since 5.10
+	 */
+	public static final String REMOTES = "remotes";
+
+	/**
+	 * Name of the folder where the refs are stored.
+	 *
+	 * References are stored in subdirectories of this directory.
+	 *
+	 * This directory is ignored if $GIT_COMMON_DIR is set and
+	 * "$GIT_COMMON_DIR/refs" will be used instead.
+	 *
+	 * @since 5.10
+	 */
+	public static final String REFS = "refs";
+
+	/**
+	 * Prefix for any ref.
+	 *
+	 * @since 5.10
+	 */
+	public static final String R_REFS = REFS + FILE_SEPARATOR;
+
+	/**
+	 * Name of heads folder or file in refs.
+	 *
+	 * @since 5.10
+	 */
+	public static final String HEADS = "heads";
+
 	/** Prefix for branch refs */
-	public static final String R_HEADS = "refs/heads/";
+	public static final String R_HEADS = R_REFS + HEADS + FILE_SEPARATOR;
 
 	/** Prefix for remotes refs */
-	public static final String R_REMOTES = "refs/remotes/";
+	public static final String R_REMOTES = R_REFS + "remotes" + FILE_SEPARATOR;
+
+	/**
+	 * Name of tags folder or file in refs.
+	 *
+	 * @since 5.10
+	 */
+	public static final String TAGS = "tags";
 
 	/** Prefix for tag refs */
-	public static final String R_TAGS = "refs/tags/";
+	public static final String R_TAGS = R_REFS + TAGS + FILE_SEPARATOR;
 
 	/** Prefix for notes refs */
-	public static final String R_NOTES = "refs/notes/";
+	public static final String R_NOTES = R_REFS + "notes" + FILE_SEPARATOR;
 
 	/** Standard notes ref */
 	public static final String R_NOTES_COMMITS = R_NOTES + "commits";
 
-	/** Prefix for any ref */
-	public static final String R_REFS = "refs/";
-
 	/** Standard stash ref */
 	public static final String R_STASH = R_REFS + STASH;
 
-	/** Logs folder name */
+	/**
+	 * Logs folder name.
+	 *
+	 * Records of changes made to refs are stored in this directory. This
+	 * directory is ignored if $GIT_COMMON_DIR is set and "$GIT_COMMON_DIR/logs"
+	 * will be used instead.
+	 *
+	 */
 	public static final String LOGS = "logs";
 
 	/**
-	 * Objects folder name
+	 * Name of the folder (inside gitDir) where the objects are stored.
+	 *
+	 * This directory is ignored if $GIT_COMMON_DIR is set and
+	 * "$GIT_COMMON_DIR/objects" will be used instead.
+	 *
 	 * @since 5.5
 	 */
 	public static final String OBJECTS = "objects";
@@ -260,8 +342,12 @@ public final class Constants {
 	 */
 	public static final String TABLES_LIST = "tables.list";
 
-	/** Info refs folder */
-	public static final String INFO_REFS = "info/refs";
+	/**
+	 * Prefix for any log.
+	 *
+	 * @since 5.10
+	 */
+	public static final String L_LOGS = LOGS + FILE_SEPARATOR;
 
 	/**
 	 * Info alternates file (goes under OBJECTS)
@@ -275,22 +361,87 @@ public final class Constants {
 	 */
 	public static final String INFO_HTTP_ALTERNATES = "info/http-alternates";
 
-	/** Packed refs file */
+	/**
+	 * Packed refs file.
+	 *
+	 * Records the same information as refs/heads/, refs/tags/ and friends
+	 * record in a more efficient way. This file is ignored if $GIT_COMMON_DIR
+	 * is set and "$GIT_COMMON_DIR/packed-refs" will be used instead.
+	 *
+	 */
 	public static final String PACKED_REFS = "packed-refs";
+
+	/**
+	 * Logs refs folder.
+	 *
+	 * @since 5.10
+	 */
+	public static final String LOGS_REFS = L_LOGS + REFS;
+
+	/**
+	 * Name of the folder where the info is stored.
+	 *
+	 * Additional information about the repository is recorded in this
+	 * directory. This directory is ignored if $GIT_COMMON_DIR is set and
+	 * "$GIT_COMMON_DIR/info" will be used instead.
+	 *
+	 * @since 5.10
+	 */
+	public static final String INFO = "info";
+
+	/**
+	 * Prefix for any info.
+	 *
+	 * @since 5.10
+	 */
+	public static final String I_INFO = INFO + FILE_SEPARATOR;
+
+	/**
+	 * Info refs folder.
+	 */
+	public static final String INFO_REFS = I_INFO + REFS;
 
 	/**
 	 * Excludes-file
 	 *
 	 * @since 3.0
 	 */
-	public static final String INFO_EXCLUDE = "info/exclude";
+	public static final String INFO_EXCLUDE = I_INFO + "exclude";
 
 	/**
 	 * Attributes-override-file
 	 *
 	 * @since 4.2
 	 */
-	public static final String INFO_ATTRIBUTES = "info/attributes";
+	public static final String INFO_ATTRIBUTES = I_INFO + "attributes";
+
+	/**
+	 * The name of the "rebase-apply" folder for non-interactive rebases.
+	 *
+	 * @since 5.10
+	 */
+	public static final String REBASE_APPLY = "rebase-apply";
+
+	/**
+	 * Prefix for all "rebase-apply" folders or files.
+	 *
+	 * @since 5.10
+	 */
+	public static final String R_REBASE_APPLY = REBASE_APPLY + FILE_SEPARATOR;
+
+	/**
+	 * The name of the "rebase-merge" folder for interactive rebases.
+	 *
+	 * @since 5.10
+	 */
+	public static final String REBASE_MERGE = "rebase-merge";
+
+	/**
+	 * Prefix for all "rebase-merge" folders or files.
+	 *
+	 * @since 5.10
+	 */
+	public static final String R_REBASE_MERGE = REBASE_MERGE + FILE_SEPARATOR;
 
 	/**
 	 * The system property that contains the system user name
@@ -338,13 +489,34 @@ public final class Constants {
 
 	/**
 	 * The environment variable that tells us which directory is the ".git"
-	 * directory
+	 * directory.
+	 *
+	 * If the GIT_DIR environment variable is set then it specifies a path to
+	 * use instead of the default .git for the base of the repository. The
+	 * --git-dir command-line option also sets this value.
 	 */
 	public static final String GIT_DIR_KEY = "GIT_DIR";
 
 	/**
-	 * The environment variable that tells us which directory is the working
-	 * directory.
+	 * The environment variable that tells us which directory is the common
+	 * ".git" directory.
+	 *
+	 * If this variable is set to a path, non-worktree files that are normally
+	 * in $GIT_DIR will be taken from this path instead. Worktree-specific files
+	 * such as HEAD or index are taken from $GIT_DIR. It's related to
+	 * git-worktree.
+	 *
+	 * @since 5.10
+	 */
+	public static final String GIT_COMMON_DIR_KEY = "GIT_COMMON_DIR";
+
+	/**
+	 * The environment variable that tells us which directory is the main
+	 * working directory.
+	 *
+	 * Set the path to the root of the working tree. This can also be controlled
+	 * by the core.worktree configuration variable.
+	 *
 	 */
 	public static final String GIT_WORK_TREE_KEY = "GIT_WORK_TREE";
 
@@ -376,10 +548,15 @@ public final class Constants {
 	/** Default remote name used by clone, push and fetch operations */
 	public static final String DEFAULT_REMOTE_NAME = "origin";
 
-	/** Default name for the Git repository directory */
+	/** Default name for the Git repository directory or Git link file */
 	public static final String DOT_GIT = ".git";
 
-	/** Default name for the Git repository configuration */
+	/**
+	 * Default name for the Git repository configuration.
+	 *
+	 * Repository specific configuration file. This file is ignored if
+	 * $GIT_COMMON_DIR is set and "$GIT_COMMON_DIR/config" will be used instead.
+	 */
 	public static final String CONFIG = "config";
 
 	/** A bare repository typically ends with this string */
@@ -433,7 +610,12 @@ public final class Constants {
 	/** Name of the submodules file */
 	public static final String DOT_GIT_MODULES = ".gitmodules";
 
-	/** Name of the .git/shallow file */
+	/**
+	 * Name of the .git/shallow file.
+	 *
+	 * This file is ignored if $GIT_COMMON_DIR is set and
+	 * "$GIT_COMMON_DIR/shallow" will be used instead.
+	 */
 	public static final String SHALLOW = "shallow";
 
 	/**
@@ -444,14 +626,37 @@ public final class Constants {
 	public static final String GITDIR = "gitdir: ";
 
 	/**
-	 * Name of the folder (inside gitDir) where submodules are stored
+	 * Name of the folder (inside gitDir) where submodules are stored.
+	 *
+	 * Contains the git-repositories of the submodules. This directory is
+	 * ignored if $GIT_COMMON_DIR is set and "$GIT_COMMON_DIR/modules" will be
+	 * used instead.
 	 *
 	 * @since 3.6
 	 */
 	public static final String MODULES = "modules";
 
 	/**
+	 * Name of the folder (inside gitDir) where worktrees are stored.
+	 *
+	 * .git/worktrees/&lt;worktree-name&gt;
+	 *
+	 * Contains administrative data for linked working trees. Each subdirectory
+	 * contains the working tree-related part of a linked working tree. This
+	 * directory is ignored if $GIT_COMMON_DIR is set, in which case
+	 * "$GIT_COMMON_DIR/worktrees" will be used instead.
+	 *
+	 * @since 5.10
+	 */
+	public static final String WORKTREES = "worktrees";
+
+	/**
 	 * Name of the folder (inside gitDir) where the hooks are stored.
+	 *
+	 * Hooks are customization scripts used by various Git commands.
+	 *
+	 * This directory is ignored if $GIT_COMMON_DIR is set and
+	 * "$GIT_COMMON_DIR/hooks" will be used instead.
 	 *
 	 * @since 3.7
 	 */
@@ -477,6 +682,50 @@ public final class Constants {
 	 * @since 4.9
 	 */
 	public static final String ATTR_BUILTIN_BINARY_MERGER = "binary"; //$NON-NLS-1$
+
+	/**
+	 * The current index file (inside gitDir) for the repository.
+	 *
+	 * @since 5.10
+	 */
+	public static final String INDEX = "index";
+
+	/**
+	 * The current index.lock file (inside gitDir) for the repository.
+	 *
+	 * @since 5.10
+	 */
+	public static final String INDEX_LOCK = "index.lock";
+
+	/**
+	 * Name of the file (inside gitDir) that has reference to worktree's .git
+	 * file (opposite link).
+	 *
+	 * .git/worktrees/&lt;worktree-name&gt;/gitdir
+	 *
+	 * A text file containing the absolute path back to the .git file that
+	 * points to here. This is used to check if the linked repository has been
+	 * manually removed and there is no need to keep this directory any more.
+	 * The mtime of this file should be updated every time the linked repository
+	 * is accessed.
+	 *
+	 * @since 5.10
+	 */
+	public static final String GITDIR_FILE = "gitdir";
+
+	/**
+	 * Name of the file (inside gitDir) that has reference to $GIT_COMMON_DIR.
+	 *
+	 * .git/worktrees/&lt;worktree-name&gt;/commondir
+	 *
+	 * If this file exists, $GIT_COMMON_DIR will be set to the path specified in
+	 * this file if it is not explicitly set. If the specified path is relative,
+	 * it is relative to $GIT_DIR. The repository with commondir is incomplete
+	 * without the repository pointed by "commondir".
+	 *
+	 * @since 5.10
+	 */
+	public static final String COMMONDIR_FILE = "commondir";
 
 	/**
 	 * Create a new digest function for objects.
