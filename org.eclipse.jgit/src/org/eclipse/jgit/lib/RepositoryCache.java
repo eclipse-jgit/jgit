@@ -442,7 +442,7 @@ public class RepositoryCache {
 		 */
 		public static boolean isGitRepository(File dir, FS fs) {
 			return fs.resolve(dir, Constants.OBJECTS).exists()
-					&& fs.resolve(dir, "refs").exists() //$NON-NLS-1$
+					&& fs.resolve(dir, Constants.REFS).exists()
 					&& (fs.resolve(dir, Constants.REFTABLE).exists()
 							|| isValidHead(new File(dir, Constants.HEAD)));
 		}
@@ -450,7 +450,8 @@ public class RepositoryCache {
 		private static boolean isValidHead(File head) {
 			final String ref = readFirstLine(head);
 			return ref != null
-					&& (ref.startsWith("ref: refs/") || ObjectId.isId(ref)); //$NON-NLS-1$
+					&& (ref.startsWith("ref: " + Constants.R_REFS) //$NON-NLS-1$
+							|| ObjectId.isId(ref));
 		}
 
 		private static String readFirstLine(File head) {
