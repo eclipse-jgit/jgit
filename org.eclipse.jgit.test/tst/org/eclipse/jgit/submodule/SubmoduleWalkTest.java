@@ -157,7 +157,7 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 			dotGit.getParentFile().mkdirs();
 
 		File modulesGitDir = new File(db.getDirectory(),
-				"modules" + File.separatorChar + path);
+				Constants.MODULES + File.separatorChar + path);
 		try (BufferedWriter fw = Files.newBufferedWriter(dotGit.toPath(),
 				UTF_8)) {
 			fw.append("gitdir: " + modulesGitDir.getAbsolutePath());
@@ -209,7 +209,8 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 		if (!dotGit.getParentFile().exists())
 			dotGit.getParentFile().mkdirs();
 
-		File modulesGitDir = new File(db.getDirectory(), "modules"
+		File modulesGitDir = new File(db.getDirectory(),
+				Constants.MODULES
 				+ File.separatorChar + path);
 		try (BufferedWriter fw = Files.newBufferedWriter(dotGit.toPath(),
 				UTF_8)) {
