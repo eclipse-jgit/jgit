@@ -806,9 +806,8 @@ public class RebaseCommandTest extends RepositoryTestCase {
 				"<<<<<<< Upstream, based on master\n1master\n=======\n1topic",
 				">>>>>>> e0d1dea change file1 in topic\n2\n3\ntopic4");
 
-		assertEquals(RepositoryState.REBASING_MERGE, repository
-				.getRepositoryState());
-		assertTrue(new File(repository.getDirectory(), "rebase-merge").exists());
+		assertEquals(RepositoryState.REBASING_MERGE, repository.getRepositoryState());
+		assertTrue(new File(repository.getDirectory(), Constants.REBASE_MERGE).exists());
 		// the first one should be included, so we should have left two picks in
 		// the file
 		assertEquals(1, countPicks());
@@ -833,8 +832,8 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		assertEquals(RepositoryState.SAFE, repository.getRepositoryState());
 
 		// rebase- dir in .git must be deleted
-		assertFalse(
-				new File(repository.getDirectory(), "rebase-merge").exists());
+		assertFalse(new File(repository.getDirectory(), Constants.REBASE_MERGE)
+				.exists());
 	}
 
 	@Test
@@ -872,7 +871,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 				">>>>>>> e0d1dea change file1 in topic\n2\n3\ntopic4");
 
 		assertEquals(RepositoryState.REBASING_MERGE, repository.getRepositoryState());
-		assertTrue(new File(repository.getDirectory(), "rebase-merge").exists());
+		assertTrue(new File(repository.getDirectory(), Constants.REBASE_MERGE).exists());
 		// the first one should be included, so we should have left two picks in
 		// the file
 		assertEquals(1, countPicks());
@@ -897,8 +896,8 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		assertEquals(RepositoryState.SAFE, repository.getRepositoryState());
 
 		// rebase- dir in .git must be deleted
-		assertFalse(
-				new File(repository.getDirectory(), "rebase-merge").exists());
+		assertFalse(new File(repository.getDirectory(), Constants.REBASE_MERGE)
+				.exists());
 	}
 
 	@Test
@@ -1391,8 +1390,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 
 		assertEquals(RepositoryState.REBASING_MERGE, repository
 				.getRepositoryState());
-		assertTrue(
-				new File(repository.getDirectory(), "rebase-merge").exists());
+		assertTrue(new File(repository.getDirectory(), Constants.REBASE_MERGE).exists());
 		// the first one should be included, so we should have left two picks in
 		// the file
 		assertEquals(0, countPicks());
@@ -1413,8 +1411,8 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		}
 
 		// rebase- dir in .git must be deleted
-		assertFalse(
-				new File(repository.getDirectory(), "rebase-merge").exists());
+		assertFalse(new File(repository.getDirectory(), Constants.REBASE_MERGE)
+				.exists());
 
 		assertTrue(file2.exists());
 		assertFalse(file3.exists());
@@ -2241,7 +2239,8 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		git.add().addFilepattern(FILE1).call();
 		git.commit().setMessage("initial commit").call();
 
-		File applyDir = new File(repository.getDirectory(), "rebase-apply");
+		File applyDir = new File(repository.getDirectory(),
+				Constants.REBASE_APPLY);
 		File headName = new File(applyDir, "head-name");
 		FileUtils.mkdir(applyDir);
 		write(headName, "master");
