@@ -234,7 +234,7 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 		ObjectId unstashed = git.stashApply().call();
 		assertEquals(stashed, unstashed);
 		assertEquals("content2", read(subfolderFile));
-		recorder.assertEvent(new String[] { "d1/d2/f.txt", "d1/d2", "d1" },
+		recorder.assertEvent(new String[] { "d1/d2/f.txt" },
 				ChangeRecorder.EMPTY);
 
 		Status status = git.status().call();

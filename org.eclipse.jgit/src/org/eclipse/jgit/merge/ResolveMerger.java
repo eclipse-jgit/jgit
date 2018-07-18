@@ -632,12 +632,16 @@ public class ResolveMerger extends ThreeWayMerger {
 				return true;
 			} else {
 				// we want THEIRS ... but THEIRS contains a folder or the
-				// deletion of the path. Delete what's in the workingtree (the
-				// workingtree is clean) but do not complain if the file is
-				// already deleted locally. This complements the test in
-				// isWorktreeDirty() for the same case.
-				if (tw.getTreeCount() > T_FILE && tw.getRawMode(T_FILE) == 0)
+				// deletion of the path. Delete what's in the working tree,
+				// which we know to be clean.
+				if (tw.getTreeCount() > T_FILE && tw.getRawMode(T_FILE) == 0) {
+					// Not present in working tree, so nothing to delete
 					return true;
+				}
+				if (modeT != 0 && modeT == modeB) {
+					// Base, ours, and theirs all contain a folder: don't delete
+					return true;
+				}
 				toBeDeleted.add(tw.getPathString());
 				return true;
 			}
