@@ -26,6 +26,7 @@ import org.eclipse.jgit.events.IndexChangedEvent;
 import org.eclipse.jgit.events.IndexChangedListener;
 import org.eclipse.jgit.events.ListenerList;
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
@@ -143,7 +144,8 @@ public class DirCacheBuilderTest extends RepositoryTestCase {
 			assertTrue(b.commit());
 			assertEquals(1, dc.getEntryCount());
 			assertSame(entOrig, dc.getEntry(0));
-			assertFalse(new File(db.getDirectory(), "index.lock").exists());
+			assertFalse(
+					new File(db.getDirectory(), Constants.INDEX_LOCK).exists());
 		}
 		{
 			final DirCache dc = db.readDirCache();
