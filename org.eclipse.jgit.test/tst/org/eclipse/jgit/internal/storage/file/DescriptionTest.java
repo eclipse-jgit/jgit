@@ -50,6 +50,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.Test;
 
@@ -60,7 +61,7 @@ public class DescriptionTest extends LocalDiskRepositoryTestCase {
 	@Test
 	public void description() throws IOException {
 		Repository git = createBareRepository();
-		File path = new File(git.getDirectory(), "description");
+		File path = new File(git.getDirectory(), Constants.DESCRIPTION);
 		assertNull("description", git.getGitwebDescription());
 
 		String desc = "a test repo\nfor jgit";

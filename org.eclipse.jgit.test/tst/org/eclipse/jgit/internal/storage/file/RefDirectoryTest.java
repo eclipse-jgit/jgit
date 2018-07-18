@@ -72,6 +72,7 @@ import org.eclipse.jgit.events.RefsChangedListener;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Ref.Storage;
 import org.eclipse.jgit.lib.RefDatabase;
@@ -116,14 +117,14 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		File d = diskRepo.getDirectory();
 		assertSame(diskRepo, refdir.getRepository());
 
-		assertTrue(new File(d, "refs").isDirectory());
-		assertTrue(new File(d, "logs").isDirectory());
+		assertTrue(new File(d, Constants.REFS).isDirectory());
+		assertTrue(new File(d, Constants.LOGS).isDirectory());
 		assertTrue(new File(d, "logs/refs").isDirectory());
 		assertFalse(new File(d, "packed-refs").exists());
 
 		assertTrue(new File(d, "refs/heads").isDirectory());
 		assertTrue(new File(d, "refs/tags").isDirectory());
-		assertEquals(2, new File(d, "refs").list().length);
+		assertEquals(2, new File(d, Constants.REFS).list().length);
 		assertEquals(0, new File(d, "refs/heads").list().length);
 		assertEquals(0, new File(d, "refs/tags").list().length);
 

@@ -239,23 +239,44 @@ public final class Constants {
 	/** Default stash branch name */
 	public static final String STASH = "stash";
 
+	/**
+	 * Name of the folder (inside gitDir) where the branches are stored.
+	 *
+	 * @since 5.1
+	 */
+	public static final String BRANCHES = "branches";
+
+	/**
+	 * Name of the file (inside gitDir) where the description of repo is stored.
+	 *
+	 * @since 5.1
+	 */
+	public static final String DESCRIPTION = "description";
+
+	/**
+	 * Name of the folder (inside gitDir) where the refs are stored.
+	 *
+	 * @since 5.1
+	 */
+	public static final String REFS = "refs";
+
+	/** Prefix for any ref */
+	public static final String R_REFS = REFS + "/";
+
 	/** Prefix for branch refs */
-	public static final String R_HEADS = "refs/heads/";
+	public static final String R_HEADS = R_REFS + "heads/";
 
 	/** Prefix for remotes refs */
-	public static final String R_REMOTES = "refs/remotes/";
+	public static final String R_REMOTES = R_REFS + "remotes/";
 
 	/** Prefix for tag refs */
-	public static final String R_TAGS = "refs/tags/";
+	public static final String R_TAGS = R_REFS + "tags/";
 
 	/** Prefix for notes refs */
-	public static final String R_NOTES = "refs/notes/";
+	public static final String R_NOTES = R_REFS + "notes/";
 
 	/** Standard notes ref */
 	public static final String R_NOTES_COMMITS = R_NOTES + "commits";
-
-	/** Prefix for any ref */
-	public static final String R_REFS = "refs/";
 
 	/** Standard stash ref */
 	public static final String R_STASH = R_REFS + STASH;
@@ -263,8 +284,18 @@ public final class Constants {
 	/** Logs folder name */
 	public static final String LOGS = "logs";
 
+	/**
+	 * Name of the folder (inside gitDir) where the refs are stored.
+	 *
+	 * @since 5.1
+	 */
+	public static final String INFO = "info";
+
+	/** Prefix for any info */
+	public static final String I_INFO = INFO + "/";
+
 	/** Info refs folder */
-	public static final String INFO_REFS = "info/refs";
+	public static final String INFO_REFS = I_INFO + "refs";
 
 	/** Packed refs file */
 	public static final String PACKED_REFS = "packed-refs";
@@ -274,14 +305,14 @@ public final class Constants {
 	 *
 	 * @since 3.0
 	 */
-	public static final String INFO_EXCLUDE = "info/exclude";
+	public static final String INFO_EXCLUDE = I_INFO + "exclude";
 
 	/**
 	 * Attributes-override-file
 	 *
 	 * @since 4.2
 	 */
-	public static final String INFO_ATTRIBUTES = "info/attributes";
+	public static final String INFO_ATTRIBUTES = I_INFO + "attributes";
 
 	/**
 	 * The system property that contains the system user name
@@ -358,7 +389,7 @@ public final class Constants {
 	/** Default remote name used by clone, push and fetch operations */
 	public static final String DEFAULT_REMOTE_NAME = "origin";
 
-	/** Default name for the Git repository directory */
+	/** Default name for the Git repository directory or Git link file */
 	public static final String DOT_GIT = ".git";
 
 	/** Default name for the Git repository configuration */
@@ -426,6 +457,14 @@ public final class Constants {
 	public static final String MODULES = "modules";
 
 	/**
+	 * Name of the folder (inside gitDir) where worktrees are stored:
+	 * .git/worktrees/&lt;worktree-name&gt;
+	 *
+	 * @since 5.1
+	 */
+	public static final String WORKTREES = "worktrees";
+
+	/**
 	 * Name of the folder (inside gitDir) where the hooks are stored.
 	 *
 	 * @since 3.7
@@ -452,6 +491,36 @@ public final class Constants {
 	 * @since 4.9
 	 */
 	public static final String ATTR_BUILTIN_BINARY_MERGER = "binary"; //$NON-NLS-1$
+
+	/**
+	 * Name of the folder (inside gitDir) where the objects are stored.
+	 *
+	 * @since 5.1
+	 */
+	public static final String OBJECTS = "objects";
+
+	/**
+	 * The current index file (inside gitDir) for the repository.
+	 *
+	 * @since 5.1
+	 */
+	public static final String INDEX = "index";
+
+	/**
+	 * Name of the file (inside gitDir) that has reference to worktree's .git
+	 * file (opposite link): .git/worktrees/&lt;worktree-name&gt;/gitdir
+	 *
+	 * @since 5.1
+	 */
+	public static final String GITDIR_FILE = "gitdir";
+
+	/**
+	 * Name of the file (inside gitDir) that has reference to GIT_COMMON_DIR
+	 * .git/worktrees/&lt;worktree-name&gt;/commondir
+	 *
+	 * @since 5.1
+	 */
+	public static final String COMMONDIR_FILE = "commondir";
 
 	/**
 	 * Create a new digest function for objects.

@@ -301,8 +301,8 @@ public class FileRepository extends Repository {
 		refs.create();
 		objectDatabase.create();
 
-		FileUtils.mkdir(new File(getDirectory(), "branches")); //$NON-NLS-1$
-		FileUtils.mkdir(new File(getDirectory(), "hooks")); //$NON-NLS-1$
+		FileUtils.mkdir(new File(getDirectory(), Constants.BRANCHES));
+		FileUtils.mkdir(new File(getDirectory(), Constants.HOOKS));
 
 		RefUpdate head = updateRef(Constants.HEAD);
 		head.disableRefLog();
@@ -474,7 +474,7 @@ public class FileRepository extends Repository {
 	}
 
 	private File descriptionFile() {
-		return new File(getDirectory(), "description"); //$NON-NLS-1$
+		return new File(getDirectory(), Constants.DESCRIPTION);
 	}
 
 	/**

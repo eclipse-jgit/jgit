@@ -681,7 +681,8 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 	 */
 	protected void setupInternals() throws IOException {
 		if (getObjectDirectory() == null && getGitDir() != null)
-			setObjectDirectory(safeFS().resolve(getGitDir(), "objects")); //$NON-NLS-1$
+			setObjectDirectory(
+					safeFS().resolve(getGitDir(), Constants.OBJECTS));
 	}
 
 	/**
