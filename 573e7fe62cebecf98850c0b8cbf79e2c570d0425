@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "91e4bdd8_168d5712",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-07-19T06:29:37Z",
+      "side": 1,
+      "message": "Add:\n\n Bug: 537166\n\nto the footers.",
+      "revId": "573e7fe62cebecf98850c0b8cbf79e2c570d0425",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
