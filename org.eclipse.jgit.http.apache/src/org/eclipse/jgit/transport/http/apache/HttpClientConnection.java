@@ -272,10 +272,16 @@ public class HttpClientConnection implements HttpConnection {
 	public Map<String, List<String>> getHeaderFields() {
 		Map<String, List<String>> ret = new HashMap<>();
 		for (Header hdr : resp.getAllHeaders()) {
-			List<String> list = new LinkedList<>();
-			for (HeaderElement hdrElem : hdr.getElements())
+			List<String> list;
+			if (ret.containsKey(hdr.getName())) {
+				list = ret.get(hdr.getName());
+			} else {
+				list = new LinkedList<>();
+				ret.put(hdr.getName(), list);
+			}
+			for (HeaderElement hdrElem : hdr.getElements()) {
 				list.add(hdrElem.toString());
-			ret.put(hdr.getName(), list);
+			}
 		}
 		return ret;
 	}
