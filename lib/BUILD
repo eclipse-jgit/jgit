@@ -51,6 +51,7 @@ java_library(
     name = "httpcore",
     visibility = [
         "//org.eclipse.jgit.http.apache:__pkg__",
+        "//org.eclipse.jgit.http.test:__pkg__",
         "//org.eclipse.jgit.lfs.server:__pkg__",
         "//org.eclipse.jgit.lfs.server.test:__pkg__",
         "//org.eclipse.jgit.pgm:__pkg__",

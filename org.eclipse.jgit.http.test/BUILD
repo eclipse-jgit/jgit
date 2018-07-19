@@ -10,6 +10,7 @@ junit_tests(
     deps = [
         ":helpers",
         "//lib:commons-logging",
+        "//lib:httpcore",
         "//lib:jetty-http",
         "//lib:jetty-io",
         "//lib:jetty-security",
