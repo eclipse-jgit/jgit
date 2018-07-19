@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d98ecf77_43e61370",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2018-07-19T13:23:35Z",
+      "side": 1,
+      "message": "I think the change is ok, +1. But have you seen this helping a lot? Years ago I spent so much time in trying to understand the different use cases here that I started a google sheet covering many cases [1]. There is a view now called \"change 126222\" listing the case where we could reach line 643 (use \"Data-\u003eFilter views\" to go there). \n\nJust before line 640 we know that:\n- modeB !\u003d modeT || !tw.idEqual(T_BASE, T_THEIRS) (otherwise we would have entered the block in line 608) \u003d\u003e Theirs is not equal to base\n- modeB \u003d\u003d modeO \u0026\u0026 tw.idEqual(T_BASE, T_OURS) \u003d\u003e base is equal to ours\n- the last two combined mean: theirs is not equal to base. Since we want to checkout theirs and the working tree is equal to ours (the workingtree is clean!) we will anyhow have to touch files underneath this folder. \n- !nonTree(modeT) \u003d\u003e theirs is a folder\n\nHow can now be modeT\u003d\u003dmodeB? This can only happen if !idEqual(T_THEIRS, T_BASE) (otherwise we would have exited in 614) and therefore !idEqual(T_THEIRS, T_OURS).\n\nAlthough we know we will have to modify/delete some of the files underneath this folder it\u0027s of course much faster if we don\u0027t delete all workingtree files underneath the folder and later recreate them later. Instead keep as many files untouched as possible.\n\n[1] https://docs.google.com/spreadsheets/d/1KcwZ4DirRclGWv4txyYB8HXvoRp1wt64gTIDO9DB4JQ/edit?usp\u003dsharing",
+      "range": {
+        "startLine": 641,
+        "startChar": 0,
+        "endLine": 644,
+        "endChar": 5
+      },
+      "revId": "a9b54b026d22be9a42aec4cdc0ea168da7a300dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
