@@ -22,6 +22,30 @@
       "revId": "d0626fa233424d1f88339e2e2c8ac5ddbde0d4a9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "929c97fb_b1bcde70",
+        "filename": "org.eclipse.jgit.http.apache/src/org/eclipse/jgit/transport/http/apache/HttpClientConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 195797
+      },
+      "writtenOn": "2018-07-19T16:11:47Z",
+      "side": 1,
+      "message": "Good Call. Done",
+      "parentUuid": "434b2312_62403f32",
+      "range": {
+        "startLine": 275,
+        "startChar": 0,
+        "endLine": 281,
+        "endChar": 4
+      },
+      "revId": "d0626fa233424d1f88339e2e2c8ac5ddbde0d4a9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
