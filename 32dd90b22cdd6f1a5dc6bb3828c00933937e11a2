@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "4e82f85b_54411a17",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 624,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2018-07-19T13:23:35Z",
+      "side": 1,
+      "message": "Not sure if I understood correct so I summarise my understandings.\n\nYes it is possible here that base and ours contain a folder and theirs contain a file. But we do handle it, or?\nWe know that base and ours have the same ID, means these two folders contain the same files/subfolders/... . That means: we want the  theirs file to be in index and the workingtree. To achieve that we put theirs as new index content and also mark this path to be checked out. That checkout should delete the old subtree and put a file with the theirs content.",
+      "parentUuid": "33ce422b_66f4a647",
+      "revId": "32dd90b22cdd6f1a5dc6bb3828c00933937e11a2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "97e0bf8f_b0bd2bbe",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 3
