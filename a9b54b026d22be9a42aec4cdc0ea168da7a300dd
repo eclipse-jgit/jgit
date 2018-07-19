@@ -22,6 +22,30 @@
       "revId": "a9b54b026d22be9a42aec4cdc0ea168da7a300dd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f664d611_1f854524",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-07-19T13:34:47Z",
+      "side": 1,
+      "message": "\u003e I think the change is ok, +1. But have you seen this helping a lot?\n \u003e \n \u003e ...\n \u003e \n \u003e Although we know we will have to modify/delete some of the files\n \u003e underneath this folder it\u0027s of course much faster if we don\u0027t\n \u003e delete all workingtree files underneath the folder and later\n \u003e recreate them later. Instead keep as many files untouched as\n \u003e possible.\n\nExactly that is the point of this change. Especially since most of the time the directory deletions will fail anyway unless all files underneath this folder where changed.\n\nA failed deletion attempt in checkOut() can be quite costly, it\u0027s a File.delete() followed by File.isDirectory(), and the latter is fairly slow in Windows.\n\nIn the example in bug 536880, there were only a few changed files, but in quite deeply nested directories. We end up with trying to delete all those ancestor directories (and reporting them as \"modifiedFiles\"). So even though the stash apply should have had to simply check out 7 changed files, it additionally ended up trying to delete (and possibly re-create) 43 ancestor directories, and reported 50 modified \"files\" (paths, actually).",
+      "parentUuid": "d98ecf77_43e61370",
+      "range": {
+        "startLine": 641,
+        "startChar": 0,
+        "endLine": 644,
+        "endChar": 5
+      },
+      "revId": "a9b54b026d22be9a42aec4cdc0ea168da7a300dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
