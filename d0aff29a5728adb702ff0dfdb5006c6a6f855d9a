@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5edfbd7c_834d2d10",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-07-19T02:10:03Z",
+      "side": 1,
+      "message": "Copy pasted from L257?",
+      "range": {
+        "startLine": 288,
+        "startChar": 4,
+        "endLine": 288,
+        "endChar": 65
+      },
+      "revId": "d0aff29a5728adb702ff0dfdb5006c6a6f855d9a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
