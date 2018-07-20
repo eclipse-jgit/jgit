@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb04536b_f0fe4658",
+        "filename": "org.eclipse.jgit.http.test/META-INF/MANIFEST.MF",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-07-20T13:33:27Z",
+      "side": 1,
+      "message": "Do you have to add this dependency for the Bazel tests, too? Or is it already there?",
+      "revId": "c6c3f1d0dc9f075a81323925fdb617b3a212ec63",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
