@@ -45,6 +45,7 @@ package org.eclipse.jgit.lib;
 import static java.lang.Long.valueOf;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assume.assumeTrue;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -157,10 +158,13 @@ public class RacyGitTests extends RepositoryTestCase {
 		// Remember the last modTime of index file. All modifications times of
 		// further modification are translated to this value so it looks that
 		// files have been modified in the same time slot as the index file
-		modTimes.add(Long.valueOf(db.getIndexFile().lastModified()));
+		long indexMod = db.getIndexFile().lastModified();
+		modTimes.add(Long.valueOf(indexMod));
 
 		// modify one file
-		addToWorkDir("a", "a2");
+		long aMod = addToWorkDir("a", "a2").lastModified();
+		assumeTrue(aMod == indexMod);
+
 		// now update the index the index. 'a' has to be racily clean -- because
 		// it's modification time is exactly the same as the previous index file
 		// mod time.
