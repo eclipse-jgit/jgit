@@ -115,9 +115,9 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	private String groupsParam;
 	private String branch;
 	private String targetBranch = Constants.HEAD;
-	private boolean recordRemoteBranch = false;
-	private boolean recordSubmoduleLabels = false;
-	private boolean recordShallowSubmodules = false;
+	private boolean recordRemoteBranch = true;
+	private boolean recordSubmoduleLabels = true;
+	private boolean recordShallowSubmodules = true;
 	private PersonIdent author;
 	private RemoteReader callback;
 	private InputStream inputStream;
