@@ -54,6 +54,7 @@ import java.util.List;
 
 import org.eclipse.jgit.diff.DiffEntry.ChangeType;
 import org.eclipse.jgit.diff.SimilarityIndex.TableFullException;
+import org.eclipse.jgit.errors.CancelledException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -142,6 +143,9 @@ class SimilarityRenameDetector {
 		// we have looked at everything that is above our minimum score.
 		//
 		for (--mNext; mNext >= 0; mNext--) {
+			if (pm.isCancelled()) {
+				throw new CancelledException(JGitText.get().renameCancelled);
+			}
 			long ent = matrix[mNext];
 			int sIdx = srcFile(ent);
 			int dIdx = dstFile(ent);

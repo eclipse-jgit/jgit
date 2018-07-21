@@ -57,6 +57,7 @@ import java.util.List;
 
 import org.eclipse.jgit.diff.DiffEntry.ChangeType;
 import org.eclipse.jgit.diff.SimilarityIndex.TableFullException;
+import org.eclipse.jgit.errors.CancelledException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.FileMode;
@@ -332,8 +333,11 @@ public class RenameDetector {
 	 *         representing all files that have been changed.
 	 * @throws java.io.IOException
 	 *             file contents cannot be read from the repository.
+	 * @throws CancelledException
+	 *             if rename detection was cancelled
 	 */
-	public List<DiffEntry> compute(ProgressMonitor pm) throws IOException {
+	public List<DiffEntry> compute(ProgressMonitor pm)
+			throws IOException, CancelledException {
 		if (!done) {
 			try {
 				return compute(objectReader, pm);
@@ -355,9 +359,11 @@ public class RenameDetector {
 	 *         representing all files that have been changed.
 	 * @throws java.io.IOException
 	 *             file contents cannot be read from the repository.
+	 * @throws CancelledException
+	 *             if rename detection was cancelled
 	 */
 	public List<DiffEntry> compute(ObjectReader reader, ProgressMonitor pm)
-			throws IOException {
+			throws IOException, CancelledException {
 		final ContentSource cs = ContentSource.create(reader);
 		return compute(new ContentSource.Pair(cs, cs), pm);
 	}
@@ -373,9 +379,11 @@ public class RenameDetector {
 	 *         representing all files that have been changed.
 	 * @throws java.io.IOException
 	 *             file contents cannot be read from the repository.
+	 * @throws CancelledException
+	 *             if rename detection was cancelled
 	 */
 	public List<DiffEntry> compute(ContentSource.Pair reader, ProgressMonitor pm)
-			throws IOException {
+			throws IOException, CancelledException {
 		if (!done) {
 			done = true;
 
@@ -422,6 +430,9 @@ public class RenameDetector {
 		pm.beginTask(JGitText.get().renamesBreakingModifies, entries.size());
 
 		for (int i = 0; i < entries.size(); i++) {
+			if (pm.isCancelled()) {
+				break;
+			}
 			DiffEntry e = entries.get(i);
 			if (e.getChangeType() == ChangeType.MODIFY) {
 				int score = calculateModifyScore(reader, e);
@@ -451,11 +462,17 @@ public class RenameDetector {
 				+ deleted.size());
 
 		for (DiffEntry src : deleted) {
+			if (pm.isCancelled()) {
+				break;
+			}
 			nameMap.put(src.oldPath, src);
 			pm.update(1);
 		}
 
 		for (DiffEntry dst : added) {
+			if (pm.isCancelled()) {
+				break;
+			}
 			DiffEntry src = nameMap.remove(dst.newPath);
 			if (src != null) {
 				if (sameType(src.oldMode, dst.newMode)) {
@@ -537,6 +554,9 @@ public class RenameDetector {
 		ArrayList<DiffEntry> left = new ArrayList<>(added.size());
 
 		for (DiffEntry a : uniqueAdds) {
+			if (pm.isCancelled()) {
+				break;
+			}
 			Object del = deletedMap.get(a.newId);
 			if (del instanceof DiffEntry) {
 				// We have one add to one delete: pair them if they are the same
@@ -566,6 +586,9 @@ public class RenameDetector {
 		}
 
 		for (List<DiffEntry> adds : nonUniqueAdds) {
+			if (pm.isCancelled()) {
+				break;
+			}
 			Object o = deletedMap.get(adds.get(0).newId);
 			if (o instanceof DiffEntry) {
 				// We have many adds to one delete: find the add with the same
@@ -610,6 +633,9 @@ public class RenameDetector {
 				Arrays.sort(matrix);
 
 				for (--mNext; mNext >= 0; mNext--) {
+					if (pm.isCancelled()) {
+						break;
+					}
 					long ent = matrix[mNext];
 					int delIdx = SimilarityRenameDetector.srcFile(ent);
 					int addIdx = SimilarityRenameDetector.dstFile(ent);
