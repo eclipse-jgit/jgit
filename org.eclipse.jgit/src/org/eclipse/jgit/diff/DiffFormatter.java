@@ -62,6 +62,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.jgit.api.errors.CanceledException;
 import org.eclipse.jgit.diff.DiffAlgorithm.SupportedAlgorithm;
 import org.eclipse.jgit.diff.DiffEntry.ChangeType;
 import org.eclipse.jgit.dircache.DirCacheIterator;
@@ -577,7 +578,11 @@ public class DiffFormatter implements AutoCloseable {
 			throws IOException {
 		renameDetector.reset();
 		renameDetector.addAll(files);
-		return renameDetector.compute(reader, progressMonitor);
+		try {
+			return renameDetector.compute(reader, progressMonitor);
+		} catch (CanceledException e) {
+			return Collections.emptyList();
+		}
 	}
 
 	private boolean isAdd(List<DiffEntry> files) {
