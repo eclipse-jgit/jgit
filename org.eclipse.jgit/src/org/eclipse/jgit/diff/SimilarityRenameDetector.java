@@ -52,6 +52,7 @@ import java.util.Arrays;
 import java.util.BitSet;
 import java.util.List;
 
+import org.eclipse.jgit.api.errors.CanceledException;
 import org.eclipse.jgit.diff.DiffEntry.ChangeType;
 import org.eclipse.jgit.diff.SimilarityIndex.TableFullException;
 import org.eclipse.jgit.internal.JGitText;
@@ -128,7 +129,7 @@ class SimilarityRenameDetector {
 		renameScore = score;
 	}
 
-	void compute(ProgressMonitor pm) throws IOException {
+	void compute(ProgressMonitor pm) throws IOException, CanceledException {
 		if (pm == null)
 			pm = NullProgressMonitor.INSTANCE;
 
@@ -142,6 +143,9 @@ class SimilarityRenameDetector {
 		// we have looked at everything that is above our minimum score.
 		//
 		for (--mNext; mNext >= 0; mNext--) {
+			if (pm.isCancelled()) {
+				throw new CanceledException(JGitText.get().renameCancelled);
+			}
 			long ent = matrix[mNext];
 			int sIdx = srcFile(ent);
 			int dIdx = dstFile(ent);
@@ -209,7 +213,8 @@ class SimilarityRenameDetector {
 		return r;
 	}
 
-	private int buildMatrix(ProgressMonitor pm) throws IOException {
+	private int buildMatrix(ProgressMonitor pm)
+			throws IOException, CanceledException {
 		// Allocate for the worst-case scenario where every pair has a
 		// score that we need to consider. We might not need that many.
 		//
@@ -234,6 +239,10 @@ class SimilarityRenameDetector {
 			SimilarityIndex s = null;
 
 			for (int dstIdx = 0; dstIdx < dsts.size(); dstIdx++) {
+				if (pm.isCancelled()) {
+					throw new CanceledException(JGitText.get().renameCancelled);
+				}
+
 				DiffEntry dstEnt = dsts.get(dstIdx);
 
 				if (!isFile(dstEnt.newMode)) {

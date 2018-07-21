@@ -640,6 +640,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String renameBranchFailedBecauseTag;
 	/***/ public String renameBranchFailedUnknownReason;
 	/***/ public String renameBranchUnexpectedResult;
+	/***/ public String renameCancelled;
 	/***/ public String renameFileFailed;
 	/***/ public String renamesAlreadyFound;
 	/***/ public String renamesBreakingModifies;
