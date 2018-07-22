@@ -159,7 +159,7 @@ public class RevWalkShallowTest extends RevWalkTestCase {
 		for (ObjectId commit : shallowCommits) {
 			builder.append(commit.getName() + "\n");
 		}
-		JGitTestUtil.write(new File(db.getDirectory(), SHALLOW),
+		JGitTestUtil.write(new File(db.getCommonDirectory(), SHALLOW),
 				builder.toString());
 	}
 

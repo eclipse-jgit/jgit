@@ -35,7 +35,9 @@ class ReflogReaderImpl implements ReflogReader {
 	 * @param refname
 	 */
 	ReflogReaderImpl(Repository repo, String refname) {
-		logName = new File(repo.getDirectory(), Constants.L_LOGS + refname);
+		File logBaseDir = refname.equals("HEAD") ? repo.getDirectory() //$NON-NLS-1$
+				: repo.getCommonDirectory();
+		logName = new File(logBaseDir, Constants.L_LOGS + refname);
 	}
 
 	/* (non-Javadoc)

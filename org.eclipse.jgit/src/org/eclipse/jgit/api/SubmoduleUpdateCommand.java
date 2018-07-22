@@ -128,7 +128,8 @@ public class SubmoduleUpdateCommand extends
 			clone.setURI(url);
 			clone.setDirectory(generator.getDirectory());
 			clone.setGitDir(
-					new File(new File(repo.getDirectory(), Constants.MODULES),
+					new File(new File(repo.getCommonDirectory(),
+							Constants.MODULES),
 							generator.getPath()));
 			if (monitor != null) {
 				clone.setProgressMonitor(monitor);
