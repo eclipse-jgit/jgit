@@ -1308,8 +1308,8 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 				loadRulesFromFile(r, excludesfile);
 			}
 
-			File exclude = fs.resolve(repository.getDirectory(),
-					Constants.INFO_EXCLUDE);
+			File exclude = repository
+					.resolveDirectoryChild(Constants.INFO_EXCLUDE);
 			loadRulesFromFile(r, exclude);
 
 			return r.getRules().isEmpty() ? null : r;
