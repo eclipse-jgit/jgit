@@ -27,6 +27,7 @@ import java.io.OutputStream;
 import java.io.UncheckedIOException;
 import java.net.URISyntaxException;
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -113,8 +114,11 @@ public abstract class Repository implements AutoCloseable {
 
 	final AtomicLong closedAt = new AtomicLong();
 
-	/** Metadata directory holding the repository's critical files. */
+	/** $GIT_DIR: metadata directory holding the repository's critical files. */
 	private final File gitDir;
+
+	/** $GIT_COMMON_DIR: metadata directory holding the common repository's critical files.  */
+	private final File gitCommonDir;
 
 	/** File abstraction used to resolve paths. */
 	private final FS fs;
@@ -135,6 +139,7 @@ public abstract class Repository implements AutoCloseable {
 	 */
 	protected Repository(BaseRepositoryBuilder options) {
 		gitDir = options.getGitDir();
+		gitCommonDir = options.getGitCommonDir();
 		fs = options.getFS();
 		workTree = options.getWorkTree();
 		indexFile = options.getIndexFile();
@@ -216,30 +221,80 @@ public abstract class Repository implements AutoCloseable {
 	public abstract String getIdentifier();
 
 	/**
-	 * Get File instance under local metadata directory.
+	 * Get base metadata directory for child.
+	 *
+	 * This method supports git-worktree commondir and $GIT_COMMON_DIR.
 	 *
 	 * @param child
 	 *            name of child pathname
 	 *
-	 * @return local child File instance under metadata directory.
+	 * @return Base metadata directory for given child
 	 * @since 5.8
 	 */
-	public File getDirectoryChild(String child) {
-		File dir = getDirectory();
-		return dir == null ? null : new File(getDirectory(), child);
+	public File getBaseDirectoryForChild(String child) {
+		// check if we have a common directory and child is not related to
+		// HEAD (also "logs/HEAD" for ReflogReaderImpl etc.)
+		if (hasCommonDirectory() && !child.endsWith(Constants.HEAD)) {
+			// array with paths located under commondir directory
+			final String[] commondirConstantsArr = new String[] {
+					Constants.BRANCHES, Constants.REFS, Constants.PACKED_REFS,
+					Constants.LOGS, Constants.INFO, Constants.REMOTES,
+					Constants.CONFIG, Constants.SHALLOW, Constants.WORKTREES,
+					Constants.HOOKS, Constants.OBJECTS };
+			// only first part until file separator of child is needed
+			String[] prefix = child.split(Constants.FILE_SEPARATOR, 1);
+			if (Arrays.asList(commondirConstantsArr).contains(prefix[0])) {
+				return getCommonDirectory();
+			}
+		}
+		return getDirectory();
 	}
 
 	/**
-	 * Resolve File instance under local metadata directory.
+	 * Get file instance under local metadata directory.
+	 *
+	 * This method supports git-worktree commondir and $GIT_COMMON_DIR.
 	 *
 	 * @param child
 	 *            name of child pathname
 	 *
-	 * @return resolved local child File instance under metadata directory.
+	 * @return local child file instance under metadata directory.
+	 * @since 5.8
+	 */
+	public File getDirectoryChild(String child) {
+		return new File(getBaseDirectoryForChild(child), child);
+	}
+
+	/**
+	 * Resolve file instance under local metadata directory.
+	 *
+	 * This method supports git-worktree commondir and $GIT_COMMON_DIR.
+	 *
+	 * @param child
+	 *            name of child pathname
+	 *
+	 * @return resolved local child file instance under metadata directory.
 	 * @since 5.8
 	 */
 	public File resolveDirectoryChild(String child) {
-		return getFS().resolve(getDirectory(), child);
+		return getFS().resolve(getBaseDirectoryForChild(child), child);
+	}
+
+	/**
+	 * @return $GIT_COMMON_DIR: local common metadata directory; $GIT_DIR if not
+	 *         set.
+	 * @since 5.8
+	 */
+	public File getCommonDirectory() {
+		return gitCommonDir != null ? gitCommonDir : gitDir;
+	}
+
+	/**
+	 * @return true if $GIT_COMMON_DIR is set; false if not set.
+	 * @since 5.8
+	 */
+	public boolean hasCommonDirectory() {
+		return gitCommonDir != null;
 	}
 
 	/**
