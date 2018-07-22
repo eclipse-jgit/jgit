@@ -1553,6 +1553,81 @@ public abstract class FS {
 		return name;
 	}
 
+	private static boolean isSymRef(byte[] ref) {
+		if (ref.length < 9)
+			return false;
+		return /**/ref[0] == 'g' //
+				&& ref[1] == 'i' //
+				&& ref[2] == 't' //
+				&& ref[3] == 'd' //
+				&& ref[4] == 'i' //
+				&& ref[5] == 'r' //
+				&& ref[6] == ':' //
+				&& ref[7] == ' ';
+	}
+
+	/**
+	 * Read symolic reference file
+	 *
+	 * @param workTree
+	 *            the work tree path
+	 * @param dotGit
+	 *            the .git file
+	 * @return the file readed from symbolic reference file
+	 * @throws IOException
+	 *
+	 * @since 5.4
+	 */
+	public File getSymRef(File workTree, File dotGit)
+			throws IOException {
+		byte[] content = IO.readFully(dotGit);
+		if (!isSymRef(content))
+			throw new IOException(MessageFormat.format(
+					JGitText.get().invalidGitdirRef, dotGit.getAbsolutePath()));
+
+		int pathStart = 8;
+		int lineEnd = RawParseUtils.nextLF(content, pathStart);
+		while (content[lineEnd - 1] == '\n' || (content[lineEnd - 1] == '\r'
+				&& SystemReader.getInstance().isWindows()))
+			lineEnd--;
+		if (lineEnd == pathStart)
+			throw new IOException(MessageFormat.format(
+					JGitText.get().invalidGitdirRef, dotGit.getAbsolutePath()));
+
+		String gitdirPath = RawParseUtils.decode(content, pathStart, lineEnd);
+		File gitdirFile = resolve(workTree, gitdirPath);
+		if (gitdirFile.isAbsolute())
+			return gitdirFile;
+		else
+			return new File(workTree, gitdirPath).getCanonicalFile();
+	}
+
+	/**
+	 * Get common dir path
+	 *
+	 * @param dir
+	 *            the .git folder
+	 * @return common dir path or null
+	 * @throws IOException
+	 *
+	 * @since 5.1
+	 */
+	public File getCommonDir(File dir) throws IOException {
+		// first the GIT_COMMON_DIR is same as GIT_DIR
+		File commonDir = null;
+		// now check if commondir file exists (e.g. worktree repository)
+		File commonDirFile = new File(dir, Constants.COMMONDIR_FILE);
+		if (commonDirFile.isFile()) {
+			String commonDirPath = new String(IO.readFully(commonDirFile))
+					.trim();
+			commonDir = new File(commonDirPath);
+			if (!commonDir.isAbsolute()) {
+				commonDir = new File(dir, commonDirPath).getCanonicalFile();
+			}
+		}
+		return commonDir;
+	}
+
 	/**
 	 * This runnable will consume an input stream's content into an output
 	 * stream as soon as it gets available.
