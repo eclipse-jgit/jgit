@@ -772,7 +772,7 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 	 * @throws IOException
 	 */
 	private void BUG_WorkAroundRacyGitIssues(String name) throws IOException {
-		File path = new File(db.getDirectory(), name);
+		File path = db.getDirectoryChild(name);
 		FS fs = db.getFS();
 		Instant old = fs.lastModifiedInstant(path);
 		long set = 1250379778668L; // Sat Aug 15 20:12:58 GMT-03:30 2009
