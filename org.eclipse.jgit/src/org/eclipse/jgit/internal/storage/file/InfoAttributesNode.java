@@ -16,7 +16,6 @@ import java.io.IOException;
 import org.eclipse.jgit.attributes.AttributesNode;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.util.FS;
 
 /**
  * Attribute node loaded from the $GIT_DIR/info/attributes file.
@@ -43,10 +42,8 @@ public class InfoAttributesNode extends AttributesNode {
 	public AttributesNode load() throws IOException {
 		AttributesNode r = new AttributesNode();
 
-		FS fs = repository.getFS();
-
-		File attributes = fs.resolve(repository.getDirectory(),
-				Constants.INFO_ATTRIBUTES);
+		File attributes = repository
+				.resolveDirectoryChild(Constants.INFO_ATTRIBUTES);
 		FileRepository.AttributesNodeProviderImpl.loadRulesFromFile(r, attributes);
 
 		return r.getRules().isEmpty() ? null : r;
