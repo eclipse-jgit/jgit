@@ -798,7 +798,7 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 	 *            the file in the repository to force a time change on.
 	 */
 	private void BUG_WorkAroundRacyGitIssues(String name) {
-		File path = new File(db.getDirectory(), name);
+		File path = db.getDirectoryChild(name);
 		long old = path.lastModified();
 		long set = 1250379778668L; // Sat Aug 15 20:12:58 GMT-03:30 2009
 		path.setLastModified(set);
