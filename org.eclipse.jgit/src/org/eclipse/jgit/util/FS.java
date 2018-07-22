@@ -1889,8 +1889,7 @@ public abstract class FS {
 		if (hooksDir != null) {
 			return new File(hooksDir);
 		}
-		File dir = repository.getDirectory();
-		return dir == null ? null : new File(dir, Constants.HOOKS);
+		return repository.getDirectoryChild(Constants.HOOKS);
 	}
 
 	/**
