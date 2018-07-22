@@ -242,6 +242,7 @@ class TransportLocal extends Transport implements PackTransport {
 			env.remove("GIT_CONFIG"); //$NON-NLS-1$
 			env.remove("GIT_CONFIG_PARAMETERS"); //$NON-NLS-1$
 			env.remove("GIT_DIR"); //$NON-NLS-1$
+			env.remove("GIT_COMMON_DIR"); //$NON-NLS-1$
 			env.remove("GIT_WORK_TREE"); //$NON-NLS-1$
 			env.remove("GIT_GRAFT_FILE"); //$NON-NLS-1$
 			env.remove("GIT_INDEX_FILE"); //$NON-NLS-1$
