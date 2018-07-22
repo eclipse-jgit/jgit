@@ -113,8 +113,11 @@ public abstract class Repository implements AutoCloseable {
 
 	final AtomicLong closedAt = new AtomicLong();
 
-	/** Metadata directory holding the repository's critical files. */
+	/** $GIT_DIR: metadata directory holding the repository's critical files. */
 	private final File gitDir;
+
+	/** $GIT_COMMON_DIR: metadata directory holding the common repository's critical files.  */
+	private final File gitCommonDir;
 
 	/** File abstraction used to resolve paths. */
 	private final FS fs;
@@ -135,6 +138,7 @@ public abstract class Repository implements AutoCloseable {
 	 */
 	protected Repository(BaseRepositoryBuilder options) {
 		gitDir = options.getGitDir();
+		gitCommonDir = options.getGitCommonDir();
 		fs = options.getFS();
 		workTree = options.getWorkTree();
 		indexFile = options.getIndexFile();
@@ -214,6 +218,16 @@ public abstract class Repository implements AutoCloseable {
 	 * @since 5.4
 	 */
 	public abstract String getIdentifier();
+
+	/**
+	 * Get common dir.
+	 *
+	 * @return $GIT_COMMON_DIR: local common metadata directory;
+	 * @since 5.10
+	 */
+	public File getCommonDirectory() {
+		return gitCommonDir;
+	}
 
 	/**
 	 * Get the object database which stores this repository's data.
