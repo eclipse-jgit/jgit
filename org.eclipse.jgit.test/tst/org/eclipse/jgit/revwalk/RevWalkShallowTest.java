@@ -45,7 +45,6 @@ package org.eclipse.jgit.revwalk;
 
 import static org.junit.Assert.assertNull;
 
-import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.jgit.junit.JGitTestUtil;
@@ -191,7 +190,7 @@ public class RevWalkShallowTest extends RevWalkTestCase {
 		for (ObjectId commit : shallowCommits) {
 			builder.append(commit.getName() + "\n");
 		}
-		JGitTestUtil.write(new File(db.getDirectory(), Constants.SHALLOW),
+		JGitTestUtil.write(db.getDirectoryChild(Constants.SHALLOW),
 				builder.toString());
 	}
 
