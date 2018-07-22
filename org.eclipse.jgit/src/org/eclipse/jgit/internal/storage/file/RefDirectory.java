@@ -180,14 +180,12 @@ public class RefDirectory extends RefDatabase {
 	private List<Integer> retrySleepMs = RETRY_SLEEP_MS;
 
 	RefDirectory(FileRepository repo) {
-		final FS fs = repo.getFS();
 		parent = repo;
 		gitDir = repo.getDirectory();
-		refsDir = fs.resolve(gitDir, REFS);
-		logsDir = fs.resolve(gitDir, LOGS);
-		logsRefsDir = fs.resolve(gitDir, LOGS_REFS);
-		packedRefsFile = fs.resolve(gitDir, PACKED_REFS);
-
+		refsDir = repo.resolveDirectoryChild(REFS);
+		logsDir = repo.resolveDirectoryChild(LOGS);
+		logsRefsDir = repo.resolveDirectoryChild(LOGS_REFS);
+		packedRefsFile = repo.resolveDirectoryChild(PACKED_REFS);
 		looseRefs.set(RefList.<LooseRef> emptyList());
 		packedRefs.set(NO_PACKED_REFS);
 	}
