@@ -614,6 +614,13 @@ public final class Constants {
 	public static final String INDEX = "index";
 
 	/**
+	 * The current index.lock file (inside gitDir) for the repository.
+	 *
+	 * @since 5.1
+	 */
+	public static final String INDEX_LOCK = "index.lock";
+
+	/**
 	 * Name of the file (inside gitDir) that has reference to worktree's .git
 	 * file (opposite link).
 	 *

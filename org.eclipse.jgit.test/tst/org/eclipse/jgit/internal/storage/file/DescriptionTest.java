@@ -62,7 +62,7 @@ public class DescriptionTest extends LocalDiskRepositoryTestCase {
 	@Test
 	public void description() throws IOException {
 		Repository git = createBareRepository();
-		File path = new File(git.getDirectory(), DESCRIPTION);
+		File path = git.getDirectoryChild(DESCRIPTION);
 		assertNull("description", git.getGitwebDescription());
 
 		String desc = "a test repo\nfor jgit";

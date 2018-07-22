@@ -774,7 +774,7 @@ public class CrissCrossMergeTest extends RepositoryTestCase {
 			setIndex(blob, path);
 			break;
 		case Bare:
-			File file = new File(db.getDirectory(), "index");
+			File file = db.getDirectoryChild(Constants.INDEX);
 			if (!file.exists())
 				return;
 			db.close();

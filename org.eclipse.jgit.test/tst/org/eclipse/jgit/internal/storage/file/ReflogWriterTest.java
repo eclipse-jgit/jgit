@@ -81,7 +81,7 @@ public class ReflogWriterTest extends SampleDataRepositoryTestCase {
 
 	private void readReflog(byte[] buffer)
 			throws FileNotFoundException, IOException {
-		File logfile = new File(db.getDirectory(), "logs/refs/heads/master");
+		File logfile = db.getDirectoryChild("logs/refs/heads/master");
 		if (!logfile.getParentFile().mkdirs()
 				&& !logfile.getParentFile().isDirectory()) {
 			throw new IOException(

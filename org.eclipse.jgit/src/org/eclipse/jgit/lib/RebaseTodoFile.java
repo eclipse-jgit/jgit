@@ -222,7 +222,7 @@ public class RebaseTodoFile {
 	public void writeRebaseTodoFile(String path, List<RebaseTodoLine> steps,
 			boolean append) throws IOException {
 		try (OutputStream fw = new BufferedOutputStream(new FileOutputStream(
-				new File(repo.getDirectory(), path), append))) {
+				repo.getDirectoryChild(path), append))) {
 			StringBuilder sb = new StringBuilder();
 			for (RebaseTodoLine step : steps) {
 				sb.setLength(0);

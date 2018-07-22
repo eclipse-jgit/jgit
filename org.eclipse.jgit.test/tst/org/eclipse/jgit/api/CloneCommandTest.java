@@ -504,7 +504,8 @@ public class CloneCommandTest extends RepositoryTestCase {
 					new File(git.getRepository().getWorkTree(), walk.getPath()),
 					subRepo.getWorkTree());
 			assertEquals(new File(new File(git.getRepository().getDirectory(),
-					"modules"), walk.getPath()), subRepo.getDirectory());
+					Constants.MODULES), walk.getPath()),
+					subRepo.getDirectory());
 		}
 
 		File directory = createTempDirectory("testCloneRepositoryWithSubmodules");
@@ -539,7 +540,7 @@ public class CloneCommandTest extends RepositoryTestCase {
 					walk.getPath()), clonedSub1.getWorkTree());
 			assertEquals(
 					new File(new File(git2.getRepository().getDirectory(),
-							"modules"), walk.getPath()),
+							Constants.MODULES), walk.getPath()),
 					clonedSub1.getDirectory());
 		}
 	}
@@ -628,7 +629,7 @@ public class CloneCommandTest extends RepositoryTestCase {
 					walk.getPath()), clonedSub1.getWorkTree());
 			assertEquals(
 					new File(new File(git2.getRepository().getDirectory(),
-							"modules"), walk.getPath()),
+							Constants.MODULES), walk.getPath()),
 					clonedSub1.getDirectory());
 			status = new SubmoduleStatusCommand(clonedSub1);
 			statuses = status.call();
