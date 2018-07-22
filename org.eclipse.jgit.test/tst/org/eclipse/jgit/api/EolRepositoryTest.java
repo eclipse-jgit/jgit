@@ -578,7 +578,7 @@ public class EolRepositoryTest extends RepositoryTestCase {
 					ConfigConstants.CONFIG_KEY_EOL, eol);
 		}
 		if (globalAttributesContent != null) {
-			File f = new File(db.getDirectory(), "global/attrs");
+			File f = db.getDirectoryChild("global/attrs");
 			write(f, globalAttributesContent);
 			config.setString(ConfigConstants.CONFIG_CORE_SECTION, null,
 					ConfigConstants.CONFIG_KEY_ATTRIBUTESFILE,
@@ -586,7 +586,7 @@ public class EolRepositoryTest extends RepositoryTestCase {
 
 		}
 		if (infoAttributesContent != null) {
-			File f = new File(db.getDirectory(), Constants.INFO_ATTRIBUTES);
+			File f = db.getDirectoryChild(Constants.INFO_ATTRIBUTES);
 			write(f, infoAttributesContent);
 		}
 		config.save();
