@@ -202,7 +202,7 @@ class RebuildCommitGraph extends TextBuiltin {
 		final ObjectId id = repo.resolve(Constants.HEAD);
 		if (!ObjectId.isId(head) && id != null) {
 			final LockFile lf;
-			lf = new LockFile(new File(repo.getDirectory(), Constants.HEAD));
+			lf = new LockFile(repo.getDirectoryChild(Constants.HEAD));
 			if (!lf.lock())
 				throw new IOException(MessageFormat.format(CLIText.get().cannotLock, Constants.HEAD));
 			lf.write(id);
