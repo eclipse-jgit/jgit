@@ -253,7 +253,7 @@ public final class Constants {
 
 	/**
 	 * The file separator.
-	 * 
+	 *
 	 * @since 5.4
 	 */
 	public static final String FILE_SEPARATOR = "/";
