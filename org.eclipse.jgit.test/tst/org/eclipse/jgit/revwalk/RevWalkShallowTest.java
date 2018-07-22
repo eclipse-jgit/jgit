@@ -14,7 +14,6 @@ import static org.eclipse.jgit.lib.Constants.SHALLOW;
 
 import static org.junit.Assert.assertNull;
 
-import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.jgit.junit.JGitTestUtil;
