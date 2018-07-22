@@ -1911,7 +1911,6 @@ public abstract class FS {
 		if (hookFile == null || hookName == null) {
 			return new ProcessResult(Status.NOT_PRESENT);
 		}
-
 		File runDirectory = getRunDirectory(repository, hookName);
 		if (runDirectory == null) {
 			return new ProcessResult(Status.NOT_PRESENT);
@@ -1923,6 +1922,8 @@ public abstract class FS {
 		environment.put(Constants.GIT_DIR_KEY,
 				repository.getDirectory().getAbsolutePath());
 		if (!repository.isBare()) {
+			environment.put(Constants.GIT_COMMON_DIR_KEY,
+					repository.getCommonDirectory().getAbsolutePath());
 			environment.put(Constants.GIT_WORK_TREE_KEY,
 					repository.getWorkTree().getAbsolutePath());
 		}
@@ -2431,6 +2432,80 @@ public abstract class FS {
 	 */
 	public String normalize(String name) {
 		return name;
+	}
+
+	private static boolean isSymRef(byte[] ref) {
+		if (ref.length < 9)
+			return false;
+		return /**/ref[0] == 'g' //
+				&& ref[1] == 'i' //
+				&& ref[2] == 't' //
+				&& ref[3] == 'd' //
+				&& ref[4] == 'i' //
+				&& ref[5] == 'r' //
+				&& ref[6] == ':' //
+				&& ref[7] == ' ';
+	}
+
+	/**
+	 * Read symolic reference file
+	 *
+	 * @param workTree
+	 *            the work tree path
+	 * @param dotGit
+	 *            the .git file
+	 * @return the file readed from symbolic reference file
+	 * @throws IOException
+	 *
+	 * @since 5.10
+	 */
+	public File getSymRef(File workTree, File dotGit)
+			throws IOException {
+		byte[] content = IO.readFully(dotGit);
+		if (!isSymRef(content))
+			throw new IOException(MessageFormat.format(
+					JGitText.get().invalidGitdirRef, dotGit.getAbsolutePath()));
+
+		int pathStart = 8;
+		int lineEnd = RawParseUtils.nextLF(content, pathStart);
+		while (content[lineEnd - 1] == '\n' || (content[lineEnd - 1] == '\r'
+				&& SystemReader.getInstance().isWindows()))
+			lineEnd--;
+		if (lineEnd == pathStart)
+			throw new IOException(MessageFormat.format(
+					JGitText.get().invalidGitdirRef, dotGit.getAbsolutePath()));
+
+		String gitdirPath = RawParseUtils.decode(content, pathStart, lineEnd);
+		File gitdirFile = resolve(workTree, gitdirPath);
+		if (gitdirFile.isAbsolute())
+			return gitdirFile;
+		return new File(workTree, gitdirPath).getCanonicalFile();
+	}
+
+	/**
+	 * Get common dir path.
+	 *
+	 * @param dir
+	 *            the .git folder
+	 * @return common dir path
+	 * @throws IOException
+	 *
+	 * @since 5.10
+	 */
+	public File getCommonDir(File dir) throws IOException {
+		// first the GIT_COMMON_DIR is same as GIT_DIR
+		File commonDir = dir;
+		// now check if commondir file exists (e.g. worktree repository)
+		File commonDirFile = new File(dir, Constants.COMMONDIR_FILE);
+		if (commonDirFile.isFile()) {
+			String commonDirPath = new String(IO.readFully(commonDirFile))
+					.trim();
+			commonDir = new File(commonDirPath);
+			if (!commonDir.isAbsolute()) {
+				commonDir = new File(dir, commonDirPath).getCanonicalFile();
+			}
+		}
+		return commonDir;
 	}
 
 	/**
