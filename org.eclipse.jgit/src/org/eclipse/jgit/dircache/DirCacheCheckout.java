@@ -1564,6 +1564,10 @@ public class DirCacheCheckout {
 		filterProcessBuilder.directory(repo.getWorkTree());
 		filterProcessBuilder.environment().put(Constants.GIT_DIR_KEY,
 				repo.getDirectory().getAbsolutePath());
+		if (repo.hasCommonDirectory()) {
+			filterProcessBuilder.environment().put(Constants.GIT_COMMON_DIR_KEY,
+				repo.getCommonDirectory().getAbsolutePath());
+		}
 		ExecutionResult result;
 		int rc;
 		try {
