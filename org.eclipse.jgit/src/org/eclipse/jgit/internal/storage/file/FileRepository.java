@@ -164,8 +164,8 @@ public class FileRepository extends Repository {
 			LOG.error(e.getMessage(), e);
 			throw new IOException(e.getMessage(), e);
 		}
-		repoConfig = new FileBasedConfig(userConfig, getFS().resolve(
-				getDirectory(), Constants.CONFIG),
+		repoConfig = new FileBasedConfig(userConfig,
+				getDirectoryChild(Constants.CONFIG),
 				getFS());
 		loadRepoConfig();
 
@@ -196,7 +196,7 @@ public class FileRepository extends Repository {
 				options.getObjectDirectory(), //
 				options.getAlternateObjectDirectories(), //
 				getFS(), //
-				new File(getDirectory(), Constants.SHALLOW));
+				getDirectoryChild(Constants.SHALLOW));
 
 		if (objectDatabase.exists()) {
 			if (repositoryFormatVersion > 1)
@@ -242,8 +242,8 @@ public class FileRepository extends Repository {
 		refs.create();
 		objectDatabase.create();
 
-		FileUtils.mkdir(new File(getDirectory(), Constants.BRANCHES));
-		FileUtils.mkdir(new File(getDirectory(), Constants.HOOKS));
+		FileUtils.mkdir(getDirectoryChild(Constants.BRANCHES));
+		FileUtils.mkdir(getDirectoryChild(Constants.HOOKS));
 
 		RefUpdate head = updateRef(Constants.HEAD);
 		head.disableRefLog();
@@ -412,7 +412,7 @@ public class FileRepository extends Repository {
 	}
 
 	private File descriptionFile() {
-		return new File(getDirectory(), Constants.DESCRIPTION);
+		return getDirectoryChild(Constants.DESCRIPTION);
 	}
 
 	/**
