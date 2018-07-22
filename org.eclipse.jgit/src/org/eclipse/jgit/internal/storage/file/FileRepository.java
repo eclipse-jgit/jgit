@@ -165,7 +165,7 @@ public class FileRepository extends Repository {
 			throw new IOException(e.getMessage(), e);
 		}
 		repoConfig = new FileBasedConfig(userConfig, getFS().resolve(
-				getDirectory(), Constants.CONFIG),
+				getCommonDirectory(), Constants.CONFIG),
 				getFS());
 		loadRepoConfig();
 
@@ -196,7 +196,7 @@ public class FileRepository extends Repository {
 				options.getObjectDirectory(), //
 				options.getAlternateObjectDirectories(), //
 				getFS(), //
-				new File(getDirectory(), Constants.SHALLOW));
+				new File(getCommonDirectory(), Constants.SHALLOW));
 
 		if (objectDatabase.exists()) {
 			if (repositoryFormatVersion > 1)
@@ -227,6 +227,8 @@ public class FileRepository extends Repository {
 	@Override
 	public void create(boolean bare) throws IOException {
 		final FileBasedConfig cfg = getConfig();
+		// TODO: worktree: here we check config file located in commonDir, but
+		// repository can be in gitDir
 		if (cfg.getFile().exists()) {
 			throw new IllegalStateException(MessageFormat.format(
 					JGitText.get().repositoryAlreadyExists, getDirectory()));
@@ -242,8 +244,8 @@ public class FileRepository extends Repository {
 		refs.create();
 		objectDatabase.create();
 
-		FileUtils.mkdir(new File(getDirectory(), Constants.BRANCHES));
-		FileUtils.mkdir(new File(getDirectory(), Constants.HOOKS));
+		FileUtils.mkdir(new File(getCommonDirectory(), Constants.BRANCHES));
+		FileUtils.mkdir(new File(getCommonDirectory(), Constants.HOOKS));
 
 		RefUpdate head = updateRef(Constants.HEAD);
 		head.disableRefLog();
@@ -729,7 +731,7 @@ public class FileRepository extends Repository {
 	@SuppressWarnings("nls")
 	void convertToReftable(boolean writeLogs, boolean backup)
 			throws IOException {
-		File reftableDir = new File(getDirectory(), Constants.REFTABLE);
+		File reftableDir = new File(getCommonDirectory(), Constants.REFTABLE);
 		File headFile = new File(getDirectory(), Constants.HEAD);
 		if (reftableDir.exists() && reftableDir.listFiles().length > 0) {
 			throw new IOException(JGitText.get().reftableDirExists);
@@ -738,29 +740,30 @@ public class FileRepository extends Repository {
 		// Ignore return value, as it is tied to temporary newRefs file.
 		FileReftableDatabase.convertFrom(this, writeLogs);
 
-		File refsFile = new File(getDirectory(), Constants.REFS);
+		File refsFile = new File(getCommonDirectory(), Constants.REFS);
 
 		// non-atomic: remove old data.
-		File packedRefs = new File(getDirectory(), Constants.PACKED_REFS);
-		File logsDir = new File(getDirectory(), Constants.LOGS);
+		File packedRefs = new File(getCommonDirectory(), Constants.PACKED_REFS);
+		File logsDir = new File(getCommonDirectory(), Constants.LOGS);
 
 		List<String> additional = getRefDatabase().getAdditionalRefs().stream()
 				.map(Ref::getName).collect(toList());
 		additional.add(Constants.HEAD);
 		if (backup) {
 			FileUtils.rename(refsFile,
-					new File(getDirectory(), Constants.REFS + ".old"));
+					new File(getCommonDirectory(), Constants.REFS + ".old"));
 			if (packedRefs.exists()) {
-				FileUtils.rename(packedRefs, new File(getDirectory(),
+				FileUtils.rename(packedRefs, new File(getCommonDirectory(),
 						Constants.PACKED_REFS + ".old"));
 			}
 			if (logsDir.exists()) {
 				FileUtils.rename(logsDir,
-						new File(getDirectory(), Constants.LOGS + ".old"));
+						new File(getCommonDirectory(),
+								Constants.LOGS + ".old"));
 			}
 			for (String r : additional) {
-				FileUtils.rename(new File(getDirectory(), r),
-					new File(getDirectory(), r + ".old"));
+				FileUtils.rename(new File(getCommonDirectory(), r),
+						new File(getCommonDirectory(), r + ".old"));
 			}
 		} else {
 			FileUtils.delete(packedRefs, FileUtils.SKIP_MISSING);
@@ -768,7 +771,7 @@ public class FileRepository extends Repository {
 			FileUtils.delete(logsDir, FileUtils.RECURSIVE);
 			FileUtils.delete(refsFile, FileUtils.RECURSIVE);
 			for (String r : additional) {
-				new File(getDirectory(), r).delete();
+				new File(getCommonDirectory(), r).delete();
 			}
 		}
 

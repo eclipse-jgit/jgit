@@ -55,6 +55,6 @@ public abstract class SampleDataRepositoryTestCase extends RepositoryTestCase {
 		}
 
 		JGitTestUtil.copyTestResource(PACKED_REFS,
-				new File(repo.getDirectory(), PACKED_REFS));
+				new File(repo.getCommonDirectory(), PACKED_REFS));
 	}
 }

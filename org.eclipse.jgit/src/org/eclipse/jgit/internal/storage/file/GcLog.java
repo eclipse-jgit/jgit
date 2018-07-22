@@ -50,7 +50,7 @@ class GcLog {
 	 */
 	GcLog(FileRepository repo) {
 		this.repo = repo;
-		logFile = new File(repo.getDirectory(), "gc.log"); //$NON-NLS-1$
+		logFile = new File(repo.getCommonDirectory(), "gc.log"); //$NON-NLS-1$
 		lock = new LockFile(logFile);
 	}
 
