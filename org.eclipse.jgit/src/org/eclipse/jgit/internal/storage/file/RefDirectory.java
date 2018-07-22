@@ -49,6 +49,7 @@ package org.eclipse.jgit.internal.storage.file;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 import static org.eclipse.jgit.lib.Constants.LOGS;
+import static org.eclipse.jgit.lib.Constants.LOGS_REFS;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_STRING_LENGTH;
 import static org.eclipse.jgit.lib.Constants.PACKED_REFS;
 import static org.eclipse.jgit.lib.Constants.REFS;
@@ -216,7 +217,7 @@ public class RefDirectory extends RefDatabase {
 		gitDir = db.getDirectory();
 		refsDir = db.getDirectoryChild(REFS);
 		logsDir = db.getDirectoryChild(LOGS);
-		logsRefsDir = db.getDirectoryChild(LOGS + '/' + REFS);
+		logsRefsDir = db.getDirectoryChild(LOGS_REFS);
 		packedRefsFile = db.getDirectoryChild(PACKED_REFS);
 		looseRefs.set(RefList.<LooseRef> emptyList());
 		packedRefs.set(NO_PACKED_REFS);
