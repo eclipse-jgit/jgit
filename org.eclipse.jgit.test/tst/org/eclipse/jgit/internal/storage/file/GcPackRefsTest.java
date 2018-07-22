@@ -91,7 +91,7 @@ public class GcPackRefsTest extends GcTestCase {
 		String ref = "dir/ref";
 		tr.branch(ref).commit().create();
 		String name = repo.findRef(ref).getName();
-		Path dir = repo.getDirectory().toPath().resolve(name).getParent();
+		Path dir = repo.getDirectoryChild(name).toPath().getParent();
 		assertNotNull(dir);
 		gc.packRefs();
 		assertFalse(Files.exists(dir));

@@ -906,7 +906,7 @@ public class GC {
 	}
 
 	private void deleteEmptyRefsFolders() throws IOException {
-		Path refs = repo.getDirectory().toPath().resolve(Constants.R_REFS);
+		Path refs = repo.getDirectoryChild(Constants.REFS).toPath();
 		// Avoid deleting a folder that was created after the threshold so that concurrent
 		// operations trying to create a reference are not impacted
 		Instant threshold = Instant.now().minus(30, ChronoUnit.SECONDS);

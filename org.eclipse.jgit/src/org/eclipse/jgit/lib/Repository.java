@@ -240,6 +240,18 @@ public abstract class Repository implements AutoCloseable {
 	}
 
 	/**
+	 * Get File instance under local metadata directory
+	 *
+	 * @param child
+	 *            name of child pathname
+	 *
+	 * @return local child File instance under metadata directory.
+	 */
+	public File getDirectoryChild(String child) {
+		return new File(getDirectory(), child);
+	}
+
+	/**
 	 * Get the object database which stores this repository's data.
 	 *
 	 * @return the object database which stores this repository's data.
@@ -1953,7 +1965,7 @@ public abstract class Repository implements AutoCloseable {
 		if (isBare() || getDirectory() == null)
 			throw new NoWorkTreeException();
 
-		File mergeMsgFile = new File(getDirectory(), msgFilename);
+		File mergeMsgFile = getDirectoryChild(msgFilename);
 		try {
 			return RawParseUtils.decode(IO.readFully(mergeMsgFile));
 		} catch (FileNotFoundException e) {
@@ -1984,7 +1996,7 @@ public abstract class Repository implements AutoCloseable {
 	 * @throws IOException
 	 */
 	private byte[] readGitDirectoryFile(String filename) throws IOException {
-		File file = new File(getDirectory(), filename);
+		File file = getDirectoryChild(filename);
 		try {
 			byte[] raw = IO.readFully(file);
 			return raw.length > 0 ? raw : null;
