@@ -68,7 +68,7 @@ class ReflogReaderImpl implements ReflogReader {
 	 * @param refname
 	 */
 	ReflogReaderImpl(Repository db, String refname) {
-		logName = db.getDirectoryChild(Constants.LOGS + '/' + refname);
+		logName = db.getDirectoryChild(Constants.L_LOGS + refname);
 	}
 
 	/* (non-Javadoc)

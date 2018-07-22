@@ -240,6 +240,11 @@ public final class Constants {
 	public static final String STASH = "stash";
 
 	/**
+	 *
+	 */
+	public static final String FILE_SEPARATOR = "/";
+
+	/**
 	 * Name of the folder (inside gitDir) where the branches are stored.
 	 *
 	 * A slightly deprecated way to store shorthands to be used to specify a URL
@@ -275,19 +280,19 @@ public final class Constants {
 	public static final String REFS = "refs";
 
 	/** Prefix for any ref */
-	public static final String R_REFS = REFS + "/";
+	public static final String R_REFS = REFS + FILE_SEPARATOR;
 
 	/** Prefix for branch refs */
-	public static final String R_HEADS = R_REFS + "heads/";
+	public static final String R_HEADS = R_REFS + "heads" + FILE_SEPARATOR;
 
 	/** Prefix for remotes refs */
-	public static final String R_REMOTES = R_REFS + "remotes/";
+	public static final String R_REMOTES = R_REFS + "remotes" + FILE_SEPARATOR;
 
 	/** Prefix for tag refs */
-	public static final String R_TAGS = R_REFS + "tags/";
+	public static final String R_TAGS = R_REFS + "tags" + FILE_SEPARATOR;
 
 	/** Prefix for notes refs */
-	public static final String R_NOTES = R_REFS + "notes/";
+	public static final String R_NOTES = R_REFS + "notes" + FILE_SEPARATOR;
 
 	/** Standard notes ref */
 	public static final String R_NOTES_COMMITS = R_NOTES + "commits";
@@ -315,6 +320,16 @@ public final class Constants {
 	 */
 	public static final String LOGS = "logs";
 
+	/** Prefix for any logs */
+	public static final String L_LOGS = LOGS + FILE_SEPARATOR;
+
+	/**
+	 * Logs refs folder.
+	 *
+	 * @since 5.1
+	 */
+	public static final String LOGS_REFS = L_LOGS + "refs";
+
 	/**
 	 * Name of the folder where the info is stored.
 	 *
@@ -327,7 +342,7 @@ public final class Constants {
 	public static final String INFO = "info";
 
 	/** Prefix for any info */
-	public static final String I_INFO = INFO + "/";
+	public static final String I_INFO = INFO + FILE_SEPARATOR;
 
 	/**
 	 * Info refs folder.
