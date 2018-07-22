@@ -212,14 +212,12 @@ public class RefDirectory extends RefDatabase {
 	private List<Integer> retrySleepMs = RETRY_SLEEP_MS;
 
 	RefDirectory(FileRepository db) {
-		final FS fs = db.getFS();
 		parent = db;
 		gitDir = db.getDirectory();
-		refsDir = fs.resolve(gitDir, REFS);
-		logsDir = fs.resolve(gitDir, LOGS);
-		logsRefsDir = fs.resolve(gitDir, LOGS + '/' + REFS);
-		packedRefsFile = fs.resolve(gitDir, PACKED_REFS);
-
+		refsDir = db.getDirectoryChild(REFS);
+		logsDir = db.getDirectoryChild(LOGS);
+		logsRefsDir = db.getDirectoryChild(LOGS + '/' + REFS);
+		packedRefsFile = db.getDirectoryChild(PACKED_REFS);
 		looseRefs.set(RefList.<LooseRef> emptyList());
 		packedRefs.set(NO_PACKED_REFS);
 	}

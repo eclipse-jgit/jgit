@@ -45,6 +45,7 @@ package org.eclipse.jgit.internal.storage.file;
 
 import static org.eclipse.jgit.lib.Constants.HEAD;
 import static org.eclipse.jgit.lib.Constants.LOGS;
+import static org.eclipse.jgit.lib.Constants.PACKED_REFS;
 import static org.eclipse.jgit.lib.Constants.REFS;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
@@ -117,25 +118,27 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	@Test
 	public void testCreate() throws IOException {
 		// setUp above created the directory. We just have to test it.
-		File d = diskRepo.getDirectory();
 		assertSame(diskRepo, refdir.getRepository());
 
-		assertTrue(new File(d, REFS).isDirectory());
-		assertTrue(new File(d, LOGS).isDirectory());
-		assertTrue(new File(d, "logs/refs").isDirectory());
-		assertFalse(new File(d, "packed-refs").exists());
+		assertTrue(diskRepo.getDirectoryChild(REFS).isDirectory());
+		assertTrue(diskRepo.getDirectoryChild(LOGS).isDirectory());
+		assertTrue(diskRepo.getDirectoryChild("logs/refs").isDirectory());
+		assertFalse(diskRepo.getDirectoryChild(PACKED_REFS).exists());
 
-		assertTrue(new File(d, "refs/heads").isDirectory());
-		assertTrue(new File(d, "refs/tags").isDirectory());
-		assertEquals(2, new File(d, REFS).list().length);
-		assertEquals(0, new File(d, "refs/heads").list().length);
-		assertEquals(0, new File(d, "refs/tags").list().length);
+		assertTrue(diskRepo.getDirectoryChild("refs/heads").isDirectory());
+		assertTrue(diskRepo.getDirectoryChild("refs/tags").isDirectory());
+		assertEquals(2,
+				diskRepo.getDirectoryChild(REFS).list().length);
+		assertEquals(0, diskRepo.getDirectoryChild("refs/heads").list().length);
+		assertEquals(0, diskRepo.getDirectoryChild("refs/tags").list().length);
 
-		assertTrue(new File(d, "logs/refs/heads").isDirectory());
-		assertFalse(new File(d, "logs/HEAD").exists());
-		assertEquals(0, new File(d, "logs/refs/heads").list().length);
+		assertTrue(diskRepo.getDirectoryChild("logs/refs/heads").isDirectory());
+		assertFalse(diskRepo.getDirectoryChild("logs/HEAD").exists());
+		assertEquals(0,
+				diskRepo.getDirectoryChild("logs/refs/heads").list().length);
 
-		assertEquals("ref: refs/heads/master\n", read(new File(d, HEAD)));
+		assertEquals("ref: refs/heads/master\n",
+				read(diskRepo.getDirectoryChild(HEAD)));
 	}
 
 	@Test(expected = UnsupportedOperationException.class)
@@ -1379,7 +1382,7 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	}
 
 	private void deleteLooseRef(String name) {
-		File path = new File(diskRepo.getDirectory(), name);
+		File path = diskRepo.getDirectoryChild(name);
 		assertTrue("deleted " + name, path.delete());
 	}
 }

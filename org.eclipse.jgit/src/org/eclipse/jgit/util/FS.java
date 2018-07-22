@@ -1144,11 +1144,10 @@ public abstract class FS {
 	 * @since 4.0
 	 */
 	public File findHook(Repository repository, String hookName) {
-		File gitDir = repository.getDirectory();
-		if (gitDir == null)
+		File hookDir = repository.getDirectoryChild(Constants.HOOKS);
+		if (hookDir == null)
 			return null;
-		final File hookFile = new File(new File(gitDir,
-				Constants.HOOKS), hookName);
+		final File hookFile = new File(hookDir, hookName);
 		return hookFile.isFile() ? hookFile : null;
 	}
 
