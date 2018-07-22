@@ -922,7 +922,7 @@ public class GC {
 	}
 
 	private void deleteEmptyRefsFolders() throws IOException {
-		Path refs = repo.getDirectory().toPath().resolve(Constants.REFS);
+		Path refs = repo.getDirectoryChild(Constants.REFS).toPath();
 		try (Stream<Path> entries = Files.list(refs)) {
 			Iterator<Path> iterator = entries.iterator();
 			while (iterator.hasNext()) {

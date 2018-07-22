@@ -572,7 +572,7 @@ public class AttributesHandlerTest extends RepositoryTestCase {
 					throws Exception {
 		FileBasedConfig config = db.getConfig();
 		if (globalAttributesContent != null) {
-			File f = new File(db.getDirectory(), "global/attributes");
+			File f = db.getDirectoryChild("global/attributes");
 			write(f, globalAttributesContent);
 			config.setString(ConfigConstants.CONFIG_CORE_SECTION, null,
 					ConfigConstants.CONFIG_KEY_ATTRIBUTESFILE,
@@ -580,7 +580,7 @@ public class AttributesHandlerTest extends RepositoryTestCase {
 
 		}
 		if (infoAttributesContent != null) {
-			File f = new File(db.getDirectory(), Constants.INFO_ATTRIBUTES);
+			File f = db.getDirectoryChild(Constants.INFO_ATTRIBUTES);
 			write(f, infoAttributesContent);
 		}
 		config.save();

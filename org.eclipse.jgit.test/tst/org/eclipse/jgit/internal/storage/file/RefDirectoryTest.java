@@ -114,25 +114,27 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	@Test
 	public void testCreate() throws IOException {
 		// setUp above created the directory. We just have to test it.
-		File d = diskRepo.getDirectory();
 		assertSame(diskRepo, refdir.getRepository());
 
-		assertTrue(new File(d, Constants.REFS).isDirectory());
-		assertTrue(new File(d, Constants.LOGS).isDirectory());
-		assertTrue(new File(d, "logs/refs").isDirectory());
-		assertFalse(new File(d, "packed-refs").exists());
+		assertTrue(diskRepo.getDirectoryChild(Constants.REFS).isDirectory());
+		assertTrue(diskRepo.getDirectoryChild(Constants.LOGS).isDirectory());
+		assertTrue(diskRepo.getDirectoryChild("logs/refs").isDirectory());
+		assertFalse(diskRepo.getDirectoryChild(Constants.PACKED_REFS).exists());
 
-		assertTrue(new File(d, "refs/heads").isDirectory());
-		assertTrue(new File(d, "refs/tags").isDirectory());
-		assertEquals(2, new File(d, Constants.REFS).list().length);
-		assertEquals(0, new File(d, "refs/heads").list().length);
-		assertEquals(0, new File(d, "refs/tags").list().length);
+		assertTrue(diskRepo.getDirectoryChild("refs/heads").isDirectory());
+		assertTrue(diskRepo.getDirectoryChild("refs/tags").isDirectory());
+		assertEquals(2,
+				diskRepo.getDirectoryChild(Constants.REFS).list().length);
+		assertEquals(0, diskRepo.getDirectoryChild("refs/heads").list().length);
+		assertEquals(0, diskRepo.getDirectoryChild("refs/tags").list().length);
 
-		assertTrue(new File(d, "logs/refs/heads").isDirectory());
-		assertFalse(new File(d, "logs/HEAD").exists());
-		assertEquals(0, new File(d, "logs/refs/heads").list().length);
+		assertTrue(diskRepo.getDirectoryChild("logs/refs/heads").isDirectory());
+		assertFalse(diskRepo.getDirectoryChild("logs/HEAD").exists());
+		assertEquals(0,
+				diskRepo.getDirectoryChild("logs/refs/heads").list().length);
 
-		assertEquals("ref: refs/heads/master\n", read(new File(d, HEAD)));
+		assertEquals("ref: refs/heads/master\n",
+				read(diskRepo.getDirectoryChild(HEAD)));
 	}
 
 	@Test
@@ -1327,7 +1329,7 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	}
 
 	private void deleteLooseRef(String name) {
-		File path = new File(diskRepo.getDirectory(), name);
+		File path = diskRepo.getDirectoryChild(name);
 		assertTrue("deleted " + name, path.delete());
 	}
 }
