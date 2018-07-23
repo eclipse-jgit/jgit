@@ -539,7 +539,7 @@ public class BlameGenerator implements AutoCloseable {
 		n.beginResult(revPool);
 		outCandidate = n;
 		outRegion = n.regionList;
-		return true;
+		return outRegion != null;
 	}
 
 	private boolean reverseResult(Candidate parent, Candidate source)
