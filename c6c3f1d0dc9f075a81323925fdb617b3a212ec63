@@ -16,6 +16,24 @@
       "revId": "c6c3f1d0dc9f075a81323925fdb617b3a212ec63",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a9b6cb9e_379bd9b6",
+        "filename": "org.eclipse.jgit.http.test/META-INF/MANIFEST.MF",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-07-23T05:55:29Z",
+      "side": 1,
+      "message": "It needs to be added.  The build fails otherwise.\n\nhttp://paste.openstack.org/show/726416/",
+      "parentUuid": "bb04536b_f0fe4658",
+      "revId": "c6c3f1d0dc9f075a81323925fdb617b3a212ec63",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
