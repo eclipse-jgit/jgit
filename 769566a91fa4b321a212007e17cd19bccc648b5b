@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6d887ede_e0b5e1fe",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1181,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-07-24T20:56:18Z",
+      "side": 1,
+      "message": "assertThrows seems to be only available in a \"jupiter\" API which didn\u0027t seem to work, so I used the former.",
+      "parentUuid": "bbe38439_3abad82c",
+      "revId": "769566a91fa4b321a212007e17cd19bccc648b5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7ab0f5ac_b5d0018a",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2018-07-24T16:21:16Z",
       "side": 1,
       "message": "Should this get a trailing newline too?",
+      "revId": "769566a91fa4b321a212007e17cd19bccc648b5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "799364fd_9614d925",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1258,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-07-24T20:56:18Z",
+      "side": 1,
+      "message": "Yes, done.",
+      "parentUuid": "7ab0f5ac_b5d0018a",
       "revId": "769566a91fa4b321a212007e17cd19bccc648b5b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "3f88ac1d_b61c65cd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransferConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-07-24T20:56:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47199a24_29533e6c",
+      "revId": "769566a91fa4b321a212007e17cd19bccc648b5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "944a07df_abcf8730",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransferConfig.java",
         "patchSetId": 1
@@ -67,6 +121,24 @@
       "revId": "769566a91fa4b321a212007e17cd19bccc648b5b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d012931_bdd4ba02",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransferConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-07-24T20:56:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "944a07df_abcf8730",
+      "revId": "769566a91fa4b321a212007e17cd19bccc648b5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "d91b953c_1e493350",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 965,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-07-24T20:56:18Z",
+      "side": 1,
+      "message": "wantedRefs does not need to be a class member, so it probably shouldn\u0027t be one. wantIds probably should not be, too, but I think that\u0027s best left for another commit.",
+      "parentUuid": "498abd21_e73b165f",
+      "revId": "769566a91fa4b321a212007e17cd19bccc648b5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be018667_4bc3cbbf",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1
@@ -101,6 +191,24 @@
       "revId": "769566a91fa4b321a212007e17cd19bccc648b5b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e241f12_ca1b6b08",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 969,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-07-24T20:56:18Z",
+      "side": 1,
+      "message": "Well, that commit was never merged :-P but anyway I\u0027ve added a similar feature here.",
+      "parentUuid": "be018667_4bc3cbbf",
+      "revId": "769566a91fa4b321a212007e17cd19bccc648b5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -127,6 +235,30 @@
     },
     {
       "key": {
+        "uuid": "ca0388f4_6eb9cb17",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 974,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-07-24T20:56:18Z",
+      "side": 1,
+      "message": "It seems that JGit uses PackProtocolException as a catch-all for anything that could fail during a fetch - even \"want\"s that are not valid cause WantNotValidException, which is a subclass of PackProtocolException, to be raised.\n\nI don\u0027t think the protocol explicitly specifies anything like that - as far as I know, right now Git just outputs an unexpected \"ERR ...\" to indicate that something is wrong.",
+      "parentUuid": "0cc2d48d_a506d05b",
+      "range": {
+        "startLine": 974,
+        "startChar": 15,
+        "endLine": 974,
+        "endChar": 36
+      },
+      "revId": "769566a91fa4b321a212007e17cd19bccc648b5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "88e5e9a9_305331b2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1
@@ -141,6 +273,24 @@
       "revId": "769566a91fa4b321a212007e17cd19bccc648b5b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cee448d2_9f48644f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 980,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-07-24T20:56:18Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "88e5e9a9_305331b2",
+      "revId": "769566a91fa4b321a212007e17cd19bccc648b5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -161,6 +311,24 @@
     },
     {
       "key": {
+        "uuid": "15a68a7b_938a752b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1087,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-07-24T20:56:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d11f7f1a_46e8b029",
+      "revId": "769566a91fa4b321a212007e17cd19bccc648b5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "56e181ac_4055ba16",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1
@@ -175,6 +343,24 @@
       "revId": "769566a91fa4b321a212007e17cd19bccc648b5b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6309260_da5a9da1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1090,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-07-24T20:56:18Z",
+      "side": 1,
+      "message": "The protocol doesn\u0027t prescribe an ordering. I lean towards the reproducibility of consistency, but I see the benefits to randomizing too. For now I\u0027ll leave it as-is.",
+      "parentUuid": "56e181ac_4055ba16",
+      "revId": "769566a91fa4b321a212007e17cd19bccc648b5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
