@@ -45,6 +45,7 @@ package org.eclipse.jgit.transport;
 
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
+import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_REF_IN_WANT;
 import static org.eclipse.jgit.transport.GitProtocolConstants.COMMAND_FETCH;
 import static org.eclipse.jgit.transport.GitProtocolConstants.COMMAND_LS_REFS;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_AGENT;
@@ -62,6 +63,7 @@ import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SHALLOW;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDE_BAND;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDE_BAND_64K;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_THIN_PACK;
+import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_WANT_REF;
 
 import java.io.ByteArrayOutputStream;
 import java.io.EOFException;
@@ -77,6 +79,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.CorruptObjectException;
@@ -959,9 +962,27 @@ public class UploadPack {
 
 		boolean includeTag = false;
 		boolean filterReceived = false;
+		TreeMap<String, ObjectId> wantedRefs = new TreeMap<>();
 		while ((line = pckIn.readString()) != PacketLineIn.END) {
 			if (line.startsWith("want ")) { //$NON-NLS-1$
 				wantIds.add(ObjectId.fromString(line.substring(5)));
+			} else if (transferConfig.isAllowRefInWant() &&
+					line.startsWith(OPTION_WANT_REF + " ")) { //$NON-NLS-1$
+				String refName = line.substring(OPTION_WANT_REF.length() + 1);
+				Ref ref = db.getRefDatabase().exactRef(refName);
+				if (ref == null) {
+					throw new PackProtocolException(
+							MessageFormat.format(JGitText.get().invalidRefName,
+								refName));
+				}
+				ObjectId oid = ref.getObjectId();
+				if (oid == null) {
+					throw new PackProtocolException(
+							MessageFormat.format(JGitText.get().invalidRefName,
+								refName));
+				}
+				wantedRefs.put(refName, oid);
+				wantIds.add(oid);
 			} else if (line.startsWith("have ")) { //$NON-NLS-1$
 				peerHas.add(ObjectId.fromString(line.substring(5)));
 			} else if (line.equals("done")) { //$NON-NLS-1$
@@ -1062,6 +1083,18 @@ public class UploadPack {
 		}
 
 		if (doneReceived || okToGiveUp()) {
+			if (!wantedRefs.isEmpty()) {
+				if (sectionSent) {
+					pckOut.writeDelim();
+				}
+				pckOut.writeString("wanted-refs\n"); //$NON-NLS-1$
+				for (Map.Entry<String, ObjectId> entry : wantedRefs.entrySet()) {
+					pckOut.writeString(entry.getValue().getName() + ' ' +
+							entry.getKey() + '\n');
+				}
+				sectionSent = true;
+			}
+
 			if (shallowCommits != null) {
 				if (sectionSent)
 					pckOut.writeDelim();
@@ -1125,9 +1158,12 @@ public class UploadPack {
 		ArrayList<String> caps = new ArrayList<>();
 		caps.add("version 2"); //$NON-NLS-1$
 		caps.add(COMMAND_LS_REFS);
+		boolean advertiseRefInWant = transferConfig.isAllowRefInWant() &&
+			db.getConfig().getBoolean("uploadpack", null, "advertiserefinwant", true);
 		caps.add(
 				COMMAND_FETCH + '=' +
 				(transferConfig.isAllowFilter() ? OPTION_FILTER + ' ' : "") + //$NON-NLS-1$
+				(advertiseRefInWant ? CAPABILITY_REF_IN_WANT + ' ' : "") + //$NON-NLS-1$
 				OPTION_SHALLOW);
 		return caps;
 	}

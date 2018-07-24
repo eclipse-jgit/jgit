@@ -167,6 +167,13 @@ public class GitProtocolConstants {
 	public static final String OPTION_FILTER = "filter"; //$NON-NLS-1$
 
 	/**
+	 * The client specified a want-ref expression.
+	 *
+	 * @since 5.1
+	 */
+	public static final String OPTION_WANT_REF = "want-ref"; //$NON-NLS-1$
+
+	/**
 	 * The client supports atomic pushes. If this option is used, the server
 	 * will update all refs within one atomic transaction.
 	 *
@@ -229,6 +236,13 @@ public class GitProtocolConstants {
 	 * @since 4.5
 	 */
 	public static final String CAPABILITY_PUSH_OPTIONS = "push-options"; //$NON-NLS-1$
+
+	/**
+	 * The server supports the client specifying ref names.
+	 *
+	 * @since 5.1
+	 */
+	public static final String CAPABILITY_REF_IN_WANT = "ref-in-want"; //$NON-NLS-1$
 
 	/**
 	 * The server supports listing refs using protocol v2.
