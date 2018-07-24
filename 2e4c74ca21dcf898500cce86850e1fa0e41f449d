@@ -1,0 +1,135 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b6e27ca_ea7bf003",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-07-24T21:45:52Z",
+      "side": 1,
+      "message": "From a certain point of view, Git is handling it properly. Two submodules with the same name are supposed to represent the *same* repository, so it is not up to Git to figure out which URL you prefer to use for fetches and pushes to it.\n\nIn other words, it might be more compelling to explain this as\n\n Two submodules at the same path on different branches need not represent the same repository, and two submodules at different paths can represent the same one. Use the project name instead of the path as the submodule name to inform Git about this.\n\n Otherwise, \u003csymptom\u003e.\n\n On the other hand, since v1.12.8~3^2 (repo: Support multiple branches for the same project., 2013-10-11), repo allows multiple copies of the same project in a single workspace. Git does not allow a submodule to sit at multiple paths, so use the submodule path as a suffix to disambiguate copies in this situation.",
+      "range": {
+        "startLine": 11,
+        "startChar": 7,
+        "endLine": 11,
+        "endChar": 37
+      },
+      "revId": "2e4c74ca21dcf898500cce86850e1fa0e41f449d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6adcb711_afb3f5b9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-07-24T21:45:52Z",
+      "side": 1,
+      "message": "Weird. Can this just be `String uri`?",
+      "range": {
+        "startLine": 537,
+        "startChar": 12,
+        "endLine": 537,
+        "endChar": 19
+      },
+      "revId": "2e4c74ca21dcf898500cce86850e1fa0e41f449d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62bf8908_d4a16545",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 732,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-07-24T21:45:52Z",
+      "side": 1,
+      "message": "Can this have a brief comment describing what it does / is for?",
+      "revId": "2e4c74ca21dcf898500cce86850e1fa0e41f449d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41653499_67d02b50",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 735,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-07-24T21:45:52Z",
+      "side": 1,
+      "message": "note to self: Multimap is a guava type, not part of the standard library, hence the need to roll our own.",
+      "revId": "2e4c74ca21dcf898500cce86850e1fa0e41f449d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7966397c_aa2fe6e9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 737,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-07-24T21:45:52Z",
+      "side": 1,
+      "message": "optional: can simplify:\n\n  List\u003cRepoProject\u003e l \u003d m.get(p);\n  if (l \u003d\u003d null) {\n    l \u003d new ArrayList\u003c\u003e();\n    m.put(p, l);\n  }\n  l.add(proj);",
+      "revId": "2e4c74ca21dcf898500cce86850e1fa0e41f449d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f48e36f0_572e824c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-07-24T21:45:52Z",
+      "side": 1,
+      "message": "optional: how about a name like `boolean nameConflict`? I think that would make the meaning clearer.",
+      "revId": "2e4c74ca21dcf898500cce86850e1fa0e41f449d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "757cf745_5b660903",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 757,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-07-24T21:45:52Z",
+      "side": 1,
+      "message": "not about this change: can we change RepoProject to a fluent API?",
+      "revId": "2e4c74ca21dcf898500cce86850e1fa0e41f449d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
