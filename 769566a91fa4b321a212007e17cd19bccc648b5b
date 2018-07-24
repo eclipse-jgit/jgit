@@ -1,0 +1,180 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bbe38439_3abad82c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1181,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-07-24T16:21:16Z",
+      "side": 1,
+      "message": "I tend to prefer the more explicit style\n\n  try {\n    ...\n  } catch (PackProtocolException e) {\n    assertThat(e.getMessage(), is(...));\n  }\n  fail(\"expected PackProtocolException\");\n\nOr even better, using JUnit assertThrows:\n\n  PackProtocolException e \u003d assertThrows(\n    PackProtocolException.class,\n    () -\u003e ...);\n  assertThat(e.getMessage(), is(...));",
+      "revId": "769566a91fa4b321a212007e17cd19bccc648b5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ab0f5ac_b5d0018a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1258,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-07-24T16:21:16Z",
+      "side": 1,
+      "message": "Should this get a trailing newline too?",
+      "revId": "769566a91fa4b321a212007e17cd19bccc648b5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47199a24_29533e6c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransferConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-07-24T16:21:16Z",
+      "side": 1,
+      "message": "nit: could put this in a logical order (e.g. before allowTipSha1InWant) instead of end-of-list. As a side benefit, that means fewer merge conflicts.",
+      "revId": "769566a91fa4b321a212007e17cd19bccc648b5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "944a07df_abcf8730",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransferConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-07-24T16:21:16Z",
+      "side": 1,
+      "message": "Likewise.",
+      "revId": "769566a91fa4b321a212007e17cd19bccc648b5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "498abd21_e73b165f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 965,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-07-24T16:21:16Z",
+      "side": 1,
+      "message": "wantIds is a class member. Should wantedRefs be, too?\n\n(Or conversely, could the scope of wantIds be narrowed to method scope, too?)",
+      "revId": "769566a91fa4b321a212007e17cd19bccc648b5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be018667_4bc3cbbf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 969,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-07-24T16:21:16Z",
+      "side": 1,
+      "message": "I think we\u0027ll need to do a two-stage rollout for this, just like we did for protocol v2 (https://git.eclipse.org/r/c/120797/).",
+      "revId": "769566a91fa4b321a212007e17cd19bccc648b5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0cc2d48d_a506d05b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 974,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-07-24T16:21:16Z",
+      "side": 1,
+      "message": "Ideally we wouldn\u0027t treat this as a protocol exception, since it\u0027s a perfectly valid condition (they asked for a ref that didn\u0027t exist).\n\nDoes the protocol spec provide a way to tell the client that the requested refs were not available?",
+      "range": {
+        "startLine": 974,
+        "startChar": 15,
+        "endLine": 974,
+        "endChar": 36
+      },
+      "revId": "769566a91fa4b321a212007e17cd19bccc648b5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88e5e9a9_305331b2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 980,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-07-24T16:21:16Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "769566a91fa4b321a212007e17cd19bccc648b5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d11f7f1a_46e8b029",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1087,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-07-24T16:21:16Z",
+      "side": 1,
+      "message": "JGit style is to include braces around all \u0027if\u0027 bodies",
+      "revId": "769566a91fa4b321a212007e17cd19bccc648b5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56e181ac_4055ba16",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1090,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-07-24T16:21:16Z",
+      "side": 1,
+      "message": "Question, I don\u0027t know the answer: is there some preferred ordering for these? E.g. should we randomize the order to avoid clients relying on a particular order? (That wouldn\u0027t belong in this change but could be a followup.)",
+      "revId": "769566a91fa4b321a212007e17cd19bccc648b5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
