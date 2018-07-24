@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a0a7c8cf_40f3e707",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-07-24T15:37:15Z",
+      "side": 1,
+      "message": "Not new in this change, but this seems underdocumented, even for a private method.\n\nCan it get a comment describing what the function is used for and what the return value represents?",
+      "revId": "e0e52cb0110a908959f7df13c5e66bf911bad74f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
