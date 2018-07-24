@@ -658,6 +658,10 @@ public class UploadPackTest {
 				new StringWriter(), NullOutputStream.INSTANCE);
 		PackParser pp = client.newObjectInserter().newPackParser(sb);
 		pp.parse(NullProgressMonitor.INSTANCE);
+
+		// Ensure that there is nothing left in the stream.
+		assertThat(recvStream.read(), is(-1));
+
 		return pp.getReceivedPackStatistics();
 	}
 
