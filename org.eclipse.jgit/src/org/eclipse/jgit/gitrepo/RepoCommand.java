@@ -52,10 +52,11 @@ import java.io.InputStream;
 import java.net.URI;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
-import java.util.Set;
 import java.util.StringJoiner;
 
 import org.eclipse.jgit.annotations.Nullable;
@@ -124,7 +125,6 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	private IncludedFileReader includedReader;
 	private boolean ignoreRemoteFailures = false;
 
-	private List<RepoProject> bareProjects;
 	private ProgressMonitor monitor;
 
 	/**
@@ -519,17 +519,12 @@ public class RepoCommand extends GitCommand<RevCommit> {
 		}
 
 		if (repo.isBare()) {
-			bareProjects = new ArrayList<>();
 			if (author == null)
 				author = new PersonIdent(repo);
 			if (callback == null)
 				callback = new DefaultRemoteReader();
-			for (RepoProject proj : filteredProjects) {
-				addSubmoduleBare(proj.getUrl(), proj.getPath(),
-						proj.getRevision(), proj.getCopyFiles(),
-						proj.getLinkFiles(), proj.getGroups(),
-						proj.getRecommendShallow());
-			}
+			List<RepoProject> bareProjects = getBareProjects(filteredProjects);
+
 			DirCache index = DirCache.newInCore();
 			DirCacheBuilder builder = index.builder();
 			ObjectInserter inserter = repo.newObjectInserter();
@@ -537,8 +532,9 @@ public class RepoCommand extends GitCommand<RevCommit> {
 				Config cfg = new Config();
 				StringBuilder attributes = new StringBuilder();
 				for (RepoProject proj : bareProjects) {
+					String name = proj.getName();
 					String path = proj.getPath();
-					String nameUri = proj.getName();
+					String nameUri = proj.getUrl();
 					ObjectId objectId;
 					if (ObjectId.isId(proj.getRevision())) {
 						objectId = ObjectId.fromString(proj.getRevision());
@@ -549,7 +545,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 						}
 						if (recordRemoteBranch) {
 							// can be branch or tag
-							cfg.setString("submodule", path, "branch", //$NON-NLS-1$ //$NON-NLS-2$
+							cfg.setString("submodule", name, "branch", //$NON-NLS-1$ //$NON-NLS-2$
 									proj.getRevision());
 						}
 
@@ -559,7 +555,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 							// depth in the 'clone-depth' field, while
 							// git core only uses a binary 'shallow = true/false'
 							// hint, we'll map any depth to 'shallow = true'
-							cfg.setBoolean("submodule", path, "shallow", //$NON-NLS-1$ //$NON-NLS-2$
+							cfg.setBoolean("submodule", name, "shallow", //$NON-NLS-1$ //$NON-NLS-2$
 									true);
 						}
 					}
@@ -579,8 +575,9 @@ public class RepoCommand extends GitCommand<RevCommit> {
 					if (targetUri != null) {
 						submodUrl = relativize(targetUri, submodUrl);
 					}
-					cfg.setString("submodule", path, "path", path); //$NON-NLS-1$ //$NON-NLS-2$
-					cfg.setString("submodule", path, "url", submodUrl.toString()); //$NON-NLS-1$ //$NON-NLS-2$
+					cfg.setString("submodule", name, "path", path); //$NON-NLS-1$ //$NON-NLS-2$
+					cfg.setString("submodule", name, "url", //$NON-NLS-1$ //$NON-NLS-2$
+							submodUrl.toString());
 
 					// create gitlink
 					if (objectId != null) {
@@ -691,7 +688,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 		} else {
 			try (Git git = new Git(repo)) {
 				for (RepoProject proj : filteredProjects) {
-					addSubmodule(proj.getUrl(), proj.getPath(),
+					addSubmodule(proj.getName(), proj.getUrl(), proj.getPath(),
 							proj.getRevision(), proj.getCopyFiles(),
 							proj.getLinkFiles(), git);
 				}
@@ -703,9 +700,9 @@ public class RepoCommand extends GitCommand<RevCommit> {
 		}
 	}
 
-	private void addSubmodule(String url, String path, String revision,
-			List<CopyFile> copyfiles, List<LinkFile> linkfiles, Git git)
-			throws GitAPIException, IOException {
+	private void addSubmodule(String name, String url, String path,
+			String revision, List<CopyFile> copyfiles, List<LinkFile> linkfiles,
+			Git git) throws GitAPIException, IOException {
 		assert (!repo.isBare());
 		assert (git != null);
 		if (!linkfiles.isEmpty()) {
@@ -713,7 +710,8 @@ public class RepoCommand extends GitCommand<RevCommit> {
 					JGitText.get().nonBareLinkFilesNotSupported);
 		}
 
-		SubmoduleAddCommand add = git.submoduleAdd().setPath(path).setURI(url);
+		SubmoduleAddCommand add = git.submoduleAdd().setName(name).setPath(path)
+				.setURI(url);
 		if (monitor != null)
 			add.setProgressMonitor(monitor);
 
@@ -731,16 +729,38 @@ public class RepoCommand extends GitCommand<RevCommit> {
 		}
 	}
 
-	private void addSubmoduleBare(String url, String path, String revision,
-			List<CopyFile> copyfiles, List<LinkFile> linkfiles,
-			Set<String> groups, String recommendShallow) {
+	private List<RepoProject> getBareProjects(List<RepoProject> projects) {
 		assert (repo.isBare());
-		assert (bareProjects != null);
-		RepoProject proj = new RepoProject(url, path, revision, null, groups,
-				recommendShallow);
-		proj.addCopyFiles(copyfiles);
-		proj.addLinkFiles(linkfiles);
-		bareProjects.add(proj);
+
+		Map<String, List<RepoProject>> m = new HashMap<>();
+		for (RepoProject proj : projects) {
+			if (m.containsKey(proj.getName())) {
+				m.get(proj.getName()).add(proj);
+			} else {
+				List<RepoProject> l = new ArrayList<>();
+				l.add(proj);
+				m.put(proj.getName(), l);
+			}
+		}
+
+		List<RepoProject> ret = new ArrayList<>();
+		for (Entry<String, List<RepoProject>> e : m.entrySet()) {
+			boolean suffixWithPath = e.getValue().size() != 1;
+			for (RepoProject proj : e.getValue()) {
+				String name = proj.getName();
+				if (suffixWithPath) {
+					name += SLASH + proj.getPath();
+				}
+				RepoProject bareProj = new RepoProject(name,
+						proj.getPath(), proj.getRevision(), null,
+						proj.getGroups(), proj.getRecommendShallow());
+				bareProj.setUrl(proj.getUrl());
+				bareProj.addCopyFiles(proj.getCopyFiles());
+				bareProj.addLinkFiles(proj.getLinkFiles());
+				ret.add(bareProj);
+			}
+		}
+		return ret;
 	}
 
 	/*
