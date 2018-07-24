@@ -1083,8 +1083,12 @@ public class UploadPack {
 						? db.getRefDatabase().getRefsByPrefix(R_TAGS)
 						: null,
 					unshallowCommits);
+			// sendPack invokes pckOut.end() for us, so we do not
+			// need to invoke it here.
+		} else {
+			// Invoke pckOut.end() by ourselves.
+			pckOut.end();
 		}
-		pckOut.end();
 	}
 
 	/*
