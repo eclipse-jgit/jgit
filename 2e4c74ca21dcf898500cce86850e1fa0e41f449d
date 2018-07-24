@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "65a23f15_ea9b65c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-07-24T21:47:11Z",
+      "side": 1,
+      "message": "Reported-by: JP Sugarbroad \u003cjpsugar@google.com\u003e",
+      "revId": "2e4c74ca21dcf898500cce86850e1fa0e41f449d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6adcb711_afb3f5b9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 2
