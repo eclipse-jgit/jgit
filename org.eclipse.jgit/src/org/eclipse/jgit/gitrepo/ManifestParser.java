@@ -252,6 +252,9 @@ public class ManifestParser extends DefaultHandler {
 							RepoText.get().errorIncludeFile, path), e);
 				}
 			}
+		} else if ("remove-project".equals(qName)) {
+			String name = attributes.getValue("name");
+			projects.removeIf((p) -> p.getName().equals(name));
 		}
 	}
 
