@@ -268,7 +268,8 @@ public class RepoCommandTest extends RepositoryTestCase {
 						.getCachedBytes(Integer.MAX_VALUE);
 				Config base = new Config();
 				BlobBasedConfig cfg = new BlobBasedConfig(base, bytes);
-				String subUrl = cfg.getString("submodule", "base", "url");
+				String subUrl = cfg.getString("submodule", "platform/base",
+						"url");
 				assertEquals(subUrl, "../base");
 			}
 		}
@@ -301,7 +302,8 @@ public class RepoCommandTest extends RepositoryTestCase {
 						.getCachedBytes(Integer.MAX_VALUE);
 				Config base = new Config();
 				BlobBasedConfig cfg = new BlobBasedConfig(base, bytes);
-				String subUrl = cfg.getString("submodule", "base", "url");
+				String subUrl = cfg.getString("submodule", "platform/base",
+						"url");
 				assertEquals(subUrl, "https://host.com/platform/base");
 			}
 		}
@@ -387,8 +389,8 @@ public class RepoCommandTest extends RepositoryTestCase {
 								.getCachedBytes(Integer.MAX_VALUE);
 						Config base = new Config();
 						BlobBasedConfig cfg = new BlobBasedConfig(base, bytes);
-						String subUrl = cfg.getString("submodule", "src",
-								"url");
+						String subUrl = cfg.getString("submodule",
+								"chromium/src", "url");
 						assertEquals(
 								"https://chromium.googlesource.com/chromium/src",
 								subUrl);
@@ -443,8 +445,8 @@ public class RepoCommandTest extends RepositoryTestCase {
 								.getCachedBytes(Integer.MAX_VALUE);
 						Config base = new Config();
 						BlobBasedConfig cfg = new BlobBasedConfig(base, bytes);
-						String subUrl = cfg.getString("submodule", "src",
-								"url");
+						String subUrl = cfg.getString("submodule",
+								"chromium/src", "url");
 						assertEquals("../chromium/src", subUrl);
 					}
 					fetchSlash = !fetchSlash;
@@ -613,7 +615,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 				String content = reader.readLine();
 				assertEquals(
 						"The first line of .gitmodules file should be as expected",
-						"[submodule \"foo\"]", content);
+						"[submodule \"" + defaultUri + "\"]", content);
 			}
 			// The gitlink should be the same as remote head sha1
 			String gitlink = localDb.resolve(Constants.HEAD + ":foo").name();
@@ -801,9 +803,9 @@ public class RepoCommandTest extends RepositoryTestCase {
 				.append("<manifest>")
 				.append("<remote name=\"remote1\" fetch=\".\" />")
 				.append("<default revision=\"master\" remote=\"remote1\" />")
-				.append("<project path=\"bar\" name=\"").append(defaultUri)
-				.append("\" revision=\"").append(BRANCH).append("\" >")
-				.append("<copyfile src=\"hello.txt\" dest=\"Hello.txt\" />")
+				.append("<project path=\"bar\" name=\"").append(notDefaultUri)
+				.append("\" >")
+				.append("<copyfile src=\"world.txt\" dest=\"World.txt\" />")
 				.append("</project>").append("</manifest>");
 		JGitTestUtil.writeTrashFile(tempDb, "new.xml", xmlContent.toString());
 		command = new RepoCommand(remoteDb);
@@ -819,8 +821,8 @@ public class RepoCommandTest extends RepositoryTestCase {
 			File hello = new File(localDb.getWorkTree(), "Hello");
 			assertFalse("The Hello file shouldn't exist", hello.exists());
 			// The Hello.txt file should exist
-			File hellotxt = new File(localDb.getWorkTree(), "Hello.txt");
-			assertTrue("The Hello.txt file should exist", hellotxt.exists());
+			File hellotxt = new File(localDb.getWorkTree(), "World.txt");
+			assertTrue("The World.txt file should exist", hellotxt.exists());
 			dotmodules = new File(localDb.getWorkTree(),
 					Constants.DOT_GIT_MODULES);
 		}
@@ -835,9 +837,9 @@ public class RepoCommandTest extends RepositoryTestCase {
 				String line = reader.readLine();
 				if (line == null)
 					break;
-				if (line.contains("submodule \"foo\""))
+				if (line.contains("submodule \"" + defaultUri + "\""))
 					foo = true;
-				if (line.contains("submodule \"bar\""))
+				if (line.contains("submodule \"" + notDefaultUri + "\""))
 					bar = true;
 			}
 			assertTrue("The bar submodule should exist", bar);
@@ -876,9 +878,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 				Constants.DOT_GIT_MODULES);
 		}
 
-		// The .gitmodules file should have 'submodule "foo"' and shouldn't
-		// have
-		// 'submodule "foo/bar"' lines.
+		// Check .gitmodules file
 		try (BufferedReader reader = new BufferedReader(
 				new FileReader(dotmodules))) {
 			boolean foo = false;
@@ -888,16 +888,17 @@ public class RepoCommandTest extends RepositoryTestCase {
 				String line = reader.readLine();
 				if (line == null)
 					break;
-				if (line.contains("submodule \"foo\""))
+				if (line.contains("submodule \"" + defaultUri + "\""))
 					foo = true;
-				if (line.contains("submodule \"foo/bar\""))
+				if (line.contains("submodule \"" + groupBUri + "\""))
 					foobar = true;
-				if (line.contains("submodule \"a\""))
+				if (line.contains("submodule \"" + groupAUri + "\""))
 					a = true;
 			}
-			assertTrue("The foo submodule should exist", foo);
-			assertFalse("The foo/bar submodule shouldn't exist", foobar);
-			assertTrue("The a submodule should exist", a);
+			assertTrue("The " + defaultUri + " submodule should exist", foo);
+			assertFalse("The " + groupBUri + " submodule shouldn't exist",
+					foobar);
+			assertTrue("The " + groupAUri + " submodule should exist", a);
 		}
 	}
 
@@ -1033,11 +1034,11 @@ public class RepoCommandTest extends RepositoryTestCase {
 			assertEquals(
 					"Recording remote branches should work for short branch descriptions",
 					"master",
-					c.getString("submodule", "with-branch", "branch"));
+					c.getString("submodule", notDefaultUri, "branch"));
 			assertEquals(
 					"Recording remote branches should work for full ref specs",
 					"refs/heads/master",
-					c.getString("submodule", "with-long-branch", "branch"));
+					c.getString("submodule", defaultUri, "branch"));
 		}
 	}
 
@@ -1095,7 +1096,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 				.append("<project path=\"shallow-please\" ").append("name=\"")
 				.append(defaultUri).append("\" ").append("clone-depth=\"1\" />")
 				.append("<project path=\"non-shallow\" ").append("name=\"")
-				.append(defaultUri).append("\" />").append("</manifest>");
+				.append(notDefaultUri).append("\" />").append("</manifest>");
 		JGitTestUtil.writeTrashFile(tempDb, "manifest.xml",
 				xmlContent.toString());
 
@@ -1115,9 +1116,9 @@ public class RepoCommandTest extends RepositoryTestCase {
 			FileBasedConfig c = new FileBasedConfig(gitmodules, FS.DETECTED);
 			c.load();
 			assertEquals("Recording shallow configuration should work", "true",
-					c.getString("submodule", "shallow-please", "shallow"));
+					c.getString("submodule", defaultUri, "shallow"));
 			assertNull("Recording non shallow configuration should work",
-					c.getString("submodule", "non-shallow", "shallow"));
+					c.getString("submodule", notDefaultUri, "shallow"));
 		}
 	}
 
@@ -1173,6 +1174,43 @@ public class RepoCommandTest extends RepositoryTestCase {
 			String content = reader.readLine();
 			assertEquals("submodule content should be as expected",
 					"branch world", content);
+		}
+	}
+
+	@Test
+	public void testTwoPathUseTheSameName() throws Exception {
+		Repository remoteDb = createBareRepository();
+		Repository tempDb = createWorkRepository();
+
+		StringBuilder xmlContent = new StringBuilder();
+		xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+				.append("<manifest>")
+				.append("<remote name=\"remote1\" fetch=\".\" />")
+				.append("<default revision=\"master\" remote=\"remote1\" />")
+				.append("<project path=\"path1\" ").append("name=\"")
+				.append(defaultUri).append("\" />")
+				.append("<project path=\"path2\" ").append("name=\"")
+				.append(defaultUri).append("\" />").append("</manifest>");
+		JGitTestUtil.writeTrashFile(tempDb, "manifest.xml",
+				xmlContent.toString());
+
+		RepoCommand command = new RepoCommand(remoteDb);
+		command.setPath(
+				tempDb.getWorkTree().getAbsolutePath() + "/manifest.xml")
+				.setURI(rootUri).setRecommendShallow(true).call();
+		File directory = createTempDirectory("testBareRepo");
+		try (Repository localDb = Git.cloneRepository().setDirectory(directory)
+				.setURI(remoteDb.getDirectory().toURI().toString()).call()
+				.getRepository();) {
+			File gitmodules = new File(localDb.getWorkTree(), ".gitmodules");
+			assertTrue("The .gitmodules file should exist",
+					gitmodules.exists());
+			FileBasedConfig c = new FileBasedConfig(gitmodules, FS.DETECTED);
+			c.load();
+			assertEquals("A module should exist for path1", "path1",
+					c.getString("submodule", defaultUri + "/path1", "path"));
+			assertEquals("A module should exist for path2", "path2",
+					c.getString("submodule", defaultUri + "/path2", "path"));
 		}
 	}
 
