@@ -131,6 +131,7 @@ public class TransferConfig {
 	private final boolean allowFilter;
 	final @Nullable ProtocolVersion protocolVersion;
 	final String[] hideRefs;
+	private final boolean allowRefInWant;
 
 	TransferConfig(Repository db) {
 		this(db.getConfig());
@@ -188,6 +189,7 @@ public class TransferConfig {
 				"uploadpack", "allowfilter", false);
 		protocolVersion = ProtocolVersion.parse(rc.getString("protocol", null, "version"));
 		hideRefs = rc.getStringList("uploadpack", null, "hiderefs");
+		allowRefInWant = rc.getBoolean("uploadpack", "allowrefinwant", false);
 	}
 
 	/**
@@ -259,6 +261,14 @@ public class TransferConfig {
 	 */
 	public boolean isAllowFilter() {
 		return allowFilter;
+	}
+
+	/**
+	 * @return true if clients are allowed to specify a "want-ref" line
+	 * @since 5.1
+	 */
+	public boolean isAllowRefInWant() {
+		return allowRefInWant;
 	}
 
 	/**

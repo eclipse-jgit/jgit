@@ -505,6 +505,22 @@ public class UploadPackTest {
 	}
 
 	@Test
+	public void testV2CapabilitiesRefInWant() throws Exception {
+		server.getConfig().setBoolean("uploadpack", null, "allowrefinwant", true);
+		ByteArrayInputStream recvStream =
+			uploadPackV2Setup(null, null, PacketLineIn.END);
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+
+		assertThat(pckIn.readString(), is("version 2"));
+		assertThat(
+			Arrays.asList(pckIn.readString(), pckIn.readString()),
+			// TODO(jonathantanmy) This check overspecifies the
+			// order of the capabilities of "fetch".
+			hasItems("ls-refs", "fetch=ref-in-want shallow"));
+		assertTrue(pckIn.readString() == PacketLineIn.END);
+	}
+
+	@Test
 	@SuppressWarnings("boxing")
 	public void testV2EmptyRequest() throws Exception {
 		ByteArrayInputStream recvStream = uploadPackV2(PacketLineIn.END);
@@ -1155,6 +1171,166 @@ public class UploadPackTest {
 			"filter blob:limit=5\n",
 			"done\n",
 			PacketLineIn.END);
+	}
+
+	@Test
+	public void testV2FetchWantRefIfNotAllowed() throws Exception {
+		RevCommit one = remote.commit().message("1").create();
+		remote.update("one", one);
+
+		thrown.expect(PackProtocolException.class);
+		thrown.expectMessage("unexpected want-ref refs/heads/one");
+		uploadPackV2(
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"want-ref refs/heads/one\n",
+			"done\n",
+			PacketLineIn.END);
+	}
+
+	@Test
+	public void testV2FetchWantRef() throws Exception {
+		RevCommit one = remote.commit().message("1").create();
+		RevCommit two = remote.commit().message("2").create();
+		RevCommit three = remote.commit().message("3").create();
+		remote.update("one", one);
+		remote.update("two", two);
+		remote.update("three", three);
+
+		server.getConfig().setBoolean("uploadpack", null, "allowrefinwant", true);
+
+		ByteArrayInputStream recvStream = uploadPackV2(
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"want-ref refs/heads/one\n",
+			"want-ref refs/heads/two\n",
+			"done\n",
+			PacketLineIn.END);
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+		assertThat(pckIn.readString(), is("wanted-refs"));
+		assertThat(
+				Arrays.asList(pckIn.readString(), pckIn.readString()),
+				hasItems(
+					one.toObjectId().getName() + " refs/heads/one",
+					two.toObjectId().getName() + " refs/heads/two"));
+		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
+		assertThat(pckIn.readString(), is("packfile"));
+		parsePack(recvStream);
+
+		assertTrue(client.hasObject(one.toObjectId()));
+		assertTrue(client.hasObject(two.toObjectId()));
+		assertFalse(client.hasObject(three.toObjectId()));
+	}
+
+	@Test
+	public void testV2FetchBadWantRef() throws Exception {
+		RevCommit one = remote.commit().message("1").create();
+		remote.update("one", one);
+
+		server.getConfig().setBoolean("uploadpack", null, "allowrefinwant", true);
+
+		thrown.expect(PackProtocolException.class);
+		thrown.expectMessage("Invalid ref name: refs/heads/nonExistentRef");
+		uploadPackV2(
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"want-ref refs/heads/one\n",
+			"want-ref refs/heads/nonExistentRef\n",
+			"done\n",
+			PacketLineIn.END);
+	}
+
+	@Test
+	public void testV2FetchMixedWantRef() throws Exception {
+		RevCommit one = remote.commit().message("1").create();
+		RevCommit two = remote.commit().message("2").create();
+		RevCommit three = remote.commit().message("3").create();
+		remote.update("one", one);
+		remote.update("two", two);
+		remote.update("three", three);
+
+		server.getConfig().setBoolean("uploadpack", null, "allowrefinwant", true);
+
+		ByteArrayInputStream recvStream = uploadPackV2(
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"want-ref refs/heads/one\n",
+			"want " + two.toObjectId().getName(),
+			"done\n",
+			PacketLineIn.END);
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+		assertThat(pckIn.readString(), is("wanted-refs"));
+		assertThat(
+				pckIn.readString(),
+				is(one.toObjectId().getName() + " refs/heads/one"));
+		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
+		assertThat(pckIn.readString(), is("packfile"));
+		parsePack(recvStream);
+
+		assertTrue(client.hasObject(one.toObjectId()));
+		assertTrue(client.hasObject(two.toObjectId()));
+		assertFalse(client.hasObject(three.toObjectId()));
+	}
+
+	@Test
+	public void testV2FetchWantRefWeAlreadyHave() throws Exception {
+		RevCommit one = remote.commit().message("1").create();
+		remote.update("one", one);
+
+		server.getConfig().setBoolean("uploadpack", null, "allowrefinwant", true);
+
+		ByteArrayInputStream recvStream = uploadPackV2(
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"want-ref refs/heads/one\n",
+			"have " + one.toObjectId().getName(),
+			"done\n",
+			PacketLineIn.END);
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+
+		// The client still needs to know the hash of the object that
+		// refs/heads/one points to, even though it already has the
+		// object ...
+		assertThat(pckIn.readString(), is("wanted-refs"));
+		assertThat(
+				pckIn.readString(),
+				is(one.toObjectId().getName() + " refs/heads/one"));
+		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
+
+		// ... but the client does not need the object itself.
+		assertThat(pckIn.readString(), is("packfile"));
+		parsePack(recvStream);
+		assertFalse(client.hasObject(one.toObjectId()));
+	}
+
+	@Test
+	public void testV2FetchWantRefAndDeepen() throws Exception {
+		RevCommit parent = remote.commit().message("parent").create();
+		RevCommit child = remote.commit().message("x").parent(parent).create();
+		remote.update("branch1", child);
+
+		server.getConfig().setBoolean("uploadpack", null, "allowrefinwant", true);
+
+		ByteArrayInputStream recvStream = uploadPackV2(
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"want-ref refs/heads/branch1\n",
+			"deepen 1\n",
+			"done\n",
+			PacketLineIn.END);
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+
+		// wanted-refs appears first, then shallow-info.
+		assertThat(pckIn.readString(), is("wanted-refs"));
+		assertThat(pckIn.readString(), is(child.toObjectId().getName() + " refs/heads/branch1"));
+		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
+		assertThat(pckIn.readString(), is("shallow-info"));
+		assertThat(pckIn.readString(), is("shallow " + child.toObjectId().getName()));
+		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
+		assertThat(pckIn.readString(), is("packfile"));
+		parsePack(recvStream);
+		assertTrue(client.hasObject(child.toObjectId()));
+		assertFalse(client.hasObject(parent.toObjectId()));
 	}
 
 	private static class RejectAllRefFilter implements RefFilter {
