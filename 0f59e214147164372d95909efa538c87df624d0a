@@ -16,6 +16,24 @@
       "revId": "0f59e214147164372d95909efa538c87df624d0a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b8ce5bd_47afdbde",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 924,
+      "author": {
+        "id": 24046
+      },
+      "writtenOn": "2018-07-25T23:11:34Z",
+      "side": 1,
+      "message": "Right, but the sl4j implementation prints the stack trace when the last parameter is a throwable and there is no parameter marker, i.e., the corresponding pair of curly braces. I mean:\n\n  LOG.error(\"Unable to delete path {}\", d, e);\n\nprints the message replacing the parameter marker with the provided path to form the message and the stack trace is printed after the error message.\n\n\nOn the other hand:\n\n  LOG.error(\"Unable to delete path {} {}\", d, e);\n\nwill invoke the toString method of the throwable and print the error message as before plus the string representation of the throwable, usually the getMessage method.",
+      "parentUuid": "f8b8746b_f0e69ce7",
+      "revId": "0f59e214147164372d95909efa538c87df624d0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
