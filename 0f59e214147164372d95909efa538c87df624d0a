@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f8b8746b_f0e69ce7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 924,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-07-25T22:53:14Z",
+      "side": 1,
+      "message": "externalize error message\n\nthere is no method error(String, Object arg, Throwable exception) but only error(String, Object arg1, Object arg2)",
+      "revId": "0f59e214147164372d95909efa538c87df624d0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
