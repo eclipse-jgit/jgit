@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e9200a10_43a0d317",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-07-25T23:16:45Z",
+      "side": 1,
+      "message": "* non-externalized log message\n* log message doesn\u0027t mention that file deletion will be skipped\n* there is no method warn(String, Object arg, Throwable)",
+      "revId": "0192e4293da40ea7363a65140ba5e05c5f653a49",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
