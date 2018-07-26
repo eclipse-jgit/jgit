@@ -166,6 +166,24 @@
     },
     {
       "key": {
+        "uuid": "b471d760_29694207",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 732,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-07-26T23:56:54Z",
+      "side": 1,
+      "message": "It\u0027s from https://git.eclipse.org/r/c/26074. I suspect it\u0027s a no-op (!).\n\nHow about a TODO comment saying to evaluate whether this method is needed? You can assign it to me if you want.",
+      "parentUuid": "26d9888c_89d8ccfd",
+      "revId": "2e4c74ca21dcf898500cce86850e1fa0e41f449d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "41653499_67d02b50",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 2
