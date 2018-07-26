@@ -44,9 +44,11 @@ package org.eclipse.jgit.transport;
 
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_DEEPEN_RELATIVE;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_FILTER;
+import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_AGENT;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_INCLUDE_TAG;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_NO_PROGRESS;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_OFS_DELTA;
+import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SERVER_OPTION;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDE_BAND_64K;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_THIN_PACK;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_WANT_REF;
@@ -55,6 +57,7 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.internal.JGitText;
@@ -75,6 +78,35 @@ final class ProtocolV2Parser {
 
 	ProtocolV2Parser(TransferConfig transferConfig) {
 		this.transferConfig = transferConfig;
+	}
+
+	/*
+	 * Read lines until DELIM or END, calling the appropiate consumer.
+	 *
+	 * Returns the last read line (so caller can check if there is more to read
+	 * in the line).
+	 */
+	private static String consumeCapabilities(PacketLineIn pckIn,
+			Consumer<String> serverOptionConsumer,
+			Consumer<String> agentConsumer) throws IOException {
+
+		String serverOptionPrefix = OPTION_SERVER_OPTION + '=';
+		String agentPrefix = OPTION_AGENT + '=';
+
+		String line = pckIn.readString();
+		while (line != PacketLineIn.DELIM && line != PacketLineIn.END) {
+			if (line.startsWith(serverOptionPrefix)) {
+				serverOptionConsumer
+						.accept(line.substring(serverOptionPrefix.length()));
+			} else if (line.startsWith(agentPrefix)) {
+				agentConsumer.accept(line.substring(agentPrefix.length()));
+			} else {
+				// Unrecognized capability. Ignore it.
+			}
+			line = pckIn.readString();
+		}
+
+		return line;
 	}
 
 	/**
@@ -106,13 +138,18 @@ final class ProtocolV2Parser {
 		// lengths.
 		reqBuilder.addClientCapability(OPTION_SIDE_BAND_64K);
 
-		String line;
+		String line = consumeCapabilities(pckIn,
+				serverOption -> reqBuilder.addServerOption(serverOption),
+				agent -> reqBuilder.setAgent(agent));
 
-		// Currently, we do not support any capabilities, so the next
-		// line is DELIM.
-		if ((line = pckIn.readString()) != PacketLineIn.DELIM) {
-			throw new PackProtocolException(MessageFormat
-					.format(JGitText.get().unexpectedPacketLine, line));
+		if (line == PacketLineIn.END) {
+			return reqBuilder.build();
+		}
+
+		if (line != PacketLineIn.DELIM) {
+			throw new PackProtocolException(
+					MessageFormat.format(JGitText.get().unexpectedPacketLine,
+							line));
 		}
 
 		boolean filterReceived = false;
@@ -226,25 +263,31 @@ final class ProtocolV2Parser {
 			throws PackProtocolException, IOException {
 		LsRefsV2Request.Builder builder = LsRefsV2Request.builder();
 		List<String> prefixes = new ArrayList<>();
-		String line = pckIn.readString();
-		// Currently, we do not support any capabilities, so the next
-		// line is DELIM if there are arguments or END if not.
-		if (line == PacketLineIn.DELIM) {
-			while ((line = pckIn.readString()) != PacketLineIn.END) {
-				if (line.equals("peel")) { //$NON-NLS-1$
-					builder.setPeel(true);
-				} else if (line.equals("symrefs")) { //$NON-NLS-1$
-					builder.setSymrefs(true);
-				} else if (line.startsWith("ref-prefix ")) { //$NON-NLS-1$
-					prefixes.add(line.substring("ref-prefix ".length())); //$NON-NLS-1$
-				} else {
-					throw new PackProtocolException(MessageFormat
-							.format(JGitText.get().unexpectedPacketLine, line));
-				}
-			}
-		} else if (line != PacketLineIn.END) {
+
+		String line = consumeCapabilities(pckIn,
+				serverOption -> builder.addServerOption(serverOption),
+				agent -> builder.setAgent(agent));
+
+		if (line == PacketLineIn.END) {
+			return builder.build();
+		}
+
+		if (line != PacketLineIn.DELIM) {
 			throw new PackProtocolException(MessageFormat
 					.format(JGitText.get().unexpectedPacketLine, line));
+		}
+
+		while ((line = pckIn.readString()) != PacketLineIn.END) {
+			if (line.equals("peel")) { //$NON-NLS-1$
+				builder.setPeel(true);
+			} else if (line.equals("symrefs")) { //$NON-NLS-1$
+				builder.setSymrefs(true);
+			} else if (line.startsWith("ref-prefix ")) { //$NON-NLS-1$
+				prefixes.add(line.substring("ref-prefix ".length())); //$NON-NLS-1$
+			} else {
+				throw new PackProtocolException(MessageFormat
+						.format(JGitText.get().unexpectedPacketLine, line));
+			}
 		}
 
 		return builder.setRefPrefixes(prefixes).build();
