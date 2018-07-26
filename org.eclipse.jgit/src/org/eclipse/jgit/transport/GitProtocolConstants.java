@@ -245,6 +245,20 @@ public final class GitProtocolConstants {
 	public static final String CAPABILITY_REF_IN_WANT = "ref-in-want"; //$NON-NLS-1$
 
 	/**
+	 * The server supports arbitrary options
+	 *
+	 * @since 5.2
+	 */
+	public static final String CAPABILITY_SERVER_OPTION = "server-option"; //$NON-NLS-1$
+
+	/**
+	 * Option for passing application-specific options to the server.
+	 *
+	 * @since 5.2
+	 */
+	public static final String OPTION_SERVER_OPTION = "server-option"; //$NON-NLS-1$
+
+	/**
 	 * The server supports listing refs using protocol v2.
 	 *
 	 * @since 5.0

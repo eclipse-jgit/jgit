@@ -52,6 +52,7 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.lib.ObjectId;
 
 /**
@@ -69,18 +70,27 @@ public final class FetchV2Request extends FetchRequest {
 
 	private final boolean doneReceived;
 
+	@Nullable
+	private final String agent;
+
+	@NonNull
+	private final List<String> serverOptions;
+
 	FetchV2Request(@NonNull List<ObjectId> peerHas,
 			@NonNull TreeMap<String, ObjectId> wantedRefs,
 			@NonNull Set<ObjectId> wantIds,
 			@NonNull Set<ObjectId> clientShallowCommits, int deepenSince,
 			@NonNull List<String> deepenNotRefs, int depth,
 			long filterBlobLimit,
-			boolean doneReceived, @NonNull Set<String> clientCapabilities) {
+			boolean doneReceived, @NonNull Set<String> clientCapabilities,
+			@Nullable String agent, @NonNull List<String> serverOptions) {
 		super(wantIds, depth, clientShallowCommits, filterBlobLimit,
 				clientCapabilities, deepenSince, deepenNotRefs);
 		this.peerHas = requireNonNull(peerHas);
 		this.wantedRefs = requireNonNull(wantedRefs);
 		this.doneReceived = doneReceived;
+		this.agent = agent;
+		this.serverOptions = requireNonNull(serverOptions);
 	}
 
 	/**
@@ -104,6 +114,26 @@ public final class FetchV2Request extends FetchRequest {
 	 */
 	boolean wasDoneReceived() {
 		return doneReceived;
+	}
+
+	/**
+	 * @return string identifying the agent (as sent in the request body by the
+	 *         client)
+	 */
+	@Nullable
+	String getAgent() {
+		return agent;
+	}
+
+	/**
+	 * Options received in server-option lines. The caller can choose to act on
+	 * these in an application-specific way
+	 *
+	 * @return the server-option lines received in the request
+	 */
+	@NonNull
+	public List<String> getServerOptions() {
+		return serverOptions;
 	}
 
 	/** @return A builder of {@link FetchV2Request}. */
@@ -132,6 +162,11 @@ public final class FetchV2Request extends FetchRequest {
 		long filterBlobLimit = -1;
 
 		boolean doneReceived;
+
+		@Nullable
+		String agent;
+
+		final List<String> serverOptions = new ArrayList<>();
 
 		private Builder() {
 		}
@@ -265,12 +300,40 @@ public final class FetchV2Request extends FetchRequest {
 		}
 
 		/**
+		 * Agent line received after the command and before the arguments
+		 *
+		 * @param agentLine
+		 *            rest of the line starting with "agent="
+		 * @return this builder
+		 */
+		Builder setAgent(@Nullable String agentLine) {
+			this.agent = agentLine;
+			return this;
+		}
+
+		/**
+		 * Server-dependent options received in "server-option" lines
+		 *
+		 * @param line
+		 *            rest of a line that started with "server-option="
+		 * @return this builder
+		 */
+		Builder addServerOption(@Nullable String line) {
+			if (line != null && !line.isEmpty()) {
+				this.serverOptions.add(line);
+			}
+
+			return this;
+		}
+
+		/**
 		 * @return Initialized fetch request
 		 */
 		FetchV2Request build() {
 			return new FetchV2Request(peerHas, wantedRefs, wantIds,
 					clientShallowCommits, deepenSince, deepenNotRefs,
-					depth, filterBlobLimit, doneReceived, clientCapabilities);
+					depth, filterBlobLimit, doneReceived, clientCapabilities,
+					agent, serverOptions);
 		}
 	}
 }
