@@ -42,8 +42,14 @@
  */
 package org.eclipse.jgit.transport;
 
+import static java.util.Objects.requireNonNull;
+
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.annotations.Nullable;
 
 /**
  * ls-refs protocol v2 request.
@@ -60,11 +66,20 @@ public final class LsRefsV2Request {
 
 	private final boolean peel;
 
+	@Nullable
+	private final String agent;
+
+	@NonNull
+	private final List<String> serverOptions;
+
 	private LsRefsV2Request(List<String> refPrefixes, boolean symrefs,
-			boolean peel) {
+			boolean peel, @Nullable String agent,
+			@NonNull List<String> serverOptions) {
 		this.refPrefixes = refPrefixes;
 		this.symrefs = symrefs;
 		this.peel = peel;
+		this.agent = agent;
+		this.serverOptions = requireNonNull(serverOptions);
 	}
 
 	/** @return ref prefixes that the client requested. */
@@ -82,6 +97,34 @@ public final class LsRefsV2Request {
 		return peel;
 	}
 
+	/**
+	 * @return agent as reported by the client
+	 *
+	 * @since 5.2
+	 */
+	@Nullable
+	public String getAgent() {
+		return agent;
+	}
+
+	/**
+	 * Get application-specific options provided by the client using
+	 * --server-option.
+	 * <p>
+	 * It returns just the content, without the "server-option=" prefix. E.g. a
+	 * request with server-option=A and server-option=B lines returns the list
+	 * [A, B].
+	 *
+	 * @return application-specific options from the client as an unmodifiable
+	 *         list
+	 *
+	 * @since 5.2
+	 */
+	@NonNull
+	public List<String> getServerOptions() {
+		return serverOptions;
+	}
+
 	/** @return A builder of {@link LsRefsV2Request}. */
 	public static Builder builder() {
 		return new Builder();
@@ -94,6 +137,10 @@ public final class LsRefsV2Request {
 		private boolean symrefs;
 
 		private boolean peel;
+
+		private final List<String> serverOptions = new ArrayList<>();
+
+		private String agent;
 
 		private Builder() {
 		}
@@ -125,10 +172,32 @@ public final class LsRefsV2Request {
 			return this;
 		}
 
+		/**
+		 * @param line
+		 * @return this Builder
+		 */
+		public Builder addServerOption(@Nullable String line) {
+			if (line != null && !line.isEmpty()) {
+				serverOptions.add(line);
+			}
+
+			return this;
+		}
+
+		/**
+		 * @param agentValue
+		 * @return this Builder
+		 */
+		public Builder setAgent(@Nullable String agentValue) {
+			agent = agentValue;
+			return this;
+		}
+
 		/** @return LsRefsV2Request */
 		public LsRefsV2Request build() {
 			return new LsRefsV2Request(
-					Collections.unmodifiableList(refPrefixes), symrefs, peel);
+					Collections.unmodifiableList(refPrefixes), symrefs, peel,
+					agent, Collections.unmodifiableList(serverOptions));
 		}
 	}
 }
