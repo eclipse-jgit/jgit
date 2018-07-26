@@ -184,6 +184,24 @@
     },
     {
       "key": {
+        "uuid": "26c17ba0_eed5c1a4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 732,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-07-26T23:58:36Z",
+      "side": 1,
+      "message": "Correction: I suspect it was a no-op until this change, and now it sets the name for the RepoProjects to deal with name conflicts. So maybe the comment can say that (that it\u0027s about tweaking RepoProject names to avoid name conflicts).",
+      "parentUuid": "b471d760_29694207",
+      "revId": "2e4c74ca21dcf898500cce86850e1fa0e41f449d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "41653499_67d02b50",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 2
