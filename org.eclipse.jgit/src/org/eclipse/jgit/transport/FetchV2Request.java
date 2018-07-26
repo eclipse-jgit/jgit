@@ -79,11 +79,13 @@ public final class FetchV2Request {
 
 	private final Set<String> options;
 
+	private final ServerOptions serverOptions;
+
 	private FetchV2Request(List<ObjectId> peerHas,
 			TreeMap<String, ObjectId> wantedRefs, Set<ObjectId> wantsIds,
 			Set<ObjectId> clientShallowCommits, int shallowSince,
 			List<String> shallowExcludeRefs, int depth, long filterBlobLimit,
-			Set<String> options) {
+			Set<String> options, ServerOptions serverOptions) {
 		this.peerHas = peerHas;
 		this.wantedRefs = wantedRefs;
 		this.wantsIds = wantsIds;
@@ -93,6 +95,7 @@ public final class FetchV2Request {
 		this.depth = depth;
 		this.filterBlobLimit = filterBlobLimit;
 		this.options = options;
+		this.serverOptions = serverOptions;
 	}
 
 	/**
@@ -178,6 +181,16 @@ public final class FetchV2Request {
 		return options;
 	}
 
+	/**
+	 * Options coming in server-option line. There are specific for the server
+	 * implementation.
+	 *
+	 * @return the server-option lines received in the request
+	 */
+	public ServerOptions getServerOptions() {
+		return serverOptions;
+	}
+
 	/** @return A builder of {@link FetchV2Request}. */
 	static Builder builder() {
 		return new Builder();
@@ -203,6 +216,8 @@ public final class FetchV2Request {
 		int shallowSince;
 
 		long filterBlobLimit = -1;
+
+		ServerOptions serverOptions = new ServerOptions();
 
 		private Builder() {
 		}
@@ -324,12 +339,24 @@ public final class FetchV2Request {
 		}
 
 		/**
+		 * Server-dependent options, coming in "server-option" lines
+		 *
+		 * @param serverOptions
+		 * @return the builder
+		 */
+		Builder setServerOptions(ServerOptions serverOptions) {
+			this.serverOptions = serverOptions;
+			return this;
+		}
+
+		/**
 		 * @return Initialized fetch request
 		 */
 		FetchV2Request build() {
 			return new FetchV2Request(peerHas, wantedRefs, wantsIds,
 					clientShallowCommits, shallowSince, shallowExcludeRefs,
-					depth, filterBlobLimit, options);
+					depth, filterBlobLimit, options, serverOptions);
 		}
+
 	}
 }

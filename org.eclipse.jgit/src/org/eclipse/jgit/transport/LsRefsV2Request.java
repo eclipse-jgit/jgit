@@ -45,6 +45,8 @@ package org.eclipse.jgit.transport;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.jgit.annotations.Nullable;
+
 /**
  * ls-refs protocol v2 request.
  *
@@ -60,11 +62,14 @@ public final class LsRefsV2Request {
 
 	private final boolean peel;
 
+	private final ServerOptions serverOptions;
+
 	private LsRefsV2Request(List<String> refPrefixes, boolean symrefs,
-			boolean peel) {
+			boolean peel, ServerOptions serverOptions) {
 		this.refPrefixes = refPrefixes;
 		this.symrefs = symrefs;
 		this.peel = peel;
+		this.serverOptions = serverOptions;
 	}
 
 	/** @return ref prefixes that the client requested. */
@@ -82,6 +87,14 @@ public final class LsRefsV2Request {
 		return peel;
 	}
 
+	/**
+	 * @return server-option (and agent) lines included in the request
+	 */
+	@Nullable
+	public ServerOptions getServerOptions() {
+		return serverOptions;
+	}
+
 	/** @return A builder of {@link LsRefsV2Request}. */
 	public static Builder builder() {
 		return new Builder();
@@ -94,6 +107,8 @@ public final class LsRefsV2Request {
 		private boolean symrefs;
 
 		private boolean peel;
+
+		private ServerOptions serverOptions;
 
 		private Builder() {
 		}
@@ -125,10 +140,20 @@ public final class LsRefsV2Request {
 			return this;
 		}
 
+		/**
+		 * @param value
+		 * @return the Builder
+		 */
+		public Builder setServerOptions(ServerOptions value) {
+			serverOptions = value;
+			return this;
+		}
+
 		/** @return LsRefsV2Request */
 		public LsRefsV2Request build() {
 			return new LsRefsV2Request(
-					Collections.unmodifiableList(refPrefixes), symrefs, peel);
+					Collections.unmodifiableList(refPrefixes), symrefs, peel,
+					serverOptions);
 		}
 	}
 }
