@@ -506,14 +506,15 @@ public class UploadPackTest {
 		assertThat(hook.capabilitiesRequest, notNullValue());
 		assertThat(pckIn.readString(), is("version 2"));
 		assertThat(
-			Arrays.asList(pckIn.readString(), pckIn.readString()),
+				Arrays.asList(pckIn.readString(), pckIn.readString(),
+						pckIn.readString()),
 			// TODO(jonathantanmy) This check is written this way
 			// to make it simple to see that we expect this list of
 			// capabilities, but probably should be loosened to
 			// allow additional commands to be added to the list,
 			// and additional capabilities to be added to existing
 			// commands without requiring test changes.
-			hasItems("ls-refs", "fetch=shallow"));
+				hasItems("ls-refs", "fetch=shallow", "server-option"));
 		assertTrue(pckIn.readString() == PacketLineIn.END);
 	}
 
@@ -526,10 +527,11 @@ public class UploadPackTest {
 
 		assertThat(pckIn.readString(), is("version 2"));
 		assertThat(
-			Arrays.asList(pckIn.readString(), pckIn.readString()),
+				Arrays.asList(pckIn.readString(), pckIn.readString(),
+						pckIn.readString()),
 			// TODO(jonathantanmy) This check overspecifies the
 			// order of the capabilities of "fetch".
-			hasItems("ls-refs", "fetch=filter shallow"));
+				hasItems("ls-refs", "fetch=filter shallow", "server-option"));
 		assertTrue(pckIn.readString() == PacketLineIn.END);
 	}
 
@@ -542,10 +544,12 @@ public class UploadPackTest {
 
 		assertThat(pckIn.readString(), is("version 2"));
 		assertThat(
-			Arrays.asList(pckIn.readString(), pckIn.readString()),
+				Arrays.asList(pckIn.readString(), pckIn.readString(),
+						pckIn.readString()),
 			// TODO(jonathantanmy) This check overspecifies the
 			// order of the capabilities of "fetch".
-			hasItems("ls-refs", "fetch=ref-in-want shallow"));
+				hasItems("ls-refs", "fetch=ref-in-want shallow",
+						"server-option"));
 		assertTrue(pckIn.readString() == PacketLineIn.END);
 	}
 
@@ -558,8 +562,9 @@ public class UploadPackTest {
 
 		assertThat(pckIn.readString(), is("version 2"));
 		assertThat(
-			Arrays.asList(pckIn.readString(), pckIn.readString()),
-			hasItems("ls-refs", "fetch=shallow"));
+				Arrays.asList(pckIn.readString(), pckIn.readString(),
+						pckIn.readString()),
+				hasItems("ls-refs", "fetch=shallow", "server-option"));
 		assertTrue(pckIn.readString() == PacketLineIn.END);
 	}
 
@@ -573,8 +578,9 @@ public class UploadPackTest {
 
 		assertThat(pckIn.readString(), is("version 2"));
 		assertThat(
-			Arrays.asList(pckIn.readString(), pckIn.readString()),
-			hasItems("ls-refs", "fetch=shallow"));
+				Arrays.asList(pckIn.readString(), pckIn.readString(),
+						pckIn.readString()),
+				hasItems("ls-refs", "fetch=shallow", "server-option"));
 		assertTrue(pckIn.readString() == PacketLineIn.END);
 	}
 
