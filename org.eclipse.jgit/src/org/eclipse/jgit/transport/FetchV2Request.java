@@ -50,6 +50,7 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.lib.ObjectId;
 
 /**
@@ -71,17 +72,24 @@ public final class FetchV2Request extends FetchRequest {
 
 	private final boolean doneReceived;
 
+	private final String agent;
+
+	private final List<String> serverOptions;
+
 	private FetchV2Request(List<ObjectId> peerHas,
 			TreeMap<String, ObjectId> wantedRefs, Set<ObjectId> wantsIds,
 			Set<ObjectId> clientShallowCommits, int deepenSince,
 			List<String> deepenNotRefs, int depth, long filterBlobLimit,
-			boolean doneReceived, Set<String> options) {
+			boolean doneReceived, Set<String> options, String agent,
+			List<String> serverOptions) {
 		super(wantsIds, depth, clientShallowCommits, filterBlobLimit, options);
 		this.peerHas = peerHas;
 		this.wantedRefs = wantedRefs;
 		this.deepenSince = deepenSince;
 		this.deepenNotRefs = deepenNotRefs;
 		this.doneReceived = doneReceived;
+		this.agent = agent;
+		this.serverOptions = serverOptions;
 	}
 
 	/**
@@ -126,6 +134,25 @@ public final class FetchV2Request extends FetchRequest {
 		return doneReceived;
 	}
 
+	/**
+	 * @return string identifying the agent (as sent by the client)
+	 */
+	@Nullable
+	public String getAgent() {
+		return agent;
+	}
+
+	/**
+	 * Options coming in server-option line. There are specific for the server
+	 * implementation.
+	 *
+	 * @return the server-option lines received in the request
+	 */
+	@NonNull
+	public List<String> getServerOptions() {
+		return serverOptions;
+	}
+
 	/** @return A builder of {@link FetchV2Request}. */
 	static Builder builder() {
 		return new Builder();
@@ -153,6 +180,11 @@ public final class FetchV2Request extends FetchRequest {
 		long filterBlobLimit = -1;
 
 		boolean doneReceived;
+
+		@Nullable
+		String agent;
+
+		List<String> serverOptions = new ArrayList<>();
 
 		private Builder() {
 		}
@@ -282,13 +314,39 @@ public final class FetchV2Request extends FetchRequest {
 			this.doneReceived = true;
 			return this;
 		}
+
+		/**
+		 * Agent line sent after the command, before the arguments
+		 *
+		 * @param agentLine
+		 *            rest of the line starting with "agent="
+		 * @return the builder
+		 */
+		Builder addAgent(String agentLine) {
+			this.agent = agentLine;
+			return this;
+		}
+
+		/**
+		 * Server-dependent options, coming in "server-option" lines
+		 *
+		 * @param line
+		 *            rest of a line that started with "server-option=" *
+		 * @return the builder
+		 */
+		Builder addServerOption(String line) {
+			this.serverOptions.add(line);
+			return this;
+		}
+
 		/**
 		 * @return Initialized fetch request
 		 */
 		FetchV2Request build() {
 			return new FetchV2Request(peerHas, wantedRefs, wantsIds,
-					clientShallowCommits, deepenSince, deepenNotRefs,
-					depth, filterBlobLimit, doneReceived, options);
+					clientShallowCommits, deepenSince, deepenNotRefs, depth,
+					filterBlobLimit, doneReceived, options, agent,
+					serverOptions);
 		}
 	}
 }

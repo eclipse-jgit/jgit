@@ -106,13 +106,19 @@ final class ProtocolV2Parser {
 		// lengths.
 		reqBuilder.addOption(OPTION_SIDE_BAND_64K);
 
-		String line;
+		// Previous code was relying on finding a DELIM
+		String line = pckIn.readString();
+		while (line != PacketLineIn.DELIM && line != PacketLineIn.END) {
+			if (line.startsWith("server-option=")) { //$NON-NLS-1$
+				reqBuilder.addServerOption(line.substring(14));
+			} else if (line.startsWith("agent=")) { //$NON-NLS-1$
+				reqBuilder.addAgent(line.substring(6));
+			}
+			line = pckIn.readString();
+		}
 
-		// Currently, we do not support any capabilities, so the next
-		// line is DELIM.
-		if ((line = pckIn.readString()) != PacketLineIn.DELIM) {
-			throw new PackProtocolException(MessageFormat
-					.format(JGitText.get().unexpectedPacketLine, line));
+		if (line == PacketLineIn.END) {
+			return reqBuilder.build();
 		}
 
 		boolean filterReceived = false;
@@ -227,24 +233,31 @@ final class ProtocolV2Parser {
 		LsRefsV2Request.Builder builder = LsRefsV2Request.builder();
 		List<String> prefixes = new ArrayList<>();
 		String line = pckIn.readString();
-		// Currently, we do not support any capabilities, so the next
-		// line is DELIM if there are arguments or END if not.
-		if (line == PacketLineIn.DELIM) {
-			while ((line = pckIn.readString()) != PacketLineIn.END) {
-				if (line.equals("peel")) { //$NON-NLS-1$
-					builder.setPeel(true);
-				} else if (line.equals("symrefs")) { //$NON-NLS-1$
-					builder.setSymrefs(true);
-				} else if (line.startsWith("ref-prefix ")) { //$NON-NLS-1$
-					prefixes.add(line.substring("ref-prefix ".length())); //$NON-NLS-1$
-				} else {
-					throw new PackProtocolException(MessageFormat
-							.format(JGitText.get().unexpectedPacketLine, line));
-				}
+
+		while (line != PacketLineIn.DELIM && line != PacketLineIn.END) {
+			if (line.startsWith("server-option=")) { //$NON-NLS-1$
+				builder.addServerOption(line.substring(14));
+			} else if (line.startsWith("agent=")) { //$NON-NLS-1$
+				builder.setAgent(line.substring(6));
 			}
-		} else if (line != PacketLineIn.END) {
-			throw new PackProtocolException(MessageFormat
-					.format(JGitText.get().unexpectedPacketLine, line));
+			line = pckIn.readString();
+		}
+
+		if (line == PacketLineIn.END) {
+			return builder.build();
+		}
+
+		while ((line = pckIn.readString()) != PacketLineIn.END) {
+			if (line.equals("peel")) { //$NON-NLS-1$
+				builder.setPeel(true);
+			} else if (line.equals("symrefs")) { //$NON-NLS-1$
+				builder.setSymrefs(true);
+			} else if (line.startsWith("ref-prefix ")) { //$NON-NLS-1$
+				prefixes.add(line.substring("ref-prefix ".length())); //$NON-NLS-1$
+			} else {
+				throw new PackProtocolException(MessageFormat
+						.format(JGitText.get().unexpectedPacketLine, line));
+			}
 		}
 
 		return builder.setRefPrefixes(prefixes).build();
