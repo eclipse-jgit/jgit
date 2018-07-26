@@ -42,8 +42,12 @@
  */
 package org.eclipse.jgit.transport;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.annotations.Nullable;
 
 /**
  * ls-refs protocol v2 request.
@@ -60,11 +64,17 @@ public final class LsRefsV2Request {
 
 	private final boolean peel;
 
+	private final String agent;
+
+	private final List<String> serverOptions;
+
 	private LsRefsV2Request(List<String> refPrefixes, boolean symrefs,
-			boolean peel) {
+			boolean peel, String agent, List<String> serverOptions) {
 		this.refPrefixes = refPrefixes;
 		this.symrefs = symrefs;
 		this.peel = peel;
+		this.agent = agent;
+		this.serverOptions = serverOptions;
 	}
 
 	/** @return ref prefixes that the client requested. */
@@ -82,6 +92,20 @@ public final class LsRefsV2Request {
 		return peel;
 	}
 
+	/** @return agent as reported by the client */
+	@Nullable
+	public String getAgent() {
+		return agent;
+	}
+
+	/**
+	 * @return server-option (and agent) lines included in the request
+	 */
+	@NonNull
+	public List<String> getServerOptions() {
+		return serverOptions;
+	}
+
 	/** @return A builder of {@link LsRefsV2Request}. */
 	public static Builder builder() {
 		return new Builder();
@@ -94,6 +118,10 @@ public final class LsRefsV2Request {
 		private boolean symrefs;
 
 		private boolean peel;
+
+		private List<String> serverOptions = new ArrayList<>();
+
+		private String agent;
 
 		private Builder() {
 		}
@@ -125,10 +153,29 @@ public final class LsRefsV2Request {
 			return this;
 		}
 
+		/**
+		 * @param line
+		 * @return the Builder
+		 */
+		public Builder addServerOption(String line) {
+			this.serverOptions.add(line);
+			return this;
+		}
+
+		/**
+		 * @param agent
+		 * @return the Builder
+		 */
+		public Builder setAgent(String agent) {
+			this.agent = agent;
+			return this;
+		}
+
 		/** @return LsRefsV2Request */
 		public LsRefsV2Request build() {
 			return new LsRefsV2Request(
-					Collections.unmodifiableList(refPrefixes), symrefs, peel);
+					Collections.unmodifiableList(refPrefixes), symrefs, peel,
+					agent, serverOptions);
 		}
 	}
 }
