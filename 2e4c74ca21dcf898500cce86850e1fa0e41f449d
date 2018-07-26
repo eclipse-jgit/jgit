@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ba5aa5a8_6f248b92",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2018-07-26T19:06:07Z",
+      "side": 1,
+      "message": "I think it\u0027s better to explain why using project name instead of path solved the problem. In order to understand that, the reader needs to understand that Git uses the submodule name to manage the submodule repositories internally.",
+      "parentUuid": "1b6e27ca_ea7bf003",
+      "range": {
+        "startLine": 11,
+        "startChar": 7,
+        "endLine": 11,
+        "endChar": 37
+      },
+      "revId": "2e4c74ca21dcf898500cce86850e1fa0e41f449d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65a23f15_ea9b65c6",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -39,6 +63,24 @@
       "revId": "2e4c74ca21dcf898500cce86850e1fa0e41f449d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a8ec565_4b7d70ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2018-07-26T19:06:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65a23f15_ea9b65c6",
+      "revId": "2e4c74ca21dcf898500cce86850e1fa0e41f449d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "c3dc903b_db9beeac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2018-07-26T19:06:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6adcb711_afb3f5b9",
+      "range": {
+        "startLine": 537,
+        "startChar": 12,
+        "endLine": 537,
+        "endChar": 19
+      },
+      "revId": "2e4c74ca21dcf898500cce86850e1fa0e41f449d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "62bf8908_d4a16545",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 2
@@ -76,6 +142,24 @@
       "writtenOn": "2018-07-24T21:45:52Z",
       "side": 1,
       "message": "Can this have a brief comment describing what it does / is for?",
+      "revId": "2e4c74ca21dcf898500cce86850e1fa0e41f449d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26d9888c_89d8ccfd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 732,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2018-07-26T19:06:07Z",
+      "side": 1,
+      "message": "I actually do not know what this does...",
+      "parentUuid": "62bf8908_d4a16545",
       "revId": "2e4c74ca21dcf898500cce86850e1fa0e41f449d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
@@ -116,6 +200,24 @@
     },
     {
       "key": {
+        "uuid": "00b3803c_c90637bb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 737,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2018-07-26T19:06:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7966397c_aa2fe6e9",
+      "revId": "2e4c74ca21dcf898500cce86850e1fa0e41f449d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f48e36f0_572e824c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 2
@@ -130,6 +232,24 @@
       "revId": "2e4c74ca21dcf898500cce86850e1fa0e41f449d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2da8d247_9d059655",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2018-07-26T19:06:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f48e36f0_572e824c",
+      "revId": "2e4c74ca21dcf898500cce86850e1fa0e41f449d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
