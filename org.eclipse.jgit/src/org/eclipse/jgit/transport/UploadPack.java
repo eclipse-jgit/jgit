@@ -48,6 +48,7 @@ import static org.eclipse.jgit.lib.RefDatabase.ALL;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_REF_IN_WANT;
 import static org.eclipse.jgit.transport.GitProtocolConstants.COMMAND_FETCH;
 import static org.eclipse.jgit.transport.GitProtocolConstants.COMMAND_LS_REFS;
+import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_SERVER_OPTION;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_AGENT;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_ALLOW_REACHABLE_SHA1_IN_WANT;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_ALLOW_TIP_SHA1_IN_WANT;
@@ -1082,6 +1083,7 @@ public class UploadPack {
 				(transferConfig.isAllowFilter() ? OPTION_FILTER + ' ' : "") + //$NON-NLS-1$
 				(advertiseRefInWant ? CAPABILITY_REF_IN_WANT + ' ' : "") + //$NON-NLS-1$
 				OPTION_SHALLOW);
+		caps.add(CAPABILITY_SERVER_OPTION);
 		return caps;
 	}
 
