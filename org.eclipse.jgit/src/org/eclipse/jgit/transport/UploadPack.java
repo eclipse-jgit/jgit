@@ -48,6 +48,7 @@ import static org.eclipse.jgit.lib.RefDatabase.ALL;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_REF_IN_WANT;
 import static org.eclipse.jgit.transport.GitProtocolConstants.COMMAND_FETCH;
 import static org.eclipse.jgit.transport.GitProtocolConstants.COMMAND_LS_REFS;
+import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_SERVER_OPTIONS;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_AGENT;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_ALLOW_REACHABLE_SHA1_IN_WANT;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_ALLOW_TIP_SHA1_IN_WANT;
@@ -895,27 +896,24 @@ public class UploadPack {
 	private void lsRefsV2() throws IOException {
 		LsRefsV2Request.Builder builder = LsRefsV2Request.builder();
 		List<String> prefixes = new ArrayList<>();
-		String line = pckIn.readString();
-		// Currently, we do not support any capabilities, so the next
-		// line is DELIM if there are arguments or END if not.
-		if (line == PacketLineIn.DELIM) {
-			while ((line = pckIn.readString()) != PacketLineIn.END) {
-				if (line.equals("peel")) { //$NON-NLS-1$
-					builder.setPeel(true);
-				} else if (line.equals("symrefs")) { //$NON-NLS-1$
-					builder.setSymrefs(true);
-				} else if (line.startsWith("ref-prefix ")) { //$NON-NLS-1$
-					prefixes.add(line.substring("ref-prefix ".length())); //$NON-NLS-1$
-				} else {
-					throw new PackProtocolException(MessageFormat
-							.format(JGitText.get().unexpectedPacketLine, line));
-				}
+		CommandCapabilities caps = new CommandCapabilities();
+		final boolean moreInput = consumeCmdCapabilites(caps);
+
+		String line;
+		while (moreInput && (line = pckIn.readString()) != PacketLineIn.END) {
+			if (line.equals("peel")) { //$NON-NLS-1$
+				builder.setPeel(true);
+			} else if (line.equals("symrefs")) { //$NON-NLS-1$
+				builder.setSymrefs(true);
+			} else if (line.startsWith("ref-prefix ")) { //$NON-NLS-1$
+				prefixes.add(line.substring("ref-prefix ".length())); //$NON-NLS-1$
+			} else {
+				throw new PackProtocolException(MessageFormat
+						.format(JGitText.get().unexpectedPacketLine, line));
 			}
-		} else if (line != PacketLineIn.END) {
-			throw new PackProtocolException(MessageFormat
-					.format(JGitText.get().unexpectedPacketLine, line));
 		}
-		LsRefsV2Request req = builder.setRefPrefixes(prefixes).build();
+		LsRefsV2Request req = builder.setRefPrefixes(prefixes)
+				.setCommandCapabilities(caps).build();
 
 		protocolV2Hook.onLsRefs(req);
 
@@ -967,17 +965,14 @@ public class UploadPack {
 		List<ObjectId> peerHas = new ArrayList<>();
 		boolean doneReceived = false;
 
-		// Currently, we do not support any capabilities, so the next
-		// line is DELIM.
-		if ((line = pckIn.readString()) != PacketLineIn.DELIM) {
-			throw new PackProtocolException(MessageFormat
-					.format(JGitText.get().unexpectedPacketLine, line));
-		}
+		CommandCapabilities caps = new CommandCapabilities();
+		final boolean moreInput = consumeCmdCapabilites(caps);
 
 		boolean includeTag = false;
 		boolean filterReceived = false;
+
 		TreeMap<String, ObjectId> wantedRefs = new TreeMap<>();
-		while ((line = pckIn.readString()) != PacketLineIn.END) {
+		while (moreInput && ((line = pckIn.readString()) != PacketLineIn.END)) {
 			if (line.startsWith("want ")) { //$NON-NLS-1$
 				wantIds.add(ObjectId.fromString(line.substring(5)));
 			} else if (transferConfig.isAllowRefInWant() &&
@@ -1072,7 +1067,7 @@ public class UploadPack {
 			verifyClientShallow();
 		}
 		if (depth != 0 || shallowSince != 0 || shallowExcludeRefs != null) {
-			shallowCommits = new ArrayList<ObjectId>();
+			shallowCommits = new ArrayList<>();
 			processShallow(shallowCommits, unshallowCommits, false);
 		}
 		if (!clientShallowCommits.isEmpty())
@@ -1139,6 +1134,22 @@ public class UploadPack {
 	}
 
 	/*
+	 * Populates the @cmdCapatilities with the values in the
+	 * server-option=<value> lines in the input, if any.
+	 *
+	 * Returns true if there could be more input to parse.
+	 */
+	private boolean consumeCmdCapabilites(CommandCapabilities cmdCapabilities)
+			throws IOException {
+		String line = pckIn.readString();
+		while (line != PacketLineIn.DELIM && line != PacketLineIn.END) {
+			cmdCapabilities.addCmdCapability(line);
+			line = pckIn.readString();
+		}
+		return line != PacketLineIn.END;
+	}
+
+	/*
 	 * Returns true if this is the last command and we should tear down the
 	 * connection.
 	 */
@@ -1179,6 +1190,7 @@ public class UploadPack {
 				(transferConfig.isAllowFilter() ? OPTION_FILTER + ' ' : "") + //$NON-NLS-1$
 				(advertiseRefInWant ? CAPABILITY_REF_IN_WANT + ' ' : "") + //$NON-NLS-1$
 				OPTION_SHALLOW);
+		caps.add(CAPABILITY_SERVER_OPTIONS);
 		return caps;
 	}
 

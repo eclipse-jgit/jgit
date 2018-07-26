@@ -45,6 +45,8 @@ package org.eclipse.jgit.transport;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.jgit.annotations.Nullable;
+
 /**
  * ls-refs protocol v2 request.
  *
@@ -60,11 +62,14 @@ public final class LsRefsV2Request {
 
 	private final boolean peel;
 
+	private final CommandCapabilities caps;
+
 	private LsRefsV2Request(List<String> refPrefixes, boolean symrefs,
-			boolean peel) {
+			boolean peel, CommandCapabilities caps) {
 		this.refPrefixes = refPrefixes;
 		this.symrefs = symrefs;
 		this.peel = peel;
+		this.caps = caps;
 	}
 
 	/** @return ref prefixes that the client requested. */
@@ -82,6 +87,15 @@ public final class LsRefsV2Request {
 		return peel;
 	}
 
+	/**
+	 * @return capabilities (agent and server-options) lines include in the
+	 *         request
+	 */
+	@Nullable
+	public CommandCapabilities getCommandCapabilities() {
+		return caps;
+	}
+
 	/** @return A builder of {@link LsRefsV2Request}. */
 	public static Builder builder() {
 		return new Builder();
@@ -94,6 +108,8 @@ public final class LsRefsV2Request {
 		private boolean symrefs;
 
 		private boolean peel;
+
+		private CommandCapabilities caps;
 
 		private Builder() {
 		}
@@ -125,10 +141,20 @@ public final class LsRefsV2Request {
 			return this;
 		}
 
+		/**
+		 * @param value
+		 * @return the Builder
+		 */
+		public Builder setCommandCapabilities(CommandCapabilities value) {
+			caps = value;
+			return this;
+		}
+
 		/** @return LsRefsV2Request */
 		public LsRefsV2Request build() {
 			return new LsRefsV2Request(
-					Collections.unmodifiableList(refPrefixes), symrefs, peel);
+					Collections.unmodifiableList(refPrefixes), symrefs, peel,
+					caps);
 		}
 	}
 }
