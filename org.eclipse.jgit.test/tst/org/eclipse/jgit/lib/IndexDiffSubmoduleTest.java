@@ -46,11 +46,13 @@ package org.eclipse.jgit.lib;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Set;
 
+import org.eclipse.jgit.api.CloneCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
@@ -98,6 +100,29 @@ public class IndexDiffSubmoduleTest extends RepositoryTestCase {
 		Git rootGit = Git.wrap(db);
 		rootGit.add().addFilepattern("fileInRoot").call();
 		rootGit.commit().setMessage("add submodule and root file").call();
+	}
+
+	private Repository cloneWithoutCloningSubmodule() throws Exception {
+		// Clone repository without cloning submodules
+		File directory = createTempDirectory("testCloneWithoutCloningSubmodules");
+		CloneCommand clone = Git.cloneRepository();
+		clone.setDirectory(directory);
+		clone.setCloneSubmodules(false);
+		clone.setURI(Git.wrap(db).getRepository().getDirectory().toURI().toString());
+		Git git2 = clone.call();
+		addRepoToClose(git2.getRepository());
+		assertNotNull(git2);
+
+		return git2.getRepository();
+	}
+
+	@Theory
+	public void testUncheckedOutSubmodulesDoNotShowUp(IgnoreSubmoduleMode mode)
+			throws Exception {
+		Repository db2 = cloneWithoutCloningSubmodule();
+		IndexDiff indexDiff = new IndexDiff(db2, Constants.HEAD, new FileTreeIterator(db2));
+		indexDiff.setIgnoreSubmoduleMode(mode);
+		assertFalse(indexDiff.diff());
 	}
 
 	@Theory

@@ -500,10 +500,11 @@ public class IndexDiff {
 
 				if (dirCacheIterator != null) {
 					if (workingTreeIterator == null) {
-						// in index, not in workdir => missing
+						// in index, not in workdir, and not a gitlink => missing
 						if (!isEntryGitLink(dirCacheIterator)
-								|| ignoreSubmoduleMode != IgnoreSubmoduleMode.ALL)
+								&& ignoreSubmoduleMode != IgnoreSubmoduleMode.ALL) {
 							missing.add(treeWalk.getPathString());
+						}
 					} else {
 						if (workingTreeIterator.isModified(
 								dirCacheIterator.getDirCacheEntry(), true,
