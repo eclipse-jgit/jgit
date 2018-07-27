@@ -1273,8 +1273,11 @@ public class RefDirectory extends RefDatabase {
 		}
 		File dir = file.getParentFile();
 		for (int i = 0; i < depth; ++i) {
-			if (!dir.delete()) {
-				break; // ignore problem here
+			try {
+				Files.delete(dir.toPath());
+			} catch (IOException e) {
+				LOG.warn("Unable to remove path {}", dir, e);
+				break;
 			}
 			dir = dir.getParentFile();
 		}
