@@ -772,6 +772,9 @@
                 <configuration>
                   <compilerId>javac-with-errorprone</compilerId>
                   <forceJavacCompilerUse>true</forceJavacCompilerUse>
+                  <compilerArgs>
+                    <arg>-Xep:ExpectedExceptionChecker:ERROR</arg>
+                  </compilerArgs>
                   <excludes>
                     <exclude>org/eclipse/jgit/transport/InsecureCipherFactory.java</exclude>
                   </excludes>
