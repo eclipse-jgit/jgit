@@ -907,6 +907,7 @@ public class GC {
 			throw new IOException(e);
 		}
 		prunePacked();
+		deleteEmptyRefsFolders();
 		deleteOrphans();
 		deleteTempPacksIdx();
 
@@ -921,6 +922,55 @@ public class GC {
 
 	private static boolean isTag(Ref ref) {
 		return ref.getName().startsWith(Constants.R_TAGS);
+	}
+
+	private void deleteEmptyRefsFolders() throws IOException {
+		Path refs = repo.getDirectory().toPath().resolve(Constants.R_REFS);
+		// Avoid deleting a folder that was created after the threshold so that concurrent
+		// operations trying to create a reference are not impacted
+		Instant threshold = Instant.now().minus(30, ChronoUnit.SECONDS);
+		try (Stream<Path> entries = Files.list(refs)) {
+			Iterator<Path> iterator = entries.iterator();
+			while (iterator.hasNext()) {
+				try (Stream<Path> s = Files.list(iterator.next())) {
+					s.filter(path -> canBeSafelyDeleted(path, threshold)).forEach(this::deleteDir);
+				}
+			}
+		}
+	}
+
+	private boolean canBeSafelyDeleted(Path path, Instant threshold) {
+		try {
+			return Files.getLastModifiedTime(path).toInstant().isBefore(threshold);
+		}
+		catch (IOException e) {
+			LOG.warn(MessageFormat.format(
+					JGitText.get().cannotAccessLastModifiedForSafeDeletion,
+					path), e);
+			return false;
+		}
+	}
+
+	private void deleteDir(Path dir) {
+		try (Stream<Path> dirs = Files.walk(dir)) {
+			dirs.filter(this::isDirectory).sorted(Comparator.reverseOrder())
+					.forEach(this::delete);
+		} catch (IOException e) {
+			LOG.error(e.getMessage(), e);
+		}
+	}
+
+	private boolean isDirectory(Path p) {
+		return p.toFile().isDirectory();
+	}
+
+	private void delete(Path d) {
+		try {
+			Files.delete(d);
+		} catch (IOException e) {
+			LOG.error(MessageFormat.format(JGitText.get().cannotDeleteFile, d),
+					e);
+		}
 	}
 
 	/**
