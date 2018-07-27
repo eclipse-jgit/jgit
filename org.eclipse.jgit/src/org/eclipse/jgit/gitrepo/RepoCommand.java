@@ -52,10 +52,10 @@ import java.io.InputStream;
 import java.net.URI;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 import java.util.StringJoiner;
 
 import org.eclipse.jgit.annotations.Nullable;
@@ -124,7 +124,6 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	private IncludedFileReader includedReader;
 	private boolean ignoreRemoteFailures = false;
 
-	private List<RepoProject> bareProjects;
 	private ProgressMonitor monitor;
 
 	/**
@@ -519,37 +518,33 @@ public class RepoCommand extends GitCommand<RevCommit> {
 		}
 
 		if (repo.isBare()) {
-			bareProjects = new ArrayList<>();
 			if (author == null)
 				author = new PersonIdent(repo);
 			if (callback == null)
 				callback = new DefaultRemoteReader();
-			for (RepoProject proj : filteredProjects) {
-				addSubmoduleBare(proj.getUrl(), proj.getPath(),
-						proj.getRevision(), proj.getCopyFiles(),
-						proj.getLinkFiles(), proj.getGroups(),
-						proj.getRecommendShallow());
-			}
+			List<RepoProject> renamedProjects = renameProjects(filteredProjects);
+
 			DirCache index = DirCache.newInCore();
 			DirCacheBuilder builder = index.builder();
 			ObjectInserter inserter = repo.newObjectInserter();
 			try (RevWalk rw = new RevWalk(repo)) {
 				Config cfg = new Config();
 				StringBuilder attributes = new StringBuilder();
-				for (RepoProject proj : bareProjects) {
+				for (RepoProject proj : renamedProjects) {
+					String name = proj.getName();
 					String path = proj.getPath();
-					String nameUri = proj.getName();
+					String url = proj.getUrl();
 					ObjectId objectId;
 					if (ObjectId.isId(proj.getRevision())) {
 						objectId = ObjectId.fromString(proj.getRevision());
 					} else {
-						objectId = callback.sha1(nameUri, proj.getRevision());
+						objectId = callback.sha1(url, proj.getRevision());
 						if (objectId == null && !ignoreRemoteFailures) {
-							throw new RemoteUnavailableException(nameUri);
+							throw new RemoteUnavailableException(url);
 						}
 						if (recordRemoteBranch) {
 							// can be branch or tag
-							cfg.setString("submodule", path, "branch", //$NON-NLS-1$ //$NON-NLS-2$
+							cfg.setString("submodule", name, "branch", //$NON-NLS-1$ //$NON-NLS-2$
 									proj.getRevision());
 						}
 
@@ -559,7 +554,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 							// depth in the 'clone-depth' field, while
 							// git core only uses a binary 'shallow = true/false'
 							// hint, we'll map any depth to 'shallow = true'
-							cfg.setBoolean("submodule", path, "shallow", //$NON-NLS-1$ //$NON-NLS-2$
+							cfg.setBoolean("submodule", name, "shallow", //$NON-NLS-1$ //$NON-NLS-2$
 									true);
 						}
 					}
@@ -575,12 +570,13 @@ public class RepoCommand extends GitCommand<RevCommit> {
 						attributes.append(rec.toString());
 					}
 
-					URI submodUrl = URI.create(nameUri);
+					URI submodUrl = URI.create(url);
 					if (targetUri != null) {
 						submodUrl = relativize(targetUri, submodUrl);
 					}
-					cfg.setString("submodule", path, "path", path); //$NON-NLS-1$ //$NON-NLS-2$
-					cfg.setString("submodule", path, "url", submodUrl.toString()); //$NON-NLS-1$ //$NON-NLS-2$
+					cfg.setString("submodule", name, "path", path); //$NON-NLS-1$ //$NON-NLS-2$
+					cfg.setString("submodule", name, "url", //$NON-NLS-1$ //$NON-NLS-2$
+							submodUrl.toString());
 
 					// create gitlink
 					if (objectId != null) {
@@ -591,7 +587,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 
 						for (CopyFile copyfile : proj.getCopyFiles()) {
 							byte[] src = callback.readFile(
-								nameUri, proj.getRevision(), copyfile.src);
+								url, proj.getRevision(), copyfile.src);
 							objectId = inserter.insert(Constants.OBJ_BLOB, src);
 							dcEntry = new DirCacheEntry(copyfile.dest);
 							dcEntry.setObjectId(objectId);
@@ -691,7 +687,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 		} else {
 			try (Git git = new Git(repo)) {
 				for (RepoProject proj : filteredProjects) {
-					addSubmodule(proj.getUrl(), proj.getPath(),
+					addSubmodule(proj.getName(), proj.getUrl(), proj.getPath(),
 							proj.getRevision(), proj.getCopyFiles(),
 							proj.getLinkFiles(), git);
 				}
@@ -703,9 +699,9 @@ public class RepoCommand extends GitCommand<RevCommit> {
 		}
 	}
 
-	private void addSubmodule(String url, String path, String revision,
-			List<CopyFile> copyfiles, List<LinkFile> linkfiles, Git git)
-			throws GitAPIException, IOException {
+	private void addSubmodule(String name, String url, String path,
+			String revision, List<CopyFile> copyfiles, List<LinkFile> linkfiles,
+			Git git) throws GitAPIException, IOException {
 		assert (!repo.isBare());
 		assert (git != null);
 		if (!linkfiles.isEmpty()) {
@@ -713,7 +709,8 @@ public class RepoCommand extends GitCommand<RevCommit> {
 					JGitText.get().nonBareLinkFilesNotSupported);
 		}
 
-		SubmoduleAddCommand add = git.submoduleAdd().setPath(path).setURI(url);
+		SubmoduleAddCommand add = git.submoduleAdd().setName(name).setPath(path)
+				.setURI(url);
 		if (monitor != null)
 			add.setProgressMonitor(monitor);
 
@@ -731,16 +728,42 @@ public class RepoCommand extends GitCommand<RevCommit> {
 		}
 	}
 
-	private void addSubmoduleBare(String url, String path, String revision,
-			List<CopyFile> copyfiles, List<LinkFile> linkfiles,
-			Set<String> groups, String recommendShallow) {
-		assert (repo.isBare());
-		assert (bareProjects != null);
-		RepoProject proj = new RepoProject(url, path, revision, null, groups,
-				recommendShallow);
-		proj.addCopyFiles(copyfiles);
-		proj.addLinkFiles(linkfiles);
-		bareProjects.add(proj);
+	/**
+	 * Rename the projects if there's a conflict when converted to submodules.
+	 *
+	 * @param projects
+	 *            parsed projects
+	 * @return projects that are renamed if necessary
+	 */
+	private List<RepoProject> renameProjects(List<RepoProject> projects) {
+		Map<String, List<RepoProject>> m = new HashMap<>();
+		for (RepoProject proj : projects) {
+			List<RepoProject> l = m.get(proj.getName());
+			if (l == null) {
+				l = new ArrayList<>();
+				m.put(proj.getName(), l);
+			}
+			l.add(proj);
+		}
+
+		List<RepoProject> ret = new ArrayList<>();
+		for (List<RepoProject> ps : m.values()) {
+			boolean nameConflict = ps.size() != 1;
+			for (RepoProject proj : ps) {
+				String name = proj.getName();
+				if (nameConflict) {
+					name += SLASH + proj.getPath();
+				}
+				RepoProject p = new RepoProject(name,
+						proj.getPath(), proj.getRevision(), null,
+						proj.getGroups(), proj.getRecommendShallow());
+				p.setUrl(proj.getUrl());
+				p.addCopyFiles(proj.getCopyFiles());
+				p.addLinkFiles(proj.getLinkFiles());
+				ret.add(p);
+			}
+		}
+		return ret;
 	}
 
 	/*
