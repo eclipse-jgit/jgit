@@ -922,14 +922,29 @@ public class GC {
 	}
 
 	private void deleteEmptyRefsFolders() throws IOException {
-		Path refs = repo.getDirectory().toPath().resolve("refs"); //$NON-NLS-1$
+		Path refs = repo.getDirectory().toPath().resolve(Constants.R_REFS);
+		// Avoid deleting a folder that was created after the threshold so that concurrent
+		// operations trying to create a reference are not impacted
+		Instant threshold = Instant.now().minus(30, ChronoUnit.SECONDS);
 		try (Stream<Path> entries = Files.list(refs)) {
 			Iterator<Path> iterator = entries.iterator();
 			while (iterator.hasNext()) {
 				try (Stream<Path> s = Files.list(iterator.next())) {
-					s.forEach(this::deleteDir);
+					s.filter(path -> canBeSafelyDeleted(path, threshold)).forEach(this::deleteDir);
 				}
 			}
+		}
+	}
+
+	private boolean canBeSafelyDeleted(Path path, Instant threshold) {
+		try {
+			return Files.getLastModifiedTime(path).toInstant().isBefore(threshold);
+		}
+		catch (IOException e) {
+			LOG.warn(MessageFormat.format(
+					JGitText.get().cannotAccessLastModifiedForSafeDeletion,
+					path), e);
+			return false;
 		}
 	}
 
@@ -946,22 +961,13 @@ public class GC {
 		return p.toFile().isDirectory();
 	}
 
-	private boolean delete(Path d) {
+	private void delete(Path d) {
 		try {
-			// Avoid deleting a folder that was just created so that concurrent
-			// operations trying to create a reference are not impacted
-			Instant threshold = Instant.now().minus(30, ChronoUnit.SECONDS);
-			Instant lastModified = Files.getLastModifiedTime(d).toInstant();
-			if (lastModified.isBefore(threshold)) {
-				// If the folder is not empty, the delete operation will fail
-				// silently. This is a cheaper alternative to filtering the
-				// stream in the calling method.
-				return d.toFile().delete();
-			}
+			Files.delete(d);
 		} catch (IOException e) {
-			LOG.error(e.getMessage(), e);
+			LOG.error(MessageFormat.format(JGitText.get().cannotDeleteFile, d),
+					e);
 		}
-		return false;
 	}
 
 	/**

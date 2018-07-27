@@ -46,6 +46,7 @@ package org.eclipse.jgit.internal.storage.file;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -56,8 +57,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class GcDeleteEmptyRefsFoldersTest extends GcTestCase {
-	private static final String REF_FOLDER_01 = "01";
-	private static final String REF_FOLDER_02 = "02";
+	private static final String REF_FOLDER_01 = "A/B/01";
+	private static final String REF_FOLDER_02 = "C/D/02";
 
 	private Path refsDir;
 	private Path heads;
@@ -74,23 +75,36 @@ public class GcDeleteEmptyRefsFoldersTest extends GcTestCase {
 	@Test
 	public void emptyRefFoldersAreDeleted() throws Exception {
 		FileTime fileTime = FileTime.from(Instant.now().minusSeconds(31));
-		Path refDir01 = Files.createDirectory(heads.resolve(REF_FOLDER_01));
-		Path refDir02 = Files.createDirectory(heads.resolve(REF_FOLDER_02));
-		Files.setLastModifiedTime(refDir01, fileTime);
-		Files.setLastModifiedTime(refDir02, fileTime);
+		Path refDir01 = Files.createDirectories(heads.resolve(REF_FOLDER_01));
+		Path refDir02 = Files.createDirectories(heads.resolve(REF_FOLDER_02));
+		setLastModifiedTime(fileTime, heads, REF_FOLDER_01);
+		setLastModifiedTime(fileTime, heads, REF_FOLDER_02);
 		assertTrue(refDir01.toFile().exists());
 		assertTrue(refDir02.toFile().exists());
 		gc.gc();
 
 		assertFalse(refDir01.toFile().exists());
+		assertFalse(refDir01.getParent().toFile().exists());
+		assertFalse(refDir01.getParent().getParent().toFile().exists());
 		assertFalse(refDir02.toFile().exists());
+		assertFalse(refDir02.getParent().toFile().exists());
+		assertFalse(refDir02.getParent().getParent().toFile().exists());
+	}
+
+	private void setLastModifiedTime(FileTime fileTime, Path path, String folder) throws IOException {
+		long numParents = folder.chars().filter(c -> c == '/').count();
+		Path folderPath = path.resolve(folder);
+		for(int folderLevel = 0; folderLevel <= numParents; folderLevel ++ ) {
+			Files.setLastModifiedTime(folderPath, fileTime);
+			folderPath = folderPath.getParent();
+		}
 	}
 
 	@Test
 	public void emptyRefFoldersAreKeptIfTheyAreTooRecent()
 			throws Exception {
-		Path refDir01 = Files.createDirectory(heads.resolve(REF_FOLDER_01));
-		Path refDir02 = Files.createDirectory(heads.resolve(REF_FOLDER_02));
+		Path refDir01 = Files.createDirectories(heads.resolve(REF_FOLDER_01));
+		Path refDir02 = Files.createDirectories(heads.resolve(REF_FOLDER_02));
 		assertTrue(refDir01.toFile().exists());
 		assertTrue(refDir02.toFile().exists());
 		gc.gc();
@@ -101,8 +115,8 @@ public class GcDeleteEmptyRefsFoldersTest extends GcTestCase {
 
 	@Test
 	public void nonEmptyRefsFoldersAreKept() throws Exception {
-		Path refDir01 = Files.createDirectory(heads.resolve(REF_FOLDER_01));
-		Path refDir02 = Files.createDirectory(heads.resolve(REF_FOLDER_02));
+		Path refDir01 = Files.createDirectories(heads.resolve(REF_FOLDER_01));
+		Path refDir02 = Files.createDirectories(heads.resolve(REF_FOLDER_02));
 		Path ref01 = Files.createFile(refDir01.resolve("ref01"));
 		Path ref02 = Files.createFile(refDir01.resolve("ref02"));
 		assertTrue(refDir01.toFile().exists());
