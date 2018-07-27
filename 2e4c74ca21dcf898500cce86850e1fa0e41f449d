@@ -202,6 +202,24 @@
     },
     {
       "key": {
+        "uuid": "e1ab88af_de35fcb7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 732,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2018-07-27T20:22:28Z",
+      "side": 1,
+      "message": "Renamed the method and added a comment.",
+      "parentUuid": "26c17ba0_eed5c1a4",
+      "revId": "2e4c74ca21dcf898500cce86850e1fa0e41f449d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "41653499_67d02b50",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 2
