@@ -200,6 +200,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String configSubsectionContainsNullByte;
 	/***/ public String configValueContainsNullByte;
 	/***/ public String configHandleIsStale;
+	/***/ public String configHandleMayBeLocked;
 	/***/ public String connectionFailed;
 	/***/ public String connectionTimeOut;
 	/***/ public String contextMustBeNonNegative;
