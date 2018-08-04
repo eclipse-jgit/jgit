@@ -1470,6 +1470,9 @@ public class DirCacheCheckout {
 		ObjectLoader ol = or.open(entry.getObjectId());
 		File f = new File(repo.getWorkTree(), entry.getPathString());
 		File parentDir = f.getParentFile();
+		if (parentDir.isFile()) {
+			FileUtils.delete(parentDir);
+		}
 		FileUtils.mkdirs(parentDir, true);
 		FS fs = repo.getFS();
 		WorkingTreeOptions opt = repo.getConfig().get(WorkingTreeOptions.KEY);

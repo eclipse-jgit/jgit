@@ -1977,6 +1977,29 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 		}
 	}
 
+	@Test
+	public void testCheckoutWithEmptyIndexDoesntOverwrite() throws Exception {
+		try (Git git = new Git(db);
+				TestRepository<Repository> db_t = new TestRepository<>(db)) {
+			// prepare the commits
+			BranchBuilder master = db_t.branch("master");
+			RevCommit mergeCommit = master.commit()
+					.add("p/x", "headContent")
+					.message("m0").create();
+			master.commit().add("p/x", "headContent").message("m1").create();
+			git.checkout().setName("master").call();
+
+			// empty index and write unsaved data in 'p'
+			git.rm().addFilepattern("p").call();
+			writeTrashFile("p", "important data");
+
+			git.checkout().setName(mergeCommit.getName()).call();
+
+			assertEquals("", indexState(CONTENT));
+			assertEquals("important data", read("p"));
+		}
+	}
+
 	private static class TestFileTreeIterator extends FileTreeIterator {
 
 		// For assertions only
