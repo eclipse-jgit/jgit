@@ -206,6 +206,26 @@ public class ResetCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testHardResetWithConflicts_DeleteFolder_UnstagedChanges() throws Exception {
+		setupRepository();
+		ObjectId prevHead = db.resolve(Constants.HEAD);
+
+		writeTrashFile("dir-or-file/c.txt", "content");
+		git.add().addFilepattern("dir-or-file/c.txt").call();
+		git.commit().setMessage("adding dir-or-file/c.txt").call();
+
+		writeTrashFile("dir-or-file-2/d.txt", "content");
+		git.add().addFilepattern("dir-or-file-2/d.txt").call();
+		FileUtils.delete(new File(db.getWorkTree(), "dir-or-file-2"), FileUtils.RECURSIVE);
+		writeTrashFile("dir-or-file-2", "content");
+
+		// bug 479266: cannot delete folder "dir-or-file"
+		git.reset().setMode(ResetType.HARD).setRef(prevHead.getName()).call();
+		assertFalse(new File(db.getWorkTree(), "dir-or-file").exists());
+		assertFalse(new File(db.getWorkTree(), "dir-or-file-2").exists());
+	}
+
+	@Test
 	public void testResetToNonexistingHEAD() throws JGitInternalException,
 			AmbiguousObjectException, IOException, GitAPIException {
 
