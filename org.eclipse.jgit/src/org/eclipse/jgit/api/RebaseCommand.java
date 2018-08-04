@@ -275,9 +275,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 					throw new JGitInternalException(ioe.getMessage(), ioe);
 				}
 			case PROCESS_STEPS:
-				// fall through
 			case SKIP:
-				// fall through
 			case CONTINUE:
 				String upstreamCommitId = rebaseState.readFile(ONTO);
 				try {
