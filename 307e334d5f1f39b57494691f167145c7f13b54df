@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "002de79b_60456995",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/LsFilesTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-04T22:45:27Z",
+      "side": 1,
+      "message": "This feels like a change detector test. What in particular is it aiming to defend against? E.g. if we check that the output starts with \"jgit ls-files\", would that be sufficient?",
+      "revId": "307e334d5f1f39b57494691f167145c7f13b54df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
