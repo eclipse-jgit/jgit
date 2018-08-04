@@ -190,6 +190,22 @@ public class ResetCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testHardResetWithConflicts_CreateFolder_UnstagedChanges() throws Exception {
+		setupRepository();
+
+		writeTrashFile("dir-or-file/c.txt", "content");
+		git.add().addFilepattern("dir-or-file/c.txt").call();
+		git.commit().setMessage("adding dir-or-file/c.txt").call();
+
+		FileUtils.delete(new File(db.getWorkTree(), "dir-or-file"), FileUtils.RECURSIVE);
+		writeTrashFile("dir-or-file", "content");
+
+		// bug 479266: cannot create folder "dir-or-file"
+		git.reset().setMode(ResetType.HARD).setRef(Constants.HEAD).call();
+		assertTrue(new File(db.getWorkTree(), "dir-or-file/c.txt").exists());
+	}
+
+	@Test
 	public void testResetToNonexistingHEAD() throws JGitInternalException,
 			AmbiguousObjectException, IOException, GitAPIException {
 
