@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ddc4094_36c683b9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 626,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-08-06T21:41:06Z",
+      "side": 1,
+      "message": "Previous code did not advance the progress monitor here... I must confess I\u0027m a bit lost which terms of the original tick allocation correspond to what. But I _think_ the updates below in the mNext loop account for the added * deleted term. If so, we should only check for cancellation here.",
+      "revId": "5feedae17957e42f102c09e375cf015fc0a7a300",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cfd14ce9_7cb883a0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-08-06T21:41:06Z",
+      "side": 1,
+      "message": "advanceOrCancel(pm);",
+      "range": {
+        "startLine": 640,
+        "startChar": 6,
+        "endLine": 640,
+        "endChar": 19
+      },
+      "revId": "5feedae17957e42f102c09e375cf015fc0a7a300",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7b3b203e_d140e782",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-08-06T21:41:06Z",
+      "side": 1,
+      "message": "Previous code did not update pm here... but I think it should have and this is actually correct.",
+      "revId": "5feedae17957e42f102c09e375cf015fc0a7a300",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "710360eb_b45775d7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 730,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-08-06T21:41:06Z",
+      "side": 1,
+      "message": "advanceOrCancel?",
+      "range": {
+        "startLine": 730,
+        "startChar": 3,
+        "endLine": 730,
+        "endChar": 15
+      },
+      "revId": "5feedae17957e42f102c09e375cf015fc0a7a300",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d60f832_5ba6f091",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/SimilarityRenameDetector.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-08-06T21:41:06Z",
+      "side": 1,
+      "message": "Check and throw here, too?",
+      "revId": "5feedae17957e42f102c09e375cf015fc0a7a300",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
