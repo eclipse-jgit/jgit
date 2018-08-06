@@ -177,7 +177,7 @@ public class PlotWalk extends RevWalk {
 		if (list == null) {
 			return PlotCommit.NO_REFS;
 		} else {
-			Ref[] tags = list.toArray(new Ref[list.size()]);
+			Ref[] tags = list.toArray(new Ref[0]);
 			Arrays.sort(tags, new PlotRefComparator());
 			return tags;
 		}

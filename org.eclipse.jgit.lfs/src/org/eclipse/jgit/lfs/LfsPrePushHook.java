@@ -201,7 +201,7 @@ public class LfsPrePushHook extends PrePushHook {
 
 	private Map<String, LfsPointer> requestBatchUpload(HttpConnection api,
 			Set<LfsPointer> toPush) throws IOException {
-		LfsPointer[] res = toPush.toArray(new LfsPointer[toPush.size()]);
+		LfsPointer[] res = toPush.toArray(new LfsPointer[0]);
 		Map<String, LfsPointer> oidStr2ptr = new HashMap<>();
 		for (LfsPointer p : res) {
 			oidStr2ptr.put(p.getOid().name(), p);

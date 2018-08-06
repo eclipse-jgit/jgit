@@ -177,7 +177,7 @@ public class CmdLineParser extends org.kohsuke.args4j.CmdLineParser {
 		}
 
 		try {
-			super.parseArgument(tmp.toArray(new String[tmp.size()]));
+			super.parseArgument(tmp.toArray(new String[0]));
 		} catch (Die e) {
 			if (!seenHelp) {
 				throw e;

@@ -938,7 +938,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		if (list.isEmpty())
 			return new PackList(snapshot, NO_PACKS.packs);
 
-		final PackFile[] r = list.toArray(new PackFile[list.size()]);
+		final PackFile[] r = list.toArray(new PackFile[0]);
 		Arrays.sort(r, PackFile.SORT);
 		return new PackList(snapshot, r);
 	}
@@ -1030,7 +1030,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 				l.add(openAlternate(line));
 			}
 		}
-		return l.toArray(new AlternateHandle[l.size()]);
+		return l.toArray(new AlternateHandle[0]);
 	}
 
 	private static BufferedReader open(File f)

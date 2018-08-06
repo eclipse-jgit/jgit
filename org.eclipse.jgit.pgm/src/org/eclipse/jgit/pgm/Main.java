@@ -285,7 +285,7 @@ public class Main {
 		final TextBuiltin cmd = subcommand;
 		init(cmd);
 		try {
-			cmd.execute(arguments.toArray(new String[arguments.size()]));
+			cmd.execute(arguments.toArray(new String[0]));
 		} finally {
 			if (cmd.outw != null) {
 				cmd.outw.flush();

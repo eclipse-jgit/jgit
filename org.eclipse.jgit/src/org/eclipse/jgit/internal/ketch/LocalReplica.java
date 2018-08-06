@@ -209,7 +209,7 @@ public class LocalReplica extends KetchReplica {
 		checkFailed(failed, accepted);
 		checkFailed(failed, committed);
 		if (!failed.isEmpty()) {
-			String[] arr = failed.toArray(new String[failed.size()]);
+			String[] arr = failed.toArray(new String[0]);
 			req.setRefs(refdb.exactRef(arr));
 		}
 	}

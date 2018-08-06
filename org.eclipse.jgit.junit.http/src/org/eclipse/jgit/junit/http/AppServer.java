@@ -349,7 +349,7 @@ public class AppServer {
 		sec.setAuthenticator(authType);
 		sec.setLoginService(users);
 		sec.setConstraintMappings(
-				mappings.toArray(new ConstraintMapping[mappings.size()]));
+				mappings.toArray(new ConstraintMapping[0]));
 		sec.setHandler(ctx);
 
 		contexts.removeHandler(ctx);
