@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "81e029e8_998686ab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 626,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-08-06T22:13:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ddc4094_36c683b9",
+      "revId": "5feedae17957e42f102c09e375cf015fc0a7a300",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cfd14ce9_7cb883a0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
         "patchSetId": 6
@@ -30,6 +48,30 @@
       "writtenOn": "2018-08-06T21:41:06Z",
       "side": 1,
       "message": "advanceOrCancel(pm);",
+      "range": {
+        "startLine": 640,
+        "startChar": 6,
+        "endLine": 640,
+        "endChar": 19
+      },
+      "revId": "5feedae17957e42f102c09e375cf015fc0a7a300",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebf3bb64_3de3188f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-08-06T22:13:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cfd14ce9_7cb883a0",
       "range": {
         "startLine": 640,
         "startChar": 6,
@@ -82,6 +124,30 @@
     },
     {
       "key": {
+        "uuid": "3b8029a6_4459e8b6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 730,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-08-06T22:13:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "710360eb_b45775d7",
+      "range": {
+        "startLine": 730,
+        "startChar": 3,
+        "endLine": 730,
+        "endChar": 15
+      },
+      "revId": "5feedae17957e42f102c09e375cf015fc0a7a300",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d60f832_5ba6f091",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/SimilarityRenameDetector.java",
         "patchSetId": 6
@@ -93,6 +159,24 @@
       "writtenOn": "2018-08-06T21:41:06Z",
       "side": 1,
       "message": "Check and throw here, too?",
+      "revId": "5feedae17957e42f102c09e375cf015fc0a7a300",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "470f18e6_bc62431a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/SimilarityRenameDetector.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-08-06T22:13:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d60f832_5ba6f091",
       "revId": "5feedae17957e42f102c09e375cf015fc0a7a300",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
