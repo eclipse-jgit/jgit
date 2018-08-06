@@ -89,7 +89,7 @@ public class ReflogCommandTest extends RepositoryTestCase {
 		Collection<ReflogEntry> reflog = git.reflog().call();
 		assertNotNull(reflog);
 		assertEquals(3, reflog.size());
-		ReflogEntry[] reflogs = reflog.toArray(new ReflogEntry[reflog.size()]);
+		ReflogEntry[] reflogs = reflog.toArray(new ReflogEntry[0]);
 		assertEquals(reflogs[2].getComment(),
 				"commit (initial): Initial commit");
 		assertEquals(reflogs[2].getNewId(), commit1.getId());
@@ -114,7 +114,7 @@ public class ReflogCommandTest extends RepositoryTestCase {
 				.setRef(Constants.R_HEADS + "b1").call();
 		assertNotNull(reflog);
 		assertEquals(2, reflog.size());
-		ReflogEntry[] reflogs = reflog.toArray(new ReflogEntry[reflog.size()]);
+		ReflogEntry[] reflogs = reflog.toArray(new ReflogEntry[0]);
 		assertEquals(reflogs[0].getComment(), "commit: Removed file");
 		assertEquals(reflogs[0].getNewId(), commit2.getId());
 		assertEquals(reflogs[0].getOldId(), commit1.getId());
@@ -136,7 +136,7 @@ public class ReflogCommandTest extends RepositoryTestCase {
 		Collection<ReflogEntry> reflog = git.reflog().call();
 		assertNotNull(reflog);
 		assertEquals(4, reflog.size());
-		ReflogEntry[] reflogs = reflog.toArray(new ReflogEntry[reflog.size()]);
+		ReflogEntry[] reflogs = reflog.toArray(new ReflogEntry[0]);
 		assertEquals(reflogs[3].getComment(),
 				"commit (initial): Initial commit");
 		assertEquals(reflogs[3].getNewId(), commit1.getId());

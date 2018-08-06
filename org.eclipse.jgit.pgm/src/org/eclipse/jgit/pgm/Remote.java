@@ -130,7 +130,7 @@ class Remote extends TextBuiltin {
 					fetchArgs.add(name);
 				}
 
-				fetch.execute(fetchArgs.toArray(new String[fetchArgs.size()]));
+				fetch.execute(fetchArgs.toArray(new String[0]));
 
 				// flush the streams
 				fetch.outw.flush();

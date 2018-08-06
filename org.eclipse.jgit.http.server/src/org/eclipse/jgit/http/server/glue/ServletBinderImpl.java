@@ -98,7 +98,7 @@ abstract class ServletBinderImpl implements ServletBinder {
 	 * @return the configured filters; zero-length array if none.
 	 */
 	protected Filter[] getFilters() {
-		return filters.toArray(new Filter[filters.size()]);
+		return filters.toArray(new Filter[0]);
 	}
 
 	/** @return the pipeline that matches and executes this chain. */

@@ -74,11 +74,11 @@ public class ChangeRecorder implements WorkingTreeModifiedListener {
 	}
 
 	private String[] getModified() {
-		return modified.toArray(new String[modified.size()]);
+		return modified.toArray(new String[0]);
 	}
 
 	private String[] getDeleted() {
-		return deleted.toArray(new String[deleted.size()]);
+		return deleted.toArray(new String[0]);
 	}
 
 	private void reset() {

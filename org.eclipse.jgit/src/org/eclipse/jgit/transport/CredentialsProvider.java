@@ -155,7 +155,7 @@ public abstract class CredentialsProvider {
 	 */
 	public boolean get(URIish uri, List<CredentialItem> items)
 			throws UnsupportedCredentialItem {
-		return get(uri, items.toArray(new CredentialItem[items.size()]));
+		return get(uri, items.toArray(new CredentialItem[0]));
 	}
 
 	/**

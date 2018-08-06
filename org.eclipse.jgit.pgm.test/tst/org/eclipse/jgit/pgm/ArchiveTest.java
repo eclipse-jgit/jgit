@@ -544,7 +544,7 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 
 		byte[] result = CLIGitCommand.executeRaw(
 				"git archive --format=zip HEAD", db).outBytes();
-		assertArrayEquals(l.toArray(new String[l.size()]),
+		assertArrayEquals(l.toArray(new String[0]),
 				listZipEntries(result));
 	}
 
@@ -564,7 +564,7 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 
 		byte[] result = CLIGitCommand.executeRaw(
 				"git archive --format=tar HEAD", db).outBytes();
-		assertArrayEquals(l.toArray(new String[l.size()]),
+		assertArrayEquals(l.toArray(new String[0]),
 				listTarEntries(result));
 	}
 
@@ -697,7 +697,7 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 			while ((e = in.getNextEntry()) != null)
 				l.add(e.getName());
 		}
-		return l.toArray(new String[l.size()]);
+		return l.toArray(new String[0]);
 	}
 
 	private static Future<Object> writeAsync(OutputStream stream, byte[] data) {
@@ -730,7 +730,7 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 				while ((line = reader.readLine()) != null)
 					l.add(line);
 
-				return l.toArray(new String[l.size()]);
+				return l.toArray(new String[0]);
 			} finally {
 				writing.get();
 				proc.destroy();
@@ -754,7 +754,7 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 			String line;
 			while ((line = reader.readLine()) != null)
 				l.add(line);
-			return l.toArray(new String[l.size()]);
+			return l.toArray(new String[0]);
 		}
 
 		// not found
@@ -774,7 +774,7 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 				while ((line = reader.readLine()) != null)
 					l.add(line);
 
-				return l.toArray(new String[l.size()]);
+				return l.toArray(new String[0]);
 			} finally {
 				writing.get();
 				proc.destroy();

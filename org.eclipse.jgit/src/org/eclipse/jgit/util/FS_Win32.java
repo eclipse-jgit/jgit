@@ -169,7 +169,7 @@ public class FS_Win32 extends FS {
 		if (result.isEmpty()) {
 			return NO_ENTRIES;
 		}
-		return result.toArray(new Entry[result.size()]);
+		return result.toArray(new Entry[0]);
 	}
 
 	/** {@inheritDoc} */

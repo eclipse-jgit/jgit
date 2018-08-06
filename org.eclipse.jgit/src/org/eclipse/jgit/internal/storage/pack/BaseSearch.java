@@ -91,7 +91,7 @@ class BaseSearch {
 			List<ObjectToPack> edges, ObjectReader or) {
 		progress = countingMonitor;
 		reader = or;
-		baseTrees = bases.toArray(new ObjectId[bases.size()]);
+		baseTrees = bases.toArray(new ObjectId[0]);
 		objectsMap = objects;
 		edgeObjects = edges;
 
