@@ -513,7 +513,7 @@ public class DirCacheCheckout {
 
 			if (!conflicts.isEmpty()) {
 				if (failOnConflict)
-					throw new CheckoutConflictException(conflicts.toArray(new String[conflicts.size()]));
+					throw new CheckoutConflictException(conflicts.toArray(new String[0]));
 				else
 					cleanUpConflicts();
 			}

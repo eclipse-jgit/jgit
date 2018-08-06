@@ -283,7 +283,7 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 		final List<File> alts = alternateObjectDirectories;
 		if (alts == null)
 			return null;
-		return alts.toArray(new File[alts.size()]);
+		return alts.toArray(new File[0]);
 	}
 
 	/**

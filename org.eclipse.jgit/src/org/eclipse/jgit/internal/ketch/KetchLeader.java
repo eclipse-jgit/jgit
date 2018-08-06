@@ -274,8 +274,8 @@ public abstract class KetchLeader {
 
 		lock.lock();
 		try {
-			voters = v.toArray(new KetchReplica[v.size()]);
-			followers = f.toArray(new KetchReplica[f.size()]);
+			voters = v.toArray(new KetchReplica[0]);
+			followers = f.toArray(new KetchReplica[0]);
 			self = me;
 		} finally {
 			lock.unlock();

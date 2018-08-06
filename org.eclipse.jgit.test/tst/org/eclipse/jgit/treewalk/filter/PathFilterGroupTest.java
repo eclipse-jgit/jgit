@@ -231,8 +231,8 @@ public class PathFilterGroupTest {
 			}
 		}
 
-		String[] e = expect.toArray(new String[expect.size()]);
-		String[] a = actual.toArray(new String[actual.size()]);
+		String[] e = expect.toArray(new String[0]);
+		String[] a = actual.toArray(new String[0]);
 		Arrays.sort(e);
 		Arrays.sort(a);
 		assertArrayEquals(e, a);

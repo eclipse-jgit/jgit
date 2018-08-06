@@ -114,7 +114,7 @@ public class CommandCatalog {
 	}
 
 	private static CommandRef[] toSortedArray(Collection<CommandRef> c) {
-		final CommandRef[] r = c.toArray(new CommandRef[c.size()]);
+		final CommandRef[] r = c.toArray(new CommandRef[0]);
 		Arrays.sort(r, new Comparator<CommandRef>() {
 			@Override
 			public int compare(CommandRef o1, CommandRef o2) {

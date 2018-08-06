@@ -524,7 +524,7 @@ public class OpenSshConfig implements ConfigRepository {
 			if (values == null || values.isEmpty()) {
 				return new String[0];
 			}
-			return values.toArray(new String[values.size()]);
+			return values.toArray(new String[0]);
 		}
 
 		public void setValue(String key, String value) {

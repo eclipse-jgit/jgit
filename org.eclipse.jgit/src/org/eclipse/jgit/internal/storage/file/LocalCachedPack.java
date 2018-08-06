@@ -62,13 +62,13 @@ class LocalCachedPack extends CachedPack {
 
 	LocalCachedPack(ObjectDirectory odb, List<String> packNames) {
 		this.odb = odb;
-		this.packNames = packNames.toArray(new String[packNames.size()]);
+		this.packNames = packNames.toArray(new String[0]);
 	}
 
 	LocalCachedPack(List<PackFile> packs) {
 		odb = null;
 		packNames = null;
-		this.packs = packs.toArray(new PackFile[packs.size()]);
+		this.packs = packs.toArray(new PackFile[0]);
 	}
 
 	/** {@inheritDoc} */

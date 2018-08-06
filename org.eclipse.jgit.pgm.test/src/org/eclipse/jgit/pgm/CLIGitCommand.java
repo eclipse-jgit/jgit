@@ -230,7 +230,7 @@ public class CLIGitCommand extends Main {
 		}
 		if (r.length() > 0)
 			list.add(r.toString());
-		return list.toArray(new String[list.size()]);
+		return list.toArray(new String[0]);
 	}
 
 	public static class Result {

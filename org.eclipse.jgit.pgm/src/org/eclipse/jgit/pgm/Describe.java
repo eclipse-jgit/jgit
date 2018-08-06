@@ -73,7 +73,7 @@ class Describe extends TextBuiltin {
 			if (tree != null)
 				cmd.setTarget(tree);
 			cmd.setLong(longDesc);
-			cmd.setMatch(patterns.toArray(new String[patterns.size()]));
+			cmd.setMatch(patterns.toArray(new String[0]));
 			String result = null;
 			try {
 				result = cmd.call();
