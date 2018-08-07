@@ -55,9 +55,9 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
-import org.eclipse.jgit.api.errors.CanceledException;
 import org.eclipse.jgit.diff.DiffEntry.ChangeType;
 import org.eclipse.jgit.diff.SimilarityIndex.TableFullException;
+import org.eclipse.jgit.errors.CancelledException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.FileMode;
@@ -321,11 +321,7 @@ public class RenameDetector {
 	 *             file contents cannot be read from the repository.
 	 */
 	public List<DiffEntry> compute() throws IOException {
-		try {
-			return compute(NullProgressMonitor.INSTANCE);
-		} catch (CanceledException e) {
-			return Collections.emptyList();
-		}
+		return compute(NullProgressMonitor.INSTANCE);
 	}
 
 	/**
@@ -337,11 +333,13 @@ public class RenameDetector {
 	 *         representing all files that have been changed.
 	 * @throws java.io.IOException
 	 *             file contents cannot be read from the repository.
-	 * @throws CanceledException
+	 * @throws CancelledException
 	 *             if rename detection was cancelled
 	 */
+	// TODO(ms): use org.eclipse.jgit.api.errors.CanceledException in next major
+	// version
 	public List<DiffEntry> compute(ProgressMonitor pm)
-			throws IOException, CanceledException {
+			throws IOException, CancelledException {
 		if (!done) {
 			try {
 				return compute(objectReader, pm);
@@ -363,11 +361,13 @@ public class RenameDetector {
 	 *         representing all files that have been changed.
 	 * @throws java.io.IOException
 	 *             file contents cannot be read from the repository.
-	 * @throws CanceledException
+	 * @throws CancelledException
 	 *             if rename detection was cancelled
 	 */
+	// TODO(ms): use org.eclipse.jgit.api.errors.CanceledException in next major
+	// version
 	public List<DiffEntry> compute(ObjectReader reader, ProgressMonitor pm)
-			throws IOException, CanceledException {
+			throws IOException, CancelledException {
 		final ContentSource cs = ContentSource.create(reader);
 		return compute(new ContentSource.Pair(cs, cs), pm);
 	}
@@ -383,11 +383,13 @@ public class RenameDetector {
 	 *         representing all files that have been changed.
 	 * @throws java.io.IOException
 	 *             file contents cannot be read from the repository.
-	 * @throws CanceledException
+	 * @throws CancelledException
 	 *             if rename detection was cancelled
 	 */
+	// TODO(ms): use org.eclipse.jgit.api.errors.CanceledException in next major
+	// version
 	public List<DiffEntry> compute(ContentSource.Pair reader, ProgressMonitor pm)
-			throws IOException, CanceledException {
+			throws IOException, CancelledException {
 		if (!done) {
 			done = true;
 
@@ -427,15 +429,15 @@ public class RenameDetector {
 		done = false;
 	}
 
-	private void advanceOrCancel(ProgressMonitor pm) throws CanceledException {
+	private void advanceOrCancel(ProgressMonitor pm) throws CancelledException {
 		if (pm.isCancelled()) {
-			throw new CanceledException(JGitText.get().renameCancelled);
+			throw new CancelledException(JGitText.get().renameCancelled);
 		}
 		pm.update(1);
 	}
 
 	private void breakModifies(ContentSource.Pair reader, ProgressMonitor pm)
-			throws IOException, CanceledException {
+			throws IOException, CancelledException {
 		ArrayList<DiffEntry> newEntries = new ArrayList<>(entries.size());
 
 		pm.beginTask(JGitText.get().renamesBreakingModifies, entries.size());
@@ -462,7 +464,7 @@ public class RenameDetector {
 		entries = newEntries;
 	}
 
-	private void rejoinModifies(ProgressMonitor pm) throws CanceledException {
+	private void rejoinModifies(ProgressMonitor pm) throws CancelledException {
 		HashMap<String, DiffEntry> nameMap = new HashMap<>();
 		ArrayList<DiffEntry> newAdded = new ArrayList<>(added.size());
 
@@ -517,7 +519,7 @@ public class RenameDetector {
 
 	private void findContentRenames(ContentSource.Pair reader,
 			ProgressMonitor pm)
-			throws IOException, CanceledException {
+			throws IOException, CancelledException {
 		int cnt = Math.max(added.size(), deleted.size());
 		if (getRenameLimit() == 0 || cnt <= getRenameLimit()) {
 			SimilarityRenameDetector d;
@@ -535,7 +537,8 @@ public class RenameDetector {
 	}
 
 	@SuppressWarnings("unchecked")
-	private void findExactRenames(ProgressMonitor pm) throws CanceledException {
+	private void findExactRenames(ProgressMonitor pm)
+			throws CancelledException {
 		pm.beginTask(JGitText.get().renamesFindingExact, //
 				added.size() + added.size() + deleted.size()
 						+ added.size() * deleted.size());
@@ -624,7 +627,7 @@ public class RenameDetector {
 						matrix[mNext] = SimilarityRenameDetector.encode(score, delIdx, addIdx);
 						mNext++;
 						if (pm.isCancelled()) {
-							throw new CanceledException(
+							throw new CancelledException(
 									JGitText.get().renameCancelled);
 						}
 					}
@@ -717,7 +720,7 @@ public class RenameDetector {
 	@SuppressWarnings("unchecked")
 	private HashMap<AbbreviatedObjectId, Object> populateMap(
 			List<DiffEntry> diffEntries, ProgressMonitor pm)
-			throws CanceledException {
+			throws CancelledException {
 		HashMap<AbbreviatedObjectId, Object> map = new HashMap<>();
 		for (DiffEntry de : diffEntries) {
 			Object old = map.put(id(de), de);
