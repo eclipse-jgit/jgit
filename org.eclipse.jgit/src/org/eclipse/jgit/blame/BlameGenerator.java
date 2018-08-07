@@ -52,7 +52,6 @@ import java.util.Collection;
 import java.util.Collections;
 
 import org.eclipse.jgit.annotations.Nullable;
-import org.eclipse.jgit.api.errors.CanceledException;
 import org.eclipse.jgit.blame.Candidate.BlobCandidate;
 import org.eclipse.jgit.blame.Candidate.ReverseCandidate;
 import org.eclipse.jgit.blame.ReverseWalk.ReverseCommit;
@@ -628,15 +627,9 @@ public class BlameGenerator implements AutoCloseable {
 		if (n.sourceCommit == null)
 			return result(n);
 
-		DiffEntry r;
-		try {
-			r = findRename(parent, n.sourceCommit, n.sourcePath);
-			if (r == null) {
-				return result(n);
-			}
-		} catch (CanceledException e) {
+		DiffEntry r = findRename(parent, n.sourceCommit, n.sourcePath);
+		if (r == null)
 			return result(n);
-		}
 
 		if (0 == r.getOldId().prefixCompare(n.sourceBlob)) {
 			// A 100% rename without any content change can also
@@ -694,8 +687,7 @@ public class BlameGenerator implements AutoCloseable {
 		return false;
 	}
 
-	private boolean processMerge(Candidate n)
-			throws IOException {
+	private boolean processMerge(Candidate n) throws IOException {
 		int pCnt = n.getParentCount();
 
 		// If any single parent exactly matches the merge, follow only
@@ -722,15 +714,9 @@ public class BlameGenerator implements AutoCloseable {
 				if (ids != null && ids[pIdx] != null)
 					continue;
 
-				DiffEntry r;
-				try {
-					r = findRename(parent, n.sourceCommit, n.sourcePath);
-					if (r == null) {
-						continue;
-					}
-				} catch (CanceledException e) {
+				DiffEntry r = findRename(parent, n.sourceCommit, n.sourcePath);
+				if (r == null)
 					continue;
-				}
 
 				if (n instanceof ReverseCandidate) {
 					if (ids == null)
@@ -1035,7 +1021,7 @@ public class BlameGenerator implements AutoCloseable {
 	}
 
 	private DiffEntry findRename(RevCommit parent, RevCommit commit,
-			PathFilter path) throws IOException, CanceledException {
+			PathFilter path) throws IOException {
 		if (renameDetector == null)
 			return null;
 
