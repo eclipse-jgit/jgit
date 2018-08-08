@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "693a4339_82d67c72",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2018-08-08T15:12:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7aa0e67f_28b8964b",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 5
+      },
+      "revId": "a6757915a948ecb7b176c42af3cf5b878c9d7ca1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07781fea_0b15b44e",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/ManifestParserTest.java",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "a6757915a948ecb7b176c42af3cf5b878c9d7ca1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b526d59_ec3c3c0f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/ManifestParserTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 87330
+      },
+      "writtenOn": "2018-08-08T15:12:19Z",
+      "side": 1,
+      "message": "Done. JGit doesn\u0027t have a dependency to Guava...",
+      "parentUuid": "07781fea_0b15b44e",
+      "range": {
+        "startLine": 176,
+        "startChar": 4,
+        "endLine": 176,
+        "endChar": 11
+      },
+      "revId": "a6757915a948ecb7b176c42af3cf5b878c9d7ca1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
