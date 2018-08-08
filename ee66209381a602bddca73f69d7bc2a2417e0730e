@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2ef158ca_1c272dd7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-08-08T06:04:04Z",
+      "side": 1,
+      "message": "It won\u0027t. RenameDetector.compute() has no ProgressMonitor, isn\u0027t cancellable, and won\u0027t throw CancelledException (nor CanceledException).",
+      "parentUuid": "d5e716d2_58c4686f",
+      "revId": "ee66209381a602bddca73f69d7bc2a2417e0730e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4fc85ab2_24450d98",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "774bf1db_d2c99ec9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-08-08T06:04:04Z",
+      "side": 1,
+      "message": "Later. There\u0027s bug 536323 about making DiffEntry.scan() cancelable, and maybe we\u0027d need another bug about handling cancellation in DiffFormatter, too. For now, we\u0027re just trying to make the rename detector cancelable. I guess next would be diffs.",
+      "parentUuid": "4fc85ab2_24450d98",
+      "revId": "ee66209381a602bddca73f69d7bc2a2417e0730e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1347aa57_8cb4f129",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2018-08-08T05:56:23Z",
       "side": 1,
       "message": "Likewise",
+      "revId": "ee66209381a602bddca73f69d7bc2a2417e0730e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "845f046d_5c8cbfd8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-08-08T06:04:04Z",
+      "side": 1,
+      "message": "Likewise what? Propagate CancelledException? I wouldn\u0027t. First, with a NullProgressMonitor, it should never be raised, and second, the idea is still to replace these uses of o.e.j.errors.CancelledException by o.e.j.api.errors.CanceledException once we do the next major version number increase.",
+      "parentUuid": "1347aa57_8cb4f129",
       "revId": "ee66209381a602bddca73f69d7bc2a2417e0730e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
