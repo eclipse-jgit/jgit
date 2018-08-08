@@ -176,6 +176,24 @@
       "revId": "ee66209381a602bddca73f69d7bc2a2417e0730e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f61d8fa6_8a99743e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-08T06:51:28Z",
+      "side": 1,
+      "message": "\u003e But if you prefer we could remove the try-block here now, and re-add it later once we do actually switch the exceptions.\n\nYes, please. It makes the code easier to reason about, to not have to worry about special-case non-exception return values for exceptional conditions.\n\nI think when we do change the exception type, we can plumb it through (or at worst, wrap it in another exception type).",
+      "parentUuid": "03f9408c_0f1a92b1",
+      "revId": "ee66209381a602bddca73f69d7bc2a2417e0730e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
