@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "fc952172_19779931",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-08-08T06:35:39Z",
+      "side": 1,
+      "message": "Right now this progressMonitor is used only for the rename detector. I suppose once we\u0027d make DiffEntry.scan() cancellable, we\u0027ll also make DiffFormatter.scan() and possibly also DiffFormatter.format() cancellable, and use that progressMonitor there, too. At that point it may make sense to just propagate here. Right now I\u0027m unsure about propagating; we\u0027d have to examine all callers. For instance, o.e.egit.core.op.CreatePatchOperation shouldn\u0027t log an error if diff formatting was canceled.\n\nSo if we want to go in small steps I think catching it here is fine. Later, when that whole diff machinery is made cancelable, propagating would be the right thing to do.\n\nPerhaps a TODO comment would be in order here.",
+      "parentUuid": "949ec977_b7ba84e4",
+      "revId": "ee66209381a602bddca73f69d7bc2a2417e0730e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1347aa57_8cb4f129",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
         "patchSetId": 3
@@ -137,6 +155,24 @@
       "side": 1,
       "message": "Why do we need the try block? CancelledException is a subclass of IOException, and as you mentioned, the exception will never be triggered because we\u0027re passing in a NullProgressMonitor..",
       "parentUuid": "845f046d_5c8cbfd8",
+      "revId": "ee66209381a602bddca73f69d7bc2a2417e0730e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03f9408c_0f1a92b1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-08-08T06:35:39Z",
+      "side": 1,
+      "message": "You\u0027re right, with o.e.j.errors.CancelledException we wouldn\u0027t need to catch it. However, with o.e.j.api.errors.CanceledException, we would need this catch clause. Since this is a kind of \"backwards refactoring\" to avoid API breakage now and we still have the intention of using o.e.j.api.errors.CanceledException eventually, leaving the catch clause is fine by me. It\u0027ll avoid extra work once we do the switch.\n\nPersonally, I would have added a comment like \"// cannot happen with a NullProgressMonitor\" inside the catch clause, regardless of the cancellation exception used. But that\u0027s IMO a minor detail.\n\nBut if you prefer we could remove the try-block here now, and re-add it later once we do actually switch the exceptions.",
+      "parentUuid": "8285f82e_3b070cef",
       "revId": "ee66209381a602bddca73f69d7bc2a2417e0730e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
