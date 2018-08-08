@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d5e716d2_58c4686f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-08T05:54:28Z",
+      "side": 1,
+      "message": "Thanks! Propagating the exception like this makes sense to me.",
+      "revId": "ee66209381a602bddca73f69d7bc2a2417e0730e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
