@@ -194,6 +194,24 @@
       "revId": "ee66209381a602bddca73f69d7bc2a2417e0730e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a60c6ba3_be4378d5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-08-08T07:36:22Z",
+      "side": 1,
+      "message": "Done.\n\n\u003e (or at worst, wrap it in another exception type)\n\nUgh. Please, no. We\u0027re only accumulating technical debt if we do that. There\u0027s already DirCacheCheckout.java:486 (checkout()) where this is done. Callers end up with a JGitInternalException with cause IOException with cause CanceledException and have to jump through hoops to figure out that a cancellation has occurred.",
+      "parentUuid": "f61d8fa6_8a99743e",
+      "revId": "ee66209381a602bddca73f69d7bc2a2417e0730e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
