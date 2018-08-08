@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "aa351b3c_bc146a1a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-08-08T07:58:31Z",
+      "side": 1,
+      "message": "I tried propagating this exception here but this requires quite a number of changes, so I thought we should better do this in steps. We should add a TODO here.",
+      "parentUuid": "fc952172_19779931",
+      "revId": "ee66209381a602bddca73f69d7bc2a2417e0730e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1347aa57_8cb4f129",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
         "patchSetId": 3
