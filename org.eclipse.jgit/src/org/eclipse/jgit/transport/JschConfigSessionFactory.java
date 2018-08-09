@@ -372,6 +372,8 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 	 */
 	protected JSch createDefaultJSch(FS fs) throws JSchException {
 		final JSch jsch = new JSch();
+		JSch.setConfig("ssh-rsa", JSch.getConfig("signature.rsa")); //$NON-NLS-1$ //$NON-NLS-2$
+		JSch.setConfig("ssh-dss", JSch.getConfig("signature.dss")); //$NON-NLS-1$ //$NON-NLS-2$
 		configureJSch(jsch);
 		knownHosts(jsch, fs);
 		identities(jsch, fs);
