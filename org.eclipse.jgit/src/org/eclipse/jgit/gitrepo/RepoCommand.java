@@ -52,11 +52,11 @@ import java.io.InputStream;
 import java.net.URI;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.StringJoiner;
+import java.util.TreeMap;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.Git;
@@ -736,7 +736,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	 * @return projects that are renamed if necessary
 	 */
 	private List<RepoProject> renameProjects(List<RepoProject> projects) {
-		Map<String, List<RepoProject>> m = new HashMap<>();
+		Map<String, List<RepoProject>> m = new TreeMap<>();
 		for (RepoProject proj : projects) {
 			List<RepoProject> l = m.get(proj.getName());
 			if (l == null) {
