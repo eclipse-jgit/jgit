@@ -1366,7 +1366,11 @@ public class DirCacheCheckout {
 	 *            object reader to use for checkout
 	 * @throws java.io.IOException
 	 * @since 3.6
+	 * @deprecated since 5.1, use
+	 *             {@link #checkoutEntry(Repository, DirCacheEntry, ObjectReader, boolean, CheckoutMetadata)}
+	 *             instead
 	 */
+	@Deprecated
 	public static void checkoutEntry(Repository repo, DirCacheEntry entry,
 			ObjectReader or) throws IOException {
 		checkoutEntry(repo, entry, or, false, null);
