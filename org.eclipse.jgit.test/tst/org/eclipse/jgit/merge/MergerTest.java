@@ -60,6 +60,7 @@ import java.util.Map;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
+import org.eclipse.jgit.api.RebaseResult;
 import org.eclipse.jgit.api.errors.CheckoutConflictException;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
@@ -425,6 +426,44 @@ public class MergerTest extends RepositoryTestCase {
 		checkFile(testFile, "a first line\r\na crlf file\r\na second line\r\n");
 		assertEquals(
 				"[crlf.txt, mode:100644, content:a first line\na crlf file\na second line\n]",
+				indexState(CONTENT));
+	}
+
+	@Theory
+	public void rebaseWithCrlfAutoCrlfTrue(MergeStrategy strategy)
+			throws IOException, GitAPIException {
+		Git git = Git.wrap(db);
+		db.getConfig().setString("core", null, "autocrlf", "true");
+		db.getConfig().save();
+		writeTrashFile("crlf.txt", "line 1\r\nline 2\r\nline 3\r\n");
+		git.add().addFilepattern("crlf.txt").call();
+		RevCommit first = git.commit().setMessage("base").call();
+
+		git.checkout().setCreateBranch(true).setStartPoint(first)
+				.setName("brancha").call();
+
+		File testFile = writeTrashFile("crlf.txt",
+				"line 1\r\nmodified line\r\nline 3\r\n");
+		git.add().addFilepattern("crlf.txt").call();
+		git.commit().setMessage("on brancha").call();
+
+		git.checkout().setName("master").call();
+		File otherFile = writeTrashFile("otherfile.txt", "a line\r\n");
+		git.add().addFilepattern("otherfile.txt").call();
+		git.commit().setMessage("on master").call();
+
+		git.checkout().setName("brancha").call();
+		checkFile(testFile, "line 1\r\nmodified line\r\nline 3\r\n");
+		assertFalse(otherFile.exists());
+
+		RebaseResult rebaseResult = git.rebase().setStrategy(strategy)
+				.setUpstream(db.resolve("master")).call();
+		assertEquals(RebaseResult.Status.OK, rebaseResult.getStatus());
+		checkFile(testFile, "line 1\r\nmodified line\r\nline 3\r\n");
+		checkFile(otherFile, "a line\r\n");
+		assertEquals(
+				"[crlf.txt, mode:100644, content:line 1\nmodified line\nline 3\n]"
+						+ "[otherfile.txt, mode:100644, content:a line\n]",
 				indexState(CONTENT));
 	}
 
