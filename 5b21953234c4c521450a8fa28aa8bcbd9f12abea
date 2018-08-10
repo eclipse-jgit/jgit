@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baf3784f_50a5de18",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/MergerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-08-10T11:56:10Z",
+      "side": 1,
+      "message": "The test would succeed if the CRs in this string were removed. Without fix, the ResolveMerger within rebase ignores CR/LF settings for direct checkouts.",
+      "revId": "5b21953234c4c521450a8fa28aa8bcbd9f12abea",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
