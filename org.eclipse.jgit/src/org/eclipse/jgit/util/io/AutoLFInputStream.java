@@ -189,9 +189,18 @@ public class AutoLFInputStream extends InputStream {
 	}
 
 	private boolean fillBuffer() throws IOException {
-		cnt = in.read(buf, 0, buf.length);
-		if (cnt < 1)
+		cnt = 0;
+		while (cnt < buf.length) {
+			int n = in.read(buf, cnt, buf.length - cnt);
+			if (n < 0) {
+				break;
+			}
+			cnt += n;
+		}
+		if (cnt < 1) {
+			cnt = -1;
 			return false;
+		}
 		if (detectBinary) {
 			isBinary = RawText.isBinary(buf, cnt);
 			detectBinary = false;
