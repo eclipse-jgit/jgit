@@ -72,6 +72,7 @@ import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.submodule.SubmoduleWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
@@ -614,6 +615,42 @@ public class CommitCommandTest extends RepositoryTestCase {
 			writeTrashFile(".gitignore", "bar");
 			git.add().addFilepattern("subdir").call();
 			git.commit().setOnly("subdir").setMessage("first commit").call();
+			assertEquals("[subdir/foo, mode:100644, content:Hello World]",
+					indexState(CONTENT));
+		}
+	}
+
+	@Test
+	public void commitWithAutoCrlfAndNonNormalizedIndex() throws Exception {
+		try (Git git = new Git(db)) {
+			// Commit a file with CR/LF into the index
+			FileBasedConfig config = db.getConfig();
+			config.setString("core", null, "autocrlf", "false");
+			config.save();
+			writeTrashFile("file.txt", "line 1\r\nline 2\r\n");
+			git.add().addFilepattern("file.txt").call();
+			git.commit().setMessage("Initial").call();
+			assertEquals(
+					"[file.txt, mode:100644, content:line 1\r\nline 2\r\n]",
+					indexState(CONTENT));
+			config.setString("core", null, "autocrlf", "true");
+			config.save();
+			writeTrashFile("file.txt", "line 1\r\nline 1.5\r\nline 2\r\n");
+			writeTrashFile("file2.txt", "new\r\nfile\r\n");
+			git.add().addFilepattern("file.txt").addFilepattern("file2.txt")
+					.call();
+			git.commit().setMessage("Second").call();
+			assertEquals(
+					"[file.txt, mode:100644, content:line 1\r\nline 1.5\r\nline 2\r\n]"
+							+ "[file2.txt, mode:100644, content:new\nfile\n]",
+					indexState(CONTENT));
+			writeTrashFile("file2.txt", "new\r\nfile\r\ncontent\r\n");
+			git.add().addFilepattern("file2.txt").call();
+			git.commit().setMessage("Third").call();
+			assertEquals(
+					"[file.txt, mode:100644, content:line 1\r\nline 1.5\r\nline 2\r\n]"
+							+ "[file2.txt, mode:100644, content:new\nfile\ncontent\n]",
+					indexState(CONTENT));
 		}
 	}
 
