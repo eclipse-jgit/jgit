@@ -56,6 +56,7 @@ import java.util.List;
 import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.eclipse.jgit.api.CherryPickResult.CherryPickStatus;
 import org.eclipse.jgit.api.errors.CanceledException;
 import org.eclipse.jgit.api.errors.EmptyCommitException;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
@@ -77,6 +78,7 @@ import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.submodule.SubmoduleWalk;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.treewalk.TreeWalk;
@@ -620,7 +622,98 @@ public class CommitCommandTest extends RepositoryTestCase {
 			writeTrashFile(".gitignore", "bar");
 			git.add().addFilepattern("subdir").call();
 			git.commit().setOnly("subdir").setMessage("first commit").call();
+			assertEquals("[subdir/foo, mode:100644, content:Hello World]",
+					indexState(CONTENT));
 		}
+	}
+
+	@Test
+	public void commitWithAutoCrlfAndNonNormalizedIndex() throws Exception {
+		try (Git git = new Git(db)) {
+			// Commit a file with CR/LF into the index
+			FileBasedConfig config = db.getConfig();
+			config.setString("core", null, "autocrlf", "false");
+			config.save();
+			writeTrashFile("file.txt", "line 1\r\nline 2\r\n");
+			git.add().addFilepattern("file.txt").call();
+			git.commit().setMessage("Initial").call();
+			assertEquals(
+					"[file.txt, mode:100644, content:line 1\r\nline 2\r\n]",
+					indexState(CONTENT));
+			config.setString("core", null, "autocrlf", "true");
+			config.save();
+			writeTrashFile("file.txt", "line 1\r\nline 1.5\r\nline 2\r\n");
+			writeTrashFile("file2.txt", "new\r\nfile\r\n");
+			git.add().addFilepattern("file.txt").addFilepattern("file2.txt")
+					.call();
+			git.commit().setMessage("Second").call();
+			assertEquals(
+					"[file.txt, mode:100644, content:line 1\r\nline 1.5\r\nline 2\r\n]"
+							+ "[file2.txt, mode:100644, content:new\nfile\n]",
+					indexState(CONTENT));
+			writeTrashFile("file2.txt", "new\r\nfile\r\ncontent\r\n");
+			git.add().addFilepattern("file2.txt").call();
+			git.commit().setMessage("Third").call();
+			assertEquals(
+					"[file.txt, mode:100644, content:line 1\r\nline 1.5\r\nline 2\r\n]"
+							+ "[file2.txt, mode:100644, content:new\nfile\ncontent\n]",
+					indexState(CONTENT));
+		}
+	}
+
+	private void testConflictWithAutoCrlf(String baseLf, String lf)
+			throws Exception {
+		try (Git git = new Git(db)) {
+			// Commit a file with CR/LF into the index
+			FileBasedConfig config = db.getConfig();
+			config.setString("core", null, "autocrlf", "false");
+			config.save();
+			writeTrashFile("file.txt", "foo" + baseLf);
+			git.add().addFilepattern("file.txt").call();
+			git.commit().setMessage("Initial").call();
+			// Switch to side branch
+			git.checkout().setCreateBranch(true).setName("side").call();
+			writeTrashFile("file.txt", "bar\r\n");
+			git.add().addFilepattern("file.txt").call();
+			RevCommit side = git.commit().setMessage("Side").call();
+			// Switch back to master and commit a conflict with the given lf
+			git.checkout().setName("master");
+			writeTrashFile("file.txt", "foob" + lf);
+			git.add().addFilepattern("file.txt").call();
+			git.commit().setMessage("Second").call();
+			// Switch on autocrlf=true
+			config.setString("core", null, "autocrlf", "true");
+			config.save();
+			// Cherry pick side: conflict. Resolve with CR-LF and commit.
+			CherryPickResult pick = git.cherryPick().include(side).call();
+			assertEquals("Expected a cherry-pick conflict",
+					CherryPickStatus.CONFLICTING, pick.getStatus());
+			writeTrashFile("file.txt", "foobar\r\n");
+			git.add().addFilepattern("file.txt").call();
+			git.commit().setMessage("Second").call();
+			assertEquals("[file.txt, mode:100644, content:foobar" + lf + "]",
+					indexState(CONTENT));
+		}
+	}
+
+	@Test
+	public void commitConflictWithAutoCrlfBaseCrLfOursLf() throws Exception {
+		testConflictWithAutoCrlf("\r\n", "\n");
+	}
+
+	@Test
+	public void commitConflictWithAutoCrlfBaseLfOursLf() throws Exception {
+		testConflictWithAutoCrlf("\n", "\n");
+	}
+
+	@Test
+	public void commitConflictWithAutoCrlfBasCrLfOursCrLf() throws Exception {
+		testConflictWithAutoCrlf("\r\n", "\r\n");
+	}
+
+	@Test
+	public void commitConflictWithAutoCrlfBaseLfOursCrLf() throws Exception {
+		testConflictWithAutoCrlf("\n", "\r\n");
 	}
 
 	private static void addUnmergedEntry(String file, DirCacheBuilder builder) {
