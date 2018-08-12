@@ -309,6 +309,74 @@ public class RawText extends Sequence {
 	}
 
 	/**
+	 * Determine heuristically whether a byte array represents text content
+	 * using CR-LF as line separator.
+	 *
+	 * @param raw
+	 *            the raw file content.
+	 * @return {@code true} if raw is likely to be CR-LF delimited text,
+	 *         {@code false} otherwise
+	 * @since 5.3
+	 */
+	public static boolean isCrLfText(byte[] raw) {
+		return isCrLfText(raw, raw.length);
+	}
+
+	/**
+	 * Determine heuristically whether the bytes contained in a stream represent
+	 * text content using CR-LF as line separator.
+	 *
+	 * Note: Do not further use this stream after having called this method! The
+	 * stream may not be fully read and will be left at an unknown position
+	 * after consuming an unknown number of bytes. The caller is responsible for
+	 * closing the stream.
+	 *
+	 * @param raw
+	 *            input stream containing the raw file content.
+	 * @return {@code true} if raw is likely to be CR-LF delimited text,
+	 *         {@code false} otherwise
+	 * @throws java.io.IOException
+	 *             if input stream could not be read
+	 * @since 5.3
+	 */
+	public static boolean isCrLfText(InputStream raw) throws IOException {
+		byte[] buffer = new byte[FIRST_FEW_BYTES];
+		int cnt = 0;
+		while (cnt < buffer.length) {
+			int n = raw.read(buffer, cnt, buffer.length - cnt);
+			if (n == -1) {
+				break;
+			}
+			cnt += n;
+		}
+		return isCrLfText(buffer, cnt);
+	}
+
+	/**
+	 * Determine heuristically whether a byte array represents text content
+	 * using CR-LF as line separator.
+	 *
+	 * @param raw
+	 *            the raw file content.
+	 * @param length
+	 *            number of bytes in {@code raw} to evaluate.
+	 * @return {@code true} if raw is likely to be CR-LF delimited text,
+	 *         {@code false} otherwise
+	 * @since 5.3
+	 */
+	public static boolean isCrLfText(byte[] raw, int length) {
+		boolean has_crlf = false;
+		for (int ptr = 0; ptr < length - 1; ptr++) {
+			if (raw[ptr] == '\0') {
+				return false; // binary
+			} else if (raw[ptr] == '\r' && raw[ptr + 1] == '\n') {
+				has_crlf = true;
+			}
+		}
+		return has_crlf;
+	}
+
+	/**
 	 * Get the line delimiter for the first line.
 	 *
 	 * @since 2.0
