@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015, Ivan Motsch <ivan.motsch@bsiag.com>
+ * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
  * under the terms of the Eclipse Distribution License v1.0 which
@@ -49,6 +50,7 @@ import org.eclipse.jgit.attributes.Attributes;
 import org.eclipse.jgit.lib.CoreConfig.EolStreamType;
 import org.eclipse.jgit.treewalk.TreeWalk.OperationType;
 import org.eclipse.jgit.treewalk.WorkingTreeOptions;
+import org.eclipse.jgit.util.SystemReader;
 
 /**
  * Utility used to create input and output stream wrappers for
@@ -57,7 +59,6 @@ import org.eclipse.jgit.treewalk.WorkingTreeOptions;
  * @since 4.3
  */
 public final class EolStreamTypeUtil {
-	private static final boolean FORCE_EOL_LF_ON_CHECKOUT = false;
 
 	private EolStreamTypeUtil() {
 	}
@@ -164,11 +165,11 @@ public final class EolStreamTypeUtil {
 
 		// old git system
 		if (attrs.isSet("crlf")) {//$NON-NLS-1$
-			return EolStreamType.TEXT_LF;
+			return EolStreamType.TEXT_LF; // Same as isSet("text")
 		} else if (attrs.isUnset("crlf")) {//$NON-NLS-1$
-			return EolStreamType.DIRECT;
+			return EolStreamType.DIRECT; // Same as isUnset("text")
 		} else if ("input".equals(attrs.getValue("crlf"))) {//$NON-NLS-1$ //$NON-NLS-2$
-			return EolStreamType.TEXT_LF;
+			return EolStreamType.TEXT_LF; // Same as eol=lf
 		}
 
 		// new git system
@@ -196,6 +197,28 @@ public final class EolStreamTypeUtil {
 		return EolStreamType.DIRECT;
 	}
 
+	private static EolStreamType getOutputFormat(WorkingTreeOptions options) {
+		switch (options.getAutoCRLF()) {
+		case TRUE:
+			return EolStreamType.TEXT_CRLF;
+		default:
+			// no decision
+		}
+		switch (options.getEOL()) {
+		case CRLF:
+			return EolStreamType.TEXT_CRLF;
+		case NATIVE:
+			if (SystemReader.getInstance().isWindows()) {
+				return EolStreamType.TEXT_CRLF;
+			}
+			return EolStreamType.TEXT_LF;
+		case LF:
+		default:
+			break;
+		}
+		return EolStreamType.DIRECT;
+	}
+
 	private static EolStreamType checkOutStreamType(WorkingTreeOptions options,
 			Attributes attrs) {
 		if (attrs.isUnset("text")) {//$NON-NLS-1$
@@ -205,57 +228,35 @@ public final class EolStreamTypeUtil {
 
 		// old git system
 		if (attrs.isSet("crlf")) {//$NON-NLS-1$
-			return FORCE_EOL_LF_ON_CHECKOUT ? EolStreamType.TEXT_LF
-					: EolStreamType.DIRECT;
+			return getOutputFormat(options); // Same as isSet("text")
 		} else if (attrs.isUnset("crlf")) {//$NON-NLS-1$
-			return EolStreamType.DIRECT;
+			return EolStreamType.DIRECT; // Same as isUnset("text")
 		} else if ("input".equals(attrs.getValue("crlf"))) {//$NON-NLS-1$ //$NON-NLS-2$
-			return EolStreamType.DIRECT;
+			return EolStreamType.DIRECT; // Same as eol=lf
 		}
 
 		// new git system
 		String eol = attrs.getValue("eol"); //$NON-NLS-1$
-		if (eol != null && "crlf".equals(eol)) //$NON-NLS-1$
-			return EolStreamType.TEXT_CRLF;
-		if (eol != null && "lf".equals(eol)) //$NON-NLS-1$
-			return FORCE_EOL_LF_ON_CHECKOUT ? EolStreamType.TEXT_LF
-					: EolStreamType.DIRECT;
-
-		if (attrs.isSet("text")) { //$NON-NLS-1$
-			switch (options.getAutoCRLF()) {
-			case TRUE:
+		if (eol != null) {
+			if ("crlf".equals(eol)) {//$NON-NLS-1$
 				return EolStreamType.TEXT_CRLF;
-			default:
-				// no decision
-			}
-			switch (options.getEOL()) {
-			case CRLF:
-				return EolStreamType.TEXT_CRLF;
-			case LF:
-				return FORCE_EOL_LF_ON_CHECKOUT ? EolStreamType.TEXT_LF
-						: EolStreamType.DIRECT;
-			case NATIVE:
-			default:
+			} else if ("lf".equals(eol)) { //$NON-NLS-1$
 				return EolStreamType.DIRECT;
 			}
 		}
+		if (attrs.isSet("text")) { //$NON-NLS-1$
+			return getOutputFormat(options);
+		}
 
 		if ("auto".equals(attrs.getValue("text"))) { //$NON-NLS-1$ //$NON-NLS-2$
-			switch (options.getAutoCRLF()) {
-			case TRUE:
+			EolStreamType basic = getOutputFormat(options);
+			switch (basic) {
+			case TEXT_CRLF:
 				return EolStreamType.AUTO_CRLF;
+			case TEXT_LF:
+				return EolStreamType.AUTO_LF;
 			default:
-				// no decision
-			}
-			switch (options.getEOL()) {
-			case CRLF:
-				return EolStreamType.AUTO_CRLF;
-			case LF:
-				return FORCE_EOL_LF_ON_CHECKOUT ? EolStreamType.TEXT_LF
-						: EolStreamType.DIRECT;
-			case NATIVE:
-			default:
-				return EolStreamType.DIRECT;
+				return basic;
 			}
 		}
 
