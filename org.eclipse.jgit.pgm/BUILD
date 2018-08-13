@@ -7,6 +7,7 @@ java_library(
     deps = [
         ":services",
         "//lib:args4j",
+        "//lib:commons-logging",
         "//lib:httpclient",
         "//lib:httpcore",
         "//lib:jetty-http",
