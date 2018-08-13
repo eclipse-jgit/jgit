@@ -23,7 +23,6 @@ java_library(
 
 java_library(
     name = "commons-logging",
-    testonly = 1,
     visibility = ["//visibility:public"],
     exports = ["@commons-logging//jar"],
 )
