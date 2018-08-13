@@ -331,7 +331,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		DirCacheEntry dce = db.readDirCache().getEntry("symlink");
 		dce.setFileMode(FileMode.SYMLINK);
 		try (ObjectReader objectReader = db.newObjectReader()) {
-			DirCacheCheckout.checkoutEntry(db, dce, objectReader);
+			DirCacheCheckout.checkoutEntry(db, dce, objectReader, false, null);
 
 			FileTreeIterator fti = new FileTreeIterator(trash, db.getFS(),
 					db.getConfig().get(WorkingTreeOptions.KEY));
