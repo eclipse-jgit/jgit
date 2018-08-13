@@ -1367,12 +1367,12 @@ public class UploadPackTest {
 			PacketLineIn.END);
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
-		// wanted-refs appears first, then shallow-info.
-		assertThat(pckIn.readString(), is("wanted-refs"));
-		assertThat(pckIn.readString(), is(child.toObjectId().getName() + " refs/heads/branch1"));
-		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
+		// shallow-info appears first, then wanted-refs.
 		assertThat(pckIn.readString(), is("shallow-info"));
 		assertThat(pckIn.readString(), is("shallow " + child.toObjectId().getName()));
+		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
+		assertThat(pckIn.readString(), is("wanted-refs"));
+		assertThat(pckIn.readString(), is(child.toObjectId().getName() + " refs/heads/branch1"));
 		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);

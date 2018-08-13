@@ -1083,18 +1083,6 @@ public class UploadPack {
 		}
 
 		if (doneReceived || okToGiveUp()) {
-			if (!wantedRefs.isEmpty()) {
-				if (sectionSent) {
-					pckOut.writeDelim();
-				}
-				pckOut.writeString("wanted-refs\n"); //$NON-NLS-1$
-				for (Map.Entry<String, ObjectId> entry : wantedRefs.entrySet()) {
-					pckOut.writeString(entry.getValue().getName() + ' ' +
-							entry.getKey() + '\n');
-				}
-				sectionSent = true;
-			}
-
 			if (shallowCommits != null) {
 				if (sectionSent)
 					pckOut.writeDelim();
@@ -1104,6 +1092,18 @@ public class UploadPack {
 				}
 				for (ObjectId o : unshallowCommits) {
 					pckOut.writeString("unshallow " + o.getName() + '\n'); //$NON-NLS-1$
+				}
+				sectionSent = true;
+			}
+
+			if (!wantedRefs.isEmpty()) {
+				if (sectionSent) {
+					pckOut.writeDelim();
+				}
+				pckOut.writeString("wanted-refs\n"); //$NON-NLS-1$
+				for (Map.Entry<String, ObjectId> entry : wantedRefs.entrySet()) {
+					pckOut.writeString(entry.getValue().getName() + ' ' +
+							entry.getKey() + '\n');
 				}
 				sectionSent = true;
 			}
