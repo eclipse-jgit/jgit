@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a4248f3_e08e1d5d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2018-08-13T11:11:22Z",
+      "side": 1,
+      "message": "final",
+      "revId": "5ecf11ab05cc42de42371ac86db4aa60dbcd4b73",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc582d5d_f5b8320f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2018-08-13T11:11:22Z",
+      "side": 1,
+      "message": "Would it make sense to move above the unlock call? Could unlock throw and then not properly unset this?",
+      "revId": "5ecf11ab05cc42de42371ac86db4aa60dbcd4b73",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
