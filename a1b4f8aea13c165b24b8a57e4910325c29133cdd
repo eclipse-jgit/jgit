@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2ad6332e_889e86c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-13T15:53:25Z",
+      "side": 1,
+      "message": "Can you say more about the application? E.g. is this about making tests more predictable, or improving debuggability, or does it affect some use case?\n\nIf it\u0027s fixing a bug, can you describe the symptom?",
+      "revId": "a1b4f8aea13c165b24b8a57e4910325c29133cdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
