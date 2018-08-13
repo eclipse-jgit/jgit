@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8da8a5c_1fa2f480",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/CapabilitiesV2Request.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2018-08-13T18:05:30Z",
+      "side": 1,
+      "message": "Capitalize?",
+      "range": {
+        "startLine": 46,
+        "startChar": 3,
+        "endLine": 46,
+        "endChar": 15
+      },
+      "revId": "42d48913c2a6dd12cc54879f44731bd396ce5bf5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
