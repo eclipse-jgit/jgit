@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <component id="org.eclipse.jgit" version="2">
+    <resource path="src/org/eclipse/jgit/lib/ConfigConstants.java" type="org.eclipse.jgit.lib.ConfigConstants">
+        <filter id="337768515">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.ConfigConstants"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/lib/ObjectIdSerializer.java" type="org.eclipse.jgit.lib.ObjectIdSerializer">
         <filter id="1141899266">
             <message_arguments>
@@ -13,6 +20,13 @@
                 <message_argument value="4.11"/>
                 <message_argument value="5.0"/>
                 <message_argument value="writeWithoutMarker(OutputStream, AnyObjectId)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/transport/GitProtocolConstants.java" type="org.eclipse.jgit.transport.GitProtocolConstants">
+        <filter id="337768515">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.transport.GitProtocolConstants"/>
             </message_arguments>
         </filter>
     </resource>
