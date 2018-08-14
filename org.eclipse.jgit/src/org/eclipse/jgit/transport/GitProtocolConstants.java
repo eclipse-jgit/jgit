@@ -50,7 +50,7 @@ package org.eclipse.jgit.transport;
  *
  * @since 3.2
  */
-public class GitProtocolConstants {
+public final class GitProtocolConstants {
 	/**
 	 * Include tags if we are also including the referenced objects.
 	 *
