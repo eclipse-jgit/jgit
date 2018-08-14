@@ -1288,7 +1288,7 @@ public class RefDirectory extends RefDatabase {
 			try {
 				Files.delete(dir.toPath());
 			} catch (IOException e) {
-				LOG.warn("Unable to remove path {}", dir, e);
+				LOG.warn("Unable to remove path {}", dir, e); //$NON-NLS-1$
 				break;
 			}
 			dir = dir.getParentFile();
