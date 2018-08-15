@@ -273,15 +273,17 @@ public class GC {
 			}
 			return Collections.emptyList();
 		};
-		Future<Collection<PackFile>> result = executor.submit(gcTask);
+
 		if (background) {
 			// TODO(ms): in 5.0 change signature and return the Future
+			executor.submit(gcTask);
 			return Collections.emptyList();
-		}
-		try {
-			return result.get();
-		} catch (InterruptedException | ExecutionException e) {
-			throw new IOException(e);
+		} else {
+			try {
+				return gcTask.call();
+			} catch (Exception e) {
+				throw new IOException(e);
+			}
 		}
 	}
 
