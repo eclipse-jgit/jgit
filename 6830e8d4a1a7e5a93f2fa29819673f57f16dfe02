@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea2c9899_3bc7fe73",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 93425
+      },
+      "writtenOn": "2018-08-15T15:14:01Z",
+      "side": 1,
+      "message": "Why are we catching generic Exceptions here?",
+      "revId": "6830e8d4a1a7e5a93f2fa29819673f57f16dfe02",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
