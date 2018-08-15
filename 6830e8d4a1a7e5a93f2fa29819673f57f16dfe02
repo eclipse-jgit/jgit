@@ -16,6 +16,24 @@
       "revId": "6830e8d4a1a7e5a93f2fa29819673f57f16dfe02",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3a156f2_7f45f57b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2018-08-15T15:24:52Z",
+      "side": 1,
+      "message": "Because this is the exception thrown by Callable.call. I know this is far from ideal but executing the callable is the less intrusive fix I could think of.\n\nAnother option would be to refactor code to not create the callable when background is false. Let me try that option to see how it looks like.",
+      "parentUuid": "ea2c9899_3bc7fe73",
+      "revId": "6830e8d4a1a7e5a93f2fa29819673f57f16dfe02",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
