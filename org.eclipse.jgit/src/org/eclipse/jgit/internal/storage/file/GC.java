@@ -78,16 +78,13 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.eclipse.jgit.annotations.NonNull;
-import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.CancelledException;
 import org.eclipse.jgit.errors.CorruptObjectException;
@@ -232,8 +229,11 @@ public class GC {
 	 */
 	// TODO(ms): in 5.0 change signature and return Future<Collection<PackFile>>
 	public Collection<PackFile> gc() throws IOException, ParseException {
-		final GcLog gcLog = background ? new GcLog(repo) : null;
-		if (gcLog != null && !gcLog.lock(background)) {
+		if (!background) {
+			return doGc();
+		}
+		final GcLog gcLog = new GcLog(repo);
+		if (!gcLog.lock()) {
 			// there is already a background gc running
 			return Collections.emptyList();
 		}
@@ -241,48 +241,31 @@ public class GC {
 		Callable<Collection<PackFile>> gcTask = () -> {
 			try {
 				Collection<PackFile> newPacks = doGc();
-				if (automatic && tooManyLooseObjects() && gcLog != null) {
+				if (automatic && tooManyLooseObjects()) {
 					String message = JGitText.get().gcTooManyUnpruned;
 					gcLog.write(message);
 					gcLog.commit();
 				}
 				return newPacks;
 			} catch (IOException | ParseException e) {
-				if (background) {
-					if (gcLog == null) {
-						// Lacking a log, there's no way to report this.
-						return Collections.emptyList();
-					}
-					try {
-						gcLog.write(e.getMessage());
-						StringWriter sw = new StringWriter();
-						e.printStackTrace(new PrintWriter(sw));
-						gcLog.write(sw.toString());
-						gcLog.commit();
-					} catch (IOException e2) {
-						e2.addSuppressed(e);
-						LOG.error(e2.getMessage(), e2);
-					}
-				} else {
-					throw new JGitInternalException(e.getMessage(), e);
+				try {
+					gcLog.write(e.getMessage());
+					StringWriter sw = new StringWriter();
+					e.printStackTrace(new PrintWriter(sw));
+					gcLog.write(sw.toString());
+					gcLog.commit();
+				} catch (IOException e2) {
+					e2.addSuppressed(e);
+					LOG.error(e2.getMessage(), e2);
 				}
 			} finally {
-				if (gcLog != null) {
-					gcLog.unlock();
-				}
+				gcLog.unlock();
 			}
 			return Collections.emptyList();
 		};
-		Future<Collection<PackFile>> result = executor.submit(gcTask);
-		if (background) {
-			// TODO(ms): in 5.0 change signature and return the Future
-			return Collections.emptyList();
-		}
-		try {
-			return result.get();
-		} catch (InterruptedException | ExecutionException e) {
-			throw new IOException(e);
-		}
+		// TODO(ms): in 5.0 change signature and return the Future
+		executor.submit(gcTask);
+		return Collections.emptyList();
 	}
 
 	private Collection<PackFile> doGc() throws IOException, ParseException {
