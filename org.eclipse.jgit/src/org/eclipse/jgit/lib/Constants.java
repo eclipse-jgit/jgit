@@ -696,6 +696,14 @@ public final class Constants {
 			.fromString("e69de29bb2d1d6434b8b29ae775ad8c2e48c5391");
 
 	/**
+	 * Well-known object ID for the empty tree.
+	 *
+	 * @since 5.1
+	 */
+	public static final ObjectId EMPTY_TREE_ID = ObjectId
+			.fromString("4b825dc642cb6eb9a060e54bf8d69288fbee4904");
+
+	/**
 	 * Suffix of lock file name
 	 *
 	 * @since 5.0
