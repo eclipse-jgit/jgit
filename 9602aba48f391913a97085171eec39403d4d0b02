@@ -16,6 +16,24 @@
       "revId": "9602aba48f391913a97085171eec39403d4d0b02",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b92dc547_bfc43257",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2018-08-15T17:02:52Z",
+      "side": 1,
+      "message": "no, here is what the lines looked like before:\n\n235 final GcLog gcLog \u003d background ? new GcLog(repo) : null;\n236 if (gcLog !\u003d null \u0026\u0026 !gcLog.lock(background))\n\nWhen \u0027background \u003d false\u0027, the gcLog was null and and the if at line 236 was checking \u0027gcgcLog !\u003d null \u0026\u0026 ...\u0027 so the gcLog was never created and locked for foreground GC.",
+      "parentUuid": "1700a2fb_2cf31369",
+      "revId": "9602aba48f391913a97085171eec39403d4d0b02",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }

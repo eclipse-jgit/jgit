@@ -16,6 +16,24 @@
       "revId": "29118ed117097c63bbd769ec8c6eedf0bd2f7e26",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4429a3fe_065ef732",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GcLog.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2018-08-15T17:02:52Z",
+      "side": 0,
+      "message": "This code was unreachable so I am not sure what is the added value of keeping it.",
+      "parentUuid": "43ccb5bc_d9c8f3c6",
+      "revId": "29118ed117097c63bbd769ec8c6eedf0bd2f7e26",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
