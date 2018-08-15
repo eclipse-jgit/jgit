@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6aacbb54_3ff0e29b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2018-08-15T12:28:31Z",
+      "side": 1,
+      "message": "This is causing an issue in an application where we run GC on repositories.\n\nWe have multiple threads(workers) and each one run GC on a repository. Even if each worker thread have a different instance of GC class, only one is really running GC because of this static executor.\n\nWhen GC is not run in background, we should not use the executor at all or use an executor that execute in the same thread (e.g. Guava MoreExecutors.sameThreadExecutor)",
+      "range": {
+        "startLine": 154,
+        "startChar": 9,
+        "endLine": 154,
+        "endChar": 15
+      },
+      "revId": "6b1e3c58b16651dc72ec79a614d507e014d18393",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
