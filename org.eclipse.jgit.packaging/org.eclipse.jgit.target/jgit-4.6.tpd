@@ -1,7 +1,7 @@
 target "jgit-4.6" with source configurePhase
 
 include "projects/jetty-9.4.8.tpd"
-include "orbit/R20180606145124-Photon.tpd"
+include "orbit/S20180730183850-2018-09.tpd"
 
 location "http://download.eclipse.org/releases/neon/" {
 	org.eclipse.osgi lazy

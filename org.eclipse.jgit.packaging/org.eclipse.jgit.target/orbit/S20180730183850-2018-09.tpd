@@ -1,7 +1,7 @@
-target "R20180606145124-Photon" with source configurePhase
+target "S20180730183850-2018-09" with source configurePhase
 // see http://download.eclipse.org/tools/orbit/downloads/
 
-location "http://download.eclipse.org/tools/orbit/downloads/drops/R20180606145124/repository" {
+location "http://download.eclipse.org/tools/orbit/downloads/drops/S20180730183850/repository" {
 	org.apache.ant [1.9.6.v201510161327,1.9.6.v201510161327]
 	org.apache.ant.source [1.9.6.v201510161327,1.9.6.v201510161327]
 	org.apache.commons.codec [1.9.0.v20170208-1614,1.9.0.v20170208-1614]
@@ -10,8 +10,10 @@ location "http://download.eclipse.org/tools/orbit/downloads/drops/R2018060614512
 	org.apache.commons.compress.source [1.15.0.v20180119-1613,1.15.0.v20180119-1613s]
 	org.apache.commons.logging [1.1.1.v201101211721,1.1.1.v201101211721]
 	org.apache.commons.logging.source [1.1.1.v201101211721,1.1.1.v201101211721]
-	org.apache.httpcomponents.httpcore [4.4.6.v20170210-0925,4.4.6.v20170210-0925]
-	org.apache.httpcomponents.httpcore.source [4.4.6.v20170210-0925,4.4.6.v20170210-0925]
+	org.apache.httpcomponents.httpclient [4.5.5.v20180409-1525,4.5.5.v20180409-1525]
+	org.apache.httpcomponents.httpclient.source [4.5.5.v20180409-1525,4.5.5.v20180409-1525]
+	org.apache.httpcomponents.httpcore [4.4.9.v20180409-1525,4.4.9.v20180409-1525]
+	org.apache.httpcomponents.httpcore.source [4.4.9.v20180409-1525,4.4.9.v20180409-1525]
 	org.apache.log4j [1.2.15.v201012070815,1.2.15.v201012070815]
 	org.apache.log4j.source [1.2.15.v201012070815,1.2.15.v201012070815]
 	org.kohsuke.args4j [2.33.0.v20160323-2218,2.33.0.v20160323-2218]
@@ -43,10 +45,4 @@ location "http://download.eclipse.org/tools/orbit/downloads/drops/R2018060614512
 	org.slf4j.impl.log4j12.source [1.7.2.v20131105-2200,1.7.2.v20131105-2200]
 	com.jcraft.jzlib [1.1.1.v201205102305,1.1.1.v201205102305]
 	com.jcraft.jzlib.source [1.1.1.v201205102305,1.1.1.v201205102305]
-}
-
-location "http://download.eclipse.org/tools/orbit/downloads/drops/R20170919201930/repository/" {
-	// platform uses this outdated version of httpclient in Photon
-	org.apache.httpcomponents.httpclient [4.5.2.v20170210-0925,4.5.2.v20170210-0925]
-	org.apache.httpcomponents.httpclient.source [4.5.2.v20170210-0925,4.5.2.v20170210-0925]
 }
