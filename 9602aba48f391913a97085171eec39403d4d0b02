@@ -153,6 +153,24 @@
       "revId": "9602aba48f391913a97085171eec39403d4d0b02",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea6ff16b_02084b1f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2018-08-16T12:02:07Z",
+      "side": 1,
+      "message": "Good point.\n\nLet\u0027s say I call GC.gc() and background is false, what is supposed to happen? Method return an empty list or throw an exception?",
+      "parentUuid": "b235ed22_1679383b",
+      "revId": "9602aba48f391913a97085171eec39403d4d0b02",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
