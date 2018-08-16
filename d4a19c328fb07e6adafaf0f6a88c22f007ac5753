@@ -16,6 +16,24 @@
       "revId": "d4a19c328fb07e6adafaf0f6a88c22f007ac5753",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a823f7eb_0abfa466",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GcLog.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-08-16T23:37:06Z",
+      "side": 1,
+      "message": "I meant with level INFO or DEBUG",
+      "parentUuid": "2949da05_88128954",
+      "revId": "d4a19c328fb07e6adafaf0f6a88c22f007ac5753",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
