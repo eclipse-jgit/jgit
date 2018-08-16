@@ -135,6 +135,24 @@
       "revId": "9602aba48f391913a97085171eec39403d4d0b02",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b235ed22_1679383b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-08-16T07:19:17Z",
+      "side": 1,
+      "message": "what if multiple processes try to run gc concurrently on the same repository ?",
+      "parentUuid": "fa3f1c4e_5652a93e",
+      "revId": "9602aba48f391913a97085171eec39403d4d0b02",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
