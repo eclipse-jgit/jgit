@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5fd193ba_72fa3130",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2018-08-16T00:53:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "594aa332_dfe06ea9",
+      "range": {
+        "startLine": 11,
+        "startChar": 5,
+        "endLine": 11,
+        "endChar": 20
+      },
+      "revId": "9602aba48f391913a97085171eec39403d4d0b02",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1700a2fb_2cf31369",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
         "patchSetId": 2
@@ -90,6 +114,24 @@
       "side": 1,
       "message": "so we should fix this, maybe in another change",
       "parentUuid": "e6b176ad_e0fc22ed",
+      "revId": "9602aba48f391913a97085171eec39403d4d0b02",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa3f1c4e_5652a93e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2018-08-16T00:53:12Z",
+      "side": 1,
+      "message": "Should we?\n\nI know running concurrent GC on the same repository is not desirable but if an application using JGit as a library is badly designed and run GC concurrently on the same repo, the application should be fixed, not JGit.\n\nAccording to you commit message of your change, the intention was to honor the lock file for GC run in background only.",
+      "parentUuid": "12419b8c_06fedb53",
       "revId": "9602aba48f391913a97085171eec39403d4d0b02",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
