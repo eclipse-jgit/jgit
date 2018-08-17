@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c5156a76_08cf9d27",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1291,
+      "author": {
+        "id": 440
+      },
+      "writtenOn": "2018-08-17T08:35:54Z",
+      "side": 1,
+      "message": "When looking through jgit sources I see a mix of localized and non-localized strings being used in loggers, so I\u0027m not sure of the official strategy.\n\nIn other projects I have been working on, logger strings were not translated, since they are typically not meant to be seen by end users. And debugging is easier if developers don\u0027t need to translate back from an NLS log output sent by a user to find the respective piece in code.",
+      "parentUuid": "a8f1e2e3_9d470793",
+      "revId": "ebb2aede3c6e92a9682852f3255b5777da372cfc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fd712097_58f95a03",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2018-08-16T18:53:11Z",
       "side": 1,
       "message": "unrelated change? (but a good one)",
+      "revId": "ebb2aede3c6e92a9682852f3255b5777da372cfc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88233865_f84bbad1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1061,
+      "author": {
+        "id": 440
+      },
+      "writtenOn": "2018-08-17T08:35:54Z",
+      "side": 1,
+      "message": "Sorry, my fault. I fixed multiple issues in parallel and did not correctly sort the commit. Need to learn to really avoid parallel fixes on the same branch. :)",
+      "parentUuid": "fd712097_58f95a03",
       "revId": "ebb2aede3c6e92a9682852f3255b5777da372cfc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
