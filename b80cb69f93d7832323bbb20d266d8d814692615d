@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67306a88_3b26d56a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-08-17T16:07:48Z",
+      "side": 1,
+      "message": "Honestly said, I don\u0027t quite get the logic here. You want to catch the case where two processes/threads get true from createNewFile(\"foo\"). To do so you create a hard link and then check whether nlink \u003d\u003d 2. So both create (\"foo.lnk\"). Is that atomic? Or can both succeed? If both succeed, they will also both get nlink \u003d\u003d 2, won\u0027t they?\n\nThe recommendation for this technique was that each client should create a link with a unique file name, including hostname \u0026 pid or some such. Then I can understand it... kind of. Presumably a sequence like\n\n  A : createNewFile(\"foo\") -\u003e true\n  B : createNewFile(\"foo\") -\u003e true\n  A : createLink(\"foo.lnk_a_unique_id\") -\u003e OK\n  A : getAttribute(\"foo\", \"unix:nlink\") -\u003e 2\n  A : delete(\"foo.lnk_a_unique_id\")\n  B : createLink(\"foo.lnk_b_unique_id\") -\u003e OK\n  B : getAttribute(\"foo\", \"unix:nlink\") -\u003e 2\n  B : delete(\"foo.lnk_b_unique_id\")\n\ncannot occur? But I don\u0027t see why not... Methinks the algorithm can work only if\n\n1. link names have indeed a unique id,\n2. and are kept for as long as the file is kept",
+      "revId": "b80cb69f93d7832323bbb20d266d8d814692615d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3e36fde_ae3f8e81",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-08-17T16:07:48Z",
+      "side": 1,
+      "message": "Missing {}",
+      "revId": "b80cb69f93d7832323bbb20d266d8d814692615d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
