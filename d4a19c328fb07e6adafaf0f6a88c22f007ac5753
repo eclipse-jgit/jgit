@@ -34,6 +34,24 @@
       "revId": "d4a19c328fb07e6adafaf0f6a88c22f007ac5753",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "69ba7596_27f06e0a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GcLog.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2018-08-17T11:58:50Z",
+      "side": 1,
+      "message": "\u003e should we maybe still log this message ?\n\nThe message about the existence of the log file?\n\nI can add this log statement but I just want to highlight that this code was unreachable, that is why I removed it. Before, the autoGcBlockedByOldLockFile was only called when background\u003dtrue so there was no chance of going inside the \"if (!background)\"",
+      "parentUuid": "2949da05_88128954",
+      "revId": "d4a19c328fb07e6adafaf0f6a88c22f007ac5753",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
