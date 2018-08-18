@@ -49,7 +49,9 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
@@ -61,6 +63,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.FetchResult;
+import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.TagOpt;
 import org.eclipse.jgit.transport.TrackingRefUpdate;
@@ -206,6 +209,33 @@ public class FetchCommandTest extends RepositoryTestCase {
 				.setTagOpt(TagOpt.FETCH_TAGS).call();
 		TrackingRefUpdate update = result.getTrackingRefUpdate(Constants.R_TAGS
 				+ tagName);
+		assertEquals(RefUpdate.Result.FORCED, update.getResult());
+		assertEquals(tagRef2.getObjectId(), db.resolve(tagName));
+	}
+
+	@Test
+	public void fetchWithDuplicateTagsShouldWork() throws Exception {
+		final String tagName = "foo";
+		remoteGit.commit().setMessage("commit").call();
+		Ref tagRef1 = remoteGit.tag().setName(tagName).call();
+		List<RefSpec> refSpecs = new ArrayList<>();
+		refSpecs.add(new RefSpec("+refs/heads/*:refs/remotes/origin/*"));
+		refSpecs.add(new RefSpec("+refs/tags/*:refs/tags/*"));
+		// Updating tags via the RefSpecs and setting TagOpt.FETCH_TAGS (or
+		// AUTO_FOLLOW) will result internally in *two* updates for the same
+		// ref.
+		git.fetch().setRemote("test").setRefSpecs(refSpecs)
+				.setTagOpt(TagOpt.AUTO_FOLLOW).call();
+		assertEquals(tagRef1.getObjectId(), db.resolve(tagName));
+
+		remoteGit.commit().setMessage("commit 2").call();
+		Ref tagRef2 = remoteGit.tag().setName(tagName).setForceUpdate(true)
+				.call();
+		FetchResult result = git.fetch().setRemote("test").setRefSpecs(refSpecs)
+				.setTagOpt(TagOpt.FETCH_TAGS).call();
+		assertEquals(2, result.getTrackingRefUpdates().size());
+		TrackingRefUpdate update = result
+				.getTrackingRefUpdate(Constants.R_TAGS + tagName);
 		assertEquals(RefUpdate.Result.FORCED, update.getResult());
 		assertEquals(tagRef2.getObjectId(), db.resolve(tagName));
 	}
