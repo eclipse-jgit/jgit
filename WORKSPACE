@@ -11,8 +11,8 @@ load(
 
 maven_jar(
     name = "jsch",
-    artifact = "com.jcraft:jsch:0.1.53",
-    sha1 = "658b682d5c817b27ae795637dfec047c63d29935",
+    artifact = "com.jcraft:jsch:0.1.54",
+    sha1 = "da3584329a263616e277e15462b387addd1b208d",
 )
 
 maven_jar(
@@ -29,26 +29,26 @@ maven_jar(
 
 maven_jar(
     name = "httpclient",
-    artifact = "org.apache.httpcomponents:httpclient:4.5.2",
-    sha1 = "733db77aa8d9b2d68015189df76ab06304406e50",
+    artifact = "org.apache.httpcomponents:httpclient:4.5.5",
+    sha1 = "1603dfd56ebcd583ccdf337b6c3984ac55d89e58",
 )
 
 maven_jar(
     name = "httpcore",
-    artifact = "org.apache.httpcomponents:httpcore:4.4.6",
-    sha1 = "e3fd8ced1f52c7574af952e2e6da0df8df08eb82",
+    artifact = "org.apache.httpcomponents:httpcore:4.4.9",
+    sha1 = "a86ce739e5a7175b4b234c290a00a5fdb80957a0",
 )
 
 maven_jar(
     name = "commons_codec",
-    artifact = "commons-codec:commons-codec:1.4",
-    sha1 = "4216af16d38465bbab0f3dff8efa14204f7a399a",
+    artifact = "commons-codec:commons-codec:1.10",
+    sha1 = "4b95f4897fa13f2cd904aee711aeafc0c5295cd8",
 )
 
 maven_jar(
     name = "commons_logging",
-    artifact = "commons-logging:commons-logging:1.1.3",
-    sha1 = "f6f66e966c70a83ffbdb6f17a0919eaf7c8aca7f",
+    artifact = "commons-logging:commons-logging:1.2",
+    sha1 = "4bfc12adfe4842bf07b657f0369c4cb522955686",
 )
 
 maven_jar(
@@ -89,8 +89,8 @@ maven_jar(
 
 maven_jar(
     name = "junit",
-    artifact = "junit:junit:4.11",
-    sha1 = "4e031bb61df09069aeb2bffb4019e7a5034a4ee0",
+    artifact = "junit:junit:4.12",
+    sha1 = "2973d150c0dc1fefe998f834810d68f278ea58ec",
 )
 
 maven_jar(
