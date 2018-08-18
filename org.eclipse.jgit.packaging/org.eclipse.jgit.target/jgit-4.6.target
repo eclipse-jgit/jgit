@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/mbarbero/fr.obeo.releng.targetplatform -->
-<target name="jgit-4.6" sequenceNumber="1534457502">
+<target name="jgit-4.6" sequenceNumber="1534584542">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.jetty.client" version="9.4.8.v20171121"/>
@@ -25,12 +25,12 @@
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.apache.ant" version="1.9.6.v201510161327"/>
       <unit id="org.apache.ant.source" version="1.9.6.v201510161327"/>
-      <unit id="org.apache.commons.codec" version="1.9.0.v20170208-1614"/>
-      <unit id="org.apache.commons.codec.source" version="1.9.0.v20170208-1614"/>
+      <unit id="org.apache.commons.codec" version="1.10.0.v20180409-1845"/>
+      <unit id="org.apache.commons.codec.source" version="1.10.0.v20180409-1845"/>
       <unit id="org.apache.commons.compress" version="1.15.0.v20180119-1613"/>
       <unit id="org.apache.commons.compress.source" version="1.15.0.v20180119-1613"/>
-      <unit id="org.apache.commons.logging" version="1.1.1.v201101211721"/>
-      <unit id="org.apache.commons.logging.source" version="1.1.1.v201101211721"/>
+      <unit id="org.apache.commons.logging" version="1.2.0.v20180409-1502"/>
+      <unit id="org.apache.commons.logging.source" version="1.2.0.v20180409-1502"/>
       <unit id="org.apache.httpcomponents.httpclient" version="4.5.5.v20180409-1525"/>
       <unit id="org.apache.httpcomponents.httpclient.source" version="4.5.5.v20180409-1525"/>
       <unit id="org.apache.httpcomponents.httpcore" version="4.4.9.v20180409-1525"/>
