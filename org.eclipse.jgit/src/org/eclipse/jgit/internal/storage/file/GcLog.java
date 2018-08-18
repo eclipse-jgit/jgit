@@ -45,18 +45,15 @@ package org.eclipse.jgit.internal.storage.file;
 
 import static org.eclipse.jgit.lib.Constants.CHARSET;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.attribute.FileTime;
-import java.text.MessageFormat;
 import java.text.ParseException;
 import java.time.Instant;
 
 import org.eclipse.jgit.api.errors.JGitInternalException;
-import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.GitDateParser;
@@ -104,22 +101,11 @@ class GcLog {
 		return gcLogExpire;
 	}
 
-	private boolean autoGcBlockedByOldLockFile(boolean background) {
+	private boolean autoGcBlockedByOldLockFile() {
 		try {
 			FileTime lastModified = Files.getLastModifiedTime(FileUtils.toPath(logFile));
 			if (lastModified.toInstant().compareTo(getLogExpiry()) > 0) {
 				// There is an existing log file, which is too recent to ignore
-				if (!background) {
-					try (BufferedReader reader = Files
-							.newBufferedReader(FileUtils.toPath(logFile))) {
-						char[] buf = new char[1000];
-						int len = reader.read(buf, 0, 1000);
-						String oldError = new String(buf, 0, len);
-
-						throw new JGitInternalException(MessageFormat.format(
-								JGitText.get().gcLogExists, oldError, logFile));
-					}
-				}
 				return true;
 			}
 		} catch (NoSuchFileException e) {
@@ -133,11 +119,9 @@ class GcLog {
 	/**
 	 * Lock the GC log file for updates
 	 *
-	 * @param background
-	 *            If true, and if gc.log already exists, unlock and return false
 	 * @return {@code true} if we hold the lock
 	 */
-	boolean lock(boolean background) {
+	boolean lock() {
 		try {
 			if (!lock.lock()) {
 				return false;
@@ -145,7 +129,7 @@ class GcLog {
 		} catch (IOException e) {
 			throw new JGitInternalException(e.getMessage(), e);
 		}
-		if (autoGcBlockedByOldLockFile(background)) {
+		if (autoGcBlockedByOldLockFile()) {
 			lock.unlock();
 			return false;
 		}
