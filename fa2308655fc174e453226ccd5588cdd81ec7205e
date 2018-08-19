@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "525fb0fb_017ef606",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-19T08:34:41Z",
+      "side": 1,
+      "message": "junit",
+      "range": {
+        "startLine": 15,
+        "startChar": 2,
+        "endLine": 15,
+        "endChar": 8
+      },
+      "revId": "fa2308655fc174e453226ccd5588cdd81ec7205e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
