@@ -87,6 +87,24 @@
       "revId": "38b22f2dc96e88a77a3f1ea0506b242ec850c119",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7548aa38_86f2e4ae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-08-19T19:07:58Z",
+      "side": 1,
+      "message": "Done in the cherry-pick to stable-4.9",
+      "parentUuid": "6d6474aa_5166e199",
+      "revId": "38b22f2dc96e88a77a3f1ea0506b242ec850c119",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
