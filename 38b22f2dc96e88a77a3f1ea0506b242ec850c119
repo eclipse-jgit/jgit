@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "ed167f31_a4314749",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-08-19T18:37:05Z",
+      "side": 1,
+      "message": "But if we filter them out in want(Ref, RefSpec) then that\u0027s going to happen before we even ask for the new Object ID. In fact, maybe it\u0027s not correct to filter in want()? With two refspecs\n\n  A:B\n  C:B\n\nwe should still ask for A and C...\n\nIf, as in the test, the refspecs are\n\n  A:B\n  A:B\n\nwe will already ask only once for A. So maybe filtering afterwards (as in this change) is better.",
+      "parentUuid": "f5f336d5_2ba3570c",
+      "revId": "38b22f2dc96e88a77a3f1ea0506b242ec850c119",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d6474aa_5166e199",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
         "patchSetId": 2
