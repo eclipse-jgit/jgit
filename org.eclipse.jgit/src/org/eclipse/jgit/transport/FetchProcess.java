@@ -203,12 +203,10 @@ class FetchProcess {
 				((BatchingProgressMonitor) monitor).setDelayStart(
 						250, TimeUnit.MILLISECONDS);
 			}
-			if (transport.isRemoveDeletedRefs())
+			if (transport.isRemoveDeletedRefs()) {
 				deleteStaleTrackingRefs(result, batch);
-			for (TrackingRefUpdate u : localUpdates) {
-				result.add(u);
-				batch.addCommand(u.asReceiveCommand());
 			}
+			addUpdateBatchCommands(result, batch);
 			for (ReceiveCommand cmd : batch.getCommands()) {
 				cmd.updateType(walk);
 				if (cmd.getType() == UPDATE_NONFASTFORWARD
@@ -221,8 +219,11 @@ class FetchProcess {
 					if (cmd.getResult() == NOT_ATTEMPTED)
 						cmd.setResult(OK);
 				}
-			} else
+			} else {
 				batch.execute(walk, monitor);
+			}
+		} catch (TransportException e) {
+			throw e;
 		} catch (IOException err) {
 			throw new TransportException(MessageFormat.format(
 					JGitText.get().failureUpdatingTrackingRef,
@@ -235,6 +236,23 @@ class FetchProcess {
 			} catch (IOException err) {
 				throw new TransportException(MessageFormat.format(
 						JGitText.get().failureUpdatingFETCH_HEAD, err.getMessage()), err);
+			}
+		}
+	}
+
+	private void addUpdateBatchCommands(FetchResult result,
+			BatchRefUpdate batch) throws TransportException {
+		Map<String, ObjectId> refs = new HashMap<>();
+		for (TrackingRefUpdate u : localUpdates) {
+			// Try to skip duplicates if they'd update to the same object ID
+			ObjectId existing = refs.get(u.getLocalName());
+			if (existing == null) {
+				refs.put(u.getLocalName(), u.getNewObjectId());
+				result.add(u);
+				batch.addCommand(u.asReceiveCommand());
+			} else if (!existing.equals(u.getNewObjectId())) {
+				throw new TransportException(MessageFormat
+						.format(JGitText.get().duplicateRef, u.getLocalName()));
 			}
 		}
 	}
