@@ -65,6 +65,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.InterruptedIOException;
+import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.Files;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
@@ -1275,6 +1276,10 @@ public class RefDirectory extends RefDatabase {
 		for (int i = 0; i < depth; ++i) {
 			try {
 				Files.delete(dir.toPath());
+			} catch (DirectoryNotEmptyException e) {
+				// Don't log; normal case when there are other refs with the
+				// same prefix
+				break;
 			} catch (IOException e) {
 				LOG.warn("Unable to remove path {}", dir, e);
 				break;
