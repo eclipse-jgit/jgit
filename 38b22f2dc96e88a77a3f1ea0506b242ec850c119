@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a109bc8f_33146465",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-08-19T14:25:09Z",
+      "side": 1,
+      "message": "So the idea would be to\n\n* Change localUpdates into Map\u003cString, TrackingRefUpdate\u003e\n* Change want(Ref, RefSpec), lines 447ff to\n\n  if (spec.getDestination() !\u003d null\n      \u0026\u0026 !localUpdates.containsKey(spec.getDestination())) {\n    final TrackingRefUpdate tru \u003d createUpdate(spec, newId);\n    if (newId.equals(tru.getOldObjectId()))\n      return;\n    localUpdates.put(spec.getDestination(), tru);\n  }\n\nThen we\u0027d never have duplicates for the same local ref in localUpdates. We\u0027d never raise an exception about it either, so this addUpdateBatchCommands() could be reverted.\n\nHmmm. Also compare https://git.eclipse.org/r/#/c/114823/ and https://git.eclipse.org/r/#/c/114822/ : seems like there\u0027s also a problem with duplicates when deleting refs.",
+      "parentUuid": "86c02cdc_caa1266e",
+      "revId": "38b22f2dc96e88a77a3f1ea0506b242ec850c119",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d6474aa_5166e199",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
         "patchSetId": 2
