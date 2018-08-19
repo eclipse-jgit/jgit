@@ -136,10 +136,12 @@ public class SubmoduleDeinitTest extends RepositoryTestCase {
 		generator.next();
 
 		//want to create a commit inside the repo...
-		Repository submoduleLocalRepo = generator.getRepository();
-		JGitTestUtil.writeTrashFile(submoduleLocalRepo, "file.txt", "new data");
-		Git.wrap(submoduleLocalRepo).commit().setAll(true).setMessage("local commit").call();
-
+		try (Repository submoduleLocalRepo = generator.getRepository()) {
+			JGitTestUtil.writeTrashFile(submoduleLocalRepo, "file.txt",
+					"new data");
+			Git.wrap(submoduleLocalRepo).commit().setAll(true)
+					.setMessage("local commit").call();
+		}
 		SubmoduleDeinitResult result = runDeinit(new SubmoduleDeinitCommand(db).addPath("sub"));
 		assertEquals(path, result.getPath());
 		assertEquals(SubmoduleDeinitCommand.SubmoduleDeinitStatus.DIRTY, result.getStatus());

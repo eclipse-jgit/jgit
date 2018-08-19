@@ -227,11 +227,11 @@ public class SubmoduleDeinitCommand
 				return SubmoduleDeinitStatus.DIRTY;
 			}
 
-			Repository submoduleRepo = w.getRepository();
-
-			Status status = Git.wrap(submoduleRepo).status().call();
-			return status.isClean() ? SubmoduleDeinitStatus.SUCCESS
-					: SubmoduleDeinitStatus.DIRTY;
+			try (Repository submoduleRepo = w.getRepository()) {
+				Status status = Git.wrap(submoduleRepo).status().call();
+				return status.isClean() ? SubmoduleDeinitStatus.SUCCESS
+						: SubmoduleDeinitStatus.DIRTY;
+			}
 		}
 	}
 
