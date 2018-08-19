@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "f5f336d5_2ba3570c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-08-19T18:13:59Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we still throw a TransportException if there are 2 or more ref updates for the same localName with different newObjectIds ?",
+      "parentUuid": "a109bc8f_33146465",
+      "revId": "38b22f2dc96e88a77a3f1ea0506b242ec850c119",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d6474aa_5166e199",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
         "patchSetId": 2
