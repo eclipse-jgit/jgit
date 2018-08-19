@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "4dd1d12c_8a99d87d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1291,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-08-19T09:04:39Z",
+      "side": 1,
+      "message": "We do not externalize debug trace and toString implementations meant for debugging. Error and warning messages are translatable since the application using jgit (like e.g. egit) might not want to wrap all possible error conditions in jgit which are potentially interesting for the application\u0027s end user",
+      "parentUuid": "7a6e5d1b_6578642d",
+      "revId": "ebb2aede3c6e92a9682852f3255b5777da372cfc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fd712097_58f95a03",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1
