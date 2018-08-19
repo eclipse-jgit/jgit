@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "86c02cdc_caa1266e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-08-19T12:28:10Z",
+      "side": 1,
+      "message": "we could check earlier in want() and skip duplicate ref updates there to avoid that duplicates are added to localUpdates",
+      "revId": "38b22f2dc96e88a77a3f1ea0506b242ec850c119",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d6474aa_5166e199",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-08-19T12:28:10Z",
+      "side": 1,
+      "message": "throw this as TransportException ?",
+      "revId": "38b22f2dc96e88a77a3f1ea0506b242ec850c119",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
