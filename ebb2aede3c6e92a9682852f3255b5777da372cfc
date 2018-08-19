@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "7a6e5d1b_6578642d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1291,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-19T07:39:02Z",
+      "side": 1,
+      "message": "Thanks. We should probably standardize on not translating loggers, then.\n\nMind filing a bug for that so we don\u0027t forget?",
+      "parentUuid": "c5156a76_08cf9d27",
+      "revId": "ebb2aede3c6e92a9682852f3255b5777da372cfc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fd712097_58f95a03",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "Sorry, my fault. I fixed multiple issues in parallel and did not correctly sort the commit. Need to learn to really avoid parallel fixes on the same branch. :)",
       "parentUuid": "fd712097_58f95a03",
+      "revId": "ebb2aede3c6e92a9682852f3255b5777da372cfc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21abd2aa_986a7890",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1061,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-19T07:39:02Z",
+      "side": 1,
+      "message": "Please do split it into a separate commit. (Same branch is fine, but separate commit helps avoid head scratching when people reading history find the change.) E.g. you can do\n\n  git reset -p HEAD^; # to unstage the change\n  git commit --amend\n  git commit -a; # to make a new commit with the change\n  git push origin HEAD:refs/for/master",
+      "parentUuid": "88233865_f84bbad1",
       "revId": "ebb2aede3c6e92a9682852f3255b5777da372cfc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
