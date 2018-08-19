@@ -259,6 +259,7 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 		try (TransportLocal t = newTransportLocalWithStrictValidation()) {
 			t.setPushThin(true);
 			r = t.push(PM, Collections.singleton(u));
+			dst.close();
 		}
 
 		assertNotNull("have result", r);
