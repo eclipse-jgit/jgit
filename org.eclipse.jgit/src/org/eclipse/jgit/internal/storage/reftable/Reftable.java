@@ -99,6 +99,30 @@ public abstract class Reftable implements AutoCloseable {
 	}
 
 	/**
+	 * Get the minimum update index for log entries that appear in this
+	 * reftable.
+	 *
+	 * @return the minimum update index for log entries that appear in this
+	 *         reftable. This should be 1 higher than the prior reftable's
+	 *         {@code maxUpdateIndex} if this table is used in a stack.
+	 * @throws IOException
+	 *             A problem reading the table from storage
+	 */
+	public abstract long minUpdateIndex() throws IOException;
+
+	/**
+	 * Get the maximum update index for log entries that appear in this
+	 * reftable.
+	 *
+	 * @return the maximum update index for log entries that appear in this
+	 *         reftable. This should be 1 higher than the prior reftable's
+	 *         {@code maxUpdateIndex} if this table is used in a stack.
+	 * @throws IOException
+	 *             A problem reading the table from storage
+	 */
+	public abstract long maxUpdateIndex() throws IOException;
+
+	/**
 	 * Seek to the first reference, to iterate in order.
 	 *
 	 * @return cursor to iterate.

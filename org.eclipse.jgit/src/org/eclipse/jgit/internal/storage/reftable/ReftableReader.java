@@ -138,6 +138,7 @@ public class ReftableReader extends Reftable {
 	 * @throws java.io.IOException
 	 *             file cannot be read.
 	 */
+	@Override
 	public long minUpdateIndex() throws IOException {
 		if (blockSize == -1) {
 			readFileHeader();
@@ -155,6 +156,7 @@ public class ReftableReader extends Reftable {
 	 * @throws java.io.IOException
 	 *             file cannot be read.
 	 */
+	@Override
 	public long maxUpdateIndex() throws IOException {
 		if (blockSize == -1) {
 			readFileHeader();
