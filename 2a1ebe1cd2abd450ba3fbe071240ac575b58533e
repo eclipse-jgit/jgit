@@ -260,6 +260,24 @@
     },
     {
       "key": {
+        "uuid": "ff1925c9_cdd31ad6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LsRefsV2Request.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-20T20:45:35Z",
+      "side": 1,
+      "message": "Oh, good point. Marking resolved.",
+      "parentUuid": "1d3fead5_2eb60b9f",
+      "revId": "2a1ebe1cd2abd450ba3fbe071240ac575b58533e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b4a5cd7e_53ab4ea8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1
