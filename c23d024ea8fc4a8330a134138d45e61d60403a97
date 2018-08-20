@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f4d606f_86fc0230",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-20T16:19:43Z",
+      "side": 1,
+      "message": "This commit message does not explain what the change does. Please describe the intended behavior change in commit messages in the future.",
+      "revId": "c23d024ea8fc4a8330a134138d45e61d60403a97",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
