@@ -22,6 +22,132 @@
       "revId": "2a1ebe1cd2abd450ba3fbe071240ac575b58533e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f177ee38_08ffb4f0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/CommandCapabilities.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-20T18:32:43Z",
+      "side": 1,
+      "message": "nit: LLC",
+      "range": {
+        "startLine": 2,
+        "startChar": 30,
+        "endLine": 2,
+        "endChar": 33
+      },
+      "revId": "2a1ebe1cd2abd450ba3fbe071240ac575b58533e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "062ea803_0a46edba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/CommandCapabilities.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-20T18:32:43Z",
+      "side": 1,
+      "message": "Please add a @since comment (@since 5.1).",
+      "revId": "2a1ebe1cd2abd450ba3fbe071240ac575b58533e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6cdf71c_057644c5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/CommandCapabilities.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-20T18:32:43Z",
+      "side": 1,
+      "message": "Can this be final?",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 12
+      },
+      "revId": "2a1ebe1cd2abd450ba3fbe071240ac575b58533e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8d2e128_529da412",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/CommandCapabilities.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-20T18:32:43Z",
+      "side": 1,
+      "message": "How is the visibility chosen for these? Are there subclasses that need direct access to this?",
+      "range": {
+        "startLine": 60,
+        "startChar": 1,
+        "endLine": 60,
+        "endChar": 10
+      },
+      "revId": "2a1ebe1cd2abd450ba3fbe071240ac575b58533e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c365813_6ab8db67",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LsRefsV2Request.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-20T18:32:43Z",
+      "side": 1,
+      "message": "needs @since comment (likewise elsewhere)",
+      "revId": "2a1ebe1cd2abd450ba3fbe071240ac575b58533e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4a5cd7e_53ab4ea8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 900,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-20T18:32:43Z",
+      "side": 1,
+      "message": "no need for \"final\" on locals like this (see http://wiki.eclipse.org/EGit/Contributor_Guide#Use_of_the_.22final.22_modifier). Likewise elsewhere.",
+      "range": {
+        "startLine": 900,
+        "startChar": 2,
+        "endLine": 900,
+        "endChar": 7
+      },
+      "revId": "2a1ebe1cd2abd450ba3fbe071240ac575b58533e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
