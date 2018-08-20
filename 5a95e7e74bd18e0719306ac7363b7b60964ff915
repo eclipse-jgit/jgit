@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "17da5c6f_ca789a54",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-20T16:20:53Z",
+      "side": 1,
+      "message": "Likewise: this doesn\u0027t explain what the change does, which makes life difficult for anyone stumbling on the commit later.\n\nIs this something like \"Use try-with-resources to avoid a file handle leak\"?\n\nWhat does it even have to do with Windows?",
+      "revId": "5a95e7e74bd18e0719306ac7363b7b60964ff915",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
