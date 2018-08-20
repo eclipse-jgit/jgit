@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f2117b9b_b1f35ba6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-08-20T20:37:17Z",
+      "side": 1,
+      "message": "Trying to follow here the naming in the protocol spec [1]: A command can be followed by \"capabilities\", the only ones defined so far are \"agent\" and \"server-option\".\n\nThese are \"command capabilities\" to differentiate them from the \"server capabilities\", advertised by the server.\n\nI will actually add this explanation to the commit message.\n\n\n[1] https://github.com/git/git/blob/pu/Documentation/technical/protocol-v2.txt#L116",
+      "parentUuid": "d478bc2f_915d96ae",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 7,
+        "endChar": 27
+      },
+      "revId": "2a1ebe1cd2abd450ba3fbe071240ac575b58533e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f177ee38_08ffb4f0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/CommandCapabilities.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2018-08-20T18:32:43Z",
       "side": 1,
       "message": "nit: LLC",
+      "range": {
+        "startLine": 2,
+        "startChar": 30,
+        "endLine": 2,
+        "endChar": 33
+      },
+      "revId": "2a1ebe1cd2abd450ba3fbe071240ac575b58533e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c265d585_533ce009",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/CommandCapabilities.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-08-20T20:37:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f177ee38_08ffb4f0",
       "range": {
         "startLine": 2,
         "startChar": 30,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "0d64e446_c5b22f9b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/CommandCapabilities.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-08-20T20:37:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "062ea803_0a46edba",
+      "revId": "2a1ebe1cd2abd450ba3fbe071240ac575b58533e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f6cdf71c_057644c5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/CommandCapabilities.java",
         "patchSetId": 1
@@ -76,6 +142,30 @@
       "writtenOn": "2018-08-20T18:32:43Z",
       "side": 1,
       "message": "Can this be final?",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 12
+      },
+      "revId": "2a1ebe1cd2abd450ba3fbe071240ac575b58533e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf300413_810702a4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/CommandCapabilities.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-08-20T20:37:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6cdf71c_057644c5",
       "range": {
         "startLine": 57,
         "startChar": 0,
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "f0fe276d_0fb64e98",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/CommandCapabilities.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-08-20T20:37:17Z",
+      "side": 1,
+      "message": "At some point I expected subclasses, but not anymore. Making the class final and attributes private.",
+      "parentUuid": "f8d2e128_529da412",
+      "range": {
+        "startLine": 60,
+        "startChar": 1,
+        "endLine": 60,
+        "endChar": 10
+      },
+      "revId": "2a1ebe1cd2abd450ba3fbe071240ac575b58533e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6c365813_6ab8db67",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LsRefsV2Request.java",
         "patchSetId": 1
@@ -128,6 +242,24 @@
     },
     {
       "key": {
+        "uuid": "1d3fead5_2eb60b9f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LsRefsV2Request.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-08-20T20:37:17Z",
+      "side": 1,
+      "message": "In this case, the whole class will be new in 5.1. Is it still required?",
+      "parentUuid": "6c365813_6ab8db67",
+      "revId": "2a1ebe1cd2abd450ba3fbe071240ac575b58533e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b4a5cd7e_53ab4ea8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1
@@ -139,6 +271,30 @@
       "writtenOn": "2018-08-20T18:32:43Z",
       "side": 1,
       "message": "no need for \"final\" on locals like this (see http://wiki.eclipse.org/EGit/Contributor_Guide#Use_of_the_.22final.22_modifier). Likewise elsewhere.",
+      "range": {
+        "startLine": 900,
+        "startChar": 2,
+        "endLine": 900,
+        "endChar": 7
+      },
+      "revId": "2a1ebe1cd2abd450ba3fbe071240ac575b58533e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50437e2a_b71bc766",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 900,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-08-20T20:37:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4a5cd7e_53ab4ea8",
       "range": {
         "startLine": 900,
         "startChar": 2,
