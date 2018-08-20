@@ -99,6 +99,12 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 
 	/** {@inheritDoc} */
 	@Override
+	public long getAge() throws IOException {
+		return reader().maxUpdateIndex();
+	}
+
+	/** {@inheritDoc} */
+	@Override
 	public boolean performsAtomicTransactions() {
 		return true;
 	}

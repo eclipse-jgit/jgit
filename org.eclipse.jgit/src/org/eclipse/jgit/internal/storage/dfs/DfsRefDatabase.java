@@ -185,7 +185,8 @@ public abstract class DfsRefDatabase extends RefDatabase {
 		int idx = cur.ids.find(oldLeaf.getName());
 		if (0 <= idx && cur.ids.get(idx) == oldLeaf) {
 			RefList<Ref> newList = cur.ids.set(idx, newLeaf);
-			cache.compareAndSet(cur, new RefCache(newList, cur));
+			cache.compareAndSet(cur,
+					new RefCache(newList, cur, this.getAge() + 1));
 			cachePeeledState(oldLeaf, newLeaf);
 		}
 
@@ -283,6 +284,12 @@ public abstract class DfsRefDatabase extends RefDatabase {
 	@Override
 	public void close() {
 		clearCache();
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public long getAge() throws IOException {
+		return cache.get().getAge();
 	}
 
 	void clearCache() {
@@ -392,6 +399,8 @@ public abstract class DfsRefDatabase extends RefDatabase {
 
 		final RefList<Ref> sym;
 
+		final long age;
+
 		/**
 		 * Initialize a new reference cache.
 		 * <p>
@@ -402,19 +411,31 @@ public abstract class DfsRefDatabase extends RefDatabase {
 		 *            references that carry an ObjectId, and all of {@code sym}.
 		 * @param sym
 		 *            references that are symbolic references to others.
+		 * @param age
+		 *            timestamp (or sequence number) indicating when this cache
+		 *            was created. It should tell clients if they are reading an
+		 *            up-to-date version of the reference database.
 		 */
-		public RefCache(RefList<Ref> ids, RefList<Ref> sym) {
+		public RefCache(RefList<Ref> ids, RefList<Ref> sym, long age) {
 			this.ids = ids;
 			this.sym = sym;
+			this.age = age;
 		}
 
-		RefCache(RefList<Ref> ids, RefCache old) {
-			this(ids, old.sym);
+		RefCache(RefList<Ref> ids, RefCache old, long age) {
+			this(ids, old.sym, age);
 		}
 
 		/** @return number of references in this cache. */
 		public int size() {
 			return ids.size();
+		}
+
+		/**
+		 * @return the age
+		 */
+		public long getAge() {
+			return age;
 		}
 
 		/**
@@ -447,7 +468,7 @@ public abstract class DfsRefDatabase extends RefDatabase {
 				if (0 <= p)
 					newSym = newSym.remove(p);
 			}
-			return new RefCache(newIds, newSym);
+			return new RefCache(newIds, newSym, this.age + 1);
 		}
 
 		/**
@@ -469,7 +490,7 @@ public abstract class DfsRefDatabase extends RefDatabase {
 			p = newSym.find(refName);
 			if (0 <= p)
 				newSym = newSym.remove(p);
-			return new RefCache(newIds, newSym);
+			return new RefCache(newIds, newSym, this.age + 1);
 		}
 	}
 }

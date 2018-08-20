@@ -244,6 +244,22 @@ public abstract class RefDatabase {
 	}
 
 	/**
+	 * Tells the latest ref change known to this database.
+	 * <p>
+	 * The bigger the number, the more recent the version it has, although each
+	 * implementation can choose the specifics
+	 *
+	 * @return a positive sequence number (usually but not necessarily a
+	 *         timestamp) indicating the freshness of data in the database. 0 if
+	 *         unknown or irrelevant.
+	 * @throws IOException
+	 *             the reference space cannot be accessed
+	 */
+	public long getAge() throws IOException {
+		return 0;
+	}
+
+	/**
 	 * Read a single reference.
 	 * <p>
 	 * Aside from taking advantage of {@link #SEARCH_PATH}, this method may be

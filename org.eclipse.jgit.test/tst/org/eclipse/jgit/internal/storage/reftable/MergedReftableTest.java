@@ -83,6 +83,8 @@ public class MergedReftableTest {
 		try (RefCursor rc = mr.seekRefsWithPrefix(R_HEADS)) {
 			assertFalse(rc.next());
 		}
+		assertEquals(0, mr.minUpdateIndex());
+		assertEquals(0, mr.maxUpdateIndex());
 	}
 
 	@Test
@@ -97,6 +99,8 @@ public class MergedReftableTest {
 		try (RefCursor rc = mr.seekRefsWithPrefix(R_HEADS)) {
 			assertFalse(rc.next());
 		}
+		assertEquals(1, mr.minUpdateIndex());
+		assertEquals(1, mr.maxUpdateIndex());
 	}
 
 	@Test
@@ -111,6 +115,8 @@ public class MergedReftableTest {
 		try (RefCursor rc = mr.seekRefsWithPrefix(R_HEADS)) {
 			assertFalse(rc.next());
 		}
+		assertEquals(1, mr.minUpdateIndex());
+		assertEquals(1, mr.maxUpdateIndex());
 	}
 
 	@SuppressWarnings("boxing")
@@ -131,6 +137,8 @@ public class MergedReftableTest {
 			}
 			assertFalse(rc.next());
 		}
+		assertEquals(1, mr.minUpdateIndex());
+		assertEquals(1, mr.maxUpdateIndex());
 	}
 
 	@Test
@@ -226,7 +234,8 @@ public class MergedReftableTest {
 				ref("refs/heads/apple", 3),
 				ref("refs/heads/apple", 4));
 
-		MergedReftable mr = merge(write(delta1, 1000), write(delta2, 2000));
+		MergedReftable mr = merge(write(delta1, 1000, 1000),
+				write(delta2, 2000, 2000));
 		try (RefCursor rc = mr.allRefs()) {
 			assertTrue(rc.next());
 			assertEquals("refs/heads/apple", rc.getRef().getName());
@@ -297,8 +306,10 @@ public class MergedReftableTest {
 		byte[] delta = write(Arrays.asList(
 				ref("refs/heads/b", 2),
 				ref("refs/heads/c", 4)),
-				2);
+				2, 2);
 		MergedReftable mr = merge(base, delta);
+		assertEquals(1, mr.minUpdateIndex());
+		assertEquals(3, mr.maxUpdateIndex());
 		try (RefCursor rc = mr.allRefs()) {
 			assertTrue(rc.next());
 			assertEquals("refs/heads/a", rc.getRef().getName());
@@ -344,7 +355,20 @@ public class MergedReftableTest {
 		}
 	}
 
-	private static MergedReftable merge(byte[]... table) {
+	@Test
+	public void overlappingUpdateIndeces() throws IOException {
+		byte[] table1 = write(Arrays.asList(
+				ref("refs/head/master", 1),
+				ref("refs/head/next", 2)), 30, 100);
+		byte[] table2 = write(Arrays.asList(ref("refs/head/master", 3),
+				ref("refs/head/next", 4)), 50, 110);
+
+		MergedReftable mr = merge(table1, table2);
+		assertEquals(30, mr.minUpdateIndex());
+		assertEquals(110, mr.maxUpdateIndex());
+	}
+
+	private static MergedReftable merge(byte[]... table) throws IOException {
 		List<Reftable> stack = new ArrayList<>(table.length);
 		for (byte[] b : table) {
 			stack.add(read(b));
@@ -378,15 +402,16 @@ public class MergedReftableTest {
 	}
 
 	private byte[] write(Collection<Ref> refs) throws IOException {
-		return write(refs, 1);
+		return write(refs, 1, 1);
 	}
 
-	private byte[] write(Collection<Ref> refs, long updateIndex)
+	private byte[] write(Collection<Ref> refs, long minUpdateIndex,
+			long maxUpdateIndex)
 			throws IOException {
 		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 		new ReftableWriter()
-				.setMinUpdateIndex(updateIndex)
-				.setMaxUpdateIndex(updateIndex)
+				.setMinUpdateIndex(minUpdateIndex)
+				.setMaxUpdateIndex(maxUpdateIndex)
 				.begin(buffer)
 				.sortAndWriteRefs(refs)
 				.finish();

@@ -69,6 +69,10 @@ import org.eclipse.jgit.lib.ReflogEntry;
 public class MergedReftable extends Reftable {
 	private final Reftable[] tables;
 
+	private final long minUpdateIdx;
+
+	private final long maxUpdateIdx;
+
 	/**
 	 * Initialize a merged table reader.
 	 * <p>
@@ -80,15 +84,37 @@ public class MergedReftable extends Reftable {
 	 *            index 0, the most recent should be at the top of the stack at
 	 *            {@code tableStack.size() - 1}. The top of the stack (higher
 	 *            index) shadows the base of the stack (lower index).
+	 * @throws IOException
+	 *             Error accessing any of the tables in the stack
 	 */
-	public MergedReftable(List<Reftable> tableStack) {
+	public MergedReftable(List<Reftable> tableStack) throws IOException {
+		long minUpdate = tableStack.size() == 0 ? 0 : Long.MAX_VALUE;
+		long maxUpdate = 0;
+
 		tables = tableStack.toArray(new Reftable[0]);
 
 		// Tables must expose deletes to this instance to correctly
 		// shadow references from lower tables.
 		for (Reftable t : tables) {
+			minUpdate = Math.min(minUpdate, t.minUpdateIndex());
+			maxUpdate = Math.max(maxUpdate, t.maxUpdateIndex());
 			t.setIncludeDeletes(true);
 		}
+
+		minUpdateIdx = minUpdate;
+		maxUpdateIdx = maxUpdate;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public long minUpdateIndex() {
+		return minUpdateIdx;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public long maxUpdateIndex() {
+		return maxUpdateIdx;
 	}
 
 	/** {@inheritDoc} */

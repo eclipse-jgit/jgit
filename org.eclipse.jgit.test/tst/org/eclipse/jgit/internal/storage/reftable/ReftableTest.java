@@ -107,6 +107,8 @@ public class ReftableTest {
 		try (LogCursor rc = t.allLogs()) {
 			assertFalse(rc.next());
 		}
+		assertEquals(0, t.minUpdateIndex());
+		assertEquals(0, t.maxUpdateIndex());
 	}
 
 	@Test
@@ -121,6 +123,8 @@ public class ReftableTest {
 		try (LogCursor rc = t.allLogs()) {
 			assertFalse(rc.next());
 		}
+		assertEquals(0, t.minUpdateIndex());
+		assertEquals(0, t.maxUpdateIndex());
 	}
 
 	@Test
@@ -173,10 +177,12 @@ public class ReftableTest {
 	@Test
 	public void oneIdRef() throws IOException {
 		Ref exp = ref(MASTER, 1);
-		byte[] table = write(exp);
+		byte[] table = write(Arrays.asList(exp), 10, 100);
 		assertEquals(24 + 4 + 5 + 4 + MASTER.length() + 20 + 68, table.length);
 
 		ReftableReader t = read(table);
+		assertEquals(10, t.minUpdateIndex());
+		assertEquals(100, t.maxUpdateIndex());
 		try (RefCursor rc = t.allRefs()) {
 			assertTrue(rc.next());
 			Ref act = rc.getRef();
@@ -506,6 +512,8 @@ public class ReftableTest {
 
 			assertFalse(lc.next());
 		}
+		assertEquals(1, t.minUpdateIndex());
+		assertEquals(1, t.maxUpdateIndex());
 	}
 
 	@SuppressWarnings("boxing")
@@ -654,6 +662,15 @@ public class ReftableTest {
 		}
 	}
 
+	@Test
+	public void updateIndexMarksAreSet() throws IOException {
+		byte[] table = write(Arrays.asList(ref("refs/heads/master", 1)), 10,
+				100);
+
+		ReftableReader reftable = read(table);
+		assertEquals(10, reftable.minUpdateIndex());
+		assertEquals(100, reftable.maxUpdateIndex());
+	}
 
 	private static void assertScan(List<Ref> refs, Reftable t)
 			throws IOException {
@@ -714,13 +731,22 @@ public class ReftableTest {
 		return write(Arrays.asList(refs));
 	}
 
-	private byte[] write(Collection<Ref> refs) throws IOException {
+	private byte[] write(Collection<Ref> refs, long minUpdateIndex,
+			long maxUpdateIndex) throws IOException {
 		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 		stats = new ReftableWriter()
+				.setMinUpdateIndex(minUpdateIndex)
+				.setMaxUpdateIndex(maxUpdateIndex)
 				.begin(buffer)
 				.sortAndWriteRefs(refs)
 				.finish()
 				.getStats();
 		return buffer.toByteArray();
+	}
+
+	private byte[] write(Collection<Ref> refs) throws IOException {
+		// {min,max}UpdatedIndex are uninitialized long (i.e. 0) in Reftable if
+		// not explicitely set.
+		return write(refs, 0, 0);
 	}
 }
