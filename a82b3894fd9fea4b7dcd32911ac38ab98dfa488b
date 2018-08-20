@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a54ec0c_b4d3a058",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-20T18:55:21Z",
+      "side": 1,
+      "message": "Tell me more!\n\nWhat is the use case motivating this change? What are the semantics? Is a RefDatabase permitted to skip implementing it? If not, what happens with RefDirectory (the \"local files\" ref database)?",
+      "revId": "a82b3894fd9fea4b7dcd32911ac38ab98dfa488b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
