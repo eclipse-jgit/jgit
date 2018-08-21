@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3c0897d5_f69230fe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-21T15:20:13Z",
+      "side": 1,
+      "message": "It\u0027s an existing problem in the old code, but the old code had\n\n  Future\u003cCollection\u003cPackFile\u003e\u003e result \u003d executor.submit(gcTask);\n\nso error-prone didn\u0027t notice. https://errorprone.info/bugpattern/FutureReturnValueIgnored says we can suppress it with @SuppressWarnings(\"FutureReturnValueIgnored\"). gcTask is already careful to catch common exceptions and log them, so using that suppression would be justified.",
+      "parentUuid": "39f33e78_0503f2b7",
+      "range": {
+        "startLine": 267,
+        "startChar": 0,
+        "endLine": 267,
+        "endChar": 26
+      },
+      "revId": "d4a19c328fb07e6adafaf0f6a88c22f007ac5753",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2949da05_88128954",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GcLog.java",
         "patchSetId": 3
