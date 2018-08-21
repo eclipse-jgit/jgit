@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "83d99d91_5a4c4a7f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/ManifestParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-21T01:31:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8bbeeb60_c4752184",
+      "revId": "a7470b22fc8082eea7410b7d44714f45137bf5b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bfe75af3_f89129a2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/ManifestParser.java",
         "patchSetId": 3
@@ -33,6 +51,24 @@
       "revId": "a7470b22fc8082eea7410b7d44714f45137bf5b4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5eab8e1_ada663dd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/ManifestParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-21T01:31:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bfe75af3_f89129a2",
+      "revId": "a7470b22fc8082eea7410b7d44714f45137bf5b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
