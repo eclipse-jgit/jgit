@@ -138,6 +138,15 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testCheckoutWithConflictForce() throws Exception {
+		git.checkout().setName("test").call();
+		assertThat(read("Test.txt"), is("Some change"));
+		writeTrashFile("Test.txt", "Another change");
+		git.checkout().setName("master").setForce(true).call();
+		assertThat(read("Test.txt"), is("Hello world"));
+	}
+
+	@Test
 	public void testCreateBranchOnCheckout() throws Exception {
 		git.checkout().setCreateBranch(true).setName("test2").call();
 		assertNotNull(db.exactRef("refs/heads/test2"));
