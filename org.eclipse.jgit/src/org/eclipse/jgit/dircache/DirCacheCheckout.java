@@ -522,7 +522,7 @@ public class DirCacheCheckout {
 			builder.finish();
 
 			// init progress reporting
-			int numTotal = removed.size() + updated.size();
+			int numTotal = removed.size() + updated.size() + conflicts.size();
 			monitor.beginTask(JGitText.get().checkingOutFiles, numTotal);
 
 			performingCheckout = true;
@@ -596,6 +596,33 @@ public class DirCacheCheckout {
 					toUpdate.remove();
 				}
 				throw ex;
+			}
+			for (String conflict : conflicts) {
+				// the conflicts are likely to have multiple entries in the
+				// dircache, we only want to check out the one for the "theirs"
+				// tree
+				int entryIdx = dc.findEntry(conflict);
+				if (entryIdx >= 0) {
+					while (entryIdx < dc.getEntryCount()) {
+						DirCacheEntry entry = dc.getEntry(entryIdx);
+						if (!entry.getPathString().equals(conflict)) {
+							break;
+						}
+						if (entry.getStage() == DirCacheEntry.STAGE_3) {
+							checkoutEntry(repo, entry, objectReader, false,
+									null);
+							break;
+						}
+						++entryIdx;
+					}
+				}
+
+				monitor.update(1);
+				if (monitor.isCancelled()) {
+					throw new CanceledException(MessageFormat.format(
+							JGitText.get().operationCanceled,
+							JGitText.get().checkingOutFiles));
+				}
 			}
 			monitor.endTask();
 
