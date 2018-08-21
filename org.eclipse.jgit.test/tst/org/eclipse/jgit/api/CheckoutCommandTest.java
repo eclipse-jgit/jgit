@@ -154,7 +154,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCheckoutWithConflict() {
+	public void testCheckoutWithConflict() throws Exception {
 		CheckoutCommand co = git.checkout();
 		try {
 			writeTrashFile("Test.txt", "Another change");
@@ -165,6 +165,8 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 			assertEquals(Status.CONFLICTS, co.getResult().getStatus());
 			assertTrue(co.getResult().getConflictList().contains("Test.txt"));
 		}
+		git.checkout().setName("master").setForce(true).call();
+		assertThat(read("Test.txt"), is("Hello world"));
 	}
 
 	@Test
