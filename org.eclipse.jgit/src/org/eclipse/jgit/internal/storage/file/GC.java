@@ -280,6 +280,7 @@ public class GC {
 			return Collections.emptyList();
 		};
 		// TODO(ms): in 5.0 change signature and return the Future
+		@SuppressWarnings("FutureReturnValueIgnored")
 		executor().submit(gcTask);
 		return Collections.emptyList();
 	}
