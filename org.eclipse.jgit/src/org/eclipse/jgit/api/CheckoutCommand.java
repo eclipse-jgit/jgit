@@ -269,7 +269,7 @@ public class CheckoutCommand extends GitCommand<Ref> {
 			try {
 				dco = new DirCacheCheckout(repo, headTree, dc,
 						newCommit.getTree());
-				dco.setFailOnConflict(true);
+				dco.setFailOnConflict(!force);
 				dco.setProgressMonitor(monitor);
 				try {
 					dco.checkout();
