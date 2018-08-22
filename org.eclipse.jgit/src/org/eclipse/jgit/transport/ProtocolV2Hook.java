@@ -79,4 +79,13 @@ public interface ProtocolV2Hook {
 			throws ServiceMayNotContinueException {
 		// Do nothing by default.
 	}
+
+	/**
+	 * @param req the fetch request
+	 * @throws ServiceMayNotContinueException abort; the message will be sent to the user
+	 */
+	default void onFetch(FetchV2Request req)
+			throws ServiceMayNotContinueException {
+		// Do nothing by default
+	}
 }
