@@ -52,6 +52,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.StringTokenizer;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.util.FS;
@@ -67,15 +68,22 @@ public class FileBasedConfigTest {
 
 	private static final String NAME = "name";
 
+	private static final String EMAIL = "email";
+
 	private static final String ALICE = "Alice";
 
 	private static final String BOB = "Bob";
+
+	private static final String ALICE_EMAIL = "alice@home";
 
 	private static final String CONTENT1 = "[" + USER + "]\n\t" + NAME + " = "
 			+ ALICE + "\n";
 
 	private static final String CONTENT2 = "[" + USER + "]\n\t" + NAME + " = "
 			+ BOB + "\n";
+
+	private static final String CONTENT3 = "[" + USER + "]\n\t" + NAME + " = "
+			+ ALICE + "\n" + "[" + USER + "]\n\t" + EMAIL + " = " + ALICE_EMAIL;
 
 	private File trash;
 
@@ -231,6 +239,50 @@ public class FileBasedConfigTest {
 		final FileBasedConfig config = new FileBasedConfig(file, fs);
 		config.load();
 		assertEquals(ALICE, config.getString(USER, null, NAME));
+	}
+
+	@Test
+	public void testIncludeDontInlineIncludedLinesOnSave()
+			throws IOException, ConfigInvalidException {
+		// use a content with multiple sections and multiple key/value pairs
+		// because code for first line works different than for subsequent lines
+		final File includedFile = createFile(CONTENT3.getBytes(), "dir1");
+
+		final File file = createFile(new byte[0], "dir2");
+		FileBasedConfig config = new FileBasedConfig(file, FS.DETECTED);
+		config.setString("include", null, "path",
+				("../" + includedFile.getParentFile().getName() + "/"
+						+ includedFile.getName()));
+
+		// just by setting the include.path, it won't be included
+		assertEquals(null, config.getString(USER, null, NAME));
+		assertEquals(null, config.getString(USER, null, EMAIL));
+		config.save();
+
+		// and it won't be included after saving
+		assertEquals(null, config.getString(USER, null, NAME));
+		assertEquals(null, config.getString(USER, null, EMAIL));
+
+		final String expectedText = config.toText();
+		assertEquals(2,
+				new StringTokenizer(expectedText, "\n", false).countTokens());
+
+		config = new FileBasedConfig(file, FS.DETECTED);
+		config.load();
+
+		String actualText = config.toText();
+		assertEquals(expectedText, actualText);
+		// but it will be included after (re)loading
+		assertEquals(ALICE, config.getString(USER, null, NAME));
+		assertEquals(ALICE_EMAIL, config.getString(USER, null, EMAIL));
+
+		config.save();
+
+		actualText = config.toText();
+		assertEquals(expectedText, actualText);
+		// and of course preserved after saving
+		assertEquals(ALICE, config.getString(USER, null, NAME));
+		assertEquals(ALICE_EMAIL, config.getString(USER, null, EMAIL));
 	}
 
 	private File createFile(byte[] content) throws IOException {
