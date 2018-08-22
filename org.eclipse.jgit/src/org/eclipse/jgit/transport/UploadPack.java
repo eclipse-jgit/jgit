@@ -79,7 +79,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.CorruptObjectException;
@@ -945,11 +944,11 @@ public class UploadPack {
 	}
 
 	private void fetchV2() throws IOException {
-		options = new HashSet<>();
+		FetchV2Request.Builder reqBuilder = FetchV2Request.builder();
 
 		// Packs are always sent multiplexed and using full 64K
 		// lengths.
-		options.add(OPTION_SIDE_BAND_64K);
+		reqBuilder.addOption(OPTION_SIDE_BAND_64K);
 
 		// Depending on the requestValidator, #processHaveLines may
 		// require that advertised be set. Set it only in the required
@@ -964,7 +963,6 @@ public class UploadPack {
 		}
 
 		String line;
-		List<ObjectId> peerHas = new ArrayList<>();
 		boolean doneReceived = false;
 
 		// Currently, we do not support any capabilities, so the next
@@ -976,10 +974,9 @@ public class UploadPack {
 
 		boolean includeTag = false;
 		boolean filterReceived = false;
-		TreeMap<String, ObjectId> wantedRefs = new TreeMap<>();
 		while ((line = pckIn.readString()) != PacketLineIn.END) {
 			if (line.startsWith("want ")) { //$NON-NLS-1$
-				wantIds.add(ObjectId.fromString(line.substring(5)));
+				reqBuilder.addWantsIds(ObjectId.fromString(line.substring(5)));
 			} else if (transferConfig.isAllowRefInWant() &&
 					line.startsWith(OPTION_WANT_REF + " ")) { //$NON-NLS-1$
 				String refName = line.substring(OPTION_WANT_REF.length() + 1);
@@ -995,64 +992,68 @@ public class UploadPack {
 							MessageFormat.format(JGitText.get().invalidRefName,
 								refName));
 				}
-				wantedRefs.put(refName, oid);
-				wantIds.add(oid);
+				reqBuilder.addWantedRef(refName, oid);
+				reqBuilder.addWantsIds(oid);
 			} else if (line.startsWith("have ")) { //$NON-NLS-1$
-				peerHas.add(ObjectId.fromString(line.substring(5)));
+				reqBuilder.addPeerHas(ObjectId.fromString(line.substring(5)));
 			} else if (line.equals("done")) { //$NON-NLS-1$
 				doneReceived = true;
 			} else if (line.equals(OPTION_THIN_PACK)) {
-				options.add(OPTION_THIN_PACK);
+				reqBuilder.addOption(OPTION_THIN_PACK);
 			} else if (line.equals(OPTION_NO_PROGRESS)) {
-				options.add(OPTION_NO_PROGRESS);
+				reqBuilder.addOption(OPTION_NO_PROGRESS);
 			} else if (line.equals(OPTION_INCLUDE_TAG)) {
-				options.add(OPTION_INCLUDE_TAG);
+				reqBuilder.addOption(OPTION_INCLUDE_TAG);
 				includeTag = true;
 			} else if (line.equals(OPTION_OFS_DELTA)) {
-				options.add(OPTION_OFS_DELTA);
+				reqBuilder.addOption(OPTION_OFS_DELTA);
 			} else if (line.startsWith("shallow ")) { //$NON-NLS-1$
-				clientShallowCommits.add(ObjectId.fromString(line.substring(8)));
+				reqBuilder.addClientShallowCommit(
+						ObjectId.fromString(line.substring(8)));
 			} else if (line.startsWith("deepen ")) { //$NON-NLS-1$
-				depth = Integer.parseInt(line.substring(7));
-				if (depth <= 0) {
+				int parsedDepth = Integer.parseInt(line.substring(7));
+				if (parsedDepth <= 0) {
 					throw new PackProtocolException(
 							MessageFormat.format(JGitText.get().invalidDepth,
 									Integer.valueOf(depth)));
 				}
-				if (shallowSince != 0) {
+				if (reqBuilder.getShallowSince() != 0) {
 					throw new PackProtocolException(
 							JGitText.get().deepenSinceWithDeepen);
 				}
-				if (!shallowExcludeRefs.isEmpty()) {
+				if (reqBuilder.hasShallowExcludeRefs()) {
 					throw new PackProtocolException(
 							JGitText.get().deepenNotWithDeepen);
 				}
+				reqBuilder.setDepth(parsedDepth);
 			} else if (line.startsWith("deepen-not ")) { //$NON-NLS-1$
-				shallowExcludeRefs.add(line.substring(11));
-				if (depth != 0) {
+				reqBuilder.addShallowExcludeRefs(line.substring(11));
+				if (reqBuilder.getDepth() != 0) {
 					throw new PackProtocolException(
 							JGitText.get().deepenNotWithDeepen);
 				}
 			} else if (line.equals(OPTION_DEEPEN_RELATIVE)) {
-				options.add(OPTION_DEEPEN_RELATIVE);
+				reqBuilder.addOption(OPTION_DEEPEN_RELATIVE);
 			} else if (line.startsWith("deepen-since ")) { //$NON-NLS-1$
-				shallowSince = Integer.parseInt(line.substring(13));
-				if (shallowSince <= 0) {
+				int parsedShallowSince = Integer.parseInt(line.substring(13));
+				if (parsedShallowSince <= 0) {
 					throw new PackProtocolException(
 							MessageFormat.format(
 									JGitText.get().invalidTimestamp, line));
 				}
-				if (depth !=  0) {
+				if (reqBuilder.getDepth() != 0) {
 					throw new PackProtocolException(
 							JGitText.get().deepenSinceWithDeepen);
 				}
+				reqBuilder.setShallowSince(parsedShallowSince);
 			} else if (transferConfig.isAllowFilter()
 					&& line.startsWith(OPTION_FILTER + ' ')) {
 				if (filterReceived) {
 					throw new PackProtocolException(JGitText.get().tooManyFilters);
 				}
 				filterReceived = true;
-				parseFilter(line.substring(OPTION_FILTER.length() + 1));
+				reqBuilder.setFilterBlobLimit(parseFilter(
+						line.substring(OPTION_FILTER.length() + 1)));
 			} else {
 				throw new PackProtocolException(MessageFormat
 						.format(JGitText.get().unexpectedPacketLine, line));
@@ -1060,30 +1061,46 @@ public class UploadPack {
 		}
 		rawOut.stopBuffering();
 
+		FetchV2Request req = reqBuilder.build();
+		protocolV2Hook.onFetch(req);
+
+		// TODO(ifrade): Refactor to pass around the Request object, instead of
+		// copying data back to class fields
+		options = req.getOptions();
+		wantIds.addAll(req.getWantsIds());
+		clientShallowCommits.addAll(req.getClientShallowCommits());
+		depth = req.getDepth();
+		shallowSince = req.getShallowSince();
+		filterBlobLimit = req.getFilterBlobLimit();
+		shallowExcludeRefs = req.getShallowExcludeRefs();
+
 		boolean sectionSent = false;
 		@Nullable List<ObjectId> shallowCommits = null;
 		List<ObjectId> unshallowCommits = new ArrayList<>();
 
-		if (!clientShallowCommits.isEmpty()) {
+		if (!req.getClientShallowCommits().isEmpty()) {
 			verifyClientShallow();
 		}
-		if (depth != 0 || shallowSince != 0 || !shallowExcludeRefs.isEmpty()) {
+		if (req.getDepth() != 0 || req.getShallowSince() != 0
+				|| !req.getShallowExcludeRefs().isEmpty()) {
 			shallowCommits = new ArrayList<>();
 			processShallow(shallowCommits, unshallowCommits, false);
 		}
-		if (!clientShallowCommits.isEmpty())
-			walk.assumeShallow(clientShallowCommits);
+		if (!req.getClientShallowCommits().isEmpty())
+			walk.assumeShallow(req.getClientShallowCommits());
 
 		if (doneReceived) {
-			processHaveLines(peerHas, ObjectId.zeroId(), new PacketLineOut(NullOutputStream.INSTANCE));
+			processHaveLines(req.getPeerHas(), ObjectId.zeroId(),
+					new PacketLineOut(NullOutputStream.INSTANCE));
 		} else {
 			pckOut.writeString("acknowledgments\n"); //$NON-NLS-1$
-			for (ObjectId id : peerHas) {
+			for (ObjectId id : req.getPeerHas()) {
 				if (walk.getObjectReader().has(id)) {
 					pckOut.writeString("ACK " + id.getName() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
 				}
 			}
-			processHaveLines(peerHas, ObjectId.zeroId(), new PacketLineOut(NullOutputStream.INSTANCE));
+			processHaveLines(req.getPeerHas(), ObjectId.zeroId(),
+					new PacketLineOut(NullOutputStream.INSTANCE));
 			if (okToGiveUp()) {
 				pckOut.writeString("ready\n"); //$NON-NLS-1$
 			} else if (commonBase.isEmpty()) {
@@ -1106,12 +1123,13 @@ public class UploadPack {
 				sectionSent = true;
 			}
 
-			if (!wantedRefs.isEmpty()) {
+			if (!req.getWantedRefs().isEmpty()) {
 				if (sectionSent) {
 					pckOut.writeDelim();
 				}
 				pckOut.writeString("wanted-refs\n"); //$NON-NLS-1$
-				for (Map.Entry<String, ObjectId> entry : wantedRefs.entrySet()) {
+				for (Map.Entry<String, ObjectId> entry : req.getWantedRefs()
+						.entrySet()) {
 					pckOut.writeString(entry.getValue().getName() + ' ' +
 							entry.getKey() + '\n');
 				}
@@ -1437,12 +1455,14 @@ public class UploadPack {
 		return msgOut;
 	}
 
-	private void parseFilter(String arg) throws PackProtocolException {
+	private long parseFilter(String arg) throws PackProtocolException {
+		long blobLimit = -1;
+
 		if (arg.equals("blob:none")) { //$NON-NLS-1$
-			filterBlobLimit = 0;
+			blobLimit = 0;
 		} else if (arg.startsWith("blob:limit=")) { //$NON-NLS-1$
 			try {
-				filterBlobLimit = Long.parseLong(
+				blobLimit = Long.parseLong(
 						arg.substring("blob:limit=".length())); //$NON-NLS-1$
 			} catch (NumberFormatException e) {
 				throw new PackProtocolException(
@@ -1457,11 +1477,13 @@ public class UploadPack {
 		 * latter, then it must be nonnegative. Throw
 		 * if (1) or (2) is not met.
 		 */
-		if (filterBlobLimit < 0) {
+		if (blobLimit < 0) {
 			throw new PackProtocolException(
 					MessageFormat.format(JGitText.get().invalidFilter,
 							arg));
 		}
+
+		return blobLimit;
 	}
 
 	private void recvWants() throws IOException {
@@ -1504,7 +1526,7 @@ public class UploadPack {
 				}
 				filterReceived = true;
 
-				parseFilter(arg);
+				filterBlobLimit = parseFilter(arg);
 				continue;
 			}
 
