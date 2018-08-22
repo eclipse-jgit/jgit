@@ -16,6 +16,24 @@
       "revId": "c4a3ecd38a89bc388e41e36f4118f5133a92565b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "192a179e_11a51b3d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/FetchCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-08-22T09:11:27Z",
+      "side": 1,
+      "message": "Argh. Comes from the Eclipse auto-cleanup on save.\n\nUndone.",
+      "parentUuid": "2dd8eb3b_817df37a",
+      "revId": "c4a3ecd38a89bc388e41e36f4118f5133a92565b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
