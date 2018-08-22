@@ -1011,6 +1011,8 @@ public class Config {
 	public String toText() {
 		final StringBuilder out = new StringBuilder();
 		for (ConfigLine e : state.get().entryList) {
+			if (e.includedFrom != null)
+				continue;
 			if (e.prefix != null)
 				out.append(e.prefix);
 			if (e.section != null && e.name == null) {
@@ -1060,11 +1062,11 @@ public class Config {
 	 *             made to {@code this}.
 	 */
 	public void fromText(String text) throws ConfigInvalidException {
-		state.set(newState(fromTextRecurse(text, 1)));
+		state.set(newState(fromTextRecurse(text, 1, null)));
 	}
 
-	private List<ConfigLine> fromTextRecurse(String text, int depth)
-			throws ConfigInvalidException {
+	private List<ConfigLine> fromTextRecurse(String text, int depth,
+			String includedFrom) throws ConfigInvalidException {
 		if (depth > MAX_DEPTH) {
 			throw new ConfigInvalidException(
 					JGitText.get().tooManyIncludeRecursions);
@@ -1073,6 +1075,7 @@ public class Config {
 		final StringReader in = new StringReader(text);
 		ConfigLine last = null;
 		ConfigLine e = new ConfigLine();
+		e.includedFrom = includedFrom;
 		for (;;) {
 			int input = in.read();
 			if (-1 == input) {
@@ -1088,7 +1091,7 @@ public class Config {
 				if (e.section != null)
 					last = e;
 				e = new ConfigLine();
-
+				e.includedFrom = includedFrom;
 			} else if (e.suffix != null) {
 				// Everything up until the end-of-line is in the suffix.
 				e.suffix += c;
@@ -1173,7 +1176,7 @@ public class Config {
 			decoded = RawParseUtils.decode(bytes);
 		}
 		try {
-			newEntries.addAll(fromTextRecurse(decoded, depth + 1));
+			newEntries.addAll(fromTextRecurse(decoded, depth + 1, line.value));
 		} catch (ConfigInvalidException e) {
 			throw new ConfigInvalidException(MessageFormat
 					.format(JGitText.get().cannotReadFile, line.value), e);

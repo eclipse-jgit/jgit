@@ -73,6 +73,9 @@ class ConfigLine {
 	/** The text content after entry. */
 	String suffix;
 
+	/** The source from which this line was included from. */
+	String includedFrom;
+
 	ConfigLine forValue(String newValue) {
 		final ConfigLine e = new ConfigLine();
 		e.prefix = prefix;
@@ -81,6 +84,7 @@ class ConfigLine {
 		e.name = name;
 		e.value = newValue;
 		e.suffix = suffix;
+		e.includedFrom = includedFrom;
 		return e;
 	}
 
