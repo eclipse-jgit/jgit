@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "868cd4f3_858d544b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-08-23T20:44:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7220fbc9_72763c63",
+      "range": {
+        "startLine": 105,
+        "startChar": 39,
+        "endLine": 105,
+        "endChar": 43
+      },
+      "revId": "fda3fbf65c7cd3bbb609b2116555a0b4a887e61d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5233010c_c35a4d5b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2018-08-23T20:14:49Z",
       "side": 1,
       "message": "shallow",
+      "range": {
+        "startLine": 119,
+        "startChar": 31,
+        "endLine": 119,
+        "endChar": 37
+      },
+      "revId": "fda3fbf65c7cd3bbb609b2116555a0b4a887e61d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d39dc998_2aff0b81",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-08-23T20:44:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5233010c_c35a4d5b",
       "range": {
         "startLine": 119,
         "startChar": 31,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "45c75e46_aa7a2f4a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-08-23T20:44:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d8356ef_d7be4203",
+      "revId": "fda3fbf65c7cd3bbb609b2116555a0b4a887e61d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "49e0989b_1833375c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
         "patchSetId": 1
@@ -76,6 +142,24 @@
       "writtenOn": "2018-08-23T20:14:49Z",
       "side": 1,
       "message": "Similar question: I don\u0027t know what this means.",
+      "revId": "fda3fbf65c7cd3bbb609b2116555a0b4a887e61d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e8efce2_a1a91184",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-08-23T20:44:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49e0989b_1833375c",
       "revId": "fda3fbf65c7cd3bbb609b2116555a0b4a887e61d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
@@ -99,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "855114e1_4089c709",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-08-23T20:44:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d55e8502_825555d2",
+      "revId": "fda3fbf65c7cd3bbb609b2116555a0b4a887e61d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c307b858_6c0d1f2b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1
@@ -110,6 +212,24 @@
       "writtenOn": "2018-08-23T20:14:49Z",
       "side": 1,
       "message": "I don\u0027t understand this comment. Tell me more --- e.g. is this about why shallowExcludeRefs is @Nullable? (If so, could the comment go at the point where the variable is declared?)",
+      "revId": "fda3fbf65c7cd3bbb609b2116555a0b4a887e61d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "834f6031_ed74556d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1076,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-08-23T20:44:49Z",
+      "side": 1,
+      "message": "The obvious line here would be:\nshallowExcludeRefs \u003d req.getShallowExcludeRefs();\n\nbut code in other methods checks if there are refs to exclude with (shallowExcludeRefs \u003d\u003d null), so we need to make it null here.\n\nI think it would be easy to refactor it into a not nullable reference and save this hack, but that doesn\u0027t belong to this patch.\n\nI will make this a TODO in the declaration to get rid of that @Nullable (if possible, maybe I am missing something)",
+      "parentUuid": "c307b858_6c0d1f2b",
       "revId": "fda3fbf65c7cd3bbb609b2116555a0b4a887e61d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
