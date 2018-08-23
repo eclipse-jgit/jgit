@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7220fbc9_72763c63",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-23T20:14:49Z",
+      "side": 1,
+      "message": "Does this mean \"want-ref\"?",
+      "range": {
+        "startLine": 105,
+        "startChar": 39,
+        "endLine": 105,
+        "endChar": 43
+      },
+      "revId": "fda3fbf65c7cd3bbb609b2116555a0b4a887e61d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5233010c_c35a4d5b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-23T20:14:49Z",
+      "side": 1,
+      "message": "shallow",
+      "range": {
+        "startLine": 119,
+        "startChar": 31,
+        "endLine": 119,
+        "endChar": 37
+      },
+      "revId": "fda3fbf65c7cd3bbb609b2116555a0b4a887e61d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d8356ef_d7be4203",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-23T20:14:49Z",
+      "side": 1,
+      "message": "Does this mean deepen-since? What does the integer value represent?",
+      "revId": "fda3fbf65c7cd3bbb609b2116555a0b4a887e61d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49e0989b_1833375c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-23T20:14:49Z",
+      "side": 1,
+      "message": "Similar question: I don\u0027t know what this means.",
+      "revId": "fda3fbf65c7cd3bbb609b2116555a0b4a887e61d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d55e8502_825555d2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-23T20:14:49Z",
+      "side": 1,
+      "message": "Are these server options that I would pass with \"git fetch --server-option\", or something else?\n\nLooking at the code, looks like they aren\u0027t. What are these? Maybe an example would help.",
+      "revId": "fda3fbf65c7cd3bbb609b2116555a0b4a887e61d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c307b858_6c0d1f2b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1076,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-23T20:14:49Z",
+      "side": 1,
+      "message": "I don\u0027t understand this comment. Tell me more --- e.g. is this about why shallowExcludeRefs is @Nullable? (If so, could the comment go at the point where the variable is declared?)",
+      "revId": "fda3fbf65c7cd3bbb609b2116555a0b4a887e61d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
