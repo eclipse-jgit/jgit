@@ -179,31 +179,29 @@ public class ResetCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testHardResetWithConflicts_DoOverWriteUntrackedFile()
-			throws JGitInternalException,
-			AmbiguousObjectException, IOException, GitAPIException {
+	public void testHardResetWithConflicts_OverwriteUntrackedFile() throws Exception {
 		setupRepository();
+
 		git.rm().setCached(true).addFilepattern("a.txt").call();
 		assertTrue(new File(db.getWorkTree(), "a.txt").exists());
-		git.reset().setMode(ResetType.HARD).setRef(Constants.HEAD)
-				.call();
+
+		git.reset().setMode(ResetType.HARD).setRef(Constants.HEAD).call();
 		assertTrue(new File(db.getWorkTree(), "a.txt").exists());
 		assertEquals("content", read(new File(db.getWorkTree(), "a.txt")));
 	}
 
 	@Test
-	public void testHardResetWithConflicts_DoDeleteFileFolderConflicts()
-			throws JGitInternalException,
-			AmbiguousObjectException, IOException, GitAPIException {
+	public void testHardResetWithConflicts_DeleteFileFolderConflict() throws Exception {
 		setupRepository();
-		writeTrashFile("d/c.txt", "x");
-		git.add().addFilepattern("d/c.txt").call();
-		FileUtils.delete(new File(db.getWorkTree(), "d"), FileUtils.RECURSIVE);
-		writeTrashFile("d", "y");
 
-		git.reset().setMode(ResetType.HARD).setRef(Constants.HEAD)
-				.call();
-		assertFalse(new File(db.getWorkTree(), "d").exists());
+		writeTrashFile("dir-or-file/c.txt", "content");
+		git.add().addFilepattern("dir-or-file/c.txt").call();
+
+		FileUtils.delete(new File(db.getWorkTree(), "dir-or-file"), FileUtils.RECURSIVE);
+		writeTrashFile("dir-or-file", "content");
+
+		git.reset().setMode(ResetType.HARD).setRef(Constants.HEAD).call();
+		assertFalse(new File(db.getWorkTree(), "dir-or-file").exists());
 	}
 
 	@Test
