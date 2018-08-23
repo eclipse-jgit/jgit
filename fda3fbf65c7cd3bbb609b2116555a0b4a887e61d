@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "a6e6a099_7fb3aefe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-23T21:04:17Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "868cd4f3_858d544b",
+      "range": {
+        "startLine": 105,
+        "startChar": 39,
+        "endLine": 105,
+        "endChar": 43
+      },
+      "revId": "fda3fbf65c7cd3bbb609b2116555a0b4a887e61d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5233010c_c35a4d5b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
         "patchSetId": 1
@@ -96,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "b80c6193_27f3d065",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-23T21:04:17Z",
+      "side": 1,
+      "message": "UploadPack.java explains this as\n\n /** Shallow commits the client already has. */\n\nMaybe the same explanation would work here? Or you can combine them: something like\n\n /**\n  * Shallow commits the client already has.\n  *\n  * These are sent by the client in \"shallow\" request lines.\n  *\n  * @return set of commits the client has declared as shallow.\n  */\n  @NonNull\n  public Set\u003c....\n\nAside: I wonder why we use a Set instead of a List for this (not advocating changing that, though).",
+      "parentUuid": "d39dc998_2aff0b81",
+      "range": {
+        "startLine": 119,
+        "startChar": 31,
+        "endLine": 119,
+        "endChar": 37
+      },
+      "revId": "fda3fbf65c7cd3bbb609b2116555a0b4a887e61d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9d8356ef_d7be4203",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
         "patchSetId": 1
@@ -131,6 +179,24 @@
     },
     {
       "key": {
+        "uuid": "f48c7c92_fdba9b7d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-23T21:04:17Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "45c75e46_aa7a2f4a",
+      "revId": "fda3fbf65c7cd3bbb609b2116555a0b4a887e61d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "49e0989b_1833375c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
         "patchSetId": 1
@@ -160,6 +226,24 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "49e0989b_1833375c",
+      "revId": "fda3fbf65c7cd3bbb609b2116555a0b4a887e61d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b250ad6_ad0fe737",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-23T21:04:17Z",
+      "side": 1,
+      "message": "Should it get a name like getDeepenNotRevs or getDeepenNots?\n\nIf I\u0027m reading the spec \u003chttps://www.kernel.org/pub/software/scm/git/docs/technical/protocol-v2.html\u003e correctly, the argument to deepen-not doesn\u0027t need to be a ref.",
+      "parentUuid": "1e8efce2_a1a91184",
       "revId": "fda3fbf65c7cd3bbb609b2116555a0b4a887e61d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
@@ -201,6 +285,24 @@
     },
     {
       "key": {
+        "uuid": "f26ba0ea_e721310a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-23T21:04:17Z",
+      "side": 1,
+      "message": "Thanks much.",
+      "parentUuid": "855114e1_4089c709",
+      "revId": "fda3fbf65c7cd3bbb609b2116555a0b4a887e61d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c307b858_6c0d1f2b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1
@@ -230,6 +332,24 @@
       "side": 1,
       "message": "The obvious line here would be:\nshallowExcludeRefs \u003d req.getShallowExcludeRefs();\n\nbut code in other methods checks if there are refs to exclude with (shallowExcludeRefs \u003d\u003d null), so we need to make it null here.\n\nI think it would be easy to refactor it into a not nullable reference and save this hack, but that doesn\u0027t belong to this patch.\n\nI will make this a TODO in the declaration to get rid of that @Nullable (if possible, maybe I am missing something)",
       "parentUuid": "c307b858_6c0d1f2b",
+      "revId": "fda3fbf65c7cd3bbb609b2116555a0b4a887e61d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b351f72_92cde3c9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1076,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-23T21:04:17Z",
+      "side": 1,
+      "message": "I don\u0027t think you\u0027re missing anything --- I\u0027m just (still) not understanding the comment.\n\nIt can\u0027t be about shallowExcludeRefs being @Nullable, since the declaration already says that. What is this comment trying to tell the reader? For example, is it something like\n\n  // TODO(ifrade): Use an empty list instead of null when there are no refs\n\n?\n\nMight be easiest to just do it (in a separate commit). If I read the output of \"git log -SshallowExclude -- org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java\" and then opening the corresponding change in Gerrit correctly, I suspect I\u0027m the one that wrote that code, and I don\u0027t think I had a good reason. ;-)",
+      "parentUuid": "834f6031_ed74556d",
       "revId": "fda3fbf65c7cd3bbb609b2116555a0b4a887e61d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
