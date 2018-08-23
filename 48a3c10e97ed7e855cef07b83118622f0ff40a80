@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d3dcf3ab_2db2326c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1284,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-08-23T09:47:56Z",
+      "side": 1,
+      "message": "This should use the string formatting of the jgit text utility, rather than of the logger.",
+      "revId": "48a3c10e97ed7e855cef07b83118622f0ff40a80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
