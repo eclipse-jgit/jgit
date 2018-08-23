@@ -46,6 +46,30 @@
       "revId": "d9e767b431eae7978613cc8e0ade7467ec04376c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "92bf69a1_78847802",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1284,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-08-23T09:40:04Z",
+      "side": 1,
+      "message": "sorry, I hit submit too fast, will upload a fix to externalize this message soon",
+      "parentUuid": "3bd5c39f_94685f6f",
+      "range": {
+        "startLine": 1284,
+        "startChar": 13,
+        "endLine": 1284,
+        "endChar": 39
+      },
+      "revId": "d9e767b431eae7978613cc8e0ade7467ec04376c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
