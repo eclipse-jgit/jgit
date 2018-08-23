@@ -311,8 +311,7 @@ public class UploadPack {
 	 * not to send using --shallow-exclude. Cannot be non-null if depth is
 	 * nonzero.
 	 */
-	// TODO: This probably doesn't need to be @Nullable
-	private @Nullable List<String> shallowExcludeRefs;
+	private List<String> shallowExcludeRefs = new ArrayList<>();
 
 	/** Commit time of the oldest common commit, in seconds. */
 	private int oldestTime;
@@ -1074,10 +1073,7 @@ public class UploadPack {
 		shallowSince = req.getShallowSince();
 		filterBlobLimit = req.getFilterBlobLimit();
 
-		// Other code depends on shallowExcludeRefs being @Nullable
-		shallowExcludeRefs = req.getShallowExcludeRefs().size() > 0
-				? req.getShallowExcludeRefs()
-				: null;
+		shallowExcludeRefs = req.getShallowExcludeRefs();
 
 		boolean sectionSent = false;
 		@Nullable List<ObjectId> shallowCommits = null;
@@ -1257,7 +1253,7 @@ public class UploadPack {
 			boolean writeToPckOut) throws IOException {
 		if (options.contains(OPTION_DEEPEN_RELATIVE) ||
 				shallowSince != 0 ||
-				shallowExcludeRefs != null) {
+				shallowExcludeRefs.size() > 0) {
 			// TODO(jonathantanmy): Implement deepen-relative, deepen-since,
 			// and deepen-not.
 			throw new UnsupportedOperationException();
