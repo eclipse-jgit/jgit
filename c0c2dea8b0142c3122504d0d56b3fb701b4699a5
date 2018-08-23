@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "af621f32_5e432717",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.8.tpd",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-08-23T09:49:18Z",
+      "side": 1,
+      "message": "Why this?",
+      "range": {
+        "startLine": 6,
+        "startChar": 47,
+        "endLine": 6,
+        "endChar": 53
+      },
+      "revId": "c0c2dea8b0142c3122504d0d56b3fb701b4699a5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
