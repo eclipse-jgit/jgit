@@ -1281,7 +1281,7 @@ public class RefDirectory extends RefDatabase {
 				// same prefix
 				break;
 			} catch (IOException e) {
-				LOG.warn("Unable to remove path {}", dir, e);
+				LOG.warn(JGitText.get().unableToRemovePath, dir, e);
 				break;
 			}
 			dir = dir.getParentFile();
