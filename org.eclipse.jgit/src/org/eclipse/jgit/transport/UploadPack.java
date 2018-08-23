@@ -1072,7 +1072,7 @@ public class UploadPack {
 			verifyClientShallow();
 		}
 		if (depth != 0 || shallowSince != 0 || shallowExcludeRefs != null) {
-			shallowCommits = new ArrayList<ObjectId>();
+			shallowCommits = new ArrayList<>();
 			processShallow(shallowCommits, unshallowCommits, false);
 		}
 		if (!clientShallowCommits.isEmpty())
