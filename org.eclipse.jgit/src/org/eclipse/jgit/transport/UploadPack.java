@@ -309,10 +309,10 @@ public class UploadPack {
 
 	/**
 	 * (Possibly short) ref names, ancestors of which the client has asked us
-	 * not to send using --shallow-exclude. Cannot be non-null if depth is
+	 * not to send using --shallow-exclude. Cannot be non-empty if depth is
 	 * nonzero.
 	 */
-	private @Nullable List<String> shallowExcludeRefs;
+	private List<String> shallowExcludeRefs = new ArrayList<>();
 
 	/** Commit time of the oldest common commit, in seconds. */
 	private int oldestTime;
@@ -1023,16 +1023,12 @@ public class UploadPack {
 					throw new PackProtocolException(
 							JGitText.get().deepenSinceWithDeepen);
 				}
-				if (shallowExcludeRefs != null) {
+				if (!shallowExcludeRefs.isEmpty()) {
 					throw new PackProtocolException(
 							JGitText.get().deepenNotWithDeepen);
 				}
 			} else if (line.startsWith("deepen-not ")) { //$NON-NLS-1$
-				List<String> exclude = shallowExcludeRefs;
-				if (exclude == null) {
-					exclude = shallowExcludeRefs = new ArrayList<>();
-				}
-				exclude.add(line.substring(11));
+				shallowExcludeRefs.add(line.substring(11));
 				if (depth != 0) {
 					throw new PackProtocolException(
 							JGitText.get().deepenNotWithDeepen);
@@ -1071,7 +1067,7 @@ public class UploadPack {
 		if (!clientShallowCommits.isEmpty()) {
 			verifyClientShallow();
 		}
-		if (depth != 0 || shallowSince != 0 || shallowExcludeRefs != null) {
+		if (depth != 0 || shallowSince != 0 || !shallowExcludeRefs.isEmpty()) {
 			shallowCommits = new ArrayList<>();
 			processShallow(shallowCommits, unshallowCommits, false);
 		}
@@ -1238,7 +1234,7 @@ public class UploadPack {
 			boolean writeToPckOut) throws IOException {
 		if (options.contains(OPTION_DEEPEN_RELATIVE) ||
 				shallowSince != 0 ||
-				shallowExcludeRefs != null) {
+				!shallowExcludeRefs.isEmpty()) {
 			// TODO(jonathantanmy): Implement deepen-relative, deepen-since,
 			// and deepen-not.
 			throw new UnsupportedOperationException();
