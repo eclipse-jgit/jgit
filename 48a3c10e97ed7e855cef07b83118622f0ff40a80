@@ -34,6 +34,24 @@
       "revId": "48a3c10e97ed7e855cef07b83118622f0ff40a80",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dbfc181f_9bab65fe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1284,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-08-23T11:20:36Z",
+      "side": 1,
+      "message": "The new message is the only externalized message using log-style placeholders. I suppose the suggestion was to use {0} and MessageFormat.format() here.\n\nThe only calls to warn() I can find are in KetchLeader, FS_POSIX.createNewFile(), and here. The other two use non-externalized strings with {} placeholders.\n\nIf we externalize, then let\u0027s use one format only. In fact, in FS_POSIX.createNewFile() it had been wrong: https://git.eclipse.org/r/#/c/127538/1/org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java\n\nI suggest to leave this alone on stable-4.9 (it\u0027ll produce a merge conflict anyway due to https://git.eclipse.org/r/#/c/127897/ ) and then decide and possibly fix it on master once we\u0027ve merged everything up.",
+      "parentUuid": "86c5f74d_d412e6bc",
+      "revId": "48a3c10e97ed7e855cef07b83118622f0ff40a80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
