@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/mbarbero/fr.obeo.releng.targetplatform -->
-<target name="jgit-4.8" sequenceNumber="1520121050">
+<target name="jgit-4.8" sequenceNumber="1535021915">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.jetty.client" version="9.4.8.v20171121"/>
@@ -39,10 +39,10 @@
       <unit id="org.apache.log4j.source" version="1.2.15.v201012070815"/>
       <unit id="org.kohsuke.args4j" version="2.33.0.v20160323-2218"/>
       <unit id="org.kohsuke.args4j.source" version="2.33.0.v20160323-2218"/>
-      <unit id="org.hamcrest.core" version="1.3.0.v20180227-1814"/>
-      <unit id="org.hamcrest.core.source" version="1.3.0.v20180227-1814"/>
-      <unit id="org.hamcrest.library" version="1.3.0.v201505072020"/>
-      <unit id="org.hamcrest.library.source" version="1.3.0.v201505072020"/>
+      <unit id="org.hamcrest.core" version="1.3.0.v20180420-1519"/>
+      <unit id="org.hamcrest.core.source" version="1.3.0.v20180420-1519"/>
+      <unit id="org.hamcrest.library" version="1.3.0.v20180524-2246"/>
+      <unit id="org.hamcrest.library.source" version="1.3.0.v20180524-2246"/>
       <unit id="javaewah" version="1.1.6.v20160919-1400"/>
       <unit id="javaewah.source" version="1.1.6.v20160919-1400"/>
       <unit id="org.objenesis" version="1.0.0.v201505121915"/>
@@ -65,11 +65,11 @@
       <unit id="org.slf4j.impl.log4j12.source" version="1.7.2.v20131105-2200"/>
       <unit id="com.jcraft.jzlib" version="1.1.1.v201205102305"/>
       <unit id="com.jcraft.jzlib.source" version="1.1.1.v201205102305"/>
-      <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/S20180302171354/repository"/>
+      <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20180606145124/repository"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.osgi" version="0.0.0"/>
-      <repository location="http://download.eclipse.org/releases/oxygen/"/>
+      <repository location="http://download.eclipse.org/releases/photon/"/>
     </location>
   </locations>
 </target>
