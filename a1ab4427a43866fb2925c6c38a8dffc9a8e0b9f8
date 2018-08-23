@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2341660c_c4d14e11",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-23T08:01:44Z",
+      "side": 1,
+      "message": "This shows up in e.g. \"git log --oneline\" output. Is there a way to make it summarize what this change does more clearly? \"Fix force flag\" tells me it does something related to --force, but not what: what was broken, and what do we do instead?\n\nLikewise, the long description talks about something failing but it\u0027s not clear to me what failure it means. Maybe an example would help. For example, is there some sequence of steps a user might perform that had a bad result before and has a good result now?",
+      "revId": "a1ab4427a43866fb2925c6c38a8dffc9a8e0b9f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
