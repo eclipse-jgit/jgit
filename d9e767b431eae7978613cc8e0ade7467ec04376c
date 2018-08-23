@@ -22,6 +22,30 @@
       "revId": "d9e767b431eae7978613cc8e0ade7467ec04376c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3bd5c39f_94685f6f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1284,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-23T03:05:53Z",
+      "side": 1,
+      "message": "Thanks. https://git.eclipse.org/r/c/127426/1/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java#1291 reveals that we haven\u0027t decided as a project whether to translate format strings for loggers. (I\u0027m happy with either answer, so that I can learn the rule and avoid thinking about it from then on. Even better if it\u0027s automatable.)",
+      "parentUuid": "68f06f3d_dbd574bb",
+      "range": {
+        "startLine": 1284,
+        "startChar": 13,
+        "endLine": 1284,
+        "endChar": 39
+      },
+      "revId": "d9e767b431eae7978613cc8e0ade7467ec04376c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
