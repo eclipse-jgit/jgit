@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aed9e916_7bd8de5e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1604,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-08-23T07:14:14Z",
+      "side": 1,
+      "message": "nit: unrelated formatting changes",
+      "revId": "47d9dbc6fdfca9fef6d0fd23c37e61317e0790f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
