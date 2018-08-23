@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "68f06f3d_dbd574bb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1284,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-08-23T02:38:46Z",
+      "side": 1,
+      "message": "While we\u0027re in here, this should be moved to an externalized string, or a $NON-NLS suppressions should be added.  It can be done in a follow-up commit though.",
+      "range": {
+        "startLine": 1284,
+        "startChar": 13,
+        "endLine": 1284,
+        "endChar": 39
+      },
+      "revId": "d9e767b431eae7978613cc8e0ade7467ec04376c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
