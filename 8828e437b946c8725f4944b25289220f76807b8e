@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66ee953f_d4d047aa",
+        "filename": "org.eclipse.jgit.pgm/build.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-08-23T10:18:24Z",
+      "side": 1,
+      "message": "But then this ,\\ should be removed, too.",
+      "range": {
+        "startLine": 2,
+        "startChar": 21,
+        "endLine": 2,
+        "endChar": 23
+      },
+      "revId": "8828e437b946c8725f4944b25289220f76807b8e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
