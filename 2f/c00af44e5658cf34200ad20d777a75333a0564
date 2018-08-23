@@ -1,0 +1,8 @@
+Code-Review+1: David Pursehouse <david.pursehouse@gmail.com>
+Code-Review+2: Jonathan Nieder <jrn@google.com>
+Verified+1: CI Bot
+Submitted-by: Jonathan Nieder <jrn@google.com>
+Submitted-at: Thu, 23 Aug 2018 01:47:11 -0400
+Reviewed-on: https://git.eclipse.org/r/127094
+Project: jgit/jgit
+Branch: refs/heads/master
