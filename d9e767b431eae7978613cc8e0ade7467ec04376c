@@ -70,6 +70,30 @@
       "revId": "d9e767b431eae7978613cc8e0ade7467ec04376c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bd7e47d_a7b4b689",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1284,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-08-23T09:45:32Z",
+      "side": 1,
+      "message": "pushed a patch https://git.eclipse.org/r/#/c/127919/",
+      "parentUuid": "92bf69a1_78847802",
+      "range": {
+        "startLine": 1284,
+        "startChar": 13,
+        "endLine": 1284,
+        "endChar": 39
+      },
+      "revId": "d9e767b431eae7978613cc8e0ade7467ec04376c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
