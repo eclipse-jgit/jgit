@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8830d9fc_83d64ceb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-23T21:04:17Z",
+      "side": 1,
+      "message": "in what units? Is there some other type we can return (e.g. some java.time.* type)?",
+      "range": {
+        "startLine": 129,
+        "startChar": 12,
+        "endLine": 129,
+        "endChar": 21
+      },
+      "revId": "5fcad33e8807008b835c3a35052d51f239bbc0ef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f01310e2_78f6938f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-23T21:04:17Z",
+      "side": 1,
+      "message": "Thanks for this explanation.\n\nThe value set here seems to include settings like\n\n  // Packs are always sent multiplexed and using full 64K\n  // lengths.\n  options.add(OPTION_SIDE_BAND_64K);\n\nUsing \u0027options\u0027 for that is an implementation detail subject to change, so it shouldn\u0027t be exposed to the caller. Ideas?",
+      "revId": "5fcad33e8807008b835c3a35052d51f239bbc0ef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
