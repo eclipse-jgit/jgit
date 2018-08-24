@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "be303cad_14bdb0e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-24T19:05:09Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "703d01be_beccd088",
+      "revId": "d9d361b439873f83d93bbc2a66b99b2dee0b921a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0daedc6c_95a4c013",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
         "patchSetId": 4
@@ -48,6 +66,24 @@
       "writtenOn": "2018-08-24T00:54:42Z",
       "side": 1,
       "message": "No need for @since unless this is public.\n\nI think it\u0027s fine to make the class public, though. We know *that* much about the API already. ;-)",
+      "revId": "d9d361b439873f83d93bbc2a66b99b2dee0b921a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48ecfb80_3099f9f0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-24T19:05:09Z",
+      "side": 1,
+      "message": "I should have said \"please make this public; the @since reminded me\".\n\nNow that it\u0027s public (good), it needs a @since. Sorry for the runaround.",
+      "parentUuid": "0daedc6c_95a4c013",
       "revId": "d9d361b439873f83d93bbc2a66b99b2dee0b921a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
@@ -68,6 +104,24 @@
       "revId": "d9d361b439873f83d93bbc2a66b99b2dee0b921a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f3ca250_8a50ada1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-24T19:05:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7b7e7ab_34b5d15c",
+      "revId": "d9d361b439873f83d93bbc2a66b99b2dee0b921a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -103,6 +157,24 @@
       "revId": "d9d361b439873f83d93bbc2a66b99b2dee0b921a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6930374_bac0ad1e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1067,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-24T19:05:09Z",
+      "side": 1,
+      "message": "Thanks. The updated comment makes it clearer to me.",
+      "parentUuid": "1a3e34e6_2e595619",
+      "revId": "d9d361b439873f83d93bbc2a66b99b2dee0b921a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
