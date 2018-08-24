@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "26e695b3_a6f65133",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-24T19:05:09Z",
+      "side": 1,
+      "message": "Please either make this class package-private, too, or make its build() method public (either should be fine).",
+      "revId": "1fdc421a43d1d021690a72a84643bfde95f37dc4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
