@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8954a1ba_76c49785",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2018-08-24T16:10:51Z",
+      "side": 1,
+      "message": "Hmmm, I think you are right. I read open(2) man page and agree we have to use a unique name for the hard link. That could be achieved by just adding UUID.randomUUID() to the link name.\n\nBut keeping the link as long as the lock file maybe more tricky. Maybe we need to add something to LockFile like deleteOnUnlock(File x) to tell which additional files to delete on unlock. Any comments?",
+      "parentUuid": "67306a88_3b26d56a",
+      "revId": "b80cb69f93d7832323bbb20d266d8d814692615d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d3e36fde_ae3f8e81",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
         "patchSetId": 1
