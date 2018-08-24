@@ -51,6 +51,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Set;
 
+import org.eclipse.jgit.api.CloneCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
@@ -107,6 +108,58 @@ public class IndexDiffSubmoduleTest extends RepositoryTestCase {
 				new FileTreeIterator(db));
 		indexDiff.setIgnoreSubmoduleMode(mode);
 		assertFalse(indexDiff.diff());
+	}
+
+	private Repository cloneWithoutCloningSubmodule() throws Exception {
+		File directory = createTempDirectory(
+				"testCloneWithoutCloningSubmodules");
+		CloneCommand clone = Git.cloneRepository();
+		clone.setDirectory(directory);
+		clone.setCloneSubmodules(false);
+		clone.setURI(db.getDirectory().toURI().toString());
+		Git git2 = clone.call();
+		addRepoToClose(git2.getRepository());
+		return git2.getRepository();
+	}
+
+	@Theory
+	public void testCleanAfterClone(IgnoreSubmoduleMode mode) throws Exception {
+		Repository db2 = cloneWithoutCloningSubmodule();
+		IndexDiff indexDiff = new IndexDiff(db2, Constants.HEAD,
+				new FileTreeIterator(db2));
+		indexDiff.setIgnoreSubmoduleMode(mode);
+		assertFalse(indexDiff.diff());
+	}
+
+	@Theory
+	public void testMissingIfDirectoryGone(IgnoreSubmoduleMode mode)
+			throws Exception {
+		recursiveDelete(submodule_trash);
+		IndexDiff indexDiff = new IndexDiff(db, Constants.HEAD,
+				new FileTreeIterator(db));
+		indexDiff.setIgnoreSubmoduleMode(mode);
+		boolean hasChanges = indexDiff.diff();
+		if (mode != IgnoreSubmoduleMode.ALL) {
+			assertTrue(hasChanges);
+			assertEquals("[modules/submodule]",
+					indexDiff.getMissing().toString());
+		} else {
+			assertFalse(hasChanges);
+		}
+	}
+
+	@Theory
+	public void testSubmoduleReplacedByFile(IgnoreSubmoduleMode mode)
+			throws Exception {
+		recursiveDelete(submodule_trash);
+		writeTrashFile("modules/submodule", "nonsense");
+		IndexDiff indexDiff = new IndexDiff(db, Constants.HEAD,
+				new FileTreeIterator(db));
+		indexDiff.setIgnoreSubmoduleMode(mode);
+		assertTrue(indexDiff.diff());
+		assertEquals("[]", indexDiff.getMissing().toString());
+		assertEquals("[]", indexDiff.getUntracked().toString());
+		assertEquals("[modules/submodule]", indexDiff.getModified().toString());
 	}
 
 	@Theory
