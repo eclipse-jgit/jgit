@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2530fcfd_d64f1d01",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-24T19:28:39Z",
+      "side": 1,
+      "message": "final",
+      "revId": "404f92cb61118d89a89aa8324f91f69136229969",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
