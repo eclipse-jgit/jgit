@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "703d01be_beccd088",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-08-24T17:00:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68aa841d_99102d5e",
+      "revId": "d9d361b439873f83d93bbc2a66b99b2dee0b921a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0daedc6c_95a4c013",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
         "patchSetId": 4
@@ -64,6 +82,24 @@
       "writtenOn": "2018-08-24T00:54:42Z",
       "side": 1,
       "message": "I\u0027m having trouble understanding this comment. Is it something like\n\n // TODO(ifrade): Refactor to pass around the Request object instead of pulling out\n // parameters from it.\n\n?",
+      "revId": "d9d361b439873f83d93bbc2a66b99b2dee0b921a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a3e34e6_2e595619",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1067,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-08-24T17:00:06Z",
+      "side": 1,
+      "message": "After this patch, we put all the data of the request in an object, and then copy the data back to class fields because other methods depend on them.\n\nIt would make sense to replace the class fields directly with the request object or even better pass the request around: e.g. instead of \nverifyClientShallow() // modifies class field\n\ndo something like:\nreq \u003d verifyClientShallow(req) // updates the request\n\nThe TODO is a reminder that the Request object opens these refactor posibilities.",
+      "parentUuid": "a4defc1c_b08a8045",
       "revId": "d9d361b439873f83d93bbc2a66b99b2dee0b921a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
