@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "3a466d0c_68650bab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-08-24T17:23:35Z",
+      "side": 1,
+      "message": "That said, I would do this on master. Here on stable-5.0, just add the missing {} and then we can merge this. Apparently the current algorithm is good enough for your use case; properly fixing it can be done later on master.",
+      "parentUuid": "0d1e0c64_d9f33541",
+      "revId": "b80cb69f93d7832323bbb20d266d8d814692615d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d3e36fde_ae3f8e81",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
         "patchSetId": 1
