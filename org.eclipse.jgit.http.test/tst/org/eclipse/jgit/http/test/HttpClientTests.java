@@ -367,7 +367,7 @@ public class HttpClientTests extends HttpTestCase {
 		c.setRequestMethod("GET");
 		c.setRequestProperty("Git-Protocol", "version=2");
 		c.connect();
-		assertThat(c.getResponseCode(), is(200));
+		assertEquals(200, c.getResponseCode());
 
 		PacketLineIn pckIn = new PacketLineIn(c.getInputStream());
 
@@ -388,7 +388,7 @@ public class HttpClientTests extends HttpTestCase {
 		c.setRequestMethod("GET");
 		c.setRequestProperty("Git-Protocol", "version=2");
 		c.connect();
-		assertThat(c.getResponseCode(), is(200));
+		assertEquals(200, c.getResponseCode());
 
 		PacketLineIn pckIn = new PacketLineIn(c.getInputStream());
 		assertThat(pckIn.readString(), is("version 2"));
@@ -434,6 +434,6 @@ public class HttpClientTests extends HttpTestCase {
 			assertTrue(s.matches("[0-9a-f]{40} [A-Za-z/]*"));
 		}
 
-		assertThat(c.getResponseCode(), is(200));
+		assertEquals(200, c.getResponseCode());
 	}
 }
