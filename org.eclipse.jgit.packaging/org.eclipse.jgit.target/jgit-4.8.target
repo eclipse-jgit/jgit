@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/mbarbero/fr.obeo.releng.targetplatform -->
-<target name="jgit-4.8" sequenceNumber="1528872727">
+<target name="jgit-4.8" sequenceNumber="1535128884">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.jetty.client" version="9.4.8.v20171121"/>
@@ -33,6 +33,8 @@
       <unit id="org.apache.commons.logging.source" version="1.1.1.v201101211721"/>
       <unit id="org.apache.httpcomponents.httpcore" version="4.4.6.v20170210-0925"/>
       <unit id="org.apache.httpcomponents.httpcore.source" version="4.4.6.v20170210-0925"/>
+      <unit id="org.apache.httpcomponents.httpclient" version="4.5.2.v20180410-1551"/>
+      <unit id="org.apache.httpcomponents.httpclient.source" version="4.5.2.v20180410-1551"/>
       <unit id="org.apache.log4j" version="1.2.15.v201012070815"/>
       <unit id="org.apache.log4j.source" version="1.2.15.v201012070815"/>
       <unit id="org.kohsuke.args4j" version="2.33.0.v20160323-2218"/>
@@ -67,13 +69,8 @@
       <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20180606145124/repository"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
-      <unit id="org.apache.httpcomponents.httpclient" version="4.5.2.v20170210-0925"/>
-      <unit id="org.apache.httpcomponents.httpclient.source" version="4.5.2.v20170210-0925"/>
-      <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20170919201930/repository/"/>
-    </location>
-    <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.osgi" version="0.0.0"/>
-      <repository location="http://download.eclipse.org/releases/oxygen/"/>
+      <repository location="http://download.eclipse.org/releases/photon/"/>
     </location>
   </locations>
 </target>
