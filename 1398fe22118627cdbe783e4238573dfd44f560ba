@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "047c846d_fed83b09",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/IndexDiffSubmoduleTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-08-24T20:54:45Z",
+      "side": 1,
+      "message": "I disagree.\n\nFirst, recursiveDelete(submodule_trash) would also remove the modules/submodule directory, leaving only modules. That\u0027s not the state after a clone: after cloning, modules/submodule exists as an empty directory. With only modules, reporting the submodule as missing would even be correct.\n\nSecond, the problem as reported is that after a clone the working tree is not clean and JGit reports all submodules as missing, when it should not. Writing the test according to this is perfectly fine, and I prefer it over all kinds of shortcuts to simulate the same state. Doing a clone and then doing the index diff is exactly what we want to test here.",
+      "parentUuid": "a08e07c4_ff5410a1",
+      "range": {
+        "startLine": 105,
+        "startChar": 0,
+        "endLine": 126,
+        "endChar": 2
+      },
+      "revId": "1398fe22118627cdbe783e4238573dfd44f560ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb1ae708_c4868ba5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
         "patchSetId": 1
