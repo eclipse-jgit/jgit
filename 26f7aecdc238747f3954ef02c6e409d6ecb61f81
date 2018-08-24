@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f48a6466_d1b0d750",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-08-24T11:28:47Z",
+      "side": 1,
+      "message": "Where is this commit in Gerrit? I don\u0027t see it on stable-4.9, but I see one on stable-4.10...",
+      "range": {
+        "startLine": 11,
+        "startChar": 2,
+        "endLine": 11,
+        "endChar": 70
+      },
+      "revId": "26f7aecdc238747f3954ef02c6e409d6ecb61f81",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
