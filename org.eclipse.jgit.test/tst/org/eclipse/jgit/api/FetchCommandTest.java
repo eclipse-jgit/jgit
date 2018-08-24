@@ -49,7 +49,9 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
@@ -61,6 +63,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.FetchResult;
+import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.TagOpt;
 import org.eclipse.jgit.transport.TrackingRefUpdate;
@@ -123,6 +126,91 @@ public class FetchCommandTest extends RepositoryTestCase {
 				.setForceUpdate(true).call();
 		assertEquals(RefUpdate.Result.FORCED,
 				res.getTrackingRefUpdate("refs/heads/master").getResult());
+	}
+
+	@Test
+	public void fetchAddsBranches() throws Exception {
+		final String branch1 = "b1";
+		final String branch2 = "b2";
+		final String remoteBranch1 = "test/" + branch1;
+		final String remoteBranch2 = "test/" + branch2;
+		remoteGit.commit().setMessage("commit").call();
+		Ref branchRef1 = remoteGit.branchCreate().setName(branch1).call();
+		remoteGit.commit().setMessage("commit").call();
+		Ref branchRef2 = remoteGit.branchCreate().setName(branch2).call();
+
+		String spec = "refs/heads/*:refs/remotes/test/*";
+		git.fetch().setRemote("test").setRefSpecs(spec).call();
+		assertEquals(branchRef1.getObjectId(), db.resolve(remoteBranch1));
+		assertEquals(branchRef2.getObjectId(), db.resolve(remoteBranch2));
+	}
+
+	@Test
+	public void fetchDoesntDeleteBranches() throws Exception {
+		final String branch1 = "b1";
+		final String branch2 = "b2";
+		final String remoteBranch1 = "test/" + branch1;
+		final String remoteBranch2 = "test/" + branch2;
+		remoteGit.commit().setMessage("commit").call();
+		Ref branchRef1 = remoteGit.branchCreate().setName(branch1).call();
+		remoteGit.commit().setMessage("commit").call();
+		Ref branchRef2 = remoteGit.branchCreate().setName(branch2).call();
+
+		String spec = "refs/heads/*:refs/remotes/test/*";
+		git.fetch().setRemote("test").setRefSpecs(spec).call();
+		assertEquals(branchRef1.getObjectId(), db.resolve(remoteBranch1));
+		assertEquals(branchRef2.getObjectId(), db.resolve(remoteBranch2));
+
+		remoteGit.branchDelete().setBranchNames(branch1).call();
+		git.fetch().setRemote("test").setRefSpecs(spec).call();
+		assertEquals(branchRef1.getObjectId(), db.resolve(remoteBranch1));
+		assertEquals(branchRef2.getObjectId(), db.resolve(remoteBranch2));
+	}
+
+	@Test
+	public void fetchUpdatesBranches() throws Exception {
+		final String branch1 = "b1";
+		final String branch2 = "b2";
+		final String remoteBranch1 = "test/" + branch1;
+		final String remoteBranch2 = "test/" + branch2;
+		remoteGit.commit().setMessage("commit").call();
+		Ref branchRef1 = remoteGit.branchCreate().setName(branch1).call();
+		remoteGit.commit().setMessage("commit").call();
+		Ref branchRef2 = remoteGit.branchCreate().setName(branch2).call();
+
+		String spec = "refs/heads/*:refs/remotes/test/*";
+		git.fetch().setRemote("test").setRefSpecs(spec).call();
+		assertEquals(branchRef1.getObjectId(), db.resolve(remoteBranch1));
+		assertEquals(branchRef2.getObjectId(), db.resolve(remoteBranch2));
+
+		remoteGit.commit().setMessage("commit").call();
+		branchRef2 = remoteGit.branchCreate().setName(branch2).setForce(true).call();
+		git.fetch().setRemote("test").setRefSpecs(spec).call();
+		assertEquals(branchRef1.getObjectId(), db.resolve(remoteBranch1));
+		assertEquals(branchRef2.getObjectId(), db.resolve(remoteBranch2));
+	}
+
+	@Test
+	public void fetchPrunesBranches() throws Exception {
+		final String branch1 = "b1";
+		final String branch2 = "b2";
+		final String remoteBranch1 = "test/" + branch1;
+		final String remoteBranch2 = "test/" + branch2;
+		remoteGit.commit().setMessage("commit").call();
+		Ref branchRef1 = remoteGit.branchCreate().setName(branch1).call();
+		remoteGit.commit().setMessage("commit").call();
+		Ref branchRef2 = remoteGit.branchCreate().setName(branch2).call();
+
+		String spec = "refs/heads/*:refs/remotes/test/*";
+		git.fetch().setRemote("test").setRefSpecs(spec).call();
+		assertEquals(branchRef1.getObjectId(), db.resolve(remoteBranch1));
+		assertEquals(branchRef2.getObjectId(), db.resolve(remoteBranch2));
+
+		remoteGit.branchDelete().setBranchNames(branch1).call();
+		git.fetch().setRemote("test").setRefSpecs(spec)
+				.setRemoveDeletedRefs(true).call();
+		assertNull(db.resolve(remoteBranch1));
+		assertEquals(branchRef2.getObjectId(), db.resolve(remoteBranch2));
 	}
 
 	@Test
@@ -247,5 +335,76 @@ public class FetchCommandTest extends RepositoryTestCase {
 				clonedRepo.resolve("refs/remotes/origin/master"));
 		assertEquals("origin/HEAD should be unchanged", originHeadId,
 				clonedRepo.resolve("refs/remotes/origin/HEAD"));
+	}
+
+	@Test
+	public void fetchAddRefsWithDuplicateRefspec() throws Exception {
+		final String branchName = "branch";
+		final String remoteBranchName = "test/" + branchName;
+		remoteGit.commit().setMessage("commit").call();
+		Ref branchRef = remoteGit.branchCreate().setName(branchName).call();
+
+		final String spec1 = "+refs/heads/*:refs/remotes/test/*";
+		final String spec2 = "refs/heads/*:refs/remotes/test/*";
+		final StoredConfig config = db.getConfig();
+		RemoteConfig remoteConfig = new RemoteConfig(config, "test");
+		remoteConfig.addFetchRefSpec(new RefSpec(spec1));
+		remoteConfig.addFetchRefSpec(new RefSpec(spec2));
+		remoteConfig.update(config);
+
+		git.fetch().setRemote("test").setRefSpecs(spec1).call();
+		assertEquals(branchRef.getObjectId(), db.resolve(remoteBranchName));
+	}
+
+	@Test
+	public void fetchPruneRefsWithDuplicateRefspec()
+			throws Exception {
+		final String branchName = "branch";
+		final String remoteBranchName = "test/" + branchName;
+		remoteGit.commit().setMessage("commit").call();
+		Ref branchRef = remoteGit.branchCreate().setName(branchName).call();
+
+		final String spec1 = "+refs/heads/*:refs/remotes/test/*";
+		final String spec2 = "refs/heads/*:refs/remotes/test/*";
+		final StoredConfig config = db.getConfig();
+		RemoteConfig remoteConfig = new RemoteConfig(config, "test");
+		remoteConfig.addFetchRefSpec(new RefSpec(spec1));
+		remoteConfig.addFetchRefSpec(new RefSpec(spec2));
+		remoteConfig.update(config);
+
+		git.fetch().setRemote("test").setRefSpecs(spec1).call();
+		assertEquals(branchRef.getObjectId(), db.resolve(remoteBranchName));
+
+		remoteGit.branchDelete().setBranchNames(branchName).call();
+		git.fetch().setRemote("test").setRefSpecs(spec1)
+				.setRemoveDeletedRefs(true).call();
+		assertNull(db.resolve(remoteBranchName));
+	}
+
+	@Test
+	public void fetchUpdateRefsWithDuplicateRefspec() throws Exception {
+		final String tagName = "foo";
+		remoteGit.commit().setMessage("commit").call();
+		Ref tagRef1 = remoteGit.tag().setName(tagName).call();
+		List<RefSpec> refSpecs = new ArrayList<>();
+		refSpecs.add(new RefSpec("+refs/heads/*:refs/remotes/origin/*"));
+		refSpecs.add(new RefSpec("+refs/tags/*:refs/tags/*"));
+		// Updating tags via the RefSpecs and setting TagOpt.FETCH_TAGS (or
+		// AUTO_FOLLOW) will result internally in *two* updates for the same
+		// ref.
+		git.fetch().setRemote("test").setRefSpecs(refSpecs)
+				.setTagOpt(TagOpt.AUTO_FOLLOW).call();
+		assertEquals(tagRef1.getObjectId(), db.resolve(tagName));
+
+		remoteGit.commit().setMessage("commit 2").call();
+		Ref tagRef2 = remoteGit.tag().setName(tagName).setForceUpdate(true)
+				.call();
+		FetchResult result = git.fetch().setRemote("test").setRefSpecs(refSpecs)
+				.setTagOpt(TagOpt.FETCH_TAGS).call();
+		assertEquals(2, result.getTrackingRefUpdates().size());
+		TrackingRefUpdate update = result
+				.getTrackingRefUpdate(Constants.R_TAGS + tagName);
+		assertEquals(RefUpdate.Result.FORCED, update.getResult());
+		assertEquals(tagRef2.getObjectId(), db.resolve(tagName));
 	}
 }
