@@ -419,12 +419,12 @@ public class HttpClientTests extends HttpTestCase {
 		// properly. Tests for other commands go in
 		// UploadPackTest.java.
 
-		OutputStream os = c.getOutputStream();
-		PacketLineOut pckOut = new PacketLineOut(os);
-		pckOut.writeString("command=ls-refs");
-		pckOut.writeDelim();
-		pckOut.end();
-		os.close();
+		try (OutputStream os = c.getOutputStream()) {
+			PacketLineOut pckOut = new PacketLineOut(os);
+			pckOut.writeString("command=ls-refs");
+			pckOut.writeDelim();
+			pckOut.end();
+		}
 
 		PacketLineIn pckIn = new PacketLineIn(c.getInputStream());
 
