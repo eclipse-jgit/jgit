@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5ed4bea5_f85f1bee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-24T00:54:42Z",
+      "side": 1,
+      "message": "Deferring to a follow-up.",
+      "parentUuid": "8830d9fc_83d64ceb",
+      "range": {
+        "startLine": 129,
+        "startChar": 12,
+        "endLine": 129,
+        "endChar": 21
+      },
+      "revId": "5fcad33e8807008b835c3a35052d51f239bbc0ef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f01310e2_78f6938f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
         "patchSetId": 2
@@ -39,6 +63,24 @@
       "revId": "5fcad33e8807008b835c3a35052d51f239bbc0ef",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7332eee1_b6c0c57a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-24T00:54:42Z",
+      "side": 1,
+      "message": "Deferring to a follow-up.",
+      "parentUuid": "f01310e2_78f6938f",
+      "revId": "5fcad33e8807008b835c3a35052d51f239bbc0ef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
