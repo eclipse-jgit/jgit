@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "0d1e0c64_d9f33541",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-08-24T17:20:24Z",
+      "side": 1,
+      "message": "FS.createNewFile() is used _only_ in LockFile.lock(). So I would just deprecate this and add a new version that returns the hard-link \"File\" when successful, or null if not. Then use that.\n\nThen we can store that hard-link File in LockFile.lock(), and delete it when we unlock the lock.\n\nFor the static Lock::unlock, we could use a naming convention such that we can delete stale hard links, too.\n\nWhen we don\u0027t do this hard-link mechanism, just return the lock file itself. LockFile.unlock (either version) may then try to delete that file twice, so it must not fail if that second file doesn\u0027t exist.\n\nWhatever \"unique ID\" we add it shouldn\u0027t be overly long, lest we hit fancy filename length limits. (OK, we do this only on POSIX, so probably not an issue.) The \"unique ID\" format in the file name for the hard link must be such that it cannot conflict with other non-hard-link files.\n\nAnyway I think the branch name validations currently only forbid a trailing \".lock\". If you have two branches \"foo\" and \"foo.lock.lnk\",  the current mechanism may already get into trouble. Don\u0027t know yet how to deal with that...",
+      "parentUuid": "8954a1ba_76c49785",
+      "revId": "b80cb69f93d7832323bbb20d266d8d814692615d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d3e36fde_ae3f8e81",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
         "patchSetId": 1
