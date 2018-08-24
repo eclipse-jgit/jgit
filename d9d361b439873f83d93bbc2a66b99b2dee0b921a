@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "68aa841d_99102d5e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-24T00:54:42Z",
+      "side": 1,
+      "message": "Please also include a word or two about how the FetchV2Request properties are package-private for now so this change is primarily about invoking the hook and encapsulating the request.",
+      "revId": "d9d361b439873f83d93bbc2a66b99b2dee0b921a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0daedc6c_95a4c013",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-24T00:54:42Z",
+      "side": 1,
+      "message": "No need for @since unless this is public.\n\nI think it\u0027s fine to make the class public, though. We know *that* much about the API already. ;-)",
+      "revId": "d9d361b439873f83d93bbc2a66b99b2dee0b921a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7b7e7ab_34b5d15c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-24T00:54:42Z",
+      "side": 1,
+      "message": "Let\u0027s make the methods in this builder package-private for now, too.",
+      "revId": "d9d361b439873f83d93bbc2a66b99b2dee0b921a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4defc1c_b08a8045",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1067,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-24T00:54:42Z",
+      "side": 1,
+      "message": "I\u0027m having trouble understanding this comment. Is it something like\n\n // TODO(ifrade): Refactor to pass around the Request object instead of pulling out\n // parameters from it.\n\n?",
+      "revId": "d9d361b439873f83d93bbc2a66b99b2dee0b921a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
