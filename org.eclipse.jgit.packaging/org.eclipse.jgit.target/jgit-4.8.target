@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/mbarbero/fr.obeo.releng.targetplatform -->
-<target name="jgit-4.8" sequenceNumber="1534608610">
+<target name="jgit-4.8" sequenceNumber="1535139810">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.jetty.client" version="9.4.11.v20180605"/>
@@ -70,7 +70,7 @@
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.osgi" version="0.0.0"/>
-      <repository location="http://download.eclipse.org/releases/oxygen/"/>
+      <repository location="http://download.eclipse.org/releases/photon/"/>
     </location>
   </locations>
 </target>
