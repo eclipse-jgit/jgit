@@ -119,6 +119,28 @@ public class IndexDiffTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testMissing() throws Exception {
+		File file2 = writeTrashFile("file2", "file2");
+		File file3 = writeTrashFile("dir/file3", "dir/file3");
+		Git git = Git.wrap(db);
+		git.add().addFilepattern("file2").addFilepattern("dir/file3").call();
+		git.commit().setMessage("commit").call();
+		assertTrue(file2.delete());
+		assertTrue(file3.delete());
+		IndexDiff diff = new IndexDiff(db, Constants.HEAD,
+				new FileTreeIterator(db));
+		diff.diff();
+		assertEquals(2, diff.getMissing().size());
+		assertTrue(diff.getMissing().contains("file2"));
+		assertTrue(diff.getMissing().contains("dir/file3"));
+		assertEquals(0, diff.getChanged().size());
+		assertEquals(0, diff.getModified().size());
+		assertEquals(0, diff.getAdded().size());
+		assertEquals(0, diff.getRemoved().size());
+		assertEquals(Collections.EMPTY_SET, diff.getUntrackedFolders());
+	}
+
+	@Test
 	public void testRemoved() throws IOException {
 		writeTrashFile("file2", "file2");
 		writeTrashFile("dir/file3", "dir/file3");

@@ -1043,7 +1043,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 			}
 		}
 		if (FileMode.GITLINK == iMode
-				&& FileMode.TREE == wtMode) {
+				&& FileMode.TREE == wtMode && !getOptions().isDirNoGitLinks()) {
 			return iMode;
 		}
 		if (FileMode.TREE == iMode

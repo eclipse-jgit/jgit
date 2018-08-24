@@ -89,13 +89,28 @@ public class PathsTest {
 				a, 0, a.length, FileMode.TREE.getBits(),
 				b, 0, b.length, FileMode.TREE.getBits()));
 		assertEquals(0, compare(
+				a, 0, a.length, FileMode.TREE.getBits(),
+				b, 0, b.length, FileMode.GITLINK.getBits()));
+		assertEquals(0, compare(
+				a, 0, a.length, FileMode.GITLINK.getBits(),
+				b, 0, b.length, FileMode.GITLINK.getBits()));
+		assertEquals(0, compare(
+				a, 0, a.length, FileMode.GITLINK.getBits(),
+				b, 0, b.length, FileMode.TREE.getBits()));
+		assertEquals(0, compare(
 				a, 0, a.length, FileMode.REGULAR_FILE.getBits(),
 				b, 0, b.length, FileMode.REGULAR_FILE.getBits()));
 		assertEquals(-47, compare(
 				a, 0, a.length, FileMode.REGULAR_FILE.getBits(),
 				b, 0, b.length, FileMode.TREE.getBits()));
+		assertEquals(0, compare(
+				a, 0, a.length, FileMode.REGULAR_FILE.getBits(),
+				b, 0, b.length, FileMode.GITLINK.getBits()));
 		assertEquals(47, compare(
 				a, 0, a.length, FileMode.TREE.getBits(),
+				b, 0, b.length, FileMode.REGULAR_FILE.getBits()));
+		assertEquals(0, compare(
+				a, 0, a.length, FileMode.GITLINK.getBits(),
 				b, 0, b.length, FileMode.REGULAR_FILE.getBits()));
 
 		assertEquals(0, compareSameName(
@@ -104,6 +119,9 @@ public class PathsTest {
 		assertEquals(0, compareSameName(
 				a, 0, a.length,
 				b, 0, b.length, FileMode.REGULAR_FILE.getBits()));
+		assertEquals(0, compareSameName(
+				a, 0, a.length,
+				b, 0, b.length, FileMode.GITLINK.getBits()));
 
 		a = Constants.encode("a.c");
 		b = Constants.encode("a");
