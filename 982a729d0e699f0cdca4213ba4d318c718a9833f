@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c12dec27_23b66a70",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2018-08-24T08:12:52Z",
+      "side": 1,
+      "message": "We don\u0027t need that sentence. Just say you renamed methods and cleaned tests and we could accept this.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 58
+      },
+      "revId": "982a729d0e699f0cdca4213ba4d318c718a9833f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
