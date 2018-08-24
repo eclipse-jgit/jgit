@@ -34,57 +34,57 @@ public class HttpClientConnectionTest {
     private class HttpResponseMock extends AbstractHttpMessage implements HttpResponse {
         @Override
         public StatusLine getStatusLine() {
-            return null;
+			throw new UnsupportedOperationException();
         }
 
         @Override
         public void setStatusLine(StatusLine statusLine) {
-
+			throw new UnsupportedOperationException();
         }
 
         @Override
         public void setStatusLine(ProtocolVersion protocolVersion, int i) {
-
+			throw new UnsupportedOperationException();
         }
 
         @Override
         public void setStatusLine(ProtocolVersion protocolVersion, int i, String s) {
-
+			throw new UnsupportedOperationException();
         }
 
         @Override
         public void setStatusCode(int i) throws IllegalStateException {
-
+			throw new UnsupportedOperationException();
         }
 
         @Override
         public void setReasonPhrase(String s) throws IllegalStateException {
-
+			throw new UnsupportedOperationException();
         }
 
         @Override
         public HttpEntity getEntity() {
-            return null;
+			throw new UnsupportedOperationException();
         }
 
         @Override
         public void setEntity(HttpEntity httpEntity) {
-
+			throw new UnsupportedOperationException();
         }
 
         @Override
         public Locale getLocale() {
-            return null;
+			throw new UnsupportedOperationException();
         }
 
         @Override
         public void setLocale(Locale locale) {
-
+			throw new UnsupportedOperationException();
         }
 
         @Override
         public ProtocolVersion getProtocolVersion() {
-            return null;
+			throw new UnsupportedOperationException();
         }
     }
 }
