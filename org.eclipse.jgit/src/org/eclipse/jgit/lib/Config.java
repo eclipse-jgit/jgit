@@ -868,7 +868,7 @@ public class Config {
 
 		boolean lastWasMatch = false;
 		for (ConfigLine e : srcState.entryList) {
-			if (e.match(section, subsection)) {
+			if (e.includedFrom == null && e.match(section, subsection)) {
 				// Skip this record, it's for the section we are removing.
 				lastWasMatch = true;
 				continue;
@@ -923,7 +923,7 @@ public class Config {
 		//
 		while (entryIndex < entries.size() && valueIndex < values.size()) {
 			final ConfigLine e = entries.get(entryIndex);
-			if (e.match(section, subsection, name)) {
+			if (e.includedFrom == null && e.match(section, subsection, name)) {
 				entries.set(entryIndex, e.forValue(values.get(valueIndex++)));
 				insertPosition = entryIndex + 1;
 			}
@@ -935,7 +935,8 @@ public class Config {
 		if (valueIndex == values.size() && entryIndex < entries.size()) {
 			while (entryIndex < entries.size()) {
 				final ConfigLine e = entries.get(entryIndex++);
-				if (e.match(section, subsection, name))
+				if (e.includedFrom == null
+						&& e.match(section, subsection, name))
 					entries.remove(--entryIndex);
 			}
 		}
