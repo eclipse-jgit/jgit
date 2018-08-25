@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed6a18ea_295071eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-25T05:13:26Z",
+      "side": 1,
+      "message": "optional: Can this describe the functional effect of the change instead of the warning that prompted it?\n\nE.g. something like \u0027HttpClientConnectionTest: Throw UnsupportedOperationException for unused methods\u0027",
+      "revId": "3ab5b7b506f37cec1d956e8f635ec685983bf9b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
