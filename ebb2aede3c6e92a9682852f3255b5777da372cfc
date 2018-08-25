@@ -141,6 +141,24 @@
       "revId": "ebb2aede3c6e92a9682852f3255b5777da372cfc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7114992f_729f9607",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1061,
+      "author": {
+        "id": 440
+      },
+      "writtenOn": "2018-08-25T07:20:56Z",
+      "side": 1,
+      "message": "\u003e I suspect this change came from the \"cleanup on save\" actions in\n \u003e Eclipse.\n\nExactly. I reproduced the change and this time hit Ctrl-Z after saving to revert it. :)",
+      "parentUuid": "3ed06ddf_6a1b35e8",
+      "revId": "ebb2aede3c6e92a9682852f3255b5777da372cfc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
