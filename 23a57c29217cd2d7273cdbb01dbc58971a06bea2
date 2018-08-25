@@ -23,6 +23,30 @@
       "revId": "23a57c29217cd2d7273cdbb01dbc58971a06bea2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d72df91_ad3c95f4",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.5.target",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-08-25T06:08:47Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "15aef379_ac4c90db",
+      "range": {
+        "startLine": 66,
+        "startChar": 6,
+        "endLine": 67,
+        "endChar": 72
+      },
+      "revId": "23a57c29217cd2d7273cdbb01dbc58971a06bea2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
