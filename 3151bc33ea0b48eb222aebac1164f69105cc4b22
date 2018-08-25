@@ -16,6 +16,24 @@
       "revId": "3151bc33ea0b48eb222aebac1164f69105cc4b22",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "747ac9e4_16df7aad",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.target/orbit/S20180730183850-2018-09.tpd",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-08-25T08:49:36Z",
+      "side": -1,
+      "message": "Done",
+      "parentUuid": "08db223f_37a76946",
+      "revId": "3151bc33ea0b48eb222aebac1164f69105cc4b22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
