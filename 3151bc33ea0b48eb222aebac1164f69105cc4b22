@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "08db223f_37a76946",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.target/orbit/S20180730183850-2018-09.tpd",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-08-25T08:49:23Z",
+      "side": -1,
+      "message": "sigh, we should downgrade in this merge",
+      "revId": "3151bc33ea0b48eb222aebac1164f69105cc4b22",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
