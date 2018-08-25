@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "786a2bcf_04c5f0c3",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/transport/http/apache/HttpClientConnectionTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-25T06:38:04Z",
+      "side": 1,
+      "message": "whitespace is inconsistent with surroundings",
+      "revId": "4e9fe0ca190bb77b082a949023043301d778b275",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
