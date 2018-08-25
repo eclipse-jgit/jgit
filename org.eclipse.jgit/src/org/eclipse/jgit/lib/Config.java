@@ -1011,6 +1011,8 @@ public class Config {
 	public String toText() {
 		final StringBuilder out = new StringBuilder();
 		for (ConfigLine e : state.get().entryList) {
+			if (e.includedFrom != null)
+				continue;
 			if (e.prefix != null)
 				out.append(e.prefix);
 			if (e.section != null && e.name == null) {
