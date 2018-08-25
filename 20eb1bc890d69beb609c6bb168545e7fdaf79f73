@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "68cf16ed_b0045cbd",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-08-25T13:39:15Z",
+      "side": 1,
+      "message": "Could you add a test that getSections() returns the sections in the correct order (whatever \"correct\" is; it\u0027s not clear to me)? Also a test with an empty config (only the include, no own properties), and then set new values for existing properties from the include, and verify that we get the new values?",
+      "revId": "20eb1bc890d69beb609c6bb168545e7fdaf79f73",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
