@@ -52,14 +52,19 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.PosixFilePermission;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.errors.CommandFailedException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
@@ -360,9 +365,12 @@ public class FS_POSIX extends FS {
 	 * multiple clients manage to create the same lock file nlink would be
 	 * greater than 2 showing the error.
 	 *
-	 * @see https://www.time-travellers.org/shane/papers/NFS_considered_harmful.html
+	 * @see "https://www.time-travellers.org/shane/papers/NFS_considered_harmful.html"
+	 *
+	 * @deprecated use {@link FS_POSIX#createNewFileAtomic(File)} instead
 	 * @since 4.5
 	 */
+	@Deprecated
 	public boolean createNewFile(File lock) throws IOException {
 		if (!lock.createNewFile()) {
 			return false;
@@ -394,5 +402,71 @@ public class FS_POSIX extends FS {
 				Files.delete(link);
 			}
 		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * An implementation of the File#createNewFile() semantics which can create
+	 * a unique file atomically also on NFS. If the config option
+	 * {@code core.supportsAtomicCreateNewFile = true} (which is the default)
+	 * then simply File#createNewFile() is called.
+	 *
+	 * But if {@code core.supportsAtomicCreateNewFile = false} then after
+	 * successful creation of the lock file a hard link to that lock file is
+	 * created and the attribute nlink of the lock file is checked to be 2. If
+	 * multiple clients manage to create the same lock file nlink would be
+	 * greater than 2 showing the error. The hard link needs to be retained
+	 * until the corresponding file is no longer needed in order to prevent that
+	 * another process can create the same file concurrently using another NFS
+	 * client which might not yet see the file due to caching.
+	 *
+	 * @see "https://www.time-travellers.org/shane/papers/NFS_considered_harmful.html"
+	 * @param file
+	 *            the unique file to be created atomically
+	 * @return LockToken this lock token must be held until the file is no
+	 *         longer needed
+	 * @throws IOException
+	 * @since 5.0
+	 */
+	@Override
+	public LockToken createNewFileAtomic(File file) throws IOException {
+		if (!file.createNewFile()) {
+			return token(false, null);
+		}
+		if (supportsAtomicCreateNewFile() || !supportsUnixNLink) {
+			return token(true, null);
+		}
+		Path link = null;
+		Path path = file.toPath();
+		try {
+			link = Files.createLink(Paths.get(uniqueLinkPath(file)), path);
+			Integer nlink = (Integer) (Files.getAttribute(path,
+					"unix:nlink")); //$NON-NLS-1$
+			if (nlink.intValue() > 2) {
+				LOG.warn(MessageFormat.format(
+						JGitText.get().failedAtomicFileCreation, path, nlink));
+				return token(false, link);
+			} else if (nlink.intValue() < 2) {
+				supportsUnixNLink = false;
+			}
+			return token(true, link);
+		} catch (UnsupportedOperationException | IllegalArgumentException e) {
+			supportsUnixNLink = false;
+			return token(true, link);
+		}
+	}
+
+	private static LockToken token(boolean created, @Nullable Path p) {
+		return ((p != null) && Files.exists(p))
+				? new LockToken(created, Optional.of(p))
+				: new LockToken(created, Optional.empty());
+	}
+
+	private static String uniqueLinkPath(File file) {
+		UUID id = UUID.randomUUID();
+		return file.getAbsolutePath() + "." //$NON-NLS-1$
+				+ Long.toHexString(id.getMostSignificantBits())
+				+ Long.toHexString(id.getLeastSignificantBits());
 	}
 }
