@@ -63,7 +63,10 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.FS.LockToken;
 import org.eclipse.jgit.util.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Git style file locking and replacement.
@@ -76,6 +79,7 @@ import org.eclipse.jgit.util.FileUtils;
  * name.
  */
 public class LockFile {
+	private final static Logger LOG = LoggerFactory.getLogger(LockFile.class);
 
 	/**
 	 * Unlock the given file.
@@ -133,6 +137,8 @@ public class LockFile {
 
 	private FileSnapshot commitSnapshot;
 
+	private LockToken token;
+
 	/**
 	 * Create a new lock for any file.
 	 *
@@ -155,7 +161,8 @@ public class LockFile {
 	 */
 	public boolean lock() throws IOException {
 		FileUtils.mkdirs(lck.getParentFile(), true);
-		if (FS.DETECTED.createNewFile(lck)) {
+		token = FS.DETECTED.createNewFileAtomic(lck);
+		if (token.isCreated()) {
 			haveLck = true;
 			try {
 				os = new FileOutputStream(lck);
@@ -441,6 +448,8 @@ public class LockFile {
 		try {
 			FileUtils.rename(lck, ref, StandardCopyOption.ATOMIC_MOVE);
 			haveLck = false;
+			token.close();
+			token = null;
 			return true;
 		} catch (IOException e) {
 			unlock();
@@ -490,8 +499,9 @@ public class LockFile {
 		if (os != null) {
 			try {
 				os.close();
-			} catch (IOException ioe) {
-				// Ignore this
+			} catch (IOException e) {
+				LOG.error(MessageFormat
+						.format(JGitText.get().unlockLockFileFailed, lck), e);
 			}
 			os = null;
 		}
@@ -501,7 +511,11 @@ public class LockFile {
 			try {
 				FileUtils.delete(lck, FileUtils.RETRY);
 			} catch (IOException e) {
-				// couldn't delete the file even after retry.
+				LOG.error(MessageFormat
+						.format(JGitText.get().unlockLockFileFailed, lck), e);
+			} finally {
+				token.close();
+				token = null;
 			}
 		}
 	}
