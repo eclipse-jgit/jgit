@@ -19,6 +19,7 @@ java_library(
     javacopts = select({
         "//:java9": POST_JAVA8_OPTIONS,
         "//:java10": POST_JAVA8_OPTIONS,
+        "//:java11": POST_JAVA8_OPTIONS,,
         "//conditions:default": [],
     }),
     resource_strip_prefix = "org.eclipse.jgit/resources",
