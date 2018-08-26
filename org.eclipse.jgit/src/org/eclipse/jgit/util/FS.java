@@ -45,6 +45,7 @@ package org.eclipse.jgit.util;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -52,6 +53,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.text.MessageFormat;
@@ -59,6 +62,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -800,11 +804,76 @@ public abstract class FS {
 	 *            the file to be created
 	 * @return <code>true</code> if the file was created, <code>false</code> if
 	 *         the file already existed
-	 * @throws IOException
+	 * @throws java.io.IOException
+	 * @deprecated use {@link #createNewFileAtomic(File)} instead
 	 * @since 4.5
 	 */
+	@Deprecated
 	public boolean createNewFile(File path) throws IOException {
 		return path.createNewFile();
+	}
+
+	/**
+	 * A token representing a file created by
+	 * {@link #createNewFileAtomic(File)}. The token must be retained until the
+	 * file has been deleted in order to guarantee that the unique file was
+	 * created atomically. As soon as the file is no longer needed the lock
+	 * token must be closed.
+	 *
+	 * @since 4.7
+	 */
+	public static class LockToken implements Closeable {
+		private boolean isCreated;
+
+		private Optional<Path> link;
+
+		LockToken(boolean isCreated, Optional<Path> link) {
+			this.isCreated = isCreated;
+			this.link = link;
+		}
+
+		/**
+		 * @return {@code true} if the file was created successfully
+		 */
+		public boolean isCreated() {
+			return isCreated;
+		}
+
+		@Override
+		public void close() {
+			if (link.isPresent()) {
+				try {
+					Files.delete(link.get());
+				} catch (IOException e) {
+					LOG.error(MessageFormat.format(JGitText.get().closeLockTokenFailed,
+							this), e);
+				}
+			}
+		}
+
+		@Override
+		public String toString() {
+			return "LockToken [lockCreated=" + isCreated + //$NON-NLS-1$
+					", link=" //$NON-NLS-1$
+					+ (link.isPresent() ? link.get().getFileName() + "]" //$NON-NLS-1$
+							: "<null>]"); //$NON-NLS-1$
+		}
+	}
+
+	/**
+	 * Create a new file. See {@link java.io.File#createNewFile()}. Subclasses
+	 * of this class may take care to provide a safe implementation for this
+	 * even if {@link #supportsAtomicCreateNewFile()} is <code>false</code>
+	 *
+	 * @param path
+	 *            the file to be created
+	 * @return LockToken this token must be closed after the created file was
+	 *         deleted
+	 * @throws IOException
+	 * @since 4.7
+	 */
+	public LockToken createNewFileAtomic(File path) throws IOException {
+		return new LockToken(path.createNewFile(), Optional.empty());
 	}
 
 	/**
