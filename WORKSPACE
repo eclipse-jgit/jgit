@@ -167,3 +167,10 @@ maven_jar(
     sha1 = "f0f25aa2f27d618a04bc7356fa247ae4a05245b3",
     src_sha1 = "4e5c4c483cfd9804c2fc5d5751866243bbb9d740",
 )
+
+maven_jar(
+    name = "jaxb-api",
+    artifact = "javax.xml.bind:jaxb-api:2.3.1",
+    sha1 = "8531ad5ac454cc2deb9d4d32c40c4d7451939b5d",
+    src_sha1 = "e47264d065cecbc572ba99856fcc7da19a470ae3",
+)
