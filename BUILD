@@ -19,6 +19,13 @@ config_setting(
     },
 )
 
+config_setting(
+    name = "java11",
+    values = {
+        "java_toolchain": ":toolchain_vanilla",
+    },
+)
+
 java_runtime(
     name = "absolute_javabase",
     java_home = "$(ABSOLUTE_JAVABASE)",
