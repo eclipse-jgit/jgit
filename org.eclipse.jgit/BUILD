@@ -11,11 +11,14 @@ SRCS = glob(
 
 RESOURCES = glob(["resources/**"])
 
+POST_JAVA8_OPTIONS = ["--add-modules=java.xml.bind"]
+
 java_library(
     name = "jgit",
     srcs = SRCS,
     javacopts = select({
-        "//:jdk9": ["--add-modules=java.xml.bind"],
+        "//:java9": POST_JAVA8_OPTIONS,
+        "//:java10": POST_JAVA8_OPTIONS,
         "//conditions:default": [],
     }),
     resource_strip_prefix = "org.eclipse.jgit/resources",
