@@ -16,6 +16,7 @@ java_library(
     srcs = SRCS,
     javacopts = select({
         "//:jdk9": ["--add-modules=java.xml.bind"],
+        "//:jdk10": ["--add-modules=java.xml.bind"],
         "//conditions:default": [],
     }),
     resource_strip_prefix = "org.eclipse.jgit/resources",

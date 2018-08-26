@@ -3,7 +3,14 @@ package(default_visibility = ["//visibility:public"])
 config_setting(
     name = "jdk9",
     values = {
-        "java_toolchain": "@bazel_tools//tools/jdk:toolchain_jdk9",
+        "java_toolchain": "@bazel_tools//tools/jdk:toolchain_java9",
+    },
+)
+
+config_setting(
+    name = "jdk10",
+    values = {
+        "java_toolchain": "@bazel_tools//tools/jdk:toolchain_java10",
     },
 )
 
