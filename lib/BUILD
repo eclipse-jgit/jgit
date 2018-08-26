@@ -169,3 +169,9 @@ java_library(
     visibility = ["//visibility:public"],
     exports = ["@tukaani-xz//jar"],
 )
+
+java_library(
+    name = "jaxb-api",
+    visibility = ["//visibility:public"],
+    exports = ["@jaxb-api//jar"],
+)
