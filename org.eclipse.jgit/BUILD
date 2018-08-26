@@ -15,8 +15,9 @@ java_library(
     name = "jgit",
     srcs = SRCS,
     javacopts = select({
-        "//:jdk9": ["--add-modules=java.xml.bind"],
-        "//:jdk10": ["--add-modules=java.xml.bind"],
+        "//:java9": ["--add-modules=java.xml.bind"],
+        "//:java10": ["--add-modules=java.xml.bind"],
+        "//:java11": ["--add-modules=java.xml.bind"],
         "//conditions:default": [],
     }),
     resource_strip_prefix = "org.eclipse.jgit/resources",
