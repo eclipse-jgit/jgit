@@ -1093,7 +1093,7 @@ public class RefDirectory extends RefDatabase {
 		File dir = file.getParentFile();
 		for (int i = 0; i < depth; ++i) {
 			try {
-				Files.delete(dir.toPath());
+				Files.deleteIfExists(dir.toPath());
 			} catch (DirectoryNotEmptyException e) {
 				// Don't log; normal case when there are other refs with the
 				// same prefix
