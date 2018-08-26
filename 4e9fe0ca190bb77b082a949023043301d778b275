@@ -34,6 +34,24 @@
       "revId": "4e9fe0ca190bb77b082a949023043301d778b275",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ec90501_afb5f8aa",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/transport/http/apache/HttpClientConnectionTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-08-26T23:34:39Z",
+      "side": 1,
+      "message": "Should I reformat the entire file to use tabs?  (in a separate commit).",
+      "parentUuid": "3768a196_84b5281e",
+      "revId": "4e9fe0ca190bb77b082a949023043301d778b275",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
