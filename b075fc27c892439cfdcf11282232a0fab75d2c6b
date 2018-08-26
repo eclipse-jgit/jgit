@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "992a4581_723735d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2018-08-26T20:10:28Z",
+      "side": 1,
+      "message": "Note, that on 0.17.rc1 error prone integration is broken and should be fixed in this PR: [1].\n\n* [1] https://github.com/bazelbuild/bazel/issues/5989",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 71
+      },
+      "revId": "b075fc27c892439cfdcf11282232a0fab75d2c6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90db4dcf_86692a27",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2018-08-26T20:10:28Z",
+      "side": 1,
+      "message": "This produced this result on most recent master:\n\n  https://pastebin.com/YkWhhSpy",
+      "revId": "b075fc27c892439cfdcf11282232a0fab75d2c6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
