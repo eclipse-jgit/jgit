@@ -1,9 +1,21 @@
 package(default_visibility = ["//visibility:public"])
 
+load(
+    "@bazel_tools//tools/jdk:default_java_toolchain.bzl",
+    "default_java_toolchain",
+)
+
 config_setting(
-    name = "jdk9",
+    name = "java9",
     values = {
-        "java_toolchain": "@bazel_tools//tools/jdk:toolchain_jdk9",
+        "java_toolchain": "@bazel_tools//tools/jdk:toolchain_java9",
+    },
+)
+
+config_setting(
+    name = "java_next",
+    values = {
+        "java_toolchain": ":toolchain_vanilla",
     },
 )
 

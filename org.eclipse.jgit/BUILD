@@ -11,13 +11,11 @@ SRCS = glob(
 
 RESOURCES = glob(["resources/**"])
 
+POST_JAVA8_DEPS = ["//lib:jaxb-api"]
+
 java_library(
     name = "jgit",
     srcs = SRCS,
-    javacopts = select({
-        "//:jdk9": ["--add-modules=java.xml.bind"],
-        "//conditions:default": [],
-    }),
     resource_strip_prefix = "org.eclipse.jgit/resources",
     resources = RESOURCES,
     deps = [
@@ -26,7 +24,11 @@ java_library(
         "//lib:jsch",
         "//lib:jzlib",
         "//lib:slf4j-api",
-    ],
+    ] + select({
+        "//:java9": POST_JAVA8_DEPS,
+        "//:java_next": POST_JAVA8_DEPS,
+        "//conditions:default": [],
+    }),
 )
 
 java_library(
