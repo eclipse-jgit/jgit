@@ -71,7 +71,7 @@ public final class FetchV2Request {
 
 	private final int shallowSince;
 
-	private final List<String> shallowExcludeRefs;
+	private final List<String> deepenNotRefs;
 
 	private final int depth;
 
@@ -89,7 +89,7 @@ public final class FetchV2Request {
 		this.wantsIds = wantsIds;
 		this.clientShallowCommits = clientShallowCommits;
 		this.shallowSince = shallowSince;
-		this.shallowExcludeRefs = shallowExcludeRefs;
+		this.deepenNotRefs = shallowExcludeRefs;
 		this.depth = depth;
 		this.filterBlobLimit = filterBlobLimit;
 		this.options = options;
@@ -135,8 +135,8 @@ public final class FetchV2Request {
 	 * The value in a "deepen-since" line in the request, indicating the
 	 * timestamp where to stop fetching/cloning.
 	 *
-	 * @return timestamp where to stop the shallow fetch/clone. Defaults to 0 if
-	 *         not set in the request
+	 * @return timestamp (in unix epoch, second since 1970), where to stop the
+	 *         shallow fetch/clone. Defaults to 0 if not set in the request.
 	 */
 	int getShallowSince() {
 		return shallowSince;
@@ -146,8 +146,8 @@ public final class FetchV2Request {
 	 * @return the refs in "deepen-not" lines in the request.
 	 */
 	@NonNull
-	List<String> getShallowExcludeRefs() {
-		return shallowExcludeRefs;
+	List<String> getDeepenNotRefs() {
+		return deepenNotRefs;
 	}
 
 	/**
@@ -194,7 +194,7 @@ public final class FetchV2Request {
 
 		Set<ObjectId> clientShallowCommits = new HashSet<>();
 
-		List<String> shallowExcludeRefs = new ArrayList<>();
+		List<String> deepenNotRefs = new ArrayList<>();
 
 		Set<String> options = new HashSet<>();
 
@@ -282,16 +282,16 @@ public final class FetchV2Request {
 		/**
 		 * @return if there has been any "deepen not" line in the request
 		 */
-		boolean hasShallowExcludeRefs() {
-			return shallowExcludeRefs.size() > 0;
+		boolean hasDeepenNotRefs() {
+			return !deepenNotRefs.isEmpty();
 		}
 
 		/**
-		 * @param shallowExcludeRef reference in a "deepen not" line
+		 * @param deepenNotRef reference in a "deepen not" line
 		 * @return the builder
 		 */
-		Builder addShallowExcludeRefs(String shallowExcludeRef) {
-			this.shallowExcludeRefs.add(shallowExcludeRef);
+		Builder addDeepenNotRef(String deepenNotRef) {
+			this.deepenNotRefs.add(deepenNotRef);
 			return this;
 		}
 
@@ -328,7 +328,7 @@ public final class FetchV2Request {
 		 */
 		FetchV2Request build() {
 			return new FetchV2Request(peerHas, wantedRefs, wantsIds,
-					clientShallowCommits, shallowSince, shallowExcludeRefs,
+					clientShallowCommits, shallowSince, deepenNotRefs,
 					depth, filterBlobLimit, options);
 		}
 	}
