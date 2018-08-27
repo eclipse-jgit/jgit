@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f31dfa7_25d9a981",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LockFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2018-08-27T14:09:20Z",
+      "side": 1,
+      "message": "shouldn\u0027t we set token to null now? If a token is succesfully closed and the link has been deleted we shouldn\u0027t keep references to it.",
+      "revId": "45fc9830d16a86d06073e08c9a6c388c611ac09a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba440f7a_00bc0809",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 900,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2018-08-27T14:09:20Z",
+      "side": 1,
+      "message": "why newlines before and in-between the private fields?",
+      "revId": "45fc9830d16a86d06073e08c9a6c388c611ac09a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
