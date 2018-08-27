@@ -95,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "d74b16fb_7e59f34f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/IndexDiffSubmoduleTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2018-08-27T09:50:10Z",
+      "side": 1,
+      "message": "Not sure whether its relevant because of your alternative fix: heres the draft I wrote\n\nNo problem keeping your tests. As long as the tests cover the new code I am happy. I also like this tests which try to reproduce exactly what users of JGit do (kind of integration tests).\n\nOn the other hand I like to have unit tests which work on JGit internals, run fast and test exactly the broken functionality without being dependent on unrelated code, like transport code. I looked at\nwhat you fixed in IndexDiff and tried to produce a minimal test which covers this situation. The test I proposed fails without your fix in IndexDiff and runs with your fix. That\u0027s because your fix is for a situation where it is irrelevant whether in the filesystem the submodule_trash folder exists or is just empty. In both cases worktreeiterator will be null in IndexDiff.\n\nSo why not have your tests and this test?",
+      "parentUuid": "047c846d_fed83b09",
+      "range": {
+        "startLine": 105,
+        "startChar": 0,
+        "endLine": 126,
+        "endChar": 2
+      },
+      "revId": "1398fe22118627cdbe783e4238573dfd44f560ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb1ae708_c4868ba5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
         "patchSetId": 1
