@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "18d20429_b61102bb",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-08-27T02:05:03Z",
+      "side": 1,
+      "message": "Unrelated to this change, but in this file there is inconsistent usage of single quotes and double quotes.",
+      "range": {
+        "startLine": 128,
+        "startChar": 39,
+        "endLine": 128,
+        "endChar": 46
+      },
+      "revId": "2f47c594a90a12771293f879a5c211118f252c6a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a9dbfa0e_08cfb57f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 930,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-08-27T02:05:03Z",
+      "side": 1,
+      "message": "This will fail if link.isPresent() is false.",
+      "range": {
+        "startLine": 930,
+        "startChar": 17,
+        "endLine": 930,
+        "endChar": 41
+      },
+      "revId": "2f47c594a90a12771293f879a5c211118f252c6a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
