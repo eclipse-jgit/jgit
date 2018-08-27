@@ -997,6 +997,9 @@ public class GC {
 	private void deleteTempPacksIdx() {
 		Path packDir = repo.getObjectDatabase().getPackDirectory().toPath();
 		Instant threshold = Instant.now().minus(1, ChronoUnit.DAYS);
+		if (!Files.exists(packDir)) {
+			return;
+		}
 		try (DirectoryStream<Path> stream =
 				Files.newDirectoryStream(packDir, "gc_*_tmp")) { //$NON-NLS-1$
 			stream.forEach(t -> {
