@@ -22,6 +22,46 @@
       "revId": "a867cb3ba932a12e92932e97d79e956f4d8d9f2a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6e46f1b_32035922",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/PathsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2018-08-27T13:50:32Z",
+      "side": 1,
+      "message": "Should a GITLINK path be equal to a FILE path? Although a TREE path is reported to be different from a FILE path?",
+      "range": {
+        "startLine": 106,
+        "startChar": 0,
+        "endLine": 108,
+        "endChar": 49
+      },
+      "revId": "a867cb3ba932a12e92932e97d79e956f4d8d9f2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb86a7a7_f808eb01",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/Paths.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2018-08-27T13:50:32Z",
+      "side": 1,
+      "message": "That means that if either aMode or bMode are a GITLINK then modeCompare() will always tell modes are compatible. If aMode\u003d\u003dFILE and bMode\u003d\u003dGITLINK shouldn\u0027t modeCompare return !\u003d0.",
+      "revId": "a867cb3ba932a12e92932e97d79e956f4d8d9f2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
