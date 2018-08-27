@@ -16,6 +16,24 @@
       "revId": "307e334d5f1f39b57494691f167145c7f13b54df",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83dc08ca_428a740e",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/LsFilesTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-08-27T23:11:17Z",
+      "side": 1,
+      "message": "Did you want this to be resolved before submitting?",
+      "parentUuid": "002de79b_60456995",
+      "revId": "307e334d5f1f39b57494691f167145c7f13b54df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
