@@ -963,7 +963,6 @@ public class UploadPack {
 		}
 
 		String line;
-		boolean doneReceived = false;
 
 		// Currently, we do not support any capabilities, so the next
 		// line is DELIM.
@@ -997,7 +996,7 @@ public class UploadPack {
 			} else if (line.startsWith("have ")) { //$NON-NLS-1$
 				reqBuilder.addPeerHas(ObjectId.fromString(line.substring(5)));
 			} else if (line.equals("done")) { //$NON-NLS-1$
-				doneReceived = true;
+				reqBuilder.setDoneReceived();
 			} else if (line.equals(OPTION_THIN_PACK)) {
 				reqBuilder.addOption(OPTION_THIN_PACK);
 			} else if (line.equals(OPTION_NO_PROGRESS)) {
@@ -1089,7 +1088,7 @@ public class UploadPack {
 		if (!req.getClientShallowCommits().isEmpty())
 			walk.assumeShallow(req.getClientShallowCommits());
 
-		if (doneReceived) {
+		if (req.isDoneReceived()) {
 			processHaveLines(req.getPeerHas(), ObjectId.zeroId(),
 					new PacketLineOut(NullOutputStream.INSTANCE));
 		} else {
@@ -1109,7 +1108,7 @@ public class UploadPack {
 			sectionSent = true;
 		}
 
-		if (doneReceived || okToGiveUp()) {
+		if (req.isDoneReceived() || okToGiveUp()) {
 			if (shallowCommits != null) {
 				if (sectionSent)
 					pckOut.writeDelim();

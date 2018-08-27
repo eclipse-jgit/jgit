@@ -79,11 +79,13 @@ public final class FetchV2Request {
 
 	private final Set<String> options;
 
+	private final boolean doneReceived;
+
 	private FetchV2Request(List<ObjectId> peerHas,
 			TreeMap<String, ObjectId> wantedRefs, Set<ObjectId> wantsIds,
 			Set<ObjectId> clientShallowCommits, int shallowSince,
 			List<String> shallowExcludeRefs, int depth, long filterBlobLimit,
-			Set<String> options) {
+			boolean doneReceived, Set<String> options) {
 		this.peerHas = peerHas;
 		this.wantedRefs = wantedRefs;
 		this.wantsIds = wantsIds;
@@ -92,6 +94,7 @@ public final class FetchV2Request {
 		this.shallowExcludeRefs = shallowExcludeRefs;
 		this.depth = depth;
 		this.filterBlobLimit = filterBlobLimit;
+		this.doneReceived = doneReceived;
 		this.options = options;
 	}
 
@@ -165,6 +168,13 @@ public final class FetchV2Request {
 	}
 
 	/**
+	 * @return true if the request had a "done" line
+	 */
+	public boolean isDoneReceived() {
+		return doneReceived;
+	}
+
+	/**
 	 * Options that tune the expected response from the server, like
 	 * "thin-pack", "no-progress" or "ofs-delta"
 	 *
@@ -203,6 +213,8 @@ public final class FetchV2Request {
 		int shallowSince;
 
 		long filterBlobLimit = -1;
+
+		boolean doneReceived = false;
 
 		private Builder() {
 		}
@@ -324,12 +336,21 @@ public final class FetchV2Request {
 		}
 
 		/**
+		 * Mark that the "done" line has been received.
+		 *
+		 * @return the builder
+		 */
+		Builder setDoneReceived() {
+			this.doneReceived = true;
+			return this;
+		}
+		/**
 		 * @return Initialized fetch request
 		 */
 		FetchV2Request build() {
 			return new FetchV2Request(peerHas, wantedRefs, wantsIds,
 					clientShallowCommits, shallowSince, shallowExcludeRefs,
-					depth, filterBlobLimit, options);
+					depth, filterBlobLimit, doneReceived, options);
 		}
 	}
 }
