@@ -291,7 +291,7 @@ public class UploadPack {
 	String userAgent;
 
 	/** Raw ObjectIds the client has asked for, before validating them. */
-	private final Set<ObjectId> wantIds = new HashSet<>();
+	private Set<ObjectId> wantIds = new HashSet<>();
 
 	/** Objects the client wants to obtain. */
 	private final Set<RevObject> wantAll = new HashSet<>();
@@ -820,18 +820,28 @@ public class UploadPack {
 
 			long negotiateStart = System.currentTimeMillis();
 			accumulator.advertised = advertised.size();
-			recvWants();
-			if (wantIds.isEmpty()) {
-				preUploadHook.onBeginNegotiateRound(this, wantIds, 0);
-				preUploadHook.onEndNegotiateRound(this, wantIds, 0, 0, false);
+
+			ProtocolV0Parser parser = new ProtocolV0Parser(transferConfig);
+			FetchV0Request req = parser.recvWants(pckIn);
+
+			wantIds = req.getWantIds();
+			clientShallowCommits = req.getClientShallowCommits();
+			filterBlobLimit = req.getFilterBlobLimit();
+			options = req.getClientCapabilities();
+			depth = req.getDepth();
+
+			if (req.getWantIds().isEmpty()) {
+				preUploadHook.onBeginNegotiateRound(this, req.getWantIds(), 0);
+				preUploadHook.onEndNegotiateRound(this, req.getWantIds(), 0, 0,
+						false);
 				return;
 			}
-			accumulator.wants = wantIds.size();
+			accumulator.wants = req.getWantIds().size();
 
-			if (options.contains(OPTION_MULTI_ACK_DETAILED)) {
+			if (req.getClientCapabilities().contains(OPTION_MULTI_ACK_DETAILED)) {
 				multiAck = MultiAck.DETAILED;
-				noDone = options.contains(OPTION_NO_DONE);
-			} else if (options.contains(OPTION_MULTI_ACK))
+				noDone = req.getClientCapabilities().contains(OPTION_NO_DONE);
+			} else if (req.getClientCapabilities().contains(OPTION_MULTI_ACK))
 				multiAck = MultiAck.CONTINUE;
 			else
 				multiAck = MultiAck.OFF;
@@ -1337,67 +1347,6 @@ public class UploadPack {
 	 */
 	public OutputStream getMessageOutputStream() {
 		return msgOut;
-	}
-
-	private void recvWants() throws IOException {
-		boolean isFirst = true;
-		boolean filterReceived = false;
-		for (;;) {
-			String line;
-			try {
-				line = pckIn.readString();
-			} catch (EOFException eof) {
-				if (isFirst)
-					break;
-				throw eof;
-			}
-
-			if (line == PacketLineIn.END)
-				break;
-
-			if (line.startsWith("deepen ")) { //$NON-NLS-1$
-				depth = Integer.parseInt(line.substring(7));
-				if (depth <= 0) {
-					throw new PackProtocolException(
-							MessageFormat.format(JGitText.get().invalidDepth,
-									Integer.valueOf(depth)));
-				}
-				continue;
-			}
-
-			if (line.startsWith("shallow ")) { //$NON-NLS-1$
-				clientShallowCommits.add(ObjectId.fromString(line.substring(8)));
-				continue;
-			}
-
-			if (transferConfig.isAllowFilter()
-					&& line.startsWith(OPTION_FILTER + " ")) { //$NON-NLS-1$
-				String arg = line.substring(OPTION_FILTER.length() + 1);
-
-				if (filterReceived) {
-					throw new PackProtocolException(JGitText.get().tooManyFilters);
-				}
-				filterReceived = true;
-
-				filterBlobLimit = ProtocolV2Parser.filterLine(arg);
-				continue;
-			}
-
-			if (!line.startsWith("want ") || line.length() < 45) //$NON-NLS-1$
-				throw new PackProtocolException(MessageFormat.format(JGitText.get().expectedGot, "want", line)); //$NON-NLS-1$
-
-			if (isFirst) {
-				if (line.length() > 45) {
-					FirstWant firstLine = FirstWant.fromLine(line);
-					options = firstLine.getCapabilities();
-					line = firstLine.getLine();
-				} else
-					options = Collections.emptySet();
-			}
-
-			wantIds.add(ObjectId.fromString(line.substring(5)));
-			isFirst = false;
-		}
 	}
 
 	/**
