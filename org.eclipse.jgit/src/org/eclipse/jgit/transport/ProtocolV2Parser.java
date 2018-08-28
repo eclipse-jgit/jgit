@@ -11,6 +11,8 @@ import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_WANT_REF;
 
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.internal.JGitText;
@@ -141,6 +143,33 @@ class ProtocolV2Parser {
 		}
 
 		return reqBuilder.build();
+	}
+
+	LsRefsV2Request lsRef(PacketLineIn pckIn) throws IOException {
+		LsRefsV2Request.Builder builder = LsRefsV2Request.builder();
+		List<String> prefixes = new ArrayList<>();
+		String line = pckIn.readString();
+		// Currently, we do not support any capabilities, so the next
+		// line is DELIM if there are arguments or END if not.
+		if (line == PacketLineIn.DELIM) {
+			while ((line = pckIn.readString()) != PacketLineIn.END) {
+				if (line.equals("peel")) { //$NON-NLS-1$
+					builder.setPeel(true);
+				} else if (line.equals("symrefs")) { //$NON-NLS-1$
+					builder.setSymrefs(true);
+				} else if (line.startsWith("ref-prefix ")) { //$NON-NLS-1$
+					prefixes.add(line.substring("ref-prefix ".length())); //$NON-NLS-1$
+				} else {
+					throw new PackProtocolException(MessageFormat
+							.format(JGitText.get().unexpectedPacketLine, line));
+				}
+			}
+		} else if (line != PacketLineIn.END) {
+			throw new PackProtocolException(MessageFormat
+					.format(JGitText.get().unexpectedPacketLine, line));
+		}
+
+		return builder.setRefPrefixes(prefixes).build();
 	}
 
 	long filterLine(String arg) throws PackProtocolException {
