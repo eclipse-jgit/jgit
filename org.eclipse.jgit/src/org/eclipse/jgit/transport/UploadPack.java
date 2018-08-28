@@ -177,44 +177,6 @@ public class UploadPack {
 				throws PackProtocolException, IOException;
 	}
 
-	/** Data in the first line of a request, the line itself plus options. */
-	public static class FirstLine {
-		private final String line;
-		private final Set<String> options;
-
-		/**
-		 * Parse the first line of a receive-pack request.
-		 *
-		 * @param line
-		 *            line from the client.
-		 */
-		public FirstLine(String line) {
-			if (line.length() > 45) {
-				final HashSet<String> opts = new HashSet<>();
-				String opt = line.substring(45);
-				if (opt.startsWith(" ")) //$NON-NLS-1$
-					opt = opt.substring(1);
-				for (String c : opt.split(" ")) //$NON-NLS-1$
-					opts.add(c);
-				this.line = line.substring(0, 45);
-				this.options = Collections.unmodifiableSet(opts);
-			} else {
-				this.line = line;
-				this.options = Collections.emptySet();
-			}
-		}
-
-		/** @return non-capabilities part of the line. */
-		public String getLine() {
-			return line;
-		}
-
-		/** @return options parsed from the line. */
-		public Set<String> getOptions() {
-			return options;
-		}
-	}
-
 	/*
 	 * {@link java.util.function.Consumer} doesn't allow throwing checked
 	 * exceptions. Define our own to propagate IOExceptions.
@@ -823,18 +785,28 @@ public class UploadPack {
 
 			long negotiateStart = System.currentTimeMillis();
 			accumulator.advertised = advertised.size();
-			recvWants();
-			if (wantIds.isEmpty()) {
-				preUploadHook.onBeginNegotiateRound(this, wantIds, 0);
-				preUploadHook.onEndNegotiateRound(this, wantIds, 0, 0, false);
+
+			ProtocolV1Parser parser = new ProtocolV1Parser(transferConfig);
+			FetchV1Request req = parser.recvWants(pckIn);
+
+			wantIds.addAll(req.getWantsIds());
+			clientShallowCommits = req.getClientShallowCommits();
+			filterBlobLimit = req.getFilterBlobLimit();
+			options = req.getOptions();
+			depth = req.getDepth();
+
+			if (req.getWantsIds().isEmpty()) {
+				preUploadHook.onBeginNegotiateRound(this, req.getWantsIds(), 0);
+				preUploadHook.onEndNegotiateRound(this, req.getWantsIds(), 0, 0,
+						false);
 				return;
 			}
-			accumulator.wants = wantIds.size();
+			accumulator.wants = req.getWantsIds().size();
 
-			if (options.contains(OPTION_MULTI_ACK_DETAILED)) {
+			if (req.getOptions().contains(OPTION_MULTI_ACK_DETAILED)) {
 				multiAck = MultiAck.DETAILED;
-				noDone = options.contains(OPTION_NO_DONE);
-			} else if (options.contains(OPTION_MULTI_ACK))
+				noDone = req.getOptions().contains(OPTION_NO_DONE);
+			} else if (req.getOptions().contains(OPTION_MULTI_ACK))
 				multiAck = MultiAck.CONTINUE;
 			else
 				multiAck = MultiAck.OFF;
@@ -1340,67 +1312,6 @@ public class UploadPack {
 	 */
 	public OutputStream getMessageOutputStream() {
 		return msgOut;
-	}
-
-	private void recvWants() throws IOException {
-		boolean isFirst = true;
-		boolean filterReceived = false;
-		for (;;) {
-			String line;
-			try {
-				line = pckIn.readString();
-			} catch (EOFException eof) {
-				if (isFirst)
-					break;
-				throw eof;
-			}
-
-			if (line == PacketLineIn.END)
-				break;
-
-			if (line.startsWith("deepen ")) { //$NON-NLS-1$
-				depth = Integer.parseInt(line.substring(7));
-				if (depth <= 0) {
-					throw new PackProtocolException(
-							MessageFormat.format(JGitText.get().invalidDepth,
-									Integer.valueOf(depth)));
-				}
-				continue;
-			}
-
-			if (line.startsWith("shallow ")) { //$NON-NLS-1$
-				clientShallowCommits.add(ObjectId.fromString(line.substring(8)));
-				continue;
-			}
-
-			if (transferConfig.isAllowFilter()
-					&& line.startsWith(OPTION_FILTER + " ")) { //$NON-NLS-1$
-				String arg = line.substring(OPTION_FILTER.length() + 1);
-
-				if (filterReceived) {
-					throw new PackProtocolException(JGitText.get().tooManyFilters);
-				}
-				filterReceived = true;
-
-				filterBlobLimit = ProtocolV2Parser.filterLine(arg);
-				continue;
-			}
-
-			if (!line.startsWith("want ") || line.length() < 45) //$NON-NLS-1$
-				throw new PackProtocolException(MessageFormat.format(JGitText.get().expectedGot, "want", line)); //$NON-NLS-1$
-
-			if (isFirst) {
-				if (line.length() > 45) {
-					FirstLine firstLine = new FirstLine(line);
-					options = firstLine.getOptions();
-					line = firstLine.getLine();
-				} else
-					options = Collections.emptySet();
-			}
-
-			wantIds.add(ObjectId.fromString(line.substring(5)));
-			isFirst = false;
-		}
 	}
 
 	/**

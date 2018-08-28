@@ -66,6 +66,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.transport.PacketLineIn;
 import org.eclipse.jgit.transport.PacketLineOut;
+import org.eclipse.jgit.transport.ProtocolV1Parser;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.RequestNotYetReadException;
 import org.eclipse.jgit.transport.SideBandOutputStream;
@@ -246,7 +247,8 @@ public class GitSmartHttpTools {
 			// not have an UploadPack, or it might not have read any of the request.
 			// So, cheat and read the first line.
 			String line = new PacketLineIn(req.getInputStream()).readString();
-			UploadPack.FirstLine parsed = new UploadPack.FirstLine(line);
+			ProtocolV1Parser.FirstLine parsed = new ProtocolV1Parser.FirstLine(
+					line);
 			return (parsed.getOptions().contains(OPTION_SIDE_BAND)
 					|| parsed.getOptions().contains(OPTION_SIDE_BAND_64K));
 		} catch (IOException e) {
