@@ -215,6 +215,15 @@ public class UploadPack {
 		}
 	}
 
+	/*
+	 * Java Consumer interface don't allow to throw checked exceptions. Define
+	 * our own to propagate IOExceptions.
+	 */
+	@FunctionalInterface
+	private static interface IOConsumer<R> {
+		void accept(R t) throws IOException;
+	}
+
 	/** Database we read the objects from. */
 	private final Repository db;
 
@@ -832,8 +841,15 @@ public class UploadPack {
 
 			if (!clientShallowCommits.isEmpty())
 				verifyClientShallow(clientShallowCommits);
-			if (depth != 0)
-				processShallow(null, unshallowCommits, true);
+			if (depth != 0) {
+				computeShallowsAndUnshallows(wantIds, shallow -> {
+					pckOut.writeString("shallow " + shallow.name() + '\n'); //$NON-NLS-1$
+				}, unshallow -> {
+					pckOut.writeString("unshallow " + unshallow.name() + '\n'); //$NON-NLS-1$
+					unshallowCommits.add(unshallow);
+				});
+				pckOut.end();
+			}
 			if (!clientShallowCommits.isEmpty())
 				walk.assumeShallow(clientShallowCommits);
 			sendPack = negotiate(accumulator);
@@ -886,7 +902,8 @@ public class UploadPack {
 		}
 
 		if (sendPack) {
-			sendPack(accumulator, refs == null ? null : refs.values(), unshallowCommits);
+			sendPack(accumulator, refs == null ? null : refs.values(),
+					unshallowCommits);
 		}
 	}
 
@@ -983,7 +1000,9 @@ public class UploadPack {
 			verifyClientShallow(req.getClientShallowCommits());
 		}
 		if (mayHaveShallow) {
-			processShallow(shallowCommits, unshallowCommits, false);
+			computeShallowsAndUnshallows(req.getWantsIds(),
+					shallowCommit -> shallowCommits.add(shallowCommit),
+					unshallowCommit -> unshallowCommits.add(unshallowCommit));
 		}
 		if (!req.getClientShallowCommits().isEmpty())
 			walk.assumeShallow(req.getClientShallowCommits());
@@ -1013,11 +1032,11 @@ public class UploadPack {
 				if (sectionSent)
 					pckOut.writeDelim();
 				pckOut.writeString("shallow-info\n"); //$NON-NLS-1$
-				for (ObjectId o : shallowCommits) {
-					pckOut.writeString("shallow " + o.getName() + '\n'); //$NON-NLS-1$
+				for (ObjectId oid : shallowCommits) {
+					pckOut.writeString("shallow " + oid.name() + '\n'); //$NON-NLS-1$
 				}
-				for (ObjectId o : unshallowCommits) {
-					pckOut.writeString("unshallow " + o.getName() + '\n'); //$NON-NLS-1$
+				for (ObjectId oid : unshallowCommits) {
+					pckOut.writeString("unshallow " + oid.name() + '\n'); //$NON-NLS-1$
 				}
 				sectionSent = true;
 			}
@@ -1141,17 +1160,15 @@ public class UploadPack {
 	}
 
 	/*
-	 * Determines what "shallow" and "unshallow" lines to send to the user.
-	 * The information is written to shallowCommits (if not null) and
-	 * unshallowCommits, and also written to #pckOut (if writeToPckOut is
-	 * true).
+	 * Determines what object ids must be marked as shallow or unshallow for the
+	 * client.
 	 */
-	private void processShallow(@Nullable List<ObjectId> shallowCommits,
-			List<ObjectId> unshallowCommits,
-			boolean writeToPckOut) throws IOException {
-		if (options.contains(OPTION_DEEPEN_RELATIVE) ||
-				shallowSince != 0 ||
-				!deepenNotRefs.isEmpty()) {
+	private void computeShallowsAndUnshallows(Iterable<ObjectId> wantedOids,
+			IOConsumer<ObjectId> shallowFunc,
+			IOConsumer<ObjectId> unshallowFunc)
+			throws IOException {
+		if (options.contains(OPTION_DEEPEN_RELATIVE) || shallowSince != 0
+				|| !deepenNotRefs.isEmpty()) {
 			// TODO(jonathantanmy): Implement deepen-relative, deepen-since,
 			// and deepen-not.
 			throw new UnsupportedOperationException();
@@ -1162,7 +1179,7 @@ public class UploadPack {
 				walk.getObjectReader(), walkDepth)) {
 
 			// Find all the commits which will be shallow
-			for (ObjectId o : wantIds) {
+			for (ObjectId o : wantedOids) {
 				try {
 					depthWalk.markRoot(depthWalk.parseCommit(o));
 				} catch (IncorrectObjectTypeException notCommit) {
@@ -1178,27 +1195,16 @@ public class UploadPack {
 				// the client need to be marked as such
 				if (c.getDepth() == walkDepth
 						&& !clientShallowCommits.contains(c)) {
-					if (shallowCommits != null) {
-						shallowCommits.add(c.copy());
-					}
-					if (writeToPckOut) {
-						pckOut.writeString("shallow " + o.name()); //$NON-NLS-1$
-					}
+					shallowFunc.accept(c.copy());
 				}
 
 				// Commits not on the boundary which are shallow in the client
 				// need to become unshallowed
 				if (c.getDepth() < walkDepth
 						&& clientShallowCommits.remove(c)) {
-					unshallowCommits.add(c.copy());
-					if (writeToPckOut) {
-						pckOut.writeString("unshallow " + c.name()); //$NON-NLS-1$
-					}
+					unshallowFunc.accept(c.copy());
 				}
 			}
-		}
-		if (writeToPckOut) {
-			pckOut.end();
 		}
 	}
 
