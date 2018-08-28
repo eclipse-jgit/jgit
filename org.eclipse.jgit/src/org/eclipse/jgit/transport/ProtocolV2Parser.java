@@ -53,6 +53,8 @@ import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_WANT_REF;
 
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.internal.JGitText;
@@ -204,6 +206,51 @@ final class ProtocolV2Parser {
 	}
 
 	/**
+	 * Parse the incoming ls-refs request arguments from the wire. This is meant
+	 * for calling immediately after the caller has consumed a "command=ls-refs"
+	 * line indicating the beginning of a ls-refs request.
+	 *
+	 * The incoming PacketLineIn is consumed until an END line, but the caller
+	 * is responsible for closing it (if needed)
+	 *
+	 * @param pckIn
+	 *            incoming lines. This method will read until an END line.
+	 * @return a LsRefsV2Request object with the data received in the wire.
+	 * @throws PackProtocolException
+	 *             for inconsistencies in the protocol (e.g. unexpected lines)
+	 * @throws IOException
+	 *             reporting problems reading the incoming messages from the
+	 *             wire
+	 */
+	LsRefsV2Request parseLsRefsRequest(PacketLineIn pckIn)
+			throws PackProtocolException, IOException {
+		LsRefsV2Request.Builder builder = LsRefsV2Request.builder();
+		List<String> prefixes = new ArrayList<>();
+		String line = pckIn.readString();
+		// Currently, we do not support any capabilities, so the next
+		// line is DELIM if there are arguments or END if not.
+		if (line == PacketLineIn.DELIM) {
+			while ((line = pckIn.readString()) != PacketLineIn.END) {
+				if (line.equals("peel")) { //$NON-NLS-1$
+					builder.setPeel(true);
+				} else if (line.equals("symrefs")) { //$NON-NLS-1$
+					builder.setSymrefs(true);
+				} else if (line.startsWith("ref-prefix ")) { //$NON-NLS-1$
+					prefixes.add(line.substring("ref-prefix ".length())); //$NON-NLS-1$
+				} else {
+					throw new PackProtocolException(MessageFormat
+							.format(JGitText.get().unexpectedPacketLine, line));
+				}
+			}
+		} else if (line != PacketLineIn.END) {
+			throw new PackProtocolException(MessageFormat
+					.format(JGitText.get().unexpectedPacketLine, line));
+		}
+
+		return builder.setRefPrefixes(prefixes).build();
+	}
+
+	/*
 	 * Process the content of "filter" line from the protocol. It has a shape
 	 * like "blob:none" or "blob:limit=N", with limit a positive number.
 	 *

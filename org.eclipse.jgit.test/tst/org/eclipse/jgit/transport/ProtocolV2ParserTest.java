@@ -45,6 +45,7 @@ package org.eclipse.jgit.transport;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasItems;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
@@ -333,4 +334,60 @@ public class ProtocolV2ParserTest {
 				testRepo.getRepository().getRefDatabase());
 	}
 
+	@Test
+	public void testLsRefsMinimalReq() throws IOException {
+		PacketLineIn pckIn = formatAsPacketLine(PacketLineIn.DELIM,
+				PacketLineIn.END);
+
+		ProtocolV2Parser parser = new ProtocolV2Parser(
+				ConfigBuilder.getDefault());
+		LsRefsV2Request req = parser.parseLsRefsRequest(pckIn);
+		assertFalse(req.getPeel());
+		assertFalse(req.getSymrefs());
+		assertEquals(0, req.getRefPrefixes().size());
+	}
+
+	@Test
+	public void testLsRefsSymrefs() throws IOException {
+		PacketLineIn pckIn = formatAsPacketLine(PacketLineIn.DELIM, "symrefs",
+				PacketLineIn.END);
+
+		ProtocolV2Parser parser = new ProtocolV2Parser(
+				ConfigBuilder.getDefault());
+		LsRefsV2Request req = parser.parseLsRefsRequest(pckIn);
+		assertFalse(req.getPeel());
+		assertTrue(req.getSymrefs());
+		assertEquals(0, req.getRefPrefixes().size());
+
+	}
+
+	@Test
+	public void testLsRefsPeel() throws IOException {
+		PacketLineIn pckIn = formatAsPacketLine(
+				PacketLineIn.DELIM,
+				"peel",
+				PacketLineIn.END);
+
+		ProtocolV2Parser parser = new ProtocolV2Parser(
+				ConfigBuilder.getDefault());
+		LsRefsV2Request req = parser.parseLsRefsRequest(pckIn);
+		assertTrue(req.getPeel());
+		assertFalse(req.getSymrefs());
+		assertEquals(0, req.getRefPrefixes().size());
+	}
+
+	@Test
+	public void testLsRefsRefPrefixes() throws IOException {
+		PacketLineIn pckIn = formatAsPacketLine(PacketLineIn.DELIM,
+				"ref-prefix refs/for", "ref-prefix refs/heads",
+				PacketLineIn.END);
+
+		ProtocolV2Parser parser = new ProtocolV2Parser(
+				ConfigBuilder.getDefault());
+		LsRefsV2Request req = parser.parseLsRefsRequest(pckIn);
+		assertFalse(req.getPeel());
+		assertFalse(req.getSymrefs());
+		assertEquals(2, req.getRefPrefixes().size());
+		assertThat(req.getRefPrefixes(), hasItems("refs/for", "refs/heads"));
+	}
 }
