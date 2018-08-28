@@ -215,6 +215,15 @@ public class UploadPack {
 		}
 	}
 
+	/*
+	 * Java Consumer interface don't allow to throw checked exceptions. Define
+	 * our own to propagate IOExceptions.
+	 */
+	@FunctionalInterface
+	private interface IOConsumer<R> {
+		void accept(R t) throws IOException;
+	}
+
 	/** Database we read the objects from. */
 	private final Repository db;
 
@@ -798,12 +807,20 @@ public class UploadPack {
 		return refs;
 	}
 
+	private void safePrintLine(PacketLineOut packetLineOut, String line) {
+		try {
+			packetLineOut.writeString(line);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 	private void service() throws IOException {
 		boolean sendPack = false;
 		// If it's a non-bidi request, we need to read the entire request before
 		// writing a response. Buffer the response until then.
 		PackStatistics.Accumulator accumulator = new PackStatistics.Accumulator();
-		List<ObjectId> unshallowCommits = new ArrayList<>();
+		List<ObjectId> unshallowIds = new ArrayList<>();
 		try {
 			if (biDirectionalPipe)
 				sendAdvertisedRefs(new PacketLineOutRefAdvertiser(pckOut));
@@ -832,8 +849,16 @@ public class UploadPack {
 
 			if (!clientShallowCommits.isEmpty())
 				verifyClientShallow(clientShallowCommits);
-			if (depth != 0)
-				processShallow(null, unshallowCommits, true);
+			if (depth != 0) {
+				computeShallowsAndUnshallows(wantIds, shallow -> {
+					safePrintLine(pckOut, "shallow " + shallow.name() + '\n'); //$NON-NLS-1$
+				}, unshallow -> {
+					safePrintLine(pckOut,
+							"unshallow " + unshallow.name() + '\n'); //$NON-NLS-1$
+					unshallowIds.add(unshallow);
+				});
+				pckOut.end();
+			}
 			if (!clientShallowCommits.isEmpty())
 				walk.assumeShallow(clientShallowCommits);
 			sendPack = negotiate(accumulator);
@@ -886,7 +911,8 @@ public class UploadPack {
 		}
 
 		if (sendPack) {
-			sendPack(accumulator, refs == null ? null : refs.values(), unshallowCommits);
+			sendPack(accumulator, refs == null ? null : refs.values(),
+					unshallowIds);
 		}
 	}
 
@@ -973,16 +999,17 @@ public class UploadPack {
 		deepenNotRefs = req.getDeepenNotRefs();
 
 		boolean sectionSent = false;
-		@Nullable List<ObjectId> shallowCommits = null;
-		List<ObjectId> unshallowCommits = new ArrayList<>();
+		List<ObjectId> shallowOids = new ArrayList<>();
+		List<ObjectId> unshallowOids = new ArrayList<>();
 
 		if (!req.getClientShallowCommits().isEmpty()) {
 			verifyClientShallow(req.getClientShallowCommits());
 		}
 		if (req.getDepth() != 0 || req.getDeepenSince() != 0
 				|| !req.getDeepenNotRefs().isEmpty()) {
-			shallowCommits = new ArrayList<>();
-			processShallow(shallowCommits, unshallowCommits, false);
+			computeShallowsAndUnshallows(req.getWantsIds(),
+					shallowOid -> shallowOids.add(shallowOid),
+					unshallowOid -> unshallowOids.add(unshallowOid));
 		}
 		if (!req.getClientShallowCommits().isEmpty())
 			walk.assumeShallow(req.getClientShallowCommits());
@@ -1008,15 +1035,15 @@ public class UploadPack {
 		}
 
 		if (req.wasDoneReceived() || okToGiveUp()) {
-			if (shallowCommits != null) {
+			if (!shallowOids.isEmpty()) {
 				if (sectionSent)
 					pckOut.writeDelim();
 				pckOut.writeString("shallow-info\n"); //$NON-NLS-1$
-				for (ObjectId o : shallowCommits) {
-					pckOut.writeString("shallow " + o.getName() + '\n'); //$NON-NLS-1$
+				for (ObjectId oid : shallowOids) {
+					pckOut.writeString("shallow " + oid.name() + '\n'); //$NON-NLS-1$
 				}
-				for (ObjectId o : unshallowCommits) {
-					pckOut.writeString("unshallow " + o.getName() + '\n'); //$NON-NLS-1$
+				for (ObjectId oid : unshallowOids) {
+					pckOut.writeString("unshallow " + oid.name() + '\n'); //$NON-NLS-1$
 				}
 				sectionSent = true;
 			}
@@ -1041,7 +1068,7 @@ public class UploadPack {
 					req.getOptions().contains(OPTION_INCLUDE_TAG)
 						? db.getRefDatabase().getRefsByPrefix(R_TAGS)
 						: null,
-					unshallowCommits);
+					unshallowOids);
 			// sendPack invokes pckOut.end() for us, so we do not
 			// need to invoke it here.
 		} else {
@@ -1140,17 +1167,15 @@ public class UploadPack {
 	}
 
 	/*
-	 * Determines what "shallow" and "unshallow" lines to send to the user.
-	 * The information is written to shallowCommits (if not null) and
-	 * unshallowCommits, and also written to #pckOut (if writeToPckOut is
-	 * true).
+	 * Determines what object ids must be marked as shallow or unshallow for the
+	 * client.
 	 */
-	private void processShallow(@Nullable List<ObjectId> shallowCommits,
-			List<ObjectId> unshallowCommits,
-			boolean writeToPckOut) throws IOException {
-		if (options.contains(OPTION_DEEPEN_RELATIVE) ||
-				shallowSince != 0 ||
-				!deepenNotRefs.isEmpty()) {
+	private void computeShallowsAndUnshallows(Iterable<ObjectId> wantedOids,
+			IOConsumer<ObjectId> shallowFunc,
+			IOConsumer<ObjectId> unshallowFunc)
+			throws IOException {
+		if (options.contains(OPTION_DEEPEN_RELATIVE) || shallowSince != 0
+				|| !deepenNotRefs.isEmpty()) {
 			// TODO(jonathantanmy): Implement deepen-relative, deepen-since,
 			// and deepen-not.
 			throw new UnsupportedOperationException();
@@ -1161,7 +1186,7 @@ public class UploadPack {
 				walk.getObjectReader(), walkDepth)) {
 
 			// Find all the commits which will be shallow
-			for (ObjectId o : wantIds) {
+			for (ObjectId o : wantedOids) {
 				try {
 					depthWalk.markRoot(depthWalk.parseCommit(o));
 				} catch (IncorrectObjectTypeException notCommit) {
@@ -1177,27 +1202,16 @@ public class UploadPack {
 				// the client need to be marked as such
 				if (c.getDepth() == walkDepth
 						&& !clientShallowCommits.contains(c)) {
-					if (shallowCommits != null) {
-						shallowCommits.add(c.copy());
-					}
-					if (writeToPckOut) {
-						pckOut.writeString("shallow " + o.name()); //$NON-NLS-1$
-					}
+					shallowFunc.accept(c.copy());
 				}
 
 				// Commits not on the boundary which are shallow in the client
 				// need to become unshallowed
 				if (c.getDepth() < walkDepth
 						&& clientShallowCommits.remove(c)) {
-					unshallowCommits.add(c.copy());
-					if (writeToPckOut) {
-						pckOut.writeString("unshallow " + c.name()); //$NON-NLS-1$
-					}
+					unshallowFunc.accept(c.copy());
 				}
 			}
-		}
-		if (writeToPckOut) {
-			pckOut.end();
 		}
 	}
 
