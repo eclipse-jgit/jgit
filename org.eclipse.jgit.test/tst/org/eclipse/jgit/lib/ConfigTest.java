@@ -66,11 +66,15 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 
 import org.eclipse.jgit.api.MergeCommand.FastForwardMode;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -78,6 +82,7 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.junit.MockSystemReader;
 import org.eclipse.jgit.merge.MergeConfig;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.SystemReader;
 import org.junit.After;
@@ -93,6 +98,12 @@ import org.junit.rules.TemporaryFolder;
 public class ConfigTest {
 	// A non-ASCII whitespace character: U+2002 EN QUAD.
 	private static final char WS = '\u2002';
+
+	private static final String REFS_ORIGIN = "+refs/heads/*:refs/remotes/origin/*";
+
+	private static final String REFS_UPSTREAM = "+refs/heads/*:refs/remotes/upstream/*";
+
+	private static final String REFS_BACKUP = "+refs/heads/*:refs/remotes/backup/*";
 
 	@Rule
 	public ExpectedException expectedEx = ExpectedException.none();
@@ -802,10 +813,8 @@ public class ConfigTest {
 		File config = tmp.newFile("config");
 		String include = "[include]\npath=" + pathToString(config) + "\n";
 		Files.write(config.toPath(), include.getBytes());
-		FileBasedConfig fbConfig = new FileBasedConfig(null, config,
-				FS.DETECTED);
 		try {
-			fbConfig.load();
+			loadConfig(config);
 			fail();
 		} catch (ConfigInvalidException cie) {
 			for (Throwable t = cie; t != null; t = t.getCause()) {
@@ -841,9 +850,7 @@ public class ConfigTest {
 		content = "[Include]\npath=" + pathToString(included) + "\n";
 		Files.write(config.toPath(), content.getBytes());
 
-		FileBasedConfig fbConfig = new FileBasedConfig(null, config,
-				FS.DETECTED);
-		fbConfig.load();
+		FileBasedConfig fbConfig = loadConfig(config);
 		assertTrue(fbConfig.getBoolean("foo", "bar", false));
 	}
 
@@ -858,9 +865,7 @@ public class ConfigTest {
 		content = "[include]\nPath=" + pathToString(included) + "\n";
 		Files.write(config.toPath(), content.getBytes());
 
-		FileBasedConfig fbConfig = new FileBasedConfig(null, config,
-				FS.DETECTED);
-		fbConfig.load();
+		FileBasedConfig fbConfig = loadConfig(config);
 		assertTrue(fbConfig.getBoolean("foo", "bar", false));
 	}
 
@@ -886,10 +891,8 @@ public class ConfigTest {
 		File config = tmp.newFile("config");
 		String include = "[include]\npath=" + includedPath + "\n";
 		Files.write(config.toPath(), include.getBytes());
-		FileBasedConfig fbConfig = new FileBasedConfig(null, config,
-				FS.DETECTED);
 		try {
-			fbConfig.load();
+			loadConfig(config);
 			fail("Expected ConfigInvalidException");
 		} catch (ConfigInvalidException e) {
 			// Check that there is some exception in the chain that contains
@@ -902,6 +905,306 @@ public class ConfigTest {
 			fail("Expected to find the path in the exception message: "
 					+ includedPath);
 		}
+	}
+
+	@Test
+	public void testIncludeSetValueMustNotTouchIncludedLines1()
+			throws IOException, ConfigInvalidException {
+		File includedFile = createAllTypesIncludedContent();
+
+		File configFile = tmp.newFile("config");
+		String content = createAllTypesSampleContent("Alice Parker", false, 11,
+				21, 31, CoreConfig.AutoCRLF.FALSE,
+				"+refs/heads/*:refs/remotes/origin/*") + "\n[include]\npath="
+				+ pathToString(includedFile);
+		Files.write(configFile.toPath(), content.getBytes());
+
+		FileBasedConfig fbConfig = loadConfig(configFile);
+		assertValuesAsIncluded(fbConfig, REFS_ORIGIN, REFS_UPSTREAM);
+		assertSections(fbConfig, "user", "core", "remote", "include");
+
+		setAllValuesNew(fbConfig);
+		assertValuesAsIsSaveLoad(fbConfig, config -> {
+			assertValuesAsIncluded(config, REFS_BACKUP, REFS_UPSTREAM);
+			assertSections(fbConfig, "user", "core", "remote", "include");
+		});
+	}
+
+	@Test
+	public void testIncludeSetValueMustNotTouchIncludedLines2()
+			throws IOException, ConfigInvalidException {
+		File includedFile = createAllTypesIncludedContent();
+
+		File configFile = tmp.newFile("config");
+		String content = "[include]\npath=" + pathToString(includedFile) + "\n"
+				+ createAllTypesSampleContent("Alice Parker", false, 11, 21, 31,
+						CoreConfig.AutoCRLF.FALSE,
+						"+refs/heads/*:refs/remotes/origin/*");
+		Files.write(configFile.toPath(), content.getBytes());
+
+		FileBasedConfig fbConfig = loadConfig(configFile);
+		assertValuesAsConfig(fbConfig, REFS_UPSTREAM, REFS_ORIGIN);
+		assertSections(fbConfig, "include", "user", "core", "remote");
+
+		setAllValuesNew(fbConfig);
+		assertValuesAsIsSaveLoad(fbConfig, config -> {
+			assertValuesAsNew(config, REFS_UPSTREAM, REFS_BACKUP);
+			assertSections(fbConfig, "include", "user", "core", "remote");
+		});
+	}
+
+	@Test
+	public void testIncludeSetValueOnFileWithJustContainsInclude()
+			throws IOException, ConfigInvalidException {
+		File includedFile = createAllTypesIncludedContent();
+
+		File configFile = tmp.newFile("config");
+		String content = "[include]\npath=" + pathToString(includedFile);
+		Files.write(configFile.toPath(), content.getBytes());
+
+		FileBasedConfig fbConfig = loadConfig(configFile);
+		assertValuesAsIncluded(fbConfig, REFS_UPSTREAM);
+		assertSections(fbConfig, "include", "user", "core", "remote");
+
+		setAllValuesNew(fbConfig);
+		assertValuesAsIsSaveLoad(fbConfig, config -> {
+			assertValuesAsNew(config, REFS_UPSTREAM, REFS_BACKUP);
+			assertSections(fbConfig, "include", "user", "core", "remote");
+		});
+	}
+
+	@Test
+	public void testIncludeSetValueOnFileWithJustEmptySection1()
+			throws IOException, ConfigInvalidException {
+		File includedFile = createAllTypesIncludedContent();
+
+		File configFile = tmp.newFile("config");
+		String content = "[user]\n[include]\npath="
+				+ pathToString(includedFile);
+		Files.write(configFile.toPath(), content.getBytes());
+
+		FileBasedConfig fbConfig = loadConfig(configFile);
+		assertValuesAsIncluded(fbConfig, REFS_UPSTREAM);
+		assertSections(fbConfig, "user", "include", "core", "remote");
+
+		setAllValuesNew(fbConfig);
+		assertValuesAsIsSaveLoad(fbConfig, config -> {
+			assertValuesAsNewWithName(config, "Alice Muller", REFS_UPSTREAM,
+					REFS_BACKUP);
+			assertSections(fbConfig, "user", "include", "core", "remote");
+		});
+	}
+
+	@Test
+	public void testIncludeSetValueOnFileWithJustEmptySection2()
+			throws IOException, ConfigInvalidException {
+		File includedFile = createAllTypesIncludedContent();
+
+		File configFile = tmp.newFile("config");
+		String content = "[include]\npath=" + pathToString(includedFile)
+				+ "\n[user]";
+		Files.write(configFile.toPath(), content.getBytes());
+
+		FileBasedConfig fbConfig = loadConfig(configFile);
+		assertValuesAsIncluded(fbConfig, REFS_UPSTREAM);
+		assertSections(fbConfig, "include", "user", "core", "remote");
+
+		setAllValuesNew(fbConfig);
+		assertValuesAsIsSaveLoad(fbConfig, config -> {
+			assertValuesAsNew(config, REFS_UPSTREAM, REFS_BACKUP);
+			assertSections(fbConfig, "include", "user", "core", "remote");
+		});
+	}
+
+	@Test
+	public void testIncludeSetValueOnFileWithJustExistingSection1()
+			throws IOException, ConfigInvalidException {
+		File includedFile = createAllTypesIncludedContent();
+
+		File configFile = tmp.newFile("config");
+		String content = "[user]\nemail=alice@home\n[include]\npath="
+				+ pathToString(includedFile);
+		Files.write(configFile.toPath(), content.getBytes());
+
+		FileBasedConfig fbConfig = loadConfig(configFile);
+		assertValuesAsIncluded(fbConfig, REFS_UPSTREAM);
+		assertSections(fbConfig, "user", "include", "core", "remote");
+
+		setAllValuesNew(fbConfig);
+		assertValuesAsIsSaveLoad(fbConfig, config -> {
+			assertValuesAsNewWithName(config, "Alice Muller", REFS_UPSTREAM,
+					REFS_BACKUP);
+			assertSections(fbConfig, "user", "include", "core", "remote");
+		});
+	}
+
+	@Test
+	public void testIncludeSetValueOnFileWithJustExistingSection2()
+			throws IOException, ConfigInvalidException {
+		File includedFile = createAllTypesIncludedContent();
+
+		File configFile = tmp.newFile("config");
+		String content = "[include]\npath=" + pathToString(includedFile)
+				+ "\n[user]\nemail=alice@home\n";
+		Files.write(configFile.toPath(), content.getBytes());
+
+		FileBasedConfig fbConfig = loadConfig(configFile);
+		assertValuesAsIncluded(fbConfig, REFS_UPSTREAM);
+		assertSections(fbConfig, "include", "user", "core", "remote");
+
+		setAllValuesNew(fbConfig);
+		assertValuesAsIsSaveLoad(fbConfig, config -> {
+			assertValuesAsNew(config, REFS_UPSTREAM, REFS_BACKUP);
+			assertSections(fbConfig, "include", "user", "core", "remote");
+		});
+	}
+
+	@Test
+	public void testIncludeUnsetSectionMustNotTouchIncludedLines()
+			throws IOException, ConfigInvalidException {
+		File includedFile = tmp.newFile("included");
+		RefSpec includedRefSpec = new RefSpec(REFS_UPSTREAM);
+		String includedContent = "[remote \"origin\"]\n" + "fetch="
+				+ includedRefSpec;
+		Files.write(includedFile.toPath(), includedContent.getBytes());
+
+		File configFile = tmp.newFile("config");
+		RefSpec refSpec = new RefSpec(REFS_ORIGIN);
+		String content = "[include]\npath=" + pathToString(includedFile) + "\n"
+				+ "[remote \"origin\"]\n" + "fetch=" + refSpec;
+		Files.write(configFile.toPath(), content.getBytes());
+
+		FileBasedConfig fbConfig = loadConfig(configFile);
+
+		Consumer<FileBasedConfig> assertion = config -> {
+			assertEquals(Arrays.asList(includedRefSpec, refSpec),
+					config.getRefSpecs("remote", "origin", "fetch"));
+		};
+		assertion.accept(fbConfig);
+
+		fbConfig.unsetSection("remote", "origin");
+		assertValuesAsIsSaveLoad(fbConfig, config -> {
+			assertEquals(Collections.singletonList(includedRefSpec),
+					config.getRefSpecs("remote", "origin", "fetch"));
+		});
+	}
+
+	private File createAllTypesIncludedContent() throws IOException {
+		File includedFile = tmp.newFile("included");
+		String includedContent = createAllTypesSampleContent("Alice Muller",
+				true, 10, 20, 30, CoreConfig.AutoCRLF.TRUE,
+				"+refs/heads/*:refs/remotes/upstream/*");
+		Files.write(includedFile.toPath(), includedContent.getBytes());
+		return includedFile;
+	}
+
+	private static void assertValuesAsIsSaveLoad(FileBasedConfig fbConfig,
+			Consumer<FileBasedConfig> assertion)
+			throws IOException, ConfigInvalidException {
+		assertion.accept(fbConfig);
+
+		fbConfig.save();
+		assertion.accept(fbConfig);
+
+		fbConfig = loadConfig(fbConfig.getFile());
+		assertion.accept(fbConfig);
+	}
+
+	private static void setAllValuesNew(Config config) {
+		config.setString("user", null, "name", "Alice Bauer");
+		config.setBoolean("core", null, "fileMode", false);
+		config.setInt("core", null, "deltaBaseCacheLimit", 12);
+		config.setLong("core", null, "packedGitLimit", 22);
+		config.setLong("core", null, "repositoryCacheExpireAfter", 32);
+		config.setEnum("core", null, "autocrlf", CoreConfig.AutoCRLF.FALSE);
+		config.setString("remote", "origin", "fetch",
+				"+refs/heads/*:refs/remotes/backup/*");
+	}
+
+	private static void assertValuesAsIncluded(Config config, String... refs) {
+		assertAllTypesSampleContent("Alice Muller", true, 10, 20, 30,
+				CoreConfig.AutoCRLF.TRUE, config, refs);
+	}
+
+	private static void assertValuesAsConfig(Config config, String... refs) {
+		assertAllTypesSampleContent("Alice Parker", false, 11, 21, 31,
+				CoreConfig.AutoCRLF.FALSE, config, refs);
+	}
+
+	private static void assertValuesAsNew(Config config, String... refs) {
+		assertValuesAsNewWithName(config, "Alice Bauer", refs);
+	}
+
+	private static void assertValuesAsNewWithName(Config config, String name,
+			String... refs) {
+		assertAllTypesSampleContent(name, false, 12, 22, 32,
+				CoreConfig.AutoCRLF.FALSE, config, refs);
+	}
+
+	private static void assertSections(Config config, String... sections) {
+		assertEquals(Arrays.asList(sections),
+				new ArrayList<>(config.getSections()));
+	}
+
+	private static String createAllTypesSampleContent(String name,
+			boolean fileMode, int deltaBaseCacheLimit, long packedGitLimit,
+			long repositoryCacheExpireAfter, CoreConfig.AutoCRLF autoCRLF,
+			String fetchRefSpec) {
+		final StringBuilder builder = new StringBuilder();
+		builder.append("[user]\n");
+		builder.append("name=");
+		builder.append(name);
+		builder.append("\n");
+
+		builder.append("[core]\n");
+		builder.append("fileMode=");
+		builder.append(fileMode);
+		builder.append("\n");
+
+		builder.append("deltaBaseCacheLimit=");
+		builder.append(deltaBaseCacheLimit);
+		builder.append("\n");
+
+		builder.append("packedGitLimit=");
+		builder.append(packedGitLimit);
+		builder.append("\n");
+
+		builder.append("repositoryCacheExpireAfter=");
+		builder.append(repositoryCacheExpireAfter);
+		builder.append("\n");
+
+		builder.append("autocrlf=");
+		builder.append(autoCRLF.name());
+		builder.append("\n");
+
+		builder.append("[remote \"origin\"]\n");
+		builder.append("fetch=");
+		builder.append(fetchRefSpec);
+		builder.append("\n");
+		return builder.toString();
+	}
+
+	private static void assertAllTypesSampleContent(String name,
+			boolean fileMode, int deltaBaseCacheLimit, long packedGitLimit,
+			long repositoryCacheExpireAfter, CoreConfig.AutoCRLF autoCRLF,
+			Config config, String... fetchRefSpecs) {
+		assertEquals(name, config.getString("user", null, "name"));
+		assertEquals(fileMode,
+				config.getBoolean("core", "fileMode", !fileMode));
+		assertEquals(deltaBaseCacheLimit,
+				config.getInt("core", "deltaBaseCacheLimit", -1));
+		assertEquals(packedGitLimit,
+				config.getLong("core", "packedGitLimit", -1));
+		assertEquals(repositoryCacheExpireAfter, config.getTimeUnit("core",
+				null, "repositoryCacheExpireAfter", -1, MILLISECONDS));
+		assertEquals(autoCRLF, config.getEnum("core", null, "autocrlf",
+				CoreConfig.AutoCRLF.INPUT));
+		final List<RefSpec> refspecs = new ArrayList<>();
+		for (String fetchRefSpec : fetchRefSpecs) {
+			refspecs.add(new RefSpec(fetchRefSpec));
+		}
+
+		assertEquals(refspecs, config.getRefSpecs("remote", "origin", "fetch"));
 	}
 
 	private static void assertReadLong(long exp) throws ConfigInvalidException {
@@ -1216,5 +1519,13 @@ public class ConfigTest {
 		} catch (ConfigInvalidException e) {
 			assertEquals(expectedMessage, e.getMessage());
 		}
+	}
+
+	private static FileBasedConfig loadConfig(File file)
+			throws IOException, ConfigInvalidException {
+		final FileBasedConfig config = new FileBasedConfig(null, file,
+				FS.DETECTED);
+		config.load();
+		return config;
 	}
 }
