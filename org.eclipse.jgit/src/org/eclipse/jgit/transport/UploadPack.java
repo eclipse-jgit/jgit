@@ -832,7 +832,7 @@ public class UploadPack {
 				multiAck = MultiAck.OFF;
 
 			if (!clientShallowCommits.isEmpty())
-				verifyClientShallow();
+				verifyClientShallow(clientShallowCommits);
 			if (depth != 0)
 				processShallow(null, unshallowCommits, true);
 			if (!clientShallowCommits.isEmpty())
@@ -1079,7 +1079,7 @@ public class UploadPack {
 		List<ObjectId> unshallowCommits = new ArrayList<>();
 
 		if (!req.getClientShallowCommits().isEmpty()) {
-			verifyClientShallow();
+			verifyClientShallow(req.getClientShallowCommits());
 		}
 		if (req.getDepth() != 0 || req.getShallowSince() != 0
 				|| !req.getShallowExcludeRefs().isEmpty()) {
@@ -1303,9 +1303,14 @@ public class UploadPack {
 		}
 	}
 
-	private void verifyClientShallow()
+	/*
+	 * Filter out from shallowCommits references to unknown commits
+	 *
+	 * It mutates the input set.
+	 */
+	private void verifyClientShallow(Set<ObjectId> shallowCommits)
 			throws IOException, PackProtocolException {
-		AsyncRevObjectQueue q = walk.parseAny(clientShallowCommits, true);
+		AsyncRevObjectQueue q = walk.parseAny(shallowCommits, true);
 		try {
 			for (;;) {
 				try {
@@ -1323,7 +1328,7 @@ public class UploadPack {
 				} catch (MissingObjectException notCommit) {
 					// shallow objects not known at the server are ignored
 					// by git-core upload-pack, match that behavior.
-					clientShallowCommits.remove(notCommit.getObjectId());
+					shallowCommits.remove(notCommit.getObjectId());
 					continue;
 				}
 			}
