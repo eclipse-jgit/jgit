@@ -42,6 +42,8 @@
  */
 package org.eclipse.jgit.merge;
 
+import static org.eclipse.jgit.lib.Constants.CHARSET;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -881,7 +883,7 @@ public class CrissCrossMergeTest extends RepositoryTestCase {
 		StringBuilder result = new StringBuilder();
 		ObjectReader or = r.newObjectReader();
 		try (BufferedReader br = new BufferedReader(
-				new InputStreamReader(or.open(blobId).openStream()))) {
+				new InputStreamReader(or.open(blobId).openStream(), CHARSET))) {
 			String line;
 			boolean first = true;
 			while ((line = br.readLine()) != null) {

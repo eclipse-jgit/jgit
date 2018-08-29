@@ -170,7 +170,7 @@ public class IndexDiffWithSymlinkTest extends LocalDiskRepositoryTestCase {
 
 	private String readStream(InputStream stream) throws IOException {
 		try (BufferedReader in = new BufferedReader(
-				new InputStreamReader(stream))) {
+				new InputStreamReader(stream, CHARSET))) {
 			StringBuilder out = new StringBuilder();
 			String line;
 			while ((line = in.readLine()) != null) {
