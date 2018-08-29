@@ -832,7 +832,7 @@ public class UploadPack {
 				multiAck = MultiAck.OFF;
 
 			if (!clientShallowCommits.isEmpty())
-				verifyClientShallow();
+				verifyClientShallow(clientShallowCommits);
 			if (depth != 0)
 				processShallow(null, unshallowCommits, true);
 			if (!clientShallowCommits.isEmpty())
@@ -1015,7 +1015,7 @@ public class UploadPack {
 				if (parsedDepth <= 0) {
 					throw new PackProtocolException(
 							MessageFormat.format(JGitText.get().invalidDepth,
-									Integer.valueOf(depth)));
+									Integer.valueOf(parsedDepth)));
 				}
 				if (reqBuilder.getShallowSince() != 0) {
 					throw new PackProtocolException(
@@ -1078,16 +1078,16 @@ public class UploadPack {
 		@Nullable List<ObjectId> shallowCommits = null;
 		List<ObjectId> unshallowCommits = new ArrayList<>();
 
-		if (!req.getClientShallowCommits().isEmpty()) {
-			verifyClientShallow();
+		if (!clientShallowCommits.isEmpty()) {
+			verifyClientShallow(clientShallowCommits);
 		}
 		if (req.getDepth() != 0 || req.getShallowSince() != 0
 				|| !req.getShallowExcludeRefs().isEmpty()) {
 			shallowCommits = new ArrayList<>();
 			processShallow(shallowCommits, unshallowCommits, false);
 		}
-		if (!req.getClientShallowCommits().isEmpty())
-			walk.assumeShallow(req.getClientShallowCommits());
+		if (!clientShallowCommits.isEmpty())
+			walk.assumeShallow(clientShallowCommits);
 
 		if (doneReceived) {
 			processHaveLines(req.getPeerHas(), ObjectId.zeroId(),
@@ -1303,9 +1303,9 @@ public class UploadPack {
 		}
 	}
 
-	private void verifyClientShallow()
+	private void verifyClientShallow(Set<ObjectId> shallowCommits)
 			throws IOException, PackProtocolException {
-		AsyncRevObjectQueue q = walk.parseAny(clientShallowCommits, true);
+		AsyncRevObjectQueue q = walk.parseAny(shallowCommits, true);
 		try {
 			for (;;) {
 				try {
@@ -1323,7 +1323,7 @@ public class UploadPack {
 				} catch (MissingObjectException notCommit) {
 					// shallow objects not known at the server are ignored
 					// by git-core upload-pack, match that behavior.
-					clientShallowCommits.remove(notCommit.getObjectId());
+					shallowCommits.remove(notCommit.getObjectId());
 					continue;
 				}
 			}
