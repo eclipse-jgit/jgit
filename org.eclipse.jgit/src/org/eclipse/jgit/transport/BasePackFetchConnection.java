@@ -53,6 +53,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import org.eclipse.jgit.errors.PackProtocolException;
@@ -259,11 +260,8 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		super(packTransport);
 
 		if (local != null) {
-			final FetchConfig cfg = getFetchConfig();
-			allowOfsDelta = cfg.allowOfsDelta;
-			if (cfg.minimalNegotiation) {
-				minimalNegotiationSet = new HashSet<>();
-			}
+			allowOfsDelta = getFetchConfig().allowOfsDelta;
+			minimalNegotiationSet = new HashSet<>();
 		} else {
 			allowOfsDelta = true;
 		}
@@ -599,20 +597,38 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			state.writeTo(out, null);
 		}
 
+		Iterator<AnyObjectId> minimalIterator = null;
+		if (minimalNegotiationSet != null && minimalNegotiationSet.isEmpty()) {
+			minimalIterator = minimalNegotiationSet.iterator();
+		}
+
 		negotiateBegin();
 		SEND_HAVES: for (;;) {
-			final RevCommit c = walk.next();
-			if (c == null) {
-				break SEND_HAVES;
+			AnyObjectId o = null;
+			if (minimalIterator != null) {
+				if (minimalIterator.hasNext()) {
+					o = minimalIterator.next();
+				} else if (getFetchConfig().minimalNegotiation) {
+					// Minimal negotiation was requested and we sent out our
+					// current reference values for our wants, so terminate
+					// negotiation early.
+					if (statelessRPC) {
+						state.writeTo(out, null);
+					}
+					break SEND_HAVES;
+				}
+			}
+			if (o == null) {
+				final RevCommit c = walk.next();
+				if (c == null) {
+					break SEND_HAVES;
+				}
+				o = c.getId();
 			}
 
-			ObjectId o = c.getId();
 			pckOut.writeString("have " + o.name() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
 			havesSent++;
 			havesSinceLastContinue++;
-			if (minimalNegotiationSet != null) {
-				minimalNegotiationSet.remove(o);
-			}
 
 			if ((31 & havesSent) != 0) {
 				// We group the have lines into blocks of 32, each marked
@@ -646,16 +662,6 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 					// pack on the remote side. Keep doing that.
 					//
 					resultsPending--;
-					if (minimalNegotiationSet != null
-							&& minimalNegotiationSet.isEmpty()) {
-						// Minimal negotiation was requested and we sent out our
-						// current reference values for our wants, so terminate
-						// negotiation early.
-						if (statelessRPC) {
-							state.writeTo(out, null);
-						}
-						break SEND_HAVES;
-					}
 					break READ_RESULT;
 
 				case ACK:
@@ -685,14 +691,6 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 					havesSinceLastContinue = 0;
 					if (anr == AckNackResult.ACK_READY) {
 						receivedReady = true;
-					}
-					if (minimalNegotiationSet != null && minimalNegotiationSet.isEmpty()) {
-						// Minimal negotiation was requested and we sent out our current reference
-						// values for our wants, so terminate negotiation early.
-						if (statelessRPC) {
-							state.writeTo(out, null);
-						}
-						break SEND_HAVES;
 					}
 					break;
 				}
