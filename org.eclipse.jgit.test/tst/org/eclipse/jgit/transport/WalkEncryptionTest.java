@@ -420,7 +420,7 @@ public class WalkEncryptionTest {
 				c.setConnectTimeout(500);
 				c.setReadTimeout(500);
 				try (BufferedReader reader = new BufferedReader(
-						new InputStreamReader(c.getInputStream()))) {
+						new InputStreamReader(c.getInputStream(), CHARSET))) {
 					return reader.readLine();
 				}
 			} catch (UnknownHostException | SocketTimeoutException e) {
