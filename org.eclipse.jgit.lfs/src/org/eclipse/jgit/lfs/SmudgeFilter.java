@@ -179,7 +179,8 @@ public class SmudgeFilter extends FilterCommand {
 							Integer.valueOf(responseCode)));
 		}
 		try (JsonReader reader = new JsonReader(
-				new InputStreamReader(lfsServerConn.getInputStream()))) {
+				new InputStreamReader(lfsServerConn.getInputStream(),
+						CHARSET))) {
 			Protocol.Response resp = gson.fromJson(reader,
 					Protocol.Response.class);
 			for (Protocol.ObjectInfo o : resp.objects) {

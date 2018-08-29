@@ -221,7 +221,7 @@ public class LfsPrePushHook extends PrePushHook {
 	private void uploadContents(HttpConnection api,
 			Map<String, LfsPointer> oid2ptr) throws IOException {
 		try (JsonReader reader = new JsonReader(
-				new InputStreamReader(api.getInputStream()))) {
+				new InputStreamReader(api.getInputStream(), CHARSET))) {
 			for (Protocol.ObjectInfo o : parseObjects(reader)) {
 				if (o.actions == null) {
 					continue;
