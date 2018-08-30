@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bf443deb_763bc82c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1018,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-08-30T19:13:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6732438_e07276b1",
+      "revId": "7a79e5bf785ba633eeaf96efd8596567a0954cb5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fdc14e17_191e5fd2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2018-08-29T23:47:36Z",
       "side": 1,
       "message": "Please add a brief comment saying that this mutates shallowCommits.",
+      "revId": "7a79e5bf785ba633eeaf96efd8596567a0954cb5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42dbb147_ac7384c5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1306,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-08-30T19:13:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fdc14e17_191e5fd2",
       "revId": "7a79e5bf785ba633eeaf96efd8596567a0954cb5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
