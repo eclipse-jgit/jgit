@@ -33,7 +33,7 @@ DATA = [
 
 tests(glob(
     ["tst/**/*.java"],
-    exclude = HELPERS + DATA
+    exclude = HELPERS + DATA,
 ))
 
 java_library(
@@ -54,8 +54,8 @@ java_import(
 )
 
 genrule2(
-  name = 'tst_rsrc_jar',
-  cmd = 'o=$$PWD/$@ && tar cf - $(SRCS) | tar -C $$TMP --strip-components=2 -xf - && cd  $$TMP && zip -qr $$o .',
-  srcs = glob(['tst-rsrc/**']),
-  outs = ['tst_rsrc.jar',],
+    name = "tst_rsrc_jar",
+    srcs = glob(["tst-rsrc/**"]),
+    outs = ["tst_rsrc.jar"],
+    cmd = "o=$$PWD/$@ && tar cf - $(SRCS) | tar -C $$TMP --strip-components=2 -xf - && cd  $$TMP && zip -qr $$o .",
 )
