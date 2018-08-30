@@ -16,6 +16,24 @@
       "revId": "550ccbd45a359e96ca488ae6930b1dcbe361790c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2ec280b_37d6b0d8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-08-30T04:50:50Z",
+      "side": 1,
+      "message": "Hmm, I\u0027ve copied this from the commit message on the corresponding gerrit change, but it doesn\u0027t really make sense here.  On gerrit the dependency names were using a mix of hyphen and underscore.\n\nThe actual reason for this change is to make it possible to build jgit from source in the gerrit tree. It doesn\u0027t work if the dependencies have different names.\n\nI\u0027ll update the commit message.",
+      "parentUuid": "ba8b8592_1071669c",
+      "revId": "550ccbd45a359e96ca488ae6930b1dcbe361790c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
