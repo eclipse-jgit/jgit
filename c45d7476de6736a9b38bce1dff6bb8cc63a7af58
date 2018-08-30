@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e74d00c_ec076f28",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-30T00:52:07Z",
+      "side": 1,
+      "message": "This can (does) cause negotiation to end too early, resulting in an overly large packfile.\n\nSo I don\u0027t think it\u0027s safe to do, unless guarded with a config setting.\n\nWould something like https://public-inbox.org/git/20180716184401.168576-1-jonathantanmy@google.com/ work here? That seems safer, since it has fewer pathological cases where it results in a much-too-large packfile being sent.",
+      "revId": "c45d7476de6736a9b38bce1dff6bb8cc63a7af58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
