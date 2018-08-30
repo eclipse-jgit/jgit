@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ff4baea_acbf85b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-30T19:48:23Z",
+      "side": 1,
+      "message": "Since this is a no-op in practice, I think we should emphasize the cleanup / readability aspect. E.g. something like:\n\n UploadPack: avoid conflating shallow commit lists in protocol v2\n\n [explanation of why the current code is confusing goes here]\n\n Fortunately, [explanation of why it didn\u0027t cause trouble in practice goes here]\n\n No visible change intended.\n\n Signed-off-by: ...",
+      "revId": "0b142191cc231e836820158b0f4c0410b819d863",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8676794a_c102828a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1303,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-30T19:48:23Z",
+      "side": 1,
+      "message": "unintended change?",
+      "revId": "0b142191cc231e836820158b0f4c0410b819d863",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8e46437_f2116a7a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1422,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-30T19:48:23Z",
+      "side": 1,
+      "message": "s/Unknown/Missing/, if I understand correctly.",
+      "range": {
+        "startLine": 1422,
+        "startChar": 24,
+        "endLine": 1422,
+        "endChar": 31
+      },
+      "revId": "0b142191cc231e836820158b0f4c0410b819d863",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ca425a3_bcfad2ac",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1431,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-30T19:48:23Z",
+      "side": 1,
+      "message": "Interesting! Ideally this would use fetch code, but we don\u0027t have fetchv2 client-side code wired up in JGit, so this seems sensible enough.",
+      "revId": "0b142191cc231e836820158b0f4c0410b819d863",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e98fd227_fab2e4d5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1071,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-30T19:48:23Z",
+      "side": 1,
+      "message": "clientShallowCommits is also used by processShallow. Should we change this to\n\n clientShallowCommits \u003d req.getClientShallowCommits()\n\nso that any code trying to use it gets the benefit of filtering?",
+      "revId": "0b142191cc231e836820158b0f4c0410b819d863",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c367656_a7495ef2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1307,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-30T19:48:23Z",
+      "side": 1,
+      "message": "The main purpose of this function is to verify that the object ids passed in are commits, throwing PackProtocolException if any are other object types.\n\n\"While at it\", we also filter out missing objects since keeping them doesn\u0027t do any good. It\u0027s kind of a weird interface.",
+      "revId": "0b142191cc231e836820158b0f4c0410b819d863",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
