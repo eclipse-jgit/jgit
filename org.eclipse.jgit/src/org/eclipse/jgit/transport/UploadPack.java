@@ -295,7 +295,7 @@ public class UploadPack {
 	private final Set<RevObject> commonBase = new HashSet<>();
 
 	/** Shallow commits the client already has. */
-	private final Set<ObjectId> clientShallowCommits = new HashSet<>();
+	private Set<ObjectId> clientShallowCommits = new HashSet<>();
 
 	/** Desired depth from the client on a shallow request. */
 	private int depth;
@@ -832,7 +832,7 @@ public class UploadPack {
 				multiAck = MultiAck.OFF;
 
 			if (!clientShallowCommits.isEmpty())
-				verifyClientShallow();
+				verifyClientShallow(clientShallowCommits);
 			if (depth != 0)
 				processShallow(null, unshallowCommits, true);
 			if (!clientShallowCommits.isEmpty())
@@ -1068,7 +1068,7 @@ public class UploadPack {
 		// copying data back to class fields
 		options = req.getOptions();
 		wantIds.addAll(req.getWantsIds());
-		clientShallowCommits.addAll(req.getClientShallowCommits());
+		clientShallowCommits = req.getClientShallowCommits();
 		depth = req.getDepth();
 		shallowSince = req.getShallowSince();
 		filterBlobLimit = req.getFilterBlobLimit();
@@ -1079,7 +1079,7 @@ public class UploadPack {
 		List<ObjectId> unshallowCommits = new ArrayList<>();
 
 		if (!req.getClientShallowCommits().isEmpty()) {
-			verifyClientShallow();
+			verifyClientShallow(req.getClientShallowCommits());
 		}
 		if (req.getDepth() != 0 || req.getShallowSince() != 0
 				|| !req.getShallowExcludeRefs().isEmpty()) {
@@ -1303,9 +1303,14 @@ public class UploadPack {
 		}
 	}
 
-	private void verifyClientShallow()
+	/*
+	 * Verify all shallow lines refer to commits
+	 *
+	 * It can mutate the input set (removing missing object ids from it)
+	 */
+	private void verifyClientShallow(Set<ObjectId> shallowCommits)
 			throws IOException, PackProtocolException {
-		AsyncRevObjectQueue q = walk.parseAny(clientShallowCommits, true);
+		AsyncRevObjectQueue q = walk.parseAny(shallowCommits, true);
 		try {
 			for (;;) {
 				try {
@@ -1323,7 +1328,7 @@ public class UploadPack {
 				} catch (MissingObjectException notCommit) {
 					// shallow objects not known at the server are ignored
 					// by git-core upload-pack, match that behavior.
-					clientShallowCommits.remove(notCommit.getObjectId());
+					shallowCommits.remove(notCommit.getObjectId());
 					continue;
 				}
 			}
