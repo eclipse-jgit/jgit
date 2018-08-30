@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "e6732438_e07276b1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1018,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-30T00:06:07Z",
+      "side": 1,
+      "message": "This looks like an unrelated fix. Can it go in a separate commit? (That way, this commit is easier to explain and it can be fast-tracked.)",
+      "revId": "7a79e5bf785ba633eeaf96efd8596567a0954cb5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fdc14e17_191e5fd2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1
