@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "af635dd1_d4ed4338",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-08-30T20:54:18Z",
+      "side": 1,
+      "message": "Thanks! Done.",
+      "parentUuid": "3ff4baea_acbf85b1",
+      "revId": "0b142191cc231e836820158b0f4c0410b819d863",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8676794a_c102828a",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2018-08-30T19:48:23Z",
       "side": 1,
       "message": "unintended change?",
+      "revId": "0b142191cc231e836820158b0f4c0410b819d863",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6cbcb73_d0ea9bca",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1303,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-08-30T20:54:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8676794a_c102828a",
       "revId": "0b142191cc231e836820158b0f4c0410b819d863",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "3b258e27_6fbedb12",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1422,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-08-30T20:54:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8e46437_f2116a7a",
+      "range": {
+        "startLine": 1422,
+        "startChar": 24,
+        "endLine": 1422,
+        "endChar": 31
+      },
+      "revId": "0b142191cc231e836820158b0f4c0410b819d863",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8ca425a3_bcfad2ac",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
         "patchSetId": 3
@@ -70,6 +130,24 @@
       "writtenOn": "2018-08-30T19:48:23Z",
       "side": 1,
       "message": "Interesting! Ideally this would use fetch code, but we don\u0027t have fetchv2 client-side code wired up in JGit, so this seems sensible enough.",
+      "revId": "0b142191cc231e836820158b0f4c0410b819d863",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b1590d6f_7395b4cb",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1431,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-08-30T20:54:18Z",
+      "side": 1,
+      "message": "At the moment, this just follows the pattern of the other test cases.",
+      "parentUuid": "8ca425a3_bcfad2ac",
       "revId": "0b142191cc231e836820158b0f4c0410b819d863",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "7324c0b3_a20001fb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1071,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-08-30T20:54:18Z",
+      "side": 1,
+      "message": "I was trying to keep it as \"final\", but actually that is not helping much.\n\nWill remove the final and assign. That will make the code correct. Then I can refactor to get rid of it all together.",
+      "parentUuid": "e98fd227_fab2e4d5",
+      "revId": "0b142191cc231e836820158b0f4c0410b819d863",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2c367656_a7495ef2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 3
@@ -104,6 +200,24 @@
       "writtenOn": "2018-08-30T19:48:23Z",
       "side": 1,
       "message": "The main purpose of this function is to verify that the object ids passed in are commits, throwing PackProtocolException if any are other object types.\n\n\"While at it\", we also filter out missing objects since keeping them doesn\u0027t do any good. It\u0027s kind of a weird interface.",
+      "revId": "0b142191cc231e836820158b0f4c0410b819d863",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a564dd45_1a157fe9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1307,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-08-30T20:54:18Z",
+      "side": 1,
+      "message": "Ah! I understood it the other way around. I update the comment.",
+      "parentUuid": "2c367656_a7495ef2",
       "revId": "0b142191cc231e836820158b0f4c0410b819d863",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
