@@ -39,6 +39,40 @@
       "revId": "b075fc27c892439cfdcf11282232a0fab75d2c6b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6179fabe_1102acfa",
+        "filename": "tools/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-08-30T04:00:21Z",
+      "side": 1,
+      "message": "Update to work with bazel 0.16.",
+      "revId": "b075fc27c892439cfdcf11282232a0fab75d2c6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "76842ddf_ca442afc",
+        "filename": "tools/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-08-30T04:00:21Z",
+      "side": 1,
+      "message": "Add the ExpectedException checker.",
+      "revId": "b075fc27c892439cfdcf11282232a0fab75d2c6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
