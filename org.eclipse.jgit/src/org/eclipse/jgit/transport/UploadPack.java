@@ -1015,7 +1015,7 @@ public class UploadPack {
 				if (parsedDepth <= 0) {
 					throw new PackProtocolException(
 							MessageFormat.format(JGitText.get().invalidDepth,
-									Integer.valueOf(depth)));
+									Integer.valueOf(parsedDepth)));
 				}
 				if (reqBuilder.getShallowSince() != 0) {
 					throw new PackProtocolException(
