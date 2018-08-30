@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8bbbfc7_5b397dcf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-30T21:30:02Z",
+      "side": 1,
+      "message": "I\u0027m having trouble keeping track of tenses here.\n\nSee https://www.kernel.org/pub/software/scm/git/docs/SubmittingPatches.html#describe-changes for the usual convention (though it\u0027s slightly different from JGit since JGit seems to like capitalized titles):\n\n* use present tense to describe the behavior without your patch, as though writing a bug report\n* use the imperative to describe the change your patch makes, as though commanding JGit to do better\n\nHere, I think this means to say something like the following:\n\nWhen this exception is thrown, the `depth` member variable isn\u0027t set yet, resulting in a confusing error message: \"Invalid depth: 0\".",
+      "revId": "b58301a00171b399f57c4986fdc569365fe6fae7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
