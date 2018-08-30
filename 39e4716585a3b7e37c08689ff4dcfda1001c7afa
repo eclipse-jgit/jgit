@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c68e62d9_075b7055",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-30T22:14:35Z",
+      "side": 1,
+      "message": "Please add a class javadoc comment describing the basic purpose of this class, any relevant contracts, and how it gets used.",
+      "revId": "39e4716585a3b7e37c08689ff4dcfda1001c7afa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
