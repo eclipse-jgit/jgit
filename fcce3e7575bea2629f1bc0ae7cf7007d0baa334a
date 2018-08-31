@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "9ab74f76_384e9578",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-08-31T02:50:31Z",
+      "side": 1,
+      "message": "Thanks for the info.\n\nFWIW the \u0027bug\u0027 that I was looking into turned out to be user error, so I didn\u0027t need to report anything in the end.",
+      "parentUuid": "b6d5c163_b6ac34c8",
+      "range": {
+        "startLine": 138,
+        "startChar": 4,
+        "endLine": 138,
+        "endChar": 53
+      },
+      "revId": "fcce3e7575bea2629f1bc0ae7cf7007d0baa334a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d7fc299d_7bef923e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
         "patchSetId": 3
