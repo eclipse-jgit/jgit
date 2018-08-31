@@ -52,7 +52,6 @@ import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.jgit.errors.PackProtocolException;
@@ -235,8 +234,6 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 
 	private boolean noProgress;
 
-	private Set<AnyObjectId> minimalNegotiationSet;
-
 	private String lockMessage;
 
 	private PackLock packLock;
@@ -259,11 +256,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		super(packTransport);
 
 		if (local != null) {
-			final FetchConfig cfg = getFetchConfig();
-			allowOfsDelta = cfg.allowOfsDelta;
-			if (cfg.minimalNegotiation) {
-				minimalNegotiationSet = new HashSet<>();
-			}
+			allowOfsDelta = getFetchConfig().allowOfsDelta;
 		} else {
 			allowOfsDelta = true;
 		}
@@ -518,15 +511,6 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			}
 			line.append('\n');
 			p.writeString(line.toString());
-			if (minimalNegotiationSet != null) {
-				Ref current = local.exactRef(r.getName());
-				if (current != null) {
-					ObjectId o = current.getObjectId();
-					if (o != null && !o.equals(ObjectId.zeroId())) {
-						minimalNegotiationSet.add(o);
-					}
-				}
-			}
 		}
 		if (first) {
 			return false;
@@ -587,6 +571,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 
 	private void negotiate(ProgressMonitor monitor) throws IOException,
 			CancelledException {
+		final FetchConfig cfg = getFetchConfig();
 		final MutableObjectId ackId = new MutableObjectId();
 		int resultsPending = 0;
 		int havesSent = 0;
@@ -610,9 +595,6 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			pckOut.writeString("have " + o.name() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
 			havesSent++;
 			havesSinceLastContinue++;
-			if (minimalNegotiationSet != null) {
-				minimalNegotiationSet.remove(o);
-			}
 
 			if ((31 & havesSent) != 0) {
 				// We group the have lines into blocks of 32, each marked
@@ -646,16 +628,6 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 					// pack on the remote side. Keep doing that.
 					//
 					resultsPending--;
-					if (minimalNegotiationSet != null
-							&& minimalNegotiationSet.isEmpty()) {
-						// Minimal negotiation was requested and we sent out our
-						// current reference values for our wants, so terminate
-						// negotiation early.
-						if (statelessRPC) {
-							state.writeTo(out, null);
-						}
-						break SEND_HAVES;
-					}
 					break READ_RESULT;
 
 				case ACK:
@@ -686,14 +658,6 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 					if (anr == AckNackResult.ACK_READY) {
 						receivedReady = true;
 					}
-					if (minimalNegotiationSet != null && minimalNegotiationSet.isEmpty()) {
-						// Minimal negotiation was requested and we sent out our current reference
-						// values for our wants, so terminate negotiation early.
-						if (statelessRPC) {
-							state.writeTo(out, null);
-						}
-						break SEND_HAVES;
-					}
 					break;
 				}
 
@@ -709,7 +673,8 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 				state.writeTo(out, null);
 			}
 
-			if (receivedContinue && havesSinceLastContinue > MAX_HAVES) {
+			if (receivedContinue && havesSinceLastContinue > MAX_HAVES
+					|| cfg.minimalNegotiation && havesSent >= MAX_HAVES) {
 				// Our history must be really different from the remote's.
 				// We just sent a whole slew of have lines, and it did not
 				// recognize any of them. Avoid sending our entire history
