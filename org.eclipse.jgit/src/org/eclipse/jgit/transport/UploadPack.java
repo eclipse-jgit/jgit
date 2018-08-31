@@ -1016,7 +1016,7 @@ public class UploadPack {
 							MessageFormat.format(JGitText.get().invalidDepth,
 									Integer.valueOf(parsedDepth)));
 				}
-				if (reqBuilder.getShallowSince() != 0) {
+				if (reqBuilder.getDeepenSince() != 0) {
 					throw new PackProtocolException(
 							JGitText.get().deepenSinceWithDeepen);
 				}
@@ -1034,8 +1034,8 @@ public class UploadPack {
 			} else if (line.equals(OPTION_DEEPEN_RELATIVE)) {
 				reqBuilder.addOption(OPTION_DEEPEN_RELATIVE);
 			} else if (line.startsWith("deepen-since ")) { //$NON-NLS-1$
-				int parsedShallowSince = Integer.parseInt(line.substring(13));
-				if (parsedShallowSince <= 0) {
+				int ts = Integer.parseInt(line.substring(13));
+				if (ts <= 0) {
 					throw new PackProtocolException(
 							MessageFormat.format(
 									JGitText.get().invalidTimestamp, line));
@@ -1044,7 +1044,7 @@ public class UploadPack {
 					throw new PackProtocolException(
 							JGitText.get().deepenSinceWithDeepen);
 				}
-				reqBuilder.setShallowSince(parsedShallowSince);
+				reqBuilder.setDeepenSince(ts);
 			} else if (transferConfig.isAllowFilter()
 					&& line.startsWith(OPTION_FILTER + ' ')) {
 				if (filterReceived) {
@@ -1069,7 +1069,7 @@ public class UploadPack {
 		wantIds.addAll(req.getWantsIds());
 		clientShallowCommits = req.getClientShallowCommits();
 		depth = req.getDepth();
-		shallowSince = req.getShallowSince();
+		shallowSince = req.getDeepenSince();
 		filterBlobLimit = req.getFilterBlobLimit();
 		deepenNotRefs = req.getDeepenNotRefs();
 
@@ -1080,7 +1080,7 @@ public class UploadPack {
 		if (!req.getClientShallowCommits().isEmpty()) {
 			verifyClientShallow(req.getClientShallowCommits());
 		}
-		if (req.getDepth() != 0 || req.getShallowSince() != 0
+		if (req.getDepth() != 0 || req.getDeepenSince() != 0
 				|| !req.getDeepenNotRefs().isEmpty()) {
 			shallowCommits = new ArrayList<>();
 			processShallow(shallowCommits, unshallowCommits, false);
