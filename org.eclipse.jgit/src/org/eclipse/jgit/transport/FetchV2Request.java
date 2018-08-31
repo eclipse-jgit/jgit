@@ -84,14 +84,14 @@ public final class FetchV2Request {
 	private FetchV2Request(List<ObjectId> peerHas,
 			TreeMap<String, ObjectId> wantedRefs, Set<ObjectId> wantsIds,
 			Set<ObjectId> clientShallowCommits, int shallowSince,
-			List<String> deependNotRefs, int depth, long filterBlobLimit,
+			List<String> deepenNotRefs, int depth, long filterBlobLimit,
 			boolean doneReceived, Set<String> options) {
 		this.peerHas = peerHas;
 		this.wantedRefs = wantedRefs;
 		this.wantsIds = wantsIds;
 		this.clientShallowCommits = clientShallowCommits;
 		this.shallowSince = shallowSince;
-		this.deepenNotRefs = deependNotRefs;
+		this.deepenNotRefs = deepenNotRefs;
 		this.depth = depth;
 		this.filterBlobLimit = filterBlobLimit;
 		this.doneReceived = doneReceived;
