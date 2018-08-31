@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "66240b30_9fdaa753",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/ProtocolV2ParserTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T17:57:32Z",
+      "side": 1,
+      "message": "Glad I could help. :)",
+      "parentUuid": "de8c3b28_324a2cb0",
+      "revId": "5ec65f675453212a6a708387d0e5afcfd6d2ca69",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2fefeb9c_6586a62e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
         "patchSetId": 3
@@ -69,6 +87,24 @@
       "revId": "5ec65f675453212a6a708387d0e5afcfd6d2ca69",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea758975_267a0c1f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T17:57:32Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "13c16fc2_4b48bb8d",
+      "revId": "5ec65f675453212a6a708387d0e5afcfd6d2ca69",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -119,6 +155,30 @@
     },
     {
       "key": {
+        "uuid": "02012d39_f797a1f6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T17:57:32Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "243c3318_8f190694",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 14
+      },
+      "revId": "5ec65f675453212a6a708387d0e5afcfd6d2ca69",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c0a8073_7c1c8f7e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
         "patchSetId": 3
@@ -154,6 +214,24 @@
     },
     {
       "key": {
+        "uuid": "407511bb_fbfa4df7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T17:57:32Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "999de217_f048d6fc",
+      "revId": "5ec65f675453212a6a708387d0e5afcfd6d2ca69",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "701f8c80_3aa5de7b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
         "patchSetId": 3
@@ -183,6 +261,24 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "701f8c80_3aa5de7b",
+      "revId": "5ec65f675453212a6a708387d0e5afcfd6d2ca69",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d1439b1_341eaf69",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T17:57:32Z",
+      "side": 1,
+      "message": "Thanks. Should be \"private final\" to follow JLS order (see https://wiki.eclipse.org/Coding_Conventions).",
+      "parentUuid": "0b9a69df_306e2dfd",
       "revId": "5ec65f675453212a6a708387d0e5afcfd6d2ca69",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
@@ -271,6 +367,48 @@
     },
     {
       "key": {
+        "uuid": "ce9c1a2d_b87ebbd9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T17:57:32Z",
+      "side": 1,
+      "message": "Nice.",
+      "parentUuid": "2e66846c_c1b7d969",
+      "revId": "5ec65f675453212a6a708387d0e5afcfd6d2ca69",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23e0336d_27997cff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T17:57:32Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d59dc743_fa9f0a26",
+      "range": {
+        "startLine": 39,
+        "startChar": 16,
+        "endLine": 39,
+        "endChar": 21
+      },
+      "revId": "5ec65f675453212a6a708387d0e5afcfd6d2ca69",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "147186a0_5e6671b2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
         "patchSetId": 3
@@ -303,6 +441,24 @@
       "revId": "5ec65f675453212a6a708387d0e5afcfd6d2ca69",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f46f7c9_fa13d8d6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T17:57:32Z",
+      "side": 1,
+      "message": "Ack, thanks.",
+      "parentUuid": "18a2e789_244fd323",
+      "revId": "5ec65f675453212a6a708387d0e5afcfd6d2ca69",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
