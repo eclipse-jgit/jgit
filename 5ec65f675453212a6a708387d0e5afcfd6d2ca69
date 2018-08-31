@@ -1,0 +1,152 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc43ca19_497740ca",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/ProtocolV2ParserTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T02:26:38Z",
+      "side": 1,
+      "message": "Tests with mocks are hard to maintain. This is a fake instead of a mock, so that\u0027s not a big deal, but please use InMemoryRepository instead.",
+      "revId": "5ec65f675453212a6a708387d0e5afcfd6d2ca69",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fefeb9c_6586a62e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T02:26:38Z",
+      "side": 1,
+      "message": "needs license comment",
+      "revId": "5ec65f675453212a6a708387d0e5afcfd6d2ca69",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69934b4e_cdd2aaef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T02:26:38Z",
+      "side": 1,
+      "message": "This part can go in a comment near the fetch method. That way, it\u0027s easier to tweak if we change that later (maybe we\u0027d want to defer the validation to after parsing or something).",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 14
+      },
+      "revId": "5ec65f675453212a6a708387d0e5afcfd6d2ca69",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c0a8073_7c1c8f7e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T02:26:38Z",
+      "side": 1,
+      "message": "optional: can make final, since we don\u0027t have any subclasses",
+      "revId": "5ec65f675453212a6a708387d0e5afcfd6d2ca69",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "701f8c80_3aa5de7b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T02:26:38Z",
+      "side": 1,
+      "message": "final",
+      "revId": "5ec65f675453212a6a708387d0e5afcfd6d2ca69",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4aff1298_1a3badb2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T02:26:38Z",
+      "side": 1,
+      "message": "perhaps: parseFetchRequest?",
+      "range": {
+        "startLine": 39,
+        "startChar": 16,
+        "endLine": 39,
+        "endChar": 21
+      },
+      "revId": "5ec65f675453212a6a708387d0e5afcfd6d2ca69",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a8ba776_5ae0206e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T02:26:38Z",
+      "side": 1,
+      "message": "please add a brief javadoc comment (particularly mentioning under what circumstances it throws each exception)",
+      "revId": "5ec65f675453212a6a708387d0e5afcfd6d2ca69",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "147186a0_5e6671b2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T02:26:38Z",
+      "side": 1,
+      "message": "not about this patch: Can we take this implementation detail out of the FetchV2Request?",
+      "revId": "5ec65f675453212a6a708387d0e5afcfd6d2ca69",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
