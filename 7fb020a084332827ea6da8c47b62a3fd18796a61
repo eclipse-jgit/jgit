@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6bf5fb4a_f52ac6e2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/ProtocolV2ParserTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-08-31T18:26:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a11c725_fb460170",
+      "revId": "7fb020a084332827ea6da8c47b62a3fd18796a61",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3d21acbb_5f5756ae",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
         "patchSetId": 4
@@ -30,6 +48,30 @@
       "writtenOn": "2018-08-31T17:57:32Z",
       "side": 1,
       "message": "This is typically a sentence describing the condition where the exception would be thrown. E.g.\n\n @throws IOException\n    an IO error prevented reading the incoming message or accessing the ref database.",
+      "range": {
+        "startLine": 96,
+        "startChar": 16,
+        "endLine": 97,
+        "endChar": 38
+      },
+      "revId": "7fb020a084332827ea6da8c47b62a3fd18796a61",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a985017_ceecbdf3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-08-31T18:26:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d21acbb_5f5756ae",
       "range": {
         "startLine": 96,
         "startChar": 16,
