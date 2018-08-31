@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f67792b3_4464d71e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1146,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T22:03:08Z",
+      "side": 1,
+      "message": "static?\n\nThis feels odd to me. On one hand it wants to be a plain old java object (providing shallow and unshallow lists). On the other hand it has a write helper to write them out.\n\nOne effect of this refactoring is that the \"shallow\" and \"unshallow\" lines don\u0027t stream any more --- instead, they\u0027re buffered until the caller calls write. I wonder if we can do better with a streaming interface --- how about something like\n\n  private void computeShallowsAndUnshallows(Iterable\u003cObjectId\u003e wants, Consumer\u003cObjectId\u003e shallowFunc, Consumer\u003cObjectId\u003e unshallowFunc);\n\nAnd then the caller can do something like\n\n  computeShallowsAndUnshallows(wants,\n     s -\u003e {\n       shallowCommits.add(s);\n       out.writeString(\"shallow \" + o.name() + \u0027\\n\u0027);\n     },\n     u -\u003e {\n       unshallowCommits.add(u);\n       out.writeString(\"unshallow \" + u.name() + \u0027\\n\u0027);\n     });\n\nmaking the side effects more visible.",
+      "revId": "db37dad621e7827856a7edc2833cae1ae9ea5dc5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
