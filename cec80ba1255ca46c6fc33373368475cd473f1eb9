@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aa37fa6_3c89c302",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 958,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T21:53:29Z",
+      "side": 1,
+      "message": "style nit: JGit doesn\u0027t tend to use multiple blank lines within a function like this",
+      "revId": "cec80ba1255ca46c6fc33373368475cd473f1eb9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "610c50a3_fb8e76cf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 966,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T21:53:29Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "cec80ba1255ca46c6fc33373368475cd473f1eb9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
