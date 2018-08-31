@@ -99,6 +99,30 @@
       "revId": "7fb020a084332827ea6da8c47b62a3fd18796a61",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c0ed04a_82e04bd9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T21:29:25Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0a985017_ceecbdf3",
+      "range": {
+        "startLine": 96,
+        "startChar": 16,
+        "endLine": 97,
+        "endChar": 38
+      },
+      "revId": "7fb020a084332827ea6da8c47b62a3fd18796a61",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
