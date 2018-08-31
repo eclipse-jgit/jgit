@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "b6d5c163_b6ac34c8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T02:45:34Z",
+      "side": 1,
+      "message": "You can read more at https://public-inbox.org/git/20171123011227.GM11671@aiede.mtv.corp.google.com/.\n\nThe recommended way to report a bug (unless you\u0027re planning to fix it yourself) is still to contact git@vger.kernel.org. That said, if you report a bug on Monorail and I notice, I\u0027ll probably forward it to the list, so getting it wrong is not the worst mistake to make in the world.\n\nIt\u0027s definitely not Google-specific. Anyone is welcome to take bugs from there and fix them. ;-)",
+      "parentUuid": "f93e10f6_f755dc80",
+      "range": {
+        "startLine": 138,
+        "startChar": 4,
+        "endLine": 138,
+        "endChar": 53
+      },
+      "revId": "fcce3e7575bea2629f1bc0ae7cf7007d0baa334a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d7fc299d_7bef923e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
         "patchSetId": 3
