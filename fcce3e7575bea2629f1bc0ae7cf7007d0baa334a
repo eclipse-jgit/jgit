@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ff3b905_b8fa5c88",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T02:17:56Z",
+      "side": 1,
+      "message": "can rename to deepenNotRefs for consistency",
+      "range": {
+        "startLine": 87,
+        "startChar": 16,
+        "endLine": 87,
+        "endChar": 34
+      },
+      "revId": "fcce3e7575bea2629f1bc0ae7cf7007d0baa334a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69fb6cb7_8041fcee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T02:17:56Z",
+      "side": 1,
+      "message": "By the way, Git\u0027s protocol docs do not explain what values are supported here. Filed https://crbug.com/git/19 for that.",
+      "range": {
+        "startLine": 138,
+        "startChar": 4,
+        "endLine": 138,
+        "endChar": 53
+      },
+      "revId": "fcce3e7575bea2629f1bc0ae7cf7007d0baa334a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7fc299d_7bef923e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T02:17:56Z",
+      "side": 1,
+      "message": "\"in seconds since the epoch\"\n\nOr:\n\n\"in seconds since the Java epoch, midnight Jan 1, 1970\" (since that\u0027s what DirCacheEntry calls it).",
+      "range": {
+        "startLine": 141,
+        "startChar": 23,
+        "endLine": 141,
+        "endChar": 55
+      },
+      "revId": "fcce3e7575bea2629f1bc0ae7cf7007d0baa334a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d5e0017_273c6372",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T02:17:56Z",
+      "side": 1,
+      "message": "I thought these weren\u0027t required to be refs, but on a closer look it seems they are. protocol-v2.txt and protocol-capabilities.txt refer to \u003crev\u003e, while pack-protocol.txt refers to \u003cref\u003e (confusing). The implementation in git upload-pack uses expand_ref, which follows similar rules to RefDatabase#findRef. Filed https://crbug.com/git/20 to fix (hopefully by getting rid of support for following the search pattern).",
+      "revId": "fcce3e7575bea2629f1bc0ae7cf7007d0baa334a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc7a3b7d_e274b7f4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T02:17:56Z",
+      "side": 1,
+      "message": "optional: I\u0027d be tempted to call this wasDoneReceived, but I don\u0027t know if that\u0027s too cute.",
+      "range": {
+        "startLine": 173,
+        "startChar": 16,
+        "endLine": 173,
+        "endChar": 30
+      },
+      "revId": "fcce3e7575bea2629f1bc0ae7cf7007d0baa334a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7ea8df5_d8cc4e70",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T02:17:56Z",
+      "side": 1,
+      "message": "Does this need to be public yet? Do you have a caller in mind?",
+      "range": {
+        "startLine": 173,
+        "startChar": 1,
+        "endLine": 173,
+        "endChar": 7
+      },
+      "revId": "fcce3e7575bea2629f1bc0ae7cf7007d0baa334a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67e5b179_34d49987",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T02:17:56Z",
+      "side": 1,
+      "message": "false is the default, so JGit style is to leave out the initialization in this case.",
+      "revId": "fcce3e7575bea2629f1bc0ae7cf7007d0baa334a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
