@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "43d5b7ad_9e0eb646",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 958,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T22:33:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3aa37fa6_3c89c302",
+      "revId": "cec80ba1255ca46c6fc33373368475cd473f1eb9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "610c50a3_fb8e76cf",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 7
@@ -33,6 +51,24 @@
       "revId": "cec80ba1255ca46c6fc33373368475cd473f1eb9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2dffc0af_6840b908",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 966,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T22:33:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "610c50a3_fb8e76cf",
+      "revId": "cec80ba1255ca46c6fc33373368475cd473f1eb9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
