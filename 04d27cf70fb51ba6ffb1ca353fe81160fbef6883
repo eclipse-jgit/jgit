@@ -22,6 +22,30 @@
       "revId": "04d27cf70fb51ba6ffb1ca353fe81160fbef6883",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d8770af_c8540996",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T21:21:20Z",
+      "side": 1,
+      "message": "Fixed in https://git.eclipse.org/r/c/128477.",
+      "parentUuid": "5cc1bcf8_5e78be62",
+      "range": {
+        "startLine": 87,
+        "startChar": 16,
+        "endLine": 87,
+        "endChar": 30
+      },
+      "revId": "04d27cf70fb51ba6ffb1ca353fe81160fbef6883",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
