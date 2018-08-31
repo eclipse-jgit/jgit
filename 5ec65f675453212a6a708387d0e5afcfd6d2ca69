@@ -303,6 +303,24 @@
     },
     {
       "key": {
+        "uuid": "c7ac461c_0601248f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T18:50:25Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "28b23e8c_fbaf8940",
+      "revId": "5ec65f675453212a6a708387d0e5afcfd6d2ca69",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4aff1298_1a3badb2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
         "patchSetId": 3
