@@ -66,6 +66,30 @@
     },
     {
       "key": {
+        "uuid": "7350c1d0_ee7e867d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/ProtocolV2ParserTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T21:29:25Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "fe83690c_de2cac3d",
+      "range": {
+        "startLine": 120,
+        "startChar": 22,
+        "endLine": 120,
+        "endChar": 32
+      },
+      "revId": "411205ca6638b9b8d881cd683789babe1957a19c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "989e0e5e_161536a8",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/ProtocolV2ParserTest.java",
         "patchSetId": 5
@@ -98,6 +122,24 @@
       "revId": "411205ca6638b9b8d881cd683789babe1957a19c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "894d7d0d_20ff9f30",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/ProtocolV2ParserTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T21:29:25Z",
+      "side": 1,
+      "message": "Thanks, makes sense.",
+      "parentUuid": "44914c56_71e31f83",
+      "revId": "411205ca6638b9b8d881cd683789babe1957a19c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -148,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "e2c852a0_624e9a4d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/ProtocolV2ParserTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T21:29:25Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "dbd65f20_59a9b89e",
+      "range": {
+        "startLine": 145,
+        "startChar": 13,
+        "endLine": 145,
+        "endChar": 36
+      },
+      "revId": "411205ca6638b9b8d881cd683789babe1957a19c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a3f0b4b_d9aa10e1",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/ProtocolV2ParserTest.java",
         "patchSetId": 5
@@ -192,6 +258,30 @@
       "revId": "411205ca6638b9b8d881cd683789babe1957a19c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b29a6260_b5121a4a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/ProtocolV2ParserTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T21:29:25Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3ab0122e_60847703",
+      "range": {
+        "startLine": 246,
+        "startChar": 13,
+        "endLine": 246,
+        "endChar": 32
+      },
+      "revId": "411205ca6638b9b8d881cd683789babe1957a19c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -242,6 +332,30 @@
     },
     {
       "key": {
+        "uuid": "01c0b13e_2b1cdc37",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/ProtocolV2ParserTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T21:29:25Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8db0d62f_3a228280",
+      "range": {
+        "startLine": 258,
+        "startChar": 13,
+        "endLine": 258,
+        "endChar": 40
+      },
+      "revId": "411205ca6638b9b8d881cd683789babe1957a19c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fde589bf_68ec97a8",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/ProtocolV2ParserTest.java",
         "patchSetId": 5
@@ -289,6 +403,30 @@
     },
     {
       "key": {
+        "uuid": "db045e6c_baee5eb8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/ProtocolV2ParserTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T21:29:25Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "87ec59f9_62337aab",
+      "range": {
+        "startLine": 271,
+        "startChar": 13,
+        "endLine": 271,
+        "endChar": 43
+      },
+      "revId": "411205ca6638b9b8d881cd683789babe1957a19c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45a92329_80f80829",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/ProtocolV2ParserTest.java",
         "patchSetId": 5
@@ -321,6 +459,24 @@
       "revId": "411205ca6638b9b8d881cd683789babe1957a19c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51d127bd_e50f7af7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/ProtocolV2ParserTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T21:29:25Z",
+      "side": 1,
+      "message": "Thanks.",
+      "parentUuid": "317a4cdd_dfb5e955",
+      "revId": "411205ca6638b9b8d881cd683789babe1957a19c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     },
     {
       "key": {
@@ -359,6 +515,24 @@
     },
     {
       "key": {
+        "uuid": "250c517a_c8c08eb1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T21:29:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4342b37b_8b42967f",
+      "revId": "411205ca6638b9b8d881cd683789babe1957a19c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d6f01fe_582ec748",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 5
@@ -388,6 +562,24 @@
       "side": 1,
       "message": "I *think* so... Neither hooks nor parsing should have anything to do with rawOut.\nDone.",
       "parentUuid": "4d6f01fe_582ec748",
+      "revId": "411205ca6638b9b8d881cd683789babe1957a19c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb6cecd4_4e7a5a24",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 962,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T21:29:25Z",
+      "side": 1,
+      "message": "Ah. Confusingly, rawOut.stopBuffering() is about indicating that we\u0027re done with pckIn since HTTP wants us to consume the entire request before starting to write a response, so I think it has to come after parseFetchRequest. See https://git.eclipse.org/r/c/94249/ for more details (found with \"git log -SstopBuffering\"), and feel free to file a bug for documenting this better.",
+      "parentUuid": "a4d48f14_9a8d6b04",
       "revId": "411205ca6638b9b8d881cd683789babe1957a19c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
