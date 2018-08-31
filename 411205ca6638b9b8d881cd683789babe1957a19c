@@ -1,0 +1,204 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "148ad59c_56731987",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/ProtocolV2ParserTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T18:50:25Z",
+      "side": 1,
+      "message": "Not about this change: I wonder if we should have a common test helper for this.",
+      "revId": "411205ca6638b9b8d881cd683789babe1957a19c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c9f9e9f_783dd009",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/ProtocolV2ParserTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T18:50:25Z",
+      "side": 1,
+      "message": "What does buildPckIn stand for? Maybe a short comment would help.\n\nCan this be static?",
+      "range": {
+        "startLine": 120,
+        "startChar": 22,
+        "endLine": 120,
+        "endChar": 32
+      },
+      "revId": "411205ca6638b9b8d881cd683789babe1957a19c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "989e0e5e_161536a8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/ProtocolV2ParserTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T18:50:25Z",
+      "side": 1,
+      "message": "Likewise: can this be static?\n\nThat said, I think it might be simpler to do inline at the call site:\n\n  objIds.stream().map(ObjectId::name).collect(toList());\n\nOr maybe we can make a custom matcher, something like\n\n  hasObjectIds(\"4624442d68ee402a94364191085b77137618633e\", \"f900c8326a43303685c46b279b9f70411bff1a4b\")",
+      "revId": "411205ca6638b9b8d881cd683789babe1957a19c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c328ea6_2bac2b11",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/ProtocolV2ParserTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T18:50:25Z",
+      "side": 1,
+      "message": "What does this test for? A brief comment might help.",
+      "range": {
+        "startLine": 145,
+        "startChar": 13,
+        "endLine": 145,
+        "endChar": 36
+      },
+      "revId": "411205ca6638b9b8d881cd683789babe1957a19c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a3f0b4b_d9aa10e1",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/ProtocolV2ParserTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T18:50:25Z",
+      "side": 1,
+      "message": "optional: something like testFetchWithBlobSizeLimit",
+      "range": {
+        "startLine": 246,
+        "startChar": 13,
+        "endLine": 246,
+        "endChar": 32
+      },
+      "revId": "411205ca6638b9b8d881cd683789babe1957a19c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c77f81d_1f152e74",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/ProtocolV2ParserTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T18:50:25Z",
+      "side": 1,
+      "message": "optional: the test name can describe the expected behavior, something like testMultipleFiltersCannotBeCombined (see also https://crbug.com/git/21).",
+      "range": {
+        "startLine": 258,
+        "startChar": 13,
+        "endLine": 258,
+        "endChar": 40
+      },
+      "revId": "411205ca6638b9b8d881cd683789babe1957a19c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fde589bf_68ec97a8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/ProtocolV2ParserTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T18:50:25Z",
+      "side": 1,
+      "message": "Something like: testFetchFilterWithoutAllowFilter",
+      "range": {
+        "startLine": 271,
+        "startChar": 13,
+        "endLine": 271,
+        "endChar": 43
+      },
+      "revId": "411205ca6638b9b8d881cd683789babe1957a19c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45a92329_80f80829",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/ProtocolV2ParserTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T18:50:25Z",
+      "side": 1,
+      "message": "optional: This message doesn\u0027t look so great --- isn\u0027t it a valid ref name, but just a missing ref?\n\nWe can avoid the test being too prescriptive by making the matching less exact (e.g. by checking that the message contains the ref name). Alternatively, a followup change could improve the message.",
+      "revId": "411205ca6638b9b8d881cd683789babe1957a19c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90644dcb_d333649b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T18:50:25Z",
+      "side": 1,
+      "message": "Can this be static?",
+      "revId": "411205ca6638b9b8d881cd683789babe1957a19c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d6f01fe_582ec748",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 962,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T18:50:25Z",
+      "side": 1,
+      "message": "Can this happen before the hook invocation?",
+      "revId": "411205ca6638b9b8d881cd683789babe1957a19c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
