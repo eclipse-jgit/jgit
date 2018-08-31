@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "80164970_e2c0a0af",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-08-31T16:15:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ff3b905_b8fa5c88",
+      "range": {
+        "startLine": 87,
+        "startChar": 16,
+        "endLine": 87,
+        "endChar": 34
+      },
+      "revId": "fcce3e7575bea2629f1bc0ae7cf7007d0baa334a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "69fb6cb7_8041fcee",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
         "patchSetId": 3
@@ -120,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "1ffe5e0c_8b1ca0fd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-08-31T16:15:50Z",
+      "side": 1,
+      "message": "Right, I couldn\u0027t find any info about it. Figured it out trying in the command line tool... :$",
+      "parentUuid": "69fb6cb7_8041fcee",
+      "range": {
+        "startLine": 138,
+        "startChar": 4,
+        "endLine": 138,
+        "endChar": 53
+      },
+      "revId": "fcce3e7575bea2629f1bc0ae7cf7007d0baa334a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d7fc299d_7bef923e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
         "patchSetId": 3
@@ -143,6 +191,30 @@
     },
     {
       "key": {
+        "uuid": "1cb1fcd5_0a45ee44",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-08-31T16:15:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7fc299d_7bef923e",
+      "range": {
+        "startLine": 141,
+        "startChar": 23,
+        "endLine": 141,
+        "endChar": 55
+      },
+      "revId": "fcce3e7575bea2629f1bc0ae7cf7007d0baa334a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9d5e0017_273c6372",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
         "patchSetId": 3
@@ -154,6 +226,24 @@
       "writtenOn": "2018-08-31T02:17:56Z",
       "side": 1,
       "message": "I thought these weren\u0027t required to be refs, but on a closer look it seems they are. protocol-v2.txt and protocol-capabilities.txt refer to \u003crev\u003e, while pack-protocol.txt refers to \u003cref\u003e (confusing). The implementation in git upload-pack uses expand_ref, which follows similar rules to RefDatabase#findRef. Filed https://crbug.com/git/20 to fix (hopefully by getting rid of support for following the search pattern).",
+      "revId": "fcce3e7575bea2629f1bc0ae7cf7007d0baa334a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "990aba6b_81b43de3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-08-31T16:15:50Z",
+      "side": 1,
+      "message": "Thanks for filling that bug.",
+      "parentUuid": "9d5e0017_273c6372",
       "revId": "fcce3e7575bea2629f1bc0ae7cf7007d0baa334a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -206,6 +296,54 @@
     },
     {
       "key": {
+        "uuid": "1f1501e6_76d4f55a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-08-31T16:15:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc7a3b7d_e274b7f4",
+      "range": {
+        "startLine": 173,
+        "startChar": 16,
+        "endLine": 173,
+        "endChar": 30
+      },
+      "revId": "fcce3e7575bea2629f1bc0ae7cf7007d0baa334a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f66bbd7_b82cb6b8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-08-31T16:15:50Z",
+      "side": 1,
+      "message": "My mistake. Done.",
+      "parentUuid": "e7ea8df5_d8cc4e70",
+      "range": {
+        "startLine": 173,
+        "startChar": 1,
+        "endLine": 173,
+        "endChar": 7
+      },
+      "revId": "fcce3e7575bea2629f1bc0ae7cf7007d0baa334a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "67e5b179_34d49987",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
         "patchSetId": 3
@@ -217,6 +355,24 @@
       "writtenOn": "2018-08-31T02:17:56Z",
       "side": 1,
       "message": "false is the default, so JGit style is to leave out the initialization in this case.",
+      "revId": "fcce3e7575bea2629f1bc0ae7cf7007d0baa334a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "badc15eb_059e69eb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchV2Request.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-08-31T16:15:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67e5b179_34d49987",
       "revId": "fcce3e7575bea2629f1bc0ae7cf7007d0baa334a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
