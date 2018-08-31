@@ -13,19 +13,19 @@ java_library(
         "//org.eclipse.jgit.archive:__pkg__",
         "//org.eclipse.jgit.pgm.test:__pkg__",
     ],
-    exports = ["@commons_compress//jar"],
+    exports = ["@commons-compress//jar"],
 )
 
 java_library(
     name = "commons-codec",
-    exports = ["@commons_codec//jar"],
+    exports = ["@commons-codec//jar"],
 )
 
 java_library(
     name = "commons-logging",
     testonly = 1,
     visibility = ["//visibility:public"],
-    exports = ["@commons_logging//jar"],
+    exports = ["@commons-logging//jar"],
 )
 
 java_library(
@@ -65,7 +65,7 @@ java_library(
     name = "jetty-http",
     # TODO: This should be testonly but org.eclipse.jgit.pgm depends on it.
     visibility = ["//visibility:public"],
-    exports = ["@jetty_http//jar"],
+    exports = ["@jetty-http//jar"],
     runtime_deps = [":commons-codec"],
 )
 
@@ -73,35 +73,35 @@ java_library(
     name = "jetty-io",
     # TODO: This should be testonly but org.eclipse.jgit.pgm depends on it.
     visibility = ["//visibility:public"],
-    exports = ["@jetty_io//jar"],
+    exports = ["@jetty-io//jar"],
 )
 
 java_library(
     name = "jetty-security",
     # TODO: This should be testonly but org.eclipse.jgit.pgm depends on it.
     visibility = ["//visibility:public"],
-    exports = ["@jetty_security//jar"],
+    exports = ["@jetty-security//jar"],
 )
 
 java_library(
     name = "jetty-server",
     # TODO: This should be testonly but org.eclipse.jgit.pgm depends on it.
     visibility = ["//visibility:public"],
-    exports = ["@jetty_server//jar"],
+    exports = ["@jetty-server//jar"],
 )
 
 java_library(
     name = "jetty-servlet",
     # TODO: This should be testonly but org.eclipse.jgit.pgm depends on it.
     visibility = ["//visibility:public"],
-    exports = ["@jetty_servlet//jar"],
+    exports = ["@jetty-servlet//jar"],
 )
 
 java_library(
     name = "jetty-util",
     # TODO: This should be testonly but org.eclipse.jgit.pgm depends on it.
     visibility = ["//visibility:public"],
-    exports = ["@jetty_util//jar"],
+    exports = ["@jetty-util//jar"],
 )
 
 java_library(
@@ -115,9 +115,9 @@ java_library(
     testonly = 1,
     visibility = ["//visibility:public"],
     exports = [
-       "@junit//jar",
-       "@hamcrest_core//jar",
-       "@hamcrest_library//jar",
+        "@hamcrest-core//jar",
+        "@hamcrest-library//jar",
+        "@junit//jar",
     ],
 )
 
@@ -132,25 +132,25 @@ java_library(
         "//org.eclipse.jgit.lfs.server.test:__pkg__",
         "//org.eclipse.jgit.pgm:__pkg__",
     ],
-    exports = ["@servlet_api_3_1//jar"],
+    exports = ["@servlet-api-3_1//jar"],
 )
 
 java_library(
     name = "slf4j-api",
     visibility = ["//visibility:public"],
-    exports = ["@log_api//jar"],
+    exports = ["@log-api//jar"],
 )
 
 java_library(
     name = "slf4j-simple",
     testonly = 1,
     visibility = ["//visibility:public"],
-    exports = ["@slf4j_simple//jar"],
+    exports = ["@slf4j-simple//jar"],
 )
 
 java_library(
     name = "xz",
     testonly = 1,
     visibility = ["//visibility:public"],
-    exports = ["@tukaani_xz//jar"],
+    exports = ["@tukaani-xz//jar"],
 )
