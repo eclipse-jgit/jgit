@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aebcbb6b_bf8718e6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1401,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T22:38:09Z",
+      "side": 1,
+      "message": "This is in protocol v1 code, so it feels odd to be calling into the ProtocolV2Parser. Should the dependency be the other way around (ProtocolV2Parser calling a static method from UploadPack)?",
+      "revId": "a8c38bc767778f718b24cca4a97b624c16278fb8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
