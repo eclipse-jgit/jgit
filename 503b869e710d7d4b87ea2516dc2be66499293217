@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b204b1e_fb6f10da",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T23:03:41Z",
+      "side": 1,
+      "message": "Can avoid constructing FetchConfig twice by using the value from the BasePackFetchConnection constructor.\n\nCan minimalNegotiation be another member variable, like allowOfsDelta?",
+      "revId": "503b869e710d7d4b87ea2516dc2be66499293217",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ab0e596_5b69a818",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 678,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-08-31T23:03:41Z",
+      "side": 1,
+      "message": "The commit message says 8 rounds, but this code says 256 haves. Which is right?\n\nCan the number of rounds (or haves, either is fine) be tunable? I.e. can this configuration be an integer instead of a boolean?",
+      "revId": "503b869e710d7d4b87ea2516dc2be66499293217",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
