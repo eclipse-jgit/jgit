@@ -52,7 +52,6 @@ import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.jgit.errors.PackProtocolException;
@@ -235,11 +234,11 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 
 	private boolean noProgress;
 
-	private Set<AnyObjectId> minimalNegotiationSet;
-
 	private String lockMessage;
 
 	private PackLock packLock;
+
+	private int maxHaves;
 
 	/** RPC state, if {@link BasePackConnection#statelessRPC} is true. */
 	private TemporaryBuffer.Heap state;
@@ -261,12 +260,12 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		if (local != null) {
 			final FetchConfig cfg = getFetchConfig();
 			allowOfsDelta = cfg.allowOfsDelta;
-			if (cfg.minimalNegotiation) {
-				minimalNegotiationSet = new HashSet<>();
-			}
+			maxHaves = cfg.maxHaves;
 		} else {
 			allowOfsDelta = true;
+			maxHaves = Integer.MAX_VALUE;
 		}
+
 		includeTags = transport.getTagOpt() != TagOpt.NO_TAGS;
 		thinPack = transport.isFetchThin();
 		filterBlobLimit = transport.getFilterBlobLimit();
@@ -294,17 +293,16 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 	static class FetchConfig {
 		final boolean allowOfsDelta;
 
-		final boolean minimalNegotiation;
+		final int maxHaves;
 
 		FetchConfig(Config c) {
 			allowOfsDelta = c.getBoolean("repack", "usedeltabaseoffset", true); //$NON-NLS-1$ //$NON-NLS-2$
-			minimalNegotiation = c.getBoolean("fetch", "useminimalnegotiation", //$NON-NLS-1$ //$NON-NLS-2$
-					false);
+			maxHaves = c.getInt("fetch", "maxhaves", Integer.MAX_VALUE); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
-		FetchConfig(boolean allowOfsDelta, boolean minimalNegotiation) {
+		FetchConfig(boolean allowOfsDelta, int maxHaves) {
 			this.allowOfsDelta = allowOfsDelta;
-			this.minimalNegotiation = minimalNegotiation;
+			this.maxHaves = maxHaves;
 		}
 	}
 
@@ -518,15 +516,6 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			}
 			line.append('\n');
 			p.writeString(line.toString());
-			if (minimalNegotiationSet != null) {
-				Ref current = local.exactRef(r.getName());
-				if (current != null) {
-					ObjectId o = current.getObjectId();
-					if (o != null && !o.equals(ObjectId.zeroId())) {
-						minimalNegotiationSet.add(o);
-					}
-				}
-			}
 		}
 		if (first) {
 			return false;
@@ -610,9 +599,6 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			pckOut.writeString("have " + o.name() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
 			havesSent++;
 			havesSinceLastContinue++;
-			if (minimalNegotiationSet != null) {
-				minimalNegotiationSet.remove(o);
-			}
 
 			if ((31 & havesSent) != 0) {
 				// We group the have lines into blocks of 32, each marked
@@ -646,16 +632,6 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 					// pack on the remote side. Keep doing that.
 					//
 					resultsPending--;
-					if (minimalNegotiationSet != null
-							&& minimalNegotiationSet.isEmpty()) {
-						// Minimal negotiation was requested and we sent out our
-						// current reference values for our wants, so terminate
-						// negotiation early.
-						if (statelessRPC) {
-							state.writeTo(out, null);
-						}
-						break SEND_HAVES;
-					}
 					break READ_RESULT;
 
 				case ACK:
@@ -686,14 +662,6 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 					if (anr == AckNackResult.ACK_READY) {
 						receivedReady = true;
 					}
-					if (minimalNegotiationSet != null && minimalNegotiationSet.isEmpty()) {
-						// Minimal negotiation was requested and we sent out our current reference
-						// values for our wants, so terminate negotiation early.
-						if (statelessRPC) {
-							state.writeTo(out, null);
-						}
-						break SEND_HAVES;
-					}
 					break;
 				}
 
@@ -709,7 +677,8 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 				state.writeTo(out, null);
 			}
 
-			if (receivedContinue && havesSinceLastContinue > MAX_HAVES) {
+			if (receivedContinue && havesSinceLastContinue > MAX_HAVES
+					|| havesSent >= maxHaves) {
 				// Our history must be really different from the remote's.
 				// We just sent a whole slew of have lines, and it did not
 				// recognize any of them. Avoid sending our entire history
