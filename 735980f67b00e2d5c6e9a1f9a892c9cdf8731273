@@ -69,6 +69,24 @@
       "revId": "735980f67b00e2d5c6e9a1f9a892c9cdf8731273",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25968a99_6e24e792",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/WalkEncryptionTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-09-02T06:50:11Z",
+      "side": 1,
+      "message": "Thanks. I got confused by the javadoc for CHARSET, which suggested it was for something more specific.\n\nLooking at the implementation, I see now that it\u0027s simply an alias for UTF_8. I think we should deprecate it and use UTF_8 directly everywhere instead, but that has nothing to do with this change.",
+      "parentUuid": "60cc2819_c9199da3",
+      "revId": "735980f67b00e2d5c6e9a1f9a892c9cdf8731273",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
