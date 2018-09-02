@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "da72ae26_0462cb7b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-09-02T06:46:11Z",
+      "side": 1,
+      "message": "The log doesn\u0027t actually give much more info except filename and line number.\n\nI\u0027ve replaced this link with a link to the error prone page for the error, which is pretty much the same info as already included in the commit message.",
+      "parentUuid": "d10d1f47_0b2454c7",
+      "revId": "735980f67b00e2d5c6e9a1f9a892c9cdf8731273",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d8845226_a267fd72",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/WalkEncryptionTest.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2018-09-02T06:19:00Z",
       "side": 1,
       "message": "Maybe UTF_8 instead? Likewise for the rest.",
+      "revId": "735980f67b00e2d5c6e9a1f9a892c9cdf8731273",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60cc2819_c9199da3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/WalkEncryptionTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-09-02T06:46:11Z",
+      "side": 1,
+      "message": "CHARSET is used throughout the code base.",
+      "parentUuid": "d8845226_a267fd72",
       "revId": "735980f67b00e2d5c6e9a1f9a892c9cdf8731273",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
