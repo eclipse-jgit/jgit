@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "d10d1f47_0b2454c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-09-02T06:19:40Z",
+      "side": 1,
+      "message": "Please include the text inline here, so that people using \"git log\" can see the message (especially if pastebin goes down some day).",
+      "revId": "735980f67b00e2d5c6e9a1f9a892c9cdf8731273",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d8845226_a267fd72",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/WalkEncryptionTest.java",
         "patchSetId": 3
