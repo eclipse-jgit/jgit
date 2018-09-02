@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7d195364_34de80f2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 440
+      },
+      "writtenOn": "2018-09-02T17:36:30Z",
+      "side": 1,
+      "message": "Just out of curiosity: Have you ever seen such behaviour of a stream? Although this is perfectly valid (according to the doc), I would just not expect it. If more bytes are available for the second, third... call, why would the implementation not deliver it in the first call?\n\nTo be very clear: I\u0027m definitely not critizing your implementation, I\u0027m just really curious.",
+      "range": {
+        "startLine": 21,
+        "startChar": 26,
+        "endLine": 22,
+        "endChar": 33
+      },
+      "revId": "0506d519e6a31fe48bdb9eb2f2be572e28c10afa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3def043a_e5aaa2c7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitCommandTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 625,
+      "author": {
+        "id": 440
+      },
+      "writtenOn": "2018-09-02T17:36:30Z",
+      "side": 1,
+      "message": "Many other tests in this class use try-with, but it seems generally mixed. I cannot judge this, so would you recommend removing it everywhere, adding it everywhere, or something different based on some other criteria?",
+      "range": {
+        "startLine": 625,
+        "startChar": 0,
+        "endLine": 625,
+        "endChar": 25
+      },
+      "revId": "0506d519e6a31fe48bdb9eb2f2be572e28c10afa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "14ef3a9e_25782aa7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 440
+      },
+      "writtenOn": "2018-09-02T17:36:30Z",
+      "side": 1,
+      "message": "The documentation says that n\u003d\u003d0 can only happen if the buffer length is 0. Nevertheless, we could strengthen ourself against an implementation error in a sub class by testing n\u003c\u003d0 here (and in the other 2 similar loops). If such an error existed in any stream sub class, our code would be an endless loop.\n\nDo you consider such defensive programming useful, or would you simply rely on the Javadoc of the stream class?",
+      "range": {
+        "startLine": 347,
+        "startChar": 3,
+        "endLine": 347,
+        "endChar": 15
+      },
+      "revId": "0506d519e6a31fe48bdb9eb2f2be572e28c10afa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d36b401b_062a4616",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1108,
+      "author": {
+        "id": 440
+      },
+      "writtenOn": "2018-09-02T17:36:30Z",
+      "side": 1,
+      "message": "This is not symmetric to the call below. I noticed the related field check in the fillBuffer() method of only one of both streams during the review of your change (switch between file 7 and file 8 of the change repeatedly, and you will notice). Again I have no idea whether that is relevant...",
+      "range": {
+        "startLine": 1108,
+        "startChar": 7,
+        "endLine": 1108,
+        "endChar": 33
+      },
+      "revId": "0506d519e6a31fe48bdb9eb2f2be572e28c10afa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a55c12e_dd1b9977",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1510,
+      "author": {
+        "id": 440
+      },
+      "writtenOn": "2018-09-02T17:36:30Z",
+      "side": 1,
+      "message": "Did you forget normalizing the Java name after checking the C sources, maybe?",
+      "range": {
+        "startLine": 1510,
+        "startChar": 17,
+        "endLine": 1510,
+        "endChar": 34
+      },
+      "revId": "0506d519e6a31fe48bdb9eb2f2be572e28c10afa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
