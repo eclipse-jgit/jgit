@@ -16,6 +16,24 @@
       "revId": "40e9c384052a9b86ed0b51dc435d83e58515e48d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a11f4d59_f3eb0867",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/Paths.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-09-02T15:15:50Z",
+      "side": 0,
+      "message": "That would make that IndexDiffSubmoduleTest.testSubmoduleReplacedByFile test fail; i.e., it would change behavior.\n\nAt this point the paths are identical, and yes, with the new implementation, GITLINKs will be equal to TREEs and FILEs. Before the change, GITLINKs also did match FILEs.\n\nWe can\u0027t make lastPathChar() return \u0027/\u0027 for GITLINKs; that would change the sorting order, making CleanCommandTest.testCleanDirsWithSubmodule fail. In fact, I tried that first, and it\u0027s the reason for the new test in CleanCommandTest. If we do this, the order in the WorkingTreeIterator will be different from the other iterators, and things go really haywire.",
+      "parentUuid": "7e1aab3a_ccbcae6b",
+      "revId": "40e9c384052a9b86ed0b51dc435d83e58515e48d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }

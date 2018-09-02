@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "f4874713_e87f59d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-09-02T15:15:50Z",
+      "side": 1,
+      "message": "Yes, I had found the flag, too. I have _not_ found a config key for it, though.",
+      "parentUuid": "b067520e_1e86833b",
+      "revId": "a867cb3ba932a12e92932e97d79e956f4d8d9f2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4fc58614_ac7b8353",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/IndexDiffSubmoduleTest.java",
         "patchSetId": 1
@@ -53,6 +71,30 @@
       "writtenOn": "2018-08-27T13:06:47Z",
       "side": 1,
       "message": "Is this correct? Native git does\u0027t report a diff when you have replaced a submodule with a file and specify --ignore-submodules\u003dall . I think you need a if clause similar to the one in line 142.",
+      "range": {
+        "startLine": 158,
+        "startChar": 0,
+        "endLine": 162,
+        "endChar": 74
+      },
+      "revId": "a867cb3ba932a12e92932e97d79e956f4d8d9f2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f0242eb_cfb64653",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/IndexDiffSubmoduleTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-09-02T15:15:50Z",
+      "side": 1,
+      "message": "Good question. I don\u0027t know. This test actually succeeds without this change, so it just shows what JGit did before and after the change. Whether that behavior is correct is a different thing...\n\nIf it should indeed not report the modules/submodule path as modified then some logic in IndexDiff would need to be changed.",
+      "parentUuid": "4fc58614_ac7b8353",
       "range": {
         "startLine": 158,
         "startChar": 0,
@@ -88,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "8583b28d_b5bff75c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/PathsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-09-02T15:15:50Z",
+      "side": 1,
+      "message": "Well, it\u0027s what the code before this change did. I kept that behavior.",
+      "parentUuid": "f6e46f1b_32035922",
+      "range": {
+        "startLine": 106,
+        "startChar": 0,
+        "endLine": 108,
+        "endChar": 49
+      },
+      "revId": "a867cb3ba932a12e92932e97d79e956f4d8d9f2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb86a7a7_f808eb01",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/Paths.java",
         "patchSetId": 1
@@ -99,6 +165,24 @@
       "writtenOn": "2018-08-27T13:50:32Z",
       "side": 1,
       "message": "That means that if either aMode or bMode are a GITLINK then modeCompare() will always tell modes are compatible. If aMode\u003d\u003dFILE and bMode\u003d\u003dGITLINK shouldn\u0027t modeCompare return !\u003d0.",
+      "revId": "a867cb3ba932a12e92932e97d79e956f4d8d9f2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f0b613a_0c59445d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/Paths.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-09-02T15:15:50Z",
+      "side": 1,
+      "message": "\u003e If aMode\u003d\u003dFILE and bMode\u003d\u003dGITLINK shouldn\u0027t modeCompare return !\u003d0.\n\nIt didn\u0027t do so before. I kept that behavior. I think it\u0027s also correct. If we want to ignore such FILE-GITLINK conflicts when ignoreSubmodules\u003dall, I think we would need to add that case in IndexDiff somewhere.",
+      "parentUuid": "fb86a7a7_f808eb01",
       "revId": "a867cb3ba932a12e92932e97d79e956f4d8d9f2a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
