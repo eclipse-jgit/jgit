@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e5681b80_248b39e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-09-02T00:35:27Z",
+      "side": 1,
+      "message": "Why do we need a release to test if this helps ?\nIf your assumption is correct I think it\u0027s unlikely that repeating in a tight loop will help without a short sleep.",
+      "revId": "d3c38e299892a1a2627e5dadc378e1016fa7b6e6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
