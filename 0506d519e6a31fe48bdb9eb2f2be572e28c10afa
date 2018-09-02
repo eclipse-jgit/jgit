@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "96c95b33_ac4d59a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-09-02T18:54:23Z",
+      "side": 1,
+      "message": "For any buffered stream it would be OK to return the current buffered contents first, and only on the next call go fetch more (or return -1 for EOF). May in particular happen with network streams, but could just as well happen with file streams.",
+      "parentUuid": "7d195364_34de80f2",
+      "range": {
+        "startLine": 21,
+        "startChar": 26,
+        "endLine": 22,
+        "endChar": 33
+      },
+      "revId": "0506d519e6a31fe48bdb9eb2f2be572e28c10afa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3def043a_e5aaa2c7",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitCommandTest.java",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2018-09-02T17:36:30Z",
       "side": 1,
       "message": "Many other tests in this class use try-with, but it seems generally mixed. I cannot judge this, so would you recommend removing it everywhere, adding it everywhere, or something different based on some other criteria?",
+      "range": {
+        "startLine": 625,
+        "startChar": 0,
+        "endLine": 625,
+        "endChar": 25
+      },
+      "revId": "0506d519e6a31fe48bdb9eb2f2be572e28c10afa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c762ee9a_c1c3f3fa",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitCommandTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 625,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-09-02T18:54:23Z",
+      "side": 1,
+      "message": "Yes, I had noticed this inconsistency, too. Sitting on the fence regarding this. Git.wrap is a little less to write... but perhaps using a try-with-resource would be cleaner and more future-proof. Honestly said, I don\u0027t know why Git.wrap() does not produce a warning about a potentially missing close().\n\nDone.",
+      "parentUuid": "3def043a_e5aaa2c7",
       "range": {
         "startLine": 625,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "8921da79_18e7f7d1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-09-02T18:54:23Z",
+      "side": 1,
+      "message": "We generally rely on n \u003d\u003d -1 for EOF detection, also in other places in JGit. See for instance isBinary (line 276 above).",
+      "parentUuid": "14ef3a9e_25782aa7",
+      "range": {
+        "startLine": 347,
+        "startChar": 3,
+        "endLine": 347,
+        "endChar": 15
+      },
+      "revId": "0506d519e6a31fe48bdb9eb2f2be572e28c10afa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d36b401b_062a4616",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 4
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "2ee55793_bc92637e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1108,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-09-02T18:54:23Z",
+      "side": 1,
+      "message": "Yes, AutoLFInputStream and AutoCRLFInputStream are not symmetric. But that appears correct and unrelated.",
+      "parentUuid": "d36b401b_062a4616",
+      "range": {
+        "startLine": 1108,
+        "startChar": 7,
+        "endLine": 1108,
+        "endChar": 33
+      },
+      "revId": "0506d519e6a31fe48bdb9eb2f2be572e28c10afa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a55c12e_dd1b9977",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 4
@@ -105,6 +201,30 @@
       "writtenOn": "2018-09-02T17:36:30Z",
       "side": 1,
       "message": "Did you forget normalizing the Java name after checking the C sources, maybe?",
+      "range": {
+        "startLine": 1510,
+        "startChar": 17,
+        "endLine": 1510,
+        "endChar": 34
+      },
+      "revId": "0506d519e6a31fe48bdb9eb2f2be572e28c10afa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3076b9d3_01d0503b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1510,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-09-02T18:54:23Z",
+      "side": 1,
+      "message": "Yeah, been looking at too much C code. Done.",
+      "parentUuid": "7a55c12e_dd1b9977",
       "range": {
         "startLine": 1510,
         "startChar": 17,
