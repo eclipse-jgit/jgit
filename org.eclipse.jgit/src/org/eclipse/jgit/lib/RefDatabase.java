@@ -52,6 +52,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
@@ -446,6 +447,24 @@ public abstract class RefDatabase {
 	 */
 	@NonNull
 	public abstract List<Ref> getAdditionalRefs() throws IOException;
+
+	/**
+	 * Objects known to exist but not expressed by {@link #getRefs()}.
+	 * <p>
+	 * When a repository borrows objects from another repository, it can
+	 * advertise that it safely has that other repository's references, without
+	 * exposing any other details about the other repository. This may help a
+	 * client trying to push changes avoid pushing more than it needs to.
+	 *
+	 * @return unmodifiable collection of other known objects.
+	 * @throws java.io.IOException
+	 *             the reference space cannot be accessed.
+	 * @since 5.1
+	 */
+	@NonNull
+	public Set<ObjectId> getAdditionalHaves() throws IOException {
+		return Collections.emptySet();
+	}
 
 	/**
 	 * Peel a possibly unpeeled reference by traversing the annotated tags.
