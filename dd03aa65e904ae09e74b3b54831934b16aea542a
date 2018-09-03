@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "5b80e42f_64e1c8f2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/RawParseUtilsTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-09-03T23:39:24Z",
+      "side": 1,
+      "message": "Note: In most of the code we are using org.eclipse.jgit.lib.Constants.CHARSET, although it has been suggested to deprecate it and use UTF_8.",
+      "revId": "dd03aa65e904ae09e74b3b54831934b16aea542a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7cf1c78_b96195b6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
         "patchSetId": 5
