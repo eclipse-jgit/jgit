@@ -155,6 +155,30 @@
     },
     {
       "key": {
+        "uuid": "bcfd6110_232351ed",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/IndexDiffSubmoduleTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2018-09-03T06:51:46Z",
+      "side": 1,
+      "message": "Really? That\u0027s interesting. That may be a change in native git. My very new version of native git (2.18.0) is behaving like this. Could you try\nthis on your version?\n\n  \u003e git --version\n  git version 2.18.0\n  \u003e git init submodule\n  Initialized empty Git repository in /private/tmp/x/submodule/.git/\n  \u003e cd submodule/\n  \u003e touch fileInSubmodule\n  \u003e git add fileInSubmodule\n  \u003e git commit -m \"add file to submodule\"\n  [master (root-commit) 8a9e189] add file to submodule\n  1 file changed, 0 insertions(+), 0 deletions(-)\n  create mode 100644 fileInSubmodule\n  \u003e cd ..\n  \u003e git init toplevel\n  Initialized empty Git repository in /private/tmp/x/toplevel/.git/\n  \u003e cd toplevel/\n  \u003e git submodule add ../submodule modules/submodule\n  Cloning into \u0027/private/tmp/x/toplevel/modules/submodule\u0027...\n  done.\n  \u003e touch fileInRoot\n  \u003e git add fileInRoot\n  \u003e git commit -m \"add submodule and root file\"\n  [master (root-commit) 5562fab] add submodule and root file\n  3 files changed, 4 insertions(+)\n  create mode 100644 .gitmodules\n  create mode 100644 fileInRoot\n  create mode 160000 modules/submodule\n  \u003e rm -fr modules/submodule\n  \u003e echo \"nonsense\" \u003emodules/submodule\n  \u003e git status\n  On branch master\n  Changes not staged for commit:\n  (use \"git add \u003cfile\u003e...\" to update what will be committed)\n  (use \"git checkout -- \u003cfile\u003e...\" to discard changes in working directory)\n  \n  typechange: modules/submodule\n  \n  no changes added to commit (use \"git add\" and/or \"git commit -a\")\n  \u003e git status --ignore-submodules\u003dall\n  On branch master\n  nothing to commit, working tree clean\n  \u003e",
+      "parentUuid": "e5b83e34_20ad6542",
+      "range": {
+        "startLine": 158,
+        "startChar": 0,
+        "endLine": 162,
+        "endChar": 74
+      },
+      "revId": "a867cb3ba932a12e92932e97d79e956f4d8d9f2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6e46f1b_32035922",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/PathsTest.java",
         "patchSetId": 1
