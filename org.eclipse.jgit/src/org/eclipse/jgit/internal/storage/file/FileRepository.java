@@ -478,21 +478,6 @@ public class FileRepository extends Repository {
 	}
 
 	/**
-	 * {@inheritDoc}
-	 * <p>
-	 * Objects known to exist but not expressed by {@code #getAllRefs()}.
-	 * <p>
-	 * When a repository borrows objects from another repository, it can
-	 * advertise that it safely has that other repository's references, without
-	 * exposing any other details about the other repository. This may help a
-	 * client trying to push changes avoid pushing more than it needs to.
-	 */
-	@Override
-	public Set<ObjectId> getAdditionalHaves() {
-		return getAdditionalHaves(null);
-	}
-
-	/**
 	 * Objects known to exist but not expressed by {@code #getAllRefs()}.
 	 * <p>
 	 * When a repository borrows objects from another repository, it can
@@ -502,10 +487,10 @@ public class FileRepository extends Repository {
 	 *
 	 * @param skips
 	 *            Set of AlternateHandle Ids already seen
-	 *
 	 * @return unmodifiable collection of other known objects.
+	 * @throws IOException an error occured while reading references.
 	 */
-	private Set<ObjectId> getAdditionalHaves(Set<AlternateHandle.Id> skips) {
+	Set<ObjectId> getAdditionalHaves(Set<AlternateHandle.Id> skips) throws IOException {
 		HashSet<ObjectId> r = new HashSet<>();
 		skips = objectDatabase.addMe(skips);
 		for (AlternateHandle d : objectDatabase.myAlternates()) {
