@@ -77,6 +77,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.ReentrantLock;
@@ -419,6 +420,12 @@ public class RefDirectory extends RefDatabase {
 				ret.add(r);
 		}
 		return ret;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public Set<ObjectId> getAdditionalHaves() throws IOException {
+		return parent.getAdditionalHaves(null);
 	}
 
 	@SuppressWarnings("unchecked")
