@@ -82,6 +82,8 @@ public class ResetCommandTest extends RepositoryTestCase {
 
 	private File indexFile;
 
+	private File indexNestedFile;
+
 	private File untrackedFile;
 
 	private DirCacheEntry prestage;
@@ -97,7 +99,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 		indexFile = writeTrashFile("a.txt", "content");
 
 		// create nested file
-		writeTrashFile("dir/b.txt", "content");
+		indexNestedFile = writeTrashFile("dir/b.txt", "content");
 
 		// add files and commit them
 		git.add().addFilepattern("a.txt").addFilepattern("dir/b.txt").call();
@@ -119,13 +121,16 @@ public class ResetCommandTest extends RepositoryTestCase {
 			AmbiguousObjectException, IOException, GitAPIException {
 		setupRepository();
 		ObjectId prevHead = db.resolve(Constants.HEAD);
-		assertSameAsHead(git.reset().setMode(ResetType.HARD)
+		ResetCommand reset = git.reset();
+		assertSameAsHead(reset.setMode(ResetType.HARD)
 				.setRef(initialCommit.getName()).call());
+		assertFalse("reflog should be enabled", reset.isReflogDisabled());
 		// check if HEAD points to initial commit now
 		ObjectId head = db.resolve(Constants.HEAD);
 		assertEquals(initialCommit, head);
 		// check if files were removed
 		assertFalse(indexFile.exists());
+		assertFalse(indexNestedFile.exists());
 		assertTrue(untrackedFile.exists());
 		// fileInIndex must no longer be in HEAD and in the index
 		String fileInIndexPath = indexFile.getAbsolutePath();
@@ -148,6 +153,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 		assertEquals(initialCommit, head);
 		// check if files were removed
 		assertFalse(indexFile.exists());
+		assertFalse(indexNestedFile.exists());
 		assertTrue(untrackedFile.exists());
 		// fileInIndex must no longer be in HEAD and in the index
 		String fileInIndexPath = indexFile.getAbsolutePath();
