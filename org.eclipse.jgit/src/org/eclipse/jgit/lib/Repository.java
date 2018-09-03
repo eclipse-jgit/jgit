@@ -56,6 +56,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UncheckedIOException;
 import java.net.URISyntaxException;
 import java.text.MessageFormat;
 import java.util.Collection;
@@ -1047,14 +1048,20 @@ public abstract class Repository implements AutoCloseable {
 	 * <p>
 	 * When a repository borrows objects from another repository, it can
 	 * advertise that it safely has that other repository's references, without
-	 * exposing any other details about the other repository.  This may help
-	 * a client trying to push changes avoid pushing more than it needs to.
+	 * exposing any other details about the other repository. This may help a
+	 * client trying to push changes avoid pushing more than it needs to.
 	 *
 	 * @return unmodifiable collection of other known objects.
+	 * @deprecated use {@link RefDatabase#getAdditionalHaves()} instead.
 	 */
 	@NonNull
-	public Set<ObjectId> getAdditionalHaves() {
-		return Collections.emptySet();
+	@Deprecated
+	public final Set<ObjectId> getAdditionalHaves() {
+		try {
+			return getRefDatabase().getAdditionalHaves();
+		} catch (IOException e) {
+			throw new UncheckedIOException(e);
+		}
 	}
 
 	/**

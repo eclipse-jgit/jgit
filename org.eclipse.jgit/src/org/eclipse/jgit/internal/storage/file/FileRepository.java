@@ -488,6 +488,9 @@ public class FileRepository extends Repository {
 	 * client trying to push changes avoid pushing more than it needs to.
 	 */
 	@Override
+	//TODO: This doesn't compile: "Cannot override the final method from Repository"
+	// If we remove this, we need to move the functionality in the method
+	// below into RefDirectory.
 	public Set<ObjectId> getAdditionalHaves() {
 		return getAdditionalHaves(null);
 	}
@@ -505,6 +508,8 @@ public class FileRepository extends Repository {
 	 *
 	 * @return unmodifiable collection of other known objects.
 	 */
+	// TODO: This is called from the one above; how to move this into
+	// RefDirectory?
 	private Set<ObjectId> getAdditionalHaves(Set<AlternateHandle.Id> skips) {
 		HashSet<ObjectId> r = new HashSet<>();
 		skips = objectDatabase.addMe(skips);
