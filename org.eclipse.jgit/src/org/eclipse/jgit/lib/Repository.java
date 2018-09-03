@@ -56,6 +56,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UncheckedIOException;
 import java.net.URISyntaxException;
 import java.text.MessageFormat;
 import java.util.Collection;
@@ -1051,10 +1052,16 @@ public abstract class Repository implements AutoCloseable {
 	 * a client trying to push changes avoid pushing more than it needs to.
 	 *
 	 * @return unmodifiable collection of other known objects.
+	 * @deprecated use {@link RefDatabase#getAdditionalHaves()} instead.
 	 */
+	@Deprecated
 	@NonNull
-	public Set<ObjectId> getAdditionalHaves() {
-		return Collections.emptySet();
+	public final Set<ObjectId> getAdditionalHaves() {
+		try {
+			return getRefDatabase().getAdditionalHaves();
+		} catch (IOException e) {
+			throw new UncheckedIOException(e);
+		}
 	}
 
 	/**

@@ -470,10 +470,15 @@ public abstract class BaseReceivePack {
 			if (ref.getObjectId() != null)
 				advertisedHaves.add(ref.getObjectId());
 		}
-		if (additionalHaves != null)
+		if (additionalHaves != null) {
 			advertisedHaves.addAll(additionalHaves);
-		else
-			advertisedHaves.addAll(db.getAdditionalHaves());
+			return;
+		}
+		try {
+			advertisedHaves.addAll(db.getRefDatabase().getAdditionalHaves());
+		} catch (IOException ioe) {
+			// TODO: Handle it?
+		}
 	}
 
 	/**
