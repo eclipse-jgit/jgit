@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "e5c617b4_15ac96ed",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/RawParseUtilsTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-09-04T06:24:11Z",
+      "side": 1,
+      "message": "As the code currently stands, it would be preferred to change this to use Constants.CHARSET.  However, if/when [1] is submitted then this is OK as it is.\n\n[1] https://git.eclipse.org/r/128587",
+      "parentUuid": "a8034d61_d5a14792",
+      "revId": "dd03aa65e904ae09e74b3b54831934b16aea542a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7cf1c78_b96195b6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
         "patchSetId": 5
