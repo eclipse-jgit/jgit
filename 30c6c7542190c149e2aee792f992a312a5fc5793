@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4d1677c4_0187ab20",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/TagBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-09-04T23:00:00Z",
+      "side": 1,
+      "message": "Eclipse usually automatically reformats lines when saving.  I\u0027m not sure why it didn\u0027t do it here.",
+      "parentUuid": "89a4b513_c93c51bc",
+      "revId": "30c6c7542190c149e2aee792f992a312a5fc5793",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7700554b_bd699c31",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/FileHeader.java",
         "patchSetId": 1
