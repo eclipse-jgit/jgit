@@ -149,6 +149,24 @@
     },
     {
       "key": {
+        "uuid": "82c7ea98_8080338c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 93425
+      },
+      "writtenOn": "2018-09-04T15:37:43Z",
+      "side": 1,
+      "message": "My use case was: I wanted my server to reject any commits that had a gpg signature.  I ended up manually parsing the commit, since this method didn\u0027t exist.  My method was like 40 lines. It might have been shorter if I had had headerStart/headerEnd (also added in this review). My method also checked for all other unexpected headers, so I couldn\u0027t necessarily replace it with this one directly.  But I might have decided that gpgsig was the only weird header I was likely to see, and used this method anyway, since 1 line of code is so many times better than 40.  So that\u0027s why it\u0027s public.",
+      "parentUuid": "fbf62fd2_275ebd9b",
+      "revId": "dd03aa65e904ae09e74b3b54831934b16aea542a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6aa8b0a2_88e19014",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
         "patchSetId": 5
