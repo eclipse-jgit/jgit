@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.theInstance;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -577,12 +578,11 @@ public class UploadPackTest {
 	}
 
 	@Test
-	@SuppressWarnings("boxing")
 	public void testV2EmptyRequest() throws Exception {
 		ByteArrayInputStream recvStream = uploadPackV2(PacketLineIn.END);
 		// Verify that there is nothing more after the capability
 		// advertisement.
-		assertThat(recvStream.available(), is(0));
+		assertEquals(0, recvStream.available());
 	}
 
 	@Test
@@ -735,7 +735,7 @@ public class UploadPackTest {
 		pp.parse(NullProgressMonitor.INSTANCE);
 
 		// Ensure that there is nothing left in the stream.
-		assertThat(recvStream.read(), is(-1));
+		assertEquals(-1, recvStream.read());
 
 		return pp.getReceivedPackStatistics();
 	}
