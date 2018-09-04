@@ -131,6 +131,24 @@
     },
     {
       "key": {
+        "uuid": "fbf62fd2_275ebd9b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-09-04T15:19:57Z",
+      "side": 1,
+      "message": "I would like to avoid adding public API without understanding which use case requires that this method has to be public since we have to maintain the public API and keep it stable across minor releases.",
+      "parentUuid": "117bc97f_8c03a953",
+      "revId": "dd03aa65e904ae09e74b3b54831934b16aea542a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6aa8b0a2_88e19014",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
         "patchSetId": 5
