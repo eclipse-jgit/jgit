@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90fd17d1_364aa001",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-09-04T15:25:56Z",
+      "side": 1,
+      "message": "What do the warnings say?\n\nIs this about performance, good habits, or simplicity? Using assertEquals instead of using hamcrest matchers for equality testing in JUnit seems reasonable for that third reason (or rather since it seems to be more idiomatic).",
+      "revId": "75787c3ca5c333b4e1a5cc9966524dc21c55efa0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
