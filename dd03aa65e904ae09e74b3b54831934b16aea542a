@@ -113,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "117bc97f_8c03a953",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 93425
+      },
+      "writtenOn": "2018-09-04T15:07:19Z",
+      "side": 1,
+      "message": "It is public because (1) it matches the other methods in this file and (2) because the fast method is more irritating, and most of the case, speed is less important than ease of use.",
+      "parentUuid": "903c3afa_bd8bc7a1",
+      "revId": "dd03aa65e904ae09e74b3b54831934b16aea542a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6aa8b0a2_88e19014",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
         "patchSetId": 5
