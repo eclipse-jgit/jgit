@@ -167,6 +167,24 @@
     },
     {
       "key": {
+        "uuid": "a7cca4c7_de1619dd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-09-04T18:14:01Z",
+      "side": 1,
+      "message": "ok\n\nthe method should be marked @Nullable",
+      "parentUuid": "82c7ea98_8080338c",
+      "revId": "dd03aa65e904ae09e74b3b54831934b16aea542a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6aa8b0a2_88e19014",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
         "patchSetId": 5
