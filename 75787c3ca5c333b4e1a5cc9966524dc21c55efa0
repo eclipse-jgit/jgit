@@ -16,6 +16,40 @@
       "revId": "75787c3ca5c333b4e1a5cc9966524dc21c55efa0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b44d5933_6ac91c49",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-09-04T15:27:08Z",
+      "side": 1,
+      "message": "The order should be assertEquals(expected, actual).",
+      "revId": "75787c3ca5c333b4e1a5cc9966524dc21c55efa0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "892a232d_9a02db1a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 738,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-09-04T15:27:08Z",
+      "side": 1,
+      "message": "Likewise.",
+      "revId": "75787c3ca5c333b4e1a5cc9966524dc21c55efa0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
