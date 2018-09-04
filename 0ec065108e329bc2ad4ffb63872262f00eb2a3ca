@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "49462e1c_bf46235b",
+        "filename": "org.eclipse.jgit.pgm.test/src/org/eclipse/jgit/pgm/CLIGitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-09-04T23:08:06Z",
+      "side": 1,
+      "message": "This seems potentially overcomplicated (e.g. the fallback to latin1).\n\nMaybe just \u0027new String(out.toByteArray(), UTF_8)\u0027?\n\nOr how about out.toString(UTF_8.name())?",
+      "revId": "0ec065108e329bc2ad4ffb63872262f00eb2a3ca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16e7c465_c6e419bf",
+        "filename": "org.eclipse.jgit.pgm.test/src/org/eclipse/jgit/pgm/CLIGitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-09-04T23:08:06Z",
+      "side": 1,
+      "message": "Likewise.",
+      "revId": "0ec065108e329bc2ad4ffb63872262f00eb2a3ca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
