@@ -77,6 +77,24 @@
     },
     {
       "key": {
+        "uuid": "903c3afa_bd8bc7a1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2018-09-04T05:40:32Z",
+      "side": 1,
+      "message": "Is there a way to mark API as proposed? I agree that it\u0027s hard to justify this method given the recommendation for a faster way in the method comment.",
+      "parentUuid": "fc5508f6_1c77bcdf",
+      "revId": "dd03aa65e904ae09e74b3b54831934b16aea542a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6aa8b0a2_88e19014",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
         "patchSetId": 5
