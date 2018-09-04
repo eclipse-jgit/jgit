@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "32d379b3_88a881b8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-09-04T23:40:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d292042b_58bb2c36",
+      "revId": "bcae331a7664970620e515add4abfe14879e7925",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9b511834_0b1a6474",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -69,6 +87,24 @@
       "revId": "bcae331a7664970620e515add4abfe14879e7925",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a99c245_b3a743bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-09-04T23:40:48Z",
+      "side": 1,
+      "message": "The relevance here is that if we were using JUnit instead of hamcrest, we wouldn\u0027t be seeing the warning that I\u0027m fixing.  But OK, I\u0027ve removed this paragraph.",
+      "parentUuid": "9b511834_0b1a6474",
+      "revId": "bcae331a7664970620e515add4abfe14879e7925",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
