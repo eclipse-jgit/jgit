@@ -1,0 +1,8 @@
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+Code-Review+1: David Turner <dturner@twosigma.com>
+Verified+1: CI Bot
+Submitted-by: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-at: Tue, 04 Sep 2018 18:02:33 -0400
+Reviewed-on: https://git.eclipse.org/r/124569
+Project: jgit/jgit
+Branch: refs/heads/master
