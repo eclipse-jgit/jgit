@@ -78,6 +78,30 @@
     },
     {
       "key": {
+        "uuid": "8555e050_33449832",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-09-04T18:15:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7cf1c78_b96195b6",
+      "range": {
+        "startLine": 396,
+        "startChar": 58,
+        "endLine": 396,
+        "endChar": 69
+      },
+      "revId": "dd03aa65e904ae09e74b3b54831934b16aea542a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc5508f6_1c77bcdf",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
         "patchSetId": 5
@@ -185,6 +209,24 @@
     },
     {
       "key": {
+        "uuid": "efb65aad_87be09fb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-09-04T18:15:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7cca4c7_de1619dd",
+      "revId": "dd03aa65e904ae09e74b3b54831934b16aea542a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6aa8b0a2_88e19014",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
         "patchSetId": 5
@@ -196,6 +238,24 @@
       "writtenOn": "2018-09-03T17:51:25Z",
       "side": 1,
       "message": "style nit: missing braces",
+      "revId": "dd03aa65e904ae09e74b3b54831934b16aea542a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e0005a4c_5ee53015",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-09-04T18:15:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6aa8b0a2_88e19014",
       "revId": "dd03aa65e904ae09e74b3b54831934b16aea542a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
