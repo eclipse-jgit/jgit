@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "89a4b513_c93c51bc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/TagBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-09-04T15:24:16Z",
+      "side": 1,
+      "message": "optional: could rewrap line since it\u0027s shorter now\n\nDo we have an automatic way of doing that (e.g. an Eclipse equivalent of google-java-format)?",
+      "revId": "30c6c7542190c149e2aee792f992a312a5fc5793",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7700554b_bd699c31",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/FileHeader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-09-04T15:24:16Z",
+      "side": 1,
+      "message": "not about this patch: Is it possible for charsetGuess[0] to be null? If not, then this could be simplified:\n\n  Charset cs \u003d charsetGuess !\u003d null ? charsetGuess[0] : UTF_8;",
+      "revId": "30c6c7542190c149e2aee792f992a312a5fc5793",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5546d726_c869b97a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/FileHeader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-09-04T15:24:16Z",
+      "side": 1,
+      "message": "Likewise.",
+      "revId": "30c6c7542190c149e2aee792f992a312a5fc5793",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
