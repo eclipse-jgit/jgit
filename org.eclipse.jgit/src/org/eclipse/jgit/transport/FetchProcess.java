@@ -44,6 +44,7 @@
 
 package org.eclipse.jgit.transport;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.NOT_ATTEMPTED;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.OK;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_NONFASTFORWARD;
@@ -337,7 +338,7 @@ class FetchProcess {
 		try {
 			if (lock.lock()) {
 				try (Writer w = new OutputStreamWriter(
-						lock.getOutputStream())) {
+						lock.getOutputStream(), UTF_8)) {
 					for (FetchHeadRecord h : fetchHeadUpdates) {
 						h.write(w);
 						result.add(h);
