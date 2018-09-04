@@ -542,7 +542,7 @@ public class AmazonS3 {
 			}
 			buf = b.toByteArray();
 			if (buf.length > 0) {
-				err.initCause(new IOException("\n" + new String(buf))); //$NON-NLS-1$
+				err.initCause(new IOException("\n" + new String(buf, UTF_8))); //$NON-NLS-1$
 			}
 		}
 		return err;

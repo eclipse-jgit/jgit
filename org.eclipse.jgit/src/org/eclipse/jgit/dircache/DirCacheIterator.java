@@ -44,6 +44,8 @@
 
 package org.eclipse.jgit.dircache;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
@@ -75,7 +77,7 @@ import org.eclipse.jgit.util.RawParseUtils;
 public class DirCacheIterator extends AbstractTreeIterator {
 	/** Byte array holding ".gitattributes" string */
 	private static final byte[] DOT_GIT_ATTRIBUTES_BYTES = Constants.DOT_GIT_ATTRIBUTES
-			.getBytes();
+			.getBytes(UTF_8);
 
 	/** The cache this iterator was created to walk. */
 	protected final DirCache cache;
