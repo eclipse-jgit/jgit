@@ -42,10 +42,13 @@
 
 package org.eclipse.jgit.transport;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Locale;
@@ -211,7 +214,8 @@ public class NetRC {
 		this.hosts.clear();
 		this.lastModified = this.netrc.lastModified();
 
-		try (BufferedReader r = new BufferedReader(new FileReader(netrc))) {
+		try (BufferedReader r = new BufferedReader(
+				new InputStreamReader(new FileInputStream(netrc), UTF_8))) {
 			String line = null;
 
 			NetRCEntry entry = new NetRCEntry();

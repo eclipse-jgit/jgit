@@ -42,11 +42,14 @@
  */
 package org.eclipse.jgit.api;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.nio.file.StandardCopyOption;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -258,7 +261,8 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 		if (sb.length() > 0) {
 			sb.deleteCharAt(sb.length() - 1);
 		}
-		try (FileWriter fw = new FileWriter(f)) {
+		try (Writer fw = new OutputStreamWriter(new FileOutputStream(f),
+				UTF_8)) {
 			fw.write(sb.toString());
 		}
 
