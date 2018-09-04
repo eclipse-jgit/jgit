@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a8034d61_d5a14792",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/RawParseUtilsTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2018-09-04T05:39:11Z",
+      "side": 1,
+      "message": "Would it be acceptable to continue using StandardCharsets.UTF_8 here?",
+      "parentUuid": "5b80e42f_64e1c8f2",
+      "revId": "dd03aa65e904ae09e74b3b54831934b16aea542a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7cf1c78_b96195b6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
         "patchSetId": 5
