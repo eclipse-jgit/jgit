@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd0897b5_6166b077",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 913,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-09-04T19:38:20Z",
+      "side": 1,
+      "message": "Is it guaranteed that nothing else writes in this directory while this runs? If not, we have a race condition here.\n\nWhy not simply catch DirectoryNotEmptyException and silently swallow it? Compare https://git.eclipse.org/r/#/c/127671/4/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java . Has no race condition, and is likely to be faster than an explicit up-front attempt to check.",
+      "revId": "ac2e36a381969c9e35e46787eb174258c07ec7bc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
