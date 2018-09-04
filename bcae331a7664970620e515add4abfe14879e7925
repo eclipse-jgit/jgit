@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d292042b_58bb2c36",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-09-04T23:36:24Z",
+      "side": 1,
+      "message": "This subject line can describe the intended benefit more succinctly without mentioning the warning: for example,\n\n UploadPackTest: Avoid unnecessarily boxing int into Integer\n\nOr\n\n UploadPackTest: Simplify by using assertEquals instead of hamcrest matchers",
+      "revId": "bcae331a7664970620e515add4abfe14879e7925",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b511834_0b1a6474",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-09-04T23:36:24Z",
+      "side": 1,
+      "message": "Just my opinion: I don\u0027t see the point of that bug, so I don\u0027t think it\u0027s too relevant to this change.",
+      "revId": "bcae331a7664970620e515add4abfe14879e7925",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
