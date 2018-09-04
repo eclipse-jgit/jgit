@@ -42,7 +42,7 @@
  */
 package org.eclipse.jgit.storage.file;
 
-import static org.eclipse.jgit.lib.Constants.CHARSET;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.util.FileUtils.pathToString;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -105,7 +105,7 @@ public class FileBasedConfigTest {
 
 	@Test
 	public void testUTF8withoutBOM() throws IOException, ConfigInvalidException {
-		final File file = createFile(CONTENT1.getBytes(CHARSET));
+		final File file = createFile(CONTENT1.getBytes(UTF_8));
 		final FileBasedConfig config = new FileBasedConfig(file, FS.DETECTED);
 		config.load();
 		assertEquals(ALICE, config.getString(USER, null, NAME));
@@ -121,7 +121,7 @@ public class FileBasedConfigTest {
 		bos1.write(0xEF);
 		bos1.write(0xBB);
 		bos1.write(0xBF);
-		bos1.write(CONTENT1.getBytes(CHARSET));
+		bos1.write(CONTENT1.getBytes(UTF_8));
 
 		final File file = createFile(bos1.toByteArray());
 		final FileBasedConfig config = new FileBasedConfig(file, FS.DETECTED);
@@ -135,7 +135,7 @@ public class FileBasedConfigTest {
 		bos2.write(0xEF);
 		bos2.write(0xBB);
 		bos2.write(0xBF);
-		bos2.write(CONTENT2.getBytes(CHARSET));
+		bos2.write(CONTENT2.getBytes(UTF_8));
 		assertArrayEquals(bos2.toByteArray(), IO.readFully(file));
 	}
 

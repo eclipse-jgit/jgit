@@ -42,7 +42,7 @@
  */
 package org.eclipse.jgit.gitrepo;
 
-import static org.eclipse.jgit.lib.Constants.CHARSET;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -85,7 +85,7 @@ public class ManifestParserTest {
 
 		ManifestParser parser = new ManifestParser(
 				null, null, "master", baseUrl, null, null);
-		parser.read(new ByteArrayInputStream(xmlContent.toString().getBytes(CHARSET)));
+		parser.read(new ByteArrayInputStream(xmlContent.toString().getBytes(UTF_8)));
 		// Unfiltered projects should have them all.
 		results.clear();
 		results.add("foo");
@@ -139,7 +139,7 @@ public class ManifestParserTest {
 				baseUrl, null, null);
 		try {
 			parser.read(new ByteArrayInputStream(
-					xmlContent.toString().getBytes(CHARSET)));
+					xmlContent.toString().getBytes(UTF_8)));
 			fail("ManifestParser did not throw exception for missing fetch");
 		} catch (IOException e) {
 			assertTrue(e.getCause() instanceof SAXException);
@@ -164,7 +164,7 @@ public class ManifestParserTest {
 		ManifestParser parser = new ManifestParser(null, null, "master",
 				"https://git.google.com/", null, null);
 		parser.read(new ByteArrayInputStream(
-				xmlContent.toString().getBytes(CHARSET)));
+				xmlContent.toString().getBytes(UTF_8)));
 
 		assertEquals(Stream.of("bar", "baz").collect(Collectors.toSet()),
 				parser.getProjects().stream().map(RepoProject::getName)

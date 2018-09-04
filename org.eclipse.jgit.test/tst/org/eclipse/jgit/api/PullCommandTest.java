@@ -42,7 +42,7 @@
  */
 package org.eclipse.jgit.api;
 
-import static org.eclipse.jgit.lib.Constants.CHARSET;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -592,7 +592,7 @@ public class PullCommandTest extends RepositoryTestCase {
 	private static void writeToFile(File actFile, String string)
 			throws IOException {
 		try (FileOutputStream fos = new FileOutputStream(actFile)) {
-			fos.write(string.getBytes(CHARSET));
+			fos.write(string.getBytes(UTF_8));
 		}
 	}
 
@@ -606,7 +606,7 @@ public class PullCommandTest extends RepositoryTestCase {
 				bos.write(buffer, 0, read);
 				read = fis.read(buffer);
 			}
-			String content = new String(bos.toByteArray(), CHARSET);
+			String content = new String(bos.toByteArray(), UTF_8);
 			assertEquals(string, content);
 		}
 	}

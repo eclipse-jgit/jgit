@@ -43,13 +43,14 @@
 
 package org.eclipse.jgit.util.io;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.util.RawParseUtils;
 
 /**
@@ -80,7 +81,7 @@ public class MessageWriter extends Writer {
 	 */
 	public MessageWriter() {
 		buf = new ByteArrayOutputStream();
-		enc = new OutputStreamWriter(getRawStream(), Constants.CHARSET);
+		enc = new OutputStreamWriter(getRawStream(), UTF_8);
 	}
 
 	/** {@inheritDoc} */

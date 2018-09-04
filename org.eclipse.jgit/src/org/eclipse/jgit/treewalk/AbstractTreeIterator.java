@@ -45,6 +45,8 @@
 
 package org.eclipse.jgit.treewalk;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
@@ -182,7 +184,7 @@ public abstract class AbstractTreeIterator {
 		if (prefix != null && prefix.length() > 0) {
 			final ByteBuffer b;
 
-			b = Constants.CHARSET.encode(CharBuffer.wrap(prefix));
+			b = UTF_8.encode(CharBuffer.wrap(prefix));
 			pathLen = b.limit();
 			path = new byte[Math.max(DEFAULT_PATH_SIZE, pathLen + 1)];
 			b.get(path, 0, pathLen);

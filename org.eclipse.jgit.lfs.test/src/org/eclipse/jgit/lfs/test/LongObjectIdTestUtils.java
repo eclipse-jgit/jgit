@@ -42,7 +42,7 @@
  */
 package org.eclipse.jgit.lfs.test;
 
-import static org.eclipse.jgit.lib.Constants.CHARSET;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.BufferedInputStream;
 import java.io.FileNotFoundException;
@@ -66,7 +66,7 @@ public class LongObjectIdTestUtils {
 	 */
 	public static LongObjectId hash(String s) {
 		MessageDigest md = Constants.newMessageDigest();
-		md.update(s.getBytes(CHARSET));
+		md.update(s.getBytes(UTF_8));
 		return LongObjectId.fromRaw(md.digest());
 	}
 

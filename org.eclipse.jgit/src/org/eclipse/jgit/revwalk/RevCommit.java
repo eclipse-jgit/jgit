@@ -44,7 +44,7 @@
 
 package org.eclipse.jgit.revwalk;
 
-import static org.eclipse.jgit.lib.Constants.CHARSET;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -541,7 +541,7 @@ public class RevCommit extends RevObject {
 		try {
 			return getEncoding();
 		} catch (IllegalCharsetNameException | UnsupportedCharsetException e) {
-			return CHARSET;
+			return UTF_8;
 		}
 	}
 

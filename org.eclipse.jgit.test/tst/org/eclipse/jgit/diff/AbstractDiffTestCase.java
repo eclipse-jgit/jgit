@@ -43,7 +43,7 @@
 
 package org.eclipse.jgit.diff;
 
-import static org.eclipse.jgit.lib.Constants.CHARSET;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -240,6 +240,6 @@ public abstract class AbstractDiffTestCase {
 			r.append(text.charAt(i));
 			r.append('\n');
 		}
-		return new RawText(r.toString().getBytes(CHARSET));
+		return new RawText(r.toString().getBytes(UTF_8));
 	}
 }

@@ -44,7 +44,7 @@
 
 package org.eclipse.jgit.diff;
 
-import static org.eclipse.jgit.lib.Constants.CHARSET;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -147,8 +147,8 @@ public class RawTextTest {
 		e = c.reduceCommonStartEnd(t("abQxy"), t("abRxy"), e);
 		assertEquals(new Edit(2, 3, 2, 3), e);
 
-		RawText a = new RawText("p\na b\nQ\nc d\n".getBytes(CHARSET));
-		RawText b = new RawText("p\na  b \nR\n c  d \n".getBytes(CHARSET));
+		RawText a = new RawText("p\na b\nQ\nc d\n".getBytes(UTF_8));
+		RawText b = new RawText("p\na  b \nR\n c  d \n".getBytes(UTF_8));
 		e = new Edit(0, 4, 0, 4);
 		e = RawTextComparator.WS_IGNORE_ALL.reduceCommonStartEnd(a, b, e);
 		assertEquals(new Edit(2, 3, 2, 3), e);
@@ -160,14 +160,14 @@ public class RawTextTest {
 		RawText b;
 		Edit e;
 
-		a = new RawText("R\n y\n".getBytes(CHARSET));
-		b = new RawText("S\n\n y\n".getBytes(CHARSET));
+		a = new RawText("R\n y\n".getBytes(UTF_8));
+		b = new RawText("S\n\n y\n".getBytes(UTF_8));
 		e = new Edit(0, 2, 0, 3);
 		e = RawTextComparator.DEFAULT.reduceCommonStartEnd(a, b, e);
 		assertEquals(new Edit(0, 1, 0, 2), e);
 
-		a = new RawText("S\n\n y\n".getBytes(CHARSET));
-		b = new RawText("R\n y\n".getBytes(CHARSET));
+		a = new RawText("S\n\n y\n".getBytes(UTF_8));
+		b = new RawText("R\n y\n".getBytes(UTF_8));
 		e = new Edit(0, 3, 0, 2);
 		e = RawTextComparator.DEFAULT.reduceCommonStartEnd(a, b, e);
 		assertEquals(new Edit(0, 2, 0, 1), e);
@@ -178,8 +178,8 @@ public class RawTextTest {
 		RawText a;
 		RawText b;
 		Edit e;
-		a = new RawText("start".getBytes(CHARSET));
-		b = new RawText("start of line".getBytes(CHARSET));
+		a = new RawText("start".getBytes(UTF_8));
+		b = new RawText("start of line".getBytes(UTF_8));
 		e = new Edit(0, 1, 0, 1);
 		e = RawTextComparator.DEFAULT.reduceCommonStartEnd(a, b, e);
 		assertEquals(new Edit(0, 1, 0, 1), e);
@@ -190,8 +190,8 @@ public class RawTextTest {
 		RawText a;
 		RawText b;
 		Edit e;
-		a = new RawText("start".getBytes(CHARSET));
-		b = new RawText("start of\nlastline".getBytes(CHARSET));
+		a = new RawText("start".getBytes(UTF_8));
+		b = new RawText("start of\nlastline".getBytes(UTF_8));
 		e = new Edit(0, 1, 0, 2);
 		e = RawTextComparator.DEFAULT.reduceCommonStartEnd(a, b, e);
 		assertEquals(new Edit(0, 1, 0, 2), e);
@@ -250,6 +250,6 @@ public class RawTextTest {
 			r.append(text.charAt(i));
 			r.append('\n');
 		}
-		return new RawText(r.toString().getBytes(CHARSET));
+		return new RawText(r.toString().getBytes(UTF_8));
 	}
 }

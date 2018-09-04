@@ -45,6 +45,8 @@
 
 package org.eclipse.jgit.lib;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -181,7 +183,7 @@ public class TagBuilder {
 	public byte[] build() {
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
 		try (OutputStreamWriter w = new OutputStreamWriter(os,
-				Constants.CHARSET)) {
+				UTF_8)) {
 			w.write("object "); //$NON-NLS-1$
 			getObjectId().copyTo(w);
 			w.write('\n');

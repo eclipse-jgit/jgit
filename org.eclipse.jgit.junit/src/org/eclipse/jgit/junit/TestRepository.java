@@ -43,7 +43,7 @@
 
 package org.eclipse.jgit.junit;
 
-import static org.eclipse.jgit.lib.Constants.CHARSET;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
@@ -268,7 +268,7 @@ public class TestRepository<R extends Repository> {
 	 * @throws Exception
 	 */
 	public RevBlob blob(String content) throws Exception {
-		return blob(content.getBytes(CHARSET));
+		return blob(content.getBytes(UTF_8));
 	}
 
 	/**

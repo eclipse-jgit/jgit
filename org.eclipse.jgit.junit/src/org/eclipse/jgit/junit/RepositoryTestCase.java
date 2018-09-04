@@ -46,7 +46,7 @@
 
 package org.eclipse.jgit.junit;
 
-import static org.eclipse.jgit.lib.Constants.CHARSET;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 
 import java.io.File;
@@ -192,7 +192,7 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	protected static void checkFile(File f, String checkData)
 			throws IOException {
 		try (Reader r = new InputStreamReader(new FileInputStream(f),
-				CHARSET)) {
+				UTF_8)) {
 			if (checkData.length() > 0) {
 				char[] data = new char[checkData.length()];
 				assertEquals(data.length, r.read(data));

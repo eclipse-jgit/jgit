@@ -47,7 +47,7 @@
 package org.eclipse.jgit.internal.storage.file;
 
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
-import static org.eclipse.jgit.lib.Constants.CHARSET;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -368,7 +368,7 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 				+ "  email = A U Thor <thor@example.com> # Just an example...\n"
 				+ " name = \"A  Thor \\\\ \\\"\\t \"\n"
 				+ "    defaultCheckInComment = a many line\\ncomment\\n to test\n";
-		assertEquals(expectedStr, new String(IO.readFully(cfg), Constants.CHARSET));
+		assertEquals(expectedStr, new String(IO.readFully(cfg), UTF_8));
 	}
 
 	@Test
@@ -517,7 +517,7 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 				4294967295000L, 60));
 		commit.setCommitter(new PersonIdent("Joe Hacker", "joe2@example.com",
 				4294967295000L, 60));
-		commit.setEncoding(CHARSET);
+		commit.setEncoding(UTF_8);
 		commit.setMessage("\u00dcbergeeks");
 		ObjectId cid = insertCommit(commit);
 		assertEquals("4680908112778718f37e686cbebcc912730b3154", cid.name());
@@ -559,7 +559,7 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		final ObjectId treeId;
 		try (ObjectInserter oi = db.newObjectInserter()) {
 			final ObjectId blobId = oi.insert(Constants.OBJ_BLOB,
-					"and this is the data in me\n".getBytes(Constants.CHARSET
+					"and this is the data in me\n".getBytes(UTF_8
 							.name()));
 			TreeFormatter fmt = new TreeFormatter();
 			fmt.append("i-am-a-file", FileMode.REGULAR_FILE, blobId);
@@ -666,9 +666,9 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		ObjectId id2;
 		try (ObjectInserter ins = db.newObjectInserter()) {
 			id1 = ins.insert(
-					Constants.OBJ_BLOB, "contents1".getBytes(Constants.CHARSET));
+					Constants.OBJ_BLOB, "contents1".getBytes(UTF_8));
 			id2 = ins.insert(
-					Constants.OBJ_BLOB, "contents2".getBytes(Constants.CHARSET));
+					Constants.OBJ_BLOB, "contents2".getBytes(UTF_8));
 			ins.flush();
 		}
 

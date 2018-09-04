@@ -42,7 +42,7 @@
  */
 package org.eclipse.jgit.gitrepo;
 
-import static org.eclipse.jgit.lib.Constants.CHARSET;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
@@ -217,7 +217,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 
 			RevCommit commit = cmd
 					.setInputStream(new ByteArrayInputStream(
-							xmlContent.toString().getBytes(CHARSET)))
+							xmlContent.toString().getBytes(UTF_8)))
 					.setRemoteReader(repos).setURI("platform/")
 					.setTargetURI("platform/superproject")
 					.setRecordRemoteBranch(true).setRecordSubmoduleLabels(true)
@@ -226,7 +226,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 			String firstIdStr = commit.getId().name() + ":" + ".gitmodules";
 			commit = new RepoCommand(dest)
 					.setInputStream(new ByteArrayInputStream(
-							xmlContent.toString().getBytes(CHARSET)))
+							xmlContent.toString().getBytes(UTF_8)))
 					.setRemoteReader(repos).setURI("platform/")
 					.setTargetURI("platform/superproject")
 					.setRecordRemoteBranch(true).setRecordSubmoduleLabels(true)
@@ -254,7 +254,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 
 			RevCommit commit = cmd
 					.setInputStream(new ByteArrayInputStream(
-							xmlContent.toString().getBytes(CHARSET)))
+							xmlContent.toString().getBytes(UTF_8)))
 					.setRemoteReader(repos).setURI("platform/")
 					.setTargetURI("platform/superproject")
 					.setRecordRemoteBranch(true).setRecordSubmoduleLabels(true)
@@ -288,7 +288,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 		try (Repository dest = cloneRepository(db, true)) {
 			RevCommit commit = new RepoCommand(dest)
 					.setInputStream(new ByteArrayInputStream(
-							xmlContent.toString().getBytes(CHARSET)))
+							xmlContent.toString().getBytes(UTF_8)))
 					.setRemoteReader(new IndexedRepos()).setURI("platform/")
 					.setTargetURI("platform/superproject")
 					.setRecordRemoteBranch(true).setIgnoreRemoteFailures(true)
@@ -327,7 +327,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 
 			RevCommit commit = cmd
 					.setInputStream(new ByteArrayInputStream(
-							xmlContent.toString().getBytes(CHARSET)))
+							xmlContent.toString().getBytes(UTF_8)))
 					.setRemoteReader(repos).setURI("").setTargetURI("gerrit")
 					.setRecordRemoteBranch(true).setRecordSubmoduleLabels(true)
 					.call();
@@ -376,7 +376,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 
 					RevCommit commit = cmd
 							.setInputStream(new ByteArrayInputStream(
-									xmlContent.toString().getBytes(CHARSET)))
+									xmlContent.toString().getBytes(UTF_8)))
 							.setRemoteReader(repos).setURI(baseUrl)
 							.setTargetURI("gerrit").setRecordRemoteBranch(true)
 							.setRecordSubmoduleLabels(true).call();
@@ -431,7 +431,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 
 					RevCommit commit = cmd
 							.setInputStream(new ByteArrayInputStream(
-									xmlContent.toString().getBytes(CHARSET)))
+									xmlContent.toString().getBytes(UTF_8)))
 							.setRemoteReader(repos).setURI(baseUrl)
 							.setTargetURI(abs + "/superproject")
 							.setRecordRemoteBranch(true)

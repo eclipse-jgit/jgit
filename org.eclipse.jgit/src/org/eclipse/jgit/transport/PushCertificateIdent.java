@@ -43,7 +43,7 @@
 
 package org.eclipse.jgit.transport;
 
-import static org.eclipse.jgit.lib.Constants.CHARSET;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.util.RawParseUtils.lastIndexOfTrim;
 
 import java.text.SimpleDateFormat;
@@ -95,7 +95,7 @@ public class PushCertificateIdent {
 	 */
 	public static PushCertificateIdent parse(String str) {
 		MutableInteger p = new MutableInteger();
-		byte[] raw = str.getBytes(CHARSET);
+		byte[] raw = str.getBytes(UTF_8);
 		int tzBegin = raw.length - 1;
 		tzBegin = lastIndexOfTrim(raw, ' ', tzBegin);
 		if (tzBegin < 0 || raw[tzBegin] != ' ') {
@@ -129,7 +129,7 @@ public class PushCertificateIdent {
 				idEnd = raw.length;
 			}
 		}
-		String id = new String(raw, 0, idEnd, CHARSET);
+		String id = new String(raw, 0, idEnd, UTF_8);
 
 		return new PushCertificateIdent(str, id, when * 1000L, tz);
 	}

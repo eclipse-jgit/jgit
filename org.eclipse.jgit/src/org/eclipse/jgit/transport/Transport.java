@@ -46,7 +46,7 @@
 
 package org.eclipse.jgit.transport;
 
-import static org.eclipse.jgit.lib.Constants.CHARSET;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -144,7 +144,7 @@ public abstract class Transport implements AutoCloseable {
 
 	private static void scan(ClassLoader ldr, URL url) {
 		try (BufferedReader br = new BufferedReader(
-				new InputStreamReader(url.openStream(), CHARSET))) {
+				new InputStreamReader(url.openStream(), UTF_8))) {
 			String line;
 			while ((line = br.readLine()) != null) {
 				line = line.trim();

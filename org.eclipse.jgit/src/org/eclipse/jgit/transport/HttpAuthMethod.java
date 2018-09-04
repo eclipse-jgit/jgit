@@ -43,7 +43,7 @@
 
 package org.eclipse.jgit.transport;
 
-import static org.eclipse.jgit.lib.Constants.CHARSET;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.util.HttpSupport.HDR_AUTHORIZATION;
 import static org.eclipse.jgit.util.HttpSupport.HDR_WWW_AUTHENTICATE;
 
@@ -315,7 +315,7 @@ abstract class HttpAuthMethod {
 		@Override
 		void configureRequest(HttpConnection conn) throws IOException {
 			String ident = user + ":" + pass; //$NON-NLS-1$
-			String enc = Base64.encodeBytes(ident.getBytes(CHARSET));
+			String enc = Base64.encodeBytes(ident.getBytes(UTF_8));
 			conn.setRequestProperty(HDR_AUTHORIZATION, type.getSchemeName()
 					+ " " + enc); //$NON-NLS-1$
 		}
@@ -430,15 +430,15 @@ abstract class HttpAuthMethod {
 
 		private static String H(String data) {
 			MessageDigest md = newMD5();
-			md.update(data.getBytes(CHARSET));
+			md.update(data.getBytes(UTF_8));
 			return LHEX(md.digest());
 		}
 
 		private static String KD(String secret, String data) {
 			MessageDigest md = newMD5();
-			md.update(secret.getBytes(CHARSET));
+			md.update(secret.getBytes(UTF_8));
 			md.update((byte) ':');
-			md.update(data.getBytes(CHARSET));
+			md.update(data.getBytes(UTF_8));
 			return LHEX(md.digest());
 		}
 

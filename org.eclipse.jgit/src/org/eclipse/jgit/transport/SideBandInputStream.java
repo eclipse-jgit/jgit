@@ -44,6 +44,7 @@
 
 package org.eclipse.jgit.transport;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.transport.SideBandOutputStream.HDR_SIZE;
 
 import java.io.IOException;
@@ -57,7 +58,6 @@ import java.util.regex.Pattern;
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
@@ -257,6 +257,6 @@ public class SideBandInputStream extends InputStream {
 	private String readString(int len) throws IOException {
 		final byte[] raw = new byte[len];
 		IO.readFully(rawIn, raw, 0, len);
-		return RawParseUtils.decode(Constants.CHARSET, raw, 0, len);
+		return RawParseUtils.decode(UTF_8, raw, 0, len);
 	}
 }

@@ -45,13 +45,14 @@
 
 package org.eclipse.jgit.transport;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
 
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
@@ -186,7 +187,7 @@ public class PacketLineIn {
 		if (raw[len - 1] == '\n')
 			len--;
 
-		String s = RawParseUtils.decode(Constants.CHARSET, raw, 0, len);
+		String s = RawParseUtils.decode(UTF_8, raw, 0, len);
 		log.debug("git< " + s); //$NON-NLS-1$
 		return s;
 	}
@@ -218,7 +219,7 @@ public class PacketLineIn {
 
 		IO.readFully(in, raw, 0, len);
 
-		String s = RawParseUtils.decode(Constants.CHARSET, raw, 0, len);
+		String s = RawParseUtils.decode(UTF_8, raw, 0, len);
 		log.debug("git< " + s); //$NON-NLS-1$
 		return s;
 	}

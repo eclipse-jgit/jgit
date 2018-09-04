@@ -42,7 +42,7 @@
  */
 package org.eclipse.jgit.util;
 
-import static org.eclipse.jgit.lib.Constants.CHARSET;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -93,7 +93,7 @@ public class RawSubStringPatternTest extends RepositoryTestCase {
 	}
 
 	private static RawCharSequence raw(String text) {
-		byte[] bytes = text.getBytes(CHARSET);
+		byte[] bytes = text.getBytes(UTF_8);
 		return new RawCharSequence(bytes, 0, bytes.length);
 	}
 }

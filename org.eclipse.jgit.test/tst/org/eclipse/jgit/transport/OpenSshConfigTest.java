@@ -43,7 +43,7 @@
 
 package org.eclipse.jgit.transport;
 
-import static org.eclipse.jgit.lib.Constants.CHARSET;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -94,7 +94,7 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 		long lastMtime = configFile.lastModified();
 		do {
 			try (final OutputStreamWriter fw = new OutputStreamWriter(
-					new FileOutputStream(configFile), CHARSET)) {
+					new FileOutputStream(configFile), UTF_8)) {
 				fw.write(data);
 			}
 		} while (lastMtime == configFile.lastModified());

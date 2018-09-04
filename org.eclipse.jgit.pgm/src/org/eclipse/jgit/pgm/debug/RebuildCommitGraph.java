@@ -43,6 +43,8 @@
 
 package org.eclipse.jgit.pgm.debug;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -141,7 +143,7 @@ class RebuildCommitGraph extends TextBuiltin {
 		try (RevWalk rw = new RevWalk(db);
 				final BufferedReader br = new BufferedReader(
 						new InputStreamReader(new FileInputStream(graph),
-								Constants.CHARSET))) {
+								UTF_8))) {
 			String line;
 			while ((line = br.readLine()) != null) {
 				final String[] parts = line.split("[ \t]{1,}"); //$NON-NLS-1$
@@ -280,7 +282,7 @@ class RebuildCommitGraph extends TextBuiltin {
 		try (RevWalk rw = new RevWalk(db);
 				BufferedReader br = new BufferedReader(
 						new InputStreamReader(new FileInputStream(refList),
-								Constants.CHARSET))) {
+								UTF_8))) {
 			String line;
 			while ((line = br.readLine()) != null) {
 				final String[] parts = line.split("[ \t]{1,}"); //$NON-NLS-1$

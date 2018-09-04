@@ -45,6 +45,8 @@
 
 package org.eclipse.jgit.lib;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -93,7 +95,7 @@ public class CommitBuilder {
 	 */
 	public CommitBuilder() {
 		parentIds = EMPTY_OBJECTID_LIST;
-		encoding = Constants.CHARSET;
+		encoding = UTF_8;
 	}
 
 	/**
@@ -314,7 +316,7 @@ public class CommitBuilder {
 			w.flush();
 			os.write('\n');
 
-			if (getEncoding() != Constants.CHARSET) {
+			if (getEncoding() != UTF_8) {
 				os.write(hencoding);
 				os.write(' ');
 				os.write(Constants.encodeASCII(getEncoding().name()));
@@ -375,7 +377,7 @@ public class CommitBuilder {
 		r.append(committer != null ? committer.toString() : "NOT_SET");
 		r.append("\n");
 
-		if (encoding != null && encoding != Constants.CHARSET) {
+		if (encoding != null && encoding != UTF_8) {
 			r.append("encoding ");
 			r.append(encoding.name());
 			r.append("\n");

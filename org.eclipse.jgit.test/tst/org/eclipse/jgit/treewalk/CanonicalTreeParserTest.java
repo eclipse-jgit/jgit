@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.treewalk;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.FileMode.REGULAR_FILE;
 import static org.eclipse.jgit.lib.FileMode.SYMLINK;
 import static org.junit.Assert.assertEquals;
@@ -110,7 +111,7 @@ public class CanonicalTreeParserTest {
 	}
 
 	private String path() {
-		return RawParseUtils.decode(Constants.CHARSET, ctp.path,
+		return RawParseUtils.decode(UTF_8, ctp.path,
 				ctp.pathOffset, ctp.pathLen);
 	}
 
@@ -370,7 +371,7 @@ public class CanonicalTreeParserTest {
 		final String name = b.toString();
 		ctp.reset(entry(m644, name, hash_a));
 		assertFalse(ctp.eof());
-		assertEquals(name, RawParseUtils.decode(Constants.CHARSET, ctp.path,
+		assertEquals(name, RawParseUtils.decode(UTF_8, ctp.path,
 				ctp.pathOffset, ctp.pathLen));
 	}
 

@@ -45,7 +45,7 @@
 
 package org.eclipse.jgit.revwalk;
 
-import static org.eclipse.jgit.lib.Constants.CHARSET;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -169,7 +169,7 @@ public class RevTag extends RevObject {
 
 		int p = pos.value += 4; // "tag "
 		final int nameEnd = RawParseUtils.nextLF(rawTag, p) - 1;
-		tagName = RawParseUtils.decode(CHARSET, rawTag, p, nameEnd);
+		tagName = RawParseUtils.decode(UTF_8, rawTag, p, nameEnd);
 
 		if (walk.isRetainBody())
 			buffer = rawTag;
@@ -257,7 +257,7 @@ public class RevTag extends RevObject {
 		try {
 			return RawParseUtils.parseEncoding(buffer);
 		} catch (IllegalCharsetNameException | UnsupportedCharsetException e) {
-			return CHARSET;
+			return UTF_8;
 		}
 	}
 

@@ -44,6 +44,7 @@
 
 package org.eclipse.jgit.dircache;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.FileMode.TREE;
 import static org.eclipse.jgit.lib.TreeFormatter.entrySize;
 
@@ -276,7 +277,7 @@ public class DirCacheTree {
 	 */
 	public String getNameString() {
 		final ByteBuffer bb = ByteBuffer.wrap(encodedName);
-		return Constants.CHARSET.decode(bb).toString();
+		return UTF_8.decode(bb).toString();
 	}
 
 	/**

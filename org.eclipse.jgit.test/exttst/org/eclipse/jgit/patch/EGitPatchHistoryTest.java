@@ -44,6 +44,7 @@
 package org.eclipse.jgit.patch;
 
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -56,7 +57,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.util.MutableInteger;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.TemporaryBuffer;
@@ -176,7 +176,7 @@ public class EGitPatchHistoryTest {
 				i.added = RawParseUtils.parseBase10(buf, ptr.value, ptr);
 				i.deleted = RawParseUtils.parseBase10(buf, ptr.value + 1, ptr);
 				final int eol = RawParseUtils.nextLF(buf, ptr.value);
-				final String name = RawParseUtils.decode(Constants.CHARSET,
+				final String name = RawParseUtils.decode(UTF_8,
 						buf, ptr.value + 1, eol - 1);
 				files.put(name, i);
 				ptr.value = eol;

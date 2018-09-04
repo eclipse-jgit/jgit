@@ -43,6 +43,8 @@
 
 package org.eclipse.jgit.transport;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -231,7 +233,7 @@ public class BundleWriter {
 				packWriter.setTagTargets(tagTargets);
 			packWriter.preparePack(monitor, inc, exc);
 
-			final Writer w = new OutputStreamWriter(os, Constants.CHARSET);
+			final Writer w = new OutputStreamWriter(os, UTF_8);
 			w.write(TransportBundle.V2_BUNDLE_SIGNATURE);
 			w.write('\n');
 
