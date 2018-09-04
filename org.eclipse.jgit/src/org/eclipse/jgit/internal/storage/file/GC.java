@@ -908,10 +908,22 @@ public class GC {
 
 	private void delete(Path d) {
 		try {
-			Files.delete(d);
+			if (isEmpty(d)) {
+				Files.delete(d);
+			}
 		} catch (IOException e) {
 			LOG.error(MessageFormat.format(JGitText.get().cannotDeleteFile, d),
 					e);
+		}
+	}
+
+	private boolean isEmpty(Path p) {
+		try (DirectoryStream<Path> dirStream = Files.newDirectoryStream(p)) {
+			boolean hasNext = dirStream.iterator().hasNext();
+			return !hasNext;
+		} catch (IOException e) {
+			// If not able to check, return false
+			return false;
 		}
 	}
 
