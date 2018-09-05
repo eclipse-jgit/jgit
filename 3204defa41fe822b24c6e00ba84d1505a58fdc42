@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e977c746_438edf07",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-09-05T15:33:27Z",
+      "side": 1,
+      "message": "This is used by Gerrit and the copy involved in converting to and back from Collection might be too expensive. Will experiment a little.",
+      "revId": "3204defa41fe822b24c6e00ba84d1505a58fdc42",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
