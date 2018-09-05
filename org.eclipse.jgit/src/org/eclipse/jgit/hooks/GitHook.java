@@ -42,7 +42,7 @@
  */
 package org.eclipse.jgit.hooks;
 
-import static org.eclipse.jgit.lib.Constants.CHARSET;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -158,7 +158,7 @@ abstract class GitHook<T> implements Callable<T> {
 		PrintStream hookErrRedirect = null;
 		try {
 			hookErrRedirect = new PrintStream(errorByteArray, false,
-					CHARSET.name());
+					UTF_8.name());
 		} catch (UnsupportedEncodingException e) {
 			// UTF-8 is guaranteed to be available
 		}
@@ -167,7 +167,7 @@ abstract class GitHook<T> implements Callable<T> {
 				hookErrRedirect, getStdinArgs());
 		if (result.isExecutedWithError()) {
 			throw new AbortedByHookException(
-					new String(errorByteArray.toByteArray(), CHARSET),
+					new String(errorByteArray.toByteArray(), UTF_8),
 					getHookName(), result.getExitCode());
 		}
 	}

@@ -43,7 +43,7 @@
 
 package org.eclipse.jgit.internal.storage.reftable;
 
-import static org.eclipse.jgit.lib.Constants.CHARSET;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.internal.storage.reftable.BlockWriter.compare;
 import static org.eclipse.jgit.internal.storage.reftable.ReftableConstants.FILE_BLOCK_TYPE;
 import static org.eclipse.jgit.internal.storage.reftable.ReftableConstants.FILE_HEADER_LEN;
@@ -138,7 +138,7 @@ class BlockReader {
 		if (blockType == LOG_BLOCK_TYPE) {
 			len -= 9;
 		}
-		return RawParseUtils.decode(CHARSET, nameBuf, 0, len);
+		return RawParseUtils.decode(UTF_8, nameBuf, 0, len);
 	}
 
 	boolean match(byte[] match, boolean matchIsPrefix) {
@@ -171,7 +171,7 @@ class BlockReader {
 	}
 
 	Ref readRef() throws IOException {
-		String name = RawParseUtils.decode(CHARSET, nameBuf, 0, nameLen);
+		String name = RawParseUtils.decode(UTF_8, nameBuf, 0, nameLen);
 		switch (valueType & VALUE_TYPE_MASK) {
 		case VALUE_NONE: // delete
 			return newRef(name);
@@ -266,7 +266,7 @@ class BlockReader {
 	private String readValueString() {
 		int len = readVarint32();
 		int end = ptr + len;
-		String s = RawParseUtils.decode(CHARSET, buf, ptr, end);
+		String s = RawParseUtils.decode(UTF_8, buf, ptr, end);
 		ptr = end;
 		return s;
 	}

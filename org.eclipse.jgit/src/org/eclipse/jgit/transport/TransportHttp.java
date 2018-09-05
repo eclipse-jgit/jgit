@@ -46,6 +46,7 @@
 
 package org.eclipse.jgit.transport;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 import static org.eclipse.jgit.util.HttpSupport.ENCODING_GZIP;
 import static org.eclipse.jgit.util.HttpSupport.ENCODING_X_GZIP;
@@ -426,7 +427,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	}
 
 	private BufferedReader toBufferedReader(InputStream in) {
-		return new BufferedReader(new InputStreamReader(in, Constants.CHARSET));
+		return new BufferedReader(new InputStreamReader(in, UTF_8));
 	}
 
 	/** {@inheritDoc} */
@@ -952,7 +953,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			// Line oriented readable content is likely to compress well.
 			// Request gzip encoding.
 			InputStream is = open(path, AcceptEncoding.GZIP).in;
-			return new BufferedReader(new InputStreamReader(is, Constants.CHARSET));
+			return new BufferedReader(new InputStreamReader(is, UTF_8));
 		}
 
 		@Override

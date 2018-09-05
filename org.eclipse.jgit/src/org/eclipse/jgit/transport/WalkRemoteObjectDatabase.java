@@ -43,6 +43,8 @@
 
 package org.eclipse.jgit.transport;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -363,7 +365,7 @@ abstract class WalkRemoteObjectDatabase {
 	 */
 	BufferedReader openReader(String path) throws IOException {
 		final InputStream is = open(path).in;
-		return new BufferedReader(new InputStreamReader(is, Constants.CHARSET));
+		return new BufferedReader(new InputStreamReader(is, UTF_8));
 	}
 
 	/**

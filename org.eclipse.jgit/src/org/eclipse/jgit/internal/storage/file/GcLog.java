@@ -43,7 +43,7 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
-import static org.eclipse.jgit.lib.Constants.CHARSET;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.File;
 import java.io.IOException;
@@ -171,6 +171,6 @@ class GcLog {
 		if (content.length() > 0) {
 			nonEmpty = true;
 		}
-		lock.write(content.getBytes(CHARSET));
+		lock.write(content.getBytes(UTF_8));
 	}
 }

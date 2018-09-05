@@ -43,7 +43,7 @@
 
 package org.eclipse.jgit.util;
 
-import static org.eclipse.jgit.lib.Constants.CHARSET;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.File;
 import java.io.PrintStream;
@@ -126,7 +126,7 @@ public class FS_Win32_Cygwin extends FS_Win32 {
 			try {
 				w = readPipe(dir, //
 					new String[] { cygpath, "--windows", "--absolute", pn }, // //$NON-NLS-1$ //$NON-NLS-2$
-					CHARSET.name());
+					UTF_8.name());
 			} catch (CommandFailedException e) {
 				LOG.warn(e.getMessage());
 				return null;

@@ -47,6 +47,8 @@
 
 package org.eclipse.jgit.transport;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -66,7 +68,6 @@ import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.PackLock;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
@@ -173,7 +174,7 @@ class BundleFetchConnection extends BaseFetchConnection {
 				IO.skipFully(bin, 1);
 				done = true;
 			}
-			line.append(RawParseUtils.decode(Constants.CHARSET, hdrbuf, 0, lf));
+			line.append(RawParseUtils.decode(UTF_8, hdrbuf, 0, lf));
 		}
 		return line.toString();
 	}

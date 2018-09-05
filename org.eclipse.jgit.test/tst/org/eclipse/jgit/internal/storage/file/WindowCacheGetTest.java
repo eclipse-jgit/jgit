@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -77,7 +78,7 @@ public class WindowCacheGetTest extends SampleDataRepositoryTestCase {
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(
 				new FileInputStream(JGitTestUtil
 						.getTestResourceFile("all_packed_objects.txt")),
-				Constants.CHARSET))) {
+				UTF_8))) {
 			String line;
 			while ((line = br.readLine()) != null) {
 				final String[] parts = line.split(" {1,}");

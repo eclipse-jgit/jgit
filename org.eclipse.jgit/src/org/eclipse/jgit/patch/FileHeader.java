@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.patch;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.encodeASCII;
 import static org.eclipse.jgit.util.RawParseUtils.decode;
 import static org.eclipse.jgit.util.RawParseUtils.decodeNoFallback;
@@ -63,7 +64,6 @@ import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.EditList;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.util.QuotedString;
 import org.eclipse.jgit.util.RawParseUtils;
@@ -198,7 +198,7 @@ public class FileHeader extends DiffEntry {
 	 * Convert the patch script for this file into a string.
 	 * <p>
 	 * The default character encoding
-	 * ({@link org.eclipse.jgit.lib.Constants#CHARSET}) is assumed for both the
+	 * ({@link java.nio.charset.StandardCharsets#UTF_8}) is assumed for both the
 	 * old and new files.
 	 *
 	 * @return the patch script, as a Unicode string.
@@ -240,8 +240,9 @@ public class FileHeader extends DiffEntry {
 
 		if (trySimpleConversion(charsetGuess)) {
 			Charset cs = charsetGuess != null ? charsetGuess[0] : null;
-			if (cs == null)
-				cs = Constants.CHARSET;
+			if (cs == null) {
+				cs = UTF_8;
+			}
 			try {
 				return decodeNoFallback(cs, buf, startOffset, endOffset);
 			} catch (CharacterCodingException cee) {
@@ -290,8 +291,9 @@ public class FileHeader extends DiffEntry {
 			final String[] r = new String[tmp.length];
 			for (int i = 0; i < tmp.length; i++) {
 				Charset cs = csGuess != null ? csGuess[i] : null;
-				if (cs == null)
-					cs = Constants.CHARSET;
+				if (cs == null) {
+					cs = UTF_8;
+				}
 				r[i] = RawParseUtils.decode(cs, tmp[i].toByteArray());
 			}
 			return r;
@@ -429,7 +431,7 @@ public class FileHeader extends DiffEntry {
 					oldPath = QuotedString.GIT_PATH.dequote(buf, bol, sp - 1);
 					oldPath = p1(oldPath);
 				} else {
-					oldPath = decode(Constants.CHARSET, buf, aStart, sp - 1);
+					oldPath = decode(UTF_8, buf, aStart, sp - 1);
 				}
 				newPath = oldPath;
 				return eol;
@@ -572,7 +574,7 @@ public class FileHeader extends DiffEntry {
 				tab--;
 			if (ptr == tab)
 				tab = end;
-			r = decode(Constants.CHARSET, buf, ptr, tab - 1);
+			r = decode(UTF_8, buf, ptr, tab - 1);
 		}
 
 		if (r.equals(DEV_NULL))

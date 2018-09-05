@@ -44,6 +44,8 @@
 
 package org.eclipse.jgit.treewalk;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -1045,7 +1047,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 		final AbstractTreeIterator t = currentHead;
 		final int off = t.pathOffset;
 		final int end = t.pathLen;
-		return RawParseUtils.decode(Constants.CHARSET, t.path, off, end);
+		return RawParseUtils.decode(UTF_8, t.path, off, end);
 	}
 
 	/**
@@ -1378,11 +1380,11 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	}
 
 	static String pathOf(AbstractTreeIterator t) {
-		return RawParseUtils.decode(Constants.CHARSET, t.path, 0, t.pathLen);
+		return RawParseUtils.decode(UTF_8, t.path, 0, t.pathLen);
 	}
 
 	static String pathOf(byte[] buf, int pos, int end) {
-		return RawParseUtils.decode(Constants.CHARSET, buf, pos, end);
+		return RawParseUtils.decode(UTF_8, buf, pos, end);
 	}
 
 	/**

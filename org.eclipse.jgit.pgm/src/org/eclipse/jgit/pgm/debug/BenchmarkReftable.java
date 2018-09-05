@@ -43,7 +43,7 @@
 
 package org.eclipse.jgit.pgm.debug;
 
-import static org.eclipse.jgit.lib.Constants.CHARSET;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 import static org.eclipse.jgit.lib.Constants.MASTER;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
@@ -154,7 +154,7 @@ class BenchmarkReftable extends TextBuiltin {
 			throws IOException, FileNotFoundException {
 		RefList.Builder<Ref> list = new RefList.Builder<>();
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(
-				new FileInputStream(lsRemotePath), CHARSET))) {
+				new FileInputStream(lsRemotePath), UTF_8))) {
 			Ref last = null;
 			String line;
 			while ((line = br.readLine()) != null) {

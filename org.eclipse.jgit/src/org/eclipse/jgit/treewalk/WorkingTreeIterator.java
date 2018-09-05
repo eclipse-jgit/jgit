@@ -46,6 +46,8 @@
 
 package org.eclipse.jgit.treewalk;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -1413,7 +1415,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 
 		IteratorState(WorkingTreeOptions options) {
 			this.options = options;
-			this.nameEncoder = Constants.CHARSET.newEncoder();
+			this.nameEncoder = UTF_8.newEncoder();
 		}
 
 		void initializeReadBuffer() {

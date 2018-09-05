@@ -41,7 +41,7 @@
  */
 package org.eclipse.jgit.indexdiff;
 
-import static org.eclipse.jgit.lib.Constants.CHARSET;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -128,7 +128,7 @@ public class IndexDiffWithSymlinkTest extends LocalDiskRepositoryTestCase {
 		File restoreScript = new File(testDir, name + ".sh");
 		try (OutputStream out = new BufferedOutputStream(
 				new FileOutputStream(restoreScript));
-				Writer writer = new OutputStreamWriter(out, CHARSET)) {
+				Writer writer = new OutputStreamWriter(out, UTF_8)) {
 			writer.write("echo `which git` 1>&2\n");
 			writer.write("echo `git --version` 1>&2\n");
 			writer.write("git init " + name + " && \\\n");
@@ -170,7 +170,7 @@ public class IndexDiffWithSymlinkTest extends LocalDiskRepositoryTestCase {
 
 	private String readStream(InputStream stream) throws IOException {
 		try (BufferedReader in = new BufferedReader(
-				new InputStreamReader(stream))) {
+				new InputStreamReader(stream, UTF_8))) {
 			StringBuilder out = new StringBuilder();
 			String line;
 			while ((line = in.readLine()) != null) {

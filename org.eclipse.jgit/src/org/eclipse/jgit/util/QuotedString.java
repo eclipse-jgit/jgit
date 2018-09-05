@@ -43,6 +43,8 @@
 
 package org.eclipse.jgit.util;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.util.Arrays;
 
 import org.eclipse.jgit.lib.Constants;
@@ -181,7 +183,7 @@ public abstract class QuotedString {
 					continue;
 				}
 			}
-			return RawParseUtils.decode(Constants.CHARSET, r, 0, rPtr);
+			return RawParseUtils.decode(UTF_8, r, 0, rPtr);
 		}
 	}
 
@@ -294,7 +296,7 @@ public abstract class QuotedString {
 		public String dequote(byte[] in, int inPtr, int inEnd) {
 			if (2 <= inEnd - inPtr && in[inPtr] == '"' && in[inEnd - 1] == '"')
 				return dq(in, inPtr + 1, inEnd - 1);
-			return RawParseUtils.decode(Constants.CHARSET, in, inPtr, inEnd);
+			return RawParseUtils.decode(UTF_8, in, inPtr, inEnd);
 		}
 
 		private static String dq(byte[] in, int inPtr, int inEnd) {
@@ -370,7 +372,7 @@ public abstract class QuotedString {
 				}
 			}
 
-			return RawParseUtils.decode(Constants.CHARSET, r, 0, rPtr);
+			return RawParseUtils.decode(UTF_8, r, 0, rPtr);
 		}
 
 		private GitPathStyle() {

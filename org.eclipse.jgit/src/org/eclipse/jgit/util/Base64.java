@@ -6,7 +6,7 @@
 
 package org.eclipse.jgit.util;
 
-import static org.eclipse.jgit.lib.Constants.CHARSET;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.text.MessageFormat;
 import java.util.Arrays;
@@ -54,7 +54,7 @@ public class Base64 {
 				+ "abcdefghijklmnopqrstuvwxyz" // //$NON-NLS-1$
 				+ "0123456789" // //$NON-NLS-1$
 				+ "+/" // //$NON-NLS-1$
-		).getBytes(CHARSET);
+		).getBytes(UTF_8);
 
 		DEC = new byte[128];
 		Arrays.fill(DEC, INVALID_DEC);
@@ -177,7 +177,7 @@ public class Base64 {
 			e += 4;
 		}
 
-		return new String(outBuff, 0, e, CHARSET);
+		return new String(outBuff, 0, e, UTF_8);
 	}
 
 	/**
@@ -293,7 +293,7 @@ public class Base64 {
 	 * @return the decoded data
 	 */
 	public static byte[] decode(String s) {
-		byte[] bytes = s.getBytes(CHARSET);
+		byte[] bytes = s.getBytes(UTF_8);
 		return decode(bytes, 0, bytes.length);
 	}
 }

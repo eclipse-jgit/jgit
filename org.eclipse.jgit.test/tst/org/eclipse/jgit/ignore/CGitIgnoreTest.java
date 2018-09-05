@@ -42,6 +42,7 @@
  */
 package org.eclipse.jgit.ignore;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -56,7 +57,6 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.eclipse.jgit.junit.RepositoryTestCase;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
@@ -113,7 +113,7 @@ public class CGitIgnoreTest extends RepositoryTestCase {
 				"exit " + result.getRc() + '\n' + errorOut);
 		try (BufferedReader r = new BufferedReader(new InputStreamReader(
 				new BufferedInputStream(result.getStdout().openInputStream()),
-				Constants.CHARSET))) {
+				UTF_8))) {
 			return r.lines().toArray(String[]::new);
 		}
 	}
@@ -131,7 +131,7 @@ public class CGitIgnoreTest extends RepositoryTestCase {
 				"exit " + result.getRc() + '\n' + errorOut);
 		try (BufferedReader r = new BufferedReader(new InputStreamReader(
 				new BufferedInputStream(result.getStdout().openInputStream()),
-				Constants.CHARSET))) {
+				UTF_8))) {
 			return r.lines().toArray(String[]::new);
 		}
 	}

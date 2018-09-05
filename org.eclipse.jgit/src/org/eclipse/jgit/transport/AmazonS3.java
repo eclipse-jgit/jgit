@@ -43,7 +43,7 @@
 
 package org.eclipse.jgit.transport;
 
-import static org.eclipse.jgit.lib.Constants.CHARSET;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -635,7 +635,7 @@ public class AmazonS3 {
 		try {
 			final Mac m = Mac.getInstance(HMAC);
 			m.init(privateKey);
-			sec = Base64.encodeBytes(m.doFinal(s.toString().getBytes(CHARSET)));
+			sec = Base64.encodeBytes(m.doFinal(s.toString().getBytes(UTF_8)));
 		} catch (NoSuchAlgorithmException e) {
 			throw new IOException(MessageFormat.format(JGitText.get().noHMACsupport, HMAC, e.getMessage()));
 		} catch (InvalidKeyException e) {

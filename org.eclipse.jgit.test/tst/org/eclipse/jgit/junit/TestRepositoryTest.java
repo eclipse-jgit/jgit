@@ -43,7 +43,7 @@
 
 package org.eclipse.jgit.junit;
 
-import static org.eclipse.jgit.lib.Constants.CHARSET;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
@@ -418,6 +418,6 @@ public class TestRepositoryTest {
 		RevObject obj = tr.get(rw.parseTree(treeish), path);
 		assertSame(RevBlob.class, obj.getClass());
 		ObjectLoader loader = rw.getObjectReader().open(obj);
-		return new String(loader.getCachedBytes(), CHARSET);
+		return new String(loader.getCachedBytes(), UTF_8);
 	}
 }

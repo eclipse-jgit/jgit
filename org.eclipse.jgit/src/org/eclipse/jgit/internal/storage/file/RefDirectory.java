@@ -46,7 +46,7 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
-import static org.eclipse.jgit.lib.Constants.CHARSET;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 import static org.eclipse.jgit.lib.Constants.LOGS;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_STRING_LENGTH;
@@ -945,7 +945,7 @@ public class RefDirectory extends RefDatabase {
 			try (BufferedReader br = new BufferedReader(new InputStreamReader(
 					new DigestInputStream(new FileInputStream(packedRefsFile),
 							digest),
-					CHARSET))) {
+					UTF_8))) {
 				try {
 					return new PackedRefList(parsePackedRefs(br), snapshot,
 							ObjectId.fromRaw(digest.digest()));

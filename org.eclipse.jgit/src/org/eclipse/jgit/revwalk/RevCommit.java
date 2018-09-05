@@ -44,13 +44,14 @@
 
 package org.eclipse.jgit.revwalk;
 
-import static org.eclipse.jgit.lib.Constants.CHARSET;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.UnsupportedCharsetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -390,6 +391,34 @@ public class RevCommit extends RevObject {
 	}
 
 	/**
+	 * Parse the gpg signature from the raw buffer.
+	 * <p>
+	 * This method parses and returns the raw content of the gpgsig lines. This
+	 * method is fairly expensive and produces a new byte[] instance on each
+	 * invocation. Callers should invoke this method only if they are certain
+	 * they will need, and should cache the return value for as long as
+	 * necessary to use all information from it.
+	 * <p>
+	 * RevFilter implementations should try to use
+	 * {@link org.eclipse.jgit.util.RawParseUtils} to scan the
+	 * {@link #getRawBuffer()} instead, as this will allow faster evaluation of
+	 * commits.
+	 *
+	 * @return contents of the gpg signature; null if the commit was not signed.
+	 * @since 5.1
+	 */
+	public final @Nullable byte[] getRawGpgSignature() {
+		final byte[] raw = buffer;
+		final byte[] header = {'g', 'p', 'g', 's', 'i', 'g'};
+		final int start = RawParseUtils.headerStart(header, raw, 0);
+		if (start < 0) {
+			return null;
+		}
+		final int end = RawParseUtils.headerEnd(raw, start);
+		return Arrays.copyOfRange(raw, start, end);
+	}
+
+	/**
 	 * Parse the author identity from the raw buffer.
 	 * <p>
 	 * This method parses and returns the content of the author line, after
@@ -541,7 +570,7 @@ public class RevCommit extends RevObject {
 		try {
 			return getEncoding();
 		} catch (IllegalCharsetNameException | UnsupportedCharsetException e) {
-			return CHARSET;
+			return UTF_8;
 		}
 	}
 

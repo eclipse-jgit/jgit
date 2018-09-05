@@ -227,7 +227,13 @@ public final class Constants {
 	 */
 	public static final byte[] PACK_SIGNATURE = { 'P', 'A', 'C', 'K' };
 
-	/** Native character encoding for commit messages, file names... */
+	/**
+	 * Native character encoding for commit messages, file names...
+	 *
+	 * @deprecated Use {@link java.nio.charset.StandardCharsets#UTF_8} directly
+	 *             instead.
+	 **/
+	@Deprecated
 	public static final Charset CHARSET;
 
 	/** Native character encoding for commit messages, file names... */
@@ -638,7 +644,7 @@ public final class Constants {
 	 * @see #CHARACTER_ENCODING
 	 */
 	public static byte[] encode(String str) {
-		final ByteBuffer bb = Constants.CHARSET.encode(str);
+		final ByteBuffer bb = UTF_8.encode(str);
 		final int len = bb.limit();
 		if (bb.hasArray() && bb.arrayOffset() == 0) {
 			final byte[] arr = bb.array();
@@ -655,7 +661,7 @@ public final class Constants {
 		if (OBJECT_ID_LENGTH != newMessageDigest().getDigestLength())
 			throw new LinkageError(JGitText.get().incorrectOBJECT_ID_LENGTH);
 		CHARSET = UTF_8;
-		CHARACTER_ENCODING = CHARSET.name();
+		CHARACTER_ENCODING = UTF_8.name();
 	}
 
 	/** name of the file containing the commit msg for a merge commit */

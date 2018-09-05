@@ -49,7 +49,7 @@
 
 package org.eclipse.jgit.storage.file;
 
-import static org.eclipse.jgit.lib.Constants.CHARSET;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -166,7 +166,7 @@ public class FileBasedConfig extends StoredConfig {
 				} else {
 					final String decoded;
 					if (isUtf8(in)) {
-						decoded = RawParseUtils.decode(CHARSET,
+						decoded = RawParseUtils.decode(UTF_8,
 								in, 3, in.length);
 						utf8Bom = true;
 					} else {
@@ -224,7 +224,7 @@ public class FileBasedConfig extends StoredConfig {
 			bos.write(0xEF);
 			bos.write(0xBB);
 			bos.write(0xBF);
-			bos.write(text.getBytes(CHARSET));
+			bos.write(text.getBytes(UTF_8));
 			out = bos.toByteArray();
 		} else {
 			out = Constants.encode(text);

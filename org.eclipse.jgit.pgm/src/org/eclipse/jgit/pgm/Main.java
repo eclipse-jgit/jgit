@@ -44,7 +44,7 @@
 
 package org.eclipse.jgit.pgm;
 
-import static org.eclipse.jgit.lib.Constants.CHARSET;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.File;
 import java.io.IOException;
@@ -227,7 +227,7 @@ public class Main {
 	}
 
 	PrintWriter createErrorWriter() {
-		return new PrintWriter(new OutputStreamWriter(System.err, CHARSET));
+		return new PrintWriter(new OutputStreamWriter(System.err, UTF_8));
 	}
 
 	private void execute(String[] argv) throws Exception {

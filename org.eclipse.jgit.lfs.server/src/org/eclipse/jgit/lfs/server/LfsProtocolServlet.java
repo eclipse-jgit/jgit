@@ -42,7 +42,7 @@
  */
 package org.eclipse.jgit.lfs.server;
 
-import static org.eclipse.jgit.lib.Constants.CHARSET;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.apache.http.HttpStatus.SC_FORBIDDEN;
 import static org.apache.http.HttpStatus.SC_INSUFFICIENT_STORAGE;
 import static org.apache.http.HttpStatus.SC_INTERNAL_SERVER_ERROR;
@@ -202,10 +202,10 @@ public abstract class LfsProtocolServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
 		Writer w = new BufferedWriter(
-				new OutputStreamWriter(res.getOutputStream(), CHARSET));
+				new OutputStreamWriter(res.getOutputStream(), UTF_8));
 
 		Reader r = new BufferedReader(
-				new InputStreamReader(req.getInputStream(), CHARSET));
+				new InputStreamReader(req.getInputStream(), UTF_8));
 		LfsRequest request = LfsGson.fromJson(r, LfsRequest.class);
 		String path = req.getPathInfo();
 

@@ -43,7 +43,7 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
-import static org.eclipse.jgit.lib.Constants.CHARSET;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -86,7 +86,7 @@ public class LazyObjectIdSetFile implements ObjectIdSet {
 	private ObjectIdOwnerMap<Entry> load() {
 		ObjectIdOwnerMap<Entry> r = new ObjectIdOwnerMap<>();
 		try (FileInputStream fin = new FileInputStream(src);
-				Reader rin = new InputStreamReader(fin, CHARSET);
+				Reader rin = new InputStreamReader(fin, UTF_8);
 				BufferedReader br = new BufferedReader(rin)) {
 			MutableObjectId id = new MutableObjectId();
 			for (String line; (line = br.readLine()) != null;) {

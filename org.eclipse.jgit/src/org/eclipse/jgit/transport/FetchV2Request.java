@@ -69,9 +69,9 @@ public final class FetchV2Request {
 
 	private final Set<ObjectId> clientShallowCommits;
 
-	private final int shallowSince;
+	private final int deepenSince;
 
-	private final List<String> shallowExcludeRefs;
+	private final List<String> deepenNotRefs;
 
 	private final int depth;
 
@@ -79,19 +79,22 @@ public final class FetchV2Request {
 
 	private final Set<String> options;
 
+	private final boolean doneReceived;
+
 	private FetchV2Request(List<ObjectId> peerHas,
 			TreeMap<String, ObjectId> wantedRefs, Set<ObjectId> wantsIds,
-			Set<ObjectId> clientShallowCommits, int shallowSince,
-			List<String> shallowExcludeRefs, int depth, long filterBlobLimit,
-			Set<String> options) {
+			Set<ObjectId> clientShallowCommits, int deepenSince,
+			List<String> deepenNotRefs, int depth, long filterBlobLimit,
+			boolean doneReceived, Set<String> options) {
 		this.peerHas = peerHas;
 		this.wantedRefs = wantedRefs;
 		this.wantsIds = wantsIds;
 		this.clientShallowCommits = clientShallowCommits;
-		this.shallowSince = shallowSince;
-		this.shallowExcludeRefs = shallowExcludeRefs;
+		this.deepenSince = deepenSince;
+		this.deepenNotRefs = deepenNotRefs;
 		this.depth = depth;
 		this.filterBlobLimit = filterBlobLimit;
+		this.doneReceived = doneReceived;
 		this.options = options;
 	}
 
@@ -135,19 +138,19 @@ public final class FetchV2Request {
 	 * The value in a "deepen-since" line in the request, indicating the
 	 * timestamp where to stop fetching/cloning.
 	 *
-	 * @return timestamp where to stop the shallow fetch/clone. Defaults to 0 if
-	 *         not set in the request
+	 * @return timestamp in seconds since the epoch, where to stop the shallow
+	 *         fetch/clone. Defaults to 0 if not set in the request.
 	 */
-	int getShallowSince() {
-		return shallowSince;
+	int getDeepenSince() {
+		return deepenSince;
 	}
 
 	/**
 	 * @return the refs in "deepen-not" lines in the request.
 	 */
 	@NonNull
-	List<String> getShallowExcludeRefs() {
-		return shallowExcludeRefs;
+	List<String> getDeepenNotRefs() {
+		return deepenNotRefs;
 	}
 
 	/**
@@ -162,6 +165,13 @@ public final class FetchV2Request {
 	 */
 	long getFilterBlobLimit() {
 		return filterBlobLimit;
+	}
+
+	/**
+	 * @return true if the request had a "done" line
+	 */
+	boolean wasDoneReceived() {
+		return doneReceived;
 	}
 
 	/**
@@ -194,15 +204,17 @@ public final class FetchV2Request {
 
 		Set<ObjectId> clientShallowCommits = new HashSet<>();
 
-		List<String> shallowExcludeRefs = new ArrayList<>();
+		List<String> deepenNotRefs = new ArrayList<>();
 
 		Set<String> options = new HashSet<>();
 
 		int depth;
 
-		int shallowSince;
+		int deepenSince;
 
 		long filterBlobLimit = -1;
+
+		boolean doneReceived;
 
 		private Builder() {
 		}
@@ -282,26 +294,26 @@ public final class FetchV2Request {
 		/**
 		 * @return if there has been any "deepen not" line in the request
 		 */
-		boolean hasShallowExcludeRefs() {
-			return shallowExcludeRefs.size() > 0;
+		boolean hasDeepenNotRefs() {
+			return !deepenNotRefs.isEmpty();
 		}
 
 		/**
-		 * @param shallowExcludeRef reference in a "deepen not" line
+		 * @param deepenNotRef reference in a "deepen not" line
 		 * @return the builder
 		 */
-		Builder addShallowExcludeRefs(String shallowExcludeRef) {
-			this.shallowExcludeRefs.add(shallowExcludeRef);
+		Builder addDeepenNotRef(String deepenNotRef) {
+			this.deepenNotRefs.add(deepenNotRef);
 			return this;
 		}
 
 		/**
 		 * @param value
-		 *            shallow since value received in a "deepen since" line
+		 *            Unix timestamp received in a "deepen since" line
 		 * @return the builder
 		 */
-		Builder setShallowSince(int value) {
-			this.shallowSince = value;
+		Builder setDeepenSince(int value) {
+			this.deepenSince = value;
 			return this;
 		}
 
@@ -309,8 +321,8 @@ public final class FetchV2Request {
 		 * @return shallow since value, sent before in a "deepen since" line. 0
 		 *         by default.
 		 */
-		int getShallowSince() {
-			return this.shallowSince;
+		int getDeepenSince() {
+			return this.deepenSince;
 		}
 
 		/**
@@ -324,12 +336,21 @@ public final class FetchV2Request {
 		}
 
 		/**
+		 * Mark that the "done" line has been received.
+		 *
+		 * @return the builder
+		 */
+		Builder setDoneReceived() {
+			this.doneReceived = true;
+			return this;
+		}
+		/**
 		 * @return Initialized fetch request
 		 */
 		FetchV2Request build() {
 			return new FetchV2Request(peerHas, wantedRefs, wantsIds,
-					clientShallowCommits, shallowSince, shallowExcludeRefs,
-					depth, filterBlobLimit, options);
+					clientShallowCommits, deepenSince, deepenNotRefs,
+					depth, filterBlobLimit, doneReceived, options);
 		}
 	}
 }

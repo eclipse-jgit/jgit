@@ -45,7 +45,7 @@
 
 package org.eclipse.jgit.junit;
 
-import static org.eclipse.jgit.lib.Constants.CHARSET;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -246,7 +246,7 @@ public abstract class JGitTestUtil {
 			throws IOException {
 		FileUtils.mkdirs(f.getParentFile(), true);
 		try (Writer w = new OutputStreamWriter(new FileOutputStream(f),
-				CHARSET)) {
+				UTF_8)) {
 			w.write(body);
 		}
 	}
@@ -263,7 +263,7 @@ public abstract class JGitTestUtil {
 	 */
 	public static String read(File file) throws IOException {
 		final byte[] body = IO.readFully(file);
-		return new String(body, 0, body.length, CHARSET);
+		return new String(body, 0, body.length, UTF_8);
 	}
 
 	/**

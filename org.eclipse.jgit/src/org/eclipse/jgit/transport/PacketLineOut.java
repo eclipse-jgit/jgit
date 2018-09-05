@@ -45,6 +45,8 @@
 
 package org.eclipse.jgit.transport;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -141,7 +143,7 @@ public class PacketLineOut {
 		out.write(lenbuffer, 0, 4);
 		out.write(buf, pos, len);
 		if (log.isDebugEnabled()) {
-			String s = RawParseUtils.decode(Constants.CHARSET, buf, pos, len);
+			String s = RawParseUtils.decode(UTF_8, buf, pos, len);
 			log.debug("git> " + s); //$NON-NLS-1$
 		}
 	}

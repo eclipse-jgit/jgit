@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.lfs.lib;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.nio.charset.StandardCharsets.US_ASCII;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -62,7 +63,6 @@ import java.util.Locale;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.lfs.errors.InvalidLongObjectIdException;
 import org.eclipse.jgit.lfs.test.LongObjectIdTestUtils;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.util.FileUtils;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -393,7 +393,7 @@ public class LongObjectIdTest {
 		AnyLongObjectId id1 = LongObjectIdTestUtils.hash("test");
 		ByteArrayOutputStream os = new ByteArrayOutputStream(64);
 		try (OutputStreamWriter w = new OutputStreamWriter(os,
-				Constants.CHARSET)) {
+				UTF_8)) {
 			id1.copyTo(w);
 		}
 		assertEquals(id1, LongObjectId.fromString(os.toByteArray(), 0));
@@ -404,7 +404,7 @@ public class LongObjectIdTest {
 		AnyLongObjectId id1 = LongObjectIdTestUtils.hash("test");
 		ByteArrayOutputStream os = new ByteArrayOutputStream(64);
 		try (OutputStreamWriter w = new OutputStreamWriter(os,
-				Constants.CHARSET)) {
+				UTF_8)) {
 			char[] buf = new char[64];
 			id1.copyTo(buf, w);
 		}

@@ -218,6 +218,7 @@
     <gson-version>2.8.2</gson-version>
     <spotbugs-maven-plugin-version>3.1.6</spotbugs-maven-plugin-version>
     <maven-surefire-report-plugin-version>2.21.0</maven-surefire-report-plugin-version>
+    <maven-compiler-plugin-version>3.8.0</maven-compiler-plugin-version>
 
     <!-- Properties to enable jacoco code coverage analysis -->
     <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
@@ -744,7 +745,7 @@
         <plugins>
           <plugin>
             <artifactId>maven-compiler-plugin</artifactId>
-            <version>3.7.0</version>
+            <version>${maven-compiler-plugin-version}</version>
             <configuration>
               <encoding>UTF-8</encoding>
               <source>1.8</source>
@@ -813,7 +814,7 @@
         <plugins>
           <plugin>
             <artifactId>maven-compiler-plugin</artifactId>
-            <version>3.7.0</version>
+            <version>${maven-compiler-plugin-version}</version>
             <configuration>
               <compilerId>eclipse</compilerId>
               <encoding>UTF-8</encoding>

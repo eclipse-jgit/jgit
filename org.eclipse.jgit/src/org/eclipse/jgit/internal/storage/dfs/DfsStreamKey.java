@@ -43,7 +43,7 @@
 
 package org.eclipse.jgit.internal.storage.dfs;
 
-import static org.eclipse.jgit.lib.Constants.CHARSET;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.util.Arrays;
 
@@ -67,7 +67,7 @@ public abstract class DfsStreamKey {
 	 */
 	public static DfsStreamKey of(DfsRepositoryDescription repo, String name,
 			@Nullable PackExt ext) {
-		return new ByteArrayDfsStreamKey(repo, name.getBytes(CHARSET), ext);
+		return new ByteArrayDfsStreamKey(repo, name.getBytes(UTF_8), ext);
 	}
 
 	final int hash;

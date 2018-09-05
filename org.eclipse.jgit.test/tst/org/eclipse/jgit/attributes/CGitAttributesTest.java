@@ -42,6 +42,7 @@
  */
 package org.eclipse.jgit.attributes;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
@@ -57,7 +58,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.jgit.junit.RepositoryTestCase;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
@@ -127,14 +127,14 @@ public class CGitAttributesTest extends RepositoryTestCase {
 		builder.directory(db.getWorkTree());
 		builder.environment().put("HOME", fs.userHome().getAbsolutePath());
 		ExecutionResult result = fs.execute(builder, new ByteArrayInputStream(
-				input.toString().getBytes(Constants.CHARSET)));
+				input.toString().getBytes(UTF_8)));
 		String errorOut = toString(result.getStderr());
 		assertEquals("External git failed", "exit 0\n",
 				"exit " + result.getRc() + '\n' + errorOut);
 		LinkedHashMap<String, Attributes> map = new LinkedHashMap<>();
 		try (BufferedReader r = new BufferedReader(new InputStreamReader(
 				new BufferedInputStream(result.getStdout().openInputStream()),
-				Constants.CHARSET))) {
+				UTF_8))) {
 			r.lines().forEach(line -> {
 				// Parse the line and add to result map
 				int start = 0;

@@ -46,6 +46,8 @@
 
 package org.eclipse.jgit.dircache;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.io.ByteArrayOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
@@ -772,7 +774,7 @@ public class DirCacheEntry {
 	}
 
 	static String toString(byte[] path) {
-		return Constants.CHARSET.decode(ByteBuffer.wrap(path)).toString();
+		return UTF_8.decode(ByteBuffer.wrap(path)).toString();
 	}
 
 	static int getMaximumInfoLength(boolean extended) {

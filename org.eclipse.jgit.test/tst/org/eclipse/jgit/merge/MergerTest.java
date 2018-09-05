@@ -42,7 +42,7 @@
  */
 package org.eclipse.jgit.merge;
 
-import static org.eclipse.jgit.lib.Constants.CHARSET;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -793,7 +793,7 @@ public class MergerTest extends RepositoryTestCase {
 		}
 		binary[50] = '\0';
 
-		writeTrashFile("file", new String(binary, CHARSET));
+		writeTrashFile("file", new String(binary, UTF_8));
 		git.add().addFilepattern("file").call();
 		RevCommit first = git.commit().setMessage("added file").call();
 
@@ -801,7 +801,7 @@ public class MergerTest extends RepositoryTestCase {
 		int idx = LINELEN * 1200 + 1;
 		byte save = binary[idx];
 		binary[idx] = '@';
-		writeTrashFile("file", new String(binary, CHARSET));
+		writeTrashFile("file", new String(binary, UTF_8));
 
 		binary[idx] = save;
 		git.add().addFilepattern("file").call();
@@ -810,7 +810,7 @@ public class MergerTest extends RepositoryTestCase {
 
 		git.checkout().setCreateBranch(true).setStartPoint(first).setName("side").call();
 		binary[LINELEN * 1500 + 1] = '!';
-		writeTrashFile("file", new String(binary, CHARSET));
+		writeTrashFile("file", new String(binary, UTF_8));
 		git.add().addFilepattern("file").call();
 		RevCommit sideCommit = git.commit().setAll(true)
 			.setMessage("modified file l 1500").call();
@@ -972,7 +972,7 @@ public class MergerTest extends RepositoryTestCase {
 			merger.getMergeResults().get("file");
 			try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
 				fmt.formatMerge(out, merger.getMergeResults().get("file"),
-						"BASE", "OURS", "THEIRS", CHARSET.name());
+						"BASE", "OURS", "THEIRS", UTF_8.name());
 				String expected = "<<<<<<< OURS\n"
 						+ "1master\n"
 						+ "=======\n"
@@ -980,7 +980,7 @@ public class MergerTest extends RepositoryTestCase {
 						+ ">>>>>>> THEIRS\n"
 						+ "2\n"
 						+ "3";
-				assertEquals(expected, new String(out.toByteArray(), CHARSET));
+				assertEquals(expected, new String(out.toByteArray(), UTF_8));
 			}
 		}
 	}
@@ -1367,6 +1367,7 @@ public class MergerTest extends RepositoryTestCase {
 		if (obj == null) {
 			return null;
 		}
-		return new String(rw.getObjectReader().open(obj, OBJ_BLOB).getBytes(), CHARSET);
+		return new String(rw.getObjectReader().open(obj, OBJ_BLOB).getBytes(),
+				UTF_8);
 	}
 }

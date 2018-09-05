@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.theInstance;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -577,12 +578,11 @@ public class UploadPackTest {
 	}
 
 	@Test
-	@SuppressWarnings("boxing")
 	public void testV2EmptyRequest() throws Exception {
 		ByteArrayInputStream recvStream = uploadPackV2(PacketLineIn.END);
 		// Verify that there is nothing more after the capability
 		// advertisement.
-		assertThat(recvStream.available(), is(0));
+		assertEquals(0, recvStream.available());
 	}
 
 	@Test
@@ -735,7 +735,7 @@ public class UploadPackTest {
 		pp.parse(NullProgressMonitor.INSTANCE);
 
 		// Ensure that there is nothing left in the stream.
-		assertThat(recvStream.read(), is(-1));
+		assertEquals(-1, recvStream.read());
 
 		return pp.getReceivedPackStatistics();
 	}
@@ -1415,6 +1415,44 @@ public class UploadPackTest {
 		parsePack(recvStream);
 		assertTrue(client.hasObject(child.toObjectId()));
 		assertFalse(client.hasObject(parent.toObjectId()));
+	}
+
+	@Test
+	public void testV2FetchMissingShallow() throws Exception {
+		RevCommit one = remote.commit().message("1").create();
+		RevCommit two = remote.commit().message("2").parent(one).create();
+		RevCommit three = remote.commit().message("3").parent(two).create();
+		remote.update("three", three);
+
+		server.getConfig().setBoolean("uploadpack", null, "allowrefinwant",
+				true);
+
+		ByteArrayInputStream recvStream = uploadPackV2("command=fetch\n",
+				PacketLineIn.DELIM,
+				"want-ref refs/heads/three\n",
+				"deepen 3",
+				"shallow 0123012301230123012301230123012301230123",
+				"shallow " + two.getName() + '\n',
+				"done\n",
+				PacketLineIn.END);
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+
+		assertThat(pckIn.readString(), is("shallow-info"));
+		assertThat(pckIn.readString(),
+				is("shallow " + one.toObjectId().getName()));
+		assertThat(pckIn.readString(),
+				is("unshallow " + two.toObjectId().getName()));
+		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
+		assertThat(pckIn.readString(), is("wanted-refs"));
+		assertThat(pckIn.readString(),
+				is(three.toObjectId().getName() + " refs/heads/three"));
+		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
+		assertThat(pckIn.readString(), is("packfile"));
+		parsePack(recvStream);
+
+		assertTrue(client.hasObject(one.toObjectId()));
+		assertTrue(client.hasObject(two.toObjectId()));
+		assertTrue(client.hasObject(three.toObjectId()));
 	}
 
 	private static class RejectAllRefFilter implements RefFilter {

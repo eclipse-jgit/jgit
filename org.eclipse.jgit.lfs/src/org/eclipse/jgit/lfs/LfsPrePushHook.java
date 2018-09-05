@@ -42,7 +42,7 @@
  */
 package org.eclipse.jgit.lfs;
 
-import static org.eclipse.jgit.lib.Constants.CHARSET;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lfs.Protocol.OPERATION_UPLOAD;
 import static org.eclipse.jgit.lfs.internal.LfsConnectionFactory.toRequest;
 import static org.eclipse.jgit.transport.http.HttpConnection.HTTP_OK;
@@ -208,7 +208,7 @@ public class LfsPrePushHook extends PrePushHook {
 		}
 		Gson gson = Protocol.gson();
 		api.getOutputStream().write(
-				gson.toJson(toRequest(OPERATION_UPLOAD, res)).getBytes(CHARSET));
+				gson.toJson(toRequest(OPERATION_UPLOAD, res)).getBytes(UTF_8));
 		int responseCode = api.getResponseCode();
 		if (responseCode != HTTP_OK) {
 			throw new IOException(
@@ -221,7 +221,7 @@ public class LfsPrePushHook extends PrePushHook {
 	private void uploadContents(HttpConnection api,
 			Map<String, LfsPointer> oid2ptr) throws IOException {
 		try (JsonReader reader = new JsonReader(
-				new InputStreamReader(api.getInputStream()))) {
+				new InputStreamReader(api.getInputStream(), UTF_8))) {
 			for (Protocol.ObjectInfo o : parseObjects(reader)) {
 				if (o.actions == null) {
 					continue;

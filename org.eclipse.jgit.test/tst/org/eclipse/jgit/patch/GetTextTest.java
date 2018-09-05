@@ -44,7 +44,7 @@
 package org.eclipse.jgit.patch;
 
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
-import static org.eclipse.jgit.lib.Constants.CHARSET;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -83,7 +83,7 @@ public class GetTextTest {
 	@Test
 	public void testGetText_Convert() throws IOException {
 		final Charset csOld = ISO_8859_1;
-		final Charset csNew = CHARSET;
+		final Charset csNew = UTF_8;
 		final Patch p = parseTestPatchFile();
 		assertTrue(p.getErrors().isEmpty());
 		assertEquals(1, p.getFiles().size());
@@ -103,7 +103,7 @@ public class GetTextTest {
 	@Test
 	public void testGetText_DiffCc() throws IOException {
 		final Charset csOld = ISO_8859_1;
-		final Charset csNew = CHARSET;
+		final Charset csNew = UTF_8;
 		final Patch p = parseTestPatchFile();
 		assertTrue(p.getErrors().isEmpty());
 		assertEquals(1, p.getFiles().size());

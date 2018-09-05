@@ -43,7 +43,7 @@
 
 package org.eclipse.jgit.pgm;
 
-import static org.eclipse.jgit.lib.Constants.CHARSET;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -148,7 +148,7 @@ public class CommandCatalog {
 
 	private void scan(URL cUrl) {
 		try (BufferedReader cIn = new BufferedReader(
-				new InputStreamReader(cUrl.openStream(), CHARSET))) {
+				new InputStreamReader(cUrl.openStream(), UTF_8))) {
 			String line;
 			while ((line = cIn.readLine()) != null) {
 				if (line.length() > 0 && !line.startsWith("#")) //$NON-NLS-1$

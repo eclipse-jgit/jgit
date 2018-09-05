@@ -45,6 +45,8 @@
 
 package org.eclipse.jgit.util;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.AtomicMoveNotSupportedException;
@@ -712,7 +714,7 @@ public class FileUtils {
 		Path nioPath = toPath(file);
 		if (Files.isSymbolicLink(nioPath))
 			return Files.readSymbolicLink(nioPath).toString()
-					.getBytes(Constants.CHARSET).length;
+					.getBytes(UTF_8).length;
 		return Files.size(nioPath);
 	}
 

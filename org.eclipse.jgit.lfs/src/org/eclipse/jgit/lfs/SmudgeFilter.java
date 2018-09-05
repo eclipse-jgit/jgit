@@ -42,7 +42,7 @@
  */
 package org.eclipse.jgit.lfs;
 
-import static org.eclipse.jgit.lib.Constants.CHARSET;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -170,7 +170,7 @@ public class SmudgeFilter extends FilterCommand {
 				.write(gson
 						.toJson(LfsConnectionFactory
 								.toRequest(Protocol.OPERATION_DOWNLOAD, res))
-						.getBytes(CHARSET));
+						.getBytes(UTF_8));
 		int responseCode = lfsServerConn.getResponseCode();
 		if (responseCode != HttpConnection.HTTP_OK) {
 			throw new IOException(
@@ -179,7 +179,8 @@ public class SmudgeFilter extends FilterCommand {
 							Integer.valueOf(responseCode)));
 		}
 		try (JsonReader reader = new JsonReader(
-				new InputStreamReader(lfsServerConn.getInputStream()))) {
+				new InputStreamReader(lfsServerConn.getInputStream(),
+						UTF_8))) {
 			Protocol.Response resp = gson.fromJson(reader,
 					Protocol.Response.class);
 			for (Protocol.ObjectInfo o : resp.objects) {

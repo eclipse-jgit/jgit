@@ -43,9 +43,10 @@
 
 package org.eclipse.jgit.patch;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.util.Locale;
 
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.util.RawParseUtils;
 
 /**
@@ -120,7 +121,7 @@ public class FormatError {
 	 */
 	public String getLineText() {
 		final int eol = RawParseUtils.nextLF(buf, offset);
-		return RawParseUtils.decode(Constants.CHARSET, buf, offset, eol);
+		return RawParseUtils.decode(UTF_8, buf, offset, eol);
 	}
 
 	/** {@inheritDoc} */
