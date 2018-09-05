@@ -43,6 +43,9 @@
 
 package org.eclipse.jgit.transport;
 
+import static java.util.function.Function.identity;
+import static java.util.stream.Collectors.toMap;
+import static org.eclipse.jgit.lib.RefDatabase.ALL;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_ATOMIC;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_DELETE_REFS;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_OFS_DELTA;
@@ -60,9 +63,12 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UncheckedIOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -434,7 +440,8 @@ public abstract class BaseReceivePack {
 	 * Get refs which were advertised to the client.
 	 *
 	 * @return all refs which were advertised to the client, or null if
-	 *         {@link #setAdvertisedRefs(Map, Set)} has not been called yet.
+	 *         {@link #setAdvertisedRefs(Collection, Set)} has not been
+	 *         called yet.
 	 */
 	public final Map<String, Ref> getAdvertisedRefs() {
 		return refs;
@@ -456,32 +463,78 @@ public abstract class BaseReceivePack {
 	 *            explicit set of additional haves to claim as advertised. If
 	 *            null, assumes the default set of additional haves from the
 	 *            repository.
+	 * @throws UncheckedIOException
+	 *            an error occured when reading refs or additional haves from
+	 *            the repository.
+	 * @deprecated
+	 *            Use {@link #setAdvertisedRefs(Collection, Set)} instead.
 	 */
-	public void setAdvertisedRefs(Map<String, Ref> allRefs, Set<ObjectId> additionalHaves) {
-		refs = allRefs != null ? allRefs : db.getAllRefs();
+	@Deprecated
+	public final void setAdvertisedRefs(
+			Map<String, Ref> allRefs, Set<ObjectId> additionalHaves) {
+		Collection<Ref> r = allRefs == null ? null : allRefs.values();
+		try {
+			setAdvertisedRefs(r, additionalHaves);
+		} catch (IOException e) {
+			throw new UncheckedIOException(e);
+		}
+	}
+
+	/**
+	 * Set the refs advertised by this ReceivePack.
+	 * <p>
+	 * Intended to be called from a
+	 * {@link org.eclipse.jgit.transport.PreReceiveHook}.
+	 *
+	 * @param allRefs
+	 *            explicit set of references to claim as advertised by this
+	 *            ReceivePack instance. This overrides any references that may
+	 *            exist in the source repository. The map is passed to the
+	 *            configured {@link #getRefFilter()}. If null, assumes all refs
+	 *            were advertised.
+	 * @param additionalHaves
+	 *            explicit set of additional haves to claim as advertised. If
+	 *            null, assumes the default set of additional haves from the
+	 *            repository.
+	 * @throws IOException
+	 *            an error occured when reading refs or additional haves from
+	 *            the repository.
+	 * @since 5.1
+	 */
+	public void setAdvertisedRefs(@Nullable Collection<Ref> allRefs,
+			@Nullable Set<ObjectId> additionalHaves) throws IOException {
+		if (allRefs != null) {
+			refs = allRefs.stream().collect(
+					toMap(Ref::getName, identity(), (a, b) -> a, HashMap::new));
+		} else {
+			refs = db.getRefDatabase().getRefs(ALL);
+		}
 		refs = refFilter.filter(refs);
 		advertisedHaves.clear();
 
 		Ref head = refs.get(Constants.HEAD);
-		if (head != null && head.isSymbolic())
+		if (head != null && head.isSymbolic()) {
 			refs.remove(Constants.HEAD);
+		}
 
 		for (Ref ref : refs.values()) {
-			if (ref.getObjectId() != null)
+			if (ref.getObjectId() != null) {
 				advertisedHaves.add(ref.getObjectId());
+			}
 		}
-		if (additionalHaves != null)
+		if (additionalHaves != null) {
 			advertisedHaves.addAll(additionalHaves);
-		else
+		} else {
 			advertisedHaves.addAll(db.getAdditionalHaves());
+		}
 	}
 
 	/**
 	 * Get objects advertised to the client.
 	 *
 	 * @return the set of objects advertised to the as present in this repository,
-	 *         or null if {@link #setAdvertisedRefs(Map, Set)} has not been called
-	 *         yet.
+	 *         or null if {@link #setAdvertisedRefs(Collection, Set)} has not
+	 *         been called yet.
 	 */
 	public final Set<ObjectId> getAdvertisedObjects() {
 		return advertisedHaves;
@@ -766,12 +819,11 @@ public abstract class BaseReceivePack {
 	/**
 	 * Set the hook used while advertising the refs to the client.
 	 * <p>
-	 * If the {@link org.eclipse.jgit.transport.AdvertiseRefsHook} chooses to
-	 * call {@link #setAdvertisedRefs(Map,Set)}, only refs set by this hook
-	 * <em>and</em> selected by the {@link org.eclipse.jgit.transport.RefFilter}
-	 * will be shown to the client. Clients may still attempt to create or
-	 * update a reference not advertised by the configured
-	 * {@link org.eclipse.jgit.transport.AdvertiseRefsHook}. These attempts
+	 * If the {@link AdvertiseRefsHook} chooses to call
+	 * {@link #setAdvertisedRefs(Collection, Set)}, only refs set by this hook
+	 * <em>and</em> selected by the {@link RefFilter} will be shown to the
+	 * client. Clients may still attempt to create or update a reference not
+	 * advertised by the configured {@link AdvertiseRefsHook}. These attempts
 	 * should be rejected by a matching
 	 * {@link org.eclipse.jgit.transport.PreReceiveHook}.
 	 *
@@ -1170,10 +1222,12 @@ public abstract class BaseReceivePack {
 	 * Get advertised refs, or the default if not explicitly advertised.
 	 *
 	 * @return advertised refs, or the default if not explicitly advertised.
+	 * @throws java.io.IOException an error occured while reading refs.
 	 */
-	protected Map<String, Ref> getAdvertisedOrDefaultRefs() {
-		if (refs == null)
-			setAdvertisedRefs(null, null);
+	protected Map<String, Ref> getAdvertisedOrDefaultRefs() throws IOException {
+		if (refs == null) {
+			setAdvertisedRefs((Collection<Ref>)null, null);
+		}
 		return refs;
 	}
 
