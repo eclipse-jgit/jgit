@@ -42,9 +42,12 @@
 
 package org.eclipse.jgit.transport;
 
+import java.io.IOException;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -57,6 +60,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * @since 2.0
  */
 public abstract class AbstractAdvertiseRefsHook implements AdvertiseRefsHook {
+	private static final int INTERNAL_SERVER_ERROR = 500;
+
 	/** {@inheritDoc} */
 	@Override
 	public void advertiseRefs(UploadPack uploadPack)
@@ -69,11 +74,22 @@ public abstract class AbstractAdvertiseRefsHook implements AdvertiseRefsHook {
 	@Override
 	public void advertiseRefs(BaseReceivePack receivePack)
 			throws ServiceMayNotContinueException {
-		Map<String, Ref> refs = getAdvertisedRefs(receivePack.getRepository(),
-				receivePack.getRevWalk());
-		Set<ObjectId> haves = getAdvertisedHaves(receivePack.getRepository(),
-				receivePack.getRevWalk());
-		receivePack.setAdvertisedRefs(refs, haves);
+		Repository r = receivePack.getRepository();
+		RevWalk rw = receivePack.getRevWalk();
+
+		Map<String, Ref> refMap = getAdvertisedRefs(r, rw);
+		Set<ObjectId> haves = getAdvertisedHaves(r, rw);
+
+		Collection<Ref> refs = refMap == null ? null : refMap.values();
+		try {
+			receivePack.setAdvertisedRefs(refs, haves);
+		} catch (ServiceMayNotContinueException e) {
+			throw e;
+		} catch (IOException e) {
+			throw new ServiceMayNotContinueException(
+					JGitText.get().internalServerError,
+					e, INTERNAL_SERVER_ERROR);
+		}
 	}
 
 	/**
