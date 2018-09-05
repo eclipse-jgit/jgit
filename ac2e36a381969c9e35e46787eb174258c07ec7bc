@@ -16,6 +16,24 @@
       "revId": "ac2e36a381969c9e35e46787eb174258c07ec7bc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9459994e_87d7a61d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 913,
+      "author": {
+        "id": 24046
+      },
+      "writtenOn": "2018-09-05T11:14:33Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "cd0897b5_6166b077",
+      "revId": "ac2e36a381969c9e35e46787eb174258c07ec7bc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
