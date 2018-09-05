@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d20383e_cee93aa6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-09-05T05:37:41Z",
+      "side": 1,
+      "message": "commit message should mention that this is preparation for getting rid of some getAllRefs calls",
+      "revId": "3eb15fea32171c0f1520026606e18f6e8e93cd1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3004f58_ef5973ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-09-05T05:37:41Z",
+      "side": 1,
+      "message": "Should not submit until rebased on a patch doing this",
+      "revId": "3eb15fea32171c0f1520026606e18f6e8e93cd1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
