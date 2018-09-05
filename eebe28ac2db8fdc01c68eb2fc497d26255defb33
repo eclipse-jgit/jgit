@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "166671da_eede7a66",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LockFile.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-09-05T09:27:36Z",
+      "side": 1,
+      "message": "If there is a stale lock file I suppose there may also be a stale \"lock token\" hard link somewhere if that mechanism is used. Do these need to be removed somehow, too, and if so, how?\n\nI notice that this static utility method is not called anywhere in JGit or EGit.\n\nRe-creating the lock file would get another inode if there are still hard links from an earlier usage, so removing the lock file seems sufficient to be able to lock the file again. But we may leave stale hard links around. Maybe mention that in the javadoc?",
+      "revId": "eebe28ac2db8fdc01c68eb2fc497d26255defb33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
