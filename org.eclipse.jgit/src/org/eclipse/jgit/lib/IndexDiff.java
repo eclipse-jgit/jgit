@@ -470,10 +470,7 @@ public class IndexDiff {
 										.getEntryRawMode() != dirCacheIterator
 												.getEntryRawMode()) {
 							// in repo, in index, content diff => changed
-							if (!isEntryGitLink(treeIterator)
-									|| !isEntryGitLink(dirCacheIterator)
-									|| ignoreSubmoduleMode != IgnoreSubmoduleMode.ALL)
-								changed.add(treeWalk.getPathString());
+							changed.add(treeWalk.getPathString());
 						}
 					} else {
 						// in repo, not in index => removed
@@ -509,10 +506,9 @@ public class IndexDiff {
 								dirCacheIterator.getDirCacheEntry(), true,
 								treeWalk.getObjectReader())) {
 							// in index, in workdir, content differs => modified
-							if (!isEntryGitLink(dirCacheIterator)
-									|| !isEntryGitLink(workingTreeIterator)
-									|| (ignoreSubmoduleMode != IgnoreSubmoduleMode.ALL
-											&& ignoreSubmoduleMode != IgnoreSubmoduleMode.DIRTY))
+							if ((!isEntryGitLink(dirCacheIterator)
+									&& !isEntryGitLink(workingTreeIterator))
+									|| ignoreSubmoduleMode != IgnoreSubmoduleMode.ALL)
 								modified.add(treeWalk.getPathString());
 						}
 					}
