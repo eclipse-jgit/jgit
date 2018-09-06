@@ -47,8 +47,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.Set;
 
 import org.eclipse.jgit.api.CloneCommand;
@@ -60,7 +63,9 @@ import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.submodule.SubmoduleWalk.IgnoreSubmoduleMode;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
+import org.eclipse.jgit.util.FileUtils;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
@@ -156,10 +161,133 @@ public class IndexDiffSubmoduleTest extends RepositoryTestCase {
 		IndexDiff indexDiff = new IndexDiff(db, Constants.HEAD,
 				new FileTreeIterator(db));
 		indexDiff.setIgnoreSubmoduleMode(mode);
-		assertTrue(indexDiff.diff());
+		boolean hasChanges = indexDiff.diff();
+		if (mode == IgnoreSubmoduleMode.ALL) {
+			assertFalse(hasChanges);
+		} else {
+			assertTrue(hasChanges);
+			assertEquals("[]", indexDiff.getMissing().toString());
+			assertEquals("[]", indexDiff.getUntracked().toString());
+			assertEquals("[modules/submodule]",
+					indexDiff.getModified().toString());
+		}
+	}
+
+	@Theory
+	public void testSubmoduleReplacedByFileStaged(IgnoreSubmoduleMode mode)
+			throws Exception {
+		recursiveDelete(submodule_trash);
+		writeTrashFile("modules/submodule", "nonsense");
+		try (Git git = new Git(db)) {
+			git.add().addFilepattern("modules/submodule").call();
+		}
+		IndexDiff indexDiff = new IndexDiff(db, Constants.HEAD,
+				new FileTreeIterator(db));
+		indexDiff.setIgnoreSubmoduleMode(mode);
+		boolean hasChanges = indexDiff.diff();
+		assertTrue(hasChanges);
 		assertEquals("[]", indexDiff.getMissing().toString());
 		assertEquals("[]", indexDiff.getUntracked().toString());
-		assertEquals("[modules/submodule]", indexDiff.getModified().toString());
+		assertEquals("[]", indexDiff.getModified().toString());
+		assertEquals("[modules/submodule]", indexDiff.getChanged().toString());
+	}
+
+	@Theory
+	public void testFileReplacedBySubmodule(IgnoreSubmoduleMode mode)
+			throws Exception {
+		// Let's start with a clone; submodule not init'ed yet
+		Repository db2 = cloneWithoutCloningSubmodule();
+		File submodule = new File(new File(db2.getWorkTree(), "modules"),
+				"submodule");
+		recursiveDelete(submodule);
+		Files.copy(
+				new ByteArrayInputStream(
+						"nonsense".getBytes(StandardCharsets.UTF_8)),
+				submodule.toPath());
+		try (Git git = new Git(db2)) {
+			git.add().addFilepattern("modules/submodule").call();
+			git.commit().setMessage("File").call();
+			// Now remove the file again and init the submodule
+			assertTrue(submodule.delete());
+			FileUtils.mkdirs(submodule);
+			git.submoduleInit().addPath("modules/submodule").call();
+			IndexDiff indexDiff = new IndexDiff(db2, Constants.HEAD,
+					new FileTreeIterator(db2));
+			indexDiff.setIgnoreSubmoduleMode(mode);
+			assertTrue(indexDiff.diff());
+			assertEquals("[modules/submodule]",
+					indexDiff.getMissing().toString());
+			assertEquals("[]", indexDiff.getUntracked().toString());
+			assertEquals("[]", indexDiff.getModified().toString());
+		}
+	}
+
+	@Theory
+	public void testFileReplacedBySubmoduleStaged(IgnoreSubmoduleMode mode)
+			throws Exception {
+		// Let's start with a clone; submodule not init'ed yet
+		Repository db2 = cloneWithoutCloningSubmodule();
+		File submodule = new File(new File(db2.getWorkTree(), "modules"),
+				"submodule");
+		recursiveDelete(submodule);
+		Files.copy(
+				new ByteArrayInputStream(
+						"nonsense".getBytes(StandardCharsets.UTF_8)),
+				submodule.toPath());
+		try (Git git = new Git(db2)) {
+			git.add().addFilepattern("modules/submodule").call();
+			git.commit().setMessage("File").call();
+			// Now remove the file again and init the submodule
+			assertTrue(submodule.delete());
+			FileUtils.mkdirs(submodule);
+			git.submoduleInit().addPath("modules/submodule").call();
+			git.add().addFilepattern("modules/submodule").call();
+			IndexDiff indexDiff = new IndexDiff(db2, Constants.HEAD,
+					new FileTreeIterator(db2));
+			indexDiff.setIgnoreSubmoduleMode(mode);
+			assertTrue(indexDiff.diff());
+			assertEquals("[modules/submodule]",
+					indexDiff.getRemoved().toString());
+			assertEquals("[]", indexDiff.getMissing().toString());
+			assertEquals("[]", indexDiff.getUntracked().toString());
+			assertEquals("[]", indexDiff.getModified().toString());
+		}
+	}
+
+	@Theory
+	public void testSubmoduleDeinited(IgnoreSubmoduleMode mode)
+			throws Exception {
+		try (Git git = new Git(db)) {
+			git.submoduleDeinit().addPath("modules/submodule").call();
+			IndexDiff indexDiff = new IndexDiff(db, Constants.HEAD,
+					new FileTreeIterator(db));
+			indexDiff.setIgnoreSubmoduleMode(mode);
+			assertFalse(indexDiff.diff());
+		}
+	}
+
+	@Ignore("Bug 538758: RmCommand cannot remove submodules")
+	@Theory
+	public void testSubmoduleRemoved(IgnoreSubmoduleMode mode)
+			throws Exception {
+		try (Git git = new Git(db)) {
+			git.rm().addFilepattern("modules/submodule").call();
+			IndexDiff indexDiff = new IndexDiff(db, Constants.HEAD,
+					new FileTreeIterator(db));
+			indexDiff.setIgnoreSubmoduleMode(mode);
+			assertTrue(indexDiff.diff());
+			assertEquals("[]", indexDiff.getMissing().toString());
+			assertEquals("[]", indexDiff.getUntracked().toString());
+			assertEquals("[.gitmodules]", indexDiff.getModified().toString());
+			if (mode != IgnoreSubmoduleMode.ALL) {
+				assertEquals("[modules/submodule]",
+						indexDiff.getRemoved().toString());
+			} else {
+				assertEquals("[]", indexDiff.getRemoved().toString());
+			}
+			assertFalse(submodule_trash.exists());
+			assertTrue(submodule_trash.getParentFile().exists());
+		}
 	}
 
 	@Theory
