@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36d0c9e4_9d37ef26",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 808,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-09-07T09:01:23Z",
+      "side": 1,
+      "message": "FS",
+      "range": {
+        "startLine": 808,
+        "startChar": 27,
+        "endLine": 808,
+        "endChar": 35
+      },
+      "revId": "e688edb9b2cfdea7437729713f74d8c7c674cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
