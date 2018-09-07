@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "b41eb6af_956a2fdf",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-09-07T06:51:01Z",
+      "side": 1,
+      "message": "I would replace all instances of:\n\n \u0027\u0027\n\nwith:\n\n \"",
+      "parentUuid": "4ed923db_139327a9",
+      "range": {
+        "startLine": 128,
+        "startChar": 39,
+        "endLine": 128,
+        "endChar": 46
+      },
+      "revId": "2f47c594a90a12771293f879a5c211118f252c6a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a9dbfa0e_08cfb57f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 2
