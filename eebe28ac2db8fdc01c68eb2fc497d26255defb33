@@ -16,6 +16,24 @@
       "revId": "eebe28ac2db8fdc01c68eb2fc497d26255defb33",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d4edde1_993ba24a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LockFile.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-09-07T07:44:21Z",
+      "side": 1,
+      "message": "you are right, I think we should search for LockToken hardlinks using a regex and delete them as well",
+      "parentUuid": "166671da_eede7a66",
+      "revId": "eebe28ac2db8fdc01c68eb2fc497d26255defb33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
