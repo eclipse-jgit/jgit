@@ -22,6 +22,47 @@
       "revId": "e688edb9b2cfdea7437729713f74d8c7c674cf6d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f4076850_452bf2f3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 808,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-09-07T09:04:54Z",
+      "side": 1,
+      "message": "Or just drop the prefix before the hash.",
+      "parentUuid": "36d0c9e4_9d37ef26",
+      "range": {
+        "startLine": 808,
+        "startChar": 27,
+        "endLine": 808,
+        "endChar": 35
+      },
+      "revId": "e688edb9b2cfdea7437729713f74d8c7c674cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3bbb3ff7_ddc347c6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 881,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-09-07T09:04:54Z",
+      "side": 1,
+      "message": "Stray empty line.",
+      "revId": "e688edb9b2cfdea7437729713f74d8c7c674cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
