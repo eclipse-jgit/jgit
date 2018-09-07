@@ -34,6 +34,24 @@
       "revId": "eebe28ac2db8fdc01c68eb2fc497d26255defb33",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c3d61cd_3ebfc84e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LockFile.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-09-07T10:17:17Z",
+      "side": 1,
+      "message": "now LockFile.lock() will close the LockToken if it couldn\u0027t acquire the lock, so this shouldn\u0027t happen anymore. LockException is thrown not by LockFile but the classes using it",
+      "parentUuid": "6d4edde1_993ba24a",
+      "revId": "eebe28ac2db8fdc01c68eb2fc497d26255defb33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
