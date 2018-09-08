@@ -1,24 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <component id="org.eclipse.jgit" version="2">
-    <resource path="src/org/eclipse/jgit/lib/ConfigConstants.java" type="org.eclipse.jgit.lib.ConfigConstants">
-        <filter id="337768515">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.lib.ConfigConstants"/>
-            </message_arguments>
-        </filter>
-    </resource>
-    <resource path="src/org/eclipse/jgit/transport/GitProtocolConstants.java" type="org.eclipse.jgit.transport.GitProtocolConstants">
-        <filter id="337768515">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.transport.GitProtocolConstants"/>
-            </message_arguments>
-        </filter>
-    </resource>
     <resource path="META-INF/MANIFEST.MF">
         <filter id="924844039">
             <message_arguments>
-                <message_argument value="5.0.3"/>
-                <message_argument value="5.0.0"/>
+                <message_argument value="5.1.0"/>
+                <message_argument value="5.1.0"/>
             </message_arguments>
         </filter>
     </resource>
@@ -26,7 +12,7 @@
         <filter id="1141899266">
             <message_arguments>
                 <message_argument value="4.7"/>
-                <message_argument value="5.0"/>
+                <message_argument value="5.1"/>
                 <message_argument value="createNewFileAtomic(File)"/>
             </message_arguments>
         </filter>
@@ -35,7 +21,7 @@
         <filter id="1141899266">
             <message_arguments>
                 <message_argument value="4.7"/>
-                <message_argument value="5.0"/>
+                <message_argument value="5.1"/>
                 <message_argument value="LockToken"/>
             </message_arguments>
         </filter>
