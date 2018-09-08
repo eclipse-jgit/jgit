@@ -46,6 +46,7 @@
 package org.eclipse.jgit.internal.storage.file;
 
 import static org.eclipse.jgit.lib.Constants.HEAD;
+import static org.eclipse.jgit.lib.Constants.LOCK_SUFFIX;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.eclipse.jgit.lib.Constants.R_NOTES;
 import static org.eclipse.jgit.lib.Constants.R_REFS;
@@ -84,7 +85,7 @@ public class ReflogWriter {
 	 * @return the name of the ref's lock ref.
 	 */
 	public static String refLockFor(String name) {
-		return name + LockFile.SUFFIX;
+		return name + LOCK_SUFFIX;
 	}
 
 	private final RefDirectory refdb;

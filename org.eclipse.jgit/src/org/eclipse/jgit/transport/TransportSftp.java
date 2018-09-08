@@ -43,6 +43,8 @@
 
 package org.eclipse.jgit.transport;
 
+import static org.eclipse.jgit.lib.Constants.LOCK_SUFFIX;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -344,7 +346,7 @@ public class TransportSftp extends SshTransport implements WalkTransport {
 
 		@Override
 		void writeFile(final String path, final byte[] data) throws IOException {
-			final String lock = path + ".lock"; //$NON-NLS-1$
+			final String lock = path + LOCK_SUFFIX;
 			try {
 				super.writeFile(lock, data);
 				try {

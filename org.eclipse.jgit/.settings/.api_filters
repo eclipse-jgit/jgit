@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<component id="org.eclipse.jgit" version="2">
+    <resource path="META-INF/MANIFEST.MF">
+        <filter id="924844039">
+            <message_arguments>
+                <message_argument value="4.10.1"/>
+                <message_argument value="4.10.0"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/lib/Constants.java" type="org.eclipse.jgit.lib.Constants">
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="4.8"/>
+                <message_argument value="4.10"/>
+                <message_argument value="LOCK_SUFFIX"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/util/FS.java" type="org.eclipse.jgit.util.FS">
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="4.7"/>
+                <message_argument value="4.10"/>
+                <message_argument value="createNewFileAtomic(File)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/util/FS.java" type="org.eclipse.jgit.util.FS$LockToken">
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="4.7"/>
+                <message_argument value="4.10"/>
+                <message_argument value="LockToken"/>
+            </message_arguments>
+        </filter>
+    </resource>
+</component>
