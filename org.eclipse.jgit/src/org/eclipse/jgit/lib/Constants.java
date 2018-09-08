@@ -665,6 +665,13 @@ public final class Constants {
 	public static final ObjectId EMPTY_BLOB_ID = ObjectId
 			.fromString("e69de29bb2d1d6434b8b29ae775ad8c2e48c5391");
 
+	/**
+	 * Suffix of lock file name
+	 *
+	 * @since 4.8
+	 */
+	public static final String LOCK_SUFFIX = ".lock"; //$NON-NLS-1$
+
 	private Constants() {
 		// Hide the default constructor
 	}

@@ -38,5 +38,21 @@
                 <message_argument value="supportsAtomicCreateNewFile()"/>
             </message_arguments>
         </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="4.7"/>
+                <message_argument value="4.8"/>
+                <message_argument value="createNewFileAtomic(File)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/util/FS.java" type="org.eclipse.jgit.util.FS$LockToken">
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="4.7"/>
+                <message_argument value="4.8"/>
+                <message_argument value="LockToken"/>
+            </message_arguments>
+        </filter>
     </resource>
 </component>
