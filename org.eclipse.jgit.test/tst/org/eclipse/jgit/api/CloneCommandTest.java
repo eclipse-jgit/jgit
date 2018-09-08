@@ -381,6 +381,8 @@ public class CloneCommandTest extends RepositoryTestCase {
 		Git git2 = command.call();
 		addRepoToClose(git2.getRepository());
 		assertNotNull(git2);
+		assertNull(git2.getRepository().resolve("tag-for-blob"));
+		assertNotNull(git2.getRepository().resolve("tag-initial"));
 		assertEquals(git2.getRepository().getFullBranch(), "refs/heads/master");
 		assertEquals("refs/remotes/origin/master", allRefNames(git2
 				.branchList().setListMode(ListMode.REMOTE).call()));
@@ -408,6 +410,8 @@ public class CloneCommandTest extends RepositoryTestCase {
 		Git git2 = command.call();
 		addRepoToClose(git2.getRepository());
 		assertNotNull(git2);
+		assertNull(git2.getRepository().resolve("tag-for-blob"));
+		assertNotNull(git2.getRepository().resolve("tag-initial"));
 		assertEquals(git2.getRepository().getFullBranch(), "refs/heads/master");
 		assertEquals("refs/heads/master", allRefNames(git2.branchList()
 				.setListMode(ListMode.ALL).call()));
