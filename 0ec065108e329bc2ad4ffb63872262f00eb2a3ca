@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4f81442d_629fe41a",
+        "filename": "org.eclipse.jgit.pgm.test/src/org/eclipse/jgit/pgm/CLIGitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-09-08T05:55:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49462e1c_bf46235b",
+      "revId": "0ec065108e329bc2ad4ffb63872262f00eb2a3ca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "16e7c465_c6e419bf",
         "filename": "org.eclipse.jgit.pgm.test/src/org/eclipse/jgit/pgm/CLIGitCommand.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2018-09-04T23:08:06Z",
       "side": 1,
       "message": "Likewise.",
+      "revId": "0ec065108e329bc2ad4ffb63872262f00eb2a3ca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5606a188_9a39c753",
+        "filename": "org.eclipse.jgit.pgm.test/src/org/eclipse/jgit/pgm/CLIGitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-09-08T05:55:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16e7c465_c6e419bf",
       "revId": "0ec065108e329bc2ad4ffb63872262f00eb2a3ca",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
