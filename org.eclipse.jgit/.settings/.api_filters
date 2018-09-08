@@ -3,12 +3,6 @@
     <resource path="META-INF/MANIFEST.MF">
         <filter id="924844039">
             <message_arguments>
-                <message_argument value="4.9.1"/>
-                <message_argument value="4.9.0"/>
-            </message_arguments>
-        </filter>
-        <filter id="924844039">
-            <message_arguments>
                 <message_argument value="4.9.4"/>
                 <message_argument value="4.9.0"/>
             </message_arguments>
@@ -18,19 +12,7 @@
         <filter id="336658481">
             <message_arguments>
                 <message_argument value="org.eclipse.jgit.lib.ConfigConstants"/>
-                <message_argument value="CONFIG_KEY_IN_CORE_LIMIT"/>
-            </message_arguments>
-        </filter>
-        <filter id="336658481">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.lib.ConfigConstants"/>
                 <message_argument value="CONFIG_KEY_SUPPORTSATOMICFILECREATION"/>
-            </message_arguments>
-        </filter>
-        <filter id="336658481">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.lib.ConfigConstants"/>
-                <message_argument value="CONFIG_MERGE_SECTION"/>
             </message_arguments>
         </filter>
         <filter id="1141899266">
@@ -41,23 +23,12 @@
             </message_arguments>
         </filter>
     </resource>
-    <resource path="src/org/eclipse/jgit/lib/ReflogEntry.java" type="org.eclipse.jgit.lib.ReflogEntry">
-        <filter comment="adding enum constant does not break binary compatibility" id="403767336">
+    <resource path="src/org/eclipse/jgit/lib/Constants.java" type="org.eclipse.jgit.lib.Constants">
+        <filter id="1141899266">
             <message_arguments>
-                <message_argument value="org.eclipse.jgit.lib.ReflogEntry"/>
-                <message_argument value="PREFIX_CREATED"/>
-            </message_arguments>
-        </filter>
-        <filter comment="adding enum constant does not break binary compatibility" id="403767336">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.lib.ReflogEntry"/>
-                <message_argument value="PREFIX_FAST_FORWARD"/>
-            </message_arguments>
-        </filter>
-        <filter comment="adding enum constant does not break binary compatibility" id="403767336">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.lib.ReflogEntry"/>
-                <message_argument value="PREFIX_FORCED_UPDATE"/>
+                <message_argument value="4.8"/>
+                <message_argument value="4.9"/>
+                <message_argument value="LOCK_SUFFIX"/>
             </message_arguments>
         </filter>
     </resource>
@@ -67,26 +38,6 @@
                 <message_argument value="3.5"/>
                 <message_argument value="4.9"/>
                 <message_argument value="processEntry(CanonicalTreeParser, CanonicalTreeParser, CanonicalTreeParser, DirCacheBuildIterator, WorkingTreeIterator, boolean)"/>
-            </message_arguments>
-        </filter>
-    </resource>
-    <resource path="src/org/eclipse/jgit/transport/http/HttpConnection.java" type="org.eclipse.jgit.transport.http.HttpConnection">
-        <filter id="403767336">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.transport.http.HttpConnection"/>
-                <message_argument value="HTTP_11_MOVED_TEMP"/>
-            </message_arguments>
-        </filter>
-        <filter id="403767336">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.transport.http.HttpConnection"/>
-                <message_argument value="HTTP_MOVED_TEMP"/>
-            </message_arguments>
-        </filter>
-        <filter id="403767336">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.transport.http.HttpConnection"/>
-                <message_argument value="HTTP_SEE_OTHER"/>
             </message_arguments>
         </filter>
     </resource>
@@ -103,6 +54,22 @@
                 <message_argument value="4.5"/>
                 <message_argument value="4.9"/>
                 <message_argument value="supportsAtomicCreateNewFile()"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="4.7"/>
+                <message_argument value="4.9"/>
+                <message_argument value="createNewFileAtomic(File)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/util/FS.java" type="org.eclipse.jgit.util.FS$LockToken">
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="4.7"/>
+                <message_argument value="4.9"/>
+                <message_argument value="LockToken"/>
             </message_arguments>
         </filter>
     </resource>
