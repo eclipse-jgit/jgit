@@ -185,6 +185,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String checkoutUnexpectedResult;
 	/***/ public String classCastNotA;
 	/***/ public String cloneNonEmptyDirectory;
+	/***/ public String closeLockTokenFailed;
 	/***/ public String closed;
 	/***/ public String collisionOn;
 	/***/ public String commandClosedStderrButDidntExit;
@@ -359,6 +360,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String expectedPktLineWithService;
 	/***/ public String expectedReceivedContentType;
 	/***/ public String expectedReportForRefNotReceived;
+	/***/ public String failedAtomicFileCreation;
 	/***/ public String failedToDetermineFilterDefinition;
 	/***/ public String failedUpdatingRefs;
 	/***/ public String failureDueToOneOfTheFollowing;
@@ -783,6 +785,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String unknownRepositoryFormat;
 	/***/ public String unknownRepositoryFormat2;
 	/***/ public String unknownZlibError;
+	/***/ public String unlockLockFileFailed;
 	/***/ public String unmergedPath;
 	/***/ public String unmergedPaths;
 	/***/ public String unpackException;

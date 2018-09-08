@@ -54,6 +54,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
+import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -946,6 +947,8 @@ public class GC {
 	private void delete(Path d) {
 		try {
 			Files.delete(d);
+		} catch (DirectoryNotEmptyException e) {
+			// Don't log
 		} catch (IOException e) {
 			LOG.error(MessageFormat.format(JGitText.get().cannotDeleteFile, d),
 					e);
