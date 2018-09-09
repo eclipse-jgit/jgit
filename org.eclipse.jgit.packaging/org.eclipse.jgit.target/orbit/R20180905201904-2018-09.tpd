@@ -1,7 +1,7 @@
 target "S20180829155938-2018-09" with source configurePhase
 // see http://download.eclipse.org/tools/orbit/downloads/
 
-location "http://download.eclipse.org/tools/orbit/downloads/drops/S20180829155938/repository" {
+location "http://download.eclipse.org/tools/orbit/downloads/drops/R20180905201904/repository" {
 	org.apache.ant [1.9.6.v201510161327,1.9.6.v201510161327]
 	org.apache.ant.source [1.9.6.v201510161327,1.9.6.v201510161327]
 	org.apache.commons.codec [1.10.0.v20180409-1845,1.10.0.v20180409-1845]
