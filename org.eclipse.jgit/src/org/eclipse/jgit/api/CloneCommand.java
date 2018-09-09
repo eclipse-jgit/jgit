@@ -118,6 +118,8 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 
 	private boolean gitDirExistsInitially;
 
+	private TagOpt tagOption = TagOpt.FETCH_TAGS;
+
 	/**
 	 * Callback for status of clone operation.
 	 *
@@ -281,7 +283,9 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 		// create the remote config and save it
 		RemoteConfig config = new RemoteConfig(clonedRepo.getConfig(), remote);
 		config.addURI(u);
-
+		if (tagOption == TagOpt.NO_TAGS) {
+			config.setTagOpt(tagOption);
+		}
 		final String dst = (bare ? Constants.R_HEADS : Constants.R_REMOTES
 				+ config.getName() + "/") + "*"; //$NON-NLS-1$//$NON-NLS-2$
 		RefSpec refSpec = new RefSpec();
@@ -297,7 +301,7 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 		FetchCommand command = new FetchCommand(clonedRepo);
 		command.setRemote(remote);
 		command.setProgressMonitor(monitor);
-		command.setTagOpt(TagOpt.FETCH_TAGS);
+		command.setTagOpt(tagOption);
 		configure(command);
 
 		List<RefSpec> specs = calculateRefSpecs(dst);
@@ -552,6 +556,20 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 			remote = Constants.DEFAULT_REMOTE_NAME;
 		}
 		this.remote = remote;
+		return this;
+	}
+
+	/**
+	 * Sets the specification of annotated tag behavior during fetch
+	 *
+	 * @param tagOpt
+	 *            the {@link org.eclipse.jgit.transport.TagOpt}
+	 * @return {@code this}
+	 * @since 5.2
+	 */
+	public CloneCommand setTagOpt(TagOpt tagOpt) {
+		checkCallable();
+		this.tagOption = tagOpt;
 		return this;
 	}
 

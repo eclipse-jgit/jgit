@@ -55,6 +55,7 @@ import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.pgm.internal.CLIText;
+import org.eclipse.jgit.transport.TagOpt;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.util.SystemReader;
 import org.kohsuke.args4j.Argument;
@@ -79,6 +80,9 @@ class Clone extends AbstractFetchCommand implements CloneCommand.Callback {
 
 	@Option(name = "--recurse-submodules", usage = "usage_recurseSubmodules")
 	private boolean cloneSubmodules;
+
+	@Option(name = "--no-tags", usage = "usage_noTags")
+	private boolean noTags;
 
 	@Argument(index = 0, required = true, metaVar = "metaVar_uriish")
 	private String sourceUri;
@@ -132,6 +136,9 @@ class Clone extends AbstractFetchCommand implements CloneCommand.Callback {
 			outw.println(MessageFormat.format(
 					CLIText.get().cloningInto, localName));
 			outw.flush();
+		}
+		if (noTags) {
+			command.setTagOpt(TagOpt.NO_TAGS);
 		}
 		try {
 			db = command.call().getRepository();

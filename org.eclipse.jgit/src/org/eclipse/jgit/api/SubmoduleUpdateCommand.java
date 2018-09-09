@@ -71,6 +71,7 @@ import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.submodule.SubmoduleWalk;
+import org.eclipse.jgit.transport.TagOpt;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 
 /**
@@ -94,6 +95,8 @@ public class SubmoduleUpdateCommand extends
 	private FetchCommand.Callback fetchCallback;
 
 	private boolean fetch = false;
+
+	private TagOpt tagOption = TagOpt.FETCH_TAGS;
 
 	/**
 	 * <p>
@@ -163,6 +166,7 @@ public class SubmoduleUpdateCommand extends
 			clone.setGitDir(
 					new File(new File(repo.getDirectory(), Constants.MODULES),
 							generator.getPath()));
+			clone.setTagOpt(tagOption);
 			if (monitor != null) {
 				clone.setProgressMonitor(monitor);
 			}
@@ -176,6 +180,7 @@ public class SubmoduleUpdateCommand extends
 				fetchCommand.setProgressMonitor(monitor);
 			}
 			configure(fetchCommand);
+			fetchCommand.setTagOpt(tagOption);
 			fetchCommand.call();
 		}
 		return repository;
@@ -293,4 +298,19 @@ public class SubmoduleUpdateCommand extends
 		this.fetchCallback = callback;
 		return this;
 	}
+
+	/**
+	 * Sets the specification of annotated tag behavior during fetch
+	 *
+	 * @param tagOpt
+	 *            the {@link org.eclipse.jgit.transport.TagOpt}
+	 * @return {@code this}
+	 * @since 5.2
+	 */
+	public SubmoduleUpdateCommand setTagOpt(TagOpt tagOpt) {
+		checkCallable();
+		this.tagOption = tagOpt;
+		return this;
+	}
+
 }
