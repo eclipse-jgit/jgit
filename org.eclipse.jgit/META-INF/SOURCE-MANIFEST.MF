@@ -3,5 +3,13 @@ Bundle-ManifestVersion: 2
 Bundle-Name: org.eclipse.jgit - Sources
 Bundle-SymbolicName: org.eclipse.jgit.source
 Bundle-Vendor: Eclipse.org - JGit
+<<<<<<< HEAD
 Bundle-Version: 5.1.0.qualifier
 Eclipse-SourceBundle: org.eclipse.jgit;version="5.1.0.qualifier";roots="."
+||||||| merged common ancestors
+Bundle-Version: 5.0.3.qualifier
+Eclipse-SourceBundle: org.eclipse.jgit;version="5.0.3.qualifier";roots="."
+=======
+Bundle-Version: 5.0.4.qualifier
+Eclipse-SourceBundle: org.eclipse.jgit;version="5.0.4.qualifier";roots="."
+>>>>>>> stable-5.0

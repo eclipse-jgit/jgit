@@ -712,7 +712,7 @@ public final class Constants {
 	/**
 	 * Suffix of lock file name
 	 *
-	 * @since 4.8
+	 * @since 4.7
 	 */
 	public static final String LOCK_SUFFIX = ".lock"; //$NON-NLS-1$
 
