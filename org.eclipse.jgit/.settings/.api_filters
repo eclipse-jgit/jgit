@@ -23,6 +23,15 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/lib/Constants.java" type="org.eclipse.jgit.lib.Constants">
+        <filter comment="LOCK_SUFFIX was backported to 4.7.3" id="1141899266">
+            <message_arguments>
+                <message_argument value="4.7"/>
+                <message_argument value="4.8"/>
+                <message_argument value="LOCK_SUFFIX"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/util/FS.java" type="org.eclipse.jgit.util.FS">
         <filter id="1141899266">
             <message_arguments>
