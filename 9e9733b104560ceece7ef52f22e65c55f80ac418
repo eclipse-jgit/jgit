@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a2986b1_bcc67f3f",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.target/orbit/R20180905201904-2018-09.tpd",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-09-09T20:17:10Z",
+      "side": 1,
+      "message": "?",
+      "range": {
+        "startLine": 1,
+        "startChar": 8,
+        "endLine": 1,
+        "endChar": 23
+      },
+      "revId": "9e9733b104560ceece7ef52f22e65c55f80ac418",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
