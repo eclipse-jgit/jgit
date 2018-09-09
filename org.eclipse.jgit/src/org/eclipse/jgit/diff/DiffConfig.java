@@ -82,7 +82,7 @@ public class DiffConfig {
 		renameDetectionType = parseRenameDetectionType(rc.getString(
 				ConfigConstants.CONFIG_DIFF_SECTION, null, ConfigConstants.CONFIG_KEY_RENAMES));
 		renameLimit = rc.getInt(ConfigConstants.CONFIG_DIFF_SECTION,
-				ConfigConstants.CONFIG_KEY_RENAMELIMIT, 200);
+				ConfigConstants.CONFIG_KEY_RENAMELIMIT, 400);
 	}
 
 	/**
