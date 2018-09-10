@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70a2669c_b24b1676",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-09-10T07:58:20Z",
+      "side": 0,
+      "message": "Are these not needed if the strings they were warning about are now not strings but characters?\n\nIf so, this could optionally be done as a separate change.",
+      "range": {
+        "startLine": 286,
+        "startChar": 37,
+        "endLine": 286,
+        "endChar": 63
+      },
+      "revId": "74438c53ef6dd27d3f4cbc6754597a2bbab109d7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b5eecd69_e9d03f88",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-09-10T07:58:20Z",
+      "side": 0,
+      "message": "This refactoring could also optionally be done as a separate change.",
+      "range": {
+        "startLine": 309,
+        "startChar": 2,
+        "endLine": 310,
+        "endChar": 36
+      },
+      "revId": "74438c53ef6dd27d3f4cbc6754597a2bbab109d7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
