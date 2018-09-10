@@ -640,12 +640,15 @@ public abstract class FS {
 							JGitText.get().commandClosedStderrButDidntExit,
 							desc, PROCESS_EXIT_TIMEOUT), -1);
 					fail.set(true);
+					return false;
 				}
 			} catch (InterruptedException e) {
-				LOG.error(MessageFormat.format(
-						JGitText.get().threadInterruptedWhileRunning, desc), e);
+				setError(originalError, MessageFormat.format(
+						JGitText.get().threadInterruptedWhileRunning, desc), -1);
+				fail.set(true);
+				return false;
 			}
-			return false;
+			return true;
 		}
 
 		private void setError(IOException e, String message, int exitCode) {
