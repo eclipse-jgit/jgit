@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fffd1ca8_16843cae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-09-10T06:36:34Z",
+      "side": 1,
+      "message": "\u003e if branch !\u003d HEAD and tagOption !\u003d FETCH_ALL.\n\nActually, if branch !\u003d HEAD and doesn\u0027t start with \"refs/heads/\". It\u0027s unclear to me whether we also have to support branch being a full tag reference \"refs/tags/v1.2.3\"; may be safest to also handle that case properly.",
+      "parentUuid": "9cd6e408_956cf85e",
+      "revId": "e3fd8bb86dd3315cb6d9f6a0191ce82ca26f0cfe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c214b4ac_ec3e65b9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
         "patchSetId": 1
