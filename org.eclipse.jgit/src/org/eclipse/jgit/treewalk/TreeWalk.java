@@ -50,6 +50,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.errors.JGitInternalException;
@@ -1438,7 +1439,8 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 			return null;
 		}
 		return filterCommand.replaceAll("%f", //$NON-NLS-1$
-				QuotedString.BOURNE.quote((getPathString())));
+				Matcher.quoteReplacement(
+						QuotedString.BOURNE.quote((getPathString()))));
 	}
 
 	/**
