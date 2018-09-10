@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67451d41_4e43b984",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-09-10T08:20:10Z",
+      "side": 1,
+      "message": "Perhaps worth mentioning that this is also a bug in c git?",
+      "revId": "41c470f611d5657f064e137263477911081fe240",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
