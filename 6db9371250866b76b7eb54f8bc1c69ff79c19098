@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "26ad815e_4e94915c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-09-10T10:53:37Z",
+      "side": 1,
+      "message": "Doesn\u0027t sound like a viable strategy. On Linux, the file system timer resolution used to be 1 sec, but was changed to 1ms recently.",
+      "revId": "6db9371250866b76b7eb54f8bc1c69ff79c19098",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a325c1f_be7eccc7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RacyGitTests.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-09-10T10:53:37Z",
+      "side": 1,
+      "message": "If you want this, then why not enforce it via File.setLastModifiedTime(indexMod)?",
+      "revId": "6db9371250866b76b7eb54f8bc1c69ff79c19098",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
