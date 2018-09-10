@@ -19,6 +19,41 @@
     },
     {
       "key": {
+        "uuid": "a6c34fb5_731e9ba4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-09-10T14:48:31Z",
+      "side": 1,
+      "message": "\u003e Maybe something like \u0027fix FS#waitForProcessCompletion() in case of ...\u0027 would be better\n\nThat doesn\u0027t tell what we are fixing about it. Can you summarize in a sentence or two what the intended effect of this change is?",
+      "parentUuid": "181c68b9_fea0aedc",
+      "revId": "7c9ed1e956993063af9dfdd725c9513d6fa2fdde",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84632942_ef55c367",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-09-10T14:48:31Z",
+      "side": 1,
+      "message": "nit: can mark up as \u0027Bug: 538723\u0027 to make it more consistent with other patches / easier to find.",
+      "revId": "7c9ed1e956993063af9dfdd725c9513d6fa2fdde",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a71e2f41_06f8859c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 1
