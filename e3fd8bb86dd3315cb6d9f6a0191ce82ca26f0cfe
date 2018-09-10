@@ -54,6 +54,23 @@
     },
     {
       "key": {
+        "uuid": "318e7e73_5b60f82f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-09-10T08:34:11Z",
+      "side": 1,
+      "message": "What if tagOpt is null?",
+      "revId": "e3fd8bb86dd3315cb6d9f6a0191ce82ca26f0cfe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "76b91c59_c737d924",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
         "patchSetId": 1
