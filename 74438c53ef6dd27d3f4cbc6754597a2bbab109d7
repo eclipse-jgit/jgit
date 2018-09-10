@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "a3d432b2_d6881d0c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-09-10T08:19:37Z",
+      "side": 0,
+      "message": "Ack",
+      "parentUuid": "3aecd035_4aa5814e",
+      "range": {
+        "startLine": 286,
+        "startChar": 37,
+        "endLine": 286,
+        "endChar": 63
+      },
+      "revId": "74438c53ef6dd27d3f4cbc6754597a2bbab109d7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b5eecd69_e9d03f88",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
         "patchSetId": 1
@@ -84,6 +108,30 @@
       "side": 0,
       "message": "Please check the parent change https://git.eclipse.org/r/#/c/52455/ .",
       "parentUuid": "b5eecd69_e9d03f88",
+      "range": {
+        "startLine": 309,
+        "startChar": 2,
+        "endLine": 310,
+        "endChar": 36
+      },
+      "revId": "74438c53ef6dd27d3f4cbc6754597a2bbab109d7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c193a190_a3c252bb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-09-10T08:19:37Z",
+      "side": 0,
+      "message": "Ack",
+      "parentUuid": "a54aa551_87489bdc",
       "range": {
         "startLine": 309,
         "startChar": 2,
