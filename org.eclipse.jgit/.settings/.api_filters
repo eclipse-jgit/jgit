@@ -7,6 +7,12 @@
                 <message_argument value="5.1.0"/>
             </message_arguments>
         </filter>
+        <filter id="924844039">
+            <message_arguments>
+                <message_argument value="5.0.4"/>
+                <message_argument value="5.0.0"/>
+            </message_arguments>
+        </filter>
     </resource>
     <resource path="src/org/eclipse/jgit/util/FS.java" type="org.eclipse.jgit.util.FS">
         <filter id="1141899266">
