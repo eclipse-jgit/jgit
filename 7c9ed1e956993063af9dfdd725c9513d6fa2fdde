@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "181c68b9_fea0aedc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2018-09-10T12:57:44Z",
+      "side": 1,
+      "message": "This description does not match what you are doing, or? This message\ntells about error messages but the fix is only changing the boolean return value of a method. Maybe something like \u0027fix FS#waitForProcessCompletion() in case of ...\u0027 would be better",
+      "revId": "7c9ed1e956993063af9dfdd725c9513d6fa2fdde",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a71e2f41_06f8859c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 643,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2018-09-10T12:57:44Z",
+      "side": 1,
+      "message": "Imagine we catched an InterruptedException and reached this line. The we still would return true. Is that correct? Shouldn\u0027t we return false here?",
+      "revId": "7c9ed1e956993063af9dfdd725c9513d6fa2fdde",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
