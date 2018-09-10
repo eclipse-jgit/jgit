@@ -203,6 +203,30 @@
     },
     {
       "key": {
+        "uuid": "bc5b810f_a8bb674e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/IndexDiffSubmoduleTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-09-10T11:03:56Z",
+      "side": 1,
+      "message": "\u003e I\u0027ve filed follow-up bug 538563 for this.\n\nSee follow-up in https://git.eclipse.org/r/#/c/128953/ .",
+      "parentUuid": "20ffa393_a45f8886",
+      "range": {
+        "startLine": 158,
+        "startChar": 0,
+        "endLine": 162,
+        "endChar": 74
+      },
+      "revId": "a867cb3ba932a12e92932e97d79e956f4d8d9f2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6e46f1b_32035922",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/PathsTest.java",
         "patchSetId": 1
