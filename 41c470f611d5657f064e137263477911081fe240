@@ -16,6 +16,24 @@
       "revId": "41c470f611d5657f064e137263477911081fe240",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bb22447_8da1e56a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-09-10T08:30:00Z",
+      "side": 1,
+      "message": "My conclusion in bug 538768 was that c git is OK if the transport is used. It\u0027s just when a local clone is done that they ignore this since they simply copy/link the needed subdirectories of the \"upstream\". It appears that JGit doesn\u0027t have this special case at all?",
+      "parentUuid": "67451d41_4e43b984",
+      "revId": "41c470f611d5657f064e137263477911081fe240",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
