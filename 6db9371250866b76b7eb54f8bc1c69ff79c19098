@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "66b4649d_f86ccf78",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2018-09-11T05:49:50Z",
+      "side": 1,
+      "message": "But what would be the problem with this change of the system timer resolution? Are you afraid that we are ignoring this test too often?",
+      "parentUuid": "26ad815e_4e94915c",
+      "revId": "6db9371250866b76b7eb54f8bc1c69ff79c19098",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a325c1f_be7eccc7",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RacyGitTests.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2018-09-10T10:53:37Z",
       "side": 1,
       "message": "If you want this, then why not enforce it via File.setLastModifiedTime(indexMod)?",
+      "revId": "6db9371250866b76b7eb54f8bc1c69ff79c19098",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c35abe9a_bc6de64f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RacyGitTests.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2018-09-11T05:49:50Z",
+      "side": 1,
+      "message": "Because racy-git problems caused a lot of trouble on the different platforms jgit supports I wanted to have kind-of integration tests which replay situations jgit users will see without too much tweaking. For example File.setLastModifiedTime(indexMod) will not always set the modTime to what you specified but is allowed to truncate the value you specified [1]. So, back than I thought you get a more realistic test with waiting instead of learning how setLastModifiedTime behaves on the different platforms.\n\nBut since this test is causing so much trouble I am not sure anymore whether we can manage to have reliable tests with waiting. Currently we are not facing so many problems with racy git. Maybe we should exclude this kind of tests from the default set of tests. \n\n[1] https://docs.oracle.com/javase/7/docs/api/java/io/File.html#setLastModified(long)",
+      "parentUuid": "3a325c1f_be7eccc7",
       "revId": "6db9371250866b76b7eb54f8bc1c69ff79c19098",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
