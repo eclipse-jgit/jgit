@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de2e577d_30a11028",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-09-12T04:59:35Z",
+      "side": 1,
+      "message": "Been thinking more about this. What prevents the following scenario:\n\n  A : createNewFile(foo.lock) -\u003e true\n  B : createNewFile(foo.lock) -\u003e true\n  A : createLink(foo.lock.UUID_A);\n  B : createLink(foo.lock.UUID_B);\n  A : nlink: 3\n  B : nlink: 3\n\nWhen that happens, both A and B will return a token with FALSE, and will subsequently remove their hard links, but the lock file will have been created. Any subsequent attempt to lock \"foo\" will fail because we leave a stale lock file behind. How do we prevent this? Remove the link and re-try a few times with random delays? If createNewFile() returned true, we must ensure that there are one of two outcomes:\n\n- exactly one process decides it has the lock, and all others remove their hard links.\n- or if all processes decide they don\u0027t have the lock the lock file is removed. But ideally we shouldn\u0027t get into this case at all.\n\nFurthermore, what happens if the getAttribute call raises an IOException after the link has been created?\n\nThe canonical implementation of NFS-safe locking on Linux is liblockfile.[1][2] It handles stale locks by requiring that lock files be regularly touched. It also uses a different method not relying on nlink: it creates a temp file and then creates the lock file as a hard link to that and checks then that both really point to the same inodes. Upon success it then unlinks the temp file. There\u0027s a comment in lockfile.c stating that nlink itself might be cached.[3]\n\nComments? Is this a real problem, or am I imagining things?\n\nI also wonder whether java.nio.channels.FileLock might help... but it\u0027s unclear to me whether it would work for files on NFS mounts.\n\n[1] https://github.com/miquels/liblockfile\n[2] https://linux.die.net/man/3/lockfile_create\n[3] https://github.com/miquels/liblockfile/blob/v1.14/lockfile.c#L324",
+      "revId": "06e06fc291a8ccc0e68b7d84b54097a9635df740",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
