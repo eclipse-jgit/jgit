@@ -1,0 +1,7 @@
+Code-Review+2: Thomas Wolf <thomas.wolf@paranor.ch>
+Verified+1: CI Bot
+Submitted-by: David Pursehouse <david.pursehouse@gmail.com>
+Submitted-at: Wed, 12 Sep 2018 03:59:30 -0400
+Reviewed-on: https://git.eclipse.org/r/129196
+Project: jgit/jgit
+Branch: refs/heads/stable-4.10
