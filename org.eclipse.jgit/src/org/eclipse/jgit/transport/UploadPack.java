@@ -841,7 +841,7 @@ public class UploadPack {
 
 			if (!clientShallowCommits.isEmpty())
 				verifyClientShallow(clientShallowCommits);
-			if (depth != 0) {
+			if (depth != 0 || shallowSince != 0) {
 				computeShallowsAndUnshallows(wantIds, shallow -> {
 					pckOut.writeString("shallow " + shallow.name() + '\n'); //$NON-NLS-1$
 				}, unshallow -> {
@@ -1143,16 +1143,17 @@ public class UploadPack {
 			IOConsumer<ObjectId> shallowFunc,
 			IOConsumer<ObjectId> unshallowFunc)
 			throws IOException {
-		if (options.contains(OPTION_DEEPEN_RELATIVE) || shallowSince != 0
-				|| !deepenNotRefs.isEmpty()) {
-			// TODO(jonathantanmy): Implement deepen-relative, deepen-since,
+		if (options.contains(OPTION_DEEPEN_RELATIVE) || !deepenNotRefs.isEmpty()) {
+			// TODO(jonathantanmy): Implement deepen-relative
 			// and deepen-not.
 			throw new UnsupportedOperationException();
 		}
 
-		int walkDepth = depth - 1;
+		int walkDepth = depth == 0 ? Integer.MAX_VALUE : depth - 1;
 		try (DepthWalk.RevWalk depthWalk = new DepthWalk.RevWalk(
 				walk.getObjectReader(), walkDepth)) {
+
+			depthWalk.setDeepenSince(shallowSince);
 
 			// Find all the commits which will be shallow
 			for (ObjectId o : wants) {
@@ -1167,17 +1168,17 @@ public class UploadPack {
 			while ((o = depthWalk.next()) != null) {
 				DepthWalk.Commit c = (DepthWalk.Commit) o;
 
+				boolean isBoundary = (c.getDepth() == walkDepth) || c.isBoundary();
+
 				// Commits at the boundary which aren't already shallow in
 				// the client need to be marked as such
-				if (c.getDepth() == walkDepth
-						&& !clientShallowCommits.contains(c)) {
+				if (isBoundary && !clientShallowCommits.contains(c)) {
 					shallowFunc.accept(c.copy());
 				}
 
 				// Commits not on the boundary which are shallow in the client
 				// need to become unshallowed
-				if (c.getDepth() < walkDepth
-						&& clientShallowCommits.remove(c)) {
+				if (!isBoundary && clientShallowCommits.remove(c)) {
 					unshallowFunc.accept(c.copy());
 				}
 			}
@@ -1987,9 +1988,11 @@ public class UploadPack {
 			}
 
 			RevWalk rw = walk;
-			if (depth > 0) {
+			if (depth > 0 || shallowSince != 0) {
+				int walkDepth = depth == 0 ? Integer.MAX_VALUE : depth - 1;
 				pw.setShallowPack(depth, unshallowCommits);
-				rw = new DepthWalk.RevWalk(walk.getObjectReader(), depth - 1);
+				rw = new DepthWalk.RevWalk(walk.getObjectReader(), walkDepth);
+				((DepthWalk.RevWalk) rw).setDeepenSince(shallowSince);
 				rw.assumeShallow(clientShallowCommits);
 			}
 
