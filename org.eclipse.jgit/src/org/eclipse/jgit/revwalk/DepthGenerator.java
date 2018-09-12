@@ -160,8 +160,7 @@ class DepthGenerator extends Generator {
 				}
 			}
 
-			// Produce all commits less than the depth cutoff
-			boolean produce = c.depth <= depth;
+			boolean produce = true;
 
 			// Unshallow commits are uninteresting, but still need to be sent
 			// up to the PackWriter so that it will exclude objects correctly.
