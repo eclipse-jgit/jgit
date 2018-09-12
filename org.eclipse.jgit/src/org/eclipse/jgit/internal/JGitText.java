@@ -759,6 +759,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String tSizeMustBeGreaterOrEqual1;
 	/***/ public String unableToCheckConnectivity;
 	/***/ public String unableToCreateNewObject;
+	/***/ public String unableToRemovePath;
 	/***/ public String unableToStore;
 	/***/ public String unableToWrite;
 	/***/ public String unauthorized;
