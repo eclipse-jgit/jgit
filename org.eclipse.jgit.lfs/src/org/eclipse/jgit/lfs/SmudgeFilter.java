@@ -222,7 +222,10 @@ public class SmudgeFilter extends FilterCommand {
 									Integer.valueOf(responseCode)));
 				}
 				Path path = lfs.getMediaFile(ptr.getOid());
-				path.getParent().toFile().mkdirs();
+				Path parent = path.getParent();
+				if (parent != null) {
+					parent.toFile().mkdirs();
+				}
 				try (InputStream contentIn = contentServerConn
 						.getInputStream()) {
 					long bytesCopied = Files.copy(contentIn, path);
