@@ -63,6 +63,15 @@ public interface DepthWalk {
 	 */
 	public int getDepth();
 
+	/**
+	 * @return the deepen-since value; if not 0, this walk only returns commits
+	 *         whose commit time is at or after this limit
+	 * @since 5.2
+	 */
+	public default int getDeepenSince() {
+		return 0;
+	}
+
 	/** @return flag marking commits that should become unshallow. */
 	/**
 	 * Get flag marking commits that should become unshallow.
@@ -83,9 +92,20 @@ public interface DepthWalk {
 		/** Depth of this commit in the graph, via shortest path. */
 		int depth;
 
+		boolean isBoundary;
+
 		/** @return depth of this commit, as found by the shortest path. */
 		public int getDepth() {
 			return depth;
+		}
+
+		/**
+		 * @return true if at least one of this commit's children was excluded
+		 *         due to a depth or shallow-since restriction, false otherwise
+		 * @since 5.2
+		 */
+		public boolean isBoundary() {
+			return isBoundary;
 		}
 
 		/**
@@ -103,6 +123,8 @@ public interface DepthWalk {
 	/** Subclass of RevWalk that performs depth filtering. */
 	public class RevWalk extends org.eclipse.jgit.revwalk.RevWalk implements DepthWalk {
 		private final int depth;
+
+		private int deepenSince;
 
 		private final RevFlag UNSHALLOW;
 
@@ -159,6 +181,22 @@ public interface DepthWalk {
 		}
 
 		@Override
+		public int getDeepenSince() {
+			return deepenSince;
+		}
+
+		/**
+		 * Sets the deepen-since value.
+		 *
+		 * @param limit
+		 *            new deepen-since value
+		 * @since 5.2
+		 */
+		public void setDeepenSince(int limit) {
+			deepenSince = limit;
+		}
+
+		@Override
 		public RevFlag getUnshallowFlag() {
 			return UNSHALLOW;
 		}
@@ -174,6 +212,7 @@ public interface DepthWalk {
 		@Override
 		public ObjectWalk toObjectWalkWithSameObjects() {
 			ObjectWalk ow = new ObjectWalk(reader, depth);
+			ow.deepenSince = deepenSince;
 			ow.objects = objects;
 			ow.freeFlags = freeFlags;
 			return ow;
@@ -183,6 +222,8 @@ public interface DepthWalk {
 	/** Subclass of ObjectWalk that performs depth filtering. */
 	public class ObjectWalk extends org.eclipse.jgit.revwalk.ObjectWalk implements DepthWalk {
 		private final int depth;
+
+		private int deepenSince;
 
 		private final RevFlag UNSHALLOW;
 
@@ -260,6 +301,11 @@ public interface DepthWalk {
 		@Override
 		public int getDepth() {
 			return depth;
+		}
+
+		@Override
+		public int getDeepenSince() {
+			return deepenSince;
 		}
 
 		@Override

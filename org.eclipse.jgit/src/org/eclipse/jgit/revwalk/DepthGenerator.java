@@ -59,6 +59,8 @@ class DepthGenerator extends Generator {
 
 	private final int depth;
 
+	private final int deepenSince;
+
 	private final RevWalk walk;
 
 	/**
@@ -91,6 +93,7 @@ class DepthGenerator extends Generator {
 		walk = (RevWalk)w;
 
 		this.depth = w.getDepth();
+		this.deepenSince = w.getDeepenSince();
 		this.UNSHALLOW = w.getUnshallowFlag();
 		this.REINTERESTING = w.getReinterestingFlag();
 
@@ -142,12 +145,24 @@ class DepthGenerator extends Generator {
 				// this depth is guaranteed to be the smallest value that
 				// any path could produce.
 				if (dp.depth == -1) {
+					boolean failsDeepenSince = false;
+					if (deepenSince != 0) {
+						if ((p.flags & RevWalk.PARSED) == 0) {
+							p.parseHeaders(walk);
+						}
+						failsDeepenSince =
+							p.getCommitTime() < deepenSince;
+					}
+
 					dp.depth = newDepth;
 
 					// If the parent is not too deep, add it to the queue
 					// so that we can produce it later
-					if (newDepth <= depth)
+					if (newDepth <= depth && !failsDeepenSince) {
 						pending.add(p);
+					} else {
+						c.isBoundary = true;
+					}
 				}
 
 				// If the current commit has become unshallowed, everything

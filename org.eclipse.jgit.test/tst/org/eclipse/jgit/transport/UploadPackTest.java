@@ -27,6 +27,7 @@ import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -1188,6 +1189,59 @@ public class UploadPackTest {
 		assertThat(pckIn.readString(), is("acknowledgments"));
 		assertThat(pckIn.readString(), is("NAK"));
 		assertThat(pckIn.readString(), theInstance(PacketLineIn.END));
+	}
+
+	@Test
+	public void testV2FetchShallowSince() throws Exception {
+		PersonIdent person = new PersonIdent(remote.getRepository());
+
+		RevCommit beyondBoundary = remote.commit()
+			.committer(new PersonIdent(person, 1510000000, 0)).create();
+		RevCommit boundary = remote.commit().parent(beyondBoundary)
+			.committer(new PersonIdent(person, 1520000000, 0)).create();
+		RevCommit tooOld = remote.commit()
+			.committer(new PersonIdent(person, 1500000000, 0)).create();
+		RevCommit merge = remote.commit().parent(boundary).parent(tooOld)
+			.committer(new PersonIdent(person, 1530000000, 0)).create();
+
+		remote.update("branch1", merge);
+
+		// Report that we only have "boundary" as a shallow boundary.
+		ByteArrayInputStream recvStream = uploadPackV2(
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"shallow " + boundary.toObjectId().getName() + "\n",
+			"deepen-since 1510000\n",
+			"want " + merge.toObjectId().getName() + "\n",
+			"have " + boundary.toObjectId().getName() + "\n",
+			"done\n",
+			PacketLineIn.END);
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+		assertThat(pckIn.readString(), is("shallow-info"));
+
+		// "merge" is shallow because one of its parents is committed
+		// earlier than the given deepen-since time.
+		assertThat(pckIn.readString(), is("shallow " + merge.toObjectId().getName()));
+
+		// "boundary" is unshallow because its parent committed at or
+		// later than the given deepen-since time.
+		assertThat(pckIn.readString(), is("unshallow " + boundary.toObjectId().getName()));
+
+		assertThat(pckIn.readString(), theInstance(PacketLineIn.DELIM));
+		assertThat(pckIn.readString(), is("packfile"));
+		parsePack(recvStream);
+
+		// The server does not send this because it is committed
+		// earlier than the given deepen-since time.
+		assertFalse(client.hasObject(tooOld.toObjectId()));
+
+		// The server does not send this because the client claims to
+		// have it.
+		assertFalse(client.hasObject(boundary.toObjectId()));
+
+		// The server sends both these commits.
+		assertTrue(client.hasObject(beyondBoundary.toObjectId()));
+		assertTrue(client.hasObject(merge.toObjectId()));
 	}
 
 	@Test
