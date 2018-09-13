@@ -16,6 +16,24 @@
       "revId": "eeaac1e42b7c334e12ac9180c00ee36a5f72d0d6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "914806ce_38e48a46",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 802,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-09-13T21:58:45Z",
+      "side": 1,
+      "message": "I was trying to avoid the try/catch in the caller (too much clutter).\n\nI discarded the custom interface because I couldn\u0027t use it directly in the .forEach(), but a for-loop is fair price for safer exceptions. I\u0027ll try that approach.",
+      "parentUuid": "26c7ca1f_d68e762a",
+      "revId": "eeaac1e42b7c334e12ac9180c00ee36a5f72d0d6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
