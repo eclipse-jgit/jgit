@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "26c7ca1f_d68e762a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 802,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-09-13T21:42:51Z",
+      "side": 1,
+      "message": "static?\n\nI would think it\u0027s safer to let the IOException propagate. Alas, IIUC you can\u0027t, for reasons similar to the case described at https://github.com/google/guava/issues/2828#issuecomment-304187823.\n\nShould this use UncheckedIOException and have the caller catch and convert back to IOException? I.e. something like\n\n  try {\n    computeShallowsAndUnshallows(... -\u003e {\n      try {\n        packetLineOut.writeString(...));\n      } catch (IOException e) {\n        throw new UncheckedIOException(e);\n      }\n      ...);\n  } catch (UncheckedIOException e) {\n    throw e.getCause();\n  }\n\nAlternatively, should we use a custom interface that throws IOException instead of Consumer\u003cString\u003e?",
+      "revId": "eeaac1e42b7c334e12ac9180c00ee36a5f72d0d6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
