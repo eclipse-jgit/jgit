@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fbc89875_9c2cfaa4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-09-13T23:13:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e3ed3cf_f77156ac",
+      "revId": "420593b0e9884e0926472d549ddeae18a5437eca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7a9571fd_7ea410fe",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 9
@@ -30,6 +48,24 @@
       "writtenOn": "2018-09-13T22:31:33Z",
       "side": 1,
       "message": "no longer needed, right?",
+      "revId": "420593b0e9884e0926472d549ddeae18a5437eca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c9998a2_0eebeedd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 810,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-09-13T23:13:41Z",
+      "side": 1,
+      "message": "Sorry for this loose amend. I was too focused in defining the Consumer. Done.",
+      "parentUuid": "7a9571fd_7ea410fe",
       "revId": "420593b0e9884e0926472d549ddeae18a5437eca",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "d91824b1_77b18efe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 823,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-09-13T23:13:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9daadb58_d4bd5f56",
+      "range": {
+        "startLine": 823,
+        "startChar": 17,
+        "endLine": 823,
+        "endChar": 29
+      },
+      "revId": "420593b0e9884e0926472d549ddeae18a5437eca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c2eb9b3b_1ef19629",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 9
@@ -70,6 +130,24 @@
       "writtenOn": "2018-09-13T22:31:33Z",
       "side": 1,
       "message": "Can this use plain pckOut.writeString?",
+      "revId": "420593b0e9884e0926472d549ddeae18a5437eca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "143e58f4_057ae7fc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 854,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-09-13T23:13:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c2eb9b3b_1ef19629",
       "revId": "420593b0e9884e0926472d549ddeae18a5437eca",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "5d80ffd3_b9de899b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 856,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-09-13T23:13:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c59e246a_44159c9a",
+      "revId": "420593b0e9884e0926472d549ddeae18a5437eca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b24d00e7_324d4497",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 9
@@ -104,6 +200,24 @@
       "writtenOn": "2018-09-13T22:31:33Z",
       "side": 1,
       "message": "same question about Commits vs Ids.\n\nPreviously, shallowCommits was nullable. Can\u0027t this cause a behavior change, if computeShallowsAndUnshallows didn\u0027t find any shallows? Can the change to make it non-nullable happen in a separate preparatory commit?",
+      "revId": "420593b0e9884e0926472d549ddeae18a5437eca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "283d915a_316a037b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1002,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-09-13T23:13:41Z",
+      "side": 1,
+      "message": "Done: https://git.eclipse.org/r/#/c/129389/",
+      "parentUuid": "b24d00e7_324d4497",
       "revId": "420593b0e9884e0926472d549ddeae18a5437eca",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
