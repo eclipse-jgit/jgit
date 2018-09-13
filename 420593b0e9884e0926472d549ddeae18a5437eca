@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e3ed3cf_f77156ac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-09-13T22:31:33Z",
+      "side": 1,
+      "message": "static",
+      "revId": "420593b0e9884e0926472d549ddeae18a5437eca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a9571fd_7ea410fe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 810,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-09-13T22:31:33Z",
+      "side": 1,
+      "message": "no longer needed, right?",
+      "revId": "420593b0e9884e0926472d549ddeae18a5437eca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9daadb58_d4bd5f56",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 823,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-09-13T22:31:33Z",
+      "side": 1,
+      "message": "optional: can this still be called unshallowCommits? That would make it clearer what they represent (that they\u0027re commit ids and not other object ids).",
+      "range": {
+        "startLine": 823,
+        "startChar": 17,
+        "endLine": 823,
+        "endChar": 29
+      },
+      "revId": "420593b0e9884e0926472d549ddeae18a5437eca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2eb9b3b_1ef19629",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 854,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-09-13T22:31:33Z",
+      "side": 1,
+      "message": "Can this use plain pckOut.writeString?",
+      "revId": "420593b0e9884e0926472d549ddeae18a5437eca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c59e246a_44159c9a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 856,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-09-13T22:31:33Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "420593b0e9884e0926472d549ddeae18a5437eca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b24d00e7_324d4497",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1002,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-09-13T22:31:33Z",
+      "side": 1,
+      "message": "same question about Commits vs Ids.\n\nPreviously, shallowCommits was nullable. Can\u0027t this cause a behavior change, if computeShallowsAndUnshallows didn\u0027t find any shallows? Can the change to make it non-nullable happen in a separate preparatory commit?",
+      "revId": "420593b0e9884e0926472d549ddeae18a5437eca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
