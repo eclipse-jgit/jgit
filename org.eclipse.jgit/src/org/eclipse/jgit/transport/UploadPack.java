@@ -973,15 +973,16 @@ public class UploadPack {
 		deepenNotRefs = req.getDeepenNotRefs();
 
 		boolean sectionSent = false;
-		@Nullable List<ObjectId> shallowCommits = null;
+		boolean mayHaveShallow = req.getDepth() != 0
+				|| req.getDeepenSince() != 0
+				|| !req.getDeepenNotRefs().isEmpty();
+		List<ObjectId> shallowCommits = new ArrayList<>();
 		List<ObjectId> unshallowCommits = new ArrayList<>();
 
 		if (!req.getClientShallowCommits().isEmpty()) {
 			verifyClientShallow(req.getClientShallowCommits());
 		}
-		if (req.getDepth() != 0 || req.getDeepenSince() != 0
-				|| !req.getDeepenNotRefs().isEmpty()) {
-			shallowCommits = new ArrayList<>();
+		if (mayHaveShallow) {
 			processShallow(shallowCommits, unshallowCommits, false);
 		}
 		if (!req.getClientShallowCommits().isEmpty())
@@ -1008,7 +1009,7 @@ public class UploadPack {
 		}
 
 		if (req.wasDoneReceived() || okToGiveUp()) {
-			if (shallowCommits != null) {
+			if (mayHaveShallow) {
 				if (sectionSent)
 					pckOut.writeDelim();
 				pckOut.writeString("shallow-info\n"); //$NON-NLS-1$
