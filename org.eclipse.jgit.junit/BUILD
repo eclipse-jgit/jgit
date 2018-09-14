@@ -8,6 +8,8 @@ java_library(
     resources = glob(["resources/**"]),
     deps = [
         "//lib:junit",
+        "//lib:sshd-core",
+        "//lib:sshd-sftp",
         # We want these deps to be provided_deps
         "//org.eclipse.jgit:jgit",
     ],
