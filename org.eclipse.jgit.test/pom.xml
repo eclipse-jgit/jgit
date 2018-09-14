@@ -112,6 +112,18 @@
       <artifactId>org.eclipse.jgit.pgm</artifactId>
       <version>${project.version}</version>
     </dependency>
+
+    <dependency>
+      <groupId>org.apache.sshd</groupId>
+      <artifactId>sshd-core</artifactId>
+      <version>${apache-sshd-version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.sshd</groupId>
+      <artifactId>sshd-sftp</artifactId>
+      <version>${apache-sshd-version}</version>
+    </dependency>
   </dependencies>
 
   <profiles>
