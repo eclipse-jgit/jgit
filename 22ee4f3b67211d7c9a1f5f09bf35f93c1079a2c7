@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "de75e741_44c9de59",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-09-14T15:52:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c20a8df_2ff7d29f",
+      "range": {
+        "startLine": 214,
+        "startChar": 7,
+        "endLine": 214,
+        "endChar": 30
+      },
+      "revId": "22ee4f3b67211d7c9a1f5f09bf35f93c1079a2c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bede3de4_9930aacd",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
         "patchSetId": 11
@@ -36,6 +60,30 @@
       "writtenOn": "2018-09-14T02:44:53Z",
       "side": 1,
       "message": "parseLsRefsRequest",
+      "range": {
+        "startLine": 225,
+        "startChar": 17,
+        "endLine": 225,
+        "endChar": 34
+      },
+      "revId": "22ee4f3b67211d7c9a1f5f09bf35f93c1079a2c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10b59fb2_3883f090",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-09-14T15:52:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bede3de4_9930aacd",
       "range": {
         "startLine": 225,
         "startChar": 17,
