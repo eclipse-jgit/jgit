@@ -67,6 +67,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.jcraft.jsch.ConfigRepository;
+import com.jcraft.jsch.ConfigRepository.Config;
 
 public class OpenSshConfigTest extends RepositoryTestCase {
 	private File home;
@@ -161,6 +162,20 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 		assertEquals(2222, osc.lookup("hosts").getPort());
 		assertEquals(" spaced\ttld ", osc.lookup("spaced").getHostName());
 		assertEquals("bad.tld\"", osc.lookup("bad").getHostName());
+	}
+
+	@Test
+	public void testCaseInsensitiveKeyLookup() throws Exception {
+		config("Host orcz\n" + "Port 29418\n"
+				+ "\tHostName repo.or.cz\nStrictHostKeyChecking yes\n");
+		final Host h = osc.lookup("orcz");
+		Config c = h.getConfig();
+		String exactCase = c.getValue("StrictHostKeyChecking");
+		assertEquals("yes", exactCase);
+		assertEquals(exactCase, c.getValue("stricthostkeychecking"));
+		assertEquals(exactCase, c.getValue("STRICTHOSTKEYCHECKING"));
+		assertEquals(exactCase, c.getValue("sTrIcThostKEYcheckING"));
+		assertNull(c.getValue("sTrIcThostKEYcheckIN"));
 	}
 
 	@Test
