@@ -105,6 +105,7 @@ class SmartOutputStream extends TemporaryBuffer {
 			// If output hasn't started yet, the entire thing fit into our
 			// buffer. Try to use a proper Content-Length header, and also
 			// deflate the response with gzip if it will be smaller.
+			@SuppressWarnings("resource")
 			TemporaryBuffer out = this;
 
 			if (256 < out.length() && acceptsGzipEncoding(req)) {
