@@ -180,6 +180,30 @@
     },
     {
       "key": {
+        "uuid": "40ad6e5c_6139359d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-09-14T02:13:39Z",
+      "side": 1,
+      "message": "a `command\u003dls-refs` pkt-line, I mean.",
+      "parentUuid": "005d0b73_539bce07",
+      "range": {
+        "startLine": 210,
+        "startChar": 4,
+        "endLine": 210,
+        "endChar": 57
+      },
+      "revId": "1d5daf293999e613ce19b5a7ac95ddedcd526f1c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a52ba5e9_93b172a7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
         "patchSetId": 10
