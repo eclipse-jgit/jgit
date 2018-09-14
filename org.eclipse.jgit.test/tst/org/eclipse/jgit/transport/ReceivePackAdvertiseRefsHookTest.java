@@ -276,7 +276,7 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 
 		final TemporaryBuffer.Heap inBuf = new TemporaryBuffer.Heap(256);
 		final PacketLineOut inPckLine = new PacketLineOut(inBuf);
-		inPckLine.writeString(ObjectId.zeroId().name() + ' ' + P.name() + ' '
+		inPckLine.writeString(ObjectId.zeroId().getName() + ' ' + P.getName() + ' '
 				+ "refs/heads/s" + '\0'
 				+ BasePackPushConnection.CAPABILITY_REPORT_STATUS);
 		inPckLine.end();
@@ -301,10 +301,10 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 		String master = r.readString();
 		int nul = master.indexOf('\0');
 		assertTrue("has capability list", nul > 0);
-		assertEquals(B.name() + ' ' + R_MASTER, master.substring(0, nul));
+		assertEquals(B.getName() + ' ' + R_MASTER, master.substring(0, nul));
 		assertSame(PacketLineIn.END, r.readString());
 
-		assertEquals("unpack error Missing commit " + P.name(), r.readString());
+		assertEquals("unpack error Missing commit " + P.getName(), r.readString());
 		assertEquals("ng refs/heads/s n/a (unpacker error)", r.readString());
 		assertSame(PacketLineIn.END, r.readString());
 	}
@@ -334,7 +334,7 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 
 		final TemporaryBuffer.Heap inBuf = new TemporaryBuffer.Heap(1024);
 		final PacketLineOut inPckLine = new PacketLineOut(inBuf);
-		inPckLine.writeString(ObjectId.zeroId().name() + ' ' + N.name() + ' '
+		inPckLine.writeString(ObjectId.zeroId().getName() + ' ' + N.getName() + ' '
 				+ "refs/heads/s" + '\0'
 				+ BasePackPushConnection.CAPABILITY_REPORT_STATUS);
 		inPckLine.end();
@@ -359,10 +359,10 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 		String master = r.readString();
 		int nul = master.indexOf('\0');
 		assertTrue("has capability list", nul > 0);
-		assertEquals(B.name() + ' ' + R_MASTER, master.substring(0, nul));
+		assertEquals(B.getName() + ' ' + R_MASTER, master.substring(0, nul));
 		assertSame(PacketLineIn.END, r.readString());
 
-		assertEquals("unpack error Missing blob " + b.name(), r.readString());
+		assertEquals("unpack error Missing blob " + b.getName(), r.readString());
 		assertEquals("ng refs/heads/s n/a (unpacker error)", r.readString());
 		assertSame(PacketLineIn.END, r.readString());
 	}
@@ -384,7 +384,7 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 
 		final TemporaryBuffer.Heap inBuf = new TemporaryBuffer.Heap(1024);
 		final PacketLineOut inPckLine = new PacketLineOut(inBuf);
-		inPckLine.writeString(ObjectId.zeroId().name() + ' ' + N.name() + ' '
+		inPckLine.writeString(ObjectId.zeroId().getName() + ' ' + N.getName() + ' '
 				+ "refs/heads/s" + '\0'
 				+ BasePackPushConnection.CAPABILITY_REPORT_STATUS);
 		inPckLine.end();
@@ -409,10 +409,10 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 		String master = r.readString();
 		int nul = master.indexOf('\0');
 		assertTrue("has capability list", nul > 0);
-		assertEquals(B.name() + ' ' + R_MASTER, master.substring(0, nul));
+		assertEquals(B.getName() + ' ' + R_MASTER, master.substring(0, nul));
 		assertSame(PacketLineIn.END, r.readString());
 
-		assertEquals("unpack error Missing blob " + b.name(), r.readString());
+		assertEquals("unpack error Missing blob " + b.getName(), r.readString());
 		assertEquals("ng refs/heads/s n/a (unpacker error)", r.readString());
 		assertSame(PacketLineIn.END, r.readString());
 	}
@@ -435,7 +435,7 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 
 		final TemporaryBuffer.Heap inBuf = new TemporaryBuffer.Heap(1024);
 		final PacketLineOut inPckLine = new PacketLineOut(inBuf);
-		inPckLine.writeString(ObjectId.zeroId().name() + ' ' + N.name() + ' '
+		inPckLine.writeString(ObjectId.zeroId().getName() + ' ' + N.getName() + ' '
 				+ "refs/heads/s" + '\0'
 				+ BasePackPushConnection.CAPABILITY_REPORT_STATUS);
 		inPckLine.end();
@@ -460,10 +460,10 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 		String master = r.readString();
 		int nul = master.indexOf('\0');
 		assertTrue("has capability list", nul > 0);
-		assertEquals(B.name() + ' ' + R_MASTER, master.substring(0, nul));
+		assertEquals(B.getName() + ' ' + R_MASTER, master.substring(0, nul));
 		assertSame(PacketLineIn.END, r.readString());
 
-		assertEquals("unpack error Missing blob " + n.name(), r.readString());
+		assertEquals("unpack error Missing blob " + n.getName(), r.readString());
 		assertEquals("ng refs/heads/s n/a (unpacker error)", r.readString());
 		assertSame(PacketLineIn.END, r.readString());
 	}
@@ -483,7 +483,7 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 
 		final TemporaryBuffer.Heap inBuf = new TemporaryBuffer.Heap(1024);
 		final PacketLineOut inPckLine = new PacketLineOut(inBuf);
-		inPckLine.writeString(ObjectId.zeroId().name() + ' ' + N.name() + ' '
+		inPckLine.writeString(ObjectId.zeroId().getName() + ' ' + N.getName() + ' '
 				+ "refs/heads/s" + '\0'
 				+ BasePackPushConnection.CAPABILITY_REPORT_STATUS);
 		inPckLine.end();
@@ -508,10 +508,10 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 		String master = r.readString();
 		int nul = master.indexOf('\0');
 		assertTrue("has capability list", nul > 0);
-		assertEquals(B.name() + ' ' + R_MASTER, master.substring(0, nul));
+		assertEquals(B.getName() + ' ' + R_MASTER, master.substring(0, nul));
 		assertSame(PacketLineIn.END, r.readString());
 
-		assertEquals("unpack error Missing tree " + t.name(), r.readString());
+		assertEquals("unpack error Missing tree " + t.getName(), r.readString());
 		assertEquals("ng refs/heads/s n/a (unpacker error)", r.readString());
 		assertSame(PacketLineIn.END, r.readString());
 	}

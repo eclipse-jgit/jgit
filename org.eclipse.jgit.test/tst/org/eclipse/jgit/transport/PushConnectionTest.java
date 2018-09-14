@@ -171,9 +171,9 @@ public class PushConnectionTest {
 			StringBuilder buf = new StringBuilder();
 			buf.append("42");
 			buf.append(' ');
-			buf.append(obj2.name());
+			buf.append(obj2.getName());
 			buf.append(' ');
-			buf.append("refs/heads/A" + obj2.name());
+			buf.append("refs/heads/A" + obj2.getName());
 			buf.append('\0').append(CAPABILITY_SIDE_BAND_64K);
 			buf.append(' ').append(CAPABILITY_REPORT_STATUS);
 			buf.append('\n');

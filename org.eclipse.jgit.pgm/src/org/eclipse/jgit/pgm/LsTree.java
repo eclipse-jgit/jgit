@@ -89,7 +89,7 @@ class LsTree extends TextBuiltin {
 				outw.print(Constants.typeString(mode.getObjectType()));
 
 				outw.print(' ');
-				outw.print(walk.getObjectId(0).name());
+				outw.print(walk.getObjectId(0).getName());
 
 				outw.print('\t');
 				outw.print(QuotedString.GIT_PATH.quote(walk.getPathString()));

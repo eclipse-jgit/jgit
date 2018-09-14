@@ -124,7 +124,7 @@ public class MergerTest extends RepositoryTestCase {
 			RevCommit other = git.commit()
 					.setMessage("removing folders on 'other'").call();
 
-			git.checkout().setName(base.name()).call();
+			git.checkout().setName(base.getName()).call();
 
 			file = new File(db.getWorkTree(), "unrelated.txt");
 			write(file, "unrelated");
@@ -936,7 +936,7 @@ public class MergerTest extends RepositoryTestCase {
 				+ "1master\n"
 				+ "=======\n"
 				+ "1side\n"
-				+ ">>>>>>> " + sideCommit.name() + "\n"
+				+ ">>>>>>> " + sideCommit.getName() + "\n"
 				+ "2\n"
 				+ "3";
 		assertEquals(expected, read("file"));

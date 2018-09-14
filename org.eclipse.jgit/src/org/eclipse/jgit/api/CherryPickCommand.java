@@ -209,7 +209,7 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 				throw new MultipleParentsNotAllowedException(
 						MessageFormat.format(
 								JGitText.get().canOnlyCherryPickCommitsWithOneParent,
-								srcCommit.name(),
+								srcCommit.getName(),
 								Integer.valueOf(srcCommit.getParentCount())));
 			srcParent = srcCommit.getParent(0);
 		} else {

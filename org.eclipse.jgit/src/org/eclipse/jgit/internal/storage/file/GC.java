@@ -1125,7 +1125,7 @@ public class GC {
 							JGitText.get().corruptObjectInvalidMode3,
 							String.format("%o", //$NON-NLS-1$
 									Integer.valueOf(treeWalk.getRawMode(0))),
-							(objectId == null) ? "null" : objectId.name(), //$NON-NLS-1$
+							(objectId == null) ? "null" : objectId.getName(), //$NON-NLS-1$
 							treeWalk.getPathString(), //
 							repo.getIndexFile()));
 				}

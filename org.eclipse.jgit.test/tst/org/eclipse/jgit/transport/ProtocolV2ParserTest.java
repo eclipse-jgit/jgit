@@ -141,7 +141,7 @@ public class ProtocolV2ParserTest {
 	private static List<String> objIdsAsStrings(Collection<ObjectId> objIds) {
 		// TODO(ifrade) Translate this to a matcher, so it would read as
 		// assertThat(req.wantsIds(), hasObjectIds("...", "..."))
-		return objIds.stream().map(ObjectId::name).collect(Collectors.toList());
+		return objIds.stream().map(ObjectId::getName).collect(Collectors.toList());
 	}
 
 	/*

@@ -1687,7 +1687,7 @@ public abstract class BaseReceivePack {
 					oldObj = walk.parseAny(cmd.getOldId());
 				} catch (IOException e) {
 					cmd.setResult(Result.REJECTED_MISSING_OBJECT, cmd
-							.getOldId().name());
+							.getOldId().getName());
 					continue;
 				}
 
@@ -1695,7 +1695,7 @@ public abstract class BaseReceivePack {
 					newObj = walk.parseAny(cmd.getNewId());
 				} catch (IOException e) {
 					cmd.setResult(Result.REJECTED_MISSING_OBJECT, cmd
-							.getNewId().name());
+							.getNewId().getName());
 					continue;
 				}
 

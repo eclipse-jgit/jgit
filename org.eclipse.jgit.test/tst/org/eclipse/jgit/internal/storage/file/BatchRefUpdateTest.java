@@ -861,7 +861,7 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 	}
 
 	private void writeLooseRef(String name, AnyObjectId id) throws IOException {
-		write(new File(diskRepo.getDirectory(), name), id.name() + "\n");
+		write(new File(diskRepo.getDirectory(), name), id.getName() + "\n");
 	}
 
 	private void writeRef(String name, AnyObjectId id) throws IOException {

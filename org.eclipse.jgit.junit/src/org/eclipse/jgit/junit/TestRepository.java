@@ -356,7 +356,7 @@ public class TestRepository<R extends Repository> {
 				return pool.lookupAny(entid, entmode.getObjectType());
 			}
 		}
-		fail("Can't find " + path + " in tree " + tree.name());
+		fail("Can't find " + path + " in tree " + tree.getName());
 		return null; // never reached.
 	}
 
@@ -662,7 +662,7 @@ public class TestRepository<R extends Repository> {
 				break;
 			default:
 				throw new IOException(String.format(
-						"Checkout \"%s\" failed: %s", id.name(), result));
+						"Checkout \"%s\" failed: %s", id.getName(), result));
 		}
 	}
 
@@ -716,7 +716,7 @@ public class TestRepository<R extends Repository> {
 		if (commit.getParentCount() != 1)
 			throw new IOException(String.format(
 					"Expected 1 parent for %s, found: %s",
-					id.name(), Arrays.asList(commit.getParents())));
+					id.getName(), Arrays.asList(commit.getParents())));
 		RevCommit parent = commit.getParent(0);
 		pool.parseHeaders(parent);
 
@@ -942,7 +942,7 @@ public class TestRepository<R extends Repository> {
 
 	private static File nameFor(ObjectDirectory odb, ObjectId name, String t) {
 		File packdir = odb.getPackDirectory();
-		return new File(packdir, "pack-" + name.name() + t);
+		return new File(packdir, "pack-" + name.getName() + t);
 	}
 
 	private void writeFile(File p, byte[] bin) throws IOException,

@@ -1182,7 +1182,7 @@ public class UploadPack {
 						shallowCommits.add(c.copy());
 					}
 					if (writeToPckOut) {
-						pckOut.writeString("shallow " + o.name()); //$NON-NLS-1$
+						pckOut.writeString("shallow " + o.getName()); //$NON-NLS-1$
 					}
 				}
 
@@ -1192,7 +1192,7 @@ public class UploadPack {
 						&& clientShallowCommits.remove(c)) {
 					unshallowCommits.add(c.copy());
 					if (writeToPckOut) {
-						pckOut.writeString("unshallow " + c.name()); //$NON-NLS-1$
+						pckOut.writeString("unshallow " + c.getName()); //$NON-NLS-1$
 					}
 				}
 			}
@@ -1222,7 +1222,7 @@ public class UploadPack {
 						throw new PackProtocolException(
 							MessageFormat.format(
 								JGitText.get().invalidShallowObject,
-								o.name()));
+								o.getName()));
 					}
 				} catch (MissingObjectException notCommit) {
 					// shallow objects not known at the server are ignored
@@ -1478,7 +1478,7 @@ public class UploadPack {
 				if (commonBase.isEmpty() || multiAck != MultiAck.OFF)
 					pckOut.writeString("NAK\n"); //$NON-NLS-1$
 				if (noDone && sentReady) {
-					pckOut.writeString("ACK " + last.name() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
+					pckOut.writeString("ACK " + last.getName() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
 					return true;
 				}
 				if (!biDirectionalPipe)
@@ -1495,7 +1495,7 @@ public class UploadPack {
 					pckOut.writeString("NAK\n"); //$NON-NLS-1$
 
 				else if (multiAck != MultiAck.OFF)
-					pckOut.writeString("ACK " + last.name() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
+					pckOut.writeString("ACK " + last.getName() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
 
 				return true;
 
@@ -1550,13 +1550,13 @@ public class UploadPack {
 				switch (multiAck) {
 				case OFF:
 					if (commonBase.size() == 1)
-						out.writeString("ACK " + obj.name() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
+						out.writeString("ACK " + obj.getName() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
 					break;
 				case CONTINUE:
-					out.writeString("ACK " + obj.name() + " continue\n"); //$NON-NLS-1$ //$NON-NLS-2$
+					out.writeString("ACK " + obj.getName() + " continue\n"); //$NON-NLS-1$ //$NON-NLS-2$
 					break;
 				case DETAILED:
-					out.writeString("ACK " + obj.name() + " common\n"); //$NON-NLS-1$ //$NON-NLS-2$
+					out.writeString("ACK " + obj.getName() + " common\n"); //$NON-NLS-1$ //$NON-NLS-2$
 					break;
 				}
 			}
@@ -1582,10 +1582,10 @@ public class UploadPack {
 						case OFF:
 							break;
 						case CONTINUE:
-							out.writeString("ACK " + id.name() + " continue\n"); //$NON-NLS-1$ //$NON-NLS-2$
+							out.writeString("ACK " + id.getName() + " continue\n"); //$NON-NLS-1$ //$NON-NLS-2$
 							break;
 						case DETAILED:
-							out.writeString("ACK " + id.name() + " ready\n"); //$NON-NLS-1$ //$NON-NLS-2$
+							out.writeString("ACK " + id.getName() + " ready\n"); //$NON-NLS-1$ //$NON-NLS-2$
 							sentReady = true;
 							break;
 						}
@@ -1597,7 +1597,7 @@ public class UploadPack {
 
 		if (multiAck == MultiAck.DETAILED && !didOkToGiveUp && okToGiveUp()) {
 			ObjectId id = peerHas.get(peerHas.size() - 1);
-			out.writeString("ACK " + id.name() + " ready\n"); //$NON-NLS-1$ //$NON-NLS-2$
+			out.writeString("ACK " + id.getName() + " ready\n"); //$NON-NLS-1$ //$NON-NLS-2$
 			sentReady = true;
 		}
 

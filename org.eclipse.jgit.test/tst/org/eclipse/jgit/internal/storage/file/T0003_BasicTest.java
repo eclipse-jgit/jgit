@@ -308,7 +308,7 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		try (ObjectInserter oi = newdb.newObjectInserter()) {
 			final ObjectId treeId = oi.insert(new TreeFormatter());
 			assertEquals("4b825dc642cb6eb9a060e54bf8d69288fbee4904",
-					treeId.name());
+					treeId.getName());
 		}
 
 		final File o = new File(new File(new File(newdb.getDirectory(),
@@ -322,7 +322,7 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		// File shouldn't exist as it is in a test pack.
 		//
 		final ObjectId treeId = insertTree(new TreeFormatter());
-		assertEquals("4b825dc642cb6eb9a060e54bf8d69288fbee4904", treeId.name());
+		assertEquals("4b825dc642cb6eb9a060e54bf8d69288fbee4904", treeId.getName());
 		final File o = new File(new File(
 				new File(db.getDirectory(), "objects"), "4b"),
 				"825dc642cb6eb9a060e54bf8d69288fbee4904");
@@ -440,7 +440,7 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		t.setTagger(new PersonIdent(author, 1154236443000L, -4 * 60));
 		t.setMessage("test020 tagged\n");
 		ObjectId actid = insertTag(t);
-		assertEquals("6759556b09fbb4fd8ae5e315134481cc25d46954", actid.name());
+		assertEquals("6759556b09fbb4fd8ae5e315134481cc25d46954", actid.getName());
 
 		RevTag mapTag = parseTag(actid);
 		assertEquals(Constants.OBJ_BLOB, mapTag.getObject().getType());
@@ -448,7 +448,7 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		assertEquals(new PersonIdent(author, 1154236443000L, -4 * 60), mapTag
 				.getTaggerIdent());
 		assertEquals("e69de29bb2d1d6434b8b29ae775ad8c2e48c5391", mapTag
-				.getObject().getId().name());
+				.getObject().getId().getName());
 	}
 
 	@Test
@@ -463,7 +463,7 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		t.setTagger(new PersonIdent(author, 1154236443000L, -4 * 60));
 		t.setMessage("test021 tagged\n");
 		ObjectId actid = insertTag(t);
-		assertEquals("b0517bc8dbe2096b419d42424cd7030733f4abe5", actid.name());
+		assertEquals("b0517bc8dbe2096b419d42424cd7030733f4abe5", actid.getName());
 
 		RevTag mapTag = parseTag(actid);
 		assertEquals(Constants.OBJ_TREE, mapTag.getObject().getType());
@@ -471,7 +471,7 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		assertEquals(new PersonIdent(author, 1154236443000L, -4 * 60), mapTag
 				.getTaggerIdent());
 		assertEquals("417c01c8795a35b8e835113a85a5c0c1c77f67fb", mapTag
-				.getObject().getId().name());
+				.getObject().getId().getName());
 	}
 
 	@Test
@@ -494,7 +494,7 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		t.setTagger(new PersonIdent(author, 1154236443000L, -4 * 60));
 		t.setMessage("test022 tagged\n");
 		ObjectId actid = insertTag(t);
-		assertEquals("0ce2ebdb36076ef0b38adbe077a07d43b43e3807", actid.name());
+		assertEquals("0ce2ebdb36076ef0b38adbe077a07d43b43e3807", actid.getName());
 
 		RevTag mapTag = parseTag(actid);
 		assertEquals(Constants.OBJ_COMMIT, mapTag.getObject().getType());
@@ -502,7 +502,7 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		assertEquals(new PersonIdent(author, 1154236443000L, -4 * 60), mapTag
 				.getTaggerIdent());
 		assertEquals("b5d3b45a96b340441f5abb9080411705c51cc86c", mapTag
-				.getObject().getId().name());
+				.getObject().getId().getName());
 	}
 
 	@Test
@@ -520,7 +520,7 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		commit.setEncoding(UTF_8);
 		commit.setMessage("\u00dcbergeeks");
 		ObjectId cid = insertCommit(commit);
-		assertEquals("4680908112778718f37e686cbebcc912730b3154", cid.name());
+		assertEquals("4680908112778718f37e686cbebcc912730b3154", cid.getName());
 
 		RevCommit loadedCommit = parseCommit(cid);
 		assertEquals(commit.getMessage(), loadedCommit.getFullMessage());
@@ -541,7 +541,7 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		commit.setEncoding("ISO-8859-1");
 		commit.setMessage("\u00dcbergeeks");
 		ObjectId cid = insertCommit(commit);
-		assertEquals("2979b39d385014b33287054b87f77bcb3ecb5ebf", cid.name());
+		assertEquals("2979b39d385014b33287054b87f77bcb3ecb5ebf", cid.getName());
 	}
 
 	@Test
@@ -550,7 +550,7 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 				.getBytes(ISO_8859_1);
 		try (ObjectInserter.Formatter formatter = new ObjectInserter.Formatter()) {
 			final ObjectId id = formatter.idFor(Constants.OBJ_BLOB, data);
-			assertEquals("4f561df5ecf0dfbd53a0dc0f37262fef075d9dde", id.name());
+			assertEquals("4f561df5ecf0dfbd53a0dc0f37262fef075d9dde", id.getName());
 		}
 	}
 
@@ -657,7 +657,7 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		write(new File(db.getDirectory(), "refs/heads/a"), unpackedId + "\n");
 
 		ObjectId resolved = db.resolve("refs/heads/a");
-		assertEquals(unpackedId, resolved.name());
+		assertEquals(unpackedId, resolved.getName());
 	}
 
 	@Test
@@ -673,7 +673,7 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		}
 
 		writeTrashFile(".git/packed-refs",
-				id1.name() + " refs/heads/foobar");
+				id1.getName() + " refs/heads/foobar");
 		writeTrashFile(".git/HEAD", "ref: refs/heads/foobar\n");
 		BUG_WorkAroundRacyGitIssues("packed-refs");
 		BUG_WorkAroundRacyGitIssues("HEAD");

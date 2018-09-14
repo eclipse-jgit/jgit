@@ -80,7 +80,7 @@ class FetchHeadRecord {
 			name = sourceName;
 		}
 
-		pw.write(newValue.name());
+		pw.write(newValue.getName());
 		pw.write('\t');
 		if (notForMerge)
 			pw.write("not-for-merge"); //$NON-NLS-1$

@@ -271,9 +271,9 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 					oldId = ObjectId.zeroId();
 				}
 			}
-			sb.append(oldId.name());
+			sb.append(oldId.getName());
 			sb.append(' ');
-			sb.append(rru.getNewObjectId().name());
+			sb.append(rru.getNewObjectId().getName());
 			sb.append(' ');
 			sb.append(rru.getRemoteName());
 			if (!sentCommand) {

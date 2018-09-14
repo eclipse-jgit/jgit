@@ -93,19 +93,19 @@ public class NotesMergeConflictException extends IOException {
 
 	private static String noteOn(Note base, Note ours, Note theirs) {
 		if (base != null)
-			return base.name();
+			return base.getName();
 		if (ours != null)
-			return ours.name();
-		return theirs.name();
+			return ours.getName();
+		return theirs.getName();
 	}
 
 	private static String noteData(Note n) {
 		if (n != null)
-			return n.getData().name();
+			return n.getData().getName();
 		return ""; //$NON-NLS-1$
 	}
 
 	private static String name(NonNoteEntry e) {
-		return e != null ? e.name() : ""; //$NON-NLS-1$
+		return e != null ? e.getName() : ""; //$NON-NLS-1$
 	}
 }

@@ -66,6 +66,6 @@ public class Sha1CollisionException extends RuntimeException {
 	public Sha1CollisionException(ObjectId id) {
 		super(MessageFormat.format(
 				JGitText.get().sha1CollisionDetected1,
-				id.name()));
+				id.getName()));
 	}
 }

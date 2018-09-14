@@ -355,7 +355,7 @@ public class FooterLineTest extends RepositoryTestCase {
 
 	private RevCommit parse(String msg) throws IOException {
 		final StringBuilder buf = new StringBuilder();
-		buf.append("tree " + ObjectId.zeroId().name() + "\n");
+		buf.append("tree " + ObjectId.zeroId().getName() + "\n");
 		buf.append("author A. U. Thor <a@example.com> 1 +0000\n");
 		buf.append("committer A. U. Thor <a@example.com> 1 +0000\n");
 		buf.append("\n");

@@ -104,7 +104,7 @@ public class BranchTest extends CLIRepositoryTestCase {
 			assertEquals(toString("  initial", "* master"),
 					toString(execute("git branch --contains 6fd41be")));
 			assertEquals("* master",
-					toString(execute("git branch --contains " + second.name())));
+					toString(execute("git branch --contains " + second.getName())));
 		}
 	}
 

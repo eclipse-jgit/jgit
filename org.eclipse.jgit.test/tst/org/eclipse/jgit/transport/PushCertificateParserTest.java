@@ -143,7 +143,7 @@ public class PushCertificateParserTest {
 		ObjectId oldId = ObjectId.zeroId();
 		ObjectId newId =
 				ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef");
-		String line = oldId.name() + " " + newId.name() + " refs/heads/master";
+		String line = oldId.getName() + " " + newId.getName() + " refs/heads/master";
 		ReceiveCommand cmd = BaseReceivePack.parseCommand(line);
 
 		parser.addCommand(cmd);
@@ -212,7 +212,7 @@ public class PushCertificateParserTest {
 		assertEquals("refs/heads/master", cmd.getRefName());
 		assertEquals(ObjectId.zeroId(), cmd.getOldId());
 		assertEquals("6c2b981a177396fb47345b7df3e4d3f854c6bea7",
-				cmd.getNewId().name());
+				cmd.getNewId().getName());
 
 		assertEquals(concatPacketLines(INPUT, 0, 6), cert.toText());
 		assertEquals(concatPacketLines(INPUT, 0, 17), cert.toTextWithSignature());
@@ -251,7 +251,7 @@ public class PushCertificateParserTest {
 		assertEquals("refs/heads/master", cmd.getRefName());
 		assertEquals(ObjectId.zeroId(), cmd.getOldId());
 		assertEquals("6c2b981a177396fb47345b7df3e4d3f854c6bea7",
-				cmd.getNewId().name());
+				cmd.getNewId().getName());
 
 		// Canonical signed payload has reinserted newlines.
 		assertEquals(concatPacketLines(INPUT, 0, 6), cert.toText());
@@ -317,7 +317,7 @@ public class PushCertificateParserTest {
 		ReceiveCommand streamCmd = streamCert.getCommands().get(0);
 		assertEquals(pckCmd.getRefName(), streamCmd.getRefName());
 		assertEquals(pckCmd.getOldId(), streamCmd.getOldId());
-		assertEquals(pckCmd.getNewId().name(), streamCmd.getNewId().name());
+		assertEquals(pckCmd.getNewId().getName(), streamCmd.getNewId().getName());
 	}
 
 	@Test

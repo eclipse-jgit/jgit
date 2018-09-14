@@ -213,7 +213,7 @@ public class PatchTest {
 			assertSame(FileHeader.ChangeType.ADD, fh.getChangeType());
 			assertNotNull(fh.getOldId());
 			assertNotNull(fh.getNewId());
-			assertEquals(ObjectId.zeroId().name(), fh.getOldId().name());
+			assertEquals(ObjectId.zeroId().getName(), fh.getOldId().name());
 			assertSame(FileMode.REGULAR_FILE, fh.getNewMode());
 			assertTrue(fh.getNewPath().startsWith(
 					"org.spearce.egit.ui/icons/toolbar/"));

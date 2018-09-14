@@ -362,12 +362,12 @@ class Blame extends TextBuiltin {
 
 		} else if (!root && commit.getParentCount() == 0) {
 			if (showLongRevision)
-				r = "^" + commit.name().substring(0, OBJECT_ID_STRING_LENGTH - 1); //$NON-NLS-1$
+				r = "^" + commit.getName().substring(0, OBJECT_ID_STRING_LENGTH - 1); //$NON-NLS-1$
 			else
 				r = "^" + reader.abbreviate(commit, abbrev).name(); //$NON-NLS-1$
 		} else {
 			if (showLongRevision)
-				r = commit.name();
+				r = commit.getName();
 			else
 				r = reader.abbreviate(commit, abbrev + 1).name();
 		}

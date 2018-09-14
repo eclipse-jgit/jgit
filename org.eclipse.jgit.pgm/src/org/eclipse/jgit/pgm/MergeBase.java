@@ -76,7 +76,7 @@ class MergeBase extends TextBuiltin {
 			final RevCommit b = argWalk.next();
 			if (b == null)
 				break;
-			outw.println(b.getId().name());
+			outw.println(b.getId().getName());
 		}
 	}
 }

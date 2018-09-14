@@ -278,7 +278,7 @@ public class RemoteGitReplica extends KetchReplica {
 				}
 			}
 			for (ObjectId id : req.getWantObjects()) {
-				want.add(new ObjectIdRef.Unpeeled(NETWORK, id.name(), id));
+				want.add(new ObjectIdRef.Unpeeled(NETWORK, id.getName(), id));
 			}
 
 			conn.fetch(NullProgressMonitor.INSTANCE, want,

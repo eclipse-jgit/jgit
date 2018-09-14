@@ -294,7 +294,7 @@ public class FetchAndPullCommandsRecurseSubmodulesTest extends RepositoryTestCas
 			assertTrue(w.next());
 			try (Git g = new Git(w.getRepository())) {
 				g.fetch().setRemote(REMOTE).setRefSpecs(REFSPEC).call();
-				g.reset().setMode(ResetType.HARD).setRef(commit1.name()).call();
+				g.reset().setMode(ResetType.HARD).setRef(commit1.getName()).call();
 			}
 		}
 

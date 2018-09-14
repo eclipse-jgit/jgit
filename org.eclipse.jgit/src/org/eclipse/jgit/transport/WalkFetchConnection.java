@@ -294,7 +294,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 				if (inWorkQueue.add(id))
 					workQueue.add(id);
 			} catch (IOException e) {
-				throw new TransportException(MessageFormat.format(JGitText.get().cannotRead, id.name()), e);
+				throw new TransportException(MessageFormat.format(JGitText.get().cannotRead, id.getName()), e);
 			}
 		}
 	}
@@ -313,7 +313,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 					return;
 			}
 		} catch (IOException e) {
-			throw new TransportException(MessageFormat.format(JGitText.get().cannotRead, id.name()), e);
+			throw new TransportException(MessageFormat.format(JGitText.get().cannotRead, id.getName()), e);
 		}
 
 		switch (obj.getType()) {
@@ -330,7 +330,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 			processTag(obj);
 			break;
 		default:
-			throw new TransportException(MessageFormat.format(JGitText.get().unknownObjectType, id.name()));
+			throw new TransportException(MessageFormat.format(JGitText.get().unknownObjectType, id.getName()));
 		}
 
 		// If we had any prior errors fetching this object they are
@@ -345,11 +345,11 @@ class WalkFetchConnection extends BaseFetchConnection {
 				obj.add(COMPLETE);
 			else
 				throw new TransportException(MessageFormat.format(JGitText
-						.get().cannotReadBlob, obj.name()),
+						.get().cannotReadBlob, obj.getName()),
 						new MissingObjectException(obj, Constants.TYPE_BLOB));
 		} catch (IOException error) {
 			throw new TransportException(MessageFormat.format(
-					JGitText.get().cannotReadBlob, obj.name()), error);
+					JGitText.get().cannotReadBlob, obj.getName()), error);
 		}
 	}
 
@@ -372,11 +372,11 @@ class WalkFetchConnection extends BaseFetchConnection {
 						continue;
 					treeWalk.getObjectId(idBuffer, 0);
 					throw new CorruptObjectException(MessageFormat.format(JGitText.get().invalidModeFor
-							, mode, idBuffer.name(), treeWalk.getPathString(), obj.getId().name()));
+							, mode, idBuffer.getName(), treeWalk.getPathString(), obj.getId().getName()));
 				}
 			}
 		} catch (IOException ioe) {
-			throw new TransportException(MessageFormat.format(JGitText.get().cannotReadTree, obj.name()), ioe);
+			throw new TransportException(MessageFormat.format(JGitText.get().cannotReadTree, obj.getName()), ioe);
 		}
 		obj.add(COMPLETE);
 	}
@@ -421,7 +421,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 			// Search for a loose object over all alternates, starting
 			// from the one we last successfully located an object through.
 			//
-			final String idStr = id.name();
+			final String idStr = id.getName();
 			final String subdir = idStr.substring(0, 2);
 			final String file = idStr.substring(2);
 			final String looseName = subdir + "/" + file; //$NON-NLS-1$
@@ -484,7 +484,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 			List<Throwable> failures = fetchErrors.get(id);
 			final TransportException te;
 
-			te = new TransportException(MessageFormat.format(JGitText.get().cannotGet, id.name()));
+			te = new TransportException(MessageFormat.format(JGitText.get().cannotGet, id.getName()));
 			if (failures != null && !failures.isEmpty()) {
 				if (failures.size() == 1)
 					te.initCause(failures.get(0));
@@ -500,7 +500,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 			return reader.has(id);
 		} catch (IOException error) {
 			throw new TransportException(MessageFormat.format(
-					JGitText.get().cannotReadObject, id.name()), error);
+					JGitText.get().cannotReadObject, id.getName()), error);
 		}
 	}
 
@@ -575,7 +575,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 				// actually find it in the pack.
 				//
 				recordError(id, new FileNotFoundException(MessageFormat.format(
-						JGitText.get().objectNotFoundIn, id.name(), pack.packName)));
+						JGitText.get().objectNotFoundIn, id.getName(), pack.packName)));
 				continue;
 			}
 
@@ -617,7 +617,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 			recordError(id, e);
 			return false;
 		} catch (IOException e) {
-			throw new TransportException(MessageFormat.format(JGitText.get().cannotDownload, id.name()), e);
+			throw new TransportException(MessageFormat.format(JGitText.get().cannotDownload, id.getName()), e);
 		}
 	}
 
@@ -639,7 +639,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 			// source.
 			//
 			final FileNotFoundException e;
-			e = new FileNotFoundException(id.name());
+			e = new FileNotFoundException(id.getName());
 			e.initCause(parsingError);
 			throw e;
 		}
@@ -652,14 +652,14 @@ class WalkFetchConnection extends BaseFetchConnection {
 			} catch (CorruptObjectException e) {
 				throw new TransportException(MessageFormat.format(
 						JGitText.get().transportExceptionInvalid,
-						Constants.typeString(type), id.name(), e.getMessage()));
+						Constants.typeString(type), id.getName(), e.getMessage()));
 			}
 		}
 
 		ObjectId act = inserter.insert(type, raw);
 		if (!AnyObjectId.equals(id, act)) {
 			throw new TransportException(MessageFormat.format(
-					JGitText.get().incorrectHashFor, id.name(), act.name(),
+					JGitText.get().incorrectHashFor, id.getName(), act.getName(),
 					Constants.typeString(type),
 					Integer.valueOf(compressed.length)));
 		}
@@ -704,7 +704,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 			try {
 				markLocalObjComplete(revWalk.parseAny(id));
 			} catch (IOException readError) {
-				throw new TransportException(MessageFormat.format(JGitText.get().transportExceptionMissingAssumed, id.name()), readError);
+				throw new TransportException(MessageFormat.format(JGitText.get().transportExceptionMissingAssumed, id.getName()), readError);
 			}
 		}
 	}
@@ -787,7 +787,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 					continue;
 				treeWalk.getObjectId(idBuffer, 0);
 				throw new CorruptObjectException(MessageFormat.format(JGitText.get().corruptObjectInvalidMode3
-						, mode, idBuffer.name(), treeWalk.getPathString(), tree.name()));
+						, mode, idBuffer.getName(), treeWalk.getPathString(), tree.getName()));
 			}
 		}
 	}

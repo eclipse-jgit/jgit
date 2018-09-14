@@ -1017,7 +1017,7 @@ public abstract class Repository implements AutoCloseable {
 		}
 		ObjectId objectId = head.getObjectId();
 		if (objectId != null) {
-			return objectId.name();
+			return objectId.getName();
 		}
 		return null;
 	}

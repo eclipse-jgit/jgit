@@ -98,7 +98,7 @@ class LsRemote extends TextBuiltin {
 
 	private void show(AnyObjectId id, String name)
 			throws IOException {
-		outw.print(id.name());
+		outw.print(id.getName());
 		outw.print('\t');
 		outw.print(name);
 		outw.println();

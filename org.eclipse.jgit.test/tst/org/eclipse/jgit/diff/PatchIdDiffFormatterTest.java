@@ -75,7 +75,7 @@ public class PatchIdDiffFormatterTest extends RepositoryTestCase {
 			df.flush();
 
 			assertEquals("1ff64e0f9333e9b81967c3e8d7a81362b14d5441", df
-					.getCalulatedPatchId().name());
+					.getCalulatedPatchId().getName());
 		}
 	}
 
@@ -99,7 +99,7 @@ public class PatchIdDiffFormatterTest extends RepositoryTestCase {
 				df.flush();
 
 				assertEquals("08fca5ac531383eb1da8bf6b6f7cf44411281407", df
-						.getCalulatedPatchId().name());
+						.getCalulatedPatchId().getName());
 			}
 
 			write(new File(folder, "folder.txt"), "a\n\n\n\nfolder");
@@ -116,7 +116,7 @@ public class PatchIdDiffFormatterTest extends RepositoryTestCase {
 				df.flush();
 
 				assertEquals("08fca5ac531383eb1da8bf6b6f7cf44411281407", df
-						.getCalulatedPatchId().name());
+						.getCalulatedPatchId().getName());
 			}
 		}
 	}

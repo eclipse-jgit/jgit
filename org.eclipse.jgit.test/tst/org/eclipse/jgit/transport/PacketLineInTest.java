@@ -212,7 +212,7 @@ public class PacketLineInTest {
 		final ObjectId expid = ObjectId
 				.fromString("fcfcfb1fd94829c1a1704f894fc111d14770d34e");
 		final MutableObjectId actid = new MutableObjectId();
-		actid.fromString(expid.name());
+		actid.fromString(expid.getName());
 
 		init("0008NAK\n");
 		assertSame(PacketLineIn.AckNackResult.NAK, in.readACK(actid));

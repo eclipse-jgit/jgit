@@ -495,14 +495,18 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
-		return "AnyObjectId[" + name() + "]";
+		return "AnyObjectId[" + getName() + "]";
 	}
 
 	/**
-	 * <p>name.</p>
+	 * <p>
+	 * name.
+	 * </p>
 	 *
 	 * @return string form of the SHA-1, in lower case hexadecimal.
+	 * @deprecated Use getName()
 	 */
+	@Deprecated
 	public final String name() {
 		return new String(toHexCharArray());
 	}
@@ -513,7 +517,7 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 	 * @return string form of the SHA-1, in lower case hexadecimal.
 	 */
 	public final String getName() {
-		return name();
+		return new String(toHexCharArray());
 	}
 
 	/**

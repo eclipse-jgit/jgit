@@ -497,7 +497,7 @@ public class SHA1 {
 
 		if (foundCollision) {
 			ObjectId id = h.toObjectId();
-			LOG.warn("possible SHA-1 collision " + id.name()); //$NON-NLS-1$
+			LOG.warn("possible SHA-1 collision " + id.getName()); //$NON-NLS-1$
 			throw new Sha1CollisionException(id);
 		}
 	}

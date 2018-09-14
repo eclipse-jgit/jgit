@@ -136,7 +136,7 @@ public class AdvertiseErrorTest extends HttpTestCase {
 		final Repository db = src.getRepository();
 		final String dstName = Constants.R_HEADS + "new.branch";
 		try (Transport t = Transport.open(db, remoteURI)) {
-			final String srcExpr = Q.name();
+			final String srcExpr = Q.getName();
 			final boolean forceUpdate = false;
 			final String localName = null;
 			final ObjectId oldId = null;

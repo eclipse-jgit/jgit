@@ -85,6 +85,6 @@ public class WantNotValidException extends PackProtocolException {
 	}
 
 	private static String msg(AnyObjectId id) {
-		return MessageFormat.format(JGitText.get().wantNotValid, id.name());
+		return MessageFormat.format(JGitText.get().wantNotValid, id.getName());
 	}
 }

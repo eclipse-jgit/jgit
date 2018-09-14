@@ -196,7 +196,7 @@ public class CherryPickTest extends RepositoryTestCase {
 		c.setAuthor(new PersonIdent("A U Thor", "a.u.thor", 1L, 0));
 		c.setCommitter(c.getAuthor());
 		c.setParentIds(parentIds);
-		c.setMessage("Tree " + c.getTreeId().name());
+		c.setMessage("Tree " + c.getTreeId().getName());
 		ObjectId id = odi.insert(c);
 		odi.flush();
 		return id;

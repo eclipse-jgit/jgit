@@ -103,7 +103,7 @@ public class PushCertificateStoreTest {
 	}
 
 	private static String command(ObjectId oldId, ObjectId newId, String ref) {
-		return oldId.name() + " " + newId.name() + " " + ref;
+		return oldId.getName() + " " + newId.getName() + " " + ref;
 	}
 
 	private AtomicInteger ts = new AtomicInteger(1433954361);

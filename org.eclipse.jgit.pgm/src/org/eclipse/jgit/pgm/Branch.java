@@ -234,7 +234,7 @@ class Branch extends TextBuiltin {
 				if (startRef != null) {
 					startBranch = startRef.getName();
 				} else if (startAt != null) {
-					startBranch = startAt.name();
+					startBranch = startAt.getName();
 				} else {
 					throw die(MessageFormat.format(
 							CLIText.get().notAValidCommitName, startBranch));

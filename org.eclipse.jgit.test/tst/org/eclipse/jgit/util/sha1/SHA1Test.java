@@ -168,7 +168,7 @@ public class SHA1Test {
 			fail("expected " + Sha1CollisionException.class.getSimpleName());
 		} catch (Sha1CollisionException e) {
 			assertEquals(e.getMessage(),
-					"SHA-1 collision detected on " + bad.name());
+					"SHA-1 collision detected on " + bad.getName());
 		}
 
 		s = SHA1.newInstance().setDetectCollision(true);
@@ -178,7 +178,7 @@ public class SHA1Test {
 			fail("expected " + Sha1CollisionException.class.getSimpleName());
 		} catch (Sha1CollisionException e) {
 			assertEquals(e.getMessage(),
-					"SHA-1 collision detected on " + bad.name());
+					"SHA-1 collision detected on " + bad.getName());
 		}
 	}
 

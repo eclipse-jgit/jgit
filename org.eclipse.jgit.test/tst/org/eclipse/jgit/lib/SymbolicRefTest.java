@@ -133,6 +133,6 @@ public class SymbolicRefTest {
 		d = new SymbolicRef("D", c);
 
 		assertEquals("SymbolicRef[D -> C -> B -> " + targetName + "="
-				+ ID_A.name() + "]", d.toString());
+				+ ID_A.getName() + "]", d.toString());
 	}
 }

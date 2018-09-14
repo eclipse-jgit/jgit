@@ -61,7 +61,7 @@ public class MissingBundlePrerequisiteException extends TransportException {
 		r.append(JGitText.get().missingPrerequisiteCommits);
 		for (Map.Entry<ObjectId, String> e : missingCommits.entrySet()) {
 			r.append("\n  "); //$NON-NLS-1$
-			r.append(e.getKey().name());
+			r.append(e.getKey().getName());
 			if (e.getValue() != null)
 				r.append(" ").append(e.getValue()); //$NON-NLS-1$
 		}

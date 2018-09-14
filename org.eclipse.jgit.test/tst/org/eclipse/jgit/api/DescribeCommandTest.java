@@ -218,7 +218,7 @@ public class DescribeCommandTest extends RepositoryTestCase {
 
 	private void branch(String name, ObjectId base) throws GitAPIException {
 		git.checkout().setCreateBranch(true).setName(name)
-				.setStartPoint(base.name()).call();
+				.setStartPoint(base.getName()).call();
 	}
 
 	/**
@@ -425,6 +425,6 @@ public class DescribeCommandTest extends RepositoryTestCase {
 	}
 
 	private static void assertNameStartsWith(ObjectId c4, String prefix) {
-		assertTrue(c4.name(), c4.name().startsWith(prefix));
+		assertTrue(c4.getName(), c4.getName().startsWith(prefix));
 	}
 }

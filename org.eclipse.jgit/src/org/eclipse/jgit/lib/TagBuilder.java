@@ -233,7 +233,7 @@ public class TagBuilder {
 		r.append("={\n");
 
 		r.append("object ");
-		r.append(object != null ? object.name() : "NOT_SET");
+		r.append(object != null ? object.getName() : "NOT_SET");
 		r.append("\n");
 
 		r.append("type ");

@@ -250,9 +250,9 @@ public class GcCommitSelectionTest extends GcTestCase {
 				preparer.selectCommits(commits.size(), PackWriter.NONE));
 
 		// Verify that the output is ordered by the separate "chains"
-		String[] expected = { m0.name(), m1.name(), m2.name(), m4.name(),
-				m6.name(), m8.name(), m9.name(), b3.name(), b5.name(),
-				b7.name() };
+		String[] expected = { m0.getName(), m1.getName(), m2.getName(), m4.getName(),
+				m6.getName(), m8.getName(), m9.getName(), b3.getName(), b5.getName(),
+				b7.getName() };
 		assertEquals(expected.length, selection.size());
 		for (int i = 0; i < expected.length; i++) {
 			assertEquals("Entry " + i, expected[i], selection.get(i).getName());

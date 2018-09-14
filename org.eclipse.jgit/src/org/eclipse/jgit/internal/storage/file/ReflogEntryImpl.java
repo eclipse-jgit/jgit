@@ -130,7 +130,7 @@ public class ReflogEntryImpl implements Serializable, ReflogEntry {
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
-		return "Entry[" + oldId.name() + ", " + newId.name() + ", " + getWho()
+		return "Entry[" + oldId.getName() + ", " + newId.getName() + ", " + getWho()
 				+ ", " + getComment() + "]";
 	}
 

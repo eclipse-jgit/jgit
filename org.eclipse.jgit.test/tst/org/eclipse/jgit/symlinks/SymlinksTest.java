@@ -278,7 +278,7 @@ public class SymlinksTest extends RepositoryTestCase {
 			git.add().addFilepattern("target").addFilepattern("link").call();
 			git.commit().setMessage("add target").call();
 			assertEquals(4, db.getWorkTree().list().length); // self-check
-			git.checkout().setName(base.name()).call();
+			git.checkout().setName(base.getName()).call();
 			assertEquals(2, db.getWorkTree().list().length); // self-check
 			git.checkout().setName("master").call();
 			assertEquals(4, db.getWorkTree().list().length);
@@ -303,7 +303,7 @@ public class SymlinksTest extends RepositoryTestCase {
 			git.add().addFilepattern("target").addFilepattern("tlink").call();
 			git.commit().setMessage("add target").call();
 			assertEquals(4, db.getWorkTree().list().length); // self-check
-			git.checkout().setName(base.name()).call();
+			git.checkout().setName(base.getName()).call();
 			assertEquals(2, db.getWorkTree().list().length); // self-check
 			git.checkout().setName("master").call();
 			assertEquals(4, db.getWorkTree().list().length);
@@ -329,7 +329,7 @@ public class SymlinksTest extends RepositoryTestCase {
 			git.add().addFilepattern("target").addFilepattern("link").call();
 			git.commit().setMessage("add target").call();
 			assertEquals(4, db.getWorkTree().list().length); // self-check
-			git.checkout().setName(base.name()).call();
+			git.checkout().setName(base.getName()).call();
 			assertEquals(2, db.getWorkTree().list().length); // self-check
 			git.checkout().setName("master").call();
 			assertEquals(4, db.getWorkTree().list().length);

@@ -248,8 +248,8 @@ public class PushCertificate {
 		sb.append(NONCE).append(' ').append(nonce).append('\n')
 				.append('\n');
 		for (ReceiveCommand cmd : commands) {
-			sb.append(cmd.getOldId().name())
-				.append(' ').append(cmd.getNewId().name())
+			sb.append(cmd.getOldId().getName())
+				.append(' ').append(cmd.getNewId().getName())
 				.append(' ').append(cmd.getRefName()).append('\n');
 		}
 		return sb;

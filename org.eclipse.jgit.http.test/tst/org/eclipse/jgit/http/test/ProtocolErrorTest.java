@@ -124,9 +124,9 @@ public class ProtocolErrorTest extends HttpTestCase {
 	@Test
 	public void testPush_UnpackError_TruncatedPack() throws Exception {
 		StringBuilder sb = new StringBuilder();
-		sb.append(ObjectId.zeroId().name());
+		sb.append(ObjectId.zeroId().getName());
 		sb.append(' ');
-		sb.append(a_blob.name());
+		sb.append(a_blob.getName());
 		sb.append(' ');
 		sb.append("refs/objects/A");
 		sb.append('\0');

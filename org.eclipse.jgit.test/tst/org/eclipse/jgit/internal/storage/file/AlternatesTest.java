@@ -125,7 +125,7 @@ public class AlternatesTest extends SampleDataRepositoryTestCase {
 
 	private void assertCommit(RevCommit c) {
 		ObjectDirectory od = db2.getObjectDatabase();
-		assertTrue("can't find expected commit" + c.name(),
+		assertTrue("can't find expected commit" + c.getName(),
 				od.has(c.toObjectId()));
 	}
 

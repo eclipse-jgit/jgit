@@ -1063,7 +1063,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 	 */
 	@Override
 	public File fileFor(AnyObjectId objectId) {
-		String n = objectId.name();
+		String n = objectId.getName();
 		String d = n.substring(0, 2);
 		String f = n.substring(2);
 		return new File(new File(getDirectory(), d), f);

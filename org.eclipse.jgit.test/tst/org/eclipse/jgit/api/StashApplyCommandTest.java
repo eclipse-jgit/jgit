@@ -678,12 +678,12 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 	@Test
 	public void unstashNonStashCommit() throws Exception {
 		try {
-			git.stashApply().setStashRef(head.name()).call();
+			git.stashApply().setStashRef(head.getName()).call();
 			fail("Exception not thrown");
 		} catch (JGitInternalException e) {
 			assertEquals(MessageFormat.format(
 					JGitText.get().stashCommitIncorrectNumberOfParents,
-					head.name(), "0"),
+					head.getName(), "0"),
 					e.getMessage());
 		}
 	}

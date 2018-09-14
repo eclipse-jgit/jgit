@@ -82,17 +82,17 @@ public class RefAdvertiserTest {
 		PacketLineIn pckIn = new PacketLineIn(
 				new ByteArrayInputStream(buf.toByteArray()));
 		String s = pckIn.readStringRaw();
-		assertEquals(id(1).name() + " refs/heads/master\0 test-1 sideband\n",
+		assertEquals(id(1).getName() + " refs/heads/master\0 test-1 sideband\n",
 				s);
 
 		s = pckIn.readStringRaw();
-		assertEquals(id(4).name() + " refs/" + padStart("F", 987) + '\n', s);
+		assertEquals(id(4).getName() + " refs/" + padStart("F", 987) + '\n', s);
 
 		s = pckIn.readStringRaw();
-		assertEquals(id(2).name() + " refs/heads/next\n", s);
+		assertEquals(id(2).getName() + " refs/heads/next\n", s);
 
 		s = pckIn.readStringRaw();
-		assertEquals(id(3).name() + " refs/Iñtërnâtiônàlizætiøn☃💩\n", s);
+		assertEquals(id(3).getName() + " refs/Iñtërnâtiônàlizætiøn☃💩\n", s);
 
 		s = pckIn.readStringRaw();
 		assertSame(PacketLineIn.END, s);

@@ -223,7 +223,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 					.setRecordRemoteBranch(true).setRecordSubmoduleLabels(true)
 					.call();
 
-			String firstIdStr = commit.getId().name() + ":" + ".gitmodules";
+			String firstIdStr = commit.getId().getName() + ":" + ".gitmodules";
 			commit = new RepoCommand(dest)
 					.setInputStream(new ByteArrayInputStream(
 							xmlContent.toString().getBytes(UTF_8)))
@@ -231,7 +231,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 					.setTargetURI("platform/superproject")
 					.setRecordRemoteBranch(true).setRecordSubmoduleLabels(true)
 					.call();
-			String idStr = commit.getId().name() + ":" + ".gitmodules";
+			String idStr = commit.getId().getName() + ":" + ".gitmodules";
 			assertEquals(firstIdStr, idStr);
 		}
 	}
@@ -260,7 +260,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 					.setRecordRemoteBranch(true).setRecordSubmoduleLabels(true)
 					.call();
 
-			String idStr = commit.getId().name() + ":" + ".gitmodules";
+			String idStr = commit.getId().getName() + ":" + ".gitmodules";
 			ObjectId modId = dest.resolve(idStr);
 
 			try (ObjectReader reader = dest.newObjectReader()) {
@@ -294,7 +294,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 					.setRecordRemoteBranch(true).setIgnoreRemoteFailures(true)
 					.setRecordSubmoduleLabels(true).call();
 
-			String idStr = commit.getId().name() + ":" + ".gitmodules";
+			String idStr = commit.getId().getName() + ":" + ".gitmodules";
 			ObjectId modId = dest.resolve(idStr);
 
 			try (ObjectReader reader = dest.newObjectReader()) {
@@ -332,7 +332,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 					.setRecordRemoteBranch(true).setRecordSubmoduleLabels(true)
 					.call();
 
-			String idStr = commit.getId().name() + ":" + ".gitmodules";
+			String idStr = commit.getId().getName() + ":" + ".gitmodules";
 			ObjectId modId = dest.resolve(idStr);
 
 			try (ObjectReader reader = dest.newObjectReader()) {
@@ -381,7 +381,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 							.setTargetURI("gerrit").setRecordRemoteBranch(true)
 							.setRecordSubmoduleLabels(true).call();
 
-					String idStr = commit.getId().name() + ":" + ".gitmodules";
+					String idStr = commit.getId().getName() + ":" + ".gitmodules";
 					ObjectId modId = dest.resolve(idStr);
 
 					try (ObjectReader reader = dest.newObjectReader()) {
@@ -437,7 +437,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 							.setRecordRemoteBranch(true)
 							.setRecordSubmoduleLabels(true).call();
 
-					String idStr = commit.getId().name() + ":" + ".gitmodules";
+					String idStr = commit.getId().getName() + ":" + ".gitmodules";
 					ObjectId modId = dest.resolve(idStr);
 
 					try (ObjectReader reader = dest.newObjectReader()) {
@@ -618,8 +618,8 @@ public class RepoCommandTest extends RepositoryTestCase {
 						"[submodule \"" + defaultUri + "\"]", content);
 			}
 			// The gitlink should be the same as remote head sha1
-			String gitlink = localDb.resolve(Constants.HEAD + ":foo").name();
-			String remote = defaultDb.resolve(Constants.HEAD).name();
+			String gitlink = localDb.resolve(Constants.HEAD + ":foo").getName();
+			String remote = defaultDb.resolve(Constants.HEAD).getName();
 			assertEquals("The gitlink should be the same as remote head",
 					remote, gitlink);
 		}
@@ -635,7 +635,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 			.append("<project path=\"foo\" name=\"")
 			.append(defaultUri)
 			.append("\" revision=\"")
-			.append(oldCommitId.name())
+			.append(oldCommitId.getName())
 			.append("\" />")
 			.append("</manifest>");
 		writeTrashFile("manifest.xml", xmlContent.toString());
@@ -731,9 +731,9 @@ public class RepoCommandTest extends RepositoryTestCase {
 				.setURI(remoteDb.getDirectory().toURI().toString()).call()
 				.getRepository()) {
 			// The gitlink should be the same as oldCommitId
-			String gitlink = localDb.resolve(Constants.HEAD + ":foo").name();
+			String gitlink = localDb.resolve(Constants.HEAD + ":foo").getName();
 			assertEquals("The gitlink is same as remote head",
-					oldCommitId.name(), gitlink);
+					oldCommitId.getName(), gitlink);
 		}
 	}
 

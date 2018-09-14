@@ -398,7 +398,7 @@ public class ObjectToPack extends PackedObjectInfo {
 		buf.append("ObjectToPack[");
 		buf.append(Constants.typeString(getType()));
 		buf.append(" ");
-		buf.append(name());
+		buf.append(getName());
 		if (wantWrite())
 			buf.append(" wantWrite");
 		if (isReuseAsIs())
@@ -411,9 +411,9 @@ public class ObjectToPack extends PackedObjectInfo {
 			buf.append(" depth=").append(getDeltaDepth());
 		if (isDeltaRepresentation()) {
 			if (getDeltaBase() != null)
-				buf.append(" base=inpack:").append(getDeltaBase().name());
+				buf.append(" base=inpack:").append(getDeltaBase().getName());
 			else
-				buf.append(" base=edge:").append(getDeltaBaseId().name());
+				buf.append(" base=edge:").append(getDeltaBaseId().getName());
 		}
 		if (isWritten())
 			buf.append(" offset=").append(getOffset());

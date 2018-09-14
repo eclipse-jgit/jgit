@@ -176,7 +176,7 @@ public class PackFileTest extends LocalDiskRepositoryTestCase {
 			fail("Should have thrown LargeObjectException");
 		} catch (LargeObjectException tooBig) {
 			assertEquals(MessageFormat.format(
-					JGitText.get().largeObjectException, id.name()), tooBig
+					JGitText.get().largeObjectException, id.getName()), tooBig
 					.getMessage());
 		}
 
@@ -279,8 +279,8 @@ public class PackFileTest extends LocalDiskRepositoryTestCase {
 
 			File dir = new File(repo.getObjectDatabase().getDirectory(),
 					"pack");
-			File packName = new File(dir, idA.name() + ".pack");
-			File idxName = new File(dir, idA.name() + ".idx");
+			File packName = new File(dir, idA.getName() + ".pack");
+			File idxName = new File(dir, idA.getName() + ".idx");
 
 			try (FileOutputStream f = new FileOutputStream(packName)) {
 				f.write(pack.toByteArray());

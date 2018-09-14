@@ -216,7 +216,7 @@ public class BranchCommandTest extends RepositoryTestCase {
 		assertEquals(2, refs.size());
 
 		List<Ref> refsContainingSecond = git.branchList()
-				.setContains(secondCommit.name()).call();
+				.setContains(secondCommit.getName()).call();
 		assertEquals(1, refsContainingSecond.size());
 		// master is on initial commit, so it should not be returned
 		assertEquals("refs/heads/foo", refsContainingSecond.get(0).getName());
@@ -228,7 +228,7 @@ public class BranchCommandTest extends RepositoryTestCase {
 				initialCommit).call();
 		assertEquals(initialCommit.getId(), branch.getObjectId());
 		branch = git.branchCreate().setName("FromInitial2").setStartPoint(
-				initialCommit.getId().name()).call();
+				initialCommit.getId().getName()).call();
 		assertEquals(initialCommit.getId(), branch.getObjectId());
 		try {
 			git.branchCreate().setName("FromInitial").setStartPoint(
@@ -245,17 +245,17 @@ public class BranchCommandTest extends RepositoryTestCase {
 	public void testCreateForce() throws Exception {
 		// using commits
 		Ref newBranch = createBranch(git, "NewForce", false, secondCommit
-				.getId().name(), null);
+				.getId().getName(), null);
 		assertEquals(newBranch.getTarget().getObjectId(), secondCommit.getId());
 		try {
 			newBranch = createBranch(git, "NewForce", false, initialCommit
-					.getId().name(), null);
+					.getId().getName(), null);
 			fail("Should have failed");
 		} catch (RefAlreadyExistsException e) {
 			// expected
 		}
 		newBranch = createBranch(git, "NewForce", true, initialCommit.getId()
-				.name(), null);
+				.getName(), null);
 		assertEquals(newBranch.getTarget().getObjectId(), initialCommit.getId());
 		git.branchDelete().setBranchNames("NewForce").call();
 		// using names
@@ -301,7 +301,7 @@ public class BranchCommandTest extends RepositoryTestCase {
 		createBranch(git, "ForDelete", false, "master", null);
 		git.branchDelete().setBranchNames("ForDelete").call();
 		// now point the branch to a non-merged commit
-		createBranch(git, "ForDelete", false, secondCommit.getId().name(), null);
+		createBranch(git, "ForDelete", false, secondCommit.getId().getName(), null);
 		try {
 			git.branchDelete().setBranchNames("ForDelete").call();
 			fail("Deletion of a non-merged branch without force should have failed");
@@ -321,9 +321,9 @@ public class BranchCommandTest extends RepositoryTestCase {
 		}
 		// change starting point
 		Ref newBranch = createBranch(git, "ForDelete", true, initialCommit
-				.name(), null);
+				.getName(), null);
 		assertEquals(newBranch.getTarget().getObjectId(), initialCommit.getId());
-		newBranch = createBranch(git, "ForDelete", true, secondCommit.name(),
+		newBranch = createBranch(git, "ForDelete", true, secondCommit.getName(),
 				null);
 		assertEquals(newBranch.getTarget().getObjectId(), secondCommit.getId());
 		git.branchDelete().setBranchNames("ForDelete").setForce(true);

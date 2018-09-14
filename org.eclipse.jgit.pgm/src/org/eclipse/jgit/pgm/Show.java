@@ -220,7 +220,7 @@ class Show extends TextBuiltin {
 
 				default:
 					throw die(MessageFormat.format(
-							CLIText.get().cannotReadBecause, obj.name(),
+							CLIText.get().cannotReadBecause, obj.getName(),
 							obj.getType()));
 				}
 			}

@@ -398,10 +398,10 @@ public class AbbreviatedObjectIdTest {
 
 		// These are too long.
 		assertFalse(AbbreviatedObjectId.isId(ObjectId.fromString(
-				"7b6e8067ec86acef9a4184b43210d583b6d2f99a").name()
+				"7b6e8067ec86acef9a4184b43210d583b6d2f99a").getName()
 				+ "0"));
 		assertFalse(AbbreviatedObjectId.isId(ObjectId.fromString(
-				"7b6e8067ec86acef9a4184b43210d583b6d2f99a").name()
+				"7b6e8067ec86acef9a4184b43210d583b6d2f99a").getName()
 				+ "c0ffee"));
 
 		// These contain non-hex characters.
@@ -414,6 +414,6 @@ public class AbbreviatedObjectIdTest {
 		assertTrue(AbbreviatedObjectId.isId("abcd0"));
 		assertTrue(AbbreviatedObjectId.isId("abcd09"));
 		assertTrue(AbbreviatedObjectId.isId(ObjectId.fromString(
-				"7b6e8067ec86acef9a4184b43210d583b6d2f99a").name()));
+				"7b6e8067ec86acef9a4184b43210d583b6d2f99a").getName()));
 	}
 }

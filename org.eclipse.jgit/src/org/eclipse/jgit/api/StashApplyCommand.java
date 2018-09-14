@@ -188,7 +188,7 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 					|| stashCommit.getParentCount() > 3)
 				throw new JGitInternalException(MessageFormat.format(
 						JGitText.get().stashCommitIncorrectNumberOfParents,
-						stashId.name(),
+						stashId.getName(),
 						Integer.valueOf(stashCommit.getParentCount())));
 
 			ObjectId headTree = repo.resolve(Constants.HEAD + "^{tree}"); //$NON-NLS-1$

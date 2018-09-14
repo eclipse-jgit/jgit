@@ -164,7 +164,7 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 			fail("Should have thrown LargeObjectException");
 		} catch (LargeObjectException tooBig) {
 			assertEquals(MessageFormat.format(
-					JGitText.get().largeObjectException, id.name()), tooBig
+					JGitText.get().largeObjectException, id.getName()), tooBig
 					.getMessage());
 		}
 
@@ -190,7 +190,7 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 			fail("Did not throw CorruptObjectException");
 		} catch (CorruptObjectException coe) {
 			assertEquals(MessageFormat.format(JGitText.get().objectIsCorrupt,
-					id.name(), JGitText.get().corruptObjectNegativeSize), coe
+					id.getName(), JGitText.get().corruptObjectNegativeSize), coe
 					.getMessage());
 		}
 	}
@@ -206,7 +206,7 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 			fail("Did not throw CorruptObjectException");
 		} catch (CorruptObjectException coe) {
 			assertEquals(MessageFormat.format(JGitText.get().objectIsCorrupt,
-					id.name(), JGitText.get().corruptObjectInvalidType), coe
+					id.getName(), JGitText.get().corruptObjectInvalidType), coe
 					.getMessage());
 		}
 	}
@@ -222,7 +222,7 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 			fail("Did not throw CorruptObjectException");
 		} catch (CorruptObjectException coe) {
 			assertEquals(MessageFormat.format(JGitText.get().objectIsCorrupt,
-					id.name(), JGitText.get().corruptObjectNoHeader), coe
+					id.getName(), JGitText.get().corruptObjectNoHeader), coe
 					.getMessage());
 		}
 	}
@@ -238,7 +238,7 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 			fail("Did not throw CorruptObjectException");
 		} catch (CorruptObjectException coe) {
 			assertEquals(MessageFormat.format(JGitText.get().objectIsCorrupt,
-					id.name(), JGitText.get().corruptObjectGarbageAfterSize),
+					id.getName(), JGitText.get().corruptObjectGarbageAfterSize),
 					coe.getMessage());
 		}
 	}
@@ -257,7 +257,7 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 			fail("Did not throw CorruptObjectException");
 		} catch (CorruptObjectException coe) {
 			assertEquals(MessageFormat.format(JGitText.get().objectIsCorrupt,
-					id.name(), JGitText.get().corruptObjectBadStream), coe
+					id.getName(), JGitText.get().corruptObjectBadStream), coe
 					.getMessage());
 		}
 	}
@@ -276,7 +276,7 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 			fail("Did not throw CorruptObjectException");
 		} catch (CorruptObjectException coe) {
 			assertEquals(MessageFormat.format(JGitText.get().objectIsCorrupt,
-					id.name(), JGitText.get().corruptObjectBadStream), coe
+					id.getName(), JGitText.get().corruptObjectBadStream), coe
 					.getMessage());
 		}
 	}
@@ -295,7 +295,7 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 			fail("Did not throw CorruptObjectException");
 		} catch (CorruptObjectException coe) {
 			assertEquals(MessageFormat.format(JGitText.get().objectIsCorrupt,
-					id.name(), JGitText.get().corruptObjectBadStream), coe
+					id.getName(), JGitText.get().corruptObjectBadStream), coe
 					.getMessage());
 		}
 	}
@@ -323,7 +323,7 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 			fail("Did not throw CorruptObjectException");
 		} catch (CorruptObjectException coe) {
 			assertEquals(MessageFormat.format(JGitText.get().objectIsCorrupt,
-					id.name(), JGitText.get().corruptObjectBadStream), coe
+					id.getName(), JGitText.get().corruptObjectBadStream), coe
 					.getMessage());
 		}
 	}
@@ -354,7 +354,7 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 			fail("close did not throw CorruptObjectException");
 		} catch (CorruptObjectException coe) {
 			assertEquals(MessageFormat.format(JGitText.get().objectIsCorrupt,
-					id.name(), JGitText.get().corruptObjectBadStream), coe
+					id.getName(), JGitText.get().corruptObjectBadStream), coe
 					.getMessage());
 		}
 	}
@@ -385,7 +385,7 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 			fail("close did not throw CorruptObjectException");
 		} catch (CorruptObjectException coe) {
 			assertEquals(MessageFormat.format(JGitText.get().objectIsCorrupt,
-					id.name(), JGitText.get().corruptObjectBadStream), coe
+					id.getName(), JGitText.get().corruptObjectBadStream), coe
 					.getMessage());
 		}
 	}
@@ -437,7 +437,7 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 			fail("Should have thrown LargeObjectException");
 		} catch (LargeObjectException tooBig) {
 			assertEquals(MessageFormat.format(
-					JGitText.get().largeObjectException, id.name()), tooBig
+					JGitText.get().largeObjectException, id.getName()), tooBig
 					.getMessage());
 		}
 
@@ -463,7 +463,7 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 			fail("Did not throw CorruptObjectException");
 		} catch (CorruptObjectException coe) {
 			assertEquals(MessageFormat.format(JGitText.get().objectIsCorrupt,
-					id.name(), JGitText.get().corruptObjectInvalidType), coe
+					id.getName(), JGitText.get().corruptObjectInvalidType), coe
 					.getMessage());
 		}
 
@@ -473,7 +473,7 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 			fail("Did not throw CorruptObjectException");
 		} catch (CorruptObjectException coe) {
 			assertEquals(MessageFormat.format(JGitText.get().objectIsCorrupt,
-					id.name(), JGitText.get().corruptObjectInvalidType), coe
+					id.getName(), JGitText.get().corruptObjectInvalidType), coe
 					.getMessage());
 		}
 
@@ -483,7 +483,7 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 			fail("Did not throw CorruptObjectException");
 		} catch (CorruptObjectException coe) {
 			assertEquals(MessageFormat.format(JGitText.get().objectIsCorrupt,
-					id.name(), JGitText.get().corruptObjectInvalidType), coe
+					id.getName(), JGitText.get().corruptObjectInvalidType), coe
 					.getMessage());
 		}
 
@@ -493,7 +493,7 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 			fail("Did not throw CorruptObjectException");
 		} catch (CorruptObjectException coe) {
 			assertEquals(MessageFormat.format(JGitText.get().objectIsCorrupt,
-					id.name(), JGitText.get().corruptObjectInvalidType), coe
+					id.getName(), JGitText.get().corruptObjectInvalidType), coe
 					.getMessage());
 		}
 	}

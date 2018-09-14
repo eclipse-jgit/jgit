@@ -82,6 +82,6 @@ public class Note extends ObjectId {
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
-		return "Note[" + name() + " -> " + data.name() + "]";
+		return "Note[" + getName() + " -> " + data.getName() + "]";
 	}
 }

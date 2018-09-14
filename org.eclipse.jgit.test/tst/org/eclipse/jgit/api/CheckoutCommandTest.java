@@ -200,11 +200,11 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testCheckoutCommit() throws Exception {
-		Ref result = git.checkout().setName(initialCommit.name()).call();
+		Ref result = git.checkout().setName(initialCommit.getName()).call();
 		assertEquals("[Test.txt, mode:100644, content:Hello world]",
 				indexState(CONTENT));
 		assertNull(result);
-		assertEquals(initialCommit.name(), git.getRepository().getFullBranch());
+		assertEquals(initialCommit.getName(), git.getRepository().getFullBranch());
 	}
 
 	@Test
@@ -345,7 +345,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 		CheckoutCommand co = git.checkout();
 		co.setName("master").call();
 
-		String commitId = db.exactRef(R_HEADS + MASTER).getObjectId().name();
+		String commitId = db.exactRef(R_HEADS + MASTER).getObjectId().getName();
 		co = git.checkout();
 		co.setName(commitId).call();
 

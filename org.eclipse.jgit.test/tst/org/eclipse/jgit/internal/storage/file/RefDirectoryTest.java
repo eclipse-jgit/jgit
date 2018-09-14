@@ -889,9 +889,9 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		Map<String, Ref> all;
 
 		writePackedRefs("" + //
-				A.name() + " refs/heads/master\n" + //
-				B.name() + " refs/heads/other\n" + //
-				v1_0.name() + " refs/tags/v1.0\n");
+				A.getName() + " refs/heads/master\n" + //
+				B.getName() + " refs/heads/other\n" + //
+				v1_0.getName() + " refs/tags/v1.0\n");
 		all = refdir.getRefs(RefDatabase.ALL);
 
 		assertEquals(4, all.size());
@@ -921,9 +921,9 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	@Test
 	public void testGetRef_PackedNotPeeled_WrongSort() throws IOException {
 		writePackedRefs("" + //
-				v1_0.name() + " refs/tags/v1.0\n" + //
-				B.name() + " refs/heads/other\n" + //
-				A.name() + " refs/heads/master\n");
+				v1_0.getName() + " refs/tags/v1.0\n" + //
+				B.getName() + " refs/heads/other\n" + //
+				A.getName() + " refs/heads/master\n");
 
 		final Ref head = refdir.getRef(HEAD);
 		final Ref master = refdir.getRef("refs/heads/master");
@@ -953,10 +953,10 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		Map<String, Ref> all;
 
 		writePackedRefs("# pack-refs with: peeled \n" + //
-				A.name() + " refs/heads/master\n" + //
-				B.name() + " refs/heads/other\n" + //
-				v1_0.name() + " refs/tags/v1.0\n" + //
-				"^" + v1_0.getObject().name() + "\n");
+				A.getName() + " refs/heads/master\n" + //
+				B.getName() + " refs/heads/other\n" + //
+				v1_0.getName() + " refs/tags/v1.0\n" + //
+				"^" + v1_0.getObject().getName() + "\n");
 		all = refdir.getRefs(RefDatabase.ALL);
 
 		assertEquals(4, all.size());
@@ -988,10 +988,10 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		Map<String, Ref> all;
 
 		writePackedRefs("# pack-refs with: peeled \n" + //
-				A.name() + " refs/heads/master\n" + //
-				B.name() + " refs/heads/other\n" + //
-				v1_0.name() + " refs/tags/v1.0\n" + //
-				"^" + v1_0.getObject().name() + "\n");
+				A.getName() + " refs/heads/master\n" + //
+				B.getName() + " refs/heads/other\n" + //
+				v1_0.getName() + " refs/tags/v1.0\n" + //
+				"^" + v1_0.getObject().getName() + "\n");
 		all = refdir.getRefs(RefDatabase.ALL);
 
 		assertEquals(4, all.size());
@@ -1075,7 +1075,7 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		// This is an odd special case where we need to make sure we read
 		// exactly the first 40 bytes of the file and nothing further on
 		// that line, or the remainder of the file.
-		write(new File(diskRepo.getDirectory(), "FETCH_HEAD"), A.name()
+		write(new File(diskRepo.getDirectory(), "FETCH_HEAD"), A.getName()
 				+ "\tnot-for-merge"
 				+ "\tbranch 'master' of git://egit.eclipse.org/jgit\n");
 
@@ -1092,7 +1092,7 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		// This is an odd special case where we need to make sure we read
 		// exactly the first 40 bytes of the file and nothing further on
 		// that line, or the remainder of the file.
-		write(new File(diskRepo.getDirectory(), "FETCH_HEAD"), A.name()
+		write(new File(diskRepo.getDirectory(), "FETCH_HEAD"), A.getName()
 				+ "\tnot-for-merge"
 				+ "\tbranch 'master' of git://egit.eclipse.org/jgit\n");
 
@@ -1106,7 +1106,7 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 
 	@Test
 	public void testGetRef_AnyHeadWithGarbage() throws IOException {
-		write(new File(diskRepo.getDirectory(), "refs/heads/A"), A.name()
+		write(new File(diskRepo.getDirectory(), "refs/heads/A"), A.getName()
 				+ "012345 . this is not a standard reference\n"
 				+ "#and even more junk\n");
 
@@ -1141,7 +1141,7 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	@Test
 	public void testGetRefs_CorruptObjectIdReference() throws IOException {
 		String name = "refs/heads/A";
-		String content = "zoo" + A.name();
+		String content = "zoo" + A.getName();
 		writeLooseRef(name, content + "\n");
 		assertTrue(refdir.getRefs(RefDatabase.ALL).isEmpty());
 	}
@@ -1149,7 +1149,7 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	@Test
 	public void testGetRef_CorruptObjectIdReference() throws IOException {
 		String name = "refs/heads/A";
-		String content = "zoo" + A.name();
+		String content = "zoo" + A.getName();
 		writeLooseRef(name, content + "\n");
 		try {
 			refdir.getRef(name);
@@ -1305,7 +1305,7 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	}
 
 	private void writeLooseRef(String name, AnyObjectId id) throws IOException {
-		writeLooseRef(name, id.name() + "\n");
+		writeLooseRef(name, id.getName() + "\n");
 	}
 
 	private void writeLooseRef(String name, String content) throws IOException {
@@ -1313,7 +1313,7 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	}
 
 	private void writePackedRef(String name, AnyObjectId id) throws IOException {
-		writePackedRefs(id.name() + " " + name + "\n");
+		writePackedRefs(id.getName() + " " + name + "\n");
 	}
 
 	private void writePackedRefs(String content) throws IOException {

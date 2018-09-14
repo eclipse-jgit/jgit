@@ -294,7 +294,7 @@ public class Command {
 		} else {
 			ObjectId id = r.getObjectId();
 			if (id != null) {
-				s.append(id.name());
+				s.append(id.getName());
 			}
 		}
 	}

@@ -705,7 +705,7 @@ public class RevCommit extends RevObject {
 		final StringBuilder s = new StringBuilder();
 		s.append(Constants.typeString(getType()));
 		s.append(' ');
-		s.append(name());
+		s.append(getName());
 		s.append(' ');
 		s.append(commitTime);
 		s.append(' ');

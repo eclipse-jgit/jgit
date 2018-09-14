@@ -85,7 +85,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 	private void testOneType(int typeCode) throws Exception {
 		final ObjectId id = id("9788669ad918b6fcce64af8882fc9a81cb6aba67");
 		final StringBuilder b = new StringBuilder();
-		b.append("object " + id.name() + "\n");
+		b.append("object " + id.getName() + "\n");
 		b.append("type " + Constants.typeString(typeCode) + "\n");
 		b.append("tag v1.2.3.4.5\n");
 		b.append("tagger A U. Thor <a_u_thor@example.com> 1218123387 +0700\n");
@@ -115,7 +115,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 		final StringBuilder body = new StringBuilder();
 
 		body.append("object ");
-		body.append(treeId.name());
+		body.append(treeId.getName());
 		body.append("\n");
 
 		body.append("type tree\n");
@@ -171,7 +171,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 		final StringBuilder body = new StringBuilder();
 
 		body.append("object ");
-		body.append(treeId.name());
+		body.append(treeId.getName());
 		body.append("\n");
 
 		body.append("type tree\n");

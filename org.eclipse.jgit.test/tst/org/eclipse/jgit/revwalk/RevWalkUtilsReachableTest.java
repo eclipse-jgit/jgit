@@ -111,7 +111,7 @@ public class RevWalkUtilsReachableTest extends RevWalkTestCase {
 
 	private Ref branch(String name, RevCommit dst) throws Exception {
 		return Git.wrap(db).branchCreate().setName(name)
-				.setStartPoint(dst.name()).call();
+				.setStartPoint(dst.getName()).call();
 	}
 
 	private void assertContains(RevCommit commit, Collection<Ref> refsThatShouldContainCommit) throws Exception {

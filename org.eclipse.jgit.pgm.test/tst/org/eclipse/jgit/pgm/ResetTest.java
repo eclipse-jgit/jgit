@@ -83,7 +83,7 @@ public class ResetTest extends CLIRepositoryTestCase {
 	public void testResetSelf() throws Exception {
 		RevCommit commit = git.commit().setMessage("initial commit").call();
 		assertStringArrayEquals("",
-				execute("git reset --hard " + commit.getId().name()));
+				execute("git reset --hard " + commit.getId().getName()));
 		assertEquals(commit.getId(),
 				git.getRepository().exactRef("HEAD").getObjectId());
 	}
@@ -93,7 +93,7 @@ public class ResetTest extends CLIRepositoryTestCase {
 		RevCommit commit = git.commit().setMessage("initial commit").call();
 		git.commit().setMessage("second commit").call();
 		assertStringArrayEquals("",
-				execute("git reset --hard " + commit.getId().name()));
+				execute("git reset --hard " + commit.getId().getName()));
 		assertEquals(commit.getId(),
 				git.getRepository().exactRef("HEAD").getObjectId());
 	}
@@ -102,7 +102,7 @@ public class ResetTest extends CLIRepositoryTestCase {
 	public void testResetEmptyPath() throws Exception {
 		RevCommit commit = git.commit().setMessage("initial commit").call();
 		assertStringArrayEquals("",
-				execute("git reset --hard " + commit.getId().name() + " --"));
+				execute("git reset --hard " + commit.getId().getName() + " --"));
 		assertEquals(commit.getId(),
 				git.getRepository().exactRef("HEAD").getObjectId());
 	}
@@ -147,7 +147,7 @@ public class ResetTest extends CLIRepositoryTestCase {
 
 		// reset only file a
 		String cmd = String.format("git reset %s%s a",
-				supplyCommit ? commit.getId().name() : "",
+				supplyCommit ? commit.getId().getName() : "",
 				useDoubleDash ? " --" : "");
 		assertStringArrayEquals("", execute(cmd));
 		assertEquals(commit.getId(),

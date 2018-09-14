@@ -1086,13 +1086,13 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		Repository dst = createBareRepository();
 		try (Transport t = Transport.open(dst, remoteURI);
 				FetchConnection c = t.openFetch()) {
-			Ref want = new ObjectIdRef.Unpeeled(Ref.Storage.NETWORK, id.name(),
+			Ref want = new ObjectIdRef.Unpeeled(Ref.Storage.NETWORK, id.getName(),
 					id);
 			c.fetch(NullProgressMonitor.INSTANCE, Collections.singleton(want),
 					Collections.<ObjectId> emptySet());
-			fail("Server accepted want " + id.name());
+			fail("Server accepted want " + id.getName());
 		} catch (TransportException err) {
-			assertEquals("want " + id.name() + " not valid", err.getMessage());
+			assertEquals("want " + id.getName() + " not valid", err.getMessage());
 		}
 	}
 
@@ -1152,7 +1152,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		// push anonymous shouldn't be allowed.
 		//
 		try (Transport t = Transport.open(db, remoteURI)) {
-			final String srcExpr = Q.name();
+			final String srcExpr = Q.getName();
 			final boolean forceUpdate = false;
 			final String localName = null;
 			final ObjectId oldId = null;
@@ -1191,7 +1191,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		enableReceivePack();
 
 		try (Transport t = Transport.open(db, remoteURI)) {
-			final String srcExpr = Q.name();
+			final String srcExpr = Q.getName();
 			final boolean forceUpdate = false;
 			final String localName = null;
 			final ObjectId oldId = null;
@@ -1265,7 +1265,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		cfg.save();
 
 		try (Transport t = Transport.open(db, remoteURI)) {
-			final String srcExpr = Q.name();
+			final String srcExpr = Q.getName();
 			final boolean forceUpdate = false;
 			final String localName = null;
 			final ObjectId oldId = null;

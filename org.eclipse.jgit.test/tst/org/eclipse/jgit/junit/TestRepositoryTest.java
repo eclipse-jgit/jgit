@@ -158,7 +158,7 @@ public class TestRepositoryTest {
 		assertEquals(detached, head.getObjectId());
 		assertFalse(head.isSymbolic());
 
-		tr.reset(detached.name());
+		tr.reset(detached.getName());
 		head = repo.exactRef("HEAD");
 		assertEquals(detached, head.getObjectId());
 		assertFalse(head.isSymbolic());
@@ -196,7 +196,7 @@ public class TestRepositoryTest {
 		assertEquals(detached, head.getObjectId());
 		assertFalse(head.isSymbolic());
 
-		tr.reset(detached.name());
+		tr.reset(detached.getName());
 		head = repo.exactRef("HEAD");
 		assertEquals(detached, head.getObjectId());
 		assertFalse(head.isSymbolic());

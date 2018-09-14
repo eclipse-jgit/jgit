@@ -301,7 +301,7 @@ public class RemoteRefUpdate {
 		if (srcRef != null)
 			this.srcRef = srcRef;
 		else if (srcId != null && !srcId.equals(ObjectId.zeroId()))
-			this.srcRef = srcId.name();
+			this.srcRef = srcId.getName();
 		else
 			this.srcRef = null;
 
@@ -517,9 +517,9 @@ public class RemoteRefUpdate {
 				+ ", "
 				+ status
 				+ ", "
-				+ (expectedOldObjectId != null ? expectedOldObjectId.name()
+				+ (expectedOldObjectId != null ? expectedOldObjectId.getName()
 						: "(null)") + "..."
-				+ (newObjectId != null ? newObjectId.name() : "(null)")
+				+ (newObjectId != null ? newObjectId.getName() : "(null)")
 				+ (fastForward ? ", fastForward" : "")
  + ", srcRef=" + srcRef
 				+ (forceUpdate ? ", forceUpdate" : "") + ", message="

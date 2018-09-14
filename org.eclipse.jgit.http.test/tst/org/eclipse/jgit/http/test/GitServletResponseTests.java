@@ -188,7 +188,7 @@ public class GitServletResponseTests extends HttpTestCase {
 		};
 
 		try (Transport t = Transport.open(clientRepo, srvURI)) {
-			RemoteRefUpdate update = new RemoteRefUpdate(clientRepo, Q.name(),
+			RemoteRefUpdate update = new RemoteRefUpdate(clientRepo, Q.getName(),
 					srvBranchName, false, null, null);
 			try {
 				t.push(NullProgressMonitor.INSTANCE,
@@ -227,7 +227,7 @@ public class GitServletResponseTests extends HttpTestCase {
 		};
 
 		try (Transport t = Transport.open(clientRepo, srvURI)) {
-			RemoteRefUpdate update = new RemoteRefUpdate(clientRepo, Q.name(),
+			RemoteRefUpdate update = new RemoteRefUpdate(clientRepo, Q.getName(),
 					srvBranchName, false, null, null);
 			try {
 				t.push(NullProgressMonitor.INSTANCE,
@@ -275,7 +275,7 @@ public class GitServletResponseTests extends HttpTestCase {
 		};
 
 		try (Transport t = Transport.open(clientRepo, srvURI)) {
-			RemoteRefUpdate update = new RemoteRefUpdate(clientRepo, Q.name(),
+			RemoteRefUpdate update = new RemoteRefUpdate(clientRepo, Q.getName(),
 					srvBranchName, false, null, null);
 			try {
 				t.push(NullProgressMonitor.INSTANCE,

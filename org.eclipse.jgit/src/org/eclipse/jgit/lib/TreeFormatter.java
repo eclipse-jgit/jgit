@@ -391,7 +391,7 @@ public class TreeFormatter {
 			r.append(' ');
 			r.append(Constants.typeString(mode.getObjectType()));
 			r.append(' ');
-			r.append(p.getEntryObjectId().name());
+			r.append(p.getEntryObjectId().getName());
 			r.append(' ');
 			r.append(p.getEntryPathString());
 			r.append('\n');

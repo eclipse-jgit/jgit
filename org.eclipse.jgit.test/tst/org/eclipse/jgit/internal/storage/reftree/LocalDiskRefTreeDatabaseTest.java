@@ -114,7 +114,7 @@ public class LocalDiskRefTreeDatabaseTest extends LocalDiskRepositoryTestCase {
 		assertEquals(RefUpdate.Result.NEW, orig.update());
 
 		File origFile = new File(repo.getDirectory(), ORIG_HEAD);
-		assertEquals(B.name() + '\n', read(origFile));
+		assertEquals(B.getName() + '\n', read(origFile));
 		assertEquals(B, bootstrap.exactRef(ORIG_HEAD).getObjectId());
 		assertEquals(B, refdb.exactRef(ORIG_HEAD).getObjectId());
 		assertFalse(refdb.getRefs(ALL).containsKey(ORIG_HEAD));

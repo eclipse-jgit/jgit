@@ -311,8 +311,8 @@ public abstract class Merger {
 			throw new NoMergeBaseException(
 					MergeBaseFailureReason.MULTIPLE_MERGE_BASES_NOT_SUPPORTED,
 					MessageFormat.format(
-					JGitText.get().multipleMergeBasesFor, a.name(), b.name(),
-					base.name(), base2.name()));
+					JGitText.get().multipleMergeBasesFor, a.getName(), b.getName(),
+					base.getName(), base2.getName()));
 		}
 		return base;
 	}

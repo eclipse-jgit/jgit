@@ -1163,7 +1163,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 			RevCommit commit2 = git.commit()
 					.setMessage("removing folders on 'branch'").call();
 
-			git.checkout().setName(commit1.name()).call();
+			git.checkout().setName(commit1.getName()).call();
 
 			MergeResult result = git.merge().include(commit2.getId())
 					.setStrategy(MergeStrategy.RESOLVE).call();
@@ -1204,7 +1204,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 			RevCommit other = git.commit()
 					.setMessage("removing folders on 'branch'").call();
 
-			git.checkout().setName(base.name()).call();
+			git.checkout().setName(base.getName()).call();
 
 			file = new File(folder2, "file3.txt");
 			write(file, "folder2--file3.txt");

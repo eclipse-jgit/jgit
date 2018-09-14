@@ -87,12 +87,12 @@ class ReadReftable extends TextBuiltin {
 
 		ObjectId id1 = r.getObjectId();
 		if (id1 != null) {
-			outw.println(id1.name() + '\t' + r.getName());
+			outw.println(id1.getName() + '\t' + r.getName());
 		}
 
 		ObjectId id2 = r.getPeeledObjectId();
 		if (id2 != null) {
-			outw.println('^' + id2.name());
+			outw.println('^' + id2.getName());
 		}
 	}
 }

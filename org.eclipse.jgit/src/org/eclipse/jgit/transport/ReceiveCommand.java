@@ -886,7 +886,7 @@ public class ReceiveCommand {
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
-		return getType().name() + ": " + getOldId().name() + " "
-				+ getNewId().name() + " " + getRefName();
+		return getType().name() + ": " + getOldId().getName() + " "
+				+ getNewId().getName() + " " + getRefName();
 	}
 }

@@ -104,8 +104,8 @@ public class NoteMapTest extends RepositoryTestCase {
 		RevBlob data2 = tr.blob("data2");
 
 		RevCommit r = tr.commit() //
-				.add(a.name(), data1) //
-				.add(b.name(), data2) //
+				.add(a.getName(), data1) //
+				.add(b.getName(), data2) //
 				.create();
 		tr.parseBody(r);
 
@@ -129,8 +129,8 @@ public class NoteMapTest extends RepositoryTestCase {
 		RevBlob data2 = tr.blob("data2");
 
 		RevCommit r = tr.commit() //
-				.add(fanout(2, a.name()), data1) //
-				.add(fanout(2, b.name()), data2) //
+				.add(fanout(2, a.getName()), data1) //
+				.add(fanout(2, b.getName()), data2) //
 				.create();
 		tr.parseBody(r);
 
@@ -154,8 +154,8 @@ public class NoteMapTest extends RepositoryTestCase {
 		RevBlob data2 = tr.blob("data2");
 
 		RevCommit r = tr.commit() //
-				.add(fanout(4, a.name()), data1) //
-				.add(fanout(4, b.name()), data2) //
+				.add(fanout(4, a.getName()), data1) //
+				.add(fanout(4, b.getName()), data2) //
 				.create();
 		tr.parseBody(r);
 
@@ -179,8 +179,8 @@ public class NoteMapTest extends RepositoryTestCase {
 		RevBlob data2 = tr.blob("data2");
 
 		RevCommit r = tr.commit() //
-				.add(fanout(38, a.name()), data1) //
-				.add(fanout(38, b.name()), data2) //
+				.add(fanout(38, a.getName()), data1) //
+				.add(fanout(38, b.getName()), data2) //
 				.create();
 		tr.parseBody(r);
 
@@ -203,7 +203,7 @@ public class NoteMapTest extends RepositoryTestCase {
 		RevBlob data = tr.blob(exp);
 
 		RevCommit r = tr.commit() //
-				.add(a.name(), data) //
+				.add(a.getName(), data) //
 				.create();
 		tr.parseBody(r);
 
@@ -221,8 +221,8 @@ public class NoteMapTest extends RepositoryTestCase {
 		RevBlob data2 = tr.blob("data2");
 
 		RevCommit r = tr.commit() //
-				.add(a.name(), data1) //
-				.add(b.name(), data2) //
+				.add(a.getName(), data1) //
+				.add(b.getName(), data2) //
 				.add(".gitignore", "") //
 				.add("zoo-animals.txt", "") //
 				.create();
@@ -245,8 +245,8 @@ public class NoteMapTest extends RepositoryTestCase {
 		RevBlob data2 = tr.blob("data2");
 
 		RevCommit r = tr.commit() //
-				.add(fanout(2, a.name()), data1) //
-				.add(fanout(2, b.name()), data2) //
+				.add(fanout(2, a.getName()), data1) //
+				.add(fanout(2, b.getName()), data2) //
 				.add(".gitignore", "") //
 				.add("zoo-animals.txt", "") //
 				.create();
@@ -306,8 +306,8 @@ public class NoteMapTest extends RepositoryTestCase {
 		RevBlob data2 = tr.blob("data2");
 
 		RevCommit r = tr.commit() //
-				.add(a.name(), data1) //
-				.add(b.name(), data2) //
+				.add(a.getName(), data1) //
+				.add(b.getName(), data2) //
 				.add(".gitignore", "") //
 				.add("zoo-animals.txt", b) //
 				.create();
@@ -353,8 +353,8 @@ public class NoteMapTest extends RepositoryTestCase {
 		RevBlob data2 = tr.blob("data2");
 
 		RevCommit r = tr.commit() //
-				.add(fanout(2, a.name()), data1) //
-				.add(fanout(2, b.name()), data2) //
+				.add(fanout(2, a.getName()), data1) //
+				.add(fanout(2, b.getName()), data2) //
 				.add(".gitignore", "") //
 				.add("zoo-animals.txt", b) //
 				.create();
@@ -392,7 +392,7 @@ public class NoteMapTest extends RepositoryTestCase {
 		MutableObjectId idBuf = new MutableObjectId();
 
 		RevCommit r = tr.commit() //
-				.add(data1.name(), data1) //
+				.add(data1.getName(), data1) //
 				.create();
 		tr.parseBody(r);
 
@@ -419,13 +419,13 @@ public class NoteMapTest extends RepositoryTestCase {
 		n = commitNoteMap(map);
 
 		// The 00 bucket is fully split.
-		String path = fanout(38, idBuf.name());
+		String path = fanout(38, idBuf.getName());
 		try (TreeWalk tw = TreeWalk.forPath(reader, path, n.getTree())) {
 			assertNotNull("has " + path, tw);
 		}
 
 		// The other bucket is not.
-		path = fanout(2, data1.name());
+		path = fanout(2, data1.getName());
 		try (TreeWalk tw = TreeWalk.forPath(reader, path, n.getTree())) {
 			assertNotNull("has " + path, tw);
 		}
@@ -438,7 +438,7 @@ public class NoteMapTest extends RepositoryTestCase {
 		RevTree empty = tr.tree();
 
 		RevCommit r = tr.commit() //
-				.add(fanout(2, a.name()), data1) //
+				.add(fanout(2, a.getName()), data1) //
 				.create();
 		tr.parseBody(r);
 
@@ -464,8 +464,8 @@ public class NoteMapTest extends RepositoryTestCase {
 		RevBlob nonNote = tr.blob("non note");
 
 		RevCommit r = tr.commit() //
-				.add(a.name(), data1) //
-				.add(b.name(), data2) //
+				.add(a.getName(), data1) //
+				.add(b.getName(), data2) //
 				.add("nonNote", nonNote) //
 				.create();
 		tr.parseBody(r);
@@ -483,8 +483,8 @@ public class NoteMapTest extends RepositoryTestCase {
 		RevBlob nonNote = tr.blob("non note");
 
 		RevCommit r = tr.commit() //
-				.add(fanout(2, a.name()), data1) //
-				.add(fanout(2, b.name()), data2) //
+				.add(fanout(2, a.getName()), data1) //
+				.add(fanout(2, b.getName()), data2) //
 				.add("nonNote", nonNote) //
 				.create();
 		tr.parseBody(r);
@@ -502,8 +502,8 @@ public class NoteMapTest extends RepositoryTestCase {
 		RevBlob nonNote = tr.blob("non note");
 
 		RevCommit r = tr.commit() //
-				.add(fanout(4, a.name()), data1) //
-				.add(fanout(4, b.name()), data2) //
+				.add(fanout(4, a.getName()), data1) //
+				.add(fanout(4, b.getName()), data2) //
 				.add("nonNote", nonNote) //
 				.create();
 		tr.parseBody(r);
@@ -521,8 +521,8 @@ public class NoteMapTest extends RepositoryTestCase {
 		RevBlob nonNote = tr.blob("non note");
 
 		RevCommit r = tr.commit() //
-				.add(fanout(38, a.name()), data1) //
-				.add(fanout(38, b.name()), data2) //
+				.add(fanout(38, a.getName()), data1) //
+				.add(fanout(38, b.getName()), data2) //
 				.add("nonNote", nonNote) //
 				.create();
 		tr.parseBody(r);

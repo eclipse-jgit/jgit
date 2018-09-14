@@ -207,6 +207,6 @@ class VerifyReftable extends TextBuiltin {
 
 	@SuppressWarnings("nls")
 	private static String id(ObjectId id) {
-		return id != null ? id.name() : "<null>";
+		return id != null ? id.getName() : "<null>";
 	}
 }

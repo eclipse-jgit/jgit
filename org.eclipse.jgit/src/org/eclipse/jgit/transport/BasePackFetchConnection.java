@@ -509,7 +509,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 
 			final StringBuilder line = new StringBuilder(46);
 			line.append("want "); //$NON-NLS-1$
-			line.append(objectId.name());
+			line.append(objectId.getName());
 			if (first) {
 				line.append(enableCapabilities());
 				first = false;
@@ -596,7 +596,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			}
 
 			ObjectId o = c.getId();
-			pckOut.writeString("have " + o.name() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
+			pckOut.writeString("have " + o.getName() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
 			havesSent++;
 			havesSinceLastContinue++;
 
@@ -797,7 +797,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 
 			s = new StringBuilder(6 + Constants.OBJECT_ID_STRING_LENGTH);
 			s.append("have "); //$NON-NLS-1$
-			s.append(obj.name());
+			s.append(obj.getName());
 			s.append('\n');
 			pckState.writeString(s.toString());
 			obj.add(STATE);

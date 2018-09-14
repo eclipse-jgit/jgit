@@ -177,7 +177,7 @@ public class AbbreviationTest extends LocalDiskRepositoryTestCase {
 			objects.add(new PackedObjectInfo(ObjectId.fromRaw(idBuf)));
 		}
 
-		String packName = "pack-" + id.name();
+		String packName = "pack-" + id.getName();
 		File packDir = db.getObjectDatabase().getPackDirectory();
 		File idxFile = new File(packDir, packName + ".idx");
 		File packFile = new File(packDir, packName + ".pack");
@@ -199,7 +199,7 @@ public class AbbreviationTest extends LocalDiskRepositoryTestCase {
 		assertNotNull(matches);
 		assertEquals(objects.size(), matches.size());
 		for (PackedObjectInfo info : objects)
-			assertTrue("contains " + info.name(), matches.contains(info));
+			assertTrue("contains " + info.getName(), matches.contains(info));
 
 		try {
 			db.resolve(abbrev8.name());
@@ -210,7 +210,7 @@ public class AbbreviationTest extends LocalDiskRepositoryTestCase {
 			assertNotNull(matches);
 			assertEquals(objects.size(), matches.size());
 			for (PackedObjectInfo info : objects)
-				assertTrue("contains " + info.name(), matches.contains(info));
+				assertTrue("contains " + info.getName(), matches.contains(info));
 		}
 
 		assertEquals(id, db.resolve(id.abbreviate(20).name()));

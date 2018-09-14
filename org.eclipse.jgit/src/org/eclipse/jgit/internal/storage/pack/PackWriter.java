@@ -2227,8 +2227,8 @@ public class PackWriter implements AutoCloseable {
 
 			if (last != null && cmit.isReuseWalker() && !bitmap.contains(last))
 				throw new IllegalStateException(MessageFormat.format(
-						JGitText.get().bitmapMissingObject, cmit.name(),
-						last.name()));
+						JGitText.get().bitmapMissingObject, cmit.getName(),
+						last.getName()));
 			last = cmit;
 			writeBitmaps.addBitmap(cmit, bitmap.build(), cmit.getFlags());
 

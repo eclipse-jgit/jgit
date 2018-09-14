@@ -360,12 +360,12 @@ public class CommitBuilder {
 		r.append("={\n");
 
 		r.append("tree ");
-		r.append(treeId != null ? treeId.name() : "NOT_SET");
+		r.append(treeId != null ? treeId.getName() : "NOT_SET");
 		r.append("\n");
 
 		for (ObjectId p : parentIds) {
 			r.append("parent ");
-			r.append(p.name());
+			r.append(p.getName());
 			r.append("\n");
 		}
 

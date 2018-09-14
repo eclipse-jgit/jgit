@@ -334,7 +334,7 @@ public abstract class PackIndex
 		/** @return hex string describing the object id of this entry. */
 		public String name() {
 			ensureId();
-			return idBuffer.name();
+			return idBuffer.getName();
 		}
 
 		/** @return a copy of the object id. */

@@ -263,7 +263,7 @@ public class StatusTest extends CLIRepositoryTestCase {
 	}
 
 	private void detachHead(Git git) throws IOException, GitAPIException {
-		String commitId = db.exactRef(R_HEADS + MASTER).getObjectId().name();
+		String commitId = db.exactRef(R_HEADS + MASTER).getObjectId().getName();
 		git.checkout().setName(commitId).call();
 	}
 

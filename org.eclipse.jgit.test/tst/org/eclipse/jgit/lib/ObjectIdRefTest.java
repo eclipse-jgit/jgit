@@ -119,6 +119,6 @@ public class ObjectIdRefTest {
 		ObjectIdRef r;
 
 		r = new ObjectIdRef.Unpeeled(Ref.Storage.LOOSE, name, ID_A);
-		assertEquals("Ref[" + name + "=" + ID_A.name() + "]", r.toString());
+		assertEquals("Ref[" + name + "=" + ID_A.getName() + "]", r.toString());
 	}
 }

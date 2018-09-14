@@ -127,7 +127,7 @@ class MergeBaseGenerator extends Generator {
 			// commit admitted to the initial queue only once. If
 			// we see this marks aren't correctly erased.
 			//
-			throw new IllegalStateException(MessageFormat.format(JGitText.get().staleRevFlagsOn, c.name()));
+			throw new IllegalStateException(MessageFormat.format(JGitText.get().staleRevFlagsOn, c.getName()));
 		}
 		c.flags |= flag;
 		pending.add(c);

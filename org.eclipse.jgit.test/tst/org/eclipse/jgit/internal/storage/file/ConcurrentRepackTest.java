@@ -101,7 +101,7 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 		final Repository eden = createBareRepository();
 		final RevObject o1 = writeBlob(eden, "o1");
 		pack(eden, o1);
-		assertEquals(o1.name(), parse(o1).name());
+		assertEquals(o1.getName(), parse(o1).getName());
 	}
 
 	@Test
@@ -114,7 +114,7 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 		final Repository eden = createBareRepository();
 		final RevObject o1 = writeBlob(eden, "o1");
 		final File[] out1 = pack(eden, o1);
-		assertEquals(o1.name(), parse(o1).name());
+		assertEquals(o1.getName(), parse(o1).getName());
 
 		final RevObject o2 = writeBlob(eden, "o2");
 		pack(eden, o2, o1);
@@ -127,8 +127,8 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 		// Now here is the interesting thing. Will git figure the new
 		// object exists in the new pack, and not the old one.
 		//
-		assertEquals(o2.name(), parse(o2).name());
-		assertEquals(o1.name(), parse(o1).name());
+		assertEquals(o2.getName(), parse(o2).getName());
+		assertEquals(o1.getName(), parse(o1).getName());
 	}
 
 	@Test
@@ -139,7 +139,7 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 		final Repository eden = createBareRepository();
 		final RevObject o1 = writeBlob(eden, "o1");
 		final File[] out1 = pack(eden, o1);
-		assertEquals(o1.name(), parse(o1).name());
+		assertEquals(o1.getName(), parse(o1).getName());
 
 		// Force close the old pack.
 		//
@@ -160,8 +160,8 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 		// Try the old name, then the new name. The old name should cause the
 		// pack to reload when it opens and the index and pack mismatch.
 		//
-		assertEquals(o1.name(), parse(o1).name());
-		assertEquals(o2.name(), parse(o2).name());
+		assertEquals(o1.getName(), parse(o1).getName());
+		assertEquals(o2.getName(), parse(o2).getName());
 	}
 
 	@Test
@@ -174,7 +174,7 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 		final Repository eden = createBareRepository();
 		final RevObject o1 = writeBlob(eden, "o1");
 		final File[] out1 = pack(eden, o1);
-		assertEquals(o1.name(), parse(o1).name());
+		assertEquals(o1.getName(), parse(o1).getName());
 
 		final ObjectLoader load1 = db.open(o1, Constants.OBJ_BLOB);
 		assertNotNull(load1);
@@ -273,7 +273,7 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 
 	private File fullPackFileName(ObjectId name, String suffix) {
 		final File packdir = db.getObjectDatabase().getPackDirectory();
-		return new File(packdir, "pack-" + name.name() + suffix);
+		return new File(packdir, "pack-" + name.getName() + suffix);
 	}
 
 	private RevObject writeBlob(Repository repo, String data)
@@ -286,7 +286,7 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 		}
 		try {
 			parse(id);
-			fail("Object " + id.name() + " should not exist in test repository");
+			fail("Object " + id.getName() + " should not exist in test repository");
 		} catch (MissingObjectException e) {
 			// Ok
 		}

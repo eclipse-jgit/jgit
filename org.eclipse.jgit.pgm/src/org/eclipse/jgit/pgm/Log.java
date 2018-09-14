@@ -344,7 +344,7 @@ class Log extends RevWalkTextBuiltin {
 			}
 		} catch (LargeObjectException e) {
 			outw.println(MessageFormat.format(
-					CLIText.get().noteObjectTooLargeToPrint, blobId.name()));
+					CLIText.get().noteObjectTooLargeToPrint, blobId.getName()));
 		}
 		return true;
 	}

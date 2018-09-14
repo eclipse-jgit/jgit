@@ -467,7 +467,7 @@ class FetchProcess {
 
 	private void want(ObjectId id) {
 		askFor.put(id,
-				new ObjectIdRef.Unpeeled(Ref.Storage.NETWORK, id.name(), id));
+				new ObjectIdRef.Unpeeled(Ref.Storage.NETWORK, id.getName(), id));
 	}
 
 	private TrackingRefUpdate createUpdate(RefSpec spec, ObjectId newId)

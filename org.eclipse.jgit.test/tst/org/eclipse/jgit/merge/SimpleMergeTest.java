@@ -104,7 +104,7 @@ public class SimpleMergeTest extends SampleDataRepositoryTestCase {
 		Merger ourMerger = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(db);
 		boolean merge = ourMerger.merge(new ObjectId[] { db.resolve("a"), db.resolve("c") });
 		assertTrue(merge);
-		assertEquals("02ba32d3649e510002c21651936b7077aa75ffa9",ourMerger.getResultTreeId().name());
+		assertEquals("02ba32d3649e510002c21651936b7077aa75ffa9",ourMerger.getResultTreeId().getName());
 	}
 
 	@Test
@@ -112,7 +112,7 @@ public class SimpleMergeTest extends SampleDataRepositoryTestCase {
 		Merger ourMerger = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(db);
 		boolean merge = ourMerger.merge(new ObjectId[] { db.resolve("a"), db.resolve("c~4") });
 		assertTrue(merge);
-		assertEquals("86265c33b19b2be71bdd7b8cb95823f2743d03a8",ourMerger.getResultTreeId().name());
+		assertEquals("86265c33b19b2be71bdd7b8cb95823f2743d03a8",ourMerger.getResultTreeId().getName());
 	}
 
 	@Test
@@ -416,7 +416,7 @@ public class SimpleMergeTest extends SampleDataRepositoryTestCase {
 		c.setAuthor(new PersonIdent("A U Thor", "a.u.thor", 1L, 0));
 		c.setCommitter(c.getAuthor());
 		c.setParentIds(parentIds);
-		c.setMessage("Tree " + c.getTreeId().name());
+		c.setMessage("Tree " + c.getTreeId().getName());
 		ObjectId id = odi.insert(c);
 		odi.flush();
 		return id;

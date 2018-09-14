@@ -102,7 +102,7 @@ public class LargeObjectException extends RuntimeException {
 	 */
 	protected String getObjectName() {
 		if (getObjectId() != null)
-			return getObjectId().name();
+			return getObjectId().getName();
 		return JGitText.get().unknownObject;
 	}
 

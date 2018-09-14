@@ -171,7 +171,7 @@ public abstract class RevObject extends ObjectIdOwnerMap.Entry {
 		final StringBuilder s = new StringBuilder();
 		s.append(Constants.typeString(getType()));
 		s.append(' ');
-		s.append(name());
+		s.append(getName());
 		s.append(' ');
 		appendCoreFlags(s);
 		return s.toString();

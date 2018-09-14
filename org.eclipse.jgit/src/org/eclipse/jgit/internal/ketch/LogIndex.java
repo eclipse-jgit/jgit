@@ -123,6 +123,6 @@ public class LogIndex extends ObjectId {
 	@SuppressWarnings("boxing")
 	@Override
 	public String toString() {
-		return String.format("LogId[%5d/%s]", index, name()); //$NON-NLS-1$
+		return String.format("LogId[%5d/%s]", index, getName()); //$NON-NLS-1$
 	}
 }

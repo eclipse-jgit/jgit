@@ -153,7 +153,7 @@ public class RevertCommand extends GitCommand<RevCommit> {
 					throw new MultipleParentsNotAllowedException(
 							MessageFormat.format(
 									JGitText.get().canOnlyRevertCommitsWithOneParent,
-									srcCommit.name(),
+									srcCommit.getName(),
 									Integer.valueOf(srcCommit.getParentCount())));
 
 				RevCommit srcParent = srcCommit.getParent(0);

@@ -108,7 +108,7 @@ public class NoteMapMergerTest extends RepositoryTestCase {
 		noteAContent = "noteAContent";
 		noteABlob = tr.blob(noteAContent);
 		sampleTree_a = tr.commit()
-				.add(noteAId.name(), noteABlob)
+				.add(noteAId.getName(), noteABlob)
 				.create();
 		tr.parseBody(sampleTree_a);
 		map_a = NoteMap.read(reader, sampleTree_a);
@@ -117,8 +117,8 @@ public class NoteMapMergerTest extends RepositoryTestCase {
 		noteBContent = "noteBContent";
 		noteBBlob = tr.blob(noteBContent);
 		sampleTree_a_b = tr.commit()
-				.add(noteAId.name(), noteABlob)
-				.add(noteBId.name(), noteBBlob)
+				.add(noteAId.getName(), noteABlob)
+				.add(noteBId.getName(), noteBBlob)
 				.create();
 		tr.parseBody(sampleTree_a_b);
 		map_a_b = NoteMap.read(reader, sampleTree_a_b);
@@ -423,7 +423,7 @@ public class NoteMapMergerTest extends RepositoryTestCase {
 				MergeStrategy.RESOLVE);
 		RevCommit treeWithNonNotes =
 			tr.commit()
-				.add(noteAId.name(), noteABlob) // this is a note
+				.add(noteAId.getName(), noteABlob) // this is a note
 				.add("a.txt", tr.blob("content of a.txt")) // this is a non-note
 				.create();
 		tr.parseBody(treeWithNonNotes);
@@ -431,7 +431,7 @@ public class NoteMapMergerTest extends RepositoryTestCase {
 
 		treeWithNonNotes =
 			tr.commit()
-				.add(noteAId.name(), noteABlob)
+				.add(noteAId.getName(), noteABlob)
 				.add("a.txt", tr.blob("content of a.txt"))
 				.add("b.txt", tr.blob("content of b.txt"))
 				.create();
@@ -440,7 +440,7 @@ public class NoteMapMergerTest extends RepositoryTestCase {
 
 		treeWithNonNotes =
 			tr.commit()
-				.add(noteAId.name(), noteABlob)
+				.add(noteAId.getName(), noteABlob)
 				.add("a.txt", tr.blob("content of a.txt"))
 				.add("c.txt", tr.blob("content of c.txt"))
 				.create();
@@ -457,7 +457,7 @@ public class NoteMapMergerTest extends RepositoryTestCase {
 				MergeStrategy.RESOLVE);
 		RevCommit treeWithNonNotes =
 			tr.commit()
-				.add(noteAId.name(), noteABlob) // this is a note
+				.add(noteAId.getName(), noteABlob) // this is a note
 				.add("a.txt", tr.blob("content of a.txt")) // this is a non-note
 				.create();
 		tr.parseBody(treeWithNonNotes);
@@ -465,7 +465,7 @@ public class NoteMapMergerTest extends RepositoryTestCase {
 
 		treeWithNonNotes =
 			tr.commit()
-				.add(noteAId.name(), noteABlob)
+				.add(noteAId.getName(), noteABlob)
 				.add("a.txt", tr.blob("change 1"))
 				.create();
 		tr.parseBody(treeWithNonNotes);
@@ -473,7 +473,7 @@ public class NoteMapMergerTest extends RepositoryTestCase {
 
 		treeWithNonNotes =
 			tr.commit()
-				.add(noteAId.name(), noteABlob)
+				.add(noteAId.getName(), noteABlob)
 				.add("a.txt", tr.blob("change 2"))
 				.create();
 		tr.parseBody(treeWithNonNotes);

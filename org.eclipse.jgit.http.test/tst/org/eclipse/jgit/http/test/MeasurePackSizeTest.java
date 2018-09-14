@@ -147,7 +147,7 @@ public class MeasurePackSizeTest extends HttpTestCase {
 		PushResult result;
 
 		try (Transport t = Transport.open(db, remoteURI)) {
-			final String srcExpr = Q.name();
+			final String srcExpr = Q.getName();
 			final boolean forceUpdate = false;
 			final String localName = null;
 			final ObjectId oldId = null;

@@ -245,7 +245,7 @@ class BundleFetchConnection extends BaseFetchConnection {
 					missing.put(p, e.getValue());
 				} catch (IOException err) {
 					throw new TransportException(transport.uri, MessageFormat
-							.format(JGitText.get().cannotReadCommit, p.name()),
+							.format(JGitText.get().cannotReadCommit, p.getName()),
 							err);
 				}
 			}

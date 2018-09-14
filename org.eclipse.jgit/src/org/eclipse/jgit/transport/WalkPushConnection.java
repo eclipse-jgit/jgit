@@ -250,7 +250,7 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 			for (String n : dest.getPackNames())
 				packNames.put(n, n);
 
-			final String base = "pack-" + writer.computeName().name(); //$NON-NLS-1$
+			final String base = "pack-" + writer.computeName().getName(); //$NON-NLS-1$
 			final String packName = base + ".pack"; //$NON-NLS-1$
 			pathPack = "pack/" + packName; //$NON-NLS-1$
 			pathIdx = "pack/" + base + ".idx"; //$NON-NLS-1$ //$NON-NLS-2$

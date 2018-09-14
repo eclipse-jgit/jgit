@@ -78,7 +78,7 @@ class RevParse extends TextBuiltin {
 				if (objectId == null) {
 					throw new NullPointerException();
 				}
-				outw.println(objectId.name());
+				outw.println(objectId.getName());
 			}
 		} else {
 			if (verify && commits.size() > 1) {
@@ -88,7 +88,7 @@ class RevParse extends TextBuiltin {
 			}
 
 			for (ObjectId o : commits) {
-				outw.println(o.name());
+				outw.println(o.getName());
 			}
 		}
 	}

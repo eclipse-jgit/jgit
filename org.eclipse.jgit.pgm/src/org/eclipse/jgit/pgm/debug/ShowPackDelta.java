@@ -88,9 +88,9 @@ class ShowPackDelta extends TextBuiltin {
 		long size = reader.getObjectSize(obj, obj.getType());
 		try {
 			if (BinaryDelta.getResultSize(delta) != size)
-				throw die("Object " + obj.name() + " is not a delta"); //$NON-NLS-1$ //$NON-NLS-2$
+				throw die("Object " + obj.getName() + " is not a delta"); //$NON-NLS-1$ //$NON-NLS-2$
 		} catch (ArrayIndexOutOfBoundsException bad) {
-			throw die("Object " + obj.name() + " is not a delta"); //$NON-NLS-1$ //$NON-NLS-2$
+			throw die("Object " + obj.getName() + " is not a delta"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
 		outw.println(BinaryDelta.format(delta));

@@ -403,7 +403,7 @@ public class ObjectWalk extends RevWalk {
 					throw new CorruptObjectException(MessageFormat.format(
 							JGitText.get().corruptObjectInvalidMode3,
 							String.format("%o", Integer.valueOf(mode)), //$NON-NLS-1$
-							idBuffer.name(),
+							idBuffer.getName(),
 							RawParseUtils.decode(buf, tv.namePtr, tv.nameEnd),
 							tv.obj));
 				}
@@ -762,7 +762,7 @@ public class ObjectWalk extends RevWalk {
 				throw new CorruptObjectException(MessageFormat.format(
 						JGitText.get().corruptObjectInvalidMode3,
 						String.format("%o", Integer.valueOf(mode)), //$NON-NLS-1$
-						idBuffer.name(), "", tree)); //$NON-NLS-1$
+						idBuffer.getName(), "", tree)); //$NON-NLS-1$
 			}
 			ptr += ID_SZ;
 		}

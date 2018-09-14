@@ -59,14 +59,14 @@ public class ObjectIdTest {
 	public void test001_toString() {
 		final String x = "def4c620bc3713bb1bb26b808ec9312548e73946";
 		final ObjectId oid = ObjectId.fromString(x);
-		assertEquals(x, oid.name());
+		assertEquals(x, oid.getName());
 	}
 
 	@Test
 	public void test002_toString() {
 		final String x = "ff00eedd003713bb1bb26b808ec9312548e73946";
 		final ObjectId oid = ObjectId.fromString(x);
-		assertEquals(x, oid.name());
+		assertEquals(x, oid.getName());
 	}
 
 	@Test
@@ -124,7 +124,7 @@ public class ObjectIdTest {
 	public void test011_toString() {
 		final String x = "0123456789ABCDEFabcdef1234567890abcdefAB";
 		final ObjectId oid = ObjectId.fromString(x);
-		assertEquals(x.toLowerCase(Locale.ROOT), oid.name());
+		assertEquals(x.toLowerCase(Locale.ROOT), oid.getName());
 	}
 
 	@Test(expected = InvalidObjectIdException.class)
@@ -165,25 +165,25 @@ public class ObjectIdTest {
 
 		MutableObjectId id = new MutableObjectId();
 		id.fromRaw(exp);
-		assertEquals(ObjectId.fromRaw(exp).name(), id.name());
+		assertEquals(ObjectId.fromRaw(exp).getName(), id.getName());
 
 		id.setByte(0, 0x10);
 		assertEquals(0x10, id.getByte(0));
 		exp[0] = 0x10;
-		assertEquals(ObjectId.fromRaw(exp).name(), id.name());
+		assertEquals(ObjectId.fromRaw(exp).getName(), id.getName());
 
 		for (int p = 1; p < 20; p++) {
 			id.setByte(p, 0x10 + p);
 			assertEquals(0x10 + p, id.getByte(p));
 			exp[p] = (byte) (0x10 + p);
-			assertEquals(ObjectId.fromRaw(exp).name(), id.name());
+			assertEquals(ObjectId.fromRaw(exp).getName(), id.getName());
 		}
 
 		for (int p = 0; p < 20; p++) {
 			id.setByte(p, 0x80 + p);
 			assertEquals(0x80 + p, id.getByte(p));
 			exp[p] = (byte) (0x80 + p);
-			assertEquals(ObjectId.fromRaw(exp).name(), id.name());
+			assertEquals(ObjectId.fromRaw(exp).getName(), id.getName());
 		}
 	}
 }

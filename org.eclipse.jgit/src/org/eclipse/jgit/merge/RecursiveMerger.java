@@ -180,7 +180,7 @@ public class RecursiveMerger extends ResolveMerger {
 		if (baseCommits.size() >= MAX_BASES)
 			throw new NoMergeBaseException(NoMergeBaseException.MergeBaseFailureReason.TOO_MANY_MERGE_BASES, MessageFormat.format(
 					JGitText.get().mergeRecursiveTooManyMergeBasesFor,
-					Integer.valueOf(MAX_BASES), a.name(), b.name(),
+					Integer.valueOf(MAX_BASES), a.getName(), b.getName(),
 							Integer.valueOf(baseCommits.size())));
 
 		// We know we have more than one base commit. We have to do merges now
@@ -207,7 +207,7 @@ public class RecursiveMerger extends ResolveMerger {
 							NoMergeBaseException.MergeBaseFailureReason.TOO_MANY_MERGE_BASES,
 							MessageFormat.format(
 							JGitText.get().mergeRecursiveTooManyMergeBasesFor,
-							Integer.valueOf(MAX_BASES), a.name(), b.name(),
+							Integer.valueOf(MAX_BASES), a.getName(), b.getName(),
 									Integer.valueOf(baseCommits.size())));
 				parents.add(nextBase);
 				RevCommit bc = getBaseCommit(currentBase, nextBase,

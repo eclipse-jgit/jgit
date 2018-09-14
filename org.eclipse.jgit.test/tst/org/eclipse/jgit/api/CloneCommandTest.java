@@ -365,7 +365,7 @@ public class CloneCommandTest extends RepositoryTestCase {
 
 		assertNotNull(git2);
 		ObjectId taggedCommit = db.resolve("tag-initial^{commit}");
-		assertEquals(taggedCommit.name(), git2
+		assertEquals(taggedCommit.getName(), git2
 				.getRepository().getFullBranch());
 	}
 

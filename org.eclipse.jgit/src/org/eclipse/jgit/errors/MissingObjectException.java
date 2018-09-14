@@ -70,7 +70,7 @@ public class MissingObjectException extends IOException {
 	 * @param type object type
 	 */
 	public MissingObjectException(ObjectId id, String type) {
-		super(MessageFormat.format(JGitText.get().missingObject, type, id.name()));
+		super(MessageFormat.format(JGitText.get().missingObject, type, id.getName()));
 		missing = id.copy();
 	}
 

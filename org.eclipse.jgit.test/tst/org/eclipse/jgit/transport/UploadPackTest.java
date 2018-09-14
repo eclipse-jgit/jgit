@@ -131,7 +131,7 @@ public class UploadPackTest {
 		// Fetch of the parent of the shallow commit
 		try (Transport tn = testProtocol.open(uri, client, "server")) {
 			tn.fetch(NullProgressMonitor.INSTANCE,
-					Collections.singletonList(new RefSpec(commit0.name())));
+					Collections.singletonList(new RefSpec(commit0.getName())));
 			assertTrue(client.hasObject(commit0.toObjectId()));
 		}
 	}
@@ -150,9 +150,9 @@ public class UploadPackTest {
 		try (Transport tn = testProtocol.open(uri, client, "server")) {
 			thrown.expect(TransportException.class);
 			thrown.expectMessage(Matchers.containsString(
-						"want " + blob.name() + " not valid"));
+						"want " + blob.getName() + " not valid"));
 			tn.fetch(NullProgressMonitor.INSTANCE,
-					Collections.singletonList(new RefSpec(blob.name())));
+					Collections.singletonList(new RefSpec(blob.getName())));
 		}
 	}
 
@@ -170,7 +170,7 @@ public class UploadPackTest {
 
 		try (Transport tn = testProtocol.open(uri, client, "server")) {
 			tn.fetch(NullProgressMonitor.INSTANCE,
-					Collections.singletonList(new RefSpec(blob.name())));
+					Collections.singletonList(new RefSpec(blob.getName())));
 			assertTrue(client.hasObject(blob.toObjectId()));
 		}
 	}
@@ -189,9 +189,9 @@ public class UploadPackTest {
 		try (Transport tn = testProtocol.open(uri, client, "server")) {
 			thrown.expect(TransportException.class);
 			thrown.expectMessage(Matchers.containsString(
-						"want " + blob.name() + " not valid"));
+						"want " + blob.getName() + " not valid"));
 			tn.fetch(NullProgressMonitor.INSTANCE,
-					Collections.singletonList(new RefSpec(blob.name())));
+					Collections.singletonList(new RefSpec(blob.getName())));
 		}
 	}
 
@@ -224,7 +224,7 @@ public class UploadPackTest {
 		try (Transport tn = testProtocol.open(uri, client, "server2")) {
 			tn.setFilterBlobLimit(0);
 			tn.fetch(NullProgressMonitor.INSTANCE,
-					Collections.singletonList(new RefSpec(commit.name())));
+					Collections.singletonList(new RefSpec(commit.getName())));
 			assertTrue(client.hasObject(tree.toObjectId()));
 			assertFalse(client.hasObject(blob1.toObjectId()));
 			assertFalse(client.hasObject(blob2.toObjectId()));
@@ -261,8 +261,8 @@ public class UploadPackTest {
 		try (Transport tn = testProtocol.open(uri, client, "server2")) {
 			tn.setFilterBlobLimit(0);
 			tn.fetch(NullProgressMonitor.INSTANCE, Arrays.asList(
-						new RefSpec(commit.name()),
-						new RefSpec(blob1.name())));
+						new RefSpec(commit.getName()),
+						new RefSpec(blob1.getName())));
 			assertTrue(client.hasObject(tree.toObjectId()));
 			assertTrue(client.hasObject(blob1.toObjectId()));
 			assertFalse(client.hasObject(blob2.toObjectId()));
@@ -298,7 +298,7 @@ public class UploadPackTest {
 		try (Transport tn = testProtocol.open(uri, client, "server2")) {
 			tn.setFilterBlobLimit(5);
 			tn.fetch(NullProgressMonitor.INSTANCE,
-					Collections.singletonList(new RefSpec(commit.name())));
+					Collections.singletonList(new RefSpec(commit.getName())));
 			assertFalse(client.hasObject(longBlob.toObjectId()));
 			assertTrue(client.hasObject(shortBlob.toObjectId()));
 		}
@@ -338,8 +338,8 @@ public class UploadPackTest {
 		try (Transport tn = testProtocol.open(uri, client, "server2")) {
 			tn.setFilterBlobLimit(0);
 			tn.fetch(NullProgressMonitor.INSTANCE, Arrays.asList(
-						new RefSpec(commit.name()),
-						new RefSpec(blob1.name())));
+						new RefSpec(commit.getName()),
+						new RefSpec(blob1.getName())));
 			assertTrue(client.hasObject(blob1.toObjectId()));
 			assertFalse(client.hasObject(blob2.toObjectId()));
 		}
@@ -378,7 +378,7 @@ public class UploadPackTest {
 		try (Transport tn = testProtocol.open(uri, client, "server2")) {
 			tn.setFilterBlobLimit(5);
 			tn.fetch(NullProgressMonitor.INSTANCE,
-					Collections.singletonList(new RefSpec(commit.name())));
+					Collections.singletonList(new RefSpec(commit.getName())));
 			assertFalse(client.hasObject(longBlob.toObjectId()));
 			assertTrue(client.hasObject(shortBlob.toObjectId()));
 		}
@@ -415,7 +415,7 @@ public class UploadPackTest {
 			thrown.expectMessage("filter requires server to advertise that capability");
 
 			tn.fetch(NullProgressMonitor.INSTANCE,
-					Collections.singletonList(new RefSpec(commit.name())));
+					Collections.singletonList(new RefSpec(commit.getName())));
 		}
 	}
 
@@ -753,20 +753,20 @@ public class UploadPackTest {
 			null,
 			"command=fetch\n",
 			PacketLineIn.DELIM,
-			"want " + advertized.name() + "\n",
+			"want " + advertized.getName() + "\n",
 			PacketLineIn.END);
 
 		// This doesn't
 		thrown.expect(TransportException.class);
 		thrown.expectMessage(Matchers.containsString(
-					"want " + unadvertized.name() + " not valid"));
+					"want " + unadvertized.getName() + " not valid"));
 		uploadPackV2(
 			RequestPolicy.ADVERTISED,
 			null,
 			null,
 			"command=fetch\n",
 			PacketLineIn.DELIM,
-			"want " + unadvertized.name() + "\n",
+			"want " + unadvertized.getName() + "\n",
 			PacketLineIn.END);
 	}
 
@@ -784,20 +784,20 @@ public class UploadPackTest {
 			null,
 			"command=fetch\n",
 			PacketLineIn.DELIM,
-			"want " + reachable.name() + "\n",
+			"want " + reachable.getName() + "\n",
 			PacketLineIn.END);
 
 		// This doesn't
 		thrown.expect(TransportException.class);
 		thrown.expectMessage(Matchers.containsString(
-					"want " + unreachable.name() + " not valid"));
+					"want " + unreachable.getName() + " not valid"));
 		uploadPackV2(
 			RequestPolicy.REACHABLE_COMMIT,
 			null,
 			null,
 			"command=fetch\n",
 			PacketLineIn.DELIM,
-			"want " + unreachable.name() + "\n",
+			"want " + unreachable.getName() + "\n",
 			PacketLineIn.END);
 	}
 
@@ -814,20 +814,20 @@ public class UploadPackTest {
 			null,
 			"command=fetch\n",
 			PacketLineIn.DELIM,
-			"want " + tip.name() + "\n",
+			"want " + tip.getName() + "\n",
 			PacketLineIn.END);
 
 		// This doesn't
 		thrown.expect(TransportException.class);
 		thrown.expectMessage(Matchers.containsString(
-					"want " + parentOfTip.name() + " not valid"));
+					"want " + parentOfTip.getName() + " not valid"));
 		uploadPackV2(
 			RequestPolicy.TIP,
 			new RejectAllRefFilter(),
 			null,
 			"command=fetch\n",
 			PacketLineIn.DELIM,
-			"want " + parentOfTip.name() + "\n",
+			"want " + parentOfTip.getName() + "\n",
 			PacketLineIn.END);
 	}
 
@@ -845,20 +845,20 @@ public class UploadPackTest {
 			null,
 			"command=fetch\n",
 			PacketLineIn.DELIM,
-			"want " + parentOfTip.name() + "\n",
+			"want " + parentOfTip.getName() + "\n",
 			PacketLineIn.END);
 
 		// This doesn't
 		thrown.expect(TransportException.class);
 		thrown.expectMessage(Matchers.containsString(
-					"want " + unreachable.name() + " not valid"));
+					"want " + unreachable.getName() + " not valid"));
 		uploadPackV2(
 			RequestPolicy.REACHABLE_COMMIT_TIP,
 			new RejectAllRefFilter(),
 			null,
 			"command=fetch\n",
 			PacketLineIn.DELIM,
-			"want " + unreachable.name() + "\n",
+			"want " + unreachable.getName() + "\n",
 			PacketLineIn.END);
 	}
 
@@ -873,7 +873,7 @@ public class UploadPackTest {
 			null,
 			"command=fetch\n",
 			PacketLineIn.DELIM,
-			"want " + unreachable.name() + "\n",
+			"want " + unreachable.getName() + "\n",
 			PacketLineIn.END);
 	}
 

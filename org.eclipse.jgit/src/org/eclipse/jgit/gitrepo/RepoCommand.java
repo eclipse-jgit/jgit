@@ -677,7 +677,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 					default:
 						throw new JGitInternalException(MessageFormat.format(
 								JGitText.get().updatingRefFailed,
-								targetBranch, commitId.name(), rc));
+								targetBranch, commitId.getName(), rc));
 				}
 
 				return rw.parseCommit(commitId);

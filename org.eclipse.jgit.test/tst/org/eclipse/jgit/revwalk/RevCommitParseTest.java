@@ -82,7 +82,7 @@ public class RevCommitParseTest extends RepositoryTestCase {
 		final StringBuilder body = new StringBuilder();
 
 		body.append("tree ");
-		body.append(treeId.name());
+		body.append(treeId.getName());
 		body.append("\n");
 
 		body.append("author ");

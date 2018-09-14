@@ -255,7 +255,7 @@ class Push extends TextBuiltin {
 		try {
 			return reader.abbreviate(id).name();
 		} catch (IOException cannotAbbreviate) {
-			return id.name();
+			return id.getName();
 		}
 	}
 

@@ -65,7 +65,7 @@ public class ObjectId extends AnyObjectId implements Serializable {
 
 	static {
 		ZEROID = new ObjectId(0, 0, 0, 0, 0);
-		ZEROID_STR = ZEROID.name();
+		ZEROID_STR = ZEROID.getName();
 	}
 
 	/**
@@ -107,7 +107,7 @@ public class ObjectId extends AnyObjectId implements Serializable {
 	 * @return the hex string conversion of this id's content.
 	 */
 	public static final String toString(ObjectId i) {
-		return i != null ? i.name() : ZEROID_STR;
+		return i != null ? i.getName() : ZEROID_STR;
 	}
 
 	/**

@@ -71,7 +71,7 @@ public class IncorrectObjectTypeException extends IOException {
 	 * @param type object type
 	 */
 	public IncorrectObjectTypeException(ObjectId id, String type) {
-		super(MessageFormat.format(JGitText.get().objectIsNotA, id.name(), type));
+		super(MessageFormat.format(JGitText.get().objectIsNotA, id.getName(), type));
 	}
 
 	/**

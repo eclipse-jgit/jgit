@@ -77,7 +77,7 @@ public class CorruptObjectException extends IOException {
 	public CorruptObjectException(ObjectChecker.ErrorType type, AnyObjectId id,
 			String why) {
 		super(MessageFormat.format(JGitText.get().objectIsCorrupt3,
-				type.getMessageId(), id.name(), why));
+				type.getMessageId(), id.getName(), why));
 		this.errorType = type;
 	}
 
@@ -91,7 +91,7 @@ public class CorruptObjectException extends IOException {
 	 *            error message
 	 */
 	public CorruptObjectException(AnyObjectId id, String why) {
-		super(MessageFormat.format(JGitText.get().objectIsCorrupt, id.name(), why));
+		super(MessageFormat.format(JGitText.get().objectIsCorrupt, id.getName(), why));
 	}
 
 	/**
@@ -104,7 +104,7 @@ public class CorruptObjectException extends IOException {
 	 *            error message
 	 */
 	public CorruptObjectException(ObjectId id, String why) {
-		super(MessageFormat.format(JGitText.get().objectIsCorrupt, id.name(), why));
+		super(MessageFormat.format(JGitText.get().objectIsCorrupt, id.getName(), why));
 	}
 
 	/**

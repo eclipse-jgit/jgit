@@ -470,7 +470,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			}
 			return null;
 		case EDIT:
-			rebaseState.createFile(AMEND, commitToPick.name());
+			rebaseState.createFile(AMEND, commitToPick.getName());
 			return stop(commitToPick, Status.EDIT);
 		case COMMENT:
 			break;
@@ -671,7 +671,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 
 	private void writeCurrentCommit(RevCommit commit) throws IOException {
 		RebaseState.appendToFile(rebaseState.getFile(CURRENT_COMMIT),
-				commit.name());
+				commit.getName());
 	}
 
 	private void writeRewrittenHashes() throws RevisionSyntaxException,
@@ -1118,9 +1118,9 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		FileUtils.mkdir(rebaseState.getDir(), true);
 
 		repo.writeOrigHead(headId);
-		rebaseState.createFile(REBASE_HEAD, headId.name());
+		rebaseState.createFile(REBASE_HEAD, headId.getName());
 		rebaseState.createFile(HEAD_NAME, headName);
-		rebaseState.createFile(ONTO, upstreamCommit.name());
+		rebaseState.createFile(ONTO, upstreamCommit.getName());
 		rebaseState.createFile(ONTO_NAME, upstreamCommitName);
 		if (isInteractive()) {
 			rebaseState.createFile(INTERACTIVE, ""); //$NON-NLS-1$
@@ -1128,8 +1128,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		rebaseState.createFile(QUIET, ""); //$NON-NLS-1$
 
 		ArrayList<RebaseTodoLine> toDoSteps = new ArrayList<>();
-		toDoSteps.add(new RebaseTodoLine("# Created by EGit: rebasing " + headId.name() //$NON-NLS-1$
-						+ " onto " + upstreamCommit.name())); //$NON-NLS-1$
+		toDoSteps.add(new RebaseTodoLine("# Created by EGit: rebasing " + headId.getName() //$NON-NLS-1$
+						+ " onto " + upstreamCommit.getName())); //$NON-NLS-1$
 		// determine the commits to be applied
 		List<RevCommit> cherryPickList = calculatePickList(headCommit);
 		ObjectReader reader = walk.getObjectReader();
@@ -1265,13 +1265,13 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		CheckoutCommand co = new CheckoutCommand(repo);
 		try {
 			co.setProgressMonitor(monitor);
-			co.setName(newCommit.name()).call();
+			co.setName(newCommit.getName()).call();
 			if (headName.startsWith(Constants.R_HEADS)) {
 				RefUpdate rup = repo.updateRef(headName);
 				rup.setExpectedOldObjectId(oldCommit);
 				rup.setNewObjectId(newCommit);
-				rup.setRefLogMessage("Fast-forward from " + oldCommit.name() //$NON-NLS-1$
-						+ " to " + newCommit.name(), false); //$NON-NLS-1$
+				rup.setRefLogMessage("Fast-forward from " + oldCommit.getName() //$NON-NLS-1$
+						+ " to " + newCommit.getName(), false); //$NON-NLS-1$
 				Result res = rup.update(walk);
 				switch (res) {
 				case FAST_FORWARD:
@@ -1334,7 +1334,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			GitAPIException {
 		try {
 			ObjectId origHead = repo.readOrigHead();
-			String commitId = origHead != null ? origHead.name() : null;
+			String commitId = origHead != null ? origHead.getName() : null;
 			monitor.beginTask(MessageFormat.format(
 					JGitText.get().abortingRebase, commitId),
 					ProgressMonitor.UNKNOWN);
@@ -1448,7 +1448,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	 */
 	public RebaseCommand setUpstream(RevCommit upstream) {
 		this.upstreamCommit = upstream;
-		this.upstreamCommitName = upstream.name();
+		this.upstreamCommitName = upstream.getName();
 		return this;
 	}
 
@@ -1462,11 +1462,11 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	public RebaseCommand setUpstream(AnyObjectId upstream) {
 		try {
 			this.upstreamCommit = walk.parseCommit(upstream);
-			this.upstreamCommitName = upstream.name();
+			this.upstreamCommitName = upstream.getName();
 		} catch (IOException e) {
 			throw new JGitInternalException(MessageFormat.format(
 					JGitText.get().couldNotReadObjectWhileParsingCommit,
-					upstream.name()), e);
+					upstream.getName()), e);
 		}
 		return this;
 	}

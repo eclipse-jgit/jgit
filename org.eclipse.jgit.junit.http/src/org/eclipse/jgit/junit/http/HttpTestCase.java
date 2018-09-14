@@ -219,7 +219,7 @@ public abstract class HttpTestCase extends LocalDiskRepositoryTestCase {
 	protected static Collection<RemoteRefUpdate> push(TestRepository from,
 			RevCommit q) throws IOException {
 		final Repository db = from.getRepository();
-		final String srcExpr = q.name();
+		final String srcExpr = q.getName();
 		final String dstName = master;
 		final boolean forceUpdate = true;
 		final String localName = null;
@@ -238,7 +238,7 @@ public abstract class HttpTestCase extends LocalDiskRepositoryTestCase {
 	 * @return path of the loose object
 	 */
 	public static String loose(URIish base, AnyObjectId id) {
-		final String objectName = id.name();
+		final String objectName = id.getName();
 		final String d = objectName.substring(0, 2);
 		final String f = objectName.substring(2);
 		return join(base, "objects/" + d + "/" + f);

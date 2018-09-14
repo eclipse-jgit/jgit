@@ -204,7 +204,7 @@ class RebuildCommitGraph extends TextBuiltin {
 					newc.setAuthor(new PersonIdent(me, new Date(t.commitTime)));
 					newc.setCommitter(newc.getAuthor());
 					newc.setParentIds(newParents);
-					newc.setMessage("ORIGINAL " + t.oldId.name() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
+					newc.setMessage("ORIGINAL " + t.oldId.getName() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
 					t.newId = oi.insert(newc);
 					rewrites.put(t.oldId, t.newId);
 					pm.update(1);

@@ -59,7 +59,7 @@ public class BaseReceivePackTest {
 		ReceiveCommand cmd = BaseReceivePack.parseCommand(o + " " + n + " " + r);
 		assertEquals(ObjectId.zeroId(), cmd.getOldId());
 		assertEquals("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef",
-				cmd.getNewId().name());
+				cmd.getNewId().getName());
 		assertEquals("refs/heads/master", cmd.getRefName());
 
 		assertParseCommandFails(null);

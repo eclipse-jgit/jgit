@@ -392,7 +392,7 @@ public class DirCacheCheckoutMaliciousPathTest extends RepositoryTestCase {
 							.call();
 				} else {
 					git.branchCreate().setName("refs/heads/next")
-							.setStartPoint(commitId.name()).call();
+							.setStartPoint(commitId.getName()).call();
 					git.checkout().setName("refs/heads/next")
 							.call();
 				}

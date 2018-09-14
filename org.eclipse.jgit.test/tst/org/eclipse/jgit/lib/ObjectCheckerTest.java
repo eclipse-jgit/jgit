@@ -1349,7 +1349,7 @@ public class ObjectCheckerTest {
 			fail("Did not throw CorruptObjectException");
 		} catch (CorruptObjectException e) {
 			assertSame(TREE_NOT_SORTED, e.getErrorType());
-			assertEquals("treeNotSorted: object " + id.name()
+			assertEquals("treeNotSorted: object " + id.getName()
 					+ ": incorrectly sorted", e.getMessage());
 		}
 

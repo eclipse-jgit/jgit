@@ -104,7 +104,7 @@ public class StageBuilder {
 	 */
 	public StageBuilder(String txnStageNamespace, ObjectId txnId) {
 		this.txnStage = txnStageNamespace;
-		this.txnId = txnId.name();
+		this.txnId = txnId.getName();
 	}
 
 	/**

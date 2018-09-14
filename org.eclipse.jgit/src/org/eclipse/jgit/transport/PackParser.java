@@ -1140,7 +1140,7 @@ public abstract class PackParser {
 				}
 				throw new CorruptObjectException(
 						MessageFormat.format(JGitText.get().invalidObject,
-								Constants.typeString(type), id.name(),
+								Constants.typeString(type), id.getName(),
 								e.getMessage()),
 						e);
 			}
@@ -1165,7 +1165,7 @@ public abstract class PackParser {
 		try (ObjectStream cur = readCurs.open(obj, info.type).openStream()) {
 			if (cur.getSize() != sz) {
 				throw new IOException(MessageFormat.format(
-						JGitText.get().collisionOn, obj.name()));
+						JGitText.get().collisionOn, obj.getName()));
 			}
 			try (InputStream pck = inflate(Source.DATABASE, sz)) {
 				while (0 < sz) {
@@ -1175,7 +1175,7 @@ public abstract class PackParser {
 					for (int i = 0; i < n; i++) {
 						if (curBuffer[i] != readBuffer[i]) {
 							throw new IOException(MessageFormat.format(
-									JGitText.get().collisionOn, obj.name()));
+									JGitText.get().collisionOn, obj.getName()));
 						}
 					}
 					sz -= n;
@@ -1195,7 +1195,7 @@ public abstract class PackParser {
 			final byte[] existingData = ldr.getCachedBytes(data.length);
 			if (!Arrays.equals(data, existingData)) {
 				throw new IOException(MessageFormat.format(
-						JGitText.get().collisionOn, obj.name()));
+						JGitText.get().collisionOn, obj.getName()));
 			}
 		} catch (MissingObjectException notLocal) {
 			// This is OK, we don't have a copy of the object locally
