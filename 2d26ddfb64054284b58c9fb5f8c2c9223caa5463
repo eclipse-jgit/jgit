@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d9ef4a6_88c36a9e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 984,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-09-14T01:50:54Z",
+      "side": 1,
+      "message": "not about this patch: I think this should be req.getWants() or req.getWantIds()",
+      "revId": "2d26ddfb64054284b58c9fb5f8c2c9223caa5463",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
