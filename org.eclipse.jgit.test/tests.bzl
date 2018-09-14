@@ -41,7 +41,13 @@ def tests(tests):
             additional_deps = [
                 "//lib:jsch",
             ]
-
+        if src.endswith("JSchSshTest.java"):
+            additional_deps = [
+                "//lib:jsch",
+                "//lib:jzlib",
+                "//lib:sshd-core",
+                "//lib:sshd-sftp",
+            ]
         heap_size = "-Xmx256m"
         if src.endswith("HugeCommitMessageTest.java"):
             heap_size = "-Xmx512m"
