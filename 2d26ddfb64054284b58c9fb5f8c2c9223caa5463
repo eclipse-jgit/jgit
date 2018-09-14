@@ -16,6 +16,24 @@
       "revId": "2d26ddfb64054284b58c9fb5f8c2c9223caa5463",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "670d7a9e_5271ef9b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 984,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-09-14T02:16:15Z",
+      "side": 1,
+      "message": "There is at least another renaming pending in that class (depth -\u003e deepen). It can go all together in a change.",
+      "parentUuid": "9d9ef4a6_88c36a9e",
+      "revId": "2d26ddfb64054284b58c9fb5f8c2c9223caa5463",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
