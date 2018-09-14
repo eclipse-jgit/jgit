@@ -46,6 +46,30 @@
       "revId": "1914771069fb0d3aa7bfba5575312ca60527c8b9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77aaf551_ef19c534",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-09-14T06:57:49Z",
+      "side": 1,
+      "message": "Thanks. Except that in JGit you can clone a subset of the branches, not just a single branch, and this change applies also in that case. How do we want to call this? Or is it clear to everyone that \"single-branch clone\" here means \"not-all-branches clone\"?\n\nMaybe just rephrase to \"Fix fetch refspecs when not cloning all branches\".",
+      "parentUuid": "26db03a2_71d8f9a3",
+      "range": {
+        "startLine": 7,
+        "startChar": 19,
+        "endLine": 7,
+        "endChar": 36
+      },
+      "revId": "1914771069fb0d3aa7bfba5575312ca60527c8b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
