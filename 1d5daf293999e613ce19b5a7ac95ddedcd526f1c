@@ -1,0 +1,199 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f1bc296e_474fa702",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-09-14T01:58:06Z",
+      "side": 1,
+      "message": "ls-refs?",
+      "range": {
+        "startLine": 7,
+        "startChar": 5,
+        "endLine": 7,
+        "endChar": 10
+      },
+      "revId": "1d5daf293999e613ce19b5a7ac95ddedcd526f1c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "953e4858_8feb59fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-09-14T01:58:06Z",
+      "side": 1,
+      "message": "ls-refs",
+      "range": {
+        "startLine": 9,
+        "startChar": 53,
+        "endLine": 9,
+        "endChar": 59
+      },
+      "revId": "1d5daf293999e613ce19b5a7ac95ddedcd526f1c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8faccb0a_cc675736",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-09-14T01:58:06Z",
+      "side": 1,
+      "message": "nit: \"in UploadPack\", or \"in the UploadPack class\".",
+      "range": {
+        "startLine": 10,
+        "startChar": 6,
+        "endLine": 10,
+        "endChar": 23
+      },
+      "revId": "1d5daf293999e613ce19b5a7ac95ddedcd526f1c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9eaf896_ec9d6aa1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-09-14T01:58:06Z",
+      "side": 1,
+      "message": "nit: \", and makes the two commands more similar\". (or \"more closely analogous\" or something)",
+      "range": {
+        "startLine": 13,
+        "startChar": 8,
+        "endLine": 13,
+        "endChar": 37
+      },
+      "revId": "1d5daf293999e613ce19b5a7ac95ddedcd526f1c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24601315_0fdd8981",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/ProtocolV2ParserTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-09-14T01:58:06Z",
+      "side": 1,
+      "message": "LsRefs",
+      "range": {
+        "startLine": 338,
+        "startChar": 17,
+        "endLine": 338,
+        "endChar": 22
+      },
+      "revId": "1d5daf293999e613ce19b5a7ac95ddedcd526f1c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41454199_6a411016",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/ProtocolV2ParserTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-09-14T01:58:06Z",
+      "side": 1,
+      "message": "likewise (and likewise for the others)",
+      "revId": "1d5daf293999e613ce19b5a7ac95ddedcd526f1c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fe198d5_707369c2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-09-14T01:58:06Z",
+      "side": 1,
+      "message": "ls-refs",
+      "range": {
+        "startLine": 209,
+        "startChar": 23,
+        "endLine": 209,
+        "endChar": 29
+      },
+      "revId": "1d5daf293999e613ce19b5a7ac95ddedcd526f1c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "005d0b73_539bce07",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-09-14T01:58:06Z",
+      "side": 1,
+      "message": "Hm, I\u0027m not sure what this is telling me. Maybe something like:\n\n\"This is meant for calling immedately after the caller has consumed a `command\u003dls-refs` command indicating the beginning of an ls-refs request.\"\n\nWhat will the state of PacketLineIn be when the function returns?",
+      "range": {
+        "startLine": 210,
+        "startChar": 4,
+        "endLine": 210,
+        "endChar": 57
+      },
+      "revId": "1d5daf293999e613ce19b5a7ac95ddedcd526f1c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a52ba5e9_93b172a7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-09-14T01:58:06Z",
+      "side": 1,
+      "message": "unrelated changes",
+      "revId": "1d5daf293999e613ce19b5a7ac95ddedcd526f1c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
