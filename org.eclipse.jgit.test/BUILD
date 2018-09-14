@@ -19,6 +19,7 @@ HELPERS = glob(["src/**/*.java"]) + [PKG + c for c in [
     "revwalk/RevQueueTestCase.java",
     "revwalk/RevWalkTestCase.java",
     "transport/SpiTransport.java",
+    "transport/SshTestBase.java",
     "treewalk/FileTreeIteratorWithTimeControl.java",
     "treewalk/filter/AlwaysCloneTreeFilter.java",
     "test/resources/SampleDataRepositoryTestCase.java",
@@ -43,6 +44,9 @@ java_library(
     resources = DATA,
     deps = [
         "//lib:junit",
+        "//lib:jsch",
+        "//lib:sshd-core",
+        "//lib:sshd-sftp",
         "//org.eclipse.jgit:jgit",
         "//org.eclipse.jgit.junit:junit",
     ],
