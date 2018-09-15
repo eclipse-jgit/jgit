@@ -80,7 +80,7 @@ public class ObjectDownloadListener implements WriteListener {
 
 	private final WritableByteChannel outChannel;
 
-	private final ByteBuffer buffer = ByteBuffer.allocateDirect(8192);
+	private ByteBuffer buffer = ByteBuffer.allocateDirect(8192);
 
 	/**
 	 * @param repository
@@ -115,20 +115,26 @@ public class ObjectDownloadListener implements WriteListener {
 	@Override
 	public void onWritePossible() throws IOException {
 		while (out.isReady()) {
-			if (in.read(buffer) != -1) {
-				buffer.flip();
-				outChannel.write(buffer);
-				buffer.compact();
-			} else {
-				in.close();
-				buffer.flip();
-				while (out.isReady()) {
-					if (buffer.hasRemaining()) {
-						outChannel.write(buffer);
-					} else {
+			try {
+				buffer.clear();
+				if (in.read(buffer) < 0) {
+					buffer = null;
+				} else {
+					buffer.flip();
+				}
+			} catch(Throwable t) {
+				LOG.log(Level.SEVERE, t.getMessage(), t);
+				buffer = null;
+			} finally {
+				if (buffer != null) {
+					outChannel.write(buffer);
+				} else {
+					try {
+						out.close();
+					} finally {
 						context.complete();
-						return;
 					}
+					return;
 				}
 			}
 		}
