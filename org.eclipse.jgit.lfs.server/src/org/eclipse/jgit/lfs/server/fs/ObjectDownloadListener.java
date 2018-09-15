@@ -82,6 +82,8 @@ public class ObjectDownloadListener implements WriteListener {
 
 	private final ByteBuffer buffer = ByteBuffer.allocateDirect(8192);
 
+	private boolean inEof = true;
+
 	/**
 	 * <p>Constructor for ObjectDownloadListener.</p>
 	 *
@@ -117,20 +119,23 @@ public class ObjectDownloadListener implements WriteListener {
 	@Override
 	public void onWritePossible() throws IOException {
 		while (out.isReady()) {
-			if (in.read(buffer) != -1) {
+			if (buffer.hasRemaining()) {
+				// you have to write if you are in here.
+
+				// attempt to get more content from input stream
+				if (in.read(buffer) == -1) {
+					inEof = true;
+					in.close();
+				}
 				buffer.flip();
 				outChannel.write(buffer);
 				buffer.compact();
-			} else {
-				in.close();
-				buffer.flip();
-				while (out.isReady()) {
-					if (buffer.hasRemaining()) {
-						outChannel.write(buffer);
-					} else {
-						context.complete();
-					}
-				}
+			} else if (inEof) {
+				// no buffer remaining, and input is EOF
+
+				// you have the out.isReady() == true state at this point
+				out.close();
+				context.complete();
 			}
 		}
 	}
