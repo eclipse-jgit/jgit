@@ -117,20 +117,21 @@ public class ObjectDownloadListener implements WriteListener {
 	@Override
 	public void onWritePossible() throws IOException {
 		while (out.isReady()) {
-			if (in.read(buffer) != -1) {
+			if (in.isOpen()) {
+				if (in.read(buffer) == -1) {
+					in.close();
+				}
 				buffer.flip();
 				outChannel.write(buffer);
 				buffer.compact();
 			} else {
-				in.close();
-				buffer.flip();
-				while (out.isReady()) {
-					if (buffer.hasRemaining()) {
-						outChannel.write(buffer);
-					} else {
-						context.complete();
-					}
-				}
+				out.close();
+				context.complete();
+				// Avoid endless loop as out.isReady() would
+				// still return true even though the stream
+				// was previously closed, see:
+				// https://github.com/eclipse/jetty.project/issues/2911
+				return;
 			}
 		}
 	}
