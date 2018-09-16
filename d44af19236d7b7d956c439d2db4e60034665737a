@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "56d54769_76b1a84d",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/ObjectDownloadListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-09-16T08:33:01Z",
+      "side": 1,
+      "message": "did you want to log this exception ?",
+      "revId": "d44af19236d7b7d956c439d2db4e60034665737a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
