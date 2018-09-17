@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a8125b6_74a568dc",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/ObjectDownloadListener.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2018-09-17T11:45:51Z",
+      "side": 1,
+      "message": "Bad rebase: this should be removed now, because of return Statement on line 138 below.",
+      "range": {
+        "startLine": 136,
+        "startChar": 0,
+        "endLine": 136,
+        "endChar": 13
+      },
+      "revId": "bd59f6d77840e960471b1033b43b3612641d2b71",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
