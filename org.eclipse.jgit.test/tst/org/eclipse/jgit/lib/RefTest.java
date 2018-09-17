@@ -333,4 +333,18 @@ public class RefTest extends SampleDataRepositoryTestCase {
 		assertEquals(1, refs.size());
 		checkContainsRef(refs, db.exactRef("refs/heads/prefix/a"));
 	}
+
+	@Test
+	public void testGetRefsByPrefixes() throws IOException {
+		List<Ref> refs = db.getRefDatabase().getRefsByPrefix();
+		List<Ref> allRefs = db.getRefDatabase().getRefs();
+		assertEquals(allRefs.size(), refs.size());
+
+		refs = db.getRefDatabase().getRefsByPrefix("refs/heads/p",
+				"refs/tags/A");
+		assertEquals(3, refs.size());
+		checkContainsRef(refs, db.exactRef("refs/heads/prefix/a"));
+		checkContainsRef(refs, db.exactRef("refs/heads/pa"));
+		checkContainsRef(refs, db.exactRef("refs/tags/A"));
+	}
 }
