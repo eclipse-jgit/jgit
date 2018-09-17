@@ -22,6 +22,30 @@
       "revId": "64aafacd650ca8e4fa9797ab29b95b07e3962cd6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f86e3ff_220f9e75",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-09-17T06:29:47Z",
+      "side": 1,
+      "message": "Done.  I also removed the duplicate entry on the following line.",
+      "parentUuid": "3ab195f2_3b7d13be",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 46
+      },
+      "revId": "64aafacd650ca8e4fa9797ab29b95b07e3962cd6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
