@@ -44,6 +44,10 @@
  */
 package org.eclipse.jgit.api;
 
+import static org.eclipse.jgit.lib.Constants.HEAD;
+import static org.eclipse.jgit.lib.Constants.R_HEADS;
+import static org.eclipse.jgit.lib.Constants.R_REMOTES;
+
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -56,7 +60,6 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.RefNotFoundException;
 import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -113,17 +116,18 @@ public class ListBranchCommand extends GitCommand<List<Ref>> {
 			Collection<Ref> refs = new ArrayList<>();
 
 			// Also return HEAD if it's detached
-			Ref head = repo.exactRef(Constants.HEAD);
-			if (head != null && head.getLeaf().getName().equals(Constants.HEAD))
+			Ref head = repo.exactRef(HEAD);
+			if (head != null && head.getLeaf().getName().equals(HEAD)) {
 				refs.add(head);
+			}
 
 			if (listMode == null) {
-				refs.addAll(getRefs(Constants.R_HEADS));
+				refs.addAll(repo.getRefDatabase().getRefsByPrefix(R_HEADS));
 			} else if (listMode == ListMode.REMOTE) {
-				refs.addAll(getRefs(Constants.R_REMOTES));
+				refs.addAll(repo.getRefDatabase().getRefsByPrefix(R_REMOTES));
 			} else {
-				refs.addAll(getRefs(Constants.R_HEADS));
-				refs.addAll(getRefs(Constants.R_REMOTES));
+				refs.addAll(repo.getRefDatabase().getRefsByPrefix(R_HEADS,
+						R_REMOTES));
 			}
 			resultRefs = new ArrayList<>(filterRefs(refs));
 		} catch (IOException e) {
@@ -184,9 +188,5 @@ public class ListBranchCommand extends GitCommand<List<Ref>> {
 		checkCallable();
 		this.containsCommitish = containsCommitish;
 		return this;
-	}
-
-	private Collection<Ref> getRefs(String prefix) throws IOException {
-		return repo.getRefDatabase().getRefsByPrefix(prefix);
 	}
 }
