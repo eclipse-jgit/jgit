@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3bd93e0_ad8c19e1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-09-17T21:01:55Z",
+      "side": 1,
+      "message": "Hm. exactRef provides exactRef(String ref) and exactRef(String... refs). Should this do the same?\n\n  public List\u003cRef\u003e getRefsByPrefix(String... prefixes)",
+      "range": {
+        "startLine": 436,
+        "startChar": 35,
+        "endLine": 436,
+        "endChar": 62
+      },
+      "revId": "9c5013c92fe4024a4e0aa8976e61345b87d67531",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42298db4_28eb8687",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-09-17T21:01:55Z",
+      "side": 1,
+      "message": "Does insertion order matter?\n\nIf so, I think returning a List would be simplest.",
+      "range": {
+        "startLine": 438,
+        "startChar": 24,
+        "endLine": 438,
+        "endChar": 37
+      },
+      "revId": "9c5013c92fe4024a4e0aa8976e61345b87d67531",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
