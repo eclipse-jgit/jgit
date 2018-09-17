@@ -78,10 +78,21 @@ public interface RemoteSession {
 	 *             a TransportException may be thrown (a subclass of
 	 *             java.io.IOException).
 	 */
-	public Process exec(String commandName, int timeout) throws IOException;
+	Process exec(String commandName, int timeout) throws IOException;
+
+	/**
+	 * Obtain an {@link FtpChannel} for performing FTP operations over this
+	 * {@link RemoteSession}. The default implementation returns {@code null}.
+	 *
+	 * @return the {@link FtpChannel}
+	 * @since 5.2
+	 */
+	default FtpChannel getFtpChannel() {
+		return null;
+	}
 
 	/**
 	 * Disconnect the remote session
 	 */
-	public void disconnect();
+	void disconnect();
 }
