@@ -323,9 +323,8 @@ public class TransportSftp extends SshTransport implements WalkTransport {
 		}
 
 		@Override
-		OutputStream writeFile(final String path,
-				final ProgressMonitor monitor, final String monitorTask)
-				throws IOException {
+		OutputStream writeFile(String path, ProgressMonitor monitor,
+				String monitorTask) throws IOException {
 			try {
 				return ftp.put(path);
 			} catch (SftpException je) {
@@ -401,9 +400,8 @@ public class TransportSftp extends SshTransport implements WalkTransport {
 		}
 
 		@SuppressWarnings("unchecked")
-		private void readLooseRefs(final TreeMap<String, Ref> avail,
-				final String dir, final String prefix)
-				throws TransportException {
+		private void readLooseRefs(TreeMap<String, Ref> avail, String dir,
+				String prefix) throws TransportException {
 			final Collection<ChannelSftp.LsEntry> list;
 			try {
 				list = ftp.ls(dir);
@@ -426,8 +424,8 @@ public class TransportSftp extends SshTransport implements WalkTransport {
 			}
 		}
 
-		private Ref readRef(final TreeMap<String, Ref> avail,
-				final String path, final String name) throws TransportException {
+		private Ref readRef(TreeMap<String, Ref> avail, String path,
+				String name) throws TransportException {
 			final String line;
 			try (BufferedReader br = openReader(path)) {
 				line = br.readLine();
