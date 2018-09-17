@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a7bc68cf_0b8ea319",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2018-09-17T21:58:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3bd93e0_ad8c19e1",
+      "range": {
+        "startLine": 436,
+        "startChar": 35,
+        "endLine": 436,
+        "endChar": 62
+      },
+      "revId": "9c5013c92fe4024a4e0aa8976e61345b87d67531",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "42298db4_28eb8687",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2018-09-17T21:01:55Z",
       "side": 1,
       "message": "Does insertion order matter?\n\nIf so, I think returning a List would be simplest.",
+      "range": {
+        "startLine": 438,
+        "startChar": 24,
+        "endLine": 438,
+        "endChar": 37
+      },
+      "revId": "9c5013c92fe4024a4e0aa8976e61345b87d67531",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed0f25a8_1d12c517",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2018-09-17T21:58:35Z",
+      "side": 1,
+      "message": "Order seems to matter to the tests.  I chose set to avoid duplicate refs in case the prefixes overlap.  Let\u0027s go with list and let the caller be diligent with prefixes.",
+      "parentUuid": "42298db4_28eb8687",
       "range": {
         "startLine": 438,
         "startChar": 24,
