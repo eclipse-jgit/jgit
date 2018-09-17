@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ab195f2_3b7d13be",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2018-09-17T03:49:04Z",
+      "side": 1,
+      "message": "This needs to be removed. I accidentally used test user identity while working on making signed push feature work for  gpg subkeys: [1].\n\n* [1] https://gerrit-review.googlesource.com/c/gerrit/+/196110",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 46
+      },
+      "revId": "64aafacd650ca8e4fa9797ab29b95b07e3962cd6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
