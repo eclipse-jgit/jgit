@@ -317,16 +317,15 @@ public class NameRevCommand extends GitCommand<Map<ObjectId, String>> {
 	private void addPrefixes(Map<ObjectId, String> nonCommits,
 			FIFORevQueue pending) throws IOException {
 		if (!prefixes.isEmpty()) {
-			for (String prefix : prefixes)
-				addPrefix(prefix, nonCommits, pending);
-		} else if (refs == null)
-			addPrefix(Constants.R_REFS, nonCommits, pending);
-	}
-
-	private void addPrefix(String prefix, Map<ObjectId, String> nonCommits,
-			FIFORevQueue pending) throws IOException {
-		for (Ref ref : repo.getRefDatabase().getRefsByPrefix(prefix))
-			addRef(ref, nonCommits, pending);
+			for (Ref ref : repo.getRefDatabase().getRefsByPrefixes(prefixes)) {
+				addRef(ref, nonCommits, pending);
+			}
+		} else if (refs == null) {
+			for (Ref ref : repo.getRefDatabase()
+					.getRefsByPrefix(Constants.R_REFS)) {
+				addRef(ref, nonCommits, pending);
+			}
+		}
 	}
 
 	private void addRef(Ref ref, Map<ObjectId, String> nonCommits,

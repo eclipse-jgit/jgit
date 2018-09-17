@@ -47,6 +47,7 @@ package org.eclipse.jgit.api;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -59,6 +60,7 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -117,13 +119,14 @@ public class ListBranchCommand extends GitCommand<List<Ref>> {
 			if (head != null && head.getLeaf().getName().equals(Constants.HEAD))
 				refs.add(head);
 
+			RefDatabase refdb = repo.getRefDatabase();
 			if (listMode == null) {
-				refs.addAll(getRefs(Constants.R_HEADS));
+				refs.addAll(refdb.getRefsByPrefix(Constants.R_HEADS));
 			} else if (listMode == ListMode.REMOTE) {
-				refs.addAll(getRefs(Constants.R_REMOTES));
+				refs.addAll(refdb.getRefsByPrefix(Constants.R_REMOTES));
 			} else {
-				refs.addAll(getRefs(Constants.R_HEADS));
-				refs.addAll(getRefs(Constants.R_REMOTES));
+				refs.addAll(refdb.getRefsByPrefixes(
+						Arrays.asList(Constants.R_HEADS, Constants.R_REMOTES)));
 			}
 			resultRefs = new ArrayList<>(filterRefs(refs));
 		} catch (IOException e) {
@@ -184,9 +187,5 @@ public class ListBranchCommand extends GitCommand<List<Ref>> {
 		checkCallable();
 		this.containsCommitish = containsCommitish;
 		return this;
-	}
-
-	private Collection<Ref> getRefs(String prefix) throws IOException {
-		return repo.getRefDatabase().getRefsByPrefix(prefix);
 	}
 }

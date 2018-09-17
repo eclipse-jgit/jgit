@@ -50,8 +50,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
@@ -412,6 +414,36 @@ public abstract class RefDatabase {
 					.collect(toList());
 		}
 		return Collections.unmodifiableList(result);
+	}
+
+	/**
+	 * Returns refs whose names start with one of the given prefixes.
+	 * <p>
+	 * The default implementation uses {@link #getRefsByPrefix(String)}.
+	 * Implementors of {@link RefDatabase} should override this method directly
+	 * if a better implementation is possible.
+	 *
+	 * @param prefixes
+	 *            strings that names of refs should start with; may be empty (to
+	 *            return all refs).
+	 * @return immutable set of refs whose names start with one of
+	 *         {@code prefixes}.
+	 * @throws java.io.IOException
+	 *             the reference space cannot be accessed.
+	 * @since 5.1
+	 */
+	@NonNull
+	public Set<Ref> getRefsByPrefixes(Collection<String> prefixes)
+			throws IOException {
+		Set<Ref> result = new LinkedHashSet<>();
+		if (prefixes.isEmpty()) {
+			result.addAll(getRefsByPrefix(ALL));
+		} else {
+			for (String prefix : prefixes) {
+				result.addAll(getRefsByPrefix(prefix));
+			}
+		}
+		return Collections.unmodifiableSet(result);
 	}
 
 	/**

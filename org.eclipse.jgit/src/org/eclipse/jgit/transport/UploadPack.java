@@ -922,10 +922,9 @@ public class UploadPack {
 			refsToSend = getAdvertisedOrDefaultRefs();
 		} else {
 			refsToSend = new HashMap<>();
-			for (String refPrefix : req.getRefPrefixes()) {
-				for (Ref ref : db.getRefDatabase().getRefsByPrefix(refPrefix)) {
-					refsToSend.put(ref.getName(), ref);
-				}
+			for (Ref ref : db.getRefDatabase()
+					.getRefsByPrefixes(req.getRefPrefixes())) {
+				refsToSend.put(ref.getName(), ref);
 			}
 		}
 		if (req.getSymrefs()) {
