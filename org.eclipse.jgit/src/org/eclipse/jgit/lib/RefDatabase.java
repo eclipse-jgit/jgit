@@ -415,6 +415,31 @@ public abstract class RefDatabase {
 	}
 
 	/**
+	 * Returns refs whose names start with one of the given prefixes.
+	 * <p>
+	 * The default implementation uses {@link #getRefsByPrefix(String)}.
+	 * Implementors of {@link RefDatabase} should override this method directly
+	 * if a better implementation is possible.
+	 *
+	 * @param prefixes
+	 *            strings that names of refs should start with.
+	 * @return immutable list of refs whose names start with one of
+	 *         {@code prefixes}.  Refs can be unsorted and may contain
+	 *         duplicates if the prefixes overlap.
+	 * @throws java.io.IOException
+	 *             the reference space cannot be accessed.
+	 * @since 5.1
+	 */
+	@NonNull
+	public List<Ref> getRefsByPrefix(String... prefixes) throws IOException {
+		List<Ref> result = new ArrayList<>();
+		for (String prefix : prefixes) {
+			result.addAll(getRefsByPrefix(prefix));
+		}
+		return Collections.unmodifiableList(result);
+	}
+
+	/**
 	 * Check if any refs exist in the ref database.
 	 * <p>
 	 * This uses the same definition of refs as {@link #getRefs()}. In
