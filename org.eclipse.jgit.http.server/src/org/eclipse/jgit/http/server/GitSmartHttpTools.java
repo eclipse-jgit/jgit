@@ -63,6 +63,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.eclipse.jgit.internal.transport.parser.FirstWant;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.transport.PacketLineIn;
 import org.eclipse.jgit.transport.PacketLineOut;
@@ -246,9 +247,9 @@ public class GitSmartHttpTools {
 			// not have an UploadPack, or it might not have read any of the request.
 			// So, cheat and read the first line.
 			String line = new PacketLineIn(req.getInputStream()).readString();
-			UploadPack.FirstLine parsed = new UploadPack.FirstLine(line);
-			return (parsed.getOptions().contains(OPTION_SIDE_BAND)
-					|| parsed.getOptions().contains(OPTION_SIDE_BAND_64K));
+			FirstWant parsed = FirstWant.fromLine(line);
+			return (parsed.getCapabilities().contains(OPTION_SIDE_BAND)
+					|| parsed.getCapabilities().contains(OPTION_SIDE_BAND_64K));
 		} catch (IOException e) {
 			// Probably the connection is closed and a subsequent write will fail, but
 			// try it just in case.
