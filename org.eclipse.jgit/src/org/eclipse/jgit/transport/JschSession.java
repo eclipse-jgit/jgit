@@ -52,6 +52,11 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
@@ -59,8 +64,10 @@ import org.eclipse.jgit.util.io.IsolatedOutputStream;
 
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelExec;
+import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
+import com.jcraft.jsch.SftpException;
 
 /**
  * Run remote commands using Jsch.
@@ -109,9 +116,21 @@ public class JschSession implements RemoteSession {
 	 * @return a channel suitable for Sftp operations.
 	 * @throws com.jcraft.jsch.JSchException
 	 *             on problems getting the channel.
+	 * @deprecated since 5.2; use {@link #getFtpChannel()} instead
 	 */
+	@Deprecated
 	public Channel getSftpChannel() throws JSchException {
 		return sock.openChannel("sftp"); //$NON-NLS-1$
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @since 5.2
+	 */
+	@Override
+	public FtpChannel getFtpChannel() {
+		return new JschFtpChannel();
 	}
 
 	/**
@@ -232,5 +251,128 @@ public class JschSession implements RemoteSession {
 				Thread.sleep(100);
 			return exitValue();
 		}
+	}
+
+	private class JschFtpChannel implements FtpChannel {
+
+		private ChannelSftp ftp;
+
+		@Override
+		public void connect(int timeout, TimeUnit unit) throws IOException {
+			try {
+				ftp = (ChannelSftp) sock.openChannel("sftp"); //$NON-NLS-1$
+				ftp.connect((int) unit.toMillis(timeout));
+			} catch (JSchException e) {
+				ftp = null;
+				throw new IOException(e.getLocalizedMessage(), e);
+			}
+		}
+
+		@Override
+		public void disconnect() {
+			ftp.disconnect();
+			ftp = null;
+		}
+
+		private <T> T map(Callable<T> op) throws IOException {
+			try {
+				return op.call();
+			} catch (Exception e) {
+				if (e instanceof SftpException) {
+					throw new FtpChannel.FtpException(e.getLocalizedMessage(),
+							((SftpException) e).id, e);
+				}
+				throw new IOException(e.getLocalizedMessage(), e);
+			}
+		}
+
+		@Override
+		public boolean isConnected() {
+			return ftp != null && sock.isConnected();
+		}
+
+		@Override
+		public void cd(String path) throws IOException {
+			map(() -> {
+				ftp.cd(path);
+				return null;
+			});
+		}
+
+		@Override
+		public String pwd() throws IOException {
+			return map(() -> ftp.pwd());
+		}
+
+		@Override
+		public Collection<DirEntry> ls(String path) throws IOException {
+			return map(() -> {
+				List<DirEntry> result = new ArrayList<>();
+				for (Object e : ftp.ls(path)) {
+					ChannelSftp.LsEntry entry = (ChannelSftp.LsEntry) e;
+					result.add(new DirEntry() {
+
+						@Override
+						public String getFilename() {
+							return entry.getFilename();
+						}
+
+						@Override
+						public long getModifiedTime() {
+							return entry.getAttrs().getMTime();
+						}
+
+						@Override
+						public boolean isDirectory() {
+							return entry.getAttrs().isDir();
+						}
+					});
+				}
+				return result;
+			});
+		}
+
+		@Override
+		public void rmdir(String path) throws IOException {
+			map(() -> {
+				ftp.rm(path);
+				return null;
+			});
+		}
+
+		@Override
+		public void mkdir(String path) throws IOException {
+			map(() -> {
+				ftp.mkdir(path);
+				return null;
+			});
+		}
+
+		@Override
+		public InputStream get(String path) throws IOException {
+			return map(() -> ftp.get(path));
+		}
+
+		@Override
+		public OutputStream put(String path) throws IOException {
+			return map(() -> ftp.put(path));
+		}
+
+		@Override
+		public void rm(String path) throws IOException {
+			map(() -> {
+				ftp.rm(path);
+				return null;
+			});
+		}
+
+		@Override
+		public void rename(String from, String to) throws IOException {
+			map(() -> {
+				ftp.rename(from, to);
+				return null;
+			});
+		}
+
 	}
 }
