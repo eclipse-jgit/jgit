@@ -86,6 +86,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
+import org.eclipse.jgit.internal.transport.parser.FirstWant;
 import org.eclipse.jgit.lib.BitmapIndex;
 import org.eclipse.jgit.lib.BitmapIndex.BitmapBuilder;
 import org.eclipse.jgit.lib.Constants;
@@ -177,41 +178,32 @@ public class UploadPack {
 				throws PackProtocolException, IOException;
 	}
 
-	/** Data in the first line of a request, the line itself plus options. */
+	/**
+	 * Data in the first line of a want-list, the line itself plus options.
+	 *
+	 * @deprecated Use {@link FirstWant} instead
+	 */
+	@Deprecated
 	public static class FirstLine {
-		private final String line;
-		private final Set<String> options;
+
+		private final FirstWant firstWant;
 
 		/**
-		 * Parse the first line of a receive-pack request.
-		 *
 		 * @param line
 		 *            line from the client.
 		 */
 		public FirstLine(String line) {
-			if (line.length() > 45) {
-				final HashSet<String> opts = new HashSet<>();
-				String opt = line.substring(45);
-				if (opt.startsWith(" ")) //$NON-NLS-1$
-					opt = opt.substring(1);
-				for (String c : opt.split(" ")) //$NON-NLS-1$
-					opts.add(c);
-				this.line = line.substring(0, 45);
-				this.options = Collections.unmodifiableSet(opts);
-			} else {
-				this.line = line;
-				this.options = Collections.emptySet();
-			}
+			firstWant = FirstWant.fromLine(line);
 		}
 
 		/** @return non-capabilities part of the line. */
 		public String getLine() {
-			return line;
+			return firstWant.getLine();
 		}
 
-		/** @return options parsed from the line. */
-		public Set<String> getOptions() {
-			return options;
+		/** @return capabilities parsed from the line. */
+		public Set<String> getCapabilities() {
+			return firstWant.getCapabilities();
 		}
 	}
 
@@ -1391,8 +1383,8 @@ public class UploadPack {
 
 			if (isFirst) {
 				if (line.length() > 45) {
-					FirstLine firstLine = new FirstLine(line);
-					options = firstLine.getOptions();
+					FirstWant firstLine = FirstWant.fromLine(line);
+					options = firstLine.getCapabilities();
 					line = firstLine.getLine();
 				} else
 					options = Collections.emptySet();
