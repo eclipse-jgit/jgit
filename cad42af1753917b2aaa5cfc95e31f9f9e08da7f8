@@ -16,6 +16,24 @@
       "revId": "cad42af1753917b2aaa5cfc95e31f9f9e08da7f8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d10e3666_572d502a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV1Parser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-09-17T18:47:24Z",
+      "side": 1,
+      "message": "It would be the first (and at the moment only) class in that package. Maybe not worthy a package on its own yet?\n\nOr maybe start a \"transport.parser\" package for Parsers, requests and auxiliary classes?",
+      "parentUuid": "bf455295_d0d688d9",
+      "revId": "cad42af1753917b2aaa5cfc95e31f9f9e08da7f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
