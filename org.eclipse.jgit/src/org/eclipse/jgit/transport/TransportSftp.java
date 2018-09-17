@@ -53,13 +53,14 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
@@ -72,12 +73,6 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Ref.Storage;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.SymbolicRef;
-
-import com.jcraft.jsch.Channel;
-import com.jcraft.jsch.ChannelSftp;
-import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.SftpATTRS;
-import com.jcraft.jsch.SftpException;
 
 /**
  * Transport over the non-Git aware SFTP (SSH based FTP) protocol.
@@ -158,24 +153,16 @@ public class TransportSftp extends SshTransport implements WalkTransport {
 		return r;
 	}
 
-	ChannelSftp newSftp() throws TransportException {
-		final int tms = getTimeout() > 0 ? getTimeout() * 1000 : 0;
-		try {
-			// @TODO: Fix so that this operation is generic and casting to
-			// JschSession is no longer necessary.
-			final Channel channel = ((JschSession) getSession())
-					.getSftpChannel();
-			channel.connect(tms);
-			return (ChannelSftp) channel;
-		} catch (JSchException je) {
-			throw new TransportException(uri, je.getMessage(), je);
-		}
+	FtpChannel newSftp() throws IOException {
+		FtpChannel channel = getSession().getFtpChannel();
+		channel.connect(getTimeout(), TimeUnit.SECONDS);
+		return channel;
 	}
 
 	class SftpObjectDB extends WalkRemoteObjectDatabase {
 		private final String objectsPath;
 
-		private ChannelSftp ftp;
+		private FtpChannel ftp;
 
 		SftpObjectDB(String path) throws TransportException {
 			if (path.startsWith("/~")) //$NON-NLS-1$
@@ -187,13 +174,13 @@ public class TransportSftp extends SshTransport implements WalkTransport {
 				ftp.cd(path);
 				ftp.cd("objects"); //$NON-NLS-1$
 				objectsPath = ftp.pwd();
-			} catch (TransportException err) {
-				close();
-				throw err;
-			} catch (SftpException je) {
+			} catch (FtpChannel.FtpException f) {
 				throw new TransportException(MessageFormat.format(
 						JGitText.get().cannotEnterObjectsPath, path,
-						je.getMessage()), je);
+						f.getMessage()), f);
+			} catch (IOException ioe) {
+				close();
+				throw new TransportException(uri, ioe.getMessage(), ioe);
 			}
 		}
 
@@ -204,13 +191,13 @@ public class TransportSftp extends SshTransport implements WalkTransport {
 				ftp.cd(parent.objectsPath);
 				ftp.cd(p);
 				objectsPath = ftp.pwd();
-			} catch (TransportException err) {
-				close();
-				throw err;
-			} catch (SftpException je) {
+			} catch (FtpChannel.FtpException f) {
 				throw new TransportException(MessageFormat.format(
 						JGitText.get().cannotEnterPathFromParent, p,
-						parent.objectsPath, je.getMessage()), je);
+						parent.objectsPath, f.getMessage()), f);
+			} catch (IOException ioe) {
+				close();
+				throw new TransportException(uri, ioe.getMessage(), ioe);
 			}
 		}
 
@@ -238,41 +225,32 @@ public class TransportSftp extends SshTransport implements WalkTransport {
 		Collection<String> getPackNames() throws IOException {
 			final List<String> packs = new ArrayList<>();
 			try {
-				@SuppressWarnings("unchecked")
-				final Collection<ChannelSftp.LsEntry> list = ftp.ls("pack"); //$NON-NLS-1$
-				final HashMap<String, ChannelSftp.LsEntry> files;
-				final HashMap<String, Integer> mtimes;
+				Collection<FtpChannel.DirEntry> list = ftp.ls("pack"); //$NON-NLS-1$
+				Set<String> files = list.stream()
+						.map(FtpChannel.DirEntry::getFilename)
+						.collect(Collectors.toSet());
+				HashMap<String, Long> mtimes = new HashMap<>();
 
-				files = new HashMap<>();
-				mtimes = new HashMap<>();
-
-				for (ChannelSftp.LsEntry ent : list)
-					files.put(ent.getFilename(), ent);
-				for (ChannelSftp.LsEntry ent : list) {
-					final String n = ent.getFilename();
-					if (!n.startsWith("pack-") || !n.endsWith(".pack")) //$NON-NLS-1$ //$NON-NLS-2$
+				for (FtpChannel.DirEntry ent : list) {
+					String n = ent.getFilename();
+					if (!n.startsWith("pack-") || !n.endsWith(".pack")) { //$NON-NLS-1$ //$NON-NLS-2$
 						continue;
-
-					final String in = n.substring(0, n.length() - 5) + ".idx"; //$NON-NLS-1$
-					if (!files.containsKey(in))
+					}
+					String in = n.substring(0, n.length() - 5) + ".idx"; //$NON-NLS-1$
+					if (!files.contains(in)) {
 						continue;
-
-					mtimes.put(n, Integer.valueOf(ent.getAttrs().getMTime()));
+					}
+					mtimes.put(n, Long.valueOf(ent.getModifiedTime()));
 					packs.add(n);
 				}
 
-				Collections.sort(packs, new Comparator<String>() {
-					@Override
-					public int compare(String o1, String o2) {
-						return mtimes.get(o2).intValue()
-								- mtimes.get(o1).intValue();
-					}
-				});
-			} catch (SftpException je) {
+				Collections.sort(packs,
+						(o1, o2) -> mtimes.get(o2).compareTo(mtimes.get(o1)));
+			} catch (FtpChannel.FtpException f) {
 				throw new TransportException(
 						MessageFormat.format(JGitText.get().cannotListPackPath,
-								objectsPath, je.getMessage()),
-						je);
+								objectsPath, f.getMessage()),
+						f);
 			}
 			return packs;
 		}
@@ -280,14 +258,14 @@ public class TransportSftp extends SshTransport implements WalkTransport {
 		@Override
 		FileStream open(String path) throws IOException {
 			try {
-				final SftpATTRS a = ftp.lstat(path);
-				return new FileStream(ftp.get(path), a.getSize());
-			} catch (SftpException je) {
-				if (je.id == ChannelSftp.SSH_FX_NO_SUCH_FILE)
+				return new FileStream(ftp.get(path));
+			} catch (FtpChannel.FtpException f) {
+				if (f.getStatus() == FtpChannel.FtpException.NO_SUCH_FILE) {
 					throw new FileNotFoundException(path);
+				}
 				throw new TransportException(MessageFormat.format(
 						JGitText.get().cannotGetObjectsPath, objectsPath, path,
-						je.getMessage()), je);
+						f.getMessage()), f);
 			}
 		}
 
@@ -295,12 +273,15 @@ public class TransportSftp extends SshTransport implements WalkTransport {
 		void deleteFile(String path) throws IOException {
 			try {
 				ftp.rm(path);
-			} catch (SftpException je) {
-				if (je.id == ChannelSftp.SSH_FX_NO_SUCH_FILE)
+			} catch (FileNotFoundException e) {
+				return;
+			} catch (FtpChannel.FtpException f) {
+				if (f.getStatus() == FtpChannel.FtpException.NO_SUCH_FILE) {
 					return;
+				}
 				throw new TransportException(MessageFormat.format(
 						JGitText.get().cannotDeleteObjectsPath, objectsPath,
-						path, je.getMessage()), je);
+						path, f.getMessage()), f);
 			}
 
 			// Prune any now empty directories.
@@ -312,7 +293,7 @@ public class TransportSftp extends SshTransport implements WalkTransport {
 					dir = dir.substring(0, s);
 					ftp.rmdir(dir);
 					s = dir.lastIndexOf('/');
-				} catch (SftpException je) {
+				} catch (IOException je) {
 					// If we cannot delete it, leave it alone. It may have
 					// entries still in it, or maybe we lack write access on
 					// the parent. Either way it isn't a fatal error.
@@ -325,22 +306,29 @@ public class TransportSftp extends SshTransport implements WalkTransport {
 		@Override
 		OutputStream writeFile(String path, ProgressMonitor monitor,
 				String monitorTask) throws IOException {
+			Throwable err = null;
 			try {
 				return ftp.put(path);
-			} catch (SftpException je) {
-				if (je.id == ChannelSftp.SSH_FX_NO_SUCH_FILE) {
+			} catch (FileNotFoundException e) {
+				mkdir_p(path);
+			} catch (FtpChannel.FtpException je) {
+				if (je.getStatus() == FtpChannel.FtpException.NO_SUCH_FILE) {
 					mkdir_p(path);
-					try {
-						return ftp.put(path);
-					} catch (SftpException je2) {
-						je = je2;
-					}
+				} else {
+					err = je;
 				}
-
-				throw new TransportException(MessageFormat.format(
-						JGitText.get().cannotWriteObjectsPath, objectsPath,
-						path, je.getMessage()), je);
 			}
+			if (err == null) {
+				try {
+					return ftp.put(path);
+				} catch (IOException e) {
+					err = e;
+				}
+			}
+			throw new TransportException(
+					MessageFormat.format(JGitText.get().cannotWriteObjectsPath,
+							objectsPath, path, err.getMessage()),
+					err);
 		}
 
 		@Override
@@ -350,15 +338,15 @@ public class TransportSftp extends SshTransport implements WalkTransport {
 				super.writeFile(lock, data);
 				try {
 					ftp.rename(lock, path);
-				} catch (SftpException je) {
+				} catch (IOException e) {
 					throw new TransportException(MessageFormat.format(
 							JGitText.get().cannotWriteObjectsPath, objectsPath,
-							path, je.getMessage()), je);
+							path, e.getMessage()), e);
 				}
 			} catch (IOException err) {
 				try {
 					ftp.rm(lock);
-				} catch (SftpException e) {
+				} catch (IOException e) {
 					// Ignore deletion failure, we are already
 					// failing anyway.
 				}
@@ -372,23 +360,30 @@ public class TransportSftp extends SshTransport implements WalkTransport {
 				return;
 
 			path = path.substring(0, s);
+			Throwable err = null;
 			try {
 				ftp.mkdir(path);
-			} catch (SftpException je) {
-				if (je.id == ChannelSftp.SSH_FX_NO_SUCH_FILE) {
+				return;
+			} catch (FileNotFoundException f) {
+				mkdir_p(path);
+			} catch (FtpChannel.FtpException je) {
+				if (je.getStatus() == FtpChannel.FtpException.NO_SUCH_FILE) {
 					mkdir_p(path);
-					try {
-						ftp.mkdir(path);
-						return;
-					} catch (SftpException je2) {
-						je = je2;
-					}
+				} else {
+					err = je;
 				}
-
-				throw new TransportException(MessageFormat.format(
-						JGitText.get().cannotMkdirObjectPath, objectsPath, path,
-						je.getMessage()), je);
 			}
+			if (err == null) {
+				try {
+					ftp.mkdir(path);
+					return;
+				} catch (IOException e) {
+					err = e;
+				}
+			}
+			throw new TransportException(MessageFormat.format(
+						JGitText.get().cannotMkdirObjectPath, objectsPath, path,
+					err.getMessage()), err);
 		}
 
 		Map<String, Ref> readAdvertisedRefs() throws TransportException {
@@ -399,28 +394,28 @@ public class TransportSftp extends SshTransport implements WalkTransport {
 			return avail;
 		}
 
-		@SuppressWarnings("unchecked")
 		private void readLooseRefs(TreeMap<String, Ref> avail, String dir,
 				String prefix) throws TransportException {
-			final Collection<ChannelSftp.LsEntry> list;
+			final Collection<FtpChannel.DirEntry> list;
 			try {
 				list = ftp.ls(dir);
-			} catch (SftpException je) {
+			} catch (IOException e) {
 				throw new TransportException(MessageFormat.format(
 						JGitText.get().cannotListObjectsPath, objectsPath, dir,
-						je.getMessage()), je);
+						e.getMessage()), e);
 			}
 
-			for (ChannelSftp.LsEntry ent : list) {
-				final String n = ent.getFilename();
+			for (FtpChannel.DirEntry ent : list) {
+				String n = ent.getFilename();
 				if (".".equals(n) || "..".equals(n)) //$NON-NLS-1$ //$NON-NLS-2$
 					continue;
 
-				final String nPath = dir + "/" + n; //$NON-NLS-1$
-				if (ent.getAttrs().isDir())
+				String nPath = dir + "/" + n; //$NON-NLS-1$
+				if (ent.isDirectory()) {
 					readLooseRefs(avail, nPath, prefix + n + "/"); //$NON-NLS-1$
-				else
+				} else {
 					readRef(avail, nPath, prefix + n);
+				}
 			}
 		}
 
@@ -437,10 +432,10 @@ public class TransportSftp extends SshTransport implements WalkTransport {
 						err.getMessage()), err);
 			}
 
-			if (line == null)
+			if (line == null) {
 				throw new TransportException(
 						MessageFormat.format(JGitText.get().emptyRef, name));
-
+			}
 			if (line.startsWith("ref: ")) { //$NON-NLS-1$
 				final String target = line.substring("ref: ".length()); //$NON-NLS-1$
 				Ref r = avail.get(target);
@@ -465,8 +460,9 @@ public class TransportSftp extends SshTransport implements WalkTransport {
 		}
 
 		private Storage loose(Ref r) {
-			if (r != null && r.getStorage() == Storage.PACKED)
+			if (r != null && r.getStorage() == Storage.PACKED) {
 				return Storage.LOOSE_PACKED;
+			}
 			return Storage.LOOSE;
 		}
 
@@ -474,8 +470,9 @@ public class TransportSftp extends SshTransport implements WalkTransport {
 		void close() {
 			if (ftp != null) {
 				try {
-					if (ftp.isConnected())
+					if (ftp.isConnected()) {
 						ftp.disconnect();
+					}
 				} finally {
 					ftp = null;
 				}
