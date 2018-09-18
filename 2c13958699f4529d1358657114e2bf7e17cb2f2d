@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "40464e92_562c5c7b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ListBranchCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-09-18T01:23:00Z",
+      "side": 1,
+      "message": "optional: would be easier to read with an import static",
+      "range": {
+        "startLine": 123,
+        "startChar": 38,
+        "endLine": 123,
+        "endChar": 55
+      },
+      "revId": "2c13958699f4529d1358657114e2bf7e17cb2f2d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0510f25_5a97ce54",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ListBranchCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-09-18T01:23:00Z",
+      "side": 1,
+      "message": "no need to explicitly construct an array",
+      "range": {
+        "startLine": 127,
+        "startChar": 38,
+        "endLine": 127,
+        "endChar": 52
+      },
+      "revId": "2c13958699f4529d1358657114e2bf7e17cb2f2d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "628e6d1b_1e0360bb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-09-18T01:23:00Z",
+      "side": 1,
+      "message": "optional: to break the line at the higher syntactic level:\n\n  for (Ref ref :\n     repo.getRefDatabase(...)) {\n\nOr, better, to split into two separate statements:\n\n  String[] pfxs \u003d prefixes.toArray(new String[0]));\n  for (Ref ref : repo.getRefDatabase().getRefsByPrefix(pfxs)) {\n    addRef(ref, nonCommits, pending);\n  }\n  return;",
+      "revId": "2c13958699f4529d1358657114e2bf7e17cb2f2d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fde968be_649b4a56",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 925,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-09-18T01:23:00Z",
+      "side": 1,
+      "message": "likewise: this would probably be easier to read as two statements:\n\n  String[] pfxs \u003d req.getRefPrefixes().toArray(new String[0]);\n  for (Ref ref : db.getRefDatabase().getRefsByPrefix(pfxs)) {\n    ...\n  }\n\nIt might also be possible to simplify using streams, though that\u0027s orthogonal to this patch.",
+      "revId": "2c13958699f4529d1358657114e2bf7e17cb2f2d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
