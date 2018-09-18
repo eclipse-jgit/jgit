@@ -16,6 +16,24 @@
       "revId": "527e775b48a067202671d671889cee15f061b03c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a71a301_6f96ecce",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWantLine.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-09-18T16:59:00Z",
+      "side": 1,
+      "message": "I was also confused about it.\n\nThis code is used only to parse the first \"want\" line in the pack negotiation [1]. It is called in UploadPack (protocol v1 path) only if the line starts with \"want\" and the code acts accordingly (see unit test).\n\nA line with a shape like \u003csha1 refname\\0opts\u003e would parse incorrectly with this code.\n\n[1] https://github.com/git/git/blob/master/Documentation/technical/pack-protocol.txt#L257",
+      "parentUuid": "6ef5b22d_c79965b4",
+      "revId": "527e775b48a067202671d671889cee15f061b03c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
