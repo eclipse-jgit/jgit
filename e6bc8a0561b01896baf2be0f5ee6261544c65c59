@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "c08d76d9_d28b6feb",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RefTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2018-09-18T01:11:00Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "6b1a0096_565d6de5",
+      "revId": "e6bc8a0561b01896baf2be0f5ee6261544c65c59",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6ede13f4_e2999cbe",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
         "patchSetId": 2
@@ -84,6 +102,24 @@
       "side": 1,
       "message": "I wouldn\u0027t. getRefsWithPrefix(\"\") means \"Give me all refs whose names start with the empty string\", or in other words \"Give me all refs\".\n\ngetRefsWithPrefix() means \"Give me all refs whose names start with a prefix in the empty list\", or in other words \"Give me no refs\".",
       "parentUuid": "172b47d7_35d21ced",
+      "revId": "e6bc8a0561b01896baf2be0f5ee6261544c65c59",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cface6cd_23f6e8fa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2018-09-18T01:11:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba77eff9_a5ee8ced",
       "revId": "e6bc8a0561b01896baf2be0f5ee6261544c65c59",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
