@@ -34,6 +34,24 @@
       "revId": "2aafa6960a43b23011ffc8a0c89814cb944810d9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e2899aa_ba3cdce2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RefTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-09-18T01:30:29Z",
+      "side": 1,
+      "message": "Thanks. Can you document whatever promise or non-promise we are making in the javadoc?\n\nI thought you mentioned some other tests relying on the ordering already. What will we do to prevent callers from relying on properties we don\u0027t want to maintain?",
+      "parentUuid": "df43f041_e156af82",
+      "revId": "2aafa6960a43b23011ffc8a0c89814cb944810d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
