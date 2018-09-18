@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ef5b22d_c79965b4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWantLine.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-09-18T01:44:29Z",
+      "side": 1,
+      "message": "If I understand correctly, this is about the ref advertisement, not negotiation, and that it is a ref, not a \"want\".\n\nIs that correct? Do you have an example?",
+      "revId": "527e775b48a067202671d671889cee15f061b03c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
