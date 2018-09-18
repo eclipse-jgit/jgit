@@ -868,13 +868,18 @@ public abstract class FS {
 
 		@Override
 		public void close() {
-			if (link.isPresent()) {
-				try {
-					Files.delete(link.get());
-				} catch (IOException e) {
-					LOG.error(MessageFormat.format(JGitText.get().closeLockTokenFailed,
-							this), e);
-				}
+			if (!link.isPresent()) {
+				return;
+			}
+			Path p = link.get();
+			if (!Files.exists(p)) {
+				return;
+			}
+			try {
+				Files.delete(p);
+			} catch (IOException e) {
+				LOG.error(MessageFormat
+						.format(JGitText.get().closeLockTokenFailed, this), e);
 			}
 		}
 

@@ -150,7 +150,9 @@ public class ObjectUploadListener implements ReadListener {
 			channel.close();
 			// TODO check if status 200 is ok for PUT request, HTTP foresees 204
 			// for successful PUT without response body
-			response.setStatus(HttpServletResponse.SC_OK);
+			if (!response.isCommitted()) {
+				response.setStatus(HttpServletResponse.SC_OK);
+			}
 		} finally {
 			context.complete();
 		}
