@@ -171,7 +171,7 @@ public class ProtocolV2ParserTest {
 				.contains(GitProtocolConstants.OPTION_INCLUDE_TAG));
 		assertTrue(request.getOptions()
 				.contains(GitProtocolConstants.CAPABILITY_OFS_DELTA));
-		assertThat(objIdsAsStrings(request.getWantsIds()),
+		assertThat(objIdsAsStrings(request.getWantIds()),
 				hasItems("4624442d68ee402a94364191085b77137618633e",
 						"f900c8326a43303685c46b279b9f70411bff1a4b"));
 		assertThat(objIdsAsStrings(request.getPeerHas()),
@@ -308,8 +308,8 @@ public class ProtocolV2ParserTest {
 		assertEquals(1, request.getWantedRefs().size());
 		assertThat(request.getWantedRefs().keySet(),
 				hasItems("refs/heads/branchA"));
-		assertEquals(2, request.getWantsIds().size());
-		assertThat(objIdsAsStrings(request.getWantsIds()),
+		assertEquals(2, request.getWantIds().size());
+		assertThat(objIdsAsStrings(request.getWantIds()),
 				hasItems("e4980cdc48cfa1301493ca94eb70523f6788b819",
 						one.getName()));
 	}

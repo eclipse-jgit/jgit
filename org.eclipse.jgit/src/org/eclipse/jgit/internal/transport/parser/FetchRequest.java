@@ -40,92 +40,93 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.eclipse.jgit.transport;
+package org.eclipse.jgit.internal.transport.parser;
 
-import java.util.HashSet;
 import java.util.Set;
 
-import org.eclipse.jgit.internal.transport.parser.FetchRequest;
 import org.eclipse.jgit.lib.ObjectId;
 
 /**
- * Fetch request in the V0/V1 protocol.
- *
- * @since 5.2
+ * Common fields between v0/v1/v2 fetch requests.
  */
-final class FetchV0Request extends FetchRequest {
+public abstract class FetchRequest {
 
-	FetchV0Request(Set<ObjectId> wantIds, int depth,
+	final Set<ObjectId> wantIds;
+
+	final int depth;
+
+	final Set<ObjectId> clientShallowCommits;
+
+	final long filterBlobLimit;
+
+	final Set<String> options;
+
+	/**
+	 * Initialize the common fields of a fetch request.
+	 *
+	 * @param wantIds
+	 *            list of want ids
+	 * @param depth
+	 *            how deep to go in the tree
+	 * @param clientShallowCommits
+	 *            commits the client has without history
+	 * @param filterBlobLimit
+	 *            to exclude blobs on certain conditions
+	 * @param options
+	 *            capabilities sent in the request
+	 */
+	public FetchRequest(Set<ObjectId> wantIds, int depth,
 			Set<ObjectId> clientShallowCommits, long filterBlobLimit,
 			Set<String> options) {
-		super(wantIds, depth, clientShallowCommits, filterBlobLimit, options);
+		this.wantIds = wantIds;
+		this.depth = depth;
+		this.clientShallowCommits = clientShallowCommits;
+		this.filterBlobLimit = filterBlobLimit;
+		this.options = options;
 	}
 
-	static final class Builder {
+	/**
+	 * @return object ids in the "want" (and "want-ref") lines of the request
+	 */
+	public Set<ObjectId> getWantIds() {
+		return wantIds;
+	}
 
-		int depth;
+	/**
+	 * @return the depth set in a "deepen" line. 0 by default.
+	 */
+	public int getDepth() {
+		return depth;
+	}
 
-		Set<ObjectId> wantIds = new HashSet<>();
+	/**
+	 * Shallow commits the client already has.
+	 *
+	 * These are sent by the client in "shallow" request lines.
+	 *
+	 * @return set of commits the client has declared as shallow.
+	 */
+	public Set<ObjectId> getClientShallowCommits() {
+		return clientShallowCommits;
+	}
 
-		Set<ObjectId> clientShallowCommits = new HashSet<>();
+	/**
+	 * @return the blob limit set in a "filter" line (-1 if not set)
+	 */
+	public long getFilterBlobLimit() {
+		return filterBlobLimit;
+	}
 
-		long filterBlobLimit = -1;
-
-		Set<String> options = new HashSet<>();
-
-		/**
-		 * @param objectId
-		 *            from a "want" line in a fetch request
-		 * @return this builder
-		 */
-		Builder addWantId(ObjectId objectId) {
-			wantIds.add(objectId);
-			return this;
-		}
-
-		/**
-		 * @param d
-		 *            depth set in a "deepen" line
-		 * @return this builder
-		 */
-		Builder setDepth(int d) {
-			depth = d;
-			return this;
-		}
-
-		/**
-		 * @param shallowOid
-		 *            object id in a "shallow" line
-		 * @return this builder
-		 */
-		Builder addClientShallowCommit(ObjectId shallowOid) {
-			clientShallowCommits.add(shallowOid);
-			return this;
-		}
-
-		/**
-		 * @param opts
-		 *            options appended in the first line of the request
-		 * @return this builder
-		 */
-		Builder addAllOptions(Iterable<String> opts) {
-			opts.forEach(options::add);
-			return this;
-		}
-
-		/**
-		 * @param filterBlobLim
-		 *            blob limit set in a "filter" line
-		 * @return this builder
-		 */
-		Builder setFilterBlobLimit(long filterBlobLim) {
-			filterBlobLimit = filterBlobLim;
-			return this;
-		}
-
-		FetchV0Request build() {
-			return new FetchV0Request(wantIds, depth, clientShallowCommits,
-					filterBlobLimit, options);
-		}
+	/**
+	 * Options that tune the expected response from the server, like
+	 * "thin-pack", "no-progress" or "ofs-delta"
+	 *
+	 * These are options listed and well-defined in the git protocol
+	 * specification
+	 *
+	 * @return options found in the request lines
+	 */
+	public Set<String> getOptions() {
+		return options;
 	}
 }
