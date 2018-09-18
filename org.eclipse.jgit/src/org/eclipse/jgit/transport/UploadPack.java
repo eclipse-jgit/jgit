@@ -299,9 +299,6 @@ public class UploadPack {
 	/** Objects on both sides, these don't have to be sent. */
 	private final Set<RevObject> commonBase = new HashSet<>();
 
-	/** Shallow commits the client already has. */
-	private Set<ObjectId> clientShallowCommits = new HashSet<>();
-
 	/** Commit time of the oldest common commit, in seconds. */
 	private int oldestTime;
 
@@ -818,7 +815,6 @@ public class UploadPack {
 			currentRequest = req;
 
 			wantIds = req.getWantIds();
-			clientShallowCommits = req.getClientShallowCommits();
 			options = req.getClientCapabilities();
 
 			if (req.getWantIds().isEmpty()) {
@@ -837,8 +833,10 @@ public class UploadPack {
 			else
 				multiAck = MultiAck.OFF;
 
-			if (!clientShallowCommits.isEmpty())
-				verifyClientShallow(clientShallowCommits);
+			if (!req.getClientShallowCommits().isEmpty()) {
+				verifyClientShallow(req.getClientShallowCommits());
+			}
+
 			if (req.getDepth() != 0 || req.getDeepenSince() != 0) {
 				computeShallowsAndUnshallows(req, shallow -> {
 					pckOut.writeString("shallow " + shallow.name() + '\n'); //$NON-NLS-1$
@@ -848,8 +846,9 @@ public class UploadPack {
 				});
 				pckOut.end();
 			}
-			if (!clientShallowCommits.isEmpty())
-				walk.assumeShallow(clientShallowCommits);
+
+			if (!req.getClientShallowCommits().isEmpty())
+				walk.assumeShallow(req.getClientShallowCommits());
 			sendPack = negotiate(req, accumulator);
 			accumulator.timeNegotiating += System.currentTimeMillis()
 					- negotiateStart;
@@ -959,7 +958,6 @@ public class UploadPack {
 		// copying data back to class fields
 		options = req.getClientCapabilities();
 		wantIds = req.getWantIds();
-		clientShallowCommits = req.getClientShallowCommits();
 
 		boolean sectionSent = false;
 		boolean mayHaveShallow = req.getDepth() != 0
@@ -1907,8 +1905,9 @@ public class UploadPack {
 				pw.setUseCachedPacks(true);
 			}
 			pw.setUseBitmaps(
-					req.getDepth() == 0 && clientShallowCommits.isEmpty());
-			pw.setClientShallowCommits(clientShallowCommits);
+					req.getDepth() == 0
+							&& req.getClientShallowCommits().isEmpty());
+			pw.setClientShallowCommits(req.getClientShallowCommits());
 			pw.setReuseDeltaCommits(true);
 			pw.setDeltaBaseAsOffset(options.contains(OPTION_OFS_DELTA));
 			pw.setThin(options.contains(OPTION_THIN_PACK));
@@ -1936,11 +1935,12 @@ public class UploadPack {
 				pw.setShallowPack(req.getDepth(), unshallowCommits);
 				rw = new DepthWalk.RevWalk(walk.getObjectReader(), walkDepth);
 				((DepthWalk.RevWalk) rw).setDeepenSince(req.getDeepenSince());
-				rw.assumeShallow(clientShallowCommits);
+				rw.assumeShallow(req.getClientShallowCommits());
 			}
 
 			if (wantAll.isEmpty()) {
-				pw.preparePack(pm, wantIds, commonBase, clientShallowCommits);
+				pw.preparePack(pm, wantIds, commonBase,
+						req.getClientShallowCommits());
 			} else {
 				walk.reset();
 
