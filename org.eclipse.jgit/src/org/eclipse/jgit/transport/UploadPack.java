@@ -269,7 +269,6 @@ public class UploadPack {
 	private PostUploadHook postUploadHook = PostUploadHook.NULL;
 
 	/** Capabilities requested by the client. */
-	private Set<String> options;
 	String userAgent;
 
 	/** Raw ObjectIds the client has asked for, before validating them. */
@@ -662,10 +661,10 @@ public class UploadPack {
 	 *             read.
 	 */
 	public boolean isSideBand() throws RequestNotYetReadException {
-		if (options == null)
+		if (currentRequest == null)
 			throw new RequestNotYetReadException();
-		return (options.contains(OPTION_SIDE_BAND)
-				|| options.contains(OPTION_SIDE_BAND_64K));
+		return (currentRequest.getOptions().contains(OPTION_SIDE_BAND)
+				|| currentRequest.getOptions().contains(OPTION_SIDE_BAND_64K));
 	}
 
 	/**
@@ -796,7 +795,6 @@ public class UploadPack {
 			currentRequest = req;
 
 			wantIds.addAll(req.getWantsIds());
-			options = req.getOptions();
 
 			if (req.getWantsIds().isEmpty()) {
 				preUploadHook.onBeginNegotiateRound(this, req.getWantsIds(), 0);
@@ -935,7 +933,6 @@ public class UploadPack {
 
 		// TODO(ifrade): Refactor to pass around the Request object, instead of
 		// copying data back to class fields
-		options = req.getOptions();
 		wantIds.addAll(req.getWantsIds());
 
 		boolean sectionSent = false;
@@ -1347,7 +1344,7 @@ public class UploadPack {
 	 * @since 4.0
 	 */
 	public String getPeerUserAgent() {
-		return UserAgent.getAgent(options, userAgent);
+		return UserAgent.getAgent(currentRequest.getOptions(), userAgent);
 	}
 
 	private boolean negotiate(FetchRequest req,
@@ -1763,8 +1760,8 @@ public class UploadPack {
 			FetchRequest req,
 			@Nullable Collection<Ref> allTags,
 			List<ObjectId> unshallowCommits) throws IOException {
-		final boolean sideband = options.contains(OPTION_SIDE_BAND)
-				|| options.contains(OPTION_SIDE_BAND_64K);
+		final boolean sideband = req.getOptions().contains(OPTION_SIDE_BAND)
+				|| req.getOptions().contains(OPTION_SIDE_BAND_64K);
 		if (sideband) {
 			try {
 				sendPack(true, req, accumulator, allTags, unshallowCommits);
@@ -1836,12 +1833,12 @@ public class UploadPack {
 
 		if (sideband) {
 			int bufsz = SideBandOutputStream.SMALL_BUF;
-			if (options.contains(OPTION_SIDE_BAND_64K))
+			if (req.getOptions().contains(OPTION_SIDE_BAND_64K))
 				bufsz = SideBandOutputStream.MAX_BUF;
 
 			packOut = new SideBandOutputStream(SideBandOutputStream.CH_DATA,
 					bufsz, rawOut);
-			if (!options.contains(OPTION_NO_PROGRESS)) {
+			if (!req.getOptions().contains(OPTION_NO_PROGRESS)) {
 				msgOut = new SideBandOutputStream(
 						SideBandOutputStream.CH_PROGRESS, bufsz, rawOut);
 				pm = new SideBandProgressMonitor(msgOut);
@@ -1888,8 +1885,9 @@ public class UploadPack {
 							&& req.getClientShallowCommits().isEmpty());
 			pw.setClientShallowCommits(req.getClientShallowCommits());
 			pw.setReuseDeltaCommits(true);
-			pw.setDeltaBaseAsOffset(options.contains(OPTION_OFS_DELTA));
-			pw.setThin(options.contains(OPTION_THIN_PACK));
+			pw.setDeltaBaseAsOffset(
+					req.getOptions().contains(OPTION_OFS_DELTA));
+			pw.setThin(req.getOptions().contains(OPTION_THIN_PACK));
 			pw.setReuseValidatingObjects(false);
 
 			// Objects named directly by references go at the beginning
@@ -1926,7 +1924,8 @@ public class UploadPack {
 				rw = ow;
 			}
 
-			if (options.contains(OPTION_INCLUDE_TAG) && allTags != null) {
+			if (req.getOptions().contains(OPTION_INCLUDE_TAG)
+					&& allTags != null) {
 				for (Ref ref : allTags) {
 					ObjectId objectId = ref.getObjectId();
 					if (objectId == null) {
