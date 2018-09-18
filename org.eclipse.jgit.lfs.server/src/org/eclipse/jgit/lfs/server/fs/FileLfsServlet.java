@@ -177,6 +177,11 @@ public class FileLfsServlet extends HttpServlet {
 	 */
 	protected static void sendError(HttpServletResponse rsp, int status, String message)
 			throws IOException {
+		if (rsp.isCommitted()) {
+			rsp.getOutputStream().close();
+			return;
+		}
+		rsp.reset();
 		rsp.setStatus(status);
 		try (PrintWriter writer = rsp.getWriter()) {
 			LfsGson.toJson(message, writer);
