@@ -333,8 +333,6 @@ public class UploadPack {
 
 	private PackStatistics statistics;
 
-	private long filterBlobLimit = -1;
-
 	/**
 	 * Create a new pack upload for an open repository.
 	 *
@@ -792,6 +790,7 @@ public class UploadPack {
 		// writing a response. Buffer the response until then.
 		PackStatistics.Accumulator accumulator = new PackStatistics.Accumulator();
 		List<ObjectId> unshallowCommits = new ArrayList<>();
+		FetchRequest req;
 		try {
 			if (biDirectionalPipe)
 				sendAdvertisedRefs(new PacketLineOutRefAdvertiser(pckOut));
@@ -804,11 +803,10 @@ public class UploadPack {
 			accumulator.advertised = advertised.size();
 
 			ProtocolV1Parser parser = new ProtocolV1Parser(transferConfig);
-			FetchV1Request req = parser.recvWants(pckIn);
+			req = parser.recvWants(pckIn);
 
 			wantIds.addAll(req.getWantsIds());
 			clientShallowCommits = req.getClientShallowCommits();
-			filterBlobLimit = req.getFilterBlobLimit();
 			options = req.getOptions();
 			depth = req.getDepth();
 
@@ -891,7 +889,8 @@ public class UploadPack {
 		}
 
 		if (sendPack) {
-			sendPack(accumulator, refs == null ? null : refs.values(), unshallowCommits);
+			sendPack(accumulator, req, refs == null ? null : refs.values(),
+					unshallowCommits);
 		}
 	}
 
@@ -952,7 +951,6 @@ public class UploadPack {
 		clientShallowCommits = req.getClientShallowCommits();
 		depth = req.getDepth();
 		shallowSince = req.getDeepenSince();
-		filterBlobLimit = req.getFilterBlobLimit();
 		deepenNotRefs = req.getDeepenNotRefs();
 
 		boolean sectionSent = false;
@@ -1024,6 +1022,7 @@ public class UploadPack {
 				pckOut.writeDelim();
 			pckOut.writeString("packfile\n"); //$NON-NLS-1$
 			sendPack(new PackStatistics.Accumulator(),
+					req,
 					req.getOptions().contains(OPTION_INCLUDE_TAG)
 						? db.getRefDatabase().getRefsByPrefix(R_TAGS)
 						: null,
@@ -1760,25 +1759,26 @@ public class UploadPack {
 	 * Send the requested objects to the client.
 	 *
 	 * @param accumulator
-	 *                where to write statistics about the content of the pack.
+	 *            where to write statistics about the content of the pack.
+	 * @param req
+	 *            request in process
 	 * @param allTags
-	 *                refs to search for annotated tags to include in the pack
-	 *                if the {@link #OPTION_INCLUDE_TAG} capability was
-	 *                requested.
+	 *            refs to search for annotated tags to include in the pack if
+	 *            the {@link #OPTION_INCLUDE_TAG} capability was requested.
 	 * @param unshallowCommits
-	 *                shallow commits on the client that are now becoming
-	 *                unshallow
+	 *            shallow commits on the client that are now becoming unshallow
 	 * @throws IOException
-	 *                if an error occured while generating or writing the pack.
+	 *             if an error occured while generating or writing the pack.
 	 */
 	private void sendPack(PackStatistics.Accumulator accumulator,
+			FetchRequest req,
 			@Nullable Collection<Ref> allTags,
 			List<ObjectId> unshallowCommits) throws IOException {
 		final boolean sideband = options.contains(OPTION_SIDE_BAND)
 				|| options.contains(OPTION_SIDE_BAND_64K);
 		if (sideband) {
 			try {
-				sendPack(true, accumulator, allTags, unshallowCommits);
+				sendPack(true, req, accumulator, allTags, unshallowCommits);
 			} catch (ServiceMayNotContinueException noPack) {
 				// This was already reported on (below).
 				throw noPack;
@@ -1799,7 +1799,7 @@ public class UploadPack {
 					throw err;
 			}
 		} else {
-			sendPack(false, accumulator, allTags, unshallowCommits);
+			sendPack(false, req, accumulator, allTags, unshallowCommits);
 		}
 	}
 
@@ -1823,21 +1823,22 @@ public class UploadPack {
 	 * Send the requested objects to the client.
 	 *
 	 * @param sideband
-	 *                whether to wrap the pack in side-band pkt-lines,
-	 *                interleaved with progress messages and errors.
+	 *            whether to wrap the pack in side-band pkt-lines, interleaved
+	 *            with progress messages and errors.
+	 * @param req
+	 *            request being processed
 	 * @param accumulator
-	 *                where to write statistics about the content of the pack.
+	 *            where to write statistics about the content of the pack.
 	 * @param allTags
-	 *                refs to search for annotated tags to include in the pack
-	 *                if the {@link #OPTION_INCLUDE_TAG} capability was
-	 *                requested.
+	 *            refs to search for annotated tags to include in the pack if
+	 *            the {@link #OPTION_INCLUDE_TAG} capability was requested.
 	 * @param unshallowCommits
-	 *                shallow commits on the client that are now becoming
-	 *                unshallow
+	 *            shallow commits on the client that are now becoming unshallow
 	 * @throws IOException
-	 *                if an error occured while generating or writing the pack.
+	 *             if an error occured while generating or writing the pack.
 	 */
 	private void sendPack(final boolean sideband,
+			FetchRequest req,
 			PackStatistics.Accumulator accumulator,
 			@Nullable Collection<Ref> allTags,
 			List<ObjectId> unshallowCommits) throws IOException {
@@ -1887,8 +1888,8 @@ public class UploadPack {
 				accumulator);
 		try {
 			pw.setIndexDisabled(true);
-			if (filterBlobLimit >= 0) {
-				pw.setFilterBlobLimit(filterBlobLimit);
+			if (req.getFilterBlobLimit() >= 0) {
+				pw.setFilterBlobLimit(req.getFilterBlobLimit());
 				pw.setUseCachedPacks(false);
 			} else {
 				pw.setUseCachedPacks(true);
