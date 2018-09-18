@@ -284,9 +284,6 @@ public class UploadPack {
 	/** Shallow commits the client already has. */
 	private Set<ObjectId> clientShallowCommits = new HashSet<>();
 
-	/** Desired depth from the client on a shallow request. */
-	private int depth;
-
 	/** Commit time of the oldest common commit, in seconds. */
 	private int oldestTime;
 
@@ -319,6 +316,14 @@ public class UploadPack {
 	private boolean noDone;
 
 	private PackStatistics statistics;
+
+	/**
+	 * Request this instance is handling.
+	 *
+	 * Hooks use methods like getDepth() to get information about the request
+	 * via UploadPack, so unfortunately we need to keep this state here.
+	 */
+	private FetchRequest currentRequest;
 
 	/**
 	 * Create a new pack upload for an open repository.
@@ -791,11 +796,11 @@ public class UploadPack {
 
 			ProtocolV1Parser parser = new ProtocolV1Parser(transferConfig);
 			req = parser.recvWants(pckIn);
+			currentRequest = req;
 
 			wantIds.addAll(req.getWantsIds());
 			clientShallowCommits = req.getClientShallowCommits();
 			options = req.getOptions();
-			depth = req.getDepth();
 
 			if (req.getWantsIds().isEmpty()) {
 				preUploadHook.onBeginNegotiateRound(this, req.getWantsIds(), 0);
@@ -815,7 +820,7 @@ public class UploadPack {
 
 			if (!clientShallowCommits.isEmpty())
 				verifyClientShallow(clientShallowCommits);
-			if (depth != 0) {
+			if (req.getDepth() != 0) {
 				computeShallowsAndUnshallows(req, shallow -> {
 					pckOut.writeString("shallow " + shallow.name() + '\n'); //$NON-NLS-1$
 				}, unshallow -> {
@@ -826,7 +831,7 @@ public class UploadPack {
 			}
 			if (!clientShallowCommits.isEmpty())
 				walk.assumeShallow(clientShallowCommits);
-			sendPack = negotiate(accumulator);
+			sendPack = negotiate(req, accumulator);
 			accumulator.timeNegotiating += System.currentTimeMillis()
 					- negotiateStart;
 
@@ -927,6 +932,7 @@ public class UploadPack {
 		ProtocolV2Parser parser = new ProtocolV2Parser(transferConfig);
 		FetchV2Request req = parser.parseFetchRequest(pckIn,
 				db.getRefDatabase());
+		currentRequest = req;
 		rawOut.stopBuffering();
 
 		protocolV2Hook.onFetch(req);
@@ -936,7 +942,6 @@ public class UploadPack {
 		options = req.getOptions();
 		wantIds.addAll(req.getWantsIds());
 		clientShallowCommits = req.getClientShallowCommits();
-		depth = req.getDepth();
 
 		boolean sectionSent = false;
 		boolean mayHaveShallow = req.getDepth() != 0
@@ -1326,9 +1331,9 @@ public class UploadPack {
 	 * @since 4.0
 	 */
 	public int getDepth() {
-		if (options == null)
+		if (currentRequest == null)
 			throw new RequestNotYetReadException();
-		return depth;
+		return currentRequest.getDepth();
 	}
 
 	/**
@@ -1350,7 +1355,8 @@ public class UploadPack {
 		return UserAgent.getAgent(options, userAgent);
 	}
 
-	private boolean negotiate(PackStatistics.Accumulator accumulator)
+	private boolean negotiate(FetchRequest req,
+			PackStatistics.Accumulator accumulator)
 			throws IOException {
 		okToGiveUp = Boolean.FALSE;
 
@@ -1366,7 +1372,7 @@ public class UploadPack {
 				// disconnected, and will try another request with actual want/have.
 				// Don't report the EOF here, its a bug in the protocol that the client
 				// just disconnects without sending an END.
-				if (!biDirectionalPipe && depth > 0)
+				if (!biDirectionalPipe && req.getDepth() > 0)
 					return false;
 				throw eof;
 			}
@@ -1882,7 +1888,8 @@ public class UploadPack {
 			} else {
 				pw.setUseCachedPacks(true);
 			}
-			pw.setUseBitmaps(depth == 0 && clientShallowCommits.isEmpty());
+			pw.setUseBitmaps(
+					req.getDepth() == 0 && clientShallowCommits.isEmpty());
 			pw.setClientShallowCommits(clientShallowCommits);
 			pw.setReuseDeltaCommits(true);
 			pw.setDeltaBaseAsOffset(options.contains(OPTION_OFS_DELTA));
@@ -1905,9 +1912,10 @@ public class UploadPack {
 			}
 
 			RevWalk rw = walk;
-			if (depth > 0) {
-				pw.setShallowPack(depth, unshallowCommits);
-				rw = new DepthWalk.RevWalk(walk.getObjectReader(), depth - 1);
+			if (req.getDepth() > 0) {
+				pw.setShallowPack(req.getDepth(), unshallowCommits);
+				rw = new DepthWalk.RevWalk(walk.getObjectReader(),
+						req.getDepth() - 1);
 				rw.assumeShallow(clientShallowCommits);
 			}
 
