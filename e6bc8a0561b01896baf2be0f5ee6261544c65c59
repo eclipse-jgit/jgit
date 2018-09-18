@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66d296c1_00e42126",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RefTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-09-18T00:22:27Z",
+      "side": 1,
+      "message": "Is this case needed?",
+      "revId": "e6bc8a0561b01896baf2be0f5ee6261544c65c59",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ede13f4_e2999cbe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-09-18T00:22:27Z",
+      "side": 1,
+      "message": "Do we need this special case? Why not use the \u0027else\u0027 case unconditionally (so that calling getRefsByPrefix(new String[]{}) would produce an empty list)?",
+      "revId": "e6bc8a0561b01896baf2be0f5ee6261544c65c59",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
