@@ -50,7 +50,6 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import org.eclipse.jgit.annotations.NonNull;
-import org.eclipse.jgit.internal.transport.parser.FetchRequest;
 import org.eclipse.jgit.lib.ObjectId;
 
 /**
@@ -76,8 +75,8 @@ public final class FetchV2Request extends FetchRequest {
 			TreeMap<String, ObjectId> wantedRefs, Set<ObjectId> wantIds,
 			Set<ObjectId> clientShallowCommits, int deepenSince,
 			List<String> deepenNotRefs, int depth, long filterBlobLimit,
-			boolean doneReceived, Set<String> options) {
-		super(wantIds, depth, clientShallowCommits, filterBlobLimit, options);
+			boolean doneReceived, Set<String> clientCapabilities) {
+		super(wantIds, depth, clientShallowCommits, filterBlobLimit, clientCapabilities);
 		this.peerHas = peerHas;
 		this.wantedRefs = wantedRefs;
 		this.deepenSince = deepenSince;
@@ -86,7 +85,7 @@ public final class FetchV2Request extends FetchRequest {
 	}
 
 	/**
-	 * @return object ids in the "have" lines of the request
+	 * @return object ids received in the "have" lines.
 	 */
 	@NonNull
 	List<ObjectId> getPeerHas() {
@@ -94,7 +93,7 @@ public final class FetchV2Request extends FetchRequest {
 	}
 
 	/**
-	 * @return list of references in the "want-ref" lines of the request
+	 * @return list of references received in "want-ref" lines.
 	 */
 	@NonNull
 	Map<String, ObjectId> getWantedRefs() {
@@ -113,7 +112,7 @@ public final class FetchV2Request extends FetchRequest {
 	}
 
 	/**
-	 * @return the refs in "deepen-not" lines in the request.
+	 * @return refs received in "deepen-not" lines.
 	 */
 	@NonNull
 	List<String> getDeepenNotRefs() {
@@ -121,7 +120,7 @@ public final class FetchV2Request extends FetchRequest {
 	}
 
 	/**
-	 * @return true if the request had a "done" line
+	 * @return true if the request had a "done" line.
 	 */
 	boolean wasDoneReceived() {
 		return doneReceived;
@@ -160,7 +159,7 @@ public final class FetchV2Request extends FetchRequest {
 
 		/**
 		 * @param objectId
-		 *            from a "have" line in a fetch request
+		 *            object id received in a "have" line
 		 * @return this builder
 		 */
 		Builder addPeerHas(ObjectId objectId) {
@@ -169,12 +168,13 @@ public final class FetchV2Request extends FetchRequest {
 		}
 
 		/**
-		 * From a "want-ref" line in a fetch request
+		 * Ref received in "want-ref" line and the object-id it points to
+		 * (resolved in the server side)
 		 *
 		 * @param refName
 		 *            reference name
 		 * @param oid
-		 *            object id
+		 *            object id referenced by refName in the server
 		 * @return this builder
 		 */
 		Builder addWantedRef(String refName, ObjectId oid) {
@@ -183,18 +183,18 @@ public final class FetchV2Request extends FetchRequest {
 		}
 
 		/**
-		 * @param option
-		 *            fetch request lines acting as options
+		 * @param clientCapability
+		 *            capability sent by the client
 		 * @return this builder
 		 */
-		Builder addClientCapability(String option) {
-			clientCapabilities.add(option);
+		Builder addClientCapability(String clientCapability) {
+			clientCapabilities.add(clientCapability);
 			return this;
 		}
 
 		/**
 		 * @param objectId
-		 *            from a "want" line in a fetch request
+		 *            object id received in "want" line
 		 * @return this builder
 		 */
 		Builder addWantId(ObjectId objectId) {
@@ -204,7 +204,7 @@ public final class FetchV2Request extends FetchRequest {
 
 		/**
 		 * @param shallowOid
-		 *            from a "shallow" line in the fetch request
+		 *            object id received in a "shallow" line
 		 * @return this builder
 		 */
 		Builder addClientShallowCommit(ObjectId shallowOid) {
@@ -214,7 +214,7 @@ public final class FetchV2Request extends FetchRequest {
 
 		/**
 		 * @param d
-		 *            from a "deepen" line in the fetch request
+		 *            depth received in a "deepen" line
 		 * @return this builder
 		 */
 		Builder setDepth(int d) {
@@ -231,7 +231,8 @@ public final class FetchV2Request extends FetchRequest {
 		}
 
 		/**
-		 * @return if there has been any "deepen not" line in the request
+		 * @return true if there has been at least one "deepen not" line in the
+		 *         request
 		 */
 		boolean hasDeepenNotRefs() {
 			return !deepenNotRefs.isEmpty();
@@ -239,7 +240,7 @@ public final class FetchV2Request extends FetchRequest {
 
 		/**
 		 * @param deepenNotRef
-		 *            reference in a "deepen not" line
+		 *            reference received in a "deepen not" line
 		 * @return this builder
 		 */
 		Builder addDeepenNotRef(String deepenNotRef) {
@@ -284,6 +285,7 @@ public final class FetchV2Request extends FetchRequest {
 			doneReceived = true;
 			return this;
 		}
+
 		/**
 		 * @return Initialized fetch request
 		 */

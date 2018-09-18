@@ -40,7 +40,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.eclipse.jgit.internal.transport.parser;
+package org.eclipse.jgit.transport;
 
 import java.util.Set;
 
@@ -49,7 +49,7 @@ import org.eclipse.jgit.lib.ObjectId;
 /**
  * Common fields between v0/v1/v2 fetch requests.
  */
-public abstract class FetchRequest {
+abstract class FetchRequest {
 
 	final Set<ObjectId> wantIds;
 
@@ -75,7 +75,7 @@ public abstract class FetchRequest {
 	 * @param clientCapabilities
 	 *            capabilities sent in the request
 	 */
-	public FetchRequest(Set<ObjectId> wantIds, int depth,
+	FetchRequest(Set<ObjectId> wantIds, int depth,
 			Set<ObjectId> clientShallowCommits, long filterBlobLimit,
 			Set<String> clientCapabilities) {
 		this.wantIds = wantIds;
@@ -88,14 +88,14 @@ public abstract class FetchRequest {
 	/**
 	 * @return object ids in the "want" (and "want-ref") lines of the request
 	 */
-	public Set<ObjectId> getWantIds() {
+	Set<ObjectId> getWantIds() {
 		return wantIds;
 	}
 
 	/**
 	 * @return the depth set in a "deepen" line. 0 by default.
 	 */
-	public int getDepth() {
+	int getDepth() {
 		return depth;
 	}
 
@@ -106,14 +106,14 @@ public abstract class FetchRequest {
 	 *
 	 * @return set of commits the client has declared as shallow.
 	 */
-	public Set<ObjectId> getClientShallowCommits() {
+	Set<ObjectId> getClientShallowCommits() {
 		return clientShallowCommits;
 	}
 
 	/**
 	 * @return the blob limit set in a "filter" line (-1 if not set)
 	 */
-	public long getFilterBlobLimit() {
+	long getFilterBlobLimit() {
 		return filterBlobLimit;
 	}
 
@@ -129,7 +129,7 @@ public abstract class FetchRequest {
 	 *
 	 * @return capabilities sent by the client
 	 */
-	public Set<String> getClientCapabilities() {
+	Set<String> getClientCapabilities() {
 		return clientCapabilities;
 	}
 }

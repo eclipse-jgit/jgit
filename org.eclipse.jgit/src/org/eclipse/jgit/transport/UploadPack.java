@@ -965,7 +965,7 @@ public class UploadPack {
 		// TODO(ifrade): Refactor to pass around the Request object, instead of
 		// copying data back to class fields
 		options = req.getClientCapabilities();
-		wantIds = req.getWantsIds();
+		wantIds = req.getWantIds();
 		clientShallowCommits = req.getClientShallowCommits();
 		depth = req.getDepth();
 		shallowSince = req.getDeepenSince();
@@ -983,7 +983,7 @@ public class UploadPack {
 			verifyClientShallow(req.getClientShallowCommits());
 		}
 		if (mayHaveShallow) {
-			computeShallowsAndUnshallows(req.getWantsIds(),
+			computeShallowsAndUnshallows(req.getWantIds(),
 					shallowCommit -> shallowCommits.add(shallowCommit),
 					unshallowCommit -> unshallowCommits.add(unshallowCommit));
 		}

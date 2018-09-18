@@ -46,7 +46,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.eclipse.jgit.internal.transport.parser.FetchRequest;
 import org.eclipse.jgit.lib.ObjectId;
 
 /**
