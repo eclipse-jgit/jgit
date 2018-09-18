@@ -52,6 +52,24 @@
       "revId": "2aafa6960a43b23011ffc8a0c89814cb944810d9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "853a2437_9ffe0153",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RefTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2018-09-18T19:32:17Z",
+      "side": 1,
+      "message": "updated javadoc. backed out the change for NameRevCommand, as it has specific logic with prefix, now the test passes.",
+      "parentUuid": "2e2899aa_ba3cdce2",
+      "revId": "2aafa6960a43b23011ffc8a0c89814cb944810d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
