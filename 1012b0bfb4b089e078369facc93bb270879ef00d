@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e3e8a7c_5b9b745f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1014,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-09-20T12:15:54Z",
+      "side": 1,
+      "message": "use !StringUtils.isEmptyOrNull(String) in order to also guard against empty includedFrom ?",
+      "revId": "1012b0bfb4b089e078369facc93bb270879ef00d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
