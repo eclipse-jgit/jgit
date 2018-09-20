@@ -16,6 +16,24 @@
       "revId": "1012b0bfb4b089e078369facc93bb270879ef00d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcd355fd_7ff57c23",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1014,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2018-09-20T15:23:07Z",
+      "side": 1,
+      "message": "includedFrom is either null or contains a valid include-path. An empty includedFrom should not be possible because addIncludedConfig would not have created any ConfigLines in this case. Hence, !StringUtils.isEmptyOrNull(String) would be rather confusing. Instead, I\u0027d rather add an assertion somewhere -- but where?",
+      "parentUuid": "0e3e8a7c_5b9b745f",
+      "revId": "1012b0bfb4b089e078369facc93bb270879ef00d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
