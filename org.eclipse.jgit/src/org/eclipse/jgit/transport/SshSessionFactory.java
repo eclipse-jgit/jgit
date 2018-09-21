@@ -44,8 +44,13 @@
 
 package org.eclipse.jgit.transport;
 
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+
 import org.eclipse.jgit.errors.TransportException;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.SystemReader;
 
 /**
  * Creates and destroys SSH connections to a remote system.
@@ -88,21 +93,38 @@ public abstract class SshSessionFactory {
 	}
 
 	/**
+	 * Retrieves the local user name as defined by the system property
+	 * "user.name".
+	 *
+	 * @return the user name
+	 * @since 5.2
+	 */
+	public static String getLocalUserName() {
+		return AccessController.doPrivileged(new PrivilegedAction<String>() {
+			@Override
+			public String run() {
+				return SystemReader.getInstance()
+						.getProperty(Constants.OS_USER_NAME_KEY);
+			}
+		});
+	}
+
+	/**
 	 * Open (or reuse) a session to a host.
 	 * <p>
 	 * A reasonable UserInfo that can interact with the end-user (if necessary)
 	 * is installed on the returned session by this method.
 	 * <p>
-	 * The caller must connect the session by invoking <code>connect()</code>
-	 * if it has not already been connected.
+	 * The caller must connect the session by invoking <code>connect()</code> if
+	 * it has not already been connected.
 	 *
 	 * @param uri
 	 *            URI information about the remote host
 	 * @param credentialsProvider
 	 *            provider to support authentication, may be null.
 	 * @param fs
-	 *            the file system abstraction which will be necessary to
-	 *            perform certain file system operations.
+	 *            the file system abstraction which will be necessary to perform
+	 *            certain file system operations.
 	 * @param tms
 	 *            Timeout value, in milliseconds.
 	 * @return a session that can contact the remote host.
