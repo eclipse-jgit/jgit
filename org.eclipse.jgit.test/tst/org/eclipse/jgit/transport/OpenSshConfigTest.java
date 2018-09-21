@@ -50,7 +50,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -346,21 +345,6 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 		assertArrayEquals(new Object[] { new File(home, "foo/ba z").getPath(),
 				"/foo/bar" },
 				c.getValues("UserKnownHostsFile"));
-	}
-
-	@Test
-	public void testRepeatedLookups() throws Exception {
-		config("Host orcz\n" + "\tConnectionAttempts 5\n");
-		final Host h1 = osc.lookup("orcz");
-		final Host h2 = osc.lookup("orcz");
-		assertNotNull(h1);
-		assertSame(h1, h2);
-		assertEquals(5, h1.getConnectionAttempts());
-		assertEquals(h1.getConnectionAttempts(), h2.getConnectionAttempts());
-		final ConfigRepository.Config c = osc.getConfig("orcz");
-		assertNotNull(c);
-		assertSame(c, h1.getConfig());
-		assertSame(c, h2.getConfig());
 	}
 
 	@Test

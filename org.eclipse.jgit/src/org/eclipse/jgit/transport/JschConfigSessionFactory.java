@@ -52,7 +52,6 @@ package org.eclipse.jgit.transport;
 
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
-import static org.eclipse.jgit.transport.OpenSshConfig.SSH_PORT;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -275,7 +274,7 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 	}
 
 	private static String hostName(Session s) {
-		if (s.getPort() == SSH_PORT) {
+		if (s.getPort() == SshConstants.SSH_DEFAULT_PORT) {
 			return s.getHost();
 		}
 		return String.format("[%s]:%d", s.getHost(), //$NON-NLS-1$
