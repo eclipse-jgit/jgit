@@ -48,20 +48,17 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.eclipse.jgit.transport.ObjectIdMatcher.hasOnlyObjectIds;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Rule;
@@ -139,12 +136,6 @@ public class ProtocolV2ParserTest {
 		return new PacketLineIn(new ByteArrayInputStream(send.toByteArray()));
 	}
 
-	private static List<String> objIdsAsStrings(Collection<ObjectId> objIds) {
-		// TODO(ifrade) Translate this to a matcher, so it would read as
-		// assertThat(req.wantsIds(), hasObjectIds("...", "..."))
-		return objIds.stream().map(ObjectId::name).collect(Collectors.toList());
-	}
-
 	/*
 	 * Succesful fetch with the basic core commands of the protocol.
 	 */
@@ -171,11 +162,11 @@ public class ProtocolV2ParserTest {
 				.contains(GitProtocolConstants.OPTION_INCLUDE_TAG));
 		assertTrue(request.getClientCapabilities()
 				.contains(GitProtocolConstants.CAPABILITY_OFS_DELTA));
-		assertThat(objIdsAsStrings(request.getWantIds()),
-				hasItems("4624442d68ee402a94364191085b77137618633e",
+		assertThat(request.getWantIds(),
+				hasOnlyObjectIds("4624442d68ee402a94364191085b77137618633e",
 						"f900c8326a43303685c46b279b9f70411bff1a4b"));
-		assertThat(objIdsAsStrings(request.getPeerHas()),
-				hasItems("554f6e41067b9e3e565b6988a8294fac1cb78f4b",
+		assertThat(request.getPeerHas(),
+				hasOnlyObjectIds("554f6e41067b9e3e565b6988a8294fac1cb78f4b",
 						"abc760ab9ad72f08209943251b36cb886a578f87"));
 		assertTrue(request.getWantedRefs().isEmpty());
 		assertTrue(request.wasDoneReceived());
@@ -194,8 +185,8 @@ public class ProtocolV2ParserTest {
 				ConfigBuilder.getDefault());
 		FetchV2Request request = parser.parseFetchRequest(pckIn,
 				testRepo.getRepository().getRefDatabase());
-		assertThat(objIdsAsStrings(request.getClientShallowCommits()),
-				hasItems("28274d02c489f4c7e68153056e9061a46f62d7a0",
+		assertThat(request.getClientShallowCommits(),
+				hasOnlyObjectIds("28274d02c489f4c7e68153056e9061a46f62d7a0",
 						"145e683b229dcab9d0e2ccb01b386f9ecc17d29d"));
 		assertTrue(request.getDeepenNotRefs().isEmpty());
 		assertEquals(15, request.getDepth());
@@ -214,8 +205,8 @@ public class ProtocolV2ParserTest {
 				ConfigBuilder.getDefault());
 		FetchV2Request request = parser.parseFetchRequest(pckIn,
 				testRepo.getRepository().getRefDatabase());
-		assertThat(objIdsAsStrings(request.getClientShallowCommits()),
-				hasItems("28274d02c489f4c7e68153056e9061a46f62d7a0",
+		assertThat(request.getClientShallowCommits(),
+				hasOnlyObjectIds("28274d02c489f4c7e68153056e9061a46f62d7a0",
 						"145e683b229dcab9d0e2ccb01b386f9ecc17d29d"));
 		assertThat(request.getDeepenNotRefs(),
 				hasItems("a08595f76159b09d57553e37a5123f1091bb13e7"));
@@ -232,8 +223,8 @@ public class ProtocolV2ParserTest {
 				ConfigBuilder.getDefault());
 		FetchV2Request request = parser.parseFetchRequest(pckIn,
 				testRepo.getRepository().getRefDatabase());
-		assertThat(objIdsAsStrings(request.getClientShallowCommits()),
-				hasItems("28274d02c489f4c7e68153056e9061a46f62d7a0",
+		assertThat(request.getClientShallowCommits(),
+				hasOnlyObjectIds("28274d02c489f4c7e68153056e9061a46f62d7a0",
 						"145e683b229dcab9d0e2ccb01b386f9ecc17d29d"));
 		assertEquals(123123123, request.getDeepenSince());
 	}
@@ -309,9 +300,9 @@ public class ProtocolV2ParserTest {
 		assertThat(request.getWantedRefs().keySet(),
 				hasItems("refs/heads/branchA"));
 		assertEquals(2, request.getWantIds().size());
-		assertThat(objIdsAsStrings(request.getWantIds()),
-				hasItems("e4980cdc48cfa1301493ca94eb70523f6788b819",
-						one.getName()));
+		assertThat(request.getWantIds(), hasOnlyObjectIds(
+				"e4980cdc48cfa1301493ca94eb70523f6788b819",
+				one.getName()));
 	}
 
 	@Test
