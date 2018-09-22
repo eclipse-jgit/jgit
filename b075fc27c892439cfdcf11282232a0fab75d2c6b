@@ -59,6 +59,24 @@
     },
     {
       "key": {
+        "uuid": "6582c74a_bf2f1e7f",
+        "filename": "tools/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-09-22T10:06:28Z",
+      "side": 1,
+      "message": "No longer necessary since 0.17.1 is now available.",
+      "parentUuid": "6179fabe_1102acfa",
+      "revId": "b075fc27c892439cfdcf11282232a0fab75d2c6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "76842ddf_ca442afc",
         "filename": "tools/BUILD",
         "patchSetId": 2
@@ -70,6 +88,24 @@
       "writtenOn": "2018-08-30T04:00:21Z",
       "side": 1,
       "message": "Add the ExpectedException checker.",
+      "revId": "b075fc27c892439cfdcf11282232a0fab75d2c6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4fbf38b4_8d4f4737",
+        "filename": "tools/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-09-22T10:06:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76842ddf_ca442afc",
       "revId": "b075fc27c892439cfdcf11282232a0fab75d2c6b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
