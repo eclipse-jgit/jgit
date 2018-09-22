@@ -109,6 +109,24 @@
       "revId": "b075fc27c892439cfdcf11282232a0fab75d2c6b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62f7a015_d6dbe0c0",
+        "filename": "tools/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-09-22T10:12:17Z",
+      "side": 1,
+      "message": "Actually, adding it causes build failures.  I think it\u0027s better to add it separately and fix the problems at the same time.",
+      "parentUuid": "4fbf38b4_8d4f4737",
+      "revId": "b075fc27c892439cfdcf11282232a0fab75d2c6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
