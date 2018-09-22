@@ -264,25 +264,26 @@ public class ProtocolV2ParserTest {
 
 	@Test
 	public void testFetchMustNotHaveMultipleFilters() throws IOException {
-		thrown.expect(PackProtocolException.class);
 		PacketLineIn pckIn = formatAsPacketLine(PacketLineIn.DELIM,
 				"filter blob:none",
 				"filter blob:limit=12",
 				PacketLineIn.END);
 		ProtocolV2Parser parser = new ProtocolV2Parser(
 				ConfigBuilder.start().allowFilter().done());
-		FetchV2Request request = parser.parseFetchRequest(pckIn,
+
+		thrown.expect(PackProtocolException.class);
+		parser.parseFetchRequest(pckIn,
 				testRepo.getRepository().getRefDatabase());
-		assertEquals(0, request.getFilterBlobLimit());
 	}
 
 	@Test
 	public void testFetchFilterWithoutAllowFilter() throws IOException {
-		thrown.expect(PackProtocolException.class);
 		PacketLineIn pckIn = formatAsPacketLine(PacketLineIn.DELIM,
 				"filter blob:limit=12", PacketLineIn.END);
 		ProtocolV2Parser parser = new ProtocolV2Parser(
 				ConfigBuilder.getDefault());
+
+		thrown.expect(PackProtocolException.class);
 		parser.parseFetchRequest(pckIn,
 				testRepo.getRepository().getRefDatabase());
 	}
@@ -315,9 +316,6 @@ public class ProtocolV2ParserTest {
 
 	@Test
 	public void testFetchWithRefInWantUnknownRef() throws Exception {
-		thrown.expect(PackProtocolException.class);
-		thrown.expectMessage(containsString("refs/heads/branchC"));
-
 		PacketLineIn pckIn = formatAsPacketLine(PacketLineIn.DELIM,
 				"want e4980cdc48cfa1301493ca94eb70523f6788b819",
 				"want-ref refs/heads/branchC",
@@ -330,6 +328,8 @@ public class ProtocolV2ParserTest {
 		testRepo.update("branchA", one);
 		testRepo.update("branchB", two);
 
+		thrown.expect(PackProtocolException.class);
+		thrown.expectMessage(containsString("refs/heads/branchC"));
 		parser.parseFetchRequest(pckIn,
 				testRepo.getRepository().getRefDatabase());
 	}
