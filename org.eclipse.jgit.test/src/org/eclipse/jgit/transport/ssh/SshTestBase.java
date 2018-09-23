@@ -174,8 +174,14 @@ public abstract class SshTestBase extends SshTestHarness {
 	@Test
 	public void testSshWithConfigEncryptedUnusedKeyInConfigFirst()
 			throws Exception {
-		// Test cannot pass with JSch; it handles only one IdentityFile
-		assumeTrue(!(getSessionFactory() instanceof JschConfigSessionFactory));
+		// Test cannot pass with JSch; it handles only one IdentityFile.
+		// assumeTrue(!(getSessionFactory() instanceof
+		// JschConfigSessionFactory)); gives in bazel a failure with "Never
+		// found parameters that satisfied method assumptions."
+		// In maven it's fine!?
+		if (getSessionFactory() instanceof JschConfigSessionFactory) {
+			return;
+		}
 		// Copy the encrypted test key from the bundle.
 		File encryptedKey = new File(sshDir, "id_dsa_test_key");
 		copyTestResource("id_dsa_testpass", encryptedKey);
