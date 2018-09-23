@@ -47,6 +47,7 @@ def tests(tests):
                 "//lib:jzlib",
                 "//lib:sshd-core",
                 "//lib:sshd-sftp",
+                ":sshd-helpers",
             ]
         heap_size = "-Xmx256m"
         if src.endswith("HugeCommitMessageTest.java"):
