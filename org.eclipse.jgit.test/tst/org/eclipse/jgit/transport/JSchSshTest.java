@@ -53,12 +53,16 @@ import java.util.Arrays;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.transport.OpenSshConfig.Host;
+import org.eclipse.jgit.transport.ssh.SshTestBase;
 import org.eclipse.jgit.util.FS;
+import org.junit.experimental.theories.Theories;
+import org.junit.runner.RunWith;
 
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
+@RunWith(Theories.class)
 public class JSchSshTest extends SshTestBase {
 
 	private class TestSshSessionFactory extends JschConfigSessionFactory {
