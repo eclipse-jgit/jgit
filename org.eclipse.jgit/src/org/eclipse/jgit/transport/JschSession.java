@@ -369,10 +369,37 @@ public class JschSession implements RemoteSession {
 		@Override
 		public void rename(String from, String to) throws IOException {
 			map(() -> {
-				ftp.rename(from, to);
+				// Plain FTP rename will fail if "to" exists. Jsch knows about
+				// the FTP extension "posix-rename@openssh.com", which will
+				// remove "to" first if it exists.
+				if (hasPosixRename()) {
+					ftp.rename(from, to);
+				} else if (!to.equals(from)) {
+					// Try to remove "to" first. With git, we typically get this
+					// when a lock file is moved over the file locked. Note that
+					// the check for to being equal to from may still fail in
+					// the general case, but for use with JGit's TransportSftp
+					// it should be good enough.
+					delete(to);
+					ftp.rename(from, to);
+				}
 				return null;
 			});
 		}
 
+		/**
+		 * Determine whether the server has the posix-rename extension.
+		 *
+		 * @return {@code true} if it is supported, {@code false} otherwise
+		 * @see <a href=
+		 *      "https://cvsweb.openbsd.org/src/usr.bin/ssh/PROTOCOL?annotate=HEAD">OpenSSH
+		 *      deviations and extensions to the published SSH protocol</a>
+		 * @see <a href=
+		 *      "http://pubs.opengroup.org/onlinepubs/9699919799/functions/rename.html">stdio.h:
+		 *      rename()</a>
+		 */
+		private boolean hasPosixRename() {
+			return "1".equals(ftp.getExtension("posix-rename@openssh.com")); //$NON-NLS-1$//$NON-NLS-2$
+		}
 	}
 }
