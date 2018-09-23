@@ -198,6 +198,7 @@
     <bundle-manifest>${project.build.directory}/META-INF/MANIFEST.MF</bundle-manifest>
 
     <jgit-last-release-version>4.11.0.201803080745-r</jgit-last-release-version>
+    <apache-sshd-version>2.0.0</apache-sshd-version>
     <jsch-version>0.1.54</jsch-version>
     <jzlib-version>1.1.1</jzlib-version>
     <javaewah-version>1.1.6</javaewah-version>
@@ -933,6 +934,7 @@
     <module>org.eclipse.jgit.ui</module>
     <module>org.eclipse.jgit.http.apache</module>
     <module>org.eclipse.jgit.http.server</module>
+    <module>org.eclipse.jgit.ssh.apache</module>
     <module>org.eclipse.jgit.pgm</module>
     <module>org.eclipse.jgit.lfs</module>
     <module>org.eclipse.jgit.lfs.server</module>
@@ -945,6 +947,7 @@
     <module>org.eclipse.jgit.pgm.test</module>
     <module>org.eclipse.jgit.lfs.test</module>
     <module>org.eclipse.jgit.lfs.server.test</module>
+    <module>org.eclipse.jgit.ssh.apache.test</module>
   </modules>
 
 </project>

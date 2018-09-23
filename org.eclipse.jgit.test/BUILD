@@ -6,7 +6,10 @@ load(
 
 PKG = "tst/org/eclipse/jgit/"
 
-HELPERS = glob(["src/**/*.java"]) + [PKG + c for c in [
+HELPERS = glob(
+		["src/**/*.java"],
+		exclude = ["src/org/eclipse/jgit/transport/ssh/*.java"]
+    ) + [PKG + c for c in [
     "api/AbstractRemoteCommandTest.java",
     "diff/AbstractDiffTestCase.java",
     "internal/storage/file/GcTestCase.java",
@@ -31,6 +34,8 @@ DATA = [
     PKG + "lib/sorttest.gitindex.dat",
 ]
 
+RESOURCES = glob(["resources/**"])
+
 tests(glob(
     ["tst/**/*.java"],
     exclude = HELPERS + DATA,
@@ -45,6 +50,30 @@ java_library(
         "//lib:junit",
         "//org.eclipse.jgit:jgit",
         "//org.eclipse.jgit.junit:junit",
+    ],
+)
+
+java_library(
+    name = "sshd-helpers",
+    testonly = 1,
+    srcs = glob(["src/org/eclipse/jgit/transport/ssh/*.java"]),
+    javacopts = select({
+        "//:jdk9": ["--add-modules=java.xml.bind"],
+        "//conditions:default": [],
+    }),
+    resource_strip_prefix = "org.eclipse.jgit.test/resources",
+    resources = RESOURCES,
+    deps = [
+        "//lib:junit",
+        "//org.eclipse.jgit:jgit",
+        "//org.eclipse.jgit.junit:junit",
+        "//lib:jsch",
+        "//lib:sshd-core",
+        "//lib:sshd-sftp",
+        "//org.eclipse.jgit.ssh.apache:ssh-apache",
+    ],
+    visibility = [
+        "//org.eclipse.jgit.ssh.apache.test:__pkg__",
     ],
 )
 
