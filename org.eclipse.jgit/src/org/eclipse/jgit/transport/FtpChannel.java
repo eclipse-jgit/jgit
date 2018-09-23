@@ -42,6 +42,7 @@
  */
 package org.eclipse.jgit.transport;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -201,17 +202,44 @@ public interface FtpChannel {
 	 * @param path
 	 *            to delete
 	 * @throws IOException
+	 *             if the file does not exist or could otherwise not be deleted
 	 */
 	void rm(String path) throws IOException;
 
 	/**
-	 * Renames a file on the remote file system.
+	 * Deletes a file on the remote file system. If the file does not exist, no
+	 * exception is thrown.
+	 *
+	 * @param path
+	 *            to delete
+	 * @throws IOException
+	 *             if the file exist but could not be deleted
+	 */
+	default void delete(String path) throws IOException {
+		try {
+			rm(path);
+		} catch (FileNotFoundException e) {
+			// Ignore; it's OK if the file doesn't exist
+		} catch (FtpException f) {
+			if (f.getStatus() == FtpException.NO_SUCH_FILE) {
+				return;
+			}
+			throw f;
+		}
+	}
+
+	/**
+	 * Renames a file on the remote file system. If {@code to} exists, it is
+	 * replaced by {@code from}. (POSIX rename() semantics)
 	 *
 	 * @param from
 	 *            original name of the file
 	 * @param to
 	 *            new name of the file
 	 * @throws IOException
+	 * @see <a href=
+	 *      "http://pubs.opengroup.org/onlinepubs/9699919799/functions/rename.html">stdio.h:
+	 *      rename()</a>
 	 */
 	void rename(String from, String to) throws IOException;
 
