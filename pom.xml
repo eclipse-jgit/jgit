@@ -934,6 +934,7 @@
     <module>org.eclipse.jgit.ui</module>
     <module>org.eclipse.jgit.http.apache</module>
     <module>org.eclipse.jgit.http.server</module>
+    <module>org.eclipse.jgit.ssh.apache</module>
     <module>org.eclipse.jgit.pgm</module>
     <module>org.eclipse.jgit.lfs</module>
     <module>org.eclipse.jgit.lfs.server</module>
@@ -946,6 +947,7 @@
     <module>org.eclipse.jgit.pgm.test</module>
     <module>org.eclipse.jgit.lfs.test</module>
     <module>org.eclipse.jgit.lfs.server.test</module>
+    <module>org.eclipse.jgit.ssh.apache.test</module>
   </modules>
 
 </project>
