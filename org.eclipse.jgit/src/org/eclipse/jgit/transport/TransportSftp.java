@@ -272,13 +272,8 @@ public class TransportSftp extends SshTransport implements WalkTransport {
 		@Override
 		void deleteFile(String path) throws IOException {
 			try {
-				ftp.rm(path);
-			} catch (FileNotFoundException e) {
-				return;
+				ftp.delete(path);
 			} catch (FtpChannel.FtpException f) {
-				if (f.getStatus() == FtpChannel.FtpException.NO_SUCH_FILE) {
-					return;
-				}
 				throw new TransportException(MessageFormat.format(
 						JGitText.get().cannotDeleteObjectsPath, objectsPath,
 						path, f.getMessage()), f);
