@@ -53,6 +53,18 @@ maven_jar(
 )
 
 maven_jar(
+    name = "sshd-core",
+    artifact = "org.apache.sshd:sshd-core:2.0.0",
+    sha1 = "f4275079a2463cfd2bf1548a80e1683288a8e86b",
+)
+
+maven_jar(
+    name = "sshd-sftp",
+    artifact = "org.apache.sshd:sshd-sftp:2.0.0",
+    sha1 = "a12d64dc2d5d23271a4dc58075e55f9c64a68494",
+)
+
+maven_jar(
     name = "commons-codec",
     artifact = "commons-codec:commons-codec:1.10",
     sha1 = "4b95f4897fa13f2cd904aee711aeafc0c5295cd8",

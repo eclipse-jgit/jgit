@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   Copyright (C) 2009, Google Inc.
-   Copyright (C) 2008, Imran M Yousuf <imyousuf@smartitengineering.com>
-   Copyright (C) 2008, Jonas Fonseca <fonseca@diku.dk>
+   Copyright (C) 2018, Thomas Wolf <thomas.wolf@paranor.ch>
    and other copyright owners as documented in the project's IP log.
 
    This program and the accompanying materials are made available
@@ -55,11 +53,11 @@
     <version>5.2.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>org.eclipse.jgit.test</artifactId>
-  <name>JGit - Core Tests</name>
+  <artifactId>org.eclipse.jgit.ssh.apache.test</artifactId>
+  <name>JGit - Apache sshd SSH Tests</name>
 
   <description>
-    JUnit tests for the core library.
+    JUnit tests for the JGit SSH support based on Apache MINA sshd.
   </description>
 
   <properties>
@@ -103,27 +101,16 @@
 
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
-      <artifactId>org.eclipse.jgit.ui</artifactId>
+      <artifactId>org.eclipse.jgit.ssh.apache</artifactId>
       <version>${project.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
-      <artifactId>org.eclipse.jgit.pgm</artifactId>
+      <artifactId>org.eclipse.jgit.test</artifactId>
       <version>${project.version}</version>
     </dependency>
 
-    <dependency>
-      <groupId>org.apache.sshd</groupId>
-      <artifactId>sshd-core</artifactId>
-      <version>${apache-sshd-version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.sshd</groupId>
-      <artifactId>sshd-sftp</artifactId>
-      <version>${apache-sshd-version}</version>
-    </dependency>
   </dependencies>
 
   <profiles>
@@ -147,24 +134,6 @@
   <build>
     <sourceDirectory>src/</sourceDirectory>
     <testSourceDirectory>tst/</testSourceDirectory>
-
-    <testResources>
-      <testResource>
-        <directory>tst-rsrc/</directory>
-      </testResource>
-    </testResources>
-
-    <resources>
-      <resource>
-        <directory>.</directory>
-        <includes>
-          <include>plugin.properties</include>
-        </includes>
-      </resource>
-      <resource>
-        <directory>resources/</directory>
-      </resource>
-    </resources>
 
     <plugins>
       <plugin>
