@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.util;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 
 import java.io.BufferedReader;
@@ -105,7 +106,7 @@ public class IOReadLineTest {
 
 	private Reader newReader(String in) {
 		Reader r = new InputStreamReader(
-				new ByteArrayInputStream(Constants.encode(in)));
+				new ByteArrayInputStream(Constants.encode(in)), UTF_8);
 		if (buffered) {
 			r = new BufferedReader(r);
 		}

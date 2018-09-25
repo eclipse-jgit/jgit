@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.http.test;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 
 import java.io.BufferedReader;
@@ -120,7 +121,8 @@ public class RegexPipelineTest extends HttpTestCase {
 		c = ((HttpURLConnection) uri.resolve("/a").toURL()
 				.openConnection());
 		assertEquals(200, c.getResponseCode());
-		r = new BufferedReader(new InputStreamReader(c.getInputStream()));
+		r = new BufferedReader(
+				new InputStreamReader(c.getInputStream(), UTF_8));
 		assertEquals("test", r.readLine());
 		assertEquals("", r.readLine());
 		assertEquals("/a", r.readLine());
@@ -129,7 +131,8 @@ public class RegexPipelineTest extends HttpTestCase {
 		c = ((HttpURLConnection) uri.resolve("/b").toURL()
 				.openConnection());
 		assertEquals(200, c.getResponseCode());
-		r = new BufferedReader(new InputStreamReader(c.getInputStream()));
+		r = new BufferedReader(
+				new InputStreamReader(c.getInputStream(), UTF_8));
 		assertEquals("test", r.readLine());
 		assertEquals("", r.readLine());
 		assertEquals("/b", r.readLine());
@@ -155,7 +158,8 @@ public class RegexPipelineTest extends HttpTestCase {
 		c = ((HttpURLConnection) uri.resolve("/a").toURL()
 				.openConnection());
 		assertEquals(200, c.getResponseCode());
-		r = new BufferedReader(new InputStreamReader(c.getInputStream()));
+		r = new BufferedReader(
+				new InputStreamReader(c.getInputStream(), UTF_8));
 		assertEquals("test1", r.readLine());
 		assertEquals("", r.readLine());
 		assertEquals("/a", r.readLine());
@@ -183,7 +187,8 @@ public class RegexPipelineTest extends HttpTestCase {
 		c = ((HttpURLConnection) uri.resolve("/a/b").toURL()
 				.openConnection());
 		assertEquals(200, c.getResponseCode());
-		r = new BufferedReader(new InputStreamReader(c.getInputStream()));
+		r = new BufferedReader(
+				new InputStreamReader(c.getInputStream(), UTF_8));
 		assertEquals("test1", r.readLine());
 		assertEquals("", r.readLine());
 		// No RegexGroupFilter defaults to first group.
@@ -193,7 +198,8 @@ public class RegexPipelineTest extends HttpTestCase {
 		c = ((HttpURLConnection) uri.resolve("/c/d").toURL()
 				.openConnection());
 		assertEquals(200, c.getResponseCode());
-		r = new BufferedReader(new InputStreamReader(c.getInputStream()));
+		r = new BufferedReader(
+				new InputStreamReader(c.getInputStream(), UTF_8));
 		assertEquals("test2", r.readLine());
 		assertEquals("", r.readLine());
 		assertEquals("/c", r.readLine());
@@ -202,7 +208,8 @@ public class RegexPipelineTest extends HttpTestCase {
 		c = ((HttpURLConnection) uri.resolve("/e/f/g").toURL()
 				.openConnection());
 		assertEquals(200, c.getResponseCode());
-		r = new BufferedReader(new InputStreamReader(c.getInputStream()));
+		r = new BufferedReader(
+				new InputStreamReader(c.getInputStream(), UTF_8));
 		assertEquals("test3", r.readLine());
 		assertEquals("/e/f", r.readLine());
 		assertEquals("/g", r.readLine());
