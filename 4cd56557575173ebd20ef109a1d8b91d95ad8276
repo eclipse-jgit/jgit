@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1f804020_bfaf1a12",
+        "filename": ".mailmap",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-09-25T08:56:25Z",
+      "side": 1,
+      "message": "Nit: I don\u0027t think it makes any difference from a technical point of view, but the columns were aligned before.",
+      "revId": "4cd56557575173ebd20ef109a1d8b91d95ad8276",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
