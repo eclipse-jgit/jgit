@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.util;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 
 import java.io.ByteArrayInputStream;
@@ -77,8 +78,8 @@ public class RunExternalScriptTest {
 				new ProcessBuilder("sh", script.getPath()), out, err,
 				new ByteArrayInputStream(inputStr.getBytes()));
 		assertEquals(0, rc);
-		assertEquals(inputStr, new String(out.toByteArray()));
-		assertEquals("", new String(err.toByteArray()));
+		assertEquals(inputStr, new String(out.toByteArray(), UTF_8));
+		assertEquals("", new String(err.toByteArray(), UTF_8));
 	}
 
 	@Test
@@ -88,8 +89,8 @@ public class RunExternalScriptTest {
 				new ProcessBuilder("sh", script.getPath()), out, err,
 				(InputStream) null);
 		assertEquals(0, rc);
-		assertEquals("", new String(out.toByteArray()));
-		assertEquals("", new String(err.toByteArray()));
+		assertEquals("", new String(out.toByteArray(), UTF_8));
+		assertEquals("", new String(err.toByteArray(), UTF_8));
 	}
 
 	@Test
@@ -99,8 +100,8 @@ public class RunExternalScriptTest {
 				new ProcessBuilder("sh",
 				script.getPath(), "a", "b", "c"), out, err, (InputStream) null);
 		assertEquals(0, rc);
-		assertEquals("3,a,b,c,,,\n", new String(out.toByteArray()));
-		assertEquals("", new String(err.toByteArray()));
+		assertEquals("3,a,b,c,,,\n", new String(out.toByteArray(), UTF_8));
+		assertEquals("", new String(err.toByteArray(), UTF_8));
 	}
 
 	@Test
@@ -110,8 +111,8 @@ public class RunExternalScriptTest {
 				new ProcessBuilder("sh", script.getPath(), "a", "b", "c"),
 				out, err, (InputStream) null);
 		assertEquals(3, rc);
-		assertEquals("", new String(out.toByteArray()));
-		assertEquals("", new String(err.toByteArray()));
+		assertEquals("", new String(out.toByteArray(), UTF_8));
+		assertEquals("", new String(err.toByteArray(), UTF_8));
 	}
 
 	@Test
@@ -121,8 +122,8 @@ public class RunExternalScriptTest {
 				new ProcessBuilder("sh", script.getPath()), null, err,
 				(InputStream) null);
 		assertEquals(0, rc);
-		assertEquals("", new String(out.toByteArray()));
-		assertEquals("", new String(err.toByteArray()));
+		assertEquals("", new String(out.toByteArray(), UTF_8));
+		assertEquals("", new String(err.toByteArray(), UTF_8));
 	}
 
 	@Test
@@ -132,8 +133,8 @@ public class RunExternalScriptTest {
 				new ProcessBuilder("sh", script.getPath()), null, err,
 				(InputStream) null);
 		assertEquals(0, rc);
-		assertEquals("", new String(out.toByteArray()));
-		assertEquals("hi" + LF, new String(err.toByteArray()));
+		assertEquals("", new String(out.toByteArray(), UTF_8));
+		assertEquals("hi" + LF, new String(err.toByteArray(), UTF_8));
 	}
 
 	@Test
@@ -144,8 +145,8 @@ public class RunExternalScriptTest {
 				new ProcessBuilder("sh", script.getPath(), "a", "b", "c"),
 				out, err, new ByteArrayInputStream(inputStr.getBytes()));
 		assertEquals(5, rc);
-		assertEquals(inputStr, new String(out.toByteArray()));
-		assertEquals("3,a,b,c,,," + LF, new String(err.toByteArray()));
+		assertEquals(inputStr, new String(out.toByteArray(), UTF_8));
+		assertEquals("3,a,b,c,,," + LF, new String(err.toByteArray(), UTF_8));
 	}
 
 	@Test(expected = IOException.class)
@@ -174,8 +175,9 @@ public class RunExternalScriptTest {
 		ExecutionResult res = FS.DETECTED.execute(pb,
 				new ByteArrayInputStream(inputStr.getBytes()));
 		assertEquals(0, res.getRc());
-		assertEquals(inputStr, new String(res.getStdout().toByteArray()));
-		assertEquals("", new String(res.getStderr().toByteArray()));
+		assertEquals(inputStr,
+				new String(res.getStdout().toByteArray(), UTF_8));
+		assertEquals("", new String(res.getStderr().toByteArray(), UTF_8));
 	}
 
 	@Test
@@ -184,8 +186,9 @@ public class RunExternalScriptTest {
 		ProcessBuilder pb = new ProcessBuilder("sh", script.getPath());
 		ExecutionResult res = FS.DETECTED.execute(pb, null);
 		assertEquals(0, res.getRc());
-		assertEquals("", new String(res.getStdout().toByteArray()));
-		assertEquals("hi" + LF, new String(res.getStderr().toByteArray()));
+		assertEquals("", new String(res.getStdout().toByteArray(), UTF_8));
+		assertEquals("hi" + LF,
+				new String(res.getStderr().toByteArray(), UTF_8));
 	}
 
 	@Test
@@ -199,9 +202,10 @@ public class RunExternalScriptTest {
 		ExecutionResult res = FS.DETECTED.execute(pb,
 				new ByteArrayInputStream(inputStr.getBytes()));
 		assertEquals(5, res.getRc());
-		assertEquals(inputStr, new String(res.getStdout().toByteArray()));
+		assertEquals(inputStr,
+				new String(res.getStdout().toByteArray(), UTF_8));
 		assertEquals("3,a,b,c,,," + LF,
-				new String(res.getStderr().toByteArray()));
+				new String(res.getStderr().toByteArray(), UTF_8));
 	}
 
 	private File writeTempFile(String body) throws IOException {

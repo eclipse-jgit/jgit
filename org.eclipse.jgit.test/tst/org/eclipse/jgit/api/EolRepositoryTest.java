@@ -38,6 +38,7 @@
  */
 package org.eclipse.jgit.api;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -722,10 +723,10 @@ public class EolRepositoryTest extends RepositoryTestCase {
 			}
 			e.attrs = e.attrs.trim();
 			e.file = new String(
-					IO.readFully(new File(db.getWorkTree(), pathName)));
+					IO.readFully(new File(db.getWorkTree(), pathName)), UTF_8);
 			DirCacheEntry dce = dirCache.getEntry(pathName);
 			ObjectLoader open = walk.getObjectReader().open(dce.getObjectId());
-			e.index = new String(open.getBytes());
+			e.index = new String(open.getBytes(), UTF_8);
 			e.indexContentLength = dce.getLength();
 		}
 
