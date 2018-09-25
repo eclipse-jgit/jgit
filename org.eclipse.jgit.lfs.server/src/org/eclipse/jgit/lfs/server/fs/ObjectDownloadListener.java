@@ -134,6 +134,10 @@ public class ObjectDownloadListener implements WriteListener {
 					} finally {
 						context.complete();
 					}
+					// This is need to avoid endless loop in recent Jetty versions.
+					// That's because out.isReady() is returning true for already
+					// closed streams and because out.close() doesn't throw any
+					// exception any more when trying to close already closed stream.
 					return;
 				}
 			}
