@@ -46,6 +46,30 @@
       "revId": "5c134f4d42e12e9192f2beca8370c1b8bd58c08d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f707e00_2169d906",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/ObjectDownloadListener.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-09-25T06:23:39Z",
+      "side": 1,
+      "message": "OK.  The reason I asked is because ErrorProne complains about it.",
+      "parentUuid": "55de2dc6_f01f066f",
+      "range": {
+        "startLine": 137,
+        "startChar": 5,
+        "endLine": 137,
+        "endChar": 11
+      },
+      "revId": "5c134f4d42e12e9192f2beca8370c1b8bd58c08d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
