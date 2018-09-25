@@ -37,6 +37,7 @@
  */
 package org.eclipse.jgit.lib;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -343,7 +344,7 @@ public class DirCacheCheckoutMaliciousPathTest extends RepositoryTestCase {
 			ObjectInserter newObjectInserter;
 			newObjectInserter = git.getRepository().newObjectInserter();
 			ObjectId blobId = newObjectInserter.insert(Constants.OBJ_BLOB,
-					"data".getBytes());
+					"data".getBytes(UTF_8));
 			newObjectInserter = git.getRepository().newObjectInserter();
 			FileMode mode = FileMode.REGULAR_FILE;
 			ObjectId insertId = blobId;
@@ -366,8 +367,8 @@ public class DirCacheCheckoutMaliciousPathTest extends RepositoryTestCase {
 			insertId = blobId;
 			for (int i = path.length - 1; i >= 0; --i) {
 				TreeFormatter treeFormatter = new TreeFormatter();
-				treeFormatter.append(path[i].getBytes(), 0,
-							path[i].getBytes().length,
+				treeFormatter.append(path[i].getBytes(UTF_8), 0,
+						path[i].getBytes(UTF_8).length,
 							mode, insertId, true);
 				insertId = newObjectInserter.insert(treeFormatter);
 				mode = FileMode.TREE;

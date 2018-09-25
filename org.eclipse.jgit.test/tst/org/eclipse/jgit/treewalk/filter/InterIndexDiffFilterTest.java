@@ -42,6 +42,7 @@
  */
 package org.eclipse.jgit.treewalk.filter;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -114,7 +115,7 @@ public class InterIndexDiffFilterTest extends LocalDiskRepositoryTestCase {
 	}
 
 	private ObjectId id(String data) {
-		byte[] bytes = data.getBytes();
+		byte[] bytes = data.getBytes(UTF_8);
 		return db.newObjectInserter().idFor(Constants.OBJ_BLOB, bytes);
 	}
 

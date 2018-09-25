@@ -101,14 +101,14 @@ public class FileBasedConfigTest {
 
 	@Test
 	public void testSystemEncoding() throws IOException, ConfigInvalidException {
-		final File file = createFile(CONTENT1.getBytes());
+		final File file = createFile(CONTENT1.getBytes(UTF_8));
 		final FileBasedConfig config = new FileBasedConfig(file, FS.DETECTED);
 		config.load();
 		assertEquals(ALICE, config.getString(USER, null, NAME));
 
 		config.setString(USER, null, NAME, BOB);
 		config.save();
-		assertArrayEquals(CONTENT2.getBytes(), IO.readFully(file));
+		assertArrayEquals(CONTENT2.getBytes(UTF_8), IO.readFully(file));
 	}
 
 	@Test
@@ -120,7 +120,7 @@ public class FileBasedConfigTest {
 
 		config.setString(USER, null, NAME, BOB);
 		config.save();
-		assertArrayEquals(CONTENT2.getBytes(), IO.readFully(file));
+		assertArrayEquals(CONTENT2.getBytes(UTF_8), IO.readFully(file));
 	}
 
 	@Test
@@ -150,8 +150,8 @@ public class FileBasedConfigTest {
 	@Test
 	public void testLeadingWhitespaces() throws IOException, ConfigInvalidException {
 		final ByteArrayOutputStream bos1 = new ByteArrayOutputStream();
-		bos1.write(" \n\t".getBytes());
-		bos1.write(CONTENT1.getBytes());
+		bos1.write(" \n\t".getBytes(UTF_8));
+		bos1.write(CONTENT1.getBytes(UTF_8));
 
 		final File file = createFile(bos1.toByteArray());
 		final FileBasedConfig config = new FileBasedConfig(file, FS.DETECTED);
@@ -162,18 +162,18 @@ public class FileBasedConfigTest {
 		config.save();
 
 		final ByteArrayOutputStream bos2 = new ByteArrayOutputStream();
-		bos2.write(" \n\t".getBytes());
-		bos2.write(CONTENT2.getBytes());
+		bos2.write(" \n\t".getBytes(UTF_8));
+		bos2.write(CONTENT2.getBytes(UTF_8));
 		assertArrayEquals(bos2.toByteArray(), IO.readFully(file));
 	}
 
 	@Test
 	public void testIncludeAbsolute()
 			throws IOException, ConfigInvalidException {
-		final File includedFile = createFile(CONTENT1.getBytes());
+		final File includedFile = createFile(CONTENT1.getBytes(UTF_8));
 		final ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		bos.write("[include]\npath=".getBytes());
-		bos.write(pathToString(includedFile).getBytes());
+		bos.write("[include]\npath=".getBytes(UTF_8));
+		bos.write(pathToString(includedFile).getBytes(UTF_8));
 
 		final File file = createFile(bos.toByteArray());
 		final FileBasedConfig config = new FileBasedConfig(file, FS.DETECTED);
@@ -184,10 +184,10 @@ public class FileBasedConfigTest {
 	@Test
 	public void testIncludeRelativeDot()
 			throws IOException, ConfigInvalidException {
-		final File includedFile = createFile(CONTENT1.getBytes(), "dir1");
+		final File includedFile = createFile(CONTENT1.getBytes(UTF_8), "dir1");
 		final ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		bos.write("[include]\npath=".getBytes());
-		bos.write(("./" + includedFile.getName()).getBytes());
+		bos.write("[include]\npath=".getBytes(UTF_8));
+		bos.write(("./" + includedFile.getName()).getBytes(UTF_8));
 
 		final File file = createFile(bos.toByteArray(), "dir1");
 		final FileBasedConfig config = new FileBasedConfig(file, FS.DETECTED);
@@ -198,11 +198,11 @@ public class FileBasedConfigTest {
 	@Test
 	public void testIncludeRelativeDotDot()
 			throws IOException, ConfigInvalidException {
-		final File includedFile = createFile(CONTENT1.getBytes(), "dir1");
+		final File includedFile = createFile(CONTENT1.getBytes(UTF_8), "dir1");
 		final ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		bos.write("[include]\npath=".getBytes());
+		bos.write("[include]\npath=".getBytes(UTF_8));
 		bos.write(("../" + includedFile.getParentFile().getName() + "/"
-				+ includedFile.getName()).getBytes());
+				+ includedFile.getName()).getBytes(UTF_8));
 
 		final File file = createFile(bos.toByteArray(), "dir2");
 		final FileBasedConfig config = new FileBasedConfig(file, FS.DETECTED);
@@ -213,10 +213,10 @@ public class FileBasedConfigTest {
 	@Test
 	public void testIncludeRelativeDotDotNotFound()
 			throws IOException, ConfigInvalidException {
-		final File includedFile = createFile(CONTENT1.getBytes());
+		final File includedFile = createFile(CONTENT1.getBytes(UTF_8));
 		final ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		bos.write("[include]\npath=".getBytes());
-		bos.write(("../" + includedFile.getName()).getBytes());
+		bos.write("[include]\npath=".getBytes(UTF_8));
+		bos.write(("../" + includedFile.getName()).getBytes(UTF_8));
 
 		final File file = createFile(bos.toByteArray());
 		final FileBasedConfig config = new FileBasedConfig(file, FS.DETECTED);
@@ -227,10 +227,10 @@ public class FileBasedConfigTest {
 	@Test
 	public void testIncludeWithTilde()
 			throws IOException, ConfigInvalidException {
-		final File includedFile = createFile(CONTENT1.getBytes(), "home");
+		final File includedFile = createFile(CONTENT1.getBytes(UTF_8), "home");
 		final ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		bos.write("[include]\npath=".getBytes());
-		bos.write(("~/" + includedFile.getName()).getBytes());
+		bos.write("[include]\npath=".getBytes(UTF_8));
+		bos.write(("~/" + includedFile.getName()).getBytes(UTF_8));
 
 		final File file = createFile(bos.toByteArray(), "repo");
 		final FS fs = FS.DETECTED.newInstance();
@@ -246,7 +246,7 @@ public class FileBasedConfigTest {
 			throws IOException, ConfigInvalidException {
 		// use a content with multiple sections and multiple key/value pairs
 		// because code for first line works different than for subsequent lines
-		final File includedFile = createFile(CONTENT3.getBytes(), "dir1");
+		final File includedFile = createFile(CONTENT3.getBytes(UTF_8), "dir1");
 
 		final File file = createFile(new byte[0], "dir2");
 		FileBasedConfig config = new FileBasedConfig(file, FS.DETECTED);

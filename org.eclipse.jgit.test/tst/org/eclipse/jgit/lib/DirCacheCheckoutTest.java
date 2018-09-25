@@ -40,6 +40,7 @@
  */
 package org.eclipse.jgit.lib;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -310,7 +311,7 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 			assertTrue("unexpected content for path " + path
 					+ " in index. Expected: <" + expectedValue + ">",
 					Arrays.equals(db.open(read.getEntry(j).getObjectId())
-							.getCachedBytes(), i.get(path).getBytes()));
+							.getCachedBytes(), i.get(path).getBytes(UTF_8)));
 		}
 	}
 
@@ -405,7 +406,7 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 
 	ObjectId genSha1(String data) {
 		try (ObjectInserter w = db.newObjectInserter()) {
-			ObjectId id = w.insert(Constants.OBJ_BLOB, data.getBytes());
+			ObjectId id = w.insert(Constants.OBJ_BLOB, data.getBytes(UTF_8));
 			w.flush();
 			return id;
 		} catch (IOException e) {
@@ -2048,7 +2049,7 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 						assertArrayEquals(
 								"unexpected content for path " + path
 										+ " in workDir. ",
-								buffer, i.get(path).getBytes());
+								buffer, i.get(path).getBytes(UTF_8));
 					}
 					nrFiles++;
 				} else if (file.isDirectory()) {

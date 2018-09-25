@@ -411,7 +411,8 @@ class SignerV4 {
 		String stringToSign = stringToSign(SCHEME, ALGORITHM, dateTimeStamp,
 				scope, canonicalRequest);
 
-		byte[] signature = (SCHEME + bucketConfig.getSecretKey()).getBytes();
+		byte[] signature = (SCHEME + bucketConfig.getSecretKey())
+				.getBytes(UTF_8);
 		signature = sign(dateStamp, signature);
 		signature = sign(bucketConfig.getRegion(), signature);
 		signature = sign(S3, signature);

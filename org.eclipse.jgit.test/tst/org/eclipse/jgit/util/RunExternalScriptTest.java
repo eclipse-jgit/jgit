@@ -76,7 +76,7 @@ public class RunExternalScriptTest {
 		File script = writeTempFile("cat -");
 		int rc = FS.DETECTED.runProcess(
 				new ProcessBuilder("sh", script.getPath()), out, err,
-				new ByteArrayInputStream(inputStr.getBytes()));
+				new ByteArrayInputStream(inputStr.getBytes(UTF_8)));
 		assertEquals(0, rc);
 		assertEquals(inputStr, new String(out.toByteArray(), UTF_8));
 		assertEquals("", new String(err.toByteArray(), UTF_8));
@@ -143,7 +143,7 @@ public class RunExternalScriptTest {
 		File script = writeTempFile("echo $#,$1,$2,$3,$4,$5,$6 >&2 ; cat -; exit 5");
 		int rc = FS.DETECTED.runProcess(
 				new ProcessBuilder("sh", script.getPath(), "a", "b", "c"),
-				out, err, new ByteArrayInputStream(inputStr.getBytes()));
+				out, err, new ByteArrayInputStream(inputStr.getBytes(UTF_8)));
 		assertEquals(5, rc);
 		assertEquals(inputStr, new String(out.toByteArray(), UTF_8));
 		assertEquals("3,a,b,c,,," + LF, new String(err.toByteArray(), UTF_8));
@@ -173,7 +173,7 @@ public class RunExternalScriptTest {
 		File script = writeTempFile("cat -");
 		ProcessBuilder pb = new ProcessBuilder("sh", script.getPath());
 		ExecutionResult res = FS.DETECTED.execute(pb,
-				new ByteArrayInputStream(inputStr.getBytes()));
+				new ByteArrayInputStream(inputStr.getBytes(UTF_8)));
 		assertEquals(0, res.getRc());
 		assertEquals(inputStr,
 				new String(res.getStdout().toByteArray(), UTF_8));
@@ -200,7 +200,7 @@ public class RunExternalScriptTest {
 		ProcessBuilder pb = new ProcessBuilder("sh", script.getPath(), "a",
 				"b", "c");
 		ExecutionResult res = FS.DETECTED.execute(pb,
-				new ByteArrayInputStream(inputStr.getBytes()));
+				new ByteArrayInputStream(inputStr.getBytes(UTF_8)));
 		assertEquals(5, res.getRc());
 		assertEquals(inputStr,
 				new String(res.getStdout().toByteArray(), UTF_8));
