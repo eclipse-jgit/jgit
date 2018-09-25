@@ -474,7 +474,7 @@ class TextHashFunctions extends TextBuiltin {
 	}
 
 	/** Utility to help us identify unique lines in a file. */
-	private class Line {
+	private static class Line {
 		private final RawText txt;
 
 		private final int pos;

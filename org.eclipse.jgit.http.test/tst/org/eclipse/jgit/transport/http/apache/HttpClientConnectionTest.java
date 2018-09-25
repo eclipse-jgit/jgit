@@ -76,7 +76,7 @@ public class HttpClientConnectionTest {
 		assertTrue(headerValues.contains("NTLM"));
 	}
 
-	private class HttpResponseMock extends AbstractHttpMessage
+	private static class HttpResponseMock extends AbstractHttpMessage
 			implements HttpResponse {
 		@Override
 		public StatusLine getStatusLine() {

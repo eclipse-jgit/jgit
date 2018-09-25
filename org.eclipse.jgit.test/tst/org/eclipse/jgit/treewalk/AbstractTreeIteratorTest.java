@@ -66,7 +66,7 @@ public class AbstractTreeIteratorTest {
 		return s > 0 ? path.substring(0, s) : "";
 	}
 
-	public class FakeTreeIterator extends WorkingTreeIterator {
+	public static class FakeTreeIterator extends WorkingTreeIterator {
 		public FakeTreeIterator(String pathName, FileMode fileMode) {
 			super(prefix(pathName), new Config().get(WorkingTreeOptions.KEY));
 			mode = fileMode.getBits();
