@@ -282,7 +282,7 @@ public class TimeoutOutputStreamTest {
 		return System.currentTimeMillis();
 	}
 
-	private final class FullPipeInputStream extends PipedInputStream {
+	private static final class FullPipeInputStream extends PipedInputStream {
 		FullPipeInputStream(PipedOutputStream src) throws IOException {
 			super(src);
 			src.write(new byte[PIPE_SIZE]);

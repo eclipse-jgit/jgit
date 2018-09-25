@@ -839,7 +839,7 @@ public class MergerTest extends RepositoryTestCase {
 	/**
 	 * Throws an exception if reading beyond limit.
 	 */
-	class BigReadForbiddenStream extends ObjectStream.Filter {
+	static class BigReadForbiddenStream extends ObjectStream.Filter {
 		int limit;
 
 		BigReadForbiddenStream(ObjectStream orig, int limit) {
@@ -878,7 +878,7 @@ public class MergerTest extends RepositoryTestCase {
 		}
 	}
 
-	class BigReadForbiddenReader extends ObjectReader.Filter {
+	static class BigReadForbiddenReader extends ObjectReader.Filter {
 		ObjectReader delegate;
 		int limit;
 

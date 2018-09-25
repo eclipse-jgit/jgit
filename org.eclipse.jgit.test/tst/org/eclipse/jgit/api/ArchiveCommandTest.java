@@ -190,7 +190,8 @@ public class ArchiveCommandTest extends RepositoryTestCase {
 		}
 	}
 
-	private class MockFormat implements ArchiveCommand.Format<MockOutputStream> {
+	private static class MockFormat
+			implements ArchiveCommand.Format<MockOutputStream> {
 
 		private Map<String, String> entries = new HashMap<>();
 
@@ -240,7 +241,7 @@ public class ArchiveCommandTest extends RepositoryTestCase {
 		}
 	}
 
-	public class MockOutputStream extends OutputStream {
+	public static class MockOutputStream extends OutputStream {
 
 		private int foo;
 
