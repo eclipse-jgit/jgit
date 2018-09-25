@@ -333,9 +333,9 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 	public void test002_CreateBadTree() throws Exception {
 		// We won't create a tree entry with an empty filename
 		//
+		final TreeFormatter formatter = new TreeFormatter();
 		expectedException.expect(IllegalArgumentException.class);
 		expectedException.expectMessage(JGitText.get().invalidTreeZeroLengthName);
-		final TreeFormatter formatter = new TreeFormatter();
 		formatter.append("", FileMode.TREE,
 				ObjectId.fromString("4b825dc642cb6eb9a060e54bf8d69288fbee4904"));
 	}
