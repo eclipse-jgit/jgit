@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5abf009e_27c637c1",
+        "filename": ".mailmap",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-09-25T12:06:28Z",
+      "side": 1,
+      "message": "nit: These lines are not aligned with the rest",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 101
+      },
+      "revId": "3de4673e9bd5a4af627d92a7bf5075da93b1188f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
