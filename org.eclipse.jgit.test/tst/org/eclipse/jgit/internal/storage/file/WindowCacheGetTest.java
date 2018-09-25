@@ -141,7 +141,7 @@ public class WindowCacheGetTest extends SampleDataRepositoryTestCase {
 		}
 	}
 
-	private class TestObject {
+	private static class TestObject {
 		ObjectId id;
 
 		int type;

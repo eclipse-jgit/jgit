@@ -207,7 +207,7 @@ public class PackBitmapIndexRemapper extends PackBitmapIndex
 	}
 
 	/** An entry in the old PackBitmapIndex. */
-	public final class Entry extends ObjectId {
+	public static final class Entry extends ObjectId {
 		private final int flags;
 
 		Entry(AnyObjectId src, int flags) {

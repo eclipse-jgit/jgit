@@ -56,7 +56,7 @@ import org.junit.Test;
 
 public class PlotCommitListTest extends RevWalkTestCase {
 
-	class CommitListAssert {
+	static class CommitListAssert {
 		private PlotCommitList<PlotLane> pcl;
 		private PlotCommit<PlotLane> current;
 		private int nextIndex = 0;

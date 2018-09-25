@@ -139,7 +139,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 		resolveRelativeUris();
 	}
 
-	class IndexedRepos implements RepoCommand.RemoteReader {
+	static class IndexedRepos implements RepoCommand.RemoteReader {
 		Map<String, Repository> uriRepoMap;
 		IndexedRepos() {
 			uriRepoMap = new HashMap<>();

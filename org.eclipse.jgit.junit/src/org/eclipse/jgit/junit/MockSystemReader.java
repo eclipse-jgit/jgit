@@ -70,7 +70,7 @@ import org.eclipse.jgit.util.time.ProposedTimestamp;
  * Mock {@link org.eclipse.jgit.util.SystemReader} for tests.
  */
 public class MockSystemReader extends SystemReader {
-	private final class MockConfig extends FileBasedConfig {
+	private static final class MockConfig extends FileBasedConfig {
 		private MockConfig(File cfgLocation, FS fs) {
 			super(cfgLocation, fs);
 		}

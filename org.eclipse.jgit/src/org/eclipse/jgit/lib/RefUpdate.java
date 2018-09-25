@@ -823,7 +823,7 @@ public abstract class RefUpdate {
 	 * Handle the abstraction of storing a ref update. This is because both
 	 * updating and deleting of a ref have merge testing in common.
 	 */
-	private abstract class Store {
+	private static abstract class Store {
 		abstract Result execute(Result status) throws IOException;
 	}
 }
