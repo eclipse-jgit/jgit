@@ -43,6 +43,7 @@
  */
 package org.eclipse.jgit.api;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -1298,7 +1299,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 				final TreeWalk tw = TreeWalk.forPath(repo, path,
 						rw.parseTree(headId));
 				return new String(tw.getObjectReader().open(tw.getObjectId(0))
-						.getBytes());
+						.getBytes(), UTF_8);
 			}
 		} catch (Exception e) {
 			return "";

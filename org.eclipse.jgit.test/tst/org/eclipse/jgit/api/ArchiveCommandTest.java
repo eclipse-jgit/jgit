@@ -42,6 +42,7 @@
  */
 package org.eclipse.jgit.api;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -231,7 +232,9 @@ public class ArchiveCommandTest extends RepositoryTestCase {
 
 		@Override
 		public void putEntry(MockOutputStream out, ObjectId tree, String path, FileMode mode, ObjectLoader loader) {
-			String content = mode != FileMode.TREE ? new String(loader.getBytes()) : null;
+			String content = mode != FileMode.TREE
+					? new String(loader.getBytes(), UTF_8)
+					: null;
 			entries.put(path, content);
 		}
 

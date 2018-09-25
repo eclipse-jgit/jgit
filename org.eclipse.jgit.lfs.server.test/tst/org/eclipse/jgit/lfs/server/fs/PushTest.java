@@ -42,6 +42,7 @@
  */
 package org.eclipse.jgit.lfs.server.fs;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 
 import java.io.InputStream;
@@ -149,7 +150,7 @@ public class PushTest extends LfsServerTest {
 							new String(IO
 									.readWholeStream(is,
 											(int) ldr.getSize())
-									.array()));
+									.array(), UTF_8));
 				}
 			}
 
