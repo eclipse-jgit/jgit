@@ -22,6 +22,30 @@
       "revId": "5c134f4d42e12e9192f2beca8370c1b8bd58c08d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55de2dc6_f01f066f",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/ObjectDownloadListener.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2018-09-25T05:59:47Z",
+      "side": 1,
+      "message": "Please don\u0027t, otherwise the endless loop with recent Jetty version will be re-introduced. Should we add a comment here to clarify that?\n\nThe reason is that out.isReady() will still return true even though, the stream was closed on line 183.",
+      "parentUuid": "254b72cf_35c66912",
+      "range": {
+        "startLine": 137,
+        "startChar": 5,
+        "endLine": 137,
+        "endChar": 11
+      },
+      "revId": "5c134f4d42e12e9192f2beca8370c1b8bd58c08d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
