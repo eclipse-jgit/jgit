@@ -424,11 +424,11 @@ public abstract class RefDatabase {
 	 * @param prefixes
 	 *            strings that names of refs should start with.
 	 * @return immutable list of refs whose names start with one of
-	 *         {@code prefixes}.  Refs can be unsorted and may contain
-	 *         duplicates if the prefixes overlap.
+	 *         {@code prefixes}. Refs can be unsorted and may contain duplicates
+	 *         if the prefixes overlap.
 	 * @throws java.io.IOException
 	 *             the reference space cannot be accessed.
-	 * @since 5.1
+	 * @since 5.2
 	 */
 	@NonNull
 	public List<Ref> getRefsByPrefix(String... prefixes) throws IOException {
