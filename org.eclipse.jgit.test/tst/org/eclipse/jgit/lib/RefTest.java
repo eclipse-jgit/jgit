@@ -45,6 +45,7 @@
 
 package org.eclipse.jgit.lib;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.junit.Assert.assertEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -261,7 +262,7 @@ public class RefTest extends SampleDataRepositoryTestCase {
 		assertEquals(Storage.PACKED, ref.getStorage());
 		try (FileOutputStream os = new FileOutputStream(
 				new File(db.getDirectory(), "refs/heads/master"))) {
-			os.write(ref.getObjectId().name().getBytes());
+			os.write(ref.getObjectId().name().getBytes(UTF_8));
 			os.write('\n');
 		}
 

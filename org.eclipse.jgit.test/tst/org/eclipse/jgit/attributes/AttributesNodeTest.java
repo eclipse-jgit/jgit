@@ -42,6 +42,7 @@
  */
 package org.eclipse.jgit.attributes;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.attributes.Attribute.State.SET;
 import static org.eclipse.jgit.attributes.Attribute.State.UNSET;
 import static org.junit.Assert.assertEquals;
@@ -88,7 +89,7 @@ public class AttributesNodeTest {
 		String attributeFileContent = "*.type1 A -B C=value\n"
 				+ "*.type2 -A B C=value2";
 
-		is = new ByteArrayInputStream(attributeFileContent.getBytes());
+		is = new ByteArrayInputStream(attributeFileContent.getBytes(UTF_8));
 		AttributesNode node = new AttributesNode();
 		node.parse(is);
 		assertAttribute("file.type1", node,
@@ -102,7 +103,7 @@ public class AttributesNodeTest {
 		String attributeFileContent = "!*.type1 A -B C=value\n"
 				+ "!*.type2 -A B C=value2";
 
-		is = new ByteArrayInputStream(attributeFileContent.getBytes());
+		is = new ByteArrayInputStream(attributeFileContent.getBytes(UTF_8));
 		AttributesNode node = new AttributesNode();
 		node.parse(is);
 		assertAttribute("file.type1", node, new Attributes());
@@ -113,7 +114,7 @@ public class AttributesNodeTest {
 	public void testEmptyNegativeAttributeKey() throws IOException {
 		String attributeFileContent = "*.type1 - \n" //
 				+ "*.type2 -   -A";
-		is = new ByteArrayInputStream(attributeFileContent.getBytes());
+		is = new ByteArrayInputStream(attributeFileContent.getBytes(UTF_8));
 		AttributesNode node = new AttributesNode();
 		node.parse(is);
 		assertAttribute("file.type1", node, new Attributes());
@@ -125,7 +126,7 @@ public class AttributesNodeTest {
 		String attributeFileContent = "*.type1 = \n" //
 				+ "*.type2 =value\n"//
 				+ "*.type3 attr=\n";
-		is = new ByteArrayInputStream(attributeFileContent.getBytes());
+		is = new ByteArrayInputStream(attributeFileContent.getBytes(UTF_8));
 		AttributesNode node = new AttributesNode();
 		node.parse(is);
 		assertAttribute("file.type1", node, new Attributes());
@@ -140,7 +141,7 @@ public class AttributesNodeTest {
 				+ "    \n" //
 				+ "*.type2 -A B C=value2";
 
-		is = new ByteArrayInputStream(attributeFileContent.getBytes());
+		is = new ByteArrayInputStream(attributeFileContent.getBytes(UTF_8));
 		AttributesNode node = new AttributesNode();
 		node.parse(is);
 		assertAttribute("file.type1", node,
@@ -156,7 +157,7 @@ public class AttributesNodeTest {
 				+ "*.type3  \t\t   B\n" //
 				+ "*.type3\t-A";//
 
-		is = new ByteArrayInputStream(attributeFileContent.getBytes());
+		is = new ByteArrayInputStream(attributeFileContent.getBytes(UTF_8));
 		AttributesNode node = new AttributesNode();
 		node.parse(is);
 		assertAttribute("file.type1", node,
@@ -170,7 +171,7 @@ public class AttributesNodeTest {
 	public void testDoubleAsteriskAtEnd() throws IOException {
 		String attributeFileContent = "dir/** \tA -B\tC=value";
 
-		is = new ByteArrayInputStream(attributeFileContent.getBytes());
+		is = new ByteArrayInputStream(attributeFileContent.getBytes(UTF_8));
 		AttributesNode node = new AttributesNode();
 		node.parse(is);
 		assertAttribute("dir", node,

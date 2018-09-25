@@ -74,7 +74,7 @@ public class ReflogWriterTest extends SampleDataRepositoryTestCase {
 		writer.log("refs/heads/master", oldId, newId, ident,
 				"stash: Add\nmessage\r\nwith line feeds");
 
-		byte[] buffer = new byte[oneLine.getBytes().length];
+		byte[] buffer = new byte[oneLine.getBytes(UTF_8).length];
 		readReflog(buffer);
 		assertEquals(oneLine, new String(buffer, UTF_8));
 	}

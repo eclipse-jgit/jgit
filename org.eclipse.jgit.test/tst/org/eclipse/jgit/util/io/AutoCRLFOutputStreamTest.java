@@ -44,6 +44,8 @@
 
 package org.eclipse.jgit.util.io;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -91,8 +93,8 @@ public class AutoCRLFOutputStreamTest {
 
 	private void assertNoCrLfHelper(String expect, String input)
 			throws IOException {
-		byte[] inbytes = input.getBytes();
-		byte[] expectBytes = expect.getBytes();
+		byte[] inbytes = input.getBytes(UTF_8);
+		byte[] expectBytes = expect.getBytes(UTF_8);
 		for (int i = -4; i < 5; ++i) {
 			int size = Math.abs(i);
 			byte[] buf = new byte[size];

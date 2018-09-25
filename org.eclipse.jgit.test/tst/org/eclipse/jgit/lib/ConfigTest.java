@@ -48,6 +48,7 @@
 
 package org.eclipse.jgit.lib;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -812,7 +813,7 @@ public class ConfigTest {
 	public void testIncludeTooManyRecursions() throws IOException {
 		File config = tmp.newFile("config");
 		String include = "[include]\npath=" + pathToString(config) + "\n";
-		Files.write(config.toPath(), include.getBytes());
+		Files.write(config.toPath(), include.getBytes(UTF_8));
 		try {
 			loadConfig(config);
 			fail();
@@ -833,7 +834,7 @@ public class ConfigTest {
 		File config = tmp.newFile("config");
 
 		String fooBar = "[foo]\nbar=true\n";
-		Files.write(config.toPath(), fooBar.getBytes());
+		Files.write(config.toPath(), fooBar.getBytes(UTF_8));
 
 		Config parsed = parse("[include]\npath=" + pathToString(config) + "\n");
 		assertFalse(parsed.getBoolean("foo", "bar", false));
@@ -844,11 +845,11 @@ public class ConfigTest {
 			throws IOException, ConfigInvalidException {
 		File included = tmp.newFile("included");
 		String content = "[foo]\nbar=true\n";
-		Files.write(included.toPath(), content.getBytes());
+		Files.write(included.toPath(), content.getBytes(UTF_8));
 
 		File config = tmp.newFile("config");
 		content = "[Include]\npath=" + pathToString(included) + "\n";
-		Files.write(config.toPath(), content.getBytes());
+		Files.write(config.toPath(), content.getBytes(UTF_8));
 
 		FileBasedConfig fbConfig = loadConfig(config);
 		assertTrue(fbConfig.getBoolean("foo", "bar", false));
@@ -859,11 +860,11 @@ public class ConfigTest {
 			throws IOException, ConfigInvalidException {
 		File included = tmp.newFile("included");
 		String content = "[foo]\nbar=true\n";
-		Files.write(included.toPath(), content.getBytes());
+		Files.write(included.toPath(), content.getBytes(UTF_8));
 
 		File config = tmp.newFile("config");
 		content = "[include]\nPath=" + pathToString(included) + "\n";
-		Files.write(config.toPath(), content.getBytes());
+		Files.write(config.toPath(), content.getBytes(UTF_8));
 
 		FileBasedConfig fbConfig = loadConfig(config);
 		assertTrue(fbConfig.getBoolean("foo", "bar", false));
@@ -886,11 +887,11 @@ public class ConfigTest {
 		File included = tmp.newFile("included");
 		String includedPath = pathToString(included);
 		String content = "[include]\npath=\n";
-		Files.write(included.toPath(), content.getBytes());
+		Files.write(included.toPath(), content.getBytes(UTF_8));
 
 		File config = tmp.newFile("config");
 		String include = "[include]\npath=" + includedPath + "\n";
-		Files.write(config.toPath(), include.getBytes());
+		Files.write(config.toPath(), include.getBytes(UTF_8));
 		try {
 			loadConfig(config);
 			fail("Expected ConfigInvalidException");
@@ -917,7 +918,7 @@ public class ConfigTest {
 				21, 31, CoreConfig.AutoCRLF.FALSE,
 				"+refs/heads/*:refs/remotes/origin/*") + "\n[include]\npath="
 				+ pathToString(includedFile);
-		Files.write(configFile.toPath(), content.getBytes());
+		Files.write(configFile.toPath(), content.getBytes(UTF_8));
 
 		FileBasedConfig fbConfig = loadConfig(configFile);
 		assertValuesAsIncluded(fbConfig, REFS_ORIGIN, REFS_UPSTREAM);
@@ -940,7 +941,7 @@ public class ConfigTest {
 				+ createAllTypesSampleContent("Alice Parker", false, 11, 21, 31,
 						CoreConfig.AutoCRLF.FALSE,
 						"+refs/heads/*:refs/remotes/origin/*");
-		Files.write(configFile.toPath(), content.getBytes());
+		Files.write(configFile.toPath(), content.getBytes(UTF_8));
 
 		FileBasedConfig fbConfig = loadConfig(configFile);
 		assertValuesAsConfig(fbConfig, REFS_UPSTREAM, REFS_ORIGIN);
@@ -960,7 +961,7 @@ public class ConfigTest {
 
 		File configFile = tmp.newFile("config");
 		String content = "[include]\npath=" + pathToString(includedFile);
-		Files.write(configFile.toPath(), content.getBytes());
+		Files.write(configFile.toPath(), content.getBytes(UTF_8));
 
 		FileBasedConfig fbConfig = loadConfig(configFile);
 		assertValuesAsIncluded(fbConfig, REFS_UPSTREAM);
@@ -981,7 +982,7 @@ public class ConfigTest {
 		File configFile = tmp.newFile("config");
 		String content = "[user]\n[include]\npath="
 				+ pathToString(includedFile);
-		Files.write(configFile.toPath(), content.getBytes());
+		Files.write(configFile.toPath(), content.getBytes(UTF_8));
 
 		FileBasedConfig fbConfig = loadConfig(configFile);
 		assertValuesAsIncluded(fbConfig, REFS_UPSTREAM);
@@ -1003,7 +1004,7 @@ public class ConfigTest {
 		File configFile = tmp.newFile("config");
 		String content = "[include]\npath=" + pathToString(includedFile)
 				+ "\n[user]";
-		Files.write(configFile.toPath(), content.getBytes());
+		Files.write(configFile.toPath(), content.getBytes(UTF_8));
 
 		FileBasedConfig fbConfig = loadConfig(configFile);
 		assertValuesAsIncluded(fbConfig, REFS_UPSTREAM);
@@ -1024,7 +1025,7 @@ public class ConfigTest {
 		File configFile = tmp.newFile("config");
 		String content = "[user]\nemail=alice@home\n[include]\npath="
 				+ pathToString(includedFile);
-		Files.write(configFile.toPath(), content.getBytes());
+		Files.write(configFile.toPath(), content.getBytes(UTF_8));
 
 		FileBasedConfig fbConfig = loadConfig(configFile);
 		assertValuesAsIncluded(fbConfig, REFS_UPSTREAM);
@@ -1046,7 +1047,7 @@ public class ConfigTest {
 		File configFile = tmp.newFile("config");
 		String content = "[include]\npath=" + pathToString(includedFile)
 				+ "\n[user]\nemail=alice@home\n";
-		Files.write(configFile.toPath(), content.getBytes());
+		Files.write(configFile.toPath(), content.getBytes(UTF_8));
 
 		FileBasedConfig fbConfig = loadConfig(configFile);
 		assertValuesAsIncluded(fbConfig, REFS_UPSTREAM);
@@ -1066,13 +1067,13 @@ public class ConfigTest {
 		RefSpec includedRefSpec = new RefSpec(REFS_UPSTREAM);
 		String includedContent = "[remote \"origin\"]\n" + "fetch="
 				+ includedRefSpec;
-		Files.write(includedFile.toPath(), includedContent.getBytes());
+		Files.write(includedFile.toPath(), includedContent.getBytes(UTF_8));
 
 		File configFile = tmp.newFile("config");
 		RefSpec refSpec = new RefSpec(REFS_ORIGIN);
 		String content = "[include]\npath=" + pathToString(includedFile) + "\n"
 				+ "[remote \"origin\"]\n" + "fetch=" + refSpec;
-		Files.write(configFile.toPath(), content.getBytes());
+		Files.write(configFile.toPath(), content.getBytes(UTF_8));
 
 		FileBasedConfig fbConfig = loadConfig(configFile);
 
@@ -1094,7 +1095,7 @@ public class ConfigTest {
 		String includedContent = createAllTypesSampleContent("Alice Muller",
 				true, 10, 20, 30, CoreConfig.AutoCRLF.TRUE,
 				"+refs/heads/*:refs/remotes/upstream/*");
-		Files.write(includedFile.toPath(), includedContent.getBytes());
+		Files.write(includedFile.toPath(), includedContent.getBytes(UTF_8));
 		return includedFile;
 	}
 
