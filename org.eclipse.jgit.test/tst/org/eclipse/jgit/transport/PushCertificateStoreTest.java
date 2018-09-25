@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.transport;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.ObjectId.zeroId;
 import static org.eclipse.jgit.lib.RefUpdate.Result.FAST_FORWARD;
 import static org.eclipse.jgit.lib.RefUpdate.Result.LOCK_FAILURE;
@@ -96,7 +97,9 @@ public class PushCertificateStoreTest {
 				+ "-----END PGP SIGNATURE-----\n");
 		try {
 			return PushCertificateParser.fromReader(new InputStreamReader(
-					new ByteArrayInputStream(Constants.encode(cert.toString()))));
+					new ByteArrayInputStream(
+							Constants.encode(cert.toString())),
+					UTF_8));
 		} catch (IOException e) {
 			throw new IllegalArgumentException(e);
 		}

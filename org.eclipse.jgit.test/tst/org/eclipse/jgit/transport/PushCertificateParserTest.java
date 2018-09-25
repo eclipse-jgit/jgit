@@ -42,6 +42,7 @@
 
 package org.eclipse.jgit.transport;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
@@ -334,7 +335,7 @@ public class PushCertificateParserTest {
 		assertFalse(input.contains(PushCertificateParser.END_CERT));
 		input += input;
 		Reader reader = new InputStreamReader(
-				new ByteArrayInputStream(Constants.encode(input)));
+				new ByteArrayInputStream(Constants.encode(input)), UTF_8);
 
 		assertNotNull(PushCertificateParser.fromReader(reader));
 		assertNotNull(PushCertificateParser.fromReader(reader));

@@ -43,6 +43,8 @@
 
 package org.eclipse.jgit.transport;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -241,7 +243,8 @@ public class OpenSshConfig implements ConfigRepository {
 	private Map<String, HostEntry> parse(InputStream in)
 			throws IOException {
 		final Map<String, HostEntry> m = new LinkedHashMap<>();
-		final BufferedReader br = new BufferedReader(new InputStreamReader(in));
+		final BufferedReader br = new BufferedReader(
+				new InputStreamReader(in, UTF_8));
 		final List<HostEntry> current = new ArrayList<>(4);
 		String line;
 
