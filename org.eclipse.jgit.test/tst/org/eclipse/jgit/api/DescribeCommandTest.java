@@ -42,13 +42,15 @@
  */
 package org.eclipse.jgit.api;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -404,7 +406,7 @@ public class DescribeCommandTest extends RepositoryTestCase {
 	}
 
 	private static void touch(File f, String contents) throws Exception {
-		try (FileWriter w = new FileWriter(f)) {
+		try (BufferedWriter w = Files.newBufferedWriter(f.toPath(), UTF_8)) {
 			w.write(contents);
 		}
 	}

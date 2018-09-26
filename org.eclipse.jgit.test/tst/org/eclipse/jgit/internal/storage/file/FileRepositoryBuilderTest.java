@@ -43,14 +43,16 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.lib.ConfigConstants;
@@ -120,7 +122,8 @@ public class FileRepositoryBuilderTest extends LocalDiskRepositoryTestCase {
 		Repository repo1 = createWorkRepository();
 		File dir = createTempDirectory("dir");
 		File dotGit = new File(dir, Constants.DOT_GIT);
-		try (FileWriter writer = new FileWriter(dotGit)) {
+		try (BufferedWriter writer = Files.newBufferedWriter(dotGit.toPath(),
+				UTF_8)) {
 			writer.append("gitdir: " + repo1.getDirectory().getAbsolutePath()).close();
 			FileRepositoryBuilder builder = new FileRepositoryBuilder();
 
@@ -140,7 +143,8 @@ public class FileRepositoryBuilderTest extends LocalDiskRepositoryTestCase {
 		File dir = new File(repo1.getWorkTree(), "dir");
 		assertTrue(dir.mkdir());
 		File dotGit = new File(dir, Constants.DOT_GIT);
-		try (FileWriter writer = new FileWriter(dotGit)) {
+		try (BufferedWriter writer = Files.newBufferedWriter(dotGit.toPath(),
+				UTF_8)) {
 			writer.append("gitdir: ../" + Constants.DOT_GIT).close();
 
 			FileRepositoryBuilder builder = new FileRepositoryBuilder();
@@ -161,7 +165,8 @@ public class FileRepositoryBuilderTest extends LocalDiskRepositoryTestCase {
 		Repository repo1 = createWorkRepository();
 		File dir = createTempDirectory("dir");
 		File dotGit = new File(dir, Constants.DOT_GIT);
-		try (FileWriter writer = new FileWriter(dotGit)) {
+		try (BufferedWriter writer = Files.newBufferedWriter(dotGit.toPath(),
+				UTF_8)) {
 			writer.append(
 					"gitdir: " + repo1.getDirectory().getAbsolutePath()).close();
 			FileRepositoryBuilder builder = new FileRepositoryBuilder();

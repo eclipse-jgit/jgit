@@ -42,6 +42,7 @@
  */
 package org.eclipse.jgit.submodule;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PATH;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_URL;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_SUBMODULE_SECTION;
@@ -52,9 +53,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.Status;
@@ -155,10 +157,12 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 		if (!dotGit.getParentFile().exists())
 			dotGit.getParentFile().mkdirs();
 
-		File modulesGitDir = new File(db.getDirectory(), "modules"
-				+ File.separatorChar + path);
-		new FileWriter(dotGit).append(
-				"gitdir: " + modulesGitDir.getAbsolutePath()).close();
+		File modulesGitDir = new File(db.getDirectory(),
+				"modules" + File.separatorChar + path);
+		try (BufferedWriter fw = Files.newBufferedWriter(dotGit.toPath(),
+				UTF_8)) {
+			fw.append("gitdir: " + modulesGitDir.getAbsolutePath());
+		}
 		FileRepositoryBuilder builder = new FileRepositoryBuilder();
 		builder.setWorkTree(new File(db.getWorkTree(), path));
 		builder.build().create();
@@ -209,9 +213,11 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 
 		File modulesGitDir = new File(db.getDirectory(), "modules"
 				+ File.separatorChar + path);
-		new FileWriter(dotGit).append(
-				"gitdir: " + "../" + Constants.DOT_GIT + "/modules/" + path)
-				.close();
+		try (BufferedWriter fw = Files.newBufferedWriter(dotGit.toPath(),
+				UTF_8)) {
+			fw.append("gitdir: " + "../" + Constants.DOT_GIT + "/modules/"
+					+ path);
+		}
 		FileRepositoryBuilder builder = new FileRepositoryBuilder();
 		builder.setWorkTree(new File(db.getWorkTree(), path));
 		builder.build().create();
