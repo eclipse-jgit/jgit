@@ -52,9 +52,9 @@ import static org.junit.Assert.fail;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.net.URI;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -474,8 +474,8 @@ public class RepoCommandTest extends RepositoryTestCase {
 			.call();
 		File hello = new File(db.getWorkTree(), "foo/hello.txt");
 		assertTrue("submodule should be checked out", hello.exists());
-		try (BufferedReader reader = new BufferedReader(
-				new FileReader(hello))) {
+		try (BufferedReader reader = Files.newBufferedReader(hello.toPath(),
+				UTF_8)) {
 			String content = reader.readLine();
 			assertEquals("submodule content should be as expected",
 					"master world", content);
@@ -565,8 +565,8 @@ public class RepoCommandTest extends RepositoryTestCase {
 		// The original file should exist
 		File hello = new File(localDb.getWorkTree(), "foo/hello.txt");
 		assertTrue("The original file should exist", hello.exists());
-		try (BufferedReader reader = new BufferedReader(
-				new FileReader(hello))) {
+		try (BufferedReader reader = Files.newBufferedReader(hello.toPath(),
+				UTF_8)) {
 			String content = reader.readLine();
 			assertEquals("The original file should have expected content",
 					"master world", content);
@@ -574,8 +574,8 @@ public class RepoCommandTest extends RepositoryTestCase {
 		// The dest file should also exist
 		hello = new File(localDb.getWorkTree(), "Hello");
 		assertTrue("The destination file should exist", hello.exists());
-		try (BufferedReader reader = new BufferedReader(
-				new FileReader(hello))) {
+		try (BufferedReader reader = Files.newBufferedReader(hello.toPath(),
+				UTF_8)) {
 			String content = reader.readLine();
 			assertEquals("The destination file should have expected content",
 					"master world", content);
@@ -610,8 +610,8 @@ public class RepoCommandTest extends RepositoryTestCase {
 			assertTrue("The .gitmodules file should exist",
 					gitmodules.exists());
 			// The first line of .gitmodules file should be expected
-			try (BufferedReader reader = new BufferedReader(
-					new FileReader(gitmodules))) {
+			try (BufferedReader reader = Files
+					.newBufferedReader(gitmodules.toPath(), UTF_8)) {
 				String content = reader.readLine();
 				assertEquals(
 						"The first line of .gitmodules file should be as expected",
@@ -644,8 +644,8 @@ public class RepoCommandTest extends RepositoryTestCase {
 			.setURI(rootUri)
 			.call();
 		File hello = new File(db.getWorkTree(), "foo/hello.txt");
-		try (BufferedReader reader = new BufferedReader(
-				new FileReader(hello))) {
+		try (BufferedReader reader = Files.newBufferedReader(hello.toPath(),
+				UTF_8)) {
 			String content = reader.readLine();
 			assertEquals("submodule content should be as expected",
 					"branch world", content);
@@ -671,8 +671,8 @@ public class RepoCommandTest extends RepositoryTestCase {
 			.setURI(rootUri)
 			.call();
 		File hello = new File(db.getWorkTree(), "foo/hello.txt");
-		try (BufferedReader reader = new BufferedReader(
-				new FileReader(hello))) {
+		try (BufferedReader reader = Files.newBufferedReader(hello.toPath(),
+				UTF_8)) {
 			String content = reader.readLine();
 			assertEquals("submodule content should be as expected",
 					"branch world", content);
@@ -698,8 +698,8 @@ public class RepoCommandTest extends RepositoryTestCase {
 			.setURI(rootUri)
 			.call();
 		File hello = new File(db.getWorkTree(), "foo/hello.txt");
-		try (BufferedReader reader = new BufferedReader(
-				new FileReader(hello))) {
+		try (BufferedReader reader = Files.newBufferedReader(hello.toPath(),
+				UTF_8)) {
 			String content = reader.readLine();
 			assertEquals("submodule content should be as expected",
 					"branch world", content);
@@ -771,8 +771,8 @@ public class RepoCommandTest extends RepositoryTestCase {
 			assertFalse("The foo/Hello file should be skipped",
 					foohello.exists());
 			// The content of Hello file should be expected
-			try (BufferedReader reader = new BufferedReader(
-					new FileReader(hello))) {
+			try (BufferedReader reader = Files.newBufferedReader(hello.toPath(),
+					UTF_8)) {
 				String content = reader.readLine();
 				assertEquals("The Hello file should have expected content",
 						"branch world", content);
@@ -829,8 +829,8 @@ public class RepoCommandTest extends RepositoryTestCase {
 		// The .gitmodules file should have 'submodule "bar"' and shouldn't
 		// have
 		// 'submodule "foo"' lines.
-		try (BufferedReader reader = new BufferedReader(
-				new FileReader(dotmodules))) {
+		try (BufferedReader reader = Files
+				.newBufferedReader(dotmodules.toPath(), UTF_8)) {
 			boolean foo = false;
 			boolean bar = false;
 			while (true) {
@@ -879,8 +879,8 @@ public class RepoCommandTest extends RepositoryTestCase {
 		}
 
 		// Check .gitmodules file
-		try (BufferedReader reader = new BufferedReader(
-				new FileReader(dotmodules))) {
+		try (BufferedReader reader = Files
+				.newBufferedReader(dotmodules.toPath(), UTF_8)) {
 			boolean foo = false;
 			boolean foobar = false;
 			boolean a = false;
@@ -935,8 +935,8 @@ public class RepoCommandTest extends RepositoryTestCase {
 			.call();
 		File hello = new File(localDb.getWorkTree(), "foo/hello.txt");
 		assertTrue("submodule should be checked out", hello.exists());
-		try (BufferedReader reader = new BufferedReader(
-				new FileReader(hello))) {
+		try (BufferedReader reader = Files.newBufferedReader(hello.toPath(),
+				UTF_8)) {
 			String content = reader.readLine();
 			assertEquals("submodule content should be as expected",
 					"master world", content);
@@ -1074,8 +1074,9 @@ public class RepoCommandTest extends RepositoryTestCase {
 					".gitattributes");
 			assertTrue("The .gitattributes file should exist",
 					gitattributes.exists());
-			try (BufferedReader reader = new BufferedReader(
-					new FileReader(gitattributes));) {
+			try (BufferedReader reader = Files
+					.newBufferedReader(gitattributes.toPath(),
+					UTF_8)) {
 				String content = reader.readLine();
 				assertEquals(".gitattributes content should be as expected",
 						"/test a1 a2", content);
@@ -1142,8 +1143,8 @@ public class RepoCommandTest extends RepositoryTestCase {
 			.setURI(rootUri)
 			.call();
 		File hello = new File(db.getWorkTree(), "foo/hello.txt");
-		try (BufferedReader reader = new BufferedReader(
-				new FileReader(hello))) {
+		try (BufferedReader reader = Files.newBufferedReader(hello.toPath(),
+				UTF_8)) {
 			String content = reader.readLine();
 			assertEquals("submodule content should be as expected",
 					"branch world", content);
@@ -1169,8 +1170,8 @@ public class RepoCommandTest extends RepositoryTestCase {
 			.setURI(rootUri)
 			.call();
 		File hello = new File(db.getWorkTree(), "foo/hello.txt");
-		try (BufferedReader reader = new BufferedReader(
-				new FileReader(hello))) {
+		try (BufferedReader reader = Files.newBufferedReader(hello.toPath(),
+				UTF_8)) {
 			String content = reader.readLine();
 			assertEquals("submodule content should be as expected",
 					"branch world", content);
