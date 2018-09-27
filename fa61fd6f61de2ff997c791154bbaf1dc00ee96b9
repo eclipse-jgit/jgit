@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6264f3a7_0bde4cec",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileRepositoryBuilderTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-09-27T08:49:58Z",
+      "side": 1,
+      "message": "The writer should not be closed explicitly, because it\u0027s in a try-with-resource that will close it automatically.\n\nIf the writer needs to be closed before the following test statements, those statements should be moved out of the try-block. The writer is not referenced again after this line.\n\nSince it\u0027s already like this in the original version (this change only changes how the writer is constructed), this should be fixed in a follow-up.",
+      "range": {
+        "startLine": 127,
+        "startChar": 69,
+        "endLine": 127,
+        "endChar": 78
+      },
+      "revId": "fa61fd6f61de2ff997c791154bbaf1dc00ee96b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
