@@ -22,6 +22,53 @@
       "revId": "02bcf03f980a4cf03ec69839ece9b18ee9a200c7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3d39937_bf115bce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2018-09-28T10:59:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a51be8ad_ea5a9328",
+      "range": {
+        "startLine": 7,
+        "startChar": 19,
+        "endLine": 7,
+        "endChar": 21
+      },
+      "revId": "02bcf03f980a4cf03ec69839ece9b18ee9a200c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "acd861e6_683226e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2018-09-28T10:59:28Z",
+      "side": 1,
+      "message": "This is not true any more. Bazel removed Java 10 support. Thsi Change must be adjusted to use vanilla toolchain, like it was done in Gerrit to Support Java 10 and Java 11.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 28
+      },
+      "revId": "02bcf03f980a4cf03ec69839ece9b18ee9a200c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
