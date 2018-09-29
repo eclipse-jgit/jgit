@@ -232,11 +232,17 @@ public final class Constants {
 	 *
 	 * @deprecated Use {@link java.nio.charset.StandardCharsets#UTF_8} directly
 	 *             instead.
-	 **/
+	 */
 	@Deprecated
 	public static final Charset CHARSET;
 
-	/** Native character encoding for commit messages, file names... */
+	/**
+	 * Native character encoding for commit messages, file names...
+	 *
+	 * @deprecated Use {@link java.nio.charset.StandardCharsets#UTF_8} directly
+	 *             instead.
+	 */
+	@Deprecated
 	public static final String CHARACTER_ENCODING;
 
 	/** Default main branch name */

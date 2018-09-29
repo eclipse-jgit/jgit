@@ -49,6 +49,7 @@
 package org.eclipse.jgit.lib;
 
 import static org.eclipse.jgit.lib.Constants.LOCK_SUFFIX;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -1965,7 +1966,7 @@ public abstract class Repository implements AutoCloseable {
 	private void writeCommitMsg(File msgFile, String msg) throws IOException {
 		if (msg != null) {
 			try (FileOutputStream fos = new FileOutputStream(msgFile)) {
-				fos.write(msg.getBytes(Constants.CHARACTER_ENCODING));
+				fos.write(msg.getBytes(UTF_8));
 			}
 		} else {
 			FileUtils.delete(msgFile, FileUtils.SKIP_MISSING);

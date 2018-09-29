@@ -44,6 +44,7 @@
 package org.eclipse.jgit.transport;
 
 import static java.lang.Integer.valueOf;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.transport.SideBandOutputStream.CH_DATA;
 import static org.eclipse.jgit.transport.SideBandOutputStream.CH_ERROR;
 import static org.eclipse.jgit.transport.SideBandOutputStream.CH_PROGRESS;
@@ -59,7 +60,6 @@ import java.io.OutputStream;
 import java.text.MessageFormat;
 
 import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.lib.Constants;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -259,8 +259,7 @@ public class SideBandOutputStreamTest {
 		}
 	}
 
-	private void assertBuffer(String exp) throws IOException {
-		assertEquals(exp, new String(rawOut.toByteArray(),
-				Constants.CHARACTER_ENCODING));
+	private void assertBuffer(String exp) {
+		assertEquals(exp, new String(rawOut.toByteArray(), UTF_8));
 	}
 }
