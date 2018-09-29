@@ -147,6 +147,7 @@ public class FileResolverTest extends LocalDiskRepositoryTestCase {
 
 		try {
 			resolver.open(null, name);
+			fail("opened non-git repository");
 		} catch (RepositoryNotFoundException e) {
 			assertEquals("repository not found: " + name, e.getMessage());
 
