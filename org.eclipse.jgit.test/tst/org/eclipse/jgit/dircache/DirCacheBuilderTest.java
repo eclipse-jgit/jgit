@@ -89,6 +89,7 @@ public class DirCacheBuilderTest extends RepositoryTestCase {
 		assertEquals(0, e.getRawMode());
 		try {
 			b.add(e);
+			fail("did not reject unset file mode");
 		} catch (IllegalArgumentException err) {
 			assertEquals("FileMode not set for path a", err.getMessage());
 		}
