@@ -69,7 +69,7 @@ class InfoRefsServlet extends HttpServlet {
 		// Assume a dumb client and send back the dumb client
 		// version of the info/refs file.
 		rsp.setContentType(HttpSupport.TEXT_PLAIN);
-		rsp.setCharacterEncoding(Constants.CHARACTER_ENCODING);
+		rsp.setCharacterEncoding(UTF_8.name());
 
 		final Repository db = getRepository(req);
 		try (OutputStreamWriter out = new OutputStreamWriter(
