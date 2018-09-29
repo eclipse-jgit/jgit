@@ -702,11 +702,7 @@ public class ConfigTest {
 
 		assertEquals("", c.getString("a", null, "y"));
 		assertArrayEquals(new String[]{""}, c.getStringList("a", null, "y"));
-		try {
-			c.getInt("a", null, "y", 1);
-		} catch (IllegalArgumentException e) {
-			assertEquals("Invalid integer value: a.y=", e.getMessage());
-		}
+		assertEquals(1, c.getInt("a", null, "y", 1));
 
 		assertNull(c.getString("a", null, "z"));
 		assertArrayEquals(new String[]{}, c.getStringList("a", null, "z"));
@@ -723,11 +719,7 @@ public class ConfigTest {
 
 		assertNull(c.getString("a", null, "y"));
 		assertArrayEquals(new String[]{null}, c.getStringList("a", null, "y"));
-		try {
-			c.getInt("a", null, "y", 1);
-		} catch (IllegalArgumentException e) {
-			assertEquals("Invalid integer value: a.y=", e.getMessage());
-		}
+		assertEquals(1, c.getInt("a", null, "y", 1));
 
 		assertNull(c.getString("a", null, "z"));
 		assertArrayEquals(new String[]{}, c.getStringList("a", null, "z"));
