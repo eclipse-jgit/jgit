@@ -46,6 +46,7 @@ package org.eclipse.jgit.merge;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
 import java.util.List;
 
 import org.eclipse.jgit.diff.RawText;
@@ -59,19 +60,58 @@ class MergeFormatterPass {
 
 	private final List<String> seqName;
 
-	private final String charsetName;
+	private final Charset charset;
 
 	private final boolean threeWayMerge;
 
 	private String lastConflictingName; // is set to non-null whenever we are in
 										// a conflict
 
+	/**
+	 * @deprecated use
+	 *             {@link #MergeFormatterPass(OutputStream, MergeResult, List, Charset)}
+	 *             instead.
+	 * @param out
+	 *            the {@link java.io.OutputStream} where to write the textual
+	 *            presentation
+	 * @param res
+	 *            the merge result which should be presented
+	 * @param seqName
+	 *            When a conflict is reported each conflicting range will get a
+	 *            name. This name is following the "&lt;&lt;&lt;&lt;&lt;&lt;&lt;
+	 *            " or "&gt;&gt;&gt;&gt;&gt;&gt;&gt; " conflict markers. The
+	 *            names for the sequences are given in this list
+	 * @param charsetName
+	 *            the name of the character set used when writing conflict
+	 *            metadata
+	 */
+	@Deprecated
 	MergeFormatterPass(OutputStream out, MergeResult<RawText> res, List<String> seqName,
 			String charsetName) {
+		this(out, res, seqName, Charset.forName(charsetName));
+	}
+
+	/**
+	 *
+	 * @param out
+	 *            the {@link java.io.OutputStream} where to write the textual
+	 *            presentation
+	 * @param res
+	 *            the merge result which should be presented
+	 * @param seqName
+	 *            When a conflict is reported each conflicting range will get a
+	 *            name. This name is following the "&lt;&lt;&lt;&lt;&lt;&lt;&lt;
+	 *            " or "&gt;&gt;&gt;&gt;&gt;&gt;&gt; " conflict markers. The
+	 *            names for the sequences are given in this list
+	 * @param charset
+	 *            the character set used when writing conflict metadata
+	 */
+	MergeFormatterPass(OutputStream out, MergeResult<RawText> res,
+			List<String> seqName, Charset charset) {
 		this.out = new EolAwareOutputStream(out);
 		this.res = res;
 		this.seqName = seqName;
-		this.charsetName = charsetName;
+		this.charset = charset;
 		this.threeWayMerge = (res.getSequences().size() == 3);
 	}
 
@@ -133,7 +173,7 @@ class MergeFormatterPass {
 
 	private void writeln(String s) throws IOException {
 		out.beginln();
-		out.write((s + "\n").getBytes(charsetName)); //$NON-NLS-1$
+		out.write((s + "\n").getBytes(charset)); //$NON-NLS-1$
 	}
 
 	private void writeLine(RawText seq, int i) throws IOException {
