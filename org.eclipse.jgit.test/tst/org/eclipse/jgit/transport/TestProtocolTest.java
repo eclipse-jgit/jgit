@@ -46,6 +46,7 @@ package org.eclipse.jgit.transport;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -238,6 +239,7 @@ public class TestProtocolTest {
 						.setRemote(user1Uri.toString())
 						.setRefSpecs(MASTER)
 						.call();
+				fail("accepted not permitted fetch");
 			} catch (InvalidRemoteException expected) {
 				// Expected.
 			}
@@ -282,6 +284,7 @@ public class TestProtocolTest {
 						.setRemote(user1Uri.toString())
 						.setRefSpecs(HEADS)
 						.call();
+				fail("accepted not permitted push");
 			} catch (TransportException expected) {
 				assertTrue(expected.getMessage().contains(
 						JGitText.get().pushNotPermitted));
