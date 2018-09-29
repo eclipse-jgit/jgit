@@ -47,6 +47,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.Iterator;
 
@@ -84,18 +85,21 @@ public class BlockListTest {
 
 		try {
 			list.get(-1);
+			fail("accepted out-of-bounds index");
 		} catch (IndexOutOfBoundsException badIndex) {
 			assertEquals(String.valueOf(-1), badIndex.getMessage());
 		}
 
 		try {
 			list.get(0);
+			fail("accepted out-of-bounds index");
 		} catch (IndexOutOfBoundsException badIndex) {
 			assertEquals(String.valueOf(0), badIndex.getMessage());
 		}
 
 		try {
 			list.get(4);
+			fail("accepted out-of-bounds index");
 		} catch (IndexOutOfBoundsException badIndex) {
 			assertEquals(String.valueOf(4), badIndex.getMessage());
 		}
@@ -114,6 +118,7 @@ public class BlockListTest {
 
 		try {
 			list.get(3);
+			fail("accepted out-of-bounds index");
 		} catch (IndexOutOfBoundsException badIndex) {
 			assertEquals(String.valueOf(3), badIndex.getMessage());
 		}
@@ -125,18 +130,21 @@ public class BlockListTest {
 
 		try {
 			list.set(-1, "foo");
+			fail("accepted out-of-bounds index");
 		} catch (IndexOutOfBoundsException badIndex) {
 			assertEquals(String.valueOf(-1), badIndex.getMessage());
 		}
 
 		try {
 			list.set(0, "foo");
+			fail("accepted out-of-bounds index");
 		} catch (IndexOutOfBoundsException badIndex) {
 			assertEquals(String.valueOf(0), badIndex.getMessage());
 		}
 
 		try {
 			list.set(4, "foo");
+			fail("accepted out-of-bounds index");
 		} catch (IndexOutOfBoundsException badIndex) {
 			assertEquals(String.valueOf(4), badIndex.getMessage());
 		}
@@ -161,6 +169,7 @@ public class BlockListTest {
 
 		try {
 			list.set(3, "bar");
+			fail("accepted out-of-bounds index");
 		} catch (IndexOutOfBoundsException badIndex) {
 			assertEquals(String.valueOf(3), badIndex.getMessage());
 		}
@@ -323,12 +332,14 @@ public class BlockListTest {
 
 		try {
 			list.add(-1, Integer.valueOf(42));
+			fail("accepted out-of-bounds index");
 		} catch (IndexOutOfBoundsException badIndex) {
 			assertEquals(String.valueOf(-1), badIndex.getMessage());
 		}
 
 		try {
 			list.add(4, Integer.valueOf(42));
+			fail("accepted out-of-bounds index");
 		} catch (IndexOutOfBoundsException badIndex) {
 			assertEquals(String.valueOf(4), badIndex.getMessage());
 		}
@@ -341,12 +352,14 @@ public class BlockListTest {
 
 		try {
 			list.remove(-1);
+			fail("accepted out-of-bounds index");
 		} catch (IndexOutOfBoundsException badIndex) {
 			assertEquals(String.valueOf(-1), badIndex.getMessage());
 		}
 
 		try {
 			list.remove(4);
+			fail("accepted out-of-bounds index");
 		} catch (IndexOutOfBoundsException badIndex) {
 			assertEquals(String.valueOf(4), badIndex.getMessage());
 		}
