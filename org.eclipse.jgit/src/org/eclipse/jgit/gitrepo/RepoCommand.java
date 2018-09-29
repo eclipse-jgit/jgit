@@ -42,6 +42,7 @@
  */
 package org.eclipse.jgit.gitrepo;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.DEFAULT_REMOTE_NAME;
 import static org.eclipse.jgit.lib.Constants.R_REMOTES;
 
@@ -606,8 +607,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 							}
 
 							objectId = inserter.insert(Constants.OBJ_BLOB,
-								link.getBytes(
-									Constants.CHARACTER_ENCODING));
+									link.getBytes(UTF_8));
 							dcEntry = new DirCacheEntry(linkfile.dest);
 							dcEntry.setObjectId(objectId);
 							dcEntry.setFileMode(FileMode.SYMLINK);
@@ -620,7 +620,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 				// create a new DirCacheEntry for .gitmodules file.
 				final DirCacheEntry dcEntry = new DirCacheEntry(Constants.DOT_GIT_MODULES);
 				ObjectId objectId = inserter.insert(Constants.OBJ_BLOB,
-						content.getBytes(Constants.CHARACTER_ENCODING));
+						content.getBytes(UTF_8));
 				dcEntry.setObjectId(objectId);
 				dcEntry.setFileMode(FileMode.REGULAR_FILE);
 				builder.add(dcEntry);
@@ -629,7 +629,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 					// create a new DirCacheEntry for .gitattributes file.
 					final DirCacheEntry dcEntryAttr = new DirCacheEntry(Constants.DOT_GIT_ATTRIBUTES);
 					ObjectId attrId = inserter.insert(Constants.OBJ_BLOB,
-							attributes.toString().getBytes(Constants.CHARACTER_ENCODING));
+							attributes.toString().getBytes(UTF_8));
 					dcEntryAttr.setObjectId(attrId);
 					dcEntryAttr.setFileMode(FileMode.REGULAR_FILE);
 					builder.add(dcEntryAttr);

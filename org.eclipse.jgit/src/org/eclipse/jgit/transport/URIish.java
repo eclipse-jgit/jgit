@@ -48,10 +48,11 @@
 
 package org.eclipse.jgit.transport;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.BitSet;
@@ -282,12 +283,7 @@ public class URIish implements Serializable {
 		if (s.indexOf('%') < 0)
 			return s;
 
-		byte[] bytes;
-		try {
-			bytes = s.getBytes(Constants.CHARACTER_ENCODING);
-		} catch (UnsupportedEncodingException e) {
-			throw new RuntimeException(e); // can't happen
-		}
+		byte[] bytes = s.getBytes(UTF_8);
 
 		byte[] os = new byte[bytes.length];
 		int j = 0;
@@ -335,12 +331,7 @@ public class URIish implements Serializable {
 		if (s == null)
 			return null;
 		ByteArrayOutputStream os = new ByteArrayOutputStream(s.length());
-		byte[] bytes;
-		try {
-			bytes = s.getBytes(Constants.CHARACTER_ENCODING);
-		} catch (UnsupportedEncodingException e) {
-			throw new RuntimeException(e); // cannot happen
-		}
+		byte[] bytes = s.getBytes(UTF_8);
 		for (int i = 0; i < bytes.length; ++i) {
 			int b = bytes[i] & 0xFF;
 			if (b <= 32 || (encodeNonAscii && b > 127) || b == '%'

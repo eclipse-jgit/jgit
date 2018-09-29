@@ -42,6 +42,7 @@
  */
 package org.eclipse.jgit.lib;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
@@ -68,7 +69,7 @@ public class SquashCommitMsgTest extends RepositoryTestCase {
 		assertFalse(new File(db.getDirectory(), Constants.SQUASH_MSG).exists());
 		try (FileOutputStream fos = new FileOutputStream(
 				new File(db.getDirectory(), Constants.SQUASH_MSG))) {
-			fos.write(squashMsg.getBytes(Constants.CHARACTER_ENCODING));
+			fos.write(squashMsg.getBytes(UTF_8));
 		}
 		assertEquals(db.readSquashCommitMsg(), squashMsg);
 	}

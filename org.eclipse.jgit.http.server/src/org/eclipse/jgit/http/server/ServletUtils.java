@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.http.server;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.util.HttpSupport.ENCODING_GZIP;
 import static org.eclipse.jgit.util.HttpSupport.ENCODING_X_GZIP;
 import static org.eclipse.jgit.util.HttpSupport.HDR_ACCEPT_ENCODING;
@@ -191,9 +192,9 @@ public final class ServletUtils {
 	public static void sendPlainText(final String content,
 			final HttpServletRequest req, final HttpServletResponse rsp)
 			throws IOException {
-		final byte[] raw = content.getBytes(Constants.CHARACTER_ENCODING);
+		final byte[] raw = content.getBytes(UTF_8);
 		rsp.setContentType(TEXT_PLAIN);
-		rsp.setCharacterEncoding(Constants.CHARACTER_ENCODING);
+		rsp.setCharacterEncoding(UTF_8.name());
 		send(raw, req, rsp);
 	}
 

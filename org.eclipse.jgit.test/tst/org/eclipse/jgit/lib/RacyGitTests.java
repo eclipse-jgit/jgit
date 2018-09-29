@@ -43,6 +43,7 @@
 package org.eclipse.jgit.lib;
 
 import static java.lang.Long.valueOf;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeTrue;
@@ -181,7 +182,7 @@ public class RacyGitTests extends RepositoryTestCase {
 	private File addToWorkDir(String path, String content) throws IOException {
 		File f = new File(db.getWorkTree(), path);
 		try (FileOutputStream fos = new FileOutputStream(f)) {
-			fos.write(content.getBytes(Constants.CHARACTER_ENCODING));
+			fos.write(content.getBytes(UTF_8));
 			return f;
 		}
 	}

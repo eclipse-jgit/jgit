@@ -44,7 +44,7 @@
 
 package org.eclipse.jgit.util;
 
-import static org.eclipse.jgit.lib.Constants.CHARACTER_ENCODING;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -181,7 +181,7 @@ public class HttpSupport {
 		if (key == null || key.length() == 0)
 			return;
 		try {
-			urlstr.append(URLEncoder.encode(key, CHARACTER_ENCODING));
+			urlstr.append(URLEncoder.encode(key, UTF_8.name()));
 		} catch (UnsupportedEncodingException e) {
 			throw new RuntimeException(JGitText.get().couldNotURLEncodeToUTF8, e);
 		}
