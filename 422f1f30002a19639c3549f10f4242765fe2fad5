@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d5f00d00_d96a1d4e",
+        "filename": "org.eclipse.jgit/BUILD",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-09-29T04:37:32Z",
+      "side": 1,
+      "message": "nit: extra comma",
+      "range": {
+        "startLine": 22,
+        "startChar": 40,
+        "endLine": 22,
+        "endChar": 41
+      },
+      "revId": "422f1f30002a19639c3549f10f4242765fe2fad5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
