@@ -42,6 +42,7 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -189,7 +190,8 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 
 		String commit = "d3148f9410b071edd4a4c85d2a43d1fa2574b0d2";
 		try (PrintWriter writer = new PrintWriter(
-				new File(repository.getDirectory(), Constants.SHALLOW))) {
+				new File(repository.getDirectory(), Constants.SHALLOW),
+				UTF_8.name())) {
 			writer.println(commit);
 		}
 		Set<ObjectId> shallowCommits = dir.getShallowCommits();
@@ -205,7 +207,8 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 
 		String commit = "X3148f9410b071edd4a4c85d2a43d1fa2574b0d2";
 		try (PrintWriter writer = new PrintWriter(
-				new File(repository.getDirectory(), Constants.SHALLOW))) {
+				new File(repository.getDirectory(), Constants.SHALLOW),
+				UTF_8.name())) {
 			writer.println(commit);
 		}
 

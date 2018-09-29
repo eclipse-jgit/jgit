@@ -121,7 +121,7 @@ public class CommitAndLogCommandTest extends RepositoryTestCase {
 			// create first file
 			File file = new File(db.getWorkTree(), "a.txt");
 			FileUtils.createNewFile(file);
-			try (PrintWriter writer = new PrintWriter(file)) {
+			try (PrintWriter writer = new PrintWriter(file, UTF_8.name())) {
 				writer.print("content1");
 			}
 
@@ -132,7 +132,7 @@ public class CommitAndLogCommandTest extends RepositoryTestCase {
 			// create second file
 			file = new File(db.getWorkTree(), "b.txt");
 			FileUtils.createNewFile(file);
-			try (PrintWriter writer = new PrintWriter(file)) {
+			try (PrintWriter writer = new PrintWriter(file, UTF_8.name())) {
 				writer.print("content2");
 			}
 
@@ -232,7 +232,7 @@ public class CommitAndLogCommandTest extends RepositoryTestCase {
 			JGitInternalException, GitAPIException {
 		File file = new File(db.getWorkTree(), "a.txt");
 		FileUtils.createNewFile(file);
-		try (PrintWriter writer = new PrintWriter(file)) {
+		try (PrintWriter writer = new PrintWriter(file, UTF_8.name())) {
 			writer.print("content");
 		}
 
@@ -243,7 +243,7 @@ public class CommitAndLogCommandTest extends RepositoryTestCase {
 			assertEquals("6b584e8ece562ebffc15d38808cd6b98fc3d97ea",
 					tw.getObjectId(0).getName());
 
-			try (PrintWriter writer = new PrintWriter(file)) {
+			try (PrintWriter writer = new PrintWriter(file, UTF_8.name())) {
 				writer.print("content2");
 			}
 			commit = git.commit().setMessage("second commit").call();
@@ -266,7 +266,7 @@ public class CommitAndLogCommandTest extends RepositoryTestCase {
 			// create file
 			File file = new File(db.getWorkTree(), "a.txt");
 			FileUtils.createNewFile(file);
-			try (PrintWriter writer = new PrintWriter(file)) {
+			try (PrintWriter writer = new PrintWriter(file, UTF_8.name())) {
 				writer.print("content1");
 			}
 

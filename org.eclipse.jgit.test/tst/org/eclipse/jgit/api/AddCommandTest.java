@@ -43,6 +43,7 @@
  */
 package org.eclipse.jgit.api;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.util.FileUtils.RECURSIVE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -118,7 +119,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	public void testAddExistingSingleFile() throws IOException, GitAPIException {
 		File file = new File(db.getWorkTree(), "a.txt");
 		FileUtils.createNewFile(file);
-		try (PrintWriter writer = new PrintWriter(file)) {
+		try (PrintWriter writer = new PrintWriter(file, UTF_8.name())) {
 			writer.print("content");
 		}
 
@@ -489,7 +490,7 @@ public class AddCommandTest extends RepositoryTestCase {
 			GitAPIException {
 		File file = new File(db.getWorkTree(), "a.txt");
 		FileUtils.createNewFile(file);
-		try (PrintWriter writer = new PrintWriter(file)) {
+		try (PrintWriter writer = new PrintWriter(file, UTF_8.name())) {
 			writer.print("row1\r\nrow2");
 		}
 
@@ -519,7 +520,7 @@ public class AddCommandTest extends RepositoryTestCase {
 			data.append("row1\r\nrow2");
 		}
 		String crData = data.toString();
-		try (PrintWriter writer = new PrintWriter(file)) {
+		try (PrintWriter writer = new PrintWriter(file, UTF_8.name())) {
 			writer.print(crData);
 		}
 		String lfData = data.toString().replaceAll("\r", "");
@@ -544,7 +545,7 @@ public class AddCommandTest extends RepositoryTestCase {
 			GitAPIException {
 		File file = new File(db.getWorkTree(), "a.txt");
 		FileUtils.createNewFile(file);
-		try (PrintWriter writer = new PrintWriter(file)) {
+		try (PrintWriter writer = new PrintWriter(file, UTF_8.name())) {
 			writer.print("row1\r\nrow2\u0000");
 		}
 
@@ -570,7 +571,7 @@ public class AddCommandTest extends RepositoryTestCase {
 		FileUtils.mkdir(new File(db.getWorkTree(), "sub"));
 		File file = new File(db.getWorkTree(), "sub/a.txt");
 		FileUtils.createNewFile(file);
-		try (PrintWriter writer = new PrintWriter(file)) {
+		try (PrintWriter writer = new PrintWriter(file, UTF_8.name())) {
 			writer.print("content");
 		}
 
@@ -588,7 +589,7 @@ public class AddCommandTest extends RepositoryTestCase {
 			GitAPIException {
 		File file = new File(db.getWorkTree(), "a.txt");
 		FileUtils.createNewFile(file);
-		try (PrintWriter writer = new PrintWriter(file)) {
+		try (PrintWriter writer = new PrintWriter(file, UTF_8.name())) {
 			writer.print("content");
 		}
 
@@ -597,7 +598,7 @@ public class AddCommandTest extends RepositoryTestCase {
 
 			dc.getEntry(0).getObjectId();
 
-			try (PrintWriter writer = new PrintWriter(file)) {
+			try (PrintWriter writer = new PrintWriter(file, UTF_8.name())) {
 				writer.print("other content");
 			}
 
@@ -613,7 +614,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	public void testAddExistingSingleFileTwiceWithCommit() throws Exception {
 		File file = new File(db.getWorkTree(), "a.txt");
 		FileUtils.createNewFile(file);
-		try (PrintWriter writer = new PrintWriter(file)) {
+		try (PrintWriter writer = new PrintWriter(file, UTF_8.name())) {
 			writer.print("content");
 		}
 
@@ -624,7 +625,7 @@ public class AddCommandTest extends RepositoryTestCase {
 
 			git.commit().setMessage("commit a.txt").call();
 
-			try (PrintWriter writer = new PrintWriter(file)) {
+			try (PrintWriter writer = new PrintWriter(file, UTF_8.name())) {
 				writer.print("other content");
 			}
 
@@ -640,7 +641,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	public void testAddRemovedFile() throws Exception {
 		File file = new File(db.getWorkTree(), "a.txt");
 		FileUtils.createNewFile(file);
-		try (PrintWriter writer = new PrintWriter(file)) {
+		try (PrintWriter writer = new PrintWriter(file, UTF_8.name())) {
 			writer.print("content");
 		}
 
@@ -663,7 +664,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	public void testAddRemovedCommittedFile() throws Exception {
 		File file = new File(db.getWorkTree(), "a.txt");
 		FileUtils.createNewFile(file);
-		try (PrintWriter writer = new PrintWriter(file)) {
+		try (PrintWriter writer = new PrintWriter(file, UTF_8.name())) {
 			writer.print("content");
 		}
 
@@ -690,13 +691,13 @@ public class AddCommandTest extends RepositoryTestCase {
 
 		File file = new File(db.getWorkTree(), "a.txt");
 		FileUtils.createNewFile(file);
-		try (PrintWriter writer = new PrintWriter(file)) {
+		try (PrintWriter writer = new PrintWriter(file, UTF_8.name())) {
 			writer.print("content");
 		}
 
 		File file2 = new File(db.getWorkTree(), "b.txt");
 		FileUtils.createNewFile(file2);
-		try (PrintWriter writer = new PrintWriter(file2)) {
+		try (PrintWriter writer = new PrintWriter(file2, UTF_8.name())) {
 			writer.print("content b");
 		}
 
@@ -707,12 +708,12 @@ public class AddCommandTest extends RepositoryTestCase {
 		addEntryToBuilder("b.txt", file2, newObjectInserter, builder, 0);
 		addEntryToBuilder("a.txt", file, newObjectInserter, builder, 1);
 
-		try (PrintWriter writer = new PrintWriter(file)) {
+		try (PrintWriter writer = new PrintWriter(file, UTF_8.name())) {
 			writer.print("other content");
 		}
 		addEntryToBuilder("a.txt", file, newObjectInserter, builder, 3);
 
-		try (PrintWriter writer = new PrintWriter(file)) {
+		try (PrintWriter writer = new PrintWriter(file, UTF_8.name())) {
 			writer.print("our content");
 		}
 		addEntryToBuilder("a.txt", file, newObjectInserter, builder, 2)
@@ -743,13 +744,13 @@ public class AddCommandTest extends RepositoryTestCase {
 	public void testAddTwoFiles() throws Exception  {
 		File file = new File(db.getWorkTree(), "a.txt");
 		FileUtils.createNewFile(file);
-		try (PrintWriter writer = new PrintWriter(file)) {
+		try (PrintWriter writer = new PrintWriter(file, UTF_8.name())) {
 			writer.print("content");
 		}
 
 		File file2 = new File(db.getWorkTree(), "b.txt");
 		FileUtils.createNewFile(file2);
-		try (PrintWriter writer = new PrintWriter(file2)) {
+		try (PrintWriter writer = new PrintWriter(file2, UTF_8.name())) {
 			writer.print("content b");
 		}
 
@@ -767,13 +768,13 @@ public class AddCommandTest extends RepositoryTestCase {
 		FileUtils.mkdir(new File(db.getWorkTree(), "sub"));
 		File file = new File(db.getWorkTree(), "sub/a.txt");
 		FileUtils.createNewFile(file);
-		try (PrintWriter writer = new PrintWriter(file)) {
+		try (PrintWriter writer = new PrintWriter(file, UTF_8.name())) {
 			writer.print("content");
 		}
 
 		File file2 = new File(db.getWorkTree(), "sub/b.txt");
 		FileUtils.createNewFile(file2);
-		try (PrintWriter writer = new PrintWriter(file2)) {
+		try (PrintWriter writer = new PrintWriter(file2, UTF_8.name())) {
 			writer.print("content b");
 		}
 
@@ -791,19 +792,19 @@ public class AddCommandTest extends RepositoryTestCase {
 		FileUtils.mkdir(new File(db.getWorkTree(), "sub"));
 		File file = new File(db.getWorkTree(), "sub/a.txt");
 		FileUtils.createNewFile(file);
-		try (PrintWriter writer = new PrintWriter(file)) {
+		try (PrintWriter writer = new PrintWriter(file, UTF_8.name())) {
 			writer.print("content");
 		}
 
 		File ignoreFile = new File(db.getWorkTree(), ".gitignore");
 		FileUtils.createNewFile(ignoreFile);
-		try (PrintWriter writer = new PrintWriter(ignoreFile)) {
+		try (PrintWriter writer = new PrintWriter(ignoreFile, UTF_8.name())) {
 			writer.print("sub/b.txt");
 		}
 
 		File file2 = new File(db.getWorkTree(), "sub/b.txt");
 		FileUtils.createNewFile(file2);
-		try (PrintWriter writer = new PrintWriter(file2)) {
+		try (PrintWriter writer = new PrintWriter(file2, UTF_8.name())) {
 			writer.print("content b");
 		}
 
@@ -821,13 +822,13 @@ public class AddCommandTest extends RepositoryTestCase {
 		FileUtils.mkdir(new File(db.getWorkTree(), "sub"));
 		File file = new File(db.getWorkTree(), "sub/a.txt");
 		FileUtils.createNewFile(file);
-		try (PrintWriter writer = new PrintWriter(file)) {
+		try (PrintWriter writer = new PrintWriter(file, UTF_8.name())) {
 			writer.print("content");
 		}
 
 		File file2 = new File(db.getWorkTree(), "sub/b.txt");
 		FileUtils.createNewFile(file2);
-		try (PrintWriter writer = new PrintWriter(file2)) {
+		try (PrintWriter writer = new PrintWriter(file2, UTF_8.name())) {
 			writer.print("content b");
 		}
 
@@ -849,13 +850,13 @@ public class AddCommandTest extends RepositoryTestCase {
 		FileUtils.mkdir(new File(db.getWorkTree(), "sub"));
 		File file = new File(db.getWorkTree(), "sub/a.txt");
 		FileUtils.createNewFile(file);
-		try (PrintWriter writer = new PrintWriter(file)) {
+		try (PrintWriter writer = new PrintWriter(file, UTF_8.name())) {
 			writer.print("content");
 		}
 
 		File file2 = new File(db.getWorkTree(), "sub/b.txt");
 		FileUtils.createNewFile(file2);
-		try (PrintWriter writer = new PrintWriter(file2)) {
+		try (PrintWriter writer = new PrintWriter(file2, UTF_8.name())) {
 			writer.print("content b");
 		}
 
@@ -872,12 +873,12 @@ public class AddCommandTest extends RepositoryTestCase {
 			// new unstaged file sub/c.txt
 			File file3 = new File(db.getWorkTree(), "sub/c.txt");
 			FileUtils.createNewFile(file3);
-			try (PrintWriter writer = new PrintWriter(file3)) {
+			try (PrintWriter writer = new PrintWriter(file3, UTF_8.name())) {
 				writer.print("content c");
 			}
 
 			// file sub/a.txt is modified
-			try (PrintWriter writer = new PrintWriter(file)) {
+			try (PrintWriter writer = new PrintWriter(file, UTF_8.name())) {
 				writer.print("modified content");
 			}
 
@@ -904,13 +905,13 @@ public class AddCommandTest extends RepositoryTestCase {
 		FileUtils.mkdir(new File(db.getWorkTree(), "sub"));
 		File file = new File(db.getWorkTree(), "sub/a.txt");
 		FileUtils.createNewFile(file);
-		try (PrintWriter writer = new PrintWriter(file)) {
+		try (PrintWriter writer = new PrintWriter(file, UTF_8.name())) {
 			writer.print("content");
 		}
 
 		File file2 = new File(db.getWorkTree(), "sub/b.txt");
 		FileUtils.createNewFile(file2);
-		try (PrintWriter writer = new PrintWriter(file2)) {
+		try (PrintWriter writer = new PrintWriter(file2, UTF_8.name())) {
 			writer.print("content b");
 		}
 
@@ -927,12 +928,12 @@ public class AddCommandTest extends RepositoryTestCase {
 			// new unstaged file sub/c.txt
 			File file3 = new File(db.getWorkTree(), "sub/c.txt");
 			FileUtils.createNewFile(file3);
-			try (PrintWriter writer = new PrintWriter(file3)) {
+			try (PrintWriter writer = new PrintWriter(file3, UTF_8.name())) {
 				writer.print("content c");
 			}
 
 			// file sub/a.txt is modified
-			try (PrintWriter writer = new PrintWriter(file)) {
+			try (PrintWriter writer = new PrintWriter(file, UTF_8.name())) {
 				writer.print("modified content");
 			}
 

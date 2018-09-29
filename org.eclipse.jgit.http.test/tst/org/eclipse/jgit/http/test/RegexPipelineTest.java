@@ -47,8 +47,10 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URI;
@@ -83,7 +85,8 @@ public class RegexPipelineTest extends HttpTestCase {
 		protected void doGet(HttpServletRequest req, HttpServletResponse res)
 				throws IOException {
 			res.setStatus(200);
-			PrintWriter out = new PrintWriter(res.getOutputStream());
+			PrintWriter out = new PrintWriter(new BufferedWriter(
+					new OutputStreamWriter(res.getOutputStream(), UTF_8)));
 			out.write(name);
 			out.write("\n");
 			out.write(String.valueOf(req.getServletPath()));
