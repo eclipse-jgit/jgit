@@ -46,10 +46,10 @@
  */
 package org.eclipse.jgit.merge;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.diff.DiffAlgorithm.SupportedAlgorithm.HISTOGRAM;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_DIFF_SECTION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_ALGORITHM;
-import static org.eclipse.jgit.lib.Constants.CHARACTER_ENCODING;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import java.io.BufferedOutputStream;
@@ -1026,7 +1026,7 @@ public class ResolveMerger extends ThreeWayMerger {
 				db != null ? nonNullRepo().getDirectory() : null, inCoreLimit);
 		try {
 			new MergeFormatter().formatMerge(buf, result,
-					Arrays.asList(commitNames), CHARACTER_ENCODING);
+					Arrays.asList(commitNames), UTF_8);
 			buf.close();
 		} catch (IOException e) {
 			buf.destroy();

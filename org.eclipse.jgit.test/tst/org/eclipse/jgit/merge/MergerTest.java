@@ -972,7 +972,7 @@ public class MergerTest extends RepositoryTestCase {
 			merger.getMergeResults().get("file");
 			try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
 				fmt.formatMerge(out, merger.getMergeResults().get("file"),
-						"BASE", "OURS", "THEIRS", UTF_8.name());
+						"BASE", "OURS", "THEIRS", UTF_8);
 				String expected = "<<<<<<< OURS\n"
 						+ "1master\n"
 						+ "=======\n"
