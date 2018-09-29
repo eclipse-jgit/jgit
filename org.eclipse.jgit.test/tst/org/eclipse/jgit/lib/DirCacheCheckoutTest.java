@@ -929,6 +929,7 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 						"e/g3"));
 		try {
 			checkout();
+			fail("did not throw CheckoutConflictException");
 		} catch (CheckoutConflictException e) {
 			assertWorkDir(mkmap("a", "a", "b/c", "b/c", "d", "d", "e/f",
 					"e/f", "e/g", "e/g3"));
