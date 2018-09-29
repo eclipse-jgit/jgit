@@ -43,6 +43,8 @@
  */
 package org.eclipse.jgit.api;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -1015,8 +1017,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			df.setRepository(repo);
 			df.format(commitToPick.getParent(0), commitToPick);
 		}
-		rebaseState.createFile(PATCH, new String(bos.toByteArray(),
-				Constants.CHARACTER_ENCODING));
+		rebaseState.createFile(PATCH, new String(bos.toByteArray(), UTF_8));
 		rebaseState.createFile(STOPPED_SHA,
 				repo.newObjectReader()
 				.abbreviate(
@@ -1733,7 +1734,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 				throws IOException {
 			File file = new File(parentDir, name);
 			try (FileOutputStream fos = new FileOutputStream(file)) {
-				fos.write(content.getBytes(Constants.CHARACTER_ENCODING));
+				fos.write(content.getBytes(UTF_8));
 				fos.write('\n');
 			}
 		}
@@ -1741,7 +1742,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		private static void appendToFile(File file, String content)
 				throws IOException {
 			try (FileOutputStream fos = new FileOutputStream(file, true)) {
-				fos.write(content.getBytes(Constants.CHARACTER_ENCODING));
+				fos.write(content.getBytes(UTF_8));
 				fos.write('\n');
 			}
 		}

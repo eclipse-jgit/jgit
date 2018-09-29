@@ -43,6 +43,8 @@
 
 package org.eclipse.jgit.util;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.Closeable;
@@ -1172,7 +1174,7 @@ public abstract class FS {
 			OutputStream outRedirect, OutputStream errRedirect, String stdinArgs)
 			throws IOException, InterruptedException {
 		InputStream in = (stdinArgs == null) ? null : new ByteArrayInputStream(
-				stdinArgs.getBytes(Constants.CHARACTER_ENCODING));
+						stdinArgs.getBytes(UTF_8));
 		return runProcess(processBuilder, outRedirect, errRedirect, in);
 	}
 

@@ -42,6 +42,7 @@
  */
 package org.eclipse.jgit.lib;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
@@ -72,7 +73,9 @@ public class MergeHeadMsgTest extends RepositoryTestCase {
 		// same test again, this time with lower-level io
 		try (FileOutputStream fos = new FileOutputStream(
 				new File(db.getDirectory(), "MERGE_HEAD"));) {
-			fos.write("0000000000000000000000000000000000000000\n1c6db447abdbb291b25f07be38ea0b1bf94947c5\n".getBytes(Constants.CHARACTER_ENCODING));
+			fos.write(
+					"0000000000000000000000000000000000000000\n1c6db447abdbb291b25f07be38ea0b1bf94947c5\n"
+							.getBytes(UTF_8));
 		}
 		assertEquals(db.readMergeHeads().size(), 2);
 		assertEquals(db.readMergeHeads().get(0), ObjectId.zeroId());
@@ -82,7 +85,7 @@ public class MergeHeadMsgTest extends RepositoryTestCase {
 		assertEquals(db.readMergeHeads(), null);
 		try (FileOutputStream fos = new FileOutputStream(
 				new File(db.getDirectory(), "MERGE_HEAD"))) {
-			fos.write(sampleId.getBytes(Constants.CHARACTER_ENCODING));
+			fos.write(sampleId.getBytes(UTF_8));
 		}
 		assertEquals(db.readMergeHeads().size(), 1);
 		assertEquals(db.readMergeHeads().get(0), ObjectId.fromString(sampleId));
@@ -100,7 +103,7 @@ public class MergeHeadMsgTest extends RepositoryTestCase {
 		assertFalse(new File(db.getDirectory(), "MERGE_MSG").exists());
 		try (FileOutputStream fos = new FileOutputStream(
 				new File(db.getDirectory(), Constants.MERGE_MSG))) {
-			fos.write(mergeMsg.getBytes(Constants.CHARACTER_ENCODING));
+			fos.write(mergeMsg.getBytes(UTF_8));
 		}
 		assertEquals(db.readMergeCommitMsg(), mergeMsg);
 	}

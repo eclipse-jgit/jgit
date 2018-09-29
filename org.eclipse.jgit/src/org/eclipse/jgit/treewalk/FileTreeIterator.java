@@ -46,6 +46,8 @@
 
 package org.eclipse.jgit.treewalk;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -412,7 +414,7 @@ public class FileTreeIterator extends WorkingTreeIterator {
 		public InputStream openInputStream() throws IOException {
 			if (attributes.isSymbolicLink()) {
 				return new ByteArrayInputStream(fs.readSymLink(getFile())
-						.getBytes(Constants.CHARACTER_ENCODING));
+						.getBytes(UTF_8));
 			} else {
 				return new FileInputStream(getFile());
 			}
