@@ -236,7 +236,7 @@ public class SideBandInputStream extends InputStream {
 
 		messages.write(msg);
 		if (out != null)
-			out.write(msg.getBytes());
+			out.write(msg.getBytes(UTF_8));
 	}
 
 	private void beginTask(int totalWorkUnits) {
