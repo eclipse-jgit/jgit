@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.transport;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
@@ -50,7 +51,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import org.eclipse.jgit.lib.Constants;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -173,8 +173,8 @@ public class PacketLineOutTest {
 		assertEquals(1, flushCnt[0]);
 	}
 
-	private void assertBuffer(String exp) throws IOException {
+	private void assertBuffer(String exp) {
 		assertEquals(exp, new String(rawOut.toByteArray(),
-				Constants.CHARACTER_ENCODING));
+				UTF_8));
 	}
 }

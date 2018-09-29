@@ -42,7 +42,7 @@
  */
 package org.eclipse.jgit.archive;
 
-import static org.eclipse.jgit.lib.Constants.CHARACTER_ENCODING;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -85,7 +85,7 @@ public final class TarFormat extends BaseFormat implements
 	public ArchiveOutputStream createArchiveOutputStream(OutputStream s,
 			Map<String, Object> o) throws IOException {
 		TarArchiveOutputStream out = new TarArchiveOutputStream(s,
-				CHARACTER_ENCODING);
+				UTF_8.name());
 		out.setLongFileMode(TarArchiveOutputStream.LONGFILE_POSIX);
 		out.setBigNumberMode(TarArchiveOutputStream.BIGNUMBER_POSIX);
 		return applyFormatOptions(out, o);
@@ -99,8 +99,7 @@ public final class TarFormat extends BaseFormat implements
 		if (mode == FileMode.SYMLINK) {
 			final TarArchiveEntry entry = new TarArchiveEntry(
 					path, TarConstants.LF_SYMLINK);
-			entry.setLinkName(new String(
-					loader.getCachedBytes(100), CHARACTER_ENCODING));
+			entry.setLinkName(new String(loader.getCachedBytes(100), UTF_8));
 			out.putArchiveEntry(entry);
 			out.closeArchiveEntry();
 			return;
