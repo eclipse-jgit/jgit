@@ -46,6 +46,10 @@ def tests(tests):
         if src.endswith("HugeCommitMessageTest.java"):
             heap_size = "-Xmx512m"
 
+        flags = [heap_size, "-Dfile.encoding=UTF-8",]
+        if src.endswith ("GitDateFormatterTest.java"):
+            flags.append("-Duser.timezone=ET")
+
         junit_tests(
             name = name,
             tags = labels,
@@ -61,5 +65,5 @@ def tests(tests):
                 "//org.eclipse.jgit.lfs:jgit-lfs",
             ],
             flaky = flaky,
-            jvm_flags = [heap_size, "-Dfile.encoding=UTF-8"],
+            jvm_flags = flags,
         )
