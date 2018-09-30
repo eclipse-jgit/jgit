@@ -46,6 +46,30 @@
       "revId": "dc83718dcb2bc95b383622cf1b38add16ece2521",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47acab73_de0d33d1",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/TextBuiltin.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-09-30T07:57:52Z",
+      "side": 1,
+      "message": "you are right\n\nmaybe factor this out into another method\n\n private Charset getOutputEncoding(Repository repository) {\n\tif (repository !\u003d null) {\n\t\tString encoding \u003d repository.getConfig().getString(\"i18n\", null, //$NON-NLS-1$\n\t\t\t\t\"logOutputEncoding\");//$NON-NLS-1$\n\t\tif (encoding !\u003d null) {\n\t\t\ttry {\n\t\t\t\treturn Charset.forName(encoding);\n\t\t\t} catch (IllegalArgumentException e) {\n\t\t\t\tthrow die(CLIText.get().cannotCreateOutputStream);\n\t\t\t}\n\t\t}\n\t}\n\treturn UTF_8;\n }\n\ndeclare constants for \"i18n\" and \"logOutputEncoding\" in ConfigConstants ?",
+      "parentUuid": "0c5648c2_d55f1fcf",
+      "range": {
+        "startLine": 184,
+        "startChar": 44,
+        "endLine": 184,
+        "endChar": 53
+      },
+      "revId": "dc83718dcb2bc95b383622cf1b38add16ece2521",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
