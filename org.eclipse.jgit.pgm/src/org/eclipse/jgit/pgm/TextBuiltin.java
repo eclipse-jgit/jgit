@@ -172,6 +172,30 @@ public abstract class TextBuiltin {
 	}
 
 	/**
+	 * Get the log output encoding specified in the repository's
+	 * {@code i18n.logOutputEncoding} configuration.
+	 *
+	 * @param repository
+	 *            the repository.
+	 * @return Charset corresponding to {@code i18n.logOutputEncoding}, or
+	 *         {@code UTF_8}.
+	 */
+	private Charset getLogOutputEncodingCharset(Repository repository) {
+		if (repository != null) {
+			String logOutputEncoding = repository.getConfig().getString(
+					CONFIG_SECTION_I18N, null, CONFIG_KEY_LOG_OUTPUT_ENCODING);
+			if (logOutputEncoding != null) {
+				try {
+					return Charset.forName(logOutputEncoding);
+				} catch (IllegalArgumentException e) {
+					throw die(CLIText.get().cannotCreateOutputStream);
+				}
+			}
+		}
+		return UTF_8;
+	}
+
+	/**
 	 * Initialize the command to work with a repository.
 	 *
 	 * @param repository
@@ -181,20 +205,7 @@ public abstract class TextBuiltin {
 	 *            {@code repository} is null.
 	 */
 	protected void init(Repository repository, String gitDir) {
-		Charset charset = UTF_8;
-		if (repository != null) {
-			String logOutputEncoding = repository.getConfig().getString(
-					CONFIG_SECTION_I18N,
-					null,
-					CONFIG_KEY_LOG_OUTPUT_ENCODING);
-			if (logOutputEncoding != null) {
-				try {
-					charset = Charset.forName(logOutputEncoding);
-				} catch (IllegalArgumentException e) {
-					throw die(CLIText.get().cannotCreateOutputStream);
-				}
-			}
-		}
+		Charset charset = getLogOutputEncodingCharset(repository);
 
 		if (ins == null)
 			ins = new FileInputStream(FileDescriptor.in);
