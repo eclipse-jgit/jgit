@@ -22,6 +22,30 @@
       "revId": "0f4599fe6396aa14ecd9e82dda85a852833dc09f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b031152_1712b013",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/TestProtocolTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-09-30T05:34:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e7de87b_cbc6a263",
+      "range": {
+        "startLine": 242,
+        "startChar": 19,
+        "endLine": 242,
+        "endChar": 33
+      },
+      "revId": "0f4599fe6396aa14ecd9e82dda85a852833dc09f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
