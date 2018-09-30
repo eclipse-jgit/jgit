@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "17522ff0_47a9ecde",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AddCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-09-30T08:17:51Z",
+      "side": 1,
+      "message": "Java 10 adds PrintWriter​(File file, Charset charset) though we still support Java 8",
+      "revId": "a97e79d95d2ae6952f340e649b38000100852a4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
