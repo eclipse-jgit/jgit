@@ -45,6 +45,8 @@
 package org.eclipse.jgit.pgm;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_SECTION_I18N;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_LOG_OUTPUT_ENCODING;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.eclipse.jgit.lib.Constants.R_REMOTES;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
@@ -181,9 +183,10 @@ public abstract class TextBuiltin {
 	protected void init(Repository repository, String gitDir) {
 		Charset charset = UTF_8;
 		if (repository != null) {
-			String logOutputEncoding = repository.getConfig().getString("i18n", //$NON-NLS-1$
+			String logOutputEncoding = repository.getConfig().getString(
+					CONFIG_SECTION_I18N,
 					null,
-					"logOutputEncoding");//$NON-NLS-1$
+					CONFIG_KEY_LOG_OUTPUT_ENCODING);
 			if (logOutputEncoding != null) {
 				try {
 					charset = Charset.forName(logOutputEncoding);

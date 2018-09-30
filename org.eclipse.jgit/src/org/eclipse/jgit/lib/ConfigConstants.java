@@ -432,4 +432,18 @@ public final class ConfigConstants {
 	 * @since 4.11
 	 */
 	public static final String CONFIG_SECTION_LFS = "lfs";
+
+	/**
+	 * The "i18n" section
+	 *
+	 * @since 5.2
+	 */
+	public static final String CONFIG_SECTION_I18N = "i18n";
+
+	/**
+	 * The "logOutputEncoding" key
+	 *
+	 * @since 5.2
+	 */
+	public static final String CONFIG_KEY_LOG_OUTPUT_ENCODING = "logOutputEncoding";
 }
