@@ -70,6 +70,30 @@
       "revId": "dc83718dcb2bc95b383622cf1b38add16ece2521",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "651534bf_b46babd7",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/TextBuiltin.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-09-30T08:04:40Z",
+      "side": 1,
+      "message": "I\u0027ll do these improvements in follow-up-commits.",
+      "parentUuid": "47acab73_de0d33d1",
+      "range": {
+        "startLine": 184,
+        "startChar": 44,
+        "endLine": 184,
+        "endChar": 53
+      },
+      "revId": "dc83718dcb2bc95b383622cf1b38add16ece2521",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
