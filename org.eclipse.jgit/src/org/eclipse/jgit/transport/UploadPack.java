@@ -1135,6 +1135,23 @@ public class UploadPack {
 		return ids;
 	}
 
+	private void emitShallowOrUnshallow(RevCommit c, boolean isBoundary, 
+			IOConsumer<ObjectId> shallowFunc,
+			IOConsumer<ObjectId> unshallowFunc) throws IOException {
+
+		// Commits at the boundary which aren't already shallow in
+		// the client need to be marked as such
+		if (isBoundary && !clientShallowCommits.contains(c)) {
+			shallowFunc.accept(c.copy());
+		}
+
+		// Commits not on the boundary which are shallow in the client
+		// need to become unshallowed
+		if (!isBoundary && clientShallowCommits.remove(c)) {
+			unshallowFunc.accept(c.copy());
+		}
+	}
+
 	/*
 	 * Determines what object ids must be marked as shallow or unshallow for the
 	 * client.
@@ -1171,18 +1188,7 @@ public class UploadPack {
 				atLeastOne = true;
 
 				boolean isBoundary = (c.getDepth() == walkDepth) || c.isBoundary();
-
-				// Commits at the boundary which aren't already shallow in
-				// the client need to be marked as such
-				if (isBoundary && !clientShallowCommits.contains(c)) {
-					shallowFunc.accept(c.copy());
-				}
-
-				// Commits not on the boundary which are shallow in the client
-				// need to become unshallowed
-				if (!isBoundary && clientShallowCommits.remove(c)) {
-					unshallowFunc.accept(c.copy());
-				}
+				emitShallowOrUnshallow(c, isBoundary, shallowFunc, unshallowFunc);
 			}
 			if (!atLeastOne) {
 				throw new PackProtocolException(
