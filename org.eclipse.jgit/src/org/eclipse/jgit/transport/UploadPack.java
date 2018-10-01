@@ -849,7 +849,7 @@ public class UploadPack {
 				}, unshallow -> {
 					pckOut.writeString("unshallow " + unshallow.name() + '\n'); //$NON-NLS-1$
 					unshallowCommits.add(unshallow);
-				});
+				}, Collections.emptyList());
 				pckOut.end();
 			}
 
@@ -906,7 +906,7 @@ public class UploadPack {
 
 		if (sendPack) {
 			sendPack(accumulator, req, refs == null ? null : refs.values(),
-					unshallowCommits);
+					unshallowCommits, Collections.emptyList());
 		}
 	}
 
@@ -964,6 +964,16 @@ public class UploadPack {
 		// copying data back to class fields
 		wantIds = req.getWantIds();
 
+		List<ObjectId> deepenNots = new ArrayList<>();
+		for (String s : req.getDeepenNotRefs()) {
+			Ref ref = db.getRefDatabase().getRef(s);
+			if (ref == null) {
+				throw new PackProtocolException(MessageFormat
+						.format(JGitText.get().invalidRefName, s));
+			}
+			deepenNots.add(ref.getObjectId());
+		}
+
 		boolean sectionSent = false;
 		boolean mayHaveShallow = req.getDepth() != 0
 				|| req.getDeepenSince() != 0
@@ -977,7 +987,8 @@ public class UploadPack {
 		if (mayHaveShallow) {
 			computeShallowsAndUnshallows(req,
 					shallowCommit -> shallowCommits.add(shallowCommit),
-					unshallowCommit -> unshallowCommits.add(unshallowCommit));
+					unshallowCommit -> unshallowCommits.add(unshallowCommit),
+					deepenNots);
 		}
 		if (!req.getClientShallowCommits().isEmpty())
 			walk.assumeShallow(req.getClientShallowCommits());
@@ -1037,7 +1048,7 @@ public class UploadPack {
 					req.getClientCapabilities().contains(OPTION_INCLUDE_TAG)
 						? db.getRefDatabase().getRefsByPrefix(R_TAGS)
 						: null,
-					unshallowCommits);
+					unshallowCommits, deepenNots);
 			// sendPack invokes pckOut.end() for us, so we do not
 			// need to invoke it here.
 		} else {
@@ -1142,12 +1153,11 @@ public class UploadPack {
 	 */
 	private void computeShallowsAndUnshallows(FetchRequest req,
 			IOConsumer<ObjectId> shallowFunc,
-			IOConsumer<ObjectId> unshallowFunc)
+			IOConsumer<ObjectId> unshallowFunc,
+			List<ObjectId> deepenNots)
 			throws IOException {
-		if (req.getClientCapabilities().contains(OPTION_DEEPEN_RELATIVE)
-				|| !req.getDeepenNotRefs().isEmpty()) {
+		if (req.getClientCapabilities().contains(OPTION_DEEPEN_RELATIVE)) {
 			// TODO(jonathantanmy): Implement deepen-relative
-			// and deepen-not.
 			throw new UnsupportedOperationException();
 		}
 
@@ -1166,6 +1176,8 @@ public class UploadPack {
 					// Ignore non-commits in this loop.
 				}
 			}
+
+			depthWalk.setDeepenNots(deepenNots);
 
 			RevCommit o;
 			boolean atLeastOne = false;
@@ -1793,19 +1805,23 @@ public class UploadPack {
 	 *            the {@link #OPTION_INCLUDE_TAG} capability was requested.
 	 * @param unshallowCommits
 	 *            shallow commits on the client that are now becoming unshallow
+	 * @param deepenNots
+	 *            objects that the client specified using --shallow-exclude
 	 * @throws IOException
 	 *             if an error occured while generating or writing the pack.
 	 */
 	private void sendPack(PackStatistics.Accumulator accumulator,
 			FetchRequest req,
 			@Nullable Collection<Ref> allTags,
-			List<ObjectId> unshallowCommits) throws IOException {
+			List<ObjectId> unshallowCommits,
+			List<ObjectId> deepenNots) throws IOException {
 		Set<String> caps = req.getClientCapabilities();
 		boolean sideband = caps.contains(OPTION_SIDE_BAND)
 				|| caps.contains(OPTION_SIDE_BAND_64K);
 		if (sideband) {
 			try {
-				sendPack(true, req, accumulator, allTags, unshallowCommits);
+				sendPack(true, req, accumulator, allTags, unshallowCommits,
+						deepenNots);
 			} catch (ServiceMayNotContinueException noPack) {
 				// This was already reported on (below).
 				throw noPack;
@@ -1826,7 +1842,7 @@ public class UploadPack {
 					throw err;
 			}
 		} else {
-			sendPack(false, req, accumulator, allTags, unshallowCommits);
+			sendPack(false, req, accumulator, allTags, unshallowCommits, deepenNots);
 		}
 	}
 
@@ -1861,6 +1877,8 @@ public class UploadPack {
 	 *            the {@link #OPTION_INCLUDE_TAG} capability was requested.
 	 * @param unshallowCommits
 	 *            shallow commits on the client that are now becoming unshallow
+	 * @param deepenNots
+	 *            objects that the client specified using --shallow-exclude
 	 * @throws IOException
 	 *             if an error occured while generating or writing the pack.
 	 */
@@ -1868,7 +1886,8 @@ public class UploadPack {
 			FetchRequest req,
 			PackStatistics.Accumulator accumulator,
 			@Nullable Collection<Ref> allTags,
-			List<ObjectId> unshallowCommits) throws IOException {
+			List<ObjectId> unshallowCommits,
+			List<ObjectId> deepenNots) throws IOException {
 		ProgressMonitor pm = NullProgressMonitor.INSTANCE;
 		OutputStream packOut = rawOut;
 
@@ -1947,13 +1966,17 @@ public class UploadPack {
 			}
 
 			RevWalk rw = walk;
-			if (req.getDepth() > 0 || req.getDeepenSince() != 0) {
+			if (req.getDepth() > 0 || req.getDeepenSince() != 0 || !deepenNots.isEmpty()) {
 				int walkDepth = req.getDepth() == 0 ? Integer.MAX_VALUE
 						: req.getDepth() - 1;
 				pw.setShallowPack(req.getDepth(), unshallowCommits);
-				rw = new DepthWalk.RevWalk(walk.getObjectReader(), walkDepth);
-				((DepthWalk.RevWalk) rw).setDeepenSince(req.getDeepenSince());
-				rw.assumeShallow(req.getClientShallowCommits());
+
+				DepthWalk.RevWalk dw = new DepthWalk.RevWalk(
+						walk.getObjectReader(), walkDepth);
+				dw.setDeepenSince(req.getDeepenSince());
+				dw.setDeepenNots(deepenNots);
+				dw.assumeShallow(req.getClientShallowCommits());
+				rw = dw;
 			}
 
 			if (wantAll.isEmpty()) {

@@ -48,6 +48,7 @@ import java.io.IOException;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.lib.ObjectId;
 
 /**
  * Only produce commits which are below a specified depth.
@@ -81,6 +82,11 @@ class DepthGenerator extends Generator {
 	private final RevFlag REINTERESTING;
 
 	/**
+	 * Commits reachable from commits that the client specified using --shallow-exclude.
+	 */
+	private final RevFlag DEEPEN_NOT;
+
+	/**
 	 * @param w
 	 * @param s Parent generator
 	 * @throws MissingObjectException
@@ -96,6 +102,7 @@ class DepthGenerator extends Generator {
 		this.deepenSince = w.getDeepenSince();
 		this.UNSHALLOW = w.getUnshallowFlag();
 		this.REINTERESTING = w.getReinterestingFlag();
+		this.DEEPEN_NOT = w.getDeepenNotFlag();
 
 		s.shareFreeList(pending);
 
@@ -107,6 +114,37 @@ class DepthGenerator extends Generator {
 				break;
 			if (((DepthWalk.Commit) c).getDepth() == 0)
 				pending.add(c);
+		}
+
+		// Mark DEEPEN_NOT on all deepen-not commits and their ancestors.
+		// TODO(jonathantanmy): This implementation is somewhat
+		// inefficient in that any "deepen-not <ref>" in the request
+		// results in all commits reachable from that ref being parsed
+		// and marked, even if the commit topology is such that it is
+		// not necessary.
+		for (ObjectId oid : w.getDeepenNots()) {
+			RevCommit c;
+			try {
+				c = walk.parseCommit(oid);
+			} catch (IncorrectObjectTypeException notCommit) {
+				// The C Git implementation silently tolerates
+				// non-commits, so do the same here.
+				continue;
+			}
+
+			FIFORevQueue queue = new FIFORevQueue();
+			queue.add(c);
+			while ((c = queue.next()) != null) {
+				if (c.has(DEEPEN_NOT)) {
+					continue;
+				}
+
+				walk.parseHeaders(c);
+				c.add(DEEPEN_NOT);
+				for (RevCommit p : c.getParents()) {
+					queue.add(p);
+				}
+			}
 		}
 	}
 
@@ -139,6 +177,10 @@ class DepthGenerator extends Generator {
 				continue;
 			}
 
+			if (c.has(DEEPEN_NOT)) {
+				continue;
+			}
+
 			int newDepth = c.depth + 1;
 
 			for (RevCommit p : c.parents) {
@@ -160,9 +202,10 @@ class DepthGenerator extends Generator {
 
 					dp.depth = newDepth;
 
-					// If the parent is not too deep, add it to the queue
-					// so that we can produce it later
-					if (newDepth <= depth && !failsDeepenSince) {
+					// If the parent is not too deep and was not excluded, add
+					// it to the queue so that we can produce it later
+					if (newDepth <= depth && !failsDeepenSince &&
+							!p.has(DEEPEN_NOT)) {
 						pending.add(p);
 					} else {
 						c.isBoundary = true;
@@ -186,6 +229,10 @@ class DepthGenerator extends Generator {
 			// All other uninteresting commits should be omitted.
 			if ((c.flags & RevWalk.UNINTERESTING) != 0 && !c.has(UNSHALLOW))
 				produce = false;
+
+			if (c.getCommitTime() < deepenSince) {
+				produce = false;
+			}
 
 			if (produce)
 				return c;
