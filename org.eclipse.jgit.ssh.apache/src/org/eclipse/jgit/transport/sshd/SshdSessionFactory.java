@@ -217,6 +217,12 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 				JGitSshClient jgitClient = (JGitSshClient) client;
 				jgitClient.setKeyCache(getKeyCache());
 				jgitClient.setCredentialsProvider(credentialsProvider);
+				String defaultAuths = getDefaultPreferredAuthentications();
+				if (defaultAuths != null) {
+					jgitClient.setAttribute(
+							JGitSshClient.PREFERRED_AUTHENTICATIONS,
+							defaultAuths);
+				}
 				// Other things?
 				return client;
 			});
@@ -432,5 +438,18 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 				Arrays.asList(JGitPublicKeyAuthFactory.INSTANCE,
 						UserAuthKeyboardInteractiveFactory.INSTANCE,
 						UserAuthPasswordFactory.INSTANCE));
+	}
+
+	/**
+	 * Gets the list of default preferred authentication mechanisms. If
+	 * {@code null} is returned the openssh default list will be in effect. If
+	 * the ssh config defines {@code PreferredAuthentications} the value from
+	 * the ssh config takes precedence.
+	 *
+	 * @return a comma-separated list of algorithm names, or {@code null} if
+	 *         none
+	 */
+	protected String getDefaultPreferredAuthentications() {
+		return null;
 	}
 }
