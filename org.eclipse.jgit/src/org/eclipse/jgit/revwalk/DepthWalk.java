@@ -45,10 +45,13 @@
 package org.eclipse.jgit.revwalk;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 
@@ -70,6 +73,14 @@ public interface DepthWalk {
 	 */
 	public default int getDeepenSince() {
 		return 0;
+	}
+
+	/**
+	 * @return the objects specified by the client using --shallow-exclude
+	 * @since 5.2
+	 */
+	public default List<ObjectId> getDeepenNots() {
+		return Collections.emptyList();
 	}
 
 	/** @return flag marking commits that should become unshallow. */
@@ -126,6 +137,8 @@ public interface DepthWalk {
 
 		private int deepenSince;
 
+		private List<ObjectId> deepenNots;
+
 		private final RevFlag UNSHALLOW;
 
 		private final RevFlag REINTERESTING;
@@ -138,6 +151,7 @@ public interface DepthWalk {
 			super(repo);
 
 			this.depth = depth;
+			this.deepenNots = Collections.emptyList();
 			this.UNSHALLOW = newFlag("UNSHALLOW"); //$NON-NLS-1$
 			this.REINTERESTING = newFlag("REINTERESTING"); //$NON-NLS-1$
 		}
@@ -150,6 +164,7 @@ public interface DepthWalk {
 			super(or);
 
 			this.depth = depth;
+			this.deepenNots = Collections.emptyList();
 			this.UNSHALLOW = newFlag("UNSHALLOW"); //$NON-NLS-1$
 			this.REINTERESTING = newFlag("REINTERESTING"); //$NON-NLS-1$
 		}
@@ -197,6 +212,23 @@ public interface DepthWalk {
 		}
 
 		@Override
+		public List<ObjectId> getDeepenNots() {
+			return deepenNots;
+		}
+
+		/**
+		 * Mark objects that the client specified using
+		 * --shallow-exclude. Objects that are not commits have no
+		 * effect.
+		 *
+		 * @param deepenNots specified objects
+		 * @since 5.2
+		 */
+		public void setDeepenNots(List<ObjectId> deepenNots) {
+			this.deepenNots = deepenNots;
+		}
+
+		@Override
 		public RevFlag getUnshallowFlag() {
 			return UNSHALLOW;
 		}
@@ -213,6 +245,7 @@ public interface DepthWalk {
 		public ObjectWalk toObjectWalkWithSameObjects() {
 			ObjectWalk ow = new ObjectWalk(reader, depth);
 			ow.deepenSince = deepenSince;
+			ow.deepenNots = deepenNots;
 			ow.objects = objects;
 			ow.freeFlags = freeFlags;
 			return ow;
@@ -224,6 +257,8 @@ public interface DepthWalk {
 		private final int depth;
 
 		private int deepenSince;
+
+		private List<ObjectId> deepenNots;
 
 		private final RevFlag UNSHALLOW;
 
@@ -237,6 +272,7 @@ public interface DepthWalk {
 			super(repo);
 
 			this.depth = depth;
+			this.deepenNots = Collections.emptyList();
 			this.UNSHALLOW = newFlag("UNSHALLOW"); //$NON-NLS-1$
 			this.REINTERESTING = newFlag("REINTERESTING"); //$NON-NLS-1$
 		}
@@ -249,6 +285,7 @@ public interface DepthWalk {
 			super(or);
 
 			this.depth = depth;
+			this.deepenNots = Collections.emptyList();
 			this.UNSHALLOW = newFlag("UNSHALLOW"); //$NON-NLS-1$
 			this.REINTERESTING = newFlag("REINTERESTING"); //$NON-NLS-1$
 		}
@@ -306,6 +343,11 @@ public interface DepthWalk {
 		@Override
 		public int getDeepenSince() {
 			return deepenSince;
+		}
+
+		@Override
+		public List<ObjectId> getDeepenNots() {
+			return deepenNots;
 		}
 
 		@Override
