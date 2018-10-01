@@ -82,6 +82,12 @@ import org.eclipse.jgit.transport.sshd.KeyCache;
  */
 public class JGitSshClient extends SshClient {
 
+	/**
+	 * An attribute key for the comma-separated list of default preferred
+	 * authentication mechanisms.
+	 */
+	public static final AttributeKey<String> PREFERRED_AUTHENTICATIONS = new AttributeKey<>();
+
 	private KeyCache keyCache;
 
 	private CredentialsProvider credentialsProvider;
@@ -109,8 +115,22 @@ public class JGitSshClient extends SshClient {
 				userName + '@' + address, null);
 		SshFutureListener<IoConnectFuture> listener = createConnectCompletionListener(
 				connectFuture, userName, address, hostConfig);
+		// sshd needs some entries from the host config already in the
+		// constructor of the session. Put those as properties on this client,
+		// where it will find them. We can set the host config only once the
+		// session object has been created.
+		copyProperty(
+				hostConfig.getProperty(SshConstants.PREFERRED_AUTHENTICATIONS,
+						getAttribute(PREFERRED_AUTHENTICATIONS)),
+				PREFERRED_AUTHS);
 		connector.connect(address).addListener(listener);
 		return connectFuture;
+	}
+
+	private void copyProperty(String value, String key) {
+		if (value != null && !value.isEmpty()) {
+			getProperties().put(key, value);
+		}
 	}
 
 	private SshFutureListener<IoConnectFuture> createConnectCompletionListener(

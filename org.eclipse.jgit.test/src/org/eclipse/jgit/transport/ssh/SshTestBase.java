@@ -572,6 +572,29 @@ public abstract class SshTestBase extends SshTestHarness {
 				"HostKeyAlgorithms ssh-rsa,ssh-dss");
 	}
 
+	@Test
+	public void testSshWithUnknownAuthInConfig() throws Exception {
+		cloneWith("ssh://git/doesntmatter", defaultCloneDir, null, //
+				"Host git", //
+				"HostName localhost", //
+				"Port " + testPort, //
+				"User " + TEST_USER, //
+				"IdentityFile " + privateKey1.getAbsolutePath(), //
+				"PreferredAuthentications gssapi-with-mic,hostbased,publickey,keyboard-interactive,password");
+	}
+
+	@Test(expected = TransportException.class)
+	public void testSshWithNoMatchingAuthInConfig() throws Exception {
+		// Server doesn't do password, and anyway we set no password.
+		cloneWith("ssh://git/doesntmatter", defaultCloneDir, null, //
+				"Host git", //
+				"HostName localhost", //
+				"Port " + testPort, //
+				"User " + TEST_USER, //
+				"IdentityFile " + privateKey1.getAbsolutePath(), //
+				"PreferredAuthentications password");
+	}
+
 	@Theory
 	public void testSshKeys(String keyName) throws Exception {
 		// JSch fails on ECDSA 384/521 keys. Compare
