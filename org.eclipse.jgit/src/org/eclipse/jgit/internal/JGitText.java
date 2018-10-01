@@ -406,6 +406,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String invalidEncryption;
 	/***/ public String invalidExpandWildcard;
 	/***/ public String invalidGitdirRef;
+	/***/ public String invalidGitModules;
 	/***/ public String invalidGitType;
 	/***/ public String invalidId;
 	/***/ public String invalidId0;

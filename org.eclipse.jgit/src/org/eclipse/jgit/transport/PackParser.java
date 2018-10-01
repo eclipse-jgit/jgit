@@ -67,6 +67,7 @@ import org.eclipse.jgit.internal.storage.pack.BinaryDelta;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.BatchingProgressMonitor;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.GitmoduleEntry;
 import org.eclipse.jgit.lib.InflaterCache;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -340,6 +341,24 @@ public abstract class PackParser {
 		if (baseObjectIds != null)
 			return baseObjectIds;
 		return new ObjectIdSubclassMap<>();
+	}
+
+	/**
+	 * Get the .gitmodules files in the pack.
+	 * <p>
+	 * <p>
+	 * The gitmodules information is only available after
+	 * {@link #parse(ProgressMonitor)} has returned.
+	 *
+	 * @return Pairs of blob and tree ids, where to find the .gitmodules files
+	 * @since 4.7.5
+	 */
+	public List<GitmoduleEntry> getGitmodulesEntries() {
+		if (objCheck != null) {
+			return objCheck.getGitsubmodules();
+		}
+
+		return new ArrayList<>();
 	}
 
 	/**
