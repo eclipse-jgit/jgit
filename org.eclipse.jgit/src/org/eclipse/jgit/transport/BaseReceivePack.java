@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.transport;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_ATOMIC;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_DELETE_REFS;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_OFS_DELTA;
@@ -76,15 +77,20 @@ import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.errors.TooLargePackException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.PackLock;
+import org.eclipse.jgit.internal.submodule.SubmoduleValidator;
+import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Config.SectionParser;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.GitmoduleEntry;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectChecker;
+import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdSubclassMap;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
@@ -1081,8 +1087,10 @@ public abstract class BaseReceivePack {
 	 */
 	protected void receivePackAndCheckConnectivity() throws IOException {
 		receivePack();
-		if (needCheckConnectivity())
+		if (needCheckConnectivity()) {
+			checkSubmodules();
 			checkConnectivity();
+		}
 		parser = null;
 	}
 
@@ -1398,6 +1406,21 @@ public abstract class BaseReceivePack {
 		return isCheckReceivedObjects()
 				|| isCheckReferencedObjectsAreReachable()
 				|| !getClientShallowCommits().isEmpty();
+	}
+
+	private void checkSubmodules()
+			throws IOException {
+		ObjectDatabase odb = db.getObjectDatabase();
+		if (objectChecker == null) {
+			return;
+		}
+		for (GitmoduleEntry entry : objectChecker.getGitsubmodules()) {
+			AnyObjectId blobId = entry.getBlobId();
+			ObjectLoader blob = odb.open(blobId, Constants.OBJ_BLOB);
+
+			SubmoduleValidator.assertValidGitModulesFile(
+					new String(blob.getBytes(), UTF_8));
+		}
 	}
 
 	private void checkConnectivity() throws IOException {

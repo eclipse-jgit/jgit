@@ -42,9 +42,13 @@
  */
 package org.eclipse.jgit.internal.submodule;
 
+import java.io.IOException;
 import java.text.MessageFormat;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ConfigConstants;
 
 /**
  * Validations for the git submodule fields (name, path, uri).
@@ -138,4 +142,39 @@ public class SubmoduleValidator {
 		}
 	}
 
+	/**
+	 * @param gitModulesContents
+	 *            Contents of a .gitmodule file. They will be parsed internally.
+	 * @throws IOException
+	 *             If the contents
+	 */
+	public static void assertValidGitModulesFile(String gitModulesContents)
+			throws IOException {
+		// Validate .gitmodules file
+		Config c = new Config();
+		try {
+			c.fromText(gitModulesContents);
+			for (String subsection : c.getSubsections(
+					ConfigConstants.CONFIG_SUBMODULE_SECTION)) {
+				String url = c.getString(
+						ConfigConstants.CONFIG_SUBMODULE_SECTION,
+						subsection, ConfigConstants.CONFIG_KEY_URL);
+				assertValidSubmoduleUri(url);
+
+				assertValidSubmoduleName(subsection);
+
+				String path = c.getString(
+						ConfigConstants.CONFIG_SUBMODULE_SECTION, subsection,
+						ConfigConstants.CONFIG_KEY_PATH);
+				assertValidSubmodulePath(path);
+			}
+		} catch (ConfigInvalidException e) {
+			throw new IOException(
+					MessageFormat.format(
+							JGitText.get().invalidGitModules,
+							e));
+		} catch (SubmoduleValidationException e) {
+			throw new IOException(e.getMessage(), e);
+		}
+	}
 }
