@@ -83,7 +83,7 @@ public class MergeFormatter {
 	@Deprecated
 	public void formatMerge(OutputStream out, MergeResult<RawText> res,
 			List<String> seqName, String charsetName) throws IOException {
-		new MergeFormatterPass(out, res, seqName, charsetName).formatMerge();
+		formatMerge(out, res, seqName, Charset.forName(charsetName));
 	}
 
 	/**
