@@ -304,6 +304,12 @@ public class UploadPack {
 	/** Objects on both sides, these don't have to be sent. */
 	private final Set<RevObject> commonBase = new HashSet<>();
 
+	/**
+	 * Objects that the client specified using --shallow-exclude. Must be
+	 * empty if depth is nonzero.
+	 */
+	private final List<ObjectId> deepenNots = new ArrayList<>();
+
 	/** Commit time of the oldest common commit, in seconds. */
 	private int oldestTime;
 
@@ -963,6 +969,14 @@ public class UploadPack {
 		// TODO(ifrade): Refactor to pass around the Request object, instead of
 		// copying data back to class fields
 		wantIds = req.getWantIds();
+		for (String s : req.getDeepenNotRefs()) {
+			Ref ref = db.getRefDatabase().getRef(s);
+			if (ref == null) {
+				throw new PackProtocolException(MessageFormat
+						.format(JGitText.get().invalidRefName, s));
+			}
+			deepenNots.add(ref.getObjectId());
+		}
 
 		boolean sectionSent = false;
 		boolean mayHaveShallow = req.getDepth() != 0
@@ -1144,10 +1158,8 @@ public class UploadPack {
 			IOConsumer<ObjectId> shallowFunc,
 			IOConsumer<ObjectId> unshallowFunc)
 			throws IOException {
-		if (req.getClientCapabilities().contains(OPTION_DEEPEN_RELATIVE)
-				|| !req.getDeepenNotRefs().isEmpty()) {
+		if (req.getClientCapabilities().contains(OPTION_DEEPEN_RELATIVE)) {
 			// TODO(jonathantanmy): Implement deepen-relative
-			// and deepen-not.
 			throw new UnsupportedOperationException();
 		}
 
@@ -1166,6 +1178,8 @@ public class UploadPack {
 					// Ignore non-commits in this loop.
 				}
 			}
+
+			depthWalk.setDeepenNots(deepenNots);
 
 			RevCommit o;
 			boolean atLeastOne = false;
@@ -1947,13 +1961,17 @@ public class UploadPack {
 			}
 
 			RevWalk rw = walk;
-			if (req.getDepth() > 0 || req.getDeepenSince() != 0) {
+			if (req.getDepth() > 0 || req.getDeepenSince() != 0 || !deepenNots.isEmpty()) {
 				int walkDepth = req.getDepth() == 0 ? Integer.MAX_VALUE
 						: req.getDepth() - 1;
 				pw.setShallowPack(req.getDepth(), unshallowCommits);
-				rw = new DepthWalk.RevWalk(walk.getObjectReader(), walkDepth);
-				((DepthWalk.RevWalk) rw).setDeepenSince(req.getDeepenSince());
-				rw.assumeShallow(req.getClientShallowCommits());
+
+				DepthWalk.RevWalk dw = new DepthWalk.RevWalk(
+						walk.getObjectReader(), walkDepth);
+				dw.setDeepenSince(req.getDeepenSince());
+				dw.setDeepenNots(deepenNots);
+				dw.assumeShallow(req.getClientShallowCommits());
+				rw = dw;
 			}
 
 			if (wantAll.isEmpty()) {
