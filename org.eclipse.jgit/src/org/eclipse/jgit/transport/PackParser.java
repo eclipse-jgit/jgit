@@ -80,6 +80,7 @@ import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ObjectStream;
 import org.eclipse.jgit.lib.ProgressMonitor;
+import org.eclipse.jgit.lib.internal.GitmoduleEntry;
 import org.eclipse.jgit.util.BlockList;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.NB;
@@ -340,6 +341,23 @@ public abstract class PackParser {
 		if (baseObjectIds != null)
 			return baseObjectIds;
 		return new ObjectIdSubclassMap<>();
+	}
+
+	/**
+	 * Get the .gitmodules files in the pack.
+	 * <p>
+	 * <p>
+	 * The gitmodules information is only available after
+	 * {@link #parse(ProgressMonitor)} has returned.
+	 *
+	 * @return Pairs of blob and tree ids, where to find the .gitmodules files
+	 */
+	public List<GitmoduleEntry> getGitmodulesEntries() {
+		if (objCheck != null) {
+			return objCheck.getGitsubmodules();
+		}
+
+		return new ArrayList<>();
 	}
 
 	/**
