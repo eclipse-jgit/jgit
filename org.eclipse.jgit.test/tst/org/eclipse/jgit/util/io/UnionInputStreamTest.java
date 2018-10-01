@@ -259,6 +259,11 @@ public class UnionInputStreamTest {
 			public int read() throws IOException {
 				throw new IOException("Expected");
 			}
+
+			@Override
+			public int read(byte b[], int off, int len) throws IOException {
+				throw new IOException("Expected");
+			}
 		};
 		@SuppressWarnings("resource" /* java 7 */)
 		final UnionInputStream u = new UnionInputStream(

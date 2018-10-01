@@ -260,6 +260,12 @@ public class ObjectLoaderTest {
 						fail("never should have reached read");
 						return -1;
 					}
+
+					@Override
+					public int read(byte b[], int off, int len) {
+						fail("never should have reached read");
+						return -1;
+					}
 				};
 			}
 		};
