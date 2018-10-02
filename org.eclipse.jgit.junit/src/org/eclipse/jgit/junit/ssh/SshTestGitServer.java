@@ -49,19 +49,30 @@ import java.security.GeneralSecurityException;
 import java.security.KeyPair;
 import java.security.PublicKey;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import org.apache.sshd.common.NamedFactory;
+import org.apache.sshd.common.SshConstants;
 import org.apache.sshd.common.config.keys.AuthorizedKeyEntry;
 import org.apache.sshd.common.config.keys.KeyUtils;
 import org.apache.sshd.common.config.keys.PublicKeyEntryResolver;
 import org.apache.sshd.common.file.virtualfs.VirtualFileSystemFactory;
 import org.apache.sshd.common.keyprovider.KeyPairProvider;
 import org.apache.sshd.common.session.Session;
+import org.apache.sshd.common.util.buffer.Buffer;
 import org.apache.sshd.common.util.security.SecurityUtils;
+import org.apache.sshd.server.ServerAuthenticationManager;
 import org.apache.sshd.server.SshServer;
+import org.apache.sshd.server.auth.UserAuth;
+import org.apache.sshd.server.auth.gss.GSSAuthenticator;
+import org.apache.sshd.server.auth.gss.UserAuthGSS;
+import org.apache.sshd.server.auth.gss.UserAuthGSSFactory;
 import org.apache.sshd.server.command.AbstractCommandSupport;
+import org.apache.sshd.server.session.ServerSession;
 import org.apache.sshd.server.shell.UnknownCommand;
 import org.apache.sshd.server.subsystem.sftp.SftpSubsystemFactory;
 import org.eclipse.jgit.annotations.NonNull;
@@ -142,6 +153,7 @@ public class SshTestGitServer {
 						.getParentFile().getAbsoluteFile().toPath();
 			}
 		});
+		server.setUserAuthFactories(getAuthFactories());
 		server.setSubsystemFactories(Collections
 				.singletonList((new SftpSubsystemFactory.Builder()).build()));
 		// No shell
@@ -149,8 +161,15 @@ public class SshTestGitServer {
 		// Disable some authentications
 		server.setPasswordAuthenticator(null);
 		server.setKeyboardInteractiveAuthenticator(null);
-		server.setGSSAuthenticator(null);
 		server.setHostBasedAuthenticator(null);
+		// Pretend we did gssapi-with-mic.
+		server.setGSSAuthenticator(new GSSAuthenticator() {
+			@Override
+			public boolean validateInitialUser(ServerSession session,
+					String user) {
+				return false;
+			}
+		});
 		// Accept only the test user/public key
 		server.setPublickeyAuthenticator((userName, publicKey, session) -> {
 			return SshTestGitServer.this.testUser.equals(userName) && KeyUtils
@@ -164,6 +183,40 @@ public class SshTestGitServer {
 			}
 			return new UnknownCommand(command);
 		});
+	}
+
+	private static class FakeUserAuthGSS extends UserAuthGSS {
+		@Override
+		protected Boolean doAuth(Buffer buffer, boolean initial)
+				throws Exception {
+			// We always reply that we did do this, but then we fail at the
+			// first token message. That way we can test that the client-side
+			// sends the correct initial request and then is skipped correctly,
+			// even if it causes a GSSException if Kerberos isn't configured at
+			// all.
+			if (initial) {
+				ServerSession session = getServerSession();
+				Buffer b = session.createBuffer(
+						SshConstants.SSH_MSG_USERAUTH_INFO_REQUEST);
+				b.putBytes(KRB5_MECH.getDER());
+				session.writePacket(b);
+				return null;
+			}
+			return Boolean.FALSE;
+		}
+	}
+
+	private List<NamedFactory<UserAuth>> getAuthFactories() {
+		List<NamedFactory<UserAuth>> authentications = new ArrayList<>();
+		authentications.add(
+				ServerAuthenticationManager.DEFAULT_USER_AUTH_PUBLIC_KEY_FACTORY);
+		authentications.add(new UserAuthGSSFactory() {
+			@Override
+			public UserAuth create() {
+				return new FakeUserAuthGSS();
+			}
+		});
+		return authentications;
 	}
 
 	/**
