@@ -1165,8 +1165,10 @@ public class UploadPack {
 			}
 
 			RevCommit o;
+			boolean atLeastOne = false;
 			while ((o = depthWalk.next()) != null) {
 				DepthWalk.Commit c = (DepthWalk.Commit) o;
+				atLeastOne = true;
 
 				boolean isBoundary = (c.getDepth() == walkDepth) || c.isBoundary();
 
@@ -1181,6 +1183,10 @@ public class UploadPack {
 				if (!isBoundary && clientShallowCommits.remove(c)) {
 					unshallowFunc.accept(c.copy());
 				}
+			}
+			if (!atLeastOne) {
+				throw new PackProtocolException(
+					JGitText.get().noCommitsSelectedForShallow);
 			}
 		}
 	}

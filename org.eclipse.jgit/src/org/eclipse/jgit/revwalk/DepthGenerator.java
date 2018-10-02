@@ -183,6 +183,10 @@ class DepthGenerator extends Generator {
 			if ((c.flags & RevWalk.UNINTERESTING) != 0 && !c.has(UNSHALLOW))
 				produce = false;
 
+			if (c.getCommitTime() < deepenSince) {
+				produce = false;
+			}
+
 			if (produce)
 				return c;
 		}
