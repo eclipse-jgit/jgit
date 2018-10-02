@@ -22,6 +22,10 @@ public final class SshdText extends TranslationBundle {
 	/***/ public String closeListenerFailed;
 	/***/ public String configInvalidPath;
 	/***/ public String ftpCloseFailed;
+	/***/ public String gssapiFailure;
+	/***/ public String gssapiInitFailure;
+	/***/ public String gssapiUnexpectedMechanism;
+	/***/ public String gssapiUnexpectedMessage;
 	/***/ public String keyEncryptedMsg;
 	/***/ public String keyEncryptedPrompt;
 	/***/ public String keyLoadFailed;

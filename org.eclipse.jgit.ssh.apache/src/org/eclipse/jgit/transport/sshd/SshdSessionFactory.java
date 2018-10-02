@@ -74,6 +74,7 @@ import org.apache.sshd.common.keyprovider.KeyPairProvider;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.transport.sshd.CachingKeyPairProvider;
+import org.eclipse.jgit.internal.transport.sshd.GssApiWithMicAuthFactory;
 import org.eclipse.jgit.internal.transport.sshd.JGitPublicKeyAuthFactory;
 import org.eclipse.jgit.internal.transport.sshd.JGitSshClient;
 import org.eclipse.jgit.internal.transport.sshd.JGitUserInteraction;
@@ -427,15 +428,19 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 
 	/**
 	 * Gets the user authentication mechanisms (or rather, factories for them).
-	 * By default this returns public-key, keyboard-interactive, and password,
-	 * in that order. (I.e., we don't do gssapi-with-mic or hostbased (yet)).
+	 * By default this returns gssapi-with-mic, public-key,
+	 * keyboard-interactive, and password, in that order. The order is only
+	 * significant if the ssh config does <em>not</em> set
+	 * {@code PreferredAuthentications}; if it is set, the order defined there
+	 * will be taken.
 	 *
 	 * @return the non-empty list of factories.
 	 */
 	@NonNull
 	protected List<NamedFactory<UserAuth>> getUserAuthFactories() {
 		return Collections.unmodifiableList(
-				Arrays.asList(JGitPublicKeyAuthFactory.INSTANCE,
+				Arrays.asList(GssApiWithMicAuthFactory.INSTANCE,
+						JGitPublicKeyAuthFactory.INSTANCE,
 						UserAuthKeyboardInteractiveFactory.INSTANCE,
 						UserAuthPasswordFactory.INSTANCE));
 	}
