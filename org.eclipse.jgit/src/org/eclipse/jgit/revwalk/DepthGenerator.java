@@ -135,6 +135,10 @@ class DepthGenerator extends Generator {
 			if ((c.flags & RevWalk.PARSED) == 0)
 				c.parseHeaders(walk);
 
+			if (c.getCommitTime() < deepenSince) {
+				continue;
+			}
+
 			int newDepth = c.depth + 1;
 
 			for (RevCommit p : c.parents) {

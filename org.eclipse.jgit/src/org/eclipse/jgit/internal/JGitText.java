@@ -527,6 +527,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String newlineInQuotesNotAllowed;
 	/***/ public String noApplyInDelete;
 	/***/ public String noClosingBracket;
+	/***/ public String noCommitsSelectedForShallow;
 	/***/ public String noCredentialsProvider;
 	/***/ public String noHEADExistsAndNoExplicitStartingRevisionWasSpecified;
 	/***/ public String noHMACsupport;
