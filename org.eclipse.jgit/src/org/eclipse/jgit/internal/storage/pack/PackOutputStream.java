@@ -187,6 +187,7 @@ public final class PackOutputStream extends OutputStream {
 	 * @throws java.io.IOException
 	 *             the underlying stream refused to accept the header.
 	 */
+	@SuppressWarnings("ShortCircuitBoolean")
 	public final void writeHeader(ObjectToPack otp, long rawLength)
 			throws IOException {
 		ObjectToPack b = otp.getDeltaBase();
