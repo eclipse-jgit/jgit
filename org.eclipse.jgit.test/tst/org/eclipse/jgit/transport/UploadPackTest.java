@@ -1280,6 +1280,26 @@ public class UploadPackTest {
 	}
 
 	@Test
+	public void testV2FetchShallowSince_noCommitsSelected() throws Exception {
+		PersonIdent person = new PersonIdent(remote.getRepository());
+
+		RevCommit tooOld = remote.commit()
+			.committer(new PersonIdent(person, 1500000000, 0)).create();
+
+		remote.update("branch1", tooOld);
+
+		thrown.expect(PackProtocolException.class);
+		thrown.expectMessage("No commits selected for shallow request");
+		uploadPackV2(
+			"command=fetch\n",
+			PacketLineIn.DELIM,
+			"deepen-since 1510000\n",
+			"want " + tooOld.toObjectId().getName() + "\n",
+			"done\n",
+			PacketLineIn.END);
+	}
+
+	@Test
 	public void testV2FetchUnrecognizedArgument() throws Exception {
 		thrown.expect(PackProtocolException.class);
 		thrown.expectMessage("unexpected invalid-argument");
