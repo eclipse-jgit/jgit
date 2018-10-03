@@ -43,6 +43,7 @@
 package org.eclipse.jgit.internal.transport.sshd;
 
 import static java.text.MessageFormat.format;
+import static org.eclipse.jgit.internal.transport.ssh.OpenSshConfigFile.positive;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -183,6 +184,9 @@ public class JGitSshClient extends SshClient {
 		if (session.getCredentialsProvider() == null) {
 			session.setCredentialsProvider(getCredentialsProvider());
 		}
+		int numberOfPasswordPrompts = getNumberOfPasswordPrompts(hostConfig);
+		session.getProperties().put(PASSWORD_PROMPTS,
+				Integer.valueOf(numberOfPasswordPrompts));
 		FileKeyPairProvider ourConfiguredKeysProvider = null;
 		List<Path> identities = hostConfig.getIdentities().stream()
 				.map(s -> {
@@ -211,6 +215,23 @@ public class JGitSshClient extends SshClient {
 			session.setKeyPairProvider(combinedProvider);
 		}
 		return session;
+	}
+
+	private int getNumberOfPasswordPrompts(HostConfigEntry hostConfig) {
+		String prompts = hostConfig
+				.getProperty(SshConstants.NUMBER_OF_PASSWORD_PROMPTS);
+		if (prompts != null) {
+			prompts = prompts.trim();
+			int value = positive(prompts);
+			if (value > 0) {
+				return value;
+			}
+			log.warn(format(SshdText.get().configInvalidPositive,
+					SshConstants.NUMBER_OF_PASSWORD_PROMPTS, prompts));
+		}
+		// Default for NumberOfPasswordPrompts according to
+		// https://man.openbsd.org/ssh_config
+		return 3;
 	}
 
 	/**
