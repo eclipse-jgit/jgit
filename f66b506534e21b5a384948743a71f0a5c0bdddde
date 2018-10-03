@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c2ac53c_7934dca8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-03T21:09:00Z",
+      "side": 1,
+      "message": "Would it make sense to check this before the for loop and save the visit to the parents?",
+      "revId": "f66b506534e21b5a384948743a71f0a5c0bdddde",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
