@@ -78,6 +78,48 @@
     },
     {
       "key": {
+        "uuid": "e7a9a8e8_464866a0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWantLine.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-03T19:46:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47ccf28e_49c43a2f",
+      "revId": "527e775b48a067202671d671889cee15f061b03c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "735bb441_e574a6b5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWantLine.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-03T19:46:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9fdcabf4_356a94a5",
+      "range": {
+        "startLine": 9,
+        "startChar": 71,
+        "endLine": 9,
+        "endChar": 78
+      },
+      "revId": "527e775b48a067202671d671889cee15f061b03c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4970e312_fd327b50",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWantLine.java",
         "patchSetId": 2
@@ -89,6 +131,30 @@
       "writtenOn": "2018-09-24T18:03:35Z",
       "side": 1,
       "message": "It\u0027s no more or less real than any other want. Maybe: \"the line without the capabilities and the capability list\".",
+      "range": {
+        "startLine": 12,
+        "startChar": 68,
+        "endLine": 13,
+        "endChar": 7
+      },
+      "revId": "527e775b48a067202671d671889cee15f061b03c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5de98915_14ba81e0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWantLine.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-03T19:46:31Z",
+      "side": 1,
+      "message": "replaced with \"the actual want line and the capabilities\"",
+      "parentUuid": "4970e312_fd327b50",
       "range": {
         "startLine": 12,
         "startChar": 68,
@@ -124,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "47e1b05d_b7db0a73",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWantLine.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-03T19:46:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8b312ad_6cd7aef1",
+      "range": {
+        "startLine": 18,
+        "startChar": 27,
+        "endLine": 18,
+        "endChar": 34
+      },
+      "revId": "527e775b48a067202671d671889cee15f061b03c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b664c95d_dfec9474",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWantLine.java",
         "patchSetId": 2
@@ -135,6 +225,30 @@
       "writtenOn": "2018-09-24T18:03:35Z",
       "side": 1,
       "message": "needs update",
+      "range": {
+        "startLine": 25,
+        "startChar": 27,
+        "endLine": 25,
+        "endChar": 47
+      },
+      "revId": "527e775b48a067202671d671889cee15f061b03c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42962846_4be4fa42",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWantLine.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-03T19:46:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b664c95d_dfec9474",
       "range": {
         "startLine": 25,
         "startChar": 27,
@@ -164,6 +278,24 @@
     },
     {
       "key": {
+        "uuid": "0260bbb3_25f37de5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWantLine.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-03T19:46:31Z",
+      "side": 1,
+      "message": "This constructor is needed only for the deprecated UploadPack.FirstLine. As soon as that class is removed, this constructor should also disappear.\n\nA deprecation note is a stronger signal that this constructor should not be used in new code. ok to keep it?\n\nChanged visibility to protected.",
+      "parentUuid": "78f302b1_fbb23019",
+      "revId": "527e775b48a067202671d671889cee15f061b03c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "66c67942_f4f3dfe8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWantLine.java",
         "patchSetId": 2
@@ -187,6 +319,30 @@
     },
     {
       "key": {
+        "uuid": "9ee6de87_35f1033e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWantLine.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-03T19:46:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "66c67942_f4f3dfe8",
+      "range": {
+        "startLine": 83,
+        "startChar": 13,
+        "endLine": 83,
+        "endChar": 20
+      },
+      "revId": "527e775b48a067202671d671889cee15f061b03c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ca04cc9a_636347a2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 2
@@ -198,6 +354,30 @@
       "writtenOn": "2018-09-24T18:03:35Z",
       "side": 1,
       "message": "optional: \"in the first line of a want-list\", maybe?",
+      "range": {
+        "startLine": 182,
+        "startChar": 32,
+        "endLine": 182,
+        "endChar": 39
+      },
+      "revId": "527e775b48a067202671d671889cee15f061b03c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37f72565_e50c7462",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-03T19:46:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca04cc9a_636347a2",
       "range": {
         "startLine": 182,
         "startChar": 32,
