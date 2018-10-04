@@ -1,4 +1,5 @@
 /*
+ * Copyright (C) 2018, Sasa Zivkov <sasa.zivkov@sap.com>
  * Copyright (C) 2016, Mark Ingram <markdingram@gmail.com>
  * Copyright (C) 2009, Constantine Plotnikov <constantine.plotnikov@gmail.com>
  * Copyright (C) 2008-2009, Google Inc.
@@ -49,6 +50,8 @@
 
 package org.eclipse.jgit.transport;
 
+import static org.eclipse.jgit.transport.OpenSshConfig.SSH_PORT;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -58,7 +61,10 @@ import java.lang.reflect.Method;
 import java.net.ConnectException;
 import java.net.UnknownHostException;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -71,6 +77,8 @@ import org.slf4j.LoggerFactory;
 
 import com.jcraft.jsch.ConfigRepository;
 import com.jcraft.jsch.ConfigRepository.Config;
+import com.jcraft.jsch.HostKey;
+import com.jcraft.jsch.HostKeyRepository;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
@@ -224,6 +232,9 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 					credentialsProvider));
 		}
 		safeConfig(session, hc.getConfig());
+		if (hc.getConfig().getValue("HostKeyAlgorithms") == null) { //$NON-NLS-1$
+			setPreferredKeyTypes(session, host, port);
+		}
 		configure(hc, session);
 		return session;
 	}
@@ -237,6 +248,36 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 		copyConfigValueToSession(session, cfg, "KexAlgorithms", "CheckKexes"); //$NON-NLS-1$ //$NON-NLS-2$
 		copyConfigValueToSession(session, cfg, "HostKeyAlgorithms", //$NON-NLS-1$
 				"CheckSignatures"); //$NON-NLS-1$
+	}
+
+	private static void setPreferredKeyTypes(Session session, String host,
+			int port) {
+		HostKeyRepository hkr = session.getHostKeyRepository();
+		List<String> keyTypes = new ArrayList<>();
+		for (HostKey hk : hkr.getHostKey(hostName(host, port), null)) {
+			keyTypes.add(hk.getType());
+		}
+
+		if (keyTypes.size() > 0) {
+			String current = session.getConfig("server_host_key"); //$NON-NLS-1$
+			if (current == null) {
+				session.setConfig("server_host_key", //$NON-NLS-1$
+						String.join(",", keyTypes)); //$NON-NLS-1$
+				return;
+			}
+			List<String> preferred = new ArrayList<>(
+					Arrays.asList(current.split(","))); //$NON-NLS-1$
+			preferred.removeAll(keyTypes);
+			preferred.addAll(0, keyTypes);
+			session.setConfig("server_host_key", String.join(",", preferred)); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+	}
+
+	private static String hostName(String host, int port) {
+		if (port == SSH_PORT) {
+			return host;
+		}
+		return String.format("[%s]:%d", host, port); //$NON-NLS-1$
 	}
 
 	private void copyConfigValueToSession(Session session, Config cfg,
