@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "25bcee63_b6ccdb45",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-10-04T23:14:07Z",
+      "side": 0,
+      "message": "Is this still planned?",
+      "range": {
+        "startLine": 247,
+        "startChar": 3,
+        "endLine": 247,
+        "endChar": 77
+      },
+      "revId": "abe43a584127b54c751aaa78e5a353a0eab7defb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88637c6d_fcb183de",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-10-04T23:14:07Z",
+      "side": 0,
+      "message": "This suppresses a warning from ErrorProne, not from Eclipse.",
+      "range": {
+        "startLine": 248,
+        "startChar": 1,
+        "endLine": 248,
+        "endChar": 46
+      },
+      "revId": "abe43a584127b54c751aaa78e5a353a0eab7defb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
