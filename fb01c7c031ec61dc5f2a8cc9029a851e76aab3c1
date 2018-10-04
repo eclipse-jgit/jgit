@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b208596_4c7c1479",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/ObjectDownloadListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-10-04T23:20:52Z",
+      "side": 1,
+      "message": "This causes a warning in Eclipse, but suppresses the Error Prone warning.\n\nNote that it is also effective when this warning\u0027s severity is ERROR, and prevents the build from failing in that case when using the Error Prone toolchain in bazel.",
+      "revId": "fb01c7c031ec61dc5f2a8cc9029a851e76aab3c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
