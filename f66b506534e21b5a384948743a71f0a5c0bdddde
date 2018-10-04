@@ -16,6 +16,24 @@
       "revId": "f66b506534e21b5a384948743a71f0a5c0bdddde",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b8d8588_87eb4a43",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-10-04T18:36:01Z",
+      "side": 1,
+      "message": "Good catch - in fact, it is correct to skip the visit to the parents because we need to stop traversal at such objects. (If such an object were found as a parent, we would stop traversal there by not adding it to pending, so we should do the same here.)\n\nThere is a similar issue in the last patch in this patch set, and I have fixed that too.",
+      "parentUuid": "3c2ac53c_7934dca8",
+      "revId": "f66b506534e21b5a384948743a71f0a5c0bdddde",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
