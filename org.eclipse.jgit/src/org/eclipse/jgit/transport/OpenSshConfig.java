@@ -132,8 +132,12 @@ import com.jcraft.jsch.ConfigRepository;
  */
 public class OpenSshConfig implements ConfigRepository {
 
-	/** IANA assigned port number for SSH. */
-	static final int SSH_PORT = 22;
+	/**
+	 * IANA assigned port number for SSH.
+	 *
+	 * @since 5.1
+	 */
+	public static final int SSH_PORT = 22;
 
 	/**
 	 * Obtain the user's configuration data.

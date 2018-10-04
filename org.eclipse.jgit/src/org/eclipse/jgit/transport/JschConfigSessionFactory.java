@@ -1,4 +1,5 @@
 /*
+ * Copyright (C) 2018, Sasa Zivkov <sasa.zivkov@sap.com>
  * Copyright (C) 2016, Mark Ingram <markdingram@gmail.com>
  * Copyright (C) 2009, Constantine Plotnikov <constantine.plotnikov@gmail.com>
  * Copyright (C) 2008-2009, Google Inc.
@@ -49,6 +50,8 @@
 
 package org.eclipse.jgit.transport;
 
+import static org.eclipse.jgit.transport.OpenSshConfig.SSH_PORT;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -71,6 +74,8 @@ import org.slf4j.LoggerFactory;
 
 import com.jcraft.jsch.ConfigRepository;
 import com.jcraft.jsch.ConfigRepository.Config;
+import com.jcraft.jsch.HostKey;
+import com.jcraft.jsch.HostKeyRepository;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
@@ -225,6 +230,7 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 		}
 		safeConfig(session, hc.getConfig());
 		configure(hc, session);
+		setPreferredKeyType(session, host, port);
 		return session;
 	}
 
@@ -237,6 +243,21 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 		copyConfigValueToSession(session, cfg, "KexAlgorithms", "CheckKexes"); //$NON-NLS-1$ //$NON-NLS-2$
 		copyConfigValueToSession(session, cfg, "HostKeyAlgorithms", //$NON-NLS-1$
 				"CheckSignatures"); //$NON-NLS-1$
+	}
+
+	private void setPreferredKeyType(Session session, String host, int port) {
+		HostKeyRepository hkr = session.getHostKeyRepository();
+		for (HostKey hk : hkr.getHostKey(hostName(host, port), null)) {
+			session.setConfig("server_host_key", hk.getType()); //$NON-NLS-1$
+			return;
+		}
+	}
+
+	private String hostName(String host, int port) {
+		if (port == SSH_PORT) {
+			return host;
+		}
+		return String.format("[%s]:%d", host, port);
 	}
 
 	private void copyConfigValueToSession(Session session, Config cfg,
