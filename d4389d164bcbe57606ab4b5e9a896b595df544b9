@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a1d87ab0_6a92357c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/OpenSshConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-10-04T13:50:54Z",
+      "side": 1,
+      "message": "Please don\u0027t make this public. I\u0027m in the process of refactoring all this SSH business anyway for bug 520927 and I\u0027d like to move this elsewhere. If you make it public, I can\u0027t do so anymore, and we\u0027ll end up with several SSH_DEFAULT_PORT constants. For this change, it doesn\u0027t look as if changing package visibility to public was necessary.",
+      "revId": "d4389d164bcbe57606ab4b5e9a896b595df544b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
