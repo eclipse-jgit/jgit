@@ -220,6 +220,7 @@
     <maven-surefire-version>2.22.0</maven-surefire-version>
     <maven-compiler-plugin-version>3.8.0</maven-compiler-plugin-version>
     <maven-project-info-reports-plugin-version>3.0.0</maven-project-info-reports-plugin-version>
+    <maven-jxr-plugin-version>3.0.0</maven-jxr-plugin-version>
 
     <!-- Properties to enable jacoco code coverage analysis -->
     <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
@@ -399,7 +400,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jxr-plugin</artifactId>
-          <version>2.5</version>
+          <version>${maven-jxr-plugin-version}</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -561,7 +562,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jxr-plugin</artifactId>
-        <version>2.5</version>
+        <version>${maven-jxr-plugin-version}</version>
       </plugin>
       <plugin>
         <groupId>com.github.spotbugs</groupId>
