@@ -44,6 +44,8 @@ package org.eclipse.jgit.junit.ssh;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.GeneralSecurityException;
 import java.security.KeyPair;
@@ -101,6 +103,9 @@ public class SshTestGitServer {
 	@NonNull
 	private Repository repository;
 
+	@NonNull
+	private List<KeyPair> hostKeys = new ArrayList<>();
+
 	private final ExecutorService executorService = Executors
 			.newFixedThreadPool(2);
 
@@ -130,17 +135,16 @@ public class SshTestGitServer {
 		this.repository = repository;
 		server = SshServer.setUpDefaultServer();
 		// Set host key
+		try (ByteArrayInputStream in = new ByteArrayInputStream(hostKey)) {
+			hostKeys.add(SecurityUtils.loadKeyPairIdentity("", in, null));
+		} catch (IOException | GeneralSecurityException e) {
+			// Ignore.
+		}
 		server.setKeyPairProvider(new KeyPairProvider() {
 
 			@Override
 			public Iterable<KeyPair> loadKeys() {
-				try (ByteArrayInputStream in = new ByteArrayInputStream(
-						hostKey)) {
-					return Collections.singletonList(
-							SecurityUtils.loadKeyPairIdentity("", in, null));
-				} catch (IOException | GeneralSecurityException e) {
-					return null;
-				}
+				return hostKeys;
 			}
 
 		});
@@ -217,6 +221,32 @@ public class SshTestGitServer {
 			}
 		});
 		return authentications;
+	}
+
+	/**
+	 * Adds an additional host key to the server.
+	 * 
+	 * @param key
+	 *            path to the private key file; should not be encrypted
+	 * @param inFront
+	 *            whether to add the new key before other existing keys
+	 * @throws IOException
+	 *             if the file denoted by the {@link Path} {@code key} cannot be
+	 *             read
+	 * @throws GeneralSecurityException
+	 *             if the key contained in the file cannot be read
+	 */
+	public void addHostKey(@NonNull Path key, boolean inFront)
+			throws IOException, GeneralSecurityException {
+		try (InputStream in = Files.newInputStream(key)) {
+			KeyPair pair = SecurityUtils.loadKeyPairIdentity(key.toString(), in,
+					null);
+			if (inFront) {
+				hostKeys.add(0, pair);
+			} else {
+				hostKeys.add(pair);
+			}
+		}
 	}
 
 	/**

@@ -148,7 +148,8 @@ import org.slf4j.LoggerFactory;
  * @see <a href="http://man.openbsd.org/OpenBSD-current/man5/ssh_config.5">man
  *      ssh-config</a>
  */
-public class OpenSshServerKeyVerifier implements ServerKeyVerifier {
+public class OpenSshServerKeyVerifier
+		implements ServerKeyVerifier, ServerKeyLookup {
 
 	// TODO: GlobalKnownHostsFile? May need some kind of LRU caching; these
 	// files may be large!
@@ -192,12 +193,10 @@ public class OpenSshServerKeyVerifier implements ServerKeyVerifier {
 		this.askAboutNewFile = askAboutNewFile;
 	}
 
-	@Override
-	public boolean verifyServerKey(ClientSession clientSession,
-			SocketAddress remoteAddress, PublicKey serverKey) {
+	private List<HostKeyFile> getFilesToUse(ClientSession session) {
 		List<HostKeyFile> filesToUse = defaultFiles;
-		if (clientSession instanceof JGitClientSession) {
-			HostConfigEntry entry = ((JGitClientSession) clientSession)
+		if (session instanceof JGitClientSession) {
+			HostConfigEntry entry = ((JGitClientSession) session)
 					.getHostConfigEntry();
 			if (entry instanceof JGitHostConfigEntry) {
 				// Always true!
@@ -209,6 +208,35 @@ public class OpenSshServerKeyVerifier implements ServerKeyVerifier {
 				}
 			}
 		}
+		return filesToUse;
+	}
+
+	@Override
+	public List<HostEntryPair> lookup(ClientSession session,
+			SocketAddress remote) {
+		List<HostKeyFile> filesToUse = getFilesToUse(session);
+		HostKeyHelper helper = new HostKeyHelper();
+		List<HostEntryPair> result = new ArrayList<>();
+		Collection<SshdSocketAddress> candidates = helper
+				.resolveHostNetworkIdentities(session, remote);
+		for (HostKeyFile file : filesToUse) {
+			for (HostEntryPair current : file.get()) {
+				KnownHostEntry entry = current.getHostEntry();
+				for (SshdSocketAddress host : candidates) {
+					if (entry.isHostMatch(host.getHostName(), host.getPort())) {
+						result.add(current);
+						break;
+					}
+				}
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public boolean verifyServerKey(ClientSession clientSession,
+			SocketAddress remoteAddress, PublicKey serverKey) {
+		List<HostKeyFile> filesToUse = getFilesToUse(clientSession);
 		AskUser ask = new AskUser();
 		HostEntryPair[] modified = { null };
 		Path path = null;
@@ -634,8 +662,8 @@ public class OpenSshServerKeyVerifier implements ServerKeyVerifier {
 
 		private List<HostEntryPair> reload(Path path) throws IOException {
 			try {
-				List<KnownHostEntry> rawEntries = KnownHostEntry
-						.readKnownHostEntries(path);
+				List<KnownHostEntry> rawEntries = KnownHostEntryReader
+						.readFromFile(path);
 				updateReloadAttributes();
 				if (rawEntries == null || rawEntries.isEmpty()) {
 					return Collections.emptyList();
@@ -652,13 +680,13 @@ public class OpenSshServerKeyVerifier implements ServerKeyVerifier {
 						if (serverKey == null) {
 							LOG.warn(format(
 									SshdText.get().knownHostsUnknownKeyType,
-									getPath(), entry.getConfigLine()));
+									path, entry.getConfigLine()));
 						} else {
 							newEntries.add(new HostEntryPair(entry, serverKey));
 						}
 					} catch (GeneralSecurityException e) {
 						LOG.warn(format(SshdText.get().knownHostsInvalidLine,
-								getPath(), entry.getConfigLine()));
+								path, entry.getConfigLine()));
 					}
 				}
 				return newEntries;
