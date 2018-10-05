@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3eaf2ae_e862ee5c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 923,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-05T19:51:37Z",
+      "side": 1,
+      "message": "Probably also worth pointing out this change in the commit message and tests.",
+      "range": {
+        "startLine": 923,
+        "startChar": 8,
+        "endLine": 923,
+        "endChar": 15
+      },
+      "revId": "3ed3eafbd18054ce502969e212b1de34f1ffc776",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
