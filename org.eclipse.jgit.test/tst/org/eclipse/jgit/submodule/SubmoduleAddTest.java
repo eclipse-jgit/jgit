@@ -226,6 +226,64 @@ public class SubmoduleAddTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void addSubmoduleWithInvalidName() throws Exception {
+		SubmoduleAddCommand command = new SubmoduleAddCommand(db);
+		command.setName("-invalid-name");
+		command.setPath("valid-path");
+		command.setURI("http://example.com/repo/x.git");
+		try {
+			command.call().close();
+			fail("Exception not thrown");
+		} catch (IllegalArgumentException e) {
+			assertEquals("Invalid submodule name '-invalid-name'",
+					e.getMessage());
+		}
+	}
+
+	@Test
+	public void addSubmoduleWithInvalidPath() throws Exception {
+		SubmoduleAddCommand command = new SubmoduleAddCommand(db);
+		command.setName("valid-name");
+		command.setPath("-invalid-path");
+		command.setURI("http://example.com/repo/x.git");
+		try {
+			command.call().close();
+			fail("Exception not thrown");
+		} catch (IllegalArgumentException e) {
+			assertEquals("Invalid submodule path '-invalid-path'",
+					e.getMessage());
+		}
+	}
+
+	@Test
+	public void addSubmoduleWithInvalidUri() throws Exception {
+		SubmoduleAddCommand command = new SubmoduleAddCommand(db);
+		command.setName("valid-name");
+		command.setPath("valid-path");
+		command.setURI("-upstream");
+		try {
+			command.call().close();
+			fail("Exception not thrown");
+		} catch (IllegalArgumentException e) {
+			assertEquals("Invalid submodule URL '-upstream'", e.getMessage());
+		}
+	}
+
+	@Test
+	public void denySubmoduleWithDotDot() throws Exception {
+		SubmoduleAddCommand command = new SubmoduleAddCommand(db);
+		command.setName("dir/../");
+		command.setPath("sub");
+		command.setURI(db.getDirectory().toURI().toString());
+		try {
+			command.call();
+			fail();
+		} catch (IllegalArgumentException e) {
+			// Expected
+		}
+	}
+
+	@Test
 	public void addSubmoduleWithRelativeUri() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("file.txt", "content");
@@ -308,20 +366,6 @@ public class SubmoduleAddTest extends RepositoryTestCase {
 			assertEquals(url2, modulesConfig.getString(
 					ConfigConstants.CONFIG_SUBMODULE_SECTION, path2,
 					ConfigConstants.CONFIG_KEY_URL));
-		}
-	}
-
-	@Test
-	public void denySubmoduleWithDotDot() throws Exception {
-		SubmoduleAddCommand command = new SubmoduleAddCommand(db);
-		command.setName("dir/../");
-		command.setPath("sub");
-		command.setURI(db.getDirectory().toURI().toString());
-		try {
-			command.call();
-			fail();
-		} catch (IllegalArgumentException e) {
-			// Expected
 		}
 	}
 }
