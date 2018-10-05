@@ -183,6 +183,37 @@ public class SubmoduleAddTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void addSubmoduleWithInvalidPath() throws Exception {
+		SubmoduleAddCommand command = new SubmoduleAddCommand(db);
+		command.setPath("-invalid-path");
+		// TODO(ms) set name to a valid value in 5.1.0 and adapt expected
+		// message below
+		command.setURI("http://example.com/repo/x.git");
+		try {
+			command.call().close();
+			fail("Exception not thrown");
+		} catch (IllegalArgumentException e) {
+			// TODO(ms) should check for submodule path, but can't set name
+			// before 5.1.0
+			assertEquals("Invalid submodule name '-invalid-path'",
+					e.getMessage());
+		}
+	}
+
+	@Test
+	public void addSubmoduleWithInvalidUri() throws Exception {
+		SubmoduleAddCommand command = new SubmoduleAddCommand(db);
+		command.setPath("valid-path");
+		command.setURI("-upstream");
+		try {
+			command.call().close();
+			fail("Exception not thrown");
+		} catch (IllegalArgumentException e) {
+			assertEquals("Invalid submodule URL '-upstream'", e.getMessage());
+		}
+	}
+
+	@Test
 	public void addSubmoduleWithRelativeUri() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("file.txt", "content");
