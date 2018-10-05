@@ -768,6 +768,112 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
+	public void testValidTreeWithGitmodules() throws CorruptObjectException {
+		ObjectId treeId = ObjectId
+				.fromString("0123012301230123012301230123012301230123");
+		StringBuilder b = new StringBuilder();
+		ObjectId blobId = entry(b, "100644 .gitmodules");
+
+		byte[] data = encodeASCII(b.toString());
+		checker.checkTree(treeId, data);
+		assertEquals(1, checker.getGitsubmodules().size());
+		assertEquals(treeId, checker.getGitsubmodules().get(0).getTreeId());
+		assertEquals(blobId, checker.getGitsubmodules().get(0).getBlobId());
+	}
+
+	/*
+	 * Windows case insensitivity and long file name handling
+	 * means that .gitmodules has many synonyms.
+	 *
+	 * Examples inspired by git.git's t/t0060-path-utils.sh, by
+	 * Johannes Schindelin and Congyi Wu.
+	 */
+	@Test
+	public void testNTFSGitmodules() throws CorruptObjectException {
+		for (String gitmodules : new String[] {
+			".GITMODULES",
+			".gitmodules",
+			".Gitmodules",
+			".gitmoduleS",
+			"gitmod~1",
+			"GITMOD~1",
+			"gitmod~4",
+			"GI7EBA~1",
+			"gi7eba~9",
+			"GI7EB~10",
+			"GI7E~123",
+			"~1000000",
+			"~9999999"
+		}) {
+			checker = new ObjectChecker(); // Reset the ObjectChecker state.
+			checker.setSafeForWindows(true);
+			ObjectId treeId = ObjectId
+					.fromString("0123012301230123012301230123012301230123");
+			StringBuilder b = new StringBuilder();
+			ObjectId blobId = entry(b, "100644 " + gitmodules);
+
+			byte[] data = encodeASCII(b.toString());
+			checker.checkTree(treeId, data);
+			assertEquals(1, checker.getGitsubmodules().size());
+			assertEquals(treeId, checker.getGitsubmodules().get(0).getTreeId());
+			assertEquals(blobId, checker.getGitsubmodules().get(0).getBlobId());
+		}
+	}
+
+	@Test
+	public void testNotGitmodules() throws CorruptObjectException {
+		for (String notGitmodules : new String[] {
+			".gitmodu",
+			".gitmodules oh never mind",
+		}) {
+			checker = new ObjectChecker(); // Reset the ObjectChecker state.
+			checker.setSafeForWindows(true);
+			ObjectId treeId = ObjectId
+					.fromString("0123012301230123012301230123012301230123");
+			StringBuilder b = new StringBuilder();
+			entry(b, "100644 " + notGitmodules);
+
+			byte[] data = encodeASCII(b.toString());
+			checker.checkTree(treeId, data);
+			assertEquals(0, checker.getGitsubmodules().size());
+		}
+	}
+
+	/*
+	 * TODO HFS: match ".gitmodules" case-insensitively, after stripping out
+	 * certain zero-length Unicode code points that HFS+ strips out
+	 */
+
+	@Test
+	public void testValidTreeWithGitmodulesUppercase()
+			throws CorruptObjectException {
+		ObjectId treeId = ObjectId
+				.fromString("0123012301230123012301230123012301230123");
+		StringBuilder b = new StringBuilder();
+		ObjectId blobId = entry(b, "100644 .GITMODULES");
+
+		byte[] data = encodeASCII(b.toString());
+		checker.setSafeForWindows(true);
+		checker.checkTree(treeId, data);
+		assertEquals(1, checker.getGitsubmodules().size());
+		assertEquals(treeId, checker.getGitsubmodules().get(0).getTreeId());
+		assertEquals(blobId, checker.getGitsubmodules().get(0).getBlobId());
+	}
+
+	@Test
+	public void testTreeWithInvalidGitmodules() throws CorruptObjectException {
+		ObjectId treeId = ObjectId
+				.fromString("0123012301230123012301230123012301230123");
+		StringBuilder b = new StringBuilder();
+		entry(b, "100644 .gitmodulez");
+
+		byte[] data = encodeASCII(b.toString());
+		checker.checkTree(treeId, data);
+		checker.setSafeForWindows(true);
+		assertEquals(0, checker.getGitsubmodules().size());
+	}
+
+	@Test
 	public void testNullSha1InTreeEntry() throws CorruptObjectException {
 		byte[] data = concat(
 				encodeASCII("100644 A"), new byte[] { '\0' },
@@ -1551,11 +1657,20 @@ public class ObjectCheckerTest {
 		checker.checkTree(encodeASCII(b.toString()));
 	}
 
-	private static void entry(StringBuilder b, final String modeName) {
+	/*
+	 * Returns the id generated for the entry
+	 */
+	private static ObjectId entry(StringBuilder b, String modeName) {
+		byte[] id = new byte[OBJECT_ID_LENGTH];
+
 		b.append(modeName);
 		b.append('\0');
-		for (int i = 0; i < OBJECT_ID_LENGTH; i++)
+		for (int i = 0; i < OBJECT_ID_LENGTH; i++) {
 			b.append((char) i);
+			id[i] = (byte) i;
+		}
+
+		return ObjectId.fromRaw(id);
 	}
 
 	private void assertCorrupt(String msg, int type, StringBuilder b) {
