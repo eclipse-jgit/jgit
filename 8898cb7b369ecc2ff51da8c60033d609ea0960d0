@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fbac1c28_8f4e0d52",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/submodule/SubmoduleAddTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-10-05T19:03:51Z",
+      "side": 1,
+      "message": "* this fails since name can\u0027t be set in 4.7 but name check is done first\n* wrong order of arguments, first one is expected, second one actual",
+      "revId": "8898cb7b369ecc2ff51da8c60033d609ea0960d0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
