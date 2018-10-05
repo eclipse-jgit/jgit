@@ -94,6 +94,24 @@
     },
     {
       "key": {
+        "uuid": "fbc89db7_864884b2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2018-10-05T08:35:25Z",
+      "side": 1,
+      "message": "\u003e What you\u0027d\n \u003e really want is to get the new key and then detect a changed host\n \u003e key and inform the user about that.\n\nThe main issue I am trying to solve is Gerrit\u0027s replication plugin\nfailing to connect because of the issue described in the commit message. In that case there is no interactive session and we cannot\ninform the user.\n\n\u003e Meaning: if something like this is done it should be done only if the\n\u003e user did not specify a HostKeyAlgorithms in his ssh config file.\n\nMakes sense, agreed.",
+      "parentUuid": "1353d088_5d8c911a",
+      "revId": "d4389d164bcbe57606ab4b5e9a896b595df544b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d64dec73_e7efcd47",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
         "patchSetId": 1
