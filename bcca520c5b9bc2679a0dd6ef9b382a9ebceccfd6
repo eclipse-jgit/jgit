@@ -16,6 +16,24 @@
       "revId": "bcca520c5b9bc2679a0dd6ef9b382a9ebceccfd6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "062fb526_10ec36b2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/ReceivePackAdvertiseRefsHookTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-10-05T19:33:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70a998b4_3401087e",
+      "revId": "bcca520c5b9bc2679a0dd6ef9b382a9ebceccfd6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
