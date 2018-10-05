@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb652d4c_ddd7ee8e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1425,
+      "author": {
+        "id": 208154
+      },
+      "writtenOn": "2018-10-05T18:48:38Z",
+      "side": 1,
+      "message": "This fixes the specific problem reported. But I am not sure if it should be implemented here like this. Or should it be part of the conflict resolution (which I am not familiar with)?",
+      "revId": "4b8de9e27e493143a93ce18ae2eab59a6c8c2cf2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
