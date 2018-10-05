@@ -84,6 +84,13 @@ import org.eclipse.jgit.transport.sshd.KeyCache;
 public class JGitSshClient extends SshClient {
 
 	/**
+	 * We need access to this during the constructor of the ClientSession,
+	 * before setConnectAddress() can have been called. So we have to remember
+	 * it in an attribute on the SshClient, from where we can then retrieve it.
+	 */
+	static final AttributeKey<HostConfigEntry> HOST_CONFIG_ENTRY = new AttributeKey<>();
+
+	/**
 	 * An attribute key for the comma-separated list of default preferred
 	 * authentication mechanisms.
 	 */
@@ -124,6 +131,7 @@ public class JGitSshClient extends SshClient {
 				hostConfig.getProperty(SshConstants.PREFERRED_AUTHENTICATIONS,
 						getAttribute(PREFERRED_AUTHENTICATIONS)),
 				PREFERRED_AUTHS);
+		setAttribute(HOST_CONFIG_ENTRY, hostConfig);
 		connector.connect(address).addListener(listener);
 		return connectFuture;
 	}
