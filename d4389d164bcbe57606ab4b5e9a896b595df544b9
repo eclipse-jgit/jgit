@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "51e8189e_236481b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2018-10-05T09:55:19Z",
+      "side": 1,
+      "message": "\u003e The word \"Fix\" is telling me that this patch would make the world\n \u003e better than the world before it, but that goes without saying, so\n \u003e it doesn\u0027t belong in the subject line of the change.\n\nIn general or for this change only? See the output of:\n$ git log --oneline --grep Fix --no-merges\n\n\n \u003e \n \u003e Can you summarize briefly what improvement this patch makes, to\n \u003e make the output of commands like \"git shortlog\" more useful? For\n \u003e example, how about something like\n \u003e \n \u003e ssh: Scan for all of the server-presented host keys in known_hosts\n \u003e \n \u003e ?\n\nThis subject tells what was done.\nThe existing subject tells which issue was addressed with this change.\nLooking at the output of git log I think we can find examples for both\nstyles.",
+      "parentUuid": "94ff0a7b_c850da0c",
+      "revId": "d4389d164bcbe57606ab4b5e9a896b595df544b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8b7d6fdf_eba82345",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
