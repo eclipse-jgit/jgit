@@ -21,7 +21,10 @@ public final class SshdText extends TranslationBundle {
 	/***/ public String authenticationCanceled;
 	/***/ public String closeListenerFailed;
 	/***/ public String configInvalidPath;
+	/***/ public String configInvalidPattern;
 	/***/ public String configInvalidPositive;
+	/***/ public String configNoKnownHostKeyAlgorithms;
+	/***/ public String configNoRemainingHostKeyAlgorithms;
 	/***/ public String ftpCloseFailed;
 	/***/ public String gssapiFailure;
 	/***/ public String gssapiInitFailure;
