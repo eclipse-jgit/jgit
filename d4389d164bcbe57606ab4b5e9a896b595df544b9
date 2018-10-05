@@ -112,6 +112,24 @@
     },
     {
       "key": {
+        "uuid": "aec1f241_9bc253e8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-10-05T08:48:54Z",
+      "side": 1,
+      "message": "\u003e \u003e What you\u0027d\n \u003e \u003e really want is to get the new key and then detect a changed host\n \u003e \u003e key and inform the user about that.\n \u003e \n \u003e The main issue I am trying to solve is Gerrit\u0027s replication plugin\n \u003e failing to connect because of the issue described in the commit\n \u003e message. In that case there is no interactive session and we cannot\n \u003e inform the user.\n\nGerrit replication is not the only use case here. Interactive use also is. If you re-order the host key algorithms such that the existing key type(s) come(s) first Gerrit replication should work, and if the server really doesn\u0027t have an ECDSA key anymore and client and server agree on RSA or whatever, then you do have a case of a modified server key and Gerrit replication should fail, and in interactive use the user is to be informed with a meaningful message. And meaningful is the normal modified key handling, not some message about no common host key algorithms found.\n\nAlso, the known_hosts file could contain several entries for the same host (one for the ECDSA key, and one for the RSA key). In such cases you\u0027d want the client to accept the host key in both cases (server send ECDSA or server sends RSA).\n\nSo restricting this to a single algorithm is IMO not correct.",
+      "parentUuid": "fbc89db7_864884b2",
+      "revId": "d4389d164bcbe57606ab4b5e9a896b595df544b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d64dec73_e7efcd47",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
         "patchSetId": 1
