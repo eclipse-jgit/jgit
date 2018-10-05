@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "213cd018_765b3c42",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-05T19:49:44Z",
+      "side": 1,
+      "message": "Can the caller call objCheck.getGitsubmodules() directly instead? I think that would be simpler.",
+      "revId": "3cb4bf33c5748ea30460b6bef4f73338216d9515",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
