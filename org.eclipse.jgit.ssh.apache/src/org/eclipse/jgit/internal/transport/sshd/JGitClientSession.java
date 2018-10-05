@@ -42,11 +42,27 @@
  */
 package org.eclipse.jgit.internal.transport.sshd;
 
+import static java.text.MessageFormat.format;
+
+import java.security.PublicKey;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.apache.sshd.client.ClientFactoryManager;
 import org.apache.sshd.client.config.hosts.HostConfigEntry;
+import org.apache.sshd.client.keyverifier.KnownHostsServerKeyVerifier.HostEntryPair;
+import org.apache.sshd.client.keyverifier.ServerKeyVerifier;
 import org.apache.sshd.client.session.ClientSessionImpl;
+import org.apache.sshd.common.FactoryManager;
+import org.apache.sshd.common.config.keys.KeyUtils;
 import org.apache.sshd.common.io.IoSession;
+import org.eclipse.jgit.errors.InvalidPatternException;
+import org.eclipse.jgit.fnmatch.FileNameMatcher;
 import org.eclipse.jgit.transport.CredentialsProvider;
+import org.eclipse.jgit.transport.SshConstants;
 
 /**
  * A {@link org.apache.sshd.client.session.ClientSession ClientSession} that can
@@ -109,6 +125,105 @@ public class JGitClientSession extends ClientSessionImpl {
 	 */
 	public CredentialsProvider getCredentialsProvider() {
 		return credentialsProvider;
+	}
+
+	@Override
+	protected String resolveAvailableSignaturesProposal(
+			FactoryManager manager) {
+		Set<String> defaultSignatures = new LinkedHashSet<>();
+		defaultSignatures.addAll(getSignatureFactoriesNames());
+		HostConfigEntry config = resolveAttribute(
+				JGitSshClient.HOST_CONFIG_ENTRY);
+		String hostKeyAlgorithms = config
+				.getProperty(SshConstants.HOST_KEY_ALGORITHMS);
+		if (hostKeyAlgorithms != null && !hostKeyAlgorithms.isEmpty()) {
+			char first = hostKeyAlgorithms.charAt(0);
+			if (first == '+') {
+				// Additions make not much sense -- it's either in
+				// defaultSignatures already, or we have no implementation for
+				// it. No point in proposing it.
+				return String.join(",", defaultSignatures); //$NON-NLS-1$
+			} else if (first == '-') {
+				// This takes wildcard patterns!
+				removeFromList(defaultSignatures,
+						SshConstants.HOST_KEY_ALGORITHMS,
+						hostKeyAlgorithms.substring(1));
+				if (defaultSignatures.isEmpty()) {
+					// Too bad: user config error. Warn here, and then fail
+					// later.
+					log.warn(format(
+							SshdText.get().configNoRemainingHostKeyAlgorithms,
+							hostKeyAlgorithms));
+				}
+				return String.join(",", defaultSignatures); //$NON-NLS-1$
+			} else {
+				// Default is overridden -- only accept the ones for which we do
+				// have an implementation.
+				List<String> newNames = filteredList(defaultSignatures,
+						hostKeyAlgorithms);
+				if (newNames.isEmpty()) {
+					log.warn(format(
+							SshdText.get().configNoKnownHostKeyAlgorithms,
+							hostKeyAlgorithms));
+					// Use the default instead.
+				} else {
+					return String.join(",", newNames); //$NON-NLS-1$
+				}
+			}
+		}
+		// No HostKeyAlgorithms; using default -- change order to put existing
+		// keys first.
+		ServerKeyVerifier verifier = getServerKeyVerifier();
+		if (verifier instanceof ServerKeyLookup) {
+			List<HostEntryPair> allKnownKeys = ((ServerKeyLookup) verifier)
+					.lookup(this, this.getIoSession().getRemoteAddress());
+			Set<String> reordered = new LinkedHashSet<>();
+			for (HostEntryPair h : allKnownKeys) {
+				PublicKey key = h.getServerKey();
+				if (key != null) {
+					String keyType = KeyUtils.getKeyType(key);
+					if (keyType != null) {
+						reordered.add(keyType);
+					}
+				}
+			}
+			reordered.addAll(defaultSignatures);
+			return String.join(",", reordered); //$NON-NLS-1$
+		}
+		return String.join(",", defaultSignatures); //$NON-NLS-1$
+	}
+
+	private void removeFromList(Set<String> current, String key,
+			String patterns) {
+		for (String toRemove : patterns.split("\\s*,\\s*")) { //$NON-NLS-1$
+			if (toRemove.indexOf('*') < 0 && toRemove.indexOf('?') < 0) {
+				current.remove(toRemove);
+				continue;
+			}
+			try {
+				FileNameMatcher matcher = new FileNameMatcher(toRemove, null);
+				for (Iterator<String> i = current.iterator(); i.hasNext();) {
+					matcher.reset();
+					matcher.append(i.next());
+					if (matcher.isMatch()) {
+						i.remove();
+					}
+				}
+			} catch (InvalidPatternException e) {
+				log.warn(format(SshdText.get().configInvalidPattern, key,
+						toRemove));
+			}
+		}
+	}
+
+	private List<String> filteredList(Set<String> known, String values) {
+		List<String> newNames = new ArrayList<>();
+		for (String newValue : values.split("\\s*,\\s*")) { //$NON-NLS-1$
+			if (known.contains(newValue)) {
+				newNames.add(newValue);
+			}
+		}
+		return newNames;
 	}
 
 }
