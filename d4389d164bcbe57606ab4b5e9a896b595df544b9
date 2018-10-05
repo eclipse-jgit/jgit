@@ -76,6 +76,24 @@
     },
     {
       "key": {
+        "uuid": "18f50161_53032d3f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-10-05T08:19:21Z",
+      "side": 1,
+      "message": "\u003e Also note that the user can define HostKeyAlgorithms for this host\n \u003e in his ssh config file.\n\nMeaning: if something like this is done it should be done only if the user did not specify a HostKeyAlgorithms in his ssh config file.",
+      "parentUuid": "1353d088_5d8c911a",
+      "revId": "d4389d164bcbe57606ab4b5e9a896b595df544b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d64dec73_e7efcd47",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
         "patchSetId": 1
