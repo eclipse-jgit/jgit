@@ -16,6 +16,24 @@
       "revId": "8898cb7b369ecc2ff51da8c60033d609ea0960d0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f44ac7f6_f740e542",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/submodule/SubmoduleAddTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-10-05T19:30:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fbac1c28_8f4e0d52",
+      "revId": "8898cb7b369ecc2ff51da8c60033d609ea0960d0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
