@@ -22,6 +22,30 @@
       "revId": "3ed3eafbd18054ce502969e212b1de34f1ffc776",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb31c9bf_06582739",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 923,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-05T19:52:06Z",
+      "side": 1,
+      "message": "Oh, it\u0027s already in the commit message. I can send a followup to add it to tests (no need to couple that to this series).",
+      "parentUuid": "e3eaf2ae_e862ee5c",
+      "range": {
+        "startLine": 923,
+        "startChar": 8,
+        "endLine": 923,
+        "endChar": 15
+      },
+      "revId": "3ed3eafbd18054ce502969e212b1de34f1ffc776",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
