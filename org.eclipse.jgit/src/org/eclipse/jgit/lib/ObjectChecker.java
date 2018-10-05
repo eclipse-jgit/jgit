@@ -44,6 +44,7 @@
 
 package org.eclipse.jgit.lib;
 
+import static org.eclipse.jgit.lib.Constants.DOT_GIT_MODULES;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_LENGTH;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_STRING_LENGTH;
 import static org.eclipse.jgit.lib.Constants.OBJ_BAD;
@@ -84,8 +85,10 @@ import static org.eclipse.jgit.util.RawParseUtils.parseBase10;
 
 import java.text.MessageFormat;
 import java.text.Normalizer;
+import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
@@ -135,6 +138,9 @@ public class ObjectChecker {
 
 	/** Header "tagger " */
 	public static final byte[] tagger = Constants.encodeASCII("tagger "); //$NON-NLS-1$
+
+	/** Path ".gitmodules" */
+	private static final byte[] dotGitmodules = Constants.encodeASCII(DOT_GIT_MODULES);
 
 	/**
 	 * Potential issues identified by the checker.
@@ -198,6 +204,8 @@ public class ObjectChecker {
 	private boolean allowInvalidPersonIdent;
 	private boolean windows;
 	private boolean macosx;
+
+	private final List<GitmoduleEntry> gitsubmodules = new ArrayList<>();
 
 	/**
 	 * Enable accepting specific malformed (but not horribly broken) objects.
@@ -684,8 +692,14 @@ public class ObjectChecker {
 				throw new CorruptObjectException(
 						JGitText.get().corruptObjectTruncatedInObjectId);
 			}
+
 			if (ObjectId.zeroId().compareTo(raw, ptr - OBJECT_ID_LENGTH) == 0) {
 				report(NULL_SHA1, id, JGitText.get().corruptObjectZeroId);
+			}
+
+			if (id != null && isGitmodules(raw, lastNameB, lastNameE, id)) {
+				ObjectId blob = ObjectId.fromRaw(raw, ptr - OBJECT_ID_LENGTH);
+				gitsubmodules.add(new GitmoduleEntry(id, blob));
 			}
 		}
 	}
@@ -851,10 +865,9 @@ public class ObjectChecker {
 
 	// Mac's HFS+ folds permutations of ".git" and Unicode ignorable characters
 	// to ".git" therefore we should prevent such names
-	private boolean isMacHFSGit(byte[] raw, int ptr, int end,
+	private boolean isMacHFSPath(byte[] raw, int ptr, int end, byte[] path,
 			@Nullable AnyObjectId id) throws CorruptObjectException {
 		boolean ignorable = false;
-		byte[] git = new byte[] { '.', 'g', 'i', 't' };
 		int g = 0;
 		while (ptr < end) {
 			switch (raw[ptr]) {
@@ -910,15 +923,29 @@ public class ObjectChecker {
 				}
 				return false;
 			default:
-				if (g == 4)
+				if (g == path.length) {
 					return false;
-				if (raw[ptr++] != git[g++])
+				}
+				if (toLower(raw[ptr++]) != path[g++]) {
 					return false;
+				}
 			}
 		}
-		if (g == 4 && ignorable)
+		if (g == path.length && ignorable) {
 			return true;
+		}
 		return false;
+	}
+
+	private boolean isMacHFSGit(byte[] raw, int ptr, int end,
+			@Nullable AnyObjectId id) throws CorruptObjectException {
+		byte[] git = new byte[] { '.', 'g', 'i', 't' };
+		return isMacHFSPath(raw, ptr, end, git, id);
+	}
+
+	private boolean isMacHFSGitmodules(byte[] raw, int ptr, int end,
+			@Nullable AnyObjectId id) throws CorruptObjectException {
+		return isMacHFSPath(raw, ptr, end, dotGitmodules, id);
 	}
 
 	private boolean checkTruncatedIgnorableUTF8(byte[] raw, int ptr, int end,
@@ -1027,6 +1054,104 @@ public class ObjectChecker {
 				&& toLower(buf[p + 2]) == 't';
 	}
 
+	/**
+	 * Check if the filename contained in buf[start:end] could be read as a
+	 * .gitmodules file when checked out to the working directory.
+	 *
+	 * This ought to be a simple comparison, but some filesystems have peculiar
+	 * rules for normalizing filenames:
+	 *
+	 * NTFS has backward-compatibility support for 8.3 synonyms of long file
+	 * names (see
+	 * https://web.archive.org/web/20160318181041/https://usn.pw/blog/gen/2015/06/09/filenames/
+	 * for details). NTFS is also case-insensitive.
+	 *
+	 * MacOS's HFS+ folds away ignorable Unicode characters in addition to case
+	 * folding.
+	 *
+	 * @param buf
+	 *            byte array to decode
+	 * @param start
+	 *            position where a supposed filename is starting
+	 * @param end
+	 *            position where a supposed filename is ending
+	 * @param id
+	 *            object id for error reporting
+	 *
+	 * @return true if the filename in buf could be a ".gitmodules" file
+	 * @throws CorruptObjectException
+	 */
+	private boolean isGitmodules(byte[] buf, int start, int end, @Nullable AnyObjectId id)
+			throws CorruptObjectException {
+		// Simple cases first.
+		if (end - start < 8) {
+			return false;
+		}
+		return (end - start == dotGitmodules.length
+				&& RawParseUtils.match(buf, start, dotGitmodules) != -1)
+			|| (macosx && isMacHFSGitmodules(buf, start, end, id))
+			|| (windows && isNTFSGitmodules(buf, start, end));
+	}
+
+	private boolean matchLowerCase(byte[] b, int ptr, byte[] src) {
+		if (ptr + src.length > b.length) {
+			return false;
+		}
+		for (int i = 0; i < src.length; i++, ptr++) {
+			if (toLower(b[ptr]) != src[i]) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	// .gitmodules, case-insensitive, or an 8.3 abbreviation of the same.
+	private boolean isNTFSGitmodules(byte[] buf, int start, int end) {
+		if (end - start == 11) {
+			return matchLowerCase(buf, start, dotGitmodules);
+		}
+
+		if (end - start != 8) {
+			return false;
+		}
+
+		// "gitmod" or a prefix of "gi7eba", followed by...
+		byte[] gitmod = new byte[]{'g', 'i', 't', 'm', 'o', 'd', '~'};
+		if (matchLowerCase(buf, start, gitmod)) {
+			start += 6;
+		} else {
+			byte[] gi7eba = new byte[]{'g', 'i', '7', 'e', 'b', 'a'};
+			for (int i = 0; i < gi7eba.length; i++, start++) {
+				byte c = (byte) toLower(buf[start]);
+				if (c == '~') {
+					break;
+				}
+				if (c != gi7eba[i]) {
+					return false;
+				}
+			}
+		}
+
+		// ... ~ and a number
+		if (end - start < 2) {
+			return false;
+		}
+		if (buf[start] != '~') {
+			return false;
+		}
+		start++;
+		if (buf[start] < '1' || buf[start] > '9') {
+			return false;
+		}
+		start++;
+		for (; start != end; start++) {
+			if (buf[start] < '0' || buf[start] > '9') {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	private static boolean isGitTilde1(byte[] buf, int p, int end) {
 		if (end - p != 5)
 			return false;
@@ -1101,5 +1226,18 @@ public class ObjectChecker {
 	private String normalize(byte[] raw, int ptr, int end) {
 		String n = RawParseUtils.decode(raw, ptr, end).toLowerCase(Locale.US);
 		return macosx ? Normalizer.normalize(n, Normalizer.Form.NFC) : n;
+	}
+
+	/**
+	 * Get the list of".gitmodules" files found in the pack. For each, report
+	 * its blob id (e.g. to validate its contents) and the tree where it was
+	 * found (e.g. to check if it is in the root)
+	 *
+	 * @return List of pairs of ids <tree, blob>
+	 *
+	 * @since 4.7.5
+	 */
+	public List<GitmoduleEntry> getGitsubmodules() {
+		return gitsubmodules;
 	}
 }
