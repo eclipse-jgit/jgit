@@ -59,6 +59,23 @@
     },
     {
       "key": {
+        "uuid": "1353d088_5d8c911a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2018-10-05T06:23:20Z",
+      "side": 1,
+      "message": "I\u0027m not convinced this is good. This limits the available algorithms for negotiation to exactly one. What if the server had such a key in the past, but now has key of a different type? You\u0027d get some message that no common algorithms existed. What you\u0027d really want is to get the new key and then detect a changed host key and inform the user about that.\n\nSo I think instead of reducing this list to one single algorithm you should re-order the algorithms such that the existing key type comes first.\n\nMoreover, note that \"server_host_key\" is mapped to \"HostKeyAlgorithms\". So how does this interact with line 244 above? Does this need to come before or after, or does it not matter?\n\nAlso note that the user can define HostKeyAlgorithms for this host in his ssh config file.",
+      "revId": "d4389d164bcbe57606ab4b5e9a896b595df544b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d64dec73_e7efcd47",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
         "patchSetId": 1
