@@ -595,6 +595,42 @@ public abstract class SshTestBase extends SshTestHarness {
 				"PreferredAuthentications password");
 	}
 
+	@Test
+	public void testRsaHostKeySecond() throws Exception {
+		// See https://git.eclipse.org/r/#/c/130402/ : server has EcDSA
+		// (preferred), RSA, we have RSA in known_hosts: client and server
+		// should agree on RSA.
+		File newHostKey = new File(getTemporaryDirectory(), "newhostkey");
+		copyTestResource("id_ecdsa_256", newHostKey);
+		server.addHostKey(newHostKey.toPath(), true);
+		cloneWith("ssh://git/doesntmatter", defaultCloneDir, null, //
+				"Host git", //
+				"HostName localhost", //
+				"Port " + testPort, //
+				"User " + TEST_USER, //
+				"IdentityFile " + privateKey1.getAbsolutePath());
+	}
+
+	@Test
+	public void testEcDsaHostKey() throws Exception {
+		// See https://git.eclipse.org/r/#/c/130402/ : server has RSA
+		// (preferred), EcDSA, we have EcDSA in known_hosts: client and server
+		// should agree on EcDSA.
+		File newHostKey = new File(getTemporaryDirectory(), "newhostkey");
+		copyTestResource("id_ecdsa_256", newHostKey);
+		server.addHostKey(newHostKey.toPath(), false);
+		File newHostKeyPub = new File(getTemporaryDirectory(),
+				"newhostkey.pub");
+		copyTestResource("id_ecdsa_256.pub", newHostKeyPub);
+		createKnownHostsFile(knownHosts, "localhost", testPort, newHostKeyPub);
+		cloneWith("ssh://git/doesntmatter", defaultCloneDir, null, //
+				"Host git", //
+				"HostName localhost", //
+				"Port " + testPort, //
+				"User " + TEST_USER, //
+				"IdentityFile " + privateKey1.getAbsolutePath());
+	}
+
 	@Theory
 	public void testSshKeys(String keyName) throws Exception {
 		// JSch fails on ECDSA 384/521 keys. Compare
