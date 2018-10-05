@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f2ed89bb_d6886b2f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/ReceivePackAdvertiseRefsHookTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-10-05T21:50:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0da3d105_862c282a",
+      "range": {
+        "startLine": 429,
+        "startChar": 0,
+        "endLine": 457,
+        "endChar": 26
+      },
+      "revId": "37d3857938d8e516326db3a9aca66cd85d0a77c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b05f3ba6_e523ca44",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/ReceivePackAdvertiseRefsHookTest.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2018-10-05T19:49:44Z",
       "side": 1,
       "message": "mthai writes: Would be clearer to split the tests up.",
+      "range": {
+        "startLine": 469,
+        "startChar": 0,
+        "endLine": 484,
+        "endChar": 47
+      },
+      "revId": "37d3857938d8e516326db3a9aca66cd85d0a77c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9168f825_393fa674",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/ReceivePackAdvertiseRefsHookTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-10-05T21:50:27Z",
+      "side": 1,
+      "message": "how ?",
+      "parentUuid": "b05f3ba6_e523ca44",
       "range": {
         "startLine": 469,
         "startChar": 0,
