@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "470f2fae_c1d3cbab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/submodule/SubmoduleValidator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-05T19:32:07Z",
+      "side": 1,
+      "message": "I think this suppression isn\u0027t needed any more.",
+      "revId": "f3a54a55ef06d8161e355a951e7ef6d53e8d3cee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
