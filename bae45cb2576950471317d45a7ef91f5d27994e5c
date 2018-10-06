@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9db1d5d1_dcc58803",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1216,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-10-06T09:03:10Z",
+      "side": 1,
+      "message": "Per [1] this could also have been modified to use the @literal tag.\n\n[1] https://stackoverflow.com/a/6049713/381622",
+      "range": {
+        "startLine": 1216,
+        "startChar": 33,
+        "endLine": 1216,
+        "endChar": 51
+      },
+      "revId": "bae45cb2576950471317d45a7ef91f5d27994e5c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
