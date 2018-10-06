@@ -72,6 +72,21 @@ public class FsckError {
 			this.type = type;
 		}
 
+		/**
+		 * @param id
+		 *            the object identifier
+		 * @param type
+		 *            type of the object
+		 * @param errorType
+		 *            kind of error
+		 */
+		public CorruptObject(ObjectId id, int type,
+				ObjectChecker.ErrorType errorType) {
+			this.id = id;
+			this.type = type;
+			this.errorType = errorType;
+		}
+
 		void setErrorType(ObjectChecker.ErrorType errorType) {
 			this.errorType = errorType;
 		}

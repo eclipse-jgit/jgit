@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.internal.storage.dfs;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 
@@ -54,10 +55,15 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.fsck.FsckError;
 import org.eclipse.jgit.internal.fsck.FsckError.CorruptIndex;
+import org.eclipse.jgit.internal.fsck.FsckError.CorruptObject;
 import org.eclipse.jgit.internal.fsck.FsckPackParser;
+import org.eclipse.jgit.internal.submodule.SubmoduleValidator;
+import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.GitmoduleEntry;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectChecker;
+import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.ObjectWalk;
@@ -117,6 +123,9 @@ public class DfsFsck {
 				}
 			}
 		}
+
+		// git modules were added to the object checker in verifyPack
+		checkGitModules(pm, errors);
 	}
 
 	private void verifyPack(ProgressMonitor pm, FsckError errors, DfsReader ctx,
@@ -129,6 +138,24 @@ public class DfsFsck {
 		errors.getCorruptObjects().addAll(fpp.getCorruptObjects());
 
 		fpp.verifyIndex(pack.getPackIndex(ctx));
+	}
+
+	private void checkGitModules(ProgressMonitor pm, FsckError errors)
+			throws IOException {
+		for (GitmoduleEntry entry : objChecker.getGitsubmodules()) {
+			AnyObjectId blobId = entry.getBlobId();
+			ObjectLoader blob = objdb.open(blobId, Constants.OBJ_BLOB);
+
+			try {
+				SubmoduleValidator.assertValidGitModulesFile(
+						new String(blob.getBytes(), UTF_8));
+			} catch (IOException e) {
+				CorruptObject co = new FsckError.CorruptObject(
+						blobId.toObjectId(), Constants.OBJ_BLOB,
+						ObjectChecker.ErrorType.INVALID_GIT_MODULES);
+				errors.getCorruptObjects().add(co);
+			}
+		}
 	}
 
 	private void checkConnectivity(ProgressMonitor pm, FsckError errors)

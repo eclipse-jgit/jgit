@@ -173,6 +173,7 @@ public class ObjectChecker {
 		/***/ BAD_TIMEZONE,
 		/***/ MISSING_EMAIL,
 		/***/ MISSING_SPACE_BEFORE_DATE,
+		/***/ INVALID_GIT_MODULES,
 		/***/ UNKNOWN_TYPE,
 
 		// These are unique to JGit.
