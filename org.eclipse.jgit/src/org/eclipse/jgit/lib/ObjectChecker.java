@@ -173,6 +173,13 @@ public class ObjectChecker {
 		/***/ BAD_TIMEZONE,
 		/***/ MISSING_EMAIL,
 		/***/ MISSING_SPACE_BEFORE_DATE,
+		/***/ GITMODULES_BLOB,
+		/***/ GITMODULES_LARGE,
+		/***/ GITMODULES_NAME,
+		/***/ GITMODULES_PARSE,
+		/***/ GITMODULES_PATH,
+		/***/ GITMODULES_URL,
+		/***/ GITMODULES_SYMLINK,
 		/***/ UNKNOWN_TYPE,
 
 		// These are unique to JGit.
@@ -1250,5 +1257,16 @@ public class ObjectChecker {
 	 */
 	public List<GitmoduleEntry> getGitsubmodules() {
 		return gitsubmodules;
+	}
+
+	/**
+	 * Reset the invocation specific data from the instance. Specifically the
+	 * list of git-submodules.
+	 *
+	 * Configurations like errors to filter, the OS or skip lists are NOT
+	 * cleared.
+	 */
+	public void reset() {
+		gitsubmodules.clear();
 	}
 }

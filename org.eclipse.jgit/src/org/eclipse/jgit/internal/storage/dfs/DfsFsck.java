@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.internal.storage.dfs;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 
@@ -54,12 +55,20 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.fsck.FsckError;
 import org.eclipse.jgit.internal.fsck.FsckError.CorruptIndex;
+import org.eclipse.jgit.internal.fsck.FsckError.CorruptObject;
 import org.eclipse.jgit.internal.fsck.FsckPackParser;
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
+import org.eclipse.jgit.internal.submodule.SubmoduleValidator;
+import org.eclipse.jgit.internal.submodule.SubmoduleValidator.SubmoduleValidationException;
+import org.eclipse.jgit.internal.submodule.SubmoduleValidator.SubmoduleValidationException.SubmoduleError;
+import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.GitmoduleEntry;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectChecker;
+import org.eclipse.jgit.lib.ObjectChecker.ErrorType;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.ObjectWalk;
@@ -105,6 +114,7 @@ public class DfsFsck {
 			checkPacks(pm, errors);
 		}
 		checkConnectivity(pm, errors);
+		objChecker.reset();
 		return errors;
 	}
 
@@ -128,6 +138,8 @@ public class DfsFsck {
 				}
 			}
 		}
+
+		checkGitModules(pm, errors);
 	}
 
 	private void verifyPack(ProgressMonitor pm, FsckError errors, DfsReader ctx,
@@ -140,6 +152,46 @@ public class DfsFsck {
 		errors.getCorruptObjects().addAll(fpp.getCorruptObjects());
 
 		fpp.verifyIndex(pack.getPackIndex(ctx));
+	}
+
+	private void checkGitModules(ProgressMonitor pm, FsckError errors)
+			throws IOException {
+		pm.beginTask(JGitText.get().validatingGitModules,
+				objChecker.getGitsubmodules().size());
+		for (GitmoduleEntry entry : objChecker.getGitsubmodules()) {
+			AnyObjectId blobId = entry.getBlobId();
+			ObjectLoader blob = objdb.open(blobId, Constants.OBJ_BLOB);
+
+			try {
+				SubmoduleValidator.assertValidGitModulesFile(
+						new String(blob.getBytes(), UTF_8));
+			} catch (SubmoduleValidationException e) {
+				CorruptObject co = new FsckError.CorruptObject(
+						blobId.toObjectId(), Constants.OBJ_BLOB,
+						exceptionToFsckError(e.getSubdmoduleError()));
+				errors.getCorruptObjects().add(co);
+			}
+			pm.update(1);
+		}
+		pm.endTask();
+	}
+
+	private ErrorType exceptionToFsckError(SubmoduleError submoduleError) {
+		switch (submoduleError) {
+		case GITMODULES_NAME:
+			return ObjectChecker.ErrorType.GITMODULES_NAME;
+		case GITMODULES_LARGE:
+			return ObjectChecker.ErrorType.GITMODULES_LARGE;
+		case GITMODULES_PARSE:
+			return ObjectChecker.ErrorType.GITMODULES_PARSE;
+		case GITMODULES_PATH:
+			return ObjectChecker.ErrorType.GITMODULES_PATH;
+		case GITMODULES_URL:
+			return ObjectChecker.ErrorType.GITMODULES_URL;
+		}
+
+		// Switch should cover all cases
+		return ErrorType.GITMODULES_BLOB;
 	}
 
 	private void checkConnectivity(ProgressMonitor pm, FsckError errors)
@@ -178,6 +230,8 @@ public class DfsFsck {
 	/**
 	 * Use a customized object checker instead of the default one. Caller can
 	 * specify a skip list to ignore some errors.
+	 *
+	 * It will be reset after each {{@link #check(ProgressMonitor)} call
 	 *
 	 * @param objChecker
 	 *            A customized object checker.
