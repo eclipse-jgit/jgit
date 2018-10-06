@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b376ef92_6a9e6bec",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleAddCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-06T04:31:18Z",
+      "side": 1,
+      "message": "This \"if\" block is redundant now, since assertValidSubmoduleName performs the same check.",
+      "revId": "572e196bcea95add179ecf3c03df9a706c0b4229",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
