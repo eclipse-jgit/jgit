@@ -22,6 +22,30 @@
       "revId": "bae45cb2576950471317d45a7ef91f5d27994e5c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "661c1a7b_6b919807",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1216,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-10-06T17:06:58Z",
+      "side": 1,
+      "message": "I prefer @literal since it\u0027s easier to read",
+      "parentUuid": "9db1d5d1_dcc58803",
+      "range": {
+        "startLine": 1216,
+        "startChar": 33,
+        "endLine": 1216,
+        "endChar": 51
+      },
+      "revId": "bae45cb2576950471317d45a7ef91f5d27994e5c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
