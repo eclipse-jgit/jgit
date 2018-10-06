@@ -428,6 +428,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String invalidExpandWildcard;
 	/***/ public String invalidFilter;
 	/***/ public String invalidGitdirRef;
+	/***/ public String invalidGitModules;
 	/***/ public String invalidGitType;
 	/***/ public String invalidId;
 	/***/ public String invalidId0;
@@ -724,8 +725,11 @@ public class JGitText extends TranslationBundle {
 	/***/ public String storePushCertOneRef;
 	/***/ public String storePushCertReflog;
 	/***/ public String submoduleExists;
-	/***/ public String submodulesNotSupported;
+	/***/ public String submoduleNameInvalid;
 	/***/ public String submoduleParentRemoteUrlInvalid;
+	/***/ public String submodulePathInvalid;
+	/***/ public String submodulesNotSupported;
+	/***/ public String submoduleUrlInvalid;
 	/***/ public String supportOnlyPackIndexVersion2;
 	/***/ public String symlinkCannotBeWrittenAsTheLinkTarget;
 	/***/ public String systemConfigFileInvalid;

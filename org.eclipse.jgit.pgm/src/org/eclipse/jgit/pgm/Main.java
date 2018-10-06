@@ -71,7 +71,6 @@ import org.eclipse.jgit.lib.RepositoryBuilder;
 import org.eclipse.jgit.pgm.internal.CLIText;
 import org.eclipse.jgit.pgm.opt.CmdLineParser;
 import org.eclipse.jgit.pgm.opt.SubcommandHandler;
-import org.eclipse.jgit.storage.file.WindowCacheConfig;
 import org.eclipse.jgit.transport.HttpTransport;
 import org.eclipse.jgit.transport.http.apache.HttpClientConnectionFactory;
 import org.eclipse.jgit.util.CachedAuthenticator;
@@ -106,19 +105,10 @@ public class Main {
 
 	private ExecutorService gcExecutor;
 
-	private static final int MB = 1024 * 1024;
-
 	/**
 	 * <p>Constructor for Main.</p>
 	 */
 	public Main() {
-		final WindowCacheConfig c = new WindowCacheConfig();
-		c.setPackedGitMMAP(true);
-		c.setPackedGitWindowSize(8 * 1024);
-		c.setPackedGitLimit(10 * MB);
-		c.setDeltaBaseCacheLimit(10 * MB);
-		c.setStreamFileThreshold(50 * MB);
-		c.install();
 		HttpTransport.setConnectionFactory(new HttpClientConnectionFactory());
 		BuiltinLFS.register();
 		gcExecutor = Executors.newSingleThreadExecutor(new ThreadFactory() {
