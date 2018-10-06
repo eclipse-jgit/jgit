@@ -46,6 +46,30 @@
       "revId": "bae45cb2576950471317d45a7ef91f5d27994e5c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64e7fc29_4ec9e703",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1216,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-06T23:59:18Z",
+      "side": 1,
+      "message": "Agreed, I like the @literal approach.",
+      "parentUuid": "661c1a7b_6b919807",
+      "range": {
+        "startLine": 1216,
+        "startChar": 33,
+        "endLine": 1216,
+        "endChar": 51
+      },
+      "revId": "bae45cb2576950471317d45a7ef91f5d27994e5c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
     }
   ]
 }
