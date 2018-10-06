@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d80c2206_0a116c61",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ObjectCheckerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 840,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-06T04:31:18Z",
+      "side": 1,
+      "message": "What happened to these tests?",
+      "revId": "509bd327896042da7b6b17af8027735e17c608dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
