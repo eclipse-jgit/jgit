@@ -1209,11 +1209,11 @@ public class ObjectChecker {
 	}
 
 	/**
-	 * Get the list of".gitmodules" files found in the pack. For each, report
+	 * Get the list of ".gitmodules" files found in the pack. For each, report
 	 * its blob id (e.g. to validate its contents) and the tree where it was
 	 * found (e.g. to check if it is in the root)
 	 *
-	 * @return List of pairs of ids <tree, blob>
+	 * @return List of pairs of ids {@literal <tree, blob>}.
 	 *
 	 * @since 4.7.5
 	 */
