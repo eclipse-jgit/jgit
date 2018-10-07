@@ -179,21 +179,6 @@ public class SubmoduleAddCommand extends
 			// Use the path as the default.
 			name = path;
 		}
-		if (name.contains("/../") || name.contains("\\..\\") //$NON-NLS-1$ //$NON-NLS-2$
-				|| name.startsWith("../") || name.startsWith("..\\") //$NON-NLS-1$ //$NON-NLS-2$
-				|| name.endsWith("/..") || name.endsWith("\\..")) { //$NON-NLS-1$ //$NON-NLS-2$
-			// Submodule names are used to store the submodule repositories
-			// under $GIT_DIR/modules. Having ".." in submodule names makes a
-			// vulnerability (CVE-2018-11235
-			// https://bugs.eclipse.org/bugs/show_bug.cgi?id=535027#c0)
-			// Reject the names with them. The callers need to make sure the
-			// names free from these. We don't automatically replace these
-			// characters or canonicalize by regarding the name as a file path.
-			// Since Path class is platform dependent, we manually check '/' and
-			// '\\' patterns here.
-			throw new IllegalArgumentException(MessageFormat
-					.format(JGitText.get().invalidNameContainsDotDot, name));
-		}
 
 		try {
 			SubmoduleValidator.assertValidSubmoduleName(name);
