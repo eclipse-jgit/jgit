@@ -42,6 +42,23 @@
     },
     {
       "key": {
+        "uuid": "f7e427a4_3eb755f3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsFsck.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-07T22:13:26Z",
+      "side": 1,
+      "message": "Is there a more specific exception this can catch? I think we want to convert SubmoduleValidationException into a fsck error, but other IOExceptions could be due to other causes.",
+      "revId": "aa729cf882dbf7b25c61ecb6b7b4daf1c55259cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d6f7dda0_567d7605",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
         "patchSetId": 1
