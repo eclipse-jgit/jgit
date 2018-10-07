@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4fd3415f_b6c5461a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/fsck/FsckError.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-07T02:34:17Z",
+      "side": 1,
+      "message": "optional: could make this the only constructor by making the errorType param @Nullable",
+      "revId": "aa729cf882dbf7b25c61ecb6b7b4daf1c55259cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0e19627_9290e29b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsFsck.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-07T02:34:17Z",
+      "side": 1,
+      "message": "What happens if the same ObjectChecker is reused for multiple check() calls? E.g. should this clear objChecker.getGitsubmodules() when it starts or finishes?",
+      "range": {
+        "startLine": 145,
+        "startChar": 30,
+        "endLine": 145,
+        "endChar": 40
+      },
+      "revId": "aa729cf882dbf7b25c61ecb6b7b4daf1c55259cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6f7dda0_567d7605",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-07T02:34:17Z",
+      "side": 1,
+      "message": "This should match the msg-id from Git: https://kernel.googlesource.com/pub/scm/git/git/+/master/fsck.c so that the fsck.\u003cmsg-id\u003e configuration keys (see https://mirrors.edge.kernel.org/pub/software/scm/git/docs/git-config.html) match.\n\nThat means\n\n GITMODULES_PARSE,\n GITMODULES_MISSING,\n GITMODULES_BLOB,\n GITMODULES_LARGE,\n GITMODULES_NAME,\n [etc]",
+      "revId": "aa729cf882dbf7b25c61ecb6b7b4daf1c55259cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
