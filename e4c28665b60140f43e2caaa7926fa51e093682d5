@@ -22,6 +22,29 @@
       "revId": "e4c28665b60140f43e2caaa7926fa51e093682d5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cabd1ff_99cc64fc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/submodule/SubmoduleValidator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-10-07T05:38:22Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 169,
+        "startChar": 4,
+        "endLine": 169,
+        "endChar": 35
+      },
+      "revId": "e4c28665b60140f43e2caaa7926fa51e093682d5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
