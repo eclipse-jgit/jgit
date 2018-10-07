@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "758df9d1_43f7a7bf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/submodule/SubmoduleValidator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-07T21:56:45Z",
+      "side": 1,
+      "message": "https://git.eclipse.org/r/130576 to fix",
+      "parentUuid": "54313eb9_5d45f118",
+      "range": {
+        "startLine": 162,
+        "startChar": 4,
+        "endLine": 162,
+        "endChar": 33
+      },
+      "revId": "e4c28665b60140f43e2caaa7926fa51e093682d5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7cabd1ff_99cc64fc",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/submodule/SubmoduleValidator.java",
         "patchSetId": 6
@@ -36,6 +60,30 @@
       "writtenOn": "2018-10-07T05:38:22Z",
       "side": 1,
       "message": "Same here.",
+      "range": {
+        "startLine": 169,
+        "startChar": 4,
+        "endLine": 169,
+        "endChar": 35
+      },
+      "revId": "e4c28665b60140f43e2caaa7926fa51e093682d5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa47581c_6393a534",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/submodule/SubmoduleValidator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-07T21:56:45Z",
+      "side": 1,
+      "message": "likewise",
+      "parentUuid": "7cabd1ff_99cc64fc",
       "range": {
         "startLine": 169,
         "startChar": 4,
