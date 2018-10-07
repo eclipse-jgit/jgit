@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "54313eb9_5d45f118",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/submodule/SubmoduleValidator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-10-07T05:26:49Z",
+      "side": 1,
+      "message": "This fails with NPE if the url is not set in the .gitmodules file.",
+      "range": {
+        "startLine": 162,
+        "startChar": 4,
+        "endLine": 162,
+        "endChar": 33
+      },
+      "revId": "e4c28665b60140f43e2caaa7926fa51e093682d5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
