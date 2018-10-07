@@ -45,6 +45,7 @@ package org.eclipse.jgit.internal.submodule;
 import java.io.IOException;
 import java.text.MessageFormat;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Config;
@@ -115,9 +116,9 @@ public class SubmoduleValidator {
 	 * @throws SubmoduleValidationException
 	 *             uri doesn't seem valid
 	 */
-	public static void assertValidSubmoduleUri(String uri)
+	public static void assertValidSubmoduleUri(@Nullable String uri)
 			throws SubmoduleValidationException {
-		if (uri.startsWith("-")) { //$NON-NLS-1$
+		if (uri != null && uri.startsWith("-")) { //$NON-NLS-1$
 			throw new SubmoduleValidationException(
 					MessageFormat.format(
 							JGitText.get().submoduleUrlInvalid, uri));
@@ -132,10 +133,9 @@ public class SubmoduleValidator {
 	 * @throws SubmoduleValidationException
 	 *             path doesn't look right
 	 */
-	public static void assertValidSubmodulePath(String path)
+	public static void assertValidSubmodulePath(@Nullable String path)
 			throws SubmoduleValidationException {
-
-		if (path.startsWith("-")) { //$NON-NLS-1$
+		if (path != null && path.startsWith("-")) { //$NON-NLS-1$
 			throw new SubmoduleValidationException(
 					MessageFormat.format(
 							JGitText.get().submodulePathInvalid, path));
