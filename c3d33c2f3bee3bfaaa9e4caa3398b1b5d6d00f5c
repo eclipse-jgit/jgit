@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d43a0b46_70a153fb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-10-08T22:02:58Z",
+      "side": 1,
+      "message": "(1) The caller sets depth to Integer.MAX_VALUE in this case, since the protocol does not support a numeric depth and deepen-not in the same request.\n(2) Even if the protocol supported both, the depth is measured from the wanted refs. For example, if we have \"deepen-not master\", have depth 10, and want master~11, restricting the depth here would not work.",
+      "parentUuid": "619eb6d8_ae8ce9ec",
+      "range": {
+        "startLine": 138,
+        "startChar": 23,
+        "endLine": 138,
+        "endChar": 38
+      },
+      "revId": "c3d33c2f3bee3bfaaa9e4caa3398b1b5d6d00f5c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb7e81e0_b2117fec",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2018-10-08T19:35:48Z",
       "side": 1,
       "message": "Are these shortened ref name?  If not, exactRef(s) is more efficient.",
+      "range": {
+        "startLine": 966,
+        "startChar": 40,
+        "endLine": 966,
+        "endChar": 41
+      },
+      "revId": "c3d33c2f3bee3bfaaa9e4caa3398b1b5d6d00f5c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4c0a825d_dff9b57e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 966,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-10-08T22:02:58Z",
+      "side": 1,
+      "message": "Yes, these could be shortened. The protocol documentation is unclear about the format of the ref string, but the C implementation (process_deepen_not() in upload-pack.c) tolerates short names. I\u0027ll add a comment explaining this when I send out a new version (I\u0027ll wait for more comments and if there are none, I\u0027ll send one out tomorrow).",
+      "parentUuid": "bb7e81e0_b2117fec",
       "range": {
         "startLine": 966,
         "startChar": 40,
