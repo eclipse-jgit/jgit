@@ -1258,4 +1258,16 @@ public class ObjectChecker {
 	public List<GitmoduleEntry> getGitsubmodules() {
 		return gitsubmodules;
 	}
+
+	/**
+	 * Reset the invocation specific data from the instance. Specifically the
+	 * list of git-submodules found.
+	 *
+	 * Configurations like errors to filter, skip lists or the specified O.S.
+	 * (set via {@link #setSafeForMacOS(boolean)} or
+	 * {@link #setSafeForWindows(boolean)}) are NOT cleared.
+	 */
+	public void reset() {
+		gitsubmodules.clear();
+	}
 }

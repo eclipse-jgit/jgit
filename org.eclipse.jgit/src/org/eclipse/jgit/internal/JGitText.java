@@ -830,6 +830,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String uriNotFoundWithMessage;
 	/***/ public String URINotSupported;
 	/***/ public String userConfigFileInvalid;
+	/***/ public String validatingGitModules;
 	/***/ public String walkFailure;
 	/***/ public String wantNotValid;
 	/***/ public String weeksAgo;
