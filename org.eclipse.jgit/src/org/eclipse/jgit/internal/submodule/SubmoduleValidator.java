@@ -42,6 +42,10 @@
  */
 package org.eclipse.jgit.internal.submodule;
 
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PATH;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_URL;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_SUBMODULE_SECTION;
+
 import java.io.IOException;
 import java.text.MessageFormat;
 
@@ -134,7 +138,6 @@ public class SubmoduleValidator {
 	 */
 	public static void assertValidSubmodulePath(String path)
 			throws SubmoduleValidationException {
-
 		if (path.startsWith("-")) { //$NON-NLS-1$
 			throw new SubmoduleValidationException(
 					MessageFormat.format(
@@ -154,19 +157,21 @@ public class SubmoduleValidator {
 		Config c = new Config();
 		try {
 			c.fromText(gitModulesContents);
-			for (String subsection : c.getSubsections(
-					ConfigConstants.CONFIG_SUBMODULE_SECTION)) {
-				String url = c.getString(
-						ConfigConstants.CONFIG_SUBMODULE_SECTION,
-						subsection, ConfigConstants.CONFIG_KEY_URL);
-				assertValidSubmoduleUri(url);
-
+			for (String subsection :
+					c.getSubsections(CONFIG_SUBMODULE_SECTION)) {
 				assertValidSubmoduleName(subsection);
 
+				String url = c.getString(
+						CONFIG_SUBMODULE_SECTION, subsection, CONFIG_KEY_URL);
+				if (url != null) {
+					assertValidSubmoduleUri(url);
+				}
+
 				String path = c.getString(
-						ConfigConstants.CONFIG_SUBMODULE_SECTION, subsection,
-						ConfigConstants.CONFIG_KEY_PATH);
-				assertValidSubmodulePath(path);
+						CONFIG_SUBMODULE_SECTION, subsection, CONFIG_KEY_PATH);
+				if (path != null) {
+					assertValidSubmodulePath(path);
+				}
 			}
 		} catch (ConfigInvalidException e) {
 			throw new IOException(
