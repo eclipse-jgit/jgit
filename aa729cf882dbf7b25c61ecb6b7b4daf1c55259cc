@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5f54d2d5_8d683d66",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/fsck/FsckError.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-08T21:27:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4fd3415f_b6c5461a",
+      "revId": "aa729cf882dbf7b25c61ecb6b7b4daf1c55259cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f0e19627_9290e29b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsFsck.java",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2018-10-07T02:34:17Z",
       "side": 1,
       "message": "What happens if the same ObjectChecker is reused for multiple check() calls? E.g. should this clear objChecker.getGitsubmodules() when it starts or finishes?",
+      "range": {
+        "startLine": 145,
+        "startChar": 30,
+        "endLine": 145,
+        "endChar": 40
+      },
+      "revId": "aa729cf882dbf7b25c61ecb6b7b4daf1c55259cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b45bc260_e1aab74b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsFsck.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-08T21:27:10Z",
+      "side": 1,
+      "message": "Makes sense. I am adding a .reset() method to objChecker, although the life-cycle of that object is a mess (it can be set externally)",
+      "parentUuid": "f0e19627_9290e29b",
       "range": {
         "startLine": 145,
         "startChar": 30,
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "997d420d_0b04f2e0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsFsck.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-08T21:27:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7e427a4_3eb755f3",
+      "revId": "aa729cf882dbf7b25c61ecb6b7b4daf1c55259cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d6f7dda0_567d7605",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
         "patchSetId": 1
@@ -70,6 +130,24 @@
       "writtenOn": "2018-10-07T02:34:17Z",
       "side": 1,
       "message": "This should match the msg-id from Git: https://kernel.googlesource.com/pub/scm/git/git/+/master/fsck.c so that the fsck.\u003cmsg-id\u003e configuration keys (see https://mirrors.edge.kernel.org/pub/software/scm/git/docs/git-config.html) match.\n\nThat means\n\n GITMODULES_PARSE,\n GITMODULES_MISSING,\n GITMODULES_BLOB,\n GITMODULES_LARGE,\n GITMODULES_NAME,\n [etc]",
+      "revId": "aa729cf882dbf7b25c61ecb6b7b4daf1c55259cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f01a9ba_017b5c2c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-08T21:27:10Z",
+      "side": 1,
+      "message": "Thanks for the hint and links!\n\nDone",
+      "parentUuid": "d6f7dda0_567d7605",
       "revId": "aa729cf882dbf7b25c61ecb6b7b4daf1c55259cc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
