@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "5eb759e2_dcd86215",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/fsck/FsckError.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-08T23:26:04Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5f54d2d5_8d683d66",
+      "revId": "aa729cf882dbf7b25c61ecb6b7b4daf1c55259cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0e19627_9290e29b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsFsck.java",
         "patchSetId": 1
@@ -84,6 +102,30 @@
     },
     {
       "key": {
+        "uuid": "38c29c77_96c3baf0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsFsck.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-08T23:26:04Z",
+      "side": 1,
+      "message": "Thanks. Commenting at the new reset call.",
+      "parentUuid": "b45bc260_e1aab74b",
+      "range": {
+        "startLine": 145,
+        "startChar": 30,
+        "endLine": 145,
+        "endChar": 40
+      },
+      "revId": "aa729cf882dbf7b25c61ecb6b7b4daf1c55259cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7e427a4_3eb755f3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsFsck.java",
         "patchSetId": 1
@@ -119,6 +161,24 @@
     },
     {
       "key": {
+        "uuid": "15ad3383_f393b01c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsFsck.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-08T23:26:04Z",
+      "side": 1,
+      "message": "Thanks.",
+      "parentUuid": "997d420d_0b04f2e0",
+      "revId": "aa729cf882dbf7b25c61ecb6b7b4daf1c55259cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6f7dda0_567d7605",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
         "patchSetId": 1
@@ -151,6 +211,24 @@
       "revId": "aa729cf882dbf7b25c61ecb6b7b4daf1c55259cc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb806509_8e7498f2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-08T23:26:04Z",
+      "side": 1,
+      "message": "Thanks for taking care of it so quickly.",
+      "parentUuid": "3f01a9ba_017b5c2c",
+      "revId": "aa729cf882dbf7b25c61ecb6b7b4daf1c55259cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
