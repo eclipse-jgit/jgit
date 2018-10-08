@@ -42,13 +42,18 @@
  */
 package org.eclipse.jgit.internal.submodule;
 
-import java.io.IOException;
+import static org.eclipse.jgit.lib.ObjectChecker.ErrorType.GITMODULES_NAME;
+import static org.eclipse.jgit.lib.ObjectChecker.ErrorType.GITMODULES_PARSE;
+import static org.eclipse.jgit.lib.ObjectChecker.ErrorType.GITMODULES_PATH;
+import static org.eclipse.jgit.lib.ObjectChecker.ErrorType.GITMODULES_URL;
+
 import java.text.MessageFormat;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ConfigConstants;
+import org.eclipse.jgit.lib.ObjectChecker;
 
 /**
  * Validations for the git submodule fields (name, path, uri).
@@ -63,15 +68,30 @@ public class SubmoduleValidator {
 	 */
 	public static class SubmoduleValidationException extends Exception {
 
+		private ObjectChecker.ErrorType error;
+
+		private static final long serialVersionUID = 1L;
+
 		/**
 		 * @param message
 		 *            Description of the problem
+		 * @param error
+		 *            Error identifier, following the git fsck fsck.<msg-id>
+		 *            format
 		 */
-		public SubmoduleValidationException(String message) {
+		SubmoduleValidationException(String message,
+				ObjectChecker.ErrorType error) {
 			super(message);
+			this.error = error;
 		}
 
-		private static final long serialVersionUID = 1L;
+
+		/**
+		 * @return the error identifier
+		 */
+		public ObjectChecker.ErrorType getSubmoduleError() {
+			return error;
+		}
 	}
 
 	/**
@@ -97,13 +117,15 @@ public class SubmoduleValidator {
 			// Since Path class is platform dependent, we manually check '/' and
 			// '\\' patterns here.
 			throw new SubmoduleValidationException(MessageFormat
-					.format(JGitText.get().invalidNameContainsDotDot, name));
+					.format(JGitText.get().invalidNameContainsDotDot, name),
+					GITMODULES_NAME);
 		}
 
 		if (name.startsWith("-")) { //$NON-NLS-1$
 			throw new SubmoduleValidationException(
 					MessageFormat.format(
-							JGitText.get().submoduleNameInvalid, name));
+							JGitText.get().submoduleNameInvalid, name),
+					GITMODULES_NAME);
 		}
 	}
 
@@ -120,7 +142,8 @@ public class SubmoduleValidator {
 		if (uri.startsWith("-")) { //$NON-NLS-1$
 			throw new SubmoduleValidationException(
 					MessageFormat.format(
-							JGitText.get().submoduleUrlInvalid, uri));
+							JGitText.get().submoduleUrlInvalid, uri),
+					GITMODULES_URL);
 		}
 	}
 
@@ -138,19 +161,22 @@ public class SubmoduleValidator {
 		if (path.startsWith("-")) { //$NON-NLS-1$
 			throw new SubmoduleValidationException(
 					MessageFormat.format(
-							JGitText.get().submodulePathInvalid, path));
+							JGitText.get().submodulePathInvalid, path),
+					GITMODULES_PATH);
 		}
 	}
 
 	/**
+	 * Validate a .gitmodules file
+	 *
 	 * @param gitModulesContents
 	 *            Contents of a .gitmodule file. They will be parsed internally.
-	 * @throws IOException
-	 *             If the contents
+	 * @throws SubmoduleValidationException
+	 *             if the contents don't look like a configuration file, are
+	 *             missing fields or field values don't have the expected format
 	 */
 	public static void assertValidGitModulesFile(String gitModulesContents)
-			throws IOException {
-		// Validate .gitmodules file
+			throws SubmoduleValidationException {
 		Config c = new Config();
 		try {
 			c.fromText(gitModulesContents);
@@ -169,12 +195,9 @@ public class SubmoduleValidator {
 				assertValidSubmodulePath(path);
 			}
 		} catch (ConfigInvalidException e) {
-			throw new IOException(
-					MessageFormat.format(
-							JGitText.get().invalidGitModules,
-							e));
-		} catch (SubmoduleValidationException e) {
-			throw new IOException(e.getMessage(), e);
+			throw new SubmoduleValidationException(
+					JGitText.get().invalidGitModules,
+					GITMODULES_PARSE);
 		}
 	}
 }
