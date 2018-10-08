@@ -207,7 +207,8 @@ public abstract class RefAdvertiser {
 	 * <p>
 	 * This method must be invoked prior to any of the following:
 	 * <ul>
-	 * <li>{@link #send(Map)}
+	 * <li>{@link #send(Map)}</li>
+	 * <li>{@link #send(Collection)}</li>
 	 * </ul>
 	 *
 	 * @param deref
@@ -223,8 +224,9 @@ public abstract class RefAdvertiser {
 	 * <p>
 	 * This method must be invoked prior to any of the following:
 	 * <ul>
-	 * <li>{@link #send(Map)}
-	 * <li>{@link #advertiseHave(AnyObjectId)}
+	 * <li>{@link #send(Map)}</li>
+	 * <li>{@link #send(Collection)}</li>
+	 * <li>{@link #advertiseHave(AnyObjectId)}</li>
 	 * </ul>
 	 *
 	 * @param name
@@ -257,8 +259,9 @@ public abstract class RefAdvertiser {
 	 * <p>
 	 * This method must be invoked prior to any of the following:
 	 * <ul>
-	 * <li>{@link #send(Map)}
-	 * <li>{@link #advertiseHave(AnyObjectId)}
+	 * <li>{@link #send(Map)}</li>
+	 * <li>{@link #send(Collection)}</li>
+	 * <li>{@link #advertiseHave(AnyObjectId)}</li>
 	 * </ul>
 	 *
 	 * @param from
