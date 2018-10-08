@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "619eb6d8_ae8ce9ec",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2018-10-08T19:35:48Z",
+      "side": 1,
+      "message": "Does this need to go deeper than this.depth?",
+      "range": {
+        "startLine": 138,
+        "startChar": 23,
+        "endLine": 138,
+        "endChar": 38
+      },
+      "revId": "c3d33c2f3bee3bfaaa9e4caa3398b1b5d6d00f5c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb7e81e0_b2117fec",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 966,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2018-10-08T19:35:48Z",
+      "side": 1,
+      "message": "Are these shortened ref name?  If not, exactRef(s) is more efficient.",
+      "range": {
+        "startLine": 966,
+        "startChar": 40,
+        "endLine": 966,
+        "endChar": 41
+      },
+      "revId": "c3d33c2f3bee3bfaaa9e4caa3398b1b5d6d00f5c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
