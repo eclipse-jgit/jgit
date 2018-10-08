@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "96e84356_41438092",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-08T15:38:09Z",
+      "side": 1,
+      "message": "An example from the log: \"Fix fetch refspecs when not cloning all branches\". That one\u0027s not so bad. :)\n\nBasically, what I\u0027m saying is to imagine this change in a shortlog and try to guess what improvement the change will bring to the user\u0027s life. If the subject line doesn\u0027t allow you to do that, then that\u0027s the point to ask for help with coming up with a subject line for the change.",
+      "parentUuid": "e8414ccf_3cfb2648",
+      "revId": "d4389d164bcbe57606ab4b5e9a896b595df544b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8b7d6fdf_eba82345",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
