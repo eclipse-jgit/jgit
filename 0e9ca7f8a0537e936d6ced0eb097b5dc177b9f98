@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a1662c62_97597585",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/submodule/SubmoduleValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-10-08T23:27:50Z",
+      "side": 1,
+      "message": "Unused import",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 44
+      },
+      "revId": "0e9ca7f8a0537e936d6ced0eb097b5dc177b9f98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
