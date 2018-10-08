@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "820b8858_c8af278d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2018-10-08T15:54:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f50d5d6_cfdd5c23",
+      "revId": "d4389d164bcbe57606ab4b5e9a896b595df544b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8b7d6fdf_eba82345",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -114,6 +132,30 @@
     },
     {
       "key": {
+        "uuid": "0be92886_b6f26d96",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2018-10-08T15:54:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b7d6fdf_eba82345",
+      "range": {
+        "startLine": 12,
+        "startChar": 26,
+        "endLine": 12,
+        "endChar": 32
+      },
+      "revId": "d4389d164bcbe57606ab4b5e9a896b595df544b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7430ffd0_94b344e5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
         "patchSetId": 1
@@ -125,6 +167,24 @@
       "writtenOn": "2018-10-04T23:17:09Z",
       "side": 1,
       "message": "Make this static?",
+      "revId": "d4389d164bcbe57606ab4b5e9a896b595df544b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7494482e_740e8e99",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2018-10-08T15:54:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7430ffd0_94b344e5",
       "revId": "d4389d164bcbe57606ab4b5e9a896b595df544b9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -202,6 +262,24 @@
     },
     {
       "key": {
+        "uuid": "20f8ef70_b14c40f2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2018-10-08T15:54:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aec1f241_9bc253e8",
+      "revId": "d4389d164bcbe57606ab4b5e9a896b595df544b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d64dec73_e7efcd47",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
         "patchSetId": 1
@@ -213,6 +291,24 @@
       "writtenOn": "2018-10-04T23:17:09Z",
       "side": 1,
       "message": "static?",
+      "revId": "d4389d164bcbe57606ab4b5e9a896b595df544b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5188374e_d03a5316",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2018-10-08T15:54:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d64dec73_e7efcd47",
       "revId": "d4389d164bcbe57606ab4b5e9a896b595df544b9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
