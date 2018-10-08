@@ -52,7 +52,6 @@ import java.text.MessageFormat;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.ConfigConstants;
 
 /**
  * Validations for the git submodule fields (name, path, uri).
