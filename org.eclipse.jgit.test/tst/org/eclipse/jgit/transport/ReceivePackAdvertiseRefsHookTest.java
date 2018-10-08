@@ -492,9 +492,8 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 		assertSame(PacketLineIn.END, r.readString());
 
 		String errorLine = r.readString();
-		System.out.println(errorLine);
-		assertTrue(errorLine.startsWith(
-				"unpack error Invalid submodule URL '-"));
+		assertTrue(errorLine.startsWith("unpack error"));
+		assertTrue(errorLine.contains("Invalid submodule URL '-"));
 		assertEquals("ng refs/heads/s n/a (unpacker error)", r.readString());
 		assertSame(PacketLineIn.END, r.readString());
 	}
