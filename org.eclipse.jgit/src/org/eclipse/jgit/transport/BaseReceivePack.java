@@ -72,12 +72,14 @@ import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
+import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.errors.TooLargePackException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.PackLock;
 import org.eclipse.jgit.internal.submodule.SubmoduleValidator;
+import org.eclipse.jgit.internal.submodule.SubmoduleValidator.SubmoduleValidationException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
@@ -1528,8 +1530,12 @@ public abstract class BaseReceivePack {
 			AnyObjectId blobId = entry.getBlobId();
 			ObjectLoader blob = odb.open(blobId, Constants.OBJ_BLOB);
 
-			SubmoduleValidator.assertValidGitModulesFile(
-					new String(blob.getBytes(), UTF_8));
+			try {
+				SubmoduleValidator.assertValidGitModulesFile(
+						new String(blob.getBytes(), UTF_8));
+			} catch (LargeObjectException | SubmoduleValidationException e) {
+				throw new IOException(e);
+			}
 		}
 	}
 
