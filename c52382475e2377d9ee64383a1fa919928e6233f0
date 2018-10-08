@@ -22,6 +22,30 @@
       "revId": "c52382475e2377d9ee64383a1fa919928e6233f0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97b6f533_ee7a82a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-08T02:04:49Z",
+      "side": 1,
+      "message": "It\u0027s not documented. Filing https://crbug.com/git/23 --- feel free to comment there.\n\nThe main idea in this JGit change is to make jgit more consistent with \"git upload-pack\" with transfer.fsckobjects enabled and \"git fsck\".",
+      "parentUuid": "207bcdea_854041db",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 39
+      },
+      "revId": "c52382475e2377d9ee64383a1fa919928e6233f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
