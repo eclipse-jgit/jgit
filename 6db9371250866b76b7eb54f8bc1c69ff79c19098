@@ -69,6 +69,24 @@
       "revId": "6db9371250866b76b7eb54f8bc1c69ff79c19098",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de53e97d_dbfde4f1",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RacyGitTests.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-08T22:59:23Z",
+      "side": 1,
+      "message": "I like Thomas\u0027s suggestion.\n\nIt may make sense to make some script that someone can use to reproduce \"racy Git\" from the user\u0027s point of view. But in tests, reliability is more important. Our goal is to test JGit, not to test the filesystem\u0027s properties, so using setLastModifiedTime seems like a good strategy to get it working.",
+      "parentUuid": "c35abe9a_bc6de64f",
+      "revId": "6db9371250866b76b7eb54f8bc1c69ff79c19098",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
