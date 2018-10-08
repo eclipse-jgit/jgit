@@ -46,6 +46,30 @@
       "revId": "c52382475e2377d9ee64383a1fa919928e6233f0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2c19db93_ff806607",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-10-08T04:49:41Z",
+      "side": 1,
+      "message": "Note: SubmoduleAddCommand will throw IAE if path or url is null or empty.",
+      "parentUuid": "97b6f533_ee7a82a8",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 39
+      },
+      "revId": "c52382475e2377d9ee64383a1fa919928e6233f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
