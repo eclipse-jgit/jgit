@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2431f793_74320c04",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/fsck/FsckError.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-08T22:00:06Z",
+      "side": 1,
+      "message": "missing errorType param here",
+      "revId": "c120c75aa9f957e433ad260d21569bea072085b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
