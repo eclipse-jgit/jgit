@@ -109,7 +109,8 @@ import org.eclipse.jgit.util.StringUtils;
  * the caller can provide both of these validations on its own.
  * <p>
  * Instances of this class are not thread safe, but they may be reused to
- * perform multiple object validations.
+ * perform multiple object validations, calling {@link #reset()} between them to
+ * clear the internal state (e.g. {@link #getGitsubmodules()})
  */
 public class ObjectChecker {
 	/** Header "tree " */
@@ -1257,5 +1258,20 @@ public class ObjectChecker {
 	 */
 	public List<GitmoduleEntry> getGitsubmodules() {
 		return gitsubmodules;
+	}
+
+	/**
+	 * Reset the invocation-specific state from this instance. Specifically this
+	 * clears the list of .gitmodules files encountered (see
+	 * {@link #getGitsubmodules()})
+	 *
+	 * Configurations like errors to filter, skip lists or the specified O.S.
+	 * (set via {@link #setSafeForMacOS(boolean)} or
+	 * {@link #setSafeForWindows(boolean)}) are NOT cleared.
+	 *
+	 * @since 5.2
+	 */
+	public void reset() {
+		gitsubmodules.clear();
 	}
 }

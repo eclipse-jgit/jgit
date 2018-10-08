@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.internal.storage.dfs;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 
@@ -54,12 +55,18 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.fsck.FsckError;
 import org.eclipse.jgit.internal.fsck.FsckError.CorruptIndex;
+import org.eclipse.jgit.internal.fsck.FsckError.CorruptObject;
 import org.eclipse.jgit.internal.fsck.FsckPackParser;
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
+import org.eclipse.jgit.internal.submodule.SubmoduleValidator;
+import org.eclipse.jgit.internal.submodule.SubmoduleValidator.SubmoduleValidationException;
+import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.GitmoduleEntry;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectChecker;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.ObjectWalk;
@@ -102,6 +109,7 @@ public class DfsFsck {
 
 		FsckError errors = new FsckError();
 		if (!connectivityOnly) {
+			objChecker.reset();
 			checkPacks(pm, errors);
 		}
 		checkConnectivity(pm, errors);
@@ -128,6 +136,8 @@ public class DfsFsck {
 				}
 			}
 		}
+
+		checkGitModules(pm, errors);
 	}
 
 	private void verifyPack(ProgressMonitor pm, FsckError errors, DfsReader ctx,
@@ -140,6 +150,28 @@ public class DfsFsck {
 		errors.getCorruptObjects().addAll(fpp.getCorruptObjects());
 
 		fpp.verifyIndex(pack.getPackIndex(ctx));
+	}
+
+	private void checkGitModules(ProgressMonitor pm, FsckError errors)
+			throws IOException {
+		pm.beginTask(JGitText.get().validatingGitModules,
+				objChecker.getGitsubmodules().size());
+		for (GitmoduleEntry entry : objChecker.getGitsubmodules()) {
+			AnyObjectId blobId = entry.getBlobId();
+			ObjectLoader blob = objdb.open(blobId, Constants.OBJ_BLOB);
+
+			try {
+				SubmoduleValidator.assertValidGitModulesFile(
+						new String(blob.getBytes(), UTF_8));
+			} catch (SubmoduleValidationException e) {
+				CorruptObject co = new FsckError.CorruptObject(
+						blobId.toObjectId(), Constants.OBJ_BLOB,
+						e.getFsckMessageId());
+				errors.getCorruptObjects().add(co);
+			}
+			pm.update(1);
+		}
+		pm.endTask();
 	}
 
 	private void checkConnectivity(ProgressMonitor pm, FsckError errors)
@@ -178,6 +210,9 @@ public class DfsFsck {
 	/**
 	 * Use a customized object checker instead of the default one. Caller can
 	 * specify a skip list to ignore some errors.
+	 *
+	 * It will be reset at the start of each {{@link #check(ProgressMonitor)}
+	 * call.
 	 *
 	 * @param objChecker
 	 *            A customized object checker.
