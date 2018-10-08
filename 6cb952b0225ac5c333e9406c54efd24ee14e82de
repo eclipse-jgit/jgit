@@ -131,6 +131,24 @@
     },
     {
       "key": {
+        "uuid": "3afdd9ee_3832f238",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/submodule/SubmoduleValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-08T22:58:07Z",
+      "side": 1,
+      "message": "I wrote too quickly. Replying to myself: ObjectChecker and SubmoduleValidator don\u0027t know about each other. ObjectChecker just keeps a list of .gitmodules blobs and the validator validates blobs.\n\nSubmoduleValidator can reference ObjectChecker, although it breaks the nice split between the classes.\n\nIs ObjectChecker.ErrorType public API? Could we move that type to its own, out of ObjectChecker?",
+      "parentUuid": "9310b4c3_8d440866",
+      "revId": "6cb952b0225ac5c333e9406c54efd24ee14e82de",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cfef46ce_2f8141ab",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/submodule/SubmoduleValidator.java",
         "patchSetId": 1
