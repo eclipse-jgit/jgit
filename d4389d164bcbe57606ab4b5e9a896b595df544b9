@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "e8414ccf_3cfb2648",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-08T15:34:59Z",
+      "side": 1,
+      "message": "In general. If your goal is to describe what is fixed by this change, the word \"Fix\" still doesn\u0027t help. All changes fix something. It adds zero bits of information.\n\nPlenty of existing subject lines are unhelpful, but that doesn\u0027t mean new ones should follow their lead.",
+      "parentUuid": "51e8189e_236481b9",
+      "revId": "d4389d164bcbe57606ab4b5e9a896b595df544b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8b7d6fdf_eba82345",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
