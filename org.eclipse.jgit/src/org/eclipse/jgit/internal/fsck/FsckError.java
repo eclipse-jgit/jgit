@@ -61,20 +61,20 @@ public class FsckError {
 
 		final int type;
 
-		ObjectChecker.ErrorType errorType;
+		final @Nullable ObjectChecker.ErrorType errorType;
 
 		/**
 		 * @param id
 		 *            the object identifier.
 		 * @param type
 		 *            type of the object.
+		 * @param errorType
+		 *            kind of error
 		 */
-		public CorruptObject(ObjectId id, int type) {
+		public CorruptObject(ObjectId id, int type,
+				@Nullable ObjectChecker.ErrorType errorType) {
 			this.id = id;
 			this.type = type;
-		}
-
-		void setErrorType(ObjectChecker.ErrorType errorType) {
 			this.errorType = errorType;
 		}
 
