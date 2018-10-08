@@ -149,6 +149,24 @@
     },
     {
       "key": {
+        "uuid": "d5fa5f0b_f9157a2c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/submodule/SubmoduleValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-08T23:07:52Z",
+      "side": 1,
+      "message": "It\u0027s public API.\n\nIf you want a custom enum here, that\u0027s fine, but in that case please add a converter method to/from ObjectChecker.ErrorType and point to it in javadoc to make their relationship clearer. I still suspect using ObjectChecker.ErrorType directly is the simplest way to go (which you did here, so marking resolved).",
+      "parentUuid": "3afdd9ee_3832f238",
+      "revId": "6cb952b0225ac5c333e9406c54efd24ee14e82de",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cfef46ce_2f8141ab",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/submodule/SubmoduleValidator.java",
         "patchSetId": 1
@@ -231,6 +249,30 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "cfef46ce_2f8141ab",
+      "range": {
+        "startLine": 102,
+        "startChar": 24,
+        "endLine": 102,
+        "endChar": 42
+      },
+      "revId": "6cb952b0225ac5c333e9406c54efd24ee14e82de",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5c95b5e_9a1608bc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/submodule/SubmoduleValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-08T23:07:52Z",
+      "side": 1,
+      "message": "How about a name like getErrorType or getFsckMessageId?",
+      "parentUuid": "115a968b_31e59feb",
       "range": {
         "startLine": 102,
         "startChar": 24,
@@ -510,6 +552,24 @@
       "revId": "6cb952b0225ac5c333e9406c54efd24ee14e82de",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17b9661c_7e44bd03",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1537,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-08T23:07:52Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5082f07e_af19e5d2",
+      "revId": "6cb952b0225ac5c333e9406c54efd24ee14e82de",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
