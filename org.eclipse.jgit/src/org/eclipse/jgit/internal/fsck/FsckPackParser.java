@@ -175,10 +175,8 @@ public class FsckPackParser extends PackParser {
 			super.verifySafeObject(id, type, data);
 		} catch (CorruptObjectException e) {
 			// catch the exception and continue parse the pack file
-			CorruptObject o = new CorruptObject(id.toObjectId(), type);
-			if (e.getErrorType() != null) {
-				o.setErrorType(e.getErrorType());
-			}
+			CorruptObject o = new CorruptObject(id.toObjectId(), type,
+					e.getErrorType());
 			corruptObjects.add(o);
 		}
 	}
