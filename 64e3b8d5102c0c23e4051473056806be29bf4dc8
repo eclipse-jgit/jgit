@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f589450_9d4f4c6d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-08T23:13:50Z",
+      "side": 1,
+      "message": "This is missing a verb. Perhaps something like the following:\n\nFsckError.CorruptObject: Use @Nullable constructor param for errorType\n\nerrorType is already null in the caller and callee when unknown, so we can replace a conditional call to a setter in the only caller with an unconditionally provided @Nullable constructor parameter.\n\nAs a bonus, this lets us mark the field as final.\n\nChange-Id: ...\nSigned-off-by: ...",
+      "revId": "64e3b8d5102c0c23e4051473056806be29bf4dc8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72abb0d4_d71ceef7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/fsck/FsckError.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-08T23:13:50Z",
+      "side": 1,
+      "message": "Could put @Nullable here, too.",
+      "revId": "64e3b8d5102c0c23e4051473056806be29bf4dc8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a92ed78_affc7b99",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/fsck/FsckPackParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-08T23:13:50Z",
+      "side": 1,
+      "message": "optional: What is this comment conveying? May be simplest to just remove it.",
+      "range": {
+        "startLine": 177,
+        "startChar": 3,
+        "endLine": 177,
+        "endChar": 58
+      },
+      "revId": "64e3b8d5102c0c23e4051473056806be29bf4dc8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2f64009_087b1ff8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/fsck/FsckPackParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-08T23:13:50Z",
+      "side": 1,
+      "message": "Can simplify by avoiding the temporary:\n\n  corruptObjects.add(new CorruptObject(...));",
+      "revId": "64e3b8d5102c0c23e4051473056806be29bf4dc8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
