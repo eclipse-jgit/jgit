@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "975a5454_aeedcec3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-08T23:26:04Z",
+      "side": 1,
+      "message": "This was moved to a separate change so doesn\u0027t need to be in the commit message any more.",
+      "revId": "bb5135a2e95cb248cd2ce605475ea9da20725b4b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21912206_5f2295e9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsFsck.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-08T23:26:04Z",
+      "side": 1,
+      "message": "In the spirit of defensive programming, I think it would be easiest to have this reset() call to right before checkPacks. (Fewer hard-to-reproduce issues due to a caller leaving some state in the objChecker.)",
+      "revId": "bb5135a2e95cb248cd2ce605475ea9da20725b4b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6ec24e7_d149551f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsFsck.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-08T23:26:04Z",
+      "side": 1,
+      "message": "technically it\u0027s not \"after\" but \"at the end of\" :)\n\nIf we reset defensively as suggested above, it would instead be \"at the start of\"",
+      "range": {
+        "startLine": 214,
+        "startChar": 21,
+        "endLine": 214,
+        "endChar": 26
+      },
+      "revId": "bb5135a2e95cb248cd2ce605475ea9da20725b4b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "953fddd8_37213257",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-08T23:26:04Z",
+      "side": 1,
+      "message": "These seem to be mostly in alphabetical order. Is that intentional? If so, SYMLINK should go before URL.",
+      "revId": "bb5135a2e95cb248cd2ce605475ea9da20725b4b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12c97f7f_49033d3d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1266,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-08T23:26:04Z",
+      "side": 1,
+      "message": "What is meant by the OS here? Perhaps a link would make it clearer.",
+      "range": {
+        "startLine": 1266,
+        "startChar": 42,
+        "endLine": 1266,
+        "endChar": 48
+      },
+      "revId": "bb5135a2e95cb248cd2ce605475ea9da20725b4b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
