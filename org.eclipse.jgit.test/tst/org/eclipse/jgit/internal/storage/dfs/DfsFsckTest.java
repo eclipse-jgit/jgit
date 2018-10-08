@@ -266,4 +266,59 @@ public class DfsFsckTest {
 				"refs/heads/master");
 	}
 
+	private ObjectId insertGitModules(String contents) throws IOException {
+		ObjectId blobId = ins.insert(Constants.OBJ_BLOB,
+				Constants.encode(contents));
+
+		byte[] blobIdBytes = new byte[OBJECT_ID_LENGTH];
+		blobId.copyRawTo(blobIdBytes, 0);
+		byte[] data = concat(encodeASCII("100644 .gitmodules\0"), blobIdBytes);
+		ins.insert(Constants.OBJ_TREE, data);
+		ins.flush();
+
+		return blobId;
+	}
+
+	@Test
+	public void testInvalidGitModules() throws Exception {
+		String fakeGitmodules = new StringBuilder()
+				.append("[submodule \"test\"]\n")
+				.append("    path = xlib\n")
+				.append("    url = https://example.com/repo/xlib.git\n\n")
+				.append("[submodule \"test2\"]\n")
+				.append("    path = zlib\n")
+				.append("    url = -upayload.sh\n")
+				.toString();
+
+		ObjectId blobId = insertGitModules(fakeGitmodules);
+
+		DfsFsck fsck = new DfsFsck(repo);
+		FsckError errors = fsck.check(null);
+		assertEquals(errors.getCorruptObjects().size(), 1);
+
+		CorruptObject error = errors.getCorruptObjects().iterator().next();
+		assertEquals(error.getId(), blobId);
+		assertEquals(error.getType(), Constants.OBJ_BLOB);
+		assertEquals(error.getErrorType(), ErrorType.GITMODULES_URL);
+	}
+
+
+	@Test
+	public void testValidGitModules() throws Exception {
+		String fakeGitmodules = new StringBuilder()
+				.append("[submodule \"test\"]\n")
+				.append("    path = xlib\n")
+				.append("    url = https://example.com/repo/xlib.git\n\n")
+				.append("[submodule \"test2\"]\n")
+				.append("    path = zlib\n")
+				.append("    url = ok/path\n")
+				.toString();
+
+		insertGitModules(fakeGitmodules);
+
+		DfsFsck fsck = new DfsFsck(repo);
+		FsckError errors = fsck.check(null);
+		assertEquals(errors.getCorruptObjects().size(), 0);
+	}
+
 }
