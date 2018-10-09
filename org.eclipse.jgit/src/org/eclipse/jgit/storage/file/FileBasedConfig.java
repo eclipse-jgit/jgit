@@ -57,7 +57,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.MessageFormat;
 
-import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.LockFailedException;
 import org.eclipse.jgit.internal.JGitText;
@@ -281,7 +280,6 @@ public class FileBasedConfig extends StoredConfig {
 	 * @since 4.10
 	 */
 	@Override
-	@Nullable
 	protected byte[] readIncludedConfig(String relPath)
 			throws ConfigInvalidException {
 		final File file;
