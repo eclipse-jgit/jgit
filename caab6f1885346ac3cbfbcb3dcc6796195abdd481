@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8ab02921_0935ca20",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-10-09T23:13:52Z",
+      "side": 1,
+      "message": "Update the subject to mention it\u0027s for the Eclipse IDE?  I.e. something like:  \"Configure classpath for separate test sources in Eclipse\"?",
+      "revId": "caab6f1885346ac3cbfbcb3dcc6796195abdd481",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "42064932_950d578f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-10-09T23:13:52Z",
+      "side": 1,
+      "message": "Mention \"Eclipse now supports separating sources and test sources\" per the bug report.  Also mention that it\u0027s supported in Photon and later?",
+      "revId": "caab6f1885346ac3cbfbcb3dcc6796195abdd481",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
