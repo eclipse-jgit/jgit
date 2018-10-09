@@ -16,6 +16,24 @@
       "revId": "81b7f0e83595af162fe9950c6f2867b14901ec60",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c102cc30_f206a8be",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/fsck/FsckError.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-09T22:34:07Z",
+      "side": 1,
+      "message": "No syntactic significance (well, it makes the syntax better match how javac parses it).",
+      "parentUuid": "2ca4140e_d9b6bc27",
+      "revId": "81b7f0e83595af162fe9950c6f2867b14901ec60",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
