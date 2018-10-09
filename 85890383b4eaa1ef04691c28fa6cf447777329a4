@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f1f1508c_27d60188",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-10-09T21:43:39Z",
+      "side": 1,
+      "message": "Do you mean big? Or small?",
+      "range": {
+        "startLine": 13,
+        "startChar": 56,
+        "endLine": 13,
+        "endChar": 59
+      },
+      "revId": "85890383b4eaa1ef04691c28fa6cf447777329a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
