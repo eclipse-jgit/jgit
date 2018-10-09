@@ -167,6 +167,24 @@
     },
     {
       "key": {
+        "uuid": "c92e24b3_d4480634",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/submodule/SubmoduleValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-09T16:55:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5fa5f0b_f9157a2c",
+      "revId": "6cb952b0225ac5c333e9406c54efd24ee14e82de",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cfef46ce_2f8141ab",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/submodule/SubmoduleValidator.java",
         "patchSetId": 1
@@ -273,6 +291,30 @@
       "side": 1,
       "message": "How about a name like getErrorType or getFsckMessageId?",
       "parentUuid": "115a968b_31e59feb",
+      "range": {
+        "startLine": 102,
+        "startChar": 24,
+        "endLine": 102,
+        "endChar": 42
+      },
+      "revId": "6cb952b0225ac5c333e9406c54efd24ee14e82de",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6499ffd_faa6c8af",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/submodule/SubmoduleValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-09T16:55:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5c95b5e_9a1608bc",
       "range": {
         "startLine": 102,
         "startChar": 24,
