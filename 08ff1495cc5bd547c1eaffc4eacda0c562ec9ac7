@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "5dc706d9_a30c841a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/submodule/SubmoduleValidator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-09T04:26:30Z",
+      "side": 1,
+      "message": "final",
+      "revId": "08ff1495cc5bd547c1eaffc4eacda0c562ec9ac7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bec3fc0e_e85f6bd6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/submodule/SubmoduleValidator.java",
         "patchSetId": 2
