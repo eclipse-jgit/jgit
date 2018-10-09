@@ -106,7 +106,8 @@ public class AtomicObjectOutputStream extends OutputStream {
 	 *         stream. May return {@code null} if called before closing this
 	 *         stream.
 	 */
-	public @Nullable AnyLongObjectId getId() {
+	@Nullable
+	public AnyLongObjectId getId() {
 		return id;
 	}
 

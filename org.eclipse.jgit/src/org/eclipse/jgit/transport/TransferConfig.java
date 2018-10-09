@@ -106,7 +106,8 @@ public class TransferConfig {
 			this.name = name;
 		}
 
-		static @Nullable ProtocolVersion parse(@Nullable String name) {
+		@Nullable
+		static ProtocolVersion parse(@Nullable String name) {
 			if (name == null) {
 				return null;
 			}

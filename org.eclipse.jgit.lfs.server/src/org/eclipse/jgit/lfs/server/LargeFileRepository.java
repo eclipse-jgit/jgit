@@ -82,7 +82,8 @@ public interface LargeFileRepository {
 	 * @return Action for verifying the object, or {@code null} if the server
 	 *         doesn't support or require verification
 	 */
-	public @Nullable Response.Action getVerifyAction(AnyLongObjectId id);
+	@Nullable
+	public Response.Action getVerifyAction(AnyLongObjectId id);
 
 	/**
 	 * Get size of an object

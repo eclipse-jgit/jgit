@@ -99,7 +99,8 @@ public class BuiltinLFS extends LfsFactory {
 	}
 
 	@Override
-	public @Nullable PrePushHook getPrePushHook(Repository repo,
+	@Nullable
+	public PrePushHook getPrePushHook(Repository repo,
 			PrintStream outputStream) {
 		if (isEnabled(repo)) {
 			return new LfsPrePushHook(repo, outputStream);

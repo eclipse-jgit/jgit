@@ -729,7 +729,8 @@ public final class RawParseUtils {
 		return map;
 	}
 
-	private static @Nullable IntList lineMapOrNull(byte[] buf, int ptr, int end) {
+	@Nullable
+	private static IntList lineMapOrNull(byte[] buf, int ptr, int end) {
 		// Experimentally derived from multiple source repositories
 		// the average number of bytes/line is 36. Its a rough guess
 		// to initially size our map close to the target.

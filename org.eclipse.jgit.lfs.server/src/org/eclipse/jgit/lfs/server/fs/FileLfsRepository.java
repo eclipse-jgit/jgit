@@ -99,7 +99,8 @@ public class FileLfsRepository implements LargeFileRepository {
 
 	/** {@inheritDoc} */
 	@Override
-	public @Nullable Action getVerifyAction(AnyLongObjectId id) {
+	@Nullable
+	public Action getVerifyAction(AnyLongObjectId id) {
 		return null;
 	}
 

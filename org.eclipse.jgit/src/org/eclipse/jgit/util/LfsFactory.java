@@ -152,7 +152,8 @@ public class LfsFactory {
 	 * @param outputStream
 	 * @return a {@link PrePushHook} implementation or <code>null</code>
 	 */
-	public @Nullable PrePushHook getPrePushHook(Repository repo,
+	@Nullable
+	public PrePushHook getPrePushHook(Repository repo,
 			PrintStream outputStream) {
 		return null;
 	}
@@ -163,7 +164,8 @@ public class LfsFactory {
 	 *
 	 * @return a command to install LFS support.
 	 */
-	public @Nullable LfsInstallCommand getInstallCommand() {
+	@Nullable
+	public LfsInstallCommand getInstallCommand() {
 		return null;
 	}
 
