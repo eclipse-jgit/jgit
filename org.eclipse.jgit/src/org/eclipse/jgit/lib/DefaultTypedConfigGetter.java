@@ -293,7 +293,8 @@ public class DefaultTypedConfigGetter implements TypedConfigGetter {
 
 	/** {@inheritDoc} */
 	@Override
-	public @NonNull List<RefSpec> getRefSpecs(Config config, String section,
+	@NonNull
+	public List<RefSpec> getRefSpecs(Config config, String section,
 			String subsection, String name) {
 		String[] values = config.getStringList(section, subsection, name);
 		List<RefSpec> result = new ArrayList<>(values.length);

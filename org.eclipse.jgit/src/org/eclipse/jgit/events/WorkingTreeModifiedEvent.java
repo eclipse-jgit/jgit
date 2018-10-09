@@ -94,7 +94,8 @@ public class WorkingTreeModifiedEvent
 	 *
 	 * @return the set
 	 */
-	public @NonNull Collection<String> getModified() {
+	@NonNull
+	public Collection<String> getModified() {
 		Collection<String> result = modified;
 		if (result == null) {
 			result = Collections.emptyList();
@@ -109,7 +110,8 @@ public class WorkingTreeModifiedEvent
 	 *
 	 * @return the set
 	 */
-	public @NonNull Collection<String> getDeleted() {
+	@NonNull
+	public Collection<String> getDeleted() {
 		Collection<String> result = deleted;
 		if (result == null) {
 			result = Collections.emptyList();

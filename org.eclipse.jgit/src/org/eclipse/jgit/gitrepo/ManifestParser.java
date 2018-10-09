@@ -358,7 +358,8 @@ public class ManifestParser extends DefaultHandler {
 	 *
 	 * @return filtered projects list reference, never null
 	 */
-	public @NonNull List<RepoProject> getFilteredProjects() {
+	@NonNull
+	public List<RepoProject> getFilteredProjects() {
 		return filteredProjects;
 	}
 

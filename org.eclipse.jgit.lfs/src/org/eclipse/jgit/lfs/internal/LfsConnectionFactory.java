@@ -227,7 +227,8 @@ public class LfsConnectionFactory {
 	 * @throws IOException
 	 *             in case of any error.
 	 */
-	public static @NonNull HttpConnection getLfsContentConnection(
+	@NonNull
+	public static HttpConnection getLfsContentConnection(
 			Repository repo, Protocol.Action action, String method)
 			throws IOException {
 		URL contentUrl = new URL(action.href);
