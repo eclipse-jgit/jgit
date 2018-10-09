@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1f414daa_65853173",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/InternalPushConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-09T15:29:19Z",
+      "side": 1,
+      "message": "catch (Exception) seems overwide. The old code catches RuntimeException which also seems problematic, for the same reason.\n\nWhat exception in particular are we imagining? Should we rethrow it after handling?",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 27
+      },
+      "revId": "688c12ca32ad31229d9f4177f533ef291011e820",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95f37abe_44381fba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/InternalPushConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-09T15:29:19Z",
+      "side": 1,
+      "message": "Can this use a Logger instead?",
+      "revId": "688c12ca32ad31229d9f4177f533ef291011e820",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    }
+  ]
+}
