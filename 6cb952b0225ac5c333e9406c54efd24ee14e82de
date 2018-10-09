@@ -327,6 +327,30 @@
     },
     {
       "key": {
+        "uuid": "effd5716_c8fda861",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/submodule/SubmoduleValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-09T18:18:02Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e6499ffd_faa6c8af",
+      "range": {
+        "startLine": 102,
+        "startChar": 24,
+        "endLine": 102,
+        "endChar": 42
+      },
+      "revId": "6cb952b0225ac5c333e9406c54efd24ee14e82de",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "74b714ff_0c58e76d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/submodule/SubmoduleValidator.java",
         "patchSetId": 1
