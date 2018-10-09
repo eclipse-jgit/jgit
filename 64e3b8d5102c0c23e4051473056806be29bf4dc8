@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "975080f6_717c9b1b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-09T17:23:49Z",
+      "side": 1,
+      "message": "Done. Thanks for the phrasing :)",
+      "parentUuid": "7f589450_9d4f4c6d",
+      "revId": "64e3b8d5102c0c23e4051473056806be29bf4dc8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "72abb0d4_d71ceef7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/fsck/FsckError.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2018-10-08T23:13:50Z",
       "side": 1,
       "message": "Could put @Nullable here, too.",
+      "revId": "64e3b8d5102c0c23e4051473056806be29bf4dc8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02657dbf_6a0acc9a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/fsck/FsckError.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-09T17:23:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72abb0d4_d71ceef7",
       "revId": "64e3b8d5102c0c23e4051473056806be29bf4dc8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "6b2e8fee_f8511e2d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/fsck/FsckPackParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-09T17:23:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a92ed78_affc7b99",
+      "range": {
+        "startLine": 177,
+        "startChar": 3,
+        "endLine": 177,
+        "endChar": 58
+      },
+      "revId": "64e3b8d5102c0c23e4051473056806be29bf4dc8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e2f64009_087b1ff8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/fsck/FsckPackParser.java",
         "patchSetId": 2
@@ -70,6 +130,24 @@
       "writtenOn": "2018-10-08T23:13:50Z",
       "side": 1,
       "message": "Can simplify by avoiding the temporary:\n\n  corruptObjects.add(new CorruptObject(...));",
+      "revId": "64e3b8d5102c0c23e4051473056806be29bf4dc8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37d7cf34_38a12ae3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/fsck/FsckPackParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-09T17:23:49Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "e2f64009_087b1ff8",
       "revId": "64e3b8d5102c0c23e4051473056806be29bf4dc8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
