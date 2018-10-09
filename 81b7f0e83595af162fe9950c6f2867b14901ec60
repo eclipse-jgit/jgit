@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2ca4140e_d9b6bc27",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/fsck/FsckError.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2018-10-09T22:25:37Z",
+      "side": 1,
+      "message": "Does  this have any significance syntactically, or is it just a style difference?",
+      "revId": "81b7f0e83595af162fe9950c6f2867b14901ec60",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
