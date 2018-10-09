@@ -22,6 +22,30 @@
       "revId": "de364d374d7f33abf282cd364d02e66d8b31759b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91ec762c_9ff393ab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1265,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2018-10-09T20:49:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc532230_90273479",
+      "range": {
+        "startLine": 1265,
+        "startChar": 24,
+        "endLine": 1265,
+        "endChar": 37
+      },
+      "revId": "de364d374d7f33abf282cd364d02e66d8b31759b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
