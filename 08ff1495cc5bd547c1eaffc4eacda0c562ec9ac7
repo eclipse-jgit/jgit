@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "035e9ca5_bab18f08",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/submodule/SubmoduleValidator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-09T18:18:02Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3f4aa0cf_053ba461",
+      "revId": "08ff1495cc5bd547c1eaffc4eacda0c562ec9ac7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bec3fc0e_e85f6bd6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/submodule/SubmoduleValidator.java",
         "patchSetId": 2
@@ -71,6 +89,54 @@
       "writtenOn": "2018-10-08T23:07:52Z",
       "side": 1,
       "message": "perhaps something like: \"or field values are not valid\"",
+      "range": {
+        "startLine": 176,
+        "startChar": 34,
+        "endLine": 176,
+        "endChar": 77
+      },
+      "revId": "08ff1495cc5bd547c1eaffc4eacda0c562ec9ac7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "524aa2c9_aedd4656",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/submodule/SubmoduleValidator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-09T18:18:02Z",
+      "side": 1,
+      "message": "Therefore this should probably not say \"are missing fields\" any more.",
+      "parentUuid": "bec3fc0e_e85f6bd6",
+      "range": {
+        "startLine": 175,
+        "startChar": 70,
+        "endLine": 176,
+        "endChar": 30
+      },
+      "revId": "08ff1495cc5bd547c1eaffc4eacda0c562ec9ac7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03153cb9_c5da2de7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/submodule/SubmoduleValidator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2018-10-09T18:18:02Z",
+      "side": 1,
+      "message": "Did this comment get lost?",
+      "parentUuid": "ca1f9fc4_a20fe6cf",
       "range": {
         "startLine": 176,
         "startChar": 34,
