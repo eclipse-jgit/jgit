@@ -296,6 +296,24 @@
     },
     {
       "key": {
+        "uuid": "e0f8228c_cdcbbd8b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWantLine.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2018-10-09T21:11:39Z",
+      "side": 1,
+      "message": "I had the same question, so this probably needs to be described in a code comment.\n\nHaving said that, I think it\u0027s better to use composition in UploadPack.FirstLine instead of inheritance - then you wouldn\u0027t need this deprecated constructor, and a later developer wouldn\u0027t need to remember to remove this constructor when UploadPack.FirstLine is removed.",
+      "parentUuid": "0260bbb3_25f37de5",
+      "revId": "527e775b48a067202671d671889cee15f061b03c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "66c67942_f4f3dfe8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/parser/FirstWantLine.java",
         "patchSetId": 2
